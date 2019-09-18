@@ -14,7 +14,6 @@ import {
 } from 'app/reducers/feeds';
 import { selectPinnedPolls } from 'app/reducers/polls';
 import { votePoll } from 'app/actions/PollActions';
-import { frontloadConnect } from 'react-frontload';
 
 const mapStateToProps = state => ({
   loadingFrontpage: state.frontpage.fetching,
@@ -27,22 +26,20 @@ const mapStateToProps = state => ({
   poll: selectPinnedPolls(state)[0]
 });
 
-const readmes = props => {
-  props.fetchReadmes(props.loggedIn ? 4 : 1);
-  props.loggedIn ? fetchPersonalFeed() : Promise.resolve();
-  props.fetchData();
-};
-
-const mapDispatchToProps = { login, logout, votePoll, fetchReadmes, fetchData };
+const mapDispatchToProps = { login, logout, votePoll };
 
 export default compose(
+  prepare(({ loggedIn }, dispatch) =>
+    Promise.all([
+      dispatch(fetchData()),
+      dispatch(fetchReadmes(loggedIn ? 4 : 1))
+    ]).then(() =>
+      loggedIn ? dispatch(fetchPersonalFeed()) : Promise.resolve()
+    )
+  ),
   connect(
     mapStateToProps,
     mapDispatchToProps
   ),
-  frontloadConnect(readmes, {
-    onMount: true,
-    onUpdate: false
-  }),
   replaceUnlessLoggedIn(PublicFrontpage)
 )(Overview);

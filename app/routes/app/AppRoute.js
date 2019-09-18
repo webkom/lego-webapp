@@ -30,7 +30,6 @@ import HTTPError from '../errors/HTTPError';
 import { setStatusCode } from 'app/actions/RoutingActions';
 import config from 'app/config';
 import coverPhoto from 'app/assets/cover.png';
-import { frontloadConnect } from 'react-frontload';
 
 type Props = {
   statusCode: number,

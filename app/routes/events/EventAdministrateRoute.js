@@ -18,7 +18,7 @@ const mapStateToProps = (state, props) => {
 };
 
 export default compose(
-  prepare(({ params: { eventId } }, dispatch) =>
+  prepare(({ match: { params: { eventId } } }, dispatch) =>
     dispatch(fetchAdministrate(Number(eventId)))
   ),
   connect(mapStateToProps)

@@ -11,7 +11,6 @@ import { connect } from 'react-redux';
 import ErrorBoundary from 'app/components/ErrorBoundary';
 import type { History } from 'history';
 import AppRoute from './routes/app';
-import { Frontload } from 'react-frontload';
 import RouteConfig from './routes';
 import EventList from 'app/routes/events/EventListRoute';
 
@@ -25,9 +24,7 @@ const Root = (props: Props) => {
   return (
     <Provider store={store}>
       <ConnectedRouter history={history}>
-        <Frontload noServerRender={true}>
-          <RouteConfig {...restProps} />
-        </Frontload>
+        <RouteConfig {...restProps} />
       </ConnectedRouter>
     </Provider>
   );
