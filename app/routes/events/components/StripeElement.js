@@ -27,27 +27,36 @@ type Props = {
   chargeStatus: EventRegistrationChargeStatus
 };
 
+/*
+ * Taken from https://stripe.com/docs/api/errors
+ */
 type StripeError = {
   type: string,
+  charge: string,
   code: string,
+  decline_code: string,
   message: string,
-  doc_url: string
+  param: string,
+  doc_url: string,
+  payment_intent: Object,
+  setup_intent: Object,
+  source: Object
 };
 
 type FormProps = Props & {
   fontSize?: number
 };
 
-type _SplitFormProps = FormProps & {
+type CardFormProps = FormProps & {
   ledgend: string,
-  setError: Object => void,
+  setError: StripeError => void,
   setSuccess: () => void,
   setLoading: boolean => void,
   stripe: Stripe
 };
 
-type _PaymentRequestFormProps = FormProps & {
-  setError: Object => void,
+type PaymentRequestFormProps = FormProps & {
+  setError: StripeError => void,
   setSuccess: () => void,
   setLoading: boolean => void,
   setPaymentRequest: boolean => void,
@@ -65,26 +74,24 @@ type State = {
   paymentRequest?: Object,
   canMakePayment?: boolean
 };
-const createOptions = (fontSize, padding) => {
-  return {
-    style: {
-      base: {
-        fontSize,
-        color: '#424770',
-        letterSpacing: '0.025em',
-        fontFamily: 'Source Code Pro, monospace',
-        '::placeholder': {
-          color: '#aab7c4'
-        },
-        padding
-      },
-      invalid: {
-        color: '#9e2146'
+
+const createOptions = {
+  style: {
+    base: {
+      color: '#424770',
+      letterSpacing: '0.025em',
+      fontFamily: 'Source Code Pro, monospace',
+      '::placeholder': {
+        color: '#aab7c4'
       }
+    },
+    invalid: {
+      color: '#9e2146'
     }
-  };
+  }
 };
-class _SplitForm extends React.Component<_SplitFormProps, FormState> {
+
+class CardForm extends React.Component<CardFormProps, FormState> {
   handleSubmit = async ev => {
     ev.preventDefault();
     const { stripe, createPaymentIntent } = this.props;
@@ -111,14 +118,14 @@ class _SplitForm extends React.Component<_SplitFormProps, FormState> {
             Kortnummer
             <CardNumberElement
               className={stripeStyles.StripeElement}
-              {...createOptions(this.props.fontSize)}
+              {...createOptions}
             />
           </label>
           <label className={stripeStyles.StripeLabel}>
             Utløpsdato
             <CardExpiryElement
               className={stripeStyles.StripeElement}
-              {...createOptions(this.props.fontSize)}
+              {...createOptions}
             />
           </label>
           <label className={stripeStyles.StripeLabel}>
@@ -126,7 +133,7 @@ class _SplitForm extends React.Component<_SplitFormProps, FormState> {
             <CardCVCElement
               className={stripeStyles.StripeElement}
               onReady={() => this.setState({})}
-              {...createOptions(this.props.fontSize)}
+              {...createOptions}
             />
           </label>
           <button className={stripeStyles.StripeButton}>Betal</button>
@@ -136,8 +143,8 @@ class _SplitForm extends React.Component<_SplitFormProps, FormState> {
   }
 }
 
-class _PaymentRequestForm extends React.Component<
-  _PaymentRequestFormProps,
+class PaymentRequestForm extends React.Component<
+  PaymentRequestFormProps,
   State
 > {
   constructor(props) {
@@ -211,8 +218,8 @@ class _PaymentRequestForm extends React.Component<
   }
 }
 
-const PaymentRequestForm = injectStripe(_PaymentRequestForm);
-const SplitForm = injectStripe(_SplitForm);
+const InjectedPaymentRequestForm = injectStripe(PaymentRequestForm);
+const InjectedCardForm = injectStripe(CardForm);
 
 class PaymentForm extends React.Component<FormProps, FormState> {
   state = {
@@ -235,13 +242,19 @@ class PaymentForm extends React.Component<FormProps, FormState> {
 
   render() {
     const { success, error, loading } = this.state;
-    return !success ? (
+    return success ? (
+      <div className={stripeStyles.success}>
+        {`Din betaling på ${
+          this.props.event.price ? this.props.event.price / 100 : ''
+        } kr ble godkjent.`}
+      </div>
+    ) : (
       <>
         {loading && <LoadingIndicator loading />}
         {error && <div className={stripeStyles.error}>{error.message}</div>}
         <div style={{ display: loading ? 'none' : 'block' }}>
           <Elements locale="no">
-            <PaymentRequestForm
+            <InjectedPaymentRequestForm
               {...this.props}
               setSuccess={() => this.setSuccess()}
               setError={error => this.setError(error)}
@@ -252,7 +265,7 @@ class PaymentForm extends React.Component<FormProps, FormState> {
             />
           </Elements>
           <Elements locale="no">
-            <SplitForm
+            <InjectedCardForm
               {...this.props}
               fontSize={'18px'}
               setSuccess={() => this.setSuccess()}
@@ -267,12 +280,6 @@ class PaymentForm extends React.Component<FormProps, FormState> {
           </Elements>
         </div>
       </>
-    ) : (
-      <div className={stripeStyles.success}>
-        {`Din betaling på ${
-          this.props.event.price ? this.props.event.price / 100 : ''
-        } kr ble godkjent.`}
-      </div>
     );
   }
 }

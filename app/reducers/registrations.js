@@ -1,6 +1,6 @@
 // @flow
 
-import { union, get } from 'lodash';
+import { union } from 'lodash';
 import { Event } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { normalize } from 'normalizr';
