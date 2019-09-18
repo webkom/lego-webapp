@@ -3,18 +3,21 @@
 import { Quote } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { createSelector } from 'reselect';
-import { mutateComments } from 'app/reducers/comments';
+import { mutateReactions } from 'app/reducers/reactions';
 import joinReducers from 'app/utils/joinReducers';
 import type { ID } from 'app/models';
+import { type ReactionEntity } from 'app/reducers/reactions';
 
 export type QuoteEntity = {
   id: ID,
   text: string,
   source: string,
   approved: boolean,
-  comments: Object,
-  commentCount: string,
+  reactions: Object,
+  reactionCount: string,
   contentTarget: string,
+  reactionsGrouped: Array<ReactionEntity>,
+  reactions: Array<ReactionEntity>,
   createdAt?: string
 };
 
@@ -51,7 +54,7 @@ function mutateQuote(state: any, action: any) {
   }
 }
 
-const mutate = joinReducers(mutateComments('quotes'), mutateQuote);
+const mutate = joinReducers(mutateReactions('quotes'), mutateQuote);
 
 export default createEntityReducer({
   key: 'quotes',
@@ -101,27 +104,27 @@ export const selectSortedQuotes = createSelector(
   }
 );
 
-export const selectCommentsForQuotes = createSelector(
+export const selectReactionsForQuotes = createSelector(
   selectQuotes,
-  state => state.comments.byId,
-  (quotesById, commentsById) => {
-    if (!quotesById || !commentsById) return {};
-    const comments = {};
+  state => state.reactions.byId,
+  (quotesById, reactionsById) => {
+    if (!quotesById || !reactionsById) return {};
+    const reactions = {};
     quotesById.map(quote => {
-      if (!quote.comments) return;
-      comments[quote.id] = quote.comments.map(
-        commentId => commentsById[commentId]
+      if (!quote.reactions) return;
+      reactions[quote.id] = quote.reactions.map(
+        reactionId => reactionsById[reactionId]
       );
     });
-    return comments;
+    return reactions;
   }
 );
 
-export const selectCommentsForQuote = createSelector(
-  selectCommentsForQuotes,
+export const selectReactionsForQuote = createSelector(
+  selectReactionsForQuotes,
   (state, props) => props.quoteId,
-  (comments, quoteId) => {
-    if (!comments || !quoteId) return {};
-    return { [quoteId]: comments[quoteId] };
+  (reactions, quoteId) => {
+    if (!reactions || !quoteId) return {};
+    return reactions[quoteId];
   }
 );
