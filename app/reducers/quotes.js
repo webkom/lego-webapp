@@ -13,8 +13,6 @@ export type QuoteEntity = {
   text: string,
   source: string,
   approved: boolean,
-  reactions: Object,
-  reactionCount: string,
   contentTarget: string,
   reactionsGrouped: Array<ReactionEntity>,
   reactions: Array<ReactionEntity>,
@@ -101,30 +99,5 @@ export const selectSortedQuotes = createSelector(
           quote.approved === (query.filter !== 'unapproved')
       )
       .sort(compareByDate);
-  }
-);
-
-export const selectReactionsForQuotes = createSelector(
-  selectQuotes,
-  state => state.reactions.byId,
-  (quotesById, reactionsById) => {
-    if (!quotesById || !reactionsById) return {};
-    const reactions = {};
-    quotesById.map(quote => {
-      if (!quote.reactions) return;
-      reactions[quote.id] = quote.reactions.map(
-        reactionId => reactionsById[reactionId]
-      );
-    });
-    return reactions;
-  }
-);
-
-export const selectReactionsForQuote = createSelector(
-  selectReactionsForQuotes,
-  (state, props) => props.quoteId,
-  (reactions, quoteId) => {
-    if (!reactions || !quoteId) return {};
-    return reactions[quoteId];
   }
 );

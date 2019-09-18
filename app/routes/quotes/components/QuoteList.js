@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import Quote from './Quote';
 import type { ID, ActionGrant } from 'app/models';
 import type { QuoteEntity } from 'app/reducers/quotes';
+import type { EmojiEntity } from 'app/reducers/emojis';
 
 type Props = {
   quotes: Array<QuoteEntity>,
@@ -56,7 +57,8 @@ export default class QuoteList extends Component<Props, State> {
       addReaction,
       deleteReaction,
       emojis,
-      fetchEmojis
+      fetchEmojis,
+      fetchingEmojis
     } = this.props;
 
     return (
@@ -78,6 +80,7 @@ export default class QuoteList extends Component<Props, State> {
             deleteReaction={deleteReaction}
             emojis={emojis}
             fetchEmojis={fetchEmojis}
+            fetchingEmojis={fetchingEmojis}
           />
         ))}
       </ul>
