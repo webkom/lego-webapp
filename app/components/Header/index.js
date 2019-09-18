@@ -262,6 +262,7 @@ class Header extends Component<Props, State> {
             onHide={this.props.toggleSearch}
             backdropClassName={styles.backdrop}
             backdrop
+            autoFocus={false}
           >
             <Search
               loggedIn={loggedIn}
