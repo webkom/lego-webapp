@@ -1,6 +1,6 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { frontloadConnect } from 'react-frontload';
+import prepare from 'app/utils/prepare';
 import {
   fetchEvent,
   deleteEvent,
@@ -182,14 +182,11 @@ const propertyGenerator = (props, config) => {
 };
 
 export default compose(
+  prepare(loadData, ['match.params.eventId']),
   connect(
     mapStateToProps,
     mapDispatchToProps
   ),
-  frontloadConnect(loadData, {
-    onMount: true,
-    onUpdate: false
-  }),
   loadingIndicator(['notLoading', 'event.text']),
   helmet(propertyGenerator)
 )(EventDetail);

@@ -107,9 +107,10 @@ const eventRoute = ({ match }) => (
                 path={`${match.path}`}
                 component={EventAdministrateRoute}
               />
-              <Route
+              <RouteWrapper
                 path={`${match.path}/attendees`}
-                component={EventAttendeeRoute}
+                Component={EventAttendeeRoute}
+                passedProps={{ currentUser, loggedIn }}
               />
             </>
           )}
