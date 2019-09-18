@@ -26,5 +26,5 @@ span.detail + span.detail::before {
 }
 
 .articleReactions {
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
