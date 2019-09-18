@@ -46,6 +46,21 @@ export default class Quote extends Component<Props, State> {
   };
 
   render() {
+    const {
+      quote,
+      deleteQuote,
+      approve,
+      unapprove,
+      actionGrant,
+      setDisplayAdmin,
+      displayAdmin,
+      emojis,
+      addReaction,
+      deleteReaction,
+      fetchEmojis,
+      fetchingEmojis
+    } = this.props;
+
     let mappedEmojis = [];
     if (!fetchingEmojis) {
       mappedEmojis = emojis.map(emoji => {
@@ -62,21 +77,6 @@ export default class Quote extends Component<Props, State> {
         return emoji;
       });
     }
-
-    const {
-      quote,
-      deleteQuote,
-      approve,
-      unapprove,
-      actionGrant,
-      setDisplayAdmin,
-      displayAdmin,
-      emojis,
-      addReaction,
-      deleteReaction,
-      fetchEmojis,
-      fetchingEmojis
-    } = this.props;
 
     return (
       <li className={styles.singleQuote}>
@@ -189,30 +189,32 @@ export default class Quote extends Component<Props, State> {
             </div>
           </div>
         </div>
-        <Reactions
-          emojis={mappedEmojis}
-          fetchEmojis={fetchEmojis}
-          fetchingEmojis={fetchingEmojis}
-          addReaction={addReaction}
-          deleteReaction={deleteReaction}
-          contentTarget={quote.contentTarget}
-        >
-          {quote.reactionsGrouped.map(reaction => {
-            return (
-              <Reaction
-                key={`reaction-${reaction.emoji}`}
-                emoji={reaction.emoji}
-                count={reaction.count}
-                unicodeString={reaction.unicodeString}
-                reactionId={reaction.reactionId}
-                hasReacted={reaction.hasReacted}
-                addReaction={addReaction}
-                deleteReaction={deleteReaction}
-                contentTarget={quote.contentTarget}
-              />
-            );
-          })}
-        </Reactions>
+        <div className={styles.quoteReactions}>
+          <Reactions
+            emojis={mappedEmojis}
+            fetchEmojis={fetchEmojis}
+            fetchingEmojis={fetchingEmojis}
+            addReaction={addReaction}
+            deleteReaction={deleteReaction}
+            contentTarget={quote.contentTarget}
+          >
+            {quote.reactionsGrouped.map(reaction => {
+              return (
+                <Reaction
+                  key={`reaction-${reaction.emoji}`}
+                  emoji={reaction.emoji}
+                  count={reaction.count}
+                  unicodeString={reaction.unicodeString}
+                  reactionId={reaction.reactionId}
+                  hasReacted={reaction.hasReacted}
+                  addReaction={addReaction}
+                  deleteReaction={deleteReaction}
+                  contentTarget={quote.contentTarget}
+                />
+              );
+            })}
+          </Reactions>
+        </div>
       </li>
     );
   }
