@@ -106,19 +106,17 @@ class CompaniesPage extends React.Component<Props, State> {
           )}
           <div className={this.state.expanded ? ' ' : utilities.hiddenOnMobile}>
             <p className={styles.infoText}>
-              {' '}
               Trykk deg inn på en bedrift for å se hva slags type bedrift det
               er, les mer om hva de jobber med og se hvor de holder til. Bla deg
               gjennom en oversikt over tidligere eller kommende arrangementer og
               se hvem som har jobbannonser ute for øyeblikket. Hvis du vil lese
               mer om bedriften så kan du navigere deg til nettsiden deres via
-              linken.{' '}
+              linken.
             </p>
 
             <p className={styles.infoText}>
-              {' '}
               Savner du en bedrift? Savner du noe informasjon om en bedrift? Ta
-              kontakt med Bedkom, vi tar gjerne imot innspill!{' '}
+              kontakt med Bedkom, vi tar gjerne imot innspill!
             </p>
             <button
               className={cx(styles.readMore, 'accordion')}
