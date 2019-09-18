@@ -87,6 +87,16 @@ class Search extends Component<Props, State> {
     const { query, selectedIndex } = this.state;
     const regularLinks = getRegularLinks({ allowed, loggedIn });
     const adminLinks = getAdminLinks({ allowed, loggedIn });
+    const searchFields = [
+      {
+        style: styles.inputElementNormal,
+        autoFocus: true
+      },
+      {
+        style: styles.inputElementMobile,
+        autoFocus: false
+      }
+    ];
     return (
       <div onKeyDown={this.handleKeyDown} tabIndex={-1}>
         <div className={styles.overlay}>
@@ -94,14 +104,18 @@ class Search extends Component<Props, State> {
             <div className={styles.searchIcon}>
               <Icon name="search" size={30} />
             </div>
-            <input
-              onChange={e => this.onQueryChanged(e.target.value)}
-              value={this.state.query}
-              type="search"
-              size="1"
-              placeholder="Hva leter du etter?"
-              autoFocus
-            />
+            {searchFields.map(k => (
+              <input
+                key={`search-field-${k.autoFocus ? 'on' : 'off'}`}
+                className={k.style}
+                onChange={e => this.onQueryChanged(e.target.value)}
+                value={this.state.query}
+                type="search"
+                size="1"
+                placeholder="Hva leter du etter?"
+                ref={input => input && k.autoFocus && input.focus()}
+              />
+            ))}
 
             <button
               type="button"

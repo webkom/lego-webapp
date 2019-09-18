@@ -33,6 +33,22 @@
   }
 }
 
+.inputElementNormal {
+  display: display;
+
+  @media (--mobile-device) {
+    display: none;
+  }
+}
+
+.inputElementMobile {
+  display: none;
+
+  @media (--mobile-device) {
+    display: block;
+  }
+}
+
 .searchIcon {
   color: #777;
   width: 30px;
