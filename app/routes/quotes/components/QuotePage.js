@@ -10,7 +10,7 @@ import type { ActionGrant, ID } from 'app/models';
 import type { QuoteEntity } from 'app/reducers/quotes';
 
 type Props = {
-  comments: Array<Object>,
+  reactions: Array<Object>,
   query: Object,
   quotes: Array<QuoteEntity>,
   actionGrant: ActionGrant,
@@ -21,8 +21,15 @@ type Props = {
   showFetchMore: boolean,
   currentUser: any,
   loggedIn: boolean,
-  comments: Object,
-  deleteComment: (id: ID, contentTarget: string) => Promise<*>
+  reactions: Object,
+  addReaction: ({
+    emoji: string,
+    contentTarget: string
+  }) => Promise<*>,
+  deleteReaction: ({ reactionId: ID, contentTarget: string }) => Promise<*>,
+  fetchEmojis: () => Promise<*>,
+  fetchingEmojis: boolean,
+  emojis: Array<EmojiEntity>
 };
 
 export default function QuotePage({
@@ -36,8 +43,11 @@ export default function QuotePage({
   showFetchMore,
   currentUser,
   loggedIn,
-  comments,
-  deleteComment,
+  reactions,
+  addReaction,
+  deleteReaction,
+  emojis,
+  fetchEmojis,
   ...props
 }: Props) {
   let errorMessage = undefined;
@@ -60,8 +70,11 @@ export default function QuotePage({
           quotes={quotes}
           currentUser={currentUser}
           loggedIn={loggedIn}
-          comments={comments}
-          deleteComment={deleteComment}
+          reactions={reactions}
+          addReaction={addReaction}
+          deleteReaction={deleteReaction}
+          emojis={emojis}
+          fetchEmojis={fetchEmojis}
         />
       )}
       {showFetchMore && (
