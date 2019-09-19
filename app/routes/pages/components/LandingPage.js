@@ -13,6 +13,7 @@ import banner from 'app/assets/om-abakus-banner.png';
 import styles from './LandingPage.css';
 import Button from 'app/components/Button';
 import moment from 'moment-timezone';
+import { Image } from 'app/components/Image';
 
 type Props = {
   whoWeAre: string,
@@ -42,7 +43,7 @@ const LandingPage = ({
       <a href="#contact" className={styles.contactUsLink}>
         Kontakt oss
       </a>
-      <img
+      <Image
         className={styles.banner}
         src={banner}
         alt="Abakus - Linjeforeningen for Datateknologi og Kommunikasjonsteknologi ved NTNU"

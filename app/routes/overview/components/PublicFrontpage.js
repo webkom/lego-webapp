@@ -10,10 +10,10 @@ import styles from './PublicFrontpage.css';
 import netcompany from 'app/assets/netcompany_dark.png';
 import CompactEvents from './CompactEvents';
 import { Link } from 'react-router';
-import { Image } from 'app/components/Image';
 import truncateString from 'app/utils/truncateString';
 import Time from 'app/components/Time';
 import { readmeIfy } from 'app/components/ReadmeLogo';
+import { Image } from 'app/components/Image';
 
 type Props = {
   frontpage: Array<Object>,
@@ -135,8 +135,12 @@ class PublicFrontpage extends Component<Props, State> {
         </div>
         <div className={styles.hsp}>
           <a href="https://www.netcompany.com/no" target="blank">
-            <img src={netcompany} alt="NETCOMPANY" />
-          </a>{' '}
+            <Image
+              className={styles.hspImage}
+              src={netcompany}
+              alt="NETCOMPANY"
+            />
+          </a>
           Vår nye hovedsamarbeidspartner er Netcompany. Hos Netcompany står fag,
           innovasjon og samhold sterkt, og de er opptatt av å ta ansvar – både
           for egne leveranser, for kundene og for sine ansatte.

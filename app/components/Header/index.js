@@ -19,6 +19,7 @@ import {
 } from 'app/components/LoginForm';
 import { Flex } from 'app/components/Layout';
 import cx from 'classnames';
+import { Image } from 'app/components/Image';
 
 import type { UserEntity } from 'app/reducers/users';
 
@@ -131,7 +132,7 @@ class Header extends Component<Props, State> {
         <FancyNodesCanvas height={300} />
         <div className={styles.content}>
           <IndexLink to="/" className={styles.logo}>
-            <img src={logoImage} alt="" />
+            <Image src={logoImage} alt="" />
           </IndexLink>
 
           <div className={styles.menu}>

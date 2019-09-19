@@ -2,7 +2,7 @@
 
 import React, { PureComponent, type Node } from 'react';
 import { chunk, get } from 'lodash';
-import Img from 'app/components/ProgressiveImage';
+import ProgressiveImage from 'app/components/ProgressiveImage';
 import Paginator from 'app/components/Paginator';
 import styles from './Gallery.css';
 
@@ -82,15 +82,7 @@ export default class Gallery extends PureComponent<Props, State> {
       renderBottom
     } = this.props;
     const { containerWidth } = this.state;
-    let cols = 3;
-
-    if (containerWidth < 900) {
-      cols = 2;
-    }
-
-    if (containerWidth < 550) {
-      cols = 1;
-    }
+    const cols = containerWidth < 900 ? 2 : containerWidth < 550 ? 1 : 3;
 
     const photoNodes = chunk(photos, cols).map((column, columnIndex) => (
       <div key={columnIndex} className={styles.galleryRow}>
@@ -124,7 +116,7 @@ export default class Gallery extends PureComponent<Props, State> {
               className={styles.galleryPhoto}
             >
               <div className={styles.top}>{top}</div>
-              <Img
+              <ProgressiveImage
                 src={src}
                 beforeLoadstyle={{
                   height: '250px',

@@ -50,8 +50,9 @@
   text-align: center;
 }
 
-.hsp img {
+.hspImage {
   width: 70%;
+  height: auto;
   display: block;
   margin: auto;
 }

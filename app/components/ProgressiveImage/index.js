@@ -1,6 +1,7 @@
 //@flow
 
 import React, { PureComponent } from 'react';
+import { Image } from 'app/components/Image';
 
 type Props = {
   src: any,
@@ -69,7 +70,7 @@ export default class ProgressiveImage extends PureComponent<Props, State> {
 
   render() {
     return (
-      <img
+      <Image
         src={this.state.src}
         alt={this.props.alt}
         className={this.props.className}

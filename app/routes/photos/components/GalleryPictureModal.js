@@ -17,6 +17,7 @@ import { Swipeable, RIGHT, LEFT } from 'react-swipeable';
 import type { EntityID } from 'app/types';
 import type { ID } from 'app/models';
 import Button from 'app/components/Button';
+import { Image } from 'app/components/Image';
 
 type Props = {
   picture: Object,
@@ -218,7 +219,7 @@ export default class GalleryPictureModal extends Component<Props, State> {
               alignItems="center"
             >
               <Flex justifyContent="space-between">
-                <img
+                <Image
                   className={styles.galleryThumbnail}
                   alt="some alt"
                   src={gallery.cover.thumbnail}

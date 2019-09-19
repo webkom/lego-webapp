@@ -10,6 +10,7 @@ import ReactionPickerHeader from './ReactionPickerHeader';
 import ReactionPickerContent from './ReactionPickerContent';
 import ReactionPickerFooter from './ReactionPickerFooter';
 import emojiLoading from 'app/assets/emoji_loading.svg';
+import { Image } from 'app/components/Image';
 
 type Props = {
   isLoading: boolean,
@@ -185,7 +186,7 @@ const ReactionPicker = ({
     <div className={styles.reactionPicker}>
       {isLoading ? (
         <div className={styles.emojiLoading}>
-          <img src={emojiLoading} alt="Emoji Loading Indicator" />
+          <Image src={emojiLoading} alt="Emoji Loading Indicator" />
         </div>
       ) : (
         <div>
