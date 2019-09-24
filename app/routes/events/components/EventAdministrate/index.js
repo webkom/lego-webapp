@@ -13,13 +13,15 @@ type Props = {
   currentUser: Object,
   isMe: boolean,
   event: ?EventEntity,
-  params: {
-    eventId: string
+  match: {
+    params: {
+      eventId: string
+    }
   }
 };
 
 const EventAdministrateIndex = (props: Props) => {
-  const base = `/events/${props.params.eventId}/administrate`;
+  const base = `/events/${props.match.params.eventId}/administrate`;
   // At the moment changing settings for other users only works
   // for the settings under `/profile` - so no point in showing
   // the other tabs.
