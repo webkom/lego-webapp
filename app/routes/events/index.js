@@ -67,24 +67,9 @@ const eventRoute = ({ match }) => (
     {({ currentUser, loggedIn }) => (
       <Switch>
         <RouteWrapper exact path={`${match.path}`} Component={EventListRoute} />
-        <Route path={`${match.path}/calendar`} component={CalendarRoute} />
         <Route
-          exact
-          path={`${match.path}/calendar`}
-          component={({ match }) => (
-            <>
-              <Route exact path={`${match.path}`} component={CalendarRoute} />
-              <Route
-                path={`${match.path}/:year`}
-                component={({ match }) => (
-                  <Route
-                    path={`${match.path}/:month`}
-                    component={CalendarRoute}
-                  />
-                )}
-              />
-            </>
-          )}
+          path={`${match.path}/calendar/:year?/:month?`}
+          component={CalendarRoute}
         />
         <Route path={`${match.path}/create`} component={CreateRoute} />
         <RouteWrapper
@@ -98,21 +83,17 @@ const eventRoute = ({ match }) => (
           passedProps={{ currentUser, loggedIn }}
           Component={EventEditRoute}
         />
-        <RouteWrapper
+        <Route
           path={`${match.path}/:eventId/administrate`}
-          Component={({ match }) => (
-            <>
-              <Route
-                exact
-                path={`${match.path}`}
-                component={EventAdministrateRoute}
-              />
+          exact
+          component={props => (
+            <EventAdministrateRoute {...props}>
               <RouteWrapper
-                path={`${match.path}/attendees`}
+                exact
+                path={`${props.match.path}/attendees`}
                 Component={EventAttendeeRoute}
-                passedProps={{ currentUser, loggedIn }}
               />
-            </>
+            </EventAdministrateRoute>
           )}
         />
       </Switch>

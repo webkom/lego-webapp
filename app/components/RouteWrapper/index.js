@@ -16,13 +16,13 @@ type Props = {
 };
 
 const RouteWrapper = (props: Props) => {
-  const { passedProps, exact, path, Component, strict } = props;
+  const { passedProps, exact, path, Component, strict, ...rest } = props;
   return (
     <Route
       exact={exact}
       path={path}
       strict={strict}
-      render={props => <Component {...props} {...passedProps} />}
+      render={props => <Component {...props} {...passedProps} {...rest} />}
     />
   );
 };
