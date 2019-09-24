@@ -18,8 +18,10 @@ const mapStateToProps = (state, props) => {
 };
 
 export default compose(
-  prepare(({ match: { params: { eventId } } }, dispatch) =>
-    dispatch(fetchAdministrate(Number(eventId)))
+  prepare(
+    ({ match }, dispatch) =>
+      dispatch(fetchAdministrate(Number(match.params.eventId))),
+    []
   ),
   connect(mapStateToProps)
 )(EventAdministrateIndex);
