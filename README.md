@@ -104,15 +104,6 @@ To build a static version of the documentation, run:
 $ yarn styleguide:build
 ```
 
-## Text Editor
-
-[Atom](https://atom.io) with these plugins installed provides the best developer
-experience:
-
-```bash
-$ apm install nuclide pigments linter-eslint linter-stylelint prettier-atom
-```
-
 ## Prettier
 
 We use [prettier](https://github.com/prettier/prettier) for JS auto-formatting.
