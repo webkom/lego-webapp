@@ -9,6 +9,7 @@
   text-align: center;
   background: var(--lego-card-color);
   height: 388px;
+  width: 100%;
   margin-bottom: 20px;
   position: relative;
 
