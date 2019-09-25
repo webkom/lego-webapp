@@ -14,13 +14,14 @@ import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { selectPagination } from '../../reducers/selectors';
 import { addReaction, deleteReaction } from 'app/actions/ReactionActions';
-import { selectEmojis } from 'app/reducers/emojis';
 import { fetchEmojis } from 'app/actions/EmojiActions';
+import { selectEmojis } from 'app/reducers/emojis';
 
 const mapStateToProps = (state, props) => {
   const queryString = ['?approved=true', '?approved=false'];
   const showFetchMore = selectPagination('quotes', { queryString })(state);
   const emojis = selectEmojis(state);
+
   return {
     quotes: selectSortedQuotes(state, props.location.query),
     query: props.location.query,
