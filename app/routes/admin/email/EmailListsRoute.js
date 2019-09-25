@@ -11,7 +11,8 @@ import loadingIndicator from 'app/utils/loadingIndicator';
 const mapStateToProps = state => ({
   emailLists: selectEmailLists(state),
   fetching: state.emailLists.fetching,
-  hasMore: state.emailLists.hasMore
+  hasMore: state.emailLists.hasMore,
+  notFetching: !state.emailLists.fetching
 });
 
 const mapDispatchToProps = { fetch };
@@ -22,5 +23,5 @@ export default compose(
     mapStateToProps,
     mapDispatchToProps
   ),
-  loadingIndicator(['emailLists.length'])
+  loadingIndicator(['notFetching'])
 )(EmailLists);

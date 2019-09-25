@@ -13,11 +13,9 @@ const mapStateToProps = (state, { routeParams }) => {
   const emailList = selectEmailListById(state, {
     emailListId: routeParams.emailListId
   });
-
   return {
     emailList,
     emailListId: routeParams.emailListId,
-    fetching: state.emailLists.fetching,
     initialValues: {
       ...emailList,
       // $FlowFixMe
@@ -34,7 +32,14 @@ const mapStateToProps = (state, { routeParams }) => {
       users: (emailList.users || []).filter(Boolean).map(user => ({
         label: user.fullName,
         value: user.id
-      }))
+      })),
+      // $FlowFixMe
+      additionalEmails: (emailList.additionalEmails || []).map(
+        additionalEmail => ({
+          label: additionalEmail,
+          value: additionalEmail
+        })
+      )
     }
   };
 };

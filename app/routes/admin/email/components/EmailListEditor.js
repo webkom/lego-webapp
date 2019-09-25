@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Button from 'app/components/Button';
-import { createValidator, required } from 'app/utils/validation';
+import { createValidator, required, EMAIL_REGEX } from 'app/utils/validation';
 import { roleOptions } from 'app/utils/constants';
 import {
   TextInput,
@@ -73,6 +73,17 @@ const EmailListEditor = ({ submitting, handleSubmit, emailListId }: Props) => (
         normalize={v => !!v}
       />
     </Tooltip>
+
+    <Tooltip content="Her kan du legge til e-postene til de som skal ha mailer fra gruppemailen, men ikke er medlem av abakus">
+      <Field
+        label="E-poster for medlemmer utenfor abakus"
+        name="additionalEmails"
+        placeholder="Skriv inn e-post her"
+        component={SelectInput.Field}
+        multi
+        tags
+      />
+    </Tooltip>
     <Button submit disabled={submitting}>
       {emailListId ? 'Oppdater epostliste' : 'Lag epostliste'}
     </Button>
@@ -90,7 +101,8 @@ export default legoForm({
       requireInternalAddress: data.requireInternalAddress,
       groupRoles: (data.groupRoles || []).map(groupRole => groupRole.value),
       groups: (data.groups || []).map(group => group.value),
-      users: (data.users || []).map(user => user.value)
+      users: (data.users || []).map(user => user.value),
+      additionalEmails: (data.additionalEmails || []).map(email => email.value)
     }).then(({ payload }) => {
       if (!emailListId) {
         push(`/admin/email/lists/${payload.result}`);
@@ -99,6 +111,13 @@ export default legoForm({
 
   validate: createValidator({
     email: [required()],
-    name: [required()]
+    name: [required()],
+    additionalEmails: [
+      //check if all emails entered are valid
+      value => [
+        !value || value.every(email => EMAIL_REGEX.test(email.value)),
+        'Ugyldig e-post'
+      ]
+    ]
   })
 })(EmailListEditor);
