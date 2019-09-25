@@ -4,7 +4,6 @@ import React, { Component } from 'react';
 import Quote from './Quote';
 import type { ID, ActionGrant } from 'app/models';
 import type { QuoteEntity } from 'app/reducers/quotes';
-import type { EmojiEntity } from 'app/reducers/emojis';
 
 type Props = {
   quotes: Array<QuoteEntity>,
@@ -14,15 +13,8 @@ type Props = {
   actionGrant: ActionGrant,
   currentUser: any,
   loggedIn: boolean,
-  reactions: Object,
-  addReaction: ({
-    emoji: string,
-    contentTarget: string
-  }) => Promise<*>,
-  deleteReaction: ({ reactionId: ID, contentTarget: string }) => Promise<*>,
-  fetchEmojis: () => Promise<*>,
-  fetchingEmojis: boolean,
-  emojis: Array<EmojiEntity>
+  comments: Object,
+  deleteComment: (id: ID, contentTarget: string) => Promise<*>
 };
 
 type State = {
@@ -53,12 +45,8 @@ export default class QuoteList extends Component<Props, State> {
       deleteQuote,
       currentUser,
       loggedIn,
-      reactions,
-      addReaction,
-      deleteReaction,
-      emojis,
-      fetchEmojis,
-      fetchingEmojis
+      comments,
+      deleteComment
     } = this.props;
 
     return (
@@ -75,12 +63,8 @@ export default class QuoteList extends Component<Props, State> {
             displayAdmin={quote.id === this.state.displayAdminId}
             currentUser={currentUser}
             loggedIn={loggedIn}
-            reactions={reactions}
-            addReaction={addReaction}
-            deleteReaction={deleteReaction}
-            emojis={emojis}
-            fetchEmojis={fetchEmojis}
-            fetchingEmojis={fetchingEmojis}
+            comments={comments}
+            deleteComment={deleteComment}
           />
         ))}
       </ul>

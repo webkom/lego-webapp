@@ -8,10 +8,9 @@ import { navigation } from '../utils';
 import Button from 'app/components/Button';
 import type { ActionGrant, ID } from 'app/models';
 import type { QuoteEntity } from 'app/reducers/quotes';
-import type { EmojiEntity } from 'app/reducers/emojis';
 
 type Props = {
-  reactions: Array<Object>,
+  comments: Array<Object>,
   query: Object,
   quotes: Array<QuoteEntity>,
   actionGrant: ActionGrant,
@@ -22,15 +21,8 @@ type Props = {
   showFetchMore: boolean,
   currentUser: any,
   loggedIn: boolean,
-  reactions: Object,
-  addReaction: ({
-    emoji: string,
-    contentTarget: string
-  }) => Promise<*>,
-  deleteReaction: ({ reactionId: ID, contentTarget: string }) => Promise<*>,
-  fetchEmojis: () => Promise<*>,
-  fetchingEmojis: boolean,
-  emojis: Array<EmojiEntity>
+  comments: Object,
+  deleteComment: (id: ID, contentTarget: string) => Promise<*>
 };
 
 export default function QuotePage({
@@ -44,12 +36,9 @@ export default function QuotePage({
   showFetchMore,
   currentUser,
   loggedIn,
-  reactions,
-  addReaction,
-  deleteReaction,
-  emojis,
-  fetchEmojis,
-  fetchingEmojis
+  comments,
+  deleteComment,
+  ...props
 }: Props) {
   let errorMessage = undefined;
   if (quotes.length === 0) {
@@ -71,12 +60,8 @@ export default function QuotePage({
           quotes={quotes}
           currentUser={currentUser}
           loggedIn={loggedIn}
-          reactions={reactions}
-          addReaction={addReaction}
-          deleteReaction={deleteReaction}
-          emojis={emojis}
-          fetchEmojis={fetchEmojis}
-          fetchingEmojis={fetchingEmojis}
+          comments={comments}
+          deleteComment={deleteComment}
         />
       )}
       {showFetchMore && (

@@ -6,12 +6,10 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import Dropdown from 'app/components/Dropdown';
 import Icon from 'app/components/Icon';
+import CommentView from 'app/components/Comments/CommentView';
 import type { ID, ActionGrant } from 'app/models';
 import type { QuoteEntity } from 'app/reducers/quotes';
 import Button from 'app/components/Button';
-import Reaction from 'app/components/Reactions/Reaction';
-import Reactions from 'app/components/Reactions';
-import type { EmojiEntity } from 'app/reducers/emojis';
 
 type Props = {
   quote: QuoteEntity,
@@ -23,26 +21,19 @@ type Props = {
   displayAdmin: boolean,
   currentUser: any,
   loggedIn: boolean,
-  emojis: Array<EmojiEntity>,
-  addReaction: ({
-    emoji: string,
-    contentTarget: string
-  }) => Promise<*>,
-  deleteReaction: ({ reactionId: ID, contentTarget: string }) => Promise<*>,
-  fetchEmojis: () => Promise<*>,
-  fetchingEmojis: boolean,
-  emojis: Array<EmojiEntity>
+  comments: Object,
+  deleteComment: (id: ID, contentTarget: string) => Promise<*>
 };
 
 type State = {
   deleting: boolean,
-  showReactions: boolean
+  showComments: boolean
 };
 
 export default class Quote extends Component<Props, State> {
   state = {
     deleting: false,
-    showReactions: true
+    showComments: true
   };
 
   render() {
@@ -54,29 +45,13 @@ export default class Quote extends Component<Props, State> {
       actionGrant,
       setDisplayAdmin,
       displayAdmin,
-      emojis,
-      addReaction,
-      deleteReaction,
-      fetchEmojis,
-      fetchingEmojis
+      currentUser,
+      loggedIn,
+      comments,
+      deleteComment
     } = this.props;
 
-    let mappedEmojis = [];
-    if (!fetchingEmojis) {
-      mappedEmojis = emojis.map(emoji => {
-        const foundReaction = quote.reactionsGrouped.find(
-          reaction => emoji.shortCode == reaction.emoji && reaction.hasReacted
-        );
-        if (foundReaction !== undefined) {
-          emoji.hasReacted = true;
-          emoji.reactionId = foundReaction.reactionId;
-        } else {
-          emoji.hasReacted = false;
-          emoji.reactionId = -1;
-        }
-        return emoji;
-      });
-    }
+    const { showComments } = this.state;
 
     return (
       <li className={styles.singleQuote}>
@@ -107,22 +82,20 @@ export default class Quote extends Component<Props, State> {
             </div>
 
             <div className={styles.bottomRight}>
-              <div className={styles.reactionCount}>
+              <div className={styles.commentCount}>
                 <Button
                   flat
                   onClick={() =>
                     this.setState(state => ({
-                      showReactions: !state.showReactions
+                      showComments: !state.showComments
                     }))
                   }
                 >
                   <i
-                    className="fa fa-reaction-o"
+                    className="fa fa-comment-o"
                     style={{ marginRight: '5px' }}
                   />
-                  {quote.reactions
-                    ? quote.reactions.length
-                    : quote.reactionCount}
+                  {quote.comments ? quote.comments.length : quote.commentCount}
                 </Button>
               </div>
 
@@ -189,32 +162,18 @@ export default class Quote extends Component<Props, State> {
             </div>
           </div>
         </div>
-        <div className={styles.quoteReactions}>
-          <Reactions
-            emojis={mappedEmojis}
-            fetchEmojis={fetchEmojis}
-            fetchingEmojis={fetchingEmojis}
-            addReaction={addReaction}
-            deleteReaction={deleteReaction}
-            contentTarget={quote.contentTarget}
-          >
-            {quote.reactionsGrouped.map(reaction => {
-              return (
-                <Reaction
-                  key={`reaction-${reaction.emoji}`}
-                  emoji={reaction.emoji}
-                  count={reaction.count}
-                  unicodeString={reaction.unicodeString}
-                  reactionId={reaction.reactionId}
-                  hasReacted={reaction.hasReacted}
-                  addReaction={addReaction}
-                  deleteReaction={deleteReaction}
-                  contentTarget={quote.contentTarget}
-                />
-              );
-            })}
-          </Reactions>
-        </div>
+        {quote.contentTarget && showComments && (
+          <div className={styles.comments}>
+            <CommentView
+              user={currentUser}
+              contentTarget={quote.contentTarget}
+              loggedIn={loggedIn}
+              comments={comments[quote.id]}
+              displayTitle={false}
+              deleteComment={deleteComment}
+            />
+          </div>
+        )}
       </li>
     );
   }

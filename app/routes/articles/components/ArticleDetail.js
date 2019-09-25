@@ -98,32 +98,30 @@ const ArticleDetail = ({
         ))}
       </Tags>
 
-      <div className={styles.articleReactions}>
-        <Reactions
-          emojis={mappedEmojis}
-          fetchEmojis={fetchEmojis}
-          fetchingEmojis={fetchingEmojis}
-          addReaction={addReaction}
-          deleteReaction={deleteReaction}
-          contentTarget={article.contentTarget}
-        >
-          {article.reactionsGrouped.map(reaction => {
-            return (
-              <Reaction
-                key={`reaction-${reaction.emoji}`}
-                emoji={reaction.emoji}
-                count={reaction.count}
-                unicodeString={reaction.unicodeString}
-                reactionId={reaction.reactionId}
-                hasReacted={reaction.hasReacted}
-                addReaction={addReaction}
-                deleteReaction={deleteReaction}
-                contentTarget={article.contentTarget}
-              />
-            );
-          })}
-        </Reactions>
-      </div>
+      <Reactions
+        emojis={mappedEmojis}
+        fetchEmojis={fetchEmojis}
+        fetchingEmojis={fetchingEmojis}
+        addReaction={addReaction}
+        deleteReaction={deleteReaction}
+        contentTarget={article.contentTarget}
+      >
+        {article.reactionsGrouped.map(reaction => {
+          return (
+            <Reaction
+              key={`reaction-${reaction.emoji}`}
+              emoji={reaction.emoji}
+              count={reaction.count}
+              unicodeString={reaction.unicodeString}
+              reactionId={reaction.reactionId}
+              hasReacted={reaction.hasReacted}
+              addReaction={addReaction}
+              deleteReaction={deleteReaction}
+              contentTarget={article.contentTarget}
+            />
+          );
+        })}
+      </Reactions>
 
       {article.contentTarget && (
         <CommentView
