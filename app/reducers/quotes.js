@@ -3,18 +3,19 @@
 import { Quote } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { createSelector } from 'reselect';
-import { mutateComments } from 'app/reducers/comments';
+import { mutateReactions } from 'app/reducers/reactions';
 import joinReducers from 'app/utils/joinReducers';
 import type { ID } from 'app/models';
+import { type ReactionEntity } from 'app/reducers/reactions';
 
 export type QuoteEntity = {
   id: ID,
   text: string,
   source: string,
   approved: boolean,
-  comments: Object,
-  commentCount: string,
   contentTarget: string,
+  reactionsGrouped: Array<ReactionEntity>,
+  reactions: Array<ReactionEntity>,
   createdAt?: string
 };
 
@@ -51,7 +52,7 @@ function mutateQuote(state: any, action: any) {
   }
 }
 
-const mutate = joinReducers(mutateComments('quotes'), mutateQuote);
+const mutate = joinReducers(mutateReactions('quotes'), mutateQuote);
 
 export default createEntityReducer({
   key: 'quotes',
@@ -98,30 +99,5 @@ export const selectSortedQuotes = createSelector(
           quote.approved === (query.filter !== 'unapproved')
       )
       .sort(compareByDate);
-  }
-);
-
-export const selectCommentsForQuotes = createSelector(
-  selectQuotes,
-  state => state.comments.byId,
-  (quotesById, commentsById) => {
-    if (!quotesById || !commentsById) return {};
-    const comments = {};
-    quotesById.map(quote => {
-      if (!quote.comments) return;
-      comments[quote.id] = quote.comments.map(
-        commentId => commentsById[commentId]
-      );
-    });
-    return comments;
-  }
-);
-
-export const selectCommentsForQuote = createSelector(
-  selectCommentsForQuotes,
-  (state, props) => props.quoteId,
-  (comments, quoteId) => {
-    if (!comments || !quoteId) return {};
-    return { [quoteId]: comments[quoteId] };
   }
 );
