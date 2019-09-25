@@ -24,7 +24,3 @@ span.detail + span.detail::before {
 .articleDetails {
   margin-bottom: 15px;
 }
-
-.articleReactions {
-  margin-bottom: 20px;
-}
