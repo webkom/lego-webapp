@@ -28,6 +28,7 @@ export const Event = {
   SOCKET_REGISTRATION: generateStatuses('Event.SOCKET_REGISTRATION'),
   SOCKET_UNREGISTRATION: generateStatuses('Event.SOCKET_UNREGISTRATION'),
   SOCKET_PAYMENT: generateStatuses('Event.SOCKET_PAYMENT'),
+  SOCKET_INITIATE_PAYMENT: generateStatuses('Event.SOCKET_INITIATE_PAYMENT'),
   SOCKET_EVENT_UPDATED: 'SOCKET_EVENT_UPDATED',
   FOLLOW: generateStatuses('Event.FOLLOW'),
   UNFOLLOW: generateStatuses('Event.UNFOLLOW'),

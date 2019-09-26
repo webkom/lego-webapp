@@ -178,8 +178,8 @@ const paymentSuccessMappings = {
   [paymentFailure]: false
 };
 
-export const hasPaid = (chargeStatus: string) =>
-  paymentSuccessMappings[chargeStatus];
+export const hasPaid = (paymentStatus: string) =>
+  paymentSuccessMappings[paymentStatus];
 
 export const addStripeFee = (price: number) => Math.ceil(price * 1.012 + 1.8);
 

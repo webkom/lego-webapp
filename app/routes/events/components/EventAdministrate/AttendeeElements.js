@@ -7,7 +7,7 @@ import cx from 'classnames';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import Button from 'app/components/Button';
 import type {
-  EventRegistrationChargeStatus,
+  EventRegistrationPaymentStatus,
   EventRegistrationPresence,
   ID
 } from 'app/models';
@@ -36,9 +36,9 @@ type StripeStatusProps = {
   id: ID,
   handlePayment: (
     registrationId: ID,
-    chargeStatus: EventRegistrationChargeStatus
+    paymentStatus: EventRegistrationPaymentStatus
   ) => Promise<*>,
-  chargeStatus: EventRegistrationChargeStatus
+  paymentStatus: EventRegistrationPaymentStatus
 };
 
 export const TooltipIcon = ({
@@ -92,23 +92,23 @@ export const PresenceIcons = ({
 export const StripeStatus = ({
   id,
   handlePayment,
-  chargeStatus
+  paymentStatus
 }: StripeStatusProps) => (
   <Flex className={styles.presenceIcons}>
     <TooltipIcon
       content="Betalt stripe"
       iconClass={cx('fa fa-cc-stripe', styles.greenIcon)}
-      transparent={chargeStatus !== 'succeeded'}
+      transparent={paymentStatus !== 'succeeded'}
     />
     <TooltipIcon
       content="Betalt manuelt"
-      transparent={chargeStatus !== 'manual'}
+      transparent={paymentStatus !== 'manual'}
       iconClass={cx('fa fa-money', styles.greenIcon)}
       onClick={() => handlePayment(id, 'manual')}
     />
     <TooltipIcon
       content="Ikke betalt"
-      transparent={['manual', 'succeeded'].includes(chargeStatus)}
+      transparent={['manual', 'succeeded'].includes(paymentStatus)}
       iconClass={cx('fa fa-times', styles.crossIcon)}
       onClick={() => handlePayment(id, 'failed')}
     />

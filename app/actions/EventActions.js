@@ -347,7 +347,7 @@ export function updatePresence(
 export function updatePayment(
   eventId: number,
   registrationId: number,
-  chargeStatus: string
+  paymentStatus: string
 ): Thunk<Promise<?Action>> {
   return dispatch =>
     dispatch(
@@ -356,7 +356,7 @@ export function updatePayment(
         endpoint: `/events/${eventId}/registrations/${registrationId}/`,
         method: 'PATCH',
         body: {
-          chargeStatus
+          paymentStatus
         },
         meta: {
           errorMessage: 'Oppdatering av betaling feilet'

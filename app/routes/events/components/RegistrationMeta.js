@@ -3,7 +3,7 @@
 import React from 'react';
 import type {
   EventRegistrationPresence,
-  EventRegistrationChargeStatus,
+  EventRegistrationPaymentStatus,
   EventRegistrationPhotoConsent
 } from 'app/models';
 import {
@@ -95,14 +95,14 @@ const PresenceStatus = ({
 };
 
 const PaymentStatus = ({
-  chargeStatus,
+  paymentStatus,
   isPriced
 }: {
-  chargeStatus: EventRegistrationChargeStatus,
+  paymentStatus: EventRegistrationPaymentStatus,
   isPriced: boolean
 }) => {
   if (!isPriced) return null;
-  switch (chargeStatus) {
+  switch (paymentStatus) {
     case paymentPending:
       return (
         <div>
@@ -179,7 +179,7 @@ const RegistrationMeta = ({
         </Tooltip>
         <PaymentStatus
           isPriced={isPriced}
-          chargeStatus={registration.chargeStatus}
+          paymentStatus={registration.paymentStatus}
         />
       </div>
     )}

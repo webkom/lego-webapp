@@ -15,7 +15,7 @@ import type {
   User,
   ID,
   EventRegistration,
-  EventRegistrationChargeStatus,
+  EventRegistrationPaymentStatus,
   EventRegistrationPresence
 } from 'app/models';
 
@@ -34,7 +34,7 @@ export type Props = {
     *
   >,
   updatePresence: (number, number, string) => Promise<*>,
-  updatePayment: (ID, ID, EventRegistrationChargeStatus) => Promise<*>,
+  updatePayment: (ID, ID, EventRegistrationPaymentStatus) => Promise<*>,
   usersResult: Array<User>,
   actionGrant: ActionGrant,
   onQueryChanged: (value: string) => any,
@@ -73,9 +73,9 @@ export default class Attendees extends Component<Props, State> {
 
   handlePayment = (
     registrationId: number,
-    chargeStatus: EventRegistrationChargeStatus
+    paymentStatus: EventRegistrationPaymentStatus
   ) =>
-    this.props.updatePayment(this.props.eventId, registrationId, chargeStatus);
+    this.props.updatePayment(this.props.eventId, registrationId, paymentStatus);
 
   render() {
     const {

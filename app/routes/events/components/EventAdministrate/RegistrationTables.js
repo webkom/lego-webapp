@@ -10,7 +10,7 @@ import { WEBKOM_GROUP_ID } from 'app/utils/constants';
 import type {
   EventRegistration,
   EventRegistrationPresence,
-  EventRegistrationChargeStatus,
+  EventRegistrationPaymentStatus,
   ID,
   Event
 } from 'app/models';
@@ -31,7 +31,7 @@ type Props = {
   ) => Promise<*>,
   handlePayment: (
     registrationId: ID,
-    chargeStatus: EventRegistrationChargeStatus
+    paymentStatus: EventRegistrationPaymentStatus
   ) => Promise<*>,
   handleUnregister: (registrationId: ID) => void,
   clickedUnregister: ID,
@@ -164,13 +164,13 @@ export class RegisteredTable extends Component<Props> {
       },
       {
         title: 'Betaling',
-        dataIndex: 'chargeStatus',
+        dataIndex: 'paymentStatus',
         visible: event.isPriced,
         center: true,
-        render: (chargeStatus, registration) => (
+        render: (paymentStatus, registration) => (
           <StripeStatus
             id={registration.id}
-            chargeStatus={chargeStatus}
+            paymentStatus={paymentStatus}
             handlePayment={handlePayment}
           />
         )

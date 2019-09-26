@@ -50,6 +50,7 @@ import readme from './readme';
 import surveySubmissions from './surveySubmissions';
 import tags from './tags';
 import fetchHistory from './fetchHistory';
+import payments from './payments';
 import joinReducers from 'app/utils/joinReducers';
 import { type LocationType } from 'app/models';
 
@@ -98,7 +99,8 @@ const reducers = {
   surveys,
   tags,
   toasts,
-  users
+  users,
+  payments
 };
 
 export type Reducers = typeof reducers;
