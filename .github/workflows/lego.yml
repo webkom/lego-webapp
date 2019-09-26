@@ -1,0 +1,251 @@
+name: LEGO frontend
+
+on:
+  push:
+    branches:
+      - '*'
+      - '!master'
+      - '!prod'
+
+jobs:
+  setup:
+    name: Setup environment
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout commit
+      uses: actions/checkout@v1
+
+    - name: Set up Node 11.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: '11.x'
+
+    - name: Install dependencies
+      run: yarn --forzen-lockfile
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    needs: setup
+
+    steps:
+    - name: Checkout commit
+      uses: actions/checkout@v1
+
+    - name: Set up Node 11.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: '11.x'
+
+    - name: Build server
+      run: yarn build:server
+
+    - name: Build client
+      run: yarn build:client
+
+
+  tests:
+    name: Run tests
+    runs-on: ubuntu-latest
+    needs: setup
+
+    steps:
+    - name: Checkout commit
+      uses: actions/checkout@v1
+
+    - name: Set up Node 11.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: '11.x'
+
+    - name: Run tests
+      run: yarn test
+
+  linting:
+    name: Run linting
+    runs-on: ubuntu-latest
+    needs: setup
+
+    steps:
+    - name: Checkout commit
+      uses: actions/checkout@v1
+
+    - name: Set up Node 11.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: '11.x'
+
+    - name: Run linting
+      run: yarn lint
+
+  flow:
+    name: Run flow
+    runs-on: ubuntu-latest
+    needs: setup
+
+    steps:
+    - name: Checkout commit
+      uses: actions/checkout@v1
+
+    - name: Set up Node 11.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: '11.x'
+
+    - name: Run flow
+      run: yarn flow
+  setup-cypress:
+    name: Setup Cypress
+    runs-on: ubuntu-latest
+    needs: setup
+
+    services:
+      postgres:
+        image: postgres:9.5
+        ports:
+        - 5432:5432
+        env:
+          POSTGRES_USER: lego
+        # needed because the postgres container does not provide a healthcheck
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+      minio:
+        image: minio/minio
+        ports:
+        - 5432:5432
+        env:
+          MINIO_ACCESS_KEY=lego-dev
+          MINIO_SECRET_KEY=lego-dev
+      thumbor:
+        image: apsl/thumbor:latest
+        ports:
+        - 8001:8000
+        env:
+          SECURITY_KEY: lego-dev
+          MAX_WIDTH: 1000
+          MAX_HEIGHT: 800
+          QUALITY: 98
+          ALLOW_UNSAFE_URL: 0
+          ALLOW_OLD_URLS: 0
+          AWS_ACCESS_KEY_ID: lego-dev
+          AWS_SECRET_ACCESS_KEY: lego-dev
+          TC_AWS_LOADER_BUCKET: lego
+          TC_AWS_REGION: us-east-1
+          TC_AWS_ENDPOINT: http://localhost:9000
+          LOADER: tc_aws.loaders.s3_loader
+      redis:
+        image: redis
+        ports:
+        - 6379:6379
+    steps:
+    - name: Checkout commit
+      uses: actions/checkout@v1
+
+    - name: Set up Node 11.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: '11.x'
+
+    - name: Setup minio
+      image: minio/minio
+      run: server /export
+      env:
+        MINIO_ACCESS_KEY=lego-dev
+        MINIO_SECRET_KEY=lego-dev
+
+    - name: Setup LEGO API
+      run: |
+        ./wait-for-it.sh -t 60 localhost:5432 &&
+        ./wait-for-it.sh -t 60 localhost:6379 &&
+        ./wait-for-it.sh -t 60 localhost:9000 &&
+        ./wait-for-it.sh -t 60 localhost:8001 &&
+        python manage.py reset_db --noinput &&
+        python manage.py migrate &&
+        python manage.py load_fixtures --development &&
+        python manage.py runserver 0.0.0.0:8000
+      env:
+        PORT=8000
+        ALLOWED_HOSTS=*,
+        DATABASE_URL=postgres://lego@localhost:5432/lego
+        SECRET_KEY=abc123
+        SERVER_URL=http://localhost:8000
+        FRONTEND_URL=http://localhost:3000
+        CACHE_URL=rediscache://localhost/0?client_class=django_redis.client.DefaultClient
+        EMAIL_URL=smtp://localhost
+        AWS_ACCESS_KEY_ID=lego-dev
+        AWS_SECRET_ACCESS_KEY=lego-dev
+        AWS_REGION=us-east-1
+        AWS_S3_BUCKET=lego
+        AWS_ENTRYPOINT=http://localhost:9000
+        THUMBOR_SERVER=http://localhost:8001
+        THUMBOR_SECURITY_KEY=lego-dev
+        SENTRY=http://sentry:sentry@localhost/2
+        CELERY_BROKER_URL=redis://localhost/1
+        CHANNELS_REDIS_URL=redis://localhost/2
+        ELASTICSEARCH_HOST=http://localhost
+        STRIPE_API_KEY=123
+        STRIPE_WEBHOOK_SECRET=123
+        CAPTCHA_KEY=123
+        LDAP_SERVER=localhost
+        LDAP_USER=123
+        LDAP_PASSWORD=123
+        APNS_CERTIFICATE=123
+        SEARCH_BACKEND=postgres
+        ELASTICSEARCH_HOST=ignored
+        CORS_ORIGIN_DOMAINS=localhost:3000
+
+
+    - name: Setup LEGO Cypress helper
+      image: abakus/lego-cypress-helper:latest
+      run: |
+        cd /app
+        ./wait-for-it.sh -t 420 localhost:8000
+        node index.js
+        echo "server stopped"
+      env:
+        MINIO_ACCESS_KEY=lego-dev
+        MINIO_SECRET_KEY=lego-dev
+        PG_HOST=localhost
+        PG_USERNAME=lego
+        PG_DATABASE=lego
+
+    - name: Install Cypress
+      image: node:11
+      run: yarn cypress install
+      # TODO: env: CYPRESS_CACHE_FOLDER=/drone/src/.cypress_cache
+
+  cypress:
+    name: Run SSR and Cypress
+    runs-on: ubuntu-latest
+    needs: setup-cypress
+
+    steps:
+    - name: Checkout commit
+      uses: actions/checkout@v1
+
+    - name: Set up Node 11.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: '11.x'
+
+    - name: SSR
+      image: node:11
+      run: yarn ssr
+      env:
+        API_URL=http://localhost:8000/api/v1
+        BASE_URL=http://localhost:8000
+        WS_URL=ws://localhost:8000
+
+    - name: Cypress
+      image: cypress/browsers:chrome69
+      # TODO: shm_size: 100000000 # 100MB
+      run: |
+        ./wait-for-it.sh -t 180 localhost:3000
+        ./wait-for-it.sh -t 180 localhost:3030
+        yarn cypress run --record
+      # SECRETS: [cypress_record_key]
+      env:
+        CYPRESS_API_BASE_URL=http://localhost:8000
+        CYPRESS_RESET_DB_API=http://localhost:3030
+        CYPRESS_BASE_URL=http://localhost:3000
+        # TODO: CYPRESS_CACHE_FOLDER=/drone/src/.cypress_cache
