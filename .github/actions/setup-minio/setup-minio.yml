@@ -1,0 +1,5 @@
+name: 'Setup MinIO'
+description: 'Setups the MinIO environment'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'

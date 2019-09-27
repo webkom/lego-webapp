@@ -30,6 +30,14 @@ jobs:
     needs: setup
 
     steps:
+    - name: Checkout commit
+      uses: actions/checkout@v1
+
+    - name: Set up Node 11.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: '11.x'
+
     - name: Build server
       run: yarn build:server
 
@@ -43,6 +51,14 @@ jobs:
     needs: setup
 
     steps:
+    - name: Checkout commit
+      uses: actions/checkout@v1
+
+    - name: Set up Node 11.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: '11.x'
+
     - name: Run tests
       run: yarn test
 
@@ -52,6 +68,14 @@ jobs:
     needs: setup
 
     steps:
+    - name: Checkout commit
+      uses: actions/checkout@v1
+
+    - name: Set up Node 11.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: '11.x'
+
     - name: Run linting
       run: yarn lint
 
@@ -61,11 +85,19 @@ jobs:
     needs: setup
 
     steps:
+    - name: Checkout commit
+      uses: actions/checkout@v1
+
+    - name: Set up Node 11.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: '11.x'
+
     - name: Run flow
       run: yarn flow
 
-  setup-cypress:
-    name: Setup Cypress
+  cypress:
+    name: Run Cypress
     runs-on: ubuntu-latest
     needs: setup
 
@@ -101,88 +133,16 @@ jobs:
         - 6379:6379
 
     steps:
-    - name: Setup minio
-      uses: docker://minio/minio
-      run: ./server /export
+    - name: Checkout commit
+      uses: actions/checkout@v1
+
+    - name: Set up Node 11.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: '11.x'
+
+    - name: Setup MinIO
+      uses: ./.github/actions/setup-minio
       env:
         MINIO_ACCESS_KEY: lego-dev
         MINIO_SECRET_KEY: lego-dev
-
-    - name: Setup LEGO API
-      uses: docker://registry.abakus.no/webkom/lego:latest
-      run: |
-        ./wait-for-it.sh -t 60 localhost:5432 &&
-        ./wait-for-it.sh -t 60 localhost:6379 &&
-        ./wait-for-it.sh -t 60 localhost:9000 &&
-        ./wait-for-it.sh -t 60 localhost:8001 &&
-        python manage.py reset_db --noinput &&
-        python manage.py migrate &&
-        python manage.py load_fixtures --development &&
-        python manage.py runserver 0.0.0.0:8000
-      env:
-        PORT: 8000
-        ALLOWED_HOSTS: '*,'
-        DATABASE_URL: postgres://lego@localhost:5432/lego
-        SECRET_KEY: abc123
-        SERVER_URL: http://localhost:8000
-        FRONTEND_URL: http://localhost:3000
-        CACHE_URL: 'rediscache://localhost/0?client_class: django_redis.client.DefaultClient'
-        EMAIL_URL: smtp://localhost
-        AWS_ACCESS_KEY_ID: lego-dev
-        AWS_SECRET_ACCESS_KEY: lego-dev
-        AWS_REGION: us-east-1
-        AWS_S3_BUCKET: lego
-        AWS_ENTRYPOINT: http://localhost:9000
-        THUMBOR_SERVER: http://localhost:8001
-        THUMBOR_SECURITY_KEY: lego-dev
-        SENTRY: http://sentry:sentry@localhost/2
-        CELERY_BROKER_URL: redis://localhost/1
-        CHANNELS_REDIS_URL: redis://localhost/2
-        STRIPE_API_KEY: 123
-        STRIPE_WEBHOOK_SECRET: 123
-        CAPTCHA_KEY: 123
-        LDAP_SERVER: localhost
-        LDAP_USER: 123
-        LDAP_PASSWORD: 123
-        APNS_CERTIFICATE: 123
-        SEARCH_BACKEND: postgres
-        ELASTICSEARCH_HOST: ignored
-        CORS_ORIGIN_DOMAINS: localhost:3000
-
-    - name: Setup LEGO Cypress helper
-      uses: docker://abakus/lego-cypress-helper:latest
-      run: |
-        cd /app
-        ./wait-for-it.sh -t 420 localhost:8000
-        node index.js
-        echo "server stopped"
-      env:
-        PG_HOST: localhost
-        PG_USERNAME: lego
-        PG_DATABASE: lego
-
-
-    - name: Install Cypress
-      run: yarn cypress install
-      # TODO: env: CYPRESS_CACHE_FOLDER=/drone/src/.cypress_cache
-
-    - name: SSR
-      run: yarn ssr
-      env:
-        API_URL: http://localhost:8000/api/v1
-        BASE_URL: http://localhost:8000
-        WS_URL: ws://localhost:8000
-
-    - name: Cypress
-      uses: docker://cypress/browsers:chrome69
-      # TODO: shm_size: 100000000 # 100MB
-      run: |
-        ./wait-for-it.sh -t 180 localhost:3000
-        ./wait-for-it.sh -t 180 localhost:3030
-        yarn cypress run --record
-      # SECRETS: [cypress_record_key]
-      env:
-        CYPRESS_API_BASE_URL: http://localhost:8000
-        CYPRESS_RESET_DB_API: http://localhost:3030
-        CYPRESS_BASE_URL: http://localhost:3000
-        # TODO: CYPRESS_CACHE_FOLDER: /drone/src/.cypress_cache
