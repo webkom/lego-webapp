@@ -24,6 +24,13 @@ jobs:
     - name: Install dependencies
       run: yarn --forzen-lockfile
 
+
+    - name: Upload node_modules
+      uses: actions/upload-artifact@master
+      with:
+        name: node_modules
+        path: node_modules
+
   build:
     name: Build
     runs-on: ubuntu-latest
@@ -37,6 +44,11 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: '11.x'
+
+    - name: Download cached node_modules
+      uses: actions/download-artifact@master
+      with:
+        name: node_modules
 
     - name: Build server
       run: yarn build:server
@@ -59,6 +71,11 @@ jobs:
       with:
         node-version: '11.x'
 
+    - name: Download cached node_modules
+      uses: actions/download-artifact@master
+      with:
+        name: node_modules
+
     - name: Run tests
       run: yarn test
 
@@ -76,6 +93,11 @@ jobs:
       with:
         node-version: '11.x'
 
+    - name: Download cached node_modules
+      uses: actions/download-artifact@master
+      with:
+        name: node_modules
+
     - name: Run linting
       run: yarn lint
 
@@ -92,6 +114,11 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: '11.x'
+
+    - name: Download cached node_modules
+      uses: actions/download-artifact@master
+      with:
+        name: node_modules
 
     - name: Run flow
       run: yarn flow
@@ -140,6 +167,11 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: '11.x'
+
+    - name: Download cached node_modules
+      uses: actions/download-artifact@master
+      with:
+        name: node_modules
 
     - name: Setup MinIO
       uses: ./.github/actions/setup-minio
