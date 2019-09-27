@@ -13,6 +13,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: List github dir and printenv
+      run: |
+        printenv
+        ls -al /github
+
     - name: Checkout commit
       uses: actions/checkout@v1
 
@@ -24,12 +29,16 @@ jobs:
     - name: Install dependencies
       run: yarn --forzen-lockfile
 
+    - name: List github dir and printenv
+      run: |
+        printenv
+        ls -al /github
 
-    - name: Upload node_modules
-      uses: actions/upload-artifact@master
-      with:
-        name: node_modules
-        path: node_modules
+    - name: Copy to work dir
+      run: |
+        cp -vr ./node_modules /github
+        ls -al /github
+        ls -al /github/node_modules
 
   build:
     name: Build
@@ -37,6 +46,9 @@ jobs:
     needs: setup
 
     steps:
+    - name: List github dir
+      run: ls -al /github
+
     - name: Checkout commit
       uses: actions/checkout@v1
 
@@ -44,11 +56,6 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: '11.x'
-
-    - name: Download cached node_modules
-      uses: actions/download-artifact@master
-      with:
-        name: node_modules
 
     - name: Build server
       run: yarn build:server
@@ -71,11 +78,6 @@ jobs:
       with:
         node-version: '11.x'
 
-    - name: Download cached node_modules
-      uses: actions/download-artifact@master
-      with:
-        name: node_modules
-
     - name: Run tests
       run: yarn test
 
@@ -93,11 +95,6 @@ jobs:
       with:
         node-version: '11.x'
 
-    - name: Download cached node_modules
-      uses: actions/download-artifact@master
-      with:
-        name: node_modules
-
     - name: Run linting
       run: yarn lint
 
@@ -114,11 +111,6 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: '11.x'
-
-    - name: Download cached node_modules
-      uses: actions/download-artifact@master
-      with:
-        name: node_modules
 
     - name: Run flow
       run: yarn flow
@@ -167,11 +159,6 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: '11.x'
-
-    - name: Download cached node_modules
-      uses: actions/download-artifact@master
-      with:
-        name: node_modules
 
     - name: Setup MinIO
       uses: ./.github/actions/setup-minio
