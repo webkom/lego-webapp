@@ -63,6 +63,7 @@ jobs:
     steps:
     - name: Run flow
       run: yarn flow
+
   setup-cypress:
     name: Setup Cypress
     runs-on: ubuntu-latest
@@ -77,13 +78,6 @@ jobs:
           POSTGRES_USER: lego
         # needed because the postgres container does not provide a healthcheck
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-      minio:
-        image: minio/minio
-        ports:
-        - 5432:5432
-        env:
-          MINIO_ACCESS_KEY: lego-dev
-          MINIO_SECRET_KEY: lego-dev
       thumbor:
         image: apsl/thumbor:latest
         ports:
@@ -106,15 +100,16 @@ jobs:
         ports:
         - 6379:6379
 
-  setup-minio:
+    steps:
     - name: Setup minio
       uses: docker://minio/minio
-      run: server /export
+      run: ./server /export
       env:
-        MINIO_ACCESS_KEY=lego-dev
-        MINIO_SECRET_KEY=lego-dev
+        MINIO_ACCESS_KEY: lego-dev
+        MINIO_SECRET_KEY: lego-dev
 
     - name: Setup LEGO API
+      uses: docker://registry.abakus.no/webkom/lego:latest
       run: |
         ./wait-for-it.sh -t 60 localhost:5432 &&
         ./wait-for-it.sh -t 60 localhost:6379 &&
@@ -154,7 +149,6 @@ jobs:
         ELASTICSEARCH_HOST: ignored
         CORS_ORIGIN_DOMAINS: localhost:3000
 
-
     - name: Setup LEGO Cypress helper
       uses: docker://abakus/lego-cypress-helper:latest
       run: |
@@ -163,29 +157,14 @@ jobs:
         node index.js
         echo "server stopped"
       env:
-        MINIO_ACCESS_KEY: lego-dev
-        MINIO_SECRET_KEY: lego-dev
         PG_HOST: localhost
         PG_USERNAME: lego
         PG_DATABASE: lego
 
+
     - name: Install Cypress
       run: yarn cypress install
       # TODO: env: CYPRESS_CACHE_FOLDER=/drone/src/.cypress_cache
-
-  cypress:
-    name: Run SSR and Cypress
-    runs-on: ubuntu-latest
-    needs: setup-cypress
-
-    steps:
-    - name: Checkout commit
-      uses: actions/checkout@v1
-
-    - name: Set up Node 11.x
-      uses: actions/setup-node@v1
-      with:
-        node-version: '11.x'
 
     - name: SSR
       run: yarn ssr
