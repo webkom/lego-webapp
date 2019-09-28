@@ -25,7 +25,7 @@ const queryString = companyId =>
   });
 
 const fetchData = (props, dispatch) => {
-  const { companyId } = props.params;
+  const { companyId } = props.match.params;
   return Promise.all([
     dispatch(fetchCompany(companyId)),
     dispatch(
@@ -39,7 +39,7 @@ const fetchData = (props, dispatch) => {
 };
 
 const mapStateToProps = (state, props) => {
-  const { companyId } = props.params;
+  const { companyId } = props.match.params;
   const { query } = props.location;
   const showFetchMoreEvents = selectPagination('events', {
     queryString: queryString(companyId)
@@ -60,7 +60,7 @@ const mapStateToProps = (state, props) => {
 };
 
 const mapDispatchToProps = (dispatch, props) => {
-  const { companyId } = props.params;
+  const { companyId } = props.match.params;
   const fetchMoreEvents = () =>
     dispatch(
       fetchEventsForCompany({

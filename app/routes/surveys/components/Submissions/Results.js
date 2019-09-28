@@ -107,7 +107,6 @@ const Results = ({
                       theme={VictoryTheme.material}
                       colorScale={pieColors}
                       labels={d => d.y}
-                      labelRadius={labelRadius}
                       padding={{ left: 0, top: 40, right: 30, bottom: 30 }}
                       style={{
                         labels: { fill: 'white', fontSize: 20 }

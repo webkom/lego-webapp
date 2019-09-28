@@ -10,16 +10,16 @@ import { Flex } from 'app/components/Layout';
 
 type Props = {
   joblistings: Array</*TODO: JobListing*/ any>,
-  query: Object,
+  search: Object,
   actionGrant: /*TODO: ActionGrant */ any,
-  router: any
+  history: Object
 };
 
 const JoblistingsPage = ({
   joblistings,
-  query,
+  search,
   actionGrant,
-  router
+  history
 }: Props) => {
   if (!joblistings) {
     return <LoadingIndicator loading />;
@@ -30,9 +30,9 @@ const JoblistingsPage = ({
       <Flex className={styles.page}>
         <JoblistingsList joblistings={joblistings} />
         <JoblistingsRightNav
-          query={query}
+          query={search}
           actionGrant={actionGrant}
-          router={router}
+          history={history}
         />
       </Flex>
     </div>

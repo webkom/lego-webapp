@@ -19,7 +19,7 @@ const mapDispachToProps = {
 };
 
 const mapStateToProps = (state, props) => {
-  const id = props.params.podcastId;
+  const id = props.match.params.podcastId;
   const podcast = selectPodcastById(state, id) || {};
 
   return {

@@ -13,9 +13,12 @@ import { fetchEvent } from 'app/actions/EventActions';
 import { selectEventById } from 'app/reducers/events';
 import { defaultActiveFrom } from './utils';
 import loadingIndicator from 'app/utils/loadingIndicator';
+import qs from 'qs';
 
 const loadData = (props, dispatch) => {
-  const { templateType, event } = props.location.query;
+  const { templateType, event } = qs.parse(props.location.search, {
+    ignoreQueryPrefix: true
+  });
   if (event) {
     return dispatch(fetchEvent(event)).then(result =>
       dispatch(fetchTemplate(result.payload.entities.events[event].eventType))
@@ -28,7 +31,9 @@ const loadData = (props, dispatch) => {
 
 const mapStateToProps = (state, props) => {
   const notFetching = !state.surveys.fetching && !state.events.fetching;
-  const { templateType, event } = props.location.query;
+  const { templateType, event } = qs.parse(props.location.search, {
+    ignoreQueryPrefix: true
+  });
 
   const fullEvent = selectEventById(state, { eventId: event });
   const selectedTemplateType = templateType || fullEvent.eventType;

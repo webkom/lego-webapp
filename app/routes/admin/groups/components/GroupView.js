@@ -2,6 +2,11 @@
 
 import React, { Component, type Element } from 'react';
 import LoadingIndicator from 'app/components/LoadingIndicator';
+import { Route, Switch } from 'react-router-dom';
+import RouteWrapper from 'app/components/RouteWrapper';
+import GroupSettings from '../components/GroupSettings';
+import GroupMembers from '../components/GroupMembers';
+import GroupPermissions from '../components/GroupPermissions';
 
 type GroupModel = {
   name: string,
@@ -18,6 +23,9 @@ const Group = (props: GroupProps) => {
   const { description } = props.group;
   const descriptionText =
     description && description.length ? `(${description})` : '';
+  const { match } = props;
+  const { group } = props;
+  console.log(group);
 
   return (
     <div>
@@ -25,8 +33,19 @@ const Group = (props: GroupProps) => {
         <h2>{props.group.name}</h2>
         <span>{descriptionText}</span>
       </header>
-
-      {props.children && React.cloneElement(props.children, props)}
+      <Switch>
+        <RouteWrapper
+          path={`${match.path}/settings`}
+          passedProps={{ group }}
+          Component={GroupSettings}
+        />
+        <Route path={`${match.path}/members`} component={GroupMembers} />
+        <RouteWrapper
+          path={`${match.path}/permissions`}
+          Component={GroupPermissions}
+          passedProps={{ group }}
+        />
+      </Switch>
     </div>
   );
 };

@@ -17,15 +17,17 @@ import { deletePicture } from 'app/actions/GalleryPictureActions';
 import { updateGalleryCover } from 'app/actions/GalleryActions';
 import { push } from 'connected-react-router';
 import { deleteComment } from 'app/actions/CommentActions';
+import { selectGalleryById } from 'app/reducers/galleries';
 
 function mapStateToProps(state, props) {
-  const { galleryId, pictureId } = props.params;
+  const { galleryId, pictureId } = props.match.params;
   const pictures = SelectGalleryPicturesByGalleryId(state, { galleryId });
   const picture = selectGalleryPictureById(state, { pictureId });
   const comments = selectCommentsForGalleryPicture(state, { pictureId });
   const actionGrant = state.galleries.byId[galleryId].actionGrant;
   const fetching = state.galleries.fetching || state.galleryPictures.fetching;
   const hasMore = state.galleryPictures.hasMore;
+  const gallery = selectGalleryById(state, { galleryId });
 
   let isFirstImage = false;
   let isLastImage = false;
@@ -50,7 +52,8 @@ function mapStateToProps(state, props) {
     actionGrant,
     comments,
     picture,
-    pictureId
+    pictureId,
+    gallery
   };
 }
 
@@ -94,7 +97,7 @@ export default compose(
     mapStateToProps,
     mapDispatchToProps
   ),
-  prepare(({ params }, dispatch) =>
+  prepare(({ match: { params } }, dispatch) =>
     dispatch(fetchGalleryPicture(params.galleryId, params.pictureId))
   ),
   helmet(propertyGenerator),

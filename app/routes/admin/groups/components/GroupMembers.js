@@ -54,13 +54,13 @@ export const GroupMembers = ({
   </div>
 );
 
-function loadData({ params }, dispatch) {
+function loadData({ match: { params } }, dispatch) {
   return dispatch(fetchMemberships(params.groupId));
 }
 
 function mapStateToProps(state, props) {
   const memberships = selectMembershipsForGroup(state, {
-    groupId: props.params.groupId
+    groupId: props.match.params.groupId
   });
 
   const groupId = props.group && props.group.id;
@@ -83,5 +83,5 @@ export default compose(
     mapStateToProps,
     mapDispatchToProps
   ),
-  prepare(loadData, ['params.groupId'])
+  prepare(loadData, ['match.params.groupId'])
 )(GroupMembers);

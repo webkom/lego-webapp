@@ -4,6 +4,7 @@ import { fetchAll } from 'app/actions/JoblistingActions';
 import JoblistingPage from './components/JoblistingPage';
 import { compose } from 'redux';
 import moment from 'moment-timezone';
+import qs from 'qs';
 
 function filterJoblistings(joblistings, grades, jobTypes, workplaces) {
   return joblistings.filter(joblisting => {
@@ -47,15 +48,18 @@ const sortJoblistings = (joblistings, sortType) => {
 };
 
 const mapStateToProps = (state, props) => {
-  const { query } = props.location;
+  let { search } = props.location;
+  search = qs.parse(search, { ignoreQueryPrefix: true });
+  const { history } = props;
   const joblistings = state.joblistings.items.map(
     id => state.joblistings.byId[id]
   );
-  const sortType = query.order;
-  const filterGrade = query.grades ? query.grades.split(',') : [];
-  const filterJobType = query.jobTypes ? query.jobTypes.split(',') : [];
-  const filterWorkplaces = query.workplaces ? query.workplaces.split(',') : [];
-
+  const sortType = search.order;
+  const filterGrade = search.grades ? search.grades.split(',') : [];
+  const filterJobType = search.jobTypes ? search.jobTypes.split(',') : [];
+  const filterWorkplaces = search.workplaces
+    ? search.workplaces.split(',')
+    : [];
   const filteredJoblistings = filterJoblistings(
     joblistings,
     filterGrade,
@@ -67,8 +71,9 @@ const mapStateToProps = (state, props) => {
 
   return {
     joblistings: sortedJoblistings,
-    query,
-    actionGrant
+    search,
+    actionGrant,
+    history
   };
 };
 

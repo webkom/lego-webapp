@@ -10,6 +10,8 @@ import { UserContext } from 'app/routes/app/AppRoute';
 import EventEditRoute from './EventEditRoute';
 import EventAdministrateRoute from './EventAdministrateRoute';
 import EventAttendeeRoute from './EventAttendeeRoute';
+import EventAdminRegisterRoute from './EventAdminRegisterRoute';
+import EventAbacardRoute from './EventAbacardRoute';
 
 const old = {
   path: '/events',
@@ -83,19 +85,30 @@ const eventRoute = ({ match }) => (
           passedProps={{ currentUser, loggedIn }}
           Component={EventEditRoute}
         />
-        <Route
-          path={`${match.path}/:eventId/administrate`}
-          exact
-          component={props => (
-            <EventAdministrateRoute {...props}>
+        <Route path={`${match.path}/:eventId/administrate`}>
+          {({ match }) => (
+            <EventAdministrateRoute {...{ match, currentUser, loggedIn }}>
               <RouteWrapper
                 exact
-                path={`${props.match.path}/attendees`}
+                path={`${match.path}/attendees`}
                 Component={EventAttendeeRoute}
+                passedProps={(event, currentUser, loggedIn)}
+              />
+              <RouteWrapper
+                exact
+                path={`${match.path}/admin-register`}
+                Component={EventAdminRegisterRoute}
+                passedProps={(event, currentUser, loggedIn)}
+              />
+              <RouteWrapper
+                exact
+                path={`${match.path}/abacard`}
+                Component={EventAbacardRoute}
+                passedProps={(event, currentUser, loggedIn)}
               />
             </EventAdministrateRoute>
           )}
-        />
+        </Route>
       </Switch>
     )}
   </UserContext.Consumer>

@@ -5,6 +5,7 @@ import SearchPageInput from 'app/components/Search/SearchPageInput';
 import SearchPageResults from 'app/components/Search/SearchPageResults';
 import { Keyboard } from 'app/utils/constants';
 import type { SearchResult } from 'app/reducers/search';
+import qs from 'qs'
 
 type Props = {
   searching: boolean,
@@ -24,7 +25,7 @@ type State = {
 class SearchPage extends Component<Props, State> {
   state = {
     selectedIndex: 0,
-    query: this.props.location.query.q || ''
+    query: qs.parse(this.props.location.search, { ignoreQueryPrefix: true }).q || ''
   };
 
   // eslint-disable-next-line

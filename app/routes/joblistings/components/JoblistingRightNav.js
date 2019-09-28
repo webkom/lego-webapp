@@ -8,6 +8,7 @@ import { CheckBox, RadioButton } from 'app/components/Form/';
 import Button from 'app/components/Button';
 import cx from 'classnames';
 import type { ActionGrant } from 'app/models';
+import qs from 'qs';
 
 const updateFilters = (type, value, filters) => {
   const newFilter = {
@@ -39,7 +40,7 @@ const FilterLink = ({ type, label, value, filters }: Object) => (
   <Link
     to={{
       pathname: '/joblistings',
-      query: updateFilters(type, value, filters)
+      search: qs.stringify(updateFilters(type, value, filters))
     }}
     style={{ display: 'flex', flex: 1, alignItems: 'center' }}
   >
@@ -63,7 +64,7 @@ type Props = {
     workplaces: string,
     order: string
   },
-  router: any
+  history: any
 };
 
 type State = {
@@ -165,9 +166,9 @@ export default class JoblistingsRightNav extends Component<Props, State> {
                 inputValue={true}
                 value={this.state.order.deadline}
                 onChange={() => {
-                  this.props.router.push({
+                  this.props.history.push({
                     pathname: '/joblistings',
-                    query: this.handleQuery('order', 'deadline')
+                    search: qs.stringify(this.handleQuery('order', 'deadline'))
                   });
                 }}
               />
@@ -180,9 +181,9 @@ export default class JoblistingsRightNav extends Component<Props, State> {
                 inputValue={true}
                 value={this.state.order.company}
                 onChange={() => {
-                  this.props.router.push({
+                  this.props.history.push({
                     pathname: '/joblistings',
-                    query: this.handleQuery('order', 'company')
+                    search: qs.stringify(this.handleQuery('order', 'company'))
                   });
                 }}
               />

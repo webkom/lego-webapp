@@ -17,7 +17,7 @@ import GalleryDetail from './components/GalleryDetail';
 import { selectGalleryById } from 'app/reducers/galleries';
 import { SelectGalleryPicturesByGalleryId } from 'app/reducers/galleryPictures';
 
-const loadData = ({ params }, dispatch) =>
+const loadData = ({ match: { params } }, dispatch) =>
   Promise.all([
     dispatch(fetch(params.galleryId)).catch(),
     dispatch(fetchGallery(params.galleryId)).catch(err =>
@@ -26,7 +26,7 @@ const loadData = ({ params }, dispatch) =>
   ]);
 
 function mapStateToProps(state, props) {
-  const { galleryId } = props.params;
+  const { galleryId } = props.match.params;
   const { uploadStatus } = state.galleryPictures;
 
   return {

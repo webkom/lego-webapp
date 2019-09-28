@@ -106,7 +106,7 @@ export type Reducers = typeof reducers;
 
 export default function rootReducer(history) {
   return combineReducers({
-    router: connectRouter(history),
+    router: joinReducers(connectRouter(history), routing),
     ...reducers
   });
 }

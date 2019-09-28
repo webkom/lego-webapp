@@ -8,14 +8,14 @@ import { fetchRestrictedMail } from 'app/actions/RestrictedMailActions';
 import { selectRestrictedMailById } from 'app/reducers/restrictedMails';
 import prepare from 'app/utils/prepare';
 
-const mapStateToProps = (state, { routeParams }) => {
+const mapStateToProps = (state, { match: { params } }) => {
   const restrictedMail = selectRestrictedMailById(state, {
-    restrictedMailId: routeParams.restrictedMailId
+    restrictedMailId: params.restrictedMailId
   });
 
   return {
     restrictedMail,
-    restrictedMailId: routeParams.restrictedMailId,
+    restrictedMailId: params.restrictedMailId,
     fetching: state.restrictedMails.fetching,
     initialValues: {
       ...restrictedMail,
@@ -44,11 +44,11 @@ const mapStateToProps = (state, { routeParams }) => {
   };
 };
 
-const loadData = ({ params }, dispatch) =>
+const loadData = ({ match: { params } }, dispatch) =>
   dispatch(fetchRestrictedMail(params.restrictedMailId));
 
 export default compose(
-  prepare(loadData, ['params.restrictedMailId']),
+  prepare(loadData, ['match.params.restrictedMailId']),
   connect(
     mapStateToProps,
     {}

@@ -8,7 +8,6 @@ import Attendees from './components/EventAdministrate/Attendees';
 import { getRegistrationGroups } from 'app/reducers/events';
 
 const mapStateToProps = (state, props) => {
-  console.log(props)
   const { eventId, event, actionGrant, loading } = props;
   const { registered, unregistered } = getRegistrationGroups(state, {
     eventId

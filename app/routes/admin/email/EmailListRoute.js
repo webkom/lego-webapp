@@ -9,13 +9,13 @@ import { selectEmailListById } from 'app/reducers/emailLists';
 import { ROLES } from 'app/utils/constants';
 import prepare from 'app/utils/prepare';
 
-const mapStateToProps = (state, { routeParams }) => {
+const mapStateToProps = (state, { match: { params } }) => {
   const emailList = selectEmailListById(state, {
-    emailListId: routeParams.emailListId
+    emailListId: params.emailListId
   });
   return {
     emailList,
-    emailListId: routeParams.emailListId,
+    emailListId: params.emailListId,
     initialValues: {
       ...emailList,
       // $FlowFixMe
@@ -46,11 +46,11 @@ const mapStateToProps = (state, { routeParams }) => {
 
 const mapDispatchToProps = { fetchEmailList, mutateFunction: editEmailList };
 
-const loadData = ({ params }, dispatch) =>
+const loadData = ({ match: { params } }, dispatch) =>
   dispatch(fetchEmailList(params.emailListId));
 
 export default compose(
-  prepare(loadData, ['params.emailListId']),
+  prepare(loadData, ['match.params.emailListId']),
   connect(
     mapStateToProps,
     mapDispatchToProps
