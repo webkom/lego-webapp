@@ -101,8 +101,8 @@ const getSection = sectionName =>
   };
 
 const loadData = async (props, dispatch) => {
-  const { fetchItemActions } = getSection(props.params.section);
-  const { pageSlug } = props.params;
+  const { fetchItemActions } = getSection(props.match.params.section);
+  const { pageSlug } = props.match.params;
 
   // Only handle flatpages when user isn't authenticated
   if (!props.loggedIn) {
@@ -127,7 +127,7 @@ const loadData = async (props, dispatch) => {
 };
 
 const mapStateToProps = (state, props) => {
-  const { section, pageSlug } = props.params;
+  const { section, pageSlug } = props.match.params;
 
   const pageHierarchy = selectPageHierarchy(state, { sections });
   const { pageSelector, PageRenderer } = getSection(section);
@@ -146,7 +146,7 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = { updatePage };
 
 export default compose(
-  prepare(loadData, ['params.pageSlug']),
+  prepare(loadData, ['match.params.pageSlug']),
   connect(
     mapStateToProps,
     mapDispatchToProps

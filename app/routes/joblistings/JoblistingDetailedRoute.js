@@ -10,7 +10,7 @@ import { compose } from 'redux';
 import { push } from 'connected-react-router';
 
 const mapStateToProps = (state, props) => {
-  const { joblistingId } = props.params;
+  const { joblistingId } = props.match.params;
   const joblisting = selectJoblistingById(state, { joblistingId });
   const { fetching } = state.joblistings;
   const actionGrant = (joblisting && joblisting.actionGrant) || [];
@@ -26,7 +26,7 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = { fetchJoblisting, deleteJoblisting, push };
 
 export default compose(
-  prepare(({ params: { joblistingId } }, dispatch) =>
+  prepare(({ match: { params: { joblistingId } } }, dispatch) =>
     dispatch(fetchJoblisting(joblistingId))
   ),
   connect(

@@ -19,9 +19,9 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state, props) => {
-  const id = props.params.interestGroupId;
+  const { interestGroupId } = props.match.params;
   const valueSelector = formValueSelector('interestGroupEditor');
-  const interestGroup = selectGroup(state, { groupId: id });
+  const interestGroup = selectGroup(state, { groupId: interestGroupId });
 
   return {
     interestGroup,
@@ -31,7 +31,7 @@ const mapStateToProps = (state, props) => {
 };
 
 export default compose(
-  prepare(({ params: { interestGroupId } }, dispatch) =>
+  prepare(({ match: { params: { interestGroupId } } }, dispatch) =>
     dispatch(fetchInterestGroup(Number(interestGroupId)))
   ),
   connect(

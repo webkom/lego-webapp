@@ -12,6 +12,7 @@ import {
   updateOAuth2Application
 } from 'app/actions/OAuth2Actions';
 import { selectOAuth2ApplicationById } from 'app/reducers/oauth2';
+import { push } from 'connected-react-router';
 
 const validate = createValidator({
   name: [required()],
@@ -19,12 +20,12 @@ const validate = createValidator({
   redirectUris: [required()]
 });
 
-const loadData = ({ params }, dispatch) => {
+const loadData = ({ match: { params } }, dispatch) => {
   return dispatch(fetchOAuth2Application(params.applicationId));
 };
 
 const mapStateToProps = (state, props) => {
-  const { applicationId } = props.params;
+  const { applicationId } = props.match.params;
   const application = selectOAuth2ApplicationById(state, { applicationId });
   return {
     initialValues: application,
@@ -32,7 +33,7 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-const mapDispatchToProps = { updateOAuth2Application };
+const mapDispatchToProps = { updateOAuth2Application, push };
 
 export default compose(
   prepare(loadData),

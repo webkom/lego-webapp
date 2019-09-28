@@ -27,7 +27,7 @@ const UserSettingsOAuth2Form = (props: Props) => {
       ? props.createOAuth2Application
       : props.updateOAuth2Application;
     return handleSubmit(data).then(() =>
-      props.router.push('/users/me/settings/oauth2')
+      props.push('/users/me/settings/oauth2')
     );
   };
 

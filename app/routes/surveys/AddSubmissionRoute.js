@@ -13,14 +13,22 @@ import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import loadingIndicator from 'app/utils/loadingIndicator';
 
-const loadData = ({ params: { surveyId }, currentUser }, dispatch) =>
+const loadData = (
+  {
+    match: {
+      params: { surveyId }
+    },
+    currentUser
+  },
+  dispatch
+) =>
   Promise.all([
     dispatch(fetchSurvey(surveyId)),
     currentUser.id && dispatch(fetchUserSubmission(surveyId, currentUser.id))
   ]);
 
 const mapStateToProps = (state, props) => {
-  const surveyId = Number(props.params.surveyId);
+  const surveyId = Number(props.match.params.surveyId);
   const survey = selectSurveyById(state, { surveyId });
   const currentUser = props.currentUser;
   const submission = selectSurveySubmissionForUser(state, {
@@ -46,7 +54,7 @@ const mapDispatchToProps = { submitFunction: addSubmission };
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  prepare(loadData, ['params.surveyId', 'currentUser.id', 'notFetching']),
+  prepare(loadData, ['match.params.surveyId', 'currentUser.id', 'notFetching']),
   connect(
     mapStateToProps,
     mapDispatchToProps

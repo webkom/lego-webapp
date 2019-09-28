@@ -24,7 +24,7 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state, props) => {
-  const { meetingId } = props.params;
+  const { meetingId } = props.match.params;
   const meeting = selectMeetingById(state, { meetingId });
   if (!meeting) return { meetingId };
 
@@ -58,7 +58,7 @@ const mapStateToProps = (state, props) => {
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  prepare(({ params: { meetingId } }, dispatch) =>
+  prepare(({ match: { params: { meetingId } } }, dispatch) =>
     dispatch(fetchMeeting(meetingId))
   ),
   connect(

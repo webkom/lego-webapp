@@ -8,6 +8,7 @@ import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { Content } from 'app/components/Content';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { LoginPage } from 'app/components/LoginForm';
+import { omit } from 'lodash';
 
 type Props = {
   children: Element<*>,
@@ -19,7 +20,7 @@ type Props = {
 };
 
 const UserSettingsIndex = (props: Props) => {
-  const base = `/users/${props.params.username}/settings`;
+  const base = `/users/${props.match.params.username}/settings`;
   // At the moment changing settings for other users only works
   // for the settings under `/profile` - so no point in showing
   // the other tabs.
@@ -42,16 +43,18 @@ const UserSettingsIndex = (props: Props) => {
         )}
       </NavigationTab>
       {props.children &&
-        React.cloneElement(props.children, {
-          ...props,
-          children: undefined
-        })}
+        props.children.map(child =>
+          React.cloneElement(child, {
+            ...omit(props, 'match'),
+            children: undefined
+          })
+        )}
     </Content>
   );
 };
 
 const mapStateToProps = (state, props) => {
-  const { username } = props.params;
+  const { username } = props.match.params;
   const isMe = username === 'me' || username === state.auth.username;
   return { isMe };
 };

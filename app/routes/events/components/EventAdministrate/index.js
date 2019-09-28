@@ -35,10 +35,12 @@ const EventAdministrateIndex = (props: Props) => {
         <NavigationLink to={`${base}/abacard`}>Abacard</NavigationLink>
       </NavigationTab>
       {props.children &&
-        React.cloneElement(props.children, {
-          ...props,
-          children: undefined
-        })}
+        props.children.map(child =>
+          React.cloneElement(child, {
+            ...props,
+            children: undefined
+          })
+        )}
     </Content>
   );
 };

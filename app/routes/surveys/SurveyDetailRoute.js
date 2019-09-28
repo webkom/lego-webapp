@@ -13,11 +13,17 @@ import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import { push } from 'connected-react-router';
 
-const loadData = ({ params: { surveyId } }, dispatch) =>
-  dispatch(fetchSurvey(surveyId));
+const loadData = (
+  {
+    match: {
+      params: { surveyId }
+    }
+  },
+  dispatch
+) => dispatch(fetchSurvey(surveyId));
 
 const mapStateToProps = (state, props) => {
-  const surveyId = Number(props.params.surveyId);
+  const surveyId = Number(props.match.params.surveyId);
   const survey = selectSurveyById(state, { surveyId });
   return {
     survey,
@@ -34,7 +40,7 @@ const mapDispatchToProps = {
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  prepare(loadData, ['params.surveyId']),
+  prepare(loadData, ['match.params.surveyId']),
   connect(
     mapStateToProps,
     mapDispatchToProps

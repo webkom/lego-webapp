@@ -9,8 +9,8 @@ import { get } from 'lodash';
 import { selectEmailUserById } from 'app/reducers/emailUsers';
 import { editEmailUser, fetchEmailUser } from 'app/actions/EmailUserActions';
 
-const mapStateToProps = (state, { routeParams }) => {
-  const { emailUserId } = routeParams;
+const mapStateToProps = (state, { match: { params } }) => {
+  const { emailUserId } = params;
   const emailUser = selectEmailUserById(state, { emailUserId });
 
   return {
@@ -29,11 +29,11 @@ const mapStateToProps = (state, { routeParams }) => {
 
 const mapDispatchToProps = { fetchEmailUser, mutateFunction: editEmailUser };
 
-const loadData = ({ params }, dispatch) =>
+const loadData = ({ match: { params } }, dispatch) =>
   dispatch(fetchEmailUser(params.emailUserId));
 
 export default compose(
-  prepare(loadData, ['params.emailUserId']),
+  prepare(loadData, ['match.params.emailUserId']),
   connect(
     mapStateToProps,
     mapDispatchToProps

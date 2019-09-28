@@ -59,7 +59,7 @@ export const GroupMembers = ({
   </div>
 );
 
-function loadData({ params, location }, dispatch) {
+function loadData({ match: { params }, location }, dispatch) {
   const showDescendants = location.search.includes('descendants=true');
   return dispatch(fetchMemberships(params.groupId, showDescendants));
 }
@@ -67,8 +67,12 @@ function loadData({ params, location }, dispatch) {
 function mapStateToProps(state, props) {
   const showDescendants = location.search.includes('descendants=true');
   const memberships = selectMembershipsForGroup(state, {
+<<<<<<< HEAD
     groupId: props.params.groupId,
     descendants: showDescendants
+=======
+    groupId: props.match.params.groupId
+>>>>>>> Rewrite route for interestgroups, joblistings, companies, contact,
   });
 
   const groupId = props.group && props.group.id;
@@ -93,5 +97,9 @@ export default compose(
     mapStateToProps,
     mapDispatchToProps
   ),
+<<<<<<< HEAD
   prepare(loadData, ['params.groupId', 'location'])
+=======
+  prepare(loadData, ['match.params.groupId'])
+>>>>>>> Rewrite route for interestgroups, joblistings, companies, contact,
 )(GroupMembers);

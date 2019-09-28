@@ -25,7 +25,7 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state, props) => {
-  const { meetingId } = props.params;
+  const { meetingId } = props.match.params;
   const { currentUser } = props;
   const meeting = selectMeetingById(state, { meetingId });
   const comments = selectCommentsForMeeting(state, { meetingId });

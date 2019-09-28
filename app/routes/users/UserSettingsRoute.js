@@ -15,11 +15,20 @@ import {
   removePicture
 } from 'app/actions/UserActions';
 
-const loadData = ({ params: { username } }, dispatch) =>
-  dispatch(fetchUser(username));
+const loadData = (
+  {
+    match: {
+      params: { username }
+    }
+  },
+  dispatch
+) => dispatch(fetchUser(username));
 
 const mapStateToProps = (state, props) => {
-  const { isMe, params } = props;
+  const {
+    isMe,
+    match: { params }
+  } = props;
   const username = isMe ? state.auth.username : params.username;
   const user = selectUserByUsername(state, { username });
   return {

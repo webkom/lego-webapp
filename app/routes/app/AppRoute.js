@@ -153,7 +153,8 @@ function mapStateToProps(state) {
     notificationsData: state.notificationsFeed,
     notifications: selectFeedActivitesByFeedId(state, {
       feedId: 'notifications'
-    })
+    }),
+    statusCode: state.router.statusCode
   };
 }
 

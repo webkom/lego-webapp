@@ -15,12 +15,12 @@ import { addReaction, deleteReaction } from 'app/actions/ReactionActions';
 import { selectEmojis } from 'app/reducers/emojis';
 import { fetchEmojis } from 'app/actions/EmojiActions';
 
-const loadData = ({ params }, dispatch) =>
+const loadData = ({ match: { params } }, dispatch) =>
   dispatch(fetchQuote(params.quoteId), fetchEmojis());
 
 const mapStateToProps = (state, props) => {
   const query = props.location.query;
-  const quoteId = props.params.quoteId;
+  const quoteId = props.match.params.quoteId;
   const quotes = [selectQuoteById(state, quoteId)];
   const emojis = selectEmojis(state);
   const actionGrant = state.quotes.actionGrant;
@@ -46,7 +46,7 @@ const mapDispatchToProps = {
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  prepare(loadData, ['params.quoteId']),
+  prepare(loadData, ['match.params.quoteId']),
   connect(
     mapStateToProps,
     mapDispatchToProps

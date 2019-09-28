@@ -7,9 +7,14 @@ import { fetchAll } from 'app/actions/GroupActions';
 import { selectGroups } from 'app/reducers/groups';
 import prepare from 'app/utils/prepare';
 
-const mapStateToProps = state => ({
-  groups: selectGroups(state)
-});
+const mapStateToProps = (state, props) => {
+  const groups = selectGroups(state);
+  const { match } = props;
+  return {
+    groups,
+    match
+  };
+};
 
 const mapDispatchToProps = { fetchAll };
 

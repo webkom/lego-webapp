@@ -21,7 +21,6 @@ type Props = {
   studentConfirmed: boolean,
   handleSubmit: Function => void,
   sendStudentConfirmationEmail: Object => void,
-  router: any,
   loggedIn: boolean,
   submitSucceeded: () => void,
   isStudent: boolean
@@ -31,18 +30,14 @@ const StudentConfirmation = ({
   studentConfirmed,
   handleSubmit,
   sendStudentConfirmationEmail,
-  router,
   loggedIn,
   submitSucceeded,
   isStudent,
   invalid,
   pristine,
-  submitting
+  submitting,
+  push
 }: Props) => {
-  if (!loggedIn) {
-    router.push('/');
-    return null;
-  }
   if (isStudent) {
     return (
       <Container>

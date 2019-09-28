@@ -16,14 +16,18 @@ import { selectPagination } from '../../reducers/selectors';
 import { addReaction, deleteReaction } from 'app/actions/ReactionActions';
 import { selectEmojis } from 'app/reducers/emojis';
 import { fetchEmojis } from 'app/actions/EmojiActions';
+import qs from 'qs';
 
 const mapStateToProps = (state, props) => {
   const queryString = ['?approved=true', '?approved=false'];
   const showFetchMore = selectPagination('quotes', { queryString })(state);
   const emojis = selectEmojis(state);
   return {
-    quotes: selectSortedQuotes(state, props.location.query),
-    query: props.location.query,
+    quotes: selectSortedQuotes(
+      state,
+      qs.parse(props.location.search, { ignoreQueryPrefix: true })
+    ),
+    query: qs.parse(props.location.search, { ignoreQueryPrefix: true }),
     actionGrant: state.quotes.actionGrant,
     showFetchMore,
     emojis,
@@ -49,21 +53,18 @@ const mapDispatchToProps = {
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  prepare(
-    (props, dispatch) => {
-      const {
-        location: { query }
-      } = props;
-      if (query.filter === 'unapproved') {
-        return dispatch(
-          fetchAllUnapproved({ loadNextPage: false }),
-          fetchEmojis()
-        );
-      }
-      return dispatch(fetchAllApproved({ loadNextPage: false }), fetchEmojis());
-    },
+  prepare((props, dispatch) => {
+    const query = qs.parse(props.location.search, { ignoreQueryPrefix: true });
+
+    if (query.filter === 'unapproved') {
+      return dispatch(
+        fetchAllUnapproved({ loadNextPage: false }),
+        fetchEmojis()
+      );
+    }
+    return dispatch(fetchAllApproved({ loadNextPage: false }), fetchEmojis());
+  }),
     ['location']
-  ),
   connect(
     mapStateToProps,
     mapDispatchToProps
