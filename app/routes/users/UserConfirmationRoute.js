@@ -3,15 +3,10 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import UserConfirmation from './components/UserConfirmation';
 import { createUser, validateRegistrationToken } from 'app/actions/UserActions';
+import qs from 'qs';
 
-const loadData = (
-  {
-    location: {
-      query: { token }
-    }
-  },
-  dispatch
-) => {
+const loadData = ({ location: { search } }, dispatch) => {
+  const { token } = qs.parse(search, { ignoreQueryPrefix: true });
   if (token) {
     return dispatch(validateRegistrationToken(token));
   }

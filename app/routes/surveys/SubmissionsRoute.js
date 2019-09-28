@@ -24,7 +24,7 @@ import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { getCsvUrl } from './utils';
 
 const loadData = (props, dispatch) => {
-  const { surveyId } = props.params;
+  const { surveyId } = props.match.params;
   return Promise.all([
     dispatch(fetchSurvey(surveyId)),
     dispatch(fetchSubmissions(surveyId))
@@ -32,7 +32,7 @@ const loadData = (props, dispatch) => {
 };
 
 const mapStateToProps = (state, props) => {
-  const surveyId = Number(props.params.surveyId);
+  const surveyId = Number(props.match.params.surveyId);
   const locationStrings = props.location.pathname.split('/');
   const isSummary =
     locationStrings[locationStrings.length - 1] === 'individual';

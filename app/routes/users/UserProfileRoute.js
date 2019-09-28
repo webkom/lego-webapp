@@ -24,7 +24,14 @@ import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import prepare from 'app/utils/prepare';
 import { LoginPage } from 'app/components/LoginForm';
 
-const loadData = ({ params: { username } }, dispatch) => {
+const loadData = (
+  {
+    match: {
+      params: { username }
+    }
+  },
+  dispatch
+) => {
   return dispatch(fetchUser(username)).then(action =>
     Promise.all([
       dispatch(fetchPrevious()),
@@ -39,7 +46,9 @@ const loadData = ({ params: { username } }, dispatch) => {
 };
 
 const mapStateToProps = (state, props) => {
-  const { params } = props;
+  const {
+    match: { params }
+  } = props;
   const username =
     params.username === 'me' ? state.auth.username : params.username;
 
@@ -97,7 +106,7 @@ const mapDispatchToProps = {
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  prepare(loadData, ['params.username']),
+  prepare(loadData, ['match.params.username']),
   connect(
     mapStateToProps,
     mapDispatchToProps

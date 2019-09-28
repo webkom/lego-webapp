@@ -9,18 +9,21 @@ import { autocomplete } from 'app/actions/SearchActions';
 import { selectAutocompleteRedux as selectAutocomplete } from 'app/reducers/search';
 import { Content } from 'app/components/Content';
 import Validator from 'app/components/UserValidator';
+import qs from 'qs';
 
 const searchTypes = ['users.user'];
 
 const loadData = async (props, dispatch) => {
-  const query = props.location.query.q;
+  const query = qs.parse(props.location.search, { ignoreQueryPrefix: true }).q;
   if (query) {
     await dispatch(autocomplete(query, searchTypes));
   }
 };
 
 const mapStateToProps = (state, props) => {
-  const results = props.location.query.q ? selectAutocomplete(state) : [];
+  const results = qs.parse(props.location.search, { ignoreQueryPrefix: true }).q
+    ? selectAutocomplete(state)
+    : [];
   return {
     location: props.location,
     searching: state.search.searching,

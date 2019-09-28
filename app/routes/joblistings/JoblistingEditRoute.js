@@ -17,7 +17,8 @@ import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 
 const mapStateToProps = (state, props) => {
-  const { joblistingId } = props.params;
+  const { joblistingId } = props.match.params;
+  console.log(joblistingId);
   const formSelector = formValueSelector('joblistingEditor');
   const company = formSelector(state, 'company');
   const joblisting = selectJoblistingById(state, { joblistingId }) || {};
@@ -62,7 +63,7 @@ const mapDispatchToProps = {
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  prepare(({ params: { joblistingId } }, dispatch) =>
+  prepare(({ match: { params: { joblistingId } } }, dispatch) =>
     dispatch(fetchJoblisting(joblistingId))
   ),
 

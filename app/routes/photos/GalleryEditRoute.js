@@ -20,7 +20,7 @@ import { SelectGalleryPicturesByGalleryId } from 'app/reducers/galleryPictures';
 import { objectPermissionsToInitialValues } from 'app/components/Form/ObjectPermissions';
 
 function mapStateToProps(state, props) {
-  const { galleryId } = props.params;
+  const { galleryId } = props.match.params;
   const gallery = selectGalleryById(state, { galleryId });
 
   return {
@@ -60,7 +60,7 @@ export default compose(
     mapStateToProps,
     mapDispatchToProps
   ),
-  prepare(({ params }, dispatch) =>
+  prepare(({ match: { params } }, dispatch) =>
     Promise.all([
       dispatch(fetch(params.galleryId)),
       dispatch(fetchGallery(params.galleryId))

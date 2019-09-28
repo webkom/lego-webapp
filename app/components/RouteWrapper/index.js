@@ -22,7 +22,7 @@ const RouteWrapper = (props: Props) => {
       exact={exact}
       path={path}
       strict={strict}
-      render={props => <Component {...props} {...passedProps} {...rest} />}
+      render={props => <Component {...passedProps} {...rest} {...props} />}
     />
   );
 };

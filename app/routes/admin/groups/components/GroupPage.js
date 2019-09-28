@@ -6,6 +6,9 @@ import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import { Content } from 'app/components/Content';
 import GroupTree from './GroupTree';
 import styles from './GroupPage.css';
+import { Route, Switch } from 'react-router-dom';
+import SelectGroup from '../components/SelectGroup';
+import GroupDetailRoute from '../GroupDetailRoute';
 
 const NavigationLinks = ({ groupId }: { groupId: string }) => {
   const baseUrl = `/admin/groups/${groupId}`;
@@ -33,16 +36,21 @@ type GroupPageProps = {
   params: { groupId: string }
 };
 
-const GroupPage = ({ groups, children, location, params }: GroupPageProps) => {
+const GroupPage = ({ groups, children, location, match }: GroupPageProps) => {
   return (
     <Content>
-      <GroupPageNavigation groupId={params.groupId} />
+      <GroupPageNavigation groupId={match.params.groupId} />
       <div className={styles.groupPage}>
         <section className={styles.sidebar}>
           <GroupTree groups={groups} pathname={location.pathname} />
         </section>
 
-        <section className={styles.main}>{children}</section>
+        <section className={styles.main}>
+          <Switch>
+            <Route exact path="/admin/groups" component={SelectGroup} />
+            <Route path={`${match.path}`} component={GroupDetailRoute} />
+          </Switch>
+        </section>
       </div>
     </Content>
   );

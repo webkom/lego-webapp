@@ -10,15 +10,19 @@ import {
   selectGalleryPictureById,
   selectCommentsForGalleryPicture
 } from 'app/reducers/galleryPictures';
+import { selectGalleryById } from 'app/reducers/galleries';
+import { push } from 'connected-react-router';
 
 function mapStateToProps(state, props) {
-  const { pictureId } = props.params;
+  const { pictureId, galleryId } = props.match.params;
   const picture = selectGalleryPictureById(state, { pictureId });
   const comments = selectCommentsForGalleryPicture(state, { pictureId });
+  const gallery = selectGalleryById(state, { galleryId });
 
   return {
     comments,
     picture,
+    gallery,
     initialValues: {
       ...picture,
       taggees:
@@ -33,7 +37,8 @@ function mapStateToProps(state, props) {
 
 const mapDispatchToProps = {
   deletePicture,
-  updatePicture
+  updatePicture,
+  push
 };
 
 export default compose(

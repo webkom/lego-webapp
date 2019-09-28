@@ -8,9 +8,10 @@ import SearchPage from 'app/components/Search/SearchPage';
 import { push } from 'connected-react-router';
 import { debounce } from 'lodash';
 import { selectResult } from 'app/reducers/search';
+import qs from 'qs';
 
 const loadData = (props, dispatch) => {
-  const query = props.location.query.q;
+  const query = qs.parse(props.location.search, { ignoreQueryPrefix: true }).q;
   if (query) {
     dispatch(search(query));
   }
@@ -18,9 +19,10 @@ const loadData = (props, dispatch) => {
 
 const mapStateToProps = (state, props) => {
   const results = selectResult(state);
+  const query = qs.parse(props.location.search, { ignoreQueryPrefix: true }).q;
 
   return {
-    location: props.location,
+    query: query,
     searching: state.search.searching,
     results
   };
@@ -42,7 +44,7 @@ function SearchPageWrapper(props) {
 }
 
 export default compose(
-  prepare(loadData, ['location.query.q']),
+  prepare(loadData, ['location.search']),
   connect(
     mapStateToProps,
     mapDispatchToProps

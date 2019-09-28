@@ -11,7 +11,8 @@ import { selectMembershipsForGroup } from 'app/reducers/memberships';
 import { selectGroup } from 'app/reducers/groups';
 import loadingIndicator from 'app/utils/loadingIndicator';
 
-const mapStateToProps = (state, { params: { interestGroupId } }) => {
+const mapStateToProps = (state, props) => {
+  const { interestGroupId } = props.match.params;
   const group = selectGroup(state, { groupId: interestGroupId });
   const memberships = selectMembershipsForGroup(state, {
     groupId: interestGroupId
@@ -33,7 +34,7 @@ const mapDispatchToProps = {
 };
 
 export default compose(
-  prepare(({ params: { interestGroupId } }, dispatch) =>
+  prepare(({ match: { params: { interestGroupId } } }, dispatch) =>
     dispatch(fetchInterestGroup(Number(interestGroupId)))
   ),
   connect(

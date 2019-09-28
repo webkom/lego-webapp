@@ -6,21 +6,23 @@ import { selectGroup } from 'app/reducers/groups';
 import prepare from 'app/utils/prepare';
 
 function mapStateToProps(state, props) {
-  const { groupId } = props.routeParams;
+  const { groupId } = props.match.params;
+  const { match } = props;
   return {
     loggedIn: props.loggedIn,
     group: selectGroup(state, { groupId }),
-    groupId
+    groupId,
+    match
   };
 }
 
 const mapDispatchToProps = { fetchGroup, updateGroup };
 
-function loadData({ params }, dispatch) {
+function loadData({ match: { params } }, dispatch) {
   return dispatch(fetchGroup(params.groupId));
 }
 export default compose(
-  prepare(loadData, ['params.groupId']),
+  prepare(loadData, ['match.params.groupId']),
   connect(
     mapStateToProps,
     mapDispatchToProps

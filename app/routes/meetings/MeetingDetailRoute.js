@@ -15,12 +15,21 @@ import MeetingAnswer from './components/MeetingAnswer';
 import prepare from 'app/utils/prepare';
 import { selectMeetingById } from 'app/reducers/meetings';
 import { deleteComment } from 'app/actions/CommentActions';
+import qs from 'qs';
 
-const loadMeeting = ({ loggedIn, params: { meetingId } }, dispatch) =>
-  loggedIn ? dispatch(fetchMeeting(meetingId)) : Promise.resolve();
+const loadMeeting = (
+  {
+    loggedIn,
+    match: {
+      params: { meetingId }
+    }
+  },
+  dispatch
+) => (loggedIn ? dispatch(fetchMeeting(meetingId)) : Promise.resolve());
 
 const loadData = (props, dispatch) => {
-  const { action, token } = props.location.query;
+  const search = qs.parse(props.location.search, { ignoreQueryPrefix: true });
+  const { action, token } = search;
   const loggedIn = props.loggedIn;
 
   if (token && action) {
@@ -34,10 +43,13 @@ const loadData = (props, dispatch) => {
 
 const mapStateToProps = (state, props) => {
   const {
-    params: { meetingId },
+    match: {
+      params: { meetingId }
+    },
     currentUser
   } = props;
-  const { action, token } = props.location.query;
+  const search = qs.parse(props.location.search, { ignoreQueryPrefix: true });
+  const { action, token } = search;
   const meetingsToken = state.meetingsToken;
   const meeting = selectMeetingById(state, { meetingId });
   const showAnswer = Boolean(
@@ -82,7 +94,7 @@ const mapDispatchToProps = {
 };
 
 export default compose(
-  prepare(loadData, ['params.meetingId', 'loggedIn']),
+  prepare(loadData, ['match.params.meetingId', 'loggedIn']),
   connect(
     mapStateToProps,
     mapDispatchToProps

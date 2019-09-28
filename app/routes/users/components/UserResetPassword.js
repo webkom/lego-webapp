@@ -17,7 +17,7 @@ const UserResetPassword = ({
   submitting,
   handleSubmit,
   resetPassword,
-  router
+  push
 }: Props) => {
   const disabledButton = invalid | pristine | submitting;
   return (
@@ -26,7 +26,7 @@ const UserResetPassword = ({
       {token ? (
         <Form
           onSubmit={handleSubmit(props =>
-            resetPassword({ token, ...props }).then(() => router.push('/'))
+            resetPassword({ token, ...props }).then(() => push('/'))
           )}
         >
           <Field
