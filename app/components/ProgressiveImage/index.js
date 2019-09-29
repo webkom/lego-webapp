@@ -59,7 +59,8 @@ export default class ProgressiveImage extends PureComponent<Props, State> {
           style: {
             ...this.state.style,
             ...this.props.onLoadStyle,
-            filter: 'blur(0) contrast(100%)'
+            filter: 'blur(0) contrast(100%)',
+            height: 'auto'
           }
         });
       })
