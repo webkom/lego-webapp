@@ -26,6 +26,13 @@ a {
   color: var(--lego-link-color);
   cursor: pointer;
   text-decoration: none;
+
+  /* Wrap Links */
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-all;
+  word-break: break-word;
+  hyphens: auto;
 }
 
 p {
