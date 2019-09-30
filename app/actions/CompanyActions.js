@@ -239,14 +239,17 @@ export function editSemesterStatus(
   };
 }
 
-export function deleteSemesterStatus(companyId: number, semesterId: number) {
+export function deleteSemesterStatus(
+  companyId: number,
+  semesterStatusId: number
+) {
   return callAPI({
     types: Company.DELETE_SEMESTER_STATUS,
-    endpoint: `/companies/${companyId}/semester-statuses/${semesterId}/`,
+    endpoint: `/companies/${companyId}/semester-statuses/${semesterStatusId}/`,
     method: 'DELETE',
     meta: {
       companyId,
-      semesterId,
+      semesterStatusId,
       errorMessage: 'Sletting av semesterstatus feilet',
       successMessage: 'Semesterstatus slettet'
     }

@@ -37,7 +37,7 @@ export function mutateComments(forTargetType: string) {
             [targetId]: {
               ...state.byId[targetId],
               comments: [
-                ...state.byId[targetId].comments,
+                ...(state.byId[targetId].comments || []),
                 action.payload.result
               ]
             }

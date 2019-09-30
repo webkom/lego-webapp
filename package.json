@@ -18,7 +18,7 @@
     "postinstall": "yarn run build:dll",
     "test": "NODE_ENV=test jest",
     "test:coverage": "yarn run test -- --coverage",
-    "test:watch": "yarn run test -- --watch",
+    "test:watch": "yarn run test --watch",
     "lint": "yarn run lint:js && yarn run lint:css && yarn run lint:prettier",
     "lint:js": "eslint . --ignore-path .prettierignore",
     "lint:css": "stylelint './app/**/*.css'",

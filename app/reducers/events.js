@@ -141,7 +141,7 @@ function mutateEvent(state: any, action: any) {
               : stateEvent.waitingRegistrationCount - 1,
             ...(stateEvent.waitingRegistrations && {
               waitingRegistrations: stateEvent.waitingRegistrations.filter(
-                id => id !== action.payload.id
+                id => id !== registration.id
               )
             }),
             isUserFollowing: isMe
