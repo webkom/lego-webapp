@@ -12,6 +12,7 @@ import CompanyInterestPage, {
 } from './components/CompanyInterestPage';
 import { selectCompanyInterestById } from 'app/reducers/companyInterest';
 import { selectCompanySemesters } from 'app/reducers/companySemesters';
+import { sortSemesterChronologically } from './utils.js';
 import { push } from 'react-router-redux';
 import prepare from 'app/utils/prepare';
 
@@ -60,6 +61,7 @@ const mapStateToProps = (state, props) => {
             companyInterest.semesters.includes(semester.id)
         }))
         .filter(semester => semester.activeInterestForm || semester.checked)
+        .sort(sortSemesterChronologically)
     },
     companyInterestId,
     companyInterest,

@@ -70,9 +70,10 @@ describe('Create company interest', () => {
     createCompanyInterest();
     cy.contains('webkom consulting').click();
     cy.url().should('include', `edit`);
-    cy.contains('webkom');
-    cy.contains('webkom@webkom.no');
-    cy.contains('random comment');
+
+    field('contactPerson').should('have.value', 'webkom');
+    field('mail').should('have.value', 'webkom@webkom.no');
+    field('comment').should('have.value', 'random comment');
 
     field('companyName').type('plebkom');
 
@@ -81,6 +82,7 @@ describe('Create company interest', () => {
     field('otherOffers[0].checked').should('have.attr', 'checked');
 
     cy.contains('Oppdater bedriftsinteresse').click();
+    cy.url().should('not.include', `edit`);
     cy.contains('plebkom');
   });
 });
