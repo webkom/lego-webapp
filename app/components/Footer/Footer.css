@@ -38,10 +38,12 @@
 
 .hiddenOnDesktop {
   display: none;
+
   @media (--small-viewport) {
     display: flex;
   }
 }
+
 .desktopLogo {
   margin-top: 130px;
 }

@@ -39,10 +39,6 @@ class RandomQuote extends Component<Props> {
       currentQuote
     } = this.props;
 
-    if (!currentQuote.reactionsGrouped || !emojis) {
-      return <div />;
-    }
-
     let mappedEmojis = [];
     if (!fetchingEmojis) {
       mappedEmojis = emojis.map(emoji => {
