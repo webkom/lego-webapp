@@ -22,8 +22,6 @@ export type OptionEntity = {
   votes: number
 };
 
-type State = any;
-
 export default createEntityReducer({
   key: 'polls',
   types: {

@@ -4,8 +4,6 @@ import { Joblistings } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { createSelector } from 'reselect';
 
-type State = any;
-
 export default createEntityReducer({
   key: 'joblistings',
   types: {

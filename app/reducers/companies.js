@@ -10,7 +10,6 @@ import { selectCompanySemesters } from './companySemesters';
 import type { UserEntity } from 'app/reducers/users';
 import type { CompanySemesterContactedStatus, Semester } from 'app/models';
 import { selectJoblistings } from 'app/reducers/joblistings';
-import { without, remove } from 'lodash';
 import produce from 'immer';
 
 export type BaseCompanyEntity = {
@@ -87,6 +86,8 @@ function mutateCompanies(state: State, action) {
           break;
 
         case Company.ADD_SEMESTER_STATUS.SUCCESS:
+          newState.byId[action.meta.companyId].semesterStatuses =
+            newState.byId[action.meta.companyId].semesterStatuses || [];
           newState.byId[action.meta.companyId].semesterStatuses.push(
             action.payload
           );
@@ -137,8 +138,8 @@ function mutateCompanies(state: State, action) {
         }
       }
     }
-  }
-);
+  );
+}
 
 const mutate = joinReducers(mutateComments('companies'), mutateCompanies);
 

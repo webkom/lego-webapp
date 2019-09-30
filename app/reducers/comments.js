@@ -21,7 +21,7 @@ type State = any;
  * Used by the individual entity reducers
  */
 export function mutateComments(forTargetType: string) {
-  return (state: any, action: any) => {
+  return (state: State, action: any) => {
     return produce(state, newState => {
       switch (action.type) {
         case Comment.ADD.SUCCESS: {
@@ -36,8 +36,9 @@ export function mutateComments(forTargetType: string) {
           }
         }
       }
-    }
-  );
+    });
+  };
+}
 
 type CommentState = any;
 

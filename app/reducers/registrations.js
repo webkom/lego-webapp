@@ -44,6 +44,7 @@ export default createEntityReducer({
             ...omit(newState.byId[registration.id], 'unregistrationDate'),
             ...registration
           };
+          newState.items = union(newState.items, [registration.id]);
           break;
         }
 

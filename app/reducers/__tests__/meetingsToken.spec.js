@@ -14,7 +14,7 @@ describe('reducers', () => {
         type: Meeting.ANSWER_INVITATION_TOKEN.FAILURE
       };
       expect(meetingsToken(prevState, action)).toEqual({
-        response: '',
+        response: 'abc',
         user: {},
         meeting: null,
         status: 'FAILURE'
