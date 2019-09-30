@@ -27,18 +27,24 @@ const mutateEvent = produce(
       case Event.FETCH_PREVIOUS.SUCCESS:
         for (const eventId in action.payload.entities.events) {
           const event = action.payload.entities.events[eventId];
-          newState.byId[eventId] = produce(event, e => {
-            e.isUsersUpcoming = false;
-          });
+          newState.byId[eventId] = produce(
+            event,
+            (e): void => {
+              e.isUsersUpcoming = false;
+            }
+          );
         }
         break;
 
       case Event.FETCH_UPCOMING.SUCCESS:
         for (const eventId in action.payload.entities.events) {
           const event = action.payload.entities.events[eventId];
-          newState.byId[eventId] = produce(event, e => {
-            e.isUsersUpcoming = true;
-          });
+          newState.byId[eventId] = produce(
+            event,
+            (e): void => {
+              e.isUsersUpcoming = true;
+            }
+          );
         }
         break;
 
