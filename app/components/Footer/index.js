@@ -55,21 +55,7 @@ const Footer = (props: Props) => (
             </p>
           </div>
           <div className={cx(styles.section, hiddenOnMobile)}>
-            <Link to={'/quotes/?filter=all'} style={{ color: 'white' }}>
-              <Icon
-                className={styles.contact}
-                size={50}
-                name="contacts-outline"
-              />
-            </Link>
-            <div>temp footer content</div>
-            {
-              //
-              // <div>
-              //   <h3>Sitat</h3>
-              //   <RandomQuote loggedIn={props.loggedIn} />
-              // </div>
-            }
+            <Image className={styles.cooperator} src={netcompany} />
           </div>
           <div className={styles.section}>
             <Icon
@@ -84,7 +70,6 @@ const Footer = (props: Props) => (
             <p>7491 Trondheim</p>
           </div>
         </Flex>
-        <Image className={styles.cooperator} src={netcompany} />
       </Flex>
     </div>
   </footer>
