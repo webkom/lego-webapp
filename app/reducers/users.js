@@ -32,7 +32,7 @@ export default createEntityReducer({
         return {
           ...state,
           byId: mergeObjects(state.byId, users),
-          items: union(state.items, Object.values(users).map(u => u.id))
+          items: union(state.items, (Object.values(users): any).map(u => u.id))
         };
       }
       case Event.SOCKET_REGISTRATION.SUCCESS:
@@ -42,7 +42,7 @@ export default createEntityReducer({
         return {
           ...state,
           byId: mergeObjects(state.byId, users),
-          items: union(state.items, Object.values(users).map(u => u.id))
+          items: union(state.items, (Object.values(users): any).map(u => u.id))
         };
       }
       case User.CONFIRM_STUDENT_USER.SUCCESS: {
