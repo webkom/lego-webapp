@@ -3,7 +3,7 @@
 import React from 'react';
 import cx from 'classnames';
 import Flex from 'app/components/Layout/Flex';
-import { hiddenOnMobile } from 'app/styles/utilities.css';
+import { hiddenOnMobile, hiddenOnDesktop } from 'app/styles/utilities.css';
 import { Image } from 'app/components/Image';
 import netcompany from 'app/assets/netcompany_white.svg';
 import Octocat from 'app/assets/Octocat.png';
@@ -72,7 +72,7 @@ const Footer = (props: Props) => (
           </div>
         </Flex>
         <Image
-          className={cx(styles.cooperator, styles.hiddenOnDesktop)}
+          className={cx(styles.cooperator, hiddenOnDesktop)}
           src={netcompany}
         />
       </Flex>

@@ -36,11 +36,7 @@ const mutateQuote = produce(
   }
 );
 
-const mutate = joinReducers(
-  mutateReactions('quotes'),
-  mutateQuote
-  // ,mutateRandomQuote
-);
+const mutate = joinReducers(mutateReactions('quotes'), mutateQuote);
 
 export default createEntityReducer({
   key: 'quotes',

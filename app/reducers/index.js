@@ -172,9 +172,7 @@ export const quoteSchema = new schema.Entity('quotes', {
   reactions: [reactionSchema]
 });
 
-export const randomQuoteSchema = new schema.Entity('randomQuote', {
-  reactions: [reactionSchema]
-});
+export const randomQuoteSchema = new schema.Entity('randomQuote');
 
 export const pollSchema = new schema.Entity('polls');
 
