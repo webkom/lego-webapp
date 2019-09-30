@@ -3,6 +3,7 @@ import React, { type Element } from 'react';
 import Icon from 'app/components/Icon';
 import { lookupContext, contextRender } from '../context';
 import type { AggregatedActivity, TagInfo } from '../types';
+import styles from '../context.css';
 
 /**
  * Group by object
@@ -17,7 +18,11 @@ export function activityHeader(
 
   return (
     <b>
-      {htmlTag(contextRender[actor.contentType](actor))}
+      {object.fromGroup ? (
+        <span className={styles.highlight}>{object.fromGroup.name}</span>
+      ) : (
+        htmlTag(contextRender[actor.contentType](actor))
+      )}
       {' sendte ut en kunngjøring:'}
       <br />
       {htmlTag(contextRender[object.contentType](object))}

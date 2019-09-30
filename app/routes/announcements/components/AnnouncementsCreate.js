@@ -35,6 +35,7 @@ const AnnouncementsCreate = ({
       groups: announcement.groups.map(group => group.value),
       meetings: announcement.meetings.map(meeting => meeting.value),
       events: announcement.events.map(event => event.value),
+      fromGroup: announcement.fromGroup && announcement.fromGroup.value,
       send
     });
   };
@@ -86,6 +87,13 @@ const AnnouncementsCreate = ({
                 component={SelectInput.AutocompleteField}
               />
             </Flex>
+            <span className={styles.formHeaders}>Send på vegne av:</span>
+            <Field
+              name="fromGroup"
+              placeholder="Fra gruppe"
+              filter={['users.abakusgroup']}
+              component={SelectInput.AutocompleteField}
+            />
             <Flex>
               <Button
                 onClick={handleSubmit(values => onSubmit(values, false))}

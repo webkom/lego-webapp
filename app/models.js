@@ -215,6 +215,7 @@ export type Announcement = {
   groups: Array<Object>,
   events: Array<Object>,
   meetings: Array<Object>,
+  fromGroup: Group,
   sent?: boolean
 };
 

@@ -25,6 +25,7 @@ export function createAnnouncement(
     groups,
     events,
     meetings,
+    fromGroup,
     send
   }: Object /*AnnouncementModel*/
 ): Thunk<*> {
@@ -39,7 +40,8 @@ export function createAnnouncement(
           users,
           groups,
           events,
-          meetings
+          meetings,
+          fromGroup
         },
         schema: announcementsSchema,
         meta: {
