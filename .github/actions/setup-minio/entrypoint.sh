@@ -1,2 +1,2 @@
 #!/bin/sh -l
-./server /export
+server /export

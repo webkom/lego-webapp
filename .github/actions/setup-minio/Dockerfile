@@ -1,3 +1,2 @@
 FROM minio/minio
-COPY entrypoint.sh /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
+CMD ["minio", "server" , "/export"]
