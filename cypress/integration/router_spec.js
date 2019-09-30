@@ -204,7 +204,7 @@ describe('Create event', () => {
     cy.contains('Brukerinfo');
 
     // Quotes
-    openMenuAndSelect('Sitater', '/quotes/?filter=all');
+    openMenuAndSelect('Abaquote', '/quotes/?filter=all');
     cy.contains('Just do it!');
 
     // Tags
