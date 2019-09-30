@@ -1,41 +1,31 @@
 // @flow
 
 import { Quote } from '../actions/ActionTypes';
-import createEntityReducer from 'app/utils/createEntityReducer';
 import { createSelector } from 'reselect';
-import { mutateReactions } from 'app/reducers/reactions';
-import joinReducers from 'app/utils/joinReducers';
 
-function mutateQuote(state: any, action: any) {
+const initialState = {
+  item: undefined
+};
+
+export default function mutateRandomQuote(
+  state: any = initialState,
+  action: any
+) {
   switch (action.type) {
     case Quote.FETCH.SUCCESS: {
-      const entity = action.payload.entities.randomQuote;
       return {
-        ...state,
-        byId: {
-          0: entity[Object.keys(entity)[0]]
-        }
+        item: action.payload.result
       };
     }
     default:
       return state;
   }
 }
-
-const mutate = joinReducers(mutateReactions('randomQuote'), mutateQuote);
-
-export default createEntityReducer({
-  key: 'randomQuote',
-  types: {
-    fetch: Quote.FETCH
-  },
-  mutate
-});
-
 export const selectRandomQuote = createSelector(
-  state => state.randomQuote.byId,
-  randomQuote => {
-    if (!randomQuote) return {};
-    return randomQuote[0];
+  state => state.quotes.byId,
+  state => state.randomQuote.item,
+  (quotes, randomQuoteId) => {
+    if (!quotes || !randomQuoteId) return {};
+    return quotes[randomQuoteId];
   }
 );

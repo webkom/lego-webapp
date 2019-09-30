@@ -12,7 +12,7 @@ import loadingIndicator from 'app/utils/loadingIndicator';
 
 function mapStateToProps(state, props) {
   const emojis = selectEmojis(state);
-  const currentQuote = selectRandomQuote(state); // TODO: make
+  const currentQuote = selectRandomQuote(state);
   return {
     loggedIn: props.loggedIn,
     emojis,
@@ -30,7 +30,9 @@ const mapDispatchToProps = {
 };
 
 export default compose(
-  prepare((props, dispatch) => dispatch(fetchRandomQuote(), fetchEmojis())),
+  prepare((props, dispatch) =>
+    Promise.all([dispatch(fetchRandomQuote()), dispatch(fetchEmojis())])
+  ),
   connect(
     mapStateToProps,
     mapDispatchToProps

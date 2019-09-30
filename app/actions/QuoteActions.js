@@ -2,7 +2,7 @@
 
 import { push } from 'react-router-redux';
 import { startSubmit, stopSubmit } from 'redux-form';
-import { quoteSchema, randomQuoteSchema } from 'app/reducers';
+import { quoteSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 import { Quote } from './ActionTypes';
 import { addToast } from 'app/actions/ToastActions';
@@ -88,7 +88,7 @@ export function fetchRandomQuote() {
       errorMessage: 'Henting av tilfeldig quote feilet'
     },
     useCache: false,
-    schema: randomQuoteSchema
+    schema: quoteSchema
   });
 }
 

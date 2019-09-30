@@ -168,9 +168,13 @@ export const galleryPictureSchema = new schema.Entity('galleryPictures', {
 
 export const gallerySchema = new schema.Entity('galleries');
 
-export const quoteSchema = new schema.Entity('quotes');
+export const quoteSchema = new schema.Entity('quotes', {
+  reactions: [reactionSchema]
+});
 
-export const randomQuoteSchema = new schema.Entity('randomQuote');
+export const randomQuoteSchema = new schema.Entity('randomQuote', {
+  reactions: [reactionSchema]
+});
 
 export const pollSchema = new schema.Entity('polls');
 

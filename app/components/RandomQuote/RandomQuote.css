@@ -10,21 +10,18 @@
   font-style: italic;
 }
 
-.textContainer {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-start;
-}
-
 .quoteText {
   font-weight: 600;
 }
 
-.refresh {
-  padding: 5px;
+.quoteReactions {
+  margin-top: 5px;
 }
 
-.quoteReactions {
+.actions {
+  margin: 5px 5px 5px 10px;
+}
+
+.add {
   margin-top: 5px;
 }

@@ -33,7 +33,17 @@
 .cooperator {
   width: 200px;
   height: auto;
-  margin: 130px auto 15px;
+  margin: 10px auto 15px;
+}
+
+.hiddenOnDesktop {
+  display: none;
+  @media (--small-viewport) {
+    display: flex;
+  }
+}
+.desktopLogo {
+  margin-top: 130px;
 }
 
 .octocat {
