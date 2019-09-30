@@ -363,5 +363,6 @@ const validate = createValidator({
 export default reduxForm({
   form: 'CompanyInterestForm',
   validate,
-  enableReinitialize: true
+  enableReinitialize: true,
+  keepDirtyOnReinitialize: true
 })(CompanyInterestPage);
