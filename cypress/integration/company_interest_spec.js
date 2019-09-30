@@ -22,11 +22,21 @@ const createCompanyInterest = () => {
   field('comment').type('random comment');
 
   cy.contains('Opprett bedriftsinteresse').click();
-
-  cy.url().should('include', `/companyInterest`);
 };
 
-describe('Create company interest', () => {
+describe('Company interest', () => {
+  beforeEach(() => {
+    cy.resetDb();
+  });
+  it.only('Should be able to create company interest', () => {
+    createCompanyInterest();
+    // Success toast
+    cy.contains('Bedriftsinteresse opprettet');
+    cy.url().should('include', '/pages/bedrifter/for-bedrifter');
+  });
+});
+
+describe('Admin company interest', () => {
   beforeEach(() => {
     cy.resetDb();
     cy.cachedLogin();
@@ -34,6 +44,7 @@ describe('Create company interest', () => {
 
   it('should be able to create and delete interest', () => {
     createCompanyInterest();
+    cy.url().should('include', `/companyInterest`);
 
     cy.contains('webkom');
     cy.contains('webkom@webkom.no');
@@ -68,6 +79,7 @@ describe('Create company interest', () => {
 
   it('should be able to edit company interest', () => {
     createCompanyInterest();
+    cy.url().should('include', `/companyInterest`);
     cy.contains('webkom consulting').click();
     cy.url().should('include', `edit`);
 
