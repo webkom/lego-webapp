@@ -32,7 +32,8 @@ export function fetchPoll(pollId: number) {
     schema: pollSchema,
     meta: {
       errorMessage: 'Henting av avstemning feilet'
-    }
+    },
+    propagateError: true
   });
 }
 
