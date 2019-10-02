@@ -123,7 +123,6 @@ describe('reducers', () => {
       const action = {
         type: Event.CLEAR
       };
-      // TODO: Is this expected behavior?
       expect(events(prevState, action)).toEqual({
         actionGrant: [],
         pagination: {},
