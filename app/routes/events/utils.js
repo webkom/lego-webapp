@@ -1,13 +1,10 @@
 // @flow
 import { pick } from 'lodash';
 import moment from 'moment-timezone';
-import type { TransformEvent, Event } from 'app/models';
-
-// Value type based on the EVENT_CONSTANTS
-export type eventTypes = $Values<typeof EVENT_CONSTANTS>;
+import type { TransformEvent, Event, EventType } from 'app/models';
 
 // Current eventTypes
-export const EVENT_CONSTANTS: eventTypes = {
+export const EVENT_CONSTANTS: { [EventType]: string } = {
   company_presentation: 'Bedriftspresentasjon',
   lunch_presentation: 'Lunsjpresentasjon',
   alternative_presentation: 'Alternativ bedpres',
@@ -19,13 +16,13 @@ export const EVENT_CONSTANTS: eventTypes = {
   other: 'Annet'
 };
 
-// Returns the string representation of an eventType
-export const eventTypeToString = (eventType: eventTypes) => {
+// Returns the string representation of an EventType
+export const eventTypeToString = (eventType: EventType): string => {
   return EVENT_CONSTANTS[eventType] || EVENT_CONSTANTS['other'];
 };
 
 // Colors for different event types
-export const COLOR_CONSTANTS: eventTypes = {
+export const COLOR_CONSTANTS: { [EventType]: string } = {
   company_presentation: '#A1C34A',
   lunch_presentation: '#A1C34A',
   alternative_presentation: '#8A2BE2',
@@ -37,8 +34,8 @@ export const COLOR_CONSTANTS: eventTypes = {
   other: '#111111'
 };
 
-// Returns the color code of an eventType
-export const colorForEvent = (eventType: eventTypes) => {
+// Returns the color code of an EventType
+export const colorForEvent = (eventType: EventType) => {
   return COLOR_CONSTANTS[eventType] || COLOR_CONSTANTS['other'];
 };
 

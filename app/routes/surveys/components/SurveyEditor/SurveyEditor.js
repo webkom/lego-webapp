@@ -19,7 +19,7 @@ import type { FieldProps } from 'redux-form';
 import Icon from 'app/components/Icon';
 import { Link } from 'react-router';
 import Dropdown from 'app/components/Dropdown';
-import { EVENT_CONSTANTS } from 'app/routes/events/utils';
+import { eventTypeToString, EVENT_CONSTANTS } from 'app/routes/events/utils';
 import Time from 'app/components/Time';
 
 type Props = FieldProps & {
@@ -74,7 +74,7 @@ function TemplateTypeDropdownItems({
               }
             }}
           >
-            {EVENT_CONSTANTS[eventType]}
+            {eventTypeToString(eventType)}
           </Link>
         </Dropdown.ListItem>
       ))}
@@ -148,7 +148,7 @@ class SurveyEditor extends Component<Props, State> {
           {survey.templateType ? (
             <h2 style={{ color: 'red' }}>
               Dette er malen for arrangementer av type{' '}
-              {EVENT_CONSTANTS[String(survey.templateType)]}
+              {eventTypeToString(survey.templateType)}
             </h2>
           ) : (
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
