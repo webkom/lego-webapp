@@ -11,7 +11,7 @@ import type { ActionGrant } from 'app/models';
 import AdminSideBar from './AdminSideBar';
 import Button from 'app/components/Button';
 import StaticSubmission from './StaticSubmission';
-import { EVENT_CONSTANTS } from 'app/routes/events/utils';
+import { eventTypeToString } from 'app/routes/events/utils';
 
 type Props = {
   survey: SurveyEntity,
@@ -44,7 +44,7 @@ class SurveyDetail extends Component<Props> {
             {survey.templateType ? (
               <h2 style={{ color: 'red' }}>
                 Dette er malen for arrangementer av type{' '}
-                {EVENT_CONSTANTS[String(survey.templateType)]}
+                {eventTypeToString(survey.templateType)}
               </h2>
             ) : (
               <div>

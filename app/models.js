@@ -15,6 +15,7 @@ export type EventTimeType = 'activationTime' | 'startTime';
 
 export type EventType =
   | 'company_presentation'
+  | 'alternative_presentation'
   | 'lunch_presentation'
   | 'course'
   | 'kid_event'
