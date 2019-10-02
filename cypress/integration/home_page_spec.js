@@ -4,8 +4,22 @@ const c = classname => `[class^=${classname}]`;
 describe('The Home Page and Login', () => {
   it('successfully loads landing page', () => {
     cy.visit('/');
-    cy.contains('Velkommen');
-    cy.contains('Om Abakus');
+    cy.contains('Velkommen til Abakus');
+
+    cy.contains('a', 'Arrangementer');
+    cy.contains('a', 'For bedrifter');
+    cy.contains('a', 'Om Abakus');
+
+    cy.contains('h3', 'Bedpres og Kurs');
+    cy.contains('li', 'DIPS');
+
+    cy.contains('h3', 'Arrangementer');
+    cy.contains('li', 'Immatrikuleringsball');
+
+    cy.contains('h2', 'Siste artikkel');
+    cy.contains('h2', 'Siste utgave av');
+    cy.contains('h2', 'Nyttige linker');
+    cy.contains('h2', 'Vår Facebook side');
   });
 
   it('can log in from homepage', () => {
@@ -27,5 +41,34 @@ describe('The Home Page and Login', () => {
       expect(dropdown).to.contain('Møte');
       expect(dropdown).to.contain('Logg ut');
     });
+  });
+
+  it.only('successfully loads elements on frontpage when logged in', () => {
+    cy.resetDb();
+    cy.cachedLogin();
+    cy.visit('/');
+
+    cy.contains('h3', 'Bedpres og Kurs');
+    cy.contains('li', 'Deloitte AS');
+
+    cy.contains('h3', 'Arrangementer');
+    cy.contains('li', 'Immatrikuleringsball');
+
+    cy.contains('h3', 'Påmeldinger');
+
+    cy.contains('h3', 'Festet oppslag');
+    cy.contains('a', 'Artikkel med youtube cover');
+
+    cy.contains('span', 'readme');
+
+    cy.contains('h3', 'Artikler');
+    cy.contains('a', 'Artikkel med youtube cover'); //finner feil artikkel..(festet oppslag)
+
+    cy.contains('h3', 'Arrangementer'); //finner feil "arrangementer"..(første arrangementer)
+    cy.contains('h2', 'Deloitte AS');
+    cy.contains('h2', 'Mesan');
+    cy.contains('h2', 'Sikkerhet og Sårbarhet').should('not.exist');
+    cy.get(c('ion-ios-arrow-dropdown')).click();
+    cy.contains('h2', 'Sikkerhet og Sårbarhet');
   });
 });
