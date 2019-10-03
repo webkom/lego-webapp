@@ -7,10 +7,10 @@ import { selectEvents } from './events';
 import { mutateComments } from 'app/reducers/comments';
 import joinReducers from 'app/utils/joinReducers';
 import { selectCompanySemesters } from './companySemesters';
-import mergeObjects from 'app/utils/mergeObjects';
 import type { UserEntity } from 'app/reducers/users';
 import type { CompanySemesterContactedStatus, Semester } from 'app/models';
 import { selectJoblistings } from 'app/reducers/joblistings';
+import produce from 'immer';
 
 export type BaseCompanyEntity = {
   name: string,
@@ -74,92 +74,71 @@ export type CompanyContactEntity = {
   id: number
 };
 
-function mutateCompanies(state, action) {
-  switch (action.type) {
-    case Company.ADD_SEMESTER_STATUS.SUCCESS: {
-      const companyId = action.meta.companyId;
-      const semesterStatuses = (
-        state.byId[companyId].semesterStatuses || []
-      ).concat(action.payload);
-      return mergeObjects(state, {
-        byId: {
-          [companyId]: { semesterStatuses }
+type State = any;
+
+function mutateCompanies(state: State, action) {
+  return produce(
+    state,
+    (newState: State): void => {
+      switch (action.type) {
+        case Company.DELETE.SUCCESS:
+          newState.items = newState.items.filter(id => id !== action.meta.id);
+          break;
+
+        case Company.ADD_SEMESTER_STATUS.SUCCESS:
+          newState.byId[action.meta.companyId].semesterStatuses =
+            newState.byId[action.meta.companyId].semesterStatuses || [];
+          newState.byId[action.meta.companyId].semesterStatuses.push(
+            action.payload
+          );
+          break;
+
+        case Company.EDIT_SEMESTER_STATUS.SUCCESS: {
+          const { companyId, semesterStatusId } = action.meta;
+          const index = newState.byId[companyId].semesterStatuses.findIndex(
+            s => s.id === semesterStatusId
+          );
+          newState.byId[companyId].semesterStatuses[index] = action.payload;
+          break;
         }
-      });
-    }
 
-    case Company.EDIT_SEMESTER_STATUS.SUCCESS: {
-      const { companyId, semesterStatusId } = action.meta;
-      const semesterStatuses = state.byId[companyId].semesterStatuses.map(
-        status => (status.id === semesterStatusId ? action.payload : status)
-      );
-      return mergeObjects(state, {
-        byId: {
-          [companyId]: { semesterStatuses }
+        case Company.DELETE_SEMESTER_STATUS.SUCCESS: {
+          const companyId = action.meta.companyId;
+          newState.byId[companyId].semesterStatuses = newState.byId[
+            companyId
+          ].semesterStatuses.filter(
+            status => status.id !== action.meta.semesterStatusId
+          );
+          break;
         }
-      });
-    }
 
-    case Company.DELETE_SEMESTER_STATUS.SUCCESS: {
-      const companyId = action.meta.companyId;
-      return {
-        ...state,
-        byId: {
-          ...state.byId,
-          [companyId]: {
-            ...state.byId[companyId],
-            semesterStatuses: state.byId[companyId].semesterStatuses.filter(
-              status => status.id !== action.meta.semesterStatusId
-            )
-          }
+        case Company.ADD_COMPANY_CONTACT.SUCCESS:
+          newState.byId[action.meta.companyId].companyContacts = (
+            newState.byId[action.meta.companyId].companyContacts || []
+          ).concat(action.payload);
+          break;
+
+        case Company.EDIT_COMPANY_CONTACT.SUCCESS: {
+          const companyId = action.meta.companyId;
+          const index = newState.byId[companyId].companyContacts.findIndex(
+            cc => cc.id === action.payload.id
+          );
+          newState.byId[companyId].companyContacts[index] = action.payload;
+          break;
         }
-      };
-    }
 
-    case Company.ADD_COMPANY_CONTACT.SUCCESS: {
-      const companyId = action.meta.companyId;
-      const companyContacts = (
-        state.byId[companyId].companyContacts || []
-      ).concat(action.payload);
-      return mergeObjects(state, {
-        byId: {
-          [companyId]: { companyContacts }
+        case Company.DELETE_COMPANY_CONTACT.SUCCESS: {
+          const companyId = action.meta.companyId;
+          newState.byId[companyId].companyContacts = newState.byId[
+            companyId
+          ].companyContacts.filter(
+            contact => contact.id !== action.meta.companyContactId
+          );
+          break;
         }
-      });
+      }
     }
-
-    case Company.EDIT_COMPANY_CONTACT.SUCCESS: {
-      const companyId = action.meta.companyId;
-      const companyContacts = state.byId[companyId].companyContacts.map(
-        companyContact =>
-          companyContact.id === action.payload.id
-            ? action.payload
-            : companyContact
-      );
-      return mergeObjects(state, {
-        byId: { [companyId]: { companyContacts } }
-      });
-    }
-
-    case Company.DELETE_COMPANY_CONTACT.SUCCESS: {
-      const companyId = action.meta.companyId;
-      return {
-        ...state,
-        byId: {
-          ...state.byId,
-          [companyId]: {
-            ...state.byId[companyId],
-            companyContacts: state.byId[companyId].companyContacts.filter(
-              contact => contact.id !== action.meta.companyContactId
-            )
-          }
-        }
-      };
-    }
-
-    default:
-      return state;
-  }
+  );
 }
 
 const mutate = joinReducers(mutateComments('companies'), mutateCompanies);
@@ -204,13 +183,12 @@ const selectSemesterStatuses = (semesterStatuses, companySemesters) =>
     const companySemester = companySemesters.find(
       companySemester => companySemester.id === semester.semester
     );
-    return companySemester
-      ? {
-          ...semester,
-          year: companySemester.year,
-          semester: companySemester.semester
-        }
-      : semester;
+    return produce(semester, draft => {
+      if (companySemester) {
+        draft.year = companySemester.year;
+        draft.semester = companySemester.semester;
+      }
+    });
   });
 
 export const selectCompanyById = createSelector(

@@ -2,24 +2,24 @@
 import { createSelector } from 'reselect';
 import { Tag } from 'app/actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
+import produce from 'immer';
+
+type State = any;
 
 export default createEntityReducer({
   key: 'tags',
   types: {
     fetch: Tag.FETCH
   },
-  mutate(state, action) {
-    switch (action.type) {
-      case Tag.POPULAR.SUCCESS: {
-        return {
-          ...state,
-          popular: action.payload
-        };
+  mutate: produce(
+    (newState: State, action: any): void => {
+      switch (action.type) {
+        case Tag.POPULAR.SUCCESS: {
+          newState.popular = action.payload;
+        }
       }
-      default:
-        return state;
     }
-  }
+  )
 });
 
 export const selectTags = createSelector(

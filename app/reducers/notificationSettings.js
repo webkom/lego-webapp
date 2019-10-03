@@ -3,7 +3,7 @@
 import keyBy from 'lodash/keyBy';
 
 import { NotificationSettings } from 'app/actions/ActionTypes';
-import type { Action } from 'app/types';
+import produce from 'immer';
 
 type State = {
   channels: Array<string>,
@@ -17,36 +17,24 @@ const initialState = {
   settings: {}
 };
 
-export default function notificationSettings(
-  state: State = initialState,
-  action: Action
-): State {
+const notificationSettings = produce((newState: State, action: any): void => {
   switch (action.type) {
-    case NotificationSettings.FETCH_ALTERNATIVES.SUCCESS: {
-      return {
-        ...state,
-        ...action.payload
-      };
-    }
-    case NotificationSettings.FETCH.SUCCESS: {
-      return {
-        ...state,
-        settings: transform(action.payload)
-      };
-    }
+    case NotificationSettings.FETCH_ALTERNATIVES.SUCCESS:
+      newState.channels = action.payload.channels;
+      newState.notificationTypes = action.payload.notificationTypes;
+      break;
+
+    case NotificationSettings.FETCH.SUCCESS:
+      newState.settings = transform(action.payload);
+      break;
+
     case NotificationSettings.UPDATE.SUCCESS: {
-      return {
-        ...state,
-        settings: {
-          ...state.settings,
-          ...transform([action.payload])
-        }
-      };
+      newState.settings[action.payload.notificationType] = action.payload;
     }
-    default:
-      return state;
   }
-}
+}, initialState);
+
+export default notificationSettings;
 
 export const transform = (settings: any) => keyBy(settings, 'notificationType');
 

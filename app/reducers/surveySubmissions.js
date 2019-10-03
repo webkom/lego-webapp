@@ -5,7 +5,7 @@ import createEntityReducer from 'app/utils/createEntityReducer';
 import { createSelector } from 'reselect';
 import type { OptionEntity, SurveyEntity, QuestionEntity } from './surveys';
 import type { UserEntity } from 'app/reducers/users';
-import mergeObjects from 'app/utils/mergeObjects';
+import produce from 'immer';
 
 export type SubmissionEntity = {
   id: number,
@@ -25,23 +25,20 @@ export type AnswerEntity = {
   hideFromPublic: boolean
 };
 
-function mutateSurveySubmissions(state, action) {
-  switch (action.type) {
-    case SurveySubmission.ADD.SUCCESS: {
-      const { surveyId } = action.meta;
-      const id = action.payload.result;
-      const surveySubmission = action.payload.entities.surveySubmissions[id];
-      return mergeObjects(state, {
-        byId: {
-          [id]: { ...surveySubmission, survey: surveyId }
-        }
-      });
-    }
+type State = any;
 
-    default:
-      return state;
+const mutateSurveySubmissions = produce(
+  (newState: State, action: any): void => {
+    switch (action.type) {
+      case SurveySubmission.ADD.SUCCESS: {
+        const { surveyId } = action.meta;
+        const id = action.payload.result;
+        const surveySubmission = action.payload.entities.surveySubmissions[id];
+        newState.byId[id] = { ...surveySubmission, survey: surveyId };
+      }
+    }
   }
-}
+);
 
 export default createEntityReducer({
   key: 'surveySubmissions',

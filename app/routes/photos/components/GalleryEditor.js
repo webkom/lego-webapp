@@ -25,7 +25,7 @@ import EmptyState from 'app/components/EmptyState';
 import GalleryEditorActions from './GalleryEditorActions';
 import GalleryComponent from 'app/components/Gallery';
 import styles from './Overview.css';
-import { pull, find } from 'lodash';
+import { without, find } from 'lodash';
 
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 
@@ -102,7 +102,9 @@ class GalleryEditor extends Component<Props, State> {
     if (this.state.selected.indexOf(picture.id) === -1) {
       this.setState({ selected: this.state.selected.concat([picture.id]) });
     } else {
-      this.setState(state => ({ selected: pull(state.selected, picture.id) }));
+      this.setState(state => ({
+        selected: without(state.selected, picture.id)
+      }));
     }
   };
 

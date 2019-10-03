@@ -6,6 +6,7 @@ import { Search } from '../actions/ActionTypes';
 import moment from 'moment-timezone';
 import { resolveGroupLink } from 'app/reducers/groups';
 import { categoryOptions } from 'app/reducers/pages';
+import produce from 'immer';
 
 export type SearchResult = {
   label: string,
@@ -118,67 +119,40 @@ const searchMapping = {
 
 type State = typeof initialState;
 
-export default function search(state: State = initialState, action: any) {
+const search = produce((newState: State, action: any): void => {
   switch (action.type) {
     case Search.SEARCH.BEGIN:
-      return {
-        ...state,
-        query: action.meta.query,
-        searching: true
-      };
-
     case Search.AUTOCOMPLETE.BEGIN:
-      return {
-        ...state,
-        query: action.meta.query,
-        searching: true
-      };
+      newState.query = action.meta.query;
+      newState.searching = true;
+      break;
 
     case Search.SEARCH.SUCCESS:
-      if (action.meta.query !== state.query) {
-        return state;
+      if (action.meta.query === newState.query) {
+        newState.results = action.payload;
+        newState.searching = false;
       }
-
-      return {
-        ...state,
-        results: action.payload,
-        searching: false
-      };
+      break;
 
     case Search.AUTOCOMPLETE.SUCCESS:
-      if (action.meta.query !== state.query) {
-        return state;
+      if (action.meta.query === newState.query) {
+        newState.autocomplete = action.payload;
+        newState.searching = false;
       }
-
-      return {
-        ...state,
-        autocomplete: action.payload,
-        searching: false
-      };
+      break;
 
     case Search.SEARCH.FAILURE:
-      return {
-        ...state,
-        searching: false
-      };
-
     case Search.AUTOCOMPLETE.FAILURE:
-      return {
-        ...state,
-        searching: false
-      };
+      newState.searching = false;
+      break;
 
     case Search.TOGGLE_OPEN:
-      return {
-        ...state,
-        autocomplete: [],
-        open: !state.open
-      };
-
-    default:
-      return state;
+      newState.autocomplete = [];
+      newState.open = !newState.open;
   }
-}
+}, initialState);
+
+export default search;
 
 /*
  * This transfors the search results (both search and autocomplete) from the backend.

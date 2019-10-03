@@ -6,7 +6,6 @@ import { createSelector } from 'reselect';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import type Moment from 'moment-timezone';
 import { mutateComments } from 'app/reducers/comments';
-import joinReducers from 'app/utils/joinReducers';
 
 export type MeetingEntity = {
   id: number,
@@ -25,14 +24,7 @@ export type MeetingSection = {
   meetings: Array<MeetingEntity>
 };
 
-function mutateMeetings(state: any, action: any) {
-  switch (action.type) {
-    default:
-      return state;
-  }
-}
-
-const mutate = joinReducers(mutateComments('meetings'), mutateMeetings);
+const mutate = mutateComments('meetings');
 
 export default createEntityReducer({
   key: 'meetings',
