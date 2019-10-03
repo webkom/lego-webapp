@@ -1722,10 +1722,12 @@ atob@^2.1.1:
   resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.2.tgz#6d9517eb9e030d2436666651e86bd9f6f13533c9"
   integrity sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==
 
-attr-accept@^1.0.3:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/attr-accept/-/attr-accept-1.1.0.tgz#b5cd35227f163935a8f1de10ed3eba16941f6be6"
-  integrity sha1-tc01In8WOTWo8d4Q7T66FpQfa+Y=
+attr-accept@^1.1.3:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/attr-accept/-/attr-accept-1.1.3.tgz#48230c79f93790ef2775fcec4f0db0f5db41ca52"
+  integrity sha512-iT40nudw8zmCweivz6j58g+RT33I4KbaIvRUhjNmDwO2WmsQUxFEZZYZ5w3vXe5x5MX9D7mfvA/XaLOZYFR9EQ==
+  dependencies:
+    core-js "^2.5.0"
 
 autoprefixer@^6.3.1:
   version "6.7.7"
@@ -3082,6 +3084,11 @@ core-js@^2.4.0:
   version "2.5.1"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.5.1.tgz#ae6874dc66937789b80754ff5428df66819ca50b"
   integrity sha1-rmh03GaTd4m4B1T/VCjfZoGcpQs=
+
+core-js@^2.5.0:
+  version "2.6.9"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.9.tgz#6b4b214620c834152e179323727fc19741b084f2"
+  integrity sha512-HOpZf6eXmnl7la+cUdMnLvUxKNqLUzJvgIziQ0DiF3JwSImNphIqdGqzj6hIKyX04MmV0poclQ7+wjWvxQyR2A==
 
 core-js@^2.6.5:
   version "2.6.5"
@@ -4933,6 +4940,13 @@ file-loader@^3.0.1:
   dependencies:
     loader-utils "^1.0.2"
     schema-utils "^1.0.0"
+
+file-selector@^0.1.11:
+  version "0.1.12"
+  resolved "https://registry.yarnpkg.com/file-selector/-/file-selector-0.1.12.tgz#fe726547be219a787a9dcc640575a04a032b1fd0"
+  integrity sha512-Kx7RTzxyQipHuiqyZGf+Nz4vY9R1XGxuQl/hLoJwq+J4avk/9wxxgZyHKtbyIPJmbD4A66DWGYfyykWNpcYutQ==
+  dependencies:
+    tslib "^1.9.0"
 
 filesize@3.6.1, filesize@^3.6.1:
   version "3.6.1"
@@ -10182,7 +10196,7 @@ prop-types-extra@^1.0.1:
   dependencies:
     warning "^3.0.0"
 
-prop-types@^15.5.0, prop-types@^15.5.10, prop-types@^15.5.9, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@^15.5.0, prop-types@^15.5.10, prop-types@^15.5.3, prop-types@^15.5.4, prop-types@^15.5.6, prop-types@^15.5.8, prop-types@^15.5.9, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -10190,23 +10204,6 @@ prop-types@^15.5.0, prop-types@^15.5.10, prop-types@^15.5.9, prop-types@^15.6.1,
     loose-envify "^1.4.0"
     object-assign "^4.1.1"
     react-is "^16.8.1"
-
-prop-types@^15.5.3:
-  version "15.6.2"
-  resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.2.tgz#05d5ca77b4453e985d60fc7ff8c859094a497102"
-  integrity sha512-3pboPvLiWD7dkI3qf3KbUe6hKFKa52w+AE0VCqECtf+QHAKgOL37tTaNCnuX1nAAQ4ZhyP+kYVKf8rLmJ/feDQ==
-  dependencies:
-    loose-envify "^1.3.1"
-    object-assign "^4.1.1"
-
-prop-types@^15.5.4, prop-types@^15.5.6, prop-types@^15.5.7, prop-types@^15.5.8, prop-types@^15.6.0:
-  version "15.6.0"
-  resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.0.tgz#ceaf083022fc46b4a35f69e13ef75aed0d639856"
-  integrity sha1-zq8IMCL8RrSjX2nhPvda7Q1jmFY=
-  dependencies:
-    fbjs "^0.8.16"
-    loose-envify "^1.3.1"
-    object-assign "^4.1.1"
 
 proxy-addr@~2.0.5:
   version "2.0.5"
@@ -10558,13 +10555,14 @@ react-docgen@3.0.0-rc.2:
     prop-types "^15.6.2"
     scheduler "^0.13.6"
 
-react-dropzone@^3.10.0:
-  version "3.13.4"
-  resolved "https://registry.yarnpkg.com/react-dropzone/-/react-dropzone-3.13.4.tgz#84da26815c40339691c49b4544c2ef7a16912ccc"
-  integrity sha1-hNomgVxAM5aRxJtFRMLvehaRLMw=
+react-dropzone@^10.1.9:
+  version "10.1.9"
+  resolved "https://registry.yarnpkg.com/react-dropzone/-/react-dropzone-10.1.9.tgz#8093ecd7d2dc4002280eb2dac1d5fa4216c800ee"
+  integrity sha512-7iqALZ0mzk+4g/AsYxEy3QyWPMTVQYKQVkYUe9zIbH18u+pi7EBDg010KEwfIX6jeTDH2qP0E6/eUnXvBYrovA==
   dependencies:
-    attr-accept "^1.0.3"
-    prop-types "^15.5.7"
+    attr-accept "^1.1.3"
+    file-selector "^0.1.11"
+    prop-types "^15.7.2"
 
 react-error-overlay@^5.1.0:
   version "5.1.4"
