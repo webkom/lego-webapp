@@ -96,9 +96,9 @@ export default class BdbDetail extends Component<Props, State> {
     return editSemesterStatus(sendableSemester, { detail: true });
   };
 
-  deleteSemesterStatus = (semesterId: number) => {
+  deleteSemesterStatus = (semesterStatusId: number) => {
     const { deleteSemesterStatus, company } = this.props;
-    return deleteSemesterStatus(company.id, semesterId);
+    return deleteSemesterStatus(company.id, semesterStatusId);
   };
 
   deleteCompanyContact = (companyContactId: number) => {

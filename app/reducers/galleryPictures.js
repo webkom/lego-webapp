@@ -40,12 +40,6 @@ export type GalleryPictureEntity = {
 function mutateGalleryPicture(state: any, action: any) {
   const { uploadStatus = initialUploadStatus } = state;
   switch (action.type) {
-    case GalleryPicture.DELETE.SUCCESS: {
-      return {
-        ...state,
-        items: state.items.filter(id => id !== action.meta.id)
-      };
-    }
     case Gallery.UPLOAD.BEGIN: {
       const imageCount = uploadStatus.imageCount + action.meta.imageCount;
       return {
