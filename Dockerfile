@@ -42,7 +42,6 @@ RUN sentry-cli releases deploys ${RELEASE} new -e "staging"
 RUN sentry-cli releases deploys ${RELEASE} new -e "production"
 
 FROM node:11
-MAINTAINER Abakus Webkom <webkom@abakus.no>
 WORKDIR /app/
 
 ARG RELEASE
