@@ -17,6 +17,7 @@
   min-width: 200px;
   max-width: 893px;
   max-height: 300px;
+  resize: vertical;
 }
 
 .feedbackUpdateButton {
