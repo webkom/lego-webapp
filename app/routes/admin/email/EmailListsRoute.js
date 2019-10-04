@@ -12,7 +12,7 @@ const mapStateToProps = state => ({
   emailLists: selectEmailLists(state),
   fetching: state.emailLists.fetching,
   hasMore: state.emailLists.hasMore,
-  notFetching: !state.emailLists.fetching
+  notFetching: !state.emailLists.fetching || state.emailLists.items.length
 });
 
 const mapDispatchToProps = { fetch };
