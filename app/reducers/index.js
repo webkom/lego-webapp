@@ -99,8 +99,7 @@ const reducers = {
   surveys,
   tags,
   toasts,
-  users,
-  payments
+  users
 };
 
 export type Reducers = typeof reducers;
