@@ -14,7 +14,7 @@ describe('The Home Page and Login', () => {
     cy.contains('li', 'DIPS');
 
     cy.contains('h3', 'Arrangementer');
-    cy.contains('li', 'Immatrikuleringsball');
+    cy.contains('li', 'Sikkerhet og Sårbarhet');
 
     cy.contains('h2', 'Siste artikkel');
     cy.contains('h2', 'Siste utgave av');
@@ -52,7 +52,7 @@ describe('The Home Page and Login', () => {
     cy.contains('li', 'Deloitte AS');
 
     cy.contains('h3', 'Arrangementer');
-    cy.contains('li', 'Immatrikuleringsball');
+    cy.contains('li', 'Sikkerhet og Sårbarhet');
 
     cy.contains('h3', 'Påmeldinger');
 
