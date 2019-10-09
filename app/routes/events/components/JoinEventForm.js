@@ -115,8 +115,9 @@ const PaymentForm = ({
 }) => (
   <div style={{ width: '100%' }}>
     <div className={styles.joinHeader}>Betaling</div>
-    <div className={styles.eventPrice}>
-      Du skal betale {(event.price / 100).toFixed(2).replace('.', ',')} kr
+    <div className={styles.eventPrice} title="Special price for you my friend!">
+      Du skal betale{' '}
+      <b>{(event.price / 100).toFixed(2).replace('.', ',')} kr</b>
     </div>
     <PaymentRequestForm
       createPaymentIntent={createPaymentIntent}
