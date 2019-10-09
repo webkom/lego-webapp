@@ -39,7 +39,7 @@
     "bunyan-pretty": "^0.0.1",
     "classnames": "^2.2.6",
     "cookie-parser": "^1.4.3",
-    "draft-convert": "^2.0.1",
+    "draft-convert": "^2.1.8",
     "draft-js": "^0.10.5",
     "es6-promise-pool": "^2.5.0",
     "fuzzy": "^0.1.3",
