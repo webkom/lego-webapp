@@ -12,6 +12,7 @@ import { Flex } from 'app/components/Layout';
 import type { Event, EventTimeType } from 'app/models';
 import { EVENTFIELDS } from 'app/utils/constants';
 import { eventStatus, eventAttendance } from 'app/utils/eventStatus';
+import moment from 'moment-timezone';
 
 type AttendanceProps = {
   event: Event
@@ -36,6 +37,8 @@ type TimeStampProps = {
 
 const TimeStamp = ({ event, field, loggedIn }: TimeStampProps) => {
   const registration = eventStatus(event, loggedIn, true);
+  const hasStarted = moment().isBefore(event.startTime);
+  const startedStatus = hasStarted ? 'Starter' : 'Startet';
   return (
     <div className={styles.eventTime}>
       {registration && (
@@ -44,7 +47,7 @@ const TimeStamp = ({ event, field, loggedIn }: TimeStampProps) => {
           <br />
         </span>
       )}
-      Starter <Time time={event.startTime} format="ll - HH:mm" />
+      {startedStatus} <Time time={event.startTime} format="ll - HH:mm" />
     </div>
   );
 };
