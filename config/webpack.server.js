@@ -99,7 +99,26 @@ module.exports = (env, argv) => {
                   loader: 'css-loader',
                   options: {
                     modules: true,
+                    importLoaders: 1,
                     localIdentName: '[name]__[local]--[hash:base64:10]'
+                  }
+                },
+                {
+                  loader: 'postcss-loader',
+                  options: {
+                    ident: 'postcss',
+                    plugins: () => [
+                      require('postcss-import')({
+                        path: [root]
+                      }),
+                      require('postcss-preset-env')({
+                        stage: 1,
+                        features: {
+                          'custom-media-queries': true
+                        }
+                      }),
+                      require('postcss-nested')
+                    ]
                   }
                 }
               ]
