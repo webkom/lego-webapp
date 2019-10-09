@@ -29,6 +29,9 @@ const eventStatus = (
       if (!loggedIn) {
         return 'Logg inn for å melde deg på';
       } else if (activationTime === null) {
+        if (isAdmitted) {
+          return 'Du er allerede påmeldt';
+        }
         return 'Ingen påmeldingsrett';
       }
       return 'Åpent med påmelding';
