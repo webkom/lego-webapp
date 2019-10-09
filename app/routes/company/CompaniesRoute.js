@@ -8,11 +8,11 @@ import CompaniesPage from './components/CompaniesPage';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { selectPagination } from '../../reducers/selectors';
-import { selectCompanies } from 'app/reducers/companies';
+import { selectActiveCompanies } from 'app/reducers/companies';
 
 const mapStateToProps = (state, props) => {
   const { query } = props.location;
-  const companies = selectCompanies(state, props);
+  const companies = selectActiveCompanies(state, props);
   const showFetchMore = selectPagination('companies', { queryString: '' })(
     state
   );
