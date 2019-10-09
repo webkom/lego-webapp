@@ -57,9 +57,8 @@
 }
 
 .mainTxt {
-  width: 100%;
-  padding: 2.5em;
-  padding-bottom: 4em;
+  width: calc(100% - 5em);
+  padding: 2.5em 0 4em 2em;
 }
 
 .action {
