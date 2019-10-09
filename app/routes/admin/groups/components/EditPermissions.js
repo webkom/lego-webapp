@@ -28,6 +28,7 @@ export default class EditPermissions extends Component<Props, State> {
     edited: false
   };
 
+  // eslint-disable-next-line
   componentWillReceiveProps(nextProps: Props) {
     if (nextProps.permissions !== this.props.permissions) {
       this.setState({

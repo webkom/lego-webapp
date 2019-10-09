@@ -21,6 +21,7 @@ class LatestReadme extends Component<Props, State> {
     expanded: this.props.expanded
   };
 
+  // eslint-disable-next-line
   componentWillReceiveProps(nextProps: Props) {
     if (nextProps.expanded !== this.state.expanded) {
       this.setState({

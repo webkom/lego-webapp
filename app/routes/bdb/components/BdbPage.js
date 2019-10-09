@@ -44,6 +44,7 @@ export default class BdbPage extends Component<Props, State> {
     searchQuery: ''
   };
 
+  // eslint-disable-next-line
   componentWillMount() {
     const date = new Date();
     this.setState({

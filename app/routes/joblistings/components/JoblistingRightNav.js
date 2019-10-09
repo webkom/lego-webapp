@@ -99,6 +99,7 @@ export default class JoblistingsRightNav extends Component<Props, State> {
     display: display ? 'block' : 'none'
   });
 
+  // eslint-disable-next-line
   componentWillReceiveProps = (nextProps: Props) => {
     const query = nextProps.query;
     this.setState({

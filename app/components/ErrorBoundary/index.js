@@ -26,6 +26,7 @@ class ErrorBoundary extends React.Component<Props, State> {
     Raven.lastEventId() && Raven.showReportDialog({});
   };
 
+  // eslint-disable-next-line
   componentWillReceiveProps(nextProps: Props) {
     const { resetOnChange } = this.props;
     const { error } = this.state;

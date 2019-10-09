@@ -27,6 +27,7 @@ class SearchPage extends Component<Props, State> {
     query: this.props.location.query.q || ''
   };
 
+  // eslint-disable-next-line
   componentWillReceiveProps(nextProps: Props) {
     // Make sure the selectedIndex is within 0 <= index < results.length:
     const selectedIndex = Math.min(

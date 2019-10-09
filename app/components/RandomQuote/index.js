@@ -31,6 +31,7 @@ class RandomQuote extends Component<Props, State> {
     this._isMounted = false;
   }
 
+  // eslint-disable-next-line
   componentWillReceiveProps(newProps) {
     if (newProps.loggedIn) this.refreshQuote();
   }

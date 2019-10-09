@@ -47,6 +47,7 @@ class AttendanceModal extends Component<Props, State> {
     title: 'Status'
   };
 
+  // eslint-disable-next-line
   componentWillMount() {
     this.generateAmendedPools(this.props.pools, this.props.allRegistrations);
   }

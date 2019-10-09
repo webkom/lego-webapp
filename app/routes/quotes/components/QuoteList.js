@@ -34,6 +34,7 @@ export default class QuoteList extends Component<Props, State> {
     displayAdminId: -1
   };
 
+  // eslint-disable-next-line
   componentWillReceiveProps(newProps: Object) {
     this.setState({ displayAdminId: -1 });
   }

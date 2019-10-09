@@ -111,6 +111,7 @@ function withCountdown(WrappedComponent: ComponentType<Props>) {
       this.setupEventCountdown(this.props.event, this.props.registration);
     }
 
+    // eslint-disable-next-line
     componentWillReceiveProps(nextProps: Props) {
       if (
         (nextProps.event.activationTime && !this.props.event.activationTime) ||

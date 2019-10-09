@@ -31,7 +31,7 @@ export default class HTTPError extends Component<Props> {
     const { statusCode = fallbackStatus } = this.props;
     renderAbakus(statusCode.toString(), this.canvas);
   }
-
+  // eslint-disable-next-line
   componentWillReceiveProps(nextProps: Props) {
     const { setStatusCode, location } = this.props;
     const { location: nextLocation } = nextProps;

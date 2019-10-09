@@ -16,6 +16,7 @@ type Props = {
 class Captcha extends Component<Props> {
   captcha: ?ReCAPTCHA;
 
+  // eslint-disable-next-line
   componentWillReceiveProps(nextProps: Props) {
     if (nextProps.value === '') {
       this.captcha && this.captcha.reset();
