@@ -32,9 +32,6 @@
     "type": "git",
     "url": "github.com/webkom/lego-webapp"
   },
-  "resolutions": {
-    "**/**/set-value": "^2.0.1"
-  },
   "dependencies": {
     "@webkom/react-prepare": "^0.5.7",
     "animate.css": "^3.7.0",
