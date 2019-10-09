@@ -21,7 +21,9 @@ type Props = {
 };
 
 const httpCheck = link =>
-  (link.startsWith('http://') || link.startsWith('https://') )? link : `http://${link}`;
+  link.startsWith('http://') || link.startsWith('https://')
+    ? link
+    : `http://${link}`;
 
 const iconComponent = (icon, bubbleClass, iconClass, link = undefined) => {
   if (link) {
