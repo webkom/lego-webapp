@@ -31,10 +31,6 @@ COPY --from=builder /app/dist-client dist-client
 RUN sentry-cli releases new ${RELEASE}
 RUN sentry-cli releases \
   files ${RELEASE} upload-sourcemaps \
-  --rewrite --url-prefix='~/' \
-  './dist-client/'
-RUN sentry-cli releases \
-  files ${RELEASE} upload-sourcemaps \
   --rewrite --url-prefix="/app/dist/" \
   './dist/'
 RUN sentry-cli releases finalize ${RELEASE}
