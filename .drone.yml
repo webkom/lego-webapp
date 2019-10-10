@@ -7,6 +7,8 @@ pipeline:
       - POSTGRES_USER=lego
     when:
       event: [push]
+      branch:
+        exclude: [ prod ]
   minio:
     image: minio/minio
     detach: true
@@ -17,6 +19,8 @@ pipeline:
     command: server /export
     when:
       event: [push]
+      branch:
+        exclude: [ prod ]
   thumbor:
     image: apsl/thumbor:latest
     detach: true
@@ -38,12 +42,16 @@ pipeline:
       - minio
     when:
       event: [push]
+      branch:
+        exclude: [ prod ]
   redis:
     image: redis
     detach: true
     group: services
     when:
       event: [push]
+      branch:
+        exclude: [ prod ]
   api:
     image: registry.abakus.no/webkom/lego:latest
     detach: true
@@ -90,6 +98,8 @@ pipeline:
       - CORS_ORIGIN_DOMAINS=ssr:3000
     when:
       event: [push]
+      branch:
+        exclude: [ prod ]
   legocypresshelper:
     image: abakus/lego-cypress-helper:latest
     detach: true
@@ -97,6 +107,8 @@ pipeline:
     group: services
     when:
       event: [push]
+      branch:
+        exclude: [ prod ]
     environment:
       - PG_HOST=postgres
       - PG_USERNAME=lego
@@ -118,6 +130,8 @@ pipeline:
     image: node:11
     when:
       event: [push]
+      branch:
+        exclude: [ prod ]
     group: testing
     commands:
       - yarn build:server
@@ -125,6 +139,8 @@ pipeline:
     image: node:11
     when:
       event: [push]
+      branch:
+        exclude: [ prod ]
     group: testing
     commands:
       - yarn build:client
@@ -153,6 +169,8 @@ pipeline:
     image: node:11
     when:
       event: [push]
+      branch:
+        exclude: [ prod ]
     group: testing
     environment:
       - CYPRESS_CACHE_FOLDER=/drone/src/.cypress_cache
@@ -163,6 +181,8 @@ pipeline:
     detach: true
     when:
       event: [push]
+      branch:
+        exclude: [ prod ]
     environment:
       - API_URL=http://api:8000/api/v1
       - BASE_URL=http://api:8000
@@ -174,6 +194,8 @@ pipeline:
     shm_size: 100000000 # 100MB
     when:
       event: [push]
+      branch:
+        exclude: [ prod ]
     environment:
       - CYPRESS_API_BASE_URL=http://api:8000
       - CYPRESS_RESET_DB_API=http://legocypresshelper:3030
