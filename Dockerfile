@@ -7,7 +7,7 @@ RUN yarn --ignore-scripts
 
 ENV NODE_ENV production
 
-RUN yarn build:all # includes styleguide
+RUN yarn build
 
 FROM getsentry/sentry-cli:1.26.1 as sentry
 
@@ -31,10 +31,6 @@ COPY --from=builder /app/dist-client dist-client
 RUN sentry-cli releases new ${RELEASE}
 RUN sentry-cli releases \
   files ${RELEASE} upload-sourcemaps \
-  --rewrite --url-prefix='~/' \
-  './dist-client/'
-RUN sentry-cli releases \
-  files ${RELEASE} upload-sourcemaps \
   --rewrite --url-prefix="/app/dist/" \
   './dist/'
 RUN sentry-cli releases finalize ${RELEASE}
@@ -50,7 +46,6 @@ ENV RELEASE ${RELEASE}
 COPY --from=builder /app/dist dist
 COPY --from=builder /app/dist-client dist-client
 COPY --from=builder /app/package.json .
-COPY --from=builder /app/styleguide styleguide
 COPY --from=builder /app/node_modules node_modules
 
 ENTRYPOINT ["node", "dist/server.js"]
