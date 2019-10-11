@@ -178,6 +178,11 @@ export const selectCompanies = createSelector(
   }
 );
 
+export const selectActiveCompanies = createSelector(
+  selectCompanies,
+  companies => companies.filter(company => company.active)
+);
+
 const selectSemesterStatuses = (semesterStatuses, companySemesters) =>
   (semesterStatuses || []).map(semester => {
     const companySemester = companySemesters.find(
