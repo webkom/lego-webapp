@@ -37,8 +37,8 @@ type TimeStampProps = {
 
 const TimeStamp = ({ event, field, loggedIn }: TimeStampProps) => {
   const registration = eventStatus(event, loggedIn, true);
-  const hasStarted = moment().isBefore(event.startTime);
-  const startedStatus = hasStarted ? 'Starter' : 'Startet';
+  const hasStarted = moment().isAfter(event.startTime);
+  const startedStatus = hasStarted ? 'Startet' : 'Starter';
   return (
     <div className={styles.eventTime}>
       {registration && (
