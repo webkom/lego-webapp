@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import RandomQuote from './RandomQuote';
 import { addReaction, deleteReaction } from 'app/actions/ReactionActions';
 import { selectEmojis } from 'app/reducers/emojis';
-import { selectRandomQuote } from 'app/reducers/randomQuote';
+import { selectRandomQuote } from 'app/reducers/quotes';
 import { fetchEmojis } from 'app/actions/EmojiActions';
 import loadingIndicator from 'app/utils/loadingIndicator';
 

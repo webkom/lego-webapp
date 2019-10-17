@@ -10,7 +10,6 @@ import companies from './companies';
 import companySemesters from './companySemesters';
 import emailLists from './emailLists';
 import quotes from './quotes';
-import randomQuote from './randomQuote';
 import podcasts from './podcasts';
 import galleryPictures from './galleryPictures';
 import events from './events';
@@ -90,7 +89,6 @@ const reducers = {
   polls,
   pools,
   quotes,
-  randomQuote,
   readme,
   registrations,
   restrictedMails,
