@@ -43,21 +43,17 @@ const RandomQuote = (props: Props) => {
 
   return (
     <div className={className ? className : ''}>
-      <Flex row justifyContent={'space-between'} alignItems={'flex-start'}>
+      <Flex justifyContent="space-between" alignItems="flex-start">
         <Flex column>
           <div className={styles.quoteText}>{currentQuote.text}</div>
           <div className={styles.quoteSource}>-{currentQuote.source}</div>
         </Flex>
 
-        <Flex
-          column
-          justifyContent={'space-between'}
-          className={styles.actions}
-        >
+        <Flex column justifyContent="space-between" className={styles.actions}>
           <Button flat onClick={() => props.fetchRandomQuote()}>
             <i className="fa fa-refresh" />
           </Button>
-          <Link to={'/quotes/add'} className={styles.add}>
+          <Link to="/quotes/add" className={styles.add}>
             <i className="fa fa-plus" />
           </Link>
         </Flex>
