@@ -1,11 +1,10 @@
 // @flow
 
-import React, { Component } from 'react';
+import React from 'react';
 import styles from './RandomQuote.css';
 import Button from '../Button';
 import type { QuoteEntity } from 'app/reducers/quotes';
-import Reaction from 'app/components/Reactions/Reaction';
-import Reactions from 'app/components/Reactions';
+import LegoReactions from 'app/components/LegoReactions';
 import type { EmojiEntity } from 'app/reducers/emojis';
 import type { ID } from 'app/models';
 import { Link } from 'react-router';
@@ -26,92 +25,56 @@ type Props = {
   currentQuote: QuoteEntity
 };
 
-class RandomQuote extends Component<Props> {
-  render() {
-    const {
-      loggedIn,
-      className,
-      addReaction,
-      deleteReaction,
-      emojis,
-      fetchEmojis,
-      fetchingEmojis,
-      currentQuote
-    } = this.props;
+const RandomQuote = (props: Props) => {
+  const {
+    loggedIn,
+    className,
+    addReaction,
+    deleteReaction,
+    emojis,
+    fetchEmojis,
+    fetchingEmojis,
+    currentQuote
+  } = props;
 
-    let mappedEmojis = [];
-    if (!fetchingEmojis) {
-      mappedEmojis = emojis.map(emoji => {
-        const foundReaction = !currentQuote.reactionsGrouped
-          ? undefined
-          : currentQuote.reactionsGrouped.find(
-              reaction =>
-                emoji.shortCode == reaction.emoji && reaction.hasReacted
-            );
-        if (foundReaction !== undefined) {
-          emoji.hasReacted = true;
-          emoji.reactionId = foundReaction.reactionId;
-        } else {
-          emoji.hasReacted = false;
-          emoji.reactionId = -1;
-        }
-        return emoji;
-      });
-    }
+  if (!loggedIn) {
+    return <div>Logg inn for å se sitater.</div>;
+  }
 
-    return loggedIn ? (
-      <div className={className ? className : ''}>
-        <Flex row justifyContent={'space-between'} alignItems={'flex-start'}>
-          <Flex column>
-            <div className={styles.quoteText}>{currentQuote.text}</div>
-            <div className={styles.quoteSource}>-{currentQuote.source}</div>
-          </Flex>
-
-          <Flex
-            column
-            justifyContent={'space-between'}
-            className={styles.actions}
-          >
-            <Button flat onClick={() => this.props.fetchRandomQuote()}>
-              <i className="fa fa-refresh" />
-            </Button>
-            <Link to={'/quotes/add'} className={styles.add}>
-              <i className="fa fa-plus" />
-            </Link>
-          </Flex>
+  return (
+    <div className={className ? className : ''}>
+      <Flex row justifyContent={'space-between'} alignItems={'flex-start'}>
+        <Flex column>
+          <div className={styles.quoteText}>{currentQuote.text}</div>
+          <div className={styles.quoteSource}>-{currentQuote.source}</div>
         </Flex>
 
-        <div className={styles.quoteReactions}>
-          <Reactions
-            emojis={mappedEmojis}
-            fetchEmojis={fetchEmojis}
-            fetchingEmojis={fetchingEmojis}
-            addReaction={addReaction}
-            deleteReaction={deleteReaction}
-            contentTarget={currentQuote.contentTarget}
-          >
-            {currentQuote.reactionsGrouped.map(reaction => {
-              return (
-                <Reaction
-                  key={`reaction-${reaction.emoji}`}
-                  emoji={reaction.emoji}
-                  count={reaction.count}
-                  unicodeString={reaction.unicodeString}
-                  reactionId={reaction.reactionId}
-                  hasReacted={reaction.hasReacted}
-                  addReaction={addReaction}
-                  deleteReaction={deleteReaction}
-                  contentTarget={currentQuote.contentTarget}
-                />
-              );
-            })}
-          </Reactions>
-        </div>
+        <Flex
+          column
+          justifyContent={'space-between'}
+          className={styles.actions}
+        >
+          <Button flat onClick={() => props.fetchRandomQuote()}>
+            <i className="fa fa-refresh" />
+          </Button>
+          <Link to={'/quotes/add'} className={styles.add}>
+            <i className="fa fa-plus" />
+          </Link>
+        </Flex>
+      </Flex>
+
+      <div className={styles.quoteReactions}>
+        <LegoReactions
+          emojis={emojis}
+          fetchEmojis={fetchEmojis}
+          fetchingEmojis={fetchingEmojis}
+          addReaction={addReaction}
+          deleteReaction={deleteReaction}
+          parentEntity={currentQuote}
+        />
       </div>
-    ) : (
-      'Logg inn for å se sitater.'
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default RandomQuote;

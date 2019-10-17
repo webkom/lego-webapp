@@ -30,6 +30,8 @@ type State = {
   fetchedEmojis: boolean
 };
 
+// Note: Most use cases won't want to use this class directly. Instead, use
+// app/components/LegoReactions.
 class Reactions extends React.Component<Props, State> {
   node: ?any = null;
 
