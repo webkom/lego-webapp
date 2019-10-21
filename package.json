@@ -96,7 +96,7 @@
     "redux-segment": "^1.6.2",
     "redux-thunk": "^2.2.0",
     "reselect": "4.0.0",
-    "serialize-javascript": "^1.4.0",
+    "serialize-javascript": "^2.1.0",
     "slugify": "^1.3.5",
     "source-map-support": "^0.5.8",
     "victory": "^0.25.7",
