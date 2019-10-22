@@ -1,7 +1,8 @@
 //@flow
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-import { match, RouterContext } from 'react-router';
+import { StaticRouter } from 'react-router';
+import RouteConfig from '../app/routes';
 import { Provider } from 'react-redux';
 import Helmet from 'react-helmet';
 import Raven from 'raven';
@@ -60,8 +61,69 @@ const createServerSideRenderer = (
     );
   };
 
+  const context = {};
+
   const log = req.app.get('log');
 
+  const ServerConfig = (req, context) => (
+    <StaticRouter location={req.url} context={context}>
+      <RouteConfig />
+    </StaticRouter>
+  );
+
+  const raven = createNewRavenInstance(Raven);
+
+  const store = configureStore(
+    {},
+    { raven, getCookie: key => req.cookies[key] }
+  );
+
+  const app = <Provider store={store}>{ServerConfig(req, context)}</Provider>;
+
+  const reportError = (error: Error) => {
+    try {
+      // $FlowFixMe
+      const err = error.error ? error.payload : error;
+      log.error(err, 'render_error');
+      raven.captureException(err);
+    } catch (e) {
+      //
+    }
+  };
+
+  const respond = () => {
+    if (context.url) {
+      return res.redirect(302, context.url);
+    }
+    const state: State = store.getState();
+    const body = renderToString(app);
+    // $FlowFixMe
+    const statusCode = state.router.statusCode || 200;
+    res.status(statusCode);
+    return render(body, state);
+  };
+
+  prepareWithTimeout(app)
+    .then(
+      () => respond(),
+      error => {
+        if (isTimeoutError(error)) {
+          reportError(error.error);
+          return render();
+        }
+        if (isReactHooksError(error)) {
+          return respond();
+        }
+        reportError(error);
+        respond();
+      }
+    )
+    .catch(error => {
+      reportError(error);
+      render();
+    });
+  //old
+  /*
   match({ routes, location: req.url }, (err, redirect, renderProps) => {
     if (err) {
       return next(err);
@@ -129,5 +191,6 @@ const createServerSideRenderer = (
         render();
       });
   });
+  */
 };
 export default createServerSideRenderer;
