@@ -22,7 +22,8 @@ type State = {
   truncateOptions: boolean,
   allOptions: Array<OptionEntityRatio>,
   optionsToShow: Array<OptionEntityRatio>,
-  expanded: boolean
+  expanded: boolean,
+  isHovering: boolean
 };
 
 type OptionEntityRatio = OptionEntity & {
@@ -38,14 +39,16 @@ class Poll extends React.Component<Props, State> {
         truncateOptions: true,
         allOptions: options,
         optionsToShow: options.slice(0, props.truncate),
-        expanded: false
+        expanded: false,
+        isHovering: false
       };
     } else {
       this.state = {
         truncateOptions: false,
         allOptions: options,
         optionsToShow: options,
-        expanded: true
+        expanded: true,
+        isHovering: false
       };
     }
   }
@@ -71,9 +74,18 @@ class Poll extends React.Component<Props, State> {
     expanded
       ? this.setState({
           optionsToShow: allOptions.slice(0, truncate),
-          expanded: false
+          expanded: false,
+          isHovering: false
         })
-      : this.setState({ optionsToShow: allOptions, expanded: true });
+      : this.setState({
+          optionsToShow: allOptions,
+          expanded: true,
+          isHovering: false
+        });
+  };
+
+  toggleHover = () => {
+    this.setState({ isHovering: !this.state.isHovering });
   };
 
   optionsWithPerfectRatios = (options: Array<OptionEntity>) => {
@@ -100,7 +112,7 @@ class Poll extends React.Component<Props, State> {
 
   render() {
     const { poll, handleVote, backgroundLight, details } = this.props;
-    const { truncateOptions, optionsToShow, expanded } = this.state;
+    const { truncateOptions, optionsToShow, expanded, isHovering } = this.state;
     const { id, title, description, options, hasAnswered, totalVotes } = poll;
 
     return (
@@ -163,11 +175,47 @@ class Poll extends React.Component<Props, State> {
           </Flex>
         )}
         {!hasAnswered && (
-          <Flex column className={styles.optionWrapper}>
+          <Flex
+            column
+            className={styles.optionWrapper}
+            onMouseEnter={this.toggleHover}
+            onMouseLeave={this.toggleHover}
+            style={{}}
+          >
+            {!expanded && (
+              <Flex
+                style={{ display: isHovering ? 'flex' : 'none' }}
+                className={styles.blurContainer}
+                onClick={this.toggleTruncate}
+              >
+                <p
+                  style={{
+                    marginTop: '25px'
+                  }}
+                  className={styles.blurOverlay}
+                >
+                  Klikk her for å stemme.
+                </p>
+                <Icon
+                  style={{
+                    marginTop: '40px'
+                  }}
+                  className={styles.blurOverlay}
+                  size={60}
+                  name={expanded ? 'arrow-up' : 'arrow-down'}
+                />
+              </Flex>
+            )}
+
             {options &&
               optionsToShow.map(option => (
                 <Flex style={{ justifyContent: 'center' }} key={option.id}>
                   <Button
+                    style={
+                      !expanded && isHovering
+                        ? { filter: 'blur(3px)', pointerEvents: 'none' }
+                        : {}
+                    }
                     className={styles.voteButton}
                     onClick={() => handleVote(poll.id, option.id)}
                   >
