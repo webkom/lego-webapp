@@ -109,7 +109,7 @@ const prepareToSubmit = (formContent: Object, props: Props) => {
   });
 
   validateMandatory(safeAnswers, props);
-  const { survey, submitFunction, currentUser } = props;
+  const { survey, submitFunction, currentUser, push } = props;
 
   const toSubmit = {
     ...formContent,
@@ -118,7 +118,10 @@ const prepareToSubmit = (formContent: Object, props: Props) => {
     answers: formatAnswers(safeAnswers, survey).filter(Boolean)
   };
 
-  return submitFunction(toSubmit);
+  submitFunction(toSubmit).then(result => {
+    const id = survey.id;
+    push(`/surveys/${String(id)}`);
+  });
 };
 
 const formatAnswers = (answers, survey) => {

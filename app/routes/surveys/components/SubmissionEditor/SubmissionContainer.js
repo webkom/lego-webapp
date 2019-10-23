@@ -12,13 +12,13 @@ import styles from '../surveys.css';
 
 type Props = {
   survey: SurveyEntity,
-  alreadyAnswered: boolean,
+  hasAlreadyAnswered: boolean,
   actionGrant: Array<string>
 };
 
 const SubmissionContainer = ({
   survey,
-  alreadyAnswered,
+  hasAlreadyAnswered,
   actionGrant = [],
   ...props
 }: Props) => {
@@ -31,7 +31,7 @@ const SubmissionContainer = ({
     );
   }
 
-  if (alreadyAnswered) {
+  if (hasAlreadyAnswered) {
     return <AlreadyAnswered />;
   }
 
