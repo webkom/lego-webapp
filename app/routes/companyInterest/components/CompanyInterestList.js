@@ -77,6 +77,7 @@ class CompanyInterestList extends Component<Props, State> {
   };
 
   handleChange = (clickedOption: Option): void => {
+    if (!clickedOption) return;
     const { id } = clickedOption;
     this.props
       .fetch({
