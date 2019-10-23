@@ -126,6 +126,20 @@ describe('Polls', () => {
       .should('be.visible')
       .contains('Ja')
       .click();
+    cy.get(c('PollEditor__deleteOption'))
+      .first()
+      .click();
+    cy.get(c('Modal__content'))
+      .should('be.visible')
+      .contains('Ja')
+      .click();
+    cy.get(c('PollEditor__deleteOption'))
+      .first()
+      .click();
+    cy.get(c('Modal__content'))
+      .should('be.visible')
+      .contains('Ja')
+      .click();
 
     cy.contains('a', 'Valg').click();
     cy.contains('a', 'Valg').click();
