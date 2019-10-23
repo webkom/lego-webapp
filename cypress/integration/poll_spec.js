@@ -99,9 +99,9 @@ describe('Polls', () => {
 
   it('can answer poll', () => {
     cy.visit('/polls/2');
-    cy.contains('Stemmer: 9');
+    cy.contains('Stemmer: 13');
     cy.contains('yo').click();
-    cy.contains('Stemmer: 10');
+    cy.contains('Stemmer: 14');
   });
 
   it('can edit poll and answer it on frontpage', () => {
