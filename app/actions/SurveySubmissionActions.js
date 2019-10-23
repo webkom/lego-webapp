@@ -17,21 +17,6 @@ export function fetchSubmissions(surveyId: number): Thunk<*> {
   });
 }
 
-export function fetchUserSubmission(surveyId: number, user: number) {
-  return callAPI({
-    types: SurveySubmission.FETCH,
-    endpoint: `/surveys/${surveyId}/submissions/?user=${user}`,
-    method: 'GET',
-    schema: [surveySubmissionSchema],
-    meta: {
-      surveyId,
-      user,
-      errorMessage:
-        'Noe gikk galt i sjekking av hvorvidt brukeren allerede har svart'
-    }
-  });
-}
-
 export function addSubmission({ surveyId, ...data }: Object): Thunk<*> {
   return callAPI({
     types: SurveySubmission.ADD,

@@ -2,7 +2,6 @@
 
 import React from 'react';
 import type { SurveyEntity } from 'app/reducers/surveys';
-import type { SubmissionEntity } from 'app/reducers/surveySubmissions';
 import { Content } from 'app/components/Content';
 import { Link } from 'react-router';
 import AlreadyAnswered from './AlreadyAnswered';
@@ -13,13 +12,13 @@ import styles from '../surveys.css';
 
 type Props = {
   survey: SurveyEntity,
-  submission?: SubmissionEntity,
+  alreadyAnswered: boolean,
   actionGrant: Array<string>
 };
 
 const SubmissionContainer = ({
   survey,
-  submission,
+  alreadyAnswered,
   actionGrant = [],
   ...props
 }: Props) => {
@@ -32,8 +31,8 @@ const SubmissionContainer = ({
     );
   }
 
-  if (submission) {
-    return <AlreadyAnswered survey={survey} submission={submission} />;
+  if (alreadyAnswered) {
+    return <AlreadyAnswered />;
   }
 
   if (!actionGrant.includes('edit') && moment(survey.activeFrom) > moment()) {
@@ -48,9 +47,7 @@ const SubmissionContainer = ({
     );
   }
 
-  return (
-    <SubmissionEditor survey={survey} submission={submission} {...props} />
-  );
+  return <SubmissionEditor survey={survey} {...props} />;
 };
 
 export default SubmissionContainer;

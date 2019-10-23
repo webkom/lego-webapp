@@ -5,7 +5,6 @@ import prepare from 'app/utils/prepare';
 import { compose } from 'redux';
 import { addSubmission } from '../../actions/SurveySubmissionActions';
 import { fetchSurvey } from 'app/actions/SurveyActions';
-import { fetchUserSubmission } from 'app/actions/SurveySubmissionActions';
 import SubmissionContainer from './components/SubmissionEditor/SubmissionContainer';
 import { selectSurveyById } from 'app/reducers/surveys';
 import { selectSurveySubmissionForUser } from 'app/reducers/surveySubmissions';
@@ -14,11 +13,7 @@ import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import loadingIndicator from 'app/utils/loadingIndicator';
 
 const loadData = ({ params: { surveyId }, currentUser }, dispatch) =>
-  Promise.all([
-    dispatch(fetchSurvey(surveyId)),
-    currentUser.id && dispatch(fetchUserSubmission(surveyId, currentUser.id))
-  ]);
-
+  dispatch(fetchSurvey(surveyId));
 const mapStateToProps = (state, props) => {
   const surveyId = Number(props.params.surveyId);
   const survey = selectSurveyById(state, { surveyId });
