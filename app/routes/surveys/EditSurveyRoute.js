@@ -76,6 +76,7 @@ const mapStateToProps = (state, props) => {
     surveyId,
     fetching: state.surveys.fetching,
     template,
+    selectedTemplateType: templateType,
     initialValues,
     notFetching,
     activeFrom: formSelector(state, 'activeFrom')
