@@ -29,6 +29,7 @@ type Props = FieldProps & {
   submitFunction: (SurveyEntity, ?number) => Promise<*>,
   push: string => void,
   template?: Object,
+  selectedTemplateType?: string,
   destroy: () => void,
   initialize: () => void,
   activeFrom: string
@@ -97,7 +98,8 @@ class SurveyEditor extends Component<Props, State> {
       template,
       push,
       destroy,
-      activeFrom
+      activeFrom,
+      selectedTemplateType
     } = this.props;
 
     const titleField = (
@@ -144,6 +146,13 @@ class SurveyEditor extends Component<Props, State> {
               destroy={destroy}
             />
           </Dropdown>
+          <div className={styles.templateType}>
+            {selectedTemplateType && (
+              <span>
+                Mal i bruk: <i>{EVENT_CONSTANTS[selectedTemplateType]}</i>
+              </span>
+            )}
+          </div>
 
           {survey.templateType ? (
             <h2 style={{ color: 'red' }}>
@@ -169,13 +178,11 @@ class SurveyEditor extends Component<Props, State> {
               />
             </div>
           )}
-
           <FieldArray
             name="questions"
             component={renderQuestions}
             rerenderOnEveryChange={true}
           />
-
           <div className={styles.clear} />
           <Button className={styles.submit} disabled={submitting} submit>
             Lagre

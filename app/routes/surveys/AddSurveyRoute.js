@@ -31,6 +31,7 @@ const mapStateToProps = (state, props) => {
   const { templateType, event } = props.location.query;
 
   const fullEvent = selectEventById(state, { eventId: event });
+  const selectedTemplateType = templateType || fullEvent.eventType;
   const template = selectSurveyTemplate(state, {
     ...props,
     templateType: templateType || fullEvent.eventType
@@ -66,6 +67,7 @@ const mapStateToProps = (state, props) => {
 
   return {
     template,
+    selectedTemplateType,
     initialValues,
     survey: {
       questions: template ? template.questions : [],

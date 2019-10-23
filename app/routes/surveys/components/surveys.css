@@ -109,6 +109,11 @@
   border: 1px solid #ccc;
 }
 
+.templateType {
+  margin-bottom: 15px;
+  margin-top: 2px;
+}
+
 .addQuestion {
   color: var(--lego-link-color);
   margin: 0 auto;
