@@ -166,9 +166,7 @@ export const galleryPictureSchema = new schema.Entity('galleryPictures', {
 
 export const gallerySchema = new schema.Entity('galleries');
 
-export const quoteSchema = new schema.Entity('quotes', {
-  reactions: [reactionSchema]
-});
+export const quoteSchema = new schema.Entity('quotes');
 
 export const pollSchema = new schema.Entity('polls');
 

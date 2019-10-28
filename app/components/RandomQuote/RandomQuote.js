@@ -7,7 +7,7 @@ import type { QuoteEntity } from 'app/reducers/quotes';
 import LegoReactions from 'app/components/LegoReactions';
 import type { EmojiEntity } from 'app/reducers/emojis';
 import type { ID } from 'app/models';
-import { Link } from 'react-router';
+import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import { Flex } from 'app/components/Layout';
 
 type Props = {
@@ -50,12 +50,12 @@ const RandomQuote = (props: Props) => {
         </Flex>
 
         <Flex column justifyContent="space-between" className={styles.actions}>
-          <Button flat onClick={() => props.fetchRandomQuote()}>
+          <Button flat onClick={() => props.fetchRandomQuote()} className={styles.fetchNew}>
             <i className="fa fa-refresh" />
           </Button>
-          <Link to="/quotes/add" className={styles.add}>
+          <NavigationLink to="/quotes/add">
             <i className="fa fa-plus" />
-          </Link>
+          </NavigationLink>
         </Flex>
       </Flex>
 
