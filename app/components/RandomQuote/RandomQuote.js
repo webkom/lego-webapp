@@ -50,7 +50,11 @@ const RandomQuote = (props: Props) => {
         </Flex>
 
         <Flex column justifyContent="space-between" className={styles.actions}>
-          <Button flat onClick={() => props.fetchRandomQuote()} className={styles.fetchNew}>
+          <Button
+            flat
+            onClick={() => props.fetchRandomQuote()}
+            className={styles.fetchNew}
+          >
             <i className="fa fa-refresh" />
           </Button>
           <NavigationLink to="/quotes/add">
