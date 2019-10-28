@@ -61,7 +61,7 @@ const LINKS: Array<Link> = [
   },
   {
     key: 'quotes',
-    title: 'AbaQuote',
+    title: 'Overhørt',
     url: '/quotes/?filter=all'
   },
   {

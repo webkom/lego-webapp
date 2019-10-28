@@ -230,7 +230,7 @@ class Overview extends Component<Props, State> {
     const quoteItem = (
       <Flex column>
         <Link to={'/quotes'}>
-          <h3 className="u-ui-heading">AbaQuote</h3>
+          <h3 className="u-ui-heading">Overhørt</h3>
         </Link>
         <RandomQuote loggedIn={loggedIn} className={styles.quote} />
       </Flex>

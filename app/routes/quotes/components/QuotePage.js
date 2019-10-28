@@ -60,7 +60,7 @@ export default function QuotePage({
   }
   return (
     <div className={cx(styles.root, styles.quoteContainer)}>
-      {navigation('AbaQuote', actionGrant)}
+      {navigation('Overhørt', actionGrant)}
 
       {errorMessage || (
         <QuoteList
