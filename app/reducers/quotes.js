@@ -32,6 +32,10 @@ const mutateQuote = produce(
       case Quote.APPROVE.SUCCESS:
         newState.byId[action.meta.quoteId].approved = true;
         break;
+
+      case Quote.FETCH_RANDOM.SUCCESS:
+        newState.randomQuote = action.payload.result;
+        break;
     }
   }
 );
@@ -83,5 +87,14 @@ export const selectSortedQuotes = createSelector(
           quote.approved === (query.filter !== 'unapproved')
       )
       .sort(compareByDate);
+  }
+);
+
+export const selectRandomQuote = createSelector(
+  state => state.quotes.byId,
+  state => state.quotes.randomQuote,
+  (quotes, randomQuoteId) => {
+    if (!quotes || !randomQuoteId) return {};
+    return quotes[randomQuoteId];
   }
 );

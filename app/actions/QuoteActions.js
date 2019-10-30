@@ -81,7 +81,7 @@ export function fetchQuote(quoteId: number) {
 
 export function fetchRandomQuote() {
   return callAPI({
-    types: Quote.FETCH,
+    types: Quote.FETCH_RANDOM,
     endpoint: '/quotes/random/',
     method: 'GET',
     meta: {

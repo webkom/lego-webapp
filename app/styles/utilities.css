@@ -57,6 +57,14 @@
   }
 }
 
+.hiddenOnDesktop {
+  display: none;
+
+  @media (--small-viewport) {
+    display: flex;
+  }
+}
+
 .sidebar {
   /* TODO: Make this proper CSS for a general sidebar */
   min-height: 300px;

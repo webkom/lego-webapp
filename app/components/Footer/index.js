@@ -2,11 +2,9 @@
 
 import React from 'react';
 import cx from 'classnames';
-import RandomQuote from '../RandomQuote';
 import Flex from 'app/components/Layout/Flex';
-import { hiddenOnMobile } from 'app/styles/utilities.css';
+import { hiddenOnMobile, hiddenOnDesktop } from 'app/styles/utilities.css';
 import { Image } from 'app/components/Image';
-import { Link } from 'react-router';
 import netcompany from 'app/assets/netcompany_white.svg';
 import Octocat from 'app/assets/Octocat.png';
 import Icon from 'app/components/Icon';
@@ -55,14 +53,10 @@ const Footer = (props: Props) => (
             </p>
           </div>
           <div className={cx(styles.section, hiddenOnMobile)}>
-            <Link to={'/quotes/?filter=all'} style={{ color: 'white' }}>
-              <Icon
-                className={styles.contact}
-                size={50}
-                name="contacts-outline"
-              />
-            </Link>
-            <RandomQuote loggedIn={props.loggedIn} />
+            <Image
+              className={cx(styles.cooperator, styles.desktopLogo)}
+              src={netcompany}
+            />
           </div>
           <div className={styles.section}>
             <Icon
@@ -77,7 +71,10 @@ const Footer = (props: Props) => (
             <p>7491 Trondheim</p>
           </div>
         </Flex>
-        <Image className={styles.cooperator} src={netcompany} />
+        <Image
+          className={cx(styles.cooperator, hiddenOnDesktop)}
+          src={netcompany}
+        />
       </Flex>
     </div>
   </footer>

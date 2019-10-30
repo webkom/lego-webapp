@@ -51,17 +51,19 @@
   color: #ccc;
 }
 
+.addQuote {
+  max-width: 550px;
+}
+
 .addQuote label {
   display: block;
 }
 
 .addQuoteContent {
-  width: 500px;
-  height: 150px;
+  height: 200px;
 }
 
 .addQuoteSource {
-  width: 500px;
   height: 75px;
 }
 
