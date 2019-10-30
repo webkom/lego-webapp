@@ -1,4 +1,5 @@
 // @flow
+import React from 'react';
 import { compose } from 'redux';
 import prepare from 'app/utils/prepare';
 import { fetchRandomQuote } from 'app/actions/QuoteActions';
@@ -9,6 +10,7 @@ import { selectEmojis } from 'app/reducers/emojis';
 import { selectRandomQuote } from 'app/reducers/quotes';
 import { fetchEmojis } from 'app/actions/EmojiActions';
 import loadingIndicator from 'app/utils/loadingIndicator';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 
 function mapStateToProps(state, props) {
   const emojis = selectEmojis(state);
@@ -29,7 +31,10 @@ const mapDispatchToProps = {
   fetchEmojis
 };
 
+const LoginToSeeQuotes = () => <div>Logg inn for å se sitater.</div>;
+
 export default compose(
+  replaceUnlessLoggedIn(LoginToSeeQuotes),
   prepare((props, dispatch) =>
     Promise.all([dispatch(fetchRandomQuote()), dispatch(fetchEmojis())])
   ),

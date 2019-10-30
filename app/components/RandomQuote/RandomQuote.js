@@ -12,7 +12,6 @@ import { Flex } from 'app/components/Layout';
 
 type Props = {
   fetchRandomQuote: () => Promise<Object>,
-  loggedIn: boolean,
   className?: string,
   addReaction: ({
     emoji: string,
@@ -27,7 +26,6 @@ type Props = {
 
 const RandomQuote = (props: Props) => {
   const {
-    loggedIn,
     className,
     addReaction,
     deleteReaction,
@@ -36,10 +34,6 @@ const RandomQuote = (props: Props) => {
     fetchingEmojis,
     currentQuote
   } = props;
-
-  if (!loggedIn) {
-    return <div>Logg inn for å se sitater.</div>;
-  }
 
   return (
     <div className={className ? className : ''}>
