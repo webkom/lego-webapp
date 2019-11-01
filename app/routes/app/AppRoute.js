@@ -166,10 +166,14 @@ const mapDispatchToProps = {
   loginAutomaticallyIfPossible
 };
 
-async function fetchInitialOnServer(props) {
-  await props.loginAutomaticallyIfPossible();
-  await props.fetchNotificationData();
-  await props.fetchNotificationFeed();
+function fetchInitialOnServer(props, dispatch) {
+  return dispatch(loginAutomaticallyIfPossible()).then(() =>
+    Promise.all([
+      dispatch(fetchMeta())
+      //dispatch(fetchNotificationData()),
+      //dispatch(fetchNotificationFeed())
+    ])
+  );
 }
 
 export default compose(
