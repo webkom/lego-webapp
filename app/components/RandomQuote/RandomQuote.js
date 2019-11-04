@@ -1,6 +1,7 @@
 // @flow
 
-import React from 'react';
+// $FlowFixMe
+import React, { useState, useEffect } from 'react';
 import styles from './RandomQuote.css';
 import Button from '../Button';
 import type { QuoteEntity } from 'app/reducers/quotes';
@@ -11,7 +12,7 @@ import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import { Flex } from 'app/components/Layout';
 
 type Props = {
-  fetchRandomQuote: () => Promise<Object>,
+  fetchRandomQuote: (Array<ID>) => Promise<Object>,
   className?: string,
   addReaction: ({
     emoji: string,
@@ -35,6 +36,15 @@ const RandomQuote = (props: Props) => {
     currentQuote
   } = props;
 
+  const [seenQuotes, setSeenQuotes] = useState([]);
+
+  useEffect(() => {
+    const quoteId = props.currentQuote.id;
+    if (!seenQuotes.includes(quoteId)) {
+      setSeenQuotes([...seenQuotes, quoteId]);
+    }
+  });
+
   return (
     <div className={className ? className : ''}>
       <Flex justifyContent="space-between" alignItems="flex-start">
@@ -46,7 +56,7 @@ const RandomQuote = (props: Props) => {
         <Flex column justifyContent="space-between" className={styles.actions}>
           <Button
             flat
-            onClick={() => props.fetchRandomQuote()}
+            onClick={() => props.fetchRandomQuote(seenQuotes)}
             className={styles.fetchNew}
           >
             <i className="fa fa-refresh" />
