@@ -202,7 +202,7 @@ export default class UserProfile extends Component<Props, EventsProps> {
     } = this.props;
 
     //If you wonder what this is, ask somebody
-    const FRAMEID = 6050;
+    const FRAMEID = [6050, 5962];
 
     const {
       pastMemberships = [],
@@ -244,7 +244,7 @@ export default class UserProfile extends Component<Props, EventsProps> {
 
         <Flex wrap className={styles.header}>
           <div className={cx(styles.sidebar, styles.picture)}>
-            {user.id == FRAMEID && (
+            {FRAMEID.includes(user.id) && (
               <Image className={styles.frame} src={frame} />
             )}
             <ProfilePicture user={user} size={150} />
