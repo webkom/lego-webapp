@@ -1,29 +1,20 @@
-.heading {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.heading i {
-  margin-right: 10px;
-
-  &:hover {
-    cursor: pointer;
-  }
-}
-
-.title {
-  color: white;
-}
-
-.quoteSource,
-.quoteText {
-  display: block;
-  font-style: italic;
-  line-height: 20px;
-}
-
 .quoteSource {
   margin-top: 5px;
+  font-style: italic;
+}
+
+.quoteText {
+  font-weight: 600;
+}
+
+.quoteReactions {
+  margin-top: 5px;
+}
+
+.actions {
+  margin: 5px 5px 5px 15px;
+}
+
+.fetchNew {
+  margin-bottom: 5px;
 }

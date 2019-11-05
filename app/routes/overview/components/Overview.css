@@ -99,6 +99,12 @@
   }
 }
 
+.quote {
+  composes: withShadow from 'app/styles/utilities.css';
+  background: var(--lego-card-color);
+  padding: 15px 20px 8px;
+}
+
 @media only screen and (max-width: 855px) {
   .weeklyArticles {
     height: auto;
