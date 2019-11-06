@@ -115,6 +115,7 @@
 }
 
 .blurContainer {
+  display: none;
   position: absolute;
   justify-content: center;
   width: 100%;
@@ -125,4 +126,23 @@
   position: absolute;
   z-index: 2;
   color: var(--color-black);
+  margin-top: 25px;
+}
+
+.optionWrapper:hover .blurContainer {
+  display: flex;
+}
+
+.optionWrapper:hover .blurEffect {
+  filter: blur(3px);
+  pointer-events: none;
+}
+
+.blurArrow {
+  margin-top: 40px;
+}
+
+.alignItems {
+  display: flex;
+  justify-content: center;
 }

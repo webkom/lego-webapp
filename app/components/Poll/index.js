@@ -22,8 +22,7 @@ type State = {
   truncateOptions: boolean,
   allOptions: Array<OptionEntityRatio>,
   optionsToShow: Array<OptionEntityRatio>,
-  expanded: boolean,
-  isHovering: boolean
+  expanded: boolean
 };
 
 type OptionEntityRatio = OptionEntity & {
@@ -39,16 +38,14 @@ class Poll extends React.Component<Props, State> {
         truncateOptions: true,
         allOptions: options,
         optionsToShow: options.slice(0, props.truncate),
-        expanded: false,
-        isHovering: false
+        expanded: false
       };
     } else {
       this.state = {
         truncateOptions: false,
         allOptions: options,
         optionsToShow: options,
-        expanded: true,
-        isHovering: false
+        expanded: true
       };
     }
   }
@@ -74,18 +71,12 @@ class Poll extends React.Component<Props, State> {
     expanded
       ? this.setState({
           optionsToShow: allOptions.slice(0, truncate),
-          expanded: false,
-          isHovering: false
+          expanded: false
         })
       : this.setState({
           optionsToShow: allOptions,
-          expanded: true,
-          isHovering: false
+          expanded: true
         });
-  };
-
-  toggleHover = () => {
-    this.setState({ isHovering: !this.state.isHovering });
   };
 
   optionsWithPerfectRatios = (options: Array<OptionEntity>) => {
@@ -110,11 +101,25 @@ class Poll extends React.Component<Props, State> {
       .sort((a, b) => b.ratio - a.ratio);
   };
 
+  shuffle = array => {
+    let counter = array.length;
+
+    while (counter > 0) {
+      let index = Math.floor(Math.random() * counter);
+      counter--;
+      let temp = array[counter];
+      array[counter] = array[index];
+      array[index] = temp;
+    }
+
+    return array;
+  };
+
   render() {
     const { poll, handleVote, backgroundLight, details } = this.props;
-    const { truncateOptions, optionsToShow, expanded, isHovering } = this.state;
+    const { truncateOptions, optionsToShow, expanded } = this.state;
     const { id, title, description, options, hasAnswered, totalVotes } = poll;
-
+    const shuffledOptionsToShow = this.shuffle(optionsToShow);
     return (
       <div
         className={`${styles.poll} ${backgroundLight ? styles.pollLight : ''}`}
@@ -175,47 +180,29 @@ class Poll extends React.Component<Props, State> {
           </Flex>
         )}
         {!hasAnswered && (
-          <Flex
-            column
-            className={styles.optionWrapper}
-            onMouseEnter={this.toggleHover}
-            onMouseLeave={this.toggleHover}
-            style={{}}
-          >
+          <Flex column className={styles.optionWrapper}>
             {!expanded && (
               <Flex
-                style={{ display: isHovering ? 'flex' : 'none' }}
                 className={styles.blurContainer}
                 onClick={this.toggleTruncate}
               >
-                <p
-                  style={{
-                    marginTop: '25px'
-                  }}
-                  className={styles.blurOverlay}
-                >
-                  Klikk her for å stemme.
-                </p>
+                <p className={styles.blurOverlay}>Klikk her for å stemme.</p>
                 <Icon
-                  style={{
-                    marginTop: '40px'
-                  }}
-                  className={styles.blurOverlay}
+                  className={`${styles.blurOverlay} ${styles.blurArrow}`}
                   size={60}
                   name={expanded ? 'arrow-up' : 'arrow-down'}
                 />
               </Flex>
             )}
-
             {options &&
-              optionsToShow.map(option => (
-                <Flex style={{ justifyContent: 'center' }} key={option.id}>
+              shuffledOptionsToShow.map(option => (
+                <Flex
+                  className={`${styles.alignItems} ${
+                    expanded ? '' : styles.blurEffect
+                  }`}
+                  key={option.id}
+                >
                   <Button
-                    style={
-                      !expanded && isHovering
-                        ? { filter: 'blur(3px)', pointerEvents: 'none' }
-                        : {}
-                    }
                     className={styles.voteButton}
                     onClick={() => handleVote(poll.id, option.id)}
                   >
@@ -229,7 +216,7 @@ class Poll extends React.Component<Props, State> {
           <div className={styles.moreOptionsLink}>
             <span>{`Stemmer: ${totalVotes}`}</span>
             {truncateOptions && (
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <div className={styles.alignItems}>
                 <Icon
                   onClick={this.toggleTruncate}
                   className={styles.arrow}
