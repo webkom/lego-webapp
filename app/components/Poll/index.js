@@ -101,7 +101,7 @@ class Poll extends React.Component<Props, State> {
       .sort((a, b) => b.ratio - a.ratio);
   };
 
-  shuffle = array => {
+  shuffle = (array: Array<OptionEntityRatio>) => {
     let counter = array.length;
 
     while (counter > 0) {
