@@ -84,7 +84,7 @@ export function fetchRandomQuote(seenQuotes?: Array<ID> = []) {
   const queryString = `?seen=[${String(seenQuotes)}]`;
   return callAPI({
     types: Quote.FETCH_RANDOM,
-    endpoint: '/quotes/random/' + queryString,
+    endpoint: `/quotes/random/${queryString}`,
     method: 'GET',
     meta: {
       queryString,

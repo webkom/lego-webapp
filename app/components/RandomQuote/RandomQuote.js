@@ -1,7 +1,7 @@
 // @flow
 
 // $FlowFixMe
-import React, { useState, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import styles from './RandomQuote.css';
 import Button from '../Button';
 import type { QuoteEntity } from 'app/reducers/quotes';
@@ -36,12 +36,12 @@ const RandomQuote = (props: Props) => {
     currentQuote
   } = props;
 
-  const [seenQuotes, setSeenQuotes] = useState([]);
+  const seenQuotes = useRef([]);
 
   useEffect(() => {
     const quoteId = props.currentQuote.id;
-    if (!seenQuotes.includes(quoteId)) {
-      setSeenQuotes([...seenQuotes, quoteId]);
+    if (!seenQuotes.current.includes(quoteId)) {
+      seenQuotes.current = [...seenQuotes.current, quoteId];
     }
   });
 
@@ -56,7 +56,7 @@ const RandomQuote = (props: Props) => {
         <Flex column justifyContent="space-between" className={styles.actions}>
           <Button
             flat
-            onClick={() => props.fetchRandomQuote(seenQuotes)}
+            onClick={() => props.fetchRandomQuote(seenQuotes.current)}
             className={styles.fetchNew}
           >
             <i className="fa fa-refresh" />

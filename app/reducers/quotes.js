@@ -45,7 +45,7 @@ const mutate = joinReducers(mutateReactions('quotes'), mutateQuote);
 export default createEntityReducer({
   key: 'quotes',
   types: {
-    fetch: Quote.FETCH,
+    fetch: [Quote.FETCH, Quote.FETCH_RANDOM],
     mutate: Quote.ADD,
     delete: Quote.DELETE
   },
