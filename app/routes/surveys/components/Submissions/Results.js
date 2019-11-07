@@ -4,12 +4,14 @@ import React from 'react';
 import styles from '../surveys.css';
 import type { SurveyEntity, QuestionEntity } from 'app/reducers/surveys';
 import { SelectInput, legoForm } from 'app/components/Form';
-import { Field } from 'redux-form';
+import { Field, FieldArray } from 'redux-form';
 
-import { QuestionTypes, CHART_COLORS } from '../../utils';
+import { mappings, QuestionTypes, CHART_COLORS } from '../../utils';
 import InfoBubble from 'app/components/InfoBubble';
 import { VictoryPie, VictoryTheme } from 'victory';
 import { createValidator, required } from 'app/utils/validation';
+import cx from 'classnames';
+import Icon from 'app/components/Icon';
 
 type Props = {
   survey: SurveyEntity,
@@ -26,6 +28,48 @@ type Info = {
   icon: string,
   data: number,
   meta: string
+};
+
+const questionTypeToIcon = {
+  single_choice: 'radio-button-on',
+  multiple_choice: 'checkbox',
+  text_field: 'more'
+};
+
+const QuestionTypeOption = (props: Object) => (
+  <div
+    className={cx(props.className, styles.dropdown)}
+    onMouseDown={event => {
+      props.onSelect && props.onSelect(props.option, event);
+    }}
+    onMouseEnter={event => props.onFocus && props.onFocus(props.option, event)}
+    onMouseMove={event => {
+      if (props.isFocused) return;
+      props.onFocus && props.onFocus(props.option, event);
+    }}
+  >
+    <span className={styles.dropdownColor}>
+      <Icon
+        name={questionTypeToIcon[props.option && props.option.value]}
+        style={{ marginRight: '15px' }}
+      />
+      {props.children}
+    </span>
+  </div>
+);
+
+const renderQuestionsWithChartType = ({ fields, meta: { touched, error } }) => {
+  console.log('renderQuestionsWithChartType');
+  return [
+    fields.map((question, i) => {
+      return (
+        // Should render the questions here, see existing code on master branch
+        <li key={question.id}>
+          <h3>{question.questionText}</h3>
+        </li>
+      );
+    })
+  ];
 };
 
 const EventData = ({ info }: EventDataProps) => {
@@ -78,79 +122,12 @@ const Results = ({
             <EventData info={info} />
           </div>
         </div>
-
-        <ul className={styles.summary}>
-          {survey.questions.map(question => {
-            const colorsToRemove = [];
-            const pieData = graphData[question.id].filter((dataPoint, i) => {
-              if (dataPoint.selections === 0) {
-                colorsToRemove.push(i);
-                return false;
-              }
-              return true;
-            });
-            const pieColors = CHART_COLORS.filter(
-              (color, i) => !colorsToRemove.includes(i)
-            );
-            const labelRadius = pieData.length === 1 ? -10 : 60;
-
-            return (
-              <li key={question.id}>
-                <h3>{question.questionText}</h3>
-
-                {question.questionType === QuestionTypes('text') ? (
-                  <ul className={styles.textAnswers}>
-                    {generateTextAnswers(question)}
-                  </ul>
-                ) : (
-                  <div className={styles.questionResults}>
-                    <Field
-                      name={`testquestionType`}
-                      simpleValue
-                      component={SelectInput.Field}
-                      options={[]}
-                      clearable={false}
-                      backspaceRemoves={false}
-                      searchable={false}
-                    />
-
-                    <div style={{ width: '300px' }}>
-                      <VictoryPie
-                        data={pieData}
-                        x="option"
-                        y="selections"
-                        theme={VictoryTheme.material}
-                        colorScale={pieColors}
-                        labels={d => d.y}
-                        labelRadius={labelRadius}
-                        padding={{ left: 0, top: 40, right: 30, bottom: 30 }}
-                        style={{
-                          labels: { fill: 'white', fontSize: 20 }
-                        }}
-                      />
-                    </div>
-
-                    <ul className={styles.graphData}>
-                      {graphData[question.id].map((dataPoint, i) => (
-                        <li key={i}>
-                          <span
-                            className={styles.colorBox}
-                            style={{ backgroundColor: CHART_COLORS[i] }}
-                          >
-                            &nbsp;
-                          </span>
-                          <span style={{ marginTop: '-5px' }}>
-                            {dataPoint.option}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              </li>
-            );
-          })}
-        </ul>
+        <ul className={styles.summary} />
+        <FieldArray
+          name="question"
+          component={renderQuestionsWithChartType}
+          rerenderOnEveryChange={true}
+        />
       </form>
     </div>
   );
