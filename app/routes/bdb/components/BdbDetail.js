@@ -242,7 +242,7 @@ export default class BdbDetail extends Component<Props, State> {
             <td>
               {event.survey && (
                 <Tooltip content="Spørreundersøkelse">
-                  <Link to={`surveys/${event.survey}`}>
+                  <Link to={`/surveys/${event.survey}`}>
                     <i
                       className={cx(
                         'fa fa-bar-chart',
