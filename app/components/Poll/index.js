@@ -23,6 +23,7 @@ type State = {
   truncateOptions: boolean,
   allOptions: Array<OptionEntityRatio>,
   optionsToShow: Array<OptionEntityRatio>,
+  shuffledAllOptions: Array<OptionEntityRatio>,
   shuffledOptionsToShow: Array<OptionEntityRatio>,
   expanded: boolean
 };
@@ -35,29 +36,26 @@ class Poll extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     const options = this.optionsWithPerfectRatios(props.poll.options);
+    const shuffledOptions = this.shuffle(options);
     if (props.truncate && options.length > props.truncate) {
       this.state = {
         truncateOptions: true,
         allOptions: options,
-        shuffledOptionsToShow: [],
         optionsToShow: options.slice(0, props.truncate),
+        shuffledAllOptions: shuffledOptions,
+        shuffledOptionsToShow: shuffledOptions.slice(0, props.truncate),
         expanded: false
       };
     } else {
       this.state = {
         truncateOptions: false,
         allOptions: options,
-        shuffledOptionsToShow: [],
         optionsToShow: options,
+        shuffledAllOptions: shuffledOptions,
+        shuffledOptionsToShow: shuffledOptions,
         expanded: true
       };
     }
-  }
-
-  componentDidMount() {
-    this.setState({
-      shuffledOptionsToShow: this.shuffle(this.state.optionsToShow)
-    });
   }
 
   componentDidUpdate(prevProps: Props) {
@@ -66,25 +64,36 @@ class Poll extends React.Component<Props, State> {
       this.props.truncate && !this.state.expanded
         ? this.setState({
             allOptions: options,
-            optionsToShow: options.slice(0, this.props.truncate)
+            optionsToShow: options.slice(0, this.props.truncate),
+            shuffledOptionsToShow: this.state.shuffledAllOptions.slice(
+              0,
+              this.props.truncate
+            )
           })
         : this.setState({
             allOptions: options,
-            optionsToShow: options
+            optionsToShow: options,
+            shuffledOptionsToShow: this.state.shuffledAllOptions
           });
     }
   }
 
   toggleTruncate = () => {
     const { truncate } = this.props;
-    const { expanded, allOptions } = this.state;
+    const {
+      expanded,
+      allOptions,
+      shuffledAllOptions: shuffledAllOptions
+    } = this.state;
     expanded
       ? this.setState({
           optionsToShow: allOptions.slice(0, truncate),
+          shuffledOptionsToShow: shuffledAllOptions.slice(0, truncate),
           expanded: false
         })
       : this.setState({
           optionsToShow: allOptions,
+          shuffledOptionsToShow: shuffledAllOptions,
           expanded: true
         });
   };
@@ -129,7 +138,7 @@ class Poll extends React.Component<Props, State> {
       truncateOptions,
       optionsToShow,
       expanded,
-      shuffledOptionsToShow
+      shuffledOptionsToShow: shuffledOptionsToShow
     } = this.state;
     const { id, title, description, options, hasAnswered, totalVotes } = poll;
     return (
