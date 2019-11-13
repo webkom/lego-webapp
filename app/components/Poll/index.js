@@ -21,10 +21,7 @@ type Props = {
 
 type State = {
   truncateOptions: boolean,
-  allOptions: Array<OptionEntityRatio>,
-  optionsToShow: Array<OptionEntityRatio>,
-  shuffledAllOptions: Array<OptionEntityRatio>,
-  shuffledOptionsToShow: Array<OptionEntityRatio>,
+  shuffledOptions: Array<OptionEntityRatio>,
   expanded: boolean
 };
 
@@ -40,62 +37,22 @@ class Poll extends React.Component<Props, State> {
     if (props.truncate && options.length > props.truncate) {
       this.state = {
         truncateOptions: true,
-        allOptions: options,
-        optionsToShow: options.slice(0, props.truncate),
-        shuffledAllOptions: shuffledOptions,
-        shuffledOptionsToShow: shuffledOptions.slice(0, props.truncate),
+        shuffledOptions: shuffledOptions,
         expanded: false
       };
     } else {
       this.state = {
         truncateOptions: false,
-        allOptions: options,
-        optionsToShow: options,
-        shuffledAllOptions: shuffledOptions,
-        shuffledOptionsToShow: shuffledOptions,
+        shuffledOptions: shuffledOptions,
         expanded: true
       };
     }
   }
 
-  componentDidUpdate(prevProps: Props) {
-    if (prevProps.poll.options !== this.props.poll.options) {
-      const options = this.optionsWithPerfectRatios(this.props.poll.options);
-      this.props.truncate && !this.state.expanded
-        ? this.setState({
-            allOptions: options,
-            optionsToShow: options.slice(0, this.props.truncate),
-            shuffledOptionsToShow: this.state.shuffledAllOptions.slice(
-              0,
-              this.props.truncate
-            )
-          })
-        : this.setState({
-            allOptions: options,
-            optionsToShow: options,
-            shuffledOptionsToShow: this.state.shuffledAllOptions
-          });
-    }
-  }
-
   toggleTruncate = () => {
-    const { truncate } = this.props;
-    const {
-      expanded,
-      allOptions,
-      shuffledAllOptions: shuffledAllOptions
-    } = this.state;
-    expanded
-      ? this.setState({
-          optionsToShow: allOptions.slice(0, truncate),
-          shuffledOptionsToShow: shuffledAllOptions.slice(0, truncate),
-          expanded: false
-        })
-      : this.setState({
-          optionsToShow: allOptions,
-          shuffledOptionsToShow: shuffledAllOptions,
-          expanded: true
-        });
+    this.setState({
+      expanded: !this.state.expanded
+    });
   };
 
   optionsWithPerfectRatios = (options: Array<OptionEntity>) => {
@@ -133,14 +90,14 @@ class Poll extends React.Component<Props, State> {
   };
 
   render() {
-    const { poll, handleVote, backgroundLight, details } = this.props;
-    const {
-      truncateOptions,
-      optionsToShow,
-      expanded,
-      shuffledOptionsToShow: shuffledOptionsToShow
-    } = this.state;
-    const { id, title, description, options, hasAnswered, totalVotes } = poll;
+    const { poll, handleVote, backgroundLight, details, truncate } = this.props;
+    const { truncateOptions, expanded, shuffledOptions } = this.state;
+    const { id, title, description, hasAnswered, totalVotes } = poll;
+    const options = this.optionsWithPerfectRatios(this.props.poll.options);
+    const orderedOptions = hasAnswered ? options : shuffledOptions;
+    const optionsToShow = expanded
+      ? orderedOptions
+      : orderedOptions.slice(0, truncate);
     return (
       <div className={cx(styles.poll, backgroundLight ? styles.pollLight : '')}>
         <Flex>
@@ -216,7 +173,7 @@ class Poll extends React.Component<Props, State> {
               </Flex>
             )}
             {options &&
-              shuffledOptionsToShow.map(option => (
+              optionsToShow.map(option => (
                 <Flex
                   className={cx(
                     styles.alignItems,
