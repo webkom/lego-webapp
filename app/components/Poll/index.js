@@ -9,6 +9,7 @@ import { sortBy } from 'lodash';
 import Icon from 'app/components/Icon';
 import { Flex } from 'app/components/Layout';
 import Tooltip from 'app/components/Tooltip';
+import cx from 'classnames';
 
 type Props = {
   poll: PollEntity,
@@ -22,6 +23,7 @@ type State = {
   truncateOptions: boolean,
   allOptions: Array<OptionEntityRatio>,
   optionsToShow: Array<OptionEntityRatio>,
+  shuffledOptionsToShow: Array<OptionEntityRatio>,
   expanded: boolean
 };
 
@@ -37,6 +39,7 @@ class Poll extends React.Component<Props, State> {
       this.state = {
         truncateOptions: true,
         allOptions: options,
+        shuffledOptionsToShow: [],
         optionsToShow: options.slice(0, props.truncate),
         expanded: false
       };
@@ -44,10 +47,17 @@ class Poll extends React.Component<Props, State> {
       this.state = {
         truncateOptions: false,
         allOptions: options,
+        shuffledOptionsToShow: [],
         optionsToShow: options,
         expanded: true
       };
     }
+  }
+
+  componentDidMount() {
+    this.setState({
+      shuffledOptionsToShow: this.shuffle(this.state.optionsToShow)
+    });
   }
 
   componentDidUpdate(prevProps: Props) {
@@ -102,28 +112,28 @@ class Poll extends React.Component<Props, State> {
   };
 
   shuffle = (array: Array<OptionEntityRatio>) => {
-    let counter = array.length;
-
-    while (counter > 0) {
-      let index = Math.floor(Math.random() * counter);
-      counter--;
-      let temp = array[counter];
-      array[counter] = array[index];
-      array[index] = temp;
+    const oldArray = array.slice(0);
+    const newArray = [];
+    for (let i = 0; i < array.length; i++) {
+      const randIndex = Math.floor(Math.random() * oldArray.length);
+      newArray[i] = oldArray[randIndex];
+      oldArray.splice(randIndex, 1);
     }
 
-    return array;
+    return newArray;
   };
 
   render() {
     const { poll, handleVote, backgroundLight, details } = this.props;
-    const { truncateOptions, optionsToShow, expanded } = this.state;
+    const {
+      truncateOptions,
+      optionsToShow,
+      expanded,
+      shuffledOptionsToShow
+    } = this.state;
     const { id, title, description, options, hasAnswered, totalVotes } = poll;
-    const shuffledOptionsToShow = this.shuffle(optionsToShow);
     return (
-      <div
-        className={`${styles.poll} ${backgroundLight ? styles.pollLight : ''}`}
-      >
+      <div className={cx(styles.poll, backgroundLight ? styles.pollLight : '')}>
         <Flex>
           <Link to={`/polls/${id}`} style={{ flex: 1 }}>
             <Icon name="stats" />
@@ -186,9 +196,11 @@ class Poll extends React.Component<Props, State> {
                 className={styles.blurContainer}
                 onClick={this.toggleTruncate}
               >
-                <p className={styles.blurOverlay}>Klikk her for å stemme.</p>
+                <p className={styles.blurOverlay}>
+                  Klikk her for å se alle alternativene.
+                </p>
                 <Icon
-                  className={`${styles.blurOverlay} ${styles.blurArrow}`}
+                  className={cx(styles.blurOverlay, styles.blurArrow)}
                   size={60}
                   name={expanded ? 'arrow-up' : 'arrow-down'}
                 />
@@ -197,9 +209,10 @@ class Poll extends React.Component<Props, State> {
             {options &&
               shuffledOptionsToShow.map(option => (
                 <Flex
-                  className={`${styles.alignItems} ${
+                  className={cx(
+                    styles.alignItems,
                     expanded ? '' : styles.blurEffect
-                  }`}
+                  )}
                   key={option.id}
                 >
                   <Button
