@@ -500,3 +500,12 @@ option {
 .contactedStatusForm {
   width: 240px;
 }
+
+.surveyIcon {
+  color: var(--lego-link-color);
+}
+
+.surveyContainer {
+  display: flex;
+  justify-content: center;
+}
