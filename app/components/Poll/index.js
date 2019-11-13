@@ -9,6 +9,7 @@ import { sortBy } from 'lodash';
 import Icon from 'app/components/Icon';
 import { Flex } from 'app/components/Layout';
 import Tooltip from 'app/components/Tooltip';
+import cx from 'classnames';
 
 type Props = {
   poll: PollEntity,
@@ -20,8 +21,7 @@ type Props = {
 
 type State = {
   truncateOptions: boolean,
-  allOptions: Array<OptionEntityRatio>,
-  optionsToShow: Array<OptionEntityRatio>,
+  shuffledOptions: Array<OptionEntityRatio>,
   expanded: boolean
 };
 
@@ -33,47 +33,26 @@ class Poll extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     const options = this.optionsWithPerfectRatios(props.poll.options);
+    const shuffledOptions = this.shuffle(options);
     if (props.truncate && options.length > props.truncate) {
       this.state = {
         truncateOptions: true,
-        allOptions: options,
-        optionsToShow: options.slice(0, props.truncate),
+        shuffledOptions: shuffledOptions,
         expanded: false
       };
     } else {
       this.state = {
         truncateOptions: false,
-        allOptions: options,
-        optionsToShow: options,
+        shuffledOptions: shuffledOptions,
         expanded: true
       };
     }
   }
 
-  componentDidUpdate(prevProps: Props) {
-    if (prevProps.poll.options !== this.props.poll.options) {
-      const options = this.optionsWithPerfectRatios(this.props.poll.options);
-      this.props.truncate && !this.state.expanded
-        ? this.setState({
-            allOptions: options,
-            optionsToShow: options.slice(0, this.props.truncate)
-          })
-        : this.setState({
-            allOptions: options,
-            optionsToShow: options
-          });
-    }
-  }
-
   toggleTruncate = () => {
-    const { truncate } = this.props;
-    const { expanded, allOptions } = this.state;
-    expanded
-      ? this.setState({
-          optionsToShow: allOptions.slice(0, truncate),
-          expanded: false
-        })
-      : this.setState({ optionsToShow: allOptions, expanded: true });
+    this.setState({
+      expanded: !this.state.expanded
+    });
   };
 
   optionsWithPerfectRatios = (options: Array<OptionEntity>) => {
@@ -98,15 +77,29 @@ class Poll extends React.Component<Props, State> {
       .sort((a, b) => b.ratio - a.ratio);
   };
 
-  render() {
-    const { poll, handleVote, backgroundLight, details } = this.props;
-    const { truncateOptions, optionsToShow, expanded } = this.state;
-    const { id, title, description, options, hasAnswered, totalVotes } = poll;
+  shuffle = (array: Array<OptionEntityRatio>) => {
+    const oldArray = array.slice(0);
+    const newArray = [];
+    for (let i = 0; i < array.length; i++) {
+      const randIndex = Math.floor(Math.random() * oldArray.length);
+      newArray[i] = oldArray[randIndex];
+      oldArray.splice(randIndex, 1);
+    }
 
+    return newArray;
+  };
+
+  render() {
+    const { poll, handleVote, backgroundLight, details, truncate } = this.props;
+    const { truncateOptions, expanded, shuffledOptions } = this.state;
+    const { id, title, description, hasAnswered, totalVotes } = poll;
+    const options = this.optionsWithPerfectRatios(this.props.poll.options);
+    const orderedOptions = hasAnswered ? options : shuffledOptions;
+    const optionsToShow = expanded
+      ? orderedOptions
+      : orderedOptions.slice(0, truncate);
     return (
-      <div
-        className={`${styles.poll} ${backgroundLight ? styles.pollLight : ''}`}
-      >
+      <div className={cx(styles.poll, backgroundLight ? styles.pollLight : '')}>
         <Flex>
           <Link to={`/polls/${id}`} style={{ flex: 1 }}>
             <Icon name="stats" />
@@ -164,9 +157,30 @@ class Poll extends React.Component<Props, State> {
         )}
         {!hasAnswered && (
           <Flex column className={styles.optionWrapper}>
+            {!expanded && (
+              <Flex
+                className={styles.blurContainer}
+                onClick={this.toggleTruncate}
+              >
+                <p className={styles.blurOverlay}>
+                  Klikk her for å se alle alternativene.
+                </p>
+                <Icon
+                  className={cx(styles.blurOverlay, styles.blurArrow)}
+                  size={60}
+                  name={expanded ? 'arrow-up' : 'arrow-down'}
+                />
+              </Flex>
+            )}
             {options &&
               optionsToShow.map(option => (
-                <Flex style={{ justifyContent: 'center' }} key={option.id}>
+                <Flex
+                  className={cx(
+                    styles.alignItems,
+                    expanded ? '' : styles.blurEffect
+                  )}
+                  key={option.id}
+                >
                   <Button
                     className={styles.voteButton}
                     onClick={() => handleVote(poll.id, option.id)}
@@ -181,7 +195,7 @@ class Poll extends React.Component<Props, State> {
           <div className={styles.moreOptionsLink}>
             <span>{`Stemmer: ${totalVotes}`}</span>
             {truncateOptions && (
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <div className={styles.alignItems}>
                 <Icon
                   onClick={this.toggleTruncate}
                   className={styles.arrow}
