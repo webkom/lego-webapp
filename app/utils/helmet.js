@@ -9,33 +9,41 @@ import { type ComponentType, createElement } from 'react';
  * A higher order component that wraps the given component in
  * LoadingIndicator while `props[loadingProp]` is being fetched.
  */
-
-type PropertyGenerator = (
-  props: Object,
-  config?: Object
-) => Array<{
+type Property = {
   property?: string,
   content?: string,
   element?: string,
   children?: string,
   rel?: string,
   href?: string
-}>;
+};
+type PropertyGenerator = (props: Object, config?: Object) => ?Array<Property>;
 
 export default function helmet<T>(propertyGenerator: ?PropertyGenerator) {
   return (Component: ComponentType<T>) => ({
     PropertyGenerator,
     ...props
   }: T & {
-    propertyGenerator: PropertyGenerator
-  }) => [
-    <Helmet key="helmet">
-      {!!propertyGenerator &&
-        propertyGenerator(props, config).map(
-          ({ element, children, ...props }, index) =>
-            createElement(element || 'meta', { key: index, ...props }, children)
+    propertyGenerator: ?PropertyGenerator
+  }) => {
+    const properties: ?Array<Property> =
+      propertyGenerator && propertyGenerator(props, config);
+
+    return (
+      <>
+        {properties && (
+          <Helmet>
+            {properties.map(({ element, children, ...props }, index) =>
+              createElement(
+                element || 'meta',
+                { key: index, ...props },
+                children
+              )
+            )}
+          </Helmet>
         )}
-    </Helmet>,
-    <Component key="component" {...props} />
-  ];
+        <Component {...props} />
+      </>
+    );
+  };
 }
