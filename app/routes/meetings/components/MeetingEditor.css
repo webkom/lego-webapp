@@ -1,7 +1,7 @@
-@import 'app/styles/variables.css';
+@import '~app/styles/variables.css';
 
 .root {
-  composes: contentContainer from 'app/styles/utilities.css';
+  composes: contentContainer from '~app/styles/utilities.css';
 }
 
 .heading {

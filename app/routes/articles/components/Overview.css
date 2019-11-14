@@ -1,7 +1,7 @@
-@import 'app/styles/variables.css';
+@import '~app/styles/variables.css';
 
 .frontpage {
-  composes: container from 'app/styles/utilities.css';
+  composes: container from '~app/styles/utilities.css';
   margin-top: 20px;
   display: flex;
   flex-direction: row;

@@ -1,4 +1,4 @@
-@import 'app/styles/variables.css';
+@import '~app/styles/variables.css';
 
 .title {
   font-size: 1.3rem;

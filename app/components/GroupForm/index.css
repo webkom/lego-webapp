@@ -1,5 +1,5 @@
 .root {
-  composes: contentContainer from 'app/styles/utilities.css';
+  composes: contentContainer from '~app/styles/utilities.css';
 }
 
 .logo {

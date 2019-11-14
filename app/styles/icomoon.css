@@ -13,7 +13,7 @@
 
 @font-face {
   font-family: 'RalewayBold';
-  src: url('app/assets/fonts/Raleway-Bold.ttf') format('truetype');
+  src: url('~app/assets/fonts/Raleway-Bold.ttf') format('truetype');
   font-weight: bold;
   font-style: normal;
 }
