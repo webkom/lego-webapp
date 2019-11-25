@@ -20,12 +20,8 @@
 
 .image {
   object-fit: cover;
-  height: 100px;
-
-  @media (--mobile-device) {
-    width: 100%;
-    height: auto;
-  }
+  width: 100%;
+  height: auto;
 }
 
 .articleTitle {
