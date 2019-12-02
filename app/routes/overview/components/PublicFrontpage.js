@@ -141,7 +141,7 @@ class PublicFrontpage extends Component<Props, State> {
               alt="NETCOMPANY"
             />
           </a>
-          Vår nye hovedsamarbeidspartner er Netcompany. Hos Netcompany står fag,
+          Hovedsamarbeidspartneren vår er Netcompany. Hos Netcompany står fag,
           innovasjon og samhold sterkt, og de er opptatt av å ta ansvar – både
           for egne leveranser, for kundene og for sine ansatte.
         </div>
