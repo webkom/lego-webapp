@@ -1,4 +1,4 @@
-@import 'app/styles/variables.css';
+@import '~app/styles/variables.css';
 
 .optionWrapper {
   justify-content: center;
@@ -31,7 +31,7 @@
 }
 
 .poll {
-  composes: withShadow from 'app/styles/utilities.css';
+  composes: withShadow from '~app/styles/utilities.css';
   background: var(--lego-card-color);
   padding: 15px 20px 8px;
   min-height: 195px;

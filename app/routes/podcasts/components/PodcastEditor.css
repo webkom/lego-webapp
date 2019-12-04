@@ -1,4 +1,4 @@
-@import 'app/styles/variables.css';
+@import '~app/styles/variables.css';
 
 .root {
   display: flex;
@@ -6,7 +6,7 @@
 }
 
 .podcast {
-  composes: withShadow from 'app/styles/utilities.css';
+  composes: withShadow from '~app/styles/utilities.css';
   display: flex;
   justify-content: space-between;
   background: var(--lego-card-color);

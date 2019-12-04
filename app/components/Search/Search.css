@@ -1,7 +1,7 @@
-@import 'app/styles/variables.css';
+@import '~app/styles/variables.css';
 
 .overlay {
-  composes: container from 'app/styles/utilities.css';
+  composes: container from '~app/styles/utilities.css';
   position: absolute;
   top: 0;
   left: 0;

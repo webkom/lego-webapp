@@ -24,7 +24,7 @@
 }
 
 .cover {
-  composes: contentContainer from 'app/styles/utilities.css';
+  composes: contentContainer from '~app/styles/utilities.css';
   max-height: 400px;
   padding: 0;
   border-bottom-right-radius: 0;
@@ -39,7 +39,7 @@
 }
 
 .content {
-  composes: contentContainer from 'app/styles/utilities.css';
+  composes: contentContainer from '~app/styles/utilities.css';
   width: 100%;
   padding-top: 20px;
 }

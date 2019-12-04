@@ -1,11 +1,11 @@
-@import 'app/styles/variables.css';
+@import '~app/styles/variables.css';
 
 .cont {
   padding: 0;
 }
 
 .root {
-  composes: container from 'app/styles/utilities.css';
+  composes: container from '~app/styles/utilities.css';
 }
 
 .title {

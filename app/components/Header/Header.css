@@ -1,4 +1,4 @@
-@import 'app/styles/variables.css';
+@import '~app/styles/variables.css';
 
 .backdrop {
   background: rgba(255, 255, 255, 0.5);
@@ -64,7 +64,7 @@
 }
 
 .content {
-  composes: container from 'app/styles/utilities.css';
+  composes: container from '~app/styles/utilities.css';
   position: relative;
   display: flex;
   justify-content: space-between;

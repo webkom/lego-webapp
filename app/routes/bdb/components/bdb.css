@@ -1,4 +1,4 @@
-@import 'app/styles/variables.css';
+@import '~app/styles/variables.css';
 
 .root h3 {
   margin: 5px 0 25px;
