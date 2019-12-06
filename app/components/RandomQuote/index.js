@@ -1,6 +1,7 @@
 // @flow
 import React from 'react';
 import { compose } from 'redux';
+import { isEmpty } from 'lodash';
 import prepare from 'app/utils/prepare';
 import { fetchRandomQuote } from 'app/actions/QuoteActions';
 import { connect } from 'react-redux';
@@ -35,12 +36,15 @@ const LoginToSeeQuotes = () => <div>Logg inn for å se sitater.</div>;
 
 export default compose(
   replaceUnlessLoggedIn(LoginToSeeQuotes),
-  prepare((props, dispatch) =>
-    Promise.all([dispatch(fetchRandomQuote()), dispatch(fetchEmojis())])
-  ),
   connect(
     mapStateToProps,
     mapDispatchToProps
+  ),
+  prepare((props, dispatch) =>
+    Promise.all([
+      isEmpty(props.currentQuote) && dispatch(fetchRandomQuote()),
+      dispatch(fetchEmojis())
+    ])
   ),
   loadingIndicator(['currentQuote.id'])
 )(RandomQuote);
