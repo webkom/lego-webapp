@@ -9770,10 +9770,10 @@ react-styleguidist@^9.0.2:
     webpack-dev-server "^3.2.1"
     webpack-merge "^4.2.1"
 
-react-swipeable@5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/react-swipeable/-/react-swipeable-5.0.0.tgz#1d80b2df126018d79dc8429b401f36733f85573e"
-  integrity sha512-AoWjR03yqNLuO94P0FGG6gRS8/KSMTA1mwRSDu4rh1oHbUarzftTwcYjpw5ASjOkxblGfOKsajl/+TuTmH6yXA==
+react-swipeable@5.5.0:
+  version "5.5.0"
+  resolved "https://registry.yarnpkg.com/react-swipeable/-/react-swipeable-5.5.0.tgz#083300d27ffea96f27b49cee04925151515ae9ba"
+  integrity sha512-izPgNufVnm8zA7jpYhTwWJRfY2KIXUMWas8TcnoPODGA1EpgR5HaaTaR9uxyOgq00DVzOFvtE9IWEaBvtVVheA==
   dependencies:
     prop-types "^15.6.2"
 
