@@ -125,11 +125,11 @@ const mapDispatchToProps = {
   deleteComment
 };
 
-const loadData = ({ params: { eventId }, loggedIn }, dispatch) =>
-  Promise.all([
-    dispatch(fetchEvent(eventId)),
-    loggedIn && dispatch(isUserFollowing(eventId))
-  ]);
+const loadData = async ({ params: { eventId }, loggedIn }, dispatch) => [
+  await dispatch(fetchEvent(eventId)),
+  loggedIn && (await dispatch(isUserFollowing(eventId)))
+];
+
 const propertyGenerator = (props, config) => {
   if (!props.event) return;
   const tags = (props.event.tags || []).map(content => ({
