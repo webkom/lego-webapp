@@ -55,7 +55,7 @@
     "lodash-es": "^4.17.15",
     "medium-draft": "^0.6.0-beta1",
     "minireset.css": "^0.0.6",
-    "moment-timezone": "^0.5.26",
+    "moment-timezone": "^0.5.27",
     "morgan": "^1.9.1",
     "normalizr": "^3.2.2",
     "prop-types": "^15.7.2",
