@@ -18,10 +18,12 @@ export default {
       childRoutes: [
         {
           path: 'picture/:pictureId/edit',
+          ignoreScrollBehavior: true,
           ...resolveAsyncRoute(() => import('./GalleryPictureEditRoute'))
         },
         {
           path: 'picture/:pictureId',
+          ignoreScrollBehavior: true,
           ...resolveAsyncRoute(() => import('./GalleryPictureRoute'))
         }
       ]

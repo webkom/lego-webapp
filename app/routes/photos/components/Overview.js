@@ -39,7 +39,7 @@ export default class Overview extends Component<Props> {
           hasMore={hasMore}
           fetching={fetching}
           fetchNext={() => fetch({ next: true })}
-          onClick={gallery => push(`/photos/${gallery.id}`)}
+          onClick={gallery => push(`/photos/${gallery.id}#list`)}
           renderBottom={photo => (
             <div className={styles.galleryInfo}>
               <h4 className={styles.galleryTitle}>{photo.title}</h4>

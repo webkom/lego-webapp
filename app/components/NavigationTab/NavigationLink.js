@@ -7,7 +7,7 @@ import styles from './NavigationLink.css';
 
 type Props = {
   to?: string,
-  onClick?: () => void,
+  onClick?: (e: Event) => void,
   children?: Node
 };
 
