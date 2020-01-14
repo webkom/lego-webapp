@@ -40,7 +40,23 @@ const RouteHandler = connect(
       <Router
         onError={err => setStatusCode(500)}
         {...restProps}
-        render={applyRouterMiddleware(useScroll())}
+        render={applyRouterMiddleware(
+          useScroll((prevRouterProps, { location, routes }) => {
+            if (
+              prevRouterProps &&
+              location.pathname === prevRouterProps.location.pathname
+            )
+              return false;
+            if (
+              routes
+                .concat(prevRouterProps ? prevRouterProps.routes : [])
+                .some(route => route.ignoreScrollBehavior)
+            ) {
+              return false;
+            }
+            return true;
+          })
+        )}
       />
     </ErrorBoundary>
   )
