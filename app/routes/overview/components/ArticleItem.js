@@ -34,7 +34,9 @@ class ArticleItem extends Component<Props, *> {
                 <span className={styles.articleMeta}>
                   Publisert - {meta.props.children[0]}
                 </span>
-                <div className={styles.articleMeta}>{meta.props.children[3]}</div>
+                <div className={styles.articleMeta}>
+                  {meta.props.children[3]}
+                </div>
               </div>
               <p className={styles.articleDescription}>
                 {truncateString(item.description, DESC_MAX_LENGTH)}
