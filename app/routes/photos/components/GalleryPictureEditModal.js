@@ -12,6 +12,8 @@ import { Link } from 'react-router';
 import Modal from 'app/components/Modal';
 import styles from './GalleryPictureModal.css';
 import { Image } from 'app/components/Image';
+import Icon from 'app/components/Icon';
+import Tooltip from 'app/components/Tooltip';
 
 type Props = {
   picture: Object,
@@ -77,21 +79,37 @@ const GalleryPictureEditModal = ({
       <Content className={styles.bottomContent}>
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Field
-            label="Bilde beskrivelse"
+            label="Bildebeskrivelse"
             placeholder="Beskrivelse"
             name="description"
             component={TextArea.Field}
             id="gallery-picture-description"
           />
           <Field
-            label="Synlig for offenligheten"
+            label={
+              <Flex>
+                <div>Synlig for offenligheten</div>
+                <div style={{ marginLeft: '5px' }}>
+                  <Tooltip
+                    content="Om bildet skal være synlig for brukere som ikke har tilgang til å redigere albumet."
+                    renderDirection="right"
+                  >
+                    <Icon
+                      name="information-circle-outline"
+                      size={20}
+                      style={{ cursor: 'pointer' }}
+                    />
+                  </Tooltip>
+                </div>
+              </Flex>
+            }
             placeholder="Synlig for alle brukere"
             name="active"
-            description="Om bildet skal være synlig for brukere som ikke har tilgang ti å redigere albumet."
             component={CheckBox.Field}
             id="gallery-picture-active"
             normalize={v => !!v}
           />
+
           <Field
             label="Tagg brukere"
             name="taggees"
