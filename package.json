@@ -33,7 +33,7 @@
     "url": "github.com/webkom/lego-webapp"
   },
   "dependencies": {
-    "@webkom/react-prepare": "0.6.0",
+    "@webkom/react-prepare": "0.7.0",
     "animate.css": "^3.7.0",
     "bunyan": "^1.8.12",
     "bunyan-pretty": "^0.0.1",
