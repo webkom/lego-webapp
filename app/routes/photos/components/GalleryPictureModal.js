@@ -18,6 +18,7 @@ import type { EntityID } from 'app/types';
 import type { ID } from 'app/models';
 import Button from 'app/components/Button';
 import { Image } from 'app/components/Image';
+// $FlowFixMe
 import { useEffect } from 'react';
 
 type Props = {
