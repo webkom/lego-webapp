@@ -187,6 +187,7 @@ pipeline:
       - API_URL=http://api:8000/api/v1
       - BASE_URL=http://api:8000
       - WS_URL=ws://api:8000
+      - ENVIRONMENT=ci
     commands:
       - yarn ssr
   cypress:

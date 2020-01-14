@@ -20,6 +20,7 @@ import { fetchMeta } from 'app/actions/MetaActions';
 import { selectFeedActivitesByFeedId } from 'app/reducers/feeds';
 import { toggleSearch } from 'app/actions/SearchActions';
 import ErrorBoundary from 'app/components/ErrorBoundary';
+import SpecialDay from 'app/components/SpecialDay';
 import Header from 'app/components/Header';
 import Footer from 'app/components/Footer';
 import ToastContainer from 'app/components/Toast/ToastContainer';
@@ -70,59 +71,61 @@ type AppProps = any;
 class App extends PureComponent<AppProps> {
   render() {
     return (
-      <div
-        className={cx(styles.appRoute, {
-          [styles.searchOpen]: this.props.searchOpen
-        })}
-      >
-        <Helmet defaultTitle="Abakus.no" titleTemplate="%s | Abakus.no">
-          <meta property="og:image" content={coverPhoto} />
-          <meta
-            property="og:description"
-            content="Abakus er linjeforeningen for studentene ved Datateknologi og Kommunikasjonsteknologi på NTNU, og drives av studenter ved disse studiene."
-          />
-        </Helmet>
-
-        {config.environment !== 'production' && (
-          <div
-            style={{
-              backgroundColor: 'red',
-              color: 'white',
-              fontWeight: 'bold',
-              padding: '10px'
-            }}
-          >
-            This is a development version of lego-webapp.
-          </div>
-        )}
-
-        <Header
-          searchOpen={this.props.searchOpen}
-          toggleSearch={this.props.toggleSearch}
-          currentUser={this.props.currentUser}
-          loggedIn={this.props.loggedIn}
-          logout={this.props.logout}
-          login={this.props.login}
-          notificationsData={this.props.notificationsData}
-          fetchNotifications={this.props.fetchNotificationFeed}
-          notifications={this.props.notifications}
-          markAllNotifications={this.props.markAllNotifications}
-          fetchNotificationData={this.props.fetchNotificationData}
-        />
-
-        <AppChildren
-          currentUser={this.props.currentUser}
-          loggedIn={this.props.loggedIn}
-          statusCode={this.props.statusCode}
-          setStatusCode={this.props.setStatusCode}
-          location={this.props.location}
+      <SpecialDay>
+        <div
+          className={cx(styles.appRoute, {
+            [styles.searchOpen]: this.props.searchOpen
+          })}
         >
-          {this.props.children}
-        </AppChildren>
-        <PhotoUploadStatus />
+          <Helmet defaultTitle="Abakus.no" titleTemplate="%s | Abakus.no">
+            <meta property="og:image" content={coverPhoto} />
+            <meta
+              property="og:description"
+              content="Abakus er linjeforeningen for studentene ved Datateknologi og Kommunikasjonsteknologi på NTNU, og drives av studenter ved disse studiene."
+            />
+          </Helmet>
 
-        <Footer {...this.props} />
-      </div>
+          {config.environment !== 'production' && (
+            <div
+              style={{
+                backgroundColor: 'red',
+                color: 'white',
+                fontWeight: 'bold',
+                padding: '10px'
+              }}
+            >
+              This is a development version of lego-webapp.
+            </div>
+          )}
+
+          <Header
+            searchOpen={this.props.searchOpen}
+            toggleSearch={this.props.toggleSearch}
+            currentUser={this.props.currentUser}
+            loggedIn={this.props.loggedIn}
+            logout={this.props.logout}
+            login={this.props.login}
+            notificationsData={this.props.notificationsData}
+            fetchNotifications={this.props.fetchNotificationFeed}
+            notifications={this.props.notifications}
+            markAllNotifications={this.props.markAllNotifications}
+            fetchNotificationData={this.props.fetchNotificationData}
+          />
+
+          <AppChildren
+            currentUser={this.props.currentUser}
+            loggedIn={this.props.loggedIn}
+            statusCode={this.props.statusCode}
+            setStatusCode={this.props.setStatusCode}
+            location={this.props.location}
+          >
+            {this.props.children}
+          </AppChildren>
+          <PhotoUploadStatus />
+
+          <Footer {...this.props} />
+        </div>
+      </SpecialDay>
     );
   }
 }
