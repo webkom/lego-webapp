@@ -177,23 +177,30 @@ export function paginationReducer(fetchTypes: ?EntityReducerTypes) {
 
     const { next = null } = action.payload;
     const parsedNext = next && parse(next.split('?')[1]);
+    const hasMore = typeof next === 'string';
 
     if (paginationKey) {
-      state.pagination = {
-        ...state.pagination,
-        [paginationKey]: {
-          ...state.pagination[paginationKey],
-          next: parsedNext,
-          hasMore: typeof next === 'string'
+      return {
+        ...state,
+        hasMore,
+        pagination: {
+          ...state.pagination,
+          [paginationKey]: {
+            ...state.pagination[paginationKey],
+            next: parsedNext,
+            hasMore
+          }
         }
       };
-    } else {
-      state.pagination.next = parsedNext;
     }
 
     return {
       ...state,
-      hasMore: typeof next === 'string'
+      hasMore,
+      pagination: {
+        ...state.pagination,
+        next: parsedNext
+      }
     };
   };
 }
