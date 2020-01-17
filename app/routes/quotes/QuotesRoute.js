@@ -49,18 +49,21 @@ const mapDispatchToProps = {
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  prepare((props, dispatch) => {
-    const {
-      location: { query }
-    } = props;
-    if (query.filter === 'unapproved') {
-      return dispatch(
-        fetchAllUnapproved({ loadNextPage: false }),
-        fetchEmojis()
-      );
-    }
-    return dispatch(fetchAllApproved({ loadNextPage: false }), fetchEmojis());
-  }),
+  prepare(
+    (props, dispatch) => {
+      const {
+        location: { query }
+      } = props;
+      if (query.filter === 'unapproved') {
+        return dispatch(
+          fetchAllUnapproved({ loadNextPage: false }),
+          fetchEmojis()
+        );
+      }
+      return dispatch(fetchAllApproved({ loadNextPage: false }), fetchEmojis());
+    },
+    ['location']
+  ),
   connect(
     mapStateToProps,
     mapDispatchToProps
