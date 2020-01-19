@@ -1,0 +1,40 @@
+@import '~app/styles/variables.css';
+
+.body {
+  composes: withShadow from '~app/styles/utilities.css';
+  text-align: center;
+  background: var(--lego-card-color);
+  width: 100%;
+  margin-bottom: 20px;
+  position: relative;
+  border: 2px solid #db4c48;
+  color: var(--lego-font-color);
+
+  @media (--mobile-device) {
+    height: 100%;
+  }
+}
+
+.body h2 {
+  padding: 10px;
+  height: 60px; /* just space for 1 headerline */
+  hyphens: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.description {
+  margin: 0 20px 20px;
+  height: 80px; /* just space for 3 lines */
+  text-align: left;
+  font-style: italic;
+  hyphens: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.image {
+  object-fit: cover;
+  width: 100%;
+  height: auto;
+}

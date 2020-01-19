@@ -11,7 +11,6 @@ import alarm from 'app/assets/alarm.svg';
 import truncateString from 'app/utils/truncateString';
 import { orderBy } from 'lodash';
 import moment from 'moment-timezone';
-import Icon from 'app/components/Icon';
 import Tooltip from 'app/components/Tooltip';
 
 type Props = {
@@ -22,9 +21,9 @@ type State = {
   time: string
 };
 
-class EventItem extends React.Component<Props, State> {
+class NextEventItem extends React.Component<Props, State> {
   state = {
-    time: EventItem.generateTime(this.props)
+    time: NextEventItem.generateTime(this.props)
   };
   interval: IntervalID;
 
@@ -42,7 +41,7 @@ class EventItem extends React.Component<Props, State> {
 
   updateTime(props) {
     this.setState({
-      time: EventItem.generateTime(this.props)
+      time: NextEventItem.generateTime(this.props)
     });
   }
 
@@ -90,14 +89,6 @@ class EventItem extends React.Component<Props, State> {
   }
 }
 
-// Component when there is no events
-const Filler = () => (
-  <Flex column className={styles.filler}>
-    <Icon size={40} name="eye-off-outline" style={{ marginRight: '5px' }} />
-    <span>Ingen påmeldinger de neste 3 dagene </span>
-  </Flex>
-);
-
 // Filter for activation
 const hasActivation = event => event.activationTime !== null;
 
@@ -124,13 +115,17 @@ const NextEvent = (props: { events: Array<Event> }) => {
     ['activationTime']
   ).splice(0, 2);
 
+  // Prevent module from loading when there is no events within the filter
+  if (orderedEvents.length == 0) return null;
+
   return (
-    <div className={styles.wrapper}>
-      {orderedEvents.length > 0 ? (
-        orderedEvents.map(e => <EventItem key={e.id} event={e} />)
-      ) : (
-        <Filler />
-      )}
+    <div>
+      <Link to="/events">
+        <h3 className="u-ui-heading">Påmeldinger</h3>
+      </Link>
+      {orderedEvents.map(e => (
+        <NextEventItem key={e.id} event={e} />
+      ))}
     </div>
   );
 };

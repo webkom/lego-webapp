@@ -9,13 +9,12 @@ import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
 
 type Props = {
-  events: Array<Object>,
-  frontpageHeading?: boolean
+  events: Array<Object>
 };
 
 export default class CompactEvents extends Component<Props> {
   render() {
-    const { events, frontpageHeading } = this.props;
+    const { events } = this.props;
 
     const mapEvents = eventTypes => {
       return events
@@ -74,20 +73,18 @@ export default class CompactEvents extends Component<Props> {
       return null;
     }
 
-    const headerStyle = frontpageHeading ? 'u-mb' : 'u-ui-heading';
-
     return (
       <Flex column>
         <Flex wrap className={styles.compactEvents}>
           <Flex column className={styles.compactLeft}>
             <Link to={'/events'}>
-              <h3 className={headerStyle}>Bedpres og Kurs</h3>
+              <h3 className="u-ui-heading">Bedpres og Kurs</h3>
             </Link>
             <ul className={styles.innerList}>{leftEvents}</ul>
           </Flex>
           <Flex column className={styles.compactRight}>
             <Link to={'/events'}>
-              <h3 className={headerStyle}>Arrangementer</h3>
+              <h3 className="u-ui-heading">Arrangementer</h3>
             </Link>
             <ul className={styles.innerList}>{rightEvents}</ul>
           </Flex>

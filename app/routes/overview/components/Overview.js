@@ -22,6 +22,7 @@ import NextEvent from './NextEvent';
 import Poll from 'app/components/Poll';
 import type { PollEntity } from 'app/reducers/polls';
 import RandomQuote from 'app/components/RandomQuote';
+import WeeklyItem from './Weekly';
 
 type Props = {
   frontpage: Array<Object>,
@@ -99,7 +100,8 @@ class Overview extends Component<Props, State> {
       poll,
       votePoll
     } = this.props;
-    const pinned = frontpage[0];
+
+    // CompactEvents Event Module
     const compactEvents = (
       <CompactEvents
         events={frontpage.filter(isEvent)}
@@ -107,169 +109,168 @@ class Overview extends Component<Props, State> {
       />
     );
 
-    const pinnedComponent = (
-      <LoadingIndicator loading={loadingFrontpage}>
-        {pinned && (
-          <div className={styles.pinned}>
-            <Pinned
-              item={pinned}
-              url={this.itemUrl(pinned)}
-              meta={this.renderMeta(pinned)}
-            />
-          </div>
-        )}
-      </LoadingIndicator>
+    // Resolve the pinned item
+    const pinned = frontpage[0];
+
+    // Pinned Module
+    const pinnedComponent = pinned && (
+      <div>
+        <h3 className="u-ui-heading">Festet Oppslag</h3>
+        <Pinned
+          item={pinned}
+          url={this.itemUrl(pinned)}
+          meta={this.renderMeta(pinned)}
+        />
+      </div>
     );
 
+    // Readme Module
     const readMe = (
-      <Flex className={styles.readMe}>
+      <div>
+        <h3 className="u-ui-heading">Studentavis</h3>
         <LatestReadme readmes={readmes} expanded={frontpage.length === 0} />
-      </Flex>
+      </div>
     );
 
+    // Used to find events for the events module
+    const resolveEvents = frontpage
+      .filter(item => item.documentType === 'event')
+      .filter(item => item != frontpage[0])
+      .slice(0, this.state.eventsToShow);
+
+    // Events Module
     const events = (
-      <Flex column className={styles.eventsWrapper}>
-        <Link to="/events">
-          <h3 className="u-ui-heading">Arrangementer</h3>
-        </Link>
+      <React.Fragment>
+        <h3 className="u-ui-heading">Arrangementer</h3>
         <Flex className={styles.events}>
-          {frontpage
-            .filter(item => item.documentType === 'event')
-            .filter(item => item != frontpage[0])
-            .slice(0, this.state.eventsToShow)
-            .map(event => (
-              <EventItem
-                key={event.id}
-                item={event}
-                url={this.itemUrl(event)}
-                meta={this.renderMeta(event)}
-                loggedIn={loggedIn}
-              />
-            ))}
+          {resolveEvents.map(event => (
+            <EventItem
+              key={event.id}
+              item={event}
+              url={this.itemUrl(event)}
+              meta={this.renderMeta(event)}
+              loggedIn={loggedIn}
+            />
+          ))}
         </Flex>
-      </Flex>
+      </React.Fragment>
     );
 
-    const weeklyArticle = frontpage
+    // Used to find the last weekly article for the weekly module
+    const resolveLastWeekly = frontpage
       .filter(item => item.documentType === 'article')
       .filter(article => article.tags.includes('weekly'))[0];
 
-    const weekly = (
-      <Flex column className={styles.weekly}>
-        {weeklyArticle && (
-          <>
-            <Link to={'/articles?tag=weekly'}>
-              <h3 className="u-ui-heading">Weekly</h3>
-            </Link>
-            <ArticleItem
-              key={weeklyArticle.id}
-              item={weeklyArticle}
-              url={this.itemUrl(weeklyArticle)}
-              meta={this.renderMeta(weeklyArticle)}
-              weekly
-            />
-          </>
-        )}
-      </Flex>
+    // Weekly Module
+    const weekly = resolveLastWeekly && (
+      <React.Fragment>
+        <Link to={'/articles?tag=weekly'}>
+          <h3 className="u-ui-heading">#Weekly</h3>
+        </Link>
+        <WeeklyItem
+          key={resolveLastWeekly.id}
+          item={resolveLastWeekly}
+          url={this.itemUrl(resolveLastWeekly)}
+        />
+      </React.Fragment>
     );
 
-    const articles = (
-      <Flex column className={styles.articlesWrapper}>
+    // Used to find the articles for the articles module
+    const resolveArticles = frontpage
+      .filter(item => item.documentType === 'article')
+      .filter(article => !article.tags.includes('weekly'))
+      .slice(0, this.state.articlesToShow);
+
+    // Articles module
+    const articles = resolveArticles && (
+      <React.Fragment>
         <Link to="/articles">
           <h3 className="u-ui-heading">Artikler</h3>
         </Link>
         <Flex className={styles.articles}>
-          {frontpage
-            .filter(item => item.documentType === 'article')
-            .filter(article => !article.tags.includes('weekly'))
-            .slice(0, this.state.articlesToShow)
-            .map(article => (
-              <ArticleItem
-                key={article.id}
-                item={article}
-                url={this.itemUrl(article)}
-                meta={this.renderMeta(article)}
-              />
-            ))}
+          {resolveArticles.map(article => (
+            <ArticleItem
+              key={article.id}
+              item={article}
+              url={this.itemUrl(article)}
+              meta={this.renderMeta(article)}
+            />
+          ))}
         </Flex>
-      </Flex>
+      </React.Fragment>
     );
 
+    // NextEvent module
     const nextEvent = (
       <Flex column>
-        <Link to="/events">
-          <h3 className="u-ui-heading" style={{ padding: '5px 10px 10px' }}>
-            Påmeldinger
-          </h3>
-        </Link>
         <NextEvent
           events={frontpage.filter(item => item.documentType === 'event')}
         />
       </Flex>
     );
 
-    const pollItem = (
-      <Flex column className={styles.poll}>
-        {poll && (
-          <>
-            <Link to={'/polls'}>
-              <h3 className="u-ui-heading">Avstemning</h3>
-            </Link>
-            <Poll
-              style={{ flex: 'none' }}
-              poll={poll}
-              backgroundLight
-              truncate={3}
-              handleVote={votePoll}
-            />
-          </>
-        )}
-      </Flex>
+    // Poll Module
+    const pollItem = poll && (
+      <React.Fragment>
+        <Link to={'/polls'}>
+          <h3 className="u-ui-heading">Avstemning</h3>
+        </Link>
+        <Poll
+          style={{ flex: 'none' }}
+          poll={poll}
+          backgroundLight
+          truncate={3}
+          handleVote={votePoll}
+        />
+      </React.Fragment>
     );
 
-    const quoteItem = (
-      <Flex column>
+    // Quote module
+    const quoteItem = loggedIn && (
+      <React.Fragment>
         <Link to={'/quotes'}>
           <h3 className="u-ui-heading">Overhørt</h3>
         </Link>
         <RandomQuote loggedIn={loggedIn} className={styles.quote} />
-      </Flex>
+      </React.Fragment>
     );
 
     return (
       <Container>
-        <Helmet title="Hjem" />
-        <Flex className={styles.desktopContainer}>
-          <Flex column className={styles.leftColumn}>
-            {compactEvents}
-            {pinnedComponent}
-            {events}
+        <LoadingIndicator loading={loadingFrontpage}>
+          <Helmet title="Hjem" />
+          <Flex className={styles.desktopContainer}>
+            <Flex column className={styles.leftColumn}>
+              {compactEvents}
+              {pinnedComponent}
+              {events}
+            </Flex>
+            <Flex column className={styles.rightColumn}>
+              {nextEvent}
+              {weekly}
+              {pollItem}
+              {quoteItem}
+              {readMe}
+              {articles}
+            </Flex>
           </Flex>
-          <Flex column className={styles.rightColumn}>
+          <section className={styles.mobileContainer}>
+            {compactEvents}
             {nextEvent}
             {pollItem}
             {quoteItem}
+            {pinnedComponent}
             {readMe}
             {weekly}
             {articles}
-          </Flex>
-        </Flex>
-        <section className={styles.mobileContainer}>
-          {compactEvents}
-          {nextEvent}
-          {pollItem}
-          {quoteItem}
-          {pinnedComponent}
-          {readMe}
-          {weekly}
-          {articles}
-          {events}
-        </section>
-        {frontpage.length > 8 && (
-          <div className={styles.showMore}>
-            <Icon onClick={this.showMore} size={40} name="arrow-dropdown" />
-          </div>
-        )}
+            {events}
+          </section>
+          {frontpage.length > 8 && (
+            <div className={styles.showMore}>
+              <Icon onClick={this.showMore} size={40} name="arrow-dropdown" />
+            </div>
+          )}
+        </LoadingIndicator>
       </Container>
     );
   }

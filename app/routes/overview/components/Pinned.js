@@ -18,7 +18,6 @@ class Pinned extends Component<Props, *> {
     const { item, url, meta } = this.props;
     return (
       <Flex column className={styles.pinned}>
-        <h3 className="u-ui-heading">Festet oppslag</h3>
         <Flex column className={styles.innerPinned}>
           <Link to={url} className={styles.innerLinks}>
             <Image className={styles.image} src={item.cover} />
