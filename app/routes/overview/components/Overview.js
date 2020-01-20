@@ -24,6 +24,8 @@ import type { PollEntity } from 'app/reducers/polls';
 import RandomQuote from 'app/components/RandomQuote';
 import WeeklyItem from './Weekly';
 
+import moment from 'moment-timezone';
+
 type Props = {
   frontpage: Array<Object>,
   readmes: Array<Object>,
@@ -115,7 +117,7 @@ class Overview extends Component<Props, State> {
     // Pinned Module
     const pinnedComponent = pinned && (
       <div>
-        <h3 className="u-ui-heading">Festet Oppslag</h3>
+        <h3 className="u-ui-heading">Festet oppslag</h3>
         <Pinned
           item={pinned}
           url={this.itemUrl(pinned)}
@@ -158,8 +160,9 @@ class Overview extends Component<Props, State> {
 
     // Used to find the last weekly article for the weekly module
     const resolveLastWeekly = frontpage
-      .filter(item => item.documentType === 'article')
-      .filter(article => article.tags.includes('weekly'))[0];
+      .filter(item => item.documentType === 'article') // Only articles
+      .filter(article => moment().diff(article.createdAt, 'weeks') < 2) // No more then two weeks old
+      .filter(article => article.tags.includes('weekly'))[0]; // Only weekly
 
     // Weekly Module
     const weekly = resolveLastWeekly && (
