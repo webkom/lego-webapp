@@ -97,7 +97,7 @@ const getSection = sectionName =>
     fetchItemActions: []
   };
 
-const loadData = (props, dispatch) => {
+const loadData = async (props, dispatch) => {
   const { fetchItemActions } = getSection(props.params.section);
   const { pageSlug } = props.params;
 
@@ -109,13 +109,17 @@ const loadData = (props, dispatch) => {
         .concat(dispatch(fetchAllPages()))
     );
   }
+  const itemActions = [];
 
+  for (let i = 0; i < fetchItemActions.length; i++) {
+    itemActions[i] = await dispatch(fetchItemActions[i](pageSlug));
+  }
   return Promise.all(
     Object.keys(sections)
       .map(key => sections[key].fetchAll)
       .filter(Boolean)
       .map(fetch => dispatch(fetch()))
-      .concat(fetchItemActions.map(action => dispatch(action(pageSlug))))
+      .concat(itemActions)
   );
 };
 
