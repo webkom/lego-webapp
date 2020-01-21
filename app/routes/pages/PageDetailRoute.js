@@ -26,6 +26,7 @@ import {
   selectInfoPageForPages
 } from 'app/reducers/pages';
 import HTTPError from 'app/routes/errors/HTTPError';
+import dispatchInOrder from 'app/utils/dispatchInOrder';
 
 const sections: {
   [section: string]: {
@@ -109,11 +110,8 @@ const loadData = async (props, dispatch) => {
         .concat(dispatch(fetchAllPages()))
     );
   }
-  const itemActions = [];
+  const itemActions = dispatchInOrder(fetchItemActions, dispatch, pageSlug);
 
-  for (let i = 0; i < fetchItemActions.length; i++) {
-    itemActions[i] = await dispatch(fetchItemActions[i](pageSlug));
-  }
   return Promise.all(
     Object.keys(sections)
       .map(key => sections[key].fetchAll)

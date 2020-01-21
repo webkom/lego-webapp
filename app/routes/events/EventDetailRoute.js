@@ -26,6 +26,7 @@ import {
 import loadingIndicator from 'app/utils/loadingIndicator';
 import helmet from 'app/utils/helmet';
 import { deleteComment } from 'app/actions/CommentActions';
+import dispatchInOrder from 'app/utils/dispatchInOrder';
 
 const mapStateToProps = (state, props) => {
   const {
@@ -124,11 +125,14 @@ const mapDispatchToProps = {
   isUserFollowing,
   deleteComment
 };
-
+/*
 const loadData = async ({ params: { eventId }, loggedIn }, dispatch) => [
   await dispatch(fetchEvent(eventId)),
   loggedIn && (await dispatch(isUserFollowing(eventId)))
 ];
+*/
+const loadData = async ({ params: { eventId }, loggedIn }, dispatch) =>
+  await dispatchInOrder([fetchEvent, isUserFollowing], dispatch, eventId);
 
 const propertyGenerator = (props, config) => {
   if (!props.event) return;
