@@ -462,6 +462,11 @@ function EventEditor({
 const validate = data => {
   const errors = {};
   const isPositiveNumeric = value => /^\d+$/.test(value);
+  const isLegalDuration = () => {
+    const startTimeMillis = new Date(data.startTime).getTime();
+    const endTimeMillis = new Date(data.endTime).getTime();
+    return endTimeMillis > startTimeMillis;
+  };
   const [isValidYoutubeUrl, errorMessage = ''] = validYoutubeUrl()(
     data.youtubeUrl
   );
@@ -500,6 +505,9 @@ const validate = data => {
   }
   if (!isPositiveNumeric(data.registrationDeadlineHours)) {
     errors.registrationDeadlineHours = 'Kun hele timer';
+  }
+  if (!isLegalDuration()) {
+    errors.endTime = 'Starttidspunkt må være før sluttidspunkt';
   }
   return errors;
 };
