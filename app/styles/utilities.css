@@ -30,6 +30,13 @@
 
 .sidebar {
   min-width: 25%;
+
+  /* TODO: Make this proper CSS for a general sidebar */
+  min-height: 300px;
+  padding: 20px 0 0 30px;
+  margin: 0 0 0 60px;
+  border-left: 1px solid #ccc;
+  align-self: flex-end;
 }
 
 .withShadow {
@@ -63,15 +70,6 @@
   @media (--small-viewport) {
     display: flex;
   }
-}
-
-.sidebar {
-  /* TODO: Make this proper CSS for a general sidebar */
-  min-height: 300px;
-  padding: 20px 0 0 30px;
-  margin: 0 0 0 60px;
-  border-left: 1px solid #ccc;
-  align-self: flex-end;
 }
 
 :global {

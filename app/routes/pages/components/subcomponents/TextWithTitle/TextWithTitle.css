@@ -9,7 +9,7 @@
   font-size: 1.2rem;
   color: var(--lego-font-color);
   text-transform: uppercase;
-  font-family: RalewayBold;
+  font-family: RalewayBold, sans-serif;
 }
 
 .title {

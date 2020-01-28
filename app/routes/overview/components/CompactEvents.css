@@ -13,14 +13,6 @@
   padding: 0;
 }
 
-.compactEvents a {
-  color: var(--lego-font-color);
-
-  &:hover {
-    color: #c0392b;
-  }
-}
-
 .compactLeft {
   padding-right: 20px;
 }
@@ -41,6 +33,10 @@
   align-items: center;
 }
 
+.compactEvents a {
+  color: var(--lego-font-color);
+}
+
 .compactEvents li > a {
   display: block;
   white-space: nowrap;
@@ -49,6 +45,10 @@
   width: 0;
   flex-grow: 1;
   padding-right: 10px;
+}
+
+.compactEvents a:hover {
+  color: #c0392b;
 }
 
 .showMoreLink {

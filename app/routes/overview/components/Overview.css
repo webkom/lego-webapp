@@ -29,14 +29,6 @@
   }
 }
 
-.mobileContainer {
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-auto-rows: auto;
-  padding: 0 10px;
-  row-gap: 10px;
-}
-
 .leftColumn {
   flex: 13;
   margin-right: 10px;
@@ -51,15 +43,15 @@
   padding: 28px 0 0;
 }
 
-.item:hover .itemInfo {
-  color: black;
-}
-
 .itemInfo {
   transition: color 0.2s;
   font-size: 1rem;
   font-weight: 600;
   color: rgba(0, 0, 0, 0.8);
+}
+
+.item:hover .itemInfo {
+  color: black;
 }
 
 .otherItems {

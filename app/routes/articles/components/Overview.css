@@ -81,6 +81,13 @@
   }
 }
 
+.itemInfo {
+  transition: color 0.2s;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.8);
+}
+
 .item:hover .itemInfo {
   color: black;
 }
@@ -115,17 +122,10 @@
   color: rgba(0, 0, 0, 0.9);
 }
 
-.itemInfo {
-  transition: color 0.2s;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: rgba(0, 0, 0, 0.8);
-}
-
 .itemDescription {
   padding-top: 10px;
   margin: 0;
-  font-family: 'skolar-latin';
+  font-family: 'skolar-latin', sans-serif;
   font-size: 1.1rem;
   -webkit-font-smoothing: initial;
 }
