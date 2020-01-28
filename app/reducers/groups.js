@@ -35,12 +35,6 @@ export default createEntityReducer({
           break;
 
         case Membership.REMOVE.SUCCESS:
-          newState.byId[action.meta.groupId].memberships = without(
-            newState.byId[action.meta.groupId].memberships,
-            action.meta.id
-          );
-          break;
-
         case Membership.LEAVE_GROUP.SUCCESS:
           newState.byId[action.meta.groupId].memberships = without(
             newState.byId[action.meta.groupId].memberships,
