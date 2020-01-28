@@ -71,12 +71,12 @@ type AppProps = any;
 class App extends PureComponent<AppProps> {
   render() {
     return (
-      <SpecialDay>
-        <div
-          className={cx(styles.appRoute, {
-            [styles.searchOpen]: this.props.searchOpen
-          })}
-        >
+      <div
+        className={cx(styles.appRoute, {
+          [styles.searchOpen]: this.props.searchOpen
+        })}
+      >
+        <SpecialDay>
           <Helmet defaultTitle="Abakus.no" titleTemplate="%s | Abakus.no">
             <meta property="og:image" content={coverPhoto} />
             <meta
@@ -124,8 +124,8 @@ class App extends PureComponent<AppProps> {
           <PhotoUploadStatus />
 
           <Footer {...this.props} />
-        </div>
-      </SpecialDay>
+        </SpecialDay>
+      </div>
     );
   }
 }

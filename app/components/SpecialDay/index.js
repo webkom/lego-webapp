@@ -7,15 +7,7 @@ type Props = {
   children: any
 };
 
-type State = {
-  specialDay: any
-};
-
-class SpecialDay extends React.Component<Props, State> {
-  state = {
-    specialDay: SpecialDay.getSpecialDay()
-  };
-
+class SpecialDay extends React.Component<Props> {
   static getSpecialDay() {
     if (AprilFools.isCorrectDate()) {
       return AprilFools;
@@ -25,7 +17,7 @@ class SpecialDay extends React.Component<Props, State> {
 
   render() {
     const { children, ...rest } = this.props;
-    const { specialDay } = this.state;
+    const specialDay = SpecialDay.getSpecialDay();
 
     if (config.environment === 'ci' || specialDay === null) {
       return React.Children.map(children, child =>

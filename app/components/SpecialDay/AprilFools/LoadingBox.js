@@ -1,6 +1,7 @@
 // @flow
 import React from 'react';
 import moment from 'moment-timezone';
+import _ from 'lodash';
 import styles from './LoadingBox.css';
 import walkingImage from 'app/assets/man_walking.gif';
 
@@ -22,24 +23,17 @@ type State = {
 class LoadingBox extends React.Component<Props, State> {
   interval: IntervalID;
 
-  static getRandomArbitrary(min: number, max: number) {
-    return Math.floor(Math.random() * (max - min) + min);
-  }
-
   constructor(props: Props) {
     super(props);
     const initialDate = moment();
 
     // Queue time between 20 and 57 seconds.
-    const expectedArrivalDate = moment().add(
-      LoadingBox.getRandomArbitrary(20, 57),
-      'seconds'
-    );
+    const expectedArrivalDate = moment().add(_.random(20, 57), 'seconds');
     const initialTimeLeft = expectedArrivalDate.diff(initialDate);
 
     this.state = {
       progress: 0,
-      usersInQueue: LoadingBox.getRandomArbitrary(48, 231), // between 48 and 231
+      usersInQueue: _.random(48, 231), // between 48 and 231
       initialDate,
       initialTimeLeft,
       expectedArrivalDate,
@@ -78,7 +72,7 @@ class LoadingBox extends React.Component<Props, State> {
       usersInQueue > 15
     ) {
       // Between 10 and 25
-      const randomCount = LoadingBox.getRandomArbitrary(10, 25);
+      const randomCount = _.random(10, 25);
       if (usersInQueue > 300) {
         // Max 300 users.
         usersInQueue -= randomCount;

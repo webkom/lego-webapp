@@ -22,7 +22,8 @@ class AprilFools extends React.Component<Props, State> {
   };
   static isCorrectDate() {
     // The year doesn't matter, as it only check month and day of the month
-    const aprilFoolsDate = moment('2019-04-01');
+    //const aprilFoolsDate = moment('2019-04-01');
+    const aprilFoolsDate = moment('2019-01-28');
     const now = moment();
     return (
       aprilFoolsDate.date() === now.date() &&
@@ -40,7 +41,7 @@ class AprilFools extends React.Component<Props, State> {
   componentDidMount() {
     const hasClosedAprilFools = localStorage.getItem('hasClosedAprilFools');
     this.setState({
-      hasClosed: hasClosedAprilFools !== null && hasClosedAprilFools === 'true'
+      hasClosed: hasClosedAprilFools === 'true'
     });
   }
 
@@ -71,16 +72,12 @@ class AprilFools extends React.Component<Props, State> {
                 </span>
               </div>
               <div className={styles.description}>
-                <>Vi har dessverre </>
-                <i>tekniske &quot;utfordringer&quot;</i>
-                <>
-                  {' '}
-                  på våre nettsider. Vi er lei oss for ulempene dette medfører
-                  for deg. Det{' '}
-                </>
-
-                <i>&quot;jobbes&quot;</i>
-                <> på spreng for å identifisere problemet.</>
+                Vi har dessverre
+                <i> tekniske &quot;utfordringer&quot; </i>
+                på våre nettsider. Vi er lei oss for ulempene dette medfører for
+                deg. Det
+                <i> &quot;jobbes&quot; </i>
+                på spreng for å identifisere problemet.
               </div>
             </div>
             <div>
