@@ -41,6 +41,13 @@ export default createEntityReducer({
           );
           break;
 
+        case Membership.LEAVE_GROUP.SUCCESS:
+          newState.byId[action.meta.groupId].memberships = without(
+            newState.byId[action.meta.groupId].memberships,
+            action.meta.id
+          );
+          break;
+
         case Group.MEMBERSHIP_FETCH.SUCCESS:
           newState.byId[action.meta.groupId].memberships = union(
             newState.byId[action.meta.groupId].memberships,
