@@ -3,7 +3,7 @@ import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { StaticRouter } from 'react-router';
 import RouteConfig from '../app/routes';
-import { Provider } from 'react-redux';
+import { ReactReduxContext } from 'react-redux';
 import Helmet from 'react-helmet';
 import Raven from 'raven';
 import routes from '../app/routes';
@@ -65,7 +65,7 @@ const createServerSideRenderer = (
 
   const log = req.app.get('log');
 
-  const ServerConfig = (req, context) => (
+  const ServerConfig = ({ req, context }) => (
     <StaticRouter location={req.url} context={context}>
       <RouteConfig />
     </StaticRouter>
@@ -78,7 +78,20 @@ const createServerSideRenderer = (
     { raven, getCookie: key => req.cookies[key] }
   );
 
-  const app = <Provider store={store}>{ServerConfig(req, context)}</Provider>;
+  const providerData = { store, storeState: store.getState() };
+  const unsubscribe = store.subscribe(() => {
+    const newStoreState = store.getState();
+    // If the value is the same, skip the unnecessary state update.
+    if (providerData.storeState === newStoreState) {
+      return null;
+    }
+    providerData.storeState = newStoreState;
+  });
+  const app = (
+    <ReactReduxContext.Provider value={providerData}>
+      <ServerConfig req={req} context={context} />
+    </ReactReduxContext.Provider>
+  );
 
   const reportError = (error: Error) => {
     try {
@@ -121,7 +134,8 @@ const createServerSideRenderer = (
     .catch(error => {
       reportError(error);
       render();
-    });
+    })
+    .then(unsubscribe);
   //old
   /*
   match({ routes, location: req.url }, (err, redirect, renderProps) => {
