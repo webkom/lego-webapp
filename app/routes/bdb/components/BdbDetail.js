@@ -168,6 +168,7 @@ export default class BdbDetail extends Component<Props, State> {
 
     const semesters = company.semesterStatuses
       // $FlowFixMe
+      .slice()
       .sort(sortByYearThenSemester)
       .map(semesterStatus => (
         <SemesterStatusDetail

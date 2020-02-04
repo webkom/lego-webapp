@@ -15,6 +15,7 @@ import type {
 } from 'app/reducers/companies';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 import type { CompanySemesterContactedStatus } from 'app/models';
+import qs from 'qs';
 
 type Props = {
   companies: Array<CompanyEntity>,
@@ -168,7 +169,8 @@ export default class BdbPage extends Component<Props, State> {
   };
 
   render() {
-    const { query, companies, fetching, push } = this.props;
+    const { location, companies, fetching, push } = this.props;
+    const query = qs.parse(location.search, { ignoreQueryPrefix: true });
 
     if (!companies) {
       return <LoadingIndicator loading />;

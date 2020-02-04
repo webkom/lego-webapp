@@ -8,7 +8,7 @@ import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 
 const mapStateToProps = (state, props) => {
-  const companyId = Number(props.params.companyId);
+  const companyId = Number(props.match.params.companyId);
   const company = selectCompanyById(state, { companyId });
 
   return {
@@ -22,8 +22,15 @@ const mapDispatchToProps = { submitFunction: addCompanyContact };
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
   prepare(
-    ({ params: { companyId } }, dispatch) => dispatch(fetchAdmin(companyId)),
-    ['params.companyId']
+    (
+      {
+        match: {
+          params: { companyId }
+        }
+      },
+      dispatch
+    ) => dispatch(fetchAdmin(companyId)),
+    ['match.params.companyId']
   ),
   connect(
     mapStateToProps,
