@@ -264,12 +264,6 @@
   margin-bottom: 15px;
 }
 
-.navTab > div > div {
-  font-size: 16px;
-  text-transform: none;
-  font-weight: normal;
-}
-
 .removeOption {
   color: #999;
   font-size: 20px;
@@ -300,6 +294,12 @@
   @media (--mobile-device) {
     margin-right: 20px;
   }
+}
+
+.navTab > div > div {
+  font-size: 16px;
+  text-transform: none;
+  font-weight: normal;
 }
 
 .eventSummary {

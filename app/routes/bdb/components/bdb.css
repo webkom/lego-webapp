@@ -4,6 +4,14 @@
   margin: 5px 0 25px;
 }
 
+.fileForm {
+  margin-top: 15px;
+}
+
+.search {
+  display: flex;
+}
+
 .root select {
   font-size: 100%;
   font-family: 'proxima-nova', 'Helvetica Neue', Arial, sans-serif;
@@ -34,6 +42,10 @@
 
 .companyList table {
   border-collapse: collapse;
+}
+
+.rightSection a {
+  display: block;
 }
 
 .companyList table a {
@@ -135,6 +147,19 @@
 
 .files {
   margin-top: 20px;
+}
+
+.info h3,
+.info i {
+  margin: 0 auto;
+}
+
+.editInfo > label {
+  display: flex;
+}
+
+.editInfo i {
+  width: 30px;
 }
 
 .deleteFile {
@@ -352,10 +377,6 @@ background-color. By making it this way I don't have to rewrite it 🤷 */
   flex-direction: column;
 }
 
-.rightSection a {
-  display: block;
-}
-
 .submit {
   padding: 10px 20px;
   font-size: 14px;
@@ -407,19 +428,6 @@ option {
   justify-content: center;
 }
 
-.info h3,
-.info i {
-  margin: 0 auto;
-}
-
-.editInfo > label {
-  display: flex;
-}
-
-.editInfo i {
-  width: 30px;
-}
-
 .editTitle {
   width: 250px;
   font-size: 30px;
@@ -453,22 +461,6 @@ option {
   &:hover {
     cursor: pointer;
   }
-}
-
-.semesterStatusForm select {
-  width: 100%;
-
-  &:hover {
-    cursor: pointer;
-  }
-}
-
-.fileForm {
-  margin-top: 15px;
-}
-
-.search {
-  display: flex;
 }
 
 .search h2 {

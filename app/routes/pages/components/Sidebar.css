@@ -28,7 +28,7 @@
   font-size: 2em;
   font-weight: 900;
   margin-bottom: -10px;
-  font-family: RalewayBold;
+  font-family: RalewayBold, sans-serif;
 }
 
 .sidebarSubtitle {

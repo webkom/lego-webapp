@@ -82,6 +82,22 @@
 
 /* Detail */
 
+.quoteBottom {
+  width: 100%;
+  margin-top: 20px;
+  padding-bottom: 5px;
+  margin-left: 130px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  order: 3;
+
+  @media (--small-viewport) {
+    padding: 0 0 30px;
+    margin: 30px 0 0;
+  }
+}
+
 .singleQuote {
   padding: 1px 20px 0 0;
   background-repeat: no-repeat;
@@ -93,19 +109,6 @@
   &:last-child .quoteBottom {
     border-bottom: none;
   }
-}
-
-.theQuote {
-  padding-left: 5px;
-}
-
-.theQuote a {
-  color: black;
-}
-
-.theQuote a:hover {
-  color: black;
-  text-decoration: none;
 }
 
 .leftQuote {
@@ -136,8 +139,21 @@
   line-height: 35px;
 }
 
+.theQuote {
+  padding-left: 5px;
+}
+
+.theQuote a {
+  color: black;
+}
+
 .singleQuote h3 a {
   color: #777;
+}
+
+.theQuote a:hover {
+  color: black;
+  text-decoration: none;
 }
 
 .singleQuote h3 a:hover {
@@ -156,22 +172,6 @@
 
 .fa-thumbs-up:hover {
   color: orange;
-}
-
-.quoteBottom {
-  width: 100%;
-  margin-top: 20px;
-  padding-bottom: 5px;
-  margin-left: 130px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  order: 3;
-
-  @media (--small-viewport) {
-    padding: 0 0 30px;
-    margin: 30px 0 0;
-  }
 }
 
 .quoteSource {

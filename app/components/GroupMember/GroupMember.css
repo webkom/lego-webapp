@@ -4,6 +4,14 @@
   margin: auto;
 }
 
+.member img {
+  width: 90px;
+  display: block;
+  border-radius: 50%;
+  border: 4px solid #b8b8b8;
+  margin: auto;
+}
+
 .member.leader img {
   border-color: #cca84c;
 }
@@ -20,14 +28,6 @@
   line-height: 20px;
   flex-grow: 0;
   max-width: 100px;
-}
-
-.member img {
-  width: 90px;
-  display: block;
-  border-radius: 50%;
-  border: 4px solid #b8b8b8;
-  margin: auto;
 }
 
 .testing.leader {

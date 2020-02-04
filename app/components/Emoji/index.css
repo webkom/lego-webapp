@@ -5,7 +5,7 @@
 }
 
 .emoji {
-  font-family: 'color-emoji';
+  font-family: 'color-emoji', serif;
   font-size: 22px;
   width: 22px;
   height: 22px;
