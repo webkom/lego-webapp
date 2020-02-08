@@ -36,7 +36,7 @@ function drawNetwork(context, nodes, graph) {
 
 export default function drawFancyNodes(context, { width, height }) {
   context.clearRect(0, 0, width, height);
-  context.fillStyle = 'rgba(0, 0, 0, 0.3)';
+  context.fillStyle = 'rgba(var(--color-black), 0.3)';
   context.strokeStyle = context.fillStyle;
   context.globalCompositeOperation = 'overlay';
   context.lineWidth = 1;

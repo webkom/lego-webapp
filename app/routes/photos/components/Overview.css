@@ -11,7 +11,7 @@
 .headerDetail {
   font-size: 18px;
   font-weight: 100;
-  color: gray;
+  color: var(--color-gray-1);
   margin-right: 15px;
 }
 
@@ -53,11 +53,17 @@
 }
 
 .overlay:hover {
-  background: linear-gradient(rgba(199, 69, 89, 1), rgba(255, 255, 255, 0.3));
+  background: linear-gradient(
+    rgba(199, 69, 89, 1),
+    rgba(var(--color-white), 0.3)
+  );
 }
 
 .overlaySelected {
-  background: linear-gradient(rgba(199, 69, 89, 1), rgba(255, 255, 255, 0.3));
+  background: linear-gradient(
+    rgba(199, 69, 89, 1),
+    rgba(var(--color-white), 0.3)
+  );
 }
 
 .icon {
@@ -90,7 +96,7 @@
 .actionsContainer {
   padding-bottom: 10px;
   height: 88px;
-  color: white;
+  color: var(--color-white);
 }
 
 .deselectIcon {

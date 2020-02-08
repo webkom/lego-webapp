@@ -5,8 +5,8 @@
 }
 
 .modal {
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.05);
-  border: 1px solid rgba(0, 0, 0, 0.09);
+  box-shadow: 0 4px 4px rgba(var(--color-black), 0.05);
+  border: 1px solid rgba(var(--color-black), 0.09);
   border-radius: 5px;
 }
 
@@ -38,7 +38,7 @@
   width: inherit;
   z-index: 0;
   position: absolute;
-  color: white;
+  color: var(--color-white);
   background-color: rgba(200, 200, 200, 0.7);
 }
 
@@ -48,7 +48,7 @@
 }
 
 .placeholdeTitle {
-  background: rgba(255, 255, 255, 0.8);
+  background: var(--color-white);
   border-radius: 5px;
   font-size: 24px;
   padding: 0 20px;

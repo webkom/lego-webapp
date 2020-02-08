@@ -1,15 +1,15 @@
 .carousel {
-  background: #eee;
+  background: var(--lego-color-gray-light);
   width: 100%;
   display: flex;
 }
 
 .left {
   flex: 1;
-  background: #eee;
+  background: var(--lego-color-gray-light);
 }
 
 .right {
   flex: 2;
-  background: #ddd;
+  background: var(--color-mono-gray-4);
 }

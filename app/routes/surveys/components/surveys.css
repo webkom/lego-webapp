@@ -10,14 +10,14 @@
 }
 
 .surveyItemTitle {
-  color: #333;
+  color: var(--lego-color-gray);
   font-weight: 700;
   margin: 0;
   word-break: break-word;
 }
 
 .surveyTime {
-  color: var(--color-gray-2);
+  color: var(--color-dark-mono-gray-3);
 }
 
 .editTitle {
@@ -66,7 +66,7 @@
 }
 
 .question {
-  border: 2px solid #ccc;
+  border: 2px solid var(--color-mono-gray-3);
   border-left: 3px solid var(--lego-link-color);
   padding: 20px 25px;
   margin-bottom: 35px;
@@ -106,7 +106,7 @@
 
 .questionTypeSelector {
   padding: 14px 20px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--color-mono-gray-3);
 }
 
 .templateType {
@@ -265,7 +265,7 @@
 }
 
 .removeOption {
-  color: #999;
+  color: var(--color-dark-mono-gray-5);
   font-size: 20px;
   margin-left: -5px;
 }

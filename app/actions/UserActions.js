@@ -115,8 +115,10 @@ export function updateUser(
     allergies,
     profilePicture,
     isAbakusMember,
-    emailListsEnabled
+    emailListsEnabled,
+    selectedTheme
   } = user;
+
   return dispatch =>
     dispatch(
       callAPI({
@@ -130,6 +132,7 @@ export function updateUser(
           email,
           gender,
           allergies,
+          selectedTheme,
           isAbakusMember,
           emailListsEnabled,
           ...(options.updateProfilePicture ? { profilePicture } : null)

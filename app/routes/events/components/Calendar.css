@@ -1,7 +1,7 @@
 @import '~app/styles/variables.css';
 
 :root {
-  --calendar-border: 1px solid #ddd;
+  --calendar-border: 1px solid var(--color-mono-gray-4);
 }
 
 .root {
@@ -31,7 +31,7 @@
   width: 29px;
   height: 29px;
   border-radius: 50%;
-  color: white;
+  color: var(--color-white);
   text-align: center;
   background-color: var(--color-red-3);
 }
@@ -41,14 +41,14 @@
   color: #444;
   text-align: right;
   padding-right: 8px;
-  border-bottom: 2px solid #ddd;
+  border-bottom: 2px solid var(--color-mono-gray-4);
 }
 
 .day {
   flex: 0 14.28571%;
   border-right: var(--calendar-border);
   border-bottom: var(--calendar-border);
-  background: #fff;
+  background: var(--color-white);
   position: relative;
   min-height: 100px;
   padding: 20px 10px;
@@ -64,11 +64,11 @@
 }
 
 .prevNextMonthDay {
-  color: #bbb;
+  color: var(--color-mono-gray-2);
 }
 
 .previousEvent a {
-  color: #999;
+  color: var(--color-dark-mono-gray-5);
 }
 
 .previousEvent span {

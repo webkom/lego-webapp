@@ -33,8 +33,8 @@
   min-width: 100px;
   padding: 8px;
   border-radius: 5px;
-  background: #fff;
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+  background: var(--color-white);
+  box-shadow: 0 1px 6px rgba(var(--color-black), 0.2);
 }
 
 .checkbox div {
@@ -54,10 +54,10 @@
   min-width: 200px;
   padding: 8px;
   border-radius: 5px;
-  background: #fff;
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+  background: var(--color-white);
+  box-shadow: 0 1px 6px rgba(var(--color-black), 0.2);
 }
 
 .iconActive {
-  color: #c0392b;
+  color: var(--lego-link-color);
 }

@@ -154,7 +154,7 @@ export default class AddSemester extends Component<Props, State> {
                 minHeight: '30px',
                 margin: '15px 0 25px',
                 borderRadius: '5px',
-                border: '1px solid #ccc'
+                border: '1px solid var(--color-mono-gray-3)'
               }}
               type="button"
               className={

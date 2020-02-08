@@ -6,17 +6,18 @@
 
   .md-RichEditor-root {
     padding: 0;
+    background-color: var(--color-white);
   }
 
   .md-RichEditor-editor:not(.md-RichEditor-readonly) {
     /* Mimic the behavior of our existing editor fields: */
-    border: 1px solid #ccc;
+    border: 1px solid var(--color-mono-gray-3);
     border-radius: 3px;
     padding: 10px;
 
     &:focus-within {
-      box-shadow: 0 0 5px #ccc;
-      border-color: #aaa;
+      box-shadow: 0 0 5px var(--color-mono-gray-3);
+      border-color: var(--color-mono-gray-1);
       outline: none;
     }
   }

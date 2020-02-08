@@ -1,5 +1,5 @@
 :root {
-  --calendar-border: 1px solid #ddd;
+  --calendar-border: 1px solid var(--color-mono-gray-4);
 }
 
 .calendar {
@@ -41,7 +41,7 @@
   flex: 0 14.28571%;
   border-right: var(--calendar-border);
   border-bottom: var(--calendar-border);
-  background: #fff;
+  background: var(--color-white);
   text-align: center;
   font-size: 16px;
   padding: 5px;
@@ -55,12 +55,12 @@
   }
 
   &:hover {
-    background: #eee;
+    background: var(--lego-color-gray-light);
   }
 }
 
 .prevOrNextMonth {
-  color: #bbb;
+  color: var(--color-mono-gray-2);
 }
 
 .selectedDate {

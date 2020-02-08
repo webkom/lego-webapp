@@ -50,7 +50,7 @@
 .published {
   background: var(--color-red-5);
   padding: 5px;
-  color: white;
+  color: var(--color-white);
   border-radius: 5px;
 }
 
@@ -68,7 +68,7 @@
 
 .playButton {
   background: var(--color-red-3) !important;
-  color: white !important;
+  color: var(--color-white) !important;
   border-radius: 50px !important;
 
   @media (--mobile-device) {

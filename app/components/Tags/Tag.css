@@ -4,10 +4,10 @@
 }
 
 .tagLink {
-  color: #555;
+  color: var(--color-dark-mono-gray-1);
   border-radius: 4px;
   padding: 2px 8px;
-  background: #f0f0f0;
+  background: var(--lego-color-gray-light);
   transition: 0.1s;
 }
 
@@ -17,7 +17,7 @@
 }
 
 .tagLinkSmall {
-  color: #555;
+  color: var(--color-dark-mono-gray-1);
   transition: 0.1s;
 }
 
@@ -29,7 +29,7 @@
 
 .link:hover {
   background: #ba1414;
-  color: #fff;
+  color: var(--color-white);
   transition: 0.2s;
 }
 

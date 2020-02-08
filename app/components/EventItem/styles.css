@@ -7,14 +7,14 @@
 }
 
 .eventItemTitle {
-  color: #333;
+  color: var(--lego-color-gray);
   font-weight: 700;
   margin: 0;
   word-break: break-word;
 }
 
 .eventTime {
-  color: #777;
+  color: var(--color-dark-mono-gray-3);
 }
 
 .companyLogo {

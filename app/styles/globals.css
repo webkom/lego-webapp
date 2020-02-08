@@ -80,22 +80,22 @@ table {
 
 th {
   padding: 5px 0;
-  border-top: 1px solid #aaa;
-  border-bottom: 1px solid #aaa !important;
+  border-top: 1px solid var(--color-mono-gray-1);
+  border-bottom: 1px solid var(--color-mono-gray-1) !important;
 }
 
 th,
 td {
   padding-left: 7px;
   width: 140px;
-  border-bottom: 1px dashed #aaa;
+  border-bottom: 1px dashed var(--color-mono-gray-1);
   text-align: left;
   display: table-cell;
 }
 
 thead {
   font-weight: bold;
-  background-color: #eee;
+  background-color: var(--lego-color-gray-light);
 }
 
 h1 {

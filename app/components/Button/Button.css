@@ -22,7 +22,7 @@
   }
 
   &:disabled {
-    color: #888;
+    color: var(--color-dark-mono-gray-4);
   }
 
   + .button {
@@ -61,7 +61,7 @@
   }
 
   &:disabled {
-    color: rgba(255, 255, 255, 0.3);
+    color: rgba(var(--color-black), 0.3);
   }
 }
 

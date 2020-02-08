@@ -114,7 +114,7 @@
   width: 200px;
 
   &:disabled {
-    color: #ccc;
+    color: var(--color-mono-gray-3);
   }
 }
 

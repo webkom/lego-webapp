@@ -27,7 +27,7 @@
 .webkomIcon {
   font-size: 1.1em;
   background: #e20d13;
-  color: #fff;
+  color: var(--color-white);
   display: inline-block;
   border-radius: 60px;
   padding: 0.1em 0.2em;
@@ -40,12 +40,12 @@
 
 .orangeIcon {
   font-size: 1.5em;
-  color: orange;
+  color: var(--color-orange-3);
 }
 
 .questionIcon {
   font-size: 1.5em;
-  color: blue;
+  color: var(--color-blue-1);
 }
 
 .crossIcon {
@@ -74,7 +74,7 @@ a.transparent:hover {
 
 .grid > li {
   padding-bottom: 5px;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid var(--color-mono-gray-3);
 }
 
 .presenceIcons {

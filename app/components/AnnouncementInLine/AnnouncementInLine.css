@@ -21,12 +21,12 @@
 
 .label {
   font: inherit;
-  color: #c0392b;
+  color: var(--lego-link-color);
 }
 
 .labelButton {
   font: inherit;
-  color: #394b59;
+  color: var(--lego-font-color);
   font-weight: bold;
   margin-top: 20px;
   display: inline-block;

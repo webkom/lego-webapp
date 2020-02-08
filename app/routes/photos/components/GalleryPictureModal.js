@@ -255,7 +255,7 @@ export default class GalleryPictureModal extends Component<Props, State> {
                       href={picture.rawFile}
                       download
                       onClick={this.toggleDropdown}
-                      style={{ color: '#333' }}
+                      style={{ color: 'var(--lego-color-gray)' }}
                     >
                       <strong>Last ned</strong>
                       <Icon name="download-outline" size={24} />
@@ -264,7 +264,7 @@ export default class GalleryPictureModal extends Component<Props, State> {
                   {actionGrant &&
                     actionGrant.includes('edit') && [
                       <Dropdown.ListItem key="edit">
-                        <Link onClick={this.onUpdate} style={{ color: '#333' }}>
+                        <Link onClick={this.onUpdate} style={{ color: 'var(--lego-color-gray)' }}>
                           <strong>Rediger</strong>
                           <Icon name="gear" size={24} />
                         </Link>
@@ -272,7 +272,7 @@ export default class GalleryPictureModal extends Component<Props, State> {
                       <Dropdown.ListItem key="cover">
                         <Link
                           onClick={this.onUpdateGalleryCover}
-                          style={{ color: '#333' }}
+                          style={{ color: 'var(--lego-color-gray)' }}
                         >
                           <strong>Sett som album cover</strong>
                           <Icon name="image" size={24} />

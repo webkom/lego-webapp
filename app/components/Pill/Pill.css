@@ -1,5 +1,5 @@
 .pill {
-  background: #ddd;
+  background: var(--color-mono-gray-4);
   padding: 2px 10px;
   border-radius: 4px;
   text-transform: uppercase;

@@ -13,7 +13,7 @@
 
 .heading {
   font-size: 27px;
-  color: #555;
+  color: var(--color-dark-mono-gray-1);
 }
 
 .thumb {

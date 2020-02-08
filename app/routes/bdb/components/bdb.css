@@ -26,7 +26,7 @@
   outline: none;
 
   &:hover {
-    color: #777;
+    color: var(--color-dark-mono-gray-3);
     cursor: pointer;
   }
 
@@ -50,20 +50,20 @@
 
 .companyList table a {
   display: block;
-  color: black;
+  color: var(--color-black);
 }
 
 .companyList th {
   padding: 5px 0;
-  border-top: 1px solid #aaa;
-  border-bottom: 1px solid #aaa !important;
+  border-top: 1px solid var(--color-mono-gray-1);
+  border-bottom: 1px solid var(--color-mono-gray-1) !important;
 }
 
 .companyList th,
 .companyList td {
   padding-left: 7px;
   width: 140px;
-  border-bottom: 1px dashed #aaa;
+  border-bottom: 1px dashed var(--color-mono-gray-1);
   text-align: left;
   display: table-cell;
 
@@ -134,11 +134,11 @@
 }
 
 .contacted {
-  background-color: #ffff7f;
+  background-color: var(--color-white) f7f;
 }
 
 .notContacted {
-  background-color: #ccc;
+  background-color: var(--color-mono-gray-3);
 }
 
 .bedex {
@@ -194,7 +194,7 @@
   float: right;
   width: 10%;
   padding-right: 20px;
-  color: #999;
+  color: var(--color-dark-mono-gray-5);
 }
 
 .hidden,
@@ -320,7 +320,7 @@ background-color. By making it this way I don't have to rewrite it 🤷 */
 .description {
   margin: 0 0 35px;
   line-height: 24px;
-  border-left: 4px solid #999;
+  border-left: 4px solid var(--color-dark-mono-gray-5);
   padding-left: 20px;
   max-width: 90%;
 
@@ -363,7 +363,7 @@ background-color. By making it this way I don't have to rewrite it 🤷 */
 }
 
 .invisRow {
-  background-color: white;
+  background-color: var(--color-white);
 }
 
 .rightArrow {
@@ -383,7 +383,7 @@ background-color. By making it this way I don't have to rewrite it 🤷 */
   margin: 10px 0 50px;
 
   &:disabled {
-    color: #ccc;
+    color: var(--color-mono-gray-3);
   }
 }
 
@@ -393,13 +393,13 @@ background-color. By making it this way I don't have to rewrite it 🤷 */
 }
 
 .field-error {
-  color: red;
+  color: var(--lego-red-color);
   font-weight: bold;
   display: block;
 }
 
 .error-message {
-  color: red;
+  color: var(--lego-red-color);
   display: block;
 }
 

@@ -28,7 +28,7 @@ function animateAbakus(
     context.clearRect(0, 0, canvas.width, canvas.height);
 
     for (let i = 0; i < 7; i++) {
-      context.fillStyle = 'rgba(0, 0, 0, .3)';
+      context.fillStyle = 'rgba(var(--color-black), .3)';
       context.fillRect(
         0,
         offsetY + i * (2 * radius + padding + lineSpacing),

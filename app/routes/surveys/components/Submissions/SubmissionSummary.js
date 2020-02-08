@@ -40,7 +40,7 @@ const SubmissionSummary = ({
               key={answer.id}
               className={styles.adminAnswer}
               style={{
-                backgroundColor: answer.hideFromPublic && '#eee',
+                backgroundColor: answer.hideFromPublic && 'var(--lego-color-gray-light)',
                 padding: answer.hideFromPublic && '5px'
               }}
             >

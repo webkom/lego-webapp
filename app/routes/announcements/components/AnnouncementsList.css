@@ -6,12 +6,12 @@
 }
 
 .header {
-  color: #777;
+  color: var(--color-dark-mono-gray-3);
   letter-spacing: 2px;
   text-transform: uppercase;
   margin-bottom: 12px;
   margin-top: 8px;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid var(--color-mono-gray-4);
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
@@ -25,7 +25,7 @@
 }
 
 .msgField {
-  border: 1px solid #ccc;
+  border: 1px solid var(--color-mono-gray-3);
   width: 100%;
   margin-bottom: 10px;
   font-family: raleway, 'Helvetica Neue', Arial, sans-serif;

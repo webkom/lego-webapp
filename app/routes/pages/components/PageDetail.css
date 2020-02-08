@@ -95,7 +95,7 @@
 
 .heading {
   text-align: center;
-  color: #c0392b;
+  color: var(--lego-link-color);
   margin: 50px 0 20px;
 }
 

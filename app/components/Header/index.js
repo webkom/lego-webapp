@@ -3,7 +3,8 @@
 import React, { Component } from 'react';
 import { Link, IndexLink } from 'react-router';
 import { Modal } from 'react-overlays';
-import logoImage from 'app/assets/logo-dark.png';
+import logoImageLightMode from 'app/assets/logo-dark.png';
+import logoImageDarkMode from 'app/assets/logo.png';
 import Dropdown from '../Dropdown';
 import Icon from '../Icon';
 import Search from '../Search';
@@ -34,7 +35,8 @@ type Props = {
   fetchNotifications: () => void,
   notifications: Array<Object>,
   markAllNotifications: () => Promise<void>,
-  fetchNotificationData: () => Promise<void>
+  fetchNotificationData: () => Promise<void>,
+  user: UserEntity
 };
 
 type State = {
@@ -57,7 +59,11 @@ function AccountDropdownItems({
   return (
     <Dropdown.List>
       <Dropdown.ListItem>
-        <Link to="/users/me" onClick={onClose} style={{ color: '#333' }}>
+        <Link
+          to="/users/me"
+          onClick={onClose}
+          style={{ color: 'var(--lego-color-gray)' }}
+        >
           <strong>{username}</strong>
           <Icon name="contact" size={24} />
         </Link>
@@ -132,7 +138,7 @@ class Header extends Component<Props, State> {
         <FancyNodesCanvas height={300} />
         <div className={styles.content}>
           <IndexLink to="/" className={styles.logo}>
-            <Image src={logoImage} alt="" />
+            <Image src={logoImageLightMode} alt="" />
           </IndexLink>
 
           <div className={styles.menu}>

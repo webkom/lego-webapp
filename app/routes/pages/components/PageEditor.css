@@ -15,7 +15,7 @@
   width: 100%;
   height: 300px;
   overflow: hidden;
-  background: #000;
+  background: var(--color-black);
   margin-bottom: 20px;
   position: relative;
 }

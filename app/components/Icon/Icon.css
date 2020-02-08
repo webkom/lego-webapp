@@ -3,7 +3,7 @@
   top: -14px;
   right: -10px;
   background: linear-gradient(45deg, #842219, #e55649);
-  color: #fff;
+  color: var(--color-white);
   border-radius: 8px;
   min-width: 28px;
   font-size: 16px;
