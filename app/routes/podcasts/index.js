@@ -1,4 +1,4 @@
-import resolveAsyncRoute from 'app/routes/resolveAsyncRoute';
+// @flow
 import * as React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import RouteWrapper from 'app/components/RouteWrapper';
@@ -7,23 +7,9 @@ import PodcastListRoute from './PodcastListRoute';
 import PodcastCreateRoute from './PodcastCreateRoute';
 import PodcastEditRoute from './PodcastEditRoute';
 import PageNotFound from '../pageNotFound';
+import MatchType from 'app/models';
 
-const old = {
-  path: 'podcasts',
-  indexRoute: resolveAsyncRoute(() => import('./PodcastListRoute')),
-  childRoutes: [
-    {
-      path: 'create',
-      ...resolveAsyncRoute(() => import('./PodcastCreateRoute'))
-    },
-    {
-      path: ':podcastId/edit',
-      ...resolveAsyncRoute(() => import('./PodcastEditRoute'))
-    }
-  ]
-};
-
-const podcastRoute = ({ match }) => (
+const podcastRoute = ({ match }: { match: MatchType }) => (
   <UserContext.Consumer>
     {({ currentUser, loggedIn }) => (
       <Switch>

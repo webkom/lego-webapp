@@ -1,24 +1,14 @@
+// @flow
 import * as React from 'react';
-import resolveAsyncRoute from 'app/routes/resolveAsyncRoute';
 import { UserContext } from 'app/routes/app/AppRoute';
 import CompaniesRoute from './CompaniesRoute';
 import CompanyDetailRoute from './CompanyDetailRoute';
 import { Route, Switch } from 'react-router-dom';
 import RouteWrapper from 'app/components/RouteWrapper';
 import PageNotFound from '../pageNotFound';
+import MatchType from 'app/models';
 
-const old = {
-  path: 'companies',
-  indexRoute: resolveAsyncRoute(() => import('./CompaniesRoute')),
-  childRoutes: [
-    {
-      path: ':companyId',
-      ...resolveAsyncRoute(() => import('./CompanyDetailRoute'))
-    }
-  ]
-};
-
-const CompanyRoute = ({ match }) => (
+const CompanyRoute = ({ match }: { match: MatchType }) => (
   <UserContext.Consumer>
     {({ currentUser, loggedIn }) => (
       <Switch>

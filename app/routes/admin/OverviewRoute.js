@@ -7,6 +7,8 @@ import RouteWrapper from 'app/components/RouteWrapper';
 import { Switch } from 'react-router-dom';
 import groups from './groups';
 import email from './email';
+import User from 'app/models';
+import MatchType from 'app/models';
 
 const OverviewRoute = ({
   children,
@@ -14,7 +16,10 @@ const OverviewRoute = ({
   loggedIn,
   match
 }: {
-  children: any
+  children: any,
+  currentUser: { loggedIn: boolean, user: User },
+  loggedIn: boolean,
+  match: MatchType
 }) => {
   return (
     <Switch>

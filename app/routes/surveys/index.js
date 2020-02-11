@@ -1,4 +1,4 @@
-import resolveAsyncRoute from 'app/routes/resolveAsyncRoute';
+// @flow
 import * as React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import RouteWrapper from 'app/components/RouteWrapper';
@@ -14,57 +14,9 @@ import SubmissionsRoute from './SubmissionsRoute';
 import SubmissionSummary from './components/Submissions/SubmissionSummary';
 import SubmissionIndividual from './components/Submissions/SubmissionIndividual';
 import SubmissionsPublicResultsRoute from './SubmissionsPublicResultsRoute';
+import MatchType from 'app/models';
 
-const old = {
-  path: 'surveys',
-  indexRoute: resolveAsyncRoute(() => import('./SurveyRoute')),
-  childRoutes: [
-    {
-      path: 'add',
-      ...resolveAsyncRoute(() => import('./AddSurveyRoute'))
-    },
-    {
-      path: 'templates',
-      ...resolveAsyncRoute(() => import('./TemplatesRoute'))
-    },
-    {
-      path: ':surveyId',
-      ...resolveAsyncRoute(() => import('./SurveyDetailRoute'))
-    },
-    {
-      path: ':surveyId/edit',
-      ...resolveAsyncRoute(() => import('./EditSurveyRoute'))
-    },
-    {
-      path: ':surveyId/answer',
-      ...resolveAsyncRoute(() => import('./AddSubmissionRoute'))
-    },
-    {
-      path: ':surveyId/submissions',
-      ...resolveAsyncRoute(() => import('./SubmissionsRoute')),
-      childRoutes: [
-        {
-          path: 'summary',
-          ...resolveAsyncRoute(() =>
-            import('./components/Submissions/SubmissionSummary')
-          )
-        },
-        {
-          path: 'individual',
-          ...resolveAsyncRoute(() =>
-            import('./components/Submissions/SubmissionIndividual')
-          )
-        }
-      ]
-    },
-    {
-      path: ':surveyId/results',
-      ...resolveAsyncRoute(() => import('./SubmissionsPublicResultsRoute'))
-    }
-  ]
-};
-
-const surveysRoute = ({ match }) => (
+const surveysRoute = ({ match }: { match: MatchType }) => (
   <UserContext.Consumer>
     {({ currentUser, loggedIn, location }) => (
       <Switch>

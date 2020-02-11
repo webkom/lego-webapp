@@ -15,7 +15,7 @@ type Props = {
   handleSubmit: any => void,
   updateOAuth2Application: (application: Object) => any,
   createOAuth2Application: (application: Object) => any,
-  router: { push: (location: string) => void }
+  push: (location: string) => void
 };
 
 const UserSettingsOAuth2Form = (props: Props) => {

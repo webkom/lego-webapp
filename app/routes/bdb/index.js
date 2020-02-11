@@ -1,4 +1,4 @@
-import resolveAsyncRoute from 'app/routes/resolveAsyncRoute';
+// @flow
 import * as React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import RouteWrapper from 'app/components/RouteWrapper';
@@ -10,39 +10,9 @@ import EditCompanyRoute from './EditCompanyRoute';
 import AddSemesterRoute from './AddSemesterRoute';
 import AddCompanyContactRoute from './AddCompanyContactRoute';
 import EditCompanyContactRoute from './EditCompanyContactRoute';
+import MatchType from 'app/models';
 
-const old = {
-  path: 'bdb',
-  indexRoute: resolveAsyncRoute(() => import('./BdbRoute')),
-  childRoutes: [
-    {
-      path: 'add',
-      ...resolveAsyncRoute(() => import('./AddCompanyRoute'))
-    },
-    {
-      path: ':companyId',
-      ...resolveAsyncRoute(() => import('./BdbDetailRoute'))
-    },
-    {
-      path: ':companyId/edit',
-      ...resolveAsyncRoute(() => import('./EditCompanyRoute'))
-    },
-    {
-      path: ':companyId/semesters/add',
-      ...resolveAsyncRoute(() => import('./AddSemesterRoute'))
-    },
-    {
-      path: ':companyId/company-contacts/add',
-      ...resolveAsyncRoute(() => import('./AddCompanyContactRoute'))
-    },
-    {
-      path: ':companyId/company-contacts/:companyContactId',
-      ...resolveAsyncRoute(() => import('./EditCompanyContactRoute'))
-    }
-  ]
-};
-
-const bdbRoute = ({ match }) => (
+const bdbRoute = ({ match }: { match: MatchType }) => (
   <UserContext.Consumer>
     {({ currentUser, loggedIn }) => (
       <Switch>

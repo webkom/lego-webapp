@@ -1,4 +1,4 @@
-import resolveAsyncRoute from 'app/routes/resolveAsyncRoute';
+// @flow
 import * as React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import RouteWrapper from 'app/components/RouteWrapper';
@@ -8,27 +8,9 @@ import JoblistingCreateRoute from './JoblistingCreateRoute';
 import JoblistingDetailedRoute from './JoblistingDetailedRoute';
 import JoblistingEditRoute from './JoblistingEditRoute';
 import PageNotFound from '../pageNotFound';
+import MatchType from 'app/models';
 
-const old = {
-  path: 'joblistings',
-  indexRoute: resolveAsyncRoute(() => import('./JoblistingRoute')),
-  childRoutes: [
-    {
-      path: 'create',
-      ...resolveAsyncRoute(() => import('./JoblistingCreateRoute'))
-    },
-    {
-      path: ':joblistingId/edit',
-      ...resolveAsyncRoute(() => import('./JoblistingEditRoute'))
-    },
-    {
-      path: ':joblistingId',
-      ...resolveAsyncRoute(() => import('./JoblistingDetailedRoute'))
-    }
-  ]
-};
-
-const jobListingRoute = ({ match }) => (
+const jobListingRoute = ({ match }: { match: MatchType }) => (
   <UserContext.Consumer>
     {({ currentUser, loggedIn }) => (
       <Switch>

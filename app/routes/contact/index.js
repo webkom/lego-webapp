@@ -1,17 +1,11 @@
 // @flow
-
-import resolveAsyncRoute from 'app/routes/resolveAsyncRoute';
 import * as React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import ContactRoute from './ContactRoute';
 import PageNotFoundRoute from '../pageNotFound/PageNotFoundRoute';
+import MatchType from 'app/models';
 
-const old = {
-  path: 'contact',
-  indexRoute: resolveAsyncRoute(() => import('./ContactRoute'))
-};
-
-const contactRoute = ({ match }) => (
+const contactRoute = ({ match }: { match: MatchType }) => (
   <Switch>
     <Route exact path={`${match.path}`} component={ContactRoute} />
     <Route component={PageNotFoundRoute} />

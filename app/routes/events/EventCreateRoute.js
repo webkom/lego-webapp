@@ -19,7 +19,6 @@ import loadingIndicator from 'app/utils/loadingIndicator';
 import moment from 'moment-timezone';
 
 const mapStateToProps = (state, props) => {
-  console.log(props);
   const actionGrant = state.events.actionGrant;
   const valueSelector = formValueSelector('eventEditor');
   const eventId = props.match.params.id;

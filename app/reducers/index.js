@@ -50,9 +50,7 @@ import readme from './readme';
 import surveySubmissions from './surveySubmissions';
 import tags from './tags';
 import fetchHistory from './fetchHistory';
-import { User } from '../actions/ActionTypes';
 import joinReducers from 'app/utils/joinReducers';
-import type { State, Action } from 'app/types';
 
 const reducers = {
   allowed,

@@ -1,4 +1,4 @@
-import resolveAsyncRoute from 'app/routes/resolveAsyncRoute';
+// @flow
 import * as React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import RouteWrapper from 'app/components/RouteWrapper';
@@ -10,39 +10,9 @@ import GalleryEditRoute from './GalleryEditRoute';
 import GalleryPictureRoute from './GalleryPictureRoute';
 import GalleryPictureEditRoute from './GalleryPictureEditRoute';
 import PageNotFound from '../pageNotFound';
+import MatchType from 'app/models';
 
-const old = {
-  path: 'photos',
-  indexRoute: resolveAsyncRoute(() => import('./GalleryListRoute')),
-  childRoutes: [
-    {
-      path: 'new',
-      ...resolveAsyncRoute(() => import('./GalleryCreateRoute'))
-    },
-    {
-      path: ':galleryId/edit',
-      ...resolveAsyncRoute(() => import('./GalleryEditRoute'))
-    },
-    {
-      path: ':galleryId',
-      ...resolveAsyncRoute(() => import('./GalleryDetailRoute')),
-      childRoutes: [
-        {
-          path: 'picture/:pictureId/edit',
-          ignoreScrollBehavior: true,
-          ...resolveAsyncRoute(() => import('./GalleryPictureEditRoute'))
-        },
-        {
-          path: 'picture/:pictureId',
-          ignoreScrollBehavior: true,
-          ...resolveAsyncRoute(() => import('./GalleryPictureRoute'))
-        }
-      ]
-    }
-  ]
-};
-
-const photosRoute = ({ match }) => (
+const photosRoute = ({ match }: { match: MatchType }) => (
   <UserContext.Consumer>
     {({ currentUser, loggedIn }) => (
       <Switch>

@@ -8,7 +8,6 @@ import {
   deleteEvent,
   setCoverPhoto
 } from 'app/actions/EventActions';
-import loadingIndicator from 'app/utils/loadingIndicator';
 import { uploadFile } from 'app/actions/FileActions';
 import EventEditor from './components/EventEditor';
 import {

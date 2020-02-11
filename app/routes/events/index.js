@@ -1,5 +1,5 @@
+// @flow
 import * as React from 'react';
-import resolveAsyncRoute from 'app/routes/resolveAsyncRoute';
 import { Route, Switch } from 'react-router-dom';
 import RouteWrapper from 'app/components/RouteWrapper';
 import CalendarRoute from './CalendarRoute';
@@ -12,59 +12,9 @@ import EventAdministrateRoute from './EventAdministrateRoute';
 import EventAttendeeRoute from './EventAttendeeRoute';
 import EventAdminRegisterRoute from './EventAdminRegisterRoute';
 import EventAbacardRoute from './EventAbacardRoute';
+import MatchType from 'app/models';
 
-const old = {
-  path: '/events',
-  indexRoute: EventListRoute,
-  childRoutes: [
-    {
-      path: 'calendar',
-      ...resolveAsyncRoute(() => import('./CalendarRoute')),
-      childRoutes: [
-        {
-          path: ':year',
-          childRoutes: [
-            {
-              path: ':month'
-            }
-          ]
-        }
-      ]
-    },
-    {
-      path: 'create',
-      ...resolveAsyncRoute(() => import('./EventCreateRoute'))
-    },
-    {
-      path: ':eventId',
-      ...resolveAsyncRoute(() => import('./EventDetailRoute'))
-    },
-    {
-      path: ':eventId/edit',
-      ...resolveAsyncRoute(() => import('./EventEditRoute'))
-    },
-    {
-      path: ':eventId/administrate',
-      ...resolveAsyncRoute(() => import('./EventAdministrateRoute')),
-      childRoutes: [
-        {
-          path: 'attendees',
-          ...resolveAsyncRoute(() => import('./EventAttendeeRoute'))
-        },
-        {
-          path: 'admin-register',
-          ...resolveAsyncRoute(() => import('./EventAdminRegisterRoute'))
-        },
-        {
-          path: 'abacard',
-          ...resolveAsyncRoute(() => import('./EventAbacardRoute'))
-        }
-      ]
-    }
-  ]
-};
-
-const eventRoute = ({ match }) => (
+const eventRoute = ({ match }: { match: MatchType }) => (
   <UserContext.Consumer>
     {({ currentUser, loggedIn }) => (
       <Switch>

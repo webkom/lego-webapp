@@ -231,3 +231,18 @@ export type AddPenalty = {
   weight: number,
   sourceEvent: ID
 };
+
+export type MatchType = {
+  params: object,
+  isExact: boolean,
+  path: string,
+  url: string
+};
+
+export type LocationType = {
+  key: string,
+  pathname: string,
+  search: string,
+  hash: string,
+  state: { [any]: boolean }
+};

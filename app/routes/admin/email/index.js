@@ -1,4 +1,4 @@
-import resolveAsyncRoute from 'app/routes/resolveAsyncRoute';
+// @flow
 import { Route, Switch } from 'react-router-dom';
 import * as React from 'react';
 import PageNotFound from '../../pageNotFound';
@@ -13,48 +13,9 @@ import EmailUserRoute from './EmailUserRoute';
 import RestrictedMailsRoute from './RestrictedMailsRoute';
 import CreateRestrictedMailRoute from './CreateRestrictedMailRoute';
 import RestrictedMailRoute from './RestrictedMailRoute';
+import MatchType from 'app/models';
 
-const old = {
-  path: 'email',
-  ...resolveAsyncRoute(() => import('./components/EmailRoute')),
-  indexRoute: resolveAsyncRoute(() => import('./EmailListsRoute')),
-  childRoutes: [
-    {
-      path: 'lists/new',
-      ...resolveAsyncRoute(() => import('./CreateEmailListRoute'))
-    },
-    {
-      path: 'lists/:emailListId',
-      ...resolveAsyncRoute(() => import('./EmailListRoute'))
-    },
-    {
-      path: 'users',
-      ...resolveAsyncRoute(() => import('./EmailUsersRoute'))
-    },
-    {
-      path: 'users/new',
-      ...resolveAsyncRoute(() => import('./CreateEmailUserRoute'))
-    },
-    {
-      path: 'users/:emailUserId',
-      ...resolveAsyncRoute(() => import('./EmailUserRoute'))
-    },
-    {
-      path: 'restricted',
-      ...resolveAsyncRoute(() => import('./RestrictedMailsRoute'))
-    },
-    {
-      path: 'restricted/new',
-      ...resolveAsyncRoute(() => import('./CreateRestrictedMailRoute'))
-    },
-    {
-      path: 'restricted/:restrictedMailId',
-      ...resolveAsyncRoute(() => import('./RestrictedMailRoute'))
-    }
-  ]
-};
-
-const groupRoute = ({ match }) => (
+const groupRoute = ({ match }: { match: MatchType }) => (
   <UserContext.Consumer>
     {({ currentUser, loggedIn }) => (
       <Switch>

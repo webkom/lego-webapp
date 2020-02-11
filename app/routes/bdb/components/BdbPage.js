@@ -16,6 +16,7 @@ import type {
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 import type { CompanySemesterContactedStatus } from 'app/models';
 import qs from 'qs';
+import LocationType from 'app/models';
 
 type Props = {
   companies: Array<CompanyEntity>,
@@ -25,7 +26,8 @@ type Props = {
   addSemesterStatus: (BaseSemesterStatusEntity, ?Object) => Promise<*>,
   addSemester: CompanySemesterEntity => Promise<*>,
   companySemesters: Array<CompanySemesterEntity>,
-  push: string => void
+  push: string => void,
+  location: LocationType
 };
 
 type State = {

@@ -7,6 +7,7 @@ import RouteWrapper from 'app/components/RouteWrapper';
 import GroupSettings from '../components/GroupSettings';
 import GroupMembers from '../components/GroupMembers';
 import GroupPermissions from '../components/GroupPermissions';
+import MatchType from 'app/models';
 
 type GroupModel = {
   name: string,
@@ -16,7 +17,8 @@ type GroupModel = {
 
 type GroupProps = {
   group: GroupModel,
-  children?: Element<*>
+  children?: Element<*>,
+  match: MatchType
 };
 
 const Group = (props: GroupProps) => {
@@ -25,7 +27,6 @@ const Group = (props: GroupProps) => {
     description && description.length ? `(${description})` : '';
   const { match } = props;
   const { group } = props;
-  console.log(group);
 
   return (
     <div>

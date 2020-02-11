@@ -1,4 +1,4 @@
-import resolveAsyncRoute from 'app/routes/resolveAsyncRoute';
+// @flow
 import * as React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import RouteWrapper from 'app/components/RouteWrapper';
@@ -7,23 +7,9 @@ import PollsListRoute from './PollsListRoute';
 import PollsCreateRoute from './PollsCreateRoute';
 import PollsDetailRoute from './PollsDetailRoute';
 import PageNotFound from '../pageNotFound';
+import MatchType from 'app/models';
 
-const old = {
-  path: 'polls',
-  indexRoute: resolveAsyncRoute(() => import('./PollsListRoute')),
-  childRoutes: [
-    {
-      path: 'new',
-      ...resolveAsyncRoute(() => import('./PollsCreateRoute'))
-    },
-    {
-      path: ':pollsId',
-      ...resolveAsyncRoute(() => import('./PollsDetailRoute'))
-    }
-  ]
-};
-
-const pollsRoute = ({ match }) => (
+const pollsRoute = ({ match }: { match: MatchType }) => (
   <UserContext.Consumer>
     {({ currentUser, loggedIn }) => (
       <Switch>

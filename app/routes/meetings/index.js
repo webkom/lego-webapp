@@ -1,4 +1,4 @@
-import resolveAsyncRoute from 'app/routes/resolveAsyncRoute';
+// @flow
 import * as React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import RouteWrapper from 'app/components/RouteWrapper';
@@ -8,27 +8,9 @@ import MeetingCreateRoute from './MeetingCreateRoute';
 import MeetingDetailRoute from './MeetingDetailRoute';
 import MeetingEditRoute from './MeetingEditRoute';
 import PageNotFound from '../pageNotFound';
+import MatchType from 'app/models';
 
-const old = {
-  path: 'meetings',
-  indexRoute: resolveAsyncRoute(() => import('./MeetingListRoute')),
-  childRoutes: [
-    {
-      path: 'create',
-      ...resolveAsyncRoute(() => import('./MeetingCreateRoute'))
-    },
-    {
-      path: ':meetingId',
-      ...resolveAsyncRoute(() => import('./MeetingDetailRoute'))
-    },
-    {
-      path: ':meetingId/edit',
-      ...resolveAsyncRoute(() => import('./MeetingEditRoute'))
-    }
-  ]
-};
-
-const meetingRoute = ({ match }) => (
+const meetingRoute = ({ match }: { match: MatchType }) => (
   <UserContext.Consumer>
     {({ currentUser, loggedIn }) => (
       <Switch>

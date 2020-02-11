@@ -1,4 +1,4 @@
-import resolveAsyncRoute from 'app/routes/resolveAsyncRoute';
+// @flow
 import * as React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import RouteWrapper from 'app/components/RouteWrapper';
@@ -14,57 +14,9 @@ import UserSettingsOAuth2Route from './UserSettingsOAuth2Route';
 import UserSettingsOAuth2CreateRoute from './UserSettingsOAuth2CreateRoute';
 import UserSettingsOAuth2EditRoute from './UserSettingsOAuth2EditRoute';
 import StudentConfirmationRoute from './StudentConfirmationRoute';
+import MatchType from 'app/models';
 
-const old = {
-  path: 'users',
-  indexRoute: resolveAsyncRoute(() => import('../errors')),
-  childRoutes: [
-    {
-      path: 'registration',
-      ...resolveAsyncRoute(() => import('./UserConfirmationRoute'))
-    },
-    {
-      path: 'reset-password',
-      ...resolveAsyncRoute(() => import('./UserResetPasswordRoute'))
-    },
-    {
-      path: ':username',
-      ...resolveAsyncRoute(() => import('./UserProfileRoute'))
-    },
-    {
-      path: ':username/settings',
-      ...resolveAsyncRoute(() => import('./components/UserSettingsIndex')),
-      childRoutes: [
-        {
-          path: 'profile',
-          ...resolveAsyncRoute(() => import('./UserSettingsRoute'))
-        },
-        {
-          path: 'notifications',
-          ...resolveAsyncRoute(() => import('./UserSettingsNotificationsRoute'))
-        },
-        {
-          path: 'oauth2',
-          ...resolveAsyncRoute(() => import('./UserSettingsOAuth2Route'))
-        },
-        {
-          path: 'oauth2/new',
-          ...resolveAsyncRoute(() => import('./UserSettingsOAuth2CreateRoute'))
-        },
-        {
-          path: 'oauth2/:applicationId',
-          ...resolveAsyncRoute(() => import('./UserSettingsOAuth2EditRoute'))
-        },
-        {
-          path: 'student-confirmation',
-          ...resolveAsyncRoute(() => import('./StudentConfirmationRoute'))
-        }
-      ]
-    }
-  ]
-};
-
-const usersRoute = ({ match }) => (
+const usersRoute = ({ match }: { match: MatchType }) => (
   <UserContext.Consumer>
     {({ currentUser, loggedIn }) => (
       <Switch>

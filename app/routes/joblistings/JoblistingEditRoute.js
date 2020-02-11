@@ -18,7 +18,6 @@ import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 
 const mapStateToProps = (state, props) => {
   const { joblistingId } = props.match.params;
-  console.log(joblistingId);
   const formSelector = formValueSelector('joblistingEditor');
   const company = formSelector(state, 'company');
   const joblisting = selectJoblistingById(state, { joblistingId }) || {};

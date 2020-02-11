@@ -1,38 +1,15 @@
-import resolveAsyncRoute from 'app/routes/resolveAsyncRoute';
+// @flow
 import * as React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import RouteWrapper from 'app/components/RouteWrapper';
 import { UserContext } from 'app/routes/app/AppRoute';
-import PageListRoute from './PageListRoute';
 import PageCreateRoute from './PageCreateRoute';
 import PageDetailRoute from './PageDetailRoute';
 import PageEditRoute from './PageEditRoute';
 import PageNotFound from '../pageNotFound';
+import MatchType from 'app/models';
 
-const old = {
-  path: 'pages/',
-  component: require('./PageListRoute'),
-  childRoutes: [
-    {
-      path: 'new',
-      ...resolveAsyncRoute(() => import('./PageCreateRoute'))
-    },
-    {
-      path: ':section',
-      ...resolveAsyncRoute(() => import('./PageDetailRoute'))
-    },
-    {
-      path: ':section/:pageSlug/edit',
-      ...resolveAsyncRoute(() => import('./PageEditRoute'))
-    },
-    {
-      path: ':section/:pageSlug',
-      ...resolveAsyncRoute(() => import('./PageDetailRoute'))
-    }
-  ]
-};
-
-const pagesRoute = ({ match }) => (
+const pagesRoute = ({ match }: { match: MatchType }) => (
   <UserContext.Consumer>
     {({ currentUser, loggedIn }) => (
       <Switch>

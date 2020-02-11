@@ -6,7 +6,6 @@ import RouteConfig from '../app/routes';
 import { ReactReduxContext } from 'react-redux';
 import Helmet from 'react-helmet';
 import Raven from 'raven';
-import routes from '../app/routes';
 import configureStore from '../app/utils/configureStore';
 import type { $Request, $Response, Middleware } from 'express';
 import { createNewRavenInstance } from '../app/utils/universalRaven';
@@ -65,7 +64,13 @@ const createServerSideRenderer = (
 
   const log = req.app.get('log');
 
-  const ServerConfig = ({ req, context }) => (
+  const ServerConfig = ({
+    req,
+    context
+  }: {
+    req: $Request,
+    context: { status: string, url: ?string, [key]: any }
+  }) => (
     <StaticRouter location={req.url} context={context}>
       <RouteConfig />
     </StaticRouter>

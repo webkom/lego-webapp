@@ -1,4 +1,4 @@
-import resolveAsyncRoute from 'app/routes/resolveAsyncRoute';
+// @flow
 import * as React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import RouteWrapper from 'app/components/RouteWrapper';
@@ -7,23 +7,9 @@ import QuotesRoute from './QuotesRoute';
 import QuoteDetailRoute from './QuoteDetailRoute';
 import QuoteEditorRoute from './QuoteEditorRoute';
 import PageNotFound from '../pageNotFound';
+import MatchType from 'app/models';
 
-const old = {
-  path: 'quotes',
-  indexRoute: resolveAsyncRoute(() => import('./QuotesRoute')),
-  childRoutes: [
-    {
-      path: 'add',
-      ...resolveAsyncRoute(() => import('./QuoteEditorRoute'))
-    },
-    {
-      path: ':quoteId',
-      ...resolveAsyncRoute(() => import('./QuoteDetailRoute'))
-    }
-  ]
-};
-
-const quotesRoute = ({ match }) => (
+const quotesRoute = ({ match }: { match: MatchType }) => (
   <UserContext.Consumer>
     {({ currentUser, loggedIn }) => (
       <Switch>

@@ -1,15 +1,11 @@
-import resolveAsyncRoute from 'app/routes/resolveAsyncRoute';
+// @flow
 import ValidatorRoute from './ValidatorRoute';
 import { Route, Switch } from 'react-router-dom';
 import * as React from 'react';
 import PageNotFound from '../pageNotFound';
+import MatchType from 'app/models';
 
-const old = {
-  path: 'validator',
-  ...resolveAsyncRoute(() => import('./ValidatorRoute'))
-};
-
-const validatorRoute = ({ match }) => (
+const validatorRoute = ({ match }: { match: MatchType }) => (
   <Switch>
     <Route exact path={`${match.path}`} component={ValidatorRoute} />
     <Route component={PageNotFound} />
