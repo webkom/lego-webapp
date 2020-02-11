@@ -17,14 +17,14 @@ import { push } from 'connected-react-router';
 import prepare from 'app/utils/prepare';
 
 const loadCompanyInterests = (props, dispatch) => {
-  const { companyInterestId } = props.params;
+  const { companyInterestId } = props.match.params;
   return dispatch(fetchSemesters()).then(() =>
     dispatch(fetchCompanyInterest(Number(companyInterestId)))
   );
 };
 
 const mapStateToProps = (state, props) => {
-  const { companyInterestId } = props.params;
+  const { companyInterestId } = props.match.params;
   const companyInterest = selectCompanyInterestById(state, {
     companyInterestId
   });
@@ -81,7 +81,7 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-const mapDispatchToProps = (dispatch, { params }) => {
+const mapDispatchToProps = (dispatch, { match: { params } }) => {
   const id = Number(params.companyInterestId);
   return {
     push: path => dispatch(push(path)),

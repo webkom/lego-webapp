@@ -85,12 +85,7 @@ class CompanyInterestList extends Component<Props, State> {
         }
       })
       .then(() => {
-        this.props.router.replace({
-          pathname: '/companyInterest',
-          query: {
-            semesters: clickedOption.id
-          }
-        });
+        this.props.push(`/companyInterest?semesters=${clickedOption.id}`);
       });
   };
 

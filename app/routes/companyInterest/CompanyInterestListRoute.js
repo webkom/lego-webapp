@@ -16,12 +16,15 @@ import prepare from 'app/utils/prepare';
 import { push } from 'connected-react-router';
 import { semesterToText } from './utils';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
+import qs from 'qs';
 
-const loadData = ({ params }, dispatch) =>
+const loadData = ({ match: { params } }, dispatch) =>
   Promise.all([dispatch(fetchAll()), dispatch(fetchSemesters())]);
 
 const mapStateToProps = (state, props) => {
-  const semesterId = Number(props.location.query.semesters);
+  const semesterId = Number(
+    qs.parse(props.location.search, { ignoreQueryPrefix: true }).semesters
+  );
   const semesters = selectCompanySemestersForInterestForm(state);
   const semesterObj: ?CompanySemesterEntity = semesters.find(
     semester => semester.id === semesterId

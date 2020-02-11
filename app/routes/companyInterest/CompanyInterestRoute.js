@@ -17,7 +17,7 @@ const loadSemesters = (props, dispatch) =>
 
 const mapStateToProps = (state, props) => {
   const semesters = selectCompanySemestersForInterestForm(state);
-  const { path } = props.route;
+  const { pathname } = props.location;
   if (!semesters) {
     return {
       edit: false
@@ -27,7 +27,7 @@ const mapStateToProps = (state, props) => {
   const allOtherOffers = Object.keys(OTHER_TYPES);
   const allowedBdb = state.allowed.bdb;
 
-  const language = path === 'register-interest' ? 'english' : 'norwegian';
+  const language = pathname === '/register-interest' ? 'english' : 'norwegian';
   return {
     allowedBdb,
     initialValues: {

@@ -5,7 +5,7 @@ import Overview from './overview';
 import Events from './events';
 import Companies from './company';
 import Users from './users';
-import articles from './articles';
+import Articles from './articles';
 import Meetings from './meetings';
 import Admin from './admin';
 import Quotes from './quotes';
@@ -17,8 +17,12 @@ import InterestGroups from './interestgroups';
 import Joblistings from './joblistings';
 import PageNotFound from './pageNotFound';
 import Announcements from './announcements';
-import companyInterest from './companyInterest';
-import bdb from './bdb';
+import {
+  CompanyInterestEnglish,
+  CompanyInterestNorwegian,
+  CompanyInterest
+} from './companyInterest';
+import Bdb from './bdb';
 import Contact from './contact';
 import Timeline from './timeline';
 import Surveys from './surveys';
@@ -28,20 +32,6 @@ import UserValidator from './userValidator';
 import Polls from './polls';
 import RouteWrapper from 'app/components/RouteWrapper';
 import { UserContext } from 'app/routes/app/AppRoute';
-
-const old = {
-  path: '/',
-  component: AppRoute,
-  childRoutes: [
-    bdb,
-    ...companyInterest,
-    articles
-    /* 
-     This will eat all routes that are written after this 
-     So one cant put any routes after pageNotFound
-     */
-  ]
-};
 
 const RouterConfig = () => (
   <>
@@ -80,6 +70,11 @@ const AppWrapper = props => (
           <Route path="/users" component={Users} />
           <Route path="/validator" component={UserValidator} />
           <Route path="/brand" component={Brand} />
+          <Route path="/interesse" component={CompanyInterestNorwegian} />
+          <Route path="/register-interest" component={CompanyInterestEnglish} />
+          <Route path="/companyInterest" component={CompanyInterest} />
+          <Route path="/bdb" component={Bdb} />
+          <Route path="/articles" component={Articles} />
           {/* 
           This will eat all routes that are written after this 
           So one cant put any routes after pageNotFound
