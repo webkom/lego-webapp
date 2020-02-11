@@ -145,7 +145,7 @@
     "prettier": "1.16.1",
     "react-hot-loader": "^4.12.13",
     "react-styleguidist": "^9.0.2",
-    "redux-mock-store": "^1.2.2",
+    "redux-mock-store": "^1.5.4",
     "start-server-webpack-plugin": "^2.2.5",
     "style-loader": "^0.23.1",
     "stylelint": "^11.1.1",
