@@ -58,6 +58,7 @@
   display: grid;
   justify-content: center;
   background-color: black;
+  min-height: 700px;
 }
 
 .pictureDescription {
