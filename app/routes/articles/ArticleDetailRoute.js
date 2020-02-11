@@ -16,11 +16,11 @@ import { selectUserById } from 'app/reducers/users';
 import { selectEmojis } from 'app/reducers/emojis';
 
 function loadData(props, dispatch) {
-  return dispatch(fetchArticle(props.params.articleId), fetchEmojis());
+  return dispatch(fetchArticle(props.match.params.articleId), fetchEmojis());
 }
 
 const mapStateToProps = (state, props) => {
-  const { articleId } = props.params;
+  const { articleId } = props.match.params;
   const article = selectArticleById(state, { articleId });
   const comments = selectCommentsForArticle(state, { articleId });
   const author = selectUserById(state, { userId: article.author });
@@ -46,7 +46,7 @@ const mapDispatchToProps = {
 };
 
 export default compose(
-  prepare(loadData, ['params.articleId']),
+  prepare(loadData, ['match.params.articleId']),
   connect(
     mapStateToProps,
     mapDispatchToProps
