@@ -10,11 +10,11 @@ import TextInput from 'app/components/Form/TextInput';
 describe('components', () => {
   describe('BdbPage', () => {
     it('should render sub-components properly', () => {
-      const query = {};
+      const location = { search: '' };
       const wrapper = shallow(
         <BdbPage
           companies={companies}
-          query={query}
+          location={location}
           editSemesterStatus={() => null}
           addSemesterStatus={() => null}
           companySemesters={companySemesters}

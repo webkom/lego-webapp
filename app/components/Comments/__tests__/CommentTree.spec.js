@@ -4,6 +4,7 @@ import { mount, shallow } from 'enzyme';
 import CommentTree from '../CommentTree';
 import comments from './fixtures/comments';
 import { generateTreeStructure } from '../../../utils';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('<CommentTree />', () => {
   const tree = generateTreeStructure(comments);
@@ -15,7 +16,11 @@ describe('<CommentTree />', () => {
   });
 
   it('should nest comments', () => {
-    const wrapper = mount(<CommentTree comments={tree} />);
+    const wrapper = mount(
+      <MemoryRouter>
+        <CommentTree comments={tree} />
+      </MemoryRouter>
+    );
     const rootElements = wrapper.find('.root');
     const rootElement = rootElements.at(1);
     const childTree = rootElement.find('.child');
