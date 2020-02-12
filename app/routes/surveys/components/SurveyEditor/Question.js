@@ -19,7 +19,9 @@ type Props = {
   deleteQuestion: number => Promise<*>,
   questionData: Object,
   question: string,
-  index: number
+  relativeIndex: number,
+  numberOfQuestions: number,
+  updateRelativeIndexes: (number, number) => void
 };
 
 const questionTypeToIcon = {
@@ -72,7 +74,25 @@ const QuestionTypeValue = (props: Object, b) => (
   </div>
 );
 
-const Question = ({ index, question, questionData, deleteQuestion }: Props) => {
+const questionIndexMappings = (indexNumbers: Array<number>) =>
+  indexNumbers.map(relativeIndex => ({
+    value: relativeIndex,
+    label: `Rekkefølge: ${relativeIndex}`
+  }));
+
+const Question = ({
+  relativeIndex,
+  numberOfQuestions,
+  question,
+  questionData,
+  deleteQuestion,
+  updateRelativeIndexes,
+  fields
+}: Props) => {
+  const indexOptions = questionIndexMappings([
+    ...Array(numberOfQuestions).keys()
+  ]);
+
   return (
     <div className={styles.question}>
       <div className={styles.left}>
@@ -116,6 +136,22 @@ const Question = ({ index, question, questionData, deleteQuestion }: Props) => {
           />
         </div>
 
+        <div className={styles.reorderQuestion}>
+          <SelectInput
+            value={{
+              value: relativeIndex,
+              label: `Rekkefølge: ${relativeIndex}`
+            }}
+            placeholder="0"
+            name="relativeIndex"
+            options={indexOptions}
+            onChange={user =>
+              updateRelativeIndexes(relativeIndex, user.value, fields)
+            }
+            onBlur={() => null}
+          />
+        </div>
+
         <div className={styles.bottom}>
           <div className={styles.required}>
             <Field
@@ -129,7 +165,7 @@ const Question = ({ index, question, questionData, deleteQuestion }: Props) => {
           <ConfirmModalWithParent
             title="Slett spørsmål"
             message="Er du sikker på at du vil slette dette spørsmålet?"
-            onConfirm={() => deleteQuestion(index)}
+            onConfirm={() => deleteQuestion(relativeIndex)}
             closeOnConfirm
             className={styles.deleteQuestion}
           >
@@ -149,12 +185,12 @@ const renderOptions = ({
   questionType: string
 }) => (
   <ul className={styles.options}>
-    {fields.map((option, index) => {
-      const isLast = fields.length - 1 === index;
-      const removeFunction = () => fields.remove(index);
+    {fields.map((option, relativeIndex) => {
+      const isLast = fields.length - 1 === relativeIndex;
+      const removeFunction = () => fields.remove(relativeIndex);
       return (
         <Option
-          index={index}
+          relativeIndex={relativeIndex}
           onChange={
             isLast
               ? value => {
@@ -162,7 +198,7 @@ const renderOptions = ({
                 }
               : undefined
           }
-          key={index}
+          key={relativeIndex}
           questionType={questionType}
           option={option}
           remove={isLast ? undefined : removeFunction}
