@@ -21,7 +21,8 @@ type Props = {
   question: string,
   relativeIndex: number,
   numberOfQuestions: number,
-  updateRelativeIndexes: (number, number) => void
+  updateRelativeIndexes: (number, number, FieldArrayProps) => void,
+  fields: FieldArrayProps
 };
 
 const questionTypeToIcon = {
@@ -185,12 +186,12 @@ const renderOptions = ({
   questionType: string
 }) => (
   <ul className={styles.options}>
-    {fields.map((option, relativeIndex) => {
-      const isLast = fields.length - 1 === relativeIndex;
-      const removeFunction = () => fields.remove(relativeIndex);
+    {fields.map((option, index) => {
+      const isLast = fields.length - 1 === index;
+      const removeFunction = () => fields.remove(index);
       return (
         <Option
-          relativeIndex={relativeIndex}
+          index={index}
           onChange={
             isLast
               ? value => {
@@ -198,7 +199,7 @@ const renderOptions = ({
                 }
               : undefined
           }
-          key={relativeIndex}
+          key={index}
           questionType={questionType}
           option={option}
           remove={isLast ? undefined : removeFunction}
