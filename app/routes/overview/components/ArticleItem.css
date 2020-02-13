@@ -1,7 +1,7 @@
 @import '~app/styles/variables.css';
 
 .link {
-  color: var(--color-black);
+  color: rgba(var(--rgba-min), var(--rgba-min), var(--rgba-min), 0.9);
 }
 
 .body {

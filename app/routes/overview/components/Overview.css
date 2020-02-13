@@ -47,7 +47,7 @@
   transition: color 0.2s;
   font-size: 1rem;
   font-weight: 600;
-  color: var(--color-black);
+  color: rgba(var(--rgba-min), var(--rgba-min), var(--rgba-min), 0.8);
 }
 
 .item:hover .itemInfo {

@@ -28,7 +28,7 @@
   text-transform: none;
   line-height: 1;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: var(--color-gray-1) scale;
+  -moz-osx-font-smoothing: var(--color-gray-1);
 }
 
 :global {

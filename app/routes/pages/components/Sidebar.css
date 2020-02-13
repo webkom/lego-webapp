@@ -59,7 +59,7 @@
 }
 
 .oldImg {
-  filter: var(--color-gray-1) scale(100%);
+  filter: grayscale(100%);
 }
 
 .pictureHeader {

@@ -5,7 +5,7 @@
 }
 
 .picture {
-  background-color: ghostvar(--color-white);
+  background-color: var(--color-white);
 }
 
 .heading {

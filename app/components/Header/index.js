@@ -33,8 +33,7 @@ type Props = {
   fetchNotifications: () => void,
   notifications: Array<Object>,
   markAllNotifications: () => Promise<void>,
-  fetchNotificationData: () => Promise<void>,
-  user: UserEntity
+  fetchNotificationData: () => Promise<void>
 };
 
 type State = {
