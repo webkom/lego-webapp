@@ -3,7 +3,7 @@ import imageLogoDark from 'app/assets/logo.png';
 
 export const applySelectedTheme = theme => {
   global.dispatchEvent(new Event('themeChange'));
-  document.documentElement.setAttribute('data-theme', 'dark');
+  document.documentElement.setAttribute('data-theme', theme);
 };
 
 export const getTheme = () => {
