@@ -5,8 +5,10 @@
 }
 
 .modal {
-  box-shadow: 0 4px 4px rgba(var(--color-black), 0.05);
-  border: 1px solid rgba(var(--color-black), 0.09);
+  box-shadow: 0 4px 4px
+    rgba(var(--rgba-min), var(--rgba-min), var(--rgba-min), 0.05);
+  border: 1px solid
+    rgba(var(--rgba-min), var(--rgba-min), var(--rgba-min), 0.09);
   border-radius: 5px;
 }
 
@@ -25,6 +27,10 @@
   position: absolute;
   background-color: gainsboro;
   cursor: pointer;
+}
+
+html[data-theme='dark'] .dropArea {
+  background-color: var(--color-mono-gray-1);
 }
 
 .inModalUpload {

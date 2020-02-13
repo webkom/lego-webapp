@@ -21,6 +21,10 @@
   background: inherit;
 }
 
+html[data-theme='dark'] .descriptionEditor {
+  color: var(--lego-font-color);
+}
+
 .formField {
   padding: 1px;
   padding-left: 5px;

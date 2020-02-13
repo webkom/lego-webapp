@@ -34,7 +34,8 @@
   padding: 8px;
   border-radius: 5px;
   background: var(--color-white);
-  box-shadow: 0 1px 6px rgba(var(--color-black), 0.2);
+  box-shadow: 0 1px 6px
+    rgba(var(--rgba-min), var(--rgba-min), var(--rgba-min), 0.2);
 }
 
 .checkbox div {
@@ -55,7 +56,8 @@
   padding: 8px;
   border-radius: 5px;
   background: var(--color-white);
-  box-shadow: 0 1px 6px rgba(var(--color-black), 0.2);
+  box-shadow: 0 1px 6px
+    rgba(var(--rgba-min), var(--rgba-min), var(--rgba-min), 0.2);
 }
 
 .iconActive {

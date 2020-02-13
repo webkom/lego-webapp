@@ -75,7 +75,7 @@
 }
 
 .joblistingItemTitle {
-  color: #111;
+  color: var(--color-black);
   font-weight: 550;
   margin: 0;
   text-transform: uppercase;

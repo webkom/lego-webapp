@@ -30,8 +30,8 @@ export const COLOR_CONSTANTS: { [EventType]: string } = {
   party: '#FCD748',
   social: 'var(--color-event-red)',
   event: 'var(--color-event-red)',
-  kid_event: '#111111',
-  other: '#111111'
+  kid_event: 'var(--color-event-black)',
+  other: 'var(--color-event-black)'
 };
 
 // Returns the color code of an EventType

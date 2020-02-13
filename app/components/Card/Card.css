@@ -1,6 +1,7 @@
 .card {
   background: var(--color-white);
-  border: 1px solid rgba(var(--color-black), 0.09);
+  border: 1px solid
+    rgba(var(--rgba-min), var(--rgba-min), var(--rgba-min), 0.09);
   padding: 20px;
   border-radius: 3px;
   flex: 1;
@@ -16,5 +17,6 @@
 }
 
 .shadow {
-  box-shadow: 0 1px 4px rgba(var(--color-black), 0.04);
+  box-shadow: 0 1px 4px
+    rgba(var(--rgba-min), var(--rgba-min), var(--rgba-min), 0.04);
 }

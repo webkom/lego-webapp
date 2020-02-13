@@ -49,7 +49,7 @@
   animation: graph 1.2s cubic-bezier(0.41, 0.8, 0.4, 0.94);
   background-color: var(--lego-red-color);
   padding-left: 8px;
-  border-radius: 2px;
+  border-radius: 0 2px 2px 0;
   font-style: italic;
   font-weight: 300;
   color: var(--color-white);
@@ -60,6 +60,15 @@
   background-color: #e7e7e7;
   width: 100%;
   display: flex;
+}
+
+html[data-theme='dark'] .fullGraph {
+  color: var(--color-white);
+  background-color: var(--color-mono-gray-5);
+}
+
+html[data-theme='dark'] .pollGraph {
+  color: var(--color-black);
 }
 
 .pollGraph span {
@@ -87,10 +96,15 @@
 .voteButton {
   background: var(--lego-red-color);
   color: var(--lego-color-gray-light);
+  border: 1px solid var(--border-gray);
   width: 100%;
   margin: 0 !important;
   font-size: 15px;
   max-width: 400px;
+}
+
+html[data-theme='dark'] .voteButton {
+  color: var(--color-dark-gray-3);
 }
 
 .voteButton:hover {

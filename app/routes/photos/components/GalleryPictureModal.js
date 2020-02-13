@@ -264,7 +264,10 @@ export default class GalleryPictureModal extends Component<Props, State> {
                   {actionGrant &&
                     actionGrant.includes('edit') && [
                       <Dropdown.ListItem key="edit">
-                        <Link onClick={this.onUpdate} style={{ color: 'var(--lego-color-gray)' }}>
+                        <Link
+                          onClick={this.onUpdate}
+                          style={{ color: 'var(--lego-color-gray)' }}
+                        >
                           <strong>Rediger</strong>
                           <Icon name="gear" size={24} />
                         </Link>

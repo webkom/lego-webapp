@@ -111,7 +111,7 @@ export const CHART_COLORS = [
   '#f4ee42',
   '#98f442',
   '#ff87eb',
-  'var(--color-black)000'
+  '#000000'
 ];
 
 export const getCsvUrl = (surveyId: string) =>

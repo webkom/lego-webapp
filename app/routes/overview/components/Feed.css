@@ -17,8 +17,10 @@
 }
 
 .content {
-  border: 1px solid rgba(var(--color-black), 0.09);
-  box-shadow: 0 1px 4px rgba(var(--color-black), 0.04);
+  border: 1px solid
+    rgba(var(--rgba-min), var(--rgba-min), var(--rgba-min), 0.09);
+  box-shadow: 0 1px 4px
+    rgba(var(--rgba-min), var(--rgba-min), var(--rgba-min), 0.04);
   border-radius: 3px;
   overflow-y: auto;
   height: 459px;
@@ -51,7 +53,12 @@
   color: var(--lego-font-color);
 
   &:hover {
-    background-color: rgba(var(--color-black), 0.02);
+    background-color: rgba(
+      var(--rgba-min),
+      var(--rgba-min),
+      var(--rgba-min),
+      0.02
+    );
   }
 
   &:active {

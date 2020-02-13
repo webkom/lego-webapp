@@ -71,7 +71,10 @@ const PollsList = ({
                   <Icon
                     name="close-circle"
                     size={20}
-                    style={{ marginLeft: '10px', color: 'var(--lego-link-color)' }}
+                    style={{
+                      marginLeft: '10px',
+                      color: 'var(--lego-link-color)'
+                    }}
                   />
                 </span>
               )}

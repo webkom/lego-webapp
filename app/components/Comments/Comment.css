@@ -2,8 +2,10 @@
 
 .container {
   background-color: var(--color-white);
-  box-shadow: 0 1px 4px rgba(var(--color-black), 0.03);
-  border: 1px solid rgba(var(--color-black), 0.04);
+  box-shadow: 0 1px 4px
+    rgba(var(--rgba-min), var(--rgba-min), var(--rgba-min), 0.03);
+  border: 1px solid
+    rgba(var(--rgba-min), var(--rgba-min), var(--rgba-min), 0.04);
   margin-bottom: 15px;
   padding: 25px;
   align-items: center;

@@ -3,8 +3,6 @@
 import React, { Component } from 'react';
 import { Link, IndexLink } from 'react-router';
 import { Modal } from 'react-overlays';
-import logoImageLightMode from 'app/assets/logo-dark.png';
-import logoImageDarkMode from 'app/assets/logo.png';
 import Dropdown from '../Dropdown';
 import Icon from '../Icon';
 import Search from '../Search';
@@ -20,8 +18,8 @@ import {
 } from 'app/components/LoginForm';
 import { Flex } from 'app/components/Layout';
 import cx from 'classnames';
+import { applySelectedTheme, getLogoImage } from 'app/utils/themeUtils';
 import { Image } from 'app/components/Image';
-
 import type { UserEntity } from 'app/reducers/users';
 
 type Props = {
@@ -115,9 +113,22 @@ class Header extends Component<Props, State> {
   };
 
   render() {
-    const { loggedIn } = this.props;
+    const { loggedIn, currentUser } = this.props;
     const isLogin = this.state.mode === 'login';
     let title, form;
+
+    // This should be optimized, so that it does not apply theme every time Header renders,
+    // but rather when a theme change happens
+
+    // Using hooks?
+    /*useEffect(() => {
+      applySelectedTheme((user && user.selectedTheme) || 'light');
+    }, [loggedIn, user && user.selectedTheme]);*/
+
+    if (loggedIn) {
+      applySelectedTheme((currentUser && currentUser.selectedTheme) || 'light');
+    }
+
     switch (this.state.mode) {
       case 'login':
         title = 'Logg inn';
@@ -138,7 +149,7 @@ class Header extends Component<Props, State> {
         <FancyNodesCanvas height={300} />
         <div className={styles.content}>
           <IndexLink to="/" className={styles.logo}>
-            <Image src={logoImageLightMode} alt="" />
+            <Image src={getLogoImage()} alt="" />
           </IndexLink>
 
           <div className={styles.menu}>

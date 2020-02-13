@@ -21,9 +21,13 @@
   --lego-text-gray: #394b59;
 
   --color-event-red: #b11c11;
+  --color-event-black: #111111;
   --color-white: #fff;
   --color-black: #000;
   --border-gray: #eee;
+
+  --rgba-max: 255;
+  --rgba-min: 0;
 
   --color-dark-gray-1: #182026;
   --color-dark-gray-2: #202b33;
@@ -84,104 +88,38 @@
   --font-size-large: 18px;
 }
 
-/* TODO
-Set text color in footer to --color-white in dark mode (js)
-Switch to logo.png from logo-dark.png in dark mode (js)
-Add setting to adjust dark mode + save in user settings across sessions (js)
-Fix colors flavors, especially background color on page (css)
-
-user === undefined || user.selectedTheme === 'light' || user.selectedTheme === 'light' ? logoImageLightMode : logoImageDarkMode
-
-from: https://gist.github.com/kslstn/20f654fd27eb29619040c74fa6526919
-
-// If no preference was set, check what the OS pref is.
-function returnThemeBasedOnOS() {
-  let mediaQueryList = window.matchMedia('(prefers-color-scheme: dark)')
-  if (mediaQueryList.matches) return 'dark'
-	else {
-    mediaQueryList = window.matchMedia('(prefers-color-scheme: light)')
-    if (mediaQueryList.matches) return 'light'
-    else return undefined
-  }
-}
-
-
-function enableTheme(newTheme = 'light', withTransition = false){
-  const root = document.documentElement
-  let otherTheme
-  newTheme === 'light' ? otherTheme = 'dark' : otherTheme = 'light'
-  let currentTheme
-  (root.classList.contains('theme-dark')) ? currentTheme = 'dark' : 'light'
-
-  if (withTransition === true && newTheme !== currentTheme) animateThemeTransition()
-
-  root.classList.add('theme-' + newTheme)
-  root.classList.remove('theme-' + otherTheme)
-
-  let button = document.getElementById('theme-' + otherTheme + '-button')
-  button.classList.add('enabled')
-  button.setAttribute('aria-pressed', false)
-
-  button = document.getElementById('theme-' + newTheme + '-button')
-  button.classList.remove('enabled')
-  button.setAttribute('aria-pressed', true)
-
-}
-
-
-// Add class to smoothly transition between themes
-function animateThemeTransition(){
-  const root = document.documentElement
-  root.classList.remove('theme-change-active')
-  void root.offsetWidth // Trigger reflow to cancel the animation
-  root.classList.add('theme-change-active')
-}
-
-const setTheme = selectedTheme => {
-  if (selectedTheme === 'light' || selectedTheme === '') {
-    document.documentElement.setAttribute('data-theme', 'light');
-  } else if (selectedTheme === 'dark') {
-    document.documentElement.setAttribute('data-theme', 'dark');
-  }
-};
-
-
-*/
-
 [data-theme='dark'] {
-  --lego-background-color: linear-gradient(
-    0deg,
-    #0c0c0c,
-    #171919
-  ); /*linear-gradient(0deg, #f4f4f4, #eae9e8);*/
-  --lego-font-color: #f4f4f4; /*#394b59;*/
+  --lego-background-color: linear-gradient(0deg, #0f0f0f, #202122);
+  --lego-font-color: #f4f4f4;
   --lego-link-color: #c0392b;
   --lego-red: #c0392b;
   --lego-max-width: 1100px;
   --lego-default-padding: 2rem;
-  --lego-card-color: #10161a; /*rgba(245, 244, 244, 1);*/
+  --lego-card-color: #10161a;
   --lego-red-color: #c0392b;
 
   --lego-header-height: 120px;
   --lego-main-nav-height: 50px;
 
-  --lego-color-gray: #eee; /*#333;*/
-  --lego-color-gray-light: #555; /*#eee;*/
+  --lego-color-gray: #eee;
+  --lego-color-gray-light: #555;
   --lego-text-gray: #394b59;
 
   --color-event-red: #b11c11;
-  --color-white: #000; /*#fff;*/
-  --color-black: #fff; /*#000;*/
+  --color-event-black: #dddddd;
+  --color-white: #000;
+  --color-black: #fff;
   --border-gray: #10161a;
 
-  /* Switched with lower */
+  --rgba-max: 0;
+  --rgba-min: 255;
+
   --color-gray-1: #182026;
   --color-gray-2: #202b33;
   --color-gray-3: #293742;
   --color-gray-4: #30404d;
   --color-gray-5: #394b59;
 
-  /*Switched with upper*/
   --color-light-gray-1: #5c7080;
   --color-light-gray-2: #738694;
   --color-light-gray-3: #8a9ba8;
@@ -194,14 +132,12 @@ const setTheme = selectedTheme => {
   --color-dark-gray-4: #ebf1f5;
   --color-dark-gray-5: #f5f8fa;
 
-  /*Switched with lower*/
   --color-mono-gray-1: #555;
   --color-mono-gray-2: #666;
   --color-mono-gray-3: #777;
   --color-mono-gray-4: #888;
   --color-mono-gray-5: #999;
 
-  /*Switech with upper*/
   --color-dark-mono-gray-1: #aaa;
   --color-dark-mono-gray-2: #bbb;
   --color-dark-mono-gray-3: #ccc;

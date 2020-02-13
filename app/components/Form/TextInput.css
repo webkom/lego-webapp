@@ -4,6 +4,12 @@
   border: 1px solid var(--color-mono-gray-3);
   border-radius: 3px;
   width: 100%;
+  background-color: inherit;
+}
+
+html[data-theme='dark'] .input {
+  background-color: var(--color-white);
+  color: var(--lego-font-color);
 }
 
 .disabled {
@@ -22,7 +28,7 @@
 
 span.suffix {
   padding: 0 4px;
-  color: rgba(var(--color-black), 0.65);
+  color: rgba(var(--rgba-min), var(--rgba-min), var(--rgba-min), 0.65);
   text-align: center;
   background-color: var(--lego-color-gray-light);
   border: 1px solid #d9d9d9;

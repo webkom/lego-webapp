@@ -13,9 +13,11 @@
   font-size: 0.95rem;
   background: rgb(247, 247, 247) none repeat scroll 0% 0%;
   line-height: 1rem;
-  box-shadow: rgba(var(--color-black), 0.12) 0 5px 10px;
+  box-shadow: rgba(var(--rgba-min), var(--rgba-min), var(--rgba-min), 0.12) 0
+    5px 10px;
   border-radius: 6px;
-  border: 1px solid rgba(var(--color-black), 0.15);
+  border: 1px solid
+    rgba(var(--rgba-min), var(--rgba-min), var(--rgba-min), 0.15);
 }
 
 .emojiLoading {

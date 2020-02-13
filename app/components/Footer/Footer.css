@@ -2,7 +2,7 @@
 
 .footer {
   width: 100%;
-  background-color: #1b1a1a;
+  background-color: var(--color-black);
   color: var(--color-white);
   margin-top: 50px;
   display: flex;
@@ -12,8 +12,9 @@
   }
 }
 
-[data-theme='dark'] .footer {
-  color: var(--color-black);
+html[data-theme='dark'] .footer {
+  background-color: var(--color-white);
+  color: var(--color-dark);
 }
 
 .footer h2 {

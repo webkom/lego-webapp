@@ -55,14 +55,14 @@
 .overlay:hover {
   background: linear-gradient(
     rgba(199, 69, 89, 1),
-    rgba(var(--color-white), 0.3)
+    rgba(var(--rgba-max), var(--rgba-max), var(--rgba-max), 0.3)
   );
 }
 
 .overlaySelected {
   background: linear-gradient(
     rgba(199, 69, 89, 1),
-    rgba(var(--color-white), 0.3)
+    rgba(var(--rgba-max), var(--rgba-max), var(--rgba-max), 0.3)
   );
 }
 

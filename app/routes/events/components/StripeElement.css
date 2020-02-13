@@ -3,7 +3,12 @@
   top: 0;
   left: 0;
   height: 100%;
-  background-color: rgba(var(--color-white), 0.4);
+  background-color: rgba(
+    var(--rgba-max),
+    var(--rgba-max),
+    var(--rgba-max),
+    0.4
+  );
   z-index: 2;
 }
 

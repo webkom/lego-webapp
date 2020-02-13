@@ -11,6 +11,10 @@
   transition: 0.1s;
 }
 
+html[data-theme='dark'] .tagLink {
+  color: var(--lego-color-gray);
+}
+
 .tagLink a,
 .tagLinkSmall a {
   color: inherit;

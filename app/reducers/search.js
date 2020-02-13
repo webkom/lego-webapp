@@ -102,7 +102,7 @@ const searchMapping = {
     path: '/tags/',
     icon: 'pricetags',
     value: 'tag',
-    color: 'var(--color-black)000'
+    color: '#000000'
   },
   'users.abakusgroup': {
     label: 'name',
@@ -113,7 +113,7 @@ const searchMapping = {
     id: 'id',
     type: 'type',
     icon: group => (group.profilePicture ? null : 'people'),
-    color: 'var(--color-black)000'
+    color: '#000000'
   }
 };
 

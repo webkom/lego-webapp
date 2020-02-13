@@ -1,7 +1,7 @@
 @import '~app/styles/variables.css';
 
 .backdrop {
-  background: rgba(var(--color-white), 0.5);
+  background: rgba(var(--rgba-max), var(--rgba-max), var(--rgba-max), 0.5);
   top: 0;
   left: 0;
   right: 0;
