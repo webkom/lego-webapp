@@ -78,7 +78,7 @@ const QuestionTypeValue = (props: Object, b) => (
 const questionIndexMappings = (indexNumbers: Array<number>) =>
   indexNumbers.map(relativeIndex => ({
     value: relativeIndex,
-    label: `Rekkefølge: ${relativeIndex}`
+    label: `Spørsmålsplassering: ${relativeIndex + 1}`
   }));
 
 const Question = ({
@@ -141,7 +141,7 @@ const Question = ({
           <SelectInput
             value={{
               value: relativeIndex,
-              label: `Rekkefølge: ${relativeIndex}`
+              label: `Spørsmålsplassering: ${relativeIndex + 1}`
             }}
             placeholder="0"
             name="relativeIndex"
