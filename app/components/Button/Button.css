@@ -17,15 +17,6 @@
   justify-content: center;
   display: inline-flex;
 
-<<<<<<< HEAD
-=======
-  &:hover:not(:disabled) {
-    box-shadow: 0 1px 2px
-      rgba(var(--rgba-max), var(--rgba-max), var(--rgba-max), 0.1);
-    opacity: 0.9;
-  }
-
->>>>>>> ce5a1487... Add themeutils and make changes to theme
   &:active {
     transform: translateY(1px);
   }

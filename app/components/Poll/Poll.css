@@ -103,12 +103,12 @@ html[data-theme='dark'] .pollGraph {
   max-width: 400px;
 }
 
-html[data-theme='dark'] .voteButton {
-  color: var(--color-dark-gray-3);
-}
-
 .voteButton:hover {
   opacity: 0.8;
+}
+
+html[data-theme='dark'] .voteButton {
+  color: var(--color-dark-gray-3);
 }
 
 .moreOptionsLink {

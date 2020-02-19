@@ -1,11 +1,6 @@
 import imageLogoLight from 'app/assets/logo-dark.png';
 import imageLogoDark from 'app/assets/logo.png';
 
-// Notification bell
-// Border / shadow på lag nytt arrangement
-// Fikse kontrast på påmeldingsantall
-// Lys farge Info om Abakus
-
 export const applySelectedTheme = theme => {
   global.dispatchEvent(new Event('themeChange'));
   document.documentElement.setAttribute('data-theme', theme);

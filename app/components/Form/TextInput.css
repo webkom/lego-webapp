@@ -7,11 +7,6 @@
   background-color: inherit;
 }
 
-html[data-theme='dark'] .input {
-  background-color: var(--color-white);
-  color: var(--lego-font-color);
-}
-
 .disabled {
   background-color: var(--color-white);
 }
@@ -24,6 +19,11 @@ html[data-theme='dark'] .input {
 
 .input::placeholder {
   color: var(--color-mono-gray-1);
+}
+
+html[data-theme='dark'] .input {
+  background-color: var(--color-white);
+  color: var(--lego-font-color);
 }
 
 span.suffix {
