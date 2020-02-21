@@ -12,14 +12,20 @@ import Option from './Option';
 import styles from '../surveys.css';
 import Icon from 'app/components/Icon';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
-import { mappings, QuestionTypes } from '../../utils';
-import cx from 'classnames';
+import {
+  mappings,
+  QuestionTypes,
+  QuestionTypeOption,
+  QuestionTypeValue
+} from '../../utils';
 
 type Props = {
   deleteQuestion: number => Promise<*>,
   questionData: Object,
   question: string,
-  index: number
+  index: number,
+  option: string,
+  value: string
 };
 
 const questionTypeToIcon = {
@@ -27,50 +33,6 @@ const questionTypeToIcon = {
   multiple_choice: 'checkbox',
   text_field: 'more'
 };
-
-const QuestionTypeOption = (props: Object) => (
-  <div
-    className={cx(props.className, styles.dropdown)}
-    onMouseDown={event => {
-      props.onSelect && props.onSelect(props.option, event);
-    }}
-    onMouseEnter={event => props.onFocus && props.onFocus(props.option, event)}
-    onMouseMove={event => {
-      if (props.isFocused) return;
-      props.onFocus && props.onFocus(props.option, event);
-    }}
-  >
-    <span className={styles.dropdownColor}>
-      <Icon
-        name={questionTypeToIcon[props.option && props.option.value]}
-        style={{ marginRight: '15px' }}
-      />
-      {props.children}
-    </span>
-  </div>
-);
-
-const QuestionTypeValue = (props: Object, b) => (
-  <div
-    className={cx('Select-value', styles.dropdown)}
-    onMouseDown={event => {
-      props.onSelect && props.onSelect(props.option, event);
-    }}
-    onMouseEnter={event => props.onFocus && props.onFocus(props.option, event)}
-    onMouseMove={event => {
-      if (props.isFocused) return;
-      props.onFocus && props.onFocus(props.option, event);
-    }}
-  >
-    <span className={cx('Select-value-label', styles.dropdownColor)}>
-      <Icon
-        name={questionTypeToIcon[props.value && props.value.value]}
-        style={{ marginRight: '15px' }}
-      />
-      {props.children}
-    </span>
-  </div>
-);
 
 const Question = ({ index, question, questionData, deleteQuestion }: Props) => {
   return (
@@ -106,9 +68,20 @@ const Question = ({ index, question, questionData, deleteQuestion }: Props) => {
             name={`${question}.questionType`}
             simpleValue
             component={SelectInput.Field}
-            optionComponent={QuestionTypeOption}
+            optionComponent={props =>
+              QuestionTypeOption(
+                props,
+                questionTypeToIcon[props.option && props.option.value]
+              )
+            }
             options={mappings}
-            valueComponent={QuestionTypeValue}
+            valueComponent={props =>
+              QuestionTypeValue(
+                props,
+
+                questionTypeToIcon[props.value && props.value.value]
+              )
+            }
             className={styles.questionType}
             clearable={false}
             backspaceRemoves={false}

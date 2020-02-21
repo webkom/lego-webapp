@@ -202,13 +202,15 @@ class SurveyEditor extends Component<Props, State> {
 const renderQuestions = ({ fields, meta: { touched, error } }) => {
   return [
     <ul className={styles.questions} key="questions">
-      {fields.map((question, i) => (
+      {fields.map((question, option, value, i) => (
         <Question
           key={i}
           index={i}
           question={question}
           questionData={fields.get(i)}
           deleteQuestion={() => Promise.resolve(fields.remove(i))}
+          option={option}
+          value={value}
         />
       ))}
     </ul>,

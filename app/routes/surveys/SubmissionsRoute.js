@@ -11,7 +11,8 @@ import {
 import {
   fetchSurvey,
   shareSurvey,
-  hideSurvey
+  hideSurvey,
+  editSurvey
 } from 'app/actions/SurveyActions';
 import SubmissionPage from './components/Submissions/SubmissionPage';
 import { compose } from 'redux';
@@ -62,7 +63,8 @@ const mapDispatchToProps = {
   shareSurvey,
   hideSurvey,
   showAnswer,
-  hideAnswer
+  hideAnswer,
+  editSurvey
 };
 
 export default compose(

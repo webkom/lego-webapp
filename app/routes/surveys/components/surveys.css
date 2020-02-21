@@ -349,3 +349,30 @@
 .detailQuestions > li {
   margin-top: 30px;
 }
+
+.selectGraphContainer {
+  width: 300px;
+  max-width: 200px;
+  paddig: 50px;
+  align-content: center;
+  margin-top: 50px;
+
+  @media (--mobile-device) {
+    margin-top: 33px;
+    margin-bottom: 55px;
+  }
+}
+
+.selectGraph {
+  align-content: center;
+}
+
+.graphContainer {
+  display: flex;
+  flex-direction: inherit;
+  justify-content: space-between;
+
+  @media (--mobile-device) {
+    flex-direction: column;
+  }
+}
