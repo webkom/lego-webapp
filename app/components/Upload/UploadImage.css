@@ -6,9 +6,8 @@
 
 .modal {
   box-shadow: 0 4px 4px
-    rgba(var(--rgba-min), var(--rgba-min), var(--rgba-min), 0.05);
-  border: 1px solid
-    rgba(var(--rgba-min), var(--rgba-min), var(--rgba-min), 0.09);
+    rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.05);
+  border: 1px solid rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.09);
   border-radius: 5px;
 }
 
@@ -54,7 +53,7 @@ html[data-theme='dark'] .dropArea {
 }
 
 .placeholdeTitle {
-  background: var(--color-white);
+  background: rgba(var(--rgb-max), var(--rgb-max), var(--rgb-max), 0.8);
   border-radius: 5px;
   font-size: 24px;
   padding: 0 20px;

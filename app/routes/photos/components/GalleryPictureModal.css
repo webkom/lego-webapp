@@ -11,7 +11,7 @@
 
 .backdrop {
   position: fixed;
-  background: rgba(var(--rgba-min), var(--rgba-min), var(--rgba-min), 0.8);
+  background: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.8);
   top: 0;
   bottom: 0;
   left: 0;

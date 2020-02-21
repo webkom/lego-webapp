@@ -11,6 +11,7 @@
   --lego-max-width: 1100px;
   --lego-default-padding: 2rem;
   --lego-card-color: rgba(245, 244, 244, 1);
+  --lego-footer-color: #1b1a1a;
   --lego-red-color: #c0392b;
 
   --lego-header-height: 120px;
@@ -20,14 +21,25 @@
   --lego-color-gray-light: #eee;
   --lego-text-gray: #394b59;
 
+  --lego-chart-purple: #c73aea;
+  --lego-chart-yellow: #f4ee42;
+  --lego-chart-greeen: #98f442;
+  --lego-chart-pink: #ff87eb;
+
   --color-event-red: #b11c11;
   --color-event-black: #111;
   --color-white: #fff;
   --color-black: #000;
   --border-gray: #eee;
 
-  --rgba-max: 255;
-  --rgba-min: 0;
+  --rgb-max: 255;
+  --rgb-min: 0;
+
+  --color-almost-white-1: #f9f9f9;
+  --color-almost-white-2: #f8f8f8;
+  --color-almost-white-3: #f7f7f7;
+  --color-almost-white-4: #f6f6f6;
+  --color-almost-white-5: #f5f5f5;
 
   --color-dark-gray-1: #182026;
   --color-dark-gray-2: #202b33;
@@ -96,14 +108,26 @@
   --lego-max-width: 1100px;
   --lego-default-padding: 2rem;
   --lego-card-color: #10161a;
+  --lego-footer-color: #1b1a1a;
   --lego-red-color: #c0392b;
 
   --lego-header-height: 120px;
   --lego-main-nav-height: 50px;
 
+  --color-almost-white-1: #060606;
+  --color-almost-white-2: #050505;
+  --color-almost-white-3: #040404;
+  --color-almost-white-4: #030303;
+  --color-almost-white-5: #020202;
+
   --lego-color-gray: #eee;
   --lego-color-gray-light: #555;
   --lego-text-gray: #394b59;
+
+  --lego-chart-purple: #c73aea;
+  --lego-chart-yellow: #f4ee42;
+  --lego-chart-greeen: #98f442;
+  --lego-chart-pink: #ff87eb;
 
   --color-event-red: #b11c11;
   --color-event-black: #ddd;
@@ -111,8 +135,8 @@
   --color-black: #fff;
   --border-gray: #10161a;
 
-  --rgba-max: 0;
-  --rgba-min: 255;
+  --rgb-max: 0;
+  --rgb-min: 255;
 
   --color-gray-1: #182026;
   --color-gray-2: #202b33;

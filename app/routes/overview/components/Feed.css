@@ -17,10 +17,9 @@
 }
 
 .content {
-  border: 1px solid
-    rgba(var(--rgba-min), var(--rgba-min), var(--rgba-min), 0.09);
+  border: 1px solid rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.09);
   box-shadow: 0 1px 4px
-    rgba(var(--rgba-min), var(--rgba-min), var(--rgba-min), 0.04);
+    rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.04);
   border-radius: 3px;
   overflow-y: auto;
   height: 459px;
@@ -54,8 +53,8 @@
 
   &:hover {
     background-color: rgba(
-      var(--rgba-min),
-      var(--rgba-min),
+      var(--rgb-min),
+      var(--rgb-min),
       var(--rgba-min),
       0.02
     );

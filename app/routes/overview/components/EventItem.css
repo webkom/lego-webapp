@@ -1,7 +1,7 @@
 @import '~app/styles/variables.css';
 
 .link {
-  color: rgba(var(--rgba-min), var(--rgba-min), var(--rgba-min), 0.9);
+  color: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.9);
   width: 100%;
   height: 100%;
 }
@@ -57,7 +57,7 @@
   font-weight: 600;
   width: 272px;
   border-radius: 0 0 5px 5px;
-  color: rgba(var(--rgba-min), var(--rgba-min), var(--rgba-min), 0.8);
+  color: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.8);
 
   @media (--mobile-device) {
     width: 100%;
@@ -94,5 +94,5 @@
 }
 
 .itemTitle > a {
-  color: rgba(var(--rgba-min), var(--rgba-min), var(--rgba-min), 0.9);
+  color: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.9);
 }

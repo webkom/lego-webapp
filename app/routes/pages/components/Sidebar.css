@@ -105,7 +105,7 @@
     position: absolute;
     z-index: 11;
     width: 90%;
-    box-shadow: 10px 10px 27px -15px rgba(var(--rgba-min), var(--rgba-min), var(--rgba-min), 0.75);
+    box-shadow: 10px 10px 27px -15px rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.75);
     height: 100%;
   }
 
@@ -121,9 +121,9 @@
     position: absolute;
     height: 100%;
     background-color: rgba(
-      var(--rgba-min),
-      var(--rgba-min),
-      var(--rgba-min),
+      var(--rgb-min),
+      var(--rgb-min),
+      var(--rgb-min),
       0.07
     );
     z-index: 10;

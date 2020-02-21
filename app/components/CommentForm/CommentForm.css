@@ -1,9 +1,8 @@
 .form {
   background-color: var(--color-white);
   box-shadow: 0 1px 4px
-    rgba(var(--rgba-min), var(--rgba-min), var(--rgba-min), 0.03);
-  border: 1px solid
-    rgba(var(--rgba-min), var(--rgba-min), var(--rgba-min), 0.04);
+    rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.03);
+  border: 1px solid rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.04);
   display: flex;
   flex-direction: row;
   align-items: center;

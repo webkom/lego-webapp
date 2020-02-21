@@ -37,7 +37,7 @@
 }
 
 .unchecked + label::before {
-  background: var(--color-white);
+  background: var(--color-almost-white-2);
 }
 
 .unchecked + label::after {

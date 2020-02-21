@@ -29,9 +29,9 @@
 
   &:hover {
     background-color: rgba(
-      var(--rgba-min),
-      var(--rgba-min),
-      var(--rgba-min),
+      var(--rgb-min),
+      var(--rgb-min),
+      var(--rgb-min),
       0.04
     );
   }

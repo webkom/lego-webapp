@@ -21,7 +21,7 @@
 .events > h3 {
   margin: 0;
   font-size: 1.2em;
-  color: rgba(var(--rgba-min), var(--rgba-min), var(--rgba-min), 0.85);
+  color: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.85);
 }
 
 .item {

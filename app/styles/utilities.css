@@ -17,7 +17,7 @@
   background: var(--color-white);
   padding: 40px;
   box-shadow: 0 1px 20px
-    rgba(var(--rgba-min), var(--rgba-min), var(--rgba-min), 0.05);
+    rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.05);
   border-radius: 3px;
 
   @media (--small-viewport) {
@@ -41,10 +41,9 @@
 }
 
 .withShadow {
-  border: 1px solid
-    rgba(var(--rgba-min), var(--rgba-min), var(--rgba-min), 0.09);
+  border: 1px solid rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.09);
   box-shadow: 0 1px 4px
-    rgba(var(--rgba-min), var(--rgba-min), var(--rgba-min), 0.04);
+    rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.04);
   border-radius: 5px;
 }
 

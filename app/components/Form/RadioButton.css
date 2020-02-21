@@ -37,7 +37,7 @@
   background: var(--color-white);
   border-radius: 11px;
   box-shadow: inset 0 1px 3px
-    rgba(var(--rgba-min), var(--rgba-min), var(--rgba-min), 0.3);
+    rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.3);
 }
 
 /* checked mark aspect */

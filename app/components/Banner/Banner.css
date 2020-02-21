@@ -5,8 +5,8 @@
   padding: 20px;
   margin-bottom: 20px;
   box-shadow: 0 1px 4px
-    rgba(var(--rgba-min), var(--rgba-min), var(--rgba-min), 0.5);
-  border: 1px solid rgba(var(--rgba-min), var(--rgba-min), var(--rgba-min), 0.1);
+    rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.5);
+  border: 1px solid rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.1);
   border-radius: 3px;
   font-weight: bold;
   font-size: 2em;

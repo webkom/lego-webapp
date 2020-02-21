@@ -8,7 +8,7 @@
 }
 
 .disabled {
-  background-color: var(--color-white);
+  background-color: var(--color-almost-white-1);
 }
 
 .input:focus {
@@ -28,7 +28,7 @@ html[data-theme='dark'] .input {
 
 span.suffix {
   padding: 0 4px;
-  color: rgba(var(--rgba-min), var(--rgba-min), var(--rgba-min), 0.65);
+  color: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.65);
   text-align: center;
   background-color: var(--lego-color-gray-light);
   border: 1px solid #d9d9d9;
