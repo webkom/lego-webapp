@@ -6,9 +6,8 @@ import { UserContext } from 'app/routes/app/AppRoute';
 import TagsListRoute from './TagsListRoute';
 import TagDetailRoute from './TagDetailRoute';
 import PageNotFound from '../pageNotFound';
-import MatchType from 'app/models';
 
-const tagsRoute = ({ match }: { match: MatchType }) => (
+const tagsRoute = ({ match }: { match: { path: string } }) => (
   <UserContext.Consumer>
     {({ currentUser, loggedIn }) => (
       <Switch>

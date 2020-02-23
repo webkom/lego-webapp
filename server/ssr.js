@@ -3,6 +3,7 @@ import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { StaticRouter } from 'react-router';
 import RouteConfig from '../app/routes';
+// $FlowFixMe
 import { ReactReduxContext } from 'react-redux';
 import Helmet from 'react-helmet';
 import Raven from 'raven';
@@ -69,7 +70,7 @@ const createServerSideRenderer = (
     context
   }: {
     req: $Request,
-    context: { status: string, url: ?string, [key]: any }
+    context: { status?: string, url?: ?string, [any]: any }
   }) => (
     <StaticRouter location={req.url} context={context}>
       <RouteConfig />

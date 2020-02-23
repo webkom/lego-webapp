@@ -192,11 +192,13 @@ const CompanyEditor = ({
             <div style={{ order: 0 }}>
               <RadioButtonGroup name="active" label="Aktiv bedrift?">
                 <Field
+                  name="Yes"
                   label="Ja"
                   component={RadioButton.Field}
                   inputValue="true"
                 />
                 <Field
+                  name="No"
                   label="Nei"
                   component={RadioButton.Field}
                   inputValue="false"

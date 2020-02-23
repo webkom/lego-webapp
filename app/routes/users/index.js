@@ -14,9 +14,8 @@ import UserSettingsOAuth2Route from './UserSettingsOAuth2Route';
 import UserSettingsOAuth2CreateRoute from './UserSettingsOAuth2CreateRoute';
 import UserSettingsOAuth2EditRoute from './UserSettingsOAuth2EditRoute';
 import StudentConfirmationRoute from './StudentConfirmationRoute';
-import MatchType from 'app/models';
 
-const usersRoute = ({ match }: { match: MatchType }) => (
+const usersRoute = ({ match }: { match: { path: string } }) => (
   <UserContext.Consumer>
     {({ currentUser, loggedIn }) => (
       <Switch>
@@ -44,37 +43,37 @@ const usersRoute = ({ match }: { match: MatchType }) => (
               <RouteWrapper
                 exact
                 path={`${match.path}/profile`}
-                passedProps={(currentUser, loggedIn)}
+                passedProps={{ currentUser, loggedIn }}
                 Component={UserSettingsRoute}
               />
               <RouteWrapper
                 exact
                 path={`${match.path}/notifications`}
-                passedProps={(currentUser, loggedIn)}
+                passedProps={{ currentUser, loggedIn }}
                 Component={UserSettingsNotificationsRoute}
               />
               <RouteWrapper
                 exact
                 path={`${match.path}/oauth2`}
-                passedProps={(currentUser, loggedIn)}
+                passedProps={{ currentUser, loggedIn }}
                 Component={UserSettingsOAuth2Route}
               />
               <RouteWrapper
                 exact
                 path={`${match.path}/oauth2/new`}
-                passedProps={(currentUser, loggedIn)}
+                passedProps={{ currentUser, loggedIn }}
                 Component={UserSettingsOAuth2CreateRoute}
               />
               <RouteWrapper
                 exact
                 path={`${match.path}/oauth2/:applicationId(\\d+)`}
-                passedProps={(currentUser, loggedIn)}
+                passedProps={{ currentUser, loggedIn }}
                 Component={UserSettingsOAuth2EditRoute}
               />
               <RouteWrapper
                 exact
                 path={`${match.path}/student-confirmation`}
-                passedProps={(currentUser, loggedIn)}
+                passedProps={{ currentUser, loggedIn }}
                 Component={StudentConfirmationRoute}
               />
             </UserSettingsIndex>

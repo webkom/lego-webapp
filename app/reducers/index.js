@@ -51,6 +51,7 @@ import surveySubmissions from './surveySubmissions';
 import tags from './tags';
 import fetchHistory from './fetchHistory';
 import joinReducers from 'app/utils/joinReducers';
+import { type LocationType } from 'app/models';
 
 const reducers = {
   allowed,
@@ -102,7 +103,20 @@ const reducers = {
 
 export type Reducers = typeof reducers;
 
-export default function rootReducer(history) {
+type History = {
+  length: Number,
+  action: string,
+  location: LocationType,
+  createHref: (location: LocationType) => string,
+  push: (path: string, state: Object) => void,
+  replace: (path: string, state: Object) => void,
+  go: (n: Number) => void,
+  goBack: () => void,
+  block: (prompt?: boolean) => () => void,
+  listen: (listener: () => void) => () => void
+};
+
+export default function rootReducer(history: History) {
   return combineReducers({
     router: joinReducers(connectRouter(history), routing),
     ...reducers

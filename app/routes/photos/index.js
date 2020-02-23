@@ -10,9 +10,8 @@ import GalleryEditRoute from './GalleryEditRoute';
 import GalleryPictureRoute from './GalleryPictureRoute';
 import GalleryPictureEditRoute from './GalleryPictureEditRoute';
 import PageNotFound from '../pageNotFound';
-import MatchType from 'app/models';
 
-const photosRoute = ({ match }: { match: MatchType }) => (
+const photosRoute = ({ match }: { match: { path: string } }) => (
   <UserContext.Consumer>
     {({ currentUser, loggedIn }) => (
       <Switch>

@@ -6,9 +6,8 @@ import CompanyDetailRoute from './CompanyDetailRoute';
 import { Route, Switch } from 'react-router-dom';
 import RouteWrapper from 'app/components/RouteWrapper';
 import PageNotFound from '../pageNotFound';
-import MatchType from 'app/models';
 
-const CompanyRoute = ({ match }: { match: MatchType }) => (
+const CompanyRoute = ({ match }: { match: { path: string } }) => (
   <UserContext.Consumer>
     {({ currentUser, loggedIn }) => (
       <Switch>
@@ -31,5 +30,5 @@ const CompanyRoute = ({ match }: { match: MatchType }) => (
 );
 
 export default function Companies() {
-  return <RouteWrapper path="/companies" Component={CompanyRoute} />;
+  return <Route path="/companies" component={CompanyRoute} />;
 }

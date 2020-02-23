@@ -14,9 +14,9 @@ import {
   SelectInput
 } from 'app/components/Form';
 import type { ContactForm as ContactFormType } from 'app/reducers/contact';
-import type { FieldProps } from 'redux-form';
+import type { FormProps } from 'redux-form';
 
-type Props = FieldProps & {
+type Props = FormProps & {
   sendContactMessage: (message: ContactFormType) => Promise<*>,
   addToast: ({ message: string }) => void,
   reset: (form: string) => void,

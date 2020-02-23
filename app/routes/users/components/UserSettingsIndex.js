@@ -9,13 +9,12 @@ import { Content } from 'app/components/Content';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { LoginPage } from 'app/components/LoginForm';
 import { omit } from 'lodash';
-import MatchType from 'app/models';
 
 type Props = {
-  children: Element<*>,
+  children: Array<Element<*>>,
   currentUser: Object,
   isMe: boolean,
-  match: MatchType
+  match: { path: string, params: { username: string } }
 };
 
 const UserSettingsIndex = (props: Props) => {

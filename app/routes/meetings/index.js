@@ -8,21 +8,16 @@ import MeetingCreateRoute from './MeetingCreateRoute';
 import MeetingDetailRoute from './MeetingDetailRoute';
 import MeetingEditRoute from './MeetingEditRoute';
 import PageNotFound from '../pageNotFound';
-import MatchType from 'app/models';
 
-const meetingRoute = ({ match }: { match: MatchType }) => (
+const meetingRoute = ({ match }: { match: { path: string } }) => (
   <UserContext.Consumer>
     {({ currentUser, loggedIn }) => (
       <Switch>
         <RouteWrapper
-          path={`${match.path}/:meetingId/edit`}
+          exact
+          path={`${match.path}`}
           passedProps={{ currentUser, loggedIn }}
-          Component={MeetingEditRoute}
-        />
-        <RouteWrapper
-          path={`${match.path}/:meetingId`}
-          passedProps={{ currentUser, loggedIn }}
-          Component={MeetingDetailRoute}
+          Component={MeetingListRoute}
         />
         <RouteWrapper
           path={`${match.path}/create`}
@@ -30,9 +25,15 @@ const meetingRoute = ({ match }: { match: MatchType }) => (
           Component={MeetingCreateRoute}
         />
         <RouteWrapper
-          path={`${match.path}`}
+          exact
+          path={`${match.path}/:meetingId`}
           passedProps={{ currentUser, loggedIn }}
-          Component={MeetingListRoute}
+          Component={MeetingDetailRoute}
+        />
+        <RouteWrapper
+          path={`${match.path}/:meetingId/edit`}
+          passedProps={{ currentUser, loggedIn }}
+          Component={MeetingEditRoute}
         />
         <Route component={PageNotFound} />
       </Switch>

@@ -14,7 +14,7 @@ type Props = {
   submissions: Array<SubmissionEntity>,
   addSubmission: SubmissionEntity => Promise<*>,
   survey: SurveyEntity,
-  children: React.Element<*>,
+  children: Array<React.Element<*>>,
   actionGrant: ActionGrant,
   isSummary: boolean,
   shareSurvey: number => Promise<*>,

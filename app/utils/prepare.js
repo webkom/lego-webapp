@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import type { Dispatch } from 'app/types';
 
-type PrepareFn = (props: Object, dispatch: Dispatch<*>) => Promise<*>;
+type PrepareFn = (props: Object, dispatch: Dispatch<*>) => ?Promise<*>;
 type ReactPrepareOpts = {
   pure?: boolean,
   componentDidMount?: boolean,

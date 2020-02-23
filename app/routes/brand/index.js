@@ -3,9 +3,8 @@ import BrandPage from './components/BrandPage';
 import { Route, Switch } from 'react-router-dom';
 import * as React from 'react';
 import PageNotFound from '../pageNotFound';
-import MatchType from 'app/models';
 
-const brandRoute = ({ match }: { match: MatchType }) => (
+const brandRoute = ({ match }: { match: { path: string } }) => (
   <Switch>
     <Route exact path={`${match.path}`} component={BrandPage} />
     <Route component={PageNotFound} />

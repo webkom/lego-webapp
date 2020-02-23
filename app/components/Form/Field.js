@@ -57,7 +57,7 @@ export const RenderWarningMessage = ({
   return <FieldWarning warning={warning} key={warning} />;
 };
 
-export type FieldProps = {
+export type FormProps = {
   className: string,
   input: Object,
   meta: Object,
@@ -77,7 +77,7 @@ export type FieldProps = {
  * http://redux-form.com/6.0.5/docs/api/Field.md/
  */
 export function createField(Component: ComponentType<*>) {
-  const Field = (field: FieldProps) => {
+  const Field = (field: FormProps) => {
     const {
       input,
       meta,

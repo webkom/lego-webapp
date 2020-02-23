@@ -1,7 +1,8 @@
 // @flow
 
 import React from 'react';
-import { type FieldArrayProps, Field, FieldArray } from 'redux-form';
+// $FlowFixMe
+import { type FieldsProps, Field, FieldArray } from 'redux-form';
 import {
   TextInput,
   TextArea,
@@ -117,7 +118,7 @@ const renderOptions = ({
   fields,
   questionType
 }: {
-  fields: FieldArrayProps,
+  fields: FieldsProps,
   questionType: string
 }) => (
   <ul className={styles.options}>

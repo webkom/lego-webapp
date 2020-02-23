@@ -2,7 +2,7 @@
 import React from 'react';
 import styles from './index.css';
 import { Field } from 'redux-form';
-import type { FieldProps } from 'redux-form';
+import type { FormProps } from 'redux-form';
 import {
   Form,
   TextInput,
@@ -20,7 +20,7 @@ type OwnProps = {
   group: Object
 };
 
-type Props = OwnProps & FieldProps;
+type Props = OwnProps & FormProps;
 
 const logoValidator = value => (value ? undefined : 'Bilde er påkrevd');
 
@@ -76,7 +76,7 @@ function GroupForm({
         aspectRatio={1}
         img={group && group.logo}
         className={styles.logo}
-        validate={isNew && [logoValidator]}
+        validate={value => isNew && logoValidator(value)}
         required
       />
       <Button disabled={invalid || submitting} submit>

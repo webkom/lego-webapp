@@ -7,9 +7,8 @@ import PollsListRoute from './PollsListRoute';
 import PollsCreateRoute from './PollsCreateRoute';
 import PollsDetailRoute from './PollsDetailRoute';
 import PageNotFound from '../pageNotFound';
-import MatchType from 'app/models';
 
-const pollsRoute = ({ match }: { match: MatchType }) => (
+const pollsRoute = ({ match }: { match: { path: string } }) => (
   <UserContext.Consumer>
     {({ currentUser, loggedIn }) => (
       <Switch>

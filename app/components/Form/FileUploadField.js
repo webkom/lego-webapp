@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import cx from 'classnames';
-import type { FieldProps } from 'redux-form';
+import type { FormProps } from 'redux-form';
 import { Flex } from '../Layout';
 import { createField } from './Field';
 import Icon from '../Icon';
@@ -14,7 +14,7 @@ type Props = {
   onChange: string => void
 };
 
-class FileUploadField extends Component<Props & FieldProps> {
+class FileUploadField extends Component<Props & FormProps> {
   static Field: any;
 
   render() {

@@ -1,13 +1,13 @@
 // @flow
 import React from 'react';
 import { Field, SubmissionError } from 'redux-form';
-import type { FieldProps } from 'redux-form';
+import type { FormProps } from 'redux-form';
 import { legoForm, Button, Form } from 'app/components/Form';
 import SelectInput from 'app/components/Form/SelectInput';
 import { createValidator, required } from 'app/utils/validation';
 import { ROLES } from 'app/utils/constants';
 
-type Props = FieldProps & {
+type Props = FormProps & {
   group: Object
 };
 

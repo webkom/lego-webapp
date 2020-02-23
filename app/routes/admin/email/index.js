@@ -13,9 +13,8 @@ import EmailUserRoute from './EmailUserRoute';
 import RestrictedMailsRoute from './RestrictedMailsRoute';
 import CreateRestrictedMailRoute from './CreateRestrictedMailRoute';
 import RestrictedMailRoute from './RestrictedMailRoute';
-import MatchType from 'app/models';
 
-const groupRoute = ({ match }: { match: MatchType }) => (
+const groupRoute = ({ match }: { match: { path: string } }) => (
   <UserContext.Consumer>
     {({ currentUser, loggedIn }) => (
       <Switch>

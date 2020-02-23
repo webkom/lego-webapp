@@ -127,7 +127,15 @@ const mapDispatchToProps = {
   deleteComment
 };
 
-const loadData = async ({ params: { eventId }, loggedIn }, dispatch) => [
+const loadData = async (
+  {
+    match: {
+      params: { eventId }
+    },
+    loggedIn
+  },
+  dispatch
+) => [
   await dispatch(fetchEvent(eventId)),
   loggedIn && (await dispatch(isUserFollowing(eventId)))
 ];

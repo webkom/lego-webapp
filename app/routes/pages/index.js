@@ -7,9 +7,8 @@ import PageCreateRoute from './PageCreateRoute';
 import PageDetailRoute from './PageDetailRoute';
 import PageEditRoute from './PageEditRoute';
 import PageNotFound from '../pageNotFound';
-import MatchType from 'app/models';
 
-const pagesRoute = ({ match }: { match: MatchType }) => (
+const pagesRoute = ({ match }: { match: { path: string } }) => (
   <UserContext.Consumer>
     {({ currentUser, loggedIn }) => (
       <Switch>

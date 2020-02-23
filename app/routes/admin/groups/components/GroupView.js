@@ -7,7 +7,6 @@ import RouteWrapper from 'app/components/RouteWrapper';
 import GroupSettings from '../components/GroupSettings';
 import GroupMembers from '../components/GroupMembers';
 import GroupPermissions from '../components/GroupPermissions';
-import MatchType from 'app/models';
 
 type GroupModel = {
   name: string,
@@ -18,7 +17,7 @@ type GroupModel = {
 type GroupProps = {
   group: GroupModel,
   children?: Element<*>,
-  match: MatchType
+  match: { path: string }
 };
 
 const Group = (props: GroupProps) => {
@@ -52,7 +51,8 @@ const Group = (props: GroupProps) => {
 };
 
 type GroupViewProps = {
-  group: GroupModel
+  group: GroupModel,
+  match: { path: string }
 };
 
 export default class GroupView extends Component<GroupViewProps> {

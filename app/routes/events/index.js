@@ -12,18 +12,22 @@ import EventAdministrateRoute from './EventAdministrateRoute';
 import EventAttendeeRoute from './EventAttendeeRoute';
 import EventAdminRegisterRoute from './EventAdminRegisterRoute';
 import EventAbacardRoute from './EventAbacardRoute';
-import MatchType from 'app/models';
+import PageNotFound from '../pageNotFound';
 
-const eventRoute = ({ match }: { match: MatchType }) => (
+const eventRoute = ({ match }: { match: { path: string } }) => (
   <UserContext.Consumer>
     {({ currentUser, loggedIn }) => (
       <Switch>
-        <RouteWrapper exact path={`${match.path}`} Component={EventListRoute} />
+        <Route exact path={`${match.path}`} component={EventListRoute} />
         <Route
           path={`${match.path}/calendar/:year?/:month?`}
           component={CalendarRoute}
         />
-        <Route path={`${match.path}/create`} component={CreateRoute} />
+        <RouteWrapper
+          path={`${match.path}/create`}
+          Component={CreateRoute}
+          passedProps={{ currentUser, loggedIn }}
+        />
         <RouteWrapper
           exact
           path={`${match.path}/:eventId`}
@@ -42,28 +46,30 @@ const eventRoute = ({ match }: { match: MatchType }) => (
                 exact
                 path={`${match.path}/attendees`}
                 Component={EventAttendeeRoute}
-                passedProps={(event, currentUser, loggedIn)}
+                passedProps={{ currentUser, loggedIn }}
               />
               <RouteWrapper
                 exact
                 path={`${match.path}/admin-register`}
                 Component={EventAdminRegisterRoute}
-                passedProps={(event, currentUser, loggedIn)}
+                passedProps={{ currentUser, loggedIn }}
               />
               <RouteWrapper
                 exact
                 path={`${match.path}/abacard`}
                 Component={EventAbacardRoute}
-                passedProps={(event, currentUser, loggedIn)}
+                passedProps={{ currentUser, loggedIn }}
               />
+              <Route component={PageNotFound} />
             </EventAdministrateRoute>
           )}
         </Route>
+        <Route component={PageNotFound} />
       </Switch>
     )}
   </UserContext.Consumer>
 );
 
 export default function Events() {
-  return <RouteWrapper path="/events" Component={eventRoute} />;
+  return <Route path="/events" component={eventRoute} />;
 }

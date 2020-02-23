@@ -135,11 +135,13 @@ export default class AddSemester extends Component<Props, State> {
             <div className={styles.choices}>
               <RadioButtonGroup name="semester" label="Semester">
                 <Field
+                  name="Spring"
                   label="Vår"
                   component={RadioButton.Field}
                   inputValue="spring"
                 />
                 <Field
+                  name="Autumn"
                   label="Høst"
                   component={RadioButton.Field}
                   inputValue="autumn"

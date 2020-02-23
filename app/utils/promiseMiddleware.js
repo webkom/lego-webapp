@@ -18,11 +18,14 @@ function extractTypes(
 
 export default function promiseMiddleware(): Middleware {
   return store => next => action => {
-    if (!action.promise) {
+    if (action.type) {
       return next(action);
     }
 
-    const { types, meta, payload, promise } = action;
+    // Flow does not understand that action has to be a promiseAction since it has no type
+    // $FlowFixMe
+    const { types, payload, promise } = action;
+    const meta: any = action.meta;
 
     const [PENDING, SUCCESS, FAILURE] = extractTypes(types);
 
@@ -33,6 +36,7 @@ export default function promiseMiddleware(): Middleware {
     });
 
     return new Promise((resolve, reject) => {
+      // $FlowFixMe
       promise.then(
         payload =>
           resolve(
@@ -43,7 +47,7 @@ export default function promiseMiddleware(): Middleware {
               meta
             })
           ),
-        error =>
+        (error: boolean) =>
           reject(
             next({
               type: FAILURE,

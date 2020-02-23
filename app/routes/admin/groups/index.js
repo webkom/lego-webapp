@@ -4,9 +4,8 @@ import { Route, Switch } from 'react-router-dom';
 import * as React from 'react';
 import PageNotFound from '../../pageNotFound';
 import { UserContext } from 'app/routes/app/AppRoute';
-import MatchType from 'app/models';
 
-const groupRoute = ({ match }: { match: MatchType }) => (
+const groupRoute = ({ match }: { match: { path: string } }) => (
   <UserContext.Consumer>
     {({ currentUser, loggedIn }) => (
       <Switch>

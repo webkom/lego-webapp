@@ -96,16 +96,19 @@ const UserConfirmation = ({
           />
           <RadioButtonGroup name="gender">
             <Field
+              name="genderMan"
               label="Mann"
               component={RadioButton.Field}
               inputValue="male"
             />
             <Field
+              name="genderWoman"
               label="Kvinne"
               component={RadioButton.Field}
               inputValue="female"
             />
             <Field
+              name="genderOther"
               label="Annet"
               component={RadioButton.Field}
               inputValue="other"

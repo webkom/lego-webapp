@@ -14,9 +14,8 @@ import SubmissionsRoute from './SubmissionsRoute';
 import SubmissionSummary from './components/Submissions/SubmissionSummary';
 import SubmissionIndividual from './components/Submissions/SubmissionIndividual';
 import SubmissionsPublicResultsRoute from './SubmissionsPublicResultsRoute';
-import MatchType from 'app/models';
 
-const surveysRoute = ({ match }: { match: MatchType }) => (
+const surveysRoute = ({ match }: { match: { path: string } }) => (
   <UserContext.Consumer>
     {({ currentUser, loggedIn, location }) => (
       <Switch>
@@ -62,22 +61,23 @@ const surveysRoute = ({ match }: { match: MatchType }) => (
               <RouteWrapper
                 exact
                 path={`${match.path}/summary`}
-                passedProps={(event, currentUser, loggedIn)}
+                passedProps={{ currentUser, loggedIn }}
                 Component={SubmissionSummary}
               />
               <RouteWrapper
                 exact
                 path={`${match.path}/individual`}
-                passedProps={(event, currentUser, loggedIn)}
+                passedProps={{ currentUser, loggedIn }}
                 Component={SubmissionIndividual}
               />
+              <Route component={PageNotFound} />
             </SubmissionsRoute>
           )}
         </Route>
-        <RouteWrapper
+        <Route
           exact
           path={`${match.path}/:surveyId/results`}
-          Component={SubmissionsPublicResultsRoute}
+          component={SubmissionsPublicResultsRoute}
         />
         <Route component={PageNotFound} />
       </Switch>

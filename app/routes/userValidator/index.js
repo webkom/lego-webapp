@@ -3,9 +3,8 @@ import ValidatorRoute from './ValidatorRoute';
 import { Route, Switch } from 'react-router-dom';
 import * as React from 'react';
 import PageNotFound from '../pageNotFound';
-import MatchType from 'app/models';
 
-const validatorRoute = ({ match }: { match: MatchType }) => (
+const validatorRoute = ({ match }: { match: { path: string } }) => (
   <Switch>
     <Route exact path={`${match.path}`} component={ValidatorRoute} />
     <Route component={PageNotFound} />

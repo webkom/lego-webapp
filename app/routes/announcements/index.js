@@ -5,9 +5,8 @@ import RouteWrapper from 'app/components/RouteWrapper';
 import * as React from 'react';
 import PageNotFound from '../pageNotFound';
 import { UserContext } from 'app/routes/app/AppRoute';
-import MatchType from 'app/models';
 
-const announcementsRoute = ({ match }: { match: MatchType }) => (
+const announcementsRoute = ({ match }: { match: { path: string } }) => (
   <UserContext.Consumer>
     {({ currentUser, loggedIn }) => (
       <Switch>

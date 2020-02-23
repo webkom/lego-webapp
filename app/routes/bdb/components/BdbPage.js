@@ -16,7 +16,7 @@ import type {
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 import type { CompanySemesterContactedStatus } from 'app/models';
 import qs from 'qs';
-import LocationType from 'app/models';
+import type { LocationType } from 'app/models';
 
 type Props = {
   companies: Array<CompanyEntity>,

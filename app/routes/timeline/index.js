@@ -5,9 +5,8 @@ import RouteWrapper from 'app/components/RouteWrapper';
 import { UserContext } from 'app/routes/app/AppRoute';
 import PageNotFound from '../pageNotFound';
 import TimelineRoute from './TimelineRoute';
-import MatchType from 'app/models';
 
-const timelineRoute = ({ match }: { match: MatchType }) => (
+const timelineRoute = ({ match }: { match: { path: string } }) => (
   <UserContext.Consumer>
     {({ currentUser, loggedIn }) => (
       <Switch>

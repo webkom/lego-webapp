@@ -9,10 +9,10 @@ import { Route } from 'react-router-dom';
 
 type Props = {
   passedProps: Object,
-  exact: boolean,
+  exact?: boolean,
   path: string,
   Component: React.ComponentType<Object>,
-  strict: boolean
+  strict?: boolean
 };
 
 const RouteWrapper = (props: Props) => {

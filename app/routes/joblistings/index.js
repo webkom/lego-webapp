@@ -8,27 +8,27 @@ import JoblistingCreateRoute from './JoblistingCreateRoute';
 import JoblistingDetailedRoute from './JoblistingDetailedRoute';
 import JoblistingEditRoute from './JoblistingEditRoute';
 import PageNotFound from '../pageNotFound';
-import MatchType from 'app/models';
 
-const jobListingRoute = ({ match }: { match: MatchType }) => (
+const jobListingRoute = ({ match }: { match: { path: string } }) => (
   <UserContext.Consumer>
     {({ currentUser, loggedIn }) => (
       <Switch>
-        <RouteWrapper
-          path={`${match.path}/:joblistingId/edit`}
-          passedProps={{ currentUser, loggedIn }}
-          Component={JoblistingEditRoute}
-        />
-        <Route
-          path={`${match.path}/:joblistingId`}
-          component={JoblistingDetailedRoute}
-        />
+        <Route exact path={`${match.path}`} component={JoblistingRoute} />
         <RouteWrapper
           path={`${match.path}/create`}
           passedProps={{ currentUser, loggedIn }}
           Component={JoblistingCreateRoute}
         />
-        <Route path={`${match.path}`} component={JoblistingRoute} />
+        <Route
+          exact
+          path={`${match.path}/:joblistingId`}
+          component={JoblistingDetailedRoute}
+        />
+        <RouteWrapper
+          path={`${match.path}/:joblistingId/edit`}
+          passedProps={{ currentUser, loggedIn }}
+          Component={JoblistingEditRoute}
+        />
         <Route component={PageNotFound} />
       </Switch>
     )}

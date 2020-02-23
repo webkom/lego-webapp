@@ -5,7 +5,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import cx from 'classnames';
 import { getFormMeta, getFormValues, reduxForm, Field } from 'redux-form';
-import type { FieldProps } from 'redux-form';
+import type { FormProps } from 'redux-form';
 import { EditorField } from 'app/components/Form';
 import Button from 'app/components/Button';
 import { ProfilePicture } from 'app/components/Image';
@@ -24,7 +24,7 @@ const validate = values => {
   return errors;
 };
 
-type Props = FieldProps & {
+type Props = FormProps & {
   contentTarget: string,
   user: Object,
   loggedIn: boolean,

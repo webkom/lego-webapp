@@ -6,7 +6,10 @@ import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import Button from 'app/components/Button';
 import Icon from 'app/components/Icon';
 import { Link } from 'react-router-dom';
-import { fieldArrayMetaPropTypes, fieldArrayFieldsPropTypes } from 'redux-form';
+import {
+  typeof fieldArrayMetaPropTypes,
+  typeof fieldArrayFieldsPropTypes
+} from 'redux-form';
 import {
   TextInput,
   SelectInput,

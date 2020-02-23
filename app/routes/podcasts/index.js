@@ -7,9 +7,8 @@ import PodcastListRoute from './PodcastListRoute';
 import PodcastCreateRoute from './PodcastCreateRoute';
 import PodcastEditRoute from './PodcastEditRoute';
 import PageNotFound from '../pageNotFound';
-import MatchType from 'app/models';
 
-const podcastRoute = ({ match }: { match: MatchType }) => (
+const podcastRoute = ({ match }: { match: { path: string } }) => (
   <UserContext.Consumer>
     {({ currentUser, loggedIn }) => (
       <Switch>

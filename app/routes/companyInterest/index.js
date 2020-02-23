@@ -8,9 +8,8 @@ import CompanyInterestListRoute from './CompanyInterestListRoute';
 import CompanySemesterGUIRoute from './CompanySemesterGUIRoute';
 import CompanyInterestEditRoute from './CompanyInterestEditRoute';
 import PageNotFound from 'app/routes/pageNotFound';
-import MatchType from 'app/models';
 
-const companyInterestRoute = ({ match }: { match: MatchType }) => (
+const companyInterestRoute = ({ match }: { match: { path: string } }) => (
   <UserContext.Consumer>
     {({ currentUser, loggedIn }) => (
       <Switch>
@@ -44,7 +43,7 @@ const companyInterestRoute = ({ match }: { match: MatchType }) => (
   </UserContext.Consumer>
 );
 
-const companyInterestInfoRoute = ({ match }: { match: MatchType }) => (
+const companyInterestInfoRoute = ({ match }: { match: { path: string } }) => (
   <UserContext.Consumer>
     {({ currentUser, loggedIn }) => (
       <RouteWrapper

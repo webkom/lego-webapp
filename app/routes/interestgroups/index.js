@@ -8,9 +8,8 @@ import InterestGroupCreateRoute from './InterestGroupCreateRoute';
 import InterestGroupDetailRoute from './InterestGroupDetailRoute';
 import InterestGroupEditRoute from './InterestGroupEditRoute';
 import PageNotFound from '../pageNotFound';
-import MatchType from 'app/models';
 
-const interestGroupRoute = ({ match }: { match: MatchType }) => (
+const interestGroupRoute = ({ match }: { match: { path: string } }) => (
   <UserContext.Consumer>
     {({ currentUser, loggedIn }) => (
       <Switch>

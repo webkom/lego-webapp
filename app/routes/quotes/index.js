@@ -7,9 +7,8 @@ import QuotesRoute from './QuotesRoute';
 import QuoteDetailRoute from './QuoteDetailRoute';
 import QuoteEditorRoute from './QuoteEditorRoute';
 import PageNotFound from '../pageNotFound';
-import MatchType from 'app/models';
 
-const quotesRoute = ({ match }: { match: MatchType }) => (
+const quotesRoute = ({ match }: { match: { path: string } }) => (
   <UserContext.Consumer>
     {({ currentUser, loggedIn }) => (
       <Switch>

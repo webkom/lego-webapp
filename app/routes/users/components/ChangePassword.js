@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Field } from 'redux-form';
-import type { FieldProps } from 'redux-form';
+import type { FormProps } from 'redux-form';
 import Button from 'app/components/Button';
 import { TextInput, Form, legoForm } from 'app/components/Form';
 import {
@@ -12,7 +12,7 @@ import {
   sameAs
 } from 'app/utils/validation';
 
-type Props = FieldProps & {
+type Props = FormProps & {
   push: string => void,
   changePassword: Object => Promise<void>
 };

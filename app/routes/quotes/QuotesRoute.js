@@ -53,18 +53,22 @@ const mapDispatchToProps = {
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  prepare((props, dispatch) => {
-    const query = qs.parse(props.location.search, { ignoreQueryPrefix: true });
+  prepare(
+    (props, dispatch) => {
+      const query = qs.parse(props.location.search, {
+        ignoreQueryPrefix: true
+      });
 
-    if (query.filter === 'unapproved') {
-      return dispatch(
-        fetchAllUnapproved({ loadNextPage: false }),
-        fetchEmojis()
-      );
-    }
-    return dispatch(fetchAllApproved({ loadNextPage: false }), fetchEmojis());
-  }),
+      if (query.filter === 'unapproved') {
+        return dispatch(
+          fetchAllUnapproved({ loadNextPage: false }),
+          fetchEmojis()
+        );
+      }
+      return dispatch(fetchAllApproved({ loadNextPage: false }), fetchEmojis());
+    },
     ['location']
+  ),
   connect(
     mapStateToProps,
     mapDispatchToProps

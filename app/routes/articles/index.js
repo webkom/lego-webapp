@@ -8,9 +8,8 @@ import ArticleCreateRoute from './ArticleCreateRoute';
 import ArticleDetailRoute from './ArticleDetailRoute';
 import ArticleEditRoute from './ArticleEditRoute';
 import PageNotFound from '../pageNotFound';
-import MatchType from 'app/models';
 
-const articleRoute = ({ match }: { match: MatchType }) => (
+const articleRoute = ({ match }: { match: { path: string } }) => (
   <UserContext.Consumer>
     {({ currentUser, loggedIn }) => (
       <Switch>

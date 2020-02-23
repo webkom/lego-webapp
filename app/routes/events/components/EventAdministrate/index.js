@@ -9,7 +9,7 @@ import { LoginPage } from 'app/components/LoginForm';
 import type { EventEntity } from 'app/reducers/events';
 
 type Props = {
-  children: Element<*>,
+  children: Array<Element<*>>,
   currentUser: Object,
   isMe: boolean,
   event: ?EventEntity,

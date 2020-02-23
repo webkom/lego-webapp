@@ -10,9 +10,9 @@ import EditCompanyRoute from './EditCompanyRoute';
 import AddSemesterRoute from './AddSemesterRoute';
 import AddCompanyContactRoute from './AddCompanyContactRoute';
 import EditCompanyContactRoute from './EditCompanyContactRoute';
-import MatchType from 'app/models';
+import PageNotFound from '../pageNotFound';
 
-const bdbRoute = ({ match }: { match: MatchType }) => (
+const bdbRoute = ({ match }: { match: { path: string } }) => (
   <UserContext.Consumer>
     {({ currentUser, loggedIn }) => (
       <Switch>
@@ -58,6 +58,7 @@ const bdbRoute = ({ match }: { match: MatchType }) => (
           passedProps={{ currentUser, loggedIn }}
           Component={EditCompanyContactRoute}
         />
+        <Route component={PageNotFound} />
       </Switch>
     )}
   </UserContext.Consumer>
