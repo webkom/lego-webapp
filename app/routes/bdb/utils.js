@@ -7,6 +7,7 @@ import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import type { Semester } from 'app/models';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 import type { CompanySemesterContactedStatus } from 'app/models';
+import { sortBy } from 'lodash';
 
 export const statusStrings = {
   company_presentation: 'Bedpres',
@@ -40,32 +41,20 @@ export const selectColorCode = (
   return statusToClass[status];
 };
 
-export const sortStatusesByProminence = (
-  a: CompanySemesterContactedStatus,
-  b: CompanySemesterContactedStatus
-) => {
-  const priority = {
-    bedex: 0,
-    company_presentation: 1,
-    course: 2,
-    lunch_presentation: 3,
-    interested: 4,
-    not_interested: 5,
-    contacted: 6,
-    not_contacted: 7
-  };
-  console.log(
-    'asd',
-    priority[a] === undefined ||
-      priority[b === undefined && 'asdasdasdasdasdasdasasd']
-  );
-  return priority[a] - priority[b];
+const priority = {
+  bedex: 0,
+  company_presentation: 1,
+  course: 2,
+  lunch_presentation: 3,
+  interested: 4,
+  not_interested: 5,
+  contacted: 6,
+  not_contacted: 7
 };
-
 export const selectMostProminentStatus = (
   statuses: Array<CompanySemesterContactedStatus> = []
 ) => {
-  return statuses.sort(sortStatusesByProminence)[0];
+  return sortBy(statuses, status => priority[status])[0];
 };
 
 export const semesterNameOf = (index: number) => {
@@ -137,36 +126,33 @@ export const getContactedStatuses = (
   contactedStatuses: Array<CompanySemesterContactedStatus>,
   statusString: CompanySemesterContactedStatus
 ) => {
-  const statusIsAlreadySelected =
-    contactedStatuses.indexOf(statusString) !== -1;
+  const contacted = contactedStatuses.slice();
+  const statusIsAlreadySelected = contacted.indexOf(statusString) !== -1;
 
   if (statusIsAlreadySelected) {
-    contactedStatuses.splice(contactedStatuses.indexOf(statusString), 1);
+    contacted.splice(contacted.indexOf(statusString), 1);
   } else {
-    contactedStatuses.push(statusString);
+    contacted.push(statusString);
   }
 
   // Remove 'not contacted' if anything else is selected
-  if (
-    contactedStatuses.length > 1 &&
-    contactedStatuses.indexOf('not_contacted') !== -1
-  ) {
-    contactedStatuses.splice(contactedStatuses.indexOf('not_contacted'), 1);
+  if (contacted.length > 1 && contacted.indexOf('not_contacted') !== -1) {
+    contacted.splice(contacted.indexOf('not_contacted'), 1);
   }
 
   // Remove 'contacted', 'not_interested and 'interested'
   // as a statuses if any the other statuses are selected
   ['contacted', 'not_interested', 'interested'].map(status => {
     if (
-      contactedStatuses.length > 1 &&
-      contactedStatuses.indexOf(status) !== -1 &&
+      contacted.length > 1 &&
+      contacted.indexOf(status) !== -1 &&
       status !== statusString
     ) {
-      contactedStatuses.splice(contactedStatuses.indexOf(status), 1);
+      contacted.splice(contacted.indexOf(status), 1);
     }
   });
 
-  return contactedStatuses;
+  return contacted;
 };
 
 export const ListNavigation = ({ title }: { title: Node }) => (

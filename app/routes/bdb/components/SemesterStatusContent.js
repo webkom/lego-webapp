@@ -36,6 +36,7 @@ export default class SemesterStatusContent extends Component<Props, State> {
       <div style={{ width: '100%', ...style }}>
         {semesterStatus.contactedStatus.length > 0
           ? semesterStatus.contactedStatus
+              .slice()
               .sort(sortStatusesByProminence)
               .map(
                 (status, i) =>
