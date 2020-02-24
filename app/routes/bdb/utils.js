@@ -51,10 +51,15 @@ const priority = {
   contacted: 6,
   not_contacted: 7
 };
+
+export const sortStatusesByProminence = (
+  statuses: Array<CompanySemesterContactedStatus>
+) => sortBy(statuses, status => priority[status]);
+
 export const selectMostProminentStatus = (
   statuses: Array<CompanySemesterContactedStatus> = []
 ) => {
-  return sortBy(statuses, status => priority[status])[0];
+  return sortStatusesByProminence(statuses)[0];
 };
 
 export const semesterNameOf = (index: number) => {
@@ -126,7 +131,7 @@ export const getContactedStatuses = (
   contactedStatuses: Array<CompanySemesterContactedStatus>,
   statusString: CompanySemesterContactedStatus
 ) => {
-  const contacted = contactedStatuses.slice();
+  const contacted: Array<CompanySemesterContactedStatus> = contactedStatuses.slice();
   const statusIsAlreadySelected = contacted.indexOf(statusString) !== -1;
 
   if (statusIsAlreadySelected) {

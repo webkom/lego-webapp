@@ -35,21 +35,18 @@ export default class SemesterStatusContent extends Component<Props, State> {
     const statusesToRender = (
       <div style={{ width: '100%', ...style }}>
         {semesterStatus.contactedStatus.length > 0
-          ? semesterStatus.contactedStatus
-              .slice()
-              .sort(sortStatusesByProminence)
-              .map(
-                (status, i) =>
-                  getStatusString(status) +
-                  (i !== semesterStatus.contactedStatus.length - 1 ? ', ' : '')
-              )
+          ? sortStatusesByProminence(semesterStatus.contactedStatus).map(
+              (status, i) =>
+                getStatusString(status) +
+                (i !== semesterStatus.contactedStatus.length - 1 ? ', ' : '')
+            )
           : getStatusString('not_contacted')}
       </div>
     );
 
-    const statusCodes = Object.keys(statusStrings)
-      .sort(sortStatusesByProminence)
-      .filter(code => code !== 'not_contacted');
+    const statusCodes = sortStatusesByProminence(
+      Object.keys(statusStrings)
+    ).filter(code => code !== 'not_contacted');
 
     const dropDownItems = (
       <Dropdown.List>

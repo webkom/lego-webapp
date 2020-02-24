@@ -16,10 +16,13 @@ type State = {
   result: Array</*Todo: AutocompleteResult */ Object>
 };
 
-function withAutocomplete<Props: {}>(
+function withAutocomplete<Props>({
+  WrappedComponent,
+  retainFailedQuery = false
+}: {
   WrappedComponent: ComponentType<Props>,
-  retainFailedQuery: boolean = false
-) {
+  retainFailedQuery?: boolean
+}) {
   const displayName =
     WrappedComponent.displayName || WrappedComponent.name || 'Unknown';
 

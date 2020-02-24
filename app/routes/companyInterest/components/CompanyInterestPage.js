@@ -282,7 +282,10 @@ const CompanyInterestPage = (props: Props) => {
           placeholder={labels.company.placeholder[language]}
           filter={['companies.company']}
           fieldClassName={styles.metaField}
-          component={withAutocomplete(SelectInput.Field, true)}
+          component={withAutocomplete({
+            WrappedComponent: SelectInput.Field,
+            retainFailedQuery: true
+          })}
           required
         />
         <Field

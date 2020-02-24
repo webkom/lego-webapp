@@ -100,7 +100,6 @@ class CompanyInterestList extends Component<Props, State> {
         title: 'Bedriftsnavn',
         dataIndex: 'companyName',
         render: (companyName: string, companyInterest: Object) => {
-          console.log('rendering', companyInterest.company, companyName);
           return (
             <Link to={`/companyInterest/${companyInterest.id}/edit`}>
               {companyInterest.company
