@@ -111,14 +111,8 @@ export default class ImageUpload extends Component<Props, State> {
   onSubmit = () => {
     if (this.props.crop && this.state.file) {
       const { name } = this.state.file;
-
-      // Some files and imgaes will parse Æ,Å,Ø as ["a", "̊", "a", "̊"]
-      // We do not accept this, so the following regex will replace everything
-      // that is not a normal char, . or -, and replace it with nothing
-      const parsed = name.replace(/[^a-zA-Z0-9/-\w.æøåÆØÅ]+/g, '');
-
       this.crop.cropper.getCroppedCanvas().toBlob(image => {
-        image.name = parsed;
+        image.name = name;
         this.props.onSubmit(image);
         this.setState(state => ({
           img: window.URL.createObjectURL(image)
