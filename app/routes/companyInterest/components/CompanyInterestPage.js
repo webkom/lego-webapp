@@ -7,6 +7,7 @@ import {
   TextInput,
   Button,
   CheckBox,
+  SelectInput,
   Form
 } from 'app/components/Form';
 import { Image } from 'app/components/Image';
@@ -23,6 +24,7 @@ import { FlexRow } from '../../../components/FlexBox';
 import { Link } from 'react-router';
 import norwegian from 'app/assets/norway.svg';
 import english from 'app/assets/great_britain.svg';
+import withAutocomplete from 'app/components/Search/withAutocomplete';
 
 export const EVENT_TYPES = {
   company_presentation: {
@@ -165,10 +167,16 @@ const CompanyInterestPage = (props: Props) => {
   }
 
   const onSubmit = data => {
+    const { company } = data;
+    const companyId = company['value'] ? Number(company['value']) : null;
+    const companyName = companyId === null ? company['label'] : '';
+
     const newData = {
-      companyName: data.companyName,
+      companyName: companyName,
+      company: companyId,
       contactPerson: data.contactPerson,
       mail: data.mail,
+      phone: data.phone,
       semesters: data.semesters
         .filter(semester => semester.checked)
         .map(semester => semester.id),
@@ -202,7 +210,7 @@ const CompanyInterestPage = (props: Props) => {
       norwegian: 'Meld interesse',
       english: 'Contact us'
     },
-    companyName: {
+    company: {
       header: {
         norwegian: 'Navn på bedrift',
         english: 'Company'
@@ -225,6 +233,10 @@ const CompanyInterestPage = (props: Props) => {
     mail: {
       norwegian: 'Mail',
       english: 'E-Mail'
+    },
+    phone: {
+      norwegian: 'Telefonnummer',
+      english: 'Phone number'
     },
     semester: {
       norwegian: 'Semester',
@@ -263,11 +275,14 @@ const CompanyInterestPage = (props: Props) => {
             <LanguageFlag language={language} />
           </Link>
         </FlexRow>
+
         <Field
-          label={labels.companyName.header[language]}
-          placeholder={labels.companyName.placeholder[language]}
-          name="companyName"
-          component={TextInput.Field}
+          name="company"
+          label={labels.company.header[language]}
+          placeholder={labels.company.placeholder[language]}
+          filter={['companies.company']}
+          fieldClassName={styles.metaField}
+          component={withAutocomplete(SelectInput.Field, true)}
           required
         />
         <Field
@@ -281,6 +296,13 @@ const CompanyInterestPage = (props: Props) => {
           label={labels.mail[language]}
           placeholder="example@gmail.com"
           name="mail"
+          component={TextInput.Field}
+          required
+        />
+        <Field
+          label={labels.phone[language]}
+          placeholder="+47 909 09 090"
+          name="phone"
           component={TextInput.Field}
           required
         />
@@ -354,9 +376,10 @@ const CompanyInterestPage = (props: Props) => {
 };
 
 const validate = createValidator({
-  companyName: [required()],
+  company: [required()],
   contactPerson: [required()],
   mail: [required(), isEmail()],
+  phone: [required()],
   comment: [required()]
 });
 

@@ -54,6 +54,11 @@ export const sortStatusesByProminence = (
     contacted: 6,
     not_contacted: 7
   };
+  console.log(
+    'asd',
+    priority[a] === undefined ||
+      priority[b === undefined && 'asdasdasdasdasdasdasasd']
+  );
   return priority[a] - priority[b];
 };
 

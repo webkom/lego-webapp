@@ -63,6 +63,7 @@ export default class OptionsBox extends Component<Props, State> {
   };
 
   render() {
+    console.log('state', this.state);
     return (
       <div className={styles.optionsBox}>
         <span
