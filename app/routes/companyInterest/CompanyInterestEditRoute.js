@@ -28,6 +28,7 @@ const mapStateToProps = (state, props) => {
   const companyInterest = selectCompanyInterestById(state, {
     companyInterestId
   });
+
   const semesters = selectCompanySemesters(state);
   if (!companyInterest || !semesters)
     return {

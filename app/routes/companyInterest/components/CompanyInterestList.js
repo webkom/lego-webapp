@@ -99,15 +99,13 @@ class CompanyInterestList extends Component<Props, State> {
       {
         title: 'Bedriftsnavn',
         dataIndex: 'companyName',
-        render: (companyName: string, companyInterest: Object) => {
-          return (
-            <Link to={`/companyInterest/${companyInterest.id}/edit`}>
-              {companyInterest.company
-                ? companyInterest.company.name
-                : companyName}
-            </Link>
-          );
-        }
+        render: (companyName: string, companyInterest: Object) => (
+          <Link to={`/companyInterest/${companyInterest.id}/edit`}>
+            {companyInterest.company
+              ? companyInterest.company.name
+              : companyName}
+          </Link>
+        )
       },
       {
         title: 'Kontaktperson',
