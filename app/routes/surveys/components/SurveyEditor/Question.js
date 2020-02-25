@@ -24,8 +24,8 @@ type Props = {
   questionData: Object,
   question: string,
   index: number,
-  option: string,
-  value: string
+  option?: string,
+  value?: string
 };
 
 const questionTypeToIcon = {
@@ -78,7 +78,6 @@ const Question = ({ index, question, questionData, deleteQuestion }: Props) => {
             valueComponent={props =>
               QuestionTypeValue(
                 props,
-
                 questionTypeToIcon[props.value && props.value.value]
               )
             }
