@@ -10,6 +10,7 @@ import Pill from 'app/components/Pill';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import Feed from 'app/components/Feed';
 import Penalties from './Penalties';
+import PhotoConsent from './PhotoConsent';
 import GroupChange from './GroupChange.js';
 import styles from './UserProfile.css';
 import { Flex } from 'app/components/Layout';
@@ -375,6 +376,13 @@ export default class UserProfile extends Component<Props, EventsProps> {
                 </Card>
               </div>
             )}
+
+            <div>
+              <h3>Bildesamtykke</h3>
+              <Card>
+                <PhotoConsent />
+              </Card>
+            </div>
 
             {canChangeGrade && (
               <div>
