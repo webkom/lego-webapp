@@ -52,10 +52,12 @@ function withAutocomplete<Props>({
       this.props
         .autocomplete(query, filter)
         .then(result => {
-          const queryObj = retainFailedQuery
-            ? [{ title: query, label: query }]
-            : [];
-          const finalResult = result.length > 0 ? result : queryObj;
+          // Set the result to the response result
+          let finalResult = result;
+          // Retain a query with no match
+          if (retainFailedQuery && result.length == 0) {
+            finalResult = [{ title: query, label: query }];
+          }
 
           if (this._isMounted) {
             this.setState({
