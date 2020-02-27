@@ -35,11 +35,9 @@ export default class SemesterStatusContent extends Component<Props, State> {
     const statusesToRender = (
       <div style={{ width: '100%', ...style }}>
         {semesterStatus.contactedStatus.length > 0
-          ? sortStatusesByProminence(semesterStatus.contactedStatus).map(
-              (status, i) =>
-                getStatusString(status) +
-                (i !== semesterStatus.contactedStatus.length - 1 ? ', ' : '')
-            )
+          ? sortStatusesByProminence(semesterStatus.contactedStatus)
+              .map(status => getStatusString(status))
+              .join(', ')
           : getStatusString('not_contacted')}
       </div>
     );
