@@ -403,7 +403,9 @@ export default class UserProfile extends Component<Props, EventsProps> {
               </div>
             )}
 
-            {/* canChangeGrade is a good heuristic if we should show permissions. All users can see their own permission via the API, but only admins can show permissions for other users.*/}
+            {/* canChangeGrade is a good heuristic if we should show permissions.
+                All users can see their own permission via the API,
+                but only admins can show permissions for other users.*/}
             {canChangeGrade && (
               <div>
                 <h3>Rettigheter</h3>
@@ -428,12 +430,12 @@ export default class UserProfile extends Component<Props, EventsProps> {
                               }/permissions/`}
                             >
                               {' '}
-                              {abakusGroup.name}{' '}
+                              {abakusGroup.name}
                             </Link>
                           </h4>
                           <ul>
                             {permissions.map(permission => (
-                              <li key={permission + abakusGroup}>
+                              <li key={permission + abakusGroup.id}>
                                 {permission}
                               </li>
                             ))}

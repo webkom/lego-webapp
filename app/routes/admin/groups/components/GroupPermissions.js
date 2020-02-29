@@ -43,7 +43,7 @@ const PermissionList = ({
               Rettigheter fra
               <Link to={`/admin/groups/${abakusGroup.id}/permissions/`}>
                 {' '}
-                {abakusGroup.name}{' '}
+                {abakusGroup.name}
               </Link>
             </h4>
             <ul>
