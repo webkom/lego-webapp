@@ -15,15 +15,21 @@ export default createEntityReducer({
 });
 
 export const selectMembershipsForGroup = createSelector(
+  (_, { descendants = false }) => descendants,
+  (_, { groupId }) => groupId,
   selectGroup,
   state => state.memberships.byId,
   state => state.users.byId,
-  (group, membershipsById, users) => {
+  state => state.users.byId,
+  (descendants, groupId, group, membershipsById, users) => {
     if (!group) return [];
     const memberships = group.memberships;
     if (!memberships) return [];
     return memberships
       .map(m => membershipsById[m])
+      .filter(m =>
+        descendants ? true : Number(m.abakusGroup) === Number(groupId)
+      )
       .map(m => {
         const userId = m.user;
         const user = users[userId];

@@ -23,7 +23,9 @@ type Props = {
   hasMore: boolean,
   fetch: ({ groupId: string, next: true }) => Promise<*>,
   fetching: boolean,
+  groupsById: { [string]: { name: string } },
   memberships: Array<Object>,
+  showDescendants: boolean,
   addMember: AddMemberArgs => Promise<*>,
   removeMember: Object => Promise<*>
 };
@@ -35,18 +37,21 @@ export const GroupMembers = ({
   memberships,
   hasMore,
   fetching,
-
+  showDescendants,
+  groupsById,
   fetch
 }: Props) => (
   <div className={styles.groupMembers}>
-    <AddGroupMember addMember={addMember} group={group} />
+    {showDescendants || <AddGroupMember addMember={addMember} group={group} />}
     <LoadingIndicator loading={!memberships}>
       <h3 className={styles.subTitle}>Brukere</h3>
       <GroupMembersList
         group={group}
         hasMore={hasMore}
+        groupsById={groupsById}
         fetch={fetch}
         fetching={fetching}
+        showDescendants={showDescendants}
         removeMember={removeMember}
         memberships={memberships}
       />
@@ -54,20 +59,25 @@ export const GroupMembers = ({
   </div>
 );
 
-function loadData({ params }, dispatch) {
-  return dispatch(fetchMemberships(params.groupId));
+function loadData({ params, location }, dispatch) {
+  const showDescendants = location.search.includes('descendants=true');
+  return dispatch(fetchMemberships(params.groupId, showDescendants));
 }
 
 function mapStateToProps(state, props) {
+  const showDescendants = location.search.includes('descendants=true');
   const memberships = selectMembershipsForGroup(state, {
-    groupId: props.params.groupId
+    groupId: props.params.groupId,
+    descendants: showDescendants
   });
 
   const groupId = props.group && props.group.id;
 
   return {
     memberships,
+    groupsById: state.groups.byId,
     fetching: state.memberships.fetching,
+    showDescendants,
     hasMore: get(state, ['memberships', 'pagination', groupId, 'hasMore'])
   };
 }
@@ -83,5 +93,5 @@ export default compose(
     mapStateToProps,
     mapDispatchToProps
   ),
-  prepare(loadData, ['params.groupId'])
+  prepare(loadData, ['params.groupId', 'location'])
 )(GroupMembers);

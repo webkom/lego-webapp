@@ -386,7 +386,7 @@ export default class UserProfile extends Component<Props, EventsProps> {
               </div>
             )}
 
-            {permissionsPerGroup && (
+            {!!permissionsPerGroup.length && (
               <div>
                 <h3> Grupper </h3>
                 <Card className={styles.infoCard}>
