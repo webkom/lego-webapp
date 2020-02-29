@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import Helmet from 'react-helmet';
-import { sumBy } from 'lodash';
+import { sumBy, sortBy, uniq, groupBy, orderBy } from 'lodash';
 import { ProfilePicture, CircularPicture } from 'app/components/Image';
 import Card from 'app/components/Card';
 import Pill from 'app/components/Pill';
@@ -14,7 +14,6 @@ import GroupChange from './GroupChange.js';
 import styles from './UserProfile.css';
 import { Flex } from 'app/components/Layout';
 import Tooltip from 'app/components/Tooltip';
-import { groupBy, orderBy } from 'lodash';
 import { resolveGroupLink } from 'app/reducers/groups';
 import type { Group, AddPenalty, Event, ID } from 'app/models';
 import cx from 'classnames';
@@ -209,7 +208,8 @@ export default class UserProfile extends Component<Props, EventsProps> {
       abakusGroups = [],
       firstName,
       lastName,
-      memberships = []
+      memberships = [],
+      nestedPermissions = []
     } = user;
 
     const { membershipsAsBadges = [], membershipsAsPills = [] } = groupBy(
@@ -309,6 +309,51 @@ export default class UserProfile extends Component<Props, EventsProps> {
                     changeGrade={changeGrade}
                     username={user.username}
                   />
+                </Card>
+              </div>
+            )}
+            {/* canChangeGrade is a good heuristic if we should show permissions. All users can see their own permission via the API, but only admins can show permissions for other users.*/}
+            {canChangeGrade && (
+              <div>
+                <h3>Rettigheter</h3>
+                <Card className={styles.infoCard}>
+                  {nestedPermissions.map(
+                    ({ abakusGroup, permissions }) =>
+                      !!permissions.length && (
+                        <>
+                          <h4>
+                            Fra gruppe
+                            <Link
+                              to={`/admin/groups/${abakusGroup}/permissions/`}
+                            >
+                              {' '}
+                              {abakusGroup}{' '}
+                            </Link>
+                          </h4>
+                          <ul>
+                            {permissions.map(permission => (
+                              <li key={permission + abakusGroup}>
+                                {permission}
+                              </li>
+                            ))}
+                          </ul>
+                        </>
+                      )
+                  )}
+                  <h4>Sum alle</h4>
+                  <ul>
+                    {uniq(
+                      sortBy(
+                        // $FlowFixMe flatMap is polyfilled
+                        nestedPermissions.flatMap(
+                          ({ permissions }) => permissions
+                        ),
+                        (permission: string) => permission.split('/').length
+                      )
+                    ).map(permission => (
+                      <li key={permission}>{permission}</li>
+                    ))}
+                  </ul>
                 </Card>
               </div>
             )}
