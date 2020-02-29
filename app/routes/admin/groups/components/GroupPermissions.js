@@ -13,7 +13,10 @@ import loadingIndicator from 'app/utils/loadingIndicator';
 
 type PermissionListProps = {
   permissions: Array<string>,
-  nestedPermissions: Array<{ abakusGroup: ID, permissions: Array<string> }>,
+  nestedPermissions: Array<{
+    abakusGroup: { id: ID, name: string },
+    permissions: Array<string>
+  }>,
   group: Object,
   editGroup: any => Promise<*>
 };
@@ -37,15 +40,15 @@ const PermissionList = ({
         !!permissions.length && (
           <>
             <h4>
-              Fra gruppe
-              <Link to={`/admin/groups/${abakusGroup}/permissions/`}>
+              Rettigheter fra
+              <Link to={`/admin/groups/${abakusGroup.id}/permissions/`}>
                 {' '}
-                {abakusGroup}{' '}
+                {abakusGroup.name}{' '}
               </Link>
             </h4>
             <ul>
               {permissions.map(permission => (
-                <li key={permission + abakusGroup}>{permission}</li>
+                <li key={permission + abakusGroup.id}>{permission}</li>
               ))}
             </ul>
           </>

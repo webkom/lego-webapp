@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import Helmet from 'react-helmet';
-import { sumBy, sortBy, uniq, groupBy, orderBy } from 'lodash';
+import { sumBy, sortBy, uniq, uniqBy, groupBy, orderBy } from 'lodash';
 import { ProfilePicture, CircularPicture } from 'app/components/Image';
 import Card from 'app/components/Card';
 import Pill from 'app/components/Pill';
@@ -317,17 +317,27 @@ export default class UserProfile extends Component<Props, EventsProps> {
               <div>
                 <h3>Rettigheter</h3>
                 <Card className={styles.infoCard}>
-                  {nestedPermissions.map(
+                  {uniqBy(
+                    nestedPermissions.concat(
+                      // $FlowFixMe flatMap is polyfilled
+                      nestedPermissions.flatMap(
+                        ({ parentGroups }) => parentGroups
+                      )
+                    ),
+                    a => a.abakusGroup.id
+                  ).map(
                     ({ abakusGroup, permissions }) =>
                       !!permissions.length && (
                         <>
                           <h4>
-                            Fra gruppe
+                            Rettigheter fra
                             <Link
-                              to={`/admin/groups/${abakusGroup}/permissions/`}
+                              to={`/admin/groups/${
+                                abakusGroup.id
+                              }/permissions/`}
                             >
                               {' '}
-                              {abakusGroup}{' '}
+                              {abakusGroup.name}{' '}
                             </Link>
                           </h4>
                           <ul>
@@ -344,10 +354,15 @@ export default class UserProfile extends Component<Props, EventsProps> {
                   <ul>
                     {uniq(
                       sortBy(
-                        // $FlowFixMe flatMap is polyfilled
-                        nestedPermissions.flatMap(
-                          ({ permissions }) => permissions
-                        ),
+                        nestedPermissions
+                          .concat(
+                            // $FlowFixMe flatMap is polyfilled
+                            nestedPermissions.flatMap(
+                              ({ parentGroups }) => parentGroups
+                            )
+                          )
+                          // $FlowFixMe flatMap is polyfilled
+                          .flatMap(({ permissions }) => permissions),
                         (permission: string) => permission.split('/').length
                       )
                     ).map(permission => (
