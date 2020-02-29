@@ -4,7 +4,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import Helmet from 'react-helmet';
 import { sumBy, sortBy, uniq, uniqBy, groupBy, orderBy } from 'lodash';
-import TreeView from 'react-treeview';
 import { ProfilePicture, CircularPicture } from 'app/components/Image';
 import Card from 'app/components/Card';
 import Pill from 'app/components/Pill';
@@ -210,7 +209,7 @@ export default class UserProfile extends Component<Props, EventsProps> {
       firstName,
       lastName,
       memberships = [],
-      nestedPermissions = []
+      permissionsPerGroup = []
     } = user;
 
     const { membershipsAsBadges = [], membershipsAsPills = [] } = groupBy(
@@ -239,9 +238,9 @@ export default class UserProfile extends Component<Props, EventsProps> {
       memberships => !memberships.some(membership => membership.isActive)
     );
     const tree = {};
-    for (let group of nestedPermissions) {
-      for (let index in group.parentGroups) {
-        const parent = group.parentGroups[index];
+    for (let group of permissionsPerGroup) {
+      for (let index in group.parentPermissions) {
+        const parent = group.parentPermissions[index];
         if (Number(index) === 0) {
           tree[parent.abakusGroup.id] = {
             ...parent.abakusGroup,
@@ -252,23 +251,24 @@ export default class UserProfile extends Component<Props, EventsProps> {
           tree[parent.abakusGroup.id] = {
             ...parent.abakusGroup,
             children: [],
-            parent: group.parentGroups[Number(index) - 1].abakusGroup.id
+            parent: group.parentPermissions[Number(index) - 1].abakusGroup.id
           };
         }
       }
     }
-    for (let group of nestedPermissions) {
+    for (let group of permissionsPerGroup) {
       tree[group.abakusGroup.id] = {
         ...group.abakusGroup,
         children: [],
         isMember: true,
-        parent: group.parentGroups.length
-          ? group.parentGroups[group.parentGroups.length - 1].abakusGroup.id
+        parent: group.parentPermissions.length
+          ? group.parentPermissions[group.parentPermissions.length - 1]
+              .abakusGroup.id
           : null
       };
     }
 
-    const sum = nestedPermissions.reduce((roots, val) => {
+    const sum = permissionsPerGroup.reduce((roots, val) => {
       const abakusGroup = val.abakusGroup;
       const id = abakusGroup.id;
       const node = tree[id];
@@ -278,7 +278,7 @@ export default class UserProfile extends Component<Props, EventsProps> {
         const parent = tree[node.parent];
         parent.children = uniqBy(parent.children.concat(node), a => a.id);
       }
-      for (let permGroup of val.parentGroups) {
+      for (let permGroup of val.parentPermissions) {
         const abakusGroup = permGroup.abakusGroup;
         const id = abakusGroup.id;
         const node = tree[id];
@@ -386,7 +386,7 @@ export default class UserProfile extends Component<Props, EventsProps> {
               </div>
             )}
 
-            {nestedPermissions && (
+            {permissionsPerGroup && (
               <div>
                 <h3> Grupper </h3>
                 <Card className={styles.infoCard}>
@@ -411,10 +411,10 @@ export default class UserProfile extends Component<Props, EventsProps> {
                 <h3>Rettigheter</h3>
                 <Card className={styles.infoCard}>
                   {uniqBy(
-                    nestedPermissions.concat(
+                    permissionsPerGroup.concat(
                       // $FlowFixMe flatMap is polyfilled
-                      nestedPermissions.flatMap(
-                        ({ parentGroups }) => parentGroups
+                      permissionsPerGroup.flatMap(
+                        ({ parentPermissions }) => parentPermissions
                       )
                     ),
                     a => a.abakusGroup.id
@@ -447,11 +447,11 @@ export default class UserProfile extends Component<Props, EventsProps> {
                   <ul>
                     {uniq(
                       sortBy(
-                        nestedPermissions
+                        permissionsPerGroup
                           .concat(
                             // $FlowFixMe flatMap is polyfilled
-                            nestedPermissions.flatMap(
-                              ({ parentGroups }) => parentGroups
+                            permissionsPerGroup.flatMap(
+                              ({ parentPermissions }) => parentPermissions
                             )
                           )
                           // $FlowFixMe flatMap is polyfilled

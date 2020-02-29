@@ -13,7 +13,7 @@ import loadingIndicator from 'app/utils/loadingIndicator';
 
 type PermissionListProps = {
   permissions: Array<string>,
-  nestedPermissions: Array<{
+  parentPermissions: Array<{
     abakusGroup: { id: ID, name: string },
     permissions: Array<string>
   }>,
@@ -31,10 +31,10 @@ const removePermission = (permission, group, editGroup) =>
 const PermissionList = ({
   permissions,
   group,
-  nestedPermissions,
+  parentPermissions,
   editGroup
 }: PermissionListProps) => {
-  const nestedPermissionsList = nestedPermissions
+  const parentPermissionsList = parentPermissions
     .map(
       ({ abakusGroup, permissions }) =>
         !!permissions.length && (
@@ -59,7 +59,7 @@ const PermissionList = ({
     sortBy(
       permissions.concat(
         // $FlowFixMe
-        nestedPermissions.flatMap(({ permissions }) => permissions)
+        parentPermissions.flatMap(({ permissions }) => permissions)
       ),
       (permission: string) => permission.split('/').length
     )
@@ -86,8 +86,8 @@ const PermissionList = ({
         )}
       </ul>
       <h3>Implisitte rettigheter fra foreldregrupper</h3>
-      {nestedPermissionsList.length ? (
-        nestedPermissionsList
+      {parentPermissionsList.length ? (
+        parentPermissionsList
       ) : (
         <i> Ingen nåværenede rettigheter </i>
       )}
@@ -110,13 +110,13 @@ export const GroupPermissions = ({
   group,
   editGroup
 }: GroupPermissionsProps) => {
-  const { permissions, nestedPermissions } = group;
+  const { permissions, parentPermissions } = group;
   return (
     <div className={styles.groupMembers}>
       <PermissionList
         group={group}
         permissions={permissions}
-        nestedPermissions={nestedPermissions}
+        parentPermissions={parentPermissions}
         editGroup={editGroup}
       />
       <AddGroupPermission group={group} editGroup={editGroup} />
