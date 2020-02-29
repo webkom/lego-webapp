@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import Helmet from 'react-helmet';
 import { sumBy, sortBy, uniq, uniqBy, groupBy, orderBy } from 'lodash';
+import TreeView from 'react-treeview';
 import { ProfilePicture, CircularPicture } from 'app/components/Image';
 import Card from 'app/components/Card';
 import Pill from 'app/components/Pill';
@@ -237,6 +238,78 @@ export default class UserProfile extends Component<Props, EventsProps> {
       ),
       memberships => !memberships.some(membership => membership.isActive)
     );
+    const tree = {};
+    for (let group of nestedPermissions) {
+      for (let index in group.parentGroups) {
+        const parent = group.parentGroups[index];
+        if (Number(index) === 0) {
+          tree[parent.abakusGroup.id] = {
+            ...parent.abakusGroup,
+            children: [],
+            parent: null
+          };
+        } else {
+          tree[parent.abakusGroup.id] = {
+            ...parent.abakusGroup,
+            children: [],
+            parent: group.parentGroups[Number(index) - 1].abakusGroup.id
+          };
+        }
+      }
+    }
+    for (let group of nestedPermissions) {
+      tree[group.abakusGroup.id] = {
+        ...group.abakusGroup,
+        children: [],
+        isMember: true,
+        parent: group.parentGroups.length
+          ? group.parentGroups[group.parentGroups.length - 1].abakusGroup.id
+          : null
+      };
+    }
+
+    const sum = nestedPermissions.reduce((roots, val) => {
+      const abakusGroup = val.abakusGroup;
+      const id = abakusGroup.id;
+      const node = tree[id];
+      if (!node.parent) {
+        roots = uniqBy(roots.concat(node), a => a.id);
+      } else {
+        const parent = tree[node.parent];
+        parent.children = uniqBy(parent.children.concat(node), a => a.id);
+      }
+      for (let permGroup of val.parentGroups) {
+        const abakusGroup = permGroup.abakusGroup;
+        const id = abakusGroup.id;
+        const node = tree[id];
+        if (!node.parent) {
+          roots.push(node);
+          roots = uniqBy(roots.concat(node), a => a.id);
+        } else {
+          const parent = tree[node.parent];
+          parent.children = uniqBy(parent.children.concat(node), a => a.id);
+        }
+      }
+      return roots;
+    }, []);
+
+    const genTree = groups => {
+      return groups.map(group => {
+        if (group.children.length) {
+          return (
+            <>
+              {genTree([{ ...group, children: [] }])}
+              <div style={{ marginLeft: 10 }}>{genTree(group.children)}</div>
+            </>
+          );
+        }
+        return (
+          <div key={group.id}>
+            {group.isMember ? <b> {group.name}</b> : <i> {group.name}</i>}
+          </div>
+        );
+      });
+    };
 
     return (
       <div className={styles.root}>
@@ -312,6 +385,24 @@ export default class UserProfile extends Component<Props, EventsProps> {
                 </Card>
               </div>
             )}
+
+            {nestedPermissions && (
+              <div>
+                <h3> Grupper </h3>
+                <Card className={styles.infoCard}>
+                  {genTree(sum)}
+
+                  <div>
+                    <br />
+                    <i style={{ fontSize: 14 }}>
+                      Du er medlem av gruppene markert med fet tekst, og
+                      indirekte medlem av gruppene i kursiv.
+                    </i>
+                  </div>
+                </Card>
+              </div>
+            )}
+
             {/* canChangeGrade is a good heuristic if we should show permissions. All users can see their own permission via the API, but only admins can show permissions for other users.*/}
             {canChangeGrade && (
               <div>
