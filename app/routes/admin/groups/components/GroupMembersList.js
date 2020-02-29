@@ -69,7 +69,7 @@ const GroupMembersList = ({
               <Link
                 to={`/admin/groups/${abakusGroup}/members?descendants=false`}
               >
-                {groupsById[abakusGroup].name}
+                {groupsById[abakusGroup] && groupsById[abakusGroup].name}
               </Link>
             )
         }

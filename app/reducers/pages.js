@@ -142,14 +142,15 @@ export const selectCommitteeForPages = createSelector(
       descendants: true,
       groupId: Number(props.pageSlug)
     }),
-  (group, memberships) => {
+  (_, { pageSlug }) => pageSlug,
+  (group, memberships, groupId) => {
     const selectedPageInfo = group && {
       isComplete: !!(group && group.actionGrant),
       actionGrant: group && group.actionGrant,
       title: group && group.name,
       editUrl: `/admin/groups/${group.id}/settings`
     };
-    const membershipsByRole = groupMemberships(memberships);
+    const membershipsByRole = groupMemberships(memberships, groupId);
     return {
       selectedPage: group && { ...group, membershipsByRole },
       selectedPageInfo
