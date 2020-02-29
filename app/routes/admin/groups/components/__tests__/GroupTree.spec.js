@@ -60,17 +60,20 @@ describe('<GroupTree />', () => {
 
   it('should preserve the selected tab', () => {
     const wrapper = shallow(
-      <GroupTree groups={groups} pathname="/admin/groups/1/members" />
+      <GroupTree
+        groups={groups}
+        pathname="/admin/groups/1/members?descendants=false"
+      />
     );
     expect(
       wrapper.containsMatchingElement(
-        <Link to="/admin/groups/2/members">Dog</Link>
+        <Link to="/admin/groups/2/members?descendants=false">Dog</Link>
       )
     ).toEqual(true);
 
     expect(
       wrapper.containsMatchingElement(
-        <Link to="/admin/groups/3/members">Bird</Link>
+        <Link to="/admin/groups/3/members?descendants=false">Bird</Link>
       )
     ).toEqual(true);
   });

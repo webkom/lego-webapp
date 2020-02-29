@@ -70,7 +70,10 @@ const sections: {
     hierarchySectionSelector: selectGroupsForHierarchy,
     PageRenderer: GroupRenderer,
     fetchAll: () => fetchAllWithType('komite'),
-    fetchItemActions: [fetchGroup, fetchAllMemberships]
+    fetchItemActions: [
+      fetchGroup,
+      (groupId: number) => fetchAllMemberships(groupId, true)
+    ]
   },
   grupper: {
     title: 'Grupper',

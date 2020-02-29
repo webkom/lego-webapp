@@ -160,24 +160,35 @@ export function leaveGroup(membership: Object): Thunk<*> {
   };
 }
 
-export function fetchAllMemberships(groupId: number): Thunk<*> {
+export function fetchAllMemberships(
+  groupId: number,
+  descendants: boolean = false
+): Thunk<*> {
   return dispatch => {
-    return dispatch(fetchMembershipsPagination({ groupId, next: true })).then(
-      res => res.payload.next && dispatch(fetchAllMemberships(groupId))
+    return dispatch(
+      fetchMembershipsPagination({ descendants, groupId, next: true })
+    ).then(
+      res =>
+        res.payload.next && dispatch(fetchAllMemberships(groupId, descendants))
     );
   };
 }
 
-export function fetchMemberships(groupId: number): Thunk<*> {
-  return fetchMembershipsPagination({ groupId, next: true });
+export function fetchMemberships(
+  groupId: number,
+  descendants: boolean = false
+): Thunk<*> {
+  return fetchMembershipsPagination({ groupId, next: true, descendants });
 }
 
 export function fetchMembershipsPagination({
   groupId,
-  next
+  next,
+  descendants = false
 }: {
   groupId: number,
-  next: boolean
+  next: boolean,
+  descendants?: boolean
 }): Thunk<*> {
   return (dispatch, getState) => {
     return dispatch(
@@ -187,13 +198,16 @@ export function fetchMembershipsPagination({
         schema: [membershipSchema],
         useCache: false,
         query: next
-          ? get(getState(), [
-              'memberships',
-              'pagination',
-              groupId.toString(),
-              'next'
-            ])
-          : {},
+          ? {
+              ...get(getState(), [
+                'memberships',
+                'pagination',
+                groupId.toString(),
+                'next'
+              ]),
+              descendants
+            }
+          : { descendants },
         meta: {
           groupId: groupId,
           errorMessage: 'Henting av medlemmene for gruppen feilet',

@@ -12,7 +12,12 @@ const NavigationLinks = ({ groupId }: { groupId: string }) => {
   return (
     <div>
       <NavigationLink to={`${baseUrl}/settings`}>Rediger</NavigationLink>
-      <NavigationLink to={`${baseUrl}/members`}>Medlemmer</NavigationLink>
+      <NavigationLink to={`${baseUrl}/members?descendants=false`}>
+        Medlemmer
+      </NavigationLink>
+      <NavigationLink to={`${baseUrl}/members?descendants=true`}>
+        Implisitte medlemmer
+      </NavigationLink>
       <NavigationLink to={`${baseUrl}/permissions`}>Rettigheter</NavigationLink>
     </div>
   );
@@ -29,7 +34,7 @@ const GroupPageNavigation = ({ groupId }: { groupId: ?string }) => {
 type GroupPageProps = {
   children: Node,
   groups: Array<Object>,
-  location: { pathname: string },
+  location: { search: string, pathname: string },
   params: { groupId: string }
 };
 
@@ -39,7 +44,10 @@ const GroupPage = ({ groups, children, location, params }: GroupPageProps) => {
       <GroupPageNavigation groupId={params.groupId} />
       <div className={styles.groupPage}>
         <section className={styles.sidebar}>
-          <GroupTree groups={groups} pathname={location.pathname} />
+          <GroupTree
+            groups={groups}
+            pathname={location.pathname + location.search}
+          />
         </section>
 
         <section className={styles.main}>{children}</section>
