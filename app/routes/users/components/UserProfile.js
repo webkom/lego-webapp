@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import Helmet from 'react-helmet';
-import { sumBy, sortBy, uniq, uniqBy, groupBy, orderBy } from 'lodash';
+import { sumBy, sortBy, uniqBy, groupBy, orderBy } from 'lodash';
 import { ProfilePicture, CircularPicture } from 'app/components/Image';
 import Card from 'app/components/Card';
 import Pill from 'app/components/Pill';
@@ -445,22 +445,44 @@ export default class UserProfile extends Component<Props, EventsProps> {
                   )}
                   <h4>Sum alle</h4>
                   <ul>
-                    {uniq(
-                      sortBy(
-                        permissionsPerGroup
-                          .concat(
-                            // $FlowFixMe flatMap is polyfilled
-                            permissionsPerGroup.flatMap(
-                              ({ parentPermissions }) => parentPermissions
-                            )
-                          )
+                    {sortBy(
+                      permissionsPerGroup
+                        .concat(
                           // $FlowFixMe flatMap is polyfilled
-                          .flatMap(({ permissions }) => permissions),
-                        (permission: string) => permission.split('/').length
-                      )
-                    ).map(permission => (
-                      <li key={permission}>{permission}</li>
-                    ))}
+                          permissionsPerGroup.flatMap(
+                            ({ parentPermissions }) => parentPermissions
+                          )
+                        )
+                        // $FlowFixMe flatMap is polyfilled
+                        .flatMap(({ permissions }) => permissions),
+                      (permission: string) => permission.split('/').length
+                    )
+                      .reduce((acc: Array<string>, perm: string) => {
+                        // Reduce perms to only show broadest set of permissions
+                        // If a user has "/sudo/admin/events/" it means the user also has "/sudo/admin/events/create/" implicitly.
+                        // Therefore we will only show "/sudo/admin/events/"
+                        const splittedPerm = perm.split('/').filter(Boolean);
+                        // YES, this has a bad runtime complexity, but since n is so small it doesn't matter in practice
+                        const [broaderPermFound] = splittedPerm.reduce(
+                          (
+                            accumulator: [boolean, string],
+                            permPart: string
+                          ) => {
+                            const [broaderPermFound, summedPerm] = accumulator;
+                            const concatedString = `${summedPerm}${permPart}/`;
+                            return [
+                              broaderPermFound || acc.includes(concatedString),
+                              concatedString
+                            ];
+                          },
+                          [false, '/']
+                        );
+                        if (broaderPermFound) return acc;
+                        return [...acc, perm];
+                      }, [])
+                      .map(permission => (
+                        <li key={permission}>{permission}</li>
+                      ))}
                   </ul>
                 </Card>
               </div>

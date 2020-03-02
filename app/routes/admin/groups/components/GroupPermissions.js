@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { compose } from 'redux';
-import { sortBy, uniq } from 'lodash';
+import { sortBy } from 'lodash';
 import type { ID } from 'app/models';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
@@ -55,15 +55,34 @@ const PermissionList = ({
         )
     )
     .filter(Boolean);
-  const allPermissionsList = uniq(
-    sortBy(
-      permissions.concat(
-        // $FlowFixMe
-        parentPermissions.flatMap(({ permissions }) => permissions)
-      ),
-      (permission: string) => permission.split('/').length
-    )
-  ).map(permission => <li key={permission}>{permission}</li>);
+  const allPermissionsList = sortBy(
+    permissions.concat(
+      // $FlowFixMe
+      parentPermissions.flatMap(({ permissions }) => permissions)
+    ),
+    (permission: string) => permission.split('/').length
+  )
+    .reduce((acc: Array<string>, perm: string) => {
+      // Reduce perms to only show broadest set of permissions
+      // If a user has "/sudo/admin/events/" it means the user also has "/sudo/admin/events/create/" implicitly.
+      // Therefore we will only show "/sudo/admin/events/"
+      const splittedPerm = perm.split('/').filter(Boolean);
+      const [broaderPermFound] = splittedPerm.reduce(
+        (accumulator: [boolean, string], permPart: string) => {
+          const [broaderPermFound, summedPerm] = accumulator;
+          const concatedString = `${summedPerm}${permPart}/`;
+          return [
+            broaderPermFound || acc.includes(concatedString),
+            concatedString
+          ];
+        },
+        [false, '/']
+      );
+      if (broaderPermFound) return acc;
+      return [...acc, perm];
+    }, [])
+
+    .map(permission => <li key={permission}>{permission}</li>);
   return (
     <div>
       <h3>Nåværende rettigheter</h3>
