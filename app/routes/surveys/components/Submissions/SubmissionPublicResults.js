@@ -21,7 +21,6 @@ const SubmissionPublicResultsPage = ({
   survey,
   actionGrant,
   option,
-
   editSurvey,
   value
 }: Props) => {

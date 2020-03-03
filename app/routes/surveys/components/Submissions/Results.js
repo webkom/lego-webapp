@@ -84,30 +84,31 @@ const Results = ({
     }
   ];
 
-  const switchGraph = (id, index) => {
-    const newQuestions = survey.questions;
-    const questionToUpdate = newQuestions.find(question => question.id === id);
-    if (questionToUpdate) {
-      questionToUpdate.displayType =
-        questionToUpdate.displayType === 'pie_chart'
-          ? 'bar_chart'
-          : 'pie_chart';
-    }
-    const qIndex = newQuestions.indexOf(
-      newQuestions.find(question => question.id === id)
-    );
-    if (questionToUpdate) {
-      newQuestions[qIndex] = questionToUpdate;
-    }
-    const newSurvey = { ...survey, questions: newQuestions };
-    editSurvey({ ...newSurvey, surveyId: survey.id, event: survey.event.id });
-    //new list of changed questions
-  };
-
   const graphOptions = [
     { value: 'pie_chart', label: 'Kakediagram' },
     { value: 'bar_chart', label: 'Stolpediagram' }
   ];
+
+  const switchGraph = (id, index, selectedType) => {
+    const newQuestions = survey.questions;
+    const questionToUpdate = newQuestions.find(question => question.id === id);
+    if (
+      !questionToUpdate ||
+      questionToUpdate.displayType === selectedType.value
+    ) {
+      return;
+    }
+
+    questionToUpdate.displayType =
+      questionToUpdate.displayType === 'pie_chart' ? 'bar_chart' : 'pie_chart';
+    const qIndex = newQuestions.indexOf(
+      newQuestions.find(question => question.id === id)
+    );
+    newQuestions[qIndex] = questionToUpdate;
+
+    const newSurvey = { ...survey, questions: newQuestions };
+    editSurvey({ ...newSurvey, surveyId: survey.id, event: survey.event.id });
+  };
 
   const graphTypeToIcon = {
     bar_chart: 'bar-chart',
@@ -135,13 +136,16 @@ const Results = ({
           const pieColors = CHART_COLORS.filter(
             (color, i) => !colorsToRemove.includes(i)
           );
-          const ak = graphOptions.find(a => a.value === question.displayType);
+          const graphType = graphOptions.find(
+            a => a.value === question.displayType
+          );
           const barData = graphData[question.id];
           const labelRadius = pieData.length === 1 ? -10 : 60;
-          const highestSubmissionsCount =
-            barData.length > 0
-              ? barData.reduce((a, b) => Math.max(a, b.selections), 0)
-              : 0;
+          const highestSubmissionsCount = barData.reduce(
+            (a, b) => Math.max(a, b.selections),
+            0
+          );
+
           return (
             <li key={question.id}>
               <h3>{question.questionText}</h3>
@@ -242,12 +246,14 @@ const Results = ({
                       className={styles.selectGraph}
                       value={{
                         value: question.displayType,
-                        label: ak && ak.label
+                        label: graphType && graphType.label
                       }}
                       placeholder="Graf"
                       name="displayType"
                       options={graphOptions}
-                      onChange={() => switchGraph(question.id, index)}
+                      onChange={selectedType =>
+                        switchGraph(question.id, index, selectedType)
+                      }
                       optionComponent={props => {
                         return QuestionTypeOption(
                           props,
