@@ -88,6 +88,10 @@ function SelectInput({
 }
 
 SelectInput.Field = createField(SelectInput);
-SelectInput.AutocompleteField = withAutocomplete(SelectInput.Field);
-SelectInput.withAutocomplete = withAutocomplete(SelectInput);
+SelectInput.AutocompleteField = withAutocomplete({
+  WrappedComponent: SelectInput.Field
+});
+SelectInput.withAutocomplete = withAutocomplete({
+  WrappedComponent: SelectInput
+});
 export default SelectInput;

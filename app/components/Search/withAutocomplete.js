@@ -16,7 +16,13 @@ type State = {
   result: Array</*Todo: AutocompleteResult */ Object>
 };
 
-function withAutocomplete<Props: {}>(WrappedComponent: ComponentType<Props>) {
+function withAutocomplete<Props>({
+  WrappedComponent,
+  retainFailedQuery = false
+}: {
+  WrappedComponent: ComponentType<Props>,
+  retainFailedQuery?: boolean
+}) {
   const displayName =
     WrappedComponent.displayName || WrappedComponent.name || 'Unknown';
 
@@ -46,9 +52,16 @@ function withAutocomplete<Props: {}>(WrappedComponent: ComponentType<Props>) {
       this.props
         .autocomplete(query, filter)
         .then(result => {
+          // Set the result to the response result
+          let finalResult = result;
+          // Retain a query with no match
+          if (retainFailedQuery && result.length == 0) {
+            finalResult = [{ title: query, label: query }];
+          }
+
           if (this._isMounted) {
             this.setState({
-              result,
+              result: finalResult,
               searching: false
             });
           }
