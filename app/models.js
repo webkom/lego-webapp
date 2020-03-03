@@ -142,7 +142,8 @@ export type EventRegistration = {
   feedback: string,
   sharedMemberships?: number,
   consent: EventRegistrationPhotoConsent,
-  clientSecret?: string
+  clientSecret?: string,
+  paymentError?: string
 };
 
 type EventPoolBase = {

@@ -25,23 +25,8 @@ type Props = {
   currentUser: User,
   createPaymentIntent: () => Promise<*>,
   paymentStatus: EventRegistrationPaymentStatus,
-  clientSecret?: string
-};
-
-/*
- * Taken from https://stripe.com/docs/api/errors
- */
-type StripeError = {
-  type: string,
-  charge: string,
-  code: string,
-  decline_code: string,
-  message: string,
-  param: string,
-  doc_url: string,
-  payment_intent: Object,
-  setup_intent: Object,
-  source: Object
+  clientSecret?: string,
+  paymentError?: string
 };
 
 type FormProps = Props & {
@@ -50,7 +35,7 @@ type FormProps = Props & {
 
 type CardFormProps = FormProps & {
   ledgend: string,
-  setError: StripeError => void,
+  setError: string => void,
   setSuccess: () => void,
   setLoading: boolean => void,
   stripe: Stripe,
@@ -58,7 +43,7 @@ type CardFormProps = FormProps & {
 };
 
 type PaymentRequestFormProps = FormProps & {
-  setError: StripeError => void,
+  setError: string => void,
   setSuccess: () => void,
   setLoading: boolean => void,
   setPaymentRequest: boolean => void,
@@ -66,7 +51,7 @@ type PaymentRequestFormProps = FormProps & {
 };
 
 type FormState = {
-  error?: StripeError | null,
+  error?: string | null,
   success?: boolean,
   loading: boolean,
   paymentRequest: boolean
@@ -82,6 +67,16 @@ type PaymentRequestFormState = {
   paymentMethodId?: string,
   complete?: string => void
 };
+
+// See https://stripe.com/docs/js/appendix/payment_response#payment_response_object-complete
+// for the statuses
+type CompleteStatus =
+  | 'success'
+  | 'fail'
+  | 'invalid_payer_name'
+  | 'invalid_payer_phone'
+  | 'invalid_payer_email'
+  | 'invalid_shipping_address';
 
 const StripeElementStyle = {
   style: {
@@ -119,7 +114,7 @@ class CardForm extends React.Component<CardFormProps, CardFormState> {
     const { stripe } = this.props;
     const { error } = await stripe.handleCardPayment(clientSecret);
     if (error) {
-      this.props.setError(error);
+      this.props.setError(error.message);
     } else {
       this.props.setSuccess();
     }
@@ -210,9 +205,28 @@ class PaymentRequestForm extends React.Component<
   }
 
   componentDidUpdate(prevProps) {
-    if (!prevProps.clientSecret && this.props.clientSecret) {
-      this.completePayment(this.props.clientSecret);
+    const { clientSecret, paymentError } = this.props;
+
+    if (!prevProps.clientSecret && clientSecret) {
+      this.completePayment(clientSecret);
     }
+    if (paymentError) {
+      this.completePaymentManual('fail');
+      this.props.setError(paymentError);
+    }
+  }
+
+  componentWillUnmount() {
+    /*
+     * If the component unmounts, the registration will have updated,
+     * and the user will not be able to pay.
+     * This can be because the payment updated in the backend,
+     * or the user has unregistered. In the rare case that the payment has started
+     * processing, we cancel just so the user does not have to wait until the
+     * payment request times out.
+     *
+     */
+    this.completePaymentManual('fail');
   }
 
   completePayment = async clientSecret => {
@@ -238,11 +252,25 @@ class PaymentRequestForm extends React.Component<
 
     const { error } = await stripe.handleCardPayment(clientSecret);
     if (error) {
-      this.props.setError(error);
+      this.props.setError(error.message);
     } else {
       this.props.setSuccess();
     }
     this.props.setLoading(false);
+  };
+
+  completePaymentManual = async (status: CompleteStatus) => {
+    const { complete } = this.state;
+
+    if (!complete) {
+      return;
+    }
+
+    complete(status);
+
+    if (status === 'success') {
+      this.props.setSuccess();
+    }
   };
 
   render() {
@@ -299,7 +327,7 @@ class PaymentForm extends React.Component<FormProps, FormState> {
     ) : (
       <>
         {loading && <LoadingIndicator loading />}
-        {error && <div className={stripeStyles.error}>{error.message}</div>}
+        {error && <div className={stripeStyles.error}>{error}</div>}
         <div style={{ display: loading ? 'none' : 'block' }}>
           <Elements locale="no">
             <InjectedPaymentRequestForm

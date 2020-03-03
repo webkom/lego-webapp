@@ -120,6 +120,7 @@ const PaymentForm = ({
       <b>{(event.price / 100).toFixed(2).replace('.', ',')} kr</b>
     </div>
     <PaymentRequestForm
+      paymentError={registration.paymentError}
       createPaymentIntent={createPaymentIntent}
       event={event}
       currentUser={currentUser}

@@ -31,7 +31,6 @@ export default createEntityReducer({
         case Event.REQUEST_REGISTER.SUCCESS:
         case Event.ADMIN_REGISTER.SUCCESS:
         case Event.SOCKET_REGISTRATION.SUCCESS:
-        case Event.PAYMENT_QUEUE.SUCCESS:
         case Event.SOCKET_PAYMENT.FAILURE: {
           const registration = normalize(action.payload, registrationSchema)
             .entities.registrations[action.payload.id];
@@ -40,7 +39,8 @@ export default createEntityReducer({
           }
           newState.byId[registration.id] = {
             ...omit(newState.byId[registration.id], 'unregistrationDate'),
-            ...registration
+            ...registration,
+            paymentError: (action.meta && action.meta.paymentError) || null
           };
           newState.items = union(newState.items, [registration.id]);
           break;
@@ -66,6 +66,18 @@ export default createEntityReducer({
               'clientSecret'
             ]),
             ...registration
+          };
+          break;
+        }
+        case Event.PAYMENT_QUEUE.FAILURE: {
+          const registration = normalize(action.payload, registrationSchema)
+            .entities.registrations[action.payload.id];
+          if (!registration) {
+            return;
+          }
+          newState.byId[registration.id] = {
+            ...omit(newState.byId[registration.id], 'unregistrationDate'),
+            paymentError: action.payload.response.jsonData.detail
           };
           break;
         }
