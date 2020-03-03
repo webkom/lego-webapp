@@ -98,14 +98,12 @@ const Results = ({
     ) {
       return;
     }
-
     questionToUpdate.displayType =
       questionToUpdate.displayType === 'pie_chart' ? 'bar_chart' : 'pie_chart';
     const qIndex = newQuestions.indexOf(
       newQuestions.find(question => question.id === id)
     );
     newQuestions[qIndex] = questionToUpdate;
-
     const newSurvey = { ...survey, questions: newQuestions };
     editSurvey({ ...newSurvey, surveyId: survey.id, event: survey.event.id });
   };
