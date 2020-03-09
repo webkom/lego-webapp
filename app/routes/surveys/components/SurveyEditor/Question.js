@@ -12,7 +12,12 @@ import Option from './Option';
 import styles from '../surveys.css';
 import Icon from 'app/components/Icon';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
-import { mappings, QuestionTypes } from '../../utils';
+import {
+  mappings,
+  QuestionTypes,
+  QuestionTypeOption,
+  QuestionTypeValue
+} from '../../utils';
 import cx from 'classnames';
 
 type Props = {
@@ -30,56 +35,6 @@ const questionTypeToIcon = {
   multiple_choice: 'checkbox',
   text_field: 'more'
 };
-
-const QuestionTypeOption = (
-  props: Object,
-  iconName: string,
-  prefix?: string,
-  option?: string,
-  value?: string
-) => (
-  <div
-    className={cx(props.className, styles.dropdown)}
-    onMouseDown={event => {
-      props.onSelect && props.onSelect(props.option, event);
-    }}
-    onMouseEnter={event => props.onFocus && props.onFocus(props.option, event)}
-    onMouseMove={event => {
-      if (props.isFocused) return;
-      props.onFocus && props.onFocus(props.option, event);
-    }}
-  >
-    <span className={styles.dropdownColor}>
-      <Icon name={iconName} style={{ marginRight: '15px' }} prefix={prefix} />
-      {props.children}
-    </span>
-  </div>
-);
-
-const QuestionTypeValue = (
-  props: Object,
-  iconName: string,
-  prefix?: string,
-  option?: string,
-  value?: string
-) => (
-  <div
-    className={cx('Select-value', styles.dropdown)}
-    onMouseDown={event => {
-      props.onSelect && props.onSelect(props.option, event);
-    }}
-    onMouseEnter={event => props.onFocus && props.onFocus(props.option, event)}
-    onMouseMove={event => {
-      if (props.isFocused) return;
-      props.onFocus && props.onFocus(props.option, event);
-    }}
-  >
-    <span className={cx('Select-value-label', styles.dropdownColor)}>
-      <Icon name={iconName} style={{ marginRight: '15px' }} prefix={prefix} />
-      {props.children}
-    </span>
-  </div>
-);
 
 const questionIndexMappings = (indexNumbers: Array<number>) =>
   indexNumbers.map(relativeIndex => ({

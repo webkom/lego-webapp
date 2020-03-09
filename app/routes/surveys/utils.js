@@ -7,6 +7,8 @@ import moment from 'moment-timezone';
 import styles from './components/surveys.css';
 import { type ActionGrant } from 'app/models';
 import config from 'app/config';
+import cx from 'classnames';
+import Icon from 'app/components/Icon';
 
 const questionStrings = {
   single: 'single_choice',
