@@ -18,7 +18,6 @@ import {
   QuestionTypeOption,
   QuestionTypeValue
 } from '../../utils';
-import cx from 'classnames';
 
 type Props = {
   deleteQuestion: number => Promise<*>,
@@ -27,7 +26,9 @@ type Props = {
   relativeIndex: number,
   numberOfQuestions: number,
   updateRelativeIndexes: (number, number, FieldArrayProps) => void,
-  fields: FieldArrayProps
+  fields: FieldArrayProps,
+  option?: string,
+  value?: string
 };
 
 const questionTypeToIcon = {
