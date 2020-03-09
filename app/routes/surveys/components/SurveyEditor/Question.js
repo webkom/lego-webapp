@@ -31,7 +31,13 @@ const questionTypeToIcon = {
   text_field: 'more'
 };
 
-const QuestionTypeOption = (props: Object) => (
+const QuestionTypeOption = (
+  props: Object,
+  iconName: string,
+  prefix?: string,
+  option?: string,
+  value?: string
+) => (
   <div
     className={cx(props.className, styles.dropdown)}
     onMouseDown={event => {
@@ -44,16 +50,19 @@ const QuestionTypeOption = (props: Object) => (
     }}
   >
     <span className={styles.dropdownColor}>
-      <Icon
-        name={questionTypeToIcon[props.option && props.option.value]}
-        style={{ marginRight: '15px' }}
-      />
+      <Icon name={iconName} style={{ marginRight: '15px' }} prefix={prefix} />
       {props.children}
     </span>
   </div>
 );
 
-const QuestionTypeValue = (props: Object, b) => (
+const QuestionTypeValue = (
+  props: Object,
+  iconName: string,
+  prefix?: string,
+  option?: string,
+  value?: string
+) => (
   <div
     className={cx('Select-value', styles.dropdown)}
     onMouseDown={event => {
@@ -66,10 +75,7 @@ const QuestionTypeValue = (props: Object, b) => (
     }}
   >
     <span className={cx('Select-value-label', styles.dropdownColor)}>
-      <Icon
-        name={questionTypeToIcon[props.value && props.value.value]}
-        style={{ marginRight: '15px' }}
-      />
+      <Icon name={iconName} style={{ marginRight: '15px' }} prefix={prefix} />
       {props.children}
     </span>
   </div>
@@ -78,7 +84,7 @@ const QuestionTypeValue = (props: Object, b) => (
 const questionIndexMappings = (indexNumbers: Array<number>) =>
   indexNumbers.map(relativeIndex => ({
     value: relativeIndex,
-    label: `Spørsmålsplassering: ${relativeIndex + 1}`
+    label: `Spørsmålsnummer: ${relativeIndex + 1}`
   }));
 
 const Question = ({
@@ -127,9 +133,19 @@ const Question = ({
             name={`${question}.questionType`}
             simpleValue
             component={SelectInput.Field}
-            optionComponent={QuestionTypeOption}
+            optionComponent={props =>
+              QuestionTypeOption(
+                props,
+                questionTypeToIcon[props.option && props.option.value]
+              )
+            }
             options={mappings}
-            valueComponent={QuestionTypeValue}
+            valueComponent={props =>
+              QuestionTypeValue(
+                props,
+                questionTypeToIcon[props.value && props.value.value]
+              )
+            }
             className={styles.questionType}
             clearable={false}
             backspaceRemoves={false}
@@ -137,19 +153,27 @@ const Question = ({
           />
         </div>
 
-        <div className={styles.reorderQuestion}>
+        <div>
           <SelectInput
             value={{
               value: relativeIndex,
-              label: `Spørsmålsplassering: ${relativeIndex + 1}`
+              label: `Spørsmålsnummer: ${relativeIndex + 1}`
             }}
             placeholder="0"
             name="relativeIndex"
             options={indexOptions}
+            optionComponent={props =>
+              QuestionTypeOption(props, 'sort', 'fa fa-')
+            }
+            valueComponent={props => QuestionTypeValue(props, 'sort', 'fa fa-')}
             onChange={user =>
               updateRelativeIndexes(relativeIndex, user.value, fields)
             }
             onBlur={() => null}
+            clearable={false}
+            backspaceRemoves={false}
+            searchable={false}
+            className={styles.reorderQuestion}
           />
         </div>
 

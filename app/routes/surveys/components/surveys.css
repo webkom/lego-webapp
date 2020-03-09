@@ -104,9 +104,8 @@
   padding: 6px;
 }
 
-.questionTypeSelector {
-  padding: 14px 20px;
-  border: 1px solid #ccc;
+.reorderQuestion > div {
+  padding: 6px;
 }
 
 .templateType {

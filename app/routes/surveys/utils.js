@@ -95,3 +95,53 @@ export const CHART_COLORS = [
 
 export const getCsvUrl = (surveyId: string) =>
   `${config.serverUrl}/surveys/${surveyId}/csv/`;
+
+export const QuestionTypeOption = (
+  props: Object,
+  iconName: string,
+  prefix?: string,
+  option?: string,
+  value?: string
+) => (
+  <div
+    className={cx(props.className, styles.dropdown)}
+    onMouseDown={event => {
+      props.onSelect && props.onSelect(props.option, event);
+    }}
+    onMouseEnter={event => props.onFocus && props.onFocus(props.option, event)}
+    onMouseMove={event => {
+      if (props.isFocused) return;
+      props.onFocus && props.onFocus(props.option, event);
+    }}
+  >
+    <span className={styles.dropdownColor}>
+      <Icon name={iconName} style={{ marginRight: '15px' }} prefix={prefix} />
+      {props.children}
+    </span>
+  </div>
+);
+
+export const QuestionTypeValue = (
+  props: Object,
+  iconName: string,
+  prefix?: string,
+  option?: string,
+  value?: string
+) => (
+  <div
+    className={cx('Select-value', styles.dropdown)}
+    onMouseDown={event => {
+      props.onSelect && props.onSelect(props.option, event);
+    }}
+    onMouseEnter={event => props.onFocus && props.onFocus(props.option, event)}
+    onMouseMove={event => {
+      if (props.isFocused) return;
+      props.onFocus && props.onFocus(props.option, event);
+    }}
+  >
+    <span className={cx('Select-value-label', styles.dropdownColor)}>
+      <Icon name={iconName} style={{ marginRight: '15px' }} prefix={prefix} />
+      {props.children}
+    </span>
+  </div>
+);
