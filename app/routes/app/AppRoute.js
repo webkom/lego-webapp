@@ -76,15 +76,15 @@ class App extends PureComponent<AppProps> {
           [styles.searchOpen]: this.props.searchOpen
         })}
       >
-        <SpecialDay>
-          <Helmet defaultTitle="Abakus.no" titleTemplate="%s | Abakus.no">
-            <meta property="og:image" content={coverPhoto} />
-            <meta
-              property="og:description"
-              content="Abakus er linjeforeningen for studentene ved Datateknologi og Kommunikasjonsteknologi på NTNU, og drives av studenter ved disse studiene."
-            />
-          </Helmet>
+        <Helmet defaultTitle="Abakus.no" titleTemplate="%s | Abakus.no">
+          <meta property="og:image" content={coverPhoto} />
+          <meta
+            property="og:description"
+            content="Abakus er linjeforeningen for studentene ved Datateknologi og Kommunikasjonsteknologi på NTNU, og drives av studenter ved disse studiene."
+          />
+        </Helmet>
 
+        <SpecialDay>
           {config.environment !== 'production' && (
             <div
               style={{
@@ -165,8 +165,5 @@ export default compose(
     componentWillReceiveProps: false
   }),
   prepare((props, dispatch) => dispatch(fetchNotificationData())),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )(App);
