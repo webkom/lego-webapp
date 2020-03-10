@@ -18,12 +18,11 @@ type State = {
 
 class AprilFools extends React.Component<Props, State> {
   state = {
-    hasClosed: false
+    hasClosed: true
   };
   static isCorrectDate() {
     // The year doesn't matter, as it only check month and day of the month
-    //const aprilFoolsDate = moment('2019-04-01');
-    const aprilFoolsDate = moment('2019-01-28');
+    const aprilFoolsDate = moment('2019-04-01');
     const now = moment();
     return (
       aprilFoolsDate.date() === now.date() &&
