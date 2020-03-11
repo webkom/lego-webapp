@@ -11,7 +11,11 @@ type Props = {
   username: string
 };
 
-class RemovePicture extends Component<Props, State> {
+type State = {
+  selected: boolean
+};
+
+export default class RemovePicture extends Component<Props, State> {
   constructor() {
     super();
     this.state = {
@@ -65,5 +69,3 @@ class RemovePicture extends Component<Props, State> {
     );
   }
 }
-
-export default RemovePicture;
