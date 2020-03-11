@@ -9,6 +9,7 @@ steps:
     detach: true
     environment:
       POSTGRES_USER: lego
+      POSTGRES_HOST_AUTH_METHOD: trust
     when:
       event: [push]
       branch:
@@ -21,7 +22,7 @@ steps:
       MINIO_ACCESS_KEY: lego-dev
       MINIO_SECRET_KEY: lego-dev
     commands:
-      - server /export
+      - /usr/bin/docker-entrypoint.sh server /export
     when:
       event: [push]
       branch:
@@ -63,15 +64,17 @@ steps:
     detach: true
     pull: true
     commands:
-      - >
-        bash -c "./wait-for-it.sh -t 60 postgres:5432 &&
-        ./wait-for-it.sh -t 60 redis:6379 &&
-        ./wait-for-it.sh -t 60 minio:9000 &&
-        ./wait-for-it.sh -t 60 thumbor:8000 &&
-        python manage.py reset_db --noinput &&
-        python manage.py migrate &&
-        python manage.py load_fixtures --development &&
-        python manage.py runserver 0.0.0.0:8000"
+      - ./wait-for-it.sh -t 60 postgres:5432
+      - ./wait-for-it.sh -t 60 redis:6379
+      - ./wait-for-it.sh -t 60 minio:9000
+      - ./wait-for-it.sh -t 60 thumbor:8000
+      - cd /app
+      - python manage.py reset_db --noinput
+      - python manage.py migrate
+      - python manage.py migrate_search
+      - python manage.py load_fixtures --development
+      - python manage.py rebuild_index
+      - python manage.py runserver 0.0.0.0:8000
     environment:
       PORT: '8000'
       ALLOWED_HOSTS: '*,'
@@ -210,7 +213,8 @@ steps:
       branch:
         exclude: [ prod ]
     depends_on:
-      - setup
+      - build_client
+      - build_server
     environment:
       API_URL: http://api:8000/api/v1
       BASE_URL: http://api:8000
@@ -229,6 +233,7 @@ steps:
     depends_on:
       - legocypresshelper
       - install_cypress
+      - ssr
     environment:
       CYPRESS_API_BASE_URL: http://api:8000
       CYPRESS_RESET_DB_API: http://legocypresshelper:3030
@@ -266,3 +271,6 @@ steps:
       - SENTRY_ORG=webkom
       - SENTRY_PROJECT=lego-webapp
       - SENTRY_URL=https://sentry.abakus.no/
+
+image_pull_secrets:
+  - dockerconfigjson
