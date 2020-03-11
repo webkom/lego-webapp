@@ -163,11 +163,16 @@ export default class ImageUpload extends Component<Props, State> {
     }
   };
 
+  componentDidUpdate = props => {
+    if (props.img != this.props.img) {
+      this.setState({ img: this.props.img });
+    }
+  };
+
   render() {
     const { inModal, aspectRatio, multiple, crop } = this.props;
     const { cropOpen, file, files } = this.state;
     const preview = file && file.preview;
-
     return (
       <div className={styles.container}>
         {!inModal && (

@@ -11,7 +11,8 @@ import {
   fetchUser,
   updateUser,
   updatePicture,
-  changePassword
+  changePassword,
+  removePicture
 } from 'app/actions/UserActions';
 
 const loadData = ({ params: { username } }, dispatch) =>
@@ -31,7 +32,13 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-const mapDispatchToProps = { updateUser, updatePicture, changePassword, push };
+const mapDispatchToProps = {
+  updateUser,
+  updatePicture,
+  changePassword,
+  push,
+  removePicture
+};
 
 export default compose(
   prepare(loadData),

@@ -115,6 +115,7 @@ export function updateUser(
     allergies,
     profilePicture,
     isAbakusMember,
+    removeProfilePicture,
     emailListsEnabled
   } = user;
   return dispatch =>
@@ -132,6 +133,7 @@ export function updateUser(
           allergies,
           isAbakusMember,
           emailListsEnabled,
+          removeProfilePicture,
           ...(options.updateProfilePicture ? { profilePicture } : null)
         },
         schema: userSchema,
@@ -188,6 +190,19 @@ export function changeGrade(groupId: ID, username: string): Thunk<*> {
     meta: {
       errorMessage: 'Oppdatering av klasse feilet',
       successMessage: 'Klasse endret'
+    }
+  });
+}
+
+export function removePicture(username: string): Thunk<*> {
+  return callAPI({
+    types: User.UPDATE,
+    endpoint: `/users/${username}/remove_picture/`,
+    method: 'POST',
+    schema: userSchema,
+    meta: {
+      errorMessage: 'Fjerning av profilbilde feilet',
+      successMessage: 'Profilbilde endret'
     }
   });
 }

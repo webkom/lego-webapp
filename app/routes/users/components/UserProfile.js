@@ -180,6 +180,12 @@ export default class UserProfile extends Component<Props, EventsProps> {
     return <ul>{tags}</ul>;
   }
 
+  handleClick = () => {
+    /* eslint-disable no-console */
+    console.log('halla');
+    /* eslint-enable no-console */
+  };
+
   render() {
     const {
       user,
