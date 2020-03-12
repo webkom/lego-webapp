@@ -165,5 +165,8 @@ export default compose(
     componentWillReceiveProps: false
   }),
   prepare((props, dispatch) => dispatch(fetchNotificationData())),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
 )(App);
