@@ -239,7 +239,8 @@ steps:
       CYPRESS_RESET_DB_API: http://legocypresshelper:3030
       CYPRESS_BASE_URL: http://ssr:3000
       CYPRESS_CACHE_FOLDER: /drone/src/.cypress_cache
-    secrets: [cypress_record_key]
+      CYPRESS_RECORD_KEY:
+        from_secret: cypress_record_key
     commands:
       - ./wait-for-it.sh -t 180 ssr:3000
       - ./wait-for-it.sh -t 180 legocypresshelper:3030
@@ -261,16 +262,24 @@ steps:
       - ssr
       - cypress
     registry: https://registry.abakus.no
-    repo: registry.abakus.no/webkom/lego-webapp
-    secrets: [docker_username, docker_password, sentry_auth_token]
-    tags:
-      - ${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:7}
-    build_args:
-      - RELEASE=${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:7}
-      - SENTRY_AUTH_TOKEN
-      - SENTRY_ORG=webkom
-      - SENTRY_PROJECT=lego-webapp
-      - SENTRY_URL=https://sentry.abakus.no/
+    environment:
+      SENTRY_AUTH_TOKEN:
+        from_secret: sentry_auth_token
+    settings:
+      repo: registry.abakus.no/webkom/lego-webapp
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+      tags:
+        - ${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:7}
+      build_args:
+        - RELEASE=${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:7}
+        - SENTRY_ORG=webkom
+        - SENTRY_PROJECT=lego-webapp
+        - SENTRY_URL=https://sentry.abakus.no/
+      build_args_from_env:
+        - SENTRY_AUTH_TOKEN
 
 image_pull_secrets:
   - dockerconfigjson
