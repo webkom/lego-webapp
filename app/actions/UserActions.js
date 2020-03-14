@@ -205,8 +205,8 @@ export function removePicture(username: string): Thunk<*> {
         },
         schema: userSchema,
         meta: {
-          successMessage: 'Oppdatering av bruker fullført',
-          errorMessage: 'Oppdatering av bruker feilet'
+          successMessage: 'Fjerning av profilbilde fullført',
+          errorMessage: 'Fjerning av profilbilde feilet'
         }
       })
     );
