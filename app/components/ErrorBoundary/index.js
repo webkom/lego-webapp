@@ -29,7 +29,10 @@ class ErrorBoundary extends React.Component<Props, State> {
       Sentry.showReportDialog({
         eventId: this.state.lastEventId,
         lang: 'no',
-        title: 'Det skjedde en feil :('
+        title: 'Det skjedde en feil :(',
+        subtitle: 'Webkom har fått beskjed.',
+        subtitle2:
+          'Gjerne beskriv hva som skjedde, så kan vi fikse problemet kjappere.'
       });
   };
 
@@ -47,10 +50,9 @@ class ErrorBoundary extends React.Component<Props, State> {
     Sentry.withScope(scope => {
       scope.setExtras(errorInfo);
       const lastEventId = Sentry.captureException(error);
-      this.setState({ lastEventId });
-      if (this.props.openReportDialog) {
-        this.openDialog();
-      }
+      this.setState({ lastEventId }, () => {
+        this.props.openReportDialog && this.openDialog();
+      });
     });
   }
 
@@ -75,10 +77,7 @@ class ErrorBoundary extends React.Component<Props, State> {
           <Image src={awSnap} alt="snap" />
           <div className={styles.message}>
             <h3>En feil har oppstått</h3>
-            <p>
-              Webkom har <i> ikke </i>fått beskjed om feilen. Gjerne send oss en{' '}
-              <a href="mailto:webkom@abakus.no">mail</a>
-            </p>
+            <p>Webkom har fått beskjed om feilen.</p>
           </div>
         </div>
       </div>
