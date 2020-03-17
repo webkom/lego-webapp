@@ -13,7 +13,7 @@ export const config = {
   captchaKey:
     process.env.CAPTCHA_KEY || '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI',
   stripeKey: process.env.STRIPE_KEY || 'pk_test_VWJmJ3yOunhMBkG71SXyjdqk',
-  ravenDSN: process.env.RAVEN_DSN,
+  sentryDSN: process.env.SENTRY_DSN,
   release: process.env.RELEASE,
   environment: process.env.ENVIRONMENT,
   timezone: 'Europe/Oslo'

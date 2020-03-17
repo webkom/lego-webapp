@@ -60,10 +60,10 @@ $ yarn ssr # or yarn ssr:staging
   - More info here: <https://developers.google.com/recaptcha/docs/display>
 - `STRIPE_KEY` _(optional)_
   - More info here: <https://stripe.com/docs/keys>
-- `RAVEN_DSN` _(optional)_
+- `SENTRY_DSN` _(optional)_
   - More info here: https://github.com/getsentry/sentry-javascript
-- `SERVER_RAVEN_DSN`_(optional)_
-  - More info here: https://github.com/getsentry/raven-node
+- `SERVER_SENTRY_DSN`_(optional)_
+  - More info here: https://github.com/getsentry/sentry-javascript/tree/master/packages/node
 - `RELEASE`_(optional)_
   - Release version used when sending exceptions to Sentry. Injected when building docker images
 - `ENVIRONMENT`_(optional)_

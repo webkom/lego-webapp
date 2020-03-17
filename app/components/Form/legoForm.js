@@ -2,7 +2,7 @@
 
 import { reduxForm, SubmissionError } from 'redux-form';
 import { handleSubmissionError } from './utils';
-import Raven from 'raven-js';
+import * as Sentry from '@sentry/browser';
 import { pick } from 'lodash';
 type Props = {
   onSubmitFail: any => any,
@@ -86,7 +86,7 @@ const legoForm = ({
         : values;
 
       return onSubmit(pickedValues, dispatch, props).catch(error => {
-        Raven.captureException(error);
+        Sentry.captureException(error);
         /* eslint no-console: 0 */
         if (__DEV__) console.error(error);
         if (error instanceof SubmissionError || !enableSubmissionError) {

@@ -33,6 +33,8 @@
     "url": "github.com/webkom/lego-webapp"
   },
   "dependencies": {
+    "@sentry/browser": "^5.14.2",
+    "@sentry/node": "^5.14.2",
     "@webkom/react-prepare": "0.6.0",
     "animate.css": "^3.7.0",
     "bunyan": "^1.8.12",
@@ -59,9 +61,6 @@
     "normalizr": "^3.2.2",
     "prop-types": "^15.7.2",
     "qs": "^6.9.3",
-    "raven": "^2.3.0",
-    "raven-for-redux": "^1.4.0",
-    "raven-js": "^3.27.2",
     "react": "^16.8.6",
     "react-collapse": "^4.0.3",
     "react-copy-to-clipboard": "^5.0.2",
@@ -93,6 +92,7 @@
     "redux-form": "^6.5.0",
     "redux-logger": "^3.0.1",
     "redux-segment": "^1.6.2",
+    "redux-sentry-middleware": "^0.1.6",
     "redux-thunk": "^2.2.0",
     "reselect": "4.0.0",
     "serialize-javascript": "^3.0.0",
@@ -210,7 +210,7 @@
       "jsdom",
       "bunyan",
       "bunyan-pretty",
-      "raven",
+      "@sentry/node",
       "source-map-support",
       "convert-source-map"
     ]
