@@ -261,11 +261,11 @@ steps:
       - flow
       - ssr
       - cypress
-    registry: https://registry.abakus.no
     environment:
       SENTRY_AUTH_TOKEN:
         from_secret: sentry_auth_token
     settings:
+      registry: https://registry.abakus.no
       repo: registry.abakus.no/webkom/lego-webapp
       username:
         from_secret: docker_username
