@@ -43,7 +43,6 @@ const mapDispatchToProps = dispatch => {
  * The initialized prop "solves" the issue by enabling the editorfield to only render once the form has been initialized.
  * The initialized prop is passed to the form by the redux-form HoC, see the redux form docs for more info. The "solution" is a hack, yet i could find no better way to solve this.
  */
-
 const EditorFieldComponent = ({
   className,
   name,
@@ -78,6 +77,6 @@ const EditorField = connect(
 EditorField.Field = connect(
   null,
   mapDispatchToProps
-)(createField(EditorFieldComponent, false));
+)(createField(EditorFieldComponent, { noLabel: true }));
 
 export default EditorField;
