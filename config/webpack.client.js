@@ -107,6 +107,7 @@ module.exports = (env, argv) => {
         // react-hot-loader imports merge like this "require('lodash/merge')"
         // Aka. doesn't support our lodash-es alias by default
         'lodash/merge': 'node_modules/lodash/merge.js',
+        'lodash/fp': 'node_modules/lodash/fp',
         lodash: 'node_modules/lodash-es',
         'moment-timezone':
           'moment-timezone/builds/moment-timezone-with-data-2012-2022.min',
