@@ -3,8 +3,7 @@
 import React, { Component } from 'react';
 import Button from 'app/components/Button';
 import Flex from 'app/components/Layout/Flex';
-
-import styles from './GroupChange.css';
+import styles from './RemovePicture.css';
 
 type Props = {
   removePicture: string => Promise<*>,
@@ -30,40 +29,22 @@ export default class RemovePicture extends Component<Props, State> {
         .then(() => this.setState({ selected: false }));
   };
 
-  handleChange = () => {
-    this.setState({ selected: true });
-  };
-
-  handleReset = () => {
-    this.setState({ selected: false });
-  };
+  toggleSelected = () => this.setState({ selected: !this.state.selected });
 
   render() {
     return (
-      <Flex column={true}>
-        {!this.state.selected && (
+      <Flex justifyContent="center">
+        <Button className={styles.saveButton} onClick={this.toggleSelected}>
+          {this.state.selected ? 'Angre' : 'Slett Bilde'}
+        </Button>
+        {this.state.selected && (
           <Button
             dark
             className={styles.saveButton}
-            onClick={this.handleChange}
+            onClick={this.handleOnClick}
           >
-            Slett Bilde
+            Lagre endring
           </Button>
-        )}
-
-        {this.state.selected && (
-          <div>
-            <Button className={styles.saveButton} onClick={this.handleReset}>
-              Angre
-            </Button>
-            <Button
-              dark
-              className={styles.saveButton}
-              onClick={this.handleOnClick}
-            >
-              Lagre endring
-            </Button>
-          </div>
         )}
       </Flex>
     );

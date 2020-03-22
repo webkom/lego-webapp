@@ -58,10 +58,8 @@ const UserSettings = (props: Props) => {
         <UserImage user={user} updatePicture={updatePicture} />
       </FlexRow>
 
-      <div>
-        <h3>Slett bilde:</h3>
-        <RemovePicture username={user.username} removePicture={removePicture} />
-      </div>
+      <h3>Slett bilde:</h3>
+      <RemovePicture username={user.username} removePicture={removePicture} />
 
       <Form onSubmit={handleSubmit}>
         <h3>Endre Bruker:</h3>
