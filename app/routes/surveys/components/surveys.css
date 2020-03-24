@@ -90,6 +90,17 @@
   min-width: 247px;
 }
 
+.reorderQuestion > div {
+  padding: 6px;
+  margin-left: 6px;
+  width: 100%;
+}
+
+.top {
+  display: flex;
+  justify-content: flex-start;
+}
+
 .questionTop {
   margin-bottom: 15px;
 }
