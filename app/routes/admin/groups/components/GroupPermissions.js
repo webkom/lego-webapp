@@ -4,7 +4,7 @@ import React from 'react';
 import { compose } from 'redux';
 import { sortBy } from 'lodash';
 import type { ID } from 'app/models';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import styles from './GroupMembers.css';
 import AddGroupPermission from './AddGroupPermission';

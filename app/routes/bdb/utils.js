@@ -59,11 +59,7 @@ export const sortStatusesByProminence = (
 export const selectMostProminentStatus = (
   statuses: Array<CompanySemesterContactedStatus> = []
 ) => {
-<<<<<<< HEAD
   return sortStatusesByProminence(statuses)[0];
-=======
-  return statuses.slice().sort(sortStatusesByProminence)[0];
->>>>>>> Rewrite route for bdb
 };
 
 export const semesterNameOf = (index: number) => {

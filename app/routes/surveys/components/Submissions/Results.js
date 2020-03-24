@@ -134,7 +134,6 @@ const Results = ({
           const pieColors = CHART_COLORS.filter(
             (color, i) => !colorsToRemove.includes(i)
           );
-<<<<<<< HEAD
           const graphType = graphOptions.find(
             a => a.value === question.displayType
           );
@@ -144,8 +143,6 @@ const Results = ({
             (a, b) => Math.max(a, b.selections),
             0
           );
-=======
->>>>>>> Add flow types for routeprops and cleanup code
 
           return (
             <li key={question.id}>
