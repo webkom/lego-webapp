@@ -23,7 +23,10 @@ type Props = {
   deleteQuestion: number => Promise<*>,
   questionData: Object,
   question: string,
-  index: number,
+  relativeIndex: number,
+  numberOfQuestions: number,
+  updateRelativeIndexes: (number, number, FieldArrayProps) => void,
+  fields: FieldArrayProps,
   option?: string,
   value?: string
 };
@@ -34,7 +37,24 @@ const questionTypeToIcon = {
   text_field: 'more'
 };
 
-const Question = ({ index, question, questionData, deleteQuestion }: Props) => {
+const questionIndexMappings = (indexNumbers: Array<number>) =>
+  indexNumbers.map(relativeIndex => ({
+    value: relativeIndex,
+    label: `Spørsmålsnummer: ${relativeIndex + 1}`
+  }));
+
+const Question = ({
+  relativeIndex,
+  numberOfQuestions,
+  question,
+  questionData,
+  deleteQuestion,
+  updateRelativeIndexes,
+  fields
+}: Props) => {
+  const indexOptions = questionIndexMappings([
+    ...Array(numberOfQuestions).keys()
+  ]);
   return (
     <div className={styles.question}>
       <div className={styles.left}>
@@ -63,29 +83,57 @@ const Question = ({ index, question, questionData, deleteQuestion }: Props) => {
         )}
       </div>
       <div className={styles.right}>
-        <div className={styles.questionType}>
-          <Field
-            name={`${question}.questionType`}
-            simpleValue
-            component={SelectInput.Field}
-            optionComponent={props =>
-              QuestionTypeOption(
-                props,
-                questionTypeToIcon[props.option && props.option.value]
-              )
-            }
-            options={mappings}
-            valueComponent={props =>
-              QuestionTypeValue(
-                props,
-                questionTypeToIcon[props.value && props.value.value]
-              )
-            }
-            className={styles.questionType}
-            clearable={false}
-            backspaceRemoves={false}
-            searchable={false}
-          />
+        <div className="top">
+          <div className={styles.questionType}>
+            <Field
+              name={`${question}.questionType`}
+              simpleValue
+              component={SelectInput.Field}
+              optionComponent={props =>
+                QuestionTypeOption(
+                  props,
+                  questionTypeToIcon[props.option && props.option.value]
+                )
+              }
+              options={mappings}
+              valueComponent={props =>
+                QuestionTypeValue(
+                  props,
+                  questionTypeToIcon[props.value && props.value.value]
+                )
+              }
+              className={styles.questionType}
+              clearable={false}
+              backspaceRemoves={false}
+              searchable={false}
+            />
+          </div>
+
+          <div>
+            <SelectInput
+              value={{
+                value: relativeIndex,
+                label: `Spørsmålsnummer: ${relativeIndex + 1}`
+              }}
+              placeholder="0"
+              name="relativeIndex"
+              options={indexOptions}
+              optionComponent={props =>
+                QuestionTypeOption(props, 'sort', 'fa fa-')
+              }
+              valueComponent={props =>
+                QuestionTypeValue(props, 'sort', 'fa fa-')
+              }
+              onChange={user =>
+                updateRelativeIndexes(relativeIndex, user.value, fields)
+              }
+              onBlur={() => null}
+              className={styles.reorderQuestion}
+              clearable={false}
+              backspaceRemoves={false}
+              searchable={false}
+            />
+          </div>
         </div>
 
         <div className={styles.bottom}>
@@ -101,7 +149,7 @@ const Question = ({ index, question, questionData, deleteQuestion }: Props) => {
           <ConfirmModalWithParent
             title="Slett spørsmål"
             message="Er du sikker på at du vil slette dette spørsmålet?"
-            onConfirm={() => deleteQuestion(index)}
+            onConfirm={() => deleteQuestion(relativeIndex)}
             closeOnConfirm
             className={styles.deleteQuestion}
           >
@@ -121,12 +169,12 @@ const renderOptions = ({
   questionType: string
 }) => (
   <ul className={styles.options}>
-    {fields.map((option, index) => {
-      const isLast = fields.length - 1 === index;
-      const removeFunction = () => fields.remove(index);
+    {fields.map((option, relativeIndex) => {
+      const isLast = fields.length - 1 === relativeIndex;
+      const removeFunction = () => fields.remove(relativeIndex);
       return (
         <Option
-          index={index}
+          index={relativeIndex}
           onChange={
             isLast
               ? value => {
@@ -134,7 +182,7 @@ const renderOptions = ({
                 }
               : undefined
           }
-          key={index}
+          key={relativeIndex}
           questionType={questionType}
           option={option}
           remove={isLast ? undefined : removeFunction}

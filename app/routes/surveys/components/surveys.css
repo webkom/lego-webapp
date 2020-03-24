@@ -90,6 +90,17 @@
   min-width: 247px;
 }
 
+.reorderQuestion > div {
+  padding: 6px;
+  margin-left: 6px;
+  width: 100%;
+}
+
+.top {
+  display: flex;
+  justify-content: flex-start;
+}
+
 .questionTop {
   margin-bottom: 15px;
 }
@@ -102,11 +113,6 @@
 
 .questionType > div {
   padding: 6px;
-}
-
-.questionTypeSelector {
-  padding: 14px 20px;
-  border: 1px solid var(--color-mono-gray-3);
 }
 
 .templateType {
