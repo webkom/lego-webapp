@@ -234,6 +234,12 @@ export default class JoblistingsRightNav extends Component<Props, State> {
                 label="Masteroppgave"
                 filters={this.state.filters}
               />
+              <FilterLink
+                type="jobTypes"
+                value="other"
+                label="Annet"
+                filters={this.state.filters}
+              />
             </Flex>
             <Flex
               column
