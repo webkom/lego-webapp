@@ -1,4 +1,4 @@
-@import 'app/styles/variables.css';
+@import '~app/styles/variables.css';
 
 .container {
   display: grid;
@@ -15,7 +15,7 @@
 }
 
 .rootCardStyle {
-  composes: withShadow from 'app/styles/utilities.css';
+  composes: withShadow from '~app/styles/utilities.css';
   background: var(--lego-card-color);
   padding: 30px;
 
@@ -87,18 +87,6 @@
   composes: rootCardStyle;
   flex: 1.8;
   margin-right: 30px;
-}
-
-.usefulLinks a {
-  font-size: 20px;
-}
-
-.usefulLinks li {
-  margin-bottom: 15px;
-}
-
-.linkDescription {
-  margin-left: 30px;
 }
 
 .usefulLinks a {

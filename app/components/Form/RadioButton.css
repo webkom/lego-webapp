@@ -17,18 +17,17 @@
   opacity: 0;
 }
 
-.input:disabled,
-.input:disabled + .label {
-  cursor: default;
-}
-
 .label {
   position: relative;
   cursor: pointer;
 }
 
+.input:disabled,
+.input:disabled + .label {
+  cursor: default;
+}
+
 /* radio aspect */
-.label::before,
 .label::before {
   content: '';
   position: absolute;

@@ -1,4 +1,4 @@
-@import 'app/styles/variables.css';
+@import '~app/styles/variables.css';
 
 .vision__line {
   border-left: 3px solid var(--lego-red);

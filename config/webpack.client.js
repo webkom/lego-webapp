@@ -151,9 +151,10 @@ module.exports = (env, argv) => {
             {
               loader: 'css-loader',
               options: {
-                modules: true,
                 importLoaders: 1,
-                localIdentName: '[name]__[local]--[hash:base64:10]'
+                modules: {
+                  localIdentName: '[name]__[local]--[hash:base64:10]'
+                }
               }
             },
             {
@@ -162,7 +163,19 @@ module.exports = (env, argv) => {
                 ident: 'postcss',
                 plugins: () => [
                   require('postcss-import')({
-                    path: [root]
+                    path: [root],
+                    // postcss doesn't support webpack modules import, which css-loader
+                    // requires that we use, so we need to resolve imports with '~'
+                    // manually.
+                    resolve(id, basedir) {
+                      if (/^~app/.test(id)) {
+                        return path.resolve(root, id.slice(1));
+                      }
+                      if (/^~/.test(id)) {
+                        return path.resolve('./node_modules', id);
+                      }
+                      return path.resolve(basedir, id);
+                    }
                   }),
                   require('postcss-preset-env')({
                     stage: 1,

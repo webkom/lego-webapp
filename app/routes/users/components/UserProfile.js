@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import Helmet from 'react-helmet';
-import { sumBy } from 'lodash';
+import { sumBy, sortBy, uniqBy, groupBy, orderBy } from 'lodash';
 import { ProfilePicture, CircularPicture } from 'app/components/Image';
 import Card from 'app/components/Card';
 import Pill from 'app/components/Pill';
@@ -14,7 +14,6 @@ import GroupChange from './GroupChange.js';
 import styles from './UserProfile.css';
 import { Flex } from 'app/components/Layout';
 import Tooltip from 'app/components/Tooltip';
-import { groupBy, orderBy } from 'lodash';
 import { resolveGroupLink } from 'app/reducers/groups';
 import type { Group, AddPenalty, Event, ID } from 'app/models';
 import cx from 'classnames';
@@ -202,14 +201,15 @@ export default class UserProfile extends Component<Props, EventsProps> {
     } = this.props;
 
     //If you wonder what this is, ask somebody
-    const FRAMEID = 6050;
+    const FRAMEID = [6050, 5962];
 
     const {
       pastMemberships = [],
       abakusGroups = [],
       firstName,
       lastName,
-      memberships = []
+      memberships = [],
+      permissionsPerGroup = []
     } = user;
 
     const { membershipsAsBadges = [], membershipsAsPills = [] } = groupBy(
@@ -237,6 +237,79 @@ export default class UserProfile extends Component<Props, EventsProps> {
       ),
       memberships => !memberships.some(membership => membership.isActive)
     );
+    const tree = {};
+    for (let group of permissionsPerGroup) {
+      for (let index in group.parentPermissions) {
+        const parent = group.parentPermissions[index];
+        if (Number(index) === 0) {
+          tree[parent.abakusGroup.id] = {
+            ...parent.abakusGroup,
+            children: [],
+            parent: null
+          };
+        } else {
+          tree[parent.abakusGroup.id] = {
+            ...parent.abakusGroup,
+            children: [],
+            parent: group.parentPermissions[Number(index) - 1].abakusGroup.id
+          };
+        }
+      }
+    }
+    for (let group of permissionsPerGroup) {
+      tree[group.abakusGroup.id] = {
+        ...group.abakusGroup,
+        children: [],
+        isMember: true,
+        parent: group.parentPermissions.length
+          ? group.parentPermissions[group.parentPermissions.length - 1]
+              .abakusGroup.id
+          : null
+      };
+    }
+
+    const sum = permissionsPerGroup.reduce((roots, val) => {
+      const abakusGroup = val.abakusGroup;
+      const id = abakusGroup.id;
+      const node = tree[id];
+      if (!node.parent) {
+        roots = uniqBy(roots.concat(node), a => a.id);
+      } else {
+        const parent = tree[node.parent];
+        parent.children = uniqBy(parent.children.concat(node), a => a.id);
+      }
+      for (let permGroup of val.parentPermissions) {
+        const abakusGroup = permGroup.abakusGroup;
+        const id = abakusGroup.id;
+        const node = tree[id];
+        if (!node.parent) {
+          roots.push(node);
+          roots = uniqBy(roots.concat(node), a => a.id);
+        } else {
+          const parent = tree[node.parent];
+          parent.children = uniqBy(parent.children.concat(node), a => a.id);
+        }
+      }
+      return roots;
+    }, []);
+
+    const genTree = groups => {
+      return groups.map(group => {
+        if (group.children.length) {
+          return (
+            <>
+              {genTree([{ ...group, children: [] }])}
+              <div style={{ marginLeft: 10 }}>{genTree(group.children)}</div>
+            </>
+          );
+        }
+        return (
+          <div key={group.id}>
+            {group.isMember ? <b> {group.name}</b> : <i> {group.name}</i>}
+          </div>
+        );
+      });
+    };
 
     return (
       <div className={styles.root}>
@@ -244,7 +317,7 @@ export default class UserProfile extends Component<Props, EventsProps> {
 
         <Flex wrap className={styles.header}>
           <div className={cx(styles.sidebar, styles.picture)}>
-            {user.id == FRAMEID && (
+            {FRAMEID.includes(user.id) && (
               <Image className={styles.frame} src={frame} />
             )}
             <ProfilePicture user={user} size={150} />
@@ -309,6 +382,108 @@ export default class UserProfile extends Component<Props, EventsProps> {
                     changeGrade={changeGrade}
                     username={user.username}
                   />
+                </Card>
+              </div>
+            )}
+
+            {!!permissionsPerGroup.length && (
+              <div>
+                <h3> Grupper </h3>
+                <Card className={styles.infoCard}>
+                  {genTree(sum)}
+
+                  <div>
+                    <br />
+                    <i style={{ fontSize: 14 }}>
+                      Du er medlem av gruppene markert med fet tekst, og
+                      indirekte medlem av gruppene i kursiv.
+                    </i>
+                  </div>
+                </Card>
+              </div>
+            )}
+
+            {/* canChangeGrade is a good heuristic if we should show permissions.
+                All users can see their own permission via the API,
+                but only admins can show permissions for other users.*/}
+            {canChangeGrade && (
+              <div>
+                <h3>Rettigheter</h3>
+                <Card className={styles.infoCard}>
+                  {uniqBy(
+                    permissionsPerGroup.concat(
+                      // $FlowFixMe flatMap is polyfilled
+                      permissionsPerGroup.flatMap(
+                        ({ parentPermissions }) => parentPermissions
+                      )
+                    ),
+                    a => a.abakusGroup.id
+                  ).map(
+                    ({ abakusGroup, permissions }) =>
+                      !!permissions.length && (
+                        <>
+                          <h4>
+                            Rettigheter fra
+                            <Link
+                              to={`/admin/groups/${
+                                abakusGroup.id
+                              }/permissions/`}
+                            >
+                              {' '}
+                              {abakusGroup.name}
+                            </Link>
+                          </h4>
+                          <ul>
+                            {permissions.map(permission => (
+                              <li key={permission + abakusGroup.id}>
+                                {permission}
+                              </li>
+                            ))}
+                          </ul>
+                        </>
+                      )
+                  )}
+                  <h4>Sum alle</h4>
+                  <ul>
+                    {sortBy(
+                      permissionsPerGroup
+                        .concat(
+                          // $FlowFixMe flatMap is polyfilled
+                          permissionsPerGroup.flatMap(
+                            ({ parentPermissions }) => parentPermissions
+                          )
+                        )
+                        // $FlowFixMe flatMap is polyfilled
+                        .flatMap(({ permissions }) => permissions),
+                      (permission: string) => permission.split('/').length
+                    )
+                      .reduce((acc: Array<string>, perm: string) => {
+                        // Reduce perms to only show broadest set of permissions
+                        // If a user has "/sudo/admin/events/" it means the user also has "/sudo/admin/events/create/" implicitly.
+                        // Therefore we will only show "/sudo/admin/events/"
+                        const splittedPerm = perm.split('/').filter(Boolean);
+                        // YES, this has a bad runtime complexity, but since n is so small it doesn't matter in practice
+                        const [broaderPermFound] = splittedPerm.reduce(
+                          (
+                            accumulator: [boolean, string],
+                            permPart: string
+                          ) => {
+                            const [broaderPermFound, summedPerm] = accumulator;
+                            const concatedString = `${summedPerm}${permPart}/`;
+                            return [
+                              broaderPermFound || acc.includes(concatedString),
+                              concatedString
+                            ];
+                          },
+                          [false, '/']
+                        );
+                        if (broaderPermFound) return acc;
+                        return [...acc, perm];
+                      }, [])
+                      .map(permission => (
+                        <li key={permission}>{permission}</li>
+                      ))}
+                  </ul>
                 </Card>
               </div>
             )}

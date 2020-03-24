@@ -1,0 +1,91 @@
+.container {
+  display: grid;
+  justify-content: center;
+  height: 100vh;
+  width: auto;
+  max-width: 1600px;
+  font-size: 1.3rem;
+  margin: 0 auto;
+}
+
+.contentContainer {
+  display: grid;
+  width: 80vw;
+  grid-auto-flow: column;
+  align-items: center;
+  justify-items: center;
+}
+
+.leftContainer {
+  width: 60%;
+}
+
+.title {
+  font-weight: 800;
+  font-size: 2.3rem;
+  line-height: 29px;
+}
+
+.description {
+  font-weight: 400;
+  margin: 15px 0;
+}
+
+.logo {
+  flex: 1;
+}
+
+.logo > img {
+  margin: 50px 0;
+  max-width: 160px;
+  max-height: 50vh;
+}
+
+.foolsImage {
+  display: grid;
+  height: 100%;
+  align-items: center;
+}
+
+@media only screen and (max-width: 1000px) {
+  .leftContainer {
+    width: 60vw;
+  }
+
+  .foolsImage {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .contentContainer {
+    align-items: normal;
+    font-size: 1rem;
+  }
+
+  .title {
+    font-size: 1.5rem;
+    line-height: 29px;
+  }
+
+  .description {
+    font-weight: 400;
+    margin: 15px 0;
+  }
+
+  .leftContainer {
+    width: 80vw;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .contentContainer {
+    align-items: normal;
+    font-size: 0.85rem;
+  }
+
+  .description {
+    font-weight: 400;
+    margin: 15px 0;
+  }
+}

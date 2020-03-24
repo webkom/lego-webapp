@@ -67,7 +67,15 @@ export default class GalleryDetail extends Component<Props, State> {
           title={gallery.title}
           details={<GalleryDetailsRow gallery={gallery} showDescription />}
         >
-          <NavigationLink to={'/photos'}>
+          <NavigationLink
+            onClick={(e: Event) => {
+              // TODO fix this hack when react-router is done
+              if (!window.location.hash) return;
+              window.history.back();
+              e.preventDefault();
+            }}
+            to={'/photos'}
+          >
             <i className="fa fa-angle-left" /> Tilbake
           </NavigationLink>
           {actionGrant && actionGrant.includes('edit') && (

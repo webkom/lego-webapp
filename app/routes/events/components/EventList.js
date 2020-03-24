@@ -56,9 +56,9 @@ const EventListGroup = ({
   return isEmpty(events) ? null : (
     <div className={styles.eventGroup}>
       <h2 className={styles.heading}>{name}</h2>
-      {events.map((event, i) => (
+      {events.map(event => (
         <EventItem
-          key={i}
+          key={event.id}
           event={event}
           field={field}
           showTags={false}

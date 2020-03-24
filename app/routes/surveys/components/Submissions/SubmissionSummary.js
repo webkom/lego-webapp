@@ -13,14 +13,20 @@ type Props = {
   addSubmission: SubmissionEntity => Promise<*>,
   survey: SurveyEntity,
   hideAnswer: (number, number, number) => Promise<*>,
-  showAnswer: (number, number, number) => Promise<*>
+  showAnswer: (number, number, number) => Promise<*>,
+  editSurvey: Object => Promise<*>,
+  value: string,
+  option: string
 };
 
 const SubmissionSummary = ({
   submissions,
   survey,
   hideAnswer,
-  showAnswer
+  showAnswer,
+  editSurvey,
+  option,
+  value
 }: Props) => {
   const generateTextAnswers = question => {
     const texts = submissions
@@ -101,6 +107,9 @@ const SubmissionSummary = ({
       graphData={graphData}
       generateTextAnswers={generateTextAnswers}
       numberOfSubmissions={submissions.length}
+      editSurvey={editSurvey}
+      option={option}
+      value={value}
     />
   );
 };

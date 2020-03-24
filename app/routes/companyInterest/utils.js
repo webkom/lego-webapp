@@ -52,34 +52,21 @@ export const semesterToText = ({
 
 export const interestText = {
   comment: {
-    norwegian:
-      'For at vi skal kunne legge tilrette for deres ønsker på best ' +
-      'mulig måte, ønsker vi at dere skriver litt om hvordan dere ' +
-      'ønsker å gjennomføre arrangementet.',
-    english:
-      'Please explain your expectations and plans for the event to help us take your preferences ' +
-      'into consideration.'
+    norwegian: 'Skriv om bedriften eller arrangementet.',
+    english: 'Write about your company or the event.'
   },
   text: {
     first: {
       norwegian:
-        'Dersom dere ønsker noe utenfor de vanlige rammene, huk gjerne av på ' +
-        '“Alternativt arrangement” og skriv en kommentar om hva dere kunne ' +
-        'tenkt dere å gjøre i kommentarfeltet. Vi i Abakus ønsker å kunne tilby ' +
-        'et bredt spekter av arrangementer som er gunstig for våre studenter. ',
+        'Dersom dere ikke har hatt arrangement med Abakus før, eller om det er lenge siden vi har samarbeidet, ønsker vi at dere skriver litt om selskapet. Dette hjelper oss mye når vi skal sette sammen arrangementskalenderen.',
       english:
-        'If you wish to host something different than a traditional event, you can check the “other” box and ' +
-        'write a comment explaining what you have in mind. Abakus wishes to ' +
-        'offer a wide range of events that are beneficial for our students. '
+        "If you haven't held an event with Abakus previously, or if it has been a long time since we cooperated, we would like if you told us a bit about your company. This helps us when distributing dates for events."
     },
     second: {
       norwegian:
-        'Kommentarfeltet kan også brukes til å spesifisere annen informasjon, ' +
-        'som for eksempel hvilken teknologi dere ønsker å lære bort hvis dere ' +
-        'får faglig arrangement.',
+        'Vi ønsker også at dere skriver litt om hva slags type arrangement dere ser for dere å holde. Ønsker dere å gjøre noe utenfor de vanlige rammene, eller helst en standard bedpres? Uansett vil vi gjerne vite det!',
       english:
-        'The comment box can also be used for other types of information, such as ' +
-        'which technologies you would like to present for our students when hosting a course or a workshop.'
+        "We'd prefer that you also write a little bit about what kind of event you would like to have. Do you want something outside the given options, or is it a regular company presentation? Either way, we'd like to know!"
     }
   },
   bedex: {

@@ -22,6 +22,8 @@ type Props = {
   contentTarget: string
 };
 
+// Note: Most use cases won't want to use this class directly. Instead, use
+// app/components/LegoReactions.
 class Reaction extends React.Component<Props> {
   render() {
     const {

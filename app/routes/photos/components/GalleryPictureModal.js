@@ -18,6 +18,8 @@ import type { EntityID } from 'app/types';
 import type { ID } from 'app/models';
 import Button from 'app/components/Button';
 import { Image } from 'app/components/Image';
+// $FlowFixMe
+import { useEffect } from 'react';
 
 type Props = {
   picture: Object,
@@ -44,7 +46,16 @@ type State = {
   hasNext: boolean,
   hasPrevious: boolean
 };
-
+const OnKeyDownHandler = ({ handler }: { handler: KeyboardEvent => void }) => (
+  useEffect(
+    () => (
+      window.addEventListener('keydown', handler),
+      () => window.removeEventListener('keydown', handler)
+    ),
+    [handler]
+  ),
+  null
+);
 const Taggees = ({ taggees }: { taggees: Array<Object> }) => {
   if (taggees.length === 1) {
     return (
@@ -161,7 +172,7 @@ export default class GalleryPictureModal extends Component<Props, State> {
     trailing: false
   });
 
-  handleKeyDown = (e: KeyboardEvent) => {
+  handleKeyDown = (e: KeyboardEvent): void => {
     // Dont handle events inside the comment form... :smile:
     // $FlowFixMe
     if (e.target.className === 'notranslate public-DraftEditor-content') {
@@ -205,13 +216,11 @@ export default class GalleryPictureModal extends Component<Props, State> {
       <Swipeable onSwiping={this.handleSwipe}>
         <Modal
           onHide={() => push(`/photos/${gallery.id}`)}
-          backdropClassName={styles.backdrop}
-          backdrop
           show
+          backdrop
           contentClassName={styles.content}
-          autoFocus
-          onKeyDown={this.handleKeyDown}
         >
+          <OnKeyDownHandler handler={this.handleKeyDown} />
           <Content className={styles.topContent}>
             <Flex
               width="100%"

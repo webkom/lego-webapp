@@ -6,8 +6,7 @@ import { Content } from 'app/components/Content';
 import CommentView from 'app/components/Comments/CommentView';
 import Tag from 'app/components/Tags/Tag';
 import Tags from 'app/components/Tags';
-import Reaction from 'app/components/Reactions/Reaction';
-import Reactions from 'app/components/Reactions';
+import LegoReactions from 'app/components/LegoReactions';
 import { Link } from 'react-router';
 import moment from 'moment-timezone';
 import DisplayContent from 'app/components/DisplayContent';
@@ -50,22 +49,6 @@ const ArticleDetail = ({
   fetchEmojis,
   fetchingEmojis
 }: Props) => {
-  let mappedEmojis = [];
-  if (!fetchingEmojis) {
-    mappedEmojis = emojis.map(emoji => {
-      const foundReaction = article.reactionsGrouped.find(
-        reaction => emoji.shortCode == reaction.emoji && reaction.hasReacted
-      );
-      if (foundReaction !== undefined) {
-        emoji.hasReacted = true;
-        emoji.reactionId = foundReaction.reactionId;
-      } else {
-        emoji.hasReacted = false;
-        emoji.reactionId = -1;
-      }
-      return emoji;
-    });
-  }
   return (
     <Content banner={article.cover} youtubeUrl={article.youtubeUrl}>
       <NavigationTab
@@ -99,30 +82,14 @@ const ArticleDetail = ({
       </Tags>
 
       <div className={styles.articleReactions}>
-        <Reactions
-          emojis={mappedEmojis}
+        <LegoReactions
+          emojis={emojis}
           fetchEmojis={fetchEmojis}
           fetchingEmojis={fetchingEmojis}
           addReaction={addReaction}
           deleteReaction={deleteReaction}
-          contentTarget={article.contentTarget}
-        >
-          {article.reactionsGrouped.map(reaction => {
-            return (
-              <Reaction
-                key={`reaction-${reaction.emoji}`}
-                emoji={reaction.emoji}
-                count={reaction.count}
-                unicodeString={reaction.unicodeString}
-                reactionId={reaction.reactionId}
-                hasReacted={reaction.hasReacted}
-                addReaction={addReaction}
-                deleteReaction={deleteReaction}
-                contentTarget={article.contentTarget}
-              />
-            );
-          })}
-        </Reactions>
+          parentEntity={article}
+        />
       </div>
 
       {article.contentTarget && (

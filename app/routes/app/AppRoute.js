@@ -20,6 +20,7 @@ import { fetchMeta } from 'app/actions/MetaActions';
 import { selectFeedActivitesByFeedId } from 'app/reducers/feeds';
 import { toggleSearch } from 'app/actions/SearchActions';
 import ErrorBoundary from 'app/components/ErrorBoundary';
+import SpecialDay from 'app/components/SpecialDay';
 import Header from 'app/components/Header';
 import Footer from 'app/components/Footer';
 import ToastContainer from 'app/components/Toast/ToastContainer';
@@ -83,45 +84,47 @@ class App extends PureComponent<AppProps> {
           />
         </Helmet>
 
-        {config.environment !== 'production' && (
-          <div
-            style={{
-              backgroundColor: 'red',
-              color: 'white',
-              fontWeight: 'bold',
-              padding: '10px'
-            }}
+        <SpecialDay>
+          {config.environment !== 'production' && (
+            <div
+              style={{
+                backgroundColor: 'red',
+                color: 'white',
+                fontWeight: 'bold',
+                padding: '10px'
+              }}
+            >
+              This is a development version of lego-webapp.
+            </div>
+          )}
+
+          <Header
+            searchOpen={this.props.searchOpen}
+            toggleSearch={this.props.toggleSearch}
+            currentUser={this.props.currentUser}
+            loggedIn={this.props.loggedIn}
+            logout={this.props.logout}
+            login={this.props.login}
+            notificationsData={this.props.notificationsData}
+            fetchNotifications={this.props.fetchNotificationFeed}
+            notifications={this.props.notifications}
+            markAllNotifications={this.props.markAllNotifications}
+            fetchNotificationData={this.props.fetchNotificationData}
+          />
+
+          <AppChildren
+            currentUser={this.props.currentUser}
+            loggedIn={this.props.loggedIn}
+            statusCode={this.props.statusCode}
+            setStatusCode={this.props.setStatusCode}
+            location={this.props.location}
           >
-            This is a development version of lego-webapp.
-          </div>
-        )}
+            {this.props.children}
+          </AppChildren>
+          <PhotoUploadStatus />
 
-        <Header
-          searchOpen={this.props.searchOpen}
-          toggleSearch={this.props.toggleSearch}
-          currentUser={this.props.currentUser}
-          loggedIn={this.props.loggedIn}
-          logout={this.props.logout}
-          login={this.props.login}
-          notificationsData={this.props.notificationsData}
-          fetchNotifications={this.props.fetchNotificationFeed}
-          notifications={this.props.notifications}
-          markAllNotifications={this.props.markAllNotifications}
-          fetchNotificationData={this.props.fetchNotificationData}
-        />
-
-        <AppChildren
-          currentUser={this.props.currentUser}
-          loggedIn={this.props.loggedIn}
-          statusCode={this.props.statusCode}
-          setStatusCode={this.props.setStatusCode}
-          location={this.props.location}
-        >
-          {this.props.children}
-        </AppChildren>
-        <PhotoUploadStatus />
-
-        <Footer {...this.props} />
+          <Footer {...this.props} />
+        </SpecialDay>
       </div>
     );
   }

@@ -1,11 +1,11 @@
-@import 'app/styles/variables.css';
+@import '~app/styles/variables.css';
 
 .link {
   color: rgba(0, 0, 0, 0.9);
 }
 
 .body {
-  composes: withShadow from 'app/styles/utilities.css';
+  composes: withShadow from '~app/styles/utilities.css';
   text-align: center;
   background: var(--lego-card-color);
   height: 388px;
@@ -20,12 +20,8 @@
 
 .image {
   object-fit: cover;
-  height: 100px;
-
-  @media (--mobile-device) {
-    width: 100%;
-    height: auto;
-  }
+  width: 100%;
+  height: auto;
 }
 
 .articleTitle {

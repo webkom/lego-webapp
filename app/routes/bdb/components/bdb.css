@@ -1,7 +1,15 @@
-@import 'app/styles/variables.css';
+@import '~app/styles/variables.css';
 
 .root h3 {
   margin: 5px 0 25px;
+}
+
+.fileForm {
+  margin-top: 15px;
+}
+
+.search {
+  display: flex;
 }
 
 .root select {
@@ -34,6 +42,10 @@
 
 .companyList table {
   border-collapse: collapse;
+}
+
+.rightSection a {
+  display: block;
 }
 
 .companyList table a {
@@ -135,6 +147,19 @@
 
 .files {
   margin-top: 20px;
+}
+
+.info h3,
+.info i {
+  margin: 0 auto;
+}
+
+.editInfo > label {
+  display: flex;
+}
+
+.editInfo i {
+  width: 30px;
 }
 
 .deleteFile {
@@ -352,10 +377,6 @@ background-color. By making it this way I don't have to rewrite it 🤷 */
   flex-direction: column;
 }
 
-.rightSection a {
-  display: block;
-}
-
 .submit {
   padding: 10px 20px;
   font-size: 14px;
@@ -407,19 +428,6 @@ option {
   justify-content: center;
 }
 
-.info h3,
-.info i {
-  margin: 0 auto;
-}
-
-.editInfo > label {
-  display: flex;
-}
-
-.editInfo i {
-  width: 30px;
-}
-
 .editTitle {
   width: 250px;
   font-size: 30px;
@@ -455,22 +463,6 @@ option {
   }
 }
 
-.semesterStatusForm select {
-  width: 100%;
-
-  &:hover {
-    cursor: pointer;
-  }
-}
-
-.fileForm {
-  margin-top: 15px;
-}
-
-.search {
-  display: flex;
-}
-
 .search h2 {
   display: inline;
   margin-right: 20px;
@@ -499,4 +491,13 @@ option {
 
 .contactedStatusForm {
   width: 240px;
+}
+
+.surveyIcon {
+  color: var(--lego-link-color);
+}
+
+.surveyContainer {
+  display: flex;
+  justify-content: center;
 }

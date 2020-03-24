@@ -204,6 +204,7 @@ export const Quote = {
   FETCH: generateStatuses('Quote.FETCH'),
   FETCH_ALL_APPROVED: generateStatuses('Quote.FETCH_ALL_APPROVED'),
   FETCH_ALL_UNAPPROVED: generateStatuses('Quote.FETCH_ALL_UNAPPROVED'),
+  FETCH_RANDOM: generateStatuses('Quote.FETCH_RANDOM'),
   APPROVE: generateStatuses('Quote.APPROVE'),
   UNAPPROVE: generateStatuses('Quote.UNAPPROVE'),
   DELETE: generateStatuses('Quote.DELETE'),

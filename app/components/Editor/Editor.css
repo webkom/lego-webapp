@@ -21,13 +21,13 @@
     }
   }
 
+  .public-DraftEditorPlaceholder-root {
+    z-index: 0;
+  }
+
   .md-RichEditor-editor .public-DraftEditor-content,
   .md-RichEditor-editor .public-DraftEditorPlaceholder-root {
     margin: 0;
     padding: 0;
-  }
-
-  .public-DraftEditorPlaceholder-root {
-    z-index: 0;
   }
 }

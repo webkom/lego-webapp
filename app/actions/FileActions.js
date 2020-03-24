@@ -5,18 +5,20 @@ import callAPI from './callAPI';
 import type { Thunk } from 'app/types';
 import slug from 'slugify';
 
-const slugOpts = { remove: /[#*+~.()'"!:@]/g };
-/**
- * Normalize filenames
- * Remove non-word chars and replace spaces.
- */
-const normalizeFilename: (filename: string) => string = filename => {
+const slugifyFilename: (filename: string) => string = filename => {
+  // Slug options
+  const slugOpts = {
+    replacement: '-', // replace all spaces with -
+    remove: /[^a-zA-Z0-9/-\w.]+/g // remove all letters that does not match this regex
+  };
   const extensionIndex = filename.lastIndexOf('.');
+  // If file has extension we slug the first part
   if (extensionIndex > 0) {
     const name = slug(filename.substr(0, extensionIndex), slugOpts);
     const extension = filename.substr(extensionIndex);
     return `${name}${extension}`;
   }
+  // If the file has no extension we slug the whole filename
   return slug(filename, slugOpts);
 };
 
@@ -26,7 +28,7 @@ export function fetchSignedPost(key: string, isPublic: boolean) {
     method: 'POST',
     endpoint: '/files/',
     body: {
-      key: normalizeFilename(key),
+      key: slugifyFilename(key),
       public: isPublic
     },
     meta: {

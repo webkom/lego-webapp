@@ -84,29 +84,57 @@ const Question = ({
         )}
       </div>
       <div className={styles.right}>
-        <div className={styles.questionType}>
-          <Field
-            name={`${question}.questionType`}
-            simpleValue
-            component={SelectInput.Field}
-            optionComponent={props =>
-              QuestionTypeOption(
-                props,
-                questionTypeToIcon[props.option && props.option.value]
-              )
-            }
-            options={mappings}
-            valueComponent={props =>
-              QuestionTypeValue(
-                props,
-                questionTypeToIcon[props.value && props.value.value]
-              )
-            }
-            className={styles.questionType}
-            clearable={false}
-            backspaceRemoves={false}
-            searchable={false}
-          />
+        <div className="top">
+          <div className={styles.questionType}>
+            <Field
+              name={`${question}.questionType`}
+              simpleValue
+              component={SelectInput.Field}
+              optionComponent={props =>
+                QuestionTypeOption(
+                  props,
+                  questionTypeToIcon[props.option && props.option.value]
+                )
+              }
+              options={mappings}
+              valueComponent={props =>
+                QuestionTypeValue(
+                  props,
+                  questionTypeToIcon[props.value && props.value.value]
+                )
+              }
+              className={styles.questionType}
+              clearable={false}
+              backspaceRemoves={false}
+              searchable={false}
+            />
+          </div>
+
+          <div>
+            <SelectInput
+              name="relativeIndex"
+              component={SelectInput.Field}
+              options={indexOptions}
+              optionComponent={props =>
+                QuestionTypeOption(props, 'sort', 'fa fa-')
+              }
+              value={{
+                value: relativeIndex,
+                label: `Spørsmålsnummer: ${relativeIndex + 1}`
+              }}
+              valueComponent={props =>
+                QuestionTypeValue(props, 'sort', 'fa fa-')
+              }
+              className={styles.reorderQuestion}
+              placeholder="0"
+              onChange={user =>
+                updateRelativeIndexes(relativeIndex, user.value, fields)
+              }
+              onBlur={() => null}
+              clearable={false}
+              searchable={false}
+            />
+          </div>
         </div>
 
         <div>
@@ -166,12 +194,12 @@ const renderOptions = ({
   questionType: string
 }) => (
   <ul className={styles.options}>
-    {fields.map((option, index) => {
-      const isLast = fields.length - 1 === index;
-      const removeFunction = () => fields.remove(index);
+    {fields.map((option, relativeIndex) => {
+      const isLast = fields.length - 1 === relativeIndex;
+      const removeFunction = () => fields.remove(relativeIndex);
       return (
         <Option
-          index={index}
+          relativeIndex={relativeIndex}
           onChange={
             isLast
               ? value => {
@@ -179,7 +207,7 @@ const renderOptions = ({
                 }
               : undefined
           }
-          key={index}
+          key={relativeIndex}
           questionType={questionType}
           option={option}
           remove={isLast ? undefined : removeFunction}

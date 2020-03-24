@@ -1,4 +1,4 @@
-@import 'app/styles/variables.css';
+@import '~app/styles/variables.css';
 
 .surveyItem {
   padding-left: 20px;
@@ -88,6 +88,17 @@
   flex-direction: column;
   justify-content: space-between;
   min-width: 247px;
+}
+
+.reorderQuestion > div {
+  padding: 6px;
+  margin-left: 6px;
+  width: 100%;
+}
+
+.top {
+  display: flex;
+  justify-content: flex-start;
 }
 
 .questionTop {
@@ -263,12 +274,6 @@
   margin-bottom: 15px;
 }
 
-.navTab > div > div {
-  font-size: 16px;
-  text-transform: none;
-  font-weight: normal;
-}
-
 .removeOption {
   color: #999;
   font-size: 20px;
@@ -301,6 +306,12 @@
   }
 }
 
+.navTab > div > div {
+  font-size: 16px;
+  text-transform: none;
+  font-weight: normal;
+}
+
 .eventSummary {
   margin: 15px 0;
 }
@@ -309,9 +320,11 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  margin-left: -15px;
 
   @media (--mobile-device) {
     flex-direction: column;
+    padding-left: 15px;
   }
 }
 
@@ -347,4 +360,30 @@
 
 .detailQuestions > li {
   margin-top: 30px;
+}
+
+.selectGraphContainer {
+  width: 200px;
+  max-width: 200px;
+  align-content: center;
+  margin: 50px 0 0 -200px;
+
+  @media (--mobile-device) {
+    margin: 33px 0 0 80px;
+  }
+}
+
+.selectGraph {
+  align-content: center;
+}
+
+.graphContainer {
+  display: flex;
+  flex-wrap: inherit;
+  justify-content: space-between;
+
+  @media (--mobile-device) {
+    flex-direction: column;
+    padding-bottom: 15px;
+  }
 }

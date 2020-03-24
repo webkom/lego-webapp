@@ -1,4 +1,4 @@
-@import 'app/styles/variables.css';
+@import '~app/styles/variables.css';
 
 .compactEvents {
   display: flex;
@@ -11,14 +11,6 @@
 .compactEvents h3 {
   margin-bottom: 10px;
   padding: 0;
-}
-
-.compactEvents a {
-  color: var(--lego-font-color);
-
-  &:hover {
-    color: #c0392b;
-  }
 }
 
 .compactLeft {
@@ -41,6 +33,10 @@
   align-items: center;
 }
 
+.compactEvents a {
+  color: var(--lego-font-color);
+}
+
 .compactEvents li > a {
   display: block;
   white-space: nowrap;
@@ -49,6 +45,10 @@
   width: 0;
   flex-grow: 1;
   padding-right: 10px;
+}
+
+.compactEvents a:hover {
+  color: #c0392b;
 }
 
 .showMoreLink {

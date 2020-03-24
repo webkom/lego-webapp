@@ -26,6 +26,7 @@ export function mutateReactions(forTargetType: string) {
         const reactionId = action.payload.result;
 
         const targetType = getEntityType(serverTargetType);
+
         if (targetType !== forTargetType) {
           return state;
         }

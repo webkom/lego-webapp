@@ -1,7 +1,7 @@
-@import 'app/styles/variables.css';
+@import '~app/styles/variables.css';
 
 .root {
-  composes: contentContainer from 'app/styles/utilities.css';
+  composes: contentContainer from '~app/styles/utilities.css';
 }
 
 .picture {
@@ -149,7 +149,7 @@
 
 .readMore {
   display: none;
-  font-family: Raleway;
+  font-family: Raleway, sans-serif;
   font-size: var(--font-size);
   color: var(--lego-red);
   margin-top: 17px;

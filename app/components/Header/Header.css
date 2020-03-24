@@ -1,4 +1,4 @@
-@import 'app/styles/variables.css';
+@import '~app/styles/variables.css';
 
 .backdrop {
   background: rgba(255, 255, 255, 0.5);
@@ -13,6 +13,10 @@
   flex: 1;
   display: flex;
   justify-content: flex-end;
+}
+
+.logo > img {
+  max-width: 160px;
 }
 
 .buttonGroup button,
@@ -64,7 +68,7 @@
 }
 
 .content {
-  composes: container from 'app/styles/utilities.css';
+  composes: container from '~app/styles/utilities.css';
   position: relative;
   display: flex;
   justify-content: space-between;
@@ -76,10 +80,6 @@
 
 .logo {
   flex: 1;
-}
-
-.logo > img {
-  max-width: 160px;
 }
 
 .menu {

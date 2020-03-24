@@ -1,8 +1,10 @@
-@import 'app/styles/variables.css';
+@import '~app/styles/variables.css';
 
 .optionWrapper {
   justify-content: center;
   min-height: 120px;
+  cursor: pointer;
+  position: relative;
 }
 
 .pollTable {
@@ -29,7 +31,7 @@
 }
 
 .poll {
-  composes: withShadow from 'app/styles/utilities.css';
+  composes: withShadow from '~app/styles/utilities.css';
   background: var(--lego-card-color);
   padding: 15px 20px 8px;
   min-height: 195px;
@@ -109,5 +111,49 @@
     transform: scale(1.5);
     color: var(--color-red-3);
     transition: transform 0.2s;
+  }
+}
+
+.blurContainer {
+  display: none;
+  position: absolute;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.blurOverlay {
+  position: absolute;
+  z-index: 2;
+  color: var(--color-black);
+  margin-top: 25px;
+}
+
+.optionWrapper:hover .blurContainer {
+  display: flex;
+}
+
+.optionWrapper:hover .blurEffect {
+  filter: blur(3px);
+  pointer-events: none;
+}
+
+.blurArrow {
+  margin-top: 40px;
+}
+
+.alignItems {
+  display: flex;
+  justify-content: center;
+}
+
+@media (--mobile-device) {
+  .blurContainer {
+    display: flex;
+  }
+
+  .blurEffect {
+    filter: blur(3px);
+    pointer-events: none;
   }
 }

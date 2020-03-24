@@ -11,10 +11,19 @@ import { TokenNavigation } from '../../utils';
 type Props = {
   survey: SurveyEntity,
   actionGrant: ActionGrant,
-  results: Object
+  results: Object,
+  option: string,
+  value: string,
+  editSurvey: Object => Promise<*>
 };
 
-const SubmissionPublicResultsPage = ({ survey, actionGrant }: Props) => {
+const SubmissionPublicResultsPage = ({
+  survey,
+  actionGrant,
+  option,
+  editSurvey,
+  value
+}: Props) => {
   const { results = {} } = survey;
 
   const generateTextAnswers = question => {
@@ -72,6 +81,9 @@ const SubmissionPublicResultsPage = ({ survey, actionGrant }: Props) => {
             graphData={graphData}
             numberOfSubmissions={survey.submissionCount || 0}
             generateTextAnswers={generateTextAnswers}
+            option={option}
+            value={value}
+            editSurvey={editSurvey}
           />
         </ContentMain>
       </ContentSection>

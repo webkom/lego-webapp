@@ -25,10 +25,19 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    -moz-transition: all 0.1s;
+    -o-transition: all 0.1s;
+    -ms-transition: all 0.1s;
+    -webkit-transition: all 0.1s;
+    transition: all 0.1s;
   }
 
   .tree-view_arrow::after {
     content: '▾';
+  }
+
+  .tree-view_arrow-empty {
+    color: yellow;
   }
 
   /* rotate the triangle to close it */
@@ -48,11 +57,6 @@
     border-radius: 3px;
   }
 
-  .node:hover {
-    background-color: rgb(220, 245, 243);
-    cursor: pointer;
-  }
-
   .info,
   .node {
     padding: 2px 10px 2px 5px;
@@ -63,15 +67,8 @@
     user-select: none;
   }
 
-  .tree-view_arrow {
-    -moz-transition: all 0.1s;
-    -o-transition: all 0.1s;
-    -ms-transition: all 0.1s;
-    -webkit-transition: all 0.1s;
-    transition: all 0.1s;
-  }
-
-  .tree-view_arrow-empty {
-    color: yellow;
+  .node:hover {
+    background-color: rgb(220, 245, 243);
+    cursor: pointer;
   }
 }

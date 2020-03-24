@@ -1,11 +1,16 @@
-import { field } from '../support/utils.js';
+import { field, selectField } from '../support/utils.js';
 
 const createCompanyInterest = () => {
   cy.visit('/interesse');
 
-  field('companyName')
-    .click()
-    .type('webkom consulting');
+  // Select company
+  selectField('company').click();
+  cy.focused().type('BEKK', { force: true });
+  selectField('company')
+    .find('.Select-menu-outer')
+    .should('not.contain', 'No results')
+    .and('contain', 'BEKK');
+  cy.focused().type('{enter}', { force: true });
 
   field('contactPerson')
     .click()
@@ -14,6 +19,10 @@ const createCompanyInterest = () => {
   field('mail')
     .click()
     .type('webkom@webkom.no');
+
+  field('phone')
+    .click()
+    .type('90909090');
 
   field('semesters[0].checked').check();
   field('events[0].checked').check();
@@ -46,21 +55,27 @@ describe('Admin company interest', () => {
     createCompanyInterest();
     cy.url().should('include', `/companyInterest`);
 
-    cy.contains('webkom');
+    cy.contains('BEKK');
     cy.contains('webkom@webkom.no');
+    cy.contains('90909090');
     cy.contains('Slett')
       .click()
       .click();
 
-    cy.should('not.contain', 'webkom');
+    cy.should('not.contain', 'BEKK');
   });
 
   it('should not be able to create if invalid input', () => {
     cy.visit('/interesse');
 
-    field('companyName')
-      .click()
-      .type('webkom consulting');
+    // Select company
+    selectField('company').click();
+    cy.focused().type('BEKK', { force: true });
+    selectField('company')
+      .find('.Select-menu-outer')
+      .should('not.contain', 'No results')
+      .and('contain', 'BEKK');
+    cy.focused().type('{enter}', { force: true });
 
     field('contactPerson')
       .click()
@@ -69,6 +84,10 @@ describe('Admin company interest', () => {
     field('mail')
       .click()
       .type('webkom@webko');
+
+    field('phone')
+      .click()
+      .type('');
 
     field('comment').type('random comment');
 
@@ -80,14 +99,15 @@ describe('Admin company interest', () => {
   it('should be able to edit company interest', () => {
     createCompanyInterest();
     cy.url().should('include', `/companyInterest`);
-    cy.contains('webkom consulting').click();
+    cy.contains('BEKK').click();
     cy.url().should('include', `edit`);
 
     field('contactPerson').should('have.value', 'webkom');
     field('mail').should('have.value', 'webkom@webkom.no');
+    field('phone').should('have.value', '90909090');
     field('comment').should('have.value', 'random comment');
 
-    field('companyName').type('plebkom');
+    field('contactPerson').type('plebkom');
 
     field('semesters[0].checked').should('have.attr', 'checked');
     field('events[0].checked').should('have.attr', 'checked');

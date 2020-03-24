@@ -1,11 +1,11 @@
-@import 'app/styles/variables.css';
+@import '~app/styles/variables.css';
 
 :root {
   --calendar-border: 1px solid #ddd;
 }
 
 .root {
-  composes: contentContainer from 'app/styles/utilities.css';
+  composes: contentContainer from '~app/styles/utilities.css';
 }
 
 .grid {
@@ -76,5 +76,5 @@
 }
 
 .cell {
-  composes: truncateString from 'app/styles/utilities.css';
+  composes: truncateString from '~app/styles/utilities.css';
 }

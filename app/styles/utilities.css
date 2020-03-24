@@ -4,7 +4,7 @@
  * Utility classes for use by other classes.
  *
  * Usage:
- * `composes: className from 'app/styles/utilities.css'`
+ * `composes: className from '~app/styles/utilities.css'`
  */
 
 .container {
@@ -30,6 +30,13 @@
 
 .sidebar {
   min-width: 25%;
+
+  /* TODO: Make this proper CSS for a general sidebar */
+  min-height: 300px;
+  padding: 20px 0 0 30px;
+  margin: 0 0 0 60px;
+  border-left: 1px solid #ccc;
+  align-self: flex-end;
 }
 
 .withShadow {
@@ -57,13 +64,12 @@
   }
 }
 
-.sidebar {
-  /* TODO: Make this proper CSS for a general sidebar */
-  min-height: 300px;
-  padding: 20px 0 0 30px;
-  margin: 0 0 0 60px;
-  border-left: 1px solid #ccc;
-  align-self: flex-end;
+.hiddenOnDesktop {
+  display: none;
+
+  @media (--small-viewport) {
+    display: flex;
+  }
 }
 
 :global {

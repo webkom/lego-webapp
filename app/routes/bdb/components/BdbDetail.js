@@ -1,6 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
+import cx from 'classnames';
 import styles from './bdb.css';
 import { Content } from 'app/components/Content';
 import {
@@ -25,6 +26,7 @@ import type {
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 import type { UserEntity } from 'app/reducers/users';
 import Button from 'app/components/Button';
+import Tooltip from 'app/components/Tooltip';
 import type { CompanySemesterContactedStatus, ID } from 'app/models';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 
@@ -237,6 +239,21 @@ export default class BdbDetail extends Component<Props, State> {
             </td>
             <td>{truncateString(event.location, 50)}</td>
             <td>{truncateString(event.description, 70)}</td>
+            <td>
+              {event.survey && (
+                <Tooltip content="Spørreundersøkelse">
+                  <Link to={`/surveys/${event.survey}`}>
+                    <i
+                      className={cx(
+                        'fa fa-bar-chart',
+                        styles.surveyIcon,
+                        styles.surveyContainer
+                      )}
+                    />
+                  </Link>
+                </Tooltip>
+              )}
+            </td>
           </tr>
         ));
 
@@ -404,6 +421,7 @@ export default class BdbDetail extends Component<Props, State> {
                     <th>Når</th>
                     <th>Hvor</th>
                     <th>Hva</th>
+                    <th />
                   </tr>
                 </thead>
                 <tbody>{events}</tbody>

@@ -23,6 +23,7 @@ export type QuestionEntity = {
   id: number,
   questionType: string,
   questionText: string,
+  displayType: string,
   mandatory?: boolean,
   options: Array<OptionEntity>,
   relativeIndex: number

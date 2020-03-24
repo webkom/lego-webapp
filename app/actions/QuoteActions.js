@@ -7,6 +7,7 @@ import callAPI from 'app/actions/callAPI';
 import { Quote } from './ActionTypes';
 import { addToast } from 'app/actions/ToastActions';
 import type { Thunk } from 'app/types';
+import type { ID } from 'app/models';
 
 const getEndpoint = (state, loadNextPage, queryString) => {
   const pagination = state.quotes.pagination;
@@ -79,12 +80,14 @@ export function fetchQuote(quoteId: number) {
   });
 }
 
-export function fetchRandomQuote() {
+export function fetchRandomQuote(seenQuotes?: Array<ID> = []) {
+  const queryString = `?seen=[${String(seenQuotes)}]`;
   return callAPI({
-    types: Quote.FETCH,
-    endpoint: '/quotes/random/',
+    types: Quote.FETCH_RANDOM,
+    endpoint: `/quotes/random/${queryString}`,
     method: 'GET',
     meta: {
+      queryString,
       errorMessage: 'Henting av tilfeldig quote feilet'
     },
     useCache: false,

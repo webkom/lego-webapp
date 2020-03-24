@@ -1,4 +1,4 @@
-@import 'app/styles/variables.css';
+@import '~app/styles/variables.css';
 
 .modal {
   position: fixed;
@@ -57,7 +57,8 @@
 .pictureContainer {
   display: grid;
   justify-content: center;
-  background-color: black;
+  background-color: var(--color-white);
+  min-height: 700px;
 }
 
 .pictureDescription {

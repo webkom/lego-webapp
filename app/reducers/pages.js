@@ -1,7 +1,7 @@
 // @flow
 
 import { createSelector } from 'reselect';
-import { sortBy, groupBy } from 'lodash';
+import { uniqBy, sortBy, groupBy } from 'lodash';
 import { Page } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { selectGroupsWithType } from './groups';
@@ -119,23 +119,38 @@ const separateRoles = [
 // Map all the other roles as if they were regular members
 const defaultRole = 'member';
 
-const groupMemberships = memberships =>
-  groupBy(sortBy(memberships, 'user.fullName'), ({ role }) =>
+const groupMemberships = (memberships, groupId) => {
+  // Sort membership so that the membership in the group is ordered before the descendants. When removing duplicates, the
+  // descendant memberships will be removed if there are duplicates
+  const membershipsUniqUsers = uniqBy(
+    sortBy(
+      memberships,
+      membership => Number(membership.abakusGroup) !== Number(groupId)
+    ),
+    membership => membership.user.id
+  );
+  return groupBy(sortBy(membershipsUniqUsers, 'user.fullName'), ({ role }) =>
     separateRoles.includes(role) ? role : defaultRole
   );
+};
 
 export const selectCommitteeForPages = createSelector(
-  (state, props) => selectGroup(state, { groupId: Number(props.pageSlug) }),
+  // $FlowFixMe what is this err?????+
+  (state, { pageSlug }) => selectGroup(state, { groupId: pageSlug }),
   (state, props) =>
-    selectMembershipsForGroup(state, { groupId: Number(props.pageSlug) }),
-  (group, memberships) => {
+    selectMembershipsForGroup(state, {
+      descendants: true,
+      groupId: Number(props.pageSlug)
+    }),
+  (_, { pageSlug }) => pageSlug,
+  (group, memberships, groupId) => {
     const selectedPageInfo = group && {
       isComplete: !!(group && group.actionGrant),
       actionGrant: group && group.actionGrant,
       title: group && group.name,
       editUrl: `/admin/groups/${group.id}/settings`
     };
-    const membershipsByRole = groupMemberships(memberships);
+    const membershipsByRole = groupMemberships(memberships, groupId);
     return {
       selectedPage: group && { ...group, membershipsByRole },
       selectedPageInfo

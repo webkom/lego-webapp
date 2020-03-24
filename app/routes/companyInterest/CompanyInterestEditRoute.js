@@ -28,6 +28,7 @@ const mapStateToProps = (state, props) => {
   const companyInterest = selectCompanyInterestById(state, {
     companyInterestId
   });
+
   const semesters = selectCompanySemesters(state);
   if (!companyInterest || !semesters)
     return {
@@ -42,6 +43,16 @@ const mapStateToProps = (state, props) => {
     allowedBdb,
     initialValues: {
       ...companyInterest,
+      company: companyInterest.company
+        ? {
+            label: companyInterest.company.name,
+            title: companyInterest.company.name,
+            value: '' + companyInterest.company.id
+          }
+        : {
+            label: companyInterest.companyName,
+            title: companyInterest.companyName
+          },
       events: allEvents.map(event => ({
         name: event,
         checked:

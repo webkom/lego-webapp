@@ -501,6 +501,9 @@ const validate = data => {
   if (!isPositiveNumeric(data.registrationDeadlineHours)) {
     errors.registrationDeadlineHours = 'Kun hele timer';
   }
+  if (!moment(data.startTime).isBefore(data.endTime)) {
+    errors.endTime = 'Starttidspunkt må være før sluttidspunkt';
+  }
   return errors;
 };
 

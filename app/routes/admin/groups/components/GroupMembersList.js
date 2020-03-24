@@ -12,6 +12,8 @@ type Props = {
   group: Object,
   memberships: Array<Object>,
   removeMember: Object => Promise<*>,
+  showDescendants: boolean,
+  groupsById: { [string]: { name: string } },
   fetch: ({ groupId: string, next: true }) => Promise<*>
 };
 
@@ -19,9 +21,11 @@ const GroupMembersList = ({
   memberships,
   group,
   removeMember,
+  showDescendants,
   fetch,
   hasMore,
-  fetching
+  fetching,
+  groupsById
 }: Props) => {
   if (!memberships.length) {
     return <div>Ingen brukere</div>;
@@ -37,18 +41,39 @@ const GroupMembersList = ({
         const performRemove = () =>
           confirm(`Er du sikker på at du vil melde ut ${user.fullName}?`) &&
           removeMember(membership);
-        return [
-          <i
-            key="icon"
-            className={`fa fa-times ${styles.removeIcon}`}
-            onClick={performRemove}
-          />,
-          <Link key="link" to={`/users/${user.username}`}>
-            {user.fullName} ({user.username})
-          </Link>
-        ];
+        return (
+          true && (
+            <>
+              {!showDescendants && (
+                <i
+                  key="icon"
+                  className={`fa fa-times ${styles.removeIcon}`}
+                  onClick={performRemove}
+                />
+              )}
+              <Link key="link" to={`/users/${user.username}`}>
+                {user.fullName} ({user.username})
+              </Link>
+            </>
+          )
+        );
       }
     },
+    showDescendants
+      ? {
+          title: 'Gruppe',
+          search: false,
+          dataIndex: 'abakusGroup',
+          render: abakusGroup =>
+            true && (
+              <Link
+                to={`/admin/groups/${abakusGroup}/members?descendants=false`}
+              >
+                {groupsById[abakusGroup] && groupsById[abakusGroup].name}
+              </Link>
+            )
+        }
+      : null,
     {
       title: 'Rolle',
       dataIndex: 'role',
@@ -65,13 +90,13 @@ const GroupMembersList = ({
       render: (internalEmail: string) =>
         internalEmail && <a href={`mailto:${internalEmail}`}>{internalEmail}</a>
     }
-  ];
+  ].filter(Boolean);
   return (
     <Table
       infiniteScroll
       columns={columns}
       onLoad={() => {
-        fetch({ groupId: group.id, next: true });
+        fetch({ descendants: showDescendants, groupId: group.id, next: true });
       }}
       hasMore={hasMore}
       loading={fetching}

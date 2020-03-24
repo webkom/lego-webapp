@@ -101,7 +101,9 @@ class CompanyInterestList extends Component<Props, State> {
         dataIndex: 'companyName',
         render: (companyName: string, companyInterest: Object) => (
           <Link to={`/companyInterest/${companyInterest.id}/edit`}>
-            {companyName}
+            {companyInterest.company
+              ? companyInterest.company.name
+              : companyName}
           </Link>
         )
       },

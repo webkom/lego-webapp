@@ -1,21 +1,4 @@
-@import 'app/styles/variables.css';
-
-.box {
-  display: inline-block;
-  width: 21px;
-  height: 18px;
-  margin-right: 10px;
-  margin-bottom: -3px;
-}
-
-.box input:disabled + label::before {
-  background: var(--color-mono-gray-4);
-  border: 1px solid var(--color-mono-gray-2);
-}
-
-.box input:disabled + label::after {
-  color: var(--color-dark-mono-gray-4);
-}
+@import '~app/styles/variables.css';
 
 .label {
   cursor: pointer;
@@ -49,9 +32,6 @@
   line-height: 0.8;
   color: white;
   transition: all 0.2s;
-}
-
-.checked + label::after {
   opacity: 1;
   transform: scale(1);
 }
@@ -65,9 +45,9 @@
   transform: scale(0);
 }
 
-.checked:focus + label::before,
-.unchecked:focus + label::before {
-  cursor: pointer;
+.checked + label::before {
+  background: var(--lego-link-color);
+  border-color: var(--lego-link-color);
 }
 
 .checked + label::before,
@@ -82,23 +62,6 @@
   border-radius: 3px;
 }
 
-.checked + label::before {
-  background: var(--lego-link-color);
-  border-color: var(--lego-link-color);
-}
-
-.unchecked + label,
-.checked + label {
-  position: relative;
-  cursor: pointer;
-}
-
-.checkboxField > label {
-  display: flex;
-  flex-direction: row-reverse;
-  justify-content: flex-end;
-}
-
 /* CheckBox uses label for its clickable square, so these values are tuned for
   checkboxes */
 .checkboxField > label label::before {
@@ -107,4 +70,38 @@
 
 .checkboxField > label label::after {
   top: 9px;
+}
+
+.checked:focus + label::before,
+.unchecked:focus + label::before {
+  cursor: pointer;
+}
+
+.unchecked + label,
+.checked + label {
+  position: relative;
+  cursor: pointer;
+}
+
+.box {
+  display: inline-block;
+  width: 21px;
+  height: 18px;
+  margin-right: 10px;
+  margin-bottom: -3px;
+}
+
+.box input:disabled + label::before {
+  background: var(--color-mono-gray-4);
+  border: 1px solid var(--color-mono-gray-2);
+}
+
+.box input:disabled + label::after {
+  color: var(--color-dark-mono-gray-4);
+}
+
+.checkboxField > label {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
 }
