@@ -278,7 +278,7 @@ export default class BdbDetail extends Component<Props, State> {
               src={company.logo}
               style={{
                 height: 'inherit',
-                border: '1px solid #ccc',
+                border: '1px solid var(--color-mono-gray-3)',
                 marginBottom: '15px'
               }}
             />

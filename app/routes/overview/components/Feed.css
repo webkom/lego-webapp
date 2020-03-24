@@ -17,8 +17,9 @@
 }
 
 .content {
-  border: 1px solid rgba(0, 0, 0, 0.09);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.09);
+  box-shadow: 0 1px 4px
+    rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.04);
   border-radius: 3px;
   overflow-y: auto;
   height: 459px;
@@ -43,7 +44,7 @@
 }
 
 .item {
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--lego-color-gray-light);
   padding: 10px 20px;
   display: flex;
   flex-direction: row;
@@ -51,7 +52,12 @@
   color: var(--lego-font-color);
 
   &:hover {
-    background-color: rgba(0, 0, 0, 0.02);
+    background-color: rgba(
+      var(--rgb-min),
+      var(--rgb-min),
+      var(--rgba-min),
+      0.02
+    );
   }
 
   &:active {

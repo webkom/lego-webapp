@@ -15,7 +15,11 @@ type Props = {
  * A basic Cirlce component
  *
  */
-function Circle({ size = 10, color = '#ddd', style }: Props) {
+function Circle({
+  size = 10,
+  color = 'var(--color-mono-gray-4)',
+  style
+}: Props) {
   return (
     <span
       style={{

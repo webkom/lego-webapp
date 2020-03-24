@@ -5,8 +5,9 @@
 }
 
 .modal {
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.05);
-  border: 1px solid rgba(0, 0, 0, 0.09);
+  box-shadow: 0 4px 4px
+    rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.05);
+  border: 1px solid rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.09);
   border-radius: 5px;
 }
 
@@ -27,6 +28,10 @@
   cursor: pointer;
 }
 
+html[data-theme='dark'] .dropArea {
+  background-color: var(--color-mono-gray-1);
+}
+
 .inModalUpload {
   height: 320px;
   width: 600px;
@@ -38,7 +43,7 @@
   width: inherit;
   z-index: 0;
   position: absolute;
-  color: white;
+  color: var(--color-white);
   background-color: rgba(200, 200, 200, 0.7);
 }
 
@@ -48,7 +53,7 @@
 }
 
 .placeholdeTitle {
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(var(--rgb-max), var(--rgb-max), var(--rgb-max), 0.8);
   border-radius: 5px;
   font-size: 24px;
   padding: 0 20px;

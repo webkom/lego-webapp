@@ -28,7 +28,12 @@
   }
 
   &:hover {
-    background-color: rgba(0, 0, 0, 0.04);
+    background-color: rgba(
+      var(--rgb-min),
+      var(--rgb-min),
+      var(--rgb-min),
+      0.04
+    );
   }
 
   &:active {

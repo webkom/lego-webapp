@@ -2,14 +2,18 @@
 
 .footer {
   width: 100%;
-  background-color: #1b1a1a;
-  color: white;
+  background-color: var(--lego-footer-color);
+  color: var(--color-white);
   margin-top: 50px;
   display: flex;
 
   @media (--lego-max-width) {
     margin-top: 0;
   }
+}
+
+html[data-theme='dark'] .footer {
+  color: var(--color-dark);
 }
 
 .footer h2 {

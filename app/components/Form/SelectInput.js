@@ -3,9 +3,9 @@
 import React from 'react';
 import Select from 'react-select';
 import { createField } from './Field';
-import style from './SelectInput.css';
 import withAutocomplete from '../Search/withAutocomplete';
 import 'react-select/dist/react-select.min.css';
+import style from './SelectInput.css';
 
 type Props = {
   name: string,

@@ -1,7 +1,7 @@
 @import '~app/styles/variables.css';
 
 .backdrop {
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(var(--rgb-max), var(--rgb-max), var(--rgb-max), 0.5);
   top: 0;
   left: 0;
   right: 0;
@@ -148,7 +148,7 @@
 
   &:hover,
   &.activeItem {
-    color: #000;
+    color: var(--color-black);
   }
 
   &:hover::after,

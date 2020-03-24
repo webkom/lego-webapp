@@ -11,7 +11,7 @@
 .searchResultTitle {
   display: flex;
   align-items: center;
-  color: #333;
+  color: var(--lego-color-gray);
   font-weight: 700;
   margin: 0;
 }
@@ -31,7 +31,7 @@
     width: 100%;
     object-fit: contain;
     margin: 0 10px 0 0;
-    background-color: white;
+    background-color: var(--color-white);
   }
 }
 

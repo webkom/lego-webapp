@@ -9,7 +9,7 @@
   align-items: center;
   flex-direction: column;
   padding: 45px;
-  background: white;
+  background: var(--color-white);
   margin: 0 35%;
   border: 10px solid #fbfbfb;
   border-radius: 5%;

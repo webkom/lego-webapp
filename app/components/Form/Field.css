@@ -17,7 +17,7 @@
 
 .fieldError {
   background: #c24538;
-  color: #fff;
+  color: var(--color-white);
   padding: 5px 10px;
   margin-top: 3px;
   border-radius: 3px;
@@ -25,7 +25,7 @@
 
 .fieldWarning {
   background: #ff8000;
-  color: #fff;
+  color: var(--color-white);
   padding: 5px 10px;
   margin-top: 3px;
   border-radius: 3px;

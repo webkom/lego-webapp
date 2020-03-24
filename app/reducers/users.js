@@ -17,7 +17,8 @@ export type UserEntity = {
   lastName: string,
   gender: string,
   profilePicture: string,
-  emailListsEnabled?: boolean
+  emailListsEnabled?: boolean,
+  selectedTheme: string
 };
 
 type State = any;

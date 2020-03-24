@@ -13,7 +13,7 @@
   display: flex;
   justify-content: space-between;
   height: 120px;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid var(--color-mono-gray-3);
   padding: 0 20px;
 }
 
@@ -25,11 +25,11 @@
   padding: 0 1rem;
   font-size: 1.4rem;
   font-weight: 400;
-  color: #333;
+  color: var(--lego-color-gray);
   background: transparent;
 
   &::placeholder {
-    color: #666;
+    color: var(--color-dark-mono-gray-2);
   }
 }
 
@@ -50,7 +50,7 @@
 }
 
 .searchIcon {
-  color: #777;
+  color: var(--color-dark-mono-gray-3);
   width: 30px;
   display: flex;
   align-items: center;
@@ -68,12 +68,12 @@
   outline: none;
   border: 0;
   background: transparent;
-  color: #333;
+  color: var(--lego-color-gray);
   cursor: pointer;
 }
 
 .resultsContainer {
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(var(--rgb-max), var(--rgb-max), var(--rgb-max), 0.8);
   overflow-y: auto;
   height: 100%;
   max-height: calc(100vh - 120px);
@@ -117,7 +117,7 @@
 
 .quickLinks {
   flex: 1;
-  color: #fff;
+  color: var(--color-white);
   padding: 2rem;
 }
 
@@ -142,8 +142,8 @@
 }
 
 .quickLinks a:hover {
-  background-color: #eee;
-  border: 1px solid #ccc;
+  background-color: var(--lego-color-gray-light);
+  border: 1px solid var(--color-mono-gray-3);
   border-radius: 3px;
   padding: 3px 14px;
 }
@@ -151,7 +151,7 @@
 .results {
   flex: 2;
   padding: 2rem;
-  background: #eee;
+  background: var(--lego-color-gray-light);
 }
 
 .resultDate {
@@ -187,7 +187,7 @@
 }
 
 .resultItem {
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid var(--color-mono-gray-4);
   padding: 0.5rem;
   height: 64px;
   display: flex;

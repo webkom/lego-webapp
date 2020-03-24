@@ -4,13 +4,15 @@ import React, { Component } from 'react';
 import debounce from 'lodash/debounce';
 import drawFancyNodes from './drawFancyNodes';
 import styles from './FancyNodesCanvas.css';
+import { getTheme } from 'app/utils/themeUtils.js';
 
 type Props = {
   height: number
 };
 
 type State = {
-  width: number
+  width: number,
+  currentTheme: string
 };
 
 class FancyNodesCanvas extends Component<Props, State> {
@@ -19,7 +21,8 @@ class FancyNodesCanvas extends Component<Props, State> {
   };
 
   state = {
-    width: 0
+    width: 0,
+    currentTheme: 'light'
   };
 
   _canvas: any;
@@ -38,9 +41,24 @@ class FancyNodesCanvas extends Component<Props, State> {
     );
   }, 70);
 
+  handleThemeChange = () => {
+    const newTheme = getTheme();
+    const { currentTheme } = this.state;
+
+    if (newTheme === currentTheme) return;
+
+    this.setState(
+      {
+        currentTheme: newTheme
+      },
+      () => this.drawGraphics()
+    );
+  };
+
   componentDidMount() {
     this.setState({ width: global.innerWidth }, () => this.drawGraphics());
     global.addEventListener('resize', this.handleResize);
+    global.addEventListener('themeChange', this.handleThemeChange);
   }
 
   drawGraphics() {
@@ -53,6 +71,7 @@ class FancyNodesCanvas extends Component<Props, State> {
 
   componentWillUnmount() {
     global.removeEventListener('resize', this.handleResize);
+    global.removeEventListener('themeChange', this.handleThemeChange);
   }
 
   render() {

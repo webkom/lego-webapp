@@ -6,7 +6,7 @@
 }
 
 .tag {
-  background-color: #dadada !important;
+  background-color: var(--color-mono-gray-4) !important;
 }
 
 .dot {
@@ -18,7 +18,7 @@
   padding: 0 0 0 10px;
   flex: 1;
   width: 100%;
-  color: #666;
+  color: var(--color-dark-mono-gray-2);
   text-transform: uppercase;
   font-weight: 400;
   letter-spacing: 1px;
@@ -47,7 +47,7 @@
   transition: color 0.2s;
   font-size: 1rem;
   font-weight: 600;
-  color: rgba(0, 0, 0, 0.8);
+  color: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.8);
 }
 
 .item:hover .itemInfo {
@@ -80,8 +80,9 @@
 }
 
 .weeklyArticles {
-  border: 1px solid rgba(0, 0, 0, 0.09);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.09);
+  box-shadow: 0 1px 4px
+    rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.04);
   border-radius: 3px;
   background: var(--lego-card-color);
 

@@ -6,8 +6,8 @@
   text-align: center;
   display: block;
   position: absolute;
-  background: #333;
-  color: #fff;
+  background: var(--lego-color-gray);
+  color: var(--color-white);
   border-radius: 5px;
   padding: 5px 15px;
 }
@@ -23,7 +23,7 @@
 
 .showTooltip::after {
   top: 100%;
-  border-color: #333 transparent transparent;
+  border-color: var(--lego-color-gray) transparent transparent;
 }
 
 .renderDirectionLeft {
@@ -57,6 +57,6 @@
 }
 
 .listTooltip::after {
-  border-color: transparent transparent #333;
+  border-color: transparent transparent var(--lego-color-gray);
   bottom: 100%;
 }

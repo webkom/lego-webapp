@@ -1,3 +1,5 @@
+import { getFancyNodeColor } from 'app/utils/themeUtils';
+
 function createErdosRenyi(n, p) {
   const graph = { nodes: [], edges: [] };
   for (let i = 0; i < n; i++) {
@@ -36,7 +38,7 @@ function drawNetwork(context, nodes, graph) {
 
 export default function drawFancyNodes(context, { width, height }) {
   context.clearRect(0, 0, width, height);
-  context.fillStyle = 'rgba(0, 0, 0, 0.3)';
+  context.fillStyle = getFancyNodeColor();
   context.strokeStyle = context.fillStyle;
   context.globalCompositeOperation = 'overlay';
   context.lineWidth = 1;

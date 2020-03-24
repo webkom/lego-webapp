@@ -3,7 +3,8 @@
 .reactionPickerFooter {
   height: 40px;
   padding: 5px;
-  border-top: 1px solid rgba(0, 0, 0, 0.15);
+  border-top: 1px solid
+    rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.15);
   display: flex;
   justify-content: space-between;
 }

@@ -7,7 +7,7 @@
 }
 
 .title {
-  color: #333;
+  color: var(--lego-color-gray);
   font-weight: 700;
   margin: 0;
 }
@@ -30,8 +30,12 @@
   justify-content: center;
   align-items: center;
   font-style: italic;
-  color: grey;
+  color: var(--color-gray-1);
   margin-top: 20px;
+}
+
+html[data-theme='dark'] .filler {
+  color: var(--color-light-gray-5);
 }
 
 .wrapper {

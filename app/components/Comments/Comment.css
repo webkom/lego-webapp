@@ -1,9 +1,10 @@
 @import '~app/styles/variables.css';
 
 .container {
-  background-color: white;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
-  border: 1px solid rgba(0, 0, 0, 0.04);
+  background-color: var(--color-white);
+  box-shadow: 0 1px 4px
+    rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.03);
+  border: 1px solid rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.04);
   margin-bottom: 15px;
   padding: 25px;
   align-items: center;
@@ -61,7 +62,7 @@
 }
 
 .bullet {
-  color: #888;
+  color: var(--color-dark-mono-gray-4);
   padding: 0 8px;
   font-size: 15px;
 
@@ -71,7 +72,7 @@
 }
 
 .timestamp {
-  color: #777;
+  color: var(--color-dark-mono-gray-3);
   font-size: 15px;
   overflow: hidden;
   text-overflow: ellipsis;

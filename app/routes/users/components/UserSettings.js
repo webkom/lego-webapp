@@ -116,6 +116,22 @@ const UserSettings = (props: Props) => {
           name="email"
           component={TextInput.Field}
         />
+
+        <RadioButtonGroup label="Theme" name="selectedTheme">
+          <Field
+            name="selectedTheme"
+            label="Light"
+            inputValue="light"
+            component={RadioButton.Field}
+          />
+          <Field
+            name="selectedTheme"
+            label="Dark"
+            inputValue="dark"
+            component={RadioButton.Field}
+          />
+        </RadioButtonGroup>
+
         {showAbakusMembership && (
           <RadioButtonGroup name="isAbakusMember" label="Medlem i Abakus?">
             <Field label="Ja" component={RadioButton.Field} inputValue="true" />

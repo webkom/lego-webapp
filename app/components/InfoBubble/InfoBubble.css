@@ -26,7 +26,7 @@
 
 .icon {
   font-size: 35px;
-  color: white;
+  color: var(--color-white);
   margin: 0 auto;
 }
 
@@ -66,7 +66,7 @@
 
 .smallIcon {
   font-size: 27px;
-  color: white;
+  color: var(--color-white);
   margin: 0 auto;
 }
 

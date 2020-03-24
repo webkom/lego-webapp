@@ -3,7 +3,6 @@
 import React, { Component } from 'react';
 import { Link, IndexLink } from 'react-router';
 import { Modal } from 'react-overlays';
-import logoImage from 'app/assets/logo-dark.png';
 import Dropdown from '../Dropdown';
 import Icon from '../Icon';
 import Search from '../Search';
@@ -19,8 +18,12 @@ import {
 } from 'app/components/LoginForm';
 import { Flex } from 'app/components/Layout';
 import cx from 'classnames';
+import {
+  applySelectedTheme,
+  getLogoImage,
+  getTheme
+} from 'app/utils/themeUtils';
 import { Image } from 'app/components/Image';
-
 import type { UserEntity } from 'app/reducers/users';
 
 type Props = {
@@ -57,7 +60,11 @@ function AccountDropdownItems({
   return (
     <Dropdown.List>
       <Dropdown.ListItem>
-        <Link to="/users/me" onClick={onClose} style={{ color: '#333' }}>
+        <Link
+          to="/users/me"
+          onClick={onClose}
+          style={{ color: 'var(--lego-color-gray)' }}
+        >
           <strong>{username}</strong>
           <Icon name="contact" size={24} />
         </Link>
@@ -109,9 +116,14 @@ class Header extends Component<Props, State> {
   };
 
   render() {
-    const { loggedIn } = this.props;
+    const { loggedIn, currentUser } = this.props;
     const isLogin = this.state.mode === 'login';
     let title, form;
+
+    if (loggedIn && currentUser && currentUser.selectedTheme != getTheme()) {
+      applySelectedTheme(currentUser.selectedTheme || 'light');
+    }
+
     switch (this.state.mode) {
       case 'login':
         title = 'Logg inn';
@@ -132,7 +144,7 @@ class Header extends Component<Props, State> {
         <FancyNodesCanvas height={300} />
         <div className={styles.content}>
           <IndexLink to="/" className={styles.logo}>
-            <Image src={logoImage} alt="" />
+            <Image src={getLogoImage()} alt="" />
           </IndexLink>
 
           <div className={styles.menu}>

@@ -4,7 +4,7 @@
   width: 100%;
   position: relative;
   overflow: hidden;
-  background-color: #ddd;
+  background-color: var(--color-mono-gray-4);
 }
 
 .image {
@@ -18,7 +18,7 @@
   left: -200px;
   width: 200px;
   height: 4px;
-  background-color: red;
+  background-color: var(--lego-red-color);
   animation: loading 2s linear infinite;
 }
 

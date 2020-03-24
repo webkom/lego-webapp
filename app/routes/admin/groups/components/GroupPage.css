@@ -44,7 +44,7 @@
 .tabs {
   height: 40px;
   display: flex;
-  border-bottom: 2px solid #ddd;
+  border-bottom: 2px solid var(--color-mono-gray-4);
   flex-direction: row;
   width: 100%;
 }
@@ -60,7 +60,7 @@
   background-color: #e2e2e2;
 
   &.active {
-    background-color: white;
+    background-color: var(--color-white);
     color: var(--lego-link-color);
   }
 }

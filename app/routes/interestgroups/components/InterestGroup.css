@@ -20,7 +20,7 @@
 .listItem {
   margin: 8px;
   padding-left: 4px;
-  background: white;
+  background: var(--color-white);
 }
 
 .listItemContent {
@@ -30,7 +30,7 @@
 .textEdit {
   background: none;
   border: none;
-  border-bottom: 1px solid #888;
+  border-bottom: 1px solid var(--color-dark-mono-gray-4);
   margin: 8px;
   padding: 4px;
 }

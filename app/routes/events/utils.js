@@ -28,10 +28,10 @@ export const COLOR_CONSTANTS: { [EventType]: string } = {
   alternative_presentation: '#8A2BE2',
   course: '#52B0EC',
   party: '#FCD748',
-  social: '#B11C11',
-  event: '#B11C11',
-  kid_event: '#111111',
-  other: '#111111'
+  social: 'var(--color-event-red)',
+  event: 'var(--color-event-red)',
+  kid_event: 'var(--color-event-black)',
+  other: 'var(--color-event-black)'
 };
 
 // Returns the color code of an EventType

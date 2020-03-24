@@ -16,7 +16,8 @@
   composes: container;
   background: var(--color-white);
   padding: 40px;
-  box-shadow: 0 1px 20px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 20px
+    rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.05);
   border-radius: 3px;
 
   @media (--small-viewport) {
@@ -40,16 +41,17 @@
 }
 
 .withShadow {
-  border: 1px solid rgba(0, 0, 0, 0.09);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.09);
+  box-shadow: 0 1px 4px
+    rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.04);
   border-radius: 5px;
 }
 
 .editShadow {
   composes: withShadow;
   outline: none;
-  box-shadow: 0 0 5px #ccc;
-  border-color: #aaa;
+  box-shadow: 0 0 5px var(--color-mono-gray-3);
+  border-color: var(--color-mono-gray-1);
 }
 
 .truncateString {
@@ -82,7 +84,7 @@
   }
 
   .u-ui-heading {
-    color: #666;
+    color: var(--color-dark-mono-gray-2);
     text-transform: uppercase;
     padding: 10px;
     font-size: 18px;
