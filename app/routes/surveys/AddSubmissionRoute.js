@@ -5,34 +5,27 @@ import prepare from 'app/utils/prepare';
 import { compose } from 'redux';
 import { addSubmission } from '../../actions/SurveySubmissionActions';
 import { fetchSurvey } from 'app/actions/SurveyActions';
-import { fetchUserSubmission } from 'app/actions/SurveySubmissionActions';
 import SubmissionContainer from './components/SubmissionEditor/SubmissionContainer';
 import { selectSurveyById } from 'app/reducers/surveys';
-import { selectSurveySubmissionForUser } from 'app/reducers/surveySubmissions';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import loadingIndicator from 'app/utils/loadingIndicator';
+import { push } from 'react-router-redux';
 
 const loadData = ({ params: { surveyId }, currentUser }, dispatch) =>
-  Promise.all([
-    dispatch(fetchSurvey(surveyId)),
-    currentUser.id && dispatch(fetchUserSubmission(surveyId, currentUser.id))
-  ]);
-
+  dispatch(fetchSurvey(surveyId));
 const mapStateToProps = (state, props) => {
   const surveyId = Number(props.params.surveyId);
   const survey = selectSurveyById(state, { surveyId });
   const currentUser = props.currentUser;
-  const submission = selectSurveySubmissionForUser(state, {
-    surveyId,
-    currentUser
-  });
   const notFetching = state.surveySubmissions.fetching;
+  const hasAlreadyAnswered =
+    survey && survey.answeredBy && survey.answeredBy.includes(currentUser.id);
 
   return {
     survey,
     surveyId,
-    submission,
+    hasAlreadyAnswered,
     currentUser,
     notFetching,
     actionGrant: survey.actionGrant,
@@ -42,7 +35,7 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-const mapDispatchToProps = { submitFunction: addSubmission };
+const mapDispatchToProps = { submitFunction: addSubmission, push };
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
