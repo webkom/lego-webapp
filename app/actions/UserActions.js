@@ -192,6 +192,26 @@ export function changeGrade(groupId: ID, username: string): Thunk<*> {
   });
 }
 
+export function removePicture(username: string): Thunk<*> {
+  return dispatch =>
+    dispatch(
+      callAPI({
+        types: User.UPDATE,
+        endpoint: `/users/${username}/`,
+        method: 'PATCH',
+        body: {
+          username,
+          profilePicture: null
+        },
+        schema: userSchema,
+        meta: {
+          successMessage: 'Fjerning av profilbilde fullført',
+          errorMessage: 'Fjerning av profilbilde feilet'
+        }
+      })
+    );
+}
+
 export function updatePicture({
   username,
   picture

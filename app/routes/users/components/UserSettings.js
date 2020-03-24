@@ -17,6 +17,7 @@ import UserImage from './UserImage';
 import ChangePassword from './ChangePassword';
 import styles from './UserSettings.css';
 import { createValidator, required, isEmail } from 'app/utils/validation';
+import RemovePicture from 'app/routes/users/components/RemovePicture';
 
 export type PasswordPayload = {
   newPassword: string,
@@ -30,7 +31,8 @@ type Props = FieldProps & {
   user: any,
   isMe: boolean,
   push: string => void,
-  updatePicture: Object => void
+  updatePicture: Object => void,
+  removePicture: string => Promise<*>
 };
 
 const UserSettings = (props: Props) => {
@@ -42,6 +44,7 @@ const UserSettings = (props: Props) => {
     pristine,
     submitting,
     updatePicture,
+    removePicture,
     push,
     user
   } = props;
@@ -55,7 +58,11 @@ const UserSettings = (props: Props) => {
         <UserImage user={user} updatePicture={updatePicture} />
       </FlexRow>
 
+      <h3>Slett bilde:</h3>
+      <RemovePicture username={user.username} removePicture={removePicture} />
+
       <Form onSubmit={handleSubmit}>
+        <h3>Endre Bruker:</h3>
         <Field
           placeholder="Brukernavn"
           label="Brukernavn"
