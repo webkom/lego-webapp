@@ -51,7 +51,7 @@ Cypress.Commands.add(
         const nameSegments = fileName.split('/');
         const name = nameSegments[nameSegments.length - 1];
         const testFile = new File([blob], name, { type });
-        const event = { dataTransfer: { files: [testFile] } };
+        const event = { dataTransfer: { files: [testFile], types: ['Files'] } };
         return cy.get(selector).trigger('drop', event);
       });
   }
