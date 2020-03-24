@@ -17,15 +17,16 @@ class SpecialDay extends React.Component<Props> {
 
   render() {
     const { children, ...rest } = this.props;
+    const filteredChildren = children.filter(Boolean);
     const specialDay = SpecialDay.getSpecialDay();
 
     if (config.environment === 'ci' || specialDay === null) {
-      return React.Children.map(children, child =>
+      return React.Children.map(filteredChildren, child =>
         React.cloneElement(child, { ...rest })
       );
     }
 
-    return React.createElement(specialDay, rest, children);
+    return React.createElement(specialDay, rest, filteredChildren);
   }
 }
 
