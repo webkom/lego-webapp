@@ -2,8 +2,10 @@ import imageLogoLight from 'app/assets/logo-dark.png';
 import imageLogoDark from 'app/assets/logo.png';
 
 export const applySelectedTheme = theme => {
-  document.documentElement.setAttribute('data-theme', theme);
-  global.dispatchEvent(new Event('themeChange'));
+  if (document) {
+    document.documentElement.setAttribute('data-theme', theme);
+    global.dispatchEvent(new Event('themeChange'));
+  }
 };
 
 export const getTheme = () => {
