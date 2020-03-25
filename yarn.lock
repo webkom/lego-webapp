@@ -818,7 +818,7 @@
     "@babel/types" "^7.4.4"
     esutils "^2.0.2"
 
-"@babel/preset-react@^7.8.3":
+"@babel/preset-react@^7.6.3", "@babel/preset-react@^7.8.3":
   version "7.9.4"
   resolved "https://registry.yarnpkg.com/@babel/preset-react/-/preset-react-7.9.4.tgz#c6c97693ac65b6b9c0b4f25b948a8f665463014d"
   integrity sha512-AxylVB3FXeOTQXNXyiuAQJSvss62FEotbX2Pzx3K/7c+MKJMdSg6Ose6QYllkdCFA8EInCJVw7M/o5QbLuA4ZQ==
@@ -9354,10 +9354,10 @@ randombytes@^2.0.0, randombytes@^2.0.1, randombytes@^2.0.5:
   dependencies:
     safe-buffer "^5.1.0"
 
-randomcolor@^0.4.2:
-  version "0.4.4"
-  resolved "https://registry.yarnpkg.com/randomcolor/-/randomcolor-0.4.4.tgz#5ff56862e97ba03beb0419ff0536ec7aff59eeeb"
-  integrity sha1-X/VoYul7oDvrBBn/BTbsev9Z7us=
+randomcolor@^0.5.4:
+  version "0.5.4"
+  resolved "https://registry.yarnpkg.com/randomcolor/-/randomcolor-0.5.4.tgz#df615b13f25b89ea58c5f8f72647f0a6f07adcc3"
+  integrity sha512-nYd4nmTuuwMFzHL6W+UWR5fNERGZeVauho8mrJDUSXdNDbao4rbrUwhuLgKC/j8VCS5+34Ria8CsTDuBjrIrQA==
 
 randomfill@^1.0.3:
   version "1.0.4"
@@ -9794,14 +9794,14 @@ react-swipeable@5.5.1:
   dependencies:
     prop-types "^15.6.2"
 
-react-tagcloud@^1.2.0:
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/react-tagcloud/-/react-tagcloud-1.4.1.tgz#6ca7028a46272e16ec3d6b950e0cd0416677af04"
-  integrity sha512-CYbi9gxbk7tetAH/BGXQr4gyj+Y1AS/rU9khSWxmerdUfH2yOY3vzLPIzffGOwQSvr+Hr+e0ISX0QQc2QrxKlg==
+react-tagcloud@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/react-tagcloud/-/react-tagcloud-2.0.0.tgz#15b53729d266f436a5782f72c34451dd85839807"
+  integrity sha512-SQLAvSDx35by4xYQtcJEYZW3294jicw7yMEmhJ70ZBpGBA/MDqvPki/hyr37YHIDr1w1lEW0aJoIO7WEjRjUdw==
   dependencies:
-    object-assign "^4.1.0"
+    "@babel/preset-react" "^7.6.3"
     prop-types "^15.6.2"
-    randomcolor "^0.4.2"
+    randomcolor "^0.5.4"
     shuffle-array "^1.0.1"
 
 react-test-renderer@^16.0.0-0:
