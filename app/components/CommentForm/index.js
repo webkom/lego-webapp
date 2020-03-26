@@ -24,15 +24,18 @@ const validate = values => {
   return errors;
 };
 
-type Props = FormProps & {
+type Props = {
   contentTarget: string,
   user: Object,
   loggedIn: boolean,
   addComment: CommentEntity => void,
   parent: number,
   submitText: string,
-  inlineMode: boolean
-};
+  inlineMode: boolean,
+  initialized: boolean,
+  autoFocus: boolean,
+  isOpen: boolean
+} & FormProps;
 
 class CommentForm extends Component<Props> {
   static defaultProps = {
@@ -59,7 +62,8 @@ class CommentForm extends Component<Props> {
       loggedIn,
       submitText,
       inlineMode,
-      autoFocus
+      autoFocus,
+      initialized
     } = this.props;
     const className = inlineMode ? styles.inlineForm : styles.form;
 
@@ -86,6 +90,7 @@ class CommentForm extends Component<Props> {
             name="text"
             placeholder="Skriv en kommentar"
             component={EditorField}
+            initialized={initialized}
             simple
           />
 

@@ -35,7 +35,8 @@ export type Props = {
   handleSubmit: Object => void,
   submitArticle: Object => Promise<*>,
   deleteArticle: number => Promise<*>,
-  push: string => void
+  push: string => void,
+  initialized: boolean
 };
 
 const ArticleEditor = ({
@@ -46,7 +47,8 @@ const ArticleEditor = ({
   handleSubmit,
   deleteArticle,
   push,
-  article
+  article,
+  initialized
 }: Props) => {
   if (!isNew && (!article || !article.content)) {
     return <LoadingIndicator loading />;
@@ -143,6 +145,7 @@ const ArticleEditor = ({
           name="content"
           label="Content"
           component={EditorField.Field}
+          initialized={initialized}
         />
         <Button className={styles.submitButton} type="submit">
           {isNew ? 'Create' : 'Save'}

@@ -35,7 +35,8 @@ type Props = {
   push: string => void,
   isNew: boolean,
   fetching: boolean,
-  fetchCompanyContacts: ({ companyId: ID }) => Promise<*>
+  fetchCompanyContacts: ({ companyId: ID }) => Promise<*>,
+  company: SelectInputObject
 } & FormProps;
 
 type State = {
@@ -232,6 +233,7 @@ class JoblistingEditor extends Component<Props, State> {
             placeholder="Søknadsintro"
             component={EditorField.Field}
             required
+            initialized={this.props.initialized}
           />
           <Field
             name="text"
@@ -239,6 +241,7 @@ class JoblistingEditor extends Component<Props, State> {
             label="Søknadstekst:"
             placeholder="Søknadstekst"
             component={EditorField.Field}
+            initialized={this.props.initialized}
             required
           />
           <Flex

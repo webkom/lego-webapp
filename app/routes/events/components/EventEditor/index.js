@@ -56,7 +56,8 @@ type Props = {
   setCoverPhoto: (number, string) => void,
   deleteEvent: (eventId: ID) => Promise<*>,
   submitting: boolean,
-  pristine: boolean
+  pristine: boolean,
+  initialized: boolean
 };
 
 function EventEditor({
@@ -74,7 +75,8 @@ function EventEditor({
   setCoverPhoto,
   deleteEvent,
   submitting,
-  pristine
+  pristine,
+  initialized
 }: Props) {
   const isEditPage = eventId !== undefined;
   if (isEditPage && !actionGrant.includes('edit')) {
@@ -103,6 +105,7 @@ function EventEditor({
   ];
 
   const color = colorForEvent(event.eventType);
+
   return (
     <Content>
       {isEditPage && (
@@ -179,6 +182,7 @@ function EventEditor({
               placeholder="Dette blir tidenes fest..."
               className={styles.descriptionEditor}
               uploadFile={uploadFile}
+              initialized={initialized}
             />
             <Flex className={styles.tagRow}>
               {(event.tags || []).map((tag, i) => (

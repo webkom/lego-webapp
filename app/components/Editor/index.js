@@ -50,6 +50,7 @@ type State = {
  * ```
  *
  *  ### Also avialable as a redux form field
+ *  When used as a redux form field, the initialized prop from the from must be passed down to the Field component
  * ```js
  * <Field component={EditorField.Field} />
  * ```

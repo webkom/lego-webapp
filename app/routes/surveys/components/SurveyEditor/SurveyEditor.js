@@ -21,6 +21,7 @@ import { Link } from 'react-router-dom';
 import Dropdown from 'app/components/Dropdown';
 import { eventTypeToString, EVENT_CONSTANTS } from 'app/routes/events/utils';
 import Time from 'app/components/Time';
+import type { EventType } from 'app/models';
 
 type Props = FormProps & {
   survey: SurveyEntity,
@@ -29,7 +30,7 @@ type Props = FormProps & {
   submitFunction: (SurveyEntity, ?number) => Promise<*>,
   push: string => void,
   template?: Object,
-  selectedTemplateType?: string,
+  selectedTemplateType?: EventType,
   destroy: () => void,
   initialize: () => void,
   activeFrom: string

@@ -29,7 +29,8 @@ function GroupForm({
   handleSubmitCallback,
   group,
   submitting,
-  invalid
+  invalid,
+  initialized
 }: Props) {
   const isNew = !group;
 
@@ -68,6 +69,7 @@ function GroupForm({
         placeholder="Vil du strikke din egen lue? Eller har du allerede […]"
         name="text"
         component={EditorField.Field}
+        initialized={initialized}
       />
       <Field
         name="logo"
