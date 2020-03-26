@@ -4,10 +4,12 @@ import { reduxForm, type FormProps, Field } from 'redux-form';
 import { Content } from 'app/components/Content';
 import { Form, Button, TextInput } from 'app/components/Form';
 import { createValidator, required, validPassword } from 'app/utils/validation';
+import type { Action } from 'app/types';
 
 type Props = {
   token: string,
-  resetPassword: ({ token: string, password: string }) => Promise<*>
+  resetPassword: ({ token: string, password: string }) => Promise<*>,
+  push: (location: string) => Action
 } & FormProps;
 
 const UserResetPassword = ({
@@ -19,7 +21,7 @@ const UserResetPassword = ({
   resetPassword,
   push
 }: Props) => {
-  const disabledButton = invalid | pristine | submitting;
+  const disabledButton = invalid || pristine || submitting;
   return (
     <Content>
       <h1>Tilbakestill Passord</h1>

@@ -10,7 +10,7 @@ import { type ID } from 'app/models';
 export type CommentEntity = {
   text: string,
   contentTarget: string,
-  parent: string
+  parent: number
 };
 
 export function addComment({

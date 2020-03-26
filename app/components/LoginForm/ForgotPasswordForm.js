@@ -64,7 +64,7 @@ class ForgotPasswordForm extends Component<Props, State> {
         onClick={e => e.stopPropagation()}
       >
         <Field name="email" component={TextInput.Field} placeholder="E-post" />
-        <Button submit disabled={invalid | pristine | submitting} dark>
+        <Button submit disabled={invalid || pristine || submitting} dark>
           Tilbakestill passord
         </Button>
       </Form>

@@ -8,7 +8,12 @@ import { createValidator, required } from 'app/utils/validation';
 import { ROLES } from 'app/utils/constants';
 
 type Props = FormProps & {
-  group: Object
+  group: Object,
+  addMember: ({
+    role: $Keys<typeof ROLES>,
+    userId: Number,
+    groupId: Number
+  }) => Promise<*>
 };
 
 const roles = Object.keys(ROLES)

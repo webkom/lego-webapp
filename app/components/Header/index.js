@@ -60,7 +60,11 @@ function AccountDropdownItems({
   return (
     <Dropdown.List>
       <Dropdown.ListItem>
-        <NavLink to="/users/me" onClick={onClose} style={{ color: 'var(--lego-color-gray)' }}>
+        <NavLink
+          to="/users/me"
+          onClick={onClose}
+          style={{ color: 'var(--lego-color-gray)' }}
+        >
           <strong>{username}</strong>
           <Icon name="contact" size={24} />
         </NavLink>
@@ -139,15 +143,9 @@ class Header extends Component<Props, State> {
       <header className={styles.header}>
         <FancyNodesCanvas height={300} />
         <div className={styles.content}>
-<<<<<<< HEAD
-          <IndexLink to="/" className={styles.logo}>
-            <Image src={getLogoImage()} alt="" />
-          </IndexLink>
-=======
           <Link to="/" className={styles.logo}>
-            <Image src={logoImage} alt="" />
+            <Image src={getLogoImage()} alt="" />
           </Link>
->>>>>>> Try to add react-router v5, and fail...
 
           <div className={styles.menu}>
             <div className={styles.navigation}>

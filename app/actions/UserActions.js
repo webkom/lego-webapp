@@ -254,7 +254,7 @@ export function fetchUser(username: string = 'me') {
   });
 }
 
-export function refreshToken(token: EncodedToken) {
+export function refreshToken(token: EncodedToken): Thunk<any> {
   return callAPI({
     types: User.REFRESH_TOKEN,
     endpoint: '//authorization/token-auth/refresh/',

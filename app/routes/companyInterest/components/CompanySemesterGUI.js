@@ -24,7 +24,9 @@ type Props = {
   semesters: Array<CompanySemesterEntity>,
   autoFocus: any,
   edit: boolean,
-  editSemester: CompanySemesterEntity => void
+  editSemester: CompanySemesterEntity => void,
+  addSemester: CompanySemesterEntity => void,
+  activeSemesters: Array<CompanySemesterEntity>
 } & FormProps;
 
 const CompanySemesterGUI = (props: Props) => {
