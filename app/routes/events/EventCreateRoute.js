@@ -69,7 +69,6 @@ const mapStateToProps = (state, props) => {
       useCaptcha: true,
       heedPenalties: true,
       isAbakomOnly: false,
-      useConsent: false,
       feedbackDescription: '',
       pools: [],
       unregistrationDeadline: time({ hours: 12 }),

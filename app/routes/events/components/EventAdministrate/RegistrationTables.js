@@ -136,20 +136,48 @@ export class RegisteredTable extends Component<Props> {
       },
       {
         title: 'Samtykke',
-        dataIndex: 'photoConsent',
-        visible: !!event.useConsent,
+        dataIndex: 'photoConsents',
         center: true,
-        render: (consent) =>
-          consent !== 'UNKNOWN' && (
-            <TooltipIcon
-              content={consent}
-              iconClass={
-                consent === 'PHOTO_CONSENT'
-                  ? cx('fa fa-check', styles.greenIcon)
-                  : cx('fa fa-times', styles.crossIcon)
-              }
-            />
-          ),
+        render: (feedback, registration) => {
+          // TODO - set event semester to event start time
+          //const eventYear = registration.registrationDate.year() % 100;
+          //const eventMonth = registration.registrationDate.month();
+          //const eventSemester = (eventMonth > 8 ? "H" : "V") + eventYear;
+          const eventSemester = 'H20';
+          const webConsent = registration.user.photoConsents.find(
+            (consent) =>
+              consent.domain === 'WEBSITE' && consent.semester === eventSemester
+          );
+          const soMeConsent = registration.user.photoConsents.find(
+            (consent) =>
+              consent.domain === 'SOCIAL_MEDIA' &&
+              consent.semester === eventSemester
+          );
+
+          const isConsentingWeb = webConsent.isConsenting;
+          const isConsentingSoMe = soMeConsent.isConsenting;
+
+          return (
+            <div className={styles.consents}>
+              <TooltipIcon
+                content={'Abakus.no'}
+                iconClass={
+                  isConsentingWeb === true
+                    ? cx('fa fa-circle', styles.greenIcon)
+                    : cx('fa fa-circle', styles.crossIcon)
+                }
+              />
+              <TooltipIcon
+                content={'Sosiale medier'}
+                iconClass={
+                  isConsentingSoMe === true
+                    ? cx('fa fa-facebook-square', styles.greenIcon)
+                    : cx('fa fa-facebook-square', styles.crossIcon)
+                }
+              />
+            </div>
+          );
+        },
       },
       {
         title: 'Klassetrinn',

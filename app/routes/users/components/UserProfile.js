@@ -10,18 +10,24 @@ import Pill from 'app/components/Pill';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import Feed from 'app/components/Feed';
 import Penalties from './Penalties';
-import PhotoConsent from './PhotoConsent';
+import PhotoConsents from './PhotoConsents.js';
 import GroupChange from './GroupChange.js';
 import styles from './UserProfile.css';
 import { Flex } from 'app/components/Layout';
 import Tooltip from 'app/components/Tooltip';
 import { resolveGroupLink } from 'app/reducers/groups';
-import type { Group, AddPenalty, Event, ID } from 'app/models';
+import type {
+  Group,
+  AddPenalty,
+  Event,
+  ID,
+  PhotoConsent,
+  Dateish,
+} from 'app/models';
 import cx from 'classnames';
 import EventItem from 'app/components/EventItem';
 import EmptyState from 'app/components/EmptyState';
 import moment from 'moment-timezone';
-import type { Dateish } from 'app/models';
 import { Image } from 'app/components/Image';
 import frame from 'app/assets/frame.png';
 
@@ -67,6 +73,11 @@ type Props = {
   groups: Array<Group>,
   canChangeGrade: boolean,
   changeGrade: (ID, string) => Promise<*>,
+  updatePhotoConsent: (
+    photoConsent: PhotoConsent,
+    username: string
+  ) => Promise<*>,
+  photoConsents: Array<PhotoConsent>,
 };
 
 type EventsProps = {
@@ -203,6 +214,7 @@ export default class UserProfile extends Component<Props, EventsProps> {
       groups,
       canChangeGrade,
       changeGrade,
+      updatePhotoConsent,
     } = this.props;
 
     //If you wonder what this is, ask somebody
@@ -215,6 +227,7 @@ export default class UserProfile extends Component<Props, EventsProps> {
       lastName,
       memberships = [],
       permissionsPerGroup = [],
+      photoConsents,
     } = user;
 
     const { membershipsAsBadges = [], membershipsAsPills = [] } = groupBy(
@@ -376,13 +389,18 @@ export default class UserProfile extends Component<Props, EventsProps> {
                 </Card>
               </div>
             )}
-
-            <div>
-              <h3>Bildesamtykke</h3>
-              <Card>
-                <PhotoConsent />
-              </Card>
-            </div>
+            {photoConsents && photoConsents.length > 0 && (
+              <div>
+                <h3>Bildesamtykke</h3>
+                <Card>
+                  <PhotoConsents
+                    photoConsents={photoConsents}
+                    username={user.username}
+                    updatePhotoConsent={updatePhotoConsent}
+                  />
+                </Card>
+              </div>
+            )}
 
             {canChangeGrade && (
               <div>

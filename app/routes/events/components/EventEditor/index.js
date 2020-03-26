@@ -371,18 +371,6 @@ function EventEditor({
               </Tooltip>
             )}
             {['NORMAL', 'INFINITE'].includes(event.eventStatusType) && (
-              <Tooltip content="Bruk samtykke til bilder">
-                <Field
-                  label="Samtykke til bilder"
-                  name="useConsent"
-                  component={CheckBox.Field}
-                  fieldClassName={styles.metaField}
-                  className={styles.formField}
-                  normalize={(v) => !!v}
-                />
-              </Tooltip>
-            )}
-            {['NORMAL', 'INFINITE'].includes(event.eventStatusType) && (
               <Tooltip content="Et spørsmål alle må svare på før de melder seg på">
                 <Field
                   name="feedbackRequired"

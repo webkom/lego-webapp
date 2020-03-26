@@ -4,7 +4,7 @@ import React from 'react';
 import type {
   EventRegistrationPresence,
   EventRegistrationPaymentStatus,
-  EventRegistrationPhotoConsent,
+  PhotoConsent,
 } from 'app/models';
 import {
   paymentPending,
@@ -20,45 +20,61 @@ type Props = {
   isPriced: boolean,
   registrationIndex: number,
   hasSimpleWaitingList: boolean,
-  useConsent: boolean,
   hasEnded: boolean,
+  photoConsents: Array<PhotoConsent>,
 };
 
 const ConsentStatus = ({
-  useConsent,
-  photoConsent,
-  hasEnded,
+  photoConsents,
 }: {
-  useConsent: boolean,
-  photoConsent: EventRegistrationPhotoConsent,
-  hasEnded: boolean,
+  photoConsents: Array<PhotoConsent>,
 }) => {
-  if (!useConsent) return null;
-  switch (photoConsent) {
-    case 'PHOTO_NOT_CONSENT':
-      return (
-        <div>
-          <i className="fa fa-check-circle" /> Du har valgt <i>NEI</i> på
-          samtykke om bilder
-        </div>
-      );
-    case 'PHOTO_CONSENT':
-      return (
-        <div>
-          <i className="fa fa-check-circle" /> Du har valgt <i>ja</i> på
-          samtykke om bilder
-        </div>
-      );
-    case 'UNKNOWN':
-      if (!hasEnded) return null;
-      return (
-        <div>
-          <i className="fa fa-exclamation-circle" /> Du har enda ikke tatt
-          stilling til samtykke om bilder
-        </div>
-      );
-    default:
-      return null;
+  if (photoConsents == undefined) return;
+
+  // TODO - set event semester to event start time
+  const eventSemester = 'H20';
+  const webConsent = photoConsents.find(
+    (consent) =>
+      consent.domain === 'WEBSITE' && consent.semester === eventSemester
+  );
+  const soMeConsent = photoConsents.find(
+    (consent) =>
+      consent.domain === 'SOCIAL_MEDIA' && consent.semester === eventSemester
+  );
+
+  if (webConsent == undefined || soMeConsent == undefined) return;
+
+  const isConsentingWeb = webConsent.isConsenting;
+  const isConsentingSoMe = soMeConsent.isConsenting;
+
+  if (isConsentingWeb && isConsentingSoMe) {
+    return (
+      <div>
+        <i className="fa fa-check-circle" /> Du samtykker til bilder på
+        Abakus.no og sosiale medier for semesteret {webConsent.semester}.
+      </div>
+    );
+  } else if (isConsentingWeb) {
+    return (
+      <div>
+        <i className="fa fa-circle" /> Du samtykker kun til bilder på Abakus.no
+        for semesteret {webConsent.semester}.
+      </div>
+    );
+  } else if (isConsentingSoMe) {
+    return (
+      <div>
+        <i className="fa fa-facebook-square" /> Du samtykker kun til bilder på
+        sosiale medier for semesteret {webConsent.semester}.
+      </div>
+    );
+  } else {
+    return (
+      <div>
+        <i className="fa fa-times-circle" /> Du samtykker ikke til bilder for
+        semesteret {webConsent.semester}.
+      </div>
+    );
   }
 };
 const PresenceStatus = ({
@@ -142,10 +158,10 @@ const PaymentStatus = ({
 const RegistrationMeta = ({
   registration,
   hasEnded,
-  useConsent,
   isPriced,
   registrationIndex,
   hasSimpleWaitingList,
+  photoConsents,
 }: Props) => (
   <div>
     {!registration && (
@@ -170,12 +186,8 @@ const RegistrationMeta = ({
           </div>
         )}
         <PresenceStatus presence={registration.presence} hasEnded={hasEnded} />
-        <Tooltip content="Du kan når som helst endre samtykket ved å kontakte oss på abakus@abakus.no">
-          <ConsentStatus
-            useConsent={useConsent}
-            hasEnded={hasEnded}
-            photoConsent={registration.photoConsent}
-          />
+        <Tooltip content="Du kan når som helst trekke samtykket på profilsiden din.">
+          <ConsentStatus photoConsents={photoConsents} />
         </Tooltip>
         <PaymentStatus
           isPriced={isPriced}

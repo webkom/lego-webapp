@@ -74,7 +74,6 @@ export type Event = EventBase & {
   pools: Array<EventPool>,
   survey: ?ID,
   userReg: EventRegistration,
-  useConsent: boolean,
   isUserFollowing: UserFollowing,
   unansweredSurveys: Array<ID>,
   responsibleGroup: Group,
@@ -115,11 +114,16 @@ export type User = {
   email?: string,
 };
 
+export type PhotoConsentDomain = 'WEBSITE' | 'SOCIAL_MEDIA';
+
+export type PhotoConsent = {
+  semester: string,
+  domain: PhotoConsentDomain,
+  isConsenting: ?boolean,
+  updatedAt: ?Dateish,
+};
+
 export type EventRegistrationPresence = 'PRESENT' | 'NOT_PRESENT' | 'UNKNOWN';
-export type EventRegistrationPhotoConsent =
-  | 'PHOTO_NOT_CONSENT'
-  | 'PHOTO_CONSENT'
-  | 'UNKNOWN';
 
 export type EventRegistrationPaymentStatus =
   | 'pending'
@@ -141,7 +145,6 @@ export type EventRegistration = {
   paymentStatus: EventRegistrationPaymentStatus,
   feedback: string,
   sharedMemberships?: number,
-  consent: EventRegistrationPhotoConsent,
   clientSecret?: string,
   paymentError?: string,
 };

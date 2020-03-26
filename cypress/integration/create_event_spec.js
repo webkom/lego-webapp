@@ -377,9 +377,6 @@ describe('Create event', () => {
     cy.contains('Sted').click();
     cy.focused().type('EL6');
 
-    // Images
-    field('useConsent').check();
-
     // Question
     field('feedbackRequired').check();
     field('feedbackDescription').type('Burger eller sushi');
