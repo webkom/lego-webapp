@@ -63,6 +63,11 @@
   }
 }
 
+html[data-theme='dark'] .dropdownList > li > a:hover,
+html[data-theme='dark'] .dropdownList > li > button:hover {
+  background: var(--color-gray-2);
+}
+
 .divider {
   height: 1px;
   width: 100%;

@@ -22,5 +22,5 @@ export const getLogoImage = () => {
 };
 
 export const getFancyNodeColor = () => {
-  return getTheme() !== 'dark' ? 'rgba(0,0,0, 0.3)' : 'rgba(255,255,255, 0.4)';
+  return getTheme() !== 'dark' ? 'rgba(0,0,0, 0.3)' : 'rgba(255,255,255, 0.5)';
 };

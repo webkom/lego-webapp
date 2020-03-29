@@ -64,6 +64,10 @@ html[data-theme='dark'] .descriptionEditor {
   margin-top: 10px;
 }
 
+[data-theme='dark'] .poolBox {
+  background: rgba(50, 50, 50, 0.5);
+}
+
 .centeredButton {
   display: flex;
   justify-content: center;

@@ -43,8 +43,16 @@ html[data-theme='dark'] .tagLink {
   border-color: #cfedf0;
 }
 
+html[data-theme='dark'] .cyan {
+  color: var(--lego-text-gray);
+}
+
 .orange {
   color: #f56a00;
   background: #fde3cf;
   border-color: #fde3cf;
+}
+
+html[data-theme='dark'] .orange {
+  color: var(--lego-text-gray);
 }

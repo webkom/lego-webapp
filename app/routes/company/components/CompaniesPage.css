@@ -49,6 +49,11 @@
   word-wrap: break-word;
 }
 
+html[data-theme='dark'] .companyItem {
+  box-shadow: 5px 2px 5px
+    rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.1);
+}
+
 .companyItemContent {
   justify-content: space-between;
   flex-direction: column;
