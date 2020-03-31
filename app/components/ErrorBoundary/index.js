@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react';
-import Raven from 'raven-js';
+import * as Sentry from '@sentry/browser';
 import styles from './ErrorBoundary.css';
 import awSnap from 'app/assets/sentry-aw-snap.svg';
 import { Image } from 'app/components/Image';
@@ -14,16 +14,26 @@ type Props = {
 };
 
 type State = {
-  error: ?Error
+  error: ?Error,
+  lastEventId: ?string
 };
 
 class ErrorBoundary extends React.Component<Props, State> {
   state = {
-    error: null
+    error: null,
+    lastEventId: null
   };
 
   openDialog = () => {
-    Raven.lastEventId() && Raven.showReportDialog({});
+    this.state.lastEventId &&
+      Sentry.showReportDialog({
+        eventId: this.state.lastEventId,
+        lang: 'no',
+        title: 'Det skjedde en feil :(',
+        subtitle: 'Webkom har fått beskjed.',
+        subtitle2:
+          'Gjerne beskriv hva som skjedde, så kan vi fikse problemet kjappere.'
+      });
   };
 
   // eslint-disable-next-line
@@ -37,10 +47,13 @@ class ErrorBoundary extends React.Component<Props, State> {
 
   componentDidCatch(error: Error, errorInfo: Object) {
     this.setState({ error });
-    Raven.captureException(error, { extra: errorInfo });
-    if (this.props.openReportDialog) {
-      this.openDialog();
-    }
+    Sentry.withScope(scope => {
+      scope.setExtras(errorInfo);
+      const lastEventId = Sentry.captureException(error);
+      this.setState({ lastEventId }, () => {
+        this.props.openReportDialog && this.openDialog();
+      });
+    });
   }
 
   render() {
@@ -64,10 +77,7 @@ class ErrorBoundary extends React.Component<Props, State> {
           <Image src={awSnap} alt="snap" />
           <div className={styles.message}>
             <h3>En feil har oppstått</h3>
-            <p>
-              Webkom har <i> ikke </i>fått beskjed om feilen. Gjerne send oss en{' '}
-              <a href="mailto:webkom@abakus.no">mail</a>
-            </p>
+            <p>Webkom har fått beskjed om feilen.</p>
           </div>
         </div>
       </div>

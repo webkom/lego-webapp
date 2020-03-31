@@ -4,11 +4,10 @@ import { renderToString } from 'react-dom/server';
 import { match, RouterContext } from 'react-router';
 import { Provider } from 'react-redux';
 import Helmet from 'react-helmet';
-import Raven from 'raven';
+import * as Sentry from '@sentry/node';
 import routes from '../app/routes';
 import configureStore from '../app/utils/configureStore';
 import type { $Request, $Response, Middleware } from 'express';
-import { createNewRavenInstance } from '../app/utils/universalRaven';
 import { type State } from '../app/types';
 import pageRenderer from './pageRenderer';
 import { prepare } from '@webkom/react-prepare';
@@ -77,11 +76,9 @@ const createServerSideRenderer = (
 
     const createElement = (Component, props) => <Component {...props} />;
 
-    const raven = createNewRavenInstance(Raven);
-
     const store = configureStore(
       {},
-      { raven, getCookie: key => req.cookies[key] }
+      { Sentry, getCookie: key => req.cookies[key] }
     );
     const app = (
       <Provider store={store}>
@@ -94,7 +91,7 @@ const createServerSideRenderer = (
         // $FlowFixMe
         const err = error.error ? error.payload : error;
         log.error(err, 'render_error');
-        raven.captureException(err);
+        Sentry.captureException(err);
       } catch (e) {
         //
       }

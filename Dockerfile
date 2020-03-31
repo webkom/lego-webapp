@@ -29,6 +29,7 @@ COPY --from=builder /app/dist dist
 COPY --from=builder /app/dist-client dist-client
 
 RUN sentry-cli releases new ${RELEASE}
+RUN sentry-cli releases set-commits --auto ${RELEASE}
 RUN sentry-cli releases \
   files ${RELEASE} upload-sourcemaps \
   --rewrite --url-prefix="/app/dist/" \

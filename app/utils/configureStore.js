@@ -1,7 +1,6 @@
 /*eslint-disable */
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
-import type { UniversalRaven } from 'app/utils/universalRaven';
 import { User } from 'app/actions/ActionTypes';
 import { createTracker, EventTypes } from 'redux-segment';
 import { createLogger } from 'redux-logger';
@@ -9,7 +8,7 @@ import jwtDecode from 'jwt-decode';
 import config from 'app/config';
 import { browserHistory } from 'react-router';
 import { routerMiddleware } from 'react-router-redux';
-import createRavenMiddleware from 'raven-for-redux';
+import createSentryMiddleware from 'redux-sentry-middleware';
 import { addToast } from 'app/actions/ToastActions';
 import promiseMiddleware from './promiseMiddleware';
 import { selectCurrentUser } from 'app/reducers/auth';
@@ -52,7 +51,7 @@ const trackerMiddleware = createTracker({
   }
 });
 
-const ravenMiddlewareOptions = {
+const sentryMiddlewareOptions = {
   stateTransformer: state => {
     try {
       const token = jwtDecode(state.auth.token);
@@ -77,18 +76,18 @@ const loggerMiddleware = createLogger({
 
 export default function configureStore(
   initialState: State | {||} = {},
-  { raven, getCookie }: { raven: ?UniversalRaven, getCookie?: GetCookie } = {}
+  { Sentry, getCookie }: { Sentry: ?any, getCookie?: GetCookie } = {}
 ): Store {
   const messageMiddleware = createMessageMiddleware(
     message => addToast({ message }),
-    raven
+    Sentry
   );
 
   const middlewares = [
     routerMiddleware(browserHistory),
     thunkMiddleware.withExtraArgument({ getCookie }),
     promiseMiddleware(),
-    raven && createRavenMiddleware(raven, ravenMiddlewareOptions),
+    Sentry && createSentryMiddleware(Sentry, sentryMiddlewareOptions),
     messageMiddleware,
     config.environment === 'production' && trackerMiddleware
   ].filter(Boolean);
