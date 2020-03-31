@@ -12,7 +12,8 @@ import config from './env';
 Sentry.init({
   dsn: config.sentryDsn,
   release: config.release,
-  environment: config.environment
+  environment: config.environment,
+  normalizeDepth: 10
 });
 
 // This is a hack to use draft-convert on the server.

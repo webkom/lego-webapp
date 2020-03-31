@@ -67,9 +67,10 @@ global.log = function log(self = this) {
 };
 
 Sentry.init({
-  dsn: config.sentryDSN,
+  dsn: config.sentryDsn,
   release: config.release,
-  environment: config.environment
+  environment: config.environment,
+  normalizeDepth: 10
 });
 
 const preloadedState = window.__PRELOADED_STATE__;
