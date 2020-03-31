@@ -187,7 +187,7 @@ export const registrationCloseTime = (event: Event) =>
   moment(event.startTime).subtract(event.registrationDeadlineHours, 'hours');
 
 export const registrationIsClosed = (event: Event) => {
-  return moment().isAfter(registrationCloseTime(event))
+  return moment().isAfter(registrationCloseTime(event));
 };
 
 export const sumPenalties = (penalties: Array<AddPenalty>) =>
@@ -201,7 +201,9 @@ export const penaltyHours = (penalties: Array<AddPenalty>) => {
       return 3;
     case 2:
       return 12;
+    case 3:
+      return 1337;
     default:
-      return 0;
+      return -1;
   }
 };
