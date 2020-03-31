@@ -1,5 +1,7 @@
-import imageLogoLight from 'app/assets/logo-dark.png';
-import imageLogoDark from 'app/assets/logo.png';
+import imageLogoLightMode from 'app/assets/logo-dark.png';
+import imageLogoDarkMode from 'app/assets/logo.png';
+import bannerLightMode from 'app/assets/om-abakus-banner.png';
+import bannerDarkMode from 'app/assets/om-abakus-banner-dark-mode.png';
 
 export const applySelectedTheme = theme => {
   if (document) {
@@ -18,7 +20,11 @@ export const getTheme = () => {
 };
 
 export const getLogoImage = () => {
-  return getTheme() !== 'dark' ? imageLogoLight : imageLogoDark;
+  return getTheme() !== 'dark' ? imageLogoLightMode : imageLogoDarkMode;
+};
+
+export const getAboutAbakusBanner = () => {
+  return getTheme() !== 'dark' ? bannerLightMode : bannerDarkMode;
 };
 
 export const getFancyNodeColor = () => {
