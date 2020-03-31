@@ -56,3 +56,8 @@
   border-bottom: 1px solid #c24538;
   border-radius: 5px;
 }
+
+html[data-theme='dark'] .navButton:hover,
+html[data-theme='dark'] .activeItem {
+  color: var(--lego-font-color);
+}

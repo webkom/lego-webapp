@@ -71,6 +71,10 @@ html[data-theme='dark'] .emptyState {
   margin-bottom: 20px;
 }
 
+html[data-theme='dark'] .infoCard {
+  background-color: var(--lego-card-color);
+}
+
 .bottomMargin {
   margin-bottom: 30px;
 }

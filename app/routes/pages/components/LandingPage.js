@@ -9,7 +9,7 @@ import TextWithBoldTitle, {
 } from './subcomponents/TextWithTitle';
 import Statistic from './subcomponents/Statistic';
 import EmailItem from './subcomponents/EmailItem';
-import banner from 'app/assets/om-abakus-banner.png';
+import { getAboutAbakusBanner } from 'app/utils/themeUtils.js';
 import styles from './LandingPage.css';
 import Button from 'app/components/Button';
 import moment from 'moment-timezone';
@@ -45,7 +45,7 @@ const LandingPage = ({
       </a>
       <Image
         className={styles.banner}
-        src={banner}
+        src={getAboutAbakusBanner()}
         alt="Abakus - Linjeforeningen for Datateknologi og Kommunikasjonsteknologi ved NTNU"
       />
 

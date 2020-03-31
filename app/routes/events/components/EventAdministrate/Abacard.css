@@ -19,3 +19,9 @@
   float: right;
   padding-right: 15px;
 }
+
+html[data-theme='dark'] .counter,
+html[data-theme='dark'] .attendees,
+html[data-theme='dark'] .adminRegistrations {
+  color: var(--lego-text-color);
+}

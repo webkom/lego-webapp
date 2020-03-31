@@ -16,6 +16,12 @@
   }
 }
 
+html[data-theme='dark'] .container {
+  box-shadow: 0 1px 4px
+    rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.14);
+  border: 1px solid rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.15);
+}
+
 .comment {
   display: flex;
   align-items: flex-start;

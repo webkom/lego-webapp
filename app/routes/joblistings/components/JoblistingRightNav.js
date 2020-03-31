@@ -159,34 +159,38 @@ export default class JoblistingsRightNav extends Component<Props, State> {
           </h3>
           <Flex justifyContent="flex-start" className={styles.sortNav}>
             <Flex>
-              <RadioButton
-                name="sort"
-                id="deadline"
-                inputValue={true}
-                value={this.state.order.deadline}
-                onChange={() => {
-                  this.props.router.push({
-                    pathname: '/joblistings',
-                    query: this.handleQuery('order', 'deadline')
-                  });
-                }}
-              />
-              <span style={{ marginRight: '10px' }}>Frist</span>
+              <label style={{ marginRight: '10px', cursor: 'pointer' }}>
+                <RadioButton
+                  name="sort"
+                  id="deadline"
+                  inputValue={true}
+                  value={this.state.order.deadline}
+                  onChange={() => {
+                    this.props.router.push({
+                      pathname: '/joblistings',
+                      query: this.handleQuery('order', 'deadline')
+                    });
+                  }}
+                />
+                Frist
+              </label>
             </Flex>
             <Flex>
-              <RadioButton
-                name="sort"
-                id="company"
-                inputValue={true}
-                value={this.state.order.company}
-                onChange={() => {
-                  this.props.router.push({
-                    pathname: '/joblistings',
-                    query: this.handleQuery('order', 'company')
-                  });
-                }}
-              />
-              <span>Bedrift</span>
+              <label style={{ cursor: 'pointer' }}>
+                <RadioButton
+                  name="sort"
+                  id="company"
+                  inputValue={true}
+                  value={this.state.order.company}
+                  onChange={() => {
+                    this.props.router.push({
+                      pathname: '/joblistings',
+                      query: this.handleQuery('order', 'company')
+                    });
+                  }}
+                />
+                Bedrift
+              </label>
             </Flex>
           </Flex>
           <Flex column className={styles.filters}>

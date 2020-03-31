@@ -16,3 +16,7 @@
   align-items: center;
   margin: 10px 0;
 }
+
+html[data-theme='dark'] .poolBox {
+  background-color: rgba(50, 50, 50, 0.5);
+}

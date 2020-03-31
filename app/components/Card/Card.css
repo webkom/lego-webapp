@@ -6,6 +6,10 @@
   flex: 1;
 }
 
+html[data-theme='dark'] .card {
+  background: inherit;
+}
+
 .dark {
   background: var(--lego-color-gray);
   color: var(--color-white);

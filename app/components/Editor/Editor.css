@@ -9,6 +9,10 @@
     background-color: var(--color-white);
   }
 
+  html[data-theme='dark'] .md-RichEditor-root {
+    background-color: inherit;
+  }
+
   .md-RichEditor-editor:not(.md-RichEditor-readonly) {
     /* Mimic the behavior of our existing editor fields: */
     border: 1px solid var(--color-mono-gray-3);

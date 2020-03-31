@@ -25,6 +25,10 @@
   }
 }
 
+html[data-theme='dark'] .contentContainer {
+  background: var(--lego-card-color);
+}
+
 .page {
   min-width: 75%;
 }

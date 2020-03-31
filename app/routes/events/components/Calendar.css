@@ -44,6 +44,10 @@
   border-bottom: 2px solid var(--color-mono-gray-4);
 }
 
+html[data-theme='dark'] .headingItem {
+  color: var(--lego-font-color);
+}
+
 .day {
   flex: 0 14.28571%;
   border-right: var(--calendar-border);
@@ -67,8 +71,16 @@
   color: var(--color-mono-gray-2);
 }
 
+html[data-theme='dark'] .prevNextMonthDay {
+  color: var(--color-mono-gray-4);
+}
+
 .previousEvent a {
   color: var(--color-dark-mono-gray-5);
+}
+
+html[data-theme='dark'] .previousEvent a {
+  color: var(--color-mono-gray-5);
 }
 
 .previousEvent span {
