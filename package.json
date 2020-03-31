@@ -58,7 +58,7 @@
     "morgan": "^1.9.1",
     "normalizr": "^3.2.2",
     "prop-types": "^15.7.2",
-    "qs": "^6.9.1",
+    "qs": "^6.9.3",
     "raven": "^2.3.0",
     "raven-for-redux": "^1.4.0",
     "raven-js": "^3.27.2",
