@@ -11,12 +11,10 @@ export const applySelectedTheme = theme => {
 };
 
 export const getTheme = () => {
-  return (
-    (document &&
-      document.documentElement &&
-      document.documentElement.getAttribute('data-theme')) ||
-    'light'
-  );
+  if (document && document.documentElement) {
+    return document.documentElement.getAttribute('data-theme') || 'light';
+  }
+  return 'light';
 };
 
 export const getLogoImage = () => {
