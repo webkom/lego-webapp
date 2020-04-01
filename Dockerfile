@@ -30,7 +30,7 @@ COPY --from=builder /app/dist dist
 COPY --from=builder /app/dist-client dist-client
 
 RUN sentry-cli releases new ${RELEASE}
-RUN sentry-cli releases set-commits ${RELEASE} --commit "lego-webapp@${COMMIT_SHA}"
+RUN sentry-cli releases set-commits ${RELEASE} --commit "webkom/lego-webapp@${COMMIT_SHA}"
 RUN sentry-cli releases \
   files ${RELEASE} upload-sourcemaps \
   --rewrite --url-prefix="/app/dist/" \
