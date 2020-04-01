@@ -4,6 +4,7 @@ import 'babel-polyfill';
 import { JSDOM } from 'jsdom';
 import app from './server';
 import * as Sentry from '@sentry/node';
+import { RewriteFrames } from '@sentry/integrations';
 import https from 'https';
 import http from 'http';
 import fs from 'fs';
@@ -13,7 +14,8 @@ Sentry.init({
   dsn: config.sentryDSN,
   release: config.release,
   environment: config.environment,
-  normalizeDepth: 10
+  normalizeDepth: 10,
+  integrations: [new RewriteFrames()]
 });
 
 // This is a hack to use draft-convert on the server.

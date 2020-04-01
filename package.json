@@ -34,6 +34,7 @@
   },
   "dependencies": {
     "@sentry/browser": "^5.15.4",
+    "@sentry/integrations": "^5.15.4",
     "@sentry/node": "^5.15.4",
     "@webkom/react-prepare": "0.6.0",
     "animate.css": "^3.7.0",
