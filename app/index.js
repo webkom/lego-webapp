@@ -67,7 +67,7 @@ global.log = function log(self = this) {
 };
 
 Sentry.init({
-  dsn: config.sentryDsn,
+  dsn: config.sentryDSN,
   release: config.release,
   environment: config.environment,
   normalizeDepth: 10

@@ -10,7 +10,7 @@ import fs from 'fs';
 import config from './env';
 
 Sentry.init({
-  dsn: config.sentryDsn,
+  dsn: config.sentryDSN,
   release: config.release,
   environment: config.environment,
   normalizeDepth: 10
