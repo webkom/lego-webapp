@@ -3,15 +3,17 @@ import imageLogoDarkMode from 'app/assets/logo.png';
 import bannerLightMode from 'app/assets/om-abakus-banner.png';
 import bannerDarkMode from 'app/assets/om-abakus-banner-dark-mode.png';
 
+const isClientSide = () => typeof window !== 'undefined' && document;
+
 export const applySelectedTheme = theme => {
-  if (typeof window !== 'undefined') {
+  if (isClientSide()) {
     document.documentElement.setAttribute('data-theme', theme);
     global.dispatchEvent(new Event('themeChange'));
   }
 };
 
 export const getTheme = () =>
-  typeof window !== 'undefined'
+  isClientSide()
     ? document.documentElement.getAttribute('data-theme')
     : 'light';
 
