@@ -121,6 +121,10 @@
   padding: 2rem;
 }
 
+html[data-theme='dark'] .quickLinks {
+  background-color: var(--lego-card-color);
+}
+
 .quickLinks::after {
   content: '';
   display: block;
@@ -148,10 +152,18 @@
   padding: 3px 14px;
 }
 
+html[data-theme='dark'] .quickLinks a:hover {
+  background-color: var(--color-gray-2);
+}
+
 .results {
   flex: 2;
   padding: 2rem;
   background: var(--lego-color-gray-light);
+}
+
+html[data-theme='dark'] .results {
+  background: var(--lego-card-color);
 }
 
 .resultDate {

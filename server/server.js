@@ -5,7 +5,7 @@ import morgan from 'morgan';
 import moment from 'moment-timezone';
 import bunyan from 'bunyan';
 import bunyanPretty from 'bunyan-pretty';
-import Raven from 'raven';
+import * as Sentry from '@sentry/node';
 import cookieParser from 'cookie-parser';
 import render from './render';
 import config from './env';
@@ -14,7 +14,7 @@ import healthCheck from './health';
 moment.locale('nb-NO');
 const app = express();
 
-app.use(Raven.requestHandler());
+app.use(Sentry.Handlers.requestHandler());
 app.use(cookieParser());
 
 const log = bunyan.createLogger({
@@ -89,7 +89,7 @@ app.use((req, res) => {
   });
 });
 
-app.use(Raven.errorHandler());
+app.use(Sentry.Handlers.errorHandler());
 
 app.use((err, req, res, next) => {
   log.error(err, 'internal_error');

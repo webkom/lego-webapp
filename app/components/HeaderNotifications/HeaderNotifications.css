@@ -16,6 +16,10 @@
   }
 }
 
+html[data-theme='dark'] .notifications {
+  background-color: var(--lego-card-color);
+}
+
 .notification {
   border-bottom: 1px solid lightgray;
   padding: 15px;
@@ -55,4 +59,13 @@
 
 .icon {
   padding-right: 15px;
+}
+
+html[data-theme='dark'] .notificationBell {
+  color: var(--color-light-gray-5);
+  transition: color 0.1s;
+
+  &:hover {
+    color: var(--color-gray-5);
+  }
 }

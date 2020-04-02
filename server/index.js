@@ -3,17 +3,20 @@
 import 'babel-polyfill';
 import { JSDOM } from 'jsdom';
 import app from './server';
-import Raven from 'raven';
+import * as Sentry from '@sentry/node';
+import { RewriteFrames } from '@sentry/integrations';
 import https from 'https';
 import http from 'http';
 import fs from 'fs';
 import config from './env';
 
-Raven.config(config.ravenDsn, {
+Sentry.init({
+  dsn: config.sentryDSN,
   release: config.release,
   environment: config.environment,
-  logger: 'node'
-}).install();
+  normalizeDepth: 10,
+  integrations: [new RewriteFrames()]
+});
 
 // This is a hack to use draft-convert on the server.
 // draft-convert performs a `typeof HTMLElement` which can't really be worked around.

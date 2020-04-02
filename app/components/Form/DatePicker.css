@@ -59,8 +59,20 @@
   }
 }
 
+html[data-theme='dark'] .calendarItem {
+  color: var(--lego-font-color);
+
+  &:hover {
+    background: var(--color-gray-2);
+  }
+}
+
 .prevOrNextMonth {
   color: var(--color-mono-gray-2);
+}
+
+html[data-theme='dark'] .prevOrNextMonth {
+  color: var(--color-mono-gray-4);
 }
 
 .selectedDate {

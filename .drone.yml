@@ -275,9 +275,10 @@ steps:
         - ${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:7}
       build_args:
         - RELEASE=${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:7}
-        - SENTRY_ORG=webkom
+        - COMMIT_SHA=${DRONE_COMMIT_SHA}
+        - SENTRY_ORG=abakus
         - SENTRY_PROJECT=lego-webapp
-        - SENTRY_URL=https://sentry.abakus.no/
+        - SENTRY_URL=https://sentry.io/
       build_args_from_env:
         - SENTRY_AUTH_TOKEN
 

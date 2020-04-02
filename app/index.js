@@ -20,7 +20,7 @@ import moment from 'moment-timezone';
 import 'moment/locale/nb';
 import cookie from 'js-cookie';
 import config from 'app/config';
-import raven from 'raven-js';
+import * as Sentry from '@sentry/browser';
 import configureStore, { history } from 'app/utils/configureStore';
 import renderApp from './render';
 import { fetchMeta } from 'app/actions/MetaActions';
@@ -64,18 +64,18 @@ global.log = function log(self = this) {
   return this;
 };
 
-raven
-  .config(config.ravenDSN, {
-    release: config.release,
-    environment: config.environment
-  })
-  .install();
+Sentry.init({
+  dsn: config.sentryDSN,
+  release: config.release,
+  environment: config.environment,
+  normalizeDepth: 10
+});
 
 const preloadedState = window.__PRELOADED_STATE__;
 const isSSR = window.__IS_SSR__;
 
 const store = configureStore(preloadedState, {
-  raven,
+  Sentry,
   getCookie: key => cookie.get(key)
 });
 
