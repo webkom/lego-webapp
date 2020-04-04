@@ -58,7 +58,7 @@ export default function pageRenderer({
   const isSSR = body === '' ? 'false' : 'true';
   return `
     <!DOCTYPE html>
-    <html>
+    <html data-theme="light">
       <head>
         <meta charset="utf-8">
         ${helmet ? helmet.title.toString() : ''}

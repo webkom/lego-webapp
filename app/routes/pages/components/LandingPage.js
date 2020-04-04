@@ -9,11 +9,13 @@ import TextWithBoldTitle, {
 } from './subcomponents/TextWithTitle';
 import Statistic from './subcomponents/Statistic';
 import EmailItem from './subcomponents/EmailItem';
-import { getAboutAbakusBanner } from 'app/utils/themeUtils.js';
 import styles from './LandingPage.css';
 import Button from 'app/components/Button';
 import moment from 'moment-timezone';
 import { Image } from 'app/components/Image';
+import cx from 'classnames';
+import bannerLightMode from 'app/assets/om-abakus-banner.png';
+import bannerDarkMode from 'app/assets/om-abakus-banner-dark-mode.png';
 
 type Props = {
   whoWeAre: string,
@@ -44,8 +46,14 @@ const LandingPage = ({
         Kontakt oss
       </a>
       <Image
-        className={styles.banner}
-        src={getAboutAbakusBanner()}
+        className={cx(styles.banner, styles.bannerLightMode)}
+        src={bannerLightMode}
+        alt="Abakus - Linjeforeningen for Datateknologi og Kommunikasjonsteknologi ved NTNU"
+      />
+
+      <Image
+        className={cx(styles.banner, styles.bannerDarkMode)}
+        src={bannerDarkMode}
         alt="Abakus - Linjeforeningen for Datateknologi og Kommunikasjonsteknologi ved NTNU"
       />
 
