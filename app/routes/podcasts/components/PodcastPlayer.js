@@ -17,7 +17,7 @@ import 'react-soundplayer/styles/volume.css';
 import styles from './Podcast.css';
 import { Flex } from 'app/components/Layout';
 import Icon from 'app/components/Icon';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import moment from 'moment-timezone';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 

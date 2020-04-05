@@ -5,7 +5,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import cx from 'classnames';
 import { getFormMeta, getFormValues, reduxForm, Field } from 'redux-form';
-import type { FieldProps } from 'redux-form';
+import type { FormProps } from 'redux-form';
 import { EditorField } from 'app/components/Form';
 import Button from 'app/components/Button';
 import { ProfilePicture } from 'app/components/Image';
@@ -24,15 +24,18 @@ const validate = values => {
   return errors;
 };
 
-type Props = FieldProps & {
+type Props = {
   contentTarget: string,
   user: Object,
   loggedIn: boolean,
   addComment: CommentEntity => void,
   parent: number,
   submitText: string,
-  inlineMode: boolean
-};
+  inlineMode: boolean,
+  initialized: boolean,
+  autoFocus: boolean,
+  isOpen: boolean
+} & FormProps;
 
 class CommentForm extends Component<Props> {
   static defaultProps = {
@@ -59,7 +62,8 @@ class CommentForm extends Component<Props> {
       loggedIn,
       submitText,
       inlineMode,
-      autoFocus
+      autoFocus,
+      initialized
     } = this.props;
     const className = inlineMode ? styles.inlineForm : styles.form;
 
@@ -86,6 +90,7 @@ class CommentForm extends Component<Props> {
             name="text"
             placeholder="Skriv en kommentar"
             component={EditorField}
+            initialized={initialized}
             simple
           />
 
@@ -109,7 +114,9 @@ function mapStateToProps(state, props) {
   const values = getFormValues(props.form)(state);
   return {
     isOpen:
-      meta && (meta.text.active || (values && values.text !== EMPTY_STATE))
+      meta &&
+      meta.text &&
+      (meta.text.active || (values && values.text !== EMPTY_STATE))
   };
 }
 

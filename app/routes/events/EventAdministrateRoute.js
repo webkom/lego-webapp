@@ -6,7 +6,7 @@ import EventAdministrateIndex from './components/EventAdministrate';
 import { selectEventById } from 'app/reducers/events';
 
 const mapStateToProps = (state, props) => {
-  const eventId = props.params.eventId;
+  const eventId = props.match.params.eventId;
 
   const event = selectEventById(state, { eventId });
   return {
@@ -18,8 +18,10 @@ const mapStateToProps = (state, props) => {
 };
 
 export default compose(
-  prepare(({ params: { eventId } }, dispatch) =>
-    dispatch(fetchAdministrate(Number(eventId)))
+  prepare(
+    ({ match }, dispatch) =>
+      dispatch(fetchAdministrate(Number(match.params.eventId))),
+    []
   ),
   connect(mapStateToProps)
 )(EventAdministrateIndex);

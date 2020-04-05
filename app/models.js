@@ -231,3 +231,11 @@ export type AddPenalty = {
   weight: number,
   sourceEvent: ID
 };
+
+export type LocationType = {
+  key: string,
+  pathname: string,
+  search: string,
+  hash: string,
+  state: { [any]: boolean }
+};

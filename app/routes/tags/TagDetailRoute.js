@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 import { fetch } from 'app/actions/TagActions';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import prepare from 'app/utils/prepare';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 import TagDetail from './components/TagDetail';
 import { selectTagById } from 'app/reducers/tags';
 
 function mapStateToProps(state, props) {
-  const { tagId } = props.params;
+  const { tagId } = props.match.params;
 
   return {
     tag: selectTagById(state, { tagId })
@@ -18,7 +18,7 @@ function mapStateToProps(state, props) {
 const mapDispatchToProps = { push, fetch };
 
 export default compose(
-  prepare(({ params }, dispatch) => dispatch(fetch(params.tagId))),
+  prepare(({ match: { params } }, dispatch) => dispatch(fetch(params.tagId))),
   connect(
     mapStateToProps,
     mapDispatchToProps

@@ -18,14 +18,14 @@ import SubmissionPage from './components/Submissions/SubmissionPage';
 import { compose } from 'redux';
 import { selectSurveySubmissions } from 'app/reducers/surveySubmissions';
 import { selectSurveyById } from 'app/reducers/surveys';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { getCsvUrl } from './utils';
 
 const loadData = (props, dispatch) => {
-  const { surveyId } = props.params;
+  const { surveyId } = props.match.params;
   return Promise.all([
     dispatch(fetchSurvey(surveyId)),
     dispatch(fetchSubmissions(surveyId))
@@ -33,7 +33,7 @@ const loadData = (props, dispatch) => {
 };
 
 const mapStateToProps = (state, props) => {
-  const surveyId = Number(props.params.surveyId);
+  const surveyId = Number(props.match.params.surveyId);
   const locationStrings = props.location.pathname.split('/');
   const isSummary =
     locationStrings[locationStrings.length - 1] === 'individual';

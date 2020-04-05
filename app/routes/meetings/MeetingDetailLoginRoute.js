@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 import {
   fetchMeeting,
   setInvitationStatus,
@@ -25,7 +25,7 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state, props) => {
-  const { meetingId } = props.params;
+  const { meetingId } = props.match.params;
   const { currentUser } = props;
   const meeting = selectMeetingById(state, { meetingId });
   const comments = selectCommentsForMeeting(state, { meetingId });

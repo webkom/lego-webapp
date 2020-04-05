@@ -11,14 +11,24 @@ import styles from './FileUploadField.css';
 type Props = {
   className?: string,
   style?: Object,
-  onChange: string => void
-};
+  value?: string,
+  onChange: string => void,
+  placeholder: string
+} & FieldProps;
 
-class FileUploadField extends Component<Props & FieldProps> {
+class FileUploadField extends Component<Props> {
   static Field: any;
 
   render() {
-    const { className, style, ...props } = this.props;
+    const {
+      className,
+      style,
+      input,
+      value,
+      meta,
+      placeholder,
+      ...restprops
+    } = this.props;
 
     return (
       <Flex
@@ -26,11 +36,9 @@ class FileUploadField extends Component<Props & FieldProps> {
         className={cx(styles.base, className)}
         style={style}
       >
-        <FileUpload {...props} {...props.input} {...props.meta} />
-        <span className={styles.value}>
-          {props.value ? props.value : props.placeholder}
-        </span>
-        {props.value && (
+        <FileUpload {...restprops} {...input} {...meta} />
+        <span className={styles.value}>{value ? value : placeholder}</span>
+        {value && (
           <Icon
             onClick={e => {
               e.preventDefault();

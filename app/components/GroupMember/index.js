@@ -2,7 +2,7 @@
 
 import React from 'react';
 import styles from './GroupMember.css';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import cx from 'classnames';
 import type { User } from 'app/models';
 import { Image } from 'app/components/Image';

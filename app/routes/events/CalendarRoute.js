@@ -14,7 +14,7 @@ const getDate = ({ params }) => {
 };
 
 const loadData = (props, dispatch) => {
-  const date = getDate(props);
+  const date = getDate(props.match);
   if (date.isValid()) {
     const dateAfter = date
       .clone()
@@ -31,8 +31,6 @@ const loadData = (props, dispatch) => {
       })
     );
   }
-
-  return Promise.resolve();
 };
 
 const mapStateToProps = (state, ownProps) => {
@@ -40,7 +38,7 @@ const mapStateToProps = (state, ownProps) => {
   const icalToken = user ? user.icalToken : null;
   const actionGrant = state.events.actionGrant;
   return {
-    date: getDate(ownProps),
+    date: getDate(ownProps.match),
     actionGrant,
     icalToken
   };
@@ -49,7 +47,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = { fetchList };
 
 export default compose(
-  prepare(loadData, ['params.year', 'params.month']),
+  prepare(loadData, ['match.params.year', 'match.params.month']),
   connect(
     mapStateToProps,
     mapDispatchToProps

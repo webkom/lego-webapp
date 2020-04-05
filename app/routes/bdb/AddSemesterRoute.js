@@ -53,8 +53,8 @@ const validateSemesterStatus = (data, props) => {
 };
 
 const mapStateToProps = (state, props) => ({
-  companyId: props.params.companyId,
-  initialValues: props.params.companyId && {
+  companyId: props.match.params.companyId,
+  initialValues: props.match.params.companyId && {
     year: moment().year(),
     semester: 0,
     contactedStatus: 'not_contacted'
@@ -75,7 +75,7 @@ export default compose(
   prepare(
     (props, dispatch) =>
       Promise.all([dispatch(fetchSemesters()), dispatch(fetchAllAdmin())]),
-    ['params.companyId']
+    ['match.params.companyId']
   ),
   connect(
     mapStateToProps,

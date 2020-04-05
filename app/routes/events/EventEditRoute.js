@@ -8,7 +8,6 @@ import {
   deleteEvent,
   setCoverPhoto
 } from 'app/actions/EventActions';
-import loadingIndicator from 'app/utils/loadingIndicator';
 import { uploadFile } from 'app/actions/FileActions';
 import EventEditor from './components/EventEditor';
 import {
@@ -24,7 +23,7 @@ import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import moment from 'moment-timezone';
 
 const mapStateToProps = (state, props) => {
-  const eventId = props.params.eventId;
+  const eventId = props.match.params.eventId;
   const event = selectEventById(state, { eventId });
   const actionGrant = event.actionGrant || [];
   const pools = selectPoolsWithRegistrationsForEvent(state, { eventId });
@@ -90,10 +89,13 @@ const mapDispatchToProps = {
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  prepare(({ params: { eventId } }, dispatch) => dispatch(fetchEvent(eventId))),
+  prepare(({ match: { params: { eventId } } }, dispatch) =>
+    dispatch(fetchEvent(eventId))
+  ),
   connect(
     mapStateToProps,
     mapDispatchToProps
   ),
-  loadingIndicator(['event.title'])
+  replaceUnlessLoggedIn(LoginPage)
+  //loadingIndicator(['event.title'])
 )(EventEditor);

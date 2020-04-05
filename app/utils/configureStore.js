@@ -7,7 +7,8 @@ import { createLogger } from 'redux-logger';
 import jwtDecode from 'jwt-decode';
 import config from 'app/config';
 import { browserHistory } from 'react-router';
-import { routerMiddleware } from 'react-router-redux';
+import { routerMiddleware } from 'connected-react-router';
+import { createBrowserHistory, createMemoryHistory } from 'history';
 import createSentryMiddleware from 'redux-sentry-middleware';
 import { addToast } from 'app/actions/ToastActions';
 import promiseMiddleware from './promiseMiddleware';
@@ -15,6 +16,7 @@ import { selectCurrentUser } from 'app/reducers/auth';
 import createMessageMiddleware from './messageMiddleware';
 import type { State, Store, GetCookie } from 'app/types';
 import { omit } from 'lodash';
+import createRootReducer from '../reducers';
 
 const trackerMiddleware = createTracker({
   mapper: {
@@ -74,6 +76,10 @@ const loggerMiddleware = createLogger({
   collapsed: true
 });
 
+export const history = __CLIENT__
+  ? createBrowserHistory()
+  : createMemoryHistory();
+
 export default function configureStore(
   initialState: State | {||} = {},
   { Sentry, getCookie }: { Sentry: ?any, getCookie?: GetCookie } = {}
@@ -84,7 +90,7 @@ export default function configureStore(
   );
 
   const middlewares = [
-    routerMiddleware(browserHistory),
+    routerMiddleware(history),
     thunkMiddleware.withExtraArgument({ getCookie }),
     promiseMiddleware(),
     Sentry && createSentryMiddleware(Sentry, sentryMiddlewareOptions),
@@ -105,7 +111,7 @@ export default function configureStore(
     global.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
   const store = createStore(
-    require('../reducers').default,
+    createRootReducer(history),
     initialState,
     composeEnhancer(applyMiddleware(...middlewares))
   );

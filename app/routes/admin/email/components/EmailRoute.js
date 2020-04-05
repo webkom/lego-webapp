@@ -6,12 +6,10 @@ import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import { Content } from 'app/components/Content';
 
 type Props = {
-  children: Node,
-  groups: Array<Object>,
-  params: { groupId: string }
+  children: Node
 };
 
-const EmailPage = ({ groups, children, params }: Props) => (
+const EmailPage = ({ children }: Props) => (
   <Content>
     <NavigationTab title="Epost">
       <NavigationLink to={'/admin/email'}>Lister</NavigationLink>

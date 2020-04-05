@@ -1,7 +1,7 @@
 // @flow
 
 import React, { type Node } from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 
 import styles from './NavigationLink.css';
 
@@ -16,7 +16,6 @@ const NavigationLink = (props: Props) => {
     <Link
       to={props.to}
       onClick={props.onClick}
-      onlyActiveOnIndex
       className={styles.link}
       activeClassName={styles.active}
     >

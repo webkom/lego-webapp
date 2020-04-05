@@ -38,7 +38,8 @@ export type Props = {
   updatePage: (string, Page) => Promise<*>,
   createPage: Page => Promise<*>,
   deletePage: (slug: string) => Promise<*>,
-  push: string => void
+  push: string => void,
+  initialized: boolean
 };
 
 type State = {
@@ -174,6 +175,7 @@ export default class PageEditor extends Component<Props, State> {
             name="content"
             component={EditorField.Field}
             uploadFile={uploadFile}
+            initialized={this.props.initialized}
           />
         </Form>
       </Content>

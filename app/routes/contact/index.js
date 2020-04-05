@@ -1,8 +1,16 @@
 // @flow
+import * as React from 'react';
+import { Route, Switch } from 'react-router-dom';
+import ContactRoute from './ContactRoute';
+import PageNotFoundRoute from '../pageNotFound/PageNotFoundRoute';
 
-import resolveAsyncRoute from 'app/routes/resolveAsyncRoute';
+const contactRoute = ({ match }: { match: { path: string } }) => (
+  <Switch>
+    <Route exact path={`${match.path}`} component={ContactRoute} />
+    <Route component={PageNotFoundRoute} />
+  </Switch>
+);
 
-export default {
-  path: 'contact',
-  indexRoute: resolveAsyncRoute(() => import('./ContactRoute'))
-};
+export default function Contact() {
+  return <Route path="/contact" component={contactRoute} />;
+}

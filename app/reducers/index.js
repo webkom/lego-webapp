@@ -2,7 +2,7 @@
 
 import { schema } from 'normalizr';
 import { combineReducers } from 'redux';
-import { routerReducer } from 'react-router-redux';
+import { connectRouter } from 'connected-react-router';
 import routing from './routing';
 import allowed from './allowed';
 import form from './forms';
@@ -50,9 +50,8 @@ import readme from './readme';
 import surveySubmissions from './surveySubmissions';
 import tags from './tags';
 import fetchHistory from './fetchHistory';
-import { User } from '../actions/ActionTypes';
 import joinReducers from 'app/utils/joinReducers';
-import type { State, Action } from 'app/types';
+import { type LocationType } from 'app/models';
 
 const reducers = {
   allowed,
@@ -92,7 +91,6 @@ const reducers = {
   readme,
   registrations,
   restrictedMails,
-  routing: joinReducers(routing, routerReducer),
   search,
   emojis,
   reactions,
@@ -105,19 +103,24 @@ const reducers = {
 
 export type Reducers = typeof reducers;
 
-const appReducer = combineReducers(reducers);
+type History = {
+  length: Number,
+  action: string,
+  location: LocationType,
+  createHref: (location: LocationType) => string,
+  push: (path: string, state: Object) => void,
+  replace: (path: string, state: Object) => void,
+  go: (n: Number) => void,
+  goBack: () => void,
+  block: (prompt?: boolean) => () => void,
+  listen: (listener: () => void) => () => void
+};
 
-export default function rootReducer(state: State, action: Action) {
-  if (action.type === User.LOGOUT) {
-    return appReducer(
-      {
-        routing: state.routing
-      },
-      action
-    );
-  }
-
-  return appReducer(state, action);
+export default function rootReducer(history: History) {
+  return combineReducers({
+    router: joinReducers(connectRouter(history), routing),
+    ...reducers
+  });
 }
 
 export const restrictedMailSchema = new schema.Entity('restrictedMails');

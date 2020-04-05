@@ -13,7 +13,7 @@ import {
 import { Image } from 'app/components/Image';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { reduxForm, Field, SubmissionError, FieldArray } from 'redux-form';
-import type { FieldProps } from 'redux-form';
+import type { FormProps, FieldArrayProps } from 'redux-form';
 import Flex from 'app/components/Layout/Flex';
 import { Content } from 'app/components/Content';
 import type { CompanyInterestEntity } from 'app/reducers/companyInterest';
@@ -21,7 +21,7 @@ import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 
 import { createValidator, required, isEmail } from 'app/utils/validation';
 import { FlexRow } from '../../../components/FlexBox';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import norwegian from 'app/assets/norway.svg';
 import english from 'app/assets/great_britain.svg';
 import withAutocomplete from 'app/components/Search/withAutocomplete';
@@ -70,7 +70,10 @@ const eventToString = event =>
 const otherOffersToString = offer =>
   Object.keys(OTHER_TYPES)[Number(offer.charAt(offer.length - 2))];
 
-const SemesterBox = ({ fields, language }: FieldProps) => (
+const SemesterBox = ({
+  fields,
+  language
+}: { language: string } & FieldArrayProps) => (
   <Flex column className={styles.checkboxWrapper}>
     {fields.map((item, index) => (
       <Flex key={index}>
@@ -92,7 +95,10 @@ const SemesterBox = ({ fields, language }: FieldProps) => (
   </Flex>
 );
 
-const EventBox = ({ fields, language }: FieldProps) => (
+const EventBox = ({
+  fields,
+  language
+}: { language: string } & FieldArrayProps) => (
   <Flex column className={styles.checkboxWrapper}>
     {fields.map((key, index) => (
       <Flex key={index}>
@@ -114,7 +120,10 @@ const EventBox = ({ fields, language }: FieldProps) => (
   </Flex>
 );
 
-const OtherBox = ({ fields, language }: FieldProps) => (
+const OtherBox = ({
+  fields,
+  language
+}: { language: string } & FieldArrayProps) => (
   <Flex column className={styles.checkboxWrapper}>
     {fields.map((key, index) => (
       <Flex key={index}>
@@ -149,9 +158,21 @@ const LanguageFlag = ({ language }: { language: string }) => {
   return <Image src={flag} className={styles.flag} alt="country_flag" />;
 };
 
-type Props = FieldProps & {
+type CompanyInterestFormEntity = {
+  companyName: string,
+  company: ?number,
+  contactPerson: string,
+  mail: string,
+  phone: string,
+  semesters: Array<CompanySemesterEntity>,
+  events: Array<{ name: String, checked: boolean }>,
+  otherOffers: Array<{ name: String, checked: boolean }>,
+  comment: String
+};
+
+type Props = FormProps & {
   allowedBdb: boolean,
-  onSubmit: CompanyInterestEntity => Promise<*>,
+  onSubmit: (CompanyInterestFormEntity, ?boolean) => Promise<*>,
   push: string => void,
   events: Array<Object>,
   semesters: Array<CompanySemesterEntity>,

@@ -6,7 +6,7 @@ import { compose } from 'redux';
 import { selectSurveyTemplates } from 'app/reducers/surveys';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 import loadingIndicator from 'app/utils/loadingIndicator';
 
 const loadData = (props, dispatch) => dispatch(fetchTemplates());

@@ -1,7 +1,7 @@
 // @flow
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 import { debounce } from 'lodash';
 import prepare from 'app/utils/prepare';
 import { autocomplete } from 'app/actions/SearchActions';
@@ -11,20 +11,21 @@ import {
   markUsernameConsent
 } from 'app/actions/EventActions';
 import Abacard from './components/EventAdministrate/Abacard';
+import qs from 'qs';
 
 import { getRegistrationGroups } from 'app/reducers/events';
 
 const searchTypes = ['users.user'];
 
 const loadData = async (props, dispatch) => {
-  const query = props.location.query.q;
+  const query = qs.parse(props.location.search, { ignoreQueryPrefix: true }).q;
   if (query) {
     await dispatch(autocomplete(query, searchTypes));
   }
 };
 
 const mapStateToProps = (state, props) => {
-  const query = props.location.query.q;
+  const query = qs.parse(props.location.search);
   const results = query ? selectAutocomplete(state) : [];
 
   const { eventId } = props;

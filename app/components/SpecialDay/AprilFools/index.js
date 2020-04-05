@@ -2,7 +2,7 @@
 import React from 'react';
 import styles from './AprilFools.css';
 import moment from 'moment-timezone';
-import { IndexLink } from 'react-router';
+import { Link } from 'react-router-dom';
 import { Image } from 'app/components/Image';
 import logoImage from 'app/assets/logo-dark.png';
 import foolsImage from 'app/assets/aprilfools-image.png';
@@ -59,9 +59,9 @@ class AprilFools extends React.Component<Props, State> {
         <div className={styles.contentContainer}>
           <div className={styles.leftContainer}>
             <div className={styles.logoContainer}>
-              <IndexLink to="/" className={styles.logo}>
+              <Link to="/" className={styles.logo}>
                 <Image src={logoImage} alt="" />
-              </IndexLink>
+              </Link>
             </div>
             <div className={styles.textContainer}>
               <div className={styles.title}>

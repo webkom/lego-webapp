@@ -5,7 +5,7 @@ import cx from 'classnames';
 import { Form, Button, TextInput } from '../Form';
 import { connect } from 'react-redux';
 import { SubmissionError, Field, reduxForm } from 'redux-form';
-import type { FieldProps } from 'redux-form';
+import type { FormProps } from 'redux-form';
 import { login } from 'app/actions/UserActions';
 import { createValidator, required } from 'app/utils/validation';
 
@@ -19,7 +19,7 @@ type OwnProps = {
   postLoginSuccess?: any => any
 };
 
-type Props = ConnectedProps & OwnProps & FieldProps;
+type Props = ConnectedProps & OwnProps & FormProps;
 
 type ErrorProps = { error: string };
 
@@ -28,8 +28,8 @@ const Error = ({ error }: ErrorProps) => (
 );
 
 class LoginForm extends Component<Props> {
-  usernameRef: Field;
-  passwordRef: Field;
+  usernameRef: HTMLInputElement;
+  passwordRef: HTMLInputElement;
 
   componentDidMount() {
     // Trigger onChange of the fields in case the inputs

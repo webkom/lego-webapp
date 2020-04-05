@@ -1,7 +1,7 @@
 // @flow
 
 import * as React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 
 type Props = {
   link: [string, React.Node]

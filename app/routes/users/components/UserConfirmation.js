@@ -12,7 +12,7 @@ import {
   legoForm
 } from 'app/components/Form';
 import { Field } from 'redux-form';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { createValidator, required, validPassword } from 'app/utils/validation';
 
 type Props = {
@@ -96,16 +96,19 @@ const UserConfirmation = ({
           />
           <RadioButtonGroup name="gender">
             <Field
+              name="genderMan"
               label="Mann"
               component={RadioButton.Field}
               inputValue="male"
             />
             <Field
+              name="genderWoman"
               label="Kvinne"
               component={RadioButton.Field}
               inputValue="female"
             />
             <Field
+              name="genderOther"
               label="Annet"
               component={RadioButton.Field}
               inputValue="other"

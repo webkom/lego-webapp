@@ -29,7 +29,9 @@ import { deleteComment } from 'app/actions/CommentActions';
 
 const mapStateToProps = (state, props) => {
   const {
-    params: { eventId },
+    match: {
+      params: { eventId }
+    },
     currentUser
   } = props;
 
@@ -125,7 +127,15 @@ const mapDispatchToProps = {
   deleteComment
 };
 
-const loadData = async ({ params: { eventId }, loggedIn }, dispatch) => [
+const loadData = async (
+  {
+    match: {
+      params: { eventId }
+    },
+    loggedIn
+  },
+  dispatch
+) => [
   await dispatch(fetchEvent(eventId)),
   loggedIn && (await dispatch(isUserFollowing(eventId)))
 ];
@@ -180,7 +190,7 @@ const propertyGenerator = (props, config) => {
 };
 
 export default compose(
-  prepare(loadData, ['params.eventId']),
+  prepare(loadData, ['match.params.eventId']),
   connect(
     mapStateToProps,
     mapDispatchToProps

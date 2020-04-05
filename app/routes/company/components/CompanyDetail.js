@@ -6,7 +6,7 @@ import { Content } from 'app/components/Content';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { Image } from 'app/components/Image';
 import InfoBubble from 'app/components/InfoBubble';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import truncateString from 'app/utils/truncateString';
 import { EVENT_CONSTANTS } from 'app/routes/events/utils';
 import Time from 'app/components/Time';

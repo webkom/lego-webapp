@@ -10,7 +10,7 @@ import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { LoginPage } from 'app/components/LoginForm';
 
 const mapStateToProps = (state, props) => {
-  const id = props.params.pollsId;
+  const id = props.match.params.pollsId;
   const poll = selectPollById(state, id);
 
   if (!poll) return {};
@@ -41,7 +41,7 @@ const mapDispatchToProps = {
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  prepare((props, dispatch) => dispatch(fetchPoll(props.params.pollsId))),
+  prepare((props, dispatch) => dispatch(fetchPoll(props.match.params.pollsId))),
   connect(
     mapStateToProps,
     mapDispatchToProps

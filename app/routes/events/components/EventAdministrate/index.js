@@ -9,17 +9,19 @@ import { LoginPage } from 'app/components/LoginForm';
 import type { EventEntity } from 'app/reducers/events';
 
 type Props = {
-  children: Element<*>,
+  children: Array<Element<*>>,
   currentUser: Object,
   isMe: boolean,
   event: ?EventEntity,
-  params: {
-    eventId: string
+  match: {
+    params: {
+      eventId: string
+    }
   }
 };
 
 const EventAdministrateIndex = (props: Props) => {
-  const base = `/events/${props.params.eventId}/administrate`;
+  const base = `/events/${props.match.params.eventId}/administrate`;
   // At the moment changing settings for other users only works
   // for the settings under `/profile` - so no point in showing
   // the other tabs.
@@ -33,10 +35,12 @@ const EventAdministrateIndex = (props: Props) => {
         <NavigationLink to={`${base}/abacard`}>Abacard</NavigationLink>
       </NavigationTab>
       {props.children &&
-        React.cloneElement(props.children, {
-          ...props,
-          children: undefined
-        })}
+        props.children.map(child =>
+          React.cloneElement(child, {
+            ...props,
+            children: undefined
+          })
+        )}
     </Content>
   );
 };

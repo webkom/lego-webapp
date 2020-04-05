@@ -9,7 +9,7 @@ import {
 } from 'app/actions/PodcastAction';
 import prepare from 'app/utils/prepare';
 import PodcastEditor from './components/PodcastEditor';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 import loadingIndicator from 'app/utils/loadingIndicator';
 
 const mapDispachToProps = {
@@ -19,7 +19,7 @@ const mapDispachToProps = {
 };
 
 const mapStateToProps = (state, props) => {
-  const id = props.params.podcastId;
+  const id = props.match.params.podcastId;
   const podcast = selectPodcastById(state, id) || {};
 
   return {

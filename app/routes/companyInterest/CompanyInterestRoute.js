@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { createCompanyInterest } from 'app/actions/CompanyInterestActions';
 import { fetchSemestersForInterestform } from 'app/actions/CompanyActions';
 import { compose } from 'redux';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 import CompanyInterestPage, {
   EVENT_TYPES,
   OTHER_TYPES
@@ -17,7 +17,7 @@ const loadSemesters = (props, dispatch) =>
 
 const mapStateToProps = (state, props) => {
   const semesters = selectCompanySemestersForInterestForm(state);
-  const { path } = props.route;
+  const { pathname } = props.location;
   if (!semesters) {
     return {
       edit: false
@@ -27,7 +27,7 @@ const mapStateToProps = (state, props) => {
   const allOtherOffers = Object.keys(OTHER_TYPES);
   const allowedBdb = state.allowed.bdb;
 
-  const language = path === 'register-interest' ? 'english' : 'norwegian';
+  const language = pathname === '/register-interest' ? 'english' : 'norwegian';
   return {
     allowedBdb,
     initialValues: {

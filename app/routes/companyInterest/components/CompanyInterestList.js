@@ -4,7 +4,7 @@ import { semesterToText } from '../utils';
 import styles from './CompanyInterest.css';
 import React, { Component } from 'react';
 import Button from 'app/components/Button';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { Content } from 'app/components/Content';
 import Flex from 'app/components/Layout/Flex';
 import type { CompanyInterestEntity } from 'app/reducers/companyInterest';
@@ -85,12 +85,7 @@ class CompanyInterestList extends Component<Props, State> {
         }
       })
       .then(() => {
-        this.props.router.replace({
-          pathname: '/companyInterest',
-          query: {
-            semesters: clickedOption.id
-          }
-        });
+        this.props.push(`/companyInterest?semesters=${clickedOption.id}`);
       });
   };
 

@@ -1,7 +1,7 @@
 // @flow
 
 import styles from './AppRoute.css';
-import React, { PureComponent, type Element } from 'react';
+import React, { PureComponent, type Element, cloneElement } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import prepare from 'app/utils/prepare';
@@ -41,8 +41,27 @@ type Props = {
   loggedIn: boolean
 };
 
+export const UserContext = React.createContext({
+  currentUser: {},
+  loggedIn: false
+});
+
 class AppChildren extends PureComponent<Props> {
   render() {
+    const children = React.Children.map(this.props.children, child =>
+      cloneElement(child, {
+        passedProps: {
+          currentUser: this.props.currentUser,
+          loggedIn: this.props.loggedIn
+        }
+      })
+    );
+
+    const userValue = {
+      currentUser: this.props.currentUser,
+      loggedIn: this.props.loggedIn
+    };
+
     return (
       <div style={{ flex: 1 }}>
         <ErrorBoundary resetOnChange={this.props.location}>
@@ -54,10 +73,9 @@ class AppChildren extends PureComponent<Props> {
               location={this.props.location}
             />
           ) : (
-            React.cloneElement(this.props.children, {
-              currentUser: this.props.currentUser,
-              loggedIn: this.props.loggedIn
-            })
+            <UserContext.Provider value={userValue}>
+              {children}
+            </UserContext.Provider>
           )}
         </ErrorBoundary>
       </div>
@@ -111,7 +129,6 @@ class App extends PureComponent<AppProps> {
             markAllNotifications={this.props.markAllNotifications}
             fetchNotificationData={this.props.fetchNotificationData}
           />
-
           <AppChildren
             currentUser={this.props.currentUser}
             loggedIn={this.props.loggedIn}
@@ -121,6 +138,7 @@ class App extends PureComponent<AppProps> {
           >
             {this.props.children}
           </AppChildren>
+
           <PhotoUploadStatus />
 
           <Footer {...this.props} />
@@ -139,14 +157,8 @@ function mapStateToProps(state) {
     notifications: selectFeedActivitesByFeedId(state, {
       feedId: 'notifications'
     }),
-    statusCode: state.routing.statusCode
+    statusCode: state.router.statusCode
   };
-}
-
-function fetchInitialOnServer(props, dispatch) {
-  return dispatch(loginAutomaticallyIfPossible()).then(() =>
-    dispatch(fetchMeta())
-  );
 }
 
 const mapDispatchToProps = {
@@ -156,8 +168,19 @@ const mapDispatchToProps = {
   fetchNotificationFeed,
   markAllNotifications,
   fetchNotificationData,
-  setStatusCode
+  setStatusCode,
+  loginAutomaticallyIfPossible
 };
+
+function fetchInitialOnServer(props, dispatch) {
+  return dispatch(loginAutomaticallyIfPossible()).then(() =>
+    Promise.all([
+      dispatch(fetchMeta())
+      //dispatch(fetchNotificationData()),
+      //dispatch(fetchNotificationFeed())
+    ])
+  );
+}
 
 export default compose(
   prepare(fetchInitialOnServer, [], {

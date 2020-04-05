@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import type { FieldProps } from 'redux-form';
+import type { FormProps } from 'redux-form';
 import { reset } from 'redux-form';
 import { Field } from 'redux-form';
 import { Content } from 'app/components/Content';
@@ -24,8 +24,10 @@ type Props = {
   semesters: Array<CompanySemesterEntity>,
   autoFocus: any,
   edit: boolean,
-  editSemester: CompanySemesterEntity => void
-} & FieldProps;
+  editSemester: CompanySemesterEntity => void,
+  addSemester: CompanySemesterEntity => void,
+  activeSemesters: Array<CompanySemesterEntity>
+} & FormProps;
 
 const CompanySemesterGUI = (props: Props) => {
   const activeSemesters = semesters => (
@@ -71,11 +73,13 @@ const CompanySemesterGUI = (props: Props) => {
             />
             <RadioButtonGroup name="semester" label="Semester">
               <Field
+                name="Spring"
                 label="Vår"
                 component={RadioButton.Field}
                 inputValue="spring"
               />
               <Field
+                name="Autumn"
                 label="Høst"
                 component={RadioButton.Field}
                 inputValue="autumn"

@@ -30,7 +30,14 @@ const queryString = companyId =>
     ordering: '-start_time'
   });
 
-const loadData = ({ params: { companyId } }, dispatch) =>
+const loadData = (
+  {
+    match: {
+      params: { companyId }
+    }
+  },
+  dispatch
+) =>
   Promise.all([
     dispatch(fetchSemesters()).then(() => dispatch(fetchAdmin(companyId))),
     dispatch(
@@ -42,7 +49,7 @@ const loadData = ({ params: { companyId } }, dispatch) =>
   ]);
 
 const mapStateToProps = (state, props) => {
-  const companyId = Number(props.params.companyId);
+  const companyId = Number(props.match.params.companyId);
   const company = selectCompanyById(state, { companyId });
   const comments = selectCommentsForCompany(state, { companyId });
   const companyEvents = selectEventsForCompany(state, { companyId });
@@ -63,7 +70,7 @@ const mapStateToProps = (state, props) => {
 };
 
 const mapDispatchToProps = (dispatch, props) => {
-  const { companyId } = props.params;
+  const { companyId } = props.match.params;
   const fetchMoreEvents = () =>
     dispatch(
       fetchEventsForCompany({
@@ -89,7 +96,7 @@ const mapDispatchToProps = (dispatch, props) => {
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  prepare(loadData, ['params.companyId']),
+  prepare(loadData, ['match.params.companyId']),
   connect(
     mapStateToProps,
     mapDispatchToProps

@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import type { FieldProps } from 'redux-form';
+import type { FormProps } from 'redux-form';
 import { Field } from 'redux-form';
 
 import Button from 'app/components/Button';
@@ -25,7 +25,7 @@ export type PasswordPayload = {
   retype_new_password: string
 };
 
-type Props = FieldProps & {
+type Props = FormProps & {
   changePassword: PasswordPayload => Promise<void>,
   updateUser: Object => Promise<void>,
   user: any,
@@ -134,8 +134,14 @@ const UserSettings = (props: Props) => {
 
         {showAbakusMembership && (
           <RadioButtonGroup name="isAbakusMember" label="Medlem i Abakus?">
-            <Field label="Ja" component={RadioButton.Field} inputValue="true" />
             <Field
+              name="isMemberYes"
+              label="Ja"
+              component={RadioButton.Field}
+              inputValue="true"
+            />
+            <Field
+              name="isMemberNo"
               label="Nei"
               component={RadioButton.Field}
               inputValue="false"

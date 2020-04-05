@@ -30,12 +30,13 @@ type Props = {
   handleSubmit: Function => void,
   submitJoblisting: Workplace => Promise<*>,
   deleteJoblisting: ID => Promise<*>,
-  company: SelectInputObject,
+  event: SelectInputObject,
   dispatch: any => void,
   push: string => void,
   isNew: boolean,
   fetching: boolean,
-  fetchCompanyContacts: ({ companyId: ID }) => Promise<*>
+  fetchCompanyContacts: ({ companyId: ID }) => Promise<*>,
+  company: SelectInputObject
 } & FormProps;
 
 type State = {
@@ -133,8 +134,9 @@ class JoblistingEditor extends Component<Props, State> {
             name="company"
             component={SelectInput.AutocompleteField}
             filter={['companies.company']}
-            onChange={company => {
-              this.fetchContacts(company).then(() => {
+            onChange={event => {
+              // $FlowFixMe
+              this.fetchContacts(event).then(() => {
                 dispatch(
                   change('joblistingEditor', 'responsible', {
                     label: 'Ingen',
@@ -231,6 +233,7 @@ class JoblistingEditor extends Component<Props, State> {
             placeholder="Søknadsintro"
             component={EditorField.Field}
             required
+            initialized={this.props.initialized}
           />
           <Field
             name="text"
@@ -238,6 +241,7 @@ class JoblistingEditor extends Component<Props, State> {
             label="Søknadstekst:"
             placeholder="Søknadstekst"
             component={EditorField.Field}
+            initialized={this.props.initialized}
             required
           />
           <Flex
@@ -272,7 +276,7 @@ const validate = ({
   youtubeUrl,
   title,
   description,
-  company,
+  event,
   fromYear,
   toYear,
   workplaces,
@@ -292,8 +296,8 @@ const validate = ({
   if (!description) {
     errors.description = 'Du må skrive en søknadsintro';
   }
-  if (!company || company.value == null) {
-    errors.company = 'Du må angi en bedrift for jobbannonsen';
+  if (!event || event.value == null) {
+    errors.event = 'Du må angi en bedrift for jobbannonsen';
   }
   if (parseInt(fromYear, 10) > parseInt(toYear, 10)) {
     errors.toYear = "'Til år' kan ikke være lavere enn 'Fra år'";

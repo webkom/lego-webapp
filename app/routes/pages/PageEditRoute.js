@@ -11,10 +11,10 @@ import { uploadFile } from 'app/actions/FileActions';
 import PageEditor from './components/PageEditor';
 import { legoForm } from 'app/components/Form/';
 import { selectPageBySlug } from 'app/reducers/pages';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 
 function mapStateToProps(state, props) {
-  const { pageSlug } = props.params;
+  const { pageSlug } = props.match.params;
   const page = selectPageBySlug(state, { pageSlug });
   if (!page)
     return {
@@ -39,8 +39,15 @@ const mapDispatchToProps = {
 
 export default compose(
   prepare(
-    ({ params: { pageSlug } }, dispatch) => dispatch(fetchPage(pageSlug)),
-    ['params.pageSlug']
+    (
+      {
+        match: {
+          params: { pageSlug }
+        }
+      },
+      dispatch
+    ) => dispatch(fetchPage(pageSlug)),
+    ['match.params.pageSlug']
   ),
   connect(
     mapStateToProps,

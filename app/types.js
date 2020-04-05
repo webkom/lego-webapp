@@ -2,6 +2,11 @@
 
 import type { Store as ReduxStore, Middleware as ReduxMiddleware } from 'redux';
 import type { Reducers } from 'app/reducers';
+import type {
+  StartSubmitAction,
+  StopSubmitAction,
+  InitializeAction
+} from 'redux-form/lib/actions.types.js.flow';
 
 export type AsyncActionType = {|
   BEGIN: string,
@@ -86,7 +91,13 @@ export type PromiseAction<T> = {|
   payload?: any
 |};
 
-export type AnyAction<R> = PromiseAction<R> | Thunk<R> | Action;
+export type AnyAction<R> =
+  | PromiseAction<R>
+  | Thunk<R>
+  | Action
+  | StopSubmitAction
+  | StartSubmitAction
+  | InitializeAction;
 
 export type Dispatch<R> = (action: AnyAction<R>) => R;
 

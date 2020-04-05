@@ -21,7 +21,7 @@ import moment from 'moment-timezone';
 const mapStateToProps = (state, props) => {
   const actionGrant = state.events.actionGrant;
   const valueSelector = formValueSelector('eventEditor');
-  const eventId = props.location.query.id;
+  const eventId = props.match.params.id;
 
   const eventTemplate = selectEventById(state, { eventId });
   const poolsTemplate = selectPoolsWithRegistrationsForEvent(state, {
@@ -126,14 +126,15 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = {
   handleSubmitCallback: event => createEvent(transformEvent(event)),
+  fetchEvent,
   uploadFile
 };
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
   prepare(
-    ({ location }, dispatch) =>
-      location.query.id && dispatch(fetchEvent(location.query.id))
+    (props, dispatch) =>
+      props.match.params.id && dispatch(fetchEvent(props.match.params.id))
   ),
   connect(
     mapStateToProps,

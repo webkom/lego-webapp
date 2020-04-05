@@ -35,7 +35,8 @@ type Props = {
   submitting: boolean,
   meetingInvitations: Array<Object>,
   push: string => void,
-  inviteUsersAndGroups: Object => Promise<*>
+  inviteUsersAndGroups: Object => Promise<*>,
+  initialized: boolean
 };
 
 function MeetingEditor({
@@ -48,7 +49,8 @@ function MeetingEditor({
   submitting,
   pristine,
   meetingInvitations,
-  push
+  push,
+  initialized
 }: Props) {
   const isEditPage = meetingId !== undefined;
   if (isEditPage && !meeting) {
@@ -92,7 +94,12 @@ function MeetingEditor({
           component={TextInput.Field}
         />
         <h3>Møtereferat</h3>
-        <Field name="report" label="Referat" component={EditorField.Field} />
+        <Field
+          name="report"
+          label="Referat"
+          component={EditorField.Field}
+          initialized={initialized}
+        />
         <div className={styles.sideBySideBoxes}>
           <div>
             <Field

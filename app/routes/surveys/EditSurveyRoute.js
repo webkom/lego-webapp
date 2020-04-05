@@ -10,13 +10,16 @@ import SurveyEditor from './components/SurveyEditor/SurveyEditor';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { selectSurveyById, selectSurveyTemplate } from 'app/reducers/surveys';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import { formValueSelector } from 'redux-form';
+import qs from 'qs';
 
 const loadData = (props, dispatch) => {
-  const { surveyId } = props.params;
-  const { templateType } = props.location.query;
+  const { surveyId } = props.match.params;
+  const { templateType } = qs.parse(props.location.search, {
+    ignoreQueryPrefix: true
+  });
   if (templateType) {
     return Promise.all([
       dispatch(fetchTemplate(templateType)),
@@ -28,9 +31,11 @@ const loadData = (props, dispatch) => {
 
 const mapStateToProps = (state, props) => {
   const notFetching = !state.surveys.fetching;
-  const surveyId = Number(props.params.surveyId);
+  const surveyId = Number(props.match.params.surveyId);
   const survey = selectSurveyById(state, { surveyId });
-  const templateType = props.location.query.templateType;
+  const templateType = qs.parse(props.location.search, {
+    ignoreQueryPrefix: true
+  }).templateType;
   const template = selectSurveyTemplate(state, { ...props, templateType });
 
   const initialEvent = survey.event && {

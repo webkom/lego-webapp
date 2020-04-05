@@ -12,7 +12,7 @@ import {
   Button,
   Captcha
 } from 'app/components/Form';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { Field } from 'redux-form';
 import { createValidator, required } from 'app/utils/validation';
 import type { ReduxFormProps } from 'app/types';
@@ -21,7 +21,6 @@ type Props = {
   studentConfirmed: boolean,
   handleSubmit: Function => void,
   sendStudentConfirmationEmail: Object => void,
-  router: any,
   loggedIn: boolean,
   submitSucceeded: () => void,
   isStudent: boolean
@@ -31,18 +30,14 @@ const StudentConfirmation = ({
   studentConfirmed,
   handleSubmit,
   sendStudentConfirmationEmail,
-  router,
   loggedIn,
   submitSucceeded,
   isStudent,
   invalid,
   pristine,
-  submitting
+  submitting,
+  push
 }: Props) => {
-  if (!loggedIn) {
-    router.push('/');
-    return null;
-  }
   if (isStudent) {
     return (
       <Container>
@@ -94,19 +89,27 @@ const StudentConfirmation = ({
           />
           <RadioButtonGroup name="course" label="Hvilken linje tilhører du?">
             <Field
+              name="studentCompScience"
               label="Datateknologi"
               component={RadioButton.Field}
               inputValue="data"
             />
             <Field
+              name="studentCommunicationTechnology"
               label="Kommunikasjonsteknologi"
               component={RadioButton.Field}
               inputValue="komtek"
             />
           </RadioButtonGroup>
           <RadioButtonGroup name="member" label="Vil du bli medlem i Abakus?">
-            <Field label="Ja" component={RadioButton.Field} inputValue="true" />
             <Field
+              name="studentIsMemberYes"
+              label="Ja"
+              component={RadioButton.Field}
+              inputValue="true"
+            />
+            <Field
+              name="studentIsMemberNo"
               label="Nei"
               component={RadioButton.Field}
               inputValue="false"

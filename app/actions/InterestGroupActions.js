@@ -4,7 +4,7 @@ import { groupSchema, membershipSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 import { InterestGroup, Membership } from './ActionTypes';
 import { fetchMemberships } from 'app/actions/GroupActions';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 import type { Thunk } from 'app/types';
 import createQueryString from 'app/utils/createQueryString';
 
