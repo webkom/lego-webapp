@@ -16,7 +16,6 @@ const NavigationLink = (props: Props) => {
     <Link
       to={props.to}
       onClick={props.onClick}
-      onlyActiveOnIndex
       className={styles.link}
       activeClassName={styles.active}
     >
