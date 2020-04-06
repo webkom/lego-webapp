@@ -5,6 +5,8 @@ import serialize from 'serialize-javascript';
 import config from '../config/env';
 import webpackClient from '../config/webpack.client.js';
 import type { State } from '../app/types';
+import { selectCurrentUser } from 'app/reducers/auth';
+import { isEmpty } from 'lodash';
 
 import 'source-map-support/register';
 
@@ -56,9 +58,16 @@ export default function pageRenderer({
 }: PageRendererProps = {}) {
   const { scripts, styles } = retrieveAssets();
   const isSSR = body === '' ? 'false' : 'true';
+
+  const getDataTheme = () => {
+    if (!isEmpty(state)) {
+      return selectCurrentUser(state).selectedTheme;
+    }
+  };
+
   return `
     <!DOCTYPE html>
-    <html data-theme="light">
+    <html data-theme=${serialize(getDataTheme() || 'light')}>
       <head>
         <meta charset="utf-8">
         ${helmet ? helmet.title.toString() : ''}
