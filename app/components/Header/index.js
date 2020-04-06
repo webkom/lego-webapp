@@ -18,13 +18,11 @@ import {
 } from 'app/components/LoginForm';
 import { Flex } from 'app/components/Layout';
 import cx from 'classnames';
-import {
-  applySelectedTheme,
-  getLogoImage,
-  getTheme
-} from 'app/utils/themeUtils';
+import { applySelectedTheme, getTheme } from 'app/utils/themeUtils';
 import { Image } from 'app/components/Image';
 import type { UserEntity } from 'app/reducers/users';
+import logoLightMode from 'app/assets/logo-dark.png';
+import logoDarkMode from 'app/assets/logo.png';
 
 type Props = {
   searchOpen: boolean,
@@ -144,7 +142,12 @@ class Header extends Component<Props, State> {
         <FancyNodesCanvas height={300} />
         <div className={styles.content}>
           <Link to="/" className={styles.logo}>
-            <Image src={getLogoImage()} alt="" />
+            <Image
+              src={logoLightMode}
+              className={styles.logoLightMode}
+              alt=""
+            />
+            <Image src={logoDarkMode} className={styles.logoDarkMode} alt="" />
           </Link>
 
           <div className={styles.menu}>

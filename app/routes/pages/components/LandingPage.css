@@ -171,3 +171,16 @@
     display: flex;
   }
 }
+
+.bannerLightMode,
+.bannerDarkMode {
+  display: none;
+}
+
+html[data-theme='light'] .bannerLightMode {
+  display: block;
+}
+
+html[data-theme='dark'] .bannerDarkMode {
+  display: block;
+}
