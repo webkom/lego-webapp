@@ -37,7 +37,7 @@ const questionTypeToIcon = {
   text_field: 'more'
 };
 
-const questionIndexMappings = (indexNumbers: Array<number>) =>
+const questionIndexMappings = (indexNumbers: number) =>
   [...Array(indexNumbers).keys()].map(relativeIndex => ({
     value: relativeIndex,
     label: `Spørsmålsnummer: ${relativeIndex + 1}`
