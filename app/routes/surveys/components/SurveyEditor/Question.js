@@ -38,7 +38,7 @@ const questionTypeToIcon = {
 };
 
 const questionIndexMappings = (indexNumbers: Array<number>) =>
-  indexNumbers.map(relativeIndex => ({
+  [...Array(indexNumbers).keys()].map(relativeIndex => ({
     value: relativeIndex,
     label: `Spørsmålsnummer: ${relativeIndex + 1}`
   }));
@@ -52,9 +52,7 @@ const Question = ({
   updateRelativeIndexes,
   fields
 }: Props) => {
-  const indexOptions = questionIndexMappings([
-    ...Array(numberOfQuestions).keys()
-  ]);
+  const indexOptions = questionIndexMappings(numberOfQuestions);
   return (
     <div className={styles.question}>
       <div className={styles.left}>
