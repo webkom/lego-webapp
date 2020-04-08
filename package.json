@@ -99,7 +99,7 @@
     "serialize-javascript": "^3.0.0",
     "slugify": "^1.3.6",
     "source-map-support": "^0.5.8",
-    "victory": "34.0.1",
+    "victory": "34.1.3",
     "websocket.js": "^0.1.7"
   },
   "devDependencies": {
