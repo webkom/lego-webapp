@@ -90,6 +90,39 @@ class SurveyEditor extends Component<Props, State> {
     templateTypeSelected: ''
   };
 
+  updateRelativeIndexes = (oldIndex, newIndex, fields) => {
+    fields.move(oldIndex, newIndex);
+  };
+
+  renderQuestions = ({ fields, meta: { touched, error } }) => {
+    return [
+      <ul className={styles.questions} key="questions">
+        {fields.map((question, i) => (
+          <Question
+            key={i}
+            numberOfQuestions={fields.length}
+            question={question}
+            questionData={fields.get(i)}
+            deleteQuestion={() => Promise.resolve(fields.remove(i))}
+            updateRelativeIndexes={this.updateRelativeIndexes}
+            relativeIndex={i}
+            fields={fields}
+          />
+        ))}
+      </ul>,
+
+      <Link
+        key="addNew"
+        onClick={() => {
+          const newQuestion = initialQuestion;
+          fields.push(newQuestion);
+        }}
+      >
+        <Icon name="add-circle" size={30} className={styles.addQuestion} />
+      </Link>
+    ];
+  };
+
   render() {
     const {
       survey,
@@ -181,7 +214,7 @@ class SurveyEditor extends Component<Props, State> {
           )}
           <FieldArray
             name="questions"
-            component={renderQuestions}
+            component={this.renderQuestions}
             rerenderOnEveryChange={true}
           />
           <div className={styles.clear} />
@@ -200,36 +233,16 @@ class SurveyEditor extends Component<Props, State> {
   }
 }
 
-const renderQuestions = ({ fields, meta: { touched, error } }) => {
-  return [
-    <ul className={styles.questions} key="questions">
-      {fields.map((question, i) => (
-        <Question
-          key={i}
-          index={i}
-          question={question}
-          questionData={fields.get(i)}
-          deleteQuestion={() => Promise.resolve(fields.remove(i))}
-        />
-      ))}
-    </ul>,
-
-    <Link
-      key="addNew"
-      onClick={() => {
-        fields.push(initialQuestion);
-      }}
-    >
-      <Icon name="add-circle" size={30} className={styles.addQuestion} />
-    </Link>
-  ];
-};
-
 export const initialQuestion = {
   questionText: '',
   questionType: QuestionTypes('single'),
   mandatory: false,
-  options: [{ optionText: '' }]
+  options: [
+    {
+      optionText: '',
+      relativeIndex: { value: 0, label: 0 }
+    }
+  ]
 };
 
 const validate = createValidator({
