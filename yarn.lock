@@ -10444,10 +10444,10 @@ redent@^2.0.0:
     indent-string "^3.0.0"
     strip-indent "^2.0.0"
 
-redux-form@8.3.1:
-  version "8.3.1"
-  resolved "https://registry.yarnpkg.com/redux-form/-/redux-form-8.3.1.tgz#a2958375d85fa064690285848dda3c9b22828fab"
-  integrity sha512-YEr0w+KftgN0l6cLVlpsLDqnATw/MIG7wpxCJwPdLC2PWbTv/0H9T7Ny6n8r1KZAfvTXUlX61jm4obFP7bggbw==
+redux-form@8.3.3:
+  version "8.3.3"
+  resolved "https://registry.yarnpkg.com/redux-form/-/redux-form-8.3.3.tgz#9fc5e02731ab94b01f515870f2709b51d750b21c"
+  integrity sha512-wTb8KFFwNryzs5wpDNZBBSPvUjgzR+JR/TcgetpEEW+Bvmt3K/F5WyLDHr45/y/6gB7fb7izwivogu3IEig2nw==
   dependencies:
     "@babel/runtime" "^7.8.4"
     es6-error "^4.1.1"
@@ -10458,7 +10458,6 @@ redux-form@8.3.1:
     lodash-es "^4.17.15"
     prop-types "^15.6.1"
     react-is "^16.12.0"
-    react-lifecycles-compat "^3.0.4"
 
 redux-logger@^3.0.1:
   version "3.0.6"
