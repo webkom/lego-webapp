@@ -95,7 +95,7 @@ const mapDispatchToProps = {
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  prepare(loadData, ['params.surveyId', 'location.query.templateType']),
+  prepare(loadData, ['match.params.surveyId', 'location.search']),
   connect(
     mapStateToProps,
     mapDispatchToProps

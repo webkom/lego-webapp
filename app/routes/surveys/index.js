@@ -44,7 +44,6 @@ const surveysRoute = ({ match }: { match: { path: string } }) => (
           Component={SurveyDetailRoute}
         />
         <RouteWrapper
-          exact
           path={`${match.path}/:surveyId/edit`}
           passedProps={{ currentUser, loggedIn }}
           Component={EditSurveyRoute}

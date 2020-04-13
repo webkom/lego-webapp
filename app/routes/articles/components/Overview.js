@@ -12,6 +12,7 @@ import Tag from 'app/components/Tags/Tag';
 import Tags from 'app/components/Tags';
 import Paginator from 'app/components/Paginator';
 import { type ActionGrant } from 'app/models';
+import qs from 'qs';
 
 const HEADLINE_EVENTS = 2;
 
@@ -87,7 +88,9 @@ export default class Overview extends Component<Props> {
             fetching={this.props.fetching}
             fetchNext={() => {
               this.props.fetchAll({
-                tag: this.props.location.query.tag,
+                tag: qs.parse(this.props.location.search, {
+                  ignoreQueryPrefix: true
+                }).tag,
                 next: true
               });
             }}

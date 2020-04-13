@@ -14,12 +14,13 @@ import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { addReaction, deleteReaction } from 'app/actions/ReactionActions';
 import { selectEmojis } from 'app/reducers/emojis';
 import { fetchEmojis } from 'app/actions/EmojiActions';
+import qs from 'qs';
 
 const loadData = ({ match: { params } }, dispatch) =>
   dispatch(fetchQuote(params.quoteId), fetchEmojis());
 
 const mapStateToProps = (state, props) => {
-  const query = props.location.query;
+  const query = qs.parse(props.location.search, { ignoreQueryPrefix: true });
   const quoteId = props.match.params.quoteId;
   const quotes = [selectQuoteById(state, quoteId)];
   const emojis = selectEmojis(state);
