@@ -14,6 +14,7 @@ import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { selectCompanySemesters } from 'app/reducers/companySemesters';
 import { push } from 'connected-react-router';
+import qs from 'qs';
 
 const loadData = (props, dispatch) =>
   dispatch(fetchSemesters()).then(() => dispatch(fetchAllAdmin()));
@@ -21,7 +22,7 @@ const loadData = (props, dispatch) =>
 const mapStateToProps = (state, props) => ({
   companies: selectCompanies(state, props),
   companySemesters: selectCompanySemesters(state, props),
-  query: props.location.query,
+  query: qs.parse(props.location.search, { ignoreQueryPrefix: true }),
   fetching: state.companies.fetching
 });
 

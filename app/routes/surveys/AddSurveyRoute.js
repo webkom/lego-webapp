@@ -90,7 +90,7 @@ const mapDispatchToProps = {
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  prepare(loadData, ['location.query.templateType', 'location.query.event']),
+  prepare(loadData, ['location.search']),
   connect(
     mapStateToProps,
     mapDispatchToProps

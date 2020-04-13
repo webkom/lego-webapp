@@ -5,6 +5,7 @@ import React, { Component } from 'react';
 import { DetailNavigation, ListNavigation, QuestionTypes } from '../../utils';
 import Question from './Question';
 import { Field, FieldArray } from 'redux-form';
+import type { FieldArrayProps } from 'redux-form';
 import Button from 'app/components/Button';
 import {
   TextInput,
@@ -94,7 +95,7 @@ class SurveyEditor extends Component<Props, State> {
     fields.move(oldIndex, newIndex);
   };
 
-  renderQuestions = ({ fields, meta: { touched, error } }) => {
+  renderQuestions = ({ fields, meta: { touched, error } }: FieldArrayProps) => {
     return [
       <ul className={styles.questions} key="questions">
         {fields.map((question, i) => (

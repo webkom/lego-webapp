@@ -2,7 +2,7 @@
 
 import React from 'react';
 // $FlowFixMe
-import { type FieldsProps, Field, FieldArray } from 'redux-form';
+import { type FieldArrayProps, Field, FieldArray } from 'redux-form';
 import {
   TextInput,
   TextArea,
@@ -20,14 +20,16 @@ import {
   QuestionTypeValue
 } from '../../utils';
 
+type Fields = typeof FieldArrayProps.Field;
+
 type Props = {
   deleteQuestion: number => Promise<*>,
   questionData: Object,
   question: string,
   relativeIndex: number,
   numberOfQuestions: number,
-  updateRelativeIndexes: (number, number, FieldArrayProps) => void,
-  fields: FieldArrayProps,
+  updateRelativeIndexes: (number, number, Fields) => void,
+  fields: Fields,
   option?: string,
   value?: string
 };
@@ -164,7 +166,7 @@ const renderOptions = ({
   fields,
   questionType
 }: {
-  fields: FieldsProps,
+  fields: Fields,
   questionType: string
 }) => (
   <ul className={styles.options}>
