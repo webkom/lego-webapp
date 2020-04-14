@@ -138,3 +138,8 @@
     margin-bottom: 0;
   }
 }
+
+/* Required for migrating react-collapse v4 -> v5 */
+:global(.ReactCollapse--collapse) {
+  transition: height 500ms;
+}
