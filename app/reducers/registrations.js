@@ -39,9 +39,13 @@ export default createEntityReducer({
           }
           newState.byId[registration.id] = {
             ...omit(newState.byId[registration.id], 'unregistrationDate'),
-            ...registration,
-            paymentError: (action.meta && action.meta.paymentError) || null
+            ...registration
           };
+          if (action.meta && action.meta.paymentError) {
+            mergeObjects(newState.byId[registration.id], {
+              paymentError: action.meta.paymentError
+            });
+          }
           newState.items = union(newState.items, [registration.id]);
           break;
         }
@@ -76,8 +80,7 @@ export default createEntityReducer({
             return;
           }
           newState.byId[registration.id] = {
-            ...omit(newState.byId[registration.id], 'unregistrationDate'),
-            paymentError: action.payload.response.jsonData.detail
+            ...omit(newState.byId[registration.id], 'unregistrationDate')
           };
           break;
         }
