@@ -3,6 +3,7 @@
 import styles from './Event.css';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { compose } from 'redux';
 import { reduxForm, Field, SubmissionError } from 'redux-form';
 import { Form, Captcha, TextEditor } from 'app/components/Form';
@@ -15,8 +16,15 @@ import { Flex } from 'app/components/Layout';
 import withCountdown from './JoinEventFormCountdownProvider';
 import formStyles from 'app/components/Form/Field.css';
 import moment from 'moment-timezone';
-import { paymentSuccess, paymentManual } from '../utils';
+import {
+  paymentSuccess,
+  paymentManual,
+  sumPenalties,
+  penaltyHours
+} from '../utils';
 import { registrationIsClosed } from '../utils';
+import { selectUserByUsername } from 'app/reducers/users';
+import { selectPenaltyByUserId } from 'app/reducers/penalties';
 
 type Event = Object;
 
@@ -38,6 +46,7 @@ export type Props = {
   captchaOpen: boolean,
   buttonOpen: boolean,
   registrationOpensIn: ?string,
+  penalties: Array<Object>,
   touch: (field: string) => void
 };
 
@@ -144,6 +153,7 @@ class JoinEventForm extends Component<Props> {
       submitting,
       buttonOpen,
       formOpen,
+      penalties,
       captchaOpen,
       registrationOpensIn
     } = this.props;
@@ -221,6 +231,22 @@ class JoinEventForm extends Component<Props> {
               )}
               {disabledForUser && (
                 <div>Du kan ikke melde deg på dette arrangementet.</div>
+              )}
+              {sumPenalties(penalties) > 0 && (
+                <div className={styles.penalties}>
+                  <p>
+                    NB!{' '}
+                    {sumPenalties(penalties) > 2
+                      ? `Du blir lagt rett på venteliste hvis du melder deg på`
+                      : `Påmeldingen din er forskyvet
+                      ${penaltyHours(penalties)} timer`}{' '}
+                    fordi du har {sumPenalties(penalties)}{' '}
+                    {sumPenalties(penalties) > 1 ? 'prikker' : 'prikk'}.
+                  </p>
+                  <Link to={`/pages/arrangementer/26-arrangementsregler`}>
+                    Les mer om prikker her
+                  </Link>
+                </div>
               )}
               {formOpen && (
                 <Flex column>
@@ -356,7 +382,15 @@ function mapStateToProps(state, { event, registration }) {
       }
     };
   }
-  return {};
+  const user = state.auth
+    ? selectUserByUsername(state, { username: state.auth.username })
+    : null;
+  const penalties = user
+    ? selectPenaltyByUserId(state, { userId: user.id })
+    : [];
+  return {
+    penalties
+  };
 }
 
 export default compose(

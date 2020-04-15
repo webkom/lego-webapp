@@ -26,6 +26,8 @@ import {
 import loadingIndicator from 'app/utils/loadingIndicator';
 import helmet from 'app/utils/helmet';
 import { deleteComment } from 'app/actions/CommentActions';
+import { selectUserWithGroups } from 'app/reducers/users';
+import { selectPenaltyByUserId } from 'app/reducers/penalties';
 
 const mapStateToProps = (state, props) => {
   const {
@@ -40,6 +42,13 @@ const mapStateToProps = (state, props) => {
   const actionGrant = event.actionGrant || [];
 
   const hasFullAccess = Boolean(event.waitingRegistrations);
+
+  const user = state.auth
+    ? selectUserWithGroups(state, { username: state.auth.username })
+    : null;
+  const penalties = user
+    ? selectPenaltyByUserId(state, { userId: user.id })
+    : [];
 
   if (!hasFullAccess) {
     const normalPools = event.isMerged
@@ -110,7 +119,8 @@ const mapStateToProps = (state, props) => {
     registrations,
     currentRegistration,
     currentRegistrationIndex,
-    hasSimpleWaitingList
+    hasSimpleWaitingList,
+    penalties
   };
 };
 
