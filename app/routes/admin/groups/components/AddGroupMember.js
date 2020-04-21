@@ -8,7 +8,7 @@ import { createValidator, required } from 'app/utils/validation';
 import { ROLES } from 'app/utils/constants';
 
 type Props = FormProps & {
-  group: Object,
+  groupId: Number,
   addMember: ({
     role: $Keys<typeof ROLES>,
     userId: Number,
@@ -23,7 +23,7 @@ const roles = Object.keys(ROLES)
     label: ROLES[role]
   }));
 
-const AddGroupMember = ({ submitting, group, handleSubmit }: Props) => {
+const AddGroupMember = ({ submitting, groupId, handleSubmit }: Props) => {
   return (
     <Form onSubmit={handleSubmit}>
       <h3>Legg til ny bruker</h3>
@@ -66,7 +66,7 @@ export default legoForm({
       .addMember({
         role,
         userId: user.id,
-        groupId: props.group.id
+        groupId: props.groupId
       })
       .catch(err => {
         if (err.payload.response.status === 409) {
