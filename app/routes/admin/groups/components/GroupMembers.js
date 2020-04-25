@@ -19,9 +19,9 @@ import type { AddMemberArgs } from 'app/actions/GroupActions';
 import { get } from 'lodash';
 
 type Props = {
-  group: Object,
+  groupId: number,
   hasMore: boolean,
-  fetch: ({ groupId: string, next: true }) => Promise<*>,
+  fetch: ({ groupId: number, next: true }) => Promise<*>,
   fetching: boolean,
   groupsById: { [string]: { name: string } },
   memberships: Array<Object>,
@@ -33,7 +33,7 @@ type Props = {
 export const GroupMembers = ({
   addMember,
   removeMember,
-  group,
+  groupId,
   memberships,
   hasMore,
   fetching,
@@ -42,11 +42,13 @@ export const GroupMembers = ({
   fetch
 }: Props) => (
   <div className={styles.groupMembers}>
-    {showDescendants || <AddGroupMember addMember={addMember} group={group} />}
+    {showDescendants || (
+      <AddGroupMember addMember={addMember} groupId={groupId} />
+    )}
     <LoadingIndicator loading={!memberships}>
       <h3 className={styles.subTitle}>Brukere</h3>
       <GroupMembersList
-        group={group}
+        groupId={groupId}
         hasMore={hasMore}
         groupsById={groupsById}
         fetch={fetch}
@@ -71,10 +73,11 @@ function mapStateToProps(state, props) {
     descendants: showDescendants
   });
 
-  const groupId = props.group && props.group.id;
+  const groupId = props.match.params && props.match.params.groupId;
 
   return {
     memberships,
+    groupId,
     groupsById: state.groups.byId,
     fetching: state.memberships.fetching,
     showDescendants,

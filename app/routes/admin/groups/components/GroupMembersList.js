@@ -9,17 +9,17 @@ import Table from 'app/components/Table';
 type Props = {
   fetching: boolean,
   hasMore: boolean,
-  group: Object,
+  groupId: number,
   memberships: Array<Object>,
   removeMember: Object => Promise<*>,
   showDescendants: boolean,
   groupsById: { [string]: { name: string } },
-  fetch: ({ groupId: string, next: true }) => Promise<*>
+  fetch: ({ groupId: number, next: true }) => Promise<*>
 };
 
 const GroupMembersList = ({
   memberships,
-  group,
+  groupId,
   removeMember,
   showDescendants,
   fetch,
@@ -96,7 +96,7 @@ const GroupMembersList = ({
       infiniteScroll
       columns={columns}
       onLoad={() => {
-        fetch({ descendants: showDescendants, groupId: group.id, next: true });
+        fetch({ descendants: showDescendants, groupId: groupId, next: true });
       }}
       hasMore={hasMore}
       loading={fetching}
