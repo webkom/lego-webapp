@@ -8,8 +8,6 @@ import type { State } from '../app/types';
 import { selectCurrentUser } from 'app/reducers/auth';
 import { isEmpty } from 'lodash';
 
-import 'source-map-support/register';
-
 import manifest from '../app/assets/manifest.json';
 
 let cachedAssets;
