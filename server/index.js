@@ -15,7 +15,11 @@ Sentry.init({
   release: config.release,
   environment: config.environment,
   normalizeDepth: 10,
-  integrations: [new RewriteFrames()]
+  integrations: [
+    new RewriteFrames({
+      root: '/app/dist/'
+    })
+  ]
 });
 
 // This is a hack to use draft-convert on the server.
