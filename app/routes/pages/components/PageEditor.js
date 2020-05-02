@@ -175,7 +175,7 @@ export default class PageEditor extends Component<Props, State> {
             name="content"
             component={EditorField.Field}
             uploadFile={uploadFile}
-            initialized={this.props.initialized}
+            initialized={this.props.initialized || isNew}
           />
         </Form>
       </Content>
