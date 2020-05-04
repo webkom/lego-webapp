@@ -1,7 +1,9 @@
 @import '~app/styles/variables.css';
 
 .tagline {
-  display: inline-block;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   margin: 0;
 }
 
