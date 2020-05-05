@@ -60,7 +60,6 @@ const eventRoute = ({ match }: { match: { path: string } }) => (
                 Component={EventAbacardRoute}
                 passedProps={{ currentUser, loggedIn }}
               />
-              <Route component={PageNotFound} />
             </EventAdministrateRoute>
           )}
         </Route>
