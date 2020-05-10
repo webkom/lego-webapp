@@ -223,7 +223,7 @@ steps:
     commands:
       - yarn ssr
 
-  - name: cypress
+  - name: cypress_one
     image: cypress/browsers:chrome69
     shm_size: 100000000 # 100MB
     when:
@@ -244,7 +244,30 @@ steps:
     commands:
       - ./wait-for-it.sh -t 180 ssr:3000
       - ./wait-for-it.sh -t 180 legocypresshelper:3030
-      - yarn cypress run --record
+      - yarn cypress run --record --parallel
+
+  - name: cypress_two
+    image: cypress/browsers:chrome69
+    shm_size: 100000000 # 100MB
+    when:
+      event: [push]
+      branch:
+        exclude: [ prod ]
+    depends_on:
+      - legocypresshelper
+      - install_cypress
+      - ssr
+    environment:
+      CYPRESS_API_BASE_URL: http://api:8000
+      CYPRESS_RESET_DB_API: http://legocypresshelper:3030
+      CYPRESS_BASE_URL: http://ssr:3000
+      CYPRESS_CACHE_FOLDER: /drone/src/.cypress_cache
+      CYPRESS_RECORD_KEY:
+        from_secret: cypress_record_key
+    commands:
+      - ./wait-for-it.sh -t 180 ssr:3000
+      - ./wait-for-it.sh -t 180 legocypresshelper:3030
+      - yarn cypress run --record --parallel
 
   - name: docker
     image: plugins/docker
@@ -260,7 +283,8 @@ steps:
       - lint
       - flow
       - ssr
-      - cypress
+      - cypress_one
+      - cypress_two
     environment:
       SENTRY_AUTH_TOKEN:
         from_secret: sentry_auth_token
