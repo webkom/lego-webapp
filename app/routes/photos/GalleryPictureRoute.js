@@ -14,7 +14,7 @@ import {
   selectCommentsForGalleryPicture
 } from 'app/reducers/galleryPictures';
 import { deletePicture } from 'app/actions/GalleryPictureActions';
-import { updateGalleryCover } from 'app/actions/GalleryActions';
+import { updateGalleryCover, fetchGallery } from 'app/actions/GalleryActions';
 import { push } from 'connected-react-router';
 import { deleteComment } from 'app/actions/CommentActions';
 import { selectGalleryById } from 'app/reducers/galleries';
@@ -24,7 +24,9 @@ function mapStateToProps(state, props) {
   const pictures = SelectGalleryPicturesByGalleryId(state, { galleryId });
   const picture = selectGalleryPictureById(state, { pictureId });
   const comments = selectCommentsForGalleryPicture(state, { pictureId });
-  const actionGrant = state.galleries.byId[galleryId].actionGrant;
+  const actionGrant = state.galleries.byId[galleryId]
+    ? state.galleries.byId[galleryId].actionGrant
+    : [];
   const fetching = state.galleries.fetching || state.galleryPictures.fetching;
   const hasMore = state.galleryPictures.hasMore;
   const gallery = selectGalleryById(state, { galleryId });
@@ -97,8 +99,12 @@ export default compose(
     mapStateToProps,
     mapDispatchToProps
   ),
-  prepare(({ match: { params } }, dispatch) =>
-    dispatch(fetchGalleryPicture(params.galleryId, params.pictureId))
+  prepare(
+    ({ match: { params } }, dispatch) =>
+      Promise.all[
+        (dispatch(fetchGalleryPicture(params.galleryId, params.pictureId)),
+        dispatch(fetchGallery(params.galleryId)))
+      ]
   ),
   helmet(propertyGenerator),
   loadingIndicator(['picture.id'])
