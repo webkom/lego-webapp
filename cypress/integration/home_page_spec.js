@@ -57,7 +57,7 @@ describe('The Home Page and Login', () => {
     cy.contains('h3', 'Påmeldinger');
 
     cy.contains('h3', 'Festet oppslag');
-    cy.contains('a', 'Artikkel nr 6 sånn ca');
+    cy.contains('a', 'Artikkel uten AUTH');
 
     cy.contains('span', 'readme');
 
