@@ -107,5 +107,5 @@ export default compose(
       ]
   ),
   helmet(propertyGenerator),
-  loadingIndicator(['picture.id'])
+  loadingIndicator(['picture.id', 'gallery.id'])
 )(GalleryPictureModal);

@@ -64,7 +64,8 @@ export function fetchGalleryPicture(galleryId: EntityID, pictureId: EntityID) {
     schema: galleryPictureSchema,
     meta: {
       errorMessage: 'Henting av galleri feilet'
-    }
+    },
+    propagateError: true
   });
 }
 
