@@ -7,27 +7,27 @@ import { connect } from 'react-redux';
 import styles from './FileUpload.css';
 
 type State = {
-  pending: boolean
+  pending: boolean,
 };
 
 type Props = {
   uploadFile: ({ file: File }) => Promise<*>,
   onChange: (string, string) => void,
-  className?: string
+  className?: string,
 };
 
 class FileUpload extends React.Component<Props, State> {
   input: ?HTMLInputElement;
 
   state = {
-    pending: false
+    pending: false,
   };
 
   handleClick = () => {
     this.input && this.input.click();
   };
 
-  handleChange = e => {
+  handleChange = (e) => {
     const file = e.target.files[0];
     this.setState({ pending: true });
 
@@ -38,7 +38,7 @@ class FileUpload extends React.Component<Props, State> {
 
         this.props.onChange(meta.fileKey, meta.fileToken);
       })
-      .catch(error => {
+      .catch((error) => {
         this.setState({ pending: false });
         throw error;
       });
@@ -55,7 +55,7 @@ class FileUpload extends React.Component<Props, State> {
           Last opp fil
         </Button>
         <input
-          ref={ref => (this.input = ref)}
+          ref={(ref) => (this.input = ref)}
           className={styles.input}
           onChange={this.handleChange}
           type="file"
@@ -67,10 +67,7 @@ class FileUpload extends React.Component<Props, State> {
 }
 
 const mapDispatchToProps = {
-  uploadFile
+  uploadFile,
 };
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(FileUpload);
+export default connect(null, mapDispatchToProps)(FileUpload);

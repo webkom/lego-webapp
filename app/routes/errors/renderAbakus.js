@@ -10,14 +10,14 @@ function animateAbakus(
     lineSpacing = 5,
     sideWidth = 10,
     width = 640,
-    PIXELS
+    PIXELS,
   } = {}
 ) {
   const height = 6 * (2 * radius + padding + lineSpacing) + 2 * offsetY;
   canvas.width = width;
   canvas.height = height;
 
-  const xs = PIXELS.map(pixel => pixel.x);
+  const xs = PIXELS.map((pixel) => pixel.x);
   const minX = Math.min(...xs);
   const maxX = Math.max(...xs);
   const context = canvas.getContext('2d');
@@ -70,9 +70,9 @@ function animateAbakus(
 }
 
 const render = (statusCode, canvas) =>
-  pxxl(c64, statusCode, function(pixels) {
+  pxxl(c64, statusCode, function (pixels) {
     animateAbakus(canvas, {
-      PIXELS: pixels
+      PIXELS: pixels,
     });
   });
 

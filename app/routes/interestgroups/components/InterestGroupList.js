@@ -11,7 +11,7 @@ import type { ActionGrant, Group } from 'app/models';
 
 export type Props = {
   actionGrant: ActionGrant,
-  interestGroups: Array<Group>
+  interestGroups: Array<Group>,
 };
 
 const InterestGroupList = ({ actionGrant, interestGroups }: Props) => {
@@ -37,7 +37,7 @@ const InterestGroupList = ({ actionGrant, interestGroups }: Props) => {
         </div>
       </div>
       <div className="groups">
-        {interestGroups.map(group => (
+        {interestGroups.map((group) => (
           <InterestGroupComponent group={group} key={group.id} />
         ))}
       </div>

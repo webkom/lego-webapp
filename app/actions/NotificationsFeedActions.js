@@ -14,7 +14,7 @@ export function fetchNotificationData(): Thunk<*> {
     return dispatch(
       callAPI({
         types: NotificationsFeed.FETCH_DATA,
-        endpoint: '/feed-notifications/notification_data/'
+        endpoint: '/feed-notifications/notification_data/',
       })
     );
   };
@@ -27,7 +27,7 @@ export function markAllNotifications() {
     method: 'POST',
     body: {
       read: true,
-      seen: true
-    }
+      seen: true,
+    },
   });
 }

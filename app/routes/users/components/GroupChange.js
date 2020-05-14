@@ -12,28 +12,28 @@ type Props = {
   grades: Array<Group>,
   abakusGroups: Array<Group>,
   changeGrade: (ID, string) => Promise<*>,
-  username: string
+  username: string,
 };
 
 type Option = {
   value: ID,
-  label: string
+  label: string,
 };
 
 type State = {
-  selectedOption: ?Option
+  selectedOption: ?Option,
 };
 
 const noLongerStudent = {
   value: null,
-  label: 'Ikke student'
+  label: 'Ikke student',
 };
 
 class GroupChange extends Component<Props, State> {
   constructor() {
     super();
     this.state = {
-      selectedOption: null
+      selectedOption: null,
     };
   }
 
@@ -51,18 +51,18 @@ class GroupChange extends Component<Props, State> {
     const { grades, abakusGroups } = this.props;
     const initialGrade = abakusGroups
       .filter(Boolean)
-      .find(g => g.type === 'klasse');
+      .find((g) => g.type === 'klasse');
 
     const initalOption = initialGrade
       ? {
           value: initialGrade.id,
-          label: initialGrade.name
+          label: initialGrade.name,
         }
       : noLongerStudent;
 
-    const options = grades.map(g => ({
+    const options = grades.map((g) => ({
       value: g.id,
-      label: g.name
+      label: g.name,
     }));
 
     return (

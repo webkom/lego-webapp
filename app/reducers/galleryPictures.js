@@ -13,7 +13,7 @@ export type UploadStatus = {
   failCount: number,
   failedImages: Array<string>,
   lastUploadedImage?: ID,
-  showStatus: boolean
+  showStatus: boolean,
 };
 
 export const initialUploadStatus: UploadStatus = {
@@ -21,7 +21,7 @@ export const initialUploadStatus: UploadStatus = {
   successCount: 0,
   failedImages: [],
   failCount: 0,
-  showStatus: false
+  showStatus: false,
 };
 
 export type GalleryPictureEntity = {
@@ -34,7 +34,7 @@ export type GalleryPictureEntity = {
   comments: Array<number>,
   file: string,
   thumbnail: string,
-  rawFile: string
+  rawFile: string,
 };
 
 function mutateGalleryPicture(state: any, action: any) {
@@ -47,8 +47,8 @@ function mutateGalleryPicture(state: any, action: any) {
         uploadStatus: {
           ...uploadStatus,
           imageCount,
-          showStatus: true
-        }
+          showStatus: true,
+        },
       };
     }
     case Gallery.HIDE_UPLOAD_STATUS: {
@@ -56,8 +56,8 @@ function mutateGalleryPicture(state: any, action: any) {
         ...state,
         uploadStatus: {
           ...uploadStatus,
-          showStatus: false
-        }
+          showStatus: false,
+        },
       };
     }
     case GalleryPicture.CREATE.SUCCESS: {
@@ -74,8 +74,8 @@ function mutateGalleryPicture(state: any, action: any) {
           ...uploadStatus,
           successCount,
           showStatus: true,
-          lastUploadedImage
-        }
+          lastUploadedImage,
+        },
       };
     }
     case GalleryPicture.UPLOAD.FAILURE: {
@@ -87,8 +87,8 @@ function mutateGalleryPicture(state: any, action: any) {
           ...uploadStatus,
           failCount,
           showStatus: true,
-          failedImages
-        }
+          failedImages,
+        },
       };
     }
     default:
@@ -105,32 +105,34 @@ export default createEntityReducer({
   key: 'galleryPictures',
   types: {
     fetch: GalleryPicture.FETCH,
-    delete: GalleryPicture.DELETE
+    delete: GalleryPicture.DELETE,
   },
-  mutate
+  mutate,
 });
 
 export const SelectGalleryPicturesByGalleryId = createSelector(
-  state => state.galleryPictures.byId,
-  state => state.galleryPictures.items,
+  (state) => state.galleryPictures.byId,
+  (state) => state.galleryPictures.items,
   (state, props) => props.galleryId,
   (galleryPicturesById, galleryPictureIds, galleryId) =>
     galleryPictureIds
-      .map(id => galleryPicturesById[id])
-      .filter(galleryPicture => galleryPicture.gallery === parseInt(galleryId))
+      .map((id) => galleryPicturesById[id])
+      .filter(
+        (galleryPicture) => galleryPicture.gallery === parseInt(galleryId)
+      )
 );
 
 export const selectGalleryPictureById = createSelector(
-  state => state.galleryPictures.byId,
+  (state) => state.galleryPictures.byId,
   (state, props) => props.pictureId,
   (picturesById, pictureId) => picturesById[pictureId]
 );
 
 export const selectCommentsForGalleryPicture = createSelector(
   selectGalleryPictureById,
-  state => state.comments.byId,
+  (state) => state.comments.byId,
   (picture, commentsById) => {
     if (!picture) return [];
-    return (picture.comments || []).map(commentId => commentsById[commentId]);
+    return (picture.comments || []).map((commentId) => commentsById[commentId]);
   }
 );

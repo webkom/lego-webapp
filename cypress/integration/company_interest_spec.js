@@ -12,17 +12,11 @@ const createCompanyInterest = () => {
     .and('contain', 'BEKK');
   cy.focused().type('{enter}', { force: true });
 
-  field('contactPerson')
-    .click()
-    .type('webkom');
+  field('contactPerson').click().type('webkom');
 
-  field('mail')
-    .click()
-    .type('webkom@webkom.no');
+  field('mail').click().type('webkom@webkom.no');
 
-  field('phone')
-    .click()
-    .type('90909090');
+  field('phone').click().type('90909090');
 
   field('semesters[0].checked').check();
   field('events[0].checked').check();
@@ -58,9 +52,7 @@ describe('Admin company interest', () => {
     cy.contains('BEKK');
     cy.contains('webkom@webkom.no');
     cy.contains('90909090');
-    cy.contains('Slett')
-      .click()
-      .click();
+    cy.contains('Slett').click().click();
 
     cy.should('not.contain', 'BEKK');
   });
@@ -77,17 +69,11 @@ describe('Admin company interest', () => {
       .and('contain', 'BEKK');
     cy.focused().type('{enter}', { force: true });
 
-    field('contactPerson')
-      .click()
-      .type('webkom');
+    field('contactPerson').click().type('webkom');
 
-    field('mail')
-      .click()
-      .type('webkom@webko');
+    field('mail').click().type('webkom@webko');
 
-    field('phone')
-      .click()
-      .type('');
+    field('phone').click().type('');
 
     field('comment').type('random comment');
 

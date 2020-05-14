@@ -16,7 +16,7 @@ type Property = {
   element?: string,
   children?: string,
   rel?: string,
-  href?: string
+  href?: string,
 };
 type PropertyGenerator = (props: Object, config?: Object) => ?Array<Property>;
 
@@ -25,7 +25,7 @@ export default function helmet<T>(propertyGenerator: ?PropertyGenerator) {
     PropertyGenerator,
     ...props
   }: T & {
-    propertyGenerator: ?PropertyGenerator
+    propertyGenerator: ?PropertyGenerator,
   }) => {
     const properties: ?Array<Property> =
       propertyGenerator && propertyGenerator(props, config);

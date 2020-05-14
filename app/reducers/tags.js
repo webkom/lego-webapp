@@ -9,27 +9,25 @@ type State = any;
 export default createEntityReducer({
   key: 'tags',
   types: {
-    fetch: Tag.FETCH
+    fetch: Tag.FETCH,
   },
-  mutate: produce(
-    (newState: State, action: any): void => {
-      switch (action.type) {
-        case Tag.POPULAR.SUCCESS: {
-          newState.popular = action.payload;
-        }
+  mutate: produce((newState: State, action: any): void => {
+    switch (action.type) {
+      case Tag.POPULAR.SUCCESS: {
+        newState.popular = action.payload;
       }
     }
-  )
+  }),
 });
 
 export const selectTags = createSelector(
-  state => state.tags.byId,
-  state => state.tags.items,
-  (tagsById, tagsId) => tagsId.map(tag => tagsById[tag])
+  (state) => state.tags.byId,
+  (state) => state.tags.items,
+  (tagsById, tagsId) => tagsId.map((tag) => tagsById[tag])
 );
 
 export const selectTagById = createSelector(
-  state => state.tags.byId,
+  (state) => state.tags.byId,
   (state, props) => props.tagId,
   (tagsById, tagId) => tagsById[tagId] || {}
 );

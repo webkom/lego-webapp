@@ -24,15 +24,15 @@ const mapStateToProps = (state, props) => {
   return {
     query: query,
     searching: state.search.searching,
-    results
+    results,
   };
 };
 
-const mapDispatchToProps = dispatch => ({
-  handleSelect: result => dispatch(push(result.link)),
-  onQueryChanged: debounce(query => {
+const mapDispatchToProps = (dispatch) => ({
+  handleSelect: (result) => dispatch(push(result.link)),
+  onQueryChanged: debounce((query) => {
     dispatch(push(`/search?q=${query}`));
-  }, 300)
+  }, 300),
 });
 
 function SearchPageWrapper(props) {
@@ -45,8 +45,5 @@ function SearchPageWrapper(props) {
 
 export default compose(
   prepare(loadData, ['location.search']),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )(SearchPageWrapper);

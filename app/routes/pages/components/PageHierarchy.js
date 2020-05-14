@@ -10,14 +10,14 @@ type Props = {
   pageHierarchy: Array<HierarchySectionEntity>,
   currentUrl: string,
   currentCategory: string,
-  handleCloseSidebar: any
+  handleCloseSidebar: any,
 };
 
 const PageHierarchy = ({
   pageHierarchy,
   currentUrl,
   currentCategory,
-  handleCloseSidebar
+  handleCloseSidebar,
 }: Props) => {
   return (
     <div className={styles.sidebar}>
@@ -38,24 +38,24 @@ export default PageHierarchy;
 
 export type HierarchyEntity = {
   title: string,
-  url: string
+  url: string,
 };
 
 export type HierarchySectionEntity = {
   title: string,
-  items: HierarchyEntity[]
+  items: HierarchyEntity[],
 };
 
 const HierarchySection = ({
   hierarchySection: { title, items },
   currentUrl,
   currentCategory,
-  handleCloseSidebar
+  handleCloseSidebar,
 }: {
   hierarchySection: HierarchySectionEntity,
   currentUrl: string,
   currentCategory: string,
-  handleCloseSidebar: any
+  handleCloseSidebar: any,
 }) => (
   <nav className={styles.pageList}>
     {items.length > 0 && (
@@ -81,11 +81,11 @@ const HierarchySection = ({
 type AccordionProps = {
   title: string,
   children: Node,
-  currentCategory: string
+  currentCategory: string,
 };
 
 type AccordionState = {
-  isOpen: boolean
+  isOpen: boolean,
 };
 
 class AccordionContainer extends Component<AccordionProps, AccordionState> {
@@ -95,11 +95,11 @@ class AccordionContainer extends Component<AccordionProps, AccordionState> {
       (this.props.currentCategory === undefined &&
         this.props.title.toLowerCase() === 'generelt')
         ? true
-        : false
+        : false,
   };
 
   handleClick = () => {
-    this.setState(state => ({ isOpen: !state.isOpen }));
+    this.setState((state) => ({ isOpen: !state.isOpen }));
   };
 
   render() {

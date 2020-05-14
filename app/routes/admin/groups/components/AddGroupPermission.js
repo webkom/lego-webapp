@@ -7,7 +7,7 @@ import TextInput from 'app/components/Form/TextInput';
 import { createValidator, matchesRegex, required } from 'app/utils/validation';
 
 type Props = FormProps & {
-  group: Object
+  group: Object,
 };
 
 const AddGroupPermission = ({ editGroup, submitting, handleSubmit }: Props) => (
@@ -31,8 +31,8 @@ const validate = createValidator({
     matchesRegex(
       /^\/([a-zA-Z]+\/)+$/,
       'Rettigheter kan bare inneholde skråstrek og bokstaver, og må begynne og ende med en skråstrek.'
-    )
-  ]
+    ),
+  ],
 });
 
 export default legoForm({
@@ -40,8 +40,8 @@ export default legoForm({
   onSubmit: ({ permission }, dispatch, { group, editGroup }) =>
     editGroup({
       ...group,
-      permissions: group.permissions.concat(permission)
+      permissions: group.permissions.concat(permission),
     }),
   onSubmitSuccess: (result, dispatch, { reset }) => reset(),
-  validate
+  validate,
 })(AddGroupPermission);

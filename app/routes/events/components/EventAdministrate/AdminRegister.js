@@ -11,7 +11,7 @@ import { waitinglistPoolId } from 'app/actions/EventActions';
 type Props = {
   eventId: ID,
   adminRegister: (ID, ID, ID, string, string) => Promise<*>,
-  pools: Array<EventPool>
+  pools: Array<EventPool>,
 } & FormProps;
 
 const AdminRegister = ({
@@ -23,7 +23,7 @@ const AdminRegister = ({
   pristine,
   submitting,
 
-  error
+  error,
 }: Props) => {
   return (
     <div style={{ width: '400px' }}>
@@ -46,7 +46,7 @@ const AdminRegister = ({
           placeholder="Pool"
           label="Pool"
           options={pools
-            .map(pool => ({ value: pool.id, label: pool.name }))
+            .map((pool) => ({ value: pool.id, label: pool.name }))
             .concat([{ value: waitinglistPoolId, label: 'Venteliste' }])}
           simpleValue
         />
@@ -88,12 +88,12 @@ const onSubmit = (
     user,
     pool,
     feedback,
-    adminRegistrationReason
+    adminRegistrationReason,
   }: {
     user: User,
     pool: number,
     feedback: string,
-    adminRegistrationReason: string
+    adminRegistrationReason: string,
   },
   dispatch,
   { reset, eventId, adminRegister }: Props
@@ -107,5 +107,5 @@ const onSubmit = (
 export default legoForm({
   form: 'adminRegister',
   validate: validateForm,
-  onSubmit
+  onSubmit,
 })(AdminRegister);

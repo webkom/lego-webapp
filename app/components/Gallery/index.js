@@ -8,10 +8,10 @@ import styles from './Gallery.css';
 
 export type Photo = Object;
 type Props = {
-  onClick?: Photo => mixed,
-  renderOverlay?: Photo => Node,
-  renderTop?: Photo => Node,
-  renderBottom?: Photo => Node,
+  onClick?: (Photo) => mixed,
+  renderOverlay?: (Photo) => Node,
+  renderTop?: (Photo) => Node,
+  renderBottom?: (Photo) => Node,
   renderEmpty?: () => Node,
   margin?: number,
   loading?: boolean,
@@ -19,22 +19,22 @@ type Props = {
   photos: Array<Photo>,
   hasMore: boolean,
   fetchNext: () => any,
-  fetching: boolean
+  fetching: boolean,
 };
 
 type State = {
-  containerWidth: number
+  containerWidth: number,
 };
 
 export default class Gallery extends PureComponent<Props, State> {
   gallery: ?HTMLDivElement;
 
   static defaultProps = {
-    margin: 3
+    margin: 3,
   };
 
   state = {
-    containerWidth: 0
+    containerWidth: 0,
   };
 
   componentDidMount() {
@@ -79,7 +79,7 @@ export default class Gallery extends PureComponent<Props, State> {
       renderOverlay,
       renderTop,
       renderEmpty,
-      renderBottom
+      renderBottom,
     } = this.props;
     const { containerWidth } = this.state;
     const cols = containerWidth < 900 ? 2 : containerWidth < 550 ? 1 : 3;
@@ -120,11 +120,11 @@ export default class Gallery extends PureComponent<Props, State> {
                 src={src}
                 beforeLoadstyle={{
                   height: '250px',
-                  width: '350px'
+                  width: '350px',
                 }}
                 onLoadStyle={{
                   height: 'auto',
-                  width: '100%'
+                  width: '100%',
                 }}
                 alt={photo.alt}
               />
@@ -141,12 +141,12 @@ export default class Gallery extends PureComponent<Props, State> {
         className={styles.galleryContainer}
         style={{
           margin: `-${String(margin)}px`,
-          width: `calc(100% + ${6 * 2}px)`
+          width: `calc(100% + ${6 * 2}px)`,
         }}
       >
         <div
           className={styles.gallery}
-          ref={c => {
+          ref={(c) => {
             this.gallery = c;
           }}
         >

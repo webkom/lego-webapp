@@ -28,12 +28,12 @@ type Props = {
   emojis: Array<EmojiEntity>,
   addReaction: ({
     emoji: string,
-    contentTarget: string
+    contentTarget: string,
   }) => Promise<*>,
   reactionsGrouped: Array<ReactionEntity>,
   deleteReaction: ({ reactionId: ID, contentTarget: string }) => Promise<*>,
   fetchEmojis: () => Promise<*>,
-  fetchingEmojis: boolean
+  fetchingEmojis: boolean,
 };
 
 const ArticleDetail = ({
@@ -47,7 +47,7 @@ const ArticleDetail = ({
   addReaction,
   deleteReaction,
   fetchEmojis,
-  fetchingEmojis
+  fetchingEmojis,
 }: Props) => {
   return (
     <Content banner={article.cover} youtubeUrl={article.youtubeUrl}>
@@ -76,7 +76,7 @@ const ArticleDetail = ({
       <DisplayContent content={article.content} />
 
       <Tags>
-        {article.tags.map(tag => (
+        {article.tags.map((tag) => (
           <Tag tag={tag} key={tag} />
         ))}
       </Tags>

@@ -9,7 +9,7 @@ import { get } from 'lodash';
 export type AddMemberArgs = {
   groupId: number,
   userId: number,
-  role: string
+  role: string,
 };
 
 export function addMember({ groupId, userId, role }: AddMemberArgs) {
@@ -19,14 +19,14 @@ export function addMember({ groupId, userId, role }: AddMemberArgs) {
     method: 'POST',
     body: {
       user: userId,
-      role
+      role,
     },
     schema: membershipSchema,
     meta: {
       groupId,
       errorMessage: 'Innmelding av bruker feilet',
-      successMessage: 'Brukeren ble innmeldt'
-    }
+      successMessage: 'Brukeren ble innmeldt',
+    },
   });
 }
 
@@ -39,8 +39,8 @@ export function removeMember(membership: Object) {
     meta: {
       id: membership.id,
       groupId: membership.abakusGroup,
-      errorMessage: 'Utmelding av bruker feilet'
-    }
+      errorMessage: 'Utmelding av bruker feilet',
+    },
   });
 }
 
@@ -50,9 +50,9 @@ export function fetchGroup(groupId: number) {
     endpoint: `/groups/${groupId}/`,
     schema: groupSchema,
     meta: {
-      errorMessage: 'Henting av gruppe feilet'
+      errorMessage: 'Henting av gruppe feilet',
     },
-    propagateError: true
+    propagateError: true,
   });
 }
 
@@ -62,9 +62,9 @@ export function fetchAll() {
     endpoint: '/groups/',
     schema: [groupSchema],
     meta: {
-      errorMessage: 'Henting av grupper feilet'
+      errorMessage: 'Henting av grupper feilet',
     },
-    propagateError: true
+    propagateError: true,
   });
 }
 
@@ -74,9 +74,9 @@ export function fetchAllWithType(type: string) {
     endpoint: `/groups/?type=${type}`,
     schema: [groupSchema],
     meta: {
-      errorMessage: 'Henting av grupper feilet'
+      errorMessage: 'Henting av grupper feilet',
     },
-    propagateError: true
+    propagateError: true,
   });
 }
 
@@ -87,18 +87,18 @@ export function updateGroup(group: Object) {
     method: 'PATCH',
     body: {
       ...group,
-      logo: group.logo || undefined
+      logo: group.logo || undefined,
     },
     schema: groupSchema,
     meta: {
-      errorMessage: 'Oppdatering av grupper feilet'
-    }
+      errorMessage: 'Oppdatering av grupper feilet',
+    },
   });
 }
 
 export function editGroup(group: Object): Thunk<*> {
   const { id } = group;
-  return dispatch => {
+  return (dispatch) => {
     return dispatch(
       callAPI({
         types: Group.UPDATE,
@@ -108,8 +108,8 @@ export function editGroup(group: Object): Thunk<*> {
         body: group,
         meta: {
           group,
-          errorMessage: 'Editing group failed'
-        }
+          errorMessage: 'Editing group failed',
+        },
       })
     );
   };
@@ -120,7 +120,7 @@ export function joinGroup(
   user: Object,
   role: string = 'member'
 ): Thunk<*> {
-  return dispatch => {
+  return (dispatch) => {
     return dispatch(
       callAPI({
         types: Membership.JOIN_GROUP,
@@ -130,20 +130,20 @@ export function joinGroup(
         body: {
           abakus_group: groupId,
           user: user.id,
-          role
+          role,
         },
         meta: {
           errorMessage: 'Joining the interest group failed.',
           groupId: groupId,
-          username: user.username
-        }
+          username: user.username,
+        },
       })
     );
   };
 }
 
 export function leaveGroup(membership: Object): Thunk<*> {
-  return dispatch => {
+  return (dispatch) => {
     return dispatch(
       callAPI({
         types: Membership.LEAVE_GROUP,
@@ -153,8 +153,8 @@ export function leaveGroup(membership: Object): Thunk<*> {
           id: membership.id,
           username: membership.user.username,
           groupId: membership.abakusGroup,
-          errorMessage: 'Leaving the interest group failed.'
-        }
+          errorMessage: 'Leaving the interest group failed.',
+        },
       })
     );
   };
@@ -164,11 +164,11 @@ export function fetchAllMemberships(
   groupId: number,
   descendants: boolean = false
 ): Thunk<*> {
-  return dispatch => {
+  return (dispatch) => {
     return dispatch(
       fetchMembershipsPagination({ descendants, groupId, next: true })
     ).then(
-      res =>
+      (res) =>
         res.payload.next && dispatch(fetchAllMemberships(groupId, descendants))
     );
   };
@@ -184,11 +184,11 @@ export function fetchMemberships(
 export function fetchMembershipsPagination({
   groupId,
   next,
-  descendants = false
+  descendants = false,
 }: {
   groupId: number,
   next: boolean,
-  descendants?: boolean
+  descendants?: boolean,
 }): Thunk<*> {
   return (dispatch, getState) => {
     return dispatch(
@@ -203,17 +203,17 @@ export function fetchMembershipsPagination({
                 'memberships',
                 'pagination',
                 groupId.toString(),
-                'next'
+                'next',
               ]),
-              descendants
+              descendants,
             }
           : { descendants },
         meta: {
           groupId: groupId,
           errorMessage: 'Henting av medlemmene for gruppen feilet',
-          paginationKey: groupId
+          paginationKey: groupId,
         },
-        propagateError: true
+        propagateError: true,
       })
     );
   };

@@ -17,7 +17,7 @@ type Props = {
   fetchMore: () => void,
   showFetchMore: () => void,
   hasMore: boolean,
-  fetching: boolean
+  fetching: boolean,
 };
 
 const CompanyItem = ({ company }: Company) => {
@@ -68,7 +68,7 @@ const CompanyItem = ({ company }: Company) => {
 };
 
 type CompanyListProps = {
-  companies: Array<Company>
+  companies: Array<Company>,
 };
 
 const CompanyList = ({ companies = [] }: CompanyListProps) => (

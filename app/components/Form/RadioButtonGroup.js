@@ -6,7 +6,7 @@ import type RadioButton from './RadioButton';
 type Props = {
   name: string,
   label: string,
-  children: Array<RadioButton>
+  children: Array<RadioButton>,
 };
 
 const RadioButtonGroup = ({ name, label, children }: Props) => {
@@ -14,11 +14,11 @@ const RadioButtonGroup = ({ name, label, children }: Props) => {
     <div>
       <label className={styles.groupLabel}>{label}</label>
       <div className={styles.group}>
-        {React.Children.map(children, child =>
+        {React.Children.map(children, (child) =>
           React.cloneElement(child, {
             name,
             fieldClassName: styles.radioField,
-            labelClassName: styles.radioLabel
+            labelClassName: styles.radioLabel,
           })
         )}
       </div>

@@ -42,32 +42,32 @@ export const htmlToBlock = (nodeName: string, node: any) => {
   if (nodeName === 'h1') {
     return {
       type: Block.H1,
-      data: {}
+      data: {},
     };
   } else if (nodeName === 'h2') {
     return {
       type: Block.H2,
-      data: {}
+      data: {},
     };
   } else if (nodeName === 'h3') {
     return {
       type: Block.H3,
-      data: {}
+      data: {},
     };
   } else if (nodeName === 'h4') {
     return {
       type: Block.H4,
-      data: {}
+      data: {},
     };
   } else if (nodeName === 'h5') {
     return {
       type: Block.H5,
-      data: {}
+      data: {},
     };
   } else if (nodeName === 'h6') {
     return {
       type: Block.H6,
-      data: {}
+      data: {},
     };
   } else if (
     nodeName === 'p' &&
@@ -76,7 +76,7 @@ export const htmlToBlock = (nodeName: string, node: any) => {
   ) {
     return {
       type: Block.BLOCKQUOTE_CAPTION,
-      data: {}
+      data: {},
     };
   } else if (nodeName === 'figure') {
     if (node.querySelector('img')) {
@@ -85,13 +85,13 @@ export const htmlToBlock = (nodeName: string, node: any) => {
         type: Block.IMAGE,
         data: {
           src: imageNode && imageNode.src,
-          fileKey: imageNode && imageNode.getAttribute('data-file-key')
-        }
+          fileKey: imageNode && imageNode.getAttribute('data-file-key'),
+        },
       };
     } else if (node.className === Block.ATOMIC.toLowerCase()) {
       return {
         type: Block.ATOMIC,
-        data: {}
+        data: {},
       };
     }
     return undefined;
@@ -100,23 +100,23 @@ export const htmlToBlock = (nodeName: string, node: any) => {
     return {
       type: Block.TODO,
       data: {
-        checked: inputNode && inputNode.checked
-      }
+        checked: inputNode && inputNode.checked,
+      },
     };
   } else if (nodeName === 'hr') {
     return {
       type: Block.BREAK,
-      data: {}
+      data: {},
     };
   } else if (nodeName === 'blockquote') {
     return {
       type: Block.BLOCKQUOTE,
-      data: {}
+      data: {},
     };
   } else if (nodeName === 'p') {
     return {
       type: Block.UNSTYLED,
-      data: {}
+      data: {},
     };
   }
 
@@ -126,7 +126,7 @@ export const htmlToBlock = (nodeName: string, node: any) => {
 export const options = {
   htmlToStyle,
   htmlToEntity,
-  htmlToBlock
+  htmlToBlock,
 };
 
 export default (rawHTML: any, htmlOptions: Object = options) => {
@@ -136,7 +136,7 @@ export default (rawHTML: any, htmlOptions: Object = options) => {
 
   // This is slightly hacky, but allows us to server-side render the editor directly:
   const { JSDOM } = require('jsdom');
-  const dom = html => {
+  const dom = (html) => {
     const fullHtml = `<!doctype html><html><body>${html}</body></html>`;
     const { window } = new JSDOM(fullHtml);
     return window.document;

@@ -21,13 +21,13 @@ type Props = {
   companyEvents: Array<Object>,
   joblistings: Array<Object>,
   showFetchMoreEvents: boolean,
-  fetchMoreEvents: () => Promise<*>
+  fetchMoreEvents: () => Promise<*>,
 };
 
 type EventProps = {
   companyEvents: Array<Object>,
   showFetchMoreEvents: boolean,
-  fetchMoreEvents: () => Promise<*>
+  fetchMoreEvents: () => Promise<*>,
 };
 
 function insertInfoBubbles(company) {
@@ -35,7 +35,7 @@ function insertInfoBubbles(company) {
     ['call', company.phone, 'Telefon'],
     ['at', company.website, 'Nettside'],
     ['home', company.address, 'Adresse'],
-    ['briefcase', company.companyType, 'Type bedrift']
+    ['briefcase', company.companyType, 'Type bedrift'],
   ];
 
   return (
@@ -59,7 +59,7 @@ function insertInfoBubbles(company) {
 
 class CompanyEvents extends React.Component<EventProps, *> {
   state = {
-    viewOld: false
+    viewOld: false,
   };
 
   render() {
@@ -70,15 +70,15 @@ class CompanyEvents extends React.Component<EventProps, *> {
       (a, b) => new Date(b.startTime) - new Date(a.startTime)
     );
 
-    const upcomingEvents = sortedEvents.filter(event =>
+    const upcomingEvents = sortedEvents.filter((event) =>
       moment().isBefore(moment(event.startTime))
     );
-    const oldEvents = sortedEvents.filter(event =>
+    const oldEvents = sortedEvents.filter((event) =>
       moment().isAfter(moment(event.startTime))
     );
 
-    const eventTable = events =>
-      events.map(event => (
+    const eventTable = (events) =>
+      events.map((event) => (
         <tr key={event.id}>
           <td>
             <Link to={`/events/${event.id}`}>{event.title}</Link>
@@ -132,7 +132,7 @@ class CompanyEvents extends React.Component<EventProps, *> {
               display: 'flex',
               width: '100%',
               marginTop: '10px',
-              justifyContent: 'center'
+              justifyContent: 'center',
             }}
           >
             <Icon
@@ -154,7 +154,7 @@ const CompanyDetail = (props: Props) => {
     companyEvents,
     joblistings,
     fetchMoreEvents,
-    showFetchMoreEvents
+    showFetchMoreEvents,
   } = props;
   if (!company) {
     return <LoadingIndicator loading />;
@@ -162,7 +162,7 @@ const CompanyDetail = (props: Props) => {
 
   const joblistingsList =
     joblistings &&
-    joblistings.map(joblisting => (
+    joblistings.map((joblisting) => (
       <tr key={joblisting.id}>
         <td>
           <Link to={`/joblistings/${joblisting.id}`}>{joblisting.title}</Link>

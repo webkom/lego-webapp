@@ -14,21 +14,21 @@ type Props = {
   description: string,
   authors: Array<Object>,
   thanks: Array<Object>,
-  actionGrant: Array<String>
+  actionGrant: Array<String>,
 };
 
 type State = {
-  extended: boolean
+  extended: boolean,
 };
 
 class Podcast extends Component<Props, State> {
   state = {
-    extended: false
+    extended: false,
   };
 
   showMore = () => {
     this.setState({
-      extended: !this.state.extended
+      extended: !this.state.extended,
     });
   };
 
@@ -41,10 +41,10 @@ class Podcast extends Component<Props, State> {
       description,
       authors,
       thanks,
-      actionGrant
+      actionGrant,
     } = this.props;
 
-    const authorsSpan = authors.map(user => {
+    const authorsSpan = authors.map((user) => {
       return (
         <span key={user.id} className={styles.names}>
           <Link
@@ -62,7 +62,7 @@ class Podcast extends Component<Props, State> {
       );
     });
 
-    const thanksSpan = thanks.map(user => {
+    const thanksSpan = thanks.map((user) => {
       return (
         <span key={user.id} className={styles.names}>
           <Link

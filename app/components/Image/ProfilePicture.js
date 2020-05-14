@@ -7,7 +7,7 @@ type Props = {
   user: any,
   alt: string,
   size: number,
-  style?: Object
+  style?: Object,
 };
 
 const ProfilePicture = ({ alt, user, size = 100, style, ...props }: Props) => (

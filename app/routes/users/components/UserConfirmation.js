@@ -9,7 +9,7 @@ import {
   RadioButtonGroup,
   RadioButton,
   Button,
-  legoForm
+  legoForm,
 } from 'app/components/Form';
 import { Field } from 'redux-form';
 import { Link } from 'react-router-dom';
@@ -17,10 +17,10 @@ import { createValidator, required, validPassword } from 'app/utils/validation';
 
 type Props = {
   token: string,
-  handleSubmit: Function => void,
+  handleSubmit: (Function) => void,
   createUser: (token: string, data: Object) => void,
   router: any,
-  submitSucceeded: () => void
+  submitSucceeded: () => void,
 };
 
 const UserConfirmation = ({
@@ -132,7 +132,7 @@ const UserConfirmation = ({
 const validate = createValidator({
   username: [required()],
   password: [required(), validPassword()],
-  gender: [required()]
+  gender: [required()],
 });
 
 const onSubmit = (data, dispatch, { token, createUser }) =>
@@ -141,5 +141,5 @@ const onSubmit = (data, dispatch, { token, createUser }) =>
 export default legoForm({
   form: 'ConfirmationForm',
   validate,
-  onSubmit
+  onSubmit,
 })(UserConfirmation);

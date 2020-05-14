@@ -9,14 +9,11 @@ import PodcastList from './components/PodcastList';
 const mapStateToProps = (state, props) => {
   return {
     podcasts: selectPodcasts(state),
-    actionGrant: state.podcasts.actionGrant
+    actionGrant: state.podcasts.actionGrant,
   };
 };
 
 export default compose(
   prepare((props, dispatch) => dispatch(fetchPodcasts())),
-  connect(
-    mapStateToProps,
-    null
-  )
+  connect(mapStateToProps, null)
 )(PodcastList);

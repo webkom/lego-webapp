@@ -15,9 +15,9 @@ type Props = {
   event: ?EventEntity,
   match: {
     params: {
-      eventId: string
-    }
-  }
+      eventId: string,
+    },
+  },
 };
 
 const EventAdministrateIndex = (props: Props) => {
@@ -35,10 +35,10 @@ const EventAdministrateIndex = (props: Props) => {
         <NavigationLink to={`${base}/abacard`}>Abacard</NavigationLink>
       </NavigationTab>
       {props.children &&
-        props.children.map(child =>
+        props.children.map((child) =>
           React.cloneElement(child, {
             ...props,
-            children: undefined
+            children: undefined,
           })
         )}
     </Content>

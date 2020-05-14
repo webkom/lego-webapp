@@ -17,17 +17,17 @@ describe('reducers', () => {
               emoji: ':joy:',
               count: 1,
               hasReacted: false,
-              unicodeString: '123'
-            }
-          ]
+              unicodeString: '123',
+            },
+          ],
         },
         4: {
           id: 4,
           text: 'test',
           name: 'test',
-          reactionsGrouped: []
-        }
-      }
+          reactionsGrouped: [],
+        },
+      },
     };
     it('should add reaction to correct entity', () => {
       const reducer = mutateReactions('articles');
@@ -36,11 +36,11 @@ describe('reducers', () => {
         meta: {
           contentTarget: 'articles.article-4',
           emoji: ':joy:',
-          unicodeString: '123'
+          unicodeString: '123',
         },
         payload: {
-          result: 33
-        }
+          result: 33,
+        },
       };
       expect(reducer(prevState, action)).toEqual({
         actionGrant: [],
@@ -56,9 +56,9 @@ describe('reducers', () => {
                 emoji: ':joy:',
                 count: 1,
                 hasReacted: false,
-                unicodeString: '123'
-              }
-            ]
+                unicodeString: '123',
+              },
+            ],
           },
           4: {
             id: 4,
@@ -70,11 +70,11 @@ describe('reducers', () => {
                 count: 1,
                 hasReacted: true,
                 reactionId: 33,
-                unicodeString: '123'
-              }
-            ]
-          }
-        }
+                unicodeString: '123',
+              },
+            ],
+          },
+        },
       });
     });
 
@@ -86,11 +86,11 @@ describe('reducers', () => {
         meta: {
           contentTarget: 'articles.article-3',
           emoji: ':joy:',
-          unicodeString: '123'
+          unicodeString: '123',
         },
         payload: {
-          result: 33
-        }
+          result: 33,
+        },
       };
       expect(reducer(prevState, action)).toEqual({
         actionGrant: [],
@@ -107,17 +107,17 @@ describe('reducers', () => {
                 count: 2,
                 hasReacted: true,
                 reactionId: 33,
-                unicodeString: '123'
-              }
-            ]
+                unicodeString: '123',
+              },
+            ],
           },
           4: {
             id: 4,
             text: 'test',
             name: 'test',
-            reactionsGrouped: []
-          }
-        }
+            reactionsGrouped: [],
+          },
+        },
       });
     });
 
@@ -138,18 +138,18 @@ describe('reducers', () => {
                 count: 1,
                 reactionId: 33,
                 hasReacted: true,
-                unicodeString: '123'
-              }
-            ]
-          }
-        }
+                unicodeString: '123',
+              },
+            ],
+          },
+        },
       };
       const action = {
         type: Reaction.DELETE.SUCCESS,
         meta: {
           contentTarget: 'articles.article-3',
-          id: 33
-        }
+          id: 33,
+        },
       };
       expect(reducer(prevState, action)).toEqual({
         actionGrant: [],
@@ -160,9 +160,9 @@ describe('reducers', () => {
             id: 3,
             text: 'hello world',
             name: 'welcome',
-            reactionsGrouped: []
-          }
-        }
+            reactionsGrouped: [],
+          },
+        },
       });
     });
 
@@ -173,11 +173,11 @@ describe('reducers', () => {
         meta: {
           contentTarget: 'articles.article-3',
           emoji: ':joy:',
-          unicodeString: '123'
+          unicodeString: '123',
         },
         payload: {
-          result: 33
-        }
+          result: 33,
+        },
       };
       const newState = reducer(prevState, action);
       expect(newState).toEqual(prevState);

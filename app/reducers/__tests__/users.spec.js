@@ -9,9 +9,9 @@ describe('reducers', () => {
       items: [3],
       byId: {
         3: {
-          id: 3
-        }
-      }
+          id: 3,
+        },
+      },
     };
 
     it('Event.SOCKET_EVENT_UPDATED', () => {
@@ -26,22 +26,22 @@ describe('reducers', () => {
                 {
                   id: 31,
                   user: {
-                    id: 49
-                  }
-                }
-              ]
-            }
+                    id: 49,
+                  },
+                },
+              ],
+            },
           ],
           waitingRegistrations: [
             {
               id: 33,
               user: {
                 id: 50,
-                pic: '123'
-              }
-            }
-          ]
-        }
+                pic: '123',
+              },
+            },
+          ],
+        },
       };
       expect(users(prevState, action)).toEqual({
         actionGrant: [],
@@ -49,16 +49,16 @@ describe('reducers', () => {
         items: [3, 49, 50],
         byId: {
           3: {
-            id: 3
+            id: 3,
           },
           49: {
-            id: 49
+            id: 49,
           },
           50: {
             id: 50,
-            pic: '123'
-          }
-        }
+            pic: '123',
+          },
+        },
       });
     });
 
@@ -69,9 +69,9 @@ describe('reducers', () => {
         payload: {
           id: 31,
           user: {
-            id: 49
-          }
-        }
+            id: 49,
+          },
+        },
       };
       expect(users(prevState, action)).toEqual({
         actionGrant: [],
@@ -79,12 +79,12 @@ describe('reducers', () => {
         items: [3, 49],
         byId: {
           3: {
-            id: 3
+            id: 3,
           },
           49: {
-            id: 49
-          }
-        }
+            id: 49,
+          },
+        },
       });
     });
   });

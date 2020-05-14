@@ -8,9 +8,9 @@ export function fetchNotificationAlternatives() {
     types: NotificationSettings.FETCH_ALTERNATIVES,
     endpoint: '/notification-settings/alternatives/',
     meta: {
-      errorMessage: 'Henting av varslingsalternativer feilet'
+      errorMessage: 'Henting av varslingsalternativer feilet',
     },
-    propagateError: true
+    propagateError: true,
   });
 }
 
@@ -19,9 +19,9 @@ export function fetchNotificationSettings() {
     types: NotificationSettings.FETCH,
     endpoint: '/notification-settings/',
     meta: {
-      errorMessage: 'Henting av varslingsinnstillinger feilet'
+      errorMessage: 'Henting av varslingsinnstillinger feilet',
     },
-    propagateError: true
+    propagateError: true,
   });
 }
 
@@ -36,11 +36,11 @@ export function updateNotificationSetting(
     body: {
       notificationType,
       enabled: true,
-      channels
+      channels,
     },
     meta: {
       errorMessage: 'Oppdatering av varslingsinnstillinger feilet',
-      successMessage: 'Varslingsinnstillinger oppdatert'
-    }
+      successMessage: 'Varslingsinnstillinger oppdatert',
+    },
   });
 }

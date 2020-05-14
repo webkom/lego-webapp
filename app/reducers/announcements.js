@@ -13,22 +13,20 @@ export default createEntityReducer({
   types: {
     fetch: Announcements.FETCH_ALL,
     mutate: Announcements.CREATE,
-    delete: Announcements.DELETE
+    delete: Announcements.DELETE,
   },
-  mutate: produce(
-    (newState: State, action: any): void => {
-      switch (action.type) {
-        case Announcements.SEND.SUCCESS:
-          newState.byId[action.meta.announcementId].sent = moment();
-          break;
-      }
+  mutate: produce((newState: State, action: any): void => {
+    switch (action.type) {
+      case Announcements.SEND.SUCCESS:
+        newState.byId[action.meta.announcementId].sent = moment();
+        break;
     }
-  )
+  }),
 });
 
 export const selectAnnouncements = createSelector(
-  state => state.announcements.byId,
-  state => state.announcements.items,
+  (state) => state.announcements.byId,
+  (state) => state.announcements.items,
   (announcementsById, announcementIds) =>
-    announcementIds.map(id => announcementsById[id])
+    announcementIds.map((id) => announcementsById[id])
 );

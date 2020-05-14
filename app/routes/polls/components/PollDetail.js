@@ -11,26 +11,26 @@ import { type ID } from 'app/models';
 
 type Props = {
   poll: PollEntity,
-  editPoll: PollEntity => Promise<*>,
+  editPoll: (PollEntity) => Promise<*>,
   deletePoll: (id: ID) => Promise<*>,
   votePoll: (pollId: ID, optionId: ID) => Promise<*>,
   fetching: boolean,
   actionGrant: ActionGrant,
-  initialValues: PollEntity
+  initialValues: PollEntity,
 };
 
 type State = {
-  editing: boolean
+  editing: boolean,
 };
 
 class PollDetail extends Component<Props, State> {
   state = {
-    editing: false
+    editing: false,
   };
 
   toggleEdit = () => {
     this.setState({
-      editing: !this.state.editing
+      editing: !this.state.editing,
     });
   };
 

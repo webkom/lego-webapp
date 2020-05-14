@@ -16,7 +16,7 @@ const validate = createValidator({
   recipient_group: [required()],
   title: [required(), maxLength(80)],
   message: [required()],
-  captchaResponse: [required('Captcha er ikke validert')]
+  captchaResponse: [required('Captcha er ikke validert')],
 });
 
 const loadData = (props, dispatch) => dispatch(fetchAllWithType('komite'));
@@ -24,7 +24,7 @@ const loadData = (props, dispatch) => dispatch(fetchAllWithType('komite'));
 const mapStateToProps = (state, props) => {
   const groups = selectGroupsWithType(state, { groupType: 'komite' });
   return {
-    groups
+    groups,
   };
 };
 
@@ -32,21 +32,18 @@ const mapDispatchToProps = {
   sendContactMessage,
   addToast,
   reset,
-  change
+  change,
 };
 
 export default compose(
   prepare(loadData),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   reduxForm({
     form: 'contactForm',
     validate,
     enableReinitialize: true,
     initialValues: {
-      anonymous: false
-    }
+      anonymous: false,
+    },
   })
 )(Contact);

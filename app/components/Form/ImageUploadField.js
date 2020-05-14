@@ -15,9 +15,9 @@ type Props = {
   style?: Object,
   name: string,
   value?: string,
-  uploadFile: UploadArgs => Promise<*>,
+  uploadFile: (UploadArgs) => Promise<*>,
   onChange: (?string) => void,
-  edit: string => Promise<*>
+  edit: (string) => Promise<*>,
 };
 
 class ImageUploadField extends Component<Props> {
@@ -48,7 +48,4 @@ class ImageUploadField extends Component<Props> {
   }
 }
 
-export default connect(
-  null,
-  { uploadFile }
-)(createField(ImageUploadField));
+export default connect(null, { uploadFile })(createField(ImageUploadField));

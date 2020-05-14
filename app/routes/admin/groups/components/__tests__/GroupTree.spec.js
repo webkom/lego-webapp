@@ -8,19 +8,19 @@ const groups = [
   {
     description: 'cool group',
     id: 1,
-    name: 'Cat'
+    name: 'Cat',
   },
   {
     description: 'bad group',
     id: 2,
     name: 'Dog',
-    parent: 1
+    parent: 1,
   },
   {
     description: 'standalone group',
     id: 3,
-    name: 'Bird'
-  }
+    name: 'Bird',
+  },
 ];
 
 describe('<GroupTree />', () => {

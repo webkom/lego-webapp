@@ -14,25 +14,25 @@ const updateFilters = (type, value, filters) => {
   const newFilter = {
     ...filters,
     [type]: filters[type].includes(value)
-      ? filters[type].filter(x => x !== value)
-      : filters[type].concat(value)
+      ? filters[type].filter((x) => x !== value)
+      : filters[type].concat(value),
   };
   return {
     ...(newFilter.grades.length > 0
       ? {
-          grades: newFilter.grades.toString()
+          grades: newFilter.grades.toString(),
         }
       : {}),
     ...(newFilter.jobTypes.length > 0
       ? {
-          jobTypes: newFilter.jobTypes.toString()
+          jobTypes: newFilter.jobTypes.toString(),
         }
       : {}),
     ...(newFilter.workplaces.length > 0
       ? {
-          workplaces: newFilter.workplaces.toString()
+          workplaces: newFilter.workplaces.toString(),
         }
-      : {})
+      : {}),
   };
 };
 
@@ -40,7 +40,7 @@ const FilterLink = ({ type, label, value, filters }: Object) => (
   <Link
     to={{
       pathname: '/joblistings',
-      search: qs.stringify(updateFilters(type, value, filters))
+      search: qs.stringify(updateFilters(type, value, filters)),
     }}
     style={{ display: 'flex', flex: 1, alignItems: 'center' }}
   >
@@ -53,7 +53,7 @@ const FilterLink = ({ type, label, value, filters }: Object) => (
 type Filter = {
   grades: Array<string>,
   jobTypes: Array<string>,
-  workplaces: Array<string>
+  workplaces: Array<string>,
 };
 
 type Props = {
@@ -62,18 +62,18 @@ type Props = {
     grades: string,
     jobTypes: string,
     workplaces: string,
-    order: string
+    order: string,
   },
-  history: any
+  history: any,
 };
 
 type State = {
   filters: Filter,
   order: {
     deadline: boolean,
-    company: boolean
+    company: boolean,
   },
-  displayOptions: boolean
+  displayOptions: boolean,
 };
 
 export default class JoblistingsRightNav extends Component<Props, State> {
@@ -81,23 +81,23 @@ export default class JoblistingsRightNav extends Component<Props, State> {
     filters: {
       grades: [],
       jobTypes: [],
-      workplaces: []
+      workplaces: [],
     },
     order: {
       deadline: true,
-      company: false
+      company: false,
     },
-    displayOptions: true
+    displayOptions: true,
   };
 
   updateDisplayOptions = () => {
     this.setState({
-      displayOptions: !this.state.displayOptions
+      displayOptions: !this.state.displayOptions,
     });
   };
 
   toggleDisplay = (display: boolean) => ({
-    display: display ? 'block' : 'none'
+    display: display ? 'block' : 'none',
   });
 
   // eslint-disable-next-line
@@ -107,13 +107,13 @@ export default class JoblistingsRightNav extends Component<Props, State> {
       filters: {
         grades: query.grades ? query.grades.split(',') : [],
         jobTypes: query.jobTypes ? query.jobTypes.split(',') : [],
-        workplaces: query.workplaces ? query.workplaces.split(',') : []
+        workplaces: query.workplaces ? query.workplaces.split(',') : [],
       },
       order: {
         deadline:
           query.order === 'deadline' || !Object.keys(query).includes('order'),
-        company: query.order === 'company'
-      }
+        company: query.order === 'company',
+      },
     });
   };
 
@@ -171,7 +171,7 @@ export default class JoblistingsRightNav extends Component<Props, State> {
                       pathname: '/joblistings',
                       search: qs.stringify(
                         this.handleQuery('order', 'deadline')
-                      )
+                      ),
                     });
                   }}
                 />
@@ -188,7 +188,9 @@ export default class JoblistingsRightNav extends Component<Props, State> {
                   onChange={() => {
                     this.props.history.push({
                       pathname: '/joblistings',
-                      search: qs.stringify(this.handleQuery('order', 'company'))
+                      search: qs.stringify(
+                        this.handleQuery('order', 'company')
+                      ),
                     });
                   }}
                 />
@@ -202,7 +204,7 @@ export default class JoblistingsRightNav extends Component<Props, State> {
               style={{ display: this.state.displayOptions ? 'block' : 'flex' }}
             >
               <h3 className={styles.rightHeader}>Klassetrinn:</h3>
-              {['1', '2', '3', '4', '5'].map(element => (
+              {['1', '2', '3', '4', '5'].map((element) => (
                 <FilterLink
                   key={element}
                   type="grades"
@@ -254,7 +256,7 @@ export default class JoblistingsRightNav extends Component<Props, State> {
             >
               <h3 className={styles.rightHeader}>Sted:</h3>
               {['Oslo', 'Trondheim', 'Bergen', 'Tromsø', 'Annet'].map(
-                element => (
+                (element) => (
                   <FilterLink
                     type="workplaces"
                     key={element}

@@ -9,8 +9,8 @@ export default [
       username: 'webkom',
       firstName: 'webkom',
       lastName: 'webkom',
-      fullName: 'webkom webkom'
-    }
+      fullName: 'webkom webkom',
+    },
   },
   {
     id: 3,
@@ -22,8 +22,8 @@ export default [
       username: 'plebkom',
       firstName: 'plebkom',
       lastName: 'plebkom',
-      fullName: 'plebkom lelkom'
-    }
+      fullName: 'plebkom lelkom',
+    },
   },
   {
     id: 4,
@@ -36,7 +36,7 @@ export default [
       username: 'webkom',
       firstName: 'webkom',
       lastName: 'webkom',
-      fullName: 'webkom webkom'
-    }
-  }
+      fullName: 'webkom webkom',
+    },
+  },
 ];

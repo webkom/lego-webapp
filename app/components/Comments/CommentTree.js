@@ -14,12 +14,12 @@ type Props = {
   commentFormProps: {
     contentTarget: string,
     user: UserEntity,
-    loggedIn: boolean
+    loggedIn: boolean,
   },
   level?: number,
   deleteComment: (id: ID, contentTarget: string) => Promise<*>,
   user: UserEntity,
-  contentTarget: string
+  contentTarget: string,
 };
 
 function CommentTree({
@@ -29,9 +29,9 @@ function CommentTree({
   level = 0,
   deleteComment,
   user,
-  contentTarget
+  contentTarget,
 }: Props) {
-  const tree = comments.map(comment => {
+  const tree = comments.map((comment) => {
     const className = cx(
       isChild && level < 3 && styles.nested,
       isChild ? styles.child : styles.root

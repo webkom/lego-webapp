@@ -8,7 +8,7 @@ import LoadingIndicator from 'app/components/LoadingIndicator';
 
 type Props = {
   feedItems: Array<any>,
-  feed: Object
+  feed: Object,
 };
 
 const TimelinePage = (props: Props) => {

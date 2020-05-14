@@ -18,20 +18,20 @@ type Props = {
   commentFormProps: {
     contentTarget: string,
     user: UserEntity,
-    loggedIn: boolean
+    loggedIn: boolean,
   },
   deleteComment: (id: ID, contentTarget: string) => Promise<*>,
   user: UserEntity,
-  contentTarget: string
+  contentTarget: string,
 };
 
 type State = {
-  replyOpen: boolean
+  replyOpen: boolean,
 };
 
 export default class Comment extends Component<Props, State> {
   state = {
-    replyOpen: false
+    replyOpen: false,
   };
 
   closeReply = () => {
@@ -39,8 +39,8 @@ export default class Comment extends Component<Props, State> {
   };
 
   toggleReply = () => {
-    this.setState(prevState => ({
-      replyOpen: !prevState.replyOpen
+    this.setState((prevState) => ({
+      replyOpen: !prevState.replyOpen,
     }));
   };
 
@@ -50,7 +50,7 @@ export default class Comment extends Component<Props, State> {
       contentTarget,
       commentFormProps,
       deleteComment,
-      user
+      user,
     } = this.props;
     const { createdAt, text, author } = comment;
     const { replyOpen } = this.state;

@@ -41,16 +41,16 @@ describe('fetchHistory', () => {
     const action = {
       type: 'Event.SUCCESS',
       payload: {},
-      meta: { endpoint: 'events/1/', success: 'Event.SUCCESS' }
+      meta: { endpoint: 'events/1/', success: 'Event.SUCCESS' },
     };
     expect(fetchHistory(prevState, action)).toEqual({
       'events/1/': {
         timestamp: Date.now(),
         action: {
           ...action,
-          cached: true
-        }
-      }
+          cached: true,
+        },
+      },
     });
   });
 
@@ -59,14 +59,14 @@ describe('fetchHistory', () => {
     const prevState = {
       'company/': {
         timestamp: new Date(1504090888011),
-        action: {}
-      }
+        action: {},
+      },
     };
 
     const action = {
       type: 'Event.SUCCESS',
       payload: {},
-      meta: { endpoint: 'events/1/', success: 'Event.SUCCESS' }
+      meta: { endpoint: 'events/1/', success: 'Event.SUCCESS' },
     };
 
     expect(fetchHistory(prevState, action)).toEqual(prevState);
@@ -76,13 +76,13 @@ describe('fetchHistory', () => {
     const prevState = {
       'company/': {
         timestamp: new Date(1504090888011),
-        action: {}
-      }
+        action: {},
+      },
     };
     const action = {
       type: 'Event.SUCCESS',
       payload: {},
-      meta: { endpoint: 'events/1/', success: 'Event.SUCCESS' }
+      meta: { endpoint: 'events/1/', success: 'Event.SUCCESS' },
     };
     expect(fetchHistory(prevState, action)).toEqual({
       ...prevState,
@@ -90,9 +90,9 @@ describe('fetchHistory', () => {
         timestamp: Date.now(),
         action: {
           ...action,
-          cached: true
-        }
-      }
+          cached: true,
+        },
+      },
     });
   });
 });

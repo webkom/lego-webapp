@@ -10,13 +10,13 @@ import { login } from 'app/actions/UserActions';
 import { createValidator, required } from 'app/utils/validation';
 
 type ConnectedProps = {
-  login: (username: string, password: string) => Promise<void>
+  login: (username: string, password: string) => Promise<void>,
 };
 
 type OwnProps = {
   className?: string,
-  postLoginFail?: any => any,
-  postLoginSuccess?: any => any
+  postLoginFail?: (any) => any,
+  postLoginSuccess?: (any) => any,
 };
 
 type Props = ConnectedProps & OwnProps & FormProps;
@@ -38,27 +38,27 @@ class LoginForm extends Component<Props> {
     this.props.change('password', this.passwordRef.value);
   }
 
-  login = values => {
+  login = (values) => {
     // Autofill in some mobile browsers doesn't trigger onChange,
     // so use the direct values if redux-form won't give us anything:
     const username = values.username || this.usernameRef.value;
     const password = values.password || this.passwordRef.value;
 
     const {
-      postLoginSuccess = res => res,
-      postLoginFail = error => {
+      postLoginSuccess = (res) => res,
+      postLoginFail = (error) => {
         throw error;
-      }
+      },
     } = this.props;
 
     return this.props
       .login(username, password)
       .then(postLoginSuccess, postLoginFail)
-      .catch(err => {
+      .catch((err) => {
         // Throw a SubmissionError to show validation errors with redux-form:
         if (err.payload.response.status === 400) {
           throw new SubmissionError({
-            _error: 'Feil brukernavn eller passord'
+            _error: 'Feil brukernavn eller passord',
           });
         }
 
@@ -73,14 +73,14 @@ class LoginForm extends Component<Props> {
       <Form
         onSubmit={handleSubmit(this.login)}
         className={cx(this.props.className)}
-        onClick={e => e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()}
       >
         <Field
           name="username"
           placeholder="Brukernavn"
           fieldStyle={style}
           showErrors={false}
-          inputRef={node => {
+          inputRef={(node) => {
             this.usernameRef = node;
           }}
           component={TextInput.Field}
@@ -91,7 +91,7 @@ class LoginForm extends Component<Props> {
           placeholder="Passord"
           fieldStyle={style}
           showErrors={false}
-          inputRef={node => {
+          inputRef={(node) => {
             this.passwordRef = node;
           }}
           component={TextInput.Field}
@@ -107,12 +107,9 @@ class LoginForm extends Component<Props> {
 
 const validate = createValidator({
   username: [required()],
-  password: [required()]
+  password: [required()],
 });
 
 export default reduxForm({ validate, form: 'LoginForm' })(
-  connect(
-    null,
-    { login }
-  )(LoginForm)
+  connect(null, { login })(LoginForm)
 );

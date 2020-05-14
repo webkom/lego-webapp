@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import {
   fetchAll,
   deleteCompanyInterest,
-  fetch
+  fetch,
 } from 'app/actions/CompanyInterestActions';
 import { fetchSemesters } from 'app/actions/CompanyActions';
 import CompanyInterestList from './components/CompanyInterestList';
@@ -27,7 +27,7 @@ const mapStateToProps = (state, props) => {
   );
   const semesters = selectCompanySemestersForInterestForm(state);
   const semesterObj: ?CompanySemesterEntity = semesters.find(
-    semester => semester.id === semesterId
+    (semester) => semester.id === semesterId
   );
 
   const selectedOption = {
@@ -39,9 +39,9 @@ const mapStateToProps = (state, props) => {
         ? semesterToText({
             semester: semesterObj.semester,
             year: semesterObj.year,
-            language: 'norwegian'
+            language: 'norwegian',
           })
-        : 'Vis alle semestre'
+        : 'Vis alle semestre',
   };
   const companyInterestList = selectCompanyInterestList(
     state,
@@ -55,7 +55,7 @@ const mapStateToProps = (state, props) => {
     companyInterestList,
     hasMore,
     fetching,
-    selectedOption
+    selectedOption,
   };
 };
 
@@ -63,14 +63,11 @@ const mapDispatchToProps = {
   fetchAll,
   deleteCompanyInterest,
   fetch,
-  push
+  push,
 };
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
   prepare(loadData),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )(CompanyInterestList);

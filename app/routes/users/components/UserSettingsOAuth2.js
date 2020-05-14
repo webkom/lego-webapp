@@ -12,7 +12,7 @@ type Props = {
   applications: Array<*>,
   grants: Array<*>,
   deleteOAuth2Grant: (grantId: number) => void,
-  actionGrant: Array<string>
+  actionGrant: Array<string>,
 };
 
 const UserSettingsOAuth2 = (props: Props) => {

@@ -11,7 +11,7 @@ import Icon from 'app/components/Icon';
 import styles from './Footer.css';
 
 type Props = {
-  loggedIn: boolean
+  loggedIn: boolean,
 };
 
 const Footer = (props: Props) => (

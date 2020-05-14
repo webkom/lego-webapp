@@ -8,13 +8,13 @@ import produce from 'immer';
 type State = {
   channels: Array<string>,
   notificationTypes: Array<string>,
-  settings: Object
+  settings: Object,
 };
 
 const initialState = {
   channels: [],
   notificationTypes: [],
-  settings: {}
+  settings: {},
 };
 
 const notificationSettings = produce((newState: State, action: any): void => {
@@ -40,7 +40,7 @@ export const transform = (settings: any) => keyBy(settings, 'notificationType');
 
 export const selectNotificationSettingsAlternatives = (state: Object) => ({
   channels: state.notificationSettings.channels,
-  notificationTypes: state.notificationSettings.notificationTypes
+  notificationTypes: state.notificationSettings.notificationTypes,
 });
 
 export const selectNotificationSettings = (state: Object) =>

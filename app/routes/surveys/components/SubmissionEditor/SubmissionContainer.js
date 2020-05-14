@@ -14,7 +14,7 @@ import styles from '../surveys.css';
 type Props = {
   survey: SurveyEntity,
   submission?: SubmissionEntity,
-  actionGrant: Array<string>
+  actionGrant: Array<string>,
 };
 
 const SubmissionContainer = ({

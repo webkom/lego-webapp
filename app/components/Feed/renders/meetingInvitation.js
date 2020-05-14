@@ -11,7 +11,7 @@ import type { AggregatedActivity, TagInfo } from '../types';
  */
 export function activityHeader(
   aggregatedActivity: AggregatedActivity,
-  htmlTag: TagInfo => Element<*>
+  htmlTag: (TagInfo) => Element<*>
 ) {
   const latestActivity = aggregatedActivity.lastActivity;
   const actor = lookupContext(aggregatedActivity, latestActivity.actor);
@@ -25,7 +25,7 @@ export function activityHeader(
   }
 
   const toRender = joinValues(
-    meetings.map(meeting =>
+    meetings.map((meeting) =>
       htmlTag(contextRender[meeting.contentType](meeting))
     )
   );

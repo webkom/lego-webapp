@@ -10,7 +10,7 @@ import {
   Block,
   Inline,
   INLINE_BUTTONS,
-  BLOCK_BUTTONS
+  BLOCK_BUTTONS,
 } from 'medium-draft';
 import importer from './importer';
 import exporter from './exporter';
@@ -29,16 +29,16 @@ type Props = {
   /** Disable editor input */
   disabled?: boolean,
   /** Function that returns the content as html when changed */
-  onChange: string => void,
+  onChange: (string) => void,
   /** Function that is called when editor is focused */
   onFocus: () => void,
   /** Function that is called when editor is blurred */
-  onBlur: () => void
+  onBlur: () => void,
   /** Use editor in simple mode, just enable inline styling, no block styling */
 };
 
 type State = {
-  editorState: any
+  editorState: any,
 };
 
 /**
@@ -61,10 +61,10 @@ export default class Editor extends Component<Props, State> {
   state = {
     editorState: createEditorState(
       convertToRaw(importer(this.props.value || ''))
-    )
+    ),
   };
 
-  rendererFn = (setEditorState: any => void, getEditorState: () => any) => {
+  rendererFn = (setEditorState: (any) => void, getEditorState: () => any) => {
     const rFnOld = rendererFn(setEditorState, getEditorState);
     const rFnNew = (contentBlock: any) => {
       const type = contentBlock.getType();
@@ -74,8 +74,8 @@ export default class Editor extends Component<Props, State> {
             component: ImageBlock,
             props: {
               setEditorState,
-              getEditorState
-            }
+              getEditorState,
+            },
           };
         default:
           return rFnOld(contentBlock);
@@ -100,7 +100,7 @@ export default class Editor extends Component<Props, State> {
     const { editorState } = this.state;
     return (
       <DraftEditor
-        ref={node => {
+        ref={(node) => {
           this.editor = node;
         }}
         blockButtons={
@@ -124,12 +124,12 @@ export default class Editor extends Component<Props, State> {
             : [
                 {
                   title: 'Image',
-                  component: ImageButton
+                  component: ImageButton,
                 },
                 {
                   title: 'Editor info',
-                  component: InfoButton
-                }
+                  component: InfoButton,
+                },
               ]
         }
       />

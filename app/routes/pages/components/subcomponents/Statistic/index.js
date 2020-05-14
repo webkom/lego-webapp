@@ -5,7 +5,7 @@ import styles from './Statistic.css';
 type Props = {
   statistic: string,
   label: string,
-  topLabel?: string
+  topLabel?: string,
 };
 
 const Statistic = ({ statistic, label, topLabel }: Props) => {

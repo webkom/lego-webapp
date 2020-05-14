@@ -39,7 +39,7 @@ const OverviewItem = ({ article }: { article: ArticleEntity }) => (
       )}
       <Time time={article.createdAt} format="DD.MM.YYYY HH:mm" />
       <Tags className={styles.tagline}>
-        {article.tags.map(tag => (
+        {article.tags.map((tag) => (
           <Tag tag={tag} key={tag} />
         ))}
       </Tags>
@@ -56,7 +56,7 @@ type Props = {
   fetchAll: ({ next?: boolean }) => Promise<*>,
   tags: Array<Object>,
   location: any,
-  actionGrant: ActionGrant
+  actionGrant: ActionGrant,
 };
 
 export default class Overview extends Component<Props> {
@@ -72,7 +72,7 @@ export default class Overview extends Component<Props> {
           )}
         </NavigationTab>
         <Tags>
-          {this.props.tags.map(tag => (
+          {this.props.tags.map((tag) => (
             <Tag
               tag={tag.tag}
               key={tag.tag}
@@ -89,20 +89,20 @@ export default class Overview extends Component<Props> {
             fetchNext={() => {
               this.props.fetchAll({
                 tag: qs.parse(this.props.location.search, {
-                  ignoreQueryPrefix: true
+                  ignoreQueryPrefix: true,
                 }).tag,
-                next: true
+                next: true,
               });
             }}
           >
             <div className={styles.overview}>
               <div className={styles.headline}>
-                {headlineEvents.map(article => (
+                {headlineEvents.map((article) => (
                   <OverviewItem key={article.id} article={article} />
                 ))}
               </div>
               <div className={styles.normal}>
-                {normalEvents.map(article => (
+                {normalEvents.map((article) => (
                   <OverviewItem key={article.id} article={article} />
                 ))}
               </div>

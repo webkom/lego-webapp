@@ -5,7 +5,7 @@ import {
   fetchAll,
   fetchPage,
   updatePage,
-  deletePage
+  deletePage,
 } from 'app/actions/PageActions';
 import { uploadFile } from 'app/actions/FileActions';
 import PageEditor from './components/PageEditor';
@@ -19,12 +19,12 @@ function mapStateToProps(state, props) {
   if (!page)
     return {
       isNew: false,
-      pageSlug
+      pageSlug,
     };
   return {
     page,
     pageSlug,
-    initialValues: page
+    initialValues: page,
   };
 }
 
@@ -34,7 +34,7 @@ const mapDispatchToProps = {
   updatePage,
   uploadFile,
   deletePage,
-  push
+  push,
 };
 
 export default compose(
@@ -42,18 +42,15 @@ export default compose(
     (
       {
         match: {
-          params: { pageSlug }
-        }
+          params: { pageSlug },
+        },
       },
       dispatch
     ) => dispatch(fetchPage(pageSlug)),
     ['match.params.pageSlug']
   ),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   legoForm({
-    form: 'page-edit'
+    form: 'page-edit',
   })
 )(PageEditor);

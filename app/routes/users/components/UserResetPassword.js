@@ -9,7 +9,7 @@ import type { Action } from 'app/types';
 type Props = {
   token: string,
   resetPassword: ({ token: string, password: string }) => Promise<*>,
-  push: (location: string) => Action
+  push: (location: string) => Action,
 } & FormProps;
 
 const UserResetPassword = ({
@@ -19,7 +19,7 @@ const UserResetPassword = ({
   submitting,
   handleSubmit,
   resetPassword,
-  push
+  push,
 }: Props) => {
   const disabledButton = invalid || pristine || submitting;
   return (
@@ -27,7 +27,7 @@ const UserResetPassword = ({
       <h1>Tilbakestill Passord</h1>
       {token ? (
         <Form
-          onSubmit={handleSubmit(props =>
+          onSubmit={handleSubmit((props) =>
             resetPassword({ token, ...props }).then(() => push('/'))
           )}
         >
@@ -49,10 +49,10 @@ const UserResetPassword = ({
 };
 
 const validate = createValidator({
-  password: [required(), validPassword()]
+  password: [required(), validPassword()],
 });
 
 export default reduxForm({
   form: 'ResetPassword',
-  validate
+  validate,
 })(UserResetPassword);

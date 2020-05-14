@@ -8,7 +8,7 @@ import { autocomplete } from 'app/actions/SearchActions';
 import { selectAutocompleteRedux as selectAutocomplete } from 'app/reducers/search';
 import {
   markUsernamePresent,
-  markUsernameConsent
+  markUsernameConsent,
 } from 'app/actions/EventActions';
 import Abacard from './components/EventAdministrate/Abacard';
 import qs from 'qs';
@@ -30,13 +30,13 @@ const mapStateToProps = (state, props) => {
 
   const { eventId } = props;
   const { registered } = getRegistrationGroups(state, {
-    eventId
+    eventId,
   });
   return {
     location: props.location,
     searching: state.search.searching,
     results,
-    registered
+    registered,
   };
 };
 
@@ -46,19 +46,16 @@ const mapDispatchToProps = (dispatch, { eventId }) => {
     clearSearch: () => dispatch(push(url)),
     markUsernamePresent: (...props) => dispatch(markUsernamePresent(...props)),
     markUsernameConsent: (...props) => dispatch(markUsernameConsent(...props)),
-    onQueryChanged: debounce(query => {
+    onQueryChanged: debounce((query) => {
       dispatch(push(url + query));
       if (query) {
         dispatch(autocomplete(query, searchTypes));
       }
-    }, 100)
+    }, 100),
   };
 };
 
 export default compose(
   prepare(loadData),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )(Abacard);

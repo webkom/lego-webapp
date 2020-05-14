@@ -6,7 +6,7 @@ import styles from './index.css';
 type Props = {
   unicodeString: string,
   shortCode?: string,
-  size?: string
+  size?: string,
 };
 
 const Emoji = ({ shortCode, unicodeString, size = 'inherit' }: Props) => {
@@ -17,7 +17,7 @@ const Emoji = ({ shortCode, unicodeString, size = 'inherit' }: Props) => {
       style={{
         height: size,
         width: size,
-        fontSize: size
+        fontSize: size,
       }}
     >
       {unicodeString}

@@ -26,15 +26,15 @@ describe('getCachedRequest', () => {
   it('should return action when endpoint exists', () => {
     const action = {
       type: 'Event.FETCH.SUCCESS',
-      payload: {}
+      payload: {},
     };
     const state = {
       fetchHistory: {
         '/events/1': {
           timestamp: Date.now(),
-          action
-        }
-      }
+          action,
+        },
+      },
     };
     const endpoint = '/events/1';
     expect(getCachedRequest(state, endpoint, 10)).toEqual(action);
@@ -43,15 +43,15 @@ describe('getCachedRequest', () => {
   it('should return null when time has passed', () => {
     const action = {
       type: 'Event.FETCH.SUCCESS',
-      payload: {}
+      payload: {},
     };
     const state = {
       fetchHistory: {
         '/events/1': {
           timestamp: Date.now() - 20 * 1000,
-          action
-        }
-      }
+          action,
+        },
+      },
     };
     const endpoint = '/events/1';
     expect(getCachedRequest(state, endpoint, 10)).toEqual(null);

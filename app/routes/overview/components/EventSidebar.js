@@ -10,7 +10,7 @@ import type { Event } from 'app/models';
 
 type EventItemProps = {
   event: Event,
-  imageSize: number | string
+  imageSize: number | string,
 };
 
 const EventItem = ({ event, imageSize }: EventItemProps) => (
@@ -19,7 +19,7 @@ const EventItem = ({ event, imageSize }: EventItemProps) => (
       <Octagon size={imageSize}>
         <Image
           style={{
-            paddingBottom: 15
+            paddingBottom: 15,
           }}
           src={event.thumbnail}
         />
@@ -37,7 +37,7 @@ const EventItem = ({ event, imageSize }: EventItemProps) => (
 );
 
 type EventSidebarProps = {
-  events: Array<Event>
+  events: Array<Event>,
 };
 
 // TODO: Only show events from the next 14 days under "Kommende"
@@ -46,7 +46,7 @@ const EventSidebar = ({ events }: EventSidebarProps) => (
     <h2>Arrangementer</h2>
     <div className={`${styles.events}`}>
       <h3>Kommende</h3>
-      {events.slice(0, 3).map(event => (
+      {events.slice(0, 3).map((event) => (
         <EventItem key={event.id} imageSize="30px" event={event} />
       ))}
     </div>

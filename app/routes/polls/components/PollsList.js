@@ -17,7 +17,7 @@ type Props = {
   actionGrant: ActionGrant,
   fetching: boolean,
   hasMore: boolean,
-  fetchAll: ({ next?: boolean }) => Promise<*>
+  fetchAll: ({ next?: boolean }) => Promise<*>,
 };
 
 const PollsList = ({
@@ -25,7 +25,7 @@ const PollsList = ({
   actionGrant,
   fetchAll,
   hasMore,
-  fetching
+  fetching,
 }: Props) => (
   <Content>
     <NavigationTab title="Avstemninger">
@@ -39,12 +39,12 @@ const PollsList = ({
       fetching={fetching}
       fetchNext={() => {
         fetchAll({
-          next: true
+          next: true,
         });
       }}
     >
       <section className={styles.pollsList}>
-        {polls.map(poll => (
+        {polls.map((poll) => (
           <Link
             key={poll.id}
             to={`/polls/${poll.id}`}
@@ -73,7 +73,7 @@ const PollsList = ({
                     size={20}
                     style={{
                       marginLeft: '10px',
-                      color: 'var(--lego-link-color)'
+                      color: 'var(--lego-link-color)',
                     }}
                   />
                 </span>

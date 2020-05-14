@@ -8,13 +8,13 @@ import LoadingIndicator from 'app/components/LoadingIndicator';
 
 type Props = {
   surveys: Array<SurveyEntity>,
-  fetching: boolean
+  fetching: boolean,
 };
 
 const SurveyList = (props: Props) => {
   const { surveys, fetching } = props;
 
-  const surveys_to_render = surveys.map(survey => (
+  const surveys_to_render = surveys.map((survey) => (
     <SurveyItem key={survey.id} survey={survey} />
   ));
 

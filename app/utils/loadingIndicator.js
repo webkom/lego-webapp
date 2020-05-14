@@ -18,7 +18,7 @@ export default function loadingIndicator(
       <LoadingIndicator
         {...options}
         loading={
-          loadingProps.filter(loadingProp => !get(props, loadingProp))
+          loadingProps.filter((loadingProp) => !get(props, loadingProp))
             .length !== 0
         }
       >

@@ -5,7 +5,7 @@ import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { LoginPage } from 'app/components/LoginForm';
 import {
   selectCompanySemesters,
-  selectCompanySemestersForInterestForm
+  selectCompanySemestersForInterestForm,
 } from 'app/reducers/companySemesters';
 import { addSemester, editSemester } from 'app/actions/CompanyActions';
 import CompanySemesterGUI from './components/CompanySemesterGUI';
@@ -13,28 +13,25 @@ import { fetchSemesters } from 'app/actions/CompanyActions';
 
 const loadSemesters = (props, dispatch) => dispatch(fetchSemesters());
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const semesters = selectCompanySemesters(state);
   const activeSemesters = selectCompanySemestersForInterestForm(state);
   return {
     initialValues: {
-      semester: 'spring'
+      semester: 'spring',
     },
     semesters,
-    activeSemesters
+    activeSemesters,
   };
 };
 
 const mapDispatchToProps = {
   addSemester,
-  editSemester
+  editSemester,
 };
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
   prepare(loadSemesters),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )(CompanySemesterGUI);

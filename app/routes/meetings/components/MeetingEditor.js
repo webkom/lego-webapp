@@ -15,7 +15,7 @@ import {
   SelectInput,
   Button,
   DatePicker,
-  legoForm
+  legoForm,
 } from 'app/components/Form';
 import moment from 'moment-timezone';
 import config from 'app/config';
@@ -23,8 +23,8 @@ import { unionBy } from 'lodash';
 import type { UserEntity } from 'app/reducers/users';
 
 type Props = {
-  handleSubmit: Object => void,
-  handleSubmitCallback: Object => Promise<*>,
+  handleSubmit: (Object) => void,
+  handleSubmitCallback: (Object) => Promise<*>,
   meetingId?: string,
   meeting: Object,
   change: () => void,
@@ -34,9 +34,9 @@ type Props = {
   pristine: boolean,
   submitting: boolean,
   meetingInvitations: Array<Object>,
-  push: string => void,
-  inviteUsersAndGroups: Object => Promise<*>,
-  initialized: boolean
+  push: (string) => void,
+  inviteUsersAndGroups: (Object) => Promise<*>,
+  initialized: boolean,
 };
 
 function MeetingEditor({
@@ -50,7 +50,7 @@ function MeetingEditor({
   pristine,
   meetingInvitations,
   push,
-  initialized
+  initialized,
 }: Props) {
   const isEditPage = meetingId !== undefined;
   if (isEditPage && !meeting) {
@@ -60,14 +60,14 @@ function MeetingEditor({
   const userSearchable = {
     value: user.username,
     label: user.fullName,
-    id: user.id
+    id: user.id,
   };
 
   const invitedUsersSearchable = meetingInvitations
-    ? meetingInvitations.map(invite => ({
+    ? meetingInvitations.map((invite) => ({
         value: invite.user.username,
         label: invite.user.fullName,
-        id: invite.user.id
+        id: invite.user.id,
       }))
     : [];
 
@@ -159,8 +159,8 @@ function MeetingEditor({
               pools={[
                 {
                   name: 'Inviterte brukere',
-                  registrations: meetingInvitations
-                }
+                  registrations: meetingInvitations,
+                },
               ]}
             />
             <br />
@@ -174,7 +174,7 @@ function MeetingEditor({
     </div>
   );
 }
-const validate = values => {
+const validate = (values) => {
   const errors = {};
   if (!values.title) {
     errors.title = 'Du må gi møtet en tittel';
@@ -209,7 +209,7 @@ export default legoForm({
     dispatch,
     { push, handleSubmitCallback, inviteUsersAndGroups }: Props
   ) =>
-    handleSubmitCallback(data).then(result => {
+    handleSubmitCallback(data).then((result) => {
       const id = data.id || result.payload.result;
       const { groups, users } = data;
       if (groups || users) {
@@ -218,5 +218,5 @@ export default legoForm({
         );
       }
       push(`/meetings/${id}`);
-    })
+    }),
 })(MeetingEditor);

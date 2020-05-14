@@ -7,7 +7,7 @@ type LoginProps = { loggedIn: boolean };
 export default function replaceUnlessLoggedIn<Props: Object>(
   ReplacementComponent: ComponentType<Props>
 ): (ActualComponent: ComponentType<Props>) => ComponentType<Props> {
-  return ActualComponent => {
+  return (ActualComponent) => {
     class Replacement extends PureComponent<Props & LoginProps> {
       render() {
         const { loggedIn, ...props } = this.props;

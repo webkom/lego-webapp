@@ -6,7 +6,7 @@ import AttendanceModal from './AttendanceModal';
 
 type State = {
   modalVisible: boolean,
-  selectedTab: number
+  selectedTab: number,
 };
 
 export default function withModal<Props: *>(
@@ -20,15 +20,15 @@ export default function withModal<Props: *>(
     state = { modalVisible: false, selectedTab: 0 };
 
     toggleModal = (key: number = 0) => {
-      this.setState(state => ({
+      this.setState((state) => ({
         modalVisible: !state.modalVisible,
-        selectedTab: key
+        selectedTab: key,
       }));
     };
 
     toggleTab = (key: number = 0) => {
       this.setState({
-        selectedTab: key
+        selectedTab: key,
       });
     };
 
@@ -57,10 +57,10 @@ const ChildrenWithProps = ({
   children,
   ...restProps
 }: {
-  children: Element<*>
+  children: Element<*>,
 }) => (
   <div>
-    {React.Children.map(children, child =>
+    {React.Children.map(children, (child) =>
       React.cloneElement(child, { ...restProps })
     )}
   </div>

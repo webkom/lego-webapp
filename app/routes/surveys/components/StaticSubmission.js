@@ -4,7 +4,7 @@ import React from 'react';
 import styles from './surveys.css';
 import type {
   SubmissionEntity,
-  AnswerEntity
+  AnswerEntity,
 } from 'app/reducers/surveySubmissions';
 import type { SurveyEntity, QuestionEntity } from 'app/reducers/surveys';
 import { RadioButton, CheckBox, TextArea } from 'app/components/Form';
@@ -12,7 +12,7 @@ import { QuestionTypes } from '../utils';
 
 type Props = {
   survey: SurveyEntity,
-  submission?: SubmissionEntity
+  submission?: SubmissionEntity,
 };
 
 const StaticSubmission = ({ survey, submission }: Props) => {
@@ -26,7 +26,7 @@ const StaticSubmission = ({ survey, submission }: Props) => {
     }
     if (
       submission &&
-      !submission.answers.map(answer => answer.question).includes(question.id)
+      !submission.answers.map((answer) => answer.question).includes(question.id)
     ) {
       return <i>Tomt svar</i>;
     }
@@ -42,10 +42,12 @@ const StaticSubmission = ({ survey, submission }: Props) => {
 
   return (
     <ul className={styles.staticSubmission}>
-      {survey.questions.map(question => {
+      {survey.questions.map((question) => {
         const answer =
           submission &&
-          submission.answers.find(answer => answer.question.id === question.id);
+          submission.answers.find(
+            (answer) => answer.question.id === question.id
+          );
 
         return (
           <li key={question.id}>
@@ -60,11 +62,11 @@ const StaticSubmission = ({ survey, submission }: Props) => {
               textAnswer(answer, submission, question)
             ) : (
               <ul className={styles.detailOptions}>
-                {question.options.map(option => {
+                {question.options.map((option) => {
                   const selected =
                     answer &&
                     typeof (answer.selectedOptions || []).find(
-                      o => o === option.id
+                      (o) => o === option.id
                     ) !== 'undefined';
 
                   return (

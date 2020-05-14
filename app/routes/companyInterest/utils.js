@@ -10,7 +10,7 @@ export const sortSemesterChronologically = (
 ) => {
   const semesterCodeToPriority = {
     spring: 0,
-    autumn: 1
+    autumn: 1,
   };
   return Number(a.year) !== Number(b.year)
     ? Number(a.year) - Number(b.year)
@@ -28,22 +28,22 @@ export const SemesterNavigation = ({ title }: { title: Node }) => (
 export const SEMESTER_TRANSLATION = {
   spring: {
     norwegian: 'Vår',
-    english: 'Spring'
+    english: 'Spring',
   },
   autumn: {
     norwegian: 'Høst',
-    english: 'Autumn'
-  }
+    english: 'Autumn',
+  },
 };
 
 export const semesterToText = ({
   semester,
   year,
-  language
+  language,
 }: {
   semester: string,
   year: number | string,
-  language: string
+  language: string,
 }) => {
   return semester === 'spring' || semester === 'autumn'
     ? `${SEMESTER_TRANSLATION[semester][language]} ${year}`
@@ -53,25 +53,25 @@ export const semesterToText = ({
 export const interestText = {
   comment: {
     norwegian: 'Skriv om bedriften eller arrangementet.',
-    english: 'Write about your company or the event.'
+    english: 'Write about your company or the event.',
   },
   text: {
     first: {
       norwegian:
         'Dersom dere ikke har hatt arrangement med Abakus før, eller om det er lenge siden vi har samarbeidet, ønsker vi at dere skriver litt om selskapet. Dette hjelper oss mye når vi skal sette sammen arrangementskalenderen.',
       english:
-        "If you haven't held an event with Abakus previously, or if it has been a long time since we cooperated, we would like if you told us a bit about your company. This helps us when distributing dates for events."
+        "If you haven't held an event with Abakus previously, or if it has been a long time since we cooperated, we would like if you told us a bit about your company. This helps us when distributing dates for events.",
     },
     second: {
       norwegian:
         'Vi ønsker også at dere skriver litt om hva slags type arrangement dere ser for dere å holde. Ønsker dere å gjøre noe utenfor de vanlige rammene, eller helst en standard bedpres? Uansett vil vi gjerne vite det!',
       english:
-        "We'd prefer that you also write a little bit about what kind of event you would like to have. Do you want something outside the given options, or is it a regular company presentation? Either way, we'd like to know!"
-    }
+        "We'd prefer that you also write a little bit about what kind of event you would like to have. Do you want something outside the given options, or is it a regular company presentation? Either way, we'd like to know!",
+    },
   },
   bedex: {
     norwegian:
       '«Husk å ranger datoer og gruppestørrelse dersom du har huket av for BedEx»',
-    english: '«Remeber to rank dates and groupsize if you have checked BedEx»'
-  }
+    english: '«Remeber to rank dates and groupsize if you have checked BedEx»',
+  },
 };

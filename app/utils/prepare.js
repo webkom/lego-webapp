@@ -12,15 +12,12 @@ type ReactPrepareOpts = {
   componentDidMount?: boolean,
   componentWillReceiveProps?:
     | ((oldProps: any, newProps: any) => boolean)
-    | boolean
+    | boolean,
 };
 
-const mapDispatch = dispatch => ({ dispatch });
+const mapDispatch = (dispatch) => ({ dispatch });
 const mapState = () => ({});
-const injectDispatch = connect(
-  mapState,
-  mapDispatch
-);
+const injectDispatch = connect(mapState, mapDispatch);
 
 /**
  * A higher order component that calls prepareFn
@@ -42,18 +39,18 @@ export default function prepare(
   const componentWillReceiveProps = (oldProps: any, newProps: any): boolean =>
     watchProps
       .concat('loggedIn')
-      .some(key => get(oldProps, key) !== get(newProps, key));
+      .some((key) => get(oldProps, key) !== get(newProps, key));
 
   const preparedOpts: ReactPrepareOpts = {
     componentWillReceiveProps,
-    ...opts
+    ...opts,
   };
   return compose(
     injectDispatch,
     // This will force react-prepare to render the 'connect' on the line above during SSR,
     // making it forward dispatch
     // eslint-disable-next-line react/display-name
-    ComponentType => props => <ComponentType {...props} />,
-    prepared(props => prepareFn(props, props.dispatch), preparedOpts)
+    (ComponentType) => (props) => <ComponentType {...props} />,
+    prepared((props) => prepareFn(props, props.dispatch), preparedOpts)
   );
 }

@@ -7,16 +7,16 @@ import ReactionPickerCategory from './ReactionPickerCategory';
 type Props = {
   categories: Array<string>,
   activeCategory: string,
-  onCategoryClick: (category: string) => void
+  onCategoryClick: (category: string) => void,
 };
 
 const ReactionPickerHeader = ({
   categories,
   activeCategory,
-  onCategoryClick
+  onCategoryClick,
 }: Props) => (
   <div className={styles.reactionPickerHeader}>
-    {categories.map(category => (
+    {categories.map((category) => (
       <ReactionPickerCategory
         key={category}
         name={category}

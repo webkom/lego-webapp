@@ -17,10 +17,10 @@ type Props = {
   /** Make link a clickable link - url */
   link?: string,
   /** Custom class name */
-  className?: string
+  className?: string,
 };
 
-const httpCheck = link =>
+const httpCheck = (link) =>
   link.startsWith('http://') || link.startsWith('https://')
     ? link
     : `http://${link}`;

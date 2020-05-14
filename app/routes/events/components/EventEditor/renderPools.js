@@ -6,7 +6,7 @@ import {
   TextInput,
   DatePicker,
   SelectInput,
-  Button
+  Button,
 } from 'app/components/Form';
 import type { Dateish, EventStatusType } from 'app/models';
 
@@ -15,13 +15,13 @@ import moment from 'moment-timezone';
 type poolProps = {
   fields: Object,
   startTime: Dateish,
-  eventStatusType: EventStatusType
+  eventStatusType: EventStatusType,
 };
 
-const minimumOne = value =>
+const minimumOne = (value) =>
   value && value < 1 ? `Pools må ha minst 1 plass` : undefined;
 
-const highWarning = value =>
+const highWarning = (value) =>
   value && value >= 500 ? 'Åpent event gir uendelig plasser 😁' : undefined;
 
 const renderPools = ({ fields, startTime, eventStatusType }: poolProps) => (
@@ -91,7 +91,7 @@ const renderPools = ({ fields, startTime, eventStatusType }: poolProps) => (
                   .hour(12)
                   .minute(0)
                   .toISOString(),
-                permissionGroups: []
+                permissionGroups: [],
               })
             }
           >
@@ -108,7 +108,7 @@ type PermissionGroup = {};
 type Pool = {
   capacity: number,
   permissionGroups: Array<PermissionGroup>,
-  name?: ?string
+  name?: ?string,
 };
 
 export const validatePools = (pools: Array<Pool>) => {

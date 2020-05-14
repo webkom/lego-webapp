@@ -10,20 +10,20 @@ import PublicFrontpage from './components/PublicFrontpage';
 import { fetchPersonalFeed } from 'app/actions/FeedActions';
 import {
   selectFeedById,
-  selectFeedActivitesByFeedId
+  selectFeedActivitesByFeedId,
 } from 'app/reducers/feeds';
 import { selectPinnedPolls } from 'app/reducers/polls';
 import { votePoll } from 'app/actions/PollActions';
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loadingFrontpage: state.frontpage.fetching,
   frontpage: selectFrontpage(state),
   feed: selectFeedById(state, { feedId: 'personal' }),
   feedItems: selectFeedActivitesByFeedId(state, {
-    feedId: 'personal'
+    feedId: 'personal',
   }),
   readmes: state.readme,
-  poll: selectPinnedPolls(state)[0]
+  poll: selectPinnedPolls(state)[0],
 });
 
 const mapDispatchToProps = { login, logout, votePoll };
@@ -32,14 +32,11 @@ export default compose(
   prepare(({ loggedIn }, dispatch) =>
     Promise.all([
       dispatch(fetchData()),
-      dispatch(fetchReadmes(loggedIn ? 4 : 1))
+      dispatch(fetchReadmes(loggedIn ? 4 : 1)),
     ]).then(() =>
       loggedIn ? dispatch(fetchPersonalFeed()) : Promise.resolve()
     )
   ),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   replaceUnlessLoggedIn(PublicFrontpage)
 )(Overview);

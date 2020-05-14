@@ -5,13 +5,13 @@ import type { Reducers } from 'app/reducers';
 import type {
   StartSubmitAction,
   StopSubmitAction,
-  InitializeAction
+  InitializeAction,
 } from 'redux-form/lib/actions.types.js.flow';
 
 export type AsyncActionType = {|
   BEGIN: string,
   SUCCESS: string,
-  FAILURE: string
+  FAILURE: string,
 |};
 
 export type AsyncActionTypeArray = [string, string, string];
@@ -26,7 +26,7 @@ export type ArticleEntity = {
   tags: Array<string>,
   cover: string,
   description: string,
-  pinned: boolean
+  pinned: boolean,
 };
 
 export type GalleryPictureEntity = {
@@ -34,7 +34,7 @@ export type GalleryPictureEntity = {
   active: boolean,
   file: string,
   galleryId: number,
-  taggees?: Array<Object>
+  taggees?: Array<Object>,
 };
 
 export type GalleryEntity = {
@@ -44,7 +44,7 @@ export type GalleryEntity = {
   location?: string,
   takenAt?: Date,
   photographers?: EntityID[],
-  event?: EntityID
+  event?: EntityID,
 };
 
 type $ExtractFunctionReturn = <V>(v: (...args: any) => V) => V;
@@ -58,11 +58,11 @@ export type DecodedToken = {
   username: string,
   exp: number,
   email: string,
-  orig_iat: number
+  orig_iat: number,
 };
 
 export type Token = DecodedToken & {
-  encodedToken: EncodedToken
+  encodedToken: EncodedToken,
 };
 
 // Todo: remove any
@@ -72,7 +72,7 @@ export type Store = ReduxStore<State, Action, Dispatch<*>>;
 
 export type GetState = () => State;
 
-export type GetCookie = string => ?EncodedToken;
+export type GetCookie = (string) => ?EncodedToken;
 
 export type Middleware = ReduxMiddleware<State, AnyAction<*>, Dispatch<*>>;
 
@@ -81,14 +81,14 @@ export type Action = {|
   payload?: any,
   meta?: any,
   error?: boolean,
-  success?: boolean // 65 WAT M8 https://github.com/acdlite/flux-standard-action
+  success?: boolean, // 65 WAT M8 https://github.com/acdlite/flux-standard-action
 |};
 
 export type PromiseAction<T> = {|
   types: AsyncActionType,
   promise: Promise<T>,
   meta?: any,
-  payload?: any
+  payload?: any,
 |};
 
 export type AnyAction<R> =
@@ -111,5 +111,5 @@ export type ReduxFormProps = {
   pristine: boolean,
   submitting: boolean,
   invalid: boolean,
-  handleSubmit: Function => void
+  handleSubmit: (Function) => void,
 };

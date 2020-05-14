@@ -11,10 +11,10 @@ type Props = {
   hasMore: boolean,
   groupId: number,
   memberships: Array<Object>,
-  removeMember: Object => Promise<*>,
+  removeMember: (Object) => Promise<*>,
   showDescendants: boolean,
   groupsById: { [string]: { name: string } },
-  fetch: ({ groupId: number, next: true }) => Promise<*>
+  fetch: ({ groupId: number, next: true }) => Promise<*>,
 };
 
 const GroupMembersList = ({
@@ -25,7 +25,7 @@ const GroupMembersList = ({
   fetch,
   hasMore,
   fetching,
-  groupsById
+  groupsById,
 }: Props) => {
   if (!memberships.length) {
     return <div>Ingen brukere</div>;
@@ -54,7 +54,7 @@ const GroupMembersList = ({
     );
   };
 
-  const GroupLinkRender = abakusGroup =>
+  const GroupLinkRender = (abakusGroup) =>
     true && (
       <Link to={`/admin/groups/${abakusGroup}/members?descendants=false`}>
         {groupsById[abakusGroup] && groupsById[abakusGroup].name}
@@ -72,30 +72,30 @@ const GroupMembersList = ({
       title: 'Navn',
       dataIndex: 'user.fullName',
       search: true,
-      render: GroupMembersListColumns
+      render: GroupMembersListColumns,
     },
     showDescendants
       ? {
           title: 'Gruppe',
           search: false,
           dataIndex: 'abakusGroup',
-          render: GroupLinkRender
+          render: GroupLinkRender,
         }
       : null,
     {
       title: 'Rolle',
       dataIndex: 'role',
       search: true,
-      filterMapping: role =>
+      filterMapping: (role) =>
         role === 'member' || !ROLES[role] ? '' : ROLES[role],
-      render: RoleRender
+      render: RoleRender,
     },
     {
       title: 'E-post',
       dataIndex: 'user.internalEmailAddress',
       search: false,
-      render: EmailRender
-    }
+      render: EmailRender,
+    },
   ].filter(Boolean);
   return (
     <Table

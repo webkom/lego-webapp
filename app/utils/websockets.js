@@ -10,19 +10,19 @@ import { Event } from '../actions/ActionTypes';
 export default function createWebSocketMiddleware() {
   let socket = null;
 
-  return store => {
-    const makeSocket = jwt => {
+  return (store) => {
+    const makeSocket = (jwt) => {
       if (socket || !jwt) return;
 
       const qs = createQueryString({ jwt });
       socket = new WebSocketClient(`${config.wsServerUrl}/${qs}`);
 
-      socket.onmessage = event => {
+      socket.onmessage = (event) => {
         const { type, payload, meta: socketMeta } = JSON.parse(event.data);
 
         const meta = {
           ...socketMeta,
-          currentUser: selectCurrentUser(store.getState())
+          currentUser: selectCurrentUser(store.getState()),
         };
 
         if (
@@ -52,7 +52,7 @@ export default function createWebSocketMiddleware() {
       };
     };
 
-    return next => action => {
+    return (next) => (action) => {
       if (action.type === 'REHYDRATED') {
         makeSocket(store.getState().auth.token);
         return next(action);

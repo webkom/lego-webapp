@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import {
   editCompany,
   fetchAdmin,
-  deleteCompany
+  deleteCompany,
 } from '../../actions/CompanyActions';
 import CompanyEditor from './components/CompanyEditor';
 import { LoginPage } from 'app/components/LoginForm';
@@ -29,22 +29,22 @@ const mapStateToProps = (state, props) => {
           website: company.website,
           studentContact: company.studentContact && {
             value: Number(company.studentContact.id),
-            label: company.studentContact.fullName
+            label: company.studentContact.fullName,
           },
           active: company.active ? 'true' : 'false',
           phone: company.phone,
           companyType: company.companyType,
           paymentMail: company.paymentMail,
-          address: company.address
+          address: company.address,
         }
-      : null
+      : null,
   };
 };
 
 const mapDispatchToProps = {
   submitFunction: editCompany,
   uploadFile,
-  deleteCompany
+  deleteCompany,
 };
 
 export default compose(
@@ -53,15 +53,12 @@ export default compose(
     (
       {
         match: {
-          params: { companyId }
-        }
+          params: { companyId },
+        },
       },
       dispatch
     ) => dispatch(fetchAdmin(companyId)),
     ['match.params.companyId']
   ),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )(CompanyEditor);

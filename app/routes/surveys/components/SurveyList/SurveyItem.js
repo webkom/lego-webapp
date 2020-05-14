@@ -9,7 +9,7 @@ import type { SurveyEntity } from 'app/reducers/surveys';
 import { colorForEvent } from 'app/routes/events/utils';
 
 type Props = {
-  survey: SurveyEntity
+  survey: SurveyEntity,
 };
 
 const SurveyItem = (props: Props) => {
@@ -21,7 +21,7 @@ const SurveyItem = (props: Props) => {
       style={{
         borderColor: colorForEvent(
           survey.templateType || survey.event.eventType
-        )
+        ),
       }}
     >
       <div>

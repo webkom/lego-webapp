@@ -15,7 +15,7 @@ type Props = {
   banner?: string,
   youtubeUrl?: string,
   className?: string,
-  children: Node
+  children: Node,
 };
 
 /**
@@ -51,7 +51,7 @@ function Content({ banner, youtubeUrl, children, className }: Props) {
           <Flex
             justifyContent={'center'}
             style={{
-              maxHeight: isLoading ? '0' : isClicked ? '619px' : '358px'
+              maxHeight: isLoading ? '0' : isClicked ? '619px' : '358px',
             }}
             className={cx(styles.youtubeFrame, isLoading ? styles.hidden : {})}
           >
@@ -73,7 +73,7 @@ function Content({ banner, youtubeUrl, children, className }: Props) {
 
       <div
         className={cx(styles.content, className, {
-          [styles.contentWithBanner]: banner
+          [styles.contentWithBanner]: banner,
         })}
       >
         {children}

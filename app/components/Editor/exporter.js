@@ -9,7 +9,7 @@ type EntityProps = {
   data: Object,
   text: string,
   extraClass: string,
-  type: string
+  type: string,
 };
 
 type BlockProps = {
@@ -17,7 +17,7 @@ type BlockProps = {
   data: Object,
   text: string,
   type: string,
-  extraClass: string
+  extraClass: string,
 };
 
 export const styleToHTML = (style: string) => {
@@ -64,7 +64,7 @@ export const blockToHTML = (block: BlockProps) => {
     case Block.CAPTION:
       return {
         start: '<p><caption>',
-        end: '</caption></p>'
+        end: '</caption></p>',
       };
     case Block.IMAGE: {
       const imgData = block.data;
@@ -75,13 +75,13 @@ export const blockToHTML = (block: BlockProps) => {
         }"><img src="${imgData.src}" data-file-key="${imgData.fileKey}" alt="${
           block.text
         }" /><figcaption>`,
-        end: '</figcaption></figure>'
+        end: '</figcaption></figure>',
       };
     }
     case Block.ATOMIC:
       return {
         start: '<figure>',
-        end: '</figure>'
+        end: '</figure>',
       };
     case Block.TODO: {
       const checked = block.data.checked || false;
@@ -93,7 +93,7 @@ export const blockToHTML = (block: BlockProps) => {
       }
       return {
         start: `<div data-type="todo">${inp}<p>`,
-        end: '</p></div>'
+        end: '</p></div>',
       };
     }
     case Block.BREAK:
@@ -103,12 +103,12 @@ export const blockToHTML = (block: BlockProps) => {
     case Block.OL:
       return {
         element: <li />,
-        nest: <ol />
+        nest: <ol />,
       };
     case Block.UL:
       return {
         element: <li />,
-        nest: <ul />
+        nest: <ul />,
       };
     case Block.UNSTYLED:
       if (block.text.length < 1) {
@@ -138,7 +138,7 @@ export const entityToHTML = (entity: EntityProps, originalText: string) => {
 export const options = {
   styleToHTML,
   blockToHTML,
-  entityToHTML
+  entityToHTML,
 };
 
 export default (contentState: any, htmlOptions: Object = options) =>

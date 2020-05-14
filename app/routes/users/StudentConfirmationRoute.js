@@ -7,7 +7,7 @@ import { push } from 'connected-react-router';
 import qs from 'qs';
 import {
   sendStudentConfirmationEmail,
-  confirmStudentUser
+  confirmStudentUser,
 } from 'app/actions/UserActions';
 
 const loadData = ({ location: { search } }, dispatch) => {
@@ -17,26 +17,23 @@ const loadData = ({ location: { search } }, dispatch) => {
   }
 };
 
-const StudentConfirmationRoute = props => {
+const StudentConfirmationRoute = (props) => {
   return <StudentConfirmation {...props} />;
 };
 
 const mapStateToProps = (state, props) => {
   return {
     studentConfirmed: state.auth.studentConfirmed,
-    isStudent: props.currentUser && props.currentUser.isStudent
+    isStudent: props.currentUser && props.currentUser.isStudent,
   };
 };
 
 const mapDispatchToProps = {
   sendStudentConfirmationEmail,
-  push
+  push,
 };
 
 export default compose(
   prepare(loadData),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )(StudentConfirmationRoute);

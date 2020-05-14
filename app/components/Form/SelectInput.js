@@ -16,12 +16,12 @@ type Props = {
   className?: string,
   selectStyle?: string,
   onBlur: (e: any) => void,
-  onSearch: string => void,
-  shouldKeyDownEventCreateNewOption: number => boolean,
-  isValidNewOption: string => boolean,
+  onSearch: (string) => void,
+  shouldKeyDownEventCreateNewOption: (number) => boolean,
+  isValidNewOption: (string) => boolean,
   value: any,
   disabled?: boolean,
-  options?: {}[]
+  options?: {}[],
 };
 
 function SelectInput({
@@ -53,7 +53,7 @@ function SelectInput({
           shouldKeyDownEventCreateNewOption={shouldKeyDownEventCreateNewOption}
           options={options}
           isLoading={fetching}
-          onInputChange={value => {
+          onInputChange={(value) => {
             if (props.onSearch) {
               props.onSearch(value);
             }
@@ -76,7 +76,7 @@ function SelectInput({
         value={value}
         options={options}
         isLoading={fetching}
-        onInputChange={value => {
+        onInputChange={(value) => {
           if (props.onSearch) {
             props.onSearch(value);
           }
@@ -89,9 +89,9 @@ function SelectInput({
 
 SelectInput.Field = createField(SelectInput);
 SelectInput.AutocompleteField = withAutocomplete({
-  WrappedComponent: SelectInput.Field
+  WrappedComponent: SelectInput.Field,
 });
 SelectInput.WithAutocomplete = withAutocomplete({
-  WrappedComponent: SelectInput
+  WrappedComponent: SelectInput,
 });
 export default SelectInput;

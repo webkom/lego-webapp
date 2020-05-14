@@ -6,7 +6,7 @@ import { uploadFile } from 'app/actions/FileActions';
 import EventEditor from './components/EventEditor';
 import {
   selectEventById,
-  selectPoolsWithRegistrationsForEvent
+  selectPoolsWithRegistrationsForEvent,
 } from 'app/reducers/events';
 import { LoginPage } from 'app/components/LoginForm';
 import { transformEvent } from './utils';
@@ -25,7 +25,7 @@ const mapStateToProps = (state, props) => {
 
   const eventTemplate = selectEventById(state, { eventId });
   const poolsTemplate = selectPoolsWithRegistrationsForEvent(state, {
-    eventId
+    eventId,
   });
 
   const selectedValues = {
@@ -44,9 +44,9 @@ const mapStateToProps = (state, props) => {
         moment(valueSelector(state, 'startTime')).subtract(
           valueSelector(state, 'registrationDeadlineHours'),
           'hours'
-        )
+        ),
     },
-    pools: valueSelector(state, 'pools')
+    pools: valueSelector(state, 'pools'),
   };
 
   const initialCreateValues = {
@@ -73,10 +73,10 @@ const mapStateToProps = (state, props) => {
       feedbackDescription: '',
       pools: [],
       unregistrationDeadline: time({ hours: 12 }),
-      registrationDeadlineHours: 2
+      registrationDeadlineHours: 2,
     },
     actionGrant,
-    ...selectedValues
+    ...selectedValues,
   };
 
   /* If there is no eventId in the params then we use the
@@ -100,34 +100,34 @@ const mapStateToProps = (state, props) => {
         ? eventTemplate.mergeTime
         : time({ hours: 12 }),
       priceMember: eventTemplate.priceMember / 100,
-      pools: poolsTemplate.map(pool => ({
+      pools: poolsTemplate.map((pool) => ({
         activationDate: pool.activationDate,
         capacity: pool.capacity,
         name: pool.name,
         registrations: [],
-        permissionGroups: (pool.permissionGroups || []).map(group => ({
+        permissionGroups: (pool.permissionGroups || []).map((group) => ({
           label: group.name,
-          value: group.id
-        }))
+          value: group.id,
+        })),
       })),
       company: eventTemplate.company && {
         label: eventTemplate.company.name,
-        value: eventTemplate.company.id
+        value: eventTemplate.company.id,
       },
       responsibleGroup: eventTemplate.responsibleGroup && {
         label: eventTemplate.responsibleGroup.name,
-        value: eventTemplate.responsibleGroup.id
-      }
+        value: eventTemplate.responsibleGroup.id,
+      },
     },
     actionGrant,
-    ...selectedValues
+    ...selectedValues,
   };
 };
 
 const mapDispatchToProps = {
-  handleSubmitCallback: event => createEvent(transformEvent(event)),
+  handleSubmitCallback: (event) => createEvent(transformEvent(event)),
   fetchEvent,
-  uploadFile
+  uploadFile,
 };
 
 export default compose(
@@ -136,9 +136,6 @@ export default compose(
     (props, dispatch) =>
       props.match.params.id && dispatch(fetchEvent(props.match.params.id))
   ),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['initialValues'])
 )(EventEditor);

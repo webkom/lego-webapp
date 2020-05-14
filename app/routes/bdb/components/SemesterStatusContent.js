@@ -10,23 +10,23 @@ import {
   sortStatusesByProminence,
   getStatusString,
   statusStrings,
-  selectColorCode
+  selectColorCode,
 } from '../utils';
 import type { CompanySemesterContactedStatus } from 'app/models';
 
 type Props = {
   semesterStatus: Object,
-  editFunction: CompanySemesterContactedStatus => ?Promise<*>,
-  style?: Object
+  editFunction: (CompanySemesterContactedStatus) => ?Promise<*>,
+  style?: Object,
 };
 
 type State = {
-  displayDropdown: boolean
+  displayDropdown: boolean,
 };
 
 export default class SemesterStatusContent extends Component<Props, State> {
   state = {
-    displayDropdown: false
+    displayDropdown: false,
   };
 
   render() {
@@ -37,7 +37,7 @@ export default class SemesterStatusContent extends Component<Props, State> {
         {semesterStatus.contactedStatus.length > 0
           ? sortStatusesByProminence(semesterStatus.contactedStatus)
               .slice()
-              .map(status => getStatusString(status))
+              .map((status) => getStatusString(status))
               .join(', ')
           : getStatusString('not_contacted')}
       </div>
@@ -45,13 +45,13 @@ export default class SemesterStatusContent extends Component<Props, State> {
 
     const statusCodes = sortStatusesByProminence(
       Object.keys(statusStrings)
-    ).filter(code => code !== 'not_contacted');
+    ).filter((code) => code !== 'not_contacted');
 
     const dropDownItems = (
       <Dropdown.List>
         {statusCodes.map((statusString, j) => (
           <Dropdown.ListItem key={j} className={styles.dropDownItem}>
-            <Button flat onClick={e => editFunction(statusString)}>
+            <Button flat onClick={(e) => editFunction(statusString)}>
               <div>
                 {semesterStatus.contactedStatus.indexOf(statusString) !== -1 ? (
                   <Icon
@@ -60,7 +60,7 @@ export default class SemesterStatusContent extends Component<Props, State> {
                       color: 'green',
                       marginRight: '5px',
                       position: 'relative',
-                      top: '5px'
+                      top: '5px',
                     }}
                     size={25}
                   />
@@ -69,7 +69,7 @@ export default class SemesterStatusContent extends Component<Props, State> {
                     style={{
                       width: '10px',
                       height: '1px',
-                      display: 'inline-block'
+                      display: 'inline-block',
                     }}
                   />
                 )}
@@ -92,8 +92,8 @@ export default class SemesterStatusContent extends Component<Props, State> {
       <Dropdown
         show={this.state.displayDropdown}
         toggle={() =>
-          this.setState(state => ({
-            displayDropdown: !state.displayDropdown
+          this.setState((state) => ({
+            displayDropdown: !state.displayDropdown,
           }))
         }
         style={{ width: '100%', textAlign: 'left' }}

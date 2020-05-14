@@ -5,7 +5,7 @@ import GroupForm from 'app/components/GroupForm';
 type Props = {
   group: Object,
   updateGroup: (number, Object) => Promise<*>,
-  initialValues: Object
+  initialValues: Object,
 };
 
 const GroupSettings = ({ group, updateGroup, initialValues }: Props) => (

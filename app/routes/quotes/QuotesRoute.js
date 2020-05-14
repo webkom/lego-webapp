@@ -5,7 +5,7 @@ import {
   fetchAllUnapproved,
   approve,
   unapprove,
-  deleteQuote
+  deleteQuote,
 } from 'app/actions/QuoteActions';
 import QuotePage from './components/QuotePage';
 import prepare from 'app/utils/prepare';
@@ -32,7 +32,7 @@ const mapStateToProps = (state, props) => {
     showFetchMore,
     emojis,
     fetching: state.quotes.fetching,
-    fetchingEmojis: state.emojis.fetching
+    fetchingEmojis: state.emojis.fetching,
   };
 };
 
@@ -48,7 +48,7 @@ const mapDispatchToProps = {
       : fetchAllUnapproved({ loadNextPage: true }),
   addReaction,
   deleteReaction,
-  fetchEmojis
+  fetchEmojis,
 };
 
 export default compose(
@@ -56,7 +56,7 @@ export default compose(
   prepare(
     (props, dispatch) => {
       const query = qs.parse(props.location.search, {
-        ignoreQueryPrefix: true
+        ignoreQueryPrefix: true,
       });
 
       if (query.filter === 'unapproved') {
@@ -69,8 +69,5 @@ export default compose(
     },
     ['location']
   ),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )(QuotePage);

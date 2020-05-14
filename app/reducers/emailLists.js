@@ -18,7 +18,7 @@ export type EmailListEntity = {
   text: string,
   tags: Array<string>,
   actionGrant: Object,
-  comments: Array<number>
+  comments: Array<number>,
 };
 
 const mutate = mutateComments('emailLists');
@@ -27,21 +27,21 @@ export default createEntityReducer({
   key: 'emailLists',
   types: {
     fetch: EmailList.FETCH,
-    mutate: EmailList.CREATE
+    mutate: EmailList.CREATE,
   },
-  mutate
+  mutate,
 });
 
 export const selectEmailLists = createSelector(
-  state => state.emailLists.byId,
-  state => state.emailLists.items,
-  (emailListsById, emailListIds) => emailListIds.map(id => emailListsById[id])
+  (state) => state.emailLists.byId,
+  (state) => state.emailLists.items,
+  (emailListsById, emailListIds) => emailListIds.map((id) => emailListsById[id])
 );
 
 export const selectEmailListById = createSelector(
-  state => state.emailLists.byId,
-  state => state.users.byId,
-  state => state.groups.byId,
+  (state) => state.emailLists.byId,
+  (state) => state.users.byId,
+  (state) => state.groups.byId,
   (state, props) => props.emailListId,
   (emailListsById, usersById, groupsById, emailListId) => {
     const emailList = emailListsById[emailListId];
@@ -52,8 +52,8 @@ export const selectEmailListById = createSelector(
 
     return {
       ...emailList,
-      groups: emailList.groups.map(groupId => groupsById[groupId]),
-      users: emailList.users.map(userId => usersById[userId])
+      groups: emailList.groups.map((groupId) => groupsById[groupId]),
+      users: emailList.users.map((userId) => usersById[userId]),
     };
   }
 );

@@ -7,17 +7,17 @@ import { removeToast } from 'app/actions/ToastActions';
 
 type Props = {
   removeToast: ({ id: string }) => void,
-  toasts: Array<any>
+  toasts: Array<any>,
 };
 
 class ToastContainer extends Component<Props> {
   render() {
-    const toasts = this.props.toasts.map(toast => ({
+    const toasts = this.props.toasts.map((toast) => ({
       dismissAfter: 5000,
       // onClick has to be implemented on each object because NotificationStack
       // does not support onClick like it supports onDismiss (see below)
       ...toast,
-      key: toast.id
+      key: toast.id,
     }));
 
     return (
@@ -25,7 +25,7 @@ class ToastContainer extends Component<Props> {
         notifications={toasts}
         barStyleFactory={toastStyleFactoryInactive}
         activeBarStyleFactory={toastStyleFactory}
-        onDismiss={toast => this.props.removeToast({ id: toast.id })}
+        onDismiss={(toast) => this.props.removeToast({ id: toast.id })}
       />
     );
   }
@@ -43,13 +43,13 @@ function toastStyleFactory(index, style) {
       lineHeight: '20px',
       fontSize: '14px',
       boxShadow: 0,
-      zIndex: 2
+      zIndex: 2,
     };
   }
   return {
     ...style,
     bottom: `${2 + index * 4}rem`,
-    zIndex: 2
+    zIndex: 2,
   };
 }
 
@@ -59,13 +59,10 @@ function toastStyleFactoryInactive(index, style) {
 
 function mapStateToProps(state) {
   return {
-    toasts: state.toasts.items.filter(n => !n.removed)
+    toasts: state.toasts.items.filter((n) => !n.removed),
   };
 }
 
 const mapDispatchToProps = { removeToast };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ToastContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(ToastContainer);

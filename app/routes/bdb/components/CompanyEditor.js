@@ -15,23 +15,23 @@ import {
   SelectInput,
   ImageUploadField,
   RadioButtonGroup,
-  legoForm
+  legoForm,
 } from 'app/components/Form';
 import { createValidator, required, isEmail } from 'app/utils/validation';
 import type {
   CompanyEntity,
-  SubmitCompanyEntity
+  SubmitCompanyEntity,
 } from 'app/reducers/companies';
 
 type Props = {
-  uploadFile: Object => Promise<*>,
+  uploadFile: (Object) => Promise<*>,
   company: CompanyEntity,
   submitting: boolean,
   handleSubmit: ((CompanyEntity) => Promise<*>) => void,
   autoFocus: any,
   fetching: boolean,
   submitFunction: (SubmitCompanyEntity, ?number) => Promise<*>,
-  deleteCompany: number => Promise<*>
+  deleteCompany: (number) => Promise<*>,
 };
 
 const CompanyEditor = ({
@@ -41,7 +41,7 @@ const CompanyEditor = ({
   handleSubmit,
   uploadFile,
   fetching,
-  deleteCompany
+  deleteCompany,
 }: Props) => {
   if (fetching) {
     return <LoadingIndicator />;
@@ -234,17 +234,17 @@ const onSubmit = (formContent, dispatch, { company, submitFunction }: Props) =>
     studentContact:
       formContent.studentContact && Number(formContent.studentContact.id),
     website: httpCheck(formContent.website),
-    companyId: company && company.id
+    companyId: company && company.id,
   });
 
 const validate = createValidator({
   name: [required()],
-  paymentMail: [isEmail()]
+  paymentMail: [isEmail()],
 });
 
 export default legoForm({
   form: 'companyEditor',
   validate,
   onSubmit,
-  enableReinitialize: true
+  enableReinitialize: true,
 })(CompanyEditor);

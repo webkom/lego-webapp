@@ -9,17 +9,17 @@ import Button from '../Button';
 import { createValidator, required, isEmail } from 'app/utils/validation';
 
 type Props = {
-  sendRegistrationEmail: ({ email: string, captchaResponse: string }) => any
+  sendRegistrationEmail: ({ email: string, captchaResponse: string }) => any,
 } & FormProps;
 
 type State = {
-  submitted: boolean
+  submitted: boolean,
 };
 
 class RegisterForm extends Component<Props, State> {
   mounted = false;
   state = {
-    submitted: false
+    submitted: false,
   };
 
   componentDidMount() {
@@ -30,17 +30,17 @@ class RegisterForm extends Component<Props, State> {
     this.mounted = false;
   }
 
-  onSubmit = data => {
+  onSubmit = (data) => {
     return this.props
       .sendRegistrationEmail(data)
       .then(() => {
         if (this.mounted) {
           this.setState({
-            submitted: true
+            submitted: true,
           });
         }
       })
-      .catch(err => {
+      .catch((err) => {
         if (this.mounted && err.payload && err.payload.response) {
           throw new SubmissionError(err.payload.response.jsonData);
         }
@@ -60,7 +60,7 @@ class RegisterForm extends Component<Props, State> {
     return (
       <Form
         onSubmit={handleSubmit(this.onSubmit)}
-        onClick={e => e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()}
       >
         <Field name="email" component={TextInput.Field} placeholder="E-post" />
         <Field
@@ -78,13 +78,10 @@ class RegisterForm extends Component<Props, State> {
 
 const validate = createValidator({
   email: [required(), isEmail()],
-  captchaResponse: [required('Captcha er ikke validert')]
+  captchaResponse: [required('Captcha er ikke validert')],
 });
 
 export default compose(
-  connect(
-    null,
-    { sendRegistrationEmail }
-  ),
+  connect(null, { sendRegistrationEmail }),
   reduxForm({ form: 'RegisterForm', validate })
 )(RegisterForm);

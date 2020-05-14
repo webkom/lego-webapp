@@ -29,16 +29,16 @@ const isReactHooksError = (error: Object) =>
   error.name === 'Error' &&
   error.stack.includes('Invalid hook call');
 
-const prepareWithTimeout = app =>
+const prepareWithTimeout = (app) =>
   Promise.race([
     prepare(app),
-    new Promise(resolve => {
+    new Promise((resolve) => {
       setTimeout(resolve, serverSideTimeoutInMs);
     }).then(() => {
       throw new TimeoutError(
         'React prepare timeout when server side rendering.'
       );
-    })
+    }),
   ]);
 
 const createServerSideRenderer = (
@@ -55,7 +55,7 @@ const createServerSideRenderer = (
       pageRenderer({
         body,
         state,
-        helmet
+        helmet,
       })
     );
   };
@@ -66,10 +66,10 @@ const createServerSideRenderer = (
 
   const ServerConfig = ({
     req,
-    context
+    context,
   }: {
     req: $Request,
-    context: { status?: string, url?: ?string, [any]: any }
+    context: { status?: string, url?: ?string, [any]: any },
   }) => (
     <StaticRouter location={req.url} context={context}>
       <RouteConfig />
@@ -78,7 +78,7 @@ const createServerSideRenderer = (
 
   const store = configureStore(
     {},
-    { Sentry, getCookie: key => req.cookies[key] }
+    { Sentry, getCookie: (key) => req.cookies[key] }
   );
 
   const providerData = { store, storeState: store.getState() };
@@ -122,7 +122,7 @@ const createServerSideRenderer = (
   prepareWithTimeout(app)
     .then(
       () => respond(),
-      error => {
+      (error) => {
         if (isTimeoutError(error)) {
           reportError(error.error);
           return render();
@@ -134,7 +134,7 @@ const createServerSideRenderer = (
         respond();
       }
     )
-    .catch(error => {
+    .catch((error) => {
       reportError(error);
       render();
     })

@@ -11,15 +11,12 @@ const mapStateToProps = (state, { eventId, event, actionGrant, loading }) => {
     actionGrant,
     loading,
     event,
-    pools
+    pools,
   };
 };
 
 const mapDispatchToProps = {
-  adminRegister
+  adminRegister,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AdminRegister);
+export default connect(mapStateToProps, mapDispatchToProps)(AdminRegister);

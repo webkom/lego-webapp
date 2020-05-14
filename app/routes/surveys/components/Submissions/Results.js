@@ -9,7 +9,7 @@ import {
   QuestionTypes,
   CHART_COLORS,
   QuestionTypeValue,
-  QuestionTypeOption
+  QuestionTypeOption,
 } from '../../utils';
 import InfoBubble from 'app/components/InfoBubble';
 import {
@@ -18,7 +18,7 @@ import {
   VictoryBar,
   VictoryChart,
   VictoryLabel,
-  VictoryAxis
+  VictoryAxis,
 } from 'victory';
 import Select from 'react-select';
 
@@ -26,20 +26,20 @@ type Props = {
   survey: SurveyEntity,
   graphData: Object,
   numberOfSubmissions: number,
-  generateTextAnswers: QuestionEntity => any,
-  editSurvey: Object => Promise<*>,
+  generateTextAnswers: (QuestionEntity) => any,
+  editSurvey: (Object) => Promise<*>,
   option: string,
-  value: string
+  value: string,
 };
 
 type EventDataProps = {
-  info: Array<Info>
+  info: Array<Info>,
 };
 
 type Info = {
   icon: string,
   data: number,
-  meta: string
+  meta: string,
 };
 
 const EventData = ({ info }: EventDataProps) => {
@@ -59,39 +59,41 @@ const Results = ({
   generateTextAnswers,
   survey,
   numberOfSubmissions,
-  editSurvey
+  editSurvey,
 }: Props) => {
   const info = [
     {
       icon: 'person',
       data: survey.event.registrationCount,
-      meta: 'Påmeldte'
+      meta: 'Påmeldte',
     },
     {
       icon: 'checkmark',
       data: survey.event.attendedCount,
-      meta: 'Møtte opp'
+      meta: 'Møtte opp',
     },
     {
       icon: 'list',
       data: survey.event.waitingRegistrationCount,
-      meta: 'På venteliste'
+      meta: 'På venteliste',
     },
     {
       icon: 'chatboxes',
       data: numberOfSubmissions,
-      meta: 'Har svart'
-    }
+      meta: 'Har svart',
+    },
   ];
 
   const graphOptions = [
     { value: 'pie_chart', label: 'Kakediagram' },
-    { value: 'bar_chart', label: 'Stolpediagram' }
+    { value: 'bar_chart', label: 'Stolpediagram' },
   ];
 
   const switchGraph = (id, index, selectedType) => {
     const newQuestions = survey.questions;
-    const questionToUpdate = newQuestions.find(question => question.id === id);
+    const questionToUpdate = newQuestions.find(
+      (question) => question.id === id
+    );
     if (
       !questionToUpdate ||
       questionToUpdate.displayType === selectedType.value
@@ -101,7 +103,7 @@ const Results = ({
     questionToUpdate.displayType =
       questionToUpdate.displayType === 'pie_chart' ? 'bar_chart' : 'pie_chart';
     const qIndex = newQuestions.indexOf(
-      newQuestions.find(question => question.id === id)
+      newQuestions.find((question) => question.id === id)
     );
     newQuestions[qIndex] = questionToUpdate;
     const newSurvey = { ...survey, questions: newQuestions };
@@ -110,7 +112,7 @@ const Results = ({
 
   const graphTypeToIcon = {
     bar_chart: 'bar-chart',
-    pie_chart: 'pie-chart'
+    pie_chart: 'pie-chart',
   };
 
   return (
@@ -135,7 +137,7 @@ const Results = ({
             (color, i) => !colorsToRemove.includes(i)
           );
           const graphType = graphOptions.find(
-            a => a.value === question.displayType
+            (a) => a.value === question.displayType
           );
           const barData = graphData[question.id];
           const labelRadius = pieData.length === 1 ? -10 : 60;
@@ -170,10 +172,10 @@ const Results = ({
                               left: 0,
                               top: 40,
                               right: 30,
-                              bottom: 30
+                              bottom: 30,
                             }}
                             style={{
-                              labels: { fill: 'white', fontSize: 20 }
+                              labels: { fill: 'white', fontSize: 20 },
                             }}
                           />
                         </div>
@@ -183,7 +185,7 @@ const Results = ({
                             theme={VictoryTheme.material}
                             domain={{
                               x: [0, barData.length],
-                              y: [0, highestSubmissionsCount + 2]
+                              y: [0, highestSubmissionsCount + 2],
                             }}
                             style={{ grid: { stroke: 'none' } }}
                             domainPadding={{ x: 50, y: 20 }}
@@ -191,15 +193,15 @@ const Results = ({
                             <VictoryAxis
                               dependentAxis={true}
                               style={{
-                                grid: { stroke: 'none' }
+                                grid: { stroke: 'none' },
                               }}
                             />
                             <VictoryBar
                               style={{
                                 data: {
-                                  fill: ({ index }) => CHART_COLORS[index]
+                                  fill: ({ index }) => CHART_COLORS[index],
                                 },
-                                labels: { fill: 'white', fontSize: 20 }
+                                labels: { fill: 'white', fontSize: 20 },
                               }}
                               labels={({ datum }) => datum.selections}
                               labelComponent={<VictoryLabel dy={30} />}
@@ -212,7 +214,7 @@ const Results = ({
                             />
                             <VictoryAxis
                               style={{
-                                grid: { stroke: 'none' }
+                                grid: { stroke: 'none' },
                               }}
                               tickFormat={() => ''}
                             />
@@ -244,22 +246,22 @@ const Results = ({
                       className={styles.selectGraph}
                       value={{
                         value: question.displayType,
-                        label: graphType && graphType.label
+                        label: graphType && graphType.label,
                       }}
                       placeholder="Graf"
                       name="displayType"
                       options={graphOptions}
-                      onChange={selectedType =>
+                      onChange={(selectedType) =>
                         switchGraph(question.id, index, selectedType)
                       }
-                      optionComponent={props => {
+                      optionComponent={(props) => {
                         return QuestionTypeOption(
                           props,
                           graphTypeToIcon[props.option && props.option.value],
                           'fa fa-'
                         );
                       }}
-                      valueComponent={props =>
+                      valueComponent={(props) =>
                         QuestionTypeValue(
                           props,
                           graphTypeToIcon[props.value && props.value.value],

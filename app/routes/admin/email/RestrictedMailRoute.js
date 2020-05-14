@@ -10,7 +10,7 @@ import prepare from 'app/utils/prepare';
 
 const mapStateToProps = (state, { match: { params } }) => {
   const restrictedMail = selectRestrictedMailById(state, {
-    restrictedMailId: params.restrictedMailId
+    restrictedMailId: params.restrictedMailId,
   });
 
   return {
@@ -19,28 +19,28 @@ const mapStateToProps = (state, { match: { params } }) => {
     fetching: state.restrictedMails.fetching,
     initialValues: {
       ...restrictedMail,
-      groups: (restrictedMail.groups || []).map(groups => ({
+      groups: (restrictedMail.groups || []).map((groups) => ({
         label: groups.name,
-        value: groups.id
+        value: groups.id,
       })),
-      meetings: (restrictedMail.meetings || []).map(meeting => ({
+      meetings: (restrictedMail.meetings || []).map((meeting) => ({
         label: meeting.name,
-        value: meeting.id
+        value: meeting.id,
       })),
-      events: (restrictedMail.events || []).map(event => ({
+      events: (restrictedMail.events || []).map((event) => ({
         label: event.title,
-        value: event.id
+        value: event.id,
       })),
       // Raw Sauce
-      rawAddresses: (restrictedMail.rawAddresses || []).map(rawAddresses => ({
+      rawAddresses: (restrictedMail.rawAddresses || []).map((rawAddresses) => ({
         label: rawAddresses,
-        value: rawAddresses
+        value: rawAddresses,
       })),
-      users: (restrictedMail.users || []).map(user => ({
+      users: (restrictedMail.users || []).map((user) => ({
         label: user.fullName,
-        value: user.id
-      }))
-    }
+        value: user.id,
+      })),
+    },
   };
 };
 
@@ -49,9 +49,6 @@ const loadData = ({ match: { params } }, dispatch) =>
 
 export default compose(
   prepare(loadData, ['match.params.restrictedMailId']),
-  connect(
-    mapStateToProps,
-    {}
-  ),
+  connect(mapStateToProps, {}),
   loadingIndicator(['restrictedMail.id'])
 )(RestrictedMailEditor);

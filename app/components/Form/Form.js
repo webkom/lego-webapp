@@ -6,7 +6,7 @@ import styles from './Form.css';
 
 type Props = {
   children: any,
-  className?: string
+  className?: string,
 };
 
 function Form({ children, className, ...props }: Props) {

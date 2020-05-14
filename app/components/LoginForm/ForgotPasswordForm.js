@@ -9,17 +9,17 @@ import Button from '../Button';
 import { createValidator, required, isEmail } from 'app/utils/validation';
 
 type Props = {
-  sendForgotPasswordEmail: ({ email: string }) => any
+  sendForgotPasswordEmail: ({ email: string }) => any,
 } & FormProps;
 
 type State = {
-  submitted: boolean
+  submitted: boolean,
 };
 
 class ForgotPasswordForm extends Component<Props, State> {
   mounted = false;
   state = {
-    submitted: false
+    submitted: false,
   };
 
   componentDidMount() {
@@ -30,17 +30,17 @@ class ForgotPasswordForm extends Component<Props, State> {
     this.mounted = false;
   }
 
-  onSubmit = data => {
+  onSubmit = (data) => {
     return this.props
       .sendForgotPasswordEmail(data)
       .then(() => {
         if (this.mounted) {
           this.setState({
-            submitted: true
+            submitted: true,
           });
         }
       })
-      .catch(err => {
+      .catch((err) => {
         if (this.mounted && err.payload && err.payload.response) {
           throw new SubmissionError(err.payload.response.jsonData);
         }
@@ -61,7 +61,7 @@ class ForgotPasswordForm extends Component<Props, State> {
     return (
       <Form
         onSubmit={handleSubmit(this.onSubmit)}
-        onClick={e => e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()}
       >
         <Field name="email" component={TextInput.Field} placeholder="E-post" />
         <Button submit disabled={invalid || pristine || submitting} dark>
@@ -73,13 +73,10 @@ class ForgotPasswordForm extends Component<Props, State> {
 }
 
 const validate = createValidator({
-  email: [required(), isEmail()]
+  email: [required(), isEmail()],
 });
 
 export default compose(
-  connect(
-    null,
-    { sendForgotPasswordEmail }
-  ),
+  connect(null, { sendForgotPasswordEmail }),
   reduxForm({ form: 'ForgotPasswordForm', validate })
 )(ForgotPasswordForm);

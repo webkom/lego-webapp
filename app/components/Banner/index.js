@@ -19,7 +19,7 @@ type Props = {
   white?: boolean,
 
   /** Make banner black */
-  black?: boolean
+  black?: boolean,
 };
 
 class Banner extends Component<Props, *> {

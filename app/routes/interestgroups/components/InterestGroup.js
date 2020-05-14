@@ -11,7 +11,7 @@ import type { Group } from 'app/models';
 const SAMPLE_LOGO = 'https://i.imgur.com/Is9VKjb.jpg';
 
 type Props = {
-  group: Group
+  group: Group,
 };
 
 const InterestGroupComponent = ({ group }: Props) => {

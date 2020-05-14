@@ -8,7 +8,7 @@ import styles from './NavigationLink.css';
 type Props = {
   to?: string,
   onClick?: (e: Event) => void,
-  children?: Node
+  children?: Node,
 };
 
 const NavigationLink = (props: Props) => {

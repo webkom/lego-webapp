@@ -25,7 +25,7 @@ type Props = {
   padding?: number | string,
   margin?: number | string,
   width?: number | string,
-  style?: Object
+  style?: Object,
 };
 /**
  * Simple FlexBox component
@@ -59,7 +59,7 @@ const Flex = ({
       padding,
       margin,
       width,
-      ...style
+      ...style,
     }}
     {...htmlAttributes}
   >

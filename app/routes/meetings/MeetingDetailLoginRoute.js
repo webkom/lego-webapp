@@ -4,12 +4,12 @@ import { push } from 'connected-react-router';
 import {
   fetchMeeting,
   setInvitationStatus,
-  deleteMeeting
+  deleteMeeting,
 } from 'app/actions/MeetingActions';
 import { selectMeetingById } from 'app/reducers/meetings';
 import {
   selectMeetingInvitationsForMeeting,
-  selectMeetingInvitation
+  selectMeetingInvitation,
 } from 'app/reducers/meetingInvitations';
 import { selectUserById } from 'app/reducers/users';
 import MeetingDetail from './components/MeetingDetail';
@@ -21,7 +21,7 @@ const mapDispatchToProps = {
   setInvitationStatus,
   deleteMeeting,
   fetchMeeting,
-  push
+  push,
 };
 
 const mapStateToProps = (state, props) => {
@@ -35,11 +35,11 @@ const mapStateToProps = (state, props) => {
   const reportAuthor = selectUserById(state, { userId: meeting.reportAuthor });
   const createdBy = selectUserById(state, { userId: meeting.createdBy });
   const meetingInvitations = selectMeetingInvitationsForMeeting(state, {
-    meetingId
+    meetingId,
   });
   const currentUserInvitation = selectMeetingInvitation(state, {
     userId: currentUser.username,
-    meetingId
+    meetingId,
   });
   return {
     meeting,
@@ -49,14 +49,11 @@ const mapStateToProps = (state, props) => {
     meetingInvitations,
     currentUserInvitation,
     currentUser,
-    comments
+    comments,
   };
 };
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )(MeetingDetail);

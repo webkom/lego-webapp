@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import prepare from 'app/utils/prepare';
 import {
   fetchJoblisting,
-  deleteJoblisting
+  deleteJoblisting,
 } from 'app/actions/JoblistingActions';
 import JoblistingDetail from './components/JoblistingDetail';
 import { selectJoblistingById } from 'app/reducers/joblistings';
@@ -19,7 +19,7 @@ const mapStateToProps = (state, props) => {
     joblisting,
     joblistingId,
     actionGrant,
-    fetching
+    fetching,
   };
 };
 
@@ -29,8 +29,5 @@ export default compose(
   prepare(({ match: { params: { joblistingId } } }, dispatch) =>
     dispatch(fetchJoblisting(joblistingId))
   ),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )(JoblistingDetail);

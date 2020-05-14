@@ -13,8 +13,8 @@ export function fetchAll() {
     endpoint: '/company-interests/',
     schema: [companyInterestSchema],
     meta: {
-      errorMessage: 'Henting av bedriftsinteresser feilet'
-    }
+      errorMessage: 'Henting av bedriftsinteresser feilet',
+    },
   });
 }
 
@@ -24,8 +24,8 @@ export function fetchCompanyInterest(companyInterestId: number) {
     endpoint: `/company-interests/${companyInterestId}/`,
     schema: companyInterestSchema,
     meta: {
-      errorMessage: 'Henting av bedriftsinteresse feilet'
-    }
+      errorMessage: 'Henting av bedriftsinteresse feilet',
+    },
   });
 }
 
@@ -33,7 +33,7 @@ export function createCompanyInterest(
   data: CompanyInterestEntity,
   isEnglish: boolean
 ): Thunk<*> {
-  return dispatch => {
+  return (dispatch) => {
     return dispatch(
       callAPI({
         types: CompanyInterestForm.CREATE,
@@ -42,15 +42,15 @@ export function createCompanyInterest(
         schema: companyInterestSchema,
         body: data,
         meta: {
-          errorMessage: 'Opprette bedriftsinteresse feilet'
-        }
+          errorMessage: 'Opprette bedriftsinteresse feilet',
+        },
       })
     ).then(() =>
       dispatch(
         addToast({
           message: isEnglish
             ? 'Submission successful!'
-            : 'Bedriftsinteresse opprettet!'
+            : 'Bedriftsinteresse opprettet!',
         })
       )
     );
@@ -58,7 +58,7 @@ export function createCompanyInterest(
 }
 
 export function deleteCompanyInterest(id: number): Thunk<*> {
-  return dispatch => {
+  return (dispatch) => {
     return dispatch(
       callAPI({
         types: CompanyInterestForm.DELETE,
@@ -66,8 +66,8 @@ export function deleteCompanyInterest(id: number): Thunk<*> {
         method: 'DELETE',
         meta: {
           id,
-          errorMessage: 'Fjerning av bedriftsinteresse feilet!'
-        }
+          errorMessage: 'Fjerning av bedriftsinteresse feilet!',
+        },
       })
     ).then(() => dispatch(addToast({ message: 'Bedriftsinteresse fjernet!' })));
   };
@@ -77,7 +77,7 @@ export function updateCompanyInterest(
   id: number,
   data: CompanyInterestEntity
 ): Thunk<*> {
-  return dispatch => {
+  return (dispatch) => {
     return dispatch(
       callAPI({
         types: CompanyInterestForm.UPDATE,
@@ -86,8 +86,8 @@ export function updateCompanyInterest(
         body: data,
         meta: {
           companyInterestId: id,
-          errorMessage: 'Endring av bedriftsinteresse feilet!'
-        }
+          errorMessage: 'Endring av bedriftsinteresse feilet!',
+        },
       })
     ).then(() => dispatch(addToast({ message: 'Bedriftsinteresse endret!' })));
   };
@@ -95,7 +95,7 @@ export function updateCompanyInterest(
 
 export function fetch({
   next,
-  filters
+  filters,
 }: { next: boolean, filters: Object } = {}): Thunk<*> {
   return (dispatch, getState) => {
     const cursor = next ? getState().companyInterest.pagination.next : {};
@@ -107,13 +107,13 @@ export function fetch({
         useCache: false,
         query: {
           ...cursor,
-          ...filters
+          ...filters,
         },
         schema: [companyInterestSchema],
         meta: {
-          errorMessage: 'Henting av bedriftsinteresser feilet'
+          errorMessage: 'Henting av bedriftsinteresser feilet',
         },
-        propagateError: true
+        propagateError: true,
       })
     );
   };

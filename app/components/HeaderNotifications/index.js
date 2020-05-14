@@ -15,11 +15,11 @@ type Props = {
   fetchNotifications: () => void,
   notifications: Array<Object>,
   markAllNotifications: () => Promise<void>,
-  fetchNotificationData: () => Promise<void>
+  fetchNotificationData: () => Promise<void>,
 };
 
 type State = {
-  notificationsOpen: boolean
+  notificationsOpen: boolean,
 };
 
 const NotificationElement = ({ notification }: { notification: Object }) => {
@@ -53,7 +53,7 @@ const NotificationElement = ({ notification }: { notification: Object }) => {
 
 export default class NotificationsDropdown extends Component<Props, State> {
   state = {
-    notificationsOpen: false
+    notificationsOpen: false,
   };
 
   fetch = () => {
@@ -64,7 +64,7 @@ export default class NotificationsDropdown extends Component<Props, State> {
   renderNotifications = (notifications: Array<Object>) => {
     return (
       <div>
-        {notifications.map(notification => (
+        {notifications.map((notification) => (
           <ErrorBoundary hidden key={notification.id}>
             <NotificationElement notification={notification} />
           </ErrorBoundary>
@@ -83,7 +83,7 @@ export default class NotificationsDropdown extends Component<Props, State> {
         toggle={() =>
           this.setState(
             {
-              notificationsOpen: !this.state.notificationsOpen
+              notificationsOpen: !this.state.notificationsOpen,
             },
             () =>
               this.state.notificationsOpen

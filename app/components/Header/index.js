@@ -14,7 +14,7 @@ import styles from './Header.css';
 import {
   LoginForm,
   RegisterForm,
-  ForgotPasswordForm
+  ForgotPasswordForm,
 } from 'app/components/LoginForm';
 import { Flex } from 'app/components/Layout';
 import cx from 'classnames';
@@ -35,25 +35,25 @@ type Props = {
   fetchNotifications: () => void,
   notifications: Array<Object>,
   markAllNotifications: () => Promise<void>,
-  fetchNotificationData: () => Promise<void>
+  fetchNotificationData: () => Promise<void>,
 };
 
 type State = {
   accountOpen: boolean,
   shake: boolean,
-  mode: 'login' | 'register' | 'forgotPassword'
+  mode: 'login' | 'register' | 'forgotPassword',
 };
 
 type AccountDropdownItemsProps = {
   logout: () => void,
   onClose: () => void,
-  username: string
+  username: string,
 };
 
 function AccountDropdownItems({
   logout,
   onClose,
-  username
+  username,
 }: AccountDropdownItemsProps) {
   return (
     <Dropdown.List>
@@ -95,7 +95,7 @@ class Header extends Component<Props, State> {
   state = {
     accountOpen: false,
     shake: false,
-    mode: 'login'
+    mode: 'login',
   };
 
   toggleRegisterUser = (e: Event) => {
@@ -190,8 +190,8 @@ class Header extends Component<Props, State> {
                 <Dropdown
                   show={this.state.accountOpen}
                   toggle={() =>
-                    this.setState(state => ({
-                      accountOpen: !state.accountOpen
+                    this.setState((state) => ({
+                      accountOpen: !state.accountOpen,
                     }))
                   }
                   triggerComponent={
@@ -215,9 +215,9 @@ class Header extends Component<Props, State> {
                 <Dropdown
                   show={this.state.accountOpen}
                   toggle={() =>
-                    this.setState(state => ({
+                    this.setState((state) => ({
                       accountOpen: !state.accountOpen,
-                      shake: false
+                      shake: false,
                     }))
                   }
                   contentClassName={cx(

@@ -13,7 +13,7 @@ const mapStateToProps = (state, props) => {
     actionGrant: state.events.actionGrant,
     loading: state.events.fetching,
     eventId,
-    event
+    event,
   };
 };
 

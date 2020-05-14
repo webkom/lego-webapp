@@ -10,16 +10,16 @@ import type { ActionGrant } from 'app/models';
 import cx from 'classnames';
 
 type Props = {
-  actionGrant: ActionGrant
+  actionGrant: ActionGrant,
 };
 
 type State = {
-  editorOpen: boolean
+  editorOpen: boolean,
 };
 
 class Toolbar extends Component<Props, State> {
   state = {
-    editorOpen: false
+    editorOpen: false,
   };
 
   render() {

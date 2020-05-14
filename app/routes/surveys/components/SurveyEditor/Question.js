@@ -7,7 +7,7 @@ import {
   TextInput,
   TextArea,
   CheckBox,
-  SelectInput
+  SelectInput,
 } from 'app/components/Form';
 import Option from './Option';
 import styles from '../surveys.css';
@@ -17,13 +17,13 @@ import {
   mappings,
   QuestionTypes,
   QuestionTypeOption,
-  QuestionTypeValue
+  QuestionTypeValue,
 } from '../../utils';
 
 type Fields = typeof FieldArrayProps.Field;
 
 type Props = {
-  deleteQuestion: number => Promise<*>,
+  deleteQuestion: (number) => Promise<*>,
   questionData: Object,
   question: string,
   relativeIndex: number,
@@ -31,19 +31,19 @@ type Props = {
   updateRelativeIndexes: (number, number, Fields) => void,
   fields: Fields,
   option?: string,
-  value?: string
+  value?: string,
 };
 
 const questionTypeToIcon = {
   single_choice: 'radio-button-on',
   multiple_choice: 'checkbox',
-  text_field: 'more'
+  text_field: 'more',
 };
 
 const questionIndexMappings = (indexNumbers: number) =>
-  [...Array(indexNumbers).keys()].map(relativeIndex => ({
+  [...Array(indexNumbers).keys()].map((relativeIndex) => ({
     value: relativeIndex,
-    label: `Spørsmålsnummer: ${relativeIndex + 1}`
+    label: `Spørsmålsnummer: ${relativeIndex + 1}`,
   }));
 
 const Question = ({
@@ -53,7 +53,7 @@ const Question = ({
   questionData,
   deleteQuestion,
   updateRelativeIndexes,
-  fields
+  fields,
 }: Props) => {
   const indexOptions = questionIndexMappings(numberOfQuestions);
   return (
@@ -90,14 +90,14 @@ const Question = ({
               name={`${question}.questionType`}
               simpleValue
               component={SelectInput.Field}
-              optionComponent={props =>
+              optionComponent={(props) =>
                 QuestionTypeOption(
                   props,
                   questionTypeToIcon[props.option && props.option.value]
                 )
               }
               options={mappings}
-              valueComponent={props =>
+              valueComponent={(props) =>
                 QuestionTypeValue(
                   props,
                   questionTypeToIcon[props.value && props.value.value]
@@ -114,18 +114,18 @@ const Question = ({
             <SelectInput
               value={{
                 value: relativeIndex,
-                label: `Spørsmålsnummer: ${relativeIndex + 1}`
+                label: `Spørsmålsnummer: ${relativeIndex + 1}`,
               }}
               placeholder="0"
               name="relativeIndex"
               options={indexOptions}
-              optionComponent={props =>
+              optionComponent={(props) =>
                 QuestionTypeOption(props, 'sort', 'fa fa-')
               }
-              valueComponent={props =>
+              valueComponent={(props) =>
                 QuestionTypeValue(props, 'sort', 'fa fa-')
               }
-              onChange={user =>
+              onChange={(user) =>
                 updateRelativeIndexes(relativeIndex, user.value, fields)
               }
               onBlur={() => null}
@@ -143,7 +143,7 @@ const Question = ({
               name={`${question}.mandatory`}
               label="Obligatorisk"
               component={CheckBox.Field}
-              normalize={v => !!v}
+              normalize={(v) => !!v}
             />
           </div>
 
@@ -164,10 +164,10 @@ const Question = ({
 
 const renderOptions = ({
   fields,
-  questionType
+  questionType,
 }: {
   fields: Fields,
-  questionType: string
+  questionType: string,
 }) => (
   <ul className={styles.options}>
     {fields.map((option, relativeIndex) => {
@@ -178,7 +178,7 @@ const renderOptions = ({
           index={relativeIndex}
           onChange={
             isLast
-              ? value => {
+              ? (value) => {
                   if (value) fields.push({ optionText: '' });
                 }
               : undefined

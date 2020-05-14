@@ -16,7 +16,7 @@ import styles from './CommentForm.css';
 // TODO: This can be removed if the editor importer gets an actual empty state.
 const EMPTY_STATE = '<p class="unstyled"><br/></p>';
 
-const validate = values => {
+const validate = (values) => {
   const errors = {};
   if (!values.text) {
     errors.text = 'Required';
@@ -28,19 +28,19 @@ type Props = {
   contentTarget: string,
   user: Object,
   loggedIn: boolean,
-  addComment: CommentEntity => void,
+  addComment: (CommentEntity) => void,
   parent: number,
   submitText: string,
   inlineMode: boolean,
   initialized: boolean,
   autoFocus: boolean,
-  isOpen: boolean
+  isOpen: boolean,
 } & FormProps;
 
 class CommentForm extends Component<Props> {
   static defaultProps = {
     submitText: 'Kommenter',
-    autoFocus: false
+    autoFocus: false,
   };
 
   onSubmit = ({ text }) => {
@@ -48,7 +48,7 @@ class CommentForm extends Component<Props> {
     this.props.addComment({
       contentTarget,
       text,
-      parent
+      parent,
     });
   };
 
@@ -63,7 +63,7 @@ class CommentForm extends Component<Props> {
       submitText,
       inlineMode,
       autoFocus,
-      initialized
+      initialized,
     } = this.props;
     const className = inlineMode ? styles.inlineForm : styles.form;
 
@@ -116,7 +116,7 @@ function mapStateToProps(state, props) {
     isOpen:
       meta &&
       meta.text &&
-      (meta.text.active || (values && values.text !== EMPTY_STATE))
+      (meta.text.active || (values && values.text !== EMPTY_STATE)),
   };
 }
 
@@ -124,10 +124,7 @@ export default compose(
   reduxForm({
     validate,
     initialValues: {},
-    destroyOnUnmount: false
+    destroyOnUnmount: false,
   }),
-  connect(
-    mapStateToProps,
-    { addComment }
-  )
+  connect(mapStateToProps, { addComment })
 )(CommentForm);

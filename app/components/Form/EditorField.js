@@ -11,7 +11,7 @@ type Props = {
   input: any,
   meta: any,
   name: string,
-  initialized: boolean
+  initialized: boolean,
 };
 
 class NoSSRError {

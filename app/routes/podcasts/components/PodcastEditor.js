@@ -8,7 +8,7 @@ import {
   TextInput,
   SelectInput,
   TextArea,
-  legoForm
+  legoForm,
 } from 'app/components/Form';
 import { Form, Field } from 'redux-form';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
@@ -18,13 +18,13 @@ type Props = {
   createdAt: string,
   description: string,
   source: string,
-  deletePodcast: number => Promise<*>,
-  push: string => void,
+  deletePodcast: (number) => Promise<*>,
+  push: (string) => void,
   new: boolean,
   pristine: boolean,
   submitting: boolean,
-  handleSubmit: Object => void,
-  initialValues: Object
+  handleSubmit: (Object) => void,
+  initialValues: Object,
 };
 
 class PodcastEditor extends Component<Props, *> {
@@ -33,7 +33,7 @@ class PodcastEditor extends Component<Props, *> {
       const {
         deletePodcast,
         initialValues: { id },
-        push
+        push,
       } = this.props;
       return deletePodcast(id).then(() => {
         push('/podcasts/');
@@ -102,19 +102,19 @@ const onSubmit = (
     source: string,
     description: string,
     authors: Array<Object>,
-    thanks: Array<Object>
+    thanks: Array<Object>,
   },
   dispach,
   props
 ) => {
   return props.handleSubmitCallback({
-    authors: authors.map(user => user.value),
-    thanks: thanks.map(user => user.value),
-    ...rest
+    authors: authors.map((user) => user.value),
+    thanks: thanks.map((user) => user.value),
+    ...rest,
   });
 };
 
 export default legoForm({
   form: 'podcastEditor',
-  onSubmit
+  onSubmit,
 })(PodcastEditor);

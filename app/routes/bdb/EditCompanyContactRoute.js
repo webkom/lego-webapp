@@ -4,12 +4,12 @@ import { compose } from 'redux';
 import {
   fetchAdmin,
   editCompanyContact,
-  deleteCompany
+  deleteCompany,
 } from '../../actions/CompanyActions';
 import CompanyContactEditor from './components/CompanyContactEditor';
 import {
   selectCompanyById,
-  selectCompanyContactById
+  selectCompanyContactById,
 } from 'app/reducers/companies';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
@@ -20,7 +20,7 @@ const mapStateToProps = (state, props) => {
   const company = selectCompanyById(state, { companyId });
   const companyContact = selectCompanyContactById(state, {
     companyId,
-    companyContactId
+    companyContactId,
   });
 
   return {
@@ -32,15 +32,15 @@ const mapStateToProps = (state, props) => {
           name: companyContact.name,
           role: companyContact.role,
           mail: companyContact.mail,
-          phone: companyContact.phone
+          phone: companyContact.phone,
         }
-      : null
+      : null,
   };
 };
 
 const mapDispatchToProps = {
   submitFunction: editCompanyContact,
-  deleteCompany
+  deleteCompany,
 };
 
 export default compose(
@@ -49,15 +49,12 @@ export default compose(
     (
       {
         match: {
-          params: { companyId }
-        }
+          params: { companyId },
+        },
       },
       dispatch
     ) => dispatch(fetchAdmin(companyId)),
     ['match.params.companyId', 'match.params.companyContactId']
   ),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )(CompanyContactEditor);

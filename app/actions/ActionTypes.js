@@ -4,7 +4,7 @@ function generateStatuses(name) {
   return {
     BEGIN: `${name}.BEGIN`,
     SUCCESS: `${name}.SUCCESS`,
-    FAILURE: `${name}.FAILURE`
+    FAILURE: `${name}.FAILURE`,
   };
 }
 
@@ -31,7 +31,7 @@ export const Event = {
   SOCKET_EVENT_UPDATED: 'SOCKET_EVENT_UPDATED',
   FOLLOW: generateStatuses('Event.FOLLOW'),
   UNFOLLOW: generateStatuses('Event.UNFOLLOW'),
-  IS_USER_FOLLOWING: generateStatuses('Event.IS_USER_FOLLOWING')
+  IS_USER_FOLLOWING: generateStatuses('Event.IS_USER_FOLLOWING'),
 };
 
 /**
@@ -41,7 +41,7 @@ export const Article = {
   FETCH: generateStatuses('Article.FETCH'),
   CREATE: generateStatuses('Article.CREATE'),
   EDIT: generateStatuses('Article.EDIT'),
-  DELETE: generateStatuses('Article.DELETE')
+  DELETE: generateStatuses('Article.DELETE'),
 };
 
 /**
@@ -50,7 +50,7 @@ export const Article = {
 export const EmailList = {
   FETCH: generateStatuses('EmailList.FETCH'),
   CREATE: generateStatuses('EmailList.CREATE'),
-  EDIT: generateStatuses('EmailList.EDIT')
+  EDIT: generateStatuses('EmailList.EDIT'),
 };
 
 /**
@@ -59,7 +59,7 @@ export const EmailList = {
 export const RestrictedMail = {
   FETCH: generateStatuses('RestrictedMail.FETCH'),
   CREATE: generateStatuses('RestrictedMail.CREATE'),
-  EDIT: generateStatuses('RestrictedMail.EDIT')
+  EDIT: generateStatuses('RestrictedMail.EDIT'),
 };
 
 /**
@@ -68,7 +68,7 @@ export const RestrictedMail = {
 export const EmailUser = {
   FETCH: generateStatuses('EmailUser.FETCH'),
   CREATE: generateStatuses('EmailUser.CREATE'),
-  EDIT: generateStatuses('EmailUser.EDIT')
+  EDIT: generateStatuses('EmailUser.EDIT'),
 };
 
 /**
@@ -80,7 +80,7 @@ export const Gallery = {
   EDIT: generateStatuses('Gallery.EDIT'),
   UPLOAD: generateStatuses('Gallery.UPLOAD'),
   DELETE: generateStatuses('Gallery.DELETE'),
-  HIDE_UPLOAD_STATUS: 'Gallery.HIDE_UPLOAD_STATUS'
+  HIDE_UPLOAD_STATUS: 'Gallery.HIDE_UPLOAD_STATUS',
 };
 
 /**
@@ -92,7 +92,7 @@ export const GalleryPicture = {
   CREATE: generateStatuses('GalleryPicture.CREATE'),
   EDIT: generateStatuses('GalleryPicture.EDIT'),
   DELETE: generateStatuses('GalleryPicture.DELETE'),
-  UPLOAD: generateStatuses('GalleryPicture.UPLOAD')
+  UPLOAD: generateStatuses('GalleryPicture.UPLOAD'),
 };
 
 /**
@@ -102,7 +102,7 @@ export const Joblistings = {
   FETCH: generateStatuses('Joblistings.FETCH'),
   CREATE: generateStatuses('Joblistings.CREATE'),
   EDIT: generateStatuses('Joblistings.EDIT'),
-  DELETE: generateStatuses('Joblistings.DELETE')
+  DELETE: generateStatuses('Joblistings.DELETE'),
 };
 /**
  *
@@ -111,7 +111,7 @@ export const Announcements = {
   FETCH_ALL: generateStatuses('Announcements.FETCH_ALL'),
   CREATE: generateStatuses('Announcements.CREATE'),
   SEND: generateStatuses('Announcements.SEND'),
-  DELETE: generateStatuses('Announcements.DELETE')
+  DELETE: generateStatuses('Announcements.DELETE'),
 };
 /**
  *
@@ -123,7 +123,7 @@ export const Meeting = {
   EDIT: generateStatuses('Meeting.EDIT'),
   DELETE: generateStatuses('Meeting.DELETE'),
   ANSWER_INVITATION_TOKEN: generateStatuses('Meeting.ANSWER_INVITATION_TOKEN'),
-  RESET_MEETINGS_TOKEN: 'Meeting.RESET_MEETINGS_TOKEN'
+  RESET_MEETINGS_TOKEN: 'Meeting.RESET_MEETINGS_TOKEN',
 };
 
 /**
@@ -135,7 +135,7 @@ export const Group = {
   FETCH_ALL: generateStatuses('Group.FETCH_ALL'),
   CREATE: generateStatuses('Group.CREATE'),
   REMOVE: generateStatuses('Group.REMOVE'),
-  MEMBERSHIP_FETCH: generateStatuses('Group.MEMBERSHIP_FETCH')
+  MEMBERSHIP_FETCH: generateStatuses('Group.MEMBERSHIP_FETCH'),
 };
 
 export const CompanyInterestForm = {
@@ -143,7 +143,7 @@ export const CompanyInterestForm = {
   FETCH: generateStatuses('CompanyInterestForm.FETCH'),
   CREATE: generateStatuses('CompanyInterestForm.CREATE'),
   DELETE: generateStatuses('CompanyInterestForm.DELETE'),
-  UPDATE: generateStatuses('CompanyInterestForm.UPDATE')
+  UPDATE: generateStatuses('CompanyInterestForm.UPDATE'),
 };
 
 export const InterestGroup = {
@@ -151,21 +151,21 @@ export const InterestGroup = {
   FETCH: generateStatuses('InterestGroup.FETCH'),
   CREATE: generateStatuses('InterestGroup.CREATE'),
   REMOVE: generateStatuses('InterestGroup.REMOVE'),
-  UPDATE: generateStatuses('InterestGroup.UPDATE')
+  UPDATE: generateStatuses('InterestGroup.UPDATE'),
 };
 
 export const Membership = {
   CREATE: generateStatuses('Membership.CREATE'),
   REMOVE: generateStatuses('Membership.REMOVE'),
   JOIN_GROUP: generateStatuses('Membership.JOIN_GROUP'),
-  LEAVE_GROUP: generateStatuses('Membership.LEAVE_GROUP')
+  LEAVE_GROUP: generateStatuses('Membership.LEAVE_GROUP'),
 };
 
 /**
  *
  */
 export const Favorite = {
-  FETCH_ALL: generateStatuses('Favorite.FETCH_ALL')
+  FETCH_ALL: generateStatuses('Favorite.FETCH_ALL'),
 };
 
 /**
@@ -174,7 +174,7 @@ export const Favorite = {
 export const Comment = {
   FETCH: generateStatuses('Comment.FETCH'),
   ADD: generateStatuses('Comment.ADD'),
-  DELETE: generateStatuses('Comment.DELETE')
+  DELETE: generateStatuses('Comment.DELETE'),
 };
 
 /**
@@ -194,7 +194,7 @@ export const Company = {
   DELETE_COMPANY_CONTACT: generateStatuses('Company.DELETE_COMPANY_CONTACT'),
   FETCH_SEMESTERS: generateStatuses('Company.FETCH_SEMESTERS'),
   ADD_SEMESTER: generateStatuses('Company.ADD_SEMESTER'),
-  EDIT_SEMESTER: generateStatuses('Company.EDIT_SEMESTER')
+  EDIT_SEMESTER: generateStatuses('Company.EDIT_SEMESTER'),
 };
 
 /**
@@ -208,7 +208,7 @@ export const Quote = {
   APPROVE: generateStatuses('Quote.APPROVE'),
   UNAPPROVE: generateStatuses('Quote.UNAPPROVE'),
   DELETE: generateStatuses('Quote.DELETE'),
-  ADD: generateStatuses('Quote.ADD')
+  ADD: generateStatuses('Quote.ADD'),
 };
 
 /**
@@ -219,18 +219,18 @@ export const Search = {
   AUTOCOMPLETE: generateStatuses('Search.AUTOCOMPLETE'),
   RESULTS_RECEIVED: 'Search.RESULTS_RECEIVED',
   TOGGLE_OPEN: 'Search.TOGGLE_OPEN',
-  MENTION: generateStatuses('Search.MENTION')
+  MENTION: generateStatuses('Search.MENTION'),
 };
 
 export const Toasts = {
   TOAST_ADDED: 'Toast.ADDED',
-  TOAST_REMOVED: 'Toast.REMOVED'
+  TOAST_REMOVED: 'Toast.REMOVED',
 };
 
 export const NotificationsFeed = {
   FETCH_DATA: generateStatuses('NotificationsFeed.FETCH_DATA'),
   MARK_ALL: generateStatuses('NotificationsFeed.MARK_ALL'),
-  MARK: generateStatuses('NotificationsFeed.MARK')
+  MARK: generateStatuses('NotificationsFeed.MARK'),
 };
 
 /**
@@ -256,13 +256,13 @@ export const User = {
     'User.SEND_FORGOT_PASSWORD_REQUEST'
   ),
   RESET_PASSWORD: generateStatuses('User.RESET_PASSWORD'),
-  REFRESH_TOKEN: generateStatuses('User.REFRESH_TOKEN')
+  REFRESH_TOKEN: generateStatuses('User.REFRESH_TOKEN'),
 };
 
 export const Penalty = {
   FETCH: generateStatuses('Penalty.FETCH'),
   CREATE: generateStatuses('Penalty.CREATE'),
-  DELETE: generateStatuses('Penalty.DELETE')
+  DELETE: generateStatuses('Penalty.DELETE'),
 };
 
 /**
@@ -272,14 +272,14 @@ export const Page = {
   FETCH: generateStatuses('Page.FETCH'),
   CREATE: generateStatuses('Page.CREATE'),
   UPDATE: generateStatuses('Page.UPDATE'),
-  DELETE: generateStatuses('Page.DELETE')
+  DELETE: generateStatuses('Page.DELETE'),
 };
 
 /**
  *
  */
 export const Bdb = {
-  FETCH: generateStatuses('Bdb.FETCH')
+  FETCH: generateStatuses('Bdb.FETCH'),
 };
 
 /**
@@ -290,7 +290,7 @@ export const Survey = {
   ADD: generateStatuses('Survey.ADD'),
   EDIT: generateStatuses('Survey.EDIT'),
   SHARE: generateStatuses('Survey.SHARE'),
-  HIDE: generateStatuses('Survey.HIDE')
+  HIDE: generateStatuses('Survey.HIDE'),
 };
 
 /**
@@ -302,12 +302,12 @@ export const SurveySubmission = {
   ADD: generateStatuses('SurveySubmission.ADD'),
   DELETE: generateStatuses('SurveySubmission.DELETE'),
   HIDE_ANSWER: generateStatuses('SurveySubmission.HIDE_ANSWER'),
-  SHOW_ANSWER: generateStatuses('SurveySubmission.SHOW_ANSWER')
+  SHOW_ANSWER: generateStatuses('SurveySubmission.SHOW_ANSWER'),
 };
 
 export const Emoji = {
   FETCH: generateStatuses('Emoji.FETCH'),
-  FETCH_ALL: generateStatuses('Emoji.FETCH_ALL')
+  FETCH_ALL: generateStatuses('Emoji.FETCH_ALL'),
 };
 
 /**
@@ -315,25 +315,25 @@ export const Emoji = {
  */
 export const File = {
   FETCH_SIGNED_POST: generateStatuses('File.FETCH_SIGNED_POST'),
-  UPLOAD: generateStatuses('File.UPLOAD')
+  UPLOAD: generateStatuses('File.UPLOAD'),
 };
 
 /**
  *
  */
 export const Feed = {
-  FETCH: generateStatuses('Feed.FETCH')
+  FETCH: generateStatuses('Feed.FETCH'),
 };
 
 export const FetchHistory = {
-  CLEAR_HISTORY: 'FetchHistory.CLEAR_HISTORY'
+  CLEAR_HISTORY: 'FetchHistory.CLEAR_HISTORY',
 };
 
 /**
  *
  */
 export const Routing = {
-  SET_STATUS_CODE: 'Routing.SET_STATUS_CODE'
+  SET_STATUS_CODE: 'Routing.SET_STATUS_CODE',
 };
 
 /**
@@ -345,7 +345,7 @@ export const OAuth2 = {
   UPDATE_APPLICATION: generateStatuses('OAuth2.UPDATE_APPLICATION'),
   CREATE_APPLICATION: generateStatuses('OAuth2.CREATE_APPLICATION'),
   FETCH_GRANTS: generateStatuses('OAuth2.FETCH_GRANTS'),
-  DELETE_GRANT: generateStatuses('OAuth2.DELETE_GRANT')
+  DELETE_GRANT: generateStatuses('OAuth2.DELETE_GRANT'),
 };
 
 /**
@@ -356,41 +356,41 @@ export const NotificationSettings = {
     'NotificationSettings.FETCH_ALTERNATIVES'
   ),
   FETCH: generateStatuses('NotificationSettings.FETCH'),
-  UPDATE: generateStatuses('NotificationSettings.UPDATE')
+  UPDATE: generateStatuses('NotificationSettings.UPDATE'),
 };
 
 /**
  *
  */
 export const Contact = {
-  SEND_MESSAGE: generateStatuses('Contact.SEND_MESSAGE')
+  SEND_MESSAGE: generateStatuses('Contact.SEND_MESSAGE'),
 };
 
 /**
  *
  */
 export const Meta = {
-  FETCH: generateStatuses('Meta.FETCH')
+  FETCH: generateStatuses('Meta.FETCH'),
 };
 
 export const Frontpage = {
-  FETCH: generateStatuses('Frontpage.FETCH')
+  FETCH: generateStatuses('Frontpage.FETCH'),
 };
 
 export const Readme = {
-  FETCH: generateStatuses('Readme.FETCH')
+  FETCH: generateStatuses('Readme.FETCH'),
 };
 
 export const Tag = {
   FETCH: generateStatuses('Tag.FETCH'),
-  POPULAR: generateStatuses('Tag.POPULAR')
+  POPULAR: generateStatuses('Tag.POPULAR'),
 };
 
 export const Podcast = {
   FETCH: generateStatuses('Podcast.FETCH'),
   DELETE: generateStatuses('Podcast.DELETE'),
   CREATE: generateStatuses('Podcast.CREATE'),
-  UPDATE: generateStatuses('Podcast.UPDATE')
+  UPDATE: generateStatuses('Podcast.UPDATE'),
 };
 
 export const Poll = {
@@ -398,7 +398,7 @@ export const Poll = {
   FETCH_ALL: generateStatuses('Poll.FETCH_ALL'),
   DELETE: generateStatuses('Poll.DELETE'),
   CREATE: generateStatuses('Poll.CREATE'),
-  UPDATE: generateStatuses('Poll.UPDATE')
+  UPDATE: generateStatuses('Poll.UPDATE'),
 };
 
 /**
@@ -406,5 +406,5 @@ export const Poll = {
  */
 export const Reaction = {
   ADD: generateStatuses('Reaction.ADD'),
-  DELETE: generateStatuses('Reaction.DELETE')
+  DELETE: generateStatuses('Reaction.DELETE'),
 };

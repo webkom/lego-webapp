@@ -9,13 +9,13 @@ import styles from './GalleryDetailsRow.css';
 type Props = {
   gallery: Object,
   showDescription?: boolean,
-  size?: 'small' | 'large'
+  size?: 'small' | 'large',
 };
 
 const GalleryDetailsRow = ({
   gallery,
   showDescription = false,
-  size = 'large'
+  size = 'large',
 }: Props) => (
   <Flex className={styles.details} column>
     <div

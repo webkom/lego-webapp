@@ -11,9 +11,9 @@ import { Content } from 'app/components/Content';
 type Props = {
   surveys: Array<SurveyEntity>,
   fetching: boolean,
-  push: string => void,
+  push: (string) => void,
   hasMore: boolean,
-  fetchAll: Object => Promise<*>
+  fetchAll: (Object) => Promise<*>,
 };
 
 const SurveyPage = ({ surveys, fetching, push, hasMore, fetchAll }: Props) => {
@@ -28,7 +28,7 @@ const SurveyPage = ({ surveys, fetching, push, hasMore, fetchAll }: Props) => {
           fetching={fetching}
           fetchNext={() => {
             fetchAll({
-              next: true
+              next: true,
             });
           }}
         >

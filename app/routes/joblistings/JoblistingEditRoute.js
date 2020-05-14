@@ -6,7 +6,7 @@ import { push } from 'connected-react-router';
 import {
   fetchJoblisting,
   editJoblisting,
-  deleteJoblisting
+  deleteJoblisting,
 } from 'app/actions/JoblistingActions';
 import { fetchCompanyContacts } from 'app/actions/CompanyActions';
 import JoblistingEditor from 'app/routes/joblistings/components/JoblistingEditor';
@@ -25,7 +25,7 @@ const mapStateToProps = (state, props) => {
   const initialCompany = joblisting.company
     ? {
         label: joblisting.company.name,
-        value: joblisting.company.id
+        value: joblisting.company.id,
       }
     : {};
 
@@ -39,17 +39,17 @@ const mapStateToProps = (state, props) => {
       responsible: joblisting.responsible
         ? {
             label: joblisting.responsible.name,
-            value: joblisting.responsible.id
+            value: joblisting.responsible.id,
           }
         : { label: 'Ingen', value: null },
-      workplaces: (joblisting.workplaces || []).map(workplace => ({
+      workplaces: (joblisting.workplaces || []).map((workplace) => ({
         label: workplace.town,
-        value: workplace.town
-      }))
+        value: workplace.town,
+      })),
     },
     joblistingId,
     isNew: false,
-    company: company ? company : initialCompany
+    company: company ? company : initialCompany,
   };
 };
 
@@ -57,7 +57,7 @@ const mapDispatchToProps = {
   submitJoblisting: editJoblisting,
   deleteJoblisting,
   fetchCompanyContacts,
-  push
+  push,
 };
 
 export default compose(
@@ -66,9 +66,6 @@ export default compose(
     dispatch(fetchJoblisting(joblistingId))
   ),
 
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['company.value'])
 )(JoblistingEditor);

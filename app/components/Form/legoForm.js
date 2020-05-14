@@ -5,8 +5,8 @@ import { handleSubmissionError } from './utils';
 import * as Sentry from '@sentry/browser';
 import { pick } from 'lodash';
 type Props = {
-  onSubmitFail: any => any,
-  onSubmit: any => Promise<*>,
+  onSubmitFail: (any) => any,
+  onSubmit: (any) => Promise<*>,
   /* Enable auto submissionError
    * This only works if 'onSubmit' is passed into legoForm,
    * and not if it is passed into 'handleSubmit()
@@ -34,7 +34,7 @@ type Props = {
    * The id is always picked, together with all registered fields
    */
   pickAdditionalValues?: Array<string>,
-  ...any
+  ...any,
 };
 
 const legoForm = ({
@@ -48,7 +48,7 @@ const legoForm = ({
 }: Props) =>
   reduxForm({
     ...rest,
-    onSubmitFail: errors => {
+    onSubmitFail: (errors) => {
       if (!enableFocusOnError) {
         return onSubmitFail(errors);
       }
@@ -85,7 +85,7 @@ const legoForm = ({
           )
         : values;
 
-      return onSubmit(pickedValues, dispatch, props).catch(error => {
+      return onSubmit(pickedValues, dispatch, props).catch((error) => {
         Sentry.captureException(error);
         /* eslint no-console: 0 */
         if (__DEV__) console.error(error);
@@ -95,7 +95,7 @@ const legoForm = ({
 
         return handleSubmissionError(error);
       });
-    }
+    },
   });
 
 export default legoForm;

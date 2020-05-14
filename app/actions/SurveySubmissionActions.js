@@ -11,9 +11,9 @@ export function fetchSubmissions(surveyId: number): Thunk<*> {
     endpoint: `/surveys/${surveyId}/submissions/`,
     schema: [surveySubmissionSchema],
     meta: {
-      errorMessage: 'Henting av svar på spørreundersøkelse feilet'
+      errorMessage: 'Henting av svar på spørreundersøkelse feilet',
     },
-    propagateError: true
+    propagateError: true,
   });
 }
 
@@ -27,8 +27,8 @@ export function fetchUserSubmission(surveyId: number, user: number) {
       surveyId,
       user,
       errorMessage:
-        'Noe gikk galt i sjekking av hvorvidt brukeren allerede har svart'
-    }
+        'Noe gikk galt i sjekking av hvorvidt brukeren allerede har svart',
+    },
   });
 }
 
@@ -42,8 +42,8 @@ export function addSubmission({ surveyId, ...data }: Object): Thunk<*> {
     meta: {
       errorMessage: 'Legg til svar feilet',
       successMessage: 'Undersøkelse besvart!',
-      surveyId
-    }
+      surveyId,
+    },
   });
 }
 
@@ -56,8 +56,8 @@ export function deleteSubmission(surveyId: number, submissionId: number) {
       surveyId,
       id: submissionId,
       errorMessage: 'Sletting av svar feilet',
-      successMessage: 'Svar slettet.'
-    }
+      successMessage: 'Svar slettet.',
+    },
   });
 }
 
@@ -76,8 +76,8 @@ export function hideAnswer(
       submissionId,
       answerId,
       errorMessage: 'Skjuling av kommentar feilet',
-      successMessage: 'Kommentar skjult.'
-    }
+      successMessage: 'Kommentar skjult.',
+    },
   });
 }
 
@@ -96,7 +96,7 @@ export function showAnswer(
       submissionId,
       answerId,
       errorMessage: 'Avslutning av skjuling feilet',
-      successMessage: 'Skjuling av kommentar avsluttet.'
-    }
+      successMessage: 'Skjuling av kommentar avsluttet.',
+    },
   });
 }

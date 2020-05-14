@@ -5,7 +5,7 @@ import { selectPodcastById } from 'app/reducers/podcasts';
 import {
   fetchPodcasts,
   deletePodcast,
-  editPodcast
+  editPodcast,
 } from 'app/actions/PodcastAction';
 import prepare from 'app/utils/prepare';
 import PodcastEditor from './components/PodcastEditor';
@@ -15,7 +15,7 @@ import loadingIndicator from 'app/utils/loadingIndicator';
 const mapDispachToProps = {
   deletePodcast,
   push,
-  handleSubmitCallback: editPodcast
+  handleSubmitCallback: editPodcast,
 };
 
 const mapStateToProps = (state, props) => {
@@ -25,24 +25,21 @@ const mapStateToProps = (state, props) => {
   return {
     initialValues: {
       ...podcast,
-      authors: (podcast.authors || []).filter(Boolean).map(user => ({
+      authors: (podcast.authors || []).filter(Boolean).map((user) => ({
         label: user.username,
-        value: user.id
+        value: user.id,
       })),
-      thanks: (podcast.thanks || []).filter(Boolean).map(user => ({
+      thanks: (podcast.thanks || []).filter(Boolean).map((user) => ({
         label: user.username,
-        value: user.id
-      }))
+        value: user.id,
+      })),
     },
-    actionGrant: state.podcasts.actionGrant
+    actionGrant: state.podcasts.actionGrant,
   };
 };
 
 export default compose(
   prepare((props, dispatch) => dispatch(fetchPodcasts())),
-  connect(
-    mapStateToProps,
-    mapDispachToProps
-  ),
+  connect(mapStateToProps, mapDispachToProps),
   loadingIndicator(['initialValues.id'])
 )(PodcastEditor);

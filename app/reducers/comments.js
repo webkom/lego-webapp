@@ -13,7 +13,7 @@ export type CommentEntity = {
   createdAt: string,
   children: Array<Object>,
   text: string | null,
-  author: UserEntity | null
+  author: UserEntity | null,
 };
 
 type State = any;
@@ -21,41 +21,37 @@ type State = any;
  * Used by the individual entity reducers
  */
 export function mutateComments(forTargetType: string) {
-  return produce(
-    (newState: State, action: any): void => {
-      switch (action.type) {
-        case Comment.ADD.SUCCESS: {
-          const [serverTargetType, targetId] = action.meta.contentTarget.split(
-            '-'
-          );
-          const targetType = getEntityType(serverTargetType);
-          if (targetType === forTargetType) {
-            newState.byId[targetId].comments =
-              newState.byId[targetId].comments || [];
-            newState.byId[targetId].comments.push(action.payload.result);
-          }
+  return produce((newState: State, action: any): void => {
+    switch (action.type) {
+      case Comment.ADD.SUCCESS: {
+        const [serverTargetType, targetId] = action.meta.contentTarget.split(
+          '-'
+        );
+        const targetType = getEntityType(serverTargetType);
+        if (targetType === forTargetType) {
+          newState.byId[targetId].comments =
+            newState.byId[targetId].comments || [];
+          newState.byId[targetId].comments.push(action.payload.result);
         }
       }
     }
-  );
+  });
 }
 
 type CommentState = any;
 
-const mutate = produce(
-  (newState: CommentState, action: any): void => {
-    switch (action.type) {
-      case Comment.DELETE.SUCCESS:
-        newState.byId[action.meta.id].text = null;
-        newState.byId[action.meta.id].author = null;
-    }
+const mutate = produce((newState: CommentState, action: any): void => {
+  switch (action.type) {
+    case Comment.DELETE.SUCCESS:
+      newState.byId[action.meta.id].text = null;
+      newState.byId[action.meta.id].author = null;
   }
-);
+});
 
 export default createEntityReducer({
   key: 'comments',
   types: {
-    fetch: Comment.FETCH
+    fetch: Comment.FETCH,
   },
-  mutate
+  mutate,
 });

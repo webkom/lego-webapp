@@ -11,7 +11,7 @@ type Props = {
   /** The classname of the div wrapping the content - the className */
   className?: string,
   /** Any style tp be added to the div wrapping the content - the style */
-  style?: Object
+  style?: Object,
 };
 
 /**

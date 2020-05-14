@@ -10,9 +10,9 @@ export function fetchPage(pageSlug: string) {
     endpoint: `/pages/${pageSlug}/`,
     schema: pageSchema,
     meta: {
-      errorMessage: 'Henting av side feilet'
+      errorMessage: 'Henting av side feilet',
     },
-    propagateError: true
+    propagateError: true,
   });
 }
 
@@ -23,8 +23,8 @@ export function deletePage(pageSlug: string) {
     method: 'DELETE',
     meta: {
       id: pageSlug,
-      errorMessage: 'Sletting av side feilet'
-    }
+      errorMessage: 'Sletting av side feilet',
+    },
   });
 }
 
@@ -34,9 +34,9 @@ export function fetchAll() {
     endpoint: '/pages/',
     schema: [pageSchema],
     meta: {
-      errorMessage: 'Henting av sider feilet'
+      errorMessage: 'Henting av sider feilet',
     },
-    propagateError: true
+    propagateError: true,
   });
 }
 
@@ -48,8 +48,8 @@ export function updatePage(slug: string, body: Object) {
     body,
     schema: pageSchema,
     meta: {
-      errorMessage: 'Oppdatering av sider feilet'
-    }
+      errorMessage: 'Oppdatering av sider feilet',
+    },
   });
 }
 
@@ -61,7 +61,7 @@ export function createPage(body: Object) {
     body,
     schema: pageSchema,
     meta: {
-      errorMessage: 'Creating page failed'
-    }
+      errorMessage: 'Creating page failed',
+    },
   });
 }

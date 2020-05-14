@@ -1,1 +1,1 @@
-global.requestAnimationFrame = fn => setTimeout(fn, 0);
+global.requestAnimationFrame = (fn) => setTimeout(fn, 0);

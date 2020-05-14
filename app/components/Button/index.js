@@ -23,7 +23,7 @@ type Props = {
   /** Danger button styling */
   danger?: boolean,
   /** Make it look like a link */
-  flat?: boolean
+  flat?: boolean,
 };
 
 /**

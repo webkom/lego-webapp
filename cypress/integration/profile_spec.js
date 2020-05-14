@@ -13,7 +13,7 @@ describe('Profile settings', () => {
     lastName: 'webkom',
     gender: 'male',
     allergies: '',
-    email: 'webkom@aba.wtf'
+    email: 'webkom@aba.wtf',
   };
 
   const updatedUser = {
@@ -22,23 +22,19 @@ describe('Profile settings', () => {
     lastName: 'komite',
     gender: 'female',
     allergies: 'gluten',
-    email: 'webkom@web.kom'
+    email: 'webkom@web.kom',
   };
 
   it('can navigate to profile from homepage (menubar)', () => {
     cy.visit('/');
-    cy.get(c('Header__menu'))
-      .find(c('Image__image'))
-      .click();
+    cy.get(c('Header__menu')).find(c('Image__image')).click();
     cy.contains(c('Dropdown__content') + ' li', initialUser.username).click();
     cy.url().should('include', '/users/me');
   });
 
   it('can navigate to settings from menubar', () => {
     cy.visit('/');
-    cy.get(c('Header__menu'))
-      .find(c('Image__image'))
-      .click();
+    cy.get(c('Header__menu')).find(c('Image__image')).click();
     cy.contains(c('Dropdown__content') + ' li', 'Innstillinger').click();
     cy.url().should('include', '/users/me/settings/profile');
   });
@@ -82,29 +78,19 @@ describe('Profile settings', () => {
     cy.visit('/users/me/settings/profile');
 
     cy.contains('Submit').should('be.disabled');
-    cy.get('input[name=firstName]')
-      .clear()
-      .type(updatedUser.firstName);
-    cy.get('input[name=lastName]')
-      .clear()
-      .type(updatedUser.lastName);
+    cy.get('input[name=firstName]').clear().type(updatedUser.firstName);
+    cy.get('input[name=lastName]').clear().type(updatedUser.lastName);
     cy.get('input[name=gender]').check(updatedUser.gender);
-    cy.get('input[name=allergies]')
-      .clear()
-      .type(updatedUser.allergies);
-    cy.get('input[name=email]')
-      .clear()
-      .type(updatedUser.email);
+    cy.get('input[name=allergies]').clear().type(updatedUser.allergies);
+    cy.get('input[name=email]').clear().type(updatedUser.email);
 
-    cy.contains('Submit')
-      .should('not.be.disabled')
-      .click();
+    cy.contains('Submit').should('not.be.disabled').click();
 
     // TODO: Should use me in URL instead of username
     // cy.url().should('include', '/users/me');
     cy.url().should('include', `/users/${initialUser.username}`);
 
-    cy.window().then(win => {
+    cy.window().then((win) => {
       // TODO: Should be scrolled to top
       // expect(win.scrollY).to.be.closeTo(0, 50);
     });
@@ -137,32 +123,24 @@ describe('Profile settings', () => {
     const submitButton = () => cy.contains('Submit');
 
     // firstName field validation
-    field('firstName')
-      .clear()
-      .blur();
+    field('firstName').clear().blur();
 
     fieldError('firstName').should('contain', 'må fylles ut');
     submitButton().should('be.disabled');
 
     // lastName field validation
-    field('lastName')
-      .clear()
-      .blur();
+    field('lastName').clear().blur();
 
     fieldError('lastName').should('contain', 'må fylles ut');
     submitButton().should('be.disabled');
 
     // allergies field validation
-    field('allergies')
-      .clear()
-      .blur();
+    field('allergies').clear().blur();
 
     fieldError('allergies').should('not.exist');
 
     // email field validation
-    field('email')
-      .clear()
-      .blur();
+    field('email').clear().blur();
 
     fieldError('email').should('contain', 'må fylles ut');
     submitButton().should('be.disabled');
@@ -173,10 +151,7 @@ describe('Profile settings', () => {
 
     const submitButton = () => cy.contains('Submit');
 
-    field('email')
-      .clear()
-      .type('webkom@abakus.no')
-      .blur();
+    field('email').clear().type('webkom@abakus.no').blur();
     submitButton().click();
     fieldError('email').should('contain', 'abakus.no');
   });

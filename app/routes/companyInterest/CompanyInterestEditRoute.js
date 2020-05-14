@@ -4,11 +4,11 @@ import { connect } from 'react-redux';
 import { fetchSemesters } from 'app/actions/CompanyActions';
 import {
   fetchCompanyInterest,
-  updateCompanyInterest
+  updateCompanyInterest,
 } from 'app/actions/CompanyInterestActions';
 import CompanyInterestPage, {
   EVENT_TYPES,
-  OTHER_TYPES
+  OTHER_TYPES,
 } from './components/CompanyInterestPage';
 import { selectCompanyInterestById } from 'app/reducers/companyInterest';
 import { selectCompanySemesters } from 'app/reducers/companySemesters';
@@ -26,14 +26,14 @@ const loadCompanyInterests = (props, dispatch) => {
 const mapStateToProps = (state, props) => {
   const { companyInterestId } = props.match.params;
   const companyInterest = selectCompanyInterestById(state, {
-    companyInterestId
+    companyInterestId,
   });
 
   const semesters = selectCompanySemesters(state);
   if (!companyInterest || !semesters)
     return {
       edit: true,
-      companyInterestId
+      companyInterestId,
     };
 
   const allEvents = Object.keys(EVENT_TYPES);
@@ -47,52 +47,49 @@ const mapStateToProps = (state, props) => {
         ? {
             label: companyInterest.company.name,
             title: companyInterest.company.name,
-            value: '' + companyInterest.company.id
+            value: '' + companyInterest.company.id,
           }
         : {
             label: companyInterest.companyName,
-            title: companyInterest.companyName
+            title: companyInterest.companyName,
           },
-      events: allEvents.map(event => ({
+      events: allEvents.map((event) => ({
         name: event,
         checked:
-          companyInterest.events && companyInterest.events.includes(event)
+          companyInterest.events && companyInterest.events.includes(event),
       })),
-      otherOffers: allOtherOffers.map(offer => ({
+      otherOffers: allOtherOffers.map((offer) => ({
         name: offer,
         checked:
           companyInterest.otherOffers &&
-          companyInterest.otherOffers.includes(offer)
+          companyInterest.otherOffers.includes(offer),
       })),
       semesters: semesters
-        .map(semester => ({
+        .map((semester) => ({
           ...semester,
           checked:
             companyInterest.semesters &&
-            companyInterest.semesters.includes(semester.id)
+            companyInterest.semesters.includes(semester.id),
         }))
-        .filter(semester => semester.activeInterestForm || semester.checked)
-        .sort(sortSemesterChronologically)
+        .filter((semester) => semester.activeInterestForm || semester.checked)
+        .sort(sortSemesterChronologically),
     },
     companyInterestId,
     companyInterest,
     edit: true,
-    language: 'norwegian'
+    language: 'norwegian',
   };
 };
 
 const mapDispatchToProps = (dispatch, { match: { params } }) => {
   const id = Number(params.companyInterestId);
   return {
-    push: path => dispatch(push(path)),
-    onSubmit: data => dispatch(updateCompanyInterest(id, data))
+    push: (path) => dispatch(push(path)),
+    onSubmit: (data) => dispatch(updateCompanyInterest(id, data)),
   };
 };
 
 export default compose(
   prepare(loadCompanyInterests),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )(CompanyInterestPage);

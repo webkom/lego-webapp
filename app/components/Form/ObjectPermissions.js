@@ -32,7 +32,7 @@ const ObjectPermissions = ({
   canEditUsers?: any,
   canEditGroups?: any,
   canViewGroups?: any,
-  requireAuth?: any
+  requireAuth?: any,
 }) => {
   return [
     requireAuth && (
@@ -70,17 +70,17 @@ const ObjectPermissions = ({
         placeholder="Velg brukere"
         filter={['users.user']}
       />
-    )
+    ),
   ].filter(Boolean);
 };
 
-const toIds = mapping => mapping.value;
+const toIds = (mapping) => mapping.value;
 
 export const normalizeObjectPermissions = ({
   requireAuth,
   canViewGroups: initialCanViewGroups,
   canEditGroups: initialCanEditGroups,
-  canEditUsers: initialCanEditUsers
+  canEditUsers: initialCanEditUsers,
 }: Object) => {
   const canEditUsers = initialCanEditUsers && initialCanEditUsers.map(toIds);
   const canViewGroups = initialCanViewGroups && initialCanViewGroups.map(toIds);
@@ -89,39 +89,39 @@ export const normalizeObjectPermissions = ({
     requireAuth: !!requireAuth,
     ...(canEditUsers ? { canEditUsers } : {}),
     ...(canEditGroups ? { canEditGroups } : {}),
-    ...(canViewGroups ? { canViewGroups } : {})
+    ...(canViewGroups ? { canViewGroups } : {}),
   };
 };
 export const objectPermissionsToInitialValues = ({
   canViewGroups: initialCanViewGroups,
   canEditGroups: initialCanEditGroups,
-  canEditUsers: initialCanEditUsers
+  canEditUsers: initialCanEditUsers,
 }: Object) => {
   const canEditGroups =
     initialCanEditGroups &&
-    initialCanEditGroups.filter(Boolean).map(group => ({
+    initialCanEditGroups.filter(Boolean).map((group) => ({
       ...group,
       label: group.name,
-      value: group.id
+      value: group.id,
     }));
   const canViewGroups =
     initialCanViewGroups &&
-    initialCanViewGroups.filter(Boolean).map(group => ({
+    initialCanViewGroups.filter(Boolean).map((group) => ({
       ...group,
       label: group.name,
-      value: group.id
+      value: group.id,
     }));
   const canEditUsers =
     initialCanEditUsers &&
-    initialCanEditUsers.filter(Boolean).map(user => ({
+    initialCanEditUsers.filter(Boolean).map((user) => ({
       ...user,
       label: user.fullName,
-      value: user.id
+      value: user.id,
     }));
   return {
     ...(canEditUsers ? { canEditUsers } : {}),
     ...(canEditGroups ? { canEditGroups } : {}),
-    ...(canViewGroups ? { canViewGroups } : {})
+    ...(canViewGroups ? { canViewGroups } : {}),
   };
 };
 
@@ -129,7 +129,7 @@ export const objectPermissionsInitialValues = {
   requireAuth: true,
   canEditUsers: [],
   canEditGroups: [],
-  canViewGroups: []
+  canViewGroups: [],
 };
 
 export default ObjectPermissions;

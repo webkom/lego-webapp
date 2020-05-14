@@ -11,7 +11,7 @@ import {
   TextInput,
   Form,
   withSubmissionError,
-  SelectInput
+  SelectInput,
 } from 'app/components/Form';
 import ImageUpload from 'app/components/Upload/ImageUpload';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
@@ -24,7 +24,7 @@ type Page = {
   title: string,
   content: string,
   picture?: string,
-  category: string
+  category: string,
 };
 
 export type Props = {
@@ -34,21 +34,21 @@ export type Props = {
   loggedIn: boolean,
   currentUser: any,
   uploadFile: ({ file: string, isPublic: boolean }) => Promise<*>,
-  handleSubmit: Function => Promise<*>,
+  handleSubmit: (Function) => Promise<*>,
   updatePage: (string, Page) => Promise<*>,
-  createPage: Page => Promise<*>,
+  createPage: (Page) => Promise<*>,
   deletePage: (slug: string) => Promise<*>,
-  push: string => void,
-  initialized: boolean
+  push: (string) => void,
+  initialized: boolean,
 };
 
 type State = {
   page: {
     picture: string,
     content: string,
-    category: string
+    category: string,
   },
-  images: { [key: string]: string }
+  images: { [key: string]: string },
 };
 
 export default class PageEditor extends Component<Props, State> {
@@ -56,20 +56,20 @@ export default class PageEditor extends Component<Props, State> {
     page: {
       picture: get(this.props, ['page', 'picture']),
       content: get(this.props, ['page', 'content']),
-      category: get(this.props, ['page', 'category'])
+      category: get(this.props, ['page', 'category']),
     },
-    images: {}
+    images: {},
   };
 
   setPicture = (image: any) => {
-    this.props.uploadFile({ file: image, isPublic: true }).then(action => {
+    this.props.uploadFile({ file: image, isPublic: true }).then((action) => {
       const file = action.meta.fileToken;
       this.setState({
         images: {
           ...this.state.images,
-          [file]: window.URL.createObjectURL(image)
+          [file]: window.URL.createObjectURL(image),
         },
-        page: { ...this.state.page, picture: file }
+        page: { ...this.state.page, picture: file },
       });
     });
   };
@@ -84,7 +84,7 @@ export default class PageEditor extends Component<Props, State> {
       title: data.title,
       content: data.content,
       picture: undefined,
-      category: data.category
+      category: data.category,
     };
 
     const { push, pageSlug } = this.props;
@@ -96,14 +96,14 @@ export default class PageEditor extends Component<Props, State> {
     }
 
     if (this.props.isNew) {
-      return this.props.createPage(body).then(result => {
+      return this.props.createPage(body).then((result) => {
         const slug = result.payload.result;
         const pageCategory = result.payload.entities.pages[slug].category;
         push(`/pages/${pageCategory}/${slug}`);
       });
     }
 
-    return this.props.updatePage(pageSlug, body).then(result => {
+    return this.props.updatePage(pageSlug, body).then((result) => {
       const slug = result.payload.result;
       const pageCategory = result.payload.entities.pages[slug].category;
       push(`/pages/${pageCategory}/${slug}`);

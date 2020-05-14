@@ -20,7 +20,7 @@ import Announcements from './announcements';
 import {
   CompanyInterestEnglish,
   CompanyInterestNorwegian,
-  CompanyInterest
+  CompanyInterest,
 } from './companyInterest';
 import Bdb from './bdb';
 import Contact from './contact';
@@ -39,7 +39,7 @@ const RouterConfig = () => (
   </>
 );
 
-const AppWrapper = props => (
+const AppWrapper = (props) => (
   <AppRoute {...props}>
     <UserContext.Consumer>
       {({ currentUser, loggedIn }) => (

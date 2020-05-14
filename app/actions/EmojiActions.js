@@ -10,9 +10,9 @@ export function fetchEmoji(shortCode: string): Thunk<*> {
     endpoint: `/emojis/${shortCode}/`,
     schema: emojiSchema,
     meta: {
-      errorMessage: 'Henting av reaksjon feilet'
+      errorMessage: 'Henting av reaksjon feilet',
     },
-    propagateError: true
+    propagateError: true,
   });
 }
 
@@ -27,12 +27,12 @@ export function fetchEmojis({ next = false }: { next: boolean } = {}): Thunk<
         endpoint: '/emojis/',
         schema: [emojiSchema],
         query: {
-          ...cursor
+          ...cursor,
         },
         meta: {
-          errorMessage: 'Henting av emojis feilet'
+          errorMessage: 'Henting av emojis feilet',
         },
-        propagateError: true
+        propagateError: true,
       })
     );
   };

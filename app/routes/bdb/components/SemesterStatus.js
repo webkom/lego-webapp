@@ -5,7 +5,7 @@ import styles from './bdb.css';
 import {
   selectColorCode,
   selectMostProminentStatus,
-  getContactedStatuses
+  getContactedStatuses,
 } from '../utils.js';
 import SemesterStatusContent from './SemesterStatusContent';
 import type { BaseSemesterStatusEntity } from 'app/reducers/companies';
@@ -20,16 +20,16 @@ type Props = {
     Array<CompanySemesterContactedStatus>
   ) => any,
   companyId: number,
-  semIndex: number
+  semIndex: number,
 };
 
 type State = {
-  displayDropdown: boolean
+  displayDropdown: boolean,
 };
 
 export default class SemesterStatus extends Component<Props, State> {
   state = {
-    displayDropdown: false
+    displayDropdown: false,
   };
 
   render() {
@@ -48,7 +48,7 @@ export default class SemesterStatus extends Component<Props, State> {
       >
         <SemesterStatusContent
           semesterStatus={semesterStatus}
-          editFunction={statusString =>
+          editFunction={(statusString) =>
             this.props.editChangedStatuses(
               companyId,
               semIndex,

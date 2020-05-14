@@ -12,17 +12,17 @@ type Props = {
   pristine: boolean,
   submitting: boolean,
   application: Object,
-  handleSubmit: any => void,
+  handleSubmit: (any) => void,
   updateOAuth2Application: (application: Object) => any,
   createOAuth2Application: (application: Object) => any,
-  push: (location: string) => void
+  push: (location: string) => void,
 };
 
 const UserSettingsOAuth2Form = (props: Props) => {
   const { invalid, pristine, submitting } = props;
   const disabledButton = invalid || pristine || submitting;
 
-  const submit = data => {
+  const submit = (data) => {
     const handleSubmit = props.create
       ? props.createOAuth2Application
       : props.updateOAuth2Application;
@@ -65,7 +65,7 @@ const UserSettingsOAuth2Form = (props: Props) => {
             component={TextInput.Field}
             readOnly
             props={{
-              disabled: true
+              disabled: true,
             }}
           />
         )}
@@ -78,7 +78,7 @@ const UserSettingsOAuth2Form = (props: Props) => {
             component={TextInput.Field}
             readOnly
             props={{
-              disabled: true
+              disabled: true,
             }}
           />
         )}

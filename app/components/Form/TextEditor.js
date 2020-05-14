@@ -7,7 +7,7 @@ import styles from './TextEditor.css';
 
 type Props = {
   className: string,
-  rich?: boolean
+  rich?: boolean,
 };
 
 /**

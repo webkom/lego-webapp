@@ -10,13 +10,10 @@ const mapDispatchToProps = { mutateFunction: createEmailUser, push };
 
 const mapStateToProps = () => ({
   initialValues: {
-    internalEmailEnabled: true
-  }
+    internalEmailEnabled: true,
+  },
 });
 
-export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
-)(EmailUserEditor);
+export default compose(connect(mapStateToProps, mapDispatchToProps))(
+  EmailUserEditor
+);

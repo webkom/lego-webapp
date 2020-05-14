@@ -9,8 +9,8 @@ const comment = {
   createdAt: '2016-02-02T22:17:21.838103Z',
   author: {
     id: 1,
-    username: 'cat'
-  }
+    username: 'cat',
+  },
 };
 
 describe('components', () => {

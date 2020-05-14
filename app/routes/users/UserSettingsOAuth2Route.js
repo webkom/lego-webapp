@@ -6,38 +6,35 @@ import UserSettingsOAuth2 from './components/UserSettingsOAuth2';
 import {
   fetchOAuth2Applications,
   fetchOAuth2Grants,
-  deleteOAuth2Grant
+  deleteOAuth2Grant,
 } from 'app/actions/OAuth2Actions';
 import {
   selectOAuth2Applications,
-  selectOAuth2Grants
+  selectOAuth2Grants,
 } from 'app/reducers/oauth2';
 
 const loadData = (props, dispatch) => {
   return Promise.all([
     dispatch(fetchOAuth2Applications()),
-    dispatch(fetchOAuth2Grants())
+    dispatch(fetchOAuth2Grants()),
   ]);
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     applications: selectOAuth2Applications(state),
     grants: selectOAuth2Grants(state),
-    actionGrant: state.oauth2Applications.actionGrant
+    actionGrant: state.oauth2Applications.actionGrant,
   };
 };
 
 const mapDispatchToProps = {
   fetchOAuth2Applications,
   fetchOAuth2Grants,
-  deleteOAuth2Grant
+  deleteOAuth2Grant,
 };
 
 export default compose(
   prepare(loadData),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )(UserSettingsOAuth2);

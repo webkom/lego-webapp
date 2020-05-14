@@ -16,18 +16,18 @@ type Props = {
   fetchingEmojis: boolean,
   addReaction: ({
     emoji: string,
-    contentTarget: string
+    contentTarget: string,
   }) => Promise<*>,
   deleteReaction: ({ reactionId: ID, contentTarget: string }) => Promise<*>,
   fetchEmojis: () => Promise<*>,
-  contentTarget: string
+  contentTarget: string,
 };
 
 type State = {
   hovered: boolean,
   addEmojiHovered: boolean,
   reactionPickerOpen: boolean,
-  fetchedEmojis: boolean
+  fetchedEmojis: boolean,
 };
 
 // Note: Most use cases won't want to use this class directly. Instead, use
@@ -39,30 +39,30 @@ class Reactions extends React.Component<Props, State> {
     hovered: false,
     addEmojiHovered: false,
     reactionPickerOpen: false,
-    fetchedEmojis: false
+    fetchedEmojis: false,
   };
 
   onMouseEnter = () => {
     this.setState({
-      hovered: true
+      hovered: true,
     });
   };
 
   onMouseLeave = () => {
     this.setState({
-      hovered: false
+      hovered: false,
     });
   };
 
   onAddEmojiEnter = () => {
     this.setState({
-      addEmojiHovered: true
+      addEmojiHovered: true,
     });
   };
 
   onAddEmojiLeave = () => {
     this.setState({
-      addEmojiHovered: false
+      addEmojiHovered: false,
     });
   };
 
@@ -78,7 +78,7 @@ class Reactions extends React.Component<Props, State> {
 
     this.setState({
       reactionPickerOpen: !this.state.reactionPickerOpen,
-      fetchedEmojis: true
+      fetchedEmojis: true,
     });
     e.stopPropagation();
   };
@@ -99,13 +99,13 @@ class Reactions extends React.Component<Props, State> {
       fetchingEmojis,
       addReaction,
       deleteReaction,
-      contentTarget
+      contentTarget,
     } = this.props;
     const { reactionPickerOpen, addEmojiHovered } = this.state;
     return (
       <div
         className={styles.reactionsContainer}
-        ref={node => {
+        ref={(node) => {
           this.node = node;
         }}
       >

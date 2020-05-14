@@ -16,9 +16,9 @@ import { eventTypeToString } from 'app/routes/events/utils';
 type Props = {
   survey: SurveyEntity,
   actionGrant: ActionGrant,
-  push: string => void,
-  shareSurvey: number => Promise<*>,
-  hideSurvey: number => Promise<*>
+  push: (string) => void,
+  shareSurvey: (number) => Promise<*>,
+  hideSurvey: (number) => Promise<*>,
 };
 
 class SurveyDetail extends Component<Props> {

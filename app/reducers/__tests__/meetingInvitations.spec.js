@@ -10,9 +10,9 @@ describe('reducers', () => {
         items: ['3-test'],
         byId: {
           '3-test': {
-            status: 'nope'
-          }
-        }
+            status: 'nope',
+          },
+        },
       };
       const action = {
         type: Meeting.SET_INVITATION_STATUS.SUCCESS,
@@ -20,9 +20,9 @@ describe('reducers', () => {
           meetingId: 3,
           status: 'ok',
           user: {
-            username: 'test'
-          }
-        }
+            username: 'test',
+          },
+        },
       };
       expect(meetingInvitations(prevState, action)).toEqual({
         actionGrant: [],
@@ -30,9 +30,9 @@ describe('reducers', () => {
         items: ['3-test'],
         byId: {
           '3-test': {
-            status: 'ok'
-          }
-        }
+            status: 'ok',
+          },
+        },
       });
     });
   });

@@ -10,12 +10,12 @@ describe('reducers', () => {
       items: [3, 4],
       byId: {
         3: {
-          id: 3
+          id: 3,
         },
         4: {
-          id: 4
-        }
-      }
+          id: 4,
+        },
+      },
     };
 
     it('Event.SOCKET_EVENT_UPDATED', () => {
@@ -26,11 +26,11 @@ describe('reducers', () => {
           id: 1,
           pools: [
             {
-              registrations: [{ id: 31 }, { id: 32 }]
-            }
+              registrations: [{ id: 31 }, { id: 32 }],
+            },
           ],
-          waitingRegistrations: [{ id: 33 }]
-        }
+          waitingRegistrations: [{ id: 33 }],
+        },
       };
       expect(registrations(prevState, action)).toEqual({
         actionGrant: [],
@@ -38,21 +38,21 @@ describe('reducers', () => {
         items: [3, 4, 31, 32, 33],
         byId: {
           3: {
-            id: 3
+            id: 3,
           },
           4: {
-            id: 4
+            id: 4,
           },
           31: {
-            id: 31
+            id: 31,
           },
           32: {
-            id: 32
+            id: 32,
           },
           33: {
-            id: 33
-          }
-        }
+            id: 33,
+          },
+        },
       });
     });
 
@@ -61,8 +61,8 @@ describe('reducers', () => {
       const action = {
         type: Event.SOCKET_REGISTRATION.SUCCESS,
         payload: {
-          id: 35
-        }
+          id: 35,
+        },
       };
       expect(registrations(prevState, action)).toEqual({
         actionGrant: [],
@@ -70,15 +70,15 @@ describe('reducers', () => {
         items: [3, 4, 35],
         byId: {
           3: {
-            id: 3
+            id: 3,
           },
           4: {
-            id: 4
+            id: 4,
           },
           35: {
-            id: 35
-          }
-        }
+            id: 35,
+          },
+        },
       });
     });
 
@@ -88,8 +88,8 @@ describe('reducers', () => {
         type: Event.SOCKET_REGISTRATION.SUCCESS,
         payload: {
           id: 3,
-          test: 1
-        }
+          test: 1,
+        },
       };
       expect(registrations(prevState, action)).toEqual({
         actionGrant: [],
@@ -98,12 +98,12 @@ describe('reducers', () => {
         byId: {
           3: {
             id: 3,
-            test: 1
+            test: 1,
           },
           4: {
-            id: 4
-          }
-        }
+            id: 4,
+          },
+        },
       });
     });
 
@@ -115,16 +115,16 @@ describe('reducers', () => {
         byId: {
           3: {
             id: 3,
-            unregistrationDate: 'xyz'
-          }
-        }
+            unregistrationDate: 'xyz',
+          },
+        },
       };
       const action = {
         type: Event.SOCKET_REGISTRATION.SUCCESS,
         payload: {
           id: 3,
-          test: 1
-        }
+          test: 1,
+        },
       };
       expect(registrations(prevState, action)).toEqual({
         actionGrant: [],
@@ -133,9 +133,9 @@ describe('reducers', () => {
         byId: {
           3: {
             id: 3,
-            test: 1
-          }
-        }
+            test: 1,
+          },
+        },
       });
     });
 
@@ -144,8 +144,8 @@ describe('reducers', () => {
       const action = {
         type: Event.REQUEST_UNREGISTER.BEGIN,
         meta: {
-          id: 3
-        }
+          id: 3,
+        },
       };
       expect(registrations(prevState, action)).toEqual({
         actionGrant: [],
@@ -154,12 +154,12 @@ describe('reducers', () => {
         byId: {
           3: {
             id: 3,
-            fetching: true
+            fetching: true,
           },
           4: {
-            id: 4
-          }
-        }
+            id: 4,
+          },
+        },
       });
     });
 
@@ -168,8 +168,8 @@ describe('reducers', () => {
       const action = {
         type: Event.REQUEST_UNREGISTER.FAILURE,
         meta: {
-          id: 3
-        }
+          id: 3,
+        },
       };
       expect(registrations(prevState, action)).toEqual({
         actionGrant: [],
@@ -178,12 +178,12 @@ describe('reducers', () => {
         byId: {
           3: {
             id: 3,
-            fetching: false
+            fetching: false,
           },
           4: {
-            id: 4
-          }
-        }
+            id: 4,
+          },
+        },
       });
     });
 
@@ -193,8 +193,8 @@ describe('reducers', () => {
         type: Event.UPDATE_REGISTRATION.SUCCESS,
         payload: {
           id: 3,
-          test: 1
-        }
+          test: 1,
+        },
       };
       expect(registrations(prevState, action)).toEqual({
         actionGrant: [],
@@ -203,12 +203,12 @@ describe('reducers', () => {
         byId: {
           3: {
             id: 3,
-            test: 1
+            test: 1,
           },
           4: {
-            id: 4
-          }
-        }
+            id: 4,
+          },
+        },
       });
     });
 
@@ -217,8 +217,8 @@ describe('reducers', () => {
       const action = {
         type: Event.SOCKET_UNREGISTRATION.SUCCESS,
         payload: {
-          id: 3
-        }
+          id: 3,
+        },
       };
       const newState = registrations(prevState, action);
       expect(newState.items).toEqual([3, 4]);

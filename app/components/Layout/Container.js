@@ -6,7 +6,7 @@ import styles from './Container.css';
 
 type Props = {
   className?: string,
-  children: Node
+  children: Node,
 };
 
 function Container({ children, className }: Props) {

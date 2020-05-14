@@ -5,7 +5,7 @@ import joinValues from 'app/utils/joinValues';
 import type { Workplace, Joblisting } from 'app/models';
 
 type YearProps = {
-  joblisting: Joblisting
+  joblisting: Joblisting,
 };
 
 export const Year = ({ joblisting }: YearProps) => (
@@ -18,11 +18,11 @@ export const Year = ({ joblisting }: YearProps) => (
 );
 
 type WorkplacesProps = {
-  places: Array<Workplace>
+  places: Array<Workplace>,
 };
 
 export const Workplaces = ({ places }: WorkplacesProps) => (
-  <span>{joinValues(places.map(place => place.town))}</span>
+  <span>{joinValues(places.map((place) => place.town))}</span>
 );
 
 const types = {
@@ -30,7 +30,7 @@ const types = {
   part_time: 'Deltid',
   summer_job: 'Sommerjobb',
   master_thesis: 'Masteroppgave',
-  other: 'Annet'
+  other: 'Annet',
 };
 
 type JobType = $Keys<typeof types>;

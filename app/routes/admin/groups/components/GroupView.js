@@ -11,13 +11,13 @@ import GroupPermissions from '../components/GroupPermissions';
 type GroupModel = {
   name: string,
   description: string,
-  text: ?string
+  text: ?string,
 };
 
 type GroupProps = {
   group: GroupModel,
   children?: Element<*>,
-  match: { path: string }
+  match: { path: string },
 };
 
 const Group = (props: GroupProps) => {
@@ -52,7 +52,7 @@ const Group = (props: GroupProps) => {
 
 type GroupViewProps = {
   group: GroupModel,
-  match: { path: string }
+  match: { path: string },
 };
 
 export default class GroupView extends Component<GroupViewProps> {

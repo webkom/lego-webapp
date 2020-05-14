@@ -18,19 +18,19 @@ import { SemesterNavigation } from 'app/routes/companyInterest/utils';
 import { createValidator, required } from 'app/utils/validation';
 
 type Props = {
-  onSubmit: CompanySemesterEntity => Promise<*>,
-  push: string => void,
+  onSubmit: (CompanySemesterEntity) => Promise<*>,
+  push: (string) => void,
   events: Array<Object>,
   semesters: Array<CompanySemesterEntity>,
   autoFocus: any,
   edit: boolean,
-  editSemester: CompanySemesterEntity => void,
-  addSemester: CompanySemesterEntity => void,
-  activeSemesters: Array<CompanySemesterEntity>
+  editSemester: (CompanySemesterEntity) => void,
+  addSemester: (CompanySemesterEntity) => void,
+  activeSemesters: Array<CompanySemesterEntity>,
 } & FormProps;
 
 const CompanySemesterGUI = (props: Props) => {
-  const activeSemesters = semesters => (
+  const activeSemesters = (semesters) => (
     <Flex column>
       {semesters.map((semester, index) => (
         <Flex key={index} className={styles.guiBoxes}>
@@ -42,7 +42,7 @@ const CompanySemesterGUI = (props: Props) => {
             onClick={() =>
               props.editSemester({
                 ...semester,
-                activeInterestForm: false
+                activeInterestForm: false,
               })
             }
             className={styles.remove}
@@ -101,7 +101,7 @@ const CompanySemesterGUI = (props: Props) => {
 
 const onSubmit = ({ year, semester }, dispatch, props: Props) => {
   const { semesters, addSemester, editSemester } = props;
-  const existingCompanySemester = semesters.find(companySemester => {
+  const existingCompanySemester = semesters.find((companySemester) => {
     return (
       Number(companySemester.year) == Number(year) &&
       companySemester.semester == semester
@@ -110,14 +110,14 @@ const onSubmit = ({ year, semester }, dispatch, props: Props) => {
   if (existingCompanySemester)
     return editSemester({
       ...existingCompanySemester,
-      activeInterestForm: true
+      activeInterestForm: true,
     });
   else return addSemester({ year, semester }); // Default is activeInterestForm: true
 };
 
 const validate = createValidator({
   year: [required()],
-  semester: [required()]
+  semester: [required()],
 });
 
 export default legoForm({
@@ -125,5 +125,5 @@ export default legoForm({
   onSubmitSuccess: (result, dispatch) => dispatch(reset('addCompanySemester')),
   onSubmit,
   enableReinitialize: true,
-  validate
+  validate,
 })(CompanySemesterGUI);

@@ -16,7 +16,7 @@ type Props = {
     number,
     ?number,
     Array<CompanySemesterContactedStatus>
-  ) => ?Promise<*>
+  ) => ?Promise<*>,
 };
 
 export default class CompanySingleRow extends Component<Props> {
@@ -26,7 +26,7 @@ export default class CompanySingleRow extends Component<Props> {
 
     return (
       (company.semesterStatuses || []).find(
-        status =>
+        (status) =>
           status.year === result.year && status.semester === result.semester
       ) || { contactedStatus: ['not_contacted'] }
     );
@@ -38,7 +38,7 @@ export default class CompanySingleRow extends Component<Props> {
     const semesters = [
       this.semesterElement(0),
       this.semesterElement(1),
-      this.semesterElement(2)
+      this.semesterElement(2),
     ].map((status, i) => (
       <SemesterStatus
         key={i}

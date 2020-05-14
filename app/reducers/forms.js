@@ -27,10 +27,10 @@ export default formReducer.plugin({
                       .hour(12)
                       .minute(0)
                       .toISOString(),
-                    permissionGroups: []
-                  }
-                ]
-              }
+                    permissionGroups: [],
+                  },
+                ],
+              },
             };
           case 'NORMAL':
             return {
@@ -46,18 +46,18 @@ export default formReducer.plugin({
                       .hour(12)
                       .minute(0)
                       .toISOString(),
-                    permissionGroups: []
-                  }
-                ]
-              }
+                    permissionGroups: [],
+                  },
+                ],
+              },
             };
           default:
             return {
               ...state,
               values: {
                 ...state.values,
-                pools: []
-              }
+                pools: [],
+              },
             };
         }
       default:
@@ -72,7 +72,7 @@ export default formReducer.plugin({
         return {
           ...state,
           userId: action.meta.userId,
-          submitting: true
+          submitting: true,
         };
       }
       case Event.REQUEST_REGISTER.FAILURE:
@@ -80,7 +80,7 @@ export default formReducer.plugin({
         return {
           ...state,
           submitting: false,
-          submitSucceeded: false
+          submitSucceeded: false,
         };
       }
       case Event.SOCKET_UNREGISTRATION.SUCCESS:
@@ -92,7 +92,7 @@ export default formReducer.plugin({
         return {
           ...state,
           submitting: false,
-          submitSucceeded: true
+          submitSucceeded: true,
         };
       }
       case Event.SOCKET_REGISTRATION.FAILURE:
@@ -105,11 +105,11 @@ export default formReducer.plugin({
           ...state,
           registrationId: null,
           submitting: false,
-          submitSucceeded: false
+          submitSucceeded: false,
         };
       }
       default:
         return state;
     }
-  }
+  },
 });

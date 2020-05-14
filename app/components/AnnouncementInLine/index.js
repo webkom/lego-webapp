@@ -16,23 +16,23 @@ type Props = {
   event?: ID,
   meeting?: ID,
   group?: ID,
-  createAnnouncement: CreateAnnouncement => Promise<*>,
-  handleSubmit: Function => void,
+  createAnnouncement: (CreateAnnouncement) => Promise<*>,
+  handleSubmit: (Function) => void,
   actionGrant: boolean,
   hidden?: boolean,
   button?: boolean,
-  className?: string
+  className?: string,
 };
 
 type State = {
   hidden: boolean,
-  sent: boolean
+  sent: boolean,
 };
 
 class AnnouncementInLine extends Component<Props, State> {
   state = {
     hidden: true,
-    sent: false
+    sent: false,
   };
 
   onSubmit = (announcement, event, meeting, group) => {
@@ -41,16 +41,16 @@ class AnnouncementInLine extends Component<Props, State> {
       events: event ? [event] : [],
       meetings: meeting ? [meeting] : [],
       groups: group ? [group] : [],
-      send: true
+      send: true,
     });
     this.setState(() => ({
-      sent: true
+      sent: true,
     }));
   };
 
   handleHide = () => {
-    this.setState(prevState => ({
-      hidden: !prevState.hidden
+    this.setState((prevState) => ({
+      hidden: !prevState.hidden,
     }));
   };
 
@@ -63,7 +63,7 @@ class AnnouncementInLine extends Component<Props, State> {
       meeting,
       group,
       button,
-      className
+      className,
     } = this.props;
 
     const showButton = button && this.state.hidden && !this.state.sent;
@@ -97,7 +97,7 @@ class AnnouncementInLine extends Component<Props, State> {
 
             {showForm && (
               <Form
-                onSubmit={handleSubmit(values =>
+                onSubmit={handleSubmit((values) =>
                   this.onSubmit(values, event, meeting, group)
                 )}
               >
@@ -124,15 +124,14 @@ const resetForm = (result, dispatch) => {
   dispatch(reset('announcementInline'));
 };
 
-const mapStateToProps = state => ({ actionGrant: state.allowed.announcements });
+const mapStateToProps = (state) => ({
+  actionGrant: state.allowed.announcements,
+});
 
 const mapDispatchToProps = { createAnnouncement };
 
 export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   reduxForm({
     form: 'announcementInline',
     onSubmitSuccess: resetForm,
@@ -142,6 +141,6 @@ export default compose(
         errors.message = 'Du må skrive en melding';
       }
       return errors;
-    }
+    },
   })
 )(AnnouncementInLine);

@@ -42,13 +42,13 @@ const EVENT = {
   thumbnail: null,
   company: {},
   comments: [],
-  pools: []
+  pools: [],
 };
 
 const defaultProps = {
   currentUser: { username: 'webkom' },
   registration: null,
-  event: EVENT
+  event: EVENT,
 };
 const store = configureStore([])({});
 
@@ -77,8 +77,8 @@ describe('<JoinEventForm />', () => {
       event: {
         ...defaultProps.event,
         startTime: moment().add(7, 'days'),
-        activationTime: moment().add(20, 'minutes')
-      }
+        activationTime: moment().add(20, 'minutes'),
+      },
     }).find('JoinEventForm');
 
     expect(component.props()).toEqual(
@@ -86,7 +86,7 @@ describe('<JoinEventForm />', () => {
         buttonOpen: false,
         captchaOpen: false,
         formOpen: false,
-        registrationOpensIn: null
+        registrationOpensIn: null,
       })
     );
   });
@@ -96,8 +96,8 @@ describe('<JoinEventForm />', () => {
       ...defaultProps,
       event: {
         ...defaultProps.event,
-        activationTime: moment().add(10, 'minutes')
-      }
+        activationTime: moment().add(10, 'minutes'),
+      },
     }).find('JoinEventForm');
 
     /**
@@ -109,7 +109,7 @@ describe('<JoinEventForm />', () => {
         buttonOpen: false,
         captchaOpen: false,
         formOpen: true,
-        registrationOpensIn: '10:01'
+        registrationOpensIn: '10:01',
       })
     );
   });
@@ -119,8 +119,8 @@ describe('<JoinEventForm />', () => {
       ...defaultProps,
       event: {
         ...defaultProps.event,
-        activationTime: moment().add(1, 'minutes')
-      }
+        activationTime: moment().add(1, 'minutes'),
+      },
     }).find('JoinEventForm');
 
     expect(component.props()).toEqual(
@@ -128,7 +128,7 @@ describe('<JoinEventForm />', () => {
         buttonOpen: false,
         captchaOpen: true,
         formOpen: true,
-        registrationOpensIn: '01:01'
+        registrationOpensIn: '01:01',
       })
     );
   });
@@ -139,8 +139,8 @@ describe('<JoinEventForm />', () => {
       ...defaultProps,
       event: {
         ...defaultProps.event,
-        activationTime
-      }
+        activationTime,
+      },
     });
 
     clock.tick('00:59');
@@ -151,7 +151,7 @@ describe('<JoinEventForm />', () => {
         buttonOpen: false,
         captchaOpen: true,
         formOpen: true,
-        registrationOpensIn: '00:02'
+        registrationOpensIn: '00:02',
       })
     );
 
@@ -163,7 +163,7 @@ describe('<JoinEventForm />', () => {
         buttonOpen: true,
         captchaOpen: true,
         formOpen: true,
-        registrationOpensIn: null
+        registrationOpensIn: null,
       })
     );
   });
@@ -173,8 +173,8 @@ describe('<JoinEventForm />', () => {
       ...defaultProps,
       event: {
         ...defaultProps.event,
-        activationTime: moment().subtract(1, 'seconds')
-      }
+        activationTime: moment().subtract(1, 'seconds'),
+      },
     }).find('JoinEventForm');
 
     expect(component.props()).toEqual(
@@ -182,7 +182,7 @@ describe('<JoinEventForm />', () => {
         buttonOpen: true,
         captchaOpen: true,
         formOpen: true,
-        registrationOpensIn: null
+        registrationOpensIn: null,
       })
     );
   });

@@ -8,10 +8,10 @@ import Emoji from 'app/components/Emoji';
 type Props = {
   isActive: boolean,
   name: string,
-  onCategoryClick: (category: string) => void
+  onCategoryClick: (category: string) => void,
 };
 
-const mapCategoryNameToIcon = name => {
+const mapCategoryNameToIcon = (name) => {
   switch (name) {
     case 'people':
       return '😃';

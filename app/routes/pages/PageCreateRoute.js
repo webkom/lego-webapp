@@ -9,18 +9,15 @@ import { push } from 'connected-react-router';
 function mapStateToProps(state, props) {
   return {
     isNew: true,
-    page: {}
+    page: {},
   };
 }
 
 const mapDispatchToProps = { createPage, uploadFile, push };
 
 export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   legoForm({
-    form: 'page-create'
+    form: 'page-create',
   })
 )(PageEditor);

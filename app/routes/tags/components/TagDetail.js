@@ -7,7 +7,7 @@ import styles from './TagDetail.css';
 import { Link } from 'react-router-dom';
 
 type Props = {
-  tag: Object
+  tag: Object,
 };
 
 class TagDetail extends React.Component<Props> {
@@ -16,7 +16,7 @@ class TagDetail extends React.Component<Props> {
       article: 'Artikler',
       event: 'Arrangementer',
       quote: 'Sitater',
-      joblisting: 'Jobbannonser'
+      joblisting: 'Jobbannonser',
     };
     return trans[key];
   };
@@ -27,7 +27,7 @@ class TagDetail extends React.Component<Props> {
         <Link to={`/articles?tag=${tag}`}>
           <h4>{this.transelate(key)}</h4>
         </Link>
-      )
+      ),
     };
     return links[key] || <h4>{this.transelate(key)}</h4>;
   };
@@ -40,7 +40,7 @@ class TagDetail extends React.Component<Props> {
         <h1>{tag.tag}</h1>
 
         <div className={styles.wrapper}>
-          {map(toPairs(tag.relatedCounts), pair => (
+          {map(toPairs(tag.relatedCounts), (pair) => (
             <div className={styles.entity}>
               <h2>{pair[1]}</h2>
               {this.link(pair[0], tag.tag)}

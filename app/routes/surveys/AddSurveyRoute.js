@@ -17,10 +17,10 @@ import qs from 'qs';
 
 const loadData = (props, dispatch) => {
   const { templateType, event } = qs.parse(props.location.search, {
-    ignoreQueryPrefix: true
+    ignoreQueryPrefix: true,
   });
   if (event) {
-    return dispatch(fetchEvent(event)).then(result =>
+    return dispatch(fetchEvent(event)).then((result) =>
       dispatch(fetchTemplate(result.payload.entities.events[event].eventType))
     );
   }
@@ -32,19 +32,19 @@ const loadData = (props, dispatch) => {
 const mapStateToProps = (state, props) => {
   const notFetching = !state.surveys.fetching && !state.events.fetching;
   const { templateType, event } = qs.parse(props.location.search, {
-    ignoreQueryPrefix: true
+    ignoreQueryPrefix: true,
   });
 
   const fullEvent = selectEventById(state, { eventId: event });
   const selectedTemplateType = templateType || fullEvent.eventType;
   const template = selectSurveyTemplate(state, {
     ...props,
-    templateType: templateType || fullEvent.eventType
+    templateType: templateType || fullEvent.eventType,
   });
   const initialEvent = event
     ? {
         value: fullEvent.id,
-        label: fullEvent.title
+        label: fullEvent.title,
       }
     : '';
   const activeFrom = event ? fullEvent.endTime : defaultActiveFrom(12, 0);
@@ -57,14 +57,14 @@ const mapStateToProps = (state, props) => {
         ...template,
         title,
         event: initialEvent,
-        activeFrom
+        activeFrom,
       };
     } else {
       initialValues = {
         activeFrom,
         event: initialEvent,
         title,
-        questions: [initialQuestion]
+        questions: [initialQuestion],
       };
     }
   }
@@ -76,24 +76,21 @@ const mapStateToProps = (state, props) => {
     initialValues,
     survey: {
       questions: template ? template.questions : [],
-      event: event && fullEvent
+      event: event && fullEvent,
     },
     notFetching,
-    activeFrom: formSelector(state, 'activeFrom') || defaultActiveFrom(12, 0)
+    activeFrom: formSelector(state, 'activeFrom') || defaultActiveFrom(12, 0),
   };
 };
 
 const mapDispatchToProps = {
   submitFunction: addSurvey,
-  push
+  push,
 };
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
   prepare(loadData, ['location.search']),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['notFetching'])
 )(SurveyEditor);

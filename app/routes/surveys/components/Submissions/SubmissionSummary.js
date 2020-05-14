@@ -10,13 +10,13 @@ import Button from 'app/components/Button';
 
 type Props = {
   submissions: Array<SubmissionEntity>,
-  addSubmission: SubmissionEntity => Promise<*>,
+  addSubmission: (SubmissionEntity) => Promise<*>,
   survey: SurveyEntity,
   hideAnswer: (number, number, number) => Promise<*>,
   showAnswer: (number, number, number) => Promise<*>,
-  editSurvey: Object => Promise<*>,
+  editSurvey: (Object) => Promise<*>,
   value: string,
-  option: string
+  option: string,
 };
 
 const SubmissionSummary = ({
@@ -26,13 +26,13 @@ const SubmissionSummary = ({
   showAnswer,
   editSurvey,
   option,
-  value
+  value,
 }: Props) => {
-  const generateTextAnswers = question => {
+  const generateTextAnswers = (question) => {
     const texts = submissions
-      .map(submission => {
+      .map((submission) => {
         const answer = submission.answers.find(
-          answer => answer.question.id === question.id
+          (answer) => answer.question.id === question.id
         );
         return (
           answer && (
@@ -42,7 +42,7 @@ const SubmissionSummary = ({
               style={{
                 backgroundColor:
                   answer.hideFromPublic && 'var(--lego-color-gray-light)',
-                padding: answer.hideFromPublic && '5px'
+                padding: answer.hideFromPublic && '5px',
               }}
             >
               <span>{answer.answerText}</span>
@@ -77,28 +77,28 @@ const SubmissionSummary = ({
   const generateQuestionData = (question: QuestionEntity) => {
     const questionData = [];
 
-    question.options.map(option => {
+    question.options.map((option) => {
       const selectedCount = submissions
         .map(
-          submission =>
+          (submission) =>
             submission.answers.find(
-              answer => answer.question.id === question.id
+              (answer) => answer.question.id === question.id
             ) || {}
         )
-        .filter(answer =>
-          (answer.selectedOptions || []).find(o => o === option.id)
+        .filter((answer) =>
+          (answer.selectedOptions || []).find((o) => o === option.id)
         ).length;
 
       questionData.push({
         option: option.optionText,
-        selections: selectedCount
+        selections: selectedCount,
       });
     });
     return questionData;
   };
 
   const graphData = {};
-  survey.questions.map(question => {
+  survey.questions.map((question) => {
     graphData[question.id] = generateQuestionData(question);
   });
 

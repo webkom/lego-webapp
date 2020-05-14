@@ -12,14 +12,14 @@ import {
   updateUser,
   updatePicture,
   changePassword,
-  removePicture
+  removePicture,
 } from 'app/actions/UserActions';
 
 const loadData = (
   {
     match: {
-      params: { username }
-    }
+      params: { username },
+    },
   },
   dispatch
 ) => dispatch(fetchUser(username));
@@ -27,7 +27,7 @@ const loadData = (
 const mapStateToProps = (state, props) => {
   const {
     isMe,
-    match: { params }
+    match: { params },
   } = props;
   const username = isMe ? state.auth.username : params.username;
   const user = selectUserByUsername(state, { username });
@@ -36,8 +36,8 @@ const mapStateToProps = (state, props) => {
     isMe,
     initialValues: {
       ...user,
-      isAbakusMember: user && user.isAbakusMember.toString()
-    }
+      isAbakusMember: user && user.isAbakusMember.toString(),
+    },
   };
 };
 
@@ -46,14 +46,11 @@ const mapDispatchToProps = {
   updatePicture,
   changePassword,
   push,
-  removePicture
+  removePicture,
 };
 
 export default compose(
   prepare(loadData),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['user'])
 )(UserSettings);

@@ -4,7 +4,7 @@ import {
   injectStripe,
   PaymentRequestButtonElement,
   Elements,
-  StripeProvider
+  StripeProvider,
 } from 'react-stripe-elements';
 import config from 'app/config';
 import StripeCheckout from 'react-stripe-checkout';
@@ -19,14 +19,14 @@ type Props = {
   event: Event,
   currentUser: User,
   onToken: (token: string) => Promise<*>,
-  chargeStatus: EventRegistrationChargeStatus
+  chargeStatus: EventRegistrationChargeStatus,
 };
 
-type FormProps = Props & { stripe: { paymentRequest: Object => Object } };
+type FormProps = Props & { stripe: { paymentRequest: (Object) => Object } };
 
 type State = {
   paymentRequest: Object,
-  canMakePayment?: boolean
+  canMakePayment?: boolean,
 };
 
 const paymentButtonWidth = 130;
@@ -41,12 +41,12 @@ class PaymentRequestForm extends React.Component<FormProps, State> {
       currency: 'nok',
       total: {
         label: event.title,
-        amount: event.price
+        amount: event.price,
       },
       requestPayerName: true,
       requestPayerEmail: true,
       requestPayerPhone: true,
-      country: 'NO'
+      country: 'NO',
     });
 
     paymentRequest.on('token', async ({ complete, token, ...data }) => {
@@ -54,13 +54,13 @@ class PaymentRequestForm extends React.Component<FormProps, State> {
       complete('success');
     });
 
-    paymentRequest.canMakePayment().then(result => {
+    paymentRequest.canMakePayment().then((result) => {
       this.setState({ canMakePayment: !!result });
     });
 
     this.state = {
       canMakePayment: undefined,
-      paymentRequest
+      paymentRequest,
     };
   }
 
@@ -73,7 +73,7 @@ class PaymentRequestForm extends React.Component<FormProps, State> {
           <div
             className={styles.overlay}
             style={{
-              width: paymentButtonWidth
+              width: paymentButtonWidth,
             }}
           />
         )}
@@ -84,8 +84,8 @@ class PaymentRequestForm extends React.Component<FormProps, State> {
               className="PaymentRequestButton"
               style={{
                 paymentRequestButton: {
-                  height: '41px'
-                }
+                  height: '41px',
+                },
               }}
             />
           </div>

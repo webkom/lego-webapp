@@ -21,18 +21,18 @@ type Props = {
   fetching: boolean,
   children: Element<*>,
   fetch: (galleryId: Number, args: { next: boolean }) => Promise<*>,
-  push: string => Promise<*>,
+  push: (string) => Promise<*>,
   uploadAndCreateGalleryPicture: (ID, File | Array<DropFile>) => Promise<*>,
-  actionGrant: ActionGrant
+  actionGrant: ActionGrant,
 };
 
 type State = {
-  upload: boolean
+  upload: boolean,
 };
 
 export default class GalleryDetail extends Component<Props, State> {
   state = {
-    upload: false
+    upload: false,
   };
 
   toggleUpload = (response?: File | Array<DropFile>) => {
@@ -57,7 +57,7 @@ export default class GalleryDetail extends Component<Props, State> {
       currentUser,
       hasMore,
       fetch,
-      fetching
+      fetching,
     } = this.props;
     const actionGrant = gallery && gallery.actionGrant;
 

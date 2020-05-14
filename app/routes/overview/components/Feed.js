@@ -13,7 +13,7 @@ import ErrorBoundary from 'app/components/ErrorBoundary';
 
 type Props = {
   feedItems: Array<any>,
-  feed: Object
+  feed: Object,
 };
 
 const FeedItem = (props: { activity: AggregatedActivity }) => {
@@ -52,7 +52,7 @@ const Feed = (props: Props) => {
       <div className={styles.content}>
         {props.feedItems.length > 0 ? (
           <ul>
-            {props.feedItems.map(activity => (
+            {props.feedItems.map((activity) => (
               <ErrorBoundary hidden key={activity.id}>
                 <FeedItem activity={activity} />
               </ErrorBoundary>

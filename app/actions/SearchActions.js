@@ -11,9 +11,9 @@ export function toggleSearch() {
     type: Search.TOGGLE_OPEN,
     meta: {
       analytics: {
-        eventType: EventTypes.track
-      }
-    }
+        eventType: EventTypes.track,
+      },
+    },
   };
 }
 
@@ -21,7 +21,7 @@ export function autocomplete(
   query: string,
   filter?: Array<string>
 ): Thunk<Promise<Array<any>>> {
-  return dispatch => {
+  return (dispatch) => {
     if (!query) {
       return Promise.resolve([]);
     }
@@ -33,19 +33,19 @@ export function autocomplete(
         method: 'POST',
         body: {
           query,
-          types: filter
+          types: filter,
         },
         meta: {
           query,
-          errorMessage: 'Autofyll feilet'
-        }
+          errorMessage: 'Autofyll feilet',
+        },
       })
-    ).then(action => selectAutocomplete(action ? (action: any).payload : []));
+    ).then((action) => selectAutocomplete(action ? (action: any).payload : []));
   };
 }
 
 export function search(query: string, types?: Array<string>): Thunk<*> {
-  return dispatch => {
+  return (dispatch) => {
     if (!query) {
       return Promise.resolve();
     }
@@ -57,19 +57,19 @@ export function search(query: string, types?: Array<string>): Thunk<*> {
         method: 'POST',
         body: {
           query,
-          types
+          types,
         },
         meta: {
           query,
-          errorMessage: 'Søk feilet'
-        }
+          errorMessage: 'Søk feilet',
+        },
       })
     );
   };
 }
 
 export function mention(query: string): Thunk<*> {
-  return dispatch => {
+  return (dispatch) => {
     if (!query) {
       return Promise.resolve();
     }
@@ -81,12 +81,12 @@ export function mention(query: string): Thunk<*> {
         method: 'POST',
         body: {
           query,
-          contentType: 'users.user'
+          contentType: 'users.user',
         },
         meta: {
           query,
-          errorMessage: 'Omtale feilet'
-        }
+          errorMessage: 'Omtale feilet',
+        },
       })
     );
   };

@@ -11,8 +11,8 @@ export function fetchUserFeed(userId: string) {
     endpoint: `/feed-user/${userId}/`,
     schema: [feedActivitySchema],
     meta: {
-      feedId: feedIdByUserId(userId)
-    }
+      feedId: feedIdByUserId(userId),
+    },
   });
 }
 
@@ -22,8 +22,8 @@ export function fetchPersonalFeed() {
     endpoint: '/feed-personal/',
     schema: [feedActivitySchema],
     meta: {
-      feedId: 'personal'
-    }
+      feedId: 'personal',
+    },
   });
 }
 
@@ -33,7 +33,7 @@ export function fetchNotificationFeed() {
     endpoint: '/feed-notifications/',
     schema: [feedActivitySchema],
     meta: {
-      feedId: 'notifications'
-    }
+      feedId: 'notifications',
+    },
   });
 }

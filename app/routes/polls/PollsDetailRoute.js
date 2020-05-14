@@ -23,28 +23,25 @@ const mapStateToProps = (state, props) => {
       title: poll.title,
       description: poll.description,
       pinned: poll.pinned,
-      tags: poll.tags.map(value => ({
+      tags: poll.tags.map((value) => ({
         className: 'Select-create-option-placeholder',
         label: value,
-        value: value
+        value: value,
       })),
-      options: poll.options
-    }
+      options: poll.options,
+    },
   };
 };
 
 const mapDispatchToProps = {
   deletePoll,
   editPoll,
-  votePoll
+  votePoll,
 };
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
   prepare((props, dispatch) => dispatch(fetchPoll(props.match.params.pollsId))),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['poll.id'])
 )(PollDetail);

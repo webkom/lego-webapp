@@ -11,7 +11,7 @@ import prepare from 'app/utils/prepare';
 
 const mapStateToProps = (state, { match: { params } }) => {
   const emailList = selectEmailListById(state, {
-    emailListId: params.emailListId
+    emailListId: params.emailListId,
   });
   return {
     emailList,
@@ -19,28 +19,28 @@ const mapStateToProps = (state, { match: { params } }) => {
     initialValues: {
       ...emailList,
       // $FlowFixMe
-      groups: (emailList.groups || []).filter(Boolean).map(groups => ({
+      groups: (emailList.groups || []).filter(Boolean).map((groups) => ({
         label: groups.name,
-        value: groups.id
+        value: groups.id,
       })),
       // $FlowFixMe
-      groupRoles: (emailList.groupRoles || []).map(groupRoles => ({
+      groupRoles: (emailList.groupRoles || []).map((groupRoles) => ({
         label: ROLES[groupRoles],
-        value: groupRoles
+        value: groupRoles,
       })),
       // $FlowFixMe
-      users: (emailList.users || []).filter(Boolean).map(user => ({
+      users: (emailList.users || []).filter(Boolean).map((user) => ({
         label: user.fullName,
-        value: user.id
+        value: user.id,
       })),
       // $FlowFixMe
       additionalEmails: (emailList.additionalEmails || []).map(
-        additionalEmail => ({
+        (additionalEmail) => ({
           label: additionalEmail,
-          value: additionalEmail
+          value: additionalEmail,
         })
-      )
-    }
+      ),
+    },
   };
 };
 
@@ -51,9 +51,6 @@ const loadData = ({ match: { params } }, dispatch) =>
 
 export default compose(
   prepare(loadData, ['match.params.emailListId']),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['emailList.name'])
 )(EmailListEditor);

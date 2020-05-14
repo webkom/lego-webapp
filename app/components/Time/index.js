@@ -7,7 +7,7 @@ import config from 'app/config';
 type Props = {
   format?: string,
   time?: string | Date | moment,
-  wordsAgo?: boolean
+  wordsAgo?: boolean,
 };
 
 function getFormattedDateTime(time: moment, format: string): string {
@@ -44,10 +44,10 @@ function Time({
 
 export const FormatTime = ({
   time,
-  format
+  format,
 }: {
   time: moment | string,
-  format?: string
+  format?: string,
 }) => {
   const dateTime = moment(time);
 
@@ -63,10 +63,10 @@ export const FormatTime = ({
 
 export const FromToTime = ({
   from,
-  to
+  to,
 }: {
   from: moment | string,
-  to: moment | string
+  to: moment | string,
 }) => {
   const fromTime = moment(from);
   const toTime = moment(to);

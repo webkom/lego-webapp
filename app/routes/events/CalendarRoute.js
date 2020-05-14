@@ -16,18 +16,12 @@ const getDate = ({ params }) => {
 const loadData = (props, dispatch) => {
   const date = getDate(props.match);
   if (date.isValid()) {
-    const dateAfter = date
-      .clone()
-      .startOf('month')
-      .startOf('week');
-    const dateBefore = date
-      .clone()
-      .endOf('month')
-      .endOf('week');
+    const dateAfter = date.clone().startOf('month').startOf('week');
+    const dateBefore = date.clone().endOf('month').endOf('week');
     return dispatch(
       fetchList({
         dateAfter: dateAfter.format('YYYY-MM-DD'),
-        dateBefore: dateBefore.format('YYYY-MM-DD')
+        dateBefore: dateBefore.format('YYYY-MM-DD'),
       })
     );
   }
@@ -40,7 +34,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     date: getDate(ownProps.match),
     actionGrant,
-    icalToken
+    icalToken,
   };
 };
 
@@ -48,8 +42,5 @@ const mapDispatchToProps = { fetchList };
 
 export default compose(
   prepare(loadData, ['match.params.year', 'match.params.month']),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )(Calendar);

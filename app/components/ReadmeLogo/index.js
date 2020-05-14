@@ -7,7 +7,7 @@ function ReadmeLogo() {
       style={{
         fontFamily: 'OCR A Extended',
         fontWeight: '400',
-        textTransform: 'lowercase'
+        textTransform: 'lowercase',
       }}
     >
       readme

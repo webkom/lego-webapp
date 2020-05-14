@@ -18,8 +18,8 @@ export function fetchAll({ next = false }: { next: boolean } = {}): Thunk<*> {
         schema: [pollSchema],
         query: cursor,
         meta: {
-          errorMessage: 'Henting av avstemninger feilet'
-        }
+          errorMessage: 'Henting av avstemninger feilet',
+        },
       })
     );
   };
@@ -31,9 +31,9 @@ export function fetchPoll(pollId: number) {
     endpoint: `/polls/${pollId}/`,
     schema: pollSchema,
     meta: {
-      errorMessage: 'Henting av avstemning feilet'
+      errorMessage: 'Henting av avstemning feilet',
     },
-    propagateError: true
+    propagateError: true,
   });
 }
 
@@ -41,9 +41,9 @@ export function createPoll(data: {
   description: string,
   pinned: boolean,
   tags: Tags,
-  options: Array<{ name: string }>
+  options: Array<{ name: string }>,
 }): Thunk<*> {
-  return dispatch =>
+  return (dispatch) =>
     dispatch(
       callAPI({
         types: Poll.CREATE,
@@ -53,8 +53,8 @@ export function createPoll(data: {
         schema: pollSchema,
         meta: {
           errorMessage: 'Legg til avstemning feilet',
-          successMessage: 'Avstemning lagt til!'
-        }
+          successMessage: 'Avstemning lagt til!',
+        },
       })
     ).then(() => dispatch(push(`/polls/`)));
 }
@@ -64,7 +64,7 @@ export function editPoll(data: {
   description: string,
   pinned: boolean,
   tags: Tags,
-  options: Array<OptionEntity | { name: string }>
+  options: Array<OptionEntity | { name: string }>,
 }): Thunk<*> {
   return callAPI({
     types: Poll.UPDATE,
@@ -74,13 +74,13 @@ export function editPoll(data: {
     schema: pollSchema,
     meta: {
       errorMessage: 'Endring av avstemning feilet',
-      successMessage: 'Avstemning endret'
-    }
+      successMessage: 'Avstemning endret',
+    },
   });
 }
 
 export function deletePoll(id: number): Thunk<*> {
-  return dispatch =>
+  return (dispatch) =>
     dispatch(
       callAPI({
         types: Poll.DELETE,
@@ -88,8 +88,8 @@ export function deletePoll(id: number): Thunk<*> {
         method: 'DELETE',
         meta: {
           id,
-          errorMessage: 'Fjerning av avstemning feilet!'
-        }
+          errorMessage: 'Fjerning av avstemning feilet!',
+        },
       })
     ).then(() => dispatch(push(`/polls/`)));
 }
@@ -105,7 +105,7 @@ export function votePoll(pollId: number, optionId: number) {
       pollId,
       optionId,
       errorMessage: 'Avstemning feilet!',
-      successMessage: 'Avstemning registrert!'
-    }
+      successMessage: 'Avstemning registrert!',
+    },
   });
 }
