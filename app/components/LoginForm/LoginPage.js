@@ -5,20 +5,20 @@ import styles from './Login.css';
 import {
   LoginForm,
   RegisterForm,
-  ForgotPasswordForm
+  ForgotPasswordForm,
 } from 'app/components/LoginForm';
 import { Flex } from 'app/components/Layout';
 import { Content } from 'app/components/Content';
 
 type State = {
-  mode: 'login' | 'register' | 'forgotPassword'
+  mode: 'login' | 'register' | 'forgotPassword',
 };
 
 type Props = {};
 
 class LoginPage extends Component<Props, State> {
   state = {
-    mode: 'login'
+    mode: 'login',
   };
 
   toggleRegisterUser = (e: Event) => {

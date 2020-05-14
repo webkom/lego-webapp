@@ -8,7 +8,7 @@ export const Keyboard = {
   LEFT: 37,
   ENTER: 13,
   UP: 38,
-  DOWN: 40
+  DOWN: 40,
 };
 
 export const ROLES = {
@@ -31,19 +31,19 @@ export const ROLES = {
   dugnad_admin: 'Dugnadsansvarlig',
   trip_admin: 'Turansvarlig',
   sponsor_admin: 'Sponsoransvarlig',
-  social_admin: 'Sosialansvarlig'
+  social_admin: 'Sosialansvarlig',
 };
 
 export const roleOptions = (Object.keys(ROLES)
   .sort()
-  .map(role => ({
+  .map((role) => ({
     value: role,
-    label: ROLES[role]
+    label: ROLES[role],
   })): Array<{ value: string, label: string }>);
 
 export const EVENTFIELDS = {
   start: 'startTime',
-  activate: 'activationTime'
+  activate: 'activationTime',
 };
 
 /*
@@ -54,7 +54,7 @@ export const EVENTFIELDS = {
 export const WEBKOM_GROUP_ID = [
   'production',
   'staging',
-  'local_staging'
+  'local_staging',
 ].includes(config.environment)
   ? 11
   : 12;

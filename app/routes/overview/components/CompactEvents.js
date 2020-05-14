@@ -10,17 +10,17 @@ import Tooltip from 'app/components/Tooltip';
 
 type Props = {
   events: Array<Object>,
-  frontpageHeading?: boolean
+  frontpageHeading?: boolean,
 };
 
 export default class CompactEvents extends Component<Props> {
   render() {
     const { events, frontpageHeading } = this.props;
 
-    const mapEvents = eventTypes => {
+    const mapEvents = (eventTypes) => {
       return events
         .filter(
-          event =>
+          (event) =>
             event.endTime.isAfter() && eventTypes.includes(event.eventType)
         )
         .slice(0, 5)
@@ -31,7 +31,7 @@ export default class CompactEvents extends Component<Props> {
                 color: colorForEvent(event.eventType),
                 fontSize: '15px',
                 lineHeight: '0',
-                marginRight: '10px'
+                marginRight: '10px',
               }}
             >
               <i className="fa fa-circle" />
@@ -44,7 +44,7 @@ export default class CompactEvents extends Component<Props> {
                   style={{
                     transform: 'rotate(-20deg)',
                     marginRight: '4px',
-                    color: '#BE1600'
+                    color: '#BE1600',
                   }}
                 />
               </Tooltip>
@@ -62,7 +62,7 @@ export default class CompactEvents extends Component<Props> {
       'company_presentation',
       'lunch_presentation',
       'alternative_presentation',
-      'course'
+      'course',
     ]);
     const leftEvents =
       presentations.length > 0 ? presentations : ['Ingen presentasjoner'];

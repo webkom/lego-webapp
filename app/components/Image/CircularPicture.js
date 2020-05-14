@@ -7,7 +7,7 @@ type Props = {
   src: any,
   alt: string,
   size: number,
-  style?: Object
+  style?: Object,
 };
 
 const CircularPicture = ({ src, alt, size = 100, style, ...props }: Props) => (
@@ -20,7 +20,7 @@ const CircularPicture = ({ src, alt, size = 100, style, ...props }: Props) => (
       ...style,
       borderRadius: size / 2,
       width: size,
-      height: size
+      height: size,
     }}
     {...props}
   />

@@ -14,7 +14,7 @@ type Props = {
   children: Array<Element<*>>,
   currentUser: Object,
   isMe: boolean,
-  match: { path: string, params: { username: string } }
+  match: { path: string, params: { username: string } },
 };
 
 const UserSettingsIndex = (props: Props) => {
@@ -41,10 +41,10 @@ const UserSettingsIndex = (props: Props) => {
         )}
       </NavigationTab>
       {props.children &&
-        props.children.map(child =>
+        props.children.map((child) =>
           React.cloneElement(child, {
             ...omit(props, 'match'),
-            children: undefined
+            children: undefined,
           })
         )}
     </Content>

@@ -11,7 +11,7 @@ import TextInput from 'app/components/Form/TextInput';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import type {
   CompanyEntity,
-  BaseSemesterStatusEntity
+  BaseSemesterStatusEntity,
 } from 'app/reducers/companies';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 import type { CompanySemesterContactedStatus } from 'app/models';
@@ -24,10 +24,10 @@ type Props = {
   fetching: boolean,
   editSemesterStatus: (BaseSemesterStatusEntity, ?Object) => Promise<*>,
   addSemesterStatus: (BaseSemesterStatusEntity, ?Object) => Promise<*>,
-  addSemester: CompanySemesterEntity => Promise<*>,
+  addSemester: (CompanySemesterEntity) => Promise<*>,
   companySemesters: Array<CompanySemesterEntity>,
-  push: string => void,
-  location: LocationType
+  push: (string) => void,
+  location: LocationType,
 };
 
 type State = {
@@ -35,7 +35,7 @@ type State = {
   startSem: number,
   submitted: boolean,
   filters: { [key: string]: Object },
-  searchQuery: string
+  searchQuery: string,
 };
 
 export default class BdbPage extends Component<Props, State> {
@@ -44,7 +44,7 @@ export default class BdbPage extends Component<Props, State> {
     startSem: 0,
     submitted: false,
     filters: {},
-    searchQuery: ''
+    searchQuery: '',
   };
 
   // eslint-disable-next-line
@@ -52,7 +52,7 @@ export default class BdbPage extends Component<Props, State> {
     const date = new Date();
     this.setState({
       startYear: date.getFullYear(),
-      startSem: date.getMonth() > 6 ? 1 : 0
+      startSem: date.getMonth() > 6 ? 1 : 0,
     });
   }
 
@@ -81,7 +81,7 @@ export default class BdbPage extends Component<Props, State> {
       companySemesters,
       addSemester,
       addSemesterStatus,
-      editSemesterStatus
+      editSemesterStatus,
     } = this.props;
     const { startYear, startSem } = this.state;
 
@@ -99,11 +99,11 @@ export default class BdbPage extends Component<Props, State> {
       semester:
         typeof companySemester.id === 'undefined'
           ? undefined
-          : companySemester.id
+          : companySemester.id,
     };
 
     if (typeof companySemester.id === 'undefined') {
-      return addSemester(companySemester).then(response => {
+      return addSemester(companySemester).then((response) => {
         const updatedStatus = { ...newStatus, semester: response.payload.id };
         return typeof updatedStatus.semesterStatusId === 'undefined'
           ? addSemesterStatus(updatedStatus)
@@ -129,7 +129,7 @@ export default class BdbPage extends Component<Props, State> {
   };
 
   companySearch = (companies: Array<CompanyEntity>) =>
-    companies.filter(company =>
+    companies.filter((company) =>
       company.name.toLowerCase().includes(this.state.searchQuery.toLowerCase())
     );
 
@@ -139,7 +139,7 @@ export default class BdbPage extends Component<Props, State> {
     }
     const { filters } = this.state;
 
-    return companies.filter(company => {
+    return companies.filter((company) => {
       // Using 'for of' here. Probably a cleaner way to do it, but I couldn't think of one
 
       for (const key of Object.keys(filters)) {

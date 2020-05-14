@@ -13,7 +13,7 @@ import { reduxForm } from 'redux-form';
 import { DetailNavigation } from '../utils';
 import type {
   CompanyEntity,
-  CompanyContactEntity
+  CompanyContactEntity,
 } from 'app/reducers/companies';
 
 type Props = {
@@ -24,17 +24,17 @@ type Props = {
   submitting: boolean,
   autoFocus: any,
   fetching: boolean,
-  deleteCompany: number => Promise<*>
+  deleteCompany: (number) => Promise<*>,
 };
 
 class CompanyContactEditor extends Component<Props> {
-  onSubmit = formContent => {
+  onSubmit = (formContent) => {
     const { company, companyContact, submitFunction } = this.props;
     return submitFunction(
       {
         ...formContent,
         companyId: company.id,
-        companyContactId: companyContact && companyContact.id
+        companyContactId: companyContact && companyContact.id,
       },
       { detail: true }
     );
@@ -47,7 +47,7 @@ class CompanyContactEditor extends Component<Props> {
       submitting,
       autoFocus,
       handleSubmit,
-      deleteCompany
+      deleteCompany,
     } = this.props;
 
     if (fetching) {
@@ -118,11 +118,11 @@ class CompanyContactEditor extends Component<Props> {
 
 const validate = createValidator({
   name: [required()],
-  mail: [isEmail()]
+  mail: [isEmail()],
 });
 
 export default reduxForm({
   form: 'companyContactEditor',
   validate,
-  enableReinitialize: true
+  enableReinitialize: true,
 })(CompanyContactEditor);

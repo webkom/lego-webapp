@@ -4,7 +4,7 @@ import { normalize, Schema } from 'normalizr';
 import fetchJSON, {
   type HttpRequestOptions,
   type HttpMethod,
-  type HttpResponse
+  type HttpResponse,
 } from 'app/utils/fetchJSON';
 import { configWithSSR } from '../config';
 import { isArray } from 'lodash';
@@ -26,7 +26,7 @@ function urlFor(resource: string) {
 
 // Todo: Middleware
 function handleError(error, propagateError, endpoint, loggedIn): Thunk<*> {
-  return dispatch => {
+  return (dispatch) => {
     const statusCode = error.response && error.response.status;
     if (statusCode) {
       if (statusCode === 401 && loggedIn) {
@@ -61,7 +61,7 @@ type CallAPIOptions = {
   propagateError?: boolean,
   disableOptimistic?: boolean,
   requiresAuthentication?: boolean,
-  timeout?: number
+  timeout?: number,
 };
 
 function toHttpRequestOptions(
@@ -73,7 +73,7 @@ function toHttpRequestOptions(
     body: options.body,
     json: options.json,
     files: options.files,
-    timeout: options.timeout
+    timeout: options.timeout,
   };
 }
 
@@ -94,7 +94,7 @@ export default function callAPI({
   disableOptimistic = false,
   requiresAuthentication = true,
   mapper,
-  timeout
+  timeout,
 }: CallAPIOptions): Thunk<Promise<any>> {
   return (dispatch, getState) => {
     const methodUpperCase = method.toUpperCase();
@@ -107,7 +107,7 @@ export default function callAPI({
       files,
       headers,
       json,
-      timeout
+      timeout,
     });
 
     const state = getState();
@@ -140,7 +140,7 @@ export default function callAPI({
           ...normalize(payload, schema),
           actionGrant,
           next,
-          previous
+          previous,
         };
       }
 
@@ -154,7 +154,7 @@ export default function callAPI({
         ? normalizeJsonResponse({
             id: optimisticId,
             __persisted: false,
-            ...body
+            ...body,
           })
         : null;
 
@@ -183,14 +183,14 @@ export default function callAPI({
         endpoint,
         success: shouldUseCache && types.SUCCESS,
         body,
-        schemaKey
+        schemaKey,
       },
       promise: promise
-        .then(response => normalizeJsonResponse(response))
-        .catch(error =>
+        .then((response) => normalizeJsonResponse(response))
+        .catch((error) =>
           // $FlowFixMe
           dispatch(handleError(error, propagateError, endpoint, loggedIn))
-        )
+        ),
     });
   };
 }

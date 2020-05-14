@@ -6,7 +6,7 @@ import {
   PlayButton,
   Progress,
   VolumeControl,
-  Timer
+  Timer,
 } from 'react-soundplayer/components';
 
 import 'react-soundplayer/styles/buttons.css';
@@ -28,7 +28,7 @@ type Props = {
   duration: any,
   description: string,
   playing: boolean,
-  actionGrant: Array<String>
+  actionGrant: Array<String>,
 };
 
 class LegoSoundCloudPlayer extends Component<Props, *> {

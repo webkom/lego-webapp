@@ -17,38 +17,38 @@ export function fetchEvent(eventId: string) {
     endpoint: `/events/${eventId}/`,
     schema: eventSchema,
     meta: {
-      errorMessage: 'Henting av hendelse feilet'
+      errorMessage: 'Henting av hendelse feilet',
     },
-    propagateError: true
+    propagateError: true,
   });
 }
 
 export function fetchPrevious(): Thunk<*> {
-  return dispatch =>
+  return (dispatch) =>
     dispatch(
       callAPI({
         types: Event.FETCH_PREVIOUS,
         endpoint: '/events/previous/',
         schema: [eventSchema],
         meta: {
-          errorMessage: 'Henting av hendelser feilet'
+          errorMessage: 'Henting av hendelser feilet',
         },
-        propagateError: true
+        propagateError: true,
       })
     );
 }
 
 export function fetchUpcoming(): Thunk<*> {
-  return dispatch =>
+  return (dispatch) =>
     dispatch(
       callAPI({
         types: Event.FETCH_UPCOMING,
         endpoint: '/events/upcoming/',
         schema: [eventSchema],
         meta: {
-          errorMessage: 'Henting av hendelser feilet'
+          errorMessage: 'Henting av hendelser feilet',
         },
-        propagateError: true
+        propagateError: true,
       })
     );
 }
@@ -71,7 +71,7 @@ export const fetchList = ({
   dateAfter,
   dateBefore,
   refresh = false,
-  loadNextPage = false
+  loadNextPage = false,
 }: Object = {}): Thunk<*> => (dispatch, getState) => {
   const query: Object = { date_after: dateAfter, date_before: dateBefore };
   if (dateBefore && dateAfter) {
@@ -84,7 +84,7 @@ export const fetchList = ({
   }
   if (refresh && !loadNextPage) {
     dispatch({
-      type: Event.CLEAR
+      type: Event.CLEAR,
     });
   }
   return dispatch(
@@ -95,11 +95,11 @@ export const fetchList = ({
       meta: {
         errorMessage: 'Fetching events failed',
         queryString,
-        endpoint
+        endpoint,
       },
       useCache: refresh,
       cacheSeconds: Infinity, // don't expire cache unless we pass useCache
-      propagateError: true
+      propagateError: true,
     })
   );
 };
@@ -110,13 +110,13 @@ export function fetchAdministrate(eventId: number) {
     endpoint: `/events/${eventId}/administrate/`,
     schema: eventAdministrateSchema,
     meta: {
-      errorMessage: 'Henting av registreringer feilet'
-    }
+      errorMessage: 'Henting av registreringer feilet',
+    },
   });
 }
 
 export function createEvent(event: Object): Thunk<Promise<?Action>> {
-  return dispatch =>
+  return (dispatch) =>
     dispatch(
       callAPI({
         types: Event.CREATE,
@@ -126,11 +126,11 @@ export function createEvent(event: Object): Thunk<Promise<?Action>> {
         schema: eventSchema,
         disableOptimistic: true,
         meta: {
-          errorMessage: 'Opprettelse av hendelse feilet'
-        }
+          errorMessage: 'Opprettelse av hendelse feilet',
+        },
       })
     ).then(
-      action =>
+      (action) =>
         action &&
         action.payload &&
         dispatch(push(`/events/${action.payload.result}/`))
@@ -138,7 +138,7 @@ export function createEvent(event: Object): Thunk<Promise<?Action>> {
 }
 
 export function editEvent(event: Object): Thunk<Promise<*>> {
-  return dispatch =>
+  return (dispatch) =>
     dispatch(
       callAPI({
         types: Event.EDIT,
@@ -146,17 +146,17 @@ export function editEvent(event: Object): Thunk<Promise<*>> {
         method: 'PUT',
         body: {
           ...event,
-          cover: event.cover || undefined
+          cover: event.cover || undefined,
         },
         meta: {
-          errorMessage: 'Endring av hendelse feilet'
-        }
+          errorMessage: 'Endring av hendelse feilet',
+        },
       })
     ).then(() => dispatch(push(`/events/${event.id}`)));
 }
 
 export function deleteEvent(eventId: number): Thunk<Promise<*>> {
-  return dispatch =>
+  return (dispatch) =>
     dispatch(
       callAPI({
         types: Event.DELETE,
@@ -164,8 +164,8 @@ export function deleteEvent(eventId: number): Thunk<Promise<*>> {
         method: 'DELETE',
         meta: {
           id: eventId,
-          errorMessage: 'Sletting av hendelse feilet'
-        }
+          errorMessage: 'Sletting av hendelse feilet',
+        },
       })
     ).then(() => {
       dispatch(addToast({ message: 'Deleted' }));
@@ -180,11 +180,11 @@ export function setCoverPhoto(id: number, token: string) {
     method: 'PATCH',
     body: {
       id,
-      cover: token
+      cover: token,
     },
     meta: {
-      errorMessage: 'Endring av cover bilde feilet'
-    }
+      errorMessage: 'Endring av cover bilde feilet',
+    },
   });
 }
 
@@ -192,12 +192,12 @@ export function register({
   eventId,
   captchaResponse,
   feedback,
-  userId
+  userId,
 }: {
   eventId: number,
   captchaResponse: string,
   feedback: string,
-  userId: number
+  userId: number,
 }) {
   return callAPI({
     types: Event.REQUEST_REGISTER,
@@ -205,13 +205,13 @@ export function register({
     method: 'POST',
     body: {
       captchaResponse,
-      feedback
+      feedback,
     },
     meta: {
       id: eventId,
       userId,
-      errorMessage: 'Registering til hendelse feilet'
-    }
+      errorMessage: 'Registering til hendelse feilet',
+    },
   });
 }
 
@@ -219,12 +219,12 @@ export function unregister({
   eventId,
   registrationId,
   userId,
-  admin = false
+  admin = false,
 }: {
   eventId: number,
   registrationId: number,
   userId: number,
-  admin: boolean
+  admin: boolean,
 }) {
   return callAPI({
     types: Event.REQUEST_UNREGISTER,
@@ -235,8 +235,8 @@ export function unregister({
       errorMessage: 'Avregistrering fra hendelse feilet',
       admin,
       userId,
-      id: Number(registrationId)
-    }
+      id: Number(registrationId),
+    },
   });
 }
 
@@ -255,12 +255,12 @@ export function adminRegister(
       user: userId,
       pool: poolId === waitinglistPoolId ? undefined : poolId,
       adminRegistrationReason,
-      feedback
+      feedback,
     },
     meta: {
       errorMessage: 'Admin registrering feilet',
-      successMessage: 'Brukeren ble registrert'
-    }
+      successMessage: 'Brukeren ble registrert',
+    },
   });
 }
 
@@ -270,11 +270,11 @@ export function payment(eventId: number, token: string) {
     endpoint: `/events/${eventId}/payment/`,
     method: 'POST',
     body: {
-      token
+      token,
     },
     meta: {
-      errorMessage: 'Betaling feilet'
-    }
+      errorMessage: 'Betaling feilet',
+    },
   });
 }
 
@@ -283,19 +283,19 @@ export function updateFeedback(
   registrationId: number,
   feedback: string
 ): Thunk<Promise<*>> {
-  return dispatch =>
+  return (dispatch) =>
     dispatch(
       callAPI({
         types: Event.UPDATE_REGISTRATION,
         endpoint: `/events/${eventId}/registrations/${registrationId}/`,
         method: 'PATCH',
         body: {
-          feedback
+          feedback,
         },
         meta: {
           successMessage: 'Tilbakemelding oppdatert',
-          errorMessage: 'Tilbakemelding oppdatering feilet'
-        }
+          errorMessage: 'Tilbakemelding oppdatering feilet',
+        },
       })
     );
 }
@@ -310,8 +310,8 @@ export function markUsernameConsent(
     method: 'POST',
     body: { username, photoConsent },
     meta: {
-      errorMessage: 'Oppdatering av samtykke feilet'
-    }
+      errorMessage: 'Oppdatering av samtykke feilet',
+    },
   });
 }
 
@@ -325,8 +325,8 @@ export function markUsernamePresent(
     method: 'POST',
     body: { username },
     meta: {
-      errorMessage: 'Oppdatering av tilstedeværelse feilet'
-    }
+      errorMessage: 'Oppdatering av tilstedeværelse feilet',
+    },
   });
 }
 
@@ -342,8 +342,8 @@ export function updatePresence(
     body: { presence },
     meta: {
       successMessage: 'Tilstedeværelse oppdatert',
-      errorMessage: 'Oppdatering av tilstedeværelse feilet'
-    }
+      errorMessage: 'Oppdatering av tilstedeværelse feilet',
+    },
   });
 }
 
@@ -352,24 +352,24 @@ export function updatePayment(
   registrationId: number,
   chargeStatus: string
 ): Thunk<Promise<?Action>> {
-  return dispatch =>
+  return (dispatch) =>
     dispatch(
       callAPI({
         types: Event.UPDATE_REGISTRATION,
         endpoint: `/events/${eventId}/registrations/${registrationId}/`,
         method: 'PATCH',
         body: {
-          chargeStatus
+          chargeStatus,
         },
         meta: {
-          errorMessage: 'Oppdatering av betaling feilet'
-        }
+          errorMessage: 'Oppdatering av betaling feilet',
+        },
       })
     ).then(() => dispatch(addToast({ message: 'Payment updated' })));
 }
 
 export function follow(userId: number, eventId: number): Thunk<*> {
-  return dispatch =>
+  return (dispatch) =>
     dispatch(
       callAPI({
         types: Event.FOLLOW,
@@ -377,17 +377,17 @@ export function follow(userId: number, eventId: number): Thunk<*> {
         method: 'POST',
         body: {
           target: eventId,
-          follower: userId
+          follower: userId,
         },
         meta: {
-          errorMessage: 'Registrering av interesse feilet'
-        }
+          errorMessage: 'Registrering av interesse feilet',
+        },
       })
     );
 }
 
 export function unfollow(followId: number, eventId: number): Thunk<Promise<*>> {
-  return dispatch =>
+  return (dispatch) =>
     dispatch(
       callAPI({
         types: Event.UNFOLLOW,
@@ -395,8 +395,8 @@ export function unfollow(followId: number, eventId: number): Thunk<Promise<*>> {
         method: 'DELETE',
         meta: {
           eventId,
-          errorMessage: 'Avregistering fra interesse feilet'
-        }
+          errorMessage: 'Avregistering fra interesse feilet',
+        },
       })
     );
 }
@@ -407,7 +407,7 @@ export function isUserFollowing(eventId: number) {
     endpoint: `/followers-event/?target=${eventId}`,
     method: 'GET',
     meta: {
-      errorMessage: 'Henting av interesse feilet'
-    }
+      errorMessage: 'Henting av interesse feilet',
+    },
   });
 }

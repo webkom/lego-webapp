@@ -7,7 +7,7 @@ import {
   fetchAll,
   createAnnouncement,
   sendAnnouncement,
-  deleteAnnouncement
+  deleteAnnouncement,
 } from 'app/actions/AnnouncementsActions';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
@@ -19,21 +19,18 @@ const mapStateToProps = (state, props) => {
   const actionGrant = state.announcements.actionGrant;
   return {
     announcements,
-    actionGrant
+    actionGrant,
   };
 };
 
 const mapDispatchToProps = {
   createAnnouncement,
   sendAnnouncement,
-  deleteAnnouncement
+  deleteAnnouncement,
 };
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
   prepare((props, dispatch) => dispatch(fetchAll())),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )(AnnouncementsList);

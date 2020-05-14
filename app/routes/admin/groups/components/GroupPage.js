@@ -40,7 +40,7 @@ type GroupPageProps = {
   groups: Array<Object>,
   location: LocationType,
   params: { groupId: string },
-  match: { path: string, params: { groupId: string } }
+  match: { path: string, params: { groupId: string } },
 };
 
 const GroupPage = ({ groups, children, location, match }: GroupPageProps) => {

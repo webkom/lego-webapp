@@ -18,7 +18,7 @@ export const linkAndText = (
 ) => ({
   link,
   text,
-  linkableContent
+  linkableContent,
 });
 
 const renderUser = (context: Object) =>
@@ -51,7 +51,7 @@ export const contextRender = {
   'meetings.meetinginvitation': renderMeetingInvitation,
   'articles.article': renderArticle,
   'notifications.announcement': renderAnnouncement,
-  'gallery.gallerypicture': renderGalleryPicture
+  'gallery.gallerypicture': renderGalleryPicture,
 };
 
 export function toLink(linkAndText: TagInfo) {

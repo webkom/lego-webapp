@@ -9,13 +9,13 @@ import Button from 'app/components/Button';
 type AttendanceElementProps = {
   pool: EventPool,
   index: number,
-  toggleModal: number => void
+  toggleModal: (number) => void,
 };
 
 const AttendanceElement = ({
   pool: { name, registrations, registrationCount, capacity },
   index,
-  toggleModal
+  toggleModal,
 }: AttendanceElementProps) => {
   const totalCount = registrations ? registrations.length : registrationCount;
   const Status = () => (
@@ -40,11 +40,11 @@ const AttendanceElement = ({
 
 export type AttendanceStatusProps = {
   pools: Array<EventPool>,
-  toggleModal: number => void
+  toggleModal: (number) => void,
 };
 
 const AttendanceStatus = ({ pools, toggleModal }: AttendanceStatusProps) => {
-  const toggleKey = key => (pools.length > 1 ? key + 1 : key);
+  const toggleKey = (key) => (pools.length > 1 ? key + 1 : key);
   return (
     <div className={styles.attendanceBox}>
       {(pools || []).map((pool, index) => (
@@ -52,7 +52,7 @@ const AttendanceStatus = ({ pools, toggleModal }: AttendanceStatusProps) => {
           key={index}
           pool={pool}
           index={index}
-          toggleModal={key => toggleModal(toggleKey(key))}
+          toggleModal={(key) => toggleModal(toggleKey(key))}
         />
       ))}
     </div>

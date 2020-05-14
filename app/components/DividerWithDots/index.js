@@ -5,7 +5,7 @@ import styles from './DividerWithDots.css';
 import cx from 'classnames';
 
 type Props = {
-  extraStyle?: Object
+  extraStyle?: Object,
 };
 
 const DividerWithDots = ({ extraStyle }: Props) => {

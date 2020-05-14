@@ -11,7 +11,7 @@ import ErrorBoundary from 'app/components/ErrorBoundary';
 
 type Props = {
   store: Store,
-  history: History
+  history: History,
 };
 
 const Root = (props: Props) => {

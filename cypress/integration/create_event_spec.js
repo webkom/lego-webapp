@@ -31,9 +31,7 @@ describe('Create event', () => {
     // click editor to initialize form and enable OPPRETT button
     cy.get('div[name="text"]').click();
 
-    cy.contains('button', 'OPPRETT')
-      .should('not.be.disabled')
-      .click();
+    cy.contains('button', 'OPPRETT').should('not.be.disabled').click();
 
     fieldError('cover').should('be.visible');
     fieldError('title').should('be.visible');
@@ -44,14 +42,10 @@ describe('Create event', () => {
     uploadHeader();
     fieldError('cover').should('not.exist');
 
-    field('title')
-      .type('Testevent')
-      .blur();
+    field('title').type('Testevent').blur();
     fieldError('title').should('not.exist');
 
-    field('description')
-      .type('blir fett')
-      .blur();
+    field('description').type('blir fett').blur();
     fieldError('description').should('not.exist');
 
     // TODO: Make the suggestion box open if you click the label, not only when you click the input field
@@ -74,9 +68,7 @@ describe('Create event', () => {
     cy.focused().type('{enter}', { force: true });
     fieldError('eventType').should('not.exist');
 
-    cy.contains('button', 'OPPRETT')
-      .should('not.be.disabled')
-      .click();
+    cy.contains('button', 'OPPRETT').should('not.be.disabled').click();
 
     cy.url().should('not.contain', '/events/create');
     cy.url().should('contain', '/events/');
@@ -109,16 +101,10 @@ describe('Create event', () => {
     cy.get('button[title="Show editor info"]').should('not.exist');
 
     // Open, close and reopen sidebar
-    cy.get('.md-side-toolbar')
-      .should('be.visible')
-      .click();
-    cy.get('.md-open-button')
-      .should('be.visible')
-      .click();
+    cy.get('.md-side-toolbar').should('be.visible').click();
+    cy.get('.md-open-button').should('be.visible').click();
     cy.get('.md-open-button').should('not.exist');
-    cy.get('.md-side-toolbar')
-      .should('be.visible')
-      .click();
+    cy.get('.md-side-toolbar').should('be.visible').click();
     cy.get('button[title="Add an Image"]').should('be.visible');
     cy.get('button[title="Show editor info"]').should('be.visible');
 
@@ -167,21 +153,13 @@ describe('Create event', () => {
       .contains('Last opp')
       .should('not.be.disabled')
       .click();
-    field('title')
-      .type('Pils på Webkomkontoret!')
-      .blur();
-    field('description')
-      .type('blir fett')
-      .blur();
-    cy.contains('Type arrangement')
-      .find('.Select')
-      .click();
+    field('title').type('Pils på Webkomkontoret!').blur();
+    field('description').type('blir fett').blur();
+    cy.contains('Type arrangement').find('.Select').click();
     cy.focused().type('sos{enter}', { force: true });
 
     // Create event
-    cy.contains('button', 'OPPRETT')
-      .should('not.be.disabled')
-      .click();
+    cy.contains('button', 'OPPRETT').should('not.be.disabled').click();
 
     cy.url().should('not.contain', '/events/create');
     cy.url().should('contain', '/events/');
@@ -199,12 +177,8 @@ describe('Create event', () => {
     uploadHeader();
 
     // Set title, description and text
-    field('title')
-      .type('Standard event')
-      .blur();
-    field('description')
-      .type('standard event')
-      .blur();
+    field('title').type('Standard event').blur();
+    field('description').type('standard event').blur();
     cy.get('div[name="text"]').click();
     cy.focused().type('standard event');
 
@@ -230,9 +204,7 @@ describe('Create event', () => {
       .and('contain', 'Bedkom');
     cy.focused().type('{enter}', { force: true });
 
-    cy.contains('button', 'OPPRETT')
-      .should('not.be.disabled')
-      .click();
+    cy.contains('button', 'OPPRETT').should('not.be.disabled').click();
 
     // Verify that created event looks good..
     cy.url().should('not.contain', '/events/create');
@@ -249,12 +221,8 @@ describe('Create event', () => {
     uploadHeader();
 
     // Set title, description and text
-    field('title')
-      .type('Ubestemt event')
-      .blur();
-    field('description')
-      .type('mer info kommer')
-      .blur();
+    field('title').type('Ubestemt event').blur();
+    field('description').type('mer info kommer').blur();
     cy.get('div[name="text"]').click();
     cy.focused().type('mer info kommer');
 
@@ -266,9 +234,7 @@ describe('Create event', () => {
     selectField('eventStatusType').click();
     cy.focused().type('TBA{enter}', { force: true });
 
-    cy.contains('button', 'OPPRETT')
-      .should('not.be.disabled')
-      .click();
+    cy.contains('button', 'OPPRETT').should('not.be.disabled').click();
 
     // Verify that created event looks good..
     cy.url().should('not.contain', '/events/create');
@@ -283,12 +249,8 @@ describe('Create event', () => {
     uploadHeader();
 
     // Set title, description and text
-    field('title')
-      .type('Normal event')
-      .blur();
-    field('description')
-      .type('normal event')
-      .blur();
+    field('title').type('Normal event').blur();
+    field('description').type('normal event').blur();
     cy.get('div[name="text"]').click();
     cy.focused().type('normal event');
 
@@ -305,13 +267,8 @@ describe('Create event', () => {
     cy.focused().type('R4');
 
     // Set the first pool
-    field('pools[0].name')
-      .clear()
-      .type('WebkomPool')
-      .blur();
-    field('pools[0].capacity')
-      .type('20')
-      .blur();
+    field('pools[0].name').clear().type('WebkomPool').blur();
+    field('pools[0].capacity').type('20').blur();
     selectField('pools[0].permissionGroups').click();
     cy.focused().type('Webkom', { force: true });
     selectField('pools[0].permissionGroups')
@@ -321,16 +278,9 @@ describe('Create event', () => {
     cy.focused().type('{enter}', { force: true });
 
     // Create new pool
-    cy.contains('button', 'Legg til ny pool')
-      .should('not.be.disabled')
-      .click();
-    field('pools[1].name')
-      .clear()
-      .type('BedkomPool')
-      .blur();
-    field('pools[1].capacity')
-      .type('30')
-      .blur();
+    cy.contains('button', 'Legg til ny pool').should('not.be.disabled').click();
+    field('pools[1].name').clear().type('BedkomPool').blur();
+    field('pools[1].capacity').type('30').blur();
     selectField('pools[1].permissionGroups').click();
     cy.focused().type('Bedkom', { force: true });
     selectField('pools[1].permissionGroups')
@@ -347,14 +297,10 @@ describe('Create event', () => {
     cy.focused().type('{enter}', { force: true });
 
     field('mergeTime').click();
-    cy.get(c('DatePicker__header'))
-      .find('button:last-child')
-      .click();
+    cy.get(c('DatePicker__header')).find('button:last-child').click();
     cy.contains(c('DatePicker__calendarItem'), '15').click();
 
-    cy.contains('button', 'OPPRETT')
-      .should('not.be.disabled')
-      .click();
+    cy.contains('button', 'OPPRETT').should('not.be.disabled').click();
 
     // Verify that created event looks good..
     cy.url().should('not.contain', '/events/create');
@@ -374,12 +320,8 @@ describe('Create event', () => {
     uploadHeader();
 
     // Set title, description and text
-    field('title')
-      .type('Open event')
-      .blur();
-    field('description')
-      .type('open event')
-      .blur();
+    field('title').type('Open event').blur();
+    field('description').type('open event').blur();
     cy.get('div[name="text"]').click();
     cy.focused().type('open event');
 
@@ -395,9 +337,7 @@ describe('Create event', () => {
     cy.contains('Sted').click();
     cy.focused().type('Kjellern');
 
-    cy.contains('button', 'OPPRETT')
-      .should('not.be.disabled')
-      .click();
+    cy.contains('button', 'OPPRETT').should('not.be.disabled').click();
 
     // Verify that created event looks good..
     cy.url().should('not.contain', '/events/create');
@@ -412,12 +352,8 @@ describe('Create event', () => {
     uploadHeader();
 
     // Set title, description and text
-    field('title')
-      .type('Infinite event')
-      .blur();
-    field('description')
-      .type('infinite event')
-      .blur();
+    field('title').type('Infinite event').blur();
+    field('description').type('infinite event').blur();
     cy.get('div[name="text"]').click();
     cy.focused().type('intifite event');
 
@@ -441,10 +377,7 @@ describe('Create event', () => {
     field('feedbackDescription').type('Burger eller sushi');
 
     // Set the first pool
-    field('pools[0].name')
-      .clear()
-      .type('Mange')
-      .blur();
+    field('pools[0].name').clear().type('Mange').blur();
     selectField('pools[0].permissionGroups').click();
     cy.focused().type('Abaku', { force: true });
     selectField('pools[0].permissionGroups')
@@ -453,9 +386,7 @@ describe('Create event', () => {
       .and('contain', 'Abakus');
     cy.focused().type('{enter}', { force: true });
 
-    cy.contains('button', 'OPPRETT')
-      .should('not.be.disabled')
-      .click();
+    cy.contains('button', 'OPPRETT').should('not.be.disabled').click();
 
     // Verify that created event looks good..
     cy.url().should('not.contain', '/events/create');

@@ -17,7 +17,7 @@ type Action =
 export type Props = {
   event: Event,
   registration: ?EventRegistration,
-  render?: (state: State) => Node
+  render?: (state: State) => Node,
 };
 
 const COUNTDOWN_STARTS_WHEN_MINUTES_LEFT = 10;
@@ -33,14 +33,14 @@ const TICK_ACTIONS: Array<[number, Action]> = [
   [0, 'REGISTRATION_AVAILABLE'],
   [90 * 1000, '90_SECONDS_LEFT'],
   [60 * 10000, '10_MINUTE_LEFT'],
-  [Infinity, 'STILL_WAITING']
+  [Infinity, 'STILL_WAITING'],
 ];
 
 type State = {
   formOpen: boolean,
   captchaOpen: boolean,
   buttonOpen: boolean,
-  registrationOpensIn: ?string
+  registrationOpensIn: ?string,
 };
 
 const countdownReducer = (
@@ -54,7 +54,7 @@ const countdownReducer = (
         buttonOpen: true,
         formOpen: true,
         captchaOpen: true,
-        registrationOpensIn: null
+        registrationOpensIn: null,
       };
 
     case '90_SECONDS_LEFT':
@@ -62,7 +62,7 @@ const countdownReducer = (
         captchaOpen: true,
         formOpen: true,
         buttonOpen: false,
-        registrationOpensIn
+        registrationOpensIn,
       };
 
     case '10_MINUTE_LEFT':
@@ -70,7 +70,7 @@ const countdownReducer = (
         captchaOpen: false,
         formOpen: true,
         buttonOpen: false,
-        registrationOpensIn
+        registrationOpensIn,
       };
 
     case 'REGISTERED_OR_REGISTRATION_ALREADY_OPENED':
@@ -78,7 +78,7 @@ const countdownReducer = (
         formOpen: true,
         captchaOpen: true,
         buttonOpen: true,
-        registrationOpensIn: null
+        registrationOpensIn: null,
       };
 
     case 'REGISTRATION_NOT_AVAILABLE':
@@ -87,7 +87,7 @@ const countdownReducer = (
         formOpen: false,
         captchaOpen: false,
         buttonOpen: false,
-        registrationOpensIn: null
+        registrationOpensIn: null,
       };
 
     default:
@@ -101,7 +101,7 @@ function withCountdown(WrappedComponent: ComponentType<Props>) {
       formOpen: false,
       captchaOpen: false,
       buttonOpen: false,
-      registrationOpensIn: null
+      registrationOpensIn: null,
     };
 
     countdownProbeTimer: IntervalID;
@@ -128,7 +128,7 @@ function withCountdown(WrappedComponent: ComponentType<Props>) {
     }
 
     dispatch(action: Action, registrationOpensIn: ?string) {
-      this.setState(state =>
+      this.setState((state) =>
         countdownReducer(state, action, registrationOpensIn)
       );
     }

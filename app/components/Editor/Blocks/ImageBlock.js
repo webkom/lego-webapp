@@ -30,20 +30,20 @@ type Props = {
   selection: SelectionState,
   startIndent?: boolean,
   tree: List<any>,
-  uploadFile: UploadArgs => Promise<*>
+  uploadFile: (UploadArgs) => Promise<*>,
 };
 
 type State = {
   uploading: boolean,
   fileKeyToken?: string,
-  error?: string
+  error?: string,
 };
 
 class ImageBlock extends Component<Props, State> {
   state = {
     uploading: false,
     fileKeyToken: undefined,
-    error: undefined
+    error: undefined,
   };
 
   focusBlock = () => {
@@ -60,7 +60,7 @@ class ImageBlock extends Component<Props, State> {
       anchorKey: key,
       focusKey: key,
       anchorOffset: 0,
-      focusOffset: 0
+      focusOffset: 0,
     });
     setEditorState(EditorState.forceSelection(getEditorState(), newSelection));
   };
@@ -82,7 +82,7 @@ class ImageBlock extends Component<Props, State> {
           const newData = data.set('fileKey', meta.fileToken.split(':')[0]);
           setEditorState(updateDataOfBlock(getEditorState(), block, newData));
         })
-        .catch(err => {
+        .catch((err) => {
           this.setState({ error: err.message, uploading: false });
         });
     }
@@ -118,7 +118,4 @@ class ImageBlock extends Component<Props, State> {
   }
 }
 
-export default connect(
-  null,
-  { uploadFile }
-)(ImageBlock);
+export default connect(null, { uploadFile })(ImageBlock);

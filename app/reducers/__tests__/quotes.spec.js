@@ -10,21 +10,21 @@ describe('reducers', () => {
       byId: {
         3: {
           id: 3,
-          approved: false
+          approved: false,
         },
         4: {
           id: 4,
-          approved: true
-        }
-      }
+          approved: true,
+        },
+      },
     };
     it('Quote.APPROVE.SUCCESS', () => {
       const prevState = baseState;
       const action = {
         type: Quote.APPROVE.SUCCESS,
         meta: {
-          quoteId: 3
-        }
+          quoteId: 3,
+        },
       };
       expect(quotes(prevState, action)).toEqual({
         actionGrant: [],
@@ -33,13 +33,13 @@ describe('reducers', () => {
         byId: {
           3: {
             id: 3,
-            approved: true
+            approved: true,
           },
           4: {
             id: 4,
-            approved: true
-          }
-        }
+            approved: true,
+          },
+        },
       });
     });
     it('Quote.UNAPPROVE.SUCCESS', () => {
@@ -47,8 +47,8 @@ describe('reducers', () => {
       const action = {
         type: Quote.UNAPPROVE.SUCCESS,
         meta: {
-          quoteId: 4
-        }
+          quoteId: 4,
+        },
       };
       expect(quotes(prevState, action)).toEqual({
         actionGrant: [],
@@ -57,13 +57,13 @@ describe('reducers', () => {
         byId: {
           3: {
             id: 3,
-            approved: false
+            approved: false,
           },
           4: {
             id: 4,
-            approved: false
-          }
-        }
+            approved: false,
+          },
+        },
       });
     });
   });

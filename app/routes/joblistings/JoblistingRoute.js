@@ -7,27 +7,27 @@ import moment from 'moment-timezone';
 import qs from 'qs';
 
 function filterJoblistings(joblistings, grades, jobTypes, workplaces) {
-  return joblistings.filter(joblisting => {
+  return joblistings.filter((joblisting) => {
     const gradeBoolean =
       grades.length === 0 ||
       grades.find(
-        grade =>
+        (grade) =>
           joblisting.fromYear <= Number(grade) &&
           joblisting.toYear >= Number(grade)
       );
 
     const jobTypesBoolean =
       jobTypes.length === 0 ||
-      jobTypes.find(jobType => jobType === joblisting.jobType);
+      jobTypes.find((jobType) => jobType === joblisting.jobType);
 
     const workplacesBoolean =
       workplaces.length === 0 ||
-      joblisting.workplaces.some(workplace =>
+      joblisting.workplaces.some((workplace) =>
         workplaces.includes(workplace.town)
       ) ||
       (workplaces.includes('Annet') &&
         joblisting.workplaces.some(
-          workplace =>
+          (workplace) =>
             !['Oslo', 'Trondheim', 'Bergen', 'Tromsø'].includes(workplace.town)
         ));
 
@@ -52,7 +52,7 @@ const mapStateToProps = (state, props) => {
   search = qs.parse(search, { ignoreQueryPrefix: true });
   const { history } = props;
   const joblistings = state.joblistings.items.map(
-    id => state.joblistings.byId[id]
+    (id) => state.joblistings.byId[id]
   );
   const sortType = search.order;
   const filterGrade = search.grades ? search.grades.split(',') : [];
@@ -73,7 +73,7 @@ const mapStateToProps = (state, props) => {
     joblistings: sortedJoblistings,
     search,
     actionGrant,
-    history
+    history,
   };
 };
 
@@ -81,8 +81,5 @@ const mapDispatchToProps = { fetchAll };
 
 export default compose(
   prepare((props, dispatch) => dispatch(fetchAll())),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )(JoblistingPage);

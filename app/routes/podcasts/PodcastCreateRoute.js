@@ -11,18 +11,15 @@ const mapStateToProps = (state, props) => {
     new: true,
     podcasts: selectPodcasts(state),
     actionGrant: state.podcasts.actionGrant,
-    initialValues: {}
+    initialValues: {},
   };
 };
 
 const mapDispachToProps = {
-  handleSubmitCallback: addPodcast
+  handleSubmitCallback: addPodcast,
 };
 
 export default compose(
   prepare((props, dispatch) => dispatch(fetchPodcasts())),
-  connect(
-    mapStateToProps,
-    mapDispachToProps
-  )
+  connect(mapStateToProps, mapDispachToProps)
 )(PodcastEditor);

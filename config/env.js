@@ -16,7 +16,7 @@ export const config = {
   sentryDSN: process.env.SENTRY_DSN,
   release: process.env.RELEASE,
   environment: process.env.ENVIRONMENT,
-  timezone: 'Europe/Oslo'
+  timezone: 'Europe/Oslo',
 };
 
 // This config is for the server side renderer (SSR),
@@ -24,7 +24,7 @@ export const config = {
 export const configWithSSR = {
   ...config,
   serverUrl: process.env.SSR_API_URL || config.serverUrl,
-  baseUrl: process.env.SSR_BASE_URL || config.baseUrl
+  baseUrl: process.env.SSR_BASE_URL || config.baseUrl,
 };
 
 // User ssrConfig as default export config. Only SSR imports this file

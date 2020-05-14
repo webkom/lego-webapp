@@ -7,7 +7,7 @@ import styles from './ContentHeader.css';
 type Props = {
   className?: string,
   borderColor?: string,
-  children: Node
+  children: Node,
 };
 
 const DEFAULT_BORDER_COLOR = '#FCD748';

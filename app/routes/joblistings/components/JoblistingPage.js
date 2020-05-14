@@ -12,14 +12,14 @@ type Props = {
   joblistings: Array</*TODO: JobListing*/ any>,
   search: Object,
   actionGrant: /*TODO: ActionGrant */ any,
-  history: Object
+  history: Object,
 };
 
 const JoblistingsPage = ({
   joblistings,
   search,
   actionGrant,
-  history
+  history,
 }: Props) => {
   if (!joblistings) {
     return <LoadingIndicator loading />;

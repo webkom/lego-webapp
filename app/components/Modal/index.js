@@ -15,7 +15,7 @@ type Props = {
   onKeyDown: (e: KeyboardEvent) => void,
   contentClassName?: string,
   backdropClassName?: string,
-  backdrop?: boolean
+  backdrop?: boolean,
 };
 
 /**
@@ -28,7 +28,7 @@ class Modal extends Component<Props> {
   static defaultProps = {
     closeOnBackdropClick: true,
     keyboard: true,
-    onKeyDown: () => {}
+    onKeyDown: () => {},
   };
 
   modal: ?ReactModal;
@@ -45,7 +45,7 @@ class Modal extends Component<Props> {
     } = this.props;
     return (
       <ReactModal
-        ref={ref => {
+        ref={(ref) => {
           this.modal = ref;
         }}
         backdropClassName={styles.backdrop}

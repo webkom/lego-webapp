@@ -8,18 +8,18 @@ import UserSettingsNotifications from './components/UserSettingsNotifications';
 import {
   fetchNotificationAlternatives,
   fetchNotificationSettings,
-  updateNotificationSetting
+  updateNotificationSetting,
 } from 'app/actions/NotificationSettingsActions';
 import {
   selectNotificationSettingsAlternatives,
-  selectNotificationSettings
+  selectNotificationSettings,
 } from 'app/reducers/notificationSettings';
 import { updateUser } from 'app/actions/UserActions';
 
 const loadData = (props, dispatch) => {
   return Promise.all([
     dispatch(fetchNotificationAlternatives()),
-    dispatch(fetchNotificationSettings())
+    dispatch(fetchNotificationSettings()),
   ]);
 };
 
@@ -27,7 +27,7 @@ const mapStateToProps = (state, { currentUser }) => {
   return {
     alternatives: selectNotificationSettingsAlternatives(state),
     settings: selectNotificationSettings(state),
-    currentUser
+    currentUser,
   };
 };
 
@@ -35,8 +35,5 @@ const mapDispatchToProps = { updateNotificationSetting, updateUser };
 
 export default compose(
   prepare(loadData),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )(UserSettingsNotifications);

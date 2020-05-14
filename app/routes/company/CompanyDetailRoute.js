@@ -6,22 +6,22 @@ import prepare from 'app/utils/prepare';
 import {
   fetch as fetchCompany,
   fetchEventsForCompany,
-  fetchJoblistingsForCompany
+  fetchJoblistingsForCompany,
 } from 'app/actions/CompanyActions';
 import CompanyDetail from './components/CompanyDetail';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import {
   selectEventsForCompany,
-  selectJoblistingsForCompany
+  selectJoblistingsForCompany,
 } from 'app/reducers/companies';
 import { selectPagination } from '../../reducers/selectors';
 import createQueryString from 'app/utils/createQueryString';
 
-const queryString = companyId =>
+const queryString = (companyId) =>
   createQueryString({
     company: companyId,
-    ordering: '-start_time'
+    ordering: '-start_time',
   });
 
 const fetchData = (props, dispatch) => {
@@ -31,10 +31,10 @@ const fetchData = (props, dispatch) => {
     dispatch(
       fetchEventsForCompany({
         queryString: queryString(companyId),
-        loadNextPage: false
+        loadNextPage: false,
       })
     ),
-    dispatch(fetchJoblistingsForCompany(companyId))
+    dispatch(fetchJoblistingsForCompany(companyId)),
   ]);
 };
 
@@ -42,7 +42,7 @@ const mapStateToProps = (state, props) => {
   const { companyId } = props.match.params;
   const { query } = props.location;
   const showFetchMoreEvents = selectPagination('events', {
-    queryString: queryString(companyId)
+    queryString: queryString(companyId),
   })(state);
   const company = state.companies.byId[companyId];
   const companyEvents = selectEventsForCompany(state, { companyId });
@@ -55,7 +55,7 @@ const mapStateToProps = (state, props) => {
     query,
     companyId,
     loggedIn: props.currentUser,
-    showFetchMoreEvents
+    showFetchMoreEvents,
   };
 };
 
@@ -65,11 +65,11 @@ const mapDispatchToProps = (dispatch, props) => {
     dispatch(
       fetchEventsForCompany({
         queryString: queryString(companyId),
-        loadNextPage: true
+        loadNextPage: true,
       })
     );
   return {
-    fetchMoreEvents
+    fetchMoreEvents,
   };
 };
 
@@ -77,8 +77,5 @@ export default compose(
   replaceUnlessLoggedIn(LoginPage),
   prepare(fetchData),
   // $FlowFixMe
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )(CompanyDetail);

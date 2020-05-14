@@ -8,30 +8,30 @@ import type { EmojiEntity } from 'app/reducers/emojis';
 
 type Props = {
   quotes: Array<QuoteEntity>,
-  approve: number => Promise<*>,
-  deleteQuote: number => Promise<*>,
-  unapprove: number => Promise<*>,
+  approve: (number) => Promise<*>,
+  deleteQuote: (number) => Promise<*>,
+  unapprove: (number) => Promise<*>,
   actionGrant: ActionGrant,
   currentUser: any,
   loggedIn: boolean,
   reactions: Object,
   addReaction: ({
     emoji: string,
-    contentTarget: string
+    contentTarget: string,
   }) => Promise<*>,
   deleteReaction: ({ reactionId: ID, contentTarget: string }) => Promise<*>,
   fetchEmojis: () => Promise<*>,
   fetchingEmojis: boolean,
-  emojis: Array<EmojiEntity>
+  emojis: Array<EmojiEntity>,
 };
 
 type State = {
-  displayAdminId: number
+  displayAdminId: number,
 };
 
 export default class QuoteList extends Component<Props, State> {
   state = {
-    displayAdminId: -1
+    displayAdminId: -1,
   };
 
   // eslint-disable-next-line
@@ -40,8 +40,8 @@ export default class QuoteList extends Component<Props, State> {
   }
 
   setDisplayAdmin = (id: number) => {
-    this.setState(state => ({
-      displayAdminId: state.displayAdminId === id ? -1 : id
+    this.setState((state) => ({
+      displayAdminId: state.displayAdminId === id ? -1 : id,
     }));
   };
 
@@ -59,12 +59,12 @@ export default class QuoteList extends Component<Props, State> {
       deleteReaction,
       emojis,
       fetchEmojis,
-      fetchingEmojis
+      fetchingEmojis,
     } = this.props;
 
     return (
       <ul>
-        {quotes.filter(Boolean).map(quote => (
+        {quotes.filter(Boolean).map((quote) => (
           <Quote
             actionGrant={actionGrant}
             approve={approve}

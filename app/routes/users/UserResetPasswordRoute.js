@@ -12,10 +12,7 @@ const mapStateToProps = (state, { location: { search } }) => {
 
 const mapDispatchToProps = {
   resetPassword,
-  push
+  push,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(UserResetPassword);
+export default connect(mapStateToProps, mapDispatchToProps)(UserResetPassword);

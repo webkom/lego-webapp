@@ -9,27 +9,27 @@ import Button from 'app/components/Button';
 import type {
   EventRegistrationChargeStatus,
   EventRegistrationPresence,
-  ID
+  ID,
 } from 'app/models';
 
 type TooltipIconProps = {
   onClick?: (SyntheticInputEvent<*>) => mixed,
   content: string,
   transparent?: boolean,
-  iconClass: string
+  iconClass: string,
 };
 
 type PresenceProps = {
   handlePresence: (ID, EventRegistrationPresence) => Promise<*>,
   presence: EventRegistrationPresence,
-  id: ID
+  id: ID,
 };
 
 type UnregisterProps = {
   fetching: boolean,
-  handleUnregister: ID => void,
+  handleUnregister: (ID) => void,
   id: ID,
-  clickedUnregister: ID
+  clickedUnregister: ID,
 };
 
 type StripeStatusProps = {
@@ -38,14 +38,14 @@ type StripeStatusProps = {
     registrationId: ID,
     chargeStatus: EventRegistrationChargeStatus
   ) => Promise<*>,
-  chargeStatus: EventRegistrationChargeStatus
+  chargeStatus: EventRegistrationChargeStatus,
 };
 
 export const TooltipIcon = ({
   onClick,
   content,
   transparent,
-  iconClass
+  iconClass,
 }: TooltipIconProps) => {
   return (
     <Tooltip className={styles.cell} content={content}>
@@ -63,7 +63,7 @@ export const TooltipIcon = ({
 export const PresenceIcons = ({
   handlePresence,
   presence,
-  id
+  id,
 }: PresenceProps) => {
   return (
     <Flex className={styles.presenceIcons}>
@@ -92,7 +92,7 @@ export const PresenceIcons = ({
 export const StripeStatus = ({
   id,
   handlePayment,
-  chargeStatus
+  chargeStatus,
 }: StripeStatusProps) => (
   <Flex className={styles.presenceIcons}>
     <TooltipIcon
@@ -119,7 +119,7 @@ export const Unregister = ({
   fetching,
   handleUnregister,
   id,
-  clickedUnregister
+  clickedUnregister,
 }: UnregisterProps) => {
   return (
     <div>

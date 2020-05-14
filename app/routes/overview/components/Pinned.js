@@ -10,7 +10,7 @@ import styles from './Pinned.css';
 type Props = {
   item: Event | Article,
   url: string,
-  meta: Element<'span'> | null
+  meta: Element<'span'> | null,
 };
 
 class Pinned extends Component<Props, *> {

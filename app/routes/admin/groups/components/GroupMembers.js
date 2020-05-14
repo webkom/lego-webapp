@@ -12,7 +12,7 @@ import {
   fetchMemberships,
   fetchMembershipsPagination,
   addMember,
-  removeMember
+  removeMember,
 } from 'app/actions/GroupActions';
 import { selectMembershipsForGroup } from 'app/reducers/memberships';
 import type { AddMemberArgs } from 'app/actions/GroupActions';
@@ -26,8 +26,8 @@ type Props = {
   groupsById: { [string]: { name: string } },
   memberships: Array<Object>,
   showDescendants: boolean,
-  addMember: AddMemberArgs => Promise<*>,
-  removeMember: Object => Promise<*>
+  addMember: (AddMemberArgs) => Promise<*>,
+  removeMember: (Object) => Promise<*>,
 };
 
 export const GroupMembers = ({
@@ -39,7 +39,7 @@ export const GroupMembers = ({
   fetching,
   showDescendants,
   groupsById,
-  fetch
+  fetch,
 }: Props) => (
   <div className={styles.groupMembers}>
     {showDescendants || (
@@ -70,7 +70,7 @@ function mapStateToProps(state, props) {
   const showDescendants = location.search.includes('descendants=true');
   const memberships = selectMembershipsForGroup(state, {
     groupId: props.match.params.groupId,
-    descendants: showDescendants
+    descendants: showDescendants,
   });
 
   const groupId = props.match.params && props.match.params.groupId;
@@ -81,20 +81,17 @@ function mapStateToProps(state, props) {
     groupsById: state.groups.byId,
     fetching: state.memberships.fetching,
     showDescendants,
-    hasMore: get(state, ['memberships', 'pagination', groupId, 'hasMore'])
+    hasMore: get(state, ['memberships', 'pagination', groupId, 'hasMore']),
   };
 }
 
 const mapDispatchToProps = {
   addMember,
   removeMember,
-  fetch: fetchMembershipsPagination
+  fetch: fetchMembershipsPagination,
 };
 
 export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   prepare(loadData, ['match.params.groupId', 'location'])
 )(GroupMembers);

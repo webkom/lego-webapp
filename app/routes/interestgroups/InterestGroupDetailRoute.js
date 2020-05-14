@@ -4,7 +4,7 @@ import prepare from 'app/utils/prepare';
 import {
   fetchInterestGroup,
   joinInterestGroup,
-  leaveInterestGroup
+  leaveInterestGroup,
 } from 'app/actions/InterestGroupActions';
 import InterestGroupDetail from './components/InterestGroupDetail';
 import { selectMembershipsForGroup } from 'app/reducers/memberships';
@@ -15,31 +15,28 @@ const mapStateToProps = (state, props) => {
   const { interestGroupId } = props.match.params;
   const group = selectGroup(state, { groupId: interestGroupId });
   const memberships = selectMembershipsForGroup(state, {
-    groupId: interestGroupId
+    groupId: interestGroupId,
   });
 
   return {
     group: {
       ...group,
-      memberships
+      memberships,
     },
-    interestGroupId
+    interestGroupId,
   };
 };
 
 const mapDispatchToProps = {
   fetchInterestGroup,
   joinInterestGroup,
-  leaveInterestGroup
+  leaveInterestGroup,
 };
 
 export default compose(
   prepare(({ match: { params: { interestGroupId } } }, dispatch) =>
     dispatch(fetchInterestGroup(Number(interestGroupId)))
   ),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['group'])
 )(InterestGroupDetail);

@@ -4,14 +4,14 @@ import React from 'react';
 import type {
   EventRegistrationPresence,
   EventRegistrationChargeStatus,
-  EventRegistrationPhotoConsent
+  EventRegistrationPhotoConsent,
 } from 'app/models';
 import {
   paymentPending,
   paymentCardDeclined,
   paymentSuccess,
   paymentManual,
-  paymentCardExpired
+  paymentCardExpired,
 } from '../utils';
 import Tooltip from 'app/components/Tooltip';
 
@@ -21,17 +21,17 @@ type Props = {
   registrationIndex: number,
   hasSimpleWaitingList: boolean,
   useConsent: boolean,
-  hasEnded: boolean
+  hasEnded: boolean,
 };
 
 const ConsentStatus = ({
   useConsent,
   photoConsent,
-  hasEnded
+  hasEnded,
 }: {
   useConsent: boolean,
   photoConsent: EventRegistrationPhotoConsent,
-  hasEnded: boolean
+  hasEnded: boolean,
 }) => {
   if (!useConsent) return null;
   switch (photoConsent) {
@@ -63,10 +63,10 @@ const ConsentStatus = ({
 };
 const PresenceStatus = ({
   presence,
-  hasEnded
+  hasEnded,
 }: {
   hasEnded: boolean,
-  presence: EventRegistrationPresence
+  presence: EventRegistrationPresence,
 }) => {
   switch (presence) {
     case 'NOT_PRESENT':
@@ -96,10 +96,10 @@ const PresenceStatus = ({
 
 const PaymentStatus = ({
   chargeStatus,
-  isPriced
+  isPriced,
 }: {
   chargeStatus: EventRegistrationChargeStatus,
-  isPriced: boolean
+  isPriced: boolean,
 }) => {
   if (!isPriced) return null;
   switch (chargeStatus) {
@@ -145,7 +145,7 @@ const RegistrationMeta = ({
   useConsent,
   isPriced,
   registrationIndex,
-  hasSimpleWaitingList
+  hasSimpleWaitingList,
 }: Props) => (
   <div>
     {!registration && (

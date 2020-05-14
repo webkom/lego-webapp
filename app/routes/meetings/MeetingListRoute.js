@@ -17,13 +17,13 @@ const mapStateToProps = (state, props) => {
   const fetchMoreString = createQueryString({ date_after: dateAfter });
   const fetchOlderString = createQueryString({
     date_before: dateBefore,
-    ordering: '-start_time'
+    ordering: '-start_time',
   });
   const showFetchMore = selectPagination('meetings', {
-    queryString: fetchMoreString
+    queryString: fetchMoreString,
   })(state);
   const showFetchOlder = selectPagination('meetings', {
-    queryString: fetchOlderString
+    queryString: fetchOlderString,
   })(state);
 
   return {
@@ -31,20 +31,18 @@ const mapStateToProps = (state, props) => {
     currentUser: props.currentUser,
     loading: state.meetings.fetching,
     showFetchMore,
-    showFetchOlder
+    showFetchOlder,
   };
 };
 
 const fetchData = ({
   refresh,
-  loadNextPage
+  loadNextPage,
 }: { refresh?: boolean, loadNextPage?: boolean } = {}) =>
   fetchAll({
-    dateAfter: moment()
-      .subtract(0, 'weeks')
-      .format('YYYY-MM-DD'),
+    dateAfter: moment().subtract(0, 'weeks').format('YYYY-MM-DD'),
     refresh,
-    loadNextPage
+    loadNextPage,
   });
 
 const mapDispatchToProps = {
@@ -52,24 +50,19 @@ const mapDispatchToProps = {
   fetchMore: () =>
     fetchData({
       refresh: true,
-      loadNextPage: true
+      loadNextPage: true,
     }),
   fetchOlder: () =>
     fetchAll({
-      dateBefore: moment()
-        .subtract(0, 'weeks')
-        .format('YYYY-MM-DD'),
+      dateBefore: moment().subtract(0, 'weeks').format('YYYY-MM-DD'),
       ordering: '-start_time',
       refresh: true,
-      loadNextPage: true
-    })
+      loadNextPage: true,
+    }),
 };
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
   prepare((props, dispatch) => dispatch(fetchData())),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )(MeetingList);

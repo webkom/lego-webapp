@@ -27,7 +27,7 @@ const mapStateToProps = (state, props) => {
   return {
     location: props.location,
     searching: state.search.searching,
-    results
+    results,
   };
 };
 
@@ -36,16 +36,16 @@ const mapDispatchToProps = (dispatch, { eventId }) => {
   return {
     clearSearch: () => dispatch(push(url)),
     handleSelect: () => Promise.resolve(),
-    onQueryChanged: debounce(query => {
+    onQueryChanged: debounce((query) => {
       dispatch(push(url + query));
       if (query) {
         dispatch(autocomplete(query, searchTypes));
       }
-    }, 300)
+    }, 300),
   };
 };
 
-const WrappedValidator = props => (
+const WrappedValidator = (props) => (
   <Content>
     <Validator {...props} />
   </Content>
@@ -53,8 +53,5 @@ const WrappedValidator = props => (
 
 export default compose(
   prepare(loadData),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )(WrappedValidator);

@@ -18,11 +18,11 @@ import Tooltip from 'app/components/Tooltip';
 type Props = {
   picture: Object,
   gallery: Object,
-  push: string => void,
+  push: (string) => void,
   handleSubmit: ((Object) => void) => void,
-  updatePicture: Object => Promise<*>,
+  updatePicture: (Object) => Promise<*>,
   deletePicture: (galleryId: number, pictureId: number) => Promise<*>,
-  onDeleteGallery: () => mixed
+  onDeleteGallery: () => mixed,
 };
 
 const GalleryPictureEditModal = ({
@@ -31,15 +31,15 @@ const GalleryPictureEditModal = ({
   push,
   deletePicture,
   updatePicture,
-  handleSubmit
+  handleSubmit,
 }: Props) => {
-  const onSubmit = data => {
+  const onSubmit = (data) => {
     const body = {
       id: picture.id,
       gallery: gallery.id,
       description: data.description,
       active: data.active,
-      taggees: data.taggees && data.taggees.map(taggee => taggee.value)
+      taggees: data.taggees && data.taggees.map((taggee) => taggee.value),
     };
 
     updatePicture(body).then(() =>
@@ -107,7 +107,7 @@ const GalleryPictureEditModal = ({
             name="active"
             component={CheckBox.Field}
             id="gallery-picture-active"
-            normalize={v => !!v}
+            normalize={(v) => !!v}
           />
 
           <Field
@@ -145,5 +145,5 @@ const GalleryPictureEditModal = ({
 };
 
 export default reduxForm({
-  form: 'galleryPictureEditor'
+  form: 'galleryPictureEditor',
 })(GalleryPictureEditModal);

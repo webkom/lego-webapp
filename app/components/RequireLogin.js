@@ -4,7 +4,7 @@ import React from 'react';
 
 type Props = {
   loggedIn: boolean,
-  children?: any
+  children?: any,
 };
 
 // DO NOT USE

@@ -7,7 +7,7 @@ import styles from './PageButtons.css';
 type Props = {
   isEditing: boolean,
   toggleEditing: () => void,
-  handleSave: () => void
+  handleSave: () => void,
 };
 
 const PageButtons = ({ isEditing, toggleEditing, handleSave }: Props) => (

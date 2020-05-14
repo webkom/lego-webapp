@@ -20,7 +20,7 @@ type Props = {
   fetching: boolean,
   submitFunction: (Object, ?number) => Promise<*>,
   error: Object,
-  currentUser: UserEntity
+  currentUser: UserEntity,
 };
 
 const SubmissionEditor = ({
@@ -29,7 +29,7 @@ const SubmissionEditor = ({
   submitting,
   handleSubmit,
   submitFunction,
-  error
+  error,
 }: Props) => {
   return (
     <Content className={styles.surveyDetail} banner={survey.event.cover}>
@@ -115,7 +115,7 @@ const prepareToSubmit = (formContent: Object, props: Props) => {
     ...formContent,
     user: currentUser && currentUser.id,
     surveyId: survey.id,
-    answers: formatAnswers(safeAnswers, survey).filter(Boolean)
+    answers: formatAnswers(safeAnswers, survey).filter(Boolean),
   };
 
   return submitFunction(toSubmit);
@@ -136,7 +136,7 @@ const formatAnswers = (answers, survey) => {
       ...answer,
       question: question.id,
       selectedOptions,
-      answerText: answer.answerText || ''
+      answerText: answer.answerText || '',
     };
   });
 };
@@ -148,13 +148,13 @@ const validateMandatory = (inputAnswers: Array<Object>, props) => {
   const answeredQuestionIds = answers
     ? answers
         .filter(
-          answer =>
+          (answer) =>
             answer.selectedOptions.length > 0 || answer.answerText !== ''
         )
-        .map(answer => answer.question)
+        .map((answer) => answer.question)
     : [];
 
-  props.survey.questions.map(question => {
+  props.survey.questions.map((question) => {
     if (question.mandatory && !answeredQuestionIds.includes(question.id)) {
       errors.questions[question.id] = 'Dette feltet er obligatorisk';
     }
@@ -162,12 +162,12 @@ const validateMandatory = (inputAnswers: Array<Object>, props) => {
 
   if (Object.keys(errors.questions).length > 0) {
     throw new SubmissionError({
-      _error: errors
+      _error: errors,
     });
   }
 };
 
 export default legoForm({
   form: 'submissionEditor',
-  onSubmit: (data, dispatch, props) => prepareToSubmit(data, props)
+  onSubmit: (data, dispatch, props) => prepareToSubmit(data, props),
 })(SubmissionEditor);

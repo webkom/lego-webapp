@@ -9,10 +9,10 @@ import styles from './Field.css';
 
 const FieldError = ({
   error,
-  fieldName
+  fieldName,
 }: {
   error?: string,
-  fieldName?: string
+  fieldName?: string,
 }) =>
   error ? (
     <div className={styles.fieldError} data-error-field-name={fieldName}>
@@ -29,13 +29,13 @@ const FieldWarning = ({ warning }: { warning?: string }) =>
 
 export const RenderErrorMessage = ({
   error,
-  fieldName
+  fieldName,
 }: {
   error: Array<string> | string,
-  fieldName?: string
+  fieldName?: string,
 }) => {
   if (Array.isArray(error)) {
-    return (error.map(error => (
+    return (error.map((error) => (
       <RenderErrorMessage key={error} error={error} fieldName={fieldName} />
     )): Array<Node>);
   }
@@ -44,12 +44,12 @@ export const RenderErrorMessage = ({
 };
 
 export const RenderWarningMessage = ({
-  warning
+  warning,
 }: {
-  warning: Array<string> | string
+  warning: Array<string> | string,
 }) => {
   if (Array.isArray(warning)) {
-    return (warning.map(warning => (
+    return (warning.map((warning) => (
       <RenderWarningMessage key={warning} warning={warning} />
     )): Array<Node>);
   }
@@ -67,7 +67,7 @@ export type FormProps = {
   fieldStyle: any,
   fieldClassName: string,
   labelClassName: string,
-  showErrors: boolean
+  showErrors: boolean,
 };
 
 /**

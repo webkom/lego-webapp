@@ -5,27 +5,27 @@ import Dropzone from 'react-dropzone';
 import styles from './UploadImage.css';
 
 export type DropFile = File & {
-  preview: string
+  preview: string,
 };
 
 type Props = {
   onDrop: (Array<DropFile>) => void,
   multiple?: boolean,
   accept?: string,
-  children?: any
+  children?: any,
 };
 
 type State = {
-  files: Array<DropFile>
+  files: Array<DropFile>,
 };
 
 class Upload extends Component<Props, State> {
   static defaultProps = {
-    onDrop: () => {}
+    onDrop: () => {},
   };
 
   state = {
-    files: []
+    files: [],
   };
 
   onDrop = (acceptedFiles: Array<DropFile>) => {
@@ -35,7 +35,7 @@ class Upload extends Component<Props, State> {
       );
     } else {
       this.setState(
-        state => ({ files: state.files.concat(acceptedFiles) }),
+        (state) => ({ files: state.files.concat(acceptedFiles) }),
         () => this.props.onDrop(acceptedFiles)
       );
     }
@@ -49,7 +49,7 @@ class Upload extends Component<Props, State> {
         onDrop={this.onDrop}
         multiple={multiple}
         accept={accept}
-        onClick={e => {
+        onClick={(e) => {
           e.preventDefault();
         }}
       >

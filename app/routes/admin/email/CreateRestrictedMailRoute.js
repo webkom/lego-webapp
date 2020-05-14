@@ -8,9 +8,4 @@ import { push } from 'connected-react-router';
 
 const mapDispatchToProps = { mutateFunction: createRestrictedMail, push };
 
-export default compose(
-  connect(
-    null,
-    mapDispatchToProps
-  )
-)(RestrictedMailEditor);
+export default compose(connect(null, mapDispatchToProps))(RestrictedMailEditor);

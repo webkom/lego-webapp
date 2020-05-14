@@ -18,8 +18,8 @@ const mapStateToProps = (state, props) => {
       phone: '',
       companyType: '',
       paymentMail: '',
-      address: ''
-    }
+      address: '',
+    },
   };
 };
 
@@ -27,8 +27,5 @@ const mapDispatchToProps = { submitFunction: addCompany, uploadFile };
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )(CompanyEditor);

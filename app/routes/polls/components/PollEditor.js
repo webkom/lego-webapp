@@ -8,14 +8,14 @@ import Icon from 'app/components/Icon';
 import { Link } from 'react-router-dom';
 import {
   typeof fieldArrayMetaPropTypes,
-  typeof fieldArrayFieldsPropTypes
+  typeof fieldArrayFieldsPropTypes,
 } from 'redux-form';
 import {
   TextInput,
   SelectInput,
   TextArea,
   legoForm,
-  CheckBox
+  CheckBox,
 } from 'app/components/Form';
 import { Form, Field, FieldArray } from 'redux-form';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
@@ -25,29 +25,29 @@ import { type ID } from 'app/models';
 
 const keyCodes = {
   enter: 13,
-  space: 32
+  space: 32,
 };
 
 type Props = {
   pristine: boolean,
   submitting: boolean,
-  editOrCreatePoll: PollEntity => Promise<*>,
-  handleSubmit: Object => Promise<*>, //TODO add reduxForm typing
+  editOrCreatePoll: (PollEntity) => Promise<*>,
+  handleSubmit: (Object) => Promise<*>, //TODO add reduxForm typing
   editing: boolean,
   initialValues: PollEntity,
   pollId: ID,
   deletePoll: () => Promise<*>,
-  toggleEdit: () => void
+  toggleEdit: () => void,
 };
 
 type FieldArrayPropTypes = {
   fields: fieldArrayFieldsPropTypes,
-  meta: fieldArrayMetaPropTypes
+  meta: fieldArrayMetaPropTypes,
 };
 
 const renderOptions = ({
   fields,
-  meta: { touched, error }
+  meta: { touched, error },
 }: FieldArrayPropTypes) => (
   <div>
     <ul className={styles.options}>
@@ -90,7 +90,7 @@ class EditPollForm extends Component<Props, *> {
       submitting,
       handleSubmit,
       editing,
-      deletePoll
+      deletePoll,
     } = this.props;
 
     return (
@@ -129,9 +129,9 @@ class EditPollForm extends Component<Props, *> {
             multi
             tags
             shouldKeyDownEventCreateNewOption={({
-              keyCode
+              keyCode,
             }: {
-              keyCode: number
+              keyCode: number,
             }) => keyCode === keyCodes.enter || keyCode === keyCodes.space}
           />
           <FieldArray
@@ -176,7 +176,7 @@ const onSubmit = (
     description: string,
     tags: Array<{ value: string }>,
     options: Array<{ id: ?ID, name: string }>,
-    pinned: boolean
+    pinned: boolean,
   },
   dispatch,
   props
@@ -185,10 +185,10 @@ const onSubmit = (
     .editOrCreatePoll({
       title,
       description,
-      tags: tags ? tags.map(val => val.value) : [],
+      tags: tags ? tags.map((val) => val.value) : [],
       options,
       pinned: pinned ? pinned : false,
-      ...rest
+      ...rest,
     })
     .then(() => props.toggleEdit());
 
@@ -197,6 +197,6 @@ export default legoForm({
   onSubmit,
   initialValues: {
     options: [{}, {}],
-    pinned: false
-  }
+    pinned: false,
+  },
 })(EditPollForm);

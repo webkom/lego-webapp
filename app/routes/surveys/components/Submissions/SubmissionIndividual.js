@@ -9,8 +9,8 @@ import cx from 'classnames';
 
 type Props = {
   submissions: Array<SubmissionEntity>,
-  addSubmission: SubmissionEntity => Promise<*>,
-  survey: SurveyEntity
+  addSubmission: (SubmissionEntity) => Promise<*>,
+  survey: SurveyEntity,
 };
 
 const SubmissionPage = ({ submissions, survey }: Props) => {

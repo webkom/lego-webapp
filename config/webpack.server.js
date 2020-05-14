@@ -15,53 +15,53 @@ module.exports = (env, argv) => {
     entry: {
       server: [
         !isProduction && 'webpack/hot/poll?1000',
-        path.resolve(__dirname, '..', 'server/index.js')
-      ].filter(Boolean)
+        path.resolve(__dirname, '..', 'server/index.js'),
+      ].filter(Boolean),
     },
     optimization: {
-      minimize: false
+      minimize: false,
     },
     externals: [
-      nodeExternals({ whitelist: ['webpack/hot/poll?1000', /css$/] })
+      nodeExternals({ whitelist: ['webpack/hot/poll?1000', /css$/] }),
     ],
 
     output: {
       path: path.resolve(root, 'dist'),
       filename: '[name].js',
       sourceMapFilename: '[file].map',
-      publicPath: '/'
+      publicPath: '/',
     },
 
     node: {
       __filename: true,
-      __dirname: true
+      __dirname: true,
     },
 
     plugins: [
       !isProduction && new StartServerPlugin({ name: 'server.js' }),
       !isProduction && new webpack.HotModuleReplacementPlugin(),
       new webpack.optimize.LimitChunkCountPlugin({
-        maxChunks: 1
+        maxChunks: 1,
       }),
       new webpack.DefinePlugin({
         __CLIENT__: false,
-        __DEV__: JSON.stringify(!isProduction)
+        __DEV__: JSON.stringify(!isProduction),
       }),
       new webpack.LoaderOptionsPlugin({
         options: {
-          context: __dirname
-        }
+          context: __dirname,
+        },
       }),
       new FilterWarningsPlugin({
         // suppress conflicting order warnings from mini-css-extract-plugin.
         // see https://github.com/webpack-contrib/mini-css-extract-plugin/issues/250
-        exclude: /Conflicting order between:/
+        exclude: /Conflicting order between:/,
       }),
       isProduction &&
         new MiniCssExtractPlugin({
           filename: '[name].[contenthash].css',
-          chunkFilename: '[id].chunk.[contenthash].css'
-        })
+          chunkFilename: '[id].chunk.[contenthash].css',
+        }),
     ].filter(Boolean),
 
     resolve: {
@@ -71,8 +71,8 @@ module.exports = (env, argv) => {
         lodash: 'node_modules/lodash-es',
         'moment-timezone':
           'moment-timezone/builds/moment-timezone-with-data-2012-2022.min',
-        immutable: 'node_modules/immutable'
-      }
+        immutable: 'node_modules/immutable',
+      },
     },
 
     module: {
@@ -80,14 +80,14 @@ module.exports = (env, argv) => {
         {
           test: /\.js$/,
           exclude: /node_modules/,
-          loader: 'babel-loader'
+          loader: 'babel-loader',
         },
         {
           test: /\.css$/,
           include: /node_modules/,
           use: isProduction
             ? [MiniCssExtractPlugin.loader, 'css-loader']
-            : 'null-loader'
+            : 'null-loader',
         },
         {
           test: /\.css$/,
@@ -99,20 +99,20 @@ module.exports = (env, argv) => {
                   loader: 'css-loader',
                   options: {
                     modules: {
-                      localIdentName: '[name]__[local]--[hash:base64:10]'
-                    }
-                  }
-                }
+                      localIdentName: '[name]__[local]--[hash:base64:10]',
+                    },
+                  },
+                },
               ]
-            : 'null-loader'
+            : 'null-loader',
         },
         {
           test: /\.(png|jpg|jpeg|gif|svg|bdf|woff|woff2|ttf|mp3|mp4|webm)$/,
           loader: 'url-loader',
           options: {
             limit: 8192,
-            emitFile: false
-          }
+            emitFile: false,
+          },
         },
         {
           test: /manifest\.json/,
@@ -120,18 +120,18 @@ module.exports = (env, argv) => {
           type: 'javascript/auto',
           options: {
             emitFile: false,
-            name: '[name].[ext]'
-          }
+            name: '[name].[ext]',
+          },
         },
         {
           test: /((opensearch\.xml|favicon\.png)$|icon-)/,
           loader: 'file-loader',
           options: {
             emitFile: false,
-            name: '[name].[ext]'
-          }
-        }
-      ]
-    }
+            name: '[name].[ext]',
+          },
+        },
+      ],
+    },
   };
 };

@@ -7,7 +7,7 @@ import styles from './ContentSidebar.css';
 
 type Props = {
   className?: string,
-  children: Node
+  children: Node,
 };
 
 /**

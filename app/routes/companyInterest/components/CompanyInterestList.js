@@ -16,35 +16,35 @@ export type Option = {
   id: number,
   semester: string,
   year: string,
-  label: string
+  label: string,
 };
 
 export type Props = {
   companyInterestList: Array<CompanyInterestEntity>,
-  deleteCompanyInterest: number => Promise<*>,
-  fetch: Object => Promise<*>,
+  deleteCompanyInterest: (number) => Promise<*>,
+  fetch: (Object) => Promise<*>,
   hasMore: boolean,
   fetching: boolean,
   semesters: Array<CompanySemesterEntity>,
-  push: string => void,
+  push: (string) => void,
   selectedOption: Option,
-  router: any
+  router: any,
 };
 
 type State = {
-  clickedCompanyInterest: number
+  clickedCompanyInterest: number,
 };
 
 const RenderCompanyActions = ({
   id,
   handleDelete,
   fetching,
-  clickedCompanyInterest
+  clickedCompanyInterest,
 }: {
   id: number,
-  handleDelete: number => void,
+  handleDelete: (number) => void,
   fetching: boolean,
-  clickedCompanyInterest: number
+  clickedCompanyInterest: number,
 }) => (
   <Button flat onClick={() => handleDelete(id)}>
     <i
@@ -57,7 +57,7 @@ const RenderCompanyActions = ({
 
 class CompanyInterestList extends Component<Props, State> {
   state = {
-    clickedCompanyInterest: 0
+    clickedCompanyInterest: 0,
   };
 
   handleDelete = (clickedCompanyInterest: number) => {
@@ -66,12 +66,12 @@ class CompanyInterestList extends Component<Props, State> {
         .deleteCompanyInterest(this.state.clickedCompanyInterest)
         .then(() => {
           this.setState({
-            clickedCompanyInterest: 0
+            clickedCompanyInterest: 0,
           });
         });
     } else {
       this.setState({
-        clickedCompanyInterest
+        clickedCompanyInterest,
       });
     }
   };
@@ -81,8 +81,8 @@ class CompanyInterestList extends Component<Props, State> {
     this.props
       .fetch({
         filters: {
-          semesters: id !== null ? id : null
-        }
+          semesters: id !== null ? id : null,
+        },
       })
       .then(() => {
         this.props.push(`/companyInterest?semesters=${clickedOption.id}`);
@@ -100,37 +100,37 @@ class CompanyInterestList extends Component<Props, State> {
               ? companyInterest.company.name
               : companyName}
           </Link>
-        )
+        ),
       },
       {
         title: 'Kontaktperson',
         dataIndex: 'contactPerson',
-        render: (contactPerson: string) => <span>{contactPerson}</span>
+        render: (contactPerson: string) => <span>{contactPerson}</span>,
       },
       {
         title: 'Mail',
         dataIndex: 'mail',
-        render: (mail: string) => <span>{mail}</span>
+        render: (mail: string) => <span>{mail}</span>,
       },
       {
         title: '',
         dataIndex: 'id',
-        render: id => (
+        render: (id) => (
           <RenderCompanyActions
             fetching={this.props.fetching}
             handleDelete={this.handleDelete}
             id={id}
             clickedCompanyInterest={this.state.clickedCompanyInterest}
           />
-        )
-      }
+        ),
+      },
     ];
 
     const options = [
       {
         year: 9999,
         semester: '',
-        label: 'Vis alle semestre'
+        label: 'Vis alle semestre',
       },
       ...this.props.semesters.map((semesterObj: CompanySemesterEntity) => {
         let { id, year, semester } = semesterObj;
@@ -138,9 +138,9 @@ class CompanyInterestList extends Component<Props, State> {
           id,
           year,
           semester,
-          label: semesterToText({ ...semesterObj, language: 'norwegian' })
+          label: semesterToText({ ...semesterObj, language: 'norwegian' }),
         };
-      })
+      }),
     ].sort((o1, o2) => {
       if (Number(o1.year) === Number(o2.year)) {
         if (o1.semester === 'spring') {

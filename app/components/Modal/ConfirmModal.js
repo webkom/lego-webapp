@@ -14,7 +14,7 @@ type ConfirmModalProps = {
   disabled?: boolean,
   errorMessage?: string,
   cancelText?: string,
-  confirmText?: string
+  confirmText?: string,
 };
 
 export const ConfirmModal = ({
@@ -25,7 +25,7 @@ export const ConfirmModal = ({
   disabled = false,
   errorMessage = '',
   cancelText = 'Avbryt',
-  confirmText = 'Ja'
+  confirmText = 'Ja',
 }: ConfirmModalProps) => (
   <div className={styles.overlay}>
     <div className={styles.confirmContainer}>
@@ -47,7 +47,7 @@ export const ConfirmModal = ({
 type State = {
   modalVisible: boolean,
   working: boolean,
-  errorMessage: string
+  errorMessage: string,
 };
 
 type withModalProps = {
@@ -59,7 +59,7 @@ type withModalProps = {
    * This should only be true if the component isn't automatically
    * unmounted when the given promise resolves */
   closeOnCancel?: boolean,
-  children: Node
+  children: Node,
 };
 
 export default function withModal<Props>(
@@ -76,8 +76,8 @@ export default function withModal<Props>(
     state = { modalVisible: false, working: false, errorMessage: '' };
 
     toggleModal = () => {
-      this.setState(state => ({
-        modalVisible: !state.modalVisible
+      this.setState((state) => ({
+        modalVisible: !state.modalVisible,
       }));
       this.stopWorking();
       this.resetError();
@@ -85,31 +85,31 @@ export default function withModal<Props>(
 
     hideModal = () => {
       this.setState({
-        modalVisible: false
+        modalVisible: false,
       });
     };
 
     startWorking = () => {
       this.setState({
-        working: true
+        working: true,
       });
     };
 
     stopWorking = () => {
       this.setState({
-        working: false
+        working: false,
       });
     };
 
     setErrorMessage = (errorMessage: string) => {
       this.setState({
-        errorMessage
+        errorMessage,
       });
     };
 
     resetError = () => {
       this.setState({
-        errorMessage: ''
+        errorMessage: '',
       });
     };
 
@@ -127,15 +127,15 @@ export default function withModal<Props>(
       const wrapAction = (action: () => Promise<*>, closeWhenDone: boolean) => {
         return () => {
           const onResolve = closeWhenDone
-            ? result => {
+            ? (result) => {
                 this.stopWorking();
                 this.hideModal();
                 this.resetError();
                 return result;
               }
-            : result => result;
+            : (result) => result;
 
-          const onError = error => {
+          const onError = (error) => {
             this.stopWorking();
             const errorMessage =
               get(error, ['meta', 'errorMessage']) || 'Det skjedde en feil...';
@@ -171,14 +171,14 @@ export default function withModal<Props>(
             disabled={working}
             errorMessage={errorMessage}
           />
-        </Modal>
+        </Modal>,
       ];
     }
   };
 }
 
 const ChildrenWithProps = ({ children, ...restProps }: { children: Node }) =>
-  React.Children.map(children, child =>
+  React.Children.map(children, (child) =>
     React.cloneElement(child, { ...restProps })
   );
 

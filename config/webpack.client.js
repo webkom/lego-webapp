@@ -14,7 +14,7 @@ const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack
 const root = path.resolve(__dirname, '..');
 const packageJson = require('../package.json');
 const dllConfig = packageJson.dllPlugin;
-const compact = array => array.filter(Boolean);
+const compact = (array) => array.filter(Boolean);
 
 const outputPath = path.resolve(root, 'dist-client');
 const publicPath = '/';
@@ -42,8 +42,8 @@ module.exports = (env, argv) => {
         : [
             'webpack-hot-middleware/client',
             'react-hot-loader/patch',
-            './app/index.js'
-          ]
+            './app/index.js',
+          ],
     },
 
     output: {
@@ -54,7 +54,7 @@ module.exports = (env, argv) => {
         : '[name].chunk.js',
       publicPath,
       pathinfo: false,
-      sourceMapFilename: '[file].map'
+      sourceMapFilename: '[file].map',
     },
 
     plugins: compact([
@@ -65,23 +65,23 @@ module.exports = (env, argv) => {
       isProduction &&
         new MiniCssExtractPlugin({
           filename: '[name].[contenthash].css',
-          chunkFilename: '[id].chunk.[contenthash].css'
+          chunkFilename: '[id].chunk.[contenthash].css',
         }),
       !isProduction &&
         new webpack.DllReferencePlugin({
           context: root,
-          manifest: JSON.parse(fs.readFileSync(manifestPath, 'utf8'))
+          manifest: JSON.parse(fs.readFileSync(manifestPath, 'utf8')),
         }),
 
       isProduction && new OptimizeCSSAssetsPlugin({}),
       new webpack.LoaderOptionsPlugin({
         options: {
-          context: __dirname
-        }
+          context: __dirname,
+        },
       }),
       new webpack.DefinePlugin({
         __DEV__: JSON.stringify(!isProduction),
-        __CLIENT__: true
+        __CLIENT__: true,
       }),
       process.env.BUNDLE_ANALYZER && new BundleAnalyzerPlugin(),
       !isProduction && new webpack.HotModuleReplacementPlugin(),
@@ -89,17 +89,17 @@ module.exports = (env, argv) => {
       new StatsWriterPlugin({
         filename: 'stats.json',
         fields: ['assets'],
-        transform: JSON.stringify
+        transform: JSON.stringify,
       }),
       new FilterWarningsPlugin({
         // suppress conflicting order warnings from mini-css-extract-plugin.
         // see https://github.com/webpack-contrib/mini-css-extract-plugin/issues/250
-        exclude: /Conflicting order between:/
+        exclude: /Conflicting order between:/,
       }),
 
       new AssetsPlugin({
-        path: outputPath
-      })
+        path: outputPath,
+      }),
     ]),
     resolve: {
       modules: [root, 'node_modules'],
@@ -110,8 +110,8 @@ module.exports = (env, argv) => {
         lodash: 'node_modules/lodash-es',
         'moment-timezone':
           'moment-timezone/builds/moment-timezone-with-data-2012-2022.min',
-        immutable: 'node_modules/immutable'
-      }
+        immutable: 'node_modules/immutable',
+      },
     },
     optimization: {
       splitChunks: {
@@ -122,10 +122,10 @@ module.exports = (env, argv) => {
             name: 'styles',
             test: /\.css$/,
             chunks: 'all',
-            enforce: true
-          }
-        }
-      }
+            enforce: true,
+          },
+        },
+      },
     },
 
     module: {
@@ -133,15 +133,15 @@ module.exports = (env, argv) => {
         {
           test: /\.jsx?$/,
           loader: 'babel-loader',
-          include: [path.resolve(root, 'app'), path.resolve(root, 'config')]
+          include: [path.resolve(root, 'app'), path.resolve(root, 'config')],
         },
         {
           test: /\.css$/,
           include: /node_modules/,
           use: [
             isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
-            'css-loader'
-          ]
+            'css-loader',
+          ],
         },
         {
           test: /\.css$/,
@@ -153,9 +153,9 @@ module.exports = (env, argv) => {
               options: {
                 importLoaders: 1,
                 modules: {
-                  localIdentName: '[name]__[local]--[hash:base64:10]'
-                }
-              }
+                  localIdentName: '[name]__[local]--[hash:base64:10]',
+                },
+              },
             },
             {
               loader: 'postcss-loader',
@@ -175,44 +175,44 @@ module.exports = (env, argv) => {
                         return path.resolve('./node_modules', id);
                       }
                       return path.resolve(basedir, id);
-                    }
+                    },
                   }),
                   require('postcss-preset-env')({
                     stage: 1,
                     features: {
-                      'custom-media-queries': true
-                    }
+                      'custom-media-queries': true,
+                    },
                   }),
-                  require('postcss-nested')
-                ]
-              }
-            }
-          ]
+                  require('postcss-nested'),
+                ],
+              },
+            },
+          ],
         },
         {
           test: /\.(png|jpg|jpeg|gif|svg|bdf|eot|svg|woff|woff2|ttf|mp3|mp4|webm)$/,
           loader: 'url-loader',
           query: {
-            limit: 8192
-          }
+            limit: 8192,
+          },
         },
         {
           test: /manifest\.json/,
           loader: 'file-loader',
           type: 'javascript/auto',
           options: {
-            name: '[name].[ext]'
-          }
+            name: '[name].[ext]',
+          },
         },
         {
           test: /((opensearch\.xml|favicon\.png)$|icon-)/,
           loader: 'file-loader',
           options: {
-            name: '[name].[ext]'
-          }
-        }
-      ]
-    }
+            name: '[name].[ext]',
+          },
+        },
+      ],
+    },
   };
 };
 module.exports.outputPath = outputPath;

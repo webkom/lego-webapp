@@ -13,9 +13,9 @@ export function fetchData() {
     endpoint: '/frontpage/',
     schema: frontpageSchema,
     meta: {
-      errorMessage: 'Klarte ikke hente forsiden!'
+      errorMessage: 'Klarte ikke hente forsiden!',
     },
-    propagateError: true
+    propagateError: true,
   });
 }
 
@@ -44,25 +44,25 @@ const readmeUtgaver = gql`
 
 export function fetchReadmes(first: number) {
   // $FlowFixMe
-  return async dispatch => {
+  return async (dispatch) => {
     try {
       const res = await fetch(readmeUrl, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           operationName: null,
           query: readmeUtgaver,
-          variables: { first }
-        })
+          variables: { first },
+        }),
       });
 
       const output = await res.json();
       dispatch({
         type: Readme.FETCH.SUCCESS,
-        payload: output.data.readmeUtgaver
+        payload: output.data.readmeUtgaver,
       });
     } catch (e) {
       //

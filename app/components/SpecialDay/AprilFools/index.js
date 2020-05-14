@@ -9,16 +9,16 @@ import foolsImage from 'app/assets/aprilfools-image.png';
 import LoadingBox from './LoadingBox';
 
 type Props = {
-  children: Node
+  children: Node,
 };
 
 type State = {
-  hasClosed: boolean
+  hasClosed: boolean,
 };
 
 class AprilFools extends React.Component<Props, State> {
   state = {
-    hasClosed: true
+    hasClosed: true,
   };
   static isCorrectDate() {
     // The year doesn't matter, as it only check month and day of the month
@@ -33,14 +33,14 @@ class AprilFools extends React.Component<Props, State> {
   onQueueDone() {
     localStorage.setItem('hasClosedAprilFools', 'true');
     this.setState({
-      hasClosed: true
+      hasClosed: true,
     });
   }
 
   componentDidMount() {
     const hasClosedAprilFools = localStorage.getItem('hasClosedAprilFools');
     this.setState({
-      hasClosed: hasClosedAprilFools === 'true'
+      hasClosed: hasClosedAprilFools === 'true',
     });
   }
 
@@ -49,7 +49,7 @@ class AprilFools extends React.Component<Props, State> {
     const { hasClosed } = this.state;
 
     if (hasClosed) {
-      return React.Children.map(children, child =>
+      return React.Children.map(children, (child) =>
         React.cloneElement(child, { ...rest })
       );
     }

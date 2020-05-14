@@ -10,21 +10,21 @@ import styles from './Validator.css';
 // $FlowFixMe
 import goodSound from 'app/assets/good-sound.mp3';
 type State = {
-  showCompleted: boolean
+  showCompleted: boolean,
 };
 type Props = {
   clearSearch: () => void,
-  handleSelect: SearchResult => Promise<void>,
+  handleSelect: (SearchResult) => Promise<void>,
   location: Object,
-  onQueryChanged: string => void,
+  onQueryChanged: (string) => void,
   results: Array<SearchResult>,
-  searching: boolean
+  searching: boolean,
 };
 
 class Validator extends React.Component<Props, State> {
   input: ?HTMLInputElement;
   state = {
-    showCompleted: false
+    showCompleted: false,
   };
 
   showCompleted = () => {
@@ -42,7 +42,7 @@ class Validator extends React.Component<Props, State> {
           sound.play();
           this.showCompleted();
         },
-        err => {
+        (err) => {
           const payload = get(err, 'payload.response.jsonData');
           if (payload && payload.errorCode === 'not_registered') {
             alert('Bruker er ikke påmeldt på eventet!');
@@ -67,7 +67,7 @@ class Validator extends React.Component<Props, State> {
       <div>
         <div
           className={cx(styles.overlay, {
-            [styles.shown]: this.state.showCompleted
+            [styles.shown]: this.state.showCompleted,
           })}
         >
           <h3>
@@ -82,7 +82,7 @@ class Validator extends React.Component<Props, State> {
           {...this.props}
           placeholder="Skriv inn brukernavn eller navn"
           handleSelect={this.handleSelect}
-          inputRef={input => {
+          inputRef={(input) => {
             this.input = input;
           }}
         />

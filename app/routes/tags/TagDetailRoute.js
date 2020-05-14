@@ -11,7 +11,7 @@ function mapStateToProps(state, props) {
   const { tagId } = props.match.params;
 
   return {
-    tag: selectTagById(state, { tagId })
+    tag: selectTagById(state, { tagId }),
   };
 }
 
@@ -19,9 +19,6 @@ const mapDispatchToProps = { push, fetch };
 
 export default compose(
   prepare(({ match: { params } }, dispatch) => dispatch(fetch(params.tagId))),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['tag.tag'])
 )(TagDetail);

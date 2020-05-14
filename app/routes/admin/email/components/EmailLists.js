@@ -10,7 +10,7 @@ type Props = {
   fetching: boolean,
   hasMore: boolean,
   emailLists: Array<Object>,
-  fetch: ({ filters?: Object, next?: boolean }) => Promise<*>
+  fetch: ({ filters?: Object, next?: boolean }) => Promise<*>,
 };
 
 export default class EmailLists extends Component<Props> {
@@ -22,14 +22,14 @@ export default class EmailLists extends Component<Props> {
         search: true,
         render: (name: string, emailList) => (
           <Link to={`/admin/email/lists/${emailList.id}`}>{name}</Link>
-        )
+        ),
       },
       {
         title: 'Epost',
         dataIndex: 'email',
         search: true,
-        render: (email: string) => <span>{`${email}@abakus.no`}</span>
-      }
+        render: (email: string) => <span>{`${email}@abakus.no`}</span>,
+      },
     ];
 
     return (

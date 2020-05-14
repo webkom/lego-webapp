@@ -17,10 +17,10 @@ type Props = {
   emojis: Array<EmojiEntity>,
   addReaction: ({
     emoji: string,
-    contentTarget: string
+    contentTarget: string,
   }) => Promise<*>,
   deleteReaction: ({ reactionId: ID, contentTarget: string }) => Promise<*>,
-  contentTarget: string
+  contentTarget: string,
 };
 
 const searchEmojis = (emojis, searchString) => {
@@ -34,7 +34,7 @@ const searchEmojis = (emojis, searchString) => {
    * Examples (searchString = "car"):
    *   - ":car:" (match = ":<car>:")
    */
-  currentEmojis = currentEmojis.filter(emoji => {
+  currentEmojis = currentEmojis.filter((emoji) => {
     if (`:${searchString}:` === emoji.shortCode.toLowerCase()) {
       matchingEmojis.push(emoji);
       return false;
@@ -53,7 +53,7 @@ const searchEmojis = (emojis, searchString) => {
    *   - ":test_car:" (match = ":test<_car>:")
    *   - ":good_car_test:" (match = ":good<_car_>test:")
    */
-  currentEmojis = currentEmojis.filter(emoji => {
+  currentEmojis = currentEmojis.filter((emoji) => {
     const startsWithExact = emoji.shortCode
       .toLowerCase()
       .startsWith(`:${searchString}_`);
@@ -80,7 +80,7 @@ const searchEmojis = (emojis, searchString) => {
    *   - ":carrot:" (match = ":<car>rot")
    *   - ":2car:" (match = ":2<car>:")
    */
-  currentEmojis = currentEmojis.filter(emoji => {
+  currentEmojis = currentEmojis.filter((emoji) => {
     const startsWith = emoji.shortCode
       .toLowerCase()
       .startsWith(`:${searchString}`);
@@ -102,10 +102,11 @@ const searchEmojis = (emojis, searchString) => {
    *   - ":tractor:" (match = "vehicle", keywords = ["vehicle", "car", "farming", "argiculture"])
    *   - ":oncoming_automobile:" (match = "vehicle", keywords = ["car", "vehicle", "transportation"])
    */
-  currentEmojis = currentEmojis.filter(emoji => {
+  currentEmojis = currentEmojis.filter((emoji) => {
     if (
-      emoji.keywords.find(keyword => keyword.toLowerCase() == searchString) !==
-      undefined
+      emoji.keywords.find(
+        (keyword) => keyword.toLowerCase() == searchString
+      ) !== undefined
     ) {
       matchingEmojis.push(emoji);
       return true;
@@ -126,12 +127,12 @@ const searchEmojis = (emojis, searchString) => {
   const results = fuzzy.filter(searchString, currentEmojis, {
     pre: '<',
     post: '>',
-    extract: emoji => {
+    extract: (emoji) => {
       return emoji.shortCode;
-    }
+    },
   });
 
-  return [...matchingEmojis, ...results.map(result => result.original)];
+  return [...matchingEmojis, ...results.map((result) => result.original)];
 };
 
 const ReactionPicker = ({
@@ -139,7 +140,7 @@ const ReactionPicker = ({
   emojis,
   addReaction,
   deleteReaction,
-  contentTarget
+  contentTarget,
 }: Props) => {
   const [activeCategory, setActiveCategory] = useState(null);
   const [searchString, setSearchString] = useState(null);
@@ -150,7 +151,7 @@ const ReactionPicker = ({
     }
     const mappedCategories = {};
     let activeCategorySet = false;
-    emojis.forEach(emoji => {
+    emojis.forEach((emoji) => {
       if (!activeCategorySet) {
         setActiveCategory(emoji.category);
         activeCategorySet = true;
@@ -160,7 +161,7 @@ const ReactionPicker = ({
       } else {
         mappedCategories[emoji.category] = {
           name: emoji.category,
-          emojis: [emoji]
+          emojis: [emoji],
         };
       }
     });
@@ -174,11 +175,11 @@ const ReactionPicker = ({
     return searchEmojis(emojis, searchString);
   }, [searchString, emojis]);
 
-  const onCategoryClick = useCallback(category => {
+  const onCategoryClick = useCallback((category) => {
     setActiveCategory(category);
     setSearchString(null);
   });
-  const onSearch = useCallback(searchString =>
+  const onSearch = useCallback((searchString) =>
     setSearchString(searchString.trim().toLowerCase())
   );
 

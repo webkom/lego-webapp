@@ -16,12 +16,12 @@ export type MeetingEntity = {
   report: string,
   invitations: Array<number>,
   reportAuthor: number,
-  createdBy: number
+  createdBy: number,
 };
 
 export type MeetingSection = {
   title: string,
-  meetings: Array<MeetingEntity>
+  meetings: Array<MeetingEntity>,
 };
 
 const mutate = mutateComments('meetings');
@@ -31,54 +31,54 @@ export default createEntityReducer({
   types: {
     fetch: Meeting.FETCH,
     mutate: Meeting.CREATE,
-    delete: Meeting.DELETE
+    delete: Meeting.DELETE,
   },
-  mutate
+  mutate,
 });
 
 export const selectMeetings = createSelector(
-  state => state.meetings.byId,
-  state => state.meetings.items,
-  (meetingsById, meetingIds) => meetingIds.map(id => meetingsById[id])
+  (state) => state.meetings.byId,
+  (state) => state.meetings.items,
+  (meetingsById, meetingIds) => meetingIds.map((id) => meetingsById[id])
 );
 
 export const selectMeetingById = createSelector(
-  state => state.meetings.byId,
+  (state) => state.meetings.byId,
   (state, props) => props.meetingId,
   (meetingsById, meetingId) => meetingsById[meetingId]
 );
 
 export const selectCommentsForMeeting = createSelector(
   selectMeetingById,
-  state => state.comments.byId,
+  (state) => state.comments.byId,
   (meeting, commentsById) => {
     if (!meeting || !meeting.comments) return [];
-    return meeting.comments.map(commentId => commentsById[commentId]);
+    return meeting.comments.map((commentId) => commentsById[commentId]);
   }
 );
 
 export const selectGroupedMeetings = createSelector(
   selectMeetings,
-  meetings => {
+  (meetings) => {
     const currentYear = moment().year();
     const currentWeek = moment().week();
     const pools: Array<MeetingSection> = [
       {
         title: 'Denne uken',
-        meetings: []
+        meetings: [],
       },
       {
         title: 'Neste uke',
-        meetings: []
+        meetings: [],
       },
       {
         title: 'Senere dette semesteret',
-        meetings: []
-      }
+        meetings: [],
+      },
     ];
     const fields = {};
 
-    meetings.forEach(meeting => {
+    meetings.forEach((meeting) => {
       const startTime = moment(meeting.startTime);
       const year = startTime.year();
       const week = startTime.week();
@@ -103,11 +103,11 @@ export const selectGroupedMeetings = createSelector(
     });
 
     const oldMeetings = Object.keys(fields)
-      .map(key => ({
+      .map((key) => ({
         title: key,
         meetings: fields[key].meetings.sort(
           (elem1, elem2) => moment(elem2.startTime) - moment(elem1.startTime)
-        )
+        ),
       }))
       .sort((elem1, elem2) => {
         const year1 = elem1.title.substring(1, 5);
@@ -119,14 +119,14 @@ export const selectGroupedMeetings = createSelector(
       });
 
     return pools
-      .map(pool => ({
+      .map((pool) => ({
         title: pool.title,
         meetings: pool.meetings.sort(
           (elem1, elem2) =>
             Number(moment(elem1.startTime)) - Number(moment(elem2.startTime))
-        )
+        ),
       }))
       .concat(oldMeetings)
-      .filter(elem => elem.meetings.length);
+      .filter((elem) => elem.meetings.length);
   }
 );

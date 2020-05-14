@@ -11,10 +11,10 @@ type Props = {
   searchResults: Array<EmojiEntity>,
   addReaction: ({
     emoji: string,
-    contentTarget: string
+    contentTarget: string,
   }) => Promise<*>,
   deleteReaction: ({ reactionId: ID, contentTarget: string }) => Promise<*>,
-  contentTarget: string
+  contentTarget: string,
 };
 
 const ReactionPickerContent = ({
@@ -22,7 +22,7 @@ const ReactionPickerContent = ({
   searchResults,
   addReaction,
   deleteReaction,
-  contentTarget
+  contentTarget,
 }: Props) => (
   <div className={styles.ReactionPickerContentContainer}>
     {searchResults !== null && searchResults.length === 0 ? (
@@ -42,12 +42,12 @@ const ReactionPickerContent = ({
                 emoji.hasReacted && emoji.reactionId
                   ? deleteReaction({
                       reactionId: emoji.reactionId,
-                      contentTarget
+                      contentTarget,
                     })
                   : addReaction({
                       emoji: emoji.shortCode,
                       contentTarget,
-                      unicodeString: emoji.unicodeString
+                      unicodeString: emoji.unicodeString,
                     })
               }
             >

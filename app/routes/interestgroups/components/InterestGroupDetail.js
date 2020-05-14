@@ -8,7 +8,7 @@ import {
   Content,
   ContentSection,
   ContentMain,
-  ContentSidebar
+  ContentSidebar,
 } from 'app/components/Content';
 import UserGrid from 'app/components/UserGrid';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
@@ -20,7 +20,7 @@ import InterestGroupMemberList from './InterestGroupMemberList';
 
 type TitleProps = {
   group: Group,
-  showEdit: boolean
+  showEdit: boolean,
 };
 
 const Title = ({ group: { name, id }, showEdit }: TitleProps) => (
@@ -36,14 +36,14 @@ const Title = ({ group: { name, id }, showEdit }: TitleProps) => (
 
 type MembersProps = {
   members: Array<GroupMembership>,
-  group: Group
+  group: Group,
 };
 
 const Members = ({ group, members }: MembersProps) => (
   <Flex column>
     <h4>Medlemmer {group.numberOfUsers}</h4>
     <UserGrid
-      users={members && members.slice(0, 14).map(reg => reg.user)}
+      users={members && members.slice(0, 14).map((reg) => reg.user)}
       maxRows={2}
       minRows={2}
     />
@@ -57,17 +57,17 @@ type ButtonRowProps = {
   group: Group,
   currentUser: User,
   leaveInterestGroup: (GroupMembership, ID) => void,
-  joinInterestGroup: (ID, User) => void
+  joinInterestGroup: (ID, User) => void,
 };
 
 const ButtonRow = ({
   group,
   currentUser,
   joinInterestGroup,
-  leaveInterestGroup
+  leaveInterestGroup,
 }: ButtonRowProps) => {
   const [membership] = group.memberships.filter(
-    m => m.user.id === currentUser.id
+    (m) => m.user.id === currentUser.id
   );
 
   const onClick = membership
@@ -84,7 +84,7 @@ const ButtonRow = ({
 };
 
 const Contact = ({ group }: { group: Group }) => {
-  const leaders = group.memberships.filter(m => m.role === 'leader');
+  const leaders = group.memberships.filter((m) => m.role === 'leader');
 
   if (leaders.length == 0) {
     return (
@@ -107,9 +107,9 @@ const Contact = ({ group }: { group: Group }) => {
 
 type Props = {
   joinInterestGroup: (ID, User) => void,
-  leaveInterestGroup: GroupMembership => void,
+  leaveInterestGroup: (GroupMembership) => void,
   currentUser: User,
-  group: Group
+  group: Group,
 };
 
 function InterestGroupDetail(props: Props) {

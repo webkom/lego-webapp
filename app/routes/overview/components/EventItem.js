@@ -14,7 +14,7 @@ type Props = {
   item: Event,
   url: string,
   meta: Element<'span'> | null,
-  loggedIn: boolean
+  loggedIn: boolean,
 };
 
 class EventItem extends Component<Props, *> {
@@ -35,7 +35,7 @@ class EventItem extends Component<Props, *> {
             <div
               className={styles.right}
               style={{
-                borderBottom: `5px solid ${colorForEvent(item.eventType)}`
+                borderBottom: `5px solid ${colorForEvent(item.eventType)}`,
               }}
             >
               <h2 className={styles.itemTitle}>{item.title}</h2>

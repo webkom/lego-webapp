@@ -14,12 +14,12 @@ type Props = {
   unicodeString: string,
   addReaction: ({
     emoji: string,
-    contentTarget: string
+    contentTarget: string,
   }) => Promise<*>,
   deleteReaction: ({ reactionId: ID, contentTarget: string }) => Promise<*>,
   hasReacted: boolean,
   reactionId: ID,
-  contentTarget: string
+  contentTarget: string,
 };
 
 // Note: Most use cases won't want to use this class directly. Instead, use
@@ -35,7 +35,7 @@ class Reaction extends React.Component<Props> {
       deleteReaction,
       hasReacted,
       reactionId,
-      contentTarget
+      contentTarget,
     }: Props = this.props;
     const classes = [className ? className : styles.reaction];
 
@@ -58,7 +58,7 @@ class Reaction extends React.Component<Props> {
                 : addReaction({
                     emoji,
                     contentTarget,
-                    unicodeString
+                    unicodeString,
                   })
             }
           >

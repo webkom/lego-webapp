@@ -15,24 +15,24 @@ type PermissionListProps = {
   permissions: Array<string>,
   parentPermissions: Array<{
     abakusGroup: { id: ID, name: string },
-    permissions: Array<string>
+    permissions: Array<string>,
   }>,
   group: Object,
-  editGroup: any => Promise<*>
+  editGroup: (any) => Promise<*>,
 };
 
 const removePermission = (permission, group, editGroup) =>
   confirm(`Er du sikker på at du vil fjerne tilgangen ${permission}?`) &&
   editGroup({
     ...group,
-    permissions: group.permissions.filter(perm => perm !== permission)
+    permissions: group.permissions.filter((perm) => perm !== permission),
   });
 
 const PermissionList = ({
   permissions,
   group,
   parentPermissions,
-  editGroup
+  editGroup,
 }: PermissionListProps) => {
   const parentPermissionsList = parentPermissions
     .map(
@@ -47,7 +47,7 @@ const PermissionList = ({
               </Link>
             </h4>
             <ul>
-              {permissions.map(permission => (
+              {permissions.map((permission) => (
                 <li key={permission + abakusGroup.id}>{permission}</li>
               ))}
             </ul>
@@ -73,7 +73,7 @@ const PermissionList = ({
           const concatedString = `${summedPerm}${permPart}/`;
           return [
             broaderPermFound || acc.includes(concatedString),
-            concatedString
+            concatedString,
           ];
         },
         [false, '/']
@@ -82,13 +82,13 @@ const PermissionList = ({
       return [...acc, perm];
     }, [])
 
-    .map(permission => <li key={permission}>{permission}</li>);
+    .map((permission) => <li key={permission}>{permission}</li>);
   return (
     <div>
       <h3>Nåværende rettigheter</h3>
       <ul>
         {permissions.length ? (
-          permissions.map(permission => (
+          permissions.map((permission) => (
             <li key={permission}>
               <i
                 className={`fa fa-times ${styles.removeIcon}`}
@@ -122,12 +122,12 @@ const PermissionList = ({
 
 type GroupPermissionsProps = {
   group: Object,
-  editGroup: any => Promise<*>
+  editGroup: (any) => Promise<*>,
 };
 
 export const GroupPermissions = ({
   group,
-  editGroup
+  editGroup,
 }: GroupPermissionsProps) => {
   const { permissions, parentPermissions } = group;
   return (
@@ -146,9 +146,6 @@ export const GroupPermissions = ({
 const mapDispatchToProps = { editGroup };
 
 export default compose(
-  connect(
-    () => ({}),
-    mapDispatchToProps
-  ),
+  connect(() => ({}), mapDispatchToProps),
   loadingIndicator(['group'])
 )(GroupPermissions);

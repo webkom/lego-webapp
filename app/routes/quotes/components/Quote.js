@@ -15,34 +15,34 @@ import type { EmojiEntity } from 'app/reducers/emojis';
 
 type Props = {
   quote: QuoteEntity,
-  deleteQuote: number => Promise<*>,
-  approve: number => Promise<*>,
-  unapprove: number => Promise<*>,
+  deleteQuote: (number) => Promise<*>,
+  approve: (number) => Promise<*>,
+  unapprove: (number) => Promise<*>,
   actionGrant: ActionGrant,
-  setDisplayAdmin: number => void,
+  setDisplayAdmin: (number) => void,
   displayAdmin: boolean,
   currentUser: any,
   loggedIn: boolean,
   emojis: Array<EmojiEntity>,
   addReaction: ({
     emoji: string,
-    contentTarget: string
+    contentTarget: string,
   }) => Promise<*>,
   deleteReaction: ({ reactionId: ID, contentTarget: string }) => Promise<*>,
   fetchEmojis: () => Promise<*>,
   fetchingEmojis: boolean,
-  emojis: Array<EmojiEntity>
+  emojis: Array<EmojiEntity>,
 };
 
 type State = {
   deleting: boolean,
-  showReactions: boolean
+  showReactions: boolean,
 };
 
 export default class Quote extends Component<Props, State> {
   state = {
     deleting: false,
-    showReactions: true
+    showReactions: true,
   };
 
   render() {
@@ -58,14 +58,14 @@ export default class Quote extends Component<Props, State> {
       addReaction,
       deleteReaction,
       fetchEmojis,
-      fetchingEmojis
+      fetchingEmojis,
     } = this.props;
 
     let mappedEmojis = [];
     if (!fetchingEmojis) {
-      mappedEmojis = emojis.map(emoji => {
+      mappedEmojis = emojis.map((emoji) => {
         const foundReaction = quote.reactionsGrouped.find(
-          reaction => emoji.shortCode == reaction.emoji && reaction.hasReacted
+          (reaction) => emoji.shortCode == reaction.emoji && reaction.hasReacted
         );
         if (foundReaction !== undefined) {
           emoji.hasReacted = true;
@@ -88,7 +88,7 @@ export default class Quote extends Component<Props, State> {
               color: '#dbdbdb',
               marginRight: '30px',
               order: '0',
-              height: '0'
+              height: '0',
             }}
           />
           <h3 className={styles.theQuote}>
@@ -111,8 +111,8 @@ export default class Quote extends Component<Props, State> {
                 <Button
                   flat
                   onClick={() =>
-                    this.setState(state => ({
-                      showReactions: !state.showReactions
+                    this.setState((state) => ({
+                      showReactions: !state.showReactions,
                     }))
                   }
                 >
@@ -159,7 +159,7 @@ export default class Quote extends Component<Props, State> {
                           <Button
                             flat
                             className={styles.deleteQuote}
-                            onClick={e => {
+                            onClick={(e) => {
                               if (e) {
                                 e.preventDefault();
                                 e.stopPropagation();
@@ -198,7 +198,7 @@ export default class Quote extends Component<Props, State> {
             deleteReaction={deleteReaction}
             contentTarget={quote.contentTarget}
           >
-            {quote.reactionsGrouped.map(reaction => {
+            {quote.reactionsGrouped.map((reaction) => {
               return (
                 <Reaction
                   key={`reaction-${reaction.emoji}`}

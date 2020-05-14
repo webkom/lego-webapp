@@ -11,7 +11,7 @@ describe('reducers', () => {
     it('Readme should populate state correctly after fetch', () => {
       const action = {
         type: Readme.FETCH.SUCCESS,
-        payload: [1, 2, 3]
+        payload: [1, 2, 3],
       };
       expect(readme(prevState, action)).toEqual([1, 2, 3]);
     });

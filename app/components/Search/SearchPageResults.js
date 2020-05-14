@@ -13,14 +13,14 @@ import { Image } from 'app/components/Image';
 type Props = {
   query: string,
   results: Array<SearchResultType>,
-  onSelect: SearchResultType => void,
-  selectedIndex: number
+  onSelect: (SearchResultType) => void,
+  selectedIndex: number,
 };
 
 type SearchResultProps = {
   result: SearchResultType,
-  onSelect: SearchResultType => void,
-  isSelected: boolean
+  onSelect: (SearchResultType) => void,
+  isSelected: boolean,
 };
 
 function SearchResult({ result, onSelect, isSelected }: SearchResultProps) {
@@ -29,13 +29,13 @@ function SearchResult({ result, onSelect, isSelected }: SearchResultProps) {
       wrap
       style={{
         backgroundColor: isSelected && 'rgba(255, 0, 0, 0.15)',
-        borderColor: result.color
+        borderColor: result.color,
       }}
       className={styles.searchResult}
     >
       <Flex column className={styles.textbox}>
         <Link
-          onClick={e => {
+          onClick={(e) => {
             e.preventDefault();
             onSelect(result);
           }}

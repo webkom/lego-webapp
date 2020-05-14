@@ -16,7 +16,7 @@ export type SearchResult = {
   value: string,
   link: string,
   content: string,
-  icon: string
+  icon: string,
 };
 
 const initialState = {
@@ -24,20 +24,20 @@ const initialState = {
   autocomplete: [],
   query: '',
   searching: false,
-  open: false
+  open: false,
 };
 
 const searchMapping = {
   'users.user': {
-    label: user => `${user.fullName} (${user.username})`,
+    label: (user) => `${user.fullName} (${user.username})`,
     title: 'fullName',
     type: 'Bruker',
     color: '#A1C34A',
     value: 'id',
     username: 'username',
-    link: user => `/users/${user.username}`,
+    link: (user) => `/users/${user.username}`,
     id: 'id',
-    profilePicture: 'profilePicture'
+    profilePicture: 'profilePicture',
   },
   'articles.article': {
     icon: 'book',
@@ -48,10 +48,10 @@ const searchMapping = {
     color: '#52B0EC',
     path: '/articles/',
     value: 'id',
-    content: item => item['description']
+    content: (item) => item['description'],
   },
   'events.event': {
-    label: event =>
+    label: (event) =>
       `${event.title} (${moment(event.startTime).format('YYYY-MM-DD')})`,
     title: 'title',
     type: 'Arrangement',
@@ -61,19 +61,22 @@ const searchMapping = {
     picture: 'cover',
     path: '/events/',
     value: 'id',
-    content: item => item['description']
+    content: (item) => item['description'],
   },
   'flatpages.page': {
     icon: 'paper-outline',
     label: 'title',
     title: 'title',
-    type: page =>
+    type: (page) =>
       'Infoside - ' +
-      get(categoryOptions.find(val => val.value === page.category), 'label'),
+      get(
+        categoryOptions.find((val) => val.value === page.category),
+        'label'
+      ),
     color: '#E8953A',
-    link: page => `/pages/${page.category}/${page.slug}`,
+    link: (page) => `/pages/${page.category}/${page.slug}`,
     value: 'slug',
-    content: item => item['content']
+    content: (item) => item['content'],
   },
   'gallery.gallery': {
     label: 'title',
@@ -83,7 +86,7 @@ const searchMapping = {
     icon: 'photos',
     path: '/photos/',
     value: 'id',
-    content: item => item['text']
+    content: (item) => item['text'],
   },
   'companies.company': {
     icon: 'briefcase',
@@ -93,7 +96,7 @@ const searchMapping = {
     color: '#E8953A',
     path: '/companies/',
     value: 'id',
-    content: item => item['description']
+    content: (item) => item['description'],
   },
   'tags.tag': {
     label: 'id',
@@ -102,7 +105,7 @@ const searchMapping = {
     path: '/tags/',
     icon: 'pricetags',
     value: 'tag',
-    color: '#000000'
+    color: '#000000',
   },
   'users.abakusgroup': {
     label: 'name',
@@ -112,9 +115,9 @@ const searchMapping = {
     profilePicture: 'logo',
     id: 'id',
     type: 'type',
-    icon: group => (group.profilePicture ? null : 'people'),
-    color: '#000000'
-  }
+    icon: (group) => (group.profilePicture ? null : 'people'),
+    color: '#000000',
+  },
 };
 
 type State = typeof initialState;
@@ -161,11 +164,11 @@ export default search;
  *
  * const mapped = results.map(transformResult).filter(Boolean)
  */
-const transformResult = result => {
+const transformResult = (result) => {
   const fields = searchMapping[result.contentType];
   const item = {};
 
-  Object.keys(fields).forEach(field => {
+  Object.keys(fields).forEach((field) => {
     const value = fields[field];
     if (typeof value === 'function') {
       item[field] = value(result);
@@ -182,11 +185,11 @@ export const selectAutocomplete = (autocomplete: Array<any>) =>
   autocomplete.map(transformResult).filter(Boolean);
 
 export const selectAutocompleteRedux = createSelector(
-  state => state.search.autocomplete,
-  autocomplete => autocomplete.map(transformResult).filter(Boolean)
+  (state) => state.search.autocomplete,
+  (autocomplete) => autocomplete.map(transformResult).filter(Boolean)
 );
 
 export const selectResult = createSelector(
-  state => state.search.results,
-  results => results.map(transformResult).filter(Boolean)
+  (state) => state.search.results,
+  (results) => results.map(transformResult).filter(Boolean)
 );

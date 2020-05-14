@@ -7,14 +7,16 @@ Cypress.Commands.add(
       .request({
         method: 'POST',
         url: url,
-        body: { username, password }
+        body: { username, password },
       })
       .its('body')
-      .then(body => body.token);
+      .then((body) => body.token);
   }
 );
 
-Cypress.Commands.add('setAuthToken', token => cy.setCookie('lego.auth', token));
+Cypress.Commands.add('setAuthToken', (token) =>
+  cy.setCookie('lego.auth', token)
+);
 
 Cypress.Commands.add('login', (username = 'webkom', password = 'Webkom123') =>
   cy.getAuthToken(username, password).then(cy.setAuthToken)
@@ -32,7 +34,7 @@ Cypress.Commands.add(
       cy.log('cached token found');
       return cy.setAuthToken(cachedTokens[username]);
     }
-    return cy.getAuthToken(username, password).then(token => {
+    return cy.getAuthToken(username, password).then((token) => {
       cachedTokens[username] = token;
       return cy.setAuthToken(token);
     });
@@ -45,7 +47,7 @@ Cypress.Commands.add(
     return cy
       .fixture(fileName, 'base64')
       .then(Cypress.Blob.base64StringToBlob)
-      .then(blob => {
+      .then((blob) => {
         const nameSegments = fileName.split('/');
         const name = nameSegments[nameSegments.length - 1];
         const testFile = new File([blob], name, { type });
@@ -59,7 +61,7 @@ Cypress.Commands.add('resetDb', () => {
   const resetDbApi = Cypress.env('RESET_DB_API') || 'http://localhost:3030';
   return cy.request({
     method: 'POST',
-    url: resetDbApi
+    url: resetDbApi,
   });
 });
 

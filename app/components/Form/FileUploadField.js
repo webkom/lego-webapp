@@ -12,8 +12,8 @@ type Props = {
   className?: string,
   style?: Object,
   value?: string,
-  onChange: string => void,
-  placeholder: string
+  onChange: (string) => void,
+  placeholder: string,
 } & FieldProps;
 
 class FileUploadField extends Component<Props> {
@@ -40,7 +40,7 @@ class FileUploadField extends Component<Props> {
         <span className={styles.value}>{value ? value : placeholder}</span>
         {value && (
           <Icon
-            onClick={e => {
+            onClick={(e) => {
               e.preventDefault();
 
               this.props.onChange('');

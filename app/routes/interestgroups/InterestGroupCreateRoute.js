@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { formValueSelector } from 'redux-form';
 import {
   createInterestGroup,
-  joinInterestGroup
+  joinInterestGroup,
 } from 'app/actions/InterestGroupActions';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
@@ -15,23 +15,20 @@ const mapDispatchToProps = {
   createInterestGroup,
   joinInterestGroup,
   uploadFile,
-  handleSubmitCallback: createInterestGroup
+  handleSubmitCallback: createInterestGroup,
 };
 
 const mapStateToProps = (state, props) => {
   const valueSelector = formValueSelector('interestGroupEditor');
   return {
     initialValues: {
-      text: ''
+      text: '',
     },
-    groupMembers: valueSelector(state, 'members') || []
+    groupMembers: valueSelector(state, 'members') || [],
   };
 };
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )(InterestGroupCreate);

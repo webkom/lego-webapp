@@ -32,9 +32,7 @@ describe('Create joblisting', () => {
     //cy.get('div[name="description"]').clear();
     //cy.contains('button', 'Lagre').should('be.disabled');
 
-    cy.contains('button', 'Lagre')
-      .should('not.be.disabled')
-      .click();
+    cy.contains('button', 'Lagre').should('not.be.disabled').click();
     //TODO: check new url
     cy.contains('h2', 'Sommerjobb hos BEKK');
   });

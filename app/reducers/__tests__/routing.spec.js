@@ -11,7 +11,7 @@ describe('reducers', () => {
     it('Routing should populate state correctly after SET_STATUS_CODE', () => {
       const action = {
         type: Routing.SET_STATUS_CODE,
-        payload: 400
+        payload: 400,
       };
       expect(routing(prevState, action)).toEqual({ statusCode: 400 });
     });

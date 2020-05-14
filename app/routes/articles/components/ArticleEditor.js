@@ -16,7 +16,7 @@ import {
   CheckBox,
   ObjectPermissions,
   ImageUploadField,
-  legoForm
+  legoForm,
 } from 'app/components/Form';
 import { Form, Fields, Field } from 'redux-form';
 import { createValidator, validYoutubeUrl } from 'app/utils/validation';
@@ -32,11 +32,11 @@ export type Props = {
   articleId: number,
   currentUser: UserEntity,
   isNew: boolean,
-  handleSubmit: Object => void,
-  submitArticle: Object => Promise<*>,
-  deleteArticle: number => Promise<*>,
-  push: string => void,
-  initialized: boolean
+  handleSubmit: (Object) => void,
+  submitArticle: (Object) => Promise<*>,
+  deleteArticle: (number) => Promise<*>,
+  push: (string) => void,
+  initialized: boolean,
 };
 
 const ArticleEditor = ({
@@ -48,7 +48,7 @@ const ArticleEditor = ({
   deleteArticle,
   push,
   article,
-  initialized
+  initialized,
 }: Props) => {
   if (!isNew && (!article || !article.content)) {
     return <LoadingIndicator loading />;
@@ -100,7 +100,7 @@ const ArticleEditor = ({
           component={CheckBox.Field}
           fieldClassName={styles.metaField}
           className={styles.formField}
-          normalize={v => !!v}
+          normalize={(v) => !!v}
         />
         <Field
           placeholder="Title"
@@ -118,9 +118,9 @@ const ArticleEditor = ({
           multi
           tags
           shouldKeyDownEventCreateNewOption={({
-            keyCode
+            keyCode,
           }: {
-            keyCode: number
+            keyCode: number,
           }) => keyCode === 32 || keyCode === 13}
         />
 
@@ -129,7 +129,7 @@ const ArticleEditor = ({
             'requireAuth',
             'canViewGroups',
             'canEditUsers',
-            'canEditGroups'
+            'canEditGroups',
           ]}
           component={ObjectPermissions}
         />
@@ -170,8 +170,8 @@ const onSubmit = (
     author: currentUser.id,
     description: data.description,
     content: data.content,
-    tags: (data.tags || []).map(tag => tag.value.toLowerCase()),
-    pinned: data.pinned
+    tags: (data.tags || []).map((tag) => tag.value.toLowerCase()),
+    pinned: data.pinned,
   };
 
   return submitArticle(body);
@@ -181,8 +181,8 @@ export default legoForm({
   destroyOnUnmount: false,
   form: 'article',
   validate: createValidator({
-    youtubeUrl: [validYoutubeUrl()]
+    youtubeUrl: [validYoutubeUrl()],
   }),
   enableReinitialize: true,
-  onSubmit
+  onSubmit,
 })(ArticleEditor);

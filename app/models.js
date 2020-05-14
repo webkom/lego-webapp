@@ -56,7 +56,7 @@ type EventBase = {
   registrationDeadlineHours: number,
   unregistrationDeadline: Dateish,
   pinned: boolean,
-  youtubeUrl: string
+  youtubeUrl: string,
 };
 
 export type Event = EventBase & {
@@ -78,14 +78,14 @@ export type Event = EventBase & {
   isUserFollowing: UserFollowing,
   unansweredSurveys: Array<ID>,
   responsibleGroup: Group,
-  price?: number
+  price?: number,
 };
 
 export type TransformEvent = EventBase & {
   addFee: boolean,
   pools: Array<EventTransformPool>,
   company: SelectInput,
-  responsibleGroup: SelectInput
+  responsibleGroup: SelectInput,
 };
 
 export type Tags = string;
@@ -93,7 +93,7 @@ export type Tags = string;
 export type UserFollowing = {
   id: ID,
   follower: User,
-  target: ID
+  target: ID,
 };
 
 export type Article = Object;
@@ -101,7 +101,7 @@ export type Feed = Object;
 export type FeedItem = Object;
 
 export type Grade = {
-  name: string
+  name: string,
 };
 
 export type User = {
@@ -112,7 +112,7 @@ export type User = {
   grade: Grade,
   allergies: string,
   profilePicture: string,
-  email?: string
+  email?: string,
 };
 
 export type EventRegistrationPresence = 'PRESENT' | 'NOT_PRESENT' | 'UNKNOWN';
@@ -141,35 +141,35 @@ export type EventRegistration = {
   chargeStatus: EventRegistrationChargeStatus,
   feedback: string,
   sharedMemberships?: number,
-  consent: EventRegistrationPhotoConsent
+  consent: EventRegistrationPhotoConsent,
 };
 
 type EventPoolBase = {
   id: ID,
   name: string,
   capacity: number,
-  activationDate: Dateish
+  activationDate: Dateish,
 };
 
 export type EventPool = EventPoolBase & {
   registrations?: Array<EventRegistration>,
   registrationCount: number,
-  permissionGroups: Array<Object>
+  permissionGroups: Array<Object>,
 };
 
 type EventTransformPool = EventPoolBase & {
-  permissionGroups: Array<SelectInput>
+  permissionGroups: Array<SelectInput>,
 };
 
 export type Workplace = {
-  town: string
+  town: string,
 };
 
 export type Joblisting = {
   id: ID,
   fromYear: number,
   toYear: number,
-  workplaces: Array<Workplace>
+  workplaces: Array<Workplace>,
 };
 
 export type Group = {
@@ -183,12 +183,12 @@ export type Group = {
   text: string,
   logo: ?string,
   showBadge: boolean,
-  contactEmail: string
+  contactEmail: string,
 };
 
 export type GroupMembership = {
   user: User,
-  role: string
+  role: string,
 };
 
 export type Company = Object;
@@ -217,11 +217,11 @@ export type Announcement = {
   events: Array<Object>,
   meetings: Array<Object>,
   fromGroup: Group,
-  sent?: boolean
+  sent?: boolean,
 };
 
 export type CreateAnnouncement = Announcement & {
-  send: ?boolean
+  send: ?boolean,
 };
 
 export type AddPenalty = {
@@ -229,7 +229,7 @@ export type AddPenalty = {
   user: ID,
   reason: string,
   weight: number,
-  sourceEvent: ID
+  sourceEvent: ID,
 };
 
 export type LocationType = {
@@ -237,5 +237,5 @@ export type LocationType = {
   pathname: string,
   search: string,
   hash: string,
-  state: { [any]: boolean }
+  state: { [any]: boolean },
 };

@@ -14,20 +14,20 @@ type Props = {
   surveyId: number,
   actionGrant: ActionGrant,
   token?: string,
-  shareSurvey: number => Promise<*>,
-  hideSurvey: number => Promise<*>,
-  exportSurvey?: number => Promise<*>
+  shareSurvey: (number) => Promise<*>,
+  hideSurvey: (number) => Promise<*>,
+  exportSurvey?: (number) => Promise<*>,
 };
 
 type State = {
   copied: boolean,
-  generatedCSV: ?{ url: string, filename: string }
+  generatedCSV: ?{ url: string, filename: string },
 };
 
 export class AdminSideBar extends React.Component<Props, State> {
   state = {
     copied: false,
-    generatedCSV: undefined
+    generatedCSV: undefined,
   };
 
   render() {
@@ -37,7 +37,7 @@ export class AdminSideBar extends React.Component<Props, State> {
       token,
       shareSurvey,
       hideSurvey,
-      exportSurvey
+      exportSurvey,
     } = this.props;
 
     const { generatedCSV } = this.state;
@@ -96,7 +96,7 @@ export class AdminSideBar extends React.Component<Props, State> {
                   <Button
                     onClick={async () =>
                       this.setState({
-                        generatedCSV: await exportSurvey(surveyId)
+                        generatedCSV: await exportSurvey(surveyId),
                       })
                     }
                   >

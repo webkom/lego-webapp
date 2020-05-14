@@ -12,7 +12,7 @@ type Props = {
   label?: string,
   className?: string,
   inputValue?: string,
-  value?: string
+  value?: string,
 };
 
 function RadioButton({

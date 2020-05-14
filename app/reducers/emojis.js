@@ -12,14 +12,14 @@ export type EmojiEntity = {
   fitzpatrickScale: boolean,
   category: string,
   hasReacted?: boolean,
-  reactionId?: ID
+  reactionId?: ID,
 };
 
 export const selectEmojis = createSelector(
-  state => state.emojis.byId,
-  state => state.emojis.items,
+  (state) => state.emojis.byId,
+  (state) => state.emojis.items,
   (emojisById, emojiIds) => {
-    return emojiIds.map(id => emojisById[id]);
+    return emojiIds.map((id) => emojisById[id]);
   }
 );
 
@@ -28,13 +28,13 @@ export const selectEmojisById = createSelector(
   (state, emojisId) => emojisId,
   (emojis, emojisId) => {
     if (!emojis || !emojisId) return {};
-    return emojis.find(emojis => emojis.shortCode === emojisId);
+    return emojis.find((emojis) => emojis.shortCode === emojisId);
   }
 );
 
 export default createEntityReducer({
   key: 'emojis',
   types: {
-    fetch: [Emoji.FETCH, Emoji.FETCH_ALL]
-  }
+    fetch: [Emoji.FETCH, Emoji.FETCH_ALL],
+  },
 });

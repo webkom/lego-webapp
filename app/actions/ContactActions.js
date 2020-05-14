@@ -10,6 +10,6 @@ export function sendContactMessage(contactForm: ContactForm) {
     types: Contact.SEND_MESSAGE,
     method: 'POST',
     endpoint: '/contact-form/',
-    body: contactForm
+    body: contactForm,
   });
 }

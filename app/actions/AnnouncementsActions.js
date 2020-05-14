@@ -12,9 +12,9 @@ export function fetchAll() {
     endpoint: '/announcements/',
     schema: [announcementsSchema],
     meta: {
-      errorMessage: 'Henting av kunngjøringer feilet'
+      errorMessage: 'Henting av kunngjøringer feilet',
     },
-    propagateError: true
+    propagateError: true,
   });
 }
 
@@ -26,10 +26,10 @@ export function createAnnouncement(
     events,
     meetings,
     fromGroup,
-    send
+    send,
   }: Object /*AnnouncementModel*/
 ): Thunk<*> {
-  return dispatch =>
+  return (dispatch) =>
     dispatch(
       callAPI({
         types: Announcements.CREATE,
@@ -41,20 +41,20 @@ export function createAnnouncement(
           groups,
           events,
           meetings,
-          fromGroup
+          fromGroup,
         },
         schema: announcementsSchema,
         meta: {
-          errorMessage: 'Opprettelse av kunngjøringer feilet'
-        }
+          errorMessage: 'Opprettelse av kunngjøringer feilet',
+        },
       })
     )
-      .then(action => {
+      .then((action) => {
         if (send && action && action.payload) {
           dispatch(sendAnnouncement(action.payload.result));
         }
       })
-      .catch(action => {
+      .catch((action) => {
         const errors = { ...action.error.response.jsonData };
         dispatch(stopSubmit('AnnouncementsCreate', errors));
       });
@@ -67,8 +67,8 @@ export function sendAnnouncement(announcementId: number) {
     method: 'POST',
     meta: {
       errorMessage: 'Sending av kunngjøringer feilet',
-      announcementId
-    }
+      announcementId,
+    },
   });
 }
 
@@ -79,7 +79,7 @@ export function deleteAnnouncement(id: number) {
     method: 'DELETE',
     meta: {
       id,
-      errorMessage: 'Sletting av kunngjøringer feilet'
-    }
+      errorMessage: 'Sletting av kunngjøringer feilet',
+    },
   });
 }

@@ -12,7 +12,7 @@ function mapStateToProps(state, props) {
     loggedIn: props.loggedIn,
     group: selectGroup(state, { groupId }),
     groupId,
-    match
+    match,
   };
 }
 
@@ -23,8 +23,5 @@ function loadData({ match: { params } }, dispatch) {
 }
 export default compose(
   prepare(loadData, ['match.params.groupId']),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )(GroupView);

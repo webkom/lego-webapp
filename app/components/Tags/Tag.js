@@ -12,7 +12,7 @@ type Props = {
   small?: boolean,
   color?: 'pink' | 'red' | 'orange' | 'green' | 'cyan' | 'blue' | 'purple',
   link?: string,
-  className?: string
+  className?: string,
 };
 
 /**

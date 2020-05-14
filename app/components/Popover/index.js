@@ -9,24 +9,24 @@ type Props = {
   render: () => Node,
   children: any,
   placement: 'top' | 'bottom' | 'left' | 'right',
-  contentClassName?: string
+  contentClassName?: string,
 };
 
 type State = {
   contentHovered: boolean,
-  overlayHovered: boolean
+  overlayHovered: boolean,
 };
 
 class Popover extends Component<Props, State> {
   state = {
     contentHovered: false,
-    overlayHovered: false
+    overlayHovered: false,
   };
 
   target: any;
 
   static defaultProps = {
-    placement: 'bottom'
+    placement: 'bottom',
   };
 
   onMouseEnterContent = () => {
@@ -56,7 +56,7 @@ class Popover extends Component<Props, State> {
       <div
         onMouseEnter={this.onMouseEnterContent}
         onMouseLeave={this.onMouseLeaveContent}
-        ref={target => {
+        ref={(target) => {
           this.target = target;
         }}
       >

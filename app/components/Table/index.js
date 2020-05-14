@@ -14,12 +14,12 @@ import Button from '../Button';
 
 type sortProps = {
   direction?: 'asc' | 'desc',
-  sort?: string
+  sort?: string,
 };
 
 type checkFilter = {
   label: string,
-  value: any
+  value: any,
 };
 
 type columnProps = {
@@ -33,13 +33,13 @@ type columnProps = {
    * is in english, and the search should be in norwegian
    *
    */
-  filterMapping?: any => any,
+  filterMapping?: (any) => any,
   search?: boolean,
   width?: number,
   render?: (any, Object) => Node,
   // Should column be rendered. Will render when not set
   visible?: boolean,
-  center?: boolean
+  center?: boolean,
 };
 
 type Props = {
@@ -49,13 +49,13 @@ type Props = {
   hasMore: boolean,
   loading: boolean,
   onChange?: (filters: Object, sort: sortProps) => void,
-  onLoad?: (filters: Object, sort: sortProps) => void
+  onLoad?: (filters: Object, sort: sortProps) => void,
 };
 
 type State = {
   filters: Object,
   isShown: Object,
-  sort: sortProps
+  sort: sortProps,
 };
 
 const isVisible = ({ visible = true }: columnProps) => visible;
@@ -66,26 +66,26 @@ export default class Table extends Component<Props, State> {
   state = {
     sort: {},
     filters: {},
-    isShown: {}
+    isShown: {},
   };
 
   static defaultProps = {
-    rowKey: 'id'
+    rowKey: 'id',
   };
 
   toggleSearch = (dataIndex: string) => {
     this.setState({
       isShown: {
-        [dataIndex]: !this.state.isShown[dataIndex]
-      }
+        [dataIndex]: !this.state.isShown[dataIndex],
+      },
     });
   };
 
   toggleFilter = (dataIndex: string) => {
     this.setState({
       isShown: {
-        [dataIndex]: !this.state.isShown[dataIndex]
-      }
+        [dataIndex]: !this.state.isShown[dataIndex],
+      },
     });
   };
 
@@ -106,7 +106,7 @@ export default class Table extends Component<Props, State> {
   checkifActive = (dataIndex: string) => {
     return (
       this.state.filters[dataIndex].length &&
-      typeof this.state.filters[dataIndex].find(e => e.value) !== 'undefined'
+      typeof this.state.filters[dataIndex].find((e) => e.value) !== 'undefined'
     );
   };
 
@@ -115,7 +115,7 @@ export default class Table extends Component<Props, State> {
     const {
       render = (cellData, data) => cellData,
       dataIndex,
-      center = false
+      center = false,
     } = column;
     return (
       <td
@@ -147,7 +147,7 @@ export default class Table extends Component<Props, State> {
         {search && (
           <div className={styles.searchIcon}>
             <div
-              ref={c => (this.components[dataIndex] = c)}
+              ref={(c) => (this.components[dataIndex] = c)}
               className={styles.searchIcon}
             >
               <Icon
@@ -174,7 +174,7 @@ export default class Table extends Component<Props, State> {
                   autoFocus
                   placeholder="Filtrer"
                   value={filters[dataIndex]}
-                  onChange={e => this.onSearchInput(e, dataIndex)}
+                  onChange={(e) => this.onSearchInput(e, dataIndex)}
                   onKeyDown={({ keyCode }) => {
                     if (keyCode === 13) {
                       this.toggleSearch(dataIndex);
@@ -188,7 +188,7 @@ export default class Table extends Component<Props, State> {
         {filter && (
           <div className={styles.filterIcon}>
             <div
-              ref={c => (this.components[dataIndex] = c)}
+              ref={(c) => (this.components[dataIndex] = c)}
               className={styles.filterIcon}
             >
               <Icon
@@ -240,7 +240,7 @@ export default class Table extends Component<Props, State> {
       return true;
     }
 
-    const match = Object.keys(this.state.filters).filter(key => {
+    const match = Object.keys(this.state.filters).filter((key) => {
       if (this.state.filters[key] === undefined) {
         return true;
       }
@@ -254,12 +254,10 @@ export default class Table extends Component<Props, State> {
         return true;
       }
 
-      const { filterMapping = val => val } =
-        this.props.columns.find(col => col.dataIndex == key) || {};
+      const { filterMapping = (val) => val } =
+        this.props.columns.find((col) => col.dataIndex == key) || {};
 
-      return filterMapping(get(item, key))
-        .toLowerCase()
-        .includes(filter);
+      return filterMapping(get(item, key)).toLowerCase().includes(filter);
     }).length;
 
     return match > 0;

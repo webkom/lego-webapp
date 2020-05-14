@@ -20,7 +20,7 @@ import {
   paymentSuccess,
   paymentManual,
   sumPenalties,
-  penaltyHours
+  penaltyHours,
 } from '../utils';
 import { registrationIsClosed } from '../utils';
 import { selectUserByUsername } from 'app/reducers/users';
@@ -33,10 +33,10 @@ export type Props = {
   event: Event,
   registration: ?Object,
   currentUser: Object,
-  onSubmit: Object => void,
+  onSubmit: (Object) => void,
   onToken: () => Promise<*>,
 
-  handleSubmit: /*TODO: SubmitHandler<>*/ any => void,
+  handleSubmit: /*TODO: SubmitHandler<>*/ (any) => void,
 
   /*TODO: & ReduxFormProps */
   invalid: boolean,
@@ -47,25 +47,25 @@ export type Props = {
   buttonOpen: boolean,
   registrationOpensIn: ?string,
   penalties: Array<Object>,
-  touch: (field: string) => void
+  touch: (field: string) => void,
 };
 
 type SpotsLeftProps = {
   activeCapacity: number,
-  spotsLeft: number
+  spotsLeft: number,
 };
 const SubmitButton = ({
   onSubmit,
   disabled,
   type,
   title,
-  showPenaltyNotice
+  showPenaltyNotice,
 }: {
   onSubmit?: () => void,
   disabled: boolean,
   type: string,
   title: string,
-  showPenaltyNotice: boolean
+  showPenaltyNotice: boolean,
 }) => {
   if (type === 'register') {
     return (
@@ -119,23 +119,24 @@ class JoinEventForm extends Component<Props> {
     if (type === 'unregister') {
       return handleSubmit(() =>
         this.props.onSubmit({
-          type
+          type,
         })
       );
     }
 
-    return handleSubmit(values => {
+    return handleSubmit((values) => {
       const feedback = values[feedbackName];
       if (this.props.event.feedbackRequired && !feedback) {
         throw new SubmissionError({
-          feedbackRequired: 'Tilbakemelding er påkrevet for dette arrangementet'
+          feedbackRequired:
+            'Tilbakemelding er påkrevet for dette arrangementet',
         });
       }
 
       return this.props.onSubmit({
         captchaResponse: values.captchaResponse,
         feedback,
-        type
+        type,
       });
     });
   };
@@ -155,7 +156,7 @@ class JoinEventForm extends Component<Props> {
       formOpen,
       penalties,
       captchaOpen,
-      registrationOpensIn
+      registrationOpensIn,
     } = this.props;
 
     const joinTitle = !registration ? 'Meld deg på' : 'Avregistrer';
@@ -200,7 +201,7 @@ class JoinEventForm extends Component<Props> {
       );
     }
 
-    const registrationMessage = event => {
+    const registrationMessage = (event) => {
       switch (event.eventStatusType) {
         case 'OPEN':
           return <div>Dette arrangementet krever ingen påmelding</div>;
@@ -378,8 +379,8 @@ function mapStateToProps(state, { event, registration }) {
     const feedbackName = getFeedbackName(event);
     return {
       initialValues: {
-        [feedbackName]: registration.feedback
-      }
+        [feedbackName]: registration.feedback,
+      },
     };
   }
   const user = state.auth
@@ -389,16 +390,13 @@ function mapStateToProps(state, { event, registration }) {
     ? selectPenaltyByUserId(state, { userId: user.id })
     : [];
   return {
-    penalties
+    penalties,
   };
 }
 
 export default compose(
   // $FlowFixMe
-  connect(
-    mapStateToProps,
-    null
-  ),
+  connect(mapStateToProps, null),
   withCountdown,
   reduxForm({
     form: 'joinEvent',
@@ -408,6 +406,6 @@ export default compose(
         props.touch('feedbackRequired');
       }
     },
-    validate: validateEventForm
+    validate: validateEventForm,
   })
 )(JoinEventForm);

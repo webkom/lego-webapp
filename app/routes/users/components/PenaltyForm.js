@@ -11,7 +11,7 @@ import {
   TextArea,
   TextInput,
   SelectInput,
-  withSubmissionError
+  withSubmissionError,
 } from 'app/components/Form';
 import { Field } from 'redux-form';
 import { addPenalty } from 'app/actions/UserActions';
@@ -19,26 +19,26 @@ import type { AddPenalty, ID } from 'app/models';
 
 type Props = {
   user: ID,
-  addPenalty: AddPenalty => Promise<*>,
+  addPenalty: (AddPenalty) => Promise<*>,
   reason?: string,
   weight?: number,
-  handleSubmit: Function => void,
+  handleSubmit: (Function) => void,
   actionGrant: boolean,
   hidden?: boolean,
   button?: boolean,
   className?: string,
-  reset: () => void
+  reset: () => void,
 };
 
 type State = {
   hidden: boolean,
-  sent: boolean
+  sent: boolean,
 };
 
 class PenaltyInLine extends Component<Props, State> {
   state = {
     hidden: true,
-    sent: false
+    sent: false,
   };
 
   onSubmit = (penalty, user) =>
@@ -46,18 +46,18 @@ class PenaltyInLine extends Component<Props, State> {
       .addPenalty({
         ...penalty,
         sourceEvent: penalty.sourceEvent && penalty.sourceEvent.value,
-        user
+        user,
       })
       .then(() => {
         this.setState(() => ({
-          sent: true
+          sent: true,
         }));
         this.props.reset();
       });
 
   handleHide = () => {
-    this.setState(prevState => ({
-      hidden: !prevState.hidden
+    this.setState((prevState) => ({
+      hidden: !prevState.hidden,
     }));
   };
 
@@ -93,7 +93,7 @@ class PenaltyInLine extends Component<Props, State> {
             {showForm && (
               <Form
                 onSubmit={handleSubmit(
-                  withSubmissionError(values => this.onSubmit(values, user))
+                  withSubmissionError((values) => this.onSubmit(values, user))
                 )}
               >
                 <Field
@@ -122,15 +122,12 @@ class PenaltyInLine extends Component<Props, State> {
   }
 }
 
-const mapStateToProps = state => ({ actionGrant: state.allowed.penalties });
+const mapStateToProps = (state) => ({ actionGrant: state.allowed.penalties });
 
 const mapDispatchToProps = { addPenalty };
 
 export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   legoForm({
     form: 'penaltyInline',
     validate(values) {
@@ -139,6 +136,6 @@ export default compose(
         errors.message = 'Du må skrive en melding';
       }
       return errors;
-    }
+    },
   })
 )(PenaltyInLine);

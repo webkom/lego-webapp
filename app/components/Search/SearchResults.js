@@ -12,13 +12,13 @@ import Time from 'app/components/Time';
 type SearchResultItemProps = {
   result: Object,
   isSelected: boolean,
-  onCloseSearch: () => void
+  onCloseSearch: () => void,
 };
 
 const SearchResultItem = ({
   result,
   isSelected,
-  onCloseSearch
+  onCloseSearch,
 }: SearchResultItemProps) => (
   <Link to={result.link} onClick={onCloseSearch}>
     <li className={cx(isSelected && styles.isSelected, styles.resultItem)}>
@@ -67,7 +67,7 @@ const SearchResults = ({
   adminLinks,
   onCloseSearch,
   searching,
-  selectedIndex
+  selectedIndex,
 }: Object) => (
   <div className={styles.resultsContainer}>
     <div>

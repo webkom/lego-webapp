@@ -4,7 +4,7 @@ import config from 'app/config';
 import AprilFools from './AprilFools';
 
 type Props = {
-  children: any
+  children: any,
 };
 
 class SpecialDay extends React.Component<Props> {
@@ -21,7 +21,7 @@ class SpecialDay extends React.Component<Props> {
     const specialDay = SpecialDay.getSpecialDay();
 
     if (config.environment === 'ci' || specialDay === null) {
-      return React.Children.map(filteredChildren, child =>
+      return React.Children.map(filteredChildren, (child) =>
         React.cloneElement(child, { ...rest })
       );
     }

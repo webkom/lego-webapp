@@ -29,24 +29,24 @@ type Props = {
   loadingFrontpage: boolean,
   poll: ?PollEntity,
   votePoll: () => Promise<*>,
-  loggedIn: boolean
+  loggedIn: boolean,
 };
 
 type State = {
   eventsToShow: number,
-  articlesToShow: number
+  articlesToShow: number,
 };
 
 class Overview extends Component<Props, State> {
   state = {
     eventsToShow: 9,
-    articlesToShow: 2
+    articlesToShow: 2,
   };
 
   showMore = () => {
     this.setState({
       eventsToShow: this.state.eventsToShow + 6,
-      articlesToShow: this.state.articlesToShow + 2
+      articlesToShow: this.state.articlesToShow + 2,
     });
   };
 
@@ -80,7 +80,7 @@ class Overview extends Component<Props, State> {
 
         {item.tags && item.tags.length > 0 && (
           <Tags className={styles.tagline}>
-            {item.tags.slice(0, 3).map(tag => (
+            {item.tags.slice(0, 3).map((tag) => (
               <Tag className={styles.tag} tag={tag} key={tag} />
             ))}
           </Tags>
@@ -90,14 +90,14 @@ class Overview extends Component<Props, State> {
   };
 
   render() {
-    const isEvent = o => typeof o['startTime'] !== 'undefined';
+    const isEvent = (o) => typeof o['startTime'] !== 'undefined';
     const {
       loggedIn,
       frontpage,
       loadingFrontpage,
       readmes,
       poll,
-      votePoll
+      votePoll,
     } = this.props;
     const pinned = frontpage[0];
     const compactEvents = (
@@ -134,10 +134,10 @@ class Overview extends Component<Props, State> {
         </Link>
         <Flex className={styles.events}>
           {frontpage
-            .filter(item => item.documentType === 'event')
-            .filter(item => item != frontpage[0])
+            .filter((item) => item.documentType === 'event')
+            .filter((item) => item != frontpage[0])
             .slice(0, this.state.eventsToShow)
-            .map(event => (
+            .map((event) => (
               <EventItem
                 key={event.id}
                 item={event}
@@ -151,8 +151,8 @@ class Overview extends Component<Props, State> {
     );
 
     const weeklyArticle = frontpage
-      .filter(item => item.documentType === 'article')
-      .filter(article => article.tags.includes('weekly'))[0];
+      .filter((item) => item.documentType === 'article')
+      .filter((article) => article.tags.includes('weekly'))[0];
 
     const weekly = (
       <Flex column className={styles.weekly}>
@@ -180,10 +180,10 @@ class Overview extends Component<Props, State> {
         </Link>
         <Flex className={styles.articles}>
           {frontpage
-            .filter(item => item.documentType === 'article')
-            .filter(article => !article.tags.includes('weekly'))
+            .filter((item) => item.documentType === 'article')
+            .filter((article) => !article.tags.includes('weekly'))
             .slice(0, this.state.articlesToShow)
-            .map(article => (
+            .map((article) => (
               <ArticleItem
                 key={article.id}
                 item={article}
@@ -203,7 +203,7 @@ class Overview extends Component<Props, State> {
           </h3>
         </Link>
         <NextEvent
-          events={frontpage.filter(item => item.documentType === 'event')}
+          events={frontpage.filter((item) => item.documentType === 'event')}
         />
       </Flex>
     );

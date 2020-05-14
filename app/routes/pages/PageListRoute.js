@@ -5,15 +5,12 @@ import prepare from 'app/utils/prepare';
 import { fetchAll } from 'app/actions/PageActions';
 
 const mapStateToProps = (state, props) => ({
-  pages: state.pages.byId
+  pages: state.pages.byId,
 });
 
 const mapDispatchToProps = { fetchAll };
 
 export default compose(
   prepare((props, dispatch) => dispatch(fetchAll())),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )(PageList);

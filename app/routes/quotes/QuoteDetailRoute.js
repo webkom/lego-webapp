@@ -3,7 +3,7 @@ import {
   fetchQuote,
   approve,
   unapprove,
-  deleteQuote
+  deleteQuote,
 } from '../../actions/QuoteActions';
 import QuotePage from './components/QuotePage';
 import { compose } from 'redux';
@@ -31,7 +31,7 @@ const mapStateToProps = (state, props) => {
     quotes,
     quoteId,
     emojis,
-    actionGrant
+    actionGrant,
   };
 };
 
@@ -42,14 +42,11 @@ const mapDispatchToProps = {
   deleteQuote,
   addReaction,
   deleteReaction,
-  fetchEmojis
+  fetchEmojis,
 };
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
   prepare(loadData, ['match.params.quoteId']),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )(QuotePage);

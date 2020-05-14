@@ -16,15 +16,15 @@ import loadingIndicator from 'app/utils/loadingIndicator';
 const loadData = (
   {
     match: {
-      params: { surveyId }
+      params: { surveyId },
     },
-    currentUser
+    currentUser,
   },
   dispatch
 ) =>
   Promise.all([
     dispatch(fetchSurvey(surveyId)),
-    currentUser.id && dispatch(fetchUserSubmission(surveyId, currentUser.id))
+    currentUser.id && dispatch(fetchUserSubmission(surveyId, currentUser.id)),
   ]);
 
 const mapStateToProps = (state, props) => {
@@ -33,7 +33,7 @@ const mapStateToProps = (state, props) => {
   const currentUser = props.currentUser;
   const submission = selectSurveySubmissionForUser(state, {
     surveyId,
-    currentUser
+    currentUser,
   });
   const notFetching = state.surveySubmissions.fetching;
 
@@ -45,8 +45,8 @@ const mapStateToProps = (state, props) => {
     notFetching,
     actionGrant: survey.actionGrant,
     initialValues: {
-      answers: []
-    }
+      answers: [],
+    },
   };
 };
 
@@ -55,9 +55,6 @@ const mapDispatchToProps = { submitFunction: addSubmission };
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
   prepare(loadData, ['match.params.surveyId', 'currentUser.id', 'notFetching']),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['survey.questions', 'survey.event'])
 )(SubmissionContainer);

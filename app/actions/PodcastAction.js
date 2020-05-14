@@ -12,10 +12,10 @@ export function fetchPodcasts() {
     endpoint: `/podcasts/`,
     method: 'GET',
     meta: {
-      errorMessage: 'Henting av podcasts feilet'
+      errorMessage: 'Henting av podcasts feilet',
     },
     schema: [podcastSchema],
-    propagateError: true
+    propagateError: true,
   });
 }
 
@@ -26,10 +26,10 @@ export function fetchPodcast(podcastId: number) {
     method: 'GET',
     meta: {
       podcastId,
-      errorMessage: 'Henting av podcast feilet'
+      errorMessage: 'Henting av podcast feilet',
     },
     schema: podcastSchema,
-    propagateError: true
+    propagateError: true,
   });
 }
 
@@ -40,8 +40,8 @@ export function deletePodcast(id: number) {
     method: 'DELETE',
     meta: {
       id,
-      errorMessage: 'Sletting av podcast feilet'
-    }
+      errorMessage: 'Sletting av podcast feilet',
+    },
   });
 }
 
@@ -49,9 +49,9 @@ export function addPodcast(data: {
   title: string,
   source: string,
   description: string,
-  authors: Array<number>
+  authors: Array<number>,
 }): Thunk<*> {
-  return dispatch =>
+  return (dispatch) =>
     dispatch(
       callAPI({
         types: Podcast.CREATE,
@@ -61,8 +61,8 @@ export function addPodcast(data: {
         schema: podcastSchema,
         meta: {
           errorMessage: 'Legg til podcast feilet',
-          successMessage: 'Podcast lagt til'
-        }
+          successMessage: 'Podcast lagt til',
+        },
       })
     ).then(() => dispatch(push(`/podcasts/`)));
 }
@@ -75,9 +75,9 @@ export function editPodcast({
   title: string,
   source: string,
   description: string,
-  authors: Array<number>
+  authors: Array<number>,
 }): Thunk<*> {
-  return dispatch =>
+  return (dispatch) =>
     dispatch(
       callAPI({
         types: Podcast.UPDATE,
@@ -86,8 +86,8 @@ export function editPodcast({
         schema: podcastSchema,
         body: data,
         meta: {
-          errorMessage: 'Endring av podcast feilet'
-        }
+          errorMessage: 'Endring av podcast feilet',
+        },
       })
     ).then(() => dispatch(push(`/podcasts/`)));
 }

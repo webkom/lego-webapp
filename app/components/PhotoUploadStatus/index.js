@@ -10,17 +10,17 @@ import {
   selectGalleryPictureById,
   type UploadStatus,
   type GalleryPictureEntity,
-  initialUploadStatus
+  initialUploadStatus,
 } from 'app/reducers/galleryPictures';
 import { Image } from 'app/components/Image';
 
 type StateProps = {
   uploadStatus: UploadStatus,
-  lastImage: ?GalleryPictureEntity
+  lastImage: ?GalleryPictureEntity,
 };
 
 type DispatchedProps = {
-  hideUploadStatus: () => void
+  hideUploadStatus: () => void,
 };
 
 type Props = StateProps & DispatchedProps;
@@ -30,12 +30,12 @@ const style = {
   margin: 40,
   position: 'fixed',
   bottom: 0,
-  left: 0
+  left: 0,
 };
 const UploadStatusCard = ({
   uploadStatus,
   lastImage,
-  hideUploadStatus
+  hideUploadStatus,
 }: Props) => {
   if (!uploadStatus.showStatus) return null;
 
@@ -96,22 +96,22 @@ const UploadStatusCard = ({
   );
 };
 
-const mapStateToProps: any => StateProps = state => {
+const mapStateToProps: (any) => StateProps = (state) => {
   const {
-    uploadStatus = initialUploadStatus
+    uploadStatus = initialUploadStatus,
   }: { uploadStatus: UploadStatus } = state.galleryPictures;
 
   const lastImage: ?GalleryPictureEntity = selectGalleryPictureById(state, {
-    pictureId: uploadStatus.lastUploadedImage
+    pictureId: uploadStatus.lastUploadedImage,
   });
   return { uploadStatus, lastImage };
 };
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   hideUploadStatus: () =>
     dispatch({
-      type: Gallery.HIDE_UPLOAD_STATUS
-    })
+      type: Gallery.HIDE_UPLOAD_STATUS,
+    }),
 });
 
 const ConnectedUploadStatusCard = connect(

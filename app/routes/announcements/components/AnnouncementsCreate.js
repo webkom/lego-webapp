@@ -10,12 +10,12 @@ import { ContentMain } from 'app/components/Content';
 import type { ActionGrant, CreateAnnouncement } from 'app/models';
 
 type Props = {
-  createAnnouncement: CreateAnnouncement => Promise<*>,
+  createAnnouncement: (CreateAnnouncement) => Promise<*>,
   actionGrant: ActionGrant,
-  handleSubmit: Function => void,
+  handleSubmit: (Function) => void,
   invalid: boolean,
   pristine: boolean,
-  submitting: boolean
+  submitting: boolean,
 };
 
 const AnnouncementsCreate = ({
@@ -24,19 +24,19 @@ const AnnouncementsCreate = ({
   handleSubmit,
   invalid,
   pristine,
-  submitting
+  submitting,
 }: Props) => {
   const disabledButton = invalid || pristine || submitting;
 
   const onSubmit = (announcement, send = false) => {
     return createAnnouncement({
       ...announcement,
-      users: announcement.users.map(user => user.value),
-      groups: announcement.groups.map(group => group.value),
-      meetings: announcement.meetings.map(meeting => meeting.value),
-      events: announcement.events.map(event => event.value),
+      users: announcement.users.map((user) => user.value),
+      groups: announcement.groups.map((group) => group.value),
+      meetings: announcement.meetings.map((meeting) => meeting.value),
+      events: announcement.events.map((event) => event.value),
       fromGroup: announcement.fromGroup && announcement.fromGroup.value,
-      send
+      send,
     });
   };
   return (
@@ -96,13 +96,13 @@ const AnnouncementsCreate = ({
             />
             <Flex>
               <Button
-                onClick={handleSubmit(values => onSubmit(values, false))}
+                onClick={handleSubmit((values) => onSubmit(values, false))}
                 disabled={disabledButton}
               >
                 Opprett
               </Button>
               <Button
-                onClick={handleSubmit(values => onSubmit(values, true))}
+                onClick={handleSubmit((values) => onSubmit(values, true))}
                 disabled={disabledButton}
               >
                 Opprett og send
@@ -119,14 +119,14 @@ const initialValues = {
   events: [],
   meetings: [],
   groups: [],
-  users: []
+  users: [],
 };
 
 const resetForm = (result, dispatch) => {
   dispatch(reset('announcementsCreate'));
 };
 
-const validateForm = values => {
+const validateForm = (values) => {
   const errors = {};
   if (!values.message) {
     errors.message = 'Du må skrive en melding';
@@ -141,5 +141,5 @@ export default reduxForm({
   form: 'announcementsCreate',
   initialValues,
   onSubmitSuccess: resetForm,
-  validate: validateForm
+  validate: validateForm,
 })(AnnouncementsCreate);

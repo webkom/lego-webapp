@@ -13,12 +13,12 @@ import Icon from 'app/components/Icon';
 const questionStrings = {
   single: 'single_choice',
   multiple: 'multiple_choice',
-  text: 'text_field'
+  text: 'text_field',
 };
 
 const displayTypeStrings = {
   bar_chart: 'bar_chart',
-  pie_chart: 'pie_chart'
+  pie_chart: 'pie_chart',
 };
 
 export const QuestionTypes = (choice: string) => {
@@ -29,7 +29,7 @@ export const PresentableQuestionType = (choice: string) => {
   const questionTypeToString = {
     single_choice: 'Multiple Choice',
     multiple_choice: 'Sjekkboks',
-    text_field: 'Fritekst'
+    text_field: 'Fritekst',
   };
   return questionTypeToString[choice] || questionTypeToString[0];
 };
@@ -42,14 +42,14 @@ export const PresentableDisplayTypes = (choice: string) => {
   return displayTypeStrings[choice] || displayTypeStrings[0];
 };
 
-export const mappings = (Object.keys(questionStrings).map(key => ({
+export const mappings = (Object.keys(questionStrings).map((key) => ({
   value: questionStrings[key],
-  label: PresentableQuestionType(questionStrings[key])
+  label: PresentableQuestionType(questionStrings[key]),
 })): Array<{ value: string, label: string }>);
 
-export const graphMappings = (Object.keys(displayTypeStrings).map(key => ({
+export const graphMappings = (Object.keys(displayTypeStrings).map((key) => ({
   value: displayTypeStrings[key],
-  label: PresentableDisplayTypes(displayTypeStrings[key])
+  label: PresentableDisplayTypes(displayTypeStrings[key]),
 })): Array<{ value: string, label: string }>);
 
 export const ListNavigation = ({ title }: { title: Node }) => (
@@ -63,11 +63,11 @@ export const ListNavigation = ({ title }: { title: Node }) => (
 export const DetailNavigation = ({
   title,
   surveyId,
-  actionGrant
+  actionGrant,
 }: {
   title: Node,
   surveyId: number,
-  actionGrant?: ActionGrant
+  actionGrant?: ActionGrant,
 }) => (
   <NavigationTab title={title} headerClassName={styles.navTab}>
     <NavigationLink to="/surveys">Liste</NavigationLink>
@@ -81,11 +81,11 @@ export const DetailNavigation = ({
 export const TokenNavigation = ({
   title,
   surveyId,
-  actionGrant = []
+  actionGrant = [],
 }: {
   title: Node,
   surveyId: number,
-  actionGrant?: ActionGrant
+  actionGrant?: ActionGrant,
 }) => (
   <NavigationTab title={title} headerClassName={styles.navTab}>
     {actionGrant.includes('EDIT') && (
@@ -97,10 +97,7 @@ export const TokenNavigation = ({
 );
 
 export const defaultActiveFrom = (hours: number, minutes: number) =>
-  moment()
-    .startOf('day')
-    .add({ hours, minutes })
-    .toISOString();
+  moment().startOf('day').add({ hours, minutes }).toISOString();
 
 export const CHART_COLORS = [
   'var(--lego-red)',
@@ -111,7 +108,7 @@ export const CHART_COLORS = [
   'var(--lego-chart-yellow)',
   'var(--lego-chart-green)',
   '#ff87eb',
-  'var(--color-black)'
+  'var(--color-black)',
 ];
 
 export const getCsvUrl = (surveyId: string) =>
@@ -126,11 +123,13 @@ export const QuestionTypeOption = (
 ) => (
   <div
     className={cx(props.className, styles.dropdown)}
-    onMouseDown={event => {
+    onMouseDown={(event) => {
       props.onSelect && props.onSelect(props.option, event);
     }}
-    onMouseEnter={event => props.onFocus && props.onFocus(props.option, event)}
-    onMouseMove={event => {
+    onMouseEnter={(event) =>
+      props.onFocus && props.onFocus(props.option, event)
+    }
+    onMouseMove={(event) => {
       if (props.isFocused) return;
       props.onFocus && props.onFocus(props.option, event);
     }}
@@ -151,11 +150,13 @@ export const QuestionTypeValue = (
 ) => (
   <div
     className={cx('Select-value', styles.dropdown)}
-    onMouseDown={event => {
+    onMouseDown={(event) => {
       props.onSelect && props.onSelect(props.option, event);
     }}
-    onMouseEnter={event => props.onFocus && props.onFocus(props.option, event)}
-    onMouseMove={event => {
+    onMouseEnter={(event) =>
+      props.onFocus && props.onFocus(props.option, event)
+    }
+    onMouseMove={(event) => {
       if (props.isFocused) return;
       props.onFocus && props.onFocus(props.option, event);
     }}

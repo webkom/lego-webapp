@@ -23,7 +23,7 @@ export const places = [
   { label: 'Drøbak', value: 'Drøbak' },
   { label: 'Hønefoss', value: 'Hønefoss' },
   { label: 'Elverum', value: 'Elverum' },
-  { label: 'Kongsvinger', value: 'Kongsvinger' }
+  { label: 'Kongsvinger', value: 'Kongsvinger' },
 ];
 
 export const jobTypes = [
@@ -31,12 +31,12 @@ export const jobTypes = [
   { label: 'Deltid', value: 'part_time' },
   { label: 'Fulltid', value: 'full_time' },
   { label: 'Masteroppgave', value: 'master_thesis' },
-  { label: 'Annet', value: 'other' }
+  { label: 'Annet', value: 'other' },
 ];
 export const yearValues = [
   { value: 1, label: '1. klasse' },
   { value: 2, label: '2. klasse' },
   { value: 3, label: '3. klasse' },
   { value: 4, label: '4. klasse' },
-  { value: 5, label: '5. klasse' }
+  { value: 5, label: '5. klasse' },
 ];

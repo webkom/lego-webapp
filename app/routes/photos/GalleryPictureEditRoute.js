@@ -2,13 +2,13 @@ import { connect } from 'react-redux';
 import GalleryPictureEditModal from './components/GalleryPictureEditModal';
 import {
   deletePicture,
-  updatePicture
+  updatePicture,
 } from 'app/actions/GalleryPictureActions';
 import { compose } from 'redux';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import {
   selectGalleryPictureById,
-  selectCommentsForGalleryPicture
+  selectCommentsForGalleryPicture,
 } from 'app/reducers/galleryPictures';
 import { selectGalleryById } from 'app/reducers/galleries';
 import { push } from 'connected-react-router';
@@ -27,24 +27,21 @@ function mapStateToProps(state, props) {
       ...picture,
       taggees:
         picture &&
-        picture.taggees.map(taggee => ({
+        picture.taggees.map((taggee) => ({
           value: taggee.id,
-          label: taggee.fullName
-        }))
-    }
+          label: taggee.fullName,
+        })),
+    },
   };
 }
 
 const mapDispatchToProps = {
   deletePicture,
   updatePicture,
-  push
+  push,
 };
 
 export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['picture.id'])
 )(GalleryPictureEditModal);

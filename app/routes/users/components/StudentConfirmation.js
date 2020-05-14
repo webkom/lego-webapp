@@ -10,7 +10,7 @@ import {
   RadioButton,
   RadioButtonGroup,
   Button,
-  Captcha
+  Captcha,
 } from 'app/components/Form';
 import { Link } from 'react-router-dom';
 import { Field } from 'redux-form';
@@ -19,11 +19,11 @@ import type { ReduxFormProps } from 'app/types';
 
 type Props = {
   studentConfirmed: boolean,
-  handleSubmit: Function => void,
-  sendStudentConfirmationEmail: Object => void,
+  handleSubmit: (Function) => void,
+  sendStudentConfirmationEmail: (Object) => void,
   loggedIn: boolean,
   submitSucceeded: () => void,
-  isStudent: boolean
+  isStudent: boolean,
 } & ReduxFormProps;
 
 const StudentConfirmation = ({
@@ -36,7 +36,7 @@ const StudentConfirmation = ({
   invalid,
   pristine,
   submitting,
-  push
+  push,
 }: Props) => {
   if (isStudent) {
     return (
@@ -67,10 +67,10 @@ const StudentConfirmation = ({
     );
   }
 
-  const handleSendConfirmation = data => {
+  const handleSendConfirmation = (data) => {
     const payload = {
       ...data,
-      studentUsername: data.studentUsername.replace('@stud.ntnu.no', '')
+      studentUsername: data.studentUsername.replace('@stud.ntnu.no', ''),
     };
     return sendStudentConfirmationEmail(payload);
   };
@@ -133,10 +133,10 @@ const validate = createValidator({
   studentUsername: [required()],
   course: [required()],
   member: [required()],
-  captchaResponse: [required('Captcha er ikke validert')]
+  captchaResponse: [required('Captcha er ikke validert')],
 });
 
 export default reduxForm({
   form: 'ConfirmationForm',
-  validate
+  validate,
 })(StudentConfirmation);

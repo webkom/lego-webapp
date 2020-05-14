@@ -7,18 +7,18 @@ import { Content } from 'app/components/Content';
 type Page = {
   slug: string,
   title: string,
-  pk: number
+  pk: number,
 };
 
 type Props = {
-  pages: { [key: string]: Page }
+  pages: { [key: string]: Page },
 };
 
 const PageList = ({ pages }: Props) => {
   return (
     <Content>
       <ul>
-        {Object.keys(pages).map(id => {
+        {Object.keys(pages).map((id) => {
           const page = pages[id];
           return (
             <li key={page.pk}>

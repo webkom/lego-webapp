@@ -6,7 +6,7 @@ import {
   fetchSemesters,
   addSemester,
   fetchAllAdmin,
-  deleteCompany
+  deleteCompany,
 } from '../../actions/CompanyActions';
 import { selectCompanies } from 'app/reducers/companies';
 import AddSemester from './components/AddSemester';
@@ -24,7 +24,7 @@ const validateSemesterStatus = (data, props) => {
   const { companies, companyId } = props;
   const { year, semester, contactedStatus } = data;
 
-  const company = companies.find(company => company.id == Number(companyId));
+  const company = companies.find((company) => company.id == Number(companyId));
 
   if (!year) {
     errors.year = 'Vennligst fyll ut dette feltet';
@@ -36,7 +36,7 @@ const validateSemesterStatus = (data, props) => {
 
   const foundSemesterStatus =
     company &&
-    company.semesterStatuses.find(semesterStatus => {
+    company.semesterStatuses.find((semesterStatus) => {
       return (
         semesterStatus.year === year && semesterStatus.semester === semester
       );
@@ -57,17 +57,17 @@ const mapStateToProps = (state, props) => ({
   initialValues: props.match.params.companyId && {
     year: moment().year(),
     semester: 0,
-    contactedStatus: 'not_contacted'
+    contactedStatus: 'not_contacted',
   },
   companySemesters: selectCompanySemesters(state, props),
-  companies: selectCompanies(state, props)
+  companies: selectCompanies(state, props),
 });
 
 const mapDispatchToProps = {
   addSemesterStatus,
   uploadFile,
   addSemester,
-  deleteCompany
+  deleteCompany,
 };
 
 export default compose(
@@ -77,13 +77,10 @@ export default compose(
       Promise.all([dispatch(fetchSemesters()), dispatch(fetchAllAdmin())]),
     ['match.params.companyId']
   ),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   reduxForm({
     form: 'addSemester',
     validate: validateSemesterStatus,
-    enableReinitialize: true
+    enableReinitialize: true,
   })
 )(AddSemester);

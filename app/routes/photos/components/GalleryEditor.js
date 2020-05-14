@@ -13,7 +13,7 @@ import {
   DatePicker,
   SelectInput,
   ObjectPermissions,
-  legoForm
+  legoForm,
 } from 'app/components/Form';
 import { normalizeObjectPermissions } from 'app/components/Form/ObjectPermissions';
 import { Field, Fields } from 'redux-form';
@@ -37,9 +37,9 @@ type Props = {
   isNew: boolean,
   gallery: GalleryEntity,
   pictures: Array<GalleryPictureEntity>,
-  submitFunction: GalleryEntity => Promise<*>,
-  handleSubmit: any => void,
-  push: string => Promise<*>,
+  submitFunction: (GalleryEntity) => Promise<*>,
+  handleSubmit: (any) => void,
+  push: (string) => Promise<*>,
   submitting: boolean,
   fetch: (
     galleryId: number,
@@ -47,14 +47,14 @@ type Props = {
   ) => Promise<*>,
   hasMore: boolean,
   fetching: boolean,
-  deleteGallery: ID => Promise<*>,
+  deleteGallery: (ID) => Promise<*>,
   updateGalleryCover: (number, number) => Promise<*>,
-  updatePicture: Object => Promise<*>,
-  deletePicture: (galleryId: ID, photoId: ID) => Promise<*>
+  updatePicture: (Object) => Promise<*>,
+  deletePicture: (galleryId: ID, photoId: ID) => Promise<*>,
 };
 
 type State = {
-  selected: Array<number>
+  selected: Array<number>,
 };
 
 const photoOverlay = (photo: Object, selected: Array<number>) => (
@@ -95,15 +95,15 @@ const renderEmpty = (gallery: GalleryEntity) => (
 
 class GalleryEditor extends Component<Props, State> {
   state = {
-    selected: []
+    selected: [],
   };
 
   handleClick = (picture: Object) => {
     if (this.state.selected.indexOf(picture.id) === -1) {
       this.setState({ selected: this.state.selected.concat([picture.id]) });
     } else {
-      this.setState(state => ({
-        selected: without(state.selected, picture.id)
+      this.setState((state) => ({
+        selected: without(state.selected, picture.id),
       }));
     }
   };
@@ -123,19 +123,19 @@ class GalleryEditor extends Component<Props, State> {
   };
 
   onDeletePictures = () => {
-    this.state.selected.forEach(photo => {
+    this.state.selected.forEach((photo) => {
       this.props.deletePicture(this.props.gallery.id, photo);
     });
 
     this.setState({ selected: [] });
   };
 
-  onTogglePicturesStatus = active => {
-    this.state.selected.forEach(photo => {
+  onTogglePicturesStatus = (active) => {
+    this.state.selected.forEach((photo) => {
       this.props.updatePicture({
         id: photo,
         gallery: this.props.gallery.id,
-        active
+        active,
       });
     });
 
@@ -144,12 +144,12 @@ class GalleryEditor extends Component<Props, State> {
 
   pictureStatus = () => {
     const activePictures = this.state.selected
-      .map(id => find(this.props.pictures, ['id', id]) || {})
-      .filter(picture => picture.active);
+      .map((id) => find(this.props.pictures, ['id', id]) || {})
+      .filter((picture) => picture.active);
 
     const inactivePictures = this.state.selected
-      .map(id => find(this.props.pictures, ['id', id]) || {})
-      .filter(picture => !picture.active);
+      .map((id) => find(this.props.pictures, ['id', id]) || {})
+      .filter((picture) => !picture.active);
 
     if (activePictures.length === this.state.selected.length) {
       return 0;
@@ -175,7 +175,7 @@ class GalleryEditor extends Component<Props, State> {
       fetching,
       handleSubmit,
       gallery,
-      submitting
+      submitting,
     } = this.props;
     const { selected } = this.state;
 
@@ -241,14 +241,14 @@ class GalleryEditor extends Component<Props, State> {
             label="Publiser metadata for deling på SoMe. Dette deler kun cover, tittel og beskrivelse."
             name="publicMetadata"
             component={CheckBox.Field}
-            normalize={v => !!v}
+            normalize={(v) => !!v}
           />
           <Fields
             names={[
               'requireAuth',
               'canViewGroups',
               'canEditUsers',
-              'canEditGroups'
+              'canEditGroups',
             ]}
             component={ObjectPermissions}
           />
@@ -295,8 +295,8 @@ class GalleryEditor extends Component<Props, State> {
               hasMore={hasMore}
               fetching={fetching}
               fetchNext={() => fetch(gallery.id, { next: true })}
-              renderOverlay={photo => photoOverlay(photo, selected)}
-              renderBottom={photo => renderBottom(photo, gallery)}
+              renderOverlay={(photo) => photoOverlay(photo, selected)}
+              renderBottom={(photo) => renderBottom(photo, gallery)}
               renderEmpty={() => renderEmpty(gallery)}
               onClick={this.handleClick}
               srcKey="file"
@@ -317,14 +317,14 @@ const onSubmit = (data, dispatch, { submitFunction, push }: Props) => {
     takenAt: moment(data.takenAt).format('YYYY-MM-DD'),
     location: data.location,
     event: data.event ? parseInt(data.event.value, 10) : undefined,
-    photographers: data.photographers && data.photographers.map(p => p.value)
+    photographers: data.photographers && data.photographers.map((p) => p.value),
   };
 
   return submitFunction(body).then(({ payload }) => {
     push(`/photos/${payload.result}`);
   });
 };
-const validate = values => {
+const validate = (values) => {
   const errors = {};
 
   if (!values.title) {
@@ -341,5 +341,5 @@ export default legoForm({
   form: 'galleryEditor',
   enableReinitialize: true,
   validate,
-  onSubmit
+  onSubmit,
 })(GalleryEditor);

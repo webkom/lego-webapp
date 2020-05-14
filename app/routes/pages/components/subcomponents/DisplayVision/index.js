@@ -9,7 +9,7 @@ type Props = {
   vision1: Object,
   vision2: Object,
   vision3: Object,
-  vision4: Object
+  vision4: Object,
 };
 
 const DisplayVision = ({
@@ -17,7 +17,7 @@ const DisplayVision = ({
   vision1,
   vision2,
   vision3,
-  vision4
+  vision4,
 }: Props) => (
   <div className={styles.vision}>
     <div className={styles.sectionLeft}>
@@ -63,8 +63,8 @@ DisplayVision.defaultProps = {
       'Vi skal drive linjeforeningen for nåværende og fremtidige abakuler.',
       'Vi skal prøve å gjenbruke fremfor å kjøpe nytt.',
       'Vi gjør trygge økonomiske valg som sikrer et best mulig studentmiljø for nåværende og fremtidige studenter.',
-      'Vi tar våre studenters trivsel på alvor.'
-    ]
+      'Vi tar våre studenters trivsel på alvor.',
+    ],
   },
   vision2: {
     title: 'Attraktiv',
@@ -76,8 +76,8 @@ DisplayVision.defaultProps = {
       'Vi skal ha et variert tilbud av både faglig og ikke-faglige arrangementer.',
       'Vi skal skal være en linjeforening som både studenter og bedrifter tiltrekkes av.',
       'Vi tiltrekker oss et variert utvalg av bedrifter.',
-      'Vi er kjent for vårt gode rykte og renomme før, under og etter studietiden.'
-    ]
+      'Vi er kjent for vårt gode rykte og renomme før, under og etter studietiden.',
+    ],
   },
   vision3: {
     title: 'Åpen',
@@ -88,8 +88,8 @@ DisplayVision.defaultProps = {
       'Vi er ærlige overfor hverandre og snakker ikke bak hverandres rygg.',
       'Vi deler det vi kan, så fremt det ikke skader Abakus eller våre samarbeidspartnere.',
       'Vi er inkluderende, transparente og dyrker initiativ.',
-      'Vi oppfordrer til tilbakemeldinger og er opptatt å gi det selv.'
-    ]
+      'Vi oppfordrer til tilbakemeldinger og er opptatt å gi det selv.',
+    ],
   },
   vision4: {
     title: 'Proaktiv',
@@ -101,9 +101,9 @@ DisplayVision.defaultProps = {
       'Vi jobber for et aktivt alumnimiljø som fortsetter å bidra til Abakus etter at de er ferdige.',
       'Vi klarer å engasjere studentmassen i de sakene som angår våre medlemmer.',
       'Vi skal støtte opp om initiativ og kreativitet.',
-      'Vi søker etter samarbeidspartnere for både å lære og lære bort.'
-    ]
-  }
+      'Vi søker etter samarbeidspartnere for både å lære og lære bort.',
+    ],
+  },
 };
 
 const DisplayVisionShort = ({
@@ -111,7 +111,7 @@ const DisplayVisionShort = ({
   vision1,
   vision2,
   vision3,
-  vision4
+  vision4,
 }: Props) => {
   return (
     <div>
@@ -137,20 +137,20 @@ DisplayVisionShort.defaultProps = {
   title: DisplayVision.defaultProps.title,
   vision1: {
     title: DisplayVision.defaultProps.vision1.title,
-    summary: DisplayVision.defaultProps.vision1.summary
+    summary: DisplayVision.defaultProps.vision1.summary,
   },
   vision2: {
     title: DisplayVision.defaultProps.vision2.title,
-    summary: DisplayVision.defaultProps.vision2.summary
+    summary: DisplayVision.defaultProps.vision2.summary,
   },
   vision3: {
     title: DisplayVision.defaultProps.vision3.title,
-    summary: DisplayVision.defaultProps.vision3.summary
+    summary: DisplayVision.defaultProps.vision3.summary,
   },
   vision4: {
     title: DisplayVision.defaultProps.vision4.title,
-    summary: DisplayVision.defaultProps.vision4.summary
-  }
+    summary: DisplayVision.defaultProps.vision4.summary,
+  },
 };
 
 export { DisplayVisionShort };

@@ -19,10 +19,10 @@ export default function fetchHistory(state: State = initialState, action: any) {
         [action.meta.endpoint]: {
           action: {
             ...action,
-            cached: true
+            cached: true,
           },
-          timestamp: Date.now()
-        }
+          timestamp: Date.now(),
+        },
       };
     }
     case FetchHistory.CLEAR_HISTORY:

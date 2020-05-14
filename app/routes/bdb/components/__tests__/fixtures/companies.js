@@ -7,11 +7,11 @@ export default [
         id: 1,
         year: 2017,
         semester: 'spring',
-        contactedStatus: ['Kontaktet', 'Ikke kontaktet', 'Bedpres', 'Kurs']
-      }
+        contactedStatus: ['Kontaktet', 'Ikke kontaktet', 'Bedpres', 'Kurs'],
+      },
     ],
     studentContact: 'Marius Kotlarz',
-    adminComment: 'Husk logo på alle sider'
+    adminComment: 'Husk logo på alle sider',
   },
   {
     name: 'Facebook',
@@ -21,10 +21,10 @@ export default [
         id: 2,
         year: 2017,
         semester: 'autumn',
-        contactedStatus: ['Kontaktet', 'Ikke kontaktet', 'Bedpres', 'Kurs']
-      }
+        contactedStatus: ['Kontaktet', 'Ikke kontaktet', 'Bedpres', 'Kurs'],
+      },
     ],
-    studentContact: 'Finn Smith'
+    studentContact: 'Finn Smith',
   },
   {
     name: 'Itera',
@@ -34,9 +34,9 @@ export default [
         id: 3,
         year: 2027,
         semester: 'spring',
-        contactedStatus: ['Kontaktet', 'Ikke kontaktet', 'Bedpres', 'Kurs']
-      }
+        contactedStatus: ['Kontaktet', 'Ikke kontaktet', 'Bedpres', 'Kurs'],
+      },
     ],
-    studentContact: 'Ingen'
-  }
+    studentContact: 'Ingen',
+  },
 ];

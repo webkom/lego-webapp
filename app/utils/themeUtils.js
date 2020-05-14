@@ -1,4 +1,4 @@
-export const applySelectedTheme = theme => {
+export const applySelectedTheme = (theme) => {
   if (__CLIENT__) {
     document.documentElement.setAttribute('data-theme', theme);
     global.dispatchEvent(new Event('themeChange'));

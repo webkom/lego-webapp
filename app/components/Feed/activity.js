@@ -13,16 +13,16 @@ type Props = {
   aggregatedActivity: AggregatedActivity,
   activity?: Activity,
   key?: any,
-  renders: Object
+  renders: Object,
 };
 
 type State = {
-  expanded: boolean
+  expanded: boolean,
 };
 
 export default class ActivityRenderer extends Component<Props, State> {
   state = {
-    expanded: false
+    expanded: false,
   };
 
   renderHeader(activity: Activity, aggregatedActivity: AggregatedActivity) {
@@ -76,8 +76,9 @@ export default class ActivityRenderer extends Component<Props, State> {
             )}
             {aggregatedActivity.activityCount > activities.length &&
               this.state.expanded &&
-              `og ${aggregatedActivity.activityCount -
-                activities.length} skjulte aktiviteter...`}
+              `og ${
+                aggregatedActivity.activityCount - activities.length
+              } skjulte aktiviteter...`}
           </div>
         ) : null}
       </Card>

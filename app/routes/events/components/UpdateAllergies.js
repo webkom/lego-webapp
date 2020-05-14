@@ -7,7 +7,7 @@ import styles from './UpdateAllergies.css';
 import formStyles from 'app/components/Form/Field.css';
 
 export type Props = {
-  handleSubmit: Function => void,
+  handleSubmit: (Function) => void,
   username: string,
   updateUser: (
     { username: string, allergies: string },
@@ -15,7 +15,7 @@ export type Props = {
   ) => Promise<*>,
   invalid: boolean,
   pristine: boolean,
-  submitting: boolean
+  submitting: boolean,
 };
 
 const UpdateAllergies = ({
@@ -24,14 +24,14 @@ const UpdateAllergies = ({
   updateUser,
   invalid,
   pristine,
-  submitting
+  submitting,
 }: Props) => (
   <Form
     onSubmit={handleSubmit(({ allergies }) =>
       updateUser(
         {
           username,
-          allergies
+          allergies,
         },
         { noRedirect: true }
       )

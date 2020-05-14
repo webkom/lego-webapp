@@ -7,7 +7,7 @@ import MeetingEditor from './components/MeetingEditor';
 import {
   editMeeting,
   fetchMeeting,
-  inviteUsersAndGroups
+  inviteUsersAndGroups,
 } from 'app/actions/MeetingActions';
 import { formValueSelector } from 'redux-form';
 import { selectMeetingById } from 'app/reducers/meetings';
@@ -20,7 +20,7 @@ const mapDispatchToProps = {
   handleSubmitCallback: editMeeting,
   fetchMeeting,
   inviteUsersAndGroups,
-  push
+  push,
 };
 
 const mapStateToProps = (state, props) => {
@@ -30,10 +30,10 @@ const mapStateToProps = (state, props) => {
 
   const valueSelector = formValueSelector('meetingEditor');
   const meetingInvitations = selectMeetingInvitationsForMeeting(state, {
-    meetingId
+    meetingId,
   });
   const reportAuthor = selectUserById(state, {
-    userId: meeting.reportAuthor
+    userId: meeting.reportAuthor,
   });
   return {
     user: props.currentUser,
@@ -46,13 +46,13 @@ const mapStateToProps = (state, props) => {
         // $FlowFixMe
         value: reportAuthor.username,
         // $FlowFixMe
-        label: reportAuthor.fullName
+        label: reportAuthor.fullName,
       },
-      report: meeting ? meeting.report : ''
+      report: meeting ? meeting.report : '',
     },
     invitingUsers: valueSelector(state, 'users') || [],
     meetingId,
-    meetingInvitations
+    meetingInvitations,
   };
 };
 
@@ -61,8 +61,5 @@ export default compose(
   prepare(({ match: { params: { meetingId } } }, dispatch) =>
     dispatch(fetchMeeting(meetingId))
   ),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )(MeetingEditor);

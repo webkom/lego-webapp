@@ -11,7 +11,7 @@ import {
   TextArea,
   CheckBox,
   Captcha,
-  SelectInput
+  SelectInput,
 } from 'app/components/Form';
 import type { ContactForm as ContactFormType } from 'app/reducers/contact';
 import type { FormProps } from 'redux-form';
@@ -22,18 +22,18 @@ type Props = FormProps & {
   reset: (form: string) => void,
   change: (field: string, value: boolean) => void,
   loggedIn: boolean,
-  groups: Array<Group>
+  groups: Array<Group>,
 };
 
 const ContactForm = (props: Props) => {
   const { invalid, pristine, submitting, groups } = props;
   const disabledButton = invalid || pristine || submitting;
 
-  const submit = data => {
+  const submit = (data) => {
     return props
       .sendContactMessage({
         ...data,
-        recipient_group: data.recipient_group.value
+        recipient_group: data.recipient_group.value,
       })
       .then(() => {
         props.reset('contactForm');
@@ -46,12 +46,12 @@ const ContactForm = (props: Props) => {
 
   const hsRecipient = {
     value: null,
-    label: 'Hovedstyret'
+    label: 'Hovedstyret',
   };
 
-  const recipientOptions = groups.map(g => ({
+  const recipientOptions = groups.map((g) => ({
     value: g.id,
-    label: g.name
+    label: g.name,
   }));
 
   return (
@@ -108,7 +108,7 @@ const ContactForm = (props: Props) => {
         component={CheckBox.Field}
         readOnly={!props.loggedIn}
         disabled={!props.loggedIn}
-        normalize={v => !!v}
+        normalize={(v) => !!v}
       />
 
       <Field

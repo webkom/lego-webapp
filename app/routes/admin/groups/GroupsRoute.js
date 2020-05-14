@@ -12,7 +12,7 @@ const mapStateToProps = (state, props) => {
   const { match } = props;
   return {
     groups,
-    match
+    match,
   };
 };
 
@@ -20,8 +20,5 @@ const mapDispatchToProps = { fetchAll };
 
 export default compose(
   prepare((props, dispatch) => dispatch(fetchAll())),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )(GroupPage);

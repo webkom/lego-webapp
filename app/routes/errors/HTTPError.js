@@ -10,18 +10,18 @@ const HTTPMapping = {
   '401': 'Du er ikke logget inn',
   '403': 'Denne siden har du ikke tilgang på',
   '404': 'Denne siden finnes ikke',
-  '500': 'Noe gikk veldig galt, Webkom er på saken!'
+  '500': 'Noe gikk veldig galt, Webkom er på saken!',
 };
 
 const fallbackStatus = 404;
 
-const getHTTPError = statusCode =>
+const getHTTPError = (statusCode) =>
   HTTPMapping[statusCode] || HTTPMapping[fallbackStatus];
 
 type Props = {
   statusCode: number,
   location: any,
-  setStatusCode?: (statusCode: ?number) => void
+  setStatusCode?: (statusCode: ?number) => void,
 };
 
 export default class HTTPError extends Component<Props> {
@@ -58,7 +58,7 @@ export default class HTTPError extends Component<Props> {
           <Link to="/">
             <canvas
               id="canvas"
-              ref={canvas => {
+              ref={(canvas) => {
                 this.canvas = canvas;
               }}
               style={{ width: '100%' }}

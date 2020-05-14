@@ -11,7 +11,7 @@ import type { HierarchySectionEntity } from './PageHierarchy';
 import Icon from 'app/components/Icon';
 
 type State = {
-  isOpen: boolean
+  isOpen: boolean,
 };
 
 type Props = {
@@ -19,7 +19,7 @@ type Props = {
   currentUrl: string,
   pageHierarchy: Array<HierarchySectionEntity>,
   isOpen: boolean,
-  handleClose: any
+  handleClose: any,
 };
 
 class Sidebar extends Component<Props, State> {
@@ -29,7 +29,7 @@ class Sidebar extends Component<Props, State> {
       currentUrl,
       pageHierarchy,
       isOpen,
-      handleClose
+      handleClose,
     }: Props = this.props;
     // const pictureLabel = 'Hemmelig bilde';
 
@@ -40,7 +40,7 @@ class Sidebar extends Component<Props, State> {
       >
         <div
           className={cx(styles.side, isOpen && styles.isOpen)}
-          onClick={event => {
+          onClick={(event) => {
             // Just werkz
             event.stopPropagation();
           }}

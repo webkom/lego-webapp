@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import renderPools, { validatePools } from './renderPools';
 import {
   AttendanceStatus,
-  ModalParentComponent
+  ModalParentComponent,
 } from 'app/components/UserAttendance';
 import Tag from 'app/components/Tags/Tag';
 import LoadingIndicator from 'app/components/LoadingIndicator';
@@ -21,7 +21,7 @@ import {
   Button,
   DatePicker,
   ImageUploadField,
-  legoForm
+  legoForm,
 } from 'app/components/Form';
 import { Flex } from 'app/components/Layout';
 import { addStripeFee, EVENT_CONSTANTS, colorForEvent } from '../../utils';
@@ -30,7 +30,7 @@ import {
   Content,
   ContentSection,
   ContentMain,
-  ContentSidebar
+  ContentSidebar,
 } from 'app/components/Content';
 import Tooltip from 'app/components/Tooltip';
 import Icon from 'app/components/Icon';
@@ -50,14 +50,14 @@ type Props = {
   waitingRegistrations: Array<Object>,
   change: void,
   isUserInterested: boolean,
-  handleSubmit: void => void,
-  handleSubmitCallback: any => Promise<*>,
+  handleSubmit: (void) => void,
+  handleSubmitCallback: (any) => Promise<*>,
   uploadFile: () => Promise<*>,
   setCoverPhoto: (number, string) => void,
   deleteEvent: (eventId: ID) => Promise<*>,
   submitting: boolean,
   pristine: boolean,
-  initialized: boolean
+  initialized: boolean,
 };
 
 function EventEditor({
@@ -76,7 +76,7 @@ function EventEditor({
   deleteEvent,
   submitting,
   pristine,
-  initialized
+  initialized,
 }: Props) {
   const isEditPage = eventId !== undefined;
   if (isEditPage && !actionGrant.includes('edit')) {
@@ -91,17 +91,17 @@ function EventEditor({
     return <div>{error.message}</div>;
   }
 
-  const isTBA = value =>
+  const isTBA = (value) =>
     value && value == 'TBA' ? `Velg påmeldingstype TBA` : undefined;
 
-  const tooLow = value =>
+  const tooLow = (value) =>
     value && value <= 3 ? `Summen må være strørre enn 3 kr` : undefined;
 
   const eventStatusType = [
     { value: 'TBA', label: 'Ikke bestemt (TBA)' },
     { value: 'NORMAL', label: 'Vanlig påmelding (med pools)' },
     { value: 'OPEN', label: 'Åpen (uten påmelding)' },
-    { value: 'INFINITE', label: 'Åpen (med påmelding)' }
+    { value: 'INFINITE', label: 'Åpen (med påmelding)' },
   ];
 
   const color = colorForEvent(event.eventType);
@@ -121,7 +121,7 @@ function EventEditor({
           name="cover"
           component={ImageUploadField}
           uploadFile={uploadFile}
-          edit={isEditPage && (token => setCoverPhoto(eventId, token))}
+          edit={isEditPage && ((token) => setCoverPhoto(eventId, token))}
           aspectRatio={20 / 6}
           img={event.cover}
         />
@@ -155,7 +155,7 @@ function EventEditor({
           component={CheckBox.Field}
           fieldClassName={styles.metaField}
           className={styles.formField}
-          normalize={v => !!v}
+          normalize={(v) => !!v}
         />
         <Flex wrap alignItems="center" justifyContent="space-between">
           <Field
@@ -197,9 +197,9 @@ function EventEditor({
               simpleValue
               fieldClassName={styles.metaField}
               component={SelectInput.Field}
-              options={Object.keys(EVENT_CONSTANTS).map(type => ({
+              options={Object.keys(EVENT_CONSTANTS).map((type) => ({
                 label: EVENT_CONSTANTS[type],
-                value: type
+                value: type,
               }))}
               placeholder="Arrangementstype"
             />
@@ -240,7 +240,7 @@ function EventEditor({
                 component={CheckBox.Field}
                 fieldClassName={styles.metaField}
                 className={styles.formField}
-                normalize={v => !!v}
+                normalize={(v) => !!v}
               />
             </Tooltip>
             <Field
@@ -269,7 +269,7 @@ function EventEditor({
                 component={CheckBox.Field}
                 fieldClassName={styles.metaField}
                 className={styles.formField}
-                normalize={v => !!v}
+                normalize={(v) => !!v}
               />
             )}
             {event.isPriced && (
@@ -281,7 +281,7 @@ function EventEditor({
                     component={CheckBox.Field}
                     fieldClassName={styles.metaField}
                     className={styles.formField}
-                    normalize={v => !!v}
+                    normalize={(v) => !!v}
                   />
                 </Tooltip>
                 {event.useStripe && (
@@ -293,7 +293,7 @@ function EventEditor({
                         component={CheckBox.Field}
                         fieldClassName={styles.metaField}
                         className={styles.formField}
-                        normalize={v => !!v}
+                        normalize={(v) => !!v}
                       />
                     </Tooltip>
                   </div>
@@ -335,7 +335,7 @@ function EventEditor({
                 component={CheckBox.Field}
                 fieldClassName={styles.metaField}
                 className={styles.formField}
-                normalize={v => !!v}
+                normalize={(v) => !!v}
               />
             )}
             {['NORMAL', 'INFINITE'].includes(event.eventStatusType) &&
@@ -378,7 +378,7 @@ function EventEditor({
                   component={CheckBox.Field}
                   fieldClassName={styles.metaField}
                   className={styles.formField}
-                  normalize={v => !!v}
+                  normalize={(v) => !!v}
                 />
               </Tooltip>
             )}
@@ -390,7 +390,7 @@ function EventEditor({
                   component={CheckBox.Field}
                   fieldClassName={styles.metaField}
                   className={styles.formField}
-                  normalize={v => !!v}
+                  normalize={(v) => !!v}
                 />
               </Tooltip>
             )}
@@ -463,9 +463,9 @@ function EventEditor({
   );
 }
 
-const validate = data => {
+const validate = (data) => {
   const errors = {};
-  const isPositiveNumeric = value => /^\d+$/.test(value);
+  const isPositiveNumeric = (value) => /^\d+$/.test(value);
   const [isValidYoutubeUrl, errorMessage = ''] = validYoutubeUrl()(
     data.youtubeUrl
   );
@@ -515,5 +515,5 @@ export default legoForm({
   form: 'eventEditor',
   validate,
   onSubmit: (values, dispatch, props: Props) =>
-    props.handleSubmitCallback(values)
+    props.handleSubmitCallback(values),
 })(EventEditor);

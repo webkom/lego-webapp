@@ -9,7 +9,7 @@ import {
   SelectInput,
   CheckBox,
   handleSubmissionError,
-  legoForm
+  legoForm,
 } from 'app/components/Form';
 import { Form, Field } from 'redux-form';
 import Tooltip from 'app/components/Tooltip';
@@ -17,9 +17,9 @@ import Tooltip from 'app/components/Tooltip';
 export type Props = {
   emailListId?: number,
   submitting: boolean,
-  handleSubmit: Function => void,
-  push: string => void,
-  mutateFunction: Object => Promise<*>
+  handleSubmit: (Function) => void,
+  push: (string) => void,
+  mutateFunction: (Object) => Promise<*>,
 };
 
 const EmailListEditor = ({ submitting, handleSubmit, emailListId }: Props) => (
@@ -70,7 +70,7 @@ const EmailListEditor = ({ submitting, handleSubmit, emailListId }: Props) => (
         label="Kun for for brukere med internmail (@abakus.no)"
         name="requireInternalAddress"
         component={CheckBox.Field}
-        normalize={v => !!v}
+        normalize={(v) => !!v}
       />
     </Tooltip>
 
@@ -99,10 +99,12 @@ export default legoForm({
       email: data.email,
       name: data.name,
       requireInternalAddress: data.requireInternalAddress,
-      groupRoles: (data.groupRoles || []).map(groupRole => groupRole.value),
-      groups: (data.groups || []).map(group => group.value),
-      users: (data.users || []).map(user => user.value),
-      additionalEmails: (data.additionalEmails || []).map(email => email.value)
+      groupRoles: (data.groupRoles || []).map((groupRole) => groupRole.value),
+      groups: (data.groups || []).map((group) => group.value),
+      users: (data.users || []).map((user) => user.value),
+      additionalEmails: (data.additionalEmails || []).map(
+        (email) => email.value
+      ),
     }).then(({ payload }) => {
       if (!emailListId) {
         push(`/admin/email/lists/${payload.result}`);
@@ -114,10 +116,10 @@ export default legoForm({
     name: [required()],
     additionalEmails: [
       //check if all emails entered are valid
-      value => [
-        !value || value.every(email => EMAIL_REGEX.test(email.value)),
-        'Ugyldig e-post'
-      ]
-    ]
-  })
+      (value) => [
+        !value || value.every((email) => EMAIL_REGEX.test(email.value)),
+        'Ugyldig e-post',
+      ],
+    ],
+  }),
 })(EmailListEditor);

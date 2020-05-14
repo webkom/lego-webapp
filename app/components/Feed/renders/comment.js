@@ -12,10 +12,10 @@ import DisplayContent from 'app/components/DisplayContent';
  */
 export function activityHeader(
   aggregatedActivity: AggregatedActivity,
-  htmlTag: TagInfo => Element<*>
+  htmlTag: (TagInfo) => Element<*>
 ) {
   const latestActivity = aggregatedActivity.lastActivity;
-  const actors = aggregatedActivity.actorIds.map(actorId => {
+  const actors = aggregatedActivity.actorIds.map((actorId) => {
     return lookupContext(aggregatedActivity, actorId);
   });
   const target = lookupContext(aggregatedActivity, latestActivity.target);
@@ -24,7 +24,7 @@ export function activityHeader(
     return null;
   }
 
-  const actorsRender = actors.map(actor => {
+  const actorsRender = actors.map((actor) => {
     return htmlTag(contextRender[actor.contentType](actor));
   });
 

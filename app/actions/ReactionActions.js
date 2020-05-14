@@ -8,13 +8,13 @@ import { reactionSchema } from 'app/reducers';
 export function addReaction({
   emoji,
   contentTarget,
-  unicodeString
+  unicodeString,
 }: {
   emoji: string,
   contentTarget: string,
-  unicodeString: string
+  unicodeString: string,
 }): Thunk<*> {
-  return dispatch => {
+  return (dispatch) => {
     return dispatch(
       callAPI({
         types: Reaction.ADD,
@@ -22,16 +22,16 @@ export function addReaction({
         method: 'POST',
         body: {
           emoji,
-          content_target: contentTarget
+          content_target: contentTarget,
         },
         meta: {
           emoji,
           contentTarget,
-          unicodeString
+          unicodeString,
         },
-        schema: reactionSchema
+        schema: reactionSchema,
       })
-    ).catch(action => {
+    ).catch((action) => {
       const status = action.payload.response.status;
       let errorMessage = 'Reaksjon feilet';
       if (status === 409) {
@@ -43,8 +43,8 @@ export function addReaction({
         type: Reaction.ADD.FAILURE,
         error: true,
         meta: {
-          errorMessage
-        }
+          errorMessage,
+        },
       });
     });
   };
@@ -52,10 +52,10 @@ export function addReaction({
 
 export function deleteReaction({
   reactionId,
-  contentTarget
+  contentTarget,
 }: {
   reactionId: ID,
-  contentTarget: string
+  contentTarget: string,
 }) {
   return callAPI({
     types: Reaction.DELETE,
@@ -64,7 +64,7 @@ export function deleteReaction({
     meta: {
       id: reactionId,
       contentTarget,
-      errorMessage: 'Sletting av reaksjon feilet'
-    }
+      errorMessage: 'Sletting av reaksjon feilet',
+    },
   });
 }

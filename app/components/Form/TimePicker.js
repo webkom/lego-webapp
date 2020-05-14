@@ -23,15 +23,15 @@ function TimePickerInput({ onNext, onPrev, ...props }: any) {
 
 type Props = {
   value: string,
-  onChange: any => void
+  onChange: (any) => void,
 };
 
 type State = {
   value: moment,
   fieldValue: {
     hour: string,
-    minute: string
-  }
+    minute: string,
+  },
 };
 
 function parseValue(value) {
@@ -44,29 +44,29 @@ class TimePicker extends Component<Props, State> {
     value: this.value,
     fieldValue: {
       hour: this.value.format('HH'),
-      minute: this.value.format('mm')
-    }
+      minute: this.value.format('mm'),
+    },
   };
 
   static defaultProps = {
     value: '',
     fieldValue: {
       hour: '',
-      minutes: ''
-    }
+      minutes: '',
+    },
   };
 
   static Field: any;
 
   onNext = (unit: string) => () => {
-    this.setState(prevState => {
+    this.setState((prevState) => {
       const value = prevState.value.clone().add(1, unit);
       return {
         value,
         fieldValue: {
           hour: value.format('HH'),
-          minute: value.format('mm')
-        }
+          minute: value.format('mm'),
+        },
       };
     }, this.commit);
   };
@@ -75,14 +75,14 @@ class TimePicker extends Component<Props, State> {
   onNextMinute = this.onNext('minute');
 
   onPrev = (unit: string) => () => {
-    this.setState(prevState => {
+    this.setState((prevState) => {
       const value = prevState.value.clone().subtract(1, unit);
       return {
         value,
         fieldValue: {
           hour: value.format('HH'),
-          minute: value.format('mm')
-        }
+          minute: value.format('mm'),
+        },
       };
     }, this.commit);
   };
@@ -99,12 +99,12 @@ class TimePicker extends Component<Props, State> {
       (unit === 'minute' && Number(value) < 60)
     ) {
       this.setState(
-        prevState => ({
+        (prevState) => ({
           value: this.state.value.clone().set(unit, value),
           fieldValue: {
             hour: unit === 'hour' ? value : prevState.fieldValue.hour,
-            minute: unit === 'minute' ? value : prevState.fieldValue.minute
-          }
+            minute: unit === 'minute' ? value : prevState.fieldValue.minute,
+          },
         }),
         this.commit
       );

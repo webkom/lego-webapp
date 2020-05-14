@@ -9,11 +9,11 @@ import Helmet from 'react-helmet';
 import {
   loginAutomaticallyIfPossible,
   logoutWithRedirect,
-  login
+  login,
 } from 'app/actions/UserActions';
 import {
   fetchNotificationData,
-  markAllNotifications
+  markAllNotifications,
 } from 'app/actions/NotificationsFeedActions';
 import { fetchNotificationFeed } from 'app/actions/FeedActions';
 import { fetchMeta } from 'app/actions/MetaActions';
@@ -38,28 +38,28 @@ type Props = {
   children: Element<*>,
   currentUser: /*TODO: User*/ Object,
   setStatusCode: (code: ?number) => void,
-  loggedIn: boolean
+  loggedIn: boolean,
 };
 
 export const UserContext = React.createContext({
   currentUser: {},
-  loggedIn: false
+  loggedIn: false,
 });
 
 class AppChildren extends PureComponent<Props> {
   render() {
-    const children = React.Children.map(this.props.children, child =>
+    const children = React.Children.map(this.props.children, (child) =>
       cloneElement(child, {
         passedProps: {
           currentUser: this.props.currentUser,
-          loggedIn: this.props.loggedIn
-        }
+          loggedIn: this.props.loggedIn,
+        },
       })
     );
 
     const userValue = {
       currentUser: this.props.currentUser,
-      loggedIn: this.props.loggedIn
+      loggedIn: this.props.loggedIn,
     };
 
     return (
@@ -91,7 +91,7 @@ class App extends PureComponent<AppProps> {
     return (
       <div
         className={cx(styles.appRoute, {
-          [styles.searchOpen]: this.props.searchOpen
+          [styles.searchOpen]: this.props.searchOpen,
         })}
       >
         <Helmet defaultTitle="Abakus.no" titleTemplate="%s | Abakus.no">
@@ -109,7 +109,7 @@ class App extends PureComponent<AppProps> {
                 backgroundColor: 'red',
                 color: 'white',
                 fontWeight: 'bold',
-                padding: '10px'
+                padding: '10px',
               }}
             >
               This is a development version of lego-webapp.
@@ -155,9 +155,9 @@ function mapStateToProps(state) {
     loggedIn: selectIsLoggedIn(state),
     notificationsData: state.notificationsFeed,
     notifications: selectFeedActivitesByFeedId(state, {
-      feedId: 'notifications'
+      feedId: 'notifications',
     }),
-    statusCode: state.router.statusCode
+    statusCode: state.router.statusCode,
   };
 }
 
@@ -169,13 +169,13 @@ const mapDispatchToProps = {
   markAllNotifications,
   fetchNotificationData,
   setStatusCode,
-  loginAutomaticallyIfPossible
+  loginAutomaticallyIfPossible,
 };
 
 function fetchInitialOnServer(props, dispatch) {
   return dispatch(loginAutomaticallyIfPossible()).then(() =>
     Promise.all([
-      dispatch(fetchMeta())
+      dispatch(fetchMeta()),
       //dispatch(fetchNotificationData()),
       //dispatch(fetchNotificationFeed())
     ])
@@ -185,11 +185,8 @@ function fetchInitialOnServer(props, dispatch) {
 export default compose(
   prepare(fetchInitialOnServer, [], {
     componentDidMount: false,
-    componentWillReceiveProps: false
+    componentWillReceiveProps: false,
   }),
   prepare((props, dispatch) => dispatch(fetchNotificationData())),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )(App);

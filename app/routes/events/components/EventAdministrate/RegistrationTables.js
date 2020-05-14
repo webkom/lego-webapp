@@ -12,14 +12,14 @@ import type {
   EventRegistrationPresence,
   EventRegistrationChargeStatus,
   ID,
-  Event
+  Event,
 } from 'app/models';
 import Table from 'app/components/Table';
 import {
   StripeStatus,
   TooltipIcon,
   PresenceIcons,
-  Unregister
+  Unregister,
 } from './AttendeeElements';
 
 type Props = {
@@ -36,7 +36,7 @@ type Props = {
   handleUnregister: (registrationId: ID) => void,
   clickedUnregister: ID,
   showUnregister: boolean,
-  event: Event
+  event: Event,
 };
 const GradeRenderer = (group: { name: string }) =>
   !!group && (
@@ -49,12 +49,12 @@ const GradeRenderer = (group: { name: string }) =>
     </Tooltip>
   );
 
-const hasWebkomGroup = user => user.abakusGroups.includes(WEBKOM_GROUP_ID);
+const hasWebkomGroup = (user) => user.abakusGroups.includes(WEBKOM_GROUP_ID);
 
 const getRegistrationInfo = (pool, registration) => {
   let registrationInfo = {
     reason: 'Venteliste',
-    icon: cx('fa fa-clock-o fa-2x', styles.orangeIcon)
+    icon: cx('fa fa-clock-o fa-2x', styles.orangeIcon),
   };
   if (registration.adminRegistrationReason !== '') {
     registrationInfo.icon = cx('fa fa-user-secret', styles.greenIcon);
@@ -64,18 +64,12 @@ const getRegistrationInfo = (pool, registration) => {
         hasWebkomGroup(registration.createdBy)
       ) {
         registrationInfo.icon = cx('fa fa-power-off', styles.webkomIcon);
-        registrationInfo.reason = `Webkompåmeldt av ${
-          registration.createdBy.username
-        }: ${registration.adminRegistrationReason}`;
+        registrationInfo.reason = `Webkompåmeldt av ${registration.createdBy.username}: ${registration.adminRegistrationReason}`;
       } else {
-        registrationInfo.reason = `Adminpåmeldt av ${
-          registration.createdBy.username
-        }: ${registration.adminRegistrationReason}`;
+        registrationInfo.reason = `Adminpåmeldt av ${registration.createdBy.username}: ${registration.adminRegistrationReason}`;
       }
     } else {
-      registrationInfo.reason = `Adminpåmeldt: ${
-        registration.adminRegistrationReason
-      }`;
+      registrationInfo.reason = `Adminpåmeldt: ${registration.adminRegistrationReason}`;
     }
   } else if (pool) {
     registrationInfo.reason = 'Påmeldt';
@@ -94,15 +88,15 @@ export class RegisteredTable extends Component<Props> {
       handleUnregister,
       clickedUnregister,
       showUnregister,
-      event
+      event,
     } = this.props;
     const columns = [
       {
         title: 'Bruker',
         dataIndex: 'user',
-        render: user => (
+        render: (user) => (
           <Link to={`/users/${user.username}`}>{user.fullName}</Link>
-        )
+        ),
       },
       {
         title: 'Status',
@@ -116,7 +110,7 @@ export class RegisteredTable extends Component<Props> {
               iconClass={registrationInfo.icon}
             />
           );
-        }
+        },
       },
       {
         title: 'Til stede',
@@ -129,23 +123,23 @@ export class RegisteredTable extends Component<Props> {
               handlePresence={handlePresence}
             />
           );
-        }
+        },
       },
       {
         title: 'Dato',
         dataIndex: 'registrationDate',
-        render: date => (
+        render: (date) => (
           <Tooltip content={<Time time={date} format="DD.MM.YYYY HH:mm:ss" />}>
             <Time time={date} format="DD.MM.YYYY" />
           </Tooltip>
-        )
+        ),
       },
       {
         title: 'Samtykke',
         dataIndex: 'photoConsent',
         visible: !!event.useConsent,
         center: true,
-        render: consent =>
+        render: (consent) =>
           consent !== 'UNKNOWN' && (
             <TooltipIcon
               content={consent}
@@ -155,12 +149,12 @@ export class RegisteredTable extends Component<Props> {
                   : cx('fa fa-times', styles.crossIcon)
               }
             />
-          )
+          ),
       },
       {
         title: 'Klassetrinn',
         dataIndex: 'user.grade',
-        render: GradeRenderer
+        render: GradeRenderer,
       },
       {
         title: 'Betaling',
@@ -173,7 +167,7 @@ export class RegisteredTable extends Component<Props> {
             chargeStatus={chargeStatus}
             handlePayment={handlePayment}
           />
-        )
+        ),
       },
       {
         title: 'Tilbakemelding',
@@ -184,7 +178,7 @@ export class RegisteredTable extends Component<Props> {
             <br />
             {`Allergier: ${registration.user.allergies || '-'}`}
           </span>
-        )
+        ),
       },
       {
         title: 'Administrer',
@@ -197,8 +191,8 @@ export class RegisteredTable extends Component<Props> {
             id={registration.id}
             clickedUnregister={clickedUnregister}
           />
-        )
-      }
+        ),
+      },
     ];
     return (
       <Table
@@ -213,11 +207,11 @@ export class RegisteredTable extends Component<Props> {
 }
 
 type UnregisteredElementProps = {
-  registration: EventRegistration
+  registration: EventRegistration,
 };
 
 export const UnregisteredElement = ({
-  registration
+  registration,
 }: UnregisteredElementProps) => {
   return (
     <li className={styles.unregisteredList}>
@@ -262,7 +256,7 @@ export const UnregisteredElement = ({
 
 type UnregisteredTableProps = {
   loading: boolean,
-  unregistered: Array<EventRegistration>
+  unregistered: Array<EventRegistration>,
 };
 
 export class UnregisteredTable extends Component<UnregisteredTableProps> {
@@ -272,32 +266,32 @@ export class UnregisteredTable extends Component<UnregisteredTableProps> {
       {
         title: 'Bruker',
         dataIndex: 'user',
-        render: user => (
+        render: (user) => (
           <Tooltip content={user.fullName}>
             <Link to={`/users/${user.username}`}>{user.username}</Link>
           </Tooltip>
-        )
+        ),
       },
       {
         title: 'Status',
         dataIndex: 'user',
-        render: () => <span>Avmeldt</span>
+        render: () => <span>Avmeldt</span>,
       },
       {
         title: 'Påmeldt',
         dataIndex: 'registrationDate',
-        render: registrationDate => (
+        render: (registrationDate) => (
           <Tooltip
             content={<Time time={registrationDate} format="DD.MM.YYYY HH:mm" />}
           >
             <Time time={registrationDate} format="DD.MM.YYYY" />
           </Tooltip>
-        )
+        ),
       },
       {
         title: 'Avmeldt',
         dataIndex: 'unregistrationDate',
-        render: unregistrationDate => (
+        render: (unregistrationDate) => (
           <Tooltip
             content={
               <Time time={unregistrationDate} format="DD.MM.YYYY HH:mm:ss" />
@@ -305,13 +299,13 @@ export class UnregisteredTable extends Component<UnregisteredTableProps> {
           >
             <Time time={unregistrationDate} format="DD.MM.YYYY" />
           </Tooltip>
-        )
+        ),
       },
       {
         title: 'Klassetrinn',
         dataIndex: 'user.grade',
-        render: GradeRenderer
-      }
+        render: GradeRenderer,
+      },
     ];
     return (
       <Table

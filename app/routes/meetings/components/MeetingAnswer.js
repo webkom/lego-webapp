@@ -10,7 +10,7 @@ type Props = {
   status: number,
   resetMeetingsToken: () => void,
   meeting: number,
-  router: /*TODO: Router*/ Object
+  router: /*TODO: Router*/ Object,
 };
 
 export const MeetingAnswer = ({
@@ -19,7 +19,7 @@ export const MeetingAnswer = ({
   meeting,
   status,
   router,
-  resetMeetingsToken
+  resetMeetingsToken,
 }: Props) => {
   if (!response) {
     return <LoadingIndicator loading />;

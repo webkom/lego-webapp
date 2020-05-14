@@ -27,7 +27,7 @@ import frame from 'app/assets/frame.png';
 const fieldTranslations = {
   username: 'Brukernavn',
   email: 'E-post',
-  internalEmailAddress: 'Abakus e-post'
+  internalEmailAddress: 'Abakus e-post',
 };
 
 const defaultFieldRender = (field, value) => (
@@ -46,7 +46,7 @@ const emailFieldRender = (field, value) => (
 const fieldRenders = {
   username: defaultFieldRender,
   email: emailFieldRender,
-  internalEmailAddress: emailFieldRender
+  internalEmailAddress: emailFieldRender,
 };
 
 type Props = {
@@ -59,19 +59,19 @@ type Props = {
   loading: boolean,
   previousEvents: Array<Event>,
   upcomingEvents: Array<Event>,
-  addPenalty: AddPenalty => void,
-  deletePenalty: number => Promise<*>,
+  addPenalty: (AddPenalty) => void,
+  deletePenalty: (number) => Promise<*>,
   penalties: Array<Object>,
   canDeletePenalties: boolean,
   groups: Array<Group>,
   canChangeGrade: boolean,
-  changeGrade: (ID, string) => Promise<*>
+  changeGrade: (ID, string) => Promise<*>,
 };
 
 type EventsProps = {
   events: Array<Event>,
   noEventsMessage: string,
-  loggedIn: boolean
+  loggedIn: boolean,
 };
 
 const GroupPill = ({ group }: { group: Group }) =>
@@ -85,11 +85,11 @@ const BadgeTooltip = ({
   group,
   role,
   start,
-  end
+  end,
 }: {
   group: Group,
   start: Dateish,
-  end: ?Dateish
+  end: ?Dateish,
 }) => {
   const startYear = moment(start).year();
   const endYear = end ? moment(end).year() : 'd.d.';
@@ -97,11 +97,13 @@ const BadgeTooltip = ({
 };
 
 const GroupBadge = ({ memberships }: { memberships: Array<Object> }) => {
-  const activeMemberships = memberships.find(membership => membership.isActive);
+  const activeMemberships = memberships.find(
+    (membership) => membership.isActive
+  );
   const abakusGroup = memberships[0].abakusGroup;
   if (!abakusGroup.showBadge) return null;
   // $FlowFixMe
-  const sortedMemberships = orderBy(memberships, membership =>
+  const sortedMemberships = orderBy(memberships, (membership) =>
     moment(membership.startDate || membership.createdAt)
   );
   const firstMembership = sortedMemberships[0];
@@ -126,7 +128,7 @@ const GroupBadge = ({ memberships }: { memberships: Array<Object> }) => {
           margin: '10px 5px',
           ...(!activeMemberships
             ? { filter: 'grayscale(100%)', opacity: '0.7' }
-            : {})
+            : {}),
         }}
       />
     </Tooltip>
@@ -170,8 +172,10 @@ export default class UserProfile extends Component<Props, EventsProps> {
 
   renderFields() {
     const { user } = this.props;
-    const fields = Object.keys(fieldTranslations).filter(field => user[field]);
-    const tags = fields.map(field => (
+    const fields = Object.keys(fieldTranslations).filter(
+      (field) => user[field]
+    );
+    const tags = fields.map((field) => (
       <li key={field}>
         {fieldRenders[field](fieldTranslations[field], user[field])}
       </li>
@@ -197,7 +201,7 @@ export default class UserProfile extends Component<Props, EventsProps> {
       canDeletePenalties,
       groups,
       canChangeGrade,
-      changeGrade
+      changeGrade,
     } = this.props;
 
     //If you wonder what this is, ask somebody
@@ -209,22 +213,22 @@ export default class UserProfile extends Component<Props, EventsProps> {
       firstName,
       lastName,
       memberships = [],
-      permissionsPerGroup = []
+      permissionsPerGroup = [],
     } = user;
 
     const { membershipsAsBadges = [], membershipsAsPills = [] } = groupBy(
-      memberships.filter(Boolean).map(membership => ({
+      memberships.filter(Boolean).map((membership) => ({
         ...membership,
-        abakusGroup: abakusGroups.find(g => g.id === membership.abakusGroup)
+        abakusGroup: abakusGroups.find((g) => g.id === membership.abakusGroup),
       })),
-      membership =>
+      (membership) =>
         membership.abakusGroup.logo
           ? 'membershipsAsBadges'
           : 'membershipsAsPills'
     );
     const { pastMembershipsAsBadges = [] } = groupBy(
       pastMemberships.filter(Boolean),
-      m =>
+      (m) =>
         m.abakusGroup.logo
           ? 'pastMembershipsAsBadges'
           : 'pastMembershipsAsPills'
@@ -235,7 +239,7 @@ export default class UserProfile extends Component<Props, EventsProps> {
         pastMembershipsAsBadges.concat(membershipsAsBadges),
         'abakusGroup.id'
       ),
-      memberships => !memberships.some(membership => membership.isActive)
+      (memberships) => !memberships.some((membership) => membership.isActive)
     );
     const tree = {};
     for (let group of permissionsPerGroup) {
@@ -245,13 +249,13 @@ export default class UserProfile extends Component<Props, EventsProps> {
           tree[parent.abakusGroup.id] = {
             ...parent.abakusGroup,
             children: [],
-            parent: null
+            parent: null,
           };
         } else {
           tree[parent.abakusGroup.id] = {
             ...parent.abakusGroup,
             children: [],
-            parent: group.parentPermissions[Number(index) - 1].abakusGroup.id
+            parent: group.parentPermissions[Number(index) - 1].abakusGroup.id,
           };
         }
       }
@@ -264,7 +268,7 @@ export default class UserProfile extends Component<Props, EventsProps> {
         parent: group.parentPermissions.length
           ? group.parentPermissions[group.parentPermissions.length - 1]
               .abakusGroup.id
-          : null
+          : null,
       };
     }
 
@@ -273,10 +277,10 @@ export default class UserProfile extends Component<Props, EventsProps> {
       const id = abakusGroup.id;
       const node = tree[id];
       if (!node.parent) {
-        roots = uniqBy(roots.concat(node), a => a.id);
+        roots = uniqBy(roots.concat(node), (a) => a.id);
       } else {
         const parent = tree[node.parent];
-        parent.children = uniqBy(parent.children.concat(node), a => a.id);
+        parent.children = uniqBy(parent.children.concat(node), (a) => a.id);
       }
       for (let permGroup of val.parentPermissions) {
         const abakusGroup = permGroup.abakusGroup;
@@ -284,17 +288,17 @@ export default class UserProfile extends Component<Props, EventsProps> {
         const node = tree[id];
         if (!node.parent) {
           roots.push(node);
-          roots = uniqBy(roots.concat(node), a => a.id);
+          roots = uniqBy(roots.concat(node), (a) => a.id);
         } else {
           const parent = tree[node.parent];
-          parent.children = uniqBy(parent.children.concat(node), a => a.id);
+          parent.children = uniqBy(parent.children.concat(node), (a) => a.id);
         }
       }
       return roots;
     }, []);
 
-    const genTree = groups => {
-      return groups.map(group => {
+    const genTree = (groups) => {
+      return groups.map((group) => {
         if (group.children.length) {
           return (
             <>
@@ -325,12 +329,12 @@ export default class UserProfile extends Component<Props, EventsProps> {
           <Flex column className={styles.rightContent}>
             <h2>{user.fullName}</h2>
             <Flex wrap>
-              {membershipsAsPills.map(membership => (
+              {membershipsAsPills.map((membership) => (
                 <GroupPill key={membership.id} group={membership.abakusGroup} />
               ))}
             </Flex>
             <Flex>
-              {Object.keys(groupedMemberships).map(groupId => (
+              {Object.keys(groupedMemberships).map((groupId) => (
                 <GroupBadge
                   memberships={groupedMemberships[groupId]}
                   key={groupId}
@@ -417,7 +421,7 @@ export default class UserProfile extends Component<Props, EventsProps> {
                         ({ parentPermissions }) => parentPermissions
                       )
                     ),
-                    a => a.abakusGroup.id
+                    (a) => a.abakusGroup.id
                   ).map(
                     ({ abakusGroup, permissions }) =>
                       !!permissions.length && (
@@ -425,16 +429,14 @@ export default class UserProfile extends Component<Props, EventsProps> {
                           <h4>
                             Rettigheter fra
                             <Link
-                              to={`/admin/groups/${
-                                abakusGroup.id
-                              }/permissions/`}
+                              to={`/admin/groups/${abakusGroup.id}/permissions/`}
                             >
                               {' '}
                               {abakusGroup.name}
                             </Link>
                           </h4>
                           <ul>
-                            {permissions.map(permission => (
+                            {permissions.map((permission) => (
                               <li key={permission + abakusGroup.id}>
                                 {permission}
                               </li>
@@ -472,7 +474,7 @@ export default class UserProfile extends Component<Props, EventsProps> {
                             const concatedString = `${summedPerm}${permPart}/`;
                             return [
                               broaderPermFound || acc.includes(concatedString),
-                              concatedString
+                              concatedString,
                             ];
                           },
                           [false, '/']
@@ -480,7 +482,7 @@ export default class UserProfile extends Component<Props, EventsProps> {
                         if (broaderPermFound) return acc;
                         return [...acc, perm];
                       }, [])
-                      .map(permission => (
+                      .map((permission) => (
                         <li key={permission}>{permission}</li>
                       ))}
                   </ul>
@@ -529,7 +531,9 @@ export default class UserProfile extends Component<Props, EventsProps> {
                   <LoadingIndicator margin={'20px auto'} loading />
                 ) : (
                   <ListEvents
-                    events={upcomingEvents.filter(e => e.userReg.pool !== null)}
+                    events={upcomingEvents.filter(
+                      (e) => e.userReg.pool !== null
+                    )}
                     noEventsMessage="Du har ingen kommende arrangementer"
                     loggedIn={loggedIn}
                   />
@@ -540,7 +544,9 @@ export default class UserProfile extends Component<Props, EventsProps> {
                   <LoadingIndicator margin={'20px auto'} loading />
                 ) : (
                   <ListEvents
-                    events={upcomingEvents.filter(e => e.userReg.pool === null)}
+                    events={upcomingEvents.filter(
+                      (e) => e.userReg.pool === null
+                    )}
                     noEventsMessage="Du har ingen kommende arrangementer"
                     loggedIn={loggedIn}
                   />
@@ -558,9 +564,9 @@ export default class UserProfile extends Component<Props, EventsProps> {
                         ? []
                         : orderBy(
                             previousEvents
-                              .filter(e => e.userReg.pool !== null)
+                              .filter((e) => e.userReg.pool !== null)
                               .filter(
-                                e => e.userReg.presence !== 'NOT_PRESENT'
+                                (e) => e.userReg.presence !== 'NOT_PRESENT'
                               ),
                             'startTime'
                           ).reverse()

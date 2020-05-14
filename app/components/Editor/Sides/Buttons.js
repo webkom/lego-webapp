@@ -6,20 +6,20 @@ import ImageUpload from 'app/components/Upload/ImageUpload';
 import type { DropFile } from 'app/components/Upload';
 
 type Props = {
-  setEditorState: any => void,
+  setEditorState: (any) => void,
   getEditorState: () => any,
-  close: () => void
+  close: () => void,
 };
 
 type State = {
-  showUpload: boolean
+  showUpload: boolean,
 };
 
 export class ImageButton extends Component<Props, State> {
   input: ?HTMLInputElement;
 
   state = {
-    showUpload: false
+    showUpload: false,
   };
 
   onClick = (e: SyntheticMouseEvent<*>) => {
@@ -32,7 +32,7 @@ export class ImageButton extends Component<Props, State> {
 
     setEditorState(
       addNewBlock(getEditorState(), Block.IMAGE, {
-        image
+        image,
       })
     );
 

@@ -5,5 +5,5 @@ export type ContactForm = {
   title: string,
   message: string,
   anonymous: boolean,
-  captchaResponse: string
+  captchaResponse: string,
 };

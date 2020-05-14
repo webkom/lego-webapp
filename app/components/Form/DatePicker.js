@@ -13,18 +13,18 @@ import styles from './DatePicker.css';
 import config from 'app/config';
 
 type Props = {
-  onChange: string => void,
+  onChange: (string) => void,
   className?: string,
   value: ?string,
   showTimePicker?: boolean,
   dateFormat?: string,
-  name?: string
+  name?: string,
 };
 
 type State = {
   pickerOpen: boolean,
   date: moment,
-  value: moment
+  value: moment,
 };
 
 function parseDateValue(value) {
@@ -36,7 +36,7 @@ class DatePicker extends Component<Props, State> {
   static defaultProps = {
     value: '',
     showTimePicker: true,
-    dateFormat: 'lll'
+    dateFormat: 'lll',
   };
 
   static Field: any;
@@ -44,23 +44,23 @@ class DatePicker extends Component<Props, State> {
   state = {
     pickerOpen: false,
     date: moment(),
-    value: parseDateValue(this.props.value)
+    value: parseDateValue(this.props.value),
   };
 
   onNext = () => {
-    this.setState(prevState => ({
-      date: prevState.date.clone().add(1, 'month')
+    this.setState((prevState) => ({
+      date: prevState.date.clone().add(1, 'month'),
     }));
   };
 
   onPrev = () => {
-    this.setState(prevState => ({
-      date: prevState.date.clone().subtract(1, 'month')
+    this.setState((prevState) => ({
+      date: prevState.date.clone().subtract(1, 'month'),
     }));
   };
 
   onChange = (day: moment) => {
-    this.setState(prevState => {
+    this.setState((prevState) => {
       const value = day
         .clone()
         .hour(prevState.value.hour())
@@ -68,20 +68,20 @@ class DatePicker extends Component<Props, State> {
 
       return {
         value,
-        pickerOpen: false
+        pickerOpen: false,
       };
     }, this._notifyParent);
   };
 
   onChangeTime = (time: moment) => {
-    this.setState(prevState => {
+    this.setState((prevState) => {
       const value = prevState.value
         .clone()
         .hour(time.hour())
         .minute(time.minute());
 
       return {
-        value
+        value,
       };
     }, this._notifyParent);
   };
@@ -89,8 +89,8 @@ class DatePicker extends Component<Props, State> {
   _notifyParent = () => this.props.onChange(this.state.value.toString());
 
   toggleDropdown = () => {
-    this.setState(prevState => ({
-      pickerOpen: !prevState.pickerOpen
+    this.setState((prevState) => ({
+      pickerOpen: !prevState.pickerOpen,
     }));
   };
 
@@ -115,7 +115,7 @@ class DatePicker extends Component<Props, State> {
         contentClassName={styles.dropdown}
         style={{ flex: 1 }}
       >
-        <div className={styles.datePicker} onClick={e => e.stopPropagation()}>
+        <div className={styles.datePicker} onClick={(e) => e.stopPropagation()}>
           <div className={styles.header}>
             <button onClick={this.onPrev}>
               <Icon name="arrow-back" />

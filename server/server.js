@@ -21,7 +21,7 @@ const log = bunyan.createLogger({
   name: 'lego-webapp',
   release: config.release,
   stream: process.stdout.isTTY ? bunyanPretty() : process.stdout,
-  environment: config.environment
+  environment: config.environment,
 });
 
 app.set('host', config.host || '0.0.0.0');
@@ -33,7 +33,7 @@ const webpackClient = require('../config/webpack.client.js');
 if (__DEV__) {
   const compiler = require('webpack')(
     webpackClient(undefined, {
-      mode: 'development'
+      mode: 'development',
     })
   );
   app.use(
@@ -46,14 +46,14 @@ if (__DEV__) {
         errors: true,
         warnings: true,
         moduleTrace: true,
-        errorDetails: true
-      }
+        errorDetails: true,
+      },
     })
   );
 
   app.use(
     require('webpack-hot-middleware')(compiler, {
-      log: false
+      log: false,
     })
   );
 }
@@ -74,7 +74,7 @@ app.use(
         url: tokens.url(req, res),
         status: tokens.status(req, res),
         'content-length': tokens.res(req, res, 'content-length'),
-        'response-time': tokens['response-time'](req, res)
+        'response-time': tokens['response-time'](req, res),
       },
       'request'
     );
@@ -85,7 +85,7 @@ app.use(render);
 
 app.use((req, res) => {
   res.status(404).send({
-    message: 'Not Found'
+    message: 'Not Found',
   });
 });
 

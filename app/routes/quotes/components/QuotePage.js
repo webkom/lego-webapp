@@ -15,9 +15,9 @@ type Props = {
   query: Object,
   quotes: Array<QuoteEntity>,
   actionGrant: ActionGrant,
-  approve: number => Promise<*>,
-  unapprove: number => Promise<*>,
-  deleteQuote: number => Promise<*>,
+  approve: (number) => Promise<*>,
+  unapprove: (number) => Promise<*>,
+  deleteQuote: (number) => Promise<*>,
   fetchMore: ({ approved: boolean }) => Promise<*>,
   showFetchMore: boolean,
   currentUser: any,
@@ -25,12 +25,12 @@ type Props = {
   reactions: Object,
   addReaction: ({
     emoji: string,
-    contentTarget: string
+    contentTarget: string,
   }) => Promise<*>,
   deleteReaction: ({ reactionId: ID, contentTarget: string }) => Promise<*>,
   fetchEmojis: () => Promise<*>,
   fetchingEmojis: boolean,
-  emojis: Array<EmojiEntity>
+  emojis: Array<EmojiEntity>,
 };
 
 export default function QuotePage({
@@ -49,7 +49,7 @@ export default function QuotePage({
   deleteReaction,
   emojis,
   fetchEmojis,
-  fetchingEmojis
+  fetchingEmojis,
 }: Props) {
   let errorMessage = undefined;
   if (quotes.length === 0) {

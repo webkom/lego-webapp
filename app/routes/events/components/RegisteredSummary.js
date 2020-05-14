@@ -9,12 +9,12 @@ import type { EventRegistration } from 'app/models';
 
 type RegistrationProps = {
   registration: EventRegistration,
-  currentRegistration?: ?EventRegistration
+  currentRegistration?: ?EventRegistration,
 };
 
 const Registration = ({
   registration,
-  currentRegistration
+  currentRegistration,
 }: RegistrationProps) => (
   <Tooltip content={registration.user.fullName}>
     <Link
@@ -28,11 +28,11 @@ const Registration = ({
   </Tooltip>
 );
 
-const renderNameList = registrations => {
+const renderNameList = (registrations) => {
   const registrationsList = registrations.slice(0, 14);
   return (
     <Flex column>
-      {registrationsList.map(reg => (
+      {registrationsList.map((reg) => (
         <Flex key={reg.id}>{reg.user.fullName}</Flex>
       ))}
       {registrations.length > 10 && (
@@ -44,12 +44,12 @@ const renderNameList = registrations => {
 
 type RegistrationListProps = {
   registrations: Array<EventRegistration>,
-  onClick: () => any
+  onClick: () => any,
 };
 
 const RegistrationList = ({
   registrations,
-  onClick
+  onClick,
 }: RegistrationListProps) => (
   <Tooltip
     content={renderNameList(registrations)}
@@ -66,13 +66,13 @@ const RegistrationList = ({
 type RegisteredSummaryProps = {
   registrations: Array<EventRegistration>,
   currentRegistration?: ?EventRegistration,
-  toggleModal?: number => void
+  toggleModal?: (number) => void,
 };
 
 const RegisteredSentence = ({
   registrations,
   toggleModal,
-  currentRegistration
+  currentRegistration,
 }: RegisteredSummaryProps) => {
   switch (registrations.length) {
     case 0:

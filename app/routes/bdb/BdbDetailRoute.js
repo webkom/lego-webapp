@@ -8,14 +8,14 @@ import {
   editSemesterStatus,
   fetchEventsForCompany,
   editCompany,
-  deleteCompany
+  deleteCompany,
 } from 'app/actions/CompanyActions';
 import BdbDetail from './components/BdbDetail';
 import { compose, bindActionCreators } from 'redux';
 import {
   selectCompanyById,
   selectEventsForCompany,
-  selectCommentsForCompany
+  selectCommentsForCompany,
 } from 'app/reducers/companies';
 import { selectCompanySemesters } from 'app/reducers/companySemesters';
 import { LoginPage } from 'app/components/LoginForm';
@@ -24,17 +24,17 @@ import { deleteComment } from 'app/actions/CommentActions';
 import { selectPagination } from 'app/reducers/selectors';
 import createQueryString from 'app/utils/createQueryString';
 
-const queryString = companyId =>
+const queryString = (companyId) =>
   createQueryString({
     company: companyId,
-    ordering: '-start_time'
+    ordering: '-start_time',
   });
 
 const loadData = (
   {
     match: {
-      params: { companyId }
-    }
+      params: { companyId },
+    },
   },
   dispatch
 ) =>
@@ -43,9 +43,9 @@ const loadData = (
     dispatch(
       fetchEventsForCompany({
         queryString: queryString(companyId),
-        loadNextPage: false
+        loadNextPage: false,
       })
-    )
+    ),
   ]);
 
 const mapStateToProps = (state, props) => {
@@ -56,7 +56,7 @@ const mapStateToProps = (state, props) => {
   const companySemesters = selectCompanySemesters(state, props);
   const fetching = state.companies.fetching;
   const showFetchMoreEvents = selectPagination('events', {
-    queryString: queryString(companyId)
+    queryString: queryString(companyId),
   })(state);
   return {
     company,
@@ -65,7 +65,7 @@ const mapStateToProps = (state, props) => {
     comments,
     companySemesters,
     fetching,
-    showFetchMoreEvents
+    showFetchMoreEvents,
   };
 };
 
@@ -75,7 +75,7 @@ const mapDispatchToProps = (dispatch, props) => {
     dispatch(
       fetchEventsForCompany({
         queryString: queryString(companyId),
-        loadNextPage: true
+        loadNextPage: true,
       })
     );
   return {
@@ -86,19 +86,16 @@ const mapDispatchToProps = (dispatch, props) => {
         editSemesterStatus,
         editCompany,
         deleteCompany,
-        deleteComment
+        deleteComment,
       },
       dispatch
     ),
-    fetchMoreEvents
+    fetchMoreEvents,
   };
 };
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
   prepare(loadData, ['match.params.companyId']),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )(BdbDetail);

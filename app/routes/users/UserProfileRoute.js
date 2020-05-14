@@ -7,7 +7,7 @@ import {
   fetchUser,
   addPenalty,
   deletePenalty,
-  changeGrade
+  changeGrade,
 } from 'app/actions/UserActions';
 import { fetchAllWithType } from 'app/actions/GroupActions';
 import { fetchPrevious, fetchUpcoming } from 'app/actions/EventActions';
@@ -15,7 +15,7 @@ import { fetchUserFeed } from 'app/actions/FeedActions';
 import { selectUserWithGroups } from 'app/reducers/users';
 import {
   selectPreviousEvents,
-  selectUpcomingEvents
+  selectUpcomingEvents,
 } from 'app/reducers/events';
 import { selectGroupsWithType } from 'app/reducers/groups';
 import { selectPenaltyByUserId } from 'app/reducers/penalties';
@@ -27,16 +27,16 @@ import { LoginPage } from 'app/components/LoginForm';
 const loadData = (
   {
     match: {
-      params: { username }
-    }
+      params: { username },
+    },
   },
   dispatch
 ) => {
-  return dispatch(fetchUser(username)).then(action =>
+  return dispatch(fetchUser(username)).then((action) =>
     Promise.all([
       dispatch(fetchPrevious()),
       dispatch(fetchUpcoming()),
-      dispatch(fetchAllWithType('klasse'))
+      dispatch(fetchAllWithType('klasse')),
     ])
   );
   // TODO: re-enable when the user feed is fixed:
@@ -47,7 +47,7 @@ const loadData = (
 
 const mapStateToProps = (state, props) => {
   const {
-    match: { params }
+    match: { params },
   } = props;
   const username =
     params.username === 'me' ? state.auth.username : params.username;
@@ -91,7 +91,7 @@ const mapStateToProps = (state, props) => {
     penalties,
     canDeletePenalties,
     groups,
-    canChangeGrade
+    canChangeGrade,
   };
 };
 
@@ -101,15 +101,12 @@ const mapDispatchToProps = {
   fetchUserFeed,
   addPenalty,
   deletePenalty,
-  changeGrade
+  changeGrade,
 };
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
   prepare(loadData, ['match.params.username']),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['user'])
 )(UserProfile);

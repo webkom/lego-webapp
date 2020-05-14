@@ -13,7 +13,7 @@ import config from 'app/config';
 const icalTypes = [
   { name: 'events', title: 'Alle arrangementer' },
   { name: 'registrations', title: 'Registreringstidspunkt' },
-  { name: 'personal', title: 'Mine møter og favorittarrangementer' }
+  { name: 'personal', title: 'Mine møter og favorittarrangementer' },
 ];
 
 const getIcalUrl = (icalToken, icalType) =>
@@ -24,7 +24,7 @@ const getIcalUrlGoogle = (icalToken, icalType) => {
 };
 
 type Props = {
-  icalToken: string
+  icalToken: string,
 };
 
 const EventFooter = ({ icalToken }: Props) => (

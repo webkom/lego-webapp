@@ -7,7 +7,7 @@ type Props = {
   /** background color of pill */
   color?: string,
   /** extra css styling */
-  style?: any
+  style?: any,
 };
 
 /**
@@ -19,7 +19,7 @@ function Pill({ color, style, ...props }: Props) {
       className={styles.pill}
       style={{
         backgroundColor: color,
-        ...style
+        ...style,
       }}
       {...props}
     />

@@ -5,7 +5,7 @@ import { Flex } from 'app/components/Layout';
 
 type Props = {
   className?: string,
-  children: Node
+  children: Node,
 };
 
 function ContentSection({ children, className }: Props) {

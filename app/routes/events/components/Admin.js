@@ -10,24 +10,24 @@ import styles from './Admin.css';
 type Props = {
   deleteEvent: (eventId: ID) => Promise<*>,
   event: Event,
-  actionGrant: ActionGrant
+  actionGrant: ActionGrant,
 };
 
 type ButtonProps = {
   deleteEvent: (eventId: ID) => Promise<*>,
   eventId: number,
-  title: string
+  title: string,
 };
 
 type State = {
   arrName: string,
-  show: boolean
+  show: boolean,
 };
 
 class DeleteButton extends React.Component<ButtonProps, State> {
   state = {
     arrName: '',
-    show: false
+    show: false,
   };
   render() {
     const { deleteEvent, eventId, title } = this.props;
@@ -62,7 +62,7 @@ class DeleteButton extends React.Component<ButtonProps, State> {
               type="text"
               id="slettArrangement"
               placeholder="Arrangementnavn"
-              onChange={e => this.setState({ arrName: e.target.value })}
+              onChange={(e) => this.setState({ arrName: e.target.value })}
             />{' '}
             <br />
             {deleteEventButton}
@@ -111,7 +111,7 @@ const Admin = ({ actionGrant, event, deleteEvent }: Props) => {
             <Link
               to={{
                 pathname: `/events/create`,
-                query: { id: event.id }
+                query: { id: event.id },
               }}
             >
               Lag kopi av arrangement

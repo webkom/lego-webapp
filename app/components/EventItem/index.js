@@ -15,7 +15,7 @@ import { eventStatus, eventAttendance } from 'app/utils/eventStatus';
 import moment from 'moment-timezone';
 
 type AttendanceProps = {
-  event: Event
+  event: Event,
 };
 
 const Attendance = ({ event }: AttendanceProps) => {
@@ -32,7 +32,7 @@ const Attendance = ({ event }: AttendanceProps) => {
 type TimeStampProps = {
   event: Event,
   field: EventTimeType,
-  loggedIn: boolean
+  loggedIn: boolean,
 };
 
 const TimeStamp = ({ event, field, loggedIn }: TimeStampProps) => {
@@ -56,14 +56,14 @@ type EventItemProps = {
   event: Event,
   field?: EventTimeType,
   showTags?: boolean,
-  loggedIn: boolean
+  loggedIn: boolean,
 };
 
 const EventItem = ({
   event,
   field = EVENTFIELDS.start,
   showTags = true,
-  loggedIn = false
+  loggedIn = false,
 }: EventItemProps) => (
   <div
     style={{ borderColor: colorForEvent(event.eventType) }}

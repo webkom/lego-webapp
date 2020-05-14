@@ -9,15 +9,15 @@ type Props = {
   updateGroup: ({
     groupId: ID,
     updates: {
-      permissions: Array<Permission>
-    }
+      permissions: Array<Permission>,
+    },
   }) => void,
-  permissions: Array<Permission>
+  permissions: Array<Permission>,
 };
 
 type State = {
   permissions: Array<Permission>,
-  edited: boolean
+  edited: boolean,
 };
 
 export default class EditPermissions extends Component<Props, State> {
@@ -25,22 +25,22 @@ export default class EditPermissions extends Component<Props, State> {
 
   state = {
     permissions: this.props.permissions,
-    edited: false
+    edited: false,
   };
 
   // eslint-disable-next-line
   componentWillReceiveProps(nextProps: Props) {
     if (nextProps.permissions !== this.props.permissions) {
       this.setState({
-        permissions: nextProps.permissions
+        permissions: nextProps.permissions,
       });
     }
   }
 
   del(perm: Permission) {
-    const permissions = this.state.permissions.filter(p => p !== perm);
+    const permissions = this.state.permissions.filter((p) => p !== perm);
     this.setState({
-      permissions
+      permissions,
     });
   }
 
@@ -48,8 +48,8 @@ export default class EditPermissions extends Component<Props, State> {
     this.props.updateGroup({
       groupId: this.props.groupId,
       updates: {
-        permissions: this.state.permissions
-      }
+        permissions: this.state.permissions,
+      },
     });
   };
 
@@ -61,11 +61,11 @@ export default class EditPermissions extends Component<Props, State> {
 
     const permissions = [
       ...this.state.permissions,
-      this.newPermissionRef.value
+      this.newPermissionRef.value,
     ];
     this.newPermissionRef.value = '';
     this.setState({
-      permissions
+      permissions,
     });
   };
 
@@ -76,7 +76,7 @@ export default class EditPermissions extends Component<Props, State> {
     return (
       <div>
         <ul>
-          {permissions.map(p => (
+          {permissions.map((p) => (
             <li key={p}>
               {p} <button onClick={this.del.bind(this, p)}>X</button>
             </li>
@@ -85,7 +85,7 @@ export default class EditPermissions extends Component<Props, State> {
         <form onSubmit={this.add}>
           <input
             type="text"
-            ref={ref => {
+            ref={(ref) => {
               this.newPermissionRef = ref;
             }}
           />

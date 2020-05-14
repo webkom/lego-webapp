@@ -21,26 +21,26 @@ type Props = {
   aspectRatio?: number,
   onSubmit: (File | Array<DropFile>) => void,
   onDrop?: () => void,
-  onClose?: () => void
+  onClose?: () => void,
 };
 
 type State = {
   cropOpen: boolean,
   file: ?DropFile,
   files: Array<DropFile>,
-  img: ?string
+  img: ?string,
 };
 
 type FilePreviewProps = {
   file: DropFile,
   onRemove: (index: number) => void,
-  index: number
+  index: number,
 };
 
 type UploadAreaProps = {
   onDrop: (files: Array<DropFile>) => void,
   multiple?: boolean,
-  image: ?string
+  image: ?string,
 };
 
 const FilePreview = ({ file, onRemove, index }: FilePreviewProps) => (
@@ -89,13 +89,13 @@ export default class ImageUpload extends Component<Props, State> {
     cropOpen: this.props.inModal || false,
     file: null,
     files: [],
-    img: this.props.img || null
+    img: this.props.img || null,
   };
 
   static defaultProps = {
     crop: true,
     inModal: false,
-    multiple: false
+    multiple: false,
   };
 
   onDrop = (files: Array<DropFile>) => {
@@ -111,11 +111,11 @@ export default class ImageUpload extends Component<Props, State> {
   onSubmit = () => {
     if (this.props.crop && this.state.file) {
       const { name } = this.state.file;
-      this.crop.cropper.getCroppedCanvas().toBlob(image => {
+      this.crop.cropper.getCroppedCanvas().toBlob((image) => {
         image.name = name;
         this.props.onSubmit(image);
-        this.setState(state => ({
-          img: window.URL.createObjectURL(image)
+        this.setState((state) => ({
+          img: window.URL.createObjectURL(image),
         }));
 
         this.closeModal();
@@ -141,16 +141,16 @@ export default class ImageUpload extends Component<Props, State> {
 
   onNameChange = (index: number, name: string) => {
     if (this.props.multiple) {
-      this.setState(state => {
+      this.setState((state) => {
         const files = state.files.slice();
         // $FlowFixMe revamp File types
         files[index] = {
           ...files[index],
-          name
+          name,
         };
 
         return {
-          files
+          files,
         };
       });
     }
@@ -202,7 +202,7 @@ export default class ImageUpload extends Component<Props, State> {
             {/* $FlowFixMe */}
             {preview && (
               <Cropper
-                ref={node => {
+                ref={(node) => {
                   this.crop = node;
                 }}
                 src={preview}

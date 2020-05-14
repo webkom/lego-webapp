@@ -5,7 +5,7 @@ import prepare from 'app/utils/prepare';
 import { formValueSelector } from 'redux-form';
 import {
   fetchInterestGroup,
-  editInterestGroup
+  editInterestGroup,
 } from 'app/actions/InterestGroupActions';
 import { uploadFile } from 'app/actions/FileActions';
 import { selectGroup } from 'app/reducers/groups';
@@ -15,7 +15,7 @@ import loadingIndicator from 'app/utils/loadingIndicator';
 const mapDispatchToProps = {
   editInterestGroup,
   uploadFile,
-  handleSubmitCallback: editInterestGroup
+  handleSubmitCallback: editInterestGroup,
 };
 
 const mapStateToProps = (state, props) => {
@@ -26,7 +26,7 @@ const mapStateToProps = (state, props) => {
   return {
     interestGroup,
     initialValues: interestGroup,
-    groupMembers: valueSelector(state, 'members') || []
+    groupMembers: valueSelector(state, 'members') || [],
   };
 };
 
@@ -34,9 +34,6 @@ export default compose(
   prepare(({ match: { params: { interestGroupId } } }, dispatch) =>
     dispatch(fetchInterestGroup(Number(interestGroupId)))
   ),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['interestGroup'])
 )(InterestGroupEdit);

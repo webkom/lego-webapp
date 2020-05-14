@@ -21,7 +21,7 @@ function mapStateToProps(state, props) {
     emojis,
     fetchingEmojis: state.emojis.fetching,
     fetching: state.quotes.fetching,
-    currentQuote
+    currentQuote,
   };
 }
 
@@ -29,21 +29,18 @@ const mapDispatchToProps = {
   fetchRandomQuote,
   addReaction,
   deleteReaction,
-  fetchEmojis
+  fetchEmojis,
 };
 
 const LoginToSeeQuotes = () => <div>Logg inn for å se sitater.</div>;
 
 export default compose(
   replaceUnlessLoggedIn(LoginToSeeQuotes),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   prepare((props, dispatch) =>
     Promise.all([
       isEmpty(props.currentQuote) && dispatch(fetchRandomQuote()),
-      dispatch(fetchEmojis())
+      dispatch(fetchEmojis()),
     ])
   ),
   loadingIndicator(['currentQuote.id'])

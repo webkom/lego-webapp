@@ -12,7 +12,7 @@ import {
   ContentSection,
   ContentMain,
   ContentSidebar,
-  ContentHeader
+  ContentHeader,
 } from 'app/components/Content';
 import { jobType, Year, Workplaces } from './Items';
 import Time from 'app/components/Time';
@@ -21,9 +21,9 @@ import type { ID } from 'app/models';
 type Props = {
   joblisting: Object,
   actionGrant: /*TODO: ActionGrant */ Array<any>,
-  deleteJoblisting: ID => Promise<*>,
+  deleteJoblisting: (ID) => Promise<*>,
   fetching: boolean,
-  push: string => void
+  push: (string) => void,
 };
 
 const JoblistingDetail = ({
@@ -31,7 +31,7 @@ const JoblistingDetail = ({
   actionGrant,
   deleteJoblisting,
   push,
-  fetching = false
+  fetching = false,
 }: Props) => {
   if (fetching || !joblisting) {
     return <LoadingIndicator loading />;
@@ -77,9 +77,9 @@ const JoblistingDetail = ({
               { key: 'Klassetrinn', value: <Year joblisting={joblisting} /> },
               {
                 key: 'Sted',
-                value: <Workplaces places={joblisting.workplaces} />
+                value: <Workplaces places={joblisting.workplaces} />,
               },
-              { key: 'Søknadsfrist', value: deadline }
+              { key: 'Søknadsfrist', value: deadline },
             ]}
           />
           {joblisting.applicationUrl && (
@@ -96,8 +96,8 @@ const JoblistingDetail = ({
                     items={[
                       {
                         key: 'Epost',
-                        value: joblisting.contactMail
-                      }
+                        value: joblisting.contactMail,
+                      },
                     ]}
                   />
                   {joblisting.responsible && (
@@ -113,16 +113,16 @@ const JoblistingDetail = ({
                     items={[
                       {
                         key: 'Navn',
-                        value: joblisting.responsible.name || 'Ikke oppgitt.'
+                        value: joblisting.responsible.name || 'Ikke oppgitt.',
                       },
                       {
                         key: 'Epost',
-                        value: joblisting.responsible.mail || 'Ikke oppgitt.'
+                        value: joblisting.responsible.mail || 'Ikke oppgitt.',
                       },
                       {
                         key: 'Telefon',
-                        value: joblisting.responsible.phone || 'Ikke oppgitt.'
-                      }
+                        value: joblisting.responsible.phone || 'Ikke oppgitt.',
+                      },
                     ]}
                   />
                 </div>

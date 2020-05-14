@@ -36,44 +36,44 @@ const trackerMiddleware = createTracker({
               id: user.id,
               lastName: user.lastName,
               name: user.fullName,
-              username: user.username
-            }
-          }
+              username: user.username,
+            },
+          },
         };
       }
     },
     [User.LOGOUT]: () => [
       {
-        eventType: EventTypes.reset
+        eventType: EventTypes.reset,
       },
       {
-        eventType: EventTypes.page
-      }
-    ]
-  }
+        eventType: EventTypes.page,
+      },
+    ],
+  },
 });
 
 const sentryMiddlewareOptions = {
-  stateTransformer: state => {
+  stateTransformer: (state) => {
     try {
       const token = jwtDecode(state.auth.token);
       return {
         ...state,
         auth: {
           ...state.auth,
-          token
-        }
+          token,
+        },
       };
     } catch (e) {
       return state;
     }
   },
-  getUserContext: state => omit(selectCurrentUser(state), 'icalToken')
+  getUserContext: (state) => omit(selectCurrentUser(state), 'icalToken'),
 };
 
 const loggerMiddleware = createLogger({
   level: 'info',
-  collapsed: true
+  collapsed: true,
 });
 
 export const history = __CLIENT__
@@ -85,7 +85,7 @@ export default function configureStore(
   { Sentry, getCookie }: { Sentry: ?any, getCookie?: GetCookie } = {}
 ): Store {
   const messageMiddleware = createMessageMiddleware(
-    message => addToast({ message }),
+    (message) => addToast({ message }),
     Sentry
   );
 
@@ -95,7 +95,7 @@ export default function configureStore(
     promiseMiddleware(),
     Sentry && createSentryMiddleware(Sentry, sentryMiddlewareOptions),
     messageMiddleware,
-    config.environment === 'production' && trackerMiddleware
+    config.environment === 'production' && trackerMiddleware,
   ].filter(Boolean);
 
   if (__CLIENT__) {

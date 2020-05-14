@@ -8,10 +8,10 @@ export default function healthCheck(req: $Request, res: $Response) {
   fetch(config.baseUrl, {
     method: 'GET',
     headers: new Headers({
-      'Content-Type': 'application/json'
-    })
+      'Content-Type': 'application/json',
+    }),
   })
-    .then(response => {
+    .then((response) => {
       if (response.status === 200) {
         res.sendStatus(200);
       } else {
@@ -19,7 +19,7 @@ export default function healthCheck(req: $Request, res: $Response) {
         res.sendStatus(500);
       }
     })
-    .catch(err => {
+    .catch((err) => {
       log.warn('unhealthy', err);
       res.sendStatus(500);
     });

@@ -7,7 +7,7 @@ describe('reducers', () => {
       actionGrant: [],
       pagination: {},
       items: [],
-      byId: {}
+      byId: {},
     };
 
     it('SurveySubmission.ADD.SUCCESS adds survey id to submission object', () => {
@@ -15,7 +15,7 @@ describe('reducers', () => {
       const action = {
         type: SurveySubmission.ADD.SUCCESS,
         meta: {
-          surveyId: 9
+          surveyId: 9,
         },
         payload: {
           result: 3,
@@ -23,11 +23,11 @@ describe('reducers', () => {
             surveySubmissions: {
               3: {
                 id: 3,
-                test: 'abc'
-              }
-            }
-          }
-        }
+                test: 'abc',
+              },
+            },
+          },
+        },
       };
       expect(surveySubmissions(prevState, action)).toEqual({
         actionGrant: [],
@@ -37,9 +37,9 @@ describe('reducers', () => {
           3: {
             id: 3,
             test: 'abc',
-            survey: 9
-          }
-        }
+            survey: 9,
+          },
+        },
       });
     });
   });

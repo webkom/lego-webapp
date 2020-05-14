@@ -11,7 +11,7 @@ type Props = {
   fetching: boolean,
   hasMore: boolean,
   emailUsers: Array<Object>,
-  fetch: ({ filters?: Object, next?: boolean }) => Promise<*>
+  fetch: ({ filters?: Object, next?: boolean }) => Promise<*>,
 };
 
 export default class EmailUsers extends Component<Props> {
@@ -22,7 +22,7 @@ export default class EmailUsers extends Component<Props> {
         dataIndex: 'user',
         render: (user: Object, emailUser) => (
           <Link to={`/admin/email/users/${emailUser.id}`}>{user.fullName}</Link>
-        )
+        ),
       },
       {
         title: 'Internepost',
@@ -30,7 +30,7 @@ export default class EmailUsers extends Component<Props> {
         search: true,
         render: (internalEmail: string) => (
           <span>{`${internalEmail}@abakus.no`}</span>
-        )
+        ),
       },
       {
         title: 'Status',
@@ -38,20 +38,20 @@ export default class EmailUsers extends Component<Props> {
         filter: [
           {
             label: 'Aktiv',
-            value: true
+            value: true,
           },
           {
             label: 'Inaktiv',
-            value: false
-          }
+            value: false,
+          },
         ],
-        render: enabled =>
+        render: (enabled) =>
           enabled ? (
             <Tag tag="aktiv" color="orange" />
           ) : (
             <Tag color="cyan" tag="inaktiv" />
-          )
-      }
+          ),
+      },
     ];
 
     return (

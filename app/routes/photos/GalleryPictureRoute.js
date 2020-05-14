@@ -7,11 +7,11 @@ import loadingIndicator from 'app/utils/loadingIndicator';
 import prepare from 'app/utils/prepare';
 import {
   fetchSiblingGallerPicture,
-  fetchGalleryPicture
+  fetchGalleryPicture,
 } from 'app/actions/GalleryPictureActions';
 import {
   selectGalleryPictureById,
-  selectCommentsForGalleryPicture
+  selectCommentsForGalleryPicture,
 } from 'app/reducers/galleryPictures';
 import { deletePicture } from 'app/actions/GalleryPictureActions';
 import { updateGalleryCover, fetchGallery } from 'app/actions/GalleryActions';
@@ -55,7 +55,7 @@ function mapStateToProps(state, props) {
     comments,
     picture,
     pictureId,
-    gallery
+    gallery,
   };
 }
 
@@ -64,15 +64,13 @@ const mapDispatchToProps = {
   deletePicture,
   updateGalleryCover,
   fetchSiblingGallerPicture,
-  deleteComment
+  deleteComment,
 };
 
 const propertyGenerator = (props, config) => {
   if (!props.picture) return;
 
-  const url = `${config.webUrl}/gallery/${props.gallery.id}/picture/${
-    props.picture.id
-  }/`;
+  const url = `${config.webUrl}/gallery/${props.gallery.id}/picture/${props.picture.id}/`;
 
   // Becuase the parent route sets the title and description
   // based on the metadata of the gallery, we don't have to do it
@@ -81,24 +79,21 @@ const propertyGenerator = (props, config) => {
     {
       element: 'link',
       rel: 'canonical',
-      href: url
+      href: url,
     },
     {
       property: 'og:url',
-      content: url
+      content: url,
     },
     {
       property: 'og:image',
-      content: props.picture.file
-    }
+      content: props.picture.file,
+    },
   ];
 };
 
 export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   prepare(
     ({ match: { params } }, dispatch) =>
       Promise.all[

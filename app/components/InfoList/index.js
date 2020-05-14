@@ -4,11 +4,11 @@ import * as React from 'react';
 
 type Item = {
   key: string,
-  value: React.Node
+  value: React.Node,
 };
 
 type Props = {
-  items: Array<?Item>
+  items: Array<?Item>,
 };
 
 /**

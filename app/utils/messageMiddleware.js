@@ -1,7 +1,7 @@
 import { get } from 'lodash';
 
 export default function createMessageMiddleware(actionToDispatch, Sentry) {
-  return store => next => action => {
+  return (store) => (next) => (action) => {
     const success = action.success && get(action, ['meta', 'successMessage']);
     const error = action.error && get(action, ['meta', 'errorMessage']);
     if (!(success || error)) {

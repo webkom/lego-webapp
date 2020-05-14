@@ -11,21 +11,18 @@ import { push } from 'connected-react-router';
 const loadData = (props, dispatch) => dispatch(fetchAll());
 
 const mapStateToProps = (state, props) => ({
-  surveys: selectSurveys(state, props).filter(survey => !survey.templateType),
+  surveys: selectSurveys(state, props).filter((survey) => !survey.templateType),
   fetching: state.surveys.fetching,
-  hasMore: state.surveys.hasMore
+  hasMore: state.surveys.hasMore,
 });
 
 const mapDispatchToProps = {
   fetchAll,
-  push
+  push,
 };
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
   prepare(loadData),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )(SurveyPage);

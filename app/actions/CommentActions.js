@@ -10,15 +10,15 @@ import { type ID } from 'app/models';
 export type CommentEntity = {
   text: string,
   contentTarget: string,
-  parent: number
+  parent: number,
 };
 
 export function addComment({
   text,
   contentTarget,
-  parent
+  parent,
 }: CommentEntity): Thunk<*> {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(startSubmit('comment'));
 
     return dispatch(
@@ -29,13 +29,13 @@ export function addComment({
         body: {
           text,
           content_target: contentTarget,
-          ...(parent ? { parent } : {})
+          ...(parent ? { parent } : {}),
         },
         meta: {
           contentTarget,
-          errorMessage: 'Legg til kommentar feilet'
+          errorMessage: 'Legg til kommentar feilet',
         },
-        schema: commentSchema
+        schema: commentSchema,
       })
     )
       .then(() => {
@@ -47,7 +47,7 @@ export function addComment({
 
         dispatch(initialize(formName, { text: '' }));
       })
-      .catch(action => {
+      .catch((action) => {
         const errors = { ...action.payload.response.jsonData };
         dispatch(stopSubmit('comment', errors));
       });
@@ -63,7 +63,7 @@ export function deleteComment(commentId: ID, contentTarget: string) {
       id: commentId,
       contentTarget,
       errorMessage: 'Sletting av kommentar feilet',
-      successMessage: 'Kommentar slettet'
-    }
+      successMessage: 'Kommentar slettet',
+    },
   });
 }

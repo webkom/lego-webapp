@@ -13,12 +13,12 @@ const OverviewRoute = ({
   children,
   currentUser,
   loggedIn,
-  match
+  match,
 }: {
   children: any,
   currentUser: User,
   loggedIn: boolean,
-  match: { path: string }
+  match: { path: string },
 }) => {
   return (
     <Switch>

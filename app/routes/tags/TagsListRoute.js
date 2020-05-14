@@ -6,18 +6,15 @@ import { fetchAll } from 'app/actions/TagActions';
 import TagCloud from './components/TagCloud.js';
 import { selectTags } from 'app/reducers/tags';
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   tags: selectTags(state),
   fetching: state.tags.fetching,
-  hasMore: state.tags.hasMore
+  hasMore: state.tags.hasMore,
 });
 
 const mapDispatchToProps = { fetchAll };
 
 export default compose(
   prepare((props, dispatch) => dispatch(fetchAll())),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )(TagCloud);

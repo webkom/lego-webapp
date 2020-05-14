@@ -9,31 +9,31 @@ export type EmailUserEntity = {
   id: number,
   user: UserEntity,
   internalEmailEnabled: boolean,
-  internalEmail: string
+  internalEmail: string,
 };
 
 export default createEntityReducer({
   key: 'emailUsers',
   types: {
     fetch: EmailUser.FETCH,
-    mutate: EmailUser.CREATE
-  }
+    mutate: EmailUser.CREATE,
+  },
 });
 
 export const selectEmailUsers = createSelector(
-  state => state.emailUsers.byId,
-  state => state.users.byId,
-  state => state.emailUsers.items,
+  (state) => state.emailUsers.byId,
+  (state) => state.users.byId,
+  (state) => state.emailUsers.items,
   (emailUsersById, usersById, emailUserIds) =>
-    emailUserIds.map(id => ({
+    emailUserIds.map((id) => ({
       ...emailUsersById[id],
-      user: usersById[emailUsersById[id].user]
+      user: usersById[emailUsersById[id].user],
     }))
 );
 
 export const selectEmailUserById = createSelector(
-  state => state.emailUsers.byId,
-  state => state.users.byId,
+  (state) => state.emailUsers.byId,
+  (state) => state.users.byId,
   (state, props) => props.emailUserId,
   (emailUsersById, usersById, emailUserId) => {
     const emailUser = emailUsersById[emailUserId];
@@ -44,7 +44,7 @@ export const selectEmailUserById = createSelector(
 
     return {
       ...emailUser,
-      user: usersById[emailUser.user]
+      user: usersById[emailUser.user],
     };
   }
 );

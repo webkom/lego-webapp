@@ -10,7 +10,7 @@ import { fetchEmojis } from 'app/actions/EmojiActions';
 import ArticleDetail from './components/ArticleDetail';
 import {
   selectArticleById,
-  selectCommentsForArticle
+  selectCommentsForArticle,
 } from 'app/reducers/articles';
 import { selectUserById } from 'app/reducers/users';
 import { selectEmojis } from 'app/reducers/emojis';
@@ -33,7 +33,7 @@ const mapStateToProps = (state, props) => {
     article,
     articleId,
     author,
-    emojis
+    emojis,
   };
 };
 
@@ -42,70 +42,67 @@ const mapDispatchToProps = {
   fetchEmojis,
   deleteComment,
   addReaction,
-  deleteReaction
+  deleteReaction,
 };
 
 export default compose(
   prepare(loadData, ['match.params.articleId']),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['article.content']),
   helmet((props, config) => {
-    const tags = props.article.tags.map(content => ({
+    const tags = props.article.tags.map((content) => ({
       content,
-      property: 'article:tag'
+      property: 'article:tag',
     }));
 
     return [
       {
         property: 'og:title',
-        content: props.article.title
+        content: props.article.title,
       },
       {
         element: 'title',
-        children: props.article.title
+        children: props.article.title,
       },
       {
         element: 'link',
         rel: 'canonical',
-        href: `${config.webUrl}/articles/${props.article.id}`
+        href: `${config.webUrl}/articles/${props.article.id}`,
       },
       {
         property: 'og:type',
-        content: 'article'
+        content: 'article',
       },
       {
         property: 'og:image:width',
-        content: '500'
+        content: '500',
       },
       {
         property: 'og:image:height',
-        content: '500'
+        content: '500',
       },
       {
         property: 'og:url',
-        content: `${config.webUrl}/articles/${props.article.id}`
+        content: `${config.webUrl}/articles/${props.article.id}`,
       },
       {
         property: 'og:image',
-        content: props.article.cover
+        content: props.article.cover,
       },
       {
         property: 'article:published_time',
-        content: props.article.createdAt
+        content: props.article.createdAt,
       },
 
       {
         property: 'og:description',
-        content: props.article.description
+        content: props.article.description,
       },
       {
         property: 'article:author',
-        content: `${config.webUrl}/users/${props.author.username}`
+        content: `${config.webUrl}/users/${props.author.username}`,
       },
-      ...tags
+      ...tags,
     ];
   })
 )(ArticleDetail);

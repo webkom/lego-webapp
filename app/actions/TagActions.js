@@ -10,9 +10,9 @@ export function fetch(id: string): Thunk<*> {
     endpoint: `/tags/${id}/`,
     schema: tagSchema,
     meta: {
-      errorMessage: 'Henting av tag feilet'
+      errorMessage: 'Henting av tag feilet',
     },
-    propagateError: true
+    propagateError: true,
   });
 }
 
@@ -21,9 +21,9 @@ export function fetchPopular(): Thunk<*> {
     types: Tag.POPULAR,
     endpoint: `/tags/popular/`,
     meta: {
-      errorMessage: 'Henting av populære tags feilet'
+      errorMessage: 'Henting av populære tags feilet',
     },
-    propagateError: false
+    propagateError: false,
   });
 }
 
@@ -36,12 +36,12 @@ export function fetchAll({ next = false }: { next: boolean } = {}): Thunk<*> {
         endpoint: '/tags/',
         schema: [tagSchema],
         query: {
-          ...cursor
+          ...cursor,
         },
         meta: {
-          errorMessage: 'Henting av tags feilet'
+          errorMessage: 'Henting av tags feilet',
         },
-        propagateError: true
+        propagateError: true,
       })
     );
   };

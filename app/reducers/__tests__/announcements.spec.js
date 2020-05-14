@@ -16,15 +16,15 @@ describe('reducers', () => {
         byId: {
           99: {
             id: 99,
-            sent: null
-          }
-        }
+            sent: null,
+          },
+        },
       };
       const action = {
         type: Announcements.SEND.SUCCESS,
         meta: {
-          announcementId: 99
-        }
+          announcementId: 99,
+        },
       };
       expect(announcements(prevState, action)).toEqual({
         actionGrant: [],
@@ -33,9 +33,9 @@ describe('reducers', () => {
         byId: {
           99: {
             id: 99,
-            sent: moment()
-          }
-        }
+            sent: moment(),
+          },
+        },
       });
     });
   });

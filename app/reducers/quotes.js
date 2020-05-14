@@ -17,28 +17,26 @@ export type QuoteEntity = {
   contentTarget: string,
   reactionsGrouped: Array<ReactionEntity>,
   reactions: Array<ReactionEntity>,
-  createdAt?: string
+  createdAt?: string,
 };
 
 type State = any;
 
-const mutateQuote = produce(
-  (newState: State, action: any): void => {
-    switch (action.type) {
-      case Quote.UNAPPROVE.SUCCESS:
-        newState.byId[action.meta.quoteId].approved = false;
-        break;
+const mutateQuote = produce((newState: State, action: any): void => {
+  switch (action.type) {
+    case Quote.UNAPPROVE.SUCCESS:
+      newState.byId[action.meta.quoteId].approved = false;
+      break;
 
-      case Quote.APPROVE.SUCCESS:
-        newState.byId[action.meta.quoteId].approved = true;
-        break;
+    case Quote.APPROVE.SUCCESS:
+      newState.byId[action.meta.quoteId].approved = true;
+      break;
 
-      case Quote.FETCH_RANDOM.SUCCESS:
-        newState.randomQuote = action.payload.result;
-        break;
-    }
+    case Quote.FETCH_RANDOM.SUCCESS:
+      newState.randomQuote = action.payload.result;
+      break;
   }
-);
+});
 
 const mutate = joinReducers(mutateReactions('quotes'), mutateQuote);
 
@@ -47,9 +45,9 @@ export default createEntityReducer({
   types: {
     fetch: [Quote.FETCH, Quote.FETCH_RANDOM],
     mutate: Quote.ADD,
-    delete: Quote.DELETE
+    delete: Quote.DELETE,
   },
-  mutate
+  mutate,
 });
 
 const compareByDate = (a, b) => {
@@ -59,11 +57,11 @@ const compareByDate = (a, b) => {
 };
 
 export const selectQuotes = createSelector(
-  state => state.quotes.byId,
-  state => state.quotes.items,
+  (state) => state.quotes.byId,
+  (state) => state.quotes.items,
   (quotesById, ids) => {
     if (!quotesById || !ids) return [];
-    return ids.map(quoteId => quotesById[quoteId]);
+    return ids.map((quoteId) => quotesById[quoteId]);
   }
 );
 
@@ -72,7 +70,7 @@ export const selectQuoteById = createSelector(
   (state, quoteId) => quoteId,
   (quotes, quoteId) => {
     if (!quotes || !quoteId) return {};
-    return quotes.find(quote => Number(quote.id) === Number(quoteId));
+    return quotes.find((quote) => Number(quote.id) === Number(quoteId));
   }
 );
 
@@ -82,7 +80,7 @@ export const selectSortedQuotes = createSelector(
   (quotes, query) => {
     return quotes
       .filter(
-        quote =>
+        (quote) =>
           typeof quote !== 'undefined' &&
           quote.approved === (query.filter !== 'unapproved')
       )
@@ -91,8 +89,8 @@ export const selectSortedQuotes = createSelector(
 );
 
 export const selectRandomQuote = createSelector(
-  state => state.quotes.byId,
-  state => state.quotes.randomQuote,
+  (state) => state.quotes.byId,
+  (state) => state.quotes.randomQuote,
   (quotes, randomQuoteId) => {
     if (!quotes || !randomQuoteId) return {};
     return quotes[randomQuoteId];

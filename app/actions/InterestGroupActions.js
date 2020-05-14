@@ -9,18 +9,18 @@ import type { Thunk } from 'app/types';
 import createQueryString from 'app/utils/createQueryString';
 
 export function fetchInterestGroup(interestGroupId: number): Thunk<*> {
-  return dispatch => {
+  return (dispatch) => {
     const group = dispatch(
       callAPI({
         types: InterestGroup.FETCH,
         endpoint: `/groups/${String(interestGroupId)}/${createQueryString({
-          type: 'interesse'
+          type: 'interesse',
         })}`,
         schema: groupSchema,
         meta: {
-          errorMessage: 'Henting av interessegruppe feilet'
+          errorMessage: 'Henting av interessegruppe feilet',
         },
-        propagateError: true
+        propagateError: true,
       })
     );
     const memberships = dispatch(fetchMemberships(interestGroupId));
@@ -29,29 +29,29 @@ export function fetchInterestGroup(interestGroupId: number): Thunk<*> {
 }
 
 export function fetchAll(): Thunk<*> {
-  return dispatch => {
+  return (dispatch) => {
     return dispatch(
       callAPI({
         types: InterestGroup.FETCH_ALL,
         endpoint: `/groups/${createQueryString({
-          type: 'interesse'
+          type: 'interesse',
         })}`,
         schema: [groupSchema],
         meta: {
-          errorMessage: 'Henting av interessegrupper feilet'
+          errorMessage: 'Henting av interessegrupper feilet',
         },
-        propagateError: true
+        propagateError: true,
       })
-    ).then(res => {
+    ).then((res) => {
       if (!res) return;
       const ids = (res: any).payload.result;
-      return Promise.all(ids.map(g => dispatch(fetchMemberships(g))));
+      return Promise.all(ids.map((g) => dispatch(fetchMemberships(g))));
     });
   };
 }
 
 export function createInterestGroup(group: Object): Thunk<*> {
-  return dispatch => {
+  return (dispatch) => {
     const { name, description, text, logo } = group;
     return dispatch(
       callAPI({
@@ -64,14 +64,14 @@ export function createInterestGroup(group: Object): Thunk<*> {
           description,
           text,
           logo,
-          type: 'interesse'
+          type: 'interesse',
         },
         meta: {
           group,
-          errorMessage: 'Opprettelse av interessegruppe feilet'
-        }
+          errorMessage: 'Opprettelse av interessegruppe feilet',
+        },
       })
-    ).then(action => {
+    ).then((action) => {
       if (!action || !action.payload) {
         return;
       }
@@ -82,7 +82,7 @@ export function createInterestGroup(group: Object): Thunk<*> {
 }
 
 export function removeInterestGroup(id: string): Thunk<*> {
-  return dispatch =>
+  return (dispatch) =>
     dispatch(
       callAPI({
         types: InterestGroup.REMOVE,
@@ -90,15 +90,15 @@ export function removeInterestGroup(id: string): Thunk<*> {
         method: 'DELETE',
         meta: {
           id,
-          errorMessage: 'Sletting av interessegruppe feilet'
-        }
+          errorMessage: 'Sletting av interessegruppe feilet',
+        },
       })
     ).then(() => dispatch(push('/interestgroups/')));
 }
 
 export function editInterestGroup(group: Object): Thunk<*> {
   const { id } = group;
-  return dispatch =>
+  return (dispatch) =>
     dispatch(
       callAPI({
         types: InterestGroup.UPDATE,
@@ -108,10 +108,10 @@ export function editInterestGroup(group: Object): Thunk<*> {
         body: group,
         meta: {
           group,
-          errorMessage: 'Endring av interessegruppe feilet'
-        }
+          errorMessage: 'Endring av interessegruppe feilet',
+        },
       })
-    ).then(_ => dispatch(push(`/interestgroups/${group.id}`)));
+    ).then((_) => dispatch(push(`/interestgroups/${group.id}`)));
 }
 
 export function joinInterestGroup(
@@ -119,7 +119,7 @@ export function joinInterestGroup(
   user: Object,
   role: string = 'member'
 ): Thunk<*> {
-  return dispatch =>
+  return (dispatch) =>
     dispatch(
       callAPI({
         types: Membership.JOIN_GROUP,
@@ -129,13 +129,13 @@ export function joinInterestGroup(
         body: {
           abakus_group: groupId,
           user: user.id,
-          role
+          role,
         },
         meta: {
           errorMessage: 'Innmelding i interessegruppen feilet',
           groupId: groupId,
-          username: user.username
-        }
+          username: user.username,
+        },
       })
     ).then(() => {
       return dispatch(fetchMemberships(groupId));
@@ -146,7 +146,7 @@ export function leaveInterestGroup(
   membership: Object,
   groupId: number
 ): Thunk<*> {
-  return dispatch => {
+  return (dispatch) => {
     return dispatch(
       callAPI({
         types: Membership.LEAVE_GROUP,
@@ -156,10 +156,10 @@ export function leaveInterestGroup(
           id: membership.id,
           username: membership.user.username,
           groupId,
-          errorMessage: 'Utmelding av interessegruppen failet'
-        }
+          errorMessage: 'Utmelding av interessegruppen failet',
+        },
       })
-    ).then(_ => {
+    ).then((_) => {
       return dispatch(fetchMemberships(groupId));
     });
   };

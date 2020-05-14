@@ -10,9 +10,9 @@ import { Form, Field } from 'redux-form';
 export type Props = {
   emailUserId?: number,
   submitting: boolean,
-  handleSubmit: Function => void,
-  push: string => void,
-  mutateFunction: Object => Promise<*>
+  handleSubmit: (Function) => void,
+  push: (string) => void,
+  mutateFunction: (Object) => Promise<*>,
 };
 
 const EmailUserEditor = ({
@@ -20,13 +20,13 @@ const EmailUserEditor = ({
   mutateFunction,
   submitting,
   push,
-  handleSubmit
+  handleSubmit,
 }: Props) => {
-  const onSubmit = data => {
+  const onSubmit = (data) => {
     mutateFunction({
       ...data,
       user: data.user.value,
-      internalEmailEnabled: !!data.internalEmailEnabled
+      internalEmailEnabled: !!data.internalEmailEnabled,
     }).then(({ payload }) => {
       if (!emailUserId) {
         push(`/admin/email/users/${payload.result}`);
@@ -58,7 +58,7 @@ const EmailUserEditor = ({
         label="Aktiv epost"
         name="internalEmailEnabled"
         component={CheckBox.Field}
-        normalize={v => !!v}
+        normalize={(v) => !!v}
       />
       <Button submit disabled={submitting}>
         {emailUserId ? 'Oppdater epostbruker' : 'Lag epostbruker'}
@@ -72,6 +72,6 @@ export default reduxForm({
   enableReinitialize: true,
   validate: createValidator({
     email: [required()],
-    name: [required()]
-  })
+    name: [required()],
+  }),
 })(EmailUserEditor);

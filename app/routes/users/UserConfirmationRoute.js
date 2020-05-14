@@ -17,13 +17,10 @@ const mapStateToProps = (state, props) => {
 };
 
 const mapDispatchToProps = {
-  createUser
+  createUser,
 };
 
 export default compose(
   prepare(loadData),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )(UserConfirmation);

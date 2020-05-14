@@ -26,7 +26,7 @@ import renderApp from './render';
 import { fetchMeta } from 'app/actions/MetaActions';
 import {
   loginAutomaticallyIfPossible,
-  maybeRefreshToken
+  maybeRefreshToken,
 } from 'app/actions/UserActions';
 
 console.error(`
@@ -68,7 +68,7 @@ Sentry.init({
   dsn: config.sentryDSN,
   release: config.release,
   environment: config.environment,
-  normalizeDepth: 10
+  normalizeDepth: 10,
 });
 
 const preloadedState = window.__PRELOADED_STATE__;
@@ -76,7 +76,7 @@ const isSSR = window.__IS_SSR__;
 
 const store = configureStore(preloadedState, {
   Sentry,
-  getCookie: key => cookie.get(key)
+  getCookie: (key) => cookie.get(key),
 });
 
 if (isSSR) {

@@ -9,12 +9,12 @@ import {
   createValidator,
   required,
   validPassword,
-  sameAs
+  sameAs,
 } from 'app/utils/validation';
 
 type Props = FormProps & {
-  push: string => void,
-  changePassword: Object => Promise<void>
+  push: (string) => void,
+  changePassword: (Object) => Promise<void>,
 };
 
 const ChangePassword = ({
@@ -58,13 +58,13 @@ const validate = createValidator({
   newPassword: [required(), validPassword()],
   retypeNewPassword: [
     required(),
-    sameAs('newPassword', 'Passordene er ikke like')
-  ]
+    sameAs('newPassword', 'Passordene er ikke like'),
+  ],
 });
 
 export default legoForm({
   form: 'changePassword',
   validate,
   onSubmit: (data, dispatch, { changePassword, push }: Props) =>
-    changePassword(data).then(() => push('/users/me'))
+    changePassword(data).then(() => push('/users/me')),
 })(ChangePassword);

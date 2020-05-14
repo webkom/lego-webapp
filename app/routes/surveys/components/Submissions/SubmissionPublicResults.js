@@ -14,7 +14,7 @@ type Props = {
   results: Object,
   option: string,
   value: string,
-  editSurvey: Object => Promise<*>
+  editSurvey: (Object) => Promise<*>,
 };
 
 const SubmissionPublicResultsPage = ({
@@ -22,14 +22,14 @@ const SubmissionPublicResultsPage = ({
   actionGrant,
   option,
   editSurvey,
-  value
+  value,
 }: Props) => {
   const { results = {} } = survey;
 
-  const generateTextAnswers = question => {
+  const generateTextAnswers = (question) => {
     let texts = [];
     Object.keys(results[question.id])
-      .map(name => {
+      .map((name) => {
         if (name !== 'questionType') {
           texts = results[question.id][name].map((answer, i) => (
             <li key={i}>{answer}</li>
@@ -41,20 +41,21 @@ const SubmissionPublicResultsPage = ({
     return texts.length === 0 ? <i>Ingen svar.</i> : texts;
   };
 
-  const generateQuestionData = questionId => {
+  const generateQuestionData = (questionId) => {
     const questionData = [];
     const question =
-      survey.questions.find(q => q.id === Number(questionId)) || {};
+      survey.questions.find((q) => q.id === Number(questionId)) || {};
 
-    Object.keys(results[questionId]).map(optionId => {
+    Object.keys(results[questionId]).map((optionId) => {
       const optionText = (
-        question.options.find(o => o.id === Number(optionId)) || {}
+        question.options.find((o) => o.id === Number(optionId)) || {}
       ).optionText;
       if (optionText) {
         questionData.push({
-          option: (question.options.find(o => o.id === Number(optionId)) || {})
-            .optionText,
-          selections: Number(results[questionId][optionId])
+          option: (
+            question.options.find((o) => o.id === Number(optionId)) || {}
+          ).optionText,
+          selections: Number(results[questionId][optionId]),
         });
       }
     });
@@ -62,7 +63,7 @@ const SubmissionPublicResultsPage = ({
   };
 
   const graphData = {};
-  Object.keys(results).map(questionId => {
+  Object.keys(results).map((questionId) => {
     graphData[Number(questionId)] = generateQuestionData(questionId);
   });
 

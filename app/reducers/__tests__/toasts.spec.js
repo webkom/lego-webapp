@@ -15,27 +15,27 @@ describe('reducers', () => {
           {
             id: 1,
             message: 'yo',
-            removed: true
-          }
-        ]
+            removed: true,
+          },
+        ],
       };
       const action = {
         type: Toasts.TOAST_ADDED,
         payload: {
           id: 2,
           message: 'hi',
-          removed: false
-        }
+          removed: false,
+        },
       };
       expect(toasts(prevState, action)).toEqual({
         items: [
           {
             id: 1,
             message: 'yo',
-            removed: true
+            removed: true,
           },
-          { id: 2, message: 'hi', removed: false }
-        ]
+          { id: 2, message: 'hi', removed: false },
+        ],
       });
     });
 
@@ -45,24 +45,24 @@ describe('reducers', () => {
           {
             id: 1,
             message: 'yo',
-            removed: false
-          }
-        ]
+            removed: false,
+          },
+        ],
       };
       const action = {
         type: Toasts.TOAST_REMOVED,
         payload: {
-          id: 1
-        }
+          id: 1,
+        },
       };
       expect(toasts(prevState, action)).toEqual({
         items: [
           {
             id: 1,
             message: 'yo',
-            removed: true
-          }
-        ]
+            removed: true,
+          },
+        ],
       });
     });
   });

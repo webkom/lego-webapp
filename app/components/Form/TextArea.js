@@ -10,7 +10,7 @@ type Props = {
   type?: string,
   className?: string,
   inputRef?: any,
-  readOnly?: boolean
+  readOnly?: boolean,
 };
 
 function TextArea({

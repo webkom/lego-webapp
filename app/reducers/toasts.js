@@ -6,15 +6,15 @@ import produce from 'immer';
 type Toast = {
   id: number,
   message: string,
-  removed: boolean
+  removed: boolean,
 };
 
 const initialState = {
-  items: []
+  items: [],
 };
 
 type State = {
-  items: Array<Toast>
+  items: Array<Toast>,
 };
 
 const toasts = produce((newState: State, action: any): void => {
@@ -24,7 +24,7 @@ const toasts = produce((newState: State, action: any): void => {
       break;
 
     case Toasts.TOAST_REMOVED: {
-      const toast = newState.items.find(t => t.id == action.payload.id);
+      const toast = newState.items.find((t) => t.id == action.payload.id);
       if (toast) {
         toast.removed = true;
       }

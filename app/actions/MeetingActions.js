@@ -15,9 +15,9 @@ export function fetchMeeting(meetingId: string) {
     endpoint: `/meetings/${meetingId}/`,
     schema: meetingSchema,
     meta: {
-      errorMessage: `Henting av møte ${meetingId} feilet`
+      errorMessage: `Henting av møte ${meetingId} feilet`,
     },
-    propagateError: true
+    propagateError: true,
   });
 }
 
@@ -40,19 +40,19 @@ export function fetchAll({
   dateBefore,
   ordering,
   refresh = false,
-  loadNextPage
+  loadNextPage,
 }: {
   dateAfter?: string,
   dateBefore?: string,
   ordering?: string,
   refresh?: boolean,
-  loadNextPage?: boolean
+  loadNextPage?: boolean,
 } = {}): Thunk<*> {
   return (dispatch, getState) => {
     const query: Object = {
       date_after: dateAfter,
       date_before: dateBefore,
-      ordering
+      ordering,
     };
     if (dateBefore && dateAfter) {
       query.page_size = 60;
@@ -69,11 +69,11 @@ export function fetchAll({
         schema: [meetingSchema],
         meta: {
           queryString,
-          errorMessage: 'Henting av møter feilet'
+          errorMessage: 'Henting av møter feilet',
         },
         propagateError: true,
         useCache: refresh,
-        cacheSeconds: Infinity
+        cacheSeconds: Infinity,
       })
     );
   };
@@ -90,14 +90,14 @@ export function setInvitationStatus(
     method: 'PUT',
     body: {
       user: user.id,
-      status
+      status,
     },
     meta: {
       errorMessage: 'Endring av invitasjonstatus feilet',
       meetingId,
       status,
-      user
-    }
+      user,
+    },
   });
 }
 
@@ -108,8 +108,8 @@ export function deleteMeeting(id: number): Thunk<*> {
     method: 'DELETE',
     meta: {
       id,
-      errorMessage: 'Sletting av møte feilet'
-    }
+      errorMessage: 'Sletting av møte feilet',
+    },
   });
 }
 
@@ -121,7 +121,7 @@ export function createMeeting({
   endTime,
   reportAuthor,
   users,
-  groups
+  groups,
 }: Object) {
   return callAPI({
     types: Meeting.CREATE,
@@ -133,35 +133,35 @@ export function createMeeting({
       location,
       endTime: moment(endTime).toISOString(),
       startTime: moment(startTime).toISOString(),
-      reportAuthor: reportAuthor && reportAuthor.id
+      reportAuthor: reportAuthor && reportAuthor.id,
     },
     schema: meetingSchema,
     meta: {
-      errorMessage: 'Opprettelse av møte feilet'
-    }
+      errorMessage: 'Opprettelse av møte feilet',
+    },
   });
 }
 
 export function inviteUsersAndGroups({
   id,
   users,
-  groups
+  groups,
 }: {
   id: number,
   users: [{ value: number, id: number }],
-  groups: [{ value: number }]
+  groups: [{ value: number }],
 }) {
   return callAPI({
     types: Meeting.EDIT,
     endpoint: `/meetings/${id}/bulk_invite/`,
     method: 'POST',
     body: {
-      users: users ? users.map(user => user.id) : [],
-      groups: groups ? groups.map(group => group.value) : []
+      users: users ? users.map((user) => user.id) : [],
+      groups: groups ? groups.map((group) => group.value) : [],
     },
     meta: {
-      errorMessage: 'Feil ved invitering av brukere/grupper'
-    }
+      errorMessage: 'Feil ved invitering av brukere/grupper',
+    },
   });
 }
 
@@ -170,7 +170,7 @@ export function answerMeetingInvitation(
   token: string,
   loggedIn: boolean
 ): Thunk<*> {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(startSubmit('answerMeetingInvitation'));
 
     return dispatch(
@@ -179,9 +179,9 @@ export function answerMeetingInvitation(
         endpoint: `/meeting-token/${action}/?token=${token}`,
         method: 'POST',
         meta: {
-          errorMessage: 'Svar på invitasjon feilet'
+          errorMessage: 'Svar på invitasjon feilet',
         },
-        useCache: true
+        useCache: true,
       })
     )
       .then(() => {
@@ -202,7 +202,7 @@ export function editMeeting({
   reportAuthor,
   id,
   users,
-  groups
+  groups,
 }: Object) {
   return callAPI({
     types: Meeting.EDIT,
@@ -215,17 +215,17 @@ export function editMeeting({
       location,
       endTime: moment(endTime).toISOString(),
       startTime: moment(startTime).toISOString(),
-      reportAuthor: reportAuthor && reportAuthor.id
+      reportAuthor: reportAuthor && reportAuthor.id,
     },
     schema: meetingSchema,
     meta: {
-      errorMessage: 'Endring av møte feilet'
-    }
+      errorMessage: 'Endring av møte feilet',
+    },
   });
 }
 
 export function resetMeetingsToken() {
   return {
-    type: Meeting.RESET_MEETINGS_TOKEN
+    type: Meeting.RESET_MEETINGS_TOKEN,
   };
 }

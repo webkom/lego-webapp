@@ -11,7 +11,7 @@ import qs from 'qs';
 const loadData = (props, dispatch) => {
   const { surveyId } = props.match.params;
   const { token } = qs.parse(props.location.search, {
-    ignoreQueryPrefix: true
+    ignoreQueryPrefix: true,
   });
   return dispatch(fetchWithToken(surveyId, token));
 };
@@ -23,24 +23,21 @@ const mapStateToProps = (state, props) => {
     survey,
     notFetching: !state.surveys.fetching && !state.surveySubmissions.fetching,
     actionGrant: survey.actionGrant,
-    token: qs.parse(props.location.search, { ignoreQueryPrefix: true }).token
+    token: qs.parse(props.location.search, { ignoreQueryPrefix: true }).token,
   };
 };
 
 const mapDispatchToProps = {
-  push
+  push,
 };
 
 export default compose(
   prepare(loadData),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator([
     'notFetching',
     'survey.event',
     'survey.questions',
-    'survey.results'
+    'survey.results',
   ])
 )(SubmissionPublicResults);
