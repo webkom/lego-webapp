@@ -31,47 +31,55 @@ const GroupMembersList = ({
     return <div>Ingen brukere</div>;
   }
 
+  const GroupMembersListColumns = (fullName, membership) => {
+    const { user } = membership;
+    const performRemove = () =>
+      confirm(`Er du sikker på at du vil melde ut ${user.fullName}?`) &&
+      removeMember(membership);
+    return (
+      true && (
+        <>
+          {!showDescendants && (
+            <i
+              key="icon"
+              className={`fa fa-times ${styles.removeIcon}`}
+              onClick={performRemove}
+            />
+          )}
+          <Link key="link" to={`/users/${user.username}`}>
+            {user.fullName} ({user.username})
+          </Link>
+        </>
+      )
+    );
+  };
+
+  const GroupLinkRender = abakusGroup =>
+    true && (
+      <Link to={`/admin/groups/${abakusGroup}/members?descendants=false`}>
+        {groupsById[abakusGroup] && groupsById[abakusGroup].name}
+      </Link>
+    );
+
+  const RoleRender = (role: string) =>
+    role !== 'member' && <span>{ROLES[role] || role} </span>;
+
+  const EmailRender = (internalEmail: string) =>
+    internalEmail && <a href={`mailto:${internalEmail}`}>{internalEmail}</a>;
+
   const columns = [
     {
       title: 'Navn',
       dataIndex: 'user.fullName',
       search: true,
-      render: (fullName, membership) => {
-        const { user } = membership;
-        const performRemove = () =>
-          confirm(`Er du sikker på at du vil melde ut ${user.fullName}?`) &&
-          removeMember(membership);
-        return (
-          true && (
-            <>
-              {!showDescendants && (
-                <i
-                  key="icon"
-                  className={`fa fa-times ${styles.removeIcon}`}
-                  onClick={performRemove}
-                />
-              )}
-              <Link key="link" to={`/users/${user.username}`}>
-                {user.fullName} ({user.username})
-              </Link>
-            </>
-          )
-        );
-      }
+      render: GroupMembersListColumns
     },
     showDescendants
       ? {
           title: 'Gruppe',
           search: false,
           dataIndex: 'abakusGroup',
-          render: abakusGroup =>
-            true && (
-              <Link
-                to={`/admin/groups/${abakusGroup}/members?descendants=false`}
-              >
-                {groupsById[abakusGroup] && groupsById[abakusGroup].name}
-              </Link>
-            )
+          render: GroupLinkRender
         }
       : null,
     {
@@ -80,15 +88,13 @@ const GroupMembersList = ({
       search: true,
       filterMapping: role =>
         role === 'member' || !ROLES[role] ? '' : ROLES[role],
-      render: (role: string) =>
-        role !== 'member' && <span>{ROLES[role] || role} </span>
+      render: RoleRender
     },
     {
       title: 'E-post',
       dataIndex: 'user.internalEmailAddress',
       search: false,
-      render: (internalEmail: string) =>
-        internalEmail && <a href={`mailto:${internalEmail}`}>{internalEmail}</a>
+      render: EmailRender
     }
   ].filter(Boolean);
   return (

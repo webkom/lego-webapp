@@ -91,7 +91,7 @@ SelectInput.Field = createField(SelectInput);
 SelectInput.AutocompleteField = withAutocomplete({
   WrappedComponent: SelectInput.Field
 });
-SelectInput.withAutocomplete = withAutocomplete({
+SelectInput.WithAutocomplete = withAutocomplete({
   WrappedComponent: SelectInput
 });
 export default SelectInput;

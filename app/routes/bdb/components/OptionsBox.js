@@ -121,7 +121,7 @@ export default class OptionsBox extends Component<Props, State> {
               className={styles.options}
               style={{ display: this.state.studentContact ? 'block' : 'none' }}
             >
-              <SelectInput.withAutocomplete
+              <SelectInput.WithAutocomplete
                 value={{
                   id:
                     this.state.values.studentContact &&
