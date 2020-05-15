@@ -182,47 +182,50 @@ export default class BdbDetail extends Component<Props, State> {
         />
       ));
 
+    // CompanyContact in reverse order, latest comes first
     const companyContacts =
       company.companyContacts &&
-      company.companyContacts.map((contact) => (
-        <tr key={contact.id}>
-          <td>{contact.name || '-'}</td>
-          <td>{contact.role || '-'}</td>
-          <td>{contact.mail || '-'}</td>
-          <td>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              {contact.phone || '-'}
-              <span style={{ display: 'flex', flexDirection: 'row' }}>
-                <Link
-                  to={`/bdb/${String(company.id)}/company-contacts/${String(
-                    contact.id
-                  )}`}
-                >
-                  <i
-                    className="fa fa-pencil"
-                    style={{ marginRight: '5px', color: 'orange' }}
-                  />
-                </Link>
-                <ConfirmModalWithParent
-                  title="Slett bedriftskontakt"
-                  message="Er du sikker på at du vil slette denne bedriftskontakten?"
-                  onConfirm={() => this.deleteCompanyContact(contact.id)}
-                  closeOnConfirm
-                >
-                  <i
-                    className="fa fa-times"
-                    style={{
-                      color: '#d13c32',
-                      position: 'relative',
-                      top: '5px',
-                    }}
-                  />
-                </ConfirmModalWithParent>
-              </span>
-            </div>
-          </td>
-        </tr>
-      ));
+      company.companyContacts
+        .map((contact) => (
+          <tr key={contact.id}>
+            <td>{contact.name || '-'}</td>
+            <td>{contact.role || '-'}</td>
+            <td>{contact.mail || '-'}</td>
+            <td>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                {contact.phone || '-'}
+                <span style={{ display: 'flex', flexDirection: 'row' }}>
+                  <Link
+                    to={`/bdb/${String(company.id)}/company-contacts/${String(
+                      contact.id
+                    )}`}
+                  >
+                    <i
+                      className="fa fa-pencil"
+                      style={{ marginRight: '5px', color: 'orange' }}
+                    />
+                  </Link>
+                  <ConfirmModalWithParent
+                    title="Slett bedriftskontakt"
+                    message="Er du sikker på at du vil slette denne bedriftskontakten?"
+                    onConfirm={() => this.deleteCompanyContact(contact.id)}
+                    closeOnConfirm
+                  >
+                    <i
+                      className="fa fa-times"
+                      style={{
+                        color: '#d13c32',
+                        position: 'relative',
+                        top: '5px',
+                      }}
+                    />
+                  </ConfirmModalWithParent>
+                </span>
+              </div>
+            </td>
+          </tr>
+        ))
+        .reverse();
 
     const events =
       companyEvents &&
@@ -335,7 +338,10 @@ export default class BdbDetail extends Component<Props, State> {
               style={{ order: 5 }}
             />
           </div>
-          <h3>Bedriftskontakter</h3>
+          <h3>
+            Bedriftskontakter{' '}
+            <span style={{ fontSize: '15px' }}>(Nyest øverst)</span>
+          </h3>
           {companyContacts && companyContacts.length > 0 ? (
             <div
               className={styles.companyList}
