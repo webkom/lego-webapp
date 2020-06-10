@@ -1,9 +1,7 @@
 // @flow
 
 import React from 'react';
-
 import styles from '../surveys.css';
-
 import type { SurveyEntity, QuestionEntity } from 'app/reducers/surveys';
 import {
   QuestionTypes,
@@ -13,13 +11,15 @@ import {
 } from '../../utils';
 import InfoBubble from 'app/components/InfoBubble';
 import {
-  VictoryPie,
-  VictoryTheme,
-  VictoryBar,
-  VictoryChart,
-  VictoryLabel,
-  VictoryAxis,
-} from 'victory';
+  PieChart,
+  Pie,
+  Cell,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+} from 'recharts';
 import Select from 'react-select';
 
 type Props = {
@@ -40,6 +40,16 @@ type Info = {
   icon: string,
   data: number,
   meta: string,
+};
+
+type GraphProps = {
+  cx: number,
+  cy: number,
+  midAngle: number,
+  innerRadius: number,
+  outerRadius: number,
+  percent: number,
+  index: number,
 };
 
 const EventData = ({ info }: EventDataProps) => {
@@ -88,6 +98,32 @@ const Results = ({
     { value: 'pie_chart', label: 'Kakediagram' },
     { value: 'bar_chart', label: 'Stolpediagram' },
   ];
+
+  const RADIAN = Math.PI / 180;
+  const renderCustomizedLabel = ({
+    cx,
+    cy,
+    midAngle,
+    innerRadius,
+    outerRadius,
+    percent,
+    index,
+  }: GraphProps) => {
+    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+    const x = cx + radius * Math.cos(-midAngle * RADIAN);
+    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+    return (
+      <text
+        x={x}
+        y={y}
+        fill="white"
+        textAnchor="middle"
+        dominantBaseline="central"
+      >
+        {`${(percent * 100).toFixed(0)}%`}
+      </text>
+    );
+  };
 
   const switchGraph = (id, index, selectedType) => {
     const newQuestions = survey.questions;
@@ -139,17 +175,10 @@ const Results = ({
           const graphType = graphOptions.find(
             (a) => a.value === question.displayType
           );
-          const barData = graphData[question.id];
-          const labelRadius = pieData.length === 1 ? -10 : 60;
-          const highestSubmissionsCount = barData.reduce(
-            (a, b) => Math.max(a, b.selections),
-            0
-          );
 
           return (
             <li key={question.id}>
               <h3>{question.questionText}</h3>
-
               {question.questionType === QuestionTypes('text') ? (
                 <ul className={styles.textAnswers}>
                   {generateTextAnswers(question)}
@@ -160,69 +189,59 @@ const Results = ({
                     <div style={{ width: '375px' }}>
                       {question.displayType !== 'bar_chart' ? (
                         <div className={styles.pieChart}>
-                          <VictoryPie
-                            data={pieData}
-                            x="option"
-                            y="selections"
-                            theme={VictoryTheme.material}
-                            colorScale={pieColors}
-                            labels={({ datum }) => datum.selections}
-                            labelRadius={labelRadius}
-                            padding={{
-                              left: 0,
-                              top: 40,
-                              right: 30,
-                              bottom: 30,
-                            }}
-                            style={{
-                              labels: { fill: 'white', fontSize: 20 },
-                            }}
-                          />
+                          <PieChart width={400} height={350}>
+                            <Pie
+                              data={pieData}
+                              cx={200}
+                              cy={150}
+                              labelLine={false}
+                              label={renderCustomizedLabel}
+                              outerRadius={110}
+                              dataKey="selections"
+                              isAnimationActive={false}
+                            >
+                              {pieData.map((entry, index) => (
+                                <Cell
+                                  key={`cell-${index}`}
+                                  fill={pieColors[index % pieColors.length]}
+                                />
+                              ))}
+                            </Pie>
+                          </PieChart>
                         </div>
                       ) : (
                         <div className={styles.barChart}>
-                          <VictoryChart
-                            theme={VictoryTheme.material}
-                            domain={{
-                              x: [0, barData.length],
-                              y: [0, highestSubmissionsCount + 2],
+                          <BarChart
+                            width={375}
+                            height={350}
+                            data={pieData}
+                            margin={{
+                              top: 50,
+                              right: 30,
+                              left: 20,
+                              bottom: 10,
                             }}
-                            style={{ grid: { stroke: 'none' } }}
-                            domainPadding={{ x: 50, y: 20 }}
                           >
-                            <VictoryAxis
-                              dependentAxis={true}
-                              style={{
-                                grid: { stroke: 'none' },
-                              }}
-                            />
-                            <VictoryBar
-                              style={{
-                                data: {
-                                  fill: ({ index }) => CHART_COLORS[index],
-                                },
-                                labels: { fill: 'white', fontSize: 20 },
-                              }}
-                              labels={({ datum }) => datum.selections}
-                              labelComponent={<VictoryLabel dy={30} />}
-                              data={barData}
-                              x="option"
-                              y="selections"
-                              alignment={'middle'}
-                              barRatio={0.8}
-                              samples={100}
-                            />
-                            <VictoryAxis
-                              style={{
-                                grid: { stroke: 'none' },
-                              }}
-                              tickFormat={() => ''}
-                            />
-                          </VictoryChart>
+                            <XAxis dataKey=" " />
+                            <YAxis />
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <Bar
+                              dataKey="selections"
+                              label={{ position: 'top' }}
+                              background={{ fill: '#eee' }}
+                              isAnimationActive={false}
+                            >
+                              {pieData.map((entry, index) => (
+                                <Cell
+                                  key={`cell-${index}`}
+                                  fill={pieColors[index % 20]}
+                                />
+                              ))}
+                            </Bar>
+                          </BarChart>
                         </div>
                       )}
                     </div>
-
                     <div>
                       <ul className={styles.graphData}>
                         {graphData[question.id].map((dataPoint, i) => (
