@@ -234,7 +234,7 @@ const Results = ({
                               {pieData.map((entry, index) => (
                                 <Cell
                                   key={`cell-${index}`}
-                                  fill={pieColors[index % 20]}
+                                  fill={pieColors[index % pieColors.length]}
                                 />
                               ))}
                             </Bar>
