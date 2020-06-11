@@ -27,7 +27,7 @@ type Props = {
   graphData: Object,
   numberOfSubmissions: number,
   generateTextAnswers: (QuestionEntity) => any,
-  editSurvey: (Object) => Promise<*>,
+  editSurvey?: (Object) => Promise<*>,
   option: string,
   value: string,
 };
@@ -143,7 +143,8 @@ const Results = ({
     );
     newQuestions[qIndex] = questionToUpdate;
     const newSurvey = { ...survey, questions: newQuestions };
-    editSurvey({ ...newSurvey, surveyId: survey.id, event: survey.event.id });
+    editSurvey &&
+      editSurvey({ ...newSurvey, surveyId: survey.id, event: survey.event.id });
   };
 
   const graphTypeToIcon = {
@@ -260,40 +261,42 @@ const Results = ({
                       </ul>
                     </div>
                   </div>
-                  <div className={styles.selectGraphContainer}>
-                    <Select
-                      className={styles.selectGraph}
-                      value={{
-                        value: question.displayType,
-                        label: graphType && graphType.label,
-                      }}
-                      placeholder="Graf"
-                      name="displayType"
-                      options={graphOptions}
-                      onChange={(selectedType) =>
-                        switchGraph(question.id, index, selectedType)
-                      }
-                      optionComponent={(props) => {
-                        return QuestionTypeOption(
-                          props,
-                          graphTypeToIcon[props.option && props.option.value],
-                          'fa fa-'
-                        );
-                      }}
-                      valueComponent={(props) =>
-                        QuestionTypeValue(
-                          props,
-                          graphTypeToIcon[props.value && props.value.value],
-                          'fa fa-'
-                        )
-                      }
-                      clearable={false}
-                      backspaceRemoves={false}
-                      searchable={false}
-                      onBlur={() => null}
-                      style={{ paddingTop: '7px' }}
-                    />
-                  </div>
+                  {editSurvey && (
+                    <div className={styles.selectGraphContainer}>
+                      <Select
+                        className={styles.selectGraph}
+                        value={{
+                          value: question.displayType,
+                          label: graphType && graphType.label,
+                        }}
+                        placeholder="Graf"
+                        name="displayType"
+                        options={graphOptions}
+                        onChange={(selectedType) =>
+                          switchGraph(question.id, index, selectedType)
+                        }
+                        optionComponent={(props) => {
+                          return QuestionTypeOption(
+                            props,
+                            graphTypeToIcon[props.option && props.option.value],
+                            'fa fa-'
+                          );
+                        }}
+                        valueComponent={(props) =>
+                          QuestionTypeValue(
+                            props,
+                            graphTypeToIcon[props.value && props.value.value],
+                            'fa fa-'
+                          )
+                        }
+                        clearable={false}
+                        backspaceRemoves={false}
+                        searchable={false}
+                        onBlur={() => null}
+                        style={{ paddingTop: '7px' }}
+                      />
+                    </div>
+                  )}
                 </div>
               )}
             </li>
