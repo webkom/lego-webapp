@@ -54,7 +54,12 @@ const SubmissionPage = (props: Props) => {
             </Link>
           </div>
 
-          {props.children.map((child) => React.cloneElement(child, props))}
+          {props.children.map((child, i) =>
+            React.cloneElement(child, {
+              ...props,
+              children: undefined,
+            })
+          )}
         </ContentMain>
 
         <AdminSideBar

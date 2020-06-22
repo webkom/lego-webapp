@@ -84,7 +84,6 @@ const SubmissionPublicResultsPage = ({
             generateTextAnswers={generateTextAnswers}
             option={option}
             value={value}
-            editSurvey={editSurvey}
           />
         </ContentMain>
       </ContentSection>
