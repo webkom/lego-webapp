@@ -62,7 +62,7 @@
     "morgan": "^1.9.1",
     "normalizr": "^3.2.2",
     "prop-types": "^15.7.2",
-    "qs": "^6.9.3",
+    "qs": "^6.9.4",
     "react": "^16.8.6",
     "react-collapse": "^5.0.1",
     "react-copy-to-clipboard": "^5.0.2",
