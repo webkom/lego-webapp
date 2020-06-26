@@ -94,7 +94,7 @@
     "redux-form": "8.3.6",
     "redux-logger": "^3.0.1",
     "redux-segment": "^1.6.2",
-    "redux-sentry-middleware": "^0.1.6",
+    "redux-sentry-middleware": "^0.1.8",
     "redux-thunk": "2.3.0",
     "reselect": "4.0.0",
     "serialize-javascript": "^3.0.0",
