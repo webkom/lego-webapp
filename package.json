@@ -33,11 +33,11 @@
     "url": "github.com/webkom/lego-webapp"
   },
   "dependencies": {
-    "@webkom/lego-editor": "^1.1.0",
-    "@webkom/react-prepare": "0.7.0",
     "@sentry/browser": "^5.15.4",
     "@sentry/integrations": "^5.15.4",
     "@sentry/node": "^5.15.4",
+    "@webkom/lego-editor": "file:.yalc/@webkom/lego-editor",
+    "@webkom/react-prepare": "0.7.0",
     "animate.css": "^3.7.0",
     "bunyan": "^1.8.12",
     "bunyan-pretty": "^0.0.1",
@@ -116,7 +116,7 @@
     "babel-polyfill": "^7.0.0-beta.3",
     "concurrently": "^5.2.0",
     "css-loader": "3.4.2",
-    "cypress": "^4.2.0",
+    "cypress": "^4.9.0",
     "duplicate-package-checker-webpack-plugin": "^3.0.0",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.15.2",
