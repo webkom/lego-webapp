@@ -43,7 +43,11 @@ const companyInterestRoute = ({ match }: { match: { path: string } }) => (
   </UserContext.Consumer>
 );
 
-const companyInterestInfoRoute = ({ match }: { match: { path: string } }) => (
+export const CompanyInterestInfoRoute = ({
+  match,
+}: {
+  match: { path: string },
+}) => (
   <UserContext.Consumer>
     {({ currentUser, loggedIn }) => (
       <RouteWrapper
@@ -55,16 +59,6 @@ const companyInterestInfoRoute = ({ match }: { match: { path: string } }) => (
     )}
   </UserContext.Consumer>
 );
-
-export function CompanyInterestNorwegian() {
-  return <Route path="/interesse" component={companyInterestInfoRoute} />;
-}
-
-export function CompanyInterestEnglish() {
-  return (
-    <Route path="/register-interest" component={companyInterestInfoRoute} />
-  );
-}
 
 export function CompanyInterest() {
   return <Route path="/companyInterest" component={companyInterestRoute} />;
