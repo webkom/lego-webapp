@@ -71,7 +71,7 @@ Cypress.Commands.overwrite('type', (originalFn, subject, string, options) =>
 
 // Slate editor commands
 Cypress.Commands.add('editorType', { prevSubject: true }, (subject, text) =>
-  cy.wrap(subject).then(subject => {
+  cy.wrap(subject).then((subject) => {
     subject[0].dispatchEvent(
       new InputEvent('beforeinput', { inputType: 'insertText', data: text })
     );
@@ -81,7 +81,7 @@ Cypress.Commands.add('editorType', { prevSubject: true }, (subject, text) =>
 );
 
 Cypress.Commands.add('editorFocus', { prevSubject: true }, (subject, text) =>
-  cy.wrap(subject).then(subject => {
+  cy.wrap(subject).then((subject) => {
     subject[0].dispatchEvent(new FocusEvent('focus'));
     return subject;
   })

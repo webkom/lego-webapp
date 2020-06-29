@@ -72,7 +72,7 @@ export type FormProps = {
 
 type Options = {
   // Removes the html <label> around the component
-  noLabel?: boolean
+  noLabel?: boolean,
 };
 
 /**

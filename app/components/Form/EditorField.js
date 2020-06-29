@@ -18,7 +18,7 @@ type Props = {
   meta: any,
   name: string,
   initialized: boolean,
-  uploadFile: (file: Blob) => Promise<*>
+  uploadFile: (file: Blob) => Promise<*>,
 };
 
 class NoSSRError {
@@ -28,12 +28,12 @@ class NoSSRError {
   }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    uploadFile: async file => {
+    uploadFile: async (file) => {
       const response = await dispatch(uploadFile({ file, isPublic: true }));
       return { fileKey: response.meta.fileKey };
-    }
+    },
   };
 };
 
@@ -68,10 +68,7 @@ const EditorFieldComponent = ({
   );
 };
 
-const EditorField = connect(
-  null,
-  mapDispatchToProps
-)(EditorFieldComponent);
+const EditorField = connect(null, mapDispatchToProps)(EditorFieldComponent);
 
 // $FlowFixMe
 EditorField.Field = connect(

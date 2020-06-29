@@ -3,7 +3,7 @@ import {
   field,
   fieldError,
   selectField,
-  selectEditor
+  selectEditor,
 } from '../support/utils.js';
 
 describe('Create event', () => {
@@ -189,12 +189,8 @@ describe('Create event', () => {
     uploadHeader();
 
     // Set title, description and text
-    field('title')
-      .type('Standard event')
-      .blur();
-    field('description')
-      .type('standard event')
-      .blur();
+    field('title').type('Standard event').blur();
+    field('description').type('standard event').blur();
     selectEditor().editorType('standard event');
 
     // Select type
@@ -236,12 +232,8 @@ describe('Create event', () => {
     uploadHeader();
 
     // Set title, description and text
-    field('title')
-      .type('Ubestemt event')
-      .blur();
-    field('description')
-      .type('mer info kommer')
-      .blur();
+    field('title').type('Ubestemt event').blur();
+    field('description').type('mer info kommer').blur();
     selectEditor().editorType('mer info kommer');
 
     // Select type
@@ -267,12 +259,8 @@ describe('Create event', () => {
     uploadHeader();
 
     // Set title, description and text
-    field('title')
-      .type('Normal event')
-      .blur();
-    field('description')
-      .type('normal event')
-      .blur();
+    field('title').type('Normal event').blur();
+    field('description').type('normal event').blur();
     selectEditor().editorType('normal event');
 
     // Select type
@@ -341,12 +329,8 @@ describe('Create event', () => {
     uploadHeader();
 
     // Set title, description and text
-    field('title')
-      .type('Open event')
-      .blur();
-    field('description')
-      .type('open event')
-      .blur();
+    field('title').type('Open event').blur();
+    field('description').type('open event').blur();
     selectEditor().editorType('open event');
 
     // Select type
@@ -376,12 +360,8 @@ describe('Create event', () => {
     uploadHeader();
 
     // Set title, description and text
-    field('title')
-      .type('Infinite event')
-      .blur();
-    field('description')
-      .type('infinite event')
-      .blur();
+    field('title').type('Infinite event').blur();
+    field('description').type('infinite event').blur();
     selectEditor().editorType('infinite event');
 
     // Select type

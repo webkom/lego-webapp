@@ -12,7 +12,7 @@ export const selectField = (name) =>
 
 export const fieldError = (name) => cy.get(`[data-error-field-name="${name}"`);
 
-export const selectEditor = name =>
+export const selectEditor = (name) =>
   name
     ? cy
         .wait(500)
