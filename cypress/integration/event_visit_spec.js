@@ -48,10 +48,14 @@ describe('View event', () => {
 
   it('Should be possible to comment', () => {
     cy.contains('button', 'Kommenter').should('not.exist');
-    cy.get(c('CommentForm')).last().as('form').click();
+    cy.get(c('CommentForm') + ' [data-slate-editor="true"]')
+      .last()
+      .as('form')
+      .editorFocus()
+      .click();
     cy.wait(100);
     cy.contains('button', 'Kommenter').as('button').should('not.be.disabled');
-    cy.focused().type('This event will be awesome');
+    cy.focused().editorType('This event will be awesome');
     cy.wait(700);
     cy.contains('button', 'Kommenter').click();
 
@@ -70,9 +74,12 @@ describe('View event', () => {
     // Nested comments should work as expected
     // TODO fix form clearing
     cy.reload();
-    cy.get(c('CommentForm')).last().click();
+    cy.get(c('CommentForm') + ' [data-slate-editor="true"]')
+      .last()
+      .editorFocus()
+      .click();
     cy.wait(100);
-    cy.focused().type('This is the top comment');
+    cy.focused().editorType('This is the top comment');
     cy.wait(500);
     cy.contains('button', 'Kommenter').click();
 
@@ -80,12 +87,17 @@ describe('View event', () => {
     cy.contains('button', 'Svar').click();
     cy.contains('button', 'Send svar').should('exist').and('be.disabled');
 
-    cy.wait(100);
-    cy.get(c('CommentForm') + ' div[data-slate-editor="true"]')
-      .first()
-      .click();
     cy.wait(500);
-    cy.focused().type('This is a child comment');
+
+    // With out custom methods for interacting with the editor, we need to fire events on some
+    // other elements first.
+    cy.contains('allergier').click();
+    cy.get(c('CommentForm') + ' [data-slate-editor="true"]')
+      .first()
+      .editorFocus()
+      .click()
+      .wait(100);
+    cy.focused().editorType('This is a child comment');
     cy.contains('button', 'Send svar').click();
     cy.get(c('CommentTree__nested')).contains('This is a child comment');
   });

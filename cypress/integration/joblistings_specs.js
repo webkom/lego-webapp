@@ -31,7 +31,6 @@ describe('Create joblisting', () => {
 
     // TODO sometimes there is an issue in the joblisting editor where you have to click
     // the top editor twice. Not a breaking bug.
-    selectEditor('description').wait(500).click();
     selectEditor('description').editorType('A joblisting description');
     selectEditor('text').editorType('Joblisting text');
 
