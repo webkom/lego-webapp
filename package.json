@@ -36,7 +36,7 @@
     "@sentry/browser": "^5.15.4",
     "@sentry/integrations": "^5.15.4",
     "@sentry/node": "^5.15.4",
-    "@webkom/lego-editor": "^1.1.0",
+    "@webkom/lego-editor": "^1.1.1",
     "@webkom/react-prepare": "0.7.0",
     "animate.css": "^3.7.0",
     "bunyan": "^1.8.12",
