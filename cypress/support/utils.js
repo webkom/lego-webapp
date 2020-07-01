@@ -11,3 +11,18 @@ export const selectField = (name) =>
   cy.get(`[id="react-select-${name}--value"]`).parent().parent();
 
 export const fieldError = (name) => cy.get(`[data-error-field-name="${name}"`);
+
+export const selectEditor = (name) =>
+  name
+    ? cy
+        .wait(500)
+        .get(`[name="${name}"] div[data-slate-editor="true"]`)
+        .editorFocus()
+        .click()
+        .wait(500)
+    : cy
+        .wait(500)
+        .get('div[data-slate-editor="true"]')
+        .editorFocus()
+        .click()
+        .wait(500);

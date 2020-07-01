@@ -33,7 +33,8 @@ const mapStateToProps = (state, props) => {
     joblisting,
     initialValues: {
       ...joblisting,
-      text: joblisting.text || '',
+      // see ./JoblistingCreateRoute.js for why the initialValue is like this.
+      text: joblisting.text || '<p></p>',
       description: joblisting.description || '',
       company: initialCompany,
       responsible: joblisting.responsible
