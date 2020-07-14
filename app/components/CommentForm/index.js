@@ -12,6 +12,7 @@ import { ProfilePicture } from 'app/components/Image';
 import { addComment } from 'app/actions/CommentActions';
 import type { CommentEntity } from 'app/actions/CommentActions';
 import styles from './CommentForm.css';
+import DisplayContent from 'app/components/DisplayContent';
 
 // TODO: This can be removed if the editor importer gets an actual empty state.
 const EMPTY_STATE = '<p></p>';
@@ -37,7 +38,11 @@ type Props = {
   isOpen: boolean,
 } & FormProps;
 
-class CommentForm extends Component<Props> {
+class CommentForm extends Component<Props, { disabled: boolean }> {
+  constructor(props) {
+    super(props);
+    this.state = { disabled: true };
+  }
   static defaultProps = {
     submitText: 'Kommenter',
     autoFocus: false,
@@ -50,6 +55,10 @@ class CommentForm extends Component<Props> {
       text,
       parent,
     });
+  };
+
+  enableForm = (e) => {
+    this.setState({ disabled: false });
   };
 
   render() {
@@ -84,15 +93,29 @@ class CommentForm extends Component<Props> {
           )}
         </div>
 
-        <div className={cx(styles.fields, isOpen && styles.activeFields)}>
-          <Field
-            autoFocus={autoFocus}
-            name="text"
-            placeholder="Skriv en kommentar"
-            component={EditorField}
-            initialized={initialized}
-            simple
-          />
+        <div
+          className={cx(styles.fields, isOpen && styles.activeFields)}
+          onMouseOver={this.enableForm}
+          onScroll={this.enableForm}
+          onPointerDown={this.enableForm}
+        >
+          {this.state.disabled ? (
+            <DisplayContent
+              id="comment-text"
+              className={styles.text}
+              content=""
+              placeholder="Skriv en kommentar"
+            />
+          ) : (
+            <Field
+              autoFocus={autoFocus}
+              name="text"
+              placeholder="Skriv en kommentar"
+              component={EditorField}
+              initialized={initialized}
+              simple
+            />
+          )}
 
           {isOpen && (
             <Button

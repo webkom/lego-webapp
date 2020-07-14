@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 
 import 'babel-polyfill';
-import { JSDOM } from 'jsdom';
 import app from './server';
 import * as Sentry from '@sentry/node';
 import { RewriteFrames } from '@sentry/integrations';
@@ -21,11 +20,6 @@ Sentry.init({
     }),
   ],
 });
-
-// This is a hack to use draft-convert on the server.
-// draft-convert performs a `typeof HTMLElement` which can't really be worked around.
-const { window } = new JSDOM('<!doctype html><html><body></body></html>');
-global.HTMLElement = window.HTMLElement;
 
 const server = config.https
   ? https.createServer(

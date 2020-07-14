@@ -16,12 +16,19 @@ type Props = {
   className?: string,
   /** Any style tp be added to the div wrapping the content - the style */
   style?: Object,
+
+  placeholder?: string,
 };
 
 /**
  * Renders `content` produced by the Editor component in a read-only format.
  */
-function DisplayContent({ content, id, style, className }: Props) {
+function DisplayContent({ content, id, style, className, placeholder }: Props) {
+  let domParser = null;
+  if (!__CLIENT__) {
+    const JSDOM = require('jsdom').JSDOM;
+    domParser = (val) => new JSDOM(val).window.document;
+  }
   return (
     <div key={content} id={id} style={style} className={className}>
       <Editor
@@ -29,8 +36,9 @@ function DisplayContent({ content, id, style, className }: Props) {
         onBlur={() => {}}
         onFocus={() => {}}
         value={content}
-        placeholder=""
+        placeholder={placeholder}
         disabled
+        domParser={domParser}
       />
     </div>
   );
