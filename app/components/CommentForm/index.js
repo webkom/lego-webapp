@@ -41,7 +41,7 @@ type Props = {
 class CommentForm extends Component<Props, { disabled: boolean }> {
   constructor(props) {
     super(props);
-    this.state = { disabled: true };
+    this.state = { disabled: !__CLIENT__ };
   }
   static defaultProps = {
     submitText: 'Kommenter',

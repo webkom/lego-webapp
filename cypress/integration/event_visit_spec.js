@@ -48,12 +48,18 @@ describe('View event', () => {
 
   it('Should be possible to comment', () => {
     cy.contains('button', 'Kommenter').should('not.exist');
+
     cy.get(c('CommentForm') + ' [data-slate-editor="true"]')
       .last()
       .as('form')
       .editorFocus()
       .click();
-    cy.wait(100);
+    cy.wait(500);
+    // We have to click twice due to our ssr hack. This is not needed in a real setting, as a
+    // mouseover should fix this issue. That does not seem to work as good here.
+    cy.get(c('CommentForm') + ' [data-slate-editor="true"]').click({
+      force: true,
+    });
     cy.contains('button', 'Kommenter').as('button').should('not.be.disabled');
     cy.focused().editorType('This event will be awesome');
     cy.wait(700);
@@ -79,6 +85,9 @@ describe('View event', () => {
       .editorFocus()
       .click();
     cy.wait(100);
+    cy.get(c('CommentForm') + ' [data-slate-editor="true"]').click({
+      force: true,
+    });
     cy.focused().editorType('This is the top comment');
     cy.wait(500);
     cy.contains('button', 'Kommenter').click();
