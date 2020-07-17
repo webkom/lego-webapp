@@ -50,19 +50,19 @@ const SORT_ORDER = ['member', 'co_leader', 'leader'];
 
 type Props = {
   children: any,
-  memberships: Array<GroupMembership>
+  memberships: Array<GroupMembership>,
 };
 
 type State = {
-  modalVisible: boolean
+  modalVisible: boolean,
 };
 
 export default class InterestGroupMemberList extends Component<Props, State> {
   state = { modalVisible: false };
 
   toggleModal = () => {
-    this.setState(state => ({
-      modalVisible: !state.modalVisible
+    this.setState((state) => ({
+      modalVisible: !state.modalVisible,
     }));
   };
 
@@ -76,7 +76,7 @@ export default class InterestGroupMemberList extends Component<Props, State> {
         <Modal show={this.state.modalVisible} onHide={this.toggleModal}>
           <h2>Medlemmer</h2>
           <ul className={styles.list}>
-            {sorted.map(membership => (
+            {sorted.map((membership) => (
               <ListedUser
                 key={membership.user.id}
                 user={membership.user}

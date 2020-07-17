@@ -8,9 +8,9 @@ describe('reducers', () => {
     items: [1],
     byId: {
       1: {
-        memberships: [3]
-      }
-    }
+        memberships: [3],
+      },
+    },
   };
 
   describe('groups', () => {
@@ -19,11 +19,11 @@ describe('reducers', () => {
       const action = {
         type: Membership.CREATE.SUCCESS,
         meta: {
-          groupId: 1
+          groupId: 1,
         },
         payload: {
-          result: 4
-        }
+          result: 4,
+        },
       };
       expect(groups(prevState, action)).toEqual({
         actionGrant: [],
@@ -31,9 +31,9 @@ describe('reducers', () => {
         items: [1],
         byId: {
           1: {
-            memberships: [3, 4]
-          }
-        }
+            memberships: [3, 4],
+          },
+        },
       });
     });
     it('Membership.REMOVE.SUCCESS', () => {
@@ -42,8 +42,8 @@ describe('reducers', () => {
         type: Membership.REMOVE.SUCCESS,
         meta: {
           groupId: 1,
-          id: 3
-        }
+          id: 3,
+        },
       };
       expect(groups(prevState, action)).toEqual({
         actionGrant: [],
@@ -51,9 +51,9 @@ describe('reducers', () => {
         items: [1],
         byId: {
           1: {
-            memberships: []
-          }
-        }
+            memberships: [],
+          },
+        },
       });
     });
     it('Group.MEMBERSHIP_FETCH.SUCCESS', () => {
@@ -61,11 +61,11 @@ describe('reducers', () => {
       const action = {
         type: Group.MEMBERSHIP_FETCH.SUCCESS,
         meta: {
-          groupId: 1
+          groupId: 1,
         },
         payload: {
-          result: [4, 5, 6]
-        }
+          result: [4, 5, 6],
+        },
       };
       expect(groups(prevState, action)).toEqual({
         actionGrant: [],
@@ -73,9 +73,9 @@ describe('reducers', () => {
         items: [1],
         byId: {
           1: {
-            memberships: [3, 4, 5, 6]
-          }
-        }
+            memberships: [3, 4, 5, 6],
+          },
+        },
       });
     });
   });

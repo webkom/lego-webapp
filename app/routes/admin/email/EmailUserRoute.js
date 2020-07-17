@@ -21,9 +21,9 @@ const mapStateToProps = (state, { match: { params } }) => {
       ...emailUser,
       user: {
         label: get(emailUser, 'user.fullName', ''),
-        value: get(emailUser, 'user.id', '')
-      }
-    }
+        value: get(emailUser, 'user.id', ''),
+      },
+    },
   };
 };
 
@@ -34,9 +34,6 @@ const loadData = ({ match: { params } }, dispatch) =>
 
 export default compose(
   prepare(loadData, ['match.params.emailUserId']),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['emailUser.user.id'])
 )(EmailUserEditor);

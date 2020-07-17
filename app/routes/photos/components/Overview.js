@@ -13,8 +13,8 @@ type Props = {
   hasMore: boolean,
   galleries: Array<Photo>,
   fetch: ({ next?: boolean }) => Promise<*>,
-  push: string => Promise<*>,
-  actionGrant: Array<string>
+  push: (string) => Promise<*>,
+  actionGrant: Array<string>,
 };
 
 export default class Overview extends Component<Props> {
@@ -25,7 +25,7 @@ export default class Overview extends Component<Props> {
       hasMore,
       fetch,
       fetching,
-      actionGrant
+      actionGrant,
     } = this.props;
     return (
       <Content>
@@ -39,13 +39,13 @@ export default class Overview extends Component<Props> {
           hasMore={hasMore}
           fetching={fetching}
           fetchNext={() => fetch({ next: true })}
-          onClick={gallery => push(`/photos/${gallery.id}#list`)}
-          renderBottom={photo => (
+          onClick={(gallery) => push(`/photos/${gallery.id}#list`)}
+          renderBottom={(photo) => (
             <div className={styles.galleryInfo}>
               <h4 className={styles.galleryTitle}>{photo.title}</h4>
-              <span className={styles.galleryDescription}>{`${
-                photo.pictureCount
-              } - bilder`}</span>
+              <span
+                className={styles.galleryDescription}
+              >{`${photo.pictureCount} - bilder`}</span>
             </div>
           )}
           renderEmpty={() => (

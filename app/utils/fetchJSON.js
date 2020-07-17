@@ -10,7 +10,7 @@ export class HttpError extends Error {
 
 export type HttpResponse<T> = {
   jsonData?: ?T,
-  textString?: ?string
+  textString?: ?string,
 } & Response;
 
 export type HttpRequestOptions = {
@@ -20,13 +20,13 @@ export type HttpRequestOptions = {
   json?: boolean,
   files?: Array<string>,
   timeout?: number,
-  retryDelays?: Array<number>
+  retryDelays?: Array<number>,
 };
 
 function parseResponseBody<T>(
   response: HttpResponse<T>
 ): Promise<HttpResponse<T>> {
-  return response.text().then(textString => {
+  return response.text().then((textString) => {
     const contentType =
       response.headers.get('content-type') || 'application/json';
 
@@ -68,7 +68,7 @@ function makeFormData(files, rawBody) {
 
   if (rawBody && typeof rawBody === 'object') {
     const object: { [key: string]: string } = rawBody;
-    Object.keys(object).forEach(prop => {
+    Object.keys(object).forEach((prop) => {
       body.append(prop, object[prop]);
     });
   }
@@ -78,7 +78,7 @@ function makeFormData(files, rawBody) {
 }
 
 function timeoutPromise(ms = 0) {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     setTimeout(resolve, ms);
   }).then(() => {
     throw new Error('HTTP request timed out.');
@@ -87,7 +87,7 @@ function timeoutPromise(ms = 0) {
 
 const defaultOptions = {
   files: [],
-  headers: {}
+  headers: {},
 };
 
 export default function fetchJSON<T>(
@@ -109,8 +109,8 @@ export default function fetchJSON<T>(
       body,
       headers: new Headers({
         Accept: 'application/json',
-        ...requestOptions.headers
-      })
+        ...requestOptions.headers,
+      }),
     });
 
   return new Promise((resolve, reject) => {
@@ -124,7 +124,7 @@ export default function fetchJSON<T>(
         fetch(request)
           .then(parseResponseBody)
           .then(rejectOnHttpErrors)
-          .then(resolve)
+          .then(resolve),
       ]).catch((error: HttpError) => {
         if (
           (error.response && error.response.status < 500) ||

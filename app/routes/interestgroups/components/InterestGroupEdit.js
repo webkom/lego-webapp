@@ -7,15 +7,15 @@ import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 export default class InterestGroupEdit extends Component<{
   interestGroup: Object,
   initialValues: Object,
-  uploadFile: string => Promise<*>,
-  handleSubmitCallback: Object => Promise<*>
+  uploadFile: (string) => Promise<*>,
+  handleSubmitCallback: (Object) => Promise<*>,
 }> {
   render() {
     const {
       interestGroup,
       initialValues,
       uploadFile,
-      handleSubmitCallback
+      handleSubmitCallback,
     } = this.props;
 
     return (

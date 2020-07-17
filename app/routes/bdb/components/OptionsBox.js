@@ -9,8 +9,8 @@ import type { CompanyEntity } from 'app/reducers/companies';
 type Props = {
   companies: Array<CompanyEntity>,
   updateFilters: (string, mixed) => void,
-  removeFilters: string => void,
-  filters: Object
+  removeFilters: (string) => void,
+  filters: Object,
 };
 
 type State = {
@@ -18,8 +18,8 @@ type State = {
   studentContact: boolean,
   values: {
     active: boolean,
-    studentContact: /*TODO: StudentContact */ any
-  }
+    studentContact: /*TODO: StudentContact */ any,
+  },
 };
 
 export default class OptionsBox extends Component<Props, State> {
@@ -28,8 +28,8 @@ export default class OptionsBox extends Component<Props, State> {
     studentContact: false,
     values: {
       active: true,
-      studentContact: {}
-    }
+      studentContact: {},
+    },
   };
 
   toggleSection = (section: string) => {
@@ -46,18 +46,18 @@ export default class OptionsBox extends Component<Props, State> {
 
   updateFilters = (name: string, value: mixed) => {
     const { updateFilters } = this.props;
-    this.setState(state => ({
+    this.setState((state) => ({
       ...state,
-      values: { ...state.values, [name]: value }
+      values: { ...state.values, [name]: value },
     }));
     updateFilters(name, value);
   };
 
   removeFilters = (name: string) => {
     const { removeFilters } = this.props;
-    this.setState(state => ({
+    this.setState((state) => ({
       ...state,
-      values: { ...state.values, [name]: undefined }
+      values: { ...state.values, [name]: undefined },
     }));
     removeFilters(name);
   };
@@ -121,23 +121,23 @@ export default class OptionsBox extends Component<Props, State> {
               className={styles.options}
               style={{ display: this.state.studentContact ? 'block' : 'none' }}
             >
-              <SelectInput.withAutocomplete
+              <SelectInput.WithAutocomplete
                 value={{
                   id:
                     this.state.values.studentContact &&
                     Number(this.state.values.studentContact.id),
                   label:
                     this.state.values.studentContact &&
-                    this.state.values.studentContact.fullName
+                    this.state.values.studentContact.fullName,
                 }}
                 placeholder="Studentkontakt"
                 name="studentContact"
                 filter={['users.user']}
-                onChange={user =>
+                onChange={(user) =>
                   user
                     ? this.updateFilters('studentContact', {
                         id: Number(user.id),
-                        fullName: user.label
+                        fullName: user.label,
                       })
                     : this.removeFilters('studentContact')
                 }

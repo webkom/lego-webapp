@@ -12,7 +12,7 @@ type Props = {
   flexWrap?: string,
   style?: any,
   container?: boolean,
-  flex?: any
+  flex?: any,
 };
 
 export const FlexRow = ({
@@ -30,7 +30,7 @@ export const FlexRow = ({
       justifyContent,
       alignItems,
       flexWrap,
-      ...style
+      ...style,
     }}
     {...rest}
   >
@@ -53,7 +53,7 @@ export const FlexColumn = ({
       justifyContent,
       alignItems,
       flexWrap,
-      ...style
+      ...style,
     }}
     {...rest}
   >
@@ -72,7 +72,7 @@ export const FlexItem = ({
     className={className}
     style={{
       flex,
-      display: container ? 'flex' : 'block'
+      display: container ? 'flex' : 'block',
     }}
     {...rest}
   >

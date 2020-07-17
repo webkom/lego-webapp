@@ -13,9 +13,9 @@ export type Props = {
   restrictedMailId?: number,
   restrictedMail: Object,
   submitting: boolean,
-  handleSubmit: Function => void,
-  push: string => void,
-  mutateFunction: Object => Promise<*>
+  handleSubmit: (Function) => void,
+  push: (string) => void,
+  mutateFunction: (Object) => Promise<*>,
 };
 
 const hiddenSenderLabel = (
@@ -43,18 +43,18 @@ const RestrictedMailEditor = ({
   mutateFunction,
   submitting,
   push,
-  handleSubmit
+  handleSubmit,
 }: Props) => {
-  const onSubmit = data => {
+  const onSubmit = (data) => {
     mutateFunction({
       ...data,
       rawAddresses: (data.rawAddresses || []).map(
-        rawAddresses => rawAddresses.value
+        (rawAddresses) => rawAddresses.value
       ),
-      groups: (data.groups || []).map(group => group.id),
-      events: (data.events || []).map(event => event.value),
-      meetings: (data.meetings || []).map(meeting => meeting.id),
-      users: (data.users || []).map(user => user.id)
+      groups: (data.groups || []).map((group) => group.id),
+      events: (data.events || []).map((event) => event.value),
+      meetings: (data.meetings || []).map((meeting) => meeting.id),
+      users: (data.users || []).map((user) => user.id),
     }).then(({ payload }) => {
       if (!restrictedMailId) {
         push(`/admin/email/restricted/${payload.result}`);
@@ -76,14 +76,14 @@ const RestrictedMailEditor = ({
         name="hideSender"
         label={hiddenSenderLabel}
         component={CheckBox.Field}
-        normalize={v => !!v}
+        normalize={(v) => !!v}
       />
       <Field
         disabled={restrictedMailId}
         name="weekly"
         label={restrictedMailLabel}
         component={CheckBox.Field}
-        normalize={v => !!v}
+        normalize={(v) => !!v}
       />
 
       <Field
@@ -143,11 +143,7 @@ const RestrictedMailEditor = ({
       )}
       {restrictedMailId && restrictedMail && (
         <a
-          href={`${
-            config.serverUrl
-          }/restricted-mail/${restrictedMailId}/token?auth=${
-            restrictedMail.tokenQueryParam
-          }`}
+          href={`${config.serverUrl}/restricted-mail/${restrictedMailId}/token?auth=${restrictedMail.tokenQueryParam}`}
           download
         >
           <Button>Last ned Epost token</Button>
@@ -161,6 +157,6 @@ export default reduxForm({
   form: 'restrictedEmail',
   enableReinitialize: true,
   validate: createValidator({
-    fromAddress: [required(), isEmail()]
-  })
+    fromAddress: [required(), isEmail()],
+  }),
 })(RestrictedMailEditor);

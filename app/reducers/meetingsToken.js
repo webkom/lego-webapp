@@ -7,7 +7,7 @@ const initialState = {
   response: '',
   user: {},
   meeting: null,
-  status: ''
+  status: '',
 };
 
 type State = typeof initialState;
@@ -25,7 +25,7 @@ const meetingsToken = produce((newState: State, action: any): void | State => {
         response: 'SUCCESS',
         user,
         meeting,
-        status
+        status,
       };
     }
 

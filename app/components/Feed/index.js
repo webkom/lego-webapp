@@ -15,7 +15,7 @@ export const activityRenderers = {
   admin_registration: require('./renders/adminRegistration'),
   announcement: require('./renders/announcement'),
   group_join: require('./renders/group'),
-  event_register: require('./renders/event_register')
+  event_register: require('./renders/event_register'),
 };
 
 type Props = { items: Array<AggregatedActivity> };

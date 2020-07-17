@@ -8,7 +8,7 @@ type Props = {
   /** Circle color */
   color?: string,
   /** Extra css */
-  style?: any
+  style?: any,
 };
 
 /**
@@ -18,7 +18,7 @@ type Props = {
 function Circle({
   size = 10,
   color = 'var(--color-mono-gray-4)',
-  style
+  style,
 }: Props) {
   return (
     <span
@@ -28,7 +28,7 @@ function Circle({
         borderRadius: size / 2,
         backgroundColor: color,
         display: 'inline-block',
-        ...style
+        ...style,
       }}
     />
   );

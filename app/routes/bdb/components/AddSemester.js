@@ -11,7 +11,7 @@ import {
   getContactedStatuses,
   selectMostProminentStatus,
   selectColorCode,
-  DetailNavigation
+  DetailNavigation,
 } from '../utils';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 import type { SemesterStatusEntity } from 'app/reducers/companies';
@@ -25,19 +25,19 @@ type Props = {
   submitting: boolean,
   autoFocus: any,
   companySemesters: Array<Object>,
-  addSemester: CompanySemesterEntity => Promise<*>,
-  deleteCompany: number => Promise<*>
+  addSemester: (CompanySemesterEntity) => Promise<*>,
+  deleteCompany: (number) => Promise<*>,
 };
 
 type State = {
   contactedStatus: Array</*TODO: ContactedStatus */ any>,
-  submit: boolean
+  submit: boolean,
 };
 
 export default class AddSemester extends Component<Props, State> {
   state = {
     contactedStatus: [],
-    submit: false
+    submit: false,
   };
 
   onSubmit = ({ year, semester, contract }: SemesterStatusEntity) => {
@@ -46,12 +46,12 @@ export default class AddSemester extends Component<Props, State> {
       companyId,
       addSemesterStatus,
       companySemesters,
-      addSemester
+      addSemester,
     } = this.props;
 
     const { contactedStatus } = this.state;
 
-    const globalSemester = companySemesters.find(companySemester => {
+    const globalSemester = companySemesters.find((companySemester) => {
       return (
         companySemester.year === Number(year) &&
         companySemester.semester === semester
@@ -64,18 +64,18 @@ export default class AddSemester extends Component<Props, State> {
           companyId,
           semester: globalSemester.id,
           contactedStatus,
-          contract
+          contract,
         },
         { detail: true }
       );
     } else {
-      return addSemester(({ year, semester }: Object)).then(response => {
+      return addSemester(({ year, semester }: Object)).then((response) => {
         addSemesterStatus(
           {
             companyId,
             semester: response.payload.id,
             contactedStatus,
-            contract
+            contract,
           },
           { detail: true }
         );
@@ -92,7 +92,7 @@ export default class AddSemester extends Component<Props, State> {
       contactedStatus: getContactedStatuses(
         this.state.contactedStatus,
         statusString
-      )
+      ),
     });
   };
 
@@ -102,7 +102,7 @@ export default class AddSemester extends Component<Props, State> {
       submitting,
       autoFocus,
       handleSubmit,
-      deleteCompany
+      deleteCompany,
     } = this.props;
 
     const semesterStatus = { contactedStatus: this.state.contactedStatus };
@@ -156,7 +156,7 @@ export default class AddSemester extends Component<Props, State> {
                 minHeight: '30px',
                 margin: '15px 0 25px',
                 borderRadius: '5px',
-                border: '1px solid var(--color-mono-gray-3)'
+                border: '1px solid var(--color-mono-gray-3)',
               }}
               type="button"
               className={
@@ -170,10 +170,10 @@ export default class AddSemester extends Component<Props, State> {
               <SemesterStatusContent
                 semesterStatus={semesterStatus}
                 submit={false}
-                editFunction={statusCode => this.editFunction(statusCode)}
+                editFunction={(statusCode) => this.editFunction(statusCode)}
                 style={{
                   minHeight: '30px',
-                  padding: '10px'
+                  padding: '10px',
                 }}
               />
             </div>

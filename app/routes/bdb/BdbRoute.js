@@ -5,7 +5,7 @@ import {
   addSemesterStatus,
   editSemesterStatus,
   fetchSemesters,
-  addSemester
+  addSemester,
 } from '../../actions/CompanyActions';
 import BdbPage from './components/BdbPage';
 import { compose } from 'redux';
@@ -23,21 +23,18 @@ const mapStateToProps = (state, props) => ({
   companies: selectCompanies(state, props),
   companySemesters: selectCompanySemesters(state, props),
   query: qs.parse(props.location.search, { ignoreQueryPrefix: true }),
-  fetching: state.companies.fetching
+  fetching: state.companies.fetching,
 });
 
 const mapDispatchToProps = {
   editSemesterStatus,
   addSemesterStatus,
   addSemester,
-  push
+  push,
 };
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
   prepare(loadData),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )(BdbPage);

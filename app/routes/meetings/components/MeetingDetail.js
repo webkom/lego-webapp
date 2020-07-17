@@ -19,11 +19,11 @@ import {
   ContentHeader,
   ContentSection,
   ContentSidebar,
-  ContentMain
+  ContentMain,
 } from 'app/components/Content';
 import type {
   MeetingInvitationEntity,
-  MeetingInvitationStatus
+  MeetingInvitationStatus,
 } from 'app/reducers/meetingInvitations';
 import type { UserEntity } from 'app/reducers/users';
 import type { Dateish, ID } from 'app/models';
@@ -36,7 +36,7 @@ type Props = {
   currentUser: UserEntity,
   showAnswer: Boolean,
   meetingInvitations: Array<MeetingInvitationEntity>,
-  deleteMeeting: number => Promise<*>,
+  deleteMeeting: (number) => Promise<*>,
   setInvitationStatus: (
     meetingId: number,
     status: MeetingInvitationStatus,
@@ -47,8 +47,8 @@ type Props = {
   currentUserInvitation: MeetingInvitationEntity,
   loggedIn: boolean,
   comments: Array<Object>,
-  push: string => Promise<*>,
-  deleteComment: (id: ID, contentTarget: string) => Promise<*>
+  push: (string) => Promise<*>,
+  deleteComment: (id: ID, contentTarget: string) => Promise<*>,
 };
 
 const UserLink = ({ user }: { user: UserEntity }) =>
@@ -71,16 +71,16 @@ class MeetingDetails extends Component<Props> {
   sortInvitations = () => {
     const { meetingInvitations } = this.props;
 
-    return (Object.keys(statuses).map(invitationStatus => ({
+    return (Object.keys(statuses).map((invitationStatus) => ({
       name: statusesText[invitationStatus],
       capacity: meetingInvitations.length,
       registrations: meetingInvitations.filter(
-        invite => invite.status === invitationStatus
-      )
+        (invite) => invite.status === invitationStatus
+      ),
     })): Array<{
       name: string,
       capacity: number,
-      registrations: Array<MeetingInvitationEntity>
+      registrations: Array<MeetingInvitationEntity>,
     }>);
   };
 
@@ -117,7 +117,7 @@ class MeetingDetails extends Component<Props> {
       comments,
       loggedIn,
       currentUserInvitation,
-      deleteComment
+      deleteComment,
     } = this.props;
 
     if (!meeting || !currentUser) {
@@ -133,24 +133,24 @@ class MeetingDetails extends Component<Props> {
     const infoItems = [
       {
         key: 'Din status',
-        value: `${statusesText[statusMe]}`
+        value: `${statusesText[statusMe]}`,
       },
       {
         key: 'Når',
-        value: <FromToTime from={meeting.startTime} to={meeting.endTime} />
+        value: <FromToTime from={meeting.startTime} to={meeting.endTime} />,
       },
       {
         key: 'Sted',
-        value: `${meeting.location}`
+        value: `${meeting.location}`,
       },
       {
         key: 'Forfatter',
-        value: <UserLink user={createdBy} />
+        value: <UserLink user={createdBy} />,
       },
       {
         key: 'Referent',
-        value: <UserLink user={reportAuthor} />
-      }
+        value: <UserLink user={reportAuthor} />,
+      },
     ];
 
     return (

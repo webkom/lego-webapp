@@ -9,7 +9,7 @@ export type PodcastEntity = {
   createdAt: string,
   source: string,
   title: string,
-  discription: string
+  discription: string,
 };
 
 export default createEntityReducer({
@@ -17,15 +17,15 @@ export default createEntityReducer({
   types: {
     fetch: Podcast.FETCH,
     mutate: Podcast.CREATE,
-    delete: Podcast.DELETE
-  }
+    delete: Podcast.DELETE,
+  },
 });
 
 export const selectPodcasts = createSelector(
-  state => state.podcasts.byId,
-  state => state.podcasts.items,
+  (state) => state.podcasts.byId,
+  (state) => state.podcasts.items,
   (podcastsById, podcastIds) => {
-    return podcastIds.map(id => podcastsById[id]);
+    return podcastIds.map((id) => podcastsById[id]);
   }
 );
 
@@ -34,6 +34,6 @@ export const selectPodcastById = createSelector(
   (state, podcastId) => podcastId,
   (podcasts, podcastId) => {
     if (!podcasts || !podcastId) return {};
-    return podcasts.find(podcast => Number(podcast.id) === Number(podcastId));
+    return podcasts.find((podcast) => Number(podcast.id) === Number(podcastId));
   }
 );

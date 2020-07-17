@@ -19,36 +19,33 @@ const mapStateToProps = (state, ownProps) => {
 
   const user = ownProps.currentUser;
   const icalToken = user ? user.icalToken : null;
-  const actionGrant = state => state.events.actionGrant;
+  const actionGrant = (state) => state.events.actionGrant;
   return {
     ...createStructuredSelector({
       showFetchMore,
       events: selectSortedEvents,
-      actionGrant
+      actionGrant,
     })(state, ownProps),
-    icalToken
+    icalToken,
   };
 };
 
 const fetchData = ({
   refresh,
-  loadNextPage
+  loadNextPage,
 }: { refresh?: boolean, loadNextPage?: boolean } = {}) =>
   fetchList({
     refresh,
     loadNextPage,
-    dateAfter: moment().format('YYYY-MM-DD')
+    dateAfter: moment().format('YYYY-MM-DD'),
   });
 
 const mapDispatchToProps = {
   fetchMore: () => fetchData({ refresh: false, loadNextPage: true }),
-  reload: () => fetchData({ refresh: true })
+  reload: () => fetchData({ refresh: true }),
 };
 
 export default compose(
   prepare((props, dispatch) => dispatch(fetchData())),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )(EventList);

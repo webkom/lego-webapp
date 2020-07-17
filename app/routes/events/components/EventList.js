@@ -18,16 +18,16 @@ import { EVENTFIELDS } from 'app/utils/constants';
 
 const groupEvents = ({
   events,
-  field = 'startTime'
+  field = 'startTime',
 }: {
   events: Array<Event>,
-  field?: EventTimeType
+  field?: EventTimeType,
 }) => {
   const nextWeek = moment().add(1, 'week');
   const groups = {
-    currentWeek: event => event[field].isSame(moment(), 'week'),
-    nextWeek: event => event[field].isSame(nextWeek, 'week'),
-    later: event => event[field].isAfter(nextWeek)
+    currentWeek: (event) => event[field].isSame(moment(), 'week'),
+    nextWeek: (event) => event[field].isSame(nextWeek, 'week'),
+    later: (event) => event[field].isAfter(nextWeek),
   };
 
   return events.reduce((result, event) => {
@@ -46,17 +46,17 @@ const EventListGroup = ({
   name,
   field = 'startTime',
   events = [],
-  loggedIn = false
+  loggedIn = false,
 }: {
   name: string,
   field?: EventTimeType,
   events?: Array<Event>,
-  loggedIn: boolean
+  loggedIn: boolean,
 }) => {
   return isEmpty(events) ? null : (
     <div className={styles.eventGroup}>
       <h2 className={styles.heading}>{name}</h2>
-      {events.map(event => (
+      {events.map((event) => (
         <EventItem
           key={event.id}
           event={event}
@@ -75,17 +75,17 @@ type EventListProps = {
   icalToken: IcalToken,
   showFetchMore: boolean,
   fetchMore: () => Promise<*>,
-  loggedIn: boolean
+  loggedIn: boolean,
 };
 
 type Option = {
-  filterFunc: Event => boolean,
+  filterFunc: (Event) => boolean,
   label: string,
-  field: EventTimeType
+  field: EventTimeType,
 };
 
 type State = {
-  selectedOption: Option
+  selectedOption: Option,
 };
 
 // $FlowFixMe
@@ -94,8 +94,8 @@ class EventList extends Component<EventListProps, State> {
     selectedOption: {
       filterFunc: (event: Event) => event,
       label: 'Vis alle',
-      field: EVENTFIELDS.start
-    }
+      field: EVENTFIELDS.start,
+    },
   };
 
   handleChange = (selectedOption: Option): void => {
@@ -108,35 +108,35 @@ class EventList extends Component<EventListProps, State> {
       showFetchMore,
       fetchMore,
       events,
-      loggedIn
+      loggedIn,
     } = this.props;
     const { field, filterFunc } = this.state.selectedOption;
 
     const groupedEvents = groupEvents({
       events: orderBy(events.filter(filterFunc), field),
-      field: field
+      field: field,
     });
 
     const options = [
       {
-        filterFunc: event => event,
+        filterFunc: (event) => event,
         label: 'Vis alle',
-        field: EVENTFIELDS.start
+        field: EVENTFIELDS.start,
       },
       {
-        filterFunc: event =>
+        filterFunc: (event) =>
           event.activationTime != null &&
           event.activationTime.isBefore(moment()),
         label: 'Påmelding åpnet',
-        field: EVENTFIELDS.start
+        field: EVENTFIELDS.start,
       },
       {
-        filterFunc: event =>
+        filterFunc: (event) =>
           event.activationTime != null &&
           event.activationTime.isAfter(moment()),
         label: 'Åpner i fremtiden',
-        field: EVENTFIELDS.activate
-      }
+        field: EVENTFIELDS.activate,
+      },
     ];
 
     return (

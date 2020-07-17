@@ -6,7 +6,7 @@ import moment from 'moment-timezone';
 
 jest.mock('app/config', () => {
   return {
-    timezone: 'GMT'
+    timezone: 'GMT',
   };
 });
 

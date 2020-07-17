@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 
 import 'babel-polyfill';
-import { JSDOM } from 'jsdom';
 import app from './server';
 import * as Sentry from '@sentry/node';
 import { RewriteFrames } from '@sentry/integrations';
@@ -15,19 +14,18 @@ Sentry.init({
   release: config.release,
   environment: config.environment,
   normalizeDepth: 10,
-  integrations: [new RewriteFrames()]
+  integrations: [
+    new RewriteFrames({
+      root: '/app/dist/',
+    }),
+  ],
 });
-
-// This is a hack to use draft-convert on the server.
-// draft-convert performs a `typeof HTMLElement` which can't really be worked around.
-const { window } = new JSDOM('<!doctype html><html><body></body></html>');
-global.HTMLElement = window.HTMLElement;
 
 const server = config.https
   ? https.createServer(
       {
         cert: fs.readFileSync(config.httpsCertFile, 'utf8'),
-        key: fs.readFileSync(config.httpsCertKeyFile, 'utf8')
+        key: fs.readFileSync(config.httpsCertKeyFile, 'utf8'),
       },
       app
     )
@@ -35,7 +33,7 @@ const server = config.https
 let currentApp = app;
 const log = app.get('log');
 
-server.listen(app.get('port'), app.get('host'), err => {
+server.listen(app.get('port'), app.get('host'), (err) => {
   if (err) {
     log.error(err, 'could_not_start_server');
   }

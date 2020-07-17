@@ -9,12 +9,9 @@ import { push } from 'connected-react-router';
 const mapDispatchToProps = { mutateFunction: createEmailList, push };
 
 const mapStateToProps = () => ({
-  initialValues: { requireInternalAddress: true }
+  initialValues: { requireInternalAddress: true },
 });
 
-export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
-)(EmailListEditor);
+export default compose(connect(mapStateToProps, mapDispatchToProps))(
+  EmailListEditor
+);

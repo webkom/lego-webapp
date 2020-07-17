@@ -8,12 +8,12 @@ export type Props = {
   small?: boolean,
   margin?: number | string,
   loadingStyle?: Object,
-  children?: any
+  children?: any,
 };
 
 export default class LoadingIndicator extends Component<Props> {
   static defaultProps = {
-    loading: false
+    loading: false,
   };
 
   render() {

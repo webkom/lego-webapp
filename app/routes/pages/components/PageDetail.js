@@ -18,7 +18,7 @@ import type { PageEntity } from 'app/reducers/pages';
 import Sidebar from './Sidebar';
 
 type State = {
-  isOpen: boolean
+  isOpen: boolean,
 };
 
 type Props = {
@@ -27,22 +27,22 @@ type Props = {
   selectedPageInfo: PageInfo,
   PageRenderer: ({ page: any }) => Node,
   pageHierarchy: Array<HierarchySectionEntity>,
-  loggedIn: boolean
+  loggedIn: boolean,
 };
 
 class PageDetail extends Component<Props, State> {
   state = {
-    isOpen: false
+    isOpen: false,
   };
 
   openSidebar = () =>
     this.setState({
-      isOpen: true
+      isOpen: true,
     });
 
   closeSidebar = () =>
     this.setState({
-      isOpen: false
+      isOpen: false,
     });
 
   render() {
@@ -52,7 +52,7 @@ class PageDetail extends Component<Props, State> {
       pageHierarchy,
       PageRenderer,
       currentUrl,
-      loggedIn
+      loggedIn,
     } = this.props;
 
     if (!selectedPage) {
@@ -111,19 +111,19 @@ export type PageInfo = {
   title: string,
   /* The page is complete, and can be rendered */
   isComplete: boolean,
-  actionGrant?: Array<string>
+  actionGrant?: Array<string>,
 };
 
 export const MainPageRenderer = ({
   page,
   pageInfo,
   ChildPageRenderer,
-  loggedIn
+  loggedIn,
 }: {
   page: Object,
   pageInfo: Object,
   ChildPageRenderer: ({ page: any }) => Node,
-  loggedIn: boolean
+  loggedIn: boolean,
 }) => {
   const pageBanner = page.logo || page.picture; //Splittet fra hverandre, var pageBanner = pic || logo
   const { title } = pageInfo;
@@ -157,7 +157,7 @@ export const GroupRenderer = ({ page }: { page: Object }) => {
   const {
     leader: leaders = [],
     'co-leader': co_leaders = [],
-    member: members = []
+    member: members = [],
   } = membershipsByRole;
 
   return (

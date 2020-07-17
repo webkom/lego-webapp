@@ -19,8 +19,8 @@ const memberships = [
       isActive: true,
       isStaff: false,
       lastName: 'webkom',
-      username: 'webkom'
-    }
+      username: 'webkom',
+    },
   },
   {
     id: 2,
@@ -34,9 +34,9 @@ const memberships = [
       isActive: true,
       isStaff: false,
       lastName: 'plebkom',
-      username: 'plebkom'
-    }
-  }
+      username: 'plebkom',
+    },
+  },
 ];
 
 const group = {
@@ -44,7 +44,7 @@ const group = {
   id: 1,
   name: 'Cat',
   permissions: [],
-  memberships
+  memberships,
 };
 
 describe('<GroupMembers />', () => {

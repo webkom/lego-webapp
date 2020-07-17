@@ -8,7 +8,7 @@ import {
   Button,
   CheckBox,
   SelectInput,
-  Form
+  Form,
 } from 'app/components/Form';
 import { Image } from 'app/components/Image';
 import LoadingIndicator from 'app/components/LoadingIndicator';
@@ -29,50 +29,50 @@ import withAutocomplete from 'app/components/Search/withAutocomplete';
 export const EVENT_TYPES = {
   company_presentation: {
     norwegian: 'Bedriftspresentasjon',
-    english: 'Company presentation'
+    english: 'Company presentation',
   },
   lunch_presentation: {
     norwegian: 'Lunsjpresentasjon',
-    english: 'Lunch presentation'
+    english: 'Lunch presentation',
   },
   course: {
     norwegian: 'Faglig arrangement',
-    english: 'Course or workshop'
+    english: 'Course or workshop',
   },
   bedex: {
     norwegian: 'Bedex',
-    english: 'BedEx'
+    english: 'BedEx',
   },
   other: {
     norwegian: 'Alternativt arrangement',
-    english: 'Other event'
+    english: 'Other event',
   },
   start_up: {
     norwegian: 'Start-up kveld',
-    english: 'Start-up night'
-  }
+    english: 'Start-up night',
+  },
 };
 
 export const OTHER_TYPES = {
   readme: {
     norwegian: 'Annonsere i readme',
-    english: 'Advertisement in readme'
+    english: 'Advertisement in readme',
   },
   collaboration: {
     norwegian: 'Samarbeid med andre linjeforeninger',
-    english: `Event in collaboration with other student organizations`
-  }
+    english: `Event in collaboration with other student organizations`,
+  },
 };
 
-const eventToString = event =>
+const eventToString = (event) =>
   Object.keys(EVENT_TYPES)[Number(event.charAt(event.length - 2))];
 
-const otherOffersToString = offer =>
+const otherOffersToString = (offer) =>
   Object.keys(OTHER_TYPES)[Number(offer.charAt(offer.length - 2))];
 
 const SemesterBox = ({
   fields,
-  language
+  language,
 }: { language: string } & FieldArrayProps) => (
   <Flex column className={styles.checkboxWrapper}>
     {fields.map((item, index) => (
@@ -83,7 +83,7 @@ const SemesterBox = ({
               key={`semester${index}`}
               name={`semesters[${index}].checked`}
               component={CheckBox.Field}
-              normalize={v => !!v}
+              normalize={(v) => !!v}
             />
           </div>
           <span className={styles.checkboxSpan}>
@@ -97,7 +97,7 @@ const SemesterBox = ({
 
 const EventBox = ({
   fields,
-  language
+  language,
 }: { language: string } & FieldArrayProps) => (
   <Flex column className={styles.checkboxWrapper}>
     {fields.map((key, index) => (
@@ -108,7 +108,7 @@ const EventBox = ({
               key={`events[${index}]`}
               name={`events[${index}].checked`}
               component={CheckBox.Field}
-              normalize={v => !!v}
+              normalize={(v) => !!v}
             />
           </div>
           <span className={styles.checkboxSpan}>
@@ -122,7 +122,7 @@ const EventBox = ({
 
 const OtherBox = ({
   fields,
-  language
+  language,
 }: { language: string } & FieldArrayProps) => (
   <Flex column className={styles.checkboxWrapper}>
     {fields.map((key, index) => (
@@ -133,7 +133,7 @@ const OtherBox = ({
               key={`otherOffers[${index}]`}
               name={`otherOffers[${index}].checked`}
               component={CheckBox.Field}
-              normalize={v => !!v}
+              normalize={(v) => !!v}
             />
           </div>
           <span className={styles.checkboxSpan}>
@@ -167,19 +167,19 @@ type CompanyInterestFormEntity = {
   semesters: Array<CompanySemesterEntity>,
   events: Array<{ name: String, checked: boolean }>,
   otherOffers: Array<{ name: String, checked: boolean }>,
-  comment: String
+  comment: String,
 };
 
 type Props = FormProps & {
   allowedBdb: boolean,
   onSubmit: (CompanyInterestFormEntity, ?boolean) => Promise<*>,
-  push: string => void,
+  push: (string) => void,
   events: Array<Object>,
   semesters: Array<CompanySemesterEntity>,
   otherOffers: Array<Object>,
   edit: boolean,
   companyInterest?: CompanyInterestEntity,
-  language: string
+  language: string,
 };
 
 const CompanyInterestPage = (props: Props) => {
@@ -187,7 +187,7 @@ const CompanyInterestPage = (props: Props) => {
     return <LoadingIndicator loading />;
   }
 
-  const onSubmit = data => {
+  const onSubmit = (data) => {
     const { company } = data;
     const companyId = company['value'] ? Number(company['value']) : null;
     const companyName = companyId === null ? company['label'] : '';
@@ -199,15 +199,15 @@ const CompanyInterestPage = (props: Props) => {
       mail: data.mail,
       phone: data.phone,
       semesters: data.semesters
-        .filter(semester => semester.checked)
-        .map(semester => semester.id),
+        .filter((semester) => semester.checked)
+        .map((semester) => semester.id),
       events: data.events
-        .filter(event => event.checked)
-        .map(event => event.name),
+        .filter((event) => event.checked)
+        .map((event) => event.name),
       otherOffers: data.otherOffers
-        .filter(offer => offer.checked)
-        .map(offer => offer.name),
-      comment: data.comment
+        .filter((offer) => offer.checked)
+        .map((offer) => offer.name),
+      comment: data.comment,
     };
 
     return props
@@ -219,7 +219,7 @@ const CompanyInterestPage = (props: Props) => {
             : '/pages/bedrifter/for-bedrifter'
         )
       )
-      .catch(err => {
+      .catch((err) => {
         if (err.payload && err.payload.response) {
           throw new SubmissionError(err.payload.response.jsonData);
         }
@@ -229,56 +229,56 @@ const CompanyInterestPage = (props: Props) => {
   const labels = {
     mainHeading: {
       norwegian: 'Meld interesse',
-      english: 'Contact us'
+      english: 'Contact us',
     },
     company: {
       header: {
         norwegian: 'Navn på bedrift',
-        english: 'Company'
+        english: 'Company',
       },
       placeholder: {
         norwegian: 'Bedriftsnavn',
-        english: 'Company name'
-      }
+        english: 'Company name',
+      },
     },
     contactPerson: {
       header: {
         norwegian: 'Kontaktperson',
-        english: 'Your contact person'
+        english: 'Your contact person',
       },
       placeholder: {
         norwegian: 'Kari Nordmann',
-        english: 'Jon Smith'
-      }
+        english: 'Jon Smith',
+      },
     },
     mail: {
       norwegian: 'Mail',
-      english: 'E-Mail'
+      english: 'E-Mail',
     },
     phone: {
       norwegian: 'Telefonnummer',
-      english: 'Phone number'
+      english: 'Phone number',
     },
     semester: {
       norwegian: 'Semester',
-      english: 'Semester'
+      english: 'Semester',
     },
     events: {
       norwegian: 'Arrangementer',
-      english: 'Events'
+      english: 'Events',
     },
     otherOffers: {
       norwegian: 'Annet',
-      english: 'Other'
+      english: 'Other',
     },
     comment: {
       norwegian: 'Kommentar',
-      english: 'Comment'
+      english: 'Comment',
     },
     create: {
       norwegian: 'Opprett bedriftsinteresse',
-      english: 'Submit'
-    }
+      english: 'Submit',
+    },
   };
 
   const { language } = props;
@@ -305,7 +305,7 @@ const CompanyInterestPage = (props: Props) => {
           fieldClassName={styles.metaField}
           component={withAutocomplete({
             WrappedComponent: SelectInput.Field,
-            retainFailedQuery: true
+            retainFailedQuery: true,
           })}
           required
         />
@@ -404,12 +404,12 @@ const validate = createValidator({
   contactPerson: [required()],
   mail: [required(), isEmail()],
   phone: [required()],
-  comment: [required()]
+  comment: [required()],
 });
 
 export default reduxForm({
   form: 'CompanyInterestForm',
   validate,
   enableReinitialize: true,
-  keepDirtyOnReinitialize: true
+  keepDirtyOnReinitialize: true,
 })(CompanyInterestPage);

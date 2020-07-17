@@ -23,13 +23,13 @@ export function fetch(
         useCache: false,
         query: {
           ...cursor,
-          ...filters
+          ...filters,
         },
         schema: [galleryPictureSchema],
         meta: {
-          errorMessage: 'Henting av bilder feilet'
+          errorMessage: 'Henting av bilder feilet',
         },
-        propagateError: true
+        propagateError: true,
       })
     );
   };
@@ -47,13 +47,13 @@ export function fetchSiblingGallerPicture(
     endpoint: `/galleries/${galleryId}/pictures/`,
     query: {
       page_size: 1,
-      cursor
+      cursor,
     },
     schema: [galleryPictureSchema],
     meta: {
-      errorMessage: 'Henting av bilde feilet'
+      errorMessage: 'Henting av bilde feilet',
     },
-    propagateError: true
+    propagateError: true,
   });
 }
 
@@ -63,25 +63,24 @@ export function fetchGalleryPicture(galleryId: EntityID, pictureId: EntityID) {
     endpoint: `/galleries/${galleryId}/pictures/${pictureId}/`,
     schema: galleryPictureSchema,
     meta: {
-      errorMessage: 'Henting av galleri feilet'
-    }
+      errorMessage: 'Henting av galleri feilet',
+    },
+    propagateError: true,
   });
 }
 
 export function updatePicture(galleryPicture: GalleryPictureEntity) {
   return callAPI({
     types: GalleryPicture.EDIT,
-    endpoint: `/galleries/${galleryPicture.gallery}/pictures/${
-      galleryPicture.id
-    }/`,
+    endpoint: `/galleries/${galleryPicture.gallery}/pictures/${galleryPicture.id}/`,
     method: 'PATCH',
     schema: galleryPictureSchema,
     body: galleryPicture,
     meta: {
       galleryId: galleryPicture.gallery,
       id: galleryPicture.id,
-      errorMessage: 'Oppdatering av bilde i galleriet feilet'
-    }
+      errorMessage: 'Oppdatering av bilde i galleriet feilet',
+    },
   });
 }
 
@@ -95,8 +94,8 @@ export function deletePicture(galleryId: EntityID, pictureId: EntityID) {
       galleryId: galleryId,
       id: pictureId,
       errorMessage: 'Sletting av bilde i galleriet feilet',
-      successMessage: 'Bildet ble slettet!'
-    }
+      successMessage: 'Bildet ble slettet!',
+    },
   });
 }
 
@@ -109,15 +108,15 @@ export function CreateGalleryPicture(galleryPicture: { galleryId: number }) {
     body: galleryPicture,
     meta: {
       galleryId: galleryPicture.galleryId,
-      errorMessage: 'Legg til bilde i galleriet feilet'
-    }
+      errorMessage: 'Legg til bilde i galleriet feilet',
+    },
   });
 }
 
 const MAX_UPLOADS = 3;
 
 function uploadGalleryPicturesInTurn(files, galleryId, dispatch) {
-  const uploadPicture = async file => {
+  const uploadPicture = async (file) => {
     const action = await dispatch(uploadFile({ file, timeout: 3 * 60 * 1000 }));
 
     if (!action || !action.meta) return;
@@ -126,24 +125,24 @@ function uploadGalleryPicturesInTurn(files, galleryId, dispatch) {
       CreateGalleryPicture({
         galleryId,
         file: action.meta.fileToken,
-        active: true
+        active: true,
       })
     );
   };
 
-  const uploadPictureWithErrorhandler = file =>
-    uploadPicture(file).catch(error => {
+  const uploadPictureWithErrorhandler = (file) =>
+    uploadPicture(file).catch((error) => {
       dispatch({
         type: GalleryPicture.UPLOAD.FAILURE,
         error: true,
         meta: {
           fileName: file.name,
-          errorMessage: 'Opplasting av bilde feilet.'
-        }
+          errorMessage: 'Opplasting av bilde feilet.',
+        },
       });
     });
 
-  const promiseProducer = function*() {
+  const promiseProducer = function* () {
     for (const file of files) {
       yield uploadPictureWithErrorhandler(file);
     }
@@ -156,10 +155,10 @@ export function uploadAndCreateGalleryPicture(
   galleryId: number,
   files: Array<Object>
 ): Thunk<any> {
-  return dispatch => {
+  return (dispatch) => {
     dispatch({
       type: Gallery.UPLOAD.BEGIN,
-      meta: { imageCount: files.length }
+      meta: { imageCount: files.length },
     });
     return uploadGalleryPicturesInTurn(files, galleryId, dispatch);
   };

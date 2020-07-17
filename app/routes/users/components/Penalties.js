@@ -11,16 +11,16 @@ type Penalty = {
   id: number,
   reason: string,
   weight: number,
-  exactExpiration: string
+  exactExpiration: string,
 };
 
 type Props = {
   penalties: Array<Penalty>,
-  addPenalty: AddPenalty => void,
-  deletePenalty: number => Promise<*>,
+  addPenalty: (AddPenalty) => void,
+  deletePenalty: (number) => Promise<*>,
   username: string,
   userId: number,
-  canDeletePenalties: boolean
+  canDeletePenalties: boolean,
 };
 
 function Penalties({
@@ -29,13 +29,13 @@ function Penalties({
   deletePenalty,
   username,
   userId,
-  canDeletePenalties
+  canDeletePenalties,
 }: Props) {
   return (
     <div>
       {penalties.length ? (
         <ul>
-          {penalties.map(penalty => {
+          {penalties.map((penalty) => {
             const word = penalty.weight > 1 ? 'prikker' : 'prikk';
             return (
               <li key={penalty.id} style={{ marginBottom: '10px' }}>

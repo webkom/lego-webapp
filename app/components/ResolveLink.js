@@ -4,7 +4,7 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 
 type Props = {
-  link: [string, React.Node]
+  link: [string, React.Node],
 };
 
 const ResolveLink = ({ link: [href, name], ...props }: Props) => {

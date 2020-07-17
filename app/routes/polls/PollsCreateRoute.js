@@ -5,12 +5,7 @@ import { createPoll } from 'app/actions/PollActions';
 import PollEditor from './components/PollEditor';
 
 const mapDispatchToProps = {
-  editOrCreatePoll: createPoll
+  editOrCreatePoll: createPoll,
 };
 
-export default compose(
-  connect(
-    null,
-    mapDispatchToProps
-  )
-)(PollEditor);
+export default compose(connect(null, mapDispatchToProps))(PollEditor);

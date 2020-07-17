@@ -7,7 +7,7 @@ import { Image } from 'app/components/Image';
 type Props = {
   email: string,
   logo?: any,
-  recipient: string
+  recipient: string,
 };
 
 const EmailItem = ({ email, logo, recipient }: Props) => {

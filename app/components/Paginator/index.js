@@ -9,7 +9,7 @@ type Props = {
   children: Node,
   hasMore: boolean,
   fetchNext: () => void,
-  fetching: boolean
+  fetching: boolean,
 };
 
 export default class Paginator extends React.Component<Props> {

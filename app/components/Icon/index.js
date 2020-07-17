@@ -16,7 +16,7 @@ type Props = {
   /** Name of the icon can be found on the webpage*/
   prefix?: string,
   /** Icon prefix. defaults to "ion-ios-" */
-  style?: Object
+  style?: Object,
 };
 
 /**

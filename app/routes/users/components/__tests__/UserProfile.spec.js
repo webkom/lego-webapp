@@ -11,7 +11,7 @@ const user = {
   isActive: true,
   isStaff: false,
   lastName: 'webkom',
-  username: 'webkom'
+  username: 'webkom',
 };
 
 describe('<UserProfile />', () => {

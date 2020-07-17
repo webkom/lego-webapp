@@ -7,7 +7,7 @@ import { Content } from 'app/components/Content';
 import {
   sortByYearThenSemester,
   getContactedStatuses,
-  DetailNavigation
+  DetailNavigation,
 } from '../utils.js';
 import InfoBubble from 'app/components/InfoBubble';
 import CommentView from 'app/components/Comments/CommentView';
@@ -21,7 +21,7 @@ import truncateString from 'app/utils/truncateString';
 import type {
   CompanyEntity,
   BaseSemesterStatusEntity,
-  SemesterStatusEntity
+  SemesterStatusEntity,
 } from 'app/reducers/companies';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 import type { UserEntity } from 'app/reducers/users';
@@ -42,22 +42,22 @@ type Props = {
   editSemesterStatus: (BaseSemesterStatusEntity, ?Object) => Promise<*>,
   companyEvents: Array<Object>,
   fetching: boolean,
-  editCompany: Object => void,
-  deleteCompany: number => Promise<*>,
+  editCompany: (Object) => void,
+  deleteCompany: (number) => Promise<*>,
   deleteComment: (id: ID, contentTarget: string) => Promise<*>,
   showFetchMoreEvents: boolean,
-  fetchMoreEvents: () => Promise<*>
+  fetchMoreEvents: () => Promise<*>,
 };
 
 type State = {
   addingFiles: boolean,
-  eventsToDisplay: number
+  eventsToDisplay: number,
 };
 
 export default class BdbDetail extends Component<Props, State> {
   state = {
     addingFiles: false,
-    eventsToDisplay: 3
+    eventsToDisplay: 3,
   };
 
   componentDidMount() {
@@ -75,11 +75,11 @@ export default class BdbDetail extends Component<Props, State> {
       contactedStatus: getContactedStatuses(
         semesterStatus.contactedStatus,
         statusString
-      )
+      ),
     };
 
     const companySemester = companySemesters.find(
-      companySemester =>
+      (companySemester) =>
         companySemester.year === newStatus.year &&
         companySemester.semester === newStatus.semester
     );
@@ -92,7 +92,7 @@ export default class BdbDetail extends Component<Props, State> {
       contactedStatus: newStatus.contactedStatus,
       semesterStatusId: newStatus.id,
       semester: companySemester.id,
-      companyId: company.id
+      companyId: company.id,
     };
 
     return editSemesterStatus(sendableSemester, { detail: true });
@@ -120,7 +120,7 @@ export default class BdbDetail extends Component<Props, State> {
       semesterStatusId: semesterStatus.id,
       companyId: company.id,
       contactedStatus: semesterStatus.contactedStatus,
-      [type]: fileToken
+      [type]: fileToken,
     };
 
     return editSemesterStatus(sendableSemester, { detail: true });
@@ -136,7 +136,7 @@ export default class BdbDetail extends Component<Props, State> {
       semesterStatusId: semesterStatus.id,
       contactedStatus: semesterStatus.contactedStatus,
       companyId: company.id,
-      [type]: null
+      [type]: null,
     };
 
     return editSemesterStatus(sendableSemester, { detail: true });
@@ -159,7 +159,7 @@ export default class BdbDetail extends Component<Props, State> {
       deleteCompany,
       deleteComment,
       showFetchMoreEvents,
-      fetchMoreEvents
+      fetchMoreEvents,
     } = this.props;
 
     if (fetching || !company.semesterStatuses) {
@@ -170,7 +170,7 @@ export default class BdbDetail extends Component<Props, State> {
       .slice()
       // $FlowFixMe
       .sort(sortByYearThenSemester)
-      .map(semesterStatus => (
+      .map((semesterStatus) => (
         <SemesterStatusDetail
           semesterStatus={semesterStatus}
           key={semesterStatus.id}
@@ -182,54 +182,57 @@ export default class BdbDetail extends Component<Props, State> {
         />
       ));
 
+    // CompanyContact in reverse order, latest comes first
     const companyContacts =
       company.companyContacts &&
-      company.companyContacts.map(contact => (
-        <tr key={contact.id}>
-          <td>{contact.name || '-'}</td>
-          <td>{contact.role || '-'}</td>
-          <td>{contact.mail || '-'}</td>
-          <td>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              {contact.phone || '-'}
-              <span style={{ display: 'flex', flexDirection: 'row' }}>
-                <Link
-                  to={`/bdb/${String(company.id)}/company-contacts/${String(
-                    contact.id
-                  )}`}
-                >
-                  <i
-                    className="fa fa-pencil"
-                    style={{ marginRight: '5px', color: 'orange' }}
-                  />
-                </Link>
-                <ConfirmModalWithParent
-                  title="Slett bedriftskontakt"
-                  message="Er du sikker på at du vil slette denne bedriftskontakten?"
-                  onConfirm={() => this.deleteCompanyContact(contact.id)}
-                  closeOnConfirm
-                >
-                  <i
-                    className="fa fa-times"
-                    style={{
-                      color: '#d13c32',
-                      position: 'relative',
-                      top: '5px'
-                    }}
-                  />
-                </ConfirmModalWithParent>
-              </span>
-            </div>
-          </td>
-        </tr>
-      ));
+      company.companyContacts
+        .map((contact) => (
+          <tr key={contact.id}>
+            <td>{contact.name || '-'}</td>
+            <td>{contact.role || '-'}</td>
+            <td>{contact.mail || '-'}</td>
+            <td>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                {contact.phone || '-'}
+                <span style={{ display: 'flex', flexDirection: 'row' }}>
+                  <Link
+                    to={`/bdb/${String(company.id)}/company-contacts/${String(
+                      contact.id
+                    )}`}
+                  >
+                    <i
+                      className="fa fa-pencil"
+                      style={{ marginRight: '5px', color: 'orange' }}
+                    />
+                  </Link>
+                  <ConfirmModalWithParent
+                    title="Slett bedriftskontakt"
+                    message="Er du sikker på at du vil slette denne bedriftskontakten?"
+                    onConfirm={() => this.deleteCompanyContact(contact.id)}
+                    closeOnConfirm
+                  >
+                    <i
+                      className="fa fa-times"
+                      style={{
+                        color: '#d13c32',
+                        position: 'relative',
+                        top: '5px',
+                      }}
+                    />
+                  </ConfirmModalWithParent>
+                </span>
+              </div>
+            </td>
+          </tr>
+        ))
+        .reverse();
 
     const events =
       companyEvents &&
       companyEvents
         .sort((a, b) => Date.parse(b.startTime) - Date.parse(a.startTime))
         .slice(0, this.state.eventsToDisplay)
-        .map(event => (
+        .map((event) => (
           <tr key={event.id}>
             <td>
               <Link to={`events/${event.id}`}>{event.title}</Link>
@@ -280,7 +283,7 @@ export default class BdbDetail extends Component<Props, State> {
               style={{
                 height: 'inherit',
                 border: '1px solid var(--color-mono-gray-3)',
-                marginBottom: '15px'
+                marginBottom: '15px',
               }}
             />
           )}
@@ -326,15 +329,19 @@ export default class BdbDetail extends Component<Props, State> {
             />
             <InfoBubble
               icon="person"
-              data={`${(company.studentContact &&
-                company.studentContact.fullName) ||
-                '-'}`}
+              data={`${
+                (company.studentContact && company.studentContact.fullName) ||
+                '-'
+              }`}
               meta="Studentkontakt"
               link={this.studentContactLink(company.studentContact)}
               style={{ order: 5 }}
             />
           </div>
-          <h3>Bedriftskontakter</h3>
+          <h3>
+            Bedriftskontakter{' '}
+            <span style={{ fontSize: '15px' }}>(Nyest øverst)</span>
+          </h3>
           {companyContacts && companyContacts.length > 0 ? (
             <div
               className={styles.companyList}
@@ -399,7 +406,7 @@ export default class BdbDetail extends Component<Props, State> {
               {!company.files || company.files.length === 0 ? (
                 <i>Ingen filer.</i>
               ) : (
-                company.files.map(file => (
+                company.files.map((file) => (
                   <li key={file.id}>
                     <a href={file.file}>{truncateString(file.file, 100)}</a>
                   </li>

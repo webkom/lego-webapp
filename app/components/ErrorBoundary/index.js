@@ -10,18 +10,18 @@ type Props = {
   children: any,
   hidden?: boolean,
   /* Reset error when this prop changes */
-  resetOnChange?: any
+  resetOnChange?: any,
 };
 
 type State = {
   error: ?Error,
-  lastEventId: ?string
+  lastEventId: ?string,
 };
 
 class ErrorBoundary extends React.Component<Props, State> {
   state = {
     error: null,
-    lastEventId: null
+    lastEventId: null,
   };
 
   openDialog = () => {
@@ -32,7 +32,7 @@ class ErrorBoundary extends React.Component<Props, State> {
         title: 'Det skjedde en feil :(',
         subtitle: 'Webkom har fått beskjed.',
         subtitle2:
-          'Gjerne beskriv hva som skjedde, så kan vi fikse problemet kjappere.'
+          'Gjerne beskriv hva som skjedde, så kan vi fikse problemet kjappere.',
       });
   };
 
@@ -47,7 +47,7 @@ class ErrorBoundary extends React.Component<Props, State> {
 
   componentDidCatch(error: Error, errorInfo: Object) {
     this.setState({ error });
-    Sentry.withScope(scope => {
+    Sentry.withScope((scope) => {
       scope.setExtras(errorInfo);
       const lastEventId = Sentry.captureException(error);
       this.setState({ lastEventId }, () => {
@@ -60,7 +60,7 @@ class ErrorBoundary extends React.Component<Props, State> {
     const { openReportDialog, hidden = false, children, ...rest } = this.props;
 
     if (!this.state.error) {
-      return React.Children.map(children, child =>
+      return React.Children.map(children, (child) =>
         React.cloneElement(child, { ...rest })
       );
     }

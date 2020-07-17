@@ -15,7 +15,7 @@ const eventStatus = (
     totalCapacity,
     activationTime,
     isAdmitted,
-    eventStatusType
+    eventStatusType,
   } = event;
 
   const future = moment().isBefore(activationTime);
@@ -56,7 +56,7 @@ const eventAttendance = (event: Event) => {
     registrationCount,
     totalCapacity,
     activationTime,
-    isAdmitted
+    isAdmitted,
   } = event;
 
   if (!isAdmitted && activationTime === null) {

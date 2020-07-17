@@ -14,17 +14,17 @@ type EntityReducerOptions = {
   types: {
     fetch?: EntityReducerTypes,
     mutate?: EntityReducerTypes,
-    delete?: EntityReducerTypes
+    delete?: EntityReducerTypes,
   },
   mutate?: Reducer,
-  initialState?: Object
+  initialState?: Object,
 };
 
 const defaultState = {
   actionGrant: [],
   pagination: {},
   byId: {},
-  items: []
+  items: [],
 };
 
 const toArray = <T>(value: ?(T | Array<T>)) => {
@@ -34,7 +34,7 @@ const toArray = <T>(value: ?(T | Array<T>)) => {
   return isArray(value) ? value : [value];
 };
 
-const isNumber = id => !isNaN(Number(id)) && !isNaN(parseInt(id, 10));
+const isNumber = (id) => !isNaN(Number(id)) && !isNaN(parseInt(id, 10));
 
 export function fetching(fetchTypes: ?EntityReducerTypes) {
   return (state: any = { fetching: false }, action: any) => {
@@ -69,7 +69,7 @@ export function createAndUpdateEntities(
      */
     let resultIds = primaryKey
       ? get(action, ['payload', 'result'], [])
-      : Object.keys(result).map(i => (isNumber(i) ? parseInt(i, 10) : i));
+      : Object.keys(result).map((i) => (isNumber(i) ? parseInt(i, 10) : i));
 
     const actionGrant =
       primaryKey && isArray(resultIds)
@@ -83,7 +83,9 @@ export function createAndUpdateEntities(
     if (
       isEmpty(result) &&
       !isEmpty(actionGrant) &&
-      !toArray(fetchTypes).some(fetchType => action.type === fetchType.SUCCESS)
+      !toArray(fetchTypes).some(
+        (fetchType) => action.type === fetchType.SUCCESS
+      )
     ) {
       return state;
     }
@@ -95,8 +97,8 @@ export function createAndUpdateEntities(
         ...state.pagination,
         [queryString]: {
           queryString,
-          nextPage: action.payload.next
-        }
+          nextPage: action.payload.next,
+        },
       };
     }
     return {
@@ -104,7 +106,7 @@ export function createAndUpdateEntities(
       byId: mergeObjects(state.byId, result),
       items: union(state.items, resultIds),
       actionGrant: union(state.actionGrant, actionGrant),
-      pagination
+      pagination,
     };
   };
 }
@@ -118,7 +120,7 @@ export function deleteEntities(deleteTypes: ?EntityReducerTypes) {
   return (state: any = defaultState, action: any) => {
     if (
       !toArray(deleteTypes).some(
-        deleteType => action.type === deleteType.SUCCESS
+        (deleteType) => action.type === deleteType.SUCCESS
       )
     ) {
       return state;
@@ -135,7 +137,7 @@ export function deleteEntities(deleteTypes: ?EntityReducerTypes) {
         ...(isNumber(resultId)
           ? [Number(resultId), resultId.toString()]
           : [resultId])
-      )
+      ),
     };
   };
 }
@@ -143,7 +145,7 @@ export function deleteEntities(deleteTypes: ?EntityReducerTypes) {
 export function optimistic(mutateTypes: ?EntityReducerTypes) {
   return (state: any, action: any) => {
     if (
-      !toArray(mutateTypes).some(mutateType =>
+      !toArray(mutateTypes).some((mutateType) =>
         [mutateType.FAILURE, mutateType.SUCCESS].includes(action.type)
       )
     ) {
@@ -156,7 +158,7 @@ export function optimistic(mutateTypes: ?EntityReducerTypes) {
 
     return {
       ...state,
-      items: state.items.filter(item => item !== action.meta.optimisticId)
+      items: state.items.filter((item) => item !== action.meta.optimisticId),
     };
   };
 }
@@ -165,7 +167,9 @@ export function optimistic(mutateTypes: ?EntityReducerTypes) {
 export function paginationReducer(fetchTypes: ?EntityReducerTypes) {
   return (state: any, action: any) => {
     if (
-      !toArray(fetchTypes).some(fetchType => action.type === fetchType.SUCCESS)
+      !toArray(fetchTypes).some(
+        (fetchType) => action.type === fetchType.SUCCESS
+      )
     ) {
       return state;
     }
@@ -188,9 +192,9 @@ export function paginationReducer(fetchTypes: ?EntityReducerTypes) {
           [paginationKey]: {
             ...state.pagination[paginationKey],
             next: parsedNext,
-            hasMore
-          }
-        }
+            hasMore,
+          },
+        },
       };
     }
 
@@ -199,8 +203,8 @@ export function paginationReducer(fetchTypes: ?EntityReducerTypes) {
       hasMore,
       pagination: {
         ...state.pagination,
-        next: parsedNext
-      }
+        next: parsedNext,
+      },
     };
   };
 }
@@ -211,7 +215,7 @@ export default function createEntityReducer({
   key,
   types,
   mutate,
-  initialState = {}
+  initialState = {},
 }: EntityReducerOptions) {
   const finalInitialState = {
     actionGrant: [],
@@ -220,7 +224,7 @@ export default function createEntityReducer({
     items: [],
     hasMore: false,
     fetching: false,
-    ...initialState
+    ...initialState,
   };
 
   const { fetch: fetchTypes, delete: deleteTypes, mutate: mutateTypes } = types;

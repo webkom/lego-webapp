@@ -12,8 +12,8 @@ type Props = {
   newPicutureStatus: number,
   onDeselect: () => void,
   onUpdateGalleryCover: () => void,
-  onTogglePicturesStatus: boolean => void,
-  onDeletePictures: () => void
+  onTogglePicturesStatus: (boolean) => void,
+  onDeletePictures: () => void,
 };
 
 const GalleryEditorActions = ({
@@ -22,7 +22,7 @@ const GalleryEditorActions = ({
   onDeselect,
   onTogglePicturesStatus,
   onDeletePictures,
-  newPicutureStatus
+  newPicutureStatus,
 }: Props) => (
   <Collapse isOpened={selectedCount > 0}>
     <Sticky enabled={selectedCount > 0} innerZ={10} top={0}>

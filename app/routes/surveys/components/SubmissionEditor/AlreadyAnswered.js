@@ -10,7 +10,7 @@ import styles from '../surveys.css';
 
 type Props = {
   survey: SurveyEntity,
-  submission: SubmissionEntity
+  submission: SubmissionEntity,
 };
 
 class AlreadyAnswered extends Component<Props> {

@@ -10,8 +10,8 @@ export function fetchMeta(): Thunk<*> {
     useCache: false,
     endpoint: '/site-meta/',
     meta: {
-      errorMessage: 'Noe gikk galt med innlastingen av sida'
+      errorMessage: 'Noe gikk galt med innlastingen av sida',
     },
-    propagateError: true
+    propagateError: true,
   });
 }

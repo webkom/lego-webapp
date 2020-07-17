@@ -12,7 +12,7 @@ type Props = {
   exact?: boolean,
   path: string,
   Component: React.ComponentType<Object>,
-  strict?: boolean
+  strict?: boolean,
 };
 
 const RouteWrapper = (props: Props) => {
@@ -22,7 +22,7 @@ const RouteWrapper = (props: Props) => {
       exact={exact}
       path={path}
       strict={strict}
-      render={props => <Component {...passedProps} {...rest} {...props} />}
+      render={(props) => <Component {...passedProps} {...rest} {...props} />}
     />
   );
 };

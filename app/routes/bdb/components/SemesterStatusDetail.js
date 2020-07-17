@@ -5,7 +5,7 @@ import styles from './bdb.css';
 import {
   selectColorCode,
   semesterCodeToName,
-  selectMostProminentStatus
+  selectMostProminentStatus,
 } from '../utils.js';
 import SemesterStatusContent from './SemesterStatusContent';
 import LoadingIndicator from 'app/components/LoadingIndicator';
@@ -22,22 +22,22 @@ const FILE_NAME_LENGTH = 30;
 type Props = {
   semesterStatus: SemesterStatusEntity,
   companyId: number,
-  deleteSemesterStatus: number => Promise<*>,
+  deleteSemesterStatus: (number) => Promise<*>,
   editFunction: (
     semesterStatus: SemesterStatusEntity,
     statusString: CompanySemesterContactedStatus
   ) => Promise<*>,
   addFileToSemester: (string, string, string, Object) => Promise<*>,
-  removeFileFromSemester: (SemesterStatusEntity, string) => Promise<*>
+  removeFileFromSemester: (SemesterStatusEntity, string) => Promise<*>,
 };
 
 type State = {
-  editing: boolean
+  editing: boolean,
 };
 
 export default class SemesterStatusDetail extends Component<Props, State> {
   state = {
-    editing: false
+    editing: false,
   };
 
   deleteSemesterStatus = () =>
@@ -86,13 +86,13 @@ export default class SemesterStatusDetail extends Component<Props, State> {
         >
           <SemesterStatusContent
             semesterStatus={semesterStatus}
-            editFunction={statusCode =>
+            editFunction={(statusCode) =>
               editFunction(semesterStatus, statusCode)
             }
           />
         </td>
 
-        {['contract', 'statistics', 'evaluation'].map(type => (
+        {['contract', 'statistics', 'evaluation'].map((type) => (
           <td key={type}>
             <RenderFile
               semesterStatus={semesterStatus}
@@ -108,8 +108,8 @@ export default class SemesterStatusDetail extends Component<Props, State> {
             <Button
               flat
               onClick={() =>
-                this.setState(state => ({
-                  editing: !state.editing
+                this.setState((state) => ({
+                  editing: !state.editing,
                 }))
               }
             >
@@ -136,9 +136,9 @@ export default class SemesterStatusDetail extends Component<Props, State> {
 type RenderFileProps = {
   semesterStatus: SemesterStatusEntity,
   type: string,
-  removeFile: string => Promise<*>,
+  removeFile: (string) => Promise<*>,
   addFile: (string, string, string) => Promise<*>,
-  editing: boolean
+  editing: boolean,
 };
 
 const RenderFile = (props: RenderFileProps) => {

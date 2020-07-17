@@ -6,19 +6,19 @@ import Flex from 'app/components/Layout/Flex';
 import styles from './RemovePicture.css';
 
 type Props = {
-  removePicture: string => Promise<*>,
-  username: string
+  removePicture: (string) => Promise<*>,
+  username: string,
 };
 
 type State = {
-  selected: boolean
+  selected: boolean,
 };
 
 export default class RemovePicture extends Component<Props, State> {
   constructor() {
     super();
     this.state = {
-      selected: false
+      selected: false,
     };
   }
 

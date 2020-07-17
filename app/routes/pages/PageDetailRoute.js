@@ -7,13 +7,13 @@ import type { Thunk } from 'app/types';
 import {
   fetchPage,
   updatePage,
-  fetchAll as fetchAllPages
+  fetchAll as fetchAllPages,
 } from 'app/actions/PageActions';
 import { fetchAllMemberships } from 'app/actions/GroupActions';
 import { fetchAllWithType, fetchGroup } from 'app/actions/GroupActions';
 import PageDetail, {
   FlatpageRenderer,
-  GroupRenderer
+  GroupRenderer,
 } from './components/PageDetail';
 import LandingPage from './components/LandingPage';
 import {
@@ -23,7 +23,7 @@ import {
   selectCommitteeForPages,
   selectFlatpageForPages,
   selectNotFoundpageForPages,
-  selectInfoPageForPages
+  selectInfoPageForPages,
 } from 'app/reducers/pages';
 import HTTPError from 'app/routes/errors/HTTPError';
 
@@ -33,10 +33,10 @@ const sections: {
     section: string,
     pageSelector: any,
     hierarchySectionSelector: any,
-    PageRenderer: any => React.Node,
+    PageRenderer: (any) => React.Node,
     fetchAll?: () => Thunk<*>,
-    fetchItemActions: Array<(number => Thunk<*>) | (string => Thunk<*>)>
-  }
+    fetchItemActions: Array<((number) => Thunk<*>) | ((string) => Thunk<*>)>,
+  },
 } = {
   generelt: {
     title: 'Generelt',
@@ -45,7 +45,7 @@ const sections: {
     hierarchySectionSelector: selectPagesForHierarchy('generelt'),
     PageRenderer: FlatpageRenderer,
     fetchAll: fetchAllPages,
-    fetchItemActions: [fetchPage]
+    fetchItemActions: [fetchPage],
   },
   bedrifter: {
     title: 'Bedrifter',
@@ -53,7 +53,7 @@ const sections: {
     pageSelector: selectFlatpageForPages,
     hierarchySectionSelector: selectPagesForHierarchy('bedrifter'),
     PageRenderer: FlatpageRenderer,
-    fetchItemActions: [fetchPage]
+    fetchItemActions: [fetchPage],
   },
   arrangementer: {
     title: 'Arrangementer',
@@ -61,7 +61,7 @@ const sections: {
     pageSelector: selectFlatpageForPages,
     hierarchySectionSelector: selectPagesForHierarchy('arrangementer'),
     PageRenderer: FlatpageRenderer,
-    fetchItemActions: [fetchPage]
+    fetchItemActions: [fetchPage],
   },
   komiteer: {
     title: 'Komiteer',
@@ -72,8 +72,8 @@ const sections: {
     fetchAll: () => fetchAllWithType('komite'),
     fetchItemActions: [
       fetchGroup,
-      (groupId: number) => fetchAllMemberships(groupId, true)
-    ]
+      (groupId: number) => fetchAllMemberships(groupId, true),
+    ],
   },
   grupper: {
     title: 'Grupper',
@@ -81,7 +81,7 @@ const sections: {
     pageSelector: selectFlatpageForPages,
     hierarchySectionSelector: selectPagesForHierarchy('grupper'),
     PageRenderer: FlatpageRenderer,
-    fetchItemActions: [fetchPage]
+    fetchItemActions: [fetchPage],
   },
   'info-om-abakus': {
     title: 'Info om Abakus',
@@ -89,15 +89,15 @@ const sections: {
     pageSelector: selectInfoPageForPages,
     hierarchySectionSelector: () => ({ title: 'hehe', items: [] }),
     PageRenderer: LandingPage,
-    fetchItemActions: []
-  }
+    fetchItemActions: [],
+  },
 };
 
-const getSection = sectionName =>
+const getSection = (sectionName) =>
   sections[sectionName] || {
     pageSelector: selectNotFoundpageForPages,
     PageRenderer: HTTPError,
-    fetchItemActions: []
+    fetchItemActions: [],
   };
 
 const loadData = async (props, dispatch) => {
@@ -108,7 +108,7 @@ const loadData = async (props, dispatch) => {
   if (!props.loggedIn) {
     return Promise.all(
       fetchItemActions
-        .map(action => dispatch(action(pageSlug)))
+        .map((action) => dispatch(action(pageSlug)))
         .concat(dispatch(fetchAllPages()))
     );
   }
@@ -119,9 +119,9 @@ const loadData = async (props, dispatch) => {
   }
   return Promise.all(
     Object.keys(sections)
-      .map(key => sections[key].fetchAll)
+      .map((key) => sections[key].fetchAll)
       .filter(Boolean)
-      .map(fetch => dispatch(fetch()))
+      .map((fetch) => dispatch(fetch()))
       .concat(itemActions)
   );
 };
@@ -139,7 +139,7 @@ const mapStateToProps = (state, props) => {
     PageRenderer,
     pageHierarchy,
     pageSlug,
-    currentUrl: props.location.pathname
+    currentUrl: props.location.pathname,
   };
 };
 
@@ -147,8 +147,5 @@ const mapDispatchToProps = { updatePage };
 
 export default compose(
   prepare(loadData, ['match.params.pageSlug']),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )(PageDetail);

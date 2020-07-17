@@ -15,16 +15,16 @@ import Icon from 'app/components/Icon';
 import Tooltip from 'app/components/Tooltip';
 
 type Props = {
-  event: Event
+  event: Event,
 };
 
 type State = {
-  time: string
+  time: string,
 };
 
 class EventItem extends React.Component<Props, State> {
   state = {
-    time: EventItem.generateTime(this.props)
+    time: EventItem.generateTime(this.props),
   };
   interval: IntervalID;
 
@@ -34,15 +34,13 @@ class EventItem extends React.Component<Props, State> {
     const time = now.to(start);
 
     // If it's 1 day left we would like to say 'i morgen' and not 1 day
-    const isTomorrow = moment()
-      .add('1', 'day')
-      .isSame(start, 'day');
+    const isTomorrow = moment().add('1', 'day').isSame(start, 'day');
     return isTomorrow ? 'i morgen' : time;
   }
 
   updateTime(props) {
     this.setState({
-      time: EventItem.generateTime(this.props)
+      time: EventItem.generateTime(this.props),
     });
   }
 
@@ -99,10 +97,10 @@ const Filler = () => (
 );
 
 // Filter for activation
-const hasActivation = event => event.activationTime !== null;
+const hasActivation = (event) => event.activationTime !== null;
 
 // Filter for range
-const inRange = event => {
+const inRange = (event) => {
   const start = moment(event && event.activationTime);
   return (
     // Check that the date is within 3 days
@@ -127,7 +125,7 @@ const NextEvent = (props: { events: Array<Event> }) => {
   return (
     <div className={styles.wrapper}>
       {orderedEvents.length > 0 ? (
-        orderedEvents.map(e => <EventItem key={e.id} event={e} />)
+        orderedEvents.map((e) => <EventItem key={e.id} event={e} />)
       ) : (
         <Filler />
       )}

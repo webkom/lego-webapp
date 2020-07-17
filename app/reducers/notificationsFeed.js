@@ -5,7 +5,7 @@ import produce from 'immer';
 
 const initialState = {
   unreadCount: 0,
-  unseenCount: 0
+  unseenCount: 0,
 };
 
 type State = typeof initialState;

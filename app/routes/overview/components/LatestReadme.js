@@ -9,23 +9,23 @@ import styles from './LatestReadme.css';
 
 type Props = {
   expanded: boolean,
-  readmes: Array<Object>
+  readmes: Array<Object>,
 };
 
 type State = {
-  expanded: boolean
+  expanded: boolean,
 };
 
 class LatestReadme extends Component<Props, State> {
   state = {
-    expanded: this.props.expanded
+    expanded: this.props.expanded,
   };
 
   // eslint-disable-next-line
   componentWillReceiveProps(nextProps: Props) {
     if (nextProps.expanded !== this.state.expanded) {
       this.setState({
-        expanded: nextProps.expanded || false
+        expanded: nextProps.expanded || false,
       });
     }
   }
@@ -33,7 +33,7 @@ class LatestReadme extends Component<Props, State> {
   render() {
     const { expanded } = this.state;
     const toggle = () =>
-      this.setState(state => ({ expanded: !state.expanded }));
+      this.setState((state) => ({ expanded: !state.expanded }));
     const { readmes = [] } = this.props;
 
     return (

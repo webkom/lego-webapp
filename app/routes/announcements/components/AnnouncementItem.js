@@ -10,16 +10,16 @@ import type { ActionGrant, Announcement, ID } from 'app/models';
 
 type Props = {
   announcement: Announcement,
-  sendAnnouncement: ID => Promise<*>,
-  deleteAnnouncement: ID => Promise<*>,
-  actionGrant: ActionGrant
+  sendAnnouncement: (ID) => Promise<*>,
+  deleteAnnouncement: (ID) => Promise<*>,
+  actionGrant: ActionGrant,
 };
 
 const AnnouncementItem = ({
   announcement,
   sendAnnouncement,
   deleteAnnouncement,
-  actionGrant
+  actionGrant,
 }: Props) => {
   return (
     <Flex className={styles.item}>

@@ -4,7 +4,7 @@ import React from 'react';
 import styles from './AddReactionEmoji.css';
 
 type Props = {
-  color: string
+  color: string,
 };
 
 const AddReactionEmoji = ({ color }: Props) => (
@@ -47,7 +47,7 @@ const AddReactionEmoji = ({ color }: Props) => (
 );
 
 AddReactionEmoji.defaultProps = {
-  color: '#6a737d'
+  color: '#6a737d',
 };
 
 export default AddReactionEmoji;

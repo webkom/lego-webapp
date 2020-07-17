@@ -16,7 +16,7 @@ export type CompanyInterestEntity = {
   readme: boolean,
   collaboration: boolean,
   comment: boolean,
-  semesters: Array<CompanySemesterEntity>
+  semesters: Array<CompanySemesterEntity>,
 };
 
 export default createEntityReducer({
@@ -24,29 +24,29 @@ export default createEntityReducer({
   types: {
     fetch: CompanyInterestForm.FETCH_ALL,
     mutate: CompanyInterestForm.CREATE,
-    delete: CompanyInterestForm.DELETE
-  }
+    delete: CompanyInterestForm.DELETE,
+  },
 });
 
 export const selectCompanyInterestList = createSelector(
-  state => state.companyInterest.byId,
-  state => state.companyInterest.items,
+  (state) => state.companyInterest.byId,
+  (state) => state.companyInterest.items,
   (state, props) => props,
   (companyInterestById, companyInterestIds, semesterId) => {
     const companyInterests = companyInterestIds.map(
-      id => companyInterestById[id]
+      (id) => companyInterestById[id]
     );
     if (semesterId === 0) {
       return companyInterests;
     }
-    return companyInterests.filter(companyInterest =>
+    return companyInterests.filter((companyInterest) =>
       companyInterest.semesters.includes(semesterId)
     );
   }
 );
 
 export const selectCompanyInterestById = createSelector(
-  state => state.companyInterest.byId,
+  (state) => state.companyInterest.byId,
   (state, props) => props.companyInterestId,
   (companyInterestById, companyInterestId) =>
     companyInterestById[companyInterestId]

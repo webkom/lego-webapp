@@ -9,13 +9,13 @@ import type { ID } from 'app/models';
 type Props = {
   addReaction: ({
     emoji: string,
-    contentTarget: string
+    contentTarget: string,
   }) => Promise<*>,
   deleteReaction: ({ reactionId: ID, contentTarget: string }) => Promise<*>,
   fetchEmojis: () => Promise<*>,
   fetchingEmojis: boolean,
   emojis: Array<EmojiEntity>,
-  parentEntity: Object
+  parentEntity: Object,
 };
 
 const LegoReactions = (props: Props) => {
@@ -25,21 +25,21 @@ const LegoReactions = (props: Props) => {
     emojis,
     fetchEmojis,
     fetchingEmojis,
-    parentEntity
+    parentEntity,
   } = props;
 
   let mappedEmojis = [];
   if (!fetchingEmojis) {
-    mappedEmojis = emojis.map(emoji => {
+    mappedEmojis = emojis.map((emoji) => {
       const foundReaction =
         parentEntity.reactionsGrouped &&
         parentEntity.reactionsGrouped.find(
-          reaction => emoji.shortCode == reaction.emoji && reaction.hasReacted
+          (reaction) => emoji.shortCode == reaction.emoji && reaction.hasReacted
         );
       return {
         ...emoji,
         hasReacted: !!foundReaction,
-        reactionId: foundReaction ? foundReaction.reactionId : -1
+        reactionId: foundReaction ? foundReaction.reactionId : -1,
       };
     });
   }
@@ -53,7 +53,7 @@ const LegoReactions = (props: Props) => {
       deleteReaction={deleteReaction}
       contentTarget={parentEntity.contentTarget}
     >
-      {parentEntity.reactionsGrouped.map(reaction => {
+      {parentEntity.reactionsGrouped.map((reaction) => {
         return (
           <Reaction
             key={`reaction-${reaction.emoji}`}

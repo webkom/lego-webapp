@@ -17,13 +17,13 @@ type Props = {
   startSem: number,
   query: Object,
   fetching: boolean,
-  navigateThroughTime: Object => void,
+  navigateThroughTime: (Object) => void,
   editChangedStatuses: (
     number,
     number,
     ?number,
     Array<CompanySemesterContactedStatus>
-  ) => ?Promise<*>
+  ) => ?Promise<*>,
 };
 
 export default class CompanyList extends Component<Props> {
@@ -70,7 +70,7 @@ export default class CompanyList extends Component<Props> {
       startYear,
       startSem,
       editChangedStatuses,
-      fetching
+      fetching,
     } = this.props;
 
     /*
@@ -83,28 +83,28 @@ export default class CompanyList extends Component<Props> {
     const HEADER_ITEMS = [
       {
         title: 'Bedrifter',
-        sortLink: 'name'
+        sortLink: 'name',
       },
       {
         title: this.findTitle(0),
-        sortLink: 'sem0'
+        sortLink: 'sem0',
       },
       {
         title: this.findTitle(1),
-        sortLink: 'sem1'
+        sortLink: 'sem1',
       },
       {
         title: this.findTitle(2),
-        sortLink: 'sem2'
+        sortLink: 'sem2',
       },
       {
         title: 'Studentkontakt',
-        sortLink: 'studentContact'
+        sortLink: 'studentContact',
       },
       {
         title: 'Notat',
-        sortLink: 'comment'
-      }
+        sortLink: 'comment',
+      },
     ];
 
     const headers = HEADER_ITEMS.map((item, i) => (

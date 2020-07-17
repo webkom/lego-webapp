@@ -10,9 +10,9 @@ import Button from 'app/components/Button';
 type Props = {
   questionType: string,
   option: string,
-  onChange?: any => void,
+  onChange?: (any) => void,
   index: number,
-  remove?: () => void
+  remove?: () => void,
 };
 
 const RemoveButton = ({ remove }: { remove?: () => void }) =>

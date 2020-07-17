@@ -10,7 +10,7 @@ export type ReactionEntity = {
   emoji: string,
   unicodeString: string,
   count: number,
-  hasReacted: boolean
+  hasReacted: boolean,
 };
 
 export function mutateReactions(forTargetType: string) {
@@ -40,7 +40,7 @@ export function mutateReactions(forTargetType: string) {
             [targetId]: {
               ...state.byId[targetId],
               reactionsGrouped: state.byId[targetId].reactionsGrouped
-                .map(reaction => {
+                .map((reaction) => {
                   if (reaction.emoji !== reactionEmoji) {
                     return reaction;
                   }
@@ -57,12 +57,12 @@ export function mutateReactions(forTargetType: string) {
                         emoji: reactionEmoji,
                         hasReacted: true,
                         reactionId: reactionId,
-                        unicodeString
+                        unicodeString,
                       }
                     : []
-                )
-            }
-          }
+                ),
+            },
+          },
         };
       }
 
@@ -83,7 +83,7 @@ export function mutateReactions(forTargetType: string) {
               ...state.byId[action.meta.id],
               ...state.byId[targetId],
               reactionsGrouped: state.byId[targetId].reactionsGrouped
-                .map(reaction => {
+                .map((reaction) => {
                   if (reaction.reactionId !== reactionId) {
                     return reaction;
                   }
@@ -91,9 +91,9 @@ export function mutateReactions(forTargetType: string) {
                   reaction.hasReacted = false;
                   return reaction;
                 })
-                .filter(reaction => reaction.count !== 0)
-            }
-          }
+                .filter((reaction) => reaction.count !== 0),
+            },
+          },
         };
       }
 
@@ -107,5 +107,5 @@ export function mutateReactions(forTargetType: string) {
 export default createEntityReducer({
   key: 'reactions',
   types: {},
-  mutateReactions
+  mutateReactions,
 });

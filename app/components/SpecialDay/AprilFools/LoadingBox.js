@@ -6,7 +6,7 @@ import styles from './LoadingBox.css';
 import walkingImage from 'app/assets/man_walking.gif';
 
 type Props = {
-  onQueueDone: () => void
+  onQueueDone: () => void,
 };
 
 type State = {
@@ -17,7 +17,7 @@ type State = {
   expectedArrivalDate: moment,
   secondsLeft: number,
   lastUpdateTime: string,
-  queueId: string
+  queueId: string,
 };
 
 class LoadingBox extends React.Component<Props, State> {
@@ -39,14 +39,12 @@ class LoadingBox extends React.Component<Props, State> {
       expectedArrivalDate,
       secondsLeft: Math.floor(initialTimeLeft / 1000),
       lastUpdateTime: initialDate.format('HH:mm:ss'),
-      queueId: LoadingBox.randomString()
+      queueId: LoadingBox.randomString(),
     };
   }
 
   static randomString() {
-    return Math.random()
-      .toString(36)
-      .substring(2, 10);
+    return Math.random().toString(36).substring(2, 10);
   }
 
   updateProgress() {
@@ -89,7 +87,7 @@ class LoadingBox extends React.Component<Props, State> {
       progress,
       usersInQueue,
       secondsLeft: newSecondsLeft,
-      lastUpdateTime: now.format('HH:mm:ss')
+      lastUpdateTime: now.format('HH:mm:ss'),
     });
   }
 
@@ -110,7 +108,7 @@ class LoadingBox extends React.Component<Props, State> {
       expectedArrivalDate,
       secondsLeft,
       lastUpdateTime,
-      queueId
+      queueId,
     } = this.state;
     return (
       <div className={styles.container}>

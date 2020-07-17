@@ -8,7 +8,7 @@ type Link = {|
   title: React.Node,
   url: string,
   admin?: boolean,
-  requireLogin?: boolean
+  requireLogin?: boolean,
 |};
 
 const LINKS: Array<Link> = [
@@ -16,109 +16,109 @@ const LINKS: Array<Link> = [
     key: 'profile',
     requireLogin: true,
     title: 'Profil',
-    url: '/users/me'
+    url: '/users/me',
   },
   {
     key: 'contact',
     requireLogin: true,
     title: 'Kontakt Abakus',
-    url: '/contact'
+    url: '/contact',
   },
   {
     key: 'articles',
     title: 'Artikler',
-    url: '/articles'
+    url: '/articles',
   },
   {
     key: 'events',
     title: 'Arrangementer',
-    url: '/events'
+    url: '/events',
   },
   {
     key: 'aboutUs',
     title: 'Om Abakus',
-    url: '/pages/info-om-abakus'
+    url: '/pages/info-om-abakus',
   },
   {
     key: 'readme',
     title: <ReadmeLogo />,
-    url: 'https://readme.abakus.no'
+    url: 'https://readme.abakus.no',
   },
   {
     key: 'interestGroups',
     title: 'Interessegrupper',
-    url: '/interestgroups'
+    url: '/interestgroups',
   },
   {
     key: 'photos',
     title: 'Bilder',
-    url: '/photos'
+    url: '/photos',
   },
   {
     key: 'meetings',
     title: 'Møter',
-    url: '/meetings'
+    url: '/meetings',
   },
   {
     key: 'quotes',
     title: 'Overhørt',
-    url: '/quotes/?filter=all'
+    url: '/quotes/?filter=all',
   },
   {
     key: 'companies',
     title: 'Bedrifter',
-    url: '/companies'
+    url: '/companies',
   },
   {
     key: 'jobListings',
     title: 'Jobbannonser',
-    url: '/joblistings'
+    url: '/joblistings',
   },
   {
     key: 'tags',
     title: 'Tags',
-    url: '/tags'
+    url: '/tags',
   },
   {
     key: 'podcasts',
     title: 'Podcasts',
-    url: '/podcasts'
+    url: '/podcasts',
   },
   {
     key: 'polls',
     title: 'Avstemninger',
-    url: '/polls'
+    url: '/polls',
   },
   {
     admin: true,
     key: 'announcements',
     title: 'Kunngjøringer',
-    url: '/announcements'
+    url: '/announcements',
   },
   {
     admin: true,
     key: 'bdb',
     title: 'Bedriftsdatabase',
-    url: '/bdb'
+    url: '/bdb',
   },
   {
     admin: true,
     key: 'groups',
     title: 'Grupper',
-    url: '/admin/groups'
+    url: '/admin/groups',
   },
   {
     admin: true,
     key: 'email',
     title: 'E-post',
-    url: '/admin/email'
+    url: '/admin/email',
   },
   {
     admin: true,
     key: 'surveys',
     title: 'Spørreundersøkelser',
-    url: '/surveys'
-  }
+    url: '/surveys',
+  },
 ];
 
 const sortFn = (a, b) => {
@@ -134,8 +134,8 @@ const sortFn = (a, b) => {
   return a.title.localeCompare(b.title);
 };
 
-const SORTED_REGULAR = LINKS.filter(link => !link.admin).sort(sortFn);
-const SORTED_ADMIN = LINKS.filter(link => link.admin).sort(sortFn);
+const SORTED_REGULAR = LINKS.filter((link) => !link.admin).sort(sortFn);
+const SORTED_ADMIN = LINKS.filter((link) => link.admin).sort(sortFn);
 
 type Options = { allowed: Allowed, loggedIn: boolean };
 

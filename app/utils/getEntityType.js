@@ -6,7 +6,7 @@ const entityTypeMappings = {
   'quotes.quote': 'quotes',
   'companies.company': 'companies',
   'meetings.meeting': 'meetings',
-  'gallery.gallerypicture': 'galleryPictures'
+  'gallery.gallerypicture': 'galleryPictures',
 };
 
 type ServerName = $Enum<typeof entityTypeMappings>;

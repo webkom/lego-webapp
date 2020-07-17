@@ -10,7 +10,7 @@ import cx from 'classnames';
 type Props = {
   className?: string,
   onChange?: void,
-  value: string
+  value: string,
 };
 
 class Captcha extends Component<Props> {
@@ -28,7 +28,7 @@ class Captcha extends Component<Props> {
     return (
       <div className={cx(className, styles.captchaContainer)}>
         <ReCAPTCHA
-          ref={ref => {
+          ref={(ref) => {
             this.captcha = ref;
           }}
           sitekey={config.captchaKey}

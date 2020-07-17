@@ -8,12 +8,12 @@ import { createValidator, required } from 'app/utils/validation';
 import { navigation } from '../utils';
 
 type Props = {
-  addQuotes: Object => Promise<*>,
+  addQuotes: (Object) => Promise<*>,
   invalid: boolean,
   pristine: boolean,
   submitting: boolean,
   handleSubmit: ((Object) => Promise<*>) => void,
-  actionGrant: Array<string>
+  actionGrant: Array<string>,
 };
 
 const AddQuote = ({
@@ -22,7 +22,7 @@ const AddQuote = ({
   pristine,
   submitting,
   handleSubmit,
-  actionGrant
+  actionGrant,
 }: Props) => {
   const disabledButton = invalid || pristine || submitting;
 
@@ -64,10 +64,10 @@ const AddQuote = ({
 
 const validate = createValidator({
   text: [required()],
-  source: [required()]
+  source: [required()],
 });
 
 export default reduxForm({
   form: 'addQuote',
-  validate
+  validate,
 })(AddQuote);

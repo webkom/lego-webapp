@@ -7,7 +7,7 @@ import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 
 const mapStateToProps = (state, props) => {
   return {
-    actionGrant: state.quotes.actionGrant
+    actionGrant: state.quotes.actionGrant,
   };
 };
 
@@ -15,8 +15,5 @@ const mapDispatchToProps = { addQuotes };
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )(AddQuote);

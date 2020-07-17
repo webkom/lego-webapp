@@ -9,7 +9,7 @@ import { Flex } from 'app/components/Layout';
 import { Year, jobType, Workplaces } from './Items';
 
 type JobListingItemProps = {
-  joblisting: /*TODO: JobListing*/ Object
+  joblisting: /*TODO: JobListing*/ Object,
 };
 
 function JoblistingItem({ joblisting }: JobListingItemProps) {
@@ -58,7 +58,7 @@ function JoblistingItem({ joblisting }: JobListingItemProps) {
 }
 
 type JobListingsItemProps = {
-  joblistings: /*TODO: JobListings*/ Array<Object>
+  joblistings: /*TODO: JobListings*/ Array<Object>,
 };
 
 const JoblistingsList = ({ joblistings }: JobListingsItemProps) => (
@@ -67,7 +67,7 @@ const JoblistingsList = ({ joblistings }: JobListingsItemProps) => (
       <h2 className={styles.headingText}>Jobbannonser</h2>
       <h4 className={styles.headingDeadline}>Søknadsfrist:</h4>
     </Flex>
-    {joblistings.map(joblisting => (
+    {joblistings.map((joblisting) => (
       <JoblistingItem key={joblisting.id} joblisting={joblisting} />
     ))}
   </Flex>

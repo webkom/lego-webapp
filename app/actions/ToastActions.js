@@ -6,8 +6,8 @@ export function removeToast({ id }: { id: number }) {
   return {
     type: Toasts.TOAST_REMOVED,
     payload: {
-      id
-    }
+      id,
+    },
   };
 }
 
@@ -26,7 +26,7 @@ export function addToast({
       message,
       action,
       dismissAfter,
-      ...rest
-    }
+      ...rest,
+    },
   };
 }

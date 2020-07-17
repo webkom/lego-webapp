@@ -16,17 +16,17 @@ type Props = {
   handleVote: (pollId: number, optionId: number) => Promise<*>,
   backgroundLight?: boolean,
   truncate?: number,
-  details?: boolean
+  details?: boolean,
 };
 
 type State = {
   truncateOptions: boolean,
   shuffledOptions: Array<OptionEntityRatio>,
-  expanded: boolean
+  expanded: boolean,
 };
 
 type OptionEntityRatio = OptionEntity & {
-  ratio: number
+  ratio: number,
 };
 
 class Poll extends React.Component<Props, State> {
@@ -38,26 +38,26 @@ class Poll extends React.Component<Props, State> {
       this.state = {
         truncateOptions: true,
         shuffledOptions: shuffledOptions,
-        expanded: false
+        expanded: false,
       };
     } else {
       this.state = {
         truncateOptions: false,
         shuffledOptions: shuffledOptions,
-        expanded: true
+        expanded: true,
       };
     }
   }
 
   toggleTruncate = () => {
     this.setState({
-      expanded: !this.state.expanded
+      expanded: !this.state.expanded,
     });
   };
 
   optionsWithPerfectRatios = (options: Array<OptionEntity>) => {
     const totalVotes = options.reduce((a, option) => a + option.votes, 0);
-    const ratios = options.map(option => {
+    const ratios = options.map((option) => {
       return { ...option, ratio: (option.votes / totalVotes) * 100 };
     });
     return this.perfectRatios(ratios);
@@ -67,11 +67,11 @@ class Poll extends React.Component<Props, State> {
   perfectRatios = (options: Array<OptionEntityRatio>) => {
     const off =
       100 - options.reduce((a, option) => a + Math.floor(option.ratio), 0);
-    return sortBy(options, o => Math.floor(o.ratio) - o.ratio)
+    return sortBy(options, (o) => Math.floor(o.ratio) - o.ratio)
       .map((option, index) => {
         return {
           ...option,
-          ratio: Math.floor(option.ratio) + (index < off ? 1 : 0)
+          ratio: Math.floor(option.ratio) + (index < off ? 1 : 0),
         };
       })
       .sort((a, b) => b.ratio - a.ratio);
@@ -133,7 +133,7 @@ class Poll extends React.Component<Props, State> {
                           <div className={styles.fullGraph}>
                             <div
                               style={{
-                                width: `${ratio}%`
+                                width: `${ratio}%`,
                               }}
                             >
                               <div className={styles.pollGraph}>
@@ -173,7 +173,7 @@ class Poll extends React.Component<Props, State> {
               </Flex>
             )}
             {options &&
-              optionsToShow.map(option => (
+              optionsToShow.map((option) => (
                 <Flex
                   className={cx(
                     styles.alignItems,

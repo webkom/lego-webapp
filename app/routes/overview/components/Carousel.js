@@ -6,26 +6,26 @@ import styles from './Carousel.css';
 type MenuItem = {
   item: Object,
   isActive: boolean,
-  onClick: () => void
+  onClick: () => void,
 };
 
 type Props = {
   items: Array<Object>,
-  renderMenuItem: MenuItem => Node,
-  renderContent: Object => Node
+  renderMenuItem: (MenuItem) => Node,
+  renderContent: (Object) => Node,
 };
 
 type State = {
-  selectedIndex: number
+  selectedIndex: number,
 };
 
 class Carousel extends Component<Props, State> {
   state = {
-    selectedIndex: 0
+    selectedIndex: 0,
   };
 
   static defaultProps = {
-    renderMenuItem: () => <div />
+    renderMenuItem: () => <div />,
   };
 
   render() {
@@ -37,7 +37,7 @@ class Carousel extends Component<Props, State> {
             renderMenuItem({
               item,
               isActive: this.state.selectedIndex === index,
-              onClick: () => this.setState({ selectedIndex: index })
+              onClick: () => this.setState({ selectedIndex: index }),
             })
           )}
         </div>

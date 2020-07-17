@@ -9,26 +9,26 @@ import styles from './PodcastList.css';
 
 type Props = {
   podcasts: Array<Object>,
-  actionGrant: Array<String>
+  actionGrant: Array<String>,
 };
 
 type State = {
-  items: number
+  items: number,
 };
 
 class PodcastList extends Component<Props, State> {
   state = {
-    items: 5
+    items: 5,
   };
 
   showMore = () => {
-    this.setState(state => ({ items: state.items + 5 }));
+    this.setState((state) => ({ items: state.items + 5 }));
   };
 
   render() {
     const { podcasts, actionGrant } = this.props;
     const elements = podcasts
-      .map(podcast => {
+      .map((podcast) => {
         return (
           <Podcast key={podcast.id} {...podcast} actionGrant={actionGrant} />
         );

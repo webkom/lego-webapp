@@ -11,7 +11,7 @@ export type GalleryEntity = {
   description: string,
   text?: string,
   comments?: Array<number>,
-  cover?: Object
+  cover?: Object,
 };
 
 function mutate(state: any, action: any) {
@@ -19,19 +19,19 @@ function mutate(state: any, action: any) {
     case Gallery.UPLOAD.BEGIN: {
       return {
         ...state,
-        fetching: true
+        fetching: true,
       };
     }
     case Gallery.UPLOAD.FAILURE: {
       return {
         ...state,
-        fetching: false
+        fetching: false,
       };
     }
     case Gallery.UPLOAD.SUCCESS: {
       return {
         ...state,
-        fetching: false
+        fetching: false,
       };
     }
     default:
@@ -43,14 +43,14 @@ export default createEntityReducer({
   key: 'galleries',
   mutate,
   types: {
-    fetch: Gallery.FETCH
-  }
+    fetch: Gallery.FETCH,
+  },
 });
 
-const transformGallery = gallery => {
+const transformGallery = (gallery) => {
   if (!gallery) {
     return {
-      photographers: []
+      photographers: [],
     };
   }
 
@@ -58,31 +58,31 @@ const transformGallery = gallery => {
     ...gallery,
     cover: gallery.cover || {
       file: defaultAlbumCover,
-      thumbnail: defaultAlbumCover
-    }
+      thumbnail: defaultAlbumCover,
+    },
   };
 };
 
 export const selectGalleries = createSelector(
-  state => state.galleries.byId,
-  state => state.galleries.items,
+  (state) => state.galleries.byId,
+  (state) => state.galleries.items,
   (galleriesById, galleryIds) =>
-    galleryIds.map(id => transformGallery(galleriesById[id]))
+    galleryIds.map((id) => transformGallery(galleriesById[id]))
 );
 
 export const selectGalleryById = createSelector(
-  state => state.galleries.byId,
+  (state) => state.galleries.byId,
   (state, props) => props.galleryId,
   (galleriesById, galleryId) => transformGallery(galleriesById[galleryId])
 );
 
 export const selectPicturesForGallery = createSelector(
   selectGalleryById,
-  state => state.pictures.byId,
+  (state) => state.pictures.byId,
   (gallery, picturesById) => {
     if (!gallery) return [];
 
     // $FlowFixMe
-    return (gallery.pictures || []).map(pictureId => picturesById[pictureId]);
+    return (gallery.pictures || []).map((pictureId) => picturesById[pictureId]);
   }
 );

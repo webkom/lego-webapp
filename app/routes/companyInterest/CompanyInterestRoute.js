@@ -6,7 +6,7 @@ import { compose } from 'redux';
 import { push } from 'connected-react-router';
 import CompanyInterestPage, {
   EVENT_TYPES,
-  OTHER_TYPES
+  OTHER_TYPES,
 } from './components/CompanyInterestPage';
 import { selectCompanySemestersForInterestForm } from 'app/reducers/companySemesters';
 import prepare from 'app/utils/prepare';
@@ -20,7 +20,7 @@ const mapStateToProps = (state, props) => {
   const { pathname } = props.location;
   if (!semesters) {
     return {
-      edit: false
+      edit: false,
     };
   }
   const allEvents = Object.keys(EVENT_TYPES);
@@ -31,30 +31,27 @@ const mapStateToProps = (state, props) => {
   return {
     allowedBdb,
     initialValues: {
-      events: allEvents.map(event => ({
+      events: allEvents.map((event) => ({
         name: event,
-        checked: false
+        checked: false,
       })),
-      otherOffers: allOtherOffers.map(offer => ({
+      otherOffers: allOtherOffers.map((offer) => ({
         name: offer,
-        checked: false
+        checked: false,
       })),
-      semesters: semesters.sort(sortSemesterChronologically)
+      semesters: semesters.sort(sortSemesterChronologically),
     },
     edit: false,
-    language
+    language,
   };
 };
 
 const mapDispatchToProps = {
   push,
-  onSubmit: createCompanyInterest
+  onSubmit: createCompanyInterest,
 };
 
 export default compose(
   prepare(loadSemesters),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )(CompanyInterestPage);

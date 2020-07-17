@@ -8,7 +8,7 @@ import {
   setInvitationStatus,
   deleteMeeting,
   answerMeetingInvitation,
-  resetMeetingsToken
+  resetMeetingsToken,
 } from 'app/actions/MeetingActions';
 import MeetingDetailLoginRoute from './MeetingDetailLoginRoute';
 import MeetingAnswer from './components/MeetingAnswer';
@@ -21,8 +21,8 @@ const loadMeeting = (
   {
     loggedIn,
     match: {
-      params: { meetingId }
-    }
+      params: { meetingId },
+    },
   },
   dispatch
 ) => (loggedIn ? dispatch(fetchMeeting(meetingId)) : Promise.resolve());
@@ -44,9 +44,9 @@ const loadData = (props, dispatch) => {
 const mapStateToProps = (state, props) => {
   const {
     match: {
-      params: { meetingId }
+      params: { meetingId },
     },
-    currentUser
+    currentUser,
   } = props;
   const search = qs.parse(props.location.search, { ignoreQueryPrefix: true });
   const { action, token } = search;
@@ -60,7 +60,7 @@ const mapStateToProps = (state, props) => {
     user: props.currentUser,
     showAnswer,
     meeting,
-    currentUser
+    currentUser,
   };
 };
 
@@ -68,7 +68,7 @@ type Props = {
   loggedIn: boolean,
   meetingsToken: Object,
   router: any,
-  resetMeetingsToken: () => void
+  resetMeetingsToken: () => void,
 };
 
 const MeetingComponent = (props: Props) => {
@@ -90,13 +90,10 @@ const mapDispatchToProps = {
   setInvitationStatus,
   deleteMeeting,
   resetMeetingsToken,
-  deleteComment
+  deleteComment,
 };
 
 export default compose(
   prepare(loadData, ['match.params.meetingId', 'loggedIn']),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )(MeetingComponent);

@@ -10,7 +10,7 @@ import {
   TextInput,
   RadioButtonGroup,
   RadioButton,
-  legoForm
+  legoForm,
 } from 'app/components/Form';
 import { FlexRow } from 'app/components/FlexBox';
 import UserImage from './UserImage';
@@ -22,17 +22,17 @@ import RemovePicture from 'app/routes/users/components/RemovePicture';
 export type PasswordPayload = {
   newPassword: string,
   password: string,
-  retype_new_password: string
+  retype_new_password: string,
 };
 
 type Props = FormProps & {
-  changePassword: PasswordPayload => Promise<void>,
-  updateUser: Object => Promise<void>,
+  changePassword: (PasswordPayload) => Promise<void>,
+  updateUser: (Object) => Promise<void>,
   user: any,
   isMe: boolean,
-  push: string => void,
-  updatePicture: Object => void,
-  removePicture: string => Promise<*>
+  push: (string) => void,
+  updatePicture: (Object) => void,
+  removePicture: (string) => Promise<*>,
 };
 
 const UserSettings = (props: Props) => {
@@ -46,7 +46,7 @@ const UserSettings = (props: Props) => {
     updatePicture,
     removePicture,
     push,
-    user
+    user,
   } = props;
 
   const disabledButton = invalid || pristine || submitting;
@@ -70,7 +70,7 @@ const UserSettings = (props: Props) => {
           readOnly
           component={TextInput.Field}
           props={{
-            disabled: true
+            disabled: true,
           }}
         />
 
@@ -169,12 +169,12 @@ const validate = createValidator({
   firstName: [required()],
   lastName: [required()],
   gender: [required()],
-  email: [required(), isEmail()]
+  email: [required(), isEmail()],
 });
 
 export default legoForm({
   form: 'userSettings',
   validate,
   enableReinitialize: true,
-  onSubmit: (data, dispatch, { updateUser }: Props) => updateUser(data)
+  onSubmit: (data, dispatch, { updateUser }: Props) => updateUser(data),
 })(UserSettings);

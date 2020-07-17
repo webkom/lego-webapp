@@ -13,7 +13,7 @@ type Props = {
   labelStyle?: string,
   value?: boolean,
   inverted?: boolean,
-  className?: string
+  className?: string,
 };
 
 /*

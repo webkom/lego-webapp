@@ -4,7 +4,7 @@ import React from 'react';
 import styles from './ReactionPickerFooter.css';
 
 type Props = {
-  onSearch: (searchString: string) => void
+  onSearch: (searchString: string) => void,
 };
 
 const ReactionPickerFooter = ({ onSearch }: Props) => (
@@ -12,21 +12,21 @@ const ReactionPickerFooter = ({ onSearch }: Props) => (
     {[
       {
         style: styles.reactionPickerSearchAutoComplete,
-        autoFocus: true
+        autoFocus: true,
       },
       {
         style: styles.reactionPickerSearchNormal,
-        autoFocus: false
-      }
-    ].map(k => {
+        autoFocus: false,
+      },
+    ].map((k) => {
       return (
         <input
           key={`reaction-search-autofocus-${k.autoFocus ? 'on' : 'off'}`}
           className={k.style}
-          onInput={e => onSearch(e.target.value)}
+          onInput={(e) => onSearch(e.target.value)}
           placeholder="Søk..."
           maxLength="15"
-          ref={input => input && k.autoFocus && input.focus()}
+          ref={(input) => input && k.autoFocus && input.focus()}
         />
       );
     })}

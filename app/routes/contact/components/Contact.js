@@ -14,7 +14,7 @@ type Props = {
   reset: (form?: string) => void,
   change: (field: string, value: boolean) => void,
   loggedIn: boolean,
-  groups: Array<Group>
+  groups: Array<Group>,
 } & FormProps;
 
 const Contact = (props: Props) => {

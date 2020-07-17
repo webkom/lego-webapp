@@ -1,4 +1,9 @@
-import { field, fieldError, selectField } from '../support/utils.js';
+import {
+  field,
+  fieldError,
+  selectField,
+  selectEditor,
+} from '../support/utils.js';
 
 describe('Create joblisting', () => {
   beforeEach(() => {
@@ -23,18 +28,21 @@ describe('Create joblisting', () => {
       .should('not.contain', 'No results')
       .and('contain', 'BEKK');
     cy.focused().type('{enter}', { force: true });
-    cy.get('div[name="description"]').click();
-    cy.get('div[name="text"]').click();
+
+    // TODO sometimes there is an issue in the joblisting editor where you have to click
+    // the top editor twice. Not a breaking bug.
+    selectEditor('description').editorType('A joblisting description');
+    selectEditor('text').editorType('Joblisting text');
 
     cy.contains('button', 'Lagre').should('not.be.disabled');
 
     //TODO: når du fyller ut og så fjerner teksten igjen så skal det ikke funke.
-    //cy.get('div[name="description"]').clear();
+    //cy.get('div[data-slate-editor="true"]')
+    //.first()
+    //.clear();
     //cy.contains('button', 'Lagre').should('be.disabled');
 
-    cy.contains('button', 'Lagre')
-      .should('not.be.disabled')
-      .click();
+    cy.contains('button', 'Lagre').should('not.be.disabled').click();
     //TODO: check new url
     cy.contains('h2', 'Sommerjobb hos BEKK');
   });

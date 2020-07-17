@@ -11,15 +11,15 @@ import qs from 'qs';
 
 const mapStateToProps = (state, props) => ({
   articles: selectArticlesByTag(state, {
-    tag: qs.parse(props.location.search, { ignoreQueryPrefix: true }).tag
-  }).map(article => ({
+    tag: qs.parse(props.location.search, { ignoreQueryPrefix: true }).tag,
+  }).map((article) => ({
     ...article,
-    author: selectUserById(state, { userId: article.author })
+    author: selectUserById(state, { userId: article.author }),
   })),
   fetching: state.articles.fetching,
   hasMore: state.articles.hasMore,
   tags: selectPopularTags(state),
-  actionGrant: state.articles.actionGrant
+  actionGrant: state.articles.actionGrant,
 });
 
 const mapDispatchToProps = { fetchAll, fetchPopular };
@@ -31,16 +31,13 @@ export default compose(
         dispatch(
           fetchAll({
             tag: qs.parse(props.location.search, { ignoreQueryPrefix: true })
-              .tag
+              .tag,
           })
         ),
-        dispatch(fetchPopular())
+        dispatch(fetchPopular()),
       ]);
     },
     ['location.search']
   ),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )(Overview);

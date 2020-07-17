@@ -14,17 +14,17 @@ module.exports = () => ({
   context: root,
   mode: 'development',
   entry: {
-    vendors: pullAll(vendors, dllConfig.exclude)
+    vendors: pullAll(vendors, dllConfig.exclude),
   },
   output: {
     filename: '[name].dll.js',
     path: outputPath,
-    library: '[name]'
+    library: '[name]',
   },
   plugins: [
     new webpack.DllPlugin({
       name: '[name]',
-      path: path.join(outputPath, '[name].json')
-    })
-  ]
+      path: path.join(outputPath, '[name].json'),
+    }),
+  ],
 });

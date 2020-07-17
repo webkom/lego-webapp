@@ -17,7 +17,7 @@ type Props = {
   weekOffset: number,
   date: moment,
   icalToken: IcalToken,
-  actionGrant: ActionGrant
+  actionGrant: ActionGrant,
 };
 
 function pathForPrevMonth(date: moment) {
@@ -32,7 +32,7 @@ function pathForNextMonth(date: moment) {
 
 export default class Calendar extends Component<Props> {
   static defaultProps = {
-    weekOffset: 0
+    weekOffset: 0,
   };
 
   render() {
@@ -50,7 +50,7 @@ export default class Calendar extends Component<Props> {
         </h2>
 
         <div className={styles.grid}>
-          {WEEKDAYS.map(d => (
+          {WEEKDAYS.map((d) => (
             <div key={d} className={styles.headingItem}>
               {d}
             </div>

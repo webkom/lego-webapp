@@ -11,27 +11,28 @@ const UserGrid = ({
   size = 56,
   maxRows = 2,
   minRows = 0,
-  padding = 3
+  padding = 3,
 }: {
   users: Array<User>,
   /* profile picture size */
   size?: number,
   maxRows?: number,
   minRows?: number,
-  padding?: number
+  padding?: number,
 }) => (
   <div
     style={{
       display: 'grid',
-      gridTemplateColumns: `repeat(auto-fill, minmax(${size +
-        padding}px, 1fr))`,
+      gridTemplateColumns: `repeat(auto-fill, minmax(${
+        size + padding
+      }px, 1fr))`,
       gridTemplateRows: size + padding,
       overflow: 'hidden',
       minHeight: minRows * size + (minRows - 1) * padding,
-      maxHeight: maxRows * size + (maxRows - 1) * padding
+      maxHeight: maxRows * size + (maxRows - 1) * padding,
     }}
   >
-    {users.map(user => (
+    {users.map((user) => (
       <RegisteredCell key={user.id} user={user} />
     ))}
   </div>

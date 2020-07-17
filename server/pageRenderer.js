@@ -8,8 +8,6 @@ import type { State } from '../app/types';
 import { selectCurrentUser } from 'app/reducers/auth';
 import { isEmpty } from 'lodash';
 
-import 'source-map-support/register';
-
 import manifest from '../app/assets/manifest.json';
 
 let cachedAssets;
@@ -25,15 +23,15 @@ function retrieveAssets() {
 
     const styles = [appStyles && appStyles.css]
       .filter(Boolean)
-      .map(css => `<link rel="stylesheet" href="${css}">`)
+      .map((css) => `<link rel="stylesheet" href="${css}">`)
       .join('\n');
     const scripts = [
       vendor && vendor.js,
       app && app.js,
-      appStyles && appStyles.js
+      appStyles && appStyles.js,
     ]
       .filter(Boolean)
-      .map(js => `<script src="${js}"></script>`)
+      .map((js) => `<script src="${js}"></script>`)
       .join('\n');
 
     cachedAssets = { scripts, styles };
@@ -47,14 +45,14 @@ const dllPlugin = __DEV__ ? '<script src="/vendors.dll.js"></script>' : '';
 export type PageRendererProps = {
   body: string,
   state: State | {||},
-  helmet: *
+  helmet: *,
 };
 
 export default function pageRenderer({
   body = '',
   // $FlowFixMe / $TsPlsFix
   state = {},
-  helmet
+  helmet,
 }: PageRendererProps = {}) {
   const { scripts, styles } = retrieveAssets();
   const isSSR = body === '' ? 'false' : 'true';

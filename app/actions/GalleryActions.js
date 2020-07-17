@@ -8,7 +8,7 @@ import type { Thunk } from 'app/types';
 
 export function fetch({
   next,
-  filters
+  filters,
 }: { next: boolean, filters: Object } = {}): Thunk<*> {
   return (dispatch, getState) => {
     const cursor = next ? getState().galleries.pagination.next : {};
@@ -20,13 +20,13 @@ export function fetch({
         useCache: false,
         query: {
           ...cursor,
-          ...filters
+          ...filters,
         },
         schema: [gallerySchema],
         meta: {
-          errorMessage: 'Henting av bilder feilet'
+          errorMessage: 'Henting av bilder feilet',
         },
-        propagateError: false
+        propagateError: false,
       })
     );
   };
@@ -38,9 +38,9 @@ export function fetchGallery(galleryId: EntityID) {
     endpoint: `/galleries/${galleryId}/`,
     schema: gallerySchema,
     meta: {
-      errorMessage: 'Henting av galleri feilet'
+      errorMessage: 'Henting av galleri feilet',
     },
-    propagateError: false
+    propagateError: false,
   });
 }
 
@@ -50,7 +50,7 @@ export function fetchGalleryMetadata(galleryId: EntityID) {
     endpoint: `/galleries/${galleryId}/metadata/`,
     schema: gallerySchema,
     meta: {},
-    propagateError: true
+    propagateError: true,
   });
 }
 
@@ -62,8 +62,8 @@ export function createGallery(gallery: GalleryEntity) {
     schema: gallerySchema,
     body: gallery,
     meta: {
-      errorMessage: 'Opprettelse av galleri feilet'
-    }
+      errorMessage: 'Opprettelse av galleri feilet',
+    },
   });
 }
 
@@ -75,8 +75,8 @@ export function updateGallery(gallery: GalleryEntity) {
     schema: gallerySchema,
     body: gallery,
     meta: {
-      errorMessage: 'Endring av galleri feilet'
-    }
+      errorMessage: 'Endring av galleri feilet',
+    },
   });
 }
 
@@ -87,11 +87,11 @@ export function updateGalleryCover(id: EntityID, cover: EntityID) {
     method: 'PATCH',
     schema: gallerySchema,
     body: {
-      cover
+      cover,
     },
     meta: {
-      errorMessage: 'Endring av galleri cover feilet'
-    }
+      errorMessage: 'Endring av galleri cover feilet',
+    },
   });
 }
 
@@ -103,7 +103,7 @@ export function deleteGallery(id: EntityID) {
     schema: gallerySchema,
     meta: {
       id,
-      errorMessage: 'Sletting av galleri feilet'
-    }
+      errorMessage: 'Sletting av galleri feilet',
+    },
   });
 }

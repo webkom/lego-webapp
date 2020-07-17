@@ -11,13 +11,13 @@ type Props = {
   title?: Node,
   back?: {
     label: string,
-    path: string
+    path: string,
   },
   details?: Node,
   headerClassName?: string,
   className?: string,
   headerClassName?: string,
-  children?: Node
+  children?: Node,
 };
 
 const NavigationTab = (props: Props) => {

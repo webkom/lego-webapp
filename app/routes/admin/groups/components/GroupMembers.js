@@ -12,41 +12,43 @@ import {
   fetchMemberships,
   fetchMembershipsPagination,
   addMember,
-  removeMember
+  removeMember,
 } from 'app/actions/GroupActions';
 import { selectMembershipsForGroup } from 'app/reducers/memberships';
 import type { AddMemberArgs } from 'app/actions/GroupActions';
 import { get } from 'lodash';
 
 type Props = {
-  group: Object,
+  groupId: number,
   hasMore: boolean,
-  fetch: ({ groupId: string, next: true }) => Promise<*>,
+  fetch: ({ groupId: number, next: true }) => Promise<*>,
   fetching: boolean,
   groupsById: { [string]: { name: string } },
   memberships: Array<Object>,
   showDescendants: boolean,
-  addMember: AddMemberArgs => Promise<*>,
-  removeMember: Object => Promise<*>
+  addMember: (AddMemberArgs) => Promise<*>,
+  removeMember: (Object) => Promise<*>,
 };
 
 export const GroupMembers = ({
   addMember,
   removeMember,
-  group,
+  groupId,
   memberships,
   hasMore,
   fetching,
   showDescendants,
   groupsById,
-  fetch
+  fetch,
 }: Props) => (
   <div className={styles.groupMembers}>
-    {showDescendants || <AddGroupMember addMember={addMember} group={group} />}
+    {showDescendants || (
+      <AddGroupMember addMember={addMember} groupId={groupId} />
+    )}
     <LoadingIndicator loading={!memberships}>
       <h3 className={styles.subTitle}>Brukere</h3>
       <GroupMembersList
-        group={group}
+        groupId={groupId}
         hasMore={hasMore}
         groupsById={groupsById}
         fetch={fetch}
@@ -68,30 +70,28 @@ function mapStateToProps(state, props) {
   const showDescendants = location.search.includes('descendants=true');
   const memberships = selectMembershipsForGroup(state, {
     groupId: props.match.params.groupId,
-    descendants: showDescendants
+    descendants: showDescendants,
   });
 
-  const groupId = props.group && props.group.id;
+  const groupId = props.match.params && props.match.params.groupId;
 
   return {
     memberships,
+    groupId,
     groupsById: state.groups.byId,
     fetching: state.memberships.fetching,
     showDescendants,
-    hasMore: get(state, ['memberships', 'pagination', groupId, 'hasMore'])
+    hasMore: get(state, ['memberships', 'pagination', groupId, 'hasMore']),
   };
 }
 
 const mapDispatchToProps = {
   addMember,
   removeMember,
-  fetch: fetchMembershipsPagination
+  fetch: fetchMembershipsPagination,
 };
 
 export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   prepare(loadData, ['match.params.groupId', 'location'])
 )(GroupMembers);

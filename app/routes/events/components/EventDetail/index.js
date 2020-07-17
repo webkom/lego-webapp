@@ -8,7 +8,7 @@ import JoinEventForm from '../JoinEventForm';
 import RegisteredSummary from '../RegisteredSummary';
 import {
   AttendanceStatus,
-  ModalParentComponent
+  ModalParentComponent,
 } from 'app/components/UserAttendance';
 import Tag from 'app/components/Tags/Tag';
 import moment from 'moment-timezone';
@@ -20,7 +20,7 @@ import {
   eventTypeToString,
   colorForEvent,
   registrationCloseTime,
-  penaltyHours
+  penaltyHours,
 } from '../../utils';
 import Admin from '../Admin';
 import RegistrationMeta from '../RegistrationMeta';
@@ -30,7 +30,7 @@ import {
   ContentHeader,
   ContentSection,
   ContentMain,
-  ContentSidebar
+  ContentSidebar,
 } from 'app/components/Content';
 import { Link } from 'react-router-dom';
 import UserGrid from 'app/components/UserGrid';
@@ -40,13 +40,13 @@ import type {
   EventRegistration,
   Event,
   ActionGrant,
-  AddPenalty
+  AddPenalty,
 } from 'app/models';
 import type { CommentEntity } from 'app/reducers/comments';
 import type { UserEntity } from 'app/reducers/users';
 
 type InterestedButtonProps = {
-  isInterested: boolean
+  isInterested: boolean,
 };
 
 const InterestedButton = ({ isInterested }: InterestedButtonProps) => {
@@ -86,14 +86,14 @@ type Props = {
     eventId: ID,
     captchaResponse: string,
     feedback: string,
-    userId: ID
+    userId: ID,
   }) => Promise<*>,
   follow: (eventId: ID, userId: ID) => Promise<*>,
   unfollow: (eventId: ID, userId: ID) => Promise<*>,
   unregister: ({
     eventId: ID,
     registrationId: ID,
-    userId: ID
+    userId: ID,
   }) => Promise<*>,
   payment: (eventId: ID) => Promise<*>,
   updateFeedback: (
@@ -102,7 +102,7 @@ type Props = {
     feedback: string
   ) => Promise<*>,
   deleteEvent: (eventId: ID) => Promise<*>,
-  deleteComment: (id: ID, contentTarget: string) => Promise<*>
+  deleteComment: (id: ID, contentTarget: string) => Promise<*>,
 };
 
 export default class EventDetail extends Component<Props> {
@@ -113,7 +113,7 @@ export default class EventDetail extends Component<Props> {
       register,
       unregister,
       updateFeedback,
-      currentUser: { id: userId }
+      currentUser: { id: userId },
     } = this.props;
     switch (type) {
       case 'feedback':
@@ -124,14 +124,14 @@ export default class EventDetail extends Component<Props> {
           eventId,
           captchaResponse,
           feedback,
-          userId
+          userId,
         });
         return;
       case 'unregister':
         unregister({
           eventId,
           registrationId: currentRegistration.id,
-          userId
+          userId,
         });
         return;
       default:
@@ -158,7 +158,7 @@ export default class EventDetail extends Component<Props> {
       penalties,
       follow,
       unfollow,
-      deleteComment
+      deleteComment,
     } = this.props;
     if (!event.id) {
       return null;
@@ -185,7 +185,7 @@ export default class EventDetail extends Component<Props> {
           <Link to={`/companies/${event.company.id}`}>
             {event.company.name}
           </Link>
-        )
+        ),
       },
       event.createdBy && {
         key: 'Forfatter',
@@ -193,7 +193,7 @@ export default class EventDetail extends Component<Props> {
           <Link to={`/users/${event.createdBy.username}`}>
             {event.createdBy.fullName}
           </Link>
-        )
+        ),
       },
       event.responsibleGroup && {
         key: 'Arrangør',
@@ -206,37 +206,37 @@ export default class EventDetail extends Component<Props> {
               </a>
             )}
           </span>
-        )
+        ),
       },
       {
         key: 'Hva',
-        value: eventTypeToString(event.eventType)
+        value: eventTypeToString(event.eventType),
       },
       {
         key: 'Når',
-        value: <FromToTime from={event.startTime} to={event.endTime} />
+        value: <FromToTime from={event.startTime} to={event.endTime} />,
       },
       { key: 'Finner sted i', value: event.location },
       event.activationTime
         ? {
             key: 'Påmelding åpner',
-            value: <FormatTime time={eventRegistrationTime} />
+            value: <FormatTime time={eventRegistrationTime} />,
           }
         : null,
       event.registrationDeadlineHours &&
       !['OPEN', 'TBA'].includes(event.eventStatusType)
         ? {
             value: <FormatTime time={registrationCloseTime(event)} />,
-            key: 'Påmelding stenger'
+            key: 'Påmelding stenger',
           }
         : null,
       event.unregistrationDeadline &&
       !['OPEN', 'TBA'].includes(event.eventStatusType)
         ? {
             key: 'Avregistreringsfrist',
-            value: <FormatTime time={event.unregistrationDeadline} />
+            value: <FormatTime time={event.unregistrationDeadline} />,
           }
-        : null
+        : null,
     ];
 
     const paidItems: Array<?{ key: string, value: Node }> = [
@@ -244,9 +244,9 @@ export default class EventDetail extends Component<Props> {
       event.paymentDueDate
         ? {
             key: 'Betalingsfrist',
-            value: <FormatTime time={event.paymentDueDate} />
+            value: <FormatTime time={event.paymentDueDate} />,
           }
-        : null
+        : null,
     ];
 
     return (
@@ -293,7 +293,9 @@ export default class EventDetail extends Component<Props> {
                       <UserGrid
                         minRows={2}
                         maxRows={2}
-                        users={registrations.slice(0, 14).map(reg => reg.user)}
+                        users={registrations
+                          .slice(0, 14)
+                          .map((reg) => reg.user)}
                       />
                       <ModalParentComponent
                         key="modal"

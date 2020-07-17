@@ -70,7 +70,6 @@ const surveysRoute = ({ match }: { match: { path: string } }) => (
                 passedProps={{ currentUser, loggedIn }}
                 Component={SubmissionIndividual}
               />
-              <Route component={PageNotFound} />
             </SubmissionsRoute>
           )}
         </Route>

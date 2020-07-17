@@ -8,20 +8,20 @@ import { debounce } from 'lodash';
 
 type InjectedProps = {
   filter: Array<string>,
-  autocomplete: (query: string, filter?: Array<string>) => Promise<*>
+  autocomplete: (query: string, filter?: Array<string>) => Promise<*>,
 };
 
 type State = {
   searching: boolean,
-  result: Array</*Todo: AutocompleteResult */ Object>
+  result: Array</*Todo: AutocompleteResult */ Object>,
 };
 
 function withAutocomplete<Props>({
   WrappedComponent,
-  retainFailedQuery = false
+  retainFailedQuery = false,
 }: {
   WrappedComponent: ComponentType<Props>,
-  retainFailedQuery?: boolean
+  retainFailedQuery?: boolean,
 }) {
   const displayName =
     WrappedComponent.displayName || WrappedComponent.name || 'Unknown';
@@ -31,7 +31,7 @@ function withAutocomplete<Props>({
 
     state = {
       searching: false,
-      result: []
+      result: [],
     };
 
     _isMounted = false;
@@ -46,12 +46,12 @@ function withAutocomplete<Props>({
 
     handleSearch = (query: string, filter): void => {
       this.setState({
-        searching: true
+        searching: true,
       });
 
       this.props
         .autocomplete(query, filter)
-        .then(result => {
+        .then((result) => {
           // Set the result to the response result
           let finalResult = result;
           // Retain a query with no match
@@ -62,7 +62,7 @@ function withAutocomplete<Props>({
           if (this._isMounted) {
             this.setState({
               result: finalResult,
-              searching: false
+              searching: false,
             });
           }
         })
@@ -80,7 +80,7 @@ function withAutocomplete<Props>({
         <WrappedComponent
           {...restProps}
           options={this.state.result}
-          onSearch={debounce(query => this.handleSearch(query, filter), 100)}
+          onSearch={debounce((query) => this.handleSearch(query, filter), 100)}
           fetching={this.state.searching}
         />
       );
@@ -89,13 +89,7 @@ function withAutocomplete<Props>({
 }
 
 const mapDispatchToProps = {
-  autocomplete
+  autocomplete,
 };
 
-export default compose(
-  connect(
-    null,
-    mapDispatchToProps
-  ),
-  withAutocomplete
-);
+export default compose(connect(null, mapDispatchToProps), withAutocomplete);

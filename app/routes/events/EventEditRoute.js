@@ -6,7 +6,7 @@ import {
   fetchEvent,
   editEvent,
   deleteEvent,
-  setCoverPhoto
+  setCoverPhoto,
 } from 'app/actions/EventActions';
 import { uploadFile } from 'app/actions/FileActions';
 import EventEditor from './components/EventEditor';
@@ -14,7 +14,7 @@ import {
   selectEventById,
   selectPoolsWithRegistrationsForEvent,
   selectRegistrationsFromPools,
-  selectWaitingRegistrationsForEvent
+  selectWaitingRegistrationsForEvent,
 } from 'app/reducers/events';
 import { LoginPage } from 'app/components/LoginForm';
 import { transformEvent } from './utils';
@@ -30,7 +30,7 @@ const mapStateToProps = (state, props) => {
 
   const registrations = selectRegistrationsFromPools(state, { eventId });
   const waitingRegistrations = selectWaitingRegistrationsForEvent(state, {
-    eventId
+    eventId,
   });
   const valueSelector = formValueSelector('eventEditor');
   return {
@@ -38,21 +38,21 @@ const mapStateToProps = (state, props) => {
       ...event,
       mergeTime: event.mergeTime ? event.mergeTime : time({ hours: 12 }),
       priceMember: event.priceMember / 100,
-      pools: pools.map(pool => ({
+      pools: pools.map((pool) => ({
         ...pool,
-        permissionGroups: (pool.permissionGroups || []).map(group => ({
+        permissionGroups: (pool.permissionGroups || []).map((group) => ({
           label: group.name,
-          value: group.id
-        }))
+          value: group.id,
+        })),
       })),
       company: event.company && {
         label: event.company.name,
-        value: event.company.id
+        value: event.company.id,
       },
       responsibleGroup: event.responsibleGroup && {
         label: event.responsibleGroup.name,
-        value: event.responsibleGroup.id
-      }
+        value: event.responsibleGroup.id,
+      },
     },
     actionGrant,
     event: {
@@ -70,21 +70,21 @@ const mapStateToProps = (state, props) => {
         moment(valueSelector(state, 'startTime')).subtract(
           valueSelector(state, 'registrationDeadlineHours'),
           'hours'
-        )
+        ),
     },
     eventId,
     pools: valueSelector(state, 'pools'),
     registrations,
-    waitingRegistrations
+    waitingRegistrations,
   };
 };
 
 const mapDispatchToProps = {
   fetchEvent,
   deleteEvent,
-  handleSubmitCallback: event => editEvent(transformEvent(event, true)),
+  handleSubmitCallback: (event) => editEvent(transformEvent(event, true)),
   uploadFile,
-  setCoverPhoto
+  setCoverPhoto,
 };
 
 export default compose(
@@ -92,10 +92,7 @@ export default compose(
   prepare(({ match: { params: { eventId } } }, dispatch) =>
     dispatch(fetchEvent(eventId))
   ),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   replaceUnlessLoggedIn(LoginPage)
   //loadingIndicator(['event.title'])
 )(EventEditor);

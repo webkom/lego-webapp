@@ -10,16 +10,13 @@ const mapStateToProps = () => ({
   isNew: true,
   article: {},
   initialValues: {
-    content: ''
-  }
+    content: '',
+  },
 });
 
 const mapDispatchToProps = { submitArticle: createArticle, uploadFile };
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )(ArticleEditor);

@@ -12,14 +12,14 @@ import type { ActionGrant } from 'app/models';
 
 type Props = {
   submissions: Array<SubmissionEntity>,
-  addSubmission: SubmissionEntity => Promise<*>,
+  addSubmission: (SubmissionEntity) => Promise<*>,
   survey: SurveyEntity,
   children: Array<React.Element<*>>,
   actionGrant: ActionGrant,
   isSummary: boolean,
-  shareSurvey: number => Promise<*>,
-  hideSurvey: number => Promise<*>,
-  exportSurvey: number => Promise<*>
+  shareSurvey: (number) => Promise<*>,
+  hideSurvey: (number) => Promise<*>,
+  exportSurvey: (number) => Promise<*>,
 };
 
 const SubmissionPage = (props: Props) => {
@@ -29,7 +29,7 @@ const SubmissionPage = (props: Props) => {
     isSummary,
     hideSurvey,
     shareSurvey,
-    exportSurvey
+    exportSurvey,
   } = props;
 
   return (
@@ -54,7 +54,12 @@ const SubmissionPage = (props: Props) => {
             </Link>
           </div>
 
-          {props.children.map(child => React.cloneElement(child, props))}
+          {props.children.map((child, i) =>
+            React.cloneElement(child, {
+              ...props,
+              children: undefined,
+            })
+          )}
         </ContentMain>
 
         <AdminSideBar

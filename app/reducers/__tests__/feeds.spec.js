@@ -9,17 +9,17 @@ describe('reducers', () => {
         pagination: {},
         items: ['x'],
         byId: {
-          x: {}
-        }
+          x: {},
+        },
       };
       const action = {
         type: Feed.FETCH.SUCCESS,
         meta: {
-          feedId: 'myfeed'
+          feedId: 'myfeed',
         },
         payload: {
-          result: [1, 2, 3]
-        }
+          result: [1, 2, 3],
+        },
       };
       expect(feeds(prevState, action)).toEqual({
         actionGrant: [],
@@ -29,9 +29,9 @@ describe('reducers', () => {
           x: {},
           myfeed: {
             type: 'myfeed',
-            activities: [1, 2, 3]
-          }
-        }
+            activities: [1, 2, 3],
+          },
+        },
       });
     });
   });

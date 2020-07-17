@@ -11,7 +11,7 @@ type Props = {
   user: User,
   profilePicture: string,
   leader?: boolean,
-  co_leader?: boolean
+  co_leader?: boolean,
 };
 const GroupMember = ({ user, profilePicture, leader, co_leader }: Props) => {
   return (

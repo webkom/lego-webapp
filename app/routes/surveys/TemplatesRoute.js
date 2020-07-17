@@ -13,20 +13,17 @@ const loadData = (props, dispatch) => dispatch(fetchTemplates());
 
 const mapStateToProps = (state, props) => ({
   surveys: selectSurveyTemplates(state, props),
-  notFetching: !state.surveys.fetching
+  notFetching: !state.surveys.fetching,
 });
 
 const mapDispatchToProps = {
   addSurvey,
-  push
+  push,
 };
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
   prepare(loadData),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['notFetching'])
 )(SurveyPage);

@@ -3,8 +3,8 @@ import React from 'react';
 import ImageUpload from 'app/components/Upload/ImageUpload';
 
 type Props = {
-  updatePicture: Object => void,
-  user: Object
+  updatePicture: (Object) => void,
+  user: Object,
 };
 
 function UploadPage({ updatePicture, user }: Props) {
@@ -13,11 +13,11 @@ function UploadPage({ updatePicture, user }: Props) {
       style={{
         width: 250,
         height: 250,
-        borderRadius: 250 / 2
+        borderRadius: 250 / 2,
       }}
     >
       <ImageUpload
-        onSubmit={file =>
+        onSubmit={(file) =>
           updatePicture({ username: user.username, picture: file })
         }
         aspectRatio={1}

@@ -14,12 +14,12 @@ type Props = {
   blurStr: string,
   contrastStr: string,
   transtionTime: string,
-  transitionDelay: string
+  transitionDelay: string,
 };
 
 type State = {
   src: any,
-  style: Object
+  style: Object,
 };
 
 export default class ProgressiveImage extends PureComponent<Props, State> {
@@ -28,10 +28,8 @@ export default class ProgressiveImage extends PureComponent<Props, State> {
     style: {
       ...this.props.beforeLoadstyle,
       filter: `blur(${this.props.blurStr}) contrast(${this.props.contrastStr})`,
-      transition: `filter ${this.props.transtionTime} linear ${
-        this.props.transitionDelay
-      }`
-    }
+      transition: `filter ${this.props.transtionTime} linear ${this.props.transitionDelay}`,
+    },
   };
 
   static defaultProps = {
@@ -40,20 +38,20 @@ export default class ProgressiveImage extends PureComponent<Props, State> {
     blurStr: '15px',
     contrastStr: '50%',
     transtionTime: '.2s',
-    transitionDelay: '.05s'
+    transitionDelay: '.05s',
   };
 
-  fetchSrc: (url: string) => Promise<*> = url =>
+  fetchSrc: (url: string) => Promise<*> = (url) =>
     new Promise((resolve, reject) => {
       const img = new Image();
       img.onload = () => resolve(url);
-      img.onerror = error => reject(error);
+      img.onerror = (error) => reject(error);
       img.src = url;
     });
 
   componentDidMount() {
     this.fetchSrc(this.props.src)
-      .then(url => {
+      .then((url) => {
         this.setState({
           src: url,
           style: {
@@ -61,11 +59,11 @@ export default class ProgressiveImage extends PureComponent<Props, State> {
             ...this.props.onLoadStyle,
             filter: 'blur(0) contrast(100%)',
             height: 'auto',
-            margin: 'auto'
-          }
+            margin: 'auto',
+          },
         });
       })
-      .catch(error => {
+      .catch((error) => {
         throw error;
       });
   }

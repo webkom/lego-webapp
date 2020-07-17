@@ -10,19 +10,19 @@ import {
   Button,
   ImageUploadField,
   CheckBox,
-  legoForm
+  legoForm,
 } from 'app/components/Form';
 import Tooltip from 'app/components/Tooltip';
 import { createValidator, required } from 'app/utils/validation';
 
 type OwnProps = {
-  handleSubmitCallback: Object => Promise<*>,
-  group: Object
+  handleSubmitCallback: (Object) => Promise<*>,
+  group: Object,
 };
 
 type Props = OwnProps & FormProps;
 
-const logoValidator = value => (value ? undefined : 'Bilde er påkrevd');
+const logoValidator = (value) => (value ? undefined : 'Bilde er påkrevd');
 
 function GroupForm({
   handleSubmit,
@@ -30,7 +30,7 @@ function GroupForm({
   group,
   submitting,
   invalid,
-  initialized
+  initialized,
 }: Props) {
   const isNew = !group;
 
@@ -61,7 +61,7 @@ function GroupForm({
           label="Vis badge på brukerprofiler"
           name="showBadge"
           component={CheckBox.Field}
-          normalize={v => !!v}
+          normalize={(v) => !!v}
         />
       </Tooltip>
       <Field
@@ -78,7 +78,7 @@ function GroupForm({
         aspectRatio={1}
         img={group && group.logo}
         className={styles.logo}
-        validate={value => isNew && logoValidator(value)}
+        validate={(value) => isNew && logoValidator(value)}
         required
       />
       <Button disabled={invalid || submitting} submit>
@@ -93,8 +93,8 @@ export default legoForm({
   enableReinitialize: true,
   validate: createValidator({
     name: [required()],
-    description: [required()]
+    description: [required()],
   }),
   onSubmit: (data, dispatch, { handleSubmitCallback }: Props) =>
-    handleSubmitCallback(data)
+    handleSubmitCallback(data),
 })(GroupForm);

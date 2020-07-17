@@ -138,10 +138,13 @@ steps:
       - thumbor
       - redis
       - api
+    volumes:
+      - name: yarn_cache
+        path: /tmp/cache
     environment:
       CYPRESS_INSTALL_BINARY: 0
     commands:
-      - yarn --frozen-lockfile
+      - yarn --frozen-lockfile --cache-folder /tmp/cache
 
   - name: build_server
     image: node:11
@@ -273,6 +276,7 @@ steps:
         from_secret: docker_password
       tags:
         - ${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:7}
+        - latest
       build_args:
         - RELEASE=${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:7}
         - COMMIT_SHA=${DRONE_COMMIT_SHA}
@@ -281,6 +285,11 @@ steps:
         - SENTRY_URL=https://sentry.io/
       build_args_from_env:
         - SENTRY_AUTH_TOKEN
+
+volumes:
+ - name: yarn_cache
+   host:
+     path: /tmp/drone-cache/yarn
 
 image_pull_secrets:
   - dockerconfigjson

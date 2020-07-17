@@ -10,11 +10,11 @@ import type { Store } from 'app/types';
 const renderApp = ({
   store,
   history,
-  isSSR
+  isSSR,
 }: {
   store: Store,
   history: any,
-  isSSR: boolean
+  isSSR: boolean,
 }) => {
   const rootElement: HTMLElement = (document.getElementById('root'): any);
   const reactRenderFunc = isSSR ? hydrate : render;

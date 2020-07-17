@@ -8,12 +8,12 @@ type Props = {
   src: string,
   className?: string,
   alt: string,
-  style: Object
+  style: Object,
 };
 
 class Image extends Component<Props> {
   static defaultProps = {
-    alt: 'image'
+    alt: 'image',
   };
 
   render() {

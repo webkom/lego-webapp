@@ -1,5 +1,0 @@
-```jsx
-<div>
-  <Editor />
-</div>
-```

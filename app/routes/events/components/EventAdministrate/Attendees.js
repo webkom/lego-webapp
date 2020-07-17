@@ -16,7 +16,7 @@ import type {
   ID,
   EventRegistration,
   EventRegistrationPaymentStatus,
-  EventRegistrationPresence
+  EventRegistrationPresence,
 } from 'app/models';
 
 export type Props = {
@@ -38,16 +38,16 @@ export type Props = {
   usersResult: Array<User>,
   actionGrant: ActionGrant,
   onQueryChanged: (value: string) => any,
-  searching: boolean
+  searching: boolean,
 };
 
 type State = {
-  clickedUnregister: number
+  clickedUnregister: number,
 };
 
 export default class Attendees extends Component<Props, State> {
   state = {
-    clickedUnregister: 0
+    clickedUnregister: 0,
   };
 
   handleUnregister = (registrationId: number) => {
@@ -56,14 +56,14 @@ export default class Attendees extends Component<Props, State> {
       unregister({
         eventId,
         registrationId,
-        admin: true
+        admin: true,
       });
       this.setState({
-        clickedUnregister: 0
+        clickedUnregister: 0,
       });
     } else {
       this.setState({
-        clickedUnregister: registrationId
+        clickedUnregister: registrationId,
       });
     }
   };
@@ -84,14 +84,14 @@ export default class Attendees extends Component<Props, State> {
       error,
       loading,
       registered,
-      unregistered
+      unregistered,
     } = this.props;
     const registerCount = registered.filter(
-      reg => reg.presence === 'PRESENT' && reg.pool
+      (reg) => reg.presence === 'PRESENT' && reg.pool
     ).length;
 
     const adminRegisterCount = registered.filter(
-      reg => reg.adminRegistrationReason !== '' && reg.pool
+      (reg) => reg.adminRegistrationReason !== '' && reg.pool
     ).length;
 
     if (loading) {

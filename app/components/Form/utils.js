@@ -20,7 +20,7 @@ export const handleSubmissionError = (error: any) => {
 
   throw new SubmissionError({
     ...errPayload,
-    _error
+    _error,
   });
 };
 
@@ -31,6 +31,6 @@ export const handleSubmissionError = (error: any) => {
  * withSubmissionError(onSubmit)
  */
 
-export const withSubmissionError = (func: any => Promise<any>) => {
+export const withSubmissionError = (func: (any) => Promise<any>) => {
   return (data: any) => func(data).catch(handleSubmissionError);
 };

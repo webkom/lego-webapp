@@ -7,7 +7,7 @@ import {
   StripeProvider,
   CardCVCElement,
   CardExpiryElement,
-  CardNumberElement
+  CardNumberElement,
 } from 'react-stripe-elements';
 import config from 'app/config';
 import stripeStyles from './Stripe.css';
@@ -15,9 +15,9 @@ import type { EventRegistrationPaymentStatus, User, Event } from 'app/models';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 
 type Stripe = {
-  paymentRequest: Object => Object,
-  handleCardPayment: string => Promise<*>,
-  confirmPaymentIntent: (string, Object) => Promise<*>
+  paymentRequest: (Object) => Object,
+  handleCardPayment: (string) => Promise<*>,
+  confirmPaymentIntent: (string, Object) => Promise<*>,
 };
 
 type Props = {
@@ -26,46 +26,46 @@ type Props = {
   createPaymentIntent: () => Promise<*>,
   paymentStatus: EventRegistrationPaymentStatus,
   clientSecret?: string,
-  paymentError?: string
+  paymentError?: string,
 };
 
 type FormProps = Props & {
-  fontSize?: number
+  fontSize?: number,
 };
 
 type CardFormProps = FormProps & {
   ledgend: string,
-  setError: string => void,
+  setError: (string) => void,
   setSuccess: () => void,
-  setLoading: boolean => void,
+  setLoading: (boolean) => void,
   stripe: Stripe,
-  paymentStarted: boolean
+  paymentStarted: boolean,
 };
 
 type PaymentRequestFormProps = FormProps & {
-  setError: string => void,
+  setError: (string) => void,
   setSuccess: () => void,
-  setLoading: boolean => void,
-  setPaymentRequest: boolean => void,
-  stripe: Stripe
+  setLoading: (boolean) => void,
+  setPaymentRequest: (boolean) => void,
+  stripe: Stripe,
 };
 
 type FormState = {
   error?: string | null,
   success?: boolean,
   loading: boolean,
-  paymentRequest: boolean
+  paymentRequest: boolean,
 };
 
 type CardFormState = {
-  paymentStarted: boolean
+  paymentStarted: boolean,
 };
 
 type PaymentRequestFormState = {
   paymentRequest?: Object,
   canMakePayment?: boolean,
   paymentMethodId?: string,
-  complete?: string => void
+  complete?: (string) => void,
 };
 
 // See https://stripe.com/docs/js/appendix/payment_response#payment_response_object-complete
@@ -85,21 +85,21 @@ const StripeElementStyle = {
       letterSpacing: '0.025em',
       fontFamily: 'Source Code Pro, monospace',
       '::placeholder': {
-        color: '#aab7c4'
-      }
+        color: '#aab7c4',
+      },
     },
     invalid: {
-      color: '#9e2146'
-    }
-  }
+      color: '#9e2146',
+    },
+  },
 };
 
 class CardForm extends React.Component<CardFormProps, CardFormState> {
   state = {
-    paymentStarted: false
+    paymentStarted: false,
   };
 
-  handleSubmit = ev => {
+  handleSubmit = (ev) => {
     ev.preventDefault();
     const { stripe, createPaymentIntent, clientSecret } = this.props;
     if (stripe) {
@@ -109,7 +109,7 @@ class CardForm extends React.Component<CardFormProps, CardFormState> {
     }
   };
 
-  completePayment = async clientSecret => {
+  completePayment = async (clientSecret) => {
     this.setState({ paymentStarted: false });
     const { stripe } = this.props;
     const { error } = await stripe.handleCardPayment(clientSecret);
@@ -175,12 +175,12 @@ class PaymentRequestForm extends React.Component<
       currency: 'nok',
       total: {
         label: event.title,
-        amount: event.price
+        amount: event.price,
       },
       requestPayerName: true,
       requestPayerEmail: true,
       requestPayerPhone: true,
-      country: 'NO'
+      country: 'NO',
     });
 
     paymentRequest.on('paymentmethod', ({ paymentMethod, complete }) => {
@@ -192,7 +192,7 @@ class PaymentRequestForm extends React.Component<
       }
     });
 
-    paymentRequest.canMakePayment().then(async result => {
+    paymentRequest.canMakePayment().then(async (result) => {
       this.setState({ canMakePayment: !!result });
       this.props.setPaymentRequest(!!result);
     });
@@ -200,7 +200,7 @@ class PaymentRequestForm extends React.Component<
     this.state = {
       canMakePayment: undefined,
       paymentInProgress: false,
-      paymentRequest
+      paymentRequest,
     };
   }
 
@@ -229,7 +229,7 @@ class PaymentRequestForm extends React.Component<
     this.completePaymentManual('fail');
   }
 
-  completePayment = async clientSecret => {
+  completePayment = async (clientSecret) => {
     const { stripe } = this.props;
     const { paymentMethodId, complete } = this.state;
 
@@ -240,7 +240,7 @@ class PaymentRequestForm extends React.Component<
     const { error: confirmError } = await stripe.confirmPaymentIntent(
       clientSecret,
       {
-        payment_method: paymentMethodId
+        payment_method: paymentMethodId,
       }
     );
     if (confirmError) {
@@ -282,8 +282,8 @@ class PaymentRequestForm extends React.Component<
             className={stripeStyles.PaymentRequestButton}
             style={{
               paymentRequestButton: {
-                height: '41px'
-              }
+                height: '41px',
+              },
             }}
           />
         )}
@@ -300,19 +300,19 @@ class PaymentForm extends React.Component<FormProps, FormState> {
     loading: false,
     paymentRequest: false,
     error: null,
-    success: false
+    success: false,
   };
 
   setSuccess = () => this.setState({ success: true });
 
-  setError = error => this.setState({ error });
+  setError = (error) => this.setState({ error });
 
-  setLoading = loading => {
+  setLoading = (loading) => {
     this.setState({ loading });
     loading && this.setState({ error: null });
   };
 
-  setPaymentRequest = paymentRequest => this.setState({ paymentRequest });
+  setPaymentRequest = (paymentRequest) => this.setState({ paymentRequest });
 
   render() {
     const { success, error, loading } = this.state;
@@ -333,9 +333,9 @@ class PaymentForm extends React.Component<FormProps, FormState> {
             <InjectedPaymentRequestForm
               {...this.props}
               setSuccess={() => this.setSuccess()}
-              setError={error => this.setError(error)}
-              setLoading={loading => this.setLoading(loading)}
-              setPaymentRequest={paymentRequest =>
+              setError={(error) => this.setError(error)}
+              setLoading={(loading) => this.setLoading(loading)}
+              setPaymentRequest={(paymentRequest) =>
                 this.setPaymentRequest(paymentRequest)
               }
             />
@@ -345,8 +345,8 @@ class PaymentForm extends React.Component<FormProps, FormState> {
               {...this.props}
               fontSize={'18px'}
               setSuccess={() => this.setSuccess()}
-              setError={error => this.setError(error)}
-              setLoading={loading => this.setLoading(loading)}
+              setError={(error) => this.setError(error)}
+              setLoading={(loading) => this.setLoading(loading)}
               ledgend={
                 this.state.paymentRequest
                   ? 'Eller skriv inn kortinformasjon'

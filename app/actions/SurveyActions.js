@@ -8,22 +8,22 @@ import moment from 'moment-timezone';
 import type { SurveyEntity } from 'app/reducers/surveys';
 
 export function fetchSurvey(surveyId: number): Thunk<*> {
-  return dispatch =>
+  return (dispatch) =>
     dispatch(
       callAPI({
         types: Survey.FETCH,
         endpoint: `/surveys/${surveyId}/`,
         schema: surveySchema,
         meta: {
-          errorMessage: 'Henting av spørreundersøkelse feilet'
+          errorMessage: 'Henting av spørreundersøkelse feilet',
         },
-        propagateError: true
+        propagateError: true,
       })
     );
 }
 
 export function fetchWithToken(surveyId: number, token: string): Thunk<*> {
-  return dispatch =>
+  return (dispatch) =>
     dispatch(
       callAPI({
         types: Survey.FETCH,
@@ -31,12 +31,12 @@ export function fetchWithToken(surveyId: number, token: string): Thunk<*> {
         schema: surveySchema,
         requiresAuthentication: false,
         headers: {
-          Authorization: `Token ${token}`
+          Authorization: `Token ${token}`,
         },
         meta: {
-          errorMessage: 'Henting av spørreundersøkelse feilet'
+          errorMessage: 'Henting av spørreundersøkelse feilet',
         },
-        propagateError: true
+        propagateError: true,
       })
     );
 }
@@ -51,9 +51,9 @@ export function fetchAll({ next = false }: { next: boolean } = {}): Thunk<*> {
         schema: [surveySchema],
         query: cursor,
         meta: {
-          errorMessage: 'Henting av spørreundersøkelser feilet'
+          errorMessage: 'Henting av spørreundersøkelser feilet',
         },
-        propagateError: true
+        propagateError: true,
       })
     );
   };
@@ -68,8 +68,8 @@ export function addSurvey(data: SurveyEntity): Thunk<*> {
     schema: surveySchema,
     meta: {
       errorMessage: 'Legg til spørreundersøkelse feilet',
-      successMessage: 'Spørreundersøkelse lagt til.'
-    }
+      successMessage: 'Spørreundersøkelse lagt til.',
+    },
   });
 }
 
@@ -82,8 +82,8 @@ export function editSurvey({ surveyId, ...data }: Object): Thunk<*> {
     schema: surveySchema,
     meta: {
       errorMessage: 'Endring av spørreundersøkelse feilet',
-      successMessage: 'Spørreundersøkelse endret.'
-    }
+      successMessage: 'Spørreundersøkelse endret.',
+    },
   });
 }
 
@@ -93,9 +93,9 @@ export function fetchTemplates(): Thunk<*> {
     endpoint: `/survey-templates/`,
     schema: [surveySchema],
     meta: {
-      errorMessage: 'Henting av spørreundersøkelse maler feilet'
+      errorMessage: 'Henting av spørreundersøkelse maler feilet',
     },
-    propagateError: true
+    propagateError: true,
   });
 }
 
@@ -105,9 +105,9 @@ export function fetchTemplate(template: string): Thunk<*> {
     endpoint: `/survey-templates/${template}/`,
     schema: surveySchema,
     meta: {
-      errorMessage: 'Henting av spørreundersøkelse mal feilet'
+      errorMessage: 'Henting av spørreundersøkelse mal feilet',
     },
-    propagateError: true
+    propagateError: true,
   });
 }
 
@@ -118,9 +118,9 @@ export function shareSurvey(surveyId: number): Thunk<*> {
     schema: surveySchema,
     method: 'POST',
     meta: {
-      errorMessage: 'Deling av spørreundersøkelse feilet'
+      errorMessage: 'Deling av spørreundersøkelse feilet',
     },
-    propagateError: true
+    propagateError: true,
   });
 }
 
@@ -131,8 +131,8 @@ export function hideSurvey(surveyId: number): Thunk<*> {
     schema: surveySchema,
     method: 'POST',
     meta: {
-      errorMessage: 'Skjuling av spørreundersøkelse feilet'
+      errorMessage: 'Skjuling av spørreundersøkelse feilet',
     },
-    propagateError: true
+    propagateError: true,
   });
 }

@@ -10,7 +10,7 @@ import { LoginPage } from 'app/components/LoginForm';
 import { fetchPersonalFeed } from 'app/actions/FeedActions';
 import {
   selectFeedById,
-  selectFeedActivitesByFeedId
+  selectFeedActivitesByFeedId,
 } from 'app/reducers/feeds';
 
 const loadData = (props, dispatch) => {
@@ -20,8 +20,8 @@ const loadData = (props, dispatch) => {
 const mapStateToProps = (state: Object) => ({
   feed: selectFeedById(state, { feedId: 'personal' }),
   feedItems: selectFeedActivitesByFeedId(state, {
-    feedId: 'personal'
-  })
+    feedId: 'personal',
+  }),
 });
 
 export default compose(

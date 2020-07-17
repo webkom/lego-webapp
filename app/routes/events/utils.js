@@ -13,7 +13,7 @@ export const EVENT_CONSTANTS: { [EventType]: string } = {
   social: 'Sosialt',
   event: 'Arrangement',
   kid_event: 'KID-arrangement',
-  other: 'Annet'
+  other: 'Annet',
 };
 
 // Returns the string representation of an EventType
@@ -31,7 +31,7 @@ export const COLOR_CONSTANTS: { [EventType]: string } = {
   social: 'var(--color-event-red)',
   event: 'var(--color-event-red)',
   kid_event: 'var(--color-event-black)',
-  other: 'var(--color-event-black)'
+  other: 'var(--color-event-black)',
 };
 
 // Returns the color code of an EventType
@@ -65,7 +65,7 @@ const eventCreateAndUpdateFields = [
   'pinned',
   'heedPenalties',
   'isAbakomOnly',
-  'useConsent'
+  'useConsent',
 ];
 
 // Pool fields that should be created or updated based on the API
@@ -74,14 +74,14 @@ const poolCreateAndUpdateFields = [
   'name',
   'capacity',
   'activationDate',
-  'permissionGroups'
+  'permissionGroups',
 ];
 
 /* Calculate the event price
  * @param isPriced: If the event is priced
  * @param addFee: If the event uses Stipe and needs a fee
  */
-const calculatePrice = data => {
+const calculatePrice = (data) => {
   if (data.isPriced) {
     if (data.addFee) {
       return addStripeFee(data.priceMember) * 100;
@@ -93,14 +93,14 @@ const calculatePrice = data => {
 /* Calculate the event location
  * @param eventStatusType: what kind of registrationmode this event has
  */
-const calculateLocation = data =>
+const calculateLocation = (data) =>
   data.eventStatusType == 'TBA' ? 'TBA' : data.location;
 
 /* Calculate the event pools
  * @param eventStatusType: what kind of registrationmode this event has
  * @param pools: the event groups as specified by the CreateEvent forms
  */
-const calculatePools = data => {
+const calculatePools = (data) => {
   switch (data.eventStatusType) {
     case 'TBA':
     case 'OPEN':
@@ -111,15 +111,15 @@ const calculatePools = data => {
           ...pick(data.pools[0], poolCreateAndUpdateFields),
           activationDate: moment(data.pools[0].activationDate).toISOString(),
           permissionGroups: data.pools[0].permissionGroups.map(
-            group => group.value
-          )
-        }
+            (group) => group.value
+          ),
+        },
       ];
     case 'NORMAL':
-      return data.pools.map(pool => ({
+      return data.pools.map((pool) => ({
         ...pick(pool, poolCreateAndUpdateFields),
         activationDate: moment(pool.activationDate).toISOString(),
-        permissionGroups: pool.permissionGroups.map(group => group.value)
+        permissionGroups: pool.permissionGroups.map((group) => group.value),
       }));
     default:
       break;
@@ -129,13 +129,13 @@ const calculatePools = data => {
 /* Calculte and convert to payment due date
  * @param paymentDueDate: date from form
  */
-const calculatePaymentDueDate = data =>
+const calculatePaymentDueDate = (data) =>
   data.isPriced ? moment(data.paymentDueDate).toISOString() : null;
 
 /* Calcualte and convert the registation deadline
  * @param unregistationDeadline: data from form
  */
-const calculateUnregistrationDeadline = data =>
+const calculateUnregistrationDeadline = (data) =>
   data.unregistrationDeadline
     ? moment(data.unregistrationDeadline).toISOString()
     : null;
@@ -143,7 +143,7 @@ const calculateUnregistrationDeadline = data =>
 /* Calculate the merge time for the pools. Only set if there are more then one pool
  * @param mergeTime: date from form
  */
-const calculateMergeTime = data =>
+const calculateMergeTime = (data) =>
   data.pools.length > 1 ? moment(data.mergeTime).toISOString() : null;
 
 // Takes the full data-object and input and transforms the event to the API format.
@@ -161,7 +161,7 @@ export const transformEvent = (data: TransformEvent) => ({
   unregistrationDeadline: calculateUnregistrationDeadline(data),
   pools: calculatePools(data),
   useCaptcha: true, // always use Captcha, this blocks the use of CLI
-  youtubeUrl: data.youtubeUrl
+  youtubeUrl: data.youtubeUrl,
 });
 
 export const paymentPending = 'pending';
@@ -175,7 +175,7 @@ const paymentSuccessMappings = {
   [paymentManual]: true,
   [paymentSuccess]: true,
   [paymentPending]: false,
-  [paymentFailure]: false
+  [paymentFailure]: false,
 };
 
 export const hasPaid = (paymentStatus: string) =>

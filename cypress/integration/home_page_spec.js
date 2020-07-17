@@ -1,5 +1,5 @@
 // CSS Selector to match classnames by their prefix
-const c = classname => `[class^=${classname}]`;
+const c = (classname) => `[class^=${classname}]`;
 
 describe('The Home Page and Login', () => {
   it('successfully loads landing page', () => {
@@ -31,11 +31,9 @@ describe('The Home Page and Login', () => {
 
     // Click dropdown for user
     cy.get(c('Dropdown__content')).should('not.exist');
-    cy.get(c('Header__menu'))
-      .find(c('Image__image'))
-      .click();
+    cy.get(c('Header__menu')).find(c('Image__image')).click();
 
-    cy.get(c('Dropdown__content')).should(dropdown => {
+    cy.get(c('Dropdown__content')).should((dropdown) => {
       expect(dropdown).to.contain(username);
       expect(dropdown).to.contain('Innstillinger');
       expect(dropdown).to.contain('Møte');
@@ -57,7 +55,7 @@ describe('The Home Page and Login', () => {
     cy.contains('h3', 'Påmeldinger');
 
     cy.contains('h3', 'Festet oppslag');
-    cy.contains('a', 'Artikkel nr 6 sånn ca');
+    cy.contains('a', 'Artikkel uten AUTH');
 
     cy.contains('span', 'readme');
 

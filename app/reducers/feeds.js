@@ -29,40 +29,40 @@ export default createEntityReducer({
               activities: union(
                 (state.byId[feedId] ? state.byId[feedId].activities : []) || [],
                 arrayOf(action.payload.result)
-              )
-            }
+              ),
+            },
           },
-          items: union(state.items, [feedId])
+          items: union(state.items, [feedId]),
         };
       }
       default: {
         return state;
       }
     }
-  }
+  },
 });
 
 export const feedIdByUserId = (userId: string) => `user-${userId}`;
 
 export const selectFeeds = createSelector(
-  state => state.feeds.byId,
-  state => state.feeds.items,
-  (feedsById, feedIds) => feedIds.map(id => feedsById[id])
+  (state) => state.feeds.byId,
+  (state) => state.feeds.items,
+  (feedsById, feedIds) => feedIds.map((id) => feedsById[id])
 );
 
 export const selectFeedById = createSelector(
-  state => state.feeds.byId,
+  (state) => state.feeds.byId,
   (state, props) => props.feedId,
   (feedsById, feedId) => feedsById[feedId]
 );
 
 export const selectFeedActivitesByFeedId = createSelector(
   selectFeedById,
-  state => state.feedActivities.byId,
+  (state) => state.feedActivities.byId,
   (feed, activiesById) => {
     if (!feed) {
       return [];
     }
-    return feed.activities.map(id => activiesById[id]);
+    return feed.activities.map((id) => activiesById[id]);
   }
 );

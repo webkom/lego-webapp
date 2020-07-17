@@ -13,7 +13,7 @@ type Props = {
   /** Small */
   tight?: boolean,
   /** Shadow */
-  shadow?: boolean
+  shadow?: boolean,
 };
 
 function Card({

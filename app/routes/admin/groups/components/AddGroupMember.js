@@ -8,22 +8,22 @@ import { createValidator, required } from 'app/utils/validation';
 import { ROLES } from 'app/utils/constants';
 
 type Props = FormProps & {
-  group: Object,
+  groupId: Number,
   addMember: ({
     role: $Keys<typeof ROLES>,
     userId: Number,
-    groupId: Number
-  }) => Promise<*>
+    groupId: Number,
+  }) => Promise<*>,
 };
 
 const roles = Object.keys(ROLES)
   .sort()
-  .map(role => ({
+  .map((role) => ({
     value: role,
-    label: ROLES[role]
+    label: ROLES[role],
   }));
 
-const AddGroupMember = ({ submitting, group, handleSubmit }: Props) => {
+const AddGroupMember = ({ submitting, groupId, handleSubmit }: Props) => {
   return (
     <Form onSubmit={handleSubmit}>
       <h3>Legg til ny bruker</h3>
@@ -53,7 +53,7 @@ const AddGroupMember = ({ submitting, group, handleSubmit }: Props) => {
 
 const validate = createValidator({
   user: [required()],
-  role: [required()]
+  role: [required()],
 });
 
 export default legoForm({
@@ -66,15 +66,15 @@ export default legoForm({
       .addMember({
         role,
         userId: user.id,
-        groupId: props.group.id
+        groupId: props.groupId,
       })
-      .catch(err => {
+      .catch((err) => {
         if (err.payload.response.status === 409) {
           throw new SubmissionError({
-            user: 'Denne brukeren er allerede med i gruppen.'
+            user: 'Denne brukeren er allerede med i gruppen.',
           });
         }
 
         throw err;
-      })
+      }),
 })(AddGroupMember);

@@ -9,7 +9,7 @@ type Props = {
   tags: Array<Object>,
   fetching: boolean,
   hasMore: boolean,
-  fetchAll: ({ next: boolean }) => void
+  fetchAll: ({ next: boolean }) => void,
 };
 
 class TagCloud extends React.Component<Props> {
@@ -21,7 +21,7 @@ class TagCloud extends React.Component<Props> {
         fontSize: `${size}px`,
         color: color,
         margin: '3px',
-        display: 'inline-block'
+        display: 'inline-block',
       }}
     >
       {tag.value}
@@ -36,14 +36,14 @@ class TagCloud extends React.Component<Props> {
   }
 
   render() {
-    const data = this.props.tags.map(tag => {
+    const data = this.props.tags.map((tag) => {
       return {
         value: tag.tag,
-        count: tag.usages
+        count: tag.usages,
       };
     });
     const options = {
-      hue: 'red'
+      hue: 'red',
     };
 
     return (

@@ -5,11 +5,11 @@ import callAPI from './callAPI';
 import type { Thunk } from 'app/types';
 import slug from 'slugify';
 
-const slugifyFilename: (filename: string) => string = filename => {
+const slugifyFilename: (filename: string) => string = (filename) => {
   // Slug options
   const slugOpts = {
     replacement: '-', // replace all spaces with -
-    remove: /[^a-zA-Z0-9/-\w.]+/g // remove all letters that does not match this regex
+    remove: /[^a-zA-Z0-9/-\w.]+/g, // remove all letters that does not match this regex
   };
   const extensionIndex = filename.lastIndexOf('.');
   // If file has extension we slug the first part
@@ -29,11 +29,11 @@ export function fetchSignedPost(key: string, isPublic: boolean) {
     endpoint: '/files/',
     body: {
       key: slugifyFilename(key),
-      public: isPublic
+      public: isPublic,
     },
     meta: {
-      errorMessage: 'Filopplasting feilet'
-    }
+      errorMessage: 'Filopplasting feilet',
+    },
   });
 }
 
@@ -43,37 +43,39 @@ export type UploadArgs = {
   isPublic?: boolean,
   // Use big timeouts for big files. See app/utils/fetchJSON.js for more info
   // In ms. aka. 2sec = 2 * 1000;
-  timeout?: number
+  timeout?: number,
 };
 
 export function uploadFile({
   file,
   fileName,
   isPublic = false,
-  timeout
+  timeout,
 }: UploadArgs): Thunk<*> {
-  return dispatch =>
-    dispatch(fetchSignedPost(fileName || file.name, isPublic)).then(action => {
-      if (!action || !action.payload) return;
-      return dispatch(
-        callAPI({
-          types: FileType.UPLOAD,
-          method: 'POST',
-          endpoint: action.payload.url,
-          body: action.payload.fields,
-          files: [file],
-          timeout,
-          json: false,
-          headers: {
-            Accept: 'application/json'
-          },
-          requiresAuthentication: false,
-          meta: {
-            fileKey: action.payload.file_key,
-            fileToken: action.payload.file_token,
-            errorMessage: 'Filopplasting feilet'
-          }
-        })
-      );
-    });
+  return (dispatch) =>
+    dispatch(fetchSignedPost(fileName || file.name, isPublic)).then(
+      (action) => {
+        if (!action || !action.payload) return;
+        return dispatch(
+          callAPI({
+            types: FileType.UPLOAD,
+            method: 'POST',
+            endpoint: action.payload.url,
+            body: action.payload.fields,
+            files: [file],
+            timeout,
+            json: false,
+            headers: {
+              Accept: 'application/json',
+            },
+            requiresAuthentication: false,
+            meta: {
+              fileKey: action.payload.file_key,
+              fileToken: action.payload.file_token,
+              errorMessage: 'Filopplasting feilet',
+            },
+          })
+        );
+      }
+    );
 }

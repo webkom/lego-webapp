@@ -5,10 +5,10 @@ import styles from './SearchPageInput.css';
 type Props = {
   inputRef?: (?HTMLInputElement) => void,
   onChange: (SyntheticInputEvent<HTMLInputElement>) => void,
-  onKeyDown: KeyboardEvent => void,
+  onKeyDown: (KeyboardEvent) => void,
   placeholder?: string,
   value: string,
-  isSearching: boolean
+  isSearching: boolean,
 };
 
 function SearchPageInput({
@@ -17,7 +17,7 @@ function SearchPageInput({
   onKeyDown,
   onChange,
   placeholder = 'Hva leter du etter?',
-  value
+  value,
 }: Props) {
   const icon = isSearching ? 'fa-circle-o-notch fa-spin' : 'fa-search';
   return (

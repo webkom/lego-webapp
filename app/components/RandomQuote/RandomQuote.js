@@ -16,13 +16,13 @@ type Props = {
   className?: string,
   addReaction: ({
     emoji: string,
-    contentTarget: string
+    contentTarget: string,
   }) => Promise<*>,
   deleteReaction: ({ reactionId: ID, contentTarget: string }) => Promise<*>,
   fetchEmojis: () => Promise<*>,
   fetchingEmojis: boolean,
   emojis: Array<EmojiEntity>,
-  currentQuote: QuoteEntity
+  currentQuote: QuoteEntity,
 };
 
 const RandomQuote = (props: Props) => {
@@ -33,7 +33,7 @@ const RandomQuote = (props: Props) => {
     emojis,
     fetchEmojis,
     fetchingEmojis,
-    currentQuote
+    currentQuote,
   } = props;
 
   const seenQuotes = useRef([]);

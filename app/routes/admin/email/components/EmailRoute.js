@@ -6,7 +6,7 @@ import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import { Content } from 'app/components/Content';
 
 type Props = {
-  children: Node
+  children: Node,
 };
 
 const EmailPage = ({ children }: Props) => (

@@ -3,7 +3,7 @@ import prepare from 'app/utils/prepare';
 import {
   fetchSurvey,
   shareSurvey,
-  hideSurvey
+  hideSurvey,
 } from 'app/actions/SurveyActions';
 import SurveyDetail from './components/SurveyDetail';
 import { compose } from 'redux';
@@ -16,8 +16,8 @@ import { push } from 'connected-react-router';
 const loadData = (
   {
     match: {
-      params: { surveyId }
-    }
+      params: { surveyId },
+    },
   },
   dispatch
 ) => dispatch(fetchSurvey(surveyId));
@@ -28,22 +28,19 @@ const mapStateToProps = (state, props) => {
   return {
     survey,
     surveyId,
-    actionGrant: survey.actionGrant
+    actionGrant: survey.actionGrant,
   };
 };
 
 const mapDispatchToProps = {
   push,
   shareSurvey,
-  hideSurvey
+  hideSurvey,
 };
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
   prepare(loadData, ['match.params.surveyId']),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['survey.questions', 'survey.event'])
 )(SurveyDetail);

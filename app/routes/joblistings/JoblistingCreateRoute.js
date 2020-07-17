@@ -11,7 +11,9 @@ import time from 'app/utils/time';
 
 const mapStateToProps = () => ({
   initialValues: {
-    text: '',
+    // The text and description initialValues need to be different
+    // due to how the editor needs different states to focus properly initially.
+    text: '<p></p>',
     description: '',
     visibleFrom: time({ hours: 12 }),
     visibleTo: time({ days: 31, hours: 23, minutes: 59 }),
@@ -19,21 +21,18 @@ const mapStateToProps = () => ({
     fromYear: 1,
     toYear: 5,
     jobType: 'summer_job',
-    workplaces: []
+    workplaces: [],
   },
-  isNew: true
+  isNew: true,
 });
 
 const mapDispatchToProps = {
   submitJoblisting: createJoblisting,
   fetchCompanyContacts,
-  push
+  push,
 };
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )(JoblistingEditor);

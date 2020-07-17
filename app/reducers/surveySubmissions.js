@@ -13,7 +13,7 @@ export type SubmissionEntity = {
   survey: SurveyEntity,
   submitted: boolean,
   submittedTime?: string,
-  answers: Array<AnswerEntity>
+  answers: Array<AnswerEntity>,
 };
 
 export type AnswerEntity = {
@@ -22,7 +22,7 @@ export type AnswerEntity = {
   question: QuestionEntity,
   answerText: string,
   selectedOptions: Array<OptionEntity>,
-  hideFromPublic: boolean
+  hideFromPublic: boolean,
 };
 
 type State = any;
@@ -44,26 +44,26 @@ export default createEntityReducer({
   key: 'surveySubmissions',
   types: {
     fetch: SurveySubmission.FETCH,
-    mutate: SurveySubmission.ADD
+    mutate: SurveySubmission.ADD,
   },
-  mutate: mutateSurveySubmissions
+  mutate: mutateSurveySubmissions,
 });
 
 export const selectSurveySubmissions = createSelector(
   (state, props) => props.surveyId,
-  state => state.surveySubmissions.items,
-  state => state.surveySubmissions.byId,
-  state => state.users.byId,
+  (state) => state.surveySubmissions.items,
+  (state) => state.surveySubmissions.byId,
+  (state) => state.users.byId,
   (surveyId, surveySubmissionIds, surveySubmissionsById, usersById) =>
     surveySubmissionIds
-      .map(surveySubmissionId => {
+      .map((surveySubmissionId) => {
         const submission = surveySubmissionsById[surveySubmissionId];
         return {
           ...submission,
-          user: usersById[submission.user]
+          user: usersById[submission.user],
         };
       })
-      .filter(surveySubmission => surveySubmission.survey === surveyId)
+      .filter((surveySubmission) => surveySubmission.survey === surveyId)
 );
 
 export const selectSurveySubmissionForUser = createSelector(
@@ -71,6 +71,6 @@ export const selectSurveySubmissionForUser = createSelector(
   (state, props) => props.currentUser,
   (submissionsById, user) =>
     submissionsById.find(
-      surveySubmission => surveySubmission.user.id === user.id
+      (surveySubmission) => surveySubmission.user.id === user.id
     )
 );

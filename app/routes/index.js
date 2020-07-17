@@ -17,11 +17,7 @@ import InterestGroups from './interestgroups';
 import Joblistings from './joblistings';
 import PageNotFound from './pageNotFound';
 import Announcements from './announcements';
-import {
-  CompanyInterestEnglish,
-  CompanyInterestNorwegian,
-  CompanyInterest
-} from './companyInterest';
+import { CompanyInterestInfoRoute, CompanyInterest } from './companyInterest';
 import Bdb from './bdb';
 import Contact from './contact';
 import Timeline from './timeline';
@@ -39,7 +35,7 @@ const RouterConfig = () => (
   </>
 );
 
-const AppWrapper = props => (
+const AppWrapper = (props) => (
   <AppRoute {...props}>
     <UserContext.Consumer>
       {({ currentUser, loggedIn }) => (
@@ -70,8 +66,10 @@ const AppWrapper = props => (
           <Route path="/users" component={Users} />
           <Route path="/validator" component={UserValidator} />
           <Route path="/brand" component={Brand} />
-          <Route path="/interesse" component={CompanyInterestNorwegian} />
-          <Route path="/register-interest" component={CompanyInterestEnglish} />
+          <Route
+            path="/(register-interest|interesse)"
+            component={CompanyInterestInfoRoute}
+          />
           <Route path="/companyInterest" component={CompanyInterest} />
           <Route path="/bdb" component={Bdb} />
           <Route path="/articles" component={Articles} />

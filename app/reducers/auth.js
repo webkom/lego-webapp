@@ -8,7 +8,7 @@ type State = {
   username: ?string,
   token: ?string,
   loginFailed: boolean,
-  loggingIn: boolean
+  loggingIn: boolean,
 };
 
 const initialState = {
@@ -18,7 +18,7 @@ const initialState = {
   loginFailed: false,
   loggingIn: false,
   registrationToken: null,
-  studentConfirmed: null
+  studentConfirmed: null,
 };
 
 export default function auth(state: State = initialState, action: any): State {
@@ -27,14 +27,14 @@ export default function auth(state: State = initialState, action: any): State {
       return {
         ...state,
         loggingIn: true,
-        loginFailed: false
+        loginFailed: false,
       };
 
     case User.LOGIN.FAILURE:
       return {
         ...state,
         loggingIn: false,
-        loginFailed: true
+        loginFailed: true,
       };
 
     case User.CREATE_USER.SUCCESS:
@@ -44,7 +44,7 @@ export default function auth(state: State = initialState, action: any): State {
         ...state,
         loggingIn: false,
         token: action.payload.token,
-        registrationToken: null
+        registrationToken: null,
       };
 
     case User.FETCH.SUCCESS:
@@ -55,7 +55,7 @@ export default function auth(state: State = initialState, action: any): State {
       return {
         ...state,
         id: action.payload.result,
-        username: action.payload.entities.users[action.payload.result].username
+        username: action.payload.entities.users[action.payload.result].username,
       };
 
     case User.LOGOUT:
@@ -64,17 +64,17 @@ export default function auth(state: State = initialState, action: any): State {
     case User.VALIDATE_REGISTRATION_TOKEN.SUCCESS:
       return {
         ...state,
-        registrationToken: action.meta.token
+        registrationToken: action.meta.token,
       };
     case User.CONFIRM_STUDENT_USER.FAILURE:
       return {
         ...state,
-        studentConfirmed: false
+        studentConfirmed: false,
       };
     case User.CONFIRM_STUDENT_USER.SUCCESS:
       return {
         ...state,
-        studentConfirmed: true
+        studentConfirmed: true,
       };
     default:
       return state;
@@ -86,7 +86,7 @@ export function selectIsLoggedIn(state: any) {
 }
 
 export const selectCurrentUser = createSelector(
-  state => state.users.byId,
-  state => state.auth.id,
+  (state) => state.users.byId,
+  (state) => state.auth.id,
   (usersById, userId) => usersById[userId] || {}
 );

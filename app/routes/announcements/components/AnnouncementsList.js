@@ -10,20 +10,20 @@ import type {
   ActionGrant,
   Announcement,
   CreateAnnouncement,
-  ID
+  ID,
 } from 'app/models';
 
 type Props = {
   announcement: Announcement,
   announcements: Array<Announcement>,
   actionGrant: ActionGrant,
-  sendAnnouncement: ID => Promise<*>,
-  createAnnouncement: CreateAnnouncement => Promise<*>,
-  deleteAnnouncement: ID => Promise<*>,
-  handleSubmit: Function => void,
+  sendAnnouncement: (ID) => Promise<*>,
+  createAnnouncement: (CreateAnnouncement) => Promise<*>,
+  deleteAnnouncement: (ID) => Promise<*>,
+  handleSubmit: (Function) => void,
   invalid: string,
   pristine: string,
-  submitting: string
+  submitting: string,
 };
 
 const AnnouncementsList = ({
@@ -35,7 +35,7 @@ const AnnouncementsList = ({
   handleSubmit,
   invalid,
   pristine,
-  submitting
+  submitting,
 }: Props) => {
   return (
     <Content>

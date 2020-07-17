@@ -6,7 +6,7 @@ import styles from './Tag.css';
 type Props = {
   /** Make small */
   children: Node,
-  className?: string
+  className?: string,
 };
 
 /**

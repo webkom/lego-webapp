@@ -17,7 +17,7 @@ export const statusStrings = {
   bedex: 'Bedex',
   not_interested: 'Ikke interessert',
   contacted: 'Kontaktet',
-  not_contacted: 'Ikke kontaktet'
+  not_contacted: 'Ikke kontaktet',
 };
 
 export const getStatusString = (
@@ -35,7 +35,7 @@ export const selectColorCode = (
     interested: 'interested',
     not_interested: 'notInterested',
     contacted: 'contacted',
-    not_contacted: 'notContacted'
+    not_contacted: 'notContacted',
   };
 
   return statusToClass[status];
@@ -49,12 +49,12 @@ const priority = {
   interested: 4,
   not_interested: 5,
   contacted: 6,
-  not_contacted: 7
+  not_contacted: 7,
 };
 
 export const sortStatusesByProminence = (
   statuses: Array<CompanySemesterContactedStatus>
-) => sortBy(statuses, status => priority[status]);
+) => sortBy(statuses, (status) => priority[status]);
 
 export const selectMostProminentStatus = (
   statuses: Array<CompanySemesterContactedStatus> = []
@@ -65,7 +65,7 @@ export const selectMostProminentStatus = (
 export const semesterNameOf = (index: number) => {
   const indexToSemesterName = {
     '0': 'spring',
-    '1': 'autumn'
+    '1': 'autumn',
   };
   return indexToSemesterName[index] || 'spring';
 };
@@ -73,7 +73,7 @@ export const semesterNameOf = (index: number) => {
 export const semesterCodeToName = (code: Semester) => {
   const codeToName = {
     spring: 'Vår',
-    autumn: 'Høst'
+    autumn: 'Høst',
   };
   return codeToName[code] || '-';
 };
@@ -84,7 +84,7 @@ export const sortByYearThenSemester = (
 ): number => {
   const semesterCodeToPriority = {
     spring: 0,
-    autumn: 1
+    autumn: 1,
   };
   return a.year !== b.year
     ? parseInt(b.year, 10) - parseInt(a.year, 10)
@@ -113,7 +113,7 @@ export const indexToSemester = (
   return (
     (companySemesters &&
       companySemesters.find(
-        companySemester =>
+        (companySemester) =>
           companySemester.year === year && companySemester.semester === semester
       )) || { year, semester }
   );
@@ -147,7 +147,7 @@ export const getContactedStatuses = (
 
   // Remove 'contacted', 'not_interested and 'interested'
   // as a statuses if any the other statuses are selected
-  ['contacted', 'not_interested', 'interested'].map(status => {
+  ['contacted', 'not_interested', 'interested'].map((status) => {
     if (
       contacted.length > 1 &&
       contacted.indexOf(status) !== -1 &&
@@ -171,11 +171,11 @@ export const ListNavigation = ({ title }: { title: Node }) => (
 export const DetailNavigation = ({
   title,
   companyId,
-  deleteFunction
+  deleteFunction,
 }: {
   title: Node,
   companyId: number,
-  deleteFunction: number => Promise<*>
+  deleteFunction: (number) => Promise<*>,
 }) => (
   <NavigationTab title={title}>
     <NavigationLink to="/bdb">Tilbake til liste</NavigationLink>

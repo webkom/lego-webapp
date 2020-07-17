@@ -4,7 +4,7 @@ import { Container, Flex } from 'app/components/Layout';
 import {
   LoginForm,
   RegisterForm,
-  ForgotPasswordForm
+  ForgotPasswordForm,
 } from 'app/components/LoginForm';
 import styles from './PublicFrontpage.css';
 import netcompany from 'app/assets/netcompany_dark.png';
@@ -17,18 +17,18 @@ import { readmeIfy } from 'app/components/ReadmeLogo';
 
 type Props = {
   frontpage: Array<Object>,
-  readmes: Array<Object>
+  readmes: Array<Object>,
 };
 
 type State = {
   registerUser: boolean,
-  forgotPassword: boolean
+  forgotPassword: boolean,
 };
 
 class PublicFrontpage extends Component<Props, State> {
   state = {
     registerUser: false,
-    forgotPassword: false
+    forgotPassword: false,
   };
 
   toggleRegisterUser = () => this.setState({ registerUser: true });
@@ -40,13 +40,13 @@ class PublicFrontpage extends Component<Props, State> {
 
   render() {
     const { registerUser, forgotPassword } = this.state;
-    const isEvent = item => item.documentType === 'event';
-    const isArticle = item => item.documentType === 'article';
+    const isEvent = (item) => item.documentType === 'event';
+    const isArticle = (item) => item.documentType === 'article';
 
     const topArticle = this.props.frontpage
       .filter(isArticle)
       .slice(0, 1)
-      .map(item => (
+      .map((item) => (
         <div key={item.id} className={styles.innerArticle}>
           <div className={styles.articleTitle}>
             <h4>{truncateString(item.title, 60)}</h4>
@@ -220,7 +220,7 @@ class PublicFrontpage extends Component<Props, State> {
               border: 'none',
               overflow: 'hidden',
               height: '500px',
-              width: '420px'
+              width: '420px',
             }}
             title="facebook"
             scrolling="no"

@@ -12,7 +12,7 @@ type Props = {
   item: Article,
   url: string,
   meta: Object,
-  weekly?: boolean
+  weekly?: boolean,
 };
 
 class ArticleItem extends Component<Props, *> {

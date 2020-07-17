@@ -3,7 +3,7 @@
 import type {
   Middleware,
   AsyncActionType,
-  AsyncActionTypeArray
+  AsyncActionTypeArray,
 } from 'app/types';
 
 function extractTypes(
@@ -17,7 +17,7 @@ function extractTypes(
 }
 
 export default function promiseMiddleware(): Middleware {
-  return store => next => action => {
+  return (store) => (next) => (action) => {
     if (action.type) {
       return next(action);
     }
@@ -32,19 +32,19 @@ export default function promiseMiddleware(): Middleware {
     next({
       type: PENDING,
       payload,
-      meta
+      meta,
     });
 
     return new Promise((resolve, reject) => {
       // $FlowFixMe
       promise.then(
-        payload =>
+        (payload) =>
           resolve(
             next({
               type: SUCCESS,
               payload,
               success: true,
-              meta
+              meta,
             })
           ),
         (error: boolean) =>
@@ -53,7 +53,7 @@ export default function promiseMiddleware(): Middleware {
               type: FAILURE,
               payload: error,
               error: true,
-              meta
+              meta,
             })
           )
       );

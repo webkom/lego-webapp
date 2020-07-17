@@ -26,11 +26,11 @@ const getEndpoint = (state, loadNextPage, queryString) => {
 export const fetchAll = ({
   approved = true,
   refresh = false,
-  loadNextPage = false
+  loadNextPage = false,
 }: {
   approved?: boolean,
   refresh?: boolean,
-  loadNextPage?: boolean
+  loadNextPage?: boolean,
 } = {}): Thunk<*> => (dispatch, getState) => {
   const queryString = `?approved=${String(approved)}`;
   const endpoint = getEndpoint(getState(), loadNextPage, queryString);
@@ -46,10 +46,10 @@ export const fetchAll = ({
         queryString,
         errorMessage: `Henting av ${
           approved ? '' : 'ikke '
-        }godkjente sitater feilet`
+        }godkjente sitater feilet`,
       },
       propagateError: true,
-      cacheSeconds: Infinity // don't expire cache unless we pass force
+      cacheSeconds: Infinity, // don't expire cache unless we pass force
     })
   );
 };
@@ -59,9 +59,9 @@ export function fetchAllApproved({ loadNextPage }: { loadNextPage: boolean }) {
 }
 
 export function fetchAllUnapproved({
-  loadNextPage
+  loadNextPage,
 }: {
-  loadNextPage: boolean
+  loadNextPage: boolean,
 }) {
   return fetchAll({ approved: false, loadNextPage });
 }
@@ -73,10 +73,10 @@ export function fetchQuote(quoteId: number) {
     method: 'GET',
     meta: {
       quoteId,
-      errorMessage: 'Henting av quote feilet'
+      errorMessage: 'Henting av quote feilet',
     },
     schema: quoteSchema,
-    propagateError: true
+    propagateError: true,
   });
 }
 
@@ -88,10 +88,10 @@ export function fetchRandomQuote(seenQuotes?: Array<ID> = []) {
     method: 'GET',
     meta: {
       queryString,
-      errorMessage: 'Henting av tilfeldig quote feilet'
+      errorMessage: 'Henting av tilfeldig quote feilet',
     },
     useCache: false,
-    schema: quoteSchema
+    schema: quoteSchema,
   });
 }
 
@@ -102,8 +102,8 @@ export function approve(quoteId: number) {
     method: 'PUT',
     meta: {
       errorMessage: 'Godkjenning av quote feilet',
-      quoteId: Number(quoteId)
-    }
+      quoteId: Number(quoteId),
+    },
   });
 }
 
@@ -114,19 +114,19 @@ export function unapprove(quoteId: number) {
     method: 'PUT',
     meta: {
       errorMessage: 'Underkjenning av quote feilet',
-      quoteId: Number(quoteId)
-    }
+      quoteId: Number(quoteId),
+    },
   });
 }
 
 export function addQuotes({
   text,
-  source
+  source,
 }: {
   text: string,
-  source: string
+  source: string,
 }): Thunk<*> {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(startSubmit('addQuote'));
 
     return dispatch(
@@ -136,12 +136,12 @@ export function addQuotes({
         method: 'POST',
         body: {
           text,
-          source
+          source,
         },
         schema: quoteSchema,
         meta: {
-          errorMessage: 'Legg til quote feilet'
-        }
+          errorMessage: 'Legg til quote feilet',
+        },
       })
     ).then(() => {
       dispatch(stopSubmit('addQuote'));
@@ -150,7 +150,7 @@ export function addQuotes({
         addToast({
           message:
             'Sitat sendt inn. Hvis det blir godkjent vil det dukke opp her!',
-          dismissAfter: 10000
+          dismissAfter: 10000,
         })
       );
     });
@@ -164,7 +164,7 @@ export function deleteQuote(id: number) {
     method: 'DELETE',
     meta: {
       id,
-      errorMessage: 'Sletting av quote feilet'
-    }
+      errorMessage: 'Sletting av quote feilet',
+    },
   });
 }

@@ -11,22 +11,22 @@ type Props = {
   searching: boolean,
   location: Object,
   inputRef?: (?HTMLInputElement) => void,
-  onQueryChanged: string => void,
+  onQueryChanged: (string) => void,
   placeholder?: string,
   results: Array<SearchResult>,
-  handleSelect: SearchResult => Promise<*>
+  handleSelect: (SearchResult) => Promise<*>,
 };
 
 type State = {
   query: string,
-  selectedIndex: number
+  selectedIndex: number,
 };
 
 class SearchPage extends Component<Props, State> {
   state = {
     selectedIndex: 0,
     query:
-      qs.parse(this.props.location.search, { ignoreQueryPrefix: true }).q || ''
+      qs.parse(this.props.location.search, { ignoreQueryPrefix: true }).q || '',
   };
 
   // eslint-disable-next-line
@@ -46,7 +46,7 @@ class SearchPage extends Component<Props, State> {
       case Keyboard.UP:
         e.preventDefault();
         this.setState({
-          selectedIndex: Math.max(0, this.state.selectedIndex - 1)
+          selectedIndex: Math.max(0, this.state.selectedIndex - 1),
         });
         break;
 
@@ -56,7 +56,7 @@ class SearchPage extends Component<Props, State> {
           selectedIndex: Math.min(
             this.props.results.length - 1,
             this.state.selectedIndex + 1
-          )
+          ),
         });
         break;
 

@@ -14,7 +14,7 @@ export type PageEntity = {
   slug: string,
   content: string,
   comments: Array<number>,
-  picture: string
+  picture: string,
 };
 
 export default createEntityReducer({
@@ -22,25 +22,25 @@ export default createEntityReducer({
   types: {
     fetch: Page.FETCH,
     mutate: Page.CREATE,
-    delete: Page.DELETE
-  }
+    delete: Page.DELETE,
+  },
 });
 
 export const selectPageBySlug = createSelector(
-  state => state.pages.byId,
+  (state) => state.pages.byId,
   (state, props) => props.pageSlug,
   (pagesBySlug, pageSlug) => pagesBySlug[pageSlug]
 );
 
 export const selectPages = createSelector(
-  state => state.pages.byId,
+  (state) => state.pages.byId,
   (pagesBySlug, pageSlug) =>
-    Object.keys(pagesBySlug).map(slug => pagesBySlug[slug])
+    Object.keys(pagesBySlug).map((slug) => pagesBySlug[slug])
 );
 
 export const selectPagesForHierarchy = (category: string) =>
   createSelector(
-    state => selectPages(state),
+    (state) => selectPages(state),
     (state, props) => props.title,
     (pages, title) => ({
       title,
@@ -48,46 +48,46 @@ export const selectPagesForHierarchy = (category: string) =>
         ? [
             {
               url: '/pages/info-om-abakus',
-              title: 'Info om Abakus'
-            }
+              title: 'Info om Abakus',
+            },
           ]
         : []
       ).concat(
         sortBy(
           pages
-            .filter(page => page.category === category)
-            .map(page => ({
+            .filter((page) => page.category === category)
+            .map((page) => ({
               url: `/pages/${page.category}/${page.slug}`,
-              title: page.title
+              title: page.title,
             })),
           'title'
         )
-      )
+      ),
     })
   );
 
 export const selectGroupsForHierarchy = createSelector(
-  state => selectGroupsWithType(state, { groupType: 'komite' }),
+  (state) => selectGroupsWithType(state, { groupType: 'komite' }),
   (state, props) => props.title,
   (groups, title) => ({
     title,
     items: sortBy(
-      groups.map(page => ({
+      groups.map((page) => ({
         url: `/pages/komiteer/${page.id}`,
-        title: page.name
+        title: page.name,
       })),
       'title'
-    )
+    ),
   })
 );
 
 export const selectPageHierarchy = createSelector(
   (state, props) => props.sections,
-  state => state,
+  (state) => state,
   (sections, state) =>
-    Object.keys(sections).map(sectionKey =>
+    Object.keys(sections).map((sectionKey) =>
       sections[sectionKey].hierarchySectionSelector(state, {
-        title: sections[sectionKey].title
+        title: sections[sectionKey].title,
       })
     )
 );
@@ -103,8 +103,8 @@ export const selectFlatpageForPages = createSelector(
       title: selectedPage && selectedPage.title,
       editUrl: `/pages/${
         selectedPage ? selectedPage.category : 'info'
-      }/${pageSlug}/edit`
-    }
+      }/${pageSlug}/edit`,
+    },
   })
 );
 
@@ -114,7 +114,7 @@ const separateRoles = [
   'alumni',
   'retiree_email',
   'leader',
-  'co-leader'
+  'co-leader',
 ];
 // Map all the other roles as if they were regular members
 const defaultRole = 'member';
@@ -125,9 +125,9 @@ const groupMemberships = (memberships, groupId) => {
   const membershipsUniqUsers = uniqBy(
     sortBy(
       memberships,
-      membership => Number(membership.abakusGroup) !== Number(groupId)
+      (membership) => Number(membership.abakusGroup) !== Number(groupId)
     ),
-    membership => membership.user.id
+    (membership) => membership.user.id
   );
   return groupBy(sortBy(membershipsUniqUsers, 'user.fullName'), ({ role }) =>
     separateRoles.includes(role) ? role : defaultRole
@@ -140,7 +140,7 @@ export const selectCommitteeForPages = createSelector(
   (state, props) =>
     selectMembershipsForGroup(state, {
       descendants: true,
-      groupId: Number(props.pageSlug)
+      groupId: Number(props.pageSlug),
     }),
   (_, { pageSlug }) => pageSlug,
   (group, memberships, groupId) => {
@@ -148,40 +148,40 @@ export const selectCommitteeForPages = createSelector(
       isComplete: !!(group && group.actionGrant),
       actionGrant: group && group.actionGrant,
       title: group && group.name,
-      editUrl: `/admin/groups/${group.id}/settings`
+      editUrl: `/admin/groups/${group.id}/settings`,
     };
     const membershipsByRole = groupMemberships(memberships, groupId);
     return {
       selectedPage: group && { ...group, membershipsByRole },
-      selectedPageInfo
+      selectedPageInfo,
     };
   }
 );
 
 export const selectNotFoundpageForPages = createSelector(
   (state, props) => props.pageSlug,
-  pageSlug => ({
+  (pageSlug) => ({
     selectedPageInfo: {
       title: pageSlug,
-      isComplete: true
+      isComplete: true,
     },
-    selectedPage: {}
+    selectedPage: {},
   })
 );
 
 export const selectInfoPageForPages = createSelector(
   (state, props) => props.pageSlug,
-  pageSlug => ({
+  (pageSlug) => ({
     selectedPageInfo: {
       title: 'Info om Abakus',
-      isComplete: true
+      isComplete: true,
     },
-    selectedPage: {}
+    selectedPage: {},
   })
 );
 export const categoryOptions = [
   { value: 'arrangementer', label: 'Arrangementer' },
   { value: 'bedrifter', label: 'Bedrifter' },
   { value: 'generelt', label: 'Generelt' },
-  { value: 'grupper', label: 'Grupper' }
+  { value: 'grupper', label: 'Grupper' },
 ];

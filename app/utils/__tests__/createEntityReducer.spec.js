@@ -1,7 +1,7 @@
 import createEntityReducer, {
   fetching,
   createAndUpdateEntities,
-  deleteEntities
+  deleteEntities,
 } from '../createEntityReducer';
 import joinReducers from '../joinReducers';
 import { eventSchema } from 'app/reducers';
@@ -10,12 +10,12 @@ import { normalize } from 'normalizr';
 const FETCH = {
   BEGIN: 'FETCH.BEGIN',
   SUCCESS: 'FETCH.SUCCESS',
-  FAILURE: 'FETCH.FAILURE'
+  FAILURE: 'FETCH.FAILURE',
 };
 const DELETE = {
   BEGIN: 'DELETE.BEGIN',
   SUCCESS: 'DELETE.SUCCESS',
-  FAILURE: 'DELETE.FAILURE'
+  FAILURE: 'DELETE.FAILURE',
 };
 
 const SMASH = 'SMASH';
@@ -23,45 +23,45 @@ const SMASH = 'SMASH';
 const reducer = createEntityReducer({
   key: 'events',
   types: {
-    fetch: FETCH
+    fetch: FETCH,
   },
   initialState: {
-    smashed: false
+    smashed: false,
   },
   mutate: (state, action) => {
     if (action.type === SMASH) {
       return { ...state, smashed: true };
     }
     return state;
-  }
+  },
 });
 
 const FETCH_OTHER = {
   BEGIN: 'FETCH_OTHER.BEGIN',
   SUCCESS: 'FETCH_OTHER.SUCCESS',
-  FAILURE: 'FETCH_OTHER.FAILURE'
+  FAILURE: 'FETCH_OTHER.FAILURE',
 };
 
 const DELETE_OTHER = {
   BEGIN: 'DELETE_OTHER.BEGIN',
   SUCCESS: 'DELETE_OTHER.SUCCESS',
-  FAILURE: 'DELETE_OTHER.FAILURE'
+  FAILURE: 'DELETE_OTHER.FAILURE',
 };
 
 const otherReducer = createEntityReducer({
   key: 'events',
   types: {
-    fetch: [FETCH, FETCH_OTHER] // fetchTypes as array
+    fetch: [FETCH, FETCH_OTHER], // fetchTypes as array
   },
   initialState: {
-    smashed: false
+    smashed: false,
   },
   mutate: (state, action) => {
     if (action.type === SMASH) {
       return { ...state, smashed: true };
     }
     return state;
-  }
+  },
 });
 
 describe('createEntityReducer', () => {
@@ -73,7 +73,7 @@ describe('createEntityReducer', () => {
       fetching: false,
       smashed: true,
       hasMore: false,
-      pagination: {}
+      pagination: {},
     });
   });
 
@@ -87,23 +87,23 @@ describe('createEntityReducer', () => {
           entities: {
             events: {
               0: { name: 'Hello' },
-              1: { name: 'Hello' }
-            }
+              1: { name: 'Hello' },
+            },
           },
-          result: [0, 1]
-        }
+          result: [0, 1],
+        },
       })
     ).toEqual({
       actionGrant: ['list'],
       byId: {
         0: { name: 'Hello' },
-        1: { name: 'Hello' }
+        1: { name: 'Hello' },
       },
       items: [0, 1],
       fetching: false,
       hasMore: false,
       smashed: false,
-      pagination: {}
+      pagination: {},
     });
   });
 
@@ -116,24 +116,24 @@ describe('createEntityReducer', () => {
           entities: {
             events: {
               1: { name: '1' },
-              warlo: { name: 'warlo' }
-            }
+              warlo: { name: 'warlo' },
+            },
           },
-          result: [1, 'warlo']
+          result: [1, 'warlo'],
         },
-        meta: { schemaKey: 'events' }
+        meta: { schemaKey: 'events' },
       })
     ).toEqual({
       actionGrant: ['list'],
       byId: {
         1: { name: '1' },
-        warlo: { name: 'warlo' }
+        warlo: { name: 'warlo' },
       },
       items: [1, 'warlo'],
       fetching: false,
       hasMore: false,
       smashed: false,
-      pagination: {}
+      pagination: {},
     });
   });
 
@@ -146,24 +146,24 @@ describe('createEntityReducer', () => {
           entities: {
             events: {
               1: { name: '1' },
-              warlo: { name: 'warlo' }
-            }
+              warlo: { name: 'warlo' },
+            },
           },
-          result: [1, 'warlo']
+          result: [1, 'warlo'],
         },
-        meta: { schemaKey: 'events' }
+        meta: { schemaKey: 'events' },
       })
     ).toEqual({
       actionGrant: ['list'],
       byId: {
         1: { name: '1' },
-        warlo: { name: 'warlo' }
+        warlo: { name: 'warlo' },
       },
       items: [1, 'warlo'],
       fetching: false,
       hasMore: false,
       smashed: false,
-      pagination: {}
+      pagination: {},
     });
   });
 
@@ -176,24 +176,24 @@ describe('createEntityReducer', () => {
           entities: {
             events: {
               '1-per': { name: 'per' },
-              '1-warlo': { name: 'warlo' }
-            }
+              '1-warlo': { name: 'warlo' },
+            },
           },
-          result: ['1-per', '1-warlo']
+          result: ['1-per', '1-warlo'],
         },
-        meta: { schemaKey: 'events' }
+        meta: { schemaKey: 'events' },
       })
     ).toEqual({
       actionGrant: ['list'],
       byId: {
         '1-per': { name: 'per' },
-        '1-warlo': { name: 'warlo' }
+        '1-warlo': { name: 'warlo' },
       },
       items: ['1-per', '1-warlo'],
       fetching: false,
       hasMore: false,
       smashed: false,
-      pagination: {}
+      pagination: {},
     });
   });
 
@@ -204,9 +204,9 @@ describe('createEntityReducer', () => {
         payload: {
           actionGrant: ['list', 'create'],
           entities: {},
-          result: []
+          result: [],
         },
-        meta: { schemaKey: 'events' }
+        meta: { schemaKey: 'events' },
       })
     ).toEqual({
       actionGrant: ['list', 'create'],
@@ -215,7 +215,7 @@ describe('createEntityReducer', () => {
       fetching: false,
       smashed: false,
       hasMore: false,
-      pagination: {}
+      pagination: {},
     });
   });
 
@@ -232,7 +232,7 @@ describe('createEntityReducer', () => {
       if (action.type === FETCH.BEGIN) {
         return {
           ...state,
-          customFlag: true
+          customFlag: true,
         };
       }
       return state;
@@ -243,7 +243,7 @@ describe('createEntityReducer', () => {
         return {
           ...state,
           customFlag2: false,
-          customFlag: false
+          customFlag: false,
         };
       }
       return state;
@@ -252,9 +252,9 @@ describe('createEntityReducer', () => {
     const reducer = createEntityReducer({
       key: 'users',
       types: {
-        fetch: FETCH
+        fetch: FETCH,
       },
-      mutate: joinReducers(customFlag, customFlag2)
+      mutate: joinReducers(customFlag, customFlag2),
     });
 
     expect(reducer(undefined, { type: FETCH.BEGIN })).toEqual({
@@ -265,7 +265,7 @@ describe('createEntityReducer', () => {
       byId: {},
       items: [],
       hasMore: false,
-      pagination: {}
+      pagination: {},
     });
   });
 });
@@ -275,29 +275,29 @@ describe('fetching()', () => {
     const state = {};
     const reducer = fetching(FETCH);
     expect(reducer(state, { type: FETCH.BEGIN })).toEqual({
-      fetching: true
+      fetching: true,
     });
 
     expect(reducer(state, { type: FETCH.SUCCESS })).toEqual({
-      fetching: false
+      fetching: false,
     });
 
     expect(reducer(state, { type: FETCH.FAILURE })).toEqual({
-      fetching: false
+      fetching: false,
     });
   });
   it('should handle multiple fetching types', () => {
     const reducer = fetching([FETCH, FETCH_OTHER]);
     expect(reducer({ fetching: false }, { type: FETCH.BEGIN })).toEqual({
-      fetching: true
+      fetching: true,
     });
 
     expect(reducer({ fetching: true }, { type: FETCH_OTHER.SUCCESS })).toEqual({
-      fetching: false
+      fetching: false,
     });
 
     expect(reducer({ fetching: false }, { type: DELETE.SUCCESS })).toEqual({
-      fetching: false
+      fetching: false,
     });
   });
 });
@@ -307,14 +307,14 @@ describe('createAndUpdateEntities()', () => {
     const state = {
       actionGrant: [],
       byId: {},
-      items: []
+      items: [],
     };
 
     const reducer = createAndUpdateEntities(FETCH, 'users');
 
     const user = {
       id: 1,
-      name: 'Hanse'
+      name: 'Hanse',
     };
 
     const action = {
@@ -322,19 +322,19 @@ describe('createAndUpdateEntities()', () => {
       payload: {
         entities: {
           users: {
-            1: user
-          }
+            1: user,
+          },
         },
-        result: 1
-      }
+        result: 1,
+      },
     };
 
     expect(reducer(state, action)).toEqual({
       actionGrant: [],
       byId: {
-        1: user
+        1: user,
       },
-      items: [1]
+      items: [1],
     });
   });
 
@@ -345,7 +345,7 @@ describe('createAndUpdateEntities()', () => {
       actionGrant: [],
       byId: {},
       items: [],
-      pagination: {}
+      pagination: {},
     };
 
     const usersReducer = createAndUpdateEntities(FETCH, 'users');
@@ -353,7 +353,7 @@ describe('createAndUpdateEntities()', () => {
 
     const user = {
       id: 1,
-      name: 'Hanse'
+      name: 'Hanse',
     };
 
     const action = {
@@ -361,36 +361,36 @@ describe('createAndUpdateEntities()', () => {
       payload: {
         entities: {
           users: {
-            1: user
-          }
+            1: user,
+          },
         },
         next: 'abc',
-        result: [1]
+        result: [1],
       },
       meta: {
         schemaKey: 'users', // injected in callAPI
-        queryString: '?qs'
-      }
+        queryString: '?qs',
+      },
     };
 
     expect(otherReducer(state, action)).toEqual({
       actionGrant: [],
       byId: {},
       items: [],
-      pagination: {}
+      pagination: {},
     });
     expect(usersReducer(state, action)).toEqual({
       actionGrant: [],
       byId: {
-        1: user
+        1: user,
       },
       items: [1],
       pagination: {
         '?qs': {
           nextPage: 'abc',
-          queryString: '?qs'
-        }
-      }
+          queryString: '?qs',
+        },
+      },
     });
   });
 
@@ -403,21 +403,21 @@ describe('createAndUpdateEntities()', () => {
         comments: [
           {
             id: 2,
-            author: 'Orhan'
-          }
-        ]
+            author: 'Orhan',
+          },
+        ],
       },
       {
         id: 2,
         title: 'Second Event',
-        comments: []
-      }
+        comments: [],
+      },
     ];
 
     const actions = [
       {
         type: 'FETCH_ALL',
-        payload: normalize(events, [eventSchema])
+        payload: normalize(events, [eventSchema]),
       },
       {
         type: 'FETCH_SINGLE',
@@ -425,25 +425,25 @@ describe('createAndUpdateEntities()', () => {
           {
             ...events[0],
             title: 'First Event Updated',
-            extra: 'Foo'
+            extra: 'Foo',
           },
           eventSchema
-        )
+        ),
       },
       {
         type: 'FETCH_ALL',
         payload: normalize(
-          events.map(event => ({
+          events.map((event) => ({
             ...event,
-            comments: []
+            comments: [],
           })),
           [eventSchema]
-        )
+        ),
       },
       {
         type: 'ADD_COMMENT',
-        payload: {}
-      }
+        payload: {},
+      },
     ];
 
     expect(actions.reduce(reducer, undefined)).toEqual({
@@ -453,16 +453,16 @@ describe('createAndUpdateEntities()', () => {
           id: 1,
           title: 'First Event',
           comments: [],
-          extra: 'Foo'
+          extra: 'Foo',
         },
         2: {
           id: 2,
           title: 'Second Event',
-          comments: []
-        }
+          comments: [],
+        },
       },
       items: [1, 2],
-      pagination: {}
+      pagination: {},
     });
   });
 });
@@ -477,21 +477,21 @@ describe('deleteEntities()', () => {
         1: {
           id: 1,
           title: 'First Event',
-          comments: []
+          comments: [],
         },
         2: {
           id: 2,
           title: 'Second Event',
-          comments: []
-        }
+          comments: [],
+        },
       },
       items: [1, 2],
-      pagination: {}
+      pagination: {},
     };
 
     const action = {
       type: DELETE.SUCCESS,
-      meta: { id: 1 }
+      meta: { id: 1 },
     };
     expect(reducer(state, action)).toEqual({
       actionGrant: [],
@@ -499,11 +499,11 @@ describe('deleteEntities()', () => {
         2: {
           id: 2,
           title: 'Second Event',
-          comments: []
-        }
+          comments: [],
+        },
       },
       items: [2],
-      pagination: {}
+      pagination: {},
     });
   });
   it('should handle deleteTypes as array', () => {
@@ -515,32 +515,32 @@ describe('deleteEntities()', () => {
         1: {
           id: 1,
           title: 'First Event',
-          comments: []
+          comments: [],
         },
         2: {
           id: 2,
           title: 'Second Event',
-          comments: []
+          comments: [],
         },
         3: {
           id: 3,
           title: 'Third Event',
-          comments: []
-        }
+          comments: [],
+        },
       },
       items: [1, 2, 3],
-      pagination: {}
+      pagination: {},
     };
 
     const actions = [
       {
         type: DELETE.SUCCESS,
-        meta: { id: 1 }
+        meta: { id: 1 },
       },
       {
         type: DELETE.SUCCESS,
-        meta: { id: 3 }
-      }
+        meta: { id: 3 },
+      },
     ];
     expect(actions.reduce(reducer, state)).toEqual({
       actionGrant: [],
@@ -548,11 +548,11 @@ describe('deleteEntities()', () => {
         2: {
           id: 2,
           title: 'Second Event',
-          comments: []
-        }
+          comments: [],
+        },
       },
       items: [2],
-      pagination: {}
+      pagination: {},
     });
   });
   it('should handle numbers and strings as keys', () => {
@@ -564,50 +564,50 @@ describe('deleteEntities()', () => {
         1: {
           id: '1',
           title: 'First Event',
-          comments: []
+          comments: [],
         },
         2: {
           id: 2,
           title: 'Second Event',
-          comments: []
+          comments: [],
         },
         'string-key': {
           id: 'string-key',
           title: 'Third Event',
-          comments: []
+          comments: [],
         },
         3: {
           id: 3,
           title: 'Third Event',
-          comments: []
+          comments: [],
         },
         4: {
           id: 4,
           title: 'Third Event',
-          comments: []
-        }
+          comments: [],
+        },
       },
       items: ['1', 'string-key', 2, 3, 4],
-      pagination: {}
+      pagination: {},
     };
 
     const actions = [
       {
         type: DELETE.SUCCESS,
-        meta: { id: 1 }
+        meta: { id: 1 },
       },
       {
         type: DELETE.SUCCESS,
-        meta: { id: 'string-key' }
+        meta: { id: 'string-key' },
       },
       {
         type: DELETE.SUCCESS,
-        meta: { id: '3' }
+        meta: { id: '3' },
       },
       {
         type: DELETE.SUCCESS,
-        meta: { id: 4 }
-      }
+        meta: { id: 4 },
+      },
     ];
     expect(actions.reduce(reducer, state)).toEqual({
       actionGrant: [],
@@ -615,11 +615,11 @@ describe('deleteEntities()', () => {
         2: {
           id: 2,
           title: 'Second Event',
-          comments: []
-        }
+          comments: [],
+        },
       },
       items: [2],
-      pagination: {}
+      pagination: {},
     });
   });
   it('should not delete on error', () => {
@@ -631,21 +631,21 @@ describe('deleteEntities()', () => {
         1: {
           id: 1,
           title: 'Second Event',
-          comments: []
+          comments: [],
         },
         2: {
           id: 2,
           title: 'Second Event',
-          comments: []
-        }
+          comments: [],
+        },
       },
       items: [1, 2],
-      pagination: {}
+      pagination: {},
     };
 
     const action = {
       type: DELETE.FAILED,
-      meta: { id: 1 }
+      meta: { id: 1 },
     };
     expect(reducer(state, action)).toEqual({
       actionGrant: [],
@@ -653,16 +653,16 @@ describe('deleteEntities()', () => {
         1: {
           id: 1,
           title: 'Second Event',
-          comments: []
+          comments: [],
         },
         2: {
           id: 2,
           title: 'Second Event',
-          comments: []
-        }
+          comments: [],
+        },
       },
       items: [1, 2],
-      pagination: {}
+      pagination: {},
     });
   });
   it('should only delete on matching type', () => {
@@ -674,21 +674,21 @@ describe('deleteEntities()', () => {
         1: {
           id: 1,
           title: 'Second Event',
-          comments: []
+          comments: [],
         },
         2: {
           id: 2,
           title: 'Second Event',
-          comments: []
-        }
+          comments: [],
+        },
       },
       items: [1, 2],
-      pagination: {}
+      pagination: {},
     };
 
     const action = {
       type: DELETE_OTHER.SUCCESS,
-      meta: { id: 1 }
+      meta: { id: 1 },
     };
     expect(reducer(state, action)).toEqual({
       actionGrant: [],
@@ -696,16 +696,16 @@ describe('deleteEntities()', () => {
         1: {
           id: 1,
           title: 'Second Event',
-          comments: []
+          comments: [],
         },
         2: {
           id: 2,
           title: 'Second Event',
-          comments: []
-        }
+          comments: [],
+        },
       },
       items: [1, 2],
-      pagination: {}
+      pagination: {},
     });
   });
 });

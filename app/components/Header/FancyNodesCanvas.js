@@ -7,22 +7,22 @@ import styles from './FancyNodesCanvas.css';
 import { getTheme } from 'app/utils/themeUtils.js';
 
 type Props = {
-  height: number
+  height: number,
 };
 
 type State = {
   width: number,
-  currentTheme: string
+  currentTheme: string,
 };
 
 class FancyNodesCanvas extends Component<Props, State> {
   static defaultProps = {
-    height: 160
+    height: 160,
   };
 
   state = {
     width: 0,
-    currentTheme: 'light'
+    currentTheme: 'light',
   };
 
   _canvas: any;
@@ -35,7 +35,7 @@ class FancyNodesCanvas extends Component<Props, State> {
 
     this.setState(
       {
-        width: newWidth
+        width: newWidth,
       },
       () => this.drawGraphics()
     );
@@ -49,7 +49,7 @@ class FancyNodesCanvas extends Component<Props, State> {
 
     this.setState(
       {
-        currentTheme: newTheme
+        currentTheme: newTheme,
       },
       () => this.drawGraphics()
     );
@@ -65,7 +65,7 @@ class FancyNodesCanvas extends Component<Props, State> {
     const context = this._canvas.getContext('2d');
     drawFancyNodes(context, {
       width: this.state.width,
-      height: this.props.height
+      height: this.props.height,
     });
   }
 
@@ -77,7 +77,7 @@ class FancyNodesCanvas extends Component<Props, State> {
   render() {
     return (
       <canvas
-        ref={ref => {
+        ref={(ref) => {
           this._canvas = ref;
         }}
         className={styles.root}

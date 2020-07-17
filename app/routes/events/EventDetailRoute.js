@@ -10,7 +10,7 @@ import {
   updateFeedback,
   follow,
   unfollow,
-  isUserFollowing
+  isUserFollowing,
 } from 'app/actions/EventActions';
 import EventDetail from './components/EventDetail';
 import {
@@ -21,7 +21,7 @@ import {
   selectRegistrationsFromPools,
   selectMergedPoolWithRegistrations,
   selectMergedPool,
-  selectWaitingRegistrationsForEvent
+  selectWaitingRegistrationsForEvent,
 } from 'app/reducers/events';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import helmet from 'app/utils/helmet';
@@ -32,9 +32,9 @@ import { selectPenaltyByUserId } from 'app/reducers/penalties';
 const mapStateToProps = (state, props) => {
   const {
     match: {
-      params: { eventId }
+      params: { eventId },
     },
-    currentUser
+    currentUser,
   } = props;
 
   const event = selectEventById(state, { eventId });
@@ -54,7 +54,7 @@ const mapStateToProps = (state, props) => {
     const normalPools = event.isMerged
       ? selectMergedPool(state, { eventId })
       : selectPoolsForEvent(state, {
-          eventId
+          eventId,
         });
 
     const pools =
@@ -62,7 +62,7 @@ const mapStateToProps = (state, props) => {
         ? normalPools.concat({
             name: 'Venteliste',
             registrationCount: event.waitingRegistrationCount,
-            permissionGroups: []
+            permissionGroups: [],
           })
         : normalPools;
     return {
@@ -71,19 +71,19 @@ const mapStateToProps = (state, props) => {
       event,
       eventId,
       pools,
-      comments: []
+      comments: [],
     };
   }
   const comments = selectCommentsForEvent(state, { eventId });
   const poolsWithRegistrations = event.isMerged
     ? selectMergedPoolWithRegistrations(state, { eventId })
     : selectPoolsWithRegistrationsForEvent(state, {
-        eventId
+        eventId,
       });
   const registrations = selectRegistrationsFromPools(state, { eventId });
 
   const waitingRegistrations = selectWaitingRegistrationsForEvent(state, {
-    eventId
+    eventId,
   });
   const pools =
     waitingRegistrations.length > 0
@@ -91,19 +91,19 @@ const mapStateToProps = (state, props) => {
           name: 'Venteliste',
           registrations: waitingRegistrations,
           registrationCount: waitingRegistrations.length,
-          permissionGroups: []
+          permissionGroups: [],
         })
       : poolsWithRegistrations;
-  const currentPool = pools.find(pool =>
+  const currentPool = pools.find((pool) =>
     pool.registrations.some(
-      registration => registration.user.id === currentUser.id
+      (registration) => registration.user.id === currentUser.id
     )
   );
   let currentRegistration;
   let currentRegistrationIndex;
   if (currentPool) {
     currentRegistrationIndex = currentPool.registrations.findIndex(
-      registration => registration.user.id === currentUser.id
+      (registration) => registration.user.id === currentUser.id
     );
     currentRegistration = currentPool.registrations[currentRegistrationIndex];
   }
@@ -120,7 +120,7 @@ const mapStateToProps = (state, props) => {
     currentRegistration,
     currentRegistrationIndex,
     hasSimpleWaitingList,
-    penalties
+    penalties,
   };
 };
 
@@ -134,77 +134,74 @@ const mapDispatchToProps = {
   follow,
   unfollow,
   isUserFollowing,
-  deleteComment
+  deleteComment,
 };
 
 const loadData = async (
   {
     match: {
-      params: { eventId }
+      params: { eventId },
     },
-    loggedIn
+    loggedIn,
   },
   dispatch
 ) => [
   await dispatch(fetchEvent(eventId)),
-  loggedIn && (await dispatch(isUserFollowing(eventId)))
+  loggedIn && (await dispatch(isUserFollowing(eventId))),
 ];
 
 const propertyGenerator = (props, config) => {
   if (!props.event) return;
-  const tags = (props.event.tags || []).map(content => ({
+  const tags = (props.event.tags || []).map((content) => ({
     content,
-    property: 'article:tag'
+    property: 'article:tag',
   }));
 
   return [
     {
       property: 'og:title',
-      content: props.event.title
+      content: props.event.title,
     },
     {
       element: 'title',
-      children: props.event.title
+      children: props.event.title,
     },
     {
       element: 'link',
       rel: 'canonical',
-      href: `${config.webUrl}/events/${props.event.id}`
+      href: `${config.webUrl}/events/${props.event.id}`,
     },
     {
       property: 'og:description',
-      content: props.event.description
+      content: props.event.description,
     },
     {
       property: 'og:type',
-      content: 'website'
+      content: 'website',
     },
     {
       property: 'og:image:width',
-      content: '1667'
+      content: '1667',
     },
     {
       property: 'og:image:height',
-      content: '500'
+      content: '500',
     },
     {
       property: 'og:url',
-      content: `${config.webUrl}/events/${props.event.id}`
+      content: `${config.webUrl}/events/${props.event.id}`,
     },
     {
       property: 'og:image',
-      content: props.event.cover
+      content: props.event.cover,
     },
-    ...tags
+    ...tags,
   ];
 };
 
 export default compose(
   prepare(loadData, ['match.params.eventId']),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['notLoading', 'event.text']),
   helmet(propertyGenerator)
 )(EventDetail);

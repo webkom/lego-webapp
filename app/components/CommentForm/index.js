@@ -12,11 +12,12 @@ import { ProfilePicture } from 'app/components/Image';
 import { addComment } from 'app/actions/CommentActions';
 import type { CommentEntity } from 'app/actions/CommentActions';
 import styles from './CommentForm.css';
+import DisplayContent from 'app/components/DisplayContent';
 
 // TODO: This can be removed if the editor importer gets an actual empty state.
-const EMPTY_STATE = '<p class="unstyled"><br/></p>';
+const EMPTY_STATE = '<p></p>';
 
-const validate = values => {
+const validate = (values) => {
   const errors = {};
   if (!values.text) {
     errors.text = 'Required';
@@ -28,19 +29,23 @@ type Props = {
   contentTarget: string,
   user: Object,
   loggedIn: boolean,
-  addComment: CommentEntity => void,
+  addComment: (CommentEntity) => void,
   parent: number,
   submitText: string,
   inlineMode: boolean,
   initialized: boolean,
   autoFocus: boolean,
-  isOpen: boolean
+  isOpen: boolean,
 } & FormProps;
 
-class CommentForm extends Component<Props> {
+class CommentForm extends Component<Props, { disabled: boolean }> {
+  constructor(props) {
+    super(props);
+    this.state = { disabled: !__CLIENT__ };
+  }
   static defaultProps = {
     submitText: 'Kommenter',
-    autoFocus: false
+    autoFocus: false,
   };
 
   onSubmit = ({ text }) => {
@@ -48,8 +53,12 @@ class CommentForm extends Component<Props> {
     this.props.addComment({
       contentTarget,
       text,
-      parent
+      parent,
     });
+  };
+
+  enableForm = (e) => {
+    this.setState({ disabled: false });
   };
 
   render() {
@@ -63,7 +72,7 @@ class CommentForm extends Component<Props> {
       submitText,
       inlineMode,
       autoFocus,
-      initialized
+      initialized,
     } = this.props;
     const className = inlineMode ? styles.inlineForm : styles.form;
 
@@ -84,15 +93,29 @@ class CommentForm extends Component<Props> {
           )}
         </div>
 
-        <div className={cx(styles.fields, isOpen && styles.activeFields)}>
-          <Field
-            autoFocus={autoFocus}
-            name="text"
-            placeholder="Skriv en kommentar"
-            component={EditorField}
-            initialized={initialized}
-            simple
-          />
+        <div
+          className={cx(styles.fields, isOpen && styles.activeFields)}
+          onMouseOver={this.enableForm}
+          onScroll={this.enableForm}
+          onPointerDown={this.enableForm}
+        >
+          {this.state.disabled ? (
+            <DisplayContent
+              id="comment-text"
+              className={styles.text}
+              content=""
+              placeholder="Skriv en kommentar"
+            />
+          ) : (
+            <Field
+              autoFocus={autoFocus}
+              name="text"
+              placeholder="Skriv en kommentar"
+              component={EditorField}
+              initialized={initialized}
+              simple
+            />
+          )}
 
           {isOpen && (
             <Button
@@ -116,7 +139,7 @@ function mapStateToProps(state, props) {
     isOpen:
       meta &&
       meta.text &&
-      (meta.text.active || (values && values.text !== EMPTY_STATE))
+      (meta.text.active || (values && values.text !== EMPTY_STATE)),
   };
 }
 
@@ -124,10 +147,7 @@ export default compose(
   reduxForm({
     validate,
     initialValues: {},
-    destroyOnUnmount: false
+    destroyOnUnmount: false,
   }),
-  connect(
-    mapStateToProps,
-    { addComment }
-  )
+  connect(mapStateToProps, { addComment })
 )(CommentForm);

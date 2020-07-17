@@ -11,7 +11,7 @@ type Props = {
   className?: string,
   inputRef?: any,
   disabled?: boolean,
-  readOnly?: boolean
+  readOnly?: boolean,
 };
 
 function TextInput({

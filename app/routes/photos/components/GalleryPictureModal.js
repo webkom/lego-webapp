@@ -27,7 +27,7 @@ type Props = {
   currentUser: Object,
   loggedIn: boolean,
   gallery: Object,
-  push: string => void,
+  push: (string) => void,
   updateGalleryCover: (number, number) => Promise<*>,
   deletePicture: (number, number) => Promise<*>,
   comments: Array<Object>,
@@ -37,16 +37,20 @@ type Props = {
   fetchSiblingGallerPicture: (EntityID, EntityID, boolean) => Promise<*>,
   isFirstImage: Boolean,
   isLastImage: Boolean,
-  deleteComment: (id: ID, contentTarget: string) => Promise<*>
+  deleteComment: (id: ID, contentTarget: string) => Promise<*>,
 };
 
 type State = {
   showMore: boolean,
   clickedDeletePicture: number,
   hasNext: boolean,
-  hasPrevious: boolean
+  hasPrevious: boolean,
 };
-const OnKeyDownHandler = ({ handler }: { handler: KeyboardEvent => void }) => (
+const OnKeyDownHandler = ({
+  handler,
+}: {
+  handler: (KeyboardEvent) => void,
+}) => (
   useEffect(
     () => (
       window.addEventListener('keydown', handler),
@@ -95,11 +99,11 @@ const Taggees = ({ taggees }: { taggees: Array<Object> }) => {
 const RenderGalleryPicture = ({
   id,
   handleDelete,
-  clickedDeletePicture
+  clickedDeletePicture,
 }: {
   id: number,
-  handleDelete: number => void,
-  clickedDeletePicture: number
+  handleDelete: (number) => void,
+  clickedDeletePicture: number,
 }) => (
   <div>
     <Button flat onClick={() => handleDelete(id)}>
@@ -117,7 +121,7 @@ export default class GalleryPictureModal extends Component<Props, State> {
     showMore: false,
     clickedDeletePicture: 0,
     hasNext: !this.props.isLastImage,
-    hasPrevious: !this.props.isFirstImage
+    hasPrevious: !this.props.isFirstImage,
   };
 
   toggleDropdown = () => {
@@ -142,7 +146,7 @@ export default class GalleryPictureModal extends Component<Props, State> {
         .then(() => this.props.push(`/photos/${this.props.gallery.id}`));
     } else {
       this.setState({
-        clickedDeletePicture
+        clickedDeletePicture,
       });
     }
   };
@@ -151,10 +155,10 @@ export default class GalleryPictureModal extends Component<Props, State> {
     const { pictureId, gallery, push } = this.props;
     return this.props
       .fetchSiblingGallerPicture(gallery.id, pictureId, next)
-      .then(result => {
+      .then((result) => {
         this.setState({
           hasNext: !!result.payload.next,
-          hasPrevious: !!result.payload.previous
+          hasPrevious: !!result.payload.previous,
         });
         return (
           result.payload.result.length > 0 &&
@@ -169,7 +173,7 @@ export default class GalleryPictureModal extends Component<Props, State> {
     { trailing: false }
   );
   nextGalleryPicture = throttle(() => this.siblingGalleryPicture(true), 500, {
-    trailing: false
+    trailing: false,
   });
 
   handleKeyDown = (e: KeyboardEvent): void => {
@@ -208,7 +212,7 @@ export default class GalleryPictureModal extends Component<Props, State> {
       push,
       gallery,
       actionGrant,
-      deleteComment
+      deleteComment,
     } = this.props;
     const { showMore } = this.state;
 
@@ -284,7 +288,7 @@ export default class GalleryPictureModal extends Component<Props, State> {
                       <Dropdown.Divider key="divider" />,
                       <Dropdown.ListItem
                         key="delete"
-                        onClick={e => {
+                        onClick={(e) => {
                           e.preventDefault();
                           e.stopPropagation();
                         }}
@@ -294,7 +298,7 @@ export default class GalleryPictureModal extends Component<Props, State> {
                           id={pictureId}
                           clickedDeletePicture={this.state.clickedDeletePicture}
                         />
-                      </Dropdown.ListItem>
+                      </Dropdown.ListItem>,
                     ]}
                 </Dropdown.List>
               </Dropdown>

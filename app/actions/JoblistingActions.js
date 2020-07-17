@@ -11,9 +11,9 @@ export function fetchAll() {
     endpoint: '/joblistings/',
     schema: [joblistingsSchema],
     meta: {
-      errorMessage: 'Henting av jobbannonser failet'
+      errorMessage: 'Henting av jobbannonser failet',
     },
-    propagateError: true
+    propagateError: true,
   });
 }
 
@@ -24,9 +24,9 @@ export function fetchJoblisting(id: number) {
     schema: joblistingsSchema,
     useCache: false,
     meta: {
-      errorMessage: 'Henting av jobbannonse feilet'
+      errorMessage: 'Henting av jobbannonse feilet',
     },
-    propagateError: true
+    propagateError: true,
   });
 }
 
@@ -37,8 +37,8 @@ export function deleteJoblisting(id: number) {
     method: 'DELETE',
     meta: {
       id,
-      errorMessage: 'Sletting av jobbannonse feilet'
-    }
+      errorMessage: 'Sletting av jobbannonse feilet',
+    },
   });
 }
 
@@ -60,12 +60,12 @@ export function createJoblisting({
       responsible: responsible && responsible.value,
       deadline: moment(deadline).toISOString(),
       visibleFrom: moment(visibleFrom).toISOString(),
-      visibleTo: moment(visibleTo).toISOString()
+      visibleTo: moment(visibleTo).toISOString(),
     },
     schema: joblistingsSchema,
     meta: {
-      errorMessage: 'Opprettelse av jobbannonse feilet'
-    }
+      errorMessage: 'Opprettelse av jobbannonse feilet',
+    },
   });
 }
 
@@ -88,10 +88,10 @@ export function editJoblisting({
       responsible: responsible && responsible.value,
       deadline: moment(deadline).toISOString(),
       visibleFrom: moment(visibleFrom).toISOString(),
-      visibleTo: moment(visibleTo).toISOString()
+      visibleTo: moment(visibleTo).toISOString(),
     },
     meta: {
-      errorMessage: 'Endring av jobbannonse feilet'
-    }
+      errorMessage: 'Endring av jobbannonse feilet',
+    },
   });
 }

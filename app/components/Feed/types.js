@@ -5,7 +5,7 @@ export type Activity = {
   extraContext: Object,
   actor: string,
   object: string,
-  target: string
+  target: string,
 };
 
 export type AggregatedActivity = {
@@ -19,12 +19,12 @@ export type AggregatedActivity = {
   actorIds: Array<string>,
   read: boolean,
   seen: boolean,
-  context: Object
+  context: Object,
 };
 
 export type TagInfo = {
   link: string,
   text: string,
   notLink: boolean,
-  linkableContent: boolean
+  linkableContent: boolean,
 };

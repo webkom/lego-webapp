@@ -12,12 +12,12 @@ type Props = {
   style?: Object,
   list?: boolean,
   renderDirection?: string,
-  pointerPosition?: string
+  pointerPosition?: string,
 };
 
 type State = {
   hovered: boolean,
-  childrenContainerWidth: number
+  childrenContainerWidth: number,
 };
 
 /**
@@ -31,7 +31,7 @@ type State = {
 
 export default class Tooltip extends Component<Props, State> {
   static defaultProps = {
-    list: false
+    list: false,
   };
 
   tooltip: ?HTMLDivElement;
@@ -43,24 +43,24 @@ export default class Tooltip extends Component<Props, State> {
     const width = this.tooltip.offsetWidth;
 
     this.setState({
-      childrenContainerWidth: width
+      childrenContainerWidth: width,
     });
   }
 
   state = {
     hovered: false,
-    childrenContainerWidth: 0
+    childrenContainerWidth: 0,
   };
 
   onMouseEnter = () => {
     this.setState({
-      hovered: true
+      hovered: true,
     });
   };
 
   onMouseLeave = () => {
     this.setState({
-      hovered: false
+      hovered: false,
     });
   };
 
@@ -77,7 +77,7 @@ export default class Tooltip extends Component<Props, State> {
       style,
       onClick,
       renderDirection,
-      pointerPosition
+      pointerPosition,
     } = this.props;
     let renderDirectionClass = styles.renderFromCenter;
     let startPointChildren = 2;
@@ -106,7 +106,7 @@ export default class Tooltip extends Component<Props, State> {
     return (
       <div className={className} onClick={onClick}>
         <div
-          ref={ref => {
+          ref={(ref) => {
             this.tooltip = ref;
           }}
           onMouseEnter={this.onMouseEnter}
@@ -117,7 +117,7 @@ export default class Tooltip extends Component<Props, State> {
             style={{
               ...style,
               marginLeft:
-                this.state.childrenContainerWidth / startPointChildren - 5
+                this.state.childrenContainerWidth / startPointChildren - 5,
             }}
           >
             {content}

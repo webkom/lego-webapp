@@ -7,7 +7,7 @@ type AsyncOrSyncRouteConfig =
       getComponent: (
         location: string,
         cb: (Object | null, ?Object) => void
-      ) => void
+      ) => void,
     }
   | { component: Object };
 
@@ -54,8 +54,8 @@ export default function resolveAsyncRoute(
       }
 
       component
-        .then(module => callback(null, module.default))
-        .catch(error => callback(error));
-    }
+        .then((module) => callback(null, module.default))
+        .catch((error) => callback(error));
+    },
   };
 }

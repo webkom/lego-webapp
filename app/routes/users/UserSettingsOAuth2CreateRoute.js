@@ -12,24 +12,21 @@ import { push } from 'connected-react-router';
 const validate = createValidator({
   name: [required()],
   description: [required()],
-  redirectUris: [required()]
+  redirectUris: [required()],
 });
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    create: true
+    create: true,
   };
 };
 
 const mapDispatchToProps = { createOAuth2Application, push };
 
 export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   reduxForm({
     form: 'oauth2',
-    validate
+    validate,
   })
 )(UserSettingsOAuth2Form);

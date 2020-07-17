@@ -7,7 +7,7 @@ type Props = {
   title: string,
   summary: string,
   paragraphs?: Array<string>,
-  left?: boolean
+  left?: boolean,
 };
 
 const Vision = ({ title, summary, paragraphs, left }: Props) => {

@@ -12,7 +12,7 @@ describe('reducers', () => {
         loginFailed: false,
         loggingIn: false,
         registrationToken: null,
-        studentConfirmed: null
+        studentConfirmed: null,
       });
     });
 
@@ -39,9 +39,9 @@ describe('reducers', () => {
         payload: {
           token: 'azaz',
           user: {
-            username: 'test'
-          }
-        }
+            username: 'test',
+          },
+        },
       };
       expect(auth(prevState, action)).toEqual({
         username: null,
@@ -50,7 +50,7 @@ describe('reducers', () => {
         loginFailed: false,
         loggingIn: false,
         registrationToken: null,
-        studentConfirmed: null
+        studentConfirmed: null,
       });
     });
 
@@ -61,9 +61,9 @@ describe('reducers', () => {
         payload: {
           token: 'azaz',
           user: {
-            username: 'test'
-          }
-        }
+            username: 'test',
+          },
+        },
       };
 
       const prevState = auth(_prevState, _action);
@@ -75,7 +75,7 @@ describe('reducers', () => {
         loginFailed: false,
         loggingIn: false,
         registrationToken: null,
-        studentConfirmed: null
+        studentConfirmed: null,
       });
     });
   });

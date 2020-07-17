@@ -10,7 +10,7 @@ import loadingIndicator from 'app/utils/loadingIndicator';
 import prepare from 'app/utils/prepare';
 import {
   fetch,
-  uploadAndCreateGalleryPicture
+  uploadAndCreateGalleryPicture,
 } from 'app/actions/GalleryPictureActions';
 import { push } from 'connected-react-router';
 import GalleryDetail from './components/GalleryDetail';
@@ -20,9 +20,9 @@ import { SelectGalleryPicturesByGalleryId } from 'app/reducers/galleryPictures';
 const loadData = ({ match: { params } }, dispatch) =>
   Promise.all([
     dispatch(fetch(params.galleryId)).catch(),
-    dispatch(fetchGallery(params.galleryId)).catch(err =>
+    dispatch(fetchGallery(params.galleryId)).catch((err) =>
       dispatch(fetchGalleryMetadata(params.galleryId))
-    )
+    ),
   ]);
 
 function mapStateToProps(state, props) {
@@ -34,7 +34,7 @@ function mapStateToProps(state, props) {
     gallery: selectGalleryById(state, { galleryId }),
     pictures: SelectGalleryPicturesByGalleryId(state, { galleryId }),
     fetching: state.galleries.fetching || state.galleryPictures.fetching,
-    hasMore: state.galleryPictures.hasMore
+    hasMore: state.galleryPictures.hasMore,
   };
 }
 const propertyGenerator = (props, config) => {
@@ -43,36 +43,36 @@ const propertyGenerator = (props, config) => {
   return [
     {
       property: 'og:title',
-      content: props.gallery.title
+      content: props.gallery.title,
     },
     {
       element: 'title',
-      children: props.gallery.tile
+      children: props.gallery.tile,
     },
     {
       element: 'link',
       rel: 'canonical',
-      href: `${config.webUrl}/gallery/${props.gallery.id}`
+      href: `${config.webUrl}/gallery/${props.gallery.id}`,
     },
     {
       property: 'og:description',
-      content: props.gallery.description
+      content: props.gallery.description,
     },
     {
       property: 'og:url',
-      content: `${config.webUrl}/gallery/${props.gallery.id}`
+      content: `${config.webUrl}/gallery/${props.gallery.id}`,
     },
     {
       property: 'og:image',
-      content: props.gallery.cover.file
-    }
+      content: props.gallery.cover.file,
+    },
   ];
 };
 
 const mapDispatchToProps = { push, fetch, uploadAndCreateGalleryPicture };
 
 function metadataHelper<Props>() {
-  return ActualComponent => {
+  return (ActualComponent) => {
     class MetadataHelper extends PureComponent<Props & LoginProps> {
       render() {
         // Instead of relying on 'propagateError', this does
@@ -115,10 +115,7 @@ function metadataHelper<Props>() {
 }
 
 export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   prepare(loadData),
   loadingIndicator(['gallery.title']),
   helmet(propertyGenerator),

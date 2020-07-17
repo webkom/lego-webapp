@@ -20,7 +20,7 @@ const renderEvent = ({
   eventType,
   registrationCount,
   startTime,
-  totalCapacity
+  totalCapacity,
 }: Event) => (
   <Popover
     key={id}
@@ -62,7 +62,7 @@ type CalendarCellProps = {
   day: moment,
   className: string,
   prevOrNextMonth: boolean,
-  events: Array<Event>
+  events: Array<Event>,
 };
 
 /**
@@ -72,7 +72,7 @@ const CalendarCell = ({
   day,
   className,
   prevOrNextMonth,
-  events = []
+  events = [],
 }: CalendarCellProps) => (
   <div
     className={cx(
@@ -94,18 +94,18 @@ const CalendarCell = ({
 );
 
 const selectEvents = createSelector(
-  state => state.events.items,
-  state => state.events.byId,
+  (state) => state.events.items,
+  (state) => state.events.byId,
   (state, props) => props.day,
   (eventIds, eventsById, day) =>
     eventIds
-      .map(id => eventsById[id])
-      .filter(event => moment(event.startTime).isSame(day, 'day'))
+      .map((id) => eventsById[id])
+      .filter((event) => moment(event.startTime).isSame(day, 'day'))
 );
 
 function mapStateToProps(state, ownProps) {
   return {
-    events: selectEvents(state, ownProps)
+    events: selectEvents(state, ownProps),
   };
 }
 

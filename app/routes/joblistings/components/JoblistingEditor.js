@@ -13,7 +13,7 @@ import {
   Form,
   SelectInput,
   DatePicker,
-  legoForm
+  legoForm,
 } from 'app/components/Form';
 import Button from 'app/components/Button';
 import moment from 'moment-timezone';
@@ -27,35 +27,35 @@ import type { Joblisting, Workplace, ID } from 'app/models';
 type Props = {
   joblistingId?: string,
   joblisting: Joblisting,
-  handleSubmit: Function => void,
-  submitJoblisting: Workplace => Promise<*>,
-  deleteJoblisting: ID => Promise<*>,
+  handleSubmit: (Function) => void,
+  submitJoblisting: (Workplace) => Promise<*>,
+  deleteJoblisting: (ID) => Promise<*>,
   event: SelectInputObject,
-  dispatch: any => void,
-  push: string => void,
+  dispatch: (any) => void,
+  push: (string) => void,
   isNew: boolean,
   fetching: boolean,
   fetchCompanyContacts: ({ companyId: ID }) => Promise<*>,
-  company: SelectInputObject
+  company: SelectInputObject,
 } & FormProps;
 
 type State = {
-  responsibleOptions: Array<Object>
+  responsibleOptions: Array<Object>,
 };
 
 type SelectInputObject = {
   label: string,
-  value: ID
+  value: ID,
 };
 
 class JoblistingEditor extends Component<Props, State> {
   state = {
-    responsibleOptions: []
+    responsibleOptions: [],
   };
 
-  onSubmit = newJoblisting => {
+  onSubmit = (newJoblisting) => {
     const workplaces = newJoblisting.workplaces
-      ? newJoblisting.workplaces.map(obj => ({ town: obj.value }))
+      ? newJoblisting.workplaces.map((obj) => ({ town: obj.value }))
       : null;
 
     return this.props
@@ -65,13 +65,13 @@ class JoblistingEditor extends Component<Props, State> {
         applicationUrl:
           newJoblisting.applicationUrl &&
           httpCheck(newJoblisting.applicationUrl),
-        workplaces
+        workplaces,
       })
-      .then(result => {
+      .then((result) => {
         const id = this.props.joblistingId || result.payload.result;
         this.props.push(`/joblistings/${id}/`);
       })
-      .catch(err => {
+      .catch((err) => {
         if (err.payload && err.payload.response) {
           throw new SubmissionError(err.payload.response.jsonData);
         }
@@ -86,10 +86,10 @@ class JoblistingEditor extends Component<Props, State> {
   fetchContacts = (company: SelectInputObject) => {
     return this.props
       .fetchCompanyContacts({ companyId: company.value })
-      .then(action => {
-        const responsibleOptions = action.payload.map(contact => ({
+      .then((action) => {
+        const responsibleOptions = action.payload.map((contact) => ({
           label: contact.name,
-          value: contact.id
+          value: contact.id,
         }));
         this.setState({ responsibleOptions });
       });
@@ -108,7 +108,7 @@ class JoblistingEditor extends Component<Props, State> {
       dispatch,
       fetching = false,
       submitting,
-      invalid
+      invalid,
     } = this.props;
 
     if (!isNew && fetching) {
@@ -134,13 +134,13 @@ class JoblistingEditor extends Component<Props, State> {
             name="company"
             component={SelectInput.AutocompleteField}
             filter={['companies.company']}
-            onChange={event => {
+            onChange={(event) => {
               // $FlowFixMe
               this.fetchContacts(event).then(() => {
                 dispatch(
                   change('joblistingEditor', 'responsible', {
                     label: 'Ingen',
-                    value: null
+                    value: null,
                   })
                 );
               });
@@ -281,7 +281,7 @@ const validate = ({
   toYear,
   workplaces,
   visibleFrom,
-  visibleTo
+  visibleTo,
 }) => {
   const errors = {};
 
@@ -315,5 +315,5 @@ const validate = ({
 export default legoForm({
   form: 'joblistingEditor',
   enableReinitialize: true,
-  validate
+  validate,
 })(JoblistingEditor);

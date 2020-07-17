@@ -10,15 +10,15 @@ import Button from '../Button';
 
 type Pool = {
   name: string,
-  registrations: Array<Object>
+  registrations: Array<Object>,
 };
 
 export type Props = {
   pools: Array<Pool>,
   title: string,
-  togglePool: number => void,
+  togglePool: (number) => void,
   selectedPool: number,
-  allRegistrations?: Array<Object>
+  allRegistrations?: Array<Object>,
 };
 
 const Tab = ({ name, index, activePoolIndex, togglePool }: any) => (
@@ -35,16 +35,16 @@ const Tab = ({ name, index, activePoolIndex, togglePool }: any) => (
 );
 
 type State = {
-  pools: Array</*TODO: Pool*/ Object>
+  pools: Array</*TODO: Pool*/ Object>,
 };
 
 class AttendanceModal extends Component<Props, State> {
   state = {
-    pools: []
+    pools: [],
   };
 
   static defaultProps = {
-    title: 'Status'
+    title: 'Status',
   };
 
   // eslint-disable-next-line
@@ -59,13 +59,13 @@ class AttendanceModal extends Component<Props, State> {
     if (pools.length === 1) return this.setState({ pools });
 
     const registrations = // $FlowFixMe
-      allRegistrations || flatMap(pools, pool => pool.registrations);
+      allRegistrations || flatMap(pools, (pool) => pool.registrations);
     const summaryPool = {
       name: 'Alle',
-      registrations
+      registrations,
     };
     return this.setState({
-      pools: [summaryPool, ...pools]
+      pools: [summaryPool, ...pools],
     });
   };
 

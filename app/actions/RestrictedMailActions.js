@@ -12,9 +12,9 @@ export function fetchRestrictedMail(restrictedMailId: EntityID) {
     endpoint: `/restricted-mail/${restrictedMailId}/`,
     schema: restrictedMailSchema,
     meta: {
-      errorMessage: 'Henting av begrenset epost feilet'
+      errorMessage: 'Henting av begrenset epost feilet',
     },
-    propagateError: true
+    propagateError: true,
   });
 }
 
@@ -26,8 +26,8 @@ export function createRestrictedMail(restrictedMail: RestrictedMailEntity) {
     schema: restrictedMailSchema,
     body: restrictedMail,
     meta: {
-      errorMessage: 'Opprettelse av begrenset epost feilet'
-    }
+      errorMessage: 'Opprettelse av begrenset epost feilet',
+    },
   });
 }
 
@@ -41,9 +41,9 @@ export function fetch({ next }: { next: boolean } = {}): Thunk<*> {
         }`,
         schema: [restrictedMailSchema],
         meta: {
-          errorMessage: 'Henting av begrensete eposter feilet'
+          errorMessage: 'Henting av begrensete eposter feilet',
         },
-        propagateError: true
+        propagateError: true,
       })
     );
   };

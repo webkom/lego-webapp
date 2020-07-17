@@ -8,15 +8,12 @@ import { objectPermissionsInitialValues } from 'app/components/Form/ObjectPermis
 const mapStateToProps = () => ({
   isNew: true,
   initialValues: {
-    ...objectPermissionsInitialValues
-  }
+    ...objectPermissionsInitialValues,
+  },
 });
 
 const mapDispatchToProps = { submitFunction: createGallery, push };
 
-export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
-)(GalleryEditor);
+export default compose(connect(mapStateToProps, mapDispatchToProps))(
+  GalleryEditor
+);

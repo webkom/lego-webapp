@@ -11,7 +11,7 @@ import {
   TextInput,
   SelectInput,
   DatePicker,
-  legoForm
+  legoForm,
 } from 'app/components/Form';
 import { createValidator, required } from 'app/utils/validation';
 import type { SurveyEntity } from 'app/reducers/surveys';
@@ -29,41 +29,41 @@ type Props = FormProps & {
   autoFocus: Object,
   surveyData: Array<Object>,
   submitFunction: (SurveyEntity, ?number) => Promise<*>,
-  push: string => void,
+  push: (string) => void,
   template?: Object,
   selectedTemplateType?: EventType,
   destroy: () => void,
   initialize: () => void,
-  activeFrom: string
+  activeFrom: string,
 };
 
 type State = {
   templatePickerOpen: boolean,
-  templateTypeSelected: string
+  templateTypeSelected: string,
 };
 
 type TemplateTypeDropdownItemsProps = {
   survey?: Object,
-  push: string => void,
-  destroy: () => void
+  push: (string) => void,
+  destroy: () => void,
 };
 
 function TemplateTypeDropdownItems({
   survey,
   push,
-  destroy
+  destroy,
 }: TemplateTypeDropdownItemsProps) {
-  const link = eventType =>
+  const link = (eventType) =>
     survey && survey.id
       ? `/surveys/${survey.id}/edit/?templateType=${eventType}`
       : `/surveys/add/?templateType=${eventType}`;
 
   return (
     <Dropdown.List>
-      {Object.keys(EVENT_CONSTANTS).map(eventType => (
+      {Object.keys(EVENT_CONSTANTS).map((eventType) => (
         <Dropdown.ListItem key={eventType}>
           <Link
-            onClick={e => {
+            onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
               if (
@@ -88,7 +88,7 @@ function TemplateTypeDropdownItems({
 class SurveyEditor extends Component<Props, State> {
   state = {
     templatePickerOpen: false,
-    templateTypeSelected: ''
+    templateTypeSelected: '',
   };
 
   updateRelativeIndexes = (oldIndex, newIndex, fields) => {
@@ -120,7 +120,7 @@ class SurveyEditor extends Component<Props, State> {
         }}
       >
         <Icon name="add-circle" size={30} className={styles.addQuestion} />
-      </Link>
+      </Link>,
     ];
   };
 
@@ -134,7 +134,7 @@ class SurveyEditor extends Component<Props, State> {
       push,
       destroy,
       activeFrom,
-      selectedTemplateType
+      selectedTemplateType,
     } = this.props;
 
     const titleField = (
@@ -160,14 +160,14 @@ class SurveyEditor extends Component<Props, State> {
           <Dropdown
             show={this.state.templatePickerOpen}
             toggle={() => {
-              this.setState(state => ({
-                templatePickerOpen: !state.templatePickerOpen
+              this.setState((state) => ({
+                templatePickerOpen: !state.templatePickerOpen,
               }));
             }}
             triggerComponent={
               <Button
                 className={styles.templatePicker}
-                onClick={e => {
+                onClick={(e) => {
                   e.preventDefault();
                 }}
               >
@@ -241,14 +241,14 @@ export const initialQuestion = {
   options: [
     {
       optionText: '',
-      relativeIndex: { value: 0, label: 0 }
-    }
-  ]
+      relativeIndex: { value: 0, label: 0 },
+    },
+  ],
 };
 
 const validate = createValidator({
   title: [required()],
-  event: [required()]
+  event: [required()],
 });
 
 const onSubmit = (formContent: Object, dispatch, props: Props) => {
@@ -260,14 +260,14 @@ const onSubmit = (formContent: Object, dispatch, props: Props) => {
   const cleanQuestions = questions.map((q, i) => {
     const question = {
       ...q,
-      relativeIndex: i
+      relativeIndex: i,
     };
 
     if (question.questionType === QuestionTypes('text')) {
       question.options = [];
     } else {
       question.options = question.options.filter(
-        option => option.optionText !== ''
+        (option) => option.optionText !== ''
       );
     }
     return question;
@@ -277,8 +277,8 @@ const onSubmit = (formContent: Object, dispatch, props: Props) => {
     ...formContent,
     event: formContent.event && Number(formContent.event.value),
     surveyId: survey && survey.id,
-    questions: cleanQuestions
-  }).then(result => {
+    questions: cleanQuestions,
+  }).then((result) => {
     const id = survey && survey.id ? survey.id : result.payload.result;
     push(`/surveys/${String(id)}`);
   });
@@ -287,5 +287,5 @@ const onSubmit = (formContent: Object, dispatch, props: Props) => {
 export default legoForm({
   form: 'surveyEditor',
   validate,
-  onSubmit
+  onSubmit,
 })(SurveyEditor);

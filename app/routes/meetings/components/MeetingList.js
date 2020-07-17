@@ -15,10 +15,10 @@ import type { UserEntity } from 'app/reducers/users';
 
 function MeetingListItem({
   meeting,
-  username
+  username,
 }: {
   meeting: MeetingEntity,
-  username: string
+  username: string,
 }) {
   const isDone = moment(meeting.startTime) < moment();
 
@@ -49,10 +49,10 @@ function MeetingListItem({
 }
 const MeetingListView = ({
   sections,
-  currentUser
+  currentUser,
 }: {
   sections: Array<MeetingSection>,
-  currentUser: UserEntity
+  currentUser: UserEntity,
 }) => (
   <div>
     {sections.map((item, key) => (
@@ -80,7 +80,7 @@ type Props = {
   fetchMore: () => Promise<*>,
   fetchOlder: () => Promise<*>,
   showFetchMore: boolean,
-  showFetchOlder: boolean
+  showFetchOlder: boolean,
 };
 
 export default class MeetingList extends Component<Props> {
@@ -92,7 +92,7 @@ export default class MeetingList extends Component<Props> {
       fetchMore,
       fetchOlder,
       showFetchMore,
-      showFetchOlder
+      showFetchOlder,
     } = this.props;
     return (
       <Content>

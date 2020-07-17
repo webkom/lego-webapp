@@ -10,7 +10,7 @@ import DisplayContent from 'app/components/DisplayContent';
  */
 export function activityHeader(
   aggregatedActivity: AggregatedActivity,
-  htmlTag: TagInfo => Element<*>
+  htmlTag: (TagInfo) => Element<*>
 ) {
   const latestActivity = aggregatedActivity.lastActivity;
   const actor = lookupContext(aggregatedActivity, latestActivity.actor);

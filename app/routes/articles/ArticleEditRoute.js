@@ -5,7 +5,7 @@ import loadingIndicator from 'app/utils/loadingIndicator';
 import {
   fetchArticle,
   editArticle,
-  deleteArticle
+  deleteArticle,
 } from 'app/actions/ArticleActions';
 import ArticleEditor from './components/ArticleEditor';
 import { selectArticleById } from 'app/reducers/articles';
@@ -25,8 +25,8 @@ const mapStateToProps = (state, props) => {
     initialValues: {
       ...article,
       ...objectPermissionsToInitialValues(article),
-      tags: (article.tags || []).map(tag => ({ label: tag, value: tag }))
-    }
+      tags: (article.tags || []).map((tag) => ({ label: tag, value: tag })),
+    },
   };
 };
 
@@ -34,7 +34,7 @@ const mapDispatchToProps = {
   deleteArticle,
   fetchArticle,
   submitArticle: editArticle,
-  push
+  push,
 };
 
 export default compose(
@@ -42,9 +42,6 @@ export default compose(
   prepare(({ match: { params: { articleId } } }, dispatch) =>
     dispatch(fetchArticle(articleId))
   ),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['article.content'])
 )(ArticleEditor);

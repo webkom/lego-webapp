@@ -19,7 +19,7 @@ type Props = {
   displayTitle?: boolean,
   style?: Object,
   newOnTop?: boolean,
-  deleteComment: (id: ID, contentTarget: string) => Promise<*>
+  deleteComment: (id: ID, contentTarget: string) => Promise<*>,
 };
 
 const Title = ({ displayTitle }: { displayTitle: boolean }) =>
@@ -35,7 +35,7 @@ const CommentView = (props: Props) => {
     style,
     displayTitle = true,
     newOnTop = false,
-    deleteComment
+    deleteComment,
   } = props;
   const commentFormProps = { contentTarget, user, loggedIn };
 
@@ -46,7 +46,7 @@ const CommentView = (props: Props) => {
       <Title displayTitle={displayTitle} />
       <Flex
         style={{
-          flexDirection: newOnTop ? 'column-reverse' : 'column'
+          flexDirection: newOnTop ? 'column-reverse' : 'column',
         }}
       >
         <LoadingIndicator loading={!comments}>

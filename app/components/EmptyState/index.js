@@ -11,7 +11,7 @@ type Props = {
   /** html to display in an EmptyState */
   children?: Node,
   size?: number,
-  className?: string
+  className?: string,
 };
 
 /**

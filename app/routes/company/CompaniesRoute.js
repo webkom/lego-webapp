@@ -22,20 +22,17 @@ const mapStateToProps = (state, props) => {
     query,
     loggedIn: props.loggedIn,
     hasMore: state.companies.hasMore,
-    fetching: state.companies.fetching
+    fetching: state.companies.fetching,
   };
 };
 
 const mapDispatchToProps = {
-  fetchMore: () => fetchAll({ fetchMore: true })
+  fetchMore: () => fetchAll({ fetchMore: true }),
 };
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
   prepare((props, dispatch) => dispatch(fetchAll({ fetchMore: false }))),
   // $FlowFixMe connect
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )(CompaniesPage);

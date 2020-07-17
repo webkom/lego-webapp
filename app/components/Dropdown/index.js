@@ -16,7 +16,7 @@ type Props = {
   show: boolean,
   children?: any,
   style?: any,
-  placement: 'top' | 'bottom' | 'left' | 'right'
+  placement: 'top' | 'bottom' | 'left' | 'right',
 };
 
 class Dropdown extends Component<Props> {
@@ -25,7 +25,7 @@ class Dropdown extends Component<Props> {
   static defaultProps = {
     iconName: 'star',
     componentClass: 'button',
-    placement: 'bottom'
+    placement: 'bottom',
   };
 
   static ListItem = ListItem;
@@ -50,13 +50,13 @@ class Dropdown extends Component<Props> {
       children,
       style,
       placement,
-      componentClass: ComponentClass
+      componentClass: ComponentClass,
     } = this.props;
 
     return (
       <ComponentClass
         onClick={toggle}
-        ref={target => {
+        ref={(target) => {
           this.target = target;
         }}
         className={className}

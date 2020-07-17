@@ -17,8 +17,8 @@ const memberships = [
       isActive: true,
       isStaff: false,
       lastName: 'webkom',
-      username: 'webkom'
-    }
+      username: 'webkom',
+    },
   },
   {
     id: 2,
@@ -32,9 +32,9 @@ const memberships = [
       isActive: true,
       isStaff: false,
       lastName: 'plebkom',
-      username: 'plebkom'
-    }
-  }
+      username: 'plebkom',
+    },
+  },
 ];
 
 describe.skip('GroupMembersList', () => {

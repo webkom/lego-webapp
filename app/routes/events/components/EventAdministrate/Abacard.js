@@ -12,11 +12,11 @@ import Validator from 'app/components/UserValidator';
 import type {
   EventRegistration,
   EventRegistrationPhotoConsent,
-  Event
+  Event,
 } from 'app/models';
 type State = {
   resolve: ?() => Promise<*>,
-  username: string
+  username: string,
 };
 type Props = {
   registered: Array<EventRegistration>,
@@ -29,9 +29,9 @@ type Props = {
     EventRegistrationPhotoConsent
   ) => Promise<*>,
   location: Object,
-  onQueryChanged: string => void,
+  onQueryChanged: (string) => void,
   results: Array<SearchResult>,
-  searching: boolean
+  searching: boolean,
 };
 
 class Abacard extends React.Component<Props, State> {
@@ -45,19 +45,19 @@ class Abacard extends React.Component<Props, State> {
       ...validatorProps
     } = this.props;
     const registerCount = registered.filter(
-      reg => reg.presence === 'PRESENT' && reg.pool
+      (reg) => reg.presence === 'PRESENT' && reg.pool
     ).length;
 
     const handleSelect = ({ username }) =>
-      markUsernamePresent(id.toString(), username).then(async result => {
+      markUsernamePresent(id.toString(), username).then(async (result) => {
         const payload = get(result, 'payload.response.jsonData');
         if (payload && payload.error) return result;
 
         if (useConsent) {
-          return new Promise(resolve =>
+          return new Promise((resolve) =>
             this.setState({
               username: username,
-              resolve: () => Promise.resolve(resolve(payload))
+              resolve: () => Promise.resolve(resolve(payload)),
             })
           );
         }

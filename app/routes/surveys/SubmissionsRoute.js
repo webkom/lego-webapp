@@ -6,13 +6,13 @@ import {
   addSubmission,
   deleteSubmission,
   hideAnswer,
-  showAnswer
+  showAnswer,
 } from 'app/actions/SurveySubmissionActions';
 import {
   fetchSurvey,
   shareSurvey,
   hideSurvey,
-  editSurvey
+  editSurvey,
 } from 'app/actions/SurveyActions';
 import SubmissionPage from './components/Submissions/SubmissionPage';
 import { compose } from 'redux';
@@ -28,7 +28,7 @@ const loadData = (props, dispatch) => {
   const { surveyId } = props.match.params;
   return Promise.all([
     dispatch(fetchSurvey(surveyId)),
-    dispatch(fetchSubmissions(surveyId))
+    dispatch(fetchSubmissions(surveyId)),
   ]);
 };
 
@@ -44,15 +44,15 @@ const mapStateToProps = (state, props) => {
     notFetching: !state.surveys.fetching && !state.surveySubmissions.fetching,
     actionGrant: survey.actionGrant,
     isSummary,
-    exportSurvey: async surveyId => {
+    exportSurvey: async (surveyId) => {
       const blob = await fetch(getCsvUrl(surveyId), {
-        headers: { Authorization: `JWT ${state.auth.token}` }
-      }).then(response => response.blob());
+        headers: { Authorization: `JWT ${state.auth.token}` },
+      }).then((response) => response.blob());
       return {
         url: URL.createObjectURL(blob),
-        filename: survey.title.replace(/ /g, '_') + '.csv'
+        filename: survey.title.replace(/ /g, '_') + '.csv',
       };
-    }
+    },
   };
 };
 
@@ -64,15 +64,12 @@ const mapDispatchToProps = {
   hideSurvey,
   showAnswer,
   hideAnswer,
-  editSurvey
+  editSurvey,
 };
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
   prepare(loadData),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['notFetching', 'survey.event', 'survey.questions'])
 )(SubmissionPage);

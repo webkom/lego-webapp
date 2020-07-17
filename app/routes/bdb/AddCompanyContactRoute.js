@@ -13,7 +13,7 @@ const mapStateToProps = (state, props) => {
 
   return {
     company,
-    companyId
+    companyId,
   };
 };
 
@@ -25,15 +25,12 @@ export default compose(
     (
       {
         match: {
-          params: { companyId }
-        }
+          params: { companyId },
+        },
       },
       dispatch
     ) => dispatch(fetchAdmin(companyId)),
     ['match.params.companyId']
   ),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )(CompanyContactEditor);

@@ -1,10 +1,10 @@
 import {
   selectMostProminentStatus,
   sortStatusesByProminence,
-  indexToSemester
+  indexToSemester,
 } from './utils';
 
-const sortByAttribute = attribute => ascending => (a, b) => {
+const sortByAttribute = (attribute) => (ascending) => (a, b) => {
   if ((!a[attribute] && !b[attribute]) || a[attribute] === b[attribute]) {
     return ascending
       ? a.name.localeCompare(b.name)
@@ -27,7 +27,7 @@ const sortByAttribute = attribute => ascending => (a, b) => {
     : b[attribute].localeCompare(a[attribute]);
 };
 
-const sortByContactStatus = (index, startYear, startSem) => ascending => (
+const sortByContactStatus = (index, startYear, startSem) => (ascending) => (
   a,
   b
 ) => {
@@ -36,7 +36,7 @@ const sortByContactStatus = (index, startYear, startSem) => ascending => (
   const companySemester = indexToSemester(index, startYear, startSem);
 
   const semesterA = a.semesterStatuses.find(
-    obj =>
+    (obj) =>
       obj.year === companySemester.year &&
       obj.semester === companySemester.semester
   );
@@ -45,7 +45,7 @@ const sortByContactStatus = (index, startYear, startSem) => ascending => (
     : 'not_contacted';
 
   const semesterB = b.semesterStatuses.find(
-    obj =>
+    (obj) =>
       obj.year === companySemester.year &&
       obj.semester === companySemester.semester
   );
@@ -70,11 +70,11 @@ const sortCompanies = (companies, query, startYear, startSem) => {
     sem1: sortByContactStatus(1, startYear, startSem),
     sem2: sortByContactStatus(2, startYear, startSem),
     studentContact: sortByAttribute('studentContact'),
-    comment: sortByAttribute('adminComment')
+    comment: sortByAttribute('adminComment'),
   };
 
   const sortTypeName = Object.keys(sortTypeToFunction).find(
-    sortTypeName => sortTypeName === sortType
+    (sortTypeName) => sortTypeName === sortType
   );
   const sortFunction = sortTypeName
     ? sortTypeToFunction[sortTypeName](ascending)

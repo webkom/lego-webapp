@@ -11,13 +11,13 @@ type Props = {
   updateUser: (Object, { noRedirect: boolean }) => Promise<void>,
   alternatives: {
     channels: Array<string>,
-    notificationTypes: Array<string>
+    notificationTypes: Array<string>,
   },
   settings: Object,
   updateNotificationSetting: (
     notificationType: string,
     channels: Array<*>
-  ) => void
+  ) => void,
 };
 
 const notificationTypeTraslations = {
@@ -34,14 +34,14 @@ const notificationTypeTraslations = {
   comment: 'Ny kommentar',
   comment_reply: 'Svar på kommentar',
   announcement: 'Viktig melding',
-  survey_created: 'Ny spørreundersøkelse'
+  survey_created: 'Ny spørreundersøkelse',
 };
 
 const UserSettingsNotifications = (props: Props) => {
-  const defaultNotificationSetting = notificationType => ({
+  const defaultNotificationSetting = (notificationType) => ({
     notificationType,
     enabled: true,
-    channels: props.alternatives.channels
+    channels: props.alternatives.channels,
   });
 
   return (
@@ -75,7 +75,7 @@ const UserSettingsNotifications = (props: Props) => {
             <td>
               <CheckBox
                 value={props.currentUser.emailListsEnabled}
-                onChange={event => {
+                onChange={(event) => {
                   const target = event.target;
                   const value = target.checked;
                   props.updateUser(
@@ -90,12 +90,12 @@ const UserSettingsNotifications = (props: Props) => {
             const setting =
               props.settings[notificationType] ||
               defaultNotificationSetting(notificationType);
-            const channnelSetting = channel =>
+            const channnelSetting = (channel) =>
               setting.channels.includes(channel) && setting.enabled;
             const changeSetting = (changeChannel, value) => {
               props.updateNotificationSetting(
                 notificationType,
-                props.alternatives.channels.filter(channel =>
+                props.alternatives.channels.filter((channel) =>
                   changeChannel === channel ? value : channnelSetting(channel)
                 )
               );
@@ -110,7 +110,7 @@ const UserSettingsNotifications = (props: Props) => {
                   <td key={key}>
                     <CheckBox
                       value={channnelSetting(channel)}
-                      onChange={event => {
+                      onChange={(event) => {
                         const target = event.target;
                         const value = target.checked;
                         changeSetting(channel, value);

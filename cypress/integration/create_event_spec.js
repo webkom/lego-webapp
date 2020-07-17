@@ -1,4 +1,10 @@
-import { c, field, fieldError, selectField } from '../support/utils.js';
+import {
+  c,
+  field,
+  fieldError,
+  selectField,
+  selectEditor,
+} from '../support/utils.js';
 
 describe('Create event', () => {
   beforeEach(() => {
@@ -29,11 +35,10 @@ describe('Create event', () => {
 
     cy.contains('button', 'OPPRETT').should('be.disabled');
     // click editor to initialize form and enable OPPRETT button
-    cy.get('div[name="text"]').click();
+    selectEditor().editorType('test');
+    cy.wait(1000);
 
-    cy.contains('button', 'OPPRETT')
-      .should('not.be.disabled')
-      .click();
+    cy.contains('button', 'OPPRETT').should('not.be.disabled').click();
 
     fieldError('cover').should('be.visible');
     fieldError('title').should('be.visible');
@@ -44,14 +49,10 @@ describe('Create event', () => {
     uploadHeader();
     fieldError('cover').should('not.exist');
 
-    field('title')
-      .type('Testevent')
-      .blur();
+    field('title').type('Testevent').blur();
     fieldError('title').should('not.exist');
 
-    field('description')
-      .type('blir fett')
-      .blur();
+    field('description').type('blir fett').blur();
     fieldError('description').should('not.exist');
 
     // TODO: Make the suggestion box open if you click the label, not only when you click the input field
@@ -74,9 +75,7 @@ describe('Create event', () => {
     cy.focused().type('{enter}', { force: true });
     fieldError('eventType').should('not.exist');
 
-    cy.contains('button', 'OPPRETT')
-      .should('not.be.disabled')
-      .click();
+    cy.contains('button', 'OPPRETT').should('not.be.disabled').click();
 
     cy.url().should('not.contain', '/events/create');
     cy.url().should('contain', '/events/');
@@ -90,72 +89,71 @@ describe('Create event', () => {
     cy.visit('/events/create');
 
     // Click editor
-    cy.get('div[name="text"]').click();
+    selectEditor();
     // Sidebar is visible
-    cy.get('.md-side-toolbar').should('be.visible');
-    cy.focused().type('{enter}hello{uparrow}lol');
-    // Sidebar not visible because there is text on current line
-    cy.get('.md-side-toolbar').should('not.exist');
+    cy.get('._legoEditor_Toolbar_root').should('be.visible');
+    //cy.focused().type('{enter}hello{uparrow}lol{enter}');
 
-    // toolbar becomes visible only when text is selected
-    cy.get('.md-editor-toolbar').should('not.be.visible');
-    cy.focused().type('{selectall}');
-    cy.get('.md-editor-toolbar').should('be.visible');
-    cy.focused().type('test article{enter}');
-    cy.get('.md-editor-toolbar').should('not.be.visible');
+    cy.get('._legoEditor_Toolbar_root button').first().click();
+    // Format text
+    cy.focused().editorType('This text should be large');
+    cy.get('._legoEditor_root h1')
+      .should('be.visible')
+      .contains('This text should be large');
+    //cy.focused().type('{enter}{backspace}');
 
-    // Sidebar buttons are only visible when the sidebar is opened
-    cy.get('button[title="Add an Image"]').should('not.exist');
-    cy.get('button[title="Show editor info"]').should('not.exist');
-
-    // Open, close and reopen sidebar
-    cy.get('.md-side-toolbar')
-      .should('be.visible')
-      .click();
-    cy.get('.md-open-button')
-      .should('be.visible')
-      .click();
-    cy.get('.md-open-button').should('not.exist');
-    cy.get('.md-side-toolbar')
-      .should('be.visible')
-      .click();
-    cy.get('button[title="Add an Image"]').should('be.visible');
-    cy.get('button[title="Show editor info"]').should('be.visible');
+    // Format bold and italic with keyboard shortcuts
+    //cy.focused();
+    //.type('{ctrl}b')
+    //.type('This should be bold{ctrl}b')
+    //.type('{ctrl}i')
+    //.type('This should be italic{ctrl}i')
+    //.type('No format');
+    //cy.get('._legoEditor_root strong').contains('This should be bold');
+    //cy.get('._legoEditor_root em').contains('This should be italic');
+    //cy.get('._legoEditor_root p span')
+    //.last()
+    //.contains('No format');
 
     // No image in article before adding it
-    cy.get('.md-block-image').should('not.exist');
+    cy.get('._legoEditor_root img').should('not.exist');
 
     // Open file upload modal
-    cy.get(c('Modal__content')).should('not.exist');
-    cy.get('button[title="Add an Image"]').click();
-    cy.get(c('Modal__content')).should('be.visible');
+    cy.get('.ReactModal__Overlay').should('not.exist');
+    cy.get(c('_legoEditor_imageUploader')).should('not.exist');
+
+    cy.get('._legoEditor_root button .fa-image').click();
+    cy.get('.ReactModal__Overlay').should('be.visible');
 
     // TODO: Upload button should be disabled when no image is uploaded
     // cy.get(c('Modal__content')).contains('Last opp').should('be.disabled');
 
     // Upload file
     cy.upload_file(
-      c('Modal__content') + ' ' + c('UploadImage__dropArea'),
+      '._legoEditor_imageUploader_dropZone',
       'images/screenshot.png'
     );
 
     // This is needed so that the crop module is activated because of how we mock upload files in these tests
-    cy.get('.cropper-move').click();
+    cy.get('.ReactCrop__drag-handle.ord-n').click({ force: true });
 
-    cy.get(c('Modal__content'))
-      .contains('Last opp')
+    cy.get('._legoEditor_imageUploader_applyButton')
+      .contains('Apply')
       .should('not.be.disabled')
       .click();
 
     // Image is inside article
-    cy.get('.md-block-image').should('be.visible');
+    cy.get('._legoEditor_figure').should('be.visible');
+    cy.get('._legoEditor_img').should('be.visible').and('have.attr', 'src');
 
-    // navigate past image with arrow keys and add text on bottom
-    cy.get('div[name="text"]').click();
-    cy.focused().type('{downarrow}');
-    cy.get('.md-side-toolbar').should('not.exist');
-    cy.focused().type('{enter}EOF{enter}');
-    cy.get('.md-side-toolbar').should('be.visible');
+    // Caption is created
+    cy.get('._legoEditor_figcaption').should('be.visible').contains('Caption');
+
+    // Navigate past image with arrow keys and add text on bottom
+    //cy.get('div[data-slate-editor="true"]').click();
+    //cy.focused().type('{downarrow}');
+    //cy.focused().type('{enter}EOF{enter}');
+    cy.focused().editorType('EOF');
 
     // Fill rest of form
     cy.upload_file(
@@ -167,21 +165,13 @@ describe('Create event', () => {
       .contains('Last opp')
       .should('not.be.disabled')
       .click();
-    field('title')
-      .type('Pils på Webkomkontoret!')
-      .blur();
-    field('description')
-      .type('blir fett')
-      .blur();
-    cy.contains('Type arrangement')
-      .find('.Select')
-      .click();
+    field('title').type('Pils på Webkomkontoret!').blur();
+    field('description').type('blir fett').blur();
+    cy.contains('Type arrangement').find('.Select').click();
     cy.focused().type('sos{enter}', { force: true });
 
     // Create event
-    cy.contains('button', 'OPPRETT')
-      .should('not.be.disabled')
-      .click();
+    cy.contains('button', 'OPPRETT').should('not.be.disabled').click();
 
     cy.url().should('not.contain', '/events/create');
     cy.url().should('contain', '/events/');
@@ -189,8 +179,8 @@ describe('Create event', () => {
     // Verify that created event looks good..
     cy.contains('Pils på Webkomkontoret!');
     cy.contains('Sosialt');
-    cy.contains('test article');
-    cy.get('.md-block-image').should('be.visible');
+    cy.contains('This text should be large');
+    cy.get('._legoEditor_img').should('be.visible');
     cy.contains('EOF');
   });
 
@@ -199,14 +189,9 @@ describe('Create event', () => {
     uploadHeader();
 
     // Set title, description and text
-    field('title')
-      .type('Standard event')
-      .blur();
-    field('description')
-      .type('standard event')
-      .blur();
-    cy.get('div[name="text"]').click();
-    cy.focused().type('standard event');
+    field('title').type('Standard event').blur();
+    field('description').type('standard event').blur();
+    selectEditor().editorType('standard event');
 
     // Select type
     selectField('eventType').click();
@@ -230,9 +215,7 @@ describe('Create event', () => {
       .and('contain', 'Bedkom');
     cy.focused().type('{enter}', { force: true });
 
-    cy.contains('button', 'OPPRETT')
-      .should('not.be.disabled')
-      .click();
+    cy.contains('button', 'OPPRETT').should('not.be.disabled').click();
 
     // Verify that created event looks good..
     cy.url().should('not.contain', '/events/create');
@@ -249,14 +232,9 @@ describe('Create event', () => {
     uploadHeader();
 
     // Set title, description and text
-    field('title')
-      .type('Ubestemt event')
-      .blur();
-    field('description')
-      .type('mer info kommer')
-      .blur();
-    cy.get('div[name="text"]').click();
-    cy.focused().type('mer info kommer');
+    field('title').type('Ubestemt event').blur();
+    field('description').type('mer info kommer').blur();
+    selectEditor().editorType('mer info kommer');
 
     // Select type
     selectField('eventType').click();
@@ -266,9 +244,7 @@ describe('Create event', () => {
     selectField('eventStatusType').click();
     cy.focused().type('TBA{enter}', { force: true });
 
-    cy.contains('button', 'OPPRETT')
-      .should('not.be.disabled')
-      .click();
+    cy.contains('button', 'OPPRETT').should('not.be.disabled').click();
 
     // Verify that created event looks good..
     cy.url().should('not.contain', '/events/create');
@@ -283,14 +259,9 @@ describe('Create event', () => {
     uploadHeader();
 
     // Set title, description and text
-    field('title')
-      .type('Normal event')
-      .blur();
-    field('description')
-      .type('normal event')
-      .blur();
-    cy.get('div[name="text"]').click();
-    cy.focused().type('normal event');
+    field('title').type('Normal event').blur();
+    field('description').type('normal event').blur();
+    selectEditor().editorType('normal event');
 
     // Select type
     selectField('eventType').click();
@@ -305,13 +276,8 @@ describe('Create event', () => {
     cy.focused().type('R4');
 
     // Set the first pool
-    field('pools[0].name')
-      .clear()
-      .type('WebkomPool')
-      .blur();
-    field('pools[0].capacity')
-      .type('20')
-      .blur();
+    field('pools[0].name').clear().type('WebkomPool').blur();
+    field('pools[0].capacity').type('20').blur();
     selectField('pools[0].permissionGroups').click();
     cy.focused().type('Webkom', { force: true });
     selectField('pools[0].permissionGroups')
@@ -321,16 +287,9 @@ describe('Create event', () => {
     cy.focused().type('{enter}', { force: true });
 
     // Create new pool
-    cy.contains('button', 'Legg til ny pool')
-      .should('not.be.disabled')
-      .click();
-    field('pools[1].name')
-      .clear()
-      .type('BedkomPool')
-      .blur();
-    field('pools[1].capacity')
-      .type('30')
-      .blur();
+    cy.contains('button', 'Legg til ny pool').should('not.be.disabled').click();
+    field('pools[1].name').clear().type('BedkomPool').blur();
+    field('pools[1].capacity').type('30').blur();
     selectField('pools[1].permissionGroups').click();
     cy.focused().type('Bedkom', { force: true });
     selectField('pools[1].permissionGroups')
@@ -347,14 +306,10 @@ describe('Create event', () => {
     cy.focused().type('{enter}', { force: true });
 
     field('mergeTime').click();
-    cy.get(c('DatePicker__header'))
-      .find('button:last-child')
-      .click();
+    cy.get(c('DatePicker__header')).find('button:last-child').click();
     cy.contains(c('DatePicker__calendarItem'), '15').click();
 
-    cy.contains('button', 'OPPRETT')
-      .should('not.be.disabled')
-      .click();
+    cy.contains('button', 'OPPRETT').should('not.be.disabled').click();
 
     // Verify that created event looks good..
     cy.url().should('not.contain', '/events/create');
@@ -374,14 +329,9 @@ describe('Create event', () => {
     uploadHeader();
 
     // Set title, description and text
-    field('title')
-      .type('Open event')
-      .blur();
-    field('description')
-      .type('open event')
-      .blur();
-    cy.get('div[name="text"]').click();
-    cy.focused().type('open event');
+    field('title').type('Open event').blur();
+    field('description').type('open event').blur();
+    selectEditor().editorType('open event');
 
     // Select type
     selectField('eventType').click();
@@ -395,9 +345,7 @@ describe('Create event', () => {
     cy.contains('Sted').click();
     cy.focused().type('Kjellern');
 
-    cy.contains('button', 'OPPRETT')
-      .should('not.be.disabled')
-      .click();
+    cy.contains('button', 'OPPRETT').should('not.be.disabled').click();
 
     // Verify that created event looks good..
     cy.url().should('not.contain', '/events/create');
@@ -412,17 +360,13 @@ describe('Create event', () => {
     uploadHeader();
 
     // Set title, description and text
-    field('title')
-      .type('Infinite event')
-      .blur();
-    field('description')
-      .type('infinite event')
-      .blur();
-    cy.get('div[name="text"]').click();
-    cy.focused().type('intifite event');
+    field('title').type('Infinite event').blur();
+    field('description').type('infinite event').blur();
+    selectEditor().editorType('infinite event');
 
     // Select type
     selectField('eventType').click();
+    cy.wait(50);
     cy.focused().type('anne{enter}', { force: true });
 
     // Select regitrationType
@@ -441,10 +385,7 @@ describe('Create event', () => {
     field('feedbackDescription').type('Burger eller sushi');
 
     // Set the first pool
-    field('pools[0].name')
-      .clear()
-      .type('Mange')
-      .blur();
+    field('pools[0].name').clear().type('Mange').blur();
     selectField('pools[0].permissionGroups').click();
     cy.focused().type('Abaku', { force: true });
     selectField('pools[0].permissionGroups')
@@ -453,9 +394,7 @@ describe('Create event', () => {
       .and('contain', 'Abakus');
     cy.focused().type('{enter}', { force: true });
 
-    cy.contains('button', 'OPPRETT')
-      .should('not.be.disabled')
-      .click();
+    cy.contains('button', 'OPPRETT').should('not.be.disabled').click();
 
     // Verify that created event looks good..
     cy.url().should('not.contain', '/events/create');

@@ -9,19 +9,19 @@ export default createEntityReducer({
   types: {
     fetch: Joblistings.FETCH,
     mutate: Joblistings.CREATE,
-    delete: Joblistings.DELETE
-  }
+    delete: Joblistings.DELETE,
+  },
 });
 
 export const selectJoblistings = createSelector(
-  state => state.joblistings.byId,
-  state => state.joblistings.items,
+  (state) => state.joblistings.byId,
+  (state) => state.joblistings.items,
   (joblistingsById, joblistingIds) =>
-    joblistingIds.map(id => joblistingsById[id])
+    joblistingIds.map((id) => joblistingsById[id])
 );
 
 export const selectJoblistingById = createSelector(
-  state => state.joblistings.byId,
+  (state) => state.joblistings.byId,
   (state, props) => props.joblistingId,
   (joblistingsById, joblistingId) => joblistingsById[joblistingId]
 );

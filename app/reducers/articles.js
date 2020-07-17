@@ -25,7 +25,7 @@ export type ArticleEntity = {
   reactions: Array<ReactionEntity>,
   actionGrant: Object,
   comments: Array<number>,
-  youtubeUrl: string
+  youtubeUrl: string,
 };
 
 export default createEntityReducer({
@@ -33,23 +33,23 @@ export default createEntityReducer({
   types: {
     fetch: Article.FETCH,
     mutate: Article.CREATE,
-    delete: Article.DELETE
+    delete: Article.DELETE,
   },
-  mutate: joinReducers(mutateComments('articles'), mutateReactions('articles'))
+  mutate: joinReducers(mutateComments('articles'), mutateReactions('articles')),
 });
 
 function transformArticle(article) {
   return {
-    ...article
+    ...article,
   };
 }
 
 export const selectArticles = createSelector(
-  state => state.articles.byId,
-  state => state.articles.items,
+  (state) => state.articles.byId,
+  (state) => state.articles.items,
   (articlesById, articleIds) =>
     orderBy(
-      articleIds.map(id => transformArticle(articlesById[id])),
+      articleIds.map((id) => transformArticle(articlesById[id])),
       ['createdAt', 'id'],
       ['desc', 'desc']
     )
@@ -59,31 +59,33 @@ export const selectArticlesByTag = createSelector(
   selectArticles,
   (state, props) => props.tag,
   (articles, tag) =>
-    articles.filter(article => (tag ? article.tags.indexOf(tag) !== -1 : true))
+    articles.filter((article) =>
+      tag ? article.tags.indexOf(tag) !== -1 : true
+    )
 );
 
 export const selectArticleById = createSelector(
-  state => state.articles.byId,
+  (state) => state.articles.byId,
   (state, props) => props.articleId,
   (articlesById, articleId) => transformArticle(articlesById[articleId])
 );
 
 export const selectCommentsForArticle = createSelector(
   selectArticleById,
-  state => state.comments.byId,
+  (state) => state.comments.byId,
   (article, commentsById) => {
     if (!article) return [];
-    return (article.comments || []).map(commentId => commentsById[commentId]);
+    return (article.comments || []).map((commentId) => commentsById[commentId]);
   }
 );
 
 export const selectReactionsForArticle = createSelector(
   selectArticleById,
-  state => state.reactions.byId,
+  (state) => state.reactions.byId,
   (article, reactionsById) => {
     if (!article) return [];
     return (article.reactionsGrouped || []).map(
-      reactionId => reactionsById[reactionId]
+      (reactionId) => reactionsById[reactionId]
     );
   }
 );
