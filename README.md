@@ -147,6 +147,15 @@ $ docker-compose restart lego_cypress_helper # The cypress helper resets databas
 $ python manage.py runserver
 ```
 
+> If you already have the backend setup, make sure your database is clean
+
+```bash
+python manage.py reset_db
+python manage.py migrate
+python manage.py load_fixtures
+docker-compose restart lego_cypress_helper # Make sure the copy is of the clean database
+```
+
 #### Frontend
 
 Start up the node server

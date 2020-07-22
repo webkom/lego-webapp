@@ -23,6 +23,12 @@ class Captcha extends Component<Props> {
     }
   }
 
+  componentDidMount() {
+    if (config.skipCaptcha) {
+      this.captcha && this.captcha.execute();
+    }
+  }
+
   render() {
     const { className, onChange } = this.props;
     return (
@@ -33,6 +39,7 @@ class Captcha extends Component<Props> {
           }}
           sitekey={config.captchaKey}
           onChange={onChange}
+          size={config.skipCaptcha && 'invisible'}
         />
       </div>
     );
