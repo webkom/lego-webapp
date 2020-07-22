@@ -4,5 +4,6 @@
   "defaultCommandTimeout": 10000,
   "viewportWidth": 1000,
   "viewportHeight": 1300,
-  "modifyObstructiveCode": false
+  "modifyObstructiveCode": false,
+  "chromeWebSecurity": false
 }

@@ -4,10 +4,15 @@ import {
   fieldError,
   selectField,
   selectEditor,
+  fillCardDetails,
+  confirm3DSecureDialog,
+  stripeError,
+  clearCardDetails,
 } from '../support/utils.js';
 
 describe('Create event', () => {
   beforeEach(() => {
+    cy.resetDb();
     cy.cachedLogin();
   });
 
@@ -24,8 +29,7 @@ describe('Create event', () => {
       .click();
   };
 
-  it('Should be possible to create a priced event', () => {
-    cy.resetDb();
+  it.skip('Should be possible to create a priced event', () => {
     cy.visit('/events/create');
     uploadHeader();
 
@@ -79,19 +83,76 @@ describe('Create event', () => {
     // Verify that created event looks good..
     cy.url().should('not.contain', '/events/create');
     cy.url().should('contain', '/events/');
-    cy.contains('0/20');
-    cy.contains('Arrangement');
-    cy.contains('webkom webkom');
-    cy.contains('WebkomPool');
-    cy.contains('R4');
-    cy.contains('Påmelding åpner');
-    cy.contains('Dette er et betalt arrangement');
-    cy.contains('205,-');
+    cy.contains('0/20').should('be.visible');
+    cy.contains('Arrangement').should('be.visible');
+    cy.contains('webkom webkom').should('be.visible');
+    cy.contains('WebkomPool').should('be.visible');
+    cy.contains('R4').should('be.visible');
+    cy.contains('Påmelding åpner').should('be.visible');
+    cy.contains('Dette er et betalt arrangement').should('be.visible');
+    cy.contains('205,-').should('be.visible');
   });
 
-  it('should be possible to register and pay', () => {
-    cy.visit('/events/59');
+  it('Should be possible to register to a paid event and pay', () => {
+    cy.visit('localhost:3000/events/54');
 
-    cy.contains('Meld deg på').click();
+    cy.contains('button', 'Meld deg på')
+      .should('exist.and.not.be.disabled')
+      .click();
+
+    cy.wait(500);
+
+    cy.contains('Du er påmeldt');
+    cy.contains('Du skal betale 270,00');
+
+    cy.wait(1000);
+
+    // This card requires 3D secure
+    fillCardDetails('4000 0025 0000 3155', '0230', '123');
+    cy.contains('button', 'Betal').click();
+
+    cy.wait(6000);
+    confirm3DSecureDialog();
+
+    cy.contains('Du har betalt').should('be.visible');
+
+    // Make sure the successful payment is stored in the db
+    cy.reload();
+    cy.contains('Du har betalt').should('be.visible');
+  });
+
+  it('Should give appropriate errors when attempting to pay', () => {
+    cy.visit('localhost:3000/events/54');
+
+    cy.contains('button', 'Meld deg på')
+      .should('exist.and.not.be.disabled')
+      .click();
+    cy.wait(1000);
+
+    /**
+     * See https://stripe.com/docs/testing for the different test cards.
+     */
+
+    // Invalid cvc
+    fillCardDetails('4000 0000 0000 0101', '0230', '123');
+    cy.contains('button', 'Betal').click();
+    stripeError()
+      // The first one may take some time (due to calls to stripe API)
+      .contains('sikkerhetskode er ikke korrekt', { timeout: 8000 })
+      .should('be.visible');
+    clearCardDetails();
+
+    // Invalid expiry
+    fillCardDetails('4242 4242 4242 4242', '0210', '123');
+    cy.contains('button', 'Betal').click();
+    stripeError().contains('Kortets utløpsår er passert').should('be.visible');
+    clearCardDetails();
+
+    // Insufficient funds
+    fillCardDetails('4000 0000 0000 9995', '0230', '123');
+    cy.contains('button', 'Betal').click();
+    stripeError().contains('ikke nok penger').should('be.visible');
+
+    //
   });
 });

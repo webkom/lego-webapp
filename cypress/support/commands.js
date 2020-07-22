@@ -86,3 +86,25 @@ Cypress.Commands.add('editorFocus', { prevSubject: true }, (subject, text) =>
     return subject;
   })
 );
+
+// Commands for interacting with iframes
+Cypress.Commands.add('getIframeBody', (selector) => {
+  return cy
+    .get(selector)
+    .its('0.contentDocument.body')
+    .should('not.be.empty')
+    .then(cy.wrap);
+});
+
+Cypress.Commands.add(
+  'findIframeBody',
+  { prevSubject: true },
+  (subject, selector) => {
+    return cy
+      .wrap(subject)
+      .find(selector, { timeout: 6000 })
+      .its('0.contentDocument.body')
+      .should('not.be.empty')
+      .then(cy.wrap);
+  }
+);

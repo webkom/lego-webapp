@@ -26,3 +26,37 @@ export const selectEditor = (name) =>
         .editorFocus()
         .click()
         .wait(500);
+
+// Used to either confirm or deny the 3D secure pop-up from Stripe.
+export const confirm3DSecureDialog = (confirm = true) => {
+  const target = confirm
+    ? '#test-source-authorize-3ds'
+    : '#test-source-fail-3ds';
+  cy.getIframeBody('iframe[name^=__privateStripeFrame]')
+    .findIframeBody('iframe#challengeFrame')
+    .findIframeBody('iframe[name="acsFrame"]')
+    .find(target)
+    .click();
+};
+
+export const fillCardDetails = (cardNumber, expiry, cvc) => {
+  cy.get('.__PrivateStripeElement iframe').then((iframe) => {
+    cy.wrap(iframe.contents()[0].body)
+      .find('input[name="cardnumber"]')
+      .type(cardNumber);
+    cy.wrap(iframe.contents()[1].body)
+      .find('input[name="exp-date"]')
+      .type(expiry);
+    cy.wrap(iframe.contents()[2].body).find('input[name="cvc"]').type(cvc);
+  });
+};
+
+export const clearCardDetails = () => {
+  cy.get('.__PrivateStripeElement iframe').then((iframe) => {
+    cy.wrap(iframe.contents()[0].body).find('input[name="cardnumber"]').clear();
+    cy.wrap(iframe.contents()[1].body).find('input[name="exp-date"]').clear();
+    cy.wrap(iframe.contents()[2].body).find('input[name="cvc"]').clear();
+  });
+};
+
+export const stripeError = () => cy.get(c('Stripe__error'));
