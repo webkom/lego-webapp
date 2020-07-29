@@ -50,7 +50,7 @@ const LINKS: Array<Link> = [
     url: '/interestgroups',
   },
   {
-    key: 'photos',
+    key: 'galleries',
     title: 'Bilder',
     url: '/photos',
   },

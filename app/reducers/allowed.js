@@ -18,6 +18,7 @@ const initialState = {
   groups: false,
   email: false,
   users: false,
+  polls: false,
 };
 
 // export type Allowed = {
