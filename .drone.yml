@@ -60,7 +60,7 @@ steps:
         exclude: [ prod ]
 
   - name: api
-    image: registry.abakus.no/webkom/lego:latest
+    image: registry.webkom.dev/webkom/lego:latest
     detach: true
     pull: true
     commands:
@@ -268,8 +268,8 @@ steps:
       SENTRY_AUTH_TOKEN:
         from_secret: sentry_auth_token
     settings:
-      registry: https://registry.abakus.no
-      repo: registry.abakus.no/webkom/lego-webapp
+      registry: https://registry.webkom.dev
+      repo: registry.webkom.dev/webkom/lego-webapp
       username:
         from_secret: docker_username
       password:
