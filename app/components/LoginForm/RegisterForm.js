@@ -57,7 +57,9 @@ class RegisterForm extends Component<Props, State> {
         </div>
       );
     }
-    return (
+
+    // eslint-disable-next-line
+    const form = () => (
       <Form
         onSubmit={handleSubmit(this.onSubmit)}
         onClick={(e) => e.stopPropagation()}
@@ -72,6 +74,21 @@ class RegisterForm extends Component<Props, State> {
           Registrer deg
         </Button>
       </Form>
+    );
+
+    return (
+      <div
+        style={{
+          border: '2px solid red',
+          padding: '10px',
+          textAlign: 'center',
+          fontWeight: 600,
+        }}
+      >
+        Sorry :( <br />
+        Vi har litt e-post problemer... <br />
+        Registrering åpner så fort vi kan!
+      </div>
     );
   }
 }
