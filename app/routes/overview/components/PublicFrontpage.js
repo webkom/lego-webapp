@@ -163,11 +163,11 @@ class PublicFrontpage extends Component<Props, State> {
           <h2 className="u-mb">Nyttige linker</h2>
           <ul>
             <li>
-              <Link to="/articles/200">
-                <i className="fa fa-caret-right" /> Fadderperioden 2019
+              <Link to="/articles/283">
+                <i className="fa fa-caret-right" /> Fadderperioden 2020
               </Link>
               <div className={styles.linkDescription}>
-                Informasjon om fadderperioden 2019
+                Informasjon om fadderperioden 2020
               </div>
             </li>
             <li>
