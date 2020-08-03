@@ -16,6 +16,7 @@ describe('reducers', () => {
         interestGroups: true,
         bdb: true,
         announcements: true,
+        polls: true,
         penalties: true,
         surveys: true,
         groups: true,

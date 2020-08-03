@@ -27,7 +27,7 @@ class Pinned extends Component<Props, *> {
             <h2 className={styles.itemTitle}>
               <Link to={url}>{item.title}</Link>
             </h2>
-            <div>{meta}</div>
+            {meta}
           </div>
         </Flex>
       </Flex>
