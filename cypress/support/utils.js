@@ -39,6 +39,16 @@ export const confirm3DSecureDialog = (confirm = true) => {
     .click();
 };
 
+export const confirm3DSecure2Dialog = (confirm = true) => {
+  const target = confirm
+    ? '#test-source-authorize-3ds'
+    : '#test-source-fail-3ds';
+  cy.getIframeBody('iframe[name^=__privateStripeFrame]')
+    .findIframeBody('iframe#challengeFrame')
+    .find(target)
+    .click();
+};
+
 export const fillCardDetails = (cardNumber, expiry, cvc) => {
   cy.get('.__PrivateStripeElement iframe').then((iframe) => {
     cy.wrap(iframe.contents()[0].body)
