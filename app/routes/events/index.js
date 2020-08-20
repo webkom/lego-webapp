@@ -18,10 +18,16 @@ const eventRoute = ({ match }: { match: { path: string } }) => (
   <UserContext.Consumer>
     {({ currentUser, loggedIn }) => (
       <Switch>
-        <Route exact path={`${match.path}`} component={EventListRoute} />
-        <Route
+        <RouteWrapper
+          exact
+          path={`${match.path}`}
+          Component={EventListRoute}
+          passedProps={{ currentUser, loggedIn }}
+        />
+        <RouteWrapper
           path={`${match.path}/calendar/:year?/:month?`}
-          component={CalendarRoute}
+          Component={CalendarRoute}
+          passedProps={{ currentUser, loggedIn }}
         />
         <RouteWrapper
           path={`${match.path}/create`}
