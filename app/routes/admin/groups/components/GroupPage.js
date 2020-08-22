@@ -1,13 +1,12 @@
 // @flow
 
-import React, { type Node } from 'react';
+import React from 'react';
 import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import { Content } from 'app/components/Content';
 import GroupTree from './GroupTree';
 import styles from './GroupPage.css';
 import { Route, Switch } from 'react-router-dom';
-import SelectGroup from '../components/SelectGroup';
 import GroupDetailRoute from '../GroupDetailRoute';
 import type { LocationType } from 'app/models';
 
@@ -27,6 +26,10 @@ const NavigationLinks = ({ groupId }: { groupId: string }) => {
   );
 };
 
+const SelectGroup = () => (
+  <h2 style={{ textAlign: 'center' }}>← Vennligst velg en gruppe fra menyen</h2>
+);
+
 const GroupPageNavigation = ({ groupId }: { groupId: ?string }) => {
   return (
     <NavigationTab title="Grupper">
@@ -36,14 +39,12 @@ const GroupPageNavigation = ({ groupId }: { groupId: ?string }) => {
 };
 
 type GroupPageProps = {
-  children: Node,
   groups: Array<Object>,
   location: LocationType,
-  params: { groupId: string },
   match: { path: string, params: { groupId: string } },
 };
 
-const GroupPage = ({ groups, children, location, match }: GroupPageProps) => {
+const GroupPage = ({ groups, location, match }: GroupPageProps) => {
   return (
     <Content>
       <GroupPageNavigation groupId={match.params.groupId} />
