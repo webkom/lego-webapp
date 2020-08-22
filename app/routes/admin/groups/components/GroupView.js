@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component, type Element } from 'react';
+import React, { Component } from 'react';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { Route, Switch } from 'react-router-dom';
 import RouteWrapper from 'app/components/RouteWrapper';
@@ -16,7 +16,6 @@ type GroupModel = {
 
 type GroupProps = {
   group: GroupModel,
-  children?: Element<*>,
   match: { path: string },
 };
 
@@ -24,8 +23,7 @@ const Group = (props: GroupProps) => {
   const { description } = props.group;
   const descriptionText =
     description && description.length ? `(${description})` : '';
-  const { match } = props;
-  const { group } = props;
+  const { match, group } = props;
 
   return (
     <div>
@@ -36,8 +34,8 @@ const Group = (props: GroupProps) => {
       <Switch>
         <RouteWrapper
           path={`${match.path}/settings`}
-          passedProps={{ group }}
           Component={GroupSettings}
+          passedProps={{ group }}
         />
         <Route path={`${match.path}/members`} component={GroupMembers} />
         <RouteWrapper
@@ -50,21 +48,16 @@ const Group = (props: GroupProps) => {
   );
 };
 
-type GroupViewProps = {
-  group: GroupModel,
-  match: { path: string },
-};
-
-export default class GroupView extends Component<GroupViewProps> {
+export default class GroupView extends Component<GroupProps> {
   render() {
-    const { group } = this.props;
+    const { group, match } = this.props;
     // We're loading a detailed representation of a group,
     // so make sure that the text field is there:
     const loading = !group || group.text == null;
     return (
       <section>
         <LoadingIndicator loading={loading}>
-          {group && <Group {...this.props} />}
+          {group && <Group group={group} match={match} />}
         </LoadingIndicator>
       </section>
     );
