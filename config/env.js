@@ -12,6 +12,8 @@ export const config = {
     process.env.SEGMENT_WRITE_KEY || 'AwzecATYd1qiH21IY0hruqg63Q4QwZtO',
   captchaKey:
     process.env.CAPTCHA_KEY || '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI',
+  // Requires captchaKey to be the default value (test key)
+  skipCaptcha: process.env.SKIP_CAPTCHA,
   stripeKey: process.env.STRIPE_KEY || 'pk_test_VWJmJ3yOunhMBkG71SXyjdqk',
   sentryDSN: process.env.SENTRY_DSN,
   release: process.env.RELEASE,

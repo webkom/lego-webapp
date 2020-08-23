@@ -95,7 +95,7 @@ function EventEditor({
     value && value == 'TBA' ? `Velg påmeldingstype TBA` : undefined;
 
   const tooLow = (value) =>
-    value && value <= 3 ? `Summen må være strørre enn 3 kr` : undefined;
+    value && value <= 3 ? `Summen må være større enn 3 kr` : undefined;
 
   const eventStatusType = [
     { value: 'TBA', label: 'Ikke bestemt (TBA)' },

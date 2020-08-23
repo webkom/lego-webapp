@@ -12,6 +12,7 @@ import mergeObjects from 'app/utils/mergeObjects';
 import { groupBy, orderBy } from 'lodash';
 import { without } from 'lodash';
 import produce from 'immer';
+import config from 'app/config';
 
 export type EventEntity = {
   id: number,
@@ -170,6 +171,7 @@ function transformEvent(event) {
     activationTime:
       event.activationTime !== null ? moment(event.activationTime) : null,
     mergeTime: event.mergeTime && moment(event.mergeTime),
+    useCaptcha: config.environment === 'ci' ? false : event.useCaptcha,
   };
 }
 
