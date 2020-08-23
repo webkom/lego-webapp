@@ -91,7 +91,8 @@ export function editGroup(group: Object): Thunk<*> {
         body: group,
         meta: {
           group,
-          errorMessage: 'Oppdatering av grupper feilet',
+          errorMessage: 'Oppdatering av gruppe feilet',
+          successMessage: 'Oppdatering av gruppe fullført',
         },
       })
     );
@@ -116,7 +117,8 @@ export function joinGroup(
           role,
         },
         meta: {
-          errorMessage: 'Joining the interest group failed.',
+          errorMessage: 'Registrering i gruppe feilet',
+          successMessage: 'Registrering i gruppe fullført',
           groupId: groupId,
           username: user.username,
         },
@@ -136,7 +138,8 @@ export function leaveGroup(membership: Object): Thunk<*> {
           id: membership.id,
           username: membership.user.username,
           groupId: membership.abakusGroup,
-          errorMessage: 'Leaving the interest group failed.',
+          errorMessage: 'Avregistrering fra gruppe feilet',
+          successMessage: 'Avregistrering fra gruppe fullført',
         },
       })
     );
