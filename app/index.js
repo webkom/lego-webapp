@@ -1,7 +1,7 @@
 // @flow
 /* eslint no-console: 0 */
 
-import 'babel-polyfill';
+import '@babel/polyfill';
 import 'animate.css/animate.css';
 import 'minireset.css/minireset.css';
 import 'app/styles/globals.css';
