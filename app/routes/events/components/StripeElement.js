@@ -19,7 +19,6 @@ type Stripe = {
   handleCardPayment: (string) => Promise<*>,
   confirmPaymentIntent: (string, Object) => Promise<*>,
 };
-
 type Props = {
   event: Event,
   currentUser: User,
@@ -128,7 +127,7 @@ class CardForm extends React.Component<CardFormProps, CardFormState> {
   }
 
   render() {
-    return (
+    return this.props.stripe ? (
       <form style={{ width: '100%' }} onSubmit={this.handleSubmit}>
         <fieldset className={stripeStyles.elementsFieldset}>
           <legend className={stripeStyles.elementsLedgend}>
@@ -158,6 +157,8 @@ class CardForm extends React.Component<CardFormProps, CardFormState> {
           <button className={stripeStyles.StripeButton}>Betal</button>
         </fieldset>
       </form>
+    ) : (
+      <LoadingIndicator loading />
     );
   }
 }
@@ -171,32 +172,34 @@ class PaymentRequestForm extends React.Component<
 
     const { event } = props;
 
-    const paymentRequest = props.stripe.paymentRequest({
-      currency: 'nok',
-      total: {
-        label: event.title,
-        amount: event.price,
-      },
-      requestPayerName: true,
-      requestPayerEmail: true,
-      requestPayerPhone: true,
-      country: 'NO',
-    });
+    let paymentRequest;
+    if (props.stripe) {
+      paymentRequest = props.stripe.paymentRequest({
+        currency: 'nok',
+        total: {
+          label: event.title,
+          amount: event.price,
+        },
+        requestPayerName: true,
+        requestPayerEmail: true,
+        requestPayerPhone: true,
+        country: 'NO',
+      });
 
-    paymentRequest.on('paymentmethod', ({ paymentMethod, complete }) => {
-      this.setState({ complete, paymentMethodId: paymentMethod.id });
-      if (this.props.clientSecret) {
-        this.completePayment(this.props.clientSecret);
-      } else {
-        this.props.createPaymentIntent();
-      }
-    });
+      paymentRequest.on('paymentmethod', ({ paymentMethod, complete }) => {
+        this.setState({ complete, paymentMethodId: paymentMethod.id });
+        if (this.props.clientSecret) {
+          this.completePayment(this.props.clientSecret);
+        } else {
+          this.props.createPaymentIntent();
+        }
+      });
 
-    paymentRequest.canMakePayment().then(async (result) => {
-      this.setState({ canMakePayment: !!result });
-      this.props.setPaymentRequest(!!result);
-    });
-
+      paymentRequest.canMakePayment().then(async (result) => {
+        this.setState({ canMakePayment: !!result });
+        this.props.setPaymentRequest(!!result);
+      });
+    }
     this.state = {
       canMakePayment: undefined,
       paymentInProgress: false,
@@ -360,9 +363,23 @@ class PaymentForm extends React.Component<FormProps, FormState> {
   }
 }
 
-const WithProvider = (props: Props) => (
-  <StripeProvider apiKey={config.stripeKey}>
-    <PaymentForm {...props} />
-  </StripeProvider>
-);
+class WithProvider extends React.Component<Props, { stripe: any }> {
+  constructor() {
+    super();
+    this.state = { stripe: null };
+  }
+
+  componentDidMount() {
+    this.setState({ stripe: window.Stripe(config.stripeKey) });
+  }
+
+  render() {
+    return (
+      <StripeProvider stripe={this.state.stripe}>
+        <PaymentForm {...this.props} />
+      </StripeProvider>
+    );
+  }
+}
+
 export default WithProvider;
