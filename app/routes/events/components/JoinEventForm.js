@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { compose } from 'redux';
 import { reduxForm, Field, SubmissionError } from 'redux-form';
-import { Form, Captcha, TextEditor } from 'app/components/Form';
+import { Form, Captcha, TextInput } from 'app/components/Form';
 import Button from 'app/components/Button';
 import PaymentRequestForm from './StripeElement';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
@@ -25,16 +25,17 @@ import {
 import { registrationIsClosed } from '../utils';
 import { selectUserByUsername } from 'app/reducers/users';
 import { selectPenaltyByUserId } from 'app/reducers/penalties';
+import type { User, EventRegistration } from 'app/models';
 
 type Event = Object;
 
 export type Props = {
   title?: string,
   event: Event,
-  registration: ?Object,
-  currentUser: Object,
+  registration: ?EventRegistration,
+  currentUser: User,
   onSubmit: (Object) => void,
-  onToken: () => Promise<*>,
+  createPaymentIntent: () => Promise<*>,
 
   handleSubmit: /*TODO: SubmitHandler<>*/ (any) => void,
 
@@ -101,6 +102,34 @@ const SubmitButton = ({
   );
 };
 
+const PaymentForm = ({
+  createPaymentIntent,
+  event,
+  currentUser,
+  registration,
+}: {
+  createPaymentIntent: () => Promise<*>,
+  event: Event,
+  currentUser: User,
+  registration: EventRegistration,
+}) => (
+  <div style={{ width: '100%' }}>
+    <div className={styles.joinHeader}>Betaling</div>
+    <div className={styles.eventPrice} title="Special price for you my friend!">
+      Du skal betale{' '}
+      <b>{(event.price / 100).toFixed(2).replace('.', ',')} kr</b>
+    </div>
+    <PaymentRequestForm
+      paymentError={registration.paymentError}
+      createPaymentIntent={createPaymentIntent}
+      event={event}
+      currentUser={currentUser}
+      paymentStatus={registration.paymentStatus}
+      clientSecret={registration.clientSecret}
+    />
+  </div>
+);
+
 const SpotsLeft = ({ activeCapacity, spotsLeft }: SpotsLeftProps) => {
   // If the pool has infinite capacity or spotsLeft isn't calculated don't show the message
   if (!activeCapacity || spotsLeft === null) return null;
@@ -148,7 +177,7 @@ class JoinEventForm extends Component<Props> {
       registration,
       currentUser,
       handleSubmit,
-      onToken,
+      createPaymentIntent,
       invalid,
       pristine,
       submitting,
@@ -180,21 +209,22 @@ class JoinEventForm extends Component<Props> {
     const showCaptcha =
       !submitting && !registration && captchaOpen && event.useCaptcha;
     const showStripe =
+      event.useStripe &&
       event.isPriced &&
       event.price > 0 &&
       registration &&
       registration.pool &&
-      ![paymentManual, paymentSuccess].includes(registration.chargeStatus);
+      ![paymentManual, paymentSuccess].includes(registration.paymentStatus);
 
     if (registrationIsClosed(event)) {
       return (
         <>
           {!formOpen && registration && showStripe && (
-            <PaymentRequestForm
-              onToken={onToken}
+            <PaymentForm
+              createPaymentIntent={createPaymentIntent}
               event={event}
               currentUser={currentUser}
-              chargeStatus={registration.chargeStatus}
+              registration={registration}
             />
           )}
         </>
@@ -266,7 +296,7 @@ class JoinEventForm extends Component<Props> {
                         id={feedbackName}
                         placeholder="Melding til arrangører"
                         name={feedbackName}
-                        component={TextEditor.Field}
+                        component={TextInput.Field}
                         labelClassName={styles.feedbackLabel}
                         className={styles.feedbackText}
                         fieldClassName={styles.feedbackField}
@@ -318,14 +348,6 @@ class JoinEventForm extends Component<Props> {
                             title={title || joinTitle}
                             showPenaltyNotice={showPenaltyNotice}
                           />
-                          {registration && showStripe && (
-                            <PaymentRequestForm
-                              onToken={onToken}
-                              event={event}
-                              currentUser={currentUser}
-                              chargeStatus={registration.chargeStatus}
-                            />
-                          )}
                         </Flex>
                         {!registration && (
                           <SpotsLeft
@@ -342,6 +364,14 @@ class JoinEventForm extends Component<Props> {
                       />
                     )}
                   </Form>
+                  {registration && showStripe && (
+                    <PaymentForm
+                      event={event}
+                      createPaymentIntent={createPaymentIntent}
+                      currentUser={currentUser}
+                      registration={registration}
+                    />
+                  )}
                 </Flex>
               )}
             </>

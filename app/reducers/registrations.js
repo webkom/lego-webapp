@@ -27,12 +27,9 @@ export default createEntityReducer({
         );
         break;
       }
-
       case Event.REQUEST_REGISTER.SUCCESS:
       case Event.ADMIN_REGISTER.SUCCESS:
       case Event.SOCKET_REGISTRATION.SUCCESS:
-      case Event.PAYMENT_QUEUE.SUCCESS:
-      case Event.SOCKET_PAYMENT.SUCCESS:
       case Event.SOCKET_PAYMENT.FAILURE: {
         const registration = normalize(action.payload, registrationSchema)
           .entities.registrations[action.payload.id];
@@ -43,6 +40,11 @@ export default createEntityReducer({
           ...omit(newState.byId[registration.id], 'unregistrationDate'),
           ...registration,
         };
+        if (action.meta && action.meta.paymentError) {
+          mergeObjects(newState.byId[registration.id], {
+            paymentError: action.meta.paymentError,
+          });
+        }
         newState.items = union(newState.items, [registration.id]);
         break;
       }
@@ -55,6 +57,46 @@ export default createEntityReducer({
         newState.byId[action.meta.id].fetching = false;
         break;
 
+      case Event.SOCKET_PAYMENT.SUCCESS: {
+        const registration = normalize(action.payload, registrationSchema)
+          .entities.registrations[action.payload.id];
+        if (!registration) {
+          return;
+        }
+        newState.byId[registration.id] = {
+          ...omit(newState.byId[registration.byId], [
+            'unregistrationDate',
+            'clientSecret',
+          ]),
+          ...registration,
+        };
+        break;
+      }
+      case Event.PAYMENT_QUEUE.FAILURE: {
+        const registration = normalize(action.payload, registrationSchema)
+          .entities.registrations[action.payload.id];
+        if (!registration) {
+          return;
+        }
+        newState.byId[registration.id] = {
+          ...omit(newState.byId[registration.id], 'unregistrationDate'),
+        };
+        break;
+      }
+      case Event.SOCKET_INITIATE_PAYMENT.SUCCESS: {
+        const registration = normalize(action.payload, registrationSchema)
+          .entities.registrations[action.payload.id];
+        if (!registration) {
+          return;
+        }
+        const { clientSecret } = action.meta;
+        newState.byId[registration.id] = {
+          ...omit(newState.byId[registration.id], 'unregistrationDate'),
+          ...registration,
+          clientSecret,
+        };
+        break;
+      }
       case Event.UPDATE_REGISTRATION.SUCCESS: {
         const registration = normalize(action.payload, registrationSchema)
           .entities.registrations[action.payload.id];
@@ -64,7 +106,6 @@ export default createEntityReducer({
         };
         break;
       }
-
       case Event.SOCKET_UNREGISTRATION.SUCCESS: {
         const transformedPayload = {
           ...action.payload,

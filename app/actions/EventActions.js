@@ -264,14 +264,11 @@ export function adminRegister(
   });
 }
 
-export function payment(eventId: number, token: string) {
+export function payment(eventId: number) {
   return callAPI({
     types: Event.PAYMENT_QUEUE,
     endpoint: `/events/${eventId}/payment/`,
     method: 'POST',
-    body: {
-      token,
-    },
     meta: {
       errorMessage: 'Betaling feilet',
     },
@@ -350,7 +347,7 @@ export function updatePresence(
 export function updatePayment(
   eventId: number,
   registrationId: number,
-  chargeStatus: string
+  paymentStatus: string
 ): Thunk<Promise<?Action>> {
   return (dispatch) =>
     dispatch(
@@ -359,7 +356,7 @@ export function updatePayment(
         endpoint: `/events/${eventId}/registrations/${registrationId}/`,
         method: 'PATCH',
         body: {
-          chargeStatus,
+          paymentStatus,
         },
         meta: {
           errorMessage: 'Oppdatering av betaling feilet',

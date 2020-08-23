@@ -121,7 +121,7 @@ export type EventRegistrationPhotoConsent =
   | 'PHOTO_CONSENT'
   | 'UNKNOWN';
 
-export type EventRegistrationChargeStatus =
+export type EventRegistrationPaymentStatus =
   | 'pending'
   | 'manual'
   | 'succeeded'
@@ -138,10 +138,12 @@ export type EventRegistration = {
   unregistrationDate: Dateish,
   pool: number,
   presence: EventRegistrationPresence,
-  chargeStatus: EventRegistrationChargeStatus,
+  paymentStatus: EventRegistrationPaymentStatus,
   feedback: string,
   sharedMemberships?: number,
   consent: EventRegistrationPhotoConsent,
+  clientSecret?: string,
+  paymentError?: string,
 };
 
 type EventPoolBase = {
