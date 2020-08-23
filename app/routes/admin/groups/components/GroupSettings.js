@@ -1,19 +1,27 @@
 // @flow
 import React from 'react';
 import GroupForm from 'app/components/GroupForm';
+import loadingIndicator from 'app/utils/loadingIndicator';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { editGroup } from 'app/actions/GroupActions';
 
 type Props = {
   group: Object,
-  updateGroup: (number, Object) => Promise<*>,
-  initialValues: Object,
+  editGroup: (any) => Promise<*>,
 };
 
-const GroupSettings = ({ group, updateGroup, initialValues }: Props) => (
+const GroupSettings = ({ group, editGroup }: Props) => (
   <GroupForm
     group={group}
-    handleSubmitCallback={updateGroup}
+    handleSubmitCallback={editGroup}
     initialValues={group}
   />
 );
 
-export default GroupSettings;
+const mapDispatchToProps = { editGroup };
+
+export default compose(
+  connect(() => ({}), mapDispatchToProps),
+  loadingIndicator(['group'])
+)(GroupSettings);

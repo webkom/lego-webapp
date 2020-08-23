@@ -80,35 +80,19 @@ export function fetchAllWithType(type: string) {
   });
 }
 
-export function updateGroup(group: Object) {
-  return callAPI({
-    types: Group.UPDATE,
-    endpoint: `/groups/${group.id}/`,
-    method: 'PATCH',
-    body: {
-      ...group,
-      logo: group.logo || undefined,
-    },
-    schema: groupSchema,
-    meta: {
-      errorMessage: 'Oppdatering av grupper feilet',
-    },
-  });
-}
-
 export function editGroup(group: Object): Thunk<*> {
-  const { id } = group;
   return (dispatch) => {
     return dispatch(
       callAPI({
         types: Group.UPDATE,
-        endpoint: `/groups/${id}/`,
+        endpoint: `/groups/${group.id}/`,
         schema: groupSchema,
         method: 'PATCH',
         body: group,
         meta: {
           group,
-          errorMessage: 'Editing group failed',
+          errorMessage: 'Oppdatering av gruppe feilet',
+          successMessage: 'Oppdatering av gruppe fullført',
         },
       })
     );
@@ -133,7 +117,8 @@ export function joinGroup(
           role,
         },
         meta: {
-          errorMessage: 'Joining the interest group failed.',
+          errorMessage: 'Registrering i gruppe feilet',
+          successMessage: 'Registrering i gruppe fullført',
           groupId: groupId,
           username: user.username,
         },
@@ -153,7 +138,8 @@ export function leaveGroup(membership: Object): Thunk<*> {
           id: membership.id,
           username: membership.user.username,
           groupId: membership.abakusGroup,
-          errorMessage: 'Leaving the interest group failed.',
+          errorMessage: 'Avregistrering fra gruppe feilet',
+          successMessage: 'Avregistrering fra gruppe fullført',
         },
       })
     );
