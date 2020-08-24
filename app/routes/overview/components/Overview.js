@@ -242,8 +242,8 @@ class Overview extends Component<Props, State> {
       <Container>
         <Helmet title="Hjem" />
         <Banner
-          text={'Abakus har opptak'}
-          link={'https://opptak.abakus.no'}
+          text="Abakus har opptak"
+          link="https://opptak.abakus.no"
           color={COLORS.red}
         />
         <Flex className={styles.desktopContainer}>

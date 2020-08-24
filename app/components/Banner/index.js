@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import React, { type Node } from 'react';
 import styles from './Banner.css';
 import cx from 'classnames';
 import { Link } from 'react-router-dom';
@@ -11,7 +11,7 @@ export const COLORS = {
   gray: styles.gray,
 };
 
-type Color = $Keys<typeof colors>;
+type Color = $Keys<typeof COLORS>;
 
 type Props = {
   text: string,
@@ -21,7 +21,7 @@ type Props = {
 };
 
 const Banner = (props: Props) => {
-  const Router = ({ children }) => {
+  const LinkComponent = ({ children }: { children: Node }) => {
     return props.internal ? (
       <Link to={props.link}>{children}</Link>
     ) : (
@@ -31,9 +31,9 @@ const Banner = (props: Props) => {
     );
   };
   return (
-    <Router>
+    <LinkComponent>
       <div className={cx(styles.header, props.color)}>{props.text}</div>
-    </Router>
+    </LinkComponent>
   );
 };
 
