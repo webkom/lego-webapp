@@ -357,7 +357,7 @@ function EventEditor({
               <Tooltip content="Frist for påmelding/avmelding - antall timer før arrangementet. Det er ikke mulig å melde seg hverken på eller av etter denne fristen">
                 <Field
                   key="registrationDeadlineHours"
-                  label="Antall timer før"
+                  label="Stenger"
                   name="registrationDeadlineHours"
                   type="number"
                   component={TextInput.Field}
@@ -508,6 +508,12 @@ const validate = (data) => {
   if (!moment(data.startTime).isBefore(data.endTime)) {
     errors.endTime = 'Starttidspunkt må være før sluttidspunkt';
   }
+  //  const activationDates = data.pools.map((p) => p.activationDate);
+  //  const noe = activationDates.every((val) => {
+  //    console.log(val);
+  //    data.mergeTime && moment(val).isBefore(data.mergeTime);
+  //  });
+
   return errors;
 };
 

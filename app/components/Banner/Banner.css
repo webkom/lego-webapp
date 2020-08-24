@@ -10,6 +10,10 @@
   border-radius: 3px;
   font-weight: bold;
   font-size: 2em;
+  -webkit-animation-name: wiggle;
+  -webkit-animation-duration: 4s;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-delay: 5s;
 }
 
 .red {
@@ -17,11 +21,63 @@
   color: var(--color-white);
 }
 
-.black {
+.gray {
   background-color: var(--color-dark-mono-gray-5);
   color: var(--color-white);
 }
 
 .white {
   color: var(--color-black);
+}
+
+@keyframes wiggle {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  5% {
+    transform: rotate(-1.5deg);
+  }
+
+  10% {
+    transform: rotate(0deg);
+  }
+
+  15% {
+    transform: rotate(1.5deg);
+  }
+
+  20% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@-webkit-keyframes wiggle {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+
+  5% {
+    -webkit-transform: rotate(-1.5deg);
+  }
+
+  10% {
+    -webkit-transform: rotate(0deg);
+  }
+
+  15% {
+    -webkit-transform: rotate(1.5deg);
+  }
+
+  20% {
+    -webkit-transform: rotate(0deg);
+  }
+
+  100% {
+    -webkit-transform: rotate(0deg);
+  }
 }
