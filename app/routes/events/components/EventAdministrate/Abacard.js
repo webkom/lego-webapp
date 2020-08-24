@@ -39,7 +39,7 @@ class Abacard extends React.Component<Props, State> {
   render() {
     const {
       registered,
-      event: { totalCapacity, useConsent, id },
+      event: { useConsent, id, registrationCount },
       markUsernamePresent,
       markUsernameConsent,
       ...validatorProps
@@ -112,7 +112,7 @@ class Abacard extends React.Component<Props, State> {
           />
         </Modal>
         <div className={styles.counter}>
-          {registerCount}/{totalCapacity} har møtt opp
+          {registerCount}/{registrationCount} har møtt opp
         </div>
       </div>
     );
