@@ -23,6 +23,8 @@ import Poll from 'app/components/Poll';
 import type { PollEntity } from 'app/reducers/polls';
 import RandomQuote from 'app/components/RandomQuote';
 
+import Banner, { COLORS } from 'app/components/Banner';
+
 type Props = {
   frontpage: Array<Object>,
   readmes: Array<Object>,
@@ -239,6 +241,11 @@ class Overview extends Component<Props, State> {
     return (
       <Container>
         <Helmet title="Hjem" />
+        <Banner
+          text={'Abakus har opptak'}
+          link={'https://opptak.abakus.no'}
+          color={COLORS.red}
+        />
         <Flex className={styles.desktopContainer}>
           <Flex column className={styles.leftColumn}>
             {compactEvents}
