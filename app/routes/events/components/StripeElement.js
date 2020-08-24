@@ -16,7 +16,7 @@ import LoadingIndicator from 'app/components/LoadingIndicator';
 
 type Stripe = {
   paymentRequest: (Object) => Object,
-  handleCardPayment: (string) => Promise<*>,
+  handleCardPayment: (string, ?Object) => Promise<*>,
   confirmPaymentIntent: (string, Object) => Promise<*>,
 };
 type Props = {
@@ -111,7 +111,14 @@ class CardForm extends React.Component<CardFormProps, CardFormState> {
   completePayment = async (clientSecret) => {
     this.setState({ paymentStarted: false });
     const { stripe } = this.props;
-    const { error } = await stripe.handleCardPayment(clientSecret);
+    const { error } = await stripe.handleCardPayment(clientSecret, {
+      payment_method_data: {
+        billing_details: {
+          email: this.props.currentUser.email,
+          name: this.props.currentUser.fullName,
+        },
+      },
+    });
     if (error) {
       this.props.setError(error.message);
     } else {
