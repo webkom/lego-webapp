@@ -117,7 +117,7 @@ export default function pageRenderer({
       </script>`
             : ''
         }
-        <script async src="https://js.stripe.com/v3/"></script>
+        <script src="https://js.stripe.com/v3/"></script>
         ${dllPlugin}
         ${scripts}
       </body>
