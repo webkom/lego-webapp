@@ -170,11 +170,17 @@ class PaymentRequestForm extends React.Component<
   constructor(props) {
     super(props);
 
-    const { event } = props;
+    this.state = {
+      canMakePayment: undefined,
+      paymentInProgress: false,
+      paymentRequest: undefined,
+    };
+  }
 
-    let paymentRequest;
-    if (props.stripe) {
-      paymentRequest = props.stripe.paymentRequest({
+  componentDidUpdate(prevProps) {
+    if (!this.state.paymentRequest && this.props.stripe) {
+      const { event } = this.props;
+      const paymentRequest = this.props.stripe.paymentRequest({
         currency: 'nok',
         total: {
           label: event.title,
@@ -199,15 +205,10 @@ class PaymentRequestForm extends React.Component<
         this.setState({ canMakePayment: !!result });
         this.props.setPaymentRequest(!!result);
       });
-    }
-    this.state = {
-      canMakePayment: undefined,
-      paymentInProgress: false,
-      paymentRequest,
-    };
-  }
 
-  componentDidUpdate(prevProps) {
+      this.setState({ paymentRequest });
+    }
+
     const { clientSecret, paymentError } = this.props;
 
     if (!prevProps.clientSecret && clientSecret) {
