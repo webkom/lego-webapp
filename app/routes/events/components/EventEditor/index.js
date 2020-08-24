@@ -508,12 +508,17 @@ const validate = (data) => {
   if (!moment(data.startTime).isBefore(data.endTime)) {
     errors.endTime = 'Starttidspunkt må være før sluttidspunkt';
   }
-  //  const activationDates = data.pools.map((p) => p.activationDate);
-  //  const noe = activationDates.every((val) => {
-  //    console.log(val);
-  //    data.mergeTime && moment(val).isBefore(data.mergeTime);
-  //  });
-
+  const mergeTimeError =
+    data.pools &&
+    data.pools
+      .map((pool) => pool.activationDate)
+      .some(
+        (activation) =>
+          data.mergeTime && moment(activation).isAfter(data.mergeTime)
+      );
+  if (mergeTimeError) {
+    errors.mergeTime = 'Sammenslåingstidspunkt satt før aktiveringspunkt';
+  }
   return errors;
 };
 
