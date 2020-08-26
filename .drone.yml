@@ -296,12 +296,14 @@ steps:
       INFRA_SSH_KEY:
         from_secret: infra_deploy_key
     commands:
+      # These commands configure our authentication against
+      # github so we can clone our infra repo
       - mkdir -p /root/.ssh
       - echo -n "$INFRA_SSH_KEY" > /root/.ssh/id_rsa
       - chmod 600 /root/.ssh/id_rsa
       - touch /root/.ssh/known_hosts
       - chmod 600 /root/.ssh/known_hosts
-      - ssh-keyscan -H ${DRONE_NETRC_MACHINE} > /etc/ssh/ssh_known_hosts 2> /dev/null
+      - ssh-keyscan -t rsa -H github.com > /etc/ssh/ssh_known_hosts 2> /dev/null
       - cd /infra
       - git init
       # These commands just limit the folders we clone
