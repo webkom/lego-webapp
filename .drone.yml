@@ -108,7 +108,7 @@ steps:
     when:
       event: [push]
       branch:
-        exclude: [ prod ]
+        exclude: [prod]
 
   - name: legocypresshelper
     image: abakus/lego-cypress-helper:latest
@@ -117,7 +117,7 @@ steps:
     when:
       event: [push]
       branch:
-        exclude: [ prod ]
+        exclude: [prod]
     environment:
       PG_HOST: postgres
       PG_USERNAME: lego
@@ -131,7 +131,7 @@ steps:
   - name: setup
     image: node:11
     when:
-      event: [ push ]
+      event: [push]
     depends_on:
       - postgres
       - minio
@@ -151,7 +151,7 @@ steps:
     when:
       event: [push]
       branch:
-        exclude: [ prod ]
+        exclude: [prod]
     depends_on:
       - setup
     commands:
@@ -162,7 +162,7 @@ steps:
     when:
       event: [push]
       branch:
-        exclude: [ prod ]
+        exclude: [prod]
     depends_on:
       - setup
     commands:
@@ -200,7 +200,7 @@ steps:
     when:
       event: [push]
       branch:
-        exclude: [ prod ]
+        exclude: [prod]
     depends_on:
       - setup
     environment:
@@ -214,7 +214,7 @@ steps:
     when:
       event: [push]
       branch:
-        exclude: [ prod ]
+        exclude: [prod]
     depends_on:
       - build_client
       - build_server
@@ -288,14 +288,20 @@ steps:
 
 
   - name: clone_infra
-    image: drone/git
+    image: alpine/git
     volumes:
       - name: infra
         path: /infra
     environment:
-      SSH_KEY:
+      INFRA_SSH_KEY:
         from_secret: infra_deploy_key
     commands:
+      - mkdir -p /root/.ssh
+      - echo -n "$INFRA_SSH_KEY" > /root/.ssh/id_rsa
+      - chmod 600 /root/.ssh/id_rsa
+      - touch /root/.ssh/known_hosts
+      - chmod 600 /root/.ssh/known_hosts
+      - ssh-keyscan -H ${DRONE_NETRC_MACHINE} > /etc/ssh/ssh_known_hosts 2> /dev/null
       - cd /infra
       - git init
       # These commands just limit the folders we clone
