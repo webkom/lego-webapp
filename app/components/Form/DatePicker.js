@@ -94,6 +94,12 @@ class DatePicker extends Component<Props, State> {
     }));
   };
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.value !== this.props.value) {
+      this.setState({ value: parseDateValue(this.props.value) });
+    }
+  }
+
   render() {
     const { showTimePicker, className, name } = this.props;
     const { date } = this.state;
