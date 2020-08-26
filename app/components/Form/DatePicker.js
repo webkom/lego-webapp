@@ -94,7 +94,7 @@ class DatePicker extends Component<Props, State> {
     }));
   };
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: Props) {
     if (prevProps.value !== this.props.value) {
       this.setState({ value: parseDateValue(this.props.value) });
     }
@@ -115,6 +115,7 @@ class DatePicker extends Component<Props, State> {
               .tz(this.state.value, config.timezone)
               .format(this.props.dateFormat)}
             name={name}
+            readOnly
           />
         }
         componentClass="div"
