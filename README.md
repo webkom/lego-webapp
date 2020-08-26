@@ -151,7 +151,8 @@ yarn cypress run
 </details>
 
 <details><summary><code>Debugging</code></summary>
-## Debugging
+
+### Debugging
 
 To debug chunk size (size of the javascript sent to the browser), run
 
