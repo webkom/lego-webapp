@@ -4,40 +4,30 @@
 
 [![MIT](https://badgen.net/badge/license/MIT/blue)](https://en.wikipedia.org/wiki/MIT_License) [![last commit](https://badgen.net/github/last-commit/webkom/lego-webapp/)](https://github.com/webkom/lego-webapp/commits/master) [![coontibutors](https://badgen.net/github/contributors/webkom/lego-webapp)](https://github.com/webkom/lego-webapp/graphs/contributors)
 
-> **Issues**: We track issues in the main repo of LEGO: https://github.com/webkom/lego
+> **Issues**: We track issues in the main repo of LEGO
 
 [![open issues](https://badgen.net/github/open-issues/webkom/lego)](https://github.com/webkom/lego/issues)
 
-## Getting Started
-
-### Installing dependencies
+## Quick Start
 
 ```bash
-$ yarn
+$ yarn # Install dependencies
+$ yarn start:staging # Start webserver with development backend
 ```
 
-### Starting the client
+Everything should be up and running on [localhost:3000](http://localhost:3000). The `:staging` suffix points the webserver at a hosted development backend.
+
+### Running with local backend
+
+First, you need to have the `django` backend running, see [webkom/lego](https://github.com/webkom/lego).
 
 ```bash
-$ yarn start
+$ yarn start # Start webserver with local backend
 ```
 
-Everything should be up and running on [localhost:3000](http://localhost:3000).
+### Server side rendering (Optional)
 
-For instructions on how to run the backend, see
-[webkom/lego](https://github.com/webkom/lego).
-
-#### Running without a local backend
-
-It is possible to run the frontend without running the backend, by using our staging environment:
-
-```bash
-$ yarn start:staging
-```
-
-## Server side rendering
-
-In production we use server side rendering. Due to bad hot reloading, we don't use it by default in dev. The server side renderer can be started by running:
+In production (live) we use server side rendering. Due to bad hot reloading, we don't use it by default in dev. The server side renderer can be started by running:
 
 ```bash
 $ yarn build
@@ -46,43 +36,22 @@ $ yarn ssr # or yarn ssr:staging
 
 ### Environment Variables
 
-- `NODE_ENV` _(optional)_
-  - `development` during development and `production` when using in (or testing _for_) production
-- `API_URL` _(optional)_
-  - Url to the LEGO api. Usually ends with `/api/v1`
-- `WS_URL` _(optional)_
-  - Url to the LEGO websocket endpoint
-- `BASE_URL` _(optional)_
-  - Url to the base of the LEGO api. Usaully just the root domain.
-- `SEGMENT_WRITE_KEY` _(optional)_
-  - More info here: <https://segment.com/docs/guides/setup/how-do-i-find-my-write-key/>
-- `CAPTCHA_KEY` _(optional)_
-  - More info here: <https://developers.google.com/recaptcha/docs/display>
-- `STRIPE_KEY` _(optional)_
-  - More info here: <https://stripe.com/docs/keys>
-- `SENTRY_DSN` _(optional)_
-  - More info here: https://github.com/getsentry/sentry-javascript
-- `SERVER_SENTRY_DSN`_(optional)_
-  - More info here: https://github.com/getsentry/sentry-javascript/tree/master/packages/node
-- `RELEASE`_(optional)_
-  - Release version used when sending exceptions to Sentry. Injected when building docker images
-- `ENVIRONMENT`_(optional)_
-  - When this isn't `production` there will be a big red development bar on the top of the page
-- `HOST`_(optional)_
-  - Used for binding port. Use `0.0.0.0` to make the server publicly accessible
-- `PORT`_(optional)_
-  - Port to bind
-- `SSR_API_URL`_(optional)_
-  - Same as `API_URL`, but used by the SSR. If this is empty, it will fallback to `API_URL`
-- `HTTPS`_(optional)_
-  - defaults to `false` Use <https://github.com/FiloSottile/mkcert> to generate certs for localhost: `mkcert -install && mkcert localhost`
-  - `https` is required when using the payment request API.
-- `HTTPS_CERT_KEY_FILE`_(optional)_
-  - Filename to https cert key file. Defaults to localhost-cert
-- `HTTPS_CERT_FILE`_(optional)_
-  - Filename to https cert file. Defaults to localhost-cert
+The `webserver` running the frontend can take many optional environment variables. Docs can be found at `config/environment.md`, and default can be found at `server/env.js` and `config/env.js`.
 
-Default values can be found in `server/env.js` and `config/env.js`.
+## Development
+
+We use some conventions and tools for our JavaScript/React development.
+
+- [prettier](https://github.com/prettier/prettier) for JS code formatter.
+  - `yarn prettier`
+- [eslint](https://eslint.org/) for finding and fixing problems in your JavaScript code.
+  - `yarn lint`
+- [flow](https://flow.org/) as a static type checker for JavaScript.
+  - `yarn flow`
+
+We recommend getting plugins/extensions in `VSCode` or `Vim` so the code auto-formats, and automatically prompts you with errors. When you submit code to Github the CI server will automatically run all the commands above to check that your code is up to par.
+
+<details><summary><code>Code documentation</code></summary>
 
 ## Documentation
 
@@ -104,17 +73,9 @@ To build a static version of the documentation, run:
 $ yarn styleguide:build
 ```
 
-## Prettier
+</details>
 
-We use [prettier](https://github.com/prettier/prettier) for JS auto-formatting.
-When the code isn't formatted with the prettier version in `package.json`, the
-tests will fail. We highly recommend using format on save via an editor plugin,
-for example [prettier-atom](https://atom.io/packages/prettier-atom) and
-[vim-prettier](https://github.com/prettier/vim-prettier).
-
-You can also format the code via `yarn prettier`.
-
-## Tests
+<details><summary><code>Unit tests</code></summary>
 
 ### Unit tests (jest)
 
@@ -131,6 +92,10 @@ $ yarn test:watch
 ```
 
 A coverage report can be generated by running `yarn test -- --coverage`.
+
+</details>
+
+<details><summary><code>Cypress E2E (End-to-end tests)</code></summary>
 
 ### End to end tests (cypress)
 
@@ -183,41 +148,9 @@ And you run cypress headlessly (no visible browser) in another terminal
 yarn cypress run
 ```
 
-## Flow
+</details>
 
-[Flow](https://flowtype.org/) is gradually being introduced so we can reap the
-benefits of static type checking.
-
-Run `flow` in the project directory to check if everything is good.
-
-## Linting
-
-ESLint and Stylelint is used to maintain high code quality and a unified code
-style. Please run them before committing code.
-
-To run the linter, use:
-
-```bash
-$ yarn run lint
-
-# or
-$ yarn run lint:js
-$ yarn run lint:css
-$ yarn run lint:prettier
-```
-
-Some ESLint errors can be fixed by running
-
-```bash
-$ yarn lint:js -- --fix
-```
-
-Some formatting errors reported by prettier can be fixed by running
-
-```bash
-$ yarn prettier
-```
-
+<details><summary><code>Debugging</code></summary>
 ## Debugging
 
 To debug chunk size (size of the javascript sent to the browser), run
@@ -225,3 +158,5 @@ To debug chunk size (size of the javascript sent to the browser), run
 ```bash
 $ BUNDLE_ANALYZER=true yarn build
 ```
+
+</details>
