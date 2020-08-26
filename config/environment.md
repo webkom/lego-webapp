@@ -1,0 +1,37 @@
+## Available environment variables
+
+- `NODE_ENV` _(optional)_
+  - `development` during development and `production` when using in (or testing _for_) production
+- `API_URL` _(optional)_
+  - Url to the LEGO api. Usually ends with `/api/v1`
+- `WS_URL` _(optional)_
+  - Url to the LEGO websocket endpoint
+- `BASE_URL` _(optional)_
+  - Url to the base of the LEGO api. Usaully just the root domain.
+- `SEGMENT_WRITE_KEY` _(optional)_
+  - More info here: <https://segment.com/docs/guides/setup/how-do-i-find-my-write-key/>
+- `CAPTCHA_KEY` _(optional)_
+  - More info here: <https://developers.google.com/recaptcha/docs/display>
+- `STRIPE_KEY` _(optional)_
+  - More info here: <https://stripe.com/docs/keys>
+- `SENTRY_DSN` _(optional)_
+  - More info here: https://github.com/getsentry/sentry-javascript
+- `SERVER_SENTRY_DSN`_(optional)_
+  - More info here: https://github.com/getsentry/sentry-javascript/tree/master/packages/node
+- `RELEASE`_(optional)_
+  - Release version used when sending exceptions to Sentry. Injected when building docker images
+- `ENVIRONMENT`_(optional)_
+  - When this isn't `production` there will be a big red development bar on the top of the page
+- `HOST`_(optional)_
+  - Used for binding port. Use `0.0.0.0` to make the server publicly accessible
+- `PORT`_(optional)_
+  - Port to bind
+- `SSR_API_URL`_(optional)_
+  - Same as `API_URL`, but used by the SSR. If this is empty, it will fallback to `API_URL`
+- `HTTPS`_(optional)_
+  - defaults to `false` Use <https://github.com/FiloSottile/mkcert> to generate certs for localhost: `mkcert -install && mkcert localhost`
+  - `https` is required when using the payment request API.
+- `HTTPS_CERT_KEY_FILE`_(optional)_
+  - Filename to https cert key file. Defaults to localhost-cert
+- `HTTPS_CERT_FILE`_(optional)_
+  - Filename to https cert file. Defaults to localhost-cert
