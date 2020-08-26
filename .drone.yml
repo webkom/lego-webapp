@@ -228,11 +228,11 @@ steps:
 
   - name: cypress
     image: cypress/browsers:chrome69
-    shm_size: 100000000 # 100MB
+    shm_size: 100000000  # 100MB
     when:
       event: [push]
       branch:
-        exclude: [ prod ]
+        exclude: [prod]
     depends_on:
       - legocypresshelper
       - install_cypress
@@ -286,10 +286,57 @@ steps:
       build_args_from_env:
         - SENTRY_AUTH_TOKEN
 
+
+  - name: clone_infra
+    image: drone/git
+    volumes:
+      - name: infra
+        path: /infra
+    commands:
+      - cd /infra
+      - git init
+      # These commands just limit the folders we clone
+      # to the one relevant for this deployment
+      - git config core.sparsecheckout true
+      - echo lego >> .git/info/sparse-checkout
+      - echo global_secrets >> .git/info/sparse-checkout
+      - git remote add -f origin git@github.com:webkom/infrastructure.git
+      - git pull origin master
+    when:
+      event:
+        - promote
+        - rollback
+
+
+  - name: Deploy lego to staging
+    image: plugins/ansible
+    volumes:
+      - name: infra
+        path: /infra
+    environment:
+      # This is the same tag as the docker step above
+      webapp_version: ${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:7}
+    settings:
+      playbook: /infra/lego/playbooks/deploy.yml
+      tags:
+        - webapp
+      inventory: ${DRONE_DEPLOY_TO}
+      vault_password:
+        from_secret: ansible_vault_password
+    when:
+      event:
+        - promote
+        - rollback
+    depends_on:
+      - clone_infra
+
+
 volumes:
- - name: yarn_cache
-   host:
-     path: /tmp/drone-cache/yarn
+  - name: yarn_cache
+    host:
+      path: /tmp/drone-cache/yarn
+  - name: infra
+    temp: {}
 
 image_pull_secrets:
   - dockerconfigjson
