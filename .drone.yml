@@ -336,6 +336,8 @@ steps:
       inventory: /infra/lego/${DRONE_DEPLOY_TO}
       vault_password:
         from_secret: ansible_vault_password
+      private_key:
+        from_vault: infra_deploy_key
     when:
       event:
         - promote
@@ -355,3 +357,7 @@ volumes:
 
 image_pull_secrets:
   - dockerconfigjson
+
+---
+kind: signature
+hmac: a410b4091dd30c19e21f7b02fb78497c345e1a3a384ed2291a09316d2d463c1e
