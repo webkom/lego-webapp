@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 
-import 'babel-polyfill';
+import '@babel/polyfill';
 import app from './server';
 import * as Sentry from '@sentry/node';
 import { RewriteFrames } from '@sentry/integrations';
