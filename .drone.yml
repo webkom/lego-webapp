@@ -337,7 +337,7 @@ steps:
       vault_password:
         from_secret: ansible_vault_password
       private_key:
-        from_vault: infra_deploy_key
+        from_secret: infra_deploy_key
     when:
       event:
         - promote
@@ -360,4 +360,4 @@ image_pull_secrets:
 
 ---
 kind: signature
-hmac: a410b4091dd30c19e21f7b02fb78497c345e1a3a384ed2291a09316d2d463c1e
+hmac: 8ce3fe75b4b78e6e2c1c684e895cfeba78acd2753c4e4a9368352f8b300e3af1
