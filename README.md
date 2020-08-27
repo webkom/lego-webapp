@@ -161,3 +161,22 @@ $ BUNDLE_ANALYZER=true yarn build
 ```
 
 </details>
+
+<details><summary><code>CI/CD</code></summary>
+
+### CI/CD
+
+We use [drone](https://drone.io) as our CI/CD system. The server runs at https://ci.webkom.dev. This
+repo is public, so anyone can see the status at https://ci.webkom.dev/webkom/lego-webapp.
+
+Since the repo is public and we use a lot of secrets in the pipeline, we require the pipeline to be
+verified with a signature from drone. To obtain this, use the [cli](https://docs.drone.io/cli):
+
+```sh
+drone sign webkom/lego-webapp
+```
+
+You need to login to retrieve the signature. Get the login data from your [user
+settings](https://ci.webkom.dev/account).
+
+</details>
