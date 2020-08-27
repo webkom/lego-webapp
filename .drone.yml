@@ -321,18 +321,17 @@ steps:
         - prod
 
 
-  - name: Deploy lego to staging
+  - name: Deploy
     image: plugins/ansible
     volumes:
       - name: infra
         path: /infra
-    environment:
-      # This is the same tag as the docker step above
-      webapp_version: ${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:7}
     settings:
       playbook: /infra/lego/playbooks/deploy.yml
       tags:
         - webapp
+      # This is the same tag as the docker step above
+      extra_vars: webapp_version=${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:7}
       inventory: /infra/lego/${DRONE_DEPLOY_TO}
       vault_password:
         from_secret: ansible_vault_password
@@ -360,4 +359,4 @@ image_pull_secrets:
 
 ---
 kind: signature
-hmac: 8ce3fe75b4b78e6e2c1c684e895cfeba78acd2753c4e4a9368352f8b300e3af1
+hmac: 44556c5c665d5efcd79cc87eeedc5f95d377f59d3c0b840135d67b28c6c8ab3b
