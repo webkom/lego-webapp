@@ -83,6 +83,14 @@ const sections: {
     PageRenderer: FlatpageRenderer,
     fetchItemActions: [fetchPage],
   },
+  personvern: {
+    title: 'Personvern',
+    section: 'personvern',
+    pageSelector: selectFlatpageForPages,
+    hierarchySectionSelector: selectPagesForHierarchy('personvern'),
+    PageRenderer: FlatpageRenderer,
+    fetchItemActions: [fetchPage],
+  },
   'info-om-abakus': {
     title: 'Info om Abakus',
     section: 'info-om-abakus',

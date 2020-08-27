@@ -184,4 +184,5 @@ export const categoryOptions = [
   { value: 'bedrifter', label: 'Bedrifter' },
   { value: 'generelt', label: 'Generelt' },
   { value: 'grupper', label: 'Grupper' },
+  { value: 'personvern', label: 'Personvern' },
 ];
