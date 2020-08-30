@@ -10,11 +10,11 @@ import styles from './TimePicker.css';
 function TimePickerInput({ onNext, onPrev, ...props }: any) {
   return (
     <div className={styles.timePickerInput}>
-      <button type="button" onClick={onNext}>
+      <button type="button" onClick={onNext} className={styles.arrowIcon}>
         <Icon name="arrow-up" />
       </button>
       <TextInput {...props} />
-      <button type="button" onClick={onPrev}>
+      <button type="button" onClick={onPrev} className={styles.arrowIcon}>
         <Icon name="arrow-down" />
       </button>
     </div>

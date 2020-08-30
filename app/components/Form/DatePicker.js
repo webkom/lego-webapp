@@ -117,11 +117,11 @@ class DatePicker extends Component<Props, State> {
       >
         <div className={styles.datePicker} onClick={(e) => e.stopPropagation()}>
           <div className={styles.header}>
-            <button onClick={this.onPrev}>
+            <button onClick={this.onPrev} className={styles.arrowIcon}>
               <Icon name="arrow-back" />
             </button>
             <h3>{date.format('MMMM YYYY')}</h3>
-            <button onClick={this.onNext}>
+            <button onClick={this.onNext} className={styles.arrowIcon}>
               <Icon name="arrow-forward" />
             </button>
           </div>

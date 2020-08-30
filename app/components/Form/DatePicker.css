@@ -78,3 +78,7 @@ html[data-theme='dark'] .prevOrNextMonth {
 .selectedDate {
   font-weight: 700;
 }
+
+html[data-theme='dark'] .arrowIcon {
+  color: var(--color-black);
+}
