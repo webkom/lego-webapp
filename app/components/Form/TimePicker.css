@@ -17,3 +17,7 @@
     font-size: 18px;
   }
 }
+
+html[data-theme='dark'] .arrowIcon {
+  color: var(--color-black);
+}
