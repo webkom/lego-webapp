@@ -9,6 +9,7 @@ export const COLORS = {
   red: styles.red,
   white: styles.white,
   gray: styles.gray,
+  lightBlue: styles.lightBlue,
 };
 
 type Color = $Keys<typeof COLORS>;
