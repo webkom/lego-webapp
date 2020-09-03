@@ -29,7 +29,8 @@ function filterJoblistings(joblistings, grades, jobTypes, workplaces) {
         joblisting.workplaces.some(
           (workplace) =>
             !['Oslo', 'Trondheim', 'Bergen', 'Tromsø'].includes(workplace.town)
-        ));
+        )) ||
+      (workplaces.includes('Annet') && joblisting.workplaces.length === 0);
 
     return gradeBoolean && jobTypesBoolean && workplacesBoolean;
   });
