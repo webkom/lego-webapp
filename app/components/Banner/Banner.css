@@ -36,8 +36,8 @@
 }
 
 .revyBlue {
-	background-color: var(--color-blue-revy);
-	color: var(--color-white);
+  background-color: var(--color-blue-revy);
+  color: var(--color-white);
 }
 
 @keyframes wiggle {
