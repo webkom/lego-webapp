@@ -244,7 +244,7 @@ class Overview extends Component<Props, State> {
         <Banner
           text="Revyen har opptak"
           link="https://abakusrevyen.no"
-          color={COLORS.lightBlue}
+          color={COLORS.revyBlue}
         />
         <Flex className={styles.desktopContainer}>
           <Flex column className={styles.leftColumn}>
