@@ -29,6 +29,7 @@ function TextInput({
         ref={inputRef}
         type={type}
         disabled={disabled}
+        readOnly={!!readOnly}
         className={cx(
           styles.input,
           disabled && styles.disabled,
