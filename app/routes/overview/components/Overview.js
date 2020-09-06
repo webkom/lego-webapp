@@ -242,7 +242,8 @@ class Overview extends Component<Props, State> {
       <Container>
         <Helmet title="Hjem" />
         <Banner
-          text="Revyen har opptak"
+          header="Revyen har opptak"
+          subHeader="Søknadsfrist 9. september!"
           link="https://abakusrevyen.no"
           color={COLORS.revyBlue}
         />

@@ -16,9 +16,12 @@ export const COLORS = {
 type Color = $Keys<typeof COLORS>;
 
 type Props = {
-  text: string,
+  header: string,
+  subHeader?: string,
   link?: string,
   color?: Color,
+  // Set to true if the link is internal,
+  // meaning an internal router <Link /> will be used
   internal?: boolean,
 };
 
@@ -34,7 +37,10 @@ const Banner = (props: Props) => {
   };
   return (
     <LinkComponent>
-      <div className={cx(styles.header, props.color)}>{props.text}</div>
+      <div className={cx(styles.header, props.color)}>
+        <h1>{props.header}</h1>
+        {props.subHeader && <h4>{props.subHeader}</h4>}
+      </div>
     </LinkComponent>
   );
 };
