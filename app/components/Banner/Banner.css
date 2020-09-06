@@ -8,12 +8,14 @@
     rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.5);
   border: 1px solid rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.1);
   border-radius: 3px;
-  font-weight: bold;
-  font-size: 2em;
   -webkit-animation-name: wiggle;
   -webkit-animation-duration: 4s;
   -webkit-animation-iteration-count: infinite;
   -webkit-animation-delay: 5s;
+}
+
+.header > h1 {
+  margin: 0;
 }
 
 .red {
