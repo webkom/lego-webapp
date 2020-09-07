@@ -187,9 +187,7 @@ export const DetailNavigation = ({
       message="Er du sikker på at du vil slette denne bedriften?"
       onConfirm={() => deleteFunction(companyId)}
     >
-      <div>
-        <NavigationLink to="">Slett</NavigationLink>
-      </div>
+      <NavigationLink>Slett</NavigationLink>
     </ConfirmModalWithParent>
   </NavigationTab>
 );

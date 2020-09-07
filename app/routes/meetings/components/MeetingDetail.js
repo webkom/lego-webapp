@@ -176,7 +176,7 @@ class MeetingDetails extends Component<Props> {
                     message="Er du sikker på at du vil slette møtet?"
                     onConfirm={this.onDeleteMeeting}
                   >
-                    <NavigationLink to="">Slett møte</NavigationLink>
+                    <NavigationLink>Slett møte</NavigationLink>
                   </ConfirmModalWithParent>
                 )}
               </NavigationTab>
