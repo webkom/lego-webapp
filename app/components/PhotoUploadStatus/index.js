@@ -1,5 +1,5 @@
 //@flow
-import React, { Fragment, type ComponentType } from 'react';
+import React, { Fragment } from 'react';
 import Card from 'app/components/Card';
 import Icon from 'app/components/Icon';
 import Flex from 'app/components/Layout/Flex';
@@ -120,13 +120,3 @@ const ConnectedUploadStatusCard = connect(
 )(UploadStatusCard);
 
 export default ConnectedUploadStatusCard;
-
-export const addUploadStatusCard = <T>(Component: ComponentType<T>) => (
-  props: T
-) =>
-  true && (
-    <Fragment>
-      <Component {...props} />
-      <ConnectedUploadStatusCard />
-    </Fragment>
-  );
