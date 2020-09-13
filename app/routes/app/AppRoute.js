@@ -31,6 +31,7 @@ import HTTPError from '../errors/HTTPError';
 import { setStatusCode } from 'app/actions/RoutingActions';
 import config from 'app/config';
 import coverPhoto from 'app/assets/cover.png';
+import CookieConsent from 'app/components/CookieConsenter';
 
 type Props = {
   statusCode: number,
@@ -140,6 +141,12 @@ class App extends PureComponent<AppProps> {
           </AppChildren>
 
           <PhotoUploadStatus />
+
+          <CookieConsent
+            content="Når du besøker abakus.no installerer vi cookies som er nødvendig for at du skal kunne benytte deg av nettsidene våre."
+            buttonText="Jeg godtar"
+            link="pages/personvern/114-informasjonskapsler"
+          />
 
           <Footer {...this.props} />
         </SpecialDay>
