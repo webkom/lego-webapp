@@ -7,6 +7,8 @@ import LoadingIndicator from 'app/components/LoadingIndicator';
 import moment from 'moment-timezone';
 import { Flex } from 'app/components/Layout';
 import styles from './Abacard.css';
+import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
+import Button from 'app/components/Button';
 import type {
   Event,
   Comment,
@@ -43,11 +45,13 @@ export type Props = {
 
 type State = {
   clickedUnregister: number,
+  generatedCSV: boolean,
 };
 
 export default class Attendees extends Component<Props, State> {
   state = {
     clickedUnregister: 0,
+    generatedCsvUrl: '',
   };
 
   handleUnregister = (registrationId: number) => {
@@ -104,12 +108,45 @@ export default class Attendees extends Component<Props, State> {
     const showUnregister = moment().isBefore(event.startTime);
     return (
       <div>
-        <h2>
-          <Link to={`/events/${eventId}`}>
-            <i className="fa fa-angle-left" />
-            {` ${event.title}`}
-          </Link>
-        </h2>
+        <Flex row justifyContent="space-between">
+          <h2>
+            <Link to={`/events/${eventId}`}>
+              <i className="fa fa-angle-left" />
+              {` ${event.title}`}
+            </Link>
+          </h2>
+          {this.state.generatedCsvUrl ? (
+            <a href={this.state.generatedCsvUrl} download="attendees.csv">
+              Last ned{' '}
+            </a>
+          ) : (
+            <ConfirmModalWithParent
+              title="Eksporter til csv"
+              closeOnConfirm={true}
+              message={`Informasjonen du eksporterer MÅ slettes når det ikke lenger er behov for den,
+                og skal kun distribueres gjennom mail. Dersom informasjonen skal deles med personer utenfor Abakus
+                må det spesifiseres for de påmeldte hvem informasjonen skal deles med.`}
+              onConfirm={async () => {
+                const data = registered.map((registration) => ({
+                  name: registration.user.fullName,
+                  email: registration.user.email,
+                }));
+                const csvBeginning = 'name,email\n';
+                const csvString = data.reduce(
+                  (prev, current) =>
+                    prev + `${current.name},${current.email}\n`,
+                  csvBeginning
+                );
+                const blobUrl = URL.createObjectURL(
+                  new Blob([csvString], { type: 'text/csv' })
+                );
+                this.setState({ generatedCsvUrl: blobUrl });
+              }}
+            >
+              <Button size="large">Eksporter deltakere til csv</Button>
+            </ConfirmModalWithParent>
+          )}
+        </Flex>
         <Flex column>
           <div>
             <strong>Påmeldte:</strong>
