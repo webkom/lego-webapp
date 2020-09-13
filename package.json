@@ -176,7 +176,8 @@
             "global"
           ]
         }
-      ]
+      ],
+      "value-keyword-case": ["lower", { "ignoreProperties": ["composes"] }]
     }
   },
   "jest": {
