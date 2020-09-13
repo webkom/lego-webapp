@@ -86,7 +86,7 @@
     "react-stripe-elements": "^5.0.0",
     "react-swipeable": "5.5.1",
     "react-tagcloud": "^2.0.0",
-    "react-textarea-autosize": "^5.1.0",
+    "react-textarea-autosize": "^8.2.0",
     "react-treeview": "^0.4.6",
     "react-youtube": "^7.9.0",
     "recharts": "^1.8.5",
