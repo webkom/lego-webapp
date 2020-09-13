@@ -143,7 +143,7 @@ class App extends PureComponent<AppProps> {
           <PhotoUploadStatus />
 
           <CookieConsent
-            content="Når du besøker abakus.no installerer vi cookies som er nødvendig for at du skal kunne benytte deg av nettsidene våre."
+            content="Når du besøker abakus.no, installerer vi cookies som er nødvendig for at du skal kunne benytte deg av nettsidene våre."
             buttonText="Jeg godtar"
             link="pages/personvern/114-informasjonskapsler"
           />

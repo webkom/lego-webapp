@@ -1,14 +1,14 @@
 // @flow
 
 import React from 'react';
-import styles from './index.css';
+import './index.css';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import CookieConsent from 'react-cookie-consent';
 
 type Props = {
   content: string,
+  link: string,
   buttonText?: string,
-  link?: string,
 };
 
 const CookieConsenter = ({ content, buttonText, link }: Props) => {
@@ -19,15 +19,11 @@ const CookieConsenter = ({ content, buttonText, link }: Props) => {
       buttonText={buttonText}
     >
       {content + ' '}
-      {link ? (
-        <NavigationLink to={'/' + link}>
-          <span>
-            Les mer <u>her</u>.
-          </span>
-        </NavigationLink>
-      ) : (
-        ''
-      )}
+      <NavigationLink to={'/' + link}>
+        <span>
+          Les mer <u>her</u>.
+        </span>
+      </NavigationLink>
     </CookieConsent>
   );
 };
