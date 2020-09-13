@@ -83,7 +83,7 @@
     "react-select": "^1.0.0-rc.3",
     "react-soundplayer": "^1.0.4",
     "react-stickynode": "^3.0.3",
-    "react-stripe-elements": "^5.0.0",
+    "react-stripe-elements": "^6.1.2",
     "react-swipeable": "5.5.1",
     "react-tagcloud": "^2.0.0",
     "react-textarea-autosize": "^5.1.0",
