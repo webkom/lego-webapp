@@ -43,6 +43,7 @@ export default createEntityReducer({
 
       case Event.SOCKET_REGISTRATION.SUCCESS:
       case Event.ADMIN_REGISTER.SUCCESS: {
+        if (!action.payload.user) break;
         const users = normalize(action.payload, registrationSchema).entities
           .users;
         newState.byId = mergeObjects(newState.byId, users);

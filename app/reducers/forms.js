@@ -86,7 +86,7 @@ export default formReducer.plugin({
       case Event.SOCKET_UNREGISTRATION.SUCCESS:
       case Event.SOCKET_REGISTRATION.SUCCESS: {
         if (!state) return;
-        if (action.payload.user.id !== state.userId) {
+        if ((action.payload.user && action.payload.user.id) !== state.userId) {
           return state;
         }
         return {

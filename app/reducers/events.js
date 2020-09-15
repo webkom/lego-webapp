@@ -101,7 +101,8 @@ const mutateEvent = produce((newState: State, action: any): void => {
       if (!stateEvent) {
         return;
       }
-      const isMe = registration.user.id === currentUser.id;
+      const isMe =
+        (registration.user && registration.user.id) === currentUser.id;
 
       stateEvent.loading = false;
       if (isMe) {
