@@ -12,6 +12,7 @@ import PageEditor from './components/PageEditor';
 import { legoForm } from 'app/components/Form/';
 import { selectPageBySlug } from 'app/reducers/pages';
 import { push } from 'connected-react-router';
+import { objectPermissionsToInitialValues } from '../../components/Form/ObjectPermissions';
 
 function mapStateToProps(state, props) {
   const { pageSlug } = props.match.params;
@@ -24,7 +25,7 @@ function mapStateToProps(state, props) {
   return {
     page,
     pageSlug,
-    initialValues: page,
+    initialValues: { ...page, ...objectPermissionsToInitialValues(page) },
   };
 }
 
