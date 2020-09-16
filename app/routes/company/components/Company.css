@@ -1,9 +1,5 @@
 @import '~app/styles/variables.css';
 
-.button {
-  font-size: 1em;
-}
-
 .infoBubbles {
   margin-top: 1em;
   display: flex;
@@ -56,14 +52,6 @@
   margin-bottom: 10px;
 }
 
-.eventItem {
-  padding-left: 20px;
-  border-left: 4px solid transparent;
-  margin-bottom: 10px;
-  display: flex;
-  justify-content: space-between;
-}
-
 .categoryHeader {
   font-weight: bold;
   background-color: var(--color-mono-gray-5);
@@ -85,36 +73,32 @@
   width: 100%;
 }
 
-.companyEventTable thead th:nth-child(1),
-.companyEventTable tbody td:nth-child(1) {
-  width: 250px;
+.companyEvent {
+  width: 150%;
+  display: flex;
+  background: var(--color-white);
+  margin-top: 10px;
+  justify-content: center;
 }
 
-.companyEventTable thead th:nth-child(2),
-.companyEventTable tbody td:nth-child(2) {
-  width: 180px;
+.companyEventsShowMore {
+  padding-left: 10px;
+  padding-bottom: 20px;
 }
 
-.companyEventTable thead th:nth-child(3),
-.companyEventTable tbody td:nth-child(3) {
-  width: 100px;
-}
-
-.companyEventTable thead th:nth-child(4),
-.companyEventTable tbody td:nth-child(4) {
-  width: 200px;
-  line-height: 20px;
-  padding: 5px;
-}
-
-.companyEventTable thead th:nth-child(5),
-.companyEventTable tbody td:nth-child(5) {
-  width: 300px;
-  line-height: 20px;
-  padding: 5px;
+.image2 {
+  display: block;
+  margin: auto;
 }
 
 .image {
-  display: block;
-  margin: auto;
+  object-fit: cover;
+  background: var(--color-white);
+  height: 80px;
+  width: 300px;
+
+  @media (--mobile-device) {
+    height: auto;
+    width: 100%;
+  }
 }

@@ -47,7 +47,6 @@ const mapStateToProps = (state, props) => {
   const company = state.companies.byId[companyId];
   const companyEvents = selectEventsForCompany(state, { companyId });
   const joblistings = selectJoblistingsForCompany(state, { companyId });
-
   return {
     company,
     companyEvents,

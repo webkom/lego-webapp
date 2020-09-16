@@ -3,25 +3,21 @@
 import styles from './Overview.css';
 import React, { Component } from 'react';
 import Helmet from 'react-helmet';
-import Time from 'app/components/Time';
 import { Container, Flex } from 'app/components/Layout';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import LatestReadme from './LatestReadme';
 import CompactEvents from './CompactEvents';
-import { eventTypeToString } from 'app/routes/events/utils';
 import type { Event, Article } from 'app/models';
-import Tag from 'app/components/Tags/Tag';
-import Tags from 'app/components/Tags';
 import Pinned from './Pinned';
 import EventItem from './EventItem';
 import ArticleItem from './ArticleItem';
 import Icon from 'app/components/Icon';
-import truncateString from 'app/utils/truncateString';
 import { Link } from 'react-router-dom';
 import NextEvent from './NextEvent';
 import Poll from 'app/components/Poll';
 import type { PollEntity } from 'app/reducers/polls';
 import RandomQuote from 'app/components/RandomQuote';
+import { renderMeta } from './utils';
 
 // import Banner, { COLORS } from 'app/components/Banner';
 
@@ -56,41 +52,6 @@ class Overview extends Component<Props, State> {
     return `/${item.eventType ? 'events' : 'articles'}/${item.id}`;
   };
 
-  renderMeta = (item: (Event | Article) & { documentType: string }) => {
-    const isEvent = item.eventType ? true : false;
-    return (
-      <span className={styles.itemInfo}>
-        <Time
-          time={isEvent ? item.startTime : item.createdAt}
-          format="DD.MM HH:mm"
-        />
-
-        {item.location !== '-' && isEvent && (
-          <span>
-            <span className={styles.dot}> . </span>
-            <span> {truncateString(item.location, 10)} </span>
-          </span>
-        )}
-
-        <span>
-          <span className={styles.dot}> . </span>
-          <span>
-            {' '}
-            {isEvent ? eventTypeToString(item.eventType) : 'Artikkel'}{' '}
-          </span>
-        </span>
-
-        {item.tags && item.tags.length > 0 && (
-          <Tags className={styles.tagline}>
-            {item.tags.slice(0, 3).map((tag) => (
-              <Tag className={styles.tag} tag={tag} key={tag} />
-            ))}
-          </Tags>
-        )}
-      </span>
-    );
-  };
-
   render() {
     const isEvent = (o) => typeof o['startTime'] !== 'undefined';
     const {
@@ -116,7 +77,7 @@ class Overview extends Component<Props, State> {
             <Pinned
               item={pinned}
               url={this.itemUrl(pinned)}
-              meta={this.renderMeta(pinned)}
+              meta={renderMeta(pinned)}
             />
           </div>
         )}
@@ -134,6 +95,7 @@ class Overview extends Component<Props, State> {
         <Link to="/events">
           <h3 className="u-ui-heading">Arrangementer</h3>
         </Link>
+
         <Flex className={styles.events}>
           {frontpage
             .filter((item) => item.documentType === 'event')
@@ -144,8 +106,9 @@ class Overview extends Component<Props, State> {
                 key={event.id}
                 item={event}
                 url={this.itemUrl(event)}
-                meta={this.renderMeta(event)}
+                meta={renderMeta(event)}
                 loggedIn={loggedIn}
+                isFrontPage={true}
               />
             ))}
         </Flex>
@@ -167,7 +130,7 @@ class Overview extends Component<Props, State> {
               key={weeklyArticle.id}
               item={weeklyArticle}
               url={this.itemUrl(weeklyArticle)}
-              meta={this.renderMeta(weeklyArticle)}
+              meta={renderMeta(weeklyArticle)}
               weekly
             />
           </>
@@ -190,7 +153,7 @@ class Overview extends Component<Props, State> {
                 key={article.id}
                 item={article}
                 url={this.itemUrl(article)}
-                meta={this.renderMeta(article)}
+                meta={renderMeta(article)}
               />
             ))}
         </Flex>

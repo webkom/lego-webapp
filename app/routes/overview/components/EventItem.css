@@ -17,6 +17,18 @@
   object-fit: cover;
   background: var(--color-white);
   height: 80px;
+  width: 390px;
+
+  @media (--mobile-device) {
+    height: auto;
+    width: 100%;
+  }
+}
+
+.imageFrontpage {
+  object-fit: cover;
+  background: var(--color-white);
+  height: 80px;
   width: 270px;
 
   @media (--mobile-device) {
@@ -50,6 +62,22 @@
 }
 
 .left {
+  composes: withShadow from '~app/styles/utilities.css';
+  background: var(--lego-card-color);
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 600;
+  width: 390px;
+  border-radius: 0 0 5px 5px;
+  color: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.8);
+
+  @media (--mobile-device) {
+    width: 100%;
+    border: none;
+  }
+}
+
+.leftFrontpage {
   composes: withShadow from '~app/styles/utilities.css';
   background: var(--lego-card-color);
   text-align: center;

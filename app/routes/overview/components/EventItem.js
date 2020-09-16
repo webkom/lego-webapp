@@ -15,23 +15,34 @@ type Props = {
   url: string,
   meta: Element<'span'> | null,
   loggedIn: boolean,
+  isFrontPage: boolean,
 };
 
 class EventItem extends Component<Props, *> {
   render() {
-    const { item, url, meta, loggedIn } = this.props;
+    const { item, url, meta, loggedIn, isFrontPage } = this.props;
     const info = eventStatus(item, loggedIn);
 
     return (
       <div className={styles.body}>
         <Link to={url} className={styles.link}>
           <Flex className={styles.wrapper}>
-            <Flex column className={styles.left}>
-              {item.cover && (
-                <Image className={styles.image} src={item.cover} />
-              )}
-              <span className={styles.info}>{info}</span>
-            </Flex>
+            {isFrontPage ? (
+              <Flex column className={styles.leftFrontpage}>
+                {item.cover && (
+                  <Image className={styles.imageFrontpage} src={item.cover} />
+                )}
+                <span className={styles.info}>{info}</span>
+              </Flex>
+            ) : (
+              <Flex column className={styles.left}>
+                {item.cover && (
+                  <Image className={styles.image} src={item.cover} />
+                )}
+                <span className={styles.info}>{info}</span>
+              </Flex>
+            )}
+
             <div
               className={styles.right}
               style={{
