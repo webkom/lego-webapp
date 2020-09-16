@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import { jobType, Year } from 'app/routes/joblistings/components/Items';
-import Icon from 'app/components/Icon';
+
 import moment from 'moment-timezone';
 import EventItem from 'app/routes/overview/components/EventItem';
 import { renderMeta } from 'app/routes/overview/components/utils';
@@ -66,12 +66,7 @@ class CompanyEvents extends React.Component<EventProps, *> {
   render() {
     const { viewOld } = this.state;
 
-    const {
-      loggedIn,
-      companyEvents,
-      showFetchMoreEvents,
-      fetchMoreEvents,
-    } = this.props;
+    const { loggedIn, companyEvents } = this.props;
 
     const sortedEvents = companyEvents.sort(
       (a, b) => new Date(b.startTime) - new Date(a.startTime)
@@ -113,23 +108,6 @@ class CompanyEvents extends React.Component<EventProps, *> {
           </tr>
           {viewOld && eventTable(oldEvents)}
         </table>
-        {viewOld && showFetchMoreEvents && (
-          <div
-            style={{
-              display: 'flex',
-              width: '100%',
-              marginTop: '10px',
-              justifyContent: 'center',
-            }}
-          >
-            <Icon
-              name="arrow-dropdown"
-              size={35}
-              onClick={fetchMoreEvents}
-              style={{ cursor: 'pointer' }}
-            />
-          </div>
-        )}
       </div>
     );
   }
