@@ -6,16 +6,18 @@ import Button from 'app/components/Button';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import styles from './PageEditor.css';
+import { normalizeObjectPermissions } from 'app/components/Form/ObjectPermissions';
 import {
   EditorField,
   TextInput,
   Form,
   withSubmissionError,
   SelectInput,
+  ObjectPermissions,
 } from 'app/components/Form';
 import ImageUpload from 'app/components/Upload/ImageUpload';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
-import { Field } from 'redux-form';
+import { Field, Fields } from 'redux-form';
 import { Content } from 'app/components/Content';
 import { get } from 'lodash';
 import { categoryOptions } from 'app/reducers/pages';
@@ -81,6 +83,7 @@ export default class PageEditor extends Component<Props, State> {
 
   onSubmit = (data: Page) => {
     const body = {
+      ...normalizeObjectPermissions(data),
       title: data.title,
       content: data.content,
       picture: undefined,
@@ -169,6 +172,15 @@ export default class PageEditor extends Component<Props, State> {
               {isNew ? 'Create' : 'Save'}
             </Button>
           </FlexRow>
+          <Fields
+            names={[
+              'requireAuth',
+              'canViewGroups',
+              'canEditUsers',
+              'canEditGroups',
+            ]}
+            component={ObjectPermissions}
+          />
 
           <Field
             placeholder="Write page content here..."
