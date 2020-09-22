@@ -304,15 +304,7 @@ steps:
       - touch /root/.ssh/known_hosts
       - chmod 600 /root/.ssh/known_hosts
       - ssh-keyscan -t rsa -H github.com > /etc/ssh/ssh_known_hosts 2> /dev/null
-      - cd /infra
-      - git init
-      # These commands just limit the folders we clone
-      # to the one relevant for this deployment
-      - git config core.sparsecheckout true
-      - echo lego >> .git/info/sparse-checkout
-      - echo global_secrets >> .git/info/sparse-checkout
-      - git remote add -f origin git@github.com:webkom/infrastructure.git
-      - git pull origin master
+      - git clone git@github.com:webkom/infrastructure.git /infra
     when:
       event:
         - promote
@@ -359,4 +351,4 @@ image_pull_secrets:
 
 ---
 kind: signature
-hmac: 44556c5c665d5efcd79cc87eeedc5f95d377f59d3c0b840135d67b28c6c8ab3b
+hmac: 03d20566aaf54ef93b3bb901d116da4884c41ae019f71ebdc3aa717d37eda20f
