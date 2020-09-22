@@ -34,8 +34,16 @@ const mapDispatchToProps = {
 };
 
 export default compose(
-  prepare(({ match: { params: { interestGroupId } } }, dispatch) =>
-    dispatch(fetchInterestGroup(Number(interestGroupId)))
+  prepare(
+    (
+      {
+        match: {
+          params: { interestGroupId },
+        },
+      },
+      dispatch
+    ) => dispatch(fetchInterestGroup(Number(interestGroupId))),
+    ['match.params.interestGroupId']
   ),
   connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['group'])
