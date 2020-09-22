@@ -30,10 +30,12 @@ class PasswordStrengthMeter extends Component<Props> {
     tips.push(zxcvbnValue.feedback.warning);
     tips = tips.map((tip) => passwordFeedbackMessages[tip]).filter(Boolean);
 
-    let crackTimeSec =
+    const crackTimeSec =
       zxcvbnValue.crack_times_seconds.offline_slow_hashing_1e4_per_second;
-    let crackTimeDuration = moment.duration(crackTimeSec, 'seconds').humanize();
-    let crackTime =
+    const crackTimeDuration = moment
+      .duration(crackTimeSec, 'seconds')
+      .humanize();
+    const crackTime =
       crackTimeSec > 2 ? crackTimeDuration : crackTimeSec + ' sekunder';
 
     return (
