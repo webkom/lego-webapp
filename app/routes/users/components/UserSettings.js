@@ -171,8 +171,9 @@ const UserSettings = (props: Props) => {
             })
           }
         >
+          <br />
           <h3>Informasjonskapsler:</h3>
-          <Button submit>Trekk consent</Button>
+          <Button submit>Trekk samtykke</Button>
         </Form>
       )}
     </div>
