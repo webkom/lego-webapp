@@ -18,16 +18,19 @@ const CookieConsenter = ({
   consentAction,
 }: Props) => {
   return (
-    <div className={styles.cookieBanner}>
-      <div className={styles.content}>
-        {content + ' '}
-        <NavigationLink to={'/' + link}>
-          <span className={styles.styledLink}>
-            Les mer <u>her</u>.
-          </span>
-        </NavigationLink>
+    <div>
+      <div className={styles.pageBlock}></div>
+      <div className={styles.cookieBanner}>
+        <div className={styles.content}>
+          {content + ' '}
+          <NavigationLink to={'/' + link}>
+            <span className={styles.styledLink}>
+              Les mer <u>her</u>.
+            </span>
+          </NavigationLink>
+        </div>
+        <Button onClick={consentAction}>{buttonText}</Button>
       </div>
-      <Button onClick={consentAction}>{buttonText}</Button>
     </div>
   );
 };
