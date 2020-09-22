@@ -10,6 +10,7 @@ import {
   loginAutomaticallyIfPossible,
   logoutWithRedirect,
   login,
+  updateUser,
 } from 'app/actions/UserActions';
 import {
   fetchNotificationData,
@@ -142,11 +143,22 @@ class App extends PureComponent<AppProps> {
 
           <PhotoUploadStatus />
 
-          <CookieConsent
-            content="Når du besøker abakus.no, installerer vi cookies som er nødvendig for at du skal kunne benytte deg av nettsidene våre."
-            buttonText="Jeg godtar"
-            link="pages/personvern/114-informasjonskapsler"
-          />
+          {this.props.loggedIn && !this.props.currentUser.cookieConsent && (
+            <CookieConsent
+              content="Når du besøker abakus.no, installerer vi cookies som er nødvendig for at du skal kunne benytte deg av nettsidene våre."
+              buttonText="Jeg godtar"
+              link="pages/personvern/114-informasjonskapsler"
+              consentAction={() =>
+                this.props.updateUser(
+                  {
+                    ...this.props.currentUser,
+                    cookieConsent: true,
+                  },
+                  { noRedirect: true }
+                )
+              }
+            />
+          )}
 
           <Footer {...this.props} />
         </SpecialDay>
@@ -177,6 +189,7 @@ const mapDispatchToProps = {
   fetchNotificationData,
   setStatusCode,
   loginAutomaticallyIfPossible,
+  updateUser,
 };
 
 function fetchInitialOnServer(props, dispatch) {

@@ -44,6 +44,7 @@ const UserSettings = (props: Props) => {
     pristine,
     submitting,
     updatePicture,
+    updateUser,
     removePicture,
     push,
     user,
@@ -159,6 +160,20 @@ const UserSettings = (props: Props) => {
           <h2>Endre passord</h2>
           <ChangePassword push={push} changePassword={changePassword} />
         </div>
+      )}
+
+      {user.cookieConsent && (
+        <Form
+          onSubmit={() =>
+            updateUser({
+              ...user,
+              cookieConsent: false,
+            })
+          }
+        >
+          <h3>Informasjonskapsler:</h3>
+          <Button submit>Trekk consent</Button>
+        </Form>
       )}
     </div>
   );

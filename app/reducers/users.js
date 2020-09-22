@@ -19,6 +19,7 @@ export type UserEntity = {
   profilePicture: string,
   emailListsEnabled?: boolean,
   selectedTheme: string,
+  cookieConsent: boolean,
 };
 
 type State = any;

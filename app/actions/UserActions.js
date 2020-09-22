@@ -117,6 +117,7 @@ export function updateUser(
     isAbakusMember,
     emailListsEnabled,
     selectedTheme,
+    cookieConsent,
   } = user;
 
   return (dispatch) =>
@@ -133,6 +134,7 @@ export function updateUser(
           gender,
           allergies,
           selectedTheme,
+          cookieConsent,
           isAbakusMember,
           emailListsEnabled,
           ...(options.updateProfilePicture ? { profilePicture } : null),

@@ -1,7 +1,26 @@
-a {
-  color: white;
+@import '~app/styles/variables.css';
+
+.styledLink {
+  font-size: 20px;
+  color: var(--color-white);
 }
 
-span {
-  font-size: 16px;
+.cookieBanner {
+  position: fixed;
+  bottom: 40px;
+  left: 5%;
+  right: 5%;
+  width: 90%;
+  padding: 14px 25px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--color-red-3);
+  color: var(--color-white);
+  border-radius: 5px;
+  box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
+}
+
+.content {
+  font-size: 20px;
 }

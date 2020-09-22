@@ -1,30 +1,34 @@
 // @flow
-
 import React from 'react';
-import './index.css';
+import styles from './index.css';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
-import CookieConsent from 'react-cookie-consent';
+import Button from 'app/components/Button';
 
 type Props = {
   content: string,
   link: string,
   buttonText?: string,
+  consentAction: any,
 };
 
-const CookieConsenter = ({ content, buttonText, link }: Props) => {
+const CookieConsenter = ({
+  content,
+  buttonText,
+  link,
+  consentAction,
+}: Props) => {
   return (
-    <CookieConsent
-      style={{ background: '#bc1818' }}
-      buttonStyle={{ background: 'white', borderRadius: '5px' }}
-      buttonText={buttonText}
-    >
-      {content + ' '}
-      <NavigationLink to={'/' + link}>
-        <span>
-          Les mer <u>her</u>.
-        </span>
-      </NavigationLink>
-    </CookieConsent>
+    <div className={styles.cookieBanner}>
+      <div className={styles.content}>
+        {content + ' '}
+        <NavigationLink to={'/' + link}>
+          <span className={styles.styledLink}>
+            Les mer <u>her</u>.
+          </span>
+        </NavigationLink>
+      </div>
+      <Button onClick={consentAction}>{buttonText}</Button>
+    </div>
   );
 };
 
