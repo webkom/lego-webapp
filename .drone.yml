@@ -290,8 +290,8 @@ steps:
   - name: clone_infra
     image: alpine/git
     volumes:
-      - name: infra
-        path: /infra
+      - name: infrastructure
+        path: /infrastructure
     environment:
       INFRA_SSH_KEY:
         from_secret: infra_deploy_key
@@ -304,7 +304,7 @@ steps:
       - touch /root/.ssh/known_hosts
       - chmod 600 /root/.ssh/known_hosts
       - ssh-keyscan -t rsa -H github.com > /etc/ssh/ssh_known_hosts 2> /dev/null
-      - git clone git@github.com:webkom/infrastructure.git /infra
+      - git clone git@github.com:webkom/infrastructure.git /infrastructure
     when:
       event:
         - promote
@@ -316,15 +316,15 @@ steps:
   - name: Deploy
     image: plugins/ansible
     volumes:
-      - name: infra
-        path: /infra
+      - name: infrastructure
+        path: /infrastructure
     settings:
-      playbook: /infra/lego/playbooks/deploy.yml
+      playbook: /infrastructure/lego/playbooks/deploy.yml
       tags:
         - webapp
       # This is the same tag as the docker step above
       extra_vars: webapp_version=${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:7}
-      inventory: /infra/lego/${DRONE_DEPLOY_TO}
+      inventory: /infrastructure/lego/${DRONE_DEPLOY_TO}
       vault_password:
         from_secret: ansible_vault_password
       private_key:
@@ -343,7 +343,7 @@ volumes:
   - name: yarn_cache
     host:
       path: /tmp/drone-cache/yarn
-  - name: infra
+  - name: infrastructure
     temp: {}
 
 image_pull_secrets:
@@ -351,4 +351,4 @@ image_pull_secrets:
 
 ---
 kind: signature
-hmac: 03d20566aaf54ef93b3bb901d116da4884c41ae019f71ebdc3aa717d37eda20f
+hmac: 0cfd195dbd86de598289a8ec09d336b20792889eb7095c4e78a42b5ef789732d
