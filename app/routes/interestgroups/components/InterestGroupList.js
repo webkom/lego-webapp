@@ -37,7 +37,9 @@ const InterestGroupList = ({ actionGrant, interestGroups }: Props) => {
         </div>
       </div>
       <div className="groups">
-        {interestGroups.map((group) => (
+        {interestGroups
+        .sort((obj1, obj2) => obj1.name.localeCompare(obj2.name))
+        .map((group) => (
           <InterestGroupComponent group={group} key={group.id} />
         ))}
       </div>
