@@ -39,9 +39,13 @@ export const EVENT_TYPES = {
     norwegian: 'Faglig arrangement',
     english: 'Course or workshop',
   },
+  digital_presentation: {
+    norwegian: 'Digital presentasjon',
+    english: 'Digital presentation',
+  },
   bedex: {
-    norwegian: 'Bedex',
-    english: 'BedEx',
+    norwegian: 'BedEx (vinter 2021)',
+    english: 'BedEx (winter 2021)',
   },
   other: {
     norwegian: 'Alternativt arrangement',
