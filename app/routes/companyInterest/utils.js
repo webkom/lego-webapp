@@ -73,6 +73,6 @@ export const interestText = {
     norwegian:
       '«Husk å ranger datoer og gruppestørrelse dersom du har huket av for BedEx (vinter 2021)»',
     english:
-      '«Remeber to rank dates and groupsize if you have checked BedEx (winter 2021)»',
+      '«Remember to rank dates and groupsize if you have checked BedEx (winter 2021)»',
   },
 };
