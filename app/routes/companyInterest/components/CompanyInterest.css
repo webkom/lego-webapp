@@ -61,7 +61,7 @@
 }
 
 .mainHeading {
-  color: var(--color-gray-1);
+  color: var(--lego-font-color);
   letter-spacing: 2px;
   text-transform: uppercase;
   font-size: 25px;
@@ -74,7 +74,7 @@
 }
 
 .heading {
-  color: var(--color-gray-1);
+  color: var(--lego-font-color);
   letter-spacing: 2px;
   font-weight: 400;
   text-transform: uppercase;
