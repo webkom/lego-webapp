@@ -1870,6 +1870,14 @@
     slate-hyperscript "^0.56.0"
     slate-react "^0.56.0"
 
+"@webkom/react-meter-bar@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@webkom/react-meter-bar/-/react-meter-bar-1.0.3.tgz#cf21ac7ae4f9524fe84567e1d5929082968641eb"
+  integrity sha512-tF5Ohd5MoyKSAK4xj6ekV4tmprNoPCdXsL6+6GoyC/89vjDCXsz46+xUKebDvWnvTy/TJ/d3LrLpZ/b5o6o/ow==
+  dependencies:
+    react "^16.4.0"
+    react-dom "^16.4.0"
+
 "@webkom/react-prepare@0.7.0":
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/@webkom/react-prepare/-/react-prepare-0.7.0.tgz#8fee300cec6f5d169de49be83b35b7356ede34ac"
@@ -10307,6 +10315,16 @@ react-docgen@^5.0.0:
     node-dir "^0.1.10"
     strip-indent "^3.0.0"
 
+react-dom@^16.4.0:
+  version "16.13.1"
+  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.13.1.tgz#c1bd37331a0486c078ee54c4740720993b2e0e7f"
+  integrity sha512-81PIMmVLnCNLO/fFOQxdQkvEq/+Hfpv24XNJfpyZhTRfO0QcmQIF/PgCa1zCOj2w1hrn12MFLyaJ/G0+Mxtfag==
+  dependencies:
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
+    prop-types "^15.6.2"
+    scheduler "^0.19.1"
+
 "react-dom@npm:@hot-loader/react-dom@^16.8.6":
   version "16.13.0"
   resolved "https://registry.yarnpkg.com/@hot-loader/react-dom/-/react-dom-16.13.0.tgz#de245b42358110baf80aaf47a0592153d4047997"
@@ -10689,7 +10707,7 @@ react-youtube@^7.9.0:
     prop-types "15.7.2"
     youtube-player "5.5.2"
 
-react@^16.8.6:
+react@^16.4.0, react@^16.8.6:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react/-/react-16.13.1.tgz#2e818822f1a9743122c063d6410d85c1e3afe48e"
   integrity sha512-YMZQQq32xHLX0bz5Mnibv1/LHb3Sqzngu7xstSM+vrkE5Kzr9xE0yMByK5kMoTK30YVJE61WfbxIFFvfeDKT1w==
@@ -13673,3 +13691,8 @@ youtube-player@5.5.2:
     debug "^2.6.6"
     load-script "^1.0.0"
     sister "^3.0.0"
+
+zxcvbn@^4.4.2:
+  version "4.4.2"
+  resolved "https://registry.yarnpkg.com/zxcvbn/-/zxcvbn-4.4.2.tgz#28ec17cf09743edcab056ddd8b1b06262cc73c30"
+  integrity sha1-KOwXzwl0PtyrBW3dixsGJizHPDA=

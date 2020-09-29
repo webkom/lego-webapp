@@ -13,10 +13,18 @@ import {
 } from 'app/components/Form';
 import { Field } from 'redux-form';
 import { Link } from 'react-router-dom';
-import { createValidator, required, validPassword } from 'app/utils/validation';
+import {
+  createValidator,
+  required,
+  validPassword,
+  sameAs,
+} from 'app/utils/validation';
+import PasswordField from './PasswordField';
+import { type UserEntity } from 'app/reducers/users';
 
 type Props = {
   token: string,
+  user: UserEntity,
   handleSubmit: (Function) => void,
   createUser: (token: string, data: Object) => void,
   router: any,
@@ -25,6 +33,7 @@ type Props = {
 
 const UserConfirmation = ({
   token,
+  user,
   handleSubmit,
   createUser,
   router,
@@ -75,11 +84,11 @@ const UserConfirmation = ({
             label="Brukernavn"
             component={TextInput.Field}
           />
+          <PasswordField user={user} />
           <Field
-            name="password"
+            label="Passord (gjenta)"
+            name="retypePassword"
             type="password"
-            placeholder="Passord"
-            label="Passord"
             component={TextInput.Field}
           />
           <Field
@@ -132,6 +141,7 @@ const UserConfirmation = ({
 const validate = createValidator({
   username: [required()],
   password: [required(), validPassword()],
+  retypePassword: [required(), sameAs('password', 'Passordene er ikke like')],
   gender: [required()],
 });
 

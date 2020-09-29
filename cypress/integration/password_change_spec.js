@@ -8,8 +8,7 @@ describe('Change password', () => {
 
   const password = 'Webkom123';
   const newPassword = 'Abakus123';
-  const weakPassword = '123';
-  const weakServerPassword = 'Testing123';
+  const weakPassword = 'Testing123';
 
   it('Can change password', () => {
     cy.visit('/users/me/settings/profile');
@@ -37,16 +36,14 @@ describe('Change password', () => {
     fieldError('newPassword').should('exist');
     cy.contains('Change Password').should('be.disabled');
 
-    field('newPassword').clear().type(weakServerPassword).blur();
+    field('newPassword').clear().type(newPassword).blur();
     field('retypeNewPassword').clear().type(weakPassword).blur();
-    fieldError('newPassword').should('not.exist');
     fieldError('retypeNewPassword').should('contain', 'ikke like');
     cy.contains('Change Password').should('be.disabled');
 
-    field('retypeNewPassword').clear().type(weakServerPassword).blur();
+    field('newPassword').clear().type(weakPassword).blur();
+    fieldError('newPassword').should('contain', 'for svakt');
     fieldError('retypeNewPassword').should('not.exist');
-    cy.contains('Change Password').should('not.be.disabled').click();
-    fieldError('newPassword').should('contain', 'too common');
     cy.contains('Change Password').should('be.disabled');
 
     field('password').clear().type('this is not my password').blur();
