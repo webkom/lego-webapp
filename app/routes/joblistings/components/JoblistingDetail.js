@@ -17,6 +17,7 @@ import {
 import { jobType, Year, Workplaces } from './Items';
 import Time from 'app/components/Time';
 import type { ID } from 'app/models';
+import Helmet from 'react-helmet';
 
 type Props = {
   joblisting: Object,
@@ -67,6 +68,7 @@ const JoblistingDetail = ({
       banner={joblisting.company.logo}
       youtubeUrl={joblisting.youtubeUrl}
     >
+      <Helmet title={joblisting.title} />
       <ContentHeader>{joblisting.title}</ContentHeader>
       <ContentSection>
         <ContentMain>
