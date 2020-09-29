@@ -18,6 +18,7 @@ type Props = {
   }) => Promise<*>,
   deleteReaction: ({ reactionId: ID, contentTarget: string }) => Promise<*>,
   hasReacted: boolean,
+  canReact: boolean,
   reactionId: ID,
   contentTarget: string,
 };
@@ -34,10 +35,11 @@ class Reaction extends React.Component<Props> {
       addReaction,
       deleteReaction,
       hasReacted,
+      canReact,
       reactionId,
       contentTarget,
     }: Props = this.props;
-    const classes = [className ? className : styles.reaction];
+    const classes = [className ? className : styles.reaction + (canReact ? " "+styles.clickable : "")];
 
     if (hasReacted) {
       classes.push(styles.reacted);
@@ -52,14 +54,14 @@ class Reaction extends React.Component<Props> {
         <Tooltip content={emoji}>
           <div
             className={classNames(classes)}
-            onClick={() =>
+            onClick={canReact ? () =>
               hasReacted
                 ? deleteReaction({ reactionId, contentTarget: contentTarget })
                 : addReaction({
                     emoji,
                     contentTarget,
                     unicodeString,
-                  })
+                  }) : null
             }
           >
             <div className={styles.reactionIcon}>

@@ -59,6 +59,7 @@ export default class Quote extends Component<Props, State> {
       deleteReaction,
       fetchEmojis,
       fetchingEmojis,
+      loggedIn,
     } = this.props;
 
     let mappedEmojis = [];
@@ -197,6 +198,7 @@ export default class Quote extends Component<Props, State> {
             addReaction={addReaction}
             deleteReaction={deleteReaction}
             contentTarget={quote.contentTarget}
+            loggedIn={loggedIn}
           >
             {quote.reactionsGrouped.map((reaction) => {
               return (
@@ -207,6 +209,7 @@ export default class Quote extends Component<Props, State> {
                   unicodeString={reaction.unicodeString}
                   reactionId={reaction.reactionId}
                   hasReacted={reaction.hasReacted}
+                  canReact={loggedIn}
                   addReaction={addReaction}
                   deleteReaction={deleteReaction}
                   contentTarget={quote.contentTarget}

@@ -89,6 +89,7 @@ const ArticleDetail = ({
           addReaction={addReaction}
           deleteReaction={deleteReaction}
           parentEntity={article}
+          loggedIn={loggedIn}
         />
       </div>
 

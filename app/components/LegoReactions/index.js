@@ -16,6 +16,7 @@ type Props = {
   fetchingEmojis: boolean,
   emojis: Array<EmojiEntity>,
   parentEntity: Object,
+  loggedIn: boolean,
 };
 
 const LegoReactions = (props: Props) => {
@@ -26,6 +27,7 @@ const LegoReactions = (props: Props) => {
     fetchEmojis,
     fetchingEmojis,
     parentEntity,
+    loggedIn,
   } = props;
 
   let mappedEmojis = [];
@@ -52,6 +54,7 @@ const LegoReactions = (props: Props) => {
       addReaction={addReaction}
       deleteReaction={deleteReaction}
       contentTarget={parentEntity.contentTarget}
+      loggedIn={loggedIn}
     >
       {parentEntity.reactionsGrouped.map((reaction) => {
         return (
@@ -62,6 +65,7 @@ const LegoReactions = (props: Props) => {
             unicodeString={reaction.unicodeString}
             reactionId={reaction.reactionId}
             hasReacted={reaction.hasReacted}
+            canReact={loggedIn}
             addReaction={addReaction}
             deleteReaction={deleteReaction}
             contentTarget={parentEntity.contentTarget}
