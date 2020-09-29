@@ -4,7 +4,7 @@
   display: inline-block;
   white-space: nowrap;
   vertical-align: middle;
-  overflow: auto;
+  overflow: hidden;
   height: 28px;
   width: 340px;
   margin: 0;
