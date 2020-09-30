@@ -30,6 +30,8 @@ import cx from 'classnames';
 import HTTPError from '../errors/HTTPError';
 import { setStatusCode } from 'app/actions/RoutingActions';
 import config from 'app/config';
+import moment from 'moment-timezone';
+import { fetchAll as fetchMeetings } from 'app/actions/MeetingActions';
 import coverPhoto from 'app/assets/cover.png';
 
 type Props = {
@@ -128,6 +130,7 @@ class App extends PureComponent<AppProps> {
             notifications={this.props.notifications}
             markAllNotifications={this.props.markAllNotifications}
             fetchNotificationData={this.props.fetchNotificationData}
+            upcomingMeeting={this.props.upcomingMeeting}
           />
           <AppChildren
             currentUser={this.props.currentUser}
@@ -149,6 +152,12 @@ class App extends PureComponent<AppProps> {
 }
 
 function mapStateToProps(state) {
+  const upcomingMeetings = Object.values(state.meetings.byId)
+    .filter((meeting: any) => moment(meeting.startTime).isAfter(moment()))
+    .sort((meetingA: any, meetingB: any) =>
+      moment(meetingA.startTime).isAfter(moment(meetingB.startTime))
+    )
+    .map((meeting: any) => meeting.id);
   return {
     searchOpen: state.search.open,
     currentUser: selectCurrentUser(state),
@@ -158,6 +167,7 @@ function mapStateToProps(state) {
       feedId: 'notifications',
     }),
     statusCode: state.router.statusCode,
+    upcomingMeeting: upcomingMeetings.length ? upcomingMeetings[0] : undefined,
   };
 }
 
@@ -188,5 +198,17 @@ export default compose(
     componentWillReceiveProps: false,
   }),
   prepare((props, dispatch) => dispatch(fetchNotificationData())),
+  prepare((props, dispatch) =>
+    dispatch((dispatch, getState) => {
+      if (!selectIsLoggedIn(getState())) {
+        return Promise.resolve();
+      }
+      return dispatch(
+        fetchMeetings({
+          dateAfter: moment().format('YYYY-MM-DD'),
+        })
+      );
+    })
+  ),
   connect(mapStateToProps, mapDispatchToProps)
 )(App);
