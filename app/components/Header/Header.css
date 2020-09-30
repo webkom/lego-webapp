@@ -178,3 +178,12 @@ html[data-theme='light'] .logoLightMode {
 html[data-theme='dark'] .logoDarkMode {
   display: block;
 }
+
+html[data-theme='dark'] .meetingIcon {
+  color: var(--color-light-gray-5);
+  transition: color 0.1s;
+
+  &:hover {
+    color: var(--color-gray-5);
+  }
+}

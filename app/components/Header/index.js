@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, withRouter } from 'react-router-dom';
 import { Modal } from 'react-overlays';
 import Dropdown from '../Dropdown';
 import Icon from '../Icon';
@@ -36,6 +36,7 @@ type Props = {
   notifications: Array<Object>,
   markAllNotifications: () => Promise<void>,
   fetchNotificationData: () => Promise<void>,
+  upcomingMeeting: string,
 };
 
 type State = {
@@ -137,6 +138,17 @@ class Header extends Component<Props, State> {
         break;
     }
 
+    const MeetingButton = withRouter(({ history }) => (
+      <button
+        type="button"
+        onClick={() => {
+          history.push(`/meetings/${this.props.upcomingMeeting}`);
+        }}
+      >
+        <Icon name="calendar" className={styles.meetingIcon} />
+      </button>
+    ));
+
     return (
       <header className={styles.header}>
         <FancyNodesCanvas height={300} />
@@ -185,6 +197,8 @@ class Header extends Component<Props, State> {
                   fetchNotificationData={this.props.fetchNotificationData}
                 />
               )}
+
+              {loggedIn && this.props.upcomingMeeting && <MeetingButton />}
 
               {loggedIn && (
                 <Dropdown
