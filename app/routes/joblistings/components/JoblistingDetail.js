@@ -53,6 +53,11 @@ const JoblistingDetail = ({
       <Time time={joblisting.deadline} format="ll HH:mm" />
     </strong>
   );
+  const createdAt = (
+    <strong>
+      <Time time={joblisting.createdAt} format="ll HH:mm" />
+    </strong>
+  );
 
   const canEdit = actionGrant.includes('edit');
   const canDelete = actionGrant.includes('delete');
@@ -75,12 +80,13 @@ const JoblistingDetail = ({
               { key: 'Type', value: jobType(joblisting.jobType) },
               { key: 'Bedrift', value: companyLink },
               { key: 'Klassetrinn', value: <Year joblisting={joblisting} /> },
-              {
+              joblisting.workplaces.length && {
                 key: 'Sted',
                 value: <Workplaces places={joblisting.workplaces} />,
               },
               { key: 'Søknadsfrist', value: deadline },
-            ]}
+              { key: 'Publisert', value: createdAt },
+            ].filter(Boolean)}
           />
           {joblisting.applicationUrl && (
             <a href={joblisting.applicationUrl} style={{ marginTop: '10px' }}>
