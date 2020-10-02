@@ -119,12 +119,17 @@ class Reactions extends React.Component<Props, State> {
           {children}
           {loggedIn && (
             <div
-              className={classNames(reactionStyles.reaction, styles.addReaction)}
+              className={classNames(
+                reactionStyles.reaction,
+                styles.addReaction
+              )}
               onClick={this.toggleReactionPicker}
               onMouseEnter={this.onAddEmojiEnter}
               onMouseLeave={this.onAddEmojiLeave}
             >
-              <AddReactionEmoji color={addEmojiHovered ? '#E20D13' : '#F7A4A6'} />
+              <AddReactionEmoji
+                color={addEmojiHovered ? '#E20D13' : '#F7A4A6'}
+              />
             </div>
           )}
         </div>
