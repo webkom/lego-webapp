@@ -21,6 +21,7 @@ type Props = {
   deleteReaction: ({ reactionId: ID, contentTarget: string }) => Promise<*>,
   fetchEmojis: () => Promise<*>,
   contentTarget: string,
+  loggedIn: boolean,
 };
 
 type State = {
@@ -100,6 +101,7 @@ class Reactions extends React.Component<Props, State> {
       addReaction,
       deleteReaction,
       contentTarget,
+      loggedIn,
     } = this.props;
     const { reactionPickerOpen, addEmojiHovered } = this.state;
     return (
@@ -115,14 +117,21 @@ class Reactions extends React.Component<Props, State> {
           onMouseLeave={this.onMouseLeave}
         >
           {children}
-          <div
-            className={classNames(reactionStyles.reaction, styles.addReaction)}
-            onClick={this.toggleReactionPicker}
-            onMouseEnter={this.onAddEmojiEnter}
-            onMouseLeave={this.onAddEmojiLeave}
-          >
-            <AddReactionEmoji color={addEmojiHovered ? '#E20D13' : '#F7A4A6'} />
-          </div>
+          {loggedIn && (
+            <div
+              className={classNames(
+                reactionStyles.reaction,
+                styles.addReaction
+              )}
+              onClick={this.toggleReactionPicker}
+              onMouseEnter={this.onAddEmojiEnter}
+              onMouseLeave={this.onAddEmojiLeave}
+            >
+              <AddReactionEmoji
+                color={addEmojiHovered ? '#E20D13' : '#F7A4A6'}
+              />
+            </div>
+          )}
         </div>
         {reactionPickerOpen && (
           <div className={styles.reactionPickerContainer}>

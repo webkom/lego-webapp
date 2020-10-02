@@ -23,6 +23,7 @@ type Props = {
   fetchingEmojis: boolean,
   emojis: Array<EmojiEntity>,
   currentQuote: QuoteEntity,
+  loggedIn: boolean,
 };
 
 const RandomQuote = (props: Props) => {
@@ -34,6 +35,7 @@ const RandomQuote = (props: Props) => {
     fetchEmojis,
     fetchingEmojis,
     currentQuote,
+    loggedIn,
   } = props;
 
   const seenQuotes = useRef([]);
@@ -75,6 +77,7 @@ const RandomQuote = (props: Props) => {
           addReaction={addReaction}
           deleteReaction={deleteReaction}
           parentEntity={currentQuote}
+          loggedIn={loggedIn}
         />
       </div>
     </div>
