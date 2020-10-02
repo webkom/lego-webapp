@@ -72,6 +72,7 @@ type State = {
   order: {
     deadline: boolean,
     company: boolean,
+    createdAt: boolean,
   },
   displayOptions: boolean,
 };
@@ -86,6 +87,7 @@ export default class JoblistingsRightNav extends Component<Props, State> {
     order: {
       deadline: true,
       company: false,
+      createdAt: false,
     },
     displayOptions: true,
   };
@@ -113,6 +115,7 @@ export default class JoblistingsRightNav extends Component<Props, State> {
         deadline:
           query.order === 'deadline' || !Object.keys(query).includes('order'),
         company: query.order === 'company',
+        createdAt: query.order === 'createdAt',
       },
     });
   };
@@ -195,6 +198,25 @@ export default class JoblistingsRightNav extends Component<Props, State> {
                   }}
                 />
                 Bedrift
+              </label>
+            </Flex>
+            <Flex>
+              <label style={{ cursor: 'pointer' }}>
+                <RadioButton
+                  name="sort"
+                  id="createdAt"
+                  inputValue={true}
+                  value={this.state.order.createdAt}
+                  onChange={() => {
+                    this.props.history.push({
+                      pathname: '/joblistings',
+                      search: qs.stringify(
+                        this.handleQuery('order', 'createdAt')
+                      ),
+                    });
+                  }}
+                />
+                Publisert
               </label>
             </Flex>
           </Flex>

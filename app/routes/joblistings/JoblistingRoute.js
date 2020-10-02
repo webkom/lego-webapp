@@ -36,16 +36,26 @@ function filterJoblistings(joblistings, grades, jobTypes, workplaces) {
   });
 }
 
-const dateSort = (a, b) => {
-  const date1 = moment(a.deadline);
-  const date2 = moment(b.deadline);
-  return date1.isAfter(date2) ? 1 : -1;
+const dateSort = (field, reverse = false) => (a, b) => {
+  const date1 = moment(a[field]);
+  const date2 = moment(b[field]);
+  return (reverse ? -1 : 1) * (date1 - date2);
 };
 
 const companySort = (a, b) => a.company.name.localeCompare(b.company.name);
 
 const sortJoblistings = (joblistings, sortType) => {
-  return joblistings.sort(sortType === 'company' ? companySort : dateSort);
+  const sorter = (() => {
+    switch (sortType) {
+      case 'company':
+        return companySort;
+      case 'deadline':
+        return dateSort('deadline');
+      case 'createdAt':
+        return dateSort('createdAt', -1);
+    }
+  })();
+  return joblistings.sort(sorter);
 };
 
 const mapStateToProps = (state, props) => {
