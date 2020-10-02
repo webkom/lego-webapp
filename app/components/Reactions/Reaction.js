@@ -41,7 +41,7 @@ class Reaction extends React.Component<Props> {
     }: Props = this.props;
     const classes = [
       className ? className : styles.reaction,
-      ...(canReact ? [styles.clickable] : []),
+      canReact && styles.clickable,
     ];
 
     if (hasReacted) {
