@@ -39,7 +39,7 @@ class Reaction extends React.Component<Props> {
       reactionId,
       contentTarget,
     }: Props = this.props;
-    const classes = [className ? className : styles.reaction + (canReact ? " "+styles.clickable : "")];
+    const classes = [className ? className : styles.reaction, ...(canReact ? [styles.clickable] : [])];
 
     if (hasReacted) {
       classes.push(styles.reacted);
