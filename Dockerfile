@@ -1,4 +1,4 @@
-FROM node:11 as builder
+FROM node:12 as builder
 
 WORKDIR /app/
 COPY . /app
@@ -39,7 +39,7 @@ RUN sentry-cli releases finalize ${RELEASE}
 RUN sentry-cli releases deploys ${RELEASE} new -e "staging"
 RUN sentry-cli releases deploys ${RELEASE} new -e "production"
 
-FROM node:11
+FROM node:12
 WORKDIR /app/
 
 ARG RELEASE
