@@ -37,9 +37,12 @@ const InterestGroupList = ({ actionGrant, interestGroups }: Props) => {
         </div>
       </div>
       <div className="groups">
-        {interestGroups.map((group) => (
-          <InterestGroupComponent group={group} key={group.id} />
-        ))}
+        {/* Sorts interest groups in alphabetical order. Sorting using localeCompare will fail to sort ÆØÅ correctly. Use spread operator to do sorting not in-place*/}
+        {[...interestGroups]
+          .sort((obj1, obj2) => obj1.name.localeCompare(obj2.name))
+          .map((group) => (
+            <InterestGroupComponent group={group} key={group.id} />
+          ))}
       </div>
     </Content>
   );
