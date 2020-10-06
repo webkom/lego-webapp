@@ -48,3 +48,14 @@ html[data-theme='dark'] .footer {
   width: 40px;
   height: auto;
 }
+
+.cookiesDiv {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.cookiesBox {
+  justify-content: center;
+  color: var(--color-grey);
+}

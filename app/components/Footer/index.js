@@ -9,6 +9,7 @@ import netcompany from 'app/assets/netcompany_white.svg';
 import Octocat from 'app/assets/Octocat.png';
 import Icon from 'app/components/Icon';
 import styles from './Footer.css';
+import moment from 'moment-timezone';
 
 type Props = {
   loggedIn: boolean,
@@ -29,11 +30,9 @@ const Footer = (props: Props) => (
             </a>
             <h2>LEGO</h2>
             <p>
-              Velkommen til LEGO, Abakus sin open-source nettside. Webkom har
-              arbeidet lenge med denne siden, og håper den faller i smak. Er du
-              interessert i hvordan LEGO fungerer, eller vil du rapportere en
-              bug, kan du gå inn på vår GitHub. Her tar vi gjerne imot issues og
-              pull-requests.
+              Er du interessert i hvordan LEGO fungerer, eller vil du rapportere
+              en bug, kan du gå inn på vår GitHub. Her tar vi gjerne imot issues
+              og pull-requests.
               <br />
               <a
                 href="https://github.com/webkom/lego-webapp"
@@ -75,6 +74,14 @@ const Footer = (props: Props) => (
           className={cx(styles.cooperator, hiddenOnDesktop)}
           src={netcompany}
         />
+        <div className={styles.cookiesDiv}>
+          <p className={styles.cookiesBox}>
+            © {moment().year()} Abakus | {}
+            <a href="https://abakus.no/pages/personvern/114-informasjonskapsler">
+              Informasjonskapsler (cookies)
+            </a>
+          </p>
+        </div>
       </Flex>
     </div>
   </footer>
