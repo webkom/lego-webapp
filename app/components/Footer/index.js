@@ -11,7 +11,7 @@ import Icon from 'app/components/Icon';
 import styles from './Footer.css';
 
 type Props = {
-  loggedIn: boolean
+  loggedIn: boolean,
 };
 
 const Footer = (props: Props) => (
@@ -76,9 +76,7 @@ const Footer = (props: Props) => (
         <div class={styles.cookiesDiv}>
           <p class={styles.cookiesBox}>
             © 2020 Abakus | {}
-            <a
-              href="https://abakus.no/pages/personvern/114-informasjonskapsler"
-            >
+            <a href="https://abakus.no/pages/personvern/114-informasjonskapsler">
               Informasjonskapsler (cookies)
             </a>
           </p>
