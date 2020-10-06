@@ -9,6 +9,7 @@ import netcompany from 'app/assets/netcompany_white.svg';
 import Octocat from 'app/assets/Octocat.png';
 import Icon from 'app/components/Icon';
 import styles from './Footer.css';
+import moment from 'moment-timezone';
 
 type Props = {
   loggedIn: boolean,
@@ -73,9 +74,9 @@ const Footer = (props: Props) => (
           className={cx(styles.cooperator, hiddenOnDesktop)}
           src={netcompany}
         />
-        <div class={styles.cookiesDiv}>
-          <p class={styles.cookiesBox}>
-            © 2020 Abakus | {}
+        <div className={styles.cookiesDiv}>
+          <p className={styles.cookiesBox}>
+            © {moment().year()} Abakus | {}
             <a href="https://abakus.no/pages/personvern/114-informasjonskapsler">
               Informasjonskapsler (cookies)
             </a>
