@@ -99,7 +99,7 @@ class EventList extends Component<EventListProps, State> {
   };
 
   handleChange = (selectedOption: Option): void => {
-    this.setState({ selectedOption });
+    if (selectedOption !== null) this.setState({ selectedOption });
   };
 
   render() {
