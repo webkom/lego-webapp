@@ -394,6 +394,18 @@ function EventEditor({
                 />
               </Tooltip>
             )}
+            {['NORMAL', 'INFINITE'].includes(event.eventStatusType) && (
+              <Tooltip content="Navn og epost kan deles med folk utenfor Abakus til smittesporing">
+                <Field
+                  label="Informasjon kan deles til smittesporing"
+                  name="shareInfoFlag"
+                  component={CheckBox.Field}
+                  fieldClassName={styles.metaField}
+                  className={styles.formField}
+                  normalize={(v) => !!v}
+                />
+              </Tooltip>
+            )}
             {['NORMAL', 'INFINITE', 'OPEN'].includes(event.eventStatusType) &&
               event.feedbackRequired && (
                 <div className={styles.subSection}>

@@ -66,6 +66,7 @@ const eventCreateAndUpdateFields = [
   'heedPenalties',
   'isAbakomOnly',
   'useConsent',
+  'shareInfoFlag',
 ];
 
 // Pool fields that should be created or updated based on the API
