@@ -42,11 +42,11 @@ export const EVENT_TYPES = {
   digital_presentation: {
     norwegian: 'Digital presentasjon',
     english: 'Digital presentation',
-  },
+  } /*
   bedex: {
     norwegian: 'BedEx (vinter 2021)',
     english: 'BedEx (winter 2021)',
-  },
+  },*/,
   other: {
     norwegian: 'Alternativt arrangement',
     english: 'Other event',
@@ -376,9 +376,10 @@ const CompanyInterestPage = (props: Props) => {
           <br />
           <br />
           {interestText.text.second[language]}
+          {/*
           <br />
           <br />
-          {interestText.bedex[language]}
+          {interestText.bedex[language]}*/}
         </div>
 
         <Field
