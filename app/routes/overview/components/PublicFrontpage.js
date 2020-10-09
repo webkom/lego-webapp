@@ -214,18 +214,26 @@ class PublicFrontpage extends Component<Props, State> {
         </div>
         <div className={styles.facebook}>
           <h2 className="u-mb">Vår Facebook side</h2>
-          <iframe
-            src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FAbakusNTNU%2F&amp;tabs=timeline&amp;small_header=true&amp;adapt_container_width=true&amp;hide_cover=false&amp;show_facepile=true&amp;appId=1717809791769695"
+          <div
             style={{
-              border: 'none',
-              overflow: 'hidden',
-              height: '500px',
               width: '100%',
+              display: 'flex',
+              justifyContent: 'center',
             }}
-            title="facebook"
-            scrolling="no"
-            frameBorder="0"
-          />
+          >
+            <iframe
+              src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FAbakusNTNU%2F&amp;tabs=timeline&amp;small_header=true&amp;adapt_container_width=true&amp;hide_cover=false&amp;show_facepile=true&amp;appId=1717809791769695"
+              style={{
+                border: 'none',
+                overflow: 'hidden',
+                height: '500px',
+                width: '340px',
+              }}
+              title="facebook"
+              scrolling="no"
+              frameBorder="0"
+            />
+          </div>
         </div>
       </Container>
     );
