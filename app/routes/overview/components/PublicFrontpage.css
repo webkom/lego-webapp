@@ -77,6 +77,19 @@
   grid-area: facebook;
 }
 
+.facebookIframeContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.facebookIframe {
+  border: none;
+  overflow: hidden;
+  height: 500px;
+  width: 340px;
+}
+
 .articleTitle {
   display: flex;
   overflow: hidden;
