@@ -287,7 +287,7 @@ steps:
         - SENTRY_AUTH_TOKEN
 
 
-  - name: clone_infra
+  - name: clone_infrastructure
     image: alpine/git
     volumes:
       - name: infrastructure
@@ -315,6 +315,8 @@ steps:
 
   - name: Deploy
     image: plugins/ansible
+    environment:
+      USER: drone
     volumes:
       - name: infrastructure
         path: /infrastructure
@@ -336,7 +338,7 @@ steps:
       branch:
         - prod
     depends_on:
-      - clone_infra
+      - clone_infrastructure
 
 
 volumes:
@@ -351,4 +353,4 @@ image_pull_secrets:
 
 ---
 kind: signature
-hmac: 0cfd195dbd86de598289a8ec09d336b20792889eb7095c4e78a42b5ef789732d
+hmac: 7ace9be55fb9ec91b071e99346bdfcfae6cd3f7caf2b603da1524af386a7192a
