@@ -288,35 +288,6 @@ class JoinEventForm extends Component<Props> {
                       registrationType
                     )}
                   >
-                    <label className={formStyles.label} htmlFor={feedbackName}>
-                      {feedbackLabel}
-                    </label>
-                    <Flex style={{ marginBottom: '20px' }}>
-                      <Field
-                        id={feedbackName}
-                        placeholder="Melding til arrangører"
-                        name={feedbackName}
-                        component={TextInput.Field}
-                        labelClassName={styles.feedbackLabel}
-                        className={styles.feedbackText}
-                        fieldClassName={styles.feedbackField}
-                        rows={1}
-                      />
-                      {registration && (
-                        <Button
-                          type="button"
-                          onClick={this.submitWithType(
-                            handleSubmit,
-                            feedbackName,
-                            'feedback'
-                          )}
-                          className={styles.feedbackUpdateButton}
-                          disabled={pristine}
-                        >
-                          Oppdater
-                        </Button>
-                      )}
-                    </Flex>
                     {showCaptcha && (
                       <Field
                         name="captchaResponse"
@@ -364,6 +335,36 @@ class JoinEventForm extends Component<Props> {
                       />
                     )}
                   </Form>
+
+                  <label className={formStyles.label} htmlFor={feedbackName}>
+                    {feedbackLabel}
+                  </label>
+                  <Flex style={{ marginBottom: '20px' }}>
+                    <Field
+                      id={feedbackName}
+                      placeholder="Melding til arrangører"
+                      name={feedbackName}
+                      component={TextInput.Field}
+                      labelClassName={styles.feedbackLabel}
+                      className={styles.feedbackText}
+                      fieldClassName={styles.feedbackField}
+                      rows={1}
+                    />
+                    {registration && (
+                      <Button
+                        type="button"
+                        onClick={this.submitWithType(
+                          handleSubmit,
+                          feedbackName,
+                          'feedback'
+                        )}
+                        className={styles.feedbackUpdateButton}
+                        disabled={pristine}
+                      >
+                        Oppdater
+                      </Button>
+                    )}
+                  </Flex>
                   {registration && showStripe && (
                     <PaymentForm
                       event={event}
