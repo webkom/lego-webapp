@@ -6,7 +6,10 @@ name: default
 steps:
   - name: postgres
     image: postgres:9.5
-    detach: true environment: POSTGRES_USER: lego POSTGRES_HOST_AUTH_METHOD: trust
+    detach: true
+    environment:
+      POSTGRES_USER: lego
+      POSTGRES_HOST_AUTH_METHOD: trust
     when:
       event: [push]
       branch:
@@ -125,7 +128,7 @@ steps:
       - echo "server stopped"
 
   - name: setup
-    image: node:12
+    image: node:14-alpine
     when:
       event: [push]
     depends_on:
@@ -143,7 +146,7 @@ steps:
       - yarn --frozen-lockfile --cache-folder /tmp/cache
 
   - name: build_server
-    image: node:12
+    image: node:14-alpine
     when:
       event: [push]
       branch:
@@ -154,7 +157,7 @@ steps:
       - yarn build:server
 
   - name: build_client
-    image: node:12
+    image: node:14-alpine
     when:
       event: [push]
       branch:
@@ -165,7 +168,7 @@ steps:
       - yarn build:client
 
   - name: test
-    image: node:12
+    image: node:14-alpine
     when:
       event: [push]
     depends_on:
@@ -174,7 +177,7 @@ steps:
       - yarn test
 
   - name: lint
-    image: node:12
+    image: node:14-alpine
     when:
       event: [push]
     depends_on:
@@ -183,7 +186,7 @@ steps:
       - yarn lint
 
   - name: flow
-    image: node:12
+    image: node:14-alpine
     when:
       event: [push]
     depends_on:
@@ -192,7 +195,7 @@ steps:
       - yarn flow --quiet
 
   - name: install_cypress
-    image: node:12
+    image: node:14-alpine
     when:
       event: [push]
       branch:
@@ -205,7 +208,7 @@ steps:
       - yarn cypress install
 
   - name: ssr
-    image: node:12
+    image: node:14-alpine
     detach: true
     when:
       event: [push]
@@ -349,4 +352,4 @@ image_pull_secrets:
 
 ---
 kind: signature
-hmac: 24f8aa5c373c5b1830dc1202e997a3654f115184a0e1d208779a4b6f2294fdaf
+hmac: 3fed57cb1090ca7fabfb25f98e221494ba7dc90199ac9fad85d146a501fde8ff
