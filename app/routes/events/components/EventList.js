@@ -156,6 +156,8 @@ class EventList extends Component<EventListProps, State> {
             className={styles.select}
             options={options}
             clearable={false}
+            backspaceRemoves={false}
+            deleteRemoves={false}
           />
         </div>
         <EventListGroup
