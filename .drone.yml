@@ -324,9 +324,9 @@ steps:
       playbook: /infrastructure/lego/playbooks/deploy.yml
       tags:
         - webapp
-      # This is the same tag as the docker step above
+      limit: ${DRONE_DEPLOY_TO}
       extra_vars: webapp_version=${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:7}
-      inventory: /infrastructure/lego/${DRONE_DEPLOY_TO}
+      inventory: /infrastructure/inventory
       vault_password:
         from_secret: ansible_vault_password
       private_key:
@@ -353,4 +353,4 @@ image_pull_secrets:
 
 ---
 kind: signature
-hmac: 7ace9be55fb9ec91b071e99346bdfcfae6cd3f7caf2b603da1524af386a7192a
+hmac: 1fce2ed85a9e5308228d65317ab05300f5a2e51d23013597dd05828df5c0d0fd
