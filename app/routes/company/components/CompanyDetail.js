@@ -85,7 +85,7 @@ class CompanyEvents extends React.Component<EventProps, *> {
       moment().isAfter(moment(event.startTime))
     );
 
-    const EventTable = ({events}) =>
+    const EventTable = ({ events }) =>
       events.map((event) => (
         <EventItem
           className={styles.companyEvent}
@@ -101,7 +101,7 @@ class CompanyEvents extends React.Component<EventProps, *> {
     return (
       <div>
         <table className={styles.companyEventTable}>
-          <EventTable events = {upcomingEvents}/>
+          <EventTable events={upcomingEvents} />
           <tr>
             <div className={styles.companyEventsShowMore}>
               <button
@@ -112,7 +112,7 @@ class CompanyEvents extends React.Component<EventProps, *> {
               </button>
             </div>
           </tr>
-          {viewOld && <EventTable events={oldEvents}/>}
+          {viewOld && <EventTable events={oldEvents} />}
         </table>
         {viewOld && showFetchMoreEvents && (
           <div

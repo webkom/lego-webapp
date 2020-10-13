@@ -39,12 +39,12 @@ const eventStatus = (
         }
         return 'Ingen påmeldingsrett';
       }
-      
+
       // Check if the event is in the future
       if (future) {
         return `Åpner ${moment(activationTime).format('dddd D MMM HH:mm')}`;
       }
-      if(eventStatusType === 'INFINITE'){
+      if (eventStatusType === 'INFINITE') {
         return 'Åpent med påmelding';
       }
       return isPill ? false : `${registrationCount}/${totalCapacity} påmeldte`;
