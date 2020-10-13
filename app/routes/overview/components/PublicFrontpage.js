@@ -82,9 +82,9 @@ class PublicFrontpage extends Component<Props, State> {
         <div className={styles.welcome}>
           <h2 className={'u-mb'}>Velkommen til Abakus</h2>
           <p>
-            Abakus er linjeforeningen for studentene ved Datateknologi og
-            Kommunikasjonsteknologi på NTNU, og drives av studenter ved disse
-            studiene.
+            Abakus er linjeforeningen for studentene ved <i>Datateknologi</i> og
+            <i> Kommunikasjonsteknologi og digital sikkerhet</i> på NTNU, og
+            drives av studenter ved disse studiene.
           </p>
           <p>
             Abakus
@@ -182,12 +182,13 @@ class PublicFrontpage extends Component<Props, State> {
             </li>
             <li>
               <a href="http://www.ntnu.no/studier/mtkom" target="blank">
-                <i className="fa fa-caret-right" /> Kommunikasjonsteknologi
+                <i className="fa fa-caret-right" /> Kommunikasjonsteknologi og
+                digital sikkerhet
               </a>
               <div className={styles.linkDescription}>
                 Vi bruker stadig mer av livene våre på nett, på jobb som i
-                fritid. Kommunikasjonsteknologi brukes etter hvert av alle og
-                overalt.
+                fritid. Kommunikasjonsteknologi og digital sikkerhet brukes
+                etter hvert av alle og overalt.
               </div>
             </li>
             <li>

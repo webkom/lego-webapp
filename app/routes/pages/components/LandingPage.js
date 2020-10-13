@@ -48,13 +48,13 @@ const LandingPage = ({
       <Image
         className={cx(styles.banner, styles.bannerLightMode)}
         src={bannerLightMode}
-        alt="Abakus - Linjeforeningen for Datateknologi og Kommunikasjonsteknologi ved NTNU"
+        alt="Abakus - Linjeforeningen for Datateknologi og Kommunikasjonsteknologi og digital sikkerhet ved NTNU"
       />
 
       <Image
         className={cx(styles.banner, styles.bannerDarkMode)}
         src={bannerDarkMode}
-        alt="Abakus - Linjeforeningen for Datateknologi og Kommunikasjonsteknologi ved NTNU"
+        alt="Abakus - Linjeforeningen for Datateknologi og Kommunikasjonsteknologi og digital sikkerhet ved NTNU"
       />
 
       <Flex className={styles.whoWhatWhyContainer}>
@@ -220,8 +220,13 @@ const LandingPage = ({
 };
 
 LandingPage.defaultProps = {
-  whoWeAre:
-    'Abakus er linjeforeningen for studentene ved Datateknologi og Kommunikasjonsteknologi på NTNU, og drives av studenter ved disse studiene.',
+  whoWeAre: (
+    <span>
+      Abakus er linjeforeningen for studentene ved Datateknologi og{' '}
+      <i>Kommunikasjonsteknologi og digital sikkerhet</i> på NTNU, og drives av
+      studenter ved disse studiene.
+    </span>
+  ),
   whatWeDo:
     "Abakus' formål er å gi disse studentene veiledning i studiesituasjonen, arrangere kurs som utfyller fagtilbudet ved NTNU, fremme kontakten med næringslivet og bidra med sosiale aktiviteter.",
   whyWeDoIt:

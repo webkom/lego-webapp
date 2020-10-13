@@ -4,7 +4,7 @@ import styles from './TextWithTitle.css';
 
 type Props = {
   title: string,
-  text: string,
+  text: React.component,
   extraStyle?: Object,
 };
 
