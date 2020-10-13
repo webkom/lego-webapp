@@ -320,6 +320,7 @@ export default class EventDetail extends Component<Props> {
                   {loggedIn && (
                     <RegistrationMeta
                       useConsent={event.useConsent}
+                      shareInfoFlag={event.shareInfoFlag}
                       hasEnded={moment(event.endTime).isBefore(moment())}
                       registration={currentRegistration}
                       isPriced={event.isPriced}

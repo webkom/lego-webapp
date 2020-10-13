@@ -22,6 +22,7 @@ type Props = {
   hasSimpleWaitingList: boolean,
   useConsent: boolean,
   hasEnded: boolean,
+  shareInfoFlag: boolean,
 };
 
 const ConsentStatus = ({
@@ -146,11 +147,19 @@ const RegistrationMeta = ({
   isPriced,
   registrationIndex,
   hasSimpleWaitingList,
+  shareInfoFlag,
 }: Props) => (
   <div>
     {!registration && (
       <div>
         <i className="fa fa-exclamation-circle" /> Du er ikke påmeldt
+      </div>
+    )}
+    {shareInfoFlag && !registration && (
+      <div>
+        <i className="fa fa-exclamation-circle" /> Ved å melde deg på dette
+        arrangementet samtykker du til at informasjonen din kan deles med andre
+        utenfor Abakus til smittesporing
       </div>
     )}
     {registration && (
