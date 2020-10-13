@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import { jobType, Year } from 'app/routes/joblistings/components/Items';
-
+import Icon from 'app/components/Icon';
 import moment from 'moment-timezone';
 import EventItem from 'app/routes/overview/components/EventItem';
 import { renderMeta } from 'app/routes/overview/components/utils';
@@ -61,12 +61,18 @@ function insertInfoBubbles(company) {
 class CompanyEvents extends React.Component<EventProps, *> {
   state = {
     viewOld: false,
+    eventsToShow: 3,
   };
 
   render() {
     const { viewOld } = this.state;
 
-    const { loggedIn, companyEvents } = this.props;
+    const {
+      loggedIn,
+      companyEvents,
+      showFetchMoreEvents,
+      fetchMoreEvents,
+    } = this.props;
 
     const sortedEvents = companyEvents.sort(
       (a, b) => new Date(b.startTime) - new Date(a.startTime)
@@ -79,7 +85,7 @@ class CompanyEvents extends React.Component<EventProps, *> {
       moment().isAfter(moment(event.startTime))
     );
 
-    const eventTable = (events) =>
+    const EventTable = ({events}) =>
       events.map((event) => (
         <EventItem
           className={styles.companyEvent}
@@ -95,7 +101,7 @@ class CompanyEvents extends React.Component<EventProps, *> {
     return (
       <div>
         <table className={styles.companyEventTable}>
-          {eventTable(upcomingEvents)}
+          <EventTable events = {upcomingEvents}/>
           <tr>
             <div className={styles.companyEventsShowMore}>
               <button
@@ -106,8 +112,25 @@ class CompanyEvents extends React.Component<EventProps, *> {
               </button>
             </div>
           </tr>
-          {viewOld && eventTable(oldEvents)}
+          {viewOld && <EventTable events={oldEvents}/>}
         </table>
+        {viewOld && showFetchMoreEvents && (
+          <div
+            style={{
+              display: 'flex',
+              width: '100%',
+              marginTop: '10px',
+              justifyContent: 'center',
+            }}
+          >
+            <Icon
+              name="arrow-dropdown"
+              size={35}
+              onClick={fetchMoreEvents}
+              style={{ cursor: 'pointer' }}
+            />
+          </div>
+        )}
       </div>
     );
   }
@@ -149,7 +172,7 @@ const CompanyDetail = (props: Props) => {
     <Content>
       {company.logo && (
         <div className={styles.companyLogoDetail}>
-          <Image src={company.logo} className={styles.image2} />
+          <Image src={company.logo} className={styles.companyImage} />
         </div>
       )}
 
