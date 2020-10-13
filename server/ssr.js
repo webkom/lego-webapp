@@ -1,6 +1,7 @@
 //@flow
 import React from 'react';
 import { renderToString } from 'react-dom/server';
+import { fetchReadmes } from 'app/actions/FrontpageActions';
 import { StaticRouter } from 'react-router';
 import RouteConfig from '../app/routes';
 // $FlowFixMe
@@ -29,9 +30,9 @@ const isReactHooksError = (error: Object) =>
   error.name === 'Error' &&
   error.stack.includes('Invalid hook call');
 
-const prepareWithTimeout = (app) =>
+const prepareWithTimeout = (app, store) =>
   Promise.race([
-    prepare(app),
+    Promise.all([store.dispatch(fetchReadmes(4)), prepare(app)]),
     new Promise((resolve) => {
       setTimeout(resolve, serverSideTimeoutInMs);
     }).then(() => {
@@ -119,7 +120,7 @@ const createServerSideRenderer = (
     return render(body, state);
   };
 
-  prepareWithTimeout(app)
+  prepareWithTimeout(app, store)
     .then(
       () => respond(),
       (error) => {

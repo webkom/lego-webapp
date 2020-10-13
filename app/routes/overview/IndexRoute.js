@@ -1,7 +1,7 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import prepare from 'app/utils/prepare';
-import { fetchData, fetchReadmes } from 'app/actions/FrontpageActions';
+import { fetchData } from 'app/actions/FrontpageActions';
 import { login, logout } from 'app/actions/UserActions';
 import Overview from './components/Overview';
 import { selectFrontpage } from 'app/reducers/frontpage';
@@ -30,10 +30,7 @@ const mapDispatchToProps = { login, logout, votePoll };
 
 export default compose(
   prepare(({ loggedIn }, dispatch) =>
-    Promise.all([
-      dispatch(fetchData()),
-      dispatch(fetchReadmes(loggedIn ? 4 : 1)),
-    ]).then(() =>
+    dispatch(fetchData()).then(() =>
       loggedIn ? dispatch(fetchPersonalFeed()) : Promise.resolve()
     )
   ),
