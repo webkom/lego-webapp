@@ -46,6 +46,9 @@ export function fetchReadmes(first: number) {
   // $FlowFixMe
   return async (dispatch) => {
     try {
+      dispatch({
+        type: Readme.FETCH.BEGIN,
+      });
       const res = await fetch(readmeUrl, {
         method: 'POST',
         headers: {
