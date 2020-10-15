@@ -145,10 +145,11 @@ const loadData = async (
     loggedIn,
   },
   dispatch
-) => [
-  await dispatch(fetchEvent(eventId)),
-  loggedIn && (await dispatch(isUserFollowing(eventId))),
-];
+) =>
+  Promise.all([
+    dispatch(fetchEvent(eventId)),
+    loggedIn && dispatch(isUserFollowing(eventId)),
+  ]);
 
 const propertyGenerator = (props, config) => {
   if (!props.event) return;

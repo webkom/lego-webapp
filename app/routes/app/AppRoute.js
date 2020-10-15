@@ -182,33 +182,33 @@ const mapDispatchToProps = {
   loginAutomaticallyIfPossible,
 };
 
-function fetchInitialOnServer(props, dispatch) {
-  return dispatch(loginAutomaticallyIfPossible()).then(() =>
-    Promise.all([
-      dispatch(fetchMeta()),
-      //dispatch(fetchNotificationData()),
-      //dispatch(fetchNotificationFeed())
-    ])
-  );
-}
-
 export default compose(
-  prepare(fetchInitialOnServer, [], {
+  prepare((_, dispatch) => dispatch(loginAutomaticallyIfPossible()), [], {
     componentDidMount: false,
     componentWillReceiveProps: false,
   }),
-  prepare((props, dispatch) => dispatch(fetchNotificationData())),
-  prepare((props, dispatch) =>
-    dispatch((dispatch, getState) => {
-      if (!selectIsLoggedIn(getState())) {
-        return Promise.resolve();
-      }
-      return dispatch(
-        fetchMeetings({
-          dateAfter: moment().format('YYYY-MM-DD'),
-        })
-      );
-    })
+  prepare((_, dispatch) => dispatch(fetchMeta()), [], {
+    componentDidMount: false,
+    componentWillReceiveProps: false,
+    awaitOnSsr: false,
+  }),
+  prepare(
+    (props, dispatch) =>
+      Promise.all([
+        dispatch(fetchNotificationData()),
+        dispatch((dispatch, getState) => {
+          if (!selectIsLoggedIn(getState())) {
+            return Promise.resolve();
+          }
+          return dispatch(
+            fetchMeetings({
+              dateAfter: moment().format('YYYY-MM-DD'),
+            })
+          );
+        }),
+      ]),
+    [],
+    { awaitOnSsr: false }
   ),
   connect(mapStateToProps, mapDispatchToProps)
 )(App);

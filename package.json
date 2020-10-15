@@ -39,7 +39,7 @@
     "@sentry/node": "^5.15.4",
     "@webkom/lego-editor": "^1.2.1",
     "@webkom/react-meter-bar": "^1.0.3",
-    "@webkom/react-prepare": "0.7.0",
+    "@webkom/react-prepare": "0.8.0",
     "animate.css": "^4.1.0",
     "bunyan": "^1.8.12",
     "bunyan-pretty": "^0.0.1",
