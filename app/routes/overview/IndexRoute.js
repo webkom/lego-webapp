@@ -45,7 +45,7 @@ export default compose(
         dispatch(fetchReadmes(loggedIn ? 4 : 1)),
       ]),
     [],
-    { hasSsrDataDeps: false }
+    { awaitOnSsr: false }
   ),
   prepare(({ loggedIn }, dispatch) => dispatch(fetchData())),
   replaceUnlessLoggedIn(PublicFrontpage)

@@ -190,7 +190,7 @@ export default compose(
   prepare((_, dispatch) => dispatch(fetchMeta()), [], {
     componentDidMount: false,
     componentWillReceiveProps: false,
-    hasSsrDataDeps: false,
+    awaitOnSsr: false,
   }),
   prepare(
     (props, dispatch) =>
@@ -208,7 +208,7 @@ export default compose(
         }),
       ]),
     [],
-    { hasSsrDataDeps: false }
+    { awaitOnSsr: false }
   ),
   connect(mapStateToProps, mapDispatchToProps)
 )(App);
