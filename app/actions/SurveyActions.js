@@ -78,7 +78,12 @@ export function editSurvey({ surveyId, ...data }: Object): Thunk<*> {
     types: Survey.EDIT,
     endpoint: `/surveys/${surveyId}/`,
     method: 'PATCH',
-    body: data,
+    body: {
+      ...data,
+      activeFrom: data.activeFrom
+        ? moment(data.activeFrom).toISOString()
+        : undefined,
+    },
     schema: surveySchema,
     meta: {
       errorMessage: 'Endring av spørreundersøkelse feilet',
