@@ -1878,10 +1878,10 @@
     react "^16.4.0"
     react-dom "^16.4.0"
 
-"@webkom/react-prepare@0.7.0":
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/@webkom/react-prepare/-/react-prepare-0.7.0.tgz#8fee300cec6f5d169de49be83b35b7356ede34ac"
-  integrity sha512-kEU+M1W6LvYrET1ZOQpxdG4PGXbznhKuJXszElbNl2IqeQjf+jzH9NrueQUQXwzuK7x1MjhdyQNilP1CDd9ssw==
+"@webkom/react-prepare@0.8.0":
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/@webkom/react-prepare/-/react-prepare-0.8.0.tgz#e26eaba5c3b0f609f2ffa44b1018b76392ea03ed"
+  integrity sha512-GCOmqZgBcLRTrb9eOFlJ4u0JS3bTse/PEVHsh8PBb4RbajKKo3YT5D00JgwCUEg6HryaVuBL+/411K7L/Rb52A==
   dependencies:
     babel-runtime "^6.11.6"
 
