@@ -29,21 +29,20 @@ const loadData = (
     match: {
       params: { username },
     },
+    isMe,
   },
   dispatch
-) => {
-  return dispatch(fetchUser(username)).then((action) =>
-    Promise.all([
-      dispatch(fetchPrevious()),
-      dispatch(fetchUpcoming()),
-      dispatch(fetchAllWithType('klasse')),
-    ])
-  );
-  // TODO: re-enable when the user feed is fixed:
-  // .then(action =>
-  //   dispatch(fetchUserFeed(action.payload.result))
-  //  );
-};
+) =>
+  Promise.all([
+    dispatch(fetchAllWithType('klasse')),
+    isMe && dispatch(fetchPrevious()),
+    isMe && dispatch(fetchUpcoming()),
+    isMe || dispatch(fetchUser(username)),
+  ]);
+// TODO: re-enable when the user feed is fixed:
+// .then(action =>
+//   dispatch(fetchUserFeed(action.payload.result))
+//  );
 
 const mapStateToProps = (state, props) => {
   const {
@@ -106,7 +105,7 @@ const mapDispatchToProps = {
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  prepare(loadData, ['match.params.username']),
   connect(mapStateToProps, mapDispatchToProps),
+  prepare(loadData, ['match.params.username']),
   loadingIndicator(['user'])
 )(UserProfile);
