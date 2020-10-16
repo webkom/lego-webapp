@@ -3,10 +3,7 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import prepare from 'app/utils/prepare';
-import {
-  fetchAll,
-  createInterestGroup,
-} from 'app/actions/InterestGroupActions';
+import { fetchAllWithType } from 'app/actions/GroupActions';
 import InterestGroupList from './components/InterestGroupList';
 import { selectGroupsWithType } from 'app/reducers/groups';
 
@@ -15,9 +12,7 @@ const mapStateToProps = (state) => ({
   actionGrant: state.groups.actionGrant,
 });
 
-const mapDispatchToProps = { fetchAll, createInterestGroup };
-
 export default compose(
-  prepare((props, dispatch) => dispatch(fetchAll())),
-  connect(mapStateToProps, mapDispatchToProps)
+  prepare((props, dispatch) => dispatch(fetchAllWithType('interesse'))),
+  connect(mapStateToProps, {})
 )(InterestGroupList);

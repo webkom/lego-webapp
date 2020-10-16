@@ -50,7 +50,11 @@ const group = {
 describe('<GroupMembers />', () => {
   it('should render the GroupMembersList component with the user list', () => {
     const wrapper = shallow(
-      <GroupMembers group={group} memberships={memberships} />
+      <GroupMembers
+        groupsById={{ [group.id]: group }}
+        groupId={group.id}
+        memberships={memberships}
+      />
     );
 
     const membersList = wrapper.find(GroupMembersList);
@@ -59,7 +63,11 @@ describe('<GroupMembers />', () => {
 
   it('should not render the GroupMembersList component while loading', () => {
     const wrapper = shallow(
-      <GroupMembers group={omit(group, 'memberships')} />
+      <GroupMembers
+        groupsById={{ [group.id]: omit(group, 'memberships') }}
+        groupId={group.id}
+        memberships={undefined}
+      />
     );
 
     const loadingIndicator = wrapper.find(LoadingIndicator);
