@@ -263,7 +263,7 @@ class JoinEventForm extends Component<Props> {
               {disabledForUser && (
                 <div>Du kan ikke melde deg på dette arrangementet.</div>
               )}
-              {sumPenalties(penalties) > 0 && (
+              {sumPenalties(penalties) > 0 && event.heedPenalties && (
                 <div className={styles.penalties}>
                   <p>
                     NB!{' '}
