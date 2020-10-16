@@ -13,7 +13,7 @@ type Props = {
   memberships: Array<Object>,
   removeMember: (Object) => Promise<*>,
   showDescendants: boolean,
-  groupsById: { [string]: { name: string } },
+  groupsById: { [string]: { name: string, numberOfUsers?: number } },
   fetch: ({ groupId: number, next: true }) => Promise<*>,
 };
 

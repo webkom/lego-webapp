@@ -31,6 +31,11 @@ export default createEntityReducer({
         newState.byId[action.meta.groupId].memberships.push(
           action.payload.result
         );
+        if (
+          typeof newState.byId[action.meta.groupId].numberOfUsers === 'number'
+        ) {
+          newState.byId[action.meta.groupId].numberOfUsers += 1;
+        }
         break;
 
       case Membership.REMOVE.SUCCESS:
@@ -39,6 +44,11 @@ export default createEntityReducer({
           newState.byId[action.meta.groupId].memberships,
           action.meta.id
         );
+        if (
+          typeof newState.byId[action.meta.groupId].numberOfUsers === 'number'
+        ) {
+          newState.byId[action.meta.groupId].numberOfUsers -= 1;
+        }
         break;
 
       case Group.MEMBERSHIP_FETCH.SUCCESS:

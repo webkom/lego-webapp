@@ -15,7 +15,6 @@ type Props = {
 };
 
 const InterestGroupComponent = ({ group }: Props) => {
-  const { memberships = [] } = group;
   return (
     <Flex className={styles.listItem}>
       <Flex column className={styles.listItemContent} style={{ flex: '1' }}>
@@ -23,7 +22,7 @@ const InterestGroupComponent = ({ group }: Props) => {
           <h2>{group.name}</h2>
         </Link>
         <div>{group.description}</div>
-        <div>{memberships.length} medlemmer</div>
+        <div>{group.numberOfUsers} medlemmer</div>
       </Flex>
       <Flex justifyContent="center" column>
         <Image className={styles.logoSmall} src={group.logo || SAMPLE_LOGO} />
