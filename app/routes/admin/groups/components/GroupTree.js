@@ -23,7 +23,13 @@ function generateTreeView(groups, pathname) {
       const href = getUrl(group, pathname);
       const link = (
         <Link to={href}>
-          {group.name} <i>({group.numberOfUsers})</i>
+          {group.name}
+          {typeof group.numberOfUsers === 'number' && (
+            <>
+              {' '}
+              <i>({group.numberOfUsers})</i>
+            </>
+          )}
         </Link>
       );
       if (group.children.length) {

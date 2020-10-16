@@ -42,9 +42,10 @@ export const GroupMembers = ({
   fetch,
 }: Props) => (
   <div className={styles.groupMembers}>
-    {showDescendants || (
-      <>Antall medlemmer: {groupsById[groupId.toString()].numberOfUsers}</>
-    )}
+    <>
+      Antall medlemmer (inlk. undergrupper):{' '}
+      {groupsById[groupId.toString()].numberOfUsers}
+    </>
     {showDescendants || (
       <AddGroupMember addMember={addMember} groupId={groupId} />
     )}
