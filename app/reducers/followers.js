@@ -1,17 +1,7 @@
 // @flow
 
-import { Event } from 'app/actions/ActionTypes';
-import createEntityReducer from 'app/utils/createEntityReducer';
 import { createSelector } from 'reselect';
 import { selectCurrentUser } from './auth';
-
-const followers = createEntityReducer({
-  key: 'followers',
-  types: {
-    mutate: [Event.FOLLOW],
-    delete: [Event.UNFOLLOW],
-  },
-});
 
 export const selectFollowersCurrentUser = createSelector(
   (state, props) =>
@@ -23,20 +13,18 @@ export const selectFollowersCurrentUser = createSelector(
 );
 
 export const selectFollowers = createSelector(
-  (state) => state.followers,
-  (state, { type }) => type,
+  (state, { type }) =>
+    state[
+      'followers' + type.charAt(0).toUpperCase() + type.substr(1).toLowerCase()
+    ],
   (state, { target }) => target,
   (state, { follower }) => follower,
-  (followers, type, target, follower) =>
+  (followers, target, follower) =>
     followers.byId[
-      followers.items
-        .filter((item) => item.includes(type))
-        .find(
-          (item) =>
-            followers.byId[item].follower.toString() === follower.toString() &&
-            followers.byId[item].target.toString() === target.toString()
-        )
+      followers.items.find(
+        (item) =>
+          followers.byId[item].follower.toString() === follower.toString() &&
+          followers.byId[item].target.toString() === target.toString()
+      )
     ]
 );
-
-export default followers;

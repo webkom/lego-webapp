@@ -397,7 +397,7 @@ export function unfollow(followId: number, eventId: number): Thunk<Promise<*>> {
         enableOptimistic: true,
         method: 'DELETE',
         meta: {
-          id: followersEventSchema.idAttribute({ id: followId }),
+          id: followId,
           errorMessage: 'Avregistering fra interesse feilet',
         },
       })
