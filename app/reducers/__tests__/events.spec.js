@@ -330,7 +330,6 @@ describe('reducers', () => {
             registrationCount: 0,
             waitingRegistrationCount: 1,
             waitingRegistrations: [99],
-            isUserFollowing: true,
           },
         },
       };
@@ -362,7 +361,6 @@ describe('reducers', () => {
             registrationCount: 0,
             waitingRegistrationCount: 0,
             waitingRegistrations: [],
-            isUserFollowing: true,
           },
         },
       });
@@ -382,7 +380,6 @@ describe('reducers', () => {
             registrationCount: 0,
             waitingRegistrationCount: 1,
             waitingRegistrations: [99],
-            isUserFollowing: true,
           },
         },
       };
@@ -414,7 +411,6 @@ describe('reducers', () => {
             registrationCount: 0,
             waitingRegistrationCount: 0,
             waitingRegistrations: [],
-            isUserFollowing: undefined,
           },
         },
       });
@@ -434,7 +430,6 @@ describe('reducers', () => {
             registrationCount: 3,
             waitingRegistrationCount: 0,
             waitingRegistrations: [],
-            isUserFollowing: true,
           },
         },
       };
@@ -467,7 +462,6 @@ describe('reducers', () => {
             registrationCount: 2,
             waitingRegistrationCount: 0,
             waitingRegistrations: [],
-            isUserFollowing: undefined,
           },
         },
       });
@@ -493,10 +487,6 @@ describe('reducers', () => {
           1: {
             id: 1,
             name: 'evt',
-            isUserFollowing: {
-              target: 1,
-              id: 3,
-            },
           },
         },
       });
@@ -512,10 +502,6 @@ describe('reducers', () => {
           1: {
             id: 1,
             name: 'evt',
-            isUserFollowing: {
-              target: 1,
-              id: 3,
-            },
           },
         },
       };
@@ -532,7 +518,6 @@ describe('reducers', () => {
           1: {
             id: 1,
             name: 'evt',
-            isUserFollowing: undefined,
           },
         },
       });
@@ -558,10 +543,6 @@ describe('reducers', () => {
           1: {
             id: 1,
             name: 'evt',
-            isUserFollowing: {
-              id: 4,
-              target: 1,
-            },
           },
         },
       });

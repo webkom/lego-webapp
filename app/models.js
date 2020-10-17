@@ -75,7 +75,6 @@ export type Event = EventBase & {
   survey: ?ID,
   userReg: EventRegistration,
   useConsent: boolean,
-  isUserFollowing: UserFollowing,
   unansweredSurveys: Array<ID>,
   responsibleGroup: Group,
   price?: number,
@@ -240,4 +239,10 @@ export type LocationType = {
   search: string,
   hash: string,
   state: { [any]: boolean },
+};
+
+export type FollowerItem = {
+  id: ID,
+  follower: ID,
+  target: ID,
 };

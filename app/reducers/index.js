@@ -47,6 +47,7 @@ import surveys from './surveys';
 import emojis from './emojis';
 import reactions from './reactions';
 import readme from './readme';
+import followers from './followers';
 import surveySubmissions from './surveySubmissions';
 import tags from './tags';
 import fetchHistory from './fetchHistory';
@@ -99,6 +100,7 @@ const reducers = {
   tags,
   toasts,
   users,
+  followers,
 };
 
 export type Reducers = typeof reducers;
@@ -229,3 +231,18 @@ export const surveySubmissionSchema = new schema.Entity('surveySubmissions', {
   user: userSchema,
 });
 export const tagSchema = new schema.Entity('tags', {}, { idAttribute: 'tag' });
+
+const followersSchemaGenerator = (idPrefix) =>
+  new schema.Entity(
+    'followers',
+    {
+      follower: userSchema,
+    },
+    {
+      idAttribute: (followingThing) => `${idPrefix}-${followingThing.id}`,
+    }
+  );
+
+export const followersEventSchema = followersSchemaGenerator('events');
+export const followersCompanySchema = followersSchemaGenerator('company');
+export const followersUserSchema = followersSchemaGenerator('user');

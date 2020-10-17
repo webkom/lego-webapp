@@ -59,7 +59,7 @@ type CallAPIOptions = {
   useCache?: boolean,
   cacheSeconds?: number,
   propagateError?: boolean,
-  disableOptimistic?: boolean,
+  enableOptimistic?: boolean,
   requiresAuthentication?: boolean,
   timeout?: number,
 };
@@ -91,7 +91,7 @@ export default function callAPI({
   useCache,
   cacheSeconds = 10,
   propagateError = false,
-  disableOptimistic = false,
+  enableOptimistic = false,
   requiresAuthentication = true,
   mapper,
   timeout,
@@ -124,7 +124,9 @@ export default function callAPI({
       requestOptions.headers.Authorization = `JWT ${jwt}`;
     }
 
-    function normalizeJsonResponse(response: HttpResponse<*>): any {
+    function normalizeJsonResponse(
+      response: HttpResponse<*> | { jsonData: Object }
+    ): any {
       const jsonData = response.jsonData;
 
       if (!jsonData) {
@@ -150,11 +152,13 @@ export default function callAPI({
     // @todo: better id gen (cuid or something)
     const optimisticId = Math.floor(Date.now() * Math.random() * 1000);
     const optimisticPayload =
-      !disableOptimistic && body && typeof body === 'object'
+      enableOptimistic && body && typeof body === 'object'
         ? normalizeJsonResponse({
-            id: optimisticId,
-            __persisted: false,
-            ...body,
+            jsonData: {
+              id: optimisticId,
+              __persisted: false,
+              ...body,
+            },
           })
         : null;
 
@@ -179,7 +183,8 @@ export default function callAPI({
       payload: optimisticPayload,
       meta: {
         ...meta,
-        optimisticId: optimisticPayload ? optimisticId : undefined,
+        optimisticId: optimisticPayload ? optimisticPayload.result : undefined,
+        enableOptimistic,
         endpoint,
         success: shouldUseCache && types.SUCCESS,
         body,

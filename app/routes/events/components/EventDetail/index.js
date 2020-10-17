@@ -41,6 +41,7 @@ import type {
   Event,
   ActionGrant,
   AddPenalty,
+  FollowerItem,
 } from 'app/models';
 import type { CommentEntity } from 'app/reducers/comments';
 import type { UserEntity } from 'app/reducers/users';
@@ -103,6 +104,7 @@ type Props = {
   ) => Promise<*>,
   deleteEvent: (eventId: ID) => Promise<*>,
   deleteComment: (id: ID, contentTarget: string) => Promise<*>,
+  currentUserFollowing: ?FollowerItem,
 };
 
 export default class EventDetail extends Component<Props> {
@@ -159,6 +161,7 @@ export default class EventDetail extends Component<Props> {
       follow,
       unfollow,
       deleteComment,
+      currentUserFollowing,
     } = this.props;
     if (!event.id) {
       return null;
@@ -169,8 +172,8 @@ export default class EventDetail extends Component<Props> {
     }
 
     const color = colorForEvent(event.eventType);
-    const onRegisterClick = event.isUserFollowing
-      ? () => unfollow(event.isUserFollowing.id, event.id)
+    const onRegisterClick = currentUserFollowing
+      ? () => unfollow(currentUserFollowing.id, event.id)
       : () => follow(currentUser.id, event.id);
 
     const eventRegistrationTime = moment(event.activationTime).subtract(
@@ -261,7 +264,7 @@ export default class EventDetail extends Component<Props> {
             className={styles.title}
           >
             {loggedIn && (
-              <InterestedButton isInterested={!!event.isUserFollowing} />
+              <InterestedButton isInterested={!!currentUserFollowing} />
             )}
             {event.title}
           </ContentHeader>

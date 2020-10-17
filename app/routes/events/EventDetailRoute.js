@@ -27,6 +27,7 @@ import loadingIndicator from 'app/utils/loadingIndicator';
 import helmet from 'app/utils/helmet';
 import { deleteComment } from 'app/actions/CommentActions';
 import { selectUserWithGroups } from 'app/reducers/users';
+import { selectFollowersCurrentUser } from 'app/reducers/followers';
 import { selectPenaltyByUserId } from 'app/reducers/penalties';
 
 const mapStateToProps = (state, props) => {
@@ -121,6 +122,10 @@ const mapStateToProps = (state, props) => {
     currentRegistrationIndex,
     hasSimpleWaitingList,
     penalties,
+    currentUserFollowing: selectFollowersCurrentUser(state, {
+      target: event.id,
+      type: 'event',
+    }),
   };
 };
 

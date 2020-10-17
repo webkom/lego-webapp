@@ -107,7 +107,6 @@ const mutateEvent = produce((newState: State, action: any): void => {
       stateEvent.loading = false;
       if (isMe) {
         stateEvent.activationTime = activationTimeFromMeta;
-        stateEvent.isUserFollowing = undefined;
       }
       if (fromPool) {
         stateEvent.registrationCount--;
@@ -133,23 +132,6 @@ const mutateEvent = produce((newState: State, action: any): void => {
         newState.byId[action.meta.id].loading = false;
       }
       break;
-
-    case Event.FOLLOW.SUCCESS:
-      newState.byId[action.payload.target].isUserFollowing = action.payload;
-      break;
-
-    case Event.UNFOLLOW.SUCCESS:
-      newState.byId[action.meta.eventId].isUserFollowing = undefined;
-      break;
-
-    case Event.IS_USER_FOLLOWING.SUCCESS: {
-      // NOTE: assume we've only asked for a single event.
-      if (action.payload.length > 0) {
-        const eventId = action.payload[0].target;
-        newState.byId[eventId].isUserFollowing = action.payload[0];
-      }
-      break;
-    }
   }
 });
 
