@@ -5,6 +5,7 @@ import Icon from 'app/components/Icon';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { TextInput, CheckBox } from 'app/components/Form';
 import { Overlay } from 'react-overlays';
+import { debounce } from 'lodash';
 import cx from 'classnames';
 import { isEmpty } from 'lodash';
 import InfiniteScroll from 'react-infinite-scroller';
@@ -40,6 +41,7 @@ type columnProps = {
   // Should column be rendered. Will render when not set
   visible?: boolean,
   center?: boolean,
+  inlineFiltering?: boolean,
 };
 
 type Props = {
@@ -50,6 +52,7 @@ type Props = {
   loading: boolean,
   onChange?: (filters: Object, sort: sortProps) => void,
   onLoad?: (filters: Object, sort: sortProps) => void,
+  filters?: Object,
 };
 
 type State = {
@@ -65,7 +68,7 @@ export default class Table extends Component<Props, State> {
 
   state = {
     sort: {},
-    filters: {},
+    filters: this.props.filters || {},
     isShown: {},
   };
 
@@ -222,7 +225,9 @@ export default class Table extends Component<Props, State> {
                 <Button
                   flat
                   onClick={() =>
-                    this.setState({ filters: { [dataIndex]: undefined } })
+                    this.setState({ filters: { [dataIndex]: undefined } }, () =>
+                      this.onChange()
+                    )
                   }
                 >
                   Nullstill
@@ -241,6 +246,11 @@ export default class Table extends Component<Props, State> {
     }
 
     const match = Object.keys(this.state.filters).filter((key) => {
+      const { inlineFiltering = true, filterMapping = (val) => val } =
+        this.props.columns.find((col) => col.dataIndex == key) || {};
+
+      if (!inlineFiltering) return true;
+
       if (this.state.filters[key] === undefined) {
         return true;
       }
@@ -254,9 +264,6 @@ export default class Table extends Component<Props, State> {
         return true;
       }
 
-      const { filterMapping = (val) => val } =
-        this.props.columns.find((col) => col.dataIndex == key) || {};
-
       return filterMapping(get(item, key)).toLowerCase().includes(filter);
     }).length;
 
@@ -269,11 +276,11 @@ export default class Table extends Component<Props, State> {
     }
   };
 
-  onChange = () => {
+  onChange = debounce(() => {
     if (this.props.onChange) {
       this.props.onChange(this.state.filters, this.state.sort);
     }
-  };
+  }, 300);
 
   render() {
     const { columns, data, rowKey, hasMore, loading } = this.props;

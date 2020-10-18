@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { ROLES } from 'app/utils/constants';
 import styles from './GroupMembersList.css';
 import Table from 'app/components/Table';
+import qs from 'qs';
 
 type Props = {
   fetching: boolean,
@@ -15,6 +16,11 @@ type Props = {
   showDescendants: boolean,
   groupsById: { [string]: { name: string, numberOfUsers?: number } },
   fetch: ({ groupId: number, next: true }) => Promise<*>,
+  push: (any) => void,
+  pathname: string,
+  search: string,
+  query: Object,
+  filters: Object,
 };
 
 const GroupMembersList = ({
@@ -26,11 +32,12 @@ const GroupMembersList = ({
   hasMore,
   fetching,
   groupsById,
+  push,
+  pathname,
+  search,
+  query,
+  filters,
 }: Props) => {
-  if (!memberships.length) {
-    return <div>Ingen brukere</div>;
-  }
-
   const GroupMembersListColumns = (fullName, membership) => {
     const { user } = membership;
     const performRemove = () =>
@@ -47,7 +54,7 @@ const GroupMembersList = ({
             />
           )}
           <Link key="link" to={`/users/${user.username}`}>
-            {user.fullName} ({user.username})
+            {user.username}
           </Link>
         </>
       )
@@ -64,20 +71,31 @@ const GroupMembersList = ({
   const RoleRender = (role: string) =>
     role !== 'member' && <span>{ROLES[role] || role} </span>;
 
-  const EmailRender = (internalEmail: string) =>
-    internalEmail && <a href={`mailto:${internalEmail}`}>{internalEmail}</a>;
-
   const columns = [
     {
-      title: 'Navn',
-      dataIndex: 'user.fullName',
+      title: 'Brukernavn',
+      dataIndex: 'user.username',
       search: true,
+      inlineFiltering: false,
       render: GroupMembersListColumns,
+    },
+    {
+      title: 'Fornavn',
+      dataIndex: 'user.firstName',
+      search: true,
+      inlineFiltering: false,
+    },
+    {
+      title: 'Etternavn',
+      dataIndex: 'user.lastName',
+      search: true,
+      inlineFiltering: false,
     },
     showDescendants
       ? {
           title: 'Gruppe',
-          search: false,
+          search: true,
+          inlineFiltering: false,
           dataIndex: 'abakusGroup',
           render: GroupLinkRender,
         }
@@ -85,29 +103,48 @@ const GroupMembersList = ({
     {
       title: 'Rolle',
       dataIndex: 'role',
-      search: true,
+      filter: Object.keys(ROLES).map((value) => ({
+        value,
+        label: ROLES[value],
+      })),
+      search: false,
+      inlineFiltering: false,
       filterMapping: (role) =>
         role === 'member' || !ROLES[role] ? '' : ROLES[role],
       render: RoleRender,
     },
-    {
-      title: 'E-post',
-      dataIndex: 'user.internalEmailAddress',
-      search: false,
-      render: EmailRender,
-    },
   ].filter(Boolean);
   return (
-    <Table
-      infiniteScroll
-      columns={columns}
-      onLoad={() => {
-        fetch({ descendants: showDescendants, groupId: groupId, next: true });
-      }}
-      hasMore={hasMore}
-      loading={fetching}
-      data={memberships}
-    />
+    <>
+      <Table
+        infiniteScroll
+        onChange={(filters, sort) => {
+          push({
+            pathname,
+            search: qs.stringify({
+              filters: JSON.stringify(filters),
+              sort: JSON.stringify(sort),
+              ...(search.includes('descendants=true')
+                ? { descendants: true }
+                : {}),
+            }),
+          });
+        }}
+        columns={columns}
+        onLoad={() => {
+          fetch({
+            descendants: showDescendants,
+            groupId: groupId,
+            next: true,
+            query,
+          });
+        }}
+        hasMore={hasMore}
+        loading={fetching}
+        data={memberships}
+      />
+      {!memberships.length && !fetching && <div>Ingen brukere</div>}
+    </>
   );
 };
 

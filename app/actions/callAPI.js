@@ -186,7 +186,8 @@ export default function callAPI({
       pagination &&
       pagination.fetchNext &&
       paginationForRequest &&
-      paginationForRequest.pagination
+      paginationForRequest.pagination &&
+      paginationForRequest.pagination.next
         ? paginationForRequest.pagination.next.cursor
         : '';
 
