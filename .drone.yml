@@ -186,7 +186,7 @@ steps:
       - yarn lint
 
   - name: flow
-    image: node:14-alpine
+    image: node:14-slim
     when:
       event: [push]
     depends_on:
@@ -352,4 +352,4 @@ image_pull_secrets:
 
 ---
 kind: signature
-hmac: 3fed57cb1090ca7fabfb25f98e221494ba7dc90199ac9fad85d146a501fde8ff
+hmac: 372fab30840e379402d56cbf6e7bbab9791ec8f24a5e715407656e16052114b3
