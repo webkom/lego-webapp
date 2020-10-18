@@ -10,6 +10,7 @@ import { addToast } from 'app/actions/ToastActions';
 import { selectGroupsWithType } from 'app/reducers/groups';
 import { fetchAllWithType } from 'app/actions/GroupActions';
 import prepare from 'app/utils/prepare';
+import { GroupTypeCommittee } from 'app/models';
 import Contact from './components/Contact';
 
 const validate = createValidator({
@@ -18,11 +19,12 @@ const validate = createValidator({
   message: [required()],
   captchaResponse: [required('Captcha er ikke validert')],
 });
+const groupType = GroupTypeCommittee;
 
-const loadData = (props, dispatch) => dispatch(fetchAllWithType('komite'));
+const loadData = (props, dispatch) => dispatch(fetchAllWithType(groupType));
 
 const mapStateToProps = (state, props) => {
-  const groups = selectGroupsWithType(state, { groupType: 'komite' });
+  const groups = selectGroupsWithType(state, { groupType });
   return {
     groups,
   };

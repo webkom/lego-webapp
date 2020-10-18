@@ -1,6 +1,7 @@
 // @flow
 import React, { type Element } from 'react';
 import Icon from 'app/components/Icon';
+import { GroupTypeInterest, GroupTypeCommittee } from 'app/models';
 import { lookupContext, contextRender } from '../context';
 import type { AggregatedActivity, Activity, TagInfo } from '../types';
 import DisplayContent from 'app/components/DisplayContent';
@@ -59,9 +60,9 @@ export function getURL(aggregatedActivity: AggregatedActivity) {
     return '';
   }
   switch (group.type) {
-    case 'interesse':
+    case GroupTypeInterest:
       return `/interestgroups/${group.id}`;
-    case 'komite':
+    case GroupTypeCommittee:
       return `/pages/komiteer/${group.id}`;
     default:
       return '';

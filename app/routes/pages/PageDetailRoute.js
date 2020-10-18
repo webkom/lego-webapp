@@ -16,6 +16,7 @@ import PageDetail, {
   GroupRenderer,
 } from './components/PageDetail';
 import LandingPage from './components/LandingPage';
+import { GroupTypeCommittee } from 'app/models';
 import {
   selectPagesForHierarchy,
   selectGroupsForHierarchy,
@@ -69,7 +70,7 @@ const sections: {
     pageSelector: selectCommitteeForPages,
     hierarchySectionSelector: selectGroupsForHierarchy,
     PageRenderer: GroupRenderer,
-    fetchAll: () => fetchAllWithType('komite'),
+    fetchAll: () => fetchAllWithType(GroupTypeCommittee),
     fetchItemActions: [
       fetchGroup,
       (groupId: number) => fetchAllMemberships(groupId, true),
