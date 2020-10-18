@@ -3,6 +3,7 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import UserProfile from './components/UserProfile';
+import { GroupTypeGrade } from 'app/models';
 import {
   fetchUser,
   addPenalty,
@@ -34,7 +35,7 @@ const loadData = (
   dispatch
 ) =>
   Promise.all([
-    dispatch(fetchAllWithType('klasse')),
+    dispatch(fetchAllWithType(GroupTypeGrade)),
     isMe && dispatch(fetchPrevious()),
     isMe && dispatch(fetchUpcoming()),
     isMe || dispatch(fetchUser(username)),

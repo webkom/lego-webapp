@@ -1,14 +1,15 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import prepare from 'app/utils/prepare';
+import { fetchGroup } from 'app/actions/GroupActions';
 import {
-  fetchInterestGroup,
   joinInterestGroup,
   leaveInterestGroup,
 } from 'app/actions/InterestGroupActions';
 import InterestGroupDetail from './components/InterestGroupDetail';
 import { selectMembershipsForGroup } from 'app/reducers/memberships';
 import { selectGroup } from 'app/reducers/groups';
+import { fetchMemberships } from 'app/actions/GroupActions';
 import loadingIndicator from 'app/utils/loadingIndicator';
 
 const mapStateToProps = (state, props) => {
@@ -28,7 +29,6 @@ const mapStateToProps = (state, props) => {
 };
 
 const mapDispatchToProps = {
-  fetchInterestGroup,
   joinInterestGroup,
   leaveInterestGroup,
 };
@@ -42,7 +42,12 @@ export default compose(
         },
       },
       dispatch
-    ) => dispatch(fetchInterestGroup(Number(interestGroupId))),
+    ) =>
+      Promise.all([
+        dispatch(fetchGroup(Number(interestGroupId))),
+        dispatch(fetchMemberships(interestGroupId)),
+      ]),
+
     ['match.params.interestGroupId']
   ),
   connect(mapStateToProps, mapDispatchToProps),

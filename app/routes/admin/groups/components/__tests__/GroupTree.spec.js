@@ -45,7 +45,7 @@ describe('<GroupTree />', () => {
     const children = shallow(
       <GroupTree groups={groups} pathname="/admin/groups/1/settings" />
     ).children();
-    expect(children.at(0).is(TreeView)).toEqual(true);
+    expect(children.at(1).is(TreeView)).toEqual(true);
   });
 
   it('should work with only root groups', () => {

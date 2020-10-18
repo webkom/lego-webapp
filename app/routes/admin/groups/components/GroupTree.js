@@ -16,23 +16,36 @@ function getUrl(group: Object, pathname: string) {
 }
 
 function generateTreeView(groups, pathname) {
-  return groups.map((group) => {
-    const href = getUrl(group, pathname);
-    const link = <Link to={href}>{group.name}</Link>;
-    if (group.children.length) {
-      return (
-        <TreeView key={group.id} nodeLabel={link} defaultCollapsed={false}>
-          {generateTreeView(group.children, pathname)}
-        </TreeView>
+  return groups
+    .slice()
+    .sort(({ name: nameA }, { name: nameB }) => nameA.localeCompare(nameB))
+    .map((group) => {
+      const href = getUrl(group, pathname);
+      const link = (
+        <Link to={href}>
+          {group.name}
+          {typeof group.numberOfUsers === 'number' && (
+            <>
+              {' '}
+              <i>({group.numberOfUsers})</i>
+            </>
+          )}
+        </Link>
       );
-    }
+      if (group.children.length) {
+        return (
+          <TreeView key={group.id} nodeLabel={link} defaultCollapsed={false}>
+            {generateTreeView(group.children, pathname)}
+          </TreeView>
+        );
+      }
 
-    return (
-      <div key={group.id} className="GroupTree__sidebar__info">
-        {link}
-      </div>
-    );
-  });
+      return (
+        <div key={group.id} className="GroupTree__sidebar__info">
+          {link}
+        </div>
+      );
+    });
 }
 
 type Props = {

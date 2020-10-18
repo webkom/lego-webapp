@@ -6,49 +6,6 @@ import { InterestGroup, Membership } from './ActionTypes';
 import { fetchMemberships } from 'app/actions/GroupActions';
 import { push } from 'connected-react-router';
 import type { Thunk } from 'app/types';
-import createQueryString from 'app/utils/createQueryString';
-
-export function fetchInterestGroup(interestGroupId: number): Thunk<*> {
-  return (dispatch) => {
-    const group = dispatch(
-      callAPI({
-        types: InterestGroup.FETCH,
-        endpoint: `/groups/${String(interestGroupId)}/${createQueryString({
-          type: 'interesse',
-        })}`,
-        schema: groupSchema,
-        meta: {
-          errorMessage: 'Henting av interessegruppe feilet',
-        },
-        propagateError: true,
-      })
-    );
-    const memberships = dispatch(fetchMemberships(interestGroupId));
-    return Promise.all([group, memberships]);
-  };
-}
-
-export function fetchAll(): Thunk<*> {
-  return (dispatch) => {
-    return dispatch(
-      callAPI({
-        types: InterestGroup.FETCH_ALL,
-        endpoint: `/groups/${createQueryString({
-          type: 'interesse',
-        })}`,
-        schema: [groupSchema],
-        meta: {
-          errorMessage: 'Henting av interessegrupper feilet',
-        },
-        propagateError: true,
-      })
-    ).then((res) => {
-      if (!res) return;
-      const ids = (res: any).payload.result;
-      return Promise.all(ids.map((g) => dispatch(fetchMemberships(g))));
-    });
-  };
-}
 
 export function createInterestGroup(group: Object): Thunk<*> {
   return (dispatch) => {

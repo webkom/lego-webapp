@@ -2,15 +2,15 @@
 import { createSelector } from 'reselect';
 import { Group, Membership } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
-import type { ID } from 'app/models';
+import { type ID, GroupTypeInterest, GroupTypeCommittee } from 'app/models';
 import { without, union } from 'lodash';
 import produce from 'immer';
 
 export const resolveGroupLink = (group: { type: string, id: ID }) => {
   switch (group.type) {
-    case 'interesse':
+    case GroupTypeInterest:
       return `/interestgroups/${group.id}`;
-    case 'komite':
+    case GroupTypeCommittee:
       return `/pages/komiteer/${group.id}`;
     default:
       return null;
@@ -31,6 +31,11 @@ export default createEntityReducer({
         newState.byId[action.meta.groupId].memberships.push(
           action.payload.result
         );
+        if (
+          typeof newState.byId[action.meta.groupId].numberOfUsers === 'number'
+        ) {
+          newState.byId[action.meta.groupId].numberOfUsers += 1;
+        }
         break;
 
       case Membership.REMOVE.SUCCESS:
@@ -39,6 +44,11 @@ export default createEntityReducer({
           newState.byId[action.meta.groupId].memberships,
           action.meta.id
         );
+        if (
+          typeof newState.byId[action.meta.groupId].numberOfUsers === 'number'
+        ) {
+          newState.byId[action.meta.groupId].numberOfUsers -= 1;
+        }
         break;
 
       case Group.MEMBERSHIP_FETCH.SUCCESS:

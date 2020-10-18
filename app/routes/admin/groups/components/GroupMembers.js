@@ -23,7 +23,7 @@ type Props = {
   hasMore: boolean,
   fetch: ({ groupId: number, next: true }) => Promise<*>,
   fetching: boolean,
-  groupsById: { [string]: { name: string } },
+  groupsById: { [string]: { name: string, numberOfUsers?: number } },
   memberships: Array<Object>,
   showDescendants: boolean,
   addMember: (AddMemberArgs) => Promise<*>,
@@ -42,6 +42,10 @@ export const GroupMembers = ({
   fetch,
 }: Props) => (
   <div className={styles.groupMembers}>
+    <>
+      Antall medlemmer (inlk. undergrupper):{' '}
+      {groupsById[groupId.toString()].numberOfUsers}
+    </>
     {showDescendants || (
       <AddGroupMember addMember={addMember} groupId={groupId} />
     )}

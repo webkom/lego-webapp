@@ -174,10 +174,30 @@ export type Joblisting = {
   workplaces: Array<Workplace>,
 };
 
+export const GroupTypeCommittee = 'komite';
+export const GroupTypeInterest = 'interesse';
+export const GroupTypeSub = 'under';
+export const GroupTypeGrade = 'klasse';
+export const GroupTypeOther = 'annen';
+export const GroupTypes = {
+  GroupTypeCommittee,
+  GroupTypeInterest,
+  GroupTypeSub,
+  GroupTypeGrade,
+  GroupTypeOther,
+};
+
+export type GroupType =
+  | typeof GroupTypeCommittee
+  | typeof GroupTypeInterest
+  | typeof GroupTypeSub
+  | typeof GroupTypeGrade
+  | typeof GroupTypeOther;
+
 export type Group = {
   id: ID,
   actionGrant: Array<string>,
-  type: string,
+  type: GroupType,
   name: string,
   numberOfUsers?: number,
   memberships: Array<GroupMembership>,
