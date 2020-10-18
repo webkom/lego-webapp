@@ -2,6 +2,7 @@
 
 import { omit, without, isArray, get, union, isEmpty } from 'lodash';
 import { parse } from 'qs';
+import { configWithSSR } from 'app/config';
 import joinReducers from 'app/utils/joinReducers';
 import mergeObjects from 'app/utils/mergeObjects';
 
@@ -93,11 +94,14 @@ export function createAndUpdateEntities(
     let pagination = state.pagination;
     const queryString = action.meta && action.meta.queryString;
     if (primaryKey && !action.cached && queryString !== undefined) {
+      const nextPage =
+        action.payload.next &&
+        action.payload.next.replace(configWithSSR.serverUrl, '');
       pagination = {
         ...state.pagination,
         [queryString]: {
           queryString,
-          nextPage: action.payload.next,
+          nextPage,
         },
       };
     }

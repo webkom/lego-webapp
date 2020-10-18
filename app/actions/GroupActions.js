@@ -177,6 +177,7 @@ export function fetchMembershipsPagination({
   descendants?: boolean,
 }): Thunk<*> {
   return (dispatch, getState) => {
+    const paginationKey = `${groupId}-${descendants.toString()}`;
     return dispatch(
       callAPI({
         types: Group.MEMBERSHIP_FETCH,
@@ -188,7 +189,7 @@ export function fetchMembershipsPagination({
               ...get(getState(), [
                 'memberships',
                 'pagination',
-                groupId.toString(),
+                paginationKey,
                 'next',
               ]),
               descendants,
@@ -197,7 +198,7 @@ export function fetchMembershipsPagination({
         meta: {
           groupId: groupId,
           errorMessage: 'Henting av medlemmene for gruppen feilet',
-          paginationKey: groupId,
+          paginationKey,
         },
         propagateError: true,
       })
