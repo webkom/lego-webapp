@@ -94,7 +94,6 @@ steps:
       SENTRY: 'http://sentry:sentry@localhost/2'
       CELERY_BROKER_URL: 'redis://redis/1'
       CHANNELS_REDIS_URL: 'redis://redis/2'
-      ELASTICSEARCH_HOST: 'http://elasticsearch'
       STRIPE_API_KEY: '123'
       STRIPE_WEBHOOK_SECRET: '123'
       CAPTCHA_KEY: '123'
@@ -353,4 +352,4 @@ image_pull_secrets:
 
 ---
 kind: signature
-hmac: 1fce2ed85a9e5308228d65317ab05300f5a2e51d23013597dd05828df5c0d0fd
+hmac: 24f8aa5c373c5b1830dc1202e997a3654f115184a0e1d208779a4b6f2294fdaf

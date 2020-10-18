@@ -9,6 +9,7 @@ import * as Sentry from '@sentry/node';
 import cookieParser from 'cookie-parser';
 import render from './render';
 import config from './env';
+import baseConfig from 'config/env';
 import healthCheck from './health';
 
 moment.locale('nb-NO');
@@ -81,6 +82,7 @@ app.use(
   })
 );
 
+app.get('/_config', (_, res) => res.json(baseConfig));
 app.use(render);
 
 app.use((req, res) => {
