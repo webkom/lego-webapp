@@ -105,6 +105,18 @@ export function createAndUpdateEntities(
         },
       };
     }
+    if (primaryKey && !action.cached && action.meta.paginationKey) {
+      pagination = {
+        ...state.pagination,
+        [action.meta.paginationKey]: {
+          ...state.pagination[action.meta.paginationKey],
+          items: union(
+            state.pagination[action.meta.paginationKey].items,
+            resultIds
+          ),
+        },
+      };
+    }
     return {
       ...state,
       byId: mergeObjects(state.byId, result),
@@ -193,6 +205,7 @@ export function paginationReducer(fetchTypes: ?EntityReducerTypes) {
         hasMore,
         pagination: {
           ...state.pagination,
+          next: parsedNext,
           [paginationKey]: {
             ...state.pagination[paginationKey],
             next: parsedNext,
@@ -234,8 +247,8 @@ export default function createEntityReducer({
   const { fetch: fetchTypes, delete: deleteTypes, mutate: mutateTypes } = types;
   const reduce = joinReducers(
     fetching(fetchTypes),
-    createAndUpdateEntities(fetchTypes, key),
     paginationReducer(fetchTypes),
+    createAndUpdateEntities(fetchTypes, key),
     deleteEntities(deleteTypes),
     optimistic(mutateTypes),
     mutate

@@ -1,6 +1,6 @@
 // @flow
 
-import { normalize, Schema } from 'normalizr';
+import { normalize, type Schema } from 'normalizr';
 import fetchJSON, {
   type HttpRequestOptions,
   type HttpMethod,
@@ -14,6 +14,7 @@ import getCachedRequest from 'app/utils/getCachedRequest';
 import { setStatusCode } from './RoutingActions';
 import type { AsyncActionType, Thunk } from 'app/types';
 import { selectIsLoggedIn } from 'app/reducers/auth';
+import { selectPaginationNext } from 'app/reducers/selectors';
 
 function urlFor(resource: string) {
   if (resource.match(/^\/\//)) {
@@ -62,6 +63,7 @@ type CallAPIOptions = {
   disableOptimistic?: boolean,
   requiresAuthentication?: boolean,
   timeout?: number,
+  pagination?: { fetchNext: boolean },
 };
 
 function toHttpRequestOptions(
@@ -89,6 +91,7 @@ export default function callAPI({
   meta,
   schema,
   useCache,
+  pagination,
   cacheSeconds = 10,
   propagateError = false,
   disableOptimistic = false,
@@ -158,15 +161,9 @@ export default function callAPI({
           })
         : null;
 
-    const qs = query ? createQueryString(query) : '';
     const qsWithoutPagination = query
       ? createQueryString(omit(query, 'cursor'))
       : '';
-
-    const promise: Promise<HttpResponse<*>> = fetchJSON(
-      urlFor(`${endpoint}${qs}`),
-      requestOptions
-    );
 
     let schemaKey = null;
     if (schema) {
@@ -177,11 +174,37 @@ export default function callAPI({
       }
     }
 
+    const paginationForRequest =
+      pagination &&
+      schemaKey &&
+      selectPaginationNext({
+        endpoint,
+        query,
+        schema,
+      })(state);
+    const cursor =
+      pagination &&
+      pagination.fetchNext &&
+      paginationForRequest &&
+      paginationForRequest.pagination
+        ? paginationForRequest.pagination.next.cursor
+        : '';
+
+    const qs = query || cursor ? createQueryString({ cursor, ...query }) : '';
+
+    const promise: Promise<HttpResponse<*>> = fetchJSON(
+      urlFor(`${endpoint}${qs}`),
+      requestOptions
+    );
+
     return dispatch({
       types,
       payload: optimisticPayload,
       meta: {
         queryString: qsWithoutPagination,
+        paginationKey:
+          paginationForRequest && paginationForRequest.paginationKey,
+        cursor,
         ...meta,
         optimisticId: optimisticPayload ? optimisticId : undefined,
         endpoint,
