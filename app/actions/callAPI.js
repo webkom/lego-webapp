@@ -7,7 +7,7 @@ import fetchJSON, {
   type HttpResponse,
 } from 'app/utils/fetchJSON';
 import { configWithSSR } from '../config';
-import { isArray } from 'lodash';
+import { omit, isArray } from 'lodash';
 import createQueryString from 'app/utils/createQueryString';
 import { logout } from 'app/actions/UserActions';
 import getCachedRequest from 'app/utils/getCachedRequest';
@@ -159,6 +159,9 @@ export default function callAPI({
         : null;
 
     const qs = query ? createQueryString(query) : '';
+    const qsWithoutPagination = query
+      ? createQueryString(omit(query, 'cursor'))
+      : '';
 
     const promise: Promise<HttpResponse<*>> = fetchJSON(
       urlFor(`${endpoint}${qs}`),
@@ -178,6 +181,7 @@ export default function callAPI({
       types,
       payload: optimisticPayload,
       meta: {
+        queryString: qsWithoutPagination,
         ...meta,
         optimisticId: optimisticPayload ? optimisticId : undefined,
         endpoint,
