@@ -5,9 +5,8 @@ import Table from 'app/components/Table';
 import Tag from 'app/components/Tags/Tag';
 import { Link } from 'react-router-dom';
 import Button from 'app/components/Button';
-import { resolveGroupLink } from 'app/reducers/groups';
 import Flex from 'app/components/Layout/Flex';
-import { GroupTypeCommittee, GroupTypeGrade } from 'app/models';
+import { type Group, GroupTypeCommittee, GroupTypeGrade } from 'app/models';
 import qs from 'qs';
 
 type Props = {
@@ -18,6 +17,8 @@ type Props = {
   query: Object,
   filters: Object,
   push: (Object) => void,
+  committees: Group[],
+  grades: Group[],
 };
 
 export default class EmailUsers extends Component<Props> {
@@ -48,9 +49,17 @@ export default class EmailUsers extends Component<Props> {
       {
         title: 'Komite',
         dataIndex: 'userCommittee',
-        search: true,
         inlineFiltering: false,
         filterMessage: '- for å få brukere uten komite',
+        filter: this.props.committees
+          .map((committee) => ({
+            label: committee.name,
+            value: committee.name,
+          }))
+          .concat({
+            label: 'Ikke abakom',
+            value: '-',
+          }),
         render: (_, emailUser) => {
           const output = emailUser.user.abakusGroups
             .filter((abakusGroup) => abakusGroup.type === GroupTypeCommittee)
@@ -69,7 +78,12 @@ export default class EmailUsers extends Component<Props> {
       {
         title: 'Klasse',
         dataIndex: 'userGrade',
-        search: true,
+        filter: this.props.grades
+          .map((grade) => ({ label: grade.name, value: grade.name }))
+          .concat({
+            label: 'Ikke student',
+            value: '-',
+          }),
         inlineFiltering: false,
         filterMessage: '- for å få brukere uten klasse',
         render: (_, emailUser) => {
