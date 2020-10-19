@@ -19,11 +19,11 @@ const mapStateToProps = (state, props) => {
     endpoint: '/companies/',
   })(state);
   return {
-    showFetchMore: !pagination || pagination.hasMore,
+    showFetchMore: pagination.hasMore,
     companies,
     query,
     loggedIn: props.loggedIn,
-    hasMore: !pagination || pagination.hasMore,
+    hasMore: pagination.hasMore,
     fetching: state.companies.fetching,
   };
 };

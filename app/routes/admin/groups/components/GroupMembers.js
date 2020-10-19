@@ -64,6 +64,7 @@ export const GroupMembers = ({
     <LoadingIndicator loading={!memberships}>
       <h3 className={styles.subTitle}>Brukere</h3>
       <GroupMembersList
+        key={groupId + showDescendants}
         groupId={groupId}
         filters={filters}
         query={query}

@@ -142,6 +142,7 @@ const GroupMembersList = ({
         hasMore={hasMore}
         loading={fetching}
         data={memberships}
+        filters={filters}
       />
       {!memberships.length && !fetching && <div>Ingen brukere</div>}
     </>
