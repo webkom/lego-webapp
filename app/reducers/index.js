@@ -3,7 +3,6 @@
 import { schema } from 'normalizr';
 import { combineReducers } from 'redux';
 import { connectRouter } from 'connected-react-router';
-import { Event } from 'app/actions/ActionTypes';
 import routing from './routing';
 import allowed from './allowed';
 import form from './forms';
@@ -51,11 +50,67 @@ import readme from './readme';
 import surveySubmissions from './surveySubmissions';
 import tags from './tags';
 import fetchHistory from './fetchHistory';
-import createEntityReducer, {
-  type EntityReducerTypes,
-} from 'app/utils/createEntityReducer';
 import joinReducers from 'app/utils/joinReducers';
+import {
+  followersEvent,
+  followersCompany,
+  followersUser,
+  followersKeyGen,
+} from './followers';
 import { type LocationType } from 'app/models';
+
+const reducers = {
+  allowed,
+  announcements,
+  articles,
+  auth,
+  comments,
+  companies,
+  companyInterest,
+  companySemesters,
+  emailLists,
+  emailUsers,
+  events,
+  feedActivities,
+  feeds,
+  fetchHistory,
+  form,
+  frontpage,
+  galleries,
+  galleryPictures,
+  groups,
+  joblistings,
+  meetingInvitations,
+  meetings,
+  meetingsToken,
+  memberships,
+  notificationSettings,
+  notificationsFeed,
+  oauth2Applications,
+  oauth2Grants,
+  pages,
+  penalties,
+  podcasts,
+  polls,
+  pools,
+  quotes,
+  readme,
+  registrations,
+  restrictedMails,
+  search,
+  emojis,
+  reactions,
+  surveySubmissions,
+  surveys,
+  tags,
+  toasts,
+  users,
+  followersCompany,
+  followersUser,
+  followersEvent,
+};
+
+export type Reducers = typeof reducers;
 
 type History = {
   length: Number,
@@ -184,92 +239,20 @@ export const surveySubmissionSchema = new schema.Entity('surveySubmissions', {
 });
 export const tagSchema = new schema.Entity('tags', {}, { idAttribute: 'tag' });
 
-const followersSchemaGenerator = (
-  title,
-  types: {
-    fetch?: EntityReducerTypes,
-    mutate?: EntityReducerTypes,
-    delete?: EntityReducerTypes,
-  } = {}
-) => {
-  const key = `followers${title}`;
-  return [
-    new schema.Entity(key, {
-      follower: userSchema,
-    }),
-    createEntityReducer({
-      key,
-      types,
-    }),
-  ];
-};
-
-export const [followersEventSchema, followersEvent] = followersSchemaGenerator(
-  'Event',
+export const followersEventSchema = new schema.Entity(
+  followersKeyGen('event'),
   {
-    mutate: [Event.FOLLOW],
-    delete: [Event.UNFOLLOW],
+    follower: userSchema,
   }
 );
 
-export const [
-  followersCompanySchema,
-  followersCompany,
-] = followersSchemaGenerator('Company');
-
-export const [followersUserSchema, followersUser] = followersSchemaGenerator(
-  'User'
+export const followersCompanySchema = new schema.Entity(
+  followersKeyGen('company'),
+  {
+    follower: userSchema,
+  }
 );
 
-const reducers = {
-  allowed,
-  announcements,
-  articles,
-  auth,
-  comments,
-  companies,
-  companyInterest,
-  companySemesters,
-  emailLists,
-  emailUsers,
-  events,
-  feedActivities,
-  feeds,
-  fetchHistory,
-  form,
-  frontpage,
-  galleries,
-  galleryPictures,
-  groups,
-  joblistings,
-  meetingInvitations,
-  meetings,
-  meetingsToken,
-  memberships,
-  notificationSettings,
-  notificationsFeed,
-  oauth2Applications,
-  oauth2Grants,
-  pages,
-  penalties,
-  podcasts,
-  polls,
-  pools,
-  quotes,
-  readme,
-  registrations,
-  restrictedMails,
-  search,
-  emojis,
-  reactions,
-  surveySubmissions,
-  surveys,
-  tags,
-  toasts,
-  users,
-  followersCompany,
-  followersUser,
-  followersEvent,
-};
-
-export type Reducers = typeof reducers;
+export const followersUserSchema = new schema.Entity(followersKeyGen('user'), {
+  follower: userSchema,
+});
