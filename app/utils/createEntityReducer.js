@@ -8,7 +8,7 @@ import mergeObjects from 'app/utils/mergeObjects';
 
 import type { Reducer, AsyncActionType } from 'app/types';
 
-type EntityReducerTypes = AsyncActionType | Array<AsyncActionType>;
+export type EntityReducerTypes = AsyncActionType | Array<AsyncActionType>;
 
 type EntityReducerOptions = {
   key: string,
@@ -146,6 +146,34 @@ export function deleteEntities(deleteTypes: ?EntityReducerTypes) {
   };
 }
 
+export function optimisticDelete(deleteTypes: ?EntityReducerTypes) {
+  return (state: any, action: any) => {
+    if (!deleteTypes || !action.meta || !action.meta.enableOptimistic) {
+      return state;
+    }
+    if (
+      toArray(deleteTypes).some(
+        (deleteType) => action.type === deleteType.BEGIN
+      )
+    ) {
+      return {
+        ...state,
+        items: state.items.filter((item) => item !== action.meta.id),
+      };
+    }
+    if (
+      toArray(deleteTypes).some((deleteType) => action === deleteType.FAILURE)
+    ) {
+      return {
+        ...state,
+        items: state.items.concat(action.meta.id),
+      };
+    }
+
+    return state;
+  };
+}
+
 export function optimistic(mutateTypes: ?EntityReducerTypes) {
   return (state: any, action: any) => {
     if (
@@ -238,6 +266,7 @@ export default function createEntityReducer({
     paginationReducer(fetchTypes),
     deleteEntities(deleteTypes),
     optimistic(mutateTypes),
+    optimisticDelete(deleteTypes),
     mutate
   );
 

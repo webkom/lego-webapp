@@ -51,6 +51,12 @@ import surveySubmissions from './surveySubmissions';
 import tags from './tags';
 import fetchHistory from './fetchHistory';
 import joinReducers from 'app/utils/joinReducers';
+import {
+  followersEvent,
+  followersCompany,
+  followersUser,
+  followersKeyGen,
+} from './followers';
 import { type LocationType } from 'app/models';
 
 const reducers = {
@@ -99,6 +105,9 @@ const reducers = {
   tags,
   toasts,
   users,
+  followersCompany,
+  followersUser,
+  followersEvent,
 };
 
 export type Reducers = typeof reducers;
@@ -229,3 +238,21 @@ export const surveySubmissionSchema = new schema.Entity('surveySubmissions', {
   user: userSchema,
 });
 export const tagSchema = new schema.Entity('tags', {}, { idAttribute: 'tag' });
+
+export const followersEventSchema = new schema.Entity(
+  followersKeyGen('event'),
+  {
+    follower: userSchema,
+  }
+);
+
+export const followersCompanySchema = new schema.Entity(
+  followersKeyGen('company'),
+  {
+    follower: userSchema,
+  }
+);
+
+export const followersUserSchema = new schema.Entity(followersKeyGen('user'), {
+  follower: userSchema,
+});

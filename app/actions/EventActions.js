@@ -1,7 +1,11 @@
 // @flow
 
 import { push } from 'connected-react-router';
-import { eventSchema, eventAdministrateSchema } from 'app/reducers';
+import {
+  eventSchema,
+  eventAdministrateSchema,
+  followersEventSchema,
+} from 'app/reducers';
 import createQueryString from 'app/utils/createQueryString';
 import callAPI from 'app/actions/callAPI';
 import { Event } from './ActionTypes';
@@ -124,7 +128,6 @@ export function createEvent(event: Object): Thunk<Promise<?Action>> {
         method: 'POST',
         body: event,
         schema: eventSchema,
-        disableOptimistic: true,
         meta: {
           errorMessage: 'Opprettelse av hendelse feilet',
         },
@@ -370,7 +373,9 @@ export function follow(userId: number, eventId: number): Thunk<*> {
     dispatch(
       callAPI({
         types: Event.FOLLOW,
+        enableOptimistic: true,
         endpoint: `/followers-event/`,
+        schema: followersEventSchema,
         method: 'POST',
         body: {
           target: eventId,
@@ -389,9 +394,10 @@ export function unfollow(followId: number, eventId: number): Thunk<Promise<*>> {
       callAPI({
         types: Event.UNFOLLOW,
         endpoint: `/followers-event/${followId}/`,
+        enableOptimistic: true,
         method: 'DELETE',
         meta: {
-          eventId,
+          id: followId,
           errorMessage: 'Avregistering fra interesse feilet',
         },
       })
@@ -402,6 +408,7 @@ export function isUserFollowing(eventId: number) {
   return callAPI({
     types: Event.IS_USER_FOLLOWING,
     endpoint: `/followers-event/?target=${eventId}`,
+    schema: [followersEventSchema],
     method: 'GET',
     meta: {
       errorMessage: 'Henting av interesse feilet',
