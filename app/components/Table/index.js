@@ -214,19 +214,36 @@ export default class Table extends Component<Props, State> {
             >
               <div className={styles.checkbox}>
                 {filter.map(({ label, value }) => (
-                  <p key={label}>
-                    <CheckBox
-                      label={label}
-                      value={value === this.state.filters[dataIndex]}
-                      onChange={() => this.onFilterInput(value, dataIndex)}
-                    />
-                  </p>
+                  <div
+                    key={label}
+                    onClick={() =>
+                      this.onFilterInput(
+                        this.state.filters[dataIndex] === value
+                          ? undefined
+                          : value,
+                        dataIndex
+                      )
+                    }
+                  >
+                    <p key={label}>
+                      <CheckBox
+                        label={label}
+                        value={value === this.state.filters[dataIndex]}
+                      />
+                    </p>
+                  </div>
                 ))}
                 <Button
                   flat
                   onClick={() =>
-                    this.setState({ filters: { [dataIndex]: undefined } }, () =>
-                      this.onChange()
+                    this.setState(
+                      (state) => ({
+                        filters: { ...state.filters, [dataIndex]: undefined },
+                      }),
+                      () => {
+                        this.toggleFilter(dataIndex);
+                        this.onChange();
+                      }
                     )
                   }
                 >
@@ -280,7 +297,7 @@ export default class Table extends Component<Props, State> {
     if (this.props.onChange) {
       this.props.onChange(this.state.filters, this.state.sort);
     }
-  }, 300);
+  }, 170);
 
   render() {
     const { columns, data, rowKey, hasMore, loading } = this.props;

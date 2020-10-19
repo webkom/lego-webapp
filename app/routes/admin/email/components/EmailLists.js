@@ -38,7 +38,7 @@ export default class EmailLists extends Component<Props> {
         render: (email: string) => <span>{`${email}@abakus.no`}</span>,
       },
       {
-        title: 'Kun for @abakus brukere',
+        title: 'Kun for brukere med @abakus-epost',
         dataIndex: 'requireInternalAddress',
         filter: [
           { value: 'true', label: 'Kun for @abakus.no' },
@@ -47,9 +47,9 @@ export default class EmailLists extends Component<Props> {
         inlineFiltering: false,
         render: (internalOnly) =>
           internalOnly ? (
-            <Tag tag="Alle typer adresser" color="orange" />
-          ) : (
             <Tag color="cyan" tag="Kun for @abakus.no" />
+          ) : (
+            <Tag tag="Alle typer adresser" color="orange" />
           ),
       },
     ];

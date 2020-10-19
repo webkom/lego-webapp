@@ -145,8 +145,30 @@ export function deleteEntities(deleteTypes: ?EntityReducerTypes) {
 
     if (!resultId) return state;
 
+    const pagination = Object.keys(state.pagination).reduce(
+      (newPagination, key) => {
+        const paginationEntry = state.pagination[key];
+        if (get(paginationEntry, 'items')) {
+          newPagination[key] = {
+            ...paginationEntry,
+            items: without(
+              paginationEntry.items,
+              ...(isNumber(resultId)
+                ? [Number(resultId), resultId.toString()]
+                : [resultId])
+            ),
+          };
+        } else {
+          newPagination[key] = paginationEntry;
+        }
+        return newPagination;
+      },
+      {}
+    );
     return {
       ...state,
+      pagination,
+
       byId: omit(state.byId, resultId),
       items: without(
         state.items,
@@ -182,6 +204,28 @@ export function optimistic(mutateTypes: ?EntityReducerTypes) {
 // TODO Make this the only spot handling pagination
 export function paginationReducer(fetchTypes: ?EntityReducerTypes) {
   return (state: any, action: any) => {
+    const paginationKey = get(action, ['meta', 'paginationKey']);
+    const cursor = get(action, ['meta', 'cursor']);
+    if (
+      toArray(fetchTypes).some(
+        (fetchType) => action.type === fetchType.BEGIN
+      ) &&
+      paginationKey &&
+      cursor === ''
+    ) {
+      return {
+        ...state,
+        pagination: {
+          ...state.pagination,
+          [paginationKey]: {
+            ...state.pagination[paginationKey],
+            items: [],
+            hasMore: true,
+            next: '',
+          },
+        },
+      };
+    }
     if (
       !toArray(fetchTypes).some(
         (fetchType) => action.type === fetchType.SUCCESS
@@ -193,7 +237,6 @@ export function paginationReducer(fetchTypes: ?EntityReducerTypes) {
     if (!action.payload || action.payload.next === undefined) {
       return state;
     }
-    const paginationKey = get(action, ['meta', 'paginationKey']);
 
     const { next = null } = action.payload;
     const parsedNext = next && parse(next.split('?')[1]);
@@ -208,12 +251,6 @@ export function paginationReducer(fetchTypes: ?EntityReducerTypes) {
           next: parsedNext,
           [paginationKey]: {
             ...state.pagination[paginationKey],
-            items:
-              next === ''
-                ? []
-                : (state.pagination[paginationKey] &&
-                    state.pagination[paginationKey].items) ||
-                  [],
             next: parsedNext,
             hasMore,
           },

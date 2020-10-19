@@ -12,7 +12,6 @@ import Tag from 'app/components/Tags/Tag';
 import Tags from 'app/components/Tags';
 import Paginator from 'app/components/Paginator';
 import { type ActionGrant } from 'app/models';
-import qs from 'qs';
 
 const HEADLINE_EVENTS = 2;
 

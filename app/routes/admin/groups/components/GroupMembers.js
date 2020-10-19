@@ -23,7 +23,12 @@ import qs from 'qs';
 type Props = {
   groupId: number,
   hasMore: boolean,
-  fetch: ({ groupId: number, next: true }) => Promise<*>,
+  fetch: ({
+    groupId: number,
+    next: boolean,
+    query: Object,
+    descendants: boolean,
+  }) => Promise<*>,
   fetching: boolean,
   groupsById: { [string]: { name: string, numberOfUsers?: number } },
   memberships: Array<Object>,

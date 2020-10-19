@@ -37,9 +37,9 @@ export const selectEmailLists = createSelector(
   (state) => state.emailLists.items,
   (_, { pagination }) => pagination,
   (emailListsById, emailListIds, pagination) =>
-    (pagination ? pagination.items : emailListIds).map(
-      (id) => emailListsById[id]
-    ).filter(Boolean)
+    (pagination ? pagination.items : emailListIds)
+      .map((id) => emailListsById[id])
+      .filter(Boolean)
 );
 
 export const selectEmailListById = createSelector(

@@ -15,7 +15,12 @@ type Props = {
   removeMember: (Object) => Promise<*>,
   showDescendants: boolean,
   groupsById: { [string]: { name: string, numberOfUsers?: number } },
-  fetch: ({ groupId: number, next: true }) => Promise<*>,
+  fetch: ({
+    groupId: number,
+    next: boolean,
+    query: Object,
+    descendants: boolean,
+  }) => Promise<*>,
   push: (any) => void,
   pathname: string,
   search: string,
