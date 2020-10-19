@@ -57,11 +57,12 @@ type Props = {
   tags: Array<Object>,
   location: any,
   actionGrant: ActionGrant,
+  query: Object,
 };
 
 export default class Overview extends Component<Props> {
   render() {
-    const { articles, actionGrant = [] } = this.props;
+    const { articles, actionGrant = [], query } = this.props;
     const headlineEvents = articles.slice(0, HEADLINE_EVENTS);
     const normalEvents = articles.slice(HEADLINE_EVENTS);
     return (
@@ -88,9 +89,7 @@ export default class Overview extends Component<Props> {
             fetching={this.props.fetching}
             fetchNext={() => {
               this.props.fetchAll({
-                tag: qs.parse(this.props.location.search, {
-                  ignoreQueryPrefix: true,
-                }).tag,
+                query,
                 next: true,
               });
             }}

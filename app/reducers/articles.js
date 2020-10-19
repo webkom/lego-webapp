@@ -47,9 +47,12 @@ function transformArticle(article) {
 export const selectArticles = createSelector(
   (state) => state.articles.byId,
   (state) => state.articles.items,
-  (articlesById, articleIds) =>
+  (_, { pagination }) => pagination,
+  (articlesById, articleIds, pagination) =>
     orderBy(
-      articleIds.map((id) => transformArticle(articlesById[id])),
+      (pagination ? pagination.items : articleIds).map((id) =>
+        transformArticle(articlesById[id])
+      ),
       ['createdAt', 'id'],
       ['desc', 'desc']
     )
