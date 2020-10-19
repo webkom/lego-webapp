@@ -80,14 +80,8 @@ const GroupMembersList = ({
       render: GroupMembersListColumns,
     },
     {
-      title: 'Fornavn',
-      dataIndex: 'user.firstName',
-      search: true,
-      inlineFiltering: false,
-    },
-    {
-      title: 'Etternavn',
-      dataIndex: 'user.lastName',
+      title: 'Navn',
+      dataIndex: 'user.fullName',
       search: true,
       inlineFiltering: false,
     },

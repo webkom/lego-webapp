@@ -24,8 +24,10 @@ export const selectEmailUsers = createSelector(
   (state) => state.emailUsers.byId,
   (state) => state.users.byId,
   (state) => state.emailUsers.items,
-  (emailUsersById, usersById, emailUserIds) =>
-    emailUserIds.map((id) => ({
+  (_, { pagination }) => pagination,
+  (emailUsersById, usersById, emailUserIds, pagination) =>
+    //$FlowFixMe
+    (pagination ? pagination.items || [] : emailUserIds).map((id) => ({
       ...emailUsersById[id],
       user: usersById[emailUsersById[id].user],
     }))

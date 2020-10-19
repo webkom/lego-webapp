@@ -207,6 +207,7 @@ export function paginationReducer(fetchTypes: ?EntityReducerTypes) {
           ...state.pagination,
           next: parsedNext,
           [paginationKey]: {
+            items: [],
             ...state.pagination[paginationKey],
             next: parsedNext,
             hasMore,

@@ -92,12 +92,12 @@ function mapStateToProps(state, props) {
   const { pathname, search } = state.router.location;
   const showDescendants = location.search.includes('descendants=true');
   const groupId = props.match.params && props.match.params.groupId;
+
   const { filters: qsFilters = '{}' } = qs.parse(search.slice(1));
   const filters = JSON.parse(qsFilters);
   const {
     role = '',
-    'user.firstName': userFirstName = '',
-    'user.lastName': userLastName = '',
+    'user.fullName': userFullname = '',
     'user.username': userUsername = '',
     abakusGroup: abakusGroupName = '',
   } = filters;
@@ -105,12 +105,11 @@ function mapStateToProps(state, props) {
   const query = {
     descendants: showDescendants,
     role,
-    userFirstName,
-    userLastName,
+    userFullname,
     userUsername,
     abakusGroupName,
   };
-  const { pagination = null } = selectPaginationNext({
+  const { pagination } = selectPaginationNext({
     endpoint: `/groups/${groupId}/memberships/`,
     entity: 'memberships',
     query,
@@ -144,9 +143,5 @@ const mapDispatchToProps = {
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  prepare(loadData, [
-    'match.params.groupId',
-    //'location',
-    //'query.user__first_name__contains',
-  ])
+  prepare(loadData, ['match.params.groupId'])
 )(GroupMembers);

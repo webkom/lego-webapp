@@ -6,28 +6,48 @@ import Tag from 'app/components/Tags/Tag';
 import { Link } from 'react-router-dom';
 import Button from 'app/components/Button';
 import Flex from 'app/components/Layout/Flex';
+import qs from 'qs';
 
 type Props = {
   fetching: boolean,
   hasMore: boolean,
   emailUsers: Array<Object>,
   fetch: ({ filters?: Object, next?: boolean }) => Promise<*>,
+  query: Object,
+  filters: Object,
+  push: (Object) => void,
 };
 
 export default class EmailUsers extends Component<Props> {
   render() {
     const columns = [
       {
-        title: 'Bruker',
-        dataIndex: 'user',
-        render: (user: Object, emailUser) => (
-          <Link to={`/admin/email/users/${emailUser.id}`}>{user.fullName}</Link>
+        title: 'Navn',
+        dataIndex: 'user.fullName',
+        search: true,
+        inlineFiltering: false,
+        render: (_, emailUser) => (
+          <Link to={`/admin/email/users/${emailUser.id}`}>
+            {emailUser.user.fullName}
+          </Link>
+        ),
+      },
+      {
+        title: 'Brukeravn',
+        dataIndex: 'user.username',
+        search: true,
+        inlineFiltering: false,
+        render: (_, emailUser) => (
+          <Link to={`/admin/email/users/${emailUser.id}`}>
+            {emailUser.user.username}
+          </Link>
         ),
       },
       {
         title: 'Internepost',
         dataIndex: 'internalEmail',
         search: true,
+        inlineFiltering: false,
         render: (internalEmail: string) => (
           <span>{`${internalEmail}@abakus.no`}</span>
         ),
@@ -35,14 +55,15 @@ export default class EmailUsers extends Component<Props> {
       {
         title: 'Status',
         dataIndex: 'internalEmailEnabled',
+        inlineFiltering: false,
         filter: [
           {
             label: 'Aktiv',
-            value: true,
+            value: 'true',
           },
           {
             label: 'Inaktiv',
-            value: false,
+            value: 'false',
           },
         ],
         render: (enabled) =>
@@ -76,8 +97,16 @@ export default class EmailUsers extends Component<Props> {
         <Table
           infiniteScroll
           columns={columns}
-          onLoad={() => {
-            this.props.fetch({ next: true });
+          onLoad={(filters, sort) => {
+            this.props.fetch({ next: true, query: this.props.query });
+          }}
+          filters={this.props.filters}
+          onChange={(filters, sort) => {
+            this.props.push({
+              search: qs.stringify({
+                filters: JSON.stringify(filters),
+              }),
+            });
           }}
           hasMore={this.props.hasMore}
           loading={this.props.fetching}
