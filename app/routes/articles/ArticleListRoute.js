@@ -37,19 +37,15 @@ export default compose(
   prepare((props, dispatch) => dispatch(fetchPopular()), [], {
     awaitOnSsr: false,
   }),
-  prepare(
-    (props, dispatch) =>
-      dispatch(
-        fetchAll({
-          next: false,
-          query: {
-            tag: qs.parse(props.location.search, { ignoreQueryPrefix: true })
-              .tag,
-          },
-        })
-      ),
-
-    ['location.search']
+  prepare((props, dispatch) =>
+    dispatch(
+      fetchAll({
+        next: false,
+        query: {
+          tag: qs.parse(props.location.search, { ignoreQueryPrefix: true }).tag,
+        },
+      })
+    )
   ),
   connect(mapStateToProps, mapDispatchToProps)
 )(Overview);
