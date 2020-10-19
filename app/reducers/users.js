@@ -75,7 +75,7 @@ export const selectUserByUsername = createSelector(
 );
 
 export const selectUserWithGroups = createSelector(
-  (state, { username, userId }) =>
+  (state, { username, userId }: { username?: string, userId?: string }) =>
     username
       ? selectUserByUsername(state, { username })
       : selectUserById(state, { userId }),
