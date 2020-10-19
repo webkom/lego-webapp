@@ -40,6 +40,9 @@ RUN sentry-cli releases deploys ${RELEASE} new -e "staging"
 RUN sentry-cli releases deploys ${RELEASE} new -e "production"
 
 FROM node:14-alpine
+
+RUN apk add curl
+
 WORKDIR /app/
 
 ARG RELEASE
