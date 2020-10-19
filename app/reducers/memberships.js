@@ -10,7 +10,7 @@ export default createEntityReducer({
   types: {
     mutate: Membership.JOIN_GROUP,
     fetch: Group.MEMBERSHIP_FETCH,
-    delete: Membership.LEAVE_GROUP,
+    delete: [Membership.LEAVE_GROUP, Membership.REMOVE],
   },
 });
 
@@ -31,6 +31,7 @@ export const selectMembershipsForGroup = createSelector(
     if (!memberships) return [];
     return memberships
       .map((m) => membershipsById[m])
+      .filter(Boolean)
       .filter((m) =>
         descendants ? true : Number(m.abakusGroup) === Number(groupId)
       )

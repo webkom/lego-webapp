@@ -24,8 +24,8 @@ export default class EmailLists extends Component<Props> {
       {
         title: 'Navn',
         dataIndex: 'name',
-        //search: true,
-        //inlineFiltering: false,
+        search: true,
+        inlineFiltering: false,
         render: (name: string, emailList) => (
           <Link to={`/admin/email/lists/${emailList.id}`}>{name}</Link>
         ),

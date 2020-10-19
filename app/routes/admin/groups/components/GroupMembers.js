@@ -59,7 +59,19 @@ export const GroupMembers = ({
       {groupsById[groupId.toString()].numberOfUsers}
     </>
     {showDescendants || (
-      <AddGroupMember addMember={addMember} groupId={groupId} />
+      <AddGroupMember
+        addMember={(...args) =>
+          addMember(...args).then(() =>
+            fetch({
+              descendants: showDescendants,
+              groupId: groupId,
+              next: false,
+              query,
+            })
+          )
+        }
+        groupId={groupId}
+      />
     )}
     <LoadingIndicator loading={!memberships}>
       <h3 className={styles.subTitle}>Brukere</h3>
