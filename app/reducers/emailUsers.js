@@ -4,6 +4,7 @@ import { createSelector } from 'reselect';
 import { EmailUser } from '../actions/ActionTypes';
 import { type UserEntity } from 'app/reducers/users';
 import createEntityReducer from 'app/utils/createEntityReducer';
+import { selectUserWithGroups } from 'app/reducers/users';
 
 export type EmailUserEntity = {
   id: number,
@@ -25,14 +26,16 @@ export const selectEmailUsers = createSelector(
   (state) => state.users.byId,
   (state) => state.emailUsers.items,
   (_, { pagination }) => pagination,
-  (emailUsersById, usersById, emailUserIds, pagination) =>
+  (state) => state,
+  (emailUsersById, usersById, emailUserIds, pagination, state) =>
     //$FlowFixMe
     (pagination ? pagination.items || [] : emailUserIds)
       .map((id) => emailUsersById[id])
       .filter(Boolean)
       .map((emailUser) => ({
         ...emailUser,
-        user: usersById[emailUser.user],
+        //$FlowFixMe
+        user: selectUserWithGroups(state, { userId: emailUser.id }),
       }))
 );
 

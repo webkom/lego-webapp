@@ -5,7 +5,9 @@ import Table from 'app/components/Table';
 import Tag from 'app/components/Tags/Tag';
 import { Link } from 'react-router-dom';
 import Button from 'app/components/Button';
+import { resolveGroupLink } from 'app/reducers/groups';
 import Flex from 'app/components/Layout/Flex';
+import { GroupTypeCommittee, GroupTypeGrade } from 'app/models';
 import qs from 'qs';
 
 type Props = {
@@ -33,24 +35,54 @@ export default class EmailUsers extends Component<Props> {
         ),
       },
       {
-        title: 'Brukeravn',
-        dataIndex: 'user.username',
-        search: true,
-        inlineFiltering: false,
-        render: (_, emailUser) => (
-          <Link to={`/admin/email/users/${emailUser.id}`}>
-            {emailUser.user.username}
-          </Link>
-        ),
-      },
-      {
         title: 'Internepost',
         dataIndex: 'internalEmail',
         search: true,
         inlineFiltering: false,
-        render: (internalEmail: string) => (
-          <span>{`${internalEmail}@abakus.no`}</span>
+        render: (internalEmail: string, emailUser) => (
+          <Link to={`/admin/email/users/${emailUser.id}`}>
+            <span>{`${internalEmail}@abakus.no`}</span>
+          </Link>
         ),
+      },
+      {
+        title: 'Komite',
+        dataIndex: 'userCommittee',
+        search: true,
+        inlineFiltering: false,
+        filterMessage: '- for å få brukere uten komite',
+        render: (_, emailUser) => {
+          const output = emailUser.user.abakusGroups
+            .filter((abakusGroup) => abakusGroup.type === GroupTypeCommittee)
+            .map((committee) => (
+              <Link
+                key={committee.id}
+                to={`/admin/groups/${committee.id}/members`}
+              >
+                {committee.name}{' '}
+              </Link>
+            ));
+          if (!output.length) return <i> Ikke Abakom </i>;
+          return output;
+        },
+      },
+      {
+        title: 'Klasse',
+        dataIndex: 'userGrade',
+        search: true,
+        inlineFiltering: false,
+        filterMessage: '- for å få brukere uten klasse',
+        render: (_, emailUser) => {
+          const output = emailUser.user.abakusGroups
+            .filter((abakusGroup) => abakusGroup.type === GroupTypeGrade)
+            .map((grade) => (
+              <Link key={grade.id} to={`/admin/groups/${grade.id}/members`}>
+                {grade.name}{' '}
+              </Link>
+            ));
+          if (!output.length) return <i> Ikke student </i>;
+          return output;
+        },
       },
       {
         title: 'Status',

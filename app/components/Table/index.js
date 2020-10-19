@@ -42,6 +42,7 @@ type columnProps = {
   visible?: boolean,
   center?: boolean,
   inlineFiltering?: boolean,
+  filterMessage?: string,
 };
 
 type Props = {
@@ -131,7 +132,15 @@ export default class Table extends Component<Props, State> {
   };
 
   renderHeadCell = (
-    { dataIndex, search, title, sorter, filter, center = false }: columnProps,
+    {
+      dataIndex,
+      search,
+      title,
+      sorter,
+      filter,
+      center = false,
+      filterMessage = 'Filtrer',
+    }: columnProps,
     index: number
   ) => {
     const { filters, isShown } = this.state;
@@ -175,7 +184,7 @@ export default class Table extends Component<Props, State> {
               <div className={styles.overlay}>
                 <TextInput
                   autoFocus
-                  placeholder="Filtrer"
+                  placeholder={filterMessage}
                   value={filters[dataIndex]}
                   onChange={(e) => this.onSearchInput(e, dataIndex)}
                   onKeyDown={({ keyCode }) => {

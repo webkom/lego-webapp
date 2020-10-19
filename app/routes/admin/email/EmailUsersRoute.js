@@ -16,15 +16,17 @@ const mapStateToProps = (state) => {
   const filters = JSON.parse(qsFilters);
   const {
     'user.fullName': userFullname,
-    'user.username': userUsername,
     internalEmail: email,
+    userCommittee,
+    userGrade,
     internalEmailEnabled: enabled,
   } = filters;
 
   const query = {
     userFullname,
-    userUsername,
     email,
+    userCommittee,
+    userGrade,
     enabled,
   };
   const { pagination } = selectPaginationNext({
