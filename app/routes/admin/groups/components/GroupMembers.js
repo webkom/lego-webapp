@@ -60,23 +60,11 @@ export const GroupMembers = ({
 }: Props) => (
   <div className={styles.groupMembers}>
     <>
-      Antall medlemmer (inlk. undergrupper):{' '}
+      Antall medlemmer (inkl. undergrupper):{' '}
       {groupsById[groupId.toString()].numberOfUsers}
     </>
     {showDescendants || (
-      <AddGroupMember
-        addMember={(...args) =>
-          addMember(...args).then(() =>
-            fetch({
-              descendants: showDescendants,
-              groupId: groupId,
-              next: false,
-              query,
-            })
-          )
-        }
-        groupId={groupId}
-      />
+      <AddGroupMember addMember={addMember} groupId={groupId} />
     )}
     <LoadingIndicator loading={!memberships}>
       <h3 className={styles.subTitle}>Brukere</h3>

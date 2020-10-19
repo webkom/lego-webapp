@@ -168,7 +168,6 @@ export function deleteEntities(deleteTypes: ?EntityReducerTypes) {
     return {
       ...state,
       pagination,
-
       byId: omit(state.byId, resultId),
       items: without(
         state.items,
@@ -196,6 +195,7 @@ export function optimistic(mutateTypes: ?EntityReducerTypes) {
 
     return {
       ...state,
+      pagination: {},
       items: state.items.filter((item) => item !== action.meta.optimisticId),
     };
   };
@@ -248,7 +248,6 @@ export function paginationReducer(fetchTypes: ?EntityReducerTypes) {
         hasMore,
         pagination: {
           ...state.pagination,
-          next: parsedNext,
           [paginationKey]: {
             ...state.pagination[paginationKey],
             next: parsedNext,

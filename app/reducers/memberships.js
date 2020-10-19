@@ -8,7 +8,7 @@ import { selectGroup } from './groups';
 export default createEntityReducer({
   key: 'memberships',
   types: {
-    mutate: Membership.JOIN_GROUP,
+    mutate: [Membership.JOIN_GROUP, Membership.CREATE],
     fetch: Group.MEMBERSHIP_FETCH,
     delete: [Membership.LEAVE_GROUP, Membership.REMOVE],
   },
