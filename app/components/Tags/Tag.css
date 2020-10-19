@@ -43,6 +43,11 @@ html[data-theme='dark'] .tagLink {
   border-color: #cfedf0;
 }
 
+.red {
+  background: #bc1010;
+  color: var(--color-white);
+}
+
 html[data-theme='dark'] .cyan {
   color: var(--lego-text-gray);
 }

@@ -10,7 +10,7 @@ type Props = {
   tag: string,
   /** Make small */
   small?: boolean,
-  color?: 'pink' | 'red' | 'orange' | 'green' | 'cyan' | 'blue' | 'purple',
+  color?: 'pink' | 'red' | 'orange' | 'green' | 'cyan' | 'blue' | 'purple' | '',
   link?: string,
   className?: string,
 };

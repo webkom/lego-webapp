@@ -72,13 +72,17 @@ export default class Overview extends Component<Props> {
           )}
         </NavigationTab>
         <Tags>
-          {this.props.tags.map((tag) => (
-            <Tag
-              tag={tag.tag}
-              key={tag.tag}
-              link={`/articles?tag=${tag.tag}`}
-            />
-          ))}
+          {this.props.tags.map((tag) => {
+            const isSelected = query && query.tag === tag.tag;
+            return (
+              <Tag
+                tag={tag.tag}
+                key={tag.tag}
+                color={isSelected ? 'cyan' : ''}
+                link={isSelected ? '/articles/' : `/articles?tag=${tag.tag}`}
+              />
+            );
+          })}
           <Tag tag="Vis alle tags..." key="viewmore" link="/tags/" />
         </Tags>
         <section className={styles.frontpage}>
