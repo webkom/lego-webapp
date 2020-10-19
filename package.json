@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.10.4",
-    "@sentry/browser": "^5.24.2",
+    "@sentry/browser": "^5.26.0",
     "@sentry/integrations": "^5.20.1",
     "@sentry/node": "^5.15.4",
     "@webkom/lego-editor": "^1.2.1",
