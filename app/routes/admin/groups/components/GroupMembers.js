@@ -103,7 +103,6 @@ function mapStateToProps(state, props) {
   const {
     role = '',
     'user.fullName': userFullname = '',
-    'user.username': userUsername = '',
     abakusGroup: abakusGroupName = '',
   } = filters;
 
@@ -111,7 +110,6 @@ function mapStateToProps(state, props) {
     descendants: showDescendants,
     role,
     userFullname,
-    userUsername,
     abakusGroupName,
   };
   const { pagination } = selectPaginationNext({

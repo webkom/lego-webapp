@@ -58,7 +58,7 @@ const GroupMembersList = ({
             onClick={performRemove}
           />
           <Link key="link" to={`/users/${user.username}`}>
-            {user.username}
+            {user.fullName} ({user.username})
           </Link>
         </>
       )
@@ -73,21 +73,15 @@ const GroupMembersList = ({
     );
 
   const RoleRender = (role: string) =>
-    role !== 'member' && <span>{ROLES[role] || role} </span>;
+    role !== 'member' && <i>{ROLES[role] || role} </i>;
 
   const columns = [
     {
-      title: 'Brukernavn',
+      title: 'Navn (brukernavn)',
       dataIndex: 'user.username',
       search: true,
       inlineFiltering: false,
       render: GroupMembersListColumns,
-    },
-    {
-      title: 'Navn',
-      dataIndex: 'user.fullName',
-      search: true,
-      inlineFiltering: false,
     },
     showDescendants
       ? {
