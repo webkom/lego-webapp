@@ -45,7 +45,7 @@
 }
 
 .overlay {
-  padding: 0 16px;
+  padding: 0.1rem 0.4rem;
   width: 100%;
   position: absolute;
   top: 0;
@@ -54,20 +54,21 @@
 
 .overlay:hover {
   background: linear-gradient(
-    rgba(199, 69, 89, 1),
+    var(--color-black),
     rgba(var(--rgb-max), var(--rgb-max), var(--rgb-max), 0.3)
   );
 }
 
 .overlaySelected {
   background: linear-gradient(
-    rgba(199, 69, 89, 1),
+    var(--color-black),
     rgba(var(--rgb-max), var(--rgb-max), var(--rgb-max), 0.3)
   );
 }
 
 .icon {
   font-size: 32px;
+  position: absolute;
 }
 
 .iconSelected {
@@ -87,23 +88,15 @@
   width: 100%;
 }
 
-.actions {
-  height: 66px;
-  background: dimgray;
-  padding: 0 20px;
-}
-
 .actionsContainer {
-  padding-bottom: 10px;
-  height: 88px;
+  padding: 0 20px;
+  height: 66px;
   color: var(--color-white);
-}
-
-.deselectIcon {
-  font-size: 40px;
-  cursor: pointer;
-  vertical-align: middle;
-  margin-right: 20px;
+  background: var(--lego-red);
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .actionIcon {
@@ -111,13 +104,11 @@
   vertical-align: middle;
 }
 
-.actionBar {
-  padding: 20px 0;
-}
-
 .action {
   margin-left: 10px;
   cursor: pointer;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .infoOverlay {
@@ -137,6 +128,12 @@
   & h1 {
     margin-bottom: 0;
   }
+}
+
+.selectedElements {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* Required for migrating react-collapse v4 -> v5 */
