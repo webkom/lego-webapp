@@ -153,7 +153,7 @@ class App extends PureComponent<AppProps> {
 
 function mapStateToProps(state) {
   const upcomingMeetings = Object.values(state.meetings.byId)
-    .filter((meeting: any) => moment(meeting.startTime).isAfter(moment()))
+    .filter((meeting: any) => moment(meeting.endTime).isAfter(moment()))
     .sort((meetingA: any, meetingB: any) =>
       moment(meetingA.startTime).isAfter(moment(meetingB.startTime)) ? 1 : -1
     )
