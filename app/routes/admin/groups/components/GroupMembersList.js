@@ -44,20 +44,19 @@ const GroupMembersList = ({
   filters,
 }: Props) => {
   const GroupMembersListColumns = (fullName, membership) => {
-    const { user } = membership;
+    const { user, abakusGroup } = membership;
     const performRemove = () =>
-      confirm(`Er du sikker på at du vil melde ut ${user.fullName}?`) &&
-      removeMember(membership);
+      confirm(
+        `Er du sikker på at du vil melde ut "${user.fullName}" fra gruppen "${groupsById[abakusGroup].name}?"`
+      ) && removeMember(membership);
     return (
       true && (
         <>
-          {!showDescendants && (
-            <i
-              key="icon"
-              className={`fa fa-times ${styles.removeIcon}`}
-              onClick={performRemove}
-            />
-          )}
+          <i
+            key="icon"
+            className={`fa fa-times ${styles.removeIcon}`}
+            onClick={performRemove}
+          />
           <Link key="link" to={`/users/${user.username}`}>
             {user.username}
           </Link>
