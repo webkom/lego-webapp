@@ -45,7 +45,7 @@ export type Props = {
 
 type State = {
   clickedUnregister: number,
-  generatedCSV: boolean,
+  generatedCsvUrl?: string,
 };
 
 export default class Attendees extends Component<Props, State> {
@@ -89,6 +89,7 @@ export default class Attendees extends Component<Props, State> {
       loading,
       registered,
       unregistered,
+      currentUser,
     } = this.props;
     const registerCount = registered.filter(
       (reg) => reg.presence === 'PRESENT' && reg.pool
@@ -106,6 +107,10 @@ export default class Attendees extends Component<Props, State> {
       return <div>{error.message}</div>;
     }
     const showUnregister = moment().isBefore(event.startTime);
+
+    const exportInfoMessage = `Informasjonen du eksporterer MÅ slettes når det ikke lenger er behov for den,
+                og skal kun distribueres gjennom mail. Dersom informasjonen skal deles med personer utenfor Abakus
+                må det spesifiseres for de påmeldte hvem informasjonen skal deles med.`;
     return (
       <div>
         <Flex row justifyContent="space-between">
@@ -115,37 +120,39 @@ export default class Attendees extends Component<Props, State> {
               {` ${event.title}`}
             </Link>
           </h2>
-          {this.state.generatedCsvUrl ? (
-            <a href={this.state.generatedCsvUrl} download="attendees.csv">
-              Last ned{' '}
-            </a>
-          ) : (
-            <ConfirmModalWithParent
-              title="Eksporter til csv"
-              closeOnConfirm={true}
-              message={`Informasjonen du eksporterer MÅ slettes når det ikke lenger er behov for den,
-                og skal kun distribueres gjennom mail. Dersom informasjonen skal deles med personer utenfor Abakus
-                må det spesifiseres for de påmeldte hvem informasjonen skal deles med.`}
-              onConfirm={async () => {
-                const data = registered.map((registration) => ({
-                  name: registration.user.fullName,
-                  email: registration.user.email,
-                }));
-                const csvBeginning = 'name,email\n';
-                const csvString = data.reduce(
-                  (prev, current) =>
-                    prev + `${current.name},${current.email}\n`,
-                  csvBeginning
-                );
-                const blobUrl = URL.createObjectURL(
-                  new Blob([csvString], { type: 'text/csv' })
-                );
-                this.setState({ generatedCsvUrl: blobUrl });
-              }}
-            >
-              <Button size="large">Eksporter deltakere til csv</Button>
-            </ConfirmModalWithParent>
-          )}
+          {event.shareInfoFlag &&
+            currentUser.id == event.createdBy &&
+            moment().isAfter(event.startTime) &&
+            moment().isBefore(moment(event.endTime).add('days', 14)) &&
+            (this.state.generatedCsvUrl ? (
+              <a href={this.state.generatedCsvUrl} download="attendees.csv">
+                Last ned
+              </a>
+            ) : (
+              <ConfirmModalWithParent
+                title="Eksporter til csv"
+                closeOnConfirm={true}
+                message={exportInfoMessage}
+                onConfirm={async () => {
+                  const data = registered.map((registration) => ({
+                    name: registration.user.fullName,
+                    email: registration.user.email,
+                  }));
+                  const csvBeginning = 'name,email\n';
+                  const csvString = data.reduce(
+                    (prev, current) =>
+                      prev + `${current.name},${current.email || ''}\n`,
+                    csvBeginning
+                  );
+                  const blobUrl = URL.createObjectURL(
+                    new Blob([csvString], { type: 'text/csv' })
+                  );
+                  this.setState({ generatedCsvUrl: blobUrl });
+                }}
+              >
+                <Button size="large">Eksporter deltakere til csv</Button>
+              </ConfirmModalWithParent>
+            ))}
         </Flex>
         <Flex column>
           <div>

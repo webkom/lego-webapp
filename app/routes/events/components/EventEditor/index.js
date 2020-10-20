@@ -403,6 +403,7 @@ function EventEditor({
                   fieldClassName={styles.metaField}
                   className={styles.formField}
                   normalize={(v) => !!v}
+                  disabled={moment().isAfter(event.activationTime)}
                 />
               </Tooltip>
             )}

@@ -57,6 +57,7 @@ type EventBase = {
   unregistrationDeadline: Dateish,
   pinned: boolean,
   youtubeUrl: string,
+  shareInfoFlag: boolean,
 };
 
 export type Event = EventBase & {

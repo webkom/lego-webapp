@@ -158,8 +158,8 @@ const RegistrationMeta = ({
     {shareInfoFlag && !registration && (
       <div>
         <i className="fa fa-exclamation-circle" /> Ved å melde deg på dette
-        arrangementet samtykker du til at informasjonen din kan deles med andre
-        utenfor Abakus til smittesporing
+        arrangementet samtykker du til at kontaktinformasjonen din (navn og
+        epost) kan deles med andre utenfor Abakus til smittesporing
       </div>
     )}
     {registration && (
