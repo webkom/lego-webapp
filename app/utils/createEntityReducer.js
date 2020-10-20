@@ -149,23 +149,18 @@ export function deleteEntities(deleteTypes: ?EntityReducerTypes) {
     if (!resultId) return state;
 
     const paginationNext = Object.keys(state.paginationNext).reduce(
-      (newPaginationNext, key) => {
-        const paginationEntry = state.paginationNext[key];
-        if (get(paginationEntry, 'items')) {
-          newPaginationNext[key] = {
-            ...paginationEntry,
-            items: without(
-              paginationEntry.items,
-              ...(isNumber(resultId)
-                ? [Number(resultId), resultId.toString()]
-                : [resultId])
-            ),
-          };
-        } else {
-          newPaginationNext[key] = paginationEntry;
-        }
-        return newPaginationNext;
-      },
+      (newPaginationNext, key) => (
+        (newPaginationNext[key] = {
+          ...state.paginationNext[key],
+          items: without(
+            state.paginationNext[key].items,
+            ...(isNumber(resultId)
+              ? [Number(resultId), resultId.toString()]
+              : [resultId])
+          ),
+        }),
+        newPaginationNext
+      ),
       {}
     );
     return {
