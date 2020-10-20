@@ -46,3 +46,14 @@
     width: 100px;
   }
 }
+
+.checkbox {
+  margin-right: 0;
+  margin-left: 10px;
+}
+
+.filterButtons {
+  @media (--mobile-device) {
+    margin-bottom: 40px;
+  }
+}

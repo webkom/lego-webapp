@@ -15,6 +15,7 @@ import Select from 'react-select';
 import { orderBy } from 'lodash';
 import Icon from 'app/components/Icon';
 import { EVENTFIELDS } from 'app/utils/constants';
+import { CheckBox } from 'app/components/Form/';
 
 const groupEvents = ({
   events,
@@ -79,27 +80,43 @@ type EventListProps = {
 };
 
 type Option = {
-  filterFunc: (Event) => boolean,
+  filterRegDateFunc: (Event) => boolean,
   label: string,
   field: EventTimeType,
 };
 
 type State = {
   selectedOption: Option,
+  filterEventTypesSettings: Object,
 };
 
 // $FlowFixMe
 class EventList extends Component<EventListProps, State> {
   state = {
     selectedOption: {
-      filterFunc: (event: Event) => event,
+      filterRegDateFunc: (event: Event) => event,
       label: 'Vis alle',
       field: EVENTFIELDS.start,
+    },
+    filterEventTypesSettings: {
+      showCompanyPresentation: false,
+      showCourse: false,
+      showSocial: false,
+      showOther: false,
     },
   };
 
   handleChange = (selectedOption: Option): void => {
     this.setState({ selectedOption });
+  };
+
+  handleFilterEventTypeChange = (eventType: string) => {
+    this.setState((state) => ({
+      filterEventTypesSettings: {
+        ...state.filterEventTypesSettings,
+        [eventType]: !state.filterEventTypesSettings[eventType],
+      },
+    }));
   };
 
   render() {
@@ -110,31 +127,62 @@ class EventList extends Component<EventListProps, State> {
       events,
       loggedIn,
     } = this.props;
-    const { field, filterFunc } = this.state.selectedOption;
+    const { field, filterRegDateFunc } = this.state.selectedOption;
+    const {
+      showCompanyPresentation,
+      showCourse,
+      showSocial,
+      showOther,
+    } = this.state.filterEventTypesSettings;
+
+    const filterEventTypesFunc = (event) => {
+      if (!showCompanyPresentation && !showCourse && !showSocial && !showOther)
+        return true;
+      switch (event.eventType) {
+        case 'company_presentation':
+        case 'lunch_presentation':
+          return showCompanyPresentation;
+        case 'alternative_presentation':
+          return showSocial || showCompanyPresentation;
+        case 'course':
+          return showCourse;
+        case 'event':
+        case 'social':
+        case 'party':
+          return showSocial;
+        case 'other':
+          return showOther;
+        default:
+          return true;
+      }
+    };
 
     const groupedEvents = groupEvents({
-      events: orderBy(events.filter(filterFunc), field),
+      events: orderBy(
+        events.filter(filterRegDateFunc).filter(filterEventTypesFunc),
+        field
+      ),
       field: field,
     });
 
-    const options = [
+    const filterRegDateoptions = [
       {
-        filterFunc: (event) => event,
+        filterRegDateFunc: (event) => event,
         label: 'Vis alle',
         field: EVENTFIELDS.start,
       },
       {
-        filterFunc: (event) =>
+        filterRegDateFunc: (event) =>
           event.activationTime != null &&
           event.activationTime.isBefore(moment()),
-        label: 'Påmelding åpnet',
+        label: 'P\xe5melding \xe5pnet',
         field: EVENTFIELDS.start,
       },
       {
-        filterFunc: (event) =>
+        filterRegDateFunc: (event) =>
           event.activationTime != null &&
           event.activationTime.isAfter(moment()),
-        label: 'Åpner i fremtiden',
+        label: '\xc5pner i fremtiden',
         field: EVENTFIELDS.activate,
       },
     ];
@@ -144,17 +192,49 @@ class EventList extends Component<EventListProps, State> {
         <Helmet title="Arrangementer" />
         <Toolbar actionGrant={this.props.actionGrant} />
         <div className={styles.filter}>
+          <div className={styles.filterButtons}>
+            <CheckBox
+              id={'companyPresentation'}
+              value={showCompanyPresentation}
+              onChange={() =>
+                this.handleFilterEventTypeChange('showCompanyPresentation')
+              }
+              className={styles.checkbox}
+            />
+            Bedpres
+            <CheckBox
+              id={'course'}
+              value={showCourse}
+              onChange={() => this.handleFilterEventTypeChange('showCourse')}
+              className={styles.checkbox}
+            />
+            Kurs
+            <CheckBox
+              id={'social'}
+              value={showSocial}
+              onChange={() => this.handleFilterEventTypeChange('showSocial')}
+              className={styles.checkbox}
+            />
+            Sosialt
+            <CheckBox
+              id={'other'}
+              value={showOther}
+              onChange={() => this.handleFilterEventTypeChange('showOther')}
+              className={styles.checkbox}
+            />
+            Annet
+          </div>
           <Icon
             size={25}
             name="funnel-outline"
-            style={{ marginRight: '5px' }}
+            style={{ marginRight: '5px', marginLeft: '10px' }}
           />
           <Select
             name="form-field-name"
             value={this.state.selectedOption}
             onChange={this.handleChange}
             className={styles.select}
-            options={options}
+            options={filterRegDateoptions}
             clearable={false}
             backspaceRemoves={false}
             deleteRemoves={false}
@@ -178,7 +258,6 @@ class EventList extends Component<EventListProps, State> {
           field={field}
           loggedIn={loggedIn}
         />
-
         {isEmpty(this.props.events) && (
           <EmptyState icon="book-outline" size={40}>
             <h2 className={styles.noEvents}>Ingen kommende arrangementer</h2>
