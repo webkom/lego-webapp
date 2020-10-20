@@ -321,16 +321,9 @@ export default class Table extends Component<Props, State> {
         </thead>
         <InfiniteScroll
           element="tbody"
-          hasMore={hasMore}
+          hasMore={hasMore && !loading}
           loadMore={this.loadMore}
           threshold={50}
-          loader={
-            <tr>
-              <td className={styles.loader} colSpan={columns.length}>
-                <LoadingIndicator loading={loading} />
-              </td>
-            </tr>
-          }
         >
           {data.filter(this.filter).map((item, index) => (
             <tr key={item[rowKey]}>
@@ -339,6 +332,11 @@ export default class Table extends Component<Props, State> {
                 .map((column, index) => this.renderCell(column, item, index))}
             </tr>
           ))}
+          <tr>
+            <td className={styles.loader} colSpan={columns.length}>
+              <LoadingIndicator loading={loading} />
+            </td>
+          </tr>
         </InfiniteScroll>
       </table>
     );
