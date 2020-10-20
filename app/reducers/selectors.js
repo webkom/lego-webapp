@@ -1,6 +1,6 @@
 // @flow
 
-import { get, omit, isArray } from 'lodash';
+import { get, isArray } from 'lodash';
 import { type Schema } from 'normalizr';
 import createQueryString from 'app/utils/createQueryString';
 
@@ -17,13 +17,11 @@ export const selectPaginationNext = ({
   entity,
 }: {
   endpoint: string,
-  query: ?Object,
+  query: Object,
   schema?: Schema,
   entity?: string,
 }) => (state: any) => {
-  const paginationKey = `${endpoint}${createQueryString(
-    omit(query, 'cursor')
-  )}`;
+  const paginationKey = `${endpoint}${createQueryString(query)}`;
   let schemaKey = entity;
   if (!schemaKey) {
     if (isArray(schema)) {
@@ -35,7 +33,10 @@ export const selectPaginationNext = ({
   return {
     pagination: state[schemaKey].paginationNext[paginationKey] || {
       hasMore: true,
-      next: '',
+      hasMoreBackwards: false,
+      query,
+      next: { ...query, cursor: '' },
+      previous: false,
       items: [],
     },
     paginationKey,

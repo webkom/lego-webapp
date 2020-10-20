@@ -200,6 +200,7 @@ export function paginationReducer(fetchTypes: ?EntityReducerTypes) {
   return (state: any, action: any) => {
     const paginationKey = get(action, ['meta', 'paginationKey']);
     const cursor = get(action, ['meta', 'cursor']);
+    const query = get(action, ['meta', 'query']);
     if (
       toArray(fetchTypes).some(
         (fetchType) => action.type === fetchType.BEGIN
@@ -215,8 +216,9 @@ export function paginationReducer(fetchTypes: ?EntityReducerTypes) {
             ...state.paginationNext[paginationKey],
             items: [],
             hasMore: true,
+            query,
             hasMoreBackwards: false,
-            next: { cursor: '' },
+            next: { ...query, cursor: '' },
             previous: null,
           },
         },
@@ -249,6 +251,7 @@ export function paginationReducer(fetchTypes: ?EntityReducerTypes) {
           [paginationKey]: {
             items: [],
             ...state.paginationNext[paginationKey],
+            query,
             next: parsedNext,
             previous: parsedPrevious,
             hasMore,
@@ -261,8 +264,8 @@ export function paginationReducer(fetchTypes: ?EntityReducerTypes) {
     return {
       ...state,
       hasMore,
-      paginationNext: {
-        ...state.paginationNext,
+      pagination: {
+        ...state.pagination,
         next: parsedNext,
       },
     };

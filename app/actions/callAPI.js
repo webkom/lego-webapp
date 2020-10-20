@@ -179,7 +179,7 @@ export default function callAPI({
       schemaKey &&
       selectPaginationNext({
         endpoint,
-        query,
+        query: query || {},
         schema,
       })(state);
     const cursor =
@@ -203,6 +203,7 @@ export default function callAPI({
       payload: optimisticPayload,
       meta: {
         queryString: qsWithoutPagination,
+        query,
         paginationKey:
           paginationForRequest && paginationForRequest.paginationKey,
         cursor,
