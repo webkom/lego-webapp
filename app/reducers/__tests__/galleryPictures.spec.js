@@ -5,6 +5,7 @@ describe('reducers', () => {
   const baseState = {
     actionGrant: [],
     pagination: {},
+    paginationNext: {},
     items: [1],
     byId: {
       1: {},
@@ -21,6 +22,7 @@ describe('reducers', () => {
       expect(galleryPictures(prevState, action)).toEqual({
         actionGrant: [],
         pagination: {},
+        paginationNext: {},
         items: [1],
         byId: { 1: {} },
         uploadStatus: {
@@ -41,6 +43,7 @@ describe('reducers', () => {
       expect(galleryPictures(prevState, action)).toEqual({
         actionGrant: [],
         pagination: {},
+        paginationNext: {},
         items: [1],
         byId: { 1: {} },
         uploadStatus: {
@@ -62,6 +65,7 @@ describe('reducers', () => {
       expect(galleryPictures(prevState, action)).toEqual({
         actionGrant: [],
         pagination: {},
+        paginationNext: {},
         items: [],
         byId: {},
       });
@@ -70,6 +74,7 @@ describe('reducers', () => {
       const prevState = {
         actionGrant: [],
         pagination: {},
+        paginationNext: {},
         items: [],
         byId: {},
         uploadStatus: {
@@ -91,6 +96,7 @@ describe('reducers', () => {
       expect(galleryPictures(prevState, action)).toEqual({
         actionGrant: [],
         pagination: {},
+        paginationNext: {},
         items: [],
         byId: {},
         uploadStatus: {
@@ -109,6 +115,7 @@ describe('reducers', () => {
       const prevState = {
         actionGrant: [],
         pagination: {},
+        paginationNext: {},
         items: [],
         byId: {},
         uploadStatus: {
@@ -136,6 +143,7 @@ describe('reducers', () => {
       expect(galleryPictures(prevState, action)).toEqual({
         actionGrant: [],
         pagination: {},
+        paginationNext: {},
         items: [],
         byId: {},
         uploadStatus: {

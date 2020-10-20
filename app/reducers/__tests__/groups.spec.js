@@ -5,6 +5,7 @@ describe('reducers', () => {
   const baseState = {
     actionGrant: [],
     pagination: {},
+    paginationNext: {},
     items: [1],
     byId: {
       1: {
@@ -28,6 +29,7 @@ describe('reducers', () => {
       expect(groups(prevState, action)).toEqual({
         actionGrant: [],
         pagination: {},
+        paginationNext: {},
         items: [1],
         byId: {
           1: {
@@ -48,6 +50,7 @@ describe('reducers', () => {
       expect(groups(prevState, action)).toEqual({
         actionGrant: [],
         pagination: {},
+        paginationNext: {},
         items: [1],
         byId: {
           1: {
@@ -70,6 +73,7 @@ describe('reducers', () => {
       expect(groups(prevState, action)).toEqual({
         actionGrant: [],
         pagination: {},
+        paginationNext: {},
         items: [1],
         byId: {
           1: {

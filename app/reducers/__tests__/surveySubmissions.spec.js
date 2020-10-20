@@ -6,6 +6,7 @@ describe('reducers', () => {
     const baseState = {
       actionGrant: [],
       pagination: {},
+      paginationNext: {},
       items: [],
       byId: {},
     };
@@ -32,6 +33,7 @@ describe('reducers', () => {
       expect(surveySubmissions(prevState, action)).toEqual({
         actionGrant: [],
         pagination: {},
+        paginationNext: {},
         items: [3],
         byId: {
           3: {

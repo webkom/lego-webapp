@@ -187,10 +187,6 @@ export function optimistic(mutateTypes: ?EntityReducerTypes) {
       return state;
     }
 
-    if (!action.meta.optimisticId) {
-      return state;
-    }
-
     return {
       ...state,
       paginationNext: {},
@@ -219,7 +215,9 @@ export function paginationReducer(fetchTypes: ?EntityReducerTypes) {
             ...state.paginationNext[paginationKey],
             items: [],
             hasMore: true,
-            next: '',
+            hasMoreBackwards: false,
+            next: { cursor: '' },
+            previous: null,
           },
         },
       };
@@ -236,9 +234,11 @@ export function paginationReducer(fetchTypes: ?EntityReducerTypes) {
       return state;
     }
 
-    const { next = null } = action.payload;
+    const { next = null, previous = null } = action.payload;
     const parsedNext = next && parse(next.split('?')[1]);
+    const parsedPrevious = previous && parse(previous.split('?')[1]);
     const hasMore = typeof next === 'string';
+    const hasMoreBackwards = typeof previous === 'string';
 
     if (paginationKey) {
       return {
@@ -247,9 +247,12 @@ export function paginationReducer(fetchTypes: ?EntityReducerTypes) {
         paginationNext: {
           ...state.paginationNext,
           [paginationKey]: {
+            items: [],
             ...state.paginationNext[paginationKey],
             next: parsedNext,
+            previous: parsedPrevious,
             hasMore,
+            hasMoreBackwards,
           },
         },
       };
