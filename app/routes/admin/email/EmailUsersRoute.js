@@ -52,9 +52,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = { fetch, push };
 
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
   prepare(
-    ({ query }, dispatch) =>
+    (_, dispatch) =>
       Promise.all([
         dispatch(fetchAllWithType(GroupTypeCommittee)),
         dispatch(fetchAllWithType(GroupTypeGrade)),
@@ -62,6 +61,6 @@ export default compose(
     [],
     { awaitOnSsr: false }
   ),
-
+  connect(mapStateToProps, mapDispatchToProps),
   prepare(({ query }, dispatch) => dispatch(fetch({ query })))
 )(EmailUsers);

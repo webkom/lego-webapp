@@ -33,7 +33,7 @@ export const selectPaginationNext = ({
     }
   }
   return {
-    pagination: state[schemaKey].pagination[paginationKey] || {
+    pagination: state[schemaKey].paginationNext[paginationKey] || {
       hasMore: true,
       next: '',
       items: [],
