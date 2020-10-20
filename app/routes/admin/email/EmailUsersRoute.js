@@ -6,19 +6,61 @@ import EmailUsers from './components/EmailUsers';
 import { fetch } from 'app/actions/EmailUserActions';
 import { selectEmailUsers } from 'app/reducers/emailUsers';
 import prepare from 'app/utils/prepare';
-import loadingIndicator from 'app/utils/loadingIndicator';
+import { fetchAllWithType } from 'app/actions/GroupActions';
+import { GroupTypeCommittee, GroupTypeGrade } from 'app/models';
+import { selectPaginationNext } from 'app/reducers/selectors';
+import { push } from 'connected-react-router';
+import { selectGroupsWithType } from 'app/reducers/groups';
+import qs from 'qs';
 
-const mapStateToProps = (state) => ({
-  emailUsers: selectEmailUsers(state),
-  fetching: state.emailUsers.fetching,
-  hasMore: state.emailUsers.hasMore,
-  notFetching: !state.emailUsers.fetching || state.emailUsers.items.length,
-});
+const mapStateToProps = (state) => {
+  const { search } = state.router.location;
+  const { filters: qsFilters = '{}' } = qs.parse(search.slice(1));
+  const filters = JSON.parse(qsFilters);
+  const {
+    'user.fullName': userFullname,
+    internalEmail: email,
+    userCommittee,
+    userGrade,
+    internalEmailEnabled: enabled,
+  } = filters;
 
-const mapDispatchToProps = { fetch };
+  const query = {
+    userFullname,
+    email,
+    userCommittee,
+    userGrade,
+    enabled,
+  };
+  const { pagination } = selectPaginationNext({
+    endpoint: '/email-users/',
+    entity: 'emailUsers',
+    query,
+  })(state);
+  return {
+    emailUsers: selectEmailUsers(state, { pagination }),
+    fetching: state.emailUsers.fetching,
+    hasMore: pagination.hasMore,
+    pagination,
+    query,
+    filters,
+    committees: selectGroupsWithType(state, { groupType: GroupTypeCommittee }),
+    grades: selectGroupsWithType(state, { groupType: GroupTypeGrade }),
+  };
+};
+
+const mapDispatchToProps = { fetch, push };
 
 export default compose(
-  prepare((props, dispatch) => dispatch(fetch())),
+  prepare(
+    (_, dispatch) =>
+      Promise.all([
+        dispatch(fetchAllWithType(GroupTypeCommittee)),
+        dispatch(fetchAllWithType(GroupTypeGrade)),
+      ]),
+    [],
+    { awaitOnSsr: false }
+  ),
   connect(mapStateToProps, mapDispatchToProps),
-  loadingIndicator(['notFetching'])
+  prepare(({ query }, dispatch) => dispatch(fetch({ query })))
 )(EmailUsers);

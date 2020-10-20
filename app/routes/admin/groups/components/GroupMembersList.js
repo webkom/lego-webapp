@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { ROLES } from 'app/utils/constants';
 import styles from './GroupMembersList.css';
 import Table from 'app/components/Table';
+import qs from 'qs';
 
 type Props = {
   fetching: boolean,
@@ -14,7 +15,17 @@ type Props = {
   removeMember: (Object) => Promise<*>,
   showDescendants: boolean,
   groupsById: { [string]: { name: string, numberOfUsers?: number } },
-  fetch: ({ groupId: number, next: true }) => Promise<*>,
+  fetch: ({
+    groupId: number,
+    next: boolean,
+    query: Object,
+    descendants: boolean,
+  }) => Promise<*>,
+  push: (any) => void,
+  pathname: string,
+  search: string,
+  query: Object,
+  filters: Object,
 };
 
 const GroupMembersList = ({
@@ -26,26 +37,26 @@ const GroupMembersList = ({
   hasMore,
   fetching,
   groupsById,
+  push,
+  pathname,
+  search,
+  query,
+  filters,
 }: Props) => {
-  if (!memberships.length) {
-    return <div>Ingen brukere</div>;
-  }
-
   const GroupMembersListColumns = (fullName, membership) => {
-    const { user } = membership;
+    const { user, abakusGroup } = membership;
     const performRemove = () =>
-      confirm(`Er du sikker på at du vil melde ut ${user.fullName}?`) &&
-      removeMember(membership);
+      confirm(
+        `Er du sikker på at du vil melde ut "${user.fullName}" fra gruppen "${groupsById[abakusGroup].name}?"`
+      ) && removeMember(membership);
     return (
       true && (
         <>
-          {!showDescendants && (
-            <i
-              key="icon"
-              className={`fa fa-times ${styles.removeIcon}`}
-              onClick={performRemove}
-            />
-          )}
+          <i
+            key="icon"
+            className={`fa fa-times ${styles.removeIcon}`}
+            onClick={performRemove}
+          />
           <Link key="link" to={`/users/${user.username}`}>
             {user.fullName} ({user.username})
           </Link>
@@ -62,22 +73,21 @@ const GroupMembersList = ({
     );
 
   const RoleRender = (role: string) =>
-    role !== 'member' && <span>{ROLES[role] || role} </span>;
-
-  const EmailRender = (internalEmail: string) =>
-    internalEmail && <a href={`mailto:${internalEmail}`}>{internalEmail}</a>;
+    role !== 'member' && <i>{ROLES[role] || role} </i>;
 
   const columns = [
     {
-      title: 'Navn',
-      dataIndex: 'user.fullName',
+      title: 'Navn (brukernavn)',
+      dataIndex: 'user.username',
       search: true,
+      inlineFiltering: false,
       render: GroupMembersListColumns,
     },
     showDescendants
       ? {
           title: 'Gruppe',
-          search: false,
+          search: true,
+          inlineFiltering: false,
           dataIndex: 'abakusGroup',
           render: GroupLinkRender,
         }
@@ -85,29 +95,49 @@ const GroupMembersList = ({
     {
       title: 'Rolle',
       dataIndex: 'role',
-      search: true,
+      filter: Object.keys(ROLES).map((value) => ({
+        value,
+        label: ROLES[value],
+      })),
+      search: false,
+      inlineFiltering: false,
       filterMapping: (role) =>
         role === 'member' || !ROLES[role] ? '' : ROLES[role],
       render: RoleRender,
     },
-    {
-      title: 'E-post',
-      dataIndex: 'user.internalEmailAddress',
-      search: false,
-      render: EmailRender,
-    },
   ].filter(Boolean);
   return (
-    <Table
-      infiniteScroll
-      columns={columns}
-      onLoad={() => {
-        fetch({ descendants: showDescendants, groupId: groupId, next: true });
-      }}
-      hasMore={hasMore}
-      loading={fetching}
-      data={memberships}
-    />
+    <>
+      <Table
+        infiniteScroll
+        onChange={(filters, sort) => {
+          push({
+            pathname,
+            search: qs.stringify({
+              filters: JSON.stringify(filters),
+              sort: JSON.stringify(sort),
+              ...(search.includes('descendants=true')
+                ? { descendants: true }
+                : {}),
+            }),
+          });
+        }}
+        columns={columns}
+        onLoad={() => {
+          fetch({
+            descendants: showDescendants,
+            groupId: groupId,
+            next: true,
+            query,
+          });
+        }}
+        hasMore={hasMore}
+        loading={fetching}
+        data={memberships}
+        filters={filters}
+      />
+      {!memberships.length && !fetching && <div>Ingen brukere</div>}
+    </>
   );
 };
 

@@ -7,6 +7,7 @@ import LoadingIndicator from 'app/components/LoadingIndicator';
 import GroupMembersList from './GroupMembersList';
 import AddGroupMember from './AddGroupMember';
 import prepare from 'app/utils/prepare';
+import { push } from 'connected-react-router';
 import styles from './GroupMembers.css';
 import {
   fetchMemberships,
@@ -15,19 +16,30 @@ import {
   removeMember,
 } from 'app/actions/GroupActions';
 import { selectMembershipsForGroup } from 'app/reducers/memberships';
+import { selectPaginationNext } from 'app/reducers/selectors';
 import type { AddMemberArgs } from 'app/actions/GroupActions';
-import { get } from 'lodash';
+import qs from 'qs';
 
 type Props = {
   groupId: number,
   hasMore: boolean,
-  fetch: ({ groupId: number, next: true }) => Promise<*>,
+  fetch: ({
+    groupId: number,
+    next: boolean,
+    query: Object,
+    descendants: boolean,
+  }) => Promise<*>,
   fetching: boolean,
   groupsById: { [string]: { name: string, numberOfUsers?: number } },
   memberships: Array<Object>,
   showDescendants: boolean,
   addMember: (AddMemberArgs) => Promise<*>,
   removeMember: (Object) => Promise<*>,
+  push: (any) => void,
+  pathname: string,
+  search: string,
+  query: Object,
+  filters: Object,
 };
 
 export const GroupMembers = ({
@@ -40,10 +52,15 @@ export const GroupMembers = ({
   showDescendants,
   groupsById,
   fetch,
+  push,
+  pathname,
+  search,
+  query,
+  filters,
 }: Props) => (
   <div className={styles.groupMembers}>
     <>
-      Antall medlemmer (inlk. undergrupper):{' '}
+      Antall medlemmer (inkl. undergrupper):{' '}
       {groupsById[groupId.toString()].numberOfUsers}
     </>
     {showDescendants || (
@@ -52,8 +69,14 @@ export const GroupMembers = ({
     <LoadingIndicator loading={!memberships}>
       <h3 className={styles.subTitle}>Brukere</h3>
       <GroupMembersList
+        key={groupId + showDescendants}
         groupId={groupId}
+        filters={filters}
+        query={query}
         hasMore={hasMore}
+        push={push}
+        pathname={pathname}
+        search={search}
         groupsById={groupsById}
         fetch={fetch}
         fetching={fetching}
@@ -65,19 +88,40 @@ export const GroupMembers = ({
   </div>
 );
 
-function loadData({ match: { params }, location }, dispatch) {
+function loadData({ query, match: { params }, location }, dispatch) {
   const showDescendants = location.search.includes('descendants=true');
-  return dispatch(fetchMemberships(params.groupId, showDescendants));
+  return dispatch(fetchMemberships(params.groupId, showDescendants, query));
 }
 
 function mapStateToProps(state, props) {
+  const { pathname, search } = state.router.location;
   const showDescendants = location.search.includes('descendants=true');
+  const groupId = props.match.params && props.match.params.groupId;
+
+  const { filters: qsFilters = '{}' } = qs.parse(search.slice(1));
+  const filters = JSON.parse(qsFilters);
+  const {
+    role = '',
+    'user.fullName': userFullname = '',
+    abakusGroup: abakusGroupName = '',
+  } = filters;
+
+  const query = {
+    descendants: showDescendants,
+    role,
+    userFullname,
+    abakusGroupName,
+  };
+  const { pagination } = selectPaginationNext({
+    endpoint: `/groups/${groupId}/memberships/`,
+    entity: 'memberships',
+    query,
+  })(state);
   const memberships = selectMembershipsForGroup(state, {
     groupId: props.match.params.groupId,
     descendants: showDescendants,
+    pagination,
   });
-
-  const groupId = props.match.params && props.match.params.groupId;
 
   return {
     memberships,
@@ -85,7 +129,11 @@ function mapStateToProps(state, props) {
     groupsById: state.groups.byId,
     fetching: state.memberships.fetching,
     showDescendants,
-    hasMore: get(state, ['memberships', 'pagination', groupId, 'hasMore']),
+    hasMore: !pagination || pagination.hasMore,
+    pathname,
+    search,
+    query,
+    filters,
   };
 }
 
@@ -93,9 +141,10 @@ const mapDispatchToProps = {
   addMember,
   removeMember,
   fetch: fetchMembershipsPagination,
+  push,
 };
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  prepare(loadData, ['match.params.groupId', 'location'])
+  prepare(loadData, ['match.params.groupId'])
 )(GroupMembers);

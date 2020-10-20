@@ -13,7 +13,11 @@ const EmailPage = ({ children }: Props) => (
   <Content>
     <NavigationTab title="Epost">
       <NavigationLink to={'/admin/email'}>Lister</NavigationLink>
-      <NavigationLink to={'/admin/email/users'}>Brukere</NavigationLink>
+      <NavigationLink
+        to={'/admin/email/users?filters={"internalEmailEnabled"%3A"true"}'}
+      >
+        Brukere
+      </NavigationLink>
       <NavigationLink to={'/admin/email/restricted'}>
         Begrenset epost
       </NavigationLink>

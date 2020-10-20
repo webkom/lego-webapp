@@ -12,7 +12,6 @@ import Tag from 'app/components/Tags/Tag';
 import Tags from 'app/components/Tags';
 import Paginator from 'app/components/Paginator';
 import { type ActionGrant } from 'app/models';
-import qs from 'qs';
 
 const HEADLINE_EVENTS = 2;
 
@@ -57,11 +56,12 @@ type Props = {
   tags: Array<Object>,
   location: any,
   actionGrant: ActionGrant,
+  query: Object,
 };
 
 export default class Overview extends Component<Props> {
   render() {
-    const { articles, actionGrant = [] } = this.props;
+    const { articles, actionGrant = [], query } = this.props;
     const headlineEvents = articles.slice(0, HEADLINE_EVENTS);
     const normalEvents = articles.slice(HEADLINE_EVENTS);
     return (
@@ -72,13 +72,17 @@ export default class Overview extends Component<Props> {
           )}
         </NavigationTab>
         <Tags>
-          {this.props.tags.map((tag) => (
-            <Tag
-              tag={tag.tag}
-              key={tag.tag}
-              link={`/articles?tag=${tag.tag}`}
-            />
-          ))}
+          {this.props.tags.map((tag) => {
+            const isSelected = query && query.tag === tag.tag;
+            return (
+              <Tag
+                tag={tag.tag}
+                key={tag.tag}
+                color={isSelected ? 'cyan' : ''}
+                link={isSelected ? '/articles/' : `/articles?tag=${tag.tag}`}
+              />
+            );
+          })}
           <Tag tag="Vis alle tags..." key="viewmore" link="/tags/" />
         </Tags>
         <section className={styles.frontpage}>
@@ -88,9 +92,7 @@ export default class Overview extends Component<Props> {
             fetching={this.props.fetching}
             fetchNext={() => {
               this.props.fetchAll({
-                tag: qs.parse(this.props.location.search, {
-                  ignoreQueryPrefix: true,
-                }).tag,
+                query,
                 next: true,
               });
             }}

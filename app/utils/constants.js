@@ -12,7 +12,7 @@ export const Keyboard = {
 };
 
 export const ROLES = {
-  member: 'Medlem',
+  member: 'Medlem (standard)',
   leader: 'Leder',
   'co-leader': 'Nestleder',
   treasurer: 'Økonomiansvarlig',

@@ -47,6 +47,12 @@ class ErrorBoundary extends React.Component<Props, State> {
 
   componentDidCatch(error: Error, errorInfo: Object) {
     this.setState({ error });
+    if (__DEV__) {
+      /* eslint no-console: 0 */
+      console.error(error);
+      /* eslint no-console: 0 */
+      console.error(errorInfo);
+    }
     Sentry.withScope((scope) => {
       scope.setExtras(errorInfo);
       const lastEventId = Sentry.captureException(error);

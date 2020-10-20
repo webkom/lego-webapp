@@ -16,25 +16,18 @@ import type { Thunk } from 'app/types';
 import { addToast } from 'app/actions/ToastActions';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 
-export const fetchAll = ({ fetchMore }: { fetchMore: boolean }): Thunk<*> => (
-  dispatch,
-  getState
-) => {
-  const endpoint = fetchMore
-    ? getState().companies.pagination[''].nextPage
-    : '/companies/';
-  return dispatch(
-    callAPI({
-      types: Company.FETCH,
-      endpoint,
-      schema: [companySchema],
-      meta: {
-        errorMessage: 'Henting av bedrifter feilet',
-        queryString: '',
-      },
-      propagateError: true,
-    })
-  );
+export const fetchAll = ({ fetchMore }: { fetchMore: boolean }): Thunk<*> => {
+  return callAPI({
+    types: Company.FETCH,
+    endpoint: '/companies/',
+    schema: [companySchema],
+    pagination: { fetchNext: fetchMore },
+    meta: {
+      errorMessage: 'Henting av bedrifter feilet',
+      queryString: '',
+    },
+    propagateError: true,
+  });
 };
 
 export function fetchAllAdmin() {

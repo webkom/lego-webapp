@@ -35,7 +35,11 @@ export default createEntityReducer({
 export const selectEmailLists = createSelector(
   (state) => state.emailLists.byId,
   (state) => state.emailLists.items,
-  (emailListsById, emailListIds) => emailListIds.map((id) => emailListsById[id])
+  (_, { pagination }) => pagination,
+  (emailListsById, emailListIds, pagination) =>
+    (pagination ? pagination.items : emailListIds)
+      .map((id) => emailListsById[id])
+      .filter(Boolean)
 );
 
 export const selectEmailListById = createSelector(

@@ -3,14 +3,19 @@
 import React, { Component } from 'react';
 import Table from 'app/components/Table';
 import { Link } from 'react-router-dom';
+import Tag from 'app/components/Tags/Tag';
 import Button from 'app/components/Button';
 import Flex from 'app/components/Layout/Flex';
+import qs from 'qs';
 
 type Props = {
   fetching: boolean,
   hasMore: boolean,
   emailLists: Array<Object>,
-  fetch: ({ filters?: Object, next?: boolean }) => Promise<*>,
+  fetch: ({ query?: Object, next?: boolean }) => Promise<*>,
+  query: Object,
+  filters: Object,
+  push: (Object) => void,
 };
 
 export default class EmailLists extends Component<Props> {
@@ -20,6 +25,7 @@ export default class EmailLists extends Component<Props> {
         title: 'Navn',
         dataIndex: 'name',
         search: true,
+        inlineFiltering: false,
         render: (name: string, emailList) => (
           <Link to={`/admin/email/lists/${emailList.id}`}>{name}</Link>
         ),
@@ -28,7 +34,23 @@ export default class EmailLists extends Component<Props> {
         title: 'Epost',
         dataIndex: 'email',
         search: true,
+        inlineFiltering: false,
         render: (email: string) => <span>{`${email}@abakus.no`}</span>,
+      },
+      {
+        title: 'Kun for brukere med @abakus-epost',
+        dataIndex: 'requireInternalAddress',
+        filter: [
+          { value: 'true', label: 'Kun for @abakus.no' },
+          { value: 'false', label: 'Alle adresser' },
+        ],
+        inlineFiltering: false,
+        render: (internalOnly) =>
+          internalOnly ? (
+            <Tag color="cyan" tag="Kun for @abakus.no" />
+          ) : (
+            <Tag tag="Alle typer adresser" color="orange" />
+          ),
       },
     ];
 
@@ -52,10 +74,15 @@ export default class EmailLists extends Component<Props> {
           infiniteScroll
           columns={columns}
           onLoad={(filters, sort) => {
-            this.props.fetch({ next: true, filters });
+            this.props.fetch({ next: true, query: this.props.query });
           }}
+          filters={this.props.filters}
           onChange={(filters, sort) => {
-            this.props.fetch({ filters });
+            this.props.push({
+              search: qs.stringify({
+                filters: JSON.stringify(filters),
+              }),
+            });
           }}
           hasMore={this.props.hasMore}
           loading={this.props.fetching}

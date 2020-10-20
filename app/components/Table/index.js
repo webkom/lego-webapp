@@ -5,6 +5,7 @@ import Icon from 'app/components/Icon';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { TextInput, CheckBox } from 'app/components/Form';
 import { Overlay } from 'react-overlays';
+import { debounce } from 'lodash';
 import cx from 'classnames';
 import { isEmpty } from 'lodash';
 import InfiniteScroll from 'react-infinite-scroller';
@@ -40,6 +41,8 @@ type columnProps = {
   // Should column be rendered. Will render when not set
   visible?: boolean,
   center?: boolean,
+  inlineFiltering?: boolean,
+  filterMessage?: string,
 };
 
 type Props = {
@@ -50,6 +53,7 @@ type Props = {
   loading: boolean,
   onChange?: (filters: Object, sort: sortProps) => void,
   onLoad?: (filters: Object, sort: sortProps) => void,
+  filters?: Object,
 };
 
 type State = {
@@ -65,7 +69,7 @@ export default class Table extends Component<Props, State> {
 
   state = {
     sort: {},
-    filters: {},
+    filters: this.props.filters || {},
     isShown: {},
   };
 
@@ -128,7 +132,15 @@ export default class Table extends Component<Props, State> {
   };
 
   renderHeadCell = (
-    { dataIndex, search, title, sorter, filter, center = false }: columnProps,
+    {
+      dataIndex,
+      search,
+      title,
+      sorter,
+      filter,
+      center = false,
+      filterMessage = 'Filtrer',
+    }: columnProps,
     index: number
   ) => {
     const { filters, isShown } = this.state;
@@ -172,7 +184,7 @@ export default class Table extends Component<Props, State> {
               <div className={styles.overlay}>
                 <TextInput
                   autoFocus
-                  placeholder="Filtrer"
+                  placeholder={filterMessage}
                   value={filters[dataIndex]}
                   onChange={(e) => this.onSearchInput(e, dataIndex)}
                   onKeyDown={({ keyCode }) => {
@@ -211,18 +223,37 @@ export default class Table extends Component<Props, State> {
             >
               <div className={styles.checkbox}>
                 {filter.map(({ label, value }) => (
-                  <p key={label}>
-                    <CheckBox
-                      label={label}
-                      value={value === this.state.filters[dataIndex]}
-                      onChange={() => this.onFilterInput(value, dataIndex)}
-                    />
-                  </p>
+                  <div
+                    key={label}
+                    onClick={() =>
+                      this.onFilterInput(
+                        this.state.filters[dataIndex] === value
+                          ? undefined
+                          : value,
+                        dataIndex
+                      )
+                    }
+                  >
+                    <p key={label}>
+                      <CheckBox
+                        label={label}
+                        value={value === this.state.filters[dataIndex]}
+                      />
+                    </p>
+                  </div>
                 ))}
                 <Button
                   flat
                   onClick={() =>
-                    this.setState({ filters: { [dataIndex]: undefined } })
+                    this.setState(
+                      (state) => ({
+                        filters: { ...state.filters, [dataIndex]: undefined },
+                      }),
+                      () => {
+                        this.toggleFilter(dataIndex);
+                        this.onChange();
+                      }
+                    )
                   }
                 >
                   Nullstill
@@ -241,6 +272,11 @@ export default class Table extends Component<Props, State> {
     }
 
     const match = Object.keys(this.state.filters).filter((key) => {
+      const { inlineFiltering = true, filterMapping = (val) => val } =
+        this.props.columns.find((col) => col.dataIndex == key) || {};
+
+      if (!inlineFiltering) return true;
+
       if (this.state.filters[key] === undefined) {
         return true;
       }
@@ -254,9 +290,6 @@ export default class Table extends Component<Props, State> {
         return true;
       }
 
-      const { filterMapping = (val) => val } =
-        this.props.columns.find((col) => col.dataIndex == key) || {};
-
       return filterMapping(get(item, key)).toLowerCase().includes(filter);
     }).length;
 
@@ -269,11 +302,11 @@ export default class Table extends Component<Props, State> {
     }
   };
 
-  onChange = () => {
+  onChange = debounce(() => {
     if (this.props.onChange) {
       this.props.onChange(this.state.filters, this.state.sort);
     }
-  };
+  }, 170);
 
   render() {
     const { columns, data, rowKey, hasMore, loading } = this.props;
@@ -288,16 +321,9 @@ export default class Table extends Component<Props, State> {
         </thead>
         <InfiniteScroll
           element="tbody"
-          hasMore={hasMore}
+          hasMore={hasMore && !loading}
           loadMore={this.loadMore}
           threshold={50}
-          loader={
-            <tr>
-              <td className={styles.loader} colSpan={columns.length}>
-                <LoadingIndicator loading={loading} />
-              </td>
-            </tr>
-          }
         >
           {data.filter(this.filter).map((item, index) => (
             <tr key={item[rowKey]}>
@@ -306,6 +332,11 @@ export default class Table extends Component<Props, State> {
                 .map((column, index) => this.renderCell(column, item, index))}
             </tr>
           ))}
+          <tr>
+            <td className={styles.loader} colSpan={columns.length}>
+              <LoadingIndicator loading={loading} />
+            </td>
+          </tr>
         </InfiniteScroll>
       </table>
     );

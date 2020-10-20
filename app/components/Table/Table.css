@@ -30,7 +30,7 @@
 
 .checkbox {
   position: absolute;
-  min-width: 100px;
+  min-width: 150px;
   padding: 8px;
   border-radius: 5px;
   background: var(--color-white);

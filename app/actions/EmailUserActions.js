@@ -46,18 +46,16 @@ export function editEmailUser(emailUser: EmailUserEntity): Thunk<*> {
 
 export function fetch({
   next,
-  filters,
-}: { next: boolean, filters: Object } = {}): Thunk<*> {
+  query,
+}: { next?: boolean, query: Object } = {}): Thunk<*> {
   return (dispatch, getState) => {
     return dispatch(
       callAPI({
         types: EmailUser.FETCH,
         endpoint: '/email-users/',
         useCache: false,
-        query: {
-          ...getState().emailUsers.pagination.next,
-          ...filters,
-        },
+        query,
+        pagination: { fetchNext: !!next },
         schema: [emailUserSchema],
         meta: {
           errorMessage: 'Henting av epostlister feilet',

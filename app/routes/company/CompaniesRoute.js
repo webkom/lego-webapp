@@ -7,21 +7,23 @@ import { fetchAll } from 'app/actions/CompanyActions';
 import CompaniesPage from './components/CompaniesPage';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import { selectPagination } from '../../reducers/selectors';
+import { selectPaginationNext } from '../../reducers/selectors';
 import { selectActiveCompanies } from 'app/reducers/companies';
 
 const mapStateToProps = (state, props) => {
   const { query } = props.location;
   const companies = selectActiveCompanies(state, props);
-  const showFetchMore = selectPagination('companies', { queryString: '' })(
-    state
-  );
+  const { pagination } = selectPaginationNext({
+    query: {},
+    entity: 'companies',
+    endpoint: '/companies/',
+  })(state);
   return {
-    showFetchMore,
+    showFetchMore: pagination.hasMore,
     companies,
     query,
     loggedIn: props.loggedIn,
-    hasMore: state.companies.hasMore,
+    hasMore: pagination.hasMore,
     fetching: state.companies.fetching,
   };
 };

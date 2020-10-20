@@ -46,26 +46,18 @@ export function editEmailList(emailList: EmailListEntity) {
 
 export function fetch({
   next,
-  filters,
-}: { next: boolean, filters: Object } = {}): Thunk<*> {
-  return (dispatch, getState) => {
-    const cursor = next ? getState().emailLists.pagination.next : {};
-
-    return dispatch(
-      callAPI({
-        types: EmailList.FETCH,
-        endpoint: '/email-lists/',
-        useCache: false,
-        query: {
-          ...cursor,
-          ...filters,
-        },
-        schema: [emailListSchema],
-        meta: {
-          errorMessage: 'Henting av epostlister feilet',
-        },
-        propagateError: true,
-      })
-    );
-  };
+  query,
+}: { next?: boolean, query: Object } = {}): Thunk<*> {
+  return callAPI({
+    types: EmailList.FETCH,
+    endpoint: '/email-lists/',
+    useCache: false,
+    pagination: { fetchNext: !!next },
+    query,
+    schema: [emailListSchema],
+    meta: {
+      errorMessage: 'Henting av epostlister feilet',
+    },
+    propagateError: true,
+  });
 }

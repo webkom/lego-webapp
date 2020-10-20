@@ -63,25 +63,18 @@ export function editArticle({ id, ...data }: ArticleEntity): Thunk<*> {
 }
 
 export function fetchAll({
-  tag,
+  query,
   next = false,
-}: { tag?: string, next: boolean } = {}): Thunk<*> {
-  return (dispatch, getState) => {
-    const cursor = next ? getState().articles.pagination.next : {};
-    return dispatch(
-      callAPI({
-        types: Article.FETCH,
-        endpoint: '/articles/',
-        schema: [articleSchema],
-        query: {
-          ...cursor,
-          tag,
-        },
-        meta: {
-          errorMessage: 'Henting av artikler feilet',
-        },
-        propagateError: true,
-      })
-    );
-  };
+}: { query?: Object, next?: boolean } = {}): Thunk<*> {
+  return callAPI({
+    types: Article.FETCH,
+    endpoint: '/articles/',
+    schema: [articleSchema],
+    query,
+    pagination: { fetchNext: next },
+    meta: {
+      errorMessage: 'Henting av artikler feilet',
+    },
+    propagateError: true,
+  });
 }

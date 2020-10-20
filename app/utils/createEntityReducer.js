@@ -24,6 +24,7 @@ type EntityReducerOptions = {
 const defaultState = {
   actionGrant: [],
   pagination: {},
+  paginationNext: {},
   byId: {},
   items: [],
 };
@@ -105,12 +106,26 @@ export function createAndUpdateEntities(
         },
       };
     }
+    let paginationNext = state.paginationNext;
+    if (primaryKey && !action.cached && action.meta.paginationKey) {
+      paginationNext = {
+        ...state.paginationNext,
+        [action.meta.paginationKey]: {
+          ...state.paginationNext[action.meta.paginationKey],
+          items: union(
+            state.paginationNext[action.meta.paginationKey].items,
+            resultIds
+          ),
+        },
+      };
+    }
     return {
       ...state,
       byId: mergeObjects(state.byId, result),
       items: union(state.items, resultIds),
       actionGrant: union(state.actionGrant, actionGrant),
       pagination,
+      paginationNext,
     };
   };
 }
@@ -133,8 +148,24 @@ export function deleteEntities(deleteTypes: ?EntityReducerTypes) {
 
     if (!resultId) return state;
 
+    const paginationNext = Object.keys(state.paginationNext).reduce(
+      (newPaginationNext, key) => (
+        (newPaginationNext[key] = {
+          ...state.paginationNext[key],
+          items: without(
+            state.paginationNext[key].items,
+            ...(isNumber(resultId)
+              ? [Number(resultId), resultId.toString()]
+              : [resultId])
+          ),
+        }),
+        newPaginationNext
+      ),
+      {}
+    );
     return {
       ...state,
+      paginationNext,
       byId: omit(state.byId, resultId),
       items: without(
         state.items,
@@ -184,12 +215,9 @@ export function optimistic(mutateTypes: ?EntityReducerTypes) {
       return state;
     }
 
-    if (!action.meta.optimisticId) {
-      return state;
-    }
-
     return {
       ...state,
+      paginationNext: {},
       items: state.items.filter((item) => item !== action.meta.optimisticId),
     };
   };
@@ -198,6 +226,32 @@ export function optimistic(mutateTypes: ?EntityReducerTypes) {
 // TODO Make this the only spot handling pagination
 export function paginationReducer(fetchTypes: ?EntityReducerTypes) {
   return (state: any, action: any) => {
+    const paginationKey = get(action, ['meta', 'paginationKey']);
+    const cursor = get(action, ['meta', 'cursor']);
+    const query = get(action, ['meta', 'query']);
+    if (
+      toArray(fetchTypes).some(
+        (fetchType) => action.type === fetchType.BEGIN
+      ) &&
+      paginationKey &&
+      cursor === ''
+    ) {
+      return {
+        ...state,
+        paginationNext: {
+          ...state.paginationNext,
+          [paginationKey]: {
+            ...state.paginationNext[paginationKey],
+            items: [],
+            hasMore: true,
+            query,
+            hasMoreBackwards: false,
+            next: { ...query, cursor: '' },
+            previous: null,
+          },
+        },
+      };
+    }
     if (
       !toArray(fetchTypes).some(
         (fetchType) => action.type === fetchType.SUCCESS
@@ -209,22 +263,27 @@ export function paginationReducer(fetchTypes: ?EntityReducerTypes) {
     if (!action.payload || action.payload.next === undefined) {
       return state;
     }
-    const paginationKey = get(action, ['meta', 'paginationKey']);
 
-    const { next = null } = action.payload;
+    const { next = null, previous = null } = action.payload;
     const parsedNext = next && parse(next.split('?')[1]);
+    const parsedPrevious = previous && parse(previous.split('?')[1]);
     const hasMore = typeof next === 'string';
+    const hasMoreBackwards = typeof previous === 'string';
 
     if (paginationKey) {
       return {
         ...state,
         hasMore,
-        pagination: {
-          ...state.pagination,
+        paginationNext: {
+          ...state.paginationNext,
           [paginationKey]: {
-            ...state.pagination[paginationKey],
+            items: [],
+            ...state.paginationNext[paginationKey],
+            query,
             next: parsedNext,
+            previous: parsedPrevious,
             hasMore,
+            hasMoreBackwards,
           },
         },
       };
@@ -252,6 +311,7 @@ export default function createEntityReducer({
   const finalInitialState = {
     actionGrant: [],
     pagination: {},
+    paginationNext: {},
     byId: {},
     items: [],
     hasMore: false,
@@ -262,8 +322,8 @@ export default function createEntityReducer({
   const { fetch: fetchTypes, delete: deleteTypes, mutate: mutateTypes } = types;
   const reduce = joinReducers(
     fetching(fetchTypes),
-    createAndUpdateEntities(fetchTypes, key),
     paginationReducer(fetchTypes),
+    createAndUpdateEntities(fetchTypes, key),
     deleteEntities(deleteTypes),
     optimistic(mutateTypes),
     optimisticDelete(deleteTypes),
