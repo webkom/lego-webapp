@@ -274,10 +274,10 @@ steps:
       password:
         from_secret: docker_password
       tags:
-        - ${DRONE_CALVER_SHORT}-${DRONE_COMMIT_SHA:0:7}
+        - version-${DRONE_COMMIT_SHA:0:7}
         - latest
       build_args:
-        - RELEASE=${DRONE_CALVER_SHORT}-${DRONE_COMMIT_SHA:0:7}
+        - RELEASE=version-${DRONE_COMMIT_SHA:0:7}
         - COMMIT_SHA=${DRONE_COMMIT_SHA}
         - SENTRY_ORG=abakus
         - SENTRY_PROJECT=lego-webapp
@@ -324,7 +324,7 @@ steps:
       tags:
         - webapp
       limit: ${DRONE_DEPLOY_TO}
-      extra_vars: webapp_version=${DRONE_CALVER_SHORT}-${DRONE_COMMIT_SHA:0:7}
+      extra_vars: webapp_version=version-${DRONE_COMMIT_SHA:0:7}
       inventory: /infrastructure/inventory
       vault_password:
         from_secret: ansible_vault_password
@@ -352,4 +352,4 @@ image_pull_secrets:
 
 ---
 kind: signature
-hmac: 6c3f64a3b604defee071f46fa139b00352b518a02d6b1fbc41315296e508629e
+hmac: 325ce52b5d96af8f15d933a58ed4423d4459f074ab494605b828aaf3cfe7489d
