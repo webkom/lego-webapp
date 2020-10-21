@@ -15,19 +15,30 @@ export default createEntityReducer({
 });
 
 export const selectMembershipsForGroup = createSelector(
+  // decendants only work if you use paginationNext btw.
   (_, { descendants = false }) => descendants,
   (_, { groupId }) => groupId,
   (_, { pagination = undefined }) => pagination,
   selectGroup,
   (state) => state.memberships.byId,
+  (state) => state.memberships.items,
+  (state) => state.groups.byId,
   (state) => state.users.byId,
-  (state) => state.users.byId,
-  (descendants, groupId, pagination, group, membershipsById, users) => {
+  (
+    descendants,
+    groupId,
+    pagination,
+    group,
+    membershipsById,
+    membershipsItems,
+    groupsById,
+    users
+  ) => {
     if (!group) return [];
     const memberships =
       pagination !== undefined
         ? (pagination && pagination.items) || []
-        : group.memberships;
+        : membershipsItems;
     if (!memberships) return [];
     return memberships
       .map((m) => membershipsById[m])

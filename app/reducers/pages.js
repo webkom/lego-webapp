@@ -5,6 +5,7 @@ import { uniqBy, sortBy, groupBy } from 'lodash';
 import { Page } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { selectGroupsWithType } from './groups';
+import { selectPaginationNext } from './selectors';
 import { selectGroup } from 'app/reducers/groups';
 import { selectMembershipsForGroup } from 'app/reducers/memberships';
 
@@ -142,6 +143,13 @@ export const selectCommitteeForPages = createSelector(
     selectMembershipsForGroup(state, {
       descendants: true,
       groupId: Number(props.pageSlug),
+      pagination: selectPaginationNext({
+        query: {
+          descendants: true,
+        },
+        entity: 'memberships',
+        endpoint: `/groups/${props.pageSlug}/memberships/`,
+      })(state).pagination,
     }),
   (_, { pageSlug }) => pageSlug,
   (group, memberships, groupId) => {

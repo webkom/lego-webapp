@@ -9,7 +9,7 @@ describe('reducers', () => {
     items: [1],
     byId: {
       1: {
-        memberships: [3],
+        numberOfUsers: 1,
       },
     },
   };
@@ -33,7 +33,7 @@ describe('reducers', () => {
         items: [1],
         byId: {
           1: {
-            memberships: [3, 4],
+            numberOfUsers: 2,
           },
         },
       });
@@ -54,20 +54,20 @@ describe('reducers', () => {
         items: [1],
         byId: {
           1: {
-            memberships: [],
+            numberOfUsers: 0,
           },
         },
       });
     });
-    it('Group.MEMBERSHIP_FETCH.SUCCESS', () => {
+    it('Membership.CREATE.SUCCESS group missing', () => {
       const prevState = baseState;
       const action = {
-        type: Group.MEMBERSHIP_FETCH.SUCCESS,
+        type: Membership.CREATE.SUCCESS,
         meta: {
-          groupId: 1,
+          groupId: 2,
         },
         payload: {
-          result: [4, 5, 6],
+          result: 4,
         },
       };
       expect(groups(prevState, action)).toEqual({
@@ -77,7 +77,28 @@ describe('reducers', () => {
         items: [1],
         byId: {
           1: {
-            memberships: [3, 4, 5, 6],
+            numberOfUsers: 1,
+          },
+        },
+      });
+    });
+    it('Membership.REMOVE.SUCCESS group missing', () => {
+      const prevState = baseState;
+      const action = {
+        type: Membership.REMOVE.SUCCESS,
+        meta: {
+          groupId: 2,
+          id: 3,
+        },
+      };
+      expect(groups(prevState, action)).toEqual({
+        actionGrant: [],
+        pagination: {},
+        paginationNext: {},
+        items: [1],
+        byId: {
+          1: {
+            numberOfUsers: 1,
           },
         },
       });
