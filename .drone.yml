@@ -13,7 +13,7 @@ steps:
     when:
       event: [push]
       branch:
-        exclude: [ docker ]
+        exclude: [ build ]
 
   - name: minio
     image: minio/minio
@@ -26,7 +26,7 @@ steps:
     when:
       event: [push]
       branch:
-        exclude: [ docker ]
+        exclude: [ build ]
 
   - name: thumbor
     image: apsl/thumbor:latest
@@ -49,7 +49,7 @@ steps:
     when:
       event: [push]
       branch:
-        exclude: [ docker ]
+        exclude: [ build ]
 
   - name: redis
     image: redis
@@ -57,7 +57,7 @@ steps:
     when:
       event: [push]
       branch:
-        exclude: [ docker ]
+        exclude: [ build ]
 
   - name: api
     image: registry.webkom.dev/webkom/lego:latest
@@ -107,7 +107,7 @@ steps:
     when:
       event: [push]
       branch:
-        exclude: [ docker ]
+        exclude: [ build ]
 
   - name: legocypresshelper
     image: abakus/lego-cypress-helper:latest
@@ -116,7 +116,7 @@ steps:
     when:
       event: [push]
       branch:
-        exclude: [ docker ]
+        exclude: [ build ]
     environment:
       PG_HOST: postgres
       PG_USERNAME: lego
@@ -150,7 +150,7 @@ steps:
     when:
       event: [push]
       branch:
-        exclude: [ docker ]
+        exclude: [ build ]
     depends_on:
       - setup
     commands:
@@ -161,7 +161,7 @@ steps:
     when:
       event: [push]
       branch:
-        exclude: [ docker ]
+        exclude: [ build ]
     depends_on:
       - setup
     commands:
@@ -199,7 +199,7 @@ steps:
     when:
       event: [push]
       branch:
-        exclude: [ docker ]
+        exclude: [ build ]
     depends_on:
       - setup
     environment:
@@ -213,7 +213,7 @@ steps:
     when:
       event: [push]
       branch:
-        exclude: [ docker ]
+        exclude: [ build ]
     depends_on:
       - build_client
       - build_server
@@ -231,7 +231,7 @@ steps:
     when:
       event: [push]
       branch:
-        exclude: [ docker ]
+        exclude: [ build ]
     depends_on:
       - legocypresshelper
       - install_cypress
@@ -252,7 +252,7 @@ steps:
     image: plugins/docker
     when:
       branch:
-        - docker
+        - build
       event: push
       status: success
     depends_on:
@@ -309,7 +309,7 @@ steps:
         - promote
         - rollback
       branch:
-        - docker
+        - build
 
 
   - name: Deploy
@@ -335,7 +335,7 @@ steps:
         - promote
         - rollback
       branch:
-        - docker
+        - build
     depends_on:
       - clone_infrastructure
 
@@ -352,4 +352,4 @@ image_pull_secrets:
 
 ---
 kind: signature
-hmac: 1130fab23c413ded73625fc822d1ee6165eed0d2e57a6505ffe1c5b9eec124cf 
+hmac: 6c3f64a3b604defee071f46fa139b00352b518a02d6b1fbc41315296e508629e
