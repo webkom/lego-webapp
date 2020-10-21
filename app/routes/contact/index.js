@@ -6,13 +6,13 @@ import RouteWrapper from 'app/components/RouteWrapper';
 import { UserContext } from 'app/routes/app/AppRoute';
 import PageNotFoundRoute from '../pageNotFound/PageNotFoundRoute';
 
-const contactRoute = ({ match }: { match: { path: string } }) => (
+const Contact = ({ match }: { match: { path: string | string[] } }) => (
   <UserContext.Consumer>
     {({ currentUser, loggedIn }) => (
       <Switch>
         <RouteWrapper
           exact
-          path={`${match.path}`}
+          path={match.path}
           Component={ContactRoute}
           passedProps={{ currentUser, loggedIn }}
         />
@@ -22,6 +22,4 @@ const contactRoute = ({ match }: { match: { path: string } }) => (
   </UserContext.Consumer>
 );
 
-export default function Contact() {
-  return <Route path="/contact" component={contactRoute} />;
-}
+export default Contact;

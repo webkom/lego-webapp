@@ -10,7 +10,7 @@ import { Route } from 'react-router-dom';
 type Props = {
   passedProps: Object,
   exact?: boolean,
-  path: string,
+  path: string | string[],
   Component: React.ComponentType<Object>,
   strict?: boolean,
 };
