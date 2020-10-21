@@ -78,7 +78,7 @@ const GroupMembersList = ({
   const columns = [
     {
       title: 'Navn (brukernavn)',
-      dataIndex: 'user.username',
+      dataIndex: 'user.fullName',
       search: true,
       inlineFiltering: false,
       render: GroupMembersListColumns,
