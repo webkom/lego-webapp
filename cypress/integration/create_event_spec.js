@@ -23,6 +23,7 @@ describe('Create event', () => {
       .contains('Last opp')
       .should('not.be.disabled')
       .click();
+    cy.wait(1000);
   };
 
   it('should fill required fields before being allowed to submit', () => {
