@@ -113,6 +113,7 @@ export type User = {
   allergies: string,
   profilePicture: string,
   email?: string,
+  phoneNumber?: string,
 };
 
 export type EventRegistrationPresence = 'PRESENT' | 'NOT_PRESENT' | 'UNKNOWN';

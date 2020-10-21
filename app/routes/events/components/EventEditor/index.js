@@ -383,18 +383,6 @@ function EventEditor({
               </Tooltip>
             )}
             {['NORMAL', 'INFINITE'].includes(event.eventStatusType) && (
-              <Tooltip content="Et spørsmål alle må svare på før de melder seg på">
-                <Field
-                  name="feedbackRequired"
-                  label="Obligatorisk spørsmål"
-                  component={CheckBox.Field}
-                  fieldClassName={styles.metaField}
-                  className={styles.formField}
-                  normalize={(v) => !!v}
-                />
-              </Tooltip>
-            )}
-            {['NORMAL', 'INFINITE'].includes(event.eventStatusType) && (
               <Tooltip content="Navn og epost kan deles med folk utenfor Abakus til smittesporing">
                 <Field
                   label="Informasjon kan deles til smittesporing"
@@ -404,6 +392,18 @@ function EventEditor({
                   className={styles.formField}
                   normalize={(v) => !!v}
                   disabled={moment().isAfter(event.activationTime)}
+                />
+              </Tooltip>
+            )}
+            {['NORMAL', 'INFINITE'].includes(event.eventStatusType) && (
+              <Tooltip content="Et spørsmål alle må svare på før de melder seg på">
+                <Field
+                  name="feedbackRequired"
+                  label="Obligatorisk spørsmål"
+                  component={CheckBox.Field}
+                  fieldClassName={styles.metaField}
+                  className={styles.formField}
+                  normalize={(v) => !!v}
                 />
               </Tooltip>
             )}

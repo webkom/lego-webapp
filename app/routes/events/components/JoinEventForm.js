@@ -264,7 +264,7 @@ class JoinEventForm extends Component<Props> {
                 <div>Du kan ikke melde deg på dette arrangementet.</div>
               )}
               {sumPenalties(penalties) > 0 && event.heedPenalties && (
-                <div className={styles.penalties}>
+                <div className={styles.eventWarning}>
                   <p>
                     NB!{' '}
                     {sumPenalties(penalties) > 2
@@ -279,102 +279,117 @@ class JoinEventForm extends Component<Props> {
                   </Link>
                 </div>
               )}
-              {formOpen && (
-                <Flex column>
-                  <Form
-                    onSubmit={this.submitWithType(
-                      handleSubmit,
-                      feedbackName,
-                      registrationType
-                    )}
-                  >
-                    {showCaptcha && (
-                      <Field
-                        name="captchaResponse"
-                        fieldStyle={{ width: 304 }}
-                        component={Captcha.Field}
-                      />
-                    )}
-                    {event.activationTime && registrationOpensIn && (
-                      <Flex alignItems="center">
-                        <Button disabled={disabledButton}>
-                          {`Åpner om ${registrationOpensIn}`}
-                        </Button>
-                      </Flex>
-                    )}
-                    {buttonOpen && !submitting && (
-                      <>
-                        <Flex
-                          alignItems="center"
-                          justifyContent="space-between"
-                        >
-                          <SubmitButton
-                            disabled={disabledButton}
-                            onSubmit={this.submitWithType(
-                              handleSubmit,
-                              feedbackName,
-                              registrationType
-                            )}
-                            type={registrationType}
-                            title={title || joinTitle}
-                            showPenaltyNotice={showPenaltyNotice}
-                          />
+              {!disabledForUser &&
+                event.shareInfoFlag &&
+                !currentUser.phoneNumber && (
+                  <div className={styles.eventWarning}>
+                    <p>NB!</p>
+                    <p>
+                      Du må legge til telefonnummer for å melde deg på dette
+                      arrangementet.
+                    </p>
+                    <Link to={`/users/me/settings/profile`}>
+                      Gå til innstillinger
+                    </Link>
+                  </div>
+                )}
+              {formOpen &&
+                (event.shareInfoFlag ? currentUser.phoneNumber : true) && (
+                  <Flex column>
+                    <Form
+                      onSubmit={this.submitWithType(
+                        handleSubmit,
+                        feedbackName,
+                        registrationType
+                      )}
+                    >
+                      {showCaptcha && (
+                        <Field
+                          name="captchaResponse"
+                          fieldStyle={{ width: 304 }}
+                          component={Captcha.Field}
+                        />
+                      )}
+                      {event.activationTime && registrationOpensIn && (
+                        <Flex alignItems="center">
+                          <Button disabled={disabledButton}>
+                            {`Åpner om ${registrationOpensIn}`}
+                          </Button>
                         </Flex>
-                        {!registration && (
-                          <SpotsLeft
-                            activeCapacity={event.activeCapacity}
-                            spotsLeft={event.spotsLeft}
-                          />
-                        )}
-                      </>
-                    )}
-                    {submitting && (
-                      <LoadingIndicator
-                        loading
-                        loadingStyle={{ margin: '5px auto' }}
-                      />
-                    )}
-                  </Form>
+                      )}
+                      {buttonOpen && !submitting && (
+                        <>
+                          <Flex
+                            alignItems="center"
+                            justifyContent="space-between"
+                          >
+                            <SubmitButton
+                              disabled={disabledButton}
+                              onSubmit={this.submitWithType(
+                                handleSubmit,
+                                feedbackName,
+                                registrationType
+                              )}
+                              type={registrationType}
+                              title={title || joinTitle}
+                              showPenaltyNotice={showPenaltyNotice}
+                            />
+                          </Flex>
+                          {!registration && (
+                            <SpotsLeft
+                              activeCapacity={event.activeCapacity}
+                              spotsLeft={event.spotsLeft}
+                            />
+                          )}
+                        </>
+                      )}
+                      {submitting && (
+                        <LoadingIndicator
+                          loading
+                          loadingStyle={{ margin: '5px auto' }}
+                        />
+                      )}
+                    </Form>
 
-                  <label className={formStyles.label} htmlFor={feedbackName}>
-                    {feedbackLabel}
-                  </label>
-                  <Flex style={{ marginBottom: '20px' }}>
-                    <Field
-                      id={feedbackName}
-                      placeholder="Melding til arrangører"
-                      name={feedbackName}
-                      component={TextInput.Field}
-                      labelClassName={styles.feedbackLabel}
-                      className={styles.feedbackText}
-                      fieldClassName={styles.feedbackField}
-                      rows={1}
-                    />
-                    {registration && (
-                      <Button
-                        type="button"
-                        onClick={this.submitWithType(
-                          handleSubmit,
-                          feedbackName,
-                          'feedback'
-                        )}
-                        className={styles.feedbackUpdateButton}
-                        disabled={pristine}
-                      >
-                        Oppdater
-                      </Button>
+                    <label className={formStyles.label} htmlFor={feedbackName}>
+                      {feedbackLabel}
+                    </label>
+                    <Flex style={{ marginBottom: '20px' }}>
+                      <Field
+                        id={feedbackName}
+                        placeholder="Melding til arrangører"
+                        name={feedbackName}
+                        component={TextInput.Field}
+                        labelClassName={styles.feedbackLabel}
+                        className={styles.feedbackText}
+                        fieldClassName={styles.feedbackField}
+                        rows={1}
+                      />
+                      {registration && (
+                        <Button
+                          type="button"
+                          onClick={this.submitWithType(
+                            handleSubmit,
+                            feedbackName,
+                            'feedback'
+                          )}
+                          className={styles.feedbackUpdateButton}
+                          disabled={pristine}
+                        >
+                          Oppdater
+                        </Button>
+                      )}
+                    </Flex>
+                    {registration && showStripe && (
+                      <PaymentForm
+                        event={event}
+                        createPaymentIntent={createPaymentIntent}
+                        currentUser={currentUser}
+                        registration={registration}
+                      />
                     )}
                   </Flex>
-                  {registration && showStripe && (
-                    <PaymentForm
-                      event={event}
-                      createPaymentIntent={createPaymentIntent}
-                      currentUser={currentUser}
-                      registration={registration}
-                    />
-                  )}
-                </Flex>
-              )}
+                )}
             </>
           )}
         </Flex>

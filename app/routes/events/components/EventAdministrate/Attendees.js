@@ -9,6 +9,7 @@ import { Flex } from 'app/components/Layout';
 import styles from './Abacard.css';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import Button from 'app/components/Button';
+import { formatPhoneNumber, parsePhoneNumber } from 'react-phone-number-input';
 import type {
   Event,
   Comment,
@@ -137,11 +138,16 @@ export default class Attendees extends Component<Props, State> {
                   const data = registered.map((registration) => ({
                     name: registration.user.fullName,
                     email: registration.user.email,
+                    phoneNumber: registration.user.phoneNumber,
                   }));
-                  const csvBeginning = 'name,email\n';
+                  const csvBeginning = 'navn,epost,landskode,telefonnummer\n';
                   const csvString = data.reduce(
                     (prev, current) =>
-                      prev + `${current.name},${current.email || ''}\n`,
+                      prev +
+                      `${current.name},${current.email || ''},${
+                        parsePhoneNumber(current.phoneNumber)
+                          .countryCallingCode || ''
+                      },${formatPhoneNumber(current.phoneNumber) || ''}\n`,
                     csvBeginning
                   );
                   const blobUrl = URL.createObjectURL(

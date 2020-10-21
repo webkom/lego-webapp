@@ -9,7 +9,6 @@ import { getRegistrationGroups } from 'app/reducers/events';
 
 const mapStateToProps = (state, props) => {
   const { eventId, event, actionGrant, loading } = props;
-  const token = state.auth.token;
   const { registered, unregistered } = getRegistrationGroups(state, {
     eventId,
   });
@@ -20,7 +19,6 @@ const mapStateToProps = (state, props) => {
     event,
     registered,
     unregistered,
-    token,
   };
 };
 
