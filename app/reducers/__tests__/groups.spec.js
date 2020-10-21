@@ -1,5 +1,5 @@
 import groups from '../groups';
-import { Group, Membership } from '../../actions/ActionTypes';
+import { Membership } from '../../actions/ActionTypes';
 
 describe('reducers', () => {
   const baseState = {
