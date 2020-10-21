@@ -13,7 +13,7 @@ steps:
     when:
       event: [push]
       branch:
-        exclude: [ prod ]
+        exclude: [ build ]
 
   - name: minio
     image: minio/minio
@@ -26,7 +26,7 @@ steps:
     when:
       event: [push]
       branch:
-        exclude: [ prod ]
+        exclude: [ build ]
 
   - name: thumbor
     image: apsl/thumbor:latest
@@ -49,7 +49,7 @@ steps:
     when:
       event: [push]
       branch:
-        exclude: [ prod ]
+        exclude: [ build ]
 
   - name: redis
     image: redis
@@ -57,7 +57,7 @@ steps:
     when:
       event: [push]
       branch:
-        exclude: [ prod ]
+        exclude: [ build ]
 
   - name: api
     image: registry.webkom.dev/webkom/lego:latest
@@ -107,7 +107,7 @@ steps:
     when:
       event: [push]
       branch:
-        exclude: [prod]
+        exclude: [ build ]
 
   - name: legocypresshelper
     image: abakus/lego-cypress-helper:latest
@@ -116,7 +116,7 @@ steps:
     when:
       event: [push]
       branch:
-        exclude: [prod]
+        exclude: [ build ]
     environment:
       PG_HOST: postgres
       PG_USERNAME: lego
@@ -150,7 +150,7 @@ steps:
     when:
       event: [push]
       branch:
-        exclude: [prod]
+        exclude: [ build ]
     depends_on:
       - setup
     commands:
@@ -161,7 +161,7 @@ steps:
     when:
       event: [push]
       branch:
-        exclude: [prod]
+        exclude: [ build ]
     depends_on:
       - setup
     commands:
@@ -199,7 +199,7 @@ steps:
     when:
       event: [push]
       branch:
-        exclude: [prod]
+        exclude: [ build ]
     depends_on:
       - setup
     environment:
@@ -213,7 +213,7 @@ steps:
     when:
       event: [push]
       branch:
-        exclude: [prod]
+        exclude: [ build ]
     depends_on:
       - build_client
       - build_server
@@ -231,7 +231,7 @@ steps:
     when:
       event: [push]
       branch:
-        exclude: [prod]
+        exclude: [ build ]
     depends_on:
       - legocypresshelper
       - install_cypress
@@ -252,7 +252,7 @@ steps:
     image: plugins/docker
     when:
       branch:
-        - prod
+        - build
       event: push
       status: success
     depends_on:
@@ -274,10 +274,10 @@ steps:
       password:
         from_secret: docker_password
       tags:
-        - ${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:7}
+        - ${DRONE_CALVER_SHORT}-${DRONE_COMMIT_SHA:0:7}
         - latest
       build_args:
-        - RELEASE=${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:7}
+        - RELEASE=${DRONE_CALVER_SHORT}-${DRONE_COMMIT_SHA:0:7}
         - COMMIT_SHA=${DRONE_COMMIT_SHA}
         - SENTRY_ORG=abakus
         - SENTRY_PROJECT=lego-webapp
@@ -309,7 +309,7 @@ steps:
         - promote
         - rollback
       branch:
-        - prod
+        - build
 
 
   - name: Deploy
@@ -324,7 +324,7 @@ steps:
       tags:
         - webapp
       limit: ${DRONE_DEPLOY_TO}
-      extra_vars: webapp_version=${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:7}
+      extra_vars: webapp_version=${DRONE_CALVER_SHORT}-${DRONE_COMMIT_SHA:0:7}
       inventory: /infrastructure/inventory
       vault_password:
         from_secret: ansible_vault_password
@@ -335,7 +335,7 @@ steps:
         - promote
         - rollback
       branch:
-        - prod
+        - build
     depends_on:
       - clone_infrastructure
 
@@ -352,4 +352,4 @@ image_pull_secrets:
 
 ---
 kind: signature
-hmac: 372fab30840e379402d56cbf6e7bbab9791ec8f24a5e715407656e16052114b3
+hmac: 6c3f64a3b604defee071f46fa139b00352b518a02d6b1fbc41315296e508629e
