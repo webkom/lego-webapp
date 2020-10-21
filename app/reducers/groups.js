@@ -3,7 +3,6 @@ import { createSelector } from 'reselect';
 import { Group, Membership } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { type ID, GroupTypeInterest, GroupTypeCommittee } from 'app/models';
-import { without, union } from 'lodash';
 import produce from 'immer';
 
 export const resolveGroupLink = (group: { type: string, id: ID }) => {
@@ -28,9 +27,9 @@ export default createEntityReducer({
   mutate: produce((newState: State, action: any): void => {
     switch (action.type) {
       case Membership.CREATE.SUCCESS:
-        newState.byId[action.meta.groupId].memberships.push(
-          action.payload.result
-        );
+        if (!newState.byId[action.meta.groupId]) {
+          break;
+        }
         if (
           typeof newState.byId[action.meta.groupId].numberOfUsers === 'number'
         ) {
@@ -40,22 +39,14 @@ export default createEntityReducer({
 
       case Membership.REMOVE.SUCCESS:
       case Membership.LEAVE_GROUP.SUCCESS:
-        newState.byId[action.meta.groupId].memberships = without(
-          newState.byId[action.meta.groupId].memberships,
-          action.meta.id
-        );
+        if (!newState.byId[action.meta.groupId]) {
+          break;
+        }
         if (
           typeof newState.byId[action.meta.groupId].numberOfUsers === 'number'
         ) {
           newState.byId[action.meta.groupId].numberOfUsers -= 1;
         }
-        break;
-
-      case Group.MEMBERSHIP_FETCH.SUCCESS:
-        newState.byId[action.meta.groupId].memberships = union(
-          newState.byId[action.meta.groupId].memberships,
-          action.payload.result
-        );
         break;
     }
   }),

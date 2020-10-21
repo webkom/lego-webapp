@@ -3,7 +3,6 @@
 import { createSelector } from 'reselect';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { Membership, Group } from '../actions/ActionTypes';
-import { selectGroup } from './groups';
 
 export default createEntityReducer({
   key: 'memberships',
@@ -18,16 +17,26 @@ export const selectMembershipsForGroup = createSelector(
   (_, { descendants = false }) => descendants,
   (_, { groupId }) => groupId,
   (_, { pagination = undefined }) => pagination,
-  selectGroup,
   (state) => state.memberships.byId,
+  (state) => state.memberships.items,
+  (state) => state.groups.byId,
   (state) => state.users.byId,
-  (state) => state.users.byId,
-  (descendants, groupId, pagination, group, membershipsById, users) => {
-    if (!group) return [];
+  (
+    descendants,
+    groupId,
+    pagination,
+    membershipsById,
+    membershipsItems,
+    groupsById,
+    users
+  ) => {
+    if (!pagination && descendants) {
+      throw new Error('using descendants without pagination is not supported');
+    }
     const memberships =
       pagination !== undefined
         ? (pagination && pagination.items) || []
-        : group.memberships;
+        : membershipsItems;
     if (!memberships) return [];
     return memberships
       .map((m) => membershipsById[m])
