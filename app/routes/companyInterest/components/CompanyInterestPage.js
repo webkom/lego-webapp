@@ -291,7 +291,7 @@ const CompanyInterestPage = (props: Props) => {
   return (
     <Content>
       <Form onSubmit={props.handleSubmit(onSubmit)}>
-        <FlexRow alignItems={'center'} justifyContent={'space-between'}>
+        <FlexRow alignItems="center" justifyContent="space-between">
           <h1 className={styles.mainHeading}>{labels.mainHeading[language]}</h1>
           <Link
             to={isEnglish ? '/interesse' : '/register-interest'}

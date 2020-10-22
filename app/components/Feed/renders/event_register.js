@@ -36,7 +36,7 @@ export function activityHeader(
 }
 
 export function activityContent(activity: Activity) {
-  return <DisplayContent content={''} />;
+  return <DisplayContent content="" />;
 }
 
 export function icon() {

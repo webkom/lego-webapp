@@ -168,10 +168,10 @@ class CompanyInterestList extends Component<Props, State> {
               clearable={false}
             />
           </Flex>
-          <Link to={'/companyInterest/semesters'} className={styles.link}>
+          <Link to="/companyInterest/semesters" className={styles.link}>
             <Button>Endre aktive semestre</Button>
           </Link>
-          <Link to={'/companyInterest/create'} className={styles.link}>
+          <Link to="/companyInterest/create" className={styles.link}>
             <Button>Opprett ny bedriftsinteresse</Button>
           </Link>
         </Flex>

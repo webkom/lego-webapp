@@ -160,7 +160,7 @@ class Overview extends Component<Props, State> {
       <Flex column className={styles.weekly}>
         {weeklyArticle && (
           <>
-            <Link to={'/articles?tag=weekly'}>
+            <Link to="/articles?tag=weekly">
               <h3 className="u-ui-heading">Weekly</h3>
             </Link>
             <ArticleItem
@@ -214,7 +214,7 @@ class Overview extends Component<Props, State> {
       <Flex column className={styles.poll}>
         {poll && (
           <>
-            <Link to={'/polls'}>
+            <Link to="/polls">
               <h3 className="u-ui-heading">Avstemning</h3>
             </Link>
             <Poll
@@ -231,7 +231,7 @@ class Overview extends Component<Props, State> {
 
     const quoteItem = (
       <Flex column>
-        <Link to={'/quotes'}>
+        <Link to="/quotes">
           <h3 className="u-ui-heading">Overhørt</h3>
         </Link>
         <RandomQuote loggedIn={loggedIn} className={styles.quote} />

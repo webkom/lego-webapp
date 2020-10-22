@@ -74,7 +74,7 @@ export default class GalleryDetail extends Component<Props, State> {
               window.history.back();
               e.preventDefault();
             }}
-            to={'/photos'}
+            to="/photos"
           >
             <i className="fa fa-angle-left" /> Tilbake
           </NavigationLink>

@@ -80,13 +80,13 @@ export default class CompactEvents extends Component<Props> {
       <Flex column>
         <Flex wrap className={styles.compactEvents}>
           <Flex column className={styles.compactLeft}>
-            <Link to={'/events'}>
+            <Link to="/events">
               <h3 className={headerStyle}>Bedpres og Kurs</h3>
             </Link>
             <ul className={styles.innerList}>{leftEvents}</ul>
           </Flex>
           <Flex column className={styles.compactRight}>
-            <Link to={'/events'}>
+            <Link to="/events">
               <h3 className={headerStyle}>Arrangementer</h3>
             </Link>
             <ul className={styles.innerList}>{rightEvents}</ul>

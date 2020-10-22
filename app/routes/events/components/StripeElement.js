@@ -354,7 +354,7 @@ class PaymentForm extends React.Component<FormProps, FormState> {
           <Elements locale="no">
             <InjectedCardForm
               {...this.props}
-              fontSize={'18px'}
+              fontSize="18px"
               setSuccess={() => this.setSuccess()}
               setError={(error) => this.setError(error)}
               setLoading={(loading) => this.setLoading(loading)}

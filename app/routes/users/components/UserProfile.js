@@ -528,7 +528,7 @@ export default class UserProfile extends Component<Props, EventsProps> {
                 <h3>Dine kommende arrangementer</h3>
 
                 {loading ? (
-                  <LoadingIndicator margin={'20px auto'} loading />
+                  <LoadingIndicator margin="20px auto" loading />
                 ) : (
                   <ListEvents
                     events={upcomingEvents.filter(
@@ -541,7 +541,7 @@ export default class UserProfile extends Component<Props, EventsProps> {
                 <h3>Arrangementer der du er på ventelista</h3>
 
                 {loading ? (
-                  <LoadingIndicator margin={'20px auto'} loading />
+                  <LoadingIndicator margin="20px auto" loading />
                 ) : (
                   <ListEvents
                     events={upcomingEvents.filter(
@@ -556,7 +556,7 @@ export default class UserProfile extends Component<Props, EventsProps> {
                   {previousEvents === undefined ? 0 : previousEvents.length})
                 </h3>
                 {loading ? (
-                  <LoadingIndicator margin={'20px auto'} loading />
+                  <LoadingIndicator margin="20px auto" loading />
                 ) : (
                   <ListEvents
                     events={
