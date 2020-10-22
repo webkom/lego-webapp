@@ -136,7 +136,7 @@ export default class EmailUsers extends Component<Props> {
         </p>
         <Flex justifyContent="space-between" style={{ marginBottom: '10px' }}>
           <h3>Aktive/Inaktive epostkontoer</h3>
-          <Link to={'/admin/email/users/new'}>
+          <Link to="/admin/email/users/new">
             <Button>Ny bruker</Button>
           </Link>
         </Flex>

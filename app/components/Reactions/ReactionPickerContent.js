@@ -57,7 +57,7 @@ const ReactionPickerContent = ({
               >
                 <div>
                   <Emoji
-                    size={'22px'}
+                    size="22px"
                     id={emoji.shortCode}
                     unicodeString={emoji.unicodeString}
                   />

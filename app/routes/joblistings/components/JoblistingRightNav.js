@@ -154,7 +154,7 @@ export default class JoblistingsRightNav extends Component<Props, State> {
           style={{ display: this.state.displayOptions ? 'block' : 'none' }}
         >
           {this.props.actionGrant.includes('create') && (
-            <Link to={`/joblistings/create`}>
+            <Link to="/joblistings/create">
               <Button className={styles.createButton}>Ny jobbannonse</Button>
             </Link>
           )}

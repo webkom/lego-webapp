@@ -194,7 +194,7 @@ class EventList extends Component<EventListProps, State> {
         <div className={styles.filter}>
           <div className={styles.filterButtons}>
             <CheckBox
-              id={'companyPresentation'}
+              id="companyPresentation"
               value={showCompanyPresentation}
               onChange={() =>
                 this.handleFilterEventTypeChange('showCompanyPresentation')
@@ -203,21 +203,21 @@ class EventList extends Component<EventListProps, State> {
             />
             Bedpres
             <CheckBox
-              id={'course'}
+              id="course"
               value={showCourse}
               onChange={() => this.handleFilterEventTypeChange('showCourse')}
               className={styles.checkbox}
             />
             Kurs
             <CheckBox
-              id={'social'}
+              id="social"
               value={showSocial}
               onChange={() => this.handleFilterEventTypeChange('showSocial')}
               className={styles.checkbox}
             />
             Sosialt
             <CheckBox
-              id={'other'}
+              id="other"
               value={showOther}
               onChange={() => this.handleFilterEventTypeChange('showOther')}
               className={styles.checkbox}

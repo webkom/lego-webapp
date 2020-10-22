@@ -80,7 +80,7 @@ class PublicFrontpage extends Component<Props, State> {
     return (
       <Container className={styles.container}>
         <div className={styles.welcome}>
-          <h2 className={'u-mb'}>Velkommen til Abakus</h2>
+          <h2 className="u-mb">Velkommen til Abakus</h2>
           <p>
             Abakus er linjeforeningen for studentene ved Datateknologi og
             Kommunikasjonsteknologi på NTNU, og drives av studenter ved disse

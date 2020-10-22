@@ -49,7 +49,7 @@ function Content({ banner, youtubeUrl, children, className }: Props) {
             className={isLoading ? {} : styles.hidden}
           />
           <Flex
-            justifyContent={'center'}
+            justifyContent="center"
             style={{
               maxHeight: isLoading ? '0' : isClicked ? '619px' : '358px',
             }}

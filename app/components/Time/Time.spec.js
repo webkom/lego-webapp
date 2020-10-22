@@ -20,7 +20,7 @@ describe('<Time />', () => {
 
   it('should show a date with a custom format', () => {
     const dateTime = '2016-02-02T22:17:21.838103Z';
-    const wrapper = shallow(<Time format={'HH:mm'} time={dateTime} />);
+    const wrapper = shallow(<Time format="HH:mm" time={dateTime} />);
     const expected = <time dateTime={dateTime}>22:17</time>;
     expect(wrapper.contains(expected)).toEqual(true);
   });
