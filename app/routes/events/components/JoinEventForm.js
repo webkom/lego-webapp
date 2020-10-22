@@ -274,7 +274,7 @@ class JoinEventForm extends Component<Props> {
                     fordi du har {sumPenalties(penalties)}{' '}
                     {sumPenalties(penalties) > 1 ? 'prikker' : 'prikk'}.
                   </p>
-                  <Link to={`/pages/arrangementer/26-arrangementsregler`}>
+                  <Link to="/pages/arrangementer/26-arrangementsregler">
                     Les mer om prikker her
                   </Link>
                 </div>

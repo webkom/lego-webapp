@@ -66,7 +66,7 @@ export default class EmailLists extends Component<Props> {
         </p>
         <Flex justifyContent="space-between" style={{ marginBottom: '10px' }}>
           <h3>Aktive epostlister</h3>
-          <Link to={`/admin/email/lists/new`}>
+          <Link to="/admin/email/lists/new">
             <Button>Ny epostliste</Button>
           </Link>
         </Flex>

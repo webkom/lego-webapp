@@ -17,7 +17,7 @@ export default class InterestGroupEdit extends Component<{
     return (
       <Content>
         <h2>
-          <Link to={`/interestGroups/`}>
+          <Link to="/interestGroups/">
             <i className="fa fa-angle-left" />
             Tilbake
           </Link>
