@@ -94,15 +94,10 @@ const BrandPage = () => (
           <ul>
             <li>Hvit: CMYK(0,0,0,0)</li>
             <li>Svart: CMYK(0,0,0,95)</li>
-            <li>Lysegrå: CMYK(48,39,42,39) HEX(525251)</li>
-            <li>Grå: CMYK(53,44,46,52) HEX(343434)</li>
-            <li>
-              Lyserød: CMYK(1,98,98,0) — (Fra logo:)(5,100,100,1) HEX(E20D13)
-            </li>
-            <li>
-              Mørkerød: CMYK(20,99,100,13) — (Fra logo:)(18,100,100,9)
-              HEX(BC1818)
-            </li>
+            <li>Lysegrå: CMYK(48,39,42,39) RGB(525251)</li>
+            <li>Grå: CMYK(53,44,46,52) RGB(343434)</li>
+            <li>Lyserød: CMYK(1,98,98,0) RGB(E21617)</li>
+            <li>Mørkerød: CMYK(20,99,100,13) RGB(B21C17)</li>
           </ul>
           <h2 className={styles.h2Padding}>Powerpointmal</h2>
           <p>
