@@ -158,9 +158,11 @@ const RegistrationMeta = ({
     {shareInfoFlag && !registration && (
       <div>
         <i className="fa fa-exclamation-circle" /> Ved å melde deg på dette
-        arrangementet samtykker du til at kontaktinformasjonen din (navn,
-        telefonnummer og epost) kan deles med andre utenfor Abakus til
-        smittesporing
+        arrangementet samtykker jeg til at kontaktinformasjonen min (navn,
+        telefonnummer og epost) kan deles med FHI og NTNU for smittesporing.
+        Kontaktinformasjonen vil være tilgjengelig for brukeren som laget
+        arrangementet i 14 dager etter at arrangementet har funnet sted, og vil
+        kun brukes til smittesporing.
       </div>
     )}
     {registration && (
