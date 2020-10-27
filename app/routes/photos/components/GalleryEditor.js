@@ -69,7 +69,7 @@ const photoOverlay = (photo: Object, selected: Array<number>) => (
         styles.icon,
         selected.includes(photo.id) && styles.iconSelected
       )}
-      name="checkmark"
+      name="checkmark-circle-outline"
       size={32}
     />
   </div>

@@ -115,8 +115,8 @@ export default class Gallery extends PureComponent<Props, State> {
               onClick={() => this.onClick(photo)}
               className={styles.galleryPhoto}
             >
-              <div className={styles.top}>{top}</div>
               <ProgressiveImage
+                className={styles.image}
                 src={src}
                 beforeLoadstyle={{
                   height: '250px',
@@ -128,6 +128,7 @@ export default class Gallery extends PureComponent<Props, State> {
                 }}
                 alt={photo.alt}
               />
+              <div className={styles.top}>{top}</div>
               <div className={styles.overlay}>{overlay}</div>
               <div className={styles.bottom}>{bottom}</div>
             </div>
