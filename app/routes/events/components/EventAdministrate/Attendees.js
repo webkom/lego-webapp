@@ -121,7 +121,7 @@ export default class Attendees extends Component<Props, State> {
               {` ${event.title}`}
             </Link>
           </h2>
-          {event.shareInfoFlag &&
+          {event.useContactTracing &&
             currentUser.id == event.createdBy &&
             moment().isAfter(event.startTime) &&
             moment().isBefore(moment(event.endTime).add('days', 14)) &&

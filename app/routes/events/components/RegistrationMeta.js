@@ -22,7 +22,6 @@ type Props = {
   hasSimpleWaitingList: boolean,
   useConsent: boolean,
   hasEnded: boolean,
-  shareInfoFlag: boolean,
 };
 
 const ConsentStatus = ({
@@ -147,22 +146,11 @@ const RegistrationMeta = ({
   isPriced,
   registrationIndex,
   hasSimpleWaitingList,
-  shareInfoFlag,
 }: Props) => (
   <div>
     {!registration && (
       <div>
         <i className="fa fa-exclamation-circle" /> Du er ikke påmeldt
-      </div>
-    )}
-    {shareInfoFlag && !registration && (
-      <div>
-        <i className="fa fa-exclamation-circle" /> Ved å melde deg på dette
-        arrangementet samtykker jeg til at kontaktinformasjonen min (navn,
-        telefonnummer og epost) kan deles med FHI og NTNU for smittesporing.
-        Kontaktinformasjonen vil være tilgjengelig for brukeren som laget
-        arrangementet i 14 dager etter at arrangementet har funnet sted, og vil
-        kun brukes til smittesporing.
       </div>
     )}
     {registration && (

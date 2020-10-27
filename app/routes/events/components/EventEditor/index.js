@@ -386,7 +386,7 @@ function EventEditor({
               <Tooltip content="Navn og epost kan deles med folk utenfor Abakus til smittesporing">
                 <Field
                   label="Informasjon kan deles til smittesporing"
-                  name="shareInfoFlag"
+                  name="useContactTracing"
                   component={CheckBox.Field}
                   fieldClassName={styles.metaField}
                   className={styles.formField}

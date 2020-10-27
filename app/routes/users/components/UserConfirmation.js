@@ -10,8 +10,8 @@ import {
   RadioButton,
   Button,
   legoForm,
+  PhoneNumberInput,
 } from 'app/components/Form';
-import PhoneNumberInput from 'app/components/Form/PhoneNumberInput';
 import { Field } from 'redux-form';
 import { Link } from 'react-router-dom';
 import {

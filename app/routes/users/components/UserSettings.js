@@ -11,8 +11,8 @@ import {
   RadioButtonGroup,
   RadioButton,
   legoForm,
+  PhoneNumberInput,
 } from 'app/components/Form';
-import PhoneNumberInput from 'app/components/Form/PhoneNumberInput';
 import { FlexRow } from 'app/components/FlexBox';
 import UserImage from './UserImage';
 import ChangePassword from './ChangePassword';

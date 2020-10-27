@@ -280,7 +280,7 @@ class JoinEventForm extends Component<Props> {
                 </div>
               )}
               {!disabledForUser &&
-                event.shareInfoFlag &&
+                event.useContactTracing &&
                 !currentUser.phoneNumber && (
                   <div className={styles.eventWarning}>
                     <p>NB!</p>
@@ -294,7 +294,7 @@ class JoinEventForm extends Component<Props> {
                   </div>
                 )}
               {formOpen &&
-                (event.shareInfoFlag ? currentUser.phoneNumber : true) && (
+                (event.useContactTracing ? currentUser.phoneNumber : true) && (
                   <Flex column>
                     <Form
                       onSubmit={this.submitWithType(
