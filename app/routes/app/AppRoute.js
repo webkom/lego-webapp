@@ -131,6 +131,7 @@ class App extends PureComponent<AppProps> {
             markAllNotifications={this.props.markAllNotifications}
             fetchNotificationData={this.props.fetchNotificationData}
             upcomingMeeting={this.props.upcomingMeeting}
+            loading={this.props.loading}
           />
           <AppChildren
             currentUser={this.props.currentUser}
@@ -168,6 +169,7 @@ function mapStateToProps(state) {
     }),
     statusCode: state.router.statusCode,
     upcomingMeeting: upcomingMeetings.length ? upcomingMeetings[0] : undefined,
+    loading: state.frontpage.fetching,
   };
 }
 

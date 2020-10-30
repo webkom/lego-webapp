@@ -19,7 +19,6 @@ import { selectPinnedPolls } from 'app/reducers/polls';
 import { votePoll } from 'app/actions/PollActions';
 
 const mapStateToProps = (state) => ({
-  loadingFrontpage: state.frontpage.fetching,
   frontpage: selectFrontpage(state),
   feed: selectFeedById(state, { feedId: 'personal' }),
   shouldFetchQuote: isEmpty(selectRandomQuote(state)),
