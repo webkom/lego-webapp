@@ -383,6 +383,19 @@ function EventEditor({
               </Tooltip>
             )}
             {['NORMAL', 'INFINITE'].includes(event.eventStatusType) && (
+              <Tooltip content="Navn, telefonnummer og epost kan deles med folk utenfor Abakus til smittesporing. Dersom informasjonen skal kunne deles med andre enn FHI og NTNU, må dette spesifiseres i beskrivelsen.">
+                <Field
+                  label="Informasjon kan deles til smittesporing"
+                  name="useContactTracing"
+                  component={CheckBox.Field}
+                  fieldClassName={styles.metaField}
+                  className={styles.formField}
+                  normalize={(v) => !!v}
+                  disabled={moment().isAfter(event.activationTime)}
+                />
+              </Tooltip>
+            )}
+            {['NORMAL', 'INFINITE'].includes(event.eventStatusType) && (
               <Tooltip content="Et spørsmål alle må svare på før de melder seg på">
                 <Field
                   name="feedbackRequired"

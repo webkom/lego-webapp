@@ -10,6 +10,7 @@ import {
   RadioButton,
   Button,
   legoForm,
+  PhoneNumberInput,
 } from 'app/components/Form';
 import { Field } from 'redux-form';
 import { Link } from 'react-router-dom';
@@ -128,6 +129,12 @@ const UserConfirmation = ({
             placeholder="Allergier"
             label="Allergier"
             component={TextInput.Field}
+          />
+
+          <Field
+            label="Telefonnummer"
+            name="phoneNumber"
+            component={PhoneNumberInput.Field}
           />
           <Button submit dark>
             Registrer bruker

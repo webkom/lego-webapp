@@ -91,25 +91,25 @@
   flex-wrap: wrap-reverse;
 }
 
-.penalties {
+.eventWarning {
   padding: 10px;
   border-radius: 10px;
   background: var(--color-red-4);
   text-align: center;
 }
 
-.penalties > p {
+.eventWarning > p {
   color: white;
   font-weight: bold;
   margin: 0;
 }
 
-.penalties > a {
+.eventWarning > a {
   font-weight: bold;
   color: var(--color-event-red);
 }
 
-.penalties > a:hover {
+.eventWarning > a:hover {
   color: var(--color-black);
 }
 

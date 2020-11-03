@@ -11,6 +11,7 @@ import {
   RadioButtonGroup,
   RadioButton,
   legoForm,
+  PhoneNumberInput,
 } from 'app/components/Form';
 import { FlexRow } from 'app/components/FlexBox';
 import UserImage from './UserImage';
@@ -115,6 +116,12 @@ const UserSettings = (props: Props) => {
           label="Epost"
           name="email"
           component={TextInput.Field}
+        />
+
+        <Field
+          label="Telefonnummer"
+          name="phoneNumber"
+          component={PhoneNumberInput.Field}
         />
 
         <RadioButtonGroup label="Theme" name="selectedTheme">

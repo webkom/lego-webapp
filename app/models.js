@@ -57,6 +57,7 @@ type EventBase = {
   unregistrationDeadline: Dateish,
   pinned: boolean,
   youtubeUrl: string,
+  useContactTracing: boolean,
 };
 
 export type Event = EventBase & {
@@ -112,6 +113,7 @@ export type User = {
   allergies: string,
   profilePicture: string,
   email?: string,
+  phoneNumber?: string,
 };
 
 export type EventRegistrationPresence = 'PRESENT' | 'NOT_PRESENT' | 'UNKNOWN';

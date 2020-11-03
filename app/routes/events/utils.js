@@ -66,6 +66,7 @@ const eventCreateAndUpdateFields = [
   'heedPenalties',
   'isAbakomOnly',
   'useConsent',
+  'useContactTracing',
 ];
 
 // Pool fields that should be created or updated based on the API
