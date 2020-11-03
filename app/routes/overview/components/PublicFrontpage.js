@@ -187,8 +187,8 @@ class PublicFrontpage extends Component<Props, State> {
               </a>
               <div className={styles.linkDescription}>
                 Vi bruker stadig mer av livene våre på nett, på jobb som i
-                fritid. Kommunikasjonsteknologi og digital sikkerhet brukes
-                etter hvert av alle og overalt.
+                fritid. Kommunikasjonsteknologi og digital sikkerhet blir stadig
+                viktigere i en digital verden.
               </div>
             </li>
             <li>
