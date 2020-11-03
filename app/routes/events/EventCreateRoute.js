@@ -38,6 +38,7 @@ const mapStateToProps = (state, props) => {
       eventType: valueSelector(state, 'eventType'),
       priceMember: valueSelector(state, 'priceMember'),
       startTime: valueSelector(state, 'startTime'),
+      separateDeadlines: valueSelector(state, 'separateDeadlines'),
       eventStatusType: valueSelector(state, 'eventStatusType'),
       registrationDeadline:
         valueSelector(state, 'startTime') &&
@@ -45,6 +46,11 @@ const mapStateToProps = (state, props) => {
           valueSelector(state, 'registrationDeadlineHours'),
           'hours'
         ),
+      unregistrationDeadline:
+        valueSelector(state, 'startTime') &&
+        moment(valueSelector(state, 'startTime')).subtract(
+          valueSelector(state, 'unregistrationDealineHours'), 'hours'
+        )
     },
     pools: valueSelector(state, 'pools'),
   };
@@ -72,8 +78,10 @@ const mapStateToProps = (state, props) => {
       useConsent: false,
       feedbackDescription: '',
       pools: [],
+      separateDeadlines: false,
       unregistrationDeadline: time({ hours: 12 }),
       registrationDeadlineHours: 2,
+      unregistrationDeadlineHours: 2,
     },
     actionGrant,
     ...selectedValues,

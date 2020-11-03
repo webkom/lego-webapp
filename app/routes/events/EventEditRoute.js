@@ -65,10 +65,17 @@ const mapStateToProps = (state, props) => {
       feedbackRequired: valueSelector(state, 'feedbackRequired'),
       useStripe: valueSelector(state, 'useStripe'),
       priceMember: valueSelector(state, 'priceMember'),
+      separateDeadlines: valueSelector(state, 'separateDeadlines'),
       registrationDeadline:
         valueSelector(state, 'startTime') &&
         moment(valueSelector(state, 'startTime')).subtract(
           valueSelector(state, 'registrationDeadlineHours'),
+          'hours'
+        ),
+      unregistrationDeadline:
+        valueSelector(state, 'startTime') &&
+        moment(valueSelector(state, 'startTime')).subtract(
+          valueSelector(state, 'unregistrationDeadlineHours'),
           'hours'
         ),
     },

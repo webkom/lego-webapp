@@ -353,11 +353,40 @@ function EventEditor({
                   </Tooltip>
                 </div>
               )}
-            {['NORMAL', 'INFINITE'].includes(event.eventStatusType) && (
+            {['NORMAL', 'INFINITE'].includes(event.eventStatusType) && (<>
+                {/* Need a checkbox to separate absolute registration and unregistration deadline */}
+                {/* Want to make a similar field for absolut unregistration time */ }
+                {/* It will not be possible to unregister after this*/}
+              <Tooltip content="Separate frister for påmelding og avmelding - antall timer før arrangementet. Det vil ikke være mulig å melde seg av eller på etter de satte fristene">
+                <Field 
+                  label="Separate frister"
+                  name="separateDeadlines"
+                  component={CheckBox.Field}
+                  fieldClassName={styles.metaField}
+                  className={styles.formField}
+                  normalize={(v) => !!v}
+                />
+            </Tooltip>
+             {event.separateDeadlines && (
+               <Tooltip content="Frist for avmelding antall timer før arrangementet">
+                <Field 
+                key="unregistrationDeadlineHours"
+                label="Avregistrering antall timer før"
+                name="unregistrationDeadlineHours"
+                type="number"
+                component={TextInput.Field}
+                fieldClassName={styles.metaField}
+                className={styles.formField}
+                />
+                <p>
+
+                </p>
+                </Tooltip>
+            )}
               <Tooltip content="Frist for påmelding/avmelding - antall timer før arrangementet. Det er ikke mulig å melde seg hverken på eller av etter denne fristen">
                 <Field
                   key="registrationDeadlineHours"
-                  label="Stenger"
+                  label="Registrering antall timer før"
                   name="registrationDeadlineHours"
                   type="number"
                   component={TextInput.Field}
@@ -369,6 +398,7 @@ function EventEditor({
                   <FormatTime time={moment(event.registrationDeadline)} />
                 </p>
               </Tooltip>
+              </>
             )}
             {['NORMAL', 'INFINITE'].includes(event.eventStatusType) && (
               <Tooltip content="Bruk samtykke til bilder">

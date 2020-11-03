@@ -61,12 +61,13 @@ const eventCreateAndUpdateFields = [
   'tags',
   'pools',
   'registrationDeadlineHours',
-  'unregistrationDeadline',
+  'unregistrationDeadlineHours',
   'pinned',
   'heedPenalties',
   'isAbakomOnly',
   'useConsent',
   'useContactTracing',
+  'separateDeadlines',
 ];
 
 // Pool fields that should be created or updated based on the API
@@ -189,6 +190,13 @@ export const registrationCloseTime = (event: Event) =>
 
 export const registrationIsClosed = (event: Event) => {
   return moment().isAfter(registrationCloseTime(event));
+};
+
+export const unregistrationCloseTime = (event: Event) => 
+  moment(event.startTime).subtract(event.unregistrationDeadlineHours, 'hours');
+
+export const unregistrationIsClosed = (event: Event) => {
+  return moment().isAfter(unregistrationCloseTime(event));
 };
 
 export const sumPenalties = (penalties: Array<AddPenalty>) =>
