@@ -7,14 +7,13 @@ import LoadingIndicator from 'app/components/LoadingIndicator';
 import { Image } from 'app/components/Image';
 import InfoBubble from 'app/components/InfoBubble';
 import { Link } from 'react-router-dom';
-import truncateString from 'app/utils/truncateString';
-import { EVENT_CONSTANTS } from 'app/routes/events/utils';
-import Time from 'app/components/Time';
 import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import { jobType, Year } from 'app/routes/joblistings/components/Items';
 import Icon from 'app/components/Icon';
 import moment from 'moment-timezone';
+import EventItem from 'app/routes/overview/components/EventItem';
+import { renderMeta } from 'app/routes/overview/components/utils';
 
 type Props = {
   company: Object,
@@ -22,12 +21,14 @@ type Props = {
   joblistings: Array<Object>,
   showFetchMoreEvents: boolean,
   fetchMoreEvents: () => Promise<*>,
+  loggedIn: boolean,
 };
 
 type EventProps = {
   companyEvents: Array<Object>,
   showFetchMoreEvents: boolean,
   fetchMoreEvents: () => Promise<*>,
+  loggedIn: boolean,
 };
 
 function insertInfoBubbles(company) {
@@ -60,11 +61,18 @@ function insertInfoBubbles(company) {
 class CompanyEvents extends React.Component<EventProps, *> {
   state = {
     viewOld: false,
+    eventsToShow: 3,
   };
 
   render() {
     const { viewOld } = this.state;
-    const { companyEvents, showFetchMoreEvents, fetchMoreEvents } = this.props;
+
+    const {
+      loggedIn,
+      companyEvents,
+      showFetchMoreEvents,
+      fetchMoreEvents,
+    } = this.props;
 
     const sortedEvents = companyEvents.sort(
       (a, b) => new Date(b.startTime) - new Date(a.startTime)
@@ -77,54 +85,34 @@ class CompanyEvents extends React.Component<EventProps, *> {
       moment().isAfter(moment(event.startTime))
     );
 
-    const eventTable = (events) =>
+    const EventTable = ({ events }) =>
       events.map((event) => (
-        <tr key={event.id}>
-          <td>
-            <Link to={`/events/${event.id}`}>{event.title}</Link>
-          </td>
-          <td>{EVENT_CONSTANTS[event.eventType]}</td>
-          <td>
-            <Time time={event.startTime} format="DD.MM.YYYY" />
-          </td>
-          <td>{truncateString(event.location, 50)}</td>
-          <td>{truncateString(event.description, 70)}</td>
-          <td />
-        </tr>
+        <EventItem
+          className={styles.companyEvent}
+          key={event.id}
+          item={event}
+          url={`/events/${event.id}`}
+          meta={renderMeta(event)}
+          loggedIn={loggedIn}
+          isFrontPage={false}
+        />
       ));
 
     return (
       <div>
         <table className={styles.companyEventTable}>
-          <thead className={styles.categoryHeader}>
-            <tr>
-              <th>Tittel</th>
-              <th>Arrangementstype</th>
-              <th>Når</th>
-              <th>Hvor</th>
-              <th>Hva</th>
-              <th> </th>
-            </tr>
-          </thead>
-          <tbody>
-            {eventTable(upcomingEvents)}
-            <tr>
-              <th colSpan="2">Tidligere arrangementer</th>
-              <th />
-              <th />
-              <th colSpan="2">
-                <button
-                  className={styles.showAllEventsButton}
-                  onClick={() =>
-                    this.setState({ viewOld: !this.state.viewOld })
-                  }
-                >
-                  {viewOld ? 'Vis kun kommende' : 'Vis tidligere arrangementer'}
-                </button>
-              </th>
-            </tr>
-            {viewOld && eventTable(oldEvents)}
-          </tbody>
+          <EventTable events={upcomingEvents} />
+          <tr>
+            <div className={styles.companyEventsShowMore}>
+              <button
+                className={styles.showAllEventsButton}
+                onClick={() => this.setState({ viewOld: !this.state.viewOld })}
+              >
+                {viewOld ? 'Vis kun kommende' : 'Vis tidligere arrangementer'}
+              </button>
+            </div>
+          </tr>
+          {viewOld && <EventTable events={oldEvents} />}
         </table>
         {viewOld && showFetchMoreEvents && (
           <div
@@ -155,11 +143,11 @@ const CompanyDetail = (props: Props) => {
     joblistings,
     fetchMoreEvents,
     showFetchMoreEvents,
+    loggedIn,
   } = props;
   if (!company) {
     return <LoadingIndicator loading />;
   }
-
   const joblistingsList =
     joblistings &&
     joblistings.map((joblisting) => (
@@ -184,7 +172,7 @@ const CompanyDetail = (props: Props) => {
     <Content>
       {company.logo && (
         <div className={styles.companyLogoDetail}>
-          <Image src={company.logo} className={styles.image} />
+          <Image src={company.logo} className={styles.companyImage} />
         </div>
       )}
 
@@ -204,6 +192,7 @@ const CompanyDetail = (props: Props) => {
           companyEvents={companyEvents}
           showFetchMoreEvents={showFetchMoreEvents}
           fetchMoreEvents={fetchMoreEvents}
+          loggedIn={loggedIn}
         />
       ) : (
         <i>Ingen arrangementer.</i>

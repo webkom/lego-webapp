@@ -25,7 +25,12 @@ const eventStatus = (
       return 'Mer info kommer';
     case 'OPEN':
       return 'Åpent arrangement';
+    case 'NORMAL':
     case 'INFINITE':
+      // Check if event has been
+      if (event.startTime < moment()) {
+        return `${registrationCount}/${totalCapacity} påmeldte`;
+      }
       if (!loggedIn) {
         return 'Logg inn for å melde deg på';
       } else if (activationTime === null) {
@@ -34,16 +39,13 @@ const eventStatus = (
         }
         return 'Ingen påmeldingsrett';
       }
-      return 'Åpent med påmelding';
-    case 'NORMAL':
-      if (!loggedIn) {
-        return 'Logg inn for å melde deg på';
-      } else if (!isAdmitted && activationTime === null) {
-        return 'Ingen påmeldingsrett';
-      }
+
       // Check if the event is in the future
       if (future) {
         return `Åpner ${moment(activationTime).format('dddd D MMM HH:mm')}`;
+      }
+      if (eventStatusType === 'INFINITE') {
+        return 'Åpent med påmelding';
       }
       return isPill ? false : `${registrationCount}/${totalCapacity} påmeldte`;
     default:
