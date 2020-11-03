@@ -112,6 +112,28 @@ export default class Attendees extends Component<Props, State> {
     const exportInfoMessage = `Informasjonen du eksporterer MÅ slettes når det ikke lenger er behov for den,
                 og skal kun distribueres gjennom mail. Dersom informasjonen skal deles med personer utenfor Abakus
                 må det spesifiseres for de påmeldte hvem informasjonen skal deles med.`;
+
+    const createInfoCSV = async () => {
+      const data = registered.map((registration) => ({
+        name: registration.user.fullName,
+        email: registration.user.email,
+        phoneNumber: registration.user.phoneNumber,
+      }));
+      const csvBeginning = 'navn,epost,landskode,telefonnummer\n';
+      const csvString = data.reduce(
+        (prev, current) =>
+          prev +
+          `${current.name},${current.email || ''},${
+            parsePhoneNumber(current.phoneNumber).countryCallingCode || ''
+          },${formatPhoneNumber(current.phoneNumber) || ''}\n`,
+        csvBeginning
+      );
+      const blobUrl = URL.createObjectURL(
+        new Blob([csvString], { type: 'text/csv' })
+      );
+      this.setState({ generatedCsvUrl: blobUrl });
+    };
+
     return (
       <div>
         <Flex row justifyContent="space-between">
@@ -133,27 +155,7 @@ export default class Attendees extends Component<Props, State> {
                 title="Eksporter til csv"
                 closeOnConfirm={true}
                 message={exportInfoMessage}
-                onConfirm={async () => {
-                  const data = registered.map((registration) => ({
-                    name: registration.user.fullName,
-                    email: registration.user.email,
-                    phoneNumber: registration.user.phoneNumber,
-                  }));
-                  const csvBeginning = 'navn,epost,landskode,telefonnummer\n';
-                  const csvString = data.reduce(
-                    (prev, current) =>
-                      prev +
-                      `${current.name},${current.email || ''},${
-                        parsePhoneNumber(current.phoneNumber)
-                          .countryCallingCode || ''
-                      },${formatPhoneNumber(current.phoneNumber) || ''}\n`,
-                    csvBeginning
-                  );
-                  const blobUrl = URL.createObjectURL(
-                    new Blob([csvString], { type: 'text/csv' })
-                  );
-                  this.setState({ generatedCsvUrl: blobUrl });
-                }}
+                onConfirm={createInfoCSV}
               >
                 <Button size="large">Eksporter deltakere til csv</Button>
               </ConfirmModalWithParent>

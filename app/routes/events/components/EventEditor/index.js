@@ -383,7 +383,7 @@ function EventEditor({
               </Tooltip>
             )}
             {['NORMAL', 'INFINITE'].includes(event.eventStatusType) && (
-              <Tooltip content="Navn og epost kan deles med folk utenfor Abakus til smittesporing">
+              <Tooltip content="Navn, telefonnummer og epost kan deles med folk utenfor Abakus til smittesporing. Dersom informasjonen skal kunne deles med andre enn FHI og NTNU, må dette spesifiseres i beskrivelsen.">
                 <Field
                   label="Informasjon kan deles til smittesporing"
                   name="useContactTracing"
