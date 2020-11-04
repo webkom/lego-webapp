@@ -1,10 +1,10 @@
 //@flow
-import React from 'react';
+import React, { type Node } from 'react';
 import styles from './TextWithTitle.css';
 
 type Props = {
   title: string,
-  text: string,
+  text: Node,
   extraStyle?: Object,
 };
 
