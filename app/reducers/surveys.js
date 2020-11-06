@@ -7,16 +7,9 @@ import { selectEvents } from './events';
 import { omit } from 'lodash';
 import type { EventType } from 'app/models';
 
-export type SurveyEntity = {
+export type OptionEntity = {
   id: number,
-  title: string,
-  event: any,
-  activeFrom?: string,
-  questions: Array<QuestionEntity>,
-  templateType?: EventType,
-  token?: string,
-  results?: Object,
-  submissionCount?: number,
+  optionText: string,
 };
 
 export type QuestionEntity = {
@@ -29,9 +22,16 @@ export type QuestionEntity = {
   relativeIndex: number,
 };
 
-export type OptionEntity = {
+export type SurveyEntity = {
   id: number,
-  optionText: string,
+  title: string,
+  event: any,
+  activeFrom?: string,
+  questions: Array<QuestionEntity>,
+  templateType?: EventType,
+  token?: string,
+  results?: Object,
+  submissionCount?: number,
 };
 
 export default createEntityReducer({

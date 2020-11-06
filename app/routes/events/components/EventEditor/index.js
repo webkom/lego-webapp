@@ -92,7 +92,7 @@ function EventEditor({
   }
 
   const isTBA = (value) =>
-    value && value == 'TBA' ? `Velg påmeldingstype TBA` : undefined;
+    value && value === 'TBA' ? `Velg påmeldingstype TBA` : undefined;
 
   const tooLow = (value) =>
     value && value <= 3 ? `Summen må være større enn 3 kr` : undefined;

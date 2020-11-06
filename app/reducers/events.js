@@ -132,6 +132,9 @@ const mutateEvent = produce((newState: State, action: any): void => {
         newState.byId[action.meta.id].loading = false;
       }
       break;
+
+    default:
+      break;
   }
 });
 
@@ -327,7 +330,7 @@ export const selectAllRegistrationsForEvent = createSelector(
           updatedBy,
         });
       })
-      .filter((reg) => reg.event == eventId)
+      .filter((reg) => reg.event === eventId)
 );
 
 export const selectWaitingRegistrationsForEvent = createSelector(

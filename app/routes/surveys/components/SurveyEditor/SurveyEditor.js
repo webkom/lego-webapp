@@ -67,6 +67,7 @@ function TemplateTypeDropdownItems({
               e.preventDefault();
               e.stopPropagation();
               if (
+                // eslint-disable-next-line no-restricted-globals
                 confirm(
                   'Dette vil slette alle uendrete lagringer i undersøkelsen!\n' +
                     'Lagrete endringer vil ikke overskrives før du trykker Lagre.'

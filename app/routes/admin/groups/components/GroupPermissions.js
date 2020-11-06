@@ -22,6 +22,7 @@ type PermissionListProps = {
 };
 
 const removePermission = (permission, group, editGroup) =>
+  // eslint-disable-next-line no-restricted-globals
   confirm(`Er du sikker på at du vil fjerne tilgangen ${permission}?`) &&
   editGroup({
     ...group,

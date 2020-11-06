@@ -83,7 +83,13 @@ function AccountDropdownItems({
       </Dropdown.ListItem>
       <Dropdown.Divider />
       <Dropdown.ListItem>
-        <Button flat onClick={() => (logout(), onClose())}>
+        <Button
+          flat
+          onClick={() => {
+            logout();
+            onClose();
+          }}
+        >
           Logg ut
           <Icon name="log-out" size={24} />
         </Button>
@@ -119,7 +125,7 @@ class Header extends Component<Props, State> {
     const isLogin = this.state.mode === 'login';
     let title, form;
 
-    if (loggedIn && currentUser && currentUser.selectedTheme != getTheme()) {
+    if (loggedIn && currentUser && currentUser.selectedTheme !== getTheme()) {
       applySelectedTheme(currentUser.selectedTheme || 'light');
     }
 
@@ -135,6 +141,8 @@ class Header extends Component<Props, State> {
       case 'forgotPassword':
         title = 'Glemt passord';
         form = <ForgotPasswordForm />;
+        break;
+      default:
         break;
     }
 

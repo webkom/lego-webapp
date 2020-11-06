@@ -66,7 +66,8 @@ export default class Quote extends Component<Props, State> {
     if (!fetchingEmojis) {
       mappedEmojis = emojis.map((emoji) => {
         const foundReaction = quote.reactionsGrouped.find(
-          (reaction) => emoji.shortCode == reaction.emoji && reaction.hasReacted
+          (reaction) =>
+            emoji.shortCode === reaction.emoji && reaction.hasReacted
         );
         if (foundReaction !== undefined) {
           emoji.hasReacted = true;

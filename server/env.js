@@ -1,4 +1,4 @@
-export default {
+const config = {
   host: process.env.HOST,
   port: process.env.PORT,
   https: process.env.HTTPS || false,
@@ -8,3 +8,5 @@ export default {
   release: process.env.RELEASE,
   environment: process.env.ENVIRONMENT,
 };
+
+export default config;

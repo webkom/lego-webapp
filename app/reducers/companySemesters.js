@@ -27,6 +27,9 @@ export default createEntityReducer({
         case Company.ADD_SEMESTER.SUCCESS:
           newState.byId[action.payload.id] = action.payload;
           newState.items.push(action.payload.id);
+          break;
+        default:
+          break;
       }
     });
   },

@@ -20,6 +20,8 @@ export default createEntityReducer({
       case Announcements.SEND.SUCCESS:
         newState.byId[action.meta.announcementId].sent = moment();
         break;
+      default:
+        break;
     }
   }),
 });

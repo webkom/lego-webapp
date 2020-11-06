@@ -75,7 +75,6 @@ Cypress.Commands.add('editorType', { prevSubject: true }, (subject, text) =>
     subject[0].dispatchEvent(
       new InputEvent('beforeinput', { inputType: 'insertText', data: text })
     );
-    subject;
     return subject;
   })
 );
