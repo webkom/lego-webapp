@@ -12,7 +12,7 @@ import {
 } from 'app/actions/UserActions';
 import { fetchAllWithType } from 'app/actions/GroupActions';
 import { fetchPrevious, fetchUpcoming } from 'app/actions/EventActions';
-import { fetchUserFeed } from 'app/actions/FeedActions';
+//import { fetchUserFeed } from 'app/actions/FeedActions';
 import { selectUserWithGroups } from 'app/reducers/users';
 import {
   selectPreviousEvents,
@@ -53,14 +53,14 @@ const mapStateToProps = (state, props) => {
     params.username === 'me' ? state.auth.username : params.username;
 
   const user = selectUserWithGroups(state, { username });
-  let feed;
-  let feedItems;
+  //let feed;
+  //let feedItems;
   const previousEvents = selectPreviousEvents(state);
   const upcomingEvents = selectUpcomingEvents(state);
   let penalties;
   if (user) {
-    feed = { type: 'user', activities: [] };
-    feedItems = [];
+    //  feed = { type: 'user', activities: [] };
+    //  feedItems = [];
     // TODO: re-enable! see above.
     // feed = selectFeedById(state, { feedId: feedIdByUserId(user.id) });
     // feedItems = selectFeedActivitesByFeedId(state, {
@@ -83,8 +83,8 @@ const mapStateToProps = (state, props) => {
     user,
     previousEvents,
     upcomingEvents,
-    feed,
-    feedItems,
+    //feed,
+    //feedItems,
     showSettings,
     isMe,
     loading: state.events.fetching,
@@ -98,7 +98,7 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = {
   fetchUser,
   fetchUpcoming,
-  fetchUserFeed,
+  //fetchUserFeed,
   addPenalty,
   deletePenalty,
   changeGrade,

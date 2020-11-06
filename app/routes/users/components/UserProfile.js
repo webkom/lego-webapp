@@ -8,7 +8,7 @@ import { ProfilePicture, CircularPicture } from 'app/components/Image';
 import Card from 'app/components/Card';
 import Pill from 'app/components/Pill';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import Feed from 'app/components/Feed';
+//import Feed from 'app/components/Feed';
 import Penalties from './Penalties';
 import GroupChange from './GroupChange.js';
 import styles from './UserProfile.css';
@@ -52,8 +52,8 @@ const fieldRenders = {
 type Props = {
   user: any,
   showSettings: boolean,
-  feedItems: Array<any>,
-  feed: Object,
+  //feedItems: Array<any>,
+  //feed: Object,
   isMe: boolean,
   loggedIn: boolean,
   loading: boolean,
@@ -190,8 +190,8 @@ export default class UserProfile extends Component<Props, EventsProps> {
       isMe,
       loggedIn,
       showSettings,
-      feedItems,
-      feed,
+      //feedItems,
+      //feed,
       loading,
       previousEvents,
       upcomingEvents,
@@ -517,12 +517,14 @@ export default class UserProfile extends Component<Props, EventsProps> {
             )}
           </div>
           <div className={styles.rightContent}>
+            {/*
             <h3>Nylig Aktivitet</h3>
             {feed ? (
               <Feed items={feedItems} feed={feed} />
             ) : (
               <LoadingIndicator loading />
             )}
+            */}
             {isMe && (
               <div className={styles.bottomMargin}>
                 <h3>Dine kommende arrangementer</h3>
