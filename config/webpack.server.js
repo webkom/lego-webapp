@@ -22,7 +22,7 @@ module.exports = (env, argv) => {
       minimize: false,
     },
     externals: [
-      nodeExternals({ whitelist: ['webpack/hot/poll?1000', /css$/] }),
+      nodeExternals({ allowlist: ['webpack/hot/poll?1000', /css$/] }),
     ],
 
     output: {
