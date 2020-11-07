@@ -27,4 +27,7 @@ module.exports = () => ({
       path: path.join(outputPath, '[name].json'),
     }),
   ],
+  stats: {
+    chunks: true,
+  },
 });
