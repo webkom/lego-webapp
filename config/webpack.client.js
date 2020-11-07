@@ -7,8 +7,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
 const AssetsPlugin = require('assets-webpack-plugin');
-const FilterWarningsPlugin = require('webpack-filter-warnings-plugin');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin');
 
 const root = path.resolve(__dirname, '..');
@@ -34,7 +33,16 @@ module.exports = (env, argv) => {
 
   return {
     mode: argv.mode,
-    stats: isProduction ? 'normal' : 'errors-only',
+    stats: isProduction
+      ? 'normal'
+      : {
+          all: false,
+          modules: false,
+          errors: true,
+          warnings: true,
+          moduleTrace: true,
+          errorDetails: true,
+        },
     devtool: isProduction ? 'source-map' : 'eval-source-map',
     entry: {
       app: isProduction
@@ -55,17 +63,26 @@ module.exports = (env, argv) => {
       publicPath,
       pathinfo: false,
       sourceMapFilename: '[file].map',
+      environment: {
+        arrowFunction: false,
+        const: false,
+        destructuring: false,
+      },
     },
 
     plugins: compact([
       // Explicitly import the moment locales we care about:
-      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+      new webpack.IgnorePlugin(
+        { resourceRegExp: /^\.\/locale$/ },
+        { contextRegExp: /moment$/ }
+      ),
       isProduction && new DuplicatePackageCheckerPlugin(),
-      new webpack.IgnorePlugin(/^jsdom$/),
+      new webpack.IgnorePlugin({ resourceRegExp: /^jsdom$/ }),
       isProduction &&
         new MiniCssExtractPlugin({
           filename: '[name].[contenthash].css',
           chunkFilename: '[id].chunk.[contenthash].css',
+          ignoreOrder: true,
         }),
       !isProduction &&
         new webpack.DllReferencePlugin({
@@ -73,28 +90,21 @@ module.exports = (env, argv) => {
           manifest: JSON.parse(fs.readFileSync(manifestPath, 'utf8')),
         }),
 
-      isProduction && new OptimizeCSSAssetsPlugin({}),
-      new webpack.LoaderOptionsPlugin({
-        options: {
-          context: __dirname,
-        },
-      }),
+      //new webpack.LoaderOptionsPlugin({
+      //options: {
+      //context: __dirname,
+      //},
+      //}),
       new webpack.DefinePlugin({
         __DEV__: JSON.stringify(!isProduction),
         __CLIENT__: true,
       }),
       process.env.BUNDLE_ANALYZER && new BundleAnalyzerPlugin(),
-      !isProduction && new webpack.HotModuleReplacementPlugin(),
 
       new StatsWriterPlugin({
         filename: 'stats.json',
         fields: ['assets'],
         transform: JSON.stringify,
-      }),
-      new FilterWarningsPlugin({
-        // suppress conflicting order warnings from mini-css-extract-plugin.
-        // see https://github.com/webpack-contrib/mini-css-extract-plugin/issues/250
-        exclude: /Conflicting order between:/,
       }),
 
       new AssetsPlugin({
@@ -113,6 +123,10 @@ module.exports = (env, argv) => {
           'moment-timezone/builds/moment-timezone-with-data-2012-2022.min',
         immutable: 'node_modules/immutable',
       },
+      fallback: {
+        util: require.resolve('util/'),
+        buffer: require.resolve('buffer/'),
+      },
     },
     optimization: {
       splitChunks: {
@@ -127,6 +141,8 @@ module.exports = (env, argv) => {
           },
         },
       },
+      minimize: isProduction,
+      minimizer: isProduction ? [new CssMinimizerPlugin()] : [],
     },
 
     module: {
@@ -193,7 +209,7 @@ module.exports = (env, argv) => {
         {
           test: /\.(png|jpg|jpeg|gif|svg|bdf|eot|svg|woff|woff2|ttf|mp3|mp4|webm)$/,
           loader: 'url-loader',
-          query: {
+          options: {
             limit: 8192,
           },
         },

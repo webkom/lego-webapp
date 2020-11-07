@@ -1,8 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const StartServerPlugin = require('start-server-webpack-plugin');
-const FilterWarningsPlugin = require('webpack-filter-warnings-plugin');
 const nodeExternals = require('webpack-node-externals');
 const root = path.resolve(__dirname, '..');
 
@@ -38,7 +36,8 @@ module.exports = (env, argv) => {
     },
 
     plugins: [
-      !isProduction && new StartServerPlugin({ name: 'server.js' }),
+      //!isProduction &&
+      //new StartServerPlugin({ entryName: 'server', debug: true, once: true }),
       !isProduction && new webpack.HotModuleReplacementPlugin(),
       new webpack.optimize.LimitChunkCountPlugin({
         maxChunks: 1,
@@ -47,20 +46,11 @@ module.exports = (env, argv) => {
         __CLIENT__: false,
         __DEV__: JSON.stringify(!isProduction),
       }),
-      new webpack.LoaderOptionsPlugin({
-        options: {
-          context: __dirname,
-        },
-      }),
-      new FilterWarningsPlugin({
-        // suppress conflicting order warnings from mini-css-extract-plugin.
-        // see https://github.com/webpack-contrib/mini-css-extract-plugin/issues/250
-        exclude: /Conflicting order between:/,
-      }),
       isProduction &&
         new MiniCssExtractPlugin({
           filename: '[name].[contenthash].css',
           chunkFilename: '[id].chunk.[contenthash].css',
+          ignoreOrder: true,
         }),
     ].filter(Boolean),
 

@@ -27,6 +27,12 @@ module.exports = () => ({
       path: path.join(outputPath, '[name].json'),
     }),
   ],
+  resolve: {
+    fallback: {
+      crypto: require.resolve('crypto-browserify'),
+      stream: require.resolve('stream-browserify'),
+    },
+  },
   stats: {
     chunks: true,
   },
