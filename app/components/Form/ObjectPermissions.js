@@ -48,7 +48,7 @@ const ObjectPermissions = ({
       <SelectInput.AutocompleteField
         {...canEditGroups}
         label="Grupper med endretilgang"
-        multi
+        isMulti
         placeholder="Velg grupper"
         filter={['users.abakusgroup']}
       />
@@ -57,7 +57,7 @@ const ObjectPermissions = ({
       <SelectInput.AutocompleteField
         {...canViewGroups}
         label="Grupper med lesetilgang"
-        multi
+        isMulti
         placeholder="Velg grupper"
         filter={['users.abakusgroup']}
       />
@@ -66,7 +66,7 @@ const ObjectPermissions = ({
       <SelectInput.AutocompleteField
         {...canEditUsers}
         label="Brukere med endretilgang"
-        multi
+        isMulti
         placeholder="Velg brukere"
         filter={['users.user']}
       />

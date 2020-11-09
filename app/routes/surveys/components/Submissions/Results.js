@@ -275,25 +275,25 @@ const Results = ({
                         onChange={(selectedType) =>
                           switchGraph(question.id, index, selectedType)
                         }
-                        optionComponent={(props) => {
+                        optionComponent={(props) => { // TODO_AAA Change to componwents API
                           return QuestionTypeOption(
                             props,
                             graphTypeToIcon[props.option && props.option.value],
                             'fa fa-'
                           );
                         }}
-                        valueComponent={(props) =>
+                        valueComponent={(props) => // TODO_AAA Rewrite to new Components API
                           QuestionTypeValue(
                             props,
                             graphTypeToIcon[props.value && props.value.value],
                             'fa fa-'
                           )
                         }
-                        clearable={false}
-                        backspaceRemoves={false}
-                        searchable={false}
+                        isClearable={false}
+                        backspaceRemovesValue={false}
+                        isSearchable={false}
                         onBlur={() => null}
-                        style={{ paddingTop: '7px' }}
+                        style={{ paddingTop: '7px' }} // TODO_AAA Replace with styles API
                       />
                     </div>
                   )}

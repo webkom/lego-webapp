@@ -1,3 +1,13 @@
 .field {
   width: 100%;
+  border: 1px solid var(--color-mono-gray-3);
+}
+
+.select {
+  color: var(--color-black);
+}
+
+.select div {
+  background-color: var(--color-white);
+  color: var(--color-black);
 }

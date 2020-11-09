@@ -184,7 +184,7 @@ const CompanyEditor = ({
                 />
               }
               meta="Studentkontakt"
-              style={{ order: 2 }}
+              style={{ order: 2 }} // TODO_AAA Change to Styles API
             />
           </div>
 

@@ -74,7 +74,7 @@ const ContactForm = (props: Props) => {
         value={hsRecipient}
         options={[hsRecipient, ...recipientOptions]}
         component={SelectInput.Field}
-        clearable={false}
+        isClearable={false}
       />
 
       <Field

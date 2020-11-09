@@ -154,7 +154,6 @@ export default class PageEditor extends Component<Props, State> {
               name="category"
               component={SelectInput.Field}
               placeholder="Velg kategori"
-              simpleValue
               options={categoryOptions}
             />
 

@@ -4,8 +4,7 @@ import React from 'react';
 import Select from 'react-select';
 import { createField } from './Field';
 import withAutocomplete from '../Search/withAutocomplete';
-import 'react-select/dist/react-select.min.css';
-import style from './SelectInput.css';
+import styles from './SelectInput.css';
 
 type Props = {
   name: string,
@@ -14,39 +13,36 @@ type Props = {
   tags?: boolean,
   fetching: boolean,
   className?: string,
-  selectStyle?: string,
   onBlur: (e: any) => void,
   onSearch: (string) => void,
   shouldKeyDownEventCreateNewOption: (number) => boolean,
   isValidNewOption: (string) => boolean,
   value: any,
-  disabled?: boolean,
+  isDisabled?: boolean,
   options?: {}[],
 };
 
 function SelectInput({
   name,
   fetching,
-  selectStyle,
   onBlur,
   shouldKeyDownEventCreateNewOption,
   isValidNewOption,
   value,
   options = [],
-  disabled = false,
+  isDisabled = false,
   placeholder,
   ...props
 }: Props) {
   if (props.tags) {
     return (
-      <div className={style.field}>
+      <div className={styles.field}>
         <Select.Creatable
           {...props}
-          disabled={disabled}
-          placeholder={!disabled && placeholder}
+          isDisabled={isDisabled}
+          placeholder={!isDisabled && placeholder}
           instanceId={name}
-          multi
-          onBlurResetsInput={false}
+          isMulti
           onBlur={() => onBlur(value)}
           value={value}
           isValidNewOption={isValidNewOption}
@@ -59,19 +55,19 @@ function SelectInput({
             }
             return value;
           }}
+          className={styles.select}
         />
       </div>
     );
   }
   return (
-    <div className={style.field}>
+    <div className={styles.field}>
       <Select
         {...props}
-        disabled={disabled}
-        placeholder={disabled ? 'Tomt' : placeholder}
+        isDisabled={isDisabled}
+        placeholder={isDisabled ? 'Tomt' : placeholder}
         instanceId={name}
         shouldKeyDownEventCreateNewOption={shouldKeyDownEventCreateNewOption}
-        onBlurResetsInput={false}
         onBlur={() => onBlur(value)}
         value={value}
         options={options}
@@ -82,6 +78,7 @@ function SelectInput({
           }
           return value;
         }}
+        className={styles.select}
       />
     </div>
   );

@@ -313,7 +313,7 @@ const CompanyInterestPage = (props: Props) => {
             WrappedComponent: SelectInput.Field,
             retainFailedQuery: true,
           })}
-          required
+          required // TODO_AAA Check if required is added after v2
         />
         <Field
           label={labels.contactPerson.header[language]}

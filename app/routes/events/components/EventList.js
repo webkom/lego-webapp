@@ -235,9 +235,8 @@ class EventList extends Component<EventListProps, State> {
             onChange={this.handleChange}
             className={styles.select}
             options={filterRegDateoptions}
-            clearable={false}
-            backspaceRemoves={false}
-            deleteRemoves={false}
+            isClearable={false}
+            backspaceRemovesValue={false}
           />
         </div>
         <EventListGroup

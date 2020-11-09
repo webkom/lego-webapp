@@ -59,14 +59,14 @@ const AnnouncementsCreate = ({
                 name="users"
                 placeholder="Brukere"
                 filter={['users.user']}
-                multi
+                isMulti
                 component={SelectInput.AutocompleteField}
               />
               <Field
                 name="groups"
                 placeholder="Grupper"
                 filter={['users.abakusgroup']}
-                multi
+                isMulti
                 component={SelectInput.AutocompleteField}
               />
             </Flex>
@@ -76,14 +76,14 @@ const AnnouncementsCreate = ({
                 name="events"
                 placeholder="Arrangementer"
                 filter={['events.event']}
-                multi
+                isMulti
                 component={SelectInput.AutocompleteField}
               />
               <Field
                 name="meetings"
                 placeholder="Møter"
                 filter={['meetings.meeting']}
-                multi
+                isMulti
                 component={SelectInput.AutocompleteField}
               />
             </Flex>

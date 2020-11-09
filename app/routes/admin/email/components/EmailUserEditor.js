@@ -39,15 +39,15 @@ const EmailUserEditor = ({
       <Field
         label="Bruker"
         name="user"
-        required
-        disabled={emailUserId}
+        required // TODO_AAA Check if required is added after v2
+        isDisabled={emailUserId}
         placeholder="Velg bruker"
         filter={['users.user']}
         component={SelectInput.AutocompleteField}
       />
       <Field
         required
-        disabled={emailUserId}
+        isDisabled={emailUserId}
         placeholder="abakus"
         suffix="@abakus.no"
         name="internalEmail"

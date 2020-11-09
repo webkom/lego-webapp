@@ -138,7 +138,7 @@ function MeetingEditor({
               label="Invitere brukere"
               placeholder="Skriv inn brukernavn på de du vil invitere"
               component={SelectInput.AutocompleteField}
-              multi
+              isMulti
             />
           </div>
           <div>
@@ -148,7 +148,7 @@ function MeetingEditor({
               label="Invitere grupper"
               placeholder="Skriv inn gruppene du vil invitere"
               component={SelectInput.AutocompleteField}
-              multi
+              isMulti
             />
           </div>
         </div>

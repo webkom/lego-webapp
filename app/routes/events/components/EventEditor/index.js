@@ -194,7 +194,6 @@ function EventEditor({
             <Field
               name="eventType"
               label="Type arrangement"
-              simpleValue
               fieldClassName={styles.metaField}
               component={SelectInput.Field}
               options={Object.keys(EVENT_CONSTANTS).map((type) => ({
@@ -249,7 +248,6 @@ function EventEditor({
               component={SelectInput.Field}
               fieldClassName={styles.metaField}
               options={eventStatusType}
-              simpleValue
             />
             {['NORMAL', 'OPEN', 'INFINITE'].includes(event.eventStatusType) && (
               <Field

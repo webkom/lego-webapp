@@ -88,25 +88,24 @@ const Question = ({
           <div className={styles.questionType}>
             <Field
               name={`${question}.questionType`}
-              simpleValue
               component={SelectInput.Field}
-              optionComponent={(props) =>
+              optionComponent={(props) => // TODO_AAA Change to componwents API
                 QuestionTypeOption(
                   props,
                   questionTypeToIcon[props.option && props.option.value]
                 )
               }
               options={mappings}
-              valueComponent={(props) =>
+              valueComponent={(props) => // TODO_AAA Rewrite to new Components API
                 QuestionTypeValue(
                   props,
                   questionTypeToIcon[props.value && props.value.value]
                 )
               }
               className={styles.questionType}
-              clearable={false}
-              backspaceRemoves={false}
-              searchable={false}
+              isClearable={false}
+              backspaceRemovesValue={false}
+              isSearchable={false}
             />
           </div>
 
@@ -119,10 +118,10 @@ const Question = ({
               placeholder="0"
               name="relativeIndex"
               options={indexOptions}
-              optionComponent={(props) =>
+              optionComponent={(props) => // TODO_AAA Change to componwents API
                 QuestionTypeOption(props, 'sort', 'fa fa-')
               }
-              valueComponent={(props) =>
+              valueComponent={(props) => // TODO_AAA Rewrite to new Components API
                 QuestionTypeValue(props, 'sort', 'fa fa-')
               }
               onChange={(user) =>
@@ -130,9 +129,9 @@ const Question = ({
               }
               onBlur={() => null}
               className={styles.reorderQuestion}
-              clearable={false}
-              backspaceRemoves={false}
-              searchable={false}
+              isClearable={false}
+              backspaceRemovesValue={false}
+              isSearchable={false}
             />
           </div>
         </div>

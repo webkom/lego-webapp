@@ -145,16 +145,15 @@ class JoblistingEditor extends Component<Props, State> {
                 );
               });
             }}
-            required
+            required // TODO_AAA Check if required is added after v2
           />
           <Field
             name="jobType"
             label="Jobbtype"
             component={SelectInput.Field}
             placeholder="Jobbtype"
-            simpleValue
             options={jobTypes}
-            required
+            required // TODO_AAA Check if required is added after v2
           />
           <Field
             placeholder="Søknadsfrist"
@@ -185,19 +184,17 @@ class JoblistingEditor extends Component<Props, State> {
             name="fromYear"
             label="For klasse trinn fra"
             placeholder="Jobbtype"
-            simpleValue
             component={SelectInput.Field}
             options={yearValues}
-            required
+            required // TODO_AAA Check if required is added after v2
           />
           <Field
             name="toYear"
             label="Til klasse"
             placeholder="Jobbtype"
-            simpleValue
             component={SelectInput.Field}
             options={yearValues}
-            required
+            required // TODO_AAA Check if required is added after v2
           />
           <Field
             placeholder="Søknadslenke"

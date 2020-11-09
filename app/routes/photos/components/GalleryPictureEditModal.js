@@ -117,7 +117,7 @@ const GalleryPictureEditModal = ({
             filter={['users.user']}
             placeholder="Skriv inn navn på brukere i bildet"
             component={SelectInput.AutocompleteField}
-            multi
+            isMulti
           />
           <Flex justifyContent="flex-end">
             <Button

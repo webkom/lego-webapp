@@ -64,14 +64,14 @@ class PodcastEditor extends Component<Props, *> {
           <Field
             name="authors"
             label="Snakker"
-            multi
+            isMulti
             filter={['users.user']}
             component={SelectInput.AutocompleteField}
           />
           <Field
             name="thanks"
             label="Takk til"
-            multi
+            isMulti
             filter={['users.user']}
             component={SelectInput.AutocompleteField}
           />

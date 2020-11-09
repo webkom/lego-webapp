@@ -165,7 +165,7 @@ class CompanyInterestList extends Component<Props, State> {
               value={this.props.selectedOption}
               onChange={this.handleChange}
               options={options}
-              clearable={false}
+              isClearable={false}
             />
           </Flex>
           <Link to="/companyInterest/semesters" className={styles.link}>
