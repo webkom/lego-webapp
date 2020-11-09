@@ -263,7 +263,7 @@ class EventList extends Component<EventListProps, State> {
             <h2 className={styles.noEvents}>Ingen kommende arrangementer</h2>
           </EmptyState>
         )}
-        {showFetchMore && field == 'startTime' && (
+        {showFetchMore && field === 'startTime' && (
           <Button onClick={fetchMore}>Last inn mer</Button>
         )}
         <div className={styles.bottomBorder} />

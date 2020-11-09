@@ -64,6 +64,9 @@ class SearchPage extends Component<Props, State> {
         e.preventDefault();
         this.handleSelect(this.props.results[this.state.selectedIndex]);
         break;
+
+      default:
+        break;
     }
   };
 

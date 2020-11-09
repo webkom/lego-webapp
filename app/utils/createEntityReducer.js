@@ -48,6 +48,8 @@ export function fetching(fetchTypes: ?EntityReducerTypes) {
         case fetchType.SUCCESS:
         case fetchType.FAILURE:
           return { ...state, fetching: false };
+        default:
+          break;
       }
     }
 
@@ -158,6 +160,7 @@ export function deleteEntities(deleteTypes: ?EntityReducerTypes) {
               ? [Number(resultId), resultId.toString()]
               : [resultId])
           ),
+          // eslint-disable-next-line no-sequences
         }),
         newPaginationNext
       ),

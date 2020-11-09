@@ -41,6 +41,8 @@ export default createEntityReducer({
         newState.byId[invitationId].status = status;
         break;
       }
+      default:
+        break;
     }
   }),
 });

@@ -68,14 +68,6 @@ export type Token = DecodedToken & {
 // Todo: remove any
 export type Reducer = any; // (state: State, action: Action) => State;
 
-export type Store = ReduxStore<State, Action, Dispatch<*>>;
-
-export type GetState = () => State;
-
-export type GetCookie = (string) => ?EncodedToken;
-
-export type Middleware = ReduxMiddleware<State, AnyAction<*>, Dispatch<*>>;
-
 export type Action = {|
   type: string,
   payload?: any,
@@ -91,6 +83,17 @@ export type PromiseAction<T> = {|
   payload?: any,
 |};
 
+export type GetState = () => State;
+
+export type GetCookie = (string) => ?EncodedToken;
+
+export type Thunk<R> = (
+  // eslint-disable-next-line no-use-before-define
+  dispatch: Dispatch<R>,
+  getState: GetState,
+  { getCookie: GetCookie }
+) => R;
+
 export type AnyAction<R> =
   | PromiseAction<R>
   | Thunk<R>
@@ -101,11 +104,9 @@ export type AnyAction<R> =
 
 export type Dispatch<R> = (action: AnyAction<R>) => R;
 
-export type Thunk<R> = (
-  dispatch: Dispatch<R>,
-  getState: GetState,
-  { getCookie: GetCookie }
-) => R;
+export type Store = ReduxStore<State, Action, Dispatch<*>>;
+
+export type Middleware = ReduxMiddleware<State, AnyAction<*>, Dispatch<*>>;
 
 export type ReduxFormProps = {
   pristine: boolean,

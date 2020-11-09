@@ -35,6 +35,8 @@ const mutateQuote = produce((newState: State, action: any): void => {
     case Quote.FETCH_RANDOM.SUCCESS:
       newState.randomQuote = action.payload.result;
       break;
+    default:
+      break;
   }
 });
 

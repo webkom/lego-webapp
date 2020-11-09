@@ -20,7 +20,7 @@ const ReactionPickerHeader = ({
       <ReactionPickerCategory
         key={category}
         name={category}
-        isActive={category == activeCategory}
+        isActive={category === activeCategory}
         onCategoryClick={onCategoryClick}
       />
     ))}

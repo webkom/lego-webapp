@@ -93,6 +93,7 @@ const SubmissionSummary = ({
         option: option.optionText,
         selections: selectedCount,
       });
+      return null;
     });
     return questionData;
   };
@@ -100,6 +101,7 @@ const SubmissionSummary = ({
   const graphData = {};
   survey.questions.map((question) => {
     graphData[question.id] = generateQuestionData(question);
+    return null;
   });
 
   return (

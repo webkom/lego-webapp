@@ -99,7 +99,7 @@ class Overview extends Component<Props, State> {
         <Flex className={styles.events}>
           {frontpage
             .filter((item) => item.documentType === 'event')
-            .filter((item) => item != frontpage[0])
+            .filter((item) => item !== frontpage[0])
             .slice(0, this.state.eventsToShow)
             .map((event) => (
               <EventItem

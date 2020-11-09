@@ -19,14 +19,13 @@ type Props = {
   details?: boolean,
 };
 
+type OptionEntityRatio = OptionEntity & {
+  ratio: number,
+};
 type State = {
   truncateOptions: boolean,
   shuffledOptions: Array<OptionEntityRatio>,
   expanded: boolean,
-};
-
-type OptionEntityRatio = OptionEntity & {
-  ratio: number,
 };
 
 class Poll extends React.Component<Props, State> {

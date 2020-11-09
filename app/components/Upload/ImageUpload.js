@@ -164,7 +164,7 @@ export default class ImageUpload extends Component<Props, State> {
   };
 
   componentDidUpdate = (props: Object) => {
-    if (props.img != this.props.img) {
+    if (props.img !== this.props.img) {
       this.setState({ img: this.props.img });
     }
   };

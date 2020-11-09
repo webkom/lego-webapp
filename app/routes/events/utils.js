@@ -95,7 +95,7 @@ const calculatePrice = (data) => {
  * @param eventStatusType: what kind of registrationmode this event has
  */
 const calculateLocation = (data) =>
-  data.eventStatusType == 'TBA' ? 'TBA' : data.location;
+  data.eventStatusType === 'TBA' ? 'TBA' : data.location;
 
 /* Calculate the event pools
  * @param eventStatusType: what kind of registrationmode this event has

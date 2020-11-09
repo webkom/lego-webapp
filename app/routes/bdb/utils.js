@@ -64,8 +64,11 @@ export const selectMostProminentStatus = (
 
 export const semesterNameOf = (index: number) => {
   const indexToSemesterName = {
-    '0': 'spring',
-    '1': 'autumn',
+    // Non-string literal property keys is not supported in flow yet
+    // $FlowFixMe
+    0: 'spring',
+    // $FlowFixMe
+    1: 'autumn',
   };
   return indexToSemesterName[index] || 'spring';
 };
@@ -155,6 +158,7 @@ export const getContactedStatuses = (
     ) {
       contacted.splice(contacted.indexOf(status), 1);
     }
+    return null;
   });
 
   return contacted;
