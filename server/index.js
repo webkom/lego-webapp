@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 
-import '@babel/polyfill';
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
 import app from './server';
 import * as Sentry from '@sentry/node';
 import { RewriteFrames } from '@sentry/integrations';

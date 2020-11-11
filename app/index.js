@@ -1,7 +1,8 @@
 // @flow
 /* eslint no-console: 0 */
 
-import '@babel/polyfill';
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
 import 'animate.css/animate.css';
 import 'minireset.css/minireset.css';
 import 'app/styles/globals.css';
