@@ -35,7 +35,6 @@ const SubmissionPublicResultsPage = ({
             <li key={i}>{answer}</li>
           ));
         }
-        return null;
       })
       .filter(Boolean);
 
@@ -59,7 +58,6 @@ const SubmissionPublicResultsPage = ({
           selections: Number(results[questionId][optionId]),
         });
       }
-      return null;
     });
     return questionData;
   };
@@ -67,7 +65,6 @@ const SubmissionPublicResultsPage = ({
   const graphData = {};
   Object.keys(results).map((questionId) => {
     graphData[Number(questionId)] = generateQuestionData(questionId);
-    return null;
   });
 
   return (

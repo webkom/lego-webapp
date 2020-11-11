@@ -118,8 +118,6 @@ export default createEntityReducer({
         newState.items = union(newState.items, [action.payload.id]);
         break;
       }
-      default:
-        break;
     }
   }),
 });

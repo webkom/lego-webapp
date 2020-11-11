@@ -21,14 +21,6 @@ type State = {
   isOpen: boolean,
 };
 
-export type PageInfo = {
-  editUrl?: string,
-  title: string,
-  /* The page is complete, and can be rendered */
-  isComplete: boolean,
-  actionGrant?: Array<string>,
-};
-
 type Props = {
   selectedPage: any,
   currentUrl: string,
@@ -113,6 +105,14 @@ class PageDetail extends Component<Props, State> {
 }
 
 export default PageDetail;
+
+export type PageInfo = {
+  editUrl?: string,
+  title: string,
+  /* The page is complete, and can be rendered */
+  isComplete: boolean,
+  actionGrant?: Array<string>,
+};
 
 export const MainPageRenderer = ({
   page,

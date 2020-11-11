@@ -103,8 +103,8 @@ const onSubmit = ({ year, semester }, dispatch, props: Props) => {
   const { semesters, addSemester, editSemester } = props;
   const existingCompanySemester = semesters.find((companySemester) => {
     return (
-      Number(companySemester.year) === Number(year) &&
-      companySemester.semester === semester
+      Number(companySemester.year) == Number(year) &&
+      companySemester.semester == semester
     );
   });
   if (existingCompanySemester)

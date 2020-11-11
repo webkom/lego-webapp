@@ -158,7 +158,6 @@ const validateMandatory = (inputAnswers: Array<Object>, props) => {
     if (question.mandatory && !answeredQuestionIds.includes(question.id)) {
       errors.questions[question.id] = 'Dette feltet er obligatorisk';
     }
-    return null;
   });
 
   if (Object.keys(errors.questions).length > 0) {

@@ -15,10 +15,7 @@ export default createEntityReducer({
     switch (action.type) {
       case Tag.POPULAR.SUCCESS: {
         newState.popular = action.payload;
-        break;
       }
-      default:
-        break;
     }
   }),
 });

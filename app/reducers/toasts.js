@@ -24,15 +24,12 @@ const toasts = produce((newState: State, action: any): void => {
       break;
 
     case Toasts.TOAST_REMOVED: {
-      const toast = newState.items.find((t) => t.id === action.payload.id);
+      const toast = newState.items.find((t) => t.id == action.payload.id);
       if (toast) {
         toast.removed = true;
       }
       break;
     }
-
-    default:
-      break;
   }
 }, initialState);
 

@@ -6,17 +6,11 @@ import { Link } from 'react-router-dom';
 import renderAbakus from './renderAbakus';
 
 const HTTPMapping = {
-  // Non-string literal property keys is not supported in flow yet
-  // $FlowFixMe
-  400: 'Noe gikk galt med forespørselen',
-  // $FlowFixMe
-  401: 'Du er ikke logget inn',
-  // $FlowFixMe
-  403: 'Denne siden har du ikke tilgang på',
-  // $FlowFixMe
-  404: 'Denne siden finnes ikke',
-  // $FlowFixMe
-  500: 'Noe gikk veldig galt, Webkom er på saken!',
+  '400': 'Noe gikk galt med forespørselen',
+  '401': 'Du er ikke logget inn',
+  '403': 'Denne siden har du ikke tilgang på',
+  '404': 'Denne siden finnes ikke',
+  '500': 'Noe gikk veldig galt, Webkom er på saken!',
 };
 
 const fallbackStatus = 404;

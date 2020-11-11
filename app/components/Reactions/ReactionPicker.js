@@ -1,7 +1,7 @@
 // @flow
 
 // $FlowFixMe
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useCallback } from 'react';
 import fuzzy from 'fuzzy';
 import type { EmojiEntity } from 'app/reducers/emojis';
 import type { ID } from 'app/models';
@@ -39,7 +39,9 @@ const searchEmojis = (emojis, searchString) => {
       matchingEmojis.push(emoji);
       return false;
     }
-    return true;
+    {
+      return true;
+    }
   });
 
   /*
@@ -103,7 +105,7 @@ const searchEmojis = (emojis, searchString) => {
   currentEmojis = currentEmojis.filter((emoji) => {
     if (
       emoji.keywords.find(
-        (keyword) => keyword.toLowerCase() === searchString
+        (keyword) => keyword.toLowerCase() == searchString
       ) !== undefined
     ) {
       matchingEmojis.push(emoji);
@@ -173,13 +175,13 @@ const ReactionPicker = ({
     return searchEmojis(emojis, searchString);
   }, [searchString, emojis]);
 
-  const onCategoryClick = (category) => {
+  const onCategoryClick = useCallback((category) => {
     setActiveCategory(category);
     setSearchString(null);
-  };
-
-  const onSearch = (searchString) =>
-    setSearchString(searchString.trim().toLowerCase());
+  });
+  const onSearch = useCallback((searchString) =>
+    setSearchString(searchString.trim().toLowerCase())
+  );
 
   return (
     <div className={styles.reactionPicker}>

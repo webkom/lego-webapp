@@ -2,7 +2,7 @@ import React from 'react';
 import BdbPage from '../BdbPage';
 import { shallow } from 'enzyme';
 import companies from './fixtures/companies';
-import companySemesters from './fixtures/companySemesters';
+import companySemesters from './fixtures/companies';
 import CompanyList from '../CompanyList';
 import OptionsBox from '../OptionsBox';
 import TextInput from 'app/components/Form/TextInput';

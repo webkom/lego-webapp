@@ -1,4 +1,4 @@
-const companies = [
+export default [
   {
     name: 'BEKK',
     id: 1,
@@ -40,5 +40,3 @@ const companies = [
     studentContact: 'Ingen',
   },
 ];
-
-export default companies;

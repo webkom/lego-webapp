@@ -32,14 +32,14 @@ type Props = {
   value: string,
 };
 
+type EventDataProps = {
+  info: Array<Info>,
+};
+
 type Info = {
   icon: string,
   data: number,
   meta: string,
-};
-
-type EventDataProps = {
-  info: Array<Info>,
 };
 
 type GraphProps = {

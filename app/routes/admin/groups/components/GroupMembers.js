@@ -95,7 +95,6 @@ function loadData({ query, match: { params }, location }, dispatch) {
 
 function mapStateToProps(state, props) {
   const { pathname, search } = state.router.location;
-  // eslint-disable-next-line no-restricted-globals
   const showDescendants = location.search.includes('descendants=true');
   const groupId = props.match.params && props.match.params.groupId;
 

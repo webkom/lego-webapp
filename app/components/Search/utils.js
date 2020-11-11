@@ -146,7 +146,7 @@ function retrieveAllowed(links: Array<Link>, { allowed, loggedIn }: Options) {
   return links
     .filter(({ key, requireLogin }) => {
       // If we have a mapping for this from the server, check that:
-      if (Object.prototype.hasOwnProperty.call(allowed, key)) {
+      if (allowed.hasOwnProperty(key)) {
         return allowed[key];
       }
 
