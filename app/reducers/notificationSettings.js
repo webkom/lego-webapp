@@ -30,7 +30,11 @@ const notificationSettings = produce((newState: State, action: any): void => {
 
     case NotificationSettings.UPDATE.SUCCESS: {
       newState.settings[action.payload.notificationType] = action.payload;
+      break;
     }
+
+    default:
+      break;
   }
 }, initialState);
 

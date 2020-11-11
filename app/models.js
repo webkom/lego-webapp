@@ -28,6 +28,24 @@ type SelectInput = { label: string, value: string };
 
 export type EventStatusType = 'NORMAL' | 'OPEN' | 'TBA' | 'INFINITE';
 
+export type Grade = {
+  name: string,
+};
+
+export type User = {
+  id: ID,
+  firstName: string,
+  fullName: string,
+  username: string,
+  grade: Grade,
+  allergies: string,
+  profilePicture: string,
+  email?: string,
+  phoneNumber?: string,
+};
+
+export type Tags = string;
+
 type EventBase = {
   id: ID,
   title: string,
@@ -60,63 +78,51 @@ type EventBase = {
   useContactTracing: boolean,
 };
 
-export type Event = EventBase & {
+export const GroupTypeCommittee = 'komite';
+export const GroupTypeInterest = 'interesse';
+export const GroupTypeSub = 'under';
+export const GroupTypeGrade = 'klasse';
+export const GroupTypeOther = 'annen';
+export const GroupTypes = {
+  GroupTypeCommittee,
+  GroupTypeInterest,
+  GroupTypeSub,
+  GroupTypeGrade,
+  GroupTypeOther,
+};
+
+export type GroupType =
+  | typeof GroupTypeCommittee
+  | typeof GroupTypeInterest
+  | typeof GroupTypeSub
+  | typeof GroupTypeGrade
+  | typeof GroupTypeOther;
+
+export type GroupMembership = {
+  user: User,
+  role: string,
+};
+
+export type Group = {
+  id: ID,
   actionGrant: Array<string>,
-  activationTime: ?Dateish,
-  isAdmitted: ?boolean,
-  activeCapacity: number,
-  registrationCount: number,
-  waitingRegistrationCount: number,
-  totalCapacity: number,
-  thumbnail: ?string,
-  company: Company,
-  comments: Array<Comment>,
-  contentTarget: string,
-  pools: Array<EventPool>,
-  survey: ?ID,
-  userReg: EventRegistration,
-  useConsent: boolean,
-  unansweredSurveys: Array<ID>,
-  responsibleGroup: Group,
-  price?: number,
-};
-
-export type TransformEvent = EventBase & {
-  addFee: boolean,
-  pools: Array<EventTransformPool>,
-  company: SelectInput,
-  responsibleGroup: SelectInput,
-};
-
-export type Tags = string;
-
-export type UserFollowing = {
-  id: ID,
-  follower: User,
-  target: ID,
-};
-
-export type Article = Object;
-export type Feed = Object;
-export type FeedItem = Object;
-
-export type Grade = {
+  type: GroupType,
   name: string,
+  numberOfUsers?: number,
+  memberships: Array<GroupMembership>,
+  description: string,
+  text: string,
+  logo: ?string,
+  showBadge: boolean,
+  contactEmail: string,
 };
 
-export type User = {
-  id: ID,
-  firstName: string,
-  fullName: string,
-  username: string,
-  grade: Grade,
-  allergies: string,
-  profilePicture: string,
-  email?: string,
-  phoneNumber?: string,
-};
+export type Company = Object;
+
+export type Comment = Object;
 
 export type EventRegistrationPresence = 'PRESENT' | 'NOT_PRESENT' | 'UNKNOWN';
+
 export type EventRegistrationPhotoConsent =
   | 'PHOTO_NOT_CONSENT'
   | 'PHOTO_CONSENT'
@@ -160,9 +166,47 @@ export type EventPool = EventPoolBase & {
   permissionGroups: Array<Object>,
 };
 
+export type Event = EventBase & {
+  actionGrant: Array<string>,
+  activationTime: ?Dateish,
+  isAdmitted: ?boolean,
+  activeCapacity: number,
+  registrationCount: number,
+  waitingRegistrationCount: number,
+  totalCapacity: number,
+  thumbnail: ?string,
+  company: Company,
+  comments: Array<Comment>,
+  contentTarget: string,
+  pools: Array<EventPool>,
+  survey: ?ID,
+  userReg: EventRegistration,
+  useConsent: boolean,
+  unansweredSurveys: Array<ID>,
+  responsibleGroup: Group,
+  price?: number,
+};
+
 type EventTransformPool = EventPoolBase & {
   permissionGroups: Array<SelectInput>,
 };
+
+export type TransformEvent = EventBase & {
+  addFee: boolean,
+  pools: Array<EventTransformPool>,
+  company: SelectInput,
+  responsibleGroup: SelectInput,
+};
+
+export type UserFollowing = {
+  id: ID,
+  follower: User,
+  target: ID,
+};
+
+export type Article = Object;
+export type Feed = Object;
+export type FeedItem = Object;
 
 export type Workplace = {
   town: string,
@@ -175,50 +219,7 @@ export type Joblisting = {
   workplaces: Array<Workplace>,
 };
 
-export const GroupTypeCommittee = 'komite';
-export const GroupTypeInterest = 'interesse';
-export const GroupTypeSub = 'under';
-export const GroupTypeGrade = 'klasse';
-export const GroupTypeOther = 'annen';
-export const GroupTypes = {
-  GroupTypeCommittee,
-  GroupTypeInterest,
-  GroupTypeSub,
-  GroupTypeGrade,
-  GroupTypeOther,
-};
-
-export type GroupType =
-  | typeof GroupTypeCommittee
-  | typeof GroupTypeInterest
-  | typeof GroupTypeSub
-  | typeof GroupTypeGrade
-  | typeof GroupTypeOther;
-
-export type Group = {
-  id: ID,
-  actionGrant: Array<string>,
-  type: GroupType,
-  name: string,
-  numberOfUsers?: number,
-  memberships: Array<GroupMembership>,
-  description: string,
-  text: string,
-  logo: ?string,
-  showBadge: boolean,
-  contactEmail: string,
-};
-
-export type GroupMembership = {
-  user: User,
-  role: string,
-};
-
-export type Company = Object;
-
 export type Permission = string;
-
-export type Comment = Object;
 
 export type Semester = 'spring' | 'autumn';
 

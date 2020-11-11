@@ -20,7 +20,7 @@ const outputPath = path.resolve(root, 'dist-client');
 const publicPath = '/';
 
 module.exports = (env, argv) => {
-  const isProduction = argv.mode == 'production';
+  const isProduction = argv.mode === 'production';
 
   const dllPath = path.resolve(root, dllConfig.path);
   const manifestPath = path.resolve(dllPath, 'vendors.json');

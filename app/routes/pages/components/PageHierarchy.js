@@ -6,6 +6,16 @@ import { Link } from 'react-router-dom';
 import styles from './PageHierarchy.css';
 import Icon from 'app/components/Icon';
 
+export type HierarchyEntity = {
+  title: string,
+  url: string,
+};
+
+export type HierarchySectionEntity = {
+  title: string,
+  items: HierarchyEntity[],
+};
+
 type Props = {
   pageHierarchy: Array<HierarchySectionEntity>,
   currentUrl: string,
@@ -35,16 +45,6 @@ const PageHierarchy = ({
 };
 
 export default PageHierarchy;
-
-export type HierarchyEntity = {
-  title: string,
-  url: string,
-};
-
-export type HierarchySectionEntity = {
-  title: string,
-  items: HierarchyEntity[],
-};
 
 const HierarchySection = ({
   hierarchySection: { title, items },

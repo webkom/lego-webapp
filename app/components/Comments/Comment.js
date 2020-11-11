@@ -74,7 +74,7 @@ export default class Comment extends Component<Props, State> {
                 <Button flat onClick={this.toggleReply}>
                   {this.state.replyOpen ? 'Lukk svar' : 'Svar'}
                 </Button>
-                {user && author.id == user.id && (
+                {user && author.id === user.id && (
                   <Button
                     flat
                     className={styles.delete}

@@ -44,9 +44,12 @@ const GroupMembersList = ({
   filters,
 }: Props) => {
   const GroupMembersListColumns = (fullName, membership) => {
+    console.log(groupsById);
     const { user, abakusGroup } = membership;
     const performRemove = () =>
+      // eslint-disable-next-line no-restricted-globals
       confirm(
+        // eslint-disable-next-line react/prop-types
         `Er du sikker på at du vil melde ut "${user.fullName}" fra gruppen "${groupsById[abakusGroup].name}?"`
       ) && removeMember(membership);
     return (
@@ -68,6 +71,7 @@ const GroupMembersList = ({
   const GroupLinkRender = (abakusGroup) =>
     true && (
       <Link to={`/admin/groups/${abakusGroup}/members?descendants=false`}>
+        {/* eslint-disable-next-line react/prop-types */}
         {groupsById[abakusGroup] && groupsById[abakusGroup].name}
       </Link>
     );

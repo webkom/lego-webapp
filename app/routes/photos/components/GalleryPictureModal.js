@@ -53,10 +53,12 @@ const OnKeyDownHandler = ({
 }) => (
   useEffect(
     () => (
+      // eslint-disable-next-line no-sequences
       window.addEventListener('keydown', handler),
       () => window.removeEventListener('keydown', handler)
     ),
     [handler]
+    // eslint-disable-next-line no-sequences
   ),
   null
 );

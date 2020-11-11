@@ -33,7 +33,10 @@ export function mutateComments(forTargetType: string) {
             newState.byId[targetId].comments || [];
           newState.byId[targetId].comments.push(action.payload.result);
         }
+        break;
       }
+      default:
+        break;
     }
   });
 }
@@ -45,6 +48,9 @@ const mutate = produce((newState: CommentState, action: any): void => {
     case Comment.DELETE.SUCCESS:
       newState.byId[action.meta.id].text = null;
       newState.byId[action.meta.id].author = null;
+      break;
+    default:
+      break;
   }
 });
 

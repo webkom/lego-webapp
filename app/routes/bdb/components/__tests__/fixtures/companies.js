@@ -1,4 +1,4 @@
-export default [
+const companies = [
   {
     name: 'BEKK',
     id: 1,
@@ -40,3 +40,5 @@ export default [
     studentContact: 'Ingen',
   },
 ];
+
+export default companies;

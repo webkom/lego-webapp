@@ -5,6 +5,12 @@ import createEntityReducer from '../utils/createEntityReducer';
 import { Poll } from '../actions/ActionTypes';
 import { type Tags, type ID } from 'app/models';
 
+export type OptionEntity = {
+  id: number,
+  name: string,
+  votes: number,
+};
+
 export type PollEntity = {
   id: ID,
   title: string,
@@ -14,12 +20,6 @@ export type PollEntity = {
   hasAnswered: boolean,
   totalVotes: number,
   options: Array<OptionEntity>,
-};
-
-export type OptionEntity = {
-  id: number,
-  name: string,
-  votes: number,
 };
 
 export default createEntityReducer({
