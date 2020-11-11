@@ -56,7 +56,7 @@ const legoForm = ({
       try {
         // We should instead check if error is SubmissionError. Does not work now
         let [firstErrorField] = Object.keys(errors);
-        if (firstErrorField === '_error') {
+        if (firstErrorField == '_error') {
           // This is because of the stange usage of SubmissionError in
           // app/routes/surveys/components/SubmissionEditor/SubmissionEditor.js
           // That code should instead use redux-form FieldArray :smile:

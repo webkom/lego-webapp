@@ -113,7 +113,7 @@ const inRange = (event) => {
 const NextEvent = (props: { events: Array<Event> }) => {
   // This will prevent the filler from rendering in the
   // split second where events have not loaded
-  if (props.events.length === 0) return null;
+  if (props.events.length == 0) return null;
 
   // Sorted events based on activationfilter take out the
   // ones that are out of range

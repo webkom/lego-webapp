@@ -36,8 +36,7 @@ const LegoReactions = (props: Props) => {
       const foundReaction =
         parentEntity.reactionsGrouped &&
         parentEntity.reactionsGrouped.find(
-          (reaction) =>
-            emoji.shortCode === reaction.emoji && reaction.hasReacted
+          (reaction) => emoji.shortCode == reaction.emoji && reaction.hasReacted
         );
       return {
         ...emoji,

@@ -86,7 +86,7 @@ const ButtonRow = ({
 const Contact = ({ group }: { group: Group }) => {
   const leaders = group.memberships.filter((m) => m.role === 'leader');
 
-  if (leaders.length === 0) {
+  if (leaders.length == 0) {
     return (
       <Flex column>
         <h4>Leder</h4>

@@ -62,7 +62,7 @@ describe('<FormatTime />', () => {
 });
 
 describe('<FromToTime />', () => {
-  it('should only render day once when start day === end day', () => {
+  it('should only render day once when start day == end day', () => {
     const from = '2016-01-18T20:00:00Z';
     const to = '2016-01-18T22:00:00Z';
     const output = 'Monday 18. Jan 2016 20:00 - 22:00';
@@ -80,7 +80,7 @@ describe('<FromToTime />', () => {
     expect(wrapper.render().text()).toEqual(output);
   });
 
-  it('should not render year if year === currentYear', () => {
+  it('should not render year if year == currentYear', () => {
     const from = '2017-01-18T20:00:00Z';
     const to = '2017-01-19T22:00:00Z';
     const output = 'Wednesday 18. January, 20:00 - Thursday 19. January, 22:00';
@@ -96,7 +96,7 @@ describe('<FromToTime />', () => {
     }
   });
 
-  it('should not render year if year === currentYear, and day only once if equal', () => {
+  it('should not render year if year == currentYear, and day only once if equal', () => {
     const from = '2017-01-18T20:00:00Z';
     const to = '2017-01-18T21:00:00Z';
     const output = 'Wednesday 18. January, 20:00 - 21:00';

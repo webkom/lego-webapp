@@ -158,8 +158,6 @@ const LanguageFlag = ({ language }: { language: string }) => {
     case 'norwegian':
       flag = english;
       break;
-    default:
-      break;
   }
   return <Image src={flag} className={styles.flag} alt="country_flag" />;
 };

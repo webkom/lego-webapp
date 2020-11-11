@@ -152,9 +152,6 @@ const search = produce((newState: State, action: any): void => {
     case Search.TOGGLE_OPEN:
       newState.autocomplete = [];
       newState.open = !newState.open;
-      break;
-    default:
-      break;
   }
 }, initialState);
 

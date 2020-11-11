@@ -52,8 +52,6 @@ class LoginPage extends Component<Props, State> {
         title = 'Glemt passord';
         form = <ForgotPasswordForm />;
         break;
-      default:
-        break;
     }
     return (
       <Content>

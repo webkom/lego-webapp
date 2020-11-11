@@ -1,4 +1,4 @@
-const comments = [
+export default [
   {
     id: 2,
     text: 'blaargarhgh',
@@ -40,5 +40,3 @@ const comments = [
     },
   },
 ];
-
-export default comments;

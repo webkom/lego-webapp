@@ -65,7 +65,7 @@ function mutateGalleryPicture(state: any, action: any) {
 
       // Only update thumbnail in upload status for each 10th picture
       const lastUploadedImage =
-        !uploadStatus.lastUploadedImage || successCount % 10 === 0
+        !uploadStatus.lastUploadedImage || successCount % 10 == 0
           ? action.payload.result
           : uploadStatus.lastUploadedImage;
       return {

@@ -14,13 +14,6 @@ type Action =
   | 'REGISTRATION_NOT_AVAILABLE'
   | 'RESET';
 
-type State = {
-  formOpen: boolean,
-  captchaOpen: boolean,
-  buttonOpen: boolean,
-  registrationOpensIn: ?string,
-};
-
 export type Props = {
   event: Event,
   registration: ?EventRegistration,
@@ -42,6 +35,13 @@ const TICK_ACTIONS: Array<[number, Action]> = [
   [60 * 10000, '10_MINUTE_LEFT'],
   [Infinity, 'STILL_WAITING'],
 ];
+
+type State = {
+  formOpen: boolean,
+  captchaOpen: boolean,
+  buttonOpen: boolean,
+  registrationOpensIn: ?string,
+};
 
 const countdownReducer = (
   state: State,

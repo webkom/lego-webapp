@@ -24,7 +24,7 @@ const validateSemesterStatus = (data, props) => {
   const { companies, companyId } = props;
   const { year, semester, contactedStatus } = data;
 
-  const company = companies.find((company) => company.id === Number(companyId));
+  const company = companies.find((company) => company.id == Number(companyId));
 
   if (!year) {
     errors.year = 'Vennligst fyll ut dette feltet';

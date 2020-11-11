@@ -24,11 +24,6 @@ import { validYoutubeUrl } from 'app/utils/validation';
 
 import type { Joblisting, Workplace, ID } from 'app/models';
 
-type SelectInputObject = {
-  label: string,
-  value: ID,
-};
-
 type Props = {
   joblistingId?: string,
   joblisting: Joblisting,
@@ -46,6 +41,11 @@ type Props = {
 
 type State = {
   responsibleOptions: Array<Object>,
+};
+
+type SelectInputObject = {
+  label: string,
+  value: ID,
 };
 
 class JoblistingEditor extends Component<Props, State> {

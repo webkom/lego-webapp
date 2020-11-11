@@ -32,8 +32,6 @@ const meetingsToken = produce((newState: State, action: any): void | State => {
     case Meeting.RESET_MEETINGS_TOKEN: {
       return initialState;
     }
-    default:
-      break;
   }
 }, initialState);
 

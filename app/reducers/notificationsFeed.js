@@ -20,9 +20,6 @@ const notificationsFeed = produce(
 
       case NotificationsFeed.MARK_ALL.SUCCESS:
         return initialState;
-
-      default:
-        break;
     }
   },
   initialState

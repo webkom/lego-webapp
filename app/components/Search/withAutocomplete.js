@@ -55,7 +55,7 @@ function withAutocomplete<Props>({
           // Set the result to the response result
           let finalResult = result;
           // Retain a query with no match
-          if (retainFailedQuery && result.length === 0) {
+          if (retainFailedQuery && result.length == 0) {
             finalResult = [{ title: query, label: query }];
           }
 

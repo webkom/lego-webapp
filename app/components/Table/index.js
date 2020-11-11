@@ -273,7 +273,7 @@ export default class Table extends Component<Props, State> {
 
     const match = Object.keys(this.state.filters).filter((key) => {
       const { inlineFiltering = true, filterMapping = (val) => val } =
-        this.props.columns.find((col) => col.dataIndex === key) || {};
+        this.props.columns.find((col) => col.dataIndex == key) || {};
 
       if (!inlineFiltering) return true;
 
