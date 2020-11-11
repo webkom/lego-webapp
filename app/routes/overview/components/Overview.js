@@ -4,7 +4,6 @@ import styles from './Overview.css';
 import React, { Component } from 'react';
 import Helmet from 'react-helmet';
 import { Container, Flex } from 'app/components/Layout';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import LatestReadme from './LatestReadme';
 import CompactEvents from './CompactEvents';
 import type { Event, Article } from 'app/models';
@@ -24,7 +23,6 @@ import { renderMeta } from './utils';
 type Props = {
   frontpage: Array<Object>,
   readmes: Array<Object>,
-  loadingFrontpage: boolean,
   poll: ?PollEntity,
   votePoll: () => Promise<*>,
   loggedIn: boolean,
@@ -54,14 +52,7 @@ class Overview extends Component<Props, State> {
 
   render() {
     const isEvent = (o) => typeof o['startTime'] !== 'undefined';
-    const {
-      loggedIn,
-      frontpage,
-      loadingFrontpage,
-      readmes,
-      poll,
-      votePoll,
-    } = this.props;
+    const { loggedIn, frontpage, readmes, poll, votePoll } = this.props;
     const pinned = frontpage[0];
     const compactEvents = (
       <CompactEvents
@@ -70,18 +61,14 @@ class Overview extends Component<Props, State> {
       />
     );
 
-    const pinnedComponent = (
-      <LoadingIndicator loading={loadingFrontpage}>
-        {pinned && (
-          <div className={styles.pinned}>
-            <Pinned
-              item={pinned}
-              url={this.itemUrl(pinned)}
-              meta={renderMeta(pinned)}
-            />
-          </div>
-        )}
-      </LoadingIndicator>
+    const pinnedComponent = pinned && (
+      <div className={styles.pinned}>
+        <Pinned
+          item={pinned}
+          url={this.itemUrl(pinned)}
+          meta={renderMeta(pinned)}
+        />
+      </div>
     );
 
     const readMe = (

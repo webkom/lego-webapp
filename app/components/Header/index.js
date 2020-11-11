@@ -23,6 +23,7 @@ import { Image } from 'app/components/Image';
 import type { UserEntity } from 'app/reducers/users';
 import logoLightMode from 'app/assets/logo-dark.png';
 import logoDarkMode from 'app/assets/logo.png';
+import LoadingIndicator from 'app/components/LoadingIndicator';
 
 type Props = {
   searchOpen: boolean,
@@ -37,6 +38,7 @@ type Props = {
   markAllNotifications: () => Promise<void>,
   fetchNotificationData: () => Promise<void>,
   upcomingMeeting: string,
+  loading: boolean,
 };
 
 type State = {
@@ -121,7 +123,7 @@ class Header extends Component<Props, State> {
   };
 
   render() {
-    const { loggedIn, currentUser } = this.props;
+    const { loggedIn, currentUser, loading } = this.props;
     const isLogin = this.state.mode === 'login';
     let title, form;
 
@@ -161,12 +163,16 @@ class Header extends Component<Props, State> {
       <header className={styles.header}>
         <FancyNodesCanvas height={300} />
         <div className={styles.content}>
-          <Link to="/" className={styles.logo}>
-            <Image
-              src={logoLightMode}
-              className={styles.logoLightMode}
-              alt=""
-            />
+          <Link to="/">
+            <LoadingIndicator loading={loading}>
+              <div className={styles.logo}>
+                <Image
+                  src={logoLightMode}
+                  className={styles.logoLightMode}
+                  alt=""
+                />
+              </div>
+            </LoadingIndicator>
             <Image src={logoDarkMode} className={styles.logoDarkMode} alt="" />
           </Link>
 
