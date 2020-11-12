@@ -163,9 +163,13 @@ class Header extends Component<Props, State> {
                   className={styles.logoLightMode}
                   alt=""
                 />
+                <Image
+                  src={logoDarkMode}
+                  className={styles.logoDarkMode}
+                  alt=""
+                />
               </div>
             </LoadingIndicator>
-            <Image src={logoDarkMode} className={styles.logoDarkMode} alt="" />
           </Link>
 
           <div className={styles.menu}>
