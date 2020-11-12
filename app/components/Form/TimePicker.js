@@ -27,7 +27,7 @@ type Props = {
 };
 
 type State = {
-  value: moment,
+  value: moment$Moment,
   fieldValue: {
     hour: string,
     minute: string,
@@ -100,7 +100,7 @@ class TimePicker extends Component<Props, State> {
     ) {
       this.setState(
         (prevState) => ({
-          value: this.state.value.clone().set(unit, value),
+          value: this.state.value.clone().set(unit, Number(value)),
           fieldValue: {
             hour: unit === 'hour' ? value : prevState.fieldValue.hour,
             minute: unit === 'minute' ? value : prevState.fieldValue.minute,

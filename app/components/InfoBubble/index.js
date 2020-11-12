@@ -68,7 +68,7 @@ function InfoBubble({
   const metaClass = small ? styles.smallMeta : styles.meta;
 
   return (
-    <div className={cx(styles.infoBubble, className)} {...props}>
+    <div className={cx(styles.infoBubble, className)} {...(props: Object)}>
       {iconComponent(icon, bubbleClass, iconClass, link)}
       {dataComponent(dataClass, data, link)}
       {meta && dataComponent(metaClass, meta)}

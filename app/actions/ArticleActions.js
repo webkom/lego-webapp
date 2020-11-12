@@ -6,7 +6,7 @@ import callAPI from 'app/actions/callAPI';
 import type { EntityID, ArticleEntity, Thunk } from 'app/types';
 import { push } from 'connected-react-router';
 
-export function fetchArticle(articleId: EntityID) {
+export function fetchArticle(articleId: EntityID): Thunk<any> {
   return callAPI({
     types: Article.FETCH,
     endpoint: `/articles/${articleId}/`,
@@ -34,7 +34,7 @@ export function createArticle({ id, ...data }: ArticleEntity): Thunk<*> {
     ).then((res) => dispatch(push(`/articles/${(res: any).payload.result}/`)));
 }
 
-export function deleteArticle(id: number) {
+export function deleteArticle(id: number): Thunk<any> {
   return callAPI({
     types: Article.DELETE,
     endpoint: `/articles/${id}/`,

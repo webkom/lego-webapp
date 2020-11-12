@@ -1,5 +1,5 @@
-// flow-typed signature: cb0020795adba0c1bcd47ec99f557ae6
-// flow-typed version: c6154227d1/lodash-es_v4.x.x/flow_>=v0.63.x <=v0.103.x
+// flow-typed signature: f46a5bb835dd828ef959096dd5a44a35
+// flow-typed version: 1ea39ed6d8/lodash-es_v4.x.x/flow_>=v0.104.x
 
 declare module "lodash-es" {
   declare type __CurriedFunction1<A, R, AA: A> = (...r: [AA]) => R;
@@ -139,24 +139,28 @@ declare module "lodash-es" {
     evaluate?: RegExp,
     imports?: Object,
     interpolate?: RegExp,
-    variable?: string
+    variable?: string,
+    ...
   };
 
   declare type TruncateOptions = {
     length?: number,
     omission?: string,
-    separator?: RegExp | string
+    separator?: RegExp | string,
+    ...
   };
 
   declare type DebounceOptions = {
     leading?: boolean,
     maxWait?: number,
-    trailing?: boolean
+    trailing?: boolean,
+    ...
   };
 
   declare type ThrottleOptions = {
     leading?: boolean,
-    trailing?: boolean
+    trailing?: boolean,
+    ...
   };
 
   declare type NestedArray<T> = Array<Array<T>>;
@@ -255,7 +259,7 @@ declare module "lodash-es" {
   declare export function flatten<T, X>(array?: ?Array<Array<T> | X>): Array<T | X>;
   declare export function flattenDeep<T>(array?: ?any[]): Array<T>;
   declare export function flattenDepth(array?: ?any[], depth?: ?number): any[];
-  declare export function fromPairs<A, B>(pairs?: ?Array<[A, B]>): { [key: A]: B };
+  declare export function fromPairs<A, B>(pairs?: ?Array<[A, B]>): { [key: A]: B, ... };
   declare export function head<T>(array: ?$ReadOnlyArray<T>): T;
   declare export function indexOf<T>(array: Array<T>, value: T, fromIndex?: number): number;
   declare export function indexOf<T>(array: void | null, value?: ?T, fromIndex?: ?number): -1;
@@ -458,10 +462,10 @@ declare module "lodash-es" {
     a5: E[]
   ): Array<[?A, ?B, ?C, ?D, ?E]>;
 
-  declare export function zipObject<K, V>(props: Array<K>, values?: ?Array<V>): { [key: K]: V };
-  declare export function zipObject<K, V>(props: void | null, values?: ?Array<V>): {};
+  declare export function zipObject<K, V>(props: Array<K>, values?: ?Array<V>): { [key: K]: V, ... };
+  declare export function zipObject<K, V>(props: void | null, values?: ?Array<V>): {...};
   declare export function zipObjectDeep(props: any[], values?: ?any): Object;
-  declare export function zipObjectDeep(props: void | null, values?: ?any): {};
+  declare export function zipObjectDeep(props: void | null, values?: ?any): {...};
 
   declare export function zipWith<A>(a1?: ?Array<A>): Array<[A]>;
   declare export function zipWith<T, A>(a1: Array<A>, iteratee: (A) => T): Array<T>;
@@ -501,7 +505,7 @@ declare module "lodash-es" {
 
   // Collection
   declare export function countBy<T>(array: Array<T>, iteratee?: ?ValueOnlyIteratee<T>): Object;
-  declare export function countBy<T>(array: void | null, iteratee?: ?ValueOnlyIteratee<T>): {};
+  declare export function countBy<T>(array: void | null, iteratee?: ?ValueOnlyIteratee<T>): {...};
   declare export function countBy<T: Object>(object: T, iteratee?: ?ValueOnlyIteratee<T>): Object;
   declare export function each<T>(array: $ReadOnlyArray<T>, iteratee?: ?Iteratee<T>): Array<T>;
   declare export function each<T: void | null>(array: T, iteratee?: ?Iteratee<any>): T;
@@ -512,7 +516,7 @@ declare module "lodash-es" {
   declare export function every<T>(array?: ?$ReadOnlyArray<T>, iteratee?: ?Iteratee<T>): boolean;
   declare export function every<T: Object>(object: T, iteratee?: OIteratee<T>): boolean;
   declare export function filter<T>(array?: ?$ReadOnlyArray<T>, predicate?: ?Predicate<T>): Array<T>;
-  declare export function filter<A, T: { [id: string]: A }>(
+  declare export function filter<A, T: { [id: string]: A, ... }>(
     object: T,
     predicate?: OPredicate<A, T>
   ): Array<A>;
@@ -526,7 +530,7 @@ declare module "lodash-es" {
     predicate?: ?Predicate<T>,
     fromIndex?: ?number
   ): void;
-  declare export function find<V, A, T: { [id: string]: A }>(
+  declare export function find<V, A, T: { [id: string]: A, ... }>(
     object: T,
     predicate?: OPredicate<A, T>,
     fromIndex?: number
@@ -536,7 +540,7 @@ declare module "lodash-es" {
     predicate?: ?Predicate<T>,
     fromIndex?: ?number
   ): T | void;
-  declare export function findLast<V, A, T: { [id: string]: A }>(
+  declare export function findLast<V, A, T: { [id: string]: A, ... }>(
     object: T,
     predicate?: ?OPredicate<A, T>
   ): V;
@@ -575,15 +579,15 @@ declare module "lodash-es" {
   declare export function groupBy<V, T>(
     array: $ReadOnlyArray<T>,
     iteratee?: ?ValueOnlyIteratee<T>
-  ): { [key: V]: Array<T> };
+  ): { [key: V]: Array<T>, ... };
   declare export function groupBy(
     array: void | null,
     iteratee?: ?ValueOnlyIteratee<any>
-  ): {};
-  declare export function groupBy<V, A, T: { [id: string]: A }>(
+  ): {...};
+  declare export function groupBy<V, A, T: { [id: string]: A, ... }>(
     object: T,
     iteratee?: ValueOnlyIteratee<A>
-  ): { [key: V]: Array<A> };
+  ): { [key: V]: Array<A>, ... };
   declare export function includes<T>(array: $ReadOnlyArray<T>, value: T, fromIndex?: ?number): boolean;
   declare export function includes<T>(array: void | null, value?: ?T, fromIndex?: ?number): false;
   declare export function includes<T: Object>(object: T, value: any, fromIndex?: number): boolean;
@@ -601,15 +605,15 @@ declare module "lodash-es" {
   declare export function keyBy<T, V>(
     array: $ReadOnlyArray<T>,
     iteratee?: ?ValueOnlyIteratee<T>
-  ): { [key: V]: ?T };
+  ): { [key: V]: ?T, ... };
   declare export function keyBy(
     array: void | null,
     iteratee?: ?ValueOnlyIteratee<*>
-  ): {};
-  declare export function keyBy<V, A, I, T: { [id: I]: A }>(
+  ): {...};
+  declare export function keyBy<V, A, I, T: { [id: I]: A, ... }>(
     object: T,
     iteratee?: ?ValueOnlyIteratee<A>
-  ): { [key: V]: ?A };
+  ): { [key: V]: ?A, ... };
   declare export function map<T, U>(array?: ?Array<T>, iteratee?: ?MapIterator<T, U>): Array<U>;
   declare export function map<T, U>(
     array: ?$ReadOnlyArray<T>,
@@ -642,7 +646,7 @@ declare module "lodash-es" {
     array?: ?Array<T>,
     predicate?: ?Predicate<T>
   ): [Array<T>, Array<T>];
-  declare export function partition<V, A, T: { [id: string]: A }>(
+  declare export function partition<V, A, T: { [id: string]: A, ... }>(
     object: T,
     predicate?: OPredicate<A, T>
   ): [Array<V>, Array<V>];
@@ -697,7 +701,7 @@ declare module "lodash-es" {
     accumulator?: ?U
   ): U;
   declare export function reject<T>(array: ?$ReadOnlyArray<T>, predicate?: Predicate<T>): Array<T>;
-  declare export function reject<V: Object, A, T: { [id: string]: A }>(
+  declare export function reject<V: Object, A, T: { [id: string]: A, ... }>(
     object?: ?T,
     predicate?: ?OPredicate<A, T>
   ): Array<V>;
@@ -710,7 +714,7 @@ declare module "lodash-es" {
   declare export function size(collection: $ReadOnlyArray<any> | Object | string): number;
   declare export function some<T>(array: ?$ReadOnlyArray<T>, predicate?: Predicate<T>): boolean;
   declare export function some<T>(array: void | null, predicate?: ?Predicate<T>): false;
-  declare export function some<A, T: { [id: string]: A }>(
+  declare export function some<A, T: { [id: string]: A, ... }>(
     object?: ?T,
     predicate?: OPredicate<A, T>
   ): boolean;
@@ -779,9 +783,9 @@ declare module "lodash-es" {
     value: T,
     customizer?: ?(value: T, key: number | string, object: T, stack: any) => U
   ): U;
-  declare export function conformsTo<T: { [key: string]: mixed }>(
+  declare export function conformsTo<T: { [key: string]: mixed, ... }>(
     source: T,
-    predicates: T & { [key: string]: (x: any) => boolean }
+    predicates: T & { [key: string]: (x: any) => boolean, ... }
   ): boolean;
   declare export function eq(value: any, other: any): boolean;
   declare export function gt(value: any, other: any): boolean;
@@ -792,9 +796,9 @@ declare module "lodash-es" {
   declare export function isArray(value: any): false;
   declare export function isArrayBuffer(value: ArrayBuffer): true;
   declare export function isArrayBuffer(value: any): false;
-  declare export function isArrayLike(value: Array<any> | string | {length: number}): true;
+  declare export function isArrayLike(value: Array<any> | string | { length: number, ... }): true;
   declare export function isArrayLike(value: any): false;
-  declare export function isArrayLikeObject(value: {length: number} | Array<any>): true;
+  declare export function isArrayLikeObject(value: { length: number, ... } | Array<any>): true;
   declare export function isArrayLikeObject(value: any): false;
   declare export function isBoolean(value: boolean): true;
   declare export function isBoolean(value: any): false;
@@ -804,7 +808,7 @@ declare module "lodash-es" {
   declare export function isDate(value: any): false;
   declare export function isElement(value: Element): true;
   declare export function isElement(value: any): false;
-  declare export function isEmpty(value: void | null | '' | {} | [] | number | boolean): true;
+  declare export function isEmpty(value: void | null | '' | {...} | [] | number | boolean): true;
   declare export function isEmpty(value: any): boolean;
   declare export function isEqual(value: any, other: any): boolean;
   declare export function isEqualWith<T, U>(
@@ -919,12 +923,12 @@ declare module "lodash-es" {
 
   // Object
   declare export function assign(object?: ?Object, ...sources?: Array<?Object>): Object;
-  declare export function assignIn(): {};
+  declare export function assignIn(): {...};
   declare export function assignIn<A, B>(a: A, b: B): A & B;
   declare export function assignIn<A, B, C>(a: A, b: B, c: C): A & B & C;
   declare export function assignIn<A, B, C, D>(a: A, b: B, c: C, d: D): A & B & C & D;
   declare export function assignIn<A, B, C, D, E>(a: A, b: B, c: C, d: D, e: E): A & B & C & D & E;
-  declare export function assignInWith(): {};
+  declare export function assignInWith(): {...};
   declare export function assignInWith<T: Object, A: Object>(
     object: T,
     s1: A,
@@ -975,7 +979,7 @@ declare module "lodash-es" {
       source: A | B | C | D
     ) => any | void
   ): Object;
-  declare export function assignWith(): {};
+  declare export function assignWith(): {...};
   declare export function assignWith<T: Object, A: Object>(
     object: T,
     s1: A,
@@ -1028,8 +1032,8 @@ declare module "lodash-es" {
   ): Object;
   declare export function at(object?: ?Object, ...paths: Array<string>): Array<any>;
   declare export function at(object?: ?Object, paths: Array<string>): Array<any>;
-  declare export function create<T>(prototype: T, properties: Object): $Supertype<T>;
-  declare export function create(prototype: any, properties: void | null): {};
+  declare export function create<T>(prototype: T, properties: Object): T;
+  declare export function create(prototype: any, properties: void | null): {...};
   declare export function defaults(object?: ?Object, ...sources?: Array<?Object>): Object;
   declare export function defaultsDeep(object?: ?Object, ...sources?: Array<?Object>): Object;
   // alias for _.toPairs
@@ -1092,19 +1096,19 @@ declare module "lodash-es" {
       source: A | B | C | D
     ) => any | void
   ): Object;
-  declare export function findKey<A, T: { [id: string]: A }>(
+  declare export function findKey<A, T: { [id: string]: A, ... }>(
     object: T,
     predicate?: ?OPredicate<A, T>
   ): string | void;
-  declare export function findKey<A, T: { [id: string]: A }>(
+  declare export function findKey<A, T: { [id: string]: A, ... }>(
     object: void | null,
     predicate?: ?OPredicate<A, T>
   ): void;
-  declare export function findLastKey<A, T: { [id: string]: A }>(
+  declare export function findLastKey<A, T: { [id: string]: A, ... }>(
     object: T,
     predicate?: ?OPredicate<A, T>
   ): string | void;
-  declare export function findLastKey<A, T: { [id: string]: A }>(
+  declare export function findLastKey<A, T: { [id: string]: A, ... }>(
     object: void | null,
     predicate?: ?OPredicate<A, T>
   ): void;
@@ -1130,23 +1134,23 @@ declare module "lodash-es" {
   declare export function hasIn(object: Object, path: void | null): false;
   declare export function hasIn(object: void | null, path?: ?Array<string> | ?string): false;
   declare export function invert(object: Object, multiVal?: ?boolean): Object;
-  declare export function invert(object: void | null, multiVal?: ?boolean): {};
+  declare export function invert(object: void | null, multiVal?: ?boolean): {...};
   declare export function invertBy(object: Object, iteratee?: ?Function): Object;
-  declare export function invertBy(object: void | null, iteratee?: ?Function): {};
+  declare export function invertBy(object: void | null, iteratee?: ?Function): {...};
   declare export function invoke(
     object?: ?Object,
     path?: ?Array<string> | string,
     ...args?: Array<any>
   ): any;
-  declare export function keys<K>(object?: ?{ [key: K]: any }): Array<K>;
+  declare export function keys<K>(object?: ?{ [key: K]: any, ... }): Array<K>;
   declare export function keys(object?: ?Object): Array<string>;
   declare export function keysIn(object?: ?Object): Array<string>;
   declare export function mapKeys(object: Object, iteratee?: ?OIteratee<*>): Object;
-  declare export function mapKeys(object: void | null, iteratee?: ?OIteratee<*>): {};
+  declare export function mapKeys(object: void | null, iteratee?: ?OIteratee<*>): {...};
   declare export function mapValues(object: Object, iteratee?: ?OIteratee<*>): Object;
-  declare export function mapValues(object: void | null, iteratee?: ?OIteratee<*>): {};
+  declare export function mapValues(object: void | null, iteratee?: ?OIteratee<*>): {...};
   declare export function merge(object?: ?Object, ...sources?: Array<?Object>): Object;
-  declare export function mergeWith(): {};
+  declare export function mergeWith(): {...};
   declare export function mergeWith<T: Object, A: Object>(
     object: T,
     customizer?: (
@@ -1196,26 +1200,26 @@ declare module "lodash-es" {
       source: A | B | C | D
     ) => any | void
   ): Object;
-  declare export function omit(object?: ?Object, ...props: Array<string>): Object;
-  declare export function omit(object?: ?Object, props: Array<string>): Object;
-  declare export function omitBy<A, T: { [id: string]: A }>(
+  declare export function omit(object?: ?Object, ...props: $ReadOnlyArray<string>): Object;
+  declare export function omit(object?: ?Object, props: $ReadOnlyArray<string>): Object;
+  declare export function omitBy<A, T: $ReadOnly<{ [id: string]: A, ... }>>(
     object: T,
     predicate?: ?OPredicate<A, T>
   ): Object;
   declare export function omitBy<A, T>(
     object: void | null,
     predicate?: ?OPredicate<A, T>
-  ): {};
-  declare export function pick(object?: ?Object, ...props: Array<string>): Object;
-  declare export function pick(object?: ?Object, props: Array<string>): Object;
-  declare export function pickBy<A, T: { [id: string]: A }>(
+  ): {...};
+  declare export function pick(object?: ?Object, ...props: $ReadOnlyArray<string>): Object;
+  declare export function pick(object?: ?Object, props: $ReadOnlyArray<string>): Object;
+  declare export function pickBy<A, T: $ReadOnly<{ [id: string]: A, ... }>>(
     object: T,
     predicate?: ?OPredicate<A, T>
   ): Object;
   declare export function pickBy<A, T>(
     object: void | null,
     predicate?: ?OPredicate<A, T>
-  ): {};
+  ): {...};
   declare export function result(
     object?: ?Object,
     path?: ?Array<string> | string,
@@ -1249,7 +1253,7 @@ declare module "lodash-es" {
     collection: void | null,
     iteratee?: ?OIteratee<*>,
     accumulator?: ?any
-  ): {};
+  ): {...};
   declare export function unset(object: Object, path?: ?Array<string> | ?string): boolean;
   declare export function unset(object: void | null, path?: ?Array<string> | ?string): true;
   declare export function update(object: Object, path: string[] | string, updater: Function): Object;
@@ -1369,7 +1373,7 @@ declare module "lodash-es" {
   declare export function mixin<T: Function | Object>(
     object?: T,
     source: Object,
-    options?: { chain: boolean }
+    options?: { chain: boolean, ... }
   ): T;
   declare export function noop(...args: Array<mixed>): void;
   declare export function nthArg(n?: ?number): Function;
@@ -1389,7 +1393,7 @@ declare module "lodash-es" {
 
   declare export function stubArray(): Array<*>;
   declare export function stubFalse(): false;
-  declare export function stubObject(): {};
+  declare export function stubObject(): {...};
   declare export function stubString(): "";
   declare export function stubTrue(): true;
   declare export function times(n?: ?number, ...rest?: Array<void | null>): Array<number>;

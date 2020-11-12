@@ -40,7 +40,10 @@ function RadioButton({
 
 const RawField = createField(RadioButton);
 const StyledField = ({ fieldClassName, ...props }: FormProps) => (
-  <RawField fieldClassName={cx(fieldClassName, styles.radioField)} {...props} />
+  <RawField
+    fieldClassName={cx(fieldClassName, styles.radioField)}
+    {...(props: Object)}
+  />
 );
 RadioButton.Field = StyledField;
 

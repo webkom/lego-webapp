@@ -21,7 +21,7 @@ function Pill({ color, style, ...props }: Props) {
         backgroundColor: color,
         ...style,
       }}
-      {...props}
+      {...(props: Object)}
     />
   );
 }

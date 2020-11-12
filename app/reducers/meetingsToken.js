@@ -12,30 +12,32 @@ const initialState = {
 
 type State = typeof initialState;
 
-const meetingsToken = produce((newState: State, action: any): void | State => {
-  switch (action.type) {
-    case Meeting.ANSWER_INVITATION_TOKEN.FAILURE:
-      newState.status = 'FAILURE';
-      break;
+const meetingsToken = produce<State>(
+  (newState: State, action: any): void | State => {
+    switch (action.type) {
+      case Meeting.ANSWER_INVITATION_TOKEN.FAILURE:
+        newState.status = 'FAILURE';
+        break;
 
-    case Meeting.ANSWER_INVITATION_TOKEN.SUCCESS: {
-      const { meeting, user, status } = action.payload;
+      case Meeting.ANSWER_INVITATION_TOKEN.SUCCESS: {
+        const { meeting, user, status } = action.payload;
 
-      return {
-        response: 'SUCCESS',
-        user,
-        meeting,
-        status,
-      };
+        return {
+          response: 'SUCCESS',
+          user,
+          meeting,
+          status,
+        };
+      }
+
+      case Meeting.RESET_MEETINGS_TOKEN: {
+        return initialState;
+      }
+      default:
+        break;
     }
-
-    case Meeting.RESET_MEETINGS_TOKEN: {
-      return initialState;
-    }
-
-    default:
-      break;
-  }
-}, initialState);
+  },
+  initialState
+);
 
 export default meetingsToken;

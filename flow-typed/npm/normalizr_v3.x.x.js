@@ -1,5 +1,5 @@
-// flow-typed signature: fbb4157ada42abdb436f84ad77517a01
-// flow-typed version: c6154227d1/normalizr_v3.x.x/flow_>=v0.25.x <=v0.103.x
+// flow-typed signature: 7c8f0492bd977ced4914e8bb7f70ea03
+// flow-typed version: c6154227d1/normalizr_v3.x.x/flow_>=v0.104.x
 
 // @flow
 
@@ -22,7 +22,8 @@ declare module 'normalizr' {
   declare type EntityOptions = {
     idAttribute?: string | SchemaFunction,
     mergeStrategy?: MergeFunction,
-    processStrategy?: StrategyFunction
+    processStrategy?: StrategyFunction,
+    ...
   }
 
   declare class Entity {
@@ -32,7 +33,7 @@ declare module 'normalizr' {
   }
 
   declare class Object {
-    constructor(definition: {[key: string]: Schema}): void,
+    constructor(definition: { [key: string]: Schema, ... }): void,
     define(definition: Schema): void
   }
 
@@ -52,6 +53,7 @@ declare module 'normalizr' {
     Object: typeof Object,
     Union: typeof Union,
     Values: typeof Values,
+    ...
   }
     
   declare export type Schema =
@@ -60,7 +62,7 @@ declare module 'normalizr' {
     schema.Object |
     schema.Union |
     schema.Values |
-    {[key: string]: Schema} |
+    { [key: string]: Schema, ... } |
     [Schema];
 
 

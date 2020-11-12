@@ -98,8 +98,8 @@ function mapStateToProps(state, props) {
   const showDescendants = search.includes('descendants=true');
   const groupId = props.match.params && props.match.params.groupId;
 
-  const { filters: qsFilters = '{}' } = qs.parse(search.slice(1));
-  const filters = JSON.parse(qsFilters);
+  const { filters: qsFilters } = qs.parse(search.slice(1));
+  const filters = JSON.parse(typeof qsFilters === 'string' ? qsFilters : '{}');
   const {
     role = '',
     'user.fullName': userFullname = '',

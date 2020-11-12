@@ -29,7 +29,7 @@ const defaultState = {
   items: [],
 };
 
-const toArray = <T>(value: ?(T | Array<T>)) => {
+const toArray = (value: ?EntityReducerTypes): AsyncActionType[] => {
   if (!value) {
     return [];
   }
@@ -38,7 +38,7 @@ const toArray = <T>(value: ?(T | Array<T>)) => {
 
 const isNumber = (id) => !isNaN(Number(id)) && !isNaN(parseInt(id, 10));
 
-export function fetching(fetchTypes: ?EntityReducerTypes) {
+export function fetching(fetchTypes: ?EntityReducerTypes): Reducer {
   return (state: any = { fetching: false }, action: any) => {
     for (const fetchType of toArray(fetchTypes)) {
       switch (action.type) {
@@ -60,7 +60,7 @@ export function fetching(fetchTypes: ?EntityReducerTypes) {
 export function createAndUpdateEntities(
   fetchTypes: ?EntityReducerTypes,
   key: string
-) {
+): Reducer {
   return (state: any = defaultState, action: any) => {
     if (!action.payload) return state;
     const primaryKey = get(action, ['meta', 'schemaKey']) === key;
@@ -137,7 +137,7 @@ export function createAndUpdateEntities(
  *
  * Make sure to set `meta.id` in the action.
  */
-export function deleteEntities(deleteTypes: ?EntityReducerTypes) {
+export function deleteEntities(deleteTypes: ?EntityReducerTypes): Reducer {
   return (state: any = defaultState, action: any) => {
     if (
       !toArray(deleteTypes).some(
@@ -179,7 +179,7 @@ export function deleteEntities(deleteTypes: ?EntityReducerTypes) {
   };
 }
 
-export function optimisticDelete(deleteTypes: ?EntityReducerTypes) {
+export function optimisticDelete(deleteTypes: ?EntityReducerTypes): Reducer {
   return (state: any, action: any) => {
     if (!deleteTypes || !action.meta || !action.meta.enableOptimistic) {
       return state;
@@ -207,7 +207,7 @@ export function optimisticDelete(deleteTypes: ?EntityReducerTypes) {
   };
 }
 
-export function optimistic(mutateTypes: ?EntityReducerTypes) {
+export function optimistic(mutateTypes: ?EntityReducerTypes): Reducer {
   return (state: any, action: any) => {
     if (
       !toArray(mutateTypes).some((mutateType) =>
@@ -226,7 +226,7 @@ export function optimistic(mutateTypes: ?EntityReducerTypes) {
 }
 
 // TODO Make this the only spot handling pagination
-export function paginationReducer(fetchTypes: ?EntityReducerTypes) {
+export function paginationReducer(fetchTypes: ?EntityReducerTypes): Reducer {
   return (state: any, action: any) => {
     const paginationKey = get(action, ['meta', 'paginationKey']);
     const cursor = get(action, ['meta', 'cursor']);
@@ -309,7 +309,7 @@ export default function createEntityReducer({
   types,
   mutate,
   initialState = {},
-}: EntityReducerOptions) {
+}: EntityReducerOptions): Reducer {
   const finalInitialState = {
     actionGrant: [],
     pagination: {},

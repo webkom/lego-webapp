@@ -9,8 +9,8 @@ const entityTypeMappings = {
   'gallery.gallerypicture': 'galleryPictures',
 };
 
-type ServerName = $Enum<typeof entityTypeMappings>;
+type ServerName = $Keys<typeof entityTypeMappings>;
 
-export default function getEntityType(serverName: ServerName) {
+export default function getEntityType(serverName: ServerName): string {
   return entityTypeMappings[serverName] || serverName;
 }

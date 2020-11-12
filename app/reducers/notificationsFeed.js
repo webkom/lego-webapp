@@ -10,7 +10,7 @@ const initialState = {
 
 type State = typeof initialState;
 
-const notificationsFeed = produce(
+const notificationsFeed = produce<State>(
   (newState: State, action: any): void | State => {
     switch (action.type) {
       case NotificationsFeed.FETCH_DATA.SUCCESS:

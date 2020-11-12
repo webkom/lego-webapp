@@ -25,7 +25,7 @@ function ContentHeader({
     <h2
       style={{ borderColor }}
       className={cx(styles.header, className)}
-      {...props}
+      {...(props: Object)}
     >
       {children}
     </h2>

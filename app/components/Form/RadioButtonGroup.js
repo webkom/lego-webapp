@@ -1,12 +1,11 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import styles from './RadioButtonGroup.css';
-import type RadioButton from './RadioButton';
 
 type Props = {
   name: string,
   label: string,
-  children: Array<RadioButton>,
+  children: React.Node,
 };
 
 const RadioButtonGroup = ({ name, label, children }: Props) => {

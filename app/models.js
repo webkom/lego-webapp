@@ -239,7 +239,7 @@ export type Announcement = {
   events: Array<Object>,
   meetings: Array<Object>,
   fromGroup: Group,
-  sent?: boolean,
+  sent?: Dateish,
 };
 
 export type CreateAnnouncement = Announcement & {

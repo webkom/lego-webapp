@@ -141,8 +141,7 @@ export function createField(Component: ComponentType<*>, options?: Options) {
     );
   };
 
-  Field.displayName = `Field(${
-    Component ? Component.displayName || Component.name : 'Unknown'
-  })`;
+  const name = Component && (Component.displayName || Component.name);
+  Field.displayName = `Field(${typeof name === 'string' ? name : 'Unknown'})`;
   return Field;
 }

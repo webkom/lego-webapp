@@ -1,5 +1,5 @@
 // @flow
-import React, { Component } from 'react';
+import React, { Component, type Node } from 'react';
 import { Link } from 'react-router-dom';
 import Button from 'app/components/Button';
 import Card from 'app/components/Card';
@@ -21,11 +21,14 @@ type State = {
 };
 
 export default class ActivityRenderer extends Component<Props, State> {
-  state = {
+  state: State = {
     expanded: false,
   };
 
-  renderHeader(activity: Activity, aggregatedActivity: AggregatedActivity) {
+  renderHeader(
+    activity: Activity,
+    aggregatedActivity: AggregatedActivity
+  ): Node {
     const actor = lookupContext(aggregatedActivity, activity.actor);
     if (actor.contentType !== 'users.user') return null;
     return (
@@ -43,7 +46,7 @@ export default class ActivityRenderer extends Component<Props, State> {
     );
   }
 
-  render() {
+  render(): Node {
     const { aggregatedActivity, renders } = this.props;
     const activities = this.state.expanded
       ? aggregatedActivity.activities

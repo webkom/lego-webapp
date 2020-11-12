@@ -17,7 +17,10 @@ export function fetchSubmissions(surveyId: number): Thunk<*> {
   });
 }
 
-export function fetchUserSubmission(surveyId: number, user: number) {
+export function fetchUserSubmission(
+  surveyId: number,
+  user: number
+): Thunk<any> {
   return callAPI({
     types: SurveySubmission.FETCH,
     endpoint: `/surveys/${surveyId}/submissions/?user=${user}`,
@@ -47,7 +50,10 @@ export function addSubmission({ surveyId, ...data }: Object): Thunk<*> {
   });
 }
 
-export function deleteSubmission(surveyId: number, submissionId: number) {
+export function deleteSubmission(
+  surveyId: number,
+  submissionId: number
+): Thunk<any> {
   return callAPI({
     types: SurveySubmission.DELETE,
     endpoint: `/surveys/${surveyId}/submissions/${submissionId}/`,
@@ -65,7 +71,7 @@ export function hideAnswer(
   surveyId: number,
   submissionId: number,
   answerId: number
-) {
+): Thunk<any> {
   return callAPI({
     types: SurveySubmission.HIDE_ANSWER,
     endpoint: `/surveys/${surveyId}/submissions/${submissionId}/hide/?answer=${answerId}`,
@@ -85,7 +91,7 @@ export function showAnswer(
   surveyId: number,
   submissionId: number,
   answerId: number
-) {
+): Thunk<any> {
   return callAPI({
     types: SurveySubmission.SHOW_ANSWER,
     endpoint: `/surveys/${surveyId}/submissions/${submissionId}/show/?answer=${answerId}`,

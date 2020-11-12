@@ -17,30 +17,34 @@ const initialState = {
   settings: {},
 };
 
-const notificationSettings = produce((newState: State, action: any): void => {
-  switch (action.type) {
-    case NotificationSettings.FETCH_ALTERNATIVES.SUCCESS:
-      newState.channels = action.payload.channels;
-      newState.notificationTypes = action.payload.notificationTypes;
-      break;
+const notificationSettings = produce<State>(
+  (newState: State, action: any): void => {
+    switch (action.type) {
+      case NotificationSettings.FETCH_ALTERNATIVES.SUCCESS:
+        newState.channels = action.payload.channels;
+        newState.notificationTypes = action.payload.notificationTypes;
+        break;
 
-    case NotificationSettings.FETCH.SUCCESS:
-      newState.settings = transform(action.payload);
-      break;
+      case NotificationSettings.FETCH.SUCCESS:
+        newState.settings = transform(action.payload);
+        break;
 
-    case NotificationSettings.UPDATE.SUCCESS: {
-      newState.settings[action.payload.notificationType] = action.payload;
-      break;
+      case NotificationSettings.UPDATE.SUCCESS: {
+        newState.settings[action.payload.notificationType] = action.payload;
+        break;
+      }
+
+      default:
+        break;
     }
-
-    default:
-      break;
-  }
-}, initialState);
+  },
+  initialState
+);
 
 export default notificationSettings;
 
-export const transform = (settings: any) => keyBy(settings, 'notificationType');
+export const transform = (settings: any) =>
+  keyBy<any, string>(settings, 'notificationType');
 
 export const selectNotificationSettingsAlternatives = (state: Object) => ({
   channels: state.notificationSettings.channels,

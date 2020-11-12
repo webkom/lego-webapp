@@ -15,7 +15,7 @@ import type { Thunk, Action } from 'app/types';
 
 export const waitinglistPoolId = -1;
 
-export function fetchEvent(eventId: string) {
+export function fetchEvent(eventId: string): Thunk<any> {
   return callAPI({
     types: Event.FETCH,
     endpoint: `/events/${eventId}/`,
@@ -108,7 +108,7 @@ export const fetchList = ({
   );
 };
 
-export function fetchAdministrate(eventId: number) {
+export function fetchAdministrate(eventId: number): Thunk<any> {
   return callAPI({
     types: Event.FETCH,
     endpoint: `/events/${eventId}/administrate/`,
@@ -176,7 +176,7 @@ export function deleteEvent(eventId: number): Thunk<Promise<*>> {
     });
 }
 
-export function setCoverPhoto(id: number, token: string) {
+export function setCoverPhoto(id: number, token: string): Thunk<any> {
   return callAPI({
     types: Event.EDIT,
     endpoint: `/events/${id}/`,
@@ -201,7 +201,7 @@ export function register({
   captchaResponse: string,
   feedback: string,
   userId: number,
-}) {
+}): Thunk<any> {
   return callAPI({
     types: Event.REQUEST_REGISTER,
     endpoint: `/events/${eventId}/registrations/`,
@@ -228,7 +228,7 @@ export function unregister({
   registrationId: number,
   userId: number,
   admin: boolean,
-}) {
+}): Thunk<any> {
   return callAPI({
     types: Event.REQUEST_UNREGISTER,
     endpoint: `/events/${eventId}/registrations/${registrationId}/`,
@@ -249,7 +249,7 @@ export function adminRegister(
   poolId?: number,
   feedback: string,
   adminRegistrationReason: string
-) {
+): Thunk<any> {
   return callAPI({
     types: Event.ADMIN_REGISTER,
     endpoint: `/events/${eventId}/registrations/admin_register/`,
@@ -267,7 +267,7 @@ export function adminRegister(
   });
 }
 
-export function payment(eventId: number) {
+export function payment(eventId: number): Thunk<any> {
   return callAPI({
     types: Event.PAYMENT_QUEUE,
     endpoint: `/events/${eventId}/payment/`,
@@ -404,7 +404,7 @@ export function unfollow(followId: number, eventId: number): Thunk<Promise<*>> {
     );
 }
 
-export function isUserFollowing(eventId: number) {
+export function isUserFollowing(eventId: number): Thunk<any> {
   return callAPI({
     types: Event.IS_USER_FOLLOWING,
     endpoint: `/followers-event/?target=${eventId}`,

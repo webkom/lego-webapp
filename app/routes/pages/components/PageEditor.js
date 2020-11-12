@@ -78,7 +78,7 @@ export default class PageEditor extends Component<Props, State> {
 
   onDelete = () => {
     const { push, pageSlug, deletePage } = this.props;
-    deletePage(pageSlug).then(() => push('/pages/info/om-oss'));
+    return deletePage(pageSlug).then(() => push('/pages/info/om-oss'));
   };
 
   onSubmit = (data: Page) => {
@@ -159,7 +159,6 @@ export default class PageEditor extends Component<Props, State> {
             />
 
             {!isNew && (
-              /* $FlowFixMe */
               <ConfirmModalWithParent
                 title="Slett side"
                 message="Er du sikker på at du vil slette denne infosiden?"

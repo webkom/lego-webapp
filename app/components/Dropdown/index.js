@@ -1,47 +1,41 @@
 /** @flow */
 
-import React, { Component, type Node } from 'react';
+import * as React from 'react';
 import { Overlay } from 'react-overlays';
 import cx from 'classnames';
 import Icon from 'app/components/Icon';
 import styles from './Dropdown.css';
 
 type Props = {
-  iconName: string,
+  iconName?: string,
   toggle: () => any,
   className?: string,
   contentClassName?: string,
-  componentClass: any,
-  triggerComponent?: Node,
+  componentClass?: any,
+  triggerComponent?: React.Node | React.Portal,
   show: boolean,
   children?: any,
   style?: any,
-  placement: 'top' | 'bottom' | 'left' | 'right',
+  placement?: 'top' | 'bottom' | 'left' | 'right',
 };
 
-class Dropdown extends Component<Props> {
+class Dropdown extends React.Component<Props> {
   target: any;
 
-  static defaultProps = {
-    iconName: 'star',
-    componentClass: 'button',
-    placement: 'bottom',
-  };
+  static ListItem: (any) => React.Node = ListItem;
+  static List: ({ children: any }) => React.Node = List;
+  static Divider: () => React.Node = Divider;
 
-  static ListItem = ListItem;
-  static List = List;
-  static Divider = Divider;
-
-  renderContent() {
+  renderContent(): React.Node {
     if (this.props.triggerComponent) {
       return this.props.triggerComponent;
     }
 
-    const { iconName } = this.props;
+    const { iconName = 'star' } = this.props;
     return iconName ? <Icon name={iconName} /> : null;
   }
 
-  render() {
+  render(): React.Node {
     const {
       toggle,
       show,
@@ -49,8 +43,8 @@ class Dropdown extends Component<Props> {
       className,
       children,
       style,
-      placement,
-      componentClass: ComponentClass,
+      placement = 'bottom',
+      componentClass: ComponentClass = 'button',
     } = this.props;
 
     return (
@@ -81,15 +75,15 @@ class Dropdown extends Component<Props> {
   }
 }
 
-function List({ children }: { children: any }) {
+function List({ children }: { children: any }): React.Node {
   return <ul className={styles.dropdownList}>{children}</ul>;
 }
 
-function ListItem(props: any) {
+function ListItem(props: any): React.Node {
   return <li {...props} />;
 }
 
-function Divider() {
+function Divider(): React.Node {
   return <li className={styles.divider} />;
 }
 

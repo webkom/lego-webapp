@@ -24,6 +24,7 @@ type Props = {
   loggedIn: boolean,
   submitSucceeded: () => void,
   isStudent: boolean,
+  push: (string) => void,
 } & ReduxFormProps;
 
 const StudentConfirmation = ({

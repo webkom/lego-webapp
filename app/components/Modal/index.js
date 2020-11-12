@@ -31,7 +31,7 @@ class Modal extends Component<Props> {
     onKeyDown: () => {},
   };
 
-  modal: ?ReactModal;
+  modal: ?{ renderBackdrop: () => void };
 
   render() {
     const {
@@ -53,7 +53,7 @@ class Modal extends Component<Props> {
         show={show}
         backdrop={closeOnBackdropClick ? backdrop : false}
         autoFocus={false}
-        {...props}
+        {...(props: Object)}
       >
         <div>
           {!closeOnBackdropClick && this.modal && this.modal.renderBackdrop()}

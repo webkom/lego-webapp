@@ -1,7 +1,6 @@
 // @flow
 
 import React from 'react';
-import { Link } from 'react-router-dom';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 
 type Props = {
@@ -45,7 +44,7 @@ export const MeetingAnswer = ({
           {user.firstName} skal nå {statusText} på møtet!
         </p>
         <p>
-          Logg inn og sjekk møtet <Link onClick={handleLink}> her</Link>
+          Logg inn og sjekk møtet <button onClick={handleLink}> her</button>
         </p>
       </div>
     );

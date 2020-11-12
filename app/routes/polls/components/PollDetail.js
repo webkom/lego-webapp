@@ -39,7 +39,7 @@ class PollDetail extends Component<Props, State> {
       <Content>
         <NavigationTab title={this.props.poll.title}>
           {this.props.actionGrant.includes('edit') && (
-            <NavigationLink onClick={this.toggleEdit}>
+            <NavigationLink to="#" onClick={this.toggleEdit}>
               {this.state.editing ? 'Avbryt' : 'Rediger'}
             </NavigationLink>
           )}

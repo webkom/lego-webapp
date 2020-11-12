@@ -30,7 +30,7 @@ export const fetchAll = ({ fetchMore }: { fetchMore: boolean }): Thunk<*> => {
   });
 };
 
-export function fetchAllAdmin() {
+export function fetchAllAdmin(): Thunk<any> {
   return callAPI({
     types: Company.FETCH,
     endpoint: '/bdb/',
@@ -95,8 +95,8 @@ export const fetchEventsForCompany = ({
   );
 };
 
-export function fetchJoblistingsForCompany(companyId: string) {
-  return (dispatch: Dispatch) =>
+export function fetchJoblistingsForCompany(companyId: string): Thunk<any> {
+  return (dispatch) =>
     dispatch(
       callAPI({
         types: Joblistings.FETCH,
@@ -235,7 +235,7 @@ export function editSemesterStatus(
 export function deleteSemesterStatus(
   companyId: number,
   semesterStatusId: number
-) {
+): Thunk<any> {
   return callAPI({
     types: Company.DELETE_SEMESTER_STATUS,
     endpoint: `/companies/${companyId}/semester-statuses/${semesterStatusId}/`,
@@ -249,7 +249,11 @@ export function deleteSemesterStatus(
   });
 }
 
-export function fetchCompanyContacts({ companyId }: { companyId: number }) {
+export function fetchCompanyContacts({
+  companyId,
+}: {
+  companyId: number,
+}): Thunk<any> {
   return callAPI({
     types: Company.FETCH_COMPANY_CONTACT,
     endpoint: `/companies/${companyId}/company-contacts/`,
@@ -326,7 +330,7 @@ export function editCompanyContact({
 export function deleteCompanyContact(
   companyId: number,
   companyContactId: number
-) {
+): Thunk<any> {
   return callAPI({
     types: Company.DELETE_COMPANY_CONTACT,
     endpoint: `/companies/${companyId}/company-contacts/${companyContactId}/`,
@@ -340,13 +344,13 @@ export function deleteCompanyContact(
   });
 }
 
-export function fetchSemestersForInterestform() {
+export function fetchSemestersForInterestform(): Thunk<any> {
   return fetchSemesters({ company_interest: 'True' });
 }
 
 export function fetchSemesters(
   queries: { [key: string]: ?string | ?number } = {}
-) {
+): Thunk<any> {
   return callAPI({
     types: Company.FETCH_SEMESTERS,
     endpoint: `/company-semesters/${createQueryString(queries)}`,

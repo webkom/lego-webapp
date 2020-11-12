@@ -32,7 +32,7 @@ export const FlexRow = ({
       flexWrap,
       ...style,
     }}
-    {...rest}
+    {...(rest: Object)}
   >
     {children}
   </div>
@@ -55,7 +55,7 @@ export const FlexColumn = ({
       flexWrap,
       ...style,
     }}
-    {...rest}
+    {...(rest: Object)}
   >
     {children}
   </div>
@@ -74,7 +74,7 @@ export const FlexItem = ({
       flex,
       display: container ? 'flex' : 'block',
     }}
-    {...rest}
+    {...(rest: Object)}
   >
     {children}
   </div>

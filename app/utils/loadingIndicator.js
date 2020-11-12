@@ -12,7 +12,7 @@ import type { Props } from 'app/components/LoadingIndicator';
 export default function loadingIndicator(
   loadingProps: Array<string>,
   options: ?Props
-) {
+): any {
   return (Component: React.ComponentType<*>) => {
     const Composed = (props: Object) => (
       <LoadingIndicator

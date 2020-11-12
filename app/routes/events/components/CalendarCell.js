@@ -59,7 +59,7 @@ const renderEvent = ({
 );
 
 type CalendarCellProps = {
-  day: moment,
+  day: moment$Moment,
   className: string,
   prevOrNextMonth: boolean,
   events: Array<Event>,

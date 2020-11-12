@@ -84,15 +84,15 @@ export function login(
     });
 }
 
-export function logoutWithRedirect() {
-  return (dispatch: Dispatch<*>) => {
+export function logoutWithRedirect(): Thunk<any> {
+  return (dispatch) => {
     dispatch(logout());
     dispatch(push('/'));
   };
 }
 
-export function logout() {
-  return (dispatch: Dispatch<*>) => {
+export function logout(): Thunk<any> {
+  return (dispatch) => {
     removeToken();
     dispatch({ type: User.LOGOUT });
     dispatch(fetchMeta());
@@ -243,7 +243,7 @@ export function updatePicture({
   };
 }
 
-export function fetchUser(username: string = 'me') {
+export function fetchUser(username: string = 'me'): Thunk<any> {
   return callAPI({
     types: User.FETCH,
     endpoint: `/users/${username}/`,
@@ -383,7 +383,7 @@ export function createUser(token: string, user: string): Thunk<*> {
     });
 }
 
-export function sendStudentConfirmationEmail(user: string) {
+export function sendStudentConfirmationEmail(user: string): Thunk<any> {
   return callAPI({
     types: User.SEND_STUDENT_CONFIRMATION_TOKEN,
     endpoint: `/users-student-confirmation-request/`,
@@ -395,7 +395,7 @@ export function sendStudentConfirmationEmail(user: string) {
   });
 }
 
-export function confirmStudentUser(token: string) {
+export function confirmStudentUser(token: string): Thunk<any> {
   return callAPI({
     types: User.CONFIRM_STUDENT_USER,
     endpoint: `/users-student-confirmation-perform/?token=${token}`,
@@ -428,7 +428,12 @@ export function sendForgotPasswordEmail({
     );
 }
 
-export function addPenalty({ user, reason, weight, sourceEvent }: AddPenalty) {
+export function addPenalty({
+  user,
+  reason,
+  weight,
+  sourceEvent,
+}: AddPenalty): Thunk<any> {
   return callAPI({
     types: Penalty.CREATE,
     endpoint: '/penalties/',
@@ -446,7 +451,7 @@ export function addPenalty({ user, reason, weight, sourceEvent }: AddPenalty) {
   });
 }
 
-export function deletePenalty(id: number) {
+export function deletePenalty(id: number): Thunk<any> {
   return callAPI({
     types: Penalty.DELETE,
     endpoint: `/penalties/${id}/`,

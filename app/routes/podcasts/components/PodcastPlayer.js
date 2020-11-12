@@ -75,23 +75,26 @@ class LegoSoundCloudPlayer extends Component<Props, *> {
         </div>
         <Flex column style={{ padding: '10px 10px 0' }}>
           <Flex className={styles.playerRow}>
-            <PlayButton className={styles.playButton} {...this.props} />
+            <PlayButton
+              className={styles.playButton}
+              {...(this.props: Object)}
+            />
             <VolumeControl
               className={styles.volume}
               rangeClassName={styles.volume}
-              {...this.props}
+              {...(this.props: Object)}
             />
             <Progress
               className={styles.progress}
               innerClassName={styles.progressInner}
               value={(currentTime / duration) * 100 || 0}
-              {...this.props}
+              {...(this.props: Object)}
             />
           </Flex>
           <Timer
             className={styles.timer}
             duration={track ? track.duration / 1000 : 0}
-            {...this.props}
+            {...(this.props: Object)}
           />
           <Flex className={styles.extra}>
             <span>

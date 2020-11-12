@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import React, { Component, type Node } from 'react';
 import { Content } from 'app/components/Content';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import Button from 'app/components/Button';
@@ -48,7 +48,7 @@ type FieldArrayPropTypes = {
 const renderOptions = ({
   fields,
   meta: { touched, error },
-}: FieldArrayPropTypes) => (
+}: FieldArrayPropTypes): Node => (
   <div>
     <ul className={styles.options}>
       {fields.map((option, i) => (
@@ -76,6 +76,7 @@ const renderOptions = ({
     <Link
       key="addNew"
       onClick={() => fields.push({})}
+      to="#"
       className={styles.addOption}
     >
       <Icon name="add-circle" size={25} /> Valg
@@ -188,7 +189,7 @@ const onSubmit = (
       tags: tags ? tags.map((val) => val.value) : [],
       options,
       pinned: pinned ? pinned : false,
-      ...rest,
+      ...(rest: Object),
     })
     .then(() => props.toggleEdit());
 

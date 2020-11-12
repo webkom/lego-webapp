@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import styles from './NavigationLink.css';
 
 type Props = {
-  to?: string,
+  to: string,
   onClick?: (e: Event) => void,
   children?: Node,
 };

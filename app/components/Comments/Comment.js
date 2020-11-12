@@ -103,7 +103,7 @@ export default class Comment extends Component<Props, State> {
             submitText="Send svar"
             inlineMode
             autoFocus
-            {...commentFormProps}
+            {...(commentFormProps: Object)}
           />
         )}
       </div>

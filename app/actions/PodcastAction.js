@@ -6,7 +6,7 @@ import callAPI from 'app/actions/callAPI';
 import type { Thunk } from 'app/types';
 import { push } from 'connected-react-router';
 
-export function fetchPodcasts() {
+export function fetchPodcasts(): Thunk<any> {
   return callAPI({
     types: Podcast.FETCH,
     endpoint: `/podcasts/`,
@@ -19,7 +19,7 @@ export function fetchPodcasts() {
   });
 }
 
-export function fetchPodcast(podcastId: number) {
+export function fetchPodcast(podcastId: number): Thunk<any> {
   return callAPI({
     types: Podcast.FETCH,
     endpoint: `/podcasts/${podcastId}/`,
@@ -33,7 +33,7 @@ export function fetchPodcast(podcastId: number) {
   });
 }
 
-export function deletePodcast(id: number) {
+export function deletePodcast(id: number): Thunk<any> {
   return callAPI({
     types: Podcast.DELETE,
     endpoint: `/podcasts/${id}/`,

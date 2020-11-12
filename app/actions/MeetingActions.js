@@ -5,11 +5,11 @@ import { meetingSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 import { startSubmit, stopSubmit } from 'redux-form';
 import moment from 'moment-timezone';
-import type { Thunk } from 'app/types';
+import type { Thunk, Action } from 'app/types';
 import type { UserEntity } from 'app/reducers/users';
 import createQueryString from 'app/utils/createQueryString';
 
-export function fetchMeeting(meetingId: string) {
+export function fetchMeeting(meetingId: string): Thunk<any> {
   return callAPI({
     types: Meeting.FETCH,
     endpoint: `/meetings/${meetingId}/`,
@@ -83,7 +83,7 @@ export function setInvitationStatus(
   meetingId: number,
   status: string,
   user: UserEntity
-) {
+): Thunk<any> {
   return callAPI({
     types: Meeting.SET_INVITATION_STATUS,
     endpoint: `/meetings/${meetingId}/invitations/${user.id}/`,
@@ -122,7 +122,7 @@ export function createMeeting({
   reportAuthor,
   users,
   groups,
-}: Object) {
+}: Object): Thunk<any> {
   return callAPI({
     types: Meeting.CREATE,
     endpoint: '/meetings/',
@@ -150,7 +150,7 @@ export function inviteUsersAndGroups({
   id: number,
   users: [{ value: number, id: number }],
   groups: [{ value: number }],
-}) {
+}): Thunk<any> {
   return callAPI({
     types: Meeting.EDIT,
     endpoint: `/meetings/${id}/bulk_invite/`,
@@ -203,7 +203,7 @@ export function editMeeting({
   id,
   users,
   groups,
-}: Object) {
+}: Object): Thunk<any> {
   return callAPI({
     types: Meeting.EDIT,
     endpoint: `/meetings/${id}/`,
@@ -224,7 +224,7 @@ export function editMeeting({
   });
 }
 
-export function resetMeetingsToken() {
+export function resetMeetingsToken(): Action {
   return {
     type: Meeting.RESET_MEETINGS_TOKEN,
   };

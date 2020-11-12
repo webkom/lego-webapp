@@ -9,7 +9,7 @@ const eventStatus = (
   event: Event,
   loggedIn: boolean = false,
   isPill: boolean = false
-) => {
+): string | boolean => {
   const {
     registrationCount,
     totalCapacity,
@@ -53,7 +53,7 @@ const eventStatus = (
   }
 };
 
-const eventAttendance = (event: Event) => {
+const eventAttendance = (event: Event): string | boolean => {
   const {
     registrationCount,
     totalCapacity,

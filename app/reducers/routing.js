@@ -8,7 +8,7 @@ const initialState = {
 
 type State = typeof initialState;
 
-const routing = produce((newState: State, action: any): void => {
+const routing = produce<State>((newState: State, action: any): void => {
   switch (action.type) {
     case Routing.SET_STATUS_CODE:
       newState.statusCode = action.payload;

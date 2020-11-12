@@ -204,12 +204,14 @@ function withCountdown(WrappedComponent: ComponentType<Props>) {
     }
 
     render() {
-      return <WrappedComponent {...this.props} {...this.state} />;
+      return (
+        <WrappedComponent {...(this.props: Object)} {...(this.state: Object)} />
+      );
     }
   };
 }
 
-function getTimeDifference(first: moment, second: moment): number {
+function getTimeDifference(first: Dateish, second: Dateish): number {
   return moment(first).diff(moment(second));
 }
 

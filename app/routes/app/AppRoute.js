@@ -43,7 +43,10 @@ type Props = {
   loggedIn: boolean,
 };
 
-export const UserContext = React.createContext({
+export const UserContext = React.createContext<{
+  currentUser: Object,
+  loggedIn: boolean,
+}>({
   currentUser: {},
   loggedIn: false,
 });

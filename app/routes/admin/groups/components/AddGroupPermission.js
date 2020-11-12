@@ -10,7 +10,7 @@ type Props = FormProps & {
   group: Object,
 };
 
-const AddGroupPermission = ({ editGroup, submitting, handleSubmit }: Props) => (
+const AddGroupPermission = ({ submitting, handleSubmit }: Props) => (
   <Form onSubmit={handleSubmit}>
     <h3>Legg til ny rettighet</h3>
     <Field

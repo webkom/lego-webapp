@@ -33,9 +33,8 @@ export default function prepare(
   prepareFn: PrepareFn,
   watchProps?: Array<string> = [],
   opts?: ReactPrepareOpts = {}
-) {
+): any {
   // Returns true if any of the given watchProps have changed:
-  // $FlowFixMe
   const componentWillReceiveProps = (oldProps: any, newProps: any): boolean =>
     watchProps
       .concat('loggedIn')

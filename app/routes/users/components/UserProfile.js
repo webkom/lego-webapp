@@ -83,7 +83,6 @@ const GroupPill = ({ group }: { group: Group }) =>
 
 const BadgeTooltip = ({
   group,
-  role,
   start,
   end,
 }: {

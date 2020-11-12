@@ -18,7 +18,7 @@ type Props = {
 };
 
 type State = {
-  query: string,
+  query: mixed,
   selectedIndex: number,
 };
 
@@ -83,13 +83,13 @@ class SearchPage extends Component<Props, State> {
 
   render() {
     const { inputRef, placeholder, searching, results } = this.props;
-
+    const value = typeof this.state.query === 'string' ? this.state.query : '';
     return (
       <div>
         <SearchPageInput
           inputRef={inputRef}
           isSearching={searching}
-          value={this.state.query}
+          value={value}
           onKeyDown={this.handleKeyDown}
           placeholder={placeholder}
           onChange={this.handleQueryChange}
@@ -98,7 +98,7 @@ class SearchPage extends Component<Props, State> {
         <SearchPageResults
           onKeyDown={this.handleKeyDown}
           onSelect={this.handleSelect}
-          query={this.state.query}
+          query={value}
           results={results.filter(({ link }) => link)}
           selectedIndex={this.state.selectedIndex}
         />

@@ -2,6 +2,7 @@
 
 import { get } from 'lodash';
 import { fetchHistoryEntryKey } from 'app/reducers/fetchHistory';
+import { type PromiseAction } from 'app/types';
 
 // cacheSeconds is the number of seconds that will be awaited until new request is allowed
 const getCachedRequest = (
@@ -10,7 +11,7 @@ const getCachedRequest = (
   paginationKey: string,
   cursor: string,
   cacheSeconds: number
-) => {
+): PromiseAction<any> | null => {
   if (!cacheSeconds) return null;
   const key = fetchHistoryEntryKey({ paginationKey, cursor, endpoint });
   const historyObject = get(state, ['fetchHistory', key]);

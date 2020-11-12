@@ -6,7 +6,7 @@ import callAPI from 'app/actions/callAPI';
 import { type EmailUserEntity } from 'app/reducers/emailUsers';
 import type { EntityID, Thunk } from 'app/types';
 
-export function fetchEmailUser(userId: EntityID) {
+export function fetchEmailUser(userId: EntityID): Thunk<any> {
   return callAPI({
     types: EmailUser.FETCH,
     endpoint: `/email-users/${userId}/`,

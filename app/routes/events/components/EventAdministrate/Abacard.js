@@ -8,12 +8,12 @@ import styles from './Abacard.css';
 import Modal from 'app/components/Modal';
 import Validator from 'app/components/UserValidator';
 
-// $FlowFixMe
 import type {
   EventRegistration,
   EventRegistrationPhotoConsent,
   Event,
 } from 'app/models';
+
 type State = {
   resolve: ?() => Promise<*>,
   username: string,
@@ -48,7 +48,7 @@ class Abacard extends React.Component<Props, State> {
       (reg) => reg.presence === 'PRESENT' && reg.pool
     ).length;
 
-    const handleSelect = ({ username }) =>
+    const handleSelect = ({ username = '' }: { username?: string }) =>
       markUsernamePresent(id.toString(), username).then(async (result) => {
         const payload = get(result, 'payload.response.jsonData');
         if (payload && payload.error) return result;
@@ -67,7 +67,6 @@ class Abacard extends React.Component<Props, State> {
     const { resolve, username } = this.state;
     return (
       <div>
-        {/* $FlowFixMe Shitty flow types here we come!*/}
         <Validator {...validatorProps} handleSelect={handleSelect} />
         <Modal show={!!resolve} onHide={() => {}}>
           <ConfirmModal

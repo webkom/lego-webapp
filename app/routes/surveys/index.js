@@ -17,7 +17,7 @@ import SubmissionsPublicResultsRoute from './SubmissionsPublicResultsRoute';
 
 const surveysRoute = ({ match }: { match: { path: string } }) => (
   <UserContext.Consumer>
-    {({ currentUser, loggedIn, location }) => (
+    {({ currentUser, loggedIn }) => (
       <Switch>
         <RouteWrapper
           exact

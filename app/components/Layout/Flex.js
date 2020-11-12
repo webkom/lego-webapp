@@ -61,7 +61,7 @@ const Flex = ({
       width,
       ...style,
     }}
-    {...htmlAttributes}
+    {...(htmlAttributes: Object)}
   >
     {children}
   </Component>

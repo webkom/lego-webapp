@@ -83,7 +83,7 @@ const UploadArea = ({ multiple, onDrop, image }: UploadAreaProps) => {
 };
 
 export default class ImageUpload extends Component<Props, State> {
-  crop: Cropper;
+  crop: any;
 
   state = {
     cropOpen: this.props.inModal || false,

@@ -1,9 +1,9 @@
 // @flow
 import callAPI from './callAPI';
-
+import type { Thunk } from 'app/types';
 import { NotificationSettings } from './ActionTypes';
 
-export function fetchNotificationAlternatives() {
+export function fetchNotificationAlternatives(): Thunk<any> {
   return callAPI({
     types: NotificationSettings.FETCH_ALTERNATIVES,
     endpoint: '/notification-settings/alternatives/',
@@ -14,7 +14,7 @@ export function fetchNotificationAlternatives() {
   });
 }
 
-export function fetchNotificationSettings() {
+export function fetchNotificationSettings(): Thunk<any> {
   return callAPI({
     types: NotificationSettings.FETCH,
     endpoint: '/notification-settings/',
@@ -28,7 +28,7 @@ export function fetchNotificationSettings() {
 export function updateNotificationSetting(
   notificationType: string,
   channels: Array<string>
-) {
+): Thunk<any> {
   return callAPI({
     types: NotificationSettings.UPDATE,
     endpoint: '/notification-settings/',

@@ -3,9 +3,10 @@
 import callAPI from './callAPI';
 
 import { OAuth2 } from './ActionTypes';
+import type { Thunk } from 'app/types';
 import { oauth2ApplicationSchema, oauth2GrantSchema } from 'app/reducers';
 
-export function fetchOAuth2Applications() {
+export function fetchOAuth2Applications(): Thunk<any> {
   return callAPI({
     types: OAuth2.FETCH_APPLICATIONS,
     endpoint: '/oauth2-applications/',
@@ -17,7 +18,7 @@ export function fetchOAuth2Applications() {
   });
 }
 
-export function fetchOAuth2Application(applicationId: number) {
+export function fetchOAuth2Application(applicationId: number): Thunk<any> {
   return callAPI({
     types: OAuth2.FETCH_APPLICATION,
     endpoint: `/oauth2-applications/${applicationId}/`,
@@ -29,7 +30,7 @@ export function fetchOAuth2Application(applicationId: number) {
   });
 }
 
-export function updateOAuth2Application(application: Object) {
+export function updateOAuth2Application(application: Object): Thunk<any> {
   return callAPI({
     types: OAuth2.UPDATE_APPLICATION,
     method: 'PATCH',
@@ -43,7 +44,7 @@ export function updateOAuth2Application(application: Object) {
   });
 }
 
-export function createOAuth2Application(application: Object) {
+export function createOAuth2Application(application: Object): Thunk<any> {
   return callAPI({
     types: OAuth2.CREATE_APPLICATION,
     method: 'POST',
@@ -57,7 +58,7 @@ export function createOAuth2Application(application: Object) {
   });
 }
 
-export function fetchOAuth2Grants() {
+export function fetchOAuth2Grants(): Thunk<any> {
   return callAPI({
     types: OAuth2.FETCH_GRANTS,
     endpoint: '/oauth2-access-tokens/',
@@ -69,7 +70,7 @@ export function fetchOAuth2Grants() {
   });
 }
 
-export function deleteOAuth2Grant(id: number) {
+export function deleteOAuth2Grant(id: number): Thunk<any> {
   return callAPI({
     types: OAuth2.DELETE_GRANT,
     method: 'DELETE',

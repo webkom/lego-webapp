@@ -11,6 +11,7 @@ import styles from './FileUploadField.css';
 type Props = {
   className?: string,
   style?: Object,
+  meta: Object,
   value?: string,
   onChange: (string) => void,
   placeholder: string,

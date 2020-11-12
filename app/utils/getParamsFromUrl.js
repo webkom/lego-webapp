@@ -1,7 +1,7 @@
 //@flow
 
 // Convert params from url into object
-const getParamsFromUrl = (url: string) => {
+const getParamsFromUrl = (url: string): { [string]: string } => {
   let params = {};
   const urlObj = new URL(url);
   const { searchParams, hostname } = urlObj;

@@ -6,6 +6,7 @@ import { createSelector } from 'reselect';
 import { selectEvents } from './events';
 import { omit } from 'lodash';
 import type { EventType } from 'app/models';
+import type { State } from 'app/types';
 
 export type OptionEntity = {
   id: number,
@@ -42,8 +43,8 @@ export default createEntityReducer({
   },
 });
 
-export const selectSurveys = createSelector(
-  (state) => state.surveys.items,
+export const selectSurveys = createSelector<State, any, any, any, any, any>(
+  (state: State) => state.surveys.items,
   (state) => state.surveys.byId,
   selectEvents,
   (surveyIds, surveysById, events) => {
@@ -54,7 +55,7 @@ export const selectSurveys = createSelector(
   }
 );
 
-export const selectSurveyById = createSelector(
+export const selectSurveyById = createSelector<State, any, any, any, any>(
   (state, props) => selectSurveys(state, props),
   (state, props) => props.surveyId,
   (surveys, surveyId) => {
@@ -63,12 +64,12 @@ export const selectSurveyById = createSelector(
   }
 );
 
-export const selectSurveyTemplates = createSelector(
+export const selectSurveyTemplates = createSelector<State, any, any, any>(
   (state, props) => selectSurveys(state, props),
   (surveys) => surveys.filter((survey) => survey.templateType)
 );
 
-export const selectSurveyTemplate = createSelector(
+export const selectSurveyTemplate = createSelector<State, any, any, any, any>(
   (state, props) => selectSurveys(state, props),
   (state, props) => props.templateType,
   (surveys, templateType) => {

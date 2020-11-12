@@ -12,9 +12,9 @@ type Props = {
 type State = {
   progress: number,
   usersInQueue: number,
-  initialDate: moment,
+  initialDate: moment$Moment,
   initialTimeLeft: number,
-  expectedArrivalDate: moment,
+  expectedArrivalDate: moment$Moment,
   secondsLeft: number,
   lastUpdateTime: string,
   queueId: string,

@@ -57,7 +57,10 @@ export function fetchSiblingGallerPicture(
   });
 }
 
-export function fetchGalleryPicture(galleryId: EntityID, pictureId: EntityID) {
+export function fetchGalleryPicture(
+  galleryId: EntityID,
+  pictureId: EntityID
+): Thunk<any> {
   return callAPI({
     types: GalleryPicture.FETCH,
     endpoint: `/galleries/${galleryId}/pictures/${pictureId}/`,
@@ -69,7 +72,9 @@ export function fetchGalleryPicture(galleryId: EntityID, pictureId: EntityID) {
   });
 }
 
-export function updatePicture(galleryPicture: GalleryPictureEntity) {
+export function updatePicture(
+  galleryPicture: GalleryPictureEntity
+): Thunk<any> {
   return callAPI({
     types: GalleryPicture.EDIT,
     endpoint: `/galleries/${galleryPicture.gallery}/pictures/${galleryPicture.id}/`,
@@ -84,7 +89,10 @@ export function updatePicture(galleryPicture: GalleryPictureEntity) {
   });
 }
 
-export function deletePicture(galleryId: EntityID, pictureId: EntityID) {
+export function deletePicture(
+  galleryId: EntityID,
+  pictureId: EntityID
+): Thunk<any> {
   return callAPI({
     types: GalleryPicture.DELETE,
     endpoint: `/galleries/${galleryId}/pictures/${pictureId}/`,
@@ -99,7 +107,9 @@ export function deletePicture(galleryId: EntityID, pictureId: EntityID) {
   });
 }
 
-export function CreateGalleryPicture(galleryPicture: { galleryId: number }) {
+export function CreateGalleryPicture(galleryPicture: {
+  galleryId: number,
+}): Thunk<any> {
   return callAPI({
     types: GalleryPicture.CREATE,
     endpoint: `/galleries/${galleryPicture.galleryId}/pictures/`,

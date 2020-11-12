@@ -22,7 +22,7 @@ const CircularPicture = ({ src, alt, size = 100, style, ...props }: Props) => (
       width: size,
       height: size,
     }}
-    {...props}
+    {...(props: Object)}
   />
 );
 

@@ -56,7 +56,7 @@ export function deleteReaction({
 }: {
   reactionId: ID,
   contentTarget: string,
-}) {
+}): Thunk<any> {
   return callAPI({
     types: Reaction.DELETE,
     endpoint: `/reactions/${reactionId}/`,

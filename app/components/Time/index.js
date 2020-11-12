@@ -3,20 +3,21 @@
 import React from 'react';
 import moment from 'moment-timezone';
 import config from 'app/config';
+import { type Dateish } from 'app/models';
 
 type Props = {
   format?: string,
-  time?: string | Date | moment,
+  time?: Dateish,
   wordsAgo?: boolean,
 };
 
-function getFormattedDateTime(time: moment, format: string): string {
+function getFormattedDateTime(time: Dateish, format: string): string {
   if (format === 'timeAgoInWords') {
-    return time.fromNow();
+    return moment(time).fromNow();
   } else if (format === 'nowToTimeInWords') {
     return moment().to(time);
   }
-  return time.format(format);
+  return moment(time).format(format);
 }
 
 /**
@@ -36,7 +37,7 @@ function Time({
   );
 
   return (
-    <time dateTime={time} {...props}>
+    <time dateTime={time} {...(props: Object)}>
       {formatted}
     </time>
   );
@@ -46,7 +47,7 @@ export const FormatTime = ({
   time,
   format,
 }: {
-  time: moment | string,
+  time: Dateish,
   format?: string,
 }) => {
   const dateTime = moment(time);
@@ -61,13 +62,7 @@ export const FormatTime = ({
   }
 };
 
-export const FromToTime = ({
-  from,
-  to,
-}: {
-  from: moment | string,
-  to: moment | string,
-}) => {
+export const FromToTime = ({ from, to }: { from: Dateish, to: Dateish }) => {
   const fromTime = moment(from);
   const toTime = moment(to);
   const fromFormat =

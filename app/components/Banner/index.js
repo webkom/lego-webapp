@@ -18,7 +18,7 @@ type Color = $Keys<typeof COLORS>;
 type Props = {
   header: string,
   subHeader?: string,
-  link?: string,
+  link: string,
   color?: Color,
   // Set to true if the link is internal,
   // meaning an internal router <Link /> will be used
