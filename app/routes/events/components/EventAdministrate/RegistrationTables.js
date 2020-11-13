@@ -1,5 +1,11 @@
 // @flow
 
+// Må få henta inn pools ordentlig
+// Må skjønne hvordan search fungerer
+
+// Må lage nedtrekksmeny hvor man kan velge mellom å vise pool og klassetrinn
+// Må fikse mulighet til å sortere etter en colonne
+
 import styles from './Administrate.css';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
@@ -21,6 +27,7 @@ import {
   PresenceIcons,
   Unregister,
 } from './AttendeeElements';
+import type { EventPool } from 'app/models';
 
 type Props = {
   registered: Array<EventRegistration>,
@@ -37,6 +44,7 @@ type Props = {
   clickedUnregister: ID,
   showUnregister: boolean,
   event: Event,
+  pools: Array<EventPool>,
 };
 const GradeRenderer = (group: { name: string }) =>
   !!group && (
@@ -50,6 +58,11 @@ const GradeRenderer = (group: { name: string }) =>
   );
 
 const hasWebkomGroup = (user) => user.abakusGroups.includes(WEBKOM_GROUP_ID);
+
+const getPoolName = (pools, poolId) => {
+  const pool = pools.find((pool) => pool.id === poolId);
+  return pool && pool.name;
+};
 
 const getRegistrationInfo = (pool, registration) => {
   let registrationInfo = {
@@ -89,19 +102,29 @@ export class RegisteredTable extends Component<Props> {
       clickedUnregister,
       showUnregister,
       event,
+      pools,
     } = this.props;
     const columns = [
       {
+        title: 'Nr.',
+        dataIndex: 'nr',
+        render: (pool, registration) => (
+          <span>{registered.indexOf(registration) + 1}.</span>
+        ),
+      },
+      {
         title: 'Bruker',
         dataIndex: 'user',
+        search: true,
         render: (user) => (
           <Link to={`/users/${user.username}`}>{user.fullName}</Link>
         ),
+        filterMapping: (user) => user.fullName,
       },
       {
         title: 'Status',
         center: true,
-        dataIndex: 'pool',
+        dataIndex: 'status',
         render: (pool, registration) => {
           const registrationInfo = getRegistrationInfo(pool, registration);
           return (
@@ -152,9 +175,22 @@ export class RegisteredTable extends Component<Props> {
           ),
       },
       {
-        title: 'Klassetrinn',
-        dataIndex: 'user.grade',
-        render: GradeRenderer,
+        dataIndex: 'gradeOrPool',
+        columnChoices: [
+          {
+            title: 'Klassetrinn',
+            dataIndex: 'user.grade',
+            render: GradeRenderer,
+          },
+          {
+            title: 'Pool',
+            dataIndex: 'pool',
+            render: (pool, registration) => {
+              const poolName = getPoolName(pools, pool);
+              return <span>{poolName}</span>;
+            },
+          },
+        ],
       },
       {
         title: 'Betaling',

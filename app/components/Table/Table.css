@@ -28,6 +28,15 @@
   position: relative;
 }
 
+.arrowDownIcon {
+  display: inline-block;
+  margin-left: 10px;
+  vertical-align: middle;
+  line-height: 1;
+  cursor: pointer;
+  position: relative;
+}
+
 .checkbox {
   position: absolute;
   min-width: 150px;

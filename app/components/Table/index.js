@@ -5,7 +5,7 @@ import type { Node } from 'react';
 import { Component } from 'react';
 import Icon from 'app/components/Icon';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import { TextInput, CheckBox } from 'app/components/Form';
+import { TextInput, CheckBox, RadioButton } from 'app/components/Form';
 import { Overlay } from 'react-overlays';
 import { debounce, isEmpty, get } from 'lodash';
 import cx from 'classnames';
@@ -45,6 +45,7 @@ type columnProps = {
   center?: boolean,
   inlineFiltering?: boolean,
   filterMessage?: string,
+  columnChoices?: Array<columnProps>,
 };
 
 type Props = {
@@ -62,18 +63,31 @@ type State = {
   filters: Object,
   isShown: Object,
   sort: sortProps,
+  showColumn: Object,
 };
 
 const isVisible = ({ visible = true }: columnProps) => visible;
 
 export default class Table extends Component<Props, State> {
-  components: { [string]: ?HTMLDivElement } = {};
+  constructor(props: Props) {
+    super(props);
 
-  state = {
-    sort: {},
-    filters: this.props.filters || {},
-    isShown: {},
-  };
+    let initialShowColumn = {};
+    props.columns.forEach((column) => {
+      if (column.columnChoices) {
+        initialShowColumn[column.dataIndex] = 0;
+      }
+    });
+
+    this.state = {
+      sort: {},
+      filters: props.filters || {},
+      isShown: {},
+      showColumn: initialShowColumn,
+    };
+  }
+
+  components: { [string]: ?HTMLDivElement } = {};
 
   static defaultProps = {
     rowKey: 'id',
@@ -95,9 +109,22 @@ export default class Table extends Component<Props, State> {
     });
   };
 
+  toggleChooseColumn = (dataIndex: string) => {
+    this.setState({
+      isShown: {
+        [dataIndex]: !this.state.isShown[dataIndex],
+      },
+    });
+  };
+
   onSearchInput = ({ target }: SyntheticInputEvent<*>, dataIndex: string) => {
     this.setState(
-      { filters: { ...this.state.filters, [dataIndex]: target.value } },
+      {
+        filters: {
+          ...this.state.filters,
+          [dataIndex]: target.value,
+        },
+      },
       () => this.onChange()
     );
   };
@@ -109,6 +136,12 @@ export default class Table extends Component<Props, State> {
     );
   };
 
+  onChooseColumnInput = (columnIndex: any, dataIndex: any) => {
+    this.setState({ showColumn: { [dataIndex]: columnIndex } }, () =>
+      this.onChange()
+    );
+  };
+
   checkifActive = (dataIndex: string) => {
     return (
       this.state.filters[dataIndex].length &&
@@ -117,6 +150,10 @@ export default class Table extends Component<Props, State> {
   };
 
   renderCell = (column: columnProps, data: Object, index: number) => {
+    if (column.columnChoices) {
+      const columnIndex: number = this.state.showColumn[column.dataIndex];
+      column = column.columnChoices[columnIndex];
+    }
     const cellData = get(data, column.dataIndex);
     const {
       render = (cellData, data) => cellData,
@@ -133,18 +170,29 @@ export default class Table extends Component<Props, State> {
     );
   };
 
-  renderHeadCell = (
-    {
+  renderHeadCell = (props: columnProps, index: number) => {
+    let chosenProps = props;
+    const columnChoices = props.columnChoices;
+    const dataIndexColumnChoices = props.dataIndex;
+
+    if (props.columnChoices) {
+      const columnIndex = this.state.showColumn[dataIndexColumnChoices];
+      chosenProps = {
+        ...props,
+        ...props.columnChoices[columnIndex],
+      };
+    }
+
+    const {
       dataIndex,
-      search,
       title,
       sorter,
       filter,
-      center = false,
-      filterMessage = 'Filtrer',
-    }: columnProps,
-    index: number
-  ) => {
+      search,
+      center,
+      filterMessage,
+    } = chosenProps;
+
     const { filters, isShown } = this.state;
     return (
       <th
@@ -249,7 +297,10 @@ export default class Table extends Component<Props, State> {
                   onClick={() =>
                     this.setState(
                       (state) => ({
-                        filters: { ...state.filters, [dataIndex]: undefined },
+                        filters: {
+                          ...state.filters,
+                          [dataIndex]: undefined,
+                        },
                       }),
                       () => {
                         this.toggleFilter(dataIndex);
@@ -260,6 +311,50 @@ export default class Table extends Component<Props, State> {
                 >
                   Nullstill
                 </Button>
+              </div>
+            </Overlay>
+          </div>
+        )}
+        {columnChoices && (
+          <div className={styles.arrowDownIcon}>
+            <div
+              ref={(c) => (this.components[dataIndex] = c)}
+              className={styles.arrowDownIcon}
+            >
+              <Icon
+                onClick={() => this.toggleChooseColumn(dataIndex)}
+                name="arrow-down"
+                className={styles.icon}
+              />
+            </div>
+            <Overlay
+              show={isShown[dataIndex]}
+              onHide={() => this.toggleChooseColumn(dataIndex)}
+              placement="bottom"
+              container={this.components[dataIndex]}
+              target={() => this.components[dataIndex]}
+              rootClose
+            >
+              <div className={styles.overlay}>
+                {columnChoices.map(({ title }, index) => (
+                  <div
+                    key={title}
+                    onClick={() =>
+                      this.onChooseColumnInput(index, dataIndexColumnChoices)
+                    }
+                  >
+                    <p key={title}>
+                      <RadioButton
+                        name={dataIndexColumnChoices}
+                        inputValue={
+                          this.state.showColumn[dataIndexColumnChoices]
+                        }
+                        value={index}
+                        label={title}
+                      />
+                    </p>
+                  </div>
+                ))}
               </div>
             </Overlay>
           </div>
@@ -312,6 +407,7 @@ export default class Table extends Component<Props, State> {
 
   render() {
     const { columns, data, rowKey, hasMore, loading } = this.props;
+
     return (
       <table className={styles.table}>
         <thead>

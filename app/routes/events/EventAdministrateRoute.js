@@ -4,16 +4,30 @@ import prepare from 'app/utils/prepare';
 import { fetchAdministrate } from 'app/actions/EventActions';
 import EventAdministrateIndex from './components/EventAdministrate';
 import { selectEventById } from 'app/reducers/events';
+import {
+  selectPoolsWithRegistrationsForEvent,
+  selectMergedPoolWithRegistrations,
+} from 'app/reducers/events';
 
 const mapStateToProps = (state, props) => {
   const eventId = props.match.params.eventId;
 
   const event = selectEventById(state, { eventId });
+
+  const poolsWithRegistrations = event.isMerged
+    ? selectMergedPoolWithRegistrations(state, { eventId })
+    : selectPoolsWithRegistrationsForEvent(state, {
+        eventId,
+      });
+
+  const pools = poolsWithRegistrations;
+
   return {
     actionGrant: state.events.actionGrant,
     loading: state.events.fetching,
     eventId,
     event,
+    pools,
   };
 };
 

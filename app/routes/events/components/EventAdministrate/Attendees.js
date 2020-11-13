@@ -91,6 +91,7 @@ export default class Attendees extends Component<Props, State> {
       registered,
       unregistered,
       currentUser,
+      pools,
     } = this.props;
     const registerCount = registered.filter(
       (reg) => reg.presence === 'PRESENT' && reg.pool
@@ -188,6 +189,7 @@ export default class Attendees extends Component<Props, State> {
             handleUnregister={this.handleUnregister}
             clickedUnregister={this.state.clickedUnregister}
             showUnregister={showUnregister}
+            pools={pools}
           />
           <strong style={{ marginTop: '10px' }}>Avmeldte:</strong>
           <UnregisteredTable unregistered={unregistered} loading={loading} />
