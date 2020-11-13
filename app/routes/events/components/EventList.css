@@ -53,6 +53,9 @@
 }
 
 .filterButtons {
+  display: flex;
+  flex-wrap: wrap;
+
   @media (--mobile-device) {
     margin-bottom: 40px;
   }
