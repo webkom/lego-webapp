@@ -115,12 +115,6 @@ export default function callAPI({
 
     const state = getState();
     const loggedIn = selectIsLoggedIn(state);
-    if (shouldUseCache) {
-      const cachedRequest = getCachedRequest(state, endpoint, cacheSeconds);
-      if (cachedRequest) {
-        return Promise.resolve(dispatch(cachedRequest));
-      }
-    }
 
     const jwt = state.auth.token;
     if (jwt && requiresAuthentication) {
@@ -194,6 +188,18 @@ export default function callAPI({
       paginationForRequest.pagination.next
         ? paginationForRequest.pagination.next.cursor
         : '';
+    if (shouldUseCache) {
+      const cachedRequest = getCachedRequest(
+        state,
+        endpoint,
+        paginationForRequest ? paginationForRequest.paginationKey : '',
+        cursor,
+        cacheSeconds
+      );
+      if (cachedRequest) {
+        return Promise.resolve(dispatch(cachedRequest));
+      }
+    }
 
     const qs = query || cursor ? createQueryString({ cursor, ...query }) : '';
 
