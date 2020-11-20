@@ -28,21 +28,16 @@ export function fetchPopular(): Thunk<*> {
 }
 
 export function fetchAll({ next = false }: { next: boolean } = {}): Thunk<*> {
-  return (dispatch, getState) => {
-    const cursor = next ? getState().tags.pagination.next : {};
-    return dispatch(
-      callAPI({
-        types: Tag.FETCH,
-        endpoint: '/tags/',
-        schema: [tagSchema],
-        query: {
-          ...cursor,
-        },
-        meta: {
-          errorMessage: 'Henting av tags feilet',
-        },
-        propagateError: true,
-      })
-    );
-  };
+  return callAPI({
+    types: Tag.FETCH,
+    endpoint: '/tags/',
+    schema: [tagSchema],
+    pagination: {
+      fetchNext: next,
+    },
+    meta: {
+      errorMessage: 'Henting av tags feilet',
+    },
+    propagateError: true,
+  });
 }
