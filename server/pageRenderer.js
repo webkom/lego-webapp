@@ -95,6 +95,7 @@ export default function pageRenderer({
         <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
         <link href="https://unpkg.com/ionicons@3.0.0/dist/css/ionicons.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Cardo|Raleway|Roboto" rel="stylesheet">
+        <link href="https://api.mazemap.com/js/v1.2.5/mazemap.min.css" rel="stylesheet">
 
         ${helmet ? helmet.meta.toString() : ''}
 

@@ -21,3 +21,7 @@
   display: flex;
   margin-bottom: 10px;
 }
+
+.mazemap {
+  min-height: 400px;
+}

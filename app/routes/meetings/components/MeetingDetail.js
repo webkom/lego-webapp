@@ -215,6 +215,18 @@ class MeetingDetails extends Component<Props> {
             </ContentSidebar>
           </ContentSection>
           <ContentSection>
+            {meeting.mazemapPoi && (
+              <iframe
+                className={styles.mazemap}
+                src={
+                  'https://use.mazemap.com/embed.html?sharepoitype=poi&sharepoi=' +
+                  meeting.mazemapPoi
+                }
+                width="100%"
+                height="400"
+                scrolling="no"
+              />
+            )}
             <ContentMain>
               {meeting.contentTarget && (
                 <CommentView

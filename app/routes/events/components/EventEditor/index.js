@@ -212,6 +212,13 @@ function EventEditor({
               placeholder="Bedrift"
             />
             <Field
+              name="mazemap"
+              label="mazemap"
+              fieldClassName={styles.metaField}
+              component={SelectInput.mazemapAutocomplete}
+              placeholder="Bedrift"
+            />
+            <Field
               name="responsibleGroup"
               label="Ansvarlig gruppe"
               filter={['users.abakusgroup']}
