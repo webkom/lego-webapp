@@ -515,11 +515,12 @@ function expect(p) {
 function chain(p, s, f) {
   var p = toParser(p);
 
-  return action(sequence(p, repeat0(action(sequence(s, p), f))), function (
-    ast
-  ) {
-    return [ast[0]].concat(ast[1]);
-  });
+  return action(
+    sequence(p, repeat0(action(sequence(s, p), f))),
+    function (ast) {
+      return [ast[0]].concat(ast[1]);
+    }
+  );
 }
 
 // A parser combinator to do left chaining and evaluation. Like 'chain', it expects a parser
