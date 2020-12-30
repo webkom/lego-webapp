@@ -23,6 +23,7 @@ import Dropdown from 'app/components/Dropdown';
 import { eventTypeToString, EVENT_CONSTANTS } from 'app/routes/events/utils';
 import Time from 'app/components/Time';
 import type { EventType } from 'app/models';
+import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 
 type Props = FormProps & {
   survey: SurveyEntity,
@@ -66,15 +67,8 @@ function TemplateTypeDropdownItems({
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
-              if (
-                confirm(
-                  'Dette vil slette alle uendrete lagringer i undersøkelsen!\n' +
-                    'Lagrete endringer vil ikke overskrives før du trykker Lagre.'
-                )
-              ) {
-                destroy();
-                push(link(eventType));
-              }
+              destroy();
+              push(link(eventType));
             }}
           >
             {eventTypeToString(eventType)}
@@ -150,37 +144,52 @@ class SurveyEditor extends Component<Props, State> {
 
     return (
       <Content className={styles.detail}>
-        <form onSubmit={handleSubmit}>
-          {survey && survey.id ? (
-            <DetailNavigation title={titleField} surveyId={Number(survey.id)} />
-          ) : (
-            <ListNavigation title={titleField} />
-          )}
+        {survey && survey.id ? (
+          <DetailNavigation title={titleField} surveyId={Number(survey.id)} />
+        ) : (
+          <ListNavigation title={titleField} />
+        )}
+        <ConfirmModalWithParent
+          title="Bekreft bruk av mal"
+          message={
+            'Dette vil slette alle ulagrede endringer i undersøkelsen!\n' +
+            'Lagrede endringer vil ikke overskrives før du trykker "Lagre".'
+          }
+          closeOnConfirm={true}
+          onCancel={() => {
+            this.setState((state) => ({
+              templatePickerOpen: false,
+            }));
+            return Promise.resolve();
+          }}
+          onConfirm={() => {
+            this.setState((state) => ({
+              templatePickerOpen: true,
+            }));
+            return Promise.resolve();
+          }}
+        >
+          <Button className={styles.templatePicker}>
+            {template ? 'Bytt mal' : 'Bruk mal'}
+            <Dropdown
+              className={styles.templateDropdown}
+              show={this.state.templatePickerOpen}
+              toggle={() => {
+                this.setState((state) => ({
+                  templatePickerOpen: !state.templatePickerOpen,
+                }));
+              }}
+            >
+              <TemplateTypeDropdownItems
+                survey={survey}
+                push={push}
+                destroy={destroy}
+              />
+            </Dropdown>
+          </Button>
+        </ConfirmModalWithParent>
 
-          <Dropdown
-            show={this.state.templatePickerOpen}
-            toggle={() => {
-              this.setState((state) => ({
-                templatePickerOpen: !state.templatePickerOpen,
-              }));
-            }}
-            triggerComponent={
-              <Button
-                className={styles.templatePicker}
-                onClick={(e) => {
-                  e.preventDefault();
-                }}
-              >
-                {template ? 'Bytt mal' : 'Bruk mal'}
-              </Button>
-            }
-          >
-            <TemplateTypeDropdownItems
-              survey={survey}
-              push={push}
-              destroy={destroy}
-            />
-          </Dropdown>
+        <form onSubmit={handleSubmit}>
           <div className={styles.templateType}>
             {selectedTemplateType && (
               <span>

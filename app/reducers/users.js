@@ -58,6 +58,9 @@ export default createEntityReducer({
         newState.byId = mergeObjects(newState.byId, action.payload);
         break;
       }
+
+      default:
+        break;
     }
   }),
 });

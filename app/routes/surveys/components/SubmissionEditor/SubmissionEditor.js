@@ -154,7 +154,7 @@ const validateMandatory = (inputAnswers: Array<Object>, props) => {
         .map((answer) => answer.question)
     : [];
 
-  props.survey.questions.map((question) => {
+  props.survey.questions.forEach((question) => {
     if (question.mandatory && !answeredQuestionIds.includes(question.id)) {
       errors.questions[question.id] = 'Dette feltet er obligatorisk';
     }

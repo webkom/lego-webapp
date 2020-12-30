@@ -115,7 +115,7 @@
     "duplicate-package-checker-webpack-plugin": "^3.0.0",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.15.2",
-    "eslint": "^5.14.1",
+    "eslint": "7.16.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-config-react-app": "^3.0.7",
     "eslint-plugin-cypress": "^2.11.2",

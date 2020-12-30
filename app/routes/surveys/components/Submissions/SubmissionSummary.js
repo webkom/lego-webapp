@@ -77,7 +77,7 @@ const SubmissionSummary = ({
   const generateQuestionData = (question: QuestionEntity) => {
     const questionData = [];
 
-    question.options.map((option) => {
+    question.options.forEach((option) => {
       const selectedCount = submissions
         .map(
           (submission) =>
@@ -98,7 +98,7 @@ const SubmissionSummary = ({
   };
 
   const graphData = {};
-  survey.questions.map((question) => {
+  survey.questions.forEach((question) => {
     graphData[question.id] = generateQuestionData(question);
   });
 

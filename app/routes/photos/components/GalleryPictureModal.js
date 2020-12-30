@@ -50,16 +50,13 @@ const OnKeyDownHandler = ({
   handler,
 }: {
   handler: (KeyboardEvent) => void,
-}) => (
-  useEffect(
-    () => (
-      window.addEventListener('keydown', handler),
-      () => window.removeEventListener('keydown', handler)
-    ),
-    [handler]
-  ),
-  null
-);
+}) => {
+  useEffect(() => {
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [handler]);
+  return null;
+};
 const Taggees = ({ taggees }: { taggees: Array<Object> }) => {
   if (taggees.length === 1) {
     return (

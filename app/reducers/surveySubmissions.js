@@ -13,6 +13,7 @@ export type SubmissionEntity = {
   survey: SurveyEntity,
   submitted: boolean,
   submittedTime?: string,
+  // eslint-disable-next-line no-use-before-define
   answers: Array<AnswerEntity>,
 };
 
@@ -35,7 +36,10 @@ const mutateSurveySubmissions = produce(
         const id = action.payload.result;
         const surveySubmission = action.payload.entities.surveySubmissions[id];
         newState.byId[id] = { ...surveySubmission, survey: surveyId };
+        break;
       }
+      default:
+        break;
     }
   }
 );

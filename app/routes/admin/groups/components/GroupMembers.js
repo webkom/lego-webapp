@@ -95,7 +95,7 @@ function loadData({ query, match: { params }, location }, dispatch) {
 
 function mapStateToProps(state, props) {
   const { pathname, search } = state.router.location;
-  const showDescendants = location.search.includes('descendants=true');
+  const showDescendants = search.includes('descendants=true');
   const groupId = props.match.params && props.match.params.groupId;
 
   const { filters: qsFilters = '{}' } = qs.parse(search.slice(1));

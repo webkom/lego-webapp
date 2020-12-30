@@ -48,6 +48,9 @@ export default createEntityReducer({
           newState.byId[action.meta.groupId].numberOfUsers -= 1;
         }
         break;
+
+      default:
+        break;
     }
   }),
 });

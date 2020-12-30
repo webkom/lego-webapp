@@ -28,15 +28,13 @@ const SubmissionPublicResultsPage = ({
 
   const generateTextAnswers = (question) => {
     let texts = [];
-    Object.keys(results[question.id])
-      .map((name) => {
-        if (name !== 'questionType') {
-          texts = results[question.id][name].map((answer, i) => (
-            <li key={i}>{answer}</li>
-          ));
-        }
-      })
-      .filter(Boolean);
+    Object.keys(results[question.id]).forEach((name) => {
+      if (name !== 'questionType') {
+        texts = results[question.id][name].map((answer, i) => (
+          <li key={i}>{answer}</li>
+        ));
+      }
+    });
 
     return texts.length === 0 ? <i>Ingen svar.</i> : texts;
   };
@@ -46,7 +44,7 @@ const SubmissionPublicResultsPage = ({
     const question =
       survey.questions.find((q) => q.id === Number(questionId)) || {};
 
-    Object.keys(results[questionId]).map((optionId) => {
+    Object.keys(results[questionId]).forEach((optionId) => {
       const optionText = (
         question.options.find((o) => o.id === Number(optionId)) || {}
       ).optionText;
@@ -63,7 +61,7 @@ const SubmissionPublicResultsPage = ({
   };
 
   const graphData = {};
-  Object.keys(results).map((questionId) => {
+  Object.keys(results).forEach((questionId) => {
     graphData[Number(questionId)] = generateQuestionData(questionId);
   });
 
