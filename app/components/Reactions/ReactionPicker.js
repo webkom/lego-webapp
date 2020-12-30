@@ -176,9 +176,10 @@ const ReactionPicker = ({
   const onCategoryClick = useCallback((category) => {
     setActiveCategory(category);
     setSearchString(null);
-  });
-  const onSearch = useCallback((searchString) =>
-    setSearchString(searchString.trim().toLowerCase())
+  }, []);
+  const onSearch = useCallback(
+    (searchString) => setSearchString(searchString.trim().toLowerCase()),
+    []
   );
 
   return (
