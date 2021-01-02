@@ -14,6 +14,8 @@ import type {
   ID,
   Event,
   EventPool,
+  PhotoConsent,
+  EventSemester,
 } from 'app/models';
 import Table from 'app/components/Table';
 import {
@@ -22,6 +24,12 @@ import {
   PresenceIcons,
   Unregister,
 } from './AttendeeElements';
+import {
+  getEventSemesterFromStartTime,
+  hasRegisteredConsent,
+  getConsent,
+  PHOTO_CONSENT_DOMAINS,
+} from 'app/routes/events/utils';
 
 type Props = {
   registered: Array<EventRegistration>,
@@ -83,6 +91,73 @@ const getRegistrationInfo = (pool, registration) => {
     registrationInfo.icon = cx('fa fa-check-circle', styles.greenIcon);
   }
   return registrationInfo;
+};
+
+const consentMessage = (photoConsent) =>
+  `Brukeren godkjenner ${
+    photoConsent?.isConsenting ? ' ' : 'IKKE '
+  } at bilder publiseres på ${
+    photoConsent?.domain === PHOTO_CONSENT_DOMAINS.WEBSITE
+      ? 'abakus.no'
+      : 'sosiale medier'
+  }`;
+
+const iconClass = (photoConsent) =>
+  cx(
+    photoConsent?.isConsenting ? styles.greenIcon : styles.redIcon,
+    photoConsent?.domain === PHOTO_CONSENT_DOMAINS.WEBSITE
+      ? 'fa fa-desktop'
+      : 'fa fa-share-square'
+  );
+
+const ConsentIcons = ({
+  LEGACY_photoConsent,
+  photoConsents,
+  eventSemester,
+}: {
+  LEGACY_photoConsent: string,
+  photoConsents: Array<PhotoConsent>,
+  eventSemester: EventSemester,
+}) => {
+  if (hasRegisteredConsent(photoConsents, eventSemester)) {
+    const { WEBSITE, SOCIAL_MEDIA } = PHOTO_CONSENT_DOMAINS;
+
+    const webConsent = getConsent(
+      WEBSITE,
+      eventSemester.year,
+      eventSemester.semester,
+      photoConsents
+    );
+    const soMeConsent = getConsent(
+      SOCIAL_MEDIA,
+      eventSemester.year,
+      eventSemester.semester,
+      photoConsents
+    );
+    return (
+      <>
+        <TooltipIcon
+          content={consentMessage(webConsent)}
+          iconClass={iconClass(webConsent)}
+        />
+        <TooltipIcon
+          content={consentMessage(soMeConsent)}
+          iconClass={iconClass(soMeConsent)}
+        />
+      </>
+    );
+  }
+
+  return (
+    <TooltipIcon
+      content={LEGACY_photoConsent}
+      iconClass={
+        LEGACY_photoConsent === 'PHOTO_CONSENT'
+          ? cx('fa fa-check', styles.greenIcon)
+          : cx('fa fa-times', styles.redIcon)
+      }
+    />
+  );
 };
 
 export class RegisteredTable extends Component<Props> {
@@ -161,20 +236,24 @@ export class RegisteredTable extends Component<Props> {
       },
       {
         title: 'Samtykke',
-        dataIndex: 'photoConsent',
+        dataIndex: 'photoConsents',
         visible: !!event.useConsent,
         center: true,
-        render: (consent) =>
-          consent !== 'UNKNOWN' && (
-            <TooltipIcon
-              content={consent}
-              iconClass={
-                consent === 'PHOTO_CONSENT'
-                  ? cx('fa fa-check', styles.greenIcon)
-                  : cx('fa fa-times', styles.crossIcon)
-              }
-            />
-          ),
+        render: (feedback, registration) => {
+          const eventSemester = getEventSemesterFromStartTime(event.startTime);
+          const photoConsents = registration.user.photoConsents;
+          const LEGACY_photoConsent = registration.LEGACYPhotoConsent;
+
+          return (
+            <div className={styles.consents}>
+              <ConsentIcons
+                LEGACY_photoConsent={LEGACY_photoConsent}
+                photoConsents={photoConsents}
+                eventSemester={eventSemester}
+              />
+            </div>
+          );
+        },
       },
       {
         dataIndex: 'gradeOrPool',

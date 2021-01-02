@@ -1,0 +1,19 @@
+.consentBtn {
+  height: 2.9rem;
+}
+
+.consentBtnContainer {
+  display: flex;
+}
+
+.categoryTitle {
+  margin-top: 2rem;
+}
+
+.statusContainer {
+  margin: 0.5rem 0;
+}
+
+.selectedConsentBtn {
+  border: 2px solid black;
+}

@@ -24,6 +24,9 @@ import {
   sumPenalties,
   penaltyHours,
   registrationIsClosed,
+  getEventSemesterFromStartTime,
+  hasRegisteredConsent,
+  toReadableSemester,
 } from '../utils';
 
 import { selectUserByUsername } from 'app/reducers/users';
@@ -288,6 +291,15 @@ const JoinEventForm = (props: Props) => {
   const [registrationPendingDelayed, setRegistrationPendingDelayed] =
     useState(false);
 
+  const eventSemester = getEventSemesterFromStartTime(event.startTime);
+  const hasRegisteredConsentForSemester = hasRegisteredConsent(
+    currentUser?.photoConsents,
+    eventSemester
+  );
+  const hasRegisteredConsentIfRequired = event.useConsent
+    ? hasRegisteredConsentForSemester
+    : true;
+
   useEffect(() => {
     const timer = setTimeout(
       () => setRegistrationPendingDelayed(registrationPending),
@@ -380,7 +392,21 @@ const JoinEventForm = (props: Props) => {
                   </Link>
                 </div>
               )}
+            {!disabledForUser &&
+              event.useConsent &&
+              !hasRegisteredConsentForSemester && (
+                <div className={styles.eventWarning}>
+                  <p>NB!</p>
+                  <p>
+                    Du må ta stilling til bildesamtykke for semesteret{' '}
+                    {toReadableSemester(eventSemester)} for å melde deg på dette
+                    arrangement.
+                  </p>
+                  <Link to={`/users/me/`}>Gå til min profil</Link>
+                </div>
+              )}
             {formOpen &&
+              hasRegisteredConsentIfRequired &&
               (event.useContactTracing ? currentUser.phoneNumber : true) && (
                 <Flex column>
                   <Form

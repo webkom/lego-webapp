@@ -80,7 +80,7 @@ export const PresenceIcons = ({
       />
       <TooltipIcon
         content="Ikke til stede"
-        iconClass={cx('fa fa-times', styles.crossIcon)}
+        iconClass={cx('fa fa-times', styles.redIcon)}
         transparent={presence !== 'NOT_PRESENT'}
         onClick={() => handlePresence(id, 'NOT_PRESENT')}
       />
@@ -108,7 +108,7 @@ export const StripeStatus = ({
     <TooltipIcon
       content="Ikke betalt"
       transparent={['manual', 'succeeded'].includes(paymentStatus)}
-      iconClass={cx('fa fa-times', styles.crossIcon)}
+      iconClass={cx('fa fa-times', styles.redIcon)}
       onClick={() => handlePayment(id, 'failed')}
     />
   </Flex>

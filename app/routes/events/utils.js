@@ -1,7 +1,20 @@
 // @flow
 import { pick, sumBy, find } from 'lodash';
 import moment from 'moment-timezone';
-import type { TransformEvent, Event, EventType, AddPenalty } from 'app/models';
+import type {
+  TransformEvent,
+  Event,
+  EventType,
+  AddPenalty,
+  PhotoConsent,
+  PhotoConsentDomain,
+  EventSemester,
+} from 'app/models';
+
+export const PHOTO_CONSENT_DOMAINS = {
+  WEBSITE: 'WEBSITE',
+  SOCIAL_MEDIA: 'SOCIAL_MEDIA',
+};
 
 // Current eventTypes
 export const EVENT_CONSTANTS: { [EventType]: string } = {
@@ -257,4 +270,45 @@ export const transformEventStatusType = (eventStatusType: string) => {
   return (
     find(eventStatusTypes, { value: eventStatusType }) || eventStatusTypes[0]
   );
+};
+
+export const getEventSemesterFromStartTime = (
+  startTime: moment
+): EventSemester => {
+  return {
+    year: moment(startTime).year(),
+    semester: moment(startTime).month() > 6 ? 'autumn' : 'spring',
+  };
+};
+
+export const getConsent = (
+  domain: PhotoConsentDomain,
+  year: number,
+  semester: string,
+  photoConsents: Array<PhotoConsent>
+): ?PhotoConsent =>
+  photoConsents.find(
+    (pc) => pc.domain === domain && pc.year === year && pc.semester === semester
+  );
+
+export const hasRegisteredConsent = (
+  photoConsents: Array<PhotoConsent>,
+  eventSemester: EventSemester
+): boolean => {
+  const registeredConsents =
+    photoConsents?.filter(
+      (pc) =>
+        pc.year === eventSemester.year &&
+        pc.semester === eventSemester.semester &&
+        typeof pc.isConsenting === 'boolean'
+    ) ?? [];
+
+  return registeredConsents.length === 2;
+};
+
+export const toReadableSemester = (
+  semesterObj: EventSemester | PhotoConsent
+): string => {
+  const semester = semesterObj.semester === 'spring' ? 'våren' : 'høsten';
+  return `${semester} ${semesterObj.year}`;
 };

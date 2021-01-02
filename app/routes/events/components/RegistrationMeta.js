@@ -3,7 +3,9 @@
 import type {
   EventRegistrationPresence,
   EventRegistrationPaymentStatus,
-  EventRegistrationPhotoConsent,
+  LEGACY_EventRegistrationPhotoConsent,
+  PhotoConsent,
+  EventSemester,
 } from 'app/models';
 import {
   paymentPending,
@@ -11,8 +13,11 @@ import {
   paymentSuccess,
   paymentManual,
   paymentCardExpired,
+  PHOTO_CONSENT_DOMAINS,
+  getConsent,
+  hasRegisteredConsent,
+  toReadableSemester,
 } from '../utils';
-import Tooltip from 'app/components/Tooltip';
 
 type Props = {
   registration: Object,
@@ -22,44 +27,130 @@ type Props = {
   useConsent: boolean,
   hasOpened: boolean,
   hasEnded: boolean,
+  photoConsents?: Array<PhotoConsent>,
+  eventSemester: EventSemester,
 };
+
+const ConsentInfo = ({
+  className,
+  consentDescription,
+}: {
+  className: string,
+  consentDescription: string,
+}) => (
+  <div>
+    <i className={className} />
+    {' ' + consentDescription}
+  </div>
+);
 
 const ConsentStatus = ({
   useConsent,
-  photoConsent,
+  LEGACY_photoConsent,
   hasEnded,
+  photoConsents,
+  eventSemester,
 }: {
   useConsent: boolean,
-  photoConsent: EventRegistrationPhotoConsent,
+  LEGACY_photoConsent: LEGACY_EventRegistrationPhotoConsent,
   hasEnded: boolean,
+  photoConsents?: Array<PhotoConsent>,
+  eventSemester: EventSemester,
 }) => {
   if (!useConsent) return null;
-  switch (photoConsent) {
-    case 'PHOTO_NOT_CONSENT':
+
+  if (photoConsents && hasRegisteredConsent(photoConsents, eventSemester)) {
+    const { WEBSITE, SOCIAL_MEDIA } = PHOTO_CONSENT_DOMAINS;
+    const isConsentingWeb = getConsent(
+      WEBSITE,
+      eventSemester.year,
+      eventSemester.semester,
+      photoConsents
+    )?.isConsenting;
+    const isConsentingSoMe = getConsent(
+      SOCIAL_MEDIA,
+      eventSemester.year,
+      eventSemester.semester,
+      photoConsents
+    )?.isConsenting;
+    const readableEventSemester = toReadableSemester(eventSemester);
+
+    if (isConsentingWeb && isConsentingSoMe) {
       return (
-        <div>
-          <i className="fa fa-check-circle" /> Du har valgt <i>NEI</i> på
-          samtykke om bilder
-        </div>
+        <ConsentInfo
+          className={'fa fa-camera'}
+          consentDescription={`Du samtykker til bilder på Abakus.no og sosiale medier for semesteret ${readableEventSemester}`}
+        />
       );
-    case 'PHOTO_CONSENT':
+    }
+
+    if (!isConsentingWeb && !isConsentingSoMe) {
       return (
-        <div>
-          <i className="fa fa-check-circle" /> Du har valgt <i>ja</i> på
-          samtykke om bilder
-        </div>
+        <ConsentInfo
+          className={'fa fa-times-circle'}
+          consentDescription={`Du samtykker ikke til bilder for semesteret ${readableEventSemester}`}
+        />
       );
-    case 'UNKNOWN':
-      if (!hasEnded) return null;
+    }
+
+    if (isConsentingWeb && !isConsentingSoMe) {
       return (
-        <div>
-          <i className="fa fa-exclamation-circle" /> Du har enda ikke tatt
-          stilling til samtykke om bilder
-        </div>
+        <ConsentInfo
+          className={'fa fa-desktop'}
+          consentDescription={`Du samtykker kun til bilder på
+          Abakus.no for semesteret ${readableEventSemester}`}
+        />
       );
-    default:
-      return null;
+    }
+
+    if (!isConsentingWeb && isConsentingSoMe) {
+      return (
+        <ConsentInfo
+          className={'fa fa-share-square'}
+          consentDescription={`Du samtykker kun til bilder på
+          sosiale medier for semesteret ${readableEventSemester}`}
+        />
+      );
+    }
   }
+
+  if (LEGACY_photoConsent === 'PHOTO_CONSENT') {
+    return (
+      <ConsentInfo
+        className={'fa fa-check-circle'}
+        consentDescription={'Du samtykker til bilder fra dette arrangementet'}
+      />
+    );
+  }
+
+  if (LEGACY_photoConsent === 'PHOTO_NOT_CONSENT') {
+    return (
+      <ConsentInfo
+        className={'fa fa-times-circle'}
+        consentDescription={
+          'Du samtykker ikke til bilder fra dette arrangementet'
+        }
+      />
+    );
+  }
+
+  if (LEGACY_photoConsent === 'UNKNOWN' && hasEnded) {
+    return (
+      <ConsentInfo
+        className={'fa fa-exclamation-circle'}
+        consentDescription={
+          'Du tok ikke stilling til bildesamtykke på dette arrangementet'
+        }
+      />
+    );
+  }
+
+  return (
+    <ConsentInfo
+      className={'fa fa-exclamation-circle'}
+      consentDescription={'Dette arrangement krever bildesamtykke'}
+    />
+  );
 };
 const PresenceStatus = ({
   presence,
@@ -147,6 +238,8 @@ const RegistrationMeta = ({
   isPriced,
   registrationIndex,
   hasSimpleWaitingList,
+  photoConsents,
+  eventSemester,
 }: Props) => (
   <>
     {!registration && hasOpened && (
@@ -177,19 +270,19 @@ const RegistrationMeta = ({
           </div>
         )}
         <PresenceStatus presence={registration.presence} hasEnded={hasEnded} />
-        <Tooltip content="Du kan når som helst endre samtykket ved å kontakte oss på abakus@abakus.no">
-          <ConsentStatus
-            useConsent={useConsent}
-            hasEnded={hasEnded}
-            photoConsent={registration.photoConsent}
-          />
-        </Tooltip>
         <PaymentStatus
           isPriced={isPriced}
           paymentStatus={registration.paymentStatus}
         />
       </>
     )}
+    <ConsentStatus
+      useConsent={useConsent}
+      hasEnded={hasEnded}
+      LEGACY_photoConsent={registration?.LEGACYPhotoConsent}
+      photoConsents={photoConsents}
+      eventSemester={eventSemester}
+    />
   </>
 );
 

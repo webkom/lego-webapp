@@ -48,7 +48,7 @@
   color: var(--color-blue-1);
 }
 
-.crossIcon {
+.redIcon {
   font-size: 1.5em;
   color: '#C24538';
 }
@@ -86,4 +86,9 @@ a.transparent:hover {
 
 .cell {
   margin: 2px;
+}
+
+.consents {
+  display: flex;
+  justify-content: center;
 }
