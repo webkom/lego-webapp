@@ -12,35 +12,6 @@ import type { CompanySemesterContactedStatus, Semester } from 'app/models';
 import { selectJoblistings } from 'app/reducers/joblistings';
 import produce from 'immer';
 
-export type BaseCompanyEntity = {
-  name: string,
-  companyId?: number,
-  description?: string,
-  studentContact?: UserEntity,
-  phone?: string,
-  companyType?: string,
-  website?: string,
-  address?: string,
-  paymentMail?: string,
-  active?: boolean,
-  adminComment?: string,
-  companyType?: string,
-  contentTarget: string,
-  comments: Array<{ id: string, parent: string }>,
-  // $FlowFixMe
-  semesterStatuses: Array<SemesterStatusEntity>,
-  logo?: string,
-  files?: Array<Object>,
-  companyContacts: Array<CompanyContactEntity>,
-};
-
-export type CompanyEntity = BaseCompanyEntity & { id: number };
-
-export type SubmitCompanyEntity = {
-  ...BaseCompanyEntity,
-  studentContact?: number,
-};
-
 export type BaseSemesterStatusEntity = {
   id?: number,
   companyId?: number,
@@ -53,7 +24,6 @@ export type BaseSemesterStatusEntity = {
   evaluation?: string,
   evaluationName?: string,
 };
-
 export type SemesterStatusEntity = BaseSemesterStatusEntity & {
   id: number,
   semester: Semester,
@@ -72,6 +42,34 @@ export type BaseCompanyContactEntity = {
 export type CompanyContactEntity = {
   ...BaseCompanyContactEntity,
   id: number,
+};
+
+export type BaseCompanyEntity = {
+  name: string,
+  companyId?: number,
+  description?: string,
+  studentContact?: UserEntity,
+  phone?: string,
+  companyType?: string,
+  website?: string,
+  address?: string,
+  paymentMail?: string,
+  active?: boolean,
+  adminComment?: string,
+  companyType?: string,
+  contentTarget: string,
+  comments: Array<{ id: string, parent: string }>,
+  semesterStatuses: Array<SemesterStatusEntity>,
+  logo?: string,
+  files?: Array<Object>,
+  companyContacts: Array<CompanyContactEntity>,
+};
+
+export type CompanyEntity = BaseCompanyEntity & { id: number };
+
+export type SubmitCompanyEntity = {
+  ...BaseCompanyEntity,
+  studentContact?: number,
 };
 
 type State = any;
@@ -134,6 +132,9 @@ function mutateCompanies(state: State, action) {
         );
         break;
       }
+
+      default:
+        break;
     }
   });
 }

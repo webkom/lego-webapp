@@ -89,6 +89,8 @@ export default class Tooltip extends Component<Props, State> {
         case 'right':
           renderDirectionClass = styles.renderDirectionRight;
           break;
+        default:
+          break;
       }
       switch (pointerPosition) {
         case 'left':
@@ -96,6 +98,8 @@ export default class Tooltip extends Component<Props, State> {
           break;
         case 'right':
           startPointChildren = 10 / 9;
+          break;
+        default:
           break;
       }
     }

@@ -54,6 +54,8 @@ export default createEntityReducer({
         statePool.registrationCount--;
         break;
       }
+      default:
+        break;
     }
   }),
 });

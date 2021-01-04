@@ -6,6 +6,7 @@ import { ROLES } from 'app/utils/constants';
 import styles from './GroupMembersList.css';
 import Table from 'app/components/Table';
 import qs from 'qs';
+import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 
 type Props = {
   fetching: boolean,
@@ -45,18 +46,16 @@ const GroupMembersList = ({
 }: Props) => {
   const GroupMembersListColumns = (fullName, membership) => {
     const { user, abakusGroup } = membership;
-    const performRemove = () =>
-      confirm(
-        `Er du sikker på at du vil melde ut "${user.fullName}" fra gruppen "${groupsById[abakusGroup].name}?"`
-      ) && removeMember(membership);
     return (
       true && (
         <>
-          <i
-            key="icon"
-            className={`fa fa-times ${styles.removeIcon}`}
-            onClick={performRemove}
-          />
+          <ConfirmModalWithParent
+            title="Bekreft utmelding"
+            message={`Er du sikker på at du vil melde ut "${user.fullName}" fra gruppen "${groupsById[abakusGroup].name}?"`}
+            onConfirm={() => removeMember(membership)}
+          >
+            <i key="icon" className={`fa fa-times ${styles.removeIcon}`} />
+          </ConfirmModalWithParent>
           <Link key="link" to={`/users/${user.username}`}>
             {user.fullName} ({user.username})
           </Link>

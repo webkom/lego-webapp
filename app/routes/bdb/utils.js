@@ -147,7 +147,7 @@ export const getContactedStatuses = (
 
   // Remove 'contacted', 'not_interested and 'interested'
   // as a statuses if any the other statuses are selected
-  ['contacted', 'not_interested', 'interested'].map((status) => {
+  ['contacted', 'not_interested', 'interested'].forEach((status) => {
     if (
       contacted.length > 1 &&
       contacted.indexOf(status) !== -1 &&

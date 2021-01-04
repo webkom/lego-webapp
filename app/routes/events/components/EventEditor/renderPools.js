@@ -68,7 +68,8 @@ const renderPools = ({ fields, startTime, eventStatusType }: poolProps) => (
           <div className={styles.centeredButton}>
             <Button
               disabled={
-                fields.get(index).registrations.length > 0 || fields.length == 1
+                fields.get(index).registrations.length > 0 ||
+                fields.length === 1
               }
               onClick={() => fields.remove(index)}
             >

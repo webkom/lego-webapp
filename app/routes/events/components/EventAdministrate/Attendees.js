@@ -144,7 +144,8 @@ export default class Attendees extends Component<Props, State> {
             </Link>
           </h2>
           {event.useContactTracing &&
-            currentUser.id == event.createdBy &&
+            (currentUser.id === event.createdBy ||
+              currentUser.id === event.createdBy.id) &&
             moment().isBefore(moment(event.endTime).add('days', 14)) &&
             (this.state.generatedCsvUrl ? (
               <a href={this.state.generatedCsvUrl} download="attendees.csv">

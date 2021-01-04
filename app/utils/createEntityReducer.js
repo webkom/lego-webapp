@@ -48,6 +48,8 @@ export function fetching(fetchTypes: ?EntityReducerTypes) {
         case fetchType.SUCCESS:
         case fetchType.FAILURE:
           return { ...state, fetching: false };
+        default:
+          break;
       }
     }
 
@@ -149,8 +151,8 @@ export function deleteEntities(deleteTypes: ?EntityReducerTypes) {
     if (!resultId) return state;
 
     const paginationNext = Object.keys(state.paginationNext).reduce(
-      (newPaginationNext, key) => (
-        (newPaginationNext[key] = {
+      (newPaginationNext, key) => {
+        newPaginationNext[key] = {
           ...state.paginationNext[key],
           items: without(
             state.paginationNext[key].items,
@@ -158,9 +160,9 @@ export function deleteEntities(deleteTypes: ?EntityReducerTypes) {
               ? [Number(resultId), resultId.toString()]
               : [resultId])
           ),
-        }),
-        newPaginationNext
-      ),
+        };
+        return newPaginationNext;
+      },
       {}
     );
     return {

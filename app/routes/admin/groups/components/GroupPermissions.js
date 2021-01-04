@@ -10,6 +10,7 @@ import styles from './GroupMembers.css';
 import AddGroupPermission from './AddGroupPermission';
 import { editGroup } from 'app/actions/GroupActions';
 import loadingIndicator from 'app/utils/loadingIndicator';
+import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 
 type PermissionListProps = {
   permissions: Array<string>,
@@ -22,7 +23,6 @@ type PermissionListProps = {
 };
 
 const removePermission = (permission, group, editGroup) =>
-  confirm(`Er du sikker på at du vil fjerne tilgangen ${permission}?`) &&
   editGroup({
     ...group,
     permissions: group.permissions.filter((perm) => perm !== permission),
@@ -90,11 +90,14 @@ const PermissionList = ({
         {permissions.length ? (
           permissions.map((permission) => (
             <li key={permission}>
-              <i
-                className={`fa fa-times ${styles.removeIcon}`}
-                onClick={() => removePermission(permission, group, editGroup)}
-              />
-
+              <ConfirmModalWithParent
+                title="Bekreft fjerning av rettighet"
+                message={`Er du sikker på at du vil fjerne tilgangen ${permission}?`}
+                closeOnConfirm={true}
+                onConfirm={() => removePermission(permission, group, editGroup)}
+              >
+                <i className={`fa fa-times ${styles.removeIcon}`} />
+              </ConfirmModalWithParent>
               {permission}
             </li>
           ))

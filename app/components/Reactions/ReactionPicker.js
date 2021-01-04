@@ -39,9 +39,7 @@ const searchEmojis = (emojis, searchString) => {
       matchingEmojis.push(emoji);
       return false;
     }
-    {
-      return true;
-    }
+    return true;
   });
 
   /*
@@ -105,7 +103,7 @@ const searchEmojis = (emojis, searchString) => {
   currentEmojis = currentEmojis.filter((emoji) => {
     if (
       emoji.keywords.find(
-        (keyword) => keyword.toLowerCase() == searchString
+        (keyword) => keyword.toLowerCase() === searchString
       ) !== undefined
     ) {
       matchingEmojis.push(emoji);
@@ -178,9 +176,10 @@ const ReactionPicker = ({
   const onCategoryClick = useCallback((category) => {
     setActiveCategory(category);
     setSearchString(null);
-  });
-  const onSearch = useCallback((searchString) =>
-    setSearchString(searchString.trim().toLowerCase())
+  }, []);
+  const onSearch = useCallback(
+    (searchString) => setSearchString(searchString.trim().toLowerCase()),
+    []
   );
 
   return (
