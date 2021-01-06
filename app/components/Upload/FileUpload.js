@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import { Component } from 'react';
 import Button from '../Button';
 import { uploadFile } from 'app/actions/FileActions';
 import { connect } from 'react-redux';
@@ -16,7 +16,7 @@ type Props = {
   className?: string,
 };
 
-class FileUpload extends React.Component<Props, State> {
+class FileUpload extends Component<Props, State> {
   input: ?HTMLInputElement;
 
   state = {

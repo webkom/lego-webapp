@@ -1,6 +1,6 @@
 // @flow
 
-import React, { type ComponentType, type Node } from 'react';
+import type { ComponentType, Node } from 'react';
 import cx from 'classnames';
 import Icon from 'app/components/Icon';
 import { Flex } from 'app/components/Layout';

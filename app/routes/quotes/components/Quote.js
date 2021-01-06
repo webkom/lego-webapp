@@ -2,7 +2,7 @@
 
 import styles from './Quotes.css';
 import Time from 'app/components/Time';
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Dropdown from 'app/components/Dropdown';
 import Icon from 'app/components/Icon';

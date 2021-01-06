@@ -1,7 +1,7 @@
 // @flow
 
 import styles from './Search.css';
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { connect } from 'react-redux';
 import { debounce } from 'lodash';
 import Icon from '../Icon';

@@ -1,6 +1,6 @@
 // @flow
 
-import * as React from 'react';
+import type { Node } from 'react';
 import styles from './styles.css';
 import Pill from 'app/components/Pill';
 import { colorForEvent } from 'app/routes/events/utils';
@@ -64,7 +64,7 @@ const EventItem = ({
   field = EVENTFIELDS.start,
   showTags = true,
   loggedIn = false,
-}: EventItemProps): React.Node => (
+}: EventItemProps): Node => (
   <div
     style={{ borderColor: colorForEvent(event.eventType) }}
     className={styles.eventItem}

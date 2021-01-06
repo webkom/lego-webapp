@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { withSoundCloudAudio } from 'react-soundplayer/addons';
 import {
   PlayButton,

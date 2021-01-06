@@ -1,6 +1,5 @@
 // @flow
 
-import * as React from 'react';
 import styles from '../surveys.css';
 import type { SurveyEntity } from 'app/reducers/surveys';
 import { Content, ContentSection, ContentMain } from 'app/components/Content';

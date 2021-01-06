@@ -1,4 +1,3 @@
-import React from 'react';
 import { shallow } from 'enzyme';
 import CommentView from '../CommentView';
 import CommentTree from '../CommentTree';

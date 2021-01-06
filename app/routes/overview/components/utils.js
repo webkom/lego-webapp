@@ -1,7 +1,6 @@
 // @flow
 
 import styles from './Overview.css';
-import React from 'react';
 import Time from 'app/components/Time';
 
 import { eventTypeToString } from 'app/routes/events/utils';

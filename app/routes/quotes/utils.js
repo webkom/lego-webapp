@@ -1,6 +1,5 @@
 // @flow
 
-import React from 'react';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 
 export const navigation = (title: string, actionGrant: Array<string>) => (

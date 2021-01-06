@@ -1,6 +1,8 @@
 // @flow
 
-import * as React from 'react';
+import type { Element } from 'react';
+
+import { cloneElement } from 'react';
 import styles from '../surveys.css';
 import type { SubmissionEntity } from 'app/reducers/surveySubmissions';
 import type { SurveyEntity } from 'app/reducers/surveys';
@@ -14,7 +16,7 @@ type Props = {
   submissions: Array<SubmissionEntity>,
   addSubmission: (SubmissionEntity) => Promise<*>,
   survey: SurveyEntity,
-  children: Array<React.Element<*>>,
+  children: Array<Element<*>>,
   actionGrant: ActionGrant,
   isSummary: boolean,
   shareSurvey: (number) => Promise<*>,
@@ -55,7 +57,7 @@ const SubmissionPage = (props: Props) => {
           </div>
 
           {props.children.map((child, i) =>
-            React.cloneElement(child, {
+            cloneElement(child, {
               ...props,
               children: undefined,
             })

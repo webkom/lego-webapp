@@ -1,6 +1,8 @@
 // @flow
 
-import React, { Component, type Node } from 'react';
+import type { Node } from 'react';
+
+import { Component } from 'react';
 import { Modal as ReactModal } from 'react-overlays';
 import cx from 'classnames';
 import Icon from 'app/components/Icon';

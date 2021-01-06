@@ -1,7 +1,6 @@
 // @flow
 
 import styles from './InterestGroup.css';
-import React from 'react';
 import InterestGroupComponent from './InterestGroup';
 import Button from 'app/components/Button';
 import { Content } from 'app/components/Content';

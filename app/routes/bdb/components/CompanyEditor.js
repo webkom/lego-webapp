@@ -2,7 +2,6 @@
 
 import styles from './bdb.css';
 import { Content } from 'app/components/Content';
-import React from 'react';
 import { httpCheck, DetailNavigation, ListNavigation } from '../utils.js';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import InfoBubble from 'app/components/InfoBubble';

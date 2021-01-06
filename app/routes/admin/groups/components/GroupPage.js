@@ -1,6 +1,5 @@
 // @flow
 
-import React from 'react';
 import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import { Content } from 'app/components/Content';

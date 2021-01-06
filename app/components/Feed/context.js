@@ -1,5 +1,5 @@
 // @flow
-import * as React from 'react';
+import type { Node } from 'react';
 import { Link } from 'react-router-dom';
 import type { AggregatedActivity, TagInfo } from './types';
 import styles from './context.css';
@@ -66,7 +66,7 @@ export const contextRender = {
   'gallery.gallerypicture': renderGalleryPicture,
 };
 
-export function toLink(linkAndText: TagInfo): React.Node {
+export function toLink(linkAndText: TagInfo): Node {
   return linkAndText.linkableContent ? (
     <Link to={linkAndText.link}>{linkAndText.text}</Link>
   ) : (
@@ -74,7 +74,7 @@ export function toLink(linkAndText: TagInfo): React.Node {
   );
 }
 
-export function toSpan(linkAndText: TagInfo): React.Node {
+export function toSpan(linkAndText: TagInfo): Node {
   const classname = linkAndText.linkableContent ? styles.highlight : '';
   return <span className={classname}>{linkAndText.text}</span>;
 }

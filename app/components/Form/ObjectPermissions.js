@@ -1,6 +1,4 @@
 // @flow
-import * as React from 'react';
-
 import { SelectInput, CheckBox } from 'app/components/Form';
 import Tooltip from 'app/components/Tooltip';
 

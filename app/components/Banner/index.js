@@ -1,6 +1,6 @@
 // @flow
 
-import React, { type Node } from 'react';
+import type { Node } from 'react';
 import styles from './Banner.css';
 import cx from 'classnames';
 import { Link } from 'react-router-dom';

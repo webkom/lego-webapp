@@ -1,4 +1,3 @@
-import React from 'react';
 import prepare from 'app/utils/prepare';
 import { compose } from 'redux';
 import { connect } from 'react-redux';

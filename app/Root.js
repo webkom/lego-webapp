@@ -1,6 +1,5 @@
 // @flow
 
-import React from 'react';
 import { hot } from 'react-hot-loader/root';
 import { ConnectedRouter } from 'connected-react-router';
 import { Provider } from 'react-redux';

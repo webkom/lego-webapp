@@ -1,6 +1,6 @@
 // @flow
 
-import * as React from 'react';
+import { Component } from 'react';
 import { get } from 'lodash';
 import type { SearchResult } from 'app/reducers/search';
 import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
@@ -34,7 +34,7 @@ type Props = {
   searching: boolean,
 };
 
-class Abacard extends React.Component<Props, State> {
+class Abacard extends Component<Props, State> {
   state = { resolve: null, username: '' };
   render() {
     const {

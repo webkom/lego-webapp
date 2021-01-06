@@ -1,5 +1,5 @@
 // @flow
-import * as React from 'react';
+import type { ComponentType } from 'react';
 import { Route } from 'react-router-dom';
 
 /*
@@ -11,7 +11,7 @@ type Props = {
   passedProps: Object,
   exact?: boolean,
   path: string | string[],
-  Component: React.ComponentType<Object>,
+  Component: ComponentType<Object>,
   strict?: boolean,
 };
 

@@ -1,6 +1,6 @@
 //@flow
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 import Table from 'app/components/Table';
 import Tag from 'app/components/Tags/Tag';
 import { Link } from 'react-router-dom';

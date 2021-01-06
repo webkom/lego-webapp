@@ -1,6 +1,8 @@
 // @flow
 
-import React, { type Element } from 'react';
+import type { Element } from 'react';
+
+import { cloneElement } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
@@ -42,7 +44,7 @@ const UserSettingsIndex = (props: Props) => {
       </NavigationTab>
       {props.children &&
         props.children.map((child) =>
-          React.cloneElement(child, {
+          cloneElement(child, {
             ...omit(props, 'match'),
             children: undefined,
           })

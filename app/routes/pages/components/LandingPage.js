@@ -1,5 +1,4 @@
 //@flow
-import React from 'react';
 import { Link } from 'react-router-dom';
 import Icon from 'app/components/Icon';
 import { Flex } from 'app/components/Layout';

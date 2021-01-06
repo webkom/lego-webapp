@@ -1,7 +1,7 @@
 /* eslint-disable react/no-danger */
 // @flow
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 import styles from './Sidebar.css';
 import PageHierarchy from './PageHierarchy';
 import cx from 'classnames';

@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 import cx from 'classnames';
 import { createField } from './Field';
 import { uploadFile } from 'app/actions/FileActions';

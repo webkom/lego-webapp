@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 import Quote from './Quote';
 import type { ID, ActionGrant } from 'app/models';
 import type { QuoteEntity } from 'app/reducers/quotes';

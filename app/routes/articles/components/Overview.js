@@ -1,7 +1,7 @@
 // @flow
 
 import styles from './Overview.css';
-import React, { Component } from 'react';
+import { Component } from 'react';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { Link } from 'react-router-dom';
 import { Content } from 'app/components/Content';

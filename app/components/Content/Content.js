@@ -1,7 +1,9 @@
 // @flow
 
 // $FlowFixMe
-import React, { type Node, useState } from 'react';
+import type { Node } from 'react';
+
+import { useState } from 'react';
 import cx from 'classnames';
 import styles from './Content.css';
 import { Image } from 'app/components/Image';

@@ -1,5 +1,5 @@
 // @flow
-import React, { type Element } from 'react';
+import type { Element } from 'react';
 import Icon from 'app/components/Icon';
 import { GroupTypeInterest, GroupTypeCommittee } from 'app/models';
 import { lookupContext, contextRender } from '../context';

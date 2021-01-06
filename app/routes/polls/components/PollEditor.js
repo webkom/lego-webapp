@@ -1,6 +1,8 @@
 // @flow
 
-import React, { Component, type Node } from 'react';
+import type { Node } from 'react';
+
+import { Component } from 'react';
 import { Content } from 'app/components/Content';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import Button from 'app/components/Button';

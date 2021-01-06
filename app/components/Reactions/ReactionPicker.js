@@ -1,7 +1,7 @@
 // @flow
 
 // $FlowFixMe
-import React, { useMemo, useState, useCallback } from 'react';
+import { useMemo, useState, useCallback } from 'react';
 import fuzzy from 'fuzzy';
 import type { EmojiEntity } from 'app/reducers/emojis';
 import type { ID } from 'app/models';

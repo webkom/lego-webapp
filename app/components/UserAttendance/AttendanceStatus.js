@@ -1,6 +1,5 @@
 // @flow
 
-import React from 'react';
 import styles from './AttendanceStatus.css';
 import withModal from './withModal';
 import type { EventPool } from 'app/models';

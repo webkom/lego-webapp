@@ -1,6 +1,5 @@
 // @flow
 import { Route, Switch } from 'react-router-dom';
-import * as React from 'react';
 import PageNotFound from '../../pageNotFound';
 import { UserContext } from 'app/routes/app/AppRoute';
 import EmailRoute from './components/EmailRoute';

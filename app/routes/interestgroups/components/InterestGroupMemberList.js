@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 import Modal from 'app/components/Modal';
 import styles from './InterestGroupMemberList.css';
 import { Link } from 'react-router-dom';

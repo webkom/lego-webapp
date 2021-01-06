@@ -1,5 +1,4 @@
 // @flow
-import React from 'react';
 import Icon from 'app/components/Icon';
 import { lookupContext } from '../context';
 import type { AggregatedActivity } from '../types';

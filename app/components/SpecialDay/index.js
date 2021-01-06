@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import { Children, cloneElement, createElement, Component } from 'react';
 import config from 'app/config';
 import AprilFools from './AprilFools';
 
@@ -7,7 +7,7 @@ type Props = {
   children: any,
 };
 
-class SpecialDay extends React.Component<Props> {
+class SpecialDay extends Component<Props> {
   static getSpecialDay() {
     if (AprilFools.isCorrectDate()) {
       return AprilFools;
@@ -21,12 +21,12 @@ class SpecialDay extends React.Component<Props> {
     const specialDay = SpecialDay.getSpecialDay();
 
     if (config.environment === 'ci' || specialDay === null) {
-      return React.Children.map(filteredChildren, (child) =>
-        React.cloneElement(child, { ...rest })
+      return Children.map(filteredChildren, (child) =>
+        cloneElement(child, { ...rest })
       );
     }
 
-    return React.createElement(specialDay, rest, filteredChildren);
+    return createElement(specialDay, rest, filteredChildren);
   }
 }
 

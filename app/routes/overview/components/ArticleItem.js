@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 import type { Article } from 'app/models';
 import { Image } from 'app/components/Image';
 import truncateString from 'app/utils/truncateString';

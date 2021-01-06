@@ -1,4 +1,3 @@
-import React from 'react';
 import BdbPage from '../BdbPage';
 import { shallow } from 'enzyme';
 import companies from './fixtures/companies';

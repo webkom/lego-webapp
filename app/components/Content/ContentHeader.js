@@ -1,6 +1,6 @@
 // @flow
 
-import React, { type Node } from 'react';
+import type { Node } from 'react';
 import cx from 'classnames';
 import styles from './ContentHeader.css';
 

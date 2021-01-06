@@ -1,6 +1,8 @@
 // @flow
 
-import React, { Component, type ComponentType, type Element } from 'react';
+import type { ComponentType, Element } from 'react';
+
+import { Children, cloneElement, Component } from 'react';
 import Modal from 'app/components/Modal';
 import AttendanceModal from './AttendanceModal';
 
@@ -60,9 +62,7 @@ const ChildrenWithProps = ({
   children: Element<*>,
 }) => (
   <div>
-    {React.Children.map(children, (child) =>
-      React.cloneElement(child, { ...restProps })
-    )}
+    {Children.map(children, (child) => cloneElement(child, { ...restProps }))}
   </div>
 );
 

@@ -1,4 +1,3 @@
-import React from 'react';
 import CompanyList from '../CompanyList';
 import { shallow } from 'enzyme';
 import companies from './fixtures/companies';

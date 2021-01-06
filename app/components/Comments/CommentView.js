@@ -1,6 +1,5 @@
 // @flow
 
-import React from 'react';
 import { generateTreeStructure } from 'app/utils';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import CommentForm from 'app/components/CommentForm';

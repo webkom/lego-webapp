@@ -1,5 +1,4 @@
 // @flow
-import React from 'react';
 import GroupForm from 'app/components/GroupForm';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import { compose } from 'redux';

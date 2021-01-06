@@ -1,6 +1,8 @@
 //@flow
 
-import React, { PureComponent, type Node } from 'react';
+import type { Node } from 'react';
+
+import { PureComponent } from 'react';
 import { chunk, get } from 'lodash';
 import ProgressiveImage from 'app/components/ProgressiveImage';
 import Paginator from 'app/components/Paginator';

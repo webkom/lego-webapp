@@ -1,6 +1,5 @@
 // @flow
 
-import React from 'react';
 import styles from './AnnouncementsList.css';
 import Flex from 'app/components/Layout/Flex';
 import Button from 'app/components/Button';

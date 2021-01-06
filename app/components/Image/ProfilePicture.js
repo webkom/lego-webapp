@@ -1,6 +1,5 @@
 // @flow
 
-import React from 'react';
 import CircularPicture from './CircularPicture';
 
 type Props = {

@@ -1,5 +1,5 @@
 // @flow
-import * as React from 'react';
+import { Component } from 'react';
 import Helmet from 'react-helmet';
 import { map, toPairs } from 'lodash';
 import { Content } from 'app/components/Content';
@@ -10,7 +10,7 @@ type Props = {
   tag: Object,
 };
 
-class TagDetail extends React.Component<Props> {
+class TagDetail extends Component<Props> {
   transelate = (key: string) => {
     const trans = {
       article: 'Artikler',

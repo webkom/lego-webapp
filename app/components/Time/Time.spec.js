@@ -1,5 +1,3 @@
-import React from 'react';
-
 import Time, { FromToTime, FormatTime } from '../Time';
 import { shallow } from 'enzyme';
 import moment from 'moment-timezone';

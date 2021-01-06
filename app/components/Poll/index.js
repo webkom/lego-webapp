@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import { Component } from 'react';
 import Button from 'app/components/Button';
 import styles from './Poll.css';
 import type { PollEntity, OptionEntity } from 'app/reducers/polls';
@@ -29,7 +29,7 @@ type State = {
   expanded: boolean,
 };
 
-class Poll extends React.Component<Props, State> {
+class Poll extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     const options = this.optionsWithPerfectRatios(props.poll.options);

@@ -1,7 +1,7 @@
 // @flow
 
 import styles from './Overview.css';
-import React, { Component } from 'react';
+import { Component } from 'react';
 import Helmet from 'react-helmet';
 import { Container, Flex } from 'app/components/Layout';
 import LatestReadme from './LatestReadme';

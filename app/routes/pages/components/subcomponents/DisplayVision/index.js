@@ -1,5 +1,4 @@
 //@flow
-import React from 'react';
 import styles from './DisplayVision.css';
 import Vision from '../Vision';
 import DividerWithDots from 'app/components/DividerWithDots';

@@ -1,7 +1,6 @@
 // @flow
 
 import styles from './UserConfirmation.css';
-import React from 'react';
 import { Container } from 'app/components/Layout';
 import { reduxForm } from 'redux-form';
 import {

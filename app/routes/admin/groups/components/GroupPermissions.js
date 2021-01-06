@@ -1,6 +1,5 @@
 // @flow
 
-import React from 'react';
 import { compose } from 'redux';
 import { sortBy } from 'lodash';
 import type { ID } from 'app/models';

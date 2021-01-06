@@ -1,6 +1,5 @@
 // @flow
 
-import React from 'react';
 import { Flex } from 'app/components/Layout';
 import { Link } from 'react-router-dom';
 import moment from 'moment-timezone';

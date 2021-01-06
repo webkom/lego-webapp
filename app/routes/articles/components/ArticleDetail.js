@@ -1,7 +1,6 @@
 //@flow
 
 import styles from './ArticleDetail.css';
-import React from 'react';
 import { Content } from 'app/components/Content';
 import CommentView from 'app/components/Comments/CommentView';
 import Tag from 'app/components/Tags/Tag';

@@ -3,7 +3,7 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import cx from 'classnames';
-import React, { Component } from 'react';
+import { Component } from 'react';
 import Button from 'app/components/Button';
 import { Form, TextArea } from 'app/components/Form';
 import { reduxForm, Field, reset } from 'redux-form';

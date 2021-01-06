@@ -1,6 +1,5 @@
 // @flow
 
-import React from 'react';
 import { Field } from 'redux-form';
 import type { FormProps } from 'redux-form';
 import Button from 'app/components/Button';

@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Helmet from 'react-helmet';
 import { sumBy, sortBy, uniqBy, groupBy, orderBy } from 'lodash';

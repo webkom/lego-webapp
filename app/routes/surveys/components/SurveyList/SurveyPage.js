@@ -1,6 +1,5 @@
 // @flow
 
-import React from 'react';
 import Paginator from 'app/components/Paginator';
 import SurveyList from './SurveyList';
 import type { SurveyEntity } from 'app/reducers/surveys';

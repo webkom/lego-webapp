@@ -1,5 +1,4 @@
 // @flow
-import React from 'react';
 import TreeView from 'react-treeview';
 import { Link } from 'react-router-dom';
 import { generateTreeStructure } from 'app/utils';

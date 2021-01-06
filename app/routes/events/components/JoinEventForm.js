@@ -1,7 +1,7 @@
 // @flow
 
 import styles from './Event.css';
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { compose } from 'redux';

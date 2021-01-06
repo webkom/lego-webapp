@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { Link, NavLink, withRouter } from 'react-router-dom';
 import { Modal } from 'react-overlays';
 import Dropdown from '../Dropdown';

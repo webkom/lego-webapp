@@ -1,7 +1,8 @@
 // @flow
 
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
-import React, { Component, cloneElement, type Element } from 'react';
+import type { Element } from 'react';
+import { Component, cloneElement } from 'react';
 import GalleryDetailsRow from './GalleryDetailsRow';
 import EmptyState from 'app/components/EmptyState';
 import ImageUpload from 'app/components/Upload/ImageUpload';

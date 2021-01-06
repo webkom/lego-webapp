@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { readmeIfy } from 'app/components/ReadmeLogo';
 import { Image } from 'app/components/Image';
 import { Flex } from 'app/components/Layout';

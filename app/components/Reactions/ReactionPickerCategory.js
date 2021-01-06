@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import { Component } from 'react';
 import classNames from 'classnames';
 import styles from './ReactionPickerCategory.css';
 import Emoji from 'app/components/Emoji';
@@ -34,7 +34,7 @@ const mapCategoryNameToIcon = (name) => {
   }
 };
 
-class ReactionPickerCategory extends React.Component<Props> {
+class ReactionPickerCategory extends Component<Props> {
   render() {
     const { isActive, name, onCategoryClick } = this.props;
 

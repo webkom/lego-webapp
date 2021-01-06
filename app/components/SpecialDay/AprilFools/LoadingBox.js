@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import { Component } from 'react';
 import moment from 'moment-timezone';
 import _ from 'lodash';
 import styles from './LoadingBox.css';
@@ -20,7 +20,7 @@ type State = {
   queueId: string,
 };
 
-class LoadingBox extends React.Component<Props, State> {
+class LoadingBox extends Component<Props, State> {
   interval: IntervalID;
 
   constructor(props: Props) {

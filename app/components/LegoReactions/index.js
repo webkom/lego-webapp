@@ -1,6 +1,5 @@
 // @flow
 
-import React from 'react';
 import Reaction from 'app/components/Reactions/Reaction';
 import Reactions from 'app/components/Reactions';
 import type { EmojiEntity } from 'app/reducers/emojis';

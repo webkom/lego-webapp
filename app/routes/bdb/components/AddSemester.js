@@ -2,7 +2,7 @@
 
 import styles from './bdb.css';
 import { Content } from 'app/components/Content';
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { Field } from 'redux-form';
 import Button from 'app/components/Button';
 import { TextInput, RadioButton, RadioButtonGroup } from 'app/components/Form';

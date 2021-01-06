@@ -1,7 +1,6 @@
 // @flow
 
 import styles from './InterestGroup.css';
-import React from 'react';
 import { Image } from 'app/components/Image';
 import { Flex } from 'app/components/Layout';
 import { Link } from 'react-router-dom';

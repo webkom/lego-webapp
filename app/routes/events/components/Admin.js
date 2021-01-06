@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import { Component } from 'react';
 import { Link } from 'react-router-dom';
 import type { ID, Event, ActionGrant } from 'app/models';
 import AnnouncementInLine from 'app/components/AnnouncementInLine';
@@ -24,7 +24,7 @@ type State = {
   show: boolean,
 };
 
-class DeleteButton extends React.Component<ButtonProps, State> {
+class DeleteButton extends Component<ButtonProps, State> {
   state = {
     arrName: '',
     show: false,

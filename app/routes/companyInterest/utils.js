@@ -1,5 +1,5 @@
 // @flow
-import React, { type Node } from 'react';
+import type { Node } from 'react';
 import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';

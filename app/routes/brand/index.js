@@ -1,7 +1,6 @@
 // @flow
 import BrandPage from './components/BrandPage';
 import { Route, Switch } from 'react-router-dom';
-import * as React from 'react';
 import PageNotFound from '../pageNotFound';
 
 const brandRoute = ({ match }: { match: { path: string } }) => (

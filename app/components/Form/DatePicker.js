@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 import moment from 'moment-timezone';
 import cx from 'classnames';
 import Dropdown from 'app/components/Dropdown';

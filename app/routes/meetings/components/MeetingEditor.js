@@ -1,7 +1,5 @@
 // @flow
 
-import React from 'react';
-
 import styles from './MeetingEditor.css';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { Field } from 'redux-form';

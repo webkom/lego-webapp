@@ -1,5 +1,4 @@
 // @flow
-import * as React from 'react';
 import { UserContext } from 'app/routes/app/AppRoute';
 import CompaniesRoute from './CompaniesRoute';
 import CompanyDetailRoute from './CompanyDetailRoute';

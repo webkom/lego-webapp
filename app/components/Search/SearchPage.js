@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 import SearchPageInput from 'app/components/Search/SearchPageInput';
 import SearchPageResults from 'app/components/Search/SearchPageResults';
 import { Keyboard } from 'app/utils/constants';

@@ -1,6 +1,5 @@
 // @flow
 
-import React from 'react';
 import GalleryDetailsRow from './GalleryDetailsRow';
 import { Form, TextArea, SelectInput, CheckBox } from 'app/components/Form';
 import ProgressiveImage from 'app/components/ProgressiveImage';

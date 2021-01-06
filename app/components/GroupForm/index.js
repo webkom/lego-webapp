@@ -1,5 +1,4 @@
 // @flow
-import React from 'react';
 import styles from './index.css';
 import { Field } from 'redux-form';
 import type { FormProps } from 'redux-form';

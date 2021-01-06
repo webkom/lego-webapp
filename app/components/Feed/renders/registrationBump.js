@@ -1,5 +1,5 @@
 // @flow
-import React, { type Element } from 'react';
+import type { Element } from 'react';
 import Icon from 'app/components/Icon';
 import { formatHeader } from './utils';
 import { lookupContext, contextRender } from '../context';

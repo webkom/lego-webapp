@@ -1,6 +1,8 @@
 /** @flow */
 
-import * as React from 'react';
+import type { Node, Portal } from 'react';
+
+import { Component } from 'react';
 import { Overlay } from 'react-overlays';
 import cx from 'classnames';
 import Icon from 'app/components/Icon';
@@ -12,21 +14,21 @@ type Props = {
   className?: string,
   contentClassName?: string,
   componentClass?: any,
-  triggerComponent?: React.Node | React.Portal,
+  triggerComponent?: Node | Portal,
   show: boolean,
   children?: any,
   style?: any,
   placement?: 'top' | 'bottom' | 'left' | 'right',
 };
 
-class Dropdown extends React.Component<Props> {
+class Dropdown extends Component<Props> {
   target: any;
 
-  static ListItem: (any) => React.Node = ListItem;
-  static List: ({ children: any }) => React.Node = List;
-  static Divider: () => React.Node = Divider;
+  static ListItem: (any) => Node = ListItem;
+  static List: ({ children: any }) => Node = List;
+  static Divider: () => Node = Divider;
 
-  renderContent(): React.Node {
+  renderContent(): Node {
     if (this.props.triggerComponent) {
       return this.props.triggerComponent;
     }
@@ -35,7 +37,7 @@ class Dropdown extends React.Component<Props> {
     return iconName ? <Icon name={iconName} /> : null;
   }
 
-  render(): React.Node {
+  render(): Node {
     const {
       toggle,
       show,
@@ -75,15 +77,15 @@ class Dropdown extends React.Component<Props> {
   }
 }
 
-function List({ children }: { children: any }): React.Node {
+function List({ children }: { children: any }): Node {
   return <ul className={styles.dropdownList}>{children}</ul>;
 }
 
-function ListItem(props: any): React.Node {
+function ListItem(props: any): Node {
   return <li {...props} />;
 }
 
-function Divider(): React.Node {
+function Divider(): Node {
   return <li className={styles.divider} />;
 }
 

@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 import styles from './LoadingIndicator.css';
 
 export type Props = {

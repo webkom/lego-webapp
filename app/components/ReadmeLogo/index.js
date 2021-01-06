@@ -1,6 +1,4 @@
 //@flow
-import React from 'react';
-
 function ReadmeLogo() {
   return (
     <span

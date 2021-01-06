@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { Route, Switch } from 'react-router-dom';
 import RouteWrapper from 'app/components/RouteWrapper';

@@ -1,6 +1,6 @@
 // @flow
 
-import * as React from 'react';
+import { Component } from 'react';
 import { get } from 'lodash';
 import cx from 'classnames';
 import SearchPage from 'app/components/Search/SearchPage';
@@ -21,7 +21,7 @@ type Props = {
   searching: boolean,
 };
 
-class Validator extends React.Component<Props, State> {
+class Validator extends Component<Props, State> {
   input: ?HTMLInputElement;
   state = {
     showCompleted: false,

@@ -1,6 +1,5 @@
 // @flow
 
-import React from 'react';
 import styles from './ReactionPickerHeader.css';
 import ReactionPickerCategory from './ReactionPickerCategory';
 

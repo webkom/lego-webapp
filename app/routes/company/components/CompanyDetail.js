@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import { Component } from 'react';
 import styles from './Company.css';
 import { Content } from 'app/components/Content';
 import LoadingIndicator from 'app/components/LoadingIndicator';
@@ -58,7 +58,7 @@ function insertInfoBubbles(company) {
   );
 }
 
-class CompanyEvents extends React.Component<EventProps, *> {
+class CompanyEvents extends Component<EventProps, *> {
   state = {
     viewOld: false,
     eventsToShow: 3,

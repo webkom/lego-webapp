@@ -1,7 +1,6 @@
 // @flow
 
 import styles from '../surveys.css';
-import React from 'react';
 import { Field } from 'redux-form';
 import Button from 'app/components/Button';
 import { TextArea, RadioButton, CheckBox, legoForm } from 'app/components/Form';

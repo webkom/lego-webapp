@@ -1,6 +1,6 @@
 // @flow
 
-import React, { type Node } from 'react';
+import type { Node } from 'react';
 import styles from './InfoBubble.css';
 import Icon from 'app/components/Icon';
 import cx from 'classnames';

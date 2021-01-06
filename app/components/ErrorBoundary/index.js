@@ -1,5 +1,7 @@
 // @flow
-import * as React from 'react';
+import type { Node } from 'react';
+
+import { Children, cloneElement, Component } from 'react';
 import * as Sentry from '@sentry/browser';
 import styles from './ErrorBoundary.css';
 import awSnap from 'app/assets/sentry-aw-snap.svg';
@@ -18,7 +20,7 @@ type State = {
   lastEventId: ?string,
 };
 
-class ErrorBoundary extends React.Component<Props, State> {
+class ErrorBoundary extends Component<Props, State> {
   state: State = {
     error: null,
     lastEventId: null,
@@ -62,12 +64,12 @@ class ErrorBoundary extends React.Component<Props, State> {
     });
   }
 
-  render(): React.Node {
+  render(): Node {
     const { openReportDialog, hidden = false, children, ...rest } = this.props;
 
     if (!this.state.error) {
-      return React.Children.map(children, (child) =>
-        React.cloneElement(child, { ...rest })
+      return Children.map(children, (child) =>
+        cloneElement(child, { ...rest })
       );
     }
     if (hidden) {

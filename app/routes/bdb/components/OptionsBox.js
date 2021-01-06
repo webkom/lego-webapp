@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 import styles from './optionsBox.css';
 import { CheckBox, RadioButton } from 'app/components/Form';
 import { SelectInput } from 'app/components/Form';
