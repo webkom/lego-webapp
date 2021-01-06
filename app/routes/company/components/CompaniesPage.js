@@ -1,6 +1,8 @@
 // @flow
 
-import * as React from 'react';
+import type { ElementRef } from 'react';
+
+import { createRef, Component } from 'react';
 import styles from './CompaniesPage.css';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import InfiniteScroll from 'react-infinite-scroller';
@@ -80,9 +82,9 @@ const CompanyList = ({ companies = [] }: CompanyListProps) => (
 );
 
 type State = { expanded: boolean };
-class CompaniesPage extends React.Component<Props, State> {
+class CompaniesPage extends Component<Props, State> {
   state = { expanded: false };
-  top = React.createRef<React.ElementRef<'h2'>>();
+  top = createRef<ElementRef<'h2'>>();
   render() {
     const { props } = this;
 

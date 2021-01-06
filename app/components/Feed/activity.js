@@ -1,5 +1,7 @@
 // @flow
-import React, { Component, type Node } from 'react';
+import type { Node } from 'react';
+
+import { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Button from 'app/components/Button';
 import Card from 'app/components/Card';

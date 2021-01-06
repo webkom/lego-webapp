@@ -1,5 +1,5 @@
 // @flow
-import * as React from 'react';
+import type { Node } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import prepare from 'app/utils/prepare';
@@ -34,7 +34,7 @@ const sections: {
     section: string,
     pageSelector: any,
     hierarchySectionSelector: any,
-    PageRenderer: (any) => React.Node,
+    PageRenderer: (any) => Node,
     fetchAll?: () => Thunk<*>,
     fetchItemActions: Array<((number) => Thunk<*>) | ((string) => Thunk<*>)>,
   },

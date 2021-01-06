@@ -1,6 +1,5 @@
 // @flow
 import { Route, Switch } from 'react-router-dom';
-import * as React from 'react';
 import RouteWrapper from 'app/components/RouteWrapper';
 import { UserContext } from 'app/routes/app/AppRoute';
 import CompanyInterestRoute from './CompanyInterestRoute';

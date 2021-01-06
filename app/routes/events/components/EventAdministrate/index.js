@@ -1,6 +1,8 @@
 // @flow
 
-import React, { type Element } from 'react';
+import type { Element } from 'react';
+
+import { cloneElement } from 'react';
 
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { Content } from 'app/components/Content';
@@ -36,7 +38,7 @@ const EventAdministrateIndex = (props: Props) => {
       </NavigationTab>
       {props.children &&
         props.children.map((child) =>
-          React.cloneElement(child, {
+          cloneElement(child, {
             ...props,
             children: undefined,
           })

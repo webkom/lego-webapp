@@ -1,6 +1,6 @@
 // @flow
 
-import * as React from 'react';
+import type { Node } from 'react';
 import { type FieldArrayProps, Field, FieldArray } from 'redux-form';
 import {
   TextInput,
@@ -167,7 +167,7 @@ const renderOptions = ({
 }: {
   fields: Fields,
   questionType: string,
-}): React.Node => (
+}): Node => (
   <ul className={styles.options}>
     {fields.map((option, relativeIndex) => {
       const isLast = fields.length - 1 === relativeIndex;

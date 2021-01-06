@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 import Dropzone from 'react-dropzone';
 import styles from './UploadImage.css';
 

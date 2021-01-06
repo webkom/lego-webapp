@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 import type { SurveyEntity } from 'app/reducers/surveys';
 import type { SubmissionEntity } from 'app/reducers/surveySubmissions';
 import { Content } from 'app/components/Content';

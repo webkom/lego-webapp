@@ -1,6 +1,5 @@
 //@flow
 
-import React from 'react';
 import Button from 'app/components/Button';
 import { createValidator, required } from 'app/utils/validation';
 import { reduxForm } from 'redux-form';

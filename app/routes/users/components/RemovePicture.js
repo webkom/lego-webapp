@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 import Button from 'app/components/Button';
 import Flex from 'app/components/Layout/Flex';
 import styles from './RemovePicture.css';

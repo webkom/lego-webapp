@@ -1,10 +1,10 @@
 // @flow
 
-import * as React from 'react';
+import type { Node } from 'react';
 import { Link } from 'react-router-dom';
 
 type Props = {
-  link: [string, React.Node],
+  link: [string, Node],
 };
 
 const ResolveLink = ({ link: [href, name], ...props }: Props) => {

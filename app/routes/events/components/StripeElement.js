@@ -1,5 +1,5 @@
 //@flow
-import React from 'react';
+import { Component } from 'react';
 import {
   injectStripe,
   PaymentRequestButtonElement,
@@ -93,7 +93,7 @@ const StripeElementStyle = {
   },
 };
 
-class CardForm extends React.Component<CardFormProps, CardFormState> {
+class CardForm extends Component<CardFormProps, CardFormState> {
   state = {
     paymentStarted: false,
   };
@@ -170,7 +170,7 @@ class CardForm extends React.Component<CardFormProps, CardFormState> {
   }
 }
 
-class PaymentRequestForm extends React.Component<
+class PaymentRequestForm extends Component<
   PaymentRequestFormProps,
   PaymentRequestFormState
 > {
@@ -306,7 +306,7 @@ class PaymentRequestForm extends React.Component<
 const InjectedPaymentRequestForm = injectStripe(PaymentRequestForm);
 const InjectedCardForm = injectStripe(CardForm);
 
-class PaymentForm extends React.Component<FormProps, FormState> {
+class PaymentForm extends Component<FormProps, FormState> {
   state = {
     loading: false,
     paymentRequest: false,
@@ -371,7 +371,7 @@ class PaymentForm extends React.Component<FormProps, FormState> {
   }
 }
 
-class WithProvider extends React.Component<Props, { stripe: any }> {
+class WithProvider extends Component<Props, { stripe: any }> {
   constructor() {
     super();
     this.state = { stripe: null };

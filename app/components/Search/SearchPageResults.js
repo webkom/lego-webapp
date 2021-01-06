@@ -1,5 +1,4 @@
 // @flow
-import React from 'react';
 import type { SearchResult as SearchResultType } from 'app/reducers/search';
 import EmptyState from 'app/components/EmptyState';
 import { Link } from 'react-router-dom';

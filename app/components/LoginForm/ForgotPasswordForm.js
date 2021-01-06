@@ -1,5 +1,5 @@
 // @flow
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm, Field, SubmissionError, type FormProps } from 'redux-form';

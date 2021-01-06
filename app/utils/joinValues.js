@@ -1,5 +1,3 @@
-import React from 'react';
-
 export default function joinValues(values) {
   if (values.length < 2) {
     return values[0] || '';

@@ -1,6 +1,6 @@
 // @flow
 
-import * as React from 'react';
+import { Component } from 'react';
 import styles from './surveys.css';
 import { Link } from 'react-router-dom';
 import type { ActionGrant } from 'app/models';
@@ -24,7 +24,7 @@ type State = {
   generatedCSV: ?{ url: string, filename: string },
 };
 
-export class AdminSideBar extends React.Component<Props, State> {
+export class AdminSideBar extends Component<Props, State> {
   state = {
     copied: false,
     generatedCSV: undefined,

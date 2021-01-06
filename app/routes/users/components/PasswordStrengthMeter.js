@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component, Fragment } from 'react';
+import { Component, Fragment } from 'react';
 import { pick } from 'lodash';
 import moment from 'moment-timezone';
 import zxcvbn from 'zxcvbn';

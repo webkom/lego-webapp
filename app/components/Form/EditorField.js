@@ -1,5 +1,4 @@
 // @flow
-import React from 'react';
 import { connect } from 'react-redux';
 import cx from 'classnames';
 import Editor from '@webkom/lego-editor';

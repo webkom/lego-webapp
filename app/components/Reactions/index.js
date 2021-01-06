@@ -1,6 +1,8 @@
 // @flow
 
-import React, { type Node } from 'react';
+import type { Node } from 'react';
+
+import { Component } from 'react';
 import classNames from 'classnames';
 import styles from './index.css';
 import type { EmojiEntity } from 'app/reducers/emojis';
@@ -33,7 +35,7 @@ type State = {
 
 // Note: Most use cases won't want to use this class directly. Instead, use
 // app/components/LegoReactions.
-class Reactions extends React.Component<Props, State> {
+class Reactions extends Component<Props, State> {
   node: ?any = null;
 
   state = {

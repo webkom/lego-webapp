@@ -1,5 +1,4 @@
 // @flow
-import React from 'react';
 import { Field, SubmissionError } from 'redux-form';
 import type { FormProps } from 'redux-form';
 import { legoForm, Button, Form } from 'app/components/Form';

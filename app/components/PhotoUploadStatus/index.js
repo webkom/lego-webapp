@@ -1,5 +1,5 @@
 //@flow
-import React, { Fragment } from 'react';
+import { Fragment } from 'react';
 import Card from 'app/components/Card';
 import Icon from 'app/components/Icon';
 import Flex from 'app/components/Layout/Flex';

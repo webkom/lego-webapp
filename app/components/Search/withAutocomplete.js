@@ -1,6 +1,8 @@
 // @flow
 
-import React, { Component, type ComponentType } from 'react';
+import type { ComponentType } from 'react';
+
+import { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { autocomplete } from 'app/actions/SearchActions';

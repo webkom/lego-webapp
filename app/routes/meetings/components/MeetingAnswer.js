@@ -1,6 +1,5 @@
 // @flow
 
-import React from 'react';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 
 type Props = {

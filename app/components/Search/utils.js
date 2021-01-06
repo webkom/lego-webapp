@@ -1,11 +1,11 @@
 // @flow
-import * as React from 'react';
+import type { Node } from 'react';
 import type { Allowed } from 'app/reducers/allowed';
 import ReadmeLogo from 'app/components/ReadmeLogo';
 
 type Link = {|
   key: string,
-  title: React.Node,
+  title: Node,
   url: string,
   admin?: boolean,
   requireLogin?: boolean,
@@ -156,7 +156,7 @@ function retrieveAllowed(links: Array<Link>, { allowed, loggedIn }: Options) {
     .map(({ url, title }) => [url, title]);
 }
 
-type NavigationLink = [string, React.Node]; // [url, label(as a react-node)]
+type NavigationLink = [string, Node]; // [url, label(as a react-node)]
 
 export function getRegularLinks(options: Options): Array<NavigationLink> {
   return retrieveAllowed(SORTED_REGULAR, options);

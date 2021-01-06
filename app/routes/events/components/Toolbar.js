@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import Modal from 'app/components/Modal';
 import Time from 'app/components/Time';

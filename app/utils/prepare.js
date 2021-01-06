@@ -1,6 +1,5 @@
 // @flow
 import { get } from 'lodash';
-import React from 'react';
 import { prepared } from '@webkom/react-prepare';
 import { connect } from 'react-redux';
 import { compose } from 'redux';

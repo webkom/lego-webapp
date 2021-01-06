@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import { PureComponent } from 'react';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import HTTPError from '../errors/HTTPError';
 import { LoginPage } from 'app/components/LoginForm';

@@ -1,6 +1,5 @@
 // @flow
 
-import React from 'react';
 import { createField } from './Field';
 import styles from './PhoneNumberInput.css';
 import 'react-phone-number-input/style.css';

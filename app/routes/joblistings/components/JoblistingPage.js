@@ -1,6 +1,5 @@
 // @flow
 
-import React from 'react';
 import Helmet from 'react-helmet';
 import styles from './JoblistingPage.css';
 import LoadingIndicator from 'app/components/LoadingIndicator/';

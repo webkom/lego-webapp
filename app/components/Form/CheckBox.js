@@ -1,6 +1,5 @@
 // @flow
 
-import React from 'react';
 import { createField } from './Field';
 import type { FormProps } from './Field';
 import styles from './CheckBox.css';

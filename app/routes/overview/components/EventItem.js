@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 import type { Event } from 'app/models';
 import type { Element } from 'react';
 import { Image } from 'app/components/Image';

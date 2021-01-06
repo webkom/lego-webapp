@@ -1,7 +1,8 @@
 // @flow
 
 import styles from './AppRoute.css';
-import React, { PureComponent, type Element, cloneElement } from 'react';
+import type { Element } from 'react';
+import { createContext, Children, PureComponent, cloneElement } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import prepare from 'app/utils/prepare';
@@ -43,7 +44,7 @@ type Props = {
   loggedIn: boolean,
 };
 
-export const UserContext = React.createContext<{
+export const UserContext = createContext<{
   currentUser: Object,
   loggedIn: boolean,
 }>({
@@ -53,7 +54,7 @@ export const UserContext = React.createContext<{
 
 class AppChildren extends PureComponent<Props> {
   render() {
-    const children = React.Children.map(this.props.children, (child) =>
+    const children = Children.map(this.props.children, (child) =>
       cloneElement(child, {
         passedProps: {
           currentUser: this.props.currentUser,

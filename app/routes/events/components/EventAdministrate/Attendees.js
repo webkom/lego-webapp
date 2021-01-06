@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { RegisteredTable, UnregisteredTable } from './RegistrationTables';
 import LoadingIndicator from 'app/components/LoadingIndicator';

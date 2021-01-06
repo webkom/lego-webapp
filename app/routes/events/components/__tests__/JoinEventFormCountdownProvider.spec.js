@@ -1,6 +1,5 @@
 // @flow
 
-import React from 'react';
 import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import moment from 'moment';

@@ -1,7 +1,7 @@
 // @flow
 
 import styles from './Calendar.css';
-import React, { Component } from 'react';
+import { Component } from 'react';
 import Helmet from 'react-helmet';
 import { Link } from 'react-router-dom';
 import createMonthlyCalendar from 'app/utils/createMonthlyCalendar';

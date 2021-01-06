@@ -1,6 +1,6 @@
 // @flow
-import React from 'react';
-import { reduxForm, type FormProps, Field } from 'redux-form';
+import type { FormProps } from 'react-redux';
+import { reduxForm, Field } from 'redux-form';
 import { Content } from 'app/components/Content';
 import type { Action } from 'app/types';
 import { Form, Button, TextInput } from 'app/components/Form';

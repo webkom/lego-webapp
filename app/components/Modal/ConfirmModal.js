@@ -1,7 +1,8 @@
 // @flow
 
 import styles from './ConfirmModal.css';
-import React, { type ComponentType, type Node } from 'react';
+import type { ComponentType, Node } from 'react';
+import { Component, Children, cloneElement } from 'react';
 import { get } from 'lodash';
 import Modal from 'app/components/Modal';
 import Button from '../Button';
@@ -68,10 +69,7 @@ export default function withModal<Props>(
   const displayName =
     WrappedComponent.displayName || WrappedComponent.name || 'Unknown';
 
-  return class extends React.Component<
-    withModalProps & ConfirmModalProps,
-    State
-  > {
+  return class extends Component<withModalProps & ConfirmModalProps, State> {
     static displayName = `WithModal(${displayName})`;
     state = { modalVisible: false, working: false, errorMessage: '' };
 
@@ -179,8 +177,6 @@ export default function withModal<Props>(
 }
 
 const ChildrenWithProps = ({ children, ...restProps }: { children: Node }) =>
-  React.Children.map(children, (child) =>
-    React.cloneElement(child, { ...restProps })
-  );
+  Children.map(children, (child) => cloneElement(child, { ...restProps }));
 
 export const ConfirmModalWithParent = withModal(ChildrenWithProps);

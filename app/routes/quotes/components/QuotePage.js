@@ -1,6 +1,5 @@
 // @flow
 
-import React from 'react';
 import QuoteList from './QuoteList';
 import styles from './Quotes.css';
 import cx from 'classnames';

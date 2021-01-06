@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component, Fragment } from 'react';
+import { Component, Fragment } from 'react';
 import { TextInput } from 'app/components/Form';
 import { Field } from 'redux-form';
 import PasswordStrengthMeter from './PasswordStrengthMeter';

@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import { Component } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './NextEvent.css';
 import { colorForEvent } from 'app/routes/events/utils';
@@ -22,7 +22,7 @@ type State = {
   time: string,
 };
 
-class EventItem extends React.Component<Props, State> {
+class EventItem extends Component<Props, State> {
   state = {
     time: EventItem.generateTime(this.props),
   };

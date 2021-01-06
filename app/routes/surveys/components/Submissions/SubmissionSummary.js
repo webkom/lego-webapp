@@ -1,6 +1,5 @@
 // @flow
 
-import React from 'react';
 import type { SubmissionEntity } from 'app/reducers/surveySubmissions';
 import type { SurveyEntity } from 'app/reducers/surveys';
 import type { QuestionEntity } from 'app/reducers/surveys';

@@ -1,7 +1,6 @@
 // @flow
 
 import styles from './UserConfirmation.css';
-import React from 'react';
 import { Container, Flex } from 'app/components/Layout';
 import {
   Form,

@@ -1,6 +1,5 @@
 // @flow
 
-import React from 'react';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import RouteWrapper from 'app/components/RouteWrapper';

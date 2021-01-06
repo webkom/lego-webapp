@@ -1,6 +1,5 @@
 // @flow
 
-import React from 'react';
 import moment from 'moment-timezone';
 import config from 'app/config';
 import { type Dateish } from 'app/models';

@@ -1,7 +1,7 @@
 // @flow
 
 // $FlowFixMe
-import React, { useRef, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 import styles from './RandomQuote.css';
 import Button from '../Button';
 import type { QuoteEntity } from 'app/reducers/quotes';

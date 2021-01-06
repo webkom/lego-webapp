@@ -1,6 +1,8 @@
 // @flow
 
-import React, { Component, type Node } from 'react';
+import type { Node } from 'react';
+
+import { Component } from 'react';
 import Icon from 'app/components/Icon';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { TextInput, CheckBox } from 'app/components/Form';

@@ -1,6 +1,5 @@
 // @flow
 
-import React from 'react';
 import cx from 'classnames';
 import Flex from 'app/components/Layout/Flex';
 import { hiddenOnMobile, hiddenOnDesktop } from 'app/styles/utilities.css';

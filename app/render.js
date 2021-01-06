@@ -1,7 +1,5 @@
 // @flow
 
-import React from 'react';
-// $FlowFixMe hydrate() is missing in flow-typed react-dom
 import { hydrate, render } from 'react-dom';
 import Root from './Root';
 import routes from 'app/routes';

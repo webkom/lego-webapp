@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import { Component } from 'react';
 import classNames from 'classnames';
 import Tooltip from 'app/components/Tooltip';
 import type { ID } from 'app/models';
@@ -25,7 +25,7 @@ type Props = {
 
 // Note: Most use cases won't want to use this class directly. Instead, use
 // app/components/LegoReactions.
-class Reaction extends React.Component<Props> {
+class Reaction extends Component<Props> {
   render() {
     const {
       className,

@@ -1,4 +1,3 @@
-import React from 'react';
 import UserProfile from '../UserProfile';
 import { shallow } from 'enzyme';
 import { Link } from 'react-router-dom';

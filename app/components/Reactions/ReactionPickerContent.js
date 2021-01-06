@@ -1,6 +1,5 @@
 // @flow
 
-import React from 'react';
 import type { EmojiEntity } from 'app/reducers/emojis';
 import type { ID } from 'app/models';
 import styles from './ReactionPickerContent.css';

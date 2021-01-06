@@ -1,6 +1,5 @@
 // @flow
 
-import React from 'react';
 import { Flex } from 'app/components/Layout';
 import { Collapse } from 'react-collapse';
 import Sticky from 'react-stickynode';

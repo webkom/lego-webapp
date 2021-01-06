@@ -1,6 +1,5 @@
 // @flow
 
-import React from 'react';
 import Select from 'react-select';
 import { createField } from './Field';
 import withAutocomplete from '../Search/withAutocomplete';

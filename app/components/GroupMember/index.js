@@ -1,6 +1,5 @@
 // @flow
 
-import React from 'react';
 import styles from './GroupMember.css';
 import { Link } from 'react-router-dom';
 import cx from 'classnames';

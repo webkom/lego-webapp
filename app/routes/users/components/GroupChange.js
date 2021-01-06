@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 import type { Group, ID } from 'app/models';
 import Select from 'react-select';
 import Button from 'app/components/Button';

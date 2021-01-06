@@ -1,7 +1,5 @@
 // @flow
 
-import React from 'react';
-
 type Props = {
   loggedIn: boolean,
   children?: any,

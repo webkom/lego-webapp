@@ -1,5 +1,4 @@
 //@flow
-import React from 'react';
 import styles from './EmailItem.css';
 import { readmeIfy } from 'app/components/ReadmeLogo';
 import { Image } from 'app/components/Image';

@@ -1,6 +1,5 @@
 // @flow
 import styles from './Administrate.css';
-import React from 'react';
 import { Flex } from 'app/components/Layout';
 import Tooltip from 'app/components/Tooltip';
 import cx from 'classnames';

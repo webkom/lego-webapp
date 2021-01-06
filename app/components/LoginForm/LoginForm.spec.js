@@ -1,4 +1,3 @@
-import React from 'react';
 import LoginForm from './LoginForm';
 import { Field } from 'redux-form';
 import { Provider } from 'react-redux';

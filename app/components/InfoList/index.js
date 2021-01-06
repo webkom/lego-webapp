@@ -1,10 +1,10 @@
 // @flow
 
-import * as React from 'react';
+import type { Node } from 'react';
 
 type Item = {
   key: string,
-  value: React.Node,
+  value: Node,
 };
 
 type Props = {

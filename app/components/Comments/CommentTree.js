@@ -1,6 +1,5 @@
 // @flow
 
-import React from 'react';
 import cx from 'classnames';
 import Comment from './Comment';
 import styles from './CommentTree.css';

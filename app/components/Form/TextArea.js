@@ -1,6 +1,5 @@
 // @flow
 
-import React from 'react';
 import cx from 'classnames';
 import { createField } from './Field';
 import Textarea from 'react-textarea-autosize';

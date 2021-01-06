@@ -1,7 +1,8 @@
 // @flow
 
 import styles from './EventDetail.css';
-import React, { Component, Fragment, type Node } from 'react';
+import type { Node } from 'react';
+import { Component, Fragment } from 'react';
 import CommentView from 'app/components/Comments/CommentView';
 import Icon from 'app/components/Icon';
 import JoinEventForm from '../JoinEventForm';

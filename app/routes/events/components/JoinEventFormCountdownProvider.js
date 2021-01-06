@@ -1,6 +1,8 @@
 // @flow
 
-import React, { Component, type Node, type ComponentType } from 'react';
+import type { Node, ComponentType } from 'react';
+
+import { Component } from 'react';
 import moment from 'moment-timezone';
 import type { Dateish, Event, EventRegistration } from 'app/models';
 import { registrationIsClosed } from '../utils';

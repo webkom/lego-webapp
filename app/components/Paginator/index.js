@@ -1,6 +1,8 @@
 //@flow
 
-import React, { type Node } from 'react';
+import type { Node } from 'react';
+
+import { Component } from 'react';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import InfiniteScroll from 'react-infinite-scroller';
 
@@ -12,7 +14,7 @@ type Props = {
   fetching: boolean,
 };
 
-export default class Paginator extends React.Component<Props> {
+export default class Paginator extends Component<Props> {
   fetchNext = () => {
     if (this.props.fetchNext && !this.props.fetching) {
       this.props.fetchNext();

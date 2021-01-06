@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 import Helmet from 'react-helmet';
 import moment from 'moment-timezone';
 import Button from 'app/components/Button';

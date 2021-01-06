@@ -1,6 +1,5 @@
 //@flow
 
-import React from 'react';
 import styles from './DividerWithDots.css';
 import cx from 'classnames';
 

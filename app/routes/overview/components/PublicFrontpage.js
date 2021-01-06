@@ -1,5 +1,5 @@
 //@flow
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { Container, Flex } from 'app/components/Layout';
 import {
   LoginForm,

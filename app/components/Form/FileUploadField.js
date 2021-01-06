@@ -1,5 +1,5 @@
 // @flow
-import React, { Component } from 'react';
+import { Component } from 'react';
 import cx from 'classnames';
 import type { FieldProps } from 'redux-form';
 import { Flex } from '../Layout';

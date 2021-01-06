@@ -1,7 +1,5 @@
 // @flow
 
-import React from 'react';
-
 import { Content } from 'app/components/Content';
 import Feed from 'app/components/Feed';
 import LoadingIndicator from 'app/components/LoadingIndicator';

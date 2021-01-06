@@ -2,7 +2,7 @@
 import { ListNavigation } from 'app/routes/bdb/utils';
 import { semesterToText } from '../utils';
 import styles from './CompanyInterest.css';
-import React, { Component } from 'react';
+import { Component } from 'react';
 import Button from 'app/components/Button';
 import { Link } from 'react-router-dom';
 import { Content } from 'app/components/Content';

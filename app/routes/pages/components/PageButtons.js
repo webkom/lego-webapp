@@ -1,6 +1,5 @@
 // @flow
 
-import React from 'react';
 import Button from 'app/components/Button';
 import styles from './PageButtons.css';
 

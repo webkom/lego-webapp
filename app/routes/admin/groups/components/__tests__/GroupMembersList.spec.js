@@ -1,5 +1,4 @@
 /* eslint-disable no-unused-expressions */
-import React from 'react';
 import { GroupMembers } from '../GroupMembers';
 import GroupMembersList from '../GroupMembersList';
 import LoadingIndicator from 'app/components/LoadingIndicator';

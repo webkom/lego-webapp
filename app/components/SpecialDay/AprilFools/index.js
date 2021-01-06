@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import { Children, cloneElement, Component } from 'react';
 import styles from './AprilFools.css';
 import moment from 'moment-timezone';
 import { Link } from 'react-router-dom';
@@ -16,7 +16,7 @@ type State = {
   hasClosed: boolean,
 };
 
-class AprilFools extends React.Component<Props, State> {
+class AprilFools extends Component<Props, State> {
   state = {
     hasClosed: true,
   };
@@ -49,8 +49,8 @@ class AprilFools extends React.Component<Props, State> {
     const { hasClosed } = this.state;
 
     if (hasClosed) {
-      return React.Children.map(children, (child) =>
-        React.cloneElement(child, { ...rest })
+      return Children.map(children, (child) =>
+        cloneElement(child, { ...rest })
       );
     }
 

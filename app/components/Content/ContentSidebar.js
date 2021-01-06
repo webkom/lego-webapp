@@ -1,6 +1,6 @@
 // @flow
 
-import React, { type Node } from 'react';
+import type { Node } from 'react';
 import cx from 'classnames';
 import { Flex } from 'app/components/Layout';
 import styles from './ContentSidebar.css';

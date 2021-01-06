@@ -1,7 +1,6 @@
 // @flow
 
 import styles from './Quotes.css';
-import React from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { TextEditor, Button, withSubmissionError } from 'app/components/Form';
 import { createValidator, required } from 'app/utils/validation';

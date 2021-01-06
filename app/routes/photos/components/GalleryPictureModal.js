@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { Keyboard } from '../../../utils/constants';
 import GalleryDetailsRow from './GalleryDetailsRow';
 import { Flex } from 'app/components/Layout';

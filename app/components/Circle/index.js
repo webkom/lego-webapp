@@ -1,7 +1,5 @@
 // @flow
 
-import React from 'react';
-
 type Props = {
   /** Radius of circle in px */
   size?: number,

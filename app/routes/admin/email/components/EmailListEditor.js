@@ -1,6 +1,5 @@
 //@flow
 
-import React from 'react';
 import Button from 'app/components/Button';
 import { createValidator, required, EMAIL_REGEX } from 'app/utils/validation';
 import { roleOptions } from 'app/utils/constants';

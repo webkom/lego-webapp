@@ -1,6 +1,5 @@
 // @flow
 
-import React from 'react';
 import { Field } from 'redux-form';
 import type { Group } from 'app/models';
 

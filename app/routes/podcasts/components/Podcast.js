@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 import styles from './Podcast.css';
 import LegoSoundCloudPlayer from './PodcastPlayer.js';
 import { Link } from 'react-router-dom';

@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { FlexRow } from 'app/components/FlexBox';
 import Button from 'app/components/Button';
 import LoadingIndicator from 'app/components/LoadingIndicator';

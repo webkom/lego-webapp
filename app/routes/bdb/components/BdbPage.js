@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 import CompanyList from './CompanyList';
 import { Content } from 'app/components/Content';
 import styles from './bdb.css';

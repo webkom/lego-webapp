@@ -1,6 +1,6 @@
 // @flow
 
-import * as React from 'react';
+import type { ComponentType } from 'react';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { get } from 'lodash';
 import type { Props } from 'app/components/LoadingIndicator';
@@ -13,7 +13,7 @@ export default function loadingIndicator(
   loadingProps: Array<string>,
   options: ?Props
 ): any {
-  return (Component: React.ComponentType<*>) => {
+  return (Component: ComponentType<*>) => {
     const Composed = (props: Object) => (
       <LoadingIndicator
         {...options}

@@ -1,6 +1,5 @@
 // @flow
 
-import React from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { Form, Button, TextInput } from 'app/components/Form';
 import styles from './UpdateAllergies.css';

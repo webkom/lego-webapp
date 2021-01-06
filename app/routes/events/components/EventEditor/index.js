@@ -1,7 +1,6 @@
 // @flow
 
 import styles from './EventEditor.css';
-import React from 'react';
 import { Link } from 'react-router-dom';
 import renderPools, { validatePools } from './renderPools';
 import {

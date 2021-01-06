@@ -1,6 +1,5 @@
 // @flow
 
-import React from 'react';
 import { FormatTime } from 'app/components/Time';
 import PenaltyForm from './PenaltyForm';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';

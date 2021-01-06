@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import { Component } from 'react';
 import config from 'app/config';
 import { createField } from './Field';
 import ReCAPTCHA from 'react-google-recaptcha';

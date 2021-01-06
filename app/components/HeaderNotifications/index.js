@@ -1,5 +1,5 @@
 // @flow
-import React, { Component } from 'react';
+import { Component } from 'react';
 import cx from 'classnames';
 import Dropdown from '../Dropdown';
 import Icon from '../Icon';

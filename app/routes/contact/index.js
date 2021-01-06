@@ -1,5 +1,4 @@
 // @flow
-import * as React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import ContactRoute from './ContactRoute';
 import RouteWrapper from 'app/components/RouteWrapper';

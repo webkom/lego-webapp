@@ -1,5 +1,5 @@
 // @flow
-import * as React from 'react';
+import { Component } from 'react';
 import Helmet from 'react-helmet';
 import { Content } from 'app/components/Content';
 import { TagCloud as Cloud } from 'react-tagcloud';
@@ -12,7 +12,7 @@ type Props = {
   fetchAll: ({ next: boolean }) => void,
 };
 
-class TagCloud extends React.Component<Props> {
+class TagCloud extends Component<Props> {
   tagRenderer = (tag: Object, size: string, color: string) => (
     <Link
       key={tag.value}

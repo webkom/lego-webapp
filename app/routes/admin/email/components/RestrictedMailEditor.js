@@ -1,6 +1,5 @@
 //@flow
 
-import React from 'react';
 import Button from 'app/components/Button';
 import config from 'app/config';
 import { reduxForm } from 'redux-form';

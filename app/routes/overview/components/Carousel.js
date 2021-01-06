@@ -1,6 +1,8 @@
 // @flow
 
-import React, { Component, type Node } from 'react';
+import type { Node } from 'react';
+
+import { Component } from 'react';
 import styles from './Carousel.css';
 
 type MenuItem = {
