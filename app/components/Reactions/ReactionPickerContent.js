@@ -8,7 +8,7 @@ import Emoji from 'app/components/Emoji';
 
 type Props = {
   emojis: Array<EmojiEntity>,
-  searchResults: Array<EmojiEntity>,
+  searchResults: Array<EmojiEntity> | null,
   addReaction: ({
     emoji: string,
     contentTarget: string,

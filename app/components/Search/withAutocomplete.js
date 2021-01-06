@@ -26,6 +26,7 @@ function withAutocomplete<Props>({
   const displayName =
     WrappedComponent.displayName || WrappedComponent.name || 'Unknown';
 
+  // $FlowFixMe[escaped-generic]
   return class extends Component<InjectedProps & Props, State> {
     static displayName = `Autocomplete(${displayName})`;
 
@@ -92,4 +93,5 @@ const mapDispatchToProps = {
   autocomplete,
 };
 
+//$FlowFixMe[missing-annot]
 export default compose(connect(null, mapDispatchToProps), withAutocomplete);

@@ -26,7 +26,7 @@ class Image extends Component<Props> {
         src={src}
         alt={alt}
         style={style}
-        {...props}
+        {...(props: Object)}
       />
     );
   }

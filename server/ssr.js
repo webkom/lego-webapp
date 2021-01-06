@@ -8,7 +8,6 @@ import { ReactReduxContext } from 'react-redux';
 import Helmet from 'react-helmet';
 import * as Sentry from '@sentry/node';
 import configureStore from '../app/utils/configureStore';
-import type { $Request, $Response, Middleware } from 'express';
 import { type State } from '../app/types';
 import pageRenderer from './pageRenderer';
 import { prepare } from '@webkom/react-prepare';
@@ -42,9 +41,9 @@ const prepareWithTimeout = (app) =>
   ]);
 
 const createServerSideRenderer = (
-  req: $Request,
-  res: $Response,
-  next: Middleware
+  req: express$Request,
+  res: express$Response,
+  next: express$Middleware<express$Request, express$Response>
 ) => {
   const render = (
     body: string = '',
@@ -68,8 +67,8 @@ const createServerSideRenderer = (
     req,
     context,
   }: {
-    req: $Request,
-    context: { status?: string, url?: ?string, [any]: any },
+    req: express$Request,
+    context: { status?: string, url?: string, [any]: any },
   }) => (
     <StaticRouter location={req.url} context={context}>
       <RouteConfig />
@@ -100,6 +99,7 @@ const createServerSideRenderer = (
     try {
       // $FlowFixMe
       const err = error.error ? error.payload : error;
+      // $FlowFixMe
       log.error(err, 'render_error');
       Sentry.captureException(err);
     } catch (e) {

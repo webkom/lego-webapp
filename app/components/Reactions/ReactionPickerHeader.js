@@ -6,7 +6,7 @@ import ReactionPickerCategory from './ReactionPickerCategory';
 
 type Props = {
   categories: Array<string>,
-  activeCategory: string,
+  activeCategory: string | null,
   onCategoryClick: (category: string) => void,
 };
 

@@ -11,7 +11,11 @@ export type AddMemberArgs = {
   role: string,
 };
 
-export function addMember({ groupId, userId, role }: AddMemberArgs) {
+export function addMember({
+  groupId,
+  userId,
+  role,
+}: AddMemberArgs): Thunk<any> {
   return callAPI({
     types: Membership.CREATE,
     endpoint: `/groups/${groupId}/memberships/`,
@@ -29,7 +33,7 @@ export function addMember({ groupId, userId, role }: AddMemberArgs) {
   });
 }
 
-export function removeMember(membership: Object) {
+export function removeMember(membership: Object): Thunk<any> {
   return callAPI({
     types: Membership.REMOVE,
     endpoint: `/groups/${membership.abakusGroup}/memberships/${membership.id}/`,
@@ -43,7 +47,7 @@ export function removeMember(membership: Object) {
   });
 }
 
-export function fetchGroup(groupId: number) {
+export function fetchGroup(groupId: number): Thunk<any> {
   return callAPI({
     types: Group.FETCH,
     endpoint: `/groups/${groupId}/`,
@@ -55,7 +59,7 @@ export function fetchGroup(groupId: number) {
   });
 }
 
-export function fetchAll() {
+export function fetchAll(): Thunk<any> {
   return callAPI({
     types: Group.FETCH,
     endpoint: '/groups/',
@@ -67,7 +71,7 @@ export function fetchAll() {
   });
 }
 
-export function fetchAllWithType(type: string) {
+export function fetchAllWithType(type: string): Thunk<any> {
   return callAPI({
     types: Group.FETCH,
     endpoint: `/groups/?type=${type}`,

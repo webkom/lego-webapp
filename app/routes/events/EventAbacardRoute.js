@@ -19,7 +19,7 @@ const searchTypes = ['users.user'];
 
 const loadData = async (props, dispatch) => {
   const query = qs.parse(props.location.search, { ignoreQueryPrefix: true }).q;
-  if (query) {
+  if (query && typeof query === 'string') {
     await dispatch(autocomplete(query, searchTypes));
   }
 };

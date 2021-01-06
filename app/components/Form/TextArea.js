@@ -25,7 +25,7 @@ function TextArea({
       ref={inputRef}
       type={type}
       className={cx(styles.input, readOnly && styles.disabled, className)}
-      {...props}
+      {...(props: Object)}
     />
   );
 }

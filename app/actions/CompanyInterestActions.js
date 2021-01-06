@@ -7,7 +7,7 @@ import { companyInterestSchema } from 'app/reducers';
 import type { CompanyInterestEntity } from 'app/reducers/companyInterest';
 import type { Thunk } from 'app/types';
 
-export function fetchAll() {
+export function fetchAll(): Thunk<any> {
   return callAPI({
     types: CompanyInterestForm.FETCH_ALL,
     endpoint: '/company-interests/',
@@ -18,7 +18,7 @@ export function fetchAll() {
   });
 }
 
-export function fetchCompanyInterest(companyInterestId: number) {
+export function fetchCompanyInterest(companyInterestId: number): Thunk<any> {
   return callAPI({
     types: CompanyInterestForm.FETCH,
     endpoint: `/company-interests/${companyInterestId}/`,

@@ -155,24 +155,25 @@ export default function withModal<Props>(
 
       const { working, errorMessage } = this.state;
 
-      return [
-        <WrappedComponent key={0} {...props} onClick={this.toggleModal} />,
-        <Modal
-          closeOnBackdropClick={!working}
-          key={1}
-          show={this.state.modalVisible}
-          onHide={this.toggleModal}
-        >
-          <ConfirmModal
-            onCancel={modalOnCancel}
-            onConfirm={modalOnConfirm}
-            message={message}
-            title={title}
-            disabled={working}
-            errorMessage={errorMessage}
-          />
-        </Modal>,
-      ];
+      return (
+        <>
+          <WrappedComponent {...(props: Object)} onClick={this.toggleModal} />
+          <Modal
+            closeOnBackdropClick={!working}
+            show={this.state.modalVisible}
+            onHide={this.toggleModal}
+          >
+            <ConfirmModal
+              onCancel={modalOnCancel}
+              onConfirm={modalOnConfirm}
+              message={message}
+              title={title}
+              disabled={working}
+              errorMessage={errorMessage}
+            />
+          </Modal>
+        </>
+      );
     }
   };
 }

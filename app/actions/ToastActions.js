@@ -2,7 +2,9 @@
 
 import { Toasts } from './ActionTypes';
 
-export function removeToast({ id }: { id: number }) {
+import type { Action } from 'app/types';
+
+export function removeToast({ id }: { id: number }): Action {
   return {
     type: Toasts.TOAST_REMOVED,
     payload: {
@@ -16,7 +18,7 @@ export function addToast({
   action = null,
   dismissAfter = 5000,
   ...rest
-}: Object) {
+}: Object): Action {
   return {
     type: Toasts.TOAST_ADDED,
     payload: {

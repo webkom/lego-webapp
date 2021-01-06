@@ -23,8 +23,8 @@ type Props = {
 
 type State = {
   pickerOpen: boolean,
-  date: moment,
-  value: moment,
+  date: moment$Moment,
+  value: moment$Moment,
 };
 
 function parseDateValue(value) {
@@ -59,7 +59,7 @@ class DatePicker extends Component<Props, State> {
     }));
   };
 
-  onChange = (day: moment) => {
+  onChange = (day: moment$Moment) => {
     this.setState((prevState) => {
       const value = day
         .clone()
@@ -73,7 +73,7 @@ class DatePicker extends Component<Props, State> {
     }, this._notifyParent);
   };
 
-  onChangeTime = (time: moment) => {
+  onChangeTime = (time: moment$Moment) => {
     this.setState((prevState) => {
       const value = prevState.value
         .clone()

@@ -20,7 +20,7 @@ export function fetchNotificationData(): Thunk<*> {
   };
 }
 
-export function markAllNotifications() {
+export function markAllNotifications(): Thunk<any> {
   return callAPI({
     types: NotificationsFeed.MARK_ALL,
     endpoint: '/feed-notifications/mark_all/',

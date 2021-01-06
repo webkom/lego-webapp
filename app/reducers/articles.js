@@ -8,6 +8,7 @@ import createEntityReducer from 'app/utils/createEntityReducer';
 import joinReducers from 'app/utils/joinReducers';
 import { orderBy } from 'lodash';
 import { type ReactionEntity } from 'app/reducers/reactions';
+import { type Article as ArticleType } from 'app/models';
 
 export type ArticleEntity = {
   id: number,
@@ -49,10 +50,10 @@ export const selectArticles = createSelector(
   (state) => state.articles.items,
   (_, props) => props && props.pagination,
   (articlesById, articleIds, pagination) =>
-    orderBy(
-      (pagination ? pagination.items : articleIds).map((id) =>
+    orderBy<ArticleType>(
+      ((pagination ? pagination.items : articleIds).map((id) =>
         transformArticle(articlesById[id])
-      ),
+      ): $ReadOnlyArray<ArticleType>),
       ['createdAt', 'id'],
       ['desc', 'desc']
     )

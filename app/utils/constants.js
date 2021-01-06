@@ -51,7 +51,7 @@ export const EVENTFIELDS = {
  * (i.e. abakus.no, webapp-staging.abakus.no) or if it's run locally through yarn start:staging 'local_staging'.
  * Use the local backend group ID (12) if the webapp is running with yarn start.
  */
-export const WEBKOM_GROUP_ID = [
+export const WEBKOM_GROUP_ID: number = [
   'production',
   'staging',
   'local_staging',

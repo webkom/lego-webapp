@@ -54,7 +54,8 @@ const priority = {
 
 export const sortStatusesByProminence = (
   statuses: Array<CompanySemesterContactedStatus>
-) => sortBy(statuses, (status) => priority[status]);
+): CompanySemesterContactedStatus[] =>
+  sortBy(statuses, (status) => priority[status]);
 
 export const selectMostProminentStatus = (
   statuses: Array<CompanySemesterContactedStatus> = []
@@ -187,7 +188,7 @@ export const DetailNavigation = ({
       message="Er du sikker på at du vil slette denne bedriften?"
       onConfirm={() => deleteFunction(companyId)}
     >
-      <NavigationLink>Slett</NavigationLink>
+      <NavigationLink to="#">Slett</NavigationLink>
     </ConfirmModalWithParent>
   </NavigationTab>
 );

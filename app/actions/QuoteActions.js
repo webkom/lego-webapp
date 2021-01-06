@@ -54,7 +54,11 @@ export const fetchAll = ({
   );
 };
 
-export function fetchAllApproved({ loadNextPage }: { loadNextPage: boolean }) {
+export function fetchAllApproved({
+  loadNextPage,
+}: {
+  loadNextPage: boolean,
+}): Thunk<any> {
   return fetchAll({ approved: true, loadNextPage });
 }
 
@@ -62,11 +66,11 @@ export function fetchAllUnapproved({
   loadNextPage,
 }: {
   loadNextPage: boolean,
-}) {
+}): Thunk<any> {
   return fetchAll({ approved: false, loadNextPage });
 }
 
-export function fetchQuote(quoteId: number) {
+export function fetchQuote(quoteId: number): Thunk<any> {
   return callAPI({
     types: Quote.FETCH,
     endpoint: `/quotes/${quoteId}/`,
@@ -95,7 +99,7 @@ export function fetchRandomQuote(seenQuotes?: Array<ID> = []) {
   });
 }
 
-export function approve(quoteId: number) {
+export function approve(quoteId: number): Thunk<any> {
   return callAPI({
     types: Quote.APPROVE,
     endpoint: `/quotes/${quoteId}/approve/`,
@@ -107,7 +111,7 @@ export function approve(quoteId: number) {
   });
 }
 
-export function unapprove(quoteId: number) {
+export function unapprove(quoteId: number): Thunk<any> {
   return callAPI({
     types: Quote.UNAPPROVE,
     endpoint: `/quotes/${quoteId}/unapprove/`,
@@ -157,7 +161,7 @@ export function addQuotes({
   };
 }
 
-export function deleteQuote(id: number) {
+export function deleteQuote(id: number): Thunk<any> {
   return callAPI({
     types: Quote.DELETE,
     endpoint: `/quotes/${id}/`,

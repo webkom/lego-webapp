@@ -11,7 +11,11 @@ type Props = {
 
 function Form({ children, className, ...props }: Props) {
   return (
-    <form className={cx(styles.form, className)} {...props} method="post">
+    <form
+      className={cx(styles.form, className)}
+      {...(props: Object)}
+      method="post"
+    >
       {children}
     </form>
   );

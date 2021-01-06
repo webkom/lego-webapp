@@ -25,7 +25,7 @@ export function fetchAll({ next = false }: { next: boolean } = {}): Thunk<*> {
   };
 }
 
-export function fetchPoll(pollId: number) {
+export function fetchPoll(pollId: number): Thunk<any> {
   return callAPI({
     types: Poll.FETCH,
     endpoint: `/polls/${pollId}/`,
@@ -94,7 +94,7 @@ export function deletePoll(id: number): Thunk<*> {
     ).then(() => dispatch(push(`/polls/`)));
 }
 
-export function votePoll(pollId: number, optionId: number) {
+export function votePoll(pollId: number, optionId: number): Thunk<any> {
   return callAPI({
     types: Poll.UPDATE,
     endpoint: `/polls/${pollId}/vote/`,

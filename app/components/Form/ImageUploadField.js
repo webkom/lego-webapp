@@ -41,7 +41,7 @@ class ImageUploadField extends Component<Props> {
           className={styles.textField}
           onSubmit={this.onSubmit}
           showErrors={false}
-          {...props}
+          {...(props: Object)}
         />
       </div>
     );

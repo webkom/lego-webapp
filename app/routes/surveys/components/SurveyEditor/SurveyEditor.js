@@ -1,7 +1,7 @@
 // @flow
 
 import styles from '../surveys.css';
-import React, { Component } from 'react';
+import React, { Component, type Element } from 'react';
 import { DetailNavigation, ListNavigation, QuestionTypes } from '../../utils';
 import Question from './Question';
 import { Field, FieldArray } from 'redux-form';
@@ -64,6 +64,7 @@ function TemplateTypeDropdownItems({
       {Object.keys(EVENT_CONSTANTS).map((eventType) => (
         <Dropdown.ListItem key={eventType}>
           <Link
+            to="#"
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
@@ -89,33 +90,39 @@ class SurveyEditor extends Component<Props, State> {
     fields.move(oldIndex, newIndex);
   };
 
-  renderQuestions = ({ fields, meta: { touched, error } }: FieldArrayProps) => {
-    return [
-      <ul className={styles.questions} key="questions">
-        {fields.map((question, i) => (
-          <Question
-            key={i}
-            numberOfQuestions={fields.length}
-            question={question}
-            questionData={fields.get(i)}
-            deleteQuestion={() => Promise.resolve(fields.remove(i))}
-            updateRelativeIndexes={this.updateRelativeIndexes}
-            relativeIndex={i}
-            fields={fields}
-          />
-        ))}
-      </ul>,
+  renderQuestions = ({
+    fields,
+    meta: { touched, error },
+  }: FieldArrayProps): Element<any> => {
+    return (
+      <>
+        <ul className={styles.questions} key="questions">
+          {fields.map((question, i) => (
+            <Question
+              key={i}
+              numberOfQuestions={fields.length}
+              question={question}
+              questionData={fields.get(i)}
+              deleteQuestion={() => Promise.resolve(fields.remove(i))}
+              updateRelativeIndexes={this.updateRelativeIndexes}
+              relativeIndex={i}
+              fields={fields}
+            />
+          ))}
+        </ul>
 
-      <Link
-        key="addNew"
-        onClick={() => {
-          const newQuestion = initialQuestion;
-          fields.push(newQuestion);
-        }}
-      >
-        <Icon name="add-circle" size={30} className={styles.addQuestion} />
-      </Link>,
-    ];
+        <Link
+          key="addNew"
+          to="#"
+          onClick={() => {
+            const newQuestion = initialQuestion;
+            fields.push(newQuestion);
+          }}
+        >
+          <Icon name="add-circle" size={30} className={styles.addQuestion} />
+        </Link>
+      </>
+    );
   };
 
   render() {

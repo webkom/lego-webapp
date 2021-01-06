@@ -17,6 +17,7 @@ export type SearchResult = {
   link: string,
   content: string,
   icon: string,
+  username?: string,
 };
 
 const initialState = {
@@ -122,7 +123,7 @@ const searchMapping = {
 
 type State = typeof initialState;
 
-const search = produce((newState: State, action: any): void => {
+const search = produce<State>((newState: State, action: any): void => {
   switch (action.type) {
     case Search.SEARCH.BEGIN:
     case Search.AUTOCOMPLETE.BEGIN:

@@ -19,12 +19,12 @@ type State = {
 };
 
 class ErrorBoundary extends React.Component<Props, State> {
-  state = {
+  state: State = {
     error: null,
     lastEventId: null,
   };
 
-  openDialog = () => {
+  openDialog: () => void = () => {
     this.state.lastEventId &&
       Sentry.showReportDialog({
         eventId: this.state.lastEventId,
@@ -62,7 +62,7 @@ class ErrorBoundary extends React.Component<Props, State> {
     });
   }
 
-  render() {
+  render(): React.Node {
     const { openReportDialog, hidden = false, children, ...rest } = this.props;
 
     if (!this.state.error) {

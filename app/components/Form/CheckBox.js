@@ -63,7 +63,7 @@ const RawField = createField(CheckBox);
 const StyledField = ({ fieldClassName, ...props }: FormProps) => (
   <RawField
     fieldClassName={cx(fieldClassName, styles.checkboxField)}
-    {...props}
+    {...(props: Object)}
   />
 );
 CheckBox.Field = StyledField;

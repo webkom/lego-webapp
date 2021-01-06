@@ -6,7 +6,7 @@ import callAPI from 'app/actions/callAPI';
 import type { EntityID, Thunk } from 'app/types';
 import type { RestrictedMailEntity } from 'app/reducers/restrictedMails';
 
-export function fetchRestrictedMail(restrictedMailId: EntityID) {
+export function fetchRestrictedMail(restrictedMailId: EntityID): Thunk<any> {
   return callAPI({
     types: RestrictedMail.FETCH,
     endpoint: `/restricted-mail/${restrictedMailId}/`,
@@ -18,7 +18,9 @@ export function fetchRestrictedMail(restrictedMailId: EntityID) {
   });
 }
 
-export function createRestrictedMail(restrictedMail: RestrictedMailEntity) {
+export function createRestrictedMail(
+  restrictedMail: RestrictedMailEntity
+): Thunk<any> {
   return callAPI({
     types: RestrictedMail.CREATE,
     endpoint: '/restricted-mail/',

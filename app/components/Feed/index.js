@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import Activity from './activity';
 import type { AggregatedActivity } from './types';
 import EmptyState from 'app/components/EmptyState';
@@ -20,7 +20,7 @@ export const activityRenderers = {
 
 type Props = { items: Array<AggregatedActivity> };
 
-const Feed = ({ items }: Props) => (
+const Feed = ({ items }: Props): React.Node => (
   <div style={{ width: '100%' }}>
     {items.length ? (
       items.map((item, i) => {

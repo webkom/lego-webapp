@@ -1,5 +1,5 @@
 // @flow
-import React from 'react';
+import * as React from 'react';
 import { interestText, semesterToText } from '../utils';
 import styles from './CompanyInterest.css';
 import {
@@ -77,7 +77,7 @@ const otherOffersToString = (offer) =>
 const SemesterBox = ({
   fields,
   language,
-}: { language: string } & FieldArrayProps) => (
+}: { language: string } & FieldArrayProps): React.Node => (
   <Flex column className={styles.checkboxWrapper}>
     {fields.map((item, index) => (
       <Flex key={index}>
@@ -102,7 +102,7 @@ const SemesterBox = ({
 const EventBox = ({
   fields,
   language,
-}: { language: string } & FieldArrayProps) => (
+}: { language: string } & FieldArrayProps): React.Node => (
   <Flex column className={styles.checkboxWrapper}>
     {fields.map((key, index) => (
       <Flex key={index}>
@@ -127,7 +127,7 @@ const EventBox = ({
 const OtherBox = ({
   fields,
   language,
-}: { language: string } & FieldArrayProps) => (
+}: { language: string } & FieldArrayProps): React.Node => (
   <Flex column className={styles.checkboxWrapper}>
     {fields.map((key, index) => (
       <Flex key={index}>

@@ -24,14 +24,16 @@ class PasswordStrengthMeter extends Component<Props> {
     const { password, user } = this.props;
     const zxcvbnValue = zxcvbn(
       password,
+      //$FlowFixMe[incompatible-call]
       Object.values(pick(user, ['username', 'firstName', 'lastName']))
     );
     let tips = zxcvbnValue.feedback.suggestions;
     tips.push(zxcvbnValue.feedback.warning);
     tips = tips.map((tip) => passwordFeedbackMessages[tip]).filter(Boolean);
 
-    const crackTimeSec =
-      zxcvbnValue.crack_times_seconds.offline_slow_hashing_1e4_per_second;
+    const crackTimeSec = Number(
+      zxcvbnValue.crack_times_seconds.offline_slow_hashing_1e4_per_second
+    );
     const crackTimeDuration = moment
       .duration(crackTimeSec, 'seconds')
       .humanize();

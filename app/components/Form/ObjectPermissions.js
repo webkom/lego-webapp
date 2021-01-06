@@ -88,6 +88,7 @@ export const normalizeObjectPermissions = ({
   return {
     requireAuth: !!requireAuth,
     ...(canEditUsers ? { canEditUsers } : {}),
+    //$FlowFixMe
     ...(canEditGroups ? { canEditGroups } : {}),
     ...(canViewGroups ? { canViewGroups } : {}),
   };
@@ -120,6 +121,7 @@ export const objectPermissionsToInitialValues = ({
     }));
   return {
     ...(canEditUsers ? { canEditUsers } : {}),
+    //$FlowFixMe
     ...(canEditGroups ? { canEditGroups } : {}),
     ...(canViewGroups ? { canViewGroups } : {}),
   };

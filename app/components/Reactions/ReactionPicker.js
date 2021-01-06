@@ -197,7 +197,7 @@ const ReactionPicker = ({
           />
           <ReactionPickerContent
             emojis={
-              categories[activeCategory]
+              activeCategory && categories[activeCategory]
                 ? categories[activeCategory].emojis
                 : []
             }

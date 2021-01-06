@@ -9,13 +9,13 @@ export class HttpError extends Error {
 }
 
 export type HttpResponse<T> = {
-  jsonData?: ?T,
-  textString?: ?string,
+  jsonData?: T | typeof undefined,
+  textString?: string,
 } & Response;
 
 export type HttpRequestOptions = {
   method?: HttpMethod,
-  headers: { [key: string]: string },
+  headers: { [string]: string },
   body?: Object | string,
   json?: boolean,
   files?: Array<string>,
@@ -23,19 +23,17 @@ export type HttpRequestOptions = {
   retryDelays?: Array<number>,
 };
 
-function parseResponseBody<T>(
-  response: HttpResponse<T>
-): Promise<HttpResponse<T>> {
+function parseResponseBody<T>(response: Response): Promise<HttpResponse<T>> {
   return response.text().then((textString) => {
+    const newResponse: HttpResponse<T> = response;
     const contentType =
       response.headers.get('content-type') || 'application/json';
 
     if (contentType.includes('application/json') && textString) {
-      response.jsonData = (JSON.parse(textString): T);
+      newResponse.jsonData = (JSON.parse(textString): T);
     }
-
-    response.textString = textString;
-    return response;
+    newResponse.textString = textString;
+    return newResponse;
   });
 }
 
@@ -49,7 +47,7 @@ function rejectOnHttpErrors(response: HttpResponse<*>) {
   throw error;
 }
 
-export function stringifyBody(requestOptions: HttpRequestOptions) {
+export function stringifyBody(requestOptions: HttpRequestOptions): ?string {
   const { body, json } = requestOptions;
 
   if (typeof body === 'string') {
@@ -109,7 +107,7 @@ export default function fetchJSON<T>(
       body,
       headers: new Headers({
         Accept: 'application/json',
-        ...requestOptions.headers,
+        ...(requestOptions.headers: Object),
       }),
     });
 

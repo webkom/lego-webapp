@@ -33,7 +33,7 @@ function Card({
         tight && styles.tight,
         shadow && styles.shadow
       )}
-      {...htmlAttributes}
+      {...(htmlAttributes: Object)}
     >
       {children}
     </div>

@@ -77,6 +77,6 @@ const validate = createValidator({
 });
 
 export default compose(
-  connect(null, { sendForgotPasswordEmail }),
+  connect<any, any, any, any, any, any>(null, { sendForgotPasswordEmail }),
   reduxForm({ form: 'ForgotPasswordForm', validate })
 )(ForgotPasswordForm);

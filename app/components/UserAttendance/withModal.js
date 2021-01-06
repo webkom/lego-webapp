@@ -66,4 +66,5 @@ const ChildrenWithProps = ({
   </div>
 );
 
+//$FlowFixMe
 export const ModalParentComponent = withModal(ChildrenWithProps);

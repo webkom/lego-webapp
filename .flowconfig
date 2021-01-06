@@ -1,15 +1,15 @@
 [ignore]
-.*/node_modules/babel.*
-.*/node_modules/stylelint*
-.*/node_modules/jss/*
-.*/node_modules/findup/*
 .*/.cypress_cache/*
+.*/node_modules/findup/*
+
+[lints]
+deprecated-utility=off
 
 [libs]
 
 [options]
+well_formed_exports=false
+types_first=false
 module.name_mapper='.*\(.css\)' -> 'empty/object'
 module.name_mapper='.*\(.xml\)' -> 'empty/object'
 module.name_mapper='^\(.*\)$' -> '<PROJECT_ROOT>/\1'
-
-suppress_comment= \\(.\\|\n\\)*\\$FlowFixMe

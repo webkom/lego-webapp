@@ -117,7 +117,7 @@ const NextEvent = (props: { events: Array<Event> }) => {
 
   // Sorted events based on activationfilter take out the
   // ones that are out of range
-  const orderedEvents = orderBy(
+  const orderedEvents = orderBy<Event>(
     props.events.filter(hasActivation).filter(inRange),
     ['activationTime']
   ).splice(0, 2);

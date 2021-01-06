@@ -20,13 +20,13 @@ type Property = {
 };
 type PropertyGenerator = (props: Object, config?: Object) => ?Array<Property>;
 
-export default function helmet<T>(propertyGenerator: ?PropertyGenerator) {
+export default function helmet<T>(propertyGenerator: ?PropertyGenerator): any {
   return (Component: ComponentType<T>) => ({
     PropertyGenerator,
     ...props
   }: T & {
-    propertyGenerator: ?PropertyGenerator,
-  }) => {
+    PropertyGenerator: ?PropertyGenerator,
+  }): any => {
     const properties: ?Array<Property> =
       propertyGenerator && propertyGenerator(props, config);
 
@@ -37,7 +37,7 @@ export default function helmet<T>(propertyGenerator: ?PropertyGenerator) {
             {properties.map(({ element, children, ...props }, index) =>
               createElement(
                 element || 'meta',
-                { key: index, ...props },
+                { key: index, ...(props: Object) },
                 children
               )
             )}

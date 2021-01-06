@@ -32,7 +32,7 @@ export function fetch({
   };
 }
 
-export function fetchGallery(galleryId: EntityID) {
+export function fetchGallery(galleryId: EntityID): Thunk<any> {
   return callAPI({
     types: Gallery.FETCH,
     endpoint: `/galleries/${galleryId}/`,
@@ -44,7 +44,7 @@ export function fetchGallery(galleryId: EntityID) {
   });
 }
 
-export function fetchGalleryMetadata(galleryId: EntityID) {
+export function fetchGalleryMetadata(galleryId: EntityID): Thunk<any> {
   return callAPI({
     types: Gallery.FETCH,
     endpoint: `/galleries/${galleryId}/metadata/`,
@@ -54,7 +54,7 @@ export function fetchGalleryMetadata(galleryId: EntityID) {
   });
 }
 
-export function createGallery(gallery: GalleryEntity) {
+export function createGallery(gallery: GalleryEntity): Thunk<any> {
   return callAPI({
     types: Gallery.CREATE,
     endpoint: '/galleries/',
@@ -67,7 +67,7 @@ export function createGallery(gallery: GalleryEntity) {
   });
 }
 
-export function updateGallery(gallery: GalleryEntity) {
+export function updateGallery(gallery: GalleryEntity): Thunk<any> {
   return callAPI({
     types: Gallery.EDIT,
     endpoint: `/galleries/${gallery.id}/`,
@@ -80,7 +80,7 @@ export function updateGallery(gallery: GalleryEntity) {
   });
 }
 
-export function updateGalleryCover(id: EntityID, cover: EntityID) {
+export function updateGalleryCover(id: EntityID, cover: EntityID): Thunk<any> {
   return callAPI({
     types: Gallery.EDIT,
     endpoint: `/galleries/${id}/`,
@@ -95,7 +95,7 @@ export function updateGalleryCover(id: EntityID, cover: EntityID) {
   });
 }
 
-export function deleteGallery(id: EntityID) {
+export function deleteGallery(id: EntityID): Thunk<any> {
   return callAPI({
     types: Gallery.DELETE,
     endpoint: `/galleries/${id}/`,

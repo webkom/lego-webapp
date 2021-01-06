@@ -110,7 +110,7 @@ const onSubmit = (
   return props.handleSubmitCallback({
     authors: authors.map((user) => user.value),
     thanks: thanks.map((user) => user.value),
-    ...rest,
+    ...(rest: Object),
   });
 };
 

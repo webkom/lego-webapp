@@ -4,6 +4,7 @@ import { reducer as formReducer } from 'redux-form';
 import { Event } from '../actions/ActionTypes';
 import moment from 'moment-timezone';
 
+//$FlowFixMe[prop-missing] plugin is missing? :upside_down_face:
 export default formReducer.plugin({
   eventEditor: (state, action) => {
     switch (action.type) {

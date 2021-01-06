@@ -12,8 +12,8 @@ import qs from 'qs';
 
 const mapStateToProps = (state) => {
   const { search } = state.router.location;
-  const { filters: qsFilters = '{}' } = qs.parse(search.slice(1));
-  const filters = JSON.parse(qsFilters);
+  const { filters: qsFilters } = qs.parse(search.slice(1));
+  const filters = JSON.parse(typeof qsFilters === 'string' ? qsFilters : '{}');
   const { name, email, requireInternalAddress } = filters;
 
   const query = {

@@ -1,7 +1,6 @@
 // @flow
 
-import React from 'react';
-// $FlowFixMe
+import * as React from 'react';
 import { type FieldArrayProps, Field, FieldArray } from 'redux-form';
 import {
   TextInput,
@@ -20,7 +19,7 @@ import {
   QuestionTypeValue,
 } from '../../utils';
 
-type Fields = typeof FieldArrayProps.Field;
+type Fields = $PropertyType<FieldArrayProps, 'fields'>;
 
 type Props = {
   deleteQuestion: (number) => Promise<*>,
@@ -168,7 +167,7 @@ const renderOptions = ({
 }: {
   fields: Fields,
   questionType: string,
-}) => (
+}): React.Node => (
   <ul className={styles.options}>
     {fields.map((option, relativeIndex) => {
       const isLast = fields.length - 1 === relativeIndex;

@@ -49,7 +49,11 @@ const SubmissionContainer = ({
   }
 
   return (
-    <SubmissionEditor survey={survey} submission={submission} {...props} />
+    <SubmissionEditor
+      survey={survey}
+      submission={submission}
+      {...(props: Object)}
+    />
   );
 };
 

@@ -64,11 +64,16 @@ class Poll extends React.Component<Props, State> {
   };
 
   // As described in: https://stackoverflow.com/questions/13483430/how-to-make-rounded-percentages-add-up-to-100
-  perfectRatios = (options: Array<OptionEntityRatio>) => {
+  perfectRatios = (
+    options: $ReadOnlyArray<OptionEntityRatio>
+  ): OptionEntityRatio[] => {
     const off =
       100 - options.reduce((a, option) => a + Math.floor(option.ratio), 0);
-    return sortBy(options, (o) => Math.floor(o.ratio) - o.ratio)
-      .map((option, index) => {
+    return sortBy<OptionEntityRatio>(
+      options,
+      (o: OptionEntityRatio) => Math.floor(o.ratio) - o.ratio
+    )
+      .map((option: OptionEntityRatio, index: number) => {
         return {
           ...option,
           ratio: Math.floor(option.ratio) + (index < off ? 1 : 0),

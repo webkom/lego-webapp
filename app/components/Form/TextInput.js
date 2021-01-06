@@ -36,7 +36,7 @@ function TextInput({
           suffix && styles.suffix,
           className
         )}
-        {...props}
+        {...(props: Object)}
       />
       {suffix && <span className={styles.suffix}>{suffix}</span>}
     </span>

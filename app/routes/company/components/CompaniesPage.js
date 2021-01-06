@@ -82,7 +82,7 @@ const CompanyList = ({ companies = [] }: CompanyListProps) => (
 type State = { expanded: boolean };
 class CompaniesPage extends React.Component<Props, State> {
   state = { expanded: false };
-  top = React.createRef();
+  top = React.createRef<React.ElementRef<'h2'>>();
   render() {
     const { props } = this;
 

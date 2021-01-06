@@ -21,7 +21,7 @@ type State = any;
  * Used by the individual entity reducers
  */
 export function mutateComments(forTargetType: string) {
-  return produce((newState: State, action: any): void => {
+  return produce<State>((newState: State, action: any): void => {
     switch (action.type) {
       case Comment.ADD.SUCCESS: {
         const [serverTargetType, targetId] = action.meta.contentTarget.split(

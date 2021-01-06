@@ -18,7 +18,6 @@ import type { EntityID } from 'app/types';
 import type { ID } from 'app/models';
 import Button from 'app/components/Button';
 import { Image } from 'app/components/Image';
-// $FlowFixMe
 import { useEffect } from 'react';
 
 type Props = {
@@ -194,7 +193,7 @@ export default class GalleryPictureModal extends Component<Props, State> {
     }
   };
 
-  handleSwipe = ({ dir }: { dir: RIGHT | LEFT }) => {
+  handleSwipe = ({ dir }: { dir: string }) => {
     dir === RIGHT && this.previousGalleryPicture();
     dir === LEFT && this.nextGalleryPicture();
   };
@@ -266,6 +265,7 @@ export default class GalleryPictureModal extends Component<Props, State> {
                     actionGrant.includes('edit') && [
                       <Dropdown.ListItem key="edit">
                         <Link
+                          to="#"
                           onClick={this.onUpdate}
                           style={{ color: 'var(--lego-color-gray)' }}
                         >
@@ -276,6 +276,7 @@ export default class GalleryPictureModal extends Component<Props, State> {
                       <Dropdown.ListItem key="cover">
                         <Link
                           onClick={this.onUpdateGalleryCover}
+                          to="#"
                           style={{ color: 'var(--lego-color-gray)' }}
                         >
                           <strong>Sett som album cover</strong>
@@ -312,6 +313,7 @@ export default class GalleryPictureModal extends Component<Props, State> {
             <Flex justifyContent="center">
               {this.state.hasPrevious && (
                 <Link
+                  to="#"
                   onClick={this.previousGalleryPicture}
                   style={{ marginRight: '50px' }}
                 >
@@ -319,7 +321,7 @@ export default class GalleryPictureModal extends Component<Props, State> {
                 </Link>
               )}
               {this.state.hasNext && (
-                <Link onClick={this.nextGalleryPicture}>
+                <Link to="#" onClick={this.nextGalleryPicture}>
                   <Icon name="arrow-dropright" size={64} />
                 </Link>
               )}

@@ -2,9 +2,10 @@
 
 import { Page } from './ActionTypes';
 import { pageSchema } from 'app/reducers';
+import type { Thunk } from 'app/types';
 import callAPI from 'app/actions/callAPI';
 
-export function fetchPage(pageSlug: string) {
+export function fetchPage(pageSlug: string): Thunk<any> {
   return callAPI({
     types: Page.FETCH,
     endpoint: `/pages/${pageSlug}/`,
@@ -16,7 +17,7 @@ export function fetchPage(pageSlug: string) {
   });
 }
 
-export function deletePage(pageSlug: string) {
+export function deletePage(pageSlug: string): Thunk<any> {
   return callAPI({
     types: Page.DELETE,
     endpoint: `/pages/${pageSlug}/`,
@@ -28,7 +29,7 @@ export function deletePage(pageSlug: string) {
   });
 }
 
-export function fetchAll() {
+export function fetchAll(): Thunk<any> {
   return callAPI({
     types: Page.FETCH,
     endpoint: '/pages/',
@@ -40,7 +41,7 @@ export function fetchAll() {
   });
 }
 
-export function updatePage(slug: string, body: Object) {
+export function updatePage(slug: string, body: Object): Thunk<any> {
   return callAPI({
     types: Page.UPDATE,
     endpoint: `/pages/${slug}/`,
@@ -53,7 +54,7 @@ export function updatePage(slug: string, body: Object) {
   });
 }
 
-export function createPage(body: Object) {
+export function createPage(body: Object): Thunk<any> {
   return callAPI({
     types: Page.CREATE,
     endpoint: `/pages/`,

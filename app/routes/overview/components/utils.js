@@ -17,6 +17,7 @@ export const renderMeta = (
   return (
     <span className={styles.itemInfo}>
       <Time
+        //$FlowFixMe[incompatible-type]
         time={isEvent ? item.startTime : item.createdAt}
         format="DD.MM HH:mm"
       />

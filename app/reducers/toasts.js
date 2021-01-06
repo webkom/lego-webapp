@@ -17,7 +17,7 @@ type State = {
   items: Array<Toast>,
 };
 
-const toasts = produce((newState: State, action: any): void => {
+const toasts = produce<State>((newState: State, action: any): void => {
   switch (action.type) {
     case Toasts.TOAST_ADDED:
       newState.items.push(action.payload);

@@ -90,11 +90,10 @@ type State = {
   filterEventTypesSettings: Object,
 };
 
-// $FlowFixMe
 class EventList extends Component<EventListProps, State> {
   state = {
     selectedOption: {
-      filterRegDateFunc: (event: Event) => event,
+      filterRegDateFunc: (event: Event) => true,
       label: 'Vis alle',
       field: EVENTFIELDS.start,
     },

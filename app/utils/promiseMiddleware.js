@@ -4,6 +4,8 @@ import type {
   Middleware,
   AsyncActionType,
   AsyncActionTypeArray,
+  PromiseAction,
+  AnyAction,
 } from 'app/types';
 
 function extractTypes(
@@ -17,15 +19,12 @@ function extractTypes(
 }
 
 export default function promiseMiddleware(): Middleware {
-  return (store) => (next) => (action) => {
-    if (action.type) {
+  return (store) => (next) => (action: AnyAction<any>) => {
+    if (typeof action !== 'object' || !action.types) {
       return next(action);
     }
 
-    // Flow does not understand that action has to be a promiseAction since it has no type
-    // $FlowFixMe
-    const { types, payload, promise } = action;
-    const meta: any = action.meta;
+    const { types, payload, promise, meta } = (action: PromiseAction<any>);
 
     const [PENDING, SUCCESS, FAILURE] = extractTypes(types);
 
@@ -36,7 +35,6 @@ export default function promiseMiddleware(): Middleware {
     });
 
     return new Promise((resolve, reject) => {
-      // $FlowFixMe
       promise.then(
         (payload) =>
           resolve(

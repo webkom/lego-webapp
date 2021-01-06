@@ -9,9 +9,9 @@ import { range, takeWhile, last } from 'lodash';
  * @TODO: memoize
  */
 export default function createMonthlyCalendar(
-  date: moment,
+  date: moment$Moment,
   weekOffset: number = 0
-) {
+): { day: moment$Moment, prevOrNextMonth: boolean }[] {
   const startOfMonth = date.startOf('month');
 
   let diff = startOfMonth.weekday() - weekOffset;

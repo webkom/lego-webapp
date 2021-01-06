@@ -96,7 +96,6 @@ export default function callAPI({
   propagateError = false,
   enableOptimistic = false,
   requiresAuthentication = true,
-  mapper,
   timeout,
 }: CallAPIOptions): Thunk<Promise<any>> {
   return (dispatch, getState) => {
@@ -217,7 +216,7 @@ export default function callAPI({
         paginationKey:
           paginationForRequest && paginationForRequest.paginationKey,
         cursor,
-        ...meta,
+        ...(meta: Object),
         optimisticId: optimisticPayload ? optimisticPayload.result : undefined,
         enableOptimistic,
         endpoint,
@@ -228,7 +227,6 @@ export default function callAPI({
       promise: promise
         .then((response) => normalizeJsonResponse(response))
         .catch((error) =>
-          // $FlowFixMe
           dispatch(handleError(error, propagateError, endpoint, loggedIn))
         ),
     });

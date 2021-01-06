@@ -3,7 +3,6 @@
 import styles from './Calendar.css';
 import React, { Component } from 'react';
 import Helmet from 'react-helmet';
-import moment from 'moment-timezone';
 import { Link } from 'react-router-dom';
 import createMonthlyCalendar from 'app/utils/createMonthlyCalendar';
 import CalendarCell from './CalendarCell';
@@ -15,17 +14,17 @@ const WEEKDAYS = ['Man', 'Tir', 'Ons', 'Tor', 'Fre', 'Lør', 'Søn'];
 
 type Props = {
   weekOffset: number,
-  date: moment,
+  date: moment$Moment,
   icalToken: IcalToken,
   actionGrant: ActionGrant,
 };
 
-function pathForPrevMonth(date: moment) {
+function pathForPrevMonth(date: moment$Moment) {
   const newDate = date.clone().subtract(1, 'months');
   return `${newDate.year()}/${newDate.month() + 1}`;
 }
 
-function pathForNextMonth(date: moment) {
+function pathForNextMonth(date: moment$Moment) {
   const newDate = date.clone().add(1, 'months');
   return `${newDate.year()}/${newDate.month() + 1}`;
 }
@@ -57,7 +56,7 @@ export default class Calendar extends Component<Props> {
           ))}
           {createMonthlyCalendar(date, this.props.weekOffset).map(
             (dateProps, i) => (
-              <CalendarCell key={i} {...dateProps} />
+              <CalendarCell key={i} {...(dateProps: Object)} />
             )
           )}
         </div>

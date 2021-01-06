@@ -80,7 +80,7 @@ export default class GalleryDetail extends Component<Props, State> {
           </NavigationLink>
           {actionGrant && actionGrant.includes('edit') && (
             <div>
-              <NavigationLink onClick={() => this.toggleUpload()}>
+              <NavigationLink to="#" onClick={() => this.toggleUpload()}>
                 Last opp bilder
               </NavigationLink>
               <NavigationLink to={`/photos/${gallery.id}/edit`}>

@@ -65,6 +65,7 @@ global.log = function log(self = this) {
   return this;
 };
 
+// $FlowFixMe
 Sentry.init({
   dsn: config.sentryDSN,
   release: config.release,

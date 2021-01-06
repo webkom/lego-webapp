@@ -23,6 +23,7 @@ const updateFilters = (type, value, filters) => {
           grades: newFilter.grades.toString(),
         }
       : {}),
+    //$FlowFixMe[exponential-spread]
     ...(newFilter.jobTypes.length > 0
       ? {
           jobTypes: newFilter.jobTypes.toString(),
@@ -120,8 +121,7 @@ export default class JoblistingsRightNav extends Component<Props, State> {
     });
   };
 
-  // $FlowFixMe
-  handleQuery = (type, value, remove = false) => {
+  handleQuery = (type: string, value: string, remove: boolean = false) => {
     const query = { ...this.props.query };
     if (remove) {
       delete query[type];

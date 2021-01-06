@@ -4,11 +4,12 @@ import React, { PureComponent, type ComponentType } from 'react';
 
 type LoginProps = { loggedIn: boolean };
 
-export default function replaceUnlessLoggedIn<Props: Object>(
-  ReplacementComponent: ComponentType<Props>
-): (ActualComponent: ComponentType<Props>) => ComponentType<Props> {
+// TODO add proper typings to this when starting to deal with TS
+export default function replaceUnlessLoggedIn(
+  ReplacementComponent: ComponentType<any>
+): (ActualComponent: ComponentType<any>) => ComponentType<any> {
   return (ActualComponent) => {
-    class Replacement extends PureComponent<Props & LoginProps> {
+    class Replacement extends PureComponent<any & LoginProps> {
       render() {
         const { loggedIn, ...props } = this.props;
 

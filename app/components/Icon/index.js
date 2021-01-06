@@ -41,7 +41,7 @@ function Icon({
     <i
       className={cx(`${prefix}${name}`, styles.icon, className)}
       style={{ fontSize: `${size.toString()}px`, lineHeight: 1, ...style }}
-      {...props}
+      {...(props: Object)}
     />
   );
 }

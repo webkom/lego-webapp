@@ -16,7 +16,7 @@ const ProfilePicture = ({ alt, user, size = 100, style, ...props }: Props) => (
     src={user.profilePicture}
     size={size}
     style={style}
-    {...props}
+    {...(props: Object)}
   />
 );
 

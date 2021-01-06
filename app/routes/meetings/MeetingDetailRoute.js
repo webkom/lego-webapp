@@ -32,7 +32,12 @@ const loadData = (props, dispatch) => {
   const { action, token } = search;
   const loggedIn = props.loggedIn;
 
-  if (token && action) {
+  if (
+    token &&
+    action &&
+    typeof token === 'string' &&
+    typeof action === 'string'
+  ) {
     return dispatch(answerMeetingInvitation(action, token, loggedIn)).then(() =>
       loadMeeting(props, dispatch)
     );

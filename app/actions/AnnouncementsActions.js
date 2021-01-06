@@ -6,7 +6,7 @@ import { announcementsSchema } from 'app/reducers';
 import { stopSubmit } from 'redux-form';
 import type { Thunk } from 'app/types';
 
-export function fetchAll() {
+export function fetchAll(): Thunk<any> {
   return callAPI({
     types: Announcements.FETCH_ALL,
     endpoint: '/announcements/',
@@ -60,7 +60,7 @@ export function createAnnouncement(
       });
 }
 
-export function sendAnnouncement(announcementId: number) {
+export function sendAnnouncement(announcementId: number): Thunk<any> {
   return callAPI({
     types: Announcements.SEND,
     endpoint: `/announcements/${announcementId}/send/`,
@@ -72,7 +72,7 @@ export function sendAnnouncement(announcementId: number) {
   });
 }
 
-export function deleteAnnouncement(id: number) {
+export function deleteAnnouncement(id: number): Thunk<any> {
   return callAPI({
     types: Announcements.DELETE,
     endpoint: `/announcements/${id}/`,

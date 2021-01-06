@@ -4,15 +4,14 @@ import { Meeting } from '../actions/ActionTypes';
 import moment from 'moment-timezone';
 import { createSelector } from 'reselect';
 import createEntityReducer from 'app/utils/createEntityReducer';
-import type Moment from 'moment-timezone';
 import { mutateComments } from 'app/reducers/comments';
 
 export type MeetingEntity = {
   id: number,
   title: string,
   location: string,
-  startTime: Moment,
-  endTime: Moment,
+  startTime: moment$Moment,
+  endTime: moment$Moment,
   report: string,
   invitations: Array<number>,
   reportAuthor: number,

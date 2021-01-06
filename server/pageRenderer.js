@@ -50,10 +50,9 @@ export type PageRendererProps = {
 
 export default function pageRenderer({
   body = '',
-  // $FlowFixMe / $TsPlsFix
   state = {},
   helmet,
-}: PageRendererProps = {}) {
+}: PageRendererProps = {}): string {
   const { scripts, styles } = retrieveAssets();
   const isSSR = body === '' ? 'false' : 'true';
 

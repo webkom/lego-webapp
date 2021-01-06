@@ -398,11 +398,11 @@ class JoinEventForm extends Component<Props> {
   }
 }
 
-function getFeedbackName(event: Event) {
+function getFeedbackName(event: Event): string {
   return event.feedbackRequired ? 'feedbackRequired' : 'feedback';
 }
 
-function getFeedbackLabel(event: Event) {
+function getFeedbackLabel(event: Event): string {
   return event.feedbackDescription || 'Melding til arrangør';
 }
 
@@ -441,7 +441,6 @@ function mapStateToProps(state, { event, registration }) {
 }
 
 export default compose(
-  // $FlowFixMe
   connect(mapStateToProps, null),
   withCountdown,
   reduxForm({

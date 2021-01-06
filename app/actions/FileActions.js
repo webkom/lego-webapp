@@ -22,7 +22,7 @@ const slugifyFilename: (filename: string) => string = (filename) => {
   return slug(filename, slugOpts);
 };
 
-export function fetchSignedPost(key: string, isPublic: boolean) {
+export function fetchSignedPost(key: string, isPublic: boolean): Thunk<any> {
   return callAPI({
     types: FileType.FETCH_SIGNED_POST,
     method: 'POST',

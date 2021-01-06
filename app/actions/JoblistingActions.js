@@ -2,10 +2,11 @@
 
 import { joblistingsSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
+import type { Thunk } from 'app/types';
 import { Joblistings } from './ActionTypes';
 import moment from 'moment-timezone';
 
-export function fetchAll() {
+export function fetchAll(): Thunk<any> {
   return callAPI({
     types: Joblistings.FETCH,
     endpoint: '/joblistings/',
@@ -17,7 +18,7 @@ export function fetchAll() {
   });
 }
 
-export function fetchJoblisting(id: number) {
+export function fetchJoblisting(id: number): Thunk<any> {
   return callAPI({
     types: Joblistings.FETCH,
     endpoint: `/joblistings/${id}/`,
@@ -30,7 +31,7 @@ export function fetchJoblisting(id: number) {
   });
 }
 
-export function deleteJoblisting(id: number) {
+export function deleteJoblisting(id: number): Thunk<any> {
   return callAPI({
     types: Joblistings.DELETE,
     endpoint: `/joblistings/${id}/`,
@@ -49,7 +50,7 @@ export function createJoblisting({
   visibleTo,
   visibleFrom,
   ...data
-}: Object) {
+}: Object): Thunk<any> {
   return callAPI({
     types: Joblistings.CREATE,
     endpoint: '/joblistings/',
@@ -77,7 +78,7 @@ export function editJoblisting({
   visibleTo,
   visibleFrom,
   ...data
-}: Object) {
+}: Object): Thunk<any> {
   return callAPI({
     types: Joblistings.EDIT,
     endpoint: `/joblistings/${id}/`,

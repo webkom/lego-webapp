@@ -54,7 +54,10 @@ export function addComment({
   };
 }
 
-export function deleteComment(commentId: ID, contentTarget: string) {
+export function deleteComment(
+  commentId: ID,
+  contentTarget: string
+): Thunk<any> {
   return callAPI({
     types: Comment.DELETE,
     endpoint: `/comments/${commentId}/`,
