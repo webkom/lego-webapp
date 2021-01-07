@@ -83,6 +83,7 @@
 .yearNavigator {
   margin-bottom: -5px;
   transition: color 0.3s ease;
+  color: var(--lego-text-color);
 
   &:hover {
     cursor: pointer;

@@ -10,6 +10,7 @@ import cx from 'classnames';
 import type { CompanyEntity } from 'app/reducers/companies';
 import type { CompanySemesterContactedStatus } from 'app/models';
 import LoadingIndicator from 'app/components/LoadingIndicator';
+import Button from 'app/components/Button';
 
 type Props = {
   companies: Array<CompanyEntity>,
@@ -130,7 +131,8 @@ export default class CompanyList extends Component<Props> {
           <thead>
             <tr className={styles.invisRow}>
               <td />
-              <td
+              <Button
+                flat
                 className={styles.yearNavigator}
                 onClick={() => navigateThroughTime({ direction: 'backward' })}
               >
@@ -140,9 +142,10 @@ export default class CompanyList extends Component<Props> {
                   size={16}
                 />
                 Forrige år
-              </td>
+              </Button>
               <td />
-              <td
+              <Button
+                flat
                 className={cx(styles.rightArrow, styles.yearNavigator)}
                 onClick={() => navigateThroughTime({ direction: 'forward' })}
               >
@@ -152,7 +155,7 @@ export default class CompanyList extends Component<Props> {
                   style={{ marginLeft: '5px' }}
                   size={16}
                 />
-              </td>
+              </Button>
             </tr>
 
             <tr className={styles.categoryHeader}>{headers}</tr>

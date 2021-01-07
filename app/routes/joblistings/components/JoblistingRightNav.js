@@ -134,20 +134,20 @@ export default class JoblistingsRightNav extends Component<Props, State> {
   render() {
     return (
       <Flex column className={styles.box}>
-        <h2 onClick={this.updateDisplayOptions} className={styles.optionsTitle}>
-          <span>Valg</span>
-          {this.state.displayOptions ? (
-            <i
-              style={{ marginLeft: '5px', marginTop: '10px' }}
-              className="fa fa-caret-down"
-            />
-          ) : (
-            <i
-              style={{ marginLeft: '5px', marginTop: '10px' }}
-              className="fa fa-caret-right"
-            />
-          )}
-        </h2>
+        <Button
+          flat
+          onClick={this.updateDisplayOptions}
+          className={styles.optionsTitle}
+        >
+          <h2>
+            <span>Valg</span>
+            {this.state.displayOptions ? (
+              <i style={{ marginLeft: '5px' }} className="fa fa-caret-down" />
+            ) : (
+              <i style={{ marginLeft: '5px' }} className="fa fa-caret-right" />
+            )}
+          </h2>
+        </Button>
         <Flex
           column
           className={styles.options}
@@ -163,7 +163,10 @@ export default class JoblistingsRightNav extends Component<Props, State> {
           </h3>
           <Flex justifyContent="flex-start" className={styles.sortNav}>
             <Flex>
-              <label style={{ marginRight: '10px', cursor: 'pointer' }}>
+              <label
+                htmlFor="deadline"
+                style={{ marginRight: '10px', cursor: 'pointer' }}
+              >
                 <RadioButton
                   name="sort"
                   id="deadline"
@@ -182,7 +185,7 @@ export default class JoblistingsRightNav extends Component<Props, State> {
               </label>
             </Flex>
             <Flex>
-              <label style={{ cursor: 'pointer' }}>
+              <label htmlFor="company" style={{ cursor: 'pointer' }}>
                 <RadioButton
                   name="sort"
                   id="company"
@@ -201,7 +204,7 @@ export default class JoblistingsRightNav extends Component<Props, State> {
               </label>
             </Flex>
             <Flex>
-              <label style={{ cursor: 'pointer' }}>
+              <label htmlFor="createdAt" style={{ cursor: 'pointer' }}>
                 <RadioButton
                   name="sort"
                   id="createdAt"
