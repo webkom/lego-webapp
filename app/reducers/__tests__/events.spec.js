@@ -282,7 +282,7 @@ describe('reducers', () => {
       });
     });
 
-    it('Event.SOCKET_REGISTRATION.FAILURE ', () => {
+    it('Event.SOCKET_REGISTRATION.FAILURE', () => {
       const prevState = baseState;
       const action = {
         type: Event.SOCKET_REGISTRATION.FAILURE,

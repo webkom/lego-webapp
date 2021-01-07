@@ -53,8 +53,8 @@ describe('<GroupTree />', () => {
       <GroupTree groups={rootGroups} pathname="/admin/groups/1/settings" />
     );
     const links = wrapper.find(Link);
-    expect(wrapper.find(TreeView).length).toEqual(0);
-    expect(links.length).toEqual(1);
+    expect(wrapper.find(TreeView)).toHaveLength(0);
+    expect(links).toHaveLength(1);
   });
 
   it('should preserve the selected tab', () => {

@@ -31,7 +31,7 @@ describe('fetchHistory', () => {
     expect(fetchHistory(prevState, action)).toEqual({});
   });
 
-  it('should not throw when success equals false with type', () => {
+  it('should not throw when success equals EVENT.SUCCESS with type', () => {
     const prevState = {};
     const action = { type: 'Event.BEGIN', meta: { success: 'EVENT.SUCCESS' } };
     expect(fetchHistory(prevState, action)).toEqual({});

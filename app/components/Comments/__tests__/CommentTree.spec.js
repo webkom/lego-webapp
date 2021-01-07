@@ -13,10 +13,10 @@ describe('<CommentTree />', () => {
   });
   const tree = generateTreeStructure(comments);
 
-  it('should render the top level comments at root level ', () => {
+  it('should render the top level comments at root level', () => {
     const wrapper = shallow(<CommentTree comments={tree} />);
     const commentElements = wrapper.find('.root');
-    expect(commentElements.length).toEqual(2);
+    expect(commentElements).toHaveLength(2);
   });
 
   it('should nest comments', () => {
