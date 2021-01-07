@@ -6,8 +6,7 @@ import { uploadFile } from './FileActions';
 import PromisePool from 'es6-promise-pool';
 import { type GalleryPictureEntity } from 'app/reducers/galleryPictures';
 import callAPI from 'app/actions/callAPI';
-import type { EntityID } from 'app/types';
-import type { Thunk } from 'app/types';
+import type { EntityID, Thunk } from 'app/types';
 
 export function fetch(
   galleryId: number,

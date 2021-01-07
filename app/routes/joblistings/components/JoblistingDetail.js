@@ -16,7 +16,7 @@ import {
 import { jobType, Year, Workplaces } from './Items';
 import Time from 'app/components/Time';
 import type { ID } from 'app/models';
-import Helmet from 'react-helmet';
+import { Helmet } from 'react-helmet';
 
 type Props = {
   joblisting: Object,

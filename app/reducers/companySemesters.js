@@ -4,7 +4,7 @@ import { Company } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { createSelector } from 'reselect';
 import { sortSemesterChronologically } from 'app/routes/companyInterest/utils';
-import produce from 'immer';
+import { produce } from 'immer';
 
 export type CompanySemesterEntity = {
   id?: number,

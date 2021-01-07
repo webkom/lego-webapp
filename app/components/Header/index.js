@@ -6,7 +6,7 @@ import { Modal } from 'react-overlays';
 import Dropdown from '../Dropdown';
 import Icon from '../Icon';
 import Search from '../Search';
-import { ProfilePicture } from '../Image';
+import { ProfilePicture, Image } from '../Image';
 import FancyNodesCanvas from './FancyNodesCanvas';
 import NotificationsDropdown from '../HeaderNotifications';
 import Button from '../Button';
@@ -19,7 +19,7 @@ import {
 import { Flex } from 'app/components/Layout';
 import cx from 'classnames';
 import { applySelectedTheme, getTheme } from 'app/utils/themeUtils';
-import { Image } from 'app/components/Image';
+
 import type { UserEntity } from 'app/reducers/users';
 import logoLightMode from 'app/assets/logo-dark.png';
 import logoDarkMode from 'app/assets/logo.png';

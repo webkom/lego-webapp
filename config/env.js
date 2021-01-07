@@ -3,7 +3,7 @@
 // When this config is sent to the client, it will act as the "normal" config
 //
 // See the file `app/config.js` for more info.
-export const config = {
+const config = {
   serverUrl: process.env.API_URL || 'http://127.0.0.1:8000/api/v1',
   wsServerUrl: process.env.WS_URL || 'ws://127.0.0.1:8000',
   baseUrl: process.env.BASE_URL || 'http://127.0.0.1:8000',

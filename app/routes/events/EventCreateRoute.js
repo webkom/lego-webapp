@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { formValueSelector } from 'redux-form';
-import { createEvent } from 'app/actions/EventActions';
+import { createEvent, fetchEvent } from 'app/actions/EventActions';
 import { uploadFile } from 'app/actions/FileActions';
 import EventEditor from './components/EventEditor';
 import {
@@ -14,7 +14,7 @@ import time from 'app/utils/time';
 import prepare from 'app/utils/prepare';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { isEmpty } from 'lodash';
-import { fetchEvent } from 'app/actions/EventActions';
+
 import loadingIndicator from 'app/utils/loadingIndicator';
 import moment from 'moment-timezone';
 

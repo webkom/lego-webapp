@@ -3,9 +3,12 @@
 import { connect } from 'react-redux';
 import prepare from 'app/utils/prepare';
 import { compose } from 'redux';
-import { addSubmission } from '../../actions/SurveySubmissionActions';
+import {
+  addSubmission,
+  fetchUserSubmission,
+} from '../../actions/SurveySubmissionActions';
 import { fetchSurvey } from 'app/actions/SurveyActions';
-import { fetchUserSubmission } from 'app/actions/SurveySubmissionActions';
+
 import SubmissionContainer from './components/SubmissionEditor/SubmissionContainer';
 import { selectSurveyById } from 'app/reducers/surveys';
 import { selectSurveySubmissionForUser } from 'app/reducers/surveySubmissions';

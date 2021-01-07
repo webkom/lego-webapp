@@ -4,7 +4,7 @@ import { StaticRouter } from 'react-router';
 import RouteConfig from '../app/routes';
 // $FlowFixMe
 import { ReactReduxContext } from 'react-redux';
-import Helmet from 'react-helmet';
+import { Helmet } from 'react-helmet';
 import * as Sentry from '@sentry/node';
 import configureStore from '../app/utils/configureStore';
 import { type State } from '../app/types';

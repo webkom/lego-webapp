@@ -2,12 +2,11 @@
 import type { SearchResult as SearchResultType } from 'app/reducers/search';
 import EmptyState from 'app/components/EmptyState';
 import { Link } from 'react-router-dom';
-import { ProfilePicture } from 'app/components/Image';
+import { ProfilePicture, Image } from 'app/components/Image';
 import truncateString from 'app/utils/truncateString';
 import Icon from 'app/components/Icon';
 import styles from './SearchPageResults.css';
 import { Flex } from 'app/components/Layout';
-import { Image } from 'app/components/Image';
 
 type Props = {
   query: string,

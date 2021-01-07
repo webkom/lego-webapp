@@ -6,8 +6,7 @@ import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import Poll from 'app/components/Poll';
 import PollEditor from './PollEditor';
 import { type PollEntity } from 'app/reducers/polls';
-import { type ActionGrant } from 'app/models';
-import { type ID } from 'app/models';
+import { type ActionGrant, type ID } from 'app/models';
 
 type Props = {
   poll: PollEntity,

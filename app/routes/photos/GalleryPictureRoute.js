@@ -1,6 +1,10 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { SelectGalleryPicturesByGalleryId } from '../../reducers/galleryPictures';
+import {
+  SelectGalleryPicturesByGalleryId,
+  selectGalleryPictureById,
+  selectCommentsForGalleryPicture,
+} from '../../reducers/galleryPictures';
 import helmet from 'app/utils/helmet';
 import GalleryPictureModal from './components/GalleryPictureModal';
 import loadingIndicator from 'app/utils/loadingIndicator';
@@ -8,12 +12,9 @@ import prepare from 'app/utils/prepare';
 import {
   fetchSiblingGallerPicture,
   fetchGalleryPicture,
+  deletePicture,
 } from 'app/actions/GalleryPictureActions';
-import {
-  selectGalleryPictureById,
-  selectCommentsForGalleryPicture,
-} from 'app/reducers/galleryPictures';
-import { deletePicture } from 'app/actions/GalleryPictureActions';
+
 import { updateGalleryCover, fetchGallery } from 'app/actions/GalleryActions';
 import { push } from 'connected-react-router';
 import { deleteComment } from 'app/actions/CommentActions';

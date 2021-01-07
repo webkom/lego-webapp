@@ -6,7 +6,7 @@ import { Component } from 'react';
 import { DetailNavigation, ListNavigation, QuestionTypes } from '../../utils';
 import Question from './Question';
 import { Field, FieldArray } from 'redux-form';
-import type { FieldArrayProps } from 'redux-form';
+import type { FieldArrayProps, FormProps } from 'redux-form';
 import Button from 'app/components/Button';
 import {
   TextInput,
@@ -17,7 +17,7 @@ import {
 import { createValidator, required } from 'app/utils/validation';
 import type { SurveyEntity } from 'app/reducers/surveys';
 import { Content } from 'app/components/Content';
-import type { FormProps } from 'redux-form';
+
 import Icon from 'app/components/Icon';
 import { Link } from 'react-router-dom';
 import Dropdown from 'app/components/Dropdown';

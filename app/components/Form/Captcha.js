@@ -3,7 +3,7 @@
 import { Component } from 'react';
 import config from 'app/config';
 import { createField } from './Field';
-import ReCAPTCHA from 'react-google-recaptcha';
+import { ReCAPTCHA } from 'react-google-recaptcha';
 import styles from './Captcha.css';
 import cx from 'classnames';
 

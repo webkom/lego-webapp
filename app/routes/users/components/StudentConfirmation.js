@@ -2,7 +2,7 @@
 
 import styles from './UserConfirmation.css';
 import { Container } from 'app/components/Layout';
-import { reduxForm } from 'redux-form';
+import { reduxForm, Field } from 'redux-form';
 import {
   Form,
   TextInput,
@@ -12,7 +12,7 @@ import {
   Captcha,
 } from 'app/components/Form';
 import { Link } from 'react-router-dom';
-import { Field } from 'redux-form';
+
 import { createValidator, required } from 'app/utils/validation';
 import type { ReduxFormProps } from 'app/types';
 

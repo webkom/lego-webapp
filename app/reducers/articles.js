@@ -2,12 +2,12 @@
 
 import { createSelector } from 'reselect';
 import { Article } from '../actions/ActionTypes';
-import { mutateReactions } from 'app/reducers/reactions';
+import { mutateReactions, type ReactionEntity } from 'app/reducers/reactions';
 import { mutateComments } from 'app/reducers/comments';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import joinReducers from 'app/utils/joinReducers';
 import { orderBy } from 'lodash';
-import { type ReactionEntity } from 'app/reducers/reactions';
+
 import { type Article as ArticleType } from 'app/models';
 
 export type ArticleEntity = {

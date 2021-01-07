@@ -2,9 +2,8 @@
 
 import Button from 'app/components/Button';
 import { createValidator, required } from 'app/utils/validation';
-import { reduxForm } from 'redux-form';
+import { reduxForm, Form, Field } from 'redux-form';
 import { TextInput, SelectInput, CheckBox } from 'app/components/Form';
-import { Form, Field } from 'redux-form';
 
 export type Props = {
   emailUserId?: number,

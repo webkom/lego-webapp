@@ -2,10 +2,9 @@ import WebSocketClient from 'websocket.js';
 import config from '../config';
 import createQueryString from './createQueryString';
 import { addToast } from 'app/actions/ToastActions';
-import { User } from 'app/actions/ActionTypes';
+import { User, Event } from 'app/actions/ActionTypes';
 import { selectCurrentUser } from 'app/reducers/auth';
 import { isUserFollowing } from 'app/actions/EventActions';
-import { Event } from '../actions/ActionTypes';
 
 export default function createWebSocketMiddleware() {
   let socket = null;

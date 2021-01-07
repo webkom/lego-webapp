@@ -3,8 +3,7 @@
 import { Gallery } from './ActionTypes';
 import { gallerySchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
-import type { EntityID, GalleryEntity } from 'app/types';
-import type { Thunk } from 'app/types';
+import type { EntityID, GalleryEntity, Thunk } from 'app/types';
 
 export function fetch({
   next,

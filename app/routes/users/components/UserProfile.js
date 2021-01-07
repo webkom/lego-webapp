@@ -2,9 +2,9 @@
 
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
-import Helmet from 'react-helmet';
+import { Helmet } from 'react-helmet';
 import { sumBy, sortBy, uniqBy, groupBy, orderBy } from 'lodash';
-import { ProfilePicture, CircularPicture } from 'app/components/Image';
+import { ProfilePicture, CircularPicture, Image } from 'app/components/Image';
 import Card from 'app/components/Card';
 import Pill from 'app/components/Pill';
 import LoadingIndicator from 'app/components/LoadingIndicator';
@@ -15,13 +15,12 @@ import styles from './UserProfile.css';
 import { Flex } from 'app/components/Layout';
 import Tooltip from 'app/components/Tooltip';
 import { resolveGroupLink } from 'app/reducers/groups';
-import type { Group, AddPenalty, Event, ID } from 'app/models';
+import type { Group, AddPenalty, Event, ID, Dateish } from 'app/models';
 import cx from 'classnames';
 import EventItem from 'app/components/EventItem';
 import EmptyState from 'app/components/EmptyState';
 import moment from 'moment-timezone';
-import type { Dateish } from 'app/models';
-import { Image } from 'app/components/Image';
+
 import frame from 'app/assets/frame.png';
 
 const fieldTranslations = {

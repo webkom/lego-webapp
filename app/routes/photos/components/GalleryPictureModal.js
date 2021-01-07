@@ -1,6 +1,6 @@
 // @flow
 
-import { Component } from 'react';
+import { Component, useEffect } from 'react';
 import { Keyboard } from '../../../utils/constants';
 import GalleryDetailsRow from './GalleryDetailsRow';
 import { Flex } from 'app/components/Layout';
@@ -18,7 +18,6 @@ import type { EntityID } from 'app/types';
 import type { ID } from 'app/models';
 import Button from 'app/components/Button';
 import { Image } from 'app/components/Image';
-import { useEffect } from 'react';
 
 type Props = {
   picture: Object,

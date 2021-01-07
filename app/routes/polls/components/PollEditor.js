@@ -11,6 +11,9 @@ import { Link } from 'react-router-dom';
 import {
   typeof fieldArrayMetaPropTypes,
   typeof fieldArrayFieldsPropTypes,
+  Form,
+  Field,
+  FieldArray,
 } from 'redux-form';
 import {
   TextInput,
@@ -19,7 +22,7 @@ import {
   legoForm,
   CheckBox,
 } from 'app/components/Form';
-import { Form, Field, FieldArray } from 'redux-form';
+
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import styles from './PollEditor.css';
 import { type PollEntity } from 'app/reducers/polls';

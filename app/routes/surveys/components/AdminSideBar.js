@@ -24,7 +24,7 @@ type State = {
   generatedCSV: ?{ url: string, filename: string },
 };
 
-export class AdminSideBar extends Component<Props, State> {
+class AdminSideBar extends Component<Props, State> {
   state = {
     copied: false,
     generatedCSV: undefined,

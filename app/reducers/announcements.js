@@ -4,7 +4,7 @@ import { createSelector } from 'reselect';
 import { Announcements } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import moment from 'moment-timezone';
-import produce from 'immer';
+import { produce } from 'immer';
 
 type State = any;
 

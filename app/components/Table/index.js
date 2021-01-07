@@ -7,12 +7,12 @@ import Icon from 'app/components/Icon';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { TextInput, CheckBox } from 'app/components/Form';
 import { Overlay } from 'react-overlays';
-import { debounce } from 'lodash';
+import { debounce, isEmpty, get } from 'lodash';
 import cx from 'classnames';
-import { isEmpty } from 'lodash';
+
 import InfiniteScroll from 'react-infinite-scroller';
 import styles from './Table.css';
-import { get } from 'lodash';
+
 import Button from '../Button';
 
 type sortProps = {

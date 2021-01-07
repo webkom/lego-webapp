@@ -1,7 +1,7 @@
 // @flow
 
 import { Toasts } from '../actions/ActionTypes';
-import produce from 'immer';
+import { produce } from 'immer';
 
 type Toast = {
   id: number,

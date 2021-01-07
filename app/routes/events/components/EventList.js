@@ -1,7 +1,7 @@
 // @flow
 
 import { Component } from 'react';
-import Helmet from 'react-helmet';
+import { Helmet } from 'react-helmet';
 import moment from 'moment-timezone';
 import Button from 'app/components/Button';
 import EventItem from 'app/components/EventItem';
@@ -9,10 +9,10 @@ import Toolbar from './Toolbar';
 import styles from './EventList.css';
 import EventFooter from './EventFooter';
 import EmptyState from 'app/components/EmptyState';
-import { isEmpty } from 'lodash';
+import { isEmpty, orderBy } from 'lodash';
 import type { Event, ActionGrant, IcalToken, EventTimeType } from 'app/models';
 import Select from 'react-select';
-import { orderBy } from 'lodash';
+
 import Icon from 'app/components/Icon';
 import { EVENTFIELDS } from 'app/utils/constants';
 import { CheckBox } from 'app/components/Form/';
