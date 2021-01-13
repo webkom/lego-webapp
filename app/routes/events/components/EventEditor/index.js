@@ -353,12 +353,13 @@ function EventEditor({
                   </Tooltip>
                 </div>
               )}
-            {['NORMAL', 'INFINITE'].includes(event.eventStatusType) && (<>
-                {/* Need a checkbox to separate absolute registration and unregistration deadline */}
-                {/* Want to make a similar field for absolut unregistration time */ }
-                {/* It will not be possible to unregister after this*/}
+            {['NORMAL', 'INFINITE'].includes(event.eventStatusType) && (
+              /* Need a checkbox to separate absolute registration and unregistration deadline */
+              /* Want to make a similar field for absolut unregistration time */
+
+              /* It will not be possible to unregister after this*/
               <Tooltip content="Separate frister for påmelding og avmelding - antall timer før arrangementet. Det vil ikke være mulig å melde seg av eller på etter de satte fristene">
-                <Field 
+                <Field
                   label="Separate frister"
                   name="separateDeadlines"
                   component={CheckBox.Field}
@@ -366,23 +367,25 @@ function EventEditor({
                   className={styles.formField}
                   normalize={(v) => !!v}
                 />
-            </Tooltip>
-             {event.separateDeadlines && (
-               <Tooltip content="Frist for avmelding antall timer før arrangementet">
-                <Field 
-                key="unregistrationDeadlineHours"
-                label="Avregistrering antall timer før"
-                name="unregistrationDeadlineHours"
-                type="number"
-                component={TextInput.Field}
-                fieldClassName={styles.metaField}
-                className={styles.formField}
-                />
-                <p>
-
-                </p>
-                </Tooltip>
+              </Tooltip>
             )}
+            {['NORMAL', 'INFINITE'].includes(event.eventStatusType) &&
+              event.separateDeadlines && (
+                <div className={styles.subSection}>
+                  <Tooltip content="Frist for avmelding antall timer før arrangementet">
+                    <Field
+                      key="unregistrationDeadlineHours"
+                      label="Avregistrering antall timer før"
+                      name="unregistrationDeadlineHours"
+                      type="number"
+                      component={TextInput.Field}
+                      fieldClassName={styles.metaField}
+                      className={styles.formField}
+                    />
+                  </Tooltip>
+                </div>
+              )}
+            {['NORMAL', 'INFINITE'].includes(event.eventStatusType) && (
               <Tooltip content="Frist for påmelding/avmelding - antall timer før arrangementet. Det er ikke mulig å melde seg hverken på eller av etter denne fristen">
                 <Field
                   key="registrationDeadlineHours"
@@ -398,7 +401,6 @@ function EventEditor({
                   <FormatTime time={moment(event.registrationDeadline)} />
                 </p>
               </Tooltip>
-              </>
             )}
             {['NORMAL', 'INFINITE'].includes(event.eventStatusType) && (
               <Tooltip content="Bruk samtykke til bilder">
@@ -547,6 +549,9 @@ const validate = (data) => {
   }
   if (!isPositiveNumeric(data.registrationDeadlineHours)) {
     errors.registrationDeadlineHours = 'Kun hele timer';
+  }
+  if (!isPositiveNumeric(data.unregistrationDeadlineHours)) {
+    errors.unregistrationDeadlineHours = 'Kun hele timer';
   }
   if (!moment(data.startTime).isBefore(data.endTime)) {
     errors.endTime = 'Starttidspunkt må være før sluttidspunkt';

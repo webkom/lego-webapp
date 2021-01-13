@@ -20,6 +20,7 @@ import {
   eventTypeToString,
   colorForEvent,
   registrationCloseTime,
+  unregistrationCloseTime,
   penaltyHours,
 } from '../../utils';
 import Admin from '../Admin';
@@ -231,6 +232,13 @@ export default class EventDetail extends Component<Props> {
         ? {
             value: <FormatTime time={registrationCloseTime(event)} />,
             key: 'Påmelding stenger',
+          }
+        : null,
+      event.unregistrationDeadlineHours &&
+      !['OPEN', 'TBA'].includes(event.eventStatusType)
+        ? {
+            value: <FormatTime time={unregistrationCloseTime(event)} />,
+            key: 'Avregistrering stenger' /*Endre teksten*/,
           }
         : null,
       event.unregistrationDeadline &&

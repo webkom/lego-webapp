@@ -53,6 +53,8 @@ const mapStateToProps = (state, props) => {
         label: event.responsibleGroup.name,
         value: event.responsibleGroup.id,
       },
+      separateDeadlines:
+        event.registrationDeadlineHours !== event.unregistrationDeadlineHours,
     },
     actionGrant,
     event: {
