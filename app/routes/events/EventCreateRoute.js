@@ -49,7 +49,7 @@ const mapStateToProps = (state, props) => {
       unregistrationDeadline:
         valueSelector(state, 'startTime') &&
         moment(valueSelector(state, 'startTime')).subtract(
-          valueSelector(state, 'unregistrationDealineHours'),
+          valueSelector(state, 'unregistrationDeadlineHours'),
           'hours'
         ),
     },
