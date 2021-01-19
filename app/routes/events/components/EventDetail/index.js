@@ -238,7 +238,7 @@ export default class EventDetail extends Component<Props> {
       !['OPEN', 'TBA'].includes(event.eventStatusType)
         ? {
             value: <FormatTime time={unregistrationCloseTime(event)} />,
-            key: 'Avregistrering stenger' /*Endre teksten*/,
+            key: 'Avregistrering stenger',
           }
         : null,
       event.unregistrationDeadline &&

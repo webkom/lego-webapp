@@ -354,10 +354,6 @@ function EventEditor({
                 </div>
               )}
             {['NORMAL', 'INFINITE'].includes(event.eventStatusType) && (
-              /* Need a checkbox to separate absolute registration and unregistration deadline */
-              /* Want to make a similar field for absolut unregistration time */
-
-              /* It will not be possible to unregister after this*/
               <Tooltip content="Separate frister for påmelding og avmelding - antall timer før arrangementet. Det vil ikke være mulig å melde seg av eller på etter de satte fristene">
                 <Field
                   label="Separate frister"
