@@ -356,7 +356,7 @@ function EventEditor({
             {['NORMAL', 'INFINITE'].includes(event.eventStatusType) && (
               <Tooltip content="Separate frister for påmelding og avmelding - antall timer før arrangementet. Det vil ikke være mulig å melde seg av eller på etter de satte fristene">
                 <Field
-                  label="Separate frister"
+                  label="Separat avregistregistreringsfrist"
                   name="separateDeadlines"
                   component={CheckBox.Field}
                   fieldClassName={styles.metaField}
