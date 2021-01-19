@@ -41,12 +41,14 @@ const ChangePassword = ({
         label="Gammelt passord"
         name="password"
         type="password"
+        autocomplete="current-password"
         component={TextInput.Field}
       />
       <PasswordField user={user} label="Nytt passord" name="newPassword" />
       <Field
         label="Nytt passord (gjenta)"
         name="retypeNewPassword"
+        autocomplete="new-password"
         type="password"
         component={TextInput.Field}
       />

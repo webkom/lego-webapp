@@ -80,6 +80,7 @@ class LoginForm extends Component<Props> {
           placeholder="Brukernavn"
           fieldStyle={style}
           showErrors={false}
+          autocomplete="username"
           inputRef={(node) => {
             this.usernameRef = node;
           }}
@@ -88,6 +89,7 @@ class LoginForm extends Component<Props> {
         <Field
           name="password"
           type="password"
+          autocomplete="current-password"
           placeholder="Passord"
           fieldStyle={style}
           showErrors={false}

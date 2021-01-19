@@ -36,6 +36,7 @@ class PasswordField extends Component<Props, State> {
           type="password"
           placeholder={label}
           label={label}
+          autocomplete="new-password"
           component={TextInput.Field}
           onChange={(e) => this.setState({ password: e.target.value })}
         />
