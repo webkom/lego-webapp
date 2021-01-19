@@ -2,10 +2,10 @@
 
 import Button from 'app/components/Button';
 import config from 'app/config';
-import { reduxForm } from 'redux-form';
+import { reduxForm, Form, Field } from 'redux-form';
 import { isEmail, createValidator, required } from 'app/utils/validation';
 import { TextInput, SelectInput } from 'app/components/Form';
-import { Form, Field } from 'redux-form';
+
 import CheckBox from 'app/components/Form/CheckBox';
 
 export type Props = {

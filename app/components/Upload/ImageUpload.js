@@ -1,7 +1,7 @@
 // @flow
 
 import { Fragment, Component } from 'react';
-import Cropper from 'react-cropper';
+import { Cropper } from 'react-cropper';
 import { Flex } from 'app/components/Layout';
 import 'cropperjs/dist/cropper.css';
 import Modal from 'app/components/Modal';

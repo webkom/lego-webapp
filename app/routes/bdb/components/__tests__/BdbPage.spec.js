@@ -1,7 +1,7 @@
 import BdbPage from '../BdbPage';
 import { shallow } from 'enzyme';
 import companies from './fixtures/companies';
-import companySemesters from './fixtures/companies';
+import companySemesters from './fixtures/companySemesters';
 import CompanyList from '../CompanyList';
 import OptionsBox from '../OptionsBox';
 import TextInput from 'app/components/Form/TextInput';
@@ -20,11 +20,11 @@ describe('components', () => {
         />
       );
       const searchField = wrapper.find(TextInput);
-      expect(searchField.length).toEqual(1);
+      expect(searchField).toHaveLength(1);
       const optionsBox = wrapper.find(OptionsBox);
-      expect(optionsBox.length).toEqual(1);
+      expect(optionsBox).toHaveLength(1);
       const companyList = wrapper.find(CompanyList);
-      expect(companyList.length).toEqual(1);
+      expect(companyList).toHaveLength(1);
     });
   });
 });

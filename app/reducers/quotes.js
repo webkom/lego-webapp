@@ -3,11 +3,11 @@
 import { Quote } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { createSelector } from 'reselect';
-import { mutateReactions } from 'app/reducers/reactions';
+import { mutateReactions, type ReactionEntity } from 'app/reducers/reactions';
 import joinReducers from 'app/utils/joinReducers';
 import type { ID } from 'app/models';
-import { type ReactionEntity } from 'app/reducers/reactions';
-import produce from 'immer';
+
+import { produce } from 'immer';
 
 export type QuoteEntity = {
   id: ID,

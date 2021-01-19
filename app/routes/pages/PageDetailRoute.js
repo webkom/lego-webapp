@@ -9,8 +9,12 @@ import {
   updatePage,
   fetchAll as fetchAllPages,
 } from 'app/actions/PageActions';
-import { fetchAllMemberships } from 'app/actions/GroupActions';
-import { fetchAllWithType, fetchGroup } from 'app/actions/GroupActions';
+import {
+  fetchAllMemberships,
+  fetchAllWithType,
+  fetchGroup,
+} from 'app/actions/GroupActions';
+
 import PageDetail, {
   FlatpageRenderer,
   GroupRenderer,

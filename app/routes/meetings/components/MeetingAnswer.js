@@ -11,7 +11,7 @@ type Props = {
   router: /*TODO: Router*/ Object,
 };
 
-export const MeetingAnswer = ({
+const MeetingAnswer = ({
   response,
   user,
   meeting,

@@ -5,8 +5,8 @@ import LoadingIndicator from 'app/components/LoadingIndicator';
 import { Route, Switch } from 'react-router-dom';
 import RouteWrapper from 'app/components/RouteWrapper';
 import GroupSettings from '../components/GroupSettings';
-import GroupMembers from '../components/GroupMembers';
-import GroupPermissions from '../components/GroupPermissions';
+import ConnectedGroupMembers from '../components/GroupMembers';
+import ConnectedGroupPermissions from '../components/GroupPermissions';
 
 type GroupModel = {
   name: string,
@@ -37,10 +37,13 @@ const Group = (props: GroupProps) => {
           Component={GroupSettings}
           passedProps={{ group }}
         />
-        <Route path={`${match.path}/members`} component={GroupMembers} />
+        <Route
+          path={`${match.path}/members`}
+          component={ConnectedGroupMembers}
+        />
         <RouteWrapper
           path={`${match.path}/permissions`}
-          Component={GroupPermissions}
+          Component={ConnectedGroupPermissions}
           passedProps={{ group }}
         />
       </Switch>

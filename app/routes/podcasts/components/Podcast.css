@@ -138,6 +138,7 @@
   justify-content: center;
   margin: 0;
   cursor: pointer;
+  width: 100%;
 }
 
 .arrow {

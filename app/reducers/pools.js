@@ -3,10 +3,10 @@ import { Event } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { normalize } from 'normalizr';
 import { eventSchema } from 'app/reducers';
-import { union } from 'lodash';
+import { union, without } from 'lodash';
 import mergeObjects from 'app/utils/mergeObjects';
-import { without } from 'lodash';
-import produce from 'immer';
+
+import { produce } from 'immer';
 
 type State = any;
 

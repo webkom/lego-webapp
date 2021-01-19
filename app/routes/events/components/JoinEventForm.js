@@ -21,8 +21,9 @@ import {
   paymentManual,
   sumPenalties,
   penaltyHours,
+  registrationIsClosed,
 } from '../utils';
-import { registrationIsClosed } from '../utils';
+
 import { selectUserByUsername } from 'app/reducers/users';
 import { selectPenaltyByUserId } from 'app/reducers/penalties';
 import type { User, EventRegistration } from 'app/models';

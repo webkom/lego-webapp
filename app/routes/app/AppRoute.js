@@ -6,7 +6,7 @@ import { createContext, Children, PureComponent, cloneElement } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import prepare from 'app/utils/prepare';
-import Helmet from 'react-helmet';
+import { Helmet } from 'react-helmet';
 import {
   loginAutomaticallyIfPossible,
   logoutWithRedirect,

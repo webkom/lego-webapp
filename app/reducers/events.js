@@ -9,9 +9,9 @@ import joinReducers from 'app/utils/joinReducers';
 import { normalize } from 'normalizr';
 import { eventSchema } from 'app/reducers';
 import mergeObjects from 'app/utils/mergeObjects';
-import { groupBy, orderBy } from 'lodash';
-import { without } from 'lodash';
-import produce from 'immer';
+import { groupBy, orderBy, without } from 'lodash';
+
+import { produce } from 'immer';
 import config from 'app/config';
 
 export type EventEntity = {

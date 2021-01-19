@@ -17,7 +17,7 @@ describe('components', () => {
         />
       );
       const foundCompanies = wrapper.find('tbody').children();
-      expect(foundCompanies.length).toEqual(companies.length);
+      expect(foundCompanies).toHaveLength(companies.length);
     });
   });
 });

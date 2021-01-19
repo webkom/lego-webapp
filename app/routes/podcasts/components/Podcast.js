@@ -6,6 +6,7 @@ import LegoSoundCloudPlayer from './PodcastPlayer.js';
 import { Link } from 'react-router-dom';
 import Icon from 'app/components/Icon';
 import { ProfilePicture } from 'app/components/Image';
+import Button from 'app/components/Button';
 
 type Props = {
   id: number,
@@ -104,7 +105,7 @@ class Podcast extends Component<Props, State> {
             </div>
           </div>
         )}
-        <div className={styles.showMore} onClick={this.showMore}>
+        <Button flat className={styles.showMore} onClick={this.showMore}>
           {this.state.extended ? (
             <Icon
               onClick={this.showMore}
@@ -120,7 +121,7 @@ class Podcast extends Component<Props, State> {
               name="arrow-down"
             />
           )}
-        </div>
+        </Button>
       </div>
     );
   }

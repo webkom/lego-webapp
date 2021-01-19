@@ -1,7 +1,7 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import prepare from 'app/utils/prepare';
-import { fetchGroup } from 'app/actions/GroupActions';
+import { fetchGroup, fetchMemberships } from 'app/actions/GroupActions';
 import {
   joinInterestGroup,
   leaveInterestGroup,
@@ -9,7 +9,7 @@ import {
 import InterestGroupDetail from './components/InterestGroupDetail';
 import { selectMembershipsForGroup } from 'app/reducers/memberships';
 import { selectGroup } from 'app/reducers/groups';
-import { fetchMemberships } from 'app/actions/GroupActions';
+
 import loadingIndicator from 'app/utils/loadingIndicator';
 
 const mapStateToProps = (state, props) => {

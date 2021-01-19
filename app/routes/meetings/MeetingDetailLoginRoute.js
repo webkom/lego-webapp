@@ -6,7 +6,10 @@ import {
   setInvitationStatus,
   deleteMeeting,
 } from 'app/actions/MeetingActions';
-import { selectMeetingById } from 'app/reducers/meetings';
+import {
+  selectMeetingById,
+  selectCommentsForMeeting,
+} from 'app/reducers/meetings';
 import {
   selectMeetingInvitationsForMeeting,
   selectMeetingInvitation,
@@ -15,7 +18,6 @@ import { selectUserById } from 'app/reducers/users';
 import MeetingDetail from './components/MeetingDetail';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import { selectCommentsForMeeting } from 'app/reducers/meetings';
 
 const mapDispatchToProps = {
   setInvitationStatus,

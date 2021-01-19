@@ -1,6 +1,6 @@
 // @flow
 import { Routing } from 'app/actions/ActionTypes';
-import produce from 'immer';
+import { produce } from 'immer';
 
 const initialState = {
   statusCode: null,

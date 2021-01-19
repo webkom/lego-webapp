@@ -1,8 +1,8 @@
 // @flow
 
 import type { SubmissionEntity } from 'app/reducers/surveySubmissions';
-import type { SurveyEntity } from 'app/reducers/surveys';
-import type { QuestionEntity } from 'app/reducers/surveys';
+import type { SurveyEntity, QuestionEntity } from 'app/reducers/surveys';
+
 import Results from './Results';
 import styles from '../surveys.css';
 import Button from 'app/components/Button';

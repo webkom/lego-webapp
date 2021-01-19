@@ -10,7 +10,7 @@ import { selectCompanySemesters } from './companySemesters';
 import type { UserEntity } from 'app/reducers/users';
 import type { CompanySemesterContactedStatus, Semester } from 'app/models';
 import { selectJoblistings } from 'app/reducers/joblistings';
-import produce from 'immer';
+import { produce } from 'immer';
 
 export type BaseSemesterStatusEntity = {
   id?: number,

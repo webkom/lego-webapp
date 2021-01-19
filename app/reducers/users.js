@@ -7,7 +7,7 @@ import createEntityReducer from 'app/utils/createEntityReducer';
 import { normalize } from 'normalizr';
 import { eventSchema, registrationSchema } from 'app/reducers';
 import mergeObjects from 'app/utils/mergeObjects';
-import produce from 'immer';
+import { produce } from 'immer';
 
 export type UserEntity = {
   id: number,

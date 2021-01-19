@@ -7,9 +7,12 @@ import {
   selectCompanySemesters,
   selectCompanySemestersForInterestForm,
 } from 'app/reducers/companySemesters';
-import { addSemester, editSemester } from 'app/actions/CompanyActions';
+import {
+  addSemester,
+  editSemester,
+  fetchSemesters,
+} from 'app/actions/CompanyActions';
 import CompanySemesterGUI from './components/CompanySemesterGUI';
-import { fetchSemesters } from 'app/actions/CompanyActions';
 
 const loadSemesters = (props, dispatch) => dispatch(fetchSemesters());
 

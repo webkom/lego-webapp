@@ -12,7 +12,7 @@ describe('getCachedRequest', () => {
     const cursor = '';
     expect(
       getCachedRequest(state, endpoint, paginationKey, cursor, 10)
-    ).toEqual(null);
+    ).toBeNull();
   });
 
   it('should return null without cacheSeconds', () => {
@@ -22,7 +22,7 @@ describe('getCachedRequest', () => {
     const cursor = '';
     expect(
       getCachedRequest(state, endpoint, paginationKey, cursor, null)
-    ).toEqual(null);
+    ).toBeNull();
   });
 
   it('should return null with empty fetchHistory', () => {
@@ -32,7 +32,7 @@ describe('getCachedRequest', () => {
     const cursor = '';
     expect(
       getCachedRequest(state, endpoint, paginationKey, cursor, 10)
-    ).toEqual(null);
+    ).toBeNull();
   });
 
   it('should return action when endpoint exists', () => {
@@ -116,6 +116,6 @@ describe('getCachedRequest', () => {
     const cursor = '';
     expect(
       getCachedRequest(state, endpoint, paginationKey, cursor, 10)
-    ).toEqual(null);
+    ).toBeNull();
   });
 });

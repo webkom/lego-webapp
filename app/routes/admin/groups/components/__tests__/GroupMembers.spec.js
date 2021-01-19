@@ -45,7 +45,7 @@ describe.skip('GroupMembersList', () => {
   it('should render an <ul> of users', () => {
     const wrapper = shallow(<GroupMembersList memberships={memberships} />);
     expect(wrapper.type()).toEqual('ul');
-    expect(wrapper.find('li').length).toEqual(memberships.length);
+    expect(wrapper.find('li')).toHaveLength(memberships.length);
   });
 
   it('should include links for all users in the list', () => {

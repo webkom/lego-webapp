@@ -1,6 +1,6 @@
 // @flow
 import { Component } from 'react';
-import Helmet from 'react-helmet';
+import { Helmet } from 'react-helmet';
 import { Content } from 'app/components/Content';
 import { TagCloud as Cloud } from 'react-tagcloud';
 import { Link } from 'react-router-dom';

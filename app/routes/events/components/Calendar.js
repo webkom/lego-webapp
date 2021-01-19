@@ -2,7 +2,7 @@
 
 import styles from './Calendar.css';
 import { Component } from 'react';
-import Helmet from 'react-helmet';
+import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import createMonthlyCalendar from 'app/utils/createMonthlyCalendar';
 import CalendarCell from './CalendarCell';

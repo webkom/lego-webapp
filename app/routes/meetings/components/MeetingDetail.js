@@ -2,7 +2,7 @@
 
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
-import Time from 'app/components/Time';
+import Time, { FromToTime } from 'app/components/Time';
 import CommentView from 'app/components/Comments/CommentView';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import styles from './MeetingDetail.css';
@@ -28,7 +28,7 @@ import type {
 import type { UserEntity } from 'app/reducers/users';
 import type { Dateish, ID } from 'app/models';
 import AnnouncementInLine from 'app/components/AnnouncementInLine';
-import { FromToTime } from 'app/components/Time';
+
 import InfoList from 'app/components/InfoList';
 
 type Props = {
