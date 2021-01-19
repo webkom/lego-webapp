@@ -50,6 +50,7 @@ const UserResetPassword = ({
           <PasswordField label="Nytt passord" user={dummyUser} />
           <Field
             label="Nytt passord (gjenta)"
+            autocomplete="new-password"
             name="retypeNewPassword"
             type="password"
             component={TextInput.Field}

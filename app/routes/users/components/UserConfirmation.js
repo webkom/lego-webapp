@@ -89,18 +89,21 @@ const UserConfirmation = ({
             label="Passord (gjenta)"
             name="retypePassword"
             type="password"
+            autocomplete="new-password"
             component={TextInput.Field}
           />
           <Field
             name="firstName"
             placeholder="Fornavn"
             label="Fornavn"
+            autocomplete="given-name additional-name"
             component={TextInput.Field}
           />
           <Field
             name="lastName"
             label="Etternavn"
             placeholder="Etternavn"
+            autocomplete="family-name"
             component={TextInput.Field}
           />
           <RadioButtonGroup name="gender">
@@ -133,6 +136,7 @@ const UserConfirmation = ({
           <Field
             label="Telefonnummer"
             name="phoneNumber"
+            autocomplete="tel"
             component={PhoneNumberInput.Field}
           />
           <Button submit dark>
