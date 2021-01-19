@@ -1882,10 +1882,10 @@
     "@webassemblyjs/wast-parser" "1.9.0"
     "@xtuc/long" "4.2.2"
 
-"@webkom/lego-editor@^1.2.1":
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/@webkom/lego-editor/-/lego-editor-1.2.1.tgz#fd4be1aac800029a77b113a3ff010afe178cf032"
-  integrity sha512-qjj+EBtde0HmqgqNY6O2ASdEjpGRTO/VNUdesL3TF7ilZkrk8M6ThIRuClGnBrH8nBkbM9CcKYu3yWBrQihlQg==
+"@webkom/lego-editor@^1.3.2":
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/@webkom/lego-editor/-/lego-editor-1.3.2.tgz#e72467f7dc6d45f7dbe9635db6c894d50c974cad"
+  integrity sha512-z+CRQBvnQbfeU5YNSGT4EKJFEEVpUf6XroHod8Q5gU2OOLSMFENFuNcZuD5Asiihvs/d2qmu7qc2Wka8CM6ziw==
   dependencies:
     classnames "^2.2.6"
     escape-html "^1.0.3"
