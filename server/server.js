@@ -40,15 +40,6 @@ if (__DEV__) {
   app.use(
     require('webpack-dev-middleware')(compiler, {
       publicPath: webpackClient.publicPath,
-      quiet: true,
-      stats: {
-        all: false,
-        modules: false,
-        errors: true,
-        warnings: true,
-        moduleTrace: true,
-        errorDetails: true,
-      },
     })
   );
 

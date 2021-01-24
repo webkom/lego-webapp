@@ -21,6 +21,15 @@ function retrieveAssets() {
         .toString()
     );
 
+    // TODO FIXME
+    const more = JSON.parse(
+      fs
+        .readFileSync(
+          path.join(webpackClient.outputPath, 'webpack-assets.json')
+        )
+        .toString()
+    )[''];
+
     const styles = [appStyles && appStyles.css]
       .filter(Boolean)
       .map((css) => `<link rel="stylesheet" href="${css}">`)
@@ -29,6 +38,7 @@ function retrieveAssets() {
       vendor && vendor.js,
       app && app.js,
       appStyles && appStyles.js,
+      more && more.js,
     ]
       .filter(Boolean)
       .map((js) => `<script src="${js}"></script>`)

@@ -34,7 +34,16 @@ module.exports = (env, argv) => {
 
   return {
     mode: argv.mode,
-    stats: isProduction ? 'normal' : 'errors-only',
+    stats: isProduction
+      ? 'normal'
+      : {
+          all: false,
+          modules: false,
+          errors: true,
+          warnings: true,
+          moduleTrace: true,
+          errorDetails: true,
+        },
     devtool: isProduction ? 'source-map' : 'eval-source-map',
     entry: {
       app: isProduction
@@ -59,9 +68,12 @@ module.exports = (env, argv) => {
 
     plugins: compact([
       // Explicitly import the moment locales we care about:
-      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+      new webpack.IgnorePlugin(
+        { resourceRegExp: /^\.\/locale$/ },
+        { contentRegExp: /moment$/ }
+      ),
       isProduction && new DuplicatePackageCheckerPlugin(),
-      new webpack.IgnorePlugin(/^jsdom$/),
+      new webpack.IgnorePlugin({ resourceRegExp: /^jsdom$/ }),
       isProduction &&
         new MiniCssExtractPlugin({
           filename: '[name].[contenthash].css',
@@ -74,11 +86,6 @@ module.exports = (env, argv) => {
         }),
 
       isProduction && new OptimizeCSSAssetsPlugin({}),
-      new webpack.LoaderOptionsPlugin({
-        options: {
-          context: __dirname,
-        },
-      }),
       new webpack.DefinePlugin({
         __DEV__: JSON.stringify(!isProduction),
         __CLIENT__: true,
@@ -97,6 +104,10 @@ module.exports = (env, argv) => {
         exclude: /Conflicting order between:/,
       }),
 
+      new webpack.ProvidePlugin({
+        process: 'process/browser',
+      }),
+
       new AssetsPlugin({
         path: outputPath,
       }),
@@ -112,6 +123,10 @@ module.exports = (env, argv) => {
         'moment-timezone':
           'moment-timezone/builds/moment-timezone-with-data-2012-2022.min',
         immutable: 'node_modules/immutable',
+      },
+      fallback: {
+        util: require.resolve('util/'),
+        buffer: require.resolve('buffer/'),
       },
     },
     optimization: {
@@ -154,62 +169,59 @@ module.exports = (env, argv) => {
               options: {
                 importLoaders: 1,
                 modules: {
-                  localIdentName: '[name]__[local]--[hash:base64:10]',
+                  localIdentName: '[name]__[local]--[contenthash:base64:10]',
                 },
               },
             },
             {
               loader: 'postcss-loader',
               options: {
-                ident: 'postcss',
-                plugins: () => [
-                  require('postcss-import')({
-                    path: [root],
-                    // postcss doesn't support webpack modules import, which css-loader
-                    // requires that we use, so we need to resolve imports with '~'
-                    // manually.
-                    resolve(id, basedir) {
-                      if (/^~app/.test(id)) {
-                        return path.resolve(root, id.slice(1));
-                      }
-                      if (/^~/.test(id)) {
-                        return path.resolve('./node_modules', id);
-                      }
-                      return path.resolve(basedir, id);
-                    },
-                  }),
-                  require('postcss-preset-env')({
-                    stage: 1,
-                    features: {
-                      'custom-media-queries': true,
-                    },
-                  }),
-                  require('postcss-nested'),
-                ],
+                postcssOptions: {
+                  plugins: [
+                    require('postcss-import')({
+                      path: [root],
+                      // postcss doesn't support webpack modules import, which css-loader
+                      // requires that we use, so we need to resolve imports with '~'
+                      // manually.
+                      resolve(id, basedir) {
+                        if (/^~app/.test(id)) {
+                          return path.resolve(root, id.slice(1));
+                        }
+                        if (/^~/.test(id)) {
+                          return path.resolve('./node_modules', id);
+                        }
+                        return path.resolve(basedir, id);
+                      },
+                    }),
+                    require('postcss-preset-env')({
+                      stage: 1,
+                      features: {
+                        'custom-media-queries': true,
+                      },
+                    }),
+                    require('postcss-nested'),
+                  ],
+                },
               },
             },
           ],
         },
         {
           test: /\.(png|jpg|jpeg|gif|svg|bdf|eot|svg|woff|woff2|ttf|mp3|mp4|webm)$/,
-          loader: 'url-loader',
-          query: {
-            limit: 8192,
-          },
+          type: 'asset/resource',
         },
         {
           test: /manifest\.json/,
-          loader: 'file-loader',
-          type: 'javascript/auto',
-          options: {
-            name: '[name].[ext]',
+          type: 'asset',
+          generator: {
+            filename: '[name].[ext]',
           },
         },
         {
           test: /((opensearch\.xml|favicon\.png)$|icon-)/,
-          loader: 'file-loader',
-          options: {
-            name: '[name].[ext]',
+          type: 'asset',
+          generator: {
+            filename: '[name].[ext]',
           },
         },
       ],

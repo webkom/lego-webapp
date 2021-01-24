@@ -1,7 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const StartServerPlugin = require('start-server-webpack-plugin');
 const FilterWarningsPlugin = require('webpack-filter-warnings-plugin');
 const nodeExternals = require('webpack-node-externals');
 const root = path.resolve(__dirname, '..');
@@ -38,7 +37,6 @@ module.exports = (env, argv) => {
     },
 
     plugins: [
-      !isProduction && new StartServerPlugin({ name: 'server.js' }),
       !isProduction && new webpack.HotModuleReplacementPlugin(),
       new webpack.optimize.LimitChunkCountPlugin({
         maxChunks: 1,
@@ -46,11 +44,6 @@ module.exports = (env, argv) => {
       new webpack.DefinePlugin({
         __CLIENT__: false,
         __DEV__: JSON.stringify(!isProduction),
-      }),
-      new webpack.LoaderOptionsPlugin({
-        options: {
-          context: __dirname,
-        },
       }),
       new FilterWarningsPlugin({
         // suppress conflicting order warnings from mini-css-extract-plugin.
@@ -99,7 +92,8 @@ module.exports = (env, argv) => {
                   loader: 'css-loader',
                   options: {
                     modules: {
-                      localIdentName: '[name]__[local]--[hash:base64:10]',
+                      localIdentName:
+                        '[name]__[local]--[contenthash:base64:10]',
                     },
                   },
                 },
@@ -108,27 +102,17 @@ module.exports = (env, argv) => {
         },
         {
           test: /\.(png|jpg|jpeg|gif|svg|bdf|woff|woff2|ttf|mp3|mp4|webm)$/,
-          loader: 'url-loader',
-          options: {
-            limit: 8192,
-            emitFile: false,
-          },
+          type: 'asset/resource',
         },
         {
           test: /manifest\.json/,
-          loader: 'file-loader',
-          type: 'javascript/auto',
-          options: {
-            emitFile: false,
-            name: '[name].[ext]',
-          },
+          type: 'asset',
         },
         {
           test: /((opensearch\.xml|favicon\.png)$|icon-)/,
-          loader: 'file-loader',
-          options: {
-            emitFile: false,
-            name: '[name].[ext]',
+          type: 'asset',
+          generator: {
+            filename: '[name].[ext]',
           },
         },
       ],
