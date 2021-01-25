@@ -1,6 +1,7 @@
 [ignore]
 .*/.cypress_cache/*
 .*/node_modules/findup/*
+.*/node_modules/webpack-cli/*
 
 [lints]
 deprecated-utility=off
