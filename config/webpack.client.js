@@ -68,10 +68,10 @@ module.exports = (env, argv) => {
 
     plugins: compact([
       // Explicitly import the moment locales we care about:
-      new webpack.IgnorePlugin(
-        { resourceRegExp: /^\.\/locale$/ },
-        { contentRegExp: /moment$/ }
-      ),
+      new webpack.IgnorePlugin({
+        resourceRegExp: /^\.\/locale$/,
+        contextRegExp: /moment$/,
+      }),
       isProduction && new DuplicatePackageCheckerPlugin(),
       new webpack.IgnorePlugin({ resourceRegExp: /^jsdom$/ }),
       isProduction &&
@@ -132,13 +132,21 @@ module.exports = (env, argv) => {
     optimization: {
       splitChunks: {
         chunks: 'all',
-        minSize: 30000,
+        minSize: 20000,
         cacheGroups: {
           styles: {
             name: 'styles',
             test: /\.css$/,
             chunks: 'all',
             enforce: true,
+          },
+          defaultVendors: {
+            name: 'vendors',
+            test: /node_modules/,
+            chunks: 'all',
+            enforce: true,
+            reuseExistingChunk: true,
+            type: 'javascript/auto',
           },
         },
       },
@@ -208,20 +216,20 @@ module.exports = (env, argv) => {
         },
         {
           test: /\.(png|jpg|jpeg|gif|svg|bdf|eot|svg|woff|woff2|ttf|mp3|mp4|webm)$/,
-          type: 'asset/resource',
+          type: 'asset',
         },
         {
           test: /manifest\.json/,
-          type: 'asset',
+          type: 'asset/resource',
           generator: {
-            filename: '[name].[ext]',
+            filename: '[name][ext]',
           },
         },
         {
           test: /((opensearch\.xml|favicon\.png)$|icon-)/,
-          type: 'asset',
+          type: 'asset/resource',
           generator: {
-            filename: '[name].[ext]',
+            filename: '[name][ext]',
           },
         },
       ],

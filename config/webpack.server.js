@@ -102,17 +102,20 @@ module.exports = (env, argv) => {
         },
         {
           test: /\.(png|jpg|jpeg|gif|svg|bdf|woff|woff2|ttf|mp3|mp4|webm)$/,
-          type: 'asset/resource',
+          type: 'asset',
         },
         {
           test: /manifest\.json/,
-          type: 'asset',
+          type: 'asset/resource',
+          generator: {
+            filename: '[name][ext]',
+          },
         },
         {
           test: /((opensearch\.xml|favicon\.png)$|icon-)/,
-          type: 'asset',
+          type: 'asset/resource',
           generator: {
-            filename: '[name].[ext]',
+            filename: '[name][ext]',
           },
         },
       ],

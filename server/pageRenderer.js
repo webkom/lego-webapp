@@ -13,7 +13,7 @@ import manifest from '../app/assets/manifest.json';
 let cachedAssets;
 function retrieveAssets() {
   if (__DEV__ || !cachedAssets) {
-    const { app, 'vendors~app': vendor, styles: appStyles } = JSON.parse(
+    const { app, vendors, styles: appStyles } = JSON.parse(
       fs
         .readFileSync(
           path.join(webpackClient.outputPath, 'webpack-assets.json')
@@ -21,24 +21,14 @@ function retrieveAssets() {
         .toString()
     );
 
-    // TODO FIXME
-    const more = JSON.parse(
-      fs
-        .readFileSync(
-          path.join(webpackClient.outputPath, 'webpack-assets.json')
-        )
-        .toString()
-    )[''];
-
     const styles = [appStyles && appStyles.css]
       .filter(Boolean)
       .map((css) => `<link rel="stylesheet" href="${css}">`)
       .join('\n');
     const scripts = [
-      vendor && vendor.js,
+      vendors && vendors.js,
       app && app.js,
       appStyles && appStyles.js,
-      more && more.js,
     ]
       .filter(Boolean)
       .map((js) => `<script src="${js}"></script>`)
