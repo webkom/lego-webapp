@@ -82,7 +82,7 @@ module.exports = (env, argv) => {
       !isProduction &&
         new webpack.DllReferencePlugin({
           context: root,
-          manifest: JSON.parse(fs.readFileSync(manifestPath, 'utf8')),
+          manifest: manifestPath,
         }),
 
       isProduction && new OptimizeCSSAssetsPlugin({}),
