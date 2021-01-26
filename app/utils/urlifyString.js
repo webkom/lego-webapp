@@ -6,13 +6,18 @@ import { compact } from 'lodash';
 type Urlified = Array<React.Node | string>;
 
 export const emailToLink = (mail: string): React.Node => (
-  <a key={mail} href={`mailto:${mail}`}>
+  <a
+    key={mail}
+    href={`mailto:${mail}`}
+    rel="noopener noreferrer"
+    target="_blank"
+  >
     {mail}
   </a>
 );
 
 export const urlToLink = (url: string): React.Node => (
-  <a key={url} href={url}>
+  <a key={url} href={url} rel="noopener noreferrer" target="_blank">
     {url}
   </a>
 );
@@ -44,7 +49,7 @@ const urlifyString = (data: string): Urlified =>
 
           if (
             isURL(value, {
-              require_protocol: true
+              require_protocol: true,
             })
           ) {
             return accumulator.concat(urlToLink(value)).concat(postfix);

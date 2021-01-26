@@ -6,71 +6,111 @@ describe('UrlifyString', () => {
   const data: Array<{
     input: string,
     expected: Array<React.Node | string>,
-    desc: string
+    desc: string,
   }> = [
     {
       input: 'https://abakus.no https://vg.no',
       desc: 'urls',
       expected: [
-        <a key="https://abakus.no" href="https://abakus.no">
+        <a
+          key="https://abakus.no"
+          href="https://abakus.no"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
           https://abakus.no
         </a>,
         ' ',
-        <a key="https://vg.no" href="https://vg.no">
+        <a
+          key="https://vg.no"
+          href="https://vg.no"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
           https://vg.no
-        </a>
-      ]
+        </a>,
+      ],
     },
     {
       input: 'hs@abakus.no. And webkom@abakus.no, is cool',
       desc: 'not include comma or dot as mail postfix',
       expected: [
-        <a key="hs@abakus.no" href="mailto:hs@abakus.no">
+        <a
+          key="hs@abakus.no"
+          href="mailto:hs@abakus.no"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
           hs@abakus.no
         </a>,
         '. And ',
-        <a key="webkom@abakus.no" href="mailto:webkom@abakus.no">
+        <a
+          key="webkom@abakus.no"
+          href="mailto:webkom@abakus.no"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
           webkom@abakus.no
         </a>,
-        ', is cool'
-      ]
+        ', is cool',
+      ],
     },
     {
       input: 'https://abakus.no/abc/. https://vg.no/abc/, is cool',
       desc: 'not include comma or dot as url postfix',
       expected: [
-        <a key="https://abakus.no/abc/" href="https://abakus.no/abc/">
+        <a
+          key="https://abakus.no/abc/"
+          href="https://abakus.no/abc/"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
           https://abakus.no/abc/
         </a>,
         '. ',
-        <a key="https://vg.no/abc/" href="https://vg.no/abc/">
+        <a
+          key="https://vg.no/abc/"
+          href="https://vg.no/abc/"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
           https://vg.no/abc/
         </a>,
-        ', is cool'
-      ]
+        ', is cool',
+      ],
     },
     {
       input: 'Hei På deg',
       desc: 'text',
-      expected: ['Hei På deg']
+      expected: ['Hei På deg'],
     },
     {
       input: 'abakus.no abakus2.no',
       desc: 'render urls with schema',
-      expected: ['abakus.no abakus2.no']
+      expected: ['abakus.no abakus2.no'],
     },
     {
       input: 'hs@abakus.no hs@abakus.no',
       desc: 'email ',
       expected: [
-        <a key="hs@abakus.no" href="mailto:hs@abakus.no">
+        <a
+          key="hs@abakus.no"
+          href="mailto:hs@abakus.no"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
           hs@abakus.no
         </a>,
         ' ',
-        <a key="hs@abakus.no" href="mailto:hs@abakus.no">
+        <a
+          key="hs@abakus.no"
+          href="mailto:hs@abakus.no"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
           hs@abakus.no
-        </a>
-      ]
+        </a>,
+      ],
     },
     {
       input:
@@ -81,16 +121,23 @@ describe('UrlifyString', () => {
         <a
           key="https://abakus.no/testing.-/"
           href="https://abakus.no/testing.-/"
+          rel="noopener noreferrer"
+          target="_blank"
         >
           https://abakus.no/testing.-/
         </a>,
         ' er kult, og ',
-        <a key="webkom@abakus.no" href="mailto:webkom@abakus.no">
+        <a
+          key="webkom@abakus.no"
+          href="mailto:webkom@abakus.no"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
           webkom@abakus.no
         </a>,
-        ' test'
-      ]
-    }
+        ' test',
+      ],
+    },
   ];
 
   data.forEach(({ input, desc, expected }) => {

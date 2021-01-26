@@ -14,6 +14,7 @@ import moment from 'moment-timezone';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { statusesText, statuses } from 'app/reducers/meetingInvitations';
 import DisplayContent from 'app/components/DisplayContent';
+import urlifyString from 'app/utils/urlifyString';
 import {
   Content,
   ContentHeader,
@@ -193,7 +194,7 @@ class MeetingDetails extends Component<Props> {
           <ContentSection>
             <ContentMain>
               {meeting.description && (
-                <DisplayContent content={meeting.description} />
+                <div>{urlifyString(meeting.description)}</div>
               )}
               <h2>Referat</h2>
               <DisplayContent content={meeting.report} />
