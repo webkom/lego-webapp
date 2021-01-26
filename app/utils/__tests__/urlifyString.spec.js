@@ -138,6 +138,36 @@ describe('UrlifyString', () => {
         ' test',
       ],
     },
+    {
+      input:
+        'Hei på  Deg https://abakus.no/testing.-/\n\n er kult,\n og webkom@abakus.no test',
+      desc: 'nested strings, email-links and urls with newlines',
+      expected: [
+        'Hei på  Deg ',
+        <a
+          key="https://abakus.no/testing.-/"
+          href="https://abakus.no/testing.-/"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          https://abakus.no/testing.-/
+        </a>,
+        <br key={3} />,
+        <br key={5} />,
+        ' er kult,',
+        <br key={7} />,
+        ' og ',
+        <a
+          key="webkom@abakus.no"
+          href="mailto:webkom@abakus.no"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          webkom@abakus.no
+        </a>,
+        ' test',
+      ],
+    },
   ];
 
   data.forEach(({ input, desc, expected }) => {

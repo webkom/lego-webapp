@@ -25,7 +25,7 @@ export const urlToLink = (url: string): React.Node => (
 const urlifyString = (data: string): Urlified =>
   compact(
     data
-      .split(' ')
+      .split(/([ \t\n])/)
       .reduce(
         (
           accumulator: Urlified,
@@ -41,7 +41,7 @@ const urlifyString = (data: string): Urlified =>
             lastChar = '';
           }
           const prevIndex = accumulator.length - 1;
-          const postfix = lastChar + (index === length - 1 ? '' : ' ');
+          const postfix = lastChar;
 
           if (isEmail(value)) {
             return accumulator.concat(emailToLink(value)).concat(postfix);
@@ -62,7 +62,10 @@ const urlifyString = (data: string): Urlified =>
 
           const prev = accumulator[prevIndex];
           if (typeof prev !== 'string') {
-            return accumulator.concat(` ${text}`);
+            return accumulator.concat(text);
+          }
+          if (text === '\n') {
+            return accumulator.concat(<br key={accumulator.length} />);
           }
           return accumulator.slice(0, prevIndex).concat(`${prev}${text}`);
         },
