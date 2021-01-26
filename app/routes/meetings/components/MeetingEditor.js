@@ -8,6 +8,7 @@ import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 
 import {
   Form,
+  TextArea,
   TextInput,
   EditorField,
   SelectInput,
@@ -26,7 +27,6 @@ type Props = {
   meetingId?: string,
   meeting: Object,
   change: () => void,
-  // $FlowFixMe
   invitingUsers: Array<UserEntity>,
   user: UserEntity,
   pristine: boolean,
@@ -69,7 +69,6 @@ function MeetingEditor({
       }))
     : [];
 
-  // $FlowFixMe
   const possibleReportAuthors = unionBy(
     [userSearchable],
     invitedUsersSearchable,
@@ -97,6 +96,12 @@ function MeetingEditor({
           label="Referat"
           component={EditorField.Field}
           initialized={initialized}
+        />
+        <Field
+          label="Kort beskrivelse"
+          placeholder="Dette vises i kalenderen til de inviterte, så gjerne putt zoom-lenka her..."
+          name="description"
+          component={TextArea.Field}
         />
         <div className={styles.sideBySideBoxes}>
           <div>
