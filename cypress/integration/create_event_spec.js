@@ -138,7 +138,7 @@ describe('Create event', () => {
     // This is needed so that the crop module is activated because of how we mock upload files in these tests
     cy.get('.ReactCrop__drag-handle.ord-n').click({ force: true });
 
-    cy.get('._legoEditor_imageUploader_applyButton')
+    cy.get('._legoEditor_modal_applyButton')
       .contains('Apply')
       .should('not.be.disabled')
       .click();
