@@ -192,6 +192,9 @@ class MeetingDetails extends Component<Props> {
 
           <ContentSection>
             <ContentMain>
+              {meeting.description && (
+                <DisplayContent content={meeting.description} />
+              )}
               <h2>Referat</h2>
               <DisplayContent content={meeting.report} />
             </ContentMain>

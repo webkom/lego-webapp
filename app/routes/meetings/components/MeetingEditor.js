@@ -98,6 +98,12 @@ function MeetingEditor({
           component={EditorField.Field}
           initialized={initialized}
         />
+        <Field
+          label="Kort beskrivelse"
+          placeholder="Dette vises i kalenderen til de inviterte, så gjerne putt zoom-lenka her..."
+          name="description"
+          component={TextInput.Field}
+        />
         <div className={styles.sideBySideBoxes}>
           <div>
             <Field

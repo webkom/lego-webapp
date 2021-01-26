@@ -41,14 +41,12 @@ const mapStateToProps = (state, props) => {
     initialValues: {
       ...meeting,
       reportAuthor: reportAuthor && {
-        // $FlowFixMe
         id: reportAuthor.id,
-        // $FlowFixMe
         value: reportAuthor.username,
-        // $FlowFixMe
         label: reportAuthor.fullName,
       },
       report: meeting ? meeting.report : '',
+      description: meeting ? meeting.description : '',
     },
     invitingUsers: valueSelector(state, 'users') || [],
     meetingId,
