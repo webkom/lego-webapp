@@ -5,7 +5,7 @@ import { formValueSelector } from 'redux-form';
 import {
   createInterestGroup,
   joinInterestGroup,
-} from 'app/actions/InterestGroupActions';
+} from 'app/actions/GroupActions';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import InterestGroupCreate from './components/InterestGroupCreate';
