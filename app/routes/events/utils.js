@@ -61,12 +61,12 @@ const eventCreateAndUpdateFields = [
   'tags',
   'pools',
   'registrationDeadlineHours',
-  'unregistrationDeadline',
   'pinned',
   'heedPenalties',
   'isAbakomOnly',
   'useConsent',
   'useContactTracing',
+  'separateDeadlines',
 ];
 
 // Pool fields that should be created or updated based on the API
@@ -141,6 +141,11 @@ const calculateUnregistrationDeadline = (data) =>
     ? moment(data.unregistrationDeadline).toISOString()
     : null;
 
+const calculateUnregistrationDeadlineHours = (data) =>
+  data.separateDeadlines
+    ? data.unregistrationDeadlineHours
+    : data.registrationDeadlineHours;
+
 /* Calculate the merge time for the pools. Only set if there are more then one pool
  * @param mergeTime: date from form
  */
@@ -160,6 +165,7 @@ export const transformEvent = (data: TransformEvent) => ({
   location: calculateLocation(data),
   paymentDueDate: calculatePaymentDueDate(data),
   unregistrationDeadline: calculateUnregistrationDeadline(data),
+  unregistrationDeadlineHours: calculateUnregistrationDeadlineHours(data),
   pools: calculatePools(data),
   useCaptcha: true, // always use Captcha, this blocks the use of CLI
   youtubeUrl: data.youtubeUrl,
@@ -189,6 +195,13 @@ export const registrationCloseTime = (event: Event) =>
 
 export const registrationIsClosed = (event: Event) => {
   return moment().isAfter(registrationCloseTime(event));
+};
+
+export const unregistrationCloseTime = (event: Event) =>
+  moment(event.startTime).subtract(event.unregistrationDeadlineHours, 'hours');
+
+export const unregistrationIsClosed = (event: Event) => {
+  return moment().isAfter(unregistrationCloseTime(event));
 };
 
 export const sumPenalties = (penalties: Array<AddPenalty>) =>

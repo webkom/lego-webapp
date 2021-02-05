@@ -353,10 +353,38 @@ function EventEditor({
                 </div>
               )}
             {['NORMAL', 'INFINITE'].includes(event.eventStatusType) && (
+              <Tooltip content="Separate frister for påmelding og avmelding - antall timer før arrangementet. Det vil ikke være mulig å melde seg av eller på etter de satte fristene">
+                <Field
+                  label="Separat avregistregistreringsfrist"
+                  name="separateDeadlines"
+                  component={CheckBox.Field}
+                  fieldClassName={styles.metaField}
+                  className={styles.formField}
+                  normalize={(v) => !!v}
+                />
+              </Tooltip>
+            )}
+            {['NORMAL', 'INFINITE'].includes(event.eventStatusType) &&
+              event.separateDeadlines && (
+                <div className={styles.subSection}>
+                  <Tooltip content="Frist for avmelding antall timer før arrangementet">
+                    <Field
+                      key="unregistrationDeadlineHours"
+                      label="Avregistrering antall timer før"
+                      name="unregistrationDeadlineHours"
+                      type="number"
+                      component={TextInput.Field}
+                      fieldClassName={styles.metaField}
+                      className={styles.formField}
+                    />
+                  </Tooltip>
+                </div>
+              )}
+            {['NORMAL', 'INFINITE'].includes(event.eventStatusType) && (
               <Tooltip content="Frist for påmelding/avmelding - antall timer før arrangementet. Det er ikke mulig å melde seg hverken på eller av etter denne fristen">
                 <Field
                   key="registrationDeadlineHours"
-                  label="Stenger"
+                  label="Registrering antall timer før"
                   name="registrationDeadlineHours"
                   type="number"
                   component={TextInput.Field}
@@ -516,6 +544,9 @@ const validate = (data) => {
   }
   if (!isPositiveNumeric(data.registrationDeadlineHours)) {
     errors.registrationDeadlineHours = 'Kun hele timer';
+  }
+  if (!isPositiveNumeric(data.unregistrationDeadlineHours)) {
+    errors.unregistrationDeadlineHours = 'Kun hele timer';
   }
   if (!moment(data.startTime).isBefore(data.endTime)) {
     errors.endTime = 'Starttidspunkt må være før sluttidspunkt';

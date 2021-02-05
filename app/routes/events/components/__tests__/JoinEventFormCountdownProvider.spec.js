@@ -31,6 +31,7 @@ const EVENT = {
   tags: [],
   registrationDeadlineHours: 2,
   registrationCloseTime: moment().add(2, 'hours'),
+  unregistrationDeadlineHours: 2,
   unregistrationDeadline: moment().add(10, 'days'),
   pinned: false,
   actionGrant: [],
