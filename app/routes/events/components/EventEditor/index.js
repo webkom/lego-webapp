@@ -353,7 +353,7 @@ function EventEditor({
                 </div>
               )}
             {['NORMAL', 'INFINITE'].includes(event.eventStatusType) && (
-              <Tooltip content="Separate frister for påmelding og avmelding - antall timer før arrangementet. Det vil ikke være mulig å melde seg av eller på etter de satte fristene">
+              <Tooltip content="Separate frister for påmelding og avmelding - antall timer før arrangementet. Det vil ikke være mulig å melde seg av eller på etter de satte fristene (negativ verdi betyr antall timer etter starten på arrangementet)">
                 <Field
                   label="Separat avregistregistreringsfrist"
                   name="separateDeadlines"
@@ -367,7 +367,7 @@ function EventEditor({
             {['NORMAL', 'INFINITE'].includes(event.eventStatusType) &&
               event.separateDeadlines && (
                 <div className={styles.subSection}>
-                  <Tooltip content="Frist for avmelding antall timer før arrangementet">
+                  <Tooltip content="Frist for avmelding antall timer før arrangementet (negativ verdi betyr antall timer etter starten på arrangementet)">
                     <Field
                       key="unregistrationDeadlineHours"
                       label="Avregistrering antall timer før"
@@ -381,7 +381,7 @@ function EventEditor({
                 </div>
               )}
             {['NORMAL', 'INFINITE'].includes(event.eventStatusType) && (
-              <Tooltip content="Frist for påmelding/avmelding - antall timer før arrangementet. Det er ikke mulig å melde seg hverken på eller av etter denne fristen">
+              <Tooltip content="Frist for påmelding/avmelding - antall timer før arrangementet. Det er ikke mulig å melde seg hverken på eller av etter denne fristen (negativ verdi betyr antall timer etter starten på arrangementet)">
                 <Field
                   key="registrationDeadlineHours"
                   label="Registrering antall timer før"
@@ -503,9 +503,10 @@ function EventEditor({
   );
 }
 
+const isInteger = (value) => /^-?\d+$/.test(value);
+
 const validate = (data) => {
   const errors = {};
-  const isPositiveNumeric = (value) => /^\d+$/.test(value);
   const [isValidYoutubeUrl, errorMessage = ''] = validYoutubeUrl()(
     data.youtubeUrl
   );
@@ -542,10 +543,10 @@ const validate = (data) => {
   if (data.feedbackRequired && !data.feedbackDescription) {
     errors.feedbackDescription = 'Kan ikke være tomt';
   }
-  if (!isPositiveNumeric(data.registrationDeadlineHours)) {
+  if (!isInteger(data.registrationDeadlineHours)) {
     errors.registrationDeadlineHours = 'Kun hele timer';
   }
-  if (!isPositiveNumeric(data.unregistrationDeadlineHours)) {
+  if (!isInteger(data.unregistrationDeadlineHours)) {
     errors.unregistrationDeadlineHours = 'Kun hele timer';
   }
   if (!moment(data.startTime).isBefore(data.endTime)) {
