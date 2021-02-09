@@ -107,7 +107,13 @@ export default class Attendees extends Component<Props, State> {
     if (error) {
       return <div>{error.message}</div>;
     }
-    const showUnregister = moment().isBefore(event.startTime);
+    const showUnregister =
+      // Show unregister button until 1 day after event has ended,
+      // or until reg/unreg has ended if that is more than 1 day
+      // after event end
+      moment().isBefore(moment(event.endTime).add('days', 1)) ||
+      moment().isBefore(event.unregistrationCloseTime) ||
+      moment().isBefore(event.registrationCloseTime);
 
     const exportInfoMessage = `Informasjonen du eksporterer MÅ slettes når det ikke lenger er behov for den,
                 og skal kun distribueres gjennom mail. Dersom informasjonen skal deles med personer utenfor Abakus

@@ -187,6 +187,8 @@ export type Event = EventBase & {
   unansweredSurveys: Array<ID>,
   responsibleGroup: Group,
   price?: number,
+  registrationCloseTime?: ?Dateish,
+  unregistrationCloseTime?: ?Dateish,
 };
 
 type EventTransformPool = EventPoolBase & {
