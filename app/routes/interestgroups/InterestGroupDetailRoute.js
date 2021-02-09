@@ -2,8 +2,8 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import prepare from 'app/utils/prepare';
 import {
-  joinInterestGroup,
-  leaveInterestGroup,
+  joinGroup,
+  leaveGroup,
   fetchGroup,
   fetchMemberships,
 } from 'app/actions/GroupActions';
@@ -30,8 +30,8 @@ const mapStateToProps = (state, props) => {
 };
 
 const mapDispatchToProps = {
-  joinInterestGroup,
-  leaveInterestGroup,
+  joinGroup,
+  leaveGroup,
 };
 
 export default compose(

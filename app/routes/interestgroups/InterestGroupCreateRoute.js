@@ -2,20 +2,17 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { formValueSelector } from 'redux-form';
-import {
-  createInterestGroup,
-  joinInterestGroup,
-} from 'app/actions/GroupActions';
+import { createGroup, joinGroup } from 'app/actions/GroupActions';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import InterestGroupCreate from './components/InterestGroupCreate';
 import { uploadFile } from 'app/actions/FileActions';
 
 const mapDispatchToProps = {
-  createInterestGroup,
-  joinInterestGroup,
+  createGroup,
+  joinGroup,
   uploadFile,
-  handleSubmitCallback: createInterestGroup,
+  handleSubmitCallback: (group) => createGroup({ ...group, type: 'interesse' }),
 };
 
 const mapStateToProps = (state, props) => {

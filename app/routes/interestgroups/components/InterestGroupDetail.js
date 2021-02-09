@@ -55,23 +55,23 @@ const Members = ({ group, members }: MembersProps) => (
 type ButtonRowProps = {
   group: Group,
   currentUser: User,
-  leaveInterestGroup: (GroupMembership, ID) => void,
-  joinInterestGroup: (ID, User) => void,
+  leaveGroup: (GroupMembership, ID) => void,
+  joinGroup: (ID, User) => void,
 };
 
 const ButtonRow = ({
   group,
   currentUser,
-  joinInterestGroup,
-  leaveInterestGroup,
+  joinGroup,
+  leaveGroup,
 }: ButtonRowProps) => {
   const [membership] = group.memberships.filter(
     (m) => m.user.id === currentUser.id
   );
 
   const onClick = membership
-    ? () => leaveInterestGroup(membership, group.id)
-    : () => joinInterestGroup(group.id, currentUser);
+    ? () => leaveGroup(membership, group.id)
+    : () => joinGroup(group.id, currentUser);
 
   return (
     <Flex>
@@ -105,8 +105,8 @@ const Contact = ({ group }: { group: Group }) => {
 };
 
 type Props = {
-  joinInterestGroup: (ID, User) => void,
-  leaveInterestGroup: (GroupMembership) => void,
+  joinGroup: (ID, User) => void,
+  leaveGroup: (GroupMembership) => void,
   currentUser: User,
   group: Group,
 };
