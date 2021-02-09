@@ -108,7 +108,10 @@ export default class Attendees extends Component<Props, State> {
       return <div>{error.message}</div>;
     }
     const showUnregister =
-      moment().isBefore(event.startTime) ||
+      // Show unregister button until 1 day after event has ended,
+      // or until reg/unreg has ended if that is more than 1 day
+      // after event end
+      moment().isBefore(moment(event.endTime).add('days', 1)) ||
       moment().isBefore(event.unregistrationCloseTime) ||
       moment().isBefore(event.registrationCloseTime);
 
