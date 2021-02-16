@@ -3,8 +3,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import prepare from 'app/utils/prepare';
 import { formValueSelector } from 'redux-form';
-import { fetchGroup } from 'app/actions/GroupActions';
-import { editInterestGroup } from 'app/actions/InterestGroupActions';
+import { fetchGroup, editGroup } from 'app/actions/GroupActions';
 import { uploadFile } from 'app/actions/FileActions';
 import { selectGroup } from 'app/reducers/groups';
 import { LoginPage } from 'app/components/LoginForm';
@@ -13,9 +12,9 @@ import loadingIndicator from 'app/utils/loadingIndicator';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 
 const mapDispatchToProps = {
-  editInterestGroup,
+  editGroup,
   uploadFile,
-  handleSubmitCallback: editInterestGroup,
+  handleSubmitCallback: editGroup,
 };
 
 const mapStateToProps = (state, props) => {

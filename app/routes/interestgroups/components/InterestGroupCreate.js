@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 
 export default class InterestGroupEdit extends Component<{
   initialValues: Object,
-  removeInterestGroup: (number) => Promise<*>,
+  removeGroup: (number) => Promise<*>,
   uploadFile: (string) => Promise<*>,
   handleSubmitCallback: (Object) => Promise<*>,
 }> {

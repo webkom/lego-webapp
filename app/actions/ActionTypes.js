@@ -154,14 +154,6 @@ export const CompanyInterestForm = {
   UPDATE: (generateStatuses('CompanyInterestForm.UPDATE'): AAT),
 };
 
-export const InterestGroup = {
-  FETCH_ALL: (generateStatuses('InterestGroup.FETCH_ALL'): AAT),
-  FETCH: (generateStatuses('InterestGroup.FETCH'): AAT),
-  CREATE: (generateStatuses('InterestGroup.CREATE'): AAT),
-  REMOVE: (generateStatuses('InterestGroup.REMOVE'): AAT),
-  UPDATE: (generateStatuses('InterestGroup.UPDATE'): AAT),
-};
-
 export const Membership = {
   CREATE: (generateStatuses('Membership.CREATE'): AAT),
   REMOVE: (generateStatuses('Membership.REMOVE'): AAT),

@@ -4,6 +4,7 @@ import type { Thunk } from 'app/types';
 import { groupSchema, membershipSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 import { Group, Membership } from './ActionTypes';
+import { push } from 'connected-react-router';
 
 export type AddMemberArgs = {
   groupId: number,
@@ -84,8 +85,8 @@ export function fetchAllWithType(type: string): Thunk<any> {
 }
 
 export function editGroup(group: Object): Thunk<*> {
-  return (dispatch) => {
-    return dispatch(
+  return (dispatch) =>
+    dispatch(
       callAPI({
         types: Group.UPDATE,
         endpoint: `/groups/${group.id}/`,
@@ -94,12 +95,21 @@ export function editGroup(group: Object): Thunk<*> {
         body: group,
         meta: {
           group,
-          errorMessage: 'Oppdatering av gruppe feilet',
-          successMessage: 'Oppdatering av gruppe fullført',
+          errorMessage:
+            group.type === 'interesse'
+              ? 'Endring av interessegruppe feilet'
+              : 'Oppdatering av gruppe feilet',
+          successMessage:
+            group.type === 'interesse'
+              ? 'Endring av interessegruppe fullført'
+              : 'Oppdatering av gruppe fullført',
         },
       })
+    ).then(() =>
+      group.type === 'interesse'
+        ? dispatch(push(`/interestgroups/${group.id}`))
+        : null
     );
-  };
 }
 
 export function joinGroup(
@@ -107,45 +117,48 @@ export function joinGroup(
   user: Object,
   role: string = 'member'
 ): Thunk<*> {
-  return (dispatch) => {
-    return dispatch(
+  return (dispatch) =>
+    dispatch(
       callAPI({
         types: Membership.JOIN_GROUP,
-        endpoint: '/memberships/',
+        endpoint: `/groups/${String(groupId)}/memberships/`,
         schema: membershipSchema,
         method: 'POST',
         body: {
-          abakus_group: groupId,
+          groupId,
           user: user.id,
           role,
         },
         meta: {
-          errorMessage: 'Registrering i gruppe feilet',
-          successMessage: 'Registrering i gruppe fullført',
+          errorMessage: 'Innmelding i gruppe feilet',
+          successMessage: 'Innmelding i gruppe fullført',
           groupId: groupId,
           username: user.username,
         },
       })
-    );
-  };
+    ).then(() => {
+      return dispatch(fetchMemberships(groupId));
+    });
 }
 
-export function leaveGroup(membership: Object): Thunk<*> {
+export function leaveGroup(membership: Object, groupId: number): Thunk<*> {
   return (dispatch) => {
     return dispatch(
       callAPI({
         types: Membership.LEAVE_GROUP,
-        endpoint: `/memberships/${membership.id}/`,
+        endpoint: `/groups/${String(groupId)}/memberships/${membership.id}/`,
         method: 'DELETE',
         meta: {
           id: membership.id,
           username: membership.user.username,
-          groupId: membership.abakusGroup,
-          errorMessage: 'Avregistrering fra gruppe feilet',
-          successMessage: 'Avregistrering fra gruppe fullført',
+          groupId,
+          errorMessage: 'Utmelding fra gruppe feilet',
+          successMessage: 'Utmelding fra gruppe fullført',
         },
       })
-    );
+    ).then(() => {
+      return dispatch(fetchMemberships(groupId));
+    });
   };
 }
 
@@ -204,4 +217,64 @@ export function fetchMembershipsPagination({
       })
     );
   };
+}
+
+export function createGroup(group: Object): Thunk<*> {
+  return (dispatch) => {
+    const { name, description, text, logo, type } = group;
+    return dispatch(
+      callAPI({
+        types: Group.CREATE,
+        endpoint: '/groups/',
+        schema: groupSchema,
+        method: 'POST',
+        body: {
+          name,
+          description,
+          text,
+          logo,
+          type,
+        },
+        meta: {
+          group,
+          errorMessage:
+            group.type === 'interesse'
+              ? 'Opprettelse av interessegruppe feilet'
+              : 'Opprettelse av gruppe feilet',
+          successMessage:
+            group.type === 'interesse'
+              ? 'Opprettelse av interessegruppe fullført'
+              : 'Opprettelse av gruppe fullført',
+        },
+      })
+    ).then((action) => {
+      if (!action || !action.payload) {
+        return;
+      }
+      const groupId = action.payload.result;
+      dispatch(push(`/interestgroups/${groupId}`));
+    });
+  };
+}
+
+export function removeGroup(id: string, group: Object): Thunk<*> {
+  return (dispatch) =>
+    dispatch(
+      callAPI({
+        types: Group.REMOVE,
+        endpoint: `/groups/${id}/`,
+        method: 'DELETE',
+        meta: {
+          id,
+          errorMessage:
+            group.type === 'interesse'
+              ? 'Sletting av interessegruppe feilet'
+              : 'Sletting av gruppe feilet',
+          successMessage:
+            group.type === 'interesse'
+              ? 'Sletting av interessegruppe fullført'
+              : 'Sletting av gruppe fullført',
+        },
+      })
+    ).then(() => dispatch(push('/interestgroups/')));
 }
