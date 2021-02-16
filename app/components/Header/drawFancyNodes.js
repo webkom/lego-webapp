@@ -46,43 +46,16 @@ export default function drawFancyNodes(context, { width, height }) {
 
   const graph = createErdosRenyi(25, 0.1);
 
-  let leftNodes = graph.nodes.map(() => [
+  const leftNodes = graph.nodes.map(() => [
     (width * Math.random()) / 3,
     Math.random() * height,
   ]);
 
-  let rightNodes = graph.nodes.map(() => [
+  const rightNodes = graph.nodes.map(() => [
     width - (width * Math.random()) / 3,
     Math.random() * (height - 20),
   ]);
 
-  const leftNodeVel = graph.nodes.map(() => [
-    Math.sin(Math.random() * 2 * Math.PI),
-    Math.sin(Math.random() * 2 * Math.PI),
-  ]);
-
-  const rightNodeVel = graph.nodes.map(() => [
-    Math.sin(Math.random() * 2 * Math.PI),
-    Math.sin(Math.random() * 2 * Math.PI),
-  ]);
-
   drawNetwork(context, leftNodes, graph);
   drawNetwork(context, rightNodes, graph);
-
-  function updateNetwork() {
-    leftNodes = leftNodes.map(([x, y], i) => [
-      (x + leftNodeVel[i][0]) % (width / 3),
-      (y + leftNodeVel[i][1]) % height,
-    ]);
-    rightNodes = rightNodes.map(([x, y], i) => [
-      ((x + rightNodeVel[i][0] - (2 * width) / 3) % (width / 3)) +
-        (2 * width) / 3,
-      (y + rightNodeVel[i][1]) % height,
-    ]);
-
-    context.clearRect(0, 0, width, height);
-    drawNetwork(context, leftNodes, graph);
-    drawNetwork(context, rightNodes, graph);
-  }
-  return global.setInterval(updateNetwork, 100);
 }

@@ -13,7 +13,6 @@ type Props = {
 type State = {
   width: number,
   currentTheme: string,
-  animationInterval?: IntervalID,
 };
 
 class FancyNodesCanvas extends Component<Props, State> {
@@ -24,7 +23,6 @@ class FancyNodesCanvas extends Component<Props, State> {
   state = {
     width: 0,
     currentTheme: 'light',
-    animationInterval: undefined,
   };
 
   _canvas: any;
@@ -65,23 +63,15 @@ class FancyNodesCanvas extends Component<Props, State> {
 
   drawGraphics() {
     const context = this._canvas.getContext('2d');
-    if (this.state.animationInterval)
-      global.clearInterval(this.state.animationInterval);
-    this.setState({ animationInterval: undefined });
-
-    this.setState({
-      animationInterval: drawFancyNodes(context, {
-        width: this.state.width,
-        height: this.props.height,
-      }),
+    drawFancyNodes(context, {
+      width: this.state.width,
+      height: this.props.height,
     });
   }
 
   componentWillUnmount() {
     global.removeEventListener('resize', this.handleResize);
     global.removeEventListener('themeChange', this.handleThemeChange);
-    global.clearInterval(this.state.animationInterval);
-    this.setState({ animationInterval: undefined });
   }
 
   render() {
