@@ -22,6 +22,8 @@ import {
   sumPenalties,
   penaltyHours,
   registrationIsClosed,
+  getEventSemesterFromStartTime,
+  hasRegisteredConsent,
 } from '../utils';
 
 import { selectUserByUsername } from 'app/reducers/users';
@@ -294,7 +296,29 @@ class JoinEventForm extends Component<Props> {
                     </Link>
                   </div>
                 )}
+              {!disabledForUser &&
+                event.useConsent &&
+                !hasRegisteredConsent(
+                  currentUser.photoConsents,
+                  getEventSemesterFromStartTime(event.startTime)
+                ) && (
+                  <div className={styles.eventWarning}>
+                    <p>NB!</p>
+                    <p>
+                      Du må ta stilling til bildesamtykke for semesteret{' '}
+                      {getEventSemesterFromStartTime(event.startTime)} for å
+                      melde deg på dette arrangement.
+                    </p>
+                    <Link to={`/users/me/`}>Gå til min profil</Link>
+                  </div>
+                )}
               {formOpen &&
+                (event.useConsent
+                  ? hasRegisteredConsent(
+                      currentUser.photoConsents,
+                      getEventSemesterFromStartTime(event.startTime)
+                    )
+                  : true) &&
                 (event.useContactTracing ? currentUser.phoneNumber : true) && (
                   <Flex column>
                     <Form

@@ -12,7 +12,7 @@ import { User, FetchHistory, Penalty } from './ActionTypes';
 import { uploadFile } from './FileActions';
 import { fetchMeta } from './MetaActions';
 import type { Thunk, Action, Token, EncodedToken, GetCookie } from 'app/types';
-import type { AddPenalty, ID } from 'app/models';
+import type { AddPenalty, ID, PhotoConsent } from 'app/models';
 import { setStatusCode } from './RoutingActions';
 
 const USER_STORAGE_KEY = 'lego.auth';
@@ -215,6 +215,29 @@ export function removePicture(username: string): Thunk<*> {
         },
       })
     );
+}
+export function updatePhotoConsent(
+  photoConsent: PhotoConsent,
+  username: string,
+  userId: Number
+): Thunk<*> {
+  const { semester, domain, isConsenting } = photoConsent;
+  return callAPI({
+    types: User.UPDATE,
+    endpoint: `/users/${username}/update_photo_consent/`,
+    method: 'POST',
+    body: {
+      user: userId,
+      semester: semester,
+      domain: domain,
+      isConsenting: isConsenting,
+    },
+    schema: userSchema,
+    meta: {
+      errorMessage: 'Endring av bildesamtykke feilet',
+      successMessage: 'Bildesamtykke endret',
+    },
+  });
 }
 
 export function updatePicture({

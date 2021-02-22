@@ -87,3 +87,8 @@ a.transparent:hover {
 .cell {
   margin: 2px;
 }
+
+.consents {
+  display: flex;
+  justify-content: center;
+}

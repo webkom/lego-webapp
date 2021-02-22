@@ -1,7 +1,13 @@
 // @flow
 import { pick, sumBy } from 'lodash';
 import moment from 'moment-timezone';
-import type { TransformEvent, Event, EventType, AddPenalty } from 'app/models';
+import type {
+  TransformEvent,
+  Event,
+  EventType,
+  AddPenalty,
+  PhotoConsent,
+} from 'app/models';
 
 // Current eventTypes
 export const EVENT_CONSTANTS: { [EventType]: string } = {
@@ -220,4 +226,22 @@ export const penaltyHours = (penalties: Array<AddPenalty>) => {
     default:
       return -1;
   }
+};
+
+export const getEventSemesterFromStartTime = (startTime: moment): string => {
+  const eventYear = startTime.format('YY');
+  const eventMonth = Number(startTime.format('MM'));
+
+  return (eventMonth > 7 ? 'H' : 'V') + eventYear;
+};
+
+export const hasRegisteredConsent = (
+  photoConsents: Array<PhotoConsent>,
+  eventSemester: string
+): boolean => {
+  const registeredConsents = photoConsents.filter(
+    (pc) =>
+      pc.semester === eventSemester && typeof pc.isConsenting === 'boolean'
+  );
+  return registeredConsents.length === 2;
 };

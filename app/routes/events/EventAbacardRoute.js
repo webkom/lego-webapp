@@ -6,10 +6,7 @@ import { debounce } from 'lodash';
 import prepare from 'app/utils/prepare';
 import { autocomplete } from 'app/actions/SearchActions';
 import { selectAutocompleteRedux as selectAutocomplete } from 'app/reducers/search';
-import {
-  markUsernamePresent,
-  markUsernameConsent,
-} from 'app/actions/EventActions';
+import { markUsernamePresent } from 'app/actions/EventActions';
 import Abacard from './components/EventAdministrate/Abacard';
 import qs from 'qs';
 
@@ -45,7 +42,6 @@ const mapDispatchToProps = (dispatch, { eventId }) => {
   return {
     clearSearch: () => dispatch(push(url)),
     markUsernamePresent: (...props) => dispatch(markUsernamePresent(...props)),
-    markUsernameConsent: (...props) => dispatch(markUsernameConsent(...props)),
     onQueryChanged: debounce((query) => {
       dispatch(push(url + query));
       if (query) {

@@ -10,17 +10,24 @@ import Pill from 'app/components/Pill';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 //import Feed from 'app/components/Feed';
 import Penalties from './Penalties';
+import PhotoConsents from './PhotoConsents.js';
 import GroupChange from './GroupChange.js';
 import styles from './UserProfile.css';
 import { Flex } from 'app/components/Layout';
 import Tooltip from 'app/components/Tooltip';
 import { resolveGroupLink } from 'app/reducers/groups';
-import type { Group, AddPenalty, Event, ID, Dateish } from 'app/models';
+import type {
+  Group,
+  AddPenalty,
+  Event,
+  ID,
+  PhotoConsent,
+  Dateish,
+} from 'app/models';
 import cx from 'classnames';
 import EventItem from 'app/components/EventItem';
 import EmptyState from 'app/components/EmptyState';
 import moment from 'moment-timezone';
-
 import frame from 'app/assets/frame.png';
 
 const fieldTranslations = {
@@ -65,6 +72,12 @@ type Props = {
   groups: Array<Group>,
   canChangeGrade: boolean,
   changeGrade: (ID, string) => Promise<*>,
+  updatePhotoConsent: (
+    photoConsent: PhotoConsent,
+    username: string,
+    userId: Number
+  ) => Promise<*>,
+  photoConsents: Array<PhotoConsent>,
 };
 
 type EventsProps = {
@@ -200,6 +213,7 @@ export default class UserProfile extends Component<Props, EventsProps> {
       groups,
       canChangeGrade,
       changeGrade,
+      updatePhotoConsent,
     } = this.props;
 
     //If you wonder what this is, ask somebody
@@ -212,6 +226,7 @@ export default class UserProfile extends Component<Props, EventsProps> {
       lastName,
       memberships = [],
       permissionsPerGroup = [],
+      photoConsents,
     } = user;
 
     const { membershipsAsBadges = [], membershipsAsPills = [] } = groupBy(
@@ -369,6 +384,20 @@ export default class UserProfile extends Component<Props, EventsProps> {
                     username={user.username}
                     userId={user.id}
                     canDeletePenalties={canDeletePenalties}
+                  />
+                </Card>
+              </div>
+            )}
+            {showSettings && photoConsents && photoConsents.length > 0 && (
+              <div>
+                <h3>Bildesamtykke</h3>
+                <Card>
+                  <PhotoConsents
+                    photoConsents={photoConsents}
+                    username={user.username}
+                    updatePhotoConsent={updatePhotoConsent}
+                    userId={user.id}
+                    isMe={isMe}
                   />
                 </Card>
               </div>

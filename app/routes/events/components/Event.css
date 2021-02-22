@@ -96,6 +96,7 @@
   border-radius: 10px;
   background: var(--color-red-4);
   text-align: center;
+  margin-bottom: 0.5rem;
 }
 
 .eventWarning > p {

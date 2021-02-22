@@ -299,21 +299,6 @@ export function updateFeedback(
       })
     );
 }
-export function markUsernameConsent(
-  eventId: number,
-  username: string,
-  photoConsent: string
-): Thunk<Promise<*>> {
-  return callAPI({
-    types: Event.UPDATE_REGISTRATION,
-    endpoint: `/events/${eventId}/set_consent/`,
-    method: 'POST',
-    body: { username, photoConsent },
-    meta: {
-      errorMessage: 'Oppdatering av samtykke feilet',
-    },
-  });
-}
 
 export function markUsernamePresent(
   eventId: number,

@@ -23,6 +23,7 @@ import {
   registrationCloseTime,
   unregistrationCloseTime,
   penaltyHours,
+  getEventSemesterFromStartTime,
 } from '../../utils';
 import Admin from '../Admin';
 import RegistrationMeta from '../RegistrationMeta';
@@ -329,6 +330,10 @@ export default class EventDetail extends Component<Props> {
                   {loggedIn && (
                     <RegistrationMeta
                       useConsent={event.useConsent}
+                      photoConsents={currentUser.photoConsents}
+                      eventSemester={getEventSemesterFromStartTime(
+                        event.startTime
+                      )}
                       hasEnded={moment(event.endTime).isBefore(moment())}
                       registration={currentRegistration}
                       isPriced={event.isPriced}

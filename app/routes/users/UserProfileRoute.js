@@ -9,6 +9,7 @@ import {
   addPenalty,
   deletePenalty,
   changeGrade,
+  updatePhotoConsent,
 } from 'app/actions/UserActions';
 import { fetchAllWithType } from 'app/actions/GroupActions';
 import { fetchPrevious, fetchUpcoming } from 'app/actions/EventActions';
@@ -102,6 +103,7 @@ const mapDispatchToProps = {
   addPenalty,
   deletePenalty,
   changeGrade,
+  updatePhotoConsent,
 };
 
 export default compose(

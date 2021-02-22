@@ -8,6 +8,7 @@ import { normalize } from 'normalizr';
 import { eventSchema, registrationSchema } from 'app/reducers';
 import mergeObjects from 'app/utils/mergeObjects';
 import { produce } from 'immer';
+import type { PhotoConsent } from '../models';
 
 export type UserEntity = {
   id: number,
@@ -19,6 +20,7 @@ export type UserEntity = {
   profilePicture: string,
   emailListsEnabled?: boolean,
   selectedTheme: string,
+  photoConsents?: Array<PhotoConsent>,
 };
 
 type State = any;

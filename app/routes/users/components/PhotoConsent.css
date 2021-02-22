@@ -1,0 +1,15 @@
+.notConsentBtn {
+  color: var(--lego-red);
+}
+
+.consentBtn {
+  color: var(--color-green-3);
+}
+
+.categoryTitle {
+  margin-top: 2rem;
+}
+
+.statusContainer {
+  margin: 0.5rem 0;
+}
