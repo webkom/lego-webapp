@@ -435,9 +435,6 @@ export default class Table extends Component<Props, State> {
 
     let sorter = this.state.sort.sorter;
     const { direction, dataIndex } = this.state.sort;
-
-    console.log(dataIndex);
-    console.log(sorter);
     
     if (typeof(sorter) == "boolean") sorter = (a,b) => {
       if (a[dataIndex] > b[dataIndex]) return 1;
@@ -447,9 +444,6 @@ export default class Table extends Component<Props, State> {
     const sortedData = [...data].sort((a,b) => 
     sorter != undefined ? sorter(a,b) : -1);
     if (direction == 'desc') sortedData.reverse();
-
-    console.log(sortedData);
-
     
     return (
       <table className={styles.table}>
