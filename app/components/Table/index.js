@@ -145,10 +145,7 @@ export default class Table extends Component<Props, State> {
   };
 
   onSortInput = (dataIndex: any, sorter: any) => {
-    let direction = 'asc';
-    if (this.state.sort.dataIndex == dataIndex){
-      if (this.state.sort.direction == 'asc') direction = 'desc';
-    }
+    const direction = this.state.sort.dataIndex == dataIndex && this.state.sort.direction == 'asc' ? 'desc' : 'asc'
 
     this.setState(
       { sort: { direction, dataIndex, sorter } },
@@ -208,11 +205,7 @@ export default class Table extends Component<Props, State> {
       filterMessage,
     } = chosenProps;
 
-    let sortIconName = "sort";
-    if (this.state.sort.dataIndex == dataIndex){
-      if (this.state.sort.direction == 'asc') sortIconName = "sort-asc";
-      else sortIconName = "sort-desc";
-    }
+    const sortIconName = this.state.sort.dataIndex == dataIndex ? this.state.sort.direction == 'asc' ? "sort-asc" : "sort-desc" : "sort";
 
     const { filters, isShown } = this.state;
     return (

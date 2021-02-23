@@ -30,6 +30,7 @@ function RadioButton({
         checked={inputValue === value}
         type="radio"
         id={id}
+        value={inputValue}
       />
       <span className={styles.label}>{label}</span>
     </div>
