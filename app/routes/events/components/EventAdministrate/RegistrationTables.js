@@ -1,11 +1,5 @@
 // @flow
 
-// Må få henta inn pools ordentlig
-// Må skjønne hvordan search fungerer
-
-// Må lage nedtrekksmeny hvor man kan velge mellom å vise pool og klassetrinn
-// Må fikse mulighet til å sortere etter en colonne
-
 import styles from './Administrate.css';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
@@ -111,6 +105,10 @@ export class RegisteredTable extends Component<Props> {
         render: (pool, registration) => (
           <span>{registered.indexOf(registration) + 1}.</span>
         ),
+        sorter: (a,b) => {
+          if (registered.indexOf(a) > registered.indexOf(b)) return 1;
+          else return -1;
+        }
       },
       {
         title: 'Bruker',
@@ -119,6 +117,10 @@ export class RegisteredTable extends Component<Props> {
         render: (user) => (
           <Link to={`/users/${user.username}`}>{user.fullName}</Link>
         ),
+        sorter: (a,b) => {
+          if (a.user.username > b.user.username) return 1;
+          else return -1;
+        },
         filterMapping: (user) => user.fullName,
       },
       {
@@ -181,6 +183,13 @@ export class RegisteredTable extends Component<Props> {
             title: 'Klassetrinn',
             dataIndex: 'user.grade',
             render: GradeRenderer,
+            sorter: (a,b) => {
+              if (a.user.grade && b.user.grade){
+                if (a.user.grade.name > b.user.grade.name) return 1
+              }
+              if (!a.user.grade && b.user.grade) return 1;
+              else return -1;
+            },
           },
           {
             title: 'Pool',
@@ -189,6 +198,7 @@ export class RegisteredTable extends Component<Props> {
               const poolName = getPoolName(pools, pool);
               return <span>{poolName}</span>;
             },
+            sorter: true,
           },
         ],
       },
@@ -215,6 +225,10 @@ export class RegisteredTable extends Component<Props> {
             {`Allergier: ${registration.user.allergies || '-'}`}
           </span>
         ),
+        sorter: (a,b) => {
+          if (a.feedback > b.feedback) return 1;
+          else return -1;
+        },
       },
       {
         title: 'Administrer',
@@ -298,6 +312,7 @@ type UnregisteredTableProps = {
 export class UnregisteredTable extends Component<UnregisteredTableProps> {
   render() {
     const { loading, unregistered } = this.props;
+
     const columns = [
       {
         title: 'Bruker',

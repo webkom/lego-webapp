@@ -17,7 +17,8 @@ import Button from '../Button';
 
 type sortProps = {
   direction?: 'asc' | 'desc',
-  sort?: string,
+  dataIndex?: string,
+  sorter?: any,
 };
 
 type checkFilter = {
@@ -28,7 +29,7 @@ type checkFilter = {
 type columnProps = {
   dataIndex: string,
   title?: string,
-  sorter?: (any, any) => number,
+  sorter?: boolean | (any, any) => number,
   filter?: Array<checkFilter>,
   /*
    * Map the value to to "another" value to use
@@ -137,8 +138,21 @@ export default class Table extends Component<Props, State> {
   };
 
   onChooseColumnInput = (columnIndex: any, dataIndex: any) => {
-    this.setState({ showColumn: { [dataIndex]: columnIndex } }, () =>
-      this.onChange()
+    this.setState(
+      { showColumn: { [dataIndex]: columnIndex } }, 
+      () => this.onChange()
+    );
+  };
+
+  onSortInput = (dataIndex: any, sorter: any) => {
+    let direction = 'asc';
+    if (this.state.sort.dataIndex == dataIndex){
+      if (this.state.sort.direction == 'asc') direction = 'desc';
+    }
+
+    this.setState(
+      { sort: { direction, dataIndex, sorter } },
+      () => this.onChange()
     );
   };
 
@@ -154,6 +168,7 @@ export default class Table extends Component<Props, State> {
       const columnIndex: number = this.state.showColumn[column.dataIndex];
       column = column.columnChoices[columnIndex];
     }
+
     const cellData = get(data, column.dataIndex);
     const {
       render = (cellData, data) => cellData,
@@ -193,19 +208,29 @@ export default class Table extends Component<Props, State> {
       filterMessage,
     } = chosenProps;
 
+    let sortIconName = "sort";
+    if (this.state.sort.dataIndex == dataIndex){
+      if (this.state.sort.direction == 'asc') sortIconName = "sort-asc";
+      else sortIconName = "sort-desc";
+    }
+
     const { filters, isShown } = this.state;
     return (
       <th
         key={`${dataIndex}-${index}`}
         style={center ? { textAlign: 'center' } : {}}
       >
-        {title}
         {sorter && (
           <div className={styles.sorter}>
-            <Icon name="arrow-up" />
-            <Icon name="arrow-down" />
+            <Icon 
+              onClick={() => this.onSortInput(dataIndex, sorter)}
+              name={sortIconName}
+              prefix="fa fa-"
+              size={18}
+            />
           </div>
         )}
+        {title}
         {search && (
           <div className={styles.searchIcon}>
             <div
@@ -408,6 +433,24 @@ export default class Table extends Component<Props, State> {
   render() {
     const { columns, data, rowKey, hasMore, loading } = this.props;
 
+    let sorter = this.state.sort.sorter;
+    const { direction, dataIndex } = this.state.sort;
+
+    console.log(dataIndex);
+    console.log(sorter);
+    
+    if (typeof(sorter) == "boolean") sorter = (a,b) => {
+      if (a[dataIndex] > b[dataIndex]) return 1;
+      return -1;
+    }
+
+    const sortedData = [...data].sort((a,b) => 
+    sorter != undefined ? sorter(a,b) : -1);
+    if (direction == 'desc') sortedData.reverse();
+
+    console.log(sortedData);
+
+    
     return (
       <table className={styles.table}>
         <thead>
@@ -423,7 +466,7 @@ export default class Table extends Component<Props, State> {
           loadMore={this.loadMore}
           threshold={50}
         >
-          {data.filter(this.filter).map((item, index) => (
+          {sortedData.filter(this.filter).map((item, index) => (
             <tr key={item[rowKey]}>
               {columns
                 .filter(isVisible)
