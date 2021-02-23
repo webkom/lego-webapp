@@ -44,8 +44,8 @@ export const EVENT_TYPES = {
     english: 'Digital presentation',
   },
   bedex: {
-    norwegian: 'BedEx (vinter 2021)',
-    english: 'BedEx (winter 2021)',
+    norwegian: 'BedEx (1.-3. September 2021)',
+    english: 'BedEx (1.-3. September 2021)',
   },
   other: {
     norwegian: 'Alternativt arrangement',
