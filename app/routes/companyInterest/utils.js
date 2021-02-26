@@ -71,8 +71,7 @@ export const interestText = {
   },
   bedex: {
     norwegian:
-      '«Husk å ranger datoer og gruppestørrelse dersom du har huket av for BedEx (vinter 2021)»',
-    english:
-      '«Remember to rank dates and groupsize if you have checked BedEx (winter 2021)»',
+      '«Husk å ranger datoer og gruppestørrelse dersom du har huket av for BedEx»',
+    english: '«Remember to rank dates and groupsize if you have checked BedEx»',
   },
 };
