@@ -85,6 +85,7 @@ function withAutocomplete<Props>({
           options={this.state.result}
           onSearch={debounce((query) => this.handleSearch(query, filter), 100)}
           fetching={this.state.searching}
+          filterOption={() => true}
         />
       );
     }
