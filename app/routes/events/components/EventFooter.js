@@ -1,7 +1,7 @@
 //@flow
 import { Link } from 'react-router-dom';
 import styles from './EventFooter.css';
-import { hiddenOnMobile } from 'app/styles/utilities.css';
+import utilityStyles from 'app/styles/utilities.css';
 import cx from 'classnames';
 
 import { eventTypeToString, colorForEvent, EVENT_CONSTANTS } from '../utils';
@@ -29,7 +29,7 @@ type Props = {
 const EventFooter = ({ icalToken }: Props) => (
   <div className={styles.eventFooter}>
     {icalToken && (
-      <p className={cx(styles.section, hiddenOnMobile)}>
+      <p className={cx(styles.section, utilityStyles.hiddenOnMobile)}>
         Her kan du importere arrangementer og møter til din favorittkalender!
         For innstillinger se
         <Link to="/users/me/settings"> her</Link>.
@@ -37,7 +37,7 @@ const EventFooter = ({ icalToken }: Props) => (
     )}
     <div className={styles.eventFooterSections}>
       {icalToken && (
-        <div className={cx(styles.section, hiddenOnMobile)}>
+        <div className={cx(styles.section, utilityStyles.hiddenOnMobile)}>
           <h3>Google kalender</h3>
           <ul>
             {icalTypes.map((type, key) => (
@@ -51,7 +51,7 @@ const EventFooter = ({ icalToken }: Props) => (
         </div>
       )}
       {icalToken && (
-        <div className={cx(styles.section, hiddenOnMobile)}>
+        <div className={cx(styles.section, utilityStyles.hiddenOnMobile)}>
           <h3>iCalendar</h3>
           <ul>
             {icalTypes.map((type, key) => (

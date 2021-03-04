@@ -26,5 +26,20 @@ module.exports = () => ({
       name: '[name]',
       path: path.join(outputPath, '[name].json'),
     }),
+
+    new webpack.ProvidePlugin({
+      process: 'process/browser',
+    }),
   ],
+  resolve: {
+    fallback: {
+      crypto: require.resolve('crypto-browserify'),
+      stream: require.resolve('stream-browserify'),
+      path: require.resolve('path-browserify'),
+      vm: require.resolve('vm-browserify'),
+    },
+  },
+  stats: {
+    chunks: true,
+  },
 });

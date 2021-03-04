@@ -2,7 +2,7 @@
 
 import cx from 'classnames';
 import Flex from 'app/components/Layout/Flex';
-import { hiddenOnMobile, hiddenOnDesktop } from 'app/styles/utilities.css';
+import utilityStyles from 'app/styles/utilities.css';
 import { Image } from 'app/components/Image';
 import netcompany from 'app/assets/netcompany_white.svg';
 import Octocat from 'app/assets/Octocat.png';
@@ -19,7 +19,7 @@ const Footer = (props: Props) => (
     <div className={styles.footerContent}>
       <Flex column>
         <Flex>
-          <div className={cx(styles.section, hiddenOnMobile)}>
+          <div className={cx(styles.section, utilityStyles.hiddenOnMobile)}>
             <a
               href="https://github.com/webkom"
               rel="noopener noreferrer"
@@ -50,7 +50,7 @@ const Footer = (props: Props) => (
               </a>
             </p>
           </div>
-          <div className={cx(styles.section, hiddenOnMobile)}>
+          <div className={cx(styles.section, utilityStyles.hiddenOnMobile)}>
             <Image
               className={cx(styles.cooperator, styles.desktopLogo)}
               src={netcompany}
@@ -70,7 +70,7 @@ const Footer = (props: Props) => (
           </div>
         </Flex>
         <Image
-          className={cx(styles.cooperator, hiddenOnDesktop)}
+          className={cx(styles.cooperator, utilityStyles.hiddenOnDesktop)}
           src={netcompany}
         />
         <div className={styles.cookiesDiv}>
