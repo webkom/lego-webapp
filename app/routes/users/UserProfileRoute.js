@@ -74,6 +74,7 @@ const mapStateToProps = (state, props) => {
   const actionGrant = (user && user.actionGrant) || [];
   const showSettings = isMe || actionGrant.includes('edit');
   const canChangeGrade = state.allowed.groups;
+  const canEditEmailLists = state.allowed.email;
   const canDeletePenalties = state.allowed.penalties;
   const groups = selectGroupsWithType(state, { groupType: 'klasse' });
   return {
@@ -92,6 +93,7 @@ const mapStateToProps = (state, props) => {
     canDeletePenalties,
     groups,
     canChangeGrade,
+    canEditEmailLists,
   };
 };
 
