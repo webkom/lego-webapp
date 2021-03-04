@@ -64,6 +64,7 @@ type Props = {
   canDeletePenalties: boolean,
   groups: Array<Group>,
   canChangeGrade: boolean,
+  canEditEmailLists: boolean,
   changeGrade: (ID, string) => Promise<*>,
 };
 
@@ -200,6 +201,7 @@ export default class UserProfile extends Component<Props, EventsProps> {
       groups,
       canChangeGrade,
       changeGrade,
+      canEditEmailLists,
     } = this.props;
 
     //If you wonder what this is, ask somebody
@@ -211,8 +213,22 @@ export default class UserProfile extends Component<Props, EventsProps> {
       firstName,
       lastName,
       memberships = [],
+      abakusEmailLists = [],
       permissionsPerGroup = [],
     } = user;
+
+    const allAbakusGroupsWithPerms = uniqBy(
+      permissionsPerGroup.concat(
+        permissionsPerGroup.flatMap(
+          ({ parentPermissions }) => parentPermissions
+        )
+      ),
+      (a) => a.abakusGroup.id
+    );
+
+    const allAbakusGroups = allAbakusGroupsWithPerms.map(
+      ({ abakusGroup }) => abakusGroup
+    );
 
     const { membershipsAsBadges = [], membershipsAsPills = [] } = groupBy(
       memberships.filter(Boolean).map((membership) => ({
@@ -312,6 +328,18 @@ export default class UserProfile extends Component<Props, EventsProps> {
         );
       });
     };
+    const emailListsMapping = allAbakusGroups
+      .map((abakusGroup) => [
+        abakusGroup,
+        abakusEmailLists.filter((emailList) =>
+          emailList.groups.includes(abakusGroup.id)
+        ),
+      ])
+      .filter(([, emailLists]) => emailLists.length);
+
+    const emailListsOnUser = abakusEmailLists.filter((emailList) =>
+      emailList.users.includes(user.id)
+    );
 
     return (
       <div className={styles.root}>
@@ -408,24 +436,71 @@ export default class UserProfile extends Component<Props, EventsProps> {
             {/* canChangeGrade is a good heuristic if we should show permissions.
                 All users can see their own permission via the API,
                 but only admins can show permissions for other users.*/}
+            {emailListsMapping.length + emailListsOnUser.length > 0 && (
+              <div>
+                <h3>Epostlister</h3>
+                <Card className={styles.infoCard}>
+                  {emailListsMapping.map(([abakusGroup, emailLists]) => (
+                    <>
+                      <h4>Epostlister fra gruppen {abakusGroup.name}</h4>
+                      <ul>
+                        {emailLists.map((emailList) => (
+                          <li key={emailList.id}>
+                            <Tooltip content={emailList.name}>
+                              {emailList.email}@abakus.no{' '}
+                              {canEditEmailLists && (
+                                <Link to={`/admin/email/lists/${emailList.id}`}>
+                                  <i style={{ fontSize: 14 }}>endre</i>
+                                </Link>
+                              )}
+                            </Tooltip>
+                          </li>
+                        ))}
+                      </ul>
+                    </>
+                  ))}
+                  {emailListsOnUser.length > 0 && (
+                    <>
+                      <h4>Direkte koblet til deg som bruker</h4>
+                      <ul>
+                        {emailListsOnUser.map((emailList) => (
+                          <li key={emailList.id}>
+                            <Tooltip content={emailList.name}>
+                              {emailList.email}@abakus.no{' '}
+                              {canEditEmailLists && (
+                                <Link to={`/admin/email/lists/${emailList.id}`}>
+                                  <i style={{ fontSize: 14 }}>endre</i>
+                                </Link>
+                              )}
+                            </Tooltip>
+                          </li>
+                        ))}
+                      </ul>
+                    </>
+                  )}
+
+                  <div>
+                    <br />
+                    <i style={{ fontSize: 14 }}>
+                      Kontakt Webkom på{' '}
+                      <a href="mailto:webkom@abakus.no"> webkom@abakus.no </a>
+                      hvis du mener noen av disse ikke er riktige
+                    </i>
+                  </div>
+                </Card>
+              </div>
+            )}
+
             {canChangeGrade && (
               <div>
                 <h3>Rettigheter</h3>
                 <Card className={styles.infoCard}>
-                  {uniqBy(
-                    permissionsPerGroup.concat(
-                      // $FlowFixMe flatMap is polyfilled
-                      permissionsPerGroup.flatMap(
-                        ({ parentPermissions }) => parentPermissions
-                      )
-                    ),
-                    (a) => a.abakusGroup.id
-                  ).map(
+                  {allAbakusGroupsWithPerms.map(
                     ({ abakusGroup, permissions }) =>
                       !!permissions.length && (
                         <>
                           <h4>
-                            Rettigheter fra
+                            Rettigheter fra gruppen
                             <Link
                               to={`/admin/groups/${abakusGroup.id}/permissions/`}
                             >
@@ -448,12 +523,10 @@ export default class UserProfile extends Component<Props, EventsProps> {
                     {sortBy(
                       permissionsPerGroup
                         .concat(
-                          // $FlowFixMe flatMap is polyfilled
                           permissionsPerGroup.flatMap(
                             ({ parentPermissions }) => parentPermissions
                           )
                         )
-                        // $FlowFixMe flatMap is polyfilled
                         .flatMap(({ permissions }) => permissions),
                       (permission: string) => permission.split('/').length
                     )
