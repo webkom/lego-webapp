@@ -77,7 +77,7 @@ const ButtonRow = ({
   return (
     <Flex>
       <Button onClick={onClick}>
-        {membership ? 'Forlat Gruppen' : 'Bli med i gruppen'}
+        {membership ? 'Forlat gruppen' : 'Bli med i gruppen'}
       </Button>
     </Flex>
   );
