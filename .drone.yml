@@ -315,7 +315,7 @@ steps:
   - name: Deploy
     image: plugins/ansible
     environment:
-      USER: drone
+      SLACK_USER: drone
     volumes:
       - name: infrastructure
         path: /infrastructure
@@ -352,4 +352,4 @@ image_pull_secrets:
 
 ---
 kind: signature
-hmac: 325ce52b5d96af8f15d933a58ed4423d4459f074ab494605b828aaf3cfe7489d
+hmac: 29ff3bd47c5c41c92d8097931d92c3dc014f3a118f136476945d10770764bfd8
