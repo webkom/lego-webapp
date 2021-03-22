@@ -53,7 +53,7 @@ const ChangePassword = ({
         component={TextInput.Field}
       />
       <Button disabled={disabledButton} submit>
-        Change Password
+        Endre passord
       </Button>
     </Form>
   );

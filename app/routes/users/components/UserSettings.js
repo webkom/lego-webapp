@@ -62,7 +62,7 @@ const UserSettings = (props: Props) => {
       <RemovePicture username={user.username} removePicture={removePicture} />
 
       <Form onSubmit={handleSubmit}>
-        <h3>Endre Bruker:</h3>
+        <h3>Endre bruker:</h3>
         <Field
           placeholder="Brukernavn"
           label="Brukernavn"
@@ -156,7 +156,7 @@ const UserSettings = (props: Props) => {
         )}
 
         <Button disabled={disabledButton} submit>
-          Submit
+          Lagre
         </Button>
       </Form>
 
