@@ -2,7 +2,7 @@
 import TreeView from 'react-treeview';
 import { Link } from 'react-router-dom';
 import { generateTreeStructure } from 'app/utils';
-import styles from './GroupTree.css';
+import './GroupTree.css';
 
 // Returns the URL that a group in the tree should point to.
 // Re-uses the selected tab if there is one.
@@ -54,7 +54,7 @@ type Props = {
 
 function GroupTree({ groups, pathname }: Props) {
   const tree = generateTreeStructure(groups);
-  return <div className={styles.tree}>{generateTreeView(tree, pathname)}</div>;
+  return <div>{generateTreeView(tree, pathname)}</div>;
 }
 
 export default GroupTree;
