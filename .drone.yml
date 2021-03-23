@@ -3,6 +3,11 @@ kind: pipeline
 type: docker
 name: default
 
+trigger:
+  event:
+    exclude:
+      - pull_request
+
 steps:
   - name: postgres
     image: postgres:9.5
@@ -352,4 +357,4 @@ image_pull_secrets:
 
 ---
 kind: signature
-hmac: 29ff3bd47c5c41c92d8097931d92c3dc014f3a118f136476945d10770764bfd8
+hmac: cbcda4d337892f94b17382b2891106bf013b9e6fd5f734a822479c4fff844eab
