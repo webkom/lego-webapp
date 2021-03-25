@@ -119,7 +119,7 @@
     "babel-loader": "^8.0.5",
     "concurrently": "^6.0.0",
     "css-loader": "^5.0.1",
-    "cypress": "^4.12.0",
+    "cypress": "^6.8.0",
     "duplicate-package-checker-webpack-plugin": "^3.0.0",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.15.2",
