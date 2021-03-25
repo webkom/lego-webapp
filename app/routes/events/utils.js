@@ -182,8 +182,8 @@ export const transformEvent = (data: TransformEvent) => ({
   priceMember: calculatePrice(data),
   location: calculateLocation(data),
   paymentDueDate: calculatePaymentDueDate(data),
-  groupsWithViewPermission: data.isGroupOnly
-    ? data.groupsWithViewPermission.map((group) => group.id)
+  canViewGroups: data.isGroupOnly
+    ? data.canViewGroups.map((group) => group.id)
     : [],
   unregistrationDeadline: calculateUnregistrationDeadline(data),
   unregistrationDeadlineHours: calculateUnregistrationDeadlineHours(data),

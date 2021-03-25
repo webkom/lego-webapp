@@ -254,7 +254,7 @@ function EventEditor({
               <div className={styles.subSection}>
                 <Field
                   label="Synlig for gruppe"
-                  name="groupsWithViewPermission"
+                  name="canViewGroups"
                   filter={['users.abakusgroup']}
                   fieldClassName={styles.metaField}
                   component={SelectInput.AutocompleteField}

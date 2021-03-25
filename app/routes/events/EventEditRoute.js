@@ -49,14 +49,12 @@ const mapStateToProps = (state, props) => {
           value: group.id,
         })),
       })),
-      groupsWithViewPermission: (event.groupsWithViewPermission || []).map(
-        (group) => ({
-          label: group.name,
-          value: group.id,
-          id: group.id,
-        })
-      ),
-      isGroupOnly: event.groupsWithViewPermission.length > 0,
+      canViewGroups: (event.canViewGroups || []).map((group) => ({
+        label: group.name,
+        value: group.id,
+        id: group.id,
+      })),
+      isGroupOnly: event.canViewGroups.length > 0,
       company: event.company && {
         label: event.company.name,
         value: event.company.id,

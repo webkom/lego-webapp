@@ -84,7 +84,7 @@ const mapStateToProps = (state, props) => {
       useCaptcha: true,
       heedPenalties: true,
       isGroupOnly: false,
-      groupsWithViewPermission: [],
+      canViewGroups: [],
       useConsent: false,
       feedbackDescription: '',
       pools: [],

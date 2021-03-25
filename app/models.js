@@ -107,7 +107,7 @@ type EventBase = {
   location: string,
   isPriced: boolean,
   isGroupOnly: boolean,
-  groupsWithViewPermission: Group[],
+  canViewGroups: Group[],
   heedPenalties: boolean,
   priceMember: number,
   priceGuest: ?number,
