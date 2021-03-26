@@ -13,13 +13,13 @@ describe('Change password', () => {
   it('Can change password', () => {
     cy.visit('/users/me/settings/profile');
 
-    cy.contains('Change Password').should('be.disabled');
+    cy.contains('Endre passord').should('be.disabled');
     field('password').type(password).blur();
-    cy.contains('Change Password').should('be.disabled');
+    cy.contains('Endre passord').should('be.disabled');
     field('newPassword').type(newPassword).blur();
-    cy.contains('Change Password').should('be.disabled');
+    cy.contains('Endre passord').should('be.disabled');
     field('retypeNewPassword').type(newPassword).blur();
-    cy.contains('Change Password').should('not.be.disabled').click();
+    cy.contains('Endre passord').should('not.be.disabled').click();
 
     cy.url().should('not.include', `/users/me/settings/profile`);
     cy.url().should('include', `/users/me`);
@@ -30,26 +30,26 @@ describe('Change password', () => {
 
     field('password').type(password).blur();
     fieldError('newPassword').should('not.exist');
-    cy.contains('Change Password').should('be.disabled');
+    cy.contains('Endre passord').should('be.disabled');
 
     field('newPassword').type(weakPassword).blur();
     fieldError('newPassword').should('exist');
-    cy.contains('Change Password').should('be.disabled');
+    cy.contains('Endre passord').should('be.disabled');
 
     field('newPassword').clear().type(newPassword).blur();
     field('retypeNewPassword').clear().type(weakPassword).blur();
     fieldError('retypeNewPassword').should('contain', 'ikke like');
-    cy.contains('Change Password').should('be.disabled');
+    cy.contains('Endre passord').should('be.disabled');
 
     field('newPassword').clear().type(weakPassword).blur();
     fieldError('newPassword').should('contain', 'for svakt');
     fieldError('retypeNewPassword').should('not.exist');
-    cy.contains('Change Password').should('be.disabled');
+    cy.contains('Endre passord').should('be.disabled');
 
     field('password').clear().type('this is not my password').blur();
     field('newPassword').clear().type(newPassword).blur();
     field('retypeNewPassword').clear().type(newPassword).blur();
-    cy.contains('Change Password').should('not.be.disabled').click();
+    cy.contains('Endre passord').should('not.be.disabled').click();
     fieldError('password').should('contain', 'Invalid password');
   });
 });
