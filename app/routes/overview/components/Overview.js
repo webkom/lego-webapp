@@ -134,6 +134,7 @@ class Overview extends Component<Props, State> {
           {frontpage
             .filter((item) => item.documentType === 'article')
             .filter((article) => !article.tags.includes('weekly'))
+            .filter((article) => article.id !== pinned.id)
             .slice(0, this.state.articlesToShow)
             .map((article) => (
               <ArticleItem
