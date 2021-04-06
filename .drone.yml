@@ -231,8 +231,9 @@ steps:
       - yarn ssr
 
   - name: cypress
-    image: cypress/browsers:chrome69
-    shm_size: 100000000  # 100MB
+    image: cypress/browsers:node14.16.0-chrome89-ff86
+    shm_size: 256m
+    ipc: host
     when:
       event: [push]
       branch:
@@ -357,4 +358,4 @@ image_pull_secrets:
 
 ---
 kind: signature
-hmac: cbcda4d337892f94b17382b2891106bf013b9e6fd5f734a822479c4fff844eab
+hmac: 24bf92e1cbc12ebd48af8ffb700f06d71dca463fde49d87e42f2a7279a603635
