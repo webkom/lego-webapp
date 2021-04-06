@@ -44,16 +44,14 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   'upload_file',
   (selector, fileName, type = 'image/png') => {
-    return cy
-      .fixture(fileName, 'base64')
-      .then(Cypress.Blob.base64StringToBlob)
-      .then((blob) => {
-        const nameSegments = fileName.split('/');
-        const name = nameSegments[nameSegments.length - 1];
-        const testFile = new File([blob], name, { type });
-        const event = { dataTransfer: { files: [testFile], types: ['Files'] } };
-        return cy.get(selector).trigger('drop', event);
-      });
+    return cy.fixture(fileName, 'base64').then((str) => {
+      const blob = Cypress.Blob.base64StringToBlob(str);
+      const nameSegments = fileName.split('/');
+      const name = nameSegments[nameSegments.length - 1];
+      const testFile = new File([blob], name, { type });
+      const event = { dataTransfer: { files: [testFile], types: ['Files'] } };
+      return cy.get(selector).trigger('drop', event);
+    });
   }
 );
 

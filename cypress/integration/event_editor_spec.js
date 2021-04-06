@@ -1,6 +1,6 @@
 import { c, field } from '../support/utils.js';
 
-describe('Editor (Firefox only)', { browser: 'firefox' }, () => {
+describe('Editor (Firefox only)', () => {
   /*
    * This test is here to be able to run proper tests against the editor.
    * Since we use electron in ci, and using cypress methods for type and click
@@ -61,9 +61,6 @@ describe('Editor (Firefox only)', { browser: 'firefox' }, () => {
       'images/screenshot.png'
     );
 
-    // This is needed so that the crop module is activated because of how we mock upload files in these tests
-    cy.get('.ReactCrop__drag-handle.ord-n').click();
-
     cy.get('._legoEditor_modal_applyButton')
       .contains('Apply')
       .should('not.be.disabled')
@@ -78,8 +75,8 @@ describe('Editor (Firefox only)', { browser: 'firefox' }, () => {
 
     // Navigate past image with arrow keys and add text on bottom
     cy.get('div[data-slate-editor="true"]').click();
-    cy.focused().type('{downarrow}');
-    cy.focused().type('{enter}EOF{enter}');
+    cy.focused().type('{downarrow}{enter}');
+    cy.focused().type('{enter}{enter}EOF{enter}');
 
     // Fill rest of form
     cy.upload_file(
