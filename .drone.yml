@@ -232,7 +232,7 @@ steps:
 
   - name: cypress
     image: cypress/browsers:node14.16.0-chrome89-ff86
-    shm_size: 256m
+    shm_size: 512m
     ipc: host
     when:
       event: [push]
@@ -358,4 +358,4 @@ image_pull_secrets:
 
 ---
 kind: signature
-hmac: 24bf92e1cbc12ebd48af8ffb700f06d71dca463fde49d87e42f2a7279a603635
+hmac: 6b098bfd4f84507cfa938d2169d519ba5b0fa088e7e8e5c16d156c6bb5ce8751

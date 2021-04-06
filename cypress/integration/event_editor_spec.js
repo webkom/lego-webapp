@@ -1,6 +1,6 @@
 import { c, field } from '../support/utils.js';
 
-describe('Editor (Firefox only)', () => {
+describe('Editor (Firefox only)', { browser: 'firefox' }, () => {
   /*
    * This test is here to be able to run proper tests against the editor.
    * Since we use electron in ci, and using cypress methods for type and click
