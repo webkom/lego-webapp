@@ -12,6 +12,8 @@ export const selectField = (name) =>
 
 export const fieldError = (name) => cy.get(`[data-error-field-name="${name}"`);
 
+export const button = (buttonText) => cy.contains('button', buttonText);
+
 export const selectEditor = (name) =>
   name
     ? cy
