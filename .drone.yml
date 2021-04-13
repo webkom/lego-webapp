@@ -2,6 +2,8 @@
 kind: pipeline
 type: docker
 name: default
+concurrency:
+  limit: 4 # Limit concurrent pipelines
 
 trigger:
   event:
@@ -358,4 +360,4 @@ image_pull_secrets:
 
 ---
 kind: signature
-hmac: 6b098bfd4f84507cfa938d2169d519ba5b0fa088e7e8e5c16d156c6bb5ce8751
+hmac: 61b6784b1d4525a55d30ee8ce035c35843ef78bd668a3530bfb78bf766bfda4a
