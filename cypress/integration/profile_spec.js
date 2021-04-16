@@ -77,14 +77,14 @@ describe('Profile settings', () => {
   it('can change profile', () => {
     cy.visit('/users/me/settings/profile');
 
-    cy.contains('Submit').should('be.disabled');
+    cy.contains('Lagre').should('be.disabled');
     cy.get('input[name=firstName]').clear().type(updatedUser.firstName);
     cy.get('input[name=lastName]').clear().type(updatedUser.lastName);
     cy.get('input[name=gender]').check(updatedUser.gender);
     cy.get('input[name=allergies]').clear().type(updatedUser.allergies);
     cy.get('input[name=email]').clear().type(updatedUser.email);
 
-    cy.contains('Submit').should('not.be.disabled').click();
+    cy.contains('Lagre').should('not.be.disabled').click();
 
     // TODO: Should use me in URL instead of username
     // cy.url().should('include', '/users/me');
@@ -120,7 +120,7 @@ describe('Profile settings', () => {
   it('profile settings form should show proper errors', () => {
     cy.visit('/users/me/settings/profile');
 
-    const submitButton = () => cy.contains('Submit');
+    const submitButton = () => cy.contains('Lagre');
 
     // firstName field validation
     field('firstName').clear().blur();
@@ -149,7 +149,7 @@ describe('Profile settings', () => {
   it('does not allow user to set @abakus.no email', () => {
     cy.visit('/users/me/settings/profile');
 
-    const submitButton = () => cy.contains('Submit');
+    const submitButton = () => cy.contains('Lagre');
 
     field('email').clear().type('webkom@abakus.no').blur();
     submitButton().click();

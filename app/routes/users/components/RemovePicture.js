@@ -35,7 +35,7 @@ export default class RemovePicture extends Component<Props, State> {
     return (
       <Flex justifyContent="center">
         <Button className={styles.saveButton} onClick={this.toggleSelected}>
-          {this.state.selected ? 'Angre' : 'Slett Bilde'}
+          {this.state.selected ? 'Angre' : 'Slett bilde'}
         </Button>
         {this.state.selected && (
           <Button
