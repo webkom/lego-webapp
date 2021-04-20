@@ -94,8 +94,20 @@ const Contact = ({ group }: { group: Group }) => {
     );
   }
 
-  const leader = leaders[0];
+  if (leaders.length > 1) {
+    return (
+      <Flex column>
+        <h4>Ledere</h4>
+        <ul>
+          {leaders.map((leader) => (
+            <li key={leader.user.username}>{leader.user.fullName}</li>
+          ))}
+        </ul>
+      </Flex>
+    );
+  }
 
+  const leader = leaders[0];
   return (
     <Flex column>
       <h4>Leder</h4>
