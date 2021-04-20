@@ -1,18 +1,29 @@
+.tableDiv {
+  overflow-x: scroll;
+}
+
 .table {
   width: 100%;
 }
 
+.tableHeader {
+  display: flex;
+  padding: 0 10px;
+}
+
 .sorter {
   display: inline-block;
-  margin-left: 10px;
+  margin-right: 5px;
+  margin-top: 5px;
   vertical-align: middle;
   line-height: 1;
   cursor: pointer;
+  position: relative;
 }
 
 .searchIcon {
   display: inline-block;
-  margin-left: 10px;
+  margin-left: 5px;
   vertical-align: middle;
   line-height: 1;
   cursor: pointer;
@@ -21,7 +32,7 @@
 
 .filterIcon {
   display: inline-block;
-  margin-left: 10px;
+  margin-right: 5px;
   vertical-align: middle;
   line-height: 1;
   cursor: pointer;
@@ -30,7 +41,7 @@
 
 .arrowDownIcon {
   display: inline-block;
-  margin-left: 10px;
+  margin-left: 5px;
   vertical-align: middle;
   line-height: 1;
   cursor: pointer;

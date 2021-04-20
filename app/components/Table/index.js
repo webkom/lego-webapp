@@ -220,6 +220,7 @@ export default class Table extends Component<Props, State> {
         key={`${dataIndex}-${index}`}
         style={center ? { textAlign: 'center' } : {}}
       >
+        <div className={styles.tableHeader}>
         {sorter && (
           <div className={styles.sorter}>
             <Icon
@@ -227,6 +228,7 @@ export default class Table extends Component<Props, State> {
               name={sortIconName}
               prefix="fa fa-"
               size={18}
+              className={styles.icon}
             />
           </div>
         )}
@@ -384,6 +386,7 @@ export default class Table extends Component<Props, State> {
             </Overlay>
           </div>
         )}
+        </div>
       </th>
     );
   };
@@ -448,6 +451,7 @@ export default class Table extends Component<Props, State> {
     if (direction === 'desc') sortedData.reverse();
 
     return (
+      <div className={styles.tableDiv}> 
       <table className={styles.table}>
         <thead>
           <tr>
@@ -476,6 +480,7 @@ export default class Table extends Component<Props, State> {
           </tr>
         </InfiniteScroll>
       </table>
+      </div>
     );
   }
 }
