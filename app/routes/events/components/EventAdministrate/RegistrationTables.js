@@ -105,10 +105,10 @@ export class RegisteredTable extends Component<Props> {
         render: (pool, registration) => (
           <span>{registered.indexOf(registration) + 1}.</span>
         ),
-        sorter: (a,b) => {
+        sorter: (a, b) => {
           if (registered.indexOf(a) > registered.indexOf(b)) return 1;
           else return -1;
-        }
+        },
       },
       {
         title: 'Bruker',
@@ -117,7 +117,7 @@ export class RegisteredTable extends Component<Props> {
         render: (user) => (
           <Link to={`/users/${user.username}`}>{user.fullName}</Link>
         ),
-        sorter: (a,b) => {
+        sorter: (a, b) => {
           if (a.user.username > b.user.username) return 1;
           else return -1;
         },
@@ -183,9 +183,9 @@ export class RegisteredTable extends Component<Props> {
             title: 'Klassetrinn',
             dataIndex: 'user.grade',
             render: GradeRenderer,
-            sorter: (a,b) => {
-              if (a.user.grade && b.user.grade){
-                if (a.user.grade.name > b.user.grade.name) return 1
+            sorter: (a, b) => {
+              if (a.user.grade && b.user.grade) {
+                if (a.user.grade.name > b.user.grade.name) return 1;
               }
               if (!a.user.grade && b.user.grade) return 1;
               else return -1;
@@ -225,7 +225,7 @@ export class RegisteredTable extends Component<Props> {
             {`Allergier: ${registration.user.allergies || '-'}`}
           </span>
         ),
-        sorter: (a,b) => {
+        sorter: (a, b) => {
           if (a.feedback > b.feedback) return 1;
           else return -1;
         },
