@@ -58,6 +58,15 @@ html[data-theme='dark'] .cyan {
   border-color: #fde3cf;
 }
 
+.green {
+  background: greenyellow;
+  border-color: aquamarine;
+}
+
+html[data-theme='dark'] .green {
+  color: black;
+}
+
 html[data-theme='dark'] .orange {
   color: var(--lego-text-gray);
 }

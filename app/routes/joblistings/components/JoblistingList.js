@@ -6,6 +6,8 @@ import { Image } from 'app/components/Image';
 import Time from 'app/components/Time';
 import { Flex } from 'app/components/Layout';
 import { Year, jobType, Workplaces } from './Items';
+import Tag from 'app/components/Tags/Tag';
+import moment from 'moment-timezone';
 
 type JobListingItemProps = {
   joblisting: /*TODO: JobListing*/ Object,
@@ -30,7 +32,12 @@ function JoblistingItem({ joblisting }: JobListingItemProps) {
         <div>
           <Link to={`/joblistings/${joblisting.id}/`}>
             <Flex>
-              <h3 className={styles.joblistingItemTitle}>{joblisting.title}</h3>
+              <h3 className={styles.joblistingItemTitle}>
+                {moment(joblisting.createdAt).isAfter(
+                  moment().subtract(3, 'days')
+                ) && <Tag tag="NY" color="green"></Tag>}
+                {joblisting.title}
+              </h3>
             </Flex>
           </Link>
           <div className={styles.companyJobtype}>
