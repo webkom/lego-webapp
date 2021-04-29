@@ -93,6 +93,7 @@
 
 .eventWarning {
   padding: 10px;
+  margin-bottom: 10px;
   border-radius: 10px;
   background: var(--color-red-4);
   text-align: center;
@@ -104,13 +105,13 @@
   margin: 0;
 }
 
-.eventWarning > a {
+.eventWarning a {
   font-weight: bold;
   color: var(--color-event-red);
 }
 
-.eventWarning > a:hover {
-  color: var(--color-black);
+.eventWarning a:hover {
+  color: #6b0d06;
 }
 
 .eventPrice {

@@ -352,11 +352,12 @@ export default class EventDetail extends Component<Props> {
 
                   {event.unansweredSurveys &&
                   event.unansweredSurveys.length > 0 ? (
-                    <div className={styles.unansweredSurveys}>
-                      <h3>
+                    <div className={styles.eventWarning}>
+                      <p>
                         Du kan ikke melde deg på dette arrangementet fordi du
                         har ubesvarte spørreundersøkelser.
-                      </h3>
+                      </p>
+                      <br />
                       <p>
                         Man må svare på alle spørreundersøkelser for tidligere
                         arrangementer før man kan melde seg på nye
