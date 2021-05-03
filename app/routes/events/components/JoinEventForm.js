@@ -139,7 +139,7 @@ const SpotsLeft = ({ activeCapacity, spotsLeft }: SpotsLeftProps) => {
   }
 
   if (spotsLeft === 0 && activeCapacity > 0) {
-    return <div>Det 0 plasser igjen, du blir registrert til venteliste.</div>;
+    return <div>Det er 0 plasser igjen, du blir registrert til venteliste.</div>;
   }
 
   return <div>Det er {spotsLeft} plasser igjen.</div>;
