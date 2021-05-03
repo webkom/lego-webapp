@@ -44,11 +44,13 @@ export function mutateReactions(forTargetType: string) {
                   if (reaction.emoji !== reactionEmoji) {
                     return reaction;
                   }
-                  reaction.count += 1;
-                  reaction.hasReacted = true;
-                  reaction.reactionId = reactionId;
                   found = true;
-                  return reaction;
+                  return {
+                    ...reaction,
+                    count: reaction.count + 1,
+                    hasReacted: true,
+                    reactionId,
+                  };
                 })
                 .concat(
                   !found
