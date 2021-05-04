@@ -43,9 +43,10 @@
   padding: 5px 20px;
   font-size: 20px;
   border-bottom: 1px solid var(--color-almost-white-5);
+  transition: all .3s ease-in-out;
 }
 
-html[data-theme='dark'] .pickerItem {
+html[data-theme='dark'] .pickerItem, .pickerItem:hover {
   border-bottom: 1px solid var(--color-mono-gray-4);
 }
 
@@ -54,7 +55,8 @@ html[data-theme='dark'] .pickerItem {
   border-bottom: 1px solid var(--color-mono-gray-4);
 }
 
-html[data-theme='dark'] .active {
+html[data-theme='dark'] .active, 
+html[data-theme='dark'] .pickerItem:hover {
   border-bottom: 1px solid #f5f5f5;
 }
 
