@@ -46,8 +46,8 @@
   transition: all 0.3s ease-in-out;
 }
 
-html[data-theme='dark'] .pickerItem,
-.pickerItem:hover {
+.pickeritem:hover,
+html[data-theme='dark'] .pickerItem {
   border-bottom: 1px solid var(--color-mono-gray-4);
 }
 
