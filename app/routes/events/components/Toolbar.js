@@ -32,6 +32,7 @@ class Toolbar extends Component<Props, State> {
 
         <NavLink
           to="/events"
+          exact={true}
           activeClassName={styles.active}
           className={cx(styles.pickerItem, styles.list)}
         >
