@@ -62,7 +62,7 @@
     "morgan": "^1.9.1",
     "normalizr": "^3.6.1",
     "path-browserify": "^1.0.1",
-    "postcss": "^8.2.4",
+    "postcss": "^8.2.10",
     "prop-types": "^15.7.2",
     "qs": "^6.9.4",
     "react": "16.14.0",
