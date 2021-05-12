@@ -93,7 +93,7 @@ export function mutateReactions(forTargetType: string) {
                     ...reaction,
                     count: reaction.count - 1,
                     hasReacted: false,
-                  }
+                  };
                 })
                 .filter((reaction) => reaction.count !== 0),
             },
