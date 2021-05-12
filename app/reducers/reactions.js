@@ -89,9 +89,11 @@ export function mutateReactions(forTargetType: string) {
                   if (reaction.reactionId !== reactionId) {
                     return reaction;
                   }
-                  reaction.count -= 1;
-                  reaction.hasReacted = false;
-                  return reaction;
+                  return {
+                    ...reaction,
+                    count: reaction.count - 1,
+                    hasReacted: false,
+                  }
                 })
                 .filter((reaction) => reaction.count !== 0),
             },
