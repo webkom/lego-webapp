@@ -127,6 +127,11 @@ class EditPollForm extends Component<Props, *> {
             component={CheckBox.Field}
           />
           <Field
+            name="resultsHidden"
+            label="Skjul resultatet"
+            component={CheckBox.Field}
+          />
+          <Field
             name="tags"
             label="Tags"
             filter={['tags.tag']}
@@ -176,12 +181,14 @@ const onSubmit = (
     tags,
     options,
     pinned,
+    resultsHidden,
     ...rest
   }: {
     title: string,
     description: string,
     tags: Array<{ value: string }>,
     options: Array<{ id: ?ID, name: string }>,
+    resultsHidden: boolean,
     pinned: boolean,
   },
   dispatch,
@@ -191,6 +198,7 @@ const onSubmit = (
     .editOrCreatePoll({
       title,
       description,
+      resultsHidden,
       tags: tags ? tags.map((val) => val.value) : [],
       options,
       pinned: pinned ? pinned : false,

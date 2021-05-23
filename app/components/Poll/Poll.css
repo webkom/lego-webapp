@@ -34,7 +34,6 @@
   composes: withShadow from '~app/styles/utilities.css';
   background: var(--lego-card-color);
   padding: 15px 20px 8px;
-  min-height: 195px;
 }
 
 .pollLight {
