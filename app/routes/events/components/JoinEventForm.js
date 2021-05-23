@@ -134,15 +134,21 @@ const PaymentForm = ({
 const SpotsLeft = ({ activeCapacity, spotsLeft }: SpotsLeftProps) => {
   // If the pool has infinite capacity or spotsLeft isn't calculated don't show the message
   if (!activeCapacity || spotsLeft === null) return null;
-  if (spotsLeft === 1) {
-    return <div>Det er 1 plass igjen.</div>;
+
+  if (spotsLeft <= 0 && activeCapacity > 0) {
+    return (
+      <div>
+        Det er ingen plasser igjen, og du vil bli registrert til venteliste.
+      </div>
+    );
   }
 
-  if (spotsLeft === 0 && activeCapacity > 0) {
-    return <div>Det 0 plasser igjen, du blir registrert til venteliste.</div>;
-  }
-
-  return <div>Det er {spotsLeft} plasser igjen.</div>;
+  const word = spotsLeft > 1 ? 'plasser' : 'plass';
+  return (
+    <div>
+      Det er {spotsLeft} {word} igjen.
+    </div>
+  );
 };
 class JoinEventForm extends Component<Props> {
   submitWithType = (handleSubmit, feedbackName, type) => {
