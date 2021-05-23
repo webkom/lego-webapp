@@ -18,7 +18,7 @@ import {
 } from 'app/components/LoginForm';
 import { Flex } from 'app/components/Layout';
 import cx from 'classnames';
-import { applySelectedTheme, getTheme } from 'app/utils/themeUtils';
+import { applySelectedTheme, getOSTheme, getTheme } from 'app/utils/themeUtils';
 
 import type { UserEntity } from 'app/reducers/users';
 import logoLightMode from 'app/assets/logo-dark.png';
@@ -127,8 +127,17 @@ class Header extends Component<Props, State> {
     const isLogin = this.state.mode === 'login';
     let title, form;
 
-    if (loggedIn && currentUser && currentUser.selectedTheme !== getTheme()) {
-      applySelectedTheme(currentUser.selectedTheme || 'light');
+    if (loggedIn) {
+      if (
+        currentUser &&
+        ((currentUser.selectedTheme === 'auto' &&
+          getTheme() !== getOSTheme()) ||
+          currentUser.selectedTheme !== getTheme())
+      ) {
+        applySelectedTheme(currentUser.selectedTheme || 'auto');
+      }
+    } else {
+      applySelectedTheme('auto');
     }
 
     switch (this.state.mode) {
