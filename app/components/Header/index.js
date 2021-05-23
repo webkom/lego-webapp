@@ -127,10 +127,12 @@ class Header extends Component<Props, State> {
     const isLogin = this.state.mode === 'login';
     let title, form;
 
-    if (loggedIn && currentUser &&
-      ((currentUser.selectedTheme === 'auto' &&
-        getTheme() !== getOSTheme()) ||
-        currentUser.selectedTheme !== getTheme())) {
+    if (
+      loggedIn &&
+      currentUser &&
+      ((currentUser.selectedTheme === 'auto' && getTheme() !== getOSTheme()) ||
+        currentUser.selectedTheme !== getTheme())
+    ) {
       applySelectedTheme(currentUser.selectedTheme || 'light');
     }
 
