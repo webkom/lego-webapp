@@ -130,8 +130,9 @@ class Header extends Component<Props, State> {
     if (
       loggedIn &&
       currentUser &&
-      ((currentUser.selectedTheme === 'auto' && getTheme() !== getOSTheme()) ||
-        currentUser.selectedTheme !== getTheme())
+      (currentUser.selectedTheme === 'auto'
+        ? getTheme() !== getOSTheme()
+        : getTheme() !== currentUser.selectedTheme)
     ) {
       applySelectedTheme(currentUser.selectedTheme || 'light');
     }
