@@ -126,6 +126,12 @@ const UserSettings = (props: Props) => {
         <RadioButtonGroup label="Theme" name="selectedTheme">
           <Field
             name="selectedTheme"
+            label="Auto"
+            inputValue="auto"
+            component={RadioButton.Field}
+          />
+          <Field
+            name="selectedTheme"
             label="Light"
             inputValue="light"
             component={RadioButton.Field}
