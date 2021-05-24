@@ -58,7 +58,8 @@ export default function pageRenderer({
 
   const getDataTheme = () => {
     if (!isEmpty(state)) {
-      return selectCurrentUser(state).selectedTheme;
+      let selectedTheme = selectCurrentUser(state).selectedTheme;
+      return selectedTheme !== 'auto' ? selectedTheme : 'light';
     }
   };
 
