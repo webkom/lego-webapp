@@ -97,7 +97,14 @@ class Poll extends Component<Props, State> {
   render() {
     const { poll, handleVote, backgroundLight, details, truncate } = this.props;
     const { truncateOptions, expanded, shuffledOptions } = this.state;
-    const { id, title, description, hasAnswered, totalVotes } = poll;
+    const {
+      id,
+      title,
+      description,
+      hasAnswered,
+      totalVotes,
+      resultsHidden,
+    } = poll;
     const options = this.optionsWithPerfectRatios(this.props.poll.options);
     const orderedOptions = hasAnswered ? options : shuffledOptions;
     const optionsToShow = expanded
@@ -123,7 +130,8 @@ class Poll extends Component<Props, State> {
             <p>{description}</p>
           </div>
         )}
-        {hasAnswered && (
+        {hasAnswered && resultsHidden && <p>Resultatet er skjult</p>}
+        {hasAnswered && !resultsHidden && (
           <Flex column className={styles.optionWrapper}>
             <table className={styles.pollTable}>
               <tbody>
