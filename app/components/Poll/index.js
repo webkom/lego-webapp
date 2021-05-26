@@ -14,6 +14,7 @@ import cx from 'classnames';
 type Props = {
   poll: PollEntity,
   handleVote: (pollId: number, optionId: number) => Promise<*>,
+  allowedToViewHiddenResults: boolean,
   backgroundLight?: boolean,
   truncate?: number,
   details?: boolean,
@@ -95,7 +96,14 @@ class Poll extends Component<Props, State> {
   };
 
   render() {
-    const { poll, handleVote, backgroundLight, details, truncate } = this.props;
+    const {
+      poll,
+      handleVote,
+      backgroundLight,
+      details,
+      truncate,
+      allowedToViewHiddenResults,
+    } = this.props;
     const { truncateOptions, expanded, shuffledOptions } = this.state;
     const {
       id,
@@ -130,8 +138,12 @@ class Poll extends Component<Props, State> {
             <p>{description}</p>
           </div>
         )}
-        {hasAnswered && resultsHidden && <p>Resultatet er skjult</p>}
-        {hasAnswered && !resultsHidden && (
+        {hasAnswered && resultsHidden && !allowedToViewHiddenResults && (
+          <p style={{ fontStyle: 'italic', marginTop: details ? 10 : 15 }}>
+            Resultatet er skjult.
+          </p>
+        )}
+        {hasAnswered && (!resultsHidden || allowedToViewHiddenResults) && (
           <Flex column className={styles.optionWrapper}>
             <table className={styles.pollTable}>
               <tbody>
@@ -166,6 +178,11 @@ class Poll extends Component<Props, State> {
                 })}
               </tbody>
             </table>
+            {resultsHidden && (
+              <p style={{ fontStyle: 'italic', marginTop: 15 }}>
+                Resultatet er skjult for vanlige brukere.
+              </p>
+            )}
           </Flex>
         )}
         {!hasAnswered && (
@@ -207,16 +224,19 @@ class Poll extends Component<Props, State> {
         <div style={{ height: '29px' }}>
           <div className={styles.moreOptionsLink}>
             <span>{`Stemmer: ${totalVotes}`}</span>
-            {truncateOptions && (
-              <div className={styles.alignItems}>
-                <Icon
-                  onClick={this.toggleTruncate}
-                  className={styles.arrow}
-                  size={20}
-                  name={expanded ? 'arrow-up' : 'arrow-down'}
-                />
-              </div>
-            )}
+            {truncateOptions &&
+              (!hasAnswered ||
+                !resultsHidden ||
+                allowedToViewHiddenResults) && (
+                <div className={styles.alignItems}>
+                  <Icon
+                    onClick={this.toggleTruncate}
+                    className={styles.arrow}
+                    size={20}
+                    name={expanded ? 'arrow-up' : 'arrow-down'}
+                  />
+                </div>
+              )}
           </div>
         </div>
       </div>
