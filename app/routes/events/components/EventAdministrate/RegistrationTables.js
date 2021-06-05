@@ -21,6 +21,7 @@ import {
   PresenceIcons,
   Unregister,
 } from './AttendeeElements';
+import type { EventPool } from 'app/models';
 
 type Props = {
   registered: Array<EventRegistration>,
@@ -37,6 +38,7 @@ type Props = {
   clickedUnregister: ID,
   showUnregister: boolean,
   event: Event,
+  pools: Array<EventPool>,
 };
 const GradeRenderer = (group: { name: string }) =>
   !!group && (
@@ -50,6 +52,11 @@ const GradeRenderer = (group: { name: string }) =>
   );
 
 const hasWebkomGroup = (user) => user.abakusGroups.includes(WEBKOM_GROUP_ID);
+
+const getPoolName = (pools, poolId) => {
+  const pool = pools.find((pool) => pool.id === poolId);
+  return pool && pool.name;
+};
 
 const getRegistrationInfo = (pool, registration) => {
   let registrationInfo = {
@@ -89,19 +96,37 @@ export class RegisteredTable extends Component<Props> {
       clickedUnregister,
       showUnregister,
       event,
+      pools,
     } = this.props;
     const columns = [
       {
+        title: 'Nr.',
+        dataIndex: 'nr',
+        render: (pool, registration) => (
+          <span>{registered.indexOf(registration) + 1}.</span>
+        ),
+        sorter: (a, b) => {
+          if (registered.indexOf(a) > registered.indexOf(b)) return 1;
+          else return -1;
+        },
+      },
+      {
         title: 'Bruker',
         dataIndex: 'user',
+        search: true,
         render: (user) => (
           <Link to={`/users/${user.username}`}>{user.fullName}</Link>
         ),
+        sorter: (a, b) => {
+          if (a.user.username > b.user.username) return 1;
+          else return -1;
+        },
+        filterMapping: (user) => user.fullName,
       },
       {
         title: 'Status',
         center: true,
-        dataIndex: 'pool',
+        dataIndex: 'status',
         render: (pool, registration) => {
           const registrationInfo = getRegistrationInfo(pool, registration);
           return (
@@ -152,9 +177,30 @@ export class RegisteredTable extends Component<Props> {
           ),
       },
       {
-        title: 'Klassetrinn',
-        dataIndex: 'user.grade',
-        render: GradeRenderer,
+        dataIndex: 'gradeOrPool',
+        columnChoices: [
+          {
+            title: 'Klassetrinn',
+            dataIndex: 'user.grade',
+            render: GradeRenderer,
+            sorter: (a, b) => {
+              if (a.user.grade && b.user.grade) {
+                if (a.user.grade.name > b.user.grade.name) return 1;
+              }
+              if (!a.user.grade && b.user.grade) return 1;
+              else return -1;
+            },
+          },
+          {
+            title: 'Pool',
+            dataIndex: 'pool',
+            render: (pool, registration) => {
+              const poolName = getPoolName(pools, pool);
+              return <span>{poolName}</span>;
+            },
+            sorter: true,
+          },
+        ],
       },
       {
         title: 'Betaling',
@@ -179,6 +225,10 @@ export class RegisteredTable extends Component<Props> {
             {`Allergier: ${registration.user.allergies || '-'}`}
           </span>
         ),
+        sorter: (a, b) => {
+          if (a.feedback > b.feedback) return 1;
+          else return -1;
+        },
       },
       {
         title: 'Administrer',
@@ -262,6 +312,7 @@ type UnregisteredTableProps = {
 export class UnregisteredTable extends Component<UnregisteredTableProps> {
   render() {
     const { loading, unregistered } = this.props;
+
     const columns = [
       {
         title: 'Bruker',

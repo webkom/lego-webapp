@@ -14,7 +14,10 @@
 }
 
 .label {
+  position: relative;
+  display: inline-block;
   cursor: pointer;
+  padding: 4px 26px;
 }
 
 .input:disabled,
@@ -26,6 +29,8 @@
 .label::before {
   content: '';
   position: absolute;
+  top: 0;
+  left: 0;
   width: 22px;
   height: 22px;
   border: 1px solid var(--color-mono-gray-1);
@@ -39,6 +44,8 @@
 .label::after {
   content: '';
   position: absolute;
+  top: 0;
+  left: 0;
   width: 16px;
   height: 16px;
   border-radius: 8px;

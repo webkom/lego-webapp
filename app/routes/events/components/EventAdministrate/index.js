@@ -9,6 +9,7 @@ import { Content } from 'app/components/Content';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { LoginPage } from 'app/components/LoginForm';
 import type { EventEntity } from 'app/reducers/events';
+import type { EventPool } from 'app/models';
 
 type Props = {
   children: Array<Element<*>>,
@@ -20,6 +21,7 @@ type Props = {
       eventId: string,
     },
   },
+  pools: Array<EventPool>,
 };
 
 const EventAdministrateIndex = (props: Props) => {
