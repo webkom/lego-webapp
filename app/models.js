@@ -46,44 +46,6 @@ export type User = {
 
 export type Tags = string;
 
-type EventBase = {
-  id: ID,
-  title: string,
-  cover: string,
-  description: string,
-  createdAt: ?Dateish,
-  createdBy: User,
-  text: string,
-  feedbackDescription: string,
-  feedbackRequired: boolean,
-  eventType: EventType,
-  eventStatusType: EventStatusType,
-  location: string,
-  isPriced: boolean,
-  isAbakomOnly: boolean,
-  heedPenalties: boolean,
-  priceMember: number,
-  priceGuest: ?number,
-  useStripe: boolean,
-  paymentDueDate: ?Dateish,
-  startTime: Dateish,
-  endTime: Dateish,
-  mergeTime: ?Dateish,
-  useCaptcha: boolean,
-  tags: Array<Tags>,
-  separateDeadlines: boolean,
-  registrationDeadlineHours: number,
-  unregistrationDeadlineHours: number,
-  unregistrationDeadline: Dateish,
-  pinned: boolean,
-  youtubeUrl: string,
-  useContactTracing: boolean,
-};
-
-export type Company = Object;
-
-export type Comment = Object;
-
 export const GroupTypeCommittee = 'komite';
 export const GroupTypeInterest = 'interesse';
 export const GroupTypeSub = 'under';
@@ -122,6 +84,45 @@ export type Group = {
   showBadge: boolean,
   contactEmail: string,
 };
+
+type EventBase = {
+  id: ID,
+  title: string,
+  cover: string,
+  description: string,
+  createdAt: ?Dateish,
+  createdBy: User,
+  text: string,
+  feedbackDescription: string,
+  feedbackRequired: boolean,
+  eventType: EventType,
+  eventStatusType: EventStatusType,
+  location: string,
+  isPriced: boolean,
+  isGroupOnly: boolean,
+  canViewGroups: Group[],
+  heedPenalties: boolean,
+  priceMember: number,
+  priceGuest: ?number,
+  useStripe: boolean,
+  paymentDueDate: ?Dateish,
+  startTime: Dateish,
+  endTime: Dateish,
+  mergeTime: ?Dateish,
+  useCaptcha: boolean,
+  tags: Array<Tags>,
+  separateDeadlines: boolean,
+  registrationDeadlineHours: number,
+  unregistrationDeadline: Dateish,
+  unregistrationDeadlineHours: number,
+  pinned: boolean,
+  youtubeUrl: string,
+  useContactTracing: boolean,
+};
+
+export type Company = Object;
+
+export type Comment = Object;
 
 export type Permission = string;
 
