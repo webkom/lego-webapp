@@ -15,6 +15,8 @@ import truncateString from 'app/utils/truncateString';
 import Time from 'app/components/Time';
 import { readmeIfy } from 'app/components/ReadmeLogo';
 
+import Banner, { COLORS } from 'app/components/Banner';
+
 type Props = {
   frontpage: Array<Object>,
   readmes: Array<Object>,
@@ -78,153 +80,167 @@ class PublicFrontpage extends Component<Props, State> {
     const [latestReadme] = this.props.readmes || [];
 
     return (
-      <Container className={styles.container}>
-        <div className={styles.welcome}>
-          <h2 className="u-mb">Velkommen til Abakus</h2>
-          <p>
-            Abakus er linjeforeningen for studentene ved <i>Datateknologi</i> og
-            <i> Kommunikasjonsteknologi og digital sikkerhet</i> på NTNU, og
-            drives av studenter ved disse studiene.
-          </p>
-          <p>
-            Abakus
-            {"'"} formål er å gi disse studentene veiledning i
-            studiesituasjonen, arrangere kurs som utfyller fagtilbudet ved NTNU,
-            fremme kontakten med næringslivet og bidra med sosiale aktiviteter.
-          </p>
-        </div>
-        <div className={styles.login}>
-          <Flex
-            component="h2"
-            justifyContent="space-between"
-            alignItems="center"
-            className="u-mb"
-            style={{ whiteSpace: 'nowrap' }}
-          >
-            {title}
-            {!(registerUser || forgotPassword) && (
-              <div>
+      <Container>
+        <Banner
+          header="Velkommen alle nye studenter!"
+          subHeader="Trykk her for informasjon om fadderperioden"
+          internal
+          link="/articles/357"
+          color={COLORS.lightBlue}
+        />
+        <Container className={styles.container}>
+          <div className={styles.welcome}>
+            <h2 className="u-mb">Velkommen til Abakus</h2>
+            <p>
+              Abakus er linjeforeningen for studentene ved <i>Datateknologi</i>{' '}
+              og
+              <i> Kommunikasjonsteknologi og digital sikkerhet</i> på NTNU, og
+              drives av studenter ved disse studiene.
+            </p>
+            <p>
+              Abakus
+              {"'"} formål er å gi disse studentene veiledning i
+              studiesituasjonen, arrangere kurs som utfyller fagtilbudet ved
+              NTNU, fremme kontakten med næringslivet og bidra med sosiale
+              aktiviteter.
+            </p>
+          </div>
+          <div className={styles.login}>
+            <Flex
+              component="h2"
+              justifyContent="space-between"
+              alignItems="center"
+              className="u-mb"
+              style={{ whiteSpace: 'nowrap' }}
+            >
+              {title}
+              {!(registerUser || forgotPassword) && (
+                <div>
+                  <button
+                    onClick={this.toggleForgotPassword}
+                    className={styles.toggleButton}
+                  >
+                    Glemt passord
+                  </button>
+                  <span className={styles.toggleButton}>&bull;</span>
+                  <button
+                    onClick={this.toggleRegisterUser}
+                    className={styles.toggleButton}
+                  >
+                    Jeg er ny
+                  </button>
+                </div>
+              )}
+              {(registerUser || forgotPassword) && (
                 <button
-                  onClick={this.toggleForgotPassword}
+                  onClick={this.toggleBack}
                   className={styles.toggleButton}
                 >
-                  Glemt passord
+                  Tilbake
                 </button>
-                <span className={styles.toggleButton}>&bull;</span>
-                <button
-                  onClick={this.toggleRegisterUser}
-                  className={styles.toggleButton}
-                >
-                  Jeg er ny
-                </button>
-              </div>
-            )}
-            {(registerUser || forgotPassword) && (
-              <button onClick={this.toggleBack} className={styles.toggleButton}>
-                Tilbake
-              </button>
-            )}
-          </Flex>
-          {form}
-        </div>
-        <div className={styles.events}>
-          <CompactEvents
-            events={this.props.frontpage.filter(isEvent)}
-            frontpageHeading
-          />
-        </div>
-        <div className={styles.hsp}>
-          <a href="https://www.netcompany.com/no" target="blank">
-            <Image
-              className={styles.hspImage}
-              src={netcompany}
-              alt="NETCOMPANY"
-            />
-          </a>
-          Hovedsamarbeidspartneren vår er Netcompany. Hos Netcompany står fag,
-          innovasjon og samhold sterkt, og de er opptatt av å ta ansvar – både
-          for egne leveranser, for kundene og for sine ansatte.
-        </div>
-        <div className={styles.article}>
-          <h2 className="u-mb">Siste artikkel</h2>
-          {topArticle}
-        </div>
-        <div className={styles.readme}>
-          <h2 className="u-mb">Siste utgave av {readmeIfy('readme')} </h2>
-          <a
-            href={latestReadme && latestReadme.pdf}
-            className={styles.thumb}
-            style={{ display: 'block' }}
-          >
-            <Image src={latestReadme && latestReadme.image} />
-          </a>
-        </div>
-        <div className={styles.links}>
-          <h2 className="u-mb">Nyttige linker</h2>
-          <ul>
-            <li>
-              <Link to="/articles/283">
-                <i className="fa fa-caret-right" /> Fadderperioden 2020
-              </Link>
-              <div className={styles.linkDescription}>
-                Informasjon om fadderperioden 2020
-              </div>
-            </li>
-            <li>
-              <a href="https://www.ntnu.no/studier/mtdt" target="blank">
-                <i className="fa fa-caret-right" /> Datateknologi
-              </a>
-              <div className={styles.linkDescription}>
-                Datateknologi er en helt sentral del av alle fremtidsrettede
-                teknologier, som for eksempel kunstig intelligens, medisinsk
-                teknologi og søkemotorteknologi.
-              </div>
-            </li>
-            <li>
-              <a href="http://www.ntnu.no/studier/mtkom" target="blank">
-                <i className="fa fa-caret-right" /> Kommunikasjonsteknologi og
-                digital sikkerhet
-              </a>
-              <div className={styles.linkDescription}>
-                Vi bruker stadig mer av livene våre på nett, på jobb som i
-                fritid. Kommunikasjonsteknologi og digital sikkerhet blir stadig
-                viktigere i en digital verden.
-              </div>
-            </li>
-            <li>
-              <Link to="/pages/bedrifter/for-bedrifter">
-                <i className="fa fa-caret-right" /> For bedrifter
-              </Link>
-              <div className={styles.linkDescription}>
-                Her finner du som bedriftsrepresentant informasjon om Abakus
-                {"' "}
-                prosedyrer for bedriftspresentasjoner og andre nyttige fakta.
-              </div>
-            </li>
-            <li>
-              <a href="https://readme.abakus.no">
-                <i className="fa fa-caret-right" /> {readmeIfy('readme')}
-              </a>
-              <div className={styles.linkDescription}>
-                Abakus har sitt eget magasin skrevet av {readmeIfy('readme')}.
-                Her kan du lese om hva abakus driver med og få et innblikk i
-                abakus som organisasjon.
-              </div>
-            </li>
-          </ul>
-        </div>
-        <div className={styles.facebook}>
-          <h2 className="u-mb">Vår Facebook side</h2>
-          <div className={styles.facebookIframeContainer}>
-            <iframe
-              src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FAbakusNTNU%2F&amp;tabs=timeline&amp;small_header=true&amp;adapt_container_width=true&amp;hide_cover=false&amp;show_facepile=true&amp;appId=1717809791769695"
-              className={styles.facebookIframe}
-              title="facebook"
-              scrolling="no"
-              frameBorder="0"
+              )}
+            </Flex>
+            {form}
+          </div>
+          <div className={styles.events}>
+            <CompactEvents
+              events={this.props.frontpage.filter(isEvent)}
+              frontpageHeading
             />
           </div>
-        </div>
+          <div className={styles.hsp}>
+            <a href="https://www.netcompany.com/no" target="blank">
+              <Image
+                className={styles.hspImage}
+                src={netcompany}
+                alt="NETCOMPANY"
+              />
+            </a>
+            Hovedsamarbeidspartneren vår er Netcompany. Hos Netcompany står fag,
+            innovasjon og samhold sterkt, og de er opptatt av å ta ansvar – både
+            for egne leveranser, for kundene og for sine ansatte.
+          </div>
+          <div className={styles.article}>
+            <h2 className="u-mb">Siste artikkel</h2>
+            {topArticle}
+          </div>
+          <div className={styles.readme}>
+            <h2 className="u-mb">Siste utgave av {readmeIfy('readme')} </h2>
+            <a
+              href={latestReadme && latestReadme.pdf}
+              className={styles.thumb}
+              style={{ display: 'block' }}
+            >
+              <Image src={latestReadme && latestReadme.image} />
+            </a>
+          </div>
+          <div className={styles.links}>
+            <h2 className="u-mb">Nyttige linker</h2>
+            <ul>
+              <li>
+                <Link to="/articles/357">
+                  <i className="fa fa-caret-right" /> Fadderperioden 2021
+                </Link>
+                <div className={styles.linkDescription}>
+                  Informasjon om fadderperioden 2021
+                </div>
+              </li>
+              <li>
+                <a href="https://www.ntnu.no/studier/mtdt" target="blank">
+                  <i className="fa fa-caret-right" /> Datateknologi
+                </a>
+                <div className={styles.linkDescription}>
+                  Datateknologi er en helt sentral del av alle fremtidsrettede
+                  teknologier, som for eksempel kunstig intelligens, medisinsk
+                  teknologi og søkemotorteknologi.
+                </div>
+              </li>
+              <li>
+                <a href="http://www.ntnu.no/studier/mtkom" target="blank">
+                  <i className="fa fa-caret-right" /> Kommunikasjonsteknologi og
+                  digital sikkerhet
+                </a>
+                <div className={styles.linkDescription}>
+                  Vi bruker stadig mer av livene våre på nett, på jobb som i
+                  fritid. Kommunikasjonsteknologi og digital sikkerhet blir
+                  stadig viktigere i en digital verden.
+                </div>
+              </li>
+              <li>
+                <Link to="/pages/bedrifter/for-bedrifter">
+                  <i className="fa fa-caret-right" /> For bedrifter
+                </Link>
+                <div className={styles.linkDescription}>
+                  Her finner du som bedriftsrepresentant informasjon om Abakus
+                  {"' "}
+                  prosedyrer for bedriftspresentasjoner og andre nyttige fakta.
+                </div>
+              </li>
+              <li>
+                <a href="https://readme.abakus.no">
+                  <i className="fa fa-caret-right" /> {readmeIfy('readme')}
+                </a>
+                <div className={styles.linkDescription}>
+                  Abakus har sitt eget magasin skrevet av {readmeIfy('readme')}.
+                  Her kan du lese om hva abakus driver med og få et innblikk i
+                  abakus som organisasjon.
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div className={styles.facebook}>
+            <h2 className="u-mb">Vår Facebook side</h2>
+            <div className={styles.facebookIframeContainer}>
+              <iframe
+                src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FAbakusNTNU%2F&amp;tabs=timeline&amp;small_header=true&amp;adapt_container_width=true&amp;hide_cover=false&amp;show_facepile=true&amp;appId=1717809791769695"
+                className={styles.facebookIframe}
+                title="facebook"
+                scrolling="no"
+                frameBorder="0"
+              />
+            </div>
+          </div>
+        </Container>
       </Container>
     );
   }
