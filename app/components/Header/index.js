@@ -128,6 +128,7 @@ class Header extends Component<Props, State> {
     let title, form;
 
     if (
+      __CLIENT__ &&
       loggedIn &&
       currentUser &&
       (currentUser.selectedTheme === 'auto'
