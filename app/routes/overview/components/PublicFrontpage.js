@@ -85,7 +85,7 @@ class PublicFrontpage extends Component<Props, State> {
           header="Velkommen alle nye studenter!"
           subHeader="Trykk her for informasjon om fadderperioden"
           internal
-          link="/articles/357"
+          link="/articles/359"
           color={COLORS.lightBlue}
         />
         <Container className={styles.container}>
@@ -178,7 +178,7 @@ class PublicFrontpage extends Component<Props, State> {
             <h2 className="u-mb">Nyttige linker</h2>
             <ul>
               <li>
-                <Link to="/articles/357">
+                <Link to="/articles/359">
                   <i className="fa fa-caret-right" /> Fadderperioden 2021
                 </Link>
                 <div className={styles.linkDescription}>

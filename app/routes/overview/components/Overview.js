@@ -196,7 +196,7 @@ class Overview extends Component<Props, State> {
           header="Velkommen alle nye studenter!"
           subHeader="Trykk her for informasjon om fadderperioden"
           internal
-          link="/articles/357"
+          link="/articles/359"
           color={COLORS.lightBlue}
         />
         <Flex className={styles.desktopContainer}>
