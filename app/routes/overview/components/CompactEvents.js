@@ -7,7 +7,7 @@ import { colorForEvent } from 'app/routes/events/utils';
 import { Flex } from 'app/components/Layout';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
-
+import EventItem from './NextEvent.js';
 type Props = {
   events: Array<Object>,
   frontpageHeading?: boolean,
@@ -68,7 +68,7 @@ export default class CompactEvents extends Component<Props> {
       presentations.length > 0 ? presentations : ['Ingen presentasjoner'];
 
     const other = mapEvents(['other', 'event', 'social', 'party']);
-    const rightEvents = other.length > 0 ? other : ['Ingen arrangementer'];
+    const middleEvents = other.length > 0 ? other : ['Ingen arrangementer'];
 
     if (!events.length) {
       return null;
@@ -85,11 +85,19 @@ export default class CompactEvents extends Component<Props> {
             </Link>
             <ul className={styles.innerList}>{leftEvents}</ul>
           </Flex>
+          <Flex column className={styles.compactMiddle}>
+            <Link to="/events">
+              <h3 className={headerStyle}>Arrangementer</h3>
+            </Link>
+            <ul className={styles.innerList}>{middleEvents}</ul>
+          </Flex>
           <Flex column className={styles.compactRight}>
             <Link to="/events">
               <h3 className={headerStyle}>Arrangementer</h3>
             </Link>
-            <ul className={styles.innerList}>{rightEvents}</ul>
+            <ul className={styles.innerList}>
+              <EventItem events={events} />
+            </ul>
           </Flex>
         </Flex>
       </Flex>

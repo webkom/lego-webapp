@@ -34,14 +34,44 @@
   }
 }
 
-.leftColumn {
-  flex: 13;
-  margin-right: 10px;
-  padding: 0 20px;
+.topRow {
 }
 
-.rightColumn {
-  flex: 7;
+.midRow {
+  position: relative;
+  width: 100%;
+}
+
+.bottomRow {
+  margin-top: 100px;
+  margin-bottom: 15px;
+  width: 100%;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+
+.cardWrapper {
+  width: 40%;
+  align-items: center;
+  margin: 20px 0px;
+  @media (--mobile-device) {
+    width: 100%;
+  }
+}
+
+.pollWrapper {
+  position: relative;
+  overflow-y: visible;
+}
+
+.pollWrapper > * {
+  position: absolute !important;
+  z-index: 10;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 25%);
+
+  @media (--mobile-device) {
+    position: relative !important;
+  }
 }
 
 .readMe {
@@ -84,6 +114,45 @@
   flex-flow: row wrap;
 }
 
+.boardWrapper {
+  width: 100%;
+}
+
+.boardBackground {
+  position: absolute;
+  top: 0;
+  right: 50%;
+  margin: -20px 0;
+  transform: translateX(50%);
+  width: 100vw;
+  height: 670px;
+  z-index: -1;
+  background-color: var(--color-mono-gray-4);
+  box-shadow: 0px 7px 4px rgba(0, 0, 0, 25%) inset;
+}
+
+.pinnedColumn {
+  flex: 2;
+  /* background-color: red; */
+  margin-right: 10px;
+}
+
+.articlesColumn {
+  flex: 1;
+  justify-content: stretch;
+  /* background-color: green; */
+}
+
+.pinnedColumn > *:not(:last-child),
+.articlesColumn > *:not(:last-child) {
+  margin-bottom: 10px;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 25%);
+}
+
+.pinned {
+  flex: 1;
+}
+
 .weeklyArticles {
   border: 1px solid rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.09);
   box-shadow: 0 1px 4px
@@ -98,9 +167,13 @@
 }
 
 .quote {
+  position: relative;
   composes: withShadow from '~app/styles/utilities.css';
-  background: var(--lego-card-color);
+  background: var(--color-white);
+  min-width: 350px;
+  border-radius: 20px;
   padding: 15px 20px 8px;
+  filter: drop-shadow(0px 5px 5px rgba(0, 0, 0, 25%));
 }
 
 @media only screen and (max-width: 855px) {
@@ -135,6 +208,6 @@
   display: none;
 
   @media (--mobile-device) {
-    display: grid;
+    display: flex;
   }
 }

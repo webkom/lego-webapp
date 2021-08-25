@@ -1,0 +1,62 @@
+@import '~app/styles/variables.css';
+
+.container {
+  width: 100%;
+}
+
+.description {
+  text-align: center;
+  padding-left: 20%;
+  padding-right: 20%;
+  line-height: 1.2em;
+  margin: 0px 0px 25px 0px;
+}
+
+.logoAndMug {
+  position: relative;
+  margin-top: 17px;
+}
+
+.logo {
+  margin-top: 8px;
+  width: 240px;
+  filter: drop-shadow(0px 4px 1.5px rgba(0, 0, 0, 20%));
+}
+
+.mug {
+  position: relative;
+}
+
+.mug p {
+  position: absolute;
+  top: 27.5px; /* Half of image height */
+  left: 27.5px;
+
+  color: #ffe8cc;
+
+  font-size: 30px;
+
+  transform: translate(-50%, -50%);
+}
+
+.mug img {
+  height: 55px;
+  filter: drop-shadow(0px 4px 1.5px rgba(0, 0, 0, 20%));
+}
+
+.newTag {
+  position: absolute;
+  bottom: 0px;
+  right: -7px;
+
+  color: white;
+  text-align: center;
+  font-weight: 900;
+  line-height: 1em;
+
+  background-color: var('--lego-red');
+
+  padding: 3px 5px;
+
+  border-radius: 3px;
+}

@@ -232,6 +232,7 @@ export const frontpageSchema = (new schema.Entity('frontpage', {
   events: [eventSchema],
   articles: [articleSchema],
   poll: pollSchema,
+  interestgroups: [groupSchema],
 }): Schema);
 export const emojiSchema = (new schema.Entity(
   'emojis',

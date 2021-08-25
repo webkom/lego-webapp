@@ -32,9 +32,8 @@ const OverviewItem = ({ article }: { article: ArticleEntity }) => (
             to={`/users/${article.author.username}`}
             className={styles.overviewAuthor}
           >
-            {' '}
             {article.author.fullName}
-          </Link>{' '}
+          </Link>
         </span>
       )}
       <Time time={article.createdAt} format="DD.MM.YYYY HH:mm" />

@@ -2,20 +2,23 @@
 
 .link {
   color: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.9);
+  flex: 1;
 }
 
-.body {
-  composes: withShadow from '~app/styles/utilities.css';
-  text-align: center;
-  background: var(--lego-card-color);
-  height: 388px;
-  width: 100%;
-  margin-bottom: 20px;
-  position: relative;
+.wrapper {
+  height: 100%;
+  border-radius: 5px;
+  overflow: hidden;
+}
 
-  @media (--mobile-device) {
-    height: 100%;
-  }
+.topWrapper {
+  position: relative;
+}
+
+.bottomWrapper {
+  background-color: var(--color-white);
+  height: 100%;
+  padding: 10px;
 }
 
 .image {
@@ -24,27 +27,25 @@
   height: auto;
 }
 
-.articleTitle {
-  margin: 0 5px;
-  line-height: 1.1;
-  font-size: 1.2rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  word-break: normal;
+.titleAndTags {
+  background-image: linear-gradient(rgba(0, 0, 0, 0%), #000);
+  width: 100%;
+  position: absolute;
+  padding: 3px;
+  bottom: 0px;
+  left: 0px;
 }
 
-.articleMeta {
-  margin: 0 5px;
-  font-weight: bold;
+.title {
+  color: var(--color-white);
+  font-weight: 800;
+  line-height: 1.4;
 }
 
-.infoWrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.articleDescription {
-  text-align: justify;
-  margin: 5px 15px;
+.tags {
+  margin: 0;
+  padding: 0;
+  margin-left: 1px;
+  padding-left: 10px;
+  border-left: 1px solid #fff;
 }

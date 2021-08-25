@@ -10,6 +10,7 @@ import type { EmojiEntity } from 'app/reducers/emojis';
 import type { ID } from 'app/models';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import { Flex } from 'app/components/Layout';
+import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
 type Props = {
   fetchRandomQuote: (Array<ID>) => Promise<Object>,
@@ -47,39 +48,62 @@ const RandomQuote = (props: Props) => {
     }
   });
 
+  const BubbleArrow = () => {
+    return (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="73"
+        height="51"
+        fill="none"
+        viewBox="0 0 73 51"
+        className={styles.bubbleArrow}
+      >
+        <path
+          fill="#fff"
+          d="M0 51c5.476-3.796 14.338-19.31 3.983-51 20.412.99 63.925 5.546 68.705 15.845C77.468 26.144 26.22 43.573 0 51z"
+        ></path>
+      </svg>
+    );
+  };
+
   return (
     <div className={className ? className : ''}>
-      <Flex justifyContent="space-between" alignItems="flex-start">
-        <Flex column>
+      <BubbleArrow />
+      <Flex column alignItems="flex-start">
+        <Link to={`/quotes/${currentQuote.id}`}>
           <div className={styles.quoteText}>{currentQuote.text}</div>
           <div className={styles.quoteSource}>-{currentQuote.source}</div>
-        </Flex>
-
-        <Flex column justifyContent="space-between" className={styles.actions}>
-          <Button
-            flat
-            onClick={() => props.fetchRandomQuote(seenQuotes.current)}
-            className={styles.fetchNew}
+        </Link>
+        <Flex justifyContent="space-between" style={{ width: '100%' }}>
+          <div className={styles.quoteReactions}>
+            <LegoReactions
+              emojis={emojis}
+              fetchEmojis={fetchEmojis}
+              fetchingEmojis={fetchingEmojis}
+              addReaction={addReaction}
+              deleteReaction={deleteReaction}
+              parentEntity={currentQuote}
+              loggedIn={loggedIn}
+            />
+          </div>
+          <Flex
+            justifyContent="space-between"
+            alignItems="flex-end"
+            className={styles.actions}
           >
-            <i className="fa fa-refresh" />
-          </Button>
-          <NavigationLink to="/quotes/add">
-            <i className="fa fa-plus" />
-          </NavigationLink>
+            <Button
+              flat
+              onClick={() => props.fetchRandomQuote(seenQuotes.current)}
+              className={styles.fetchNew}
+            >
+              <i className="fa fa-refresh" />
+            </Button>
+            <NavigationLink to="/quotes/add">
+              <i className="fa fa-plus" />
+            </NavigationLink>
+          </Flex>
         </Flex>
       </Flex>
-
-      <div className={styles.quoteReactions}>
-        <LegoReactions
-          emojis={emojis}
-          fetchEmojis={fetchEmojis}
-          fetchingEmojis={fetchingEmojis}
-          addReaction={addReaction}
-          deleteReaction={deleteReaction}
-          parentEntity={currentQuote}
-          loggedIn={loggedIn}
-        />
-      </div>
     </div>
   );
 };

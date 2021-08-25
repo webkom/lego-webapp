@@ -1,12 +1,18 @@
 @import '~app/styles/variables.css';
 
 .quoteSource {
+  color: black;
   margin-top: 5px;
   font-style: italic;
 }
 
 .quoteText {
+  color: black;
   font-weight: 600;
+}
+
+.quoteText:hover {
+  color: var(--lego-link-color);
 }
 
 .quoteReactions {
@@ -14,9 +20,21 @@
 }
 
 .actions {
-  margin: 5px 5px 5px 15px;
+  margin: 5px 5px 5px 5px;
 }
 
-.fetchNew {
+.actions * {
+  line-height: 0;
+  margin: 0;
   margin-bottom: 5px;
+}
+
+.actions * + * {
+  margin-left: 20px;
+}
+
+.bubbleArrow {
+  position: absolute;
+  bottom: -35px;
+  left: calc(50% + 60px);
 }

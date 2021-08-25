@@ -1,0 +1,38 @@
+@import '~app/styles/variables.css';
+
+.container {
+  width: 100%;
+}
+
+.logo {
+  font-size: 30px;
+  color: var('--color-dark-mono-gray-1');
+}
+
+.readmes > * {
+  margin: 0 5px;
+}
+
+.readme {
+  height: 100%;
+}
+
+.thumb {
+  width: 100px;
+  aspect-ratio: 3/4;
+  display: block;
+  margin-top: 23px;
+  object-fit: contain;
+}
+
+.thumb img {
+  transition: transform, box-shadow;
+  transition-duration: 0.3s;
+
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 25%);
+}
+
+.thumb:hover img {
+  transform: scale(110%);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 25%);
+}

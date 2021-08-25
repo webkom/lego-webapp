@@ -1,15 +1,115 @@
-@import '~app/styles/variables.css';
-
-.optionWrapper {
-  justify-content: center;
-  min-height: 120px;
-  cursor: pointer;
+.poll {
+  background-color: var(--color-white);
   position: relative;
+  width: 100%;
+  min-width: 250px;
+  max-width: 500px;
+  overflow-y: hidden;
+  border-radius: 15px;
+  transition: 2s height;
+}
+
+.topBar {
+  position: relative;
+  width: 100%;
+  height: 70px;
+  background-color: var(--lego-red);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 25%);
+}
+
+.stats {
+  margin-top: 17px;
+  color: var(--color-white);
+  transform: scale(150%);
+}
+
+.notAnswered {
+  color: var(--color-white);
+  font-size: 30px;
+  font-weight: 900;
+  line-height: 45px;
+}
+
+.headerBar {
+  background-color: var(--color-almost-white-1);
+
+<<<<<<< Updated upstream
+.poll {
+  composes: withShadow from '~app/styles/utilities.css';
+  background: var(--lego-card-color);
+  padding: 15px 20px 8px;
+}
+=======
+  font-weight: 900;
+>>>>>>> Stashed changes
+
+  position: absolute;
+  bottom: 0px;
+  left: 50%;
+
+  width: 80%;
+  height: 50px;
+  transform: translate(-50%, 50%);
+
+  border-radius: 10px;
+
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 25%);
+}
+
+.voteButtonWrapper {
+  overflow-y: hidden;
+  width: 100%;
+  transition: 0.5s height;
+}
+
+.voteButtonSubWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 100%;
+  height: fit-content;
+}
+/* 
+.isNotExpanded {
+  width: 100%;
+  height: 0px;
+}
+
+.isExpanded {
+  width: 100%;
+} */
+
+.voteButton {
+  background: var(--lego-red);
+  color: var(--color-white);
+  font-weight: 500;
+  height: 37px;
+  width: 90%;
+  padding: 5px;
+  margin: 2px !important;
+}
+
+.optionsWrapper {
+  width: 100%;
+  padding-top: 35px;
+}
+
+/* .voteButton:last-of-type {
+  margin-bottom: 4px !important;
+} */
+
+.totalVotes {
+  margin-bottom: 2px;
 }
 
 .pollTable {
   width: 100%;
   font-size: 14px;
+}
+
+.pollTable tr {
+  width: 100%;
 }
 
 .pollTable td {
@@ -18,155 +118,81 @@
 }
 
 .pollTable .textColumn {
-  border-right: 1px solid #c5c5c5;
   text-align: right;
-  padding-right: 13px;
   line-height: 16px;
+  word-wrap: break-word;
+
+  width: fit-content;
+  max-width: 200px;
+  padding-right: 13px;
+
+  border-right: 3px solid #c5c5c5;
 }
 
 .pollTable .graphColumn {
   width: auto;
-  min-width: 200px;
+  min-width: 150px;
+
   padding-left: 13px;
-}
 
-.poll {
-  composes: withShadow from '~app/styles/utilities.css';
-  background: var(--lego-card-color);
-  padding: 15px 20px 8px;
-}
-
-.pollLight {
-  background: var(--lego-card-color);
-}
-
-.noVotes {
-  font-style: italic;
-}
-
-.pollGraph {
-  animation: graph 1.2s cubic-bezier(0.41, 0.8, 0.4, 0.94);
-  background-color: var(--lego-red-color);
-  padding-left: 8px;
-  border-radius: 0 2px 2px 0;
-  font-style: italic;
-  font-weight: 300;
-  color: var(--color-white);
-  height: 30px;
+  padding-right: 15px;
 }
 
 .fullGraph {
-  background-color: #e7e7e7;
-  width: 100%;
   display: flex;
+  background-color: #e7e7e7;
+  word-wrap: break-word;
+  width: 100%;
 }
 
-html[data-theme='dark'] .fullGraph {
+.pollGraph {
+  background-color: var(--lego-red);
+
+  font-style: italic;
+  font-weight: 300;
   color: var(--color-white);
-  background-color: var(--color-mono-gray-5);
+
+  height: 30px;
+  padding-left: 8px;
+
+  animation: graph 1.2s cubic-bezier(0.41, 0.8, 0.4, 0.94);
+  border-radius: 0 2px 2px 0;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 25%);
 }
 
-html[data-theme='dark'] .pollGraph {
-  color: var(--color-black);
-}
-
-.pollGraph span {
-  vertical-align: middle;
-}
-
-@keyframes graph {
-  from {
-    width: 1px;
-  }
-
-  to {
-    width: 100%;
-  }
-}
-
-.pollHeader {
-  border-radius: 8px;
-  margin-bottom: 20px;
-  margin-left: 20px;
-  font-size: 16px;
-  color: var(--lego-font-color);
-}
-
-.voteButton {
-  background: var(--lego-red-color);
-  color: var(--lego-color-gray-light);
-  border: 1px solid var(--border-gray);
+.bottomBar {
   width: 100%;
-  margin: 0 !important;
-  font-size: 15px;
-  max-width: 400px;
+  height: 70px;
+  background-color: var(--lego-red);
 }
 
-.voteButton:hover {
-  opacity: 0.8;
-}
-
-html[data-theme='dark'] .voteButton {
-  color: var(--color-dark-gray-3);
-}
-
-.moreOptionsLink {
-  display: grid;
-  grid: auto-flow / 3fr 1fr 3fr;
-  justify-content: space-between;
-}
-
-.arrow {
-  margin-top: 9px;
-  cursor: pointer;
-
-  &:hover {
-    transform: scale(1.5);
-    color: var(--color-red-3);
-    transition: transform 0.2s;
-  }
-}
-
-.blurContainer {
-  display: none;
-  position: absolute;
-  justify-content: center;
-  width: 100%;
+.truncateWrapper {
   height: 100%;
 }
 
-.blurOverlay {
-  position: absolute;
-  z-index: 2;
-  color: var(--color-black);
-  margin-top: 25px;
+.arrow {
+  text-shadow: 0px 2px 2px rgba(0, 0, 0, 25%);
+  transform: scale(250%);
+  color: var(--color-white);
+  margin-bottom: 10px;
 }
 
-.optionWrapper:hover .blurContainer {
-  display: flex;
+.arrowUp {
+  text-shadow: 0px 2px 2px rgba(0, 0, 0, 25%);
+  transform: scale(250%);
+  color: var(--color-white);
+  margin-bottom: 25px;
+  transition: 1s margin-bottom;
 }
 
-.optionWrapper:hover .blurEffect {
-  filter: blur(3px);
-  pointer-events: none;
+.arrowDown {
+  text-shadow: 0px 2px 2px rgba(0, 0, 0, 25%);
+  transform: scale(250%);
+  color: var(--color-white);
+  margin-bottom: 10px;
+  transition: 1s margin-bottom;
 }
 
-.blurArrow {
-  margin-top: 40px;
-}
-
-.alignItems {
-  display: flex;
-  justify-content: center;
-}
-
-@media (--mobile-device) {
-  .blurContainer {
-    display: flex;
-  }
-
-  .blurEffect {
-    filter: blur(3px);
-    pointer-events: none;
-  }
+.arrow:hover {
+  cursor: pointer;
 }

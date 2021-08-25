@@ -1,0 +1,61 @@
+.container {
+  width: 100%;
+  position: relative;
+  overflow: visible;
+}
+
+.title {
+  font-size: 1.2em;
+  font-weight: bolder;
+  margin-top: 10px;
+}
+
+.groupImages {
+  width: 250px;
+}
+
+.groupImage {
+  max-width: 80px;
+  max-height: 80px;
+  margin: 0px 10px;
+  border-radius: 50%;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 25%);
+
+  transition: 0.3s transform;
+}
+
+.groupImage:hover {
+  transform: scale(110%);
+}
+
+.yellowCircle {
+  position: absolute;
+  background-color: var(--lego-interestgroup-yellow);
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  z-index: -1;
+}
+
+@media (--mobile-device) {
+  .circle1,
+  .circle2,
+  .circle3 {
+    display: none;
+  }
+}
+
+.circle1 {
+  top: -20px;
+  left: -20px;
+}
+
+.circle2 {
+  top: 40px;
+  right: -20px;
+}
+
+.circle3 {
+  top: 150px;
+  left: 80px;
+}

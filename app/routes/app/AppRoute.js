@@ -69,7 +69,7 @@ class AppChildren extends PureComponent<Props> {
     };
 
     return (
-      <div style={{ flex: 1 }}>
+      <div style={{ flex: 1, overflow: 'hidden' }}>
         <ErrorBoundary resetOnChange={this.props.location}>
           <ToastContainer />
           {this.props.statusCode ? (

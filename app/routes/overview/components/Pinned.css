@@ -1,53 +1,35 @@
 @import '~app/styles/variables.css';
 
-.pinned {
+.wrapper {
+  position: relative;
   flex: 1;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.titleAndTags {
+  background-image: linear-gradient(rgba(0, 0, 0, 0%), #000);
   width: 100%;
+  position: absolute;
+  padding: 3px;
+  bottom: 0px;
+  left: 0px;
 }
 
-.innerPinned {
-  composes: withShadow from '~app/styles/utilities.css';
-  background: var(--lego-card-color);
+.title {
+  color: var(--color-white);
+  font-weight: 800;
+  line-height: 1.4;
 }
 
-.innerLinks {
-  display: block;
-
-  @media (--mobile-device) {
-    height: inherit;
-  }
-}
-
-.image {
-  object-fit: contain;
-  background: var(--lego-card-color);
-  border-radius: 5px 5px 0 0;
-
-  @media (--mobile-device) {
-    object-fit: scale-down;
-    border-right: none;
-    border-bottom: 1px solid
-      rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.09);
-    border-radius: 3px 3px 0 0;
-    display: block;
-  }
-}
-
-.pinnedHeading {
-  padding: 0 20px;
-  font-size: 30px;
-  align-items: center;
-}
-
-.itemTitle {
+.tags {
   margin: 0;
-  line-height: 1.1;
-  font-size: 1.2rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  word-break: normal;
+  padding: 0;
+  margin-left: 1px;
+  padding-left: 10px;
+  border-left: 1px solid #fff;
 }
 
-.itemTitle > a {
-  color: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.9);
+.tags * {
+  color: var(--color-white);
 }

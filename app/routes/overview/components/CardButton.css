@@ -1,0 +1,31 @@
+@import '~app/styles/variables.css';
+
+.button {
+  display: flex;
+  align-items: center;
+  background-color: var(--color-white);
+
+  height: 2rem;
+  width: fit-content;
+
+  padding-left: 0.7rem;
+  padding-right: 0.7rem;
+
+  font-weight: bolder;
+  text-align: center;
+
+  border-radius: 1rem;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 25%);
+}
+
+.inCard {
+  background-color: var('--lego-red');
+  color: var('--color-white');
+  margin-bottom: 20px;
+}
+
+.belowCard {
+  background-color: var(--color-white);
+  color: var(--color-black);
+  margin-top: 20px;
+}
