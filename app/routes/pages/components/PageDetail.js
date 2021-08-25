@@ -3,6 +3,7 @@
 
 import type { Node } from 'react';
 
+import { Helmet } from 'react-helmet';
 import { Component } from 'react';
 import styles from './PageDetail.css';
 import { Flex } from 'app/components/Layout';
@@ -73,6 +74,7 @@ class PageDetail extends Component<Props, State> {
 
     return (
       <Content className={styles.cont}>
+        <Helmet title={selectedPageInfo.title} />
         <div className={styles.main}>
           <button className={styles.sidebarOpenBtn} onClick={this.openSidebar}>
             <Icon size={30} name="arrow-forward" />
