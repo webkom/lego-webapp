@@ -54,7 +54,7 @@
     "immutable": "^3.8.1",
     "isomorphic-fetch": "3.0.0",
     "js-cookie": "^2.1.4",
-    "jsdom": "^16.4.0",
+    "jsdom": "^17.0.0",
     "jwt-decode": "2.2.0",
     "lodash-es": "^4.17.15",
     "minireset.css": "^0.0.6",
