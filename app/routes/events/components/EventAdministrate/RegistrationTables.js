@@ -126,7 +126,7 @@ export class RegisteredTable extends Component<Props> {
       {
         title: 'Status',
         center: true,
-        dataIndex: 'status',
+        dataIndex: 'pool',
         render: (pool, registration) => {
           const registrationInfo = getRegistrationInfo(pool, registration);
           return (
