@@ -44,7 +44,7 @@
     "bunyan": "^1.8.12",
     "bunyan-pretty": "^0.0.1",
     "classnames": "^2.2.6",
-    "connected-react-router": "^6.3.2",
+    "connected-react-router": "^6.9.1",
     "cookie-parser": "^1.4.3",
     "core-js": "^3.7.0",
     "crypto-browserify": "^3.12.0",
