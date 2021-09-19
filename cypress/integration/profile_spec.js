@@ -41,14 +41,14 @@ describe('Profile settings', () => {
 
   it('can navigate to settings from profile', () => {
     cy.visit('/users/me');
-    cy.contains('Innstillinger').click();
-
-    // TODO: Should use me in URL instead of username
-    // cy.url().should('include', '/users/me/settings/profile');
-    cy.url().should(
-      'include',
-      `/users/${initialUser.username}/settings/profile`
-    );
+    cy.contains('Innstillinger')
+      .click()
+      .then(() => {
+        cy.url().should(
+          'include',
+          `/users/${initialUser.username}/settings/profile`
+        );
+      });
   });
 
   it('edit profile shows correct initial values', () => {
