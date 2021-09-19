@@ -72,7 +72,8 @@ const mapStateToProps = (state, props) => {
   const isMe =
     params.username === 'me' || params.username === state.auth.username;
   const actionGrant = (user && user.actionGrant) || [];
-  const showSettings = isMe || actionGrant.includes('edit');
+  const showSettings =
+    (isMe || actionGrant.includes('edit')) && user && user.username;
   const canChangeGrade = state.allowed.groups;
   const canEditEmailLists = state.allowed.email;
   const canDeletePenalties = state.allowed.penalties;
