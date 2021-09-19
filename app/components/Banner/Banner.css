@@ -37,6 +37,11 @@
   color: var(--color-white);
 }
 
+.itdageneBlue {
+  background-color: #0778bc;
+  color: var(--color-white);
+}
+
 @keyframes wiggle {
   0% {
     transform: rotate(0deg);
