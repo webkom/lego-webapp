@@ -136,7 +136,7 @@
     "eslint-plugin-react-app": "^6.2.2",
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-react-redux": "^3.3.2",
-    "eslint-plugin-testing-library": "^3.10.1",
+    "eslint-plugin-testing-library": "^4.12.3",
     "express": "^4.17.1",
     "flow-bin": "0.131.0",
     "identity-obj-proxy": "3.0.0",
