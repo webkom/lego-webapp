@@ -15,3 +15,4 @@ module.name_mapper='.*\(.css\)' -> 'empty/object'
 module.name_mapper='.*\(.xml\)' -> 'empty/object'
 module.name_mapper='^\(.*\)$' -> '<PROJECT_ROOT>/\1'
 react.runtime=automatic
+esproposal.optional_chaining=enable

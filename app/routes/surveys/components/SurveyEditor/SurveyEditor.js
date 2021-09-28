@@ -110,6 +110,7 @@ class SurveyEditor extends Component<Props, State> {
               fields={fields}
             />
           ))}
+          <span>{error}</span>
         </ul>
 
         <Link
@@ -263,10 +264,28 @@ export const initialQuestion = {
   ],
 };
 
-const validate = createValidator({
-  title: [required()],
-  event: [required()],
-});
+export const hasOptions = (data: Object) => {
+  const message = {};
+  message.questions = [];
+  data.questions?.forEach((element, i) => {
+    if (!['multiple_choice', 'single_choice'].includes(element.questionType))
+      return;
+    if (element.options.length < 2) {
+      message.questions[i] = {
+        questionText: ['Spørsmål må ha minst ett svaralternativ'],
+      };
+    }
+  });
+  return message;
+};
+
+const validate = createValidator(
+  {
+    title: [required()],
+    event: [required()],
+  },
+  hasOptions
+);
 
 const onSubmit = (formContent: Object, dispatch, props: Props) => {
   const { survey, submitFunction, push } = props;

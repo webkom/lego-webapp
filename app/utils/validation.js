@@ -1,5 +1,5 @@
 import zxcvbn from 'zxcvbn';
-import { pick } from 'lodash';
+import { pick, merge } from 'lodash';
 
 export const EMAIL_REGEX = /.+@.+\..+/;
 const YOUTUBE_URL_REGEX = /(?:https?:\/\/)?(?:www[.])?(?:youtube[.]com\/watch[?]v=|youtu[.]be\/)([^&]{11})/;
@@ -48,16 +48,22 @@ export const sameAs = (otherField, message) => (value, context) => [
   message,
 ];
 
-export function createValidator(fieldValidators) {
+export function createValidator(fieldValidators, rawValidator) {
   return function validate(input) {
-    return Object.keys(fieldValidators).reduce((errors, field) => {
-      const fieldErrors =
-        fieldValidators[field]
-          .map((validator) => validator(input[field], input))
-          .filter(([isValid]) => !isValid)
-          .map(([, message]) => message || 'not valid') || 0;
-      if (fieldErrors.length) errors[field] = fieldErrors;
-      return errors;
-    }, {});
+    const rawValidatorErrors = rawValidator ? rawValidator(input) : {};
+
+    const fieldValidatorErrors = Object.keys(fieldValidators).reduce(
+      (errors, field) => {
+        const fieldErrors =
+          fieldValidators[field]
+            .map((validator) => validator(input[field], input))
+            .filter(([isValid]) => !isValid)
+            .map(([, message]) => message || 'not valid') || 0;
+        if (fieldErrors.length) errors[field] = fieldErrors;
+        return errors;
+      },
+      {}
+    );
+    return merge(fieldValidatorErrors, rawValidatorErrors);
   };
 }
