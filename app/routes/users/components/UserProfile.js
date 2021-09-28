@@ -247,10 +247,21 @@ export default class UserProfile extends Component<Props, EventsProps> {
           ? 'pastMembershipsAsBadges'
           : 'pastMembershipsAsPills'
     );
+    const filteredPastMembershipsAsBadges = pastMembershipsAsBadges.filter(
+      (membership) => {
+        const membershipDuration = moment.duration(
+          moment(membership.endDate).diff(membership.startDate)
+        );
+        return (
+          membership.abakusGroup.type !== 'interesse' ||
+          membershipDuration.asWeeks() > 2
+        );
+      }
+    );
     // $FlowFixMe
     const groupedMemberships = orderBy(
       groupBy(
-        pastMembershipsAsBadges.concat(membershipsAsBadges),
+        filteredPastMembershipsAsBadges.concat(membershipsAsBadges),
         'abakusGroup.id'
       ),
       (memberships) => !memberships.some((membership) => membership.isActive)
