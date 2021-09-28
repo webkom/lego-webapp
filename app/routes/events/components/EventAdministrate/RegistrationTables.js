@@ -13,6 +13,7 @@ import type {
   EventRegistrationPaymentStatus,
   ID,
   Event,
+  EventPool,
 } from 'app/models';
 import Table from 'app/components/Table';
 import {
@@ -21,7 +22,6 @@ import {
   PresenceIcons,
   Unregister,
 } from './AttendeeElements';
-import type { EventPool } from 'app/models';
 
 type Props = {
   registered: Array<EventRegistration>,
@@ -102,7 +102,7 @@ export class RegisteredTable extends Component<Props> {
       {
         title: 'Nr.',
         dataIndex: 'nr',
-        render: (pool, registration) => (
+        render: (_, registration) => (
           <span>{registered.indexOf(registration) + 1}.</span>
         ),
         sorter: (a, b) => {
