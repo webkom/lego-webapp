@@ -447,7 +447,7 @@ export default class Table extends Component<Props, State> {
       };
 
     const sortedData = [...data].sort((a, b) =>
-      sorter !== undefined && typeof sorter !== 'boolean' ? sorter(a, b) : -1
+      sorter !== undefined && typeof sorter !== 'boolean' ? sorter(a, b) : 0
     );
     if (direction === 'desc') sortedData.reverse();
 
