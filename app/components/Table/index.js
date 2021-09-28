@@ -88,6 +88,7 @@ export default class Table extends Component<Props, State> {
     };
   }
 
+  container: HTMLDivElement;
   components: { [string]: ?HTMLDivElement } = {};
 
   static defaultProps = {
@@ -254,7 +255,7 @@ export default class Table extends Component<Props, State> {
                 show={isShown[dataIndex]}
                 onHide={() => this.toggleSearch(dataIndex)}
                 placement="bottom"
-                container={this.components[dataIndex]}
+                container={this.container}
                 target={() => this.components[dataIndex]}
                 rootClose
               >
@@ -294,7 +295,7 @@ export default class Table extends Component<Props, State> {
                 show={isShown[dataIndex]}
                 onHide={() => this.toggleFilter(dataIndex)}
                 placement="bottom"
-                container={this.components[dataIndex]}
+                container={this.container}
                 target={() => this.components[dataIndex]}
                 rootClose
               >
@@ -358,7 +359,7 @@ export default class Table extends Component<Props, State> {
                 show={isShown[dataIndex]}
                 onHide={() => this.toggleChooseColumn(dataIndex)}
                 placement="bottom"
-                container={this.components[dataIndex]}
+                container={this.container}
                 target={() => this.components[dataIndex]}
                 rootClose
               >
@@ -451,35 +452,39 @@ export default class Table extends Component<Props, State> {
     if (direction === 'desc') sortedData.reverse();
 
     return (
-      <div className={styles.tableDiv}>
-        <table className={styles.table}>
-          <thead>
-            <tr>
-              {columns
-                .filter(isVisible)
-                .map((column, index) => this.renderHeadCell(column, index))}
-            </tr>
-          </thead>
-          <InfiniteScroll
-            element="tbody"
-            hasMore={hasMore && !loading}
-            loadMore={this.loadMore}
-            threshold={50}
-          >
-            {sortedData.filter(this.filter).map((item, index) => (
-              <tr key={item[rowKey]}>
+      <div>
+        <div className={styles.tableDiv}>
+          <table className={styles.table}>
+            <thead>
+              <tr>
                 {columns
                   .filter(isVisible)
-                  .map((column, index) => this.renderCell(column, item, index))}
+                  .map((column, index) => this.renderHeadCell(column, index))}
               </tr>
-            ))}
-            <tr>
-              <td className={styles.loader} colSpan={columns.length}>
-                <LoadingIndicator loading={loading} />
-              </td>
-            </tr>
-          </InfiniteScroll>
-        </table>
+            </thead>
+            <InfiniteScroll
+              element="tbody"
+              hasMore={hasMore && !loading}
+              loadMore={this.loadMore}
+              threshold={50}
+            >
+              {sortedData.filter(this.filter).map((item, index) => (
+                <tr key={item[rowKey]}>
+                  {columns
+                    .filter(isVisible)
+                    .map((column, index) =>
+                      this.renderCell(column, item, index)
+                    )}
+                </tr>
+              ))}
+              <tr>
+                <td className={styles.loader} colSpan={columns.length}>
+                  <LoadingIndicator loading={loading} />
+                </td>
+              </tr>
+            </InfiniteScroll>
+          </table>
+        </div>
       </div>
     );
   }
