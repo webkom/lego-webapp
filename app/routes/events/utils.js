@@ -185,6 +185,7 @@ export const transformEvent = (data: TransformEvent) => ({
   canViewGroups: data.isGroupOnly
     ? data.canViewGroups.map((group) => group.id)
     : [],
+  requireAuth: data.canViewGroups.length > 0,
   unregistrationDeadline: calculateUnregistrationDeadline(data),
   unregistrationDeadlineHours: calculateUnregistrationDeadlineHours(data),
   pools: calculatePools(data),
