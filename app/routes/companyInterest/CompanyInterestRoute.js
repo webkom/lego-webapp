@@ -7,6 +7,9 @@ import { push } from 'connected-react-router';
 import CompanyInterestPage, {
   EVENT_TYPES,
   OTHER_TYPES,
+  COLLABORATION_TYPES,
+  TARGET_GRADE_TYPES,
+  PARTICIPANT_RANGE_TYPES,
 } from './components/CompanyInterestPage';
 import { selectCompanySemestersForInterestForm } from 'app/reducers/companySemesters';
 import prepare from 'app/utils/prepare';
@@ -25,6 +28,9 @@ const mapStateToProps = (state, props) => {
   }
   const allEvents = Object.keys(EVENT_TYPES);
   const allOtherOffers = Object.keys(OTHER_TYPES);
+  const allCollaborations = Object.keys(COLLABORATION_TYPES);
+  const allTargetGrades = Object.keys(TARGET_GRADE_TYPES);
+  const allParticipantRanges = Object.keys(PARTICIPANT_RANGE_TYPES);
   const allowedBdb = state.allowed.bdb;
 
   const language = pathname === '/register-interest' ? 'english' : 'norwegian';
@@ -37,6 +43,18 @@ const mapStateToProps = (state, props) => {
       })),
       otherOffers: allOtherOffers.map((offer) => ({
         name: offer,
+        checked: false,
+      })),
+      collaborations: allCollaborations.map((collab) => ({
+        name: collab,
+        checked: false,
+      })),
+      targetGrades: allTargetGrades.map((targetGrade) => ({
+        name: targetGrade,
+        checked: false,
+      })),
+      participantRange: allParticipantRanges.map((pRange) => ({
+        name: pRange,
         checked: false,
       })),
       semesters: semesters.sort(sortSemesterChronologically),

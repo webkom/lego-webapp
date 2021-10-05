@@ -7,8 +7,11 @@ import {
   updateCompanyInterest,
 } from 'app/actions/CompanyInterestActions';
 import CompanyInterestPage, {
+  COLLABORATION_TYPES,
   EVENT_TYPES,
   OTHER_TYPES,
+  TARGET_GRADE_TYPES,
+  PARTICIPANT_RANGE_TYPES,
 } from './components/CompanyInterestPage';
 import { selectCompanyInterestById } from 'app/reducers/companyInterest';
 import { selectCompanySemesters } from 'app/reducers/companySemesters';
@@ -38,6 +41,9 @@ const mapStateToProps = (state, props) => {
 
   const allEvents = Object.keys(EVENT_TYPES);
   const allOtherOffers = Object.keys(OTHER_TYPES);
+  const allCollaborations = Object.keys(COLLABORATION_TYPES);
+  const allTargetGrades = Object.keys(TARGET_GRADE_TYPES);
+  const allParticipantRanges = Object.keys(PARTICIPANT_RANGE_TYPES);
   const allowedBdb = state.allowed.bdb;
   return {
     allowedBdb,
@@ -63,6 +69,24 @@ const mapStateToProps = (state, props) => {
         checked:
           companyInterest.otherOffers &&
           companyInterest.otherOffers.includes(offer),
+      })),
+      collaborations: allCollaborations.map((collab) => ({
+        name: collab,
+        checked:
+          companyInterest.collaborations &&
+          companyInterest.collaborations.includes(collab),
+      })),
+      targetGrades: allTargetGrades.map((targetGrade) => ({
+        name: targetGrade,
+        checked:
+          companyInterest.targetGrades &&
+          companyInterest.targetGrades.includes(targetGrade),
+      })),
+      participantRange: allParticipantRanges.map((pRange) => ({
+        name: pRange,
+        checked:
+          companyInterest.participantRange &&
+          companyInterest.participantRange.includes(pRange),
       })),
       semesters: semesters
         .map((semester) => ({
