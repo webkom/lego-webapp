@@ -588,7 +588,6 @@ const CompanyInterestPage = (props: Props) => {
           <br />
           <br />
           {interestText.revueCollaboration[language]}
-          
         </div>
 
         <Field

@@ -87,16 +87,14 @@ export const interestText = {
       '**A collaboration with the Revue means being their main sponsor. The Revue is a “show”, made and starred by students, and is widely popular within Abakus. As part of the collaboration, we offer you to give a Company presentation the same date as the revue. The company proceeds to join the students at the show after the presentation, guaranteeing a popular event. We also offer promotion opportunities, including your logo on merch/posters associated with the revue, etc.',
   },
   priorityReasoningTitle: {
-    norwegian:
-      'Abakus sin begrunnelse for prioritering',
-    english:
-      'How we in Abakus prioritize',
+    norwegian: 'Abakus sin begrunnelse for prioritering',
+    english: 'How we in Abakus prioritize',
   },
   priorityReasoning: {
     norwegian:
       'Vi velger bedrifter på bakgrunn av mange faktorer. Vi ønsker likevel å vektlegge bedrifter med ambisjoner om et alternativt opplegg. Bedrifter som for eksempel er interessert i å samarbeide med andre linjeforeninger/bedrifter om større arrangement (som Bedrift-til-Bedrift), og som kan være interessert i å bidra til Revyen og Jubileet. Vi begrunner dette med et ønske fra studentene om nytenking rundt «formatet» til en standard bedriftspresentasjon. Vi tror dette vil gi studentene et attraktivt arrangement, som er mer konkurransedyktig enn det som  tilbys i dag. ',
     english:
-      "We choose companies based on a lot of factors. However, we want to prioritize companies who could be interested in creating an alternative event. Companies  who for instance want to collaborate with other student organizations/Companies to create a bigger event, or companies interested in contributing to the anniversaries and revue. This is because the students have requested that we act innovative when creating a company event (to make them  more diverse). We also think that this will make events even more in-demand, than the ones offered today.",
+      'We choose companies based on a lot of factors. However, we want to prioritize companies who could be interested in creating an alternative event. Companies  who for instance want to collaborate with other student organizations/Companies to create a bigger event, or companies interested in contributing to the anniversaries and revue. This is because the students have requested that we act innovative when creating a company event (to make them  more diverse). We also think that this will make events even more in-demand, than the ones offered today.',
   },
   otherEventDescription: {
     norwegian:
