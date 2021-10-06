@@ -33,7 +33,6 @@ const mapStateToProps = (state, props) => {
   const allOtherOffers = Object.keys(OTHER_TYPES);
   const allCollaborations = Object.keys(COLLABORATION_TYPES);
   const allTargetGrades = Object.keys(TARGET_GRADE_TYPES);
-  const allParticipantRanges = Object.keys(PARTICIPANT_RANGE_TYPES);
   const allowedBdb = state.allowed.bdb;
 
   const language = pathname === '/register-interest' ? 'english' : 'norwegian';
@@ -56,10 +55,7 @@ const mapStateToProps = (state, props) => {
         name: targetGrade,
         checked: false,
       })),
-      participantRange: allParticipantRanges.map((pRange) => ({
-        name: pRange,
-        checked: false,
-      })),
+      participantRange: null,
       semesters: semesters.sort(sortSemesterChronologically),
     },
     interestForm: {

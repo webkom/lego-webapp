@@ -1,6 +1,7 @@
 // @flow
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { formValueSelector } from 'redux-form';
 import { fetchSemesters } from 'app/actions/CompanyActions';
 import {
   fetchCompanyInterest,
@@ -11,7 +12,6 @@ import CompanyInterestPage, {
   EVENT_TYPES,
   OTHER_TYPES,
   TARGET_GRADE_TYPES,
-  PARTICIPANT_RANGE_TYPES,
   PARTICIPANT_RANGE_MAP,
 } from './components/CompanyInterestPage';
 import { selectCompanyInterestById } from 'app/reducers/companyInterest';
@@ -26,6 +26,8 @@ const loadCompanyInterests = (props, dispatch) => {
     dispatch(fetchCompanyInterest(Number(companyInterestId)))
   );
 };
+
+const valueSelector = formValueSelector('CompanyInterestForm');
 
 const mapStateToProps = (state, props) => {
   const { companyInterestId } = props.match.params;
@@ -102,6 +104,9 @@ const mapStateToProps = (state, props) => {
     },
     companyInterestId,
     companyInterest,
+    interestForm: {
+      events: valueSelector(state, 'events'),
+    },
     edit: true,
     language: 'norwegian',
   };

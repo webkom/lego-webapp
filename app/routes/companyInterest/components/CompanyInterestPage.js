@@ -134,7 +134,7 @@ export const PARTICIPANT_RANGE_MAP = {
   fourth: [100, null],
 };
 
-export const eventToString = (event) =>
+const eventToString = (event) =>
   Object.keys(EVENT_TYPES)[Number(event.charAt(event.length - 2))];
 
 const otherOffersToString = (offer) =>
