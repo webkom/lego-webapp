@@ -601,15 +601,18 @@ const CompanyInterestPage = (props: Props) => {
         />
 
         {showOtherComment && (
-          <Field
-            placeholder={interestText.comment[language]}
-            name="comment_second"
-            component={TextEditor.Field}
-            rows={10}
-            className={styles.textEditor}
-            label={labels.comment[language]}
-            required
-          />
+          <div className={styles.underline}>
+            <p>{interestText.otherEventDescription[language]}</p>
+            <Field
+              placeholder={interestText.comment[language]}
+              name="comment_second"
+              component={TextEditor.Field}
+              rows={10}
+              className={styles.textEditor}
+              label={labels.comment[language]}
+              required
+            />
+          </div>
         )}
 
         <div className={styles.underline}>
