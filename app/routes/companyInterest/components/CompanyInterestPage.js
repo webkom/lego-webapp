@@ -75,46 +75,46 @@ export const OTHER_TYPES = {
 };
 
 export const COLLABORATION_TYPES = {
-  omega: {
+  collaboration_omega: {
     english: 'Event in collaboration with Omega',
     norwegian: 'Samarbeid med Omega linjeforening',
   },
-  online: {
+  collaboration_online: {
     english: 'Event in collaboration with Online',
     norwegian: 'Samarbeid med Online linjeforening',
   },
-  anniversary: {
+  collaboration_anniversary: {
     english: "Collaboration with Abakus' anniversary committee*",
     norwegian: 'Samarbeid med Abakus sitt Jubileum*',
   },
-  revueAnniversary: {
+  collaboration_revue_anniversary: {
     english: "Collaboration with the revue's anniversary committee*",
     norwegian: 'Samarbeid med Revyen sitt Jubileum*',
   },
-  revue: {
+  collaboration_revue: {
     english: 'Collaboration with the revue**',
     norwegian: 'Samarbeid med Revyen**',
   },
 };
 
 export const TARGET_GRADE_TYPES = {
-  first: {
+  '1': {
     norwegian: '1. klasse',
     english: '1st Years',
   },
-  second: {
+  '2': {
     norwegian: '2. klasse',
     english: '2nd Years',
   },
-  third: {
+  '3': {
     norwegian: '3. klasse',
     english: '3rd Years',
   },
-  fourth: {
+  '4': {
     norwegian: '4. klasse',
     english: '4th Years',
   },
-  fifth: {
+  '5': {
     norwegian: '5. klasse',
     english: '5th Years',
   },
@@ -125,6 +125,13 @@ export const PARTICIPANT_RANGE_TYPES = {
   second: '30-60',
   third: '60-100',
   fourth: '100+',
+};
+
+export const PARTICIPANT_RANGE_MAP = {
+  first: [10, 40],
+  second: [30, 60],
+  third: [60, 100],
+  fourth: [100, null],
 };
 
 export const eventToString = (event) =>
@@ -141,12 +148,6 @@ const targetGradeToString = (targetGrade) =>
     Number(targetGrade.charAt(targetGrade.length - 2))
   ];
 
-const participantRangeToString = (pRange) =>
-  Object.keys(PARTICIPANT_RANGE_TYPES)[
-    Number(pRange.charAt(pRange.length - 2))
-  ];
-
-//TODO: Participant Range to String?
 const SemesterBox = ({
   fields,
   language,
@@ -220,23 +221,6 @@ const TargetGradeBox = ({
       </Flex>
     ))}
   </Flex>
-);
-
-const ParticipantRangeBox = ({
-  fields,
-}: { language: string } & FieldArrayProps): Node => (
-  <RadioButtonGroup>
-    {fields.map((key, index) => (
-      <Field
-        key={index}
-        name={`participantRange[${index}].checked`}
-        field={`participantRange[${index}].checked`}
-        label={PARTICIPANT_RANGE_TYPES[participantRangeToString(key)]}
-        component={RadioButton.Field}
-        inputValue={PARTICIPANT_RANGE_TYPES[participantRangeToString(key)]}
-      />
-    ))}
-  </RadioButtonGroup>
 );
 
 const OtherBox = ({
@@ -328,6 +312,7 @@ type Props = FormProps & {
   targetGrades: Array<Object>,
   participantRange: string,
   edit: boolean,
+  interestForm: Object,
   companyInterest?: CompanyInterestEntity,
   language: string,
   comment: String,
@@ -342,6 +327,9 @@ const CompanyInterestPage = (props: Props) => {
     const { company } = data;
     const companyId = company['value'] ? Number(company['value']) : null;
     const companyName = companyId === null ? company['label'] : '';
+    const [range_start, range_end] = data.participantRange
+      ? PARTICIPANT_RANGE_MAP[data.participantRange]
+      : [null, null];
 
     const newData = {
       companyName: companyName,
@@ -363,11 +351,11 @@ const CompanyInterestPage = (props: Props) => {
         .map((collab) => collab.name),
       targetGrades: data.targetGrades
         .filter((targetGrade) => targetGrade.checked)
-        .map((targetGrade) => targetGrade.name),
-      participantRange: data.participantRange
-        .filter((pRange) => pRange.checked)
-        .map((pRange) => pRange.name),
+        .map((targetGrade) => Number(targetGrade.name)),
+      participantRangeStart: range_start,
+      participantRangeEnd: range_end,
       comment: data.comment,
+      comment_second: data.comment_second,
     };
 
     return props
@@ -455,6 +443,13 @@ const CompanyInterestPage = (props: Props) => {
 
   const { language } = props;
   const isEnglish = language === 'english';
+
+  console.log(props);
+  const showOtherComment =
+    props.interestForm.events &&
+    props.interestForm.events.some(
+      (e) => e.name === 'other' && e.checked === true
+    );
 
   return (
     <Content>
@@ -555,12 +550,17 @@ const CompanyInterestPage = (props: Props) => {
             <label htmlFor="participantRange" className={styles.heading}>
               {labels.participantRange[language]}
             </label>
-            <FieldArray
-              name="participantRange"
-              label="participantRange"
-              language={language}
-              component={ParticipantRangeBox}
-            />
+            <RadioButtonGroup name="participantRange">
+              {Object.keys(PARTICIPANT_RANGE_TYPES).map((key, index) => (
+                <Field
+                  key={index}
+                  name={key}
+                  label={PARTICIPANT_RANGE_TYPES[key]}
+                  component={RadioButton.Field}
+                  inputValue={key}
+                />
+              ))}
+            </RadioButtonGroup>
           </Flex>
           <Flex column className={styles.interestBox}>
             <label htmlFor="otherOffers" className={styles.heading}>
@@ -599,6 +599,18 @@ const CompanyInterestPage = (props: Props) => {
           label={labels.comment[language]}
           required
         />
+
+        {showOtherComment && (
+          <Field
+            placeholder={interestText.comment[language]}
+            name="comment_second"
+            component={TextEditor.Field}
+            rows={10}
+            className={styles.textEditor}
+            label={labels.comment[language]}
+            required
+          />
+        )}
 
         <div className={styles.underline}>
           <b>{interestText.priorityReasoningTitle[language]}</b>

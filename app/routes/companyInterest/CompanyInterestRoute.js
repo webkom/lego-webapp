@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { createCompanyInterest } from 'app/actions/CompanyInterestActions';
 import { fetchSemestersForInterestform } from 'app/actions/CompanyActions';
 import { compose } from 'redux';
+import { formValueSelector } from 'redux-form';
 import { push } from 'connected-react-router';
 import CompanyInterestPage, {
   EVENT_TYPES,
@@ -17,6 +18,8 @@ import { sortSemesterChronologically } from './utils.js';
 
 const loadSemesters = (props, dispatch) =>
   dispatch(fetchSemestersForInterestform());
+
+const valueSelector = formValueSelector('CompanyInterestForm');
 
 const mapStateToProps = (state, props) => {
   const semesters = selectCompanySemestersForInterestForm(state);
@@ -58,6 +61,9 @@ const mapStateToProps = (state, props) => {
         checked: false,
       })),
       semesters: semesters.sort(sortSemesterChronologically),
+    },
+    interestForm: {
+      events: valueSelector(state, 'events'),
     },
     edit: false,
     language,

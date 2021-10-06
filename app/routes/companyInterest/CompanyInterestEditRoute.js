@@ -12,6 +12,7 @@ import CompanyInterestPage, {
   OTHER_TYPES,
   TARGET_GRADE_TYPES,
   PARTICIPANT_RANGE_TYPES,
+  PARTICIPANT_RANGE_MAP,
 } from './components/CompanyInterestPage';
 import { selectCompanyInterestById } from 'app/reducers/companyInterest';
 import { selectCompanySemesters } from 'app/reducers/companySemesters';
@@ -43,8 +44,14 @@ const mapStateToProps = (state, props) => {
   const allOtherOffers = Object.keys(OTHER_TYPES);
   const allCollaborations = Object.keys(COLLABORATION_TYPES);
   const allTargetGrades = Object.keys(TARGET_GRADE_TYPES);
-  const allParticipantRanges = Object.keys(PARTICIPANT_RANGE_TYPES);
+  const allParticipantRanges = Object.keys(PARTICIPANT_RANGE_MAP);
   const allowedBdb = state.allowed.bdb;
+  const participantRange =
+    allParticipantRanges.filter(
+      (p) =>
+        PARTICIPANT_RANGE_MAP[p][0] == companyInterest.participantRangeStart
+    ) || null;
+
   return {
     allowedBdb,
     initialValues: {
@@ -80,14 +87,9 @@ const mapStateToProps = (state, props) => {
         name: targetGrade,
         checked:
           companyInterest.targetGrades &&
-          companyInterest.targetGrades.includes(targetGrade),
+          companyInterest.targetGrades.includes(Number(targetGrade)),
       })),
-      participantRange: allParticipantRanges.map((pRange) => ({
-        name: pRange,
-        checked:
-          companyInterest.participantRange &&
-          companyInterest.participantRange.includes(pRange),
-      })),
+      participantRange: (participantRange && participantRange[0]) || null,
       semesters: semesters
         .map((semester) => ({
           ...semester,
