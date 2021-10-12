@@ -90,7 +90,12 @@ const JoblistingDetail = ({
             ].filter(Boolean)}
           />
           {joblisting.applicationUrl && (
-            <a href={joblisting.applicationUrl} style={{ marginTop: '10px' }}>
+            <a
+              href={joblisting.applicationUrl}
+              style={{ marginTop: '10px' }}
+              target="_blank"
+              rel="noreferrer"
+            >
               <strong>SØK HER</strong>
             </a>
           )}
