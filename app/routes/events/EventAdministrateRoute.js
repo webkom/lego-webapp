@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import prepare from 'app/utils/prepare';
 import { fetchAdministrate } from 'app/actions/EventActions';
 import EventAdministrateIndex from './components/EventAdministrate';
-import { selectEventById } from 'app/reducers/events';
 import {
+  selectEventById,
   selectPoolsWithRegistrationsForEvent,
   selectMergedPoolWithRegistrations,
 } from 'app/reducers/events';
