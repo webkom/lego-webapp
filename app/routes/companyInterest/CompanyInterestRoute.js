@@ -10,7 +10,6 @@ import CompanyInterestPage, {
   OTHER_TYPES,
   COLLABORATION_TYPES,
   TARGET_GRADE_TYPES,
-  PARTICIPANT_RANGE_TYPES,
 } from './components/CompanyInterestPage';
 import { selectCompanySemestersForInterestForm } from 'app/reducers/companySemesters';
 import prepare from 'app/utils/prepare';

@@ -51,7 +51,7 @@ const mapStateToProps = (state, props) => {
   const participantRange =
     allParticipantRanges.filter(
       (p) =>
-        PARTICIPANT_RANGE_MAP[p][0] == companyInterest.participantRangeStart
+        PARTICIPANT_RANGE_MAP[p][0] === companyInterest.participantRangeStart
     ) || null;
 
   return {
