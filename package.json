@@ -89,7 +89,7 @@
     "react-textarea-autosize": "^8.3.0",
     "react-treeview": "^0.4.6",
     "react-youtube": "^7.13.1",
-    "recharts": "^1.8.5",
+    "recharts": "^2.1.4",
     "redux": "4.0.5",
     "redux-form": "8.3.7",
     "redux-logger": "^3.0.1",
