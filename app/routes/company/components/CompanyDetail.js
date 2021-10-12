@@ -161,7 +161,11 @@ const CompanyDetail = (props: Props) => {
         </td>
         <td>
           {joblisting.applicationUrl && (
-            <a href={joblisting.applicationUrl}>
+            <a
+              href={joblisting.applicationUrl}
+              target="_blank"
+              rel="noreferrer"
+            >
               <strong>SØK HER</strong>
             </a>
           )}
