@@ -8,9 +8,16 @@ import Icon from '../Icon';
 import Search from '../Search';
 import { ProfilePicture, Image } from '../Image';
 import FancyNodesCanvas from './FancyNodesCanvas';
-import NotificationsDropdown from '../HeaderNotifications';
-import Button from '../Button';
+// import Button from '../Button';
 import styles from './Header.css';
+import Navbar from './Navbar';
+import NavbarItem from './Navbar/NavbarItem';
+import { Flipper } from 'react-flip-toolkit';
+import DropdownContainer from './DropdownContainer';
+import EventsDropdown from './DropdownContents/EventsDropdown';
+import InfoDropdown from './DropdownContents/InfoDropdown';
+import NotificationsDropdown from './DropdownContents/NotificationsDropdown';
+import ProfileDropdown from './DropdownContents/ProfileDropdown';
 import {
   LoginForm,
   RegisterForm,
@@ -33,78 +40,32 @@ type Props = {
   login: () => Promise<*>,
   logout: () => void,
   notificationsData: Object,
-  fetchNotifications: () => void,
-  notifications: Array<Object>,
-  markAllNotifications: () => Promise<void>,
-  fetchNotificationData: () => Promise<void>,
+  // fetchNotifications: () => void,
+  // notifications: Array<Object>,
+  // markAllNotifications: () => Promise<void>,
+  // fetchNotificationData: () => Promise<void>,
   upcomingMeeting: string,
   loading: boolean,
+  animatingOutTimeout: TimeoutID,
+  currentUser: UserEntity,
 };
 
 type State = {
-  accountOpen: boolean,
   shake: boolean,
   mode: 'login' | 'register' | 'forgotPassword',
+  activeIndices: Array<number>,
+  animatingOut: boolean,
 };
-
-type AccountDropdownItemsProps = {
-  logout: () => void,
-  onClose: () => void,
-  username: string,
-};
-
-function AccountDropdownItems({
-  logout,
-  onClose,
-  username,
-}: AccountDropdownItemsProps) {
-  return (
-    <Dropdown.List>
-      <Dropdown.ListItem>
-        <NavLink
-          to="/users/me"
-          onClick={onClose}
-          style={{ color: 'var(--lego-color-gray)' }}
-        >
-          <strong>{username}</strong>
-          <Icon name="contact" size={24} />
-        </NavLink>
-      </Dropdown.ListItem>
-      <Dropdown.Divider />
-      <Dropdown.ListItem>
-        <Link to="/users/me/settings/profile" onClick={onClose}>
-          Innstillinger
-          <Icon name="cog" size={24} />
-        </Link>
-      </Dropdown.ListItem>
-      <Dropdown.ListItem>
-        <Link to="/meetings/" onClick={onClose}>
-          Møteinnkallinger
-          <Icon name="calendar" size={24} />
-        </Link>
-      </Dropdown.ListItem>
-      <Dropdown.Divider />
-      <Dropdown.ListItem>
-        <Button
-          flat
-          onClick={() => {
-            logout();
-            onClose();
-          }}
-        >
-          Logg ut
-          <Icon name="log-out" size={24} />
-        </Button>
-      </Dropdown.ListItem>
-    </Dropdown.List>
-  );
-}
 
 class Header extends Component<Props, State> {
+  animatingOutTimeout: ?TimeoutID;
+  currentUser: UserEntity;
+
   state = {
-    accountOpen: false,
     shake: false,
     mode: 'login',
+    activeIndices: [],
+    animatingOut: false,
   };
 
   toggleRegisterUser = (e: Event) => {
@@ -122,8 +83,39 @@ class Header extends Component<Props, State> {
     e.stopPropagation();
   };
 
+  resetDropdownState = (i: any) => {
+    this.setState({
+      activeIndices: typeof i === 'number' ? [i] : [],
+      animatingOut: false,
+    });
+    delete this.animatingOutTimeout;
+  };
+
+  onMouseEnter = (i: number) => {
+    if (this.animatingOutTimeout) {
+      clearTimeout(this.animatingOutTimeout);
+      this.resetDropdownState(i);
+      return;
+    }
+    if (this.state.activeIndices[this.state.activeIndices.length - 1] === i)
+      return;
+
+    this.setState((prevState) => ({
+      activeIndices: prevState.activeIndices.concat(i),
+      animatingOut: false,
+    }));
+  };
+
+  onMouseLeave = () => {
+    this.setState({
+      animatingOut: true,
+    });
+    this.animatingOutTimeout = setTimeout(() => this.resetDropdownState(), 300);
+  };
+
   render() {
-    const { loggedIn, currentUser, loading } = this.props;
+    const { loggedIn, currentUser, loading, notificationsData } = this.props;
+    const { unreadCount } = notificationsData;
     const isLogin = this.state.mode === 'login';
     let title, form;
 
@@ -166,6 +158,60 @@ class Header extends Component<Props, State> {
       </button>
     ));
 
+    const navbarConfig = [
+      {
+        title: 'Arrangementer',
+        key: 'events',
+        destination: '/events',
+        dropdown: EventsDropdown,
+      },
+      {
+        title: 'Om abakus',
+        key: 'info',
+        destination: '/pages/info-om-abakus',
+        dropdown: InfoDropdown,
+      },
+      {
+        title: (
+          <Icon.Badge name="notifications" size={30} badgeCount={unreadCount} />
+        ),
+        key: 'notifications',
+        destination: '/timeline',
+        dropdown: NotificationsDropdown,
+      },
+      {
+        title: (
+          <ProfilePicture
+            size={30}
+            alt="user"
+            user={currentUser}
+            style={{
+              verticalAlign: 'middle', // what do you dooooo??
+            }}
+          />
+        ),
+        key: 'profile',
+        destination: '/users/me',
+        dropdown: ProfileDropdown,
+      },
+    ];
+
+    let CurrentDropdown, PrevDropdown, direction;
+
+    const currentIndex = this.state.activeIndices[
+      this.state.activeIndices.length - 1
+    ];
+    const prevIndex =
+      this.state.activeIndices.length > 1 &&
+      this.state.activeIndices[this.state.activeIndices.length - 2];
+
+    if (typeof currentIndex === 'number')
+      CurrentDropdown = navbarConfig[currentIndex].dropdown;
+    if (typeof prevIndex === 'number') {
+      PrevDropdown = navbarConfig[prevIndex].dropdown;
+      direction = currentIndex > prevIndex ? 'right' : 'left';
+    }
+
     return (
       <header className={styles.header}>
         <FancyNodesCanvas height={300} />
@@ -189,9 +235,56 @@ class Header extends Component<Props, State> {
 
           <div className={styles.menu}>
             <div className={styles.navigation}>
-              <NavLink to="/events" activeClassName={styles.activeItem}>
-                Arrangementer
+              <NavLink
+                className={styles.navbarItemTitle}
+                activeClassName={styles.activeNavbarItemTitle}
+                to={'/joblistings'}
+              >
+                Karriere
               </NavLink>
+
+              <Flipper flipKey={currentIndex} spring={'veryGentle'}>
+                <Navbar onMouseLeave={this.onMouseLeave}>
+                  {navbarConfig.map((n, index) => {
+                    return (
+                      <NavbarItem
+                        key={n.key}
+                        title={n.title}
+                        destination={n.destination}
+                        index={index}
+                        onMouseEnter={this.onMouseEnter}
+                      >
+                        {currentIndex === index && (
+                          <DropdownContainer
+                            direction={direction}
+                            animatingOut={this.state.animatingOut}
+                          >
+                            <CurrentDropdown />
+                            {PrevDropdown && <PrevDropdown />}
+                          </DropdownContainer>
+                        )}
+                      </NavbarItem>
+                    );
+                  })}
+                </Navbar>
+              </Flipper>
+
+              {/* <Dropdown
+                  show={this.state.eventOpen}
+                  toggle={() =>
+                    this.setState((state) => ({
+                      eventOpen: !state.eventOpen,
+                    }))
+                  }
+                  triggerComponent={
+                    <NavLink to="/events" activeClassName={styles.activeItem}>
+                      Arrangementer
+                    </NavLink>
+                  }
+                >
+                  <EventDropdownItems onClose={() => {}} />
+                </Dropdown>
+
               {!loggedIn ? (
                 <NavLink
                   to="/pages/bedrifter/for-bedrifter"
@@ -209,11 +302,11 @@ class Header extends Component<Props, State> {
                 activeClassName={styles.activeItem}
               >
                 Om Abakus
-              </NavLink>
+              </NavLink> */}
             </div>
 
             <div className={styles.buttonGroup}>
-              {loggedIn && (
+              {/* {loggedIn && (
                 <NotificationsDropdown
                   notificationsData={this.props.notificationsData}
                   fetchNotifications={this.props.fetchNotifications}
@@ -221,11 +314,11 @@ class Header extends Component<Props, State> {
                   markAllNotifications={this.props.markAllNotifications}
                   fetchNotificationData={this.props.fetchNotificationData}
                 />
-              )}
+              )} */}
 
               {loggedIn && this.props.upcomingMeeting && <MeetingButton />}
 
-              {loggedIn && (
+              {/* {loggedIn && (
                 <Dropdown
                   show={this.state.accountOpen}
                   toggle={() =>
@@ -249,14 +342,14 @@ class Header extends Component<Props, State> {
                     logout={this.props.logout}
                   />
                 </Dropdown>
-              )}
+              )} */}
 
               {!loggedIn && (
                 <Dropdown
-                  show={this.state.accountOpen}
+                  show={true} // this.state.accountOpen
                   toggle={() =>
                     this.setState((state) => ({
-                      accountOpen: !state.accountOpen,
+                      // accountOpen: !state.accountOpen,
                       shake: false,
                     }))
                   }
@@ -333,4 +426,5 @@ class Header extends Component<Props, State> {
     );
   }
 }
+
 export default Header;

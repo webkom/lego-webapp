@@ -284,7 +284,7 @@ export default class EventDetail extends Component<Props> {
             )}
             {event.title}
           </ContentHeader>
-
+          {''}
           <ContentSection>
             <ContentMain>
               <DisplayContent content={event.text} />

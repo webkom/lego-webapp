@@ -129,7 +129,216 @@
   }
 }
 
-.navigation a {
+.navbarEl {
+  margin: auto;
+}
+
+.navbarList {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  margin: 0;
+}
+
+.navbarItemEl {
+  position: relative;
+  width: max-content;
+}
+
+.navbarItemTitle {
+  height: 2rem; /* TODO: optimize */
+  background: transparent;
+  border: 0;
+  font-family: -apple-system, system-ui, 'Segoe UI', 'Roboto', 'Helvetica Neue',
+    Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  font-size: 21px;
+  padding: 0 1.5rem 0 1.5rem;
+  color: var(--color-dark-gray-4);
+  display: flex;
+  justify-content: center;
+  transition: opacity 250ms;
+  cursor: pointer;
+  position: relative;
+  z-index: 2;
+}
+
+.navbarItemTitle:hover,
+.activeNavbarItemTitle {
+  opacity: 0.7;
+  outline: none;
+}
+
+.dropdownSlot {
+  position: absolute;
+  padding-top: 1.2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  perspective: 1500px;
+  z-index: 2;
+}
+
+/* event dropdown */
+
+.eventsDropdownEl {
+  width: 22rem;
+}
+
+.dropdownLink {
+  width: 100%;
+  height: 4rem;
+
+  color: var(--lego-font-color);
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.icon {
+  transition: transform 0.2s ease-in-out;
+}
+
+.dropdownLink:hover .icon {
+  transform: translate(10px, 0);
+}
+
+.dropdownLink:hover .iconFrame {
+  box-shadow: 0 0 5px rgba(33, 33, 33, 0.2);
+}
+
+.iconFrame {
+  width: 3.2rem;
+  height: 3.2rem;
+  background-color: var(--lego-red);
+  color: var(--color-white);
+  border-radius: 50%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.textAndArrow {
+  width: 73%;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.altText {
+  font-family: 'Roboto';
+  font-weight: bold;
+  color: var(--color-dark-gray-4);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: all 0.2s ease-in-out;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.altText:hover {
+  color: var(--lego-red);
+}
+
+.dropdownSection[data-first-dropdown-section] .dropdownLink:nth-child(1) {
+  margin-bottom: 28px;
+}
+
+/* info dropdown */
+
+.infoDropdownEl {
+  width: 30rem;
+}
+
+.notificationDropdownEl {
+  width: 24rem;
+}
+
+.profileDropdownEl {
+  width: 18.5rem;
+}
+
+.dropdownSection {
+  padding: 28px;
+  position: relative;
+  z-index: 1;
+  font-size: 1.1em;
+}
+
+.dropdownBackground {
+  transform-origin: 0 0;
+  background-color: var(--color-white);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 50px 100px rgba(50, 50, 93, 0.1);
+  will-change: transform;
+  border: 1px solid var(--color-light-gray-3);
+}
+
+.dropdownRoot {
+  transform-origin: 0 0;
+  will-change: transform;
+  animation-duration: 300ms;
+  /* use 'forwards' to prevent flicker on leave animation */
+  animation-fill-mode: forwards;
+  /* flex styles will center the caret child component */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  top: -20px;
+}
+
+.caret {
+  width: 0;
+  height: 0;
+  border-width: 10px;
+  border-style: solid;
+  border-color: transparent transparent var(--color-white);
+  /* make sure it's above the main dropdown container so now box-shadow bleeds over it */
+  z-index: 1;
+  position: relative;
+  top: 2px;
+}
+
+.altBackground {
+  background-color: #f1f4f8b0;
+  width: 300%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: -100%;
+  transform-origin: 0 0;
+  z-index: 0;
+  transition: transform 300ms;
+}
+
+.invertedDiv {
+  will-change: transform;
+  position: relative;
+  top: 0;
+  left: 0;
+  &:first-of-type {
+    z-index: 1;
+  }
+  &:not(:first-of-type) {
+    z-index: -1;
+  }
+}
+
+.fadeContainer {
+  will-change: transform;
+  animation-duration: 300ms;
+  animation-fill-mode: forwards;
+  top: 0;
+  left: 0;
+}
+
+/* .navigation a {
   font-size: 1.35rem;
   padding: 10px 1rem;
   height: 100%;
@@ -173,7 +382,7 @@
     letter-spacing: 0;
     padding-bottom: 7px;
   }
-}
+} */
 
 .logoLightMode,
 .logoDarkMode {
