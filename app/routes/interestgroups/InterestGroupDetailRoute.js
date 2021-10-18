@@ -5,7 +5,7 @@ import {
   joinGroup,
   leaveGroup,
   fetchGroup,
-  fetchMemberships,
+  fetchAllMemberships,
 } from 'app/actions/GroupActions';
 import InterestGroupDetail from './components/InterestGroupDetail';
 import { selectMembershipsForGroup } from 'app/reducers/memberships';
@@ -46,7 +46,7 @@ export default compose(
     ) =>
       Promise.all([
         dispatch(fetchGroup(Number(interestGroupId))),
-        dispatch(fetchMemberships(interestGroupId)),
+        dispatch(fetchAllMemberships(interestGroupId)),
       ]),
 
     ['match.params.interestGroupId']
