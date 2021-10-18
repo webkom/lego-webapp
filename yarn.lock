@@ -2461,14 +2461,14 @@ assert@^1.1.1:
     object-assign "^4.1.1"
     util "0.10.3"
 
-assets-webpack-plugin@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/assets-webpack-plugin/-/assets-webpack-plugin-7.0.0.tgz#c61ed7466f35ff7a4d90d7070948736f471b8804"
-  integrity sha512-DMZ9r6HFxynWeONRMhSOFTvTrmit5dovdoUKdJgCG03M6CC7XiwNImPH+Ad1jaVrQ2n59e05lBhte52xPt4MSA==
+assets-webpack-plugin@^7.1.1:
+  version "7.1.1"
+  resolved "https://registry.yarnpkg.com/assets-webpack-plugin/-/assets-webpack-plugin-7.1.1.tgz#0b988bf904a1895cae5820957ad82aa402673894"
+  integrity sha512-HwsDcu9UR9kv7AtiyMpUO9fARn94SbrLzw5+aQ59RnOZJeet+EVHmOrMwXl8fZ8cZmdZ9Sbl1/l+fn7ymiyfMg==
   dependencies:
     camelcase "^6.0.0"
     escape-string-regexp "^4.0.0"
-    lodash "^4.17.20"
+    lodash "^4.17.21"
 
 assign-symbols@^1.0.0:
   version "1.0.0"
