@@ -9,23 +9,15 @@ import { Link } from 'react-router-dom';
 import ErrorBoundary from 'app/components/ErrorBoundary';
 import { toSpan } from 'app/components/Feed/context';
 
-import { compose } from 'redux';
-import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
-
-import { selectFeedActivitesByFeedId } from 'app/reducers/feeds';
-import {
-  fetchNotificationData,
-  markAllNotifications,
-} from 'app/actions/NotificationsFeedActions';
-import { fetchNotificationFeed } from 'app/actions/FeedActions';
-
 type Props = {
-  // notificationsData: Object,
+  notificationsData: Object,
   fetchNotifications: () => void,
   notifications: Array<Object>,
-  // markAllNotifications: () => Promise<void>,
-  // fetchNotificationData: () => Promise<void>,
+  markAllNotifications: () => Promise<void>,
+};
+
+type State = {
+  alreadyFetchedNotifications: boolean,
 };
 
 const NotificationElement = ({ notification }: { notification: Object }) => {
@@ -58,11 +50,6 @@ const NotificationElement = ({ notification }: { notification: Object }) => {
 };
 
 const NotificationsDropdown = (props: Props) => {
-  // fetch = () => {
-  //   this.props.fetchNotifications();
-  //   this.props.fetchNotificationData();
-  // };
-
   const renderNotifications = (notifications: Array<Object>) => {
     return (
       <div>
@@ -78,16 +65,9 @@ const NotificationsDropdown = (props: Props) => {
   const { notifications } = props;
 
   return (
-    <div
-      className={styles.notificationDropdownEl}
-      onMouseEnter={
-        () => fetchNotificationData()
-      }
-      onMouseLeave={markAllNotifications}
-    >
+    <div className={styles.notificationDropdownEl}>
       <div className={styles.dropdownSection} data-first-dropdown-section>
         <div className={styles.notifications}>
-          {/* notifications here */}
           {notifications.length ? (
             <div style={{ width: '100%' }}>
               <div style={{ maxHeight: '300px', overflowY: 'auto' }}>
@@ -104,26 +84,4 @@ const NotificationsDropdown = (props: Props) => {
   );
 };
 
-function mapStateToProps(state) {
-  return {
-    notificationsData: state.notificationsFeed,
-    notifications: selectFeedActivitesByFeedId(state, {
-      feedId: 'notifications',
-    }),
-  };
-}
-
-const mapDispatchToProps = {
-  fetchNotificationFeed,
-  markAllNotifications,
-  fetchNotificationData,
-};
-
-export default compose(
-  prepare(
-    (props, dispatch) => Promise.resolve(dispatch(fetchNotificationData())),
-    [],
-    { awaitOnSsr: false }
-  ),
-  connect(mapStateToProps, mapDispatchToProps)
-)(NotificationsDropdown);
+export default NotificationsDropdown;

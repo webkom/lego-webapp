@@ -7,8 +7,9 @@ import { NavLink } from 'react-router-dom';
 
 type Props = {
   onMouseEnter: (number) => void,
+  onMouseLeave: () => void,
   title: any,
-  destination: string,
+  to: string,
   index: number,
   children: Node,
 };
@@ -19,17 +20,18 @@ export default class NavbarItem extends Component<Props> {
   };
 
   render() {
-    const { title, destination, children } = this.props;
+    const { title, to, children } = this.props;
     return (
       <div
         className={styles.navbarItemEl}
         onMouseEnter={this.onMouseEnter}
+        onMouseLeave={this.props.onMouseLeave}
         onFocus={this.onMouseEnter}
       >
         <NavLink
           className={styles.navbarItemTitle}
           activeClassName={styles.activeNavbarItemTitle}
-          to={destination}
+          to={to}
         >
           {title}
         </NavLink>

@@ -21,22 +21,24 @@ html[data-theme='dark'] .notifications {
 }
 
 .notification {
-  border-bottom: 1px solid lightgray;
-  padding: 15px;
   display: flex;
   flex-direction: row;
+  overflow-x: hidden;
+  padding: 15px;
   color: var(--lego-font-color);
-
-  &:last-child {
-    border-bottom: none;
-  }
+  transition: 0.2s ease-in-out;
 
   &:hover {
     background-color: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 4%);
   }
 
   &:active {
-    border: 2px solid var(--color-light-gray-1);
+    background-color: rgba(
+      var(--rgb-min), 
+      var(--rgb-min), 
+      var(--rgb-min), 
+      0.1
+    );
   }
 }
 

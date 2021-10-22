@@ -1,12 +1,16 @@
 .badge {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: absolute;
-  top: -14px;
-  right: -10px;
-  background: linear-gradient(45deg, #842219, #e55649);
+  top: -50%;
+  right: -50%;
+  background: #e55649;
+  box-shadow: 0 5px 5px rgba(33, 33, 33, 0.2);
   color: var(--color-white);
-  border-radius: 8px;
-  min-width: 28px;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
   font-size: 16px;
   padding: 5px;
-  opacity: 0.9;
 }

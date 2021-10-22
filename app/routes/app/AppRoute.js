@@ -130,11 +130,10 @@ class App extends PureComponent<AppProps> {
             logout={this.props.logout}
             login={this.props.login}
             notificationsData={this.props.notificationsData}
-            // fetchNotifications={this.props.fetchNotificationFeed}
-            // notifications={this.props.notifications}
-            // markAllNotifications={this.props.markAllNotifications}
-            // fetchNotificationData={this.props.fetchNotificationData}
-
+            fetchNotifications={this.props.fetchNotificationFeed}
+            notifications={this.props.notifications}
+            markAllNotifications={this.props.markAllNotifications}
+            fetchNotificationData={this.props.fetchNotificationData}
             upcomingMeeting={this.props.upcomingMeeting}
             loading={this.props.loading}
           />
@@ -202,7 +201,7 @@ export default compose(
   prepare(
     (props, dispatch) =>
       Promise.all([
-        // dispatch(fetchNotificationData()),
+        dispatch(fetchNotificationData()),
         dispatch((dispatch, getState) => {
           if (!selectIsLoggedIn(getState())) {
             return Promise.resolve();

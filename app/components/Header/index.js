@@ -8,7 +8,6 @@ import Icon from '../Icon';
 import Search from '../Search';
 import { ProfilePicture, Image } from '../Image';
 import FancyNodesCanvas from './FancyNodesCanvas';
-// import Button from '../Button';
 import styles from './Header.css';
 import Navbar from './Navbar';
 import NavbarItem from './Navbar/NavbarItem';
@@ -18,6 +17,7 @@ import EventsDropdown from './DropdownContents/EventsDropdown';
 import InfoDropdown from './DropdownContents/InfoDropdown';
 import NotificationsDropdown from './DropdownContents/NotificationsDropdown';
 import ProfileDropdown from './DropdownContents/ProfileDropdown';
+import LoginDropdown from './DropdownContents/LoginDropdown';
 import {
   LoginForm,
   RegisterForm,
@@ -40,13 +40,12 @@ type Props = {
   login: () => Promise<*>,
   logout: () => void,
   notificationsData: Object,
-  // fetchNotifications: () => void,
-  // notifications: Array<Object>,
-  // markAllNotifications: () => Promise<void>,
-  // fetchNotificationData: () => Promise<void>,
+  fetchNotifications: () => void,
+  notifications: Array<Object>,
+  markAllNotifications: () => Promise<void>,
+  fetchNotificationData: () => Promise<void>,
   upcomingMeeting: string,
   loading: boolean,
-  animatingOutTimeout: TimeoutID,
   currentUser: UserEntity,
 };
 
@@ -59,7 +58,6 @@ type State = {
 
 class Header extends Component<Props, State> {
   animatingOutTimeout: ?TimeoutID;
-  currentUser: UserEntity;
 
   state = {
     shake: false,
@@ -89,6 +87,16 @@ class Header extends Component<Props, State> {
       animatingOut: false,
     });
     delete this.animatingOutTimeout;
+  };
+
+  handleFetchNotifications = (i: number) => {
+    this.props.fetchNotifications();
+    this.onMouseEnter(i);
+  };
+
+  handleMarkAllNotifications = () => {
+    console.log("mark")
+    this.props.markAllNotifications();
   };
 
   onMouseEnter = (i: number) => {
@@ -160,39 +168,57 @@ class Header extends Component<Props, State> {
 
     const navbarConfig = [
       {
-        title: 'Arrangementer',
+        dropdown: <EventsDropdown />,
         key: 'events',
-        destination: '/events',
-        dropdown: EventsDropdown,
+        show: true,
+        title: 'Arrangementer',
+        to: '/events',
       },
       {
-        title: 'Om abakus',
+        dropdown: <InfoDropdown />,
         key: 'info',
-        destination: '/pages/info-om-abakus',
-        dropdown: InfoDropdown,
+        show: true,
+        title: 'Om abakus',
+        to: '/pages/info-om-abakus',
       },
       {
+        dropdown: (
+          <NotificationsDropdown
+            notificationsData={this.props.notificationsData}
+            fetchNotifications={this.props.fetchNotifications}
+            notifications={this.props.notifications}
+            markAllNotifications={this.props.markAllNotifications}
+          />
+        ),
+        key: 'notifications',
+        onMouseEnter: this.handleFetchNotifications,
+        onMouseLeave: this.handleMarkAllNotifications,
+        show: loggedIn,
         title: (
           <Icon.Badge name="notifications" size={30} badgeCount={unreadCount} />
         ),
-        key: 'notifications',
-        destination: '/timeline',
-        dropdown: NotificationsDropdown,
+        to: '/timeline',
+      },
+      // {
+      //   dropdown: <MeetingButton />,
+      //   key: 'meetings',
+      //   show: loggedIn && this.props.upcomingMeeting,
+      //   title: <Icon name="calendar" className={styles.meetingIcon} />,
+      //   to: `/meetings/${this.props.upcomingMeeting}`,
+      // },
+      {
+        dropdown: <ProfileDropdown />,
+        key: 'profile',
+        show: loggedIn,
+        title: <ProfilePicture size={30} alt="user" user={currentUser} />,
+        to: '/users/me',
       },
       {
-        title: (
-          <ProfilePicture
-            size={30}
-            alt="user"
-            user={currentUser}
-            style={{
-              verticalAlign: 'middle', // what do you dooooo??
-            }}
-          />
-        ),
-        key: 'profile',
-        destination: '/users/me',
-        dropdown: ProfileDropdown,
+        dropdown: <LoginDropdown />,
+        key: 'login',
+        show: !loggedIn,
+        title: <Icon name="contact" size={30} />,
+        to: '/',
       },
     ];
 
@@ -235,88 +261,55 @@ class Header extends Component<Props, State> {
 
           <div className={styles.menu}>
             <div className={styles.navigation}>
-              <NavLink
-                className={styles.navbarItemTitle}
-                activeClassName={styles.activeNavbarItemTitle}
-                to={'/joblistings'}
-              >
-                Karriere
-              </NavLink>
-
-              <Flipper flipKey={currentIndex} spring={'veryGentle'}>
-                <Navbar onMouseLeave={this.onMouseLeave}>
-                  {navbarConfig.map((n, index) => {
-                    return (
-                      <NavbarItem
-                        key={n.key}
-                        title={n.title}
-                        destination={n.destination}
-                        index={index}
-                        onMouseEnter={this.onMouseEnter}
-                      >
-                        {currentIndex === index && (
-                          <DropdownContainer
-                            direction={direction}
-                            animatingOut={this.state.animatingOut}
-                          >
-                            <CurrentDropdown />
-                            {PrevDropdown && <PrevDropdown />}
-                          </DropdownContainer>
-                        )}
-                      </NavbarItem>
-                    );
-                  })}
-                </Navbar>
-              </Flipper>
-
-              {/* <Dropdown
-                  show={this.state.eventOpen}
-                  toggle={() =>
-                    this.setState((state) => ({
-                      eventOpen: !state.eventOpen,
-                    }))
-                  }
-                  triggerComponent={
-                    <NavLink to="/events" activeClassName={styles.activeItem}>
-                      Arrangementer
-                    </NavLink>
-                  }
-                >
-                  <EventDropdownItems onClose={() => {}} />
-                </Dropdown>
-
               {!loggedIn ? (
                 <NavLink
                   to="/pages/bedrifter/for-bedrifter"
-                  activeClassName={styles.activeItem}
+                  activeClassName={styles.activeNavbarItemTitle}
                 >
                   For bedrifter
                 </NavLink>
               ) : (
-                <NavLink to="/joblistings" activeClassName={styles.activeItem}>
+                <NavLink
+                  className={styles.navbarItemTitle}
+                  activeClassName={styles.activeNavbarItemTitle}
+                  to={'/joblistings'}
+                >
                   Karriere
                 </NavLink>
               )}
-              <NavLink
-                to="/pages/info-om-abakus"
-                activeClassName={styles.activeItem}
-              >
-                Om Abakus
-              </NavLink> */}
+
+              <Flipper flipKey={currentIndex} spring={'veryGentle'}>
+                <Navbar onMouseLeave={this.onMouseLeave}>
+                  {navbarConfig
+                    .filter((n) => n.show)
+                    .map((n, index) => {
+                      return (
+                        <NavbarItem
+                          key={n.key}
+                          title={n.title}
+                          to={n.to}
+                          index={index}
+                          onMouseEnter={n.onMouseEnter || this.onMouseEnter}
+                          onMouseLeave={n.onMouseLeave}
+                        >
+                          {currentIndex === index && (
+                            <DropdownContainer
+                              direction={direction}
+                              animatingOut={this.state.animatingOut}
+                            >
+                              {CurrentDropdown}
+                              {PrevDropdown}
+                            </DropdownContainer>
+                          )}
+                        </NavbarItem>
+                      );
+                    })}
+                </Navbar>
+              </Flipper>
             </div>
 
             <div className={styles.buttonGroup}>
-              {/* {loggedIn && (
-                <NotificationsDropdown
-                  notificationsData={this.props.notificationsData}
-                  fetchNotifications={this.props.fetchNotifications}
-                  notifications={this.props.notifications}
-                  markAllNotifications={this.props.markAllNotifications}
-                  fetchNotificationData={this.props.fetchNotificationData}
-                />
-              )} */}
-
-              {loggedIn && this.props.upcomingMeeting && <MeetingButton />}
+              {/* {loggedIn && this.props.upcomingMeeting && <MeetingButton />} */}
 
               {/* {loggedIn && (
                 <Dropdown
