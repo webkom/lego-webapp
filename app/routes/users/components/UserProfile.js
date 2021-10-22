@@ -205,7 +205,7 @@ export default class UserProfile extends Component<Props, EventsProps> {
     } = this.props;
 
     //If you wonder what this is, ask somebody
-    const FRAMEID = [6050, 5962, 7276];
+    const FRAMEID = [6050, 5962, 7276, 7434];
 
     const {
       pastMemberships = [],
