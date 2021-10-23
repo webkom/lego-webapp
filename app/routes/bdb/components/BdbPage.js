@@ -3,6 +3,7 @@
 import { Component } from 'react';
 import CompanyList from './CompanyList';
 import { Content } from 'app/components/Content';
+import { Helmet } from 'react-helmet';
 import styles from './bdb.css';
 import sortCompanies from '../SortCompanies.js';
 import { indexToSemester, ListNavigation } from '../utils.js';
@@ -194,6 +195,7 @@ export default class BdbPage extends Component<Props, State> {
 
     return (
       <Content>
+        <Helmet title="Bedriftsdatabase" />
         <ListNavigation title="Bedriftsdatabase" />
 
         <div className={styles.search}>

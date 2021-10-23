@@ -2,6 +2,7 @@
 
 import styles from './Quotes.css';
 import { reduxForm, Field } from 'redux-form';
+import { Helmet } from 'react-helmet';
 import { TextEditor, Button, withSubmissionError } from 'app/components/Form';
 import { createValidator, required } from 'app/utils/validation';
 import { navigation } from '../utils';
@@ -27,6 +28,7 @@ const AddQuote = ({
 
   return (
     <div className={styles.root}>
+      <Helmet title="Nytt sitat" />
       {navigation('Legg til sitat', actionGrant)}
 
       <div className={styles.addQuote}>

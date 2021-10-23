@@ -1,6 +1,7 @@
 // @flow
 
 import { Content } from 'app/components/Content';
+import { Helmet } from 'react-helmet';
 import Feed from 'app/components/Feed';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 
@@ -14,6 +15,7 @@ const TimelinePage = (props: Props) => {
 
   return (
     <Content>
+      <Helmet title="Tidslinje" />
       <h1>Tidslinje</h1>
 
       {feed ? (

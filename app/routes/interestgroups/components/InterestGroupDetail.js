@@ -1,6 +1,7 @@
 // @flow
 
 import styles from './InterestGroup.css';
+import { Helmet } from 'react-helmet';
 import { Image } from 'app/components/Image';
 import { Flex } from 'app/components/Layout';
 import {
@@ -129,6 +130,7 @@ function InterestGroupDetail(props: Props) {
   const logo = group.logo || 'https://i.imgur.com/Is9VKjb.jpg';
   return (
     <Content>
+      <Helmet title={group.name} />
       <Title group={group} showEdit={canEdit} />
       <ContentSection>
         <ContentMain>

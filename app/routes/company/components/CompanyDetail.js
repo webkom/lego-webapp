@@ -1,6 +1,7 @@
 // @flow
 
 import { Component } from 'react';
+import { Helmet } from 'react-helmet';
 import styles from './Company.css';
 import { Content } from 'app/components/Content';
 import LoadingIndicator from 'app/components/LoadingIndicator';
@@ -174,6 +175,7 @@ const CompanyDetail = (props: Props) => {
     ));
   return (
     <Content>
+      <Helmet title={company.name} />
       {company.logo && (
         <div className={styles.companyLogoDetail}>
           <Image src={company.logo} className={styles.companyImage} />

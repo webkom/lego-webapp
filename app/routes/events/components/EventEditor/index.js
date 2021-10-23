@@ -1,5 +1,6 @@
 // @flow
 
+import { Helmet } from 'react-helmet';
 import styles from './EventEditor.css';
 import { Link } from 'react-router-dom';
 import renderPools, { validatePools } from './renderPools';
@@ -107,6 +108,9 @@ function EventEditor({
 
   return (
     <Content>
+      <Helmet
+        title={isEditPage ? `Redigerer: ${event.title}` : 'Nytt arrangement'}
+      />
       {isEditPage && (
         <h2>
           <Link to={`/events/${eventId}`}>

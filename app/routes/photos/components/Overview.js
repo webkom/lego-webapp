@@ -1,6 +1,7 @@
 // @flow
 
 import { Component } from 'react';
+import { Helmet } from 'react-helmet';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import EmptyState from 'app/components/EmptyState';
 import { Content } from 'app/components/Content';
@@ -29,6 +30,7 @@ export default class Overview extends Component<Props> {
     } = this.props;
     return (
       <Content>
+        <Helmet title="Albumer" />
         {actionGrant && actionGrant.includes('create') && (
           <NavigationTab title="Albumer">
             <NavigationLink to="/photos/new">Nytt album</NavigationLink>

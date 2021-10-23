@@ -2,6 +2,7 @@
 
 import { Component } from 'react';
 import { Content } from 'app/components/Content';
+import { Helmet } from 'react-helmet';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import Poll from 'app/components/Poll';
 import PollEditor from './PollEditor';
@@ -36,6 +37,7 @@ class PollDetail extends Component<Props, State> {
   render() {
     return (
       <Content>
+        <Helmet title={this.props.poll.title} />
         <NavigationTab title={this.props.poll.title}>
           {this.props.actionGrant.includes('edit') && (
             <NavigationLink to="#" onClick={this.toggleEdit}>

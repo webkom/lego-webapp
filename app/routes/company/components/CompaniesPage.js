@@ -3,6 +3,7 @@
 import type { ElementRef } from 'react';
 
 import { createRef, Component } from 'react';
+import { Helmet } from 'react-helmet';
 import styles from './CompaniesPage.css';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import InfiniteScroll from 'react-infinite-scroller';
@@ -90,6 +91,7 @@ class CompaniesPage extends Component<Props, State> {
 
     return (
       <div className={styles.root}>
+        <Helmet title="Bedrifter" />
         <h2 ref={this.top} className={styles.heading}>
           Bedrifter
         </h2>

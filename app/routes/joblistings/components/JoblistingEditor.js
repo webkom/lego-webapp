@@ -1,6 +1,7 @@
 // @flow
 
 import { Component } from 'react';
+import { Helmet } from 'react-helmet';
 import styles from './JoblistingEditor.css';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
@@ -117,6 +118,7 @@ class JoblistingEditor extends Component<Props, State> {
 
     return (
       <Content>
+        <Helmet title={!isNew ? 'Rediger jobbannonse' : 'Ny jobbannonse'} />
         <h1 className={styles.heading}>
           {!isNew ? 'Rediger jobbannonse' : 'Legg til jobbannonse'}
         </h1>

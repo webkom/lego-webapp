@@ -1,6 +1,7 @@
 // @flow
 
 import { Component } from 'react';
+import { Helmet } from 'react-helmet';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { Route, Switch } from 'react-router-dom';
 import RouteWrapper from 'app/components/RouteWrapper';
@@ -27,6 +28,7 @@ const Group = (props: GroupProps) => {
 
   return (
     <div>
+      <Helmet title={props.group.name} />
       <header>
         <h2>{props.group.name}</h2>
         <span>{descriptionText}</span>

@@ -6,6 +6,7 @@ import type { SurveyEntity } from 'app/reducers/surveys';
 import { ListNavigation } from '../../utils';
 
 import { Content } from 'app/components/Content';
+import { Helmet } from 'react-helmet';
 
 type Props = {
   surveys: Array<SurveyEntity>,
@@ -18,6 +19,7 @@ type Props = {
 const SurveyPage = ({ surveys, fetching, push, hasMore, fetchAll }: Props) => {
   return (
     <Content>
+      <Helmet title="Spørreundersøkelser" />
       <ListNavigation title="Spørreundersøkelser" />
 
       {fetchAll && (

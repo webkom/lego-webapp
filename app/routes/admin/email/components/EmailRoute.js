@@ -4,6 +4,7 @@ import type { Node } from 'react';
 import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import { Content } from 'app/components/Content';
+import { Helmet } from 'react-helmet';
 
 type Props = {
   children: Node,
@@ -11,7 +12,8 @@ type Props = {
 
 const EmailPage = ({ children }: Props) => (
   <Content>
-    <NavigationTab title="Epost">
+    <Helmet title="E-post" />
+    <NavigationTab title="E-post">
       <NavigationLink to="/admin/email">Lister</NavigationLink>
       <NavigationLink to='/admin/email/users?filters={"internalEmailEnabled"%3A"true"}'>
         Brukere

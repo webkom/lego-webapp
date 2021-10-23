@@ -3,6 +3,7 @@
 import type { Node } from 'react';
 
 import { Component } from 'react';
+import { Helmet } from 'react-helmet';
 import { Content } from 'app/components/Content';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import Button from 'app/components/Button';
@@ -101,6 +102,7 @@ class EditPollForm extends Component<Props, *> {
 
     return (
       <Content>
+        <Helmet title={editing ? `Redigerer avstemning` : 'Ny avstemning'} />
         {!editing && (
           <NavigationTab title="Ny avstemning">
             <NavigationLink to="/polls">Tilbake</NavigationLink>

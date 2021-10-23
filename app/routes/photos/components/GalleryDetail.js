@@ -1,5 +1,6 @@
 // @flow
 
+import { Helmet } from 'react-helmet';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import type { Element } from 'react';
 import { Component, cloneElement } from 'react';
@@ -64,6 +65,7 @@ export default class GalleryDetail extends Component<Props, State> {
 
     return (
       <Content>
+        <Helmet title={gallery.title} />
         <NavigationTab
           title={gallery.title}
           details={<GalleryDetailsRow gallery={gallery} showDescription />}
