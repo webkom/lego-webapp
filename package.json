@@ -191,7 +191,8 @@
             "composes"
           ]
         }
-      ]
+      ],
+      "selector-class-pattern": null
     }
   },
   "jest": {
