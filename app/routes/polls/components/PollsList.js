@@ -1,5 +1,6 @@
 // @flow
 
+import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import { Content } from 'app/components/Content';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
@@ -27,6 +28,7 @@ const PollsList = ({
   fetching,
 }: Props) => (
   <Content>
+    <Helmet title="Avstemninger" />
     <NavigationTab title="Avstemninger">
       {actionGrant.includes('create') && (
         <NavigationLink to="/polls/new">Lag ny</NavigationLink>

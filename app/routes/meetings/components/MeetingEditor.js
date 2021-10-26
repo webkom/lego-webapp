@@ -1,5 +1,6 @@
 // @flow
 
+import { Helmet } from 'react-helmet';
 import styles from './MeetingEditor.css';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { Field } from 'redux-form';
@@ -78,7 +79,13 @@ function MeetingEditor({
 
   return (
     <div className={styles.root}>
-      <NavigationTab title="Nytt møte" className={styles.detailTitle}>
+      <Helmet
+        title={isEditPage ? `Redigerer: ${meeting.title}` : 'Nytt møte'}
+      />
+      <NavigationTab
+        title={isEditPage ? `Redigerer: ${meeting.title}` : 'Nytt møte'}
+        className={styles.detailTitle}
+      >
         <NavigationLink to="/meetings/">
           <i className="fa fa-angle-left" /> Mine møter
         </NavigationLink>

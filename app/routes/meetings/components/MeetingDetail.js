@@ -1,6 +1,7 @@
 // @flow
 
 import { Component } from 'react';
+import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import Time, { FromToTime } from 'app/components/Time';
 import CommentView from 'app/components/Comments/CommentView';
@@ -156,6 +157,7 @@ class MeetingDetails extends Component<Props> {
 
     return (
       <div>
+        <Helmet title={meeting.title} />
         <Content>
           <ContentHeader className={styles.heading}>
             <div style={{ flex: 1 }}>

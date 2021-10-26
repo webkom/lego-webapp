@@ -3,6 +3,7 @@
 import styles from '../surveys.css';
 import type { Element } from 'react';
 import { Component } from 'react';
+import { Helmet } from 'react-helmet';
 import { DetailNavigation, ListNavigation, QuestionTypes } from '../../utils';
 import Question from './Question';
 import { Field, FieldArray } from 'redux-form';
@@ -153,10 +154,11 @@ class SurveyEditor extends Component<Props, State> {
 
     return (
       <Content className={styles.detail}>
+        <Helmet title="Ny undersøkelse" />
         {survey && survey.id ? (
           <DetailNavigation title={titleField} surveyId={Number(survey.id)} />
         ) : (
-          <ListNavigation title={titleField} />
+          <ListNavigation title="Ny undersøkelse" />
         )}
         <ConfirmModalWithParent
           title="Bekreft bruk av mal"

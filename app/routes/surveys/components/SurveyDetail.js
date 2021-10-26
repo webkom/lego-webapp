@@ -1,6 +1,7 @@
 // @flow
 
 import { Component } from 'react';
+import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import Time from 'app/components/Time';
 import styles from './surveyDetail.css';
@@ -37,6 +38,7 @@ class SurveyDetail extends Component<Props> {
         className={styles.surveyDetail}
         banner={!survey.templateType && survey.event.cover}
       >
+        <Helmet title={survey.title} />
         <DetailNavigation title={survey.title} surveyId={Number(survey.id)} />
 
         <ContentSection>

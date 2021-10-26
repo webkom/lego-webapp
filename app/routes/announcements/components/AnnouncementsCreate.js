@@ -1,6 +1,7 @@
 // @flow
 
 import styles from './AnnouncementsList.css';
+import { Helmet } from 'react-helmet';
 import Flex from 'app/components/Layout/Flex';
 import { Form, SelectInput, TextArea } from 'app/components/Form';
 import { reduxForm, Field, reset } from 'redux-form';
@@ -40,6 +41,7 @@ const AnnouncementsCreate = ({
   };
   return (
     <ContentMain>
+      <Helmet title="Kunngjøringer" />
       {actionGrant.includes('create') && (
         <Flex column>
           <h2 className={styles.header}>Ny kunngjøring</h2>

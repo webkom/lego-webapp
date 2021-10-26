@@ -1,6 +1,7 @@
 // @flow
 
 import { Component } from 'react';
+import { Helmet } from 'react-helmet';
 import cx from 'classnames';
 import moment from 'moment-timezone';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
@@ -181,6 +182,9 @@ class GalleryEditor extends Component<Props, State> {
 
     return (
       <Content>
+        <Helmet
+          title={gallery ? `Redigerer: ${gallery.title}` : 'Nytt album'}
+        />
         <NavigationTab
           title={gallery ? `Redigerer: ${gallery.title}` : 'Nytt album'}
         >

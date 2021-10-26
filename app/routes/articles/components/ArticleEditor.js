@@ -2,6 +2,7 @@
 
 import { Content } from 'app/components/Content';
 import Button from 'app/components/Button';
+import { Helmet } from 'react-helmet';
 import { type UserEntity } from 'app/reducers/users';
 import { type ArticleEntity } from 'app/reducers/articles';
 import LoadingIndicator from 'app/components/LoadingIndicator';
@@ -61,6 +62,11 @@ const ArticleEditor = ({
 
   return (
     <Content>
+      <Helmet
+        title={
+          !isNew && article ? `Redigerer: ${article.title}` : 'Ny artikkel'
+        }
+      />
       <Form onSubmit={handleSubmit}>
         <Field
           name="cover"

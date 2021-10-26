@@ -1,6 +1,7 @@
 // @flow
 
 import styles from '../surveys.css';
+import { Helmet } from 'react-helmet';
 import { Field, SubmissionError } from 'redux-form';
 import Button from 'app/components/Button';
 import { TextArea, RadioButton, CheckBox, legoForm } from 'app/components/Form';
@@ -32,6 +33,7 @@ const SubmissionEditor = ({
 }: Props) => {
   return (
     <Content className={styles.surveyDetail} banner={survey.event.cover}>
+      <Helmet title={survey.title} />
       <ContentHeader>{survey.title}</ContentHeader>
 
       <div className={styles.surveyTime}>

@@ -1,6 +1,7 @@
 // @flow
 
 import type { Group } from 'app/models';
+import { Helmet } from 'react-helmet';
 import { Content } from 'app/components/Content';
 import ContactForm from './ContactForm';
 import type { ContactForm as ContactFormType } from 'app/reducers/contact';
@@ -18,6 +19,7 @@ type Props = {
 const Contact = (props: Props) => {
   return (
     <Content>
+      <Helmet title="Kontakt" />
       <h1>Kontaktskjema for Abakus</h1>
       <ContactForm {...props} />
     </Content>

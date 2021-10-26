@@ -1,5 +1,6 @@
 // @flow
 import { Component } from 'react';
+import { Helmet } from 'react-helmet';
 import GroupForm from 'app/components/GroupForm';
 import { Flex } from 'app/components/Layout';
 import { Content } from 'app/components/Content';
@@ -16,6 +17,7 @@ export default class InterestGroupEdit extends Component<{
 
     return (
       <Content>
+        <Helmet title="Opprett gruppe" />
         <h2>
           <Link to="/interestGroups/">
             <i className="fa fa-angle-left" />

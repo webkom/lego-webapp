@@ -1,6 +1,7 @@
 // @flow
 
 import QuoteList from './QuoteList';
+import { Helmet } from 'react-helmet';
 import styles from './Quotes.css';
 import cx from 'classnames';
 import { navigation } from '../utils';
@@ -59,6 +60,8 @@ export default function QuotePage({
   }
   return (
     <div className={cx(styles.root, styles.quoteContainer)}>
+      <Helmet title="Overhørt" />
+
       {navigation('Overhørt', actionGrant)}
 
       {errorMessage || (

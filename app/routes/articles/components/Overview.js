@@ -2,6 +2,7 @@
 
 import styles from './Overview.css';
 import { Component } from 'react';
+import { Helmet } from 'react-helmet';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { Link } from 'react-router-dom';
 import { Content } from 'app/components/Content';
@@ -66,6 +67,7 @@ export default class Overview extends Component<Props> {
     const normalEvents = articles.slice(HEADLINE_EVENTS);
     return (
       <Content>
+        <Helmet title="Artikler" />
         <NavigationTab title="Artikler">
           {actionGrant.includes('create') && (
             <NavigationLink to="/articles/new">Ny artikkel</NavigationLink>

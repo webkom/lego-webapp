@@ -1,6 +1,7 @@
 // @flow
 
 import styles from './InterestGroup.css';
+import { Helmet } from 'react-helmet';
 import InterestGroupComponent from './InterestGroup';
 import Button from 'app/components/Button';
 import { Content } from 'app/components/Content';
@@ -17,6 +18,7 @@ const InterestGroupList = ({ actionGrant, interestGroups }: Props) => {
   const canCreate = actionGrant.includes('create');
   return (
     <Content>
+      <Helmet title="Interessegrupper" />
       <div className={styles.section}>
         <div>
           <NavigationTab title="Interessegrupper">
