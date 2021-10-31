@@ -383,6 +383,19 @@ export function createUser(token: string, user: string): Thunk<*> {
     });
 }
 
+export function deleteUser(username: string): Thunk<any> {
+  return callAPI({
+    types: User.DELETE,
+    endpoint: `/users/${username}/delete_user`,
+    method: 'DELETE',
+    schema: userSchema,
+    meta: {
+      errorMessage: 'Sletting av bruker feilet',
+    },
+    body: {},
+  });
+}
+
 export function sendStudentConfirmationEmail(user: string): Thunk<any> {
   return callAPI({
     types: User.SEND_STUDENT_CONFIRMATION_TOKEN,
