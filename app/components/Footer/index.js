@@ -9,12 +9,13 @@ import Octocat from 'app/assets/Octocat.png';
 import Icon from 'app/components/Icon';
 import styles from './Footer.css';
 import moment from 'moment-timezone';
+import { Link } from 'react-router-dom';
 
 type Props = {
   loggedIn: boolean,
 };
 
-const Footer = (props: Props) => (
+const Footer = ({ loggedIn }: Props) => (
   <footer className={styles.footer}>
     <div className={styles.footerContent}>
       <Flex column>
@@ -64,6 +65,11 @@ const Footer = (props: Props) => (
             />
             <h2>Kontakt</h2>
             <a href="mailto:abakus@abakus.no">abakus@abakus.no</a>
+            {loggedIn && (
+              <p>
+                <Link to="/contact">Anonymt kontaktskjema</Link>
+              </p>
+            )}
             <p>Abakus</p>
             <p>Sem Sælands vei 7-9</p>
             <p>7491 Trondheim</p>
