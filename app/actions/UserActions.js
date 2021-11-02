@@ -8,6 +8,7 @@ import moment from 'moment-timezone';
 import { push } from 'connected-react-router';
 import { userSchema, penaltySchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
+import { addToast } from 'app/actions/ToastActions';
 import { User, FetchHistory, Penalty } from './ActionTypes';
 import { uploadFile } from './FileActions';
 import { fetchMeta } from './MetaActions';
@@ -383,17 +384,22 @@ export function createUser(token: string, user: string): Thunk<*> {
     });
 }
 
-export function deleteUser(username: string): Thunk<any> {
-  return callAPI({
-    types: User.DELETE,
-    endpoint: `/users/${username}/delete_user`,
-    method: 'DELETE',
-    schema: userSchema,
-    meta: {
-      errorMessage: 'Sletting av bruker feilet',
-    },
-    body: {},
-  });
+export function deleteUser(username: string): Thunk<Promise<*>> {
+  return (dispatch) =>
+    dispatch(
+      callAPI({
+        types: User.DELETE,
+        endpoint: `/users/${username}/`,
+        method: 'DELETE',
+        meta: {
+          id: username,
+          errorMessage: 'Sletting av bruker feilet',
+        },
+      })
+    ).then(() => {
+      dispatch(addToast({ message: 'Deleted' }));
+      dispatch(push('/'));
+    });
 }
 
 export function sendStudentConfirmationEmail(user: string): Thunk<any> {

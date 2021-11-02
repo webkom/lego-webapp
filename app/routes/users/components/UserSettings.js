@@ -18,6 +18,7 @@ import ChangePassword from './ChangePassword';
 import styles from './UserSettings.css';
 import { createValidator, required, isEmail } from 'app/utils/validation';
 import RemovePicture from 'app/routes/users/components/RemovePicture';
+import DeleteUser from 'app/routes/users/components/DeleteUser';
 
 export type PasswordPayload = {
   newPassword: string,
@@ -47,6 +48,7 @@ const UserSettings = (props: Props) => {
     removePicture,
     push,
     user,
+    deleteUser,
   } = props;
 
   const disabledButton = invalid || pristine || submitting;
@@ -176,6 +178,8 @@ const UserSettings = (props: Props) => {
           />
         </div>
       )}
+      <h2>Slette bruker</h2>
+      <DeleteUser username={user.username} deleteUser={deleteUser} />
     </div>
   );
 };
