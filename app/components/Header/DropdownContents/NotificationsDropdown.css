@@ -33,12 +33,7 @@ html[data-theme='dark'] .notifications {
   }
 
   &:active {
-    background-color: rgba(
-      var(--rgb-min), 
-      var(--rgb-min), 
-      var(--rgb-min), 
-      0.1
-    );
+    background-color: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.1);
   }
 }
 
@@ -66,4 +61,11 @@ html[data-theme='dark'] .notificationBell {
   &:hover {
     color: var(--color-gray-5);
   }
+}
+
+.dropdownSection {
+  padding: 28px;
+  position: relative;
+  z-index: 1;
+  font-size: 1.1em;
 }

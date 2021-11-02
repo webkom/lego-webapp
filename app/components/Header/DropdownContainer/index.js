@@ -1,12 +1,11 @@
 // @flow
 
-import React, { Component, Children, createRef } from 'react';
+import { Component, Children, createRef } from 'react';
 import type { Node } from 'react';
 import { Flipped } from 'react-flip-toolkit';
 import styled, { keyframes } from 'styled-components';
 import FadeContents from './FadeContents';
 import styles from '../Header.css';
-import { any } from 'prop-types';
 
 type Props = {
   children: Node,
@@ -14,14 +13,12 @@ type Props = {
   direction: 'left' | 'right',
 };
 
-const getFirstDropdownSectionHeight = (el) => {
-  if (
-    !el ||
-    !el.querySelector ||
-    !el.querySelector('*[data-first-dropdown-section]')
-  )
+const getFirstDropdownSectionHeight = (el: any): number => {
+  try {
+    return el.querySelector('*[data-first-dropdown-section]').offsetHeight;
+  } catch {
     return 0;
-  return el.querySelector('*[data-first-dropdown-section]').offsetHeight;
+  }
 };
 
 const updateAltBackground = ({
@@ -32,21 +29,24 @@ const updateAltBackground = ({
   const prevHeight = getFirstDropdownSectionHeight(prevDropdown);
   const currentHeight = getFirstDropdownSectionHeight(currentDropdown);
 
-  const immediateSetTranslateY = (el, translateY) => {
+  const immediateSetTranslateY = (el: any, translateY: number) => {
     el.style.transform = `translateY(${translateY}px)`;
     el.style.transition = 'transform 0s';
-    requestAnimationFrame(() => (el.style.transitionDuration = ''));
+    requestAnimationFrame(() => {
+      el.style.transitionDuration = '';
+    });
   };
 
   if (prevHeight) {
-    // transition the grey ("alt") background from its previous height to its current height
+    // Transition the grey "alt" background from its previous height to its current height
     immediateSetTranslateY(altBackground, prevHeight);
     requestAnimationFrame(() => {
-      altBackground.style.transform = `translateY(${currentHeight}px)`;
+      if (altBackground && altBackground.style) {
+        altBackground.style.transform = `translateY(${currentHeight}px)`;
+      }
     });
   } else {
-    // just immediately set the background to the appropriate height
-    // since we don't have a stored value
+    // Set the background to an appropriate height, since we don't have a stored value
     immediateSetTranslateY(altBackground, currentHeight);
   }
 };
@@ -70,7 +70,7 @@ const DropdownRoot = styled.div`
 `;
 
 class DropdownContainer extends Component<Props> {
-  altBackgroundEl = any; // ????
+  altBackgroundEl: any;
   currentDropdownEl = createRef<any>();
   prevDropdownEl = createRef<any>();
 
@@ -104,7 +104,7 @@ class DropdownContainer extends Component<Props> {
                   ref={(el) => (this.altBackgroundEl = el)}
                 />
                 <FadeContents
-                  animatingOut={false} // ???
+                  animatingOut={animatingOut}
                   direction={direction}
                   ref={this.currentDropdownEl}
                 >

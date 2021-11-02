@@ -3,7 +3,6 @@
 import { Component } from 'react';
 import { Link, NavLink, withRouter } from 'react-router-dom';
 import { Modal } from 'react-overlays';
-import Dropdown from '../Dropdown';
 import Icon from '../Icon';
 import Search from '../Search';
 import { ProfilePicture, Image } from '../Image';
@@ -18,13 +17,6 @@ import InfoDropdown from './DropdownContents/InfoDropdown';
 import NotificationsDropdown from './DropdownContents/NotificationsDropdown';
 import ProfileDropdown from './DropdownContents/ProfileDropdown';
 import LoginDropdown from './DropdownContents/LoginDropdown';
-import {
-  LoginForm,
-  RegisterForm,
-  ForgotPasswordForm,
-} from 'app/components/LoginForm';
-import { Flex } from 'app/components/Layout';
-import cx from 'classnames';
 import { applySelectedTheme, getOSTheme, getTheme } from 'app/utils/themeUtils';
 
 import type { UserEntity } from 'app/reducers/users';
@@ -50,7 +42,6 @@ type Props = {
 };
 
 type State = {
-  shake: boolean,
   mode: 'login' | 'register' | 'forgotPassword',
   activeIndices: Array<number>,
   animatingOut: boolean,
@@ -60,7 +51,6 @@ class Header extends Component<Props, State> {
   animatingOutTimeout: ?TimeoutID;
 
   state = {
-    shake: false,
     mode: 'login',
     activeIndices: [],
     animatingOut: false,
@@ -81,7 +71,8 @@ class Header extends Component<Props, State> {
     e.stopPropagation();
   };
 
-  resetDropdownState = (i: any) => {
+  // onMouseLeave does not pass 'i' into resetDropdownState
+  resetDropdownState = (i?: number) => {
     this.setState({
       activeIndices: typeof i === 'number' ? [i] : [],
       animatingOut: false,
@@ -95,7 +86,6 @@ class Header extends Component<Props, State> {
   };
 
   handleMarkAllNotifications = () => {
-    console.log("mark")
     this.props.markAllNotifications();
   };
 
@@ -124,8 +114,6 @@ class Header extends Component<Props, State> {
   render() {
     const { loggedIn, currentUser, loading, notificationsData } = this.props;
     const { unreadCount } = notificationsData;
-    const isLogin = this.state.mode === 'login';
-    let title, form;
 
     if (
       __CLIENT__ &&
@@ -136,23 +124,6 @@ class Header extends Component<Props, State> {
         : getTheme() !== currentUser.selectedTheme)
     ) {
       applySelectedTheme(currentUser.selectedTheme || 'light');
-    }
-
-    switch (this.state.mode) {
-      case 'login':
-        title = 'Logg inn';
-        form = <LoginForm />;
-        break;
-      case 'register':
-        title = 'Register';
-        form = <RegisterForm />;
-        break;
-      case 'forgotPassword':
-        title = 'Glemt passord';
-        form = <ForgotPasswordForm />;
-        break;
-      default:
-        break;
     }
 
     const MeetingButton = withRouter(({ history }) => (
@@ -178,7 +149,7 @@ class Header extends Component<Props, State> {
         dropdown: <InfoDropdown />,
         key: 'info',
         show: true,
-        title: 'Om abakus',
+        title: 'Om Abakus',
         to: '/pages/info-om-abakus',
       },
       {
@@ -199,26 +170,28 @@ class Header extends Component<Props, State> {
         ),
         to: '/timeline',
       },
-      // {
-      //   dropdown: <MeetingButton />,
-      //   key: 'meetings',
-      //   show: loggedIn && this.props.upcomingMeeting,
-      //   title: <Icon name="calendar" className={styles.meetingIcon} />,
-      //   to: `/meetings/${this.props.upcomingMeeting}`,
-      // },
       {
-        dropdown: <ProfileDropdown />,
+        dropdown: <MeetingButton />,
+        key: 'meetings',
+        show: loggedIn && this.props.upcomingMeeting,
+        title: <Icon name="calendar" className={styles.meetingIcon} />,
+        to: `/meetings/${this.props.upcomingMeeting}`,
+      },
+      {
+        dropdown: <ProfileDropdown user={this.props.currentUser} />,
         key: 'profile',
         show: loggedIn,
         title: <ProfilePicture size={30} alt="user" user={currentUser} />,
         to: '/users/me',
       },
       {
+        /*
         dropdown: <LoginDropdown />,
         key: 'login',
         show: !loggedIn,
         title: <Icon name="contact" size={30} />,
         to: '/',
+      */
       },
     ];
 
@@ -248,12 +221,12 @@ class Header extends Component<Props, State> {
                 <Image
                   src={logoLightMode}
                   className={styles.logoLightMode}
-                  alt=""
+                  alt="Abakus"
                 />
                 <Image
                   src={logoDarkMode}
                   className={styles.logoDarkMode}
-                  alt=""
+                  alt="Abakus"
                 />
               </div>
             </LoadingIndicator>
@@ -261,20 +234,20 @@ class Header extends Component<Props, State> {
 
           <div className={styles.menu}>
             <div className={styles.navigation}>
-              {!loggedIn ? (
-                <NavLink
-                  to="/pages/bedrifter/for-bedrifter"
-                  activeClassName={styles.activeNavbarItemTitle}
-                >
-                  For bedrifter
-                </NavLink>
-              ) : (
+              {loggedIn ? (
                 <NavLink
                   className={styles.navbarItemTitle}
                   activeClassName={styles.activeNavbarItemTitle}
                   to={'/joblistings'}
                 >
                   Karriere
+                </NavLink>
+              ) : (
+                <NavLink
+                  to="/pages/bedrifter/for-bedrifter"
+                  activeClassName={styles.activeNavbarItemTitle}
+                >
+                  For bedrifter
                 </NavLink>
               )}
 
@@ -309,91 +282,6 @@ class Header extends Component<Props, State> {
             </div>
 
             <div className={styles.buttonGroup}>
-              {/* {loggedIn && this.props.upcomingMeeting && <MeetingButton />} */}
-
-              {/* {loggedIn && (
-                <Dropdown
-                  show={this.state.accountOpen}
-                  toggle={() =>
-                    this.setState((state) => ({
-                      accountOpen: !state.accountOpen,
-                    }))
-                  }
-                  closeOnContentClick
-                  triggerComponent={
-                    <ProfilePicture
-                      size={30}
-                      alt="user"
-                      user={this.props.currentUser}
-                      style={{ verticalAlign: 'middle' }}
-                    />
-                  }
-                >
-                  <AccountDropdownItems
-                    onClose={() => {}}
-                    username={this.props.currentUser.username}
-                    logout={this.props.logout}
-                  />
-                </Dropdown>
-              )} */}
-
-              {!loggedIn && (
-                <Dropdown
-                  show={true} // this.state.accountOpen
-                  toggle={() =>
-                    this.setState((state) => ({
-                      // accountOpen: !state.accountOpen,
-                      shake: false,
-                    }))
-                  }
-                  closeOnContentClick
-                  contentClassName={cx(
-                    this.state.shake ? 'animated shake' : '',
-                    styles.dropdown
-                  )}
-                  triggerComponent={<Icon name="contact" size={30} />}
-                >
-                  <div style={{ padding: 10 }}>
-                    <Flex
-                      component="h2"
-                      justifyContent="space-between"
-                      allignItems="center"
-                      className="u-mb"
-                      style={{ whitespace: 'nowrap' }}
-                    >
-                      {title}
-                      {isLogin && (
-                        <div>
-                          <button
-                            onClick={this.toggleForgotPassword}
-                            className={styles.toggleButton}
-                          >
-                            Glemt passord
-                          </button>
-                          <span className={styles.toggleButton}>&bull;</span>
-                          <button
-                            onClick={this.toggleRegisterUser}
-                            className={styles.toggleButton}
-                          >
-                            Jeg er ny
-                          </button>
-                        </div>
-                      )}
-
-                      {!isLogin && (
-                        <button
-                          onClick={this.toggleBack}
-                          className={styles.toggleButton}
-                        >
-                          Tilbake
-                        </button>
-                      )}
-                    </Flex>
-                    {form}
-                  </div>
-                </Dropdown>
-              )}
-
               <button onClick={this.props.toggleSearch}>
                 <Icon name="menu" size={30} className={styles.searchIcon} />
               </button>

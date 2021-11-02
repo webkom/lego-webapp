@@ -1,6 +1,5 @@
 // @flow
 
-import { Component } from 'react';
 import cx from 'classnames';
 import { activityRenderers } from 'app/components/Feed';
 import Time from 'app/components/Time';
@@ -20,47 +19,47 @@ type State = {
   alreadyFetchedNotifications: boolean,
 };
 
-const NotificationElement = ({ notification }: { notification: Object }) => {
+const NotificationElement = ({
+  notification,
+}: {
+  notification: Object,
+}): Object => {
   const renders = activityRenderers[notification.verb];
-  if (renders) {
-    return (
-      <Link to={renders.getURL(notification)}>
-        <div
-          className={cx(
-            styles.notification,
-            !notification.read ? styles.unRead : null
-          )}
-        >
-          <div className={styles.innerNotification}>
-            <div className={styles.icon}>{renders.icon(notification)}</div>
-            <div>
-              {renders.activityHeader(notification, toSpan)}
-              <Time
-                time={notification.updatedAt}
-                wordsAgo
-                style={{ margin: '0', display: 'block' }}
-              />
-            </div>
-          </div>
+
+  if (renders) return null;
+
+  <Link to={renders.getURL(notification)}>
+    <div
+      className={cx(
+        styles.notification,
+        !notification.read ? styles.unRead : null
+      )}
+    >
+      <div className={styles.innerNotification}>
+        <div className={styles.icon}>{renders.icon(notification)}</div>
+        <div>
+          {renders.activityHeader(notification, toSpan)}
+          <Time
+            time={notification.updatedAt}
+            wordsAgo
+            style={{ margin: '0', display: 'block' }}
+          />
         </div>
-      </Link>
-    );
-  }
-  return null;
+      </div>
+    </div>
+  </Link>;
 };
 
 const NotificationsDropdown = (props: Props) => {
-  const renderNotifications = (notifications: Array<Object>) => {
-    return (
-      <div>
-        {notifications.map((notification) => (
-          <ErrorBoundary hidden key={notification.id}>
-            <NotificationElement notification={notification} />
-          </ErrorBoundary>
-        ))}
-      </div>
-    );
-  };
+  const renderNotifications = (notifications: Array<Object>) => (
+    <div>
+      {notifications.map((notification) => (
+        <ErrorBoundary hidden key={notification.id}>
+          <NotificationElement notification={notification} />
+        </ErrorBoundary>
+      ))}
+    </div>
+  );
 
   const { notifications } = props;
 

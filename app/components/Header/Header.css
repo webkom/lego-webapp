@@ -103,7 +103,7 @@
 
 .dropdown {
   width: 355px;
-  padding: 15px;
+  padding: 0.9em;
 
   @media (--small-viewport) {
     width: 100%;
@@ -122,7 +122,7 @@
   align-items: center;
   flex: 2;
   white-space: nowrap;
-  margin-right: 5px;
+  margin-right: 0.3em;
 
   @media (--mobile-device) {
     display: none;
@@ -152,7 +152,7 @@
   font-family: -apple-system, system-ui, 'Segoe UI', 'Roboto', 'Helvetica Neue',
     Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
-  font-size: 21px;
+  font-size: 1.3em;
   padding: 0 1.5rem 0 1.5rem;
   color: var(--color-dark-gray-4);
   display: flex;
@@ -200,7 +200,7 @@
 }
 
 .dropdownLink:hover .icon {
-  transform: translate(10px, 0);
+  transform: translate(0.6em, 0);
 }
 
 .dropdownLink:hover .iconFrame {
@@ -247,8 +247,6 @@
   margin-bottom: 28px;
 }
 
-/* info dropdown */
-
 .infoDropdownEl {
   width: 30rem;
 }
@@ -283,9 +281,9 @@
   transform-origin: 0 0;
   will-change: transform;
   animation-duration: 300ms;
-  /* use 'forwards' to prevent flicker on leave animation */
+  /* Use 'forwards' to prevent flicker on leave animation */
   animation-fill-mode: forwards;
-  /* flex styles will center the caret child component */
+  /* Flex styles will center the caret child component */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -299,7 +297,7 @@
   border-width: 10px;
   border-style: solid;
   border-color: transparent transparent var(--color-white);
-  /* make sure it's above the main dropdown container so now box-shadow bleeds over it */
+  /* Make sure it's above the main dropdown container so now box-shadow bleeds over it */
   z-index: 1;
   position: relative;
   top: 2px;
@@ -314,7 +312,7 @@
   left: -100%;
   transform-origin: 0 0;
   z-index: 0;
-  transition: transform 300ms;
+  transition: transform 300ms ease-in-out;
 }
 
 .invertedDiv {
@@ -322,6 +320,7 @@
   position: relative;
   top: 0;
   left: 0;
+
   &:first-of-type {
     z-index: 1;
   }
@@ -338,8 +337,8 @@
   left: 0;
 }
 
-.logoLightMode,
-.logoDarkMode {
+.logoDarkMode,
+.logoLightMode {
   display: none;
 }
 
