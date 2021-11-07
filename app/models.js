@@ -120,6 +120,7 @@ export type Group = {
   text: string,
   logo: ?string,
   showBadge: boolean,
+  active: boolean,
   contactEmail: string,
 };
 

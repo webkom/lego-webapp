@@ -16,6 +16,15 @@ export type Props = {
 
 const InterestGroupList = ({ actionGrant, interestGroups }: Props) => {
   const canCreate = actionGrant.includes('create');
+  // Sorts interest groups in alphabetical order. Sorting using localeCompare will fail to sort ÆØÅ correctly.
+  // Use spread operator to do sorting not in-place
+  const activeGroups = [...interestGroups]
+    .filter((a) => a.active)
+    .sort((obj1, obj2) => obj1.name.localeCompare(obj2.name));
+  const notActiveGroups = [...interestGroups]
+    .filter((a) => !a.active)
+    .sort((obj1, obj2) => obj1.name.localeCompare(obj2.name));
+
   return (
     <Content>
       <Helmet title="Interessegrupper" />
@@ -38,12 +47,18 @@ const InterestGroupList = ({ actionGrant, interestGroups }: Props) => {
         </div>
       </div>
       <div className="groups">
-        {/* Sorts interest groups in alphabetical order. Sorting using localeCompare will fail to sort ÆØÅ correctly. Use spread operator to do sorting not in-place*/}
-        {[...interestGroups]
-          .sort((obj1, obj2) => obj1.name.localeCompare(obj2.name))
-          .map((group) => (
-            <InterestGroupComponent group={group} key={group.id} />
-          ))}
+        {activeGroups.map((g) => (
+          <InterestGroupComponent group={g} key={g.id} active={true} />
+        ))}
+        <h2> Ikke aktive interessegrupper </h2>
+        <p>
+          Send gjerne mail til
+          <a href="mailTo:interessegrupper@abakus.no"> oss </a> hvis du ønsker å
+          åpne en av disse igjen!
+        </p>
+        {notActiveGroups.map((g) => (
+          <InterestGroupComponent group={g} key={g.id} active={false} />
+        ))}
       </div>
     </Content>
   );
