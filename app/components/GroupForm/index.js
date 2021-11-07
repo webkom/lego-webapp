@@ -63,6 +63,14 @@ function GroupForm({
           normalize={(v) => !!v}
         />
       </Tooltip>
+      <Tooltip content="Er dette en aktiv gruppe?">
+        <Field
+          label="Aktiv gruppe"
+          name="active"
+          component={CheckBox.Field}
+          normalize={(v) => !!v}
+        />
+      </Tooltip>
       <Field
         label="Beskrivelse"
         placeholder="Vil du strikke din egen lue? Eller har du allerede […]"

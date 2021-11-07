@@ -221,7 +221,7 @@ export function fetchMembershipsPagination({
 
 export function createGroup(group: Object): Thunk<*> {
   return (dispatch) => {
-    const { name, description, text, logo, type } = group;
+    const { name, description, text, logo, type, showBadge, active } = group;
     return dispatch(
       callAPI({
         types: Group.CREATE,
@@ -234,6 +234,8 @@ export function createGroup(group: Object): Thunk<*> {
           text,
           logo,
           type,
+          showBadge,
+          active,
         },
         meta: {
           group,

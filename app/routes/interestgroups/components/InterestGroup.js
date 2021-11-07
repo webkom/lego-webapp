@@ -11,20 +11,28 @@ const SAMPLE_LOGO = 'https://i.imgur.com/Is9VKjb.jpg';
 
 type Props = {
   group: Group,
+  active: boolean,
 };
 
-const InterestGroupComponent = ({ group }: Props) => {
+const InterestGroupComponent = ({ group, active }: Props) => {
   return (
     <Flex className={styles.listItem}>
       <Flex column className={styles.listItemContent} style={{ flex: '1' }}>
         <Link to={`/interestgroups/${group.id}`} className={styles.link}>
-          <h2>{group.name}</h2>
+          <h2 style={!active ? { color: 'grey' } : {}}>{group.name}</h2>
         </Link>
-        <div>{group.description}</div>
-        <div>{group.numberOfUsers} medlemmer</div>
+        {active && (
+          <>
+            <div>{group.description}</div>
+            <div>{group.numberOfUsers} medlemmer</div>
+          </>
+        )}
       </Flex>
       <Flex justifyContent="center" column>
-        <Image className={styles.logoSmall} src={group.logo || SAMPLE_LOGO} />
+        <Image
+          className={active ? styles.logoMedium : styles.logoSmall}
+          src={group.logo || SAMPLE_LOGO}
+        />
       </Flex>
     </Flex>
   );

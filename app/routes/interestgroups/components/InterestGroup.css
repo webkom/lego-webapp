@@ -5,10 +5,18 @@
   max-width: 500px;
 }
 
-.logoSmall {
+.logoMedium {
   max-height: 100px;
   max-width: 100px;
   border-radius: 100%;
+}
+
+.logoSmall {
+  max-height: 50px;
+  max-width: 50px;
+  border-radius: 100%;
+  filter: grayscale(100%);
+  opacity: 0.7;
 }
 
 .description {

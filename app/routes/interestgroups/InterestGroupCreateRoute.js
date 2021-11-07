@@ -20,6 +20,8 @@ const mapStateToProps = (state, props) => {
   return {
     initialValues: {
       text: '',
+      showBadge: true,
+      active: true,
     },
     groupMembers: valueSelector(state, 'members') || [],
   };
