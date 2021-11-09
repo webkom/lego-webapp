@@ -71,10 +71,10 @@ const LandingPage = ({
         alignItems="flex-end"
         justifyContent="center"
       >
-        <Statistic statistic="9" label="Komiteer" />
-        <Statistic statistic="3" label="Undergrupper" />
-        <Statistic statistic="24" label="Interessegrupper" />
-        <Statistic statistic="800+" label="Medlemmer" />
+        <Statistic statistic="10" label="Komiteer" />
+        <Statistic statistic="5" label="Undergrupper" />
+        <Statistic statistic="32" label="Interessegrupper" />
+        <Statistic statistic="1000+" label="Medlemmer" />
         <Statistic
           topLabel="Stiftet i"
           statistic="1977"
