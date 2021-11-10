@@ -1,7 +1,7 @@
 // @flow
 
+import { useState, useEffect } from 'react';
 import styles from './Event.css';
-import { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { compose } from 'redux';
@@ -173,11 +173,12 @@ const SpotsLeft = ({ activeCapacity, spotsLeft }: SpotsLeftProps) => {
     </div>
   );
 };
-class JoinEventForm extends Component<Props> {
-  submitWithType = (handleSubmit, feedbackName, type) => {
+
+const JoinEventForm = (props: Props) => {
+  const submitWithType = (handleSubmit, feedbackName, type) => {
     if (type === 'unregister') {
       return handleSubmit(() =>
-        this.props.onSubmit({
+        props.onSubmit({
           type,
         })
       );
@@ -185,14 +186,14 @@ class JoinEventForm extends Component<Props> {
 
     return handleSubmit((values) => {
       const feedback = values[feedbackName];
-      if (this.props.event.feedbackRequired && !feedback) {
+      if (event.feedbackRequired && !feedback) {
         throw new SubmissionError({
           feedbackRequired:
             'Tilbakemelding er påkrevet for dette arrangementet',
         });
       }
 
-      return this.props.onSubmit({
+      return props.onSubmit({
         captchaResponse: values.captchaResponse,
         feedback,
         type,
@@ -200,239 +201,261 @@ class JoinEventForm extends Component<Props> {
     });
   };
 
-  render() {
-    const {
-      title,
-      event,
-      registration,
-      currentUser,
-      handleSubmit,
-      createPaymentIntent,
-      invalid,
-      pristine,
-      submitting,
-      buttonOpen,
-      formOpen,
-      penalties,
-      captchaOpen,
-      registrationOpensIn,
-      registrationPending,
-    } = this.props;
+  const {
+    title,
+    event,
+    registration,
+    currentUser,
+    handleSubmit,
+    createPaymentIntent,
+    invalid,
+    pristine,
+    submitting,
+    buttonOpen,
+    formOpen,
+    penalties,
+    captchaOpen,
+    registrationOpensIn,
+    registrationPending,
+  } = props;
 
-    const joinTitle = !registration ? 'Meld deg på' : 'Avregistrer';
-    const registrationType = !registration ? 'register' : 'unregister';
+  const joinTitle = !registration ? 'Meld deg på' : 'Avregistrer';
+  const registrationType = !registration ? 'register' : 'unregister';
 
-    const feedbackName = getFeedbackName(event);
-    const feedbackLabel = getFeedbackLabel(event);
+  const feedbackName = getFeedbackName(event);
+  const feedbackLabel = getFeedbackLabel(event);
 
-    const isInvalid = registrationOpensIn !== null || invalid;
-    const isPristine = event.feedbackRequired && pristine;
-    const disabledButton = !registration
-      ? isInvalid || isPristine || submitting
-      : false;
-    const disabledForUser = !formOpen && !event.activationTime && !registration;
-    const showPenaltyNotice = Boolean(
-      event.heedPenalties &&
-        moment().isAfter(event.unregistrationDeadline) &&
-        registration &&
-        registration.pool
-    );
-    const showCaptcha =
-      !submitting &&
-      !registrationPending &&
-      !registration &&
-      captchaOpen &&
-      event.useCaptcha;
-    const showStripe =
-      event.useStripe &&
-      event.isPriced &&
-      event.price > 0 &&
+  const isInvalid = registrationOpensIn !== null || invalid;
+  const isPristine = event.feedbackRequired && pristine;
+  const disabledButton = !registration
+    ? isInvalid || isPristine || submitting
+    : false;
+  const disabledForUser = !formOpen && !event.activationTime && !registration;
+  const showPenaltyNotice = Boolean(
+    event.heedPenalties &&
+      moment().isAfter(event.unregistrationDeadline) &&
       registration &&
-      registration.pool &&
-      ![paymentManual, paymentSuccess].includes(registration.paymentStatus);
+      registration.pool
+  );
+  const showCaptcha =
+    !submitting &&
+    !registrationPending &&
+    !registration &&
+    captchaOpen &&
+    event.useCaptcha;
+  const showStripe =
+    event.useStripe &&
+    event.isPriced &&
+    event.price > 0 &&
+    registration &&
+    registration.pool &&
+    ![paymentManual, paymentSuccess].includes(registration.paymentStatus);
 
-    if (registrationIsClosed(event)) {
-      return (
-        <>
-          {!formOpen && registration && showStripe && (
-            <PaymentForm
-              createPaymentIntent={createPaymentIntent}
-              event={event}
-              currentUser={currentUser}
-              registration={registration}
-            />
-          )}
-        </>
-      );
-    }
+  const [registrationPendingDelayed, setRegistrationPendingDelayed] = useState(
+    false
+  );
 
-    const registrationMessage = (event) => {
-      switch (event.eventStatusType) {
-        case 'OPEN':
-          return <div>Dette arrangementet krever ingen påmelding</div>;
-        case 'TBA':
-          return (
-            <div>Påmelding til dette arrangementet er ikke bestemt enda</div>
-          );
-        default:
-          return null;
-      }
-    };
+  useEffect(() => {
+    const timer = setTimeout(
+      () =>
+        registrationPending !== undefined &&
+        setRegistrationPendingDelayed(registrationPending),
+      2000
+    );
+    return () => clearTimeout(timer);
+  }, [registrationPending]);
 
+  const [showStripeDelayed, setShowStripeDelayed] = useState(false);
+  console.log(showStripe);
+
+  useEffect(() => {
+    console.log(showStripe);
+    const timer = setTimeout(() => setShowStripeDelayed(showStripe), 2000);
+    return () => clearTimeout(timer);
+  }, [showStripe]);
+
+  if (registrationIsClosed(event)) {
     return (
       <>
-        <div className={styles.joinHeader}>Påmelding</div>
-        <Flex column className={styles.join}>
-          {['OPEN', 'TBA'].includes(event.eventStatusType) ? (
-            registrationMessage(event)
-          ) : (
-            <>
-              {!formOpen && event.activationTime && (
-                <div>
-                  {new Date(event.activationTime) < new Date()
-                    ? 'Åpnet '
-                    : 'Åpner '}
-                  <Time time={event.activationTime} format="nowToTimeInWords" />
-                </div>
-              )}
-              {disabledForUser && (
-                <div>Du kan ikke melde deg på dette arrangementet.</div>
-              )}
-              {sumPenalties(penalties) > 0 && event.heedPenalties && (
-                <div className={styles.eventWarning}>
-                  <p>
-                    NB!{' '}
-                    {sumPenalties(penalties) > 2
-                      ? `Du blir lagt rett på venteliste hvis du melder deg på`
-                      : `Påmeldingen din er forskyvet
+        {!formOpen && registration && showStripe && (
+          <PaymentForm
+            createPaymentIntent={createPaymentIntent}
+            event={event}
+            currentUser={currentUser}
+            registration={registration}
+          />
+        )}
+      </>
+    );
+  }
+
+  const registrationMessage = (event) => {
+    switch (event.eventStatusType) {
+      case 'OPEN':
+        return <div>Dette arrangementet krever ingen påmelding</div>;
+      case 'TBA':
+        return (
+          <div>Påmelding til dette arrangementet er ikke bestemt enda</div>
+        );
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <>
+      <div className={styles.joinHeader}>Påmelding</div>
+      <Flex column className={styles.join}>
+        {['OPEN', 'TBA'].includes(event.eventStatusType) ? (
+          registrationMessage(event)
+        ) : (
+          <>
+            {!formOpen && event.activationTime && (
+              <div>
+                {new Date(event.activationTime) < new Date()
+                  ? 'Åpnet '
+                  : 'Åpner '}
+                <Time time={event.activationTime} format="nowToTimeInWords" />
+              </div>
+            )}
+            {disabledForUser && (
+              <div>Du kan ikke melde deg på dette arrangementet.</div>
+            )}
+            {sumPenalties(penalties) > 0 && event.heedPenalties && (
+              <div className={styles.eventWarning}>
+                <p>
+                  NB!{' '}
+                  {sumPenalties(penalties) > 2
+                    ? `Du blir lagt rett på venteliste hvis du melder deg på`
+                    : `Påmeldingen din er forskyvet
                       ${penaltyHours(penalties)} timer`}{' '}
-                    fordi du har {sumPenalties(penalties)}{' '}
-                    {sumPenalties(penalties) > 1 ? 'prikker' : 'prikk'}.
+                  fordi du har {sumPenalties(penalties)}{' '}
+                  {sumPenalties(penalties) > 1 ? 'prikker' : 'prikk'}.
+                </p>
+                <Link to="/pages/arrangementer/26-arrangementsregler">
+                  Les mer om prikker her
+                </Link>
+              </div>
+            )}
+            {!disabledForUser &&
+              event.useContactTracing &&
+              !currentUser.phoneNumber && (
+                <div className={styles.eventWarning}>
+                  <p>NB!</p>
+                  <p>
+                    Du må legge til telefonnummer for å melde deg på dette
+                    arrangementet.
                   </p>
-                  <Link to="/pages/arrangementer/26-arrangementsregler">
-                    Les mer om prikker her
+                  <Link to={`/users/me/settings/profile`}>
+                    Gå til innstillinger
                   </Link>
                 </div>
               )}
-              {!disabledForUser &&
-                event.useContactTracing &&
-                !currentUser.phoneNumber && (
-                  <div className={styles.eventWarning}>
-                    <p>NB!</p>
-                    <p>
-                      Du må legge til telefonnummer for å melde deg på dette
-                      arrangementet.
-                    </p>
-                    <Link to={`/users/me/settings/profile`}>
-                      Gå til innstillinger
-                    </Link>
-                  </div>
-                )}
-              {formOpen &&
-                (event.useContactTracing ? currentUser.phoneNumber : true) && (
-                  <Flex column>
-                    <Form
-                      onSubmit={this.submitWithType(
-                        handleSubmit,
-                        feedbackName,
-                        registrationType
-                      )}
-                    >
-                      {showCaptcha && (
-                        <Field
-                          name="captchaResponse"
-                          fieldStyle={{ width: 304 }}
-                          component={Captcha.Field}
-                        />
-                      )}
-                      {event.activationTime && registrationOpensIn && (
-                        <Flex alignItems="center">
-                          <Button disabled={disabledButton}>
-                            {`Åpner om ${registrationOpensIn}`}
-                          </Button>
+            {formOpen &&
+              (event.useContactTracing ? currentUser.phoneNumber : true) && (
+                <Flex column>
+                  <Form
+                    onSubmit={submitWithType(
+                      handleSubmit,
+                      feedbackName,
+                      registrationType
+                    )}
+                  >
+                    {showCaptcha && (
+                      <Field
+                        name="captchaResponse"
+                        fieldStyle={{ width: 304 }}
+                        component={Captcha.Field}
+                      />
+                    )}
+                    {event.activationTime && registrationOpensIn && (
+                      <Flex alignItems="center">
+                        <Button disabled={disabledButton}>
+                          {`Åpner om ${registrationOpensIn}`}
+                        </Button>
+                      </Flex>
+                    )}
+                    {buttonOpen && !submitting && !registrationPending && (
+                      <>
+                        <Flex
+                          alignItems="center"
+                          justifyContent="space-between"
+                        >
+                          <SubmitButton
+                            disabled={disabledButton}
+                            onSubmit={submitWithType(
+                              handleSubmit,
+                              feedbackName,
+                              registrationType
+                            )}
+                            type={registrationType}
+                            title={title || joinTitle}
+                            showPenaltyNotice={showPenaltyNotice}
+                          />
                         </Flex>
-                      )}
-                      {buttonOpen && !submitting && !registrationPending && (
-                        <>
-                          <Flex
-                            alignItems="center"
-                            justifyContent="space-between"
-                          >
-                            <SubmitButton
-                              disabled={disabledButton}
-                              onSubmit={this.submitWithType(
-                                handleSubmit,
-                                feedbackName,
-                                registrationType
-                              )}
-                              type={registrationType}
-                              title={title || joinTitle}
-                              showPenaltyNotice={showPenaltyNotice}
-                            />
-                          </Flex>
-                          {!registration && (
-                            <SpotsLeft
-                              activeCapacity={event.activeCapacity}
-                              spotsLeft={event.spotsLeft}
-                            />
-                          )}
-                        </>
-                      )}
-                      {submitting && (
+                        {!registration && (
+                          <SpotsLeft
+                            activeCapacity={event.activeCapacity}
+                            spotsLeft={event.spotsLeft}
+                          />
+                        )}
+                      </>
+                    )}
+                    {submitting ||
+                      (registrationPending && !registrationPendingDelayed && (
                         <LoadingIndicator
                           loading
                           loadingStyle={{ margin: '5px auto' }}
                         />
-                      )}
-                      {registrationPending && <RegistrationPending />}
-                    </Form>
+                      ))}
+                    {registrationPendingDelayed && <RegistrationPending />}
+                  </Form>
 
-                    <label className={formStyles.label} htmlFor={feedbackName}>
-                      {feedbackLabel}
-                    </label>
-                    <Flex style={{ marginBottom: '20px' }}>
-                      <Field
-                        id={feedbackName}
-                        placeholder="Melding til arrangører"
-                        name={feedbackName}
-                        component={TextInput.Field}
-                        labelClassName={styles.feedbackLabel}
-                        className={styles.feedbackText}
-                        fieldClassName={styles.feedbackField}
-                        rows={1}
-                      />
-                      {registration && (
-                        <Button
-                          type="button"
-                          onClick={this.submitWithType(
-                            handleSubmit,
-                            feedbackName,
-                            'feedback'
-                          )}
-                          className={styles.feedbackUpdateButton}
-                          disabled={pristine}
-                        >
-                          Oppdater
-                        </Button>
-                      )}
-                    </Flex>
-                    {registration && showStripe && (
-                      <PaymentForm
-                        event={event}
-                        createPaymentIntent={createPaymentIntent}
-                        currentUser={currentUser}
-                        registration={registration}
-                      />
+                  <label className={formStyles.label} htmlFor={feedbackName}>
+                    {feedbackLabel}
+                  </label>
+                  <Flex style={{ marginBottom: '20px' }}>
+                    <Field
+                      id={feedbackName}
+                      placeholder="Melding til arrangører"
+                      name={feedbackName}
+                      component={TextInput.Field}
+                      labelClassName={styles.feedbackLabel}
+                      className={styles.feedbackText}
+                      fieldClassName={styles.feedbackField}
+                      rows={1}
+                    />
+                    {registration && (
+                      <Button
+                        type="button"
+                        onClick={submitWithType(
+                          handleSubmit,
+                          feedbackName,
+                          'feedback'
+                        )}
+                        className={styles.feedbackUpdateButton}
+                        disabled={pristine}
+                      >
+                        Oppdater
+                      </Button>
                     )}
                   </Flex>
-                )}
-            </>
-          )}
-        </Flex>
-      </>
-    );
-  }
-}
+                  {registration && showStripeDelayed && (
+                    <PaymentForm
+                      event={event}
+                      createPaymentIntent={createPaymentIntent}
+                      currentUser={currentUser}
+                      registration={registration}
+                    />
+                  )}
+                </Flex>
+              )}
+          </>
+        )}
+      </Flex>
+    </>
+  );
+};
 
 function getFeedbackName(event: Event): string {
   return event.feedbackRequired ? 'feedbackRequired' : 'feedback';
