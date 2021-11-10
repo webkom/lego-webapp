@@ -3,59 +3,148 @@
 .footer {
   width: 100%;
   background-color: var(--lego-footer-color);
-  color: var(--color-white);
-  margin-top: 50px;
-  display: flex;
+  color: var(--color-almost-white-1);
+  margin-top: 3.1em;
+  font-family: 'Roboto', sans-serif;
 
   @media (--lego-max-width) {
-    margin-top: 0;
+    margin-top: 0.5em;
   }
 }
 
 html[data-theme='dark'] .footer {
-  color: var(--color-dark);
-}
-
-.footer h2 {
-  margin-top: 0;
-  text-transform: uppercase;
-  font-size: 20px;
+  color: #f9f9f9;
 }
 
 .footerContent {
   composes: container from '~app/styles/utilities.css';
   display: flex;
-  padding: 20px 0;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0.9em;
+  background: url('app/assets/skyline.svg') bottom center no-repeat;
+
+  @media (--small-viewport) {
+    justify-content: center;
+  }
 }
 
-.section {
-  flex: 1;
-  text-align: center;
-  padding: 20px;
+.footerContent a {
+  color: #5d0909;
+  transition: all 100ms ease-in-out;
+  margin-bottom: 0.5em;
 }
 
-.cooperator {
-  width: 200px;
-  height: auto;
-  margin: 10px auto 15px;
+.bottomContent a {
+  color: #460707;
+  transition: all 100ms ease-in-out;
 }
 
-.desktopLogo {
-  margin-top: 130px;
+.footerContent a:hover {
+  color: #a21010;
+  text-shadow: 0 0 0.003em #740b0b;
+}
+
+.bottomContent a:hover {
+  color: #740b0b;
+  text-shadow: 0 0 0.003em #460707;
+}
+
+.footerContent .section {
+  width: 20em;
+}
+
+.subHeader {
+  text-transform: uppercase;
+  color: #5d0909;
+  font-size: 1.75em;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: bold;
 }
 
 .octocat {
-  width: 40px;
+  display: inline-block;
+  width: 1.3em;
   height: auto;
+  margin-left: 1px;
+  transition: transform 400ms linear;
+  transform-style: preserve-3d;
 }
 
-.cookiesDiv {
+.gitHubLink:hover .octocat {
+  transform: rotate(360deg);
+}
+
+.section p {
+  line-height: 1.4em;
+  margin-bottom: 0.5em;
+}
+
+.rightSection {
   display: flex;
-  width: 100%;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: flex-end;
+  text-align: right;
+
+  @media (--small-viewport) {
+    text-align: center;
+  }
 }
 
-.cookiesBox {
-  justify-content: center;
-  color: var(--color-grey);
+.socialMedia {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  padding-top: 0.4em;
+  gap: 1.2em;
+
+  @media (--small-viewport) {
+    justify-content: center;
+  }
+}
+
+.socialMediaIcon {
+  width: 2.5em;
+  height: auto;
+  transition: transform 100ms ease-in-out;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+.legoLinks {
+  display: flex;
+  flex-direction: row;
+  letter-spacing: 1.1px;
+  gap: 0.7em;
+}
+
+.pipe {
+  font-weight: bold;
+}
+
+.bottom {
+  width: 100%;
+  background-color: var(--lego-dark-red-color);
+}
+
+.bottomContent {
+  composes: container from '~app/styles/utilities.css';
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 1em;
+  gap: 0.5em;
+
+  @media (--small-viewport) {
+    flex-direction: column;
+  }
+}
+
+.cooperator {
+  height: 1.3em;
+  width: auto;
 }
