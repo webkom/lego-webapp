@@ -10,11 +10,13 @@ import { Form, Captcha, TextInput } from 'app/components/Form';
 import Button from 'app/components/Button';
 import PaymentRequestForm from './StripeElement';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
-import LoadingIndicator from 'app/components/LoadingIndicator';
+import LoadingIndicator, { ProgressBar } from 'app/components/LoadingIndicator';
 import Time from 'app/components/Time';
 import { Flex } from 'app/components/Layout';
 import withCountdown from './JoinEventFormCountdownProvider';
 import formStyles from 'app/components/Form/Field.css';
+import Icon from 'app/components/Icon';
+import Tooltip from 'app/components/Tooltip';
 import moment from 'moment-timezone';
 import {
   paymentSuccess,
@@ -44,6 +46,7 @@ export type Props = {
   invalid: boolean,
   pristine: boolean,
   submitting: boolean,
+  registrationPending: boolean,
   formOpen: boolean,
   captchaOpen: boolean,
   buttonOpen: boolean,
@@ -102,6 +105,26 @@ const SubmitButton = ({
     </ConfirmModalWithParent>
   );
 };
+
+const RegistrationPending = () => (
+  <div className={styles.registrationPending}>
+    <span className={styles.registrationPendingHeader}>
+      <h3>Vi behandler din registrering.</h3>
+    </span>
+    <p>
+      Det kan ta et øyeblikk eller to.
+      <br />
+      <i>Du trenger ikke refreshe siden.</i>
+      <Tooltip
+        content="Om det tar lang tid, kan du refreshe siden for å hente siste status på din registrering. Denne boksen vil da forsvinne, men din registrering vil fortsatt behandles."
+        renderDirection="center"
+      >
+        <Icon name="information-circle-outline" size={20} />
+      </Tooltip>
+    </p>
+    <ProgressBar />
+  </div>
+);
 
 const PaymentForm = ({
   createPaymentIntent,
@@ -193,6 +216,7 @@ class JoinEventForm extends Component<Props> {
       penalties,
       captchaOpen,
       registrationOpensIn,
+      registrationPending,
     } = this.props;
 
     const joinTitle = !registration ? 'Meld deg på' : 'Avregistrer';
@@ -214,7 +238,11 @@ class JoinEventForm extends Component<Props> {
         registration.pool
     );
     const showCaptcha =
-      !submitting && !registration && captchaOpen && event.useCaptcha;
+      !submitting &&
+      !registrationPending &&
+      !registration &&
+      captchaOpen &&
+      event.useCaptcha;
     const showStripe =
       event.useStripe &&
       event.isPriced &&
@@ -324,7 +352,7 @@ class JoinEventForm extends Component<Props> {
                           </Button>
                         </Flex>
                       )}
-                      {buttonOpen && !submitting && (
+                      {buttonOpen && !submitting && !registrationPending && (
                         <>
                           <Flex
                             alignItems="center"
@@ -356,6 +384,7 @@ class JoinEventForm extends Component<Props> {
                           loadingStyle={{ margin: '5px auto' }}
                         />
                       )}
+                      {registrationPending && <RegistrationPending />}
                     </Form>
 
                     <label className={formStyles.label} htmlFor={feedbackName}>
@@ -436,6 +465,7 @@ function mapStateToProps(state, { event, registration }) {
       },
     };
   }
+  const registrationPending = state.form?.joinEvent?.registrationPending;
   const user = state.auth
     ? selectUserByUsername(state, { username: state.auth.username })
     : null;
@@ -444,6 +474,7 @@ function mapStateToProps(state, { event, registration }) {
     : [];
   return {
     penalties,
+    registrationPending,
   };
 }
 
