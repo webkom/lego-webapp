@@ -33,3 +33,7 @@ export default class LoadingIndicator extends Component<Props> {
     return this.props.children ? <div>{this.props.children}</div> : null;
   }
 }
+
+export const ProgressBar = () => {
+  return <div className={styles.progressLine} />;
+};

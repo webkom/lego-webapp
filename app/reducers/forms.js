@@ -76,6 +76,14 @@ export default formReducer.plugin({
           submitting: true,
         };
       }
+      case Event.REQUEST_REGISTER.SUCCESS:
+      case Event.REQUEST_UNREGISTER.SUCCESS: {
+        return {
+          ...state,
+          submitting: false,
+          registrationPending: true,
+        };
+      }
       case Event.REQUEST_REGISTER.FAILURE:
       case Event.REQUEST_UNREGISTER.FAILURE: {
         return {
@@ -94,6 +102,7 @@ export default formReducer.plugin({
           ...state,
           submitting: false,
           submitSucceeded: true,
+          registrationPending: false,
         };
       }
       case Event.SOCKET_REGISTRATION.FAILURE:
@@ -107,6 +116,7 @@ export default formReducer.plugin({
           registrationId: null,
           submitting: false,
           submitSucceeded: false,
+          registrationPending: false,
         };
       }
       default:

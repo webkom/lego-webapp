@@ -91,6 +91,21 @@
   flex-wrap: wrap-reverse;
 }
 
+.registrationPending {
+  background-color: var(--lego-card-color);
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  box-shadow: rgba(149, 157, 165, 20%) 0 8px 24px;
+  padding: 5px;
+  text-align: center;
+}
+
+.registrationPendingHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
 .eventWarning {
   padding: 10px;
   margin-bottom: 10px;
