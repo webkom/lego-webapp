@@ -11,7 +11,8 @@
   --lego-max-width: 1100px;
   --lego-default-padding: 2rem;
   --lego-card-color: rgba(245, 244, 244, 1);
-  --lego-footer-color: #1b1a1a;
+  --lego-footer-color: #e21617;
+  --lego-dark-red-color: #b21c17;
   --lego-red-color: #c0392b;
 
   --lego-header-height: 120px;
@@ -108,7 +109,8 @@
   --lego-max-width: 1100px;
   --lego-default-padding: 2rem;
   --lego-card-color: #10161a;
-  --lego-footer-color: #1b1a1a;
+  --lego-footer-color: #e21617;
+  --lego-dark-red-color: #b21c17;
   --lego-red-color: #c0392b;
 
   --lego-header-height: 120px;
