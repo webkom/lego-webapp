@@ -1,5 +1,5 @@
 // @flow
-
+import { Link } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import cx from 'classnames';
@@ -9,7 +9,7 @@ import { Form, TextArea } from 'app/components/Form';
 import { reduxForm, Field, reset } from 'redux-form';
 import { createAnnouncement } from 'app/actions/AnnouncementsActions';
 import styles from './AnnouncementInLine.css';
-import type { CreateAnnouncement, ID } from 'app/models';
+import type { ID } from 'app/models';
 
 type Props = {
   placeholder?: string,
@@ -35,23 +35,10 @@ class AnnouncementInLine extends Component<Props, State> {
     sent: false,
   };
 
-  onSubmit = (announcement, event, meeting, group) => {
-    this.props.createAnnouncement({
-      ...announcement,
-      events: event ? [event] : [],
-      meetings: meeting ? [meeting] : [],
-      groups: group ? [group] : [],
-      send: true,
-    });
-    this.setState(() => ({
-      sent: true,
-    }));
-  };
+ 
 
-  handleHide = () => {
-    this.setState((prevState) => ({
-      hidden: !prevState.hidden,
-    }));
+  handleOnClickAnnouncement = () => {
+
   };
 
   render() {
@@ -67,55 +54,24 @@ class AnnouncementInLine extends Component<Props, State> {
     } = this.props;
 
     const showButton = button && this.state.hidden && !this.state.sent;
-    const showLabel = !button || !this.state.hidden || this.state.sent;
-    const showForm = !this.state.hidden && !this.state.sent;
 
     return (
       <div>
-        {actionGrant && (event || meeting || group) && (
-          <div>
-            {showButton && (
-              <Button
-                onClick={this.handleHide}
-                className={styles.announcementButton}
-              >
-                Ny kunngjøring
-              </Button>
-            )}
-            {showLabel && (
-              <Button
-                flat
-                onClick={this.handleHide}
-                className={cx(
-                  button ? styles.labelButton : styles.label,
-                  className
-                )}
-              >
-                {!this.state.sent ? ' Ny kunngjøring ' : ' Kunngjøring sendt '}
-              </Button>
-            )}
-
-            {showForm && (
-              <Form
-                onSubmit={handleSubmit((values) =>
-                  this.onSubmit(values, event, meeting, group)
-                )}
-              >
-                <Field
-                  name="message"
-                  component={TextArea.Field}
-                  placeholder={placeholder || 'Skriv din kunngjøring her...'}
-                  fieldClassName={styles.field}
-                  className={styles.fieldText}
-                />
-                <Button submit className={styles.button}>
-                  SEND
-                </Button>
-              </Form>
-            )}
-          </div>
-        )}
-      </div>
+      {actionGrant && (event || meeting || group) && (
+        <div>
+          {showButton && (
+            <Link to={"/announcements"} state={{event}}>
+            <Button
+              onClick={this.handleOnClickAnnouncement}
+              className={styles.announcementButton}
+            >
+              Ny kunngjøring
+            </Button>
+            </Link>
+          )}
+        </div>
+      )}
+    </div>
     );
   }
 }
