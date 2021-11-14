@@ -35,12 +35,6 @@ class AnnouncementInLine extends Component<Props, State> {
     sent: false,
   };
 
- 
-
-  handleOnClickAnnouncement = () => {
-
-  };
-
   render() {
     const {
       actionGrant,
