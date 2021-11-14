@@ -56,7 +56,6 @@ class AnnouncementInLine extends Component<Props, State> {
           {showButton && (
             <Link to={"/announcements"} state={{event}}>
             <Button
-              onClick={this.handleOnClickAnnouncement}
               className={styles.announcementButton}
             >
               Ny kunngjøring
