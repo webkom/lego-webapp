@@ -28,6 +28,12 @@ const AnnouncementsCreate = ({
 }: Props) => {
   const disabledButton = invalid || pristine || submitting;
 
+  const location = useLocation();
+
+  useEffect(() => {
+    l
+  })
+
   const onSubmit = (announcement, send = false) => {
     return createAnnouncement({
       ...announcement,
@@ -73,6 +79,7 @@ const AnnouncementsCreate = ({
             </Flex>
             <Flex className={styles.rowRec}>
               <Field
+                initialValues={location.state.event}
                 className={styles.recField}
                 name="events"
                 placeholder="Arrangementer"
