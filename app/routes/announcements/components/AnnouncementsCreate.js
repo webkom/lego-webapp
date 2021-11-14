@@ -30,10 +30,6 @@ const AnnouncementsCreate = ({
 
   const location = useLocation();
 
-  useEffect(() => {
-    l
-  })
-
   const onSubmit = (announcement, send = false) => {
     return createAnnouncement({
       ...announcement,
