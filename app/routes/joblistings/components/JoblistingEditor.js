@@ -234,14 +234,14 @@ class JoblistingEditor extends Component<Props, State> {
             label="Søknadsintro"
             placeholder="Søknadsintro"
             component={EditorField.Field}
-            required
             initialized={this.props.initialized}
+            required
           />
           <Field
             name="text"
             className={styles.textField}
-            label="Søknadstekst:"
             placeholder="Søknadstekst"
+            label="Søknadstekst:"
             component={EditorField.Field}
             initialized={this.props.initialized}
             required
@@ -284,6 +284,7 @@ const validate = ({
   workplaces,
   visibleFrom,
   visibleTo,
+  text,
 }) => {
   const errors = {};
 
@@ -295,8 +296,11 @@ const validate = ({
   if (!title) {
     errors.title = 'Du må gi jobbannonsen en tittel';
   }
-  if (!description) {
+  if (!description || description === '<p></p>') {
     errors.description = 'Du må skrive en søknadsintro';
+  }
+  if (!text || text === '<p></p>') {
+    errors.text = 'Du må skrive en søknadstekst';
   }
   if (!event || event.value == null) {
     errors.event = 'Du må angi en bedrift for jobbannonsen';
