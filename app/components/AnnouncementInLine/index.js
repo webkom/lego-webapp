@@ -54,7 +54,7 @@ class AnnouncementInLine extends Component<Props, State> {
       {actionGrant && (event || meeting || group) && (
         <div>
           {showButton && (
-            <Link to={"/announcements"} state={{event}}>
+            <Link to={"/announcements"} state={{event, meeting}}>
             <Button
               className={styles.announcementButton}
             >
