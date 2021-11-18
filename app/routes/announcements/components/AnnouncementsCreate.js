@@ -5,6 +5,7 @@ import { Helmet } from 'react-helmet-async';
 import Flex from 'app/components/Layout/Flex';
 import { Form, SelectInput, TextArea } from 'app/components/Form';
 import { reduxForm, Field, reset } from 'redux-form';
+import { useLocation } from 'react-router';
 import Button from 'app/components/Button';
 import { ContentMain } from 'app/components/Content';
 import type { ActionGrant, CreateAnnouncement } from 'app/models';
@@ -84,6 +85,7 @@ const AnnouncementsCreate = ({
                 component={SelectInput.AutocompleteField}
               />
               <Field
+                initialValues={location.state.meeting}
                 name="meetings"
                 placeholder="Møter"
                 filter={['meetings.meeting']}
