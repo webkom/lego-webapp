@@ -154,11 +154,11 @@ class SurveyEditor extends Component<Props, State> {
 
     return (
       <Content className={styles.detail}>
-        <Helmet title="Ny undersøkelse" />
+        <Helmet title={titleField} />
         {survey && survey.id ? (
           <DetailNavigation title={titleField} surveyId={Number(survey.id)} />
         ) : (
-          <ListNavigation title="Ny undersøkelse" />
+          <ListNavigation title={titleField} />
         )}
         <ConfirmModalWithParent
           title="Bekreft bruk av mal"
