@@ -144,7 +144,7 @@
     "lolex": "^6.0.0",
     "mini-css-extract-plugin": "^1.6.0",
     "null-loader": "^4.0.1",
-    "optimize-css-assets-webpack-plugin": "^5.0.4",
+    "optimize-css-assets-webpack-plugin": "^6.0.1",
     "postcss-import": "^14.0.2",
     "postcss-loader": "^6.2.0",
     "postcss-nested": "^4.2.1",
