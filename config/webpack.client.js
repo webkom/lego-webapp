@@ -8,7 +8,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
 const AssetsPlugin = require('assets-webpack-plugin');
 const FilterWarningsPlugin = require('webpack-filter-warnings-plugin');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin');
 
 const root = path.resolve(__dirname, '..');
@@ -85,7 +85,6 @@ module.exports = (env, argv) => {
           manifest: manifestPath,
         }),
 
-      isProduction && new OptimizeCSSAssetsPlugin({}),
       new webpack.DefinePlugin({
         __DEV__: JSON.stringify(!isProduction),
         __CLIENT__: true,
@@ -151,6 +150,7 @@ module.exports = (env, argv) => {
           },
         },
       },
+      minimizer: [new CssMinimizerPlugin()],
     },
 
     module: {
