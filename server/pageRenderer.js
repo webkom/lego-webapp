@@ -1,7 +1,8 @@
 //@flow
-import fs from 'fs';
+import { renderToString } from 'react-dom/server';
 import path from 'path';
 import serialize from 'serialize-javascript';
+import { ChunkExtractor } from '@loadable/server';
 import config from '../config/env';
 import webpackClient from '../config/webpack.client.js';
 import type { State } from '../app/types';
@@ -11,30 +12,13 @@ import { isEmpty } from 'lodash';
 import manifest from '../app/assets/manifest.json';
 
 let cachedAssets;
-function retrieveAssets() {
+function retrieveAssets(extractor) {
   if (__DEV__ || !cachedAssets) {
-    const { app, vendors, styles: appStyles } = JSON.parse(
-      fs
-        .readFileSync(
-          path.join(webpackClient.outputPath, 'webpack-assets.json')
-        )
-        .toString()
-    );
+    const scripts = extractor.getScriptTags();
+    const styles = extractor.getStyleTags();
+    const links = extractor.getLinkTags();
 
-    const styles = [appStyles && appStyles.css]
-      .filter(Boolean)
-      .map((css) => `<link rel="stylesheet" href="${css}">`)
-      .join('\n');
-    const scripts = [
-      vendors && vendors.js,
-      app && app.js,
-      appStyles && appStyles.js,
-    ]
-      .filter(Boolean)
-      .map((js) => `<script src="${js}"></script>`)
-      .join('\n');
-
-    cachedAssets = { scripts, styles };
+    cachedAssets = { scripts, styles, links };
   }
 
   return cachedAssets;
@@ -43,18 +27,24 @@ function retrieveAssets() {
 const dllPlugin = __DEV__ ? '<script src="/vendors.dll.js"></script>' : '';
 
 export type PageRendererProps = {
-  body: string,
+  app: ?React$Element<*>,
   state: State | {||},
   helmet: *,
 };
 
 export default function pageRenderer({
-  body = '',
+  app = undefined,
   state = {},
   helmet,
 }: PageRendererProps = {}): string {
-  const { scripts, styles } = retrieveAssets();
-  const isSSR = body === '' ? 'false' : 'true';
+  const extractor = new ChunkExtractor({
+    statsFile: path.join(webpackClient.outputPath, 'loadable-stats.json'),
+    entrypoints: ['app'],
+  });
+  const collectedApp = extractor.collectChunks(app);
+
+  const { scripts, styles, links } = retrieveAssets(extractor);
+  const isSSR = app === undefined ? 'false' : 'true';
 
   const getDataTheme = () => {
     if (!isEmpty(state)) {
@@ -62,6 +52,7 @@ export default function pageRenderer({
       return selectedTheme !== 'auto' ? selectedTheme : 'light';
     }
   };
+  const body = renderToString(collectedApp);
 
   return `
     <!DOCTYPE html>
@@ -95,6 +86,7 @@ export default function pageRenderer({
         <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
         <link href="https://unpkg.com/ionicons@3.0.0/dist/css/ionicons.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Cardo|Raleway|Roboto" rel="stylesheet">
+        ${links}
 
         ${helmet ? helmet.meta.toString() : ''}
 

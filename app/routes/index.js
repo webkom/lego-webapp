@@ -1,32 +1,39 @@
+import loadable from '@loadable/component';
 import { Route, Switch } from 'react-router-dom';
 import { AppRoute } from './app';
-import Overview from './overview';
-import Events from './events';
-import Companies from './company';
-import Users from './users';
-import Articles from './articles';
-import Meetings from './meetings';
-import Admin from './admin';
-import Quotes from './quotes';
-import Podcasts from './podcasts';
-import Photos from './photos';
-import Pages from './pages';
-import Search from './search';
-import InterestGroups from './interestgroups';
-import Joblistings from './joblistings';
-import PageNotFound from './pageNotFound';
-import Announcements from './announcements';
-import { CompanyInterestInfoRoute, CompanyInterest } from './companyInterest';
-import Bdb from './bdb';
-import Contact from './contact';
-import Timeline from './timeline';
-import Surveys from './surveys';
-import Tags from './tags';
-import Brand from './brand';
-import UserValidator from './userValidator';
-import Polls from './polls';
-import RouteWrapper from 'app/components/RouteWrapper';
 import { UserContext } from 'app/routes/app/AppRoute';
+import RouteWrapper from 'app/components/RouteWrapper';
+const CompanyInterestInfoRoute = loadable(() => import('./companyInterest'), {
+  resolveComponent: (components) => components.CompanyInterestInfoRoute,
+});
+
+const CompanyInterest = loadable(() => import('./companyInterest'), {
+  resolveComponent: (components) => components.CompanyInterest,
+});
+const Companies = loadable(() => import('./company'));
+const Users = loadable(() => import('./users'));
+const Articles = loadable(() => import('./articles'));
+const Meetings = loadable(() => import('./meetings'));
+const Admin = loadable(() => import('./admin'));
+const Quotes = loadable(() => import('./quotes'));
+const Podcasts = loadable(() => import('./podcasts'));
+const Photos = loadable(() => import('./photos'));
+const Pages = loadable(() => import('./pages'));
+const Search = loadable(() => import('./search'));
+const InterestGroups = loadable(() => import('./interestgroups'));
+const Joblistings = loadable(() => import('./joblistings'));
+const PageNotFound = loadable(() => import('./pageNotFound'));
+const Announcements = loadable(() => import('./announcements'));
+const Bdb = loadable(() => import('./bdb'));
+const Contact = loadable(() => import('./contact'));
+const Timeline = loadable(() => import('./timeline'));
+const Surveys = loadable(() => import('./surveys'));
+const Tags = loadable(() => import('./tags'));
+const Brand = loadable(() => import('./brand'));
+const UserValidator = loadable(() => import('./userValidator'));
+const Polls = loadable(() => import('./polls'));
+const Events = loadable(() => import('./events'));
+const Overview = loadable(() => import('./overview'));
 
 const RouterConfig = () => (
   <>
