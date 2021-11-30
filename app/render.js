@@ -1,5 +1,6 @@
 // @flow
 
+import { loadableReady } from '@loadable/component';
 import { hydrate, render } from 'react-dom';
 import Root from './Root';
 import routes from 'app/routes';
@@ -16,7 +17,9 @@ const renderApp = ({
 }) => {
   const rootElement: HTMLElement = (document.getElementById('root'): any);
   const reactRenderFunc = isSSR ? hydrate : render;
-  reactRenderFunc(<Root {...{ store, history, routes }} />, rootElement);
+  loadableReady(() => {
+    reactRenderFunc(<Root {...{ store, history, routes }} />, rootElement);
+  });
 };
 
 export default renderApp;

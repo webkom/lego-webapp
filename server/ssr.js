@@ -1,5 +1,4 @@
 //@flow
-import { renderToString } from 'react-dom/server';
 import { StaticRouter } from 'react-router';
 import RouteConfig from '../app/routes';
 // $FlowFixMe
@@ -45,13 +44,13 @@ const createServerSideRenderer = (
   next: express$Middleware<express$Request, express$Response>
 ) => {
   const render = (
-    body: string = '',
+    app: ?React$Element<*> = undefined,
     state: State | {||} = Object.freeze({})
   ) => {
     const helmet = Helmet.rewind();
     return res.send(
       pageRenderer({
-        body,
+        app,
         state,
         helmet,
       })
@@ -111,11 +110,10 @@ const createServerSideRenderer = (
       return res.redirect(302, context.url);
     }
     const state: State = store.getState();
-    const body = renderToString(app);
     // $FlowFixMe
     const statusCode = state.router.statusCode || 200;
     res.status(statusCode);
-    return render(body, state);
+    return render(app, state);
   };
 
   prepareWithTimeout(app)

@@ -1,5 +1,4 @@
-import zxcvbn from 'zxcvbn';
-import { pick, merge } from 'lodash';
+import { merge } from 'lodash';
 
 export const EMAIL_REGEX = /.+@.+\..+/;
 const YOUTUBE_URL_REGEX = /(?:https?:\/\/)?(?:www[.])?(?:youtube[.]com\/watch[?]v=|youtu[.]be\/)([^&]{11})/;
@@ -26,19 +25,6 @@ export const isEmail = (message = 'Ugyldig e-post') =>
 
 export const validYoutubeUrl = (message = 'Ikke gyldig YouTube URL.') =>
   matchesRegex(YOUTUBE_URL_REGEX, message);
-
-export const validPassword = (
-  message = 'Passordet er for svakt. Minimum styrke er 3.'
-) => (value, data) => {
-  if (value === undefined) {
-    return [true];
-  }
-  const userValues = Object.values(
-    pick(data, ['username', 'firstName', 'lastName'])
-  );
-  const evalPass = zxcvbn(value, userValues);
-  return [evalPass.score >= 3, message];
-};
 
 export const whenPresent = (validator) => (value, context) =>
   value ? validator(value, context) : [true];

@@ -4,12 +4,8 @@ import { reduxForm, Field } from 'redux-form';
 import { Content } from 'app/components/Content';
 import type { Action } from 'app/types';
 import { Form, Button, TextInput } from 'app/components/Form';
-import {
-  createValidator,
-  required,
-  validPassword,
-  sameAs,
-} from 'app/utils/validation';
+import { createValidator, required, sameAs } from 'app/utils/validation';
+import { validPassword } from '../utils';
 import PasswordField from './PasswordField';
 
 type Props = {

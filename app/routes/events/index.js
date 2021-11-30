@@ -1,17 +1,22 @@
 // @flow
+import loadable from '@loadable/component';
 import { Route, Switch } from 'react-router-dom';
-import RouteWrapper from 'app/components/RouteWrapper';
-import CalendarRoute from './CalendarRoute';
-import CreateRoute from './EventCreateRoute';
-import DetailRoute from './EventDetailRoute';
-import EventListRoute from './EventListRoute';
 import { UserContext } from 'app/routes/app/AppRoute';
-import EventEditRoute from './EventEditRoute';
-import EventAdministrateRoute from './EventAdministrateRoute';
-import EventAttendeeRoute from './EventAttendeeRoute';
-import EventAdminRegisterRoute from './EventAdminRegisterRoute';
-import EventAbacardRoute from './EventAbacardRoute';
-import PageNotFound from '../pageNotFound';
+const EventEditRoute = loadable(() => import('./EventEditRoute'));
+const EventAdministrateRoute = loadable(() =>
+  import('./EventAdministrateRoute')
+);
+const EventAttendeeRoute = loadable(() => import('./EventAttendeeRoute'));
+const EventAdminRegisterRoute = loadable(() =>
+  import('./EventAdminRegisterRoute')
+);
+const EventAbacardRoute = loadable(() => import('./EventAbacardRoute'));
+const PageNotFound = loadable(() => import('../pageNotFound'));
+const RouteWrapper = loadable(() => import('app/components/RouteWrapper'));
+const CalendarRoute = loadable(() => import('./CalendarRoute'));
+const CreateRoute = loadable(() => import('./EventCreateRoute'));
+const DetailRoute = loadable(() => import('./EventDetailRoute'));
+const EventListRoute = loadable(() => import('./EventListRoute'));
 
 const eventRoute = ({ match }: { match: { path: string } }) => (
   <UserContext.Consumer>

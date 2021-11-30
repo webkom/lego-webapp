@@ -10,6 +10,8 @@ const AssetsPlugin = require('assets-webpack-plugin');
 const FilterWarningsPlugin = require('webpack-filter-warnings-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin');
+const LoadablePlugin = require('@loadable/webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 const root = path.resolve(__dirname, '..');
 const packageJson = require('../package.json');
@@ -100,13 +102,15 @@ module.exports = (env, argv) => {
       new FilterWarningsPlugin({
         // suppress conflicting order warnings from mini-css-extract-plugin.
         // see https://github.com/webpack-contrib/mini-css-extract-plugin/issues/250
-        exclude: /Conflicting order between:/,
+        exclude: /Conflicting order. Following module has been added/,
       }),
 
       new webpack.ProvidePlugin({
         Buffer: ['buffer', 'Buffer'],
         process: 'process/browser',
       }),
+
+      isProduction && new LoadablePlugin(),
 
       new AssetsPlugin({
         path: outputPath,
@@ -140,17 +144,10 @@ module.exports = (env, argv) => {
             chunks: 'all',
             enforce: true,
           },
-          defaultVendors: {
-            name: 'vendors',
-            test: /node_modules/,
-            chunks: 'all',
-            enforce: true,
-            reuseExistingChunk: true,
-            type: 'javascript/auto',
-          },
         },
       },
-      minimizer: [new CssMinimizerPlugin()],
+      minimize: true,
+      minimizer: [new CssMinimizerPlugin(), new TerserPlugin()],
     },
 
     module: {

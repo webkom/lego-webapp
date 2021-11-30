@@ -4,12 +4,8 @@ import { Field } from 'redux-form';
 import type { FormProps } from 'redux-form';
 import Button from 'app/components/Button';
 import { TextInput, Form, legoForm } from 'app/components/Form';
-import {
-  createValidator,
-  required,
-  validPassword,
-  sameAs,
-} from 'app/utils/validation';
+import { createValidator, required, sameAs } from 'app/utils/validation';
+import { validPassword } from '../utils';
 import PasswordField from './PasswordField';
 import { type UserEntity } from 'app/reducers/users';
 

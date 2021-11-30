@@ -33,6 +33,7 @@
     "url": "github.com/webkom/lego-webapp"
   },
   "dependencies": {
+    "@loadable/component": "^5.15.0",
     "@sentry/browser": "^6.2.2",
     "@sentry/integrations": "^6.13.3",
     "@sentry/node": "^6.13.3",
@@ -109,12 +110,15 @@
   },
   "devDependencies": {
     "@babel/core": "^7.15.8",
-    "@babel/eslint-parser": "^7.15.7",
+    "@babel/eslint-parser": "^7.16.3",
     "@babel/plugin-proposal-class-properties": "^7.13.0",
     "@babel/plugin-syntax-dynamic-import": "^7.8.3",
     "@babel/preset-env": "^7.16.0",
     "@babel/preset-flow": "^7.16.0",
     "@babel/preset-react": "^7.12.13",
+    "@loadable/babel-plugin": "^5.13.2",
+    "@loadable/server": "^5.15.1",
+    "@loadable/webpack-plugin": "^5.15.1",
     "assets-webpack-plugin": "^7.1.1",
     "babel-loader": "^8.2.2",
     "concurrently": "^6.4.0",
@@ -157,6 +161,7 @@
     "style-loader": "^3.3.0",
     "stylelint": "13.13.1",
     "stylelint-config-standard": "^22.0.0",
+    "terser-webpack-plugin": "^5.2.5",
     "timekeeper": "^2.2.0",
     "webpack": "^5.58.2",
     "webpack-bundle-analyzer": "^4.5.0",
@@ -230,6 +235,15 @@
       "@webkom/react-meter-bar"
     ]
   },
+  "sideEffects": [
+    "*.css",
+    "./app/index.js",
+    "./app/utils/fetchJSON.js",
+    "./app/routes/surveys/SubmissionRoute.js",
+    "./app/components/form/EditorField.js",
+    "./app/components/form/SelectInput.js",
+    "./app/components/DisplayContent/index.js"
+  ],
   "moduleRoots": [
     "./"
   ]

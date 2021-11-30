@@ -48,7 +48,7 @@ module.exports = (env, argv) => {
       new FilterWarningsPlugin({
         // suppress conflicting order warnings from mini-css-extract-plugin.
         // see https://github.com/webpack-contrib/mini-css-extract-plugin/issues/250
-        exclude: /Conflicting order between:/,
+        exclude: /Conflicting order. Following module has been added/,
       }),
       isProduction &&
         new MiniCssExtractPlugin({
