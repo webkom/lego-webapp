@@ -4,6 +4,7 @@ import express from 'express';
 import morgan from 'morgan';
 import moment from 'moment-timezone';
 import bunyan from 'bunyan';
+import expressStaticGzip from 'express-static-gzip';
 import bunyanPretty from 'bunyan-pretty';
 import * as Sentry from '@sentry/node';
 import cookieParser from 'cookie-parser';
@@ -57,7 +58,11 @@ if (fs.existsSync(styleguide)) {
   app.use('/styleguide', express.static(styleguide));
 }
 
-app.use(express.static(webpackClient.outputPath));
+app.use(
+  expressStaticGzip(webpackClient.outputPath, {
+    index: false,
+  })
+);
 app.use(
   morgan((tokens, req, res) => {
     log.info(
