@@ -67,7 +67,7 @@
     "qs": "^6.10.1",
     "react": "16.14.0",
     "react-collapse": "^5.1.0",
-    "react-copy-to-clipboard": "^5.0.2",
+    "react-copy-to-clipboard": "^5.0.4",
     "react-cropper": "^2.1.8",
     "react-dom": "npm:@hot-loader/react-dom@^16.8.6",
     "react-dropzone": "^3.10.0",
