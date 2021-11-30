@@ -144,12 +144,6 @@ module.exports = (env, argv) => {
             chunks: 'all',
             enforce: true,
           },
-          defaultVendors: {
-            name: 'vendors',
-            test: /node_modules/,
-            reuseExistingChunk: true,
-            type: 'javascript/auto',
-          },
         },
       },
       minimize: true,

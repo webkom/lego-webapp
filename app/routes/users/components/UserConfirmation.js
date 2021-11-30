@@ -13,12 +13,8 @@ import {
 } from 'app/components/Form';
 import { Field } from 'redux-form';
 import { Link } from 'react-router-dom';
-import {
-  createValidator,
-  required,
-  validPassword,
-  sameAs,
-} from 'app/utils/validation';
+import { createValidator, required, sameAs } from 'app/utils/validation';
+import { validPassword } from '../utils';
 import PasswordField from './PasswordField';
 import { type UserEntity } from 'app/reducers/users';
 
