@@ -23,8 +23,6 @@ module.exports = {
     'react-app',
     'react-app/jest',
     'prettier',
-    'prettier/flowtype',
-    'prettier/react',
   ],
   globals: {
     log: true,
