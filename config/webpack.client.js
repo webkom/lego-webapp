@@ -12,6 +12,7 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin');
 const LoadablePlugin = require('@loadable/webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
 
 const root = path.resolve(__dirname, '..');
 const packageJson = require('../package.json');
@@ -111,6 +112,8 @@ module.exports = (env, argv) => {
       }),
 
       isProduction && new LoadablePlugin(),
+
+      isProduction && new CompressionPlugin(),
 
       new AssetsPlugin({
         path: outputPath,
