@@ -1707,6 +1707,18 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
+"@stripe/react-stripe-js@^1.6.0":
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/@stripe/react-stripe-js/-/react-stripe-js-1.6.0.tgz#e3adf6a6ea6d839193164fa3cfe73cf52db3a080"
+  integrity sha512-tMmsPD+wkpiiVJZgQ1E06tklG5MZHG462s6OWja9abpxq76kerAxMFN+KdhUg0LIEY79THbzvH3s/WGHasnV3w==
+  dependencies:
+    prop-types "^15.7.2"
+
+"@stripe/stripe-js@^1.21.1":
+  version "1.21.1"
+  resolved "https://registry.yarnpkg.com/@stripe/stripe-js/-/stripe-js-1.21.1.tgz#e56cd01f889dc06af4a68ebf61d2492a87e80da1"
+  integrity sha512-/HhRol0Bia/6L7JstXUOpg3m0U3nBW8c2tvaBE6QdonN+OMusYT9AIqCMR/PyzoF3ROifFJ2kbWT7xQjbKN3tw==
+
 "@stylelint/postcss-css-in-js@^0.37.2":
   version "0.37.2"
   resolved "https://registry.yarnpkg.com/@stylelint/postcss-css-in-js/-/postcss-css-in-js-0.37.2.tgz#7e5a84ad181f4234a2480803422a47b8749af3d2"
@@ -11290,13 +11302,6 @@ react-stickynode@^3.0.3:
     prop-types "^15.6.0"
     shallowequal "^1.0.0"
     subscribe-ui-event "^2.0.6"
-
-react-stripe-elements@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/react-stripe-elements/-/react-stripe-elements-5.0.0.tgz#3a67717ddc9580c4dad9d45b672a9cf6c8a6dda4"
-  integrity sha512-zYYmlaROlkRV+Naz2abUZL4DnnQFzlSKc1PmAx7DKDi8PdFUEMiXk5kepPFlIfhwzq5fgoSptT2Y3Jri0p7cAQ==
-  dependencies:
-    prop-types "15.7.2"
 
 react-styleguidist@^11.0.8:
   version "11.0.10"

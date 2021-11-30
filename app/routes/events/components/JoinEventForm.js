@@ -265,10 +265,8 @@ const JoinEventForm = (props: Props) => {
   }, [registrationPending]);
 
   const [showStripeDelayed, setShowStripeDelayed] = useState(false);
-  console.log(showStripe);
 
   useEffect(() => {
-    console.log(showStripe);
     const timer = setTimeout(() => setShowStripeDelayed(showStripe), 2000);
     return () => clearTimeout(timer);
   }, [showStripe]);
