@@ -170,6 +170,7 @@ const CardForm = (props: CardFormProps) => {
 const PaymentRequestForm = (props: PaymentRequestFormProps) => {
   const [complete, setComplete] = useState(null);
   const [paymentRequest, setPaymentRequest] = useState(null);
+  const [canMakePayment, setCanMakePayment] = useState(false);
   const [paymentStarted, setPaymentStarted] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState(null);
   const stripe = useStripe();
@@ -255,9 +256,11 @@ const PaymentRequestForm = (props: PaymentRequestFormProps) => {
       });
 
       paymentReq.canMakePayment().then((result) => {
-        !!result && setPaymentRequest(paymentReq);
+        setCanMakePayment(!!result);
         setCanPaymentRequest(!!result);
       });
+
+      setPaymentRequest(paymentReq);
     }
   }, [
     paymentRequest,
@@ -291,13 +294,13 @@ const PaymentRequestForm = (props: PaymentRequestFormProps) => {
 
   return (
     <div style={{ flex: 1 }}>
-      {paymentRequest && (
+      {canMakePayment && paymentRequest && (
         <PaymentRequestButtonElement
           onClick={(e) => {
             if (paymentMethod) {
               e.preventDefault();
               setError(
-                'Error while processing payment method. Please refresh the page and try again.'
+                'Det skjedde en feil under prosesseringen av betalingen. Vennligst refresh siden for å prøve igjen.'
               );
             }
           }}
@@ -354,7 +357,7 @@ class PaymentForm extends Component<FormProps, FormState> {
         {loading && <LoadingIndicator loading />}
         {error && <div className={stripeStyles.error}>{error}</div>}
         <div style={{ display: loading ? 'none' : 'block' }}>
-          <Elements locale="no" stripe={stripePromise}>
+          <Elements stripe={stripePromise}>
             <PaymentRequestForm
               {...this.props}
               setSuccess={() => this.setSuccess()}
@@ -364,8 +367,6 @@ class PaymentForm extends Component<FormProps, FormState> {
                 this.setPaymentRequest(paymentRequest)
               }
             />
-          </Elements>
-          <Elements locale="no" stripe={stripePromise}>
             <CardForm
               {...this.props}
               fontSize="18px"
