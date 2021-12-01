@@ -1,5 +1,6 @@
 //@flow
 import { renderToString } from 'react-dom/server';
+import fs from 'fs';
 import path from 'path';
 import serialize from 'serialize-javascript';
 import { ChunkExtractor } from '@loadable/server';
@@ -19,30 +20,61 @@ export type PageRendererProps = {
   helmet: *,
 };
 
-const extractor = new ChunkExtractor({
-  statsFile: path.join(webpackClient.outputPath, 'loadable-stats.json'),
-  entrypoints: ['app'],
-});
+const extractor = !__DEV__
+  ? new ChunkExtractor({
+      statsFile: path.join(webpackClient.outputPath, 'loadable-stats.json'),
+      entrypoints: ['app'],
+    })
+  : null;
+
+const readyHtml = (app) => {
+  if (extractor) {
+    const collectedApp = extractor.collectChunks(app);
+    const body = renderToString(collectedApp);
+
+    const scripts = extractor.getScriptTags();
+    const styles = extractor.getStyleTags();
+    const links = extractor.getLinkTags();
+
+    return { body, scripts, styles, links };
+  } else {
+    const { app, vendors, js, styles: appStyles } = JSON.parse(
+      fs
+        .readFileSync(
+          path.join(webpackClient.outputPath, 'webpack-assets.json')
+        )
+        .toString()
+    );
+
+    const styles = [appStyles && appStyles.css]
+      .filter(Boolean)
+      .map((css) => `<link rel="stylesheet" href="${css}">`)
+      .join('\n');
+    const scripts = [
+      ...[vendors && vendors.js, app && app.js, appStyles && appStyles.js && js]
+        .filter(Boolean)
+        .map((js) => `<script src="${js}"></script>`),
+      `<script id="__LOADABLE_REQUIRED_CHUNKS__" type="application/json">[]</script>`,
+      `<script id="__LOADABLE_REQUIRED_CHUNKS___ext" type="application/json">{"namedChunks":[]}</script>`,
+    ].join('\n');
+
+    return { body: '', scripts, styles, links: '' };
+  }
+};
 
 export default function pageRenderer({
   app = undefined,
   state = {},
   helmet,
 }: PageRendererProps = {}): string {
-  const collectedApp = extractor.collectChunks(app);
-  const body = renderToString(collectedApp);
-
-  const scripts = extractor.getScriptTags();
-  const styles = extractor.getStyleTags();
-  const links = extractor.getLinkTags();
   const isSSR = app === undefined ? 'false' : 'true';
-
   const getDataTheme = () => {
     if (!isEmpty(state)) {
       let selectedTheme = selectCurrentUser(state).selectedTheme;
       return selectedTheme !== 'auto' ? selectedTheme : 'light';
     }
   };
+  const { body, scripts, styles, links } = readyHtml(app);
 
   return `
     <!DOCTYPE html>
@@ -89,7 +121,6 @@ export default function pageRenderer({
            window.__PRELOADED_STATE__ = ${serialize(state, { isJSON: true })};
            window.__IS_SSR__ = ${isSSR};
         </script>
-        <script src="https://js.stripe.com/v3/"></script>
         ${dllPlugin}
         ${scripts}
       </body>
