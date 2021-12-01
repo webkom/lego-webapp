@@ -11,19 +11,6 @@ import { isEmpty } from 'lodash';
 
 import manifest from '../app/assets/manifest.json';
 
-let cachedAssets;
-function retrieveAssets(extractor) {
-  if (__DEV__ || !cachedAssets) {
-    const scripts = extractor.getScriptTags();
-    const styles = extractor.getStyleTags();
-    const links = extractor.getLinkTags();
-
-    cachedAssets = { scripts, styles, links };
-  }
-
-  return cachedAssets;
-}
-
 const dllPlugin = __DEV__ ? '<script src="/vendors.dll.js"></script>' : '';
 
 export type PageRendererProps = {
@@ -32,18 +19,22 @@ export type PageRendererProps = {
   helmet: *,
 };
 
+const extractor = new ChunkExtractor({
+  statsFile: path.join(webpackClient.outputPath, 'loadable-stats.json'),
+  entrypoints: ['app'],
+});
+
 export default function pageRenderer({
   app = undefined,
   state = {},
   helmet,
 }: PageRendererProps = {}): string {
-  const extractor = new ChunkExtractor({
-    statsFile: path.join(webpackClient.outputPath, 'loadable-stats.json'),
-    entrypoints: ['app'],
-  });
   const collectedApp = extractor.collectChunks(app);
+  const body = renderToString(collectedApp);
 
-  const { scripts, styles, links } = retrieveAssets(extractor);
+  const scripts = extractor.getScriptTags();
+  const styles = extractor.getStyleTags();
+  const links = extractor.getLinkTags();
   const isSSR = app === undefined ? 'false' : 'true';
 
   const getDataTheme = () => {
@@ -52,7 +43,6 @@ export default function pageRenderer({
       return selectedTheme !== 'auto' ? selectedTheme : 'light';
     }
   };
-  const body = renderToString(collectedApp);
 
   return `
     <!DOCTYPE html>
