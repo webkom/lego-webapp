@@ -115,6 +115,11 @@ module.exports = (env, argv) => {
 
       isProduction && new CompressionPlugin(),
 
+      !isProduction &&
+        new webpack.optimize.LimitChunkCountPlugin({
+          maxChunks: 1,
+        }),
+
       new AssetsPlugin({
         path: outputPath,
       }),
@@ -150,7 +155,10 @@ module.exports = (env, argv) => {
         },
       },
       minimize: true,
-      minimizer: [new CssMinimizerPlugin(), new TerserPlugin()],
+      minimizer: [
+        new CssMinimizerPlugin(),
+        isProduction && new TerserPlugin(),
+      ].filter(Boolean),
     },
 
     module: {
