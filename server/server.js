@@ -46,7 +46,7 @@ if (__DEV__) {
 
   app.use(
     require('webpack-hot-middleware')(compiler, {
-      log: false,
+      log: (info) => console.info(`\x1b[2m\x1b[34m[HMR] \x1b[37m${info}`),
     })
   );
 }
