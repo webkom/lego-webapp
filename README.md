@@ -1,8 +1,8 @@
-# lego-webapp [![Build Status](https://ci.webkom.dev/api/badges/webkom/lego-webapp/status.svg)](https://ci.webkom.dev/webkom/lego-webapp) [![dependencies Status](https://david-dm.org/webkom/lego-webapp/status.svg)](https://david-dm.org/webkom/lego-webapp) [![devdependencies Status](https://david-dm.org/webkom/lego-webapp/dev-status.svg)](https://david-dm.org/webkom/lego-webapp?type=dev) [![Dependabot](https://badgen.net/dependabot/webkom/lego-webapp?icon=dependabot)](https://github.com/webkom/lego-webapp/pulls?q=is%3Aopen+is%3Apr+label%3Adependencies)
+# lego-webapp
 
 > Open source frontend for abakus.no
 
-[![MIT](https://badgen.net/badge/license/MIT/blue)](https://en.wikipedia.org/wiki/MIT_License) [![last commit](https://badgen.net/github/last-commit/webkom/lego-webapp/)](https://github.com/webkom/lego-webapp/commits/master) [![coontibutors](https://badgen.net/github/contributors/webkom/lego-webapp)](https://github.com/webkom/lego-webapp/graphs/contributors)
+[![MIT](https://badgen.net/badge/license/MIT/blue)](https://en.wikipedia.org/wiki/MIT_License) [![last commit](https://badgen.net/github/last-commit/webkom/lego-webapp/)](https://github.com/webkom/lego-webapp/commits/master) [![coontibutors](https://badgen.net/github/contributors/webkom/lego-webapp)](https://github.com/webkom/lego-webapp/graphs/contributors) [![Build Status](https://ci.webkom.dev/api/badges/webkom/lego-webapp/status.svg)](https://ci.webkom.dev/webkom/lego-webapp)
 
 > **Issues**: We track issues in the main repo of LEGO
 
