@@ -301,6 +301,7 @@ steps:
         from_secret: infra_repository
       tags:
         - webapp
+        - ci
       limit: ${DRONE_DEPLOY_TO}
       extra_vars: webapp_version=version-${DRONE_COMMIT_SHA:0:7}
       inventory: /infrastructure/inventory
@@ -325,4 +326,4 @@ image_pull_secrets:
 
 ---
 kind: signature
-hmac: 220fa3dae4716f4c9359230f77838148d6427e56d47a89d220e5f546df86cc4d
+hmac: 87effa5b2d8a9c5eac66780b94954ac3e98288700a99026f26efdce0986c65bb
