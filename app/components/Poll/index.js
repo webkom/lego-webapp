@@ -14,7 +14,7 @@ import cx from 'classnames';
 type Props = {
   poll: PollEntity,
   handleVote: (pollId: number, optionId: number) => Promise<*>,
-  allowedToViewHiddenResults: boolean,
+  allowedToViewHiddenResults?: boolean,
   backgroundLight?: boolean,
   truncate?: number,
   details?: boolean,
@@ -118,6 +118,8 @@ class Poll extends Component<Props, State> {
     const optionsToShow = expanded
       ? orderedOptions
       : orderedOptions.slice(0, truncate);
+    const showResults = !resultsHidden || allowedToViewHiddenResults;
+
     return (
       <div className={cx(styles.poll, backgroundLight ? styles.pollLight : '')}>
         <Flex>
@@ -138,12 +140,17 @@ class Poll extends Component<Props, State> {
             <p>{description}</p>
           </div>
         )}
-        {hasAnswered && resultsHidden && !allowedToViewHiddenResults && (
-          <p style={{ fontStyle: 'italic', marginTop: details ? 10 : 15 }}>
-            Resultatet er skjult.
-          </p>
+        {hasAnswered && !showResults && (
+          <div className={styles.answered}>
+            Du har svart
+            <Icon
+              name="checkmark-circle-outline"
+              size={20}
+              style={{ marginLeft: '10px', color: 'green' }}
+            />
+          </div>
         )}
-        {hasAnswered && (!resultsHidden || allowedToViewHiddenResults) && (
+        {hasAnswered && showResults && (
           <Flex column className={styles.optionWrapper}>
             <table className={styles.pollTable}>
               <tbody>
@@ -221,9 +228,8 @@ class Poll extends Component<Props, State> {
               ))}
           </Flex>
         )}
-        <div style={{ height: '29px' }}>
+        <div>
           <div className={styles.moreOptionsLink}>
-            <span>{`Stemmer: ${totalVotes}`}</span>
             {truncateOptions &&
               (!hasAnswered ||
                 !resultsHidden ||
@@ -237,6 +243,14 @@ class Poll extends Component<Props, State> {
                   />
                 </div>
               )}
+          </div>
+          <div className={styles.bottomInfo}>
+            <span>{`Stemmer: ${totalVotes}`}</span>
+            {hasAnswered && !showResults && (
+              <span className={styles.resultsHidden}>
+                Resultatet er skjult.
+              </span>
+            )}
           </div>
         </div>
       </div>
