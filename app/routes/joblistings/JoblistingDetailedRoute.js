@@ -26,8 +26,15 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = { fetchJoblisting, deleteJoblisting, push };
 
 export default compose(
-  prepare(({ match: { params: { joblistingId } } }, dispatch) =>
-    dispatch(fetchJoblisting(joblistingId))
+  prepare(
+    (
+      {
+        match: {
+          params: { joblistingId },
+        },
+      },
+      dispatch
+    ) => dispatch(fetchJoblisting(joblistingId))
   ),
   connect(mapStateToProps, mapDispatchToProps)
 )(JoblistingDetail);

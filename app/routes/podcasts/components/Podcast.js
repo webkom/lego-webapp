@@ -36,14 +36,8 @@ class Podcast extends Component<Props, State> {
   render() {
     const CLIENT_ID = 'WOwjzZGoYrSrOOAILojG4miJtS4pZjSg';
 
-    const {
-      id,
-      source,
-      description,
-      authors,
-      thanks,
-      actionGrant,
-    } = this.props;
+    const { id, source, description, authors, thanks, actionGrant } =
+      this.props;
 
     const authorsSpan = authors.map((user) => {
       return (

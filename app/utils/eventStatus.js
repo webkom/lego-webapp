@@ -54,12 +54,8 @@ const eventStatus = (
 };
 
 const eventAttendance = (event: Event): string | boolean => {
-  const {
-    registrationCount,
-    totalCapacity,
-    activationTime,
-    isAdmitted,
-  } = event;
+  const { registrationCount, totalCapacity, activationTime, isAdmitted } =
+    event;
 
   if (!isAdmitted && activationTime === null) {
     return false;

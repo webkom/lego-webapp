@@ -36,12 +36,14 @@ function filterJoblistings(joblistings, grades, jobTypes, workplaces) {
   });
 }
 
-const dateSort = (field, reverse = false) => (a, b) => {
-  if (a[field] === b[field]) return (reverse ? -1 : 1) * (a.id - b.id);
-  const date1 = moment(a[field]);
-  const date2 = moment(b[field]);
-  return (reverse ? -1 : 1) * (date1 - date2);
-};
+const dateSort =
+  (field, reverse = false) =>
+  (a, b) => {
+    if (a[field] === b[field]) return (reverse ? -1 : 1) * (a.id - b.id);
+    const date1 = moment(a[field]);
+    const date2 = moment(b[field]);
+    return (reverse ? -1 : 1) * (date1 - date2);
+  };
 
 const companySort = (a, b) => {
   if (a.company.name === b.company.name) return a.id - b.id;

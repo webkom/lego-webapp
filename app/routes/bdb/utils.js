@@ -132,7 +132,8 @@ export const getContactedStatuses = (
   contactedStatuses: Array<CompanySemesterContactedStatus>,
   statusString: CompanySemesterContactedStatus
 ) => {
-  const contacted: Array<CompanySemesterContactedStatus> = contactedStatuses.slice();
+  const contacted: Array<CompanySemesterContactedStatus> =
+    contactedStatuses.slice();
   const statusIsAlreadySelected = contacted.indexOf(statusString) !== -1;
 
   if (statusIsAlreadySelected) {

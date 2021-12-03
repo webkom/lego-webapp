@@ -180,9 +180,8 @@ function withCountdown(WrappedComponent: ComponentType<Props>) {
 
     initiateCountdown(finishTime: Dateish) {
       const poll = () => {
-        const timeUntilRegistrationOpens = getTimeUntil(
-          finishTime
-        ).asMilliseconds();
+        const timeUntilRegistrationOpens =
+          getTimeUntil(finishTime).asMilliseconds();
 
         if (timeUntilRegistrationOpens <= 0) {
           clearInterval(this.countdownTimer);

@@ -251,9 +251,8 @@ const JoinEventForm = (props: Props) => {
     registration.pool &&
     ![paymentManual, paymentSuccess].includes(registration.paymentStatus);
 
-  const [registrationPendingDelayed, setRegistrationPendingDelayed] = useState(
-    false
-  );
+  const [registrationPendingDelayed, setRegistrationPendingDelayed] =
+    useState(false);
 
   useEffect(() => {
     const timer = setTimeout(

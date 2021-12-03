@@ -97,9 +97,8 @@ const UploadStatusCard = ({
 };
 
 const mapStateToProps: (any) => StateProps = (state) => {
-  const {
-    uploadStatus = initialUploadStatus,
-  }: { uploadStatus: UploadStatus } = state.galleryPictures;
+  const { uploadStatus = initialUploadStatus }: { uploadStatus: UploadStatus } =
+    state.galleryPictures;
 
   const lastImage: ?GalleryPictureEntity = selectGalleryPictureById(state, {
     pictureId: uploadStatus.lastUploadedImage,

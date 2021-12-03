@@ -31,8 +31,15 @@ const mapStateToProps = (state, props) => {
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  prepare(({ match: { params: { interestGroupId } } }, dispatch) =>
-    dispatch(fetchGroup(Number(interestGroupId)))
+  prepare(
+    (
+      {
+        match: {
+          params: { interestGroupId },
+        },
+      },
+      dispatch
+    ) => dispatch(fetchGroup(Number(interestGroupId)))
   ),
   connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['interestGroup'])

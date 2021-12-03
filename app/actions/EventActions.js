@@ -71,42 +71,44 @@ const getEndpoint = (state, loadNextPage, queryString) => {
   return endpoint;
 };
 
-export const fetchList = ({
-  dateAfter,
-  dateBefore,
-  refresh = false,
-  loadNextPage = false,
-}: Object = {}): Thunk<*> => (dispatch, getState) => {
-  const query: Object = { date_after: dateAfter, date_before: dateBefore };
-  if (dateBefore && dateAfter) {
-    query.page_size = 60;
-  }
-  const queryString = createQueryString(query);
-  const endpoint = getEndpoint(getState(), loadNextPage, queryString);
-  if (!endpoint) {
-    return Promise.resolve(null);
-  }
-  if (refresh && !loadNextPage) {
-    dispatch({
-      type: Event.CLEAR,
-    });
-  }
-  return dispatch(
-    callAPI({
-      types: Event.FETCH,
-      endpoint: endpoint,
-      schema: [eventSchema],
-      meta: {
-        errorMessage: 'Fetching events failed',
-        queryString,
-        endpoint,
-      },
-      useCache: refresh,
-      cacheSeconds: Infinity, // don't expire cache unless we pass useCache
-      propagateError: true,
-    })
-  );
-};
+export const fetchList =
+  ({
+    dateAfter,
+    dateBefore,
+    refresh = false,
+    loadNextPage = false,
+  }: Object = {}): Thunk<*> =>
+  (dispatch, getState) => {
+    const query: Object = { date_after: dateAfter, date_before: dateBefore };
+    if (dateBefore && dateAfter) {
+      query.page_size = 60;
+    }
+    const queryString = createQueryString(query);
+    const endpoint = getEndpoint(getState(), loadNextPage, queryString);
+    if (!endpoint) {
+      return Promise.resolve(null);
+    }
+    if (refresh && !loadNextPage) {
+      dispatch({
+        type: Event.CLEAR,
+      });
+    }
+    return dispatch(
+      callAPI({
+        types: Event.FETCH,
+        endpoint: endpoint,
+        schema: [eventSchema],
+        meta: {
+          errorMessage: 'Fetching events failed',
+          queryString,
+          endpoint,
+        },
+        useCache: refresh,
+        cacheSeconds: Infinity, // don't expire cache unless we pass useCache
+        propagateError: true,
+      })
+    );
+  };
 
 export function fetchAdministrate(eventId: number): Thunk<any> {
   return callAPI({

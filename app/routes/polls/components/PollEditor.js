@@ -92,13 +92,8 @@ const renderOptions = ({
 
 class EditPollForm extends Component<Props, *> {
   render() {
-    const {
-      pristine,
-      submitting,
-      handleSubmit,
-      editing,
-      deletePoll,
-    } = this.props;
+    const { pristine, submitting, handleSubmit, editing, deletePoll } =
+      this.props;
 
     return (
       <Content>

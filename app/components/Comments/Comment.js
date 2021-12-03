@@ -45,13 +45,8 @@ export default class Comment extends Component<Props, State> {
   };
 
   render() {
-    const {
-      comment,
-      contentTarget,
-      commentFormProps,
-      deleteComment,
-      user,
-    } = this.props;
+    const { comment, contentTarget, commentFormProps, deleteComment, user } =
+      this.props;
     const { createdAt, text, author } = comment;
     const { replyOpen } = this.state;
     return (

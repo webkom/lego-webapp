@@ -119,20 +119,11 @@ class EventList extends Component<EventListProps, State> {
   };
 
   render() {
-    const {
-      icalToken,
-      showFetchMore,
-      fetchMore,
-      events,
-      loggedIn,
-    } = this.props;
+    const { icalToken, showFetchMore, fetchMore, events, loggedIn } =
+      this.props;
     const { field, filterRegDateFunc } = this.state.selectedOption;
-    const {
-      showCompanyPresentation,
-      showCourse,
-      showSocial,
-      showOther,
-    } = this.state.filterEventTypesSettings;
+    const { showCompanyPresentation, showCourse, showSocial, showOther } =
+      this.state.filterEventTypesSettings;
 
     const filterEventTypesFunc = (event) => {
       if (!showCompanyPresentation && !showCourse && !showSocial && !showOther)

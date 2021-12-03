@@ -114,9 +114,10 @@ const mutateEvent = produce((newState: State, action: any): void => {
         stateEvent.waitingRegistrationCount--;
       }
       if (stateEvent.waitingRegistrations) {
-        stateEvent.waitingRegistrations = stateEvent.waitingRegistrations.filter(
-          (id) => id !== action.payload.id
-        );
+        stateEvent.waitingRegistrations =
+          stateEvent.waitingRegistrations.filter(
+            (id) => id !== action.payload.id
+          );
       }
       break;
     }

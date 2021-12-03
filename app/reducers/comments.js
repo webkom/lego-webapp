@@ -24,9 +24,8 @@ export function mutateComments(forTargetType: string) {
   return produce<State>((newState: State, action: any): void => {
     switch (action.type) {
       case Comment.ADD.SUCCESS: {
-        const [serverTargetType, targetId] = action.meta.contentTarget.split(
-          '-'
-        );
+        const [serverTargetType, targetId] =
+          action.meta.contentTarget.split('-');
         const targetType = getEntityType(serverTargetType);
         if (targetType === forTargetType) {
           newState.byId[targetId].comments =

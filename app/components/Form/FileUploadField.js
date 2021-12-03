@@ -21,15 +21,8 @@ class FileUploadField extends Component<Props> {
   static Field: any;
 
   render() {
-    const {
-      className,
-      style,
-      input,
-      value,
-      meta,
-      placeholder,
-      ...restprops
-    } = this.props;
+    const { className, style, input, value, meta, placeholder, ...restprops } =
+      this.props;
 
     return (
       <Flex

@@ -39,8 +39,15 @@ const mapDispatchToProps = {
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  prepare(({ match: { params: { articleId } } }, dispatch) =>
-    dispatch(fetchArticle(articleId))
+  prepare(
+    (
+      {
+        match: {
+          params: { articleId },
+        },
+      },
+      dispatch
+    ) => dispatch(fetchArticle(articleId))
   ),
   connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['article.content'])
