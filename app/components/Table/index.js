@@ -198,15 +198,8 @@ export default class Table extends Component<Props, State> {
       };
     }
 
-    const {
-      dataIndex,
-      title,
-      sorter,
-      filter,
-      search,
-      center,
-      filterMessage,
-    } = chosenProps;
+    const { dataIndex, title, sorter, filter, search, center, filterMessage } =
+      chosenProps;
 
     const sortIconName =
       this.state.sort.dataIndex === dataIndex

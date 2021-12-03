@@ -90,26 +90,25 @@ class TimePicker extends Component<Props, State> {
   onPrevHour = this.onPrev('hour');
   onPrevMinute = this.onPrev('minute');
 
-  onChange = (unit: 'hour' | 'minute') => (
-    e: SyntheticInputEvent<HTMLInputElement>
-  ) => {
-    const { value } = e.target;
-    if (
-      (unit === 'hour' && Number(value) < 24) ||
-      (unit === 'minute' && Number(value) < 60)
-    ) {
-      this.setState(
-        (prevState) => ({
-          value: this.state.value.clone().set(unit, Number(value)),
-          fieldValue: {
-            hour: unit === 'hour' ? value : prevState.fieldValue.hour,
-            minute: unit === 'minute' ? value : prevState.fieldValue.minute,
-          },
-        }),
-        this.commit
-      );
-    }
-  };
+  onChange =
+    (unit: 'hour' | 'minute') => (e: SyntheticInputEvent<HTMLInputElement>) => {
+      const { value } = e.target;
+      if (
+        (unit === 'hour' && Number(value) < 24) ||
+        (unit === 'minute' && Number(value) < 60)
+      ) {
+        this.setState(
+          (prevState) => ({
+            value: this.state.value.clone().set(unit, Number(value)),
+            fieldValue: {
+              hour: unit === 'hour' ? value : prevState.fieldValue.hour,
+              minute: unit === 'minute' ? value : prevState.fieldValue.minute,
+            },
+          }),
+          this.commit
+        );
+      }
+    };
 
   onChangeHour = this.onChange('hour');
   onChangeMinute = this.onChange('minute');

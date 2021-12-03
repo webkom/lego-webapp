@@ -4,8 +4,8 @@ const fs = require('fs');
 const webpack = require('webpack');
 const { StatsWriterPlugin } = require('webpack-stats-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
-  .BundleAnalyzerPlugin;
+const BundleAnalyzerPlugin =
+  require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const AssetsPlugin = require('assets-webpack-plugin');
 const FilterWarningsPlugin = require('webpack-filter-warnings-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');

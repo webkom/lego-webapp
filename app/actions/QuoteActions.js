@@ -23,36 +23,38 @@ const getEndpoint = (state, loadNextPage, queryString) => {
   return endpoint;
 };
 
-export const fetchAll = ({
-  approved = true,
-  refresh = false,
-  loadNextPage = false,
-}: {
-  approved?: boolean,
-  refresh?: boolean,
-  loadNextPage?: boolean,
-} = {}): Thunk<*> => (dispatch, getState) => {
-  const queryString = `?approved=${String(approved)}`;
-  const endpoint = getEndpoint(getState(), loadNextPage, queryString);
-  if (!endpoint) {
-    return Promise.resolve(null);
-  }
-  return dispatch(
-    callAPI({
-      types: Quote.FETCH,
-      endpoint,
-      schema: [quoteSchema],
-      meta: {
-        queryString,
-        errorMessage: `Henting av ${
-          approved ? '' : 'ikke '
-        }godkjente sitater feilet`,
-      },
-      propagateError: true,
-      cacheSeconds: Infinity, // don't expire cache unless we pass force
-    })
-  );
-};
+export const fetchAll =
+  ({
+    approved = true,
+    refresh = false,
+    loadNextPage = false,
+  }: {
+    approved?: boolean,
+    refresh?: boolean,
+    loadNextPage?: boolean,
+  } = {}): Thunk<*> =>
+  (dispatch, getState) => {
+    const queryString = `?approved=${String(approved)}`;
+    const endpoint = getEndpoint(getState(), loadNextPage, queryString);
+    if (!endpoint) {
+      return Promise.resolve(null);
+    }
+    return dispatch(
+      callAPI({
+        types: Quote.FETCH,
+        endpoint,
+        schema: [quoteSchema],
+        meta: {
+          queryString,
+          errorMessage: `Henting av ${
+            approved ? '' : 'ikke '
+          }godkjente sitater feilet`,
+        },
+        propagateError: true,
+        cacheSeconds: Infinity, // don't expire cache unless we pass force
+      })
+    );
+  };
 
 export function fetchAllApproved({
   loadNextPage,

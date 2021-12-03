@@ -38,7 +38,12 @@ const readyHtml = (app) => {
 
     return { body, scripts, styles, links };
   } else {
-    const { app, vendors, js, styles: appStyles } = JSON.parse(
+    const {
+      app,
+      vendors,
+      js,
+      styles: appStyles,
+    } = JSON.parse(
       fs
         .readFileSync(
           path.join(webpackClient.outputPath, 'webpack-assets.json')

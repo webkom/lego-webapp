@@ -27,39 +27,37 @@ const sortByAttribute = (attribute) => (ascending) => (a, b) => {
     : b[attribute].localeCompare(a[attribute]);
 };
 
-const sortByContactStatus = (index, startYear, startSem) => (ascending) => (
-  a,
-  b
-) => {
-  // Index is either 0, 1 or 2: it's displayed left, middle or right in the table
-  // startYear and startSem is the year and semester of the leftmost status
-  const companySemester = indexToSemester(index, startYear, startSem);
+const sortByContactStatus =
+  (index, startYear, startSem) => (ascending) => (a, b) => {
+    // Index is either 0, 1 or 2: it's displayed left, middle or right in the table
+    // startYear and startSem is the year and semester of the leftmost status
+    const companySemester = indexToSemester(index, startYear, startSem);
 
-  const semesterA = a.semesterStatuses.find(
-    (obj) =>
-      obj.year === companySemester.year &&
-      obj.semester === companySemester.semester
-  );
-  const statusA = semesterA
-    ? selectMostProminentStatus(semesterA.contactedStatus)
-    : 'not_contacted';
+    const semesterA = a.semesterStatuses.find(
+      (obj) =>
+        obj.year === companySemester.year &&
+        obj.semester === companySemester.semester
+    );
+    const statusA = semesterA
+      ? selectMostProminentStatus(semesterA.contactedStatus)
+      : 'not_contacted';
 
-  const semesterB = b.semesterStatuses.find(
-    (obj) =>
-      obj.year === companySemester.year &&
-      obj.semester === companySemester.semester
-  );
-  const statusB = semesterB
-    ? selectMostProminentStatus(semesterB.contactedStatus)
-    : 'not_contacted';
+    const semesterB = b.semesterStatuses.find(
+      (obj) =>
+        obj.year === companySemester.year &&
+        obj.semester === companySemester.semester
+    );
+    const statusB = semesterB
+      ? selectMostProminentStatus(semesterB.contactedStatus)
+      : 'not_contacted';
 
-  if (statusA === statusB) {
-    return a.name.localeCompare(b.name);
-  }
+    if (statusA === statusB) {
+      return a.name.localeCompare(b.name);
+    }
 
-  const prominentSort = sortStatusesByProminence(statusA, statusB);
-  return ascending ? prominentSort : prominentSort * -1;
-};
+    const prominentSort = sortStatusesByProminence(statusA, statusB);
+    return ascending ? prominentSort : prominentSort * -1;
+  };
 
 const sortCompanies = (companies, query, startYear, startSem) => {
   const sortType = query.sortBy;

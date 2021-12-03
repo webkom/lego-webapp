@@ -42,12 +42,8 @@ export default class AddSemester extends Component<Props, State> {
 
   onSubmit = ({ year, semester, contract }: SemesterStatusEntity) => {
     if (!this.state.submit) return;
-    const {
-      companyId,
-      addSemesterStatus,
-      companySemesters,
-      addSemester,
-    } = this.props;
+    const { companyId, addSemesterStatus, companySemesters, addSemester } =
+      this.props;
 
     const { contactedStatus } = this.state;
 
@@ -97,13 +93,8 @@ export default class AddSemester extends Component<Props, State> {
   };
 
   render() {
-    const {
-      companyId,
-      submitting,
-      autoFocus,
-      handleSubmit,
-      deleteCompany,
-    } = this.props;
+    const { companyId, submitting, autoFocus, handleSubmit, deleteCompany } =
+      this.props;
 
     const semesterStatus = { contactedStatus: this.state.contactedStatus };
 

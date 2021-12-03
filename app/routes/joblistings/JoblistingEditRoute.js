@@ -63,8 +63,15 @@ const mapDispatchToProps = {
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  prepare(({ match: { params: { joblistingId } } }, dispatch) =>
-    dispatch(fetchJoblisting(joblistingId))
+  prepare(
+    (
+      {
+        match: {
+          params: { joblistingId },
+        },
+      },
+      dispatch
+    ) => dispatch(fetchJoblisting(joblistingId))
   ),
 
   connect(mapStateToProps, mapDispatchToProps),

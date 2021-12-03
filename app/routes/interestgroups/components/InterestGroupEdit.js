@@ -12,12 +12,8 @@ export default class InterestGroupEdit extends Component<{
   handleSubmitCallback: (Object) => Promise<*>,
 }> {
   render() {
-    const {
-      interestGroup,
-      initialValues,
-      uploadFile,
-      handleSubmitCallback,
-    } = this.props;
+    const { interestGroup, initialValues, uploadFile, handleSubmitCallback } =
+      this.props;
 
     return (
       <Content>

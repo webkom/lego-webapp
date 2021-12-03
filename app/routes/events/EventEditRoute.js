@@ -98,8 +98,15 @@ const mapDispatchToProps = {
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  prepare(({ match: { params: { eventId } } }, dispatch) =>
-    dispatch(fetchEvent(eventId))
+  prepare(
+    (
+      {
+        match: {
+          params: { eventId },
+        },
+      },
+      dispatch
+    ) => dispatch(fetchEvent(eventId))
   ),
   connect(mapStateToProps, mapDispatchToProps),
   replaceUnlessLoggedIn(LoginPage)

@@ -68,12 +68,8 @@ class CompanyEvents extends Component<EventProps, *> {
   render() {
     const { viewOld } = this.state;
 
-    const {
-      loggedIn,
-      companyEvents,
-      showFetchMoreEvents,
-      fetchMoreEvents,
-    } = this.props;
+    const { loggedIn, companyEvents, showFetchMoreEvents, fetchMoreEvents } =
+      this.props;
 
     const sortedEvents = companyEvents.sort(
       (a, b) => new Date(b.startTime) - new Date(a.startTime)

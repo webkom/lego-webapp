@@ -757,8 +757,7 @@ describe('paginationReducer()', () => {
             },
           },
           result: [0, 1],
-          next:
-            'https://lego-staging.abakus.no/api/v1/events/?bar=true&cursor=next-cursor',
+          next: 'https://lego-staging.abakus.no/api/v1/events/?bar=true&cursor=next-cursor',
           previous:
             'https://lego-staging.abakus.no/api/v1/events/?bar=true&cursor=previous-cursor',
         },

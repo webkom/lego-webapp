@@ -20,14 +20,8 @@ type Props = {
 
 export default class Overview extends Component<Props> {
   render() {
-    const {
-      galleries,
-      push,
-      hasMore,
-      fetch,
-      fetching,
-      actionGrant,
-    } = this.props;
+    const { galleries, push, hasMore, fetch, fetching, actionGrant } =
+      this.props;
     return (
       <Content>
         <Helmet title="Albumer" />

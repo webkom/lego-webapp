@@ -17,9 +17,8 @@ export function mutateReactions(forTargetType: string) {
   return (state: any, action: any) => {
     switch (action.type) {
       case Reaction.ADD.SUCCESS: {
-        const [serverTargetType, targetId] = action.meta.contentTarget.split(
-          '-'
-        );
+        const [serverTargetType, targetId] =
+          action.meta.contentTarget.split('-');
 
         const reactionEmoji = action.meta.emoji;
         const unicodeString = action.meta.unicodeString;
@@ -69,9 +68,8 @@ export function mutateReactions(forTargetType: string) {
       }
 
       case Reaction.DELETE.SUCCESS: {
-        const [serverTargetType, targetId] = action.meta.contentTarget.split(
-          '-'
-        );
+        const [serverTargetType, targetId] =
+          action.meta.contentTarget.split('-');
         const reactionId = action.meta.id;
         const targetType = getEntityType(serverTargetType);
         if (targetType !== forTargetType) {

@@ -126,11 +126,12 @@ const formatAnswers = (answers, survey) => {
   return answers.map((answer, i) => {
     const question = survey.questions[i];
     const selected = answer.selectedOptions || [];
-    const selectedOptions = (question.questionType === QuestionTypes('single')
-      ? selected.map(Number)
-      : selected.map(
-          (optionSelected, j) => optionSelected && question.options[j].id
-        )
+    const selectedOptions = (
+      question.questionType === QuestionTypes('single')
+        ? selected.map(Number)
+        : selected.map(
+            (optionSelected, j) => optionSelected && question.options[j].id
+          )
     ).filter(Boolean);
 
     return {
