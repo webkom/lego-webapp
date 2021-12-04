@@ -111,8 +111,6 @@ html[data-theme='dark'] .voteButton {
 }
 
 .moreOptionsLink {
-  display: grid;
-  grid: auto-flow / 3fr 1fr 3fr;
   justify-content: space-between;
 }
 
@@ -158,6 +156,21 @@ html[data-theme='dark'] .voteButton {
 .alignItems {
   display: flex;
   justify-content: center;
+}
+
+.answered {
+  margin: 15px 0;
+  text-align: center;
+  font-weight: bold;
+}
+
+.bottomInfo {
+  display: flex;
+  justify-content: space-between;
+}
+
+.resultsHidden {
+  font-style: italic;
 }
 
 @media (--mobile-device) {

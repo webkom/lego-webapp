@@ -14,6 +14,7 @@ import cx from 'classnames';
 type Props = {
   poll: PollEntity,
   handleVote: (pollId: number, optionId: number) => Promise<*>,
+  allowedToViewHiddenResults?: boolean,
   backgroundLight?: boolean,
   truncate?: number,
   details?: boolean,
@@ -95,7 +96,14 @@ class Poll extends Component<Props, State> {
   };
 
   render() {
-    const { poll, handleVote, backgroundLight, details, truncate } = this.props;
+    const {
+      poll,
+      handleVote,
+      backgroundLight,
+      details,
+      truncate,
+      allowedToViewHiddenResults,
+    } = this.props;
     const { truncateOptions, expanded, shuffledOptions } = this.state;
     const { id, title, description, hasAnswered, totalVotes, resultsHidden } =
       poll;
@@ -104,6 +112,8 @@ class Poll extends Component<Props, State> {
     const optionsToShow = expanded
       ? orderedOptions
       : orderedOptions.slice(0, truncate);
+    const showResults = !resultsHidden || allowedToViewHiddenResults;
+
     return (
       <div className={cx(styles.poll, backgroundLight ? styles.pollLight : '')}>
         <Flex>
@@ -124,8 +134,17 @@ class Poll extends Component<Props, State> {
             <p>{description}</p>
           </div>
         )}
-        {hasAnswered && resultsHidden && <p>Resultatet er skjult</p>}
-        {hasAnswered && !resultsHidden && (
+        {hasAnswered && !showResults && (
+          <div className={styles.answered}>
+            Du har svart
+            <Icon
+              name="checkmark-circle-outline"
+              size={20}
+              style={{ marginLeft: '10px', color: 'green' }}
+            />
+          </div>
+        )}
+        {hasAnswered && showResults && (
           <Flex column className={styles.optionWrapper}>
             <table className={styles.pollTable}>
               <tbody>
@@ -160,6 +179,11 @@ class Poll extends Component<Props, State> {
                 })}
               </tbody>
             </table>
+            {resultsHidden && (
+              <p style={{ fontStyle: 'italic', marginTop: 15 }}>
+                Resultatet er skjult for vanlige brukere.
+              </p>
+            )}
           </Flex>
         )}
         {!hasAnswered && (
@@ -198,18 +222,28 @@ class Poll extends Component<Props, State> {
               ))}
           </Flex>
         )}
-        <div style={{ height: '29px' }}>
+        <div>
           <div className={styles.moreOptionsLink}>
+            {truncateOptions &&
+              (!hasAnswered ||
+                !resultsHidden ||
+                allowedToViewHiddenResults) && (
+                <div className={styles.alignItems}>
+                  <Icon
+                    onClick={this.toggleTruncate}
+                    className={styles.arrow}
+                    size={20}
+                    name={expanded ? 'arrow-up' : 'arrow-down'}
+                  />
+                </div>
+              )}
+          </div>
+          <div className={styles.bottomInfo}>
             <span>{`Stemmer: ${totalVotes}`}</span>
-            {truncateOptions && (
-              <div className={styles.alignItems}>
-                <Icon
-                  onClick={this.toggleTruncate}
-                  className={styles.arrow}
-                  size={20}
-                  name={expanded ? 'arrow-up' : 'arrow-down'}
-                />
-              </div>
+            {hasAnswered && !showResults && (
+              <span className={styles.resultsHidden}>
+                Resultatet er skjult.
+              </span>
             )}
           </div>
         </div>
