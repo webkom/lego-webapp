@@ -66,7 +66,7 @@
     "path-browserify": "^1.0.1",
     "postcss": "^8.3.8",
     "prop-types": "^15.7.2",
-    "qs": "^6.10.1",
+    "qs": "^6.10.2",
     "react": "16.14.0",
     "react-collapse": "^5.1.0",
     "react-copy-to-clipboard": "^5.0.4",
