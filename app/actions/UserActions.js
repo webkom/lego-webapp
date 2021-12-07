@@ -397,7 +397,7 @@ export function deleteUser(username: string): Thunk<Promise<*>> {
         },
       })
     ).then(() => {
-      dispatch(addToast({ message: 'Deleted' }));
+      dispatch(addToast({ succsessMessage: 'Bruker har blitt slettet' }));
       dispatch(push('/'));
     });
 }
