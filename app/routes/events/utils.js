@@ -67,6 +67,7 @@ const eventCreateAndUpdateFields = [
   'useConsent',
   'useContactTracing',
   'separateDeadlines',
+  'mazemapPoi'
 ];
 
 // Pool fields that should be created or updated based on the API

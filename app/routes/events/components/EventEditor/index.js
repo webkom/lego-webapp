@@ -265,6 +265,19 @@ function EventEditor({
                 warn={isTBA}
               />
             )}
+            {['NORMAL', 'OPEN', 'INFINITE'].includes(event.eventStatusType) && (
+              <Tooltip content="Lenke/url til rommet på mazemap, eller sharePoi-id-en på mazemap">
+              <Field
+              label="Mazemap-id"
+              name="mazemapPoi"
+              component={TextInput.Field}
+              fieldClassName={styles.metaField}
+              className={styles.formField}
+              placeholder="3232"
+              //placeholder='https://use.mazemap.com/#v=1&zlevel=3&center=10.404603,63.415406&zoom=18&campusid=1&sharepoitype=poi&sharepoi=6395&utm_medium=longurl'
+            />
+            </Tooltip>
+            )}
             {['NORMAL', 'INFINITE'].includes(event.eventStatusType) && (
               <Field
                 label="Betalt arrangement"

@@ -78,6 +78,7 @@ type EventBase = {
   pinned: boolean,
   youtubeUrl: string,
   useContactTracing: boolean,
+  mazemapPoi: number,
 };
 
 export type Company = Object;

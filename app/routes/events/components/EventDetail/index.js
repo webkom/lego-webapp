@@ -295,6 +295,20 @@ export default class EventDetail extends Component<Props> {
                   <InfoList items={paidItems} />
                 </div>
               )}
+          {event.mazemapPoi && (
+            <iframe
+              className={styles.mazemap}
+              src={
+                'https://use.mazemap.com/embed.html?zoom=17&campuses=ntnu&desttype=poi&dest=' +
+                event.mazemapPoi
+              }
+              width="100%"
+              frameborder="0"
+              marginheight="0"
+              marginwidth="0"
+              scrolling="no"
+            /> 
+          )}
               {['OPEN', 'TBA'].includes(event.eventStatusType) ? (
                 <JoinEventForm event={event} />
               ) : (
@@ -410,18 +424,6 @@ export default class EventDetail extends Component<Props> {
               Du kan oppdatere dine allergier og preferanser
               <Link to="/users/me"> her</Link>.
             </p>
-          )}
-          {event.mazemapPoi && (
-            <iframe
-              className={styles.mazemap}
-              src={
-                'https://use.mazemap.com/embed.html?sharepoitype=poi&sharepoi=' +
-                event.mazemapPoi
-              }
-              width="100%"
-              height="400"
-              scrolling="no"
-            />
           )}
           {event.contentTarget && (
             <CommentView
