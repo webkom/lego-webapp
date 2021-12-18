@@ -270,11 +270,9 @@ function EventEditor({
               <Field
               label="Mazemap-id"
               name="mazemapPoi"
-              component={TextInput.Field}
+              component={SelectInput.mazemapAutocomplete}
               fieldClassName={styles.metaField}
-              className={styles.formField}
-              placeholder="3232"
-              //placeholder='https://use.mazemap.com/#v=1&zlevel=3&center=10.404603,63.415406&zoom=18&campusid=1&sharepoitype=poi&sharepoi=6395&utm_medium=longurl'
+              placeholder="R1, Abakus, Kjel4"
             />
             </Tooltip>
             )}

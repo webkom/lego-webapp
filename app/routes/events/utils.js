@@ -67,7 +67,6 @@ const eventCreateAndUpdateFields = [
   'useConsent',
   'useContactTracing',
   'separateDeadlines',
-  'mazemapPoi'
 ];
 
 // Pool fields that should be created or updated based on the API
@@ -170,6 +169,7 @@ export const transformEvent = (data: TransformEvent) => ({
   pools: calculatePools(data),
   useCaptcha: true, // always use Captcha, this blocks the use of CLI
   youtubeUrl: data.youtubeUrl,
+  mazemapPoi: data.mazemapPoi.value
 });
 
 export const paymentPending = 'pending';
