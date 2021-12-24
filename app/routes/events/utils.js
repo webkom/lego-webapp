@@ -152,6 +152,9 @@ const calculateUnregistrationDeadlineHours = (data) =>
 const calculateMergeTime = (data) =>
   data.pools.length > 1 ? moment(data.mergeTime).toISOString() : null;
 
+const calculateMazemapPoi = (data) =>
+  (data.mazemapPoi.value != '' && data.mazemapPoi.value) || null;
+
 // Takes the full data-object and input and transforms the event to the API format.
 export const transformEvent = (data: TransformEvent) => ({
   ...pick(data, eventCreateAndUpdateFields),
@@ -169,7 +172,7 @@ export const transformEvent = (data: TransformEvent) => ({
   pools: calculatePools(data),
   useCaptcha: true, // always use Captcha, this blocks the use of CLI
   youtubeUrl: data.youtubeUrl,
-  mazemapPoi: data.mazemapPoi.value
+  mazemapPoi: calculateMazemapPoi(data),
 });
 
 export const paymentPending = 'pending';

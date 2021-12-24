@@ -78,7 +78,6 @@ type EventBase = {
   pinned: boolean,
   youtubeUrl: string,
   useContactTracing: boolean,
-  mazemapPoi: number,
 };
 
 export type Company = Object;
@@ -191,6 +190,7 @@ export type Event = EventBase & {
   price?: number,
   registrationCloseTime?: ?Dateish,
   unregistrationCloseTime?: ?Dateish,
+  mazemapPoi: number,
 };
 
 type EventTransformPool = EventPoolBase & {
@@ -202,6 +202,7 @@ export type TransformEvent = EventBase & {
   pools: Array<EventTransformPool>,
   company: SelectInput,
   responsibleGroup: SelectInput,
+  mazemapPoi: Object,
 };
 
 export type UserFollowing = {

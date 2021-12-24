@@ -2,22 +2,17 @@
 
 import React, { Component, type ComponentType } from 'react';
 import { debounce } from 'lodash';
-import * as Mazemap from './mazemap.min.js';
 import { stripHtmlTags } from './utils.js';
 
-
 type InjectedProps = {
-  mazemapSearch: (query: string) => Promise<*>
+  mazemapSearch: (query: string) => Promise<*>,
+  meta: any,
 };
 
 type State = {
   searching: boolean,
-  result: Array</*Todo: AutocompleteResult */ Object>
+  result: Array<Object>,
 };
-
-const test = async (mazemapPoi): string => {
-  Mazemap.Data.getPoi(mazemapPoi).then(poi => {return stripHtmlTags(poi.properties.title + ", " + poi.properties.buildingName)})
-}
 
 function mazemapAutocomplete<Props>({
   WrappedComponent,
@@ -26,7 +21,8 @@ function mazemapAutocomplete<Props>({
 }) {
   const displayName =
     WrappedComponent.displayName || WrappedComponent.name || 'Unknown';
-  
+
+  // $FlowFixMe Mazemap is defined in script tag, has no types
   const mySearch = new Mazemap.Search.SearchController({
     campusid: 1,
     rows: 10,
@@ -34,24 +30,34 @@ function mazemapAutocomplete<Props>({
     withbuilding: false,
     withtype: false,
     withcampus: false,
-    resultsFormat: 'geojson'
-  })
+    resultsFormat: 'geojson',
+  });
 
   return class extends Component<InjectedProps & Props, State> {
     static displayName = `Autocomplete(${displayName})`;
 
     state = {
       searching: false,
-      result: [{
-        label: this.props.input.value,
-        value: this.props.input.value,
-      }]
+      result: [], //first result fetched on mount
     };
 
     _isMounted = false;
 
     componentDidMount() {
       this._isMounted = true;
+      if (this.props.meta.initial) {
+        Mazemap.Data.getPoi(this.props.meta.initial.value).then((poi) =>
+          this.setState({
+            result: [
+              {
+                label:
+                  poi.properties.title + ', ' + poi.properties.buildingName,
+                value: this.props.meta.initial.value,
+              },
+            ],
+          })
+        );
+      }
     }
 
     componentWillUnmount() {
@@ -63,18 +69,23 @@ function mazemapAutocomplete<Props>({
         return;
       }
       this.setState({
-        searching: true
+        searching: true,
       });
 
-      mySearch.search(query)
-        .then(results => {
+      mySearch
+        .search(query)
+        .then((results) => {
           if (this._isMounted) {
             this.setState({
-              result: results.results.features.map(result => ({
-                label: stripHtmlTags(result.properties.dispPoiNames[0] + ", " + result.properties.dispBldNames[0]),
+              result: results.results.features.map((result) => ({
+                label: stripHtmlTags(
+                  result.properties.dispPoiNames[0] +
+                    ', ' +
+                    result.properties.dispBldNames[0]
+                ),
                 value: result.properties.poiId,
               })),
-              searching: false
+              searching: false,
             });
           }
         })
@@ -87,11 +98,10 @@ function mazemapAutocomplete<Props>({
 
     render() {
       return (
-        // $FlowFixMe
         <WrappedComponent
           {...this.props}
           options={this.state.result}
-          onSearch={debounce(query => this.handleSearch(query), 300)}
+          onSearch={debounce((query) => this.handleSearch(query), 300)}
           fetching={this.state.searching}
         />
       );

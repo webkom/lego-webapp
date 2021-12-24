@@ -166,6 +166,6 @@ export function getAdminLinks(options: Options): Array<NavigationLink> {
   return retrieveAllowed(SORTED_ADMIN, options);
 }
 
-export const stripHtmlTags: String = (string: String) => {
-  return string.replace(/<(.|\n)*?>/g, '')
-}
+export const stripHtmlTags = (s: string): string => {
+  return s.replace(/<(.|\n)*?>/g, '');
+};

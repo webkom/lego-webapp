@@ -134,6 +134,13 @@ function MeetingEditor({
           component={TextInput.Field}
         />
         <Field
+          label="Mazemap-rom"
+          name="mazemapPoi"
+          component={SelectInput.mazemapAutocomplete}
+          fieldClassName={styles.metaField}
+          placeholder="R1, Abakus, Kjel4"
+        />
+        <Field
           name="reportAuthor"
           label="Referent"
           placeholder="La denne stå åpen for å velge deg selv"

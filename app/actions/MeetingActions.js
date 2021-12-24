@@ -123,6 +123,7 @@ export function createMeeting({
   reportAuthor,
   users,
   groups,
+  mazemapPoi,
 }: Object): Thunk<any> {
   return callAPI({
     types: Meeting.CREATE,
@@ -136,6 +137,7 @@ export function createMeeting({
       endTime: moment(endTime).toISOString(),
       startTime: moment(startTime).toISOString(),
       reportAuthor: reportAuthor && reportAuthor.id,
+      mazemapPoi: mazemapPoi.value > 0 ? mazemapPoi.value : null,
     },
     schema: meetingSchema,
     meta: {
@@ -206,6 +208,7 @@ export function editMeeting({
   id,
   users,
   groups,
+  mazemapPoi,
 }: Object): Thunk<any> {
   return callAPI({
     types: Meeting.EDIT,
@@ -220,6 +223,7 @@ export function editMeeting({
       endTime: moment(endTime).toISOString(),
       startTime: moment(startTime).toISOString(),
       reportAuthor: reportAuthor && reportAuthor.id,
+      mazemapPoi: mazemapPoi.value > 0 ? mazemapPoi.value : null,
     },
     schema: meetingSchema,
     meta: {

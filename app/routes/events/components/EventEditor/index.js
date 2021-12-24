@@ -266,15 +266,13 @@ function EventEditor({
               />
             )}
             {['NORMAL', 'OPEN', 'INFINITE'].includes(event.eventStatusType) && (
-              <Tooltip content="Lenke/url til rommet på mazemap, eller sharePoi-id-en på mazemap">
               <Field
-              label="Mazemap-id"
-              name="mazemapPoi"
-              component={SelectInput.mazemapAutocomplete}
-              fieldClassName={styles.metaField}
-              placeholder="R1, Abakus, Kjel4"
-            />
-            </Tooltip>
+                label="Mazemap-rom"
+                name="mazemapPoi"
+                component={SelectInput.mazemapAutocomplete}
+                fieldClassName={styles.metaField}
+                placeholder="R1, Abakus, Kjel4"
+              />
             )}
             {['NORMAL', 'INFINITE'].includes(event.eventStatusType) && (
               <Field

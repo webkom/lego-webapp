@@ -47,6 +47,7 @@ import type {
 } from 'app/models';
 import type { CommentEntity } from 'app/reducers/comments';
 import type { UserEntity } from 'app/reducers/users';
+import { MazemapEmbed } from 'app/components/MazemapEmbed';
 
 type InterestedButtonProps = {
   isInterested: boolean,
@@ -295,20 +296,7 @@ export default class EventDetail extends Component<Props> {
                   <InfoList items={paidItems} />
                 </div>
               )}
-          {event.mazemapPoi && (
-            <iframe
-              className={styles.mazemap}
-              src={
-                'https://use.mazemap.com/embed.html?zoom=17&campuses=ntnu&desttype=poi&dest=' +
-                event.mazemapPoi
-              }
-              width="100%"
-              frameborder="0"
-              marginheight="0"
-              marginwidth="0"
-              scrolling="no"
-            /> 
-          )}
+              {event.mazemapPoi && <MazemapEmbed sharepoi={event.mazemapPoi} />}
               {['OPEN', 'TBA'].includes(event.eventStatusType) ? (
                 <JoinEventForm event={event} />
               ) : (
