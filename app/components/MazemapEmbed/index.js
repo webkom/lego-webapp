@@ -3,29 +3,28 @@ import { useEffect } from 'react';
 
 type Props = {
   sharepoi: number,
-  mazemapClassName?: string,
+  height?: number,
 };
 
 /** A component that shows a mazemap map of a given poi (e.g. room),
  * largely based on https://api.mazemap.com/js/v2.0.12/docs/#ex-data-poi
  */
 
-export const MazemapEmbed = ({ sharepoi, mazemapClassName }: Props) => {
+export const MazemapEmbed = ({ sharepoi, ...props }: Props) => {
   useEffect(() => {
     // $FlowFixMe Mazemap is defined in script tag, has no types
     const myMap = new Mazemap.Map({
       container: 'mazemap-embed',
       campuses: 1,
       center: { lng: 10.4042965, lat: 63.4154135 },
+      zLevel: 3,
       zoom: 16,
       minZoom: 10,
       maxZoom: 20,
-      zoomControl: true,
-      zLevel: 3,
       zLevelControl: true,
       scrollZoom: true,
-      doubleClickZoom: true,
-      touchZoomRotate: true,
+      doubleClickZoom: false,
+      touchZoomRotate: false,
     });
     myMap.on('load', () => {
       // Initialize a Highlighter for POIs
@@ -68,11 +67,7 @@ export const MazemapEmbed = ({ sharepoi, mazemapClassName }: Props) => {
 
   return (
     <>
-      <div
-        style={{ width: '100%', height: 400 }}
-        id="mazemap-embed"
-        className={mazemapClassName}
-      />
+      <div style={{ height: props.height || 400 }} id="mazemap-embed" />
       <a
         href={
           'https://use.mazemap.com/#v=1&sharepoitype=poi&campusid=1&sharepoi=' +
