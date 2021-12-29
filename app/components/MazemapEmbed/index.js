@@ -11,6 +11,7 @@ type Props = {
  */
 
 export const MazemapEmbed = ({ sharepoi, ...props }: Props) => {
+  //useEffect to initialize only once, sharepoi will probably not change
   useEffect(() => {
     // $FlowFixMe Mazemap is defined in script tag, has no types
     const myMap = new Mazemap.Map({
@@ -62,6 +63,10 @@ export const MazemapEmbed = ({ sharepoi, ...props }: Props) => {
         myMap.jumpTo({ center: lngLat, zoom: 18 });
         myMap.zLevel = poi.properties.zLevel;
       };
+
+      const height = myMap.getCanvas().clientHeight;
+      const maxHeight = height - 50; // 50 pixels account for margins and spacing
+      myMap.zLevelControl.setMaxHeight(maxHeight);
     });
   }, [sharepoi]);
 
