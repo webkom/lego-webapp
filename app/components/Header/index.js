@@ -3,26 +3,27 @@
 import { Component } from 'react';
 import { Link, NavLink, withRouter } from 'react-router-dom';
 import { Modal } from 'react-overlays';
+import { Flipper } from 'react-flip-toolkit';
 import Icon from '../Icon';
 import Search from '../Search';
 import { ProfilePicture, Image } from '../Image';
+import logoLightMode from 'app/assets/logo-dark.png';
+import logoDarkMode from 'app/assets/logo.png';
+import LoadingIndicator from 'app/components/LoadingIndicator';
 import FancyNodesCanvas from './FancyNodesCanvas';
+
 import styles from './Header.css';
 import Navbar from './Navbar';
 import NavbarItem from './Navbar/NavbarItem';
-import { Flipper } from 'react-flip-toolkit';
 import DropdownContainer from './DropdownContainer';
 import EventsDropdown from './DropdownContents/EventsDropdown';
 import InfoDropdown from './DropdownContents/InfoDropdown';
 import NotificationsDropdown from './DropdownContents/NotificationsDropdown';
 import ProfileDropdown from './DropdownContents/ProfileDropdown';
 import LoginDropdown from './DropdownContents/LoginDropdown';
-import { applySelectedTheme, getOSTheme, getTheme } from 'app/utils/themeUtils';
 
+import { applySelectedTheme, getOSTheme, getTheme } from 'app/utils/themeUtils';
 import type { UserEntity } from 'app/reducers/users';
-import logoLightMode from 'app/assets/logo-dark.png';
-import logoDarkMode from 'app/assets/logo.png';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 
 type Props = {
   searchOpen: boolean,
@@ -38,7 +39,6 @@ type Props = {
   fetchNotificationData: () => Promise<void>,
   upcomingMeeting: string,
   loading: boolean,
-  currentUser: UserEntity,
 };
 
 type State = {
@@ -48,8 +48,6 @@ type State = {
 };
 
 class Header extends Component<Props, State> {
-  animatingOutTimeout: ?TimeoutID;
-
   state = {
     mode: 'login',
     activeIndices: [],
@@ -71,7 +69,9 @@ class Header extends Component<Props, State> {
     e.stopPropagation();
   };
 
-  // onMouseLeave does not pass 'i' into resetDropdownState
+  animatingOutTimeout: ?TimeoutID;
+
+  // onMouseLeave does not pass an input into resetDropdownState
   resetDropdownState = (i?: number) => {
     this.setState({
       activeIndices: typeof i === 'number' ? [i] : [],
@@ -166,40 +166,42 @@ class Header extends Component<Props, State> {
         onMouseLeave: this.handleMarkAllNotifications,
         show: loggedIn,
         title: (
-          <Icon.Badge name="notifications" size={30} badgeCount={unreadCount} />
+          <Icon.Badge name="notifications" size={25} badgeCount={unreadCount} />
         ),
         to: '/timeline',
       },
-      {
+      /*{
         dropdown: <MeetingButton />,
         key: 'meetings',
         show: loggedIn && this.props.upcomingMeeting,
         title: <Icon name="calendar" className={styles.meetingIcon} />,
         to: `/meetings/${this.props.upcomingMeeting}`,
-      },
+      },*/
       {
-        dropdown: <ProfileDropdown user={this.props.currentUser} />,
+        dropdown: (
+          <ProfileDropdown
+            username={this.props.currentUser.username}
+            logout={this.props.logout}
+          />
+        ),
         key: 'profile',
         show: loggedIn,
-        title: <ProfilePicture size={30} alt="user" user={currentUser} />,
+        title: <ProfilePicture size={25} alt="user" user={currentUser} />,
         to: '/users/me',
       },
       {
-        /*
         dropdown: <LoginDropdown />,
         key: 'login',
         show: !loggedIn,
-        title: <Icon name="contact" size={30} />,
+        title: <Icon name="contact" size={25} />,
         to: '/',
-      */
       },
     ];
 
     let CurrentDropdown, PrevDropdown, direction;
 
-    const currentIndex = this.state.activeIndices[
-      this.state.activeIndices.length - 1
-    ];
+    const currentIndex =
+      this.state.activeIndices[this.state.activeIndices.length - 1];
     const prevIndex =
       this.state.activeIndices.length > 1 &&
       this.state.activeIndices[this.state.activeIndices.length - 2];
@@ -244,8 +246,9 @@ class Header extends Component<Props, State> {
                 </NavLink>
               ) : (
                 <NavLink
-                  to="/pages/bedrifter/for-bedrifter"
+                  className={styles.navbarItemTitle}
                   activeClassName={styles.activeNavbarItemTitle}
+                  to="/pages/bedrifter/for-bedrifter"
                 >
                   For bedrifter
                 </NavLink>

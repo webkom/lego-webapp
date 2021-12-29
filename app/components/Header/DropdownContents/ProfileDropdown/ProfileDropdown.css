@@ -1,0 +1,21 @@
+.profileDropdownEl {
+  width: 14rem;
+
+  @media (--small-viewport) {
+    width: 100%;
+  }
+}
+
+.username {
+  display: block;
+  margin-bottom: 0.4em;
+  padding: 0.3em 0.6em 0.3em 0.6em;
+  width: fit-content;
+  color: var(--lego-font-color);
+  font-size: 1.3em;
+  font-weight: bold;
+}
+
+.username:hover {
+  text-decoration: underline;
+}

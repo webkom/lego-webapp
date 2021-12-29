@@ -5,7 +5,7 @@ import type { Node } from 'react';
 import { Flipped } from 'react-flip-toolkit';
 import styled, { keyframes } from 'styled-components';
 import FadeContents from './FadeContents';
-import styles from '../Header.css';
+import styles from './DropdownContainer.css';
 
 type Props = {
   children: Node,

@@ -1,11 +1,11 @@
 // @flow
 
-import styles from '../Header.css';
 import {
   LoginForm,
   RegisterForm,
   ForgotPasswordForm,
 } from 'app/components/LoginForm';
+import styles from '../Header.css';
 
 type Props = {};
 

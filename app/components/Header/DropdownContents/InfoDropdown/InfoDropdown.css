@@ -1,0 +1,66 @@
+.infoDropdownEl {
+  width: 28rem;
+}
+
+.gridSection {
+  display: inline-grid;
+  grid-template-columns: 12rem 12rem;
+  grid-template-rows: auto auto;
+  gap: 1em;
+}
+
+.gridSection div {
+  display: flex;
+  align-items: center;
+  gap: 0.3em;
+}
+
+.gridSection .dropdownLink {
+  gap: 0.6em;
+  padding: 0.3em 0.6em 0.3em 0.6em;
+  width: 100%;
+  border-radius: 5px;
+  color: var(--color-dark-gray-2);
+}
+
+.gridSection .activeDropdownLink {
+  background-color: rgba(214, 212, 212, 0.3);
+}
+
+.activeDropdownLink {
+  color: var(--color-red-3);
+}
+
+.gridSection span {
+  font-size: 0.9em;
+  font-weight: bold;
+  color: var(--color-dark-gray-2);
+}
+
+.gridSection p {
+  white-space: initial;
+  word-break: break-word;
+  line-height: 1.4em;
+  font-size: 0.8em;
+  color: rgba(57, 75, 89, 0.7);
+  transition: color 75ms ease-in-out;
+}
+
+.gridSection .dropdownLink:hover {
+  background-color: rgba(214, 212, 212, 0.3);
+}
+
+.gridSection .dropdownLink:hover p {
+  color: var(--color-dark-gray-2);
+}
+
+.gridSection i {
+  color: var(--lego-light-red-color);
+  opacity: 0;
+  transition: transform 100ms ease-in-out, opacity 100ms ease-in-out;
+}
+
+.gridSection .dropdownLink:hover i {
+  transform: translateX(0.2em);
+  opacity: 1;
+}

@@ -3,7 +3,7 @@
 import { forwardRef } from 'react';
 import type { Node } from 'react';
 import styled, { keyframes } from 'styled-components';
-import styles from '../Header.css';
+import styles from './DropdownContainer.css';
 
 type Props = {
   children: Node,
@@ -14,11 +14,11 @@ type Props = {
 const getFadeContainerKeyFrame = ({ animatingOut, direction }) => {
   if (!direction) return;
   return keyframes`
-  to {
-    transform: translateX(0px);
-    opacity: ${animatingOut ? 0 : 1};
-  }
-`;
+    to {
+      transform: translateX(0px);
+      opacity: ${animatingOut ? 0 : 1};
+    }
+  `;
 };
 
 const FadeContainer = styled.div`

@@ -3,10 +3,11 @@
 import cx from 'classnames';
 import { activityRenderers } from 'app/components/Feed';
 import Time from 'app/components/Time';
-import styles from './NotificationsDropdown.css';
 import { Link } from 'react-router-dom';
 import ErrorBoundary from 'app/components/ErrorBoundary';
 import { toSpan } from 'app/components/Feed/context';
+import styles from './NotificationsDropdown.css';
+import shared from 'app/components/Header/Header.css';
 
 type Props = {
   notificationsData: Object,
@@ -65,7 +66,7 @@ const NotificationsDropdown = (props: Props) => {
 
   return (
     <div className={styles.notificationDropdownEl}>
-      <div className={styles.dropdownSection} data-first-dropdown-section>
+      <div className={shared.dropdownSection} data-first-dropdown-section>
         <div className={styles.notifications}>
           {notifications.length ? (
             <div style={{ width: '100%' }}>
@@ -78,7 +79,11 @@ const NotificationsDropdown = (props: Props) => {
           )}
         </div>
       </div>
-      <div className={styles.dropdownSection}>Se tidslinje</div>
+      <div className={shared.dropdownSection}>
+        <Link className={shared.bottomLink} to="/timeline">
+          Se tidslinje
+        </Link>
+      </div>
     </div>
   );
 };

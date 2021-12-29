@@ -4,26 +4,23 @@ import cx from 'classnames';
 import styles from './Icon.css';
 
 type Props = {
-  /** Name of the icon can be found on the webpage*/
+  /** Name of the icon can be found on the webpage linked down below */
   name: string,
-  /** Name of the icon can be found on the webpage*/
   scaleOnHover?: boolean,
-  /** Name of the icon can be found on the webpage*/
   className?: string,
-  /** Name of the icon can be found on the webpage*/
   size?: number,
-  /** Name of the icon can be found on the webpage*/
-  prefix?: string,
   /** Icon prefix. defaults to "ion-ios-" */
+  prefix?: string,
   style?: Object,
 };
 
 /**
- * Render an Icon
+ * Render an Icon just like this:
  *
- * <Icon name="add" > </Icon>
+ * <Icon name="add" />
  *
- * Just like this...
+ *
+ * View the selection of icons here:
  *
  * https://infinitered.github.io/ionicons-version-3-search/
  */

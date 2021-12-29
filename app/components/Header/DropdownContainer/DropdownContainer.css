@@ -1,0 +1,72 @@
+.fadeContainer {
+  top: 0;
+  left: 0;
+  will-change: transform;
+  animation-duration: 300ms;
+  animation-fill-mode: forwards;
+}
+
+.altBackground {
+  position: absolute;
+  width: 300%;
+  height: 100%;
+  top: 0;
+  left: -100%;
+  z-index: 0;
+  background-color: #e7eaeeb0;
+  transform-origin: 0 0;
+  transition: transform 300ms ease-in-out;
+}
+
+.invertedDiv {
+  will-change: transform;
+  position: relative;
+  top: 0;
+  left: 0;
+
+  &:first-of-type {
+    z-index: 1;
+  }
+
+  &:not(:first-of-type) {
+    z-index: -1;
+  }
+}
+
+.dropdownBackground {
+  overflow: hidden;
+  position: relative;
+  will-change: transform;
+  transform-origin: 0 0;
+  border-radius: 5px;
+  border: 1px solid var(--color-light-gray-3);
+  background-color: var(--color-almost-white-1);
+  box-shadow: 0 1.2rem 2rem rgba(29, 29, 29, 0.15);
+}
+
+.dropdownRoot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  top: -20px;
+  will-change: transform;
+  transform-origin: 0 0;
+  animation-duration: 300ms;
+
+  /* Use 'forwards' to prevent flicker on leave animation */
+  animation-fill-mode: forwards;
+}
+
+.caret {
+  position: relative;
+  top: 2px;
+  width: 0;
+  height: 0;
+  border-width: 0.625em;
+  border-style: solid;
+  border-color: transparent transparent var(--color-almost-white-1);
+
+  /* Make sure it's above the main dropdown container so now box-shadow bleeds over it */
+  z-index: 1;
+}

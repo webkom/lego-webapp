@@ -11,21 +11,32 @@
 
 .backdrop {
   background: rgba(var(--rgb-max), var(--rgb-max), var(--rgb-max), 50%);
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  position: fixed;
+  background: rgba(var(--rgb-max), var(--rgb-max), var(--rgb-max), 0.5);
 }
 
 .buttonGroup {
-  flex: 1;
   display: flex;
+  flex: 1;
   justify-content: flex-end;
 }
 
 .logo > img {
   width: 160px;
+}
+
+.logoDarkMode,
+.logoLightMode {
+  display: none;
+}
+
+html[data-theme='dark'] .logoDarkMode,
+html[data-theme='light'] .logoLightMode {
+  display: block;
 }
 
 .buttonGroup button,
@@ -78,7 +89,6 @@
 
 .content {
   composes: container from '~app/styles/utilities.css';
-  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -146,208 +156,84 @@
 }
 
 .navbarItemTitle {
-  height: 2rem; /* TODO: optimize */
-  background: transparent;
-  border: 0;
-  font-family: -apple-system, system-ui, 'Segoe UI', 'Roboto', 'Helvetica Neue',
-    Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  font-size: 1.3em;
-  padding: 0 1.5rem 0 1.5rem;
-  color: var(--color-dark-gray-4);
   display: flex;
   justify-content: center;
-  transition: opacity 250ms;
-  cursor: pointer;
+  align-items: center;
   position: relative;
+  height: 32.31px; /* The height of the Abakus logo */
+  padding: 0 1.5rem 0 1.5rem;
+  background: transparent;
+  border: 0;
   z-index: 2;
+  cursor: pointer;
+  -webkit-font-smoothing: antialiased;
+  font-family: 'Roboto';
+  font-size: 1.1em;
+  letter-spacing: 1.05px;
+  color: var(--color-dark-gray-4);
+  transition: color 100ms ease-in-out;
 }
 
 .navbarItemTitle:hover,
 .activeNavbarItemTitle {
-  opacity: 0.7;
-  outline: none;
+  color: var(--color-red-3);
 }
 
 .dropdownSlot {
   position: absolute;
-  padding-top: 1.2rem;
   left: 50%;
-  transform: translateX(-50%);
+  padding-top: 1.2rem;
   perspective: 1500px;
   z-index: 2;
-}
-
-/* event dropdown */
-
-.eventsDropdownEl {
-  width: 22rem;
+  transform: translateX(-50%);
 }
 
 .dropdownLink {
-  width: 100%;
-  height: 4rem;
-
-  color: var(--lego-font-color);
-
   display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-}
-
-.icon {
-  transition: transform 0.2s ease-in-out;
-}
-
-.dropdownLink:hover .icon {
-  transform: translate(0.6em, 0);
-}
-
-.dropdownLink:hover .iconFrame {
-  box-shadow: 0 0 5px rgba(33, 33, 33, 0.2);
-}
-
-.iconFrame {
-  width: 3.2rem;
-  height: 3.2rem;
-  background-color: var(--lego-red);
-  color: var(--color-white);
-  border-radius: 50%;
-
-  display: flex;
-  justify-content: center;
   align-items: center;
+  gap: 0.6em;
+  padding: 0.3em 0.6em 0.3em 0.6em;
+  width: 100%;
+  border-radius: 5px;
+  font-size: 0.9em;
+  font-weight: bold;
+  color: var(--color-dark-gray-2);
 }
 
-.textAndArrow {
-  width: 73%;
+.activeDropdownLink,
+.dropdownLink:hover {
+  background-color: rgba(214, 212, 212, 0.3);
+}
 
+.activeDropdownLink {
+  color: var(--color-red-3);
+}
+
+.bottomLink {
   display: flex;
-  flex-direction: column;
-}
-
-.altText {
-  font-family: 'Roboto';
+  align-items: center;
+  justify-content: center;
+  gap: 0.6em;
+  font-family: 'Roboto', sans-serif;
   font-weight: bold;
   color: var(--color-dark-gray-4);
   letter-spacing: 2px;
   text-transform: uppercase;
-  transition: all 0.2s ease-in-out;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  cursor: pointer;
+  transition: color 100ms ease-in-out;
 }
 
-.altText:hover {
-  color: var(--lego-red);
-}
-
-.dropdownSection[data-first-dropdown-section] .dropdownLink:nth-child(1) {
-  margin-bottom: 28px;
-}
-
-.infoDropdownEl {
-  width: 30rem;
-}
-
-.notificationDropdownEl {
-  width: 24rem;
-}
-
-.profileDropdownEl {
-  width: 18.5rem;
+.bottomLink:hover {
+  color: var(--lego-light-red-color);
 }
 
 .dropdownSection {
-  padding: 28px;
-  position: relative;
-  z-index: 1;
-  font-size: 1.1em;
-}
-
-.dropdownBackground {
-  transform-origin: 0 0;
-  background-color: var(--color-white);
-  border-radius: 4px;
-  overflow: hidden;
-  position: relative;
-  box-shadow: 0 50px 100px rgba(50, 50, 93, 0.1);
-  will-change: transform;
-  border: 1px solid var(--color-light-gray-3);
-}
-
-.dropdownRoot {
-  transform-origin: 0 0;
-  will-change: transform;
-  animation-duration: 300ms;
-  /* Use 'forwards' to prevent flicker on leave animation */
-  animation-fill-mode: forwards;
-  /* Flex styles will center the caret child component */
   display: flex;
   flex-direction: column;
-  align-items: center;
   position: relative;
-  top: -20px;
-}
-
-.caret {
-  width: 0;
-  height: 0;
-  border-width: 10px;
-  border-style: solid;
-  border-color: transparent transparent var(--color-white);
-  /* Make sure it's above the main dropdown container so now box-shadow bleeds over it */
+  gap: 0.3em;
+  padding: 1em;
   z-index: 1;
-  position: relative;
-  top: 2px;
-}
-
-.altBackground {
-  background-color: #f1f4f8b0;
-  width: 300%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: -100%;
-  transform-origin: 0 0;
-  z-index: 0;
-  transition: transform 300ms ease-in-out;
-}
-
-.invertedDiv {
-  will-change: transform;
-  position: relative;
-  top: 0;
-  left: 0;
-
-  &:first-of-type {
-    z-index: 1;
-  }
-  &:not(:first-of-type) {
-    z-index: -1;
-  }
-}
-
-.fadeContainer {
-  will-change: transform;
-  animation-duration: 300ms;
-  animation-fill-mode: forwards;
-  top: 0;
-  left: 0;
-}
-
-.logoDarkMode,
-.logoLightMode {
-  display: none;
-}
-
-html[data-theme='light'] .logoLightMode {
-  display: block;
-}
-
-html[data-theme='dark'] .logoDarkMode {
-  display: block;
 }
 
 html[data-theme='dark'] .meetingIcon {

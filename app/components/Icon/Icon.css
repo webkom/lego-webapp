@@ -3,14 +3,14 @@
   justify-content: center;
   align-items: center;
   position: absolute;
-  top: -50%;
+  top: -40%;
   right: -50%;
-  background: #e55649;
-  box-shadow: 0 5px 5px rgba(33, 33, 33, 0.2);
-  color: var(--color-white);
+  width: 1.6em;
+  height: 1.6em;
+  padding: 0.3em;
   border-radius: 50%;
-  width: 28px;
-  height: 28px;
-  font-size: 16px;
-  padding: 5px;
+  background: var(--lego-light-red-color);
+  box-shadow: 0 0.3em 0.3em rgba(33, 33, 33, 0.2);
+  color: var(--color-white);
+  font-size: 1rem;
 }

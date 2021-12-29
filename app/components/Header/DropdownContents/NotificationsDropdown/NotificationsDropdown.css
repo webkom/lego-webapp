@@ -1,14 +1,19 @@
 @import '~app/styles/variables.css';
 
+.notificationDropdownEl {
+  width: 22rem;
+
+  @media (--small-viewport) {
+    width: 100%;
+  }
+}
+
 .notifications {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 400px;
 
   @media (--small-viewport) {
-    width: 100%;
-
     &::before,
     &::after {
       display: none;
