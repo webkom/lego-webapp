@@ -3,6 +3,8 @@
 import React, { Component, type ComponentType } from 'react';
 import { debounce } from 'lodash';
 import { stripHtmlTags } from './utils.js';
+import "node_modules/mazemap/mazemap.min.css";
+import * as Mazemap from 'mazemap';
 
 type InjectedProps = {
   mazemapSearch: (query: string) => Promise<*>,
@@ -22,7 +24,6 @@ function mazemapAutocomplete<Props>({
   const displayName =
     WrappedComponent.displayName || WrappedComponent.name || 'Unknown';
 
-  // $FlowFixMe Mazemap is defined in script tag, has no types
   const mySearch = new Mazemap.Search.SearchController({
     campusid: 1,
     rows: 10,

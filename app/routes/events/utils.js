@@ -153,7 +153,7 @@ const calculateMergeTime = (data) =>
   data.pools.length > 1 ? moment(data.mergeTime).toISOString() : null;
 
 const calculateMazemapPoi = (data) =>
-  (data.mazemapPoi.value != '' && data.mazemapPoi.value) || null;
+  (data.mazemapPoi.value !== '' && data.mazemapPoi.value) || null;
 
 // Takes the full data-object and input and transforms the event to the API format.
 export const transformEvent = (data: TransformEvent) => ({

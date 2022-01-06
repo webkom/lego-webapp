@@ -114,8 +114,6 @@ export default function pageRenderer({
         <link href="https://unpkg.com/ionicons@3.0.0/dist/css/ionicons.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:700|Raleway|Roboto" rel="stylesheet">
         ${links}
-        <link rel="stylesheet" href="https://api.mazemap.com/js/v2.0.63/mazemap.min.css">
-
         ${helmet ? helmet.meta.toString() : ''}
 
         ${styles}
@@ -127,7 +125,6 @@ export default function pageRenderer({
            window.__PRELOADED_STATE__ = ${serialize(state, { isJSON: true })};
            window.__IS_SSR__ = ${isSSR};
         </script>
-        <script src='https://api.mazemap.com/js/v2.0.63/mazemap.min.js'></script>
         ${dllPlugin}
         ${scripts}
       </body>

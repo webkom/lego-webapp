@@ -106,7 +106,8 @@
     "validator": "^13.7.0",
     "vm-browserify": "^1.1.2",
     "websocket.js": "^0.1.7",
-    "zxcvbn": "^4.4.2"
+    "zxcvbn": "^4.4.2",
+    "mazemap": "file:./vendor/mazemap"
   },
   "devDependencies": {
     "@babel/core": "^7.16.7",
@@ -216,6 +217,7 @@
     },
     "testRegex": "\\.spec\\.(js|jsx)$",
     "setupFiles": [
+      "<rootDir>/testing/mazemapMapbox.js",
       "<rootDir>/testing/requestAnimationFrame.js",
       "<rootDir>/testing/setup.js"
     ]

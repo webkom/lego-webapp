@@ -1,5 +1,7 @@
 // @flow
 import { useEffect } from 'react';
+import "node_modules/mazemap/mazemap.min.css"
+import * as Mazemap from 'mazemap';
 
 type Props = {
   sharepoi: number,
@@ -45,7 +47,7 @@ export const MazemapEmbed = ({ sharepoi, ...props }: Props) => {
         // Get a center point for the POI, because the data can return a polygon instead of just a point sometimes
         const lngLat = Mazemap.Util.getPoiLngLat(poi);
 
-        const mazeMarker = new Mazemap.MazeMarker({
+        new Mazemap.MazeMarker({
           color: '#ff00cc',
           innerCircle: true,
           innerCircleColor: '#FFF',
