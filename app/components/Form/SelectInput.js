@@ -94,7 +94,7 @@ SelectInput.AutocompleteField = withAutocomplete({
 SelectInput.WithAutocomplete = withAutocomplete({
   WrappedComponent: SelectInput,
 });
-SelectInput.mazemapAutocomplete = mazemapAutocomplete({
+SelectInput.MazemapAutocomplete = mazemapAutocomplete({
   WrappedComponent: SelectInput.Field,
 });
 export default SelectInput;

@@ -136,7 +136,7 @@ function MeetingEditor({
         <Field
           label="Mazemap-rom"
           name="mazemapPoi"
-          component={SelectInput.mazemapAutocomplete}
+          component={SelectInput.MazemapAutocomplete}
           fieldClassName={styles.metaField}
           placeholder="R1, Abakus, Kjel4"
         />

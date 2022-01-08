@@ -1,9 +1,9 @@
 // @flow
 
-import React, { Component, type ComponentType } from 'react';
+import { Component, type ComponentType } from 'react';
 import { debounce } from 'lodash';
 import { stripHtmlTags } from './utils.js';
-import "node_modules/mazemap/mazemap.min.css";
+import 'node_modules/mazemap/mazemap.min.css';
 import * as Mazemap from 'mazemap';
 
 type InjectedProps = {
@@ -24,7 +24,7 @@ function mazemapAutocomplete<Props>({
   const displayName =
     WrappedComponent.displayName || WrappedComponent.name || 'Unknown';
 
-  const mySearch = new Mazemap.Search.SearchController({
+  const mazemapSearchController = new Mazemap.Search.SearchController({
     campusid: 1,
     rows: 10,
     withpois: true,
@@ -33,6 +33,17 @@ function mazemapAutocomplete<Props>({
     withcampus: false,
     resultsFormat: 'geojson',
   });
+
+  const mapRoomAndBuildingToResult = (
+    poiName: string,
+    buildingName: string,
+    value: Number
+  ): Object => {
+    return {
+      label: stripHtmlTags(poiName + ', ' + buildingName),
+      value: value,
+    };
+  };
 
   return class extends Component<InjectedProps & Props, State> {
     static displayName = `Autocomplete(${displayName})`;
@@ -50,11 +61,11 @@ function mazemapAutocomplete<Props>({
         Mazemap.Data.getPoi(this.props.meta.initial.value).then((poi) =>
           this.setState({
             result: [
-              {
-                label:
-                  poi.properties.title + ', ' + poi.properties.buildingName,
-                value: this.props.meta.initial.value,
-              },
+              mapRoomAndBuildingToResult(
+                poi.properties.title,
+                poi.properties.buildingName,
+                this.props.meta.initial.value
+              ),
             ],
           })
         );
@@ -73,24 +84,22 @@ function mazemapAutocomplete<Props>({
         searching: true,
       });
 
-      mySearch
+      mazemapSearchController
         .search(query)
         .then((results) => {
           if (this._isMounted) {
             this.setState({
-              result: results.results.features.map((result) => ({
-                label: stripHtmlTags(
-                  result.properties.dispPoiNames[0] +
-                    ', ' +
-                    result.properties.dispBldNames[0]
-                ),
-                value: result.properties.poiId,
-              })),
-              searching: false,
+              result: results.results.features.map((result) =>
+                mapRoomAndBuildingToResult(
+                  result.properties.dispPoiNames[0],
+                  result.properties.dispBldNames[0],
+                  result.properties.poiId
+                )
+              ),
             });
           }
         })
-        .catch(() => {
+        .finally(() => {
           if (this._isMounted) {
             this.setState({ searching: false });
           }

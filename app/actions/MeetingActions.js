@@ -137,7 +137,7 @@ export function createMeeting({
       endTime: moment(endTime).toISOString(),
       startTime: moment(startTime).toISOString(),
       reportAuthor: reportAuthor && reportAuthor.id,
-      mazemapPoi: mazemapPoi.value > 0 ? mazemapPoi.value : null,
+      mazemapPoi: mazemapPoi.value ? mazemapPoi.value : null,
     },
     schema: meetingSchema,
     meta: {
@@ -223,7 +223,7 @@ export function editMeeting({
       endTime: moment(endTime).toISOString(),
       startTime: moment(startTime).toISOString(),
       reportAuthor: reportAuthor && reportAuthor.id,
-      mazemapPoi: mazemapPoi.value > 0 ? mazemapPoi.value : null,
+      mazemapPoi: mazemapPoi.value ? mazemapPoi.value : null,
     },
     schema: meetingSchema,
     meta: {

@@ -1,6 +1,6 @@
 // @flow
 import { useEffect } from 'react';
-import "node_modules/mazemap/mazemap.min.css"
+import 'node_modules/mazemap/mazemap.min.css';
 import * as Mazemap from 'mazemap';
 
 type Props = {
@@ -15,8 +15,7 @@ type Props = {
 export const MazemapEmbed = ({ sharepoi, ...props }: Props) => {
   //useEffect to initialize only once, sharepoi will probably not change
   useEffect(() => {
-    // $FlowFixMe Mazemap is defined in script tag, has no types
-    const myMap = new Mazemap.Map({
+    const embeddedMazemap = new Mazemap.Map({
       container: 'mazemap-embed',
       campuses: 1,
       center: { lng: 10.4042965, lat: 63.4154135 },
@@ -29,14 +28,14 @@ export const MazemapEmbed = ({ sharepoi, ...props }: Props) => {
       doubleClickZoom: false,
       touchZoomRotate: false,
     });
-    myMap.on('load', () => {
+    embeddedMazemap.on('load', () => {
       // Initialize a Highlighter for POIs
       // Storing the object on the map just makes it easy to access for other things
-      myMap.highlighter = new Mazemap.Highlighter(myMap, {
-        showOutline: true, // optional
-        showFill: true, // optional
-        outlineColor: Mazemap.Util.Colors.MazeColors.MazeBlue, // optional
-        fillColor: Mazemap.Util.Colors.MazeColors.MazeBlue, // optional
+      embeddedMazemap.highlighter = new Mazemap.Highlighter(embeddedMazemap, {
+        showOutline: true,
+        showFill: true,
+        outlineColor: Mazemap.Util.Colors.MazeColors.MazeRed,
+        fillColor: Mazemap.Util.Colors.MazeColors.MazeRed,
       });
       // Fetching via Data API
       Mazemap.Data.getPoi(sharepoi).then((poi) => {
@@ -48,27 +47,27 @@ export const MazemapEmbed = ({ sharepoi, ...props }: Props) => {
         const lngLat = Mazemap.Util.getPoiLngLat(poi);
 
         new Mazemap.MazeMarker({
-          color: '#ff00cc',
+          color: '#c0392b',
           innerCircle: true,
-          innerCircleColor: '#FFF',
+          innerCircleColor: '#fff',
           size: 34,
           innerCircleScale: 0.5,
           zLevel: poi.properties.zLevel,
         })
           .setLngLat(lngLat)
-          .addTo(myMap);
+          .addTo(embeddedMazemap);
 
         // If we have a polygon, use the default 'highlight' function to draw a marked outline around the POI.
         if (poi.geometry.type === 'Polygon') {
-          myMap.highlighter.highlight(poi);
+          embeddedMazemap.highlighter.highlight(poi);
         }
-        myMap.jumpTo({ center: lngLat, zoom: 18 });
-        myMap.zLevel = poi.properties.zLevel;
+        embeddedMazemap.jumpTo({ center: lngLat, zoom: 18 });
+        embeddedMazemap.zLevel = poi.properties.zLevel;
       };
 
-      const height = myMap.getCanvas().clientHeight;
+      const height = embeddedMazemap.getCanvas().clientHeight;
       const maxHeight = height - 50; // 50 pixels account for margins and spacing
-      myMap.zLevelControl.setMaxHeight(maxHeight);
+      embeddedMazemap.zLevelControl.setMaxHeight(maxHeight);
     });
   }, [sharepoi]);
 
