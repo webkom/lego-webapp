@@ -2,18 +2,20 @@
 import { useEffect } from 'react';
 import 'node_modules/mazemap/mazemap.min.css';
 import * as Mazemap from 'mazemap';
+import MazemapLink from './MazemapLink';
 
 type Props = {
-  sharepoi: number,
+  mazemapPoi: number,
   height?: number,
+  linkText?: string,
 };
 
 /** A component that shows a mazemap map of a given poi (e.g. room),
  * largely based on https://api.mazemap.com/js/v2.0.12/docs/#ex-data-poi
  */
 
-export const MazemapEmbed = ({ sharepoi, ...props }: Props) => {
-  //useEffect to initialize only once, sharepoi will probably not change
+export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
+  //useEffect to initialize only once, mazemapPoi will probably not change
   useEffect(() => {
     const embeddedMazemap = new Mazemap.Map({
       container: 'mazemap-embed',
@@ -38,7 +40,7 @@ export const MazemapEmbed = ({ sharepoi, ...props }: Props) => {
         fillColor: Mazemap.Util.Colors.MazeColors.MazeRed,
       });
       // Fetching via Data API
-      Mazemap.Data.getPoi(sharepoi).then((poi) => {
+      Mazemap.Data.getPoi(mazemapPoi).then((poi) => {
         placePoiMarker(poi);
       });
 
@@ -69,21 +71,12 @@ export const MazemapEmbed = ({ sharepoi, ...props }: Props) => {
       const maxHeight = height - 50; // 50 pixels account for margins and spacing
       embeddedMazemap.zLevelControl.setMaxHeight(maxHeight);
     });
-  }, [sharepoi]);
+  }, [mazemapPoi]);
 
   return (
     <>
       <div style={{ height: props.height || 400 }} id="mazemap-embed" />
-      <a
-        href={
-          'https://use.mazemap.com/#v=1&sharepoitype=poi&campusid=1&sharepoi=' +
-          sharepoi
-        }
-        rel="noreferrer noopener"
-        target="_blank"
-      >
-        Åpne kart i ny fane
-      </a>
+      <MazemapLink mazemapPoi={mazemapPoi} linkText={props.linkText} />
     </>
   );
 };

@@ -296,7 +296,9 @@ export default class EventDetail extends Component<Props> {
                   <InfoList items={paidItems} />
                 </div>
               )}
-              {event.mazemapPoi && <MazemapEmbed sharepoi={event.mazemapPoi} />}
+              {event.mazemapPoi && (
+                <MazemapEmbed mazemapPoi={event.mazemapPoi} />
+              )}
               {['OPEN', 'TBA'].includes(event.eventStatusType) ? (
                 <JoinEventForm event={event} />
               ) : (

@@ -51,6 +51,7 @@ const mapStateToProps = (state, props) => {
         label: 'Klikk for å vise lagret rom',
         value: meeting.mazemapPoi,
       },
+      useMazemap: meeting.mazemapPoi > 0,
     },
     invitingUsers: valueSelector(state, 'users') || [],
     meetingId,

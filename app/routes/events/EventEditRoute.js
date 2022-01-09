@@ -60,6 +60,7 @@ const mapStateToProps = (state, props) => {
       },
       separateDeadlines:
         event.registrationDeadlineHours !== event.unregistrationDeadlineHours,
+      useMazemap: event.mazemapPoi > 0,
     },
     actionGrant,
     event: {

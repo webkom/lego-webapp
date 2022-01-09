@@ -203,6 +203,7 @@ export type TransformEvent = EventBase & {
   company: SelectInput,
   responsibleGroup: SelectInput,
   mazemapPoi: Object,
+  useMazemap: boolean,
 };
 
 export type UserFollowing = {

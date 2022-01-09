@@ -211,7 +211,7 @@ class MeetingDetails extends Component<Props> {
                     <AttendanceStatus.Modal pools={this.sortInvitations()} />
                   </li>
                   {meeting.mazemapPoi && (
-                    <MazemapEmbed sharepoi={meeting.mazemapPoi} />
+                    <MazemapEmbed mazemapPoi={meeting.mazemapPoi} />
                   )}
                   <li>
                     <AnnouncementInLine

@@ -94,8 +94,15 @@ const calculatePrice = (data) => {
 /* Calculate the event location
  * @param eventStatusType: what kind of registrationmode this event has
  */
-const calculateLocation = (data) =>
-  data.eventStatusType === 'TBA' ? 'TBA' : data.location;
+const calculateLocation = (data) => {
+  if (
+    data.useMazemap &&
+    data.mazemapPoi.label != 'Klikk for å vise lagret rom'
+  ) {
+    return data.mazemapPoi.label;
+  }
+  return data.eventStatusType === 'TBA' ? 'TBA' : data.location;
+};
 
 /* Calculate the event pools
  * @param eventStatusType: what kind of registrationmode this event has
@@ -152,8 +159,12 @@ const calculateUnregistrationDeadlineHours = (data) =>
 const calculateMergeTime = (data) =>
   data.pools.length > 1 ? moment(data.mergeTime).toISOString() : null;
 
-const calculateMazemapPoi = (data) =>
-  (data.mazemapPoi.value !== '' && data.mazemapPoi.value) || null;
+const calculateMazemapPoi = (data) => {
+  if (!data.useMazemap || data.mazemapPoi.value == '') {
+    return null;
+  }
+  return data.mazemapPoi.value;
+};
 
 // Takes the full data-object and input and transforms the event to the API format.
 export const transformEvent = (data: TransformEvent) => ({
