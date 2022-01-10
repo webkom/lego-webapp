@@ -206,6 +206,7 @@
       "__DEV__": false,
       "__CLIENT__": true
     },
+    "testEnvironment": "jsdom",
     "moduleDirectories": [
       "<rootDir>",
       "node_modules"
