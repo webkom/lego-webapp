@@ -100,7 +100,7 @@
     "regenerator-runtime": "^0.13.9",
     "reselect": "4.0.0",
     "serialize-javascript": "^6.0.0",
-    "slugify": "^1.6.3",
+    "slugify": "^1.6.5",
     "stream-browserify": "^3.0.0",
     "util": "^0.12.4",
     "validator": "^13.7.0",
