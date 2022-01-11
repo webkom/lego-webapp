@@ -81,6 +81,13 @@ function EventEditor({
   initialized,
 }: Props) {
   const isEditPage = eventId !== undefined;
+
+  const [useMazemap, setUseMazemap] = useState<boolean>(false);
+
+  useEffect(() => {
+    setUseMazemap(event.mazemapPoi && event.mazemapPoi?.value > 0);
+  }, [initialized]);
+
   if (isEditPage && !actionGrant.includes('edit')) {
     return null;
   }
@@ -107,12 +114,6 @@ function EventEditor({
   ];
 
   const color = colorForEvent(event.eventType);
-
-  const [useMazemap, setUseMazemap] = useState<boolean>(false);
-
-  useEffect(() => {
-    setUseMazemap(event.mazemapPoi && event.mazemapPoi?.value > 0);
-  }, [initialized]);
 
   return (
     <Content>

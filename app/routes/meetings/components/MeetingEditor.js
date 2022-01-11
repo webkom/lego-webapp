@@ -56,6 +56,13 @@ function MeetingEditor({
   initialized,
 }: Props) {
   const isEditPage = meetingId !== undefined;
+
+  const [useMazemap, setUseMazemap] = useState<boolean>(false);
+
+  useEffect(() => {
+    setUseMazemap(isEditPage && meeting.mazemapPoi > 0);
+  }, [initialized, isEditPage]);
+
   if (isEditPage && !meeting) {
     return <LoadingIndicator loading />;
   }
@@ -80,12 +87,6 @@ function MeetingEditor({
     invitingUsers,
     'value'
   );
-
-  const [useMazemap, setUseMazemap] = useState<boolean>(false);
-
-  useEffect(() => {
-    setUseMazemap(isEditPage && meeting.mazemapPoi > 0);
-  }, [initialized]);
 
   return (
     <div className={styles.root}>

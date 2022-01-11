@@ -48,7 +48,7 @@ const mapStateToProps = (state, props) => {
       report: meeting ? meeting.report : '',
       description: meeting ? meeting.description : '',
       mazemapPoi: meeting.mazemapPoi && {
-        label: 'Klikk for å vise lagret rom',
+        label: meeting.location,
         value: meeting.mazemapPoi,
       },
       useMazemap: meeting.mazemapPoi > 0,

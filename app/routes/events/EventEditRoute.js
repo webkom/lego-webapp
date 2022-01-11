@@ -33,7 +33,6 @@ const mapStateToProps = (state, props) => {
     eventId,
   });
   const valueSelector = formValueSelector('eventEditor');
-  const mazemapLabel = 'Klikk for å vise lagret rom';
   return {
     initialValues: {
       ...event,
@@ -55,7 +54,7 @@ const mapStateToProps = (state, props) => {
         value: event.responsibleGroup.id,
       },
       mazemapPoi: event.mazemapPoi && {
-        label: mazemapLabel,
+        label: event.location, //if mazemapPoi has a value, location will be its displayname
         value: event.mazemapPoi,
       },
       separateDeadlines:

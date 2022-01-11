@@ -247,9 +247,5 @@ const calculateMazemapPoi = (useMazemap, mazemapPoi) => {
   return mazemapPoi.value;
 };
 
-const calculateLocation = (useMazemap, mazemapPoi, location) => {
-  if (useMazemap && mazemapPoi.label != 'Klikk for å vise lagret rom') {
-    return mazemapPoi.label;
-  }
-  return location;
-};
+const calculateLocation = (useMazemap, mazemapPoi, location) =>
+  useMazemap ? mazemapPoi.label : location;
