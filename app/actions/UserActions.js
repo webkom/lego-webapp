@@ -392,12 +392,11 @@ export function deleteUser(username: string): Thunk<Promise<*>> {
         endpoint: `/users/${username}/`,
         method: 'DELETE',
         meta: {
-          id: username,
           errorMessage: 'Sletting av bruker feilet',
+          successMessage: 'Bruker har blitt slettet',
         },
       })
     ).then(() => {
-      dispatch(addToast({ succsessMessage: 'Bruker har blitt slettet' }));
       dispatch(push('/'));
     });
 }
