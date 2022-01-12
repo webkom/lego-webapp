@@ -96,7 +96,7 @@
     "redux-logger": "^3.0.1",
     "redux-segment": "^1.6.2",
     "redux-sentry-middleware": "^0.2.2",
-    "redux-thunk": "2.3.0",
+    "redux-thunk": "2.4.1",
     "regenerator-runtime": "^0.13.9",
     "reselect": "4.0.0",
     "serialize-javascript": "^6.0.0",
