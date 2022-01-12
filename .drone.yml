@@ -2,8 +2,6 @@
 kind: pipeline
 type: docker
 name: default
-concurrency:
-  limit: 4 # Limit concurrent pipelines
 
 trigger:
   event:
@@ -20,7 +18,7 @@ steps:
     when:
       event: [push]
       branch:
-        exclude: [ build ]
+        exclude: [build]
 
   - name: minio
     image: minio/minio
@@ -33,7 +31,7 @@ steps:
     when:
       event: [push]
       branch:
-        exclude: [ build ]
+        exclude: [build]
 
   - name: thumbor
     image: apsl/thumbor:latest
@@ -56,7 +54,7 @@ steps:
     when:
       event: [push]
       branch:
-        exclude: [ build ]
+        exclude: [build]
 
   - name: redis
     image: redis
@@ -64,7 +62,7 @@ steps:
     when:
       event: [push]
       branch:
-        exclude: [ build ]
+        exclude: [build]
 
   - name: api
     image: registry.webkom.dev/webkom/lego:latest
@@ -114,7 +112,7 @@ steps:
     when:
       event: [push]
       branch:
-        exclude: [ build ]
+        exclude: [build]
 
   - name: legocypresshelper
     image: abakus/lego-cypress-helper:latest
@@ -123,7 +121,7 @@ steps:
     when:
       event: [push]
       branch:
-        exclude: [ build ]
+        exclude: [build]
     environment:
       PG_HOST: postgres
       PG_USERNAME: lego
@@ -157,7 +155,7 @@ steps:
     when:
       event: [push]
       branch:
-        exclude: [ build ]
+        exclude: [build]
     depends_on:
       - setup
     commands:
@@ -168,7 +166,7 @@ steps:
     when:
       event: [push]
       branch:
-        exclude: [ build ]
+        exclude: [build]
     depends_on:
       - setup
     commands:
@@ -206,7 +204,7 @@ steps:
     when:
       event: [push]
       branch:
-        exclude: [ build ]
+        exclude: [build]
     depends_on:
       - setup
     environment:
@@ -220,7 +218,7 @@ steps:
     when:
       event: [push]
       branch:
-        exclude: [ build ]
+        exclude: [build]
     depends_on:
       - build_client
       - build_server
@@ -239,7 +237,7 @@ steps:
     when:
       event: [push]
       branch:
-        exclude: [ build ]
+        exclude: [build]
     depends_on:
       - legocypresshelper
       - install_cypress
@@ -326,4 +324,4 @@ image_pull_secrets:
 
 ---
 kind: signature
-hmac: 87effa5b2d8a9c5eac66780b94954ac3e98288700a99026f26efdce0986c65bb
+hmac: 78c89633b5aa09d67d24373cbf8036a4f4d698b710bfb5097d5add9f6acf8415
