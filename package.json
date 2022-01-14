@@ -120,7 +120,7 @@
     "@loadable/server": "^5.15.1",
     "@loadable/webpack-plugin": "^5.15.2",
     "assets-webpack-plugin": "^7.1.1",
-    "babel-loader": "^8.2.2",
+    "babel-loader": "^8.2.3",
     "compression-webpack-plugin": "^9.0.1",
     "concurrently": "^7.0.0",
     "css-loader": "^6.5.1",
