@@ -223,7 +223,7 @@ module.exports = (env, argv) => {
           ],
         },
         {
-          test: /\.(png|jpg|jpeg|gif|svg|bdf|eot|svg|woff|woff2|ttf|mp3|mp4|webm)$/,
+          test: /\.(png|jpg|jpeg|gif|svg|bdf|eot|woff|woff2|ttf|mp3|mp4|webm)$/,
           type: 'asset',
         },
         {
