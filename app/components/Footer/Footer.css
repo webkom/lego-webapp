@@ -121,10 +121,6 @@ html[data-theme='dark'] .footer {
   gap: 0.7em;
 }
 
-.pipe {
-  font-weight: bold;
-}
-
 .bottom {
   width: 100%;
   background-color: var(--lego-dark-red-color);
