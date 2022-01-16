@@ -10,6 +10,7 @@ import { selectSortedEvents } from 'app/reducers/events';
 import moment from 'moment-timezone';
 import { selectPagination } from '../../reducers/selectors';
 import createQueryString from 'app/utils/createQueryString';
+import loadingIndicator from 'app/utils/loadingIndicator';
 
 const mapStateToProps = (state, ownProps) => {
   const dateAfter = moment().format('YYYY-MM-DD');
@@ -27,6 +28,7 @@ const mapStateToProps = (state, ownProps) => {
       actionGrant,
     })(state, ownProps),
     icalToken,
+    notLoading: !state.events.fetching,
   };
 };
 
@@ -47,5 +49,6 @@ const mapDispatchToProps = {
 
 export default compose(
   prepare((props, dispatch) => dispatch(fetchData())),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
+  loadingIndicator(['notLoading'])
 )(EventList);

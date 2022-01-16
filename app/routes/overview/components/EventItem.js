@@ -30,14 +30,24 @@ class EventItem extends Component<Props, *> {
             {isFrontPage ? (
               <Flex column className={styles.leftFrontpage}>
                 {item.cover && (
-                  <Image className={styles.imageFrontpage} src={item.cover} />
+                  <Image
+                    className={styles.imageFrontpage}
+                    width={270}
+                    height={80}
+                    src={item.cover}
+                  />
                 )}
                 <span className={styles.info}>{info}</span>
               </Flex>
             ) : (
               <Flex column className={styles.left}>
                 {item.cover && (
-                  <Image className={styles.image} src={item.cover} />
+                  <Image
+                    className={styles.image}
+                    src={item.cover}
+                    width={390}
+                    height={80}
+                  />
                 )}
                 <span className={styles.info}>{info}</span>
               </Flex>

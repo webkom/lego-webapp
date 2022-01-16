@@ -43,7 +43,7 @@
   padding: 20px;
   height: 100%;
   flex: 1;
-  border-radius: 0 0 5px 5px;
+  border-radius: 0 0 5px 0;
   background: var(--lego-card-color);
 
   @media (--mobile-device) {
@@ -96,10 +96,9 @@
 .info {
   background: var(--color-white);
   text-align: center;
-  border-radius: 0 0 5px 5px;
+  border-radius: 0 0 0 5px;
   color: var(--lego-font-color);
   padding: 3px 6px;
-  height: 100%;
 
   @media (--mobile-device) {
     display: none;

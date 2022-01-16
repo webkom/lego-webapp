@@ -68,7 +68,7 @@ function Content({ banner, youtubeUrl, children, className }: Props) {
       ) : (
         banner && (
           <div className={cx(styles.cover, className)}>
-            <Image src={banner} />
+            <Image src={banner} width={1667} height={500} />
           </div>
         )
       )}
