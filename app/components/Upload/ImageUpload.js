@@ -1,6 +1,7 @@
 // @flow
 
-import { Fragment, Component } from 'react';
+import { useEffect, useState, useCallback, Fragment, Component } from 'react';
+import { useDropzone } from 'react-dropzone';
 import { Cropper } from 'react-cropper';
 import { Flex } from 'app/components/Layout';
 import 'cropperjs/dist/cropper.css';
@@ -8,10 +9,12 @@ import Modal from 'app/components/Modal';
 import Icon from 'app/components/Icon';
 import TextInput from 'app/components/Form/TextInput';
 import Button from 'app/components/Button';
-import Upload from 'app/components/Upload';
-import type { DropFile } from 'app/components/Upload';
 import styles from './UploadImage.css';
 import { Image } from 'app/components/Image';
+
+export type DropFile = File & {
+  preview: string,
+};
 
 type Props = {
   crop?: boolean,
@@ -67,18 +70,48 @@ const FilePreview = ({ file, onRemove, index }: FilePreviewProps) => (
 
 const UploadArea = ({ multiple, onDrop, image }: UploadAreaProps) => {
   const word = multiple ? 'bilder' : 'bilde';
+
+  const [files, setFiles] = useState([]);
+
+  const onDropCallback = useCallback(
+    (acceptedFiles: Array<DropFile>) => {
+      if (!multiple) {
+        setFiles(acceptedFiles);
+      } else {
+        setFiles((files) => files.concat(acceptedFiles));
+      }
+    },
+    [multiple]
+  );
+  useEffect(() => {
+    files[0] && multiple ? onDrop(files.slice(-1)) : onDrop(files);
+  }, [files, onDrop, multiple]);
+
+  const { getRootProps, getInputProps } = useDropzone({
+    onDrop: onDropCallback,
+  });
+
   return (
-    <Upload multiple={multiple} onDrop={onDrop} accept="image/*">
-      <div className={styles.placeholderContainer}>
-        <Icon size={82} name="image" className={styles.placeholderIcon} />
-        <h1 className={styles.placeholdeTitle}>
-          {`Dropp ${word} her eller trykk for å velge fra fil`}
-        </h1>
+    <div
+      onClick={(e) => {
+        // Call preventDefault to avoid labels from triggering click on input
+        e.preventDefault();
+      }}
+      className={styles.dropArea}
+    >
+      <div {...getRootProps({ className: styles.dropArea })}>
+        <div className={styles.placeholderContainer}>
+          <Icon size={82} name="image" className={styles.placeholderIcon} />
+          <h1 className={styles.placeholdeTitle}>
+            {`Dropp ${word} her eller trykk for å velge fra fil`}
+          </h1>
+        </div>
+        {image && (
+          <Image alt="presentation" className={styles.image} src={image} />
+        )}
+        <input {...getInputProps()} />
       </div>
-      {image && (
-        <Image alt="presentation" className={styles.image} src={image} />
-      )}
-    </Upload>
+    </div>
   );
 };
 
@@ -99,8 +132,13 @@ export default class ImageUpload extends Component<Props, State> {
   };
 
   onDrop = (files: Array<DropFile>) => {
-    if (this.props.crop) {
-      this.setState({ file: files[0], cropOpen: true });
+    if (this.props.crop && files[0]) {
+      const file: DropFile = files[0];
+      file.preview = URL.createObjectURL(files[0]);
+      this.setState({
+        file: file,
+        cropOpen: true,
+      });
     }
 
     if (this.props.multiple && !this.props.crop) {
@@ -168,6 +206,11 @@ export default class ImageUpload extends Component<Props, State> {
       this.setState({ img: this.props.img });
     }
   };
+
+  componentWillUnmount() {
+    const { file } = this.state;
+    file && file.preview && URL.revokeObjectURL(file.preview);
+  }
 
   render() {
     const { inModal, aspectRatio, multiple, crop } = this.props;
