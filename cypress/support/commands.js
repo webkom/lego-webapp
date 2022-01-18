@@ -67,16 +67,6 @@ Cypress.Commands.overwrite('type', (originalFn, subject, string, options) =>
   originalFn(subject, string, Object.assign({}, options, { delay: 1 }))
 );
 
-// Slate editor commands
-Cypress.Commands.add('editorType', { prevSubject: true }, (subject, text) =>
-  cy.wrap(subject).then((subject) => {
-    subject[0].dispatchEvent(
-      new InputEvent('beforeinput', { inputType: 'insertText', data: text })
-    );
-    return subject;
-  })
-);
-
 // Commands for interacting with iframes
 Cypress.Commands.add('getIframeBody', (selector) => {
   return cy
