@@ -51,30 +51,6 @@ We use some conventions and tools for our JavaScript/React development.
 
 We recommend getting plugins/extensions in `VSCode` or `Vim` so the code auto-formats, and automatically prompts you with errors. When you submit code to Github the CI server will automatically run all the commands above to check that your code is up to par.
 
-<details><summary><code>Code documentation</code></summary>
-
-## Documentation
-
-For simple component documentation we use
-[react-docgen](https://github.com/reactjs/react-docgen), with
-[react-styleguidist](https://github.com/styleguidist/react-styleguidist) for
-easy style guide generation.
-
-Start dev server (with hot reload), and go to
-[localhost:6060](http://localhost:6060/).
-
-```bash
-$ yarn styleguide
-```
-
-To build a static version of the documentation, run:
-
-```bash
-$ yarn styleguide:build
-```
-
-</details>
-
 <details><summary><code>Unit tests</code></summary>
 
 ### Unit tests (jest)
