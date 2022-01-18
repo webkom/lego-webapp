@@ -31,8 +31,8 @@ describe('Create joblisting', () => {
 
     // TODO sometimes there is an issue in the joblisting editor where you have to click
     // the top editor twice. Not a breaking bug.
-    selectEditor('description').editorType('A joblisting description');
-    selectEditor('text').editorType('Joblisting text');
+    selectEditor('description').type('A joblisting description');
+    selectEditor('text').type('Joblisting text');
 
     cy.contains('button', 'Lagre').should('not.be.disabled');
 

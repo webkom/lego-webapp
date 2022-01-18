@@ -36,7 +36,7 @@ describe('Create event', () => {
 
     cy.contains('button', 'OPPRETT').should('be.disabled');
     // click editor to initialize form and enable OPPRETT button
-    selectEditor().editorType('test');
+    selectEditor().type('test');
     cy.wait(1000);
 
     cy.contains('button', 'OPPRETT').should('not.be.disabled').click();
@@ -97,7 +97,7 @@ describe('Create event', () => {
 
     cy.get('._legoEditor_Toolbar_root button').first().click();
     // Format text
-    cy.focused().editorType('This text should be large');
+    cy.focused().type('This text should be large');
     cy.get('._legoEditor_root h1')
       .should('be.visible')
       .contains('This text should be large');
@@ -154,7 +154,7 @@ describe('Create event', () => {
     //cy.get('div[data-slate-editor="true"]').click();
     //cy.focused().type('{downarrow}');
     //cy.focused().type('{enter}EOF{enter}');
-    cy.focused().editorType('EOF');
+    cy.focused().type('EOF');
 
     // Fill rest of form
     cy.upload_file(
@@ -192,7 +192,7 @@ describe('Create event', () => {
     // Set title, description and text
     field('title').type('Standard event').blur();
     field('description').type('standard event').blur();
-    selectEditor().editorType('standard event');
+    selectEditor().type('standard event');
 
     // Select type
     selectField('eventType').click();
@@ -235,7 +235,7 @@ describe('Create event', () => {
     // Set title, description and text
     field('title').type('Ubestemt event').blur();
     field('description').type('mer info kommer').blur();
-    selectEditor().editorType('mer info kommer');
+    selectEditor().type('mer info kommer');
 
     // Select type
     selectField('eventType').click();
@@ -262,7 +262,7 @@ describe('Create event', () => {
     // Set title, description and text
     field('title').type('Normal event').blur();
     field('description').type('normal event').blur();
-    selectEditor().editorType('normal event');
+    selectEditor().type('normal event');
 
     // Select type
     selectField('eventType').click();
@@ -332,7 +332,7 @@ describe('Create event', () => {
     // Set title, description and text
     field('title').type('Open event').blur();
     field('description').type('open event').blur();
-    selectEditor().editorType('open event');
+    selectEditor().type('open event');
 
     // Select type
     selectField('eventType').click();
@@ -363,7 +363,7 @@ describe('Create event', () => {
     // Set title, description and text
     field('title').type('Infinite event').blur();
     field('description').type('infinite event').blur();
-    selectEditor().editorType('infinite event');
+    selectEditor().type('infinite event');
 
     // Select type
     selectField('eventType').click();

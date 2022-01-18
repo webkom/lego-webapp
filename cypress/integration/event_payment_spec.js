@@ -38,7 +38,7 @@ describe('Event registration & payment', () => {
       // Set title, description and text
       field('title').type('Priced event').blur();
       field('description').type('priced event').blur();
-      selectEditor().editorType('priced event');
+      selectEditor().type('priced event');
 
       // Select type
       selectField('eventType').click();

@@ -60,7 +60,7 @@ describe('View event', () => {
       force: true,
     });
     cy.contains('button', 'Kommenter').as('button').should('not.be.disabled');
-    cy.focused().editorType('This event will be awesome');
+    cy.focused().type('This event will be awesome');
     cy.wait(700);
     cy.contains('button', 'Kommenter').click();
 
@@ -86,7 +86,7 @@ describe('View event', () => {
     cy.get(c('CommentForm') + ' [data-slate-editor="true"]').click({
       force: true,
     });
-    cy.focused().editorType('This is the top comment');
+    cy.focused().type('This is the top comment');
     cy.wait(500);
     cy.contains('button', 'Kommenter').click();
 
@@ -103,7 +103,7 @@ describe('View event', () => {
       .first()
       .click()
       .wait(100);
-    cy.focused().editorType('This is a child comment');
+    cy.focused().type('This is a child comment');
     cy.contains('button', 'Send svar').click();
     cy.get(c('CommentTree__nested')).contains('This is a child comment');
   });
