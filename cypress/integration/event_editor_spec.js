@@ -3,7 +3,7 @@ import { c, field } from '../support/utils.js';
 const IS_MACOS = Cypress.platform.toLowerCase().search('darwin') !== -1;
 const ctrlKey = IS_MACOS ? '{cmd}' : '{ctrl}';
 
-describe('Editor (Firefox only)', { browser: 'firefox' }, () => {
+describe('Editor', () => {
   /*
    * This test is here to be able to run proper tests against the editor.
    * Since we use electron in ci, and using cypress methods for type and click
