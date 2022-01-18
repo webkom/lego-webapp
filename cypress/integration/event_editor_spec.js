@@ -1,5 +1,8 @@
 import { c, field } from '../support/utils.js';
 
+const IS_MACOS = Cypress.platform.toLowerCase().search('darwin') !== -1;
+const ctrlKey = IS_MACOS ? '{cmd}' : '{ctrl}';
+
 describe('Editor (Firefox only)', { browser: 'firefox' }, () => {
   /*
    * This test is here to be able to run proper tests against the editor.
@@ -33,10 +36,10 @@ describe('Editor (Firefox only)', { browser: 'firefox' }, () => {
 
     // Format bold and italic with keyboard shortcuts
     cy.focused()
-      .type('{ctrl}b')
-      .type('This should be bold{ctrl}b')
-      .type('{ctrl}i')
-      .type('This should be italic{ctrl}i')
+      .type(`${ctrlKey}b`)
+      .type(`This should be bold${ctrlKey}b`)
+      .type(`${ctrlKey}i`)
+      .type(`This should be italic${ctrlKey}i`)
       .type('No format');
     cy.get('._legoEditor_root strong').contains('This should be bold');
     cy.get('._legoEditor_root em').contains('This should be italic');
