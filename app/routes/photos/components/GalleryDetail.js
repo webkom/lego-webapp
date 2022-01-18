@@ -9,7 +9,7 @@ import EmptyState from 'app/components/EmptyState';
 import ImageUpload from 'app/components/Upload/ImageUpload';
 import { Content } from 'app/components/Content';
 import Gallery from 'app/components/Gallery';
-import type { DropFile } from 'app/components/Upload';
+import type { DropFile } from 'app/components/Upload/ImageUpload';
 import type { ID, ActionGrant } from 'app/models';
 import type { GalleryPictureEntity } from 'app/reducers/galleryPictures';
 import Button from 'app/components/Button';
