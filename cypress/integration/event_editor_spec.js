@@ -64,6 +64,9 @@ describe('Editor', () => {
       'images/screenshot.png'
     );
 
+    // Wait for image to appear
+    cy.get('.ReactCrop').should('be.visible');
+
     cy.get('._legoEditor_modal_applyButton')
       .contains('Apply')
       .should('not.be.disabled')
