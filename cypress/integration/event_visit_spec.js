@@ -52,7 +52,6 @@ describe('View event', () => {
     cy.get(c('CommentForm') + ' [data-slate-editor="true"]')
       .last()
       .as('form')
-      .editorFocus()
       .click();
     cy.wait(500);
     // We have to click twice due to our ssr hack. This is not needed in a real setting, as a
@@ -82,7 +81,6 @@ describe('View event', () => {
     cy.reload();
     cy.get(c('CommentForm') + ' [data-slate-editor="true"]')
       .last()
-      .editorFocus()
       .click();
     cy.wait(100);
     cy.get(c('CommentForm') + ' [data-slate-editor="true"]').click({
@@ -103,7 +101,6 @@ describe('View event', () => {
     cy.contains('allergier').click();
     cy.get(c('CommentForm') + ' [data-slate-editor="true"]')
       .first()
-      .editorFocus()
       .click()
       .wait(100);
     cy.focused().editorType('This is a child comment');

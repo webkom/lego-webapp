@@ -19,15 +19,9 @@ export const selectEditor = (name) =>
     ? cy
         .wait(500)
         .get(`[name="${name}"] div[data-slate-editor="true"]`)
-        .editorFocus()
         .click()
         .wait(500)
-    : cy
-        .wait(500)
-        .get('div[data-slate-editor="true"]')
-        .editorFocus()
-        .click()
-        .wait(500);
+    : cy.wait(500).get('div[data-slate-editor="true"]').click().wait(500);
 
 // Used to either confirm or deny the 3D secure pop-up from Stripe.
 export const confirm3DSecureDialog = (confirm = true) => {
