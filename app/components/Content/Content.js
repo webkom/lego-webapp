@@ -15,6 +15,7 @@ import getParamsFromUrl from 'app/utils/getParamsFromUrl';
 
 type Props = {
   banner?: string,
+  bannerPlaceholder?: string,
   youtubeUrl?: string,
   className?: string,
   children: Node,
@@ -37,7 +38,13 @@ type Props = {
  * ```
  */
 
-function Content({ banner, youtubeUrl, children, className }: Props) {
+function Content({
+  banner,
+  bannerPlaceholder,
+  youtubeUrl,
+  children,
+  className,
+}: Props) {
   const [isClicked, click] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const youtubeParams = youtubeUrl && getParamsFromUrl(youtubeUrl);
@@ -68,7 +75,12 @@ function Content({ banner, youtubeUrl, children, className }: Props) {
       ) : (
         banner && (
           <div className={cx(styles.cover, className)}>
-            <Image src={banner} width={1667} height={500} />
+            <Image
+              src={banner}
+              placeholder={bannerPlaceholder}
+              width={1667}
+              height={500}
+            />
           </div>
         )
       )}

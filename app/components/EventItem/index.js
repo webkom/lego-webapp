@@ -91,7 +91,9 @@ const EventItem = ({
     </div>
 
     <div className={styles.companyLogo}>
-      {event.cover && <Image src={event.cover} />}
+      {event.cover && (
+        <Image src={event.cover} placeholder={event.coverPlaceholder} />
+      )}
     </div>
   </div>
 );

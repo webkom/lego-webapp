@@ -24,6 +24,7 @@ class Pinned extends Component<Props, *> {
             <Image
               className={styles.image}
               src={item.cover}
+              placeholder={item.coverPlaceholder}
               height={500}
               width={1667}
             />

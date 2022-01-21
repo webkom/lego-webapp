@@ -139,7 +139,11 @@ function InterestGroupDetail(props: Props) {
           <ButtonRow {...props} />
         </ContentMain>
         <ContentSidebar>
-          <Image className={styles.logo} src={logo} />
+          <Image
+            className={styles.logo}
+            src={logo}
+            placeholder={group.logoPlaceholder}
+          />
           <Members group={group} members={group.memberships} />
           <Contact group={group} />
           <AnnouncementInLine

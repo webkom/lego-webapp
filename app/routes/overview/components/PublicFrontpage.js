@@ -57,7 +57,7 @@ class PublicFrontpage extends Component<Props, State> {
             </h5>
           </div>
           <Link to={`/articles/${item.id}`}>
-            <Image src={item.cover} />
+            <Image src={item.cover} placeholder={item.coverPlaceholder} />
           </Link>
           {truncateString(item.description, 500)}
         </div>

@@ -35,6 +35,7 @@ class EventItem extends Component<Props, *> {
                     width={270}
                     height={80}
                     src={item.cover}
+                    placeholder={item.coverPlaceholder}
                   />
                 )}
                 <span className={styles.info}>{info}</span>
@@ -45,6 +46,7 @@ class EventItem extends Component<Props, *> {
                   <Image
                     className={styles.image}
                     src={item.cover}
+                    placeholder={item.coverPlaceholder}
                     width={390}
                     height={80}
                   />

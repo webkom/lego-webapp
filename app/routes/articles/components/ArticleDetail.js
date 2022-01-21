@@ -49,7 +49,11 @@ const ArticleDetail = ({
   fetchingEmojis,
 }: Props) => {
   return (
-    <Content banner={article.cover} youtubeUrl={article.youtubeUrl}>
+    <Content
+      banner={article.cover}
+      bannerPlaceholder={article.coverPlaceholder}
+      youtubeUrl={article.youtubeUrl}
+    >
       <NavigationTab
         headerClassName={styles.headerClassName}
         className={styles.articleHeader}

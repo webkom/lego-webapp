@@ -23,6 +23,7 @@ function JoblistingItem({ joblisting }: JobListingItemProps) {
               <Image
                 className={styles.companyLogo}
                 src={joblisting.company.logo}
+                placeholder={joblisting.company.logoPlaceholder}
               />
             )}
           </div>
