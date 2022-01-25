@@ -1,76 +1,74 @@
 // @flow
 
-import { Component } from 'react';
+import { useState } from 'react';
 import Button from 'app/components/Button';
 import Flex from 'app/components/Layout/Flex';
 import styles from './RemovePicture.css';
-import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
+import { TextInput, Form, legoForm } from 'app/components/Form';
+import type { FormProps } from 'redux-form';
+import { Field } from 'redux-form';
+import { type UserEntity } from 'app/reducers/users';
+import {
+  createValidator,
+  required,
+  validPassword,
+  sameAs,
+} from 'app/utils/validation';
 
-type ButtonProps = {
-  deleteUser: (string) => Promise<*>,
-  username: string,
+type Props = FormProps & {
+  push: (string) => void,
+  deleteUser: (string) => Promise<void>,
+  user: UserEntity,
 };
 
-type State = {
-  uName: string,
-  show: boolean,
-};
-
-class DeleteUser extends Component<ButtonProps, State> {
-  state = {
-    uName: '',
-    show: false,
-  };
-  render() {
-    const { deleteUser, username } = this.props;
-    let deleteUserButton;
-
-    if (this.state.uName === username) {
-      deleteUserButton = (
-        <ConfirmModalWithParent
-          title="Slett bruker"
-          message="Er du sikker på at du vil slette denne brukeren?"
-          onConfirm={() => deleteUser(username)}
-        >
-          <Button dark className={styles.saveButton}>
-            Slett bruker
+const DeleteUser = ({
+  handleSubmit,
+  invalid,
+  pristine,
+  submitting,
+  user,
+  ...props
+}: Props) => {
+  const disabledButton = invalid || pristine || submitting;
+  const [show, setShow] = useState(false);
+  return (
+    <div>
+      {show === false && (
+        <Button className={styles.saveButton} onClick={() => setShow(true)}>
+          Gå videre til slett bruker
+        </Button>
+      )}
+      {show && (
+        <>
+          <Button className={styles.saveButton} onClick={() => setShow(false)}>
+            Angre
           </Button>
-        </ConfirmModalWithParent>
-      );
-    }
-
-    return (
-      <div>
-        {this.state.show === false && (
-          <Button
-            className={styles.saveButton}
-            onClick={() => this.setState({ show: true })}
-          >
-            Gå videre til slett bruker
-          </Button>
-        )}
-        {this.state.show && (
-          <>
-            <Button
-              className={styles.saveButton}
-              onClick={() => this.setState({ show: false })}
-            >
-              Angre
+          <h3> Skriv inn passordet ditt: </h3>
+          <Form onSubmit={handleSubmit}>
+            <Field
+              label="Nåværende passord"
+              name="password"
+              type="password"
+              autocomplete="current-password"
+              component={TextInput.Field}
+            />
+            <Button disabled={disabledButton} dark submit>
+              Slett Bruker
             </Button>
-            <h3> Skriv inn brukernavnet ditt: </h3>
-            <input
-              type="text"
-              id="slettBruker"
-              placeholder="Brukernavn"
-              onChange={(e) => this.setState({ uName: e.target.value })}
-            />{' '}
-            <br />
-            {deleteUserButton}
-          </>
-        )}
-      </div>
-    );
-  }
-}
+          </Form>
+        </>
+      )}
+    </div>
+  );
+};
 
-export default DeleteUser;
+const validate = createValidator({
+  password: [required()],
+});
+
+export default legoForm({
+  form: 'deleteUser',
+  validate,
+  onSubmit: (data, dispatch, { deleteUser, push }: Props) =>
+    deleteUser(data.password).then(() => push('/users/me')),
+})(DeleteUser);
