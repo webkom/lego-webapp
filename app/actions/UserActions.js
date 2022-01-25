@@ -8,7 +8,6 @@ import moment from 'moment-timezone';
 import { push } from 'connected-react-router';
 import { userSchema, penaltySchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
-import { addToast } from 'app/actions/ToastActions';
 import { User, FetchHistory, Penalty } from './ActionTypes';
 import { uploadFile } from './FileActions';
 import { fetchMeta } from './MetaActions';
