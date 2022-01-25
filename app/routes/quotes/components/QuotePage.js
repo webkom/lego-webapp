@@ -1,7 +1,7 @@
 // @flow
 
 import QuoteList from './QuoteList';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import styles from './Quotes.css';
 import cx from 'classnames';
 import { navigation } from '../utils';

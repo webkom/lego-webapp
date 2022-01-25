@@ -2,7 +2,7 @@
 
 import { Content } from 'app/components/Content';
 import Button from 'app/components/Button';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { type UserEntity } from 'app/reducers/users';
 import { type ArticleEntity } from 'app/reducers/articles';
 import LoadingIndicator from 'app/components/LoadingIndicator';

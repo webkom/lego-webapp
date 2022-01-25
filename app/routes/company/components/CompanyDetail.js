@@ -1,7 +1,7 @@
 // @flow
 
 import { Component } from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import styles from './Company.css';
 import { Content } from 'app/components/Content';
 import LoadingIndicator from 'app/components/LoadingIndicator';

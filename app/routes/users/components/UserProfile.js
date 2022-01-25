@@ -2,7 +2,7 @@
 
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { sumBy, sortBy, uniqBy, groupBy, orderBy } from 'lodash';
 import { ProfilePicture, CircularPicture, Image } from 'app/components/Image';
 import Card from 'app/components/Card';

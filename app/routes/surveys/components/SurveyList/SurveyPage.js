@@ -6,7 +6,7 @@ import type { SurveyEntity } from 'app/reducers/surveys';
 import { ListNavigation } from '../../utils';
 
 import { Content } from 'app/components/Content';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 type Props = {
   surveys: Array<SurveyEntity>,

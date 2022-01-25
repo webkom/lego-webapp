@@ -37,7 +37,5 @@ describe('<UserProfile />', () => {
     expect(wrapper.containsMatchingElement(<h2>{user.fullName}</h2>)).toEqual(
       true
     );
-    expect(wrapper.html()).toContain(user.email);
-    expect(wrapper.html()).toContain(user.username);
   });
 });

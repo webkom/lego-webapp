@@ -3,7 +3,7 @@
 import type { ElementRef } from 'react';
 
 import { createRef, Component } from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import styles from './CompaniesPage.css';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import InfiniteScroll from 'react-infinite-scroller';

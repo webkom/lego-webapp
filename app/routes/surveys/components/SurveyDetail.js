@@ -1,7 +1,7 @@
 // @flow
 
 import { Component } from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import Time from 'app/components/Time';
 import styles from './surveyDetail.css';

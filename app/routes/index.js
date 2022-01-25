@@ -3,6 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 import { AppRoute } from './app';
 import { UserContext } from 'app/routes/app/AppRoute';
 import RouteWrapper from 'app/components/RouteWrapper';
+
 const CompanyInterestInfoRoute = loadable(() => import('./companyInterest'), {
   resolveComponent: (components) => components.CompanyInterestInfoRoute,
 });

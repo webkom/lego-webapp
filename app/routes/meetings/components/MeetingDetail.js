@@ -1,7 +1,7 @@
 // @flow
 
 import { Component } from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import Time, { FromToTime } from 'app/components/Time';
 import CommentView from 'app/components/Comments/CommentView';

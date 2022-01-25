@@ -1,7 +1,7 @@
 // @flow
 
 import { Component } from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import moment from 'moment-timezone';
 import Button from 'app/components/Button';
 import EventItem from 'app/components/EventItem';

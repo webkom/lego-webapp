@@ -1,7 +1,7 @@
 // @flow
 
 import type { Group } from 'app/models';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { Content } from 'app/components/Content';
 import ContactForm from './ContactForm';
 import type { ContactForm as ContactFormType } from 'app/reducers/contact';

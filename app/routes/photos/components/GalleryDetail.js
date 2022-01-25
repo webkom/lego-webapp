@@ -1,6 +1,6 @@
 // @flow
 
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import type { Element } from 'react';
 import { Component, cloneElement } from 'react';

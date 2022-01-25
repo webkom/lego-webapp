@@ -1,6 +1,6 @@
 // @flow
 
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import styles from './Toolbar.css';
 import { Flex } from 'app/components/Layout';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';

@@ -3,7 +3,7 @@
 import { Component } from 'react';
 import CompanyList from './CompanyList';
 import { Content } from 'app/components/Content';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import styles from './bdb.css';
 import sortCompanies from '../SortCompanies.js';
 import { indexToSemester, ListNavigation } from '../utils.js';

@@ -1,7 +1,7 @@
 // @flow
 
 import styles from './InterestGroup.css';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import InterestGroupComponent from './InterestGroup';
 import Button from 'app/components/Button';
 import { Content } from 'app/components/Content';

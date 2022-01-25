@@ -1,4 +1,5 @@
 //@flow
+
 import { renderToString } from 'react-dom/server';
 import fs from 'fs';
 import path from 'path';
@@ -9,6 +10,7 @@ import webpackClient from '../config/webpack.client.js';
 import type { State } from '../app/types';
 import { selectCurrentUser } from 'app/reducers/auth';
 import { isEmpty } from 'lodash';
+import { helmetContext } from './ssr.js';
 
 import manifest from '../app/assets/manifest.json';
 
@@ -17,7 +19,6 @@ const dllPlugin = __DEV__ ? '<script src="/vendors.dll.js"></script>' : '';
 export type PageRendererProps = {
   app: ?React$Element<*>,
   state: State | {||},
-  helmet: *,
 };
 
 const extractor = !__DEV__
@@ -70,9 +71,9 @@ const readyHtml = (app) => {
 export default function pageRenderer({
   app = undefined,
   state = {},
-  helmet,
 }: PageRendererProps = {}): string {
   const isSSR = app === undefined ? 'false' : 'true';
+  const { helmet } = helmetContext;
   const getDataTheme = () => {
     if (!isEmpty(state)) {
       let selectedTheme = selectCurrentUser(state).selectedTheme;
