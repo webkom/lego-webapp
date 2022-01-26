@@ -2,7 +2,7 @@
 
 import { Component } from 'react';
 import { Content } from 'app/components/Content';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import Poll from 'app/components/Poll';
 import PollEditor from './PollEditor';

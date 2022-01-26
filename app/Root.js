@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 import type { Store } from 'app/types';
 import RouteConfig from './routes';
 import ErrorBoundary from 'app/components/ErrorBoundary';
+import { HelmetProvider } from 'react-helmet-async';
 
 type Props = {
   store: Store,
@@ -15,13 +16,15 @@ type Props = {
 const Root = (props: Props) => {
   const { store, history, ...restProps } = props;
   return (
-    <Provider store={store}>
-      <ErrorBoundary openReportDialog>
-        <ConnectedRouter history={history}>
-          <RouteConfig {...restProps} />
-        </ConnectedRouter>
-      </ErrorBoundary>
-    </Provider>
+    <HelmetProvider>
+      <Provider store={store}>
+        <ErrorBoundary openReportDialog>
+          <ConnectedRouter history={history}>
+            <RouteConfig {...restProps} />
+          </ConnectedRouter>
+        </ErrorBoundary>
+      </Provider>
+    </HelmetProvider>
   );
 };
 

@@ -3,7 +3,7 @@
 
 import type { Node } from 'react';
 
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { Component } from 'react';
 import styles from './PageDetail.css';
 import { Flex } from 'app/components/Layout';

@@ -1,7 +1,7 @@
 // @flow
 
 import { Component } from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import cx from 'classnames';
 import moment from 'moment-timezone';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';

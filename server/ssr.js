@@ -3,14 +3,16 @@ import { StaticRouter } from 'react-router';
 import RouteConfig from '../app/routes';
 // $FlowFixMe
 import { ReactReduxContext } from 'react-redux';
-import { Helmet } from 'react-helmet';
 import * as Sentry from '@sentry/node';
 import configureStore from '../app/utils/configureStore';
 import { type State } from '../app/types';
 import pageRenderer from './pageRenderer';
 import { prepare } from '@webkom/react-prepare';
+import { HelmetProvider } from 'react-helmet-async';
 
 const serverSideTimeoutInMs = 4000;
+
+export const helmetContext: any = {};
 
 // AntiPattern because of babel
 // https://github.com/babel/babel/issues/3083
@@ -47,12 +49,10 @@ const createServerSideRenderer = (
     app: ?React$Element<*> = undefined,
     state: State | {||} = Object.freeze({})
   ) => {
-    const helmet = Helmet.rewind();
     return res.send(
       pageRenderer({
         app,
         state,
-        helmet,
       })
     );
   };
@@ -87,10 +87,13 @@ const createServerSideRenderer = (
     }
     providerData.storeState = newStoreState;
   });
+
   const app = (
-    <ReactReduxContext.Provider value={providerData}>
-      <ServerConfig req={req} context={context} />
-    </ReactReduxContext.Provider>
+    <HelmetProvider context={helmetContext}>
+      <ReactReduxContext.Provider value={providerData}>
+        <ServerConfig req={req} context={context} />
+      </ReactReduxContext.Provider>
+    </HelmetProvider>
   );
 
   const reportError = (error: Error) => {
@@ -137,4 +140,5 @@ const createServerSideRenderer = (
     })
     .then(unsubscribe);
 };
+
 export default createServerSideRenderer;

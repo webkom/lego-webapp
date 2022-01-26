@@ -5,7 +5,7 @@ import type { Element } from 'react';
 import { cloneElement } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { Content } from 'app/components/Content';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';

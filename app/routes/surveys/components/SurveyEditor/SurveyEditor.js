@@ -3,7 +3,7 @@
 import styles from '../surveys.css';
 import type { Element } from 'react';
 import { Component } from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { DetailNavigation, ListNavigation, QuestionTypes } from '../../utils';
 import Question from './Question';
 import { Field, FieldArray } from 'redux-form';

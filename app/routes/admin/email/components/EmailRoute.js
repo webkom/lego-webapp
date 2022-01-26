@@ -4,7 +4,7 @@ import type { Node } from 'react';
 import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import { Content } from 'app/components/Content';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 type Props = {
   children: Node,

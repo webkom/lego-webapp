@@ -1,7 +1,7 @@
 // @flow
 
 import styles from '../surveys.css';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { Field, SubmissionError } from 'redux-form';
 import Button from 'app/components/Button';
 import { TextArea, RadioButton, CheckBox, legoForm } from 'app/components/Form';

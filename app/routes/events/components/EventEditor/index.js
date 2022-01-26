@@ -1,6 +1,6 @@
 // @flow
 
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import styles from './EventEditor.css';
 import { Link } from 'react-router-dom';
 import renderPools, { validatePools } from './renderPools';

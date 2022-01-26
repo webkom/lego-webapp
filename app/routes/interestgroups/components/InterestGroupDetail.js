@@ -1,7 +1,7 @@
 // @flow
 
 import styles from './InterestGroup.css';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { Image } from 'app/components/Image';
 import { Flex } from 'app/components/Layout';
 import {

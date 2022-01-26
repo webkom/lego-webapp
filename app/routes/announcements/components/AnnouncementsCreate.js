@@ -1,7 +1,7 @@
 // @flow
 
 import styles from './AnnouncementsList.css';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import Flex from 'app/components/Layout/Flex';
 import { Form, SelectInput, TextArea } from 'app/components/Form';
 import { reduxForm, Field, reset } from 'redux-form';

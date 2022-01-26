@@ -1,7 +1,7 @@
 // @flow
 
 import { Component } from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import EmptyState from 'app/components/EmptyState';
 import { Content } from 'app/components/Content';

@@ -1,7 +1,7 @@
 // @flow
 
 import { Content } from 'app/components/Content';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import Feed from 'app/components/Feed';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 

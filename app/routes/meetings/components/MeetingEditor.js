@@ -1,6 +1,6 @@
 // @flow
 
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import styles from './MeetingEditor.css';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { Field } from 'redux-form';

@@ -1,6 +1,6 @@
 // @flow
 import { Component } from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { map, toPairs } from 'lodash';
 import { Content } from 'app/components/Content';
 import styles from './TagDetail.css';

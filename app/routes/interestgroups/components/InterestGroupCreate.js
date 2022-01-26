@@ -1,6 +1,6 @@
 // @flow
 import { Component } from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import GroupForm from 'app/components/GroupForm';
 import { Flex } from 'app/components/Layout';
 import { Content } from 'app/components/Content';

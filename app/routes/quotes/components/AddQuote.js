@@ -2,7 +2,7 @@
 
 import styles from './Quotes.css';
 import { reduxForm, Field } from 'redux-form';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { TextEditor, Button, withSubmissionError } from 'app/components/Form';
 import { createValidator, required } from 'app/utils/validation';
 import { navigation } from '../utils';

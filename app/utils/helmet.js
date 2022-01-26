@@ -1,7 +1,7 @@
 // @flow
 /* eslint react/display-name: 0 */
 
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import config from 'app/config';
 import { type ComponentType, createElement } from 'react';
 
