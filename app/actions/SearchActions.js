@@ -1,7 +1,6 @@
 // @flow
 
 import callAPI from 'app/actions/callAPI';
-import { EventTypes } from 'redux-segment';
 import { Search } from './ActionTypes';
 import { selectAutocomplete } from 'app/reducers/search';
 import type { Action, Thunk } from 'app/types';
@@ -9,11 +8,6 @@ import type { Action, Thunk } from 'app/types';
 export function toggleSearch(): Action {
   return {
     type: Search.TOGGLE_OPEN,
-    meta: {
-      analytics: {
-        eventType: EventTypes.track,
-      },
-    },
   };
 }
 

@@ -2,7 +2,6 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { User } from 'app/actions/ActionTypes';
-import { createTracker, EventTypes } from 'redux-segment';
 import { createLogger } from 'redux-logger';
 import jwtDecode from 'jwt-decode';
 import config from 'app/config';
@@ -17,41 +16,6 @@ import createMessageMiddleware from './messageMiddleware';
 import type { State, Store, GetCookie } from 'app/types';
 import { omit } from 'lodash';
 import createRootReducer from '../reducers';
-
-const trackerMiddleware = createTracker({
-  mapper: {
-    [User.FETCH.SUCCESS]: (getState, { meta, payload }) => {
-      if (meta.isCurrentUser) {
-        const user = payload.entities.users[payload.result];
-
-        return {
-          eventType: EventTypes.identify,
-          eventPayload: {
-            userId: user.id,
-            traits: {
-              avatar: user.profilePicture,
-              email: user.email,
-              firstName: user.firstName,
-              gender: user.gender,
-              id: user.id,
-              lastName: user.lastName,
-              name: user.fullName,
-              username: user.username,
-            },
-          },
-        };
-      }
-    },
-    [User.LOGOUT]: () => [
-      {
-        eventType: EventTypes.reset,
-      },
-      {
-        eventType: EventTypes.page,
-      },
-    ],
-  },
-});
 
 const sentryMiddlewareOptions = {
   stateTransformer: (state) => {
