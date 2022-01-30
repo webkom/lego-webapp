@@ -59,7 +59,6 @@ export default function configureStore(
     promiseMiddleware(),
     Sentry && createSentryMiddleware(Sentry, sentryMiddlewareOptions),
     messageMiddleware,
-    config.environment === 'production' && trackerMiddleware,
   ].filter(Boolean);
 
   if (__CLIENT__) {
