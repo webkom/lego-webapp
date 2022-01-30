@@ -300,3 +300,18 @@
     margin-left: 0;
   }
 }
+
+.outerPreview {
+  background: var(--lego-background-color);
+  border-radius: 10px;
+  width: 560px;
+  padding: 100px;
+}
+
+.innerPreview {
+  composes: withShadow from '~app/styles/utilities.css';
+  background: var(--lego-card-color);
+  width: 360px;
+  border-radius: 10px;
+  padding: 10px;
+}

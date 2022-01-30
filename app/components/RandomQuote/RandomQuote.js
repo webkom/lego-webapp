@@ -24,6 +24,7 @@ type Props = {
   emojis: Array<EmojiEntity>,
   currentQuote: QuoteEntity,
   loggedIn: boolean,
+  useReactions?: boolean,
 };
 
 const RandomQuote = (props: Props) => {
@@ -36,6 +37,7 @@ const RandomQuote = (props: Props) => {
     fetchingEmojis,
     currentQuote,
     loggedIn,
+    useReactions = true,
   } = props;
 
   const seenQuotes = useRef([]);
@@ -69,17 +71,19 @@ const RandomQuote = (props: Props) => {
         </Flex>
       </Flex>
 
-      <div className={styles.quoteReactions}>
-        <LegoReactions
-          emojis={emojis}
-          fetchEmojis={fetchEmojis}
-          fetchingEmojis={fetchingEmojis}
-          addReaction={addReaction}
-          deleteReaction={deleteReaction}
-          parentEntity={currentQuote}
-          loggedIn={loggedIn}
-        />
-      </div>
+      {useReactions && (
+        <div className={styles.quoteReactions}>
+          <LegoReactions
+            emojis={emojis}
+            fetchEmojis={fetchEmojis}
+            fetchingEmojis={fetchingEmojis}
+            addReaction={addReaction}
+            deleteReaction={deleteReaction}
+            parentEntity={currentQuote}
+            loggedIn={loggedIn}
+          />
+        </div>
+      )}
     </div>
   );
 };

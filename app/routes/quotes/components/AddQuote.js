@@ -1,11 +1,12 @@
 // @flow
 
-import styles from './Quotes.css';
-import { reduxForm, Field } from 'redux-form';
-import { Helmet } from 'react-helmet-async';
-import { TextEditor, Button, withSubmissionError } from 'app/components/Form';
+import { Button, TextEditor, withSubmissionError } from 'app/components/Form';
+import RandomQuote from 'app/components/RandomQuote/RandomQuote';
 import { createValidator, required } from 'app/utils/validation';
+import { Helmet } from 'react-helmet-async';
+import { Field, reduxForm } from 'redux-form';
 import { navigation } from '../utils';
+import styles from './Quotes.css';
 
 type Props = {
   addQuotes: (Object) => Promise<*>,
@@ -14,6 +15,8 @@ type Props = {
   submitting: boolean,
   handleSubmit: ((Object) => Promise<*>) => void,
   actionGrant: Array<string>,
+  text: string,
+  source: string,
 };
 
 const AddQuote = ({
@@ -23,9 +26,10 @@ const AddQuote = ({
   submitting,
   handleSubmit,
   actionGrant,
+  text,
+  source,
 }: Props) => {
   const disabledButton = invalid || pristine || submitting;
-
   return (
     <div className={styles.root}>
       <Helmet title="Nytt sitat" />
@@ -41,7 +45,7 @@ const AddQuote = ({
           />
 
           <Field
-            placeholder="Eks: Esso – alltid og i enhver situasjon"
+            placeholder="Eks: Esso"
             label="Hvor sitatet kommer fra (sleng gjerne med noe snaks!)"
             name="source"
             component={TextEditor.Field}
@@ -58,6 +62,32 @@ const AddQuote = ({
             Send inn sitat
           </Button>
         </form>
+      </div>
+
+      <h2>Forhåndsvisning</h2>
+      <div className={styles.outerPreview}>
+        <h2>OVERHØRT</h2>
+        <div className={styles.innerPreview}>
+          <RandomQuote
+            fetchRandomQuote={() => Promise.resolve()}
+            addReaction={() => Promise.resolve()}
+            deleteReaction={() => Promise.resolve()}
+            fetchEmojis={() => Promise.resolve()}
+            fetchingEmojis={false}
+            emojis={[]}
+            currentQuote={{
+              id: 1,
+              text: text || 'Det er bare å gjøre det',
+              source: source || 'Esso',
+              approved: true,
+              contentTarget: '',
+              reactionsGrouped: [],
+              reactions: [],
+            }}
+            loggedIn={true}
+            useReactions={false}
+          />
+        </div>
       </div>
     </div>
   );
