@@ -130,6 +130,7 @@ export const MainPageRenderer = ({
   loggedIn: boolean,
 }) => {
   const pageBanner = page.logo || page.picture; //Splittet fra hverandre, var pageBanner = pic || logo
+  const pageBannerPlaceholder = page.logoPlaceholder || page.picturePlaceholder;
   const { title } = pageInfo;
 
   return (
@@ -137,7 +138,11 @@ export const MainPageRenderer = ({
       <div className={styles.headWrapper}>
         {pageBanner && (
           <div className={styles.banner}>
-            <Image alt={`${title} page banner`} src={pageBanner} />
+            <Image
+              alt={`${title} page banner`}
+              src={pageBanner}
+              placeholder={pageBannerPlaceholder}
+            />
           </div>
         )}
         {title !== 'Info om Abakus' && (
@@ -173,42 +178,24 @@ export const GroupRenderer = ({ page }: { page: Object }) => {
       <div className={styles.membersSection}>
         <div className={styles.leaderBoard}>
           <div className={styles.leader}>
-            {leaders.map(({ user, profilePicture }, key) => (
-              <GroupMember
-                user={user}
-                profilePicture={profilePicture}
-                key={key}
-                leader
-              />
+            {leaders.map(({ user }, key) => (
+              <GroupMember user={user} key={key} leader />
             ))}
           </div>
           <div className={styles.co_leader}>
-            {co_leaders.map(({ user, profilePicture }, key) => (
-              <GroupMember
-                user={user}
-                profilePicture={profilePicture}
-                key={key}
-                co_leader
-              />
+            {co_leaders.map(({ user }, key) => (
+              <GroupMember user={user} key={key} co_leader />
             ))}
           </div>
         </div>
         <div className={styles.members}>
-          {members.map(({ user, profilePicture }, key) => (
-            <GroupMember
-              user={user}
-              profilePicture={profilePicture}
-              key={key}
-            />
+          {members.map(({ user }, key) => (
+            <GroupMember user={user} key={key} />
           ))}
         </div>
         <div className={styles.members}>
-          {activeRetirees.map(({ user, profilePicture }, key) => (
-            <GroupMember
-              user={user}
-              profilePicture={profilePicture}
-              key={key}
-            />
+          {activeRetirees.map(({ user }, key) => (
+            <GroupMember user={user} key={key} />
           ))}
         </div>
       </div>

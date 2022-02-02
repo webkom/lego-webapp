@@ -121,7 +121,7 @@ export type Group = {
   description: string,
   text: string,
   logo: ?string,
-  logo?: string,
+  logoPlaceholder?: string,
   showBadge: boolean,
   active: boolean,
   contactEmail: string,

@@ -8,11 +8,10 @@ import { Image } from 'app/components/Image';
 
 type Props = {
   user: User,
-  profilePicture: string,
   leader?: boolean,
   co_leader?: boolean,
 };
-const GroupMember = ({ user, profilePicture, leader, co_leader }: Props) => {
+const GroupMember = ({ user, leader, co_leader }: Props) => {
   return (
     <Link to={`/users/${user.username}`}>
       <div

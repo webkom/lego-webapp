@@ -15,6 +15,8 @@ type Props = {
 type State = {
   src: string,
   imageLoaded: boolean,
+  loadStart: number,
+  loadEnd: number,
 };
 
 const EMPTY_IMAGE =
@@ -33,16 +35,19 @@ class ImageComponent extends Component<Props, State> {
     this.state = {
       imageLoaded: false,
       src: this.isProgressive ? placeholder || EMPTY_IMAGE : EMPTY_IMAGE,
+      loadStart: 0,
+      loadEnd: 0,
     };
   }
 
   componentDidMount() {
     const { src } = this.props;
     if (this.isProgressive) {
+      this.setState({ loadStart: Date.now() });
       const image = new Image();
       image.src = src;
       image.onload = () => {
-        this.setState({ imageLoaded: true, src });
+        this.setState({ imageLoaded: true, loadEnd: Date.now(), src });
       };
     }
   }
@@ -52,9 +57,13 @@ class ImageComponent extends Component<Props, State> {
 
     const defaultClass = cx(styles.image, className);
 
+    // Skip the transition effect if the image loads very quick.
+    // F.ex. when high bandwith or cached
+    const skipTransition = this.state.loadEnd - this.state.loadStart < 500;
+
     const finalClass = cx(
       styles.image,
-      styles.finalImage,
+      !skipTransition && styles.finalImage,
       className,
       !this.state.imageLoaded && this.isProgressive && styles.blur
     );
@@ -64,7 +73,6 @@ class ImageComponent extends Component<Props, State> {
     return this.isProgressive ? (
       <img
         className={finalClass}
-        data-src={(src: Object).final}
         src={this.state.src}
         loading="lazy"
         alt={alt}
