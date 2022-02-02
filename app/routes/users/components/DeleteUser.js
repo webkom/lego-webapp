@@ -2,18 +2,12 @@
 
 import { useState } from 'react';
 import Button from 'app/components/Button';
-import Flex from 'app/components/Layout/Flex';
-import styles from './RemovePicture.css';
+import styles from './DeleteUser.css';
 import { TextInput, Form, legoForm } from 'app/components/Form';
 import type { FormProps } from 'redux-form';
 import { Field } from 'redux-form';
 import { type UserEntity } from 'app/reducers/users';
-import {
-  createValidator,
-  required,
-  validPassword,
-  sameAs,
-} from 'app/utils/validation';
+import { createValidator, required } from 'app/utils/validation';
 
 type Props = FormProps & {
   push: (string) => void,
@@ -70,5 +64,5 @@ export default legoForm({
   form: 'deleteUser',
   validate,
   onSubmit: (data, dispatch, { deleteUser, push }: Props) =>
-    deleteUser(data.password).then(() => push('/users/me')),
+    deleteUser(data.password).then(() => push('/')),
 })(DeleteUser);
