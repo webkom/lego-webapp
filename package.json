@@ -116,7 +116,7 @@
     "@babel/preset-flow": "^7.16.0",
     "@babel/preset-react": "^7.16.7",
     "@loadable/babel-plugin": "^5.13.2",
-    "@loadable/server": "^5.15.1",
+    "@loadable/server": "^5.15.2",
     "@loadable/webpack-plugin": "^5.15.2",
     "assets-webpack-plugin": "^7.1.1",
     "babel-loader": "^8.2.3",
