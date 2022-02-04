@@ -54,6 +54,10 @@ const mapStateToProps = (state, props) => {
       useMazemap: meeting.mazemapPoi > 0,
     },
     invitingUsers: valueSelector(state, 'users') || [],
+    meeting: {
+      ...meeting,
+      mazemapPoi: valueSelector(state, 'mazemapPoi'),
+    },
     meetingId,
     meetingInvitations,
   };

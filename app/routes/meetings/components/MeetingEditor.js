@@ -60,7 +60,7 @@ function MeetingEditor({
   const [useMazemap, setUseMazemap] = useState<boolean>(false);
 
   useEffect(() => {
-    setUseMazemap(isEditPage && meeting.mazemapPoi > 0);
+    setUseMazemap(isEditPage && meeting.mazemapPoi?.value > 0);
   }, [initialized, isEditPage]);
 
   if (isEditPage && !meeting) {
@@ -167,13 +167,12 @@ function MeetingEditor({
               fieldClassName={styles.metaField}
               placeholder="R1, Abakus, Kjel4"
             />
-            {
-              // TODO: Bug; meeting is not updated when the field above is changed, so the link
-              // will go to whatever room mazemapPoi was set to when the editor was opened
-              /*meeting.mazemapPoi > 0 && (
-              <MazemapLink mazemapPoi={meeting.mazemapPoi} linkText="↗️" />
-            )*/
-            }
+            {meeting?.mazemapPoi?.value > 0 && (
+              <MazemapLink
+                mazemapPoi={meeting.mazemapPoi?.value}
+                linkText="↗️"
+              />
+            )}
           </Flex>
         )}
         <Field
