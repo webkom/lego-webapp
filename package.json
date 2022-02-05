@@ -44,7 +44,7 @@
     "@webkom/react-prepare": "0.8.0",
     "animate.css": "^4.1.1",
     "buffer": "^6.0.3",
-    "bunyan": "^1.8.12",
+    "bunyan": "^1.8.15",
     "bunyan-pretty": "^0.0.1",
     "classnames": "^2.3.1",
     "connected-react-router": "^6.9.2",
