@@ -1,7 +1,6 @@
 // @flow
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import 'node_modules/mazemap/mazemap.min.css';
-import * as Mazemap from 'mazemap';
 import MazemapLink from './MazemapLink';
 
 type Props = {
@@ -11,12 +10,19 @@ type Props = {
 };
 
 /** A component that shows a mazemap map of a given poi (e.g. room),
- * largely based on https://api.mazemap.com/js/v2.0.12/docs/#ex-data-poi
+ * largely based on https://api.mazemap.com/js/v2.0.63/docs/#ex-data-poi
  */
-
 export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
-  //useEffect to initialize only once, mazemapPoi will probably not change
+  const [hasMounted, setHasMounted] = useState<boolean>(false);
+  useEffect(() => setHasMounted(true), []);
+
+  //import Mazemap dynamically to prevent ssr issues
+  const [Mazemap, setMazemap] = useState(null);
+
+  //initialize map only once, mazemapPoi will probably not change
   useEffect(() => {
+    import('mazemap').then((mazemap) => setMazemap(mazemap));
+    if (!Mazemap || !hasMounted) return;
     const embeddedMazemap = new Mazemap.Map({
       container: 'mazemap-embed',
       campuses: 1,
@@ -71,8 +77,17 @@ export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
       const maxHeight = height - 50; // 50 pixels account for margins and spacing
       embeddedMazemap.zLevelControl.setMaxHeight(maxHeight);
     });
-  }, [mazemapPoi]);
+  }, [Mazemap, hasMounted]);
 
+  //Allocate height for map and link before map is loaded
+  if (!hasMounted) {
+    return (
+      <>
+        <div style={{ height: props.height || 400 }} />;
+        <MazemapLink mazemapPoi={mazemapPoi} linkText={props.linkText} />
+      </>
+    );
+  };
   return (
     <>
       <div style={{ height: props.height || 400 }} id="mazemap-embed" />
