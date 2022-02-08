@@ -79,7 +79,7 @@
     "react-notification": "^6.8.5",
     "react-overlays": "0.8.3",
     "react-phone-number-input": "^3.1.46",
-    "react-redux": "6.0.1",
+    "react-redux": "7.2.6",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.3.0",
     "react-select": "^1.0.0-rc.3",
