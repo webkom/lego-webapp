@@ -3,6 +3,7 @@ FROM node:14-alpine as builder
 WORKDIR /app/
 COPY . /app
 
+RUN apk add curl
 RUN yarn
 
 ENV NODE_ENV production
