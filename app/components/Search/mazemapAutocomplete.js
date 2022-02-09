@@ -68,27 +68,28 @@ function mazemapAutocomplete<Props>({
     }
 
     handleSearch = (query: string): void => {
-      if (!query || !this.state.mazemapSearchController) {
+      if (!query) {
         return;
       }
       this.setState({
         searching: true,
       });
       if (this._isMounted) {
-        this.state.mazemapSearchController
-          .search(query)
-          .then((results) => {
-            this.setState({
-              result: results.results.features.map((result) =>
-                mapRoomAndBuildingToResult(
-                  result.properties.dispPoiNames[0],
-                  result.properties.dispBldNames[0],
-                  result.properties.poiId
-                )
-              ),
-            });
-          })
-          .finally(() => this.setState({ searching: false }));
+        this.state.mazemapSearchController &&
+          this.state.mazemapSearchController
+            .search(query)
+            .then((results) => {
+              this.setState({
+                result: results.results.features.map((result) =>
+                  mapRoomAndBuildingToResult(
+                    result.properties.dispPoiNames[0],
+                    result.properties.dispBldNames[0],
+                    result.properties.poiId
+                  )
+                ),
+              });
+            })
+            .finally(() => this.setState({ searching: false }));
       }
     };
 
