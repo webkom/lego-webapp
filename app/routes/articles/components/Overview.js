@@ -18,12 +18,8 @@ const HEADLINE_EVENTS = 2;
 
 const OverviewItem = ({ article }: { article: ArticleEntity }) => (
   <div className={styles.item}>
-    <Link to={`/articles/${article.id}`}>
-      <Image
-        height={60}
-        src={article.cover}
-        placeholder={article.coverPlaceholder}
-      />
+    <Link to={`/articles/${article.id}`} className={styles.imageLink}>
+      <Image src={article.cover} placeholder={article.coverPlaceholder} />
     </Link>
     <h2 className={styles.itemTitle}>
       <Link to={`/articles/${article.id}`}>{article.title}</Link>
