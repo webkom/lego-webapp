@@ -87,7 +87,7 @@ export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
         <MazemapLink mazemapPoi={mazemapPoi} linkText={props.linkText} />
       </>
     );
-  };
+  }
   return (
     <>
       <div style={{ height: props.height || 400 }} id="mazemap-embed" />
