@@ -3,7 +3,7 @@ FROM node:14-alpine as builder
 WORKDIR /app/
 COPY . /app
 
-RUN yarn --ignore-scripts
+RUN yarn
 
 ENV NODE_ENV production
 
