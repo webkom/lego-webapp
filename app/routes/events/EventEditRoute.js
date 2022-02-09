@@ -53,13 +53,19 @@ const mapStateToProps = (state, props) => {
         label: event.responsibleGroup.name,
         value: event.responsibleGroup.id,
       },
+      mazemapPoi: event.mazemapPoi && {
+        label: event.location, //if mazemapPoi has a value, location will be its displayname
+        value: event.mazemapPoi,
+      },
       separateDeadlines:
         event.registrationDeadlineHours !== event.unregistrationDeadlineHours,
+      useMazemap: event.mazemapPoi > 0,
     },
     actionGrant,
     event: {
       ...event,
       addFee: valueSelector(state, 'addFee'),
+      mazemapPoi: valueSelector(state, 'mazemapPoi'),
       isPriced: valueSelector(state, 'isPriced'),
       eventType: valueSelector(state, 'eventType'),
       eventStatusType: valueSelector(state, 'eventStatusType'),

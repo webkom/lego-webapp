@@ -3,6 +3,7 @@
 import Select from 'react-select';
 import { createField } from './Field';
 import withAutocomplete from '../Search/withAutocomplete';
+import mazemapAutocomplete from '../Search/mazemapAutocomplete';
 import 'react-select/dist/react-select.min.css';
 import style from './SelectInput.css';
 
@@ -92,5 +93,8 @@ SelectInput.AutocompleteField = withAutocomplete({
 });
 SelectInput.WithAutocomplete = withAutocomplete({
   WrappedComponent: SelectInput,
+});
+SelectInput.MazemapAutocomplete = mazemapAutocomplete({
+  WrappedComponent: SelectInput.Field,
 });
 export default SelectInput;

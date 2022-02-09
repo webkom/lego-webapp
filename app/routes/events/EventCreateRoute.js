@@ -52,6 +52,7 @@ const mapStateToProps = (state, props) => {
           valueSelector(state, 'unregistrationDeadlineHours'),
           'hours'
         ),
+      mazemapPoi: valueSelector(state, 'mazemapPoi'),
     },
     pools: valueSelector(state, 'pools'),
   };

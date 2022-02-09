@@ -16,11 +16,15 @@ import {
   Button,
   DatePicker,
   legoForm,
+  CheckBox,
 } from 'app/components/Form';
 import moment from 'moment-timezone';
 import config from 'app/config';
 import { unionBy } from 'lodash';
 import type { UserEntity } from 'app/reducers/users';
+import { useEffect, useState } from 'react';
+import MazemapLink from 'app/components/MazemapEmbed/MazemapLink';
+import { Flex } from 'app/components/Layout';
 
 type Props = {
   handleSubmit: (Object) => void,
@@ -52,6 +56,13 @@ function MeetingEditor({
   initialized,
 }: Props) {
   const isEditPage = meetingId !== undefined;
+
+  const [useMazemap, setUseMazemap] = useState<boolean>(false);
+
+  useEffect(() => {
+    setUseMazemap(isEditPage && meeting.mazemapPoi?.value > 0);
+  }, [initialized, isEditPage]);
+
   if (isEditPage && !meeting) {
     return <LoadingIndicator loading />;
   }
@@ -128,11 +139,42 @@ function MeetingEditor({
         </div>
 
         <Field
-          name="location"
-          label="Sted"
-          placeholder="Sted for møte"
-          component={TextInput.Field}
+          label="Bruk mazemap"
+          name="useMazemap"
+          component={CheckBox.Field}
+          fieldClassName={styles.metaField}
+          className={styles.formField}
+          value={useMazemap}
+          onChange={(e) => {
+            setUseMazemap(!useMazemap);
+          }}
+          normalize={(v) => !!v}
         />
+        {!useMazemap && (
+          <Field
+            name="location"
+            label="Sted"
+            placeholder="Sted for møte"
+            component={TextInput.Field}
+          />
+        )}
+        {useMazemap && (
+          <Flex alignItems="center">
+            <Field
+              label="Mazemap-rom"
+              name="mazemapPoi"
+              component={SelectInput.MazemapAutocomplete}
+              fieldClassName={styles.metaField}
+              placeholder="R1, Abakus, Kjel4"
+            />
+            {meeting?.mazemapPoi?.value > 0 && (
+              <MazemapLink
+                mazemapPoi={meeting.mazemapPoi?.value}
+                linkText="↗️"
+              />
+            )}
+          </Flex>
+        )}
         <Field
           name="reportAuthor"
           label="Referent"
@@ -194,6 +236,9 @@ const validate = (values) => {
   }
   if (!values.location) {
     errors.location = 'Du må velge en lokasjon for møtet';
+  }
+  if (values.useMazemap && !values.mazemapPoi) {
+    errors.mazemapPoi = 'Sted eller Mazemap-rom er påkrevd.';
   }
   if (!values.endTime) {
     errors.endTime = 'Du må velge starttidspunkt';

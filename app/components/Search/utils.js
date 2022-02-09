@@ -165,3 +165,7 @@ export function getRegularLinks(options: Options): Array<NavigationLink> {
 export function getAdminLinks(options: Options): Array<NavigationLink> {
   return retrieveAllowed(SORTED_ADMIN, options);
 }
+
+export const stripHtmlTags = (s: string): string => {
+  return s.replace(/<(.|\n)*?>/g, '');
+};

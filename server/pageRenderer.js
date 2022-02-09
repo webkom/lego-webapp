@@ -115,7 +115,6 @@ export default function pageRenderer({
         <link href="https://unpkg.com/ionicons@3.0.0/dist/css/ionicons.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:700|Raleway|Roboto" rel="stylesheet">
         ${links}
-
         ${helmet ? helmet.meta.toString() : ''}
 
         ${styles}

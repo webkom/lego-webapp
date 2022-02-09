@@ -32,6 +32,7 @@ import type { Dateish, ID } from 'app/models';
 import AnnouncementInLine from 'app/components/AnnouncementInLine';
 
 import InfoList from 'app/components/InfoList';
+import { MazemapEmbed } from 'app/components/MazemapEmbed';
 
 type Props = {
   meeting: Object,
@@ -209,6 +210,9 @@ class MeetingDetails extends Component<Props> {
                   <li>
                     <AttendanceStatus.Modal pools={this.sortInvitations()} />
                   </li>
+                  {meeting.mazemapPoi && (
+                    <MazemapEmbed mazemapPoi={meeting.mazemapPoi} />
+                  )}
                   <li>
                     <AnnouncementInLine
                       placeholder="Skriv en kunngjøring til alle inviterte..."

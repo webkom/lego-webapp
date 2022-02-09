@@ -123,6 +123,8 @@ export function createMeeting({
   reportAuthor,
   users,
   groups,
+  mazemapPoi,
+  useMazemap,
 }: Object): Thunk<any> {
   return callAPI({
     types: Meeting.CREATE,
@@ -132,10 +134,11 @@ export function createMeeting({
       title,
       report,
       description,
-      location,
+      location: calculateLocation(useMazemap, mazemapPoi, location),
       endTime: moment(endTime).toISOString(),
       startTime: moment(startTime).toISOString(),
       reportAuthor: reportAuthor && reportAuthor.id,
+      mazemapPoi: calculateMazemapPoi(useMazemap, mazemapPoi),
     },
     schema: meetingSchema,
     meta: {
@@ -206,6 +209,8 @@ export function editMeeting({
   id,
   users,
   groups,
+  mazemapPoi,
+  useMazemap,
 }: Object): Thunk<any> {
   return callAPI({
     types: Meeting.EDIT,
@@ -215,11 +220,12 @@ export function editMeeting({
       title,
       id,
       report,
-      location,
+      location: calculateLocation(useMazemap, mazemapPoi, location),
       description,
       endTime: moment(endTime).toISOString(),
       startTime: moment(startTime).toISOString(),
       reportAuthor: reportAuthor && reportAuthor.id,
+      mazemapPoi: calculateMazemapPoi(useMazemap, mazemapPoi),
     },
     schema: meetingSchema,
     meta: {
@@ -233,3 +239,13 @@ export function resetMeetingsToken(): Action {
     type: Meeting.RESET_MEETINGS_TOKEN,
   };
 }
+
+const calculateMazemapPoi = (useMazemap, mazemapPoi) => {
+  if (!useMazemap || !mazemapPoi.value) {
+    return null;
+  }
+  return mazemapPoi.value;
+};
+
+const calculateLocation = (useMazemap, mazemapPoi, location) =>
+  useMazemap ? mazemapPoi.label : location;

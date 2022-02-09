@@ -38,6 +38,8 @@ import type { ID } from 'app/models';
 import { validYoutubeUrl } from 'app/utils/validation';
 import { FormatTime } from 'app/components/Time';
 import moment from 'moment-timezone';
+import MazemapLink from 'app/components/MazemapEmbed/MazemapLink';
+import { useEffect, useState } from 'react';
 
 type Props = {
   eventId: number,
@@ -79,6 +81,13 @@ function EventEditor({
   initialized,
 }: Props) {
   const isEditPage = eventId !== undefined;
+
+  const [useMazemap, setUseMazemap] = useState<boolean>(false);
+
+  useEffect(() => {
+    setUseMazemap(event.mazemapPoi && event.mazemapPoi?.value > 0);
+  }, [initialized]);
+
   if (isEditPage && !actionGrant.includes('edit')) {
     return null;
   }
@@ -256,15 +265,48 @@ function EventEditor({
             />
             {['NORMAL', 'OPEN', 'INFINITE'].includes(event.eventStatusType) && (
               <Field
-                label="Sted"
-                name="location"
-                placeholder="Den gode nabo, R5, ..."
-                component={TextInput.Field}
+                label="Bruk mazemap"
+                name="useMazemap"
+                component={CheckBox.Field}
                 fieldClassName={styles.metaField}
                 className={styles.formField}
-                warn={isTBA}
+                value={useMazemap}
+                onChange={(e) => {
+                  setUseMazemap(!useMazemap);
+                }}
+                normalize={(v) => !!v}
               />
             )}
+            {['NORMAL', 'OPEN', 'INFINITE'].includes(event.eventStatusType) &&
+              !useMazemap && (
+                <Field
+                  label="Sted"
+                  name="location"
+                  placeholder="Den gode nabo, R5, ..."
+                  component={TextInput.Field}
+                  fieldClassName={styles.metaField}
+                  className={styles.formField}
+                  warn={isTBA}
+                />
+              )}
+            {['NORMAL', 'OPEN', 'INFINITE'].includes(event.eventStatusType) &&
+              useMazemap && (
+                <Flex alignItems="flex-end">
+                  <Field
+                    label="Mazemap-rom"
+                    name="mazemapPoi"
+                    component={SelectInput.MazemapAutocomplete}
+                    fieldClassName={styles.metaField}
+                    placeholder="R1, Abakus, Kjel4"
+                  />
+                  {event.mazemapPoi?.value && (
+                    <MazemapLink
+                      mazemapPoi={event.mazemapPoi?.value}
+                      linkText="↗️"
+                    />
+                  )}
+                </Flex>
+              )}
             {['NORMAL', 'INFINITE'].includes(event.eventStatusType) && (
               <Field
                 label="Betalt arrangement"
@@ -534,6 +576,9 @@ const validate = (data) => {
   }
   if (!data.location) {
     errors.location = 'Lokasjon er påkrevet';
+  }
+  if (data.useMazemap && !data.mazemapPoi) {
+    errors.mazemapPoi = 'Sted eller Mazemap-rom er påkrevd.';
   }
   if (!data.id && !data.cover) {
     errors.cover = 'Cover er påkrevet';

@@ -47,8 +47,17 @@ const mapStateToProps = (state, props) => {
       },
       report: meeting ? meeting.report : '',
       description: meeting ? meeting.description : '',
+      mazemapPoi: meeting.mazemapPoi && {
+        label: meeting.location,
+        value: meeting.mazemapPoi,
+      },
+      useMazemap: meeting.mazemapPoi > 0,
     },
     invitingUsers: valueSelector(state, 'users') || [],
+    meeting: {
+      ...meeting,
+      mazemapPoi: valueSelector(state, 'mazemapPoi'),
+    },
     meetingId,
     meetingInvitations,
   };

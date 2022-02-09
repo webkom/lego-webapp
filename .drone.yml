@@ -148,6 +148,7 @@ steps:
     environment:
       CYPRESS_INSTALL_BINARY: 0
     commands:
+      - apk --no-cache add curl
       - yarn --frozen-lockfile --cache-folder /tmp/cache
 
   - name: build_server
@@ -324,4 +325,4 @@ image_pull_secrets:
 
 ---
 kind: signature
-hmac: 78c89633b5aa09d67d24373cbf8036a4f4d698b710bfb5097d5add9f6acf8415
+hmac: 03f413c45e9a13431d3324440e6460b72bb9514cf8e745f7b8cf41fea61ee08a

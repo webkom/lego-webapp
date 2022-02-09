@@ -94,8 +94,22 @@ const calculatePrice = (data) => {
 /* Calculate the event location
  * @param eventStatusType: what kind of registrationmode this event has
  */
-const calculateLocation = (data) =>
-  data.eventStatusType === 'TBA' ? 'TBA' : data.location;
+const calculateLocation = (data) => {
+  if (data.eventStatusType === 'TBA') return 'TBA';
+  if (data.useMazemap) return data.mazemapPoi.label;
+  return data.location;
+};
+
+const calculateMazemapPoi = (data) => {
+  if (
+    data.eventStatusType === 'TBA' ||
+    !data.useMazemap ||
+    data.mazemapPoi.value == ''
+  ) {
+    return null;
+  }
+  return data.mazemapPoi.value;
+};
 
 /* Calculate the event pools
  * @param eventStatusType: what kind of registrationmode this event has
@@ -169,6 +183,7 @@ export const transformEvent = (data: TransformEvent) => ({
   pools: calculatePools(data),
   useCaptcha: true, // always use Captcha, this blocks the use of CLI
   youtubeUrl: data.youtubeUrl,
+  mazemapPoi: calculateMazemapPoi(data),
 });
 
 export const paymentPending = 'pending';

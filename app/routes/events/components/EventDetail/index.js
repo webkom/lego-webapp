@@ -47,6 +47,7 @@ import type {
 } from 'app/models';
 import type { CommentEntity } from 'app/reducers/comments';
 import type { UserEntity } from 'app/reducers/users';
+import { MazemapEmbed } from 'app/components/MazemapEmbed';
 
 type InterestedButtonProps = {
   isInterested: boolean,
@@ -295,6 +296,9 @@ export default class EventDetail extends Component<Props> {
                   <InfoList items={paidItems} />
                 </div>
               )}
+              {event.mazemapPoi && (
+                <MazemapEmbed mazemapPoi={event.mazemapPoi} />
+              )}
               {['OPEN', 'TBA'].includes(event.eventStatusType) ? (
                 <JoinEventForm event={event} />
               ) : (
@@ -411,7 +415,6 @@ export default class EventDetail extends Component<Props> {
               <Link to="/users/me"> her</Link>.
             </p>
           )}
-
           {event.contentTarget && (
             <CommentView
               style={{ marginTop: 20 }}
