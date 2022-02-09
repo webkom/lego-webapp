@@ -13,7 +13,7 @@ type InjectedProps = {
 type State = {
   searching: boolean,
   result: Array<Object>,
-  Mazemap: any,
+  mazemapSearchController: any,
 };
 
 function mazemapAutocomplete<Props>({
@@ -40,14 +40,26 @@ function mazemapAutocomplete<Props>({
 
     state = {
       searching: false,
-      result: [], //first result fetched on mount
-      Mazemap: undefined,
+      result: [],
+      mazemapSearchController: undefined,
     };
 
     _isMounted = false;
 
     componentDidMount() {
-      import('mazemap').then((mazemap) => this.setState({ Mazemap: mazemap }));
+      import('mazemap').then((mazemap) => {
+        this.setState({
+          mazemapSearchController: new mazemap.Search.SearchController({
+            campusid: 1,
+            rows: 10,
+            withpois: true,
+            withbuilding: false,
+            withtype: false,
+            withcampus: false,
+            resultsFormat: 'geojson',
+          }),
+        });
+      });
       this._isMounted = true;
     }
 
@@ -55,50 +67,37 @@ function mazemapAutocomplete<Props>({
       this._isMounted = false;
     }
 
-    render() {
-      const { Mazemap } = this.state;
-      const handleSearch = (query: string): void => {
-        if (!query || !Mazemap) {
-          return;
-        }
-        const mazemapSearchController = new Mazemap.Search.SearchController({
-          campusid: 1,
-          rows: 10,
-          withpois: true,
-          withbuilding: false,
-          withtype: false,
-          withcampus: false,
-          resultsFormat: 'geojson',
-        });
-        this.setState({
-          searching: true,
-        });
-        mazemapSearchController
+    handleSearch = (query: string): void => {
+      if (!query || !this.state.mazemapSearchController) {
+        return;
+      }
+      this.setState({
+        searching: true,
+      });
+      if (this._isMounted) {
+        this.state.mazemapSearchController
           .search(query)
           .then((results) => {
-            if (this._isMounted) {
-              this.setState({
-                result: results.results.features.map((result) =>
-                  mapRoomAndBuildingToResult(
-                    result.properties.dispPoiNames[0],
-                    result.properties.dispBldNames[0],
-                    result.properties.poiId
-                  )
-                ),
-              });
-            }
+            this.setState({
+              result: results.results.features.map((result) =>
+                mapRoomAndBuildingToResult(
+                  result.properties.dispPoiNames[0],
+                  result.properties.dispBldNames[0],
+                  result.properties.poiId
+                )
+              ),
+            });
           })
-          .finally(() => {
-            if (this._isMounted) {
-              this.setState({ searching: false });
-            }
-          });
-      };
+          .finally(() => this.setState({ searching: false }));
+      }
+    };
+
+    render() {
       return (
         <WrappedComponent
           {...this.props}
           options={this.state.result}
-          onSearch={debounce((query) => handleSearch(query), 300)}
+          onSearch={debounce((query) => this.handleSearch(query), 300)}
           fetching={this.state.searching}
         />
       );
