@@ -45,12 +45,10 @@ export const EVENT_TYPES = {
     norwegian: 'Digital presentasjon',
     english: 'Digital presentation',
   },
-  /*
   bedex: {
-    norwegian: 'BedEx (1.-3. September 2021)',
-    english: 'BedEx (1.-3. September 2021)',
+    norwegian: 'Bedriftsekskursjon (BedEx)',
+    english: 'Company excursion (BedEx)',
   },
-  */
   other: {
     norwegian: 'Alternativt arrangement',
     english: 'Other event',
@@ -58,6 +56,10 @@ export const EVENT_TYPES = {
   start_up: {
     norwegian: 'Start-up kveld',
     english: 'Start-up night',
+  },
+  company_to_company: {
+    norwegian: 'Bedrift-til-bedrift',
+    english: 'Company-to-company',
   },
 };
 
@@ -76,13 +78,18 @@ export const OTHER_TYPES = {
 
 export const COLLABORATION_TYPES = {
   collaboration_omega: {
-    english: 'Event in collaboration with Omega',
     norwegian: 'Samarbeid med Omega linjeforening',
+    english: 'Event in collaboration with Omega',
   },
   collaboration_online: {
-    english: 'Event in collaboration with Online',
     norwegian: 'Samarbeid med Online linjeforening',
+    english: 'Event in collaboration with Online',
   },
+  collaboration_tihlde: {
+    norwegian: 'Samarbeid med TIHLDE linjeforening',
+    english: 'Event in collaboration with TIHLDE',
+  },
+  /*
   collaboration_anniversary: {
     english: "Collaboration with Abakus' anniversary committee*",
     norwegian: 'Samarbeid med Abakus sitt Jubileum*',
@@ -95,6 +102,7 @@ export const COLLABORATION_TYPES = {
     english: 'Collaboration with the revue**',
     norwegian: 'Samarbeid med Revyen**',
   },
+  */
 };
 
 export const TARGET_GRADE_TYPES = {
@@ -576,18 +584,20 @@ const CompanyInterestPage = (props: Props) => {
 
         <div className={styles.underline}>
           {interestText.text.first[language]}
+          {/*
           <br />
           <br />
           {interestText.text.second[language]}
           <br />
           <br />
-          {/*} {interestText.bedex[language]} 
+          {interestText.bedex[language] 
           <br />
-          <br />{*/}
+          <br />
           {interestText.anniversaryCollaboration[language]}
           <br />
           <br />
           {interestText.revueCollaboration[language]}
+          */}
         </div>
 
         <Field
