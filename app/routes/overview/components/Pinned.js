@@ -21,7 +21,13 @@ class Pinned extends Component<Props, *> {
         <h3 className="u-ui-heading">Festet oppslag</h3>
         <Flex column className={styles.innerPinned}>
           <Link to={url} className={styles.innerLinks}>
-            <Image className={styles.image} src={item.cover} />
+            <Image
+              className={styles.image}
+              src={item.cover}
+              placeholder={item.coverPlaceholder}
+              height={500}
+              width={1667}
+            />
           </Link>
           <div className={styles.pinnedHeading}>
             <h2 className={styles.itemTitle}>

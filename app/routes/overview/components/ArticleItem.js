@@ -26,7 +26,12 @@ class ArticleItem extends Component<Props, *> {
         <Flex column>
           <Flex column>
             <Link to={url} className={styles.link}>
-              <Image className={styles.image} src={item.cover} />
+              <Image
+                className={styles.image}
+                src={item.cover}
+                placeholder={item.coverPlaceholder}
+                height="110"
+              />
               <div className={styles.infoWrapper}>
                 <h2 className={styles.articleTitle}>
                   {truncateString(item.title, TITLE_MAX_LENGTH)}

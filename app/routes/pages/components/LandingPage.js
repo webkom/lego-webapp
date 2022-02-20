@@ -48,12 +48,14 @@ const LandingPage = ({
         className={cx(styles.banner, styles.bannerLightMode)}
         src={bannerLightMode}
         alt="Abakus - Linjeforeningen for Datateknologi og Kommunikasjonsteknologi og digital sikkerhet ved NTNU"
+        height="265"
       />
 
       <Image
         className={cx(styles.banner, styles.bannerDarkMode)}
         src={bannerDarkMode}
         alt="Abakus - Linjeforeningen for Datateknologi og Kommunikasjonsteknologi og digital sikkerhet ved NTNU"
+        height="265"
       />
 
       <Flex className={styles.whoWhatWhyContainer}>

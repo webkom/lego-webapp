@@ -17,6 +17,7 @@ export type ArticleEntity = {
   description: string,
   author: Object,
   cover: string,
+  coverPlaceholder: string,
   createdAt: string,
   content: string,
   startTime: string,

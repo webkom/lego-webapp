@@ -8,11 +8,10 @@ import { Image } from 'app/components/Image';
 
 type Props = {
   user: User,
-  profilePicture: string,
   leader?: boolean,
   co_leader?: boolean,
 };
-const GroupMember = ({ user, profilePicture, leader, co_leader }: Props) => {
+const GroupMember = ({ user, leader, co_leader }: Props) => {
   return (
     <Link to={`/users/${user.username}`}>
       <div
@@ -22,7 +21,11 @@ const GroupMember = ({ user, profilePicture, leader, co_leader }: Props) => {
           co_leader && styles.co_leader
         )}
       >
-        <Image alt="profilePicture" src={user.profilePicture} />
+        <Image
+          alt="profilePicture"
+          src={user.profilePicture}
+          placeholder={user.profilePicturePlaceholder}
+        />
         {leader && <div className={styles.title}>LEDER</div>}
         {co_leader && <div className={styles.title}>NESTLEDER</div>}
         <div className={styles.name}>{user.fullName}</div>

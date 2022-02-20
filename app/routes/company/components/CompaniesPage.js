@@ -30,7 +30,12 @@ const CompanyItem = ({ company }: Company) => {
         <div className={styles.companyLogoContainer}>
           <Link to={`/companies/${company.id}`}>
             <div className={styles.companyLogo}>
-              {<Image src={company.logo} />}
+              {
+                <Image
+                  src={company.logo}
+                  placeholder={company.logoPlaceholder}
+                />
+              }
             </div>
           </Link>
         </div>

@@ -4,7 +4,7 @@ import type { Node } from 'react';
 
 import { PureComponent } from 'react';
 import { chunk, get } from 'lodash';
-import ProgressiveImage from 'app/components/ProgressiveImage';
+import { Image } from 'app/components/Image';
 import Paginator from 'app/components/Paginator';
 import styles from './Gallery.css';
 
@@ -117,7 +117,7 @@ export default class Gallery extends PureComponent<Props, State> {
               onClick={() => this.onClick(photo)}
               className={styles.galleryPhoto}
             >
-              <ProgressiveImage
+              <Image
                 className={styles.image}
                 src={src}
                 beforeLoadstyle={{

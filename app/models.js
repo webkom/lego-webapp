@@ -40,6 +40,7 @@ export type User = {
   grade: Grade,
   allergies: string,
   profilePicture: string,
+  profilePicturePlaceholder?: string,
   email?: string,
   phoneNumber?: string,
 };
@@ -50,6 +51,7 @@ type EventBase = {
   id: ID,
   title: string,
   cover: string,
+  coverPlaceholder: string,
   description: string,
   createdAt: ?Dateish,
   createdBy: User,
@@ -119,6 +121,7 @@ export type Group = {
   description: string,
   text: string,
   logo: ?string,
+  logoPlaceholder?: string,
   showBadge: boolean,
   active: boolean,
   contactEmail: string,
