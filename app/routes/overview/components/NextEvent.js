@@ -6,7 +6,6 @@ import styles from './NextEvent.css';
 import { colorForEvent } from 'app/routes/events/utils';
 import { Flex } from 'app/components/Layout';
 import type { Event } from 'app/models';
-import { Image } from 'app/components/Image';
 import alarm from 'app/assets/alarm.svg';
 import truncateString from 'app/utils/truncateString';
 import { orderBy } from 'lodash';
@@ -69,7 +68,7 @@ class EventItem extends Component<Props, State> {
 
           <div className={styles.info}>
             <span>
-              <Image className={styles.alarm} src={alarm} />
+              <img alt="alarm-icon" className={styles.alarm} src={alarm} />
             </span>
             <span style={{ color: 'grey' }}>
               Påmelding {/*Change based on time*/}
