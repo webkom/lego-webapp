@@ -14,6 +14,7 @@
   bottom: 0;
   left: 0;
   right: 0;
+  z-index: 3;
 }
 
 .content {
@@ -29,6 +30,7 @@
   outline: none;
   max-height: calc(100vh - 40px);
   overflow-y: auto;
+  z-index: 4;
 }
 
 .closeButton {
