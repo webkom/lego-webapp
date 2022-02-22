@@ -179,23 +179,23 @@ export const GroupRenderer = ({ page }: { page: Object }) => {
         <div className={styles.leaderBoard}>
           <div className={styles.leader}>
             {leaders.map(({ user }, key) => (
-              <GroupMember user={user} key={key} leader />
+              <GroupMember user={user} key={user.id} leader />
             ))}
           </div>
           <div className={styles.co_leader}>
             {co_leaders.map(({ user }, key) => (
-              <GroupMember user={user} key={key} co_leader />
+              <GroupMember user={user} key={user.id} co_leader />
             ))}
           </div>
         </div>
         <div className={styles.members}>
           {members.map(({ user }, key) => (
-            <GroupMember user={user} key={key} />
+            <GroupMember user={user} key={user.id} />
           ))}
         </div>
         <div className={styles.members}>
           {activeRetirees.map(({ user }, key) => (
-            <GroupMember user={user} key={key} />
+            <GroupMember user={user} key={user.id} />
           ))}
         </div>
       </div>

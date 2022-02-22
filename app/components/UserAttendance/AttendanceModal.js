@@ -79,7 +79,7 @@ class AttendanceModal extends Component<Props, State> {
         <h2>{title}</h2>
         <ul className={styles.list}>
           {activePool.registrations.map((registration, i) => (
-            <li key={i}>
+            <li key={registration.id}>
               <div className={styles.row}>
                 <ProfilePicture size={30} user={registration.user} />
                 <Link to={`/users/${registration.user.username}`}>

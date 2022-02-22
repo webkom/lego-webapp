@@ -149,7 +149,7 @@ const ListEvents = ({ events, noEventsMessage, loggedIn }: EventsProps) => (
       <Flex column wrap>
         {events.map((event, i) => (
           <EventItem
-            key={i}
+            key={event.id}
             event={event}
             showTags={false}
             loggedIn={loggedIn}
