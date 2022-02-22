@@ -123,15 +123,6 @@
   }
 }
 
-.rightQuote {
-  order: 2;
-  display: flex;
-  justify-content: space-between;
-  margin-top: 2px;
-  width: 70px;
-  margin-left: 20px;
-}
-
 .singleQuote h3 {
   font-weight: 300;
   font-size: 30px;
@@ -160,18 +151,8 @@
   color: var(--color-orange-3);
 }
 
-.fa-thumbs-up {
-  padding-top: 5px;
-  font-size: 35px;
-  order: 0;
-}
-
 .quoteDefault {
   color: var(--color-gray-1);
-}
-
-.fa-thumbs-up:hover {
-  color: var(--color-orange-3);
 }
 
 .quoteSource {
@@ -226,14 +207,6 @@
   order: 2;
 }
 
-.faQuote-right {
-  font-size: 100px;
-  color: #dbdbdb;
-  margin-right: 30px;
-  order: 0;
-  height: 0;
-}
-
 .adminDropdown {
   position: absolute;
 }
@@ -263,10 +236,6 @@
     flex-direction: column;
   }
 
-  .faQuote-right {
-    display: none;
-  }
-
   .leftQuote {
     width: 100%;
   }
@@ -282,11 +251,6 @@
 
   .theQuote {
     width: 100%;
-  }
-
-  .rightQuote {
-    margin: -50px 0 0;
-    order: 4;
   }
 
   .quotepageRight {

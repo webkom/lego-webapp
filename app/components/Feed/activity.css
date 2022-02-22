@@ -4,7 +4,7 @@
   flex-direction: row;
   padding: 10px 20px;
   border-bottom: 1px solid
-    rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.09);
+    rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 9%);
 }
 
 .activityHeader {
@@ -31,6 +31,5 @@
   justify-content: space-between;
   flex-direction: row;
   padding: 10px 20px;
-  border-top: 1px solid
-    rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.09);
+  border-top: 1px solid rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 9%);
 }

@@ -18,7 +18,6 @@
 }
 
 .inputContainer input {
-  -webkit-appearance: textfield;
   flex: 1;
   outline: none;
   border: 0;
@@ -73,7 +72,7 @@
 }
 
 .resultsContainer {
-  background: rgba(var(--rgb-max), var(--rgb-max), var(--rgb-max), 0.8);
+  background: rgba(var(--rgb-max), var(--rgb-max), var(--rgb-max), 80%);
   overflow-y: auto;
   height: 100%;
   max-height: calc(100vh - 120px);

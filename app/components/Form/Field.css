@@ -47,16 +47,19 @@ input[type='text']:disabled {
 }
 
 :global {
+  /* stylelint-disable-next-line selector-class-pattern */
   .Select.is-disabled > .Select-control {
     background-color: var(--color-mono-gray-4) !important;
     color: var(--color-dark-mono-gray-4);
   }
 
+  /* stylelint-disable-next-line selector-class-pattern */
   .Select--multi.is-disabled .Select-value-label {
     background-color: var(--color-mono-gray-4) !important;
     color: var(--color-dark-mono-gray-4);
   }
 
+  /* stylelint-disable-next-line selector-class-pattern */
   .Select--multi.is-disabled .Select-value {
     border: none !important;
   }

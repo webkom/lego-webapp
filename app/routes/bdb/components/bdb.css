@@ -14,11 +14,9 @@
 
 .root select {
   font-size: 100%;
-  font-family: 'proxima-nova', 'Helvetica Neue', Arial, sans-serif;
+  font-family: proxima-nova, 'Helvetica Neue', Arial, sans-serif;
   cursor: pointer;
   transition: color 0.2s;
-  -webkit-appearance: none;
-  -moz-appearance: none;
   text-indent: 1px;
   text-overflow: '';
   background-color: inherit;
@@ -391,17 +389,6 @@ background-color. By making it this way I don't have to rewrite it 🤷 */
 .checkBox {
   display: block;
   margin: 10px 0;
-}
-
-.field-error {
-  color: var(--lego-red-color);
-  font-weight: bold;
-  display: block;
-}
-
-.error-message {
-  color: var(--lego-red-color);
-  display: block;
 }
 
 .clear {

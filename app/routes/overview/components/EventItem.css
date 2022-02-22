@@ -1,7 +1,7 @@
 @import '~app/styles/variables.css';
 
 .link {
-  color: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.9);
+  color: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 90%);
   width: 100%;
   height: 100%;
 }
@@ -43,7 +43,7 @@
   padding: 20px;
   height: 100%;
   flex: 1;
-  border-radius: 0 0 5px 0;
+  border-radius: 0 0 5px;
   background: var(--lego-card-color);
 
   @media (--mobile-device) {
@@ -69,7 +69,7 @@
   font-weight: 600;
   width: 390px;
   border-radius: 0 0 5px 5px;
-  color: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.8);
+  color: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 80%);
 
   @media (--mobile-device) {
     width: 100%;
@@ -85,7 +85,7 @@
   font-weight: 600;
   width: 272px;
   border-radius: 0 0 5px 5px;
-  color: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.8);
+  color: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 80%);
 
   @media (--mobile-device) {
     width: 100%;
@@ -121,5 +121,5 @@
 }
 
 .itemTitle > a {
-  color: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.9);
+  color: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 90%);
 }

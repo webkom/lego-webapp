@@ -9,7 +9,7 @@ type Props = {
 
 const DividerWithDots = ({ extraStyle }: Props) => {
   return (
-    <div className={styles.vision__line} style={extraStyle}>
+    <div className={styles.visionLine} style={extraStyle}>
       <span className={styles.dot} />
       <span className={cx(styles.dot, styles.dotBottom)} />
     </div>

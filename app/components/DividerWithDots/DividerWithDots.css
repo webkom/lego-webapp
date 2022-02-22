@@ -1,6 +1,6 @@
 @import '~app/styles/variables.css';
 
-.vision__line {
+.visionLine {
   border-left: 3px solid var(--lego-red);
   display: flex;
   flex-direction: column;
@@ -29,7 +29,7 @@
 }
 
 @media (--mobile-device) {
-  .vision__line {
+  .visionLine {
     display: none;
   }
 }

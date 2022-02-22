@@ -100,7 +100,6 @@
   background: var(--color-red-3) !important;
   cursor: pointer !important;
   margin-top: -6px !important;
-  -webkit-appearance: none !important;
 }
 
 .progress {

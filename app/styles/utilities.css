@@ -17,7 +17,7 @@
   background: var(--color-white);
   padding: 40px;
   box-shadow: 0 1px 20px
-    rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.05);
+    rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 5%);
   border-radius: 3px;
 
   @media (--small-viewport) {
@@ -45,9 +45,8 @@ html[data-theme='dark'] .contentContainer {
 }
 
 .withShadow {
-  border: 1px solid rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.09);
-  box-shadow: 0 1px 4px
-    rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.04);
+  border: 1px solid rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 9%);
+  box-shadow: 0 1px 4px rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 4%);
   border-radius: 5px;
 }
 
@@ -79,14 +78,17 @@ html[data-theme='dark'] .contentContainer {
 }
 
 :global {
+  /* stylelint-disable-next-line selector-class-pattern */
   .u-small {
     font-size: 14px;
   }
 
+  /* stylelint-disable-next-line selector-class-pattern */
   .u-mb {
     margin-bottom: 15px;
   }
 
+  /* stylelint-disable-next-line selector-class-pattern */
   .u-ui-heading {
     color: var(--color-dark-mono-gray-2);
     text-transform: uppercase;

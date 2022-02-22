@@ -2,9 +2,8 @@
 
 .container {
   background-color: var(--color-white);
-  box-shadow: 0 1px 4px
-    rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.03);
-  border: 1px solid rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.04);
+  box-shadow: 0 1px 4px rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 3%);
+  border: 1px solid rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 4%);
   margin-bottom: 15px;
   padding: 25px;
   align-items: center;
@@ -18,8 +17,8 @@
 
 html[data-theme='dark'] .container {
   box-shadow: 0 1px 4px
-    rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.14);
-  border: 1px solid rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.15);
+    rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 14%);
+  border: 1px solid rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 15%);
 }
 
 .comment {
@@ -29,6 +28,7 @@ html[data-theme='dark'] .container {
   width: 100%;
 
   :global {
+    /* stylelint-disable-next-line selector-class-pattern */
     .md-RichEditor-editor .public-DraftEditor-content {
       min-height: 0;
     }

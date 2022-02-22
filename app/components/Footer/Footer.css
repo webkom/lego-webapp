@@ -5,7 +5,7 @@
   background-color: var(--lego-footer-color);
   color: var(--color-almost-white-1);
   margin-top: 3.1em;
-  font-family: 'Roboto', sans-serif;
+  font-family: Roboto, sans-serif;
 
   @media (--lego-max-width) {
     margin-top: 0.5em;
@@ -93,8 +93,7 @@ html[data-theme='dark'] .footer {
 
 .socialMedia {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-wrap: row wrap;
   justify-content: flex-end;
   padding-top: 0.4em;
   gap: 1.2em;

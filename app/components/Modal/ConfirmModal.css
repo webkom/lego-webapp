@@ -9,7 +9,7 @@
 
 .backdrop {
   position: fixed;
-  background: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.8);
+  background: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 80%);
   top: 0;
   bottom: 0;
   left: 0;

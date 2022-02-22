@@ -38,7 +38,7 @@
 }
 
 .calendarItem {
-  flex: 0 14.28571%;
+  flex: 0 14.2857%;
   border-right: var(--calendar-border);
   border-bottom: var(--calendar-border);
   background: var(--color-white);

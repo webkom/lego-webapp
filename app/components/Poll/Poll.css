@@ -45,7 +45,7 @@
 }
 
 .pollGraph {
-  animation: graph 1.2s cubic-bezier(0.41, 0.8, 0.4, 0.94);
+  animation: graph 1.2s cubic-bezier(41%, 80%, 40%, 94%);
   background-color: var(--lego-red-color);
   padding-left: 8px;
   border-radius: 0 2px 2px 0;

@@ -1,3 +1,5 @@
+/* stylelint-disable selector-class-pattern */
+
 @import '~app/styles/variables.css';
 
 .flex {
@@ -6,10 +8,6 @@
 
 .row {
   flex-direction: row;
-}
-
-.row-reverse {
-  flex-direction: row-reverse;
 }
 
 .column {

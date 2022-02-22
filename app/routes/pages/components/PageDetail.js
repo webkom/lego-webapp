@@ -165,7 +165,7 @@ export const GroupRenderer = ({ page }: { page: Object }) => {
 
   const {
     leader: leaders = [],
-    'co-leader': co_leaders = [],
+    coLeader: coLeaders = [],
     member: members = [],
     active_retiree: activeRetirees = [],
   } = membershipsByRole;
@@ -183,7 +183,7 @@ export const GroupRenderer = ({ page }: { page: Object }) => {
             ))}
           </div>
           <div className={styles.co_leader}>
-            {co_leaders.map(({ user }, key) => (
+            {coLeaders.map(({ user }, key) => (
               <GroupMember user={user} key={user.id} co_leader />
             ))}
           </div>
