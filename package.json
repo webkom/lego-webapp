@@ -149,7 +149,7 @@
     "identity-obj-proxy": "3.0.0",
     "jest": "^27.5.1",
     "lolex": "^6.0.0",
-    "mini-css-extract-plugin": "^2.4.5",
+    "mini-css-extract-plugin": "^2.5.3",
     "null-loader": "^4.0.1",
     "postcss-import": "^14.0.2",
     "postcss-loader": "^6.2.1",
