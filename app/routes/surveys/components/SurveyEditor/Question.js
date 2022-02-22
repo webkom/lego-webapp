@@ -89,19 +89,27 @@ const Question = ({
               name={`${question}.questionType`}
               simpleValue
               component={SelectInput.Field}
-              optionComponent={(props) =>
-                QuestionTypeOption(
-                  props,
-                  questionTypeToIcon[props.option && props.option.value]
-                )
-              }
+              components={{
+                Option: (props: any) => {
+                  const value = props.data.value;
+                  return (
+                    <QuestionTypeOption
+                      iconName={questionTypeToIcon[value]}
+                      {...props}
+                    />
+                  );
+                },
+                SingleValue: (props: any) => {
+                  const value = props.data.value;
+                  return (
+                    <QuestionTypeValue
+                      iconName={questionTypeToIcon[value]}
+                      {...props}
+                    />
+                  );
+                },
+              }}
               options={mappings}
-              valueComponent={(props) =>
-                QuestionTypeValue(
-                  props,
-                  questionTypeToIcon[props.value && props.value.value]
-                )
-              }
               className={styles.questionType}
               clearable={false}
               backspaceRemoves={false}
@@ -118,12 +126,26 @@ const Question = ({
               placeholder="0"
               name="relativeIndex"
               options={indexOptions}
-              optionComponent={(props) =>
-                QuestionTypeOption(props, 'sort', 'fa fa-')
-              }
-              valueComponent={(props) =>
-                QuestionTypeValue(props, 'sort', 'fa fa-')
-              }
+              components={{
+                Option: (props: any) => {
+                  return (
+                    <QuestionTypeOption
+                      iconName={'sort'}
+                      prefix="fa fa-"
+                      {...props}
+                    />
+                  );
+                },
+                SingleValue: (props: any) => {
+                  return (
+                    <QuestionTypeValue
+                      iconName={'sort'}
+                      prefix="fa fa-"
+                      {...props}
+                    />
+                  );
+                },
+              }}
               onChange={(user) =>
                 updateRelativeIndexes(relativeIndex, user.value, fields)
               }

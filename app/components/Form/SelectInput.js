@@ -1,10 +1,10 @@
 // @flow
 
 import Select from 'react-select';
+import Creatable from 'react-select/creatable';
 import { createField } from './Field';
 import withAutocomplete from '../Search/withAutocomplete';
 import mazemapAutocomplete from '../Search/mazemapAutocomplete';
-import 'react-select/dist/react-select.min.css';
 import style from './SelectInput.css';
 
 type Props = {
@@ -40,13 +40,12 @@ function SelectInput({
   if (props.tags) {
     return (
       <div className={style.field}>
-        <Select.Creatable
+        <Creatable
           {...props}
-          disabled={disabled}
+          isDisabled={disabled}
           placeholder={!disabled && placeholder}
           instanceId={name}
-          multi
-          onBlurResetsInput={false}
+          isMulti
           onBlur={() => onBlur(value)}
           value={value}
           isValidNewOption={isValidNewOption}
@@ -67,11 +66,10 @@ function SelectInput({
     <div className={style.field}>
       <Select
         {...props}
-        disabled={disabled}
+        isDisabled={disabled}
         placeholder={disabled ? 'Tomt' : placeholder}
         instanceId={name}
         shouldKeyDownEventCreateNewOption={shouldKeyDownEventCreateNewOption}
-        onBlurResetsInput={false}
         onBlur={() => onBlur(value)}
         value={value}
         options={options}

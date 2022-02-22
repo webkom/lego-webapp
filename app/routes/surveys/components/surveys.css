@@ -143,6 +143,23 @@
   top: 7px !important;
 }
 
+.dropdownOption {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+
+.dropdownSelected {
+  grid-area: 1/1/2/3;
+  margin-left: 2px;
+  margin-right: 2px;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+
 .dropdownColor {
   color: var(--lego-link-color) !important;
 }

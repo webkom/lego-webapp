@@ -72,7 +72,7 @@ class GroupChange extends Component<Props, State> {
           value={this.state.selectedOption || initalOption}
           onChange={this.handleChange}
           options={[noLongerStudent, ...options]}
-          clearable={false}
+          isClearable={false}
         />
         {this.state.selectedOption && (
           <Button className={styles.saveButton} onClick={this.handleOnClick}>

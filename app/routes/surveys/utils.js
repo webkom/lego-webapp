@@ -114,25 +114,31 @@ export const CHART_COLORS = [
 export const getCsvUrl = (surveyId: string) =>
   `${config.serverUrl}/surveys/${surveyId}/csv/`;
 
-export const QuestionTypeOption = (
-  props: Object,
-  iconName: string,
-  prefix?: string,
-  option?: string,
-  value?: string
-) => (
+export const QuestionTypeOption = ({
+  iconName,
+  prefix,
+  option,
+  ...props
+}: any) => (
   <div
-    className={cx(props.className, styles.dropdown)}
-    onMouseDown={(event) => {
-      props.onSelect && props.onSelect(props.option, event);
+    style={{
+      backgroundColor: props.isSelected
+        ? '#DDD'
+        : props.isFocused
+        ? '#EEE'
+        : 'white',
     }}
-    onMouseEnter={(event) =>
-      props.onFocus && props.onFocus(props.option, event)
-    }
+    className={cx(styles.dropdownOption, styles.dropdown)}
+    onMouseDown={(event) => {
+      props.onSelect && props.onSelect(option, event);
+    }}
+    onMouseEnter={(event) => props.onFocus && props.onFocus(option, event)}
     onMouseMove={(event) => {
       if (props.isFocused) return;
-      props.onFocus && props.onFocus(props.option, event);
+      props.onFocus && props.onFocus(option, event);
     }}
+    ref={props.innerRef}
+    {...props.innerProps}
   >
     <span className={styles.dropdownColor}>
       <Icon name={iconName} style={{ marginRight: '15px' }} prefix={prefix} />
@@ -141,15 +147,14 @@ export const QuestionTypeOption = (
   </div>
 );
 
-export const QuestionTypeValue = (
-  props: Object,
-  iconName: string,
-  prefix?: string,
-  option?: string,
-  value?: string
-) => (
+export const QuestionTypeValue = ({
+  iconName,
+  prefix,
+  option,
+  ...props
+}: any) => (
   <div
-    className={cx('Select-value', styles.dropdown)}
+    className={cx(styles.dropdownSelected, styles.dropdown)}
     onMouseDown={(event) => {
       props.onSelect && props.onSelect(props.option, event);
     }}
@@ -160,6 +165,8 @@ export const QuestionTypeValue = (
       if (props.isFocused) return;
       props.onFocus && props.onFocus(props.option, event);
     }}
+    ref={props.innerRef}
+    {...props.innerProps}
   >
     <span className={cx('Select-value-label', styles.dropdownColor)}>
       <Icon name={iconName} style={{ marginRight: '15px' }} prefix={prefix} />
