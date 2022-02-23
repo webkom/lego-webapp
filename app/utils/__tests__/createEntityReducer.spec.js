@@ -234,10 +234,10 @@ describe('createEntityReducer', () => {
 
   it('should toggle the fetching flag', () => {
     const state = reducer(undefined, { type: FETCH.BEGIN });
-    expect(state.fetching).toEqual(true);
+    expect(state.fetching).toBe(true);
 
     const nextState = reducer(state, { type: FETCH.SUCCESS });
-    expect(nextState.fetching).toEqual(false);
+    expect(nextState.fetching).toBe(false);
   });
 
   it('should run the mutate reducer', () => {

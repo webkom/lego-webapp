@@ -48,11 +48,14 @@ module.exports = {
     'react',
     'react-hooks',
     'react-redux',
+    'jest',
   ],
   rules: {
     'react/jsx-uses-react': 'off',
     'react/react-in-jsx-scope': 'off',
     'react-app/react/react-in-jsx-scope': 'off',
+    'jest/valid-describe': 'off', // valid-describe was replaced by valid-describe-callback, but still needs its rule ...
+    'jest/valid-describe-callback': 'error',
   },
   settings: {
     'import/resolver': {
@@ -63,6 +66,9 @@ module.exports = {
     react: {
       version: 'detect',
       flowVersion: '0.131.0',
+    },
+    jest: {
+      version: require('jest/package.json').version,
     },
   },
 };

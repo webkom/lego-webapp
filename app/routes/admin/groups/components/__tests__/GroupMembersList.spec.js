@@ -71,6 +71,6 @@ describe('<GroupMembers />', () => {
 
     const loadingIndicator = wrapper.find(LoadingIndicator);
     const { loading } = loadingIndicator.props();
-    expect(loading).toEqual(true);
+    expect(loading).toBe(true);
   });
 });
