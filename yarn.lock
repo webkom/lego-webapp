@@ -4775,10 +4775,10 @@ expect@^27.5.1:
     jest-matcher-utils "^27.5.1"
     jest-message-util "^27.5.1"
 
-express-static-gzip@^2.1.3:
-  version "2.1.3"
-  resolved "https://registry.yarnpkg.com/express-static-gzip/-/express-static-gzip-2.1.3.tgz#dff2203c252641a5365f311b0835ee0a6e0ea254"
-  integrity sha512-968gyrwqJXzBzx2gtmyBOj8hIlv/FpnvGM57AKWfaY4vqXHK7lsNQONSHeSdtat3+bhQ9db/sn4RPeoQigrzZA==
+express-static-gzip@^2.1.5:
+  version "2.1.5"
+  resolved "https://registry.yarnpkg.com/express-static-gzip/-/express-static-gzip-2.1.5.tgz#e45b512ef5596a068c45f729d7e0cc0b429b08b4"
+  integrity sha512-bgiQ1fY7ltuUrSzg0WoN7ycoAd7r2VEw7durn/3k0jCMUC5wydF0K36ouIuJPE+MNDwK5uoSaVgIBVNemwxWgw==
   dependencies:
     serve-static "^1.14.1"
 
@@ -8611,10 +8611,10 @@ react-google-recaptcha@^2.0.1:
     prop-types "^15.5.0"
     react-async-script "^1.1.1"
 
-react-helmet-async@^1.2.2:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/react-helmet-async/-/react-helmet-async-1.2.2.tgz#38d58d32ebffbc01ba42b5ad9142f85722492389"
-  integrity sha512-XgSQezeCbLfCxdZhDA3T/g27XZKnOYyOkruopTLSJj8RvFZwdXnM4djnfYaiBSDzOidDgTo1jcEozoRu/+P9UQ==
+react-helmet-async@^1.2.3:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/react-helmet-async/-/react-helmet-async-1.2.3.tgz#57326a69304ea3293036eafb49475e9ba454cb37"
+  integrity sha512-mCk2silF53Tq/YaYdkl2sB+/tDoPnaxN7dFS/6ZLJb/rhUY2EWGI5Xj2b4jHppScMqY45MbgPSwTxDchKpZ5Kw==
   dependencies:
     "@babel/runtime" "^7.12.5"
     invariant "^2.2.4"
