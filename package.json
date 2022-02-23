@@ -75,7 +75,7 @@
     "react-dom": "npm:@hot-loader/react-dom@^16.8.6",
     "react-dropzone": "^12.0.4",
     "react-google-recaptcha": "^2.0.1",
-    "react-helmet-async": "^1.2.2",
+    "react-helmet-async": "^1.2.3",
     "react-infinite-scroller": "^1.2.5",
     "react-notification": "^6.8.5",
     "react-overlays": "0.8.3",
