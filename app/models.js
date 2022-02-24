@@ -142,6 +142,14 @@ export type EventRegistrationPaymentStatus =
   | 'failed'
   | 'card_declined';
 
+export type EventRegistrationStatus =
+  | 'PENDING_REGISTER'
+  | 'SUCCESS_REGISTER'
+  | 'FAILURE_REGISTER'
+  | 'PENDING_UNREGISTER'
+  | 'SUCCESS_UNREGISTER'
+  | 'FAILURE_UNREGISTER';
+
 export type EventRegistration = {
   id: number,
   user: User,
@@ -150,6 +158,7 @@ export type EventRegistration = {
   adminRegistrationReason: string,
   registrationDate: Dateish,
   unregistrationDate: Dateish,
+  status: EventRegistrationStatus,
   pool: number,
   presence: EventRegistrationPresence,
   paymentStatus: EventRegistrationPaymentStatus,

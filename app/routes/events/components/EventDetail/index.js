@@ -83,6 +83,7 @@ type Props = {
   registrations: Array<EventRegistration>,
   currentRegistration: EventRegistration,
   currentRegistrationIndex: number,
+  pendingRegistration?: EventRegistration,
   hasSimpleWaitingList: boolean,
   waitingRegistrations: Array<EventRegistration>,
   penalties: Array<AddPenalty>,
@@ -158,6 +159,7 @@ export default class EventDetail extends Component<Props> {
       registrations,
       currentRegistration,
       currentRegistrationIndex,
+      pendingRegistration,
       hasSimpleWaitingList,
       deleteEvent,
       penalties,
@@ -387,6 +389,7 @@ export default class EventDetail extends Component<Props> {
                         event={event}
                         registration={currentRegistration}
                         currentUser={currentUser}
+                        pendingRegistration={pendingRegistration}
                         createPaymentIntent={this.handlePaymentMethod}
                         onSubmit={this.handleRegistration}
                       />

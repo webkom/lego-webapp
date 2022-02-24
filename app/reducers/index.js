@@ -162,6 +162,7 @@ export const eventSchema = (new schema.Entity('events', {
   pools: [poolSchema],
   comments: [commentSchema],
   waitingRegistrations: [registrationSchema],
+  pendingRegistration: registrationSchema,
 }): Schema);
 export const eventAdministrateSchema = (new schema.Entity('events', {
   pools: [poolSchema],

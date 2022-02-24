@@ -22,6 +22,7 @@ import {
   selectMergedPoolWithRegistrations,
   selectMergedPool,
   selectWaitingRegistrationsForEvent,
+  selectRegistrationForEventByUserId,
 } from 'app/reducers/events';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import helmet from 'app/utils/helmet';
@@ -110,6 +111,11 @@ const mapStateToProps = (state, props) => {
   }
   const hasSimpleWaitingList = poolsWithRegistrations.length <= 1;
 
+  const pendingRegistration = selectRegistrationForEventByUserId(state, {
+    eventId,
+    userId: currentUser.id,
+  });
+
   return {
     comments,
     actionGrant,
@@ -120,6 +126,7 @@ const mapStateToProps = (state, props) => {
     registrations,
     currentRegistration,
     currentRegistrationIndex,
+    pendingRegistration,
     hasSimpleWaitingList,
     penalties,
     currentUserFollowing: selectFollowersCurrentUser(state, {
