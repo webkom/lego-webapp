@@ -222,7 +222,7 @@ describe('reducers', () => {
       };
       const newState = registrations(prevState, action);
       expect(newState.items).toEqual([3, 4]);
-      expect(newState.byId[3].fetching).toEqual(false);
+      expect(newState.byId[3].fetching).toBe(false);
       // unregistrationDate should be approximately now
       expect(
         Math.abs(moment(newState.byId[3].unregistrationDate) - moment())

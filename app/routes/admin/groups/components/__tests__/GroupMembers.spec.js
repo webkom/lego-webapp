@@ -44,7 +44,7 @@ describe.skip('GroupMembersList', () => {
 
   it('should render an <ul> of users', () => {
     const wrapper = shallow(<GroupMembersList memberships={memberships} />);
-    expect(wrapper.type()).toEqual('ul');
+    expect(wrapper.type()).toBe('ul');
     expect(wrapper.find('li')).toHaveLength(memberships.length);
   });
 
@@ -58,7 +58,7 @@ describe.skip('GroupMembersList', () => {
         </Link>
       );
 
-      expect(children.containsMatchingElement(expected)).toEqual(true);
+      expect(children.containsMatchingElement(expected)).toBe(true);
     });
   });
 });

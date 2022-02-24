@@ -20,16 +20,16 @@ describe('reducers', () => {
       const prevState = undefined;
       const action = { type: User.LOGIN.BEGIN };
       const state = auth(prevState, action);
-      expect(state.loggingIn).toEqual(true);
-      expect(state.loginFailed).toEqual(false);
+      expect(state.loggingIn).toBe(true);
+      expect(state.loginFailed).toBe(false);
     });
 
     it('should set loggingIn to false and loginFailed to true when logging in fails', () => {
       const prevState = auth(undefined, { type: User.LOGIN.BEGIN });
       const action = { type: User.LOGIN.FAILURE };
       const state = auth(prevState, action);
-      expect(state.loggingIn).toEqual(false);
-      expect(state.loginFailed).toEqual(true);
+      expect(state.loggingIn).toBe(false);
+      expect(state.loginFailed).toBe(true);
     });
 
     it('should set username and token correctly when login succeeds', () => {

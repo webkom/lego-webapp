@@ -40,7 +40,7 @@ describe('fetchJSON', () => {
       fetchJSON('https://abakus.no').then(
         () => {},
         (error) => {
-          expect(error.response.statusText).toEqual('Unauthorized');
+          expect(error.response.statusText).toBe('Unauthorized');
         }
       ));
   });

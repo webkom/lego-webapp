@@ -31,20 +31,20 @@ describe('<GroupTree />', () => {
       wrapper.containsMatchingElement(
         <Link to="/admin/groups/2/settings">Dog</Link>
       )
-    ).toEqual(true);
+    ).toBe(true);
 
     expect(
       wrapper.containsMatchingElement(
         <Link to="/admin/groups/3/settings">Bird</Link>
       )
-    ).toEqual(true);
+    ).toBe(true);
   });
 
   it('should render the root nodes correctly', () => {
     const children = shallow(
       <GroupTree groups={groups} pathname="/admin/groups/1/settings" />
     ).children();
-    expect(children.at(1).is(TreeView)).toEqual(true);
+    expect(children.at(1).is(TreeView)).toBe(true);
   });
 
   it('should work with only root groups', () => {
@@ -68,12 +68,12 @@ describe('<GroupTree />', () => {
       wrapper.containsMatchingElement(
         <Link to="/admin/groups/2/members?descendants=false">Dog</Link>
       )
-    ).toEqual(true);
+    ).toBe(true);
 
     expect(
       wrapper.containsMatchingElement(
         <Link to="/admin/groups/3/members?descendants=false">Bird</Link>
       )
-    ).toEqual(true);
+    ).toBe(true);
   });
 });
