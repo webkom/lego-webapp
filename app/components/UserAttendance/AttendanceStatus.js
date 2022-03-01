@@ -40,13 +40,13 @@ const AttendanceElement = ({
 export type AttendanceStatusProps = {
   pools: Array<EventPool>,
   toggleModal: (number) => void,
-  legacy: number,
+  legacyRegistrationCount: number,
 };
 
 const AttendanceStatus = ({
   pools,
   toggleModal,
-  legacy,
+  legacyRegistrationCount,
 }: AttendanceStatusProps) => {
   const toggleKey = (key) => (pools.length > 1 ? key + 1 : key);
   return (
@@ -59,15 +59,13 @@ const AttendanceStatus = ({
           toggleModal={(key) => toggleModal(toggleKey(key))}
         />
       ))}
-      {legacy ? (
+      {legacyRegistrationCount && (
         <div className={styles.poolBox}>
           <strong>Anonyme</strong>
           <strong>
-            <p>{`${legacy}/∞`}</p>
+            <p>{`${legacyRegistrationCount}/∞`}</p>
           </strong>
         </div>
-      ) : (
-        ''
       )}
     </div>
   );

@@ -327,14 +327,16 @@ export default class EventDetail extends Component<Props> {
                           currentRegistration={currentRegistration}
                         />
                         <AttendanceStatus
-                          legacy={event.legacyRegistrationCount}
+                          legacyRegistrationCount={
+                            event.legacyRegistrationCount
+                          }
                         />
                       </ModalParentComponent>
                     </Fragment>
                   ) : (
                     <AttendanceStatus
                       pools={pools}
-                      legacy={event.legacyRegistrationCount}
+                      legacyRegistrationCount={event.legacyRegistrationCount}
                     />
                   )}
                   {loggedIn && (
