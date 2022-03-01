@@ -40,9 +40,14 @@ const AttendanceElement = ({
 export type AttendanceStatusProps = {
   pools: Array<EventPool>,
   toggleModal: (number) => void,
+  legacy: number,
 };
 
-const AttendanceStatus = ({ pools, toggleModal }: AttendanceStatusProps) => {
+const AttendanceStatus = ({
+  pools,
+  toggleModal,
+  legacy,
+}: AttendanceStatusProps) => {
   const toggleKey = (key) => (pools.length > 1 ? key + 1 : key);
   return (
     <div className={styles.attendanceBox}>
@@ -54,6 +59,16 @@ const AttendanceStatus = ({ pools, toggleModal }: AttendanceStatusProps) => {
           toggleModal={(key) => toggleModal(toggleKey(key))}
         />
       ))}
+      {legacy ? (
+        <div className={styles.poolBox}>
+          <strong>Anonyme</strong>
+          <strong>
+            <p>{`${legacy}/∞`}</p>
+          </strong>
+        </div>
+      ) : (
+        ''
+      )}
     </div>
   );
 };
