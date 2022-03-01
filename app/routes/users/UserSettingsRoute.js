@@ -11,6 +11,7 @@ import {
   fetchUser,
   updateUser,
   updatePicture,
+  deleteUser,
   changePassword,
   removePicture,
 } from 'app/actions/UserActions';
@@ -44,6 +45,7 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = {
   updateUser,
   updatePicture,
+  deleteUser,
   changePassword,
   push,
   removePicture,

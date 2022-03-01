@@ -248,6 +248,7 @@ export const User = {
   PASSWORD_CHANGE: (generateStatuses('User.PASSWORD_CHANGE'): AAT),
   LOGIN: (generateStatuses('User.LOGIN'): AAT),
   LOGOUT: 'User.LOGOUT',
+  DELETE: (generateStatuses('User.DELETE'): AAT),
   SOCKET: (generateStatuses('User.SOCKET'): AAT),
   SEND_REGISTRATION_TOKEN: (generateStatuses(
     'User.SEND_REGISTRATION_TOKEN'

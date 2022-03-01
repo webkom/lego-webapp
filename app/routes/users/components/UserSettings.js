@@ -18,6 +18,7 @@ import ChangePassword from './ChangePassword';
 import styles from './UserSettings.css';
 import { createValidator, required, isEmail } from 'app/utils/validation';
 import RemovePicture from 'app/routes/users/components/RemovePicture';
+import DeleteUser from 'app/routes/users/components/DeleteUser';
 
 export type PasswordPayload = {
   newPassword: string,
@@ -28,6 +29,7 @@ export type PasswordPayload = {
 type Props = FormProps & {
   changePassword: (PasswordPayload) => Promise<void>,
   updateUser: (Object) => Promise<void>,
+  deleteUser: (Object) => Promise<void>,
   user: any,
   isMe: boolean,
   push: (string) => void,
@@ -47,6 +49,7 @@ const UserSettings = (props: Props) => {
     removePicture,
     push,
     user,
+    deleteUser,
   } = props;
 
   const disabledButton = invalid || pristine || submitting;
@@ -167,14 +170,18 @@ const UserSettings = (props: Props) => {
       </Form>
 
       {isMe && (
-        <div className={styles.changePassword}>
-          <h2>Endre passord</h2>
-          <ChangePassword
-            push={push}
-            changePassword={changePassword}
-            user={user}
-          />
-        </div>
+        <>
+          <div className={styles.changePassword}>
+            <h2>Endre passord</h2>
+            <ChangePassword
+              push={push}
+              changePassword={changePassword}
+              user={user}
+            />
+          </div>
+          <h2>Slette bruker</h2>
+          <DeleteUser push={push} user={user} deleteUser={deleteUser} />
+        </>
       )}
     </div>
   );
