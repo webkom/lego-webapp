@@ -80,6 +80,7 @@ type EventBase = {
   pinned: boolean,
   youtubeUrl: string,
   useContactTracing: boolean,
+  legacyRegistrationCount: number,
 };
 
 export type Company = Object;

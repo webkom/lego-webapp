@@ -326,13 +326,19 @@ export default class EventDetail extends Component<Props> {
                           registrations={registrations}
                           currentRegistration={currentRegistration}
                         />
-                        <AttendanceStatus />
+                        <AttendanceStatus
+                          legacyRegistrationCount={
+                            event.legacyRegistrationCount
+                          }
+                        />
                       </ModalParentComponent>
                     </Fragment>
                   ) : (
-                    <AttendanceStatus pools={pools} />
+                    <AttendanceStatus
+                      pools={pools}
+                      legacyRegistrationCount={event.legacyRegistrationCount}
+                    />
                   )}
-
                   {loggedIn && (
                     <RegistrationMeta
                       useConsent={event.useConsent}
@@ -343,7 +349,6 @@ export default class EventDetail extends Component<Props> {
                       hasSimpleWaitingList={hasSimpleWaitingList}
                     />
                   )}
-
                   {event.useContactTracing && !currentRegistration && (
                     <div>
                       <i className="fa fa-exclamation-circle" /> Ved å melde deg
@@ -356,7 +361,6 @@ export default class EventDetail extends Component<Props> {
                       har funnet sted, og vil kun brukes til smittesporing.
                     </div>
                   )}
-
                   {event.unansweredSurveys &&
                   event.unansweredSurveys.length > 0 ? (
                     <div className={styles.eventWarning}>
