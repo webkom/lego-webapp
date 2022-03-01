@@ -1,0 +1,34 @@
+@import '~app/styles/variables.css';
+
+.container {
+  width: 100%;
+}
+
+.logo {
+  color: var('--color-dark-mono-gray-2');
+  font-size: 40px;
+  line-height: 100%;
+  margin-top: 15px;
+}
+
+.readme {
+  margin: 10px 5px;
+}
+
+.thumb {
+  display: block;
+  object-fit: contain;
+  aspect-ratio: 3/4;
+  width: 100px;
+}
+
+.thumb img {
+  transition: transform, box-shadow;
+  transition-duration: 0.3s;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 25%);
+}
+
+.thumb:hover img {
+  transform: scale(110%);
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 25%);
+}

@@ -4,19 +4,27 @@ import styles from './Overview.css';
 import { Component } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Container, Flex } from 'app/components/Layout';
-import LatestReadme from './LatestReadme';
-import CompactEvents from './CompactEvents';
 import type { Event, Article } from 'app/models';
+import cx from 'classnames';
+import { renderMeta } from './utils';
+import CompactEvents from './CompactEvents';
 import Pinned from './Pinned';
-import EventItem from './EventItem';
 import ArticleItem from './ArticleItem';
+import PlacardButton from './PlacardButton';
+import InterestgroupCard from './InterestgroupPlacard';
+import ReadmeCard from './ReadmePlacard';
+import WeeklyPlacard from './WeeklyPlacard';
+import type { PollEntity } from 'app/reducers/polls';
+import Poll from 'app/components/Poll';
+import RandomQuote from 'app/components/RandomQuote';
+import FancyNodesCanvas from 'app/components/Header/FancyNodesCanvas';
+
+// POTENTIALLY DELETE/REMOVE
+import NextEvent from './NextEvent';
+import EventItem from './EventItem';
+import LatestReadme from './LatestReadme';
 import Icon from 'app/components/Icon';
 import { Link } from 'react-router-dom';
-import NextEvent from './NextEvent';
-import Poll from 'app/components/Poll';
-import type { PollEntity } from 'app/reducers/polls';
-import RandomQuote from 'app/components/RandomQuote';
-import { renderMeta } from './utils';
 
 //import Banner, { COLORS } from 'app/components/Banner';
 
@@ -51,9 +59,14 @@ class Overview extends Component<Props, State> {
   };
 
   render() {
-    const isEvent = (o) => typeof o['startTime'] !== 'undefined';
+    // const isEvent = (o) => typeof o['startTime'] !== 'undefined';
+    const isEvent = (o) => !!o && o.documentType === 'event';
+    const isArticle = (o) => !!o && o.documentType === 'article';
+    const isInterestgroup = (o) =>
+      o !== undefined && o.documentType === 'interestgroup';
+
     const { loggedIn, frontpage, readmes, poll, votePoll } = this.props;
-    const pinned = frontpage[0];
+
     const compactEvents = (
       <CompactEvents
         events={frontpage.filter(isEvent)}
@@ -61,174 +74,166 @@ class Overview extends Component<Props, State> {
       />
     );
 
-    const pinnedComponent = pinned && (
-      <div className={styles.pinned}>
-        <Pinned
-          item={pinned}
-          url={this.itemUrl(pinned)}
-          meta={renderMeta(pinned)}
-        />
-      </div>
-    );
+    let pinnedElements = [
+      frontpage.find(isEvent),
+      frontpage.find(isArticle),
+    ].filter((o) => o !== undefined);
 
-    const readMe = (
-      <Flex className={styles.readMe}>
-        <LatestReadme readmes={readmes} expanded={frontpage.length === 0} />
-      </Flex>
-    );
+    // const pinnedElements = frontpage.length // Why error!?
+    //   ? [frontpage.find(isArticle), frontpage.find(isEvent)]
+    //   : [];
+    const pinnedIds = pinnedElements.map((pinned) => pinned?.id);
 
-    const events = (
-      <Flex column className={styles.eventsWrapper}>
-        <Link to="/events">
-          <h3 className="u-ui-heading">Arrangementer</h3>
-        </Link>
-
-        <Flex className={styles.events}>
-          {frontpage
-            .filter((item) => item.documentType === 'event')
-            .filter((item) => item !== frontpage[0])
-            .slice(0, this.state.eventsToShow)
-            .map((event) => (
-              <EventItem
-                key={event.id}
-                item={event}
-                url={this.itemUrl(event)}
-                meta={renderMeta(event)}
-                loggedIn={loggedIn}
-                isFrontPage={true}
-              />
-            ))}
-        </Flex>
-      </Flex>
-    );
-
-    const weeklyArticle = frontpage
-      .filter((item) => item.documentType === 'article')
-      .filter((article) => article.tags.includes('weekly'))[0];
-
-    const weekly = (
-      <Flex column className={styles.weekly}>
-        {weeklyArticle && (
-          <>
-            <Link to="/articles?tag=weekly">
-              <h3 className="u-ui-heading">Weekly</h3>
-            </Link>
-            <ArticleItem
-              key={weeklyArticle.id}
-              item={weeklyArticle}
-              url={this.itemUrl(weeklyArticle)}
-              meta={renderMeta(weeklyArticle)}
-              weekly
+    const pinnedComponents = pinnedElements.map((pinned) => {
+      return (
+        pinned && (
+          <div key={pinned.id} className={styles.pinned}>
+            <Pinned
+              item={pinned}
+              url={this.itemUrl(pinned)}
+              meta={renderMeta(pinned)}
             />
-          </>
-        )}
-      </Flex>
+          </div>
+        )
+      );
+    });
+
+    const pinnedColumn = (
+      <>
+        <div className={styles.boardColumnTitle}>
+          <i
+            className="fa fa-thumb-tack"
+            style={{
+              transform: 'rotate(-20deg)',
+              marginRight: '4px',
+              color: '#BE1600',
+            }}
+          />
+          FESTET
+        </div>
+        <div className={styles.pinnedComponentsWrapper}>{pinnedComponents}</div>
+      </>
     );
 
     const articles = (
-      <Flex column className={styles.articlesWrapper}>
-        <Link to="/articles">
-          <h3 className="u-ui-heading">Artikler</h3>
-        </Link>
-        <Flex className={styles.articles}>
-          {frontpage
-            .filter((item) => item.documentType === 'article')
-            .filter((article) => !article.tags.includes('weekly'))
-            .filter((article) => article.id !== pinned.id)
-            .slice(0, this.state.articlesToShow)
-            .map((article) => (
-              <ArticleItem
-                key={article.id}
-                item={article}
-                url={this.itemUrl(article)}
-                meta={renderMeta(article)}
-              />
-            ))}
-        </Flex>
-      </Flex>
-    );
-
-    const nextEvent = (
-      <Flex column>
-        <Link to="/events">
-          <h3 className="u-ui-heading" style={{ padding: '5px 10px 10px' }}>
-            Påmeldinger
-          </h3>
-        </Link>
-        <NextEvent
-          events={frontpage.filter((item) => item.documentType === 'event')}
-        />
-      </Flex>
-    );
-
-    const pollItem = (
-      <Flex column className={styles.poll}>
-        {poll && (
-          <>
-            <Link to="/polls">
-              <h3 className="u-ui-heading">Avstemning</h3>
-            </Link>
-            <Poll
-              style={{ flex: 'none' }}
-              poll={poll}
-              backgroundLight
-              truncate={3}
-              handleVote={votePoll}
+      <span className={styles.articles}>
+        {frontpage
+          .filter(isArticle)
+          .filter((article) => !article.tags.includes('weekly'))
+          .filter((article) => !pinnedIds.includes(article.id))
+          .slice(0, this.state.articlesToShow)
+          .map((article) => (
+            <ArticleItem
+              key={article.id}
+              item={article}
+              url={this.itemUrl(article)}
+              meta={renderMeta(article)}
             />
-          </>
-        )}
+          ))}
+      </span>
+    );
+    const articlesColumn = (
+      <>
+        <div className={styles.boardColumnTitle}>
+          <Link to="/articles">ARTIKLER</Link>
+        </div>
+        {articles}
+      </>
+    );
+
+    const board = pinnedComponents.length > 1 && (
+      <>
+        <div className={styles.boardBackground}>
+          <FancyNodesCanvas height={650} /> {/* hardcopy from styles.midRow */}
+        </div>
+        <Flex className={styles.boardWrapper}>
+          <Flex column alignItems="center" className={styles.pinnedColumn}>
+            {pinnedColumn}
+          </Flex>
+          <Flex
+            column
+            alignItems="flex-start"
+            className={styles.articlesColumn}
+          >
+            {articlesColumn}
+          </Flex>
+        </Flex>
+      </>
+    );
+
+    const pollItem = poll && (
+      <Flex column className={cx(styles.cardWrapper, styles.pollWrapper)}>
+        <Poll poll={poll} backgroundLight handleVote={votePoll} />
       </Flex>
     );
 
     const quoteItem = (
-      <Flex column>
-        <Link to="/quotes">
-          <h3 className="u-ui-heading">Overhørt</h3>
-        </Link>
+      <Flex column alignItems="center" className={styles.cardWrapper}>
         <RandomQuote loggedIn={loggedIn} className={styles.quote} />
+        <PlacardButton belowCard to={'/quotes/?filter=all'}>
+          OVERHØRT
+        </PlacardButton>
+      </Flex>
+    );
+
+    const weeklyArticle = frontpage
+      .filter(isArticle)
+      .filter((article) => article.tags.includes('weekly'))[0];
+
+    const weekly = weeklyArticle && (
+      <Flex className={styles.cardWrapper}>
+        <WeeklyPlacard item={weeklyArticle} url={this.itemUrl(weeklyArticle)} />
+      </Flex>
+    );
+
+    const readMe = readmes.length !== 0 && (
+      <Flex className={styles.cardWrapper}>
+        <ReadmeCard readmes={readmes} />
+      </Flex>
+    );
+
+    const interestgroups = frontpage.filter(isInterestgroup);
+
+    const interestgroup = interestgroups.length !== 0 && (
+      <Flex className={styles.cardWrapper}>
+        <InterestgroupCard interestGroups={interestgroups} />
       </Flex>
     );
 
     return (
       <Container>
         <Helmet title="Hjem" />
-        {/*<Banner
+        {/* <Banner
           header="itDAGENE 20. & 21. september"
           subHeader="Kom til U1 i Realfagsbygget, kanskje finner du din drømmebedrift her?"
           link="https://itdagene.no"
           color={COLORS.itdageneBlue}
-        />*/}
-        <Flex className={styles.desktopContainer}>
-          <Flex column className={styles.leftColumn}>
+        /> */}
+        <Flex column className={styles.desktopContainer}>
+          <Flex column className={styles.topRow}>
             {compactEvents}
-            {pinnedComponent}
-            {events}
           </Flex>
-          <Flex column className={styles.rightColumn}>
-            {nextEvent}
+          <Flex className={styles.midRow} alignItems="center">
+            {board}
+          </Flex>
+          <Flex wrap className={styles.bottomRow}>
             {pollItem}
             {quoteItem}
-            {readMe}
             {weekly}
-            {articles}
+            {readMe}
+            {interestgroup}
           </Flex>
         </Flex>
-        <section className={styles.mobileContainer}>
+        <Flex column alignItems="center" className={styles.mobileContainer}>
           {compactEvents}
-          {nextEvent}
           {pollItem}
-          {quoteItem}
-          {pinnedComponent}
+          {pinnedColumn}
+          {articlesColumn}
           {readMe}
           {weekly}
-          {articles}
-          {events}
-        </section>
-        {frontpage.length > 8 && (
-          <div className={styles.showMore}>
-            <Icon onClick={this.showMore} size={40} name="arrow-dropdown" />
-          </div>
-        )}
+          {interestgroup}
+          {quoteItem}
+        </Flex>
       </Container>
     );
   }

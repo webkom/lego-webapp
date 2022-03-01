@@ -52,6 +52,7 @@ class PollDetail extends Component<Props, State> {
             handleVote={this.props.votePoll}
             allowedToViewHiddenResults={this.props.actionGrant.includes('edit')}
             details
+            alwaysOpen
           />
         )}
         {this.state.editing && (

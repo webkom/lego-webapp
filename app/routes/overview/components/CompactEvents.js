@@ -7,7 +7,8 @@ import { colorForEvent } from 'app/routes/events/utils';
 import { Flex } from 'app/components/Layout';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
-
+import EventItem from './NextEvent.js';
+import { isDesktop } from 'react-device-detect';
 type Props = {
   events: Array<Object>,
   frontpageHeading?: boolean,
@@ -23,7 +24,7 @@ export default class CompactEvents extends Component<Props> {
           (event) =>
             event.endTime.isAfter() && eventTypes.includes(event.eventType)
         )
-        .slice(0, 5)
+        .slice(0, isDesktop ? 5 : 3)
         .map((event, key) => (
           <li key={key}>
             <span
@@ -68,7 +69,7 @@ export default class CompactEvents extends Component<Props> {
       presentations.length > 0 ? presentations : ['Ingen presentasjoner'];
 
     const other = mapEvents(['other', 'event', 'social', 'party']);
-    const rightEvents = other.length > 0 ? other : ['Ingen arrangementer'];
+    const middleEvents = other.length > 0 ? other : ['Ingen arrangementer'];
 
     if (!events.length) {
       return null;
@@ -77,20 +78,26 @@ export default class CompactEvents extends Component<Props> {
     const headerStyle = frontpageHeading ? 'u-mb' : 'u-ui-heading';
 
     return (
-      <Flex column>
-        <Flex wrap className={styles.compactEvents}>
-          <Flex column className={styles.compactLeft}>
-            <Link to="/events">
-              <h3 className={headerStyle}>Bedpres og Kurs</h3>
-            </Link>
-            <ul className={styles.innerList}>{leftEvents}</ul>
-          </Flex>
-          <Flex column className={styles.compactRight}>
-            <Link to="/events">
-              <h3 className={headerStyle}>Arrangementer</h3>
-            </Link>
-            <ul className={styles.innerList}>{rightEvents}</ul>
-          </Flex>
+      <Flex wrap className={styles.compactEvents}>
+        <Flex column className={styles.compactLeft}>
+          <Link to="/events">
+            <h3 className={headerStyle}>Bedpres og Kurs</h3>
+          </Link>
+          <ul className={styles.innerList}>{leftEvents}</ul>
+        </Flex>
+        <Flex column className={styles.compactMiddle}>
+          <Link to="/events">
+            <h3 className={headerStyle}>Sosialt</h3>
+          </Link>
+          <ul className={styles.innerList}>{middleEvents}</ul>
+        </Flex>
+        <Flex column className={styles.compactRight}>
+          <Link to="/events">
+            <h3 className={headerStyle}>Påmeldinger</h3>
+          </Link>
+          <ul className={styles.innerList}>
+            <EventItem events={events} />
+          </ul>
         </Flex>
       </Flex>
     );

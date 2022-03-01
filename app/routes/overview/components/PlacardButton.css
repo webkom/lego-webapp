@@ -1,0 +1,31 @@
+@import '~app/styles/variables.css';
+
+.button {
+  display: flex;
+  align-items: center;
+  background-color: var(--color-white);
+  font-weight: bolder;
+  text-align: center;
+  width: fit-content;
+  height: 2rem;
+  padding-left: 0.7rem;
+  padding-right: 0.7rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 25%);
+}
+
+.inCard {
+  color: var('--color-white');
+  background-color: var('--lego-red');
+  margin-bottom: 20px;
+}
+
+.belowCard {
+  color: var(--color-black);
+  background-color: var(--color-white);
+  margin-top: 20px;
+}
+
+html[data-theme='dark'] .belowCard {
+  background-color: var(--lego-placard-color);
+}

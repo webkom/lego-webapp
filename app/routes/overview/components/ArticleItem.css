@@ -1,50 +1,32 @@
 @import '~app/styles/variables.css';
 
 .link {
-  color: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.9);
+  color: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 90%);
+  flex: 1;
 }
 
-.body {
-  composes: withShadow from '~app/styles/utilities.css';
-  text-align: center;
-  background: var(--lego-card-color);
-  height: 388px;
-  width: 100%;
-  margin-bottom: 20px;
-  position: relative;
-
-  @media (--mobile-device) {
-    height: 100%;
-  }
+.wrapper {
+  flex: 1;
+  min-width: 300px;
+  overflow: hidden;
+  border-radius: 5px;
 }
 
-.image {
-  object-fit: cover;
-  width: 100%;
-  height: auto;
+.bottomWrapper {
+  background: var(--lego-background-color-middle);
+  height: 100%;
+  padding: 10px;
 }
 
-.articleTitle {
-  margin: 0 5px;
-  line-height: 1.1;
-  font-size: 1.2rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  word-break: normal;
+.title {
+  color: var(--lego-font-color);
+  font-weight: 800;
 }
 
-.articleMeta {
-  margin: 0 5px;
-  font-weight: bold;
-}
-
-.infoWrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.articleDescription {
-  text-align: justify;
-  margin: 5px 15px;
+.tags {
+  margin: 0;
+  margin-left: 1px;
+  padding: 0;
+  padding-left: 10px;
+  border-left: 1px solid var(--lego-font-color);
 }

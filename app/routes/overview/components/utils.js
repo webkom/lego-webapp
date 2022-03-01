@@ -15,6 +15,10 @@ export const renderMeta = (
   const isEvent = item.eventType ? true : false;
   return (
     <span className={styles.itemInfo}>
+      <span>{isEvent ? eventTypeToString(item.eventType) : 'Artikkel'}</span>
+
+      <span className={styles.bar}></span>
+
       <Time
         //$FlowFixMe[incompatible-type]
         time={isEvent ? item.startTime : item.createdAt}
@@ -24,17 +28,9 @@ export const renderMeta = (
       {item.location !== '-' && isEvent && (
         <span>
           <span className={styles.dot}> . </span>
-          <span> {truncateString(item.location, 10)} </span>
+          <span> {truncateString(item.location, 15)} </span>
         </span>
       )}
-
-      <span>
-        <span className={styles.dot}> . </span>
-        <span>
-          {' '}
-          {isEvent ? eventTypeToString(item.eventType) : 'Artikkel'}{' '}
-        </span>
-      </span>
 
       {item.tags && item.tags.length > 0 && (
         <Tags className={styles.tagline}>

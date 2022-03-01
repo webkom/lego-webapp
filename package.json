@@ -72,6 +72,7 @@
     "react-collapse": "^5.1.1",
     "react-copy-to-clipboard": "^5.0.4",
     "react-cropper": "^2.1.8",
+    "react-device-detect": "^2.1.2",
     "react-dom": "npm:@hot-loader/react-dom@^16.8.6",
     "react-dropzone": "^12.0.4",
     "react-google-recaptcha": "^2.0.1",

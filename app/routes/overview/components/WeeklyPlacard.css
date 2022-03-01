@@ -1,0 +1,123 @@
+@import '~app/styles/variables.css';
+
+.container {
+  width: 100%;
+}
+
+.description {
+  text-align: center;
+  line-height: 1.2em;
+  margin: 0 0 25px 0;
+  padding-left: 20%;
+  padding-right: 20%;
+}
+
+.logoAndMug {
+  position: relative;
+  margin-top: 17px;
+  transform: scale(0.9);
+}
+
+.logo {
+  width: 200px;
+  margin-top: 12px;
+  filter: drop-shadow(0 4px 1.5px rgba(0, 0, 0, 20%));
+}
+
+.mug {
+  position: relative;
+}
+
+.mug div {
+  color: #ffe8cc;
+  font-size: 26px;
+  text-align: center;
+  position: absolute;
+  top: 5px;
+  left: 1px;
+  width: 80%; /* Width should not cover the handle */
+}
+
+.mug img {
+  height: 55px;
+  filter: drop-shadow(0 4px 1.5px rgba(0, 0, 0, 20%));
+  transition: transform 2s linear;
+  transform: rotate(0deg);
+}
+
+@keyframes mugKnock {
+  0% {
+    transform: rotate(0);
+  }
+
+  25% {
+    transform: rotate(20deg);
+  }
+
+  75% {
+    transform: rotate(-20deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.logoAndMug:hover .mug {
+  animation: mugKnock 1s cubic-bezier(0.77, 0, 0.175, 1) 0s 1 normal;
+}
+
+.newTag {
+  position: absolute;
+  top: 0;
+  right: 0;
+  color: white;
+  text-align: center;
+  font-weight: 900;
+  line-height: 1em;
+  width: 60px;
+  height: 60px;
+  overflow-x: hidden;
+}
+
+.newTag > span {
+  transform: rotateZ(45deg);
+  position: absolute;
+  right: 9px;
+  top: 13px;
+}
+
+.newTag > div {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 60px solid transparent;
+  border-right: -60px solid transparent;
+  border-top: 60px solid var('--lego-red');
+}
+
+@keyframes numberKnock {
+  0% {
+    transform: rotate(0);
+  }
+
+  12.5% {
+    transform: rotate(15deg);
+  }
+
+  37.5% {
+    transform: rotate(-20deg);
+  }
+
+  100% {
+    transform: rotate(0);
+  }
+}
+
+.logoAndMug:hover .mug div {
+  animation: numberKnock 1.5s linear 0s 1 normal;
+}
+
+.weeklyWrapper {
+  position: relative;
+}
