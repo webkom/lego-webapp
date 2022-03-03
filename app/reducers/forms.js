@@ -81,7 +81,7 @@ export default formReducer.plugin({
         return {
           ...state,
           submitting: false,
-          registrationPending: true,
+          submitSucceeded: false,
         };
       }
       case Event.REQUEST_REGISTER.FAILURE:
@@ -102,7 +102,6 @@ export default formReducer.plugin({
           ...state,
           submitting: false,
           submitSucceeded: true,
-          registrationPending: false,
         };
       }
       case Event.SOCKET_REGISTRATION.FAILURE:
@@ -116,7 +115,6 @@ export default formReducer.plugin({
           registrationId: null,
           submitting: false,
           submitSucceeded: false,
-          registrationPending: false,
         };
       }
       default:

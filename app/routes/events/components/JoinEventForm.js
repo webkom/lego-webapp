@@ -28,7 +28,11 @@ import {
 
 import { selectUserByUsername } from 'app/reducers/users';
 import { selectPenaltyByUserId } from 'app/reducers/penalties';
-import type { User, EventRegistration } from 'app/models';
+import type {
+  User,
+  EventRegistration,
+  EventRegistrationStatus,
+} from 'app/models';
 
 type Event = Object;
 
@@ -36,6 +40,7 @@ export type Props = {
   title?: string,
   event: Event,
   registration: ?EventRegistration,
+  pendingRegistration: ?EventRegistration,
   currentUser: User,
   onSubmit: (Object) => void,
   createPaymentIntent: () => Promise<*>,
@@ -106,17 +111,40 @@ const SubmitButton = ({
   );
 };
 
-const RegistrationPending = () => (
+const RegistrationPending = ({
+  reg_status,
+}: {
+  reg_status?: EventRegistrationStatus,
+}) => (
   <div className={styles.registrationPending}>
     <span className={styles.registrationPendingHeader}>
-      <h3>Vi behandler din registrering.</h3>
+      <h3>
+        Vi behandler din{' '}
+        {reg_status === 'PENDING_UNREGISTER'
+          ? 'avregistrering'
+          : 'registrering'}
+        .
+      </h3>
     </span>
     <p>
       Det kan ta et øyeblikk eller to.
       <br />
       <i>Du trenger ikke refreshe siden.</i>
       <Tooltip
-        content="Om det tar lang tid, kan du refreshe siden for å hente siste status på din registrering. Denne boksen vil da forsvinne, men din registrering vil fortsatt behandles."
+        content={
+          <span>
+            Avhengig av last på våre servere kan dette ta litt tid. Ved mistanke
+            om problemer, kan du følge med i{' '}
+            <a
+              target="blank"
+              rel="noopener noreferrer"
+              href="https://abakus-ntnu.slack.com/archives/C0L63DZRU"
+            >
+              #webkom
+            </a>{' '}
+            på slack for eventuelle oppdateringer.
+          </span>
+        }
         renderDirection="center"
       >
         <Icon name="information-circle-outline" size={20} />
@@ -205,6 +233,7 @@ const JoinEventForm = (props: Props) => {
     title,
     event,
     registration,
+    pendingRegistration,
     currentUser,
     handleSubmit,
     createPaymentIntent,
@@ -216,7 +245,6 @@ const JoinEventForm = (props: Props) => {
     penalties,
     captchaOpen,
     registrationOpensIn,
-    registrationPending,
   } = props;
 
   const joinTitle = !registration ? 'Meld deg på' : 'Avregistrer';
@@ -237,6 +265,11 @@ const JoinEventForm = (props: Props) => {
       registration &&
       registration.pool
   );
+
+  const registrationPending =
+    pendingRegistration?.status === 'PENDING_REGISTER' ||
+    pendingRegistration?.status === 'PENDING_UNREGISTER';
+
   const showCaptcha =
     !submitting &&
     !registrationPending &&
@@ -256,13 +289,11 @@ const JoinEventForm = (props: Props) => {
 
   useEffect(() => {
     const timer = setTimeout(
-      () =>
-        registrationPending !== undefined &&
-        setRegistrationPendingDelayed(registrationPending),
-      2000
+      () => setRegistrationPendingDelayed(registrationPending),
+      registrationPendingDelayed && !registrationPending ? 0 : 1000
     );
     return () => clearTimeout(timer);
-  }, [registrationPending]);
+  }, [registrationPending, registrationPendingDelayed]);
 
   const [showStripeDelayed, setShowStripeDelayed] = useState(false);
 
@@ -405,7 +436,11 @@ const JoinEventForm = (props: Props) => {
                           loadingStyle={{ margin: '5px auto' }}
                         />
                       ))}
-                    {registrationPendingDelayed && <RegistrationPending />}
+                    {registrationPendingDelayed && (
+                      <RegistrationPending
+                        reg_status={pendingRegistration?.status}
+                      />
+                    )}
                   </Form>
 
                   <label className={formStyles.label} htmlFor={feedbackName}>
@@ -485,7 +520,6 @@ function mapStateToProps(state, { event, registration }) {
       },
     };
   }
-  const registrationPending = state.form?.joinEvent?.registrationPending;
   const user = state.auth
     ? selectUserByUsername(state, { username: state.auth.username })
     : null;
@@ -494,7 +528,6 @@ function mapStateToProps(state, { event, registration }) {
     : [];
   return {
     penalties,
-    registrationPending,
   };
 }
 

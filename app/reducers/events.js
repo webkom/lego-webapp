@@ -350,6 +350,15 @@ export const selectWaitingRegistrationsForEvent = createSelector(
   }
 );
 
+export const selectRegistrationForEventByUserId = createSelector(
+  selectAllRegistrationsForEvent,
+  (state, props) => props.userId,
+  (registrations, userId) => {
+    const userReg = registrations.filter((reg) => reg.user.id === userId);
+    return userReg.length > 0 ? userReg[0] : null;
+  }
+);
+
 export const selectCommentsForEvent = createSelector(
   selectEventById,
   (state) => state.comments.byId,

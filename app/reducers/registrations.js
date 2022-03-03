@@ -53,6 +53,14 @@ export default createEntityReducer({
         newState.byId[action.meta.id].fetching = true;
         break;
 
+      case Event.REQUEST_UNREGISTER.SUCCESS: {
+        const registrations = normalize(action.payload, registrationSchema)
+          .entities.registrations;
+        newState.byId = mergeObjects(newState.byId, registrations);
+        newState.items = union(newState.items, [action.payload.id]);
+        break;
+      }
+
       case Event.REQUEST_UNREGISTER.FAILURE:
         newState.byId[action.meta.id].fetching = false;
         break;
