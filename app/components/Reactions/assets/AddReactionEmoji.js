@@ -10,7 +10,7 @@ const AddReactionEmoji = ({ color }: Props) => (
   <div className={styles.container}>
     <span>
       <svg
-        ariaHidden="true"
+        aria-hidden="true"
         focusable="false"
         width="0.44em"
         height="1em"
@@ -27,7 +27,7 @@ const AddReactionEmoji = ({ color }: Props) => (
     </span>
     <span className={styles.smiley}>
       <svg
-        ariaHidden="true"
+        aria-hidden="true"
         focusable="false"
         width="1em"
         height="1em"

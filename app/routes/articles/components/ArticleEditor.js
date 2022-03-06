@@ -70,7 +70,6 @@ const ArticleEditor = ({
       <Form onSubmit={handleSubmit}>
         <Field
           name="cover"
-          label="Cover"
           component={ImageUploadField}
           aspectRatio={20 / 6}
           img={article && article.cover}
@@ -152,11 +151,15 @@ const ArticleEditor = ({
           component={EditorField.Field}
           initialized={initialized}
         />
-        <Button className={styles.submitButton} type="submit">
-          {isNew ? 'Create' : 'Save'}
-        </Button>
+        <div>
+          <Button submit>{!isNew ? 'LAGRE ENDRINGER' : 'OPPRETT'}</Button>
+          {!isNew && (
+            <Button dark onClick={handleDeleteArticle}>
+              SLETT
+            </Button>
+          )}
+        </div>
       </Form>
-      {!isNew && <Button onClick={handleDeleteArticle}>Delete</Button>}
     </Content>
   );
 };

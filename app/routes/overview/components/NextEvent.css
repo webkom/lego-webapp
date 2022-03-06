@@ -39,7 +39,7 @@ html[data-theme='dark'] .filler {
 }
 
 .wrapper {
-  min-height: 145px;
+  min-height: 150px;
 
   @media (--mobile-device) {
     min-height: 0;

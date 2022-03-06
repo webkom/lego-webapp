@@ -18,8 +18,8 @@ type Props = {
 class ArticleItem extends Component<Props, *> {
   render() {
     const { item, url, meta, weekly } = this.props;
-    const TITLE_MAX_LENGTH = 40;
-    const DESC_MAX_LENGTH = 230;
+    const TITLE_MAX_LENGTH = 45;
+    const DESC_MAX_LENGTH = 100;
 
     return (
       <div className={styles.body} style={weekly && { margin: '0' }}>

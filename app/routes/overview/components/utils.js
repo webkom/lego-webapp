@@ -18,7 +18,7 @@ export const renderMeta = (
       <Time
         //$FlowFixMe[incompatible-type]
         time={isEvent ? item.startTime : item.createdAt}
-        format="DD.MM HH:mm"
+        format="DD.MMM HH:mm"
       />
 
       {item.location !== '-' && isEvent && (
