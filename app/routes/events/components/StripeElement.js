@@ -15,11 +15,6 @@ import stripeStyles from './Stripe.css';
 import type { EventRegistrationPaymentStatus, User, Event } from 'app/models';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 
-type Stripe = {
-  paymentRequest: (Object) => Object,
-  handleCardPayment: (string, ?Object) => Promise<*>,
-  confirmPaymentIntent: (string, Object) => Promise<*>,
-};
 type Props = {
   event: Event,
   currentUser: User,
@@ -283,7 +278,7 @@ const PaymentRequestForm = (props: PaymentRequestFormProps) => {
     return () => {
       completePaymentManual('fail');
     };
-  }, []);
+  }, [completePaymentManual]);
 
   useEffect(() => {
     if (paymentError && setError && completePaymentManual) {
