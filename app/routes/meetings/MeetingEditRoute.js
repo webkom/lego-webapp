@@ -37,7 +37,6 @@ const mapStateToProps = (state, props) => {
   });
   return {
     user: props.currentUser,
-    meeting,
     initialValues: {
       ...meeting,
       reportAuthor: reportAuthor && {

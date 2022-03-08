@@ -77,7 +77,7 @@ export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
       const maxHeight = height - 50; // 50 pixels account for margins and spacing
       embeddedMazemap.zLevelControl.setMaxHeight(maxHeight);
     });
-  }, [Mazemap, hasMounted]);
+  }, [Mazemap, hasMounted, mazemapPoi]);
 
   //Allocate height for map and link before map is loaded
   if (!hasMounted) {

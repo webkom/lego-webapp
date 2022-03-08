@@ -60,8 +60,12 @@ function MeetingEditor({
   const [useMazemap, setUseMazemap] = useState<boolean>(false);
 
   useEffect(() => {
-    setUseMazemap(isEditPage && meeting.mazemapPoi?.value > 0);
-  }, [initialized, isEditPage]);
+    if (initialized) {
+      setUseMazemap(meeting?.mazemapPoi?.value > 0);
+    }
+    // Should only run once when initialized to initialize useMazemap state
+    // eslint-disable-next-line react-hooks/exhaustive-deps, react-app/react-hooks/exhaustive-deps
+  }, [initialized]);
 
   if (isEditPage && !meeting) {
     return <LoadingIndicator loading />;

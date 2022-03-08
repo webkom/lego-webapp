@@ -90,7 +90,11 @@ function EventEditor({
   const [useMazemap, setUseMazemap] = useState<boolean>(false);
 
   useEffect(() => {
-    setUseMazemap(event.mazemapPoi && event.mazemapPoi?.value > 0);
+    if (initialized) {
+      setUseMazemap(event?.mazemapPoi?.value > 0);
+    }
+    // Should only run once when initialized to initialize useMazemap state
+    // eslint-disable-next-line react-hooks/exhaustive-deps, react-app/react-hooks/exhaustive-deps
   }, [initialized]);
 
   if (isEditPage && !actionGrant.includes('edit')) {
