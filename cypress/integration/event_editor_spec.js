@@ -1,4 +1,4 @@
-import { c, field } from '../support/utils.js';
+import { selectField, c, field } from '../support/utils.js';
 
 const IS_MACOS = Cypress.platform.toLowerCase().search('darwin') !== -1;
 const ctrlKey = IS_MACOS ? '{cmd}' : '{ctrl}';
@@ -96,7 +96,7 @@ describe('Editor', () => {
       .click();
     field('title').type('Pils på Webkomkontoret!').blur();
     field('description').type('blir fett').blur();
-    cy.contains('Type arrangement').find('.Select').click();
+    selectField('eventType').click();
     cy.focused().type('sos{enter}', { force: true });
 
     // Create event

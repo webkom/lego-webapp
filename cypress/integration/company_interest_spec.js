@@ -7,7 +7,7 @@ const createCompanyInterest = () => {
   selectField('company').click();
   cy.focused().type('BEKK', { force: true });
   selectField('company')
-    .find('.Select-menu-outer')
+    .find('[id=react-select-company-listbox]')
     .should('not.contain', 'No results')
     .and('contain', 'BEKK');
   cy.focused().type('{enter}', { force: true });

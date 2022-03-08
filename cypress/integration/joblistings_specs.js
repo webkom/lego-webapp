@@ -2,6 +2,7 @@ import {
   field,
   fieldError,
   selectField,
+  selectFieldDropdown,
   selectEditor,
 } from '../support/utils.js';
 
@@ -23,8 +24,7 @@ describe('Create joblisting', () => {
     field('title').type('Sommerjobb hos BEKK');
     selectField('company').click();
     cy.focused().type('BEKK', { force: true });
-    selectField('company')
-      .find('.Select-menu-outer')
+    selectFieldDropdown('company')
       .should('not.contain', 'No results')
       .and('contain', 'BEKK');
     cy.focused().type('{enter}', { force: true });

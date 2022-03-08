@@ -3,6 +3,7 @@ import {
   field,
   fieldError,
   selectField,
+  selectFieldDropdown,
   selectEditor,
 } from '../support/utils.js';
 
@@ -58,21 +59,7 @@ describe('Create event', () => {
 
     // TODO: Make the suggestion box open if you click the label, not only when you click the input field
     selectField('eventType').click();
-    /* selectField('eventType')
-      .find('.Select-menu-outer')
-      .should(results => {
-        expect(results).to.contain('Bedriftspresentasjon');
-        expect(results).to.contain('Sosialt');
-        expect(results).to.contain('Annet');
-      }); */
     cy.focused().type('sos', { force: true });
-    /* selectField('eventType')
-      .find('.Select-menu-outer')
-      .should(results => {
-        expect(results).to.not.contain('Bedriftspresentasjon');
-        expect(results).to.contain('Sosialt');
-        expect(results).to.not.contain('Annet');
-      }); */
     cy.focused().type('{enter}', { force: true });
     fieldError('eventType').should('not.exist');
 
@@ -168,7 +155,7 @@ describe('Create event', () => {
       .click();
     field('title').type('Pils på Webkomkontoret!').blur();
     field('description').type('blir fett').blur();
-    cy.contains('Type arrangement').find('.Select').click();
+    selectField('eventType').click();
     cy.focused().type('sos{enter}', { force: true });
 
     // Create event
@@ -202,7 +189,7 @@ describe('Create event', () => {
     selectField('company').click();
     cy.focused().type('BEKK', { force: true });
     selectField('company')
-      .find('.Select-menu-outer')
+      .find('[id=react-select-company-listbox]')
       .should('not.contain', 'No results')
       .and('contain', 'BEKK');
     cy.focused().type('{enter}', { force: true });
@@ -210,8 +197,7 @@ describe('Create event', () => {
     // Select group
     selectField('responsibleGroup').click();
     cy.focused().type('bedk', { force: true });
-    selectField('responsibleGroup')
-      .find('.Select-menu-outer')
+    selectFieldDropdown('responsibleGroup')
       .should('not.contain', 'No results')
       .and('contain', 'Bedkom');
     cy.focused().type('{enter}', { force: true });
@@ -279,10 +265,10 @@ describe('Create event', () => {
     // Set the first pool
     field('pools[0].name').clear().type('WebkomPool').blur();
     field('pools[0].capacity').type('20').blur();
-    selectField('pools[0].permissionGroups').click();
+    selectField('pools[0]\\.permissionGroups').click();
     cy.focused().type('Webkom', { force: true });
-    selectField('pools[0].permissionGroups')
-      .find('.Select-menu-outer')
+    selectField('pools[0]\\.permissionGroups')
+      .find(`[id=react-select-pools\\[0\\]\\.permissionGroups-listbox]`)
       .should('not.contain', 'No results')
       .and('contain', 'Webkom');
     cy.focused().type('{enter}', { force: true });
@@ -291,17 +277,17 @@ describe('Create event', () => {
     cy.contains('button', 'Legg til ny pool').should('not.be.disabled').click();
     field('pools[1].name').clear().type('BedkomPool').blur();
     field('pools[1].capacity').type('30').blur();
-    selectField('pools[1].permissionGroups').click();
+    selectField('pools[1]\\.permissionGroups').click();
     cy.focused().type('Bedkom', { force: true });
-    selectField('pools[1].permissionGroups')
-      .find('.Select-menu-outer')
+    selectField('pools[1]\\.permissionGroups')
+      .find(`[id=react-select-pools\\[1\\]\\.permissionGroups-listbox]`)
       .should('not.contain', 'No results')
       .and('contain', 'Bedkom');
     cy.focused().type('{enter}', { force: true });
-    selectField('pools[1].permissionGroups').click();
+    selectField('pools[1]\\.permissionGroups').click();
     cy.focused().type('Abakus', { force: true });
-    selectField('pools[1].permissionGroups')
-      .find('.Select-menu-outer')
+    selectField('pools[1]\\.permissionGroups')
+      .find(`[id=react-select-pools\\[1\\]\\.permissionGroups-listbox]`)
       .should('not.contain', 'No results')
       .and('contain', 'Abakus');
     cy.focused().type('{enter}', { force: true });
@@ -387,10 +373,10 @@ describe('Create event', () => {
 
     // Set the first pool
     field('pools[0].name').clear().type('Mange').blur();
-    selectField('pools[0].permissionGroups').click();
+    selectField('pools[0].\\permissionGroups').click();
     cy.focused().type('Abaku', { force: true });
-    selectField('pools[0].permissionGroups')
-      .find('.Select-menu-outer')
+    selectField('pools[0]\\.permissionGroups')
+      .find(`[id=react-select-pools\\[0\\]\\.permissionGroups-listbox]`)
       .should('not.contain', 'No results')
       .and('contain', 'Abakus');
     cy.focused().type('{enter}', { force: true });

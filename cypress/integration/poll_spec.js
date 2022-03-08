@@ -1,4 +1,10 @@
-import { c, field, fieldError } from '../support/utils.js';
+import {
+  c,
+  field,
+  fieldError,
+  selectField,
+  selectFieldDropdown,
+} from '../support/utils.js';
 
 describe('Polls', () => {
   beforeEach(() => {
@@ -56,14 +62,12 @@ describe('Polls', () => {
       field('pinned').check();
     }
 
-    cy.contains('Tags').find('.Select').click();
+    selectField('tags').click();
     cy.focused().type(poll_form.tag, { force: true });
-    cy.contains('Tags')
-      .find('.Select-menu-outer')
-      .should((results) => {
-        expect(results).to.not.contain('Create option');
-        expect(results).to.contain('webkom');
-      });
+    selectFieldDropdown('tags').should((results) => {
+      expect(results).to.not.contain('Create option');
+      expect(results).to.contain('webkom');
+    });
     cy.focused().type('{enter}', { force: true });
 
     cy.contains('Lag ny avstemning').click();
