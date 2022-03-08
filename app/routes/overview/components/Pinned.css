@@ -27,7 +27,7 @@
     object-fit: scale-down;
     border-right: none;
     border-bottom: 1px solid
-      rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.09);
+      rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 9%);
     border-radius: 3px 3px 0 0;
     display: block;
   }
@@ -48,5 +48,5 @@
 }
 
 .itemTitle > a {
-  color: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.9);
+  color: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 90%);
 }

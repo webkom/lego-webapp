@@ -104,13 +104,12 @@
 }
 
 .leader {
-  margin: auto;
   display: flex;
-  align-items: flex-start;
-  margin-right: 0;
+  justify-content: center;
+  width: 100%;
 }
 
-.co_leader {
+.coLeader {
   margin: auto;
   display: flex;
   align-items: flex-start;
@@ -136,7 +135,6 @@
   background-color: #f7f7f7;
   width: 40px;
   height: 65px;
-  position: -webkit-sticky; /* Safari */
   position: sticky;
   top: 0;
   display: none;

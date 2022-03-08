@@ -126,7 +126,7 @@ const GroupBadge = ({ memberships }: { memberships: Array<Object> }) => {
         style={{
           margin: '10px 5px',
           ...(!activeMemberships
-            ? { filter: 'grayscale(100%)', opacity: '0.7' }
+            ? { filter: 'grayscale(100%)', opacity: '70%' }
             : {}),
         }}
       />

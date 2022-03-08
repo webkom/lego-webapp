@@ -55,14 +55,14 @@
 .overlay:hover {
   background: linear-gradient(
     var(--color-black),
-    rgba(var(--rgb-max), var(--rgb-max), var(--rgb-max), 0.3)
+    rgba(var(--rgb-max), var(--rgb-max), var(--rgb-max), 30%)
   );
 }
 
 .overlaySelected {
   background: linear-gradient(
     var(--color-black),
-    rgba(var(--rgb-max), var(--rgb-max), var(--rgb-max), 0.3)
+    rgba(var(--rgb-max), var(--rgb-max), var(--rgb-max), 30%)
   );
 }
 
@@ -137,6 +137,7 @@
 }
 
 /* Required for migrating react-collapse v4 -> v5 */
+/* stylelint-disable-next-line selector-class-pattern */
 :global(.ReactCollapse--collapse) {
   transition: height 500ms;
 }

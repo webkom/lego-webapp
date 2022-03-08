@@ -138,28 +138,28 @@ const CardForm = (props: CardFormProps) => {
         <legend className={stripeStyles.elementsLedgend}>
           {props.ledgend}
         </legend>
-        <label className={stripeStyles.StripeLabel}>
+        <label className={stripeStyles.stripeLabel}>
           Kortnummer
           <CardNumberElement
-            className={stripeStyles.StripeElement}
+            className={stripeStyles.stripeElement}
             options={StripeElementStyle}
           />
         </label>
-        <label className={stripeStyles.StripeLabel}>
+        <label className={stripeStyles.stripeLabel}>
           Utløpsdato
           <CardExpiryElement
-            className={stripeStyles.StripeElement}
+            className={stripeStyles.stripeElement}
             options={StripeElementStyle}
           />
         </label>
-        <label className={stripeStyles.StripeLabel}>
+        <label className={stripeStyles.stripeLabel}>
           CVC
           <CardCvcElement
-            className={stripeStyles.StripeElement}
+            className={stripeStyles.stripeElement}
             options={StripeElementStyle}
           />
         </label>
-        <button className={stripeStyles.StripeButton}>Betal</button>
+        <button className={stripeStyles.stripeButton}>Betal</button>
       </fieldset>
     </form>
   ) : (

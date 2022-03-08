@@ -10,7 +10,7 @@
   --lego-red: #c0392b;
   --lego-max-width: 1100px;
   --lego-default-padding: 2rem;
-  --lego-card-color: rgba(245, 244, 244, 1);
+  --lego-card-color: rgba(245, 244, 244, 100%);
   --lego-footer-color: #e21617;
   --lego-dark-red-color: #b21c17;
   --lego-red-color: #c0392b;

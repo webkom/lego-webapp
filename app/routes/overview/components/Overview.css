@@ -52,7 +52,7 @@
   transition: color 0.2s;
   font-size: 1rem;
   font-weight: 600;
-  color: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.8);
+  color: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 80%);
 }
 
 .item:hover .itemInfo {
@@ -85,9 +85,8 @@
 }
 
 .weeklyArticles {
-  border: 1px solid rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.09);
-  box-shadow: 0 1px 4px
-    rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.04);
+  border: 1px solid rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 9%);
+  box-shadow: 0 1px 4px rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 4%);
   border-radius: 3px;
   background: var(--lego-card-color);
 
@@ -107,13 +106,6 @@
   .weeklyArticles {
     height: auto;
     max-height: 659px;
-  }
-}
-
-@-moz-document url-prefix() {
-  .content {
-    height: 490px;
-    flex: none;
   }
 }
 

@@ -9,7 +9,7 @@
 .poolBox {
   display: flex;
   flex: 1;
-  background-color: rgba(200, 200, 200, 0.5);
+  background-color: rgba(200, 200, 200, 50%);
   max-width: 100%;
   min-width: 25%;
   flex-direction: column;
@@ -18,5 +18,5 @@
 }
 
 html[data-theme='dark'] .poolBox {
-  background-color: rgba(50, 50, 50, 0.5);
+  background-color: rgba(50, 50, 50, 50%);
 }

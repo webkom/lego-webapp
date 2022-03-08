@@ -74,7 +74,7 @@
   transition: color 0.2s;
   font-size: 0.8rem;
   font-weight: 600;
-  color: rgba(0, 0, 0, 0.8);
+  color: rgba(0, 0, 0, 80%);
 }
 
 .item:hover .itemInfo {
@@ -108,13 +108,13 @@
 }
 
 .itemTitle > a {
-  color: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0.9);
+  color: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 90%);
 }
 
 .itemDescription {
   padding-top: 10px;
   margin: 0;
-  font-family: 'skolar-latin', sans-serif;
+  font-family: skolar-latin, sans-serif;
   font-size: 1.1rem;
   -webkit-font-smoothing: initial;
 }

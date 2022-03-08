@@ -16,8 +16,8 @@
 }
 
 .reacted {
-  background-color: rgba(226, 13, 19, 0.05);
-  border-color: rgba(226, 13, 19, 0.15);
+  background-color: rgba(226, 13, 19, 5%);
+  border-color: rgba(226, 13, 19, 15%);
 }
 
 .reactionCount {

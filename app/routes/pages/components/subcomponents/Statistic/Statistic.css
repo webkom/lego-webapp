@@ -11,7 +11,7 @@
 .statistic {
   font-size: 2.2rem;
   font-weight: bold;
-  font-family: 'Roboto', sans-serif;
+  font-family: Roboto, sans-serif;
 }
 
 @media (--mobile-device) {
