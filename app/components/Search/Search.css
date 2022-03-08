@@ -18,6 +18,7 @@
 }
 
 .inputContainer input {
+  appearance: none;
   flex: 1;
   outline: none;
   border: 0;
