@@ -8,7 +8,7 @@
   composes: withShadow from '~app/styles/utilities.css';
   text-align: center;
   background: var(--lego-card-color);
-  height: 388px;
+  height: 322px;
   width: 100%;
   margin-bottom: 20px;
   position: relative;
@@ -39,12 +39,12 @@
 }
 
 .infoWrapper {
+  padding: 10px 10px 0 10px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
 .articleDescription {
-  text-align: justify;
-  margin: 5px 15px;
+  padding: 0 10px 10px 10px;
 }
