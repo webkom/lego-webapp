@@ -59,7 +59,7 @@ const AttendanceStatus = ({
           toggleModal={(key) => toggleModal(toggleKey(key))}
         />
       ))}
-      {legacyRegistrationCount && (
+      {!!legacyRegistrationCount && (
         <div className={styles.poolBox}>
           <strong>Anonyme</strong>
           <strong>
