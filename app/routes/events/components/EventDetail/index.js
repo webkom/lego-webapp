@@ -245,6 +245,7 @@ export default class EventDetail extends Component<Props> {
             key: 'Avregistrering stenger',
           }
         : null,
+      event.heedPenalties &&
       event.unregistrationDeadline &&
       !['OPEN', 'TBA'].includes(event.eventStatusType)
         ? {
