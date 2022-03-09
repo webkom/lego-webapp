@@ -9,16 +9,17 @@ import { Image } from 'app/components/Image';
 type Props = {
   user: User,
   leader?: boolean,
-  coLeader?: boolean,
+  co_leader?: boolean,
 };
-const GroupMember = ({ user, leader, coLeader }: Props) => {
+
+const GroupMember = ({ user, leader, co_leader }: Props) => {
   return (
     <Link to={`/users/${user.username}`}>
       <div
         className={cx(
           styles.member,
           leader && styles.leader,
-          coLeader && styles.coLeader
+          co_leader && styles.coLeader
         )}
       >
         <Image
@@ -27,7 +28,7 @@ const GroupMember = ({ user, leader, coLeader }: Props) => {
           placeholder={user.profilePicturePlaceholder}
         />
         {leader && <div className={styles.title}>LEDER</div>}
-        {coLeader && <div className={styles.title}>NESTLEDER</div>}
+        {co_leader && <div className={styles.title}>NESTLEDER</div>}
         <div className={styles.name}>{user.fullName}</div>
       </div>
     </Link>

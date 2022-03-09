@@ -15,7 +15,7 @@ const iconName = (role: string) => {
   switch (role) {
     case 'leader':
       return ['star', 'Leder'];
-    case 'coLeader':
+    case 'co_leader':
       return ['star-outline', 'Nestleder'];
     default:
       return;
@@ -46,7 +46,7 @@ const ListedUser = ({ user, role }: { user: User, role: string }) => (
 );
 
 // Reversed sort order
-const SORT_ORDER = ['member', 'coLeader', 'leader'];
+const SORT_ORDER = ['member', 'co_leader', 'leader'];
 
 type Props = {
   children: any,
