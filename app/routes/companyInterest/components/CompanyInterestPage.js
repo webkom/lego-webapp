@@ -446,8 +446,8 @@ const CompanyInterestPage = (props: Props) => {
       english: 'Comment',
     },
     secondComment: {
-      norwegian: 'Alternativ Kommentar',
-      english: 'Other Comment',
+      norwegian: 'Annen kommentar',
+      english: 'Other comment',
     },
     create: {
       norwegian: 'Opprett bedriftsinteresse',
