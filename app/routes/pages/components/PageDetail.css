@@ -101,19 +101,8 @@
 
 .leaderBoard {
   display: flex;
-}
-
-.leader {
-  display: flex;
   justify-content: center;
-  width: 100%;
-}
-
-.coLeader {
-  margin: auto;
-  display: flex;
   align-items: flex-start;
-  margin-left: 0;
 }
 
 .members {
