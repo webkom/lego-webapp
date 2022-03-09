@@ -306,7 +306,8 @@ type CompanyInterestFormEntity = {
   semesters: Array<CompanySemesterEntity>,
   events: Array<{ name: String, checked: boolean }>,
   otherOffers: Array<{ name: String, checked: boolean }>,
-  comment: String,
+  comment: string,
+  secondComment: string,
 };
 
 type Props = FormProps & {
@@ -323,7 +324,8 @@ type Props = FormProps & {
   interestForm: Object,
   companyInterest?: CompanyInterestEntity,
   language: string,
-  comment: String,
+  comment: string,
+  secondComment: string,
 };
 
 const CompanyInterestPage = (props: Props) => {
@@ -363,7 +365,7 @@ const CompanyInterestPage = (props: Props) => {
       participantRangeStart: range_start,
       participantRangeEnd: range_end,
       comment: data.comment,
-      comment_second: data.comment_second,
+      secondComment: data.secondComment,
     };
 
     return props
@@ -443,6 +445,10 @@ const CompanyInterestPage = (props: Props) => {
       norwegian: 'Kommentar',
       english: 'Comment',
     },
+    secondComment: {
+      norwegian: 'Annen kommentar',
+      english: 'Other comment',
+    },
     create: {
       norwegian: 'Opprett bedriftsinteresse',
       english: 'Submit',
@@ -452,7 +458,6 @@ const CompanyInterestPage = (props: Props) => {
   const { language } = props;
   const isEnglish = language === 'english';
 
-  console.log(props);
   const showOtherComment =
     props.interestForm.events &&
     props.interestForm.events.some(
@@ -614,12 +619,12 @@ const CompanyInterestPage = (props: Props) => {
           <div className={styles.underline}>
             <p>{interestText.otherEventDescription[language]}</p>
             <Field
-              placeholder={interestText.comment[language]}
-              name="comment_second"
+              placeholder={interestText.secondComment[language]}
+              name="secondComment"
               component={TextEditor.Field}
               rows={10}
               className={styles.textEditor}
-              label={labels.comment[language]}
+              label={labels.secondComment[language]}
               required
             />
           </div>

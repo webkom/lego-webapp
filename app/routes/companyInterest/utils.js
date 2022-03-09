@@ -55,6 +55,10 @@ export const interestText = {
     norwegian: 'Skriv om bedriften eller arrangementet.',
     english: 'Write about your company or the event.',
   },
+  secondComment: {
+    norwegian: 'Skriv litt om hva slags alternativt arrangement dere ønsker.',
+    english: 'Write a litte about the alternative event you wish for.',
+  },
   text: {
     first: {
       norwegian:
