@@ -48,24 +48,19 @@ describe('The Home Page and Login', () => {
 
     cy.contains('h3', 'Bedpres og Kurs');
     cy.contains('li', 'Deloitte AS');
-
-    cy.contains('h3', 'Arrangementer');
     cy.contains('li', 'Sikkerhet og Sårbarhet');
+
+    cy.contains('h3', 'Sosialt');
+    cy.contains('li', 'Eksamensfest');
 
     cy.contains('h3', 'Påmeldinger');
 
-    cy.contains('h3', 'Festet oppslag');
-    cy.contains('a', 'Artikkel uten AUTH');
+    cy.contains('div', 'FESTET');
+    cy.contains('div', 'ARTIKKEL UTEN AUTH');
 
     cy.contains('span', 'readme');
 
-    cy.contains('h3', 'Artikler');
-
-    cy.contains('h2', 'Deloitte AS');
-    cy.contains('h2', 'Mesan');
-    cy.contains('h2', 'Sikkerhet og Sårbarhet').should('not.exist');
-    cy.get(c('ion-ios-arrow-dropdown')).click();
-    cy.contains('h2', 'Sikkerhet og Sårbarhet');
-    cy.contains('a', 'Artikkel med youtube cover');
+    cy.contains('div', 'ARTIKLER');
+    cy.contains('div', 'ARTIKKEL MED YOUTUBE COVER');
   });
 });

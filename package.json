@@ -71,6 +71,7 @@
     "react": "16.14.0",
     "react-collapse": "^5.1.1",
     "react-cropper": "^2.1.8",
+    "react-device-detect": "^2.1.2",
     "react-dom": "npm:@hot-loader/react-dom@^16.8.6",
     "react-dropzone": "^12.1.0",
     "react-google-recaptcha": "^2.0.1",

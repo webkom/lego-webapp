@@ -1,15 +1,104 @@
-@import '~app/styles/variables.css';
+.poll {
+  background-color: var(--lego-placard-color);
+  width: 100%;
+  min-width: 250px;
+  max-width: 500px;
+  overflow-y: hidden;
+  border-radius: 15px;
+  transition: 2s height;
+}
 
-.optionWrapper {
-  justify-content: center;
-  min-height: 120px;
-  cursor: pointer;
+.topBar {
+  background-color: var(--lego-red);
   position: relative;
+  width: 100%;
+  height: 70px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 25%);
+}
+
+.stats {
+  color: var(--lego-placard-color);
+  margin-top: 17px;
+  transform: scale(150%);
+}
+
+.notAnswered {
+  color: var(--color-white);
+  font-size: 30px;
+  font-weight: 900;
+  line-height: 45px;
+}
+
+.headerBar {
+  color: var(--lego-font-color);
+  background-color: var(--lego-placard-color);
+  font-weight: 900;
+  text-align: center;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 80%;
+  height: 50px;
+  border-radius: 10px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 25%);
+  transform: translate(-50%, 50%);
+}
+
+.contentWrapper {
+  overflow-y: hidden;
+  width: 100%;
+  transition: 0.5s height;
+}
+
+.voteOptionsWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: fit-content;
+}
+
+.voteButton {
+  color: var(--color-white);
+  background: var(--lego-red);
+  font-weight: 500;
+  width: 90%;
+  height: 37px;
+  padding: 5px;
+  margin: 2px;
+
+  /* Override default components/Button property */
+  + .voteButton {
+    margin-left: 2px;
+  }
+}
+
+.voteOptions {
+  width: 100%;
+  padding-top: 35px;
+}
+
+.bottomInfoWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.totalVotesInfo {
+  display: flex;
+}
+
+.resultsHiddenInfo {
+  font-style: italic;
 }
 
 .pollTable {
   width: 100%;
   font-size: 14px;
+}
+
+.pollTable tr {
+  width: 100%;
 }
 
 .pollTable td {
@@ -18,168 +107,63 @@
 }
 
 .pollTable .textColumn {
-  border-right: 1px solid #c5c5c5;
   text-align: right;
-  padding-right: 13px;
   line-height: 16px;
+  word-wrap: break-word;
+  width: fit-content;
+  max-width: 200px;
+  padding-right: 13px;
+  border-right: 3px solid #c5c5c5;
 }
 
 .pollTable .graphColumn {
   width: auto;
-  min-width: 200px;
+  min-width: 150px;
   padding-left: 13px;
+  padding-right: 15px;
 }
 
-.poll {
-  composes: withShadow from '~app/styles/utilities.css';
-  background: var(--lego-card-color);
-  padding: 15px 20px 8px;
-}
-
-.pollLight {
-  background: var(--lego-card-color);
-}
-
-.noVotes {
-  font-style: italic;
+.fullGraph {
+  display: flex;
+  background-color: #e7e7e7;
+  word-wrap: break-word;
+  width: 100%;
 }
 
 .pollGraph {
-  animation: graph 1.2s cubic-bezier(41%, 80%, 40%, 94%);
-  background-color: var(--lego-red-color);
-  padding-left: 8px;
-  border-radius: 0 2px 2px 0;
+  background-color: var(--lego-red);
   font-style: italic;
   font-weight: 300;
   color: var(--color-white);
   height: 30px;
+  padding-left: 8px;
+  animation: graph 1.2s cubic-bezier(0.41, 0.8, 0.4, 0.94);
+  border-radius: 0 2px 2px 0;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 25%);
 }
 
-.fullGraph {
-  background-color: #e7e7e7;
+.bottomBar {
   width: 100%;
-  display: flex;
+  height: 70px;
+  background-color: var(--lego-red);
 }
 
-html[data-theme='dark'] .fullGraph {
-  color: var(--color-white);
-  background-color: var(--color-mono-gray-5);
+.arrowUp,
+.arrowDown {
+  text-shadow: 0 2px 2px rgba(0, 0, 0, 25%);
+  transform: scale(250%);
+  color: var(--lego-placard-color);
+  transition: 0.8s margin-bottom;
 }
 
-html[data-theme='dark'] .pollGraph {
-  color: var(--color-black);
+.arrowUp {
+  margin-bottom: 25px;
 }
 
-.pollGraph span {
-  vertical-align: middle;
+.arrowDown {
+  margin-bottom: 10px;
 }
 
-@keyframes graph {
-  from {
-    width: 1px;
-  }
-
-  to {
-    width: 100%;
-  }
-}
-
-.pollHeader {
-  border-radius: 8px;
-  margin-bottom: 20px;
-  margin-left: 20px;
-  font-size: 16px;
-  color: var(--lego-font-color);
-}
-
-.voteButton {
-  background: var(--lego-red-color);
-  color: var(--lego-color-gray-light);
-  border: 1px solid var(--border-gray);
-  width: 100%;
-  margin: 0 !important;
-  font-size: 15px;
-  max-width: 400px;
-}
-
-.voteButton:hover {
-  opacity: 0.8;
-}
-
-html[data-theme='dark'] .voteButton {
-  color: var(--color-dark-gray-3);
-}
-
-.moreOptionsLink {
-  justify-content: space-between;
-}
-
-.arrow {
-  margin-top: 9px;
+.arrow:hover {
   cursor: pointer;
-
-  &:hover {
-    transform: scale(1.5);
-    color: var(--color-red-3);
-    transition: transform 0.2s;
-  }
-}
-
-.blurContainer {
-  display: none;
-  position: absolute;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-}
-
-.blurOverlay {
-  position: absolute;
-  z-index: 2;
-  color: var(--color-black);
-  margin-top: 25px;
-}
-
-.optionWrapper:hover .blurContainer {
-  display: flex;
-}
-
-.optionWrapper:hover .blurEffect {
-  filter: blur(3px);
-  pointer-events: none;
-}
-
-.blurArrow {
-  margin-top: 40px;
-}
-
-.alignItems {
-  display: flex;
-  justify-content: center;
-}
-
-.answered {
-  margin: 15px 0;
-  text-align: center;
-  font-weight: bold;
-}
-
-.bottomInfo {
-  display: flex;
-  justify-content: space-between;
-}
-
-.resultsHidden {
-  font-style: italic;
-}
-
-@media (--mobile-device) {
-  .blurContainer {
-    display: flex;
-  }
-
-  .blurEffect {
-    filter: blur(3px);
-    pointer-events: none;
-  }
 }

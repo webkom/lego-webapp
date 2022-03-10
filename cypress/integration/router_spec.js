@@ -148,7 +148,7 @@ describe('Create event', () => {
     // Go back
     cy.get(c('closeButton')).click();
     cy.url().should('contain', '/');
-    cy.contains('Festet oppslag');
+    cy.contains('FESTET');
     cy.contains('Påmeldinger');
   });
 

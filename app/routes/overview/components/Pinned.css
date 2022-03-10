@@ -1,52 +1,57 @@
 @import '~app/styles/variables.css';
 
-.pinned {
+.wrapper {
   flex: 1;
+  display: flex;
+  position: relative;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.titleAndTags {
+  background-image: linear-gradient(rgba(0, 0, 0, 0%), #000);
+  position: absolute;
+  bottom: 0;
+  left: 0;
   width: 100%;
-}
-
-.innerPinned {
-  composes: withShadow from '~app/styles/utilities.css';
-  background: var(--lego-card-color);
-}
-
-.innerLinks {
-  display: block;
+  padding-bottom: 10px;
+  padding-left: 10px;
 
   @media (--mobile-device) {
-    height: inherit;
+    background-image: none;
+    background-color: rgba(0, 0, 0, 60%);
   }
+}
+
+.title {
+  color: #fff;
+  font-size: 1.3em;
+  font-weight: 800;
+  line-height: 1.4;
+}
+
+.tags {
+  color: #fff;
+  margin: 0;
+  padding: 0;
+  margin-left: 1px;
 }
 
 .image {
-  object-fit: contain;
-  background: var(--lego-card-color);
-  border-radius: 5px 5px 0 0;
-
-  @media (--mobile-device) {
-    object-fit: scale-down;
-    border-right: none;
-    border-bottom: 1px solid
-      rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 9%);
-    border-radius: 3px 3px 0 0;
-    display: block;
-  }
+  display: flex;
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
 }
 
-.pinnedHeading {
-  padding: 15px;
-  align-items: center;
+.icon {
+  display: inline-flex;
+  min-width: 20px;
+  justify-content: center;
+  opacity: 50%;
 }
 
-.itemTitle {
-  margin: 0;
-  line-height: 1.1;
-  font-size: 1.2rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  word-break: normal;
-}
-
-.itemTitle > a {
-  color: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 90%);
+.link {
+  display: flex;
+  height: 100%;
 }

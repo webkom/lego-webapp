@@ -1,6 +1,8 @@
 // @flow
 
-import { Component } from 'react';
+import type { ElementRef } from 'react';
+
+import { createRef, Component } from 'react';
 import Button from 'app/components/Button';
 import styles from './Poll.css';
 import type { PollEntity, OptionEntity } from 'app/reducers/polls';
@@ -16,8 +18,9 @@ type Props = {
   handleVote: (pollId: number, optionId: number) => Promise<*>,
   allowedToViewHiddenResults?: boolean,
   backgroundLight?: boolean,
-  truncate?: number,
   details?: boolean,
+  expanded: boolean,
+  alwaysOpen: boolean,
 };
 
 type OptionEntityRatio = OptionEntity & {
@@ -25,7 +28,6 @@ type OptionEntityRatio = OptionEntity & {
 };
 
 type State = {
-  truncateOptions: boolean,
   shuffledOptions: Array<OptionEntityRatio>,
   expanded: boolean,
 };
@@ -35,20 +37,17 @@ class Poll extends Component<Props, State> {
     super(props);
     const options = this.optionsWithPerfectRatios(props.poll.options);
     const shuffledOptions = this.shuffle(options);
-    if (props.truncate && options.length > props.truncate) {
-      this.state = {
-        truncateOptions: true,
-        shuffledOptions: shuffledOptions,
-        expanded: false,
-      };
-    } else {
-      this.state = {
-        truncateOptions: false,
-        shuffledOptions: shuffledOptions,
-        expanded: true,
-      };
-    }
+    this.state = {
+      shuffledOptions: shuffledOptions,
+      expanded: props.expanded || props.alwaysOpen,
+    };
   }
+  static defaultProps = {
+    expanded: false,
+    alwaysOpen: false,
+  };
+
+  optionsRef = createRef<ElementRef<Flex>>();
 
   toggleTruncate = () => {
     this.setState({
@@ -96,158 +95,160 @@ class Poll extends Component<Props, State> {
   };
 
   render() {
+    const { expanded, shuffledOptions } = this.state;
     const {
       poll,
       handleVote,
       backgroundLight,
       details,
-      truncate,
       allowedToViewHiddenResults,
+      alwaysOpen,
     } = this.props;
-    const { truncateOptions, expanded, shuffledOptions } = this.state;
     const { id, title, description, hasAnswered, totalVotes, resultsHidden } =
       poll;
     const options = this.optionsWithPerfectRatios(this.props.poll.options);
     const orderedOptions = hasAnswered ? options : shuffledOptions;
-    const optionsToShow = expanded
-      ? orderedOptions
-      : orderedOptions.slice(0, truncate);
+    const optionsToShow = expanded ? orderedOptions : orderedOptions;
     const showResults = !resultsHidden || allowedToViewHiddenResults;
 
     return (
-      <div className={cx(styles.poll, backgroundLight ? styles.pollLight : '')}>
-        <Flex>
-          <Link to={`/polls/${id}`} style={{ flex: 1 }}>
-            <Icon name="stats" />
-            <span className={styles.pollHeader}>{title}</span>
+      <Flex alignItems="center" column className={styles.poll}>
+        <Flex justifyContent="center" className={styles.topBar}>
+          {hasAnswered ? (
+            <Icon name="stats" className={styles.stats} />
+          ) : (
+            <div className={styles.notAnswered}>?</div>
+          )}
+          <Link to={`/polls/${id}`}>
+            <Flex
+              justifyContent="center"
+              alignItems="center"
+              className={styles.headerBar}
+            >
+              {!details && description.length !== 0 ? (
+                <Tooltip content="Trykk for mer info" renderDirection="right">
+                  {title}
+                </Tooltip>
+              ) : (
+                <> {title} </>
+              )}
+            </Flex>
           </Link>
-          <Tooltip content="Avstemningen er anonym." renderDirection="left">
-            <Icon
-              name="information-circle-outline"
-              size={20}
-              style={{ cursor: 'pointer' }}
-            />
-          </Tooltip>
         </Flex>
-        {details && (
-          <div>
-            <p>{description}</p>
-          </div>
-        )}
-        {hasAnswered && !showResults && (
-          <div className={styles.answered}>
-            Du har svart
-            <Icon
-              name="checkmark-circle-outline"
-              size={20}
-              style={{ marginLeft: '10px', color: 'green' }}
-            />
-          </div>
-        )}
-        {hasAnswered && showResults && (
-          <Flex column className={styles.optionWrapper}>
-            <table className={styles.pollTable}>
-              <tbody>
-                {optionsToShow.map(({ id, name, votes, ratio }) => {
-                  return (
-                    <tr key={id}>
-                      <td className={styles.textColumn}>{name}</td>
-                      <td className={styles.graphColumn}>
-                        {votes === 0 ? (
-                          <span className={styles.noVotes}>Ingen stemmer</span>
-                        ) : (
-                          <div className={styles.fullGraph}>
-                            <div
-                              style={{
-                                width: `${ratio}%`,
-                              }}
-                            >
-                              <div className={styles.pollGraph}>
-                                {ratio >= 18 && <span>{`${ratio}%`}</span>}
-                              </div>
-                            </div>
-                            {ratio < 18 && (
-                              <span style={{ marginLeft: '2px' }}>
-                                {`${ratio}%`}
-                              </span>
-                            )}
-                          </div>
-                        )}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-            {resultsHidden && (
-              <p style={{ fontStyle: 'italic', marginTop: 15 }}>
-                Resultatet er skjult for vanlige brukere.
-              </p>
-            )}
-          </Flex>
-        )}
-        {!hasAnswered && (
-          <Flex column className={styles.optionWrapper}>
-            {!expanded && (
-              <Flex
-                className={styles.blurContainer}
-                onClick={this.toggleTruncate}
-              >
-                <p className={styles.blurOverlay}>
-                  Klikk her for å se alle alternativene.
-                </p>
-                <Icon
-                  className={cx(styles.blurOverlay, styles.blurArrow)}
-                  size={60}
-                  name={expanded ? 'arrow-up' : 'arrow-down'}
-                />
+        <Flex
+          column
+          alignItems="center"
+          className={styles.contentWrapper}
+          style={{
+            height:
+              expanded && this.optionsRef.current
+                ? `${this.optionsRef.current.clientHeight}px`
+                : '0px',
+          }}
+        >
+          <div className={styles.voteOptionsWrapper} ref={this.optionsRef}>
+            {!hasAnswered && (
+              <Flex column alignItems="center" className={styles.voteOptions}>
+                {details && description}
+                {options &&
+                  optionsToShow.map((option) => (
+                    <Button
+                      key={option.id}
+                      className={styles.voteButton}
+                      onClick={() => handleVote(poll.id, option.id)}
+                    >
+                      {option.name}
+                    </Button>
+                  ))}
               </Flex>
             )}
-            {options &&
-              optionsToShow.map((option) => (
-                <Flex
-                  className={cx(
-                    styles.alignItems,
-                    expanded ? '' : styles.blurEffect
-                  )}
-                  key={option.id}
+            {hasAnswered && !showResults && (
+              <Flex column alignItems="center" className={styles.voteOptions}>
+                {details && description}
+                <div className={styles.resultsHiddenInfo}>
+                  Resultatet er skjult
+                </div>
+              </Flex>
+            )}
+            {hasAnswered && showResults && (
+              <Flex column alignItems="center" className={styles.voteOptions}>
+                {details && description}
+                <table className={styles.pollTable}>
+                  <tbody>
+                    {optionsToShow.map(({ id, name, votes, ratio }) => {
+                      return (
+                        <tr key={id}>
+                          <td className={styles.textColumn}>{name}</td>
+                          <td className={styles.graphColumn}>
+                            {votes === 0 ? (
+                              <span className={styles.noVotes}>
+                                Ingen stemmer
+                              </span>
+                            ) : (
+                              <div className={styles.fullGraph}>
+                                <div
+                                  style={{
+                                    width: `${ratio}%`,
+                                  }}
+                                >
+                                  <div className={styles.pollGraph}>
+                                    {ratio >= 18 && <span>{`${ratio}%`}</span>}
+                                  </div>
+                                </div>
+                                {ratio < 18 && (
+                                  <span style={{ marginLeft: '2px' }}>
+                                    {`${ratio}%`}
+                                  </span>
+                                )}
+                              </div>
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </Flex>
+            )}
+            <div className={styles.bottomInfoWrapper}>
+              <div className={styles.totalVotesInfo}>
+                <Tooltip
+                  content="Avstemningen er anonym."
+                  renderDirection="right"
                 >
-                  <Button
-                    className={styles.voteButton}
-                    onClick={() => handleVote(poll.id, option.id)}
-                  >
-                    {option.name}
-                  </Button>
-                </Flex>
-              ))}
-          </Flex>
-        )}
-        <div>
-          <div className={styles.moreOptionsLink}>
-            {truncateOptions &&
-              (!hasAnswered ||
-                !resultsHidden ||
-                allowedToViewHiddenResults) && (
-                <div className={styles.alignItems}>
                   <Icon
-                    onClick={this.toggleTruncate}
-                    className={styles.arrow}
-                    size={20}
-                    name={expanded ? 'arrow-up' : 'arrow-down'}
+                    name="information-circle-outline"
+                    size={17}
+                    style={{ cursor: 'pointer', margin: '0 5px' }}
                   />
+                </Tooltip>
+                Stemmer: {totalVotes}
+              </div>
+              {resultsHidden && (
+                <div className={styles.resultsHiddenInfo}>
+                  Resultatet er skjult for vanlige brukere.
                 </div>
               )}
+            </div>
           </div>
-          <div className={styles.bottomInfo}>
-            <span>{`Stemmer: ${totalVotes}`}</span>
-            {hasAnswered && !showResults && (
-              <span className={styles.resultsHidden}>
-                Resultatet er skjult.
-              </span>
-            )}
-          </div>
-        </div>
-      </div>
+        </Flex>
+        <Flex
+          alignItems="flex-end"
+          justifyContent="center"
+          className={styles.bottomBar}
+        >
+          {!alwaysOpen ? (
+            <Icon
+              onClick={this.toggleTruncate}
+              className={expanded ? styles.arrowUp : styles.arrowDown}
+              size={20}
+              name={expanded ? 'arrow-up' : 'arrow-down'}
+            />
+          ) : (
+            <Icon className={styles.arrowUp} name="remove" />
+          )}
+        </Flex>
+      </Flex>
     );
   }
 }

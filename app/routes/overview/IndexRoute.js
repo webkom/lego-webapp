@@ -41,7 +41,7 @@ export default compose(
     ({ shouldFetchQuote, loggedIn }, dispatch) =>
       Promise.all([
         loggedIn && shouldFetchQuote && dispatch(fetchRandomQuote()),
-        dispatch(fetchReadmes(loggedIn ? 4 : 1)),
+        dispatch(fetchReadmes(loggedIn ? 3 : 1)),
       ]),
     [],
     { awaitOnSsr: false }

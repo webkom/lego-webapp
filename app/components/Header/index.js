@@ -168,7 +168,7 @@ class Header extends Component<Props, State> {
 
     return (
       <header className={styles.header}>
-        <FancyNodesCanvas height={300} />
+        {/* <FancyNodesCanvas height={300} /> */}
         <div className={styles.content}>
           <Link to="/">
             <LoadingIndicator loading={loading}>
