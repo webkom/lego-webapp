@@ -4,6 +4,7 @@ import { Component } from 'react';
 import Button from 'app/components/Button';
 import Flex from 'app/components/Layout/Flex';
 import styles from './RemovePicture.css';
+import Icon from 'app/components/Icon';
 
 type Props = {
   removePicture: (string) => Promise<*>,
@@ -33,20 +34,23 @@ export default class RemovePicture extends Component<Props, State> {
 
   render() {
     return (
-      <Flex justifyContent="center">
-        <Button className={styles.saveButton} onClick={this.toggleSelected}>
-          {this.state.selected ? 'Angre' : 'Slett bilde'}
-        </Button>
-        {this.state.selected && (
-          <Button
-            dark
-            className={styles.saveButton}
-            onClick={this.handleOnClick}
-          >
-            Lagre endring
+      <div className={styles.buttons}>
+        {this.state.selected ? (
+          <Button className={styles.saveButton} onClick={this.toggleSelected}>
+            Avbryt
+          </Button>
+        ) : (
+          <Button onClick={this.toggleSelected} danger>
+            <Icon name="trash" prefix="ion-md-" size={20} />
+            Slett profilbildet
           </Button>
         )}
-      </Flex>
+        {this.state.selected && (
+          <Button onClick={this.handleOnClick} danger>
+            Bekreft
+          </Button>
+        )}
+      </div>
     );
   }
 }

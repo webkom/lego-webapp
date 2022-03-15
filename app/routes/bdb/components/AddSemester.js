@@ -176,6 +176,7 @@ export default class AddSemester extends Component<Props, State> {
               disabled={submitting}
               onClick={() => this.setState({ submit: true })}
               submit
+              success
             >
               Lagre
             </Button>

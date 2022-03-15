@@ -80,7 +80,7 @@ const SubmitButton = ({
   if (type === 'register') {
     return (
       <Button
-        style={{ marginRight: 10 }}
+        className={styles.registrationBtn}
         onClick={onSubmit}
         disabled={disabled}
       >
@@ -104,7 +104,8 @@ const SubmitButton = ({
         return Promise.resolve();
       }}
     >
-      <Button style={{ marginRight: 10 }} dark disabled={disabled}>
+      <Button className={styles.registrationBtn} danger disabled={disabled}>
+        <Icon name="remove" prefix="ion-md-" />
         {title}
       </Button>
     </ConfirmModalWithParent>

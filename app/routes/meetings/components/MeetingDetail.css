@@ -21,3 +21,24 @@
   display: flex;
   margin-bottom: 10px;
 }
+
+/* The ghostly danger styled button looked ugly next to the filled green Accept button */
+.declineBtn {
+  background: var(--color-red-2);
+  border: none;
+  color: var(--color-white) !important;
+
+  &:hover:not(:disabled) {
+    background: var(--color-red-1);
+  }
+}
+
+/* stylelint-disable no-descending-specificity */
+html[data-theme='dark'] .declineBtn {
+  background: var(--color-red-1);
+  color: var(--color-black) !important;
+
+  &:hover:not(:disabled) {
+    background: var(--color-red-2) !important;
+  }
+}

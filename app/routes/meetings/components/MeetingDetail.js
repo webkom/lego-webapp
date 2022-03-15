@@ -92,12 +92,14 @@ class MeetingDetails extends Component<Props> {
     moment(startTime) > moment() && (
       <li className={styles.statusButtons}>
         <Button
+          success
           onClick={this.acceptInvitation}
           disabled={statusMe === statuses.ATTENDING}
         >
           Delta
         </Button>
         <Button
+          className={styles.declineBtn}
           onClick={this.rejectInvitation}
           disabled={statusMe === statuses.NOT_ATTENDING}
         >

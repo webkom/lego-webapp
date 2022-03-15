@@ -561,11 +561,11 @@ function EventEditor({
         <div>
           {isEditPage && (
             <Link to={`/events/${event.id}`}>
-              <Button style={{ marginRight: '20px' }}>TILBAKE</Button>
+              <Button style={{ marginRight: '20px' }}>Tilbake</Button>
             </Link>
           )}
-          <Button disabled={pristine || submitting} submit>
-            {isEditPage ? 'LAGRE ENDRINGER' : 'OPPRETT'}
+          <Button success={isEditPage} disabled={pristine || submitting} submit>
+            {isEditPage ? 'Lagre endringer' : 'Opprett'}
           </Button>
         </div>
       </Form>

@@ -21,6 +21,8 @@ type Props = {
   primary?: boolean,
   /** Danger button styling */
   danger?: boolean,
+  /** Success button styling */
+  success?: boolean,
   /** Make it look like a link */
   flat?: boolean,
 };
@@ -40,6 +42,8 @@ function Button({
   submit,
   pending = false,
   dark = false,
+  danger = false,
+  success = false,
   flat = false,
   ...rest
 }: Props) {
@@ -47,15 +51,21 @@ function Button({
     <button
       className={
         flat
-          ? cx(styles.flatButton, className)
-          : cx(styles.button, styles[size], dark && styles.dark, className)
+          ? cx(styles.flat, className)
+          : cx(
+              styles.button,
+              styles[size],
+              dark && styles.dark,
+              danger && styles.danger,
+              success && styles.success,
+              className
+            )
       }
       type={submit ? 'submit' : 'button'}
       {...(rest: Object)}
     >
       <LoadingIndicator small margin={0} loading={pending} />
-      {pending && <span className={styles.loading}>Laster</span>}
-      {!pending && children}
+      {pending ? <span className={styles.loading}>Laster</span> : children}
     </button>
   );
 }

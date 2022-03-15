@@ -75,7 +75,11 @@ class PodcastEditor extends Component<Props, *> {
             filter={['users.user']}
             component={SelectInput.AutocompleteField}
           />
-          <Button disabled={pristine || submitting} submit>
+          <Button
+            success={!this.props.new}
+            disabled={pristine || submitting}
+            submit
+          >
             {this.props.new ? 'Lag podcast' : 'Lagre podcast'}
           </Button>
           {this.props.initialValues.id && (

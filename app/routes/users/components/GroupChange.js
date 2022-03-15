@@ -75,7 +75,11 @@ class GroupChange extends Component<Props, State> {
           isClearable={false}
         />
         {this.state.selectedOption && (
-          <Button className={styles.saveButton} onClick={this.handleOnClick}>
+          <Button
+            className={styles.saveButton}
+            onClick={this.handleOnClick}
+            success
+          >
             Lagre endring
           </Button>
         )}
