@@ -1,17 +1,16 @@
 @import '~app/styles/variables.css';
 
 .button {
+  box-shadow: 1px 1px 3px 1px var(--color-gray-5);
   font-weight: 600;
-  background-color: var(--color-mono-gray-4);
-  background-image: linear-gradient(
+  background: linear-gradient(
     -180deg,
-    var(--color-mono-gray-5) 0%,
-    var(--color-mono-gray-4) 90%
+    var(--color-red-3) 0%,
+    var(--color-red-2) 90%
   );
   padding: 10px 20px;
-  color: var(--color-dark-gray-3);
+  color: var(--color-light-gray-4);
   outline: none;
-  border: 1px solid var(--color-mono-gray-3);
   border-radius: 4px;
   align-items: center;
   justify-content: center;
@@ -23,6 +22,8 @@
 
   &:disabled {
     color: var(--color-dark-mono-gray-4);
+    background: var(--color-mono-gray-2);
+    box-shadow: initial;
   }
 
   + .button {
@@ -40,6 +41,15 @@
 
   > a {
     color: var(--color-dark-gray-3);
+  }
+}
+/* stylelint-disable no-descending-specificity */
+html[data-theme='dark'] .button {
+  box-shadow: 1px 1px 3px 1px var(--color-gray-1);
+  color: var(--color-dark-gray-2);
+
+  &:disabled {
+    color: var(--color-mono-gray-5);
   }
 }
 
