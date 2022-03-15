@@ -20,6 +20,7 @@ const ImageComponent = (props: Props) => {
     props.placeholder || EMPTY_IMAGE
   );
   const [imageLoaded, setImageLoaded] = useState<boolean>(false);
+  const [imageError, setImageError] = useState<boolean>(false);
   const [loadStart, setLoadStart] = useState<number>(0);
   const [loadEnd, setLoadEnd] = useState<number>(0);
 
@@ -34,6 +35,7 @@ const ImageComponent = (props: Props) => {
   useEffect(() => {
     if (isProgressive) {
       setImageLoaded(false);
+      setImageError(false);
       setLoadStart(Date.now());
     }
     const image = new Image();
@@ -42,6 +44,9 @@ const ImageComponent = (props: Props) => {
       setImageLoaded(true);
       setLoadEnd(Date.now());
       setProgressiveSrc(src);
+    };
+    image.onerror = () => {
+      setImageError(true);
     };
   }, [isProgressive, src]);
 
@@ -55,7 +60,7 @@ const ImageComponent = (props: Props) => {
     styles.image,
     !skipTransition && styles.finalImage,
     className,
-    !imageLoaded && isProgressive && styles.blur
+    !imageLoaded && !imageError && isProgressive && styles.blur
   );
 
   if (!src)
