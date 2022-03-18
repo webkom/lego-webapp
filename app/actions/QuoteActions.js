@@ -1,13 +1,13 @@
 // @flow
 
+import callAPI from 'app/actions/callAPI';
+import { addToast } from 'app/actions/ToastActions';
+import type { ID } from 'app/models';
+import { quoteSchema } from 'app/reducers';
+import type { Thunk } from 'app/types';
 import { push } from 'connected-react-router';
 import { startSubmit, stopSubmit } from 'redux-form';
-import { quoteSchema } from 'app/reducers';
-import callAPI from 'app/actions/callAPI';
 import { Quote } from './ActionTypes';
-import { addToast } from 'app/actions/ToastActions';
-import type { Thunk } from 'app/types';
-import type { ID } from 'app/models';
 
 const getEndpoint = (state, loadNextPage, queryString) => {
   const pagination = state.quotes.pagination;
@@ -38,6 +38,9 @@ export const fetchAll =
     const endpoint = getEndpoint(getState(), loadNextPage, queryString);
     if (!endpoint) {
       return Promise.resolve(null);
+    }
+    if (!loadNextPage) {
+      dispatch({ type: Quote.CLEAR });
     }
     return dispatch(
       callAPI({
