@@ -215,6 +215,7 @@ export const Quote = {
   UNAPPROVE: (generateStatuses('Quote.UNAPPROVE'): AAT),
   DELETE: (generateStatuses('Quote.DELETE'): AAT),
   ADD: (generateStatuses('Quote.ADD'): AAT),
+  CLEAR: 'Quote.CLEAR',
 };
 
 /**

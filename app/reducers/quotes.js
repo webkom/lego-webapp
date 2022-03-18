@@ -1,13 +1,14 @@
 // @flow
 
-import { Quote } from '../actions/ActionTypes';
-import createEntityReducer from 'app/utils/createEntityReducer';
-import { createSelector } from 'reselect';
-import { mutateReactions, type ReactionEntity } from 'app/reducers/reactions';
-import joinReducers from 'app/utils/joinReducers';
 import type { ID } from 'app/models';
-
+import type { ReactionEntity } from 'app/reducers/reactions';
+import { mutateReactions } from 'app/reducers/reactions';
+import type { Action } from 'app/types';
+import createEntityReducer from 'app/utils/createEntityReducer';
+import joinReducers from 'app/utils/joinReducers';
 import { produce } from 'immer';
+import { createSelector } from 'reselect';
+import { Quote } from '../actions/ActionTypes';
 
 export type QuoteEntity = {
   id: ID,
@@ -21,6 +22,16 @@ export type QuoteEntity = {
 };
 
 type State = any;
+
+const quotesInitialState = {
+  actionGrant: [],
+  pagination: {},
+  paginationNext: {},
+  byId: {},
+  items: [],
+  hasMore: false,
+  fetching: false,
+};
 
 const mutateQuote = produce((newState: State, action: any): void => {
   switch (action.type) {
@@ -43,7 +54,20 @@ const mutateQuote = produce((newState: State, action: any): void => {
 
 const mutate = joinReducers(mutateReactions('quotes'), mutateQuote);
 
-export default createEntityReducer({
+const quotesStateReducer = (state = quotesInitialState, action: Action) => {
+  switch (action.type) {
+    case Quote.CLEAR:
+      return {
+        ...state,
+        items: [],
+        byId: {},
+      };
+    default:
+      return state;
+  }
+};
+
+const quotesEntityReducer = createEntityReducer({
   key: 'quotes',
   types: {
     fetch: [Quote.FETCH, Quote.FETCH_RANDOM],
@@ -52,6 +76,11 @@ export default createEntityReducer({
   },
   mutate,
 });
+
+const quotesReducer = (state: State, action: Action) =>
+  joinReducers(quotesEntityReducer, quotesStateReducer)(state, action);
+
+export default quotesReducer;
 
 const compareByDate = (a, b) => {
   const date1 = new Date(a.createdAt);
