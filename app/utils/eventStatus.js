@@ -20,7 +20,7 @@ const eventStatus = (
 
   const future = moment().isBefore(activationTime);
 
-  switch (eventStatusType) {
+  switch (eventStatusType?.value) {
     case 'TBA':
       return 'Mer info kommer';
     case 'OPEN':
@@ -44,7 +44,7 @@ const eventStatus = (
       if (future) {
         return `Åpner ${moment(activationTime).format('dddd D MMM HH:mm')}`;
       }
-      if (eventStatusType === 'INFINITE') {
+      if (eventStatusType?.value === 'INFINITE') {
         return 'Åpent med påmelding';
       }
       return isPill ? false : `${registrationCount}/${totalCapacity} påmeldte`;

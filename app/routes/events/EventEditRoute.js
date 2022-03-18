@@ -17,7 +17,11 @@ import {
   selectWaitingRegistrationsForEvent,
 } from 'app/reducers/events';
 import { LoginPage } from 'app/components/LoginForm';
-import { transformEvent } from './utils';
+import {
+  transformEvent,
+  transformEventStatusType,
+  EVENT_CONSTANTS,
+} from './utils';
 import time from 'app/utils/time';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import moment from 'moment-timezone';
@@ -53,6 +57,13 @@ const mapStateToProps = (state, props) => {
         label: event.responsibleGroup.name,
         value: event.responsibleGroup.id,
       },
+      eventType: event.eventType && {
+        label: EVENT_CONSTANTS[event.eventType],
+        value: event.eventType,
+      },
+      eventStatusType:
+        event.eventStatusType &&
+        transformEventStatusType(event.eventStatusType),
       mazemapPoi: event.mazemapPoi && {
         label: event.location, //if mazemapPoi has a value, location will be its displayname
         value: event.mazemapPoi,

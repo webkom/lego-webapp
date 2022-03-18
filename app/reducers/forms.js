@@ -13,7 +13,7 @@ export default formReducer.plugin({
           return state;
         }
 
-        switch (action.payload) {
+        switch (action.payload?.value) {
           case 'INFINITE':
             return {
               ...state,

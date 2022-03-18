@@ -24,7 +24,12 @@ import {
   legoForm,
 } from 'app/components/Form';
 import { Flex } from 'app/components/Layout';
-import { addStripeFee, EVENT_CONSTANTS, colorForEvent } from '../../utils';
+import {
+  addStripeFee,
+  EVENT_CONSTANTS,
+  colorForEvent,
+  eventStatusTypes,
+} from '../../utils';
 import Admin from '../Admin';
 import {
   Content,
@@ -105,13 +110,6 @@ function EventEditor({
 
   const tooLow = (value) =>
     value && value <= 3 ? `Summen må være større enn 3 kr` : undefined;
-
-  const eventStatusType = [
-    { value: 'TBA', label: 'Ikke bestemt (TBA)' },
-    { value: 'NORMAL', label: 'Vanlig påmelding (med pools)' },
-    { value: 'OPEN', label: 'Åpen (uten påmelding)' },
-    { value: 'INFINITE', label: 'Åpen (med påmelding)' },
-  ];
 
   const color = colorForEvent(event.eventType);
 
@@ -260,10 +258,12 @@ function EventEditor({
               name="eventStatusType"
               component={SelectInput.Field}
               fieldClassName={styles.metaField}
-              options={eventStatusType}
+              options={eventStatusTypes}
               simpleValue
             />
-            {['NORMAL', 'OPEN', 'INFINITE'].includes(event.eventStatusType) && (
+            {['NORMAL', 'OPEN', 'INFINITE'].includes(
+              event.eventStatusType && event.eventStatusType.value
+            ) && (
               <Field
                 label="Bruk mazemap"
                 name="useMazemap"
@@ -277,7 +277,9 @@ function EventEditor({
                 normalize={(v) => !!v}
               />
             )}
-            {['NORMAL', 'OPEN', 'INFINITE'].includes(event.eventStatusType) &&
+            {['NORMAL', 'OPEN', 'INFINITE'].includes(
+              event.eventStatusType && event.eventStatusType.value
+            ) &&
               !useMazemap && (
                 <Field
                   label="Sted"
@@ -289,7 +291,9 @@ function EventEditor({
                   warn={isTBA}
                 />
               )}
-            {['NORMAL', 'OPEN', 'INFINITE'].includes(event.eventStatusType) &&
+            {['NORMAL', 'OPEN', 'INFINITE'].includes(
+              event.eventStatusType && event.eventStatusType.value
+            ) &&
               useMazemap && (
                 <Flex alignItems="flex-end">
                   <Field
@@ -307,7 +311,9 @@ function EventEditor({
                   )}
                 </Flex>
               )}
-            {['NORMAL', 'INFINITE'].includes(event.eventStatusType) && (
+            {['NORMAL', 'INFINITE'].includes(
+              event.eventStatusType && event.eventStatusType.value
+            ) && (
               <Field
                 label="Betalt arrangement"
                 name="isPriced"
@@ -373,7 +379,9 @@ function EventEditor({
                 />
               </div>
             )}
-            {['NORMAL', 'INFINITE'].includes(event.eventStatusType) && (
+            {['NORMAL', 'INFINITE'].includes(
+              event.eventStatusType && event.eventStatusType.value
+            ) && (
               <Field
                 label="Bruk prikker"
                 name="heedPenalties"
@@ -383,7 +391,9 @@ function EventEditor({
                 normalize={(v) => !!v}
               />
             )}
-            {['NORMAL', 'INFINITE'].includes(event.eventStatusType) &&
+            {['NORMAL', 'INFINITE'].includes(
+              event.eventStatusType && event.eventStatusType.value
+            ) &&
               event.heedPenalties && (
                 <div className={styles.subSection}>
                   <Tooltip content="Frist for avmelding – fører til prikk etterpå">
@@ -398,7 +408,9 @@ function EventEditor({
                   </Tooltip>
                 </div>
               )}
-            {['NORMAL', 'INFINITE'].includes(event.eventStatusType) && (
+            {['NORMAL', 'INFINITE'].includes(
+              event.eventStatusType && event.eventStatusType.value
+            ) && (
               <Tooltip content="Separate frister for påmelding og avmelding - antall timer før arrangementet. Det vil ikke være mulig å melde seg av eller på etter de satte fristene (negativ verdi betyr antall timer etter starten på arrangementet)">
                 <Field
                   label="Separat avregistregistreringsfrist"
@@ -410,7 +422,9 @@ function EventEditor({
                 />
               </Tooltip>
             )}
-            {['NORMAL', 'INFINITE'].includes(event.eventStatusType) &&
+            {['NORMAL', 'INFINITE'].includes(
+              event.eventStatusType && event.eventStatusType.value
+            ) &&
               event.separateDeadlines && (
                 <div className={styles.subSection}>
                   <Tooltip content="Frist for avmelding antall timer før arrangementet (negativ verdi betyr antall timer etter starten på arrangementet)">
@@ -426,7 +440,9 @@ function EventEditor({
                   </Tooltip>
                 </div>
               )}
-            {['NORMAL', 'INFINITE'].includes(event.eventStatusType) && (
+            {['NORMAL', 'INFINITE'].includes(
+              event.eventStatusType && event.eventStatusType.value
+            ) && (
               <Tooltip content="Frist for påmelding/avmelding - antall timer før arrangementet. Det er ikke mulig å melde seg hverken på eller av etter denne fristen (negativ verdi betyr antall timer etter starten på arrangementet)">
                 <Field
                   key="registrationDeadlineHours"
@@ -443,7 +459,9 @@ function EventEditor({
                 </p>
               </Tooltip>
             )}
-            {['NORMAL', 'INFINITE'].includes(event.eventStatusType) && (
+            {['NORMAL', 'INFINITE'].includes(
+              event.eventStatusType && event.eventStatusType.value
+            ) && (
               <Tooltip content="Bruk samtykke til bilder">
                 <Field
                   label="Samtykke til bilder"
@@ -455,7 +473,9 @@ function EventEditor({
                 />
               </Tooltip>
             )}
-            {['NORMAL', 'INFINITE'].includes(event.eventStatusType) && (
+            {['NORMAL', 'INFINITE'].includes(
+              event.eventStatusType && event.eventStatusType.value
+            ) && (
               <Tooltip content="Navn, telefonnummer og epost kan deles med folk utenfor Abakus til smittesporing. Dersom informasjonen skal kunne deles med andre enn FHI og NTNU, må dette spesifiseres i beskrivelsen.">
                 <Field
                   label="Informasjon kan deles til smittesporing"
@@ -468,7 +488,9 @@ function EventEditor({
                 />
               </Tooltip>
             )}
-            {['NORMAL', 'INFINITE'].includes(event.eventStatusType) && (
+            {['NORMAL', 'INFINITE'].includes(
+              event.eventStatusType && event.eventStatusType.value
+            ) && (
               <Tooltip content="Et spørsmål alle må svare på før de melder seg på">
                 <Field
                   name="feedbackRequired"
@@ -480,7 +502,9 @@ function EventEditor({
                 />
               </Tooltip>
             )}
-            {['NORMAL', 'INFINITE', 'OPEN'].includes(event.eventStatusType) &&
+            {['NORMAL', 'INFINITE', 'OPEN'].includes(
+              event.eventStatusType && event.eventStatusType.value
+            ) &&
               event.feedbackRequired && (
                 <div className={styles.subSection}>
                   <Field
@@ -492,7 +516,9 @@ function EventEditor({
                   />
                 </div>
               )}
-            {['NORMAL', 'INFINITE'].includes(event.eventStatusType) && (
+            {['NORMAL', 'INFINITE'].includes(
+              event.eventStatusType && event.eventStatusType.value
+            ) && (
               <Flex column>
                 <h3>Pools</h3>
                 <ModalParentComponent
@@ -508,7 +534,7 @@ function EventEditor({
                     name="pools"
                     component={renderPools}
                     startTime={event.startTime}
-                    eventStatusType={event.eventStatusType}
+                    eventStatusType={event.eventStatusType?.value}
                   />
                 </div>
                 {pools && pools.length > 1 && (
