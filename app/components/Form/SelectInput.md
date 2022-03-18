@@ -29,7 +29,7 @@ const options = [
     placeholder="Autocomplete users"
     label="Autocomplete users"
     component={SelectInput.AutocompleteField}
-    multi
+    isMulti
   />
 
   <Field
@@ -38,7 +38,7 @@ const options = [
     placeholder="Autocomplete groups"
     label="Autocomplete groups"
     component={SelectInput.AutocompleteField}
-    multi
+    isMulti
   />
 
   <Field

@@ -134,7 +134,7 @@ class EditPollForm extends Component<Props, *> {
             filter={['tags.tag']}
             placeholder="Skriv inn tags"
             component={SelectInput.AutocompleteField}
-            multi
+            isMulti
             tags
             shouldKeyDownEventCreateNewOption={({
               keyCode,
