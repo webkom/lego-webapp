@@ -90,13 +90,34 @@ type State = {
   filterEventTypesSettings: Object,
 };
 
+const filterRegDateOptions: Array<Option> = [
+  {
+    filterRegDateFunc: (event) => !!event,
+    label: 'Vis alle',
+    value: 'Vis alle',
+    field: EVENTFIELDS.start,
+  },
+  {
+    filterRegDateFunc: (event) =>
+      event.activationTime != null &&
+      moment(event.activationTime).isBefore(moment()),
+    label: 'P\xe5melding \xe5pnet',
+    value: 'P\xe5melding \xe5pnet',
+    field: EVENTFIELDS.start,
+  },
+  {
+    filterRegDateFunc: (event) =>
+      event.activationTime != null &&
+      moment(event.activationTime).isAfter(moment()),
+    label: '\xc5pner i fremtiden',
+    value: '\xc5pner i fremtiden',
+    field: EVENTFIELDS.activate,
+  },
+];
+
 class EventList extends Component<EventListProps, State> {
   state = {
-    selectedOption: {
-      filterRegDateFunc: (event: Event) => true,
-      label: 'Vis alle',
-      field: EVENTFIELDS.start,
-    },
+    selectedOption: filterRegDateOptions[0],
     filterEventTypesSettings: {
       showCompanyPresentation: false,
       showCourse: false,
@@ -155,28 +176,6 @@ class EventList extends Component<EventListProps, State> {
       field: field,
     });
 
-    const filterRegDateoptions = [
-      {
-        filterRegDateFunc: (event) => event,
-        label: 'Vis alle',
-        field: EVENTFIELDS.start,
-      },
-      {
-        filterRegDateFunc: (event) =>
-          event.activationTime != null &&
-          event.activationTime.isBefore(moment()),
-        label: 'P\xe5melding \xe5pnet',
-        field: EVENTFIELDS.start,
-      },
-      {
-        filterRegDateFunc: (event) =>
-          event.activationTime != null &&
-          event.activationTime.isAfter(moment()),
-        label: '\xc5pner i fremtiden',
-        field: EVENTFIELDS.activate,
-      },
-    ];
-
     return (
       <div className={styles.root}>
         <Helmet title="Arrangementer" />
@@ -232,10 +231,8 @@ class EventList extends Component<EventListProps, State> {
             value={this.state.selectedOption}
             onChange={this.handleChange}
             className={styles.select}
-            options={filterRegDateoptions}
-            clearable={false}
-            backspaceRemoves={false}
-            deleteRemoves={false}
+            options={filterRegDateOptions}
+            isClearable={false}
           />
         </div>
         <EventListGroup

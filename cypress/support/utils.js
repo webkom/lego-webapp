@@ -8,7 +8,14 @@ export const field = (name) => cy.get(`[name="${name}"]`);
 
 // Used for react-select elements that cannot be found with the normal field method
 export const selectField = (name) =>
-  cy.get(`[id="react-select-${name}--value"]`).parent().parent();
+  cy
+    .get(`[id="react-select-${name}-input"]`)
+    .parent()
+    .parent()
+    .parent()
+    .parent();
+export const selectFieldDropdown = (name) =>
+  selectField(name).find(`[id=react-select-${name}-listbox]`);
 
 export const fieldError = (name) => cy.get(`[data-error-field-name="${name}"`);
 

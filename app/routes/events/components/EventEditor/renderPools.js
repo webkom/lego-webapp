@@ -61,7 +61,7 @@ const renderPools = ({ fields, startTime, eventStatusType }: poolProps) => (
           fieldClassName={styles.metaField}
           filter={['users.abakusgroup']}
           component={SelectInput.AutocompleteField}
-          multi
+          isMulti
         />
         {['NORMAL'].includes(eventStatusType) && (
           <div className={styles.centeredButton}>

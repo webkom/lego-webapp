@@ -89,7 +89,7 @@ const RestrictedMailEditor = ({
         disabled={restrictedMailId}
         label="Brukere"
         name="users"
-        multi
+        isMulti
         placeholder="Brukere du ønsker å sende epost til"
         filter={['users.user']}
         component={SelectInput.AutocompleteField}
@@ -98,7 +98,7 @@ const RestrictedMailEditor = ({
         disabled={restrictedMailId}
         label="Grupper"
         name="groups"
-        multi
+        isMulti
         placeholder="Grupper du ønsker å sende epost til"
         filter={['users.abakusgroup']}
         component={SelectInput.AutocompleteField}
@@ -107,7 +107,7 @@ const RestrictedMailEditor = ({
         disabled={restrictedMailId}
         label="Arrangementer"
         name="events"
-        multi
+        isMulti
         placeholder="Arrangementer du ønsker å sende epost til"
         filter={['events.event']}
         component={SelectInput.AutocompleteField}
@@ -116,7 +116,7 @@ const RestrictedMailEditor = ({
         disabled={restrictedMailId}
         label="Møter"
         name="meetings"
-        multi
+        isMulti
         placeholder="Møter du ønsker å sende epost til"
         filter={['meetings.meeting']}
         component={SelectInput.AutocompleteField}
@@ -128,7 +128,7 @@ const RestrictedMailEditor = ({
         placeholder="Enkelte eposter du ønsker å sende til"
         component={SelectInput.Field}
         tags
-        multi
+        isMulti
         isValidNewOption={({ label }: { label: string }) => isEmail()(label)[0]}
         shouldKeyDownEventCreateNewOption={({ keyCode }: { keyCode: number }) =>
           keyCode === 32 || keyCode === 13

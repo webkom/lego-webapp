@@ -1,5 +1,5 @@
 // @flow
-import { pick, sumBy } from 'lodash';
+import { pick, sumBy, find } from 'lodash';
 import moment from 'moment-timezone';
 import type { TransformEvent, Event, EventType, AddPenalty } from 'app/models';
 
@@ -95,14 +95,16 @@ const calculatePrice = (data) => {
  * @param eventStatusType: what kind of registrationmode this event has
  */
 const calculateLocation = (data) => {
-  if (data.eventStatusType === 'TBA') return 'TBA';
+  console.log(data);
+  if (data.eventStatusType && data.eventStatusType.value === 'TBA')
+    return 'TBA';
   if (data.useMazemap) return data.mazemapPoi.label;
   return data.location;
 };
 
 const calculateMazemapPoi = (data) => {
   if (
-    data.eventStatusType === 'TBA' ||
+    data.eventStatusType?.value === 'TBA' ||
     !data.useMazemap ||
     data.mazemapPoi.value == ''
   ) {
@@ -116,7 +118,7 @@ const calculateMazemapPoi = (data) => {
  * @param pools: the event groups as specified by the CreateEvent forms
  */
 const calculatePools = (data) => {
-  switch (data.eventStatusType) {
+  switch (data.eventStatusType?.value) {
     case 'TBA':
     case 'OPEN':
       return [];
@@ -173,7 +175,8 @@ export const transformEvent = (data: TransformEvent) => ({
   endTime: moment(data.endTime).toISOString(),
   mergeTime: calculateMergeTime(data),
   company: data.company && data.company.value,
-  eventStatusType: data.eventStatusType,
+  eventStatusType: data.eventStatusType && data.eventStatusType.value,
+  eventType: data.eventType && data.eventType.value,
   responsibleGroup: data.responsibleGroup && data.responsibleGroup.value,
   priceMember: calculatePrice(data),
   location: calculateLocation(data),
@@ -235,4 +238,16 @@ export const penaltyHours = (penalties: Array<AddPenalty>) => {
     default:
       return -1;
   }
+};
+export const eventStatusTypes = [
+  { value: 'TBA', label: 'Ikke bestemt (TBA)' },
+  { value: 'NORMAL', label: 'Vanlig påmelding (med pools)' },
+  { value: 'OPEN', label: 'Åpen (uten påmelding)' },
+  { value: 'INFINITE', label: 'Åpen (med påmelding)' },
+];
+
+export const transformEventStatusType = (eventStatusType: string) => {
+  return (
+    find(eventStatusTypes, { value: eventStatusType }) || eventStatusTypes[0]
+  );
 };

@@ -274,23 +274,31 @@ const Results = ({
                         onChange={(selectedType) =>
                           switchGraph(question.id, index, selectedType)
                         }
-                        optionComponent={(props) => {
-                          return QuestionTypeOption(
-                            props,
-                            graphTypeToIcon[props.option && props.option.value],
-                            'fa fa-'
-                          );
+                        components={{
+                          Option: (props: any) => {
+                            const value = props.data.value;
+                            return (
+                              <QuestionTypeOption
+                                iconName={graphTypeToIcon[value]}
+                                prefix="fa fa-"
+                                {...props}
+                              />
+                            );
+                          },
+                          SingleValue: (props: any) => {
+                            const value = props.data.value;
+                            return (
+                              <QuestionTypeValue
+                                iconName={graphTypeToIcon[value]}
+                                prefix="fa fa-"
+                                {...props}
+                              />
+                            );
+                          },
                         }}
-                        valueComponent={(props) =>
-                          QuestionTypeValue(
-                            props,
-                            graphTypeToIcon[props.value && props.value.value],
-                            'fa fa-'
-                          )
-                        }
-                        clearable={false}
+                        isClearable={false}
                         backspaceRemoves={false}
-                        searchable={false}
+                        isSearchable={false}
                         onBlur={() => null}
                         style={{ paddingTop: '7px' }}
                       />

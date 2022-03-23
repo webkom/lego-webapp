@@ -224,7 +224,7 @@ class GalleryEditor extends Component<Props, State> {
             filter={['users.user']}
             placeholder="Skriv inn navn på fotografer"
             component={SelectInput.AutocompleteField}
-            multi
+            isMulti
           />
           <Field
             name="event"

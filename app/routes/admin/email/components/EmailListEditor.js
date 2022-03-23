@@ -42,7 +42,7 @@ const EmailListEditor = ({ submitting, handleSubmit, emailListId }: Props) => (
     <Field
       label="Brukere"
       name="users"
-      multi
+      isMulti
       placeholder="Inviter en ny bruker"
       filter={['users.user']}
       component={SelectInput.AutocompleteField}
@@ -50,7 +50,7 @@ const EmailListEditor = ({ submitting, handleSubmit, emailListId }: Props) => (
     <Field
       label="Grupper"
       name="groups"
-      multi
+      isMulti
       placeholder="Inviter en ny bruker"
       filter={['users.abakusgroup']}
       component={SelectInput.AutocompleteField}
@@ -58,7 +58,7 @@ const EmailListEditor = ({ submitting, handleSubmit, emailListId }: Props) => (
     <Field
       label="Roller (hvis du lar denne stå tom betyr det at alle medlemmene i gruppene får mail!)"
       name="groupRoles"
-      multi
+      isMulti
       placeholder="Velg rolle"
       options={roleOptions}
       component={SelectInput.Field}
@@ -79,7 +79,7 @@ const EmailListEditor = ({ submitting, handleSubmit, emailListId }: Props) => (
         name="additionalEmails"
         placeholder="Skriv inn e-post her"
         component={SelectInput.Field}
-        multi
+        isMulti
         tags
       />
     </Tooltip>

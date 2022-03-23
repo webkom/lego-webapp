@@ -9,7 +9,11 @@ import {
   selectPoolsWithRegistrationsForEvent,
 } from 'app/reducers/events';
 import { LoginPage } from 'app/components/LoginForm';
-import { transformEvent } from './utils';
+import {
+  transformEvent,
+  transformEventStatusType,
+  EVENT_CONSTANTS,
+} from './utils';
 import time from 'app/utils/time';
 import prepare from 'app/utils/prepare';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
@@ -65,7 +69,7 @@ const mapStateToProps = (state, props) => {
       description: '',
       text: '',
       eventType: '',
-      eventStatusType: 'TBA',
+      eventStatusType: { value: 'TBA', label: 'Ikke bestemt(TBA)' },
       company: null,
       responsibleGroup: null,
       location: '',
@@ -128,6 +132,13 @@ const mapStateToProps = (state, props) => {
         label: eventTemplate.responsibleGroup.name,
         value: eventTemplate.responsibleGroup.id,
       },
+      eventType: eventTemplate.eventType && {
+        label: EVENT_CONSTANTS[eventTemplate.eventType],
+        value: eventTemplate.eventType,
+      },
+      eventStatusType:
+        eventTemplate.eventStatusType &&
+        transformEventStatusType(eventTemplate.eventStatusType),
     },
     actionGrant,
     ...selectedValues,

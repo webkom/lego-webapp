@@ -128,6 +128,7 @@ class CompanyInterestList extends Component<Props, State> {
 
     const options = [
       {
+        value: 9999,
         year: 9999,
         semester: '',
         label: 'Vis alle semestre',
@@ -136,6 +137,7 @@ class CompanyInterestList extends Component<Props, State> {
         let { id, year, semester } = semesterObj;
         return {
           id,
+          value: year,
           year,
           semester,
           label: semesterToText({ ...semesterObj, language: 'norwegian' }),
@@ -165,7 +167,7 @@ class CompanyInterestList extends Component<Props, State> {
               value={this.props.selectedOption}
               onChange={this.handleChange}
               options={options}
-              clearable={false}
+              isClearable={false}
             />
           </Flex>
           <Link to="/companyInterest/semesters" className={styles.link}>
