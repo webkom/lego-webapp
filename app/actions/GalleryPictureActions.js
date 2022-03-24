@@ -172,3 +172,13 @@ export function uploadAndCreateGalleryPicture(
     return uploadGalleryPicturesInTurn(files, galleryId, dispatch);
   };
 }
+
+export function clear(galleryId: number): Thunk<any> {
+  return (dispatch) =>
+    dispatch({
+      type: GalleryPicture.CLEAR,
+      meta: {
+        id: galleryId,
+      },
+    });
+}

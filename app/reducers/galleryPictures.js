@@ -91,6 +91,24 @@ function mutateGalleryPicture(state: any, action: any) {
         },
       };
     }
+    case GalleryPicture.CLEAR: {
+      const newById = Object.fromEntries(
+        // Not using Object.entries() since flow will complain...
+        Object.keys(state.byId)
+          .map((key) => [key, state.byId[key]])
+          .filter(([_, v: GalleryPictureEntity]) => {
+            return v.gallery !== action.meta.id;
+          })
+      );
+      const newItems = Object.keys(newById).map((id) => parseInt(id));
+      return {
+        ...state,
+        byId: newById,
+        items: newItems,
+        pagination: {},
+        paginationNext: {},
+      };
+    }
     default:
       return state;
   }

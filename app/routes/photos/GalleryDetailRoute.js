@@ -10,6 +10,7 @@ import loadingIndicator from 'app/utils/loadingIndicator';
 import prepare from 'app/utils/prepare';
 import {
   fetch,
+  clear,
   uploadAndCreateGalleryPicture,
 } from 'app/actions/GalleryPictureActions';
 import { push } from 'connected-react-router';
@@ -69,7 +70,12 @@ const propertyGenerator = (props, config) => {
   ];
 };
 
-const mapDispatchToProps = { push, fetch, uploadAndCreateGalleryPicture };
+const mapDispatchToProps = {
+  push,
+  fetch,
+  clear,
+  uploadAndCreateGalleryPicture,
+};
 
 function metadataHelper<Props>() {
   return (ActualComponent) => {

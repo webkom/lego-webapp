@@ -97,6 +97,7 @@ export const GalleryPicture = {
   EDIT: (generateStatuses('GalleryPicture.EDIT'): AAT),
   DELETE: (generateStatuses('GalleryPicture.DELETE'): AAT),
   UPLOAD: (generateStatuses('GalleryPicture.UPLOAD'): AAT),
+  CLEAR: 'GalleryPicture.CLEAR',
 };
 
 /**
