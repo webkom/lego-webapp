@@ -39,6 +39,7 @@
   right: 10px;
   font-size: 42px;
   padding: 0;
+  color: var(--color-black);
 }
 
 .confirmContainer {
