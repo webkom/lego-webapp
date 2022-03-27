@@ -247,6 +247,11 @@ const committeeEmails = [
     logo: 'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_arrkom.png',
   },
   {
+    recipient: 'Bankkom',
+    email: 'bankkom@abakus.no',
+    logo: 'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_bankkom.png',
+  },
+  {
     recipient: 'Bedkom',
     email: 'bedkom@abakus.no',
     logo: 'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_bedkom.png',
