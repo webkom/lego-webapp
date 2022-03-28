@@ -119,6 +119,18 @@ const searchMapping = {
     icon: (group) => (group.profilePicture ? null : 'people'),
     color: '#000000',
   },
+  'meetings.meeting': {
+    label: (meeting) =>
+      `${meeting.title} (${moment(meeting.startTime).format('YYYY-MM-DD')})`,
+    title: 'title',
+    type: 'Møte',
+    date: 'startTime',
+    icon: 'calendar',
+    color: '#000000',
+    path: '/meetings/',
+    value: 'id',
+    content: (item) => item['description'],
+  },
 };
 
 type State = typeof initialState;
