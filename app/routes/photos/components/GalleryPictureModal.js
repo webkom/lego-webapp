@@ -246,6 +246,7 @@ export default class GalleryPictureModal extends Component<Props, State> {
                 placement="bottom"
                 toggle={this.toggleDropdown}
                 className={styles.dropdown}
+                contentClassName={styles.dropdownContent}
                 iconName="more"
               >
                 <Dropdown.List>
