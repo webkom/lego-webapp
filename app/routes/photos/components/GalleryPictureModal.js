@@ -13,7 +13,7 @@ import { Link } from 'react-router-dom';
 import CommentView from 'app/components/Comments/CommentView';
 import Modal from 'app/components/Modal';
 import styles from './GalleryPictureModal.css';
-import { Swipeable, RIGHT, LEFT } from 'react-swipeable';
+import { useSwipeable, RIGHT, LEFT } from 'react-swipeable';
 import type { EntityID } from 'app/types';
 import type { ID } from 'app/models';
 import Button from 'app/components/Button';
@@ -110,6 +110,16 @@ const RenderGalleryPicture = ({
     </Button>
   </div>
 );
+
+function Swipeable(props: {
+  onSwiping: ({ dir: string }) => void,
+  children: any,
+}) {
+  const handlers = useSwipeable({
+    onSwiped: (eventData) => props.onSwiping(eventData),
+  });
+  return <div {...handlers}>{props.children}</div>;
+}
 
 export default class GalleryPictureModal extends Component<Props, State> {
   state = {
@@ -212,13 +222,13 @@ export default class GalleryPictureModal extends Component<Props, State> {
     const { showMore } = this.state;
 
     return (
-      <Swipeable onSwiping={this.handleSwipe}>
-        <Modal
-          onHide={() => push(`/photos/${gallery.id}`)}
-          show
-          backdrop
-          contentClassName={styles.content}
-        >
+      <Modal
+        onHide={() => push(`/photos/${gallery.id}`)}
+        show
+        backdrop
+        contentClassName={styles.content}
+      >
+        <Swipeable onSwiping={this.handleSwipe}>
           <OnKeyDownHandler handler={this.handleKeyDown} />
           <Content className={styles.topContent}>
             <Flex
@@ -347,8 +357,8 @@ export default class GalleryPictureModal extends Component<Props, State> {
               </Flex>
             )}
           </Content>
-        </Modal>
-      </Swipeable>
+        </Swipeable>
+      </Modal>
     );
   }
 }
