@@ -3,11 +3,15 @@
 import type { Node } from 'react';
 import cx from 'classnames';
 import styles from './ContentHeader.css';
+import { eventTypeToString } from 'app/routes/events/utils';
+import type { Event } from 'app/models';
 
 type Props = {
   className?: string,
   borderColor?: string,
   children: Node,
+  event?: Event,
+  color: string,
 };
 
 const DEFAULT_BORDER_COLOR = '#FCD748';
@@ -19,16 +23,23 @@ function ContentHeader({
   children,
   className,
   borderColor = DEFAULT_BORDER_COLOR,
+  event,
+  color,
   ...props
 }: Props) {
   return (
-    <h2
+    <div
       style={{ borderColor }}
       className={cx(styles.header, className)}
       {...(props: Object)}
     >
-      {children}
-    </h2>
+      <h2>{children}</h2>
+      {event && (
+        <strong style={{ color: borderColor }}>
+          {eventTypeToString(event.eventType)}
+        </strong>
+      )}
+    </div>
   );
 }
 

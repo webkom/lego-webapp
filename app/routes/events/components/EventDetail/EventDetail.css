@@ -21,3 +21,14 @@
 .paymentInfo {
   margin-top: 10px;
 }
+
+.line {
+  margin: 18px 0;
+  background-color: var(--color-gray-5);
+  height: 1px;
+}
+
+.simulateLink {
+  color: var(--lego-link-color);
+  cursor: pointer;
+}

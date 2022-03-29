@@ -18,9 +18,7 @@ import InfoList from 'app/components/InfoList';
 import { Flex } from 'app/components/Layout';
 import Tooltip from 'app/components/Tooltip';
 import {
-  eventTypeToString,
   colorForEvent,
-  registrationCloseTime,
   unregistrationCloseTime,
   penaltyHours,
 } from '../../utils';
@@ -111,7 +109,16 @@ type Props = {
   currentUserFollowing: ?FollowerItem,
 };
 
-export default class EventDetail extends Component<Props> {
+type State = { mapIsOpen: boolean };
+
+export default class EventDetail extends Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      mapIsOpen: false,
+    };
+  }
+
   handleRegistration = ({ captchaResponse, feedback, type }: Object) => {
     const {
       eventId,
@@ -186,23 +193,37 @@ export default class EventDetail extends Component<Props> {
       'hours'
     );
 
-    const infoItems: Array<?{ key: string, value: Node }> = [
-      event.company && {
-        key: 'Arrangerende bedrift',
-        value: (
-          <Link to={`/companies/${event.company.id}`}>
-            {event.company.name}
-          </Link>
-        ),
-      },
-      event.createdBy && {
-        key: 'Forfatter',
-        value: (
-          <Link to={`/users/${event.createdBy.username}`}>
-            {event.createdBy.fullName}
-          </Link>
-        ),
-      },
+    const deadlines: Array<?{ key: string, value: Node }> = [
+      event.activationTime
+        ? {
+            key: 'Påmelding åpner',
+            value: <FormatTime time={eventRegistrationTime} />,
+          }
+        : null,
+      event.heedPenalties &&
+      event.unregistrationDeadline &&
+      !['OPEN', 'TBA'].includes(event.eventStatusType)
+        ? {
+            key: 'Frist for prikk',
+            value: <FormatTime time={event.unregistrationDeadline} />,
+          }
+        : null,
+      event.paymentDueDate
+        ? {
+            key: 'Betalingsfrist',
+            value: <FormatTime time={event.paymentDueDate} />,
+          }
+        : null,
+      event.unregistrationDeadlineHours &&
+      !['OPEN', 'TBA'].includes(event.eventStatusType)
+        ? {
+            value: <FormatTime time={unregistrationCloseTime(event)} />,
+            key: 'Avregistrering stengt',
+          }
+        : null,
+    ];
+
+    const eventCreator: Array<?{ key: string, value: Node }> = [
       event.responsibleGroup && {
         key: 'Arrangør',
         value: (
@@ -216,53 +237,14 @@ export default class EventDetail extends Component<Props> {
           </span>
         ),
       },
-      {
-        key: 'Hva',
-        value: eventTypeToString(event.eventType),
+      event.createdBy && {
+        key: 'Forfatter',
+        value: (
+          <Link to={`/users/${event.createdBy.username}`}>
+            {event.createdBy.fullName}
+          </Link>
+        ),
       },
-      {
-        key: 'Når',
-        value: <FromToTime from={event.startTime} to={event.endTime} />,
-      },
-      { key: 'Finner sted i', value: event.location },
-      event.activationTime
-        ? {
-            key: 'Påmelding åpner',
-            value: <FormatTime time={eventRegistrationTime} />,
-          }
-        : null,
-      event.registrationDeadlineHours &&
-      !['OPEN', 'TBA'].includes(event.eventStatusType)
-        ? {
-            value: <FormatTime time={registrationCloseTime(event)} />,
-            key: 'Påmelding stenger',
-          }
-        : null,
-      event.unregistrationDeadlineHours &&
-      !['OPEN', 'TBA'].includes(event.eventStatusType)
-        ? {
-            value: <FormatTime time={unregistrationCloseTime(event)} />,
-            key: 'Avregistrering stenger',
-          }
-        : null,
-      event.heedPenalties &&
-      event.unregistrationDeadline &&
-      !['OPEN', 'TBA'].includes(event.eventStatusType)
-        ? {
-            key: 'Avregistreringsfrist',
-            value: <FormatTime time={event.unregistrationDeadline} />,
-          }
-        : null,
-    ];
-
-    const paidItems: Array<?{ key: string, value: Node }> = [
-      { key: 'Pris', value: `${event.priceMember / 100},-` },
-      event.paymentDueDate
-        ? {
-            key: 'Betalingsfrist',
-            value: <FormatTime time={event.paymentDueDate} />,
-          }
-        : null,
     ];
 
     return (
@@ -278,6 +260,7 @@ export default class EventDetail extends Component<Props> {
             borderColor={color}
             onClick={loggedIn && onRegisterClick}
             className={styles.title}
+            event={event}
           >
             {loggedIn && (
               <InterestedButton isInterested={!!currentUserFollowing} />
@@ -295,26 +278,66 @@ export default class EventDetail extends Component<Props> {
               </Flex>
             </ContentMain>
             <ContentSidebar>
-              <InfoList items={infoItems} />
-              {event.isPriced && (
-                <div className={styles.paymentInfo}>
-                  <strong>Dette er et betalt arrangement</strong>
-                  <InfoList items={paidItems} />
+              {event.company && (
+                <div>
+                  <Icon
+                    name="briefcase-outline"
+                    style={{ marginRight: '10px' }}
+                  />
+                  <strong>
+                    <Link to={`/companies/${event.company.id}`}>
+                      {event.company.name}
+                    </Link>
+                  </strong>
                 </div>
               )}
+              <div>
+                <Icon name="time-outline" style={{ marginRight: 9 }} />
+                <strong>
+                  <FromToTime from={event.startTime} to={event.endTime} />
+                </strong>
+              </div>
+              {event.isPriced && (
+                <div style={{ marginLeft: 4, marginBottom: 7 }}>
+                  $
+                  <strong style={{ marginLeft: 12 }}>
+                    {event.priceMember / 100},-
+                  </strong>
+                </div>
+              )}
+              <div>
+                <Icon
+                  name="pin-outline"
+                  style={{ marginLeft: 2, marginRight: 8 }}
+                />
+                <strong>{' ' + event.location}</strong>
+              </div>
               {event.mazemapPoi && (
-                <MazemapEmbed mazemapPoi={event.mazemapPoi} />
+                <div>
+                  <div
+                    className={styles.simulateLink}
+                    onClick={() =>
+                      this.setState({ mapIsOpen: !this.state.mapIsOpen })
+                    }
+                  >
+                    {' '}
+                    Vis kart
+                  </div>
+                  {this.state.mapIsOpen && (
+                    <MazemapEmbed mazemapPoi={event.mazemapPoi} />
+                  )}
+                </div>
               )}
               {['OPEN', 'TBA'].includes(event.eventStatusType) ? (
                 <JoinEventForm event={event} />
               ) : (
                 <Flex column>
-                  <h3>Påmeldte</h3>
+                  <h3 style={{ marginTop: 12 }}>Påmeldte</h3>
                   {registrations ? (
                     <Fragment>
                       <UserGrid
-                        minRows={2}
-                        maxRows={2}
+                        minRows={1}
+                        maxRows={1}
                         users={registrations
                           .slice(0, 14)
                           .map((reg) => reg.user)}
@@ -401,6 +424,17 @@ export default class EventDetail extends Component<Props> {
                     </div>
                   )}
                 </Flex>
+              )}
+              <div className={styles.line} />
+              <InfoList style={{ marginBottom: '4px' }} items={deadlines} />
+              <div className={styles.line} />
+              <InfoList
+                style={{ paddingBottom: '24px' }}
+                items={eventCreator}
+              />
+              {(actionGrant.includes('edit') ||
+                actionGrant.includes('delete')) && (
+                <div className={styles.line} />
               )}
               <Flex column>
                 <Admin
