@@ -8565,10 +8565,10 @@ react-overlays@0.8.3:
     react-transition-group "^2.2.0"
     warning "^3.0.0"
 
-react-phone-number-input@^3.1.48:
-  version "3.1.48"
-  resolved "https://registry.yarnpkg.com/react-phone-number-input/-/react-phone-number-input-3.1.48.tgz#9144dbf6d1e862654fbdf0cc37d83bbc2c9e9705"
-  integrity sha512-tv//mJo8Ywrf2z4nm9KajfxX7lmsNxuT2n/V1g/6hojPnvTL4Fsp9/uX/q4Y47/AVftv6NZPylMIU5bRD2veHA==
+react-phone-number-input@^3.1.49:
+  version "3.1.49"
+  resolved "https://registry.yarnpkg.com/react-phone-number-input/-/react-phone-number-input-3.1.49.tgz#efe9750198f8191554000a36824d418216694f36"
+  integrity sha512-9ARBsCujCeazxZEbR+nCm4KGNMrNr26zXA/ClnyYF5U6qrdc9BynZfv8juf0u7pTTzEy6yqNc6C4T16UnUrWUA==
   dependencies:
     classnames "^2.2.5"
     country-flag-icons "^1.0.2"
