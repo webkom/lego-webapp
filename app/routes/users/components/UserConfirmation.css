@@ -4,3 +4,9 @@
   composes: contentContainer from '~app/styles/utilities.css';
   max-width: 500px;
 }
+
+.infoText {
+  color: var(--color-gray-light);
+  font-size: 0.9em;
+  line-height: 1.4em;
+}

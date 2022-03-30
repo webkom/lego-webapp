@@ -44,9 +44,14 @@ const UserConfirmation = ({
             <div>
               <h2>Du er nå registrert!</h2>
               <h3 style={{ margin: 0 }}>Er du student?</h3>
+              <p className={styles.infoText}>
+                For å kunne melde deg på arrangementer i Abakus må du verifisere
+                at du er student. Om du ikke har fått studentepost enda, kan du
+                alltids verifisere kontoen din senere.
+              </p>
               <Flex>
                 <Link to="/users/me/settings/student-confirmation/">
-                  <b>Verifiser studentepost</b>
+                  <Button>Verifiser studentepost</Button>
                 </Link>
               </Flex>
               <Flex>
