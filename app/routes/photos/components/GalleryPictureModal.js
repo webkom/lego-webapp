@@ -111,15 +111,15 @@ const RenderGalleryPicture = ({
   </div>
 );
 
-function Swipeable(props: {
+const Swipeable = (props: {
   onSwiping: ({ dir: string }) => void,
   children: any,
-}) {
+}) => {
   const handlers = useSwipeable({
     onSwiped: (eventData) => props.onSwiping(eventData),
   });
   return <div {...handlers}>{props.children}</div>;
-}
+};
 
 export default class GalleryPictureModal extends Component<Props, State> {
   state = {
