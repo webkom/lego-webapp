@@ -9,9 +9,9 @@ type Props = {
 
 class SpecialDay extends Component<Props> {
   static getSpecialDay() {
-    if (AprilFools.isCorrectDate()) {
-      return AprilFools;
-    }
+    // if (AprilFools.isCorrectDate()) {
+    //   return AprilFools;
+    // }
     return null;
   }
 
