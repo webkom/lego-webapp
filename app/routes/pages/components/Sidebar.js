@@ -50,7 +50,7 @@ class Sidebar extends Component<Props, State> {
               <button className={styles.sidebarCloseBtn} onClick={handleClose}>
                 <Icon size={50} name="close" />
               </button>
-              <h3 className={styles.sidebarHeader}>Om Online</h3>
+              <h3 className={styles.sidebarHeader}>Om Abakus</h3>
               <h4 className={styles.sidebarSubtitle}>
                 {categorySelected ? categorySelected : 'Generelt'}
               </h4>
