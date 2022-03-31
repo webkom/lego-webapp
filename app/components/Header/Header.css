@@ -80,6 +80,9 @@
 
 .logo {
   flex: 1;
+  background: #0d5474;
+  padding: 1rem;
+  border-radius: 5%;
 }
 
 .menu {
@@ -138,7 +141,7 @@
     height: 10px;
     left: 0;
     right: 0;
-    border-bottom: 2px solid #c24538;
+    border-bottom: 2px solid #f9b759;
     border-radius: 5px;
     position: absolute;
     bottom: 0;

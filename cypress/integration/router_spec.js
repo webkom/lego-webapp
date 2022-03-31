@@ -40,7 +40,7 @@ describe('Create event', () => {
   it('should be able to navigate to about-page', () => {
     cy.visit('/');
     cy.get(c('navigation')).within(() => {
-      cy.contains('Om Abakus').click();
+      cy.contains('Om Online').click();
     });
     cy.url().should('contain', '/pages/info-om-abakus');
     cy.contains('Generelt');

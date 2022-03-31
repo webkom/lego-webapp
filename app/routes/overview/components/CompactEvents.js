@@ -44,7 +44,7 @@ export default class CompactEvents extends Component<Props> {
                   style={{
                     transform: 'rotate(-20deg)',
                     marginRight: '4px',
-                    color: '#BE1600',
+                    color: '#0d5474',
                   }}
                 />
               </Tooltip>

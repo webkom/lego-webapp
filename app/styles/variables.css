@@ -6,14 +6,14 @@
 :root {
   --lego-background-color: linear-gradient(0deg, #f4f4f4, #eae9e8);
   --lego-font-color: #394b59;
-  --lego-link-color: #c0392b;
-  --lego-red: #c0392b;
+  --lego-link-color: #0d5474;
+  --lego-red: #0d5474;
   --lego-max-width: 1100px;
   --lego-default-padding: 2rem;
   --lego-card-color: rgba(245, 244, 244, 100%);
-  --lego-footer-color: #e21617;
-  --lego-dark-red-color: #b21c17;
-  --lego-red-color: #c0392b;
+  --lego-footer-color: #0d5474;
+  --lego-dark-red-color: #0d5474;
+  --lego-red-color: #0d5474;
 
   --lego-header-height: 120px;
   --lego-main-nav-height: 50px;
@@ -27,7 +27,7 @@
   --lego-chart-greeen: #98f442;
   --lego-chart-pink: #ff87eb;
 
-  --color-event-red: #b11c11;
+  --color-event-red: #0d5474;
   --color-event-black: #111;
   --color-white: #fff;
   --color-black: #000;
@@ -90,11 +90,11 @@
   --color-green-4: #15b371;
   --color-green-5: #3dcc91;
 
-  --color-red-1: #a82a2a;
-  --color-red-2: #c23030;
-  --color-red-3: #db3737;
-  --color-red-4: #f55656;
-  --color-red-5: #ff7373;
+  --color-red-1: #0d5474;
+  --color-red-2: #0d5474;
+  --color-red-3: #0d5474;
+  --color-red-4: #0d5474;
+  --color-red-5: #0d5474;
 
   --font-size: 16px;
   --font-size-small: 12px;
@@ -104,14 +104,14 @@
 [data-theme='dark'] {
   --lego-background-color: linear-gradient(0deg, #0f0f0f, #202122);
   --lego-font-color: #f4f4f4;
-  --lego-link-color: #c0392b;
-  --lego-red: #c0392b;
+  --lego-link-color: #0d5474;
+  --lego-red: #0d5474;
   --lego-max-width: 1100px;
   --lego-default-padding: 2rem;
   --lego-card-color: #10161a;
-  --lego-footer-color: #e21617;
-  --lego-dark-red-color: #b21c17;
-  --lego-red-color: #c0392b;
+  --lego-footer-color: #0d5474;
+  --lego-dark-red-color: #0d5474;
+  --lego-red-color: #0d5474;
 
   --lego-header-height: 120px;
   --lego-main-nav-height: 50px;
@@ -131,7 +131,7 @@
   --lego-chart-greeen: #98f442;
   --lego-chart-pink: #ff87eb;
 
-  --color-event-red: #b11c11;
+  --color-event-red: #0d5474;
   --color-event-black: #ddd;
   --color-white: #000;
   --color-black: #fff;
@@ -188,11 +188,11 @@
   --color-green-4: #15b371;
   --color-green-5: #3dcc91;
 
-  --color-red-1: #a82a2a;
-  --color-red-2: #c23030;
-  --color-red-3: #db3737;
-  --color-red-4: #f55656;
-  --color-red-5: #ff7373;
+  --color-red-1: #0d5474;
+  --color-red-2: #0d5474;
+  --color-red-3: #0d5474;
+  --color-red-4: #0d5474;
+  --color-red-5: #0d5474;
 
   --font-size: 16px;
   --font-size-small: 12px;
