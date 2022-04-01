@@ -91,18 +91,22 @@ const onSubmit = (
     adminRegistrationReason,
   }: {
     user: User,
-    pool: number,
+    pool: { value: number, label: string },
     feedback: string,
     adminRegistrationReason: string,
   },
   dispatch,
   { reset, eventId, adminRegister }: Props
 ) =>
-  adminRegister(eventId, user.id, pool, feedback, adminRegistrationReason).then(
-    () => {
-      reset();
-    }
-  );
+  adminRegister(
+    eventId,
+    user.id,
+    pool?.value,
+    feedback,
+    adminRegistrationReason
+  ).then(() => {
+    reset();
+  });
 
 export default legoForm({
   form: 'adminRegister',
