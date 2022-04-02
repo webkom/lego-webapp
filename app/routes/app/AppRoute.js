@@ -100,7 +100,7 @@ class App extends PureComponent<AppProps> {
           [styles.searchOpen]: this.props.searchOpen,
         })}
       >
-        <Helmet defaultTitle="Online NTNU" titleTemplate="%s | Online NTNU">
+        <Helmet defaultTitle="Abakus.no" titleTemplate="%s | Abakus.no">
           <meta property="og:image" content={coverPhoto} />
           <meta
             property="og:description"
@@ -112,7 +112,7 @@ class App extends PureComponent<AppProps> {
           {config.environment !== 'production' && (
             <div
               style={{
-                backgroundColor: '#0e5a8a',
+                backgroundColor: 'red',
                 color: 'white',
                 fontWeight: 'bold',
                 padding: '10px',

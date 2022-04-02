@@ -21,8 +21,8 @@ import cx from 'classnames';
 import { applySelectedTheme, getOSTheme, getTheme } from 'app/utils/themeUtils';
 
 import type { UserEntity } from 'app/reducers/users';
-import logoLightMode from 'app/assets/logo.svg';
-import logoDarkMode from 'app/assets/logo.svg';
+import logoLightMode from 'app/assets/logo-dark.png';
+import logoDarkMode from 'app/assets/logo.png';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 
 type Props = {
@@ -208,7 +208,7 @@ class Header extends Component<Props, State> {
                 to="/pages/info-om-abakus"
                 activeClassName={styles.activeItem}
               >
-                Om Online
+                Om Abakus
               </NavLink>
             </div>
 

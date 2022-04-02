@@ -30,24 +30,24 @@ html[data-theme='dark'] .footer {
 }
 
 .footerContent a {
-  color: #f9b759;
+  color: #5d0909;
   transition: all 100ms ease-in-out;
   margin-bottom: 0.5em;
 }
 
 .bottomContent a {
-  color: #f9b759;
+  color: #460707;
   transition: all 100ms ease-in-out;
 }
 
 .footerContent a:hover {
-  color: #f9b759;
-  text-shadow: 0 0 0.003em #f9b759;
+  color: #a21010;
+  text-shadow: 0 0 0.003em #740b0b;
 }
 
 .bottomContent a:hover {
-  color: #f9b759;
-  text-shadow: 0 0 0.003em #f9b759;
+  color: #740b0b;
+  text-shadow: 0 0 0.003em #460707;
 }
 
 .footerContent .section {
@@ -56,7 +56,7 @@ html[data-theme='dark'] .footer {
 
 .subHeader {
   text-transform: uppercase;
-  color: #f9b759;
+  color: #5d0909;
   font-size: 1.75em;
   font-family: 'Open Sans', sans-serif;
   font-weight: bold;
