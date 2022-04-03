@@ -60,10 +60,17 @@ export default legoForm({
   validate,
   initialValues: { role: 'member' },
   onSubmitSuccess: (result, dispatch, { reset }: Props) => reset(),
-  onSubmit: ({ user, role }, dispatch, props: Props) =>
+  onSubmit: (
+    {
+      user,
+      role,
+    }: { user: { id: Number }, role: { value: $Keys<typeof ROLES> } },
+    dispatch,
+    props: Props
+  ) =>
     props
       .addMember({
-        role,
+        role: role.value,
         userId: user.id,
         groupId: props.groupId,
       })
