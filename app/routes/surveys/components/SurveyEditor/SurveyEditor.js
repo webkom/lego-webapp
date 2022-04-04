@@ -298,6 +298,7 @@ const onSubmit = (formContent: Object, dispatch, props: Props) => {
   const cleanQuestions = questions.map((q, i) => {
     const question = {
       ...q,
+      questionType: q.questionType?.value,
       relativeIndex: i,
     };
 

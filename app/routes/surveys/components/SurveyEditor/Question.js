@@ -87,7 +87,6 @@ const Question = ({
           <div className={styles.questionType}>
             <Field
               name={`${question}.questionType`}
-              simpleValue
               component={SelectInput.Field}
               components={{
                 Option: (props: any) => {

@@ -35,7 +35,6 @@ const AddGroupMember = ({ submitting, groupId, handleSubmit }: Props) => {
       />
 
       <Field
-        simpleValue
         label="Rolle"
         name="role"
         placeholder="Velg rolle"
