@@ -147,7 +147,7 @@
     "eslint-plugin-testing-library": "^5.2.1",
     "express": "^4.17.3",
     "express-static-gzip": "^2.1.5",
-    "flow-bin": "0.131.0",
+    "flow-bin": "0.175.1",
     "identity-obj-proxy": "3.0.0",
     "jest": "^27.5.1",
     "lolex": "^6.0.0",
