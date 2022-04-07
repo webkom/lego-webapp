@@ -81,13 +81,18 @@ export default class PageEditor extends Component<Props, State> {
     return deletePage(pageSlug).then(() => push('/pages/info/om-oss'));
   };
 
-  onSubmit = (data: Page) => {
+  onSubmit = (data: {
+    title: string,
+    content: string,
+    picture?: string,
+    category: { label: string, value: string },
+  }) => {
     const body = {
       ...normalizeObjectPermissions(data),
       title: data.title,
       content: data.content,
       picture: undefined,
-      category: data.category,
+      category: data.category?.value,
     };
 
     const { push, pageSlug } = this.props;
@@ -154,7 +159,6 @@ export default class PageEditor extends Component<Props, State> {
               name="category"
               component={SelectInput.Field}
               placeholder="Velg kategori"
-              simpleValue
               options={categoryOptions}
             />
 

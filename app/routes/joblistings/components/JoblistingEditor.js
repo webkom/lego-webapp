@@ -63,6 +63,9 @@ class JoblistingEditor extends Component<Props, State> {
       .submitJoblisting({
         ...newJoblisting,
         id: this.props.joblistingId,
+        fromYear: newJoblisting.fromYear?.value,
+        toYear: newJoblisting.toYear?.value,
+        jobType: newJoblisting.jobType?.value,
         applicationUrl:
           newJoblisting.applicationUrl &&
           httpCheck(newJoblisting.applicationUrl),
@@ -154,7 +157,6 @@ class JoblistingEditor extends Component<Props, State> {
             label="Jobbtype"
             component={SelectInput.Field}
             placeholder="Jobbtype"
-            simpleValue
             options={jobTypes}
             required
           />
@@ -187,7 +189,6 @@ class JoblistingEditor extends Component<Props, State> {
             name="fromYear"
             label="For klasse trinn fra"
             placeholder="Jobbtype"
-            simpleValue
             component={SelectInput.Field}
             options={yearValues}
             required
@@ -196,7 +197,6 @@ class JoblistingEditor extends Component<Props, State> {
             name="toYear"
             label="Til klasse"
             placeholder="Jobbtype"
-            simpleValue
             component={SelectInput.Field}
             options={yearValues}
             required

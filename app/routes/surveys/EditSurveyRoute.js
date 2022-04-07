@@ -14,6 +14,7 @@ import { push } from 'connected-react-router';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import { formValueSelector } from 'redux-form';
 import qs from 'qs';
+import { mappings } from './utils';
 
 const loadData = (props, dispatch) => {
   const { surveyId } = props.match.params;
@@ -58,14 +59,14 @@ const mapStateToProps = (state, props) => {
         event: initialEvent,
         questions:
           survey.questions &&
-          survey.questions.map((question) =>
-            question.options
-              ? {
-                  ...question,
-                  options: question.options.concat({ optionText: '' }),
-                }
-              : question
-          ),
+          survey.questions.map((question) => ({
+            ...question,
+            options:
+              question.options && question.options.concat({ optionText: '' }),
+            questionType: mappings.find(
+              ({ value }) => value === question.questionType
+            ),
+          })),
       };
     }
   }

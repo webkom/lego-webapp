@@ -48,7 +48,6 @@ const AdminRegister = ({
           options={pools
             .map((pool) => ({ value: pool.id, label: pool.name }))
             .concat([{ value: waitinglistPoolId, label: 'Venteliste' }])}
-          simpleValue
         />
         <Field
           name="user"

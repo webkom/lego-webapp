@@ -15,6 +15,7 @@ import { formValueSelector } from 'redux-form';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import { yearValues, jobTypes } from './constants';
 
 const mapStateToProps = (state, props) => {
   const { joblistingId } = props.match.params;
@@ -37,6 +38,9 @@ const mapStateToProps = (state, props) => {
       text: joblisting.text || '<p></p>',
       description: joblisting.description || '',
       company: initialCompany,
+      fromYear: yearValues.find(({ value }) => value === joblisting.fromYear),
+      toYear: yearValues.find(({ value }) => value === joblisting.toYear),
+      jobType: jobTypes.find(({ value }) => value === joblisting.jobType),
       responsible: joblisting.responsible
         ? {
             label: joblisting.responsible.name,

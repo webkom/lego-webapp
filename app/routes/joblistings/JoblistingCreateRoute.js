@@ -8,6 +8,7 @@ import { push } from 'connected-react-router';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import time from 'app/utils/time';
+import { yearValues, jobTypes } from './constants';
 
 const mapStateToProps = () => ({
   initialValues: {
@@ -18,9 +19,9 @@ const mapStateToProps = () => ({
     visibleFrom: time({ hours: 12 }),
     visibleTo: time({ days: 31, hours: 23, minutes: 59 }),
     deadline: time({ days: 30, hours: 23, minutes: 59 }),
-    fromYear: 1,
-    toYear: 5,
-    jobType: 'summer_job',
+    fromYear: yearValues.find(({ value }) => value === 1),
+    toYear: yearValues.find(({ value }) => value === 5),
+    jobType: jobTypes.find(({ value }) => value === 'summer_job'),
     workplaces: [],
   },
   isNew: true,

@@ -10,7 +10,7 @@ import {
 import { uploadFile } from 'app/actions/FileActions';
 import PageEditor from './components/PageEditor';
 import { legoForm } from 'app/components/Form/';
-import { selectPageBySlug } from 'app/reducers/pages';
+import { selectPageBySlug, categoryOptions } from 'app/reducers/pages';
 import { push } from 'connected-react-router';
 import { objectPermissionsToInitialValues } from 'app/components/Form/ObjectPermissions';
 
@@ -25,7 +25,13 @@ function mapStateToProps(state, props) {
   return {
     page,
     pageSlug,
-    initialValues: { ...page, ...objectPermissionsToInitialValues(page) },
+    initialValues: {
+      ...page,
+      ...objectPermissionsToInitialValues(page),
+      category: categoryOptions.find(
+        ({ value, label }) => value === page.category
+      ),
+    },
   };
 }
 
