@@ -11,7 +11,7 @@
     "ssr:staging": "API_URL=https://lego-staging.abakus.no/api/v1 BASE_URL=https://lego-staging.abakus.no WS_URL=wss://ws-staging.abakus.no CAPTCHA_KEY=6LfS1TQUAAAAAIcxgj4EfkM7lwWeG9efLvS37tCW yarn ssr",
     "ssr": "echo \"Remember that SSR does not have hot reloading, build with \"yarn build\"\" && node ./dist/server.js",
     "build": "concurrently \"yarn run build:server\" \"yarn run build:client\"",
-    "build:all": "concurrently \"yarn build:server\" \"yarn build:client\" \"yarn styleguide:build\"",
+    "build:all": "concurrently \"yarn build:server\" \"yarn build:client\" \"yarn build:dll\"",
     "build:client": "webpack --config config/webpack.client.js --mode=production",
     "build:server": "webpack --config config/webpack.server.js --mode=production",
     "build:dll": "BUILDING_DLL=true webpack --color --config config/webpack.dll.js",
@@ -24,9 +24,7 @@
     "lint:css": "stylelint './app/**/*.css'",
     "lint:prettier": "prettier '**/*.{js,css,md}' --check",
     "prettier": "prettier '**/*.{js,css,md}' --write",
-    "flow": "flow",
-    "styleguide": "bash lib/generateCssDocs.sh && NODE_ENV=production styleguidist server",
-    "styleguide:build": "bash lib/generateCssDocs.sh && NODE_ENV=production styleguidist build"
+    "flow": "flow"
   },
   "repository": {
     "type": "git",
@@ -83,7 +81,6 @@
     "react-overlays": "0.8.3",
     "react-phone-number-input": "^3.1.49",
     "react-redux": "6.0.1",
-    "react-router": "^5.2.0",
     "react-router-dom": "^5.3.0",
     "react-select": "^5.2.2",
     "react-soundplayer": "^1.0.4",
