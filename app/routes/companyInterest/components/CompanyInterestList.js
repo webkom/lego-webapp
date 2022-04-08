@@ -11,6 +11,7 @@ import type { CompanyInterestEntity } from 'app/reducers/companyInterest';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 import Table from 'app/components/Table';
 import Select from 'react-select';
+import { selectTheme, selectStyles } from 'app/components/Form/SelectInput';
 
 export type Option = {
   id: number,
@@ -168,6 +169,8 @@ class CompanyInterestList extends Component<Props, State> {
               onChange={this.handleChange}
               options={options}
               isClearable={false}
+              theme={selectTheme}
+              styles={selectStyles}
             />
           </Flex>
           <Link to="/companyInterest/semesters" className={styles.link}>

@@ -122,11 +122,12 @@ export const QuestionTypeOption = ({
 }: any) => (
   <div
     style={{
+      cursor: 'pointer',
       backgroundColor: props.isSelected
-        ? '#DDD'
+        ? 'var(--color-almost-white-1)'
         : props.isFocused
-        ? '#EEE'
-        : 'white',
+        ? 'var(--color-almost-white-5)'
+        : 'var(--color-white)',
     }}
     className={cx(styles.dropdownOption, styles.dropdown)}
     onMouseDown={(event) => {
