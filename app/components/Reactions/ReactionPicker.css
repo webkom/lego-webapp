@@ -9,9 +9,9 @@
     width: 94vw;
   }
 
-  color: rgb(85, 84, 89);
+  color: var(--color-dark-gray-1);
   font-size: 0.95rem;
-  background: rgb(247, 247, 247) none repeat scroll 0% 0%;
+  background: var(--color-almost-white-5) none repeat scroll 0% 0%;
   line-height: 1rem;
   box-shadow: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 12%) 0 5px
     10px;

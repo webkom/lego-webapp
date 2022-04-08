@@ -99,6 +99,8 @@
   --color-select-hover: rgb(178, 212, 255);
   --color-select-multi-bg: rgb(230, 230, 230);
 
+  --color-red-hover-alpha: 10%;
+
   --font-size: 16px;
   --font-size-small: 12px;
   --font-size-large: 18px;
@@ -199,6 +201,8 @@
 
   --color-select-hover: var(--color-gray-4);
   --color-select-multi-bg: var(--color-gray-5);
+
+  --color-red-hover-alpha: 50%;
 
   --font-size: 16px;
   --font-size-small: 12px;

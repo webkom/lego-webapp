@@ -28,7 +28,8 @@
 }
 
 .reactionPickerItemContainer:hover {
-  background: rgba(226, 13, 19, 5%) none repeat scroll 0% 0%;
+  background: rgba(226, 13, 19, var(--color-red-hover-alpha)) none repeat scroll
+    0% 0%;
 }
 
 .noEmojisFound {
