@@ -24,6 +24,42 @@ type Props = {
   options?: {}[],
 };
 
+export const selectStyles = {
+  control: (styles: Object) => ({
+    ...styles,
+    cursor: 'pointer',
+  }),
+  option: (
+    styles: Object,
+    { isDisabled, isSelected }: { isDisabled: boolean, isSelected: boolean }
+  ) => ({
+    ...styles,
+    cursor: isDisabled ? 'not-allowed' : 'pointer',
+    color: isSelected ? 'var(--color-light-gray-5)' : undefined,
+  }),
+};
+
+export const selectTheme = (theme: Object) => ({
+  ...theme,
+  colors: {
+    ...theme.colors,
+    //primary: 'var(--color-blue-4)', // Selected backgroundColor
+    primary25: 'var(--color-select-hover)', // Hover backgroundColor
+    //primary75:  // Unknown
+    neutral0: 'var(--color-white)', // Background color
+    //neutral5: // Unknown
+    neutral10: 'var(--color-select-multi-bg)', // Multiselect item background
+    // neutral20: // Border color
+    // neutral30: // Hover border color
+    // neutral40: // Unknown
+    // neutral50: // Placholder font color,
+    // neutral60: // Unknown
+    // neutral70: // Unknown
+    neutral80: 'var(--lego-font-color)', // Font color
+    // neutral90: // Unknown
+  },
+});
+
 function SelectInput({
   name,
   fetching,
@@ -80,6 +116,8 @@ function SelectInput({
           }
           return value;
         }}
+        styles={selectStyle ?? selectStyles}
+        theme={selectTheme}
       />
     </div>
   );

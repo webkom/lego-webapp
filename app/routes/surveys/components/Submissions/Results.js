@@ -20,6 +20,7 @@ import {
   CartesianGrid,
 } from 'recharts';
 import Select from 'react-select';
+import { selectTheme, selectStyles } from 'app/components/Form/SelectInput';
 
 type Props = {
   survey: SurveyEntity,
@@ -228,7 +229,7 @@ const Results = ({
                             <Bar
                               dataKey="selections"
                               label={{ position: 'top' }}
-                              background={{ fill: '#eee' }}
+                              background={{ fill: 'var(--color-mono-gray-5)' }}
                               isAnimationActive={false}
                             >
                               {pieData.map((entry, index) => (
@@ -301,6 +302,8 @@ const Results = ({
                         isSearchable={false}
                         onBlur={() => null}
                         style={{ paddingTop: '7px' }}
+                        theme={selectTheme}
+                        styles={selectStyles}
                       />
                     </div>
                   )}

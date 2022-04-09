@@ -12,6 +12,8 @@
 .reactionPickerSearchNormal {
   padding: 2px;
   display: none;
+  background-color: var(--color-white);
+  color: var(--lego-font-color);
 
   @media (--mobile-device) {
     display: block;
@@ -21,6 +23,8 @@
 .reactionPickerSearchAutoComplete {
   padding: 2px;
   display: display;
+  background-color: var(--color-white);
+  color: var(--lego-font-color);
 
   @media (--mobile-device) {
     display: none;

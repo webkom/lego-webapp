@@ -16,6 +16,7 @@ import Select from 'react-select';
 import Icon from 'app/components/Icon';
 import { EVENTFIELDS } from 'app/utils/constants';
 import { CheckBox } from 'app/components/Form/';
+import { selectTheme, selectStyles } from 'app/components/Form/SelectInput';
 
 const groupEvents = ({
   events,
@@ -233,6 +234,8 @@ class EventList extends Component<EventListProps, State> {
             className={styles.select}
             options={filterRegDateOptions}
             isClearable={false}
+            theme={selectTheme}
+            styles={selectStyles}
           />
         </div>
         <EventListGroup
