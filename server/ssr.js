@@ -113,6 +113,8 @@ const createServerSideRenderer = (
       return res.redirect(302, context.url);
     }
     const state: State = store.getState();
+    // TODO: remove workaround when redux-form is replaced
+    state.form = {}; // Lego-editor doesn't initialize correctly when redux-form is initialized by ssr (react-prepare)
     // $FlowFixMe
     const statusCode = state.router.statusCode || 200;
     res.status(statusCode);
