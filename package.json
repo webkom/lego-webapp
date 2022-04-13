@@ -89,7 +89,7 @@
     "react-tagcloud": "^2.2.0",
     "react-textarea-autosize": "^8.3.3",
     "react-treeview": "^0.4.6",
-    "react-youtube": "^8.0.0",
+    "react-youtube": "^8.1.0",
     "recharts": "^2.1.9",
     "redux": "4.1.2",
     "redux-form": "8.3.8",
