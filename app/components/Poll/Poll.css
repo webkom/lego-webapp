@@ -3,7 +3,6 @@
 .optionWrapper {
   justify-content: center;
   min-height: 120px;
-  cursor: pointer;
   position: relative;
 }
 
@@ -93,21 +92,10 @@ html[data-theme='dark'] .pollGraph {
 }
 
 .voteButton {
-  background: var(--lego-red-color);
-  color: var(--lego-color-gray-light);
-  border: 1px solid var(--border-gray);
   width: 100%;
-  margin: 0 !important;
+  margin: 1px !important;
   font-size: 15px;
   max-width: 400px;
-}
-
-.voteButton:hover {
-  opacity: 0.8;
-}
-
-html[data-theme='dark'] .voteButton {
-  color: var(--color-dark-gray-3);
 }
 
 .moreOptionsLink {

@@ -80,7 +80,7 @@ describe('Event registration & payment', () => {
         .and('contain', 'Webkom');
       cy.focused().type('{enter}', { force: true });
 
-      cy.contains('button', 'OPPRETT').should('not.be.disabled').click();
+      cy.contains('button', 'Opprett').should('not.be.disabled').click();
 
       // Verify that created event looks good..
       cy.url().should('not.contain', '/events/create');

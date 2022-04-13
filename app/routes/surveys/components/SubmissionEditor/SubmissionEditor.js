@@ -95,7 +95,7 @@ const SubmissionEditor = ({
         </ul>
 
         <div className={styles.clear} />
-        <Button success className={styles.submit} disabled={submitting} submit>
+        <Button success disabled={submitting} submit>
           Lagre
         </Button>
       </form>

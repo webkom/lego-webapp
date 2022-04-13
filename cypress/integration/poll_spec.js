@@ -46,15 +46,12 @@ describe('Polls', () => {
 
     cy.contains('Lag ny avstemning').should('not.be.disabled');
 
-    cy.contains('a', 'Valg').click(); // add third choice
+    cy.contains('button', 'Legg til alternativ').click(); // add third choice
     field('options[2].name').type(poll_form.choice_3).blur();
 
-    // Add fourth option and remove it
-    cy.contains('a', 'Valg').click();
-    field('options[3].name')
-      .parents('li')
-      .find(c('PollEditor__deleteOption'))
-      .click();
+    // Add new option and remove it
+    cy.contains('button', 'Legg til alternativ').click();
+    cy.get(c('PollEditor__deleteOption')).last().click();
     cy.get(c('Modal__content')).should('be.visible').contains('Ja').click();
 
     field('description').type(poll_form.description).blur();
@@ -93,7 +90,7 @@ describe('Polls', () => {
 
   it('can edit poll and answer it on frontpage', () => {
     cy.visit('/polls/1');
-    cy.contains('a', 'Rediger').click();
+    cy.contains('button', 'Rediger').click();
     field('title').clear().type(poll_form.title);
     field('pinned').check();
 
@@ -106,8 +103,8 @@ describe('Polls', () => {
     cy.get(c('PollEditor__deleteOption')).first().click();
     cy.get(c('Modal__content')).should('be.visible').contains('Ja').click();
 
-    cy.contains('a', 'Valg').click();
-    cy.contains('a', 'Valg').click();
+    cy.contains('button', 'Legg til alternativ').click();
+    cy.contains('button', 'Legg til alternativ').click();
 
     field('options[0].name').type(poll_form.choice_1).blur();
     field('options[1].name').type(poll_form.choice_2).blur();
@@ -136,8 +133,8 @@ describe('Polls', () => {
 
     cy.get(c('PollsList__heading')).first().click();
 
-    cy.contains('a', 'Rediger').click();
-    cy.contains('Slett').click();
+    cy.contains('button', 'Rediger').click();
+    cy.contains('button', 'Slett').click();
     cy.get(c('Modal__content')).should('be.visible').contains('Ja').click();
 
     cy.get(c('Modal__content')).should('not.exist');

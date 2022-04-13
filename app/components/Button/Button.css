@@ -74,20 +74,25 @@ html[data-theme='dark'] .button {
 }
 
 .dark {
-  background: var(--color-red-3);
-  color: var(--color-white);
-  border-color: var(--color-red-1);
+  background: var(--color-red-2);
+  border: none;
+  color: var(--color-white) !important;
 
   &.fa {
     color: var(--color-white);
   }
 
-  &:active {
-    color: var(--color-white);
+  &:hover:not(:disabled) {
+    background: var(--color-red-1);
   }
+}
 
-  &:disabled {
-    color: rgba(var(--rgb-max), var(--rgb-max), var(--rgb-max), 30%);
+html[data-theme='dark'] .dark {
+  background: var(--color-red-1);
+  color: var(--color-black) !important;
+
+  &:hover:not(:disabled) {
+    background: var(--color-red-2) !important;
   }
 }
 

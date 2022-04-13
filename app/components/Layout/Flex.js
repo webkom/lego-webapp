@@ -19,11 +19,13 @@ type Props = {
     | 'flex-end'
     | 'center'
     | 'space-between'
-    | 'space-around',
+    | 'space-around'
+    | 'space-evenly',
   alignItems?: 'flex-start' | 'flex-end' | 'center' | 'baseline' | 'stretch',
   padding?: number | string,
   margin?: number | string,
   width?: number | string,
+  gap?: number | string,
   style?: Object,
 };
 /**
@@ -41,6 +43,7 @@ const Flex = ({
   padding,
   margin,
   width,
+  gap,
   style,
   ...htmlAttributes
 }: Props) => (
@@ -58,6 +61,7 @@ const Flex = ({
       padding,
       margin,
       width,
+      gap,
       ...style,
     }}
     {...(htmlAttributes: Object)}

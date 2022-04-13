@@ -100,7 +100,7 @@ describe('Editor', () => {
     cy.focused().type('sos{enter}', { force: true });
 
     // Create event
-    cy.contains('button', 'OPPRETT').should('not.be.disabled').click();
+    cy.contains('button', 'Opprett').should('not.be.disabled').click();
 
     cy.url().should('not.contain', '/events/create');
     cy.url().should('contain', '/events/');

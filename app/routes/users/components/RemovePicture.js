@@ -2,7 +2,6 @@
 
 import { Component } from 'react';
 import Button from 'app/components/Button';
-import Flex from 'app/components/Layout/Flex';
 import styles from './RemovePicture.css';
 import Icon from 'app/components/Icon';
 
@@ -36,9 +35,7 @@ export default class RemovePicture extends Component<Props, State> {
     return (
       <div className={styles.buttons}>
         {this.state.selected ? (
-          <Button className={styles.saveButton} onClick={this.toggleSelected}>
-            Avbryt
-          </Button>
+          <Button onClick={this.toggleSelected}>Avbryt</Button>
         ) : (
           <Button onClick={this.toggleSelected} danger>
             <Icon name="trash" prefix="ion-md-" size={20} />

@@ -51,7 +51,7 @@ const UserResetPassword = ({
             type="password"
             component={TextInput.Field}
           />
-          <Button submit disabled={disabledButton}>
+          <Button danger submit disabled={disabledButton}>
             Tilbakestill passord
           </Button>
         </Form>

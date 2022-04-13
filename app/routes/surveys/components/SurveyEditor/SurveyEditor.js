@@ -239,12 +239,7 @@ class SurveyEditor extends Component<Props, State> {
             rerenderOnEveryChange={true}
           />
           <div className={styles.clear} />
-          <Button
-            success
-            className={styles.submit}
-            disabled={submitting}
-            submit
-          >
+          <Button success disabled={submitting} submit>
             Lagre
           </Button>
           <i className={styles.mailInfo}>

@@ -5,20 +5,15 @@
 }
 
 .deleteOption {
-  padding-left: 10px;
-  padding-top: 40px;
-}
-
-.addOption {
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  width: 2rem;
+  padding-top: 5px;
 }
 
 .submitButton {
   margin-top: 15px;
   display: inline;
-}
-
-.deletePoll {
-  background: var(--color-red-2);
-  color: var(--color-light-gray-4);
 }

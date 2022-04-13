@@ -112,7 +112,7 @@ class PenaltyInLine extends Component<Props, State> {
                   filter={['events.event']}
                   component={SelectInput.AutocompleteField}
                 />
-                <Button submit>LAG PRIKK</Button>
+                <Button submit>Lag prikk</Button>
               </Form>
             )}
           </div>

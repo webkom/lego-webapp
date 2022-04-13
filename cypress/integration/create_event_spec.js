@@ -29,18 +29,18 @@ describe('Create event', () => {
 
   it('should fill required fields before being allowed to submit', () => {
     cy.visit('/events/create');
-    // Check that validation errors show only after we click "OPPRETT"
+    // Check that validation errors show only after we click "Opprett"
     fieldError('cover').should('not.exist');
     fieldError('title').should('not.exist');
     fieldError('description').should('not.exist');
     fieldError('eventType').should('not.exist');
 
-    cy.contains('button', 'OPPRETT').should('be.disabled');
-    // click editor to initialize form and enable OPPRETT button
+    cy.contains('button', 'Opprett').should('be.disabled');
+    // click editor to initialize form and enable Opprett button
     selectEditor().type('test');
     cy.wait(1000);
 
-    cy.contains('button', 'OPPRETT').should('not.be.disabled').click();
+    cy.contains('button', 'Opprett').should('not.be.disabled').click();
 
     fieldError('cover').should('be.visible');
     fieldError('title').should('be.visible');
@@ -63,7 +63,7 @@ describe('Create event', () => {
     cy.focused().type('{enter}', { force: true });
     fieldError('eventType').should('not.exist');
 
-    cy.contains('button', 'OPPRETT').should('not.be.disabled').click();
+    cy.contains('button', 'Opprett').should('not.be.disabled').click();
 
     cy.url().should('not.contain', '/events/create');
     cy.url().should('contain', '/events/');
@@ -159,7 +159,7 @@ describe('Create event', () => {
     cy.focused().type('sos{enter}', { force: true });
 
     // Create event
-    cy.contains('button', 'OPPRETT').should('not.be.disabled').click();
+    cy.contains('button', 'Opprett').should('not.be.disabled').click();
 
     cy.url().should('not.contain', '/events/create');
     cy.url().should('contain', '/events/');
@@ -202,7 +202,7 @@ describe('Create event', () => {
       .and('contain', 'Bedkom');
     cy.focused().type('{enter}', { force: true });
 
-    cy.contains('button', 'OPPRETT').should('not.be.disabled').click();
+    cy.contains('button', 'Opprett').should('not.be.disabled').click();
 
     // Verify that created event looks good..
     cy.url().should('not.contain', '/events/create');
@@ -231,7 +231,7 @@ describe('Create event', () => {
     selectField('eventStatusType').click();
     cy.focused().type('TBA{enter}', { force: true });
 
-    cy.contains('button', 'OPPRETT').should('not.be.disabled').click();
+    cy.contains('button', 'Opprett').should('not.be.disabled').click();
 
     // Verify that created event looks good..
     cy.url().should('not.contain', '/events/create');
@@ -296,7 +296,7 @@ describe('Create event', () => {
     cy.get(c('DatePicker__header')).find('button:last-child').click();
     cy.contains(c('DatePicker__calendarItem'), '15').click();
 
-    cy.contains('button', 'OPPRETT').should('not.be.disabled').click();
+    cy.contains('button', 'Opprett').should('not.be.disabled').click();
 
     // Verify that created event looks good..
     cy.url().should('not.contain', '/events/create');
@@ -332,7 +332,7 @@ describe('Create event', () => {
     cy.contains('Sted').click();
     cy.focused().type('Kjellern');
 
-    cy.contains('button', 'OPPRETT').should('not.be.disabled').click();
+    cy.contains('button', 'Opprett').should('not.be.disabled').click();
 
     // Verify that created event looks good..
     cy.url().should('not.contain', '/events/create');
@@ -381,7 +381,7 @@ describe('Create event', () => {
       .and('contain', 'Abakus');
     cy.focused().type('{enter}', { force: true });
 
-    cy.contains('button', 'OPPRETT').should('not.be.disabled').click();
+    cy.contains('button', 'Opprett').should('not.be.disabled').click();
 
     // Verify that created event looks good..
     cy.url().should('not.contain', '/events/create');

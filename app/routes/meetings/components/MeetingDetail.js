@@ -99,7 +99,7 @@ class MeetingDetails extends Component<Props> {
           Delta
         </Button>
         <Button
-          className={styles.declineBtn}
+          dark
           onClick={this.rejectInvitation}
           disabled={statusMe === statuses.NOT_ATTENDING}
         >
