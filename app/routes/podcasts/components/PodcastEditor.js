@@ -20,7 +20,7 @@ type Props = {
   source: string,
   deletePodcast: (number) => Promise<*>,
   push: (string) => void,
-  new: boolean,
+  isNew: boolean,
   pristine: boolean,
   submitting: boolean,
   handleSubmit: (Object) => void,
@@ -40,8 +40,8 @@ class PodcastEditor extends Component<Props, *> {
       });
     };
 
-    const header = this.props.new ? 'Legg til Podcast' : 'Rediger Podcast';
-    const { handleSubmit, pristine, submitting } = this.props;
+    const { handleSubmit, pristine, submitting, isNew } = this.props;
+    const header = isNew ? 'Legg til Podcast' : 'Rediger Podcast';
 
     return (
       <Content>
@@ -75,12 +75,8 @@ class PodcastEditor extends Component<Props, *> {
             filter={['users.user']}
             component={SelectInput.AutocompleteField}
           />
-          <Button
-            success={!this.props.new}
-            disabled={pristine || submitting}
-            submit
-          >
-            {this.props.new ? 'Lag podcast' : 'Lagre podcast'}
+          <Button success={!isNew} disabled={pristine || submitting} submit>
+            {isNew ? 'Lag podcast' : 'Lagre podcast'}
           </Button>
           {this.props.initialValues.id && (
             <ConfirmModalWithParent

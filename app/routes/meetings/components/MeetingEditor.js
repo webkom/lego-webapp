@@ -220,7 +220,7 @@ function MeetingEditor({
         )}
 
         <Button success={isEditPage} disabled={pristine || submitting} submit>
-          {isEditPage ? 'Lagre møte' : 'Lag møte'}
+          {isEditPage ? 'Lagre endringer' : 'Opprett møte'}
         </Button>
       </Form>
     </div>

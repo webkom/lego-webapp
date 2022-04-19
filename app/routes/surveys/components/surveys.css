@@ -402,3 +402,13 @@
     padding-bottom: 15px;
   }
 }
+
+.copied {
+  border-color: var(--color-green-3);
+  color: var(--color-green-3);
+  outline-color: var(--color-green-3);
+
+  &:hover:not(:disabled) {
+    border-color: var(--color-green-3);
+  }
+}

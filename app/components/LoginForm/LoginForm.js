@@ -99,7 +99,7 @@ class LoginForm extends Component<Props> {
           component={TextInput.Field}
         />
         {error && <Error error={error} />}
-        <Button submit dark disabled={submitting}>
+        <Button dark submit disabled={submitting}>
           Logg inn
         </Button>
       </Form>

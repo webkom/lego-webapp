@@ -37,13 +37,13 @@ export default class RemovePicture extends Component<Props, State> {
         {this.state.selected ? (
           <Button onClick={this.toggleSelected}>Avbryt</Button>
         ) : (
-          <Button onClick={this.toggleSelected} danger>
+          <Button danger onClick={this.toggleSelected}>
             <Icon name="trash" prefix="ion-md-" size={20} />
             Slett profilbildet
           </Button>
         )}
         {this.state.selected && (
-          <Button onClick={this.handleOnClick} danger>
+          <Button danger onClick={this.handleOnClick}>
             Bekreft
           </Button>
         )}

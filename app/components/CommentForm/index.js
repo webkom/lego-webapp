@@ -119,9 +119,9 @@ class CommentForm extends Component<Props, { disabled: boolean }> {
 
           {isOpen && (
             <Button
-              className={styles.submit}
-              disabled={pristine || submitting}
               submit
+              disabled={pristine || submitting}
+              className={styles.submit}
             >
               {submitText}
             </Button>

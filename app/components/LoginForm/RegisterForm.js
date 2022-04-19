@@ -68,7 +68,7 @@ class RegisterForm extends Component<Props, State> {
           fieldStyle={{ width: 304 }}
           component={Captcha.Field}
         />
-        <Button submit disabled={invalid || pristine || submitting} dark>
+        <Button dark submit disabled={invalid || pristine || submitting}>
           Registrer deg
         </Button>
       </Form>
