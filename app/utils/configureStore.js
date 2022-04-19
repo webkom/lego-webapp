@@ -1,5 +1,9 @@
 /*eslint-disable */
-import { createStore, applyMiddleware, compose } from 'redux';
+import {
+  legacy_createStore as createStore,
+  applyMiddleware,
+  compose,
+} from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { User } from 'app/actions/ActionTypes';
 import { createLogger } from 'redux-logger';
@@ -73,6 +77,8 @@ export default function configureStore(
   const composeEnhancer =
     global.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
+  // We need to migrate to @reduxjs/toolkit, but this alias removes the deprication warning
+  // https://github.com/reduxjs/redux/releases/tag/v4.2.0
   const store = createStore(
     createRootReducer(history),
     initialState,
