@@ -1,15 +1,14 @@
-/*eslint-disable */
+// @flow
+
 import {
+  // $FlowFixMe
   legacy_createStore as createStore,
   applyMiddleware,
   compose,
 } from 'redux';
 import thunkMiddleware from 'redux-thunk';
-import { User } from 'app/actions/ActionTypes';
 import { createLogger } from 'redux-logger';
 import jwtDecode from 'jwt-decode';
-import config from 'app/config';
-import { browserHistory } from 'react-router';
 import { routerMiddleware } from 'connected-react-router';
 import { createBrowserHistory, createMemoryHistory } from 'history';
 import createSentryMiddleware from 'redux-sentry-middleware';
@@ -49,7 +48,7 @@ export const history = __CLIENT__
   : createMemoryHistory();
 
 export default function configureStore(
-  initialState: State | {||} = {},
+  initialState: State | $Shape<{||}> = {},
   { Sentry, getCookie }: { Sentry: ?any, getCookie?: GetCookie } = {}
 ): Store {
   const messageMiddleware = createMessageMiddleware(
