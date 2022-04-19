@@ -5,7 +5,6 @@ import styles from './surveys.css';
 import { Link } from 'react-router-dom';
 import type { ActionGrant } from 'app/models';
 import { ContentSidebar } from 'app/components/Content';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
 import Button from 'app/components/Button';
 import config from 'app/config';
 import { CheckBox } from 'app/components/Form';
@@ -72,18 +71,16 @@ class AdminSideBar extends Component<Props, State> {
             )}
             {token && (
               <li>
-                <CopyToClipboard
-                  text={shareLink}
-                  onCopy={() => {
-                    this.setState({ copied: true });
-                    setTimeout(() => this.setState({ copied: false }), 2000);
+                <Button
+                  onClick={() => {
+                    navigator.clipboard.writeText(shareLink).then(() => {
+                      this.setState({ copied: true });
+                      setTimeout(() => this.setState({ copied: false }), 2000);
+                    });
                   }}
-                  style={{ marginTop: '5px' }}
                 >
-                  <Button>
-                    {this.state.copied ? 'Kopiert!' : 'Kopier delbar link'}
-                  </Button>
-                </CopyToClipboard>
+                  {this.state.copied ? 'Kopiert!' : 'Kopier delbar link'}
+                </Button>
               </li>
             )}
             {actionGrant && actionGrant.includes('csv') && exportSurvey && (
