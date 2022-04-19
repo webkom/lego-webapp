@@ -1,11 +1,14 @@
-/*eslint-disable */
-import { createStore, applyMiddleware, compose } from 'redux';
+// @flow
+
+import {
+  // $FlowFixMe
+  legacy_createStore as createStore,
+  applyMiddleware,
+  compose,
+} from 'redux';
 import thunkMiddleware from 'redux-thunk';
-import { User } from 'app/actions/ActionTypes';
 import { createLogger } from 'redux-logger';
 import jwtDecode from 'jwt-decode';
-import config from 'app/config';
-import { browserHistory } from 'react-router';
 import { routerMiddleware } from 'connected-react-router';
 import { createBrowserHistory, createMemoryHistory } from 'history';
 import createSentryMiddleware from 'redux-sentry-middleware';
@@ -45,7 +48,7 @@ export const history = __CLIENT__
   : createMemoryHistory();
 
 export default function configureStore(
-  initialState: State | {||} = {},
+  initialState: State | $Shape<{||}> = {},
   { Sentry, getCookie }: { Sentry: ?any, getCookie?: GetCookie } = {}
 ): Store {
   const messageMiddleware = createMessageMiddleware(
@@ -73,6 +76,8 @@ export default function configureStore(
   const composeEnhancer =
     global.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
+  // We need to migrate to @reduxjs/toolkit, but this alias removes the deprication warning
+  // https://github.com/reduxjs/redux/releases/tag/v4.2.0
   const store = createStore(
     createRootReducer(history),
     initialState,

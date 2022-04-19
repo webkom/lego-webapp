@@ -83,7 +83,7 @@ const createServerSideRenderer = (
     const newStoreState = store.getState();
     // If the value is the same, skip the unnecessary state update.
     if (providerData.storeState === newStoreState) {
-      return null;
+      return undefined;
     }
     providerData.storeState = newStoreState;
   });
