@@ -106,7 +106,7 @@ const calculateMazemapPoi = (data) => {
   if (
     data.eventStatusType?.value === 'TBA' ||
     !data.useMazemap ||
-    data.mazemapPoi.value == ''
+    data.mazemapPoi.value === ''
   ) {
     return null;
   }

@@ -20,7 +20,7 @@
     "test:coverage": "yarn run test -- --coverage",
     "test:watch": "yarn run test --watch",
     "lint": "yarn run lint:js && yarn run lint:css && yarn run lint:prettier",
-    "lint:js": "eslint . --ignore-path .prettierignore",
+    "lint:js": "eslint . --ignore-path .prettierignore --max-warnings 0",
     "lint:css": "stylelint './app/**/*.css'",
     "lint:prettier": "prettier '**/*.{js,css,md}' --check",
     "prettier": "prettier '**/*.{js,css,md}' --write",
