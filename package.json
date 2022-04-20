@@ -118,7 +118,7 @@
     "@loadable/server": "^5.15.2",
     "@loadable/webpack-plugin": "^5.15.2",
     "assets-webpack-plugin": "^7.1.1",
-    "babel-loader": "^8.2.4",
+    "babel-loader": "^8.2.5",
     "compression-webpack-plugin": "^9.2.0",
     "concurrently": "^7.1.0",
     "css-loader": "^6.7.1",
