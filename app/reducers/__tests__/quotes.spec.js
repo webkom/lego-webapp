@@ -6,6 +6,22 @@ describe('reducers', () => {
     const baseState = {
       actionGrant: [],
       pagination: {},
+      paginationNext: {
+        '?approved=true': {
+          hasMore: true,
+          hasMoreBackwards: false,
+          query: { approved: 'true' },
+          next: { cursor: 'next-cur', approved: 'true' },
+          items: [4],
+        },
+        '?approved=false': {
+          hasMore: true,
+          hasMoreBackwards: false,
+          query: { approved: 'false' },
+          next: { cursor: 'next-cur', approved: 'false' },
+          items: [3],
+        },
+      },
       items: [3, 4],
       byId: {
         3: {
@@ -29,6 +45,22 @@ describe('reducers', () => {
       expect(quotes(prevState, action)).toEqual({
         actionGrant: [],
         pagination: {},
+        paginationNext: {
+          '?approved=true': {
+            hasMore: true,
+            hasMoreBackwards: false,
+            query: { approved: 'true' },
+            next: { cursor: 'next-cur', approved: 'true' },
+            items: [4],
+          },
+          '?approved=false': {
+            hasMore: true,
+            hasMoreBackwards: false,
+            query: { approved: 'false' },
+            next: { cursor: 'next-cur', approved: 'false' },
+            items: [],
+          },
+        },
         items: [3, 4],
         byId: {
           3: {
@@ -53,6 +85,22 @@ describe('reducers', () => {
       expect(quotes(prevState, action)).toEqual({
         actionGrant: [],
         pagination: {},
+        paginationNext: {
+          '?approved=true': {
+            hasMore: true,
+            hasMoreBackwards: false,
+            query: { approved: 'true' },
+            next: { cursor: 'next-cur', approved: 'true' },
+            items: [],
+          },
+          '?approved=false': {
+            hasMore: true,
+            hasMoreBackwards: false,
+            query: { approved: 'false' },
+            next: { cursor: 'next-cur', approved: 'false' },
+            items: [3],
+          },
+        },
         items: [3, 4],
         byId: {
           3: {
