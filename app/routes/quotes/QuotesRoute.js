@@ -56,8 +56,7 @@ export default compose(
       dispatch(
         fetchAll({
           query: qsParamsParser(props.location.search),
-        }),
-        fetchEmojis()
+        })
       ),
     ['location']
   ),
