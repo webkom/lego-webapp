@@ -53,12 +53,6 @@ export default createEntityReducer({
   mutate,
 });
 
-const compareByDate = (a, b) => {
-  const date1 = new Date(a.createdAt);
-  const date2 = new Date(b.createdAt);
-  return date2.getTime() - date1.getTime();
-};
-
 export const selectQuotes = createSelector(
   (state) => state.quotes.byId,
   (state) => state.quotes.items,
@@ -77,22 +71,6 @@ export const selectQuoteById = createSelector(
   (quotes, quoteId) => {
     if (!quotes || !quoteId) return {};
     return quotes.find((quote) => Number(quote.id) === Number(quoteId));
-  }
-);
-
-export const selectSortedQuotes = createSelector(
-  selectQuotes,
-  (state, props) => ({ filter: props.filter }),
-  (_, props) => props && props.pagination,
-  (quotes, query, pagination) => {
-    return quotes
-      .filter(
-        (quote) =>
-          typeof quote !== 'undefined' &&
-          quote.approved.toString() ===
-            (pagination.query.approved && pagination.query.approved.toString())
-      )
-      .sort(compareByDate);
   }
 );
 

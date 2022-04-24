@@ -8,7 +8,7 @@ import {
 } from 'app/actions/QuoteActions';
 import QuotePage from './components/QuotePage';
 import prepare from 'app/utils/prepare';
-import { selectSortedQuotes } from 'app/reducers/quotes';
+import { selectQuotes } from 'app/reducers/quotes';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { selectPaginationNext } from 'app/reducers/selectors';
@@ -29,7 +29,7 @@ const mapStateToProps = (state, props) => {
   })(state);
   const emojis = selectEmojis(state);
   return {
-    quotes: selectSortedQuotes(state, { pagination }),
+    quotes: selectQuotes(state, { pagination }),
     query: pagination.query,
     actionGrant: state.quotes.actionGrant,
     showFetchMore: pagination.hasMore,
