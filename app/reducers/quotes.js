@@ -62,9 +62,12 @@ const compareByDate = (a, b) => {
 export const selectQuotes = createSelector(
   (state) => state.quotes.byId,
   (state) => state.quotes.items,
-  (quotesById, ids) => {
+  (_, props) => props && props.pagination,
+  (quotesById, ids, pagination) => {
     if (!quotesById || !ids) return [];
-    return ids.map((quoteId) => quotesById[quoteId]);
+    return (pagination ? pagination.items : ids).map(
+      (quoteId) => quotesById[quoteId]
+    );
   }
 );
 
@@ -80,12 +83,14 @@ export const selectQuoteById = createSelector(
 export const selectSortedQuotes = createSelector(
   selectQuotes,
   (state, props) => ({ filter: props.filter }),
-  (quotes, query) => {
+  (_, props) => props && props.pagination,
+  (quotes, query, pagination) => {
     return quotes
       .filter(
         (quote) =>
           typeof quote !== 'undefined' &&
-          quote.approved === (query.filter !== 'unapproved')
+          quote.approved.toString() ===
+            (pagination.query.approved && pagination.query.approved.toString())
       )
       .sort(compareByDate);
   }

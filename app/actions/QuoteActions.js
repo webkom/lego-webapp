@@ -9,67 +9,21 @@ import { addToast } from 'app/actions/ToastActions';
 import type { Thunk } from 'app/types';
 import type { ID } from 'app/models';
 
-const getEndpoint = (state, loadNextPage, queryString) => {
-  const pagination = state.quotes.pagination;
-  let endpoint = `/quotes/${queryString}`;
-  const paginationObject = pagination[queryString];
-  if (
-    loadNextPage &&
-    paginationObject &&
-    paginationObject.queryString === queryString
-  ) {
-    endpoint = pagination[queryString].nextPage;
-  }
-  return endpoint;
-};
-
-export const fetchAll =
-  ({
-    approved = true,
-    refresh = false,
-    loadNextPage = false,
-  }: {
-    approved?: boolean,
-    refresh?: boolean,
-    loadNextPage?: boolean,
-  } = {}): Thunk<*> =>
-  (dispatch, getState) => {
-    const queryString = `?approved=${String(approved)}`;
-    const endpoint = getEndpoint(getState(), loadNextPage, queryString);
-    if (!endpoint) {
-      return Promise.resolve(null);
-    }
-    return dispatch(
-      callAPI({
-        types: Quote.FETCH,
-        endpoint,
-        schema: [quoteSchema],
-        meta: {
-          queryString,
-          errorMessage: `Henting av ${
-            approved ? '' : 'ikke '
-          }godkjente sitater feilet`,
-        },
-        propagateError: true,
-        cacheSeconds: Infinity, // don't expire cache unless we pass force
-      })
-    );
-  };
-
-export function fetchAllApproved({
-  loadNextPage,
-}: {
-  loadNextPage: boolean,
-}): Thunk<any> {
-  return fetchAll({ approved: true, loadNextPage });
-}
-
-export function fetchAllUnapproved({
-  loadNextPage,
-}: {
-  loadNextPage: boolean,
-}): Thunk<any> {
-  return fetchAll({ approved: false, loadNextPage });
+export function fetchAll({
+  query,
+  next = false,
+}: { query?: Object, next?: boolean } = {}): Thunk<*> {
+  return callAPI({
+    types: Quote.FETCH,
+    endpoint: '/quotes/',
+    schema: [quoteSchema],
+    query,
+    pagination: { fetchNext: next },
+    meta: {
+      errorMessage: 'Henting av sitater feilet',
+    },
+    propagateError: true,
+  });
 }
 
 export function fetchQuote(quoteId: number): Thunk<any> {
