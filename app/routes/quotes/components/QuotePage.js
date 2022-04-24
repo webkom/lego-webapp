@@ -12,13 +12,13 @@ import type { EmojiEntity } from 'app/reducers/emojis';
 
 type Props = {
   reactions: Array<Object>,
-  query: Object,
+  query: { approved: string },
   quotes: Array<QuoteEntity>,
   actionGrant: ActionGrant,
   approve: (number) => Promise<*>,
   unapprove: (number) => Promise<*>,
   deleteQuote: (number) => Promise<*>,
-  fetchAll: ({ query: { approved?: string } }, next?: boolean) => Promise<*>,
+  fetchAll: ({ query: { approved: string } }, next?: boolean) => Promise<*>,
   showFetchMore: boolean,
   currentUser: any,
   loggedIn: boolean,
@@ -54,7 +54,7 @@ export default function QuotePage({
   let errorMessage = undefined;
   if (quotes.length === 0) {
     errorMessage =
-      !query.approved || query.approved === 'false'
+      query.approved === 'false'
         ? 'Ingen sitater venter på godkjenning.'
         : 'Fant ingen sitater. Hvis du har sendt inn et sitat venter det trolig på godkjenning.';
   }
