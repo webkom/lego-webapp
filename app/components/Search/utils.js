@@ -80,11 +80,6 @@ const LINKS: Array<Link> = [
     url: '/tags',
   },
   {
-    key: 'podcasts',
-    title: 'Podcasts',
-    url: '/podcasts',
-  },
-  {
     key: 'polls',
     title: 'Avstemninger',
     url: '/polls',

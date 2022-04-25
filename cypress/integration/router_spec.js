@@ -195,10 +195,6 @@ describe('Create event', () => {
     openMenuAndSelect('Om Abakus', '/pages/info-om-abakus');
     cy.contains('Generelt');
 
-    // Podcast
-    openMenuAndSelect('Podcasts', '/podcasts');
-    cy.contains('Podcasts');
-
     // Profile
     openMenuAndSelect('Profil', '/users/me');
     cy.contains('Brukerinfo');
