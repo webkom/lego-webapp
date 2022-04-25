@@ -26,10 +26,38 @@ const mutateQuote = produce((newState: State, action: any): void => {
   switch (action.type) {
     case Quote.UNAPPROVE.SUCCESS:
       newState.byId[action.meta.quoteId].approved = false;
+      // Explicitly remove the quote from the paginated list to remove it from the list shown to the user
+      // note: this will _not_ add it to the other pagination lists, since we cannot guarntee the order
+      // as well as the other filtering
+      Object.keys(newState.paginationNext).forEach((paginationKey) => {
+        const paginationEntry = newState.paginationNext[paginationKey];
+        if (
+          paginationEntry.items.includes(action.meta.quoteId) &&
+          paginationEntry.query.approved === 'true'
+        ) {
+          paginationEntry.items = paginationEntry.items.filter(
+            (item) => item !== action.meta.quoteId
+          );
+        }
+      });
       break;
 
     case Quote.APPROVE.SUCCESS:
       newState.byId[action.meta.quoteId].approved = true;
+      // Explicitly remove the quote from the paginated list to remove it from the list shown to the user
+      // note: this will _not_ add it to the other pagination lists, since we cannot guarntee the order
+      // as well as the other filtering
+      Object.keys(newState.paginationNext).forEach((paginationKey) => {
+        const paginationEntry = newState.paginationNext[paginationKey];
+        if (
+          paginationEntry.items.includes(action.meta.quoteId) &&
+          paginationEntry.query.approved === 'false'
+        ) {
+          paginationEntry.items = paginationEntry.items.filter(
+            (item) => item !== action.meta.quoteId
+          );
+        }
+      });
       break;
 
     case Quote.FETCH_RANDOM.SUCCESS:
@@ -53,19 +81,11 @@ export default createEntityReducer({
   mutate,
 });
 
-const compareByDate = (a, b) => {
-  const date1 = new Date(a.createdAt);
-  const date2 = new Date(b.createdAt);
-  return date2.getTime() - date1.getTime();
-};
-
 export const selectQuotes = createSelector(
   (state) => state.quotes.byId,
-  (state) => state.quotes.items,
-  (quotesById, ids) => {
-    if (!quotesById || !ids) return [];
-    return ids.map((quoteId) => quotesById[quoteId]);
-  }
+  (_, props) => props.pagination,
+  (quotesById, pagination) =>
+    pagination.items.map((quoteId) => quotesById[quoteId])
 );
 
 export const selectQuoteById = createSelector(
@@ -74,20 +94,6 @@ export const selectQuoteById = createSelector(
   (quotes, quoteId) => {
     if (!quotes || !quoteId) return {};
     return quotes.find((quote) => Number(quote.id) === Number(quoteId));
-  }
-);
-
-export const selectSortedQuotes = createSelector(
-  selectQuotes,
-  (state, props) => ({ filter: props.filter }),
-  (quotes, query) => {
-    return quotes
-      .filter(
-        (quote) =>
-          typeof quote !== 'undefined' &&
-          quote.approved === (query.filter !== 'unapproved')
-      )
-      .sort(compareByDate);
   }
 );
 

@@ -4,9 +4,9 @@ import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 
 export const navigation = (title: string, actionGrant: Array<string>) => (
   <NavigationTab title={title}>
-    <NavigationLink to="/quotes/?filter=all">Sitater</NavigationLink>
+    <NavigationLink to="/quotes/">Sitater</NavigationLink>
     {actionGrant.indexOf('approve') !== -1 && (
-      <NavigationLink to="/quotes?filter=unapproved">
+      <NavigationLink to="/quotes?approved=false">
         Ikke godkjente sitater
       </NavigationLink>
     )}

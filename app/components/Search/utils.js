@@ -62,7 +62,7 @@ const LINKS: Array<Link> = [
   {
     key: 'quotes',
     title: 'Overhørt',
-    url: '/quotes/?filter=all',
+    url: '/quotes/',
   },
   {
     key: 'companies',
