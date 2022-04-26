@@ -145,7 +145,7 @@
     "express-static-gzip": "^2.1.5",
     "flow-bin": "0.131.0",
     "identity-obj-proxy": "3.0.0",
-    "jest": "^27.5.1",
+    "jest": "^28.0.1",
     "lolex": "^6.0.0",
     "mini-css-extract-plugin": "^2.6.0",
     "null-loader": "^4.0.1",
