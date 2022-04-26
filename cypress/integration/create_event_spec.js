@@ -368,6 +368,7 @@ describe('Create event', () => {
     field('useConsent').check();
 
     // Question
+    field('hasFeedbackQuestion').check();
     field('feedbackRequired').check();
     field('feedbackDescription').type('Burger eller sushi');
 

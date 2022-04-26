@@ -57,6 +57,7 @@ const mapStateToProps = (state, props) => {
           'hours'
         ),
       mazemapPoi: valueSelector(state, 'mazemapPoi'),
+      hasFeedbackQuestion: valueSelector(state, 'hasFeedbackQuestion'),
     },
     pools: valueSelector(state, 'pools'),
   };

@@ -219,6 +219,7 @@ export type TransformEvent = EventBase & {
   eventType: SelectInput,
   mazemapPoi: Object,
   useMazemap: boolean,
+  hasFeedbackQuestion: boolean,
 };
 
 export type UserFollowing = {

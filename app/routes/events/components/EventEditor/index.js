@@ -493,10 +493,10 @@ function EventEditor({
             {['NORMAL', 'INFINITE'].includes(
               event.eventStatusType && event.eventStatusType.value
             ) && (
-              <Tooltip content="Et spørsmål alle må svare på før de melder seg på">
+              <Tooltip content="Still et spørsmål ved påmelding">
                 <Field
-                  name="feedbackRequired"
-                  label="Obligatorisk spørsmål"
+                  label="Påmeldingsspørsmål"
+                  name="hasFeedbackQuestion"
                   component={CheckBox.Field}
                   fieldClassName={styles.metaField}
                   className={styles.formField}
@@ -504,10 +504,10 @@ function EventEditor({
                 />
               </Tooltip>
             )}
-            {['NORMAL', 'INFINITE', 'OPEN'].includes(
+            {['NORMAL', 'INFINITE'].includes(
               event.eventStatusType && event.eventStatusType.value
             ) &&
-              event.feedbackRequired && (
+              event.hasFeedbackQuestion && (
                 <div className={styles.subSection}>
                   <Field
                     name="feedbackDescription"
@@ -515,6 +515,14 @@ function EventEditor({
                     component={TextInput.Field}
                     fieldClassName={styles.metaField}
                     className={styles.formField}
+                  />
+                  <Field
+                    name="feedbackRequired"
+                    label="Obligatorisk"
+                    component={CheckBox.Field}
+                    fieldClassName={styles.metaField}
+                    className={styles.formField}
+                    normalize={(v) => !!v}
                   />
                 </div>
               )}
