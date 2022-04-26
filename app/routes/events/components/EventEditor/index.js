@@ -112,6 +112,11 @@ function EventEditor({
   const isTBA = (value) =>
     value && value === 'TBA' ? `Velg påmeldingstype TBA` : undefined;
 
+  const containsAllergier = (value) =>
+    value && value.toLowerCase().indexOf('allergi') !== -1
+      ? `Allergier kan hentes fra profilene til deltakere`
+      : undefined;
+
   const tooLow = (value) =>
     value && value <= 3 ? `Summen må være større enn 3 kr` : undefined;
 
@@ -515,6 +520,7 @@ function EventEditor({
                     component={TextInput.Field}
                     fieldClassName={styles.metaField}
                     className={styles.formField}
+                    warn={containsAllergier}
                   />
                   <Field
                     name="feedbackRequired"
