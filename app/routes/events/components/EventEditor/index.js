@@ -616,6 +616,9 @@ const validate = (data) => {
   if (data.useMazemap && !data.mazemapPoi) {
     errors.mazemapPoi = 'Sted eller Mazemap-rom er påkrevd.';
   }
+  if (data.hasFeedbackQuestion && !data.feedbackDescription) {
+    errors.feedbackDescription = 'Spørsmål er tomt.';
+  }
   if (!data.id && !data.cover) {
     errors.cover = 'Cover er påkrevet';
   }
