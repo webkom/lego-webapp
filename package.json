@@ -141,7 +141,7 @@
     "eslint-plugin-react-hooks": "^4.4.0",
     "eslint-plugin-react-redux": "^4.0.0",
     "eslint-plugin-testing-library": "^5.3.1",
-    "express": "^4.17.3",
+    "express": "^4.18.0",
     "express-static-gzip": "^2.1.5",
     "flow-bin": "0.131.0",
     "identity-obj-proxy": "3.0.0",
