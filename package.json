@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "@loadable/component": "^5.15.2",
-    "@sentry/browser": "^6.19.6",
+    "@sentry/browser": "^6.19.7",
     "@sentry/integrations": "^6.19.6",
     "@sentry/node": "^6.19.6",
     "@stripe/react-stripe-js": "^1.6.0",
