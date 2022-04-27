@@ -17,6 +17,7 @@ import { createValidator, required, sameAs } from 'app/utils/validation';
 import { validPassword } from '../utils';
 import PasswordField from './PasswordField';
 import { type UserEntity } from 'app/reducers/users';
+import { createAsyncValidator } from 'app/utils/asyncValidator';
 
 type Props = {
   token: string,
@@ -151,9 +152,13 @@ const UserConfirmation = ({
 
 const validate = createValidator({
   username: [required()],
-  password: [required(), validPassword()],
+  password: [required()],
   retypePassword: [required(), sameAs('password', 'Passordene er ikke like')],
   gender: [required()],
+});
+
+const asyncValidate = createAsyncValidator({
+  password: [validPassword()],
 });
 
 const onSubmit = (data, dispatch, { token, createUser }) =>
@@ -162,5 +167,6 @@ const onSubmit = (data, dispatch, { token, createUser }) =>
 export default legoForm({
   form: 'ConfirmationForm',
   validate,
+  asyncValidate,
   onSubmit,
 })(UserConfirmation);

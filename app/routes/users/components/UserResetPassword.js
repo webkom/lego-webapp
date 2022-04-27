@@ -7,6 +7,7 @@ import { Form, Button, TextInput } from 'app/components/Form';
 import { createValidator, required, sameAs } from 'app/utils/validation';
 import { validPassword } from '../utils';
 import PasswordField from './PasswordField';
+import { createAsyncValidator } from 'app/utils/asyncValidator';
 
 type Props = {
   token: string,
@@ -63,14 +64,19 @@ const UserResetPassword = ({
 };
 
 const validate = createValidator({
-  password: [required(), validPassword()],
+  password: [required()],
   retypeNewPassword: [
     required(),
     sameAs('password', 'Passordene er ikke like'),
   ],
 });
 
+const asyncValidate = createAsyncValidator({
+  password: [validPassword()],
+});
+
 export default reduxForm({
   form: 'ResetPassword',
   validate,
+  asyncValidate,
 })(UserResetPassword);

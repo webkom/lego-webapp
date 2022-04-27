@@ -8,6 +8,7 @@ import { createValidator, required, sameAs } from 'app/utils/validation';
 import { validPassword } from '../utils';
 import PasswordField from './PasswordField';
 import { type UserEntity } from 'app/reducers/users';
+import { createAsyncValidator } from 'app/utils/asyncValidator';
 
 type PasswordPayload = {
   newPassword: string,
@@ -57,16 +58,21 @@ const ChangePassword = ({
 
 const validate = createValidator({
   password: [required()],
-  newPassword: [required(), validPassword()],
+  newPassword: [required()],
   retypeNewPassword: [
     required(),
     sameAs('newPassword', 'Passordene er ikke like'),
   ],
 });
 
+const asyncValidate = createAsyncValidator({
+  newPassword: [validPassword()],
+});
+
 export default legoForm({
   form: 'changePassword',
   validate,
+  asyncValidate,
   onSubmit: (data, dispatch, { changePassword, push }: Props) =>
     changePassword(data).then(() => push('/users/me')),
 })(ChangePassword);

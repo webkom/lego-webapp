@@ -1,14 +1,21 @@
-import zxcvbn from 'zxcvbn';
-import { pick } from 'lodash';
+// @flow
+
+type Data = {
+  username?: string,
+  firstName?: string,
+  lastName?: string,
+};
 
 export const validPassword =
-  (message = 'Passordet er for svakt. Minimum styrke er 3.') =>
-  (value, data) => {
+  (message: string = 'Passordet er for svakt. Minimum styrke er 3.') =>
+  async (value: string, data: Data) => {
     if (value === undefined) {
       return [true];
     }
-    const userValues = Object.values(
-      pick(data, ['username', 'firstName', 'lastName'])
+    const zxcvbn = (await import('zxcvbn')).default;
+
+    const userValues = [data.username, data.firstName, data.lastName].filter(
+      Boolean
     );
     const evalPass = zxcvbn(value, userValues);
     return [evalPass.score >= 3, message];
