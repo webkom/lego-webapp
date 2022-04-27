@@ -56,6 +56,7 @@ const mapStateToProps = (state, props) => {
           valueSelector(state, 'unregistrationDeadlineHours'),
           'hours'
         ),
+      useMazemap: valueSelector(state, 'useMazemap'),
       mazemapPoi: valueSelector(state, 'mazemapPoi'),
       hasFeedbackQuestion: valueSelector(state, 'hasFeedbackQuestion'),
     },
