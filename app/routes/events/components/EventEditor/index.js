@@ -112,6 +112,11 @@ function EventEditor({
   const isTBA = (value) =>
     value && value === 'TBA' ? `Velg påmeldingstype TBA` : undefined;
 
+  const containsAllergier = (value) =>
+    value && value.toLowerCase().indexOf('allergi') !== -1
+      ? `Allergier kan hentes fra profilene til deltakere`
+      : undefined;
+
   const tooLow = (value) =>
     value && value <= 3 ? `Summen må være større enn 3 kr` : undefined;
 
@@ -493,10 +498,10 @@ function EventEditor({
             {['NORMAL', 'INFINITE'].includes(
               event.eventStatusType && event.eventStatusType.value
             ) && (
-              <Tooltip content="Et spørsmål alle må svare på før de melder seg på">
+              <Tooltip content="Still et spørsmål ved påmelding">
                 <Field
-                  name="feedbackRequired"
-                  label="Obligatorisk spørsmål"
+                  label="Påmeldingsspørsmål"
+                  name="hasFeedbackQuestion"
                   component={CheckBox.Field}
                   fieldClassName={styles.metaField}
                   className={styles.formField}
@@ -504,10 +509,10 @@ function EventEditor({
                 />
               </Tooltip>
             )}
-            {['NORMAL', 'INFINITE', 'OPEN'].includes(
+            {['NORMAL', 'INFINITE'].includes(
               event.eventStatusType && event.eventStatusType.value
             ) &&
-              event.feedbackRequired && (
+              event.hasFeedbackQuestion && (
                 <div className={styles.subSection}>
                   <Field
                     name="feedbackDescription"
@@ -515,6 +520,15 @@ function EventEditor({
                     component={TextInput.Field}
                     fieldClassName={styles.metaField}
                     className={styles.formField}
+                    warn={containsAllergier}
+                  />
+                  <Field
+                    name="feedbackRequired"
+                    label="Obligatorisk"
+                    component={CheckBox.Field}
+                    fieldClassName={styles.metaField}
+                    className={styles.formField}
+                    normalize={(v) => !!v}
                   />
                 </div>
               )}
@@ -607,6 +621,9 @@ const validate = (data) => {
   }
   if (data.useMazemap && !data.mazemapPoi) {
     errors.mazemapPoi = 'Sted eller Mazemap-rom er påkrevd.';
+  }
+  if (data.hasFeedbackQuestion && !data.feedbackDescription) {
+    errors.feedbackDescription = 'Spørsmål er tomt.';
   }
   if (!data.id && !data.cover) {
     errors.cover = 'Cover er påkrevet';

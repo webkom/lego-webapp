@@ -187,6 +187,9 @@ export const transformEvent = (data: TransformEvent) => ({
   useCaptcha: true, // always use Captcha, this blocks the use of CLI
   youtubeUrl: data.youtubeUrl,
   mazemapPoi: calculateMazemapPoi(data),
+  feedbackDescription:
+    (data.hasFeedbackQuestion && data.feedbackDescription) || '',
+  feedbackRequired: data.hasFeedbackQuestion && data.feedbackRequired,
 });
 
 export const paymentPending = 'pending';
