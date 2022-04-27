@@ -259,6 +259,7 @@ describe('Create event', () => {
     cy.focused().type('Vanlig{enter}', { force: true });
 
     // Set location
+    field('useMazemap').uncheck();
     cy.contains('Sted').click();
     cy.focused().type('R4');
 
@@ -329,6 +330,7 @@ describe('Create event', () => {
     cy.focused().type('Uten{enter}', { force: true });
 
     // Set location
+    field('useMazemap').uncheck();
     cy.contains('Sted').click();
     cy.focused().type('Kjellern');
 
@@ -361,6 +363,7 @@ describe('Create event', () => {
     cy.focused().type('Med på{enter}', { force: true });
 
     // Set location
+    field('useMazemap').uncheck();
     cy.contains('Sted').click();
     cy.focused().type('EL6');
 

@@ -86,6 +86,7 @@ const mapStateToProps = (state, props) => {
       useConsent: false,
       feedbackDescription: '',
       pools: [],
+      useMazemap: true,
       separateDeadlines: false,
       unregistrationDeadline: time({ hours: 12 }),
       registrationDeadlineHours: 2,
