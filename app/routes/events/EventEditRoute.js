@@ -70,7 +70,7 @@ const mapStateToProps = (state, props) => {
       },
       separateDeadlines:
         event.registrationDeadlineHours !== event.unregistrationDeadlineHours,
-      useMazemap: event.mazemapPoi > 0,
+      useMazemap: event.eventStatusType === 'TBA' || event.mazemapPoi > 0,
       hasFeedbackQuestion: !!event.feedbackDescription,
     },
     actionGrant,
@@ -98,6 +98,7 @@ const mapStateToProps = (state, props) => {
           valueSelector(state, 'unregistrationDeadlineHours'),
           'hours'
         ),
+      useMazemap: valueSelector(state, 'useMazemap'),
       hasFeedbackQuestion: valueSelector(state, 'hasFeedbackQuestion'),
     },
     eventId,

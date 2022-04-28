@@ -44,7 +44,6 @@ import { validYoutubeUrl } from 'app/utils/validation';
 import { FormatTime } from 'app/components/Time';
 import moment from 'moment-timezone';
 import MazemapLink from 'app/components/MazemapEmbed/MazemapLink';
-import { useEffect, useState } from 'react';
 
 type Props = {
   eventId: number,
@@ -86,16 +85,6 @@ function EventEditor({
   initialized,
 }: Props) {
   const isEditPage = eventId !== undefined;
-
-  const [useMazemap, setUseMazemap] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (initialized) {
-      setUseMazemap(event?.mazemapPoi?.value > 0);
-    }
-    // Should only run once when initialized to initialize useMazemap state
-    // eslint-disable-next-line react-hooks/exhaustive-deps, react-app/react-hooks/exhaustive-deps
-  }, [initialized]);
 
   if (isEditPage && !actionGrant.includes('edit')) {
     return null;
@@ -277,17 +266,13 @@ function EventEditor({
                 component={CheckBox.Field}
                 fieldClassName={styles.metaField}
                 className={styles.formField}
-                value={useMazemap}
-                onChange={(e) => {
-                  setUseMazemap(!useMazemap);
-                }}
                 normalize={(v) => !!v}
               />
             )}
             {['NORMAL', 'OPEN', 'INFINITE'].includes(
               event.eventStatusType && event.eventStatusType.value
             ) &&
-              !useMazemap && (
+              (!event.useMazemap ? (
                 <Field
                   label="Sted"
                   name="location"
@@ -297,11 +282,7 @@ function EventEditor({
                   className={styles.formField}
                   warn={isTBA}
                 />
-              )}
-            {['NORMAL', 'OPEN', 'INFINITE'].includes(
-              event.eventStatusType && event.eventStatusType.value
-            ) &&
-              useMazemap && (
+              ) : (
                 <Flex alignItems="flex-end">
                   <Field
                     label="Mazemap-rom"
@@ -317,7 +298,7 @@ function EventEditor({
                     />
                   )}
                 </Flex>
-              )}
+              ))}
             {['NORMAL', 'INFINITE'].includes(
               event.eventStatusType && event.eventStatusType.value
             ) && (

@@ -56,6 +56,7 @@ const mapStateToProps = (state, props) => {
           valueSelector(state, 'unregistrationDeadlineHours'),
           'hours'
         ),
+      useMazemap: valueSelector(state, 'useMazemap'),
       mazemapPoi: valueSelector(state, 'mazemapPoi'),
       hasFeedbackQuestion: valueSelector(state, 'hasFeedbackQuestion'),
     },
@@ -85,6 +86,7 @@ const mapStateToProps = (state, props) => {
       useConsent: false,
       feedbackDescription: '',
       pools: [],
+      useMazemap: true,
       separateDeadlines: false,
       unregistrationDeadline: time({ hours: 12 }),
       registrationDeadlineHours: 2,

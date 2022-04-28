@@ -55,6 +55,7 @@ const mapStateToProps = (state, props) => {
     invitingUsers: valueSelector(state, 'users') || [],
     meeting: {
       ...meeting,
+      useMazemap: valueSelector(state, 'useMazemap'),
       mazemapPoi: valueSelector(state, 'mazemapPoi'),
     },
     meetingId,

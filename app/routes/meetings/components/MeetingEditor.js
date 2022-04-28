@@ -22,7 +22,6 @@ import moment from 'moment-timezone';
 import config from 'app/config';
 import { unionBy } from 'lodash';
 import type { UserEntity } from 'app/reducers/users';
-import { useEffect, useState } from 'react';
 import MazemapLink from 'app/components/MazemapEmbed/MazemapLink';
 import { Flex } from 'app/components/Layout';
 
@@ -56,16 +55,6 @@ function MeetingEditor({
   initialized,
 }: Props) {
   const isEditPage = meetingId !== undefined;
-
-  const [useMazemap, setUseMazemap] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (initialized) {
-      setUseMazemap(meeting?.mazemapPoi?.value > 0);
-    }
-    // Should only run once when initialized to initialize useMazemap state
-    // eslint-disable-next-line react-hooks/exhaustive-deps, react-app/react-hooks/exhaustive-deps
-  }, [initialized]);
 
   if (isEditPage && !meeting) {
     return <LoadingIndicator loading />;
@@ -148,21 +137,16 @@ function MeetingEditor({
           component={CheckBox.Field}
           fieldClassName={styles.metaField}
           className={styles.formField}
-          value={useMazemap}
-          onChange={(e) => {
-            setUseMazemap(!useMazemap);
-          }}
           normalize={(v) => !!v}
         />
-        {!useMazemap && (
+        {!meeting.useMazemap ? (
           <Field
             name="location"
             label="Sted"
             placeholder="Sted for møte"
             component={TextInput.Field}
           />
-        )}
-        {useMazemap && (
+        ) : (
           <Flex alignItems="center">
             <Field
               label="Mazemap-rom"

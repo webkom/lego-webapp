@@ -22,6 +22,10 @@ const mapStateToProps = (state, props) => {
       startTime: time(17, 15),
       endTime: time(20),
       report: '',
+      useMazemap: true,
+    },
+    meeting: {
+      useMazemap: valueSelector(state, 'useMazemap'),
     },
     user: props.currentUser,
     invitingUsers: valueSelector(state, 'users') || [],
