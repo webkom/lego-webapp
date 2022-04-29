@@ -9,6 +9,7 @@ type Item = {
 
 type Props = {
   items: Array<?Item>,
+  className?: string,
 };
 
 /**
@@ -16,16 +17,20 @@ type Props = {
  * Location <strong>Oslo</strong>
  * Time <strong>Yesterday</strong>
  */
-function InfoList({ items }: Props) {
+function InfoList({ items, className }: Props) {
   return (
-    <ul>
+    <table className={className}>
       {items.filter(Boolean).map(({ key, value }) => (
-        <li key={key}>
-          <span style={{ marginRight: 5 }}>{key}</span>
-          <strong>{value}</strong>
-        </li>
+        <tr key={key}>
+          <td>
+            <span style={{ marginRight: 5 }}>{key}</span>
+          </td>
+          <td>
+            <strong>{value}</strong>
+          </td>
+        </tr>
       ))}
-    </ul>
+    </table>
   );
 }
 

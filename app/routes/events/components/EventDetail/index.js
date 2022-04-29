@@ -17,11 +17,7 @@ import { FormatTime, FromToTime } from 'app/components/Time';
 import InfoList from 'app/components/InfoList';
 import { Flex } from 'app/components/Layout';
 import Tooltip from 'app/components/Tooltip';
-import {
-  colorForEvent,
-  unregistrationCloseTime,
-  penaltyHours,
-} from '../../utils';
+import { colorForEvent, penaltyHours } from '../../utils';
 import Admin from '../Admin';
 import RegistrationMeta from '../RegistrationMeta';
 import DisplayContent from 'app/components/DisplayContent';
@@ -50,6 +46,8 @@ import { MazemapEmbed } from 'app/components/MazemapEmbed';
 type InterestedButtonProps = {
   isInterested: boolean,
 };
+
+const Line = () => <div className={styles.line} />;
 
 const InterestedButton = ({ isInterested }: InterestedButtonProps) => {
   const icon = isInterested ? 'star' : 'star-outline';
@@ -197,7 +195,12 @@ export default class EventDetail extends Component<Props, State> {
       event.activationTime
         ? {
             key: 'Påmelding åpner',
-            value: <FormatTime time={eventRegistrationTime} />,
+            value: (
+              <FormatTime
+                format="dd DD. MMM HH:mm"
+                time={eventRegistrationTime}
+              />
+            ),
           }
         : null,
       event.heedPenalties &&
@@ -205,20 +208,23 @@ export default class EventDetail extends Component<Props, State> {
       !['OPEN', 'TBA'].includes(event.eventStatusType)
         ? {
             key: 'Frist for prikk',
-            value: <FormatTime time={event.unregistrationDeadline} />,
+            value: (
+              <FormatTime
+                format="dd DD. MMM HH:mm"
+                time={event.unregistrationDeadline}
+              />
+            ),
           }
         : null,
       event.paymentDueDate
         ? {
             key: 'Betalingsfrist',
-            value: <FormatTime time={event.paymentDueDate} />,
-          }
-        : null,
-      event.unregistrationDeadlineHours &&
-      !['OPEN', 'TBA'].includes(event.eventStatusType)
-        ? {
-            value: <FormatTime time={unregistrationCloseTime(event)} />,
-            key: 'Avregistrering stengt',
+            value: (
+              <FormatTime
+                format="dd DD. MMM HH:mm"
+                time={event.paymentDueDate}
+              />
+            ),
           }
         : null,
     ];
@@ -228,7 +234,11 @@ export default class EventDetail extends Component<Props, State> {
         key: 'Arrangør',
         value: (
           <span>
-            {event.responsibleGroup.name}{' '}
+            {event.responsibleGroup.type === 'komite' ? (
+              <Link to={`pages/komiteer/${event.responsibleGroup.id}`}></Link>
+            ) : (
+              event.responsibleGroup.name
+            )}{' '}
             {event.responsibleGroup.contactEmail && (
               <a href={`mailto:${event.responsibleGroup.contactEmail}`}>
                 {event.responsibleGroup.contactEmail}
@@ -279,11 +289,8 @@ export default class EventDetail extends Component<Props, State> {
             </ContentMain>
             <ContentSidebar>
               {event.company && (
-                <div>
-                  <Icon
-                    name="briefcase-outline"
-                    style={{ marginRight: '10px' }}
-                  />
+                <div className={styles.iconWithText}>
+                  <Icon name="briefcase-outline" className={styles.infoIcon} />
                   <strong>
                     <Link to={`/companies/${event.company.id}`}>
                       {event.company.name}
@@ -291,29 +298,24 @@ export default class EventDetail extends Component<Props, State> {
                   </strong>
                 </div>
               )}
-              <div>
-                <Icon name="time-outline" style={{ marginRight: 9 }} />
+              <div className={styles.iconWithText}>
+                <Icon name="time-outline" className={styles.infoIcon} />
                 <strong>
                   <FromToTime from={event.startTime} to={event.endTime} />
                 </strong>
               </div>
               {event.isPriced && (
-                <div style={{ marginLeft: 4, marginBottom: 7 }}>
-                  $
-                  <strong style={{ marginLeft: 12 }}>
-                    {event.priceMember / 100},-
-                  </strong>
+                <div className={styles.iconWithText}>
+                  <Icon name="cash-outline" className={styles.infoIcon} />
+                  <strong>{event.priceMember / 100},-</strong>
                 </div>
               )}
-              <div>
-                <Icon
-                  name="pin-outline"
-                  style={{ marginLeft: 2, marginRight: 8 }}
-                />
-                <strong>{' ' + event.location}</strong>
+              <div className={styles.iconWithText}>
+                <Icon name="pin-outline" className={styles.infoIcon} />
+                <strong>{event.location}</strong>
               </div>
               {event.mazemapPoi && (
-                <div>
+                <>
                   <div
                     className={styles.simulateLink}
                     onClick={() =>
@@ -326,13 +328,13 @@ export default class EventDetail extends Component<Props, State> {
                   {this.state.mapIsOpen && (
                     <MazemapEmbed mazemapPoi={event.mazemapPoi} />
                   )}
-                </div>
+                </>
               )}
               {['OPEN', 'TBA'].includes(event.eventStatusType) ? (
                 <JoinEventForm event={event} />
               ) : (
-                <Flex column>
-                  <h3 style={{ marginTop: 12 }}>Påmeldte</h3>
+                <Flex column className={styles.registeredBox}>
+                  <h3>Påmeldte</h3>
                   {registrations ? (
                     <Fragment>
                       <UserGrid
@@ -425,17 +427,16 @@ export default class EventDetail extends Component<Props, State> {
                   )}
                 </Flex>
               )}
-              <div className={styles.line} />
-              <InfoList style={{ marginBottom: '4px' }} items={deadlines} />
-              <div className={styles.line} />
-              <InfoList
-                style={{ paddingBottom: '24px' }}
-                items={eventCreator}
-              />
-              {(actionGrant.includes('edit') ||
-                actionGrant.includes('delete')) && (
-                <div className={styles.line} />
+              {deadlines.some((d) => d !== null) && (
+                <>
+                  <Line />
+                  <InfoList className={styles.infoList} items={deadlines} />
+                </>
               )}
+              <Line />
+              <InfoList items={eventCreator} className={styles.infoList} />
+              {(actionGrant.includes('edit') ||
+                actionGrant.includes('delete')) && <Line />}
               <Flex column>
                 <Admin
                   actionGrant={actionGrant}

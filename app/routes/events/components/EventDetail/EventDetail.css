@@ -32,3 +32,29 @@
   color: var(--lego-link-color);
   cursor: pointer;
 }
+
+.infoList tr {
+  & td {
+    width: unset;
+  }
+
+  &:last-of-type td {
+    border-bottom: none;
+  }
+}
+
+.iconWithText {
+  display: flex;
+  align-items: center;
+}
+
+.infoIcon {
+  min-width: 26px;
+  display: flex;
+  justify-content: center;
+  padding-right: 0.2em;
+}
+
+.registeredBox {
+  margin-top: 1em;
+}

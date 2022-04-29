@@ -72,7 +72,16 @@ describe('<FromToTime />', () => {
   it('should render both days fully when start day != end day', () => {
     const from = '2016-01-18T20:00:00Z';
     const to = '2016-01-19T22:00:00Z';
-    const output = 'Monday 18. Jan 2016 20:00 - Tuesday 19. Jan 2016 22:00';
+    const output = 'Mo 18. Jan 2016 20:00 - Tu 19. Jan 2016 22:00';
+
+    const wrapper = shallow(<FromToTime from={from} to={to} />);
+    expect(wrapper.render().text()).toEqual(output);
+  });
+
+  it('should render only one day fully if end - start < 1 day', () => {
+    const from = '2016-01-18T20:00:00Z';
+    const to = '2016-01-19T02:00:00Z';
+    const output = 'Monday 18. Jan 2016 20:00 - 02:00';
 
     const wrapper = shallow(<FromToTime from={from} to={to} />);
     expect(wrapper.render().text()).toEqual(output);
@@ -81,7 +90,7 @@ describe('<FromToTime />', () => {
   it('should not render year if year == currentYear', () => {
     const from = '2017-01-18T20:00:00Z';
     const to = '2017-01-19T22:00:00Z';
-    const output = 'Wednesday 18. January, 20:00 - Thursday 19. January, 22:00';
+    const output = 'We 18. Jan, 20:00 - Th 19. Jan, 22:00';
 
     const _now = Date.now;
     const mockDate = +moment(from);
@@ -97,7 +106,7 @@ describe('<FromToTime />', () => {
   it('should not render year if year == currentYear, and day only once if equal', () => {
     const from = '2017-01-18T20:00:00Z';
     const to = '2017-01-18T21:00:00Z';
-    const output = 'Wednesday 18. January, 20:00 - 21:00';
+    const output = 'Wednesday 18. Jan, 20:00 - 21:00';
 
     const _now = Date.now;
     const mockDate = +moment(from);
