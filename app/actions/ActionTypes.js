@@ -145,7 +145,7 @@ export const Group = {
   CREATE: (generateStatuses('Group.CREATE'): AAT),
   REMOVE: (generateStatuses('Group.REMOVE'): AAT),
   MEMBERSHIP_FETCH: (generateStatuses('Group.MEMBERSHIP_FETCH'): AAT),
-  FETCH_RADOM_INTERESTS: (generateStatuses(
+  FETCH_RANDOM_INTERESTS: (generateStatuses(
     'Group.FETCH_RANDOM_INTERESTS'
   ): AAT),
 };

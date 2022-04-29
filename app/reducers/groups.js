@@ -49,7 +49,7 @@ export default createEntityReducer({
         }
         break;
 
-      case Group.FETCH_RADOM_INTERESTS.SUCCESS:
+      case Group.FETCH_RANDOM_INTERESTS.SUCCESS:
         newState.randomInterestById = action.payload.result;
         break;
 

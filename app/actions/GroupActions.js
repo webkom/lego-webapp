@@ -86,7 +86,7 @@ export function fetchAllWithType(type: string): Thunk<any> {
 
 export function fetchRandomInterestgroups(): Thunk<any> {
   return callAPI({
-    types: Group.FETCH_RADOM_INTERESTS,
+    types: Group.FETCH_RANDOM_INTERESTS,
     endpoint: '/groups/random_interests/',
     method: 'GET',
     meta: {
