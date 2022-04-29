@@ -5,13 +5,15 @@ import { sortBy } from 'lodash';
 import { createSelector } from 'reselect';
 import { selectArticles } from './articles';
 import { selectEvents } from './events';
+import { selectRandomInterestgroups } from './groups';
 
 export default fetching(Frontpage.FETCH);
 
 export const selectFrontpage = createSelector(
   selectArticles,
   selectEvents,
-  (articles, events) => {
+  selectRandomInterestgroups,
+  (articles, events, interestGroups) => {
     articles = articles.map((article) => ({
       ...article,
       documentType: 'article',
