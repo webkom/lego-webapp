@@ -1,6 +1,7 @@
 // @flow
 import { SubmissionError } from 'redux-form';
 import { get } from 'lodash';
+import { FORM_ERROR } from 'final-form';
 
 /*
  * Simple utility that handles submission errors
@@ -22,6 +23,32 @@ export const handleSubmissionError = (error: any) => {
     ...errPayload,
     _error,
   });
+};
+
+/*
+ * Simple utility that handles submission errors
+ *
+ * Usage:
+ * onSubmit(data).catch(handleSubmissionError)
+ * or
+ * onSubmit(data).then(result=>{...}, handleSubmissionError)
+ */
+export const handleSubmissionErrorFinalForm = (error: any) => {
+  const errPayload = error?.payload?.response?.jsonData;
+  if (!errPayload) {
+    return { [FORM_ERROR]: error?.payload?.response?.textString };
+  }
+  const { detail } = errPayload;
+  const form_error = detail
+    ? typeof detail === 'object'
+      ? JSON.stringify(errPayload.detail)
+      : errPayload.detail
+    : errPayload.error;
+
+  return {
+    ...errPayload,
+    [FORM_ERROR]: form_error,
+  };
 };
 
 /*
