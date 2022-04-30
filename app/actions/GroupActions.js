@@ -84,7 +84,7 @@ export function fetchAllWithType(type: string): Thunk<any> {
   });
 }
 
-export function fetchRandomInterestgroups(): Thunk<any> {
+export function fetchRandomInterestGroups(): Thunk<any> {
   return callAPI({
     types: Group.FETCH_RANDOM_INTERESTS,
     endpoint: '/groups/random_interests/',

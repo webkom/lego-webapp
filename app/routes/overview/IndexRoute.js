@@ -17,14 +17,14 @@ import {
 } from 'app/reducers/feeds';
 import { selectPinnedPolls } from 'app/reducers/polls';
 import { votePoll } from 'app/actions/PollActions';
-import { fetchRandomInterestgroups } from 'app/actions/GroupActions';
-import { selectRandomInterestgroups } from 'app/reducers/groups';
+import { fetchRandomInterestGroups } from 'app/actions/GroupActions';
+import { selectRandomInterestGroups } from 'app/reducers/groups';
 
 const mapStateToProps = (state) => ({
   frontpage: selectFrontpage(state),
   feed: selectFeedById(state, { feedId: 'personal' }),
   shouldFetchQuote: isEmpty(selectRandomQuote(state)),
-  shouldFetchInterestgroups: isEmpty(selectRandomInterestgroups(state)),
+  shouldFetchInterestGroups: isEmpty(selectRandomInterestGroups(state)),
   feedItems: selectFeedActivitesByFeedId(state, {
     feedId: 'personal',
   }),
@@ -41,13 +41,13 @@ export default compose(
   // ),
   connect(mapStateToProps, mapDispatchToProps),
   prepare(
-    ({ shouldFetchQuote, shouldFetchInterestgroups, loggedIn }, dispatch) =>
+    ({ shouldFetchQuote, shouldFetchInterestGroups, loggedIn }, dispatch) =>
       Promise.all([
         loggedIn && shouldFetchQuote && dispatch(fetchRandomQuote()),
         dispatch(fetchReadmes(loggedIn ? 4 : 1)),
         loggedIn &&
-          shouldFetchInterestgroups &&
-          dispatch(fetchRandomInterestgroups()),
+          shouldFetchInterestGroups &&
+          dispatch(fetchRandomInterestGroups()),
       ]),
     [],
     { awaitOnSsr: false }

@@ -77,7 +77,7 @@ export const selectGroupsWithType = createSelector(
   (groups, groupType) => groups.filter((g) => g.type === groupType)
 );
 
-export const selectRandomInterestgroups = createSelector(
+export const selectRandomInterestGroups = createSelector(
   (state) => state.groups.byId,
   (state) => state.groups.randomInterestById,
   (groupsById, groupIds) => {
