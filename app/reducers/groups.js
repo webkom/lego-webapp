@@ -49,6 +49,10 @@ export default createEntityReducer({
         }
         break;
 
+      case Group.FETCH_RANDOM_INTERESTS.SUCCESS:
+        newState.randomInterestById = action.payload.result;
+        break;
+
       default:
         break;
     }
@@ -71,4 +75,13 @@ export const selectGroupsWithType = createSelector(
   (state, props) => selectGroups(state),
   (state, props) => props.groupType,
   (groups, groupType) => groups.filter((g) => g.type === groupType)
+);
+
+export const selectRandomInterestGroups = createSelector(
+  (state) => state.groups.byId,
+  (state) => state.groups.randomInterestById,
+  (groupsById, groupIds) => {
+    if (!groupsById || !groupIds) return [];
+    return groupIds.map((id) => groupsById[id]);
+  }
 );

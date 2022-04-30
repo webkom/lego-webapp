@@ -84,6 +84,19 @@ export function fetchAllWithType(type: string): Thunk<any> {
   });
 }
 
+export function fetchRandomInterestGroups(): Thunk<any> {
+  return callAPI({
+    types: Group.FETCH_RANDOM_INTERESTS,
+    endpoint: '/groups/random_interests/',
+    method: 'GET',
+    meta: {
+      errorMessage: 'Henting av tilfeldige interessegrupper feilet',
+    },
+    useCache: false,
+    schema: [groupSchema],
+  });
+}
+
 export function editGroup(group: Object): Thunk<*> {
   return (dispatch) =>
     dispatch(
