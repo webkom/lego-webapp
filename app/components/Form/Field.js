@@ -105,7 +105,9 @@ export function createField(Component: ComponentType<*>, options?: Options) {
     const content = (
       <>
         <Flex>
-          {label && <div>{label}</div>}
+          {label && (
+            <div className={cx(styles.label, labelClassName)}>{label}</div>
+          )}
           {description && (
             <Tooltip style={{ display: 'inline-block' }} content={description}>
               <div style={{ marginLeft: '10px' }}>
@@ -128,11 +130,7 @@ export function createField(Component: ComponentType<*>, options?: Options) {
     );
     return (
       <div className={cx(styles.field, fieldClassName)} style={fieldStyle}>
-        {options && options.noLabel ? (
-          content
-        ) : (
-          <label className={cx(styles.label, labelClassName)}>{content}</label>
-        )}
+        {options && options.noLabel ? content : <label>{content}</label>}
         {hasError && (
           <RenderErrorMessage error={meta.error} fieldName={fieldName} />
         )}
