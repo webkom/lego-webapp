@@ -11,24 +11,15 @@ type Props = {
   label?: string,
   labelStyle?: string,
   value?: boolean,
+  checked?: boolean,
   inverted?: boolean,
   className?: string,
 };
 
 /*
 
-When using this component as a Field in redux-form, you have to include
-normalize={v => !!v}. This makes the value always end up in redux-form as
-true or false, while otherwise it can end up as an empty string or left
-out of the form values altogether.
-
-Example:
-<Field
-  name="name"
-  // label, placeholder, etc...
-  component={CheckBox.Field}
-  normalize={v => !!v} // <--
-/>
+When using this component as a Field in form, you have to include
+type="checkbox", so that react-final-form knows to send the "checked" prop.
 
 */
 
@@ -36,18 +27,19 @@ function CheckBox({
   inverted,
   id,
   label,
-  value,
+  value, // TODO: remove "value" once migration to react-final-form is complete
+  checked,
   labelStyle,
   className,
   ...props
 }: Props) {
-  const normalizedValue = inverted ? !value : value;
+  checked = checked ?? value;
+  const normalizedValue = inverted ? !checked : checked;
   return (
     <div className={cx(styles.box, className)}>
       <input
         {...props}
-        defaultChecked={value}
-        checked={value}
+        checked={checked}
         className={cx(normalizedValue ? styles.checked : styles.unchecked)}
         type="checkbox"
       />
