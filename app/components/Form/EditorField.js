@@ -74,6 +74,11 @@ const EditorField = connect(null, mapDispatchToProps)(EditorFieldComponent);
 EditorField.Field = connect(
   null,
   mapDispatchToProps
-)(createField(EditorFieldComponent, { noLabel: true }));
+)(
+  createField(
+    (props) => EditorFieldComponent({ initialized: !!props.value, ...props }),
+    { noLabel: true }
+  )
+);
 
 export default EditorField;
