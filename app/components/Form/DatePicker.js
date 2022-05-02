@@ -86,7 +86,7 @@ class DatePicker extends Component<Props, State> {
     }, this._notifyParent);
   };
 
-  _notifyParent = () => this.props.onChange(this.state.value.toString());
+  _notifyParent = () => this.props.onChange(this.state.value.toISOString());
 
   toggleDropdown = () => {
     this.setState((prevState) => ({
