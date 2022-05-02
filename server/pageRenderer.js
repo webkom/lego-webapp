@@ -74,17 +74,15 @@ export default function pageRenderer({
 }: PageRendererProps = {}): string {
   const isSSR = app === undefined ? 'false' : 'true';
   const { helmet } = helmetContext;
-  const getDataTheme = () => {
-    if (!isEmpty(state)) {
-      let selectedTheme = selectCurrentUser(state).selectedTheme;
-      return selectedTheme !== 'auto' ? selectedTheme : 'light';
-    }
-  };
+  const selectedTheme: string =
+    (!isEmpty(state) && selectCurrentUser(state).selectedTheme) || 'auto';
   const { body, scripts, styles, links } = readyHtml(app);
 
   return `
     <!DOCTYPE html>
-    <html data-theme=${serialize(getDataTheme() || 'light')}>
+    <html data-theme=${serialize(
+      selectedTheme === 'auto' ? 'light' : selectedTheme
+    )}>
       <head>
         <meta charset="utf-8">
         ${helmet ? helmet.title.toString() : ''}
@@ -120,6 +118,21 @@ export default function pageRenderer({
         ${styles}
       </head>
       <body>
+      ${
+        // If user has selected auto and device is in dark mode; ensure we update
+        // the theme before first render to screen
+        selectedTheme === 'auto'
+          ? `<script>
+          (function () {
+            try {
+              if (window.matchMedia('(prefers-color-scheme: dark)').matches === true) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+              }
+            } catch (e) {}
+           })();
+        </script>`
+          : ''
+      }
         <div id="root">${body}</div>
         <script>
            window.__CONFIG__ = ${serialize(config, { isJSON: true })};
