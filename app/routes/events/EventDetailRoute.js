@@ -51,7 +51,10 @@ const mapStateToProps = (state, props) => {
   const penalties = user
     ? selectPenaltyByUserId(state, { userId: user.id })
     : [];
-
+  const currentUserFollowing = selectFollowersCurrentUser(state, {
+    target: event.id,
+    type: 'event',
+  });
   if (!hasFullAccess) {
     const normalPools = event.isMerged
       ? selectMergedPool(state, { eventId })
@@ -74,6 +77,7 @@ const mapStateToProps = (state, props) => {
       eventId,
       pools,
       comments: [],
+      currentUserFollowing,
     };
   }
   const comments = selectCommentsForEvent(state, { eventId });
@@ -129,10 +133,7 @@ const mapStateToProps = (state, props) => {
     pendingRegistration,
     hasSimpleWaitingList,
     penalties,
-    currentUserFollowing: selectFollowersCurrentUser(state, {
-      target: event.id,
-      type: 'event',
-    }),
+    currentUserFollowing,
   };
 };
 
