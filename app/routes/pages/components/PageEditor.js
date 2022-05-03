@@ -20,7 +20,7 @@ import NavigationTab from 'app/components/NavigationTab';
 import { Field, Fields } from 'redux-form';
 import { Content } from 'app/components/Content';
 import { get } from 'lodash';
-import { categoryOptions } from 'app/reducers/pages';
+import { categoryOptions } from 'app/routes/pages/PageDetailRoute';
 
 type Page = {
   title: string,

@@ -5,7 +5,7 @@ import { get } from 'lodash';
 import { Search } from '../actions/ActionTypes';
 import moment from 'moment-timezone';
 import { resolveGroupLink } from 'app/reducers/groups';
-import { categoryOptions } from 'app/reducers/pages';
+import { categoryOptions } from 'app/routes/pages/PageDetailRoute';
 import { produce } from 'immer';
 
 export type SearchResult = {

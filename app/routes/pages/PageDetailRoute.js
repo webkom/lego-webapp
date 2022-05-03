@@ -20,10 +20,11 @@ import PageDetail, {
   GroupRenderer,
 } from './components/PageDetail';
 import LandingPage from './components/LandingPage';
-import { GroupTypeCommittee } from 'app/models';
+import { GroupTypeCommittee, GroupTypeBoard } from 'app/models';
 import {
   selectPagesForHierarchy,
   selectGroupsForHierarchy,
+  selectBoardsForHierarchy,
   selectPageHierarchy,
   selectCommitteeForPages,
   selectFlatpageForPages,
@@ -51,6 +52,27 @@ const sections: {
     PageRenderer: FlatpageRenderer,
     fetchAll: fetchAllPages,
     fetchItemActions: [fetchPage],
+  },
+  organisasjon: {
+    title: 'Organisasjon',
+    section: 'organisasjon',
+    pageSelector: selectFlatpageForPages,
+    hierarchySectionSelector: selectPagesForHierarchy('organisasjon'),
+    PageRenderer: FlatpageRenderer,
+    fetchAll: fetchAllPages,
+    fetchItemActions: [fetchPage],
+  },
+  styrer: {
+    title: 'Styrer',
+    section: 'styrer',
+    pageSelector: selectCommitteeForPages,
+    hierarchySectionSelector: selectBoardsForHierarchy,
+    PageRenderer: GroupRenderer,
+    fetchAll: () => fetchAllWithType(GroupTypeBoard),
+    fetchItemActions: [
+      fetchGroup,
+      (groupId: number) => fetchAllMemberships(groupId, true),
+    ],
   },
   bedrifter: {
     title: 'Bedrifter',
@@ -88,6 +110,15 @@ const sections: {
     PageRenderer: FlatpageRenderer,
     fetchItemActions: [fetchPage],
   },
+  utnevnelser: {
+    title: 'Utnevnelser',
+    section: 'utnevnelser',
+    pageSelector: selectFlatpageForPages,
+    hierarchySectionSelector: selectPagesForHierarchy('utnevnelser'),
+    PageRenderer: FlatpageRenderer,
+    fetchAll: fetchAllPages,
+    fetchItemActions: [fetchPage],
+  },
   personvern: {
     title: 'Personvern',
     section: 'personvern',
@@ -105,6 +136,13 @@ const sections: {
     fetchItemActions: [],
   },
 };
+
+export const categoryOptions = Object.values(sections)
+  .filter((s) => s.pageSelector === selectFlatpageForPages)
+  .map((section) => ({
+    value: section.section,
+    label: section.title,
+  }));
 
 const getSection = (sectionName) =>
   sections[sectionName] || {
