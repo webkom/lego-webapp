@@ -24,7 +24,7 @@ export const renderMeta = (
       {item.location !== '-' && isEvent && (
         <span>
           <span className={styles.dot}> . </span>
-          <span> {truncateString(item.location, 10)} </span>
+          <span> {truncateString(item.location, 8)} </span>
         </span>
       )}
 

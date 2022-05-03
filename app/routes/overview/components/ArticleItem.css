@@ -12,10 +12,6 @@
   width: 100%;
   margin-bottom: 20px;
   position: relative;
-
-  @media (--mobile-device) {
-    height: 100%;
-  }
 }
 
 .image {
