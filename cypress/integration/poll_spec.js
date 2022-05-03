@@ -124,9 +124,10 @@ describe('Polls', () => {
     cy.contains('Avstemning');
     cy.contains(poll_form.title);
     cy.contains('Stemmer: 0');
+    cy.get(c('Poll__bottomBar')).first().click();
     cy.contains(poll_form.choice_1).click();
     cy.contains('Stemmer: 1');
-    cy.contains('a', poll_form.title).click();
+    cy.contains('div', poll_form.title).click();
     cy.url().should('include', '/polls');
   });
 

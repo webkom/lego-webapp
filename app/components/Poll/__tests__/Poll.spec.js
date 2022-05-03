@@ -1,12 +1,5 @@
-import Poll from '../.';
+import { perfectRatios } from '../.';
 
-const props = {
-  poll: {
-    options: [{ votes: 1 }],
-  },
-};
-
-const poll = new Poll(props);
 const perfectRatiosTests = [
   {
     input: [{ ratio: 33.33 }, { ratio: 33.33 }, { ratio: 33.33 }],
@@ -52,7 +45,7 @@ const perfectRatiosTests = [
 describe('poll options', () => {
   it('should add up to 100%', () => {
     perfectRatiosTests.forEach(({ input, output }) => {
-      expect(poll.perfectRatios(input, input)).toEqual(output);
+      expect(perfectRatios(input, input)).toEqual(output);
     });
   });
 });

@@ -1,6 +1,6 @@
 // @flow
 
-import { Component } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Button from 'app/components/Button';
 import styles from './Poll.css';
 import type { PollEntity, OptionEntity } from 'app/reducers/polls';
@@ -9,247 +9,237 @@ import { Link } from 'react-router-dom';
 import Icon from 'app/components/Icon';
 import { Flex } from 'app/components/Layout';
 import Tooltip from 'app/components/Tooltip';
-import cx from 'classnames';
+import moment from 'moment-timezone';
 
 type Props = {
   poll: PollEntity,
   handleVote: (pollId: number, optionId: number) => Promise<*>,
   allowedToViewHiddenResults?: boolean,
-  backgroundLight?: boolean,
-  truncate?: number,
   details?: boolean,
+  expanded?: boolean,
+  alwaysOpen?: boolean,
 };
 
 type OptionEntityRatio = OptionEntity & {
   ratio: number,
 };
 
-type State = {
-  truncateOptions: boolean,
-  shuffledOptions: Array<OptionEntityRatio>,
-  expanded: boolean,
+// As described in: https://stackoverflow.com/questions/13483430/how-to-make-rounded-percentages-add-up-to-100
+export const perfectRatios = (
+  options: $ReadOnlyArray<OptionEntityRatio>
+): OptionEntityRatio[] => {
+  const off =
+    100 - options.reduce((a, option) => a + Math.floor(option.ratio), 0);
+  return sortBy<OptionEntityRatio>(
+    options,
+    (o: OptionEntityRatio) => Math.floor(o.ratio) - o.ratio
+  )
+    .map((option: OptionEntityRatio, index: number) => {
+      return {
+        ...option,
+        ratio: Math.floor(option.ratio) + (index < off ? 1 : 0),
+      };
+    })
+    .sort((a, b) => b.ratio - a.ratio);
 };
 
-class Poll extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    const options = this.optionsWithPerfectRatios(props.poll.options);
-    const shuffledOptions = this.shuffle(options);
-    if (props.truncate && options.length > props.truncate) {
-      this.state = {
-        truncateOptions: true,
-        shuffledOptions: shuffledOptions,
-        expanded: false,
-      };
-    } else {
-      this.state = {
-        truncateOptions: false,
-        shuffledOptions: shuffledOptions,
-        expanded: true,
-      };
-    }
+const optionsWithPerfectRatios = (options: Array<OptionEntity>) => {
+  const totalVotes = options.reduce((a, option) => a + option.votes, 0);
+  const ratios = options.map((option) => {
+    return { ...option, ratio: (option.votes / totalVotes) * 100 };
+  });
+  return perfectRatios(ratios);
+};
+
+const shuffle = (array: Array<OptionEntityRatio>) => {
+  const oldArray = array.slice(0);
+  const newArray = [];
+  for (let i = 0; i < array.length; i++) {
+    const randIndex = Math.floor(Math.random() * oldArray.length);
+    newArray[i] = oldArray[randIndex];
+    oldArray.splice(randIndex, 1);
   }
 
-  toggleTruncate = () => {
-    this.setState({
-      expanded: !this.state.expanded,
-    });
+  return newArray;
+};
+
+const Poll = ({
+  poll,
+  handleVote,
+  details,
+  allowedToViewHiddenResults,
+  alwaysOpen = false,
+  expanded = false,
+}: Props) => {
+  const { id, title, description, hasAnswered, totalVotes, resultsHidden } =
+    poll;
+  const optionRef = useRef(null);
+  const [isExpanded, setIsExpanded] = useState<boolean>(expanded || alwaysOpen);
+  const [expandedHeight, setExpandedHeight] = useState(0);
+  const [optionsToShow, setOptionsToShow] = useState([]);
+
+  useEffect(() => {
+    if (optionRef.current !== null)
+      setExpandedHeight(optionRef.current.clientHeight);
+
+    const options = optionsWithPerfectRatios(poll.options);
+    setOptionsToShow(hasAnswered ? options : shuffle(options));
+  }, [expandedHeight, hasAnswered, optionRef, poll.options]);
+
+  const toggleTruncate = () => {
+    setIsExpanded(!isExpanded);
   };
 
-  optionsWithPerfectRatios = (options: Array<OptionEntity>) => {
-    const totalVotes = options.reduce((a, option) => a + option.votes, 0);
-    const ratios = options.map((option) => {
-      return { ...option, ratio: (option.votes / totalVotes) * 100 };
-    });
-    return this.perfectRatios(ratios);
-  };
+  const now = moment();
+  const isValid = moment(poll.validUntil).isAfter(now);
 
-  // As described in: https://stackoverflow.com/questions/13483430/how-to-make-rounded-percentages-add-up-to-100
-  perfectRatios = (
-    options: $ReadOnlyArray<OptionEntityRatio>
-  ): OptionEntityRatio[] => {
-    const off =
-      100 - options.reduce((a, option) => a + Math.floor(option.ratio), 0);
-    return sortBy<OptionEntityRatio>(
-      options,
-      (o: OptionEntityRatio) => Math.floor(o.ratio) - o.ratio
-    )
-      .map((option: OptionEntityRatio, index: number) => {
-        return {
-          ...option,
-          ratio: Math.floor(option.ratio) + (index < off ? 1 : 0),
-        };
-      })
-      .sort((a, b) => b.ratio - a.ratio);
-  };
+  const canAnswer = !hasAnswered && isValid;
+  const hideResults = resultsHidden && !allowedToViewHiddenResults;
 
-  shuffle = (array: Array<OptionEntityRatio>) => {
-    const oldArray = array.slice(0);
-    const newArray = [];
-    for (let i = 0; i < array.length; i++) {
-      const randIndex = Math.floor(Math.random() * oldArray.length);
-      newArray[i] = oldArray[randIndex];
-      oldArray.splice(randIndex, 1);
-    }
+  return (
+    <Flex alignItems="center" column className={styles.poll}>
+      <Flex
+        justifyContent="center"
+        className={styles.topBar}
+        alignItems="center"
+      >
+        <Icon
+          name={hasAnswered ? 'stats' : 'help'}
+          prefix="ion-md-"
+          className={styles.pollIcon}
+          size={32}
+        />
 
-    return newArray;
-  };
-
-  render() {
-    const {
-      poll,
-      handleVote,
-      backgroundLight,
-      details,
-      truncate,
-      allowedToViewHiddenResults,
-    } = this.props;
-    const { truncateOptions, expanded, shuffledOptions } = this.state;
-    const { id, title, description, hasAnswered, totalVotes, resultsHidden } =
-      poll;
-    const options = this.optionsWithPerfectRatios(this.props.poll.options);
-    const orderedOptions = hasAnswered ? options : shuffledOptions;
-    const optionsToShow = expanded
-      ? orderedOptions
-      : orderedOptions.slice(0, truncate);
-    const showResults = !resultsHidden || allowedToViewHiddenResults;
-
-    return (
-      <div className={cx(styles.poll, backgroundLight ? styles.pollLight : '')}>
-        <Flex>
-          <Link to={`/polls/${id}`} style={{ flex: 1 }}>
-            <Icon name="stats" />
-            <span className={styles.pollHeader}>{title}</span>
-          </Link>
-          <Tooltip content="Avstemningen er anonym." renderDirection="left">
-            <Icon
-              name="information-circle-outline"
-              size={20}
-              style={{ cursor: 'pointer' }}
-            />
-          </Tooltip>
-        </Flex>
-        {details && (
-          <div>
-            <p>{description}</p>
-          </div>
-        )}
-        {hasAnswered && !showResults && (
-          <div className={styles.answered}>
-            Du har svart
-            <Icon
-              name="checkmark-circle-outline"
-              size={20}
-              style={{ marginLeft: '10px', color: 'green' }}
-            />
-          </div>
-        )}
-        {hasAnswered && showResults && (
-          <Flex column className={styles.optionWrapper}>
-            <table className={styles.pollTable}>
-              <tbody>
-                {optionsToShow.map(({ id, name, votes, ratio }) => {
-                  return (
-                    <tr key={id}>
-                      <td className={styles.textColumn}>{name}</td>
-                      <td className={styles.graphColumn}>
-                        {votes === 0 ? (
-                          <span className={styles.noVotes}>Ingen stemmer</span>
-                        ) : (
-                          <div className={styles.fullGraph}>
-                            <div
-                              style={{
-                                width: `${ratio}%`,
-                              }}
-                            >
-                              <div className={styles.pollGraph}>
-                                {ratio >= 18 && <span>{`${ratio}%`}</span>}
-                              </div>
-                            </div>
-                            {ratio < 18 && (
-                              <span style={{ marginLeft: '2px' }}>
-                                {`${ratio}%`}
-                              </span>
-                            )}
-                          </div>
-                        )}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-            {resultsHidden && (
-              <p style={{ fontStyle: 'italic', marginTop: 15 }}>
-                Resultatet er skjult for vanlige brukere.
-              </p>
+        <Link to={`/polls/${id}`}>
+          <Flex
+            justifyContent="center"
+            alignItems="center"
+            className={styles.headerBar}
+          >
+            {!details && description.length !== 0 ? (
+              <Tooltip content="Trykk for mer info" renderDirection="right">
+                {title}
+              </Tooltip>
+            ) : (
+              <> {title} </>
             )}
           </Flex>
-        )}
-        {!hasAnswered && (
-          <Flex column className={styles.optionWrapper}>
-            {!expanded && (
-              <Flex
-                className={styles.blurContainer}
-                onClick={this.toggleTruncate}
-              >
-                <p className={styles.blurOverlay}>
-                  Klikk her for å se alle alternativene.
-                </p>
-                <Icon
-                  className={cx(styles.blurOverlay, styles.blurArrow)}
-                  size={60}
-                  name={expanded ? 'arrow-up' : 'arrow-down'}
-                />
-              </Flex>
-            )}
-            {options &&
-              optionsToShow.map((option) => (
-                <Flex
-                  className={cx(
-                    styles.alignItems,
-                    expanded ? '' : styles.blurEffect
-                  )}
+        </Link>
+      </Flex>
+      <Flex
+        column
+        alignItems="center"
+        className={styles.contentWrapper}
+        style={{
+          height: alwaysOpen
+            ? `auto`
+            : isExpanded
+            ? `${expandedHeight}px`
+            : '0',
+        }}
+      >
+        <div className={styles.voteOptionsWrapper} ref={optionRef}>
+          {canAnswer && (
+            <Flex column alignItems="center" className={styles.voteOptions}>
+              {details && description}
+              {optionsToShow.map((option) => (
+                <Button
                   key={option.id}
+                  className={styles.voteButton}
+                  onClick={() => handleVote(poll.id, option.id)}
                 >
-                  <Button
-                    className={styles.voteButton}
-                    onClick={() => handleVote(poll.id, option.id)}
-                  >
-                    {option.name}
-                  </Button>
-                </Flex>
+                  {option.name}
+                </Button>
               ))}
-          </Flex>
-        )}
-        <div>
-          <div className={styles.moreOptionsLink}>
-            {truncateOptions &&
-              (!hasAnswered ||
-                !resultsHidden ||
-                allowedToViewHiddenResults) && (
-                <div className={styles.alignItems}>
-                  <Icon
-                    onClick={this.toggleTruncate}
-                    className={styles.arrow}
-                    size={20}
-                    name={expanded ? 'arrow-up' : 'arrow-down'}
-                  />
-                </div>
-              )}
-          </div>
-          <div className={styles.bottomInfo}>
-            <span>{`Stemmer: ${totalVotes}`}</span>
-            {hasAnswered && !showResults && (
-              <span className={styles.resultsHidden}>
-                Resultatet er skjult.
-              </span>
+            </Flex>
+          )}
+          {!canAnswer && hideResults && (
+            <Flex column alignItems="center" className={styles.voteOptions}>
+              {details && description}
+              <div className={styles.resultsHiddenInfo}>
+                Resultatet er skjult
+              </div>
+            </Flex>
+          )}
+          {!canAnswer && !hideResults && (
+            <Flex column alignItems="center" className={styles.voteOptions}>
+              {details && description}
+              <table className={styles.pollTable}>
+                <tbody>
+                  {optionsToShow.map(({ id, name, votes, ratio }) => {
+                    return (
+                      <tr key={id}>
+                        <td className={styles.textColumn}>{name}</td>
+                        <td className={styles.graphColumn}>
+                          {votes === 0 ? (
+                            <span className={styles.noVotes}>
+                              Ingen stemmer
+                            </span>
+                          ) : (
+                            <div className={styles.fullGraph}>
+                              <div
+                                style={{
+                                  width: `${ratio}%`,
+                                }}
+                              >
+                                <div className={styles.pollGraph}>
+                                  {ratio >= 18 && <span>{`${ratio}%`}</span>}
+                                </div>
+                              </div>
+                              {ratio < 18 && (
+                                <span className={styles.outerGraphText}>
+                                  {`${ratio}%`}
+                                </span>
+                              )}
+                            </div>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </Flex>
+          )}
+          <Flex column alignItems="center">
+            <Flex>
+              <Tooltip
+                content="Avstemningen er anonym."
+                renderDirection="right"
+              >
+                <Icon
+                  name="information-circle-outline"
+                  size={17}
+                  style={{ cursor: 'pointer', margin: '0 5px' }}
+                />
+              </Tooltip>
+              Stemmer: {totalVotes}
+            </Flex>
+            {resultsHidden && (
+              <div className={styles.resultsHiddenInfo}>
+                Resultatet er skjult for vanlige brukere.
+              </div>
             )}
-          </div>
+          </Flex>
         </div>
-      </div>
-    );
-  }
-}
+      </Flex>
+      <Flex
+        alignItems="center"
+        justifyContent="center"
+        className={isExpanded ? styles.bottomBarExpanded : styles.bottomBar}
+        style={{ cursor: !alwaysOpen ? 'pointer' : null }}
+        onClick={!alwaysOpen ? toggleTruncate : null}
+      >
+        {!alwaysOpen && (
+          <Icon
+            className={styles.arrowIcon}
+            size={30}
+            name={isExpanded ? 'arrow-up' : 'arrow-down'}
+          />
+        )}
+      </Flex>
+    </Flex>
+  );
+};
 
 export default Poll;

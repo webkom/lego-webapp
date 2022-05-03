@@ -16,6 +16,7 @@ export type PollEntity = {
   title: string,
   description: string,
   resultsHidden: boolean,
+  validUntil: string,
   pinned: boolean,
   tags: Tags,
   hasAnswered: boolean,

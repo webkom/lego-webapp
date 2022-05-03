@@ -113,7 +113,7 @@
   --lego-red: #c0392b;
   --lego-max-width: 1100px;
   --lego-default-padding: 2rem;
-  --lego-card-color: #262626;
+  --lego-card-color: #262626; /* TODO: use placard-color instead of card-color on Poll.css  */
   --lego-footer-color: #e21617;
   --lego-dark-red-color: #b21c17;
   --lego-red-color: #c0392b;

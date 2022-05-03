@@ -171,7 +171,6 @@ class Overview extends Component<Props, State> {
             <Poll
               style={{ flex: 'none' }}
               poll={poll}
-              backgroundLight
               truncate={3}
               handleVote={votePoll}
             />
