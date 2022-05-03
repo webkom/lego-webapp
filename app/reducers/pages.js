@@ -83,7 +83,7 @@ const createGroupSelector = (type: string, section: string) =>
     })
   );
 
-export const selectGroupsForHierarchy = createGroupSelector(
+export const selectCommitteeForHierarchy = createGroupSelector(
   'komite',
   'komiteer'
 );
