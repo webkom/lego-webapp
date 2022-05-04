@@ -84,7 +84,7 @@ const UploadArea = ({ multiple, onDrop, image }: UploadAreaProps) => {
     [multiple]
   );
   useEffect(() => {
-    files[0] && multiple ? onDrop(files.slice(-1)) : onDrop(files);
+    files[0] && multiple ? onDrop(files) : onDrop(files.slice(-1));
   }, [files, onDrop, multiple]);
 
   const { getRootProps, getInputProps } = useDropzone({
