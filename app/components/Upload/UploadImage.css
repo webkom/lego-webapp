@@ -1,3 +1,5 @@
+@import '~app/styles/variables.css';
+
 .container {
   border-radius: inherit;
   height: inherit;
@@ -102,6 +104,9 @@ html[data-theme='dark'] .dropArea {
 }
 
 .removeIcon {
-  font-size: 48px;
   cursor: pointer;
+
+  &:hover {
+    color: var(--lego-red-color);
+  }
 }

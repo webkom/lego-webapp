@@ -46,46 +46,56 @@ type UploadAreaProps = {
   image: ?string,
 };
 
-const FilePreview = ({ file, onRemove, index }: FilePreviewProps) => (
-  <Flex
-    wrap
-    className={styles.previewRow}
-    alignItems="center"
-    justifyContent="space-between"
-  >
-    <div style={{ width: '90%' }}>
-      <TextInput
-        disabled
-        value={file.name}
-        style={{ width: '100%', height: 50 }}
+const FilePreview = ({ file, onRemove, index }: FilePreviewProps) => {
+  const [previewUrl, setPreviewUrl] = useState();
+  useEffect(() => {
+    !previewUrl && setPreviewUrl(URL.createObjectURL(file));
+    return () => {
+      if (previewUrl) URL.revokeObjectURL(previewUrl);
+    };
+  }, [file, previewUrl]);
+
+  return (
+    <Flex
+      wrap
+      className={styles.previewRow}
+      alignItems="center"
+      justifyContent="space-between"
+    >
+      <div style={{ width: '90%', display: 'flex' }}>
+        <div
+          style={{ width: '80px', display: 'flex', justifyContent: 'center' }}
+        >
+          <img alt="preview" style={{ height: '50px' }} src={previewUrl} />
+        </div>
+        <div style={{ flex: '1 1 auto' }}>
+          <TextInput
+            disabled
+            value={file.name}
+            style={{ width: '100%', height: 50 }}
+          />
+        </div>
+      </div>
+      <Icon
+        size={32}
+        name="trash"
+        prefix="ion-md-"
+        onClick={() => onRemove(index)}
+        className={styles.removeIcon}
       />
-    </div>
-    <Icon
-      name="close"
-      onClick={() => onRemove(index)}
-      className={styles.removeIcon}
-    />
-  </Flex>
-);
+    </Flex>
+  );
+};
 
 const UploadArea = ({ multiple, onDrop, image }: UploadAreaProps) => {
   const word = multiple ? 'bilder' : 'bilde';
 
-  const [files, setFiles] = useState([]);
-
   const onDropCallback = useCallback(
-    (acceptedFiles: Array<DropFile>) => {
-      if (!multiple) {
-        setFiles(acceptedFiles);
-      } else {
-        setFiles((files) => files.concat(acceptedFiles));
-      }
+    (files: Array<DropFile>) => {
+      files[0] && !multiple ? onDrop(files.slice(-1)) : onDrop(files);
     },
-    [multiple]
+    [multiple, onDrop]
   );
-  useEffect(() => {
-    files[0] && multiple ? onDrop(files.slice(-1)) : onDrop(files);
-  }, [files, onDrop, multiple]);
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: onDropCallback,
