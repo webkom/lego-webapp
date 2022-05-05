@@ -52,7 +52,7 @@ const mapStateToProps = (state, props) => {
     ? selectPenaltyByUserId(state, { userId: user.id })
     : [];
   const currentUserFollowing = selectFollowersCurrentUser(state, {
-    target: event.id,
+    target: eventId,
     type: 'event',
   });
   if (!hasFullAccess) {
