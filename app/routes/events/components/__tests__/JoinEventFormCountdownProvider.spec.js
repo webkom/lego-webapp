@@ -135,7 +135,7 @@ describe('<JoinEventForm />', () => {
 
   it('should enable everything when countdown is done', () => {
     const activationTime = moment().add(1, 'minutes');
-    let component = renderJoinEventForm({
+    const view = renderJoinEventForm({
       ...defaultProps,
       event: {
         ...defaultProps.event,
@@ -145,8 +145,8 @@ describe('<JoinEventForm />', () => {
 
     clock.tick('00:59');
 
-    component.update();
-    expect(component.find('JoinEventForm').props()).toEqual(
+    view.update();
+    expect(view.find('JoinEventForm').props()).toEqual(
       expect.objectContaining({
         buttonOpen: false,
         captchaOpen: true,
@@ -157,8 +157,8 @@ describe('<JoinEventForm />', () => {
 
     clock.tick('00:02');
 
-    component.update();
-    expect(component.find('JoinEventForm').props()).toEqual(
+    view.update();
+    expect(view.find('JoinEventForm').props()).toEqual(
       expect.objectContaining({
         buttonOpen: true,
         captchaOpen: true,

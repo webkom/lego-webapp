@@ -23,7 +23,7 @@ type State = {
 
 class EventItem extends Component<Props, State> {
   state = {
-    time: EventItem.generateTime(this.props),
+    time: this.constructor.generateTime(this.props),
   };
   interval: IntervalID;
 
