@@ -36,8 +36,7 @@ type State = {
 
 type FilePreviewProps = {
   file: DropFile,
-  onRemove: (index: number) => void,
-  index: number,
+  onRemove: () => void,
 };
 
 type UploadAreaProps = {
@@ -46,7 +45,7 @@ type UploadAreaProps = {
   image: ?string,
 };
 
-const FilePreview = ({ file, onRemove, index }: FilePreviewProps) => {
+const FilePreview = ({ file, onRemove }: FilePreviewProps) => {
   const [previewUrl, setPreviewUrl] = useState();
   useEffect(() => {
     !previewUrl && setPreviewUrl(URL.createObjectURL(file));
@@ -80,7 +79,7 @@ const FilePreview = ({ file, onRemove, index }: FilePreviewProps) => {
         size={32}
         name="trash"
         prefix="ion-md-"
-        onClick={() => onRemove(index)}
+        onClick={onRemove}
         className={styles.removeIcon}
       />
     </Flex>
@@ -252,7 +251,6 @@ export default class ImageUpload extends Component<Props, State> {
                 />
               </div>
             )}
-            {/* $FlowFixMe */}
             {preview && (
               <Cropper
                 ref={(node) => {
@@ -268,10 +266,9 @@ export default class ImageUpload extends Component<Props, State> {
               <Flex wrap column>
                 {files.map((file, index) => (
                   <FilePreview
-                    onRemove={this.onRemove}
+                    onRemove={() => this.onRemove(index)}
                     file={file}
-                    index={index}
-                    key={index}
+                    key={file.name}
                   />
                 ))}
               </Flex>
