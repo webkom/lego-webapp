@@ -87,7 +87,7 @@ export default function pageRenderer({
         <meta charset="utf-8">
         ${helmet ? helmet.title.toString() : ''}
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <meta name="theme-color" content="#f2f2f1">
         <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="Abakus Søk">
