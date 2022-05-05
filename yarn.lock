@@ -4818,10 +4818,10 @@ expect@^27.5.1:
     jest-matcher-utils "^27.5.1"
     jest-message-util "^27.5.1"
 
-express-static-gzip@^2.1.5:
-  version "2.1.5"
-  resolved "https://registry.yarnpkg.com/express-static-gzip/-/express-static-gzip-2.1.5.tgz#e45b512ef5596a068c45f729d7e0cc0b429b08b4"
-  integrity sha512-bgiQ1fY7ltuUrSzg0WoN7ycoAd7r2VEw7durn/3k0jCMUC5wydF0K36ouIuJPE+MNDwK5uoSaVgIBVNemwxWgw==
+express-static-gzip@^2.1.6:
+  version "2.1.6"
+  resolved "https://registry.yarnpkg.com/express-static-gzip/-/express-static-gzip-2.1.6.tgz#d4f4b4254b03006ca16ce9939dad32722d7f4cf3"
+  integrity sha512-uLhgeGQXx225R00OI5se8byw539dfDDsPBUMEmjc2/t3htonQftzQEBLKHsw776gCtL8IU70nuxkwOM+IkLOeg==
   dependencies:
     serve-static "^1.14.1"
 
