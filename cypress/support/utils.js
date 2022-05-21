@@ -1,3 +1,8 @@
+import mockMazemapApiResponse from '../fixtures/mockApiResponses/mazemap.json';
+
+export const apiBaseUrl =
+  Cypress.env('API_BASE_URL') || 'http://localhost:8000';
+
 // CSS Selector to match classnames by their prefix
 export const c = (classname) => `[class*="${classname}"]`;
 
@@ -102,3 +107,10 @@ export const clearCardDetails = () => {
 };
 
 export const stripeError = () => cy.get(c('Stripe__error'));
+
+export const mockMazemapApi = () => {
+  cy.intercept('GET', 'https://api.mazemap.com/search/equery/**', {
+    statusCode: 200,
+    body: mockMazemapApiResponse,
+  });
+};
