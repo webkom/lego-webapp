@@ -6,6 +6,7 @@ import { Form } from 'react-final-form';
 import createFocusOnErrorDecorator from 'final-form-focus';
 import * as Sentry from '@sentry/browser';
 import { handleSubmissionErrorFinalForm } from 'app/components/Form/utils';
+import { isEqual } from 'lodash-es';
 
 const focusOnError = createFocusOnErrorDecorator();
 
@@ -38,6 +39,7 @@ const LegoFinalForm = ({
   return (
     <Form
       {...rest}
+      initialValuesEqual={isEqual}
       decorators={decorators}
       onSubmit={(values, form) =>
         onSubmit(values, form).catch((error) => {
