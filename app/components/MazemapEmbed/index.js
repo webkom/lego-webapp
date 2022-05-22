@@ -32,10 +32,21 @@ export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
       minZoom: 10,
       maxZoom: 20,
       zLevelControl: true,
-      scrollZoom: true,
+      scrollZoom: false,
       doubleClickZoom: false,
+      dragPan: false,
       touchZoomRotate: false,
     });
+
+    embeddedMazemap.on('mousedown', () => {
+      embeddedMazemap.dragPan.enable();
+      embeddedMazemap.scrollZoom.enable();
+    });
+    embeddedMazemap.on('mouseout', () => {
+      embeddedMazemap.dragPan.disable();
+      embeddedMazemap.scrollZoom.disable();
+    });
+    
     embeddedMazemap.on('load', () => {
       // Initialize a Highlighter for POIs
       // Storing the object on the map just makes it easy to access for other things
