@@ -11,6 +11,7 @@ import {
   selectField,
 } from '../support/utils.js';
 import moment from 'moment-timezone';
+import config from '../support/config';
 
 describe('Create meeting', () => {
   beforeEach(() => {
@@ -145,10 +146,12 @@ describe('Create meeting', () => {
       description: 'test description',
       location: 'Test location',
       startTime: moment()
+        .tz(config.timezone)
         .startOf('day')
         .add({ hours: 17, minutes: 14 })
         .toISOString(),
       endTime: moment()
+        .tz(config.timezone)
         .startOf('day')
         .add({ hours: 20, minutes: 0 })
         .toISOString(),
@@ -176,11 +179,11 @@ describe('Create meeting', () => {
     selectEditor().should('contain', meeting.report.replaceAll(/<.*?>/g, ''));
     field('startTime').should(
       'have.value',
-      moment(meeting.startTime).format('lll')
+      moment(meeting.startTime).tz(config.timezone).format('lll')
     );
     field('endTime').should(
       'have.value',
-      moment(meeting.endTime).format('lll')
+      moment(meeting.endTime).tz(config.timezone).format('lll')
     );
     field('description').should('have.value', meeting.description);
     field('location').should('have.value', meeting.location);
