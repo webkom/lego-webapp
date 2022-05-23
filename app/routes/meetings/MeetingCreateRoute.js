@@ -11,9 +11,14 @@ import moment from 'moment-timezone';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { EDITOR_EMPTY } from 'app/utils/constants';
+import config from 'app/config';
 
 const time = (hours, minutes) =>
-  moment().startOf('day').add({ hours, minutes }).toISOString();
+  moment()
+    .tz(config.timezone)
+    .startOf('day')
+    .add({ hours, minutes })
+    .toISOString();
 
 const mapStateToProps = (state, props) => {
   return {
