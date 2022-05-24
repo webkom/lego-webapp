@@ -3,6 +3,7 @@
 import { Component } from 'react';
 import type { Group, ID } from 'app/models';
 import Select from 'react-select';
+import { selectTheme, selectStyles } from 'app/components/Form/SelectInput';
 import Button from 'app/components/Button';
 import Flex from 'app/components/Layout/Flex';
 
@@ -73,6 +74,8 @@ class GroupChange extends Component<Props, State> {
           onChange={this.handleChange}
           options={[noLongerStudent, ...options]}
           isClearable={false}
+          theme={selectTheme}
+          styles={selectStyles}
         />
         {this.state.selectedOption && (
           <Button className={styles.saveButton} onClick={this.handleOnClick}>
