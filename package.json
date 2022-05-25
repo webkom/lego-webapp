@@ -89,7 +89,7 @@
     "react-textarea-autosize": "^8.3.4",
     "react-treeview": "^0.4.6",
     "react-youtube": "^8.0.0",
-    "recharts": "^2.1.9",
+    "recharts": "^2.1.10",
     "redux": "4.2.0",
     "redux-form": "8.3.8",
     "redux-logger": "^3.0.1",
@@ -108,7 +108,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.17.12",
-    "@babel/eslint-parser": "^7.17.0",
+    "@babel/eslint-parser": "^7.18.2",
     "@babel/plugin-proposal-class-properties": "^7.13.0",
     "@babel/plugin-syntax-dynamic-import": "^7.8.3",
     "@babel/preset-env": "^7.17.12",
