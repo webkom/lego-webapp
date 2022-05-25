@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import 'node_modules/mazemap/mazemap.min.css';
 import MazemapLink from './MazemapLink';
+import { Flex } from '../Layout';
 
 type Props = {
   mazemapPoi: number,
@@ -18,6 +19,8 @@ export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
 
   //import Mazemap dynamically to prevent ssr issues
   const [Mazemap, setMazemap] = useState(null);
+  const [blockScrollZoom, setBlockScrollZoom] = useState<boolean>(false);
+  const [blockTouchMovement, setBlockTouchZoom] = useState<boolean>(false);
 
   //initialize map only once, mazemapPoi will probably not change
   useEffect(() => {
@@ -34,19 +37,50 @@ export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
       zLevelControl: true,
       scrollZoom: false,
       doubleClickZoom: false,
-      dragPan: false,
+      /*dragPan: false,*/
       touchZoomRotate: false,
+      touchPitch: false, //this is a horrible feature
+      pitchWithRotate: false,
+    });
+    // listen for ctrl on page
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Control') {
+        embeddedMazemap.scrollZoom.enable();
+        setblockScrollZoom(false);
+      }
+    });
+    // listen for ctrl off page
+    window.addEventListener('keyup', (e) => {
+      if (e.key === 'Control') {
+        embeddedMazemap.scrollZoom.disable();
+        setblockScrollZoom(false);
+      }
     });
 
-    embeddedMazemap.on('mousedown', () => {
-      embeddedMazemap.dragPan.enable();
-      embeddedMazemap.scrollZoom.enable();
+    embeddedMazemap.on('wheel', () => {
+      if (!embeddedMazemap.scrollZoom.isEnabled()) setBlockScrollZoom(true);
     });
     embeddedMazemap.on('mouseout', () => {
-      embeddedMazemap.dragPan.disable();
-      embeddedMazemap.scrollZoom.disable();
+      setBlockScrollZoom(false);
     });
-    
+
+    embeddedMazemap.on('touchstart', (e) => {
+      if (e.touches.length <= 1) embeddedMazemap.dragPan.disable();
+      if (e.touches.length > 1) 
+        embeddedMazemap.dragPan.enable();
+      z
+    });
+
+    embeddedMazemap.on('touchmove', (e) => {
+      //console.log(e.points.length);
+      if (e.points.length < 2) {
+        setBlockTouchZoom(true);
+      } else {
+        setBlockTouchZoom(false);
+        embeddedMazemap.touchZoomRotate.enable();
+      }
+    });
+
     embeddedMazemap.on('load', () => {
       // Initialize a Highlighter for POIs
       // Storing the object on the map just makes it easy to access for other things
@@ -101,8 +135,33 @@ export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
   }
   return (
     <>
-      <div style={{ height: props.height || 400 }} id="mazemap-embed" />
-      <MazemapLink mazemapPoi={mazemapPoi} linkText={props.linkText} />
+      <div
+        style={{
+          height: props.height || 400,
+          opacity: blockScrollZoom || blockTouchMovement ? 0.5 : 1,
+        }}
+        id="mazemap-embed"
+      >
+        <span
+          style={{
+            fontSize: '1.5rem',
+            textAlign: 'center',
+            color: '#010101',
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            width: '100%',
+            transform: 'translate(-50%,-50%)',
+            zIndex: 5,
+            opacity: (blockScrollZoom || blockTouchMovement) * 1,
+          }}
+        >
+          {blockScrollZoom
+            ? 'Hold ctrl for å zoome'
+            : 'Bruk to fingre for å flytte kartet'}
+        </span>
+      </div>
+      <MazemapLink mazemapPoi={mazemapPoi} linkText={props.linkText} />{' '}
     </>
   );
 };
