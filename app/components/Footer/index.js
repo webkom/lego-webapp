@@ -61,7 +61,7 @@ const Footer = ({ loggedIn }: Props) => (
         <div className={styles.socialMedia}>
           {loggedIn && (
             <a
-              href="https://abakus-ntnu.slack.com"
+              href="https://join.slack.com/t/abakus-ntnu/shared_invite/zt-19m96d1du-WoVE99K20g5iUeKaTGSVxw"
               rel="noopener noreferrer"
               target="_blank"
             >
