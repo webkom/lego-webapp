@@ -110,10 +110,10 @@ const UploadArea = ({ multiple, onDrop, image }: UploadAreaProps) => {
     >
       <div {...getRootProps({ className: styles.dropArea })}>
         <div className={styles.placeholderContainer}>
-          <Icon size={82} name="image" className={styles.placeholderIcon} />
-          <h1 className={styles.placeholdeTitle}>
+          <Icon size={82} name="image" />
+          <h2 className={styles.placeholdeTitle}>
             {`Dropp ${word} her eller trykk for å velge fra fil`}
-          </h1>
+          </h2>
         </div>
         {image && (
           <Image alt="presentation" className={styles.image} src={image} />

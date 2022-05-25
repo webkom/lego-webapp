@@ -38,30 +38,8 @@ html[data-theme='dark'] .dropArea {
   width: 600px;
 }
 
-.activeDropArea {
-  border-radius: inherit;
-  height: inherit;
-  width: inherit;
-  z-index: 0;
-  position: absolute;
-  color: var(--color-white);
-  background-color: rgba(200, 200, 200, 70%);
-}
-
-.placeholderIcon {
-  font-size: 80px;
-  color: inherit;
-}
-
-.placeholdeTitle {
-  background: rgba(var(--rgb-max), var(--rgb-max), var(--rgb-max), 80%);
-  border-radius: 5px;
-  font-size: 24px;
-  padding: 0 20px;
-  text-align: center;
-}
-
 .placeholderContainer {
+  overflow: hidden;
   border-radius: inherit;
   height: inherit;
   display: flex;
@@ -70,6 +48,13 @@ html[data-theme='dark'] .dropArea {
   justify-content: center;
   width: inherit;
   position: absolute;
+}
+
+.placeholdeTitle {
+  background: rgba(var(--rgb-max), var(--rgb-max), var(--rgb-max), 80%);
+  border-radius: 5px;
+  padding: 0 20px;
+  text-align: center;
 }
 
 .image {
