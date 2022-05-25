@@ -313,6 +313,10 @@ const socialMedia = {
       link: 'https://www.instagram.com/abakushs/',
       textInfo: 'Hovedstyret - @abakushs',
     },
+    {
+      link: 'https://www.instagram.com/abakusbedrift/',
+      textInfo: 'Bedrift - @abakusbedrift',
+    },
   ],
   snapchat: [
     {
