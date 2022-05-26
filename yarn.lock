@@ -8709,10 +8709,10 @@ react-treeview@^0.4.6:
   dependencies:
     prop-types "^15.5.8"
 
-react-youtube@^8.0.0:
-  version "8.0.0"
-  resolved "https://registry.yarnpkg.com/react-youtube/-/react-youtube-8.0.0.tgz#5524db99e2d5fd338f0250bf53e03b0200f02d28"
-  integrity sha512-rhjlT4E+laI5cG4LY804N60ILDC8R2NjGzjn3QHRkPGVcNi4OW/5YejDP1X00SbEvXgSQi5pH/PdILMXetyg9A==
+react-youtube@^9.0.2:
+  version "9.0.2"
+  resolved "https://registry.yarnpkg.com/react-youtube/-/react-youtube-9.0.2.tgz#86edf107b5c8537e7e46eb79b1b26f52de728d8b"
+  integrity sha512-qgNXo+axgsWtEqZlesSy+ruV2xaDW2NQFTFx0zqfeA3QyE8QEsyLMuTCF6aC4LyMMf+LsHCSGQw2gTngVkb6NQ==
   dependencies:
     fast-deep-equal "3.1.3"
     prop-types "15.8.1"
