@@ -39,11 +39,13 @@ export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
       scrollZoom: false,
       doubleClickZoom: false,
       dragRotate: false,
-      /*dragPan: false,*/
+      dragPan: false,
       touchZoomRotate: false,
       touchPitch: false, //this is a horrible feature
       pitchWithRotate: false,
     });
+    embeddedMazemap.dragPan._mousePan.enable();
+
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Control') {
         controlPressed = true;
@@ -70,20 +72,28 @@ export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
       setBlockScrollZoom(false);
     });
 
-    embeddedMazemap.on('touchstart', (e) => {
-      if (e.touches.length <= 1) embeddedMazemap.dragPan.disable();
-      if (e.touches.length > 1) embeddedMazemap.dragPan.enable();
-      z;
+    embeddedMazemap.on('touchmove', (e) => {
+      if (e.points.length < 2) {
+        embeddedMazemap.touchZoomRotate.disable();
+        embeddedMazemap.dragPan.disable();
+        setTimeout(() => {
+          setBlockTouchZoom(true);
+        }, 100);
+      } else {
+        embeddedMazemap.touchZoomRotate.enable();
+        embeddedMazemap.dragPan.enable();
+        setBlockTouchZoom(false);
+      }
+      /*setTimeout(() => {
+        setBlockTouchZoom(false);
+      }, 500);*/
+      e.preventDefault();
     });
 
-    embeddedMazemap.on('touchmove', (e) => {
-      //console.log(e.points.length);
-      if (e.points.length < 2) {
-        setBlockTouchZoom(true);
-      } else {
+    embeddedMazemap.on('touchend', () => {
+      setTimeout(() => {
         setBlockTouchZoom(false);
-        embeddedMazemap.touchZoomRotate.enable();
-      }
+      }, 150);
     });
 
     embeddedMazemap.on('load', () => {
@@ -152,14 +162,14 @@ export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
             style={{
               fontSize: '1.5rem',
               textAlign: 'center',
-              color: '#010101',
+              color: '#000',
               position: 'absolute',
               top: '50%',
               left: '50%',
               width: '100%',
               transform: 'translate(-50%,-50%)',
               zIndex: 5,
-              opacity: (blockScrollZoom || blockTouchMovement) * 1,
+              transition: 'opacity 1s fade',
             }}
           >
             {blockScrollZoom
