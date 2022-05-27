@@ -93,7 +93,7 @@ const Admin = ({ actionGrant, event, deleteEvent }: Props) => {
           <li>
             <AnnouncementInLine
               placeholder="Skriv en kunngjøring til alle påmeldte..."
-              event={event.id}
+              event={event}
             />
           </li>
           <li>

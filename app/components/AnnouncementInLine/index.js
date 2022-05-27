@@ -2,13 +2,13 @@
 import { Link } from 'react-router-dom';
 import Button from 'app/components/Button';
 import styles from './AnnouncementInLine.css';
-import type { ID } from 'app/models';
+import type { Group, Event } from 'app/models';
 import { useSelector } from 'react-redux';
 
 type Props = {
-  event?: ID,
-  meeting?: ID,
-  group?: ID,
+  event?: Event,
+  meeting?: Object,
+  group?: Group,
 };
 
 const AnnouncementInLine = ({ event, meeting, group }: Props) => {

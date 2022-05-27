@@ -150,7 +150,7 @@ function InterestGroupDetail(props: Props) {
           <Contact group={group} />
           <AnnouncementInLine
             placeholder="Skriv en kunngjøring til alle medlemmer..."
-            group={group.id}
+            group={group}
             button
           />
         </ContentSidebar>

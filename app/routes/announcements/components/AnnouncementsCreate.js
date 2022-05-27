@@ -5,10 +5,11 @@ import { Helmet } from 'react-helmet-async';
 import Flex from 'app/components/Layout/Flex';
 import { Form, SelectInput, TextArea } from 'app/components/Form';
 import { reduxForm, Field, reset } from 'redux-form';
-import { useLocation } from 'react-router';
 import Button from 'app/components/Button';
 import { ContentMain } from 'app/components/Content';
 import type { ActionGrant, CreateAnnouncement } from 'app/models';
+import { connect } from 'react-redux';
+import { selectAutocomplete } from 'app/reducers/search';
 
 type Props = {
   createAnnouncement: (CreateAnnouncement) => Promise<*>,
@@ -19,7 +20,7 @@ type Props = {
   submitting: boolean,
 };
 
-const AnnouncementsCreate = ({
+let AnnouncementsCreate = ({
   createAnnouncement,
   actionGrant,
   handleSubmit,
@@ -28,8 +29,6 @@ const AnnouncementsCreate = ({
   submitting,
 }: Props) => {
   const disabledButton = invalid || pristine || submitting;
-
-  const location = useLocation();
 
   const onSubmit = (announcement, send = false) => {
     return createAnnouncement({
@@ -76,7 +75,6 @@ const AnnouncementsCreate = ({
             </Flex>
             <Flex className={styles.rowRec}>
               <Field
-                initialValues={location.state.event}
                 className={styles.recField}
                 name="events"
                 placeholder="Arrangementer"
@@ -85,7 +83,6 @@ const AnnouncementsCreate = ({
                 component={SelectInput.AutocompleteField}
               />
               <Field
-                initialValues={location.state.meeting}
                 name="meetings"
                 placeholder="Møter"
                 filter={['meetings.meeting']}
@@ -121,13 +118,6 @@ const AnnouncementsCreate = ({
   );
 };
 
-const initialValues = {
-  events: [],
-  meetings: [],
-  groups: [],
-  users: [],
-};
-
 const resetForm = (result, dispatch) => {
   dispatch(reset('announcementsCreate'));
 };
@@ -143,9 +133,43 @@ const validateForm = (values) => {
   return errors;
 };
 
-export default reduxForm({
+AnnouncementsCreate = reduxForm({
   form: 'announcementsCreate',
-  initialValues,
   onSubmitSuccess: resetForm,
   validate: validateForm,
 })(AnnouncementsCreate);
+
+AnnouncementsCreate = connect((state) => {
+  const locationState = state.router.location.state;
+  return {
+    initialValues: {
+      groups: locationState?.group
+        ? selectAutocomplete([
+            {
+              contentType: 'users.abakusgroup',
+              ...locationState.group,
+            },
+          ])
+        : [],
+      events: locationState?.event
+        ? selectAutocomplete([
+            {
+              contentType: 'events.event',
+              ...locationState.event,
+            },
+          ])
+        : [],
+      meetings: locationState?.meeting
+        ? selectAutocomplete([
+            {
+              contentType: 'meetings.meeting',
+              ...locationState.meeting,
+            },
+          ])
+        : [],
+      users: [],
+    },
+  };
+})(AnnouncementsCreate);
+
+export default AnnouncementsCreate;

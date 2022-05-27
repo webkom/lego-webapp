@@ -194,7 +194,7 @@ class MeetingDetails extends Component<Props> {
                   <li>
                     <AnnouncementInLine
                       placeholder="Skriv en kunngjøring til alle inviterte..."
-                      meeting={meeting.id}
+                      meeting={meeting}
                       button
                     />
                   </li>
