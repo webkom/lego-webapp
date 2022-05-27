@@ -68,7 +68,9 @@ const MeetingListView = ({
       </div>
     ))}
     {!sections.length && (
-      <h2 style={{ textAlign: 'center' }}> Ingen møter å vise</h2>
+      <h2 style={{ textAlign: 'center', marginBottom: 10 }}>
+        Ingen møter å vise
+      </h2>
     )}
   </div>
 );

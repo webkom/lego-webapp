@@ -80,7 +80,7 @@ const ArticleDetail = ({
 
       <Tags>
         {article.tags.map((tag) => (
-          <Tag tag={tag} key={tag} />
+          <Tag tag={tag} key={tag} link={'/articles/?tag=' + tag} />
         ))}
       </Tags>
 
