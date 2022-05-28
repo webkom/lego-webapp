@@ -17,11 +17,12 @@
   padding-right: 20px;
   text-transform: uppercase;
   flex-shrink: 99999;
+  word-break: break-word;
 }
 
 .navigator {
   display: flex;
-  flex-direction: row;
+  flex-flow: row wrap;
   align-items: center;
 }
 
@@ -29,7 +30,6 @@
   .container {
     flex-flow: column wrap;
     align-items: flex-end;
-    margin-right: -15px;
   }
 }
 

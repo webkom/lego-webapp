@@ -22,7 +22,7 @@ type Props = {
 
 const NavigationTab = (props: Props) => {
   return (
-    <div>
+    <>
       {props.back && (
         <div>
           <NavigationLink to={props.back.path}>
@@ -38,7 +38,7 @@ const NavigationTab = (props: Props) => {
         <div className={styles.navigator}>{props.children}</div>
       </div>
       <div className={styles.details}>{props.details}</div>
-    </div>
+    </>
   );
 };
 

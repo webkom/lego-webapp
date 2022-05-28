@@ -218,8 +218,7 @@
 
 @media (--small-viewport) {
   .quoteContainer {
-    margin: 0 15px;
-    width: 100%;
+    margin: 0;
     flex-direction: column;
   }
 
