@@ -15,22 +15,16 @@ const AnnouncementInLine = ({ event, meeting, group }: Props) => {
   const actionGrant = useSelector((state) => state.allowed.announcements);
 
   return (
-    <div>
-      {actionGrant && (event || meeting || group) && (
-        <div>
-          <Link
-            to={{
-              pathname: '/announcements',
-              state: { event, meeting, group },
-            }}
-          >
-            <Button className={styles.announcementButton}>
-              Ny kunngjøring
-            </Button>
-          </Link>
-        </div>
-      )}
-    </div>
+    actionGrant && (
+      <Link
+        to={{
+          pathname: '/announcements',
+          state: { event, meeting, group },
+        }}
+      >
+        <Button className={styles.announcementButton}>Ny kunngjøring</Button>
+      </Link>
+    )
   );
 };
 
