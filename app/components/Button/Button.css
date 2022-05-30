@@ -8,14 +8,13 @@
   height: 2.3em;
   width: fit-content;
   padding: 5px 15px;
-  box-shadow: 0 1px 0 rgba(27, 31, 36, 10%),
-    inset 0 1px 0 rgba(255, 255, 255, 3%);
+  box-shadow: var(--button-box-shadow);
   font-weight: 600;
-  background-color: var(--color-light-gray-4);
+  background-color: var(--button-background);
   color: var(--color-dark-gray-5);
   outline: none;
   border-radius: 6px;
-  border: 1px solid #30404d77;
+  border: 1px solid var(--button-border);
   transition: 125ms cubic-bezier(0.3, 0, 0.5, 1) ease-in-out;
   /* stylelint-disable value-list-comma-newline-after */
   transition-property: color, background-color, border-color, box-shadow,
@@ -48,24 +47,8 @@
   }
 
   &:hover:not(:disabled) {
-    background-color: var(--color-light-gray-3);
-    border-color: #394b59aa;
-  }
-}
-
-/* stylelint-disable no-descending-specificity */
-html[data-theme='dark'] .button {
-  background-color: var(--color-mono-gray-2);
-  box-shadow: 0 0 transparent, inset 0 0 transparent;
-  border-color: #a7b6c277;
-
-  &:hover:not(:disabled) {
-    background-color: var(--color-mono-gray-4);
-    border-color: #bfccd6aa;
-  }
-
-  &:disabled {
-    color: var(--color-mono-gray-5);
+    background-color: var(--button-background-hover);
+    border-color: var(--button-border-hover);
   }
 }
 
@@ -73,105 +56,60 @@ html[data-theme='dark'] .button {
   margin-left: 8px;
 }
 
-.button.dark {
-  background-color: var(--color-red-2);
-  border-color: #bfccd633;
-  color: var(--color-white);
+.dark {
+  background-color: var(--button-dark-background);
+  border-color: var(--button-dark-border);
+  color: var(--button-color);
   box-shadow: none;
 
   &.fa {
-    color: var(--color-white);
+    color: var(--button-color);
   }
 
   &:focus-visible {
-    box-shadow: 0 0 0 3px #db373744;
+    box-shadow: 0 0 0 3px var(--button-dark-box-shadow-focus);
   }
 
   &:hover:not(:disabled) {
-    background-color: var(--color-red-1);
-    border-color: #ced9e033;
+    background-color: var(--button-dark-background-hover);
+    border-color: var(--button-dark-border-hover);
   }
 }
 
-html[data-theme='dark'] .button.dark {
-  background-color: var(--color-red-1);
-  border-color: #a7b6c233;
-  color: var(--color-black);
-
-  &:focus-visible {
-    box-shadow: 0 0 0 3px #ff737344;
-  }
-
-  &:hover:not(:disabled) {
-    background-color: var(--color-red-2);
-    border-color: #bfccd633;
-  }
-}
-
-.danger,
-html[data-theme='dark'] .danger {
+.danger {
   background: none;
   box-shadow: none;
   color: var(--color-red-2);
 
   &:focus-visible {
-    box-shadow: 0 0 0 3px #db373744;
-  }
-
-  &:hover:not(:disabled) {
-    background-color: var(--color-red-2);
-    border-color: var(--color-red-2);
-    color: var(--color-white);
+    box-shadow: 0 0 0 3px var(--button-danger-box-shadow-focus);
   }
 
   &:disabled {
     color: var(--color-red-2);
     background: none;
   }
-}
-
-html[data-theme='dark'] .danger {
-  &:focus-visible {
-    box-shadow: 0 0 0 3px #ff737344;
-  }
 
   &:hover:not(:disabled) {
-    color: var(--color-black);
-  }
-
-  &:disabled {
-    color: var(--color-red-2);
+    background-color: var(--color-red-2);
+    border-color: var(--color-red-2);
+    color: var(--button-color);
   }
 }
 
-.button.success {
-  background-color: var(--color-green-5);
-  border-color: #a7b6c233;
-  color: var(--color-white);
+.success {
+  background-color: var(--button-success-background);
+  border-color: var(--button-success-border);
+  color: var(--button-color);
   box-shadow: none;
 
   &:focus-visible {
-    box-shadow: 0 0 0 3px #2c974b44;
+    box-shadow: 0 0 0 3px var(--button-success-box-shadow-focus);
   }
 
   &:hover:not(:disabled) {
-    background-color: var(--color-green-3);
-    border-color: #bfccd633;
-  }
-}
-
-html[data-theme='dark'] .button.success {
-  background-color: var(--color-green-2);
-  border-color: #bfccd633;
-  color: var(--color-black);
-
-  &:focus-visible {
-    box-shadow: 0 0 0 3px #2da44e44;
-  }
-
-  &:hover:not(:disabled) {
-    background-color: var(--color-green-4);
-    border-color: #ced9e033;
+    background-color: var(--button-success-background-hover);
+    border-color: var(--button-success-border-hover);
   }
 }
 
