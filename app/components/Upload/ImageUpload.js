@@ -277,11 +277,9 @@ export default class ImageUpload extends Component<Props, State> {
               wrap
               className={styles.footer}
               alignItems="center"
-              justifyContent="space-around"
+              justifyContent="space-evenly"
             >
-              <Button onClick={this.onSubmit} className={styles.saveButton}>
-                Last opp
-              </Button>
+              <Button onClick={this.onSubmit}>Last opp</Button>
               <Button
                 onClick={() => this.closeModal()}
                 className={styles.cancelButton}

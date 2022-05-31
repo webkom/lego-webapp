@@ -72,8 +72,8 @@ export default class Comment extends Component<Props, State> {
                 {user && author.id === user.id && (
                   <Button
                     flat
-                    className={styles.delete}
                     onClick={() => deleteComment(comment.id, contentTarget)}
+                    className={styles.delete}
                   >
                     Slett
                   </Button>

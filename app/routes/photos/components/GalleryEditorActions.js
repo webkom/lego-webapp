@@ -42,7 +42,7 @@ const GalleryEditorActions = ({
               {newPicutureStatus === 1 && 'Synligjør'}
             </Button>
           )}
-          <Button onClick={onDeletePictures} className={styles.action}>
+          <Button danger onClick={onDeletePictures} className={styles.action}>
             Slett
           </Button>
           <Button onClick={onDeselect}>Avbryt</Button>

@@ -134,10 +134,6 @@
   margin: 20px 0 0 150px;
 }
 
-.submit {
-  margin-top: 20px;
-}
-
 .dropdown {
   margin-top: 0;
   top: 7px !important;
@@ -404,5 +400,15 @@
   @media (--mobile-device) {
     flex-direction: column;
     padding-bottom: 15px;
+  }
+}
+
+.copied {
+  border-color: var(--color-green-3);
+  color: var(--color-green-3);
+  outline-color: var(--color-green-3);
+
+  &:hover:not(:disabled) {
+    border-color: var(--color-green-3);
   }
 }

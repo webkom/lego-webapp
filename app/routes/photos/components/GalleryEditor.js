@@ -272,6 +272,7 @@ class GalleryEditor extends Component<Props, State> {
               </ConfirmModalWithParent>
             )}
             <Button
+              success={!isNew}
               disabled={submitting}
               className={styles.submitButton}
               type="submit"

@@ -3,6 +3,7 @@
 import { Component } from 'react';
 import { Content } from 'app/components/Content';
 import { Helmet } from 'react-helmet-async';
+import Button from 'app/components/Button';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import Poll from 'app/components/Poll';
 import PollEditor from './PollEditor';
@@ -39,12 +40,12 @@ class PollDetail extends Component<Props, State> {
       <Content>
         <Helmet title={this.props.poll.title} />
         <NavigationTab title={this.props.poll.title}>
-          {this.props.actionGrant.includes('edit') && (
-            <NavigationLink to="#" onClick={this.toggleEdit}>
-              {this.state.editing ? 'Avbryt' : 'Rediger'}
-            </NavigationLink>
-          )}
           <NavigationLink to="/polls/">Tilbake</NavigationLink>
+          {this.props.actionGrant.includes('edit') && (
+            <Button onClick={this.toggleEdit}>
+              {this.state.editing ? 'Avbryt' : 'Rediger'}
+            </Button>
+          )}
         </NavigationTab>
         {!this.state.editing && (
           <Poll

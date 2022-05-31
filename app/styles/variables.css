@@ -84,11 +84,11 @@
   --color-orange-4: #f29d49;
   --color-orange-5: #ffb366;
 
-  --color-green-1: #0a6640;
-  --color-green-2: #0d8050;
-  --color-green-3: #0f9960;
-  --color-green-4: #15b371;
-  --color-green-5: #3dcc91;
+  --color-green-1: #2d6931;
+  --color-green-2: #347d39;
+  --color-green-3: #2c974b;
+  --color-green-4: #46954a;
+  --color-green-5: #2da44e;
 
   --color-red-1: #a82a2a;
   --color-red-2: #c23030;
@@ -104,6 +104,28 @@
   --font-size: 16px;
   --font-size-small: 12px;
   --font-size-large: 18px;
+
+  --button-color: var(--color-white);
+  --button-box-shadow: 0 1px 0 rgba(27, 31, 36, 10%),
+    inset 0 1px 0 rgba(255, 255, 255, 3%);
+  --button-background: var(--color-light-gray-4);
+  --button-background-hover: var(--color-light-gray-3);
+  --button-border: #30404d77;
+  --button-border-hover: #394b59aa;
+
+  --button-dark-background: var(--color-red-2);
+  --button-dark-background-hover: var(--color-red-1);
+  --button-dark-border: #bfccd633;
+  --button-dark-border-hover: #ced9e044;
+  --button-dark-box-shadow-focus: #db373744;
+
+  --button-danger-box-shadow-focus: #db373744;
+
+  --button-success-background: var(--color-green-5);
+  --button-success-background-hover: var(--color-green-3);
+  --button-success-border: #a7b6c233;
+  --button-success-border-hover: #bfccd644;
+  --button-success-box-shadow-focus: #2c974b44;
 }
 
 [data-theme='dark'] {
@@ -187,11 +209,11 @@
   --color-orange-4: #f29d49;
   --color-orange-5: #ffb366;
 
-  --color-green-1: #0a6640;
-  --color-green-2: #0d8050;
-  --color-green-3: #0f9960;
-  --color-green-4: #15b371;
-  --color-green-5: #3dcc91;
+  --color-green-1: #2d6931;
+  --color-green-2: #347d39;
+  --color-green-3: #2c974b;
+  --color-green-4: #46954a;
+  --color-green-5: #2da44e;
 
   --color-red-1: #a82a2a;
   --color-red-2: #c23030;
@@ -207,4 +229,25 @@
   --font-size: 16px;
   --font-size-small: 12px;
   --font-size-large: 18px;
+
+  --button-color: var(--color-black);
+  --button-box-shadow: 0 0 transparent, inset 0 0 transparent;
+  --button-background: var(--color-mono-gray-2);
+  --button-background-hover: var(--color-mono-gray-4);
+  --button-border: #a7b6c277;
+  --button-border-hover: #bfccd6aa;
+
+  --button-dark-background: var(--color-red-1);
+  --button-dark-background-hover: var(--color-red-2);
+  --button-dark-border: #a7b6c233;
+  --button-dark-border-hover: #bfccd644;
+  --button-dark-box-shadow-focus: #ff737344;
+
+  --button-danger-box-shadow-focus: #ff737344;
+
+  --button-success-background: var(--color-green-2);
+  --button-success-background-hover: var(--color-green-4);
+  --button-success-border: #bfccd633;
+  --button-success-border-hover: #ced9e044;
+  --button-success-box-shadow-focus: #2da44e44;
 }

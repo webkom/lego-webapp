@@ -1,55 +1,54 @@
 @import '~app/styles/variables.css';
 
 .button {
-  box-shadow: 1px 1px 3px 1px var(--color-gray-5);
-  font-weight: 600;
-  background: linear-gradient(
-    -180deg,
-    var(--color-red-3) 0%,
-    var(--color-red-2) 90%
-  );
-  padding: 10px 20px;
-  color: var(--color-light-gray-4);
-  outline: none;
-  border-radius: 4px;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  display: inline-flex;
+  box-sizing: border-box;
+  height: 2.3em;
+  width: fit-content;
+  padding: 5px 15px;
+  box-shadow: var(--button-box-shadow);
+  font-weight: 600;
+  background-color: var(--button-background);
+  color: var(--color-dark-gray-5);
+  outline: none;
+  border-radius: 6px;
+  border: 1px solid var(--button-border);
+  transition: 125ms cubic-bezier(0.3, 0, 0.5, 1) ease-in-out;
+  /* stylelint-disable value-list-comma-newline-after */
+  transition-property: color, background-color, border-color, box-shadow,
+    opacity;
 
   &:active {
     transform: translateY(1px);
   }
 
+  &:focus-visible {
+    box-shadow: 0 0 0 3px #9944;
+  }
+
   &:disabled {
-    color: var(--color-dark-mono-gray-4);
-    background: var(--color-mono-gray-2);
     box-shadow: initial;
+    cursor: not-allowed;
+    opacity: 0.5;
   }
 
   + .button {
     margin-left: 16px;
   }
 
-  &:hover:not(:disabled) {
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 10%);
-    opacity: 0.9;
-  }
-
   > i {
-    margin-right: 4px;
+    margin-right: 7px;
   }
 
   > a {
     color: var(--color-dark-gray-3);
   }
-}
-/* stylelint-disable no-descending-specificity */
-html[data-theme='dark'] .button {
-  box-shadow: 1px 1px 3px 1px var(--color-gray-1);
-  color: var(--color-dark-gray-2);
 
-  &:disabled {
-    color: var(--color-mono-gray-5);
+  &:hover:not(:disabled) {
+    background-color: var(--button-background-hover);
+    border-color: var(--button-border-hover);
   }
 }
 
@@ -58,21 +57,72 @@ html[data-theme='dark'] .button {
 }
 
 .dark {
-  background: var(--color-red-3);
-  color: var(--color-white);
-  border-color: var(--color-red-1);
+  background-color: var(--button-dark-background);
+  border-color: var(--button-dark-border);
+  color: var(--button-color);
+  box-shadow: none;
 
   &.fa {
-    color: var(--color-white);
+    color: var(--button-color);
   }
 
-  &:active {
-    color: var(--color-white);
+  &:focus-visible {
+    box-shadow: 0 0 0 3px var(--button-dark-box-shadow-focus);
+  }
+
+  &:hover:not(:disabled) {
+    background-color: var(--button-dark-background-hover);
+    border-color: var(--button-dark-border-hover);
+  }
+}
+
+.danger {
+  background: none;
+  box-shadow: none;
+  color: var(--color-red-2);
+
+  &:focus-visible {
+    box-shadow: 0 0 0 3px var(--button-danger-box-shadow-focus);
   }
 
   &:disabled {
-    color: rgba(var(--rgb-max), var(--rgb-max), var(--rgb-max), 30%);
+    color: var(--color-red-2);
+    background: none;
   }
+
+  &:hover:not(:disabled) {
+    background-color: var(--color-red-2);
+    border-color: var(--color-red-2);
+    color: var(--button-color);
+  }
+}
+
+.success {
+  background-color: var(--button-success-background);
+  border-color: var(--button-success-border);
+  color: var(--button-color);
+  box-shadow: none;
+
+  &:focus-visible {
+    box-shadow: 0 0 0 3px var(--button-success-box-shadow-focus);
+  }
+
+  &:hover:not(:disabled) {
+    background-color: var(--button-success-background-hover);
+    border-color: var(--button-success-border-hover);
+  }
+}
+
+.flat {
+  font-family: inherit;
+  font-size: inherit;
+  text-align: left;
+  color: var(--lego-link-color);
+  background: none;
+  margin: 0;
+  padding: 0;
+  border: none;
+  cursor: pointer;
 }
 
 .small {
@@ -86,16 +136,4 @@ html[data-theme='dark'] .button {
 
 .large {
   font-size: 1.4rem;
-}
-
-.flatButton {
-  font-family: inherit;
-  font-size: inherit;
-  text-align: left;
-  color: var(--lego-link-color);
-  background: none;
-  margin: 0;
-  padding: 0;
-  border: none;
-  cursor: pointer;
 }

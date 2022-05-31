@@ -120,6 +120,7 @@ const GalleryPictureEditModal = ({
           />
           <Flex justifyContent="flex-end">
             <Button
+              danger
               onClick={() =>
                 deletePicture(gallery.id, picture.id).then(() =>
                   push(`/photos/${gallery.id}`)
@@ -135,7 +136,9 @@ const GalleryPictureEditModal = ({
             >
               Avbryt
             </Button>
-            <Button type="submit">Lagre</Button>
+            <Button success type="submit">
+              Lagre
+            </Button>
           </Flex>
         </Form>
       </Content>

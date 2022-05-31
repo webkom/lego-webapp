@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import Button from 'app/components/Button';
-import styles from './DeleteUser.css';
 import { TextInput, Form, legoForm } from 'app/components/Form';
 import type { FormProps } from 'redux-form';
 import { Field } from 'redux-form';
@@ -26,17 +25,15 @@ const DeleteUser = ({
   const disabledButton = invalid || pristine || submitting;
   const [show, setShow] = useState(false);
   return (
-    <div>
-      {show === false && (
-        <Button className={styles.saveButton} onClick={() => setShow(true)}>
-          Gå videre til slett bruker
+    <>
+      {!show && (
+        <Button danger onClick={() => setShow(true)}>
+          Gå videre til sletting av bruker
         </Button>
       )}
       {show && (
         <>
-          <Button className={styles.saveButton} onClick={() => setShow(false)}>
-            Angre
-          </Button>
+          <Button onClick={() => setShow(false)}>Avbryt</Button>
           <h3> Skriv inn passordet ditt: </h3>
           <Form onSubmit={handleSubmit}>
             <Field
@@ -46,13 +43,13 @@ const DeleteUser = ({
               autocomplete="current-password"
               component={TextInput.Field}
             />
-            <Button disabled={disabledButton} dark submit>
-              Slett Bruker
+            <Button danger disabled={disabledButton} submit>
+              Slett bruker
             </Button>
           </Form>
         </>
       )}
-    </div>
+    </>
   );
 };
 

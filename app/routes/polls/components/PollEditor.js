@@ -8,6 +8,7 @@ import { Content } from 'app/components/Content';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import Button from 'app/components/Button';
 import Icon from 'app/components/Icon';
+import Tooltip from 'app/components/Tooltip';
 import { Link } from 'react-router-dom';
 import {
   typeof fieldArrayMetaPropTypes,
@@ -73,20 +74,22 @@ const renderOptions = ({
             closeOnConfirm
             className={styles.deleteOption}
           >
-            <Icon name="trash" className={styles.deleteOption} />
+            <Tooltip content="Fjern">
+              <Icon
+                name="trash"
+                prefix="ion-md-"
+                className={styles.deleteOption}
+              />
+            </Tooltip>
           </ConfirmModalWithParent>
         </li>
       ))}
     </ul>
 
-    <Link
-      key="addNew"
-      onClick={() => fields.push({})}
-      to="#"
-      className={styles.addOption}
-    >
-      <Icon name="add-circle" size={25} /> Valg
-    </Link>
+    <Button onClick={() => fields.push({})}>
+      <Icon name="add" prefix="ion-md-" size={25} />
+      Legg til alternativ
+    </Button>
   </div>
 );
 
@@ -148,9 +151,10 @@ class EditPollForm extends Component<Props, *> {
             rerenderOnEveryChange={true}
           />
           <Button
-            disabled={pristine || submitting}
-            submit
             className={styles.submitButton}
+            disabled={pristine || submitting}
+            success={editing}
+            submit
           >
             {editing ? 'Endre avstemning' : 'Lag ny avstemning'}
           </Button>
@@ -160,9 +164,8 @@ class EditPollForm extends Component<Props, *> {
               message="Er du sikker på at du vil slette avstemningen?"
               onConfirm={deletePoll}
               closeOnConfirm
-              className={styles.deletePoll}
             >
-              <Button>Slett</Button>
+              <Button danger>Slett</Button>
             </ConfirmModalWithParent>
           )}
         </Form>

@@ -7,8 +7,6 @@ import { selectTheme, selectStyles } from 'app/components/Form/SelectInput';
 import Button from 'app/components/Button';
 import Flex from 'app/components/Layout/Flex';
 
-import styles from './GroupChange.css';
-
 type Props = {
   grades: Array<Group>,
   abakusGroups: Array<Group>,
@@ -67,7 +65,7 @@ class GroupChange extends Component<Props, State> {
     }));
 
     return (
-      <Flex column={true}>
+      <Flex column gap={10}>
         <Select
           name="form-field-name"
           value={this.state.selectedOption || initalOption}
@@ -78,7 +76,7 @@ class GroupChange extends Component<Props, State> {
           styles={selectStyles}
         />
         {this.state.selectedOption && (
-          <Button className={styles.saveButton} onClick={this.handleOnClick}>
+          <Button onClick={this.handleOnClick} success>
             Lagre endring
           </Button>
         )}

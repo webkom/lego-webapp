@@ -99,6 +99,7 @@ const AnnouncementItem = ({
         actionGrant.includes('delete') && (
           <Flex className={styles.wrapperSendButton}>
             <Button
+              danger
               className={styles.sendButton}
               onClick={() => deleteAnnouncement(announcement.id)}
             >

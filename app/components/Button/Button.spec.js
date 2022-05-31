@@ -2,12 +2,7 @@ import { shallow } from 'enzyme';
 import Button from '../Button';
 
 describe('<Button />', () => {
-  it('should render correctly', () => {
-    const wrapper = shallow(<Button />);
-    expect(wrapper.prop('type')).toBe('button');
-  });
-
-  it('should be a normal button by default', () => {
+  it('should render correctly and be a normal button by default', () => {
     const wrapper = shallow(<Button />);
     expect(wrapper.prop('type')).toBe('button');
   });

@@ -4,7 +4,8 @@ import keys from 'lodash/keys';
 
 import config from 'app/config';
 import Time from 'app/components/Time';
-import Button from 'app/components/Button';
+import Icon from 'app/components/Icon';
+import Tooltip from 'app/components/Tooltip';
 import styles from './UserSettingsOAuth2.css';
 
 type Props = {
@@ -115,12 +116,13 @@ const UserSettingsOAuth2 = (props: Props) => {
                 <td>{grant.token}</td>
                 <td>{keys(grant.scopes).join(', ')}</td>
                 <td>
-                  <Button
-                    size="small"
+                  <Tooltip
+                    content="Fjern"
                     onClick={() => props.deleteOAuth2Grant(grant.id)}
+                    style={{ marginTop: '-5px' }}
                   >
-                    Fjern
-                  </Button>
+                    <Icon size={28} name="trash" prefix="ion-md-" />
+                  </Tooltip>
                 </td>
               </tr>
             ) : null

@@ -12,7 +12,6 @@ import {
   legoForm,
   PhoneNumberInput,
 } from 'app/components/Form';
-import { FlexRow } from 'app/components/FlexBox';
 import UserImage from './UserImage';
 import ChangePassword from './ChangePassword';
 import styles from './UserSettings.css';
@@ -57,15 +56,13 @@ const UserSettings = (props: Props) => {
 
   return (
     <div>
-      <FlexRow justifyContent="center">
+      <div className={styles.pictureSection}>
         <UserImage user={user} updatePicture={updatePicture} />
-      </FlexRow>
+      </div>
 
-      <h3>Slett bilde:</h3>
       <RemovePicture username={user.username} removePicture={removePicture} />
 
       <Form onSubmit={handleSubmit}>
-        <h3>Endre bruker:</h3>
         <Field
           placeholder="Brukernavn"
           label="Brukernavn"
@@ -164,7 +161,7 @@ const UserSettings = (props: Props) => {
           </RadioButtonGroup>
         )}
 
-        <Button disabled={disabledButton} submit>
+        <Button success disabled={disabledButton} submit>
           Lagre
         </Button>
       </Form>
@@ -179,7 +176,7 @@ const UserSettings = (props: Props) => {
               user={user}
             />
           </div>
-          <h2>Slette bruker</h2>
+          <h2 className={styles.deleteUser}>Slett bruker</h2>
           <DeleteUser push={push} user={user} deleteUser={deleteUser} />
         </>
       )}

@@ -152,10 +152,12 @@ const ArticleEditor = ({
           initialized={initialized}
         />
         <div>
-          <Button submit>{!isNew ? 'LAGRE ENDRINGER' : 'OPPRETT'}</Button>
+          <Button submit success={!isNew}>
+            {!isNew ? 'Lagre endringer' : 'Opprett'}
+          </Button>
           {!isNew && (
-            <Button dark onClick={handleDeleteArticle}>
-              SLETT
+            <Button danger onClick={handleDeleteArticle}>
+              Slett
             </Button>
           )}
         </div>

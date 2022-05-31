@@ -8,7 +8,7 @@ import PodcastEditor from './components/PodcastEditor';
 
 const mapStateToProps = (state, props) => {
   return {
-    new: true,
+    isNew: true,
     podcasts: selectPodcasts(state),
     actionGrant: state.podcasts.actionGrant,
     initialValues: {},
