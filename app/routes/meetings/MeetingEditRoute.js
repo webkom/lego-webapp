@@ -8,6 +8,7 @@ import {
   editMeeting,
   fetchMeeting,
   inviteUsersAndGroups,
+  deleteMeeting,
 } from 'app/actions/MeetingActions';
 import { formValueSelector } from 'redux-form';
 import { selectMeetingById } from 'app/reducers/meetings';
@@ -21,6 +22,7 @@ const mapDispatchToProps = {
   fetchMeeting,
   inviteUsersAndGroups,
   push,
+  deleteMeeting,
 };
 
 const mapStateToProps = (state, props) => {

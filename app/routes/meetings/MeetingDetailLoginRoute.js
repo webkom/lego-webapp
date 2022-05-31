@@ -4,7 +4,6 @@ import { push } from 'connected-react-router';
 import {
   fetchMeeting,
   setInvitationStatus,
-  deleteMeeting,
 } from 'app/actions/MeetingActions';
 import {
   selectMeetingById,
@@ -21,7 +20,6 @@ import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 
 const mapDispatchToProps = {
   setInvitationStatus,
-  deleteMeeting,
   fetchMeeting,
   push,
 };
