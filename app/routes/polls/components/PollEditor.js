@@ -5,11 +5,10 @@ import type { Node } from 'react';
 import { Component } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Content } from 'app/components/Content';
-import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
+import NavigationTab from 'app/components/NavigationTab';
 import Button from 'app/components/Button';
 import Icon from 'app/components/Icon';
 import Tooltip from 'app/components/Tooltip';
-import { Link } from 'react-router-dom';
 import {
   typeof fieldArrayMetaPropTypes,
   typeof fieldArrayFieldsPropTypes,
@@ -102,9 +101,10 @@ class EditPollForm extends Component<Props, *> {
       <Content>
         <Helmet title={editing ? `Redigerer avstemning` : 'Ny avstemning'} />
         {!editing && (
-          <NavigationTab title="Ny avstemning">
-            <NavigationLink to="/polls">Tilbake</NavigationLink>
-          </NavigationTab>
+          <NavigationTab
+            title="Ny avstemning"
+            back={{ label: 'Tilbake', path: '/polls' }}
+          />
         )}
         <Form onSubmit={handleSubmit}>
           <Field

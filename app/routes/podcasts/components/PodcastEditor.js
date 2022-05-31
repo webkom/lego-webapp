@@ -2,7 +2,7 @@
 
 import { Component } from 'react';
 import { Content } from 'app/components/Content';
-import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
+import NavigationTab from 'app/components/NavigationTab';
 import Button from 'app/components/Button';
 import {
   TextInput,
@@ -45,9 +45,10 @@ class PodcastEditor extends Component<Props, *> {
 
     return (
       <Content>
-        <NavigationTab title={header}>
-          <NavigationLink to="/podcasts/">Tilbake</NavigationLink>
-        </NavigationTab>
+        <NavigationTab
+          title={header}
+          back={{ label: 'Tilbake', path: '/podcasts' }}
+        />
         <Form onSubmit={handleSubmit}>
           <Field
             name="source"

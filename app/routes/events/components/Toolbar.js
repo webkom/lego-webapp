@@ -31,8 +31,8 @@ class Toolbar extends Component<Props, State> {
         </div>
 
         <NavLink
+          exact
           to="/events"
-          exact={true}
           activeClassName={styles.active}
           className={cx(styles.pickerItem, styles.list)}
         >
@@ -48,7 +48,7 @@ class Toolbar extends Component<Props, State> {
         </NavLink>
 
         <div className={styles.create}>
-          {actionGrant && actionGrant.includes('create') && (
+          {actionGrant?.includes('create') && (
             <Link to="/events/create">Lag nytt</Link>
           )}
         </div>

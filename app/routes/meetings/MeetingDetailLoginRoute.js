@@ -1,10 +1,7 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { push } from 'connected-react-router';
-import {
-  fetchMeeting,
-  setInvitationStatus,
-} from 'app/actions/MeetingActions';
+import { fetchMeeting, setInvitationStatus } from 'app/actions/MeetingActions';
 import {
   selectMeetingById,
   selectCommentsForMeeting,

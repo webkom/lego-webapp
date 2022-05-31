@@ -29,7 +29,7 @@ const UserSettingsIndex = (props: Props) => {
       <Helmet title="Innstillinger" />
       <NavigationTab title="Innstillinger">
         {props.isMe && (
-          <div>
+          <>
             <NavigationLink to={`${base}/profile`}>Profil</NavigationLink>
             <NavigationLink to={`${base}/notifications`}>
               Notifikasjoner
@@ -40,7 +40,7 @@ const UserSettingsIndex = (props: Props) => {
                 Verifiser studentstatus
               </NavigationLink>
             )}
-          </div>
+          </>
         )}
       </NavigationTab>
       {props.children &&

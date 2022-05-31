@@ -5,7 +5,7 @@ import styles from './MeetingEditor.css';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { Field } from 'redux-form';
 import { AttendanceStatus } from 'app/components/UserAttendance';
-import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
+import NavigationTab from 'app/components/NavigationTab';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import { useHistory } from 'react-router-dom';
 
@@ -58,6 +58,8 @@ function MeetingEditor({
   initialized,
   deleteMeeting,
 }: Props) {
+  const history = useHistory();
+
   const isEditPage = meetingId !== undefined;
 
   if (isEditPage && !meeting) {
@@ -84,8 +86,6 @@ function MeetingEditor({
     invitingUsers,
     'value'
   );
-
-  const history = useHistory();
 
   const onDeleteMeeting = async () =>
     await deleteMeeting(meeting?.id).then(() => history.push('/meetings/'));

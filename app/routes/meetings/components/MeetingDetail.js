@@ -17,7 +17,6 @@ import DisplayContent from 'app/components/DisplayContent';
 import urlifyString from 'app/utils/urlifyString';
 import {
   Content,
-  ContentHeader,
   ContentSection,
   ContentSidebar,
   ContentMain,
@@ -125,7 +124,6 @@ class MeetingDetails extends Component<Props> {
 
     const actionGrant = meeting?.actionGrant;
 
-    const canDelete = actionGrant?.includes('delete');
     const canEdit = actionGrant?.includes('edit');
 
     const infoItems = [
@@ -155,28 +153,24 @@ class MeetingDetails extends Component<Props> {
       <div>
         <Helmet title={meeting.title} />
         <Content>
-          <ContentHeader className={styles.heading}>
-            <div style={{ flex: 1 }}>
-              <NavigationTab
-                title={meeting.title}
-                className={styles.detailTitle}
-                back={{ label: 'Mine møter', path: '/meetings' }}
-              >
-                {canEdit && (
-                  <NavigationLink to={`/meetings/${meeting.id}/edit`}>
-                    Rediger
-                  </NavigationLink>
-                )}
-              </NavigationTab>
-              <h3>
-                <Time
-                  style={{ color: 'grey' }}
-                  time={meeting.startTime}
-                  format="ll [-] HH:mm"
-                />
-              </h3>
-            </div>
-          </ContentHeader>
+          <NavigationTab
+            title={meeting.title}
+            className={styles.detailTitle}
+            details={
+              <Time
+                style={{ color: 'grey' }}
+                time={meeting.startTime}
+                format="ll [-] HH:mm"
+              />
+            }
+            back={{ label: 'Mine møter', path: '/meetings' }}
+          >
+            {canEdit && (
+              <NavigationLink to={`/meetings/${meeting.id}/edit`}>
+                Rediger
+              </NavigationLink>
+            )}
+          </NavigationTab>
 
           <ContentSection>
             <ContentMain>

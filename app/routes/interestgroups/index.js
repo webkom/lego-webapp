@@ -42,5 +42,5 @@ const interestGroupRoute = ({ match }: { match: { path: string } }) => (
 );
 
 export default function InterestGroups() {
-  return <Route path="/interestgroups" component={interestGroupRoute} />;
+  return <Route path="/interest-groups" component={interestGroupRoute} />;
 }

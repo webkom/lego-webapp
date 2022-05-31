@@ -6,7 +6,7 @@ import InterestGroupComponent from './InterestGroup';
 import Button from 'app/components/Button';
 import { Content } from 'app/components/Content';
 import { Link } from 'react-router-dom';
-import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
+import NavigationTab from 'app/components/NavigationTab';
 import type { ActionGrant, Group } from 'app/models';
 
 export type Props = {
@@ -29,22 +29,19 @@ const InterestGroupList = ({ actionGrant, interestGroups }: Props) => {
     <Content>
       <Helmet title="Interessegrupper" />
       <div className={styles.section}>
-        <div>
-          <NavigationTab title="Interessegrupper">
-            <NavigationLink to="/">
-              <i className="fa fa-angle-left" /> Hjem
-            </NavigationLink>
-          </NavigationTab>
-          <p>
-            <Link to="/pages/generelt/39-praktisk-informasjon">Her</Link> finner
-            du all praktisk informasjon knyttet til våre interessegrupper.
-          </p>
-          {canCreate && (
-            <Link to="/interestgroups/create" className={styles.link}>
-              <Button>Lag ny interessegruppe</Button>
-            </Link>
-          )}
-        </div>
+        <NavigationTab
+          title="Interessegrupper"
+          back={{ label: 'Hjem', path: '/' }}
+        />
+        <p>
+          <Link to="/pages/generelt/39-praktisk-informasjon">Her</Link> finner
+          du all praktisk informasjon knyttet til våre interessegrupper.
+        </p>
+        {canCreate && (
+          <Link to="/interest-groups/create" className={styles.link}>
+            <Button>Lag ny interessegruppe</Button>
+          </Link>
+        )}
       </div>
       <div className="groups">
         {activeGroups.map((g) => (

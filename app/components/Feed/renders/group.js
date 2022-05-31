@@ -61,7 +61,7 @@ export function getURL(aggregatedActivity: AggregatedActivity) {
   }
   switch (group.type) {
     case GroupTypeInterest:
-      return `/interestgroups/${group.id}`;
+      return `/interest-groups/${group.id}`;
     case GroupTypeCommittee:
       return `/pages/komiteer/${group.id}`;
     default:

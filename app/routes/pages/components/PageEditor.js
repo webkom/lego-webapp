@@ -16,7 +16,7 @@ import {
   ObjectPermissions,
 } from 'app/components/Form';
 import ImageUpload from 'app/components/Upload/ImageUpload';
-import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
+import NavigationTab from 'app/components/NavigationTab';
 import { Field, Fields } from 'redux-form';
 import { Content } from 'app/components/Content';
 import { get } from 'lodash';
@@ -130,11 +130,10 @@ export default class PageEditor extends Component<Props, State> {
 
     return (
       <Content>
-        <NavigationTab title={page.title}>
-          <NavigationLink to={backUrl}>
-            <i className="fa fa-angle-left" /> Tilbake
-          </NavigationLink>
-        </NavigationTab>
+        <NavigationTab
+          title={page.title}
+          back={{ label: 'Tilbake', path: backUrl }}
+        />
         <Form onSubmit={handleSubmit(withSubmissionError(this.onSubmit))}>
           <div className={styles.coverImage}>
             <ImageUpload
