@@ -9,7 +9,6 @@ import { Image } from 'app/components/Image';
 import InfoBubble from 'app/components/InfoBubble';
 import { Link } from 'react-router-dom';
 import NavigationTab from 'app/components/NavigationTab';
-import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import { jobType, Year } from 'app/routes/joblistings/components/Items';
 import Icon from 'app/components/Icon';
 import moment from 'moment-timezone';
@@ -178,9 +177,10 @@ const CompanyDetail = (props: Props) => {
         </div>
       )}
 
-      <NavigationTab title={company.name}>
-        <NavigationLink to="/companies">Tilbake til liste</NavigationLink>
-      </NavigationTab>
+      <NavigationTab
+        title={company.name}
+        back={{ label: 'Tilbake til liste', path: '/companies' }}
+      />
 
       <div className={styles.description}>
         <p>{company.description}</p>

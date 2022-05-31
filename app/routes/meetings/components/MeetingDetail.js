@@ -5,7 +5,6 @@ import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import Time, { FromToTime } from 'app/components/Time';
 import CommentView from 'app/components/Comments/CommentView';
-import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import styles from './MeetingDetail.css';
 import Card from 'app/components/Card';
 import Button from 'app/components/Button';
@@ -18,7 +17,6 @@ import DisplayContent from 'app/components/DisplayContent';
 import urlifyString from 'app/utils/urlifyString';
 import {
   Content,
-  ContentHeader,
   ContentSection,
   ContentSidebar,
   ContentMain,
@@ -39,7 +37,6 @@ type Props = {
   currentUser: UserEntity,
   showAnswer: Boolean,
   meetingInvitations: Array<MeetingInvitationEntity>,
-  deleteMeeting: (number) => Promise<*>,
   setInvitationStatus: (
     meetingId: number,
     status: MeetingInvitationStatus,
@@ -108,11 +105,6 @@ class MeetingDetails extends Component<Props> {
       </li>
     );
 
-  onDeleteMeeting = () =>
-    this.props
-      .deleteMeeting(this.props.meeting.id)
-      .then(() => this.props.push('/meetings/'));
-
   render() {
     const {
       meeting,
@@ -128,12 +120,11 @@ class MeetingDetails extends Component<Props> {
     if (!meeting || !currentUser) {
       return <LoadingIndicator loading />;
     }
-    const statusMe = currentUserInvitation && currentUserInvitation.status;
+    const statusMe = currentUserInvitation?.status;
 
-    const actionGrant = meeting && meeting.actionGrant;
+    const actionGrant = meeting?.actionGrant;
 
-    const canDelete = actionGrant && actionGrant.includes('delete');
-    const canEdit = actionGrant && actionGrant.includes('edit');
+    const canEdit = actionGrant?.includes('edit');
 
     const infoItems = [
       {
@@ -162,39 +153,24 @@ class MeetingDetails extends Component<Props> {
       <div>
         <Helmet title={meeting.title} />
         <Content>
-          <ContentHeader className={styles.heading}>
-            <div style={{ flex: 1 }}>
-              <NavigationTab
-                title={meeting.title}
-                className={styles.detailTitle}
-              >
-                <NavigationLink to="/meetings">
-                  <i className="fa fa-angle-left" /> Mine møter
-                </NavigationLink>
-                {canEdit && (
-                  <NavigationLink to={`/meetings/${meeting.id}/edit`}>
-                    Endre møte
-                  </NavigationLink>
-                )}
-                {canDelete && (
-                  <ConfirmModalWithParent
-                    title="Slett møte"
-                    message="Er du sikker på at du vil slette møtet?"
-                    onConfirm={this.onDeleteMeeting}
-                  >
-                    <NavigationLink to="#">Slett møte</NavigationLink>
-                  </ConfirmModalWithParent>
-                )}
-              </NavigationTab>
-              <h3>
-                <Time
-                  style={{ color: 'grey' }}
-                  time={meeting.startTime}
-                  format="ll [-] HH:mm"
-                />
-              </h3>
-            </div>
-          </ContentHeader>
+          <NavigationTab
+            title={meeting.title}
+            className={styles.detailTitle}
+            details={
+              <Time
+                style={{ color: 'grey' }}
+                time={meeting.startTime}
+                format="ll [-] HH:mm"
+              />
+            }
+            back={{ label: 'Mine møter', path: '/meetings' }}
+          >
+            {canEdit && (
+              <NavigationLink to={`/meetings/${meeting.id}/edit`}>
+                Rediger
+              </NavigationLink>
+            )}
+          </NavigationTab>
 
           <ContentSection>
             <ContentMain>

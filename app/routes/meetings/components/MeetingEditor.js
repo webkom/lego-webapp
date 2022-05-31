@@ -5,7 +5,9 @@ import styles from './MeetingEditor.css';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { Field } from 'redux-form';
 import { AttendanceStatus } from 'app/components/UserAttendance';
-import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
+import NavigationTab from 'app/components/NavigationTab';
+import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
+import { useHistory } from 'react-router-dom';
 
 import {
   Form,
@@ -39,6 +41,7 @@ type Props = {
   push: (string) => void,
   inviteUsersAndGroups: (Object) => Promise<*>,
   initialized: boolean,
+  deleteMeeting: (number) => Promise<*>,
 };
 
 function MeetingEditor({
@@ -53,7 +56,10 @@ function MeetingEditor({
   meetingInvitations,
   push,
   initialized,
+  deleteMeeting,
 }: Props) {
+  const history = useHistory();
+
   const isEditPage = meetingId !== undefined;
 
   if (isEditPage && !meeting) {
@@ -81,6 +87,12 @@ function MeetingEditor({
     'value'
   );
 
+  const onDeleteMeeting = async () =>
+    await deleteMeeting(meeting?.id).then(() => history.push('/meetings/'));
+
+  const actionGrant = meeting?.actionGrant;
+  const canDelete = actionGrant?.includes('delete');
+
   return (
     <div className={styles.root}>
       <Helmet
@@ -89,11 +101,8 @@ function MeetingEditor({
       <NavigationTab
         title={isEditPage ? `Redigerer: ${meeting.title}` : 'Nytt møte'}
         className={styles.detailTitle}
-      >
-        <NavigationLink to="/meetings/">
-          <i className="fa fa-angle-left" /> Mine møter
-        </NavigationLink>
-      </NavigationTab>
+        back={{ label: 'Mine møter', path: '/meetings' }}
+      />
       <Form onSubmit={handleSubmit}>
         <Field
           name="title"
@@ -210,6 +219,15 @@ function MeetingEditor({
         <Button success={isEditPage} disabled={pristine || submitting} submit>
           {isEditPage ? 'Lagre endringer' : 'Opprett møte'}
         </Button>
+        {isEditPage && canDelete && (
+          <ConfirmModalWithParent
+            title="Slett møte"
+            message="Er du sikker på at du vil slette møtet?"
+            onConfirm={onDeleteMeeting}
+          >
+            <Button danger>Slett møte</Button>
+          </ConfirmModalWithParent>
+        )}
       </Form>
     </div>
   );

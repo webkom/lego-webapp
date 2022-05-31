@@ -148,7 +148,7 @@ export default class GalleryDetail extends Component<Props, State> {
           >
             <i className="fa fa-angle-left" /> Tilbake
           </NavigationLink>
-          {actionGrant && actionGrant.includes('edit') && (
+          {actionGrant?.includes('edit') && (
             <div>
               <NavigationLink to="#" onClick={() => this.toggleUpload()}>
                 Last opp bilder

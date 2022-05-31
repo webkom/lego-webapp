@@ -6,6 +6,7 @@ import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import type { Semester, CompanySemesterContactedStatus } from 'app/models';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
+import Button from 'app/components/Button';
 
 import { sortBy } from 'lodash';
 
@@ -179,17 +180,19 @@ export const DetailNavigation = ({
   companyId: number,
   deleteFunction: (number) => Promise<*>,
 }) => (
-  <NavigationTab title={title}>
-    <NavigationLink to="/bdb">Tilbake til liste</NavigationLink>
+  <NavigationTab
+    title={title}
+    back={{ label: 'Tilbake til liste', path: '/bdb' }}
+  >
     <NavigationLink to={`/bdb/${companyId}`}>Bedriftens side</NavigationLink>
-    <NavigationLink to="/bdb/add">Ny bedrift</NavigationLink>
-    <NavigationLink to={`/bdb/${companyId}/edit`}>Endre</NavigationLink>
+    <NavigationLink to={`/bdb/${companyId}/edit`}>Rediger</NavigationLink>
+    <NavigationLink to={'/bdb/add'}>Ny bedrift</NavigationLink>
     <ConfirmModalWithParent
       title="Slett bedrift"
       message="Er du sikker på at du vil slette denne bedriften?"
       onConfirm={() => deleteFunction(companyId)}
     >
-      <NavigationLink to="#">Slett</NavigationLink>
+      <Button danger>Slett</Button>
     </ConfirmModalWithParent>
   </NavigationTab>
 );

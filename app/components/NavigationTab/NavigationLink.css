@@ -1,9 +1,14 @@
 .link {
-  display: inline-block;
+  display: inline;
   font-size: 20px;
   margin-right: 15px;
+  transition: all 125ms ease-in-out;
+
+  &:hover:not(.active) {
+    border-bottom: 2px solid var(--color-mono-gray-4);
+  }
 
   &.active {
-    font-weight: bold;
+    border-bottom: 2px solid var(--color-red-3);
   }
 }

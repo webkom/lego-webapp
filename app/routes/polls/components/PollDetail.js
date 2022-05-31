@@ -3,9 +3,9 @@
 import { Component } from 'react';
 import { Content } from 'app/components/Content';
 import { Helmet } from 'react-helmet-async';
-import Button from 'app/components/Button';
-import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
+import NavigationTab from 'app/components/NavigationTab';
 import Poll from 'app/components/Poll';
+import Button from 'app/components/Button';
 import PollEditor from './PollEditor';
 import { type PollEntity } from 'app/reducers/polls';
 import { type ActionGrant, type ID } from 'app/models';
@@ -39,8 +39,10 @@ class PollDetail extends Component<Props, State> {
     return (
       <Content>
         <Helmet title={this.props.poll.title} />
-        <NavigationTab title={this.props.poll.title}>
-          <NavigationLink to="/polls/">Tilbake</NavigationLink>
+        <NavigationTab
+          title={this.props.poll.title}
+          back={{ label: 'Tilbake', path: '/polls' }}
+        >
           {this.props.actionGrant.includes('edit') && (
             <Button onClick={this.toggleEdit}>
               {this.state.editing ? 'Avbryt' : 'Rediger'}

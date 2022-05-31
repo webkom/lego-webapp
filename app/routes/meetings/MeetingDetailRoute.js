@@ -5,7 +5,6 @@ import { compose } from 'redux';
 import {
   fetchMeeting,
   setInvitationStatus,
-  deleteMeeting,
   answerMeetingInvitation,
   resetMeetingsToken,
 } from 'app/actions/MeetingActions';
@@ -92,7 +91,6 @@ const MeetingComponent = (props: Props) => {
 const mapDispatchToProps = {
   fetchMeeting,
   setInvitationStatus,
-  deleteMeeting,
   resetMeetingsToken,
   deleteComment,
 };

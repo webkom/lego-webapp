@@ -1,7 +1,7 @@
 // @flow
 
 import type { Node } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import styles from './NavigationLink.css';
 
@@ -13,14 +13,15 @@ type Props = {
 
 const NavigationLink = (props: Props) => {
   return (
-    <Link
+    <NavLink
+      exact
       to={props.to}
       onClick={props.onClick}
       className={styles.link}
       activeClassName={styles.active}
     >
       {props.children}
-    </Link>
+    </NavLink>
   );
 };
 

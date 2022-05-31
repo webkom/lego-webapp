@@ -156,7 +156,7 @@ class App extends PureComponent<AppProps> {
   }
 }
 
-function mapStateToProps(state) {
+const mapStateToProps = (state) => {
   const upcomingMeetings = Object.values(state.meetings.byId)
     .filter((meeting: any) => moment(meeting.endTime).isAfter(moment()))
     .sort((meetingA: any, meetingB: any) =>
@@ -175,7 +175,7 @@ function mapStateToProps(state) {
     upcomingMeeting: upcomingMeetings.length ? upcomingMeetings[0] : undefined,
     loading: state.frontpage.fetching,
   };
-}
+};
 
 const mapDispatchToProps = {
   toggleSearch,

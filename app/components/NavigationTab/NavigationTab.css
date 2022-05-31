@@ -2,9 +2,10 @@
 
 .container {
   display: flex;
+  flex-flow: row wrap;
+  align-items: center;
   justify-content: space-between;
   margin-bottom: 15px;
-  align-items: baseline;
 }
 
 .header {
@@ -26,27 +27,23 @@
   align-items: center;
 }
 
-@media (--mobile-device) {
-  .container {
-    flex-flow: column wrap;
-    align-items: flex-end;
-  }
+.back {
+  display: flex;
+  align-items: center;
+  width: fit-content;
 }
 
-@media (--small-viewport) {
-  .navigator {
-    flex-direction: row;
-    align-items: flex-end;
-  }
-}
-
-span.back {
+span.backLabel {
   font-weight: 600;
-  margin-left: 15px;
+  margin-left: 6px;
 }
 
 .backIcon {
-  vertical-align: middle;
+  transition: transform 150ms ease-in-out;
+}
+
+.back:hover > .backIcon {
+  transform: translateX(-3px);
 }
 
 .details {
