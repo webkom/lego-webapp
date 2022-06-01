@@ -8,7 +8,7 @@ import { produce } from 'immer';
 export const resolveGroupLink = (group: { type: string, id: ID }) => {
   switch (group.type) {
     case GroupTypeInterest:
-      return `/interestgroups/${group.id}`;
+      return `/interest-groups/${group.id}`;
     case GroupTypeCommittee:
       return `/pages/komiteer/${group.id}`;
     default:

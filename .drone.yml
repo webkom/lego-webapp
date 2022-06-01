@@ -10,7 +10,7 @@ trigger:
 
 steps:
   - name: postgres
-    image: postgres:9.5
+    image: postgres:12.3
     detach: true
     environment:
       POSTGRES_USER: lego
@@ -325,4 +325,4 @@ image_pull_secrets:
 
 ---
 kind: signature
-hmac: 03f413c45e9a13431d3324440e6460b72bb9514cf8e745f7b8cf41fea61ee08a
+hmac: e2eb2dfdcef62b20d7da77f6345ee3f7373953bfdf694dbf8112b92fce6719ce

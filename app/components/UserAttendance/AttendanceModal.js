@@ -23,12 +23,12 @@ export type Props = {
 
 const Tab = ({ name, index, activePoolIndex, togglePool }: any) => (
   <Button
+    flat
+    onClick={() => togglePool(index)}
     className={cx(
       styles.navButton,
       activePoolIndex === index && styles.activeItem
     )}
-    flat
-    onClick={() => togglePool(index)}
   >
     {name}
   </Button>

@@ -58,6 +58,10 @@
   justify-content: space-around;
 }
 
+.justifyContent__space-evenly {
+  justify-content: space-evenly;
+}
+
 .alignItems__flex-start {
   align-items: flex-start;
 }

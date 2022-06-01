@@ -8,6 +8,12 @@
 
 [![open issues](https://badgen.net/github/open-issues/webkom/lego)](https://github.com/webkom/lego/issues)
 
+## Quick access
+
+1. [Quick Start](#quick-start)
+2. [Development](#development)
+3. [Deployment (webkom/lego#deployment)](https://github.com/webkom/lego#deployment)
+
 ## Quick Start
 
 ```bash

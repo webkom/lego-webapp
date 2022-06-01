@@ -1,11 +1,7 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { push } from 'connected-react-router';
-import {
-  fetchMeeting,
-  setInvitationStatus,
-  deleteMeeting,
-} from 'app/actions/MeetingActions';
+import { fetchMeeting, setInvitationStatus } from 'app/actions/MeetingActions';
 import {
   selectMeetingById,
   selectCommentsForMeeting,
@@ -21,7 +17,6 @@ import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 
 const mapDispatchToProps = {
   setInvitationStatus,
-  deleteMeeting,
   fetchMeeting,
   push,
 };

@@ -110,10 +110,10 @@ const UploadArea = ({ multiple, onDrop, image }: UploadAreaProps) => {
     >
       <div {...getRootProps({ className: styles.dropArea })}>
         <div className={styles.placeholderContainer}>
-          <Icon size={82} name="image" className={styles.placeholderIcon} />
-          <h1 className={styles.placeholdeTitle}>
+          <Icon size={82} name="image" />
+          <h2 className={styles.placeholdeTitle}>
             {`Dropp ${word} her eller trykk for å velge fra fil`}
-          </h1>
+          </h2>
         </div>
         {image && (
           <Image alt="presentation" className={styles.image} src={image} />
@@ -277,11 +277,9 @@ export default class ImageUpload extends Component<Props, State> {
               wrap
               className={styles.footer}
               alignItems="center"
-              justifyContent="space-around"
+              justifyContent="space-evenly"
             >
-              <Button onClick={this.onSubmit} className={styles.saveButton}>
-                Last opp
-              </Button>
+              <Button onClick={this.onSubmit}>Last opp</Button>
               <Button
                 onClick={() => this.closeModal()}
                 className={styles.cancelButton}

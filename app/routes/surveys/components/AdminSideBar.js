@@ -2,10 +2,12 @@
 
 import { Component } from 'react';
 import styles from './surveys.css';
+import cx from 'classnames';
 import { Link } from 'react-router-dom';
 import type { ActionGrant } from 'app/models';
 import { ContentSidebar } from 'app/components/Content';
 import Button from 'app/components/Button';
+import Icon from 'app/components/Icon';
 import config from 'app/config';
 import { CheckBox } from 'app/components/Form';
 
@@ -78,7 +80,12 @@ class AdminSideBar extends Component<Props, State> {
                       setTimeout(() => this.setState({ copied: false }), 2000);
                     });
                   }}
+                  className={cx(this.state.copied && styles.copied)}
                 >
+                  <Icon
+                    name={this.state.copied ? 'checkmark' : 'copy'}
+                    prefix="ion-md-"
+                  />
                   {this.state.copied ? 'Kopiert!' : 'Kopier delbar link'}
                 </Button>
               </li>

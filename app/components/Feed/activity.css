@@ -5,6 +5,8 @@
   padding: 10px 20px;
   border-bottom: 1px solid
     rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 9%);
+  word-break: break-word;
+  white-space: pre-line;
 }
 
 .activityHeader {

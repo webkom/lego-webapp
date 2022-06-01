@@ -213,8 +213,9 @@ class Poll extends Component<Props, State> {
                   key={option.id}
                 >
                   <Button
-                    className={styles.voteButton}
+                    dark
                     onClick={() => handleVote(poll.id, option.id)}
+                    className={styles.voteButton}
                   >
                     {option.name}
                   </Button>

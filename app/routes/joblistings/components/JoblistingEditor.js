@@ -257,10 +257,11 @@ class JoblistingEditor extends Component<Props, State> {
                 message="Er du sikker på at du vil slette denne jobbannonsen?"
                 onConfirm={this.onDeleteJoblisting}
               >
-                <Button dark>Slett</Button>
+                <Button danger>Slett</Button>
               </ConfirmModalWithParent>
             )}
             <Button
+              success
               disabled={invalid || submitting}
               className={styles.submit}
               submit

@@ -45,9 +45,9 @@ const LINKS: Array<Link> = [
     url: 'https://readme.abakus.no',
   },
   {
-    key: 'interestGroups',
+    key: 'interest-groups',
     title: 'Interessegrupper',
-    url: '/interestgroups',
+    url: '/interest-groups',
   },
   {
     key: 'galleries',

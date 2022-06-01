@@ -18,8 +18,10 @@ export const sortSemesterChronologically = (
 };
 
 export const SemesterNavigation = ({ title }: { title: Node }) => (
-  <NavigationTab title={title}>
-    <NavigationLink to="/companyInterest/">Tilbake til skjema</NavigationLink>
+  <NavigationTab
+    title={title}
+    back={{ label: 'Tilbake til skjema', path: '/companyInterest/' }}
+  >
     <NavigationLink to="/bdb">BDB</NavigationLink>
     <NavigationLink to="/bdb/add">Ny bedrift</NavigationLink>
   </NavigationTab>

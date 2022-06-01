@@ -46,6 +46,7 @@ html[data-theme='dark'] .notifications {
   align-items: center;
   padding-right: 15px;
   word-break: break-word;
+  white-space: pre-line;
 }
 
 .unRead {

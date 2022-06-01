@@ -87,6 +87,11 @@
   flex-wrap: wrap;
 }
 
+.registrationBtn {
+  margin-bottom: 20px;
+  margin-right: 10px;
+}
+
 .registrationSection {
   flex-wrap: wrap-reverse;
 }

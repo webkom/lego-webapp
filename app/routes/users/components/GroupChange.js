@@ -3,10 +3,9 @@
 import { Component } from 'react';
 import type { Group, ID } from 'app/models';
 import Select from 'react-select';
+import { selectTheme, selectStyles } from 'app/components/Form/SelectInput';
 import Button from 'app/components/Button';
 import Flex from 'app/components/Layout/Flex';
-
-import styles from './GroupChange.css';
 
 type Props = {
   grades: Array<Group>,
@@ -66,16 +65,18 @@ class GroupChange extends Component<Props, State> {
     }));
 
     return (
-      <Flex column={true}>
+      <Flex column gap={10}>
         <Select
           name="form-field-name"
           value={this.state.selectedOption || initalOption}
           onChange={this.handleChange}
           options={[noLongerStudent, ...options]}
           isClearable={false}
+          theme={selectTheme}
+          styles={selectStyles}
         />
         {this.state.selectedOption && (
-          <Button className={styles.saveButton} onClick={this.handleOnClick}>
+          <Button onClick={this.handleOnClick} success>
             Lagre endring
           </Button>
         )}

@@ -54,6 +54,9 @@ module.exports = {
   },
   settings: {
     'import/resolver': {
+      node: {
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+      },
       webpack: {
         config: './config/webpack.client.js',
       },

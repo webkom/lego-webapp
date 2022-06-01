@@ -49,7 +49,7 @@ const ChangePassword = ({
         type="password"
         component={TextInput.Field}
       />
-      <Button disabled={disabledButton} submit>
+      <Button disabled={disabledButton} submit danger>
         Endre passord
       </Button>
     </Form>

@@ -176,7 +176,7 @@ describe('Create event', () => {
     cy.contains('Albumer');
 
     // Interestgroups
-    openMenuAndSelect('Interessegrupper', '/interestgroups');
+    openMenuAndSelect('Interessegrupper', '/interest-groups');
     cy.contains('Interessegrupper');
 
     // Joblistings

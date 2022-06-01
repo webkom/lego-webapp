@@ -73,7 +73,7 @@ class AnnouncementInLine extends Component<Props, State> {
     return (
       <div>
         {actionGrant && (event || meeting || group) && (
-          <div>
+          <>
             {showButton && (
               <Button
                 onClick={this.handleHide}
@@ -108,12 +108,12 @@ class AnnouncementInLine extends Component<Props, State> {
                   fieldClassName={styles.field}
                   className={styles.fieldText}
                 />
-                <Button submit className={styles.button}>
-                  SEND
+                <Button submit size="small">
+                  Send
                 </Button>
               </Form>
             )}
-          </div>
+          </>
         )}
       </div>
     );

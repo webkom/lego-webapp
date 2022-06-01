@@ -145,7 +145,7 @@ const RestrictedMailEditor = ({
           href={`${config.serverUrl}/restricted-mail/${restrictedMailId}/token?auth=${restrictedMail.tokenQueryParam}`}
           download
         >
-          <Button>Last ned Epost token</Button>
+          <Button>Last ned e-post token</Button>
         </a>
       )}
     </Form>

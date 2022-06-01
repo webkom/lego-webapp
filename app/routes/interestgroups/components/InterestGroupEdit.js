@@ -3,7 +3,7 @@ import { Component } from 'react';
 import { Helmet } from 'react-helmet-async';
 import GroupForm from 'app/components/GroupForm';
 import { Content } from 'app/components/Content';
-import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
+import NavigationTab from 'app/components/NavigationTab';
 
 export default class InterestGroupEdit extends Component<{
   interestGroup: Object,
@@ -18,11 +18,13 @@ export default class InterestGroupEdit extends Component<{
     return (
       <Content>
         <Helmet title={`Redigerer: ${interestGroup.name}`} />
-        <NavigationTab title={`Redigerer: ${interestGroup.name}`}>
-          <NavigationLink to={`/interestGroups/${interestGroup.id}`}>
-            <i className="fa fa-angle-left" /> Tilbake
-          </NavigationLink>
-        </NavigationTab>
+        <NavigationTab
+          title={`Redigerer: ${interestGroup.name}`}
+          back={{
+            label: 'Tilbake',
+            path: `/interest-groups/${interestGroup.id}`,
+          }}
+        />
         <GroupForm
           handleSubmitCallback={handleSubmitCallback}
           group={interestGroup}

@@ -18,7 +18,7 @@ const InterestGroupComponent = ({ group, active }: Props) => {
   return (
     <Flex className={styles.listItem}>
       <Flex column className={styles.listItemContent} style={{ flex: '1' }}>
-        <Link to={`/interestgroups/${group.id}`} className={styles.link}>
+        <Link to={`/interest-groups/${group.id}`} className={styles.link}>
           <h2 style={!active ? { color: 'grey' } : {}}>{group.name}</h2>
         </Link>
         {active && (

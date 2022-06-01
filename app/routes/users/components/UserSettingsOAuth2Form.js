@@ -82,8 +82,8 @@ const UserSettingsOAuth2Form = (props: Props) => {
           />
         )}
 
-        <Button disabled={disabledButton} submit>
-          Submit
+        <Button submit disabled={disabledButton}>
+          Send
         </Button>
       </Form>
     </div>

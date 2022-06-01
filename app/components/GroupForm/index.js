@@ -88,7 +88,7 @@ function GroupForm({
         validate={(value) => isNew && logoValidator(value)}
         required
       />
-      <Button disabled={invalid || submitting} submit>
+      <Button success={!isNew} disabled={invalid || submitting} submit>
         {isNew ? 'Lag gruppe' : 'Lagre gruppe'}
       </Button>
     </Form>

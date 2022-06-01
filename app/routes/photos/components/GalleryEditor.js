@@ -4,7 +4,7 @@ import { Component } from 'react';
 import { Helmet } from 'react-helmet-async';
 import cx from 'classnames';
 import moment from 'moment-timezone';
-import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
+import NavigationTab from 'app/components/NavigationTab';
 import Button from 'app/components/Button';
 import {
   TextInput,
@@ -187,11 +187,8 @@ class GalleryEditor extends Component<Props, State> {
         />
         <NavigationTab
           title={gallery ? `Redigerer: ${gallery.title}` : 'Nytt album'}
-        >
-          <NavigationLink to="/photos">
-            <i className="fa fa-angle-left" /> Tilbake
-          </NavigationLink>
-        </NavigationTab>
+          back={{ label: 'Tilbake', path: '/photos' }}
+        />
         <Form onSubmit={handleSubmit}>
           <Field
             placeholder="Title"
@@ -272,6 +269,7 @@ class GalleryEditor extends Component<Props, State> {
               </ConfirmModalWithParent>
             )}
             <Button
+              success={!isNew}
               disabled={submitting}
               className={styles.submitButton}
               type="submit"

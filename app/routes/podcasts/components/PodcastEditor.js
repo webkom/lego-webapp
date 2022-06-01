@@ -2,7 +2,7 @@
 
 import { Component } from 'react';
 import { Content } from 'app/components/Content';
-import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
+import NavigationTab from 'app/components/NavigationTab';
 import Button from 'app/components/Button';
 import {
   TextInput,
@@ -20,7 +20,7 @@ type Props = {
   source: string,
   deletePodcast: (number) => Promise<*>,
   push: (string) => void,
-  new: boolean,
+  isNew: boolean,
   pristine: boolean,
   submitting: boolean,
   handleSubmit: (Object) => void,
@@ -40,14 +40,15 @@ class PodcastEditor extends Component<Props, *> {
       });
     };
 
-    const header = this.props.new ? 'Legg til Podcast' : 'Rediger Podcast';
-    const { handleSubmit, pristine, submitting } = this.props;
+    const { handleSubmit, pristine, submitting, isNew } = this.props;
+    const header = isNew ? 'Legg til Podcast' : 'Rediger Podcast';
 
     return (
       <Content>
-        <NavigationTab title={header}>
-          <NavigationLink to="/podcasts/">Tilbake</NavigationLink>
-        </NavigationTab>
+        <NavigationTab
+          title={header}
+          back={{ label: 'Tilbake', path: '/podcasts' }}
+        />
         <Form onSubmit={handleSubmit}>
           <Field
             name="source"
@@ -75,8 +76,8 @@ class PodcastEditor extends Component<Props, *> {
             filter={['users.user']}
             component={SelectInput.AutocompleteField}
           />
-          <Button disabled={pristine || submitting} submit>
-            {this.props.new ? 'Lag podcast' : 'Lagre podcast'}
+          <Button success={!isNew} disabled={pristine || submitting} submit>
+            {isNew ? 'Lag podcast' : 'Lagre podcast'}
           </Button>
           {this.props.initialValues.id && (
             <ConfirmModalWithParent

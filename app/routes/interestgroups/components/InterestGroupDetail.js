@@ -24,12 +24,14 @@ type TitleProps = {
 };
 
 const Title = ({ group: { name, id }, showEdit }: TitleProps) => (
-  <NavigationTab title={name}>
-    <NavigationLink to="/interestgroups/">
-      <i className="fa fa-angle-left" /> Tilbake
-    </NavigationLink>
+  <NavigationTab
+    title={name}
+    back={{ label: 'Tilbake', path: '/interest-groups' }}
+  >
     {showEdit && (
-      <NavigationLink to={`/interestgroups/${id}/edit`}>Rediger</NavigationLink>
+      <NavigationLink to={`/interest-groups/${id}/edit`}>
+        Rediger
+      </NavigationLink>
     )}
   </NavigationTab>
 );

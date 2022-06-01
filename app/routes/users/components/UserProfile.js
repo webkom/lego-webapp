@@ -370,7 +370,7 @@ export default class UserProfile extends Component<Props, EventsProps> {
                 <GroupPill key={membership.id} group={membership.abakusGroup} />
               ))}
             </Flex>
-            <Flex>
+            <Flex wrap>
               {Object.keys(groupedMemberships).map((groupId) => (
                 <GroupBadge
                   memberships={groupedMemberships[groupId]}

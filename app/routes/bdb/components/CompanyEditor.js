@@ -217,7 +217,12 @@ const CompanyEditor = ({
           </div>
 
           <div className={styles.clear} />
-          <Button className={styles.submit} disabled={submitting} submit>
+          <Button
+            className={styles.submit}
+            disabled={submitting}
+            submit
+            success
+          >
             Lagre
           </Button>
         </form>

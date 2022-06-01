@@ -107,7 +107,7 @@ export function editGroup(group: Object): Thunk<*> {
       })
     ).then(() =>
       group.type === 'interesse'
-        ? dispatch(push(`/interestgroups/${group.id}`))
+        ? dispatch(push(`/interest-groups/${group.id}`))
         : null
     );
 }
@@ -254,7 +254,7 @@ export function createGroup(group: Object): Thunk<*> {
         return;
       }
       const groupId = action.payload.result;
-      dispatch(push(`/interestgroups/${groupId}`));
+      dispatch(push(`/interest-groups/${groupId}`));
     });
   };
 }
@@ -278,5 +278,5 @@ export function removeGroup(id: string, group: Object): Thunk<*> {
               : 'Sletting av gruppe fullført',
         },
       })
-    ).then(() => dispatch(push('/interestgroups/')));
+    ).then(() => dispatch(push('/interest-groups/')));
 }
