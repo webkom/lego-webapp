@@ -8,6 +8,8 @@ import { reduxForm, Field, reset } from 'redux-form';
 import Button from 'app/components/Button';
 import { ContentMain } from 'app/components/Content';
 import type { ActionGrant, CreateAnnouncement } from 'app/models';
+import { connect } from 'react-redux';
+import { selectAutocomplete } from 'app/reducers/search';
 
 type Props = {
   createAnnouncement: (CreateAnnouncement) => Promise<*>,
@@ -18,7 +20,7 @@ type Props = {
   submitting: boolean,
 };
 
-const AnnouncementsCreate = ({
+let AnnouncementsCreate = ({
   createAnnouncement,
   actionGrant,
   handleSubmit,
@@ -116,13 +118,6 @@ const AnnouncementsCreate = ({
   );
 };
 
-const initialValues = {
-  events: [],
-  meetings: [],
-  groups: [],
-  users: [],
-};
-
 const resetForm = (result, dispatch) => {
   dispatch(reset('announcementsCreate'));
 };
@@ -138,9 +133,43 @@ const validateForm = (values) => {
   return errors;
 };
 
-export default reduxForm({
+AnnouncementsCreate = reduxForm({
   form: 'announcementsCreate',
-  initialValues,
   onSubmitSuccess: resetForm,
   validate: validateForm,
 })(AnnouncementsCreate);
+
+AnnouncementsCreate = connect((state) => {
+  const locationState = state.router.location.state;
+  return {
+    initialValues: {
+      groups: locationState?.group
+        ? selectAutocomplete([
+            {
+              contentType: 'users.abakusgroup',
+              ...locationState.group,
+            },
+          ])
+        : [],
+      events: locationState?.event
+        ? selectAutocomplete([
+            {
+              contentType: 'events.event',
+              ...locationState.event,
+            },
+          ])
+        : [],
+      meetings: locationState?.meeting
+        ? selectAutocomplete([
+            {
+              contentType: 'meetings.meeting',
+              ...locationState.meeting,
+            },
+          ])
+        : [],
+      users: [],
+    },
+  };
+})(AnnouncementsCreate);
+
+export default AnnouncementsCreate;

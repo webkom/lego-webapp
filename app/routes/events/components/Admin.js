@@ -91,12 +91,6 @@ const Admin = ({ actionGrant, event, deleteEvent }: Props) => {
             </li>
           )}
           <li>
-            <AnnouncementInLine
-              placeholder="Skriv en kunngjøring til alle påmeldte..."
-              event={event.id}
-            />
-          </li>
-          <li>
             {event.survey ? (
               <Link to={`/surveys/${event.survey}`}>
                 Gå til spørreundersøkelse
@@ -131,6 +125,9 @@ const Admin = ({ actionGrant, event, deleteEvent }: Props) => {
               />
             </li>
           )}
+          <li>
+            <AnnouncementInLine event={event} />
+          </li>
         </ul>
       )}
     </div>
