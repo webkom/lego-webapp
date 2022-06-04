@@ -3,7 +3,6 @@
 import styles from './JoblistingRightNav.css';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Flex } from 'app/components/Layout';
 import { CheckBox, RadioButton } from 'app/components/Form/';
 import Button from 'app/components/Button';
 import cx from 'classnames';
@@ -43,11 +42,11 @@ const FilterLink = ({ type, label, value, filters }: Object) => (
       pathname: '/joblistings',
       search: qs.stringify(updateFilters(type, value, filters)),
     }}
-    style={{ display: 'flex', flex: 1, alignItems: 'center' }}
+    className={styles.filterLink}
   >
     <CheckBox id={label} value={filters[type].includes(value)} readOnly />
 
-    <span>{label}</span>
+    {label}
   </Link>
 );
 
@@ -133,7 +132,7 @@ export default class JoblistingsRightNav extends Component<Props, State> {
 
   render() {
     return (
-      <Flex column className={styles.box}>
+      <div className={styles.joblistingRightNav}>
         <Button
           flat
           onClick={this.updateDisplayOptions}
@@ -149,8 +148,8 @@ export default class JoblistingsRightNav extends Component<Props, State> {
             />
           </h2>
         </Button>
-        <Flex
-          column
+
+        <div
           className={styles.options}
           style={{ display: this.state.displayOptions ? 'block' : 'none' }}
         >
@@ -159,143 +158,109 @@ export default class JoblistingsRightNav extends Component<Props, State> {
               <Button className={styles.createButton}>Ny jobbannonse</Button>
             </Link>
           )}
-          <h3 className={cx(styles.rightHeader, styles.sortHeader)}>
-            Sorter etter:
-          </h3>
-          <Flex justifyContent="flex-start" className={styles.sortNav}>
-            <Flex>
-              <label
-                htmlFor="deadline"
-                style={{ marginRight: '10px', cursor: 'pointer' }}
-              >
-                <RadioButton
-                  name="sort"
-                  id="deadline"
-                  inputValue={true}
-                  value={this.state.order.deadline}
-                  onChange={() => {
-                    this.props.history.push({
-                      pathname: '/joblistings',
-                      search: qs.stringify(
-                        this.handleQuery('order', 'deadline')
-                      ),
-                    });
-                  }}
-                />
-                Frist
-              </label>
-            </Flex>
-            <Flex>
-              <label htmlFor="company" style={{ cursor: 'pointer' }}>
-                <RadioButton
-                  name="sort"
-                  id="company"
-                  inputValue={true}
-                  value={this.state.order.company}
-                  onChange={() => {
-                    this.props.history.push({
-                      pathname: '/joblistings',
-                      search: qs.stringify(
-                        this.handleQuery('order', 'company')
-                      ),
-                    });
-                  }}
-                />
-                Bedrift
-              </label>
-            </Flex>
-            <Flex>
-              <label htmlFor="createdAt" style={{ cursor: 'pointer' }}>
-                <RadioButton
-                  name="sort"
-                  id="createdAt"
-                  inputValue={true}
-                  value={this.state.order.createdAt}
-                  onChange={() => {
-                    this.props.history.push({
-                      pathname: '/joblistings',
-                      search: qs.stringify(
-                        this.handleQuery('order', 'createdAt')
-                      ),
-                    });
-                  }}
-                />
-                Publisert
-              </label>
-            </Flex>
-          </Flex>
-          <Flex column className={styles.filters}>
-            <Flex
-              column
-              style={{ display: this.state.displayOptions ? 'block' : 'flex' }}
-            >
-              <h3 className={styles.rightHeader}>Klassetrinn:</h3>
-              {['1', '2', '3', '4', '5'].map((element) => (
-                <FilterLink
-                  key={element}
-                  type="grades"
-                  label={`${element}. klasse`}
-                  value={element}
-                  filters={this.state.filters}
-                />
-              ))}
-            </Flex>
-            <Flex
-              column
-              style={{ display: this.state.displayOptions ? 'block' : 'flex' }}
-            >
-              <h3 className={styles.rightHeader}>Jobbtype:</h3>
-              <FilterLink
-                type="jobTypes"
-                label="Sommerjobb"
-                value="summer_job"
-                filters={this.state.filters}
-              />
-              <FilterLink
-                type="jobTypes"
-                value="part_time"
-                label="Deltid"
-                filters={this.state.filters}
-              />
-              <FilterLink
-                type="jobTypes"
-                value="full_time"
-                label="Fulltid"
-                filters={this.state.filters}
-              />
-              <FilterLink
-                type="jobTypes"
-                value="master_thesis"
-                label="Masteroppgave"
-                filters={this.state.filters}
-              />
-              <FilterLink
-                type="jobTypes"
-                value="other"
-                label="Annet"
-                filters={this.state.filters}
-              />
-            </Flex>
-            <Flex
-              column
-              style={{ display: this.state.displayOptions ? 'block' : 'flex' }}
-            >
-              <h3 className={styles.rightHeader}>Sted:</h3>
-              {['Oslo', 'Trondheim', 'Bergen', 'Tromsø', 'Annet'].map(
-                (element) => (
-                  <FilterLink
-                    type="workplaces"
-                    key={element}
-                    value={element}
-                    label={element}
-                    filters={this.state.filters}
-                  />
-                )
-              )}
-            </Flex>
-          </Flex>
-        </Flex>
-      </Flex>
+
+          <h3 className={styles.rightHeader}>Sorter etter:</h3>
+          <label htmlFor="deadline" style={{ cursor: 'pointer' }}>
+            <RadioButton
+              name="sort"
+              id="deadline"
+              inputValue={true}
+              value={this.state.order.deadline}
+              onChange={() => {
+                this.props.history.push({
+                  pathname: '/joblistings',
+                  search: qs.stringify(this.handleQuery('order', 'deadline')),
+                });
+              }}
+            />
+            Frist
+          </label>
+          <label htmlFor="company" style={{ cursor: 'pointer' }}>
+            <RadioButton
+              name="sort"
+              id="company"
+              inputValue={true}
+              value={this.state.order.company}
+              onChange={() => {
+                this.props.history.push({
+                  pathname: '/joblistings',
+                  search: qs.stringify(this.handleQuery('order', 'company')),
+                });
+              }}
+            />
+            Bedrift
+          </label>
+          <label htmlFor="createdAt" style={{ cursor: 'pointer' }}>
+            <RadioButton
+              name="sort"
+              id="createdAt"
+              inputValue={true}
+              value={this.state.order.createdAt}
+              onChange={() => {
+                this.props.history.push({
+                  pathname: '/joblistings',
+                  search: qs.stringify(this.handleQuery('order', 'createdAt')),
+                });
+              }}
+            />
+            Publisert
+          </label>
+
+          <h3 className={styles.rightHeader}>Klassetrinn:</h3>
+          {['1', '2', '3', '4', '5'].map((element) => (
+            <FilterLink
+              key={element}
+              type="grades"
+              label={`${element}. klasse`}
+              value={element}
+              filters={this.state.filters}
+            />
+          ))}
+
+          <h3 className={styles.rightHeader}>Jobbtype:</h3>
+          <FilterLink
+            type="jobTypes"
+            label="Sommerjobb"
+            value="summer_job"
+            filters={this.state.filters}
+          />
+          <FilterLink
+            type="jobTypes"
+            value="part_time"
+            label="Deltid"
+            filters={this.state.filters}
+          />
+          <FilterLink
+            type="jobTypes"
+            value="full_time"
+            label="Fulltid"
+            filters={this.state.filters}
+          />
+          <FilterLink
+            type="jobTypes"
+            value="master_thesis"
+            label="Masteroppgave"
+            filters={this.state.filters}
+          />
+          <FilterLink
+            type="jobTypes"
+            value="other"
+            label="Annet"
+            filters={this.state.filters}
+          />
+
+          <h3 className={styles.rightHeader}>Sted:</h3>
+          {['Oslo', 'Trondheim', 'Bergen', 'Tromsø', 'Annet'].map((element) => (
+            <FilterLink
+              type="workplaces"
+              key={element}
+              value={element}
+              label={element}
+              filters={this.state.filters}
+            />
+          ))}
+        </div>
+      </div>
     );
   }
 }

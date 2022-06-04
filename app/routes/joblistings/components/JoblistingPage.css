@@ -8,7 +8,7 @@
   margin-top: 2rem;
   justify-content: space-around;
 
-  @media (max-width: 630px) {
+  @media (--small-viewport) {
     flex-direction: column-reverse;
   }
 }
