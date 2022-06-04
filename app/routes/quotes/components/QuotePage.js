@@ -9,6 +9,7 @@ import Button from 'app/components/Button';
 import type { ActionGrant, ID } from 'app/models';
 import type { QuoteEntity } from 'app/reducers/quotes';
 import type { EmojiEntity } from 'app/reducers/emojis';
+import LoadingIndicator from 'app/components/LoadingIndicator';
 
 type Props = {
   reactions: Array<Object>,
@@ -28,6 +29,7 @@ type Props = {
     contentTarget: string,
   }) => Promise<*>,
   deleteReaction: ({ reactionId: ID, contentTarget: string }) => Promise<*>,
+  fetching: boolean,
   fetchEmojis: () => Promise<*>,
   fetchingEmojis: boolean,
   emojis: Array<EmojiEntity>,
@@ -48,11 +50,12 @@ export default function QuotePage({
   addReaction,
   deleteReaction,
   emojis,
+  fetching,
   fetchEmojis,
   fetchingEmojis,
 }: Props) {
   let errorMessage = undefined;
-  if (quotes.length === 0) {
+  if (quotes.length === 0 && !fetching) {
     errorMessage =
       query.approved === 'false'
         ? 'Ingen sitater venter på godkjenning.'
@@ -61,9 +64,7 @@ export default function QuotePage({
   return (
     <div className={cx(styles.root, styles.quoteContainer)}>
       <Helmet title="Overhørt" />
-
       {navigation('Overhørt', actionGrant)}
-
       {errorMessage || (
         <QuoteList
           approve={approve}
@@ -82,9 +83,11 @@ export default function QuotePage({
         />
       )}
       {showFetchMore && (
-        <Button onClick={() => fetchAll({ query, next: true })}>
-          Last inn flere
-        </Button>
+        <LoadingIndicator loading={fetching}>
+          <Button onClick={() => fetchAll({ query, next: true })}>
+            Last inn flere
+          </Button>
+        </LoadingIndicator>
       )}
     </div>
   );
