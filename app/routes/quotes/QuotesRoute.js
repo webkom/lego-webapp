@@ -29,7 +29,9 @@ const mapStateToProps = (state, props) => {
   })(state);
   const emojis = selectEmojis(state);
   return {
-    quotes: selectQuotes(state, { pagination }),
+    quotes: selectQuotes(state, {
+      pagination,
+    }),
     query: pagination.query,
     actionGrant: state.quotes.actionGrant,
     showFetchMore: pagination.hasMore,
