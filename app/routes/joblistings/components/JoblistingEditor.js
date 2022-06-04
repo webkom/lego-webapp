@@ -24,6 +24,7 @@ import { places, jobTypes, yearValues } from '../constants';
 import { validYoutubeUrl } from 'app/utils/validation';
 
 import type { Joblisting, Workplace, ID } from 'app/models';
+import NavigationTab from 'app/components/NavigationTab';
 
 type SelectInputObject = {
   label: string,
@@ -122,9 +123,10 @@ class JoblistingEditor extends Component<Props, State> {
     return (
       <Content>
         <Helmet title={!isNew ? 'Rediger jobbannonse' : 'Ny jobbannonse'} />
-        <h1 className={styles.heading}>
-          {!isNew ? 'Rediger jobbannonse' : 'Legg til jobbannonse'}
-        </h1>
+        <NavigationTab
+          title={!isNew ? 'Rediger jobbannonse' : 'Ny jobbannonse'}
+          back={{ label: 'Tilbake', path: '/joblistings' }}
+        />
         <Form onSubmit={handleSubmit(this.onSubmit)}>
           <Field
             placeholder="Tittel"
@@ -260,12 +262,7 @@ class JoblistingEditor extends Component<Props, State> {
                 <Button danger>Slett</Button>
               </ConfirmModalWithParent>
             )}
-            <Button
-              success
-              disabled={invalid || submitting}
-              className={styles.submit}
-              submit
-            >
+            <Button success disabled={invalid || submitting} submit>
               Lagre
             </Button>
           </Flex>
