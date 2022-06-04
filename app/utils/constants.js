@@ -58,3 +58,5 @@ export const WEBKOM_GROUP_ID: number = [
 ].includes(config.environment)
   ? 11
   : 12;
+
+export const EDITOR_EMPTY: string = '<p></p>';

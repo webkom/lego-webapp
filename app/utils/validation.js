@@ -1,4 +1,7 @@
 import { merge } from 'lodash';
+import moment from 'moment-timezone';
+import config from 'app/config';
+import { EDITOR_EMPTY } from 'app/utils/constants';
 
 export const EMAIL_REGEX = /.+@.+\..+/;
 const YOUTUBE_URL_REGEX =
@@ -8,6 +11,11 @@ export const required =
   (message = 'Feltet må fylles ut') =>
   (value) =>
     [!!value, message];
+
+export const legoEditorRequired =
+  (message = 'Feltet må fylles ut') =>
+  (value) =>
+    [!!value && value !== EDITOR_EMPTY, message];
 
 export const maxLength =
   (length, message = `Kan ikke være lengre enn ${length} tegn`) =>
@@ -33,6 +41,19 @@ export const whenPresent = (validator) => (value, context) =>
 
 export const sameAs = (otherField, message) => (value, context) =>
   [value === context[otherField], message];
+
+export const timeIsAfter = (otherField, message) => (value, context) => {
+  const startTime = moment.tz(context[otherField], config.timezone);
+  const endTime = moment.tz(value, config.timezone);
+
+  if (startTime > endTime) {
+    return [false, message];
+  }
+  return [true];
+};
+
+export const ifField = (field, validator) => (value, context) =>
+  context[field] ? validator(value, context) : [true];
 
 export function createValidator(fieldValidators, rawValidator) {
   return function validate(input) {

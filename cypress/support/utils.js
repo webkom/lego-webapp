@@ -1,3 +1,8 @@
+import mockMazemapApiResponse from '../fixtures/mockApiResponses/mazemap.json';
+
+export const apiBaseUrl =
+  Cypress.env('API_BASE_URL') || 'http://localhost:8000';
+
 // CSS Selector to match classnames by their prefix
 export const c = (classname) => `[class*="${classname}"]`;
 
@@ -17,6 +22,17 @@ export const selectField = (name) =>
 export const selectFieldDropdown = (name) =>
   selectField(name).find(`[id=react-select-${name}-listbox]`);
 
+export const selectFromSelectField = (name, option, search) => {
+  selectField(name).click();
+  cy.focused().type(search ?? option, { force: true });
+  selectFieldDropdown(name)
+    .should('not.contain', 'No results')
+    .and('contain', option);
+  cy.focused().type('{enter}', { force: true });
+};
+
+export const fieldErrors = () => cy.get(c('fieldError'));
+
 export const fieldError = (name) => cy.get(`[data-error-field-name="${name}"`);
 
 export const button = (buttonText) => cy.contains('button', buttonText);
@@ -29,6 +45,24 @@ export const selectEditor = (name) =>
         .click()
         .wait(500)
     : cy.wait(500).get('div[data-slate-editor="true"]').click().wait(500);
+
+export const setDatePickerTime = (name, hours, minutes) => {
+  field(name).click();
+  cy.get(c('TimePicker__timePickerInput'))
+    .first()
+    .find('input')
+    .click()
+    .clear()
+    .type(hours);
+
+  cy.get(c('TimePicker__timePickerInput'))
+    .last()
+    .find('input')
+    .click()
+    .clear()
+    .type(minutes);
+  field(name).click();
+};
 
 // Used to either confirm or deny the 3D secure pop-up from Stripe.
 export const confirm3DSecureDialog = (confirm = true) => {
@@ -73,3 +107,10 @@ export const clearCardDetails = () => {
 };
 
 export const stripeError = () => cy.get(c('Stripe__error'));
+
+export const mockMazemapApi = () => {
+  cy.intercept('GET', 'https://api.mazemap.com/search/equery/**', {
+    statusCode: 200,
+    body: mockMazemapApiResponse,
+  });
+};

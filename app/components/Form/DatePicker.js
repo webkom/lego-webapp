@@ -10,7 +10,7 @@ import { createField } from './Field';
 import TextInput from './TextInput';
 import TimePicker from './TimePicker';
 import styles from './DatePicker.css';
-import config from 'app/config';
+import parseDateValue from 'app/utils/parseDateValue';
 
 type Props = {
   onChange: (string) => void,
@@ -26,11 +26,6 @@ type State = {
   date: moment$Moment,
   value: moment$Moment,
 };
-
-function parseDateValue(value) {
-  if (value) return moment(value);
-  return moment();
-}
 
 class DatePicker extends Component<Props, State> {
   static defaultProps = {
@@ -86,7 +81,7 @@ class DatePicker extends Component<Props, State> {
     }, this._notifyParent);
   };
 
-  _notifyParent = () => this.props.onChange(this.state.value.toString());
+  _notifyParent = () => this.props.onChange(this.state.value.toISOString());
 
   toggleDropdown = () => {
     this.setState((prevState) => ({
@@ -111,9 +106,7 @@ class DatePicker extends Component<Props, State> {
         triggerComponent={
           <TextInput
             className={cx(styles.inputField, className)}
-            value={moment
-              .tz(this.state.value, config.timezone)
-              .format(this.props.dateFormat)}
+            value={this.state.value.format(this.props.dateFormat)}
             name={name}
             readOnly
           />

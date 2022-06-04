@@ -1,8 +1,9 @@
+import { apiBaseUrl } from './utils';
+
 Cypress.Commands.add(
   'getAuthToken',
   (username = 'webkom', password = 'Webkom123') => {
-    const base = Cypress.env('API_BASE_URL') || 'http://localhost:8000';
-    const url = base + '/authorization/token-auth/';
+    const url = apiBaseUrl + '/authorization/token-auth/';
     return cy
       .request({
         method: 'POST',
@@ -88,3 +89,17 @@ Cypress.Commands.add(
       .then(cy.wrap);
   }
 );
+
+Cypress.Commands.add('apiRequest', (options, username = 'webkom') => {
+  const token = cachedTokens[username];
+
+  return cy.request({
+    ...options,
+    url: apiBaseUrl + options.url,
+    headers: {
+      authorization: `JWT ${token}`,
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+});

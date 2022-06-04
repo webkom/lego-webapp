@@ -76,10 +76,11 @@ type Options = {
 };
 
 /**
- * Wraps Component so it works with redux-form and add some default
- * field behaviour.
+ * Wraps Component, so it works with redux-form/react-final-form and add some
+ * default field behaviour.
  *
  * http://redux-form.com/6.0.5/docs/api/Field.md/
+ * https://final-form.org/docs/react-final-form/api/Field
  */
 export function createField(Component: ComponentType<*>, options?: Options) {
   const Field = (field: FormProps) => {
@@ -96,16 +97,20 @@ export function createField(Component: ComponentType<*>, options?: Options) {
       className = null,
       ...props
     } = field;
-    const { error, warning, touched } = meta;
+    const { error, submitError, warning, touched } = meta;
 
-    const hasError = showErrors && touched && error && error.length > 0;
+    const anyError = error || submitError;
+
+    const hasError = showErrors && touched && anyError && anyError.length > 0;
     const hasWarning = showErrors && touched && warning && warning.length > 0;
     const fieldName = input && input.name;
 
     const content = (
       <>
         <Flex>
-          {label && <div>{label}</div>}
+          {label && (
+            <div className={cx(styles.label, labelClassName)}>{label}</div>
+          )}
           {description && (
             <Tooltip style={{ display: 'inline-block' }} content={description}>
               <div style={{ marginLeft: '10px' }}>
@@ -128,13 +133,9 @@ export function createField(Component: ComponentType<*>, options?: Options) {
     );
     return (
       <div className={cx(styles.field, fieldClassName)} style={fieldStyle}>
-        {options && options.noLabel ? (
-          content
-        ) : (
-          <label className={cx(styles.label, labelClassName)}>{content}</label>
-        )}
+        {options && options.noLabel ? content : <label>{content}</label>}
         {hasError && (
-          <RenderErrorMessage error={meta.error} fieldName={fieldName} />
+          <RenderErrorMessage error={anyError} fieldName={fieldName} />
         )}
         {hasWarning && <RenderWarningMessage warning={meta.warning} />}
       </div>

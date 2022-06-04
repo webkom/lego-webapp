@@ -1,11 +1,11 @@
 // @flow
 
 import { Component } from 'react';
-import moment from 'moment-timezone';
 import Icon from 'app/components/Icon';
 import TextInput from './TextInput';
 import { createField } from './Field';
 import styles from './TimePicker.css';
+import parseDateValue from 'app/utils/parseDateValue';
 
 function TimePickerInput({ onNext, onPrev, ...props }: any) {
   return (
@@ -34,12 +34,8 @@ type State = {
   },
 };
 
-function parseValue(value) {
-  return value ? moment(value) : moment();
-}
-
 class TimePicker extends Component<Props, State> {
-  value = parseValue(this.props.value);
+  value = parseDateValue(this.props.value);
   state = {
     value: this.value,
     fieldValue: {

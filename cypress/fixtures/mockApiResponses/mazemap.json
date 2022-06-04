@@ -1,0 +1,125 @@
+{
+  "result": [
+    {
+      "poiId": 6395,
+      "kind": "generic",
+      "nodeId": null,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.40460307573571,
+          63.41540585926938
+        ]
+      },
+      "point": {
+        "type": "Point",
+        "coordinates": [
+          10.40460307573571,
+          63.41540585926938
+        ]
+      },
+      "campusId": 1,
+      "floorId": 383,
+      "floorName": null,
+      "buildingId": 67,
+      "buildingName": null,
+      "identifierId": null,
+      "identifier": "360-A3-133",
+      "title": "<em>Abakus</em>",
+      "deleted": false,
+      "infos": [],
+      "types": [],
+      "z": null,
+      "infoUrl": null,
+      "infoUrlText": null,
+      "description": null,
+      "images": [],
+      "peopleCapacity": null,
+      "solrId": "poi6395",
+      "zValue": 3.0,
+      "zName": "3",
+      "dispTypeNames": [],
+      "campusName": "NTNU - Gl\u00f8shaugen",
+      "dispBldNames": [
+        "Realfagbygget"
+      ],
+      "dispPoiNames": [
+        "<em>Abakus</em>",
+        "A3-133"
+      ],
+      "poiNames": [
+        "Abakus",
+        "A3-133"
+      ],
+      "bldId": 67,
+      "typeIds": [],
+      "typeNames": [],
+      "priorityTypeIds": [],
+      "priorityTypeNames": []
+    },
+    {
+      "poiId": 1000934873,
+      "kind": "generic",
+      "nodeId": null,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.405566999677829,
+          63.41574702200566
+        ]
+      },
+      "point": {
+        "type": "Point",
+        "coordinates": [
+          10.405566999677829,
+          63.41574702200566
+        ]
+      },
+      "campusId": 1,
+      "floorId": 300,
+      "floorName": null,
+      "buildingId": 67,
+      "buildingName": null,
+      "identifierId": null,
+      "identifier": null,
+      "title": "Datamuseet - NTNU og Norges datahistorie",
+      "deleted": false,
+      "infos": [],
+      "types": [],
+      "z": null,
+      "infoUrl": null,
+      "infoUrlText": null,
+      "description": null,
+      "images": [],
+      "peopleCapacity": null,
+      "solrId": "poi1000934873",
+      "zValue": 1.0,
+      "zName": "1",
+      "dispTypeNames": [],
+      "campusName": "NTNU - Gl\u00f8shaugen",
+      "dispBldNames": [
+        "Realfagbygget"
+      ],
+      "dispPoiNames": [
+        "Datamuseet - NTNU og Norges datahistorie"
+      ],
+      "poiNames": [
+        "Datamuseet - NTNU og Norges datahistorie"
+      ],
+      "bldId": 67,
+      "typeIds": [],
+      "typeNames": [],
+      "priorityTypeIds": [],
+      "priorityTypeNames": []
+    }
+  ],
+  "facets": {
+    "disp_type_names": {},
+    "doctype": {
+      "poi": 2
+    },
+    "campus_ids": {
+      "1": 2
+    }
+  }
+}
