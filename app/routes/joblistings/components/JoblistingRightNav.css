@@ -105,3 +105,13 @@
     margin-right: 10px;
   }
 }
+
+/* Caret */
+.box h2 i {
+  margin-left: 5px;
+  transition: transform 200ms ease-in-out;
+}
+
+.rotateCaret {
+  transform: rotate(-90deg);
+}

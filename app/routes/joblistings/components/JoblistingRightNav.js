@@ -140,12 +140,13 @@ export default class JoblistingsRightNav extends Component<Props, State> {
           className={styles.optionsTitle}
         >
           <h2>
-            <span>Valg</span>
-            {this.state.displayOptions ? (
-              <i style={{ marginLeft: '5px' }} className="fa fa-caret-down" />
-            ) : (
-              <i style={{ marginLeft: '5px' }} className="fa fa-caret-right" />
-            )}
+            Valg
+            <i
+              className={cx(
+                'fa fa-caret-down',
+                !this.state.displayOptions && styles.rotateCaret
+              )}
+            />
           </h2>
         </Button>
         <Flex
