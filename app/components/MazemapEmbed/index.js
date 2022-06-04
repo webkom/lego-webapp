@@ -20,7 +20,6 @@ export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
   const [Mazemap, setMazemap] = useState(null);
   const [blockScrollZoom, setBlockScrollZoom] = useState<boolean>(false);
   const [blockTouchMovement, setBlockTouchZoom] = useState<boolean>(false);
-  let controlPressed = false;
 
   //initialize map only once, mazemapPoi will probably not change
   useEffect(() => {
@@ -45,24 +44,31 @@ export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
     });
     embeddedMazemap.dragPan._mousePan.enable();
 
-    window.addEventListener('keydown', (e) => {
+    let controlPressed = false;
+    const onKeyDown = (e) => {
       if (e.key === 'Control') {
         controlPressed = true;
       }
-    });
-    window.addEventListener('keyup', (e) => {
+    };
+    const onKeyUp = (e) => {
       if (e.key === 'Control') {
         controlPressed = false;
       }
-    });
+    };
+    window.addEventListener('keydown', onKeyDown);
+    window.addEventListener('keyup', onKeyUp);
 
+    let blockScrollZoomTimeout = undefined;
     embeddedMazemap.on('wheel', () => {
       if (controlPressed) {
         embeddedMazemap.scrollZoom.enable();
       } else {
         embeddedMazemap.scrollZoom.disable();
         setBlockScrollZoom(true);
-        setTimeout(() => {
+        if (blockScrollZoomTimeout) {
+          clearTimeout(blockScrollZoomTimeout);
+        }
+        blockScrollZoomTimeout = setTimeout(() => {
           setBlockScrollZoom(false);
         }, 500);
       }
@@ -74,11 +80,11 @@ export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
         embeddedMazemap.dragPan.disable();
         setTimeout(() => {
           setBlockTouchZoom(true);
-        }, 200);
+        }, 100);
       } else {
+        setBlockTouchZoom(false);
         embeddedMazemap.touchZoomRotate.enable();
         embeddedMazemap.dragPan.enable();
-        setBlockTouchZoom(false);
       }
       e.preventDefault();
     });
@@ -86,7 +92,7 @@ export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
     embeddedMazemap.on('touchend', () => {
       setTimeout(() => {
         setBlockTouchZoom(false);
-      }, 250);
+      }, 150);
     });
 
     embeddedMazemap.on('load', () => {
@@ -130,6 +136,10 @@ export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
       const maxHeight = height - 50; // 50 pixels account for margins and spacing
       embeddedMazemap.zLevelControl.setMaxHeight(maxHeight);
     });
+    return () => {
+      window.removeEventListener('keydown', onKeyDown);
+      window.removeEventListener('keyup', onKeyUp);
+    };
   }, [Mazemap, hasMounted, mazemapPoi]);
 
   //Allocate height for map and link before map is loaded
@@ -163,6 +173,7 @@ export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
               width: '100%',
               transform: 'translate(-50%,-50%)',
               zIndex: 5,
+              pointerEvents: 'none',
             }}
           >
             {blockScrollZoom
