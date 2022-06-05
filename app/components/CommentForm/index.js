@@ -1,6 +1,6 @@
 // @flow
 
-import { Component } from 'react';
+import { useState } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import cx from 'classnames';
@@ -13,9 +13,7 @@ import { addComment } from 'app/actions/CommentActions';
 import type { CommentEntity } from 'app/actions/CommentActions';
 import styles from './CommentForm.css';
 import DisplayContent from 'app/components/DisplayContent';
-
-// TODO: This can be removed if the editor importer gets an actual empty state.
-const EMPTY_STATE = '<p></p>';
+import { EDITOR_EMPTY } from 'app/utils/constants';
 
 const validate = (values) => {
   const errors = {};
@@ -38,99 +36,89 @@ type Props = {
   isOpen: boolean,
 } & FormProps;
 
-class CommentForm extends Component<Props, { disabled: boolean }> {
-  constructor(props) {
-    super(props);
-    this.state = { disabled: !__CLIENT__ };
-  }
-  static defaultProps = {
-    submitText: 'Kommenter',
-    autoFocus: false,
-  };
+const CommentForm = ({
+  addComment,
+  handleSubmit,
+  pristine,
+  submitting,
+  user,
+  isOpen,
+  loggedIn,
+  submitText = 'Kommenter',
+  inlineMode,
+  autoFocus = false,
+  initialized,
+  contentTarget,
+  parent,
+}: Props) => {
+  const [disabled, setDisabled] = useState(!__CLIENT__);
 
-  onSubmit = ({ text }) => {
-    const { contentTarget, parent } = this.props;
-    this.props.addComment({
+  const onSubmit = ({ text }) => {
+    addComment({
       contentTarget,
       text,
       parent,
     });
   };
 
-  enableForm = (e) => {
-    this.setState({ disabled: false });
+  const enableForm = (e) => {
+    setDisabled(false);
   };
 
-  render() {
-    const {
-      handleSubmit,
-      pristine,
-      submitting,
-      user,
-      isOpen,
-      loggedIn,
-      submitText,
-      inlineMode,
-      autoFocus,
-      initialized,
-    } = this.props;
-    const className = inlineMode ? styles.inlineForm : styles.form;
+  const className = inlineMode ? styles.inlineForm : styles.form;
 
-    if (!loggedIn) {
-      return <div>Vennligst logg inn.</div>;
-    }
-
-    return (
-      <form
-        onSubmit={handleSubmit(this.onSubmit)}
-        className={cx(className, isOpen && styles.activeForm)}
-      >
-        <div className={styles.header}>
-          <ProfilePicture size={40} user={user} />
-
-          {isOpen && (
-            <div className={styles.author}>{this.props.user.fullName}</div>
-          )}
-        </div>
-
-        <div
-          className={cx(styles.fields, isOpen && styles.activeFields)}
-          onMouseOver={this.enableForm}
-          onScroll={this.enableForm}
-          onPointerDown={this.enableForm}
-        >
-          {this.state.disabled ? (
-            <DisplayContent
-              id="comment-text"
-              className={styles.text}
-              content=""
-              placeholder="Skriv en kommentar"
-            />
-          ) : (
-            <Field
-              autoFocus={autoFocus}
-              name="text"
-              placeholder="Skriv en kommentar"
-              component={EditorField}
-              initialized={initialized}
-              simple
-            />
-          )}
-
-          {isOpen && (
-            <Button
-              submit
-              disabled={pristine || submitting}
-              className={styles.submit}
-            >
-              {submitText}
-            </Button>
-          )}
-        </div>
-      </form>
-    );
+  if (!loggedIn) {
+    return <div>Vennligst logg inn.</div>;
   }
-}
+
+  return (
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className={cx(className, isOpen && styles.activeForm)}
+    >
+      <div className={styles.header}>
+        <ProfilePicture size={40} user={user} />
+
+        {isOpen && <div className={styles.author}>{user.fullName}</div>}
+      </div>
+
+      <div
+        className={cx(styles.fields, isOpen && styles.activeFields)}
+        onMouseOver={enableForm}
+        onScroll={enableForm}
+        onPointerDown={enableForm}
+      >
+        {disabled ? (
+          <DisplayContent
+            id="comment-text"
+            className={styles.text}
+            content=""
+            placeholder="Skriv en kommentar"
+          />
+        ) : (
+          <Field
+            autoFocus={autoFocus}
+            name="text"
+            placeholder="Skriv en kommentar"
+            component={EditorField}
+            initialized={initialized}
+            simple
+          />
+        )}
+
+        {isOpen && (
+          <Button
+            submit
+            disabled={pristine || submitting}
+            className={styles.submit}
+          >
+            {submitText}
+          </Button>
+        )}
+      </div>
+    </form>
+  );
+};
 
 function mapStateToProps(state, props) {
   const meta = getFormMeta(props.form)(state);
@@ -139,7 +127,7 @@ function mapStateToProps(state, props) {
     isOpen:
       meta &&
       meta.text &&
-      (meta.text.active || (values && values.text !== EMPTY_STATE)),
+      (meta.text.active || (values && values.text !== EDITOR_EMPTY)),
   };
 }
 
