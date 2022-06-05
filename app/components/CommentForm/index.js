@@ -1,8 +1,7 @@
 // @flow
 
 import { useState } from 'react';
-import { compose } from 'redux';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import cx from 'classnames';
 import { getFormMeta, getFormValues, reduxForm, Field } from 'redux-form';
 import type { FormProps } from 'redux-form';
@@ -10,7 +9,6 @@ import { EditorField } from 'app/components/Form';
 import Button from 'app/components/Button';
 import { ProfilePicture } from 'app/components/Image';
 import { addComment } from 'app/actions/CommentActions';
-import type { CommentEntity } from 'app/actions/CommentActions';
 import styles from './CommentForm.css';
 import DisplayContent from 'app/components/DisplayContent';
 import { EDITOR_EMPTY } from 'app/utils/constants';
@@ -27,7 +25,6 @@ type Props = {
   contentTarget: string,
   user: Object,
   loggedIn: boolean,
-  addComment: (CommentEntity) => void,
   parent: number,
   submitText: string,
   inlineMode: boolean,
@@ -37,12 +34,11 @@ type Props = {
 } & FormProps;
 
 const CommentForm = ({
-  addComment,
   handleSubmit,
   pristine,
   submitting,
   user,
-  isOpen,
+  form,
   loggedIn,
   submitText = 'Kommenter',
   inlineMode,
@@ -51,14 +47,28 @@ const CommentForm = ({
   contentTarget,
   parent,
 }: Props) => {
+  const dispatch = useDispatch();
+
+  const isOpen = useSelector((state) => {
+    const meta = getFormMeta(form)(state);
+    const values = getFormValues(form)(state);
+    return (
+      meta &&
+      meta.text &&
+      (meta.text.active || (values && values.text !== EDITOR_EMPTY))
+    );
+  });
+
   const [disabled, setDisabled] = useState(!__CLIENT__);
 
   const onSubmit = ({ text }) => {
-    addComment({
-      contentTarget,
-      text,
-      parent,
-    });
+    dispatch(
+      addComment({
+        contentTarget,
+        text,
+        parent,
+      })
+    );
   };
 
   const enableForm = (e) => {
@@ -120,22 +130,8 @@ const CommentForm = ({
   );
 };
 
-function mapStateToProps(state, props) {
-  const meta = getFormMeta(props.form)(state);
-  const values = getFormValues(props.form)(state);
-  return {
-    isOpen:
-      meta &&
-      meta.text &&
-      (meta.text.active || (values && values.text !== EDITOR_EMPTY)),
-  };
-}
-
-export default compose(
-  reduxForm({
-    validate,
-    initialValues: {},
-    destroyOnUnmount: false,
-  }),
-  connect(mapStateToProps, { addComment })
-)(CommentForm);
+export default reduxForm({
+  validate,
+  initialValues: {},
+  destroyOnUnmount: false,
+})(CommentForm);
