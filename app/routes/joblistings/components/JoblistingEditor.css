@@ -1,19 +1,3 @@
-@import '~app/styles/variables.css';
-
-.root {
-  composes: container from '~app/styles/utilities.css';
-  margin-top: 2rem;
-}
-
-.heading {
-  color: var(--color-dark-mono-gray-3);
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  border-bottom: 1px solid var(--color-mono-gray-4);
-  font-weight: 400;
-  font-size: 24px;
-}
-
 .descriptionField,
 .textField {
   border: 1px;
