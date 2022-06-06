@@ -13,62 +13,57 @@ type JobListingItemProps = {
   joblisting: /*TODO: JobListing*/ Object,
 };
 
-function JoblistingItem({ joblisting }: JobListingItemProps) {
-  return (
-    <Flex className={styles.joblistingItem}>
-      <Flex alignItems="center">
-        <Link to={`/joblistings/${joblisting.id}/`}>
-          <div className={styles.companyLogoContainer}>
-            {joblisting.company.logo && (
-              <Image
-                className={styles.companyLogo}
-                src={joblisting.company.logo}
-                placeholder={joblisting.company.logoPlaceholder}
-              />
-            )}
-          </div>
-        </Link>
-      </Flex>
-      <Flex className={styles.listItem}>
+const JoblistingItem = ({ joblisting }: JobListingItemProps) => (
+  <Link to={`/joblistings/${joblisting.id}/`} className={styles.joblistingItem}>
+    {joblisting.company.logo && (
+      <Image
+        className={styles.companyLogo}
+        src={joblisting.company.logo}
+        placeholder={joblisting.company.logoPlaceholder}
+      />
+    )}
+    <div className={styles.listItem}>
+      <div>
+        <Flex wrap gap={4}>
+          {moment(joblisting.createdAt).isAfter(
+            moment().subtract(3, 'days')
+          ) && <Tag tag="NY" color="green" />}
+          <h3 className={styles.joblistingItemTitle}>{joblisting.title}</h3>
+        </Flex>
         <div>
-          <Link to={`/joblistings/${joblisting.id}/`}>
-            <Flex>
-              <h3 className={styles.joblistingItemTitle}>
-                {moment(joblisting.createdAt).isAfter(
-                  moment().subtract(3, 'days')
-                ) && <Tag tag="NY" color="green"></Tag>}
-                {joblisting.title}
-              </h3>
-            </Flex>
-          </Link>
-          <div className={styles.companyJobtype}>
-            {joblisting.company.name} • {jobType(joblisting.jobType)}
-          </div>
-          <Year joblisting={joblisting} /> •
-          <Workplaces places={joblisting.workplaces} />
+          {joblisting.company.name}
+          {joblisting.jobType && (
+            <>
+              <span> • </span>
+              {jobType(joblisting.jobType)}
+            </>
+          )}
         </div>
-        <div className={styles.deadLine}>
-          <span className={styles.deadLineLabel} style={{ marginRight: '5px' }}>
-            {'Frist  • '}
-          </span>
-          <span>
-            <Time
-              time={joblisting.deadline}
-              style={{ width: '135px' }}
-              format="ll HH:mm"
-            />
-          </span>
+        <div>
+          <Year joblisting={joblisting} />
+          {joblisting.workplaces && (
+            <>
+              <span> • </span>
+              <Workplaces places={joblisting.workplaces} />
+            </>
+          )}
         </div>
-      </Flex>
-    </Flex>
-  );
-}
+      </div>
+      <Time
+        time={joblisting.deadline}
+        style={{ width: '135px' }}
+        format="ll HH:mm"
+        className={styles.deadLine}
+      />
+    </div>
+  </Link>
+);
 
-type JobListingsItemProps = {
+type JobListingsListProps = {
   joblistings: /*TODO: JobListings*/ Array<Object>,
 };
 
-const JoblistingsList = ({ joblistings }: JobListingsItemProps) => (
+const JoblistingsList = ({ joblistings }: JobListingsListProps) => (
   <Flex column className={styles.joblistingList}>
     <Flex className={styles.heading}>
       <h2 className={styles.headingText}>Jobbannonser</h2>

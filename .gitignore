@@ -16,6 +16,7 @@ styleguide
 package-lock.json
 .idea
 report.*.json
+mazemap/mazemap.min.*
 
 
 # Certs

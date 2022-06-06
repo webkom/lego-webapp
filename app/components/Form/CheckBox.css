@@ -21,6 +21,7 @@
   z-index: 1;
   transform: scale(1.5);
   opacity: 0;
+  cursor: pointer;
 }
 
 .checked + label::after {
@@ -86,7 +87,7 @@
 .box {
   display: inline-block;
   width: 21px;
-  height: 18px;
+  height: 21px;
   margin-right: 10px;
   margin-bottom: -3px;
 }

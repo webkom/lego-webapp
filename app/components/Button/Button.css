@@ -20,10 +20,6 @@
   transition-property: color, background-color, border-color, box-shadow,
     opacity;
 
-  &:active {
-    transform: translateY(1px);
-  }
-
   &:focus-visible {
     box-shadow: 0 0 0 3px #9944;
   }
@@ -36,6 +32,10 @@
 
   + .button {
     margin-left: 16px;
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(1px);
   }
 
   > i {

@@ -45,6 +45,7 @@ module.exports = {
     'react-hooks',
     'react-redux',
   ],
+  ignorePatterns: ['mazemap/mazemap.min.*', '**/vendor/*.js'],
   rules: {
     'react/jsx-uses-react': 'off',
     'react/react-in-jsx-scope': 'off',

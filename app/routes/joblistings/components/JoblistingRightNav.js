@@ -1,9 +1,8 @@
 // @flow
 
 import styles from './JoblistingRightNav.css';
-import { Component } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Flex } from 'app/components/Layout';
 import { CheckBox, RadioButton } from 'app/components/Form/';
 import Button from 'app/components/Button';
 import cx from 'classnames';
@@ -43,11 +42,10 @@ const FilterLink = ({ type, label, value, filters }: Object) => (
       pathname: '/joblistings',
       search: qs.stringify(updateFilters(type, value, filters)),
     }}
-    style={{ display: 'flex', flex: 1, alignItems: 'center' }}
+    className={styles.filterLink}
   >
     <CheckBox id={label} value={filters[type].includes(value)} readOnly />
-
-    <span>{label}</span>
+    {label}
   </Link>
 );
 
@@ -55,6 +53,12 @@ type Filter = {
   grades: Array<string>,
   jobTypes: Array<string>,
   workplaces: Array<string>,
+};
+
+type Order = {
+  deadline: boolean,
+  company: boolean,
+  createdAt: boolean,
 };
 
 type Props = {
@@ -68,61 +72,40 @@ type Props = {
   history: any,
 };
 
-type State = {
-  filters: Filter,
-  order: {
-    deadline: boolean,
-    company: boolean,
-    createdAt: boolean,
-  },
-  displayOptions: boolean,
-};
-
-export default class JoblistingsRightNav extends Component<Props, State> {
-  state = {
-    filters: {
-      grades: [],
-      jobTypes: [],
-      workplaces: [],
-    },
-    order: {
-      deadline: true,
-      company: false,
-      createdAt: false,
-    },
-    displayOptions: true,
-  };
-
-  updateDisplayOptions = () => {
-    this.setState({
-      displayOptions: !this.state.displayOptions,
-    });
-  };
-
-  toggleDisplay = (display: boolean) => ({
-    display: display ? 'block' : 'none',
+const JoblistingsRightNav = (props: Props) => {
+  const [filters, setFilters] = useState<Filter>({
+    grades: [],
+    jobTypes: [],
+    workplaces: [],
   });
+  const [order, setOrder] = useState<Order>({
+    deadline: true,
+    company: false,
+    createdAt: false,
+  });
+  const [displayOptions, setDisplayOptions] = useState<boolean>(true);
 
-  // eslint-disable-next-line
-  componentWillReceiveProps = (nextProps: Props) => {
-    const query = nextProps.query;
-    this.setState({
-      filters: {
-        grades: query.grades ? query.grades.split(',') : [],
-        jobTypes: query.jobTypes ? query.jobTypes.split(',') : [],
-        workplaces: query.workplaces ? query.workplaces.split(',') : [],
-      },
-      order: {
-        deadline:
-          query.order === 'deadline' || !Object.keys(query).includes('order'),
-        company: query.order === 'company',
-        createdAt: query.order === 'createdAt',
-      },
+  useEffect(() => {
+    const query = props.query;
+    setFilters({
+      grades: query.grades ? query.grades.split(',') : [],
+      jobTypes: query.jobTypes ? query.jobTypes.split(',') : [],
+      workplaces: query.workplaces ? query.workplaces.split(',') : [],
     });
-  };
+    setOrder({
+      deadline:
+        query.order === 'deadline' || !Object.keys(query).includes('order'),
+      company: query.order === 'company',
+      createdAt: query.order === 'createdAt',
+    });
+  }, [props.query]);
 
-  handleQuery = (type: string, value: string, remove: boolean = false) => {
-    const query = { ...this.props.query };
+  const handleQuery = (
+    type: string,
+    value: string,
+    remove: boolean = false
+  ) => {
+    const query = { ...props.query };
     if (remove) {
       delete query[type];
     } else {
@@ -131,170 +114,137 @@ export default class JoblistingsRightNav extends Component<Props, State> {
     return query;
   };
 
-  render() {
-    return (
-      <Flex column className={styles.box}>
-        <Button
-          flat
-          onClick={this.updateDisplayOptions}
-          className={styles.optionsTitle}
-        >
-          <h2>
-            <span>Valg</span>
-            {this.state.displayOptions ? (
-              <i style={{ marginLeft: '5px' }} className="fa fa-caret-down" />
-            ) : (
-              <i style={{ marginLeft: '5px' }} className="fa fa-caret-right" />
+  return (
+    <div className={styles.joblistingRightNav}>
+      <Button
+        flat
+        onClick={() => setDisplayOptions(!displayOptions)}
+        className={styles.optionsTitle}
+      >
+        <h2>
+          Valg
+          <i
+            className={cx(
+              'fa fa-caret-down',
+              !displayOptions && styles.rotateCaret
             )}
-          </h2>
-        </Button>
-        <Flex
-          column
-          className={styles.options}
-          style={{ display: this.state.displayOptions ? 'block' : 'none' }}
-        >
-          {this.props.actionGrant.includes('create') && (
-            <Link to="/joblistings/create">
-              <Button className={styles.createButton}>Ny jobbannonse</Button>
-            </Link>
-          )}
-          <h3 className={cx(styles.rightHeader, styles.sortHeader)}>
-            Sorter etter:
-          </h3>
-          <Flex justifyContent="flex-start" className={styles.sortNav}>
-            <Flex>
-              <label
-                htmlFor="deadline"
-                style={{ marginRight: '10px', cursor: 'pointer' }}
-              >
-                <RadioButton
-                  name="sort"
-                  id="deadline"
-                  inputValue={true}
-                  value={this.state.order.deadline}
-                  onChange={() => {
-                    this.props.history.push({
-                      pathname: '/joblistings',
-                      search: qs.stringify(
-                        this.handleQuery('order', 'deadline')
-                      ),
-                    });
-                  }}
-                />
-                Frist
-              </label>
-            </Flex>
-            <Flex>
-              <label htmlFor="company" style={{ cursor: 'pointer' }}>
-                <RadioButton
-                  name="sort"
-                  id="company"
-                  inputValue={true}
-                  value={this.state.order.company}
-                  onChange={() => {
-                    this.props.history.push({
-                      pathname: '/joblistings',
-                      search: qs.stringify(
-                        this.handleQuery('order', 'company')
-                      ),
-                    });
-                  }}
-                />
-                Bedrift
-              </label>
-            </Flex>
-            <Flex>
-              <label htmlFor="createdAt" style={{ cursor: 'pointer' }}>
-                <RadioButton
-                  name="sort"
-                  id="createdAt"
-                  inputValue={true}
-                  value={this.state.order.createdAt}
-                  onChange={() => {
-                    this.props.history.push({
-                      pathname: '/joblistings',
-                      search: qs.stringify(
-                        this.handleQuery('order', 'createdAt')
-                      ),
-                    });
-                  }}
-                />
-                Publisert
-              </label>
-            </Flex>
-          </Flex>
-          <Flex column className={styles.filters}>
-            <Flex
-              column
-              style={{ display: this.state.displayOptions ? 'block' : 'flex' }}
-            >
-              <h3 className={styles.rightHeader}>Klassetrinn:</h3>
-              {['1', '2', '3', '4', '5'].map((element) => (
-                <FilterLink
-                  key={element}
-                  type="grades"
-                  label={`${element}. klasse`}
-                  value={element}
-                  filters={this.state.filters}
-                />
-              ))}
-            </Flex>
-            <Flex
-              column
-              style={{ display: this.state.displayOptions ? 'block' : 'flex' }}
-            >
-              <h3 className={styles.rightHeader}>Jobbtype:</h3>
-              <FilterLink
-                type="jobTypes"
-                label="Sommerjobb"
-                value="summer_job"
-                filters={this.state.filters}
-              />
-              <FilterLink
-                type="jobTypes"
-                value="part_time"
-                label="Deltid"
-                filters={this.state.filters}
-              />
-              <FilterLink
-                type="jobTypes"
-                value="full_time"
-                label="Fulltid"
-                filters={this.state.filters}
-              />
-              <FilterLink
-                type="jobTypes"
-                value="master_thesis"
-                label="Masteroppgave"
-                filters={this.state.filters}
-              />
-              <FilterLink
-                type="jobTypes"
-                value="other"
-                label="Annet"
-                filters={this.state.filters}
-              />
-            </Flex>
-            <Flex
-              column
-              style={{ display: this.state.displayOptions ? 'block' : 'flex' }}
-            >
-              <h3 className={styles.rightHeader}>Sted:</h3>
-              {['Oslo', 'Trondheim', 'Bergen', 'Tromsø', 'Annet'].map(
-                (element) => (
-                  <FilterLink
-                    type="workplaces"
-                    key={element}
-                    value={element}
-                    label={element}
-                    filters={this.state.filters}
-                  />
-                )
-              )}
-            </Flex>
-          </Flex>
-        </Flex>
-      </Flex>
-    );
-  }
-}
+          />
+        </h2>
+      </Button>
+
+      <div
+        className={styles.options}
+        style={{ display: displayOptions ? 'block' : 'none' }}
+      >
+        {props.actionGrant.includes('create') && (
+          <Link to="/joblistings/create">
+            <Button className={styles.createButton}>Ny jobbannonse</Button>
+          </Link>
+        )}
+
+        <h3 className={styles.rightHeader}>Sorter etter:</h3>
+        <label htmlFor="deadline" style={{ cursor: 'pointer' }}>
+          <RadioButton
+            name="sort"
+            id="deadline"
+            inputValue={true}
+            value={order.deadline}
+            onChange={() => {
+              props.history.push({
+                pathname: '/joblistings',
+                search: qs.stringify(handleQuery('order', 'deadline')),
+              });
+            }}
+          />
+          Frist
+        </label>
+        <label htmlFor="company" style={{ cursor: 'pointer' }}>
+          <RadioButton
+            name="sort"
+            id="company"
+            inputValue={true}
+            value={order.company}
+            onChange={() => {
+              props.history.push({
+                pathname: '/joblistings',
+                search: qs.stringify(handleQuery('order', 'company')),
+              });
+            }}
+          />
+          Bedrift
+        </label>
+        <label htmlFor="createdAt" style={{ cursor: 'pointer' }}>
+          <RadioButton
+            name="sort"
+            id="createdAt"
+            inputValue={true}
+            value={order.createdAt}
+            onChange={() => {
+              props.history.push({
+                pathname: '/joblistings',
+                search: qs.stringify(handleQuery('order', 'createdAt')),
+              });
+            }}
+          />
+          Publisert
+        </label>
+
+        <h3 className={styles.rightHeader}>Klassetrinn:</h3>
+        {['1', '2', '3', '4', '5'].map((element) => (
+          <FilterLink
+            key={element}
+            type="grades"
+            label={`${element}. klasse`}
+            value={element}
+            filters={filters}
+          />
+        ))}
+
+        <h3 className={styles.rightHeader}>Jobbtype:</h3>
+        <FilterLink
+          type="jobTypes"
+          label="Sommerjobb"
+          value="summer_job"
+          filters={filters}
+        />
+        <FilterLink
+          type="jobTypes"
+          value="part_time"
+          label="Deltid"
+          filters={filters}
+        />
+        <FilterLink
+          type="jobTypes"
+          value="full_time"
+          label="Fulltid"
+          filters={filters}
+        />
+        <FilterLink
+          type="jobTypes"
+          value="master_thesis"
+          label="Masteroppgave"
+          filters={filters}
+        />
+        <FilterLink
+          type="jobTypes"
+          value="other"
+          label="Annet"
+          filters={filters}
+        />
+
+        <h3 className={styles.rightHeader}>Sted:</h3>
+        {['Oslo', 'Trondheim', 'Bergen', 'Tromsø', 'Annet'].map((element) => (
+          <FilterLink
+            type="workplaces"
+            key={element}
+            value={element}
+            label={element}
+            filters={filters}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default JoblistingsRightNav;

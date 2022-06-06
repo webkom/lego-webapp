@@ -6,11 +6,12 @@ import LoadingIndicator from 'app/components/LoadingIndicator/';
 import JoblistingsList from './JoblistingList';
 import JoblistingsRightNav from './JoblistingRightNav';
 import { Flex } from 'app/components/Layout';
+import type { ActionGrant } from 'app/models';
 
 type Props = {
   joblistings: Array</*TODO: JobListing*/ any>,
   search: Object,
-  actionGrant: /*TODO: ActionGrant */ any,
+  actionGrant: ActionGrant,
   history: Object,
 };
 
