@@ -36,9 +36,8 @@ const mapDispatchToProps = (dispatch) => {
 
 /*
  * The reason for the initialized prop is an issue(https://github.com/redux-form/redux-form/issues/621) in redux form that causes all fields to be initially rendered with an empty string as value,
- * due to the form not being initialized. Because the editorstate is immutable, the editorfield does not update once it is passed the correct initialvalue on the second render.
- * The initialized prop "solves" the issue by enabling the editorfield to only render once the form has been initialized.
- * The initialized prop is passed to the form by the redux-form HoC, see the redux form docs for more info. The "solution" is a hack, yet i could find no better way to solve this.
+ * due to the form not being initialized. Because the editor state is immutable, the editor field does not update once it is passed the correct initial value on the second render.
+ * The initialized prop "solves" the issue by enabling the editor field to only render once the form has been initialized.
  */
 const EditorFieldComponent = ({
   className,
@@ -67,15 +66,16 @@ const EditorFieldComponent = ({
 
 const EditorField = connect(null, mapDispatchToProps)(EditorFieldComponent);
 
+EditorField.AutoInitialized = (props) =>
+  EditorFieldComponent({
+    initialized: !!(props.value || props.input?.value),
+    ...props,
+  });
+
 // $FlowFixMe
 EditorField.Field = connect(
   null,
   mapDispatchToProps
-)(
-  createField(
-    (props) => EditorFieldComponent({ initialized: !!props.value, ...props }),
-    { noLabel: true }
-  )
-);
+)(createField(EditorField.AutoInitialized, { noLabel: true }));
 
 export default EditorField;
