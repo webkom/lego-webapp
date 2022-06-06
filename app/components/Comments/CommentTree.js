@@ -10,11 +10,11 @@ import { type ID } from 'app/models';
 type Props = {
   comments: Array<CommentEntity>,
   isChild?: boolean,
-  commentFormProps: {
+  commentFormProps: {|
     contentTarget: string,
     user: UserEntity,
     loggedIn: boolean,
-  },
+  |},
   level?: number,
   deleteComment: (id: ID, contentTarget: string) => Promise<*>,
   user: UserEntity,

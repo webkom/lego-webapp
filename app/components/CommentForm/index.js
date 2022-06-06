@@ -19,11 +19,10 @@ type Props = {
   contentTarget: string,
   user: Object,
   loggedIn: boolean,
-  parent: number,
-  submitText: string,
-  inlineMode: boolean,
-  autoFocus: boolean,
-  isOpen: boolean,
+  submitText?: string,
+  inlineMode?: boolean,
+  autoFocus?: boolean,
+  parent?: number,
 };
 
 const validate = createValidator({
@@ -31,12 +30,12 @@ const validate = createValidator({
 });
 
 const CommentForm = ({
+  contentTarget,
   user,
   loggedIn,
   submitText = 'Kommenter',
-  inlineMode,
+  inlineMode = false,
   autoFocus = false,
-  contentTarget,
   parent,
 }: Props) => {
   const dispatch = useDispatch();

@@ -9,7 +9,7 @@ import { type ID } from 'app/models';
 export type CommentEntity = {
   text: string,
   contentTarget: string,
-  parent: number,
+  parent?: number,
 };
 
 export function addComment({

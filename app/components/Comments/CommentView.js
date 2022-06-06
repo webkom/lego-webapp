@@ -62,10 +62,7 @@ const CommentView = (props: Props) => {
 
         {!formDisabled && (
           <div>
-            <CommentForm
-              form={`comment.${commentFormProps.contentTarget}`}
-              {...commentFormProps}
-            />
+            <CommentForm {...commentFormProps} />
           </div>
         )}
       </Flex>
