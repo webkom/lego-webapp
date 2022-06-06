@@ -25,12 +25,7 @@ import { Flex } from 'app/components/Layout';
 import MazemapLink from 'app/components/MazemapEmbed/MazemapLink';
 import { unionBy } from 'lodash';
 import { AttendanceStatus } from 'app/components/UserAttendance';
-import {
-  spyFormError,
-  spySubmittable,
-  spyValues,
-} from 'app/utils/formSpyUtils';
-import { RenderErrorMessage } from 'app/components/Form/Field';
+import { spySubmittable, spyValues } from 'app/utils/formSpyUtils';
 import {
   createValidator,
   ifField,
@@ -39,6 +34,7 @@ import {
   required,
   timeIsAfter,
 } from 'app/utils/validation';
+import SubmissionError from 'app/components/Form/SubmissionError';
 
 type Values = {
   title?: string,
@@ -269,9 +265,7 @@ const MeetingEditor = ({
                   </div>
                 </>
               )}
-              {spyFormError((error) => (
-                <>{error && <RenderErrorMessage error={error} />}</>
-              ))}
+              <SubmissionError />
               <Flex wrap>
                 <Button onClick={() => push(`/meetings/${meeting.id}`)}>
                   Avbryt
