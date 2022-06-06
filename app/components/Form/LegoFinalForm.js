@@ -6,7 +6,7 @@ import { Form } from 'react-final-form';
 import createFocusOnErrorDecorator from 'final-form-focus';
 import * as Sentry from '@sentry/browser';
 import { handleSubmissionErrorFinalForm } from 'app/components/Form/utils';
-import { isEqual } from 'lodash-es';
+import { isEqual } from 'lodash';
 
 const focusOnError = createFocusOnErrorDecorator();
 
