@@ -51,18 +51,11 @@ describe('View event', () => {
 
     cy.get(c('CommentForm') + ' [data-slate-editor="true"]')
       .last()
-      .as('form')
-      .click();
-    cy.wait(500);
-    // We have to click twice due to our ssr hack. This is not needed in a real setting, as a
-    // mouseover should fix this issue. That does not seem to work as good here.
-    cy.get(c('CommentForm') + ' [data-slate-editor="true"]').click({
-      force: true,
-    });
-    cy.contains('button', 'Kommenter').as('button').should('not.be.disabled');
+      .click()
+      .wait(100);
+    cy.contains('button', 'Kommenter').should('be.disabled');
     cy.focused().type('This event will be awesome');
-    cy.wait(700);
-    cy.contains('button', 'Kommenter').click();
+    cy.contains('button', 'Kommenter').should('not.be.disabled').click();
 
     // We should see the comment and be able to delete it
     cy.get(c('Comment__comment')).within(($c) => {
@@ -81,25 +74,18 @@ describe('View event', () => {
     cy.reload();
     cy.get(c('CommentForm') + ' [data-slate-editor="true"]')
       .last()
-      .click();
-    cy.wait(100);
-    cy.get(c('CommentForm') + ' [data-slate-editor="true"]').click({
-      force: true,
-    });
+      .wait(500)
+      .click()
+      .wait(100);
+    cy.contains('button', 'Kommenter').should('be.disabled');
     cy.focused().type('This is the top comment');
-    cy.wait(500);
-    cy.contains('button', 'Kommenter').click();
+    cy.contains('button', 'Kommenter').should('not.be.disabled').click();
 
     cy.get(c('Comment__comment')).last().contains('This is the top comment');
     cy.contains('button', 'Svar').click();
-    cy.contains('button', 'Send svar').should('exist').and('be.disabled');
 
-    cy.wait(500);
-
-    // With out custom methods for interacting with the editor, we need to fire events on some
-    // other elements first.
-    cy.contains('Kommentarer').click();
     cy.get(c('CommentForm') + ' [data-slate-editor="true"]')
+      .should('have.lengthOf', 2)
       .first()
       .click()
       .wait(100);
