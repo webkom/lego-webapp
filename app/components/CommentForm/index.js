@@ -1,10 +1,8 @@
 // @flow
 
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import cx from 'classnames';
-import { getFormMeta, getFormValues, reduxForm, Field } from 'redux-form';
-import type { FormProps } from 'redux-form';
 import { EditorField } from 'app/components/Form';
 import Button from 'app/components/Button';
 import { ProfilePicture } from 'app/components/Image';
@@ -12,14 +10,10 @@ import { addComment } from 'app/actions/CommentActions';
 import styles from './CommentForm.css';
 import DisplayContent from 'app/components/DisplayContent';
 import { EDITOR_EMPTY } from 'app/utils/constants';
-
-const validate = (values) => {
-  const errors = {};
-  if (!values.text) {
-    errors.text = 'Required';
-  }
-  return errors;
-};
+import LegoFinalForm from 'app/components/Form/LegoFinalForm';
+import { Field } from 'react-final-form';
+import SubmissionError from 'app/components/Form/SubmissionError';
+import { createValidator, legoEditorRequired } from 'app/utils/validation';
 
 type Props = {
   contentTarget: string,
@@ -28,48 +22,25 @@ type Props = {
   parent: number,
   submitText: string,
   inlineMode: boolean,
-  initialized: boolean,
   autoFocus: boolean,
   isOpen: boolean,
-} & FormProps;
+};
+
+const validate = createValidator({
+  text: [legoEditorRequired('Kommentaren kan ikke være tom')],
+});
 
 const CommentForm = ({
-  handleSubmit,
-  pristine,
-  submitting,
   user,
-  form,
   loggedIn,
   submitText = 'Kommenter',
   inlineMode,
   autoFocus = false,
-  initialized,
   contentTarget,
   parent,
 }: Props) => {
   const dispatch = useDispatch();
-
-  const isOpen = useSelector((state) => {
-    const meta = getFormMeta(form)(state);
-    const values = getFormValues(form)(state);
-    return (
-      meta &&
-      meta.text &&
-      (meta.text.active || (values && values.text !== EDITOR_EMPTY))
-    );
-  });
-
   const [disabled, setDisabled] = useState(!__CLIENT__);
-
-  const onSubmit = ({ text }) => {
-    dispatch(
-      addComment({
-        contentTarget,
-        text,
-        parent,
-      })
-    );
-  };
 
   const enableForm = (e) => {
     setDisabled(false);
@@ -82,56 +53,76 @@ const CommentForm = ({
   }
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className={cx(className, isOpen && styles.activeForm)}
+    <LegoFinalForm
+      initialValues={{
+        text: EDITOR_EMPTY,
+      }}
+      validate={validate}
+      onSubmit={({ text }) => {
+        return dispatch(
+          addComment({
+            contentTarget,
+            text,
+            parent,
+          })
+        );
+      }}
     >
-      <div className={styles.header}>
-        <ProfilePicture size={40} user={user} />
+      {({ handleSubmit, pristine, submitting, form }) => {
+        const textValue = form.getFieldState('text')?.value;
+        const fieldActive = form.getFieldState('text')?.active;
+        const isOpen = fieldActive || (textValue && textValue !== EDITOR_EMPTY);
 
-        {isOpen && <div className={styles.author}>{user.fullName}</div>}
-      </div>
-
-      <div
-        className={cx(styles.fields, isOpen && styles.activeFields)}
-        onMouseOver={enableForm}
-        onScroll={enableForm}
-        onPointerDown={enableForm}
-      >
-        {disabled ? (
-          <DisplayContent
-            id="comment-text"
-            className={styles.text}
-            content=""
-            placeholder="Skriv en kommentar"
-          />
-        ) : (
-          <Field
-            autoFocus={autoFocus}
-            name="text"
-            placeholder="Skriv en kommentar"
-            component={EditorField}
-            initialized={initialized}
-            simple
-          />
-        )}
-
-        {isOpen && (
-          <Button
-            submit
-            disabled={pristine || submitting}
-            className={styles.submit}
+        return (
+          <form
+            onSubmit={handleSubmit}
+            className={cx(className, isOpen && styles.activeForm)}
           >
-            {submitText}
-          </Button>
-        )}
-      </div>
-    </form>
+            <div className={styles.header}>
+              <ProfilePicture size={40} user={user} />
+
+              {isOpen && <div className={styles.author}>{user.fullName}</div>}
+            </div>
+
+            <div
+              className={cx(styles.fields, isOpen && styles.activeFields)}
+              onMouseOver={enableForm}
+              onScroll={enableForm}
+              onPointerDown={enableForm}
+            >
+              {disabled ? (
+                <DisplayContent
+                  id="comment-text"
+                  className={styles.text}
+                  content=""
+                  placeholder="Skriv en kommentar"
+                />
+              ) : (
+                <Field
+                  autoFocus={autoFocus}
+                  name="text"
+                  placeholder="Skriv en kommentar"
+                  component={EditorField.AutoInitialized}
+                  simple
+                />
+              )}
+
+              {isOpen && (
+                <Button
+                  submit
+                  disabled={pristine || submitting}
+                  className={styles.submit}
+                >
+                  {submitText}
+                </Button>
+              )}
+              <SubmissionError />
+            </div>
+          </form>
+        );
+      }}
+    </LegoFinalForm>
   );
 };
 
-export default reduxForm({
-  validate,
-  initialValues: {},
-  destroyOnUnmount: false,
-})(CommentForm);
+export default CommentForm;
