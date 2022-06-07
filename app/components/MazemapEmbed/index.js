@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import 'node_modules/mazemap/mazemap.min.css';
 import MazemapLink from './MazemapLink';
+import styles from './MazemapEmbed.css';
 
 type Props = {
   mazemapPoi: number,
@@ -58,7 +59,7 @@ export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
     window.addEventListener('keydown', onKeyDown);
     window.addEventListener('keyup', onKeyUp);
 
-    let blockScrollZoomTimeout = undefined;
+    let blockScrollZoomTimeout;
     embeddedMazemap.on('wheel', () => {
       if (controlPressed) {
         embeddedMazemap.scrollZoom.enable();
@@ -146,7 +147,7 @@ export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
   if (!hasMounted) {
     return (
       <>
-        <div style={{ height: props.height || 400 }} />;
+        <div style={{ height: props.height || 400 }} />
         <MazemapLink mazemapPoi={mazemapPoi} linkText={props.linkText} />
       </>
     );
@@ -163,18 +164,7 @@ export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
       >
         {(blockScrollZoom || blockTouchMovement) && (
           <span
-            style={{
-              fontSize: '1.5rem',
-              textAlign: 'center',
-              color: '#111',
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              width: '100%',
-              transform: 'translate(-50%,-50%)',
-              zIndex: 5,
-              pointerEvents: 'none',
-            }}
+          className={styles.blockingText}        
           >
             {blockScrollZoom
               ? 'Hold ctrl for å zoome'

@@ -1,0 +1,11 @@
+.blockingText {
+  z-index: 5;
+  font-size: 1.5rem;
+  text-align: center;
+  color: #111;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  transform: translate(-50%, -50%);
+}
