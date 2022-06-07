@@ -14,6 +14,8 @@ type Props = {
  * largely based on https://api.mazemap.com/js/v2.0.63/docs/#ex-data-poi
  */
 export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
+  const isMac = __CLIENT__ && navigator.platform.indexOf('Mac') === 0;
+
   const [hasMounted, setHasMounted] = useState<boolean>(false);
   useEffect(() => setHasMounted(true), []);
 
@@ -45,15 +47,16 @@ export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
     });
     embeddedMazemap.dragPan._mousePan.enable();
 
-    let controlPressed = false;
+    let zoomButtonPressed = false;
+
     const onKeyDown = (e) => {
-      if (e.key === 'Control') {
-        controlPressed = true;
+      if (isMac ? e.key === 'Meta' : e.key === 'Control') {
+        zoomButtonPressed = true;
       }
     };
     const onKeyUp = (e) => {
-      if (e.key === 'Control') {
-        controlPressed = false;
+      if (isMac ? e.key === 'Meta' : e.key === 'Control') {
+        zoomButtonPressed = false;
       }
     };
     window.addEventListener('keydown', onKeyDown);
@@ -61,7 +64,7 @@ export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
 
     let blockScrollZoomTimeout;
     embeddedMazemap.on('wheel', () => {
-      if (controlPressed) {
+      if (zoomButtonPressed) {
         embeddedMazemap.scrollZoom.enable();
       } else {
         embeddedMazemap.scrollZoom.disable();
@@ -141,7 +144,7 @@ export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
       window.removeEventListener('keydown', onKeyDown);
       window.removeEventListener('keyup', onKeyUp);
     };
-  }, [Mazemap, hasMounted, mazemapPoi]);
+  }, [Mazemap, hasMounted, mazemapPoi, isMac]);
 
   //Allocate height for map and link before map is loaded
   if (!hasMounted) {
@@ -163,11 +166,9 @@ export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
         id="mazemap-embed"
       >
         {(blockScrollZoom || blockTouchMovement) && (
-          <span
-          className={styles.blockingText}        
-          >
+          <span className={styles.blockingText}>
             {blockScrollZoom
-              ? 'Hold ctrl for å zoome'
+              ? `Hold ${isMac ? '⌘' : 'ctrl'} for å zoome`
               : 'Bruk to fingre for å flytte kartet'}
           </span>
         )}
