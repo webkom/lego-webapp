@@ -1,6 +1,6 @@
 // @flow
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import cx from 'classnames';
 import { EditorField } from 'app/components/Form';
@@ -39,11 +39,13 @@ const CommentForm = ({
   parent,
 }: Props) => {
   const dispatch = useDispatch();
-  const [disabled, setDisabled] = useState(!__CLIENT__);
+  // editor must be disabled while server-side rendering
+  const [editorSsrDisabled, setEditorSsrDisabled] = useState(true);
 
-  const enableForm = (e) => {
-    setDisabled(false);
-  };
+  useEffect(() => {
+    // Workaround to make sure we re-render editor in enabled state on client after ssr
+    setEditorSsrDisabled(false);
+  }, []);
 
   const className = inlineMode ? styles.inlineForm : styles.form;
 
@@ -82,14 +84,8 @@ const CommentForm = ({
 
               {isOpen && <div className={styles.author}>{user.fullName}</div>}
             </div>
-
-            <div
-              className={cx(styles.fields, isOpen && styles.activeFields)}
-              onMouseOver={enableForm}
-              onScroll={enableForm}
-              onPointerDown={enableForm}
-            >
-              {disabled ? (
+            <div className={cx(styles.fields, isOpen && styles.activeFields)}>
+              {editorSsrDisabled ? (
                 <DisplayContent
                   id="comment-text"
                   className={styles.text}
