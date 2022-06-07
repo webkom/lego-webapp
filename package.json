@@ -99,7 +99,7 @@
     "redux-sentry-middleware": "^0.2.2",
     "redux-thunk": "2.4.1",
     "regenerator-runtime": "^0.13.9",
-    "reselect": "4.1.5",
+    "reselect": "4.1.6",
     "serialize-javascript": "^6.0.0",
     "slugify": "^1.6.5",
     "stream-browserify": "^3.0.0",
