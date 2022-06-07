@@ -18,7 +18,6 @@ type Props = {
   show: boolean,
   children?: any,
   style?: any,
-  placement?: 'top' | 'bottom' | 'left' | 'right',
 };
 
 const Dropdown = ({
@@ -31,7 +30,6 @@ const Dropdown = ({
   show,
   children,
   style,
-  placement = 'bottom',
 }: Props) => {
   const triggerRef = useRef(null);
 
@@ -48,15 +46,16 @@ const Dropdown = ({
         show={show}
         onHide={toggle}
         target={triggerRef}
-        placement={placement}
+        placement="bottom"
         rootClose
         shouldUpdatePosition
       >
-        {({ props }) => (
+        {({ props, arrowProps }) => (
           <div
             {...props}
             className={cx(styles.content, contentClassName || null)}
           >
+            <div {...arrowProps} className={styles.arrow} />
             {children}
           </div>
         )}
