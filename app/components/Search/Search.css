@@ -1,14 +1,5 @@
 @import '~app/styles/variables.css';
 
-.overlay {
-  composes: container from '~app/styles/utilities.css';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  max-width: 900px;
-}
-
 .inputContainer {
   display: flex;
   justify-content: space-between;

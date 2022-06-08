@@ -225,7 +225,6 @@ export default class GalleryPictureModal extends Component<Props, State> {
       <Modal
         onHide={() => push(`/photos/${gallery.id}`)}
         show
-        backdrop
         contentClassName={styles.content}
       >
         <Swipeable onSwiping={this.handleSwipe}>

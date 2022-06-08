@@ -99,43 +99,41 @@ class Search extends Component<Props, State> {
     ];
     return (
       <div onKeyDown={this.handleKeyDown} tabIndex={-1}>
-        <div className={styles.overlay}>
-          <div className={styles.inputContainer}>
-            <div className={styles.searchIcon}>
-              <Icon name="search" size={30} />
-            </div>
-            {searchFields.map((k) => (
-              <input
-                key={`search-field-${k.autoFocus ? 'on' : 'off'}`}
-                className={k.style}
-                onChange={(e) => this.onQueryChanged(e.target.value)}
-                value={this.state.query}
-                type="search"
-                size="1"
-                placeholder="Hva leter du etter?"
-                ref={(input) => input && k.autoFocus && input.focus()}
-              />
-            ))}
-
-            <button
-              type="button"
-              className={styles.closeButton}
-              onClick={onCloseSearch}
-            >
-              <Icon name={searching ? 'refresh' : 'close'} size={30} />
-            </button>
+        <div className={styles.inputContainer}>
+          <div className={styles.searchIcon}>
+            <Icon name="search" size={30} />
           </div>
+          {searchFields.map((k) => (
+            <input
+              key={`search-field-${k.autoFocus ? 'on' : 'off'}`}
+              className={k.style}
+              onChange={(e) => this.onQueryChanged(e.target.value)}
+              value={this.state.query}
+              type="search"
+              size="1"
+              placeholder="Hva leter du etter?"
+              ref={(input) => input && k.autoFocus && input.focus()}
+            />
+          ))}
 
-          <SearchResults
-            query={query}
-            searching={searching}
-            results={results.filter(({ link }) => link)}
-            navigationLinks={regularLinks}
-            adminLinks={adminLinks}
-            onCloseSearch={onCloseSearch}
-            selectedIndex={selectedIndex}
-          />
+          <button
+            type="button"
+            className={styles.closeButton}
+            onClick={onCloseSearch}
+          >
+            <Icon name={searching ? 'refresh' : 'close'} size={30} />
+          </button>
         </div>
+
+        <SearchResults
+          query={query}
+          searching={searching}
+          results={results.filter(({ link }) => link)}
+          navigationLinks={regularLinks}
+          adminLinks={adminLinks}
+          onCloseSearch={onCloseSearch}
+          selectedIndex={selectedIndex}
+        />
       </div>
     );
   }

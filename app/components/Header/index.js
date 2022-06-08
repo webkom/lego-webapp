@@ -315,9 +315,10 @@ class Header extends Component<Props, State> {
           <Modal
             show={this.props.searchOpen}
             onHide={this.props.toggleSearch}
-            backdropClassName={styles.backdrop}
-            backdrop
-            autoFocus={false}
+            renderBackdrop={(props) => (
+              <div {...props} className={styles.backdrop} />
+            )}
+            className={styles.modal}
           >
             <Search
               loggedIn={loggedIn}
