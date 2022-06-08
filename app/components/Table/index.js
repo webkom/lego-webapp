@@ -6,7 +6,6 @@ import { Component } from 'react';
 import Icon from 'app/components/Icon';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { TextInput, CheckBox, RadioButton } from 'app/components/Form';
-import { Overlay } from 'react-overlays';
 import { debounce, isEmpty, get } from 'lodash';
 import cx from 'classnames';
 
@@ -14,6 +13,7 @@ import InfiniteScroll from 'react-infinite-scroller';
 import styles from './Table.css';
 
 import Button from '../Button';
+import Dropdown from 'app/components/Dropdown';
 
 type sortProps = {
   direction?: 'asc' | 'desc',
@@ -87,9 +87,6 @@ export default class Table extends Component<Props, State> {
       showColumn: initialShowColumn,
     };
   }
-
-  container: HTMLDivElement;
-  components: { [string]: ?HTMLDivElement } = {};
 
   static defaultProps = {
     rowKey: 'id',
@@ -229,155 +226,128 @@ export default class Table extends Component<Props, State> {
           {title}
           {search && (
             <div className={styles.searchIcon}>
-              <div
-                ref={(c) => (this.components[dataIndex] = c)}
-                className={styles.searchIcon}
-              >
-                <Icon
-                  onClick={() => this.toggleSearch(dataIndex)}
-                  name="search"
-                  className={cx(
-                    styles.icon,
-                    ((filters[dataIndex] && filters[dataIndex].length) ||
-                      isShown[dataIndex]) &&
-                      styles.iconActive
-                  )}
-                />
-              </div>
-              <Overlay
+              <Dropdown
                 show={isShown[dataIndex]}
-                onHide={() => this.toggleSearch(dataIndex)}
-                placement="bottom"
-                container={this.container}
-                target={() => this.components[dataIndex]}
+                toggle={() => this.toggleSearch(dataIndex)}
+                triggerComponent={
+                  <Icon
+                    name="search"
+                    className={cx(
+                      (filters[dataIndex] && filters[dataIndex].length) ||
+                        isShown[dataIndex]
+                        ? styles.iconActive
+                        : styles.icon
+                    )}
+                  />
+                }
+                contentClassName={styles.overlay}
                 rootClose
               >
-                <div className={styles.overlay}>
-                  <TextInput
-                    autoFocus
-                    placeholder={filterMessage}
-                    value={filters[dataIndex]}
-                    onChange={(e) => this.onSearchInput(e, dataIndex)}
-                    onKeyDown={({ keyCode }) => {
-                      if (keyCode === 13) {
-                        this.toggleSearch(dataIndex);
-                      }
-                    }}
-                  />
-                </div>
-              </Overlay>
+                <TextInput
+                  autoFocus
+                  placeholder={filterMessage}
+                  value={filters[dataIndex]}
+                  onChange={(e) => this.onSearchInput(e, dataIndex)}
+                  onKeyDown={({ keyCode }) => {
+                    if (keyCode === 13) {
+                      this.toggleSearch(dataIndex);
+                    }
+                  }}
+                />
+              </Dropdown>
             </div>
           )}
           {filter && (
             <div className={styles.filterIcon}>
-              <div
-                ref={(c) => (this.components[dataIndex] = c)}
-                className={styles.filterIcon}
-              >
-                <Icon
-                  onClick={() => this.toggleFilter(dataIndex)}
-                  name="funnel"
-                  className={cx(
-                    styles.icon,
-                    (filters[dataIndex] !== undefined || isShown[dataIndex]) &&
-                      styles.iconActive
-                  )}
-                />
-              </div>
-              <Overlay
+              <Dropdown
                 show={isShown[dataIndex]}
-                onHide={() => this.toggleFilter(dataIndex)}
-                placement="bottom"
-                container={this.container}
-                target={() => this.components[dataIndex]}
+                toggle={() => this.toggleFilter(dataIndex)}
+                triggerComponent={
+                  <Icon
+                    name="funnel"
+                    className={cx(
+                      filters[dataIndex] !== undefined || isShown[dataIndex]
+                        ? styles.iconActive
+                        : styles.icon
+                    )}
+                  />
+                }
+                contentClassName={styles.checkbox}
                 rootClose
               >
-                <div className={styles.checkbox}>
-                  {filter.map(({ label, value }) => (
-                    <div
-                      key={label}
-                      onClick={() =>
-                        this.onFilterInput(
-                          this.state.filters[dataIndex] === value
-                            ? undefined
-                            : value,
-                          dataIndex
-                        )
-                      }
-                    >
-                      <p key={label}>
-                        <CheckBox
-                          label={label}
-                          value={value === this.state.filters[dataIndex]}
-                        />
-                      </p>
-                    </div>
-                  ))}
-                  <Button
-                    flat
+                {filter.map(({ label, value }) => (
+                  <div
+                    key={label}
                     onClick={() =>
-                      this.setState(
-                        (state) => ({
-                          filters: {
-                            ...state.filters,
-                            [dataIndex]: undefined,
-                          },
-                        }),
-                        () => {
-                          this.toggleFilter(dataIndex);
-                          this.onChange();
-                        }
+                      this.onFilterInput(
+                        this.state.filters[dataIndex] === value
+                          ? undefined
+                          : value,
+                        dataIndex
                       )
                     }
                   >
-                    Nullstill
-                  </Button>
-                </div>
-              </Overlay>
+                    <p key={label}>
+                      <CheckBox
+                        label={label}
+                        value={value === this.state.filters[dataIndex]}
+                      />
+                    </p>
+                  </div>
+                ))}
+                <Button
+                  flat
+                  onClick={() =>
+                    this.setState(
+                      (state) => ({
+                        filters: {
+                          ...state.filters,
+                          [dataIndex]: undefined,
+                        },
+                      }),
+                      () => {
+                        this.toggleFilter(dataIndex);
+                        this.onChange();
+                      }
+                    )
+                  }
+                >
+                  Nullstill
+                </Button>
+              </Dropdown>
             </div>
           )}
           {columnChoices && (
             <div className={styles.arrowDownIcon}>
-              <div
-                ref={(c) => (this.components[dataIndex] = c)}
-                className={styles.arrowDownIcon}
-              >
-                <Icon
-                  onClick={() => this.toggleChooseColumn(dataIndex)}
-                  name="arrow-down"
-                  className={styles.icon}
-                />
-              </div>
-              <Overlay
+              <Dropdown
                 show={isShown[dataIndex]}
-                onHide={() => this.toggleChooseColumn(dataIndex)}
-                placement="bottom"
-                container={this.container}
-                target={() => this.components[dataIndex]}
+                toggle={() => this.toggleChooseColumn(dataIndex)}
+                triggerComponent={
+                  <Icon name="arrow-down" className={styles.icon} />
+                }
+                contentClassName={styles.overlay}
                 rootClose
               >
-                <div className={styles.overlay}>
-                  {columnChoices.map(({ title }, index) => (
-                    <div
-                      key={title}
-                      onClick={() =>
-                        this.onChooseColumnInput(index, dataIndexColumnChoices)
-                      }
-                    >
-                      <p key={title}>
-                        <RadioButton
-                          name={dataIndexColumnChoices}
-                          inputValue={
-                            this.state.showColumn[dataIndexColumnChoices]
-                          }
-                          value={index}
-                          label={title}
-                        />
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </Overlay>
+                {columnChoices.map(({ title }, index) => (
+                  <div
+                    key={title}
+                    onClick={() =>
+                      this.onChooseColumnInput(index, dataIndexColumnChoices)
+                    }
+                  >
+                    <p key={title}>
+                      <RadioButton
+                        name={dataIndexColumnChoices}
+                        inputValue={
+                          this.state.showColumn[dataIndexColumnChoices]
+                        }
+                        value={index}
+                        label={title}
+                      />
+                    </p>
+                  </div>
+                ))}
+              </Dropdown>
             </div>
           )}
         </div>

@@ -1,3 +1,5 @@
+@import '~app/styles/variables.css';
+
 .tableDiv {
   overflow-x: scroll;
 }
@@ -49,13 +51,9 @@
 }
 
 .checkbox {
-  position: absolute;
+  width: auto;
   min-width: 150px;
   padding: 8px;
-  border-radius: 5px;
-  background: var(--color-white);
-  box-shadow: 0 1px 6px
-    rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 20%);
 }
 
 .checkbox div {
@@ -71,13 +69,12 @@
 }
 
 .overlay {
-  position: absolute;
   min-width: 200px;
   padding: 8px;
-  border-radius: 5px;
-  background: var(--color-white);
-  box-shadow: 0 1px 6px
-    rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 20%);
+}
+
+.icon {
+  color: var(--lego-font-color);
 }
 
 .iconActive {
