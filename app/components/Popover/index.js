@@ -2,82 +2,52 @@
 
 import type { Node } from 'react';
 
-import { Component } from 'react';
+import { useRef, useState } from 'react';
 import { Overlay } from 'react-overlays';
 import cx from 'classnames';
 import styles from './Popover.css';
 
 type Props = {
-  render: () => Node,
+  triggerComponent: Node,
   children: any,
-  placement: 'top' | 'bottom' | 'left' | 'right',
+  placement?: 'top' | 'bottom' | 'left' | 'right',
   contentClassName?: string,
 };
 
-type State = {
-  contentHovered: boolean,
-  overlayHovered: boolean,
-};
+const Popover = ({
+  triggerComponent,
+  children,
+  placement = 'bottom',
+  contentClassName,
+}: Props) => {
+  const [contentHovered, setContentHovered] = useState<boolean>(false);
+  const [overlayHovered, setOverlayHovered] = useState<boolean>(false);
+  const targetRef = useRef(null);
 
-class Popover extends Component<Props, State> {
-  state = {
-    contentHovered: false,
-    overlayHovered: false,
-  };
+  return (
+    <div
+      onMouseEnter={() => setContentHovered(true)}
+      onMouseLeave={() => setContentHovered(false)}
+      ref={targetRef}
+    >
+      {triggerComponent}
 
-  target: any;
-
-  static defaultProps = {
-    placement: 'bottom',
-  };
-
-  onMouseEnterContent = () => {
-    this.setState({ contentHovered: true });
-  };
-
-  onMouseLeaveContent = () => {
-    this.setState({ contentHovered: false });
-  };
-
-  onMouseEnterOverlay = () => {
-    this.setState({ overlayHovered: true });
-  };
-
-  onMouseLeaveOverlay = () => {
-    this.setState({ overlayHovered: false });
-  };
-
-  showOverlay = () => {
-    return this.state.contentHovered || this.state.overlayHovered;
-  };
-
-  render() {
-    const { children, placement, contentClassName } = this.props;
-
-    return (
-      <div
-        onMouseEnter={this.onMouseEnterContent}
-        onMouseLeave={this.onMouseLeaveContent}
-        ref={(target) => {
-          this.target = target;
-        }}
-      >
-        {this.props.render && this.props.render()}
-
-        {this.showOverlay() && (
-          <Overlay show placement={placement} target={this.target}>
+      {(contentHovered || overlayHovered) && (
+        <Overlay show placement={placement} target={targetRef}>
+          {({ props }) => (
             <div
-              onMouseEnter={this.onMouseEnterOverlay}
-              onMouseLeave={this.onMouseLeaveOverlay}
+              {...props}
+              onMouseEnter={() => setOverlayHovered(true)}
+              onMouseLeave={() => setOverlayHovered(false)}
               className={cx(styles.content, contentClassName)}
             >
               {children}
             </div>
-          </Overlay>
-        )}
-      </div>
-    );
-  }
-}
+          )}
+        </Overlay>
+      )}
+    </div>
+  );
+};
 
 export default Popover;
