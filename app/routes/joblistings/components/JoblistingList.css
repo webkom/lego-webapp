@@ -86,7 +86,7 @@
 .deadLine {
   display: flex;
   align-items: center;
-  justify-content: end;
+  justify-content: flex-end;
   min-width: 145px;
 
   @media (--mobile-device) {
