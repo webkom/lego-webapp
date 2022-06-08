@@ -10,16 +10,10 @@ import styles from './Popover.css';
 type Props = {
   triggerComponent: Node,
   children: any,
-  placement?: 'top' | 'bottom' | 'left' | 'right',
   contentClassName?: string,
 };
 
-const Popover = ({
-  triggerComponent,
-  children,
-  placement = 'bottom',
-  contentClassName,
-}: Props) => {
+const Popover = ({ triggerComponent, children, contentClassName }: Props) => {
   const [contentHovered, setContentHovered] = useState<boolean>(false);
   const [overlayHovered, setOverlayHovered] = useState<boolean>(false);
   const targetRef = useRef(null);
@@ -33,14 +27,15 @@ const Popover = ({
       {triggerComponent}
 
       {(contentHovered || overlayHovered) && (
-        <Overlay show placement={placement} target={targetRef}>
-          {({ props }) => (
+        <Overlay show placement="bottom" target={targetRef}>
+          {({ props, arrowProps }) => (
             <div
               {...props}
               onMouseEnter={() => setOverlayHovered(true)}
               onMouseLeave={() => setOverlayHovered(false)}
               className={cx(styles.content, contentClassName)}
             >
+              <div {...arrowProps} className={styles.arrow} />
               {children}
             </div>
           )}

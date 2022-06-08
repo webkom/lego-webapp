@@ -1,11 +1,7 @@
+@import '~app/styles/variables.css';
+@import '~app/styles/overlay.css';
+
 .content {
-  background: var(--color-white);
-  border-radius: 5px;
-  border: 1px solid var(--color-mono-gray-3);
-  box-shadow: 0 4px 2px var(--lego-color-gray-light);
-  position: absolute;
   max-width: 500px;
   padding: 20px;
-  z-index: 1000;
-  color: var(--lego-color-gray);
 }
