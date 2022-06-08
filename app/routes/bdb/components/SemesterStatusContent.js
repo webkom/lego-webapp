@@ -96,6 +96,7 @@ export default class SemesterStatusContent extends Component<Props, State> {
             displayDropdown: !state.displayDropdown,
           }))
         }
+        closeOnContentClick
         style={{ width: '100%', textAlign: 'left' }}
         triggerComponent={statusesToRender}
       >

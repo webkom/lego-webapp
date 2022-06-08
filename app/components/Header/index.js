@@ -233,6 +233,7 @@ class Header extends Component<Props, State> {
                       accountOpen: !state.accountOpen,
                     }))
                   }
+                  closeOnContentClick
                   triggerComponent={
                     <ProfilePicture
                       size={30}
@@ -259,6 +260,7 @@ class Header extends Component<Props, State> {
                       shake: false,
                     }))
                   }
+                  closeOnContentClick
                   contentClassName={cx(
                     this.state.shake ? 'animated shake' : '',
                     styles.dropdown

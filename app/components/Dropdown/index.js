@@ -11,6 +11,7 @@ import styles from './Dropdown.css';
 type Props = {
   iconName?: string,
   toggle: () => any,
+  closeOnContentClick?: boolean,
   className?: string,
   contentClassName?: string,
   componentClass?: any,
@@ -23,6 +24,7 @@ type Props = {
 const Dropdown = ({
   iconName = 'star',
   toggle,
+  closeOnContentClick = false,
   className,
   contentClassName,
   componentClass: ComponentClass = 'button',
@@ -54,6 +56,7 @@ const Dropdown = ({
           <div
             {...props}
             className={cx(styles.content, contentClassName || null)}
+            onClick={closeOnContentClick && toggle}
           >
             <div {...arrowProps} className={styles.arrow} />
             {children}
