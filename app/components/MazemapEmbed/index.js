@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import 'node_modules/mazemap/mazemap.min.css';
 import MazemapLink from './MazemapLink';
+import styles from './MazemapEmbed.css';
 
 type Props = {
   mazemapPoi: number,
@@ -13,11 +14,15 @@ type Props = {
  * largely based on https://api.mazemap.com/js/v2.0.63/docs/#ex-data-poi
  */
 export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
+  const isMac = __CLIENT__ && navigator.platform.indexOf('Mac') === 0;
+
   const [hasMounted, setHasMounted] = useState<boolean>(false);
   useEffect(() => setHasMounted(true), []);
 
   //import Mazemap dynamically to prevent ssr issues
   const [Mazemap, setMazemap] = useState(null);
+  const [blockScrollZoom, setBlockScrollZoom] = useState<boolean>(false);
+  const [blockTouchMovement, setBlockTouchZoom] = useState<boolean>(false);
 
   //initialize map only once, mazemapPoi will probably not change
   useEffect(() => {
@@ -32,10 +37,68 @@ export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
       minZoom: 10,
       maxZoom: 20,
       zLevelControl: true,
-      scrollZoom: true,
+      scrollZoom: false,
       doubleClickZoom: false,
+      dragRotate: false,
+      dragPan: false,
       touchZoomRotate: false,
+      touchPitch: false, //this is a horrible feature
+      pitchWithRotate: false,
     });
+    embeddedMazemap.dragPan._mousePan.enable();
+
+    let zoomButtonPressed = false;
+
+    const onKeyDown = (e) => {
+      if (isMac ? e.key === 'Meta' : e.key === 'Control') {
+        zoomButtonPressed = true;
+      }
+    };
+    const onKeyUp = (e) => {
+      if (isMac ? e.key === 'Meta' : e.key === 'Control') {
+        zoomButtonPressed = false;
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    window.addEventListener('keyup', onKeyUp);
+
+    let blockScrollZoomTimeout;
+    embeddedMazemap.on('wheel', () => {
+      if (zoomButtonPressed) {
+        embeddedMazemap.scrollZoom.enable();
+      } else {
+        embeddedMazemap.scrollZoom.disable();
+        setBlockScrollZoom(true);
+        if (blockScrollZoomTimeout) {
+          clearTimeout(blockScrollZoomTimeout);
+        }
+        blockScrollZoomTimeout = setTimeout(() => {
+          setBlockScrollZoom(false);
+        }, 500);
+      }
+    });
+
+    embeddedMazemap.on('touchmove', (e) => {
+      if (e.points.length < 2) {
+        embeddedMazemap.touchZoomRotate.disable();
+        embeddedMazemap.dragPan.disable();
+        setTimeout(() => {
+          setBlockTouchZoom(true);
+        }, 100);
+      } else {
+        setBlockTouchZoom(false);
+        embeddedMazemap.touchZoomRotate.enable();
+        embeddedMazemap.dragPan.enable();
+      }
+      e.preventDefault();
+    });
+
+    embeddedMazemap.on('touchend', () => {
+      setTimeout(() => {
+        setBlockTouchZoom(false);
+      }, 150);
+    });
+
     embeddedMazemap.on('load', () => {
       // Initialize a Highlighter for POIs
       // Storing the object on the map just makes it easy to access for other things
@@ -77,20 +140,39 @@ export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
       const maxHeight = height - 50; // 50 pixels account for margins and spacing
       embeddedMazemap.zLevelControl.setMaxHeight(maxHeight);
     });
-  }, [Mazemap, hasMounted, mazemapPoi]);
+    return () => {
+      window.removeEventListener('keydown', onKeyDown);
+      window.removeEventListener('keyup', onKeyUp);
+    };
+  }, [Mazemap, hasMounted, mazemapPoi, isMac]);
 
   //Allocate height for map and link before map is loaded
   if (!hasMounted) {
     return (
       <>
-        <div style={{ height: props.height || 400 }} />;
+        <div style={{ height: props.height || 400 }} />
         <MazemapLink mazemapPoi={mazemapPoi} linkText={props.linkText} />
       </>
     );
   }
   return (
     <>
-      <div style={{ height: props.height || 400 }} id="mazemap-embed" />
+      <div
+        style={{
+          height: props.height || 400,
+          opacity: blockScrollZoom || blockTouchMovement ? 0.5 : 1,
+          touchAction: 'pan-x pan-y',
+        }}
+        id="mazemap-embed"
+      >
+        {(blockScrollZoom || blockTouchMovement) && (
+          <span className={styles.blockingText}>
+            {blockScrollZoom
+              ? `Hold ${isMac ? '⌘' : 'ctrl'} for å zoome`
+              : 'Bruk to fingre for å flytte kartet'}
+          </span>
+        )}
+      </div>
       <MazemapLink mazemapPoi={mazemapPoi} linkText={props.linkText} />
     </>
   );
