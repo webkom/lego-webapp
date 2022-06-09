@@ -84,7 +84,7 @@ export default createEntityReducer({
 export const selectQuotes = createSelector(
   (state) => state.quotes.byId,
   (state) => state.quotes.items,
-  (_, items, props) => props?.pagination,
+  (_, props) => props?.pagination,
   (quotesById, items, pagination) =>
     (pagination ? pagination.items : items).map(
       (quoteId) => quotesById[quoteId]
