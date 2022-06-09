@@ -1,3 +1,9 @@
+.tags {
+  margin: 20px 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .linkSpacing {
   margin-right: 8px;
   display: inline;
@@ -15,20 +21,8 @@ html[data-theme='dark'] .tagLink {
   color: var(--lego-color-gray);
 }
 
-.tagLink a,
-.tagLinkSmall a {
+.tag a {
   color: inherit;
-}
-
-.tagLinkSmall {
-  color: var(--color-dark-mono-gray-1);
-  transition: 0.1s;
-}
-
-.tags {
-  margin: 20px 0;
-  display: flex;
-  flex-wrap: wrap;
 }
 
 .link:active {

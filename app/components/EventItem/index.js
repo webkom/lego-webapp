@@ -84,7 +84,7 @@ const EventItem = ({
       {showTags && (
         <Flex wrap>
           {event.tags.map((tag, index) => (
-            <Tag key={index} tag={tag} small />
+            <Tag key={index} tag={tag} />
           ))}
         </Flex>
       )}

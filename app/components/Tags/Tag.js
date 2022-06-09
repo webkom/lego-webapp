@@ -7,8 +7,6 @@ import styles from './Tag.css';
 type Props = {
   /** The tag value - the text */
   tag: string,
-  /** Make small */
-  small?: boolean,
   color?: 'pink' | 'red' | 'orange' | 'green' | 'cyan' | 'blue' | 'purple' | '',
   link?: string,
   className?: string,
@@ -17,32 +15,23 @@ type Props = {
 /**
  * A basic tag component for displaying tags
  */
-function Tag({ tag, color, link, className, small = false }: Props) {
-  const internalClassName = small ? styles.tagLinkSmall : styles.tagLink;
+const Tag = ({ tag, color, link, className }: Props) => {
   const colorClassName = styles[color];
 
   return (
     <div className={styles.linkSpacing}>
-      {link && (
+      {link ? (
         <Link
-          className={cx(
-            styles.link,
-            internalClassName,
-            colorClassName,
-            className
-          )}
+          className={cx(styles.link, styles.tag, colorClassName, className)}
           to={link}
         >
           {tag}
         </Link>
-      )}
-      {!link && (
-        <span className={cx(internalClassName, colorClassName, className)}>
-          {tag}
-        </span>
+      ) : (
+        <span className={cx(styles.tag, colorClassName, className)}>{tag}</span>
       )}
     </div>
   );
-}
+};
 
 export default Tag;
