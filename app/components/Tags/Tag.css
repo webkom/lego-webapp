@@ -1,3 +1,5 @@
+/* stylelint-disable indentation */
+
 .tags {
   margin: 20px 0;
   display: flex;
@@ -9,16 +11,81 @@
   display: inline;
 }
 
-.tagLink {
-  color: var(--color-dark-mono-gray-1);
-  border-radius: 4px;
-  padding: 2px 8px;
-  background: var(--lego-color-gray-light);
+.tag {
+  /* var(--lego-red) as rgb and hsl */
+  --label-r: 192;
+  --label-g: 57;
+  --label-b: 43;
+  --label-h: 6;
+  --label-s: 63;
+  --label-l: 46;
+
+  --lightness-threshold: 0.59;
+  --border-threshold: 0.96;
+  --perceived-lightness: calc(
+    (
+        (var(--label-r) * 0.2126) + (var(--label-g) * 0.7152) +
+          (var(--label-b) * 0.0722)
+      ) / 255
+  );
+  --lightness-switch: max(
+    0,
+    min(
+      calc((var(--perceived-lightness) - var(--lightness-threshold)) * -1000),
+      1
+    )
+  );
+  --border-alpha: max(
+    0,
+    min(calc((var(--perceived-lightness) - var(--border-threshold)) * 100), 1)
+  );
+
+  color: hsl(0deg, 0%, calc(var(--lightness-switch) * 100%));
+  background: rgb(var(--label-r), var(--label-g), var(--label-b));
+  border-color: hsla(
+    var(--label-h),
+    calc(var(--label-s) * 1%),
+    calc((var(--label-l) - 25) * 1%),
+    var(--border-alpha)
+  );
+  display: inline-block;
+  box-sizing: border-box;
+  padding: 1px 7px;
+  border: 1px solid transparent;
+  border-radius: 1em;
+  font-size: 0.8em;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  line-height: 18px;
   transition: 0.1s;
 }
 
-html[data-theme='dark'] .tagLink {
-  color: var(--lego-color-gray);
+html[data-theme='dark'] .tag {
+  --lightness-threshold: 0.6;
+  --background-alpha: 0.18;
+  --border-alpha: 0.3;
+  --lighten-by: calc(
+    ((var(--lightness-threshold) - var(--perceived-lightness)) * 100) *
+      var(--lightness-switch)
+  );
+
+  color: hsl(
+    var(--label-h),
+    calc(var(--label-s) * 1%),
+    calc((var(--label-l) + var(--lighten-by)) * 1%)
+  );
+  background: rgba(
+    var(--label-r),
+    var(--label-g),
+    var(--label-b),
+    var(--background-alpha)
+  );
+  border-color: hsla(
+    var(--label-h),
+    calc(var(--label-s) * 1%),
+    calc((var(--label-l) + var(--lighten-by)) * 1%),
+    var(--border-alpha)
+  );
 }
 
 .tag a {
