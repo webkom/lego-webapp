@@ -85,7 +85,12 @@ export default class Overview extends Component<Props> {
               />
             );
           })}
-          <Tag tag="Vis alle tags ..." key="viewmore" link="/tags/" color="gray" />
+          <Tag
+            tag="Vis alle tags ..."
+            key="viewmore"
+            link="/tags/"
+            color="gray"
+          />
         </Tags>
         <section className={styles.frontpage}>
           <Paginator

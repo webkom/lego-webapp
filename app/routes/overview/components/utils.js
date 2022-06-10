@@ -23,23 +23,21 @@ export const renderMeta = (
 
       {item.location !== '-' && isEvent && (
         <span>
-          <span className={styles.dot}> . </span>
+          <span> • </span>
           <span> {truncateString(item.location, 8)} </span>
         </span>
       )}
 
-      <span>
-        <span className={styles.dot}> . </span>
-        <span>
-          {' '}
-          {isEvent ? eventTypeToString(item.eventType) : 'Artikkel'}{' '}
-        </span>
+      <span> • </span>
+      <span className={styles.type}>
+        {' '}
+        {isEvent ? eventTypeToString(item.eventType) : 'Artikkel'}{' '}
       </span>
 
-      {item.tags && item.tags.length > 0 && (
+      {item.tags?.length > 0 && (
         <Tags className={styles.tagline}>
           {item.tags.slice(0, 3).map((tag) => (
-            <Tag className={styles.tag} tag={tag} key={tag} />
+            <Tag tag={tag} key={tag} />
           ))}
         </Tags>
       )}
