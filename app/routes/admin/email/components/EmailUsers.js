@@ -114,9 +114,9 @@ export default class EmailUsers extends Component<Props> {
         ],
         render: (enabled) =>
           enabled ? (
-            <Tag tag="aktiv" color="orange" />
+            <Tag tag="Aktiv" color="green" />
           ) : (
-            <Tag color="cyan" tag="inaktiv" />
+            <Tag tag="Inaktiv" color="gray" />
           ),
       },
     ];
