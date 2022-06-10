@@ -74,11 +74,7 @@
   transition: color 0.2s;
   font-size: 0.8rem;
   font-weight: 600;
-  color: rgba(0, 0, 0, 80%);
-}
-
-.item:hover .itemInfo {
-  color: var(--color-black);
+  color: var(--color-dark-gray-5);
 }
 
 .item:not(:last-child):not(:nth-child(3n)) {

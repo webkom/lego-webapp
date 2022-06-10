@@ -52,7 +52,7 @@
   transition: color 0.2s;
   font-size: 1rem;
   font-weight: 600;
-  color: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 80%);
+  color: var(--color-dark-gray-5);
 }
 
 .item:hover .itemInfo {
