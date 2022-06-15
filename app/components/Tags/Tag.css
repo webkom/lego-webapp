@@ -12,13 +12,12 @@
 }
 
 .tag {
-  /* var(--lego-red) as rgb and hsl */
   --label-r: 192;
   --label-g: 57;
   --label-b: 43;
-  --label-h: 6;
-  --label-s: 63;
-  --label-l: 46;
+  --label-h: 11;
+  --label-s: 79;
+  --label-l: 47;
 
   --lightness-threshold: 0.59;
   --border-threshold: 0.96;
@@ -51,11 +50,13 @@
   display: inline-block;
   padding: 1px 7px;
   border: 1px solid transparent;
-  border-radius: 1em;
+  border-radius: 2em;
   font-size: 0.8em;
   font-weight: 500;
   font-variant-numeric: tabular-nums;
   line-height: 18px;
+  transition: 125ms cubic-bezier(0.33, 1, 0.68, 1);
+  transition-property: color, background, border-color, box-shadow, opacity;
 }
 
 html[data-theme='dark'] .tag {
@@ -86,10 +87,21 @@ html[data-theme='dark'] .tag {
   );
 }
 
+.active,
 .link:hover,
 .link:active {
   opacity: 0.9;
-  transition: opacity 150ms ease-in-out;
+}
+
+.active {
+  box-shadow: 0 0 0 2.3px
+    rgba(var(--label-r), var(--label-g), var(--label-b), 40%);
+}
+
+html[data-theme='dark'] .active {
+  color: hsl(0deg, 0%, calc(var(--lightness-switch) * 100%));
+  background: rgb(var(--label-r), var(--label-g), var(--label-b));
+  border-color: rgb(var(--label-r), var(--label-g), var(--label-b));
 }
 
 .gray {

@@ -80,7 +80,8 @@ export default class Overview extends Component<Props> {
               <Tag
                 tag={tag.tag}
                 key={tag.tag}
-                color={isSelected ? 'purple' : 'blue'}
+                color="blue"
+                active={isSelected}
                 link={isSelected ? '/articles/' : `/articles?tag=${tag.tag}`}
               />
             );
