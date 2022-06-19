@@ -1,5 +1,14 @@
 @import '~app/styles/variables.css';
 
+.modal {
+  composes: container from '~app/styles/utilities.css';
+  max-width: 900px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
 .backdrop {
   background: rgba(var(--rgb-max), var(--rgb-max), var(--rgb-max), 50%);
   top: 0;

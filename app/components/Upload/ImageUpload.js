@@ -238,8 +238,6 @@ export default class ImageUpload extends Component<Props, State> {
           contentClassName={styles.modal}
           show={cropOpen}
           onHide={this.closeModal}
-          backdropClassName={styles.backdrop}
-          backdrop
         >
           <Fragment>
             {inModal && !preview && (

@@ -23,7 +23,7 @@ const renderEvent = ({
 }: Event) => (
   <Popover
     key={id}
-    render={() => (
+    triggerComponent={
       <div
         className={cx(
           styles.cell,
@@ -40,7 +40,7 @@ const renderEvent = ({
           {title}
         </Link>
       </div>
-    )}
+    }
   >
     <div>
       <h3 className={styles.eventItemTitle}>

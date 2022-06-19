@@ -225,7 +225,6 @@ export default class GalleryPictureModal extends Component<Props, State> {
       <Modal
         onHide={() => push(`/photos/${gallery.id}`)}
         show
-        backdrop
         contentClassName={styles.content}
       >
         <Swipeable onSwiping={this.handleSwipe}>
@@ -253,8 +252,8 @@ export default class GalleryPictureModal extends Component<Props, State> {
 
               <Dropdown
                 show={showMore}
-                placement="bottom"
                 toggle={this.toggleDropdown}
+                closeOnContentClick
                 className={styles.dropdown}
                 contentClassName={styles.dropdownContent}
                 iconName="more"

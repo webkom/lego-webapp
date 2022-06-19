@@ -1,0 +1,61 @@
+@import '~app/styles/variables.css';
+
+.content {
+  background: var(--color-white);
+  border-radius: 3px;
+  border: 1px solid var(--color-mono-gray-4);
+  box-shadow: 0 1px 25px
+    rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 5%);
+  position: absolute;
+  margin-top: 10px;
+  z-index: 2;
+
+  @media (--small-viewport) {
+    width: calc(100% - 10px);
+  }
+
+  h2 {
+    margin: 0;
+    font-size: 1.2rem;
+  }
+}
+
+.arrow {
+  position: absolute;
+  top: 0;
+
+  &::before,
+  &::after {
+    position: absolute;
+    content: '';
+    transform: translateX(-50%);
+    bottom: 0;
+  }
+
+  &::before {
+    border-left: 8.414px solid transparent;
+    border-right: 8.414px solid transparent;
+    border-bottom: 8.414px solid var(--color-mono-gray-4);
+  }
+
+  &::after {
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-bottom: 7px solid var(--color-white);
+  }
+}
+
+.dropdownList > li > a,
+.dropdownList > li > button {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 15px;
+  transition: background 0.1s;
+
+  &:hover {
+    background: linear-gradient(#f5f5f5, #f9f7f7);
+  }
+}

@@ -190,6 +190,7 @@ class SurveyEditor extends Component<Props, State> {
                   templatePickerOpen: !state.templatePickerOpen,
                 }));
               }}
+              closeOnContentClick
             >
               <TemplateTypeDropdownItems
                 survey={survey}

@@ -1,76 +1,59 @@
 // @flow
 
-import type { Node } from 'react';
-
-import { Component } from 'react';
 import { Modal as ReactModal } from 'react-overlays';
 import cx from 'classnames';
 import Icon from 'app/components/Icon';
 import styles from './Modal.css';
 
 type Props = {
-  children: Node,
-  onHide: () => any,
-  closeOnBackdropClick: boolean,
   show: boolean,
-  keyboard: boolean,
-  onKeyDown: (e: KeyboardEvent) => void,
+  children: React$Node,
+  onHide: () => any,
+  backdrop?: boolean,
+  closeOnBackdropClick?: boolean,
+  keyboard?: boolean,
   contentClassName?: string,
   backdropClassName?: string,
-  backdrop?: boolean,
 };
 
 /**
- * A wrapper around react-overlays's modal that comes with a default style, a close
+ * A wrapper around react-overlays' modal that comes with a default style, a close
  * button and support for a `closeOnBackdropClick` prop that lets you disable closing
- * on the modal when clicking on the backdrop. Particurlarly useful for modal
+ * on the modal when clicking on the backdrop. Particularly useful for modal
  * forms where you don't want it to close when users accidentally click outside.
  */
-class Modal extends Component<Props> {
-  static defaultProps = {
-    closeOnBackdropClick: true,
-    keyboard: true,
-    onKeyDown: () => {},
-  };
+const Modal = ({
+  show,
+  children,
+  onHide,
+  backdrop = true,
+  closeOnBackdropClick = true,
+  keyboard = true,
+  contentClassName,
+  backdropClassName,
+}: Props) => (
+  <ReactModal
+    show={show}
+    backdrop={backdrop}
+    onHide={onHide}
+    keyboard={keyboard}
+    renderBackdrop={(props: { onClick: Function }) => (
+      <div
+        {...props}
+        className={backdropClassName || styles.backdrop}
+        onClick={closeOnBackdropClick ? props.onClick : null}
+      />
+    )}
+  >
+    <div className={cx(styles.content, contentClassName)}>
+      <button onClick={onHide} className={styles.closeButton}>
+        <Icon name="close" />
+      </button>
 
-  modal: ?{ renderBackdrop: () => void };
-
-  render() {
-    const {
-      children,
-      onHide,
-      closeOnBackdropClick,
-      backdrop,
-      show,
-      contentClassName,
-      ...props
-    } = this.props;
-    return (
-      <ReactModal
-        ref={(ref) => {
-          this.modal = ref;
-        }}
-        backdropClassName={styles.backdrop}
-        onHide={onHide}
-        show={show}
-        backdrop={closeOnBackdropClick ? backdrop : false}
-        autoFocus={false}
-        {...(props: Object)}
-      >
-        <div>
-          {!closeOnBackdropClick && this.modal && this.modal.renderBackdrop()}
-          <div className={cx(styles.content, contentClassName)}>
-            <button onClick={onHide} className={styles.closeButton}>
-              <Icon name="close" />
-            </button>
-
-            {children}
-          </div>
-        </div>
-      </ReactModal>
-    );
-  }
-}
+      {children}
+    </div>
+  </ReactModal>
+);
 
 export { default as ConfirmModal } from './ConfirmModal';
 export default Modal;

@@ -133,6 +133,7 @@ export default class Quote extends Component<Props, State> {
                   <Dropdown
                     show={displayAdmin}
                     toggle={() => setDisplayAdmin(quote.id)}
+                    closeOnContentClick
                     contentClassName="adminDropdown2"
                     triggerComponent={
                       <Icon

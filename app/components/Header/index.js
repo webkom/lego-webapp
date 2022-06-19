@@ -233,6 +233,7 @@ class Header extends Component<Props, State> {
                       accountOpen: !state.accountOpen,
                     }))
                   }
+                  closeOnContentClick
                   triggerComponent={
                     <ProfilePicture
                       size={30}
@@ -259,6 +260,7 @@ class Header extends Component<Props, State> {
                       shake: false,
                     }))
                   }
+                  closeOnContentClick
                   contentClassName={cx(
                     this.state.shake ? 'animated shake' : '',
                     styles.dropdown
@@ -315,9 +317,10 @@ class Header extends Component<Props, State> {
           <Modal
             show={this.props.searchOpen}
             onHide={this.props.toggleSearch}
-            backdropClassName={styles.backdrop}
-            backdrop
-            autoFocus={false}
+            renderBackdrop={(props) => (
+              <div {...props} className={styles.backdrop} />
+            )}
+            className={styles.modal}
           >
             <Search
               loggedIn={loggedIn}

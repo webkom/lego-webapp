@@ -1,10 +1,7 @@
 // @flow
 
-import { Component } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import Modal from 'app/components/Modal';
 import Time from 'app/components/Time';
-import EventEditor from './EventEditor';
 import styles from './Toolbar.css';
 import type { ActionGrant } from 'app/models';
 import cx from 'classnames';
@@ -13,57 +10,35 @@ type Props = {
   actionGrant: ActionGrant,
 };
 
-type State = {
-  editorOpen: boolean,
-};
+const Toolbar = ({ actionGrant }: Props) => (
+  <div className={styles.root}>
+    <div className={styles.time}>
+      <Time format="ll" className={styles.timeNow} />
+    </div>
 
-class Toolbar extends Component<Props, State> {
-  state = {
-    editorOpen: false,
-  };
+    <NavLink
+      exact
+      to="/events"
+      activeClassName={styles.active}
+      className={cx(styles.pickerItem, styles.list)}
+    >
+      Liste
+    </NavLink>
 
-  render() {
-    const { actionGrant } = this.props;
-    return (
-      <div className={styles.root}>
-        <div className={styles.time}>
-          <Time format="ll" className={styles.timeNow} />
-        </div>
+    <NavLink
+      to="/events/calendar"
+      activeClassName={styles.active}
+      className={cx(styles.pickerItem, styles.calender)}
+    >
+      Kalender
+    </NavLink>
 
-        <NavLink
-          exact
-          to="/events"
-          activeClassName={styles.active}
-          className={cx(styles.pickerItem, styles.list)}
-        >
-          Liste
-        </NavLink>
-
-        <NavLink
-          to="/events/calendar"
-          activeClassName={styles.active}
-          className={cx(styles.pickerItem, styles.calender)}
-        >
-          Kalender
-        </NavLink>
-
-        <div className={styles.create}>
-          {actionGrant?.includes('create') && (
-            <Link to="/events/create">Lag nytt</Link>
-          )}
-        </div>
-
-        <Modal
-          keyboard={false}
-          show={this.state.editorOpen}
-          onHide={() => this.setState({ editorOpen: false })}
-          closeOnBackdropClick={false}
-        >
-          <EventEditor />
-        </Modal>
-      </div>
-    );
-  }
-}
+    <div className={styles.create}>
+      {actionGrant?.includes('create') && (
+        <Link to="/events/create">Lag nytt</Link>
+      )}
+    </div>
+  </div>
+);
 
 export default Toolbar;

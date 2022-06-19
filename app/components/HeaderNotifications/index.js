@@ -91,6 +91,7 @@ export default class NotificationsDropdown extends Component<Props, State> {
                 : this.props.markAllNotifications()
           )
         }
+        closeOnContentClick
         triggerComponent={
           <Icon.Badge
             name="notifications"
