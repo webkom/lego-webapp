@@ -33,6 +33,7 @@ import { RenderErrorMessage } from 'app/components/Form/Field';
 import {
   createValidator,
   ifField,
+  ifNotField,
   legoEditorRequired,
   required,
   timeIsAfter,
@@ -65,7 +66,9 @@ type Props = {
 const validate = createValidator({
   title: [required('Du må gi møtet en tittel')],
   report: [legoEditorRequired('Referatet kan ikke være tomt')],
-  location: [required('Du må gi møtet en lokasjon')],
+  location: [
+    ifNotField('useMazemap', required('Sted eller Mazemap-rom er påkrevd')),
+  ],
   mazemapPoi: [
     ifField('useMazemap', required('Sted eller Mazemap-rom er påkrevd')),
   ],
