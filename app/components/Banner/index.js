@@ -20,26 +20,25 @@ type Props = {
   subHeader?: string,
   link: string,
   color?: Color,
-  // Set to true if the link is internal,
-  // meaning an internal router <Link /> will be used
-  internal?: boolean,
+  internal?: boolean, // true will use internal router: <Link />
 };
 
 const Banner = (props: Props) => {
+  const { header, subHeader, link, color, internal } = props;
   const LinkComponent = ({ children }: { children: Node }) => {
-    return props.internal ? (
-      <Link to={props.link}>{children}</Link>
+    return internal ? (
+      <Link to={link}>{children}</Link>
     ) : (
-      <a href={props.link} target="_blank" rel="noreferrer">
+      <a href={link} target="_blank" rel="noreferrer">
         {children}
       </a>
     );
   };
   return (
     <LinkComponent>
-      <div className={cx(styles.header, props.color)}>
-        <h1>{props.header}</h1>
-        {props.subHeader && <h4>{props.subHeader}</h4>}
+      <div className={cx(styles.header, color)}>
+        <h1>{header}</h1>
+        {subHeader && <h4>{subHeader}</h4>}
       </div>
     </LinkComponent>
   );
