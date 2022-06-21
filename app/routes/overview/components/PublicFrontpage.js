@@ -15,7 +15,7 @@ import truncateString from 'app/utils/truncateString';
 import Time from 'app/components/Time';
 import { readmeIfy } from 'app/components/ReadmeLogo';
 
-//import Banner, { COLORS } from 'app/components/Banner';
+import Banner, { COLORS } from 'app/components/Banner';
 
 type Props = {
   frontpage: Array<Object>,
@@ -81,13 +81,13 @@ class PublicFrontpage extends Component<Props, State> {
 
     return (
       <Container>
-        {/*<Banner
-          header="Velkommen alle nye studenter!"
-          subHeader="Trykk her for informasjon om fadderperioden"
+        <Banner
+          header="Velkommen til fadderperioden 2022!"
+          subHeader="Trykk her for mer informasjon"
+          link="articles/414"
+          color={COLORS.red}
           internal
-          link="/articles/359"
-          color={COLORS.lightBlue}
-        />*/}
+        />
         <Container className={styles.container}>
           <div className={styles.welcome}>
             <h2 className="u-mb">Velkommen til Abakus</h2>
