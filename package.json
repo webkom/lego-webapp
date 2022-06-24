@@ -154,7 +154,7 @@
     "postcss-import": "^14.1.0",
     "postcss-loader": "^7.0.0",
     "postcss-nested": "^5.0.6",
-    "postcss-preset-env": "^7.7.1",
+    "postcss-preset-env": "^7.7.2",
     "prettier": "2.7.1",
     "process": "^0.11.10",
     "react-hot-loader": "^4.13.0",
