@@ -47,9 +47,9 @@ export default class EmailLists extends Component<Props> {
         inlineFiltering: false,
         render: (internalOnly) =>
           internalOnly ? (
-            <Tag color="cyan" tag="Kun for @abakus.no" />
+            <Tag tag="Kun for @abakus.no" color="cyan" />
           ) : (
-            <Tag tag="Alle typer adresser" color="orange" />
+            <Tag tag="Alle typer adresser" color="yellow" />
           ),
       },
     ];

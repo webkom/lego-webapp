@@ -80,12 +80,18 @@ export default class Overview extends Component<Props> {
               <Tag
                 tag={tag.tag}
                 key={tag.tag}
-                color={isSelected ? 'red' : ''}
+                color="blue"
+                active={isSelected}
                 link={isSelected ? '/articles/' : `/articles?tag=${tag.tag}`}
               />
             );
           })}
-          <Tag tag="Vis alle tags..." key="viewmore" link="/tags/" />
+          <Tag
+            tag="Vis alle tags ..."
+            key="viewmore"
+            link="/tags/"
+            color="gray"
+          />
         </Tags>
         <section className={styles.frontpage}>
           <Paginator

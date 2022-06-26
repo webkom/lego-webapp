@@ -1,29 +1,4 @@
-.linkSpacing {
-  margin-right: 8px;
-  display: inline;
-}
-
-.tagLink {
-  color: var(--color-dark-mono-gray-1);
-  border-radius: 4px;
-  padding: 2px 8px;
-  background: var(--lego-color-gray-light);
-  transition: 0.1s;
-}
-
-html[data-theme='dark'] .tagLink {
-  color: var(--lego-color-gray);
-}
-
-.tagLink a,
-.tagLinkSmall a {
-  color: inherit;
-}
-
-.tagLinkSmall {
-  color: var(--color-dark-mono-gray-1);
-  transition: 0.1s;
-}
+/* stylelint-disable indentation */
 
 .tags {
   margin: 20px 0;
@@ -31,42 +6,163 @@ html[data-theme='dark'] .tagLink {
   flex-wrap: wrap;
 }
 
+.linkSpacing {
+  margin-right: 7px;
+  display: inline;
+}
+
+.tag {
+  --label-r: 192;
+  --label-g: 57;
+  --label-b: 43;
+  --label-h: 11;
+  --label-s: 79;
+  --label-l: 47;
+
+  --lightness-threshold: 0.59;
+  --border-threshold: 0.96;
+  --perceived-lightness: calc(
+    (
+        (var(--label-r) * 0.2126) + (var(--label-g) * 0.7152) +
+          (var(--label-b) * 0.0722)
+      ) / 255
+  );
+  --lightness-switch: max(
+    0,
+    min(
+      calc((var(--perceived-lightness) - var(--lightness-threshold)) * -1000),
+      1
+    )
+  );
+  --border-alpha: max(
+    0,
+    min(calc((var(--perceived-lightness) - var(--border-threshold)) * 100), 1)
+  );
+
+  color: hsl(0deg, 0%, calc(var(--lightness-switch) * 100%));
+  background: rgb(var(--label-r), var(--label-g), var(--label-b));
+  border-color: hsla(
+    var(--label-h),
+    calc(var(--label-s) * 1%),
+    calc((var(--label-l) - 25) * 1%),
+    var(--border-alpha)
+  );
+  display: inline-block;
+  padding: 1px 7px;
+  border: 1px solid transparent;
+  border-radius: 2em;
+  font-size: 0.8em;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  line-height: 18px;
+  transition: 125ms cubic-bezier(0.33, 1, 0.68, 1);
+  transition-property: color, background, border-color, box-shadow, opacity;
+}
+
+html[data-theme='dark'] .tag {
+  --lightness-threshold: 0.6;
+  --background-alpha: 0.18;
+  --border-alpha: 0.3;
+  --lighten-by: calc(
+    ((var(--lightness-threshold) - var(--perceived-lightness)) * 100) *
+      var(--lightness-switch)
+  );
+
+  color: hsl(
+    var(--label-h),
+    calc(var(--label-s) * 1%),
+    calc((var(--label-l) + var(--lighten-by)) * 1%)
+  );
+  background: rgba(
+    var(--label-r),
+    var(--label-g),
+    var(--label-b),
+    var(--background-alpha)
+  );
+  border-color: hsla(
+    var(--label-h),
+    calc(var(--label-s) * 1%),
+    calc((var(--label-l) + var(--lighten-by)) * 1%),
+    var(--border-alpha)
+  );
+}
+
+.active,
+.link:hover,
 .link:active {
-  background: #ba1414;
-  color: var(--color-white);
-  transition: 0.2s;
+  opacity: 0.9;
 }
 
-.cyan {
-  color: #00a2ae;
-  background: #cfedf0;
-  border-color: #cfedf0;
+.active {
+  box-shadow: 0 0 0 2.3px
+    rgba(var(--label-r), var(--label-g), var(--label-b), 40%);
 }
 
-.red {
-  background: #bc1010;
-  color: var(--color-white);
+html[data-theme='dark'] .active {
+  color: hsl(0deg, 0%, calc(var(--lightness-switch) * 100%));
+  background: rgb(var(--label-r), var(--label-g), var(--label-b));
+  border-color: rgb(var(--label-r), var(--label-g), var(--label-b));
 }
 
-html[data-theme='dark'] .cyan {
-  color: var(--lego-text-gray);
+.gray {
+  --label-r: 237;
+  --label-g: 237;
+  --label-b: 237;
+  --label-h: 0;
+  --label-s: 0;
+  --label-l: 92;
 }
 
-.orange {
-  color: #f56a00;
-  background: #fde3cf;
-  border-color: #fde3cf;
+.pink {
+  --label-r: 221;
+  --label-g: 35;
+  --label-b: 206;
+  --label-h: 304;
+  --label-s: 73;
+  --label-l: 50;
+}
+
+.yellow {
+  --label-r: 255;
+  --label-g: 207;
+  --label-b: 13;
+  --label-h: 48;
+  --label-s: 100;
+  --label-l: 53;
 }
 
 .green {
-  background: greenyellow;
-  border-color: aquamarine;
+  --label-r: 60;
+  --label-g: 179;
+  --label-b: 113;
+  --label-h: 124;
+  --label-s: 58;
+  --label-l: 49;
 }
 
-html[data-theme='dark'] .green {
-  color: black;
+.cyan {
+  --label-r: 7;
+  --label-g: 117;
+  --label-b: 125;
+  --label-h: 184;
+  --label-s: 89;
+  --label-l: 26;
 }
 
-html[data-theme='dark'] .orange {
-  color: var(--lego-text-gray);
+.blue {
+  --label-r: 3;
+  --label-g: 102;
+  --label-b: 214;
+  --label-h: 211;
+  --label-s: 97;
+  --label-l: 42;
+}
+
+.purple {
+  --label-r: 83;
+  --label-g: 25;
+  --label-b: 231;
+  --label-h: 256;
+  --label-s: 81;
+  --label-l: 50;
 }

@@ -39,13 +39,9 @@ export default class RestrictedMails extends Component<Props> {
         dataIndex: 'used',
         render: (used) =>
           used ? (
-            <Tag
-              clickable={false}
-              color="orange"
-              tag={moment(used).format('lll')}
-            />
+            <Tag tag={moment(used).format('lll')} color="gray" />
           ) : (
-            <Tag clickable={false} color="cyan" tag="Ubrukt" />
+            <Tag tag="Ubrukt" color="yellow" />
           ),
       },
     ];
