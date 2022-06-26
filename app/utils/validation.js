@@ -55,6 +55,9 @@ export const timeIsAfter = (otherField, message) => (value, context) => {
 export const ifField = (field, validator) => (value, context) =>
   context[field] ? validator(value, context) : [true];
 
+export const ifNotField = (field, validator) => (value, context) =>
+  context[field] ? [true] : validator(value, context);
+
 export function createValidator(fieldValidators, rawValidator) {
   return function validate(input) {
     const rawValidatorErrors = rawValidator ? rawValidator(input) : {};
