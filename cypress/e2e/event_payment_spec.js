@@ -18,6 +18,10 @@ describe('Event registration & payment', () => {
       cy.cachedLogin();
     });
 
+    Cypress.on('uncaught:exception', (err, runnable, promise) => {
+      return false;
+    });
+
     const uploadHeader = () => {
       // Upload file
       cy.upload_file(
@@ -49,6 +53,7 @@ describe('Event registration & payment', () => {
       cy.focused().type('Vanlig{enter}', { force: true });
 
       // Set location
+      field('useMazemap').uncheck();
       cy.contains('Sted').click();
       cy.focused().type('R4');
 
@@ -75,7 +80,7 @@ describe('Event registration & payment', () => {
       selectField('pools[0].permissionGroups').click();
       cy.focused().type('Webkom', { force: true });
       selectField('pools[0].permissionGroups')
-        .find('.Select-menu-outer')
+        .find('[id=react-select-pools\\[0\\]\\.permissionGroups-listbox]')
         .should('not.contain', 'No results')
         .and('contain', 'Webkom');
       cy.focused().type('{enter}', { force: true });
@@ -97,23 +102,25 @@ describe('Event registration & payment', () => {
 
     it('Should be possible to register to a paid event and pay', () => {
       cy.visit('localhost:3000/events/54');
+      cy.intercept('https://js.stripe.com/v*/elements*').as('stripeJs');
 
       cy.contains('button', 'Meld deg på')
         .should('exist.and.not.be.disabled')
         .click();
 
-      cy.wait(500);
-
       cy.contains('Du er påmeldt');
       cy.contains('Du skal betale 270,00');
 
-      cy.wait(1000);
+      cy.wait(['@stripeJs', '@stripeJs', '@stripeJs']);
 
       // This card requires 3D secure
       fillCardDetails('4000 0025 0000 3155', '0230', '123');
       cy.contains('button', 'Betal').click();
 
-      cy.wait(6000);
+      cy.intercept('https://hooks.stripe.com/redirect/authenticate/*').as(
+        'stripeHook'
+      );
+      cy.wait('@stripeHook');
       confirm3DSecureDialog();
 
       cy.contains('Du har betalt').should('be.visible');
@@ -126,10 +133,13 @@ describe('Event registration & payment', () => {
     it('Should give appropriate errors when attempting to pay', () => {
       cy.visit('localhost:3000/events/54');
 
+      cy.intercept('https://js.stripe.com/v*/elements*').as('stripeJs');
+
       cy.contains('button', 'Meld deg på')
         .should('exist.and.not.be.disabled')
         .click();
-      cy.wait(1000);
+
+      cy.wait(['@stripeJs', '@stripeJs', '@stripeJs']);
 
       /**
        * See https://stripe.com/docs/testing for the different test cards.
@@ -140,7 +150,10 @@ describe('Event registration & payment', () => {
       cy.contains('button', 'Betal').click();
       stripeError()
         // The first one may take some time (due to calls to stripe API)
-        .contains('sikkerhetskode er ikke korrekt', { timeout: 8000 })
+        .contains(
+          /(sikkerhetskode er ikke korrekt)|(security code is incorrect)/,
+          { timeout: 8000 }
+        )
         .should('be.visible');
       clearCardDetails();
 
@@ -148,14 +161,18 @@ describe('Event registration & payment', () => {
       fillCardDetails('4242 4242 4242 4242', '0210', '123');
       cy.contains('button', 'Betal').click();
       stripeError()
-        .contains('Kortets utløpsår er passert')
+        .contains(
+          /(Kortets utløpsår er passert)|(Your card's expiration year is in the past)/
+        )
         .should('be.visible');
       clearCardDetails();
 
       // Insufficient funds
       fillCardDetails('4000 0000 0000 9995', '0230', '123');
       cy.contains('button', 'Betal').click();
-      stripeError().contains('ikke nok penger').should('be.visible');
+      stripeError()
+        .contains(/(ikke nok penger)|(card has insufficient funds)/)
+        .should('be.visible');
 
       //
     });
@@ -163,10 +180,12 @@ describe('Event registration & payment', () => {
     it('Should be possible to pay with a 3D secure 2 card', () => {
       cy.visit('localhost:3000/events/54');
 
+      cy.intercept('https://js.stripe.com/v*/elements*').as('stripeJs');
+
       cy.contains('button', 'Meld deg på')
         .should('exist.and.not.be.disabled')
         .click();
-      cy.wait(1000);
+      cy.wait(['@stripeJs', '@stripeJs', '@stripeJs']);
 
       /**
        * Test cases defined here: https://stripe.com/docs/testing#regulatory-cards
@@ -175,32 +194,45 @@ describe('Event registration & payment', () => {
       fillCardDetails('4000 0000 0000 3220', '0230', '123');
       cy.contains('button', 'Betal').click();
 
-      cy.wait(6000);
+      cy.intercept('https://js.stripe.com/v3/three-ds-2-challenge*').as(
+        'stripe3ds'
+      );
+      cy.wait('@stripe3ds');
       confirm3DSecure2Dialog();
       cy.contains('Du har betalt').should('be.visible');
     });
 
     it('Should be possible to cancel a confirmation and pay with another card', () => {
       cy.visit('localhost:3000/events/54');
+      cy.intercept('https://js.stripe.com/v*/elements*').as('stripeJs');
 
       cy.contains('button', 'Meld deg på')
         .should('exist.and.not.be.disabled')
         .click();
-      cy.wait(1000);
+      cy.wait(['@stripeJs', '@stripeJs', '@stripeJs']);
 
       fillCardDetails('4000 0000 0000 3063', '0230', '123');
       cy.contains('button', 'Betal').click();
 
-      cy.wait(6000);
+      cy.intercept('https://hooks.stripe.com/redirect/authenticate/*').as(
+        'stripeHook'
+      );
+      cy.wait('@stripeHook');
       confirm3DSecureDialog(false);
       stripeError()
-        .contains('Vi kan ikke verifisere betalingsmåten din')
+        .contains(
+          /(Vi kan ikke verifisere betalingsmåten din)|(We are unable to authenticate your payment method)/
+        )
         .should('be.visible');
 
       clearCardDetails();
       fillCardDetails('4000 0027 6000 3184', '0230', '123');
       cy.contains('button', 'Betal').click();
-      cy.wait(6000);
+
+      cy.intercept('https://hooks.stripe.com/redirect/authenticate/*').as(
+        'stripeHook'
+      );
+      cy.wait('@stripeHook');
       confirm3DSecureDialog();
 
       cy.contains('Du har betalt').should('be.visible');
@@ -208,19 +240,31 @@ describe('Event registration & payment', () => {
 
     it('Should be possible to pay with interruptions in the middle', () => {
       cy.visit('localhost:3000/events/54');
+      cy.intercept('https://js.stripe.com/v*/elements*').as('stripeJs');
 
       cy.contains('button', 'Meld deg på')
         .should('exist.and.not.be.disabled')
         .click();
-      cy.wait(1000);
+      cy.wait(['@stripeJs', '@stripeJs', '@stripeJs']);
+
+      // Intercept payment confirmation and act like it was successful
+      cy.intercept(
+        { method: 'POST', url: 'https://api.stripe.com/**/confirm', times: 1 },
+        {
+          statusCode: 200,
+          body: 'success',
+        }
+      ).as('confirm');
 
       fillCardDetails('3782 8224 6310 005', '0230', '123');
       cy.contains('button', 'Betal').click();
 
+      cy.wait('@confirm');
       cy.reload();
       cy.cachedLogin();
+      cy.intercept('https://js.stripe.com/v*/elements*').as('stripeJs');
 
-      cy.wait(1500);
+      cy.wait(['@stripeJs', '@stripeJs', '@stripeJs']);
       fillCardDetails('3782 8224 6310 005', '0230', '123');
       cy.contains('button', 'Betal').click();
 

@@ -87,15 +87,21 @@ export const confirm3DSecure2Dialog = (confirm = true) => {
 };
 
 export const fillCardDetails = (cardNumber, expiry, cvc) => {
-  cy.get('.__PrivateStripeElement iframe').then((iframe) => {
-    cy.wrap(iframe.contents()[0].body)
-      .find('input[name="cardnumber"]')
-      .type(cardNumber);
-    cy.wrap(iframe.contents()[1].body)
-      .find('input[name="exp-date"]')
-      .type(expiry);
-    cy.wrap(iframe.contents()[2].body).find('input[name="cvc"]').type(cvc);
-  });
+  cy.get('[data-testid="cardnumber-input"] iframe')
+    .its('0.contentDocument.body')
+    .then(cy.wrap)
+    .find('input[name="cardnumber"]')
+    .type(cardNumber);
+  cy.get('[data-testid="expiry-input"] iframe')
+    .its('0.contentDocument.body')
+    .then(cy.wrap)
+    .find('input[name="exp-date"]')
+    .type(expiry);
+  cy.get('[data-testid="cvc-input"] iframe')
+    .its('0.contentDocument.body')
+    .then(cy.wrap)
+    .find('input[name="cvc"]')
+    .type(cvc);
 };
 
 export const clearCardDetails = () => {
