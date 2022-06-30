@@ -147,7 +147,7 @@
     "flow-bin": "0.131.0",
     "identity-obj-proxy": "3.0.0",
     "jest": "^28.1.1",
-    "jest-environment-jsdom": "^28.1.1",
+    "jest-environment-jsdom": "^28.1.2",
     "lolex": "^6.0.0",
     "mini-css-extract-plugin": "^2.6.1",
     "null-loader": "^4.0.1",
