@@ -1776,14 +1776,14 @@
   resolved "https://registry.yarnpkg.com/@rushstack/eslint-patch/-/eslint-patch-1.1.3.tgz#6801033be7ff87a6b7cadaf5b337c9f366a3c4b0"
   integrity sha512-WiBSI6JBIhC6LRIsB2Kwh8DsGTlbBU+mLRxJmAe3LjHTdkDpwIbEOZgoXBbZilk/vlfjK8i6nKRAvIRn1XaIMw==
 
-"@sentry/browser@^6.19.7":
-  version "6.19.7"
-  resolved "https://registry.yarnpkg.com/@sentry/browser/-/browser-6.19.7.tgz#a40b6b72d911b5f1ed70ed3b4e7d4d4e625c0b5f"
-  integrity sha512-oDbklp4O3MtAM4mtuwyZLrgO1qDVYIujzNJQzXmi9YzymJCuzMLSRDvhY83NNDCRxf0pds4DShgYeZdbSyKraA==
+"@sentry/browser@^7.4.0":
+  version "7.4.0"
+  resolved "https://registry.yarnpkg.com/@sentry/browser/-/browser-7.4.0.tgz#3f4a644c6ab45cee26f89fd6623df8ea92b76700"
+  integrity sha512-mnr3WEgL6Rm1NBQiYS+1NIvw3aRnLQRNqhp2bWSyVJ6lewfdHbP94v/cesM+//puj+oSkSpIV97Vs7YWDT61tA==
   dependencies:
-    "@sentry/core" "6.19.7"
-    "@sentry/types" "6.19.7"
-    "@sentry/utils" "6.19.7"
+    "@sentry/core" "7.4.0"
+    "@sentry/types" "7.4.0"
+    "@sentry/utils" "7.4.0"
     tslib "^1.9.3"
 
 "@sentry/core@6.19.7":
@@ -1797,6 +1797,16 @@
     "@sentry/utils" "6.19.7"
     tslib "^1.9.3"
 
+"@sentry/core@7.4.0":
+  version "7.4.0"
+  resolved "https://registry.yarnpkg.com/@sentry/core/-/core-7.4.0.tgz#42711c46cc8d5a06333da71f76b5cc2442136048"
+  integrity sha512-JOqbw57DwDeAnWTzXzMkT/2/LLNxtPIPInLyZThduk300Zs/le4+HDw45F4tJIPEmf+QFdKiZmKh5M/2PrqDNg==
+  dependencies:
+    "@sentry/hub" "7.4.0"
+    "@sentry/types" "7.4.0"
+    "@sentry/utils" "7.4.0"
+    tslib "^1.9.3"
+
 "@sentry/hub@6.19.7":
   version "6.19.7"
   resolved "https://registry.yarnpkg.com/@sentry/hub/-/hub-6.19.7.tgz#58ad7776bbd31e9596a8ec46365b45cd8b9cfd11"
@@ -1804,6 +1814,15 @@
   dependencies:
     "@sentry/types" "6.19.7"
     "@sentry/utils" "6.19.7"
+    tslib "^1.9.3"
+
+"@sentry/hub@7.4.0":
+  version "7.4.0"
+  resolved "https://registry.yarnpkg.com/@sentry/hub/-/hub-7.4.0.tgz#1b3340d5a0fd99a89b60811e96be178128f7d0f7"
+  integrity sha512-7th3MNVxjWiuG8fhzgtxhcLqGSXVUE86NuaRAzUFOzyA/ruXbq2wLb3ulvJsfX+JeiSjkVlCo+Xz21POvZ/vkA==
+  dependencies:
+    "@sentry/types" "7.4.0"
+    "@sentry/utils" "7.4.0"
     tslib "^1.9.3"
 
 "@sentry/integrations@^6.19.7":
@@ -1844,12 +1863,25 @@
   resolved "https://registry.yarnpkg.com/@sentry/types/-/types-6.19.7.tgz#c6b337912e588083fc2896eb012526cf7cfec7c7"
   integrity sha512-jH84pDYE+hHIbVnab3Hr+ZXr1v8QABfhx39KknxqKWr2l0oEItzepV0URvbEhB446lk/S/59230dlUUIBGsXbg==
 
+"@sentry/types@7.4.0":
+  version "7.4.0"
+  resolved "https://registry.yarnpkg.com/@sentry/types/-/types-7.4.0.tgz#b03523ced07da56506ccea18b46b5e6904802292"
+  integrity sha512-vBg7tldxWgBWAtslm8dy3PNpaB206pUObjTYLG3cF69h1gAbWGpZ99lZ6wDsvrEHi+1S9RTIZMHaxJiTRmO/7A==
+
 "@sentry/utils@6.19.7":
   version "6.19.7"
   resolved "https://registry.yarnpkg.com/@sentry/utils/-/utils-6.19.7.tgz#6edd739f8185fd71afe49cbe351c1bbf5e7b7c79"
   integrity sha512-z95ECmE3i9pbWoXQrD/7PgkBAzJYR+iXtPuTkpBjDKs86O3mT+PXOT3BAn79w2wkn7/i3vOGD2xVr1uiMl26dA==
   dependencies:
     "@sentry/types" "6.19.7"
+    tslib "^1.9.3"
+
+"@sentry/utils@7.4.0":
+  version "7.4.0"
+  resolved "https://registry.yarnpkg.com/@sentry/utils/-/utils-7.4.0.tgz#1e967f439f179ae9d09c25c3a0ed5946d9c9e0d6"
+  integrity sha512-5vaEBjnKkEv1kTyTtgAjCmMzD8whB6ojNrswULgyTynRHjd1bGi3BPOOLpBjjzb2nWJwvSMOxBpTHFdRqGIZ7Q==
+  dependencies:
+    "@sentry/types" "7.4.0"
     tslib "^1.9.3"
 
 "@sinclair/typebox@^0.23.3":
@@ -10237,12 +10269,7 @@ tslib@^1.8.1, tslib@^1.9.0, tslib@^1.9.3:
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.14.1.tgz#cf2d38bdc34a134bcaf1091c41f6619e2f672d00"
   integrity sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==
 
-tslib@^2.0.3, tslib@^2.1.0:
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.3.1.tgz#e8a335add5ceae51aa261d32a490158ef042ef01"
-  integrity sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==
-
-tslib@^2.4.0:
+tslib@^2.0.3, tslib@^2.1.0, tslib@^2.4.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.4.0.tgz#7cecaa7f073ce680a05847aa77be941098f36dc3"
   integrity sha512-d6xOpEDfsi2CZVlPQzGeux8XMwLT9hssAsaPYExaQMuYskwb+x1x7J371tWlbBdWHroy99KnVB6qIkUbs5X3UQ==
