@@ -11,6 +11,7 @@ export const COLORS = {
   gray: styles.gray,
   lightBlue: styles.lightBlue,
   itdageneBlue: styles.itdageneBlue,
+  buddyweek2022: styles.buddyweek2022,
 };
 
 type Color = $Keys<typeof COLORS>;
