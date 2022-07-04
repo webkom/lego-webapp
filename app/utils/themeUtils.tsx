@@ -8,7 +8,7 @@ export const applySelectedTheme = (theme) => {
       'data-theme',
       theme === 'auto' ? getOSTheme() : theme
     );
-    global.dispatchEvent(new Event('themeChange'));
+    window.dispatchEvent(new Event('themeChange'));
   }
 };
 
@@ -16,8 +16,6 @@ export const getTheme = (): 'dark' | 'light' =>
   __CLIENT__ && document.documentElement.getAttribute('data-theme') === 'dark'
     ? 'dark'
     : 'light';
-
-export const ThemeContext = createContext<'dark' | 'light'>(getTheme());
 
 export const ThemeContextListener = () => {
   const dispatch = useAppDispatch();

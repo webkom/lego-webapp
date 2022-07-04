@@ -8,6 +8,7 @@ import loggerMiddleware from 'app/store/middleware/loggerMiddleware';
 import createMessageMiddleware from 'app/store/middleware/messageMiddleware';
 import promiseMiddleware from 'app/store/middleware/promiseMiddleware';
 import createSentryMiddleware from 'app/store/middleware/sentryMiddleware';
+import createWebSocketMiddleware from 'app/store/middleware/websocketMiddleware';
 import type { GetCookie } from 'app/types';
 import type { History } from 'history';
 
@@ -51,15 +52,14 @@ const createStore = (
               Sentry
             ),
             Sentry && createSentryMiddleware(Sentry),
-            __CLIENT__ &&
-              require('app/store/middleware/websocketMiddleware').default(),
+            __CLIENT__ && createWebSocketMiddleware(),
             __CLIENT__ && __DEV__ && loggerMiddleware,
           ].filter(Boolean)
         ),
   });
 
-  if (module.hot) {
-    module.hot.accept('app/store/createRootReducer', () => {
+  if (import.meta.hot) {
+    import.meta.hot.accept('app/store/createRootReducer', () => {
       const nextReducer = require('app/store/createRootReducer').default;
 
       store.replaceReducer(nextReducer(history));

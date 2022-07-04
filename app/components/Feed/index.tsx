@@ -2,19 +2,28 @@ import EmptyState from 'app/components/EmptyState';
 import ErrorBoundary from 'app/components/ErrorBoundary';
 import styles from './Feed.module.css';
 import Activity from './activity';
+import * as adminRegistrationRenderer from './renders/adminRegistration';
+import * as announcementRenderer from './renders/announcement';
+import * as commentRenderer from './renders/comment';
+import * as commentReplyRenderer from './renders/comment_reply';
+import * as eventRegisterRenderer from './renders/event_register';
+import * as groupRenderer from './renders/group';
+import * as meetingInvitationRenderer from './renders/meetingInvitation';
+import * as registrationBumpRenderer from './renders/registrationBump';
+import * as restrictedMailRenderer from './renders/restrictedMail';
 import type { AggregatedActivity } from './types';
 import type { ReactNode } from 'react';
 
 export const activityRenderers = {
-  comment: require('./renders/comment'),
-  comment_reply: require('./renders/comment_reply'),
-  meeting_invitation: require('./renders/meetingInvitation'),
-  restricted_mail_sent: require('./renders/restrictedMail'),
-  registration_bump: require('./renders/registrationBump'),
-  admin_registration: require('./renders/adminRegistration'),
-  announcement: require('./renders/announcement'),
-  group_join: require('./renders/group'),
-  event_register: require('./renders/event_register'),
+  comment: commentRenderer,
+  comment_reply: commentReplyRenderer,
+  meeting_invitation: meetingInvitationRenderer,
+  restricted_mail_sent: restrictedMailRenderer,
+  registration_bump: registrationBumpRenderer,
+  admin_registration: adminRegistrationRenderer,
+  announcement: announcementRenderer,
+  group_join: groupRenderer,
+  event_register: eventRegisterRenderer,
 };
 type Props = {
   items: Array<AggregatedActivity>;

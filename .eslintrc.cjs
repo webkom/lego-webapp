@@ -92,8 +92,13 @@ module.exports = {
       node: {
         extensions: ['.js', '.jsx', '.ts', '.tsx'],
       },
-      webpack: {
-        config: './config/webpack.client.js',
+      alias: {
+        map: [
+          ['app', './app'],
+          ['config', './config'],
+          ['node_modules', './node_modules']
+        ],
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
       },
     },
     react: {

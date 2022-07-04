@@ -6,6 +6,7 @@
   "author": "webkom",
   "license": "MIT",
   "scripts": {
+    "vite-dev": "vite dev",
     "start": "webpack --config config/webpack.server.js --mode=development && node ./dist/server.js",
     "start:staging": "API_URL=https://lego-staging.abakus.no/api/v1 BASE_URL=https://lego-staging.abakus.no WS_URL=wss://ws-staging.abakus.no CAPTCHA_KEY=1x00000000000000000000AA ENVIRONMENT=local_staging yarn start",
     "ssr:staging": "API_URL=https://lego-staging.abakus.no/api/v1 BASE_URL=https://lego-staging.abakus.no WS_URL=wss://ws-staging.abakus.no CAPTCHA_KEY=1x00000000000000000000AA yarn ssr",
@@ -15,7 +16,6 @@
     "build:client": "webpack --config config/webpack.client.js --mode=production",
     "build:server": "webpack --config config/webpack.server.js --mode=production",
     "build:dll": "BUILDING_DLL=true webpack --color --config config/webpack.dll.js",
-    "postinstall": "yarn run build:dll",
     "test": "NODE_ENV=test jest",
     "test:coverage": "yarn run test -- --coverage",
     "test:watch": "yarn run test --watch",
@@ -38,6 +38,7 @@
     "@sentry/node": "^7.53.1",
     "@stripe/react-stripe-js": "^1.14.2",
     "@stripe/stripe-js": "^1.46.0",
+    "@vitejs/plugin-react": "^4.0.0",
     "@webkom/lego-editor": "^2.2.0",
     "@webkom/react-meter-bar": "^2.0.0",
     "@webkom/react-prepare": "^1.0.0",
@@ -110,6 +111,7 @@
     "stream-browserify": "^3.0.0",
     "util": "^0.12.5",
     "validator": "^13.9.0",
+    "vite": "^4.3.9",
     "vm-browserify": "^1.1.2",
     "websocket.js": "^0.1.7",
     "zxcvbn": "^4.4.2"
@@ -157,6 +159,7 @@
     "eslint": "^8.42.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-config-react-app": "^7.0.1",
+    "eslint-import-resolver-alias": "^1.1.2",
     "eslint-import-resolver-webpack": "^0.13.2",
     "eslint-plugin-cypress": "^2.13.3",
     "eslint-plugin-import": "^2.27.5",
@@ -249,20 +252,6 @@
   },
   "prettier": {
     "singleQuote": true
-  },
-  "dllPlugin": {
-    "path": "dist-client",
-    "exclude": [
-      "animate.css",
-      "minireset.css",
-      "jsdom",
-      "bunyan",
-      "bunyan-pretty",
-      "@sentry/node",
-      "source-map-support",
-      "convert-source-map",
-      "@webkom/react-meter-bar"
-    ]
   },
   "sideEffects": [
     "*.css",

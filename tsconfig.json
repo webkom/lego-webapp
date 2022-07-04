@@ -2,11 +2,16 @@
   "compilerOptions": {
     "target": "esnext",
     "jsx": "react-jsx",
-    "module": "commonjs",
-    "moduleResolution": "node",
+    "module": "ESNext",
+    "moduleResolution": "Node",
     "baseUrl": "./",
     "paths": {
-      "app/*": ["app/*"]
+      "app/*": [
+        "app/*"
+      ],
+      "config/*": [
+        "config/*"
+      ]
     },
     "allowJs": true,
     "sourceMap": true,
@@ -25,6 +30,9 @@
           "customMatcher": "\\.css$"
         }
       }
+    ],
+    "types": [
+      "vite/client"
     ]
   },
   "include": ["app/**/*", "server/**/*"]
