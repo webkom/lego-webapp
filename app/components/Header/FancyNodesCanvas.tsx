@@ -47,12 +47,12 @@ class FancyNodesCanvas extends Component<Props, State> {
   componentDidMount() {
     this.setState(
       {
-        width: global.innerWidth,
+        width: window.innerWidth,
       },
       () => this.drawGraphics()
     );
-    global.addEventListener('resize', this.handleResize);
-    global.addEventListener('themeChange', this.handleThemeChange);
+    window.addEventListener('resize', this.handleResize);
+    window.addEventListener('themeChange', this.handleThemeChange);
   }
 
   drawGraphics() {
@@ -65,8 +65,8 @@ class FancyNodesCanvas extends Component<Props, State> {
   }
 
   componentWillUnmount() {
-    global.removeEventListener('resize', this.handleResize);
-    global.removeEventListener('themeChange', this.handleThemeChange);
+    window.removeEventListener('resize', this.handleResize);
+    window.removeEventListener('themeChange', this.handleThemeChange);
   }
 
   render() {

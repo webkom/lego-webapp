@@ -4,7 +4,7 @@ export const applySelectedTheme = (theme) => {
       'data-theme',
       theme === 'auto' ? getOSTheme() : theme
     );
-    global.dispatchEvent(new Event('themeChange'));
+    window.dispatchEvent(new Event('themeChange'));
   }
 };
 export const getTheme = () =>

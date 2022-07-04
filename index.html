@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html> <!--data-theme=${serialize(
+      selectedTheme === 'auto' ? 'light' : selectedTheme
+)}-->
+<head>
+  <meta charset="utf-8">
+  <!--helmet-->
+  <!--${helmet ? helmet.title.toString() : ''}-->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta name="theme-color" content="#f2f2f1">
+  <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="Abakus Søk">
+  <link rel="icon" href="/icon-512x512.png" sizes="512x512"/>
+  <link rel="apple-touch-icon" href="/icon-512x512.png" sizes="512x512"/>
+  <link rel="icon" href="/icon-384x384.png" sizes="384x384"/>
+  <link rel="apple-touch-icon" href="/icon-384x384.png" sizes="384x384"/>
+  <link rel="icon" href="/icon-256x256.png" sizes="256x256"/>
+  <link rel="apple-touch-icon" href="/icon-256x256.png" sizes="256x256"/>
+  <link rel="icon" href="/icon-192x192.png" sizes="192x192"/>
+  <link rel="apple-touch-icon" href="/icon-192x192.png" sizes="192x192"/>
+  <link rel="icon" href="/icon-96x96.png" sizes="96x96"/>
+  <link rel="apple-touch-icon" href="/icon-96x96.png" sizes="96x96"/>
+  <link rel="icon" href="/icon-48x48.png" sizes="48x48"/>
+  <link rel="apple-touch-icon" href="/icon-48x48.png" sizes="48x48"/>
+  <!--<link rel="manifest" href="${manifest}">-->
+
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-title" content="Abakus"/>
+
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="https://unpkg.com/ionicons@3.0.0/dist/css/ionicons.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:700|Raleway|Roboto" rel="stylesheet">
+
+  <link
+    rel="search"
+    href="/opensearch.xml"
+    type="application/opensearchdescription+xml"
+    title="Search Abakus"
+  />
+  <!--
+  ${links}
+  ${helmet ? helmet.meta.toString() : ''}
+
+  ${styles}
+  -->
+</head>
+<body>
+<!--${
+// If user has selected auto and device is in dark mode; ensure we update
+// the theme before first render to screen
+selectedTheme === 'auto'
+? `<script>
+  (function () {
+    try {
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches === true) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    } catch (e) {}
+  })();
+</script>`
+: ''
+}-->
+<div id="root"><!--app-body--></div>
+<script type="module" src="/app/index.ts"></script>
+<script>
+  window.__CONFIG__ = {"serverUrl":"https:\u002F\u002Flego-staging.abakus.no\u002Fapi\u002Fv1","wsServerUrl":"wss:\u002F\u002Fws-staging.abakus.no","baseUrl":"https:\u002F\u002Flego-staging.abakus.no","webUrl":"https:\u002F\u002Fwebapp-staging.abakus.no","captchaKey":"6LfS1TQUAAAAAIcxgj4EfkM7lwWeG9efLvS37tCW","stripeKey":"pk_test_VWJmJ3yOunhMBkG71SXyjdqk","sentryDSN":"https:\u002F\u002F681b503d20c24bba90d42cb0037b5495@o309049.ingest.sentry.io\u002F5018548","release":"version-63215e4","environment":"staging","timezone":"Europe\u002FOslo"};
+  window.__PRELOADED_STATE__ = {};
+  window.__IS_SSR__ = false;
+</script>
+<!--${dllPlugin}
+${scripts}-->
+</body>
+</html>
