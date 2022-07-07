@@ -33,7 +33,7 @@
   "dependencies": {
     "@loadable/component": "^5.15.2",
     "@sentry/browser": "^6.19.7",
-    "@sentry/integrations": "^6.19.7",
+    "@sentry/integrations": "^7.5.1",
     "@sentry/node": "^6.19.7",
     "@stripe/react-stripe-js": "^1.9.0",
     "@stripe/stripe-js": "^1.32.0",
