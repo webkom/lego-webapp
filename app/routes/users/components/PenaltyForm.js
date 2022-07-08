@@ -1,20 +1,21 @@
 // @flow
 
-import { compose } from 'redux';
+import { Component } from 'react';
 import { connect } from 'react-redux';
 import cx from 'classnames';
-import { Component } from 'react';
+import { compose } from 'redux';
+import { Field } from 'redux-form';
+
+import { addPenalty } from 'app/actions/UserActions';
 import Button from 'app/components/Button';
 import {
-  legoForm,
   Form,
+  legoForm,
+  SelectInput,
   TextArea,
   TextInput,
-  SelectInput,
   withSubmissionError,
 } from 'app/components/Form';
-import { Field } from 'redux-form';
-import { addPenalty } from 'app/actions/UserActions';
 import type { AddPenalty, ID } from 'app/models';
 
 type Props = {

@@ -1,18 +1,20 @@
 // @flow
 
 import { Component } from 'react';
-import { compose } from 'redux';
 import { connect } from 'react-redux';
 import cx from 'classnames';
-import { getFormMeta, getFormValues, reduxForm, Field } from 'redux-form';
+import { compose } from 'redux';
 import type { FormProps } from 'redux-form';
-import { EditorField } from 'app/components/Form';
-import Button from 'app/components/Button';
-import { ProfilePicture } from 'app/components/Image';
-import { addComment } from 'app/actions/CommentActions';
+import { Field, getFormMeta, getFormValues, reduxForm } from 'redux-form';
+
 import type { CommentEntity } from 'app/actions/CommentActions';
-import styles from './CommentForm.css';
+import { addComment } from 'app/actions/CommentActions';
+import Button from 'app/components/Button';
 import DisplayContent from 'app/components/DisplayContent';
+import { EditorField } from 'app/components/Form';
+import { ProfilePicture } from 'app/components/Image';
+
+import styles from './CommentForm.css';
 
 // TODO: This can be removed if the editor importer gets an actual empty state.
 const EMPTY_STATE = '<p></p>';

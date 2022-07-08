@@ -1,12 +1,13 @@
 // @flow
 
-import { createSelector } from 'reselect';
+import { produce } from 'immer';
 import { get } from 'lodash';
-import { Search } from '../actions/ActionTypes';
 import moment from 'moment-timezone';
+import { createSelector } from 'reselect';
+
 import { resolveGroupLink } from 'app/reducers/groups';
 import { categoryOptions } from 'app/reducers/pages';
-import { produce } from 'immer';
+import { Search } from '../actions/ActionTypes';
 
 export type SearchResult = {
   label: string,

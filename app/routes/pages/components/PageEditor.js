@@ -1,26 +1,28 @@
 // @flow
 
 import { Component } from 'react';
-import { FlexRow } from 'app/components/FlexBox';
+import { get } from 'lodash';
+import { Field, Fields } from 'redux-form';
+
 import Button from 'app/components/Button';
-import LoadingIndicator from 'app/components/LoadingIndicator';
-import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
-import styles from './PageEditor.css';
-import { normalizeObjectPermissions } from 'app/components/Form/ObjectPermissions';
+import { Content } from 'app/components/Content';
+import { FlexRow } from 'app/components/FlexBox';
 import {
   EditorField,
-  TextInput,
   Form,
-  withSubmissionError,
-  SelectInput,
   ObjectPermissions,
+  SelectInput,
+  TextInput,
+  withSubmissionError,
 } from 'app/components/Form';
-import ImageUpload from 'app/components/Upload/ImageUpload';
+import { normalizeObjectPermissions } from 'app/components/Form/ObjectPermissions';
+import LoadingIndicator from 'app/components/LoadingIndicator';
+import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import NavigationTab from 'app/components/NavigationTab';
-import { Field, Fields } from 'redux-form';
-import { Content } from 'app/components/Content';
-import { get } from 'lodash';
+import ImageUpload from 'app/components/Upload/ImageUpload';
 import { categoryOptions } from 'app/reducers/pages';
+
+import styles from './PageEditor.css';
 
 type Page = {
   title: string,

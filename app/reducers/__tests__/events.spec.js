@@ -2,9 +2,8 @@
 // (companies -> events -> index -> frontpage -> events)
 // This import resolves dependencies properly..
 import 'app/reducers';
-
-import events from '../events';
 import { Event } from '../../actions/ActionTypes';
+import events from '../events';
 
 describe('reducers', () => {
   const baseState = {

@@ -1,14 +1,16 @@
 // @flow
 
-import styles from './Calendar.css';
 import { Component } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
+
+import type { ActionGrant, IcalToken } from 'app/models';
 import createMonthlyCalendar from 'app/utils/createMonthlyCalendar';
 import CalendarCell from './CalendarCell';
-import Toolbar from './Toolbar';
 import EventFooter from './EventFooter';
-import type { ActionGrant, IcalToken } from 'app/models';
+import Toolbar from './Toolbar';
+
+import styles from './Calendar.css';
 
 const WEEKDAYS = ['Man', 'Tir', 'Ons', 'Tor', 'Fre', 'Lør', 'Søn'];
 

@@ -1,9 +1,11 @@
 // @flow
 
-import { reduxForm, SubmissionError } from 'redux-form';
-import { handleSubmissionError } from './utils';
 import * as Sentry from '@sentry/browser';
 import { pick } from 'lodash';
+import { reduxForm, SubmissionError } from 'redux-form';
+
+import { handleSubmissionError } from './utils';
+
 type Props = {
   onSubmitFail: (any) => any,
   onSubmit: (any) => Promise<*>,

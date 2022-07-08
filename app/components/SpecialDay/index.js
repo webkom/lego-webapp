@@ -1,5 +1,6 @@
 // @flow
-import { Children, cloneElement, createElement, Component } from 'react';
+import { Children, cloneElement, Component, createElement } from 'react';
+
 import config from 'app/config';
 import AprilFools from './AprilFools';
 

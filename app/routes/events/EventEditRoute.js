@@ -1,30 +1,31 @@
-import { compose } from 'redux';
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
+import moment from 'moment-timezone';
+import { compose } from 'redux';
 import { formValueSelector } from 'redux-form';
+
 import {
-  fetchEvent,
-  editEvent,
   deleteEvent,
+  editEvent,
+  fetchEvent,
   setCoverPhoto,
 } from 'app/actions/EventActions';
 import { uploadFile } from 'app/actions/FileActions';
-import EventEditor from './components/EventEditor';
+import { LoginPage } from 'app/components/LoginForm';
 import {
   selectEventById,
   selectPoolsWithRegistrationsForEvent,
   selectRegistrationsFromPools,
   selectWaitingRegistrationsForEvent,
 } from 'app/reducers/events';
-import { LoginPage } from 'app/components/LoginForm';
+import prepare from 'app/utils/prepare';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import time from 'app/utils/time';
+import EventEditor from './components/EventEditor';
 import {
+  EVENT_CONSTANTS,
   transformEvent,
   transformEventStatusType,
-  EVENT_CONSTANTS,
 } from './utils';
-import time from 'app/utils/time';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import moment from 'moment-timezone';
 
 const mapStateToProps = (state, props) => {
   const eventId = props.match.params.eventId;

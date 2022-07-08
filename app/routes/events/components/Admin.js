@@ -2,9 +2,11 @@
 
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
-import type { ID, Event, ActionGrant } from 'app/models';
+
 import AnnouncementInLine from 'app/components/AnnouncementInLine';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
+import type { ActionGrant, Event, ID } from 'app/models';
+
 import styles from './Admin.css';
 
 type Props = {

@@ -1,7 +1,9 @@
 // @flow
-import loadable from '@loadable/component';
 import { Route, Switch } from 'react-router-dom';
+import loadable from '@loadable/component';
+
 import { UserContext } from 'app/routes/app/AppRoute';
+
 const EventEditRoute = loadable(() => import('./EventEditRoute'));
 const EventAdministrateRoute = loadable(() =>
   import('./EventAdministrateRoute')

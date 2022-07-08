@@ -1,9 +1,11 @@
 // @flow
 
-import { reduxForm, Field } from 'redux-form';
-import { Form, Button, TextInput } from 'app/components/Form';
-import styles from './UpdateAllergies.css';
+import { Field, reduxForm } from 'redux-form';
+
+import { Button, Form, TextInput } from 'app/components/Form';
 import formStyles from 'app/components/Form/Field.css';
+
+import styles from './UpdateAllergies.css';
 
 export type Props = {
   handleSubmit: (Function) => void,

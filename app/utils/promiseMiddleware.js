@@ -1,11 +1,11 @@
 // @flow
 
 import type {
-  Middleware,
+  AnyAction,
   AsyncActionType,
   AsyncActionTypeArray,
+  Middleware,
   PromiseAction,
-  AnyAction,
 } from 'app/types';
 
 function extractTypes(

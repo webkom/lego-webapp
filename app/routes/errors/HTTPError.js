@@ -1,8 +1,9 @@
 // @flow
 
 import { Component } from 'react';
-import { Container, Flex } from 'app/components/Layout';
 import { Link } from 'react-router-dom';
+
+import { Container, Flex } from 'app/components/Layout';
 import renderAbakus from './renderAbakus';
 
 const HTTPMapping = {

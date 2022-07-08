@@ -1,11 +1,12 @@
 // @flow
 import { Route, Switch } from 'react-router-dom';
+
 import RouteWrapper from 'app/components/RouteWrapper';
 import { UserContext } from 'app/routes/app/AppRoute';
-import PollsListRoute from './PollsListRoute';
+import PageNotFound from '../pageNotFound';
 import PollsCreateRoute from './PollsCreateRoute';
 import PollsDetailRoute from './PollsDetailRoute';
-import PageNotFound from '../pageNotFound';
+import PollsListRoute from './PollsListRoute';
 
 const pollsRoute = ({ match }: { match: { path: string } }) => (
   <UserContext.Consumer>

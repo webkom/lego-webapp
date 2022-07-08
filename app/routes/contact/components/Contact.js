@@ -1,11 +1,12 @@
 // @flow
 
-import type { Group } from 'app/models';
 import { Helmet } from 'react-helmet-async';
-import { Content } from 'app/components/Content';
-import ContactForm from './ContactForm';
-import type { ContactForm as ContactFormType } from 'app/reducers/contact';
 import type { FormProps } from 'redux-form';
+
+import { Content } from 'app/components/Content';
+import type { Group } from 'app/models';
+import type { ContactForm as ContactFormType } from 'app/reducers/contact';
+import ContactForm from './ContactForm';
 
 type Props = {
   sendContactMessage: (message: ContactFormType) => Promise<*>,

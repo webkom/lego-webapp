@@ -1,23 +1,24 @@
-import { compose } from 'redux';
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
-import loadingIndicator from 'app/utils/loadingIndicator';
+import { push } from 'connected-react-router';
+import { compose } from 'redux';
+
 import {
-  fetch,
-  deletePicture,
-  updatePicture,
-} from 'app/actions/GalleryPictureActions';
-import {
-  fetchGallery,
   deleteGallery,
+  fetchGallery,
   updateGallery,
   updateGalleryCover,
 } from 'app/actions/GalleryActions';
-import { push } from 'connected-react-router';
-import GalleryEditor from './components/GalleryEditor';
+import {
+  deletePicture,
+  fetch,
+  updatePicture,
+} from 'app/actions/GalleryPictureActions';
+import { objectPermissionsToInitialValues } from 'app/components/Form/ObjectPermissions';
 import { selectGalleryById } from 'app/reducers/galleries';
 import { SelectGalleryPicturesByGalleryId } from 'app/reducers/galleryPictures';
-import { objectPermissionsToInitialValues } from 'app/components/Form/ObjectPermissions';
+import loadingIndicator from 'app/utils/loadingIndicator';
+import prepare from 'app/utils/prepare';
+import GalleryEditor from './components/GalleryEditor';
 
 function mapStateToProps(state, props) {
   const { galleryId } = props.match.params;

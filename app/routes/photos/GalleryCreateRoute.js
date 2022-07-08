@@ -1,9 +1,10 @@
-import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { createGallery } from 'app/actions/GalleryActions';
 import { push } from 'connected-react-router';
-import GalleryEditor from './components/GalleryEditor';
+import { compose } from 'redux';
+
+import { createGallery } from 'app/actions/GalleryActions';
 import { objectPermissionsInitialValues } from 'app/components/Form/ObjectPermissions';
+import GalleryEditor from './components/GalleryEditor';
 
 const mapStateToProps = () => ({
   isNew: true,

@@ -1,9 +1,10 @@
 // @flow
 
 import { createSelector } from 'reselect';
-import createEntityReducer from '../utils/createEntityReducer';
+
+import { type ID, type Tags } from 'app/models';
 import { Poll } from '../actions/ActionTypes';
-import { type Tags, type ID } from 'app/models';
+import createEntityReducer from '../utils/createEntityReducer';
 
 export type OptionEntity = {
   id: number,

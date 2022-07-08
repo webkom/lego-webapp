@@ -1,11 +1,13 @@
 // @flow
 
-import styles from './AnnouncementsList.css';
-import Flex from 'app/components/Layout/Flex';
-import Button from 'app/components/Button';
 import { Link } from 'react-router-dom';
+
+import Button from 'app/components/Button';
+import Flex from 'app/components/Layout/Flex';
 import Time from 'app/components/Time';
 import type { ActionGrant, Announcement, ID } from 'app/models';
+
+import styles from './AnnouncementsList.css';
 
 type Props = {
   announcement: Announcement,

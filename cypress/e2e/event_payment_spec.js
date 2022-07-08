@@ -1,14 +1,14 @@
 import {
   c,
+  clearCardDetails,
+  confirm3DSecure2Dialog,
+  confirm3DSecureDialog,
   field,
   fieldError,
-  selectField,
-  selectEditor,
   fillCardDetails,
-  confirm3DSecureDialog,
-  confirm3DSecure2Dialog,
+  selectEditor,
+  selectField,
   stripeError,
-  clearCardDetails,
 } from '../support/utils.js';
 
 describe('Event registration & payment', () => {

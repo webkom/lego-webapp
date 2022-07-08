@@ -1,5 +1,5 @@
 // @flow
-import { SelectInput, CheckBox } from 'app/components/Form';
+import { CheckBox, SelectInput } from 'app/components/Form';
 import Tooltip from 'app/components/Tooltip';
 
 /*

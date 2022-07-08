@@ -1,26 +1,26 @@
 import { connect } from 'react-redux';
+import { isEmpty } from 'lodash';
+import moment from 'moment-timezone';
 import { compose } from 'redux';
 import { formValueSelector } from 'redux-form';
+
 import { createEvent, fetchEvent } from 'app/actions/EventActions';
 import { uploadFile } from 'app/actions/FileActions';
-import EventEditor from './components/EventEditor';
+import { LoginPage } from 'app/components/LoginForm';
 import {
   selectEventById,
   selectPoolsWithRegistrationsForEvent,
 } from 'app/reducers/events';
-import { LoginPage } from 'app/components/LoginForm';
-import {
-  transformEvent,
-  transformEventStatusType,
-  EVENT_CONSTANTS,
-} from './utils';
-import time from 'app/utils/time';
+import loadingIndicator from 'app/utils/loadingIndicator';
 import prepare from 'app/utils/prepare';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import { isEmpty } from 'lodash';
-
-import loadingIndicator from 'app/utils/loadingIndicator';
-import moment from 'moment-timezone';
+import time from 'app/utils/time';
+import EventEditor from './components/EventEditor';
+import {
+  EVENT_CONSTANTS,
+  transformEvent,
+  transformEventStatusType,
+} from './utils';
 
 const mapStateToProps = (state, props) => {
   const actionGrant = state.events.actionGrant;

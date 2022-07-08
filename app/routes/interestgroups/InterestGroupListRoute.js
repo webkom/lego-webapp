@@ -1,14 +1,15 @@
 // @flow
 
-import { compose } from 'redux';
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
+import { compose } from 'redux';
+
 import { fetchAllWithType } from 'app/actions/GroupActions';
-import InterestGroupList from './components/InterestGroupList';
-import { selectGroupsWithType } from 'app/reducers/groups';
-import { GroupTypeInterest } from 'app/models';
 import { LoginPage } from 'app/components/LoginForm';
+import { GroupTypeInterest } from 'app/models';
+import { selectGroupsWithType } from 'app/reducers/groups';
+import prepare from 'app/utils/prepare';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import InterestGroupList from './components/InterestGroupList';
 
 const groupType = GroupTypeInterest;
 const mapStateToProps = (state) => ({

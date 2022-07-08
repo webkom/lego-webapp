@@ -1,5 +1,6 @@
-import Comment from '../Comment';
 import { shallow } from 'enzyme';
+
+import Comment from '../Comment';
 
 const comment = {
   id: 1,

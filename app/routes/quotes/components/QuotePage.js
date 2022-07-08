@@ -1,15 +1,17 @@
 // @flow
 
-import QuoteList from './QuoteList';
 import { Helmet } from 'react-helmet-async';
-import styles from './Quotes.css';
 import cx from 'classnames';
-import { navigation } from '../utils';
+
 import Button from 'app/components/Button';
-import type { ActionGrant, ID } from 'app/models';
-import type { QuoteEntity } from 'app/reducers/quotes';
-import type { EmojiEntity } from 'app/reducers/emojis';
 import LoadingIndicator from 'app/components/LoadingIndicator';
+import type { ActionGrant, ID } from 'app/models';
+import type { EmojiEntity } from 'app/reducers/emojis';
+import type { QuoteEntity } from 'app/reducers/quotes';
+import { navigation } from '../utils';
+import QuoteList from './QuoteList';
+
+import styles from './Quotes.css';
 
 type Props = {
   reactions: Array<Object>,

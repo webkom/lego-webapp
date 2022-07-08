@@ -1,7 +1,8 @@
 // @flow
 import type { Node } from 'react';
-import type { Allowed } from 'app/reducers/allowed';
+
 import ReadmeLogo from 'app/components/ReadmeLogo';
+import type { Allowed } from 'app/reducers/allowed';
 
 type Link = {|
   key: string,

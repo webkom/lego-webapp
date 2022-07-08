@@ -1,14 +1,14 @@
 // @flow
 
 import type { Node } from 'react';
+import { sortBy } from 'lodash';
+
+import Button from 'app/components/Button';
+import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
-import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
-import type { Semester, CompanySemesterContactedStatus } from 'app/models';
+import type { CompanySemesterContactedStatus, Semester } from 'app/models';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
-import Button from 'app/components/Button';
-
-import { sortBy } from 'lodash';
 
 export const statusStrings = {
   company_presentation: 'Bedpres',

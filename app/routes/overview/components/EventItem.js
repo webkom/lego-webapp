@@ -1,14 +1,16 @@
 // @flow
 
-import { Component } from 'react';
-import type { Event } from 'app/models';
 import type { Element } from 'react';
-import { Image } from 'app/components/Image';
+import { Component } from 'react';
 import { Link } from 'react-router-dom';
+
+import { Image } from 'app/components/Image';
 import { Flex } from 'app/components/Layout';
+import type { Event } from 'app/models';
 import { colorForEvent } from 'app/routes/events/utils';
-import styles from './EventItem.css';
 import { eventStatus } from 'app/utils/eventStatus';
+
+import styles from './EventItem.css';
 
 type Props = {
   item: Event,

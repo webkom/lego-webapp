@@ -1,12 +1,13 @@
 // @flow
 
+import { HelmetProvider } from 'react-helmet-async';
 import { hot } from 'react-hot-loader/root';
-import { ConnectedRouter } from 'connected-react-router';
 import { Provider } from 'react-redux';
+import { ConnectedRouter } from 'connected-react-router';
+
+import ErrorBoundary from 'app/components/ErrorBoundary';
 import type { Store } from 'app/types';
 import RouteConfig from './routes';
-import ErrorBoundary from 'app/components/ErrorBoundary';
-import { HelmetProvider } from 'react-helmet-async';
 
 type Props = {
   store: Store,

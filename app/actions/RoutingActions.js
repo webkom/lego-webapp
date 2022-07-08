@@ -1,7 +1,7 @@
 // @flow
 
-import { Routing } from './ActionTypes';
 import type { Action } from 'app/types';
+import { Routing } from './ActionTypes';
 
 export function setStatusCode(statusCode: ?number): Action {
   return {

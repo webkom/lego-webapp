@@ -1,21 +1,21 @@
 import { connect } from 'react-redux';
+import { push } from 'connected-react-router';
+import qs from 'qs';
 import { compose } from 'redux';
-import { addSurvey, fetchTemplate } from '../../actions/SurveyActions';
 import { formValueSelector } from 'redux-form';
+
+import { fetchEvent } from 'app/actions/EventActions';
+import { LoginPage } from 'app/components/LoginForm';
+import { selectEventById } from 'app/reducers/events';
+import { selectSurveyTemplate } from 'app/reducers/surveys';
+import loadingIndicator from 'app/utils/loadingIndicator';
+import prepare from 'app/utils/prepare';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import { addSurvey, fetchTemplate } from '../../actions/SurveyActions';
 import SurveyEditor, {
   initialQuestion,
 } from './components/SurveyEditor/SurveyEditor';
-import { LoginPage } from 'app/components/LoginForm';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import { push } from 'connected-react-router';
-
-import prepare from 'app/utils/prepare';
-import { selectSurveyTemplate } from 'app/reducers/surveys';
-import { fetchEvent } from 'app/actions/EventActions';
-import { selectEventById } from 'app/reducers/events';
 import { defaultActiveFrom } from './utils';
-import loadingIndicator from 'app/utils/loadingIndicator';
-import qs from 'qs';
 
 const loadData = (props, dispatch) => {
   const { templateType, event } = qs.parse(props.location.search, {

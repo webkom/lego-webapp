@@ -1,9 +1,10 @@
 // @flow
 
-import styles from './AttendanceStatus.css';
-import withModal from './withModal';
-import type { EventPool } from 'app/models';
 import Button from 'app/components/Button';
+import type { EventPool } from 'app/models';
+import withModal from './withModal';
+
+import styles from './AttendanceStatus.css';
 
 type AttendanceElementProps = {
   pool: EventPool,

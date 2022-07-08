@@ -1,11 +1,12 @@
 /** @flow */
 
 import type { Node, Portal } from 'react';
-
 import { useRef } from 'react';
 import { Overlay } from 'react-overlays';
 import cx from 'classnames';
+
 import Icon from 'app/components/Icon';
+
 import styles from './Dropdown.css';
 
 type Props = {

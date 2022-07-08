@@ -1,17 +1,18 @@
 // @flow
-import { compose } from 'redux';
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
-import UserSettingsOAuth2 from './components/UserSettingsOAuth2';
+import { compose } from 'redux';
+
 import {
+  deleteOAuth2Grant,
   fetchOAuth2Applications,
   fetchOAuth2Grants,
-  deleteOAuth2Grant,
 } from 'app/actions/OAuth2Actions';
 import {
   selectOAuth2Applications,
   selectOAuth2Grants,
 } from 'app/reducers/oauth2';
+import prepare from 'app/utils/prepare';
+import UserSettingsOAuth2 from './components/UserSettingsOAuth2';
 
 const loadData = (props, dispatch) => {
   return Promise.all([

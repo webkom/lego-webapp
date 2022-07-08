@@ -1,10 +1,12 @@
 // @flow
 
 import { Component } from 'react';
-import Podcast from './Podcast.js';
+
 import { Content } from 'app/components/Content';
-import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import Icon from 'app/components/Icon';
+import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
+import Podcast from './Podcast.js';
+
 import styles from './PodcastList.css';
 
 type Props = {

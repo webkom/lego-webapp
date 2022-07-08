@@ -1,18 +1,18 @@
 // @flow
 
+import Tooltip from 'app/components/Tooltip';
 import type {
-  EventRegistrationPresence,
   EventRegistrationPaymentStatus,
   EventRegistrationPhotoConsent,
+  EventRegistrationPresence,
 } from 'app/models';
 import {
-  paymentPending,
   paymentCardDeclined,
-  paymentSuccess,
-  paymentManual,
   paymentCardExpired,
+  paymentManual,
+  paymentPending,
+  paymentSuccess,
 } from '../utils';
-import Tooltip from 'app/components/Tooltip';
 
 type Props = {
   registration: Object,

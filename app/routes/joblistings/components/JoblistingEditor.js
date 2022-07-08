@@ -2,29 +2,29 @@
 
 import { Component } from 'react';
 import { Helmet } from 'react-helmet-async';
-import styles from './JoblistingEditor.css';
-import LoadingIndicator from 'app/components/LoadingIndicator';
-import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
+import moment from 'moment-timezone';
+import { type FormProps, change, Field, SubmissionError } from 'redux-form';
 
-import { Field, SubmissionError, change, type FormProps } from 'redux-form';
-import { httpCheck } from 'app/routes/bdb/utils';
+import Button from 'app/components/Button';
+import { Content } from 'app/components/Content';
 import {
-  TextInput,
+  DatePicker,
   EditorField,
   Form,
-  SelectInput,
-  DatePicker,
   legoForm,
+  SelectInput,
+  TextInput,
 } from 'app/components/Form';
-import Button from 'app/components/Button';
-import moment from 'moment-timezone';
-import { Content } from 'app/components/Content';
 import { Flex } from 'app/components/Layout';
-import { places, jobTypes, yearValues } from '../constants';
-import { validYoutubeUrl } from 'app/utils/validation';
-
-import type { Joblisting, Workplace, ID } from 'app/models';
+import LoadingIndicator from 'app/components/LoadingIndicator';
+import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import NavigationTab from 'app/components/NavigationTab';
+import type { ID, Joblisting, Workplace } from 'app/models';
+import { httpCheck } from 'app/routes/bdb/utils';
+import { validYoutubeUrl } from 'app/utils/validation';
+import { jobTypes, places, yearValues } from '../constants';
+
+import styles from './JoblistingEditor.css';
 
 type SelectInputObject = {
   label: string,

@@ -2,17 +2,18 @@
 
 import { Component } from 'react';
 import { get } from 'lodash';
-import type { SearchResult } from 'app/reducers/search';
-import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
-import styles from './Abacard.css';
-import Modal from 'app/components/Modal';
-import Validator from 'app/components/UserValidator';
 
+import Modal from 'app/components/Modal';
+import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
+import Validator from 'app/components/UserValidator';
 import type {
+  Event,
   EventRegistration,
   EventRegistrationPhotoConsent,
-  Event,
 } from 'app/models';
+import type { SearchResult } from 'app/reducers/search';
+
+import styles from './Abacard.css';
 
 type State = {
   resolve: ?() => Promise<*>,

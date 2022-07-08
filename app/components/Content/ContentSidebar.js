@@ -2,7 +2,9 @@
 
 import type { Node } from 'react';
 import cx from 'classnames';
+
 import { Flex } from 'app/components/Layout';
+
 import styles from './ContentSidebar.css';
 
 type Props = {

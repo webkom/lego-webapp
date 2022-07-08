@@ -1,5 +1,6 @@
 // @flow
 import type { AsyncActionType } from 'app/types';
+
 const generateStatuses = (name: string): AsyncActionType => ({
   BEGIN: `${name}.BEGIN`,
   SUCCESS: `${name}.SUCCESS`,

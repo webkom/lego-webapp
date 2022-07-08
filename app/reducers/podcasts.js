@@ -1,6 +1,7 @@
 // @flow
 
 import { createSelector } from 'reselect';
+
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { Podcast } from '../actions/ActionTypes';
 

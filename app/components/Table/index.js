@@ -1,19 +1,18 @@
 // @flow
 
 import type { Node } from 'react';
-
 import { Component } from 'react';
+import InfiniteScroll from 'react-infinite-scroller';
+import cx from 'classnames';
+import { debounce, get, isEmpty } from 'lodash';
+
+import Dropdown from 'app/components/Dropdown';
+import { CheckBox, RadioButton, TextInput } from 'app/components/Form';
 import Icon from 'app/components/Icon';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import { TextInput, CheckBox, RadioButton } from 'app/components/Form';
-import { debounce, isEmpty, get } from 'lodash';
-import cx from 'classnames';
-
-import InfiniteScroll from 'react-infinite-scroller';
-import styles from './Table.css';
-
 import Button from '../Button';
-import Dropdown from 'app/components/Dropdown';
+
+import styles from './Table.css';
 
 type sortProps = {
   direction?: 'asc' | 'desc',

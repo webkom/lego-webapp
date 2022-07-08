@@ -1,10 +1,11 @@
 // @flow
 
-import { Podcast } from './ActionTypes';
-import { podcastSchema } from 'app/reducers';
-import callAPI from 'app/actions/callAPI';
-import type { Thunk } from 'app/types';
 import { push } from 'connected-react-router';
+
+import callAPI from 'app/actions/callAPI';
+import { podcastSchema } from 'app/reducers';
+import type { Thunk } from 'app/types';
+import { Podcast } from './ActionTypes';
 
 export function fetchPodcasts(): Thunk<any> {
   return callAPI({

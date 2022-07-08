@@ -1,11 +1,13 @@
 // @flow
 
-import styles from './ConfirmModal.css';
 import type { ComponentType, Node } from 'react';
-import { Component, Children, cloneElement } from 'react';
+import { Children, cloneElement, Component } from 'react';
 import { get } from 'lodash';
+
 import Modal from 'app/components/Modal';
 import Button from '../Button';
+
+import styles from './ConfirmModal.css';
 
 type ConfirmModalProps = {
   onConfirm?: () => Promise<*>,

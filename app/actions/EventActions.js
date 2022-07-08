@@ -1,17 +1,18 @@
 // @flow
 
 import { push } from 'connected-react-router';
-import {
-  eventSchema,
-  eventAdministrateSchema,
-  followersEventSchema,
-} from 'app/reducers';
-import createQueryString from 'app/utils/createQueryString';
+
 import callAPI from 'app/actions/callAPI';
-import { Event } from './ActionTypes';
 import { addToast } from 'app/actions/ToastActions';
 import type { EventRegistrationPresence } from 'app/models';
-import type { Thunk, Action } from 'app/types';
+import {
+  eventAdministrateSchema,
+  eventSchema,
+  followersEventSchema,
+} from 'app/reducers';
+import type { Action, Thunk } from 'app/types';
+import createQueryString from 'app/utils/createQueryString';
+import { Event } from './ActionTypes';
 
 export const waitinglistPoolId = -1;
 

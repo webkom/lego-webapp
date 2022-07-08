@@ -1,5 +1,5 @@
-import companySemesters from '../companySemesters';
 import { Company } from '../../actions/ActionTypes';
+import companySemesters from '../companySemesters';
 
 describe('reducers', () => {
   describe('company semester', () => {

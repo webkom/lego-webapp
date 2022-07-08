@@ -1,20 +1,21 @@
 // @flow
 
-import { semesterToText } from '../routes/companyInterest/utils';
-import { Company, Event, Joblistings } from './ActionTypes';
+import { push } from 'connected-react-router';
+import { startSubmit, stopSubmit } from 'redux-form';
+
 import callAPI from 'app/actions/callAPI';
+import { addToast } from 'app/actions/ToastActions';
 import {
   companySchema,
   companySemesterSchema,
   eventSchema,
   joblistingsSchema,
 } from 'app/reducers';
-import createQueryString from 'app/utils/createQueryString';
-import { startSubmit, stopSubmit } from 'redux-form';
-import { push } from 'connected-react-router';
-import type { Thunk } from 'app/types';
-import { addToast } from 'app/actions/ToastActions';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
+import type { Thunk } from 'app/types';
+import createQueryString from 'app/utils/createQueryString';
+import { semesterToText } from '../routes/companyInterest/utils';
+import { Company, Event, Joblistings } from './ActionTypes';
 
 export const fetchAll = ({ fetchMore }: { fetchMore: boolean }): Thunk<*> => {
   return callAPI({

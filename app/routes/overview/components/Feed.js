@@ -1,14 +1,15 @@
 // @flow
 
 import { Link } from 'react-router-dom';
-import styles from './Feed.css';
 
-import { activityRenderers } from 'app/components/Feed';
-import type { AggregatedActivity } from 'app/components/Feed/types';
-import { toSpan } from 'app/components/Feed/context';
 import EmptyState from 'app/components/EmptyState';
-import Time from 'app/components/Time';
 import ErrorBoundary from 'app/components/ErrorBoundary';
+import { activityRenderers } from 'app/components/Feed';
+import { toSpan } from 'app/components/Feed/context';
+import type { AggregatedActivity } from 'app/components/Feed/types';
+import Time from 'app/components/Time';
+
+import styles from './Feed.css';
 
 type Props = {
   feedItems: Array<any>,

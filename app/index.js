@@ -1,12 +1,19 @@
 // @flow
 /* eslint no-console: 0 */
 
+import * as Sentry from '@sentry/browser';
+import cookie from 'js-cookie';
+import moment from 'moment-timezone';
+
+import { fetchMeta } from 'app/actions/MetaActions';
+import {
+  loginAutomaticallyIfPossible,
+  maybeRefreshToken,
+} from 'app/actions/UserActions';
+import config from 'app/config';
+import configureStore, { history } from 'app/utils/configureStore';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
-import 'animate.css/animate.css';
-import 'minireset.css/minireset.css';
-import 'app/styles/globals.css';
-import 'app/styles/icomoon.css';
 import 'app/assets/manifest.json';
 import 'app/assets/favicon.png';
 import 'app/assets/icon-48x48.png';
@@ -17,18 +24,13 @@ import 'app/assets/icon-384x384.png';
 import 'app/assets/icon-512x512.png';
 // $FlowFixMe
 import 'app/assets/opensearch.xml';
-import moment from 'moment-timezone';
 import 'moment/locale/nb';
-import cookie from 'js-cookie';
-import config from 'app/config';
-import * as Sentry from '@sentry/browser';
-import configureStore, { history } from 'app/utils/configureStore';
 import renderApp from './render';
-import { fetchMeta } from 'app/actions/MetaActions';
-import {
-  loginAutomaticallyIfPossible,
-  maybeRefreshToken,
-} from 'app/actions/UserActions';
+
+import 'animate.css/animate.css';
+import 'minireset.css/minireset.css';
+import 'app/styles/globals.css';
+import 'app/styles/icomoon.css';
 
 console.error(`
                      \`smMMms\`

@@ -1,9 +1,11 @@
 // @flow
 
 import type { Node } from 'react';
-import styles from './EmptyState.css';
-import Icon from '../Icon';
 import cx from 'classnames';
+
+import Icon from '../Icon';
+
+import styles from './EmptyState.css';
 
 type Props = {
   /** name of icon */

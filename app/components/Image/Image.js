@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import cx from 'classnames';
+
 import styles from './Image.css';
 
 type Props = {

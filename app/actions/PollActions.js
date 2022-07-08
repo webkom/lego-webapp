@@ -1,12 +1,13 @@
 // @flow
 
-import callAPI from './callAPI';
-import { Poll } from './ActionTypes';
-import { pollSchema } from '../reducers';
 import { push } from 'connected-react-router';
-import type { Thunk } from 'app/types';
-import { type OptionEntity } from 'app/reducers/polls';
+
 import { type Tags } from 'app/models';
+import { type OptionEntity } from 'app/reducers/polls';
+import type { Thunk } from 'app/types';
+import { pollSchema } from '../reducers';
+import { Poll } from './ActionTypes';
+import callAPI from './callAPI';
 
 export function fetchAll({ next = false }: { next: boolean } = {}): Thunk<*> {
   return (dispatch, getState) => {

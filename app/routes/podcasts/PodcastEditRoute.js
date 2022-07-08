@@ -1,16 +1,16 @@
-import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { push } from 'connected-react-router';
+import { compose } from 'redux';
 
-import { selectPodcastById } from 'app/reducers/podcasts';
 import {
-  fetchPodcasts,
   deletePodcast,
   editPodcast,
+  fetchPodcasts,
 } from 'app/actions/PodcastAction';
+import { selectPodcastById } from 'app/reducers/podcasts';
+import loadingIndicator from 'app/utils/loadingIndicator';
 import prepare from 'app/utils/prepare';
 import PodcastEditor from './components/PodcastEditor';
-import { push } from 'connected-react-router';
-import loadingIndicator from 'app/utils/loadingIndicator';
 
 const mapDispachToProps = {
   deletePodcast,

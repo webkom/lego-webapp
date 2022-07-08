@@ -1,15 +1,17 @@
 // @flow
 
-import styles from './AnnouncementsList.css';
 import { Helmet } from 'react-helmet-async';
-import Flex from 'app/components/Layout/Flex';
-import { Form, SelectInput, TextArea } from 'app/components/Form';
-import { reduxForm, Field, reset } from 'redux-form';
+import { connect } from 'react-redux';
+import { Field, reduxForm, reset } from 'redux-form';
+
 import Button from 'app/components/Button';
 import { ContentMain } from 'app/components/Content';
+import { Form, SelectInput, TextArea } from 'app/components/Form';
+import Flex from 'app/components/Layout/Flex';
 import type { ActionGrant, CreateAnnouncement } from 'app/models';
-import { connect } from 'react-redux';
 import { selectAutocomplete } from 'app/reducers/search';
+
+import styles from './AnnouncementsList.css';
 
 type Props = {
   createAnnouncement: (CreateAnnouncement) => Promise<*>,

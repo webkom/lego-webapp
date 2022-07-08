@@ -1,8 +1,9 @@
 // @flow
 
 import { createSelector } from 'reselect';
+
 import createEntityReducer from 'app/utils/createEntityReducer';
-import { Membership, Group } from '../actions/ActionTypes';
+import { Group, Membership } from '../actions/ActionTypes';
 
 export default createEntityReducer({
   key: 'memberships',

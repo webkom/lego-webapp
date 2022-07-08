@@ -1,10 +1,11 @@
-import { compose } from 'redux';
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
-import { fetch } from 'app/actions/GalleryActions';
 import { push } from 'connected-react-router';
-import Overview from './components/Overview';
+import { compose } from 'redux';
+
+import { fetch } from 'app/actions/GalleryActions';
 import { selectGalleries } from 'app/reducers/galleries';
+import prepare from 'app/utils/prepare';
+import Overview from './components/Overview';
 
 const mapStateToProps = (state) => {
   const actionGrant = state.galleries.actionGrant;

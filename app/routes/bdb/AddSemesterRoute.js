@@ -1,21 +1,22 @@
 import { connect } from 'react-redux';
+import moment from 'moment-timezone';
 import { compose } from 'redux';
 import { reduxForm } from 'redux-form';
-import {
-  addSemesterStatus,
-  fetchSemesters,
-  addSemester,
-  fetchAllAdmin,
-  deleteCompany,
-} from '../../actions/CompanyActions';
-import { selectCompanies } from 'app/reducers/companies';
-import AddSemester from './components/AddSemester';
-import moment from 'moment-timezone';
-import { LoginPage } from 'app/components/LoginForm';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+
 import { uploadFile } from 'app/actions/FileActions';
-import prepare from 'app/utils/prepare';
+import { LoginPage } from 'app/components/LoginForm';
+import { selectCompanies } from 'app/reducers/companies';
 import { selectCompanySemesters } from 'app/reducers/companySemesters';
+import prepare from 'app/utils/prepare';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import {
+  addSemester,
+  addSemesterStatus,
+  deleteCompany,
+  fetchAllAdmin,
+  fetchSemesters,
+} from '../../actions/CompanyActions';
+import AddSemester from './components/AddSemester';
 import { semesterCodeToName } from './utils.js';
 
 const validateSemesterStatus = (data, props) => {

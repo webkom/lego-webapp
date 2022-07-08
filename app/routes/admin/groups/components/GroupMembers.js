@@ -1,23 +1,25 @@
 // @flow
 
 import { connect } from 'react-redux';
-import { compose } from 'redux';
-import LoadingIndicator from 'app/components/LoadingIndicator';
-import GroupMembersList from './GroupMembersList';
-import AddGroupMember from './AddGroupMember';
-import prepare from 'app/utils/prepare';
 import { push } from 'connected-react-router';
-import styles from './GroupMembers.css';
+import qs from 'qs';
+import { compose } from 'redux';
+
+import type { AddMemberArgs } from 'app/actions/GroupActions';
 import {
+  addMember,
   fetchMemberships,
   fetchMembershipsPagination,
-  addMember,
   removeMember,
 } from 'app/actions/GroupActions';
+import LoadingIndicator from 'app/components/LoadingIndicator';
 import { selectMembershipsForGroup } from 'app/reducers/memberships';
 import { selectPaginationNext } from 'app/reducers/selectors';
-import type { AddMemberArgs } from 'app/actions/GroupActions';
-import qs from 'qs';
+import prepare from 'app/utils/prepare';
+import AddGroupMember from './AddGroupMember';
+import GroupMembersList from './GroupMembersList';
+
+import styles from './GroupMembers.css';
 
 type Props = {
   groupId: number,

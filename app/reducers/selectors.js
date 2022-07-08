@@ -2,6 +2,7 @@
 
 import { get, isArray } from 'lodash';
 import { type Schema } from 'normalizr';
+
 import createQueryString from 'app/utils/createQueryString';
 
 export const selectPagination =

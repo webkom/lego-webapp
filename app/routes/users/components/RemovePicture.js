@@ -1,9 +1,11 @@
 // @flow
 
 import { Component } from 'react';
+
 import Button from 'app/components/Button';
-import styles from './RemovePicture.css';
 import Icon from 'app/components/Icon';
+
+import styles from './RemovePicture.css';
 
 type Props = {
   removePicture: (string) => Promise<*>,

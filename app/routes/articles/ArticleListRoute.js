@@ -1,14 +1,15 @@
-import { compose } from 'redux';
 import { connect } from 'react-redux';
+import qs from 'qs';
+import { compose } from 'redux';
+
 import { fetchAll } from 'app/actions/ArticleActions';
-import Overview from './components/Overview';
+import { fetchPopular } from 'app/actions/TagActions';
 import { selectArticles } from 'app/reducers/articles';
 import { selectPaginationNext } from 'app/reducers/selectors';
+import { selectPopularTags } from 'app/reducers/tags';
 import { selectUserById } from 'app/reducers/users';
 import prepare from 'app/utils/prepare';
-import { fetchPopular } from 'app/actions/TagActions';
-import { selectPopularTags } from 'app/reducers/tags';
-import qs from 'qs';
+import Overview from './components/Overview';
 
 const mapStateToProps = (state, props) => {
   const query = {

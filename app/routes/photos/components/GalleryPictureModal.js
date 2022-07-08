@@ -1,23 +1,25 @@
 // @flow
 
 import { Component, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { LEFT, RIGHT, useSwipeable } from 'react-swipeable';
+import throttle from 'lodash/throttle';
+
+import Button from 'app/components/Button';
+import CommentView from 'app/components/Comments/CommentView';
+import { Content } from 'app/components/Content';
+import Dropdown from 'app/components/Dropdown';
+import Icon from 'app/components/Icon';
+import { Image } from 'app/components/Image';
+import { Flex } from 'app/components/Layout';
+import Modal from 'app/components/Modal';
+import ProgressiveImage from 'app/components/ProgressiveImage';
+import type { ID } from 'app/models';
+import type { EntityID } from 'app/types';
 import { Keyboard } from '../../../utils/constants';
 import GalleryDetailsRow from './GalleryDetailsRow';
-import { Flex } from 'app/components/Layout';
-import { Content } from 'app/components/Content';
-import Icon from 'app/components/Icon';
-import throttle from 'lodash/throttle';
-import ProgressiveImage from 'app/components/ProgressiveImage';
-import Dropdown from 'app/components/Dropdown';
-import { Link } from 'react-router-dom';
-import CommentView from 'app/components/Comments/CommentView';
-import Modal from 'app/components/Modal';
+
 import styles from './GalleryPictureModal.css';
-import { useSwipeable, RIGHT, LEFT } from 'react-swipeable';
-import type { EntityID } from 'app/types';
-import type { ID } from 'app/models';
-import Button from 'app/components/Button';
-import { Image } from 'app/components/Image';
 
 type Props = {
   picture: Object,

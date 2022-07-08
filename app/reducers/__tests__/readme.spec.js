@@ -1,5 +1,5 @@
-import readme from '../readme';
 import { Readme } from '../../actions/ActionTypes';
+import readme from '../readme';
 
 describe('reducers', () => {
   describe('readme', () => {

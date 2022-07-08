@@ -1,19 +1,19 @@
 // @flow
 
+import type { FormProps } from 'redux-form';
 import { Field } from 'redux-form';
-import type { Group } from 'app/models';
 
 import Button from 'app/components/Button';
 import {
-  Form,
-  TextInput,
-  TextArea,
-  CheckBox,
   Captcha,
+  CheckBox,
+  Form,
   SelectInput,
+  TextArea,
+  TextInput,
 } from 'app/components/Form';
+import type { Group } from 'app/models';
 import type { ContactForm as ContactFormType } from 'app/reducers/contact';
-import type { FormProps } from 'redux-form';
 
 type Props = FormProps & {
   sendContactMessage: (message: ContactFormType) => Promise<*>,

@@ -1,5 +1,5 @@
-import comments, { mutateComments } from '../comments';
 import { Comment } from '../../actions/ActionTypes';
+import comments, { mutateComments } from '../comments';
 
 describe('reducers', () => {
   describe('comments', () => {

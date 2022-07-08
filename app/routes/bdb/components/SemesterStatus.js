@@ -1,15 +1,17 @@
 // @flow
 
 import { Component } from 'react';
-import styles from './bdb.css';
+
+import type { CompanySemesterContactedStatus } from 'app/models';
+import type { BaseSemesterStatusEntity } from 'app/reducers/companies';
 import {
+  getContactedStatuses,
   selectColorCode,
   selectMostProminentStatus,
-  getContactedStatuses,
 } from '../utils.js';
 import SemesterStatusContent from './SemesterStatusContent';
-import type { BaseSemesterStatusEntity } from 'app/reducers/companies';
-import type { CompanySemesterContactedStatus } from 'app/models';
+
+import styles from './bdb.css';
 
 type Props = {
   semesterStatus: BaseSemesterStatusEntity,

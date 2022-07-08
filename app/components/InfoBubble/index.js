@@ -1,9 +1,11 @@
 // @flow
 
 import type { Node } from 'react';
-import styles from './InfoBubble.css';
-import Icon from 'app/components/Icon';
 import cx from 'classnames';
+
+import Icon from 'app/components/Icon';
+
+import styles from './InfoBubble.css';
 
 type Props = {
   /** Icon name */

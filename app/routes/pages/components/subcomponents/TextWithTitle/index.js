@@ -1,5 +1,6 @@
 //@flow
 import type { Node } from 'react';
+
 import styles from './TextWithTitle.css';
 
 type Props = {

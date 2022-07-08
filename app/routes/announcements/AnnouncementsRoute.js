@@ -1,18 +1,19 @@
 // @flow
 
-import { compose } from 'redux';
 import { connect } from 'react-redux';
-import AnnouncementsList from './components/AnnouncementsList';
+import { compose } from 'redux';
+
 import {
-  fetchAll,
   createAnnouncement,
-  sendAnnouncement,
   deleteAnnouncement,
+  fetchAll,
+  sendAnnouncement,
 } from 'app/actions/AnnouncementsActions';
 import { LoginPage } from 'app/components/LoginForm';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { selectAnnouncements } from 'app/reducers/announcements';
 import prepare from 'app/utils/prepare';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import AnnouncementsList from './components/AnnouncementsList';
 
 const mapStateToProps = (state, props) => {
   const announcements = selectAnnouncements(state);

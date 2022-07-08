@@ -1,10 +1,10 @@
 // @flow
 
 import type { Node } from 'react';
-
 import { useRef, useState } from 'react';
 import { Overlay } from 'react-overlays';
 import cx from 'classnames';
+
 import styles from './Popover.css';
 
 type Props = {

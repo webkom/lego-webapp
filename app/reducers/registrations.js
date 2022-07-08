@@ -1,14 +1,14 @@
 // @flow
 
-import { union, omit } from 'lodash';
-import { Event } from '../actions/ActionTypes';
-import createEntityReducer from 'app/utils/createEntityReducer';
-import { normalize } from 'normalizr';
-import { eventSchema, registrationSchema } from 'app/reducers';
-import mergeObjects from 'app/utils/mergeObjects';
-
-import moment from 'moment-timezone';
 import { produce } from 'immer';
+import { omit, union } from 'lodash';
+import moment from 'moment-timezone';
+import { normalize } from 'normalizr';
+
+import { eventSchema, registrationSchema } from 'app/reducers';
+import createEntityReducer from 'app/utils/createEntityReducer';
+import mergeObjects from 'app/utils/mergeObjects';
+import { Event } from '../actions/ActionTypes';
 
 type State = any;
 

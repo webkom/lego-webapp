@@ -1,10 +1,12 @@
 // @flow
 
 import { Component } from 'react';
-import { readmeIfy } from 'app/components/ReadmeLogo';
+
+import Icon from 'app/components/Icon';
 import { Image } from 'app/components/Image';
 import { Flex } from 'app/components/Layout';
-import Icon from 'app/components/Icon';
+import { readmeIfy } from 'app/components/ReadmeLogo';
+
 import styles from './LatestReadme.css';
 
 type Props = {

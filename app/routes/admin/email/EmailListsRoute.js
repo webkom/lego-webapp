@@ -1,14 +1,15 @@
 // @flow
 
-import { compose } from 'redux';
 import { connect } from 'react-redux';
-import EmailLists from './components/EmailLists';
+import { push } from 'connected-react-router';
+import qs from 'qs';
+import { compose } from 'redux';
+
 import { fetch } from 'app/actions/EmailListActions';
 import { selectEmailLists } from 'app/reducers/emailLists';
-import { push } from 'connected-react-router';
-import prepare from 'app/utils/prepare';
 import { selectPaginationNext } from 'app/reducers/selectors';
-import qs from 'qs';
+import prepare from 'app/utils/prepare';
+import EmailLists from './components/EmailLists';
 
 const mapStateToProps = (state) => {
   const { search } = state.router.location;

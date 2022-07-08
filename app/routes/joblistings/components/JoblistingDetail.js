@@ -1,22 +1,24 @@
 // @flow
 
+import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
-import LoadingIndicator from 'app/components/LoadingIndicator/';
-import DisplayContent from 'app/components/DisplayContent';
-import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
-import styles from './JoblistingDetail.css';
-import InfoList from 'app/components/InfoList';
+
 import {
   Content,
-  ContentSection,
-  ContentMain,
-  ContentSidebar,
   ContentHeader,
+  ContentMain,
+  ContentSection,
+  ContentSidebar,
 } from 'app/components/Content';
-import { jobType, Year, Workplaces } from './Items';
+import DisplayContent from 'app/components/DisplayContent';
+import InfoList from 'app/components/InfoList';
+import LoadingIndicator from 'app/components/LoadingIndicator/';
+import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import Time from 'app/components/Time';
 import type { ID } from 'app/models';
-import { Helmet } from 'react-helmet-async';
+import { jobType, Workplaces, Year } from './Items';
+
+import styles from './JoblistingDetail.css';
 
 type Props = {
   joblisting: Object,

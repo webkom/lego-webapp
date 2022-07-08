@@ -1,5 +1,5 @@
-import meetingsToken from '../meetingsToken';
 import { Meeting } from '../../actions/ActionTypes';
+import meetingsToken from '../meetingsToken';
 
 describe('reducers', () => {
   const prevState = {

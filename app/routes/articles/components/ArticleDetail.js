@@ -1,21 +1,23 @@
 //@flow
 
-import styles from './ArticleDetail.css';
-import { Content } from 'app/components/Content';
-import CommentView from 'app/components/Comments/CommentView';
-import Tag from 'app/components/Tags/Tag';
-import Tags from 'app/components/Tags';
-import LegoReactions from 'app/components/LegoReactions';
 import { Link } from 'react-router-dom';
 import moment from 'moment-timezone';
+
+import CommentView from 'app/components/Comments/CommentView';
+import { Content } from 'app/components/Content';
 import DisplayContent from 'app/components/DisplayContent';
+import LegoReactions from 'app/components/LegoReactions';
+import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
+import Tags from 'app/components/Tags';
+import Tag from 'app/components/Tags/Tag';
+import type { ID } from 'app/models';
 import type { ArticleEntity } from 'app/reducers/articles';
-import type { UserEntity } from 'app/reducers/users';
 import type { CommentEntity } from 'app/reducers/comments';
 import type { EmojiEntity } from 'app/reducers/emojis';
 import type { ReactionEntity } from 'app/reducers/reactions';
-import type { ID } from 'app/models';
-import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
+import type { UserEntity } from 'app/reducers/users';
+
+import styles from './ArticleDetail.css';
 
 type Props = {
   article: ArticleEntity,

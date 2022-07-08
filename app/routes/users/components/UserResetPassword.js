@@ -1,13 +1,14 @@
 // @flow
 import type { FormProps } from 'react-redux';
-import { reduxForm, Field } from 'redux-form';
+import { Field, reduxForm } from 'redux-form';
+
 import { Content } from 'app/components/Content';
+import { Button, Form, TextInput } from 'app/components/Form';
 import type { Action } from 'app/types';
-import { Form, Button, TextInput } from 'app/components/Form';
+import { createAsyncValidator } from 'app/utils/asyncValidator';
 import { createValidator, required, sameAs } from 'app/utils/validation';
 import { validPassword } from '../utils';
 import PasswordField from './PasswordField';
-import { createAsyncValidator } from 'app/utils/asyncValidator';
 
 type Props = {
   token: string,

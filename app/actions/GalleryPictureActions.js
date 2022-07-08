@@ -1,12 +1,13 @@
 // @flow
 
-import { GalleryPicture, Gallery } from './ActionTypes';
-import { galleryPictureSchema } from 'app/reducers';
-import { uploadFile } from './FileActions';
 import PromisePool from 'es6-promise-pool';
-import { type GalleryPictureEntity } from 'app/reducers/galleryPictures';
+
 import callAPI from 'app/actions/callAPI';
+import { galleryPictureSchema } from 'app/reducers';
+import { type GalleryPictureEntity } from 'app/reducers/galleryPictures';
 import type { EntityID, Thunk } from 'app/types';
+import { Gallery, GalleryPicture } from './ActionTypes';
+import { uploadFile } from './FileActions';
 
 export function fetch(
   galleryId: number,

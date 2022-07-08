@@ -1,6 +1,7 @@
 // @flow
 
 import type { Node } from 'react';
+
 import { Flex } from 'app/components/Layout';
 
 type Props = {

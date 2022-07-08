@@ -1,10 +1,11 @@
 // @flow
 
-import { compose } from 'redux';
 import { connect } from 'react-redux';
-import EmailUserEditor from './components/EmailUserEditor';
-import { createEmailUser } from 'app/actions/EmailUserActions';
 import { push } from 'connected-react-router';
+import { compose } from 'redux';
+
+import { createEmailUser } from 'app/actions/EmailUserActions';
+import EmailUserEditor from './components/EmailUserEditor';
 
 const mapDispatchToProps = { mutateFunction: createEmailUser, push };
 

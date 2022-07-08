@@ -1,18 +1,19 @@
 //@flow
 
-import { renderToString } from 'react-dom/server';
 import fs from 'fs';
 import path from 'path';
-import serialize from 'serialize-javascript';
+
+import { renderToString } from 'react-dom/server';
 import { ChunkExtractor } from '@loadable/server';
+import { isEmpty } from 'lodash';
+import serialize from 'serialize-javascript';
+
+import { selectCurrentUser } from 'app/reducers/auth';
+import manifest from '../app/assets/manifest.json';
+import type { State } from '../app/types';
 import config from '../config/env';
 import webpackClient from '../config/webpack.client.js';
-import type { State } from '../app/types';
-import { selectCurrentUser } from 'app/reducers/auth';
-import { isEmpty } from 'lodash';
 import { helmetContext } from './ssr.js';
-
-import manifest from '../app/assets/manifest.json';
 
 const dllPlugin = __DEV__ ? '<script src="/vendors.dll.js"></script>' : '';
 

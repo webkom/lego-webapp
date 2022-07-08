@@ -2,13 +2,13 @@
 // @flow
 
 import { Component } from 'react';
-import styles from './Sidebar.css';
-import PageHierarchy from './PageHierarchy';
 import cx from 'classnames';
 
-import type { HierarchySectionEntity } from './PageHierarchy';
-
 import Icon from 'app/components/Icon';
+import type { HierarchySectionEntity } from './PageHierarchy';
+import PageHierarchy from './PageHierarchy';
+
+import styles from './Sidebar.css';
 
 type State = {
   isOpen: boolean,

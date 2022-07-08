@@ -1,13 +1,15 @@
 // @flow
 
 import { Component } from 'react';
-import cx from 'classnames';
-import { createField } from './Field';
-import { uploadFile } from 'app/actions/FileActions';
-import type { UploadArgs } from 'app/actions/FileActions';
-import type { DropFile } from 'app/components/Upload/ImageUpload';
 import { connect } from 'react-redux';
+import cx from 'classnames';
+
+import type { UploadArgs } from 'app/actions/FileActions';
+import { uploadFile } from 'app/actions/FileActions';
+import type { DropFile } from 'app/components/Upload/ImageUpload';
 import ImageUpload from 'app/components/Upload/ImageUpload';
+import { createField } from './Field';
+
 import styles from './ImageUploadField.css';
 
 type Props = {

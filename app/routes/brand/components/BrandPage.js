@@ -1,11 +1,12 @@
-import { Content } from 'app/components/Content';
-import NavigationTab from 'app/components/NavigationTab';
-import styles from './BrandPage.css';
-import Button from 'app/components/Button';
-import logosDos from 'app/assets/logos-dos.png';
 import logosDonts from 'app/assets/logos-donts.png';
-import { Flex } from 'app/components/Layout';
+import logosDos from 'app/assets/logos-dos.png';
+import Button from 'app/components/Button';
+import { Content } from 'app/components/Content';
 import { Image } from 'app/components/Image';
+import { Flex } from 'app/components/Layout';
+import NavigationTab from 'app/components/NavigationTab';
+
+import styles from './BrandPage.css';
 
 const BrandPage = () => (
   <Content>

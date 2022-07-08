@@ -1,13 +1,14 @@
-import { compose } from 'redux';
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
+import { compose } from 'redux';
+
 import { fetchAdministrate } from 'app/actions/EventActions';
-import EventAdministrateIndex from './components/EventAdministrate';
 import {
   selectEventById,
-  selectPoolsWithRegistrationsForEvent,
   selectMergedPoolWithRegistrations,
+  selectPoolsWithRegistrationsForEvent,
 } from 'app/reducers/events';
+import prepare from 'app/utils/prepare';
+import EventAdministrateIndex from './components/EventAdministrate';
 
 const mapStateToProps = (state, props) => {
   const eventId = props.match.params.eventId;

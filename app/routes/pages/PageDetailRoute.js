@@ -1,36 +1,36 @@
 // @flow
 import type { Node } from 'react';
-import { compose } from 'redux';
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
-import type { Thunk } from 'app/types';
-import {
-  fetchPage,
-  updatePage,
-  fetchAll as fetchAllPages,
-} from 'app/actions/PageActions';
+import { compose } from 'redux';
+
 import {
   fetchAllMemberships,
   fetchAllWithType,
   fetchGroup,
 } from 'app/actions/GroupActions';
-
+import {
+  fetchAll as fetchAllPages,
+  fetchPage,
+  updatePage,
+} from 'app/actions/PageActions';
+import { GroupTypeCommittee } from 'app/models';
+import {
+  selectCommitteeForPages,
+  selectFlatpageForPages,
+  selectGroupsForHierarchy,
+  selectInfoPageForPages,
+  selectNotFoundpageForPages,
+  selectPageHierarchy,
+  selectPagesForHierarchy,
+} from 'app/reducers/pages';
+import HTTPError from 'app/routes/errors/HTTPError';
+import type { Thunk } from 'app/types';
+import prepare from 'app/utils/prepare';
+import LandingPage from './components/LandingPage';
 import PageDetail, {
   FlatpageRenderer,
   GroupRenderer,
 } from './components/PageDetail';
-import LandingPage from './components/LandingPage';
-import { GroupTypeCommittee } from 'app/models';
-import {
-  selectPagesForHierarchy,
-  selectGroupsForHierarchy,
-  selectPageHierarchy,
-  selectCommitteeForPages,
-  selectFlatpageForPages,
-  selectNotFoundpageForPages,
-  selectInfoPageForPages,
-} from 'app/reducers/pages';
-import HTTPError from 'app/routes/errors/HTTPError';
 
 const sections: {
   [section: string]: {

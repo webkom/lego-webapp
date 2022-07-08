@@ -1,10 +1,11 @@
-import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { addQuotes } from '../../actions/QuoteActions';
-import AddQuote from './components/AddQuote';
+import { compose } from 'redux';
+import { formValueSelector } from 'redux-form';
+
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import { formValueSelector } from 'redux-form';
+import { addQuotes } from '../../actions/QuoteActions';
+import AddQuote from './components/AddQuote';
 
 const mapStateToProps = (state, props) => {
   const valueSelector = formValueSelector('addQuote');

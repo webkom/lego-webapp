@@ -1,7 +1,9 @@
 // @flow
 
 import cx from 'classnames';
+
 import { createField } from './Field';
+
 import styles from './TextEditor.css';
 
 type Props = {

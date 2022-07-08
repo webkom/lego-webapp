@@ -1,20 +1,20 @@
 // @flow
 
-import { compose } from 'redux';
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
+import { compose } from 'redux';
 
-import UserSettingsNotifications from './components/UserSettingsNotifications';
 import {
   fetchNotificationAlternatives,
   fetchNotificationSettings,
   updateNotificationSetting,
 } from 'app/actions/NotificationSettingsActions';
-import {
-  selectNotificationSettingsAlternatives,
-  selectNotificationSettings,
-} from 'app/reducers/notificationSettings';
 import { updateUser } from 'app/actions/UserActions';
+import {
+  selectNotificationSettings,
+  selectNotificationSettingsAlternatives,
+} from 'app/reducers/notificationSettings';
+import prepare from 'app/utils/prepare';
+import UserSettingsNotifications from './components/UserSettingsNotifications';
 
 const loadData = (props, dispatch) => {
   return Promise.all([

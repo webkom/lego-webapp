@@ -1,14 +1,14 @@
 // @flow
 
-import { createSelector } from 'reselect';
-import { Article } from '../actions/ActionTypes';
-import { mutateReactions, type ReactionEntity } from 'app/reducers/reactions';
-import { mutateComments } from 'app/reducers/comments';
-import createEntityReducer from 'app/utils/createEntityReducer';
-import joinReducers from 'app/utils/joinReducers';
 import { orderBy } from 'lodash';
+import { createSelector } from 'reselect';
 
 import { type Article as ArticleType } from 'app/models';
+import { mutateComments } from 'app/reducers/comments';
+import { type ReactionEntity, mutateReactions } from 'app/reducers/reactions';
+import createEntityReducer from 'app/utils/createEntityReducer';
+import joinReducers from 'app/utils/joinReducers';
+import { Article } from '../actions/ActionTypes';
 
 export type ArticleEntity = {
   id: number,

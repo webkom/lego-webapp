@@ -1,12 +1,13 @@
 // @flow
 import { Route, Switch } from 'react-router-dom';
+
 import RouteWrapper from 'app/components/RouteWrapper';
 import { UserContext } from 'app/routes/app/AppRoute';
-import CompanyInterestRoute from './CompanyInterestRoute';
-import CompanyInterestListRoute from './CompanyInterestListRoute';
-import CompanySemesterGUIRoute from './CompanySemesterGUIRoute';
-import CompanyInterestEditRoute from './CompanyInterestEditRoute';
 import PageNotFound from 'app/routes/pageNotFound';
+import CompanyInterestEditRoute from './CompanyInterestEditRoute';
+import CompanyInterestListRoute from './CompanyInterestListRoute';
+import CompanyInterestRoute from './CompanyInterestRoute';
+import CompanySemesterGUIRoute from './CompanySemesterGUIRoute';
 
 const companyInterestRoute = ({ match }: { match: { path: string } }) => (
   <UserContext.Consumer>

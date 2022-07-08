@@ -1,10 +1,11 @@
 // @flow
 import type { Element } from 'react';
-import Icon from 'app/components/Icon';
-import { lookupContext, contextRender } from '../context';
-import { formatHeader } from './utils';
-import type { AggregatedActivity, Activity, TagInfo } from '../types';
+
 import DisplayContent from 'app/components/DisplayContent';
+import Icon from 'app/components/Icon';
+import { contextRender, lookupContext } from '../context';
+import type { Activity, AggregatedActivity, TagInfo } from '../types';
+import { formatHeader } from './utils';
 
 /**
  * Grouped by target and date, standard...

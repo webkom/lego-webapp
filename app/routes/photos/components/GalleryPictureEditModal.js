@@ -1,18 +1,20 @@
 // @flow
 
-import GalleryDetailsRow from './GalleryDetailsRow';
-import { Form, TextArea, SelectInput, CheckBox } from 'app/components/Form';
-import ProgressiveImage from 'app/components/ProgressiveImage';
-import Button from 'app/components/Button';
-import { Field, reduxForm } from 'redux-form';
-import { Flex } from 'app/components/Layout';
-import { Content } from 'app/components/Content';
 import { Link } from 'react-router-dom';
-import Modal from 'app/components/Modal';
-import styles from './GalleryPictureModal.css';
-import { Image } from 'app/components/Image';
+import { Field, reduxForm } from 'redux-form';
+
+import Button from 'app/components/Button';
+import { Content } from 'app/components/Content';
+import { CheckBox, Form, SelectInput, TextArea } from 'app/components/Form';
 import Icon from 'app/components/Icon';
+import { Image } from 'app/components/Image';
+import { Flex } from 'app/components/Layout';
+import Modal from 'app/components/Modal';
+import ProgressiveImage from 'app/components/ProgressiveImage';
 import Tooltip from 'app/components/Tooltip';
+import GalleryDetailsRow from './GalleryDetailsRow';
+
+import styles from './GalleryPictureModal.css';
 
 type Props = {
   picture: Object,

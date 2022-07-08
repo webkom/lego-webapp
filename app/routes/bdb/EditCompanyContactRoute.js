@@ -1,18 +1,19 @@
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
 import { compose } from 'redux';
-import {
-  fetchAdmin,
-  editCompanyContact,
-  deleteCompany,
-} from '../../actions/CompanyActions';
-import CompanyContactEditor from './components/CompanyContactEditor';
+
+import { LoginPage } from 'app/components/LoginForm';
 import {
   selectCompanyById,
   selectCompanyContactById,
 } from 'app/reducers/companies';
-import { LoginPage } from 'app/components/LoginForm';
+import prepare from 'app/utils/prepare';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import {
+  deleteCompany,
+  editCompanyContact,
+  fetchAdmin,
+} from '../../actions/CompanyActions';
+import CompanyContactEditor from './components/CompanyContactEditor';
 
 const mapStateToProps = (state, props) => {
   const companyId = Number(props.match.params.companyId);

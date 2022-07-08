@@ -1,5 +1,6 @@
 import { merge } from 'lodash';
 import moment from 'moment-timezone';
+
 import config from 'app/config';
 import { EDITOR_EMPTY } from 'app/utils/constants';
 

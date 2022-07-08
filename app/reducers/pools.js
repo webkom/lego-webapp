@@ -1,12 +1,12 @@
 // @flow
-import { Event } from '../actions/ActionTypes';
-import createEntityReducer from 'app/utils/createEntityReducer';
-import { normalize } from 'normalizr';
-import { eventSchema } from 'app/reducers';
-import { union, without } from 'lodash';
-import mergeObjects from 'app/utils/mergeObjects';
-
 import { produce } from 'immer';
+import { union, without } from 'lodash';
+import { normalize } from 'normalizr';
+
+import { eventSchema } from 'app/reducers';
+import createEntityReducer from 'app/utils/createEntityReducer';
+import mergeObjects from 'app/utils/mergeObjects';
+import { Event } from '../actions/ActionTypes';
 
 type State = any;
 

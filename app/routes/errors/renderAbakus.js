@@ -1,5 +1,5 @@
-import pxxl from './pxxl';
 import c64 from './c64.bdf';
+import pxxl from './pxxl';
 
 function animateAbakus(
   canvas,

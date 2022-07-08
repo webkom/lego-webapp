@@ -1,9 +1,10 @@
-import { compose } from 'redux';
 import { connect } from 'react-redux';
-import GroupView from './components/GroupView';
+import { compose } from 'redux';
+
 import { fetchGroup } from 'app/actions/GroupActions';
 import { selectGroup } from 'app/reducers/groups';
 import prepare from 'app/utils/prepare';
+import GroupView from './components/GroupView';
 
 function mapStateToProps(state, props) {
   const { groupId } = props.match.params;

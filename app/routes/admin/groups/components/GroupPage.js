@@ -1,14 +1,16 @@
 // @flow
 
 import { Helmet } from 'react-helmet-async';
+import { Route, Switch } from 'react-router-dom';
+
+import { Content } from 'app/components/Content';
 import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
-import { Content } from 'app/components/Content';
-import GroupTree from './GroupTree';
-import styles from './GroupPage.css';
-import { Route, Switch } from 'react-router-dom';
-import GroupDetailRoute from '../GroupDetailRoute';
 import type { LocationType } from 'app/models';
+import GroupDetailRoute from '../GroupDetailRoute';
+import GroupTree from './GroupTree';
+
+import styles from './GroupPage.css';
 
 const NavigationLinks = ({ groupId }: { groupId: string }) => {
   const baseUrl = `/admin/groups/${groupId}`;

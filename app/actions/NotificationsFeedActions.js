@@ -1,9 +1,9 @@
 // @flow
 
-import { NotificationsFeed } from './ActionTypes';
-import callAPI from './callAPI';
 import { selectIsLoggedIn } from 'app/reducers/auth';
 import type { Thunk } from 'app/types';
+import { NotificationsFeed } from './ActionTypes';
+import callAPI from './callAPI';
 
 export function fetchNotificationData(): Thunk<*> {
   return (dispatch, getState) => {

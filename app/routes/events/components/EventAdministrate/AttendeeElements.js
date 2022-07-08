@@ -1,15 +1,17 @@
 // @flow
-import styles from './Administrate.css';
-import { Flex } from 'app/components/Layout';
-import Tooltip from 'app/components/Tooltip';
 import cx from 'classnames';
-import LoadingIndicator from 'app/components/LoadingIndicator';
+
 import Button from 'app/components/Button';
+import { Flex } from 'app/components/Layout';
+import LoadingIndicator from 'app/components/LoadingIndicator';
+import Tooltip from 'app/components/Tooltip';
 import type {
   EventRegistrationPaymentStatus,
   EventRegistrationPresence,
   ID,
 } from 'app/models';
+
+import styles from './Administrate.css';
 
 type TooltipIconProps = {
   onClick?: (SyntheticInputEvent<*>) => mixed,

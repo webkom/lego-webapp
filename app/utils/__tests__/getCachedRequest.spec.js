@@ -1,5 +1,6 @@
-import getCachedRequest from '../getCachedRequest';
 import timekeeper from 'timekeeper';
+
+import getCachedRequest from '../getCachedRequest';
 
 describe('getCachedRequest', () => {
   let time = Date.now();

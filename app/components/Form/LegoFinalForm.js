@@ -1,12 +1,13 @@
 // @flow
 
 import type { FormProps } from 'react-final-form';
-import type { FormApi } from 'final-form';
 import { Form } from 'react-final-form';
-import createFocusOnErrorDecorator from 'final-form-focus';
 import * as Sentry from '@sentry/browser';
-import { handleSubmissionErrorFinalForm } from 'app/components/Form/utils';
+import type { FormApi } from 'final-form';
+import createFocusOnErrorDecorator from 'final-form-focus';
 import { isEqual } from 'lodash-es';
+
+import { handleSubmissionErrorFinalForm } from 'app/components/Form/utils';
 
 const focusOnError = createFocusOnErrorDecorator();
 

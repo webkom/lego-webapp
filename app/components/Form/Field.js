@@ -2,9 +2,11 @@
 
 import type { ComponentType, Node } from 'react';
 import cx from 'classnames';
+
 import Icon from 'app/components/Icon';
 import { Flex } from 'app/components/Layout';
 import Tooltip from 'app/components/Tooltip';
+
 import styles from './Field.css';
 
 const FieldError = ({

@@ -1,14 +1,15 @@
 // @flow
 
 import { Component } from 'react';
-import { Content } from 'app/components/Content';
 import { Helmet } from 'react-helmet-async';
+
+import Button from 'app/components/Button';
+import { Content } from 'app/components/Content';
 import NavigationTab from 'app/components/NavigationTab';
 import Poll from 'app/components/Poll';
-import Button from 'app/components/Button';
-import PollEditor from './PollEditor';
-import { type PollEntity } from 'app/reducers/polls';
 import { type ActionGrant, type ID } from 'app/models';
+import { type PollEntity } from 'app/reducers/polls';
+import PollEditor from './PollEditor';
 
 type Props = {
   poll: PollEntity,

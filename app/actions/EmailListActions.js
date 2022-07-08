@@ -1,10 +1,10 @@
 // @flow
 
-import { EmailList } from './ActionTypes';
-import { emailListSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
+import { emailListSchema } from 'app/reducers';
 import { type EmailListEntity } from 'app/reducers/emailLists';
 import type { EntityID, Thunk } from 'app/types';
+import { EmailList } from './ActionTypes';
 
 export function fetchEmailList(emailListId: EntityID): Thunk<any> {
   return callAPI({

@@ -1,9 +1,9 @@
 // @flow
 
-import { Page } from './ActionTypes';
+import callAPI from 'app/actions/callAPI';
 import { pageSchema } from 'app/reducers';
 import type { Thunk } from 'app/types';
-import callAPI from 'app/actions/callAPI';
+import { Page } from './ActionTypes';
 
 export function fetchPage(pageSlug: string): Thunk<any> {
   return callAPI({

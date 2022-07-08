@@ -1,18 +1,19 @@
-import { compose } from 'redux';
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
+import { push } from 'connected-react-router';
+import { compose } from 'redux';
+
+import { uploadFile } from 'app/actions/FileActions';
 import {
+  deletePage,
   fetchAll,
   fetchPage,
   updatePage,
-  deletePage,
 } from 'app/actions/PageActions';
-import { uploadFile } from 'app/actions/FileActions';
-import PageEditor from './components/PageEditor';
 import { legoForm } from 'app/components/Form/';
-import { selectPageBySlug, categoryOptions } from 'app/reducers/pages';
-import { push } from 'connected-react-router';
 import { objectPermissionsToInitialValues } from 'app/components/Form/ObjectPermissions';
+import { categoryOptions, selectPageBySlug } from 'app/reducers/pages';
+import prepare from 'app/utils/prepare';
+import PageEditor from './components/PageEditor';
 
 function mapStateToProps(state, props) {
   const { pageSlug } = props.match.params;

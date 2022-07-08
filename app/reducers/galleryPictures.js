@@ -1,11 +1,12 @@
 // @flow
 
 import { createSelector } from 'reselect';
+
 import { Gallery, GalleryPicture } from 'app/actions/ActionTypes';
-import { mutateComments } from 'app/reducers/comments';
-import joinReducers from 'app/utils/joinReducers';
-import createEntityReducer from 'app/utils/createEntityReducer';
 import { type ID } from 'app/models';
+import { mutateComments } from 'app/reducers/comments';
+import createEntityReducer from 'app/utils/createEntityReducer';
+import joinReducers from 'app/utils/joinReducers';
 
 export type UploadStatus = {
   imageCount: number,

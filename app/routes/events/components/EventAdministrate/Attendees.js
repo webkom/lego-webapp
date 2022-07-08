@@ -1,26 +1,28 @@
 // @flow
 
 import { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { RegisteredTable, UnregisteredTable } from './RegistrationTables';
-import LoadingIndicator from 'app/components/LoadingIndicator';
-import moment from 'moment-timezone';
-import { Flex } from 'app/components/Layout';
-import styles from './Abacard.css';
-import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
-import Button from 'app/components/Button';
 import { formatPhoneNumber, parsePhoneNumber } from 'react-phone-number-input';
+import { Link } from 'react-router-dom';
+import moment from 'moment-timezone';
+
+import Button from 'app/components/Button';
+import { Flex } from 'app/components/Layout';
+import LoadingIndicator from 'app/components/LoadingIndicator';
+import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import type {
-  Event,
-  Comment,
-  EventPool,
   ActionGrant,
-  User,
-  ID,
+  Comment,
+  Event,
+  EventPool,
   EventRegistration,
   EventRegistrationPaymentStatus,
   EventRegistrationPresence,
+  ID,
+  User,
 } from 'app/models';
+import { RegisteredTable, UnregisteredTable } from './RegistrationTables';
+
+import styles from './Abacard.css';
 
 export type Props = {
   eventId: number,

@@ -1,14 +1,16 @@
 // @flow
 
 import { Component } from 'react';
-import styles from './Login.css';
+
+import { Content } from 'app/components/Content';
+import { Flex } from 'app/components/Layout';
 import {
+  ForgotPasswordForm,
   LoginForm,
   RegisterForm,
-  ForgotPasswordForm,
 } from 'app/components/LoginForm';
-import { Flex } from 'app/components/Layout';
-import { Content } from 'app/components/Content';
+
+import styles from './Login.css';
 
 type State = {
   mode: 'login' | 'register' | 'forgotPassword',

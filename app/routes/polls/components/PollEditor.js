@@ -1,33 +1,33 @@
 // @flow
 
 import type { Node } from 'react';
-
 import { Component } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Content } from 'app/components/Content';
-import NavigationTab from 'app/components/NavigationTab';
-import Button from 'app/components/Button';
-import Icon from 'app/components/Icon';
-import Tooltip from 'app/components/Tooltip';
 import {
-  typeof fieldArrayMetaPropTypes,
   typeof fieldArrayFieldsPropTypes,
-  Form,
+  typeof fieldArrayMetaPropTypes,
   Field,
   FieldArray,
+  Form,
 } from 'redux-form';
+
+import Button from 'app/components/Button';
+import { Content } from 'app/components/Content';
 import {
-  TextInput,
+  CheckBox,
+  legoForm,
   SelectInput,
   TextArea,
-  legoForm,
-  CheckBox,
+  TextInput,
 } from 'app/components/Form';
-
+import Icon from 'app/components/Icon';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
-import styles from './PollEditor.css';
-import { type PollEntity } from 'app/reducers/polls';
+import NavigationTab from 'app/components/NavigationTab';
+import Tooltip from 'app/components/Tooltip';
 import { type ID } from 'app/models';
+import { type PollEntity } from 'app/reducers/polls';
+
+import styles from './PollEditor.css';
 
 const keyCodes = {
   enter: 13,

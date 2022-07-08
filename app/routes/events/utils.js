@@ -1,7 +1,8 @@
 // @flow
-import { pick, sumBy, find } from 'lodash';
+import { find, pick, sumBy } from 'lodash';
 import moment from 'moment-timezone';
-import type { TransformEvent, Event, EventType, AddPenalty } from 'app/models';
+
+import type { AddPenalty, Event, EventType, TransformEvent } from 'app/models';
 
 // Current eventTypes
 export const EVENT_CONSTANTS: { [EventType]: string } = {

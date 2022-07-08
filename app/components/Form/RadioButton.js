@@ -1,9 +1,11 @@
 // @flow
 
-import { createField } from './Field';
-import type { FormProps } from './Field';
-import styles from './RadioButton.css';
 import cx from 'classnames';
+
+import type { FormProps } from './Field';
+import { createField } from './Field';
+
+import styles from './RadioButton.css';
 
 type Props = {
   id: string,

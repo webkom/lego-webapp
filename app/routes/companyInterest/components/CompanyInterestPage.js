@@ -1,32 +1,33 @@
 // @flow
 import type { Node } from 'react';
-import { interestText, semesterToText } from '../utils';
-import styles from './CompanyInterest.css';
+import { Link } from 'react-router-dom';
+import type { FieldArrayProps, FormProps } from 'redux-form';
+import { Field, FieldArray, reduxForm, SubmissionError } from 'redux-form';
+
+import english from 'app/assets/great_britain.svg';
+import norwegian from 'app/assets/norway.svg';
+import { Content } from 'app/components/Content';
 import {
-  TextEditor,
-  TextInput,
   Button,
   CheckBox,
-  SelectInput,
   Form,
   RadioButton,
   RadioButtonGroup,
+  SelectInput,
+  TextEditor,
+  TextInput,
 } from 'app/components/Form';
 import { Image } from 'app/components/Image';
-import LoadingIndicator from 'app/components/LoadingIndicator';
-import { reduxForm, Field, SubmissionError, FieldArray } from 'redux-form';
-import type { FormProps, FieldArrayProps } from 'redux-form';
 import Flex from 'app/components/Layout/Flex';
-import { Content } from 'app/components/Content';
+import LoadingIndicator from 'app/components/LoadingIndicator';
+import withAutocomplete from 'app/components/Search/withAutocomplete';
 import type { CompanyInterestEntity } from 'app/reducers/companyInterest';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
-
-import { createValidator, required, isEmail } from 'app/utils/validation';
+import { createValidator, isEmail, required } from 'app/utils/validation';
 import { FlexRow } from '../../../components/FlexBox';
-import { Link } from 'react-router-dom';
-import norwegian from 'app/assets/norway.svg';
-import english from 'app/assets/great_britain.svg';
-import withAutocomplete from 'app/components/Search/withAutocomplete';
+import { interestText, semesterToText } from '../utils';
+
+import styles from './CompanyInterest.css';
 
 export const EVENT_TYPES = {
   company_presentation: {

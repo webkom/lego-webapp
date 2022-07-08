@@ -1,12 +1,13 @@
 // @flow
 import { Component } from 'react';
-import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { reduxForm, Field, SubmissionError, type FormProps } from 'redux-form';
+import { compose } from 'redux';
+import { type FormProps, Field, reduxForm, SubmissionError } from 'redux-form';
+
 import { sendForgotPasswordEmail } from 'app/actions/UserActions';
-import { Form, TextInput } from '../Form';
+import { createValidator, isEmail, required } from 'app/utils/validation';
 import Button from '../Button';
-import { createValidator, required, isEmail } from 'app/utils/validation';
+import { Form, TextInput } from '../Form';
 
 type Props = {
   sendForgotPasswordEmail: ({ email: string }) => any,

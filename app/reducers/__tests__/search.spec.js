@@ -1,5 +1,5 @@
-import search from '../search';
 import { Search } from '../../actions/ActionTypes';
+import search from '../search';
 
 describe('reducers', () => {
   describe('search', () => {

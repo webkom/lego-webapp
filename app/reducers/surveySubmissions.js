@@ -1,11 +1,12 @@
 // @flow
 
-import { SurveySubmission } from '../actions/ActionTypes';
-import createEntityReducer from 'app/utils/createEntityReducer';
-import { createSelector } from 'reselect';
-import type { OptionEntity, SurveyEntity, QuestionEntity } from './surveys';
-import type { UserEntity } from 'app/reducers/users';
 import { produce } from 'immer';
+import { createSelector } from 'reselect';
+
+import type { UserEntity } from 'app/reducers/users';
+import createEntityReducer from 'app/utils/createEntityReducer';
+import { SurveySubmission } from '../actions/ActionTypes';
+import type { OptionEntity, QuestionEntity, SurveyEntity } from './surveys';
 
 export type SubmissionEntity = {
   id: number,

@@ -1,19 +1,20 @@
 import { connect } from 'react-redux';
-import { compose } from 'redux';
 import { push } from 'connected-react-router';
+import { compose } from 'redux';
+
 import { fetchMeeting, setInvitationStatus } from 'app/actions/MeetingActions';
-import {
-  selectMeetingById,
-  selectCommentsForMeeting,
-} from 'app/reducers/meetings';
-import {
-  selectMeetingInvitationsForMeeting,
-  selectMeetingInvitation,
-} from 'app/reducers/meetingInvitations';
-import { selectUserById } from 'app/reducers/users';
-import MeetingDetail from './components/MeetingDetail';
 import { LoginPage } from 'app/components/LoginForm';
+import {
+  selectMeetingInvitation,
+  selectMeetingInvitationsForMeeting,
+} from 'app/reducers/meetingInvitations';
+import {
+  selectCommentsForMeeting,
+  selectMeetingById,
+} from 'app/reducers/meetings';
+import { selectUserById } from 'app/reducers/users';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import MeetingDetail from './components/MeetingDetail';
 
 const mapDispatchToProps = {
   setInvitationStatus,

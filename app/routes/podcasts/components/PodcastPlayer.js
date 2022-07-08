@@ -1,13 +1,19 @@
 // @flow
 
 import { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { withSoundCloudAudio } from 'react-soundplayer/addons';
 import {
   PlayButton,
   Progress,
-  VolumeControl,
   Timer,
+  VolumeControl,
 } from 'react-soundplayer/components';
+import moment from 'moment-timezone';
+
+import Icon from 'app/components/Icon';
+import { Flex } from 'app/components/Layout';
+import LoadingIndicator from 'app/components/LoadingIndicator';
 
 import 'react-soundplayer/styles/buttons.css';
 import 'react-soundplayer/styles/cover.css';
@@ -15,11 +21,6 @@ import 'react-soundplayer/styles/icons.css';
 import 'react-soundplayer/styles/progress.css';
 import 'react-soundplayer/styles/volume.css';
 import styles from './Podcast.css';
-import { Flex } from 'app/components/Layout';
-import Icon from 'app/components/Icon';
-import { Link } from 'react-router-dom';
-import moment from 'moment-timezone';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 
 type Props = {
   id: number,

@@ -1,8 +1,9 @@
 // @flow
 
-import { Joblistings } from '../actions/ActionTypes';
-import createEntityReducer from 'app/utils/createEntityReducer';
 import { createSelector } from 'reselect';
+
+import createEntityReducer from 'app/utils/createEntityReducer';
+import { Joblistings } from '../actions/ActionTypes';
 
 export default createEntityReducer({
   key: 'joblistings',

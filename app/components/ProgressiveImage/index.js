@@ -1,6 +1,7 @@
 //@flow
 
 import { PureComponent } from 'react';
+
 import { Image as ImageComponent } from 'app/components/Image';
 
 type Props = {

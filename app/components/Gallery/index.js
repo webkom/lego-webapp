@@ -1,11 +1,12 @@
 //@flow
 
 import type { Node } from 'react';
-
 import { PureComponent } from 'react';
 import { chunk, get } from 'lodash';
+
 import { Image } from 'app/components/Image';
 import Paginator from 'app/components/Paginator';
+
 import styles from './Gallery.css';
 
 export type Photo = Object;

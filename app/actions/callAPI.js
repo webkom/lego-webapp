@@ -1,20 +1,21 @@
 // @flow
 
-import { normalize, type Schema } from 'normalizr';
-import fetchJSON, {
-  type HttpRequestOptions,
-  type HttpMethod,
-  type HttpResponse,
-} from 'app/utils/fetchJSON';
-import { configWithSSR } from '../config';
-import { omit, isArray } from 'lodash';
-import createQueryString from 'app/utils/createQueryString';
+import { isArray, omit } from 'lodash';
+import { type Schema, normalize } from 'normalizr';
+
 import { logout } from 'app/actions/UserActions';
-import getCachedRequest from 'app/utils/getCachedRequest';
-import { setStatusCode } from './RoutingActions';
-import type { AsyncActionType, Thunk } from 'app/types';
 import { selectIsLoggedIn } from 'app/reducers/auth';
 import { selectPaginationNext } from 'app/reducers/selectors';
+import type { AsyncActionType, Thunk } from 'app/types';
+import createQueryString from 'app/utils/createQueryString';
+import fetchJSON, {
+  type HttpMethod,
+  type HttpRequestOptions,
+  type HttpResponse,
+} from 'app/utils/fetchJSON';
+import getCachedRequest from 'app/utils/getCachedRequest';
+import { configWithSSR } from '../config';
+import { setStatusCode } from './RoutingActions';
 
 function urlFor(resource: string) {
   if (resource.match(/^\/\//)) {

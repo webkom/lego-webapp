@@ -1,8 +1,8 @@
 // @flow
 
 import type { ComponentType, Element } from 'react';
-
 import { Children, cloneElement, Component } from 'react';
+
 import Modal from 'app/components/Modal';
 import AttendanceModal from './AttendanceModal';
 

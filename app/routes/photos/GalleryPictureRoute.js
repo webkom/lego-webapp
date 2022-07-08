@@ -1,24 +1,24 @@
 import { connect } from 'react-redux';
+import { push } from 'connected-react-router';
 import { compose } from 'redux';
+
+import { deleteComment } from 'app/actions/CommentActions';
+import { fetchGallery, updateGalleryCover } from 'app/actions/GalleryActions';
 import {
-  SelectGalleryPicturesByGalleryId,
-  selectGalleryPictureById,
-  selectCommentsForGalleryPicture,
-} from '../../reducers/galleryPictures';
+  deletePicture,
+  fetchGalleryPicture,
+  fetchSiblingGallerPicture,
+} from 'app/actions/GalleryPictureActions';
+import { selectGalleryById } from 'app/reducers/galleries';
 import helmet from 'app/utils/helmet';
-import GalleryPictureModal from './components/GalleryPictureModal';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import prepare from 'app/utils/prepare';
 import {
-  fetchSiblingGallerPicture,
-  fetchGalleryPicture,
-  deletePicture,
-} from 'app/actions/GalleryPictureActions';
-
-import { updateGalleryCover, fetchGallery } from 'app/actions/GalleryActions';
-import { push } from 'connected-react-router';
-import { deleteComment } from 'app/actions/CommentActions';
-import { selectGalleryById } from 'app/reducers/galleries';
+  selectCommentsForGalleryPicture,
+  selectGalleryPictureById,
+  SelectGalleryPicturesByGalleryId,
+} from '../../reducers/galleryPictures';
+import GalleryPictureModal from './components/GalleryPictureModal';
 
 function mapStateToProps(state, props) {
   const { galleryId, pictureId } = props.match.params;

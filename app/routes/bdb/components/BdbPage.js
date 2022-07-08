@@ -1,22 +1,24 @@
 // @flow
 
 import { Component } from 'react';
-import CompanyList from './CompanyList';
-import { Content } from 'app/components/Content';
 import { Helmet } from 'react-helmet-async';
-import styles from './bdb.css';
-import sortCompanies from '../SortCompanies.js';
-import { indexToSemester, ListNavigation } from '../utils.js';
-import OptionsBox from './OptionsBox';
+import qs from 'qs';
+
+import { Content } from 'app/components/Content';
 import TextInput from 'app/components/Form/TextInput';
 import LoadingIndicator from 'app/components/LoadingIndicator';
+import type { CompanySemesterContactedStatus, LocationType } from 'app/models';
 import type {
-  CompanyEntity,
   BaseSemesterStatusEntity,
+  CompanyEntity,
 } from 'app/reducers/companies';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
-import type { CompanySemesterContactedStatus, LocationType } from 'app/models';
-import qs from 'qs';
+import sortCompanies from '../SortCompanies.js';
+import { indexToSemester, ListNavigation } from '../utils.js';
+import CompanyList from './CompanyList';
+import OptionsBox from './OptionsBox';
+
+import styles from './bdb.css';
 
 type Props = {
   companies: Array<CompanyEntity>,

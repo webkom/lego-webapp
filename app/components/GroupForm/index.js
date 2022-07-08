@@ -1,18 +1,20 @@
 // @flow
-import styles from './index.css';
-import { Field } from 'redux-form';
 import type { FormProps } from 'redux-form';
+import { Field } from 'redux-form';
+
 import {
-  Form,
-  TextInput,
-  EditorField,
   Button,
-  ImageUploadField,
   CheckBox,
+  EditorField,
+  Form,
+  ImageUploadField,
   legoForm,
+  TextInput,
 } from 'app/components/Form';
 import Tooltip from 'app/components/Tooltip';
 import { createValidator, required } from 'app/utils/validation';
+
+import styles from './index.css';
 
 type OwnProps = {
   handleSubmitCallback: (Object) => Promise<*>,

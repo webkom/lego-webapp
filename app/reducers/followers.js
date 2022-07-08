@@ -1,11 +1,12 @@
 // @flow
 
 import { createSelector } from 'reselect';
-import { selectCurrentUser } from './auth';
+
 import { Event } from 'app/actions/ActionTypes';
 import createEntityReducer, {
   type EntityReducerTypes,
 } from 'app/utils/createEntityReducer';
+import { selectCurrentUser } from './auth';
 
 export const selectFollowersCurrentUser = createSelector(
   (state, props) =>

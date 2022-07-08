@@ -1,10 +1,11 @@
 // @flow
 
 import { Component } from 'react';
-import styles from './optionsBox.css';
-import { CheckBox, RadioButton, SelectInput } from 'app/components/Form';
 
+import { CheckBox, RadioButton, SelectInput } from 'app/components/Form';
 import type { CompanyEntity } from 'app/reducers/companies';
+
+import styles from './optionsBox.css';
 
 type Props = {
   companies: Array<CompanyEntity>,

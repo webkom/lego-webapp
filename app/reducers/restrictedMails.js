@@ -1,8 +1,9 @@
 // @flow
 
 import { createSelector } from 'reselect';
-import { RestrictedMail } from '../actions/ActionTypes';
+
 import createEntityReducer from 'app/utils/createEntityReducer';
+import { RestrictedMail } from '../actions/ActionTypes';
 
 export type RestrictedMailEntity = {
   id: number,

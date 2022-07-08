@@ -1,7 +1,7 @@
 // @flow
 
+import type { Joblisting, Workplace } from 'app/models';
 import joinValues from 'app/utils/joinValues';
-import type { Workplace, Joblisting } from 'app/models';
 
 type YearProps = {
   joblisting: Joblisting,

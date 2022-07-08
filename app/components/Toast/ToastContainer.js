@@ -3,6 +3,7 @@
 import { Component } from 'react';
 import { NotificationStack } from 'react-notification';
 import { connect } from 'react-redux';
+
 import { removeToast } from 'app/actions/ToastActions';
 
 type Props = {

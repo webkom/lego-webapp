@@ -1,12 +1,14 @@
 // @flow
 
 import { Helmet } from 'react-helmet-async';
-import styles from './JoblistingPage.css';
+
+import { Flex } from 'app/components/Layout';
 import LoadingIndicator from 'app/components/LoadingIndicator/';
+import type { ActionGrant } from 'app/models';
 import JoblistingsList from './JoblistingList';
 import JoblistingsRightNav from './JoblistingRightNav';
-import { Flex } from 'app/components/Layout';
-import type { ActionGrant } from 'app/models';
+
+import styles from './JoblistingPage.css';
 
 type Props = {
   joblistings: Array</*TODO: JobListing*/ any>,

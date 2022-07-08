@@ -1,5 +1,5 @@
-import { mutateReactions } from '../reactions';
 import { Reaction } from '../../actions/ActionTypes';
+import { mutateReactions } from '../reactions';
 
 describe('reducers', () => {
   describe('mutateReactions', () => {

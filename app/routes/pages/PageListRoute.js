@@ -1,8 +1,9 @@
-import { compose } from 'redux';
 import { connect } from 'react-redux';
-import PageList from './components/PageList';
-import prepare from 'app/utils/prepare';
+import { compose } from 'redux';
+
 import { fetchAll } from 'app/actions/PageActions';
+import prepare from 'app/utils/prepare';
+import PageList from './components/PageList';
 
 const mapStateToProps = (state, props) => ({
   pages: state.pages.byId,

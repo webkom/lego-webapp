@@ -1,10 +1,12 @@
 // @flow
 
-import styles from './Registrations.css';
 import { Link } from 'react-router-dom';
-import Tooltip from 'app/components/Tooltip';
+
 import { Flex } from 'app/components/Layout';
+import Tooltip from 'app/components/Tooltip';
 import type { EventRegistration } from 'app/models';
+
+import styles from './Registrations.css';
 
 type RegistrationProps = {
   registration: EventRegistration,

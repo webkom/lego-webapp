@@ -1,8 +1,9 @@
-import { compose } from 'redux';
 import { connect } from 'react-redux';
-import loadingIndicator from 'app/utils/loadingIndicator';
-import { selectPolls } from 'app/reducers/polls';
+import { compose } from 'redux';
+
 import { fetchAll } from 'app/actions/PollActions';
+import { selectPolls } from 'app/reducers/polls';
+import loadingIndicator from 'app/utils/loadingIndicator';
 import prepare from 'app/utils/prepare';
 import PollsList from './components/PollsList';
 

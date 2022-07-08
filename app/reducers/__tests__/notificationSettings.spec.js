@@ -1,5 +1,5 @@
-import notificationSettings from '../notificationSettings';
 import { NotificationSettings } from '../../actions/ActionTypes';
+import notificationSettings from '../notificationSettings';
 
 describe('reducers', () => {
   const prevState = {

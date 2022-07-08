@@ -1,7 +1,9 @@
 // @flow
 import { useEffect, useState } from 'react';
-import 'node_modules/mazemap/mazemap.min.css';
+
 import MazemapLink from './MazemapLink';
+
+import 'node_modules/mazemap/mazemap.min.css';
 import styles from './MazemapEmbed.css';
 
 type Props = {

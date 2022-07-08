@@ -1,8 +1,10 @@
 // @flow
 
-import { Component, type ComponentType } from 'react';
+import { type ComponentType, Component } from 'react';
 import { debounce } from 'lodash';
+
 import { stripHtmlTags } from './utils.js';
+
 import 'node_modules/mazemap/mazemap.min.css';
 
 type InjectedProps = {

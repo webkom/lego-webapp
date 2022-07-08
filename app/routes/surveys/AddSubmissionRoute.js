@@ -1,20 +1,20 @@
 // @flow
 
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
 import { compose } from 'redux';
+
+import { fetchSurvey } from 'app/actions/SurveyActions';
+import { LoginPage } from 'app/components/LoginForm';
+import { selectSurveyById } from 'app/reducers/surveys';
+import { selectSurveySubmissionForUser } from 'app/reducers/surveySubmissions';
+import loadingIndicator from 'app/utils/loadingIndicator';
+import prepare from 'app/utils/prepare';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import {
   addSubmission,
   fetchUserSubmission,
 } from '../../actions/SurveySubmissionActions';
-import { fetchSurvey } from 'app/actions/SurveyActions';
-
 import SubmissionContainer from './components/SubmissionEditor/SubmissionContainer';
-import { selectSurveyById } from 'app/reducers/surveys';
-import { selectSurveySubmissionForUser } from 'app/reducers/surveySubmissions';
-import { LoginPage } from 'app/components/LoginForm';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import loadingIndicator from 'app/utils/loadingIndicator';
 
 const loadData = (
   {

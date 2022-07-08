@@ -1,11 +1,12 @@
 // @flow
 
 import { Component } from 'react';
-import type { Group, ID } from 'app/models';
 import Select from 'react-select';
-import { selectTheme, selectStyles } from 'app/components/Form/SelectInput';
+
 import Button from 'app/components/Button';
+import { selectStyles, selectTheme } from 'app/components/Form/SelectInput';
 import Flex from 'app/components/Layout/Flex';
+import type { Group, ID } from 'app/models';
 
 type Props = {
   grades: Array<Group>,

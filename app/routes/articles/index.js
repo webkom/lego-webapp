@@ -1,12 +1,13 @@
 // @flow
 import { Route, Switch } from 'react-router-dom';
+
 import RouteWrapper from 'app/components/RouteWrapper';
 import { UserContext } from 'app/routes/app/AppRoute';
-import ArticleListRoute from './ArticleListRoute';
+import PageNotFound from '../pageNotFound';
 import ArticleCreateRoute from './ArticleCreateRoute';
 import ArticleDetailRoute from './ArticleDetailRoute';
 import ArticleEditRoute from './ArticleEditRoute';
-import PageNotFound from '../pageNotFound';
+import ArticleListRoute from './ArticleListRoute';
 
 const articleRoute = ({ match }: { match: { path: string } }) => (
   <UserContext.Consumer>

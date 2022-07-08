@@ -1,7 +1,8 @@
 // @flow
-import { Field } from 'redux-form';
 import type { FormProps } from 'redux-form';
-import { legoForm, Button, Form } from 'app/components/Form';
+import { Field } from 'redux-form';
+
+import { Button, Form, legoForm } from 'app/components/Form';
 import TextInput from 'app/components/Form/TextInput';
 import { createValidator, matchesRegex, required } from 'app/utils/validation';
 

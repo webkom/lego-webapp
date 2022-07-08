@@ -1,10 +1,11 @@
 // @flow
 
 import type { Node } from 'react';
+import { Helmet } from 'react-helmet-async';
+
+import { Content } from 'app/components/Content';
 import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
-import { Content } from 'app/components/Content';
-import { Helmet } from 'react-helmet-async';
 
 type Props = {
   children: Node,

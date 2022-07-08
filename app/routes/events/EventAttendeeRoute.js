@@ -1,11 +1,12 @@
 import { connect } from 'react-redux';
+
 import {
   unregister,
-  updatePresence,
   updatePayment,
+  updatePresence,
 } from 'app/actions/EventActions';
-import Attendees from './components/EventAdministrate/Attendees';
 import { getRegistrationGroups } from 'app/reducers/events';
+import Attendees from './components/EventAdministrate/Attendees';
 
 const mapStateToProps = (state, props) => {
   const { eventId, event, actionGrant, loading } = props;

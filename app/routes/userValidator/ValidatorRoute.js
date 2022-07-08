@@ -1,14 +1,15 @@
 // @flow
-import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
 import { debounce } from 'lodash';
-import prepare from 'app/utils/prepare';
+import qs from 'qs';
+import { compose } from 'redux';
+
 import { autocomplete } from 'app/actions/SearchActions';
-import { selectAutocompleteRedux as selectAutocomplete } from 'app/reducers/search';
 import { Content } from 'app/components/Content';
 import Validator from 'app/components/UserValidator';
-import qs from 'qs';
+import { selectAutocompleteRedux as selectAutocomplete } from 'app/reducers/search';
+import prepare from 'app/utils/prepare';
 
 const searchTypes = ['users.user'];
 

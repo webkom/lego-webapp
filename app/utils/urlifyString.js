@@ -1,7 +1,7 @@
 //@flow
 import * as React from 'react';
-import { isEmail, isURL } from 'validator';
 import { compact } from 'lodash';
+import { isEmail, isURL } from 'validator';
 
 type Urlified = Array<React.Node | string>;
 

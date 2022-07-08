@@ -1,49 +1,51 @@
 // @flow
 
 import { Helmet } from 'react-helmet-async';
-import styles from './EventEditor.css';
 import { Link } from 'react-router-dom';
-import renderPools, { validatePools } from './renderPools';
+import moment from 'moment-timezone';
+import { Field, FieldArray } from 'redux-form';
+
+import {
+  Content,
+  ContentMain,
+  ContentSection,
+  ContentSidebar,
+} from 'app/components/Content';
+import {
+  Button,
+  CheckBox,
+  DatePicker,
+  EditorField,
+  Form,
+  ImageUploadField,
+  legoForm,
+  SelectInput,
+  TextEditor,
+  TextInput,
+} from 'app/components/Form';
+import Icon from 'app/components/Icon';
+import { Flex } from 'app/components/Layout';
+import LoadingIndicator from 'app/components/LoadingIndicator';
+import MazemapLink from 'app/components/MazemapEmbed/MazemapLink';
+import Tag from 'app/components/Tags/Tag';
+import { FormatTime } from 'app/components/Time';
+import Tooltip from 'app/components/Tooltip';
 import {
   AttendanceStatus,
   ModalParentComponent,
 } from 'app/components/UserAttendance';
-import Tag from 'app/components/Tags/Tag';
-import LoadingIndicator from 'app/components/LoadingIndicator';
-import { Field, FieldArray } from 'redux-form';
-import {
-  Form,
-  EditorField,
-  SelectInput,
-  TextInput,
-  TextEditor,
-  CheckBox,
-  Button,
-  DatePicker,
-  ImageUploadField,
-  legoForm,
-} from 'app/components/Form';
-import { Flex } from 'app/components/Layout';
+import type { ID } from 'app/models';
+import { validYoutubeUrl } from 'app/utils/validation';
 import {
   addStripeFee,
-  EVENT_CONSTANTS,
   colorForEvent,
+  EVENT_CONSTANTS,
   eventStatusTypes,
 } from '../../utils';
 import Admin from '../Admin';
-import {
-  Content,
-  ContentSection,
-  ContentMain,
-  ContentSidebar,
-} from 'app/components/Content';
-import Tooltip from 'app/components/Tooltip';
-import Icon from 'app/components/Icon';
-import type { ID } from 'app/models';
-import { validYoutubeUrl } from 'app/utils/validation';
-import { FormatTime } from 'app/components/Time';
-import moment from 'moment-timezone';
-import MazemapLink from 'app/components/MazemapEmbed/MazemapLink';
+import renderPools, { validatePools } from './renderPools';
+
+import styles from './EventEditor.css';
 
 type Props = {
   eventId: number,

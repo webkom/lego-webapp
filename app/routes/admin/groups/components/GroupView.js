@@ -2,12 +2,13 @@
 
 import { Component } from 'react';
 import { Helmet } from 'react-helmet-async';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import { Route, Switch } from 'react-router-dom';
+
+import LoadingIndicator from 'app/components/LoadingIndicator';
 import RouteWrapper from 'app/components/RouteWrapper';
-import GroupSettings from '../components/GroupSettings';
 import ConnectedGroupMembers from '../components/GroupMembers';
 import ConnectedGroupPermissions from '../components/GroupPermissions';
+import GroupSettings from '../components/GroupSettings';
 
 type GroupModel = {
   name: string,

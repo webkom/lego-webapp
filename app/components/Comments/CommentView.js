@@ -1,13 +1,13 @@
 // @flow
 
-import { generateTreeStructure } from 'app/utils';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import CommentForm from 'app/components/CommentForm';
 import { Flex } from 'app/components/Layout';
-import type { UserEntity } from 'app/reducers/users';
-import CommentTree from './CommentTree';
-import type { CommentEntity } from 'app/reducers/comments';
+import LoadingIndicator from 'app/components/LoadingIndicator';
 import type { ID } from 'app/models';
+import type { CommentEntity } from 'app/reducers/comments';
+import type { UserEntity } from 'app/reducers/users';
+import { generateTreeStructure } from 'app/utils';
+import CommentTree from './CommentTree';
 
 type Props = {
   comments: Array<CommentEntity>,

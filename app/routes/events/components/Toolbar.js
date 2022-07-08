@@ -1,10 +1,12 @@
 // @flow
 
 import { Link, NavLink } from 'react-router-dom';
-import Time from 'app/components/Time';
-import styles from './Toolbar.css';
-import type { ActionGrant } from 'app/models';
 import cx from 'classnames';
+
+import Time from 'app/components/Time';
+import type { ActionGrant } from 'app/models';
+
+import styles from './Toolbar.css';
 
 type Props = {
   actionGrant: ActionGrant,

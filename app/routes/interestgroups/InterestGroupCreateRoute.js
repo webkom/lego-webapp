@@ -1,12 +1,13 @@
 // @flow
-import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { formValueSelector } from 'redux-form';
+
+import { uploadFile } from 'app/actions/FileActions';
 import { createGroup, joinGroup } from 'app/actions/GroupActions';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import InterestGroupCreate from './components/InterestGroupCreate';
-import { uploadFile } from 'app/actions/FileActions';
 
 const mapDispatchToProps = {
   createGroup,

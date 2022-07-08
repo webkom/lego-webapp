@@ -1,17 +1,17 @@
 // @flow
 
-import { compose } from 'redux';
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
+import { compose } from 'redux';
 
-import TimelinePage from './components/TimelinePage';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import { LoginPage } from 'app/components/LoginForm';
 import { fetchPersonalFeed } from 'app/actions/FeedActions';
+import { LoginPage } from 'app/components/LoginForm';
 import {
-  selectFeedById,
   selectFeedActivitesByFeedId,
+  selectFeedById,
 } from 'app/reducers/feeds';
+import prepare from 'app/utils/prepare';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import TimelinePage from './components/TimelinePage';
 
 const loadData = (props, dispatch) => {
   return dispatch(fetchPersonalFeed());

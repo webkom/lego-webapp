@@ -1,11 +1,12 @@
 // @flow
 import type { Node } from 'react';
-
 import { Children, cloneElement, Component } from 'react';
 import * as Sentry from '@sentry/browser';
-import styles from './ErrorBoundary.css';
+
 import awSnap from 'app/assets/sentry-aw-snap.svg';
 import { Image } from 'app/components/Image';
+
+import styles from './ErrorBoundary.css';
 
 type Props = {
   openReportDialog?: boolean,

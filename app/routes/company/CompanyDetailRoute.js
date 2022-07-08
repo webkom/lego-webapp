@@ -1,22 +1,23 @@
 // @flow
 
-import { compose } from 'redux';
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
+import { compose } from 'redux';
+
 import {
   fetch as fetchCompany,
   fetchEventsForCompany,
   fetchJoblistingsForCompany,
 } from 'app/actions/CompanyActions';
-import CompanyDetail from './components/CompanyDetail';
 import { LoginPage } from 'app/components/LoginForm';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import {
   selectEventsForCompany,
   selectJoblistingsForCompany,
 } from 'app/reducers/companies';
-import { selectPagination } from '../../reducers/selectors';
 import createQueryString from 'app/utils/createQueryString';
+import prepare from 'app/utils/prepare';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import { selectPagination } from '../../reducers/selectors';
+import CompanyDetail from './components/CompanyDetail';
 
 const queryString = (companyId) =>
   createQueryString({

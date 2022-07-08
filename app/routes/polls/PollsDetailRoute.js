@@ -1,18 +1,18 @@
-import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { selectPollById } from 'app/reducers/polls';
+import { compose } from 'redux';
+
 import {
-  fetchPoll,
   deletePoll,
   editPoll,
+  fetchPoll,
   votePoll,
 } from 'app/actions/PollActions';
-import prepare from 'app/utils/prepare';
-import PollDetail from './components/PollDetail';
-
-import loadingIndicator from 'app/utils/loadingIndicator';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { LoginPage } from 'app/components/LoginForm';
+import { selectPollById } from 'app/reducers/polls';
+import loadingIndicator from 'app/utils/loadingIndicator';
+import prepare from 'app/utils/prepare';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import PollDetail from './components/PollDetail';
 
 const mapStateToProps = (state, props) => {
   const id = props.match.params.pollsId;

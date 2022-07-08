@@ -1,6 +1,7 @@
 // @flow
 
 import type { Node } from 'react';
+
 import styles from './Tag.css';
 
 type Props = {

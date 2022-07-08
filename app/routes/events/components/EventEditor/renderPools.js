@@ -1,15 +1,16 @@
 // @flow
-import styles from './EventEditor.css';
+import moment from 'moment-timezone';
 import { Field } from 'redux-form';
+
 import {
-  TextInput,
+  Button,
   DatePicker,
   SelectInput,
-  Button,
+  TextInput,
 } from 'app/components/Form';
 import type { Dateish, EventStatusType } from 'app/models';
 
-import moment from 'moment-timezone';
+import styles from './EventEditor.css';
 
 type poolProps = {
   fields: Object,

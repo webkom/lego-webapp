@@ -1,13 +1,14 @@
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
-import {
-  fetchJoblisting,
-  deleteJoblisting,
-} from 'app/actions/JoblistingActions';
-import JoblistingDetail from './components/JoblistingDetail';
-import { selectJoblistingById } from 'app/reducers/joblistings';
-import { compose } from 'redux';
 import { push } from 'connected-react-router';
+import { compose } from 'redux';
+
+import {
+  deleteJoblisting,
+  fetchJoblisting,
+} from 'app/actions/JoblistingActions';
+import { selectJoblistingById } from 'app/reducers/joblistings';
+import prepare from 'app/utils/prepare';
+import JoblistingDetail from './components/JoblistingDetail';
 
 const mapStateToProps = (state, props) => {
   const { joblistingId } = props.match.params;

@@ -1,14 +1,16 @@
 // @flow
 
 import type { Node } from 'react';
+import cx from 'classnames';
+import moment from 'moment-timezone';
+
+import Icon from 'app/components/Icon';
 import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
-import moment from 'moment-timezone';
-import styles from './components/surveys.css';
-import { type ActionGrant } from 'app/models';
 import config from 'app/config';
-import cx from 'classnames';
-import Icon from 'app/components/Icon';
+import { type ActionGrant } from 'app/models';
+
+import styles from './components/surveys.css';
 
 const questionStrings = {
   single: 'single_choice',

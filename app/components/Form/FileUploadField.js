@@ -2,10 +2,12 @@
 import { Component } from 'react';
 import cx from 'classnames';
 import type { FieldProps } from 'redux-form';
+
+import FileUpload from 'app/components/Upload/FileUpload';
+import Icon from '../Icon';
 import { Flex } from '../Layout';
 import { createField } from './Field';
-import Icon from '../Icon';
-import FileUpload from 'app/components/Upload/FileUpload';
+
 import styles from './FileUploadField.css';
 
 type Props = {

@@ -1,12 +1,14 @@
 // @flow
 
-import styles from './CompactEvents.css';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { colorForEvent } from 'app/routes/events/utils';
+
 import { Flex } from 'app/components/Layout';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
+import { colorForEvent } from 'app/routes/events/utils';
+
+import styles from './CompactEvents.css';
 
 type Props = {
   events: Array<Object>,

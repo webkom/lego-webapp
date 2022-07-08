@@ -1,14 +1,15 @@
 //@flow
-import { StaticRouter } from 'react-router';
-import RouteConfig from '../app/routes';
+import { HelmetProvider } from 'react-helmet-async';
 // $FlowFixMe
 import { ReactReduxContext } from 'react-redux';
+import { StaticRouter } from 'react-router';
 import * as Sentry from '@sentry/node';
-import configureStore from '../app/utils/configureStore';
-import { type State } from '../app/types';
-import pageRenderer from './pageRenderer';
 import { prepare } from '@webkom/react-prepare';
-import { HelmetProvider } from 'react-helmet-async';
+
+import RouteConfig from '../app/routes';
+import { type State } from '../app/types';
+import configureStore from '../app/utils/configureStore';
+import pageRenderer from './pageRenderer';
 
 const serverSideTimeoutInMs = 4000;
 

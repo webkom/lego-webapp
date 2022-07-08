@@ -1,8 +1,8 @@
 // @flow
 import callAPI from 'app/actions/callAPI';
-import { Tag } from './ActionTypes';
-import type { Thunk } from 'app/types';
 import { tagSchema } from 'app/reducers';
+import type { Thunk } from 'app/types';
+import { Tag } from './ActionTypes';
 
 export function fetch(id: string): Thunk<*> {
   return callAPI({

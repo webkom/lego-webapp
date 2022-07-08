@@ -1,14 +1,15 @@
 // @flow
-import { compose } from 'redux';
-import { fetchRandomQuote } from 'app/actions/QuoteActions';
 import { connect } from 'react-redux';
-import RandomQuote from './RandomQuote';
+import { compose } from 'redux';
+
+import { fetchEmojis } from 'app/actions/EmojiActions';
+import { fetchRandomQuote } from 'app/actions/QuoteActions';
 import { addReaction, deleteReaction } from 'app/actions/ReactionActions';
 import { selectEmojis } from 'app/reducers/emojis';
 import { selectRandomQuote } from 'app/reducers/quotes';
-import { fetchEmojis } from 'app/actions/EmojiActions';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import RandomQuote from './RandomQuote';
 
 function mapStateToProps(state, props) {
   const emojis = selectEmojis(state);

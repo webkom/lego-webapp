@@ -1,10 +1,12 @@
 // @flow
 
-import { RadioButton, TextInput, CheckBox } from 'app/components/Form';
 import { Field } from 'redux-form';
-import styles from '../surveys.css';
-import { QuestionTypes } from 'app/routes/surveys/utils';
+
 import Button from 'app/components/Button';
+import { CheckBox, RadioButton, TextInput } from 'app/components/Form';
+import { QuestionTypes } from 'app/routes/surveys/utils';
+
+import styles from '../surveys.css';
 
 type Props = {
   questionType: string,

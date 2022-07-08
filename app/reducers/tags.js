@@ -1,8 +1,9 @@
 // @flow
+import { produce } from 'immer';
 import { createSelector } from 'reselect';
+
 import { Tag } from 'app/actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
-import { produce } from 'immer';
 
 type State = any;
 

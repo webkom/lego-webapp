@@ -1,15 +1,14 @@
 // @flow
 
 import type { Element } from 'react';
-
 import { cloneElement } from 'react';
 
-import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { Content } from 'app/components/Content';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { LoginPage } from 'app/components/LoginForm';
-import type { EventEntity } from 'app/reducers/events';
+import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import type { EventPool } from 'app/models';
+import type { EventEntity } from 'app/reducers/events';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 
 type Props = {
   children: Array<Element<*>>,

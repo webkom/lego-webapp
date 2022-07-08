@@ -2,18 +2,20 @@
 
 import { Component } from 'react';
 import { Helmet } from 'react-helmet-async';
-import styles from './Company.css';
+import { Link } from 'react-router-dom';
+import moment from 'moment-timezone';
+
 import { Content } from 'app/components/Content';
-import LoadingIndicator from 'app/components/LoadingIndicator';
+import Icon from 'app/components/Icon';
 import { Image } from 'app/components/Image';
 import InfoBubble from 'app/components/InfoBubble';
-import { Link } from 'react-router-dom';
+import LoadingIndicator from 'app/components/LoadingIndicator';
 import NavigationTab from 'app/components/NavigationTab';
 import { jobType, Year } from 'app/routes/joblistings/components/Items';
-import Icon from 'app/components/Icon';
-import moment from 'moment-timezone';
 import EventItem from 'app/routes/overview/components/EventItem';
 import { renderMeta } from 'app/routes/overview/components/utils';
+
+import styles from './Company.css';
 
 type Props = {
   company: Object,

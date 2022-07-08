@@ -1,9 +1,10 @@
 // @flow
 
-import styles from '../surveys.css';
-import SurveyItem from './SurveyItem';
-import type { SurveyEntity } from 'app/reducers/surveys';
 import LoadingIndicator from 'app/components/LoadingIndicator';
+import type { SurveyEntity } from 'app/reducers/surveys';
+import SurveyItem from './SurveyItem';
+
+import styles from '../surveys.css';
 
 type Props = {
   surveys: Array<SurveyEntity>,

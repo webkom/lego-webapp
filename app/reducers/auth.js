@@ -1,6 +1,7 @@
 // @flow
 
 import { createSelector } from 'reselect';
+
 import { User } from '../actions/ActionTypes';
 
 type State = {

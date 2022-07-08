@@ -6,18 +6,19 @@ import { Field } from 'redux-form';
 import Button from 'app/components/Button';
 import {
   Form,
-  TextInput,
-  RadioButtonGroup,
-  RadioButton,
   legoForm,
   PhoneNumberInput,
+  RadioButton,
+  RadioButtonGroup,
+  TextInput,
 } from 'app/components/Form';
-import UserImage from './UserImage';
-import ChangePassword from './ChangePassword';
-import styles from './UserSettings.css';
-import { createValidator, required, isEmail } from 'app/utils/validation';
-import RemovePicture from 'app/routes/users/components/RemovePicture';
 import DeleteUser from 'app/routes/users/components/DeleteUser';
+import RemovePicture from 'app/routes/users/components/RemovePicture';
+import { createValidator, isEmail, required } from 'app/utils/validation';
+import ChangePassword from './ChangePassword';
+import UserImage from './UserImage';
+
+import styles from './UserSettings.css';
 
 export type PasswordPayload = {
   newPassword: string,

@@ -1,27 +1,28 @@
-import 'isomorphic-fetch';
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
+import { push } from 'connected-react-router';
+import { compose } from 'redux';
+
 import {
-  fetchSubmissions,
+  editSurvey,
+  fetchSurvey,
+  hideSurvey,
+  shareSurvey,
+} from 'app/actions/SurveyActions';
+import {
   addSubmission,
   deleteSubmission,
+  fetchSubmissions,
   hideAnswer,
   showAnswer,
 } from 'app/actions/SurveySubmissionActions';
-import {
-  fetchSurvey,
-  shareSurvey,
-  hideSurvey,
-  editSurvey,
-} from 'app/actions/SurveyActions';
-import SubmissionPage from './components/Submissions/SubmissionPage';
-import { compose } from 'redux';
-import { selectSurveySubmissions } from 'app/reducers/surveySubmissions';
-import { selectSurveyById } from 'app/reducers/surveys';
-import { push } from 'connected-react-router';
-import loadingIndicator from 'app/utils/loadingIndicator';
 import { LoginPage } from 'app/components/LoginForm';
+import { selectSurveyById } from 'app/reducers/surveys';
+import { selectSurveySubmissions } from 'app/reducers/surveySubmissions';
+import loadingIndicator from 'app/utils/loadingIndicator';
+import prepare from 'app/utils/prepare';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import 'isomorphic-fetch';
+import SubmissionPage from './components/Submissions/SubmissionPage';
 import { getCsvUrl } from './utils';
 
 const loadData = (props, dispatch) => {

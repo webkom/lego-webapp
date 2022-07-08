@@ -1,9 +1,10 @@
 //@flow
 
+import { Field, Form, reduxForm } from 'redux-form';
+
 import Button from 'app/components/Button';
+import { CheckBox, SelectInput, TextInput } from 'app/components/Form';
 import { createValidator, required } from 'app/utils/validation';
-import { reduxForm, Form, Field } from 'redux-form';
-import { TextInput, SelectInput, CheckBox } from 'app/components/Form';
 
 export type Props = {
   emailUserId?: number,

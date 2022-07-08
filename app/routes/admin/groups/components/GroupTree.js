@@ -1,7 +1,9 @@
 // @flow
-import TreeView from 'react-treeview';
 import { Link } from 'react-router-dom';
+import TreeView from 'react-treeview';
+
 import { generateTreeStructure } from 'app/utils';
+
 import './GroupTree.css';
 
 // Returns the URL that a group in the tree should point to.

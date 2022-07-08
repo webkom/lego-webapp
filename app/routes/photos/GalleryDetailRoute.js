@@ -1,22 +1,23 @@
 import { PureComponent } from 'react';
-import LoadingIndicator from 'app/components/LoadingIndicator';
-import HTTPError from '../errors/HTTPError';
-import { LoginPage } from 'app/components/LoginForm';
-import { compose } from 'redux';
-import helmet from 'app/utils/helmet';
 import { connect } from 'react-redux';
+import { push } from 'connected-react-router';
+import { compose } from 'redux';
+
 import { fetchGallery, fetchGalleryMetadata } from 'app/actions/GalleryActions';
-import loadingIndicator from 'app/utils/loadingIndicator';
-import prepare from 'app/utils/prepare';
 import {
-  fetch,
   clear,
+  fetch,
   uploadAndCreateGalleryPicture,
 } from 'app/actions/GalleryPictureActions';
-import { push } from 'connected-react-router';
-import GalleryDetail from './components/GalleryDetail';
+import LoadingIndicator from 'app/components/LoadingIndicator';
+import { LoginPage } from 'app/components/LoginForm';
 import { selectGalleryById } from 'app/reducers/galleries';
 import { SelectGalleryPicturesByGalleryId } from 'app/reducers/galleryPictures';
+import helmet from 'app/utils/helmet';
+import loadingIndicator from 'app/utils/loadingIndicator';
+import prepare from 'app/utils/prepare';
+import HTTPError from '../errors/HTTPError';
+import GalleryDetail from './components/GalleryDetail';
 
 const loadData = ({ match: { params } }, dispatch) =>
   Promise.all([

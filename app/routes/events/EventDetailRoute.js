@@ -1,35 +1,36 @@
-import { compose } from 'redux';
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
-import {
-  fetchEvent,
-  deleteEvent,
-  register,
-  unregister,
-  payment,
-  updateFeedback,
-  follow,
-  unfollow,
-  isUserFollowing,
-} from 'app/actions/EventActions';
-import EventDetail from './components/EventDetail';
-import {
-  selectEventById,
-  selectCommentsForEvent,
-  selectPoolsWithRegistrationsForEvent,
-  selectPoolsForEvent,
-  selectRegistrationsFromPools,
-  selectMergedPoolWithRegistrations,
-  selectMergedPool,
-  selectWaitingRegistrationsForEvent,
-  selectRegistrationForEventByUserId,
-} from 'app/reducers/events';
-import loadingIndicator from 'app/utils/loadingIndicator';
-import helmet from 'app/utils/helmet';
+import { compose } from 'redux';
+
 import { deleteComment } from 'app/actions/CommentActions';
-import { selectUserWithGroups } from 'app/reducers/users';
+import {
+  deleteEvent,
+  fetchEvent,
+  follow,
+  isUserFollowing,
+  payment,
+  register,
+  unfollow,
+  unregister,
+  updateFeedback,
+} from 'app/actions/EventActions';
+import {
+  selectCommentsForEvent,
+  selectEventById,
+  selectMergedPool,
+  selectMergedPoolWithRegistrations,
+  selectPoolsForEvent,
+  selectPoolsWithRegistrationsForEvent,
+  selectRegistrationForEventByUserId,
+  selectRegistrationsFromPools,
+  selectWaitingRegistrationsForEvent,
+} from 'app/reducers/events';
 import { selectFollowersCurrentUser } from 'app/reducers/followers';
 import { selectPenaltyByUserId } from 'app/reducers/penalties';
+import { selectUserWithGroups } from 'app/reducers/users';
+import helmet from 'app/utils/helmet';
+import loadingIndicator from 'app/utils/loadingIndicator';
+import prepare from 'app/utils/prepare';
+import EventDetail from './components/EventDetail';
 
 const mapStateToProps = (state, props) => {
   const {

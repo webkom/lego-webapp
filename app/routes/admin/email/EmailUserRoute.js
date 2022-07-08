@@ -1,13 +1,14 @@
 // @flow
 
-import { compose } from 'redux';
 import { connect } from 'react-redux';
-import EmailUserEditor from './components/EmailUserEditor';
+import { get } from 'lodash';
+import { compose } from 'redux';
+
+import { editEmailUser, fetchEmailUser } from 'app/actions/EmailUserActions';
+import { selectEmailUserById } from 'app/reducers/emailUsers';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import prepare from 'app/utils/prepare';
-import { get } from 'lodash';
-import { selectEmailUserById } from 'app/reducers/emailUsers';
-import { editEmailUser, fetchEmailUser } from 'app/actions/EmailUserActions';
+import EmailUserEditor from './components/EmailUserEditor';
 
 const mapStateToProps = (state, { match: { params } }) => {
   const { emailUserId } = params;

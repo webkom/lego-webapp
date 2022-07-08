@@ -1,6 +1,7 @@
 // @flow
 
 import { get } from 'lodash';
+
 import { fetchHistoryEntryKey } from 'app/reducers/fetchHistory';
 import { type PromiseAction } from 'app/types';
 

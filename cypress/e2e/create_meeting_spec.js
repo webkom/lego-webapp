@@ -1,3 +1,6 @@
+import moment from 'moment-timezone';
+
+import config from '../support/config';
 import {
   c,
   field,
@@ -5,13 +8,11 @@ import {
   fieldErrors,
   mockMazemapApi,
   selectEditor,
-  setDatePickerTime,
-  selectFromSelectField,
-  selectFieldDropdown,
   selectField,
+  selectFieldDropdown,
+  selectFromSelectField,
+  setDatePickerTime,
 } from '../support/utils.js';
-import moment from 'moment-timezone';
-import config from '../support/config';
 
 describe('Create meeting', () => {
   beforeEach(() => {

@@ -1,9 +1,10 @@
 // @flow
 
 import { createSelector } from 'reselect';
-import { EmailUser } from '../actions/ActionTypes';
+
 import { type UserEntity, selectUserWithGroups } from 'app/reducers/users';
 import createEntityReducer from 'app/utils/createEntityReducer';
+import { EmailUser } from '../actions/ActionTypes';
 
 export type EmailUserEntity = {
   id: number,

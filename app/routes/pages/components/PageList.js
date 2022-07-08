@@ -1,6 +1,7 @@
 // @flow
 
 import { Link } from 'react-router-dom';
+
 import { Content } from 'app/components/Content';
 
 type Page = {

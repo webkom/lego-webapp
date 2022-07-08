@@ -1,10 +1,11 @@
 // @flow
 
-import callAPI from 'app/actions/callAPI';
-import { Announcements } from './ActionTypes';
-import { announcementsSchema } from 'app/reducers';
 import { stopSubmit } from 'redux-form';
+
+import callAPI from 'app/actions/callAPI';
+import { announcementsSchema } from 'app/reducers';
 import type { Thunk } from 'app/types';
+import { Announcements } from './ActionTypes';
 
 export function fetchAll(): Thunk<any> {
   return callAPI({

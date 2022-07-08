@@ -1,10 +1,11 @@
-import prepare from 'app/utils/prepare';
-import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { formValueSelector } from 'redux-form';
-import UserConfirmation from './components/UserConfirmation';
-import { createUser, validateRegistrationToken } from 'app/actions/UserActions';
 import qs from 'qs';
+import { compose } from 'redux';
+import { formValueSelector } from 'redux-form';
+
+import { createUser, validateRegistrationToken } from 'app/actions/UserActions';
+import prepare from 'app/utils/prepare';
+import UserConfirmation from './components/UserConfirmation';
 
 const loadData = ({ location: { search } }, dispatch) => {
   const { token } = qs.parse(search, { ignoreQueryPrefix: true });

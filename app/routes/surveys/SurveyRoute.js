@@ -1,12 +1,13 @@
 import { connect } from 'react-redux';
+import { push } from 'connected-react-router';
+import { compose } from 'redux';
+
+import { LoginPage } from 'app/components/LoginForm';
+import { selectSurveys } from 'app/reducers/surveys';
 import prepare from 'app/utils/prepare';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { fetchAll } from '../../actions/SurveyActions';
 import SurveyPage from './components/SurveyList/SurveyPage';
-import { compose } from 'redux';
-import { selectSurveys } from 'app/reducers/surveys';
-import { LoginPage } from 'app/components/LoginForm';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import { push } from 'connected-react-router';
 
 const loadData = (props, dispatch) => dispatch(fetchAll());
 

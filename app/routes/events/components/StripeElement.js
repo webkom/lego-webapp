@@ -1,19 +1,21 @@
 //@flow
-import { Component, useState, useEffect, useCallback } from 'react';
-import { loadStripe } from '@stripe/stripe-js';
+import { Component, useCallback, useEffect, useState } from 'react';
 import {
-  useStripe,
-  useElements,
-  PaymentRequestButtonElement,
-  Elements,
   CardCvcElement,
   CardExpiryElement,
   CardNumberElement,
+  Elements,
+  PaymentRequestButtonElement,
+  useElements,
+  useStripe,
 } from '@stripe/react-stripe-js';
-import config from 'app/config';
-import stripeStyles from './Stripe.css';
-import type { EventRegistrationPaymentStatus, User, Event } from 'app/models';
+import { loadStripe } from '@stripe/stripe-js';
+
 import LoadingIndicator from 'app/components/LoadingIndicator';
+import config from 'app/config';
+import type { Event, EventRegistrationPaymentStatus, User } from 'app/models';
+
+import stripeStyles from './Stripe.css';
 
 type Props = {
   event: Event,

@@ -2,23 +2,23 @@
 // @flow
 
 import type { Node } from 'react';
-
-import { Helmet } from 'react-helmet-async';
 import { Component } from 'react';
-import styles from './PageDetail.css';
-import { Flex } from 'app/components/Layout';
-import LoadingIndicator from 'app/components/LoadingIndicator';
+import { Helmet } from 'react-helmet-async';
+
 import { Content } from 'app/components/Content';
-import { readmeIfy } from 'app/components/ReadmeLogo';
 import DisplayContent from 'app/components/DisplayContent';
 import GroupMember from 'app/components/GroupMember';
 import Icon from 'app/components/Icon';
 import { Image } from 'app/components/Image';
-
-import type { HierarchySectionEntity } from './PageHierarchy';
+import { Flex } from 'app/components/Layout';
+import LoadingIndicator from 'app/components/LoadingIndicator';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
+import { readmeIfy } from 'app/components/ReadmeLogo';
 import type { PageEntity } from 'app/reducers/pages';
+import type { HierarchySectionEntity } from './PageHierarchy';
 import Sidebar from './Sidebar';
+
+import styles from './PageDetail.css';
 
 type State = {
   isOpen: boolean,

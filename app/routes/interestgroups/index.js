@@ -1,12 +1,13 @@
 // @flow
 import { Route, Switch } from 'react-router-dom';
+
 import RouteWrapper from 'app/components/RouteWrapper';
 import { UserContext } from 'app/routes/app/AppRoute';
-import InterestGroupListRoute from './InterestGroupListRoute';
+import PageNotFound from '../pageNotFound';
 import InterestGroupCreateRoute from './InterestGroupCreateRoute';
 import InterestGroupDetailRoute from './InterestGroupDetailRoute';
 import InterestGroupEditRoute from './InterestGroupEditRoute';
-import PageNotFound from '../pageNotFound';
+import InterestGroupListRoute from './InterestGroupListRoute';
 
 const interestGroupRoute = ({ match }: { match: { path: string } }) => (
   <UserContext.Consumer>

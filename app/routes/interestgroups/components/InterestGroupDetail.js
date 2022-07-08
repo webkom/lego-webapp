@@ -1,22 +1,24 @@
 // @flow
 
-import styles from './InterestGroup.css';
 import { Helmet } from 'react-helmet-async';
-import { Image } from 'app/components/Image';
-import { Flex } from 'app/components/Layout';
+
+import AnnouncementInLine from 'app/components/AnnouncementInLine';
+import Button from 'app/components/Button';
 import {
   Content,
-  ContentSection,
   ContentMain,
+  ContentSection,
   ContentSidebar,
 } from 'app/components/Content';
-import UserGrid from 'app/components/UserGrid';
-import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
-import Button from 'app/components/Button';
 import DisplayContent from 'app/components/DisplayContent';
-import AnnouncementInLine from 'app/components/AnnouncementInLine';
-import type { Group, User, GroupMembership, ID } from 'app/models';
+import { Image } from 'app/components/Image';
+import { Flex } from 'app/components/Layout';
+import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
+import UserGrid from 'app/components/UserGrid';
+import type { Group, GroupMembership, ID, User } from 'app/models';
 import InterestGroupMemberList from './InterestGroupMemberList';
+
+import styles from './InterestGroup.css';
 
 type TitleProps = {
   group: Group,

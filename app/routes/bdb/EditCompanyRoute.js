@@ -1,16 +1,17 @@
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
 import { compose } from 'redux';
+
+import { uploadFile } from 'app/actions/FileActions';
+import { LoginPage } from 'app/components/LoginForm';
+import { selectCompanyById } from 'app/reducers/companies';
+import prepare from 'app/utils/prepare';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import {
+  deleteCompany,
   editCompany,
   fetchAdmin,
-  deleteCompany,
 } from '../../actions/CompanyActions';
 import CompanyEditor from './components/CompanyEditor';
-import { LoginPage } from 'app/components/LoginForm';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import { uploadFile } from 'app/actions/FileActions';
-import { selectCompanyById } from 'app/reducers/companies';
 
 const mapStateToProps = (state, props) => {
   const companyId = Number(props.match.params.companyId);

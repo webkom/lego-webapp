@@ -1,16 +1,17 @@
 // @flow
 
 import type { Element } from 'react';
-
 import { cloneElement } from 'react';
-import styles from '../surveys.css';
-import type { SubmissionEntity } from 'app/reducers/surveySubmissions';
-import type { SurveyEntity } from 'app/reducers/surveys';
-import { DetailNavigation } from '../../utils';
-import { Content, ContentSection, ContentMain } from 'app/components/Content';
 import { Link } from 'react-router-dom';
-import AdminSideBar from '../AdminSideBar';
+
+import { Content, ContentMain, ContentSection } from 'app/components/Content';
 import type { ActionGrant } from 'app/models';
+import type { SurveyEntity } from 'app/reducers/surveys';
+import type { SubmissionEntity } from 'app/reducers/surveySubmissions';
+import { DetailNavigation } from '../../utils';
+import AdminSideBar from '../AdminSideBar';
+
+import styles from '../surveys.css';
 
 type Props = {
   submissions: Array<SubmissionEntity>,

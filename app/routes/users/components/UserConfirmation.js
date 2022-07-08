@@ -1,23 +1,25 @@
 // @flow
 
-import styles from './UserConfirmation.css';
-import { Container, Flex } from 'app/components/Layout';
+import { Link } from 'react-router-dom';
+import { Field } from 'redux-form';
+
 import {
-  Form,
-  TextInput,
-  RadioButtonGroup,
-  RadioButton,
   Button,
+  Form,
   legoForm,
   PhoneNumberInput,
+  RadioButton,
+  RadioButtonGroup,
+  TextInput,
 } from 'app/components/Form';
-import { Field } from 'redux-form';
-import { Link } from 'react-router-dom';
+import { Container, Flex } from 'app/components/Layout';
+import { type UserEntity } from 'app/reducers/users';
+import { createAsyncValidator } from 'app/utils/asyncValidator';
 import { createValidator, required, sameAs } from 'app/utils/validation';
 import { validPassword } from '../utils';
 import PasswordField from './PasswordField';
-import { type UserEntity } from 'app/reducers/users';
-import { createAsyncValidator } from 'app/utils/asyncValidator';
+
+import styles from './UserConfirmation.css';
 
 type Props = {
   token: string,

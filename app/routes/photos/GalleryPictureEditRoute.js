@@ -1,17 +1,18 @@
 import { connect } from 'react-redux';
-import GalleryPictureEditModal from './components/GalleryPictureEditModal';
+import { push } from 'connected-react-router';
+import { compose } from 'redux';
+
 import {
   deletePicture,
   updatePicture,
 } from 'app/actions/GalleryPictureActions';
-import { compose } from 'redux';
-import loadingIndicator from 'app/utils/loadingIndicator';
-import {
-  selectGalleryPictureById,
-  selectCommentsForGalleryPicture,
-} from 'app/reducers/galleryPictures';
 import { selectGalleryById } from 'app/reducers/galleries';
-import { push } from 'connected-react-router';
+import {
+  selectCommentsForGalleryPicture,
+  selectGalleryPictureById,
+} from 'app/reducers/galleryPictures';
+import loadingIndicator from 'app/utils/loadingIndicator';
+import GalleryPictureEditModal from './components/GalleryPictureEditModal';
 
 function mapStateToProps(state, props) {
   const { pictureId, galleryId } = props.match.params;

@@ -1,11 +1,13 @@
 // @flow
 
 import { Component } from 'react';
+import { Link } from 'react-router-dom';
+
+import { Content } from 'app/components/Content';
 import type { SurveyEntity } from 'app/reducers/surveys';
 import type { SubmissionEntity } from 'app/reducers/surveySubmissions';
-import { Content } from 'app/components/Content';
-import { Link } from 'react-router-dom';
 import StaticSubmission from '../StaticSubmission';
+
 import styles from '../surveys.css';
 
 type Props = {

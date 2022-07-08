@@ -2,16 +2,18 @@
 
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
-import Time from 'app/components/Time';
+
 import CommentForm from 'app/components/CommentForm';
-import { ProfilePicture } from 'app/components/Image';
 import DisplayContent from 'app/components/DisplayContent';
-import styles from './Comment.css';
+import { ProfilePicture } from 'app/components/Image';
 import { Flex } from 'app/components/Layout';
-import { type UserEntity } from 'app/reducers/users';
-import { type CommentEntity } from 'app/reducers/comments';
+import Time from 'app/components/Time';
 import type { ID } from 'app/models';
+import { type CommentEntity } from 'app/reducers/comments';
+import { type UserEntity } from 'app/reducers/users';
 import Button from '../Button';
+
+import styles from './Comment.css';
 
 type Props = {
   comment: CommentEntity,

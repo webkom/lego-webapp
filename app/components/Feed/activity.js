@@ -1,15 +1,16 @@
 // @flow
 import type { Node } from 'react';
-
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
+
 import Button from 'app/components/Button';
 import Card from 'app/components/Card';
-import Time from 'app/components/Time';
 import { ProfilePicture } from 'app/components/Image';
-import styles from './activity.css';
+import Time from 'app/components/Time';
 import { lookupContext, toLink } from './context';
-import type { AggregatedActivity, Activity } from './types';
+import type { Activity, AggregatedActivity } from './types';
+
+import styles from './activity.css';
 
 type Props = {
   aggregatedActivity: AggregatedActivity,

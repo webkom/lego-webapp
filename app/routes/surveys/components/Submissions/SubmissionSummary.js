@@ -1,11 +1,11 @@
 // @flow
 
-import type { SubmissionEntity } from 'app/reducers/surveySubmissions';
-import type { SurveyEntity, QuestionEntity } from 'app/reducers/surveys';
-
-import Results from './Results';
-import styles from '../surveys.css';
 import Button from 'app/components/Button';
+import type { QuestionEntity, SurveyEntity } from 'app/reducers/surveys';
+import type { SubmissionEntity } from 'app/reducers/surveySubmissions';
+import Results from './Results';
+
+import styles from '../surveys.css';
 
 type Props = {
   submissions: Array<SubmissionEntity>,

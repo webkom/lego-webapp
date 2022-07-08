@@ -1,9 +1,9 @@
 // @flow
 
+import { produce } from 'immer';
 import keyBy from 'lodash/keyBy';
 
 import { NotificationSettings } from 'app/actions/ActionTypes';
-import { produce } from 'immer';
 
 type State = {
   channels: Array<string>,

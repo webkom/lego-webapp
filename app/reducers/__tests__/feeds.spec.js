@@ -1,5 +1,5 @@
-import feeds from '../feeds';
 import { Feed } from '../../actions/ActionTypes';
+import feeds from '../feeds';
 
 describe('reducers', () => {
   describe('feeds', () => {

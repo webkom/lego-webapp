@@ -1,25 +1,24 @@
 // @flow
 
 import type { FormProps } from 'redux-form';
-import { reset, Field } from 'redux-form';
-
-import { Content } from 'app/components/Content';
-import { semesterToText, SemesterNavigation } from '../utils';
-import styles from './CompanyInterest.css';
-import {
-  Form,
-  TextInput,
-  RadioButton,
-  RadioButtonGroup,
-  legoForm,
-} from 'app/components/Form';
-import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
-import Flex from 'app/components/Layout/Flex';
-import Icon from 'app/components/Icon';
+import { Field, reset } from 'redux-form';
 
 import Button from 'app/components/Button';
-
+import { Content } from 'app/components/Content';
+import {
+  Form,
+  legoForm,
+  RadioButton,
+  RadioButtonGroup,
+  TextInput,
+} from 'app/components/Form';
+import Icon from 'app/components/Icon';
+import Flex from 'app/components/Layout/Flex';
+import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 import { createValidator, required } from 'app/utils/validation';
+import { SemesterNavigation, semesterToText } from '../utils';
+
+import styles from './CompanyInterest.css';
 
 type Props = {
   onSubmit: (CompanySemesterEntity) => Promise<*>,

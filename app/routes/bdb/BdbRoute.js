@@ -1,20 +1,21 @@
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
-import {
-  fetchAllAdmin,
-  addSemesterStatus,
-  editSemesterStatus,
-  fetchSemesters,
-  addSemester,
-} from '../../actions/CompanyActions';
-import BdbPage from './components/BdbPage';
-import { compose } from 'redux';
-import { selectCompanies } from 'app/reducers/companies';
-import { LoginPage } from 'app/components/LoginForm';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import { selectCompanySemesters } from 'app/reducers/companySemesters';
 import { push } from 'connected-react-router';
 import qs from 'qs';
+import { compose } from 'redux';
+
+import { LoginPage } from 'app/components/LoginForm';
+import { selectCompanies } from 'app/reducers/companies';
+import { selectCompanySemesters } from 'app/reducers/companySemesters';
+import prepare from 'app/utils/prepare';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import {
+  addSemester,
+  addSemesterStatus,
+  editSemesterStatus,
+  fetchAllAdmin,
+  fetchSemesters,
+} from '../../actions/CompanyActions';
+import BdbPage from './components/BdbPage';
 
 const loadData = (props, dispatch) =>
   dispatch(fetchSemesters()).then(() => dispatch(fetchAllAdmin()));

@@ -1,13 +1,13 @@
 //@flow
 import { Link } from 'react-router-dom';
-import styles from './EventFooter.css';
-import utilityStyles from 'app/styles/utilities.css';
 import cx from 'classnames';
-
-import { eventTypeToString, colorForEvent, EVENT_CONSTANTS } from '../utils';
 
 import Circle from 'app/components/Circle';
 import config from 'app/config';
+import utilityStyles from 'app/styles/utilities.css';
+import { colorForEvent, EVENT_CONSTANTS, eventTypeToString } from '../utils';
+
+import styles from './EventFooter.css';
 
 const icalTypes = [
   { name: 'events', title: 'Alle arrangementer' },

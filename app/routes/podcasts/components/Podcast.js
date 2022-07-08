@@ -1,12 +1,14 @@
 // @flow
 
 import { Component } from 'react';
-import styles from './Podcast.css';
-import LegoSoundCloudPlayer from './PodcastPlayer.js';
 import { Link } from 'react-router-dom';
+
+import Button from 'app/components/Button';
 import Icon from 'app/components/Icon';
 import { ProfilePicture } from 'app/components/Image';
-import Button from 'app/components/Button';
+import LegoSoundCloudPlayer from './PodcastPlayer.js';
+
+import styles from './Podcast.css';
 
 type Props = {
   id: number,

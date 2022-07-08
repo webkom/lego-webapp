@@ -1,13 +1,13 @@
 // @flow
 
+import { groupBy, sortBy, uniqBy } from 'lodash';
 import { createSelector } from 'reselect';
-import { uniqBy, sortBy, groupBy } from 'lodash';
-import { Page } from '../actions/ActionTypes';
-import createEntityReducer from 'app/utils/createEntityReducer';
-import { selectGroupsWithType, selectGroup } from './groups';
-import { selectPaginationNext } from './selectors';
 
 import { selectMembershipsForGroup } from 'app/reducers/memberships';
+import createEntityReducer from 'app/utils/createEntityReducer';
+import { Page } from '../actions/ActionTypes';
+import { selectGroup, selectGroupsWithType } from './groups';
+import { selectPaginationNext } from './selectors';
 
 export type PageEntity = {
   id: number,

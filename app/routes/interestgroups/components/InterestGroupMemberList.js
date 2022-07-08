@@ -1,15 +1,17 @@
 // @flow
 
 import { Component } from 'react';
-import Modal from 'app/components/Modal';
-import styles from './InterestGroupMemberList.css';
 import { Link } from 'react-router-dom';
-import { ProfilePicture } from 'app/components/Image';
-import Tooltip from 'app/components/Tooltip';
-import { Flex } from 'app/components/Layout';
-import Icon from 'app/components/Icon';
-import type { User, GroupMembership } from 'app/models';
 import sortBy from 'lodash/sortBy';
+
+import Icon from 'app/components/Icon';
+import { ProfilePicture } from 'app/components/Image';
+import { Flex } from 'app/components/Layout';
+import Modal from 'app/components/Modal';
+import Tooltip from 'app/components/Tooltip';
+import type { GroupMembership, User } from 'app/models';
+
+import styles from './InterestGroupMemberList.css';
 
 const iconName = (role: string) => {
   switch (role) {

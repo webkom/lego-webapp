@@ -1,11 +1,12 @@
 // @flow
 import { Route, Switch } from 'react-router-dom';
+
 import RouteWrapper from 'app/components/RouteWrapper';
 import { UserContext } from 'app/routes/app/AppRoute';
+import PageNotFound from '../pageNotFound';
 import PageCreateRoute from './PageCreateRoute';
 import PageDetailRoute from './PageDetailRoute';
 import PageEditRoute from './PageEditRoute';
-import PageNotFound from '../pageNotFound';
 
 const pagesRoute = ({ match }: { match: { path: string } }) => (
   <UserContext.Consumer>

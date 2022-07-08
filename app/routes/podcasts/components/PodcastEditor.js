@@ -1,17 +1,18 @@
 // @flow
 
 import { Component } from 'react';
-import { Content } from 'app/components/Content';
-import NavigationTab from 'app/components/NavigationTab';
+import { Field, Form } from 'redux-form';
+
 import Button from 'app/components/Button';
+import { Content } from 'app/components/Content';
 import {
-  TextInput,
+  legoForm,
   SelectInput,
   TextArea,
-  legoForm,
+  TextInput,
 } from 'app/components/Form';
-import { Form, Field } from 'redux-form';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
+import NavigationTab from 'app/components/NavigationTab';
 
 type Props = {
   id: number,

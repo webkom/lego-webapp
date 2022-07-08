@@ -1,11 +1,13 @@
 // @flow
 
 import { Link } from 'react-router-dom';
-import { ROLES } from 'app/utils/constants';
-import styles from './GroupMembersList.css';
-import Table from 'app/components/Table';
 import qs from 'qs';
+
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
+import Table from 'app/components/Table';
+import { ROLES } from 'app/utils/constants';
+
+import styles from './GroupMembersList.css';
 
 type Props = {
   fetching: boolean,

@@ -2,15 +2,17 @@
 
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
+
 import { Content } from 'app/components/Content';
-import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
-import styles from './PollsList.css';
-import Paginator from 'app/components/Paginator';
 import Icon from 'app/components/Icon';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import { Flex } from 'app/components/Layout';
-import { type PollEntity } from 'app/reducers/polls';
+import LoadingIndicator from 'app/components/LoadingIndicator';
+import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
+import Paginator from 'app/components/Paginator';
 import { type ActionGrant } from 'app/models';
+import { type PollEntity } from 'app/reducers/polls';
+
+import styles from './PollsList.css';
 
 type Props = {
   polls: Array<PollEntity>,

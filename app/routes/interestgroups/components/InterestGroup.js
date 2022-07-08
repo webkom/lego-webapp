@@ -1,10 +1,12 @@
 // @flow
 
-import styles from './InterestGroup.css';
+import { Link } from 'react-router-dom';
+
 import { Image } from 'app/components/Image';
 import { Flex } from 'app/components/Layout';
-import { Link } from 'react-router-dom';
 import type { Group } from 'app/models';
+
+import styles from './InterestGroup.css';
 
 // TODO: rather handle this in the backend
 const SAMPLE_LOGO = 'https://i.imgur.com/Is9VKjb.jpg';

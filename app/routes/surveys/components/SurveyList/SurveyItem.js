@@ -1,11 +1,13 @@
 // @flow
 
 import { Link } from 'react-router-dom';
-import Time from 'app/components/Time';
+
 import { Image } from 'app/components/Image';
-import styles from '../surveys.css';
+import Time from 'app/components/Time';
 import type { SurveyEntity } from 'app/reducers/surveys';
 import { colorForEvent } from 'app/routes/events/utils';
+
+import styles from '../surveys.css';
 
 type Props = {
   survey: SurveyEntity,

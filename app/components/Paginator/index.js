@@ -1,10 +1,10 @@
 //@flow
 
 import type { Node } from 'react';
-
 import { Component } from 'react';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import InfiniteScroll from 'react-infinite-scroller';
+
+import LoadingIndicator from 'app/components/LoadingIndicator';
 
 type Props = {
   infiniteScroll?: boolean,

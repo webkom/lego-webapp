@@ -1,4 +1,4 @@
-import { selectField, c, field } from '../support/utils.js';
+import { c, field, selectField } from '../support/utils.js';
 
 const IS_MACOS = Cypress.platform.toLowerCase().search('darwin') !== -1;
 const ctrlKey = IS_MACOS ? '{cmd}' : '{ctrl}';

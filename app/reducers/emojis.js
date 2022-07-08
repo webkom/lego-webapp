@@ -1,9 +1,10 @@
 // @flow
 
-import { Emoji } from 'app/actions/ActionTypes';
-import createEntityReducer from 'app/utils/createEntityReducer';
-import type { ID } from 'app/models';
 import { createSelector } from 'reselect';
+
+import { Emoji } from 'app/actions/ActionTypes';
+import type { ID } from 'app/models';
+import createEntityReducer from 'app/utils/createEntityReducer';
 
 export type EmojiEntity = {
   shortCode: string,

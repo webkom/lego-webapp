@@ -1,15 +1,17 @@
 // @flow
 
 import { Component } from 'react';
-import Button from 'app/components/Button';
-import styles from './Poll.css';
-import type { PollEntity, OptionEntity } from 'app/reducers/polls';
-import { sortBy } from 'lodash';
 import { Link } from 'react-router-dom';
+import cx from 'classnames';
+import { sortBy } from 'lodash';
+
+import Button from 'app/components/Button';
 import Icon from 'app/components/Icon';
 import { Flex } from 'app/components/Layout';
 import Tooltip from 'app/components/Tooltip';
-import cx from 'classnames';
+import type { OptionEntity, PollEntity } from 'app/reducers/polls';
+
+import styles from './Poll.css';
 
 type Props = {
   poll: PollEntity,

@@ -1,24 +1,25 @@
 // @flow
 
-import styles from './Overview.css';
 import { Component } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Container, Flex } from 'app/components/Layout';
-import LatestReadme from './LatestReadme';
-import CompactEvents from './CompactEvents';
-import type { Event, Article } from 'app/models';
-import Pinned from './Pinned';
-import EventItem from './EventItem';
-import ArticleItem from './ArticleItem';
-import Icon from 'app/components/Icon';
 import { Link } from 'react-router-dom';
-import NextEvent from './NextEvent';
-import Poll from 'app/components/Poll';
-import type { PollEntity } from 'app/reducers/polls';
-import RandomQuote from 'app/components/RandomQuote';
-import { renderMeta } from './utils';
 
 import Banner, { COLORS } from 'app/components/Banner';
+import Icon from 'app/components/Icon';
+import { Container, Flex } from 'app/components/Layout';
+import Poll from 'app/components/Poll';
+import RandomQuote from 'app/components/RandomQuote';
+import type { Article, Event } from 'app/models';
+import type { PollEntity } from 'app/reducers/polls';
+import ArticleItem from './ArticleItem';
+import CompactEvents from './CompactEvents';
+import EventItem from './EventItem';
+import LatestReadme from './LatestReadme';
+import NextEvent from './NextEvent';
+import Pinned from './Pinned';
+import { renderMeta } from './utils';
+
+import styles from './Overview.css';
 
 type Props = {
   frontpage: Array<Object>,

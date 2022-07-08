@@ -1,7 +1,7 @@
 // @flow
 
+import { last, range, takeWhile } from 'lodash';
 import moment from 'moment-timezone';
-import { range, takeWhile, last } from 'lodash';
 
 /**
  * Generate days of an entire month.

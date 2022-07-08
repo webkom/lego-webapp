@@ -1,21 +1,22 @@
 // @flow
-import { compose } from 'redux';
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
 import { push } from 'connected-react-router';
-import {
-  fetchJoblisting,
-  editJoblisting,
-  deleteJoblisting,
-} from 'app/actions/JoblistingActions';
-import { fetchCompanyContacts } from 'app/actions/CompanyActions';
-import JoblistingEditor from 'app/routes/joblistings/components/JoblistingEditor';
-import { selectJoblistingById } from 'app/reducers/joblistings';
+import { compose } from 'redux';
 import { formValueSelector } from 'redux-form';
-import loadingIndicator from 'app/utils/loadingIndicator';
+
+import { fetchCompanyContacts } from 'app/actions/CompanyActions';
+import {
+  deleteJoblisting,
+  editJoblisting,
+  fetchJoblisting,
+} from 'app/actions/JoblistingActions';
 import { LoginPage } from 'app/components/LoginForm';
+import { selectJoblistingById } from 'app/reducers/joblistings';
+import JoblistingEditor from 'app/routes/joblistings/components/JoblistingEditor';
+import loadingIndicator from 'app/utils/loadingIndicator';
+import prepare from 'app/utils/prepare';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import { yearValues, jobTypes } from './constants';
+import { jobTypes, yearValues } from './constants';
 
 const mapStateToProps = (state, props) => {
   const { joblistingId } = props.match.params;

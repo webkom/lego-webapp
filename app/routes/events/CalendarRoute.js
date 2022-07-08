@@ -1,8 +1,9 @@
 // @flow
 
+import { connect } from 'react-redux';
 import moment from 'moment-timezone';
 import { compose } from 'redux';
-import { connect } from 'react-redux';
+
 import { fetchList } from 'app/actions/EventActions';
 import prepare from 'app/utils/prepare';
 import Calendar from './components/Calendar';

@@ -1,9 +1,9 @@
 // @flow
 
 import type { Node } from 'react';
-
 import { Component } from 'react';
 import cx from 'classnames';
+
 import styles from './Tooltip.css';
 
 type Props = {

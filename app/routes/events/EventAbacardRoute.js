@@ -1,19 +1,19 @@
 // @flow
-import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
 import { debounce } from 'lodash';
-import prepare from 'app/utils/prepare';
-import { autocomplete } from 'app/actions/SearchActions';
-import { selectAutocompleteRedux as selectAutocomplete } from 'app/reducers/search';
-import {
-  markUsernamePresent,
-  markUsernameConsent,
-} from 'app/actions/EventActions';
-import Abacard from './components/EventAdministrate/Abacard';
 import qs from 'qs';
+import { compose } from 'redux';
 
+import {
+  markUsernameConsent,
+  markUsernamePresent,
+} from 'app/actions/EventActions';
+import { autocomplete } from 'app/actions/SearchActions';
 import { getRegistrationGroups } from 'app/reducers/events';
+import { selectAutocompleteRedux as selectAutocomplete } from 'app/reducers/search';
+import prepare from 'app/utils/prepare';
+import Abacard from './components/EventAdministrate/Abacard';
 
 const searchTypes = ['users.user'];
 

@@ -1,18 +1,19 @@
 //@flow
 import { Fragment } from 'react';
+import { connect } from 'react-redux';
+
+import { Gallery } from 'app/actions/ActionTypes';
 import Card from 'app/components/Card';
 import Icon from 'app/components/Icon';
+import { Image } from 'app/components/Image';
 import Flex from 'app/components/Layout/Flex';
-import { connect } from 'react-redux';
-import { Gallery } from 'app/actions/ActionTypes';
 import Tooltip from 'app/components/Tooltip';
 import {
-  selectGalleryPictureById,
-  type UploadStatus,
   type GalleryPictureEntity,
+  type UploadStatus,
   initialUploadStatus,
+  selectGalleryPictureById,
 } from 'app/reducers/galleryPictures';
-import { Image } from 'app/components/Image';
 
 type StateProps = {
   uploadStatus: UploadStatus,

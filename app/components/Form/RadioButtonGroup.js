@@ -1,7 +1,7 @@
 // @flow
 import type { Node } from 'react';
-
 import { Children, cloneElement } from 'react';
+
 import styles from './RadioButtonGroup.css';
 
 type Props = {

@@ -1,10 +1,10 @@
 // @flow
 
-import { Feed } from './ActionTypes';
-import type { Thunk } from 'app/types';
-import callAPI from './callAPI';
 import { feedActivitySchema } from 'app/reducers';
 import { feedIdByUserId } from 'app/reducers/feeds';
+import type { Thunk } from 'app/types';
+import { Feed } from './ActionTypes';
+import callAPI from './callAPI';
 
 export function fetchUserFeed(userId: string): Thunk<any> {
   return callAPI({

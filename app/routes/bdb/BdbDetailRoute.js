@@ -1,28 +1,29 @@
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
+import { bindActionCreators, compose } from 'redux';
+
+import { deleteComment } from 'app/actions/CommentActions';
 import {
-  fetchAdmin,
-  deleteSemesterStatus,
-  deleteCompanyContact,
-  fetchSemesters,
-  editSemesterStatus,
-  fetchEventsForCompany,
-  editCompany,
   deleteCompany,
+  deleteCompanyContact,
+  deleteSemesterStatus,
+  editCompany,
+  editSemesterStatus,
+  fetchAdmin,
+  fetchEventsForCompany,
+  fetchSemesters,
 } from 'app/actions/CompanyActions';
-import BdbDetail from './components/BdbDetail';
-import { compose, bindActionCreators } from 'redux';
+import { LoginPage } from 'app/components/LoginForm';
 import {
+  selectCommentsForCompany,
   selectCompanyById,
   selectEventsForCompany,
-  selectCommentsForCompany,
 } from 'app/reducers/companies';
 import { selectCompanySemesters } from 'app/reducers/companySemesters';
-import { LoginPage } from 'app/components/LoginForm';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import { deleteComment } from 'app/actions/CommentActions';
 import { selectPagination } from 'app/reducers/selectors';
 import createQueryString from 'app/utils/createQueryString';
+import prepare from 'app/utils/prepare';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import BdbDetail from './components/BdbDetail';
 
 const queryString = (companyId) =>
   createQueryString({

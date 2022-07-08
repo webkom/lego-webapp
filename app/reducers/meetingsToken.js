@@ -1,7 +1,8 @@
 // @flow
 
-import { Meeting } from '../actions/ActionTypes';
 import { produce } from 'immer';
+
+import { Meeting } from '../actions/ActionTypes';
 
 const initialState = {
   response: '',

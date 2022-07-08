@@ -1,11 +1,13 @@
 // @flow
 
-import styles from './EventSidebar.css';
 import { Link } from 'react-router-dom';
-import Octagon from 'app/components/Octagon';
+
 import { Image } from 'app/components/Image';
-import { colorForEvent } from 'app/routes/events/utils';
+import Octagon from 'app/components/Octagon';
 import type { Event } from 'app/models';
+import { colorForEvent } from 'app/routes/events/utils';
+
+import styles from './EventSidebar.css';
 
 type EventItemProps = {
   event: Event,

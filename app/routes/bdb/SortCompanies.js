@@ -1,7 +1,7 @@
 import {
+  indexToSemester,
   selectMostProminentStatus,
   sortStatusesByProminence,
-  indexToSemester,
 } from './utils';
 
 const sortByAttribute = (attribute) => (ascending) => (a, b) => {

@@ -1,11 +1,12 @@
 // @flow
 
-import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
-import moment from 'moment';
+import { mount } from 'enzyme';
 import lolex from 'lolex';
-import JoinEventForm from '../JoinEventForm';
+import moment from 'moment';
 import configureStore from 'redux-mock-store';
+
+import JoinEventForm from '../JoinEventForm';
 
 jest.useFakeTimers();
 

@@ -1,5 +1,5 @@
+import { Gallery, GalleryPicture } from '../../actions/ActionTypes';
 import galleryPictures from '../galleryPictures';
-import { GalleryPicture, Gallery } from '../../actions/ActionTypes';
 
 describe('reducers', () => {
   const baseState = {

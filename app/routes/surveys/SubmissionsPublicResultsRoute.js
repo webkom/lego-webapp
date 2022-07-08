@@ -1,12 +1,13 @@
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
-import { fetchWithToken } from 'app/actions/SurveyActions';
-import SubmissionPublicResults from './components/Submissions/SubmissionPublicResults';
-import { compose } from 'redux';
-import { selectSurveyById } from 'app/reducers/surveys';
 import { push } from 'connected-react-router';
-import loadingIndicator from 'app/utils/loadingIndicator';
 import qs from 'qs';
+import { compose } from 'redux';
+
+import { fetchWithToken } from 'app/actions/SurveyActions';
+import { selectSurveyById } from 'app/reducers/surveys';
+import loadingIndicator from 'app/utils/loadingIndicator';
+import prepare from 'app/utils/prepare';
+import SubmissionPublicResults from './components/Submissions/SubmissionPublicResults';
 
 const loadData = (props, dispatch) => {
   const { surveyId } = props.match.params;

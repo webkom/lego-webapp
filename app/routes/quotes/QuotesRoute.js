@@ -1,21 +1,22 @@
-import { compose } from 'redux';
 import { connect } from 'react-redux';
-import {
-  fetchAll,
-  approve,
-  unapprove,
-  deleteQuote,
-} from 'app/actions/QuoteActions';
-import QuotePage from './components/QuotePage';
-import prepare from 'app/utils/prepare';
-import { selectQuotes } from 'app/reducers/quotes';
-import { LoginPage } from 'app/components/LoginForm';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import { selectPaginationNext } from 'app/reducers/selectors';
-import { addReaction, deleteReaction } from 'app/actions/ReactionActions';
-import { selectEmojis } from 'app/reducers/emojis';
-import { fetchEmojis } from 'app/actions/EmojiActions';
 import qs from 'qs';
+import { compose } from 'redux';
+
+import { fetchEmojis } from 'app/actions/EmojiActions';
+import {
+  approve,
+  deleteQuote,
+  fetchAll,
+  unapprove,
+} from 'app/actions/QuoteActions';
+import { addReaction, deleteReaction } from 'app/actions/ReactionActions';
+import { LoginPage } from 'app/components/LoginForm';
+import { selectEmojis } from 'app/reducers/emojis';
+import { selectQuotes } from 'app/reducers/quotes';
+import { selectPaginationNext } from 'app/reducers/selectors';
+import prepare from 'app/utils/prepare';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import QuotePage from './components/QuotePage';
 
 const qsParamsParser = (search) => ({
   approved: qs.parse(search, { ignoreQueryPrefix: true }).approved || 'true',

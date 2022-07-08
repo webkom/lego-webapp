@@ -1,10 +1,11 @@
 // @flow
 
 import { useState } from 'react';
-import Button from 'app/components/Button';
-import { TextInput, Form, legoForm } from 'app/components/Form';
 import type { FormProps } from 'redux-form';
 import { Field } from 'redux-form';
+
+import Button from 'app/components/Button';
+import { Form, legoForm, TextInput } from 'app/components/Form';
 import { type UserEntity } from 'app/reducers/users';
 import { createValidator, required } from 'app/utils/validation';
 

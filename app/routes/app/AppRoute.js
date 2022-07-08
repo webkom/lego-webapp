@@ -1,39 +1,41 @@
 // @flow
 
-import styles from './AppRoute.css';
 import type { Element } from 'react';
-import { createContext, Children, PureComponent, cloneElement } from 'react';
-import { compose } from 'redux';
-import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
+import { Children, cloneElement, createContext, PureComponent } from 'react';
 import { Helmet } from 'react-helmet-async';
-import {
-  loginAutomaticallyIfPossible,
-  logoutWithRedirect,
-  login,
-} from 'app/actions/UserActions';
+import { connect } from 'react-redux';
+import cx from 'classnames';
+import moment from 'moment-timezone';
+import { compose } from 'redux';
+
+import { fetchNotificationFeed } from 'app/actions/FeedActions';
+import { fetchAll as fetchMeetings } from 'app/actions/MeetingActions';
+import { fetchMeta } from 'app/actions/MetaActions';
 import {
   fetchNotificationData,
   markAllNotifications,
 } from 'app/actions/NotificationsFeedActions';
-import { fetchNotificationFeed } from 'app/actions/FeedActions';
-import { fetchMeta } from 'app/actions/MetaActions';
-import { selectFeedActivitesByFeedId } from 'app/reducers/feeds';
-import { toggleSearch } from 'app/actions/SearchActions';
-import ErrorBoundary from 'app/components/ErrorBoundary';
-import SpecialDay from 'app/components/SpecialDay';
-import Header from 'app/components/Header';
-import Footer from 'app/components/Footer';
-import ToastContainer from 'app/components/Toast/ToastContainer';
-import PhotoUploadStatus from 'app/components/PhotoUploadStatus';
-import { selectIsLoggedIn, selectCurrentUser } from 'app/reducers/auth';
-import cx from 'classnames';
-import HTTPError from '../errors/HTTPError';
 import { setStatusCode } from 'app/actions/RoutingActions';
-import config from 'app/config';
-import moment from 'moment-timezone';
-import { fetchAll as fetchMeetings } from 'app/actions/MeetingActions';
+import { toggleSearch } from 'app/actions/SearchActions';
+import {
+  login,
+  loginAutomaticallyIfPossible,
+  logoutWithRedirect,
+} from 'app/actions/UserActions';
 import coverPhoto from 'app/assets/cover.png';
+import ErrorBoundary from 'app/components/ErrorBoundary';
+import Footer from 'app/components/Footer';
+import Header from 'app/components/Header';
+import PhotoUploadStatus from 'app/components/PhotoUploadStatus';
+import SpecialDay from 'app/components/SpecialDay';
+import ToastContainer from 'app/components/Toast/ToastContainer';
+import config from 'app/config';
+import { selectCurrentUser, selectIsLoggedIn } from 'app/reducers/auth';
+import { selectFeedActivitesByFeedId } from 'app/reducers/feeds';
+import prepare from 'app/utils/prepare';
+import HTTPError from '../errors/HTTPError';
+
+import styles from './AppRoute.css';
 
 type Props = {
   statusCode: number,

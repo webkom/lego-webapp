@@ -2,16 +2,17 @@
 
 // $FlowFixMe
 import type { Node } from 'react';
-
 import { useState } from 'react';
-import cx from 'classnames';
-import styles from './Content.css';
-import { Image } from 'app/components/Image';
 import Youtube from 'react-youtube';
-import Flex from '../Layout/Flex';
-import LoadingIndicator from 'app/components/LoadingIndicator';
+import cx from 'classnames';
 import { isEmpty } from 'lodash';
+
+import { Image } from 'app/components/Image';
+import LoadingIndicator from 'app/components/LoadingIndicator';
 import getParamsFromUrl from 'app/utils/getParamsFromUrl';
+import Flex from '../Layout/Flex';
+
+import styles from './Content.css';
 
 type Props = {
   banner?: string,

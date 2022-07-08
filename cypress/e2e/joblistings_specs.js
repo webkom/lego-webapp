@@ -1,9 +1,9 @@
 import {
   field,
   fieldError,
+  selectEditor,
   selectField,
   selectFieldDropdown,
-  selectEditor,
 } from '../support/utils.js';
 
 describe('Create joblisting', () => {

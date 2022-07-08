@@ -1,13 +1,15 @@
 // @flow
 
-import styles from './JoblistingRightNav.css';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { CheckBox, RadioButton } from 'app/components/Form/';
-import Button from 'app/components/Button';
 import cx from 'classnames';
-import type { ActionGrant } from 'app/models';
 import qs from 'qs';
+
+import Button from 'app/components/Button';
+import { CheckBox, RadioButton } from 'app/components/Form/';
+import type { ActionGrant } from 'app/models';
+
+import styles from './JoblistingRightNav.css';
 
 const updateFilters = (type, value, filters) => {
   const newFilter = {

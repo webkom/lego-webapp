@@ -1,27 +1,29 @@
 // @flow
 
-import styles from './Administrate.css';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
-import Tooltip from 'app/components/Tooltip';
-import Time from 'app/components/Time';
 import cx from 'classnames';
-import { WEBKOM_GROUP_ID } from 'app/utils/constants';
+
+import Table from 'app/components/Table';
+import Time from 'app/components/Time';
+import Tooltip from 'app/components/Tooltip';
 import type {
-  EventRegistration,
-  EventRegistrationPresence,
-  EventRegistrationPaymentStatus,
-  ID,
   Event,
   EventPool,
+  EventRegistration,
+  EventRegistrationPaymentStatus,
+  EventRegistrationPresence,
+  ID,
 } from 'app/models';
-import Table from 'app/components/Table';
+import { WEBKOM_GROUP_ID } from 'app/utils/constants';
 import {
+  PresenceIcons,
   StripeStatus,
   TooltipIcon,
-  PresenceIcons,
   Unregister,
 } from './AttendeeElements';
+
+import styles from './Administrate.css';
 
 type Props = {
   registered: Array<EventRegistration>,

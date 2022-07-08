@@ -1,7 +1,8 @@
 // @flow
-import ValidatorRoute from './ValidatorRoute';
 import { Route, Switch } from 'react-router-dom';
+
 import PageNotFound from '../pageNotFound';
+import ValidatorRoute from './ValidatorRoute';
 
 const validatorRoute = ({ match }: { match: { path: string } }) => (
   <Switch>

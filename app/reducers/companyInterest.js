@@ -1,9 +1,10 @@
 // @flow
 
 import { createSelector } from 'reselect';
-import { CompanyInterestForm } from '../actions/ActionTypes';
-import createEntityReducer from 'app/utils/createEntityReducer';
+
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
+import createEntityReducer from 'app/utils/createEntityReducer';
+import { CompanyInterestForm } from '../actions/ActionTypes';
 
 export type CompanyInterestEntity = {
   id: number,

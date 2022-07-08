@@ -1,9 +1,11 @@
 // @flow
 
 import { Component } from 'react';
-import Button from '../Button';
-import { uploadFile } from 'app/actions/FileActions';
 import { connect } from 'react-redux';
+
+import { uploadFile } from 'app/actions/FileActions';
+import Button from '../Button';
+
 import styles from './FileUpload.css';
 
 type State = {

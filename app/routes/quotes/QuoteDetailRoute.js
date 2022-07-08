@@ -1,20 +1,21 @@
 import { connect } from 'react-redux';
-import {
-  fetchQuote,
-  approve,
-  unapprove,
-  deleteQuote,
-} from '../../actions/QuoteActions';
-import QuotePage from './components/QuotePage';
+import qs from 'qs';
 import { compose } from 'redux';
-import { selectQuoteById } from 'app/reducers/quotes';
+
+import { fetchEmojis } from 'app/actions/EmojiActions';
+import { addReaction, deleteReaction } from 'app/actions/ReactionActions';
 import { LoginPage } from 'app/components/LoginForm';
+import { selectEmojis } from 'app/reducers/emojis';
+import { selectQuoteById } from 'app/reducers/quotes';
 import prepare from 'app/utils/prepare';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import { addReaction, deleteReaction } from 'app/actions/ReactionActions';
-import { selectEmojis } from 'app/reducers/emojis';
-import { fetchEmojis } from 'app/actions/EmojiActions';
-import qs from 'qs';
+import {
+  approve,
+  deleteQuote,
+  fetchQuote,
+  unapprove,
+} from '../../actions/QuoteActions';
+import QuotePage from './components/QuotePage';
 
 const loadData = ({ match: { params } }, dispatch) =>
   dispatch(fetchQuote(params.quoteId), fetchEmojis());

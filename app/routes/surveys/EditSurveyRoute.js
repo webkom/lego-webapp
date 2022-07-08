@@ -1,19 +1,20 @@
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
+import { push } from 'connected-react-router';
+import qs from 'qs';
 import { compose } from 'redux';
+import { formValueSelector } from 'redux-form';
+
 import {
   editSurvey,
   fetchSurvey,
   fetchTemplate,
 } from 'app/actions/SurveyActions';
-import SurveyEditor from './components/SurveyEditor/SurveyEditor';
 import { LoginPage } from 'app/components/LoginForm';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { selectSurveyById, selectSurveyTemplate } from 'app/reducers/surveys';
-import { push } from 'connected-react-router';
 import loadingIndicator from 'app/utils/loadingIndicator';
-import { formValueSelector } from 'redux-form';
-import qs from 'qs';
+import prepare from 'app/utils/prepare';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import SurveyEditor from './components/SurveyEditor/SurveyEditor';
 import { mappings } from './utils';
 
 const loadData = (props, dispatch) => {

@@ -1,8 +1,7 @@
 // @flow
 
-import { Toasts } from './ActionTypes';
-
 import type { Action } from 'app/types';
+import { Toasts } from './ActionTypes';
 
 export function removeToast({ id }: { id: number }): Action {
   return {

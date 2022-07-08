@@ -1,7 +1,7 @@
 // @flow
 
-import CircularPicture from './CircularPicture';
 import { type User } from 'app/models';
+import CircularPicture from './CircularPicture';
 
 type Props = {
   user: User,

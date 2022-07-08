@@ -1,15 +1,16 @@
 // @flow
-import { compose } from 'redux';
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
+import moment from 'moment-timezone';
+import { compose } from 'redux';
+
 import { fetchAll } from 'app/actions/MeetingActions';
 import { LoginPage } from 'app/components/LoginForm';
 import { selectGroupedMeetings } from 'app/reducers/meetings';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import MeetingList from './components/MeetingList';
-import { selectPagination } from '../../reducers/selectors';
 import createQueryString from 'app/utils/createQueryString';
-import moment from 'moment-timezone';
+import prepare from 'app/utils/prepare';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import { selectPagination } from '../../reducers/selectors';
+import MeetingList from './components/MeetingList';
 
 const mapStateToProps = (state, props) => {
   const dateAfter = moment().format('YYYY-MM-DD');

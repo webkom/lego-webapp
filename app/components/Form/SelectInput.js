@@ -2,9 +2,11 @@
 
 import Select from 'react-select';
 import Creatable from 'react-select/creatable';
-import { createField } from './Field';
-import withAutocomplete from '../Search/withAutocomplete';
+
 import mazemapAutocomplete from '../Search/mazemapAutocomplete';
+import withAutocomplete from '../Search/withAutocomplete';
+import { createField } from './Field';
+
 import style from './SelectInput.css';
 
 type Props = {

@@ -1,6 +1,7 @@
 //@flow
-import { Readme } from 'app/actions/ActionTypes';
 import { produce } from 'immer';
+
+import { Readme } from 'app/actions/ActionTypes';
 
 const mutateReadme = produce<any>((newState: any, action: any): void => {
   switch (action.type) {

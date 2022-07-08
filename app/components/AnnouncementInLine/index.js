@@ -1,9 +1,11 @@
 // @flow
-import { Link } from 'react-router-dom';
-import Button from 'app/components/Button';
-import styles from './AnnouncementInLine.css';
-import type { Group, Event } from 'app/models';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+
+import Button from 'app/components/Button';
+import type { Event, Group } from 'app/models';
+
+import styles from './AnnouncementInLine.css';
 
 type Props = {
   event?: Event,

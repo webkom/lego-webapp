@@ -1,11 +1,12 @@
 // @flow
 
-import { Comment } from 'app/actions/ActionTypes';
-import createEntityReducer from 'app/utils/createEntityReducer';
-import { type UserEntity } from 'app/reducers/users';
-import getEntityType from 'app/utils/getEntityType';
-import type { ID } from 'app/models';
 import { produce } from 'immer';
+
+import { Comment } from 'app/actions/ActionTypes';
+import type { ID } from 'app/models';
+import { type UserEntity } from 'app/reducers/users';
+import createEntityReducer from 'app/utils/createEntityReducer';
+import getEntityType from 'app/utils/getEntityType';
 
 export type CommentEntity = {
   id: ID,

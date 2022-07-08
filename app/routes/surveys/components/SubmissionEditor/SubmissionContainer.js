@@ -1,13 +1,15 @@
 // @flow
 
+import { Link } from 'react-router-dom';
+import moment from 'moment-timezone';
+
+import { Content } from 'app/components/Content';
+import Time from 'app/components/Time';
 import type { SurveyEntity } from 'app/reducers/surveys';
 import type { SubmissionEntity } from 'app/reducers/surveySubmissions';
-import { Content } from 'app/components/Content';
-import { Link } from 'react-router-dom';
 import AlreadyAnswered from './AlreadyAnswered';
 import SubmissionEditor from './SubmissionEditor';
-import moment from 'moment-timezone';
-import Time from 'app/components/Time';
+
 import styles from '../surveys.css';
 
 type Props = {

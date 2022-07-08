@@ -1,8 +1,10 @@
 // @flow
 
 import cx from 'classnames';
-import styles from './Button.css';
+
 import LoadingIndicator from '../LoadingIndicator';
+
+import styles from './Button.css';
 
 type Props = {
   /** content inside */

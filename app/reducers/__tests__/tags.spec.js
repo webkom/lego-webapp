@@ -1,5 +1,5 @@
-import tags from '../tags';
 import { Tag } from '../../actions/ActionTypes';
+import tags from '../tags';
 
 describe('reducers', () => {
   describe('tags', () => {

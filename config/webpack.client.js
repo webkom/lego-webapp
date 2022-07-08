@@ -16,6 +16,7 @@ const CompressionPlugin = require('compression-webpack-plugin');
 
 const root = path.resolve(__dirname, '..');
 const packageJson = require('../package.json');
+
 const dllConfig = packageJson.dllPlugin;
 const compact = (array) => array.filter(Boolean);
 

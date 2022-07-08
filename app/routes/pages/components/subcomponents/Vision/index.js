@@ -1,6 +1,7 @@
 //@flow
-import styles from './Vision.css';
 import cx from 'classnames';
+
+import styles from './Vision.css';
 
 type Props = {
   title: string,

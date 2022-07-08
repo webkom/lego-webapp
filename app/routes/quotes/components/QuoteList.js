@@ -1,10 +1,11 @@
 // @flow
 
 import { Component } from 'react';
-import Quote from './Quote';
-import type { ID, ActionGrant } from 'app/models';
-import type { QuoteEntity } from 'app/reducers/quotes';
+
+import type { ActionGrant, ID } from 'app/models';
 import type { EmojiEntity } from 'app/reducers/emojis';
+import type { QuoteEntity } from 'app/reducers/quotes';
+import Quote from './Quote';
 
 type Props = {
   quotes: Array<QuoteEntity>,

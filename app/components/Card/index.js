@@ -1,6 +1,7 @@
 // @flow
 
 import cx from 'classnames';
+
 import styles from './Card.css';
 
 type Props = {

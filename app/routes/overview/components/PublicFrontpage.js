@@ -1,21 +1,22 @@
 //@flow
 import { Component } from 'react';
+import { Link } from 'react-router-dom';
+
+import netcompany from 'app/assets/netcompany_dark.png';
+import Banner, { COLORS } from 'app/components/Banner';
+import { Image } from 'app/components/Image';
 import { Container, Flex } from 'app/components/Layout';
 import {
+  ForgotPasswordForm,
   LoginForm,
   RegisterForm,
-  ForgotPasswordForm,
 } from 'app/components/LoginForm';
-import styles from './PublicFrontpage.css';
-import netcompany from 'app/assets/netcompany_dark.png';
-import CompactEvents from './CompactEvents';
-import { Link } from 'react-router-dom';
-import { Image } from 'app/components/Image';
-import truncateString from 'app/utils/truncateString';
-import Time from 'app/components/Time';
 import { readmeIfy } from 'app/components/ReadmeLogo';
+import Time from 'app/components/Time';
+import truncateString from 'app/utils/truncateString';
+import CompactEvents from './CompactEvents';
 
-import Banner, { COLORS } from 'app/components/Banner';
+import styles from './PublicFrontpage.css';
 
 type Props = {
   frontpage: Array<Object>,

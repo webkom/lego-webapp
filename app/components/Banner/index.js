@@ -1,9 +1,10 @@
 // @flow
 
 import type { Node } from 'react';
-import styles from './Banner.css';
-import cx from 'classnames';
 import { Link } from 'react-router-dom';
+import cx from 'classnames';
+
+import styles from './Banner.css';
 
 export const COLORS = {
   red: styles.red,

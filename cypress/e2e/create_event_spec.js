@@ -2,9 +2,9 @@ import {
   c,
   field,
   fieldError,
+  selectEditor,
   selectField,
   selectFieldDropdown,
-  selectEditor,
 } from '../support/utils.js';
 
 describe('Create event', () => {

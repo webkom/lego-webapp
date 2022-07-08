@@ -1,13 +1,14 @@
 // @flow
 
-import { Meeting } from './ActionTypes';
-import { meetingSchema } from 'app/reducers';
-import callAPI from 'app/actions/callAPI';
-import { startSubmit, stopSubmit } from 'redux-form';
 import moment from 'moment-timezone';
-import type { Thunk, Action } from 'app/types';
+import { startSubmit, stopSubmit } from 'redux-form';
+
+import callAPI from 'app/actions/callAPI';
+import { meetingSchema } from 'app/reducers';
 import type { UserEntity } from 'app/reducers/users';
+import type { Action, Thunk } from 'app/types';
 import createQueryString from 'app/utils/createQueryString';
+import { Meeting } from './ActionTypes';
 
 export function fetchMeeting(meetingId: string): Thunk<any> {
   return callAPI({

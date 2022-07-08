@@ -1,7 +1,8 @@
 /* eslint-disable no-unused-expressions */
-import GroupMembersList from '../GroupMembersList';
-import { shallow } from 'enzyme';
 import { Link } from 'react-router-dom';
+import { shallow } from 'enzyme';
+
+import GroupMembersList from '../GroupMembersList';
 
 const memberships = [
   {

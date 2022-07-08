@@ -1,16 +1,18 @@
 // @flow
 
 import loadable from '@loadable/component';
-import moment from 'moment-timezone';
 import Bar from '@webkom/react-meter-bar';
-import '@webkom/react-meter-bar/dist/Bar.css';
-import styles from './PasswordStrengthMeter.css';
+import moment from 'moment-timezone';
+
+import { type UserEntity } from 'app/reducers/users';
 import {
-  passwordLabel,
   barColor,
   passwordFeedbackMessages,
+  passwordLabel,
 } from './passwordStrengthVariables';
-import { type UserEntity } from 'app/reducers/users';
+
+import '@webkom/react-meter-bar/dist/Bar.css';
+import styles from './PasswordStrengthMeter.css';
 
 type Props = {
   password: string,

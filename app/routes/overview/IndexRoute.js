@@ -1,22 +1,23 @@
-import { compose } from 'redux';
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
-import { fetchData, fetchReadmes } from 'app/actions/FrontpageActions';
-import { login, logout } from 'app/actions/UserActions';
 import { isEmpty } from 'lodash';
-import Overview from './components/Overview';
-import { selectFrontpage } from 'app/reducers/frontpage';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import PublicFrontpage from './components/PublicFrontpage';
-import { selectRandomQuote } from 'app/reducers/quotes';
+import { compose } from 'redux';
+
+import { fetchData, fetchReadmes } from 'app/actions/FrontpageActions';
+import { votePoll } from 'app/actions/PollActions';
 import { fetchRandomQuote } from 'app/actions/QuoteActions';
+import { login, logout } from 'app/actions/UserActions';
 // import { fetchPersonalFeed } from 'app/actions/FeedActions';
 import {
-  selectFeedById,
   selectFeedActivitesByFeedId,
+  selectFeedById,
 } from 'app/reducers/feeds';
+import { selectFrontpage } from 'app/reducers/frontpage';
 import { selectPinnedPolls } from 'app/reducers/polls';
-import { votePoll } from 'app/actions/PollActions';
+import { selectRandomQuote } from 'app/reducers/quotes';
+import prepare from 'app/utils/prepare';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import Overview from './components/Overview';
+import PublicFrontpage from './components/PublicFrontpage';
 
 const mapStateToProps = (state) => ({
   frontpage: selectFrontpage(state),

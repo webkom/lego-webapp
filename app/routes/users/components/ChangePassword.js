@@ -1,14 +1,15 @@
 // @flow
 
-import { Field } from 'redux-form';
 import type { FormProps } from 'redux-form';
+import { Field } from 'redux-form';
+
 import Button from 'app/components/Button';
-import { TextInput, Form, legoForm } from 'app/components/Form';
+import { Form, legoForm, TextInput } from 'app/components/Form';
+import { type UserEntity } from 'app/reducers/users';
+import { createAsyncValidator } from 'app/utils/asyncValidator';
 import { createValidator, required, sameAs } from 'app/utils/validation';
 import { validPassword } from '../utils';
 import PasswordField from './PasswordField';
-import { type UserEntity } from 'app/reducers/users';
-import { createAsyncValidator } from 'app/utils/asyncValidator';
 
 type PasswordPayload = {
   newPassword: string,

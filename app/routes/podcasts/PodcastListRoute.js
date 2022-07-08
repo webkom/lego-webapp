@@ -1,8 +1,8 @@
-import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 
-import { selectPodcasts } from 'app/reducers/podcasts';
 import { fetchPodcasts } from 'app/actions/PodcastAction';
+import { selectPodcasts } from 'app/reducers/podcasts';
 import prepare from 'app/utils/prepare';
 import PodcastList from './components/PodcastList';
 

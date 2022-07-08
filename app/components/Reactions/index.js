@@ -1,15 +1,16 @@
 // @flow
 
 import type { Node } from 'react';
-
 import { Component } from 'react';
 import classNames from 'classnames';
-import styles from './index.css';
-import type { EmojiEntity } from 'app/reducers/emojis';
+
 import type { ID } from 'app/models';
-import reactionStyles from './Reaction.css';
-import ReactionPicker from './ReactionPicker';
+import type { EmojiEntity } from 'app/reducers/emojis';
 import AddReactionEmoji from './assets/AddReactionEmoji';
+import ReactionPicker from './ReactionPicker';
+
+import styles from './index.css';
+import reactionStyles from './Reaction.css';
 
 type Props = {
   children: Node,

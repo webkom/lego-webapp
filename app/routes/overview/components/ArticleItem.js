@@ -1,11 +1,13 @@
 // @flow
 
 import { Component } from 'react';
-import type { Article } from 'app/models';
-import { Image } from 'app/components/Image';
-import truncateString from 'app/utils/truncateString';
-import { Flex } from 'app/components/Layout';
 import { Link } from 'react-router-dom';
+
+import { Image } from 'app/components/Image';
+import { Flex } from 'app/components/Layout';
+import type { Article } from 'app/models';
+import truncateString from 'app/utils/truncateString';
+
 import styles from './ArticleItem.css';
 
 type Props = {

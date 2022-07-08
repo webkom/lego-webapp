@@ -1,11 +1,12 @@
 // @flow
-import { readmeIfy } from 'app/components/ReadmeLogo';
-
 import type { Node } from 'react';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
-import styles from './PageHierarchy.css';
+
 import Icon from 'app/components/Icon';
+import { readmeIfy } from 'app/components/ReadmeLogo';
+
+import styles from './PageHierarchy.css';
 
 export type HierarchyEntity = {
   title: string,

@@ -1,8 +1,9 @@
+import { sortBy } from 'lodash';
 import moment from 'moment-timezone';
+import { createSelector } from 'reselect';
+
 import { Frontpage } from 'app/actions/ActionTypes';
 import { fetching } from 'app/utils/createEntityReducer';
-import { sortBy } from 'lodash';
-import { createSelector } from 'reselect';
 import { selectArticles } from './articles';
 import { selectEvents } from './events';
 

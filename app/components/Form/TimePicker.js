@@ -1,11 +1,13 @@
 // @flow
 
 import { Component } from 'react';
+
 import Icon from 'app/components/Icon';
-import TextInput from './TextInput';
-import { createField } from './Field';
-import styles from './TimePicker.css';
 import parseDateValue from 'app/utils/parseDateValue';
+import { createField } from './Field';
+import TextInput from './TextInput';
+
+import styles from './TimePicker.css';
 
 function TimePickerInput({ onNext, onPrev, ...props }: any) {
   return (

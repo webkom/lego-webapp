@@ -1,8 +1,9 @@
 // @flow
 import { Component } from 'react';
 import { Helmet } from 'react-helmet-async';
-import GroupForm from 'app/components/GroupForm';
+
 import { Content } from 'app/components/Content';
+import GroupForm from 'app/components/GroupForm';
 import NavigationTab from 'app/components/NavigationTab';
 
 export default class InterestGroupEdit extends Component<{

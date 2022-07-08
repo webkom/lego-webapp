@@ -1,10 +1,11 @@
 // @flow
 import type { Element } from 'react';
-import Icon from 'app/components/Icon';
-import { GroupTypeInterest, GroupTypeCommittee } from 'app/models';
-import { lookupContext, contextRender } from '../context';
-import type { AggregatedActivity, Activity, TagInfo } from '../types';
+
 import DisplayContent from 'app/components/DisplayContent';
+import Icon from 'app/components/Icon';
+import { GroupTypeCommittee, GroupTypeInterest } from 'app/models';
+import { contextRender, lookupContext } from '../context';
+import type { Activity, AggregatedActivity, TagInfo } from '../types';
 
 /**
  * Grouped by object...

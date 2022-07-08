@@ -1,7 +1,8 @@
 //@flow
-import styles from './DisplayVision.css';
-import Vision from '../Vision';
 import DividerWithDots from 'app/components/DividerWithDots';
+import Vision from '../Vision';
+
+import styles from './DisplayVision.css';
 
 type Props = {
   title: string,

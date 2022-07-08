@@ -1,22 +1,23 @@
 // @flow
 
-import styles from './UserConfirmation.css';
-import { Container, Flex } from 'app/components/Layout';
-import { reduxForm, Field } from 'redux-form';
+import { Link } from 'react-router-dom';
+import { Field, reduxForm } from 'redux-form';
+
 import {
-  Form,
-  TextInput,
-  RadioButton,
-  RadioButtonGroup,
   Button,
   Captcha,
+  Form,
+  RadioButton,
+  RadioButtonGroup,
+  TextInput,
 } from 'app/components/Form';
-import { Link } from 'react-router-dom';
-import Tooltip from 'app/components/Tooltip';
 import Icon from 'app/components/Icon';
-
-import { createValidator, required } from 'app/utils/validation';
+import { Container, Flex } from 'app/components/Layout';
+import Tooltip from 'app/components/Tooltip';
 import type { ReduxFormProps } from 'app/types';
+import { createValidator, required } from 'app/utils/validation';
+
+import styles from './UserConfirmation.css';
 
 type Props = {
   studentConfirmed: boolean,

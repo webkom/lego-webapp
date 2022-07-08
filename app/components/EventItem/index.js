@@ -1,18 +1,20 @@
 // @flow
 
 import type { Node } from 'react';
-import styles from './styles.css';
-import Pill from 'app/components/Pill';
-import { colorForEvent } from 'app/routes/events/utils';
 import { Link } from 'react-router-dom';
-import { Image } from 'app/components/Image';
-import Time from 'app/components/Time';
-import Tag from 'app/components/Tags/Tag';
-import { Flex } from 'app/components/Layout';
-import type { Event, EventTimeType } from 'app/models';
-import { EVENTFIELDS } from 'app/utils/constants';
-import { eventStatus, eventAttendance } from 'app/utils/eventStatus';
 import moment from 'moment-timezone';
+
+import { Image } from 'app/components/Image';
+import { Flex } from 'app/components/Layout';
+import Pill from 'app/components/Pill';
+import Tag from 'app/components/Tags/Tag';
+import Time from 'app/components/Time';
+import type { Event, EventTimeType } from 'app/models';
+import { colorForEvent } from 'app/routes/events/utils';
+import { EVENTFIELDS } from 'app/utils/constants';
+import { eventAttendance, eventStatus } from 'app/utils/eventStatus';
+
+import styles from './styles.css';
 
 type AttendanceProps = {
   event: Event,

@@ -1,20 +1,21 @@
 // @flow
 
 import { connect } from 'react-redux';
-import { compose } from 'redux';
-import prepare from 'app/utils/prepare';
 import { push } from 'connected-react-router';
-import UserSettings from './components/UserSettings';
-import loadingIndicator from 'app/utils/loadingIndicator';
-import { selectUserByUsername } from 'app/reducers/users';
+import { compose } from 'redux';
+
 import {
-  fetchUser,
-  updateUser,
-  updatePicture,
-  deleteUser,
   changePassword,
+  deleteUser,
+  fetchUser,
   removePicture,
+  updatePicture,
+  updateUser,
 } from 'app/actions/UserActions';
+import { selectUserByUsername } from 'app/reducers/users';
+import loadingIndicator from 'app/utils/loadingIndicator';
+import prepare from 'app/utils/prepare';
+import UserSettings from './components/UserSettings';
 
 const loadData = (
   {

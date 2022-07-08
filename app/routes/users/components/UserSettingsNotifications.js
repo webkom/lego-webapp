@@ -1,8 +1,9 @@
 // @flow
 
 import { CheckBox } from 'app/components/Form';
-import styles from './UserSettingsNotifications.css';
 import type { UserEntity } from 'app/reducers/users';
+
+import styles from './UserSettingsNotifications.css';
 
 type Props = {
   currentUser: UserEntity,

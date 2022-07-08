@@ -1,9 +1,10 @@
 // @flow
 
 import type { ComponentType } from 'react';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import { get } from 'lodash';
+
 import type { Props } from 'app/components/LoadingIndicator';
+import LoadingIndicator from 'app/components/LoadingIndicator';
 
 /**
  * A higher order component that wraps the given component in

@@ -1,6 +1,7 @@
 import { shallow } from 'enzyme';
-import CommentView from '../CommentView';
+
 import CommentTree from '../CommentTree';
+import CommentView from '../CommentView';
 import comments from './fixtures/comments';
 
 describe('components', () => {

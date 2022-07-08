@@ -1,24 +1,25 @@
 // @flow
-import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { push } from 'connected-react-router';
+import { compose } from 'redux';
 import { formValueSelector } from 'redux-form';
+
 import { fetchSemesters } from 'app/actions/CompanyActions';
 import {
   fetchCompanyInterest,
   updateCompanyInterest,
 } from 'app/actions/CompanyInterestActions';
+import { selectCompanyInterestById } from 'app/reducers/companyInterest';
+import { selectCompanySemesters } from 'app/reducers/companySemesters';
+import prepare from 'app/utils/prepare';
 import CompanyInterestPage, {
   COLLABORATION_TYPES,
   EVENT_TYPES,
   OTHER_TYPES,
-  TARGET_GRADE_TYPES,
   PARTICIPANT_RANGE_MAP,
+  TARGET_GRADE_TYPES,
 } from './components/CompanyInterestPage';
-import { selectCompanyInterestById } from 'app/reducers/companyInterest';
-import { selectCompanySemesters } from 'app/reducers/companySemesters';
 import { sortSemesterChronologically } from './utils.js';
-import { push } from 'connected-react-router';
-import prepare from 'app/utils/prepare';
 
 const loadCompanyInterests = (props, dispatch) => {
   const { companyInterestId } = props.match.params;

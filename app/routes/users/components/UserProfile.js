@@ -1,27 +1,28 @@
 // @flow
 
 import { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { sumBy, sortBy, uniqBy, groupBy, orderBy } from 'lodash';
-import { ProfilePicture, CircularPicture, Image } from 'app/components/Image';
-import Card from 'app/components/Card';
-import Pill from 'app/components/Pill';
-import LoadingIndicator from 'app/components/LoadingIndicator';
-//import Feed from 'app/components/Feed';
-import Penalties from './Penalties';
-import GroupChange from './GroupChange.js';
-import styles from './UserProfile.css';
-import { Flex } from 'app/components/Layout';
-import Tooltip from 'app/components/Tooltip';
-import { resolveGroupLink } from 'app/reducers/groups';
-import type { Group, AddPenalty, Event, ID, Dateish } from 'app/models';
+import { Link } from 'react-router-dom';
 import cx from 'classnames';
-import EventItem from 'app/components/EventItem';
-import EmptyState from 'app/components/EmptyState';
+import { groupBy, orderBy, sortBy, sumBy, uniqBy } from 'lodash';
 import moment from 'moment-timezone';
 
 import frame from 'app/assets/frame.png';
+import Card from 'app/components/Card';
+import EmptyState from 'app/components/EmptyState';
+import EventItem from 'app/components/EventItem';
+import { CircularPicture, Image, ProfilePicture } from 'app/components/Image';
+import { Flex } from 'app/components/Layout';
+import LoadingIndicator from 'app/components/LoadingIndicator';
+import Pill from 'app/components/Pill';
+import Tooltip from 'app/components/Tooltip';
+import type { AddPenalty, Dateish, Event, Group, ID } from 'app/models';
+import { resolveGroupLink } from 'app/reducers/groups';
+import GroupChange from './GroupChange.js';
+//import Feed from 'app/components/Feed';
+import Penalties from './Penalties';
+
+import styles from './UserProfile.css';
 
 const fieldTranslations = {
   username: 'Brukernavn',

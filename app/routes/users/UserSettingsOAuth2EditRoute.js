@@ -1,18 +1,18 @@
 // @flow
 
-import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { push } from 'connected-react-router';
+import { compose } from 'redux';
 import { reduxForm } from 'redux-form';
-import prepare from 'app/utils/prepare';
 
-import { createValidator, required } from 'app/utils/validation';
-import UserSettingsOAuth2Form from './components/UserSettingsOAuth2Form';
 import {
   fetchOAuth2Application,
   updateOAuth2Application,
 } from 'app/actions/OAuth2Actions';
 import { selectOAuth2ApplicationById } from 'app/reducers/oauth2';
-import { push } from 'connected-react-router';
+import prepare from 'app/utils/prepare';
+import { createValidator, required } from 'app/utils/validation';
+import UserSettingsOAuth2Form from './components/UserSettingsOAuth2Form';
 
 const validate = createValidator({
   name: [required()],

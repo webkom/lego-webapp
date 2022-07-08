@@ -1,13 +1,14 @@
 // @flow
 
-import styles from './surveys.css';
+import { CheckBox, RadioButton, TextArea } from 'app/components/Form';
+import type { QuestionEntity, SurveyEntity } from 'app/reducers/surveys';
 import type {
-  SubmissionEntity,
   AnswerEntity,
+  SubmissionEntity,
 } from 'app/reducers/surveySubmissions';
-import type { SurveyEntity, QuestionEntity } from 'app/reducers/surveys';
-import { RadioButton, CheckBox, TextArea } from 'app/components/Form';
 import { QuestionTypes } from '../utils';
+
+import styles from './surveys.css';
 
 type Props = {
   survey: SurveyEntity,

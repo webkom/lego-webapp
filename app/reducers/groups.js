@@ -1,9 +1,10 @@
 //@flow
-import { createSelector } from 'reselect';
-import { Group, Membership } from '../actions/ActionTypes';
-import createEntityReducer from 'app/utils/createEntityReducer';
-import { type ID, GroupTypeInterest, GroupTypeCommittee } from 'app/models';
 import { produce } from 'immer';
+import { createSelector } from 'reselect';
+
+import { type ID, GroupTypeCommittee, GroupTypeInterest } from 'app/models';
+import createEntityReducer from 'app/utils/createEntityReducer';
+import { Group, Membership } from '../actions/ActionTypes';
 
 export const resolveGroupLink = (group: { type: string, id: ID }) => {
   switch (group.type) {

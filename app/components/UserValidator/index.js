@@ -1,14 +1,16 @@
 // @flow
 
 import { Component } from 'react';
-import { get } from 'lodash';
 import cx from 'classnames';
-import SearchPage from 'app/components/Search/SearchPage';
-import type { SearchResult } from 'app/reducers/search';
-import styles from './Validator.css';
+import { get } from 'lodash';
 
 // $FlowFixMe
 import goodSound from 'app/assets/good-sound.mp3';
+import SearchPage from 'app/components/Search/SearchPage';
+import type { SearchResult } from 'app/reducers/search';
+
+import styles from './Validator.css';
+
 type State = {
   showCompleted: boolean,
 };

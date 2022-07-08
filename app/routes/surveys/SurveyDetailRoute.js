@@ -1,17 +1,18 @@
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
+import { push } from 'connected-react-router';
+import { compose } from 'redux';
+
 import {
   fetchSurvey,
-  shareSurvey,
   hideSurvey,
+  shareSurvey,
 } from 'app/actions/SurveyActions';
-import SurveyDetail from './components/SurveyDetail';
-import { compose } from 'redux';
-import { selectSurveyById } from 'app/reducers/surveys';
 import { LoginPage } from 'app/components/LoginForm';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import { selectSurveyById } from 'app/reducers/surveys';
 import loadingIndicator from 'app/utils/loadingIndicator';
-import { push } from 'connected-react-router';
+import prepare from 'app/utils/prepare';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import SurveyDetail from './components/SurveyDetail';
 
 const loadData = (
   {

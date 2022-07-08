@@ -1,26 +1,28 @@
 // @flow
 
-import styles from '../surveys.css';
-import type { SurveyEntity, QuestionEntity } from 'app/reducers/surveys';
+import Select from 'react-select';
 import {
-  QuestionTypes,
-  CHART_COLORS,
-  QuestionTypeValue,
-  QuestionTypeOption,
-} from '../../utils';
-import InfoBubble from 'app/components/InfoBubble';
-import {
-  PieChart,
-  Pie,
-  Cell,
-  BarChart,
   Bar,
+  BarChart,
+  CartesianGrid,
+  Cell,
+  Pie,
+  PieChart,
   XAxis,
   YAxis,
-  CartesianGrid,
 } from 'recharts';
-import Select from 'react-select';
-import { selectTheme, selectStyles } from 'app/components/Form/SelectInput';
+
+import { selectStyles, selectTheme } from 'app/components/Form/SelectInput';
+import InfoBubble from 'app/components/InfoBubble';
+import type { QuestionEntity, SurveyEntity } from 'app/reducers/surveys';
+import {
+  CHART_COLORS,
+  QuestionTypeOption,
+  QuestionTypes,
+  QuestionTypeValue,
+} from '../../utils';
+
+import styles from '../surveys.css';
 
 type Props = {
   survey: SurveyEntity,

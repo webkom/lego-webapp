@@ -1,6 +1,7 @@
-import UserProfile from '../UserProfile';
-import { shallow } from 'enzyme';
 import { Link } from 'react-router-dom';
+import { shallow } from 'enzyme';
+
+import UserProfile from '../UserProfile';
 
 const user = {
   id: 1,

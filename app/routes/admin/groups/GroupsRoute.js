@@ -1,11 +1,12 @@
 // @flow
 
-import { compose } from 'redux';
 import { connect } from 'react-redux';
-import GroupPage from './components/GroupPage';
+import { compose } from 'redux';
+
 import { fetchAll } from 'app/actions/GroupActions';
 import { selectGroups } from 'app/reducers/groups';
 import prepare from 'app/utils/prepare';
+import GroupPage from './components/GroupPage';
 
 const mapStateToProps = (state, props) => {
   const groups = selectGroups(state);

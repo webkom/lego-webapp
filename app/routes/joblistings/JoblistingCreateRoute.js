@@ -1,14 +1,15 @@
 // @flow
-import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { push } from 'connected-react-router';
+import { compose } from 'redux';
+
 import { fetchCompanyContacts } from 'app/actions/CompanyActions';
 import { createJoblisting } from 'app/actions/JoblistingActions';
-import JoblistingEditor from 'app/routes/joblistings/components/JoblistingEditor';
-import { push } from 'connected-react-router';
 import { LoginPage } from 'app/components/LoginForm';
+import JoblistingEditor from 'app/routes/joblistings/components/JoblistingEditor';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import time from 'app/utils/time';
-import { yearValues, jobTypes } from './constants';
+import { jobTypes, yearValues } from './constants';
 
 const mapStateToProps = () => ({
   initialValues: {

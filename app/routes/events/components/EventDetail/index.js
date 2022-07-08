@@ -1,53 +1,55 @@
 // @flow
 
-import styles from './EventDetail.css';
 import type { Node } from 'react';
 import { Component, Fragment } from 'react';
+import { Link } from 'react-router-dom';
+import moment from 'moment-timezone';
+
 import CommentView from 'app/components/Comments/CommentView';
+import {
+  Content,
+  ContentHeader,
+  ContentMain,
+  ContentSection,
+  ContentSidebar,
+} from 'app/components/Content';
+import DisplayContent from 'app/components/DisplayContent';
 import Icon from 'app/components/Icon';
-import JoinEventForm from '../JoinEventForm';
-import RegisteredSummary from '../RegisteredSummary';
+import InfoList from 'app/components/InfoList';
+import { Flex } from 'app/components/Layout';
+import { MazemapEmbed } from 'app/components/MazemapEmbed';
+import Tag from 'app/components/Tags/Tag';
+import { FormatTime, FromToTime } from 'app/components/Time';
+import Tooltip from 'app/components/Tooltip';
 import {
   AttendanceStatus,
   ModalParentComponent,
 } from 'app/components/UserAttendance';
-import Tag from 'app/components/Tags/Tag';
-import moment from 'moment-timezone';
-import { FormatTime, FromToTime } from 'app/components/Time';
-import InfoList from 'app/components/InfoList';
-import { Flex } from 'app/components/Layout';
-import Tooltip from 'app/components/Tooltip';
-import {
-  eventTypeToString,
-  colorForEvent,
-  registrationCloseTime,
-  unregistrationCloseTime,
-  penaltyHours,
-} from '../../utils';
-import Admin from '../Admin';
-import RegistrationMeta from '../RegistrationMeta';
-import DisplayContent from 'app/components/DisplayContent';
-import {
-  Content,
-  ContentHeader,
-  ContentSection,
-  ContentMain,
-  ContentSidebar,
-} from 'app/components/Content';
-import { Link } from 'react-router-dom';
 import UserGrid from 'app/components/UserGrid';
 import type {
-  ID,
-  EventPool,
-  EventRegistration,
-  Event,
   ActionGrant,
   AddPenalty,
+  Event,
+  EventPool,
+  EventRegistration,
   FollowerItem,
+  ID,
 } from 'app/models';
 import type { CommentEntity } from 'app/reducers/comments';
 import type { UserEntity } from 'app/reducers/users';
-import { MazemapEmbed } from 'app/components/MazemapEmbed';
+import {
+  colorForEvent,
+  eventTypeToString,
+  penaltyHours,
+  registrationCloseTime,
+  unregistrationCloseTime,
+} from '../../utils';
+import Admin from '../Admin';
+import JoinEventForm from '../JoinEventForm';
+import RegisteredSummary from '../RegisteredSummary';
+import RegistrationMeta from '../RegistrationMeta';
+
+import styles from './EventDetail.css';
 
 type InterestedButtonProps = {
   isInterested: boolean,

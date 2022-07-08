@@ -1,18 +1,19 @@
-import { compose } from 'redux';
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
-import loadingIndicator from 'app/utils/loadingIndicator';
+import { push } from 'connected-react-router';
+import { compose } from 'redux';
+
 import {
-  fetchArticle,
-  editArticle,
   deleteArticle,
+  editArticle,
+  fetchArticle,
 } from 'app/actions/ArticleActions';
-import ArticleEditor from './components/ArticleEditor';
-import { selectArticleById } from 'app/reducers/articles';
 import { objectPermissionsToInitialValues } from 'app/components/Form/ObjectPermissions';
 import { LoginPage } from 'app/components/LoginForm';
+import { selectArticleById } from 'app/reducers/articles';
+import loadingIndicator from 'app/utils/loadingIndicator';
+import prepare from 'app/utils/prepare';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import { push } from 'connected-react-router';
+import ArticleEditor from './components/ArticleEditor';
 
 const mapStateToProps = (state, props) => {
   const { articleId } = props.match.params;

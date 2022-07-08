@@ -1,15 +1,16 @@
 // @flow
-import { compose } from 'redux';
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
+import { compose } from 'redux';
 import { formValueSelector } from 'redux-form';
-import { fetchGroup, editGroup } from 'app/actions/GroupActions';
+
 import { uploadFile } from 'app/actions/FileActions';
-import { selectGroup } from 'app/reducers/groups';
+import { editGroup, fetchGroup } from 'app/actions/GroupActions';
 import { LoginPage } from 'app/components/LoginForm';
-import InterestGroupEdit from './components/InterestGroupEdit';
+import { selectGroup } from 'app/reducers/groups';
 import loadingIndicator from 'app/utils/loadingIndicator';
+import prepare from 'app/utils/prepare';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import InterestGroupEdit from './components/InterestGroupEdit';
 
 const mapDispatchToProps = {
   editGroup,

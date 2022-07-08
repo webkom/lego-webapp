@@ -1,10 +1,12 @@
 // @flow
 import { Component } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { map, toPairs } from 'lodash';
-import { Content } from 'app/components/Content';
-import styles from './TagDetail.css';
 import { Link } from 'react-router-dom';
+import { map, toPairs } from 'lodash';
+
+import { Content } from 'app/components/Content';
+
+import styles from './TagDetail.css';
 
 type Props = {
   tag: Object,

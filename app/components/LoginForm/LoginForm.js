@@ -1,13 +1,14 @@
 // @flow
 
 import { Component } from 'react';
-import cx from 'classnames';
-import { Form, Button, TextInput } from '../Form';
 import { connect } from 'react-redux';
-import { SubmissionError, Field, reduxForm } from 'redux-form';
+import cx from 'classnames';
 import type { FormProps } from 'redux-form';
+import { Field, reduxForm, SubmissionError } from 'redux-form';
+
 import { login } from 'app/actions/UserActions';
 import { createValidator, required } from 'app/utils/validation';
+import { Button, Form, TextInput } from '../Form';
 
 type ConnectedProps = {
   login: (username: string, password: string) => Promise<void>,

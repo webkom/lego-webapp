@@ -1,18 +1,20 @@
 // @flow
 
 import { Component } from 'react';
-import Dropdown from 'app/components/Dropdown';
-import styles from './bdb.css';
 import cx from 'classnames';
-import Icon from 'app/components/Icon';
+
 import Button from 'app/components/Button';
-import {
-  sortStatusesByProminence,
-  getStatusString,
-  statusStrings,
-  selectColorCode,
-} from '../utils';
+import Dropdown from 'app/components/Dropdown';
+import Icon from 'app/components/Icon';
 import type { CompanySemesterContactedStatus } from 'app/models';
+import {
+  getStatusString,
+  selectColorCode,
+  sortStatusesByProminence,
+  statusStrings,
+} from '../utils';
+
+import styles from './bdb.css';
 
 type Props = {
   semesterStatus: Object,

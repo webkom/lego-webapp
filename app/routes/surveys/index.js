@@ -1,18 +1,19 @@
 // @flow
 import { Route, Switch } from 'react-router-dom';
+
 import RouteWrapper from 'app/components/RouteWrapper';
 import { UserContext } from 'app/routes/app/AppRoute';
 import PageNotFound from '../pageNotFound';
-import SurveyRoute from './SurveyRoute';
-import AddSurveyRoute from './AddSurveyRoute';
-import TemplatesRoute from './TemplatesRoute';
-import SurveyDetailRoute from './SurveyDetailRoute';
-import EditSurveyRoute from './EditSurveyRoute';
-import AddSubmissionRoute from './AddSubmissionRoute';
-import SubmissionsRoute from './SubmissionsRoute';
-import SubmissionSummary from './components/Submissions/SubmissionSummary';
 import SubmissionIndividual from './components/Submissions/SubmissionIndividual';
+import SubmissionSummary from './components/Submissions/SubmissionSummary';
+import AddSubmissionRoute from './AddSubmissionRoute';
+import AddSurveyRoute from './AddSurveyRoute';
+import EditSurveyRoute from './EditSurveyRoute';
 import SubmissionsPublicResultsRoute from './SubmissionsPublicResultsRoute';
+import SubmissionsRoute from './SubmissionsRoute';
+import SurveyDetailRoute from './SurveyDetailRoute';
+import SurveyRoute from './SurveyRoute';
+import TemplatesRoute from './TemplatesRoute';
 
 const surveysRoute = ({ match }: { match: { path: string } }) => (
   <UserContext.Consumer>

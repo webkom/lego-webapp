@@ -1,9 +1,10 @@
 // @flow
 import type { Element } from 'react';
+
 import Icon from 'app/components/Icon';
-import { formatHeader } from './utils';
-import { lookupContext, contextRender } from '../context';
+import { contextRender, lookupContext } from '../context';
 import type { AggregatedActivity, TagInfo } from '../types';
+import { formatHeader } from './utils';
 
 /**
  * Normal grouping by target and date

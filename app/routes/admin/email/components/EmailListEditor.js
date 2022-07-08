@@ -1,17 +1,18 @@
 //@flow
 
+import { Field, Form } from 'redux-form';
+
 import Button from 'app/components/Button';
-import { createValidator, required, EMAIL_REGEX } from 'app/utils/validation';
-import { roleOptions } from 'app/utils/constants';
 import {
-  TextInput,
-  SelectInput,
   CheckBox,
   handleSubmissionError,
   legoForm,
+  SelectInput,
+  TextInput,
 } from 'app/components/Form';
-import { Form, Field } from 'redux-form';
 import Tooltip from 'app/components/Tooltip';
+import { roleOptions } from 'app/utils/constants';
+import { createValidator, EMAIL_REGEX, required } from 'app/utils/validation';
 
 export type Props = {
   emailListId?: number,

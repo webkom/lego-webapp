@@ -1,7 +1,6 @@
 // @flow
 
 import type { ComponentType } from 'react';
-
 import { PureComponent } from 'react';
 
 type LoginProps = { loggedIn: boolean };

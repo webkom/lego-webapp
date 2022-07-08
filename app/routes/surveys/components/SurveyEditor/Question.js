@@ -2,22 +2,24 @@
 
 import type { Node } from 'react';
 import { type FieldArrayProps, Field, FieldArray } from 'redux-form';
+
 import {
-  TextInput,
-  TextArea,
   CheckBox,
   SelectInput,
+  TextArea,
+  TextInput,
 } from 'app/components/Form';
-import Option from './Option';
-import styles from '../surveys.css';
 import Icon from 'app/components/Icon';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import {
   mappings,
-  QuestionTypes,
   QuestionTypeOption,
+  QuestionTypes,
   QuestionTypeValue,
 } from '../../utils';
+import Option from './Option';
+
+import styles from '../surveys.css';
 
 type Fields = $PropertyType<FieldArrayProps, 'fields'>;
 

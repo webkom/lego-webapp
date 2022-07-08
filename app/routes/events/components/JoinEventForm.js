@@ -1,38 +1,39 @@
 // @flow
 
-import { useState, useEffect } from 'react';
-import styles from './Event.css';
+import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import moment from 'moment-timezone';
 import { compose } from 'redux';
-import { reduxForm, Field, SubmissionError } from 'redux-form';
-import { Form, Captcha, TextInput } from 'app/components/Form';
+import { Field, reduxForm, SubmissionError } from 'redux-form';
+
 import Button from 'app/components/Button';
-import PaymentRequestForm from './StripeElement';
-import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
-import LoadingIndicator, { ProgressBar } from 'app/components/LoadingIndicator';
-import Time from 'app/components/Time';
-import { Flex } from 'app/components/Layout';
-import withCountdown from './JoinEventFormCountdownProvider';
+import { Captcha, Form, TextInput } from 'app/components/Form';
 import formStyles from 'app/components/Form/Field.css';
 import Icon from 'app/components/Icon';
+import { Flex } from 'app/components/Layout';
+import LoadingIndicator, { ProgressBar } from 'app/components/LoadingIndicator';
+import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
+import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
-import moment from 'moment-timezone';
-import {
-  paymentSuccess,
-  paymentManual,
-  sumPenalties,
-  penaltyHours,
-  registrationIsClosed,
-} from '../utils';
-
-import { selectUserByUsername } from 'app/reducers/users';
-import { selectPenaltyByUserId } from 'app/reducers/penalties';
 import type {
-  User,
   EventRegistration,
   EventRegistrationStatus,
+  User,
 } from 'app/models';
+import { selectPenaltyByUserId } from 'app/reducers/penalties';
+import { selectUserByUsername } from 'app/reducers/users';
+import {
+  paymentManual,
+  paymentSuccess,
+  penaltyHours,
+  registrationIsClosed,
+  sumPenalties,
+} from '../utils';
+import withCountdown from './JoinEventFormCountdownProvider';
+import PaymentRequestForm from './StripeElement';
+
+import styles from './Event.css';
 
 type Event = Object;
 

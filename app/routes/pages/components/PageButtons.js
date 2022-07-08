@@ -1,6 +1,7 @@
 // @flow
 
 import Button from 'app/components/Button';
+
 import styles from './PageButtons.css';
 
 type Props = {

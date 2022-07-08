@@ -1,14 +1,16 @@
 /* eslint-disable no-console */
 
+import fs from 'fs';
+import http from 'http';
+import https from 'https';
+
+import { RewriteFrames } from '@sentry/integrations';
+import * as Sentry from '@sentry/node';
+
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
-import app from './server';
-import * as Sentry from '@sentry/node';
-import { RewriteFrames } from '@sentry/integrations';
-import https from 'https';
-import http from 'http';
-import fs from 'fs';
 import config from './env';
+import app from './server';
 
 Sentry.init({
   dsn: config.sentryDSN,

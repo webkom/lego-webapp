@@ -1,9 +1,11 @@
 // @flow
 import { Component } from 'react';
-import moment from 'moment-timezone';
 import _ from 'lodash';
-import styles from './LoadingBox.css';
+import moment from 'moment-timezone';
+
 import walkingImage from 'app/assets/man_walking.gif';
+
+import styles from './LoadingBox.css';
 
 type Props = {
   onQueueDone: () => void,

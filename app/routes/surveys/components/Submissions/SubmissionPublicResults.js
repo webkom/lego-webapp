@@ -1,11 +1,12 @@
 // @flow
 
-import styles from '../surveys.css';
-import type { SurveyEntity } from 'app/reducers/surveys';
-import { Content, ContentSection, ContentMain } from 'app/components/Content';
+import { Content, ContentMain, ContentSection } from 'app/components/Content';
 import type { ActionGrant } from 'app/models';
-import Results from './Results';
+import type { SurveyEntity } from 'app/reducers/surveys';
 import { TokenNavigation } from '../../utils';
+import Results from './Results';
+
+import styles from '../surveys.css';
 
 type Props = {
   survey: SurveyEntity,

@@ -1,5 +1,6 @@
-import CompanyList from '../CompanyList';
 import { shallow } from 'enzyme';
+
+import CompanyList from '../CompanyList';
 import companies from './fixtures/companies';
 
 describe('components', () => {

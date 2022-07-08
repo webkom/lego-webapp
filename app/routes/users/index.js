@@ -1,18 +1,19 @@
 // @flow
 import { Route, Switch } from 'react-router-dom';
+
 import RouteWrapper from 'app/components/RouteWrapper';
 import { UserContext } from 'app/routes/app/AppRoute';
 import PageNotFound from '../pageNotFound';
 import UserSettingsIndex from './components/UserSettingsIndex';
-import UserProfileRoute from './UserProfileRoute';
-import UserSettingsRoute from './UserSettingsRoute';
+import StudentConfirmationRoute from './StudentConfirmationRoute';
 import UserConfirmationRoute from './UserConfirmationRoute';
+import UserProfileRoute from './UserProfileRoute';
 import UserResetPasswordRoute from './UserResetPasswordRoute';
 import UserSettingsNotificationsRoute from './UserSettingsNotificationsRoute';
-import UserSettingsOAuth2Route from './UserSettingsOAuth2Route';
 import UserSettingsOAuth2CreateRoute from './UserSettingsOAuth2CreateRoute';
 import UserSettingsOAuth2EditRoute from './UserSettingsOAuth2EditRoute';
-import StudentConfirmationRoute from './StudentConfirmationRoute';
+import UserSettingsOAuth2Route from './UserSettingsOAuth2Route';
+import UserSettingsRoute from './UserSettingsRoute';
 
 const usersRoute = ({ match }: { match: { path: string } }) => (
   <UserContext.Consumer>

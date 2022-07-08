@@ -1,16 +1,16 @@
 // @flow
 
 import type { Element } from 'react';
-
 import { cloneElement } from 'react';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
 import { Helmet } from 'react-helmet-async';
-import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
-import { Content } from 'app/components/Content';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import { LoginPage } from 'app/components/LoginForm';
+import { connect } from 'react-redux';
 import { omit } from 'lodash';
+import { compose } from 'redux';
+
+import { Content } from 'app/components/Content';
+import { LoginPage } from 'app/components/LoginForm';
+import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 
 type Props = {
   children: Array<Element<*>>,

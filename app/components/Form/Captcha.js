@@ -1,12 +1,14 @@
 // @flow
 
 import { Component } from 'react';
-import config from 'app/config';
-import { createField } from './Field';
 // eslint-disable-next-line import/no-named-as-default
 import ReCAPTCHA from 'react-google-recaptcha';
-import styles from './Captcha.css';
 import cx from 'classnames';
+
+import config from 'app/config';
+import { createField } from './Field';
+
+import styles from './Captcha.css';
 
 type Props = {
   className?: string,

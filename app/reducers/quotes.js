@@ -1,13 +1,13 @@
 // @flow
 
-import { Quote } from '../actions/ActionTypes';
-import createEntityReducer from 'app/utils/createEntityReducer';
-import { createSelector } from 'reselect';
-import { mutateReactions, type ReactionEntity } from 'app/reducers/reactions';
-import joinReducers from 'app/utils/joinReducers';
-import type { ID } from 'app/models';
-
 import { produce } from 'immer';
+import { createSelector } from 'reselect';
+
+import type { ID } from 'app/models';
+import { type ReactionEntity, mutateReactions } from 'app/reducers/reactions';
+import createEntityReducer from 'app/utils/createEntityReducer';
+import joinReducers from 'app/utils/joinReducers';
+import { Quote } from '../actions/ActionTypes';
 
 export type QuoteEntity = {
   id: ID,

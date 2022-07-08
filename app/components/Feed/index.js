@@ -1,9 +1,11 @@
 // @flow
 import type { Node } from 'react';
-import Activity from './activity';
-import type { AggregatedActivity } from './types';
+
 import EmptyState from 'app/components/EmptyState';
 import ErrorBoundary from 'app/components/ErrorBoundary';
+import Activity from './activity';
+import type { AggregatedActivity } from './types';
+
 import styles from './Feed.css';
 
 export const activityRenderers = {

@@ -1,8 +1,9 @@
 // @flow
-import { get } from 'lodash';
-import { prepared } from '@webkom/react-prepare';
 import { connect } from 'react-redux';
+import { prepared } from '@webkom/react-prepare';
+import { get } from 'lodash';
 import { compose } from 'redux';
+
 import type { Dispatch } from 'app/types';
 
 type PrepareFn = (props: Object, dispatch: Dispatch<*>) => ?Promise<*>;

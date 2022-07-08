@@ -1,18 +1,18 @@
 // @flow
 
+import { produce } from 'immer';
+import { groupBy, orderBy, without } from 'lodash';
 import moment from 'moment-timezone';
+import { normalize } from 'normalizr';
 import { createSelector } from 'reselect';
-import { Event } from '../actions/ActionTypes';
+
+import config from 'app/config';
+import { eventSchema } from 'app/reducers';
 import { mutateComments } from 'app/reducers/comments';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import joinReducers from 'app/utils/joinReducers';
-import { normalize } from 'normalizr';
-import { eventSchema } from 'app/reducers';
 import mergeObjects from 'app/utils/mergeObjects';
-import { groupBy, orderBy, without } from 'lodash';
-
-import { produce } from 'immer';
-import config from 'app/config';
+import { Event } from '../actions/ActionTypes';
 
 export type EventEntity = {
   id: number,
