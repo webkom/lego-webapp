@@ -85,7 +85,7 @@ class PublicFrontpage extends Component<Props, State> {
           header="Velkommen til fadderperioden 2022!"
           subHeader="Trykk her for mer informasjon"
           link="articles/414"
-          color={COLORS.red}
+          color={COLORS.buddyweek2022}
           internal
         />
         <Container className={styles.container}>
