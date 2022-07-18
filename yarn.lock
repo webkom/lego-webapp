@@ -8917,10 +8917,10 @@ react-soundplayer@^1.0.4:
     prop-types "^15.6.0"
     soundcloud-audio "^1.3.1"
 
-react-stickynode@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/react-stickynode/-/react-stickynode-4.0.0.tgz#ca1deeda866aeace3d522d01eb868f286cdb49d1"
-  integrity sha512-H6Ae6l8soAc188eFAmE4CGJz3oidQa88jNO/fnJWjpFw4DwGRS6boL9gHNE4DCvbMPgek1AAP85pUPIEKUMgtw==
+react-stickynode@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/react-stickynode/-/react-stickynode-4.1.0.tgz#ecd80987f64b98f999c589cd4b992eee6bed9562"
+  integrity sha512-zylWgfad75jLfh/gYIayDcDWIDwO4weZrsZqDpjZ/axhF06zRjdCWFBgUr33Pvv2+htKWqPSFksWTyB6aMQ1ZQ==
   dependencies:
     classnames "^2.0.0"
     core-js "^3.6.5"
