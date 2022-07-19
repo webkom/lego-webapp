@@ -57,14 +57,21 @@ const ContactForm = (props: Props) => {
     <Form onSubmit={props.handleSubmit(submit)}>
       <p>
         Dette skjemaet kan benyttes for å kontakte Abakus sine komiteer eller
-        Hovedstyret. Sender du til en spesifikk komité er det kun lederen av
-        komiteen som vil motta meldingen. Om du sender til Hovedstyret vil hele
-        styret få meldingen.
+        Hovedstyret. Dersom du har opplevd avvik eller ubehagelige hendelser i
+        forbindelse med Abakus, ønsker vi gjerne at dette meldes fra om her.
+        Send oss gjerne også spørsmål, feedback eller ting du ønsker å fortelle
+        oss, for eksempel om du ønsker å avtale tid for innsyn i HSP-avtalen.
       </p>
       <p>
-        Send oss gjerne spørsmål, feedback eller ting du ønsker å fortelle oss.
-        Du kan også benytte dette skjemaet om du ønsker å avtale tid for innsyn
-        i HSP-avtalen.
+        Sender du meldingen til en spesifikk komité er det kun lederen av
+        komiteen som vil motta meldingen. Om du sender til Hovedstyret vil hele
+        styret motta meldingen.
+      </p>
+      <p>
+        Skjemaet kan både benyttes til å sende inn en anonym henvendelse, eller
+        en med avsender for videre oppfølging. Både komitéledere og Hovedstyret
+        som mottar henvendelser har signert taushetserklæring, og de vil
+        kontakte deg og følge opp saken dersom det ønskes.
       </p>
       <Field
         placeholder="Velg mottaker"
