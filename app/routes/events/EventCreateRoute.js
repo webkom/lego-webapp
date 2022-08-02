@@ -25,7 +25,7 @@ import moment from 'moment-timezone';
 const mapStateToProps = (state, props) => {
   const actionGrant = state.events.actionGrant;
   const valueSelector = formValueSelector('eventEditor');
-  const eventId = props.match.params.id;
+  const eventId = props.location.state?.id;
 
   const eventTemplate = selectEventById(state, { eventId });
   const poolsTemplate = selectPoolsWithRegistrationsForEvent(state, {

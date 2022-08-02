@@ -105,7 +105,7 @@ const Admin = ({ actionGrant, event, deleteEvent }: Props) => {
             <Link
               to={{
                 pathname: `/events/create`,
-                query: { id: event.id },
+                state: { id: event.id },
               }}
             >
               Lag kopi av arrangement
