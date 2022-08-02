@@ -97,7 +97,7 @@ Cypress.Commands.add('apiRequest', (options, username = 'webkom') => {
     ...options,
     url: apiBaseUrl + options.url,
     headers: {
-      authorization: `JWT ${token}`,
+      authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
       ...options.headers,
     },

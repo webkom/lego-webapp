@@ -46,7 +46,7 @@ const mapStateToProps = (state, props) => {
     isSummary,
     exportSurvey: async (surveyId) => {
       const blob = await fetch(getCsvUrl(surveyId), {
-        headers: { Authorization: `JWT ${state.auth.token}` },
+        headers: { Authorization: `Bearer ${state.auth.token}` },
       }).then((response) => response.blob());
       return {
         url: URL.createObjectURL(blob),
