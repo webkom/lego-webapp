@@ -11,6 +11,11 @@ export type Props = {
   handleSubmit: (Function) => void,
   push: (string) => void,
   mutateFunction: (Object) => Promise<*>,
+  change: (string, Object) => void,
+};
+
+type AutocompleteUserValue = {
+  title: string,
 };
 
 const EmailUserEditor = ({
@@ -19,7 +24,23 @@ const EmailUserEditor = ({
   submitting,
   push,
   handleSubmit,
+  change,
 }: Props) => {
+  const onUserChange = (data: AutocompleteUserValue) => {
+    const nameSplit = data.title.toLowerCase().split(' ');
+    if (nameSplit.length < 2) return;
+    let email = nameSplit[0] + '.' + nameSplit[nameSplit.length - 1];
+    // Replace predefined characters
+    const illegalChars = { å: 'aa', æ: 'ae', ø: 'oe' };
+    Object.keys(illegalChars).forEach(
+      (char) =>
+        (email = email.replace(new RegExp(char, 'g'), illegalChars[char]))
+    );
+    // Remove any other non-a-z characters
+    email = email.replace(/[^a-z0-9.-]/gi, '');
+    change('internalEmail', email);
+  };
+
   const onSubmit = (data) => {
     mutateFunction({
       ...data,
@@ -42,6 +63,7 @@ const EmailUserEditor = ({
         placeholder="Velg bruker"
         filter={['users.user']}
         component={SelectInput.AutocompleteField}
+        onChange={(data) => onUserChange(((data: any): AutocompleteUserValue))}
       />
       <Field
         required
