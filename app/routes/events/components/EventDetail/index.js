@@ -1,7 +1,6 @@
 // @flow
 
 import styles from './EventDetail.css';
-import type { Node } from 'react';
 import { Component, Fragment } from 'react';
 import CommentView from 'app/components/Comments/CommentView';
 import Icon from 'app/components/Icon';
@@ -191,7 +190,7 @@ export default class EventDetail extends Component<Props, State> {
       'hours'
     );
 
-    const deadlines: Array<?{ key: string, value: Node }> = [
+    const deadlines = [
       event.activationTime
         ? {
             key: 'Påmelding åpner',
@@ -208,6 +207,21 @@ export default class EventDetail extends Component<Props, State> {
       !['OPEN', 'TBA'].includes(event.eventStatusType)
         ? {
             key: 'Frist for prikk',
+            keyNode: (
+              <Tooltip
+                content={
+                  <span>
+                    Lurer du på hvordan prikksystemet fungerer? Sjekk ut{' '}
+                    <Link to="/pages/arrangementer/26-arrangementsregler">
+                      arrangementsreglene
+                    </Link>
+                    .
+                  </span>
+                }
+              >
+                Frist for prikk <Icon name="help-circle-outline" size={16} />
+              </Tooltip>
+            ),
             value: (
               <FormatTime
                 format="dd DD. MMM HH:mm"
@@ -229,7 +243,7 @@ export default class EventDetail extends Component<Props, State> {
         : null,
     ];
 
-    const eventCreator: Array<?{ key: string, value: Node }> = [
+    const eventCreator = [
       event.responsibleGroup && {
         key: 'Arrangør',
         value: (
@@ -323,7 +337,7 @@ export default class EventDetail extends Component<Props, State> {
                     }
                   >
                     {' '}
-                    Vis kart
+                    {this.state.mapIsOpen ? 'Skjul kart' : 'Vis kart'}
                   </div>
                   {this.state.mapIsOpen && (
                     <MazemapEmbed mazemapPoi={event.mazemapPoi} />

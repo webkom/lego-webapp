@@ -4,6 +4,7 @@ import type { Node } from 'react';
 
 type Item = {
   key: string,
+  keyNode?: Node,
   value: Node,
 };
 
@@ -20,11 +21,9 @@ type Props = {
 function InfoList({ items, className }: Props) {
   return (
     <table className={className}>
-      {items.filter(Boolean).map(({ key, value }) => (
+      {items.filter(Boolean).map(({ key, keyNode, value }) => (
         <tr key={key}>
-          <td>
-            <span style={{ marginRight: 5 }}>{key}</span>
-          </td>
+          <td>{keyNode ?? <span style={{ marginRight: 5 }}>{key}</span>}</td>
           <td>
             <strong>{value}</strong>
           </td>
