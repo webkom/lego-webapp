@@ -43,7 +43,7 @@ describe('Editor', () => {
       .type('No format');
     cy.get('._legoEditor_root strong').contains('This should be bold');
     cy.get('._legoEditor_root em').contains('This should be italic');
-    cy.get('._legoEditor_root p span').last().contains('No format');
+    cy.get('._legoEditor_root p span').contains('No format');
 
     // No image in article before adding it
     cy.get('._legoEditor_root img').should('not.exist');

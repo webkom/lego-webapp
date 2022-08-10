@@ -1,9 +1,7 @@
 //@flow
 
 import Editor from '@webkom/lego-editor';
-import '@webkom/lego-editor/dist/Editor.css';
-import '@webkom/lego-editor/dist/components/Toolbar.css';
-import '@webkom/lego-editor/dist/components/ImageUpload.css';
+import '@webkom/lego-editor/dist/style.css';
 import 'react-image-crop/dist/ReactCrop.css';
 
 type Props = {
