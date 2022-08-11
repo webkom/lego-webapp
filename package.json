@@ -160,7 +160,7 @@
     "react-hot-loader": "^4.13.0",
     "redux-mock-store": "^1.5.4",
     "style-loader": "^3.3.1",
-    "stylelint": "^14.9.1",
+    "stylelint": "^14.10.0",
     "stylelint-config-standard": "^26.0.0",
     "terser-webpack-plugin": "^5.3.3",
     "timekeeper": "^2.2.0",
