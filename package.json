@@ -169,7 +169,7 @@
     "webpack-cli": "^4.10.0",
     "webpack-dev-middleware": "^5.3.3",
     "webpack-filter-warnings-plugin": "^1.2.1",
-    "webpack-hot-middleware": "^2.25.1",
+    "webpack-hot-middleware": "^2.25.2",
     "webpack-node-externals": "^3.0.0",
     "webpack-stats-plugin": "^1.1.0"
   },
