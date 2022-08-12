@@ -4,11 +4,13 @@ import type { Node } from 'react';
 
 type Item = {
   key: string,
+  keyNode?: Node,
   value: Node,
 };
 
 type Props = {
   items: Array<?Item>,
+  className?: string,
 };
 
 /**
@@ -16,16 +18,18 @@ type Props = {
  * Location <strong>Oslo</strong>
  * Time <strong>Yesterday</strong>
  */
-function InfoList({ items }: Props) {
+function InfoList({ items, className }: Props) {
   return (
-    <ul>
-      {items.filter(Boolean).map(({ key, value }) => (
-        <li key={key}>
-          <span style={{ marginRight: 5 }}>{key}</span>
-          <strong>{value}</strong>
-        </li>
+    <table className={className}>
+      {items.filter(Boolean).map(({ key, keyNode, value }) => (
+        <tr key={key}>
+          <td>{keyNode ?? <span style={{ marginRight: 5 }}>{key}</span>}</td>
+          <td>
+            <strong>{value}</strong>
+          </td>
+        </tr>
       ))}
-    </ul>
+    </table>
   );
 }
 

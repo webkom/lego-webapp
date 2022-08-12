@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 import type { ID, Event, ActionGrant } from 'app/models';
 import AnnouncementInLine from 'app/components/AnnouncementInLine';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
+import Button from 'app/components/Button';
+import moment from 'moment-timezone';
 import styles from './Admin.css';
 
 type Props = {
@@ -76,6 +78,11 @@ class DeleteButton extends Component<ButtonProps, State> {
 const Admin = ({ actionGrant, event, deleteEvent }: Props) => {
   const canEdit = actionGrant.includes('edit');
   const canDelete = actionGrant.includes('delete');
+  const showRegisterButton =
+    Math.abs(
+      moment.duration(moment(event.startTime).diff(moment.now())).get('days')
+    ) < 2;
+
   return (
     <div style={{ marginTop: '10px' }}>
       {(canEdit || canDelete) && (
@@ -83,6 +90,15 @@ const Admin = ({ actionGrant, event, deleteEvent }: Props) => {
           <li>
             <strong>Admin</strong>
           </li>
+          {showRegisterButton && (
+            <li>
+              <Link to={`/events/${event.id}/administrate/abacard`}>
+                <Button className={styles.abacardButton} success>
+                  Registrer oppmøte
+                </Button>
+              </Link>
+            </li>
+          )}
           {canEdit && (
             <li>
               <Link to={`/events/${event.id}/administrate/attendees`}>

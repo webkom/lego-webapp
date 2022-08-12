@@ -64,9 +64,20 @@ export const FormatTime = ({
 export const FromToTime = ({ from, to }: { from: Dateish, to: Dateish }) => {
   const fromTime = moment(from);
   const toTime = moment(to);
-  const fromFormat =
-    moment().isSame(fromTime, 'year') && 'dddd DD. MMMM, HH:mm';
-  const toFormat = fromTime.isSame(toTime, 'day') ? 'HH:mm' : fromFormat;
+
+  const toIsUnderADayAfter = toTime.diff(fromTime) < moment.duration(1, 'day');
+
+  let fromFormat = 'dd DD. MMM, HH:mm';
+  if (!moment().isSame(fromTime, 'year')) {
+    fromFormat = 'dd DD. MMM YYYY HH:mm';
+    if (toIsUnderADayAfter) {
+      fromFormat = 'dddd DD. MMM YYYY HH:mm';
+    }
+  } else if (toIsUnderADayAfter) {
+    fromFormat = 'dddd DD. MMM, HH:mm';
+  }
+
+  const toFormat = toIsUnderADayAfter ? 'HH:mm' : fromFormat;
 
   return (
     <span>

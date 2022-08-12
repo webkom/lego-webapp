@@ -1,7 +1,6 @@
 // @flow
 
 import styles from './EventDetail.css';
-import type { Node } from 'react';
 import { Component, Fragment } from 'react';
 import CommentView from 'app/components/Comments/CommentView';
 import Icon from 'app/components/Icon';
@@ -17,13 +16,7 @@ import { FormatTime, FromToTime } from 'app/components/Time';
 import InfoList from 'app/components/InfoList';
 import { Flex } from 'app/components/Layout';
 import Tooltip from 'app/components/Tooltip';
-import {
-  eventTypeToString,
-  colorForEvent,
-  registrationCloseTime,
-  unregistrationCloseTime,
-  penaltyHours,
-} from '../../utils';
+import { colorForEvent, penaltyHours } from '../../utils';
 import Admin from '../Admin';
 import RegistrationMeta from '../RegistrationMeta';
 import DisplayContent from 'app/components/DisplayContent';
@@ -52,6 +45,8 @@ import { MazemapEmbed } from 'app/components/MazemapEmbed';
 type InterestedButtonProps = {
   isInterested: boolean,
 };
+
+const Line = () => <div className={styles.line} />;
 
 const InterestedButton = ({ isInterested }: InterestedButtonProps) => {
   const icon = isInterested ? 'star' : 'star-outline';
@@ -111,7 +106,16 @@ type Props = {
   currentUserFollowing: ?FollowerItem,
 };
 
-export default class EventDetail extends Component<Props> {
+type State = { mapIsOpen: boolean };
+
+export default class EventDetail extends Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      mapIsOpen: false,
+    };
+  }
+
   handleRegistration = ({ captchaResponse, feedback, type }: Object) => {
     const {
       eventId,
@@ -186,13 +190,75 @@ export default class EventDetail extends Component<Props> {
       'hours'
     );
 
-    const infoItems: Array<?{ key: string, value: Node }> = [
-      event.company && {
-        key: 'Arrangerende bedrift',
+    const deadlines = [
+      event.activationTime
+        ? {
+            key: 'Påmelding åpner',
+            value: (
+              <FormatTime
+                format="dd DD. MMM HH:mm"
+                time={eventRegistrationTime}
+              />
+            ),
+          }
+        : null,
+      event.heedPenalties &&
+      event.unregistrationDeadline &&
+      !['OPEN', 'TBA'].includes(event.eventStatusType)
+        ? {
+            key: 'Frist for prikk',
+            keyNode: (
+              <Tooltip
+                content={
+                  <span>
+                    Lurer du på hvordan prikksystemet fungerer? Sjekk ut{' '}
+                    <Link to="/pages/arrangementer/26-arrangementsregler">
+                      arrangementsreglene
+                    </Link>
+                    .
+                  </span>
+                }
+              >
+                Frist for prikk <Icon name="help-circle-outline" size={16} />
+              </Tooltip>
+            ),
+            value: (
+              <FormatTime
+                format="dd DD. MMM HH:mm"
+                time={event.unregistrationDeadline}
+              />
+            ),
+          }
+        : null,
+      event.paymentDueDate
+        ? {
+            key: 'Betalingsfrist',
+            value: (
+              <FormatTime
+                format="dd DD. MMM HH:mm"
+                time={event.paymentDueDate}
+              />
+            ),
+          }
+        : null,
+    ];
+
+    const eventCreator = [
+      event.responsibleGroup && {
+        key: 'Arrangør',
         value: (
-          <Link to={`/companies/${event.company.id}`}>
-            {event.company.name}
-          </Link>
+          <span>
+            {event.responsibleGroup.type === 'komite' ? (
+              <Link to={`pages/komiteer/${event.responsibleGroup.id}`}></Link>
+            ) : (
+              event.responsibleGroup.name
+            )}{' '}
+            {event.responsibleGroup.contactEmail && (
+              <a href={`mailto:${event.responsibleGroup.contactEmail}`}>
+                {event.responsibleGroup.contactEmail}
+              </a>
+            )}
+          </span>
         ),
       },
       event.createdBy && {
@@ -203,66 +269,6 @@ export default class EventDetail extends Component<Props> {
           </Link>
         ),
       },
-      event.responsibleGroup && {
-        key: 'Arrangør',
-        value: (
-          <span>
-            {event.responsibleGroup.name}{' '}
-            {event.responsibleGroup.contactEmail && (
-              <a href={`mailto:${event.responsibleGroup.contactEmail}`}>
-                {event.responsibleGroup.contactEmail}
-              </a>
-            )}
-          </span>
-        ),
-      },
-      {
-        key: 'Hva',
-        value: eventTypeToString(event.eventType),
-      },
-      {
-        key: 'Når',
-        value: <FromToTime from={event.startTime} to={event.endTime} />,
-      },
-      { key: 'Finner sted i', value: event.location },
-      event.activationTime
-        ? {
-            key: 'Påmelding åpner',
-            value: <FormatTime time={eventRegistrationTime} />,
-          }
-        : null,
-      event.registrationDeadlineHours &&
-      !['OPEN', 'TBA'].includes(event.eventStatusType)
-        ? {
-            value: <FormatTime time={registrationCloseTime(event)} />,
-            key: 'Påmelding stenger',
-          }
-        : null,
-      event.unregistrationDeadlineHours &&
-      !['OPEN', 'TBA'].includes(event.eventStatusType)
-        ? {
-            value: <FormatTime time={unregistrationCloseTime(event)} />,
-            key: 'Avregistrering stenger',
-          }
-        : null,
-      event.heedPenalties &&
-      event.unregistrationDeadline &&
-      !['OPEN', 'TBA'].includes(event.eventStatusType)
-        ? {
-            key: 'Avregistreringsfrist',
-            value: <FormatTime time={event.unregistrationDeadline} />,
-          }
-        : null,
-    ];
-
-    const paidItems: Array<?{ key: string, value: Node }> = [
-      { key: 'Pris', value: `${event.priceMember / 100},-` },
-      event.paymentDueDate
-        ? {
-            key: 'Betalingsfrist',
-            value: <FormatTime time={event.paymentDueDate} />,
-          }
-        : null,
     ];
 
     return (
@@ -278,6 +284,7 @@ export default class EventDetail extends Component<Props> {
             borderColor={color}
             onClick={loggedIn && onRegisterClick}
             className={styles.title}
+            event={event}
           >
             {loggedIn && (
               <InterestedButton isInterested={!!currentUserFollowing} />
@@ -295,26 +302,58 @@ export default class EventDetail extends Component<Props> {
               </Flex>
             </ContentMain>
             <ContentSidebar>
-              <InfoList items={infoItems} />
-              {event.isPriced && (
-                <div className={styles.paymentInfo}>
-                  <strong>Dette er et betalt arrangement</strong>
-                  <InfoList items={paidItems} />
+              {event.company && (
+                <div className={styles.iconWithText}>
+                  <Icon name="briefcase-outline" className={styles.infoIcon} />
+                  <strong>
+                    <Link to={`/companies/${event.company.id}`}>
+                      {event.company.name}
+                    </Link>
+                  </strong>
                 </div>
               )}
+              <div className={styles.iconWithText}>
+                <Icon name="time-outline" className={styles.infoIcon} />
+                <strong>
+                  <FromToTime from={event.startTime} to={event.endTime} />
+                </strong>
+              </div>
+              {event.isPriced && (
+                <div className={styles.iconWithText}>
+                  <Icon name="cash-outline" className={styles.infoIcon} />
+                  <strong>{event.priceMember / 100},-</strong>
+                </div>
+              )}
+              <div className={styles.iconWithText}>
+                <Icon name="pin-outline" className={styles.infoIcon} />
+                <strong>{event.location}</strong>
+              </div>
               {event.mazemapPoi && (
-                <MazemapEmbed mazemapPoi={event.mazemapPoi} />
+                <>
+                  <div
+                    className={styles.simulateLink}
+                    onClick={() =>
+                      this.setState({ mapIsOpen: !this.state.mapIsOpen })
+                    }
+                  >
+                    {' '}
+                    {this.state.mapIsOpen ? 'Skjul kart' : 'Vis kart'}
+                  </div>
+                  {this.state.mapIsOpen && (
+                    <MazemapEmbed mazemapPoi={event.mazemapPoi} />
+                  )}
+                </>
               )}
               {['OPEN', 'TBA'].includes(event.eventStatusType) ? (
                 <JoinEventForm event={event} />
               ) : (
-                <Flex column>
+                <Flex column className={styles.registeredBox}>
                   <h3>Påmeldte</h3>
                   {registrations ? (
                     <Fragment>
                       <UserGrid
-                        minRows={2}
-                        maxRows={2}
+                        minRows={1}
+                        maxRows={1}
                         users={registrations
                           .slice(0, 14)
                           .map((reg) => reg.user)}
@@ -402,6 +441,16 @@ export default class EventDetail extends Component<Props> {
                   )}
                 </Flex>
               )}
+              {deadlines.some((d) => d !== null) && (
+                <>
+                  <Line />
+                  <InfoList className={styles.infoList} items={deadlines} />
+                </>
+              )}
+              <Line />
+              <InfoList items={eventCreator} className={styles.infoList} />
+              {(actionGrant.includes('edit') ||
+                actionGrant.includes('delete')) && <Line />}
               <Flex column>
                 <Admin
                   actionGrant={actionGrant}

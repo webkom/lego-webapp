@@ -71,7 +71,7 @@ button {
 }
 
 i {
-  display: inline;
+  display: inline-block;
 }
 
 table {
