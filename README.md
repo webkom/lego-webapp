@@ -130,6 +130,28 @@ And you run cypress headlessly (no visible browser) in another terminal
 yarn cypress run
 ```
 
+#### STRIPE
+
+In order to run the payment end-2-end tests, a few extra steps are required. First one has to install the stripe cli, log in and then run
+
+```bash
+$ stripe listen --forward-to localhost:8000/api/v1/webhooks-stripe/
+```
+
+In addition, the backend needs to run with two environment variables.
+
+```bash
+$  STRIPE_WEBHOOK_SECRET=<SECRET> STRIPE_TEST_KEY=<SECRET> python manage.py runserver
+```
+
+The webhook is obtained when running the stripe command above, while the test key can be obtained from the stripe dashboard.
+
+Lastly, one has to run the frontend without captcha:
+
+```bash
+$ SKIP_CAPTCHA=TRUE yarn start
+```
+
 </details>
 
 <details><summary><code>Debugging</code></summary>
