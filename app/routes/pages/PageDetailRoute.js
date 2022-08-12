@@ -171,12 +171,18 @@ const loadData = async (props, dispatch) => {
   for (let i = 0; i < fetchItemActions.length; i++) {
     itemActions[i] = await dispatch(fetchItemActions[i](pageSlug));
   }
+
+  // Avoid dispatching duplicate actions
+  const uniqueFetches = [
+    ...new Set(
+      Object.keys(sections)
+        .map((key) => sections[key].fetchAll)
+        .filter(Boolean)
+    ),
+  ];
+
   return Promise.all(
-    Object.keys(sections)
-      .map((key) => sections[key].fetchAll)
-      .filter(Boolean)
-      .map((fetch) => dispatch(fetch()))
-      .concat(itemActions)
+    uniqueFetches.map((fetch) => dispatch(fetch())).concat(itemActions)
   );
 };
 
