@@ -24,7 +24,7 @@ export const selectFollowers = createSelector(
     followers.byId[
       followers.items.find(
         (item) =>
-          followers.byId[item].follower.toString() === follower.toString() &&
+          followers.byId[item].follower.toString() === follower?.toString() &&
           followers.byId[item].target.toString() === target.toString()
       )
     ]
