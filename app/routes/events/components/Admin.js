@@ -84,7 +84,7 @@ const Admin = ({ actionGrant, event, deleteEvent }: Props) => {
     ) < 2;
 
   return (
-    <div style={{ marginTop: '10px' }}>
+    <div>
       {(canEdit || canDelete) && (
         <ul>
           <li>
