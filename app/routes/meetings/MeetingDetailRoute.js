@@ -25,7 +25,7 @@ const loadMeeting = (
   dispatch
 ) => (loggedIn ? dispatch(fetchMeeting(meetingId)) : Promise.resolve());
 
-const loadData = (props, dispatch) => {
+const loadData = (props, dispatch): any => {
   const search = qs.parse(props.location.search, { ignoreQueryPrefix: true });
   const { action, token } = search;
   const loggedIn = props.loggedIn;

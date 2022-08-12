@@ -296,7 +296,7 @@ export function maybeRefreshToken(): Thunk<*> {
     const issuedTime = moment.unix(token.orig_iat);
     if (!issuedTime.isSame(moment(), 'day')) {
       return dispatch(refreshToken(token.encodedToken))
-        .then((action) => saveToken(action.payload.token))
+        .then((action: any) => saveToken(action.payload.token))
         .catch((err) => {
           removeToken();
           throw err;

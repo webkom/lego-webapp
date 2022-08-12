@@ -86,12 +86,14 @@ export type Company = Object;
 export type Comment = Object;
 
 export const GroupTypeCommittee = 'komite';
+export const GroupTypeBoard = 'styre';
 export const GroupTypeInterest = 'interesse';
 export const GroupTypeSub = 'under';
 export const GroupTypeGrade = 'klasse';
 export const GroupTypeOther = 'annen';
 export const GroupTypes = {
   GroupTypeCommittee,
+  GroupTypeBoard,
   GroupTypeInterest,
   GroupTypeSub,
   GroupTypeGrade,
@@ -100,6 +102,7 @@ export const GroupTypes = {
 
 export type GroupType =
   | typeof GroupTypeCommittee
+  | typeof GroupTypeBoard
   | typeof GroupTypeInterest
   | typeof GroupTypeSub
   | typeof GroupTypeGrade

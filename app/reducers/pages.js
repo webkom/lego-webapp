@@ -67,20 +67,28 @@ export const selectPagesForHierarchy = (category: string) =>
     })
   );
 
-export const selectGroupsForHierarchy = createSelector(
-  (state) => selectGroupsWithType(state, { groupType: 'komite' }),
-  (state, props) => props.title,
-  (groups, title) => ({
-    title,
-    items: sortBy(
-      groups.map((page) => ({
-        url: `/pages/komiteer/${page.id}`,
-        title: page.name,
-      })),
-      'title'
-    ),
-  })
+const createGroupSelector = (type: string, section: string) =>
+  createSelector(
+    (state) => selectGroupsWithType(state, { groupType: type }),
+    (state, props) => props.title,
+    (groups, title) => ({
+      title,
+      items: sortBy(
+        groups.map((page) => ({
+          url: `/pages/${section}/${page.id}`,
+          title: page.name,
+        })),
+        'title'
+      ),
+    })
+  );
+
+export const selectCommitteeForHierarchy = createGroupSelector(
+  'komite',
+  'komiteer'
 );
+
+export const selectBoardsForHierarchy = createGroupSelector('styre', 'styrer');
 
 export const selectPageHierarchy = createSelector(
   (state, props) => props.sections,
@@ -187,10 +195,3 @@ export const selectInfoPageForPages = createSelector(
     selectedPage: {},
   })
 );
-export const categoryOptions = [
-  { value: 'arrangementer', label: 'Arrangementer' },
-  { value: 'bedrifter', label: 'Bedrifter' },
-  { value: 'generelt', label: 'Generelt' },
-  { value: 'grupper', label: 'Grupper' },
-  { value: 'personvern', label: 'Personvern' },
-];

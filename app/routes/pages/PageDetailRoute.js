@@ -20,10 +20,11 @@ import PageDetail, {
   GroupRenderer,
 } from './components/PageDetail';
 import LandingPage from './components/LandingPage';
-import { GroupTypeCommittee } from 'app/models';
+import { GroupTypeCommittee, GroupTypeBoard } from 'app/models';
 import {
   selectPagesForHierarchy,
-  selectGroupsForHierarchy,
+  selectCommitteeForHierarchy,
+  selectBoardsForHierarchy,
   selectPageHierarchy,
   selectCommitteeForPages,
   selectFlatpageForPages,
@@ -32,17 +33,19 @@ import {
 } from 'app/reducers/pages';
 import HTTPError from 'app/routes/errors/HTTPError';
 
-const sections: {
-  [section: string]: {
-    title: string,
-    section: string,
-    pageSelector: any,
-    hierarchySectionSelector: any,
-    PageRenderer: (any) => Node,
-    fetchAll?: () => Thunk<*>,
-    fetchItemActions: Array<((number) => Thunk<*>) | ((string) => Thunk<*>)>,
-  },
-} = {
+type Entry = {
+  title: string,
+  section: string,
+  pageSelector: any,
+  hierarchySectionSelector: any,
+  PageRenderer: (any) => Node,
+  fetchAll?: () => Thunk<*>,
+  fetchItemActions: Array<((number) => Thunk<*>) | ((string) => Thunk<*>)>,
+};
+
+const sections: {|
+  [section: string]: Entry,
+|} = {
   generelt: {
     title: 'Generelt',
     section: 'generelt',
@@ -51,6 +54,27 @@ const sections: {
     PageRenderer: FlatpageRenderer,
     fetchAll: fetchAllPages,
     fetchItemActions: [fetchPage],
+  },
+  organisasjon: {
+    title: 'Organisasjon',
+    section: 'organisasjon',
+    pageSelector: selectFlatpageForPages,
+    hierarchySectionSelector: selectPagesForHierarchy('organisasjon'),
+    PageRenderer: FlatpageRenderer,
+    fetchAll: fetchAllPages,
+    fetchItemActions: [fetchPage],
+  },
+  styrer: {
+    title: 'Styrer',
+    section: 'styrer',
+    pageSelector: selectCommitteeForPages,
+    hierarchySectionSelector: selectBoardsForHierarchy,
+    PageRenderer: GroupRenderer,
+    fetchAll: () => fetchAllWithType(GroupTypeBoard),
+    fetchItemActions: [
+      fetchGroup,
+      (groupId: number) => fetchAllMemberships(groupId, true),
+    ],
   },
   bedrifter: {
     title: 'Bedrifter',
@@ -72,7 +96,7 @@ const sections: {
     title: 'Komiteer',
     section: 'komiteer',
     pageSelector: selectCommitteeForPages,
-    hierarchySectionSelector: selectGroupsForHierarchy,
+    hierarchySectionSelector: selectCommitteeForHierarchy,
     PageRenderer: GroupRenderer,
     fetchAll: () => fetchAllWithType(GroupTypeCommittee),
     fetchItemActions: [
@@ -86,6 +110,15 @@ const sections: {
     pageSelector: selectFlatpageForPages,
     hierarchySectionSelector: selectPagesForHierarchy('grupper'),
     PageRenderer: FlatpageRenderer,
+    fetchItemActions: [fetchPage],
+  },
+  utnevnelser: {
+    title: 'Utnevnelser',
+    section: 'utnevnelser',
+    pageSelector: selectFlatpageForPages,
+    hierarchySectionSelector: selectPagesForHierarchy('utnevnelser'),
+    PageRenderer: FlatpageRenderer,
+    fetchAll: fetchAllPages,
     fetchItemActions: [fetchPage],
   },
   personvern: {
@@ -105,6 +138,14 @@ const sections: {
     fetchItemActions: [],
   },
 };
+
+export const categoryOptions = Object.keys(sections)
+  .map<Entry>((key) => sections[key])
+  .filter((entry: Entry) => entry.pageSelector === selectFlatpageForPages)
+  .map<{ value: string, label: string }>((entry: Entry) => ({
+    value: entry.section,
+    label: entry.title,
+  }));
 
 const getSection = (sectionName) =>
   sections[sectionName] || {
@@ -130,12 +171,18 @@ const loadData = async (props, dispatch) => {
   for (let i = 0; i < fetchItemActions.length; i++) {
     itemActions[i] = await dispatch(fetchItemActions[i](pageSlug));
   }
+
+  // Avoid dispatching duplicate actions
+  const uniqueFetches = [
+    ...new Set(
+      Object.keys(sections)
+        .map((key) => sections[key].fetchAll)
+        .filter(Boolean)
+    ),
+  ];
+
   return Promise.all(
-    Object.keys(sections)
-      .map((key) => sections[key].fetchAll)
-      .filter(Boolean)
-      .map((fetch) => dispatch(fetch()))
-      .concat(itemActions)
+    uniqueFetches.map((fetch) => dispatch(fetch())).concat(itemActions)
   );
 };
 
