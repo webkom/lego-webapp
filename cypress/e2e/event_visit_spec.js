@@ -98,7 +98,7 @@ describe('View event', () => {
 
     // With out custom methods for interacting with the editor, we need to fire events on some
     // other elements first.
-    cy.contains('allergier').click();
+    cy.contains('Kommentarer').click();
     cy.get(c('CommentForm') + ' [data-slate-editor="true"]')
       .first()
       .click()

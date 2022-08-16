@@ -449,6 +449,23 @@ export default class EventDetail extends Component<Props, State> {
               )}
               <Line />
               <InfoList items={eventCreator} className={styles.infoList} />
+              <Line />
+              {loggedIn && (
+                <Link
+                  to={`/users/${currentUser.username}/settings/profile`}
+                  className={styles.iconWithText}
+                >
+                  <Icon name="create-outline" className={styles.infoIcon} />
+                  <span>Oppdater allergier og preferanser</span>
+                </Link>
+              )}
+              <Link
+                to="/pages/arrangementer/26-arrangementsregler"
+                className={styles.iconWithText}
+              >
+                <Icon name="document-outline" className={styles.infoIcon} />
+                <span>Arrangementsregler</span>
+              </Link>
               {(actionGrant.includes('edit') ||
                 actionGrant.includes('delete')) && <Line />}
               <Flex column>
@@ -460,21 +477,6 @@ export default class EventDetail extends Component<Props, State> {
               </Flex>
             </ContentSidebar>
           </ContentSection>
-          <Link
-            to="/pages/arrangementer/26-arrangementsregler"
-            style={{ marginTop: 0 }}
-          >
-            <Flex alignItems="center">
-              <Icon name="document" style={{ marginRight: '4px' }} />
-              <span>Regler for Abakus&#39; arrangementer</span>
-            </Flex>
-          </Link>
-          {loggedIn && (
-            <p>
-              Du kan oppdatere dine allergier og preferanser
-              <Link to="/users/me"> her</Link>.
-            </p>
-          )}
           {event.contentTarget && (
             <CommentView
               style={{ marginTop: 20 }}
