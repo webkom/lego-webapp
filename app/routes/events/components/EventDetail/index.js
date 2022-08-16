@@ -352,7 +352,7 @@ export default class EventDetail extends Component<Props, State> {
                   {registrations ? (
                     <Fragment>
                       <UserGrid
-                        minRows={2}
+                        minRows={0}
                         maxRows={2}
                         users={registrations
                           .slice(0, 14)

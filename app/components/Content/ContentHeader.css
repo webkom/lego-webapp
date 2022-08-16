@@ -5,4 +5,11 @@
   border-bottom-width: 2px;
   border-bottom-style: solid;
   margin-bottom: 1em;
+  flex-wrap: wrap;
+}
+
+.eventType {
+  display: flex;
+  justify-content: flex-end;
+  flex-grow: 1;
 }
