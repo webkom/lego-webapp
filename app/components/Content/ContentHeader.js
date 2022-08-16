@@ -35,7 +35,7 @@ function ContentHeader({
     >
       <h2>{children}</h2>
       {event && (
-        <strong style={{ color: borderColor }}>
+        <strong style={{ color: borderColor }} className={styles.eventType}>
           {eventTypeToString(event.eventType)}
         </strong>
       )}

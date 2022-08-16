@@ -25,7 +25,7 @@ const UserGrid = ({
       gridTemplateColumns: `repeat(auto-fill, minmax(${
         size + padding
       }px, 1fr))`,
-      gridTemplateRows: size + padding,
+      gridTemplateRows: users.length === 0 ? 0 : size + padding,
       overflow: 'hidden',
       minHeight: minRows * size + (minRows - 1) * padding,
       maxHeight: maxRows * size + (maxRows - 1) * padding,
