@@ -27,8 +27,8 @@ export const QuestionTypes = (choice: string) => {
 
 export const PresentableQuestionType = (choice: string) => {
   const questionTypeToString = {
-    single_choice: 'Multiple Choice',
-    multiple_choice: 'Sjekkboks',
+    single_choice: 'Enkeltvalg',
+    multiple_choice: 'Avkrysningsbokser',
     text_field: 'Fritekst',
   };
   return questionTypeToString[choice] || questionTypeToString[0];
