@@ -50,7 +50,6 @@ const UploadStatusCard = ({
       <div align="right">
         <Icon
           style={{ cursor: 'pointer' }}
-          size={24}
           onClick={hideUploadStatus}
           name="close"
         />

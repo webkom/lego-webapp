@@ -227,7 +227,11 @@ class Overview extends Component<Props, State> {
         </section>
         {frontpage.length > 8 && (
           <div className={styles.showMore}>
-            <Icon onClick={this.showMore} size={40} name="arrow-dropdown" />
+            <Icon
+              onClick={this.showMore}
+              name="chevron-down-circle-outline"
+              size={40}
+            />
           </div>
         )}
       </Container>

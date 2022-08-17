@@ -120,7 +120,7 @@ class CompanyEvents extends Component<EventProps, *> {
             }}
           >
             <Icon
-              name="arrow-dropdown"
+              name="chevron-down-circle-outline"
               size={35}
               onClick={fetchMoreEvents}
               style={{ cursor: 'pointer' }}

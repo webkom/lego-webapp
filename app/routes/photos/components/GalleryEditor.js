@@ -66,12 +66,12 @@ const photoOverlay = (photo: Object, selected: Array<number>) => (
     )}
   >
     <Icon
+      name="checkmark-circle-outline"
+      size={32}
       className={cx(
         styles.icon,
         selected.includes(photo.id) && styles.iconSelected
       )}
-      name="checkmark-circle-outline"
-      size={32}
     />
   </div>
 );

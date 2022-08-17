@@ -53,7 +53,7 @@ const PollsList = ({
           >
             <div className={styles.pollListItem}>
               <Flex>
-                <Icon className={styles.icon} name="stats" size={40} />
+                <Icon name="stats" size={40} className={styles.icon} />
                 <h3 className={styles.heading}>{poll.title}</h3>
               </Flex>
               <span>{`Antall stemmer: ${poll.totalVotes}`}</span>

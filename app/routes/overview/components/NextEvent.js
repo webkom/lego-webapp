@@ -90,7 +90,7 @@ class EventItem extends Component<Props, State> {
 // Component when there is no events
 const Filler = () => (
   <Flex column className={styles.filler}>
-    <Icon size={40} name="eye-off-outline" style={{ marginRight: '5px' }} />
+    <Icon name="eye-off-outline" size={40} style={{ marginRight: '5px' }} />
     <span>Ingen påmeldinger de neste 3 dagene </span>
   </Flex>
 );

@@ -118,7 +118,7 @@ class Poll extends Component<Props, State> {
       <div className={cx(styles.poll, backgroundLight ? styles.pollLight : '')}>
         <Flex>
           <Link to={`/polls/${id}`} style={{ flex: 1 }}>
-            <Icon name="stats" />
+            <Icon name="stats-chart" />
             <span className={styles.pollHeader}>{title}</span>
           </Link>
           <Tooltip content="Avstemningen er anonym." renderDirection="left">
@@ -197,9 +197,9 @@ class Poll extends Component<Props, State> {
                   Klikk her for å se alle alternativene.
                 </p>
                 <Icon
-                  className={cx(styles.blurOverlay, styles.blurArrow)}
+                  name={expanded ? 'chevron-up' : 'chevron-down'}
                   size={60}
-                  name={expanded ? 'arrow-up' : 'arrow-down'}
+                  className={cx(styles.blurOverlay, styles.blurArrow)}
                 />
               </Flex>
             )}
@@ -232,9 +232,9 @@ class Poll extends Component<Props, State> {
                 <div className={styles.alignItems}>
                   <Icon
                     onClick={this.toggleTruncate}
-                    className={styles.arrow}
+                    name={expanded ? 'chevron-up' : 'chevron-down'}
                     size={20}
-                    name={expanded ? 'arrow-up' : 'arrow-down'}
+                    className={styles.arrow}
                   />
                 </div>
               )}

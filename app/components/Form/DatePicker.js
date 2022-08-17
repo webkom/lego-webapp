@@ -4,13 +4,13 @@ import { Component } from 'react';
 import moment from 'moment-timezone';
 import cx from 'classnames';
 import Dropdown from 'app/components/Dropdown';
-import Icon from 'app/components/Icon';
 import createMonthlyCalendar from 'app/utils/createMonthlyCalendar';
 import { createField } from './Field';
 import TextInput from './TextInput';
 import TimePicker from './TimePicker';
 import styles from './DatePicker.css';
 import parseDateValue from 'app/utils/parseDateValue';
+import Flex from 'app/components/Layout/Flex';
 
 type Props = {
   onChange: (string) => void,
@@ -116,15 +116,19 @@ class DatePicker extends Component<Props, State> {
         style={{ flex: 1 }}
       >
         <div className={styles.datePicker} onClick={(e) => e.stopPropagation()}>
-          <div className={styles.header}>
+          <Flex
+            justifyContent="space-between"
+            alignItems="center"
+            className={styles.header}
+          >
             <button onClick={this.onPrev} className={styles.arrowIcon}>
-              <Icon name="arrow-back" />
+              <i className="fa fa-long-arrow-left" />
             </button>
-            <h3>{date.format('MMMM YYYY')}</h3>
+            <span>{date.format('MMMM YYYY')}</span>
             <button onClick={this.onNext} className={styles.arrowIcon}>
-              <Icon name="arrow-forward" />
+              <i className="fa fa-long-arrow-right" />
             </button>
-          </div>
+          </Flex>
 
           <div className={styles.calendar}>
             {createMonthlyCalendar(date).map((dateProps, i) => (

@@ -137,7 +137,7 @@ export default class Quote extends Component<Props, State> {
                     contentClassName="adminDropdown2"
                     triggerComponent={
                       <Icon
-                        name="arrow-dropdown"
+                        name="chevron-down-circle-outline"
                         className={styles.dropdownIcon}
                       />
                     }

@@ -95,7 +95,6 @@ export default class NotificationsDropdown extends Component<Props, State> {
         triggerComponent={
           <Icon.Badge
             name="notifications"
-            size={30}
             className={styles.notificationBell}
             badgeCount={this.state.notificationsOpen ? 0 : unreadCount}
           />

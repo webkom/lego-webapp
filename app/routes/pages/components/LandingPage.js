@@ -132,7 +132,7 @@ const LandingPage = ({
           </div>
           <Flex wrap className={styles.committeeEmails}>
             <div className={styles.socialMediaType}>
-              <Icon name="logo-facebook" size={40} prefix="ion-" />
+              <Icon name="logo-facebook" size={40} />
               <div className={styles.socialMediaTypeLinks}>
                 {socialMedia.facebook.map((page, index) => (
                   <a
@@ -154,7 +154,7 @@ const LandingPage = ({
               </div>
             </div>
             <div className={styles.socialMediaType}>
-              <Icon name="logo-instagram" size={40} prefix="ion-" />
+              <Icon name="logo-instagram" size={40} />
               <div className={styles.socialMediaTypeLinks}>
                 {socialMedia.instagram.map((page, index) => (
                   <a
@@ -171,7 +171,6 @@ const LandingPage = ({
               <Icon
                 name="logo-snapchat"
                 size={40}
-                prefix="ion-"
                 className={styles.snapchatIcon}
               />
               <div className={styles.socialMediaTypeLinks}>

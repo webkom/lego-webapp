@@ -105,7 +105,7 @@ const SubmitButton = ({
       }}
     >
       <Button className={styles.registrationBtn} danger disabled={disabled}>
-        <Icon name="remove" prefix="ion-md-" />
+        <Icon name="person-remove" size={19} />
         {title}
       </Button>
     </ConfirmModalWithParent>

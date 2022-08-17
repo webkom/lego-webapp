@@ -281,7 +281,6 @@ const Results = ({
                             return (
                               <QuestionTypeOption
                                 iconName={graphTypeToIcon[value]}
-                                prefix="fa fa-"
                                 {...props}
                               />
                             );
@@ -291,7 +290,6 @@ const Results = ({
                             return (
                               <QuestionTypeValue
                                 iconName={graphTypeToIcon[value]}
-                                prefix="fa fa-"
                                 {...props}
                               />
                             );

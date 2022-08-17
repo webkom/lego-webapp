@@ -67,20 +67,20 @@ function AccountDropdownItems({
           style={{ color: 'var(--lego-color-gray)' }}
         >
           <strong>{username}</strong>
-          <Icon name="contact" size={24} />
+          <Icon name="person-circle-outline" size={24} />
         </NavLink>
       </Dropdown.ListItem>
       <Dropdown.Divider />
       <Dropdown.ListItem>
         <Link to="/users/me/settings/profile" onClick={onClose}>
           Innstillinger
-          <Icon name="cog" size={24} />
+          <Icon name="settings-outline" size={24} />
         </Link>
       </Dropdown.ListItem>
       <Dropdown.ListItem>
         <Link to="/meetings/" onClick={onClose}>
           Møteinnkallinger
-          <Icon name="calendar" size={24} />
+          <Icon name="calendar-outline" size={24} />
         </Link>
       </Dropdown.ListItem>
       <Dropdown.Divider />
@@ -93,7 +93,7 @@ function AccountDropdownItems({
           }}
         >
           Logg ut
-          <Icon name="log-out" size={24} />
+          <Icon name="log-out-outline" size={24} />
         </Button>
       </Dropdown.ListItem>
     </Dropdown.List>
@@ -236,7 +236,7 @@ class Header extends Component<Props, State> {
                   closeOnContentClick
                   triggerComponent={
                     <ProfilePicture
-                      size={30}
+                      size={24}
                       alt="user"
                       user={this.props.currentUser}
                       style={{ verticalAlign: 'middle' }}
@@ -265,7 +265,7 @@ class Header extends Component<Props, State> {
                     this.state.shake ? 'animated shake' : '',
                     styles.dropdown
                   )}
-                  triggerComponent={<Icon name="contact" size={30} />}
+                  triggerComponent={<Icon name="person-circle-outline" />}
                 >
                   <div style={{ padding: 10 }}>
                     <Flex
@@ -309,7 +309,7 @@ class Header extends Component<Props, State> {
               )}
 
               <button onClick={this.props.toggleSearch}>
-                <Icon name="menu" size={30} className={styles.searchIcon} />
+                <Icon name="menu" className={styles.searchIcon} />
               </button>
             </div>
           </div>

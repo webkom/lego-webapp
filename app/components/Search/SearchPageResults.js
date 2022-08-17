@@ -56,8 +56,8 @@ function SearchResult({ result, onSelect, isSelected }: SearchResultProps) {
               />
             ) : (
               <Icon
-                className={styles.searchResultItemIcon}
                 name={result.icon}
+                className={styles.searchResultItemIcon}
               />
             )}
           </h3>

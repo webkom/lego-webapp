@@ -83,8 +83,7 @@ class AdminSideBar extends Component<Props, State> {
                   className={cx(this.state.copied && styles.copied)}
                 >
                   <Icon
-                    name={this.state.copied ? 'checkmark' : 'copy'}
-                    prefix="ion-md-"
+                    name={this.state.copied ? 'checkmark' : 'copy-outline'}
                   />
                   {this.state.copied ? 'Kopiert!' : 'Kopier delbar link'}
                 </Button>

@@ -56,11 +56,11 @@ const InterestedButton = ({ isInterested }: InterestedButtonProps) => {
         style={{ lineHeight: '1.3rem' }}
         content={
           <span style={{ fontSize: '1rem', fontWeight: '100', padding: '0' }}>
-            Favoritt
+            Følg arrangementet, og få e-post når påmelding nærmer seg!
           </span>
         }
       >
-        <Icon className={styles.star} name={icon} />
+        <Icon name={icon} className={styles.star} />
       </Tooltip>
     </div>
   );
@@ -325,7 +325,7 @@ export default class EventDetail extends Component<Props, State> {
                 </div>
               )}
               <div className={styles.iconWithText}>
-                <Icon name="pin-outline" className={styles.infoIcon} />
+                <Icon name="location-outline" className={styles.infoIcon} />
                 <strong>{event.location}</strong>
               </div>
               {event.mazemapPoi && (

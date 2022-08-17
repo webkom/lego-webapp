@@ -214,12 +214,9 @@ export default class Table extends Component<Props, State> {
         <div className={styles.tableHeader}>
           {sorter && (
             <div className={styles.sorter}>
-              <Icon
+              <i
                 onClick={() => this.onSortInput(dataIndex, sorter)}
-                name={sortIconName}
-                prefix="fa fa-"
-                size={18}
-                className={styles.icon}
+                className={`fa fa-${sortIconName}`}
               />
             </div>
           )}
@@ -232,6 +229,7 @@ export default class Table extends Component<Props, State> {
                 triggerComponent={
                   <Icon
                     name="search"
+                    size={21}
                     className={cx(
                       (filters[dataIndex] && filters[dataIndex].length) ||
                         isShown[dataIndex]

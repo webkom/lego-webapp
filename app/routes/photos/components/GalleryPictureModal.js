@@ -256,7 +256,7 @@ export default class GalleryPictureModal extends Component<Props, State> {
                 closeOnContentClick
                 className={styles.dropdown}
                 contentClassName={styles.dropdownContent}
-                iconName="more"
+                iconName="options-outline"
               >
                 <Dropdown.List>
                   <Dropdown.ListItem>
@@ -279,7 +279,7 @@ export default class GalleryPictureModal extends Component<Props, State> {
                           style={{ color: 'var(--lego-color-gray)' }}
                         >
                           <strong>Rediger</strong>
-                          <Icon name="gear" size={24} />
+                          <Icon name="create-outline" size={24} />
                         </Link>
                       </Dropdown.ListItem>,
                       <Dropdown.ListItem key="cover">
@@ -289,7 +289,7 @@ export default class GalleryPictureModal extends Component<Props, State> {
                           style={{ color: 'var(--lego-color-gray)' }}
                         >
                           <strong>Sett som album cover</strong>
-                          <Icon name="image" size={24} />
+                          <Icon name="image-outline" size={24} />
                         </Link>
                       </Dropdown.ListItem>,
                       <Dropdown.Divider key="divider" />,
@@ -326,12 +326,12 @@ export default class GalleryPictureModal extends Component<Props, State> {
                   onClick={this.previousGalleryPicture}
                   style={{ marginRight: '50px' }}
                 >
-                  <Icon name="arrow-dropleft" size={64} />
+                  <Icon name="arrow-back-circle-outline" size={64} />
                 </Link>
               )}
               {this.state.hasNext && (
                 <Link to="#" onClick={this.nextGalleryPicture}>
-                  <Icon name="arrow-dropright" size={64} />
+                  <Icon name="arrow-forward-circle-outline" size={64} />
                 </Link>
               )}
             </Flex>

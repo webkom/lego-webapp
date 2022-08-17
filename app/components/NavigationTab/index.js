@@ -25,12 +25,7 @@ const NavigationTab = (props: Props) => (
   <>
     {props.back && (
       <NavLink to={props.back.path} className={styles.back}>
-        <Icon
-          size={19}
-          name="arrow-back"
-          prefix="ion-md-"
-          className={styles.backIcon}
-        />
+        <Icon name="arrow-back" size={19} className={styles.backIcon} />
         <span className={styles.backLabel}>{props.back.label}</span>
       </NavLink>
     )}

@@ -110,9 +110,9 @@ export default function pageRenderer({
         <meta name="apple-mobile-web-app-title" content="Abakus"/>
 
         <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
-        <link href="https://unpkg.com/ionicons@3.0.0/dist/css/ionicons.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:700|Raleway|Roboto" rel="stylesheet">
         ${links}
+
         ${helmet ? helmet.meta.toString() : ''}
 
         ${styles}
@@ -139,6 +139,8 @@ export default function pageRenderer({
            window.__PRELOADED_STATE__ = ${serialize(state, { isJSON: true })};
            window.__IS_SSR__ = ${isSSR};
         </script>
+        <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
         ${dllPlugin}
         ${scripts}
       </body>

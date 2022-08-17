@@ -36,7 +36,7 @@ type Props = {
 const questionTypeToIcon = {
   single_choice: 'radio-button-on',
   multiple_choice: 'checkbox',
-  text_field: 'more',
+  text_field: 'text',
 };
 
 const questionIndexMappings = (indexNumbers: number) =>
@@ -127,22 +127,10 @@ const Question = ({
               options={indexOptions}
               components={{
                 Option: (props: any) => {
-                  return (
-                    <QuestionTypeOption
-                      iconName={'sort'}
-                      prefix="fa fa-"
-                      {...props}
-                    />
-                  );
+                  return <QuestionTypeOption iconName="list" {...props} />;
                 },
                 SingleValue: (props: any) => {
-                  return (
-                    <QuestionTypeValue
-                      iconName={'sort'}
-                      prefix="fa fa-"
-                      {...props}
-                    />
-                  );
+                  return <QuestionTypeValue iconName="list" {...props} />;
                 },
               }}
               onChange={(user) =>

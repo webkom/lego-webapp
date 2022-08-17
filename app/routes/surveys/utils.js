@@ -114,12 +114,7 @@ export const CHART_COLORS = [
 export const getCsvUrl = (surveyId: string) =>
   `${config.serverUrl}/surveys/${surveyId}/csv/`;
 
-export const QuestionTypeOption = ({
-  iconName,
-  prefix,
-  option,
-  ...props
-}: any) => (
+export const QuestionTypeOption = ({ iconName, option, ...props }: any) => (
   <div
     style={{
       cursor: 'pointer',
@@ -142,18 +137,13 @@ export const QuestionTypeOption = ({
     {...props.innerProps}
   >
     <span className={styles.dropdownColor}>
-      <Icon name={iconName} style={{ marginRight: '15px' }} prefix={prefix} />
+      <Icon name={iconName} style={{ marginRight: '15px' }} />
       {props.children}
     </span>
   </div>
 );
 
-export const QuestionTypeValue = ({
-  iconName,
-  prefix,
-  option,
-  ...props
-}: any) => (
+export const QuestionTypeValue = ({ iconName, option, ...props }: any) => (
   <div
     className={cx(styles.dropdownSelected, styles.dropdown)}
     onMouseDown={(event) => {
@@ -170,7 +160,7 @@ export const QuestionTypeValue = ({
     {...props.innerProps}
   >
     <span className={cx('Select-value-label', styles.dropdownColor)}>
-      <Icon name={iconName} style={{ marginRight: '15px' }} prefix={prefix} />
+      <Icon name={iconName} style={{ marginRight: '15px' }} />
       {props.children}
     </span>
   </div>

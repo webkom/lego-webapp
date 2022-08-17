@@ -1,7 +1,6 @@
 // @flow
 
 import { Component } from 'react';
-import Icon from 'app/components/Icon';
 import TextInput from './TextInput';
 import { createField } from './Field';
 import styles from './TimePicker.css';
@@ -11,11 +10,11 @@ function TimePickerInput({ onNext, onPrev, ...props }: any) {
   return (
     <div className={styles.timePickerInput}>
       <button type="button" onClick={onNext} className={styles.arrowIcon}>
-        <Icon name="arrow-up" />
+        <i className="fa fa-angle-up" />
       </button>
       <TextInput {...props} />
       <button type="button" onClick={onPrev} className={styles.arrowIcon}>
-        <Icon name="arrow-down" />
+        <i className="fa fa-angle-down" />
       </button>
     </div>
   );

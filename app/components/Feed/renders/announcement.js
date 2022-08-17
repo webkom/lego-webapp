@@ -35,7 +35,7 @@ export function activityContent() {
 }
 
 export function icon() {
-  return <Icon name="chatboxes" />;
+  return <Icon name="chatbubbles" />;
 }
 
 export function getURL(aggregatedActivity: AggregatedActivity) {

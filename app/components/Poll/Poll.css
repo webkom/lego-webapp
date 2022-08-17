@@ -107,9 +107,7 @@ html[data-theme='dark'] .pollGraph {
   cursor: pointer;
 
   &:hover {
-    transform: scale(1.5);
     color: var(--color-red-3);
-    transition: transform 0.2s;
   }
 }
 
