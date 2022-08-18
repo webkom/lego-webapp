@@ -116,17 +116,21 @@ class Poll extends Component<Props, State> {
 
     return (
       <div className={cx(styles.poll, backgroundLight ? styles.pollLight : '')}>
-        <Flex>
-          <Link to={`/polls/${id}`} style={{ flex: 1 }}>
-            <Icon name="stats-chart" />
-            <span className={styles.pollHeader}>{title}</span>
+        <Flex wrap justifyContent="space-between" alignItems="center">
+          <Link to={`/polls/${id}`}>
+            <Flex gap={10}>
+              <Icon name="stats-chart" />
+              <span className={styles.pollHeader}>{title}</span>
+            </Flex>
           </Link>
           <Tooltip content="Avstemningen er anonym." renderDirection="left">
-            <Icon
-              name="information-circle-outline"
-              size={20}
-              style={{ cursor: 'pointer' }}
-            />
+            <Flex>
+              <Icon
+                name="information-circle-outline"
+                size={20}
+                style={{ cursor: 'pointer' }}
+              />
+            </Flex>
           </Tooltip>
         </Flex>
         {details && (

@@ -219,7 +219,10 @@ export default class EventDetail extends Component<Props, State> {
                   </span>
                 }
               >
-                Frist for prikk <Icon name="help-circle-outline" size={16} />
+                <Flex alignItems="center" gap={4}>
+                  Frist for prikk
+                  <Icon name="help-circle-outline" size={16} />
+                </Flex>
               </Tooltip>
             ),
             value: (

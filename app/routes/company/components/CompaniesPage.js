@@ -142,15 +142,15 @@ class CompaniesPage extends Component<Props, State> {
           </div>
         </div>
         <div className={styles.iconInfoPlacement}>
-          <Flex row>
+          <Flex>
             <Icon name="briefcase" size={25} />
             <span className={styles.iconInfo}> Aktive jobbannonser</span>
           </Flex>
-          <Flex row>
+          <Flex>
             <Icon name="at-circle" size={25} />
             <span className={styles.iconInfo}> Nettside</span>
           </Flex>
-          <Flex row>
+          <Flex>
             <Icon name="calendar-clear" size={25} />
             <span className={styles.iconInfo}> Kommende arrangementer</span>
           </Flex>
