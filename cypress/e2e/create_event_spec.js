@@ -254,6 +254,30 @@ describe('Create event', () => {
     selectField('eventType').click();
     cy.focused().type('be{enter}', { force: true });
 
+    // Always select one day into the future to avoid test issues with "Påmelding åpner/stenger" variants changing
+    const dateObject = new Date();
+    const todayDay = dateObject.getDate();
+    dateObject.setDate(dateObject.getDate() + 1);
+    const tomorrowDay = dateObject.getDate();
+    field('startTime').click();
+    if (tomorrowDay < todayDay) {
+      // End of month
+      cy.get(c('DatePicker__arrowIcon'))
+        .eq(1)
+        .should('not.be.disabled')
+        .click();
+    }
+    cy.get('button').contains(tomorrowDay).click();
+    field('endTime').click();
+    if (tomorrowDay < todayDay) {
+      // End of month
+      cy.get(c('DatePicker__arrowIcon'))
+        .eq(1)
+        .should('not.be.disabled')
+        .click();
+    }
+    cy.get('button').contains(tomorrowDay).click();
+
     // Select regitrationType
     selectField('eventStatusType').click();
     cy.focused().type('Vanlig{enter}', { force: true });
