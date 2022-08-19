@@ -185,10 +185,12 @@ export default class EventDetail extends Component<Props, State> {
       ? () => unfollow(currentUserFollowing.id, event.id)
       : () => follow(currentUser.id, event.id);
 
+    const currentMoment = moment();
     const eventRegistrationTime = moment(event.activationTime).subtract(
       penaltyHours(penalties),
       'hours'
     );
+    const unregistrationDeadlineMoment = moment(event.unregistrationDeadline);
 
     const deadlines = [
       event.activationTime
@@ -222,12 +224,24 @@ export default class EventDetail extends Component<Props, State> {
                 Frist for prikk <Icon name="help-circle-outline" size={16} />
               </Tooltip>
             ),
-            value: (
-              <FormatTime
-                format="dd DD. MMM HH:mm"
-                time={event.unregistrationDeadline}
-              />
-            ),
+            value:
+              unregistrationDeadlineMoment.diff(currentMoment, 'hours') > 12 ? (
+                <FormatTime
+                  format="dd DD. MMM HH:mm"
+                  time={event.unregistrationDeadline}
+                />
+              ) : (
+                <Tooltip
+                  content={
+                    <FormatTime
+                      format="dd DD. MMM HH:mm"
+                      time={event.unregistrationDeadline}
+                    />
+                  }
+                >
+                  {unregistrationDeadlineMoment.fromNow()}
+                </Tooltip>
+              ),
           }
         : null,
       event.paymentDueDate
@@ -384,7 +398,7 @@ export default class EventDetail extends Component<Props, State> {
                   {loggedIn && (
                     <RegistrationMeta
                       useConsent={event.useConsent}
-                      hasEnded={moment(event.endTime).isBefore(moment())}
+                      hasEnded={moment(event.endTime).isBefore(currentMoment)}
                       registration={currentRegistration}
                       isPriced={event.isPriced}
                       registrationIndex={currentRegistrationIndex}
