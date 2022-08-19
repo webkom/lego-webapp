@@ -456,7 +456,7 @@ export default class EventDetail extends Component<Props, State> {
                   className={styles.iconWithText}
                 >
                   <Icon name="create-outline" className={styles.infoIcon} />
-                  <span>Oppdater allergier og preferanser</span>
+                  <span>Oppdater matallergier/preferanser</span>
                 </Link>
               )}
               <Link

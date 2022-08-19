@@ -108,7 +108,11 @@ const UserSettings = (props: Props) => {
             component={RadioButton.Field}
           />
         </RadioButtonGroup>
-        <Field label="Allergier" name="allergies" component={TextInput.Field} />
+        <Field
+          label="Matallergier/preferanser"
+          name="allergies"
+          component={TextInput.Field}
+        />
 
         <Field
           placeholder="abc@stud.ntnu.no"
