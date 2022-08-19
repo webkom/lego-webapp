@@ -309,7 +309,7 @@ describe('Create event', () => {
     cy.contains('WebkomPool');
     cy.contains('BedkomPool');
     cy.contains('R4');
-    cy.contains('Påmelding åpner');
+    cy.contains('Påmelding stenger');
   });
 
   it('should be possible to create OPEN event', () => {
