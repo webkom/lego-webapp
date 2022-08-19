@@ -103,16 +103,16 @@ class Podcast extends Component<Props, State> {
           {this.state.extended ? (
             <Icon
               onClick={this.showMore}
-              className={styles.arrow}
-              size={20}
               name="arrow-up"
+              size={20}
+              className={styles.arrow}
             />
           ) : (
             <Icon
               onClick={this.showMore}
-              className={styles.arrow}
-              size={20}
               name="arrow-down"
+              size={20}
+              className={styles.arrow}
             />
           )}
         </Button>

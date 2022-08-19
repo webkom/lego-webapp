@@ -76,10 +76,9 @@ const FilePreview = ({ file, onRemove }: FilePreviewProps) => {
         </div>
       </div>
       <Icon
-        size={32}
-        name="trash"
-        prefix="ion-md-"
         onClick={onRemove}
+        name="trash"
+        size={32}
         className={styles.removeIcon}
       />
     </Flex>
@@ -111,7 +110,7 @@ const UploadArea = ({ multiple, onDrop, image }: UploadAreaProps) => {
       <div {...getRootProps({ className: styles.dropArea })}>
         <div className={styles.placeholderContainer}>
           <Icon size={82} name="image" />
-          <h2 className={styles.placeholdeTitle}>
+          <h2 className={styles.placeholderTitle}>
             {`Dropp ${word} her eller trykk for å velge fra fil`}
           </h2>
         </div>

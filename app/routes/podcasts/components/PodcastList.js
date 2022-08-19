@@ -47,7 +47,11 @@ class PodcastList extends Component<Props, State> {
         {elements}
         {podcasts.length > this.state.items && (
           <div className={styles.showMore}>
-            <Icon onClick={this.showMore} size={40} name="arrow-dropdown" />
+            <Icon
+              name="chevron-down-circle-outline"
+              size={40}
+              onClick={this.showMore}
+            />
           </div>
         )}
       </Content>

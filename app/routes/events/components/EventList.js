@@ -223,8 +223,8 @@ class EventList extends Component<EventListProps, State> {
             </label>
           </div>
           <Icon
-            size={25}
             name="funnel-outline"
+            size={25}
             style={{ marginRight: '5px', marginLeft: '10px' }}
           />
           <Select

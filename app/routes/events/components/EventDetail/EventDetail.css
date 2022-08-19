@@ -1,7 +1,7 @@
 @import '../Event.css';
 
 .star {
-  color: var(--color-event-red);
+  color: var(--color-orange-5);
   margin-right: 10px;
 }
 

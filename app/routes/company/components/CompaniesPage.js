@@ -40,11 +40,9 @@ const CompanyItem = ({ company }: Company) => {
           </Link>
         </div>
         <Flex className={styles.companyInfo}>
-          <Flex column>
-            <Icon name="md-briefcase" prefix="ion-" size={20} />
-            <span className={styles.briefcaseCount}>
-              {company.joblistingCount}
-            </span>
+          <Flex column alignItems="center">
+            <Icon name="briefcase" size={20} />
+            <span>{company.joblistingCount}</span>
           </Flex>
           {company.website && (
             <div className={styles.iconLink}>
@@ -53,21 +51,20 @@ const CompanyItem = ({ company }: Company) => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Flex column>
+                <Flex column alignItems="center">
                   <Icon
-                    name="at"
+                    name="at-circle"
                     size={20}
                     style={{ color: 'var(--lego-link-color)' }}
                   />
-                  <span />
-                  Link her
+                  <span>Link her</span>
                 </Flex>
               </a>
             </div>
           )}
-          <Flex column>
-            <Icon name="md-calendar" prefix="ion-" size={20} />
-            <span className={styles.calendarCount}>{company.eventCount}</span>
+          <Flex column alignItems="center">
+            <Icon name="calendar-clear" size={20} />
+            <span>{company.eventCount}</span>
           </Flex>
         </Flex>
       </div>
@@ -145,16 +142,16 @@ class CompaniesPage extends Component<Props, State> {
           </div>
         </div>
         <div className={styles.iconInfoPlacement}>
-          <Flex row>
-            <Icon name="md-briefcase" prefix="ion-" size={25} />
+          <Flex>
+            <Icon name="briefcase" size={25} />
             <span className={styles.iconInfo}> Aktive jobbannonser</span>
           </Flex>
-          <Flex row>
-            <Icon name="at" size={25} />
+          <Flex>
+            <Icon name="at-circle" size={25} />
             <span className={styles.iconInfo}> Nettside</span>
           </Flex>
-          <Flex row>
-            <Icon name="md-calendar" prefix="ion-" size={25} />
+          <Flex>
+            <Icon name="calendar-clear" size={25} />
             <span className={styles.iconInfo}> Kommende arrangementer</span>
           </Flex>
         </div>

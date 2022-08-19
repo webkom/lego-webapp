@@ -20,21 +20,9 @@
 }
 
 .header {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 20px;
+  font-size: 1.3em;
   text-align: center;
   padding: 10px;
-
-  > h3 {
-    flex: 3;
-  }
-
-  > * {
-    flex: 1;
-  }
 }
 
 .calendarItem {

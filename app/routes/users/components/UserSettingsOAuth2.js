@@ -121,7 +121,7 @@ const UserSettingsOAuth2 = (props: Props) => {
                     onClick={() => props.deleteOAuth2Grant(grant.id)}
                     style={{ marginTop: '-5px' }}
                   >
-                    <Icon size={28} name="trash" prefix="ion-md-" />
+                    <Icon name="trash" size={28} />
                   </Tooltip>
                 </td>
               </tr>

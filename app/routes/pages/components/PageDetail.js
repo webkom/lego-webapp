@@ -77,7 +77,7 @@ class PageDetail extends Component<Props, State> {
         <Helmet title={selectedPageInfo.title} />
         <div className={styles.main}>
           <button className={styles.sidebarOpenBtn} onClick={this.openSidebar}>
-            <Icon size={30} name="arrow-forward" />
+            <Icon name="arrow-forward" size={30} />
           </button>
           <Flex className={styles.page}>
             <Sidebar

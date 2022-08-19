@@ -74,11 +74,7 @@ const renderOptions = ({
             className={styles.deleteOption}
           >
             <Tooltip content="Fjern">
-              <Icon
-                name="trash"
-                prefix="ion-md-"
-                className={styles.deleteOption}
-              />
+              <Icon name="trash" className={styles.deleteOption} />
             </Tooltip>
           </ConfirmModalWithParent>
         </li>
@@ -86,7 +82,7 @@ const renderOptions = ({
     </ul>
 
     <Button onClick={() => fields.push({})}>
-      <Icon name="add" prefix="ion-md-" size={25} />
+      <Icon name="add" size={25} />
       Legg til alternativ
     </Button>
   </div>

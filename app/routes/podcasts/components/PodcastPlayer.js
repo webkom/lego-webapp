@@ -42,7 +42,11 @@ class LegoSoundCloudPlayer extends Component<Props, *> {
               to={`/podcasts/${id}/edit`}
               style={{ marginRight: '10px', whiteSpace: 'nowrap' }}
             >
-              <Icon size={17} name="options" style={{ marginRight: '5px' }} />
+              <Icon
+                size={17}
+                name="options-outline"
+                style={{ marginRight: '5px' }}
+              />
               Det er noe feil med linken til denne podcasten, trykk her for å
               endre den
             </Link>
@@ -57,8 +61,8 @@ class LegoSoundCloudPlayer extends Component<Props, *> {
         <div className={styles.header}>
           <span>
             <Icon
-              size={15}
               name="musical-notes"
+              size={15}
               style={{ marginRight: '5px' }}
             />
             <span className={styles.title}>{track ? track.title : ''}</span>
@@ -68,7 +72,11 @@ class LegoSoundCloudPlayer extends Component<Props, *> {
               to={`/podcasts/${id}/edit`}
               style={{ marginRight: '10px', whiteSpace: 'nowrap' }}
             >
-              <Icon size={17} name="options" style={{ marginRight: '5px' }} />
+              <Icon
+                name="options-outline"
+                size={17}
+                style={{ marginRight: '5px' }}
+              />
               Edit
             </Link>
           )}
@@ -98,12 +106,12 @@ class LegoSoundCloudPlayer extends Component<Props, *> {
           />
           <Flex className={styles.extra}>
             <span>
-              <Icon size={15} name="time" style={{ margin: '0 5px' }} />
+              <Icon name="time" size={15} style={{ margin: '0 5px' }} />
               {moment(date, 'YYYY/MM/DD').format('Do MMM YYYY')}
             </span>
             <span>
               Lyttere
-              <Icon size={15} name="podium" style={{ margin: '0 5px' }} />
+              <Icon name="stats-chart" size={15} style={{ margin: '0 5px' }} />
               {track.playback_count}
             </span>
           </Flex>

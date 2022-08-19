@@ -53,32 +53,36 @@ const PollsList = ({
           >
             <div className={styles.pollListItem}>
               <Flex>
-                <Icon className={styles.icon} name="stats" size={40} />
+                <Icon name="stats-chart" size={35} className={styles.icon} />
                 <h3 className={styles.heading}>{poll.title}</h3>
               </Flex>
-              <span>{`Antall stemmer: ${poll.totalVotes}`}</span>
-              {poll.hasAnswered ? (
-                <span className={styles.answeredText}>
-                  Svart
-                  <Icon
-                    name="checkmark-circle-outline"
-                    size={20}
-                    style={{ marginLeft: '10px', color: 'green' }}
-                  />
-                </span>
-              ) : (
-                <span className={styles.answeredText}>
-                  Ikke svart
-                  <Icon
-                    name="close-circle"
-                    size={20}
-                    style={{
-                      marginLeft: '10px',
-                      color: 'var(--lego-link-color)',
-                    }}
-                  />
-                </span>
-              )}
+
+              <Flex wrap justifyContent="space-between">
+                <span>{`Antall stemmer: ${poll.totalVotes}`}</span>
+                <Flex alignItems="center" gap={2}>
+                  {poll.hasAnswered ? (
+                    <>
+                      Svart
+                      <Icon
+                        name="checkmark-circle-outline"
+                        size={20}
+                        style={{ color: 'var(--color-green-4)' }}
+                      />
+                    </>
+                  ) : (
+                    <>
+                      Ikke svart
+                      <Icon
+                        name="close-circle-outline"
+                        size={20}
+                        style={{
+                          color: 'var(--lego-link-color)',
+                        }}
+                      />
+                    </>
+                  )}
+                </Flex>
+              </Flex>
             </div>
           </Link>
         ))}

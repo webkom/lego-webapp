@@ -38,7 +38,8 @@
     transform: translateY(1px);
   }
 
-  > i {
+  > i,
+  > ion-icon {
     margin-right: 7px;
   }
 

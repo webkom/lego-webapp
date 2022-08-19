@@ -30,9 +30,9 @@ const SearchResultItem = ({
       )}
       {!result.profilePicture && result.icon && (
         <Icon
-          className={styles.searchResultItemIcon}
           name={result.icon}
           size={28}
+          className={styles.searchResultItemIcon}
         />
       )}
       <ul>

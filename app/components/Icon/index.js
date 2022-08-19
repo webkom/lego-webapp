@@ -1,49 +1,46 @@
 // @flow
 
-import cx from 'classnames';
 import styles from './Icon.css';
 
 type Props = {
   /** Name of the icon can be found on the webpage*/
   name: string,
-  /** Name of the icon can be found on the webpage*/
   scaleOnHover?: boolean,
-  /** Name of the icon can be found on the webpage*/
   className?: string,
-  /** Name of the icon can be found on the webpage*/
   size?: number,
-  /** Name of the icon can be found on the webpage*/
-  prefix?: string,
-  /** Icon prefix. defaults to "ion-ios-" */
   style?: Object,
 };
 
 /**
- * Render an Icon
+ * Render an Icon like this with the name of your icon:
  *
- * <Icon name="add" > </Icon>
+ * <Icon name="add" />
  *
- * Just like this...
+ * Names can be found here:
+ * https://ionic.io/ionicons
  *
- * https://infinitered.github.io/ionicons-version-3-search/
  */
-function Icon({
+const Icon = ({
   name = 'star',
-  prefix = 'ion-ios-',
   scaleOnHover = false,
   className,
   style = {},
   size = 24,
   ...props
-}: Props) {
+}: Props) => {
   return (
-    <i
-      className={cx(`${prefix}${name}`, styles.icon, className)}
-      style={{ fontSize: `${size.toString()}px`, lineHeight: 1, ...style }}
+    <ion-icon
+      name={name}
+      class={className}
+      style={{
+        fontSize: `${size.toString()}px`,
+        lineHeight: 2,
+        ...style,
+      }}
       {...(props: Object)}
-    />
+    ></ion-icon>
   );
-}
+};
 
 Icon.Badge = ({ badgeCount, ...props }: Props & { badgeCount: number }) => {
   const icon = <Icon {...props} />;

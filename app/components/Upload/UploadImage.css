@@ -50,7 +50,7 @@ html[data-theme='dark'] .dropArea {
   position: absolute;
 }
 
-.placeholdeTitle {
+.placeholderTitle {
   background: rgba(var(--rgb-max), var(--rgb-max), var(--rgb-max), 80%);
   border-radius: 5px;
   padding: 0 20px;

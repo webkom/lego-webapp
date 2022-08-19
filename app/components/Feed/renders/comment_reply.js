@@ -41,7 +41,7 @@ export function activityContent(activity: Activity) {
 }
 
 export function icon() {
-  return <Icon name="text" />;
+  return <Icon name="chatbubble" />;
 }
 
 export function getURL(aggregatedActivity: AggregatedActivity) {

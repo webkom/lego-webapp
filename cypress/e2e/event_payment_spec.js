@@ -25,7 +25,9 @@ describe('Event registration & payment', () => {
     const uploadHeader = () => {
       // Upload file
       cy.upload_file(
-        c('ImageUploadField__coverImage') + ' ' + c('UploadImage__dropArea'),
+        c('ImageUploadField__coverImage') +
+          ' ' +
+          c('UploadImage__placeholderTitle'),
         'images/screenshot.png'
       );
       cy.get('.cropper-move').click();

@@ -2,6 +2,7 @@
 
 .optionWrapper {
   justify-content: center;
+  margin-top: 4px;
   min-height: 120px;
   position: relative;
 }
@@ -84,10 +85,6 @@ html[data-theme='dark'] .pollGraph {
 }
 
 .pollHeader {
-  border-radius: 8px;
-  margin-bottom: 20px;
-  margin-left: 20px;
-  font-size: 16px;
   color: var(--lego-font-color);
 }
 
@@ -107,9 +104,7 @@ html[data-theme='dark'] .pollGraph {
   cursor: pointer;
 
   &:hover {
-    transform: scale(1.5);
     color: var(--color-red-3);
-    transition: transform 0.2s;
   }
 }
 

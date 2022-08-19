@@ -116,17 +116,21 @@ class Poll extends Component<Props, State> {
 
     return (
       <div className={cx(styles.poll, backgroundLight ? styles.pollLight : '')}>
-        <Flex>
-          <Link to={`/polls/${id}`} style={{ flex: 1 }}>
-            <Icon name="stats" />
-            <span className={styles.pollHeader}>{title}</span>
+        <Flex wrap justifyContent="space-between" alignItems="center">
+          <Link to={`/polls/${id}`}>
+            <Flex gap={10}>
+              <Icon name="stats-chart" />
+              <span className={styles.pollHeader}>{title}</span>
+            </Flex>
           </Link>
           <Tooltip content="Avstemningen er anonym." renderDirection="left">
-            <Icon
-              name="information-circle-outline"
-              size={20}
-              style={{ cursor: 'pointer' }}
-            />
+            <Flex>
+              <Icon
+                name="information-circle-outline"
+                size={20}
+                style={{ cursor: 'pointer' }}
+              />
+            </Flex>
           </Tooltip>
         </Flex>
         {details && (
@@ -197,9 +201,9 @@ class Poll extends Component<Props, State> {
                   Klikk her for å se alle alternativene.
                 </p>
                 <Icon
-                  className={cx(styles.blurOverlay, styles.blurArrow)}
+                  name={expanded ? 'chevron-up' : 'chevron-down'}
                   size={60}
-                  name={expanded ? 'arrow-up' : 'arrow-down'}
+                  className={cx(styles.blurOverlay, styles.blurArrow)}
                 />
               </Flex>
             )}
@@ -232,9 +236,9 @@ class Poll extends Component<Props, State> {
                 <div className={styles.alignItems}>
                   <Icon
                     onClick={this.toggleTruncate}
-                    className={styles.arrow}
+                    name={expanded ? 'chevron-up' : 'chevron-down'}
                     size={20}
-                    name={expanded ? 'arrow-up' : 'arrow-down'}
+                    className={styles.arrow}
                   />
                 </div>
               )}
