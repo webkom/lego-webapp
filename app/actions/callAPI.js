@@ -117,7 +117,7 @@ export default function callAPI({
 
     const jwt = state.auth.token;
     if (jwt && requiresAuthentication) {
-      requestOptions.headers.Authorization = `JWT ${jwt}`;
+      requestOptions.headers.Authorization = `Bearer ${jwt}`;
     }
 
     function normalizeJsonResponse(
