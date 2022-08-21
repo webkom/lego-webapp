@@ -38,7 +38,7 @@ const UpdateAllergies = ({
     style={{ marginBottom: '20px' }}
   >
     <label className={formStyles.label} htmlFor="allergies">
-      Allergier eller preferanser
+      Matallergier/preferanser
     </label>
     <div className={styles.update}>
       <Field

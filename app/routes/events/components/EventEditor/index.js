@@ -103,7 +103,7 @@ function EventEditor({
 
   const containsAllergier = (value) =>
     value && value.toLowerCase().indexOf('allergi') !== -1
-      ? `Allergier kan hentes fra profilene til deltakere`
+      ? `Matallergier/preferanser kan hentes fra profilene til deltakere`
       : undefined;
 
   const tooLow = (value) =>

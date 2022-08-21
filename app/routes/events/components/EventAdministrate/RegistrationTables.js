@@ -222,7 +222,7 @@ export class RegisteredTable extends Component<Props> {
           <span>
             {feedback || '-'}
             <br />
-            {`Allergier: ${registration.user.allergies || '-'}`}
+            {`Matallergier: ${registration.user.allergies || '-'}`}
           </span>
         ),
         sorter: (a, b) => {

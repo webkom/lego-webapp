@@ -131,7 +131,7 @@ const UserConfirmation = ({
           <Field
             name="allergies"
             placeholder="Allergier"
-            label="Allergier"
+            label="Matallergier/preferanser"
             component={TextInput.Field}
           />
 
