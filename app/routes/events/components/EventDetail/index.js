@@ -16,7 +16,11 @@ import { FormatTime, FromToTime } from 'app/components/Time';
 import InfoList from 'app/components/InfoList';
 import { Flex } from 'app/components/Layout';
 import Tooltip from 'app/components/Tooltip';
-import { colorForEvent, penaltyHours } from '../../utils';
+import {
+  colorForEvent,
+  penaltyHours,
+  registrationCloseTime,
+} from '../../utils';
 import Admin from '../Admin';
 import RegistrationMeta from '../RegistrationMeta';
 import DisplayContent from 'app/components/DisplayContent';
@@ -185,13 +189,16 @@ export default class EventDetail extends Component<Props, State> {
       ? () => unfollow(currentUserFollowing.id, event.id)
       : () => follow(currentUser.id, event.id);
 
-    const eventRegistrationTime = moment(event.activationTime).subtract(
+    const currentMoment = moment();
+    const activationTimeMoment = moment(event.activationTime);
+    const eventRegistrationTime = activationTimeMoment.subtract(
       penaltyHours(penalties),
       'hours'
     );
+    const registrationCloseTimeMoment = registrationCloseTime(event);
 
     const deadlines = [
-      event.activationTime
+      event.activationTime && currentMoment.isBefore(activationTimeMoment)
         ? {
             key: 'Påmelding åpner',
             value: (
@@ -229,6 +236,34 @@ export default class EventDetail extends Component<Props, State> {
               <FormatTime
                 format="dd DD. MMM HH:mm"
                 time={event.unregistrationDeadline}
+              />
+            ),
+          }
+        : null,
+      activationTimeMoment.isBefore(currentMoment)
+        ? {
+            key: 'Frist for av/påmelding',
+            keyNode: (
+              <Tooltip
+                content={
+                  <span>
+                    Etter påmeldingen stenger er det hverken mulig å melde seg
+                    på eller av arrangementet.
+                  </span>
+                }
+              >
+                <Flex alignItems="center" gap={4}>
+                  {currentMoment.isBefore(registrationCloseTimeMoment)
+                    ? 'Påmelding stenger'
+                    : 'Påmelding stengte'}{' '}
+                  <Icon name="help-circle-outline" size={16} />
+                </Flex>
+              </Tooltip>
+            ),
+            value: (
+              <FormatTime
+                format="dd DD. MMM HH:mm"
+                time={registrationCloseTimeMoment}
               />
             ),
           }
@@ -387,7 +422,7 @@ export default class EventDetail extends Component<Props, State> {
                   {loggedIn && (
                     <RegistrationMeta
                       useConsent={event.useConsent}
-                      hasEnded={moment(event.endTime).isBefore(moment())}
+                      hasEnded={moment(event.endTime).isBefore(currentMoment)}
                       registration={currentRegistration}
                       isPriced={event.isPriced}
                       registrationIndex={currentRegistrationIndex}
