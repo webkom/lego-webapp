@@ -9,6 +9,7 @@ import NavigationTab from 'app/components/NavigationTab';
 import Button from 'app/components/Button';
 import Icon from 'app/components/Icon';
 import Tooltip from 'app/components/Tooltip';
+import Flex from 'app/components/Layout/Flex';
 import {
   typeof fieldArrayMetaPropTypes,
   typeof fieldArrayFieldsPropTypes,
@@ -146,24 +147,24 @@ class EditPollForm extends Component<Props, *> {
             component={renderOptions}
             rerenderOnEveryChange={true}
           />
-          <Button
-            className={styles.submitButton}
-            disabled={pristine || submitting}
-            success={editing}
-            submit
-          >
-            {editing ? 'Endre avstemning' : 'Lag ny avstemning'}
-          </Button>
-          {editing && (
-            <ConfirmModalWithParent
-              title="Slett avstemning"
-              message="Er du sikker på at du vil slette avstemningen?"
-              onConfirm={deletePoll}
-              closeOnConfirm
-            >
-              <Button danger>Slett</Button>
-            </ConfirmModalWithParent>
-          )}
+          <Flex className={styles.actionButtons}>
+            <Button disabled={pristine || submitting} success={editing} submit>
+              {editing ? 'Lagre endringer' : 'Lag ny avstemning'}
+            </Button>
+            {editing && (
+              <ConfirmModalWithParent
+                title="Slett avstemning"
+                message="Er du sikker på at du vil slette avstemningen?"
+                onConfirm={deletePoll}
+                closeOnConfirm
+              >
+                <Button danger>
+                  <Icon name="trash" size={19} />
+                  Slett avstemning
+                </Button>
+              </ConfirmModalWithParent>
+            )}
+          </Flex>
         </Form>
       </Content>
     );

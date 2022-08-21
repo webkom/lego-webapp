@@ -119,16 +119,6 @@ const GalleryPictureEditModal = ({
           />
           <Flex justifyContent="flex-end">
             <Button
-              danger
-              onClick={() =>
-                deletePicture(gallery.id, picture.id).then(() =>
-                  push(`/photos/${gallery.id}`)
-                )
-              }
-            >
-              Slett
-            </Button>
-            <Button
               onClick={() =>
                 push(`/photos/${gallery.id}/picture/${picture.id}`)
               }
@@ -137,6 +127,16 @@ const GalleryPictureEditModal = ({
             </Button>
             <Button success type="submit">
               Lagre
+            </Button>
+            <Button
+              danger
+              onClick={() =>
+                deletePicture(gallery.id, picture.id).then(() =>
+                  push(`/photos/${gallery.id}`)
+                )
+              }
+            >
+              Slett
             </Button>
           </Flex>
         </Form>

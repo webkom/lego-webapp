@@ -466,6 +466,7 @@ const JoinEventForm = (props: Props) => {
                           feedbackName,
                           'feedback'
                         )}
+                        success
                         className={styles.feedbackUpdateButton}
                         disabled={pristine}
                       >

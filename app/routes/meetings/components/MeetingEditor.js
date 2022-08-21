@@ -15,6 +15,7 @@ import {
   TextArea,
   TextInput,
 } from 'app/components/Form';
+import Icon from 'app/components/Icon';
 import { Field } from 'react-final-form';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import styles from 'app/routes/meetings/components/MeetingEditor.css';
@@ -271,7 +272,10 @@ const MeetingEditor = ({
               {spyFormError((error) => (
                 <>{error && <RenderErrorMessage error={error} />}</>
               ))}
-              <div>
+              <Flex wrap>
+                <Button onClick={() => push(`/meetings/${meeting.id}`)}>
+                  Avbryt
+                </Button>
                 {spySubmittable((submittable) => (
                   <Button success={isEditPage} disabled={!submittable} submit>
                     {isEditPage ? 'Lagre endringer' : 'Opprett møte'}
@@ -279,14 +283,17 @@ const MeetingEditor = ({
                 ))}
                 {isEditPage && canDelete && (
                   <ConfirmModalWithParent
-                    title="Slett møte"
+                    title="Slett møtet"
                     message="Er du sikker på at du vil slette møtet?"
                     onConfirm={onDeleteMeeting}
                   >
-                    <Button danger>Slett møte</Button>
+                    <Button danger>
+                      <Icon name="trash" size={19} />
+                      Slett møtet
+                    </Button>
                   </ConfirmModalWithParent>
                 )}
-              </div>
+              </Flex>
             </Form>
           );
         }}

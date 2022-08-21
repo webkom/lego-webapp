@@ -7,6 +7,7 @@ import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import type { Semester, CompanySemesterContactedStatus } from 'app/models';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 import Button from 'app/components/Button';
+import Icon from 'app/components/Icon';
 
 import { sortBy } from 'lodash';
 
@@ -192,7 +193,10 @@ export const DetailNavigation = ({
       message="Er du sikker på at du vil slette denne bedriften?"
       onConfirm={() => deleteFunction(companyId)}
     >
-      <Button danger>Slett</Button>
+      <Button danger>
+        <Icon name="trash" size={19} />
+        Slett bedrift
+      </Button>
     </ConfirmModalWithParent>
   </NavigationTab>
 );

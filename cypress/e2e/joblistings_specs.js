@@ -14,13 +14,13 @@ describe('Create joblisting', () => {
 
   it('Makes sure required fields are filled before allowing submit', () => {
     cy.visit('/joblistings/create');
-    // Check that validation errors show only after we click "Lagre"
+    // Check that validation errors show only after we click "Lagre endringer"
     fieldError('title').should('not.exist');
     fieldError('description').should('not.exist');
     fieldError('eventType').should('not.exist');
-    cy.contains('button', 'Lagre').should('be.disabled');
+    cy.contains('button', 'Opprett').should('be.disabled');
 
-    // fill out only required fields in form and enable Lagre button
+    // fill out only required fields in form and enable "Lagre endringer" button
     field('title').type('Sommerjobb hos BEKK');
     selectField('company').click();
     cy.focused().type('BEKK', { force: true });
@@ -34,15 +34,15 @@ describe('Create joblisting', () => {
     selectEditor('description').type('A joblisting description');
     selectEditor('text').type('Joblisting text');
 
-    cy.contains('button', 'Lagre').should('not.be.disabled');
+    cy.contains('button', 'Opprett').should('not.be.disabled');
 
     //TODO: når du fyller ut og så fjerner teksten igjen så skal det ikke funke.
     //cy.get('div[data-slate-editor="true"]')
     //.first()
     //.clear();
-    //cy.contains('button', 'Lagre').should('be.disabled');
+    //cy.contains('button', 'Lagre endringer').should('be.disabled');
 
-    cy.contains('button', 'Lagre').should('not.be.disabled').click();
+    cy.contains('button', 'Opprett').should('not.be.disabled').click();
     //TODO: check new url
     cy.contains('h2', 'Sommerjobb hos BEKK');
   });

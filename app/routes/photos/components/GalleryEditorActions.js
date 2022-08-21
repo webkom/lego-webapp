@@ -42,8 +42,8 @@ const GalleryEditorActions = ({
               {newPicutureStatus === 1 && 'Synligjør'}
             </Button>
           )}
-          <Button danger onClick={onDeletePictures} className={styles.action}>
-            Slett
+          <Button onClick={onDeletePictures} className={styles.action}>
+            Slett valgt
           </Button>
           <Button onClick={onDeselect}>Avbryt</Button>
         </div>

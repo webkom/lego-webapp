@@ -16,6 +16,7 @@ type ConfirmModalProps = {
   errorMessage?: string,
   cancelText?: string,
   confirmText?: string,
+  safeConfirm?: boolean,
 };
 
 export const ConfirmModal = ({
@@ -27,6 +28,7 @@ export const ConfirmModal = ({
   errorMessage = '',
   cancelText = 'Avbryt',
   confirmText = 'Ja',
+  safeConfirm = false,
 }: ConfirmModalProps) => (
   <div className={styles.overlay}>
     <div className={styles.confirmContainer}>
@@ -36,7 +38,7 @@ export const ConfirmModal = ({
         <Button disabled={disabled} onClick={onCancel}>
           {cancelText}
         </Button>
-        <Button disabled={disabled} onClick={onConfirm}>
+        <Button danger={!safeConfirm} disabled={disabled} onClick={onConfirm}>
           {confirmText}
         </Button>
         <p style={{ color: 'red' }}>{errorMessage} </p>
