@@ -240,16 +240,28 @@ function EventEditor({
               fieldClassName={styles.metaField}
               className={styles.formField}
             />
-            <Tooltip content="Kun la medlemmer i Abakom se arrangement">
+            <Tooltip content="Kun la medlemmer i bestemt gruppe se arrangementet">
               <Field
-                label="Kun for Abakom"
-                name="isAbakomOnly"
+                label="Kun for spesifikk gruppe"
+                name="isGroupOnly"
                 component={CheckBox.Field}
                 fieldClassName={styles.metaField}
                 className={styles.formField}
                 normalize={(v) => !!v}
               />
             </Tooltip>
+            {event.isGroupOnly && (
+              <div className={styles.subSection}>
+                <Field
+                  label="Synlig for gruppe"
+                  name="canViewGroups"
+                  filter={['users.abakusgroup']}
+                  fieldClassName={styles.metaField}
+                  component={SelectInput.AutocompleteField}
+                  multi
+                />
+              </div>
+            )}
             <Field
               label="Påmeldingstype"
               name="eventStatusType"

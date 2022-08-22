@@ -49,6 +49,12 @@ const mapStateToProps = (state, props) => {
           value: group.id,
         })),
       })),
+      canViewGroups: (event.canViewGroups || []).map((group) => ({
+        label: group.name,
+        value: group.id,
+        id: group.id,
+      })),
+      isGroupOnly: event.canViewGroups.length > 0,
       company: event.company && {
         label: event.company.name,
         value: event.company.id,
@@ -82,6 +88,7 @@ const mapStateToProps = (state, props) => {
       eventType: valueSelector(state, 'eventType'),
       eventStatusType: valueSelector(state, 'eventStatusType'),
       heedPenalties: valueSelector(state, 'heedPenalties'),
+      isGroupOnly: valueSelector(state, 'isGroupOnly'),
       feedbackRequired: valueSelector(state, 'feedbackRequired'),
       useStripe: valueSelector(state, 'useStripe'),
       priceMember: valueSelector(state, 'priceMember'),
