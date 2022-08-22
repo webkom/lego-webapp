@@ -41,6 +41,10 @@ export const EVENT_TYPES = {
     norwegian: 'Faglig arrangement',
     english: 'Course or workshop',
   },
+  breakfast_talk: {
+    norwegian: 'Frokostforedrag',
+    english: 'Breakfast talk',
+  },
   digital_presentation: {
     norwegian: 'Digital presentasjon',
     english: 'Digital presentation',

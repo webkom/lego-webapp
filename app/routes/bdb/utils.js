@@ -13,6 +13,7 @@ import { sortBy } from 'lodash';
 export const statusStrings = {
   company_presentation: 'Bedpres',
   course: 'Kurs',
+  breakfast_talk: 'Frokostforedrag',
   lunch_presentation: 'Lunsjpresentasjon',
   interested: 'Interessert',
   bedex: 'Bedex',
@@ -32,6 +33,7 @@ export const selectColorCode = (
     bedex: 'bedex',
     company_presentation: 'companyPresentation',
     course: 'course',
+    breakfast_talk: 'breakfastTalk',
     lunch_presentation: 'lunchPresentation',
     interested: 'interested',
     not_interested: 'notInterested',
@@ -47,10 +49,11 @@ const priority = {
   company_presentation: 1,
   course: 2,
   lunch_presentation: 3,
-  interested: 4,
-  not_interested: 5,
-  contacted: 6,
-  not_contacted: 7,
+  breakfast_talk: 4,
+  interested: 5,
+  not_interested: 6,
+  contacted: 7,
+  not_contacted: 8,
 };
 
 export const sortStatusesByProminence = (

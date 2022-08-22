@@ -18,6 +18,7 @@ export type EventType =
   | 'alternative_presentation'
   | 'lunch_presentation'
   | 'course'
+  | 'breakfast_talk'
   | 'kid_event'
   | 'party'
   | 'social'
@@ -251,6 +252,7 @@ export type Semester = 'spring' | 'autumn';
 export type CompanySemesterContactedStatus =
   | 'company_presentation'
   | 'course'
+  | 'breakfast_talk'
   | 'lunch_presentation'
   | 'interested'
   | 'bedex'
