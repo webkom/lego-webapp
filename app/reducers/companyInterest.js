@@ -12,6 +12,7 @@ export type CompanyInterestEntity = {
   contactPerson: string,
   companyPresentation: boolean,
   course: boolean,
+  breakfastTalk: boolean,
   lunchPresentation: boolean,
   readme: boolean,
   collaboration: boolean,

@@ -157,6 +157,7 @@ class EventList extends Component<EventListProps, State> {
         case 'alternative_presentation':
           return showSocial || showCompanyPresentation;
         case 'course':
+        case 'breakfast_talk':
           return showCourse;
         case 'event':
         case 'social':
