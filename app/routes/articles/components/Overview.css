@@ -51,6 +51,10 @@
   width: 100%;
 }
 
+.imageLink img {
+  background: white;
+}
+
 .normal {
   grid-template-columns: repeat(3, minmax(100px, 1fr));
 

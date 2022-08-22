@@ -27,7 +27,7 @@
 
 .imageFrontpage {
   object-fit: cover;
-  background: var(--color-white);
+  background: white;
   height: 80px;
   width: 270px;
 

@@ -57,10 +57,11 @@
 
 .companyLogo {
   width: 120px;
-  height: 80px;
+  max-height: 80px;
   min-width: 120px;
   object-fit: contain;
   margin-right: 20px;
+  background: white;
 }
 
 .listItem {
