@@ -8,6 +8,7 @@ const comment = {
   author: {
     id: 1,
     username: 'cat',
+    fullName: 'Cat Catson'
   },
 };
 
