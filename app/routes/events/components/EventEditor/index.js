@@ -253,12 +253,11 @@ function EventEditor({
             {event.isGroupOnly && (
               <div className={styles.subSection}>
                 <Field
-                  label="Synlig for gruppe"
                   name="canViewGroups"
                   filter={['users.abakusgroup']}
                   fieldClassName={styles.metaField}
                   component={SelectInput.AutocompleteField}
-                  multi
+                  isMulti
                 />
               </div>
             )}

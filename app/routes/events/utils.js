@@ -96,7 +96,6 @@ const calculatePrice = (data) => {
  * @param eventStatusType: what kind of registrationmode this event has
  */
 const calculateLocation = (data) => {
-  console.log(data);
   if (data.eventStatusType && data.eventStatusType.value === 'TBA')
     return 'TBA';
   if (data.useMazemap) return data.mazemapPoi.label;
