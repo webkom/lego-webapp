@@ -60,7 +60,7 @@ export default class Comment extends Component<Props, State> {
                 className={styles.profileImage}
               />
               <Flex className={styles.username}>
-                <Link to={`/users/${author.username}`}>{author.username}</Link>
+                <Link to={`/users/${author.username}`}>{author.fullName}</Link>
                 <span className={styles.bullet}>•</span>
                 <Time className={styles.timestamp} time={createdAt} wordsAgo />
                 <span className={styles.bullet}>•</span>
