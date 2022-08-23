@@ -334,7 +334,7 @@ const JoinEventForm = (props: Props) => {
   return (
     <>
       <div className={styles.joinHeader}>Påmelding</div>
-      <Flex column className={styles.join}>
+      <Flex column>
         {['OPEN', 'TBA'].includes(event.eventStatusType) ? (
           registrationMessage(event)
         ) : (
