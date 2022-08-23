@@ -1,0 +1,24 @@
+.toggleIcon {
+  visibility: visible;
+  color: var(--lego-font-color);
+}
+
+.moon {
+  @media (--mobile-device) {
+    color: var(--color-blue-1);
+  }
+}
+
+.sun {
+  @media (--mobile-device) {
+    color: var(--color-orange-4);
+  }
+}
+
+.moon:hover {
+  color: var(--color-blue-1);
+}
+
+.sun:hover {
+  color: var(--color-orange-4);
+}

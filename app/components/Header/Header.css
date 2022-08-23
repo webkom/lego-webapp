@@ -18,6 +18,18 @@
   position: fixed;
 }
 
+.themeChange {
+  padding: 10px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+
+  button {
+    padding: 0;
+  }
+}
+
 .buttonGroup {
   flex: 1;
   display: flex;

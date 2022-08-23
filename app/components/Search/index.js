@@ -30,6 +30,8 @@ type Props = StateProps &
     results: Array<any>,
     onCloseSearch: () => any,
     searching: boolean,
+    username?: string,
+    updateUserTheme: (username: string, theme: string) => Promise<*>,
   };
 
 type State = {

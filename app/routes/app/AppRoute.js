@@ -11,6 +11,7 @@ import {
   loginAutomaticallyIfPossible,
   logoutWithRedirect,
   login,
+  updateUser,
 } from 'app/actions/UserActions';
 import {
   fetchNotificationData,
@@ -136,6 +137,7 @@ class App extends PureComponent<AppProps> {
             fetchNotificationData={this.props.fetchNotificationData}
             upcomingMeeting={this.props.upcomingMeeting}
             loading={this.props.loading}
+            updateUserTheme={this.props.updateUserTheme}
           />
           <AppChildren
             currentUser={this.props.currentUser}
@@ -186,6 +188,16 @@ const mapDispatchToProps = {
   fetchNotificationData,
   setStatusCode,
   loginAutomaticallyIfPossible,
+  updateUserTheme: (username, theme) =>
+    updateUser(
+      {
+        username,
+        selectedTheme: theme,
+      },
+      {
+        noRedirect: true,
+      }
+    ),
 };
 
 export default compose(

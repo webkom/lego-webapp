@@ -215,3 +215,13 @@ html[data-theme='dark'] .results {
 .isSelected {
   font-weight: 700;
 }
+
+.toggleTheme {
+  display: none;
+  padding: 0.5em 2rem;
+  background: rgba(var(--rgb-max), var(--rgb-max), var(--rgb-max), 80%);
+
+  @media (--small-viewport) {
+    display: flex;
+  }
+}
