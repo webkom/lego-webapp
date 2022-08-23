@@ -24,6 +24,7 @@ import {
 } from './utils';
 import time from 'app/utils/time';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import loadingIndicator from 'app/utils/loadingIndicator';
 import moment from 'moment-timezone';
 
 const mapStateToProps = (state, props) => {
@@ -54,7 +55,7 @@ const mapStateToProps = (state, props) => {
         value: group.id,
         id: group.id,
       })),
-      isGroupOnly: event.canViewGroups.length > 0,
+      isGroupOnly: event.canViewGroups?.length > 0,
       company: event.company && {
         label: event.company.name,
         value: event.company.id,
@@ -136,6 +137,5 @@ export default compose(
     ) => dispatch(fetchEvent(eventId))
   ),
   connect(mapStateToProps, mapDispatchToProps),
-  replaceUnlessLoggedIn(LoginPage)
-  //loadingIndicator(['event.title'])
+  loadingIndicator(['event.title'])
 )(EventEditor);
