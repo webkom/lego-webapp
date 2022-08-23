@@ -97,7 +97,7 @@ export const TokenNavigation = ({
 );
 
 export const defaultActiveFrom = (hours: number, minutes: number) =>
-  moment().startOf('day').add({ hours, minutes }).toISOString();
+  moment().startOf('day').add({ day: 1, hours, minutes }).toISOString();
 
 export const CHART_COLORS = [
   'var(--lego-red)',
