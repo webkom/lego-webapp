@@ -38,7 +38,7 @@ export default class RemovePicture extends Component<Props, State> {
           <Button onClick={this.toggleSelected}>Avbryt</Button>
         ) : (
           <Button danger onClick={this.toggleSelected}>
-            <Icon name="trash" size={20} />
+            <Icon name="trash" size={19} />
             Slett profilbildet
           </Button>
         )}

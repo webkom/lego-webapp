@@ -17,6 +17,7 @@ import {
   legoForm,
 } from 'app/components/Form';
 import Button from 'app/components/Button';
+import Icon from 'app/components/Icon';
 import moment from 'moment-timezone';
 import { Content } from 'app/components/Content';
 import { Flex } from 'app/components/Layout';
@@ -114,6 +115,7 @@ class JoblistingEditor extends Component<Props, State> {
       fetching = false,
       submitting,
       invalid,
+      push,
     } = this.props;
 
     if (!isNew && fetching) {
@@ -125,7 +127,12 @@ class JoblistingEditor extends Component<Props, State> {
         <Helmet title={!isNew ? 'Rediger jobbannonse' : 'Ny jobbannonse'} />
         <NavigationTab
           title={!isNew ? 'Rediger jobbannonse' : 'Ny jobbannonse'}
-          back={{ label: 'Tilbake', path: '/joblistings' }}
+          back={{
+            label: 'Tilbake',
+            path: !isNew
+              ? `/joblistings${this.props.joblisting.id}`
+              : '/joblistings',
+          }}
         />
         <Form onSubmit={handleSubmit(this.onSubmit)}>
           <Field
@@ -248,23 +255,27 @@ class JoblistingEditor extends Component<Props, State> {
             initialized={this.props.initialized}
             required
           />
-          <Flex
-            className={styles.buttonRow}
-            alignItems="baseline"
-            justifyContent="flex-end"
-          >
+          <Flex wrap>
+            <Button
+              onClick={() => push(`/joblistings/${this.props.joblisting.id}`)}
+            >
+              Avbryt
+            </Button>
+            <Button success={!isNew} disabled={invalid || submitting} submit>
+              {isNew ? 'Opprett' : 'Lagre endringer'}
+            </Button>
             {!isNew && (
               <ConfirmModalWithParent
                 title="Slett jobbannonse"
                 message="Er du sikker på at du vil slette denne jobbannonsen?"
                 onConfirm={this.onDeleteJoblisting}
               >
-                <Button danger>Slett</Button>
+                <Button danger>
+                  <Icon name="trash" size={19} />
+                  Slett jobbannonse
+                </Button>
               </ConfirmModalWithParent>
             )}
-            <Button success disabled={invalid || submitting} submit>
-              Lagre
-            </Button>
           </Flex>
         </Form>
       </Content>

@@ -9,6 +9,7 @@ import Button from 'app/components/Button';
 import PollEditor from './PollEditor';
 import { type PollEntity } from 'app/reducers/polls';
 import { type ActionGrant, type ID } from 'app/models';
+import Icon from 'app/components/Icon';
 
 type Props = {
   poll: PollEntity,
@@ -45,7 +46,14 @@ class PollDetail extends Component<Props, State> {
         >
           {this.props.actionGrant.includes('edit') && (
             <Button onClick={this.toggleEdit}>
-              {this.state.editing ? 'Avbryt' : 'Rediger'}
+              {this.state.editing ? (
+                'Avbryt'
+              ) : (
+                <>
+                  <Icon name="create-outline" size={19} />
+                  Rediger
+                </>
+              )}
             </Button>
           )}
         </NavigationTab>

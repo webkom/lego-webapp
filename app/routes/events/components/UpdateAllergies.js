@@ -49,6 +49,7 @@ const UpdateAllergies = ({
         component={TextInput.Field}
       />
       <Button
+        success
         className={styles.button}
         submit
         disabled={invalid || pristine || submitting}

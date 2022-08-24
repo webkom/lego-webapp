@@ -1,7 +1,7 @@
 // @flow
 import { Link } from 'react-router-dom';
 import Button from 'app/components/Button';
-import styles from './AnnouncementInLine.css';
+import Icon from 'app/components/Icon';
 import type { Group, Event } from 'app/models';
 import { useSelector } from 'react-redux';
 
@@ -22,7 +22,10 @@ const AnnouncementInLine = ({ event, meeting, group }: Props) => {
           state: { event, meeting, group },
         }}
       >
-        <Button className={styles.announcementButton}>Ny kunngjøring</Button>
+        <Button>
+          <Icon name="send-outline" size={18} />
+          Send kunngjøring
+        </Button>
       </Link>
     )
   );

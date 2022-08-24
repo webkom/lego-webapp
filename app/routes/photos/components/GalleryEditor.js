@@ -254,26 +254,20 @@ class GalleryEditor extends Component<Props, State> {
             component={ObjectPermissions}
           />
 
-          <Flex
-            className={styles.buttonRow}
-            alignItems="baseline"
-            justifyContent="flex-end"
-          >
+          <Flex className={styles.buttonRow} justifyContent="flex-end">
             {!isNew && (
               <ConfirmModalWithParent
                 title="Slett album"
-                message="Vil du slette hele albumet og alle bildene albumet inneholder!"
+                message="Vil du slette hele albumet og alle bildene albumet inneholder?"
                 onConfirm={this.onDeleteGallery}
               >
-                <Button className={styles.deleteButton}>Slett album</Button>
+                <Button danger>
+                  <Icon name="trash" size={19} />
+                  Slett album
+                </Button>
               </ConfirmModalWithParent>
             )}
-            <Button
-              success={!isNew}
-              disabled={submitting}
-              className={styles.submitButton}
-              type="submit"
-            >
+            <Button success={!isNew} disabled={submitting} type="submit">
               {isNew ? 'Opprett' : 'Lagre'}
             </Button>
           </Flex>

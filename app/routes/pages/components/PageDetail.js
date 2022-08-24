@@ -91,10 +91,10 @@ class PageDetail extends Component<Props, State> {
             <div className={styles.mainTxt}>
               <NavigationTab className={styles.navTab}>
                 {actionGrant.includes('edit') && editUrl && (
-                  <NavigationLink to={editUrl}>Endre</NavigationLink>
+                  <NavigationLink to={editUrl}>Rediger</NavigationLink>
                 )}
                 {actionGrant.includes('create') && (
-                  <NavigationLink to="/pages/new">Ny</NavigationLink>
+                  <NavigationLink to="/pages/new">Lag ny</NavigationLink>
                 )}
               </NavigationTab>
 

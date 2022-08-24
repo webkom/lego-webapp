@@ -23,10 +23,8 @@ import { createValidator, validYoutubeUrl } from 'app/utils/validation';
 import Flex from 'app/components/Layout/Flex';
 import Tooltip from 'app/components/Tooltip';
 import Icon from 'app/components/Icon';
+import NavigationTab from 'app/components/NavigationTab';
 
-/**
- *
- */
 export type Props = {
   article?: ArticleEntity,
   articleId: number,
@@ -67,6 +65,11 @@ const ArticleEditor = ({
           !isNew && article ? `Redigerer: ${article.title}` : 'Ny artikkel'
         }
       />
+      <NavigationTab
+        title="Rediger artikkel"
+        back={{ label: 'Tilbake', path: `/articles/${articleId}` }}
+      />
+
       <Form onSubmit={handleSubmit}>
         <Field
           name="cover"
@@ -151,16 +154,18 @@ const ArticleEditor = ({
           component={EditorField.Field}
           initialized={initialized}
         />
-        <div>
+        <Flex wrap>
+          <Button onClick={() => push(`/articles/${articleId}`)}>Avbryt</Button>
           <Button submit success={!isNew}>
             {!isNew ? 'Lagre endringer' : 'Opprett'}
           </Button>
           {!isNew && (
             <Button danger onClick={handleDeleteArticle}>
-              Slett
+              <Icon name="trash" size={19} />
+              Slett artikkel
             </Button>
           )}
-        </div>
+        </Flex>
       </Form>
     </Content>
   );

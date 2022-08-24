@@ -3,8 +3,6 @@
 import { Link } from 'react-router-dom';
 import LoadingIndicator from 'app/components/LoadingIndicator/';
 import DisplayContent from 'app/components/DisplayContent';
-import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
-import styles from './JoblistingDetail.css';
 import InfoList from 'app/components/InfoList';
 import {
   Content,
@@ -15,13 +13,15 @@ import {
 } from 'app/components/Content';
 import { jobType, Year, Workplaces } from './Items';
 import Time from 'app/components/Time';
-import type { ID } from 'app/models';
 import { Helmet } from 'react-helmet-async';
+import Button from 'app/components/Button';
+import Icon from 'app/components/Icon';
+import Flex from 'app/components/Layout/Flex';
+import type { ActionGrant } from 'app/models';
 
 type Props = {
   joblisting: Object,
-  actionGrant: /*TODO: ActionGrant */ Array<any>,
-  deleteJoblisting: (ID) => Promise<*>,
+  actionGrant: ActionGrant,
   fetching: boolean,
   push: (string) => void,
 };
@@ -29,18 +29,12 @@ type Props = {
 const JoblistingDetail = ({
   joblisting,
   actionGrant,
-  deleteJoblisting,
   push,
   fetching = false,
 }: Props) => {
   if (fetching || !joblisting) {
     return <LoadingIndicator loading />;
   }
-
-  const onDeleteJoblisting = () =>
-    deleteJoblisting(joblisting.id).then(() => {
-      push('/joblistings/');
-    });
 
   const companyLink = (
     <Link to={`/companies/${joblisting.company.id}`}>
@@ -143,27 +137,17 @@ const JoblistingDetail = ({
           )}
 
           {(canEdit || canDelete) && (
-            <ul style={{ marginTop: '10px' }}>
-              <li>
-                <strong>Admin</strong>
-              </li>
+            <Flex column style={{ marginTop: '10px' }}>
+              <h3>Admin</h3>
               {canEdit && (
-                <li>
-                  <Link to={`/joblistings/${joblisting.id}/edit`}>Rediger</Link>
-                </li>
+                <Link to={`/joblistings/${joblisting.id}/edit`}>
+                  <Button>
+                    <Icon name="create-outline" size={19} />
+                    Rediger
+                  </Button>
+                </Link>
               )}
-              {canDelete && (
-                <li>
-                  <ConfirmModalWithParent
-                    title="Slett jobbannonse"
-                    message="Er du sikker på at du vil slette denne jobbannonsen?"
-                    onConfirm={onDeleteJoblisting}
-                  >
-                    <span className={styles.deleteButton}>Slett</span>
-                  </ConfirmModalWithParent>
-                </li>
-              )}
-            </ul>
+            </Flex>
           )}
         </ContentSidebar>
       </ContentSection>

@@ -1,7 +1,6 @@
 // @flow
 
 import { Component } from 'react';
-import { FlexRow } from 'app/components/FlexBox';
 import Button from 'app/components/Button';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
@@ -21,6 +20,8 @@ import { Field, Fields } from 'redux-form';
 import { Content } from 'app/components/Content';
 import { get } from 'lodash';
 import { categoryOptions } from 'app/routes/pages/PageDetailRoute';
+import Icon from 'app/components/Icon';
+import Flex from 'app/components/Layout/Flex';
 
 type Page = {
   title: string,
@@ -147,7 +148,7 @@ export default class PageEditor extends Component<Props, State> {
             />
           </div>
 
-          <FlexRow alignItems="baseline" justifyContent="space-between">
+          <Flex justifyContent="space-between">
             <Field
               placeholder="Title"
               name="title"
@@ -161,19 +162,24 @@ export default class PageEditor extends Component<Props, State> {
               options={categoryOptions}
             />
 
-            {!isNew && (
-              <ConfirmModalWithParent
-                title="Slett side"
-                message="Er du sikker på at du vil slette denne infosiden?"
-                onConfirm={this.onDelete}
-              >
-                <Button>Slett</Button>
-              </ConfirmModalWithParent>
-            )}
-            <Button className={styles.submitButton} type="submit">
-              {isNew ? 'Create' : 'Save'}
-            </Button>
-          </FlexRow>
+            <Flex margin="0 0 0 10px">
+              {!isNew && (
+                <ConfirmModalWithParent
+                  title="Slett side"
+                  message="Er du sikker på at du vil slette denne infosiden?"
+                  onConfirm={this.onDelete}
+                >
+                  <Button danger>
+                    <Icon name="trash" size={19} />
+                    Slett
+                  </Button>
+                </ConfirmModalWithParent>
+              )}
+              <Button success={!isNew} type="submit">
+                {isNew ? 'Opprett' : 'Lagre'}
+              </Button>
+            </Flex>
+          </Flex>
           <Fields
             names={[
               'requireAuth',

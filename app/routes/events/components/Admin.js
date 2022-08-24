@@ -6,8 +6,9 @@ import type { ID, Event, ActionGrant } from 'app/models';
 import AnnouncementInLine from 'app/components/AnnouncementInLine';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import Button from 'app/components/Button';
+import Icon from 'app/components/Icon';
+import Flex from 'app/components/Layout/Flex';
 import moment from 'moment-timezone';
-import styles from './Admin.css';
 
 type Props = {
   deleteEvent: (eventId: ID) => Promise<*>,
@@ -42,7 +43,10 @@ class DeleteButton extends Component<ButtonProps, State> {
           message="Er du sikker på at du vil slette dette arrangementet?"
           onConfirm={() => deleteEvent(eventId)}
         >
-          <span className={styles.deleteButton}>Slett</span>
+          <Button danger>
+            <Icon name="trash" size={19} />
+            Slett
+          </Button>
         </ConfirmModalWithParent>
       );
     }
@@ -50,12 +54,10 @@ class DeleteButton extends Component<ButtonProps, State> {
     return (
       <div>
         {this.state.show === false && (
-          <span
-            className={styles.deleteButton}
-            onClick={() => this.setState({ show: true })}
-          >
-            Slett
-          </span>
+          <Button danger onClick={() => this.setState({ show: true })}>
+            <Icon name="trash" size={19} />
+            Slett arrangement
+          </Button>
         )}
         {this.state.show && (
           <>
@@ -81,72 +83,81 @@ const Admin = ({ actionGrant, event, deleteEvent }: Props) => {
   const showRegisterButton =
     Math.abs(
       moment.duration(moment(event.startTime).diff(moment.now())).get('days')
-    ) < 2;
+    ) < 1;
 
   return (
-    <div>
+    <Flex column gap={7}>
       {(canEdit || canDelete) && (
-        <ul>
-          <li>
-            <strong>Admin</strong>
-          </li>
+        <>
+          <h3>Admin</h3>
+
           {showRegisterButton && (
-            <li>
-              <Link to={`/events/${event.id}/administrate/abacard`}>
-                <Button className={styles.abacardButton} success>
-                  Registrer oppmøte
-                </Button>
-              </Link>
-            </li>
-          )}
-          {canEdit && (
-            <li>
-              <Link to={`/events/${event.id}/administrate/attendees`}>
-                Påmeldinger
-              </Link>
-            </li>
-          )}
-          <li>
-            {event.survey ? (
-              <Link to={`/surveys/${event.survey}`}>
-                Gå til spørreundersøkelse
-              </Link>
-            ) : (
-              <Link to={`/surveys/add/?event=${event.id}`}>
-                Lag spørreundersøkelse
-              </Link>
-            )}
-          </li>
-          <li>
-            <Link
-              to={{
-                pathname: `/events/create`,
-                state: { id: event.id },
-              }}
-            >
-              Lag kopi av arrangement
+            <Link to={`/events/${event.id}/administrate/abacard`}>
+              <Button success>
+                <Icon name="id-card" size={19} />
+                Registrer oppmøte
+              </Button>
             </Link>
-          </li>
+          )}
+
           {canEdit && (
-            <li>
-              <Link to={`/events/${event.id}/edit`}>Rediger</Link>
-            </li>
+            <Link to={`/events/${event.id}/administrate/attendees`}>
+              <Button>
+                <Icon name="people-outline" size={19} />
+                Se påmeldinger
+              </Button>
+            </Link>
           )}
+
+          {canEdit && (
+            <Link to={`/events/${event.id}/edit`}>
+              <Button>
+                <Icon name="create-outline" size={19} />
+                Rediger
+              </Button>
+            </Link>
+          )}
+
+          <AnnouncementInLine event={event} />
+
+          {event.survey ? (
+            <Link to={`/surveys/${event.survey}`}>
+              <Button>
+                <Icon name="clipboard-outline" size={19} />
+                Gå til spørreundersøkelse
+              </Button>
+            </Link>
+          ) : (
+            <Link to={`/surveys/add/?event=${event.id}`}>
+              <Button>
+                <Icon name="clipboard-outline" size={19} />
+                Lag spørreundersøkelse
+              </Button>
+            </Link>
+          )}
+
+          <Link
+            to={{
+              pathname: `/events/create`,
+              state: { id: event.id },
+            }}
+          >
+            <Button>
+              <Icon name="copy-outline" size={19} />
+              Lag kopi av arrangement
+            </Button>
+          </Link>
+
           {canDelete && (
-            <li>
-              <DeleteButton
-                eventId={event.id}
-                title={event.title}
-                deleteEvent={deleteEvent}
-              />
-            </li>
+            <DeleteButton
+              eventId={event.id}
+              title={event.title}
+              deleteEvent={deleteEvent}
+            />
           )}
-          <li>
-            <AnnouncementInLine event={event} />
-          </li>
-        </ul>
+        </>
       )}
-    </div>
+    </Flex>
   );
 };
 

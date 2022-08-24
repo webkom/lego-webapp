@@ -109,10 +109,10 @@ describe('Polls', () => {
     field('options[0].name').type(poll_form.choice_1).blur();
     field('options[1].name').type(poll_form.choice_2).blur();
 
-    cy.contains('Endre avstemning').click();
+    cy.contains('Lagre endringer').click();
 
     // cannot check url because there is no url change on save, so let's check that the button disappears
-    cy.contains('Endre avstemning').should('not.exist');
+    cy.contains('Lagre endringer').should('not.exist');
     cy.contains(poll_form.title);
     cy.contains(poll_form.choice_1);
     cy.contains(poll_form.choice_2);
@@ -134,7 +134,7 @@ describe('Polls', () => {
     cy.get(c('PollsList__heading')).first().click();
 
     cy.contains('button', 'Rediger').click();
-    cy.contains('button', 'Slett').click();
+    cy.contains('button', 'Slett avstemning').click();
     cy.get(c('Modal__content')).should('be.visible').contains('Ja').click();
 
     cy.get(c('Modal__content')).should('not.exist');
