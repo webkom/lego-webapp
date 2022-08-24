@@ -27,6 +27,7 @@
 
 .companyLogo img {
   min-width: 120px;
-  height: 80px;
+  max-height: 80px;
   object-fit: contain;
+  background: white;
 }
