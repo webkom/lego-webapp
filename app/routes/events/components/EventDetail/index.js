@@ -422,6 +422,9 @@ export default class EventDetail extends Component<Props, State> {
                   {loggedIn && (
                     <RegistrationMeta
                       useConsent={event.useConsent}
+                      hasOpened={moment(event.activationTime).isBefore(
+                        currentMoment
+                      )}
                       hasEnded={moment(event.endTime).isBefore(currentMoment)}
                       registration={currentRegistration}
                       isPriced={event.isPriced}
