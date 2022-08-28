@@ -2,7 +2,6 @@
 
 import { Helmet } from 'react-helmet-async';
 import styles from './EventEditor.css';
-import { Link } from 'react-router-dom';
 import renderPools, { validatePools } from './renderPools';
 import {
   AttendanceStatus,
@@ -44,6 +43,7 @@ import { validYoutubeUrl } from 'app/utils/validation';
 import { FormatTime } from 'app/components/Time';
 import moment from 'moment-timezone';
 import MazemapLink from 'app/components/MazemapEmbed/MazemapLink';
+import NavigationTab from 'app/components/NavigationTab';
 
 type Props = {
   eventId: number,
@@ -64,6 +64,7 @@ type Props = {
   submitting: boolean,
   pristine: boolean,
   initialized: boolean,
+  push: (string) => void,
 };
 
 function EventEditor({
@@ -83,6 +84,7 @@ function EventEditor({
   submitting,
   pristine,
   initialized,
+  push,
 }: Props) {
   const isEditPage = eventId !== undefined;
 
@@ -109,21 +111,20 @@ function EventEditor({
   const tooLow = (value) =>
     value && value <= 3 ? `Summen må være større enn 3 kr` : undefined;
 
-  const color = colorForEvent(event.eventType);
+  const color = colorForEvent(event.eventType?.value);
 
   return (
     <Content>
       <Helmet
         title={isEditPage ? `Redigerer: ${event.title}` : 'Nytt arrangement'}
       />
-      {isEditPage && (
-        <h2>
-          <Link to={`/events/${eventId}`}>
-            <i className="fa fa-angle-left" />
-            {` ${event.title}`}
-          </Link>
-        </h2>
-      )}
+      <NavigationTab
+        title={isEditPage ? `Redigerer: ${event.title}` : 'Nytt arrangement'}
+        back={{
+          label: 'Tilbake',
+          path: isEditPage ? `/events/${event.id}` : '/events',
+        }}
+      />
       <Form onSubmit={handleSubmit}>
         <Field
           name="cover"
@@ -568,16 +569,14 @@ function EventEditor({
           </ContentSidebar>
         </ContentSection>
 
-        <div>
+        <Flex wrap>
           {isEditPage && (
-            <Link to={`/events/${event.id}`}>
-              <Button style={{ marginRight: '20px' }}>Tilbake</Button>
-            </Link>
+            <Button onClick={() => push(`/events/${event.id}`)}>Avbryt</Button>
           )}
           <Button success={isEditPage} disabled={pristine || submitting} submit>
             {isEditPage ? 'Lagre endringer' : 'Opprett'}
           </Button>
-        </div>
+        </Flex>
       </Form>
     </Content>
   );
