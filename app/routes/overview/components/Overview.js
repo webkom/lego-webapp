@@ -193,11 +193,10 @@ class Overview extends Component<Props, State> {
       <Container>
         <Helmet title="Hjem" />
         <Banner
-          header="Velkommen til fadderperioden 2022!"
-          subHeader="Trykk her for mer informasjon"
-          link="articles/414"
-          color={COLORS.buddyweek2022}
-          internal
+          header="Abakus has opptak!"
+          subHeader="Søk her"
+          link="https://opptak.abakus.no"
+          color={COLORS.red}
         />
         <Flex className={styles.desktopContainer}>
           <Flex column className={styles.leftColumn}>
