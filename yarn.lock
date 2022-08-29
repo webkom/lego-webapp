@@ -8860,10 +8860,10 @@ react-overlays@5.2.0:
     uncontrollable "^7.2.1"
     warning "^4.0.3"
 
-react-phone-number-input@^3.2.9:
-  version "3.2.9"
-  resolved "https://registry.yarnpkg.com/react-phone-number-input/-/react-phone-number-input-3.2.9.tgz#79095da46b3f5799e206d2fa85f7ee20813f2454"
-  integrity sha512-563oHOM+DLWevO7HKTlBnPVhW3RKK56qPMMuUh9JiEfSEtIDpLW5rb3nmZo3EOQ1B88mBaF8K0n2577zNiOP5g==
+react-phone-number-input@^3.2.10:
+  version "3.2.10"
+  resolved "https://registry.yarnpkg.com/react-phone-number-input/-/react-phone-number-input-3.2.10.tgz#db818f907eaf3f6a8cb0bafc4b235000eba3a4ca"
+  integrity sha512-u4Db5l2d8eXbWws+ms4Jp86/b+tx4fkfbk23yBFdoeSvRXFO1AhxgAiJsHc5HG7lGF8q3B/Pj3mNtd7JW99DUw==
   dependencies:
     classnames "^2.3.1"
     country-flag-icons "^1.5.4"
