@@ -450,7 +450,7 @@ const JoinEventForm = (props: Props) => {
                   <Flex style={{ marginBottom: '20px' }}>
                     <Field
                       id={feedbackName}
-                      placeholder="Melding til arrangører"
+                      placeholder="Melding til arrangør"
                       name={feedbackName}
                       component={TextInput.Field}
                       labelClassName={styles.feedbackLabel}

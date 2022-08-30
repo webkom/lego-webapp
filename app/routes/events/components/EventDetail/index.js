@@ -287,7 +287,9 @@ export default class EventDetail extends Component<Props, State> {
         value: (
           <span>
             {event.responsibleGroup.type === 'komite' ? (
-              <Link to={`pages/komiteer/${event.responsibleGroup.id}`}></Link>
+              <Link to={`pages/komiteer/${event.responsibleGroup.id}`}>
+                {event.responsibleGroup.name}
+              </Link>
             ) : (
               event.responsibleGroup.name
             )}{' '}
@@ -356,16 +358,16 @@ export default class EventDetail extends Component<Props, State> {
                   <FromToTime from={event.startTime} to={event.endTime} />
                 </strong>
               </div>
+              <div className={styles.iconWithText}>
+                <Icon name="location-outline" className={styles.infoIcon} />
+                <strong>{event.location}</strong>
+              </div>
               {event.isPriced && (
                 <div className={styles.iconWithText}>
                   <Icon name="cash-outline" className={styles.infoIcon} />
                   <strong>{event.priceMember / 100},-</strong>
                 </div>
               )}
-              <div className={styles.iconWithText}>
-                <Icon name="location-outline" className={styles.infoIcon} />
-                <strong>{event.location}</strong>
-              </div>
               {event.mazemapPoi && (
                 <>
                   <div
@@ -422,6 +424,9 @@ export default class EventDetail extends Component<Props, State> {
                   {loggedIn && (
                     <RegistrationMeta
                       useConsent={event.useConsent}
+                      hasOpened={moment(event.activationTime).isBefore(
+                        currentMoment
+                      )}
                       hasEnded={moment(event.endTime).isBefore(currentMoment)}
                       registration={currentRegistration}
                       isPriced={event.isPriced}

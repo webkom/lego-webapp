@@ -20,6 +20,7 @@ type Props = {
   registrationIndex: number,
   hasSimpleWaitingList: boolean,
   useConsent: boolean,
+  hasOpened: boolean,
   hasEnded: boolean,
 };
 
@@ -70,23 +71,23 @@ const PresenceStatus = ({
   switch (presence) {
     case 'NOT_PRESENT':
       return (
-        <>
+        <div>
           <i className="fa fa-exclamation-circle" /> Du møtte ikke opp på
           arrangementet
-        </>
+        </div>
       );
     case 'PRESENT':
       return (
-        <>
+        <div>
           <i className="fa fa-check-circle" /> Du møtte opp på arrangementet
-        </>
+        </div>
       );
     case 'UNKNOWN':
       if (!hasEnded) return null;
       return (
-        <>
+        <div>
           <i className="fa fa-check-circle" /> Oppmøte ble ikke sjekket
-        </>
+        </div>
       );
     default:
       return null;
@@ -117,10 +118,10 @@ const PaymentStatus = ({
       );
     case paymentCardDeclined:
       return (
-        <>
+        <div>
           <i className="fa fa-exclamation-circle" /> Du har ikke betalt. Kortet
           du prøvde å betale med ble ikke godtatt.
-        </>
+        </div>
       );
     case paymentCardExpired:
       return (
@@ -140,32 +141,39 @@ const PaymentStatus = ({
 
 const RegistrationMeta = ({
   registration,
+  hasOpened,
   hasEnded,
   useConsent,
   isPriced,
   registrationIndex,
   hasSimpleWaitingList,
 }: Props) => (
-  <div>
-    {!registration && (
+  <>
+    {!registration && hasOpened && (
       <div>
-        <i className="fa fa-exclamation-circle" /> Du er ikke påmeldt
+        <i className="fa fa-times-circle" /> Du {hasEnded ? 'var' : 'er'} ikke
+        påmeldt
       </div>
     )}
     {registration && (
-      <div>
+      <>
         {registration.pool ? (
-          <div>
-            <i className="fa fa-check-circle" /> Du er påmeldt
-          </div>
+          <>
+            {!hasEnded && (
+              <div>
+                <i className="fa fa-check-circle" /> Du er påmeldt
+              </div>
+            )}
+          </>
         ) : hasSimpleWaitingList ? (
           <div>
-            <i className="fa fa-pause-circle" /> Din plass i venteliste{' '}
+            <i className="fa fa-pause-circle" /> Din plass i ventelisten:{' '}
             <strong>{registrationIndex + 1}</strong>
           </div>
         ) : (
           <div>
-            <i className="fa fa-pause-circle" /> Du er i venteliste
+            <i className="fa fa-pause-circle" /> Du {hasEnded ? 'stod' : 'står'}{' '}
+            på venteliste
           </div>
         )}
         <PresenceStatus presence={registration.presence} hasEnded={hasEnded} />
@@ -180,9 +188,9 @@ const RegistrationMeta = ({
           isPriced={isPriced}
           paymentStatus={registration.paymentStatus}
         />
-      </div>
+      </>
     )}
-  </div>
+  </>
 );
 
 export default RegistrationMeta;

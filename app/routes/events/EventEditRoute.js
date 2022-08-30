@@ -26,6 +26,7 @@ import time from 'app/utils/time';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import moment from 'moment-timezone';
+import { push } from 'connected-react-router';
 
 const mapStateToProps = (state, props) => {
   const eventId = props.match.params.eventId;
@@ -122,6 +123,7 @@ const mapDispatchToProps = {
   handleSubmitCallback: (event) => editEvent(transformEvent(event, true)),
   uploadFile,
   setCoverPhoto,
+  push,
 };
 
 export default compose(
