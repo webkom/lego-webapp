@@ -7,7 +7,6 @@ import Flex from 'app/components/Layout/Flex';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import type { PhotoConsent } from 'app/models';
 import moment from 'moment-timezone';
-import cx from 'classnames';
 import {
   getConsent,
   PHOTO_CONSENT_DOMAINS,
@@ -65,25 +64,17 @@ const ConsentManager = ({
         >
           <Button
             dark
-            disabled={!isMe}
-            className={
-              consent.isConsenting === false
-                ? cx(styles.consentBtn, styles.selectedConsentBtn)
-                : styles.consentBtn
-            }
+            disabled={!isMe || consent.isConsenting === false}
+            className={styles.consentBtn}
           >
             Trekk samtykke
           </Button>
         </ConfirmModalWithParent>
         <Button
           success
-          disabled={!isMe}
+          disabled={!isMe || consent.isConsenting === true}
           onClick={() => updateConsent({ ...consent, isConsenting: true })}
-          className={
-            consent.isConsenting
-              ? cx(styles.consentBtn, styles.selectedConsentBtn)
-              : styles.consentBtn
-          }
+          className={styles.consentBtn}
         >
           Behold samtykke
         </Button>

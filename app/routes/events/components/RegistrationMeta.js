@@ -79,7 +79,7 @@ const ConsentStatus = ({
       return (
         <ConsentInfo
           className={'fa fa-camera'}
-          consentDescription={`Du samtykker til bilder på Abakus.no og sosiale medier for semesteret ${readableEventSemester}`}
+          consentDescription={`Du samtykker til bilder på abakus.no og sosiale medier for semesteret ${readableEventSemester}`}
         />
       );
     }
