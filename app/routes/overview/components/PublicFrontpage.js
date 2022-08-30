@@ -82,7 +82,7 @@ class PublicFrontpage extends Component<Props, State> {
     return (
       <Container>
         <Banner
-          header="Abakus has opptak!"
+          header="Abakus har opptak!"
           subHeader="Søk her"
           link="https://opptak.abakus.no"
           color={COLORS.red}
