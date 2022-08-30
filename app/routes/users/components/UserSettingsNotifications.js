@@ -27,12 +27,16 @@ const notificationTypeTraslations = {
   event_payment_overdue_creator: 'Adminoversikt over manglene betaling',
   meeting_invite: 'Invitasjon til møte',
   penalty_creation: 'Ny prikk',
-  restricted_mail_sent: 'Utsending av begrenset epost',
+  restricted_mail_sent:
+    'Engangseposter som sendes til bestemte grupper (Begrenset epost)',
   company_interest_created: 'Ny bedriftsinteresse',
   comment: 'Ny kommentar',
   comment_reply: 'Svar på kommentar',
-  announcement: 'Viktig melding',
+  announcement: 'Kunngjøring/Viktig melding',
   survey_created: 'Ny spørreundersøkelse',
+  registration_reminder: 'Påminnelse om påmelding til arrangementer',
+  inactive_warning: 'Kontoen din blir snart slettet grunnet inaktivitet',
+  deleted_warning: 'Kontoen din har blitt slettet grunnet inaktivitet',
 };
 
 const UserSettingsNotifications = (props: Props) => {
