@@ -19,6 +19,7 @@ import Tooltip from 'app/components/Tooltip';
 import {
   colorForEvent,
   penaltyHours,
+  getEventSemesterFromStartTime,
   registrationCloseTime,
 } from '../../utils';
 import Admin from '../Admin';
@@ -426,6 +427,10 @@ export default class EventDetail extends Component<Props, State> {
                       useConsent={event.useConsent}
                       hasOpened={moment(event.activationTime).isBefore(
                         currentMoment
+                      )}
+                      photoConsents={currentUser.photoConsents}
+                      eventSemester={getEventSemesterFromStartTime(
+                        event.startTime
                       )}
                       hasEnded={moment(event.endTime).isBefore(currentMoment)}
                       registration={currentRegistration}

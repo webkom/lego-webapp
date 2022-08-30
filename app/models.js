@@ -33,6 +33,23 @@ export type Grade = {
   name: string,
 };
 
+export type PhotoConsentDomain = 'WEBSITE' | 'SOCIAL_MEDIA';
+
+export type Semester = 'spring' | 'autumn';
+
+export type EventSemester = {
+  year: number,
+  semester: Semester,
+};
+
+export type PhotoConsent = {
+  year: number,
+  semester: Semester,
+  domain: PhotoConsentDomain,
+  isConsenting: ?boolean,
+  updatedAt: ?Dateish,
+};
+
 export type User = {
   id: ID,
   firstName: string,
@@ -44,6 +61,7 @@ export type User = {
   profilePicturePlaceholder?: string,
   email?: string,
   phoneNumber?: string,
+  photoConsents: Array<PhotoConsent>,
 };
 
 export type Tags = string;
@@ -134,7 +152,7 @@ export type Comment = Object;
 export type Permission = string;
 
 export type EventRegistrationPresence = 'PRESENT' | 'NOT_PRESENT' | 'UNKNOWN';
-export type EventRegistrationPhotoConsent =
+export type LEGACY_EventRegistrationPhotoConsent =
   | 'PHOTO_NOT_CONSENT'
   | 'PHOTO_CONSENT'
   | 'UNKNOWN';
@@ -168,7 +186,7 @@ export type EventRegistration = {
   paymentStatus: EventRegistrationPaymentStatus,
   feedback: string,
   sharedMemberships?: number,
-  consent: EventRegistrationPhotoConsent,
+  consent: LEGACY_EventRegistrationPhotoConsent,
   clientSecret?: string,
   paymentError?: string,
 };
@@ -247,8 +265,6 @@ export type Joblisting = {
   toYear: number,
   workplaces: Array<Workplace>,
 };
-
-export type Semester = 'spring' | 'autumn';
 
 export type CompanySemesterContactedStatus =
   | 'company_presentation'
