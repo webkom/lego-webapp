@@ -288,7 +288,7 @@ export default class EventDetail extends Component<Props, State> {
         value: (
           <span>
             {event.responsibleGroup.type === 'komite' ? (
-              <Link to={`pages/komiteer/${event.responsibleGroup.id}`}>
+              <Link to={`/pages/komiteer/${event.responsibleGroup.id}`}>
                 {event.responsibleGroup.name}
               </Link>
             ) : (
