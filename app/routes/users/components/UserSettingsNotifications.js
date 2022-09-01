@@ -26,17 +26,20 @@ const notificationTypeTraslations = {
   event_payment_overdue: 'Manglende betaling for arrangement',
   event_payment_overdue_creator: 'Adminoversikt over manglene betaling',
   meeting_invite: 'Invitasjon til møte',
+  meeting_invitation_reminder: 'Ubesvarte møteinvitasjoner',
   penalty_creation: 'Ny prikk',
   restricted_mail_sent:
-    'Engangseposter som sendes til bestemte grupper (Begrenset epost)',
+    'Engangs-e-poster som sendes til bestemte grupper (begrenset e-post)',
   company_interest_created: 'Ny bedriftsinteresse',
   comment: 'Ny kommentar',
   comment_reply: 'Svar på kommentar',
   announcement: 'Kunngjøring/Viktig melding',
   survey_created: 'Ny spørreundersøkelse',
   registration_reminder: 'Påminnelse om påmelding til arrangementer',
-  inactive_warning: 'Kontoen din blir snart slettet grunnet inaktivitet',
-  deleted_warning: 'Kontoen din har blitt slettet grunnet inaktivitet',
+  inactive_warning:
+    'Varsel om at kontoen din snart blir slettet grunnet inaktivitet',
+  deleted_warning:
+    'Varsel om at kontoen din har blitt slettet grunnet inaktivitet',
 };
 
 const UserSettingsNotifications = (props: Props) => {
@@ -56,9 +59,9 @@ const UserSettingsNotifications = (props: Props) => {
       </p>
       <p>
         <b>Viktig: </b> Hvis du deaktiverer {"'"}
-        <i>Eposter som sendes direkte til deg</i>
+        <i>E-poster som sendes direkte til deg</i>
         {"'"} kan du gå glipp av viktig informasjon! Du vil ikke motta noen
-        eposter som sendes til deg som bruker, eller de mailinglistene du er en
+        e-poster som sendes til deg som bruker, eller de mailinglistene du er en
         del av.
       </p>
 
@@ -73,7 +76,7 @@ const UserSettingsNotifications = (props: Props) => {
         </thead>
         <tbody>
           <tr key="emailLists">
-            <td>Eposter som sendes direkte til deg</td>
+            <td>E-poster som sendes direkte til deg</td>
             <td>
               <CheckBox
                 value={props.currentUser.emailListsEnabled}
