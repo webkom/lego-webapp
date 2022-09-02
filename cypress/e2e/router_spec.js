@@ -86,7 +86,7 @@ describe('Create event', () => {
       cy.contains('Notifikasjoner').click();
     });
     cy.url().should('contain', '/users/me/settings/notifications');
-    cy.contains('Eposter som sendes direkte til deg');
+    cy.contains('E-poster som sendes direkte til deg');
 
     // Go to OAuth2
     cy.get(c('NavigationTab')).within(() => {
