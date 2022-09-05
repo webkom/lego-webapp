@@ -9,6 +9,10 @@ import styles from './Validator.css';
 
 // $FlowFixMe
 import goodSound from 'app/assets/good-sound.mp3';
+import Button from 'app/components/Button';
+import Modal from 'app/components/Modal';
+import { QrReader } from 'react-qr-reader';
+import Icon from 'app/components/Icon';
 type Props = {
   clearSearch: () => void,
   handleSelect: (SearchResult) => Promise<void>,
@@ -21,6 +25,8 @@ type Props = {
 const Validator = (props: Props) => {
   const [input, setInput] = useState<?HTMLInputElement>();
   const [completed, setCompleted] = useState(false);
+  const [showScanner, setShowScanner] = useState(false);
+  const [processing, setProcessing] = useState(false);
 
   const showCompleted = () => {
     setCompleted(true);
@@ -28,6 +34,7 @@ const Validator = (props: Props) => {
   };
 
   const handleSelect = (result: SearchResult) => {
+    setProcessing(true);
     props.clearSearch();
     return props
       .handleSelect(result)
@@ -36,8 +43,10 @@ const Validator = (props: Props) => {
           const sound = new window.Audio(goodSound);
           sound.play();
           showCompleted();
+          setProcessing(false);
         },
         (err) => {
+          setProcessing(false);
           const payload = get(err, 'payload.response.jsonData');
           if (payload && payload.errorCode === 'not_registered') {
             alert('Bruker er ikke påmeldt på eventet!');
@@ -58,7 +67,7 @@ const Validator = (props: Props) => {
   };
 
   return (
-    <div>
+    <>
       <div
         className={cx(styles.overlay, {
           [styles.shown]: completed,
@@ -72,6 +81,42 @@ const Validator = (props: Props) => {
         </h3>
         <i className="fa fa-check" />
       </div>
+      <Modal
+        contentClassName={styles.scannerModal}
+        show={showScanner}
+        onHide={() => setShowScanner(false)}
+      >
+        <h1>Scan ABA-ID</h1>
+        <QrReader
+          onResult={(res, error) => {
+            if (!processing && res) {
+              handleSelect({
+                username: res.getText(),
+                result: '',
+                color: '',
+                content: '',
+                icon: '',
+                label: '',
+                link: '',
+                path: '',
+                picture: '',
+                value: '',
+              });
+            }
+            if (error) {
+              console.info(error);
+            }
+          }}
+          constraints={{ facingMode: 'environment' }}
+        />
+      </Modal>
+      <Button
+        className={styles.scannerButton}
+        onClick={() => setShowScanner(true)}
+      >
+        <Icon name="qr-code" size={18} />
+        Vis scanner
+      </Button>
       <SearchPage
         {...props}
         placeholder="Skriv inn brukernavn eller navn"
@@ -80,7 +125,7 @@ const Validator = (props: Props) => {
           setInput(inputEl);
         }}
       />
-    </div>
+    </>
   );
 };
 
