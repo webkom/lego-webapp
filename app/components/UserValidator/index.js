@@ -1,6 +1,6 @@
 // @flow
 
-import { Component } from 'react';
+import { useState } from 'react';
 import { get } from 'lodash';
 import cx from 'classnames';
 import SearchPage from 'app/components/Search/SearchPage';
@@ -9,9 +9,6 @@ import styles from './Validator.css';
 
 // $FlowFixMe
 import goodSound from 'app/assets/good-sound.mp3';
-type State = {
-  showCompleted: boolean,
-};
 type Props = {
   clearSearch: () => void,
   handleSelect: (SearchResult) => Promise<void>,
@@ -21,26 +18,24 @@ type Props = {
   searching: boolean,
 };
 
-class Validator extends Component<Props, State> {
-  input: ?HTMLInputElement;
-  state = {
-    showCompleted: false,
+const Validator = (props: Props) => {
+  const [input, setInput] = useState<?HTMLInputElement>();
+  const [completed, setCompleted] = useState(false);
+
+  const showCompleted = () => {
+    setCompleted(true);
+    setTimeout(() => setCompleted(false), 2000);
   };
 
-  showCompleted = () => {
-    this.setState({ showCompleted: true });
-    setTimeout(() => this.setState({ showCompleted: false }), 2000);
-  };
-
-  handleSelect = (result: SearchResult) => {
-    this.props.clearSearch();
-    return this.props
+  const handleSelect = (result: SearchResult) => {
+    props.clearSearch();
+    return props
       .handleSelect(result)
       .then(
         () => {
           const sound = new window.Audio(goodSound);
           sound.play();
-          this.showCompleted();
+          showCompleted();
         },
         (err) => {
           const payload = get(err, 'payload.response.jsonData');
@@ -56,39 +51,37 @@ class Validator extends Component<Props, State> {
         }
       )
       .then(() => {
-        if (this.input) {
-          this.input.focus();
+        if (input) {
+          input.focus();
         }
       });
   };
 
-  render() {
-    return (
-      <div>
-        <div
-          className={cx(styles.overlay, {
-            [styles.shown]: this.state.showCompleted,
-          })}
-        >
-          <h3>
-            Tusen takk! Kos deg{' '}
-            <span role="img" aria-label="smile">
-              😀
-            </span>
-          </h3>
-          <i className="fa fa-check" />
-        </div>
-        <SearchPage
-          {...this.props}
-          placeholder="Skriv inn brukernavn eller navn"
-          handleSelect={this.handleSelect}
-          inputRef={(input) => {
-            this.input = input;
-          }}
-        />
+  return (
+    <div>
+      <div
+        className={cx(styles.overlay, {
+          [styles.shown]: completed,
+        })}
+      >
+        <h3>
+          Tusen takk! Kos deg{' '}
+          <span role="img" aria-label="smile">
+            😀
+          </span>
+        </h3>
+        <i className="fa fa-check" />
       </div>
-    );
-  }
-}
+      <SearchPage
+        {...props}
+        placeholder="Skriv inn brukernavn eller navn"
+        handleSelect={handleSelect}
+        inputRef={(inputEl) => {
+          setInput(inputEl);
+        }}
+      />
+    </div>
+  );
+};
 
 export default Validator;
