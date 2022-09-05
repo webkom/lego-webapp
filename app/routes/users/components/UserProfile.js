@@ -30,6 +30,10 @@ import EmptyState from 'app/components/EmptyState';
 import moment from 'moment-timezone';
 import frame from 'app/assets/frame.png';
 import type { EventStyle } from 'app/components/EventItem';
+import Button from 'app/components/Button';
+import Modal from 'app/components/Modal';
+import { QRCode } from 'react-qrcode-logo';
+import Icon from 'app/components/Icon';
 
 const fieldTranslations = {
   username: 'Brukernavn',
@@ -185,7 +189,14 @@ const ListEvents = ({
   </div>
 );
 
-export default class UserProfile extends Component<Props, EventsProps> {
+type UserProfileState = { showAbaId: boolean };
+
+export default class UserProfile extends Component<Props, UserProfileState> {
+  constructor(props: Props) {
+    super(props);
+    this.state = { showAbaId: false };
+  }
+
   sumPenalties() {
     return sumBy(this.props.penalties, 'weight');
   }
@@ -379,12 +390,32 @@ export default class UserProfile extends Component<Props, EventsProps> {
       <div className={styles.root}>
         <Helmet title={`${firstName} ${lastName}`} />
 
+        <Modal
+          contentClassName={styles.abaIdModal}
+          show={this.state.showAbaId}
+          onHide={() => {
+            this.setState({ showAbaId: false });
+          }}
+        >
+          <QRCode value={this.props.user?.username ?? ''} />
+          <h2>{this.props.user?.username}</h2>
+        </Modal>
+
         <Flex wrap className={styles.header}>
           <div className={cx(styles.sidebar, styles.picture)}>
             {FRAMEID.includes(user.id) && (
               <Image className={styles.frame} src={frame} />
             )}
             <ProfilePicture user={user} size={150} />
+            <Button
+              className={styles.abaIdButton}
+              onClick={() => {
+                this.setState({ showAbaId: true });
+              }}
+            >
+              <Icon name="qr-code" size={18} />
+              Vis ABA-ID
+            </Button>
           </div>
           <Flex column className={styles.rightContent}>
             <h2>{user.fullName}</h2>

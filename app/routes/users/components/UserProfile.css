@@ -4,6 +4,14 @@
   composes: contentContainer from '~app/styles/utilities.css';
 }
 
+.abaIdModal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+
 .header {
   align-items: center;
   justify-content: space-between;
@@ -30,7 +38,12 @@ html[data-theme='dark'] .emptyState {
   padding-top: 20px;
 }
 
+.abaIdButton {
+  margin-top: 0.5rem;
+}
+
 .picture {
+  flex-direction: column;
   display: flex;
   justify-content: center;
   align-items: center;

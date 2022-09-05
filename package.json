@@ -85,6 +85,7 @@
     "react-overlays": "5.2.1",
     "react-phone-number-input": "^3.2.12",
     "react-qr-reader": "^3.0.0-beta-1",
+    "react-qrcode-logo": "^2.8.0",
     "react-redux": "^8.0.4",
     "react-router-dom": "^5.3.4",
     "react-select": "^5.5.4",
