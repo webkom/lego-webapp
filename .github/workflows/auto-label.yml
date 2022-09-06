@@ -1,0 +1,17 @@
+name: auto-label
+
+on:
+  - pull_request
+
+jobs:
+  label:
+    permissions:
+      contents: read
+      pull-requests: write
+    runs-on: ubuntu-latest
+    # Only run for non-dependabot PRs
+    if: ${{ github.actor != 'dependabot[bot]' }}
+    steps:
+      - uses: actions/labeler@v4
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
