@@ -241,7 +241,7 @@ export class RegisteredTable extends Component<Props> {
         center: true,
         render: (feedback, registration) => {
           const eventSemester = getEventSemesterFromStartTime(event.startTime);
-          const photoConsents = registration.user.photoConsents;
+          const photoConsents = registration.photoConsents;
           const LEGACY_photoConsent = registration.LEGACYPhotoConsent;
 
           return (
