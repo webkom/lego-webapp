@@ -33,6 +33,7 @@ const Modal = ({
   backdropClassName,
 }: Props) => (
   <ReactModal
+    className={cx(styles.content, contentClassName)}
     show={show}
     backdrop={backdrop}
     onHide={onHide}
@@ -45,7 +46,7 @@ const Modal = ({
       />
     )}
   >
-    <div className={cx(styles.content, contentClassName)}>
+    <div>
       <button onClick={onHide} className={styles.closeButton}>
         <Icon name="close" />
       </button>
