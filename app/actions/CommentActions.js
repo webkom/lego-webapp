@@ -28,7 +28,7 @@ export function addComment({
     },
     meta: {
       contentTarget,
-      errorMessage: 'Legg til kommentar feilet',
+      errorMessage: 'Kommentering feilet',
     },
     schema: commentSchema,
   });
