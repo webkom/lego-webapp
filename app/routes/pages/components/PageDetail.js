@@ -169,7 +169,6 @@ export const GroupRenderer = ({ page }: { page: Object }) => {
     member: members = [],
     active_retiree: activeRetirees = [],
   } = membershipsByRole;
-  console.log(membershipsByRole);
 
   return (
     <article className={styles.detail}>

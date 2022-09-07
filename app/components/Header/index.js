@@ -9,6 +9,7 @@ import Search from '../Search';
 import { ProfilePicture, Image } from '../Image';
 import FancyNodesCanvas from './FancyNodesCanvas';
 import NotificationsDropdown from '../HeaderNotifications';
+import ToggleTheme from './ToggleTheme';
 import Button from '../Button';
 import styles from './Header.css';
 import {
@@ -19,6 +20,7 @@ import {
 import { Flex } from 'app/components/Layout';
 import cx from 'classnames';
 import { applySelectedTheme, getOSTheme, getTheme } from 'app/utils/themeUtils';
+import utilStyles from 'app/styles/utilities.css';
 
 import type { UserEntity } from 'app/reducers/users';
 import logoLightMode from 'app/assets/logo-dark.png';
@@ -39,6 +41,7 @@ type Props = {
   fetchNotificationData: () => Promise<void>,
   upcomingMeeting: string,
   loading: boolean,
+  updateUserTheme: (username: string, theme: string) => Promise<void>,
 };
 
 type State = {
@@ -51,12 +54,14 @@ type AccountDropdownItemsProps = {
   logout: () => void,
   onClose: () => void,
   username: string,
+  updateUserTheme: (username: string, theme: string) => Promise<void>,
 };
 
 function AccountDropdownItems({
   logout,
   onClose,
   username,
+  updateUserTheme,
 }: AccountDropdownItemsProps) {
   return (
     <Dropdown.List>
@@ -83,6 +88,19 @@ function AccountDropdownItems({
           <Icon name="calendar-outline" size={24} />
         </Link>
       </Dropdown.ListItem>
+      <Dropdown.Divider />
+      <Dropdown.ListItem>
+        <ToggleTheme
+          loggedIn={true}
+          updateUserTheme={updateUserTheme}
+          username={username}
+          className={styles.themeChange}
+          isButton={false}
+        >
+          <strong>Endre tema</strong>
+        </ToggleTheme>
+      </Dropdown.ListItem>
+
       <Dropdown.Divider />
       <Dropdown.ListItem>
         <Button
@@ -213,6 +231,13 @@ class Header extends Component<Props, State> {
             </div>
 
             <div className={styles.buttonGroup}>
+              <ToggleTheme
+                loggedIn={loggedIn}
+                updateUserTheme={this.props.updateUserTheme}
+                username={currentUser?.username}
+                className={cx(loggedIn && utilStyles.hiddenOnMobile)}
+              />
+
               {loggedIn && (
                 <NotificationsDropdown
                   notificationsData={this.props.notificationsData}
@@ -233,20 +258,20 @@ class Header extends Component<Props, State> {
                       accountOpen: !state.accountOpen,
                     }))
                   }
-                  closeOnContentClick
                   triggerComponent={
                     <ProfilePicture
                       size={24}
                       alt="user"
-                      user={this.props.currentUser}
+                      user={currentUser}
                       style={{ verticalAlign: 'middle' }}
                     />
                   }
                 >
                   <AccountDropdownItems
-                    onClose={() => {}}
-                    username={this.props.currentUser.username}
+                    onClose={() => this.setState({ accountOpen: false })}
+                    username={currentUser.username}
                     logout={this.props.logout}
+                    updateUserTheme={this.props.updateUserTheme}
                   />
                 </Dropdown>
               )}
@@ -326,6 +351,9 @@ class Header extends Component<Props, State> {
               loggedIn={loggedIn}
               isOpen={this.props.searchOpen}
               onCloseSearch={this.props.toggleSearch}
+              updateUserTheme={this.props.updateUserTheme}
+              username={this.props.currentUser?.username}
+              className={utilStyles.hiddenOnMobile}
             />
           </Modal>
         </div>
