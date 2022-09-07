@@ -13,6 +13,7 @@ import {
   initialUploadStatus,
 } from 'app/reducers/galleryPictures';
 import { Image } from 'app/components/Image';
+import styles from './PhotoUploadStatus.css';
 
 type StateProps = {
   uploadStatus: UploadStatus,
@@ -47,13 +48,7 @@ const UploadStatusCard = ({
 
   return (
     <Card style={style}>
-      <div align="right">
-        <Icon
-          style={{ cursor: 'pointer' }}
-          onClick={hideUploadStatus}
-          name="close"
-        />
-      </div>
+      <Icon className={styles.close} onClick={hideUploadStatus} name="close" />
       {uploadDone ? (
         <Fragment>
           <h3>{uploadStatus.successCount} bilder ble lastet opp </h3>
