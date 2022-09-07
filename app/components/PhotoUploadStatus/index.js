@@ -26,13 +26,6 @@ type DispatchedProps = {
 
 type Props = StateProps & DispatchedProps;
 
-const style = {
-  zIndex: 2,
-  margin: 40,
-  position: 'fixed',
-  bottom: 0,
-  left: 0,
-};
 const UploadStatusCard = ({
   uploadStatus,
   lastImage,
@@ -46,16 +39,20 @@ const UploadStatusCard = ({
 
   const hasFailedUploads = uploadStatus.failCount !== 0;
 
+  const word = uploadStatus.successCount === 1 ? 'bilde' : 'bilder';
+
   return (
-    <Card style={style}>
+    <Card className={styles.photoUploadStatus}>
       <Icon className={styles.close} onClick={hideUploadStatus} name="close" />
       {uploadDone ? (
         <Fragment>
-          <h3>{uploadStatus.successCount} bilder ble lastet opp </h3>
+          <h3 className={styles.successMessage}>
+            {uploadStatus.successCount} {word} ble lastet opp{' '}
+          </h3>
         </Fragment>
       ) : (
         <Fragment>
-          <h3>Laster opp bilder</h3>
+          <h3>Laster opp bilder ...</h3>
           <p>
             <b>Status</b>: {uploadStatus.successCount} av{' '}
             {uploadStatus.imageCount}
