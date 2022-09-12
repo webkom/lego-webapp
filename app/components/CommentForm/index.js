@@ -1,153 +1,123 @@
 // @flow
 
-import { Component } from 'react';
-import { compose } from 'redux';
-import { connect } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import cx from 'classnames';
-import { getFormMeta, getFormValues, reduxForm, Field } from 'redux-form';
-import type { FormProps } from 'redux-form';
 import { EditorField } from 'app/components/Form';
 import Button from 'app/components/Button';
 import { ProfilePicture } from 'app/components/Image';
 import { addComment } from 'app/actions/CommentActions';
-import type { CommentEntity } from 'app/actions/CommentActions';
 import styles from './CommentForm.css';
 import DisplayContent from 'app/components/DisplayContent';
-
-// TODO: This can be removed if the editor importer gets an actual empty state.
-const EMPTY_STATE = '<p></p>';
-
-const validate = (values) => {
-  const errors = {};
-  if (!values.text) {
-    errors.text = 'Required';
-  }
-  return errors;
-};
+import { EDITOR_EMPTY } from 'app/utils/constants';
+import LegoFinalForm from 'app/components/Form/LegoFinalForm';
+import { Field } from 'react-final-form';
+import SubmissionError from 'app/components/Form/SubmissionError';
+import { createValidator, legoEditorRequired } from 'app/utils/validation';
 
 type Props = {
   contentTarget: string,
   user: Object,
   loggedIn: boolean,
-  addComment: (CommentEntity) => void,
-  parent: number,
-  submitText: string,
-  inlineMode: boolean,
-  initialized: boolean,
-  autoFocus: boolean,
-  isOpen: boolean,
-} & FormProps;
+  submitText?: string,
+  inlineMode?: boolean,
+  autoFocus?: boolean,
+  parent?: number,
+};
 
-class CommentForm extends Component<Props, { disabled: boolean }> {
-  constructor(props) {
-    super(props);
-    this.state = { disabled: !__CLIENT__ };
+const validate = createValidator({
+  text: [legoEditorRequired('Kommentaren kan ikke være tom')],
+});
+
+const CommentForm = ({
+  contentTarget,
+  user,
+  loggedIn,
+  submitText = 'Kommenter',
+  inlineMode = false,
+  autoFocus = false,
+  parent,
+}: Props) => {
+  const dispatch = useDispatch();
+  // editor must be disabled while server-side rendering
+  const [editorSsrDisabled, setEditorSsrDisabled] = useState(true);
+
+  useEffect(() => {
+    // Workaround to make sure we re-render editor in enabled state on client after ssr
+    setEditorSsrDisabled(false);
+  }, []);
+
+  const className = inlineMode ? styles.inlineForm : styles.form;
+
+  if (!loggedIn) {
+    return <div>Vennligst logg inn.</div>;
   }
-  static defaultProps = {
-    submitText: 'Kommenter',
-    autoFocus: false,
-  };
 
-  onSubmit = ({ text }) => {
-    const { contentTarget, parent } = this.props;
-    this.props.addComment({
-      contentTarget,
-      text,
-      parent,
-    });
-  };
+  return (
+    <LegoFinalForm
+      initialValues={{
+        text: EDITOR_EMPTY,
+      }}
+      validate={validate}
+      onSubmit={({ text }) => {
+        return dispatch(
+          addComment({
+            contentTarget,
+            text,
+            parent,
+          })
+        );
+      }}
+    >
+      {({ handleSubmit, pristine, submitting, form }) => {
+        const textValue = form.getFieldState('text')?.value;
+        const fieldActive = form.getFieldState('text')?.active;
+        const isOpen = fieldActive || (textValue && textValue !== EDITOR_EMPTY);
 
-  enableForm = (e) => {
-    this.setState({ disabled: false });
-  };
+        return (
+          <form
+            onSubmit={handleSubmit}
+            className={cx(className, isOpen && styles.activeForm)}
+          >
+            <div className={styles.header}>
+              <ProfilePicture size={40} user={user} />
 
-  render() {
-    const {
-      handleSubmit,
-      pristine,
-      submitting,
-      user,
-      isOpen,
-      loggedIn,
-      submitText,
-      inlineMode,
-      autoFocus,
-      initialized,
-    } = this.props;
-    const className = inlineMode ? styles.inlineForm : styles.form;
+              {isOpen && <div className={styles.author}>{user.fullName}</div>}
+            </div>
+            <div className={cx(styles.fields, isOpen && styles.activeFields)}>
+              {editorSsrDisabled ? (
+                <DisplayContent
+                  id="comment-text"
+                  className={styles.text}
+                  content=""
+                  placeholder="Skriv en kommentar"
+                />
+              ) : (
+                <Field
+                  autoFocus={autoFocus}
+                  name="text"
+                  placeholder="Skriv en kommentar"
+                  component={EditorField.AutoInitialized}
+                  simple
+                />
+              )}
 
-    if (!loggedIn) {
-      return <div>Vennligst logg inn.</div>;
-    }
+              {isOpen && (
+                <Button
+                  submit
+                  disabled={pristine || submitting}
+                  className={styles.submit}
+                >
+                  {submitText}
+                </Button>
+              )}
+              <SubmissionError />
+            </div>
+          </form>
+        );
+      }}
+    </LegoFinalForm>
+  );
+};
 
-    return (
-      <form
-        onSubmit={handleSubmit(this.onSubmit)}
-        className={cx(className, isOpen && styles.activeForm)}
-      >
-        <div className={styles.header}>
-          <ProfilePicture size={40} user={user} />
-
-          {isOpen && (
-            <div className={styles.author}>{this.props.user.fullName}</div>
-          )}
-        </div>
-
-        <div
-          className={cx(styles.fields, isOpen && styles.activeFields)}
-          onMouseOver={this.enableForm}
-          onScroll={this.enableForm}
-          onPointerDown={this.enableForm}
-        >
-          {this.state.disabled ? (
-            <DisplayContent
-              id="comment-text"
-              className={styles.text}
-              content=""
-              placeholder="Skriv en kommentar"
-            />
-          ) : (
-            <Field
-              autoFocus={autoFocus}
-              name="text"
-              placeholder="Skriv en kommentar"
-              component={EditorField}
-              initialized={initialized}
-              simple
-            />
-          )}
-
-          {isOpen && (
-            <Button
-              submit
-              disabled={pristine || submitting}
-              className={styles.submit}
-            >
-              {submitText}
-            </Button>
-          )}
-        </div>
-      </form>
-    );
-  }
-}
-
-function mapStateToProps(state, props) {
-  const meta = getFormMeta(props.form)(state);
-  const values = getFormValues(props.form)(state);
-  return {
-    isOpen:
-      meta &&
-      meta.text &&
-      (meta.text.active || (values && values.text !== EMPTY_STATE)),
-  };
-}
-
-export default compose(
-  reduxForm({
-    validate,
-    initialValues: {},
-    destroyOnUnmount: false,
-  }),
-  connect(mapStateToProps, { addComment })
-)(CommentForm);
+export default CommentForm;

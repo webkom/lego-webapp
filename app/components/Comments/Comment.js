@@ -15,11 +15,11 @@ import Button from '../Button';
 
 type Props = {
   comment: CommentEntity,
-  commentFormProps: {
+  commentFormProps: {|
     contentTarget: string,
     user: UserEntity,
     loggedIn: boolean,
-  },
+  |},
   deleteComment: (id: ID, contentTarget: string) => Promise<*>,
   user: UserEntity,
   contentTarget: string,
@@ -93,12 +93,11 @@ export default class Comment extends Component<Props, State> {
 
         {replyOpen && (
           <CommentForm
-            form={`comment.${commentFormProps.contentTarget}-${comment.id}`}
-            parent={comment.id}
+            {...commentFormProps}
             submitText="Send svar"
             inlineMode
             autoFocus
-            {...(commentFormProps: Object)}
+            parent={comment.id}
           />
         )}
       </div>
