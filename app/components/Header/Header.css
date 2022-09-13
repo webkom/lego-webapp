@@ -157,12 +157,10 @@
   &::after {
     content: '';
     height: 10px;
-    left: 0;
-    right: 0;
-    border-bottom: 2px solid #c24538;
-    border-radius: 5px;
+    width: 90%;
+    border-bottom: 2px solid var(--color-black);
     position: absolute;
-    bottom: 0;
+    bottom: 4px;
     transform: scaleX(0);
     transition: all 0.2s ease-in-out;
   }
@@ -175,7 +173,6 @@
   &:hover::after,
   &.activeItem::after {
     transform: scaleX(1);
-    bottom: 3px;
   }
 
   &.readmeLink {
