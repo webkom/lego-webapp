@@ -57,6 +57,7 @@ const CommentForm = ({
     <LegoFinalForm
       initialValues={{
         text: EDITOR_EMPTY,
+        commentKey: Math.random(),
       }}
       validate={validate}
       onSubmit={({ text }) => {
@@ -69,7 +70,14 @@ const CommentForm = ({
         );
       }}
     >
-      {({ handleSubmit, pristine, submitting, form }) => {
+      {({
+        handleSubmit,
+        pristine,
+        submitting,
+        form,
+        // $FlowFixMe
+        values,
+      }) => {
         const textValue = form.getFieldState('text')?.value;
         const fieldActive = form.getFieldState('text')?.active;
         const isOpen = fieldActive || (textValue && textValue !== EDITOR_EMPTY);
@@ -94,6 +102,7 @@ const CommentForm = ({
                 />
               ) : (
                 <Field
+                  key={values.commentKey}
                   autoFocus={autoFocus}
                   name="text"
                   placeholder="Skriv en kommentar"
