@@ -10,6 +10,7 @@ import Icon from 'app/components/Icon';
 import { Flex } from 'app/components/Layout';
 import Tooltip from 'app/components/Tooltip';
 import cx from 'classnames';
+import Linkify from 'linkify-react';
 
 type Props = {
   poll: PollEntity,
@@ -135,7 +136,15 @@ class Poll extends Component<Props, State> {
         </Flex>
         {details && (
           <div>
-            <p>{description}</p>
+            <Linkify
+              tagName="p"
+              options={{
+                rel: 'noopener noreferrer',
+                attributes: { target: '_blank' },
+              }}
+            >
+              {description}
+            </Linkify>
           </div>
         )}
         {hasAnswered && !showResults && (
