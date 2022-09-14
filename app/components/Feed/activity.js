@@ -10,6 +10,7 @@ import { ProfilePicture } from 'app/components/Image';
 import styles from './activity.css';
 import { lookupContext, toLink } from './context';
 import type { AggregatedActivity, Activity } from './types';
+import Linkify from 'linkify-react';
 
 type Props = {
   aggregatedActivity: AggregatedActivity,
@@ -56,7 +57,20 @@ export default class ActivityRenderer extends Component<Props, State> {
     return (
       <Card style={{ padding: '0', margin: '10px 0 20px 0' }}>
         <div className={styles.header}>
-          {renders.activityHeader(aggregatedActivity, toLink)}
+          <Linkify
+            options={{
+              rel: 'noopener noreferrer',
+              format: (value, type) => {
+                if (type === 'url' && value.length > 50) {
+                  value = value.slice(0, 50) + '…';
+                }
+                return value;
+              },
+              attributes: { target: '_blank' },
+            }}
+          >
+            {renders.activityHeader(aggregatedActivity, toLink)}
+          </Linkify>
         </div>
         {activities.map((activity, i) => (
           <div key={i}>
