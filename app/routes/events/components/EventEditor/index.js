@@ -637,6 +637,10 @@ const validate = (data) => {
   if (!moment(data.startTime).isBefore(data.endTime)) {
     errors.endTime = 'Starttidspunkt må være før sluttidspunkt';
   }
+  if (!moment(data.unregistrationDeadline).add(1, 'days').isSameOrBefore(moment(data.paymentDueDate))) {
+    errors.paymentDueDate = 'Betalingsfristen må være minst 24 timer etter avmeldingsfristen';
+  }
+
   const mergeTimeError =
     data.pools &&
     data.pools
