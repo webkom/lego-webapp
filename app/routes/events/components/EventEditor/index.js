@@ -634,9 +634,18 @@ const validate = (data) => {
   if (!isInteger(data.unregistrationDeadlineHours)) {
     errors.unregistrationDeadlineHours = 'Kun hele timer';
   }
-  if (!moment(data.startTime).isBefore(data.endTime)) {
+  if (moment(data.startTime).isSameOrAfter(data.endTime)) {
     errors.endTime = 'Starttidspunkt må være før sluttidspunkt';
   }
+  if (
+    moment(data.unregistrationDeadline)
+      .add(1, 'days')
+      .isAfter(moment(data.paymentDueDate))
+  ) {
+    errors.paymentDueDate =
+      'Betalingsfristen må være minst 24 timer etter avmeldingsfristen';
+  }
+
   const mergeTimeError =
     data.pools &&
     data.pools
