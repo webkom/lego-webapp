@@ -59,7 +59,7 @@ const GradeRenderer = (group: { name: string }) =>
     </Tooltip>
   );
 
-const hasWebkomGroup = (user) => user.abakusGroups.includes(WEBKOM_GROUP_ID);
+const hasWebkomGroup = (user) => user.abakusGroups?.includes(WEBKOM_GROUP_ID);
 
 const getPoolName = (pools, poolId) => {
   const pool = pools.find((pool) => pool.id === poolId);
