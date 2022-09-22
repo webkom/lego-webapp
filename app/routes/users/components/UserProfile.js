@@ -29,6 +29,7 @@ import EventItem from 'app/components/EventItem';
 import EmptyState from 'app/components/EmptyState';
 import moment from 'moment-timezone';
 import frame from 'app/assets/frame.png';
+import type { EventStyle } from 'app/components/EventItem';
 
 const fieldTranslations = {
   username: 'Brukernavn',
@@ -85,6 +86,7 @@ type EventsProps = {
   events: Array<Event>,
   noEventsMessage: string,
   loggedIn: boolean,
+  eventStyle?: EventStyle,
 };
 
 const GroupPill = ({ group }: { group: Group }) =>
@@ -156,7 +158,12 @@ const GroupBadge = ({ memberships }: { memberships: Array<Object> }) => {
   );
 };
 
-const ListEvents = ({ events, noEventsMessage, loggedIn }: EventsProps) => (
+const ListEvents = ({
+  events,
+  noEventsMessage,
+  loggedIn,
+  eventStyle,
+}: EventsProps) => (
   <div>
     {events && events.length ? (
       <Flex column wrap>
@@ -166,6 +173,7 @@ const ListEvents = ({ events, noEventsMessage, loggedIn }: EventsProps) => (
             event={event}
             showTags={false}
             loggedIn={loggedIn}
+            eventStyle={eventStyle}
           />
         ))}
       </Flex>
@@ -686,6 +694,7 @@ export default class UserProfile extends Component<Props, EventsProps> {
                     }
                     noEventsMessage="Du har ingen tidligere arrangementer"
                     loggedIn={loggedIn}
+                    eventStyle="extra-compact"
                   />
                 )}
               </div>
