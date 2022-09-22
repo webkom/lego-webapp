@@ -1915,17 +1915,6 @@
     "@sentry/utils" "7.13.0"
     tslib "^1.9.3"
 
-"@sentry/core@6.19.7":
-  version "6.19.7"
-  resolved "https://registry.yarnpkg.com/@sentry/core/-/core-6.19.7.tgz#156aaa56dd7fad8c89c145be6ad7a4f7209f9785"
-  integrity sha512-tOfZ/umqB2AcHPGbIrsFLcvApdTm9ggpi/kQZFkej7kMphjT+SGBiQfYtjyg9jcRW+ilAR4JXC9BGKsdEQ+8Vw==
-  dependencies:
-    "@sentry/hub" "6.19.7"
-    "@sentry/minimal" "6.19.7"
-    "@sentry/types" "6.19.7"
-    "@sentry/utils" "6.19.7"
-    tslib "^1.9.3"
-
 "@sentry/core@7.13.0":
   version "7.13.0"
   resolved "https://registry.yarnpkg.com/@sentry/core/-/core-7.13.0.tgz#65597d71f8bfa1186f34009803e03ca9edb3adee"
@@ -1934,15 +1923,6 @@
     "@sentry/hub" "7.13.0"
     "@sentry/types" "7.13.0"
     "@sentry/utils" "7.13.0"
-    tslib "^1.9.3"
-
-"@sentry/hub@6.19.7":
-  version "6.19.7"
-  resolved "https://registry.yarnpkg.com/@sentry/hub/-/hub-6.19.7.tgz#58ad7776bbd31e9596a8ec46365b45cd8b9cfd11"
-  integrity sha512-y3OtbYFAqKHCWezF0EGGr5lcyI2KbaXW2Ik7Xp8Mu9TxbSTuwTe4rTntwg8ngPjUQU3SUHzgjqVB8qjiGqFXCA==
-  dependencies:
-    "@sentry/types" "6.19.7"
-    "@sentry/utils" "6.19.7"
     tslib "^1.9.3"
 
 "@sentry/hub@7.13.0":
@@ -1964,24 +1944,15 @@
     localforage "^1.8.1"
     tslib "^1.9.3"
 
-"@sentry/minimal@6.19.7":
-  version "6.19.7"
-  resolved "https://registry.yarnpkg.com/@sentry/minimal/-/minimal-6.19.7.tgz#b3ee46d6abef9ef3dd4837ebcb6bdfd01b9aa7b4"
-  integrity sha512-wcYmSJOdvk6VAPx8IcmZgN08XTXRwRtB1aOLZm+MVHjIZIhHoBGZJYTVQS/BWjldsamj2cX3YGbGXNunaCfYJQ==
+"@sentry/node@^7.13.0":
+  version "7.13.0"
+  resolved "https://registry.yarnpkg.com/@sentry/node/-/node-7.13.0.tgz#0e073b75d4cce684db006d93ef18f2de2cf2f60e"
+  integrity sha512-uP3bPAIRHPilnOEiYGQQDLaQphc/c7d87wm91bZrTJ+WPnMW4D/NmT7fna5zGGDQIr/KTdQ/LEpDeZOILbkCqQ==
   dependencies:
-    "@sentry/hub" "6.19.7"
-    "@sentry/types" "6.19.7"
-    tslib "^1.9.3"
-
-"@sentry/node@^6.19.7":
-  version "6.19.7"
-  resolved "https://registry.yarnpkg.com/@sentry/node/-/node-6.19.7.tgz#32963b36b48daebbd559e6f13b1deb2415448592"
-  integrity sha512-gtmRC4dAXKODMpHXKfrkfvyBL3cI8y64vEi3fDD046uqYcrWdgoQsffuBbxMAizc6Ez1ia+f0Flue6p15Qaltg==
-  dependencies:
-    "@sentry/core" "6.19.7"
-    "@sentry/hub" "6.19.7"
-    "@sentry/types" "6.19.7"
-    "@sentry/utils" "6.19.7"
+    "@sentry/core" "7.13.0"
+    "@sentry/hub" "7.13.0"
+    "@sentry/types" "7.13.0"
+    "@sentry/utils" "7.13.0"
     cookie "^0.4.1"
     https-proxy-agent "^5.0.0"
     lru_map "^0.3.3"
