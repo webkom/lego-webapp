@@ -117,7 +117,7 @@ class Poll extends Component<Props, State> {
 
     return (
       <div className={cx(styles.poll, backgroundLight ? styles.pollLight : '')}>
-        <Flex wrap justifyContent="space-between" alignItems="center">
+        <Flex justifyContent="space-between">
           <Link to={`/polls/${id}`}>
             <Flex gap={10}>
               <Icon name="stats-chart" />
