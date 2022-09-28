@@ -19,6 +19,7 @@ import qs from 'qs';
 
 const qsParamsParser = (search) => ({
   approved: qs.parse(search, { ignoreQueryPrefix: true }).approved || 'true',
+  ordering: qs.parse(search, { ignoreQueryPrefix: true }).ordering,
 });
 
 const mapStateToProps = (state, props) => {
