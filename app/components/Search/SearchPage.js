@@ -14,7 +14,7 @@ type Props = {
   onQueryChanged: (string) => void,
   placeholder?: string,
   results: Array<SearchResult>,
-  handleSelect: (SearchResult) => Promise<*>,
+  handleSelect: (string) => Promise<*>,
 };
 
 const SearchPage = (props: Props) => {
@@ -59,7 +59,7 @@ const SearchPage = (props: Props) => {
   const handleSelect = (result: SearchResult) => {
     setQuery('');
     setSelectedIndex(0);
-    props.handleSelect(result);
+    props.handleSelect(result.username ?? '');
   };
 
   const handleQueryChange = ({
