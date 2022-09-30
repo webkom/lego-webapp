@@ -40,6 +40,9 @@ const SubmissionEditor = ({
         Spørreundersøkelse for arrangementet{' '}
         <Link to={`/events/${survey.event.id}`}>{survey.event.title}</Link>
       </div>
+      <div className={styles.surveyTime}>
+        Alle svar på spørreundersøkelser er anonyme.
+      </div>
 
       <form onSubmit={handleSubmit}>
         <ul className={styles.detailQuestions}>
