@@ -34,7 +34,7 @@
     "@loadable/component": "^5.15.2",
     "@sentry/browser": "^7.14.1",
     "@sentry/integrations": "^7.14.0",
-    "@sentry/node": "^7.13.0",
+    "@sentry/node": "^7.14.1",
     "@stripe/react-stripe-js": "^1.10.0",
     "@stripe/stripe-js": "^1.35.0",
     "@webkom/lego-editor": "^2.0.3",
