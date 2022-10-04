@@ -160,7 +160,6 @@ const CompanyDetail = (props: Props) => {
             <a
               href={joblisting.applicationUrl}
               target="_blank"
-              rel="noreferrer"
             >
               <strong>SØK HER</strong>
             </a>
