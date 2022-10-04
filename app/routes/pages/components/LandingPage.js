@@ -235,7 +235,7 @@ LandingPage.defaultProps = {
   officeAddress: 'Realfagsbygget A-blokka \nTredje etasje, rom A3.133',
   webkomOfficeAddress:
     'EL-bygget rom F-252 \nO.S. Bragstads plass 2F \nNTNU Gløshaugen',
-  officeHours: 'Hver torsdag kl. 1215 - 1300 \npå Realfagsbygget',
+  officeHours: 'Hver tirsdag kl. 1315 - 1400 \npå Realfagsbygget',
   organizationNo: '98 60 37 314 MVA',
 };
 
