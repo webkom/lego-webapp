@@ -88,6 +88,7 @@ const JoblistingDetail = ({
               href={joblisting.applicationUrl}
               style={{ marginTop: '10px' }}
               target="_blank"
+              rel="noopener"
             >
               <strong>SØK HER</strong>
             </a>
