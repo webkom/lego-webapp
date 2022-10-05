@@ -82,11 +82,10 @@
   border-bottom: 1px solid var(--color-gray-3) !important;
 }
 
-.underline {
+.topline {
   margin: 15px 0;
   padding: 10px 0;
   border-top: 1px solid var(--color-gray-3);
-  border-bottom: 1px solid var(--color-gray-3);
 }
 
 .checkboxField {
