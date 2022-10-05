@@ -45,14 +45,14 @@ export const EVENT_TYPES = {
     norwegian: 'Frokostforedrag',
     english: 'Breakfast talk',
   },
-  digital_presentation: {
-    norwegian: 'Digital presentasjon',
-    english: 'Digital presentation',
-  },
-  bedex: {
-    norwegian: 'Bedriftsekskursjon (BedEx)',
-    english: 'Company excursion (BedEx)',
-  },
+  // digital_presentation: {
+  //   norwegian: 'Digital presentasjon',
+  //   english: 'Digital presentation',
+  // },
+  // bedex: {
+  //   norwegian: 'Bedriftsekskursjon (BedEx)',
+  //   english: 'Company excursion (BedEx)',
+  // },
   other: {
     norwegian: 'Alternativt arrangement',
     english: 'Other event',
@@ -102,11 +102,11 @@ export const COLLABORATION_TYPES = {
     english: "Collaboration with the revue's anniversary committee*",
     norwegian: 'Samarbeid med Revyen sitt Jubileum*',
   },
-  collaboration_revue: {
-    english: 'Collaboration with the revue**',
-    norwegian: 'Samarbeid med Revyen**',
-  },
   */
+  collaboration_revue: {
+    norwegian: 'Samarbeid med Revyen**',
+    english: 'Collaboration with the revue**',
+  },
 };
 
 export const TARGET_GRADE_TYPES = {
@@ -613,10 +613,10 @@ const CompanyInterestPage = (props: Props) => {
           <br />
           <br />
           {interestText.anniversaryCollaboration[language]}
+          */}
           <br />
           <br />
           {interestText.revueCollaboration[language]}
-          */}
         </div>
 
         <Field
