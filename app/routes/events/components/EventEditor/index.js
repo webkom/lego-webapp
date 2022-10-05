@@ -643,7 +643,7 @@ const validate = (data) => {
       .isAfter(moment(data.paymentDueDate))
   ) {
     errors.paymentDueDate =
-      'Betalingsfristen må være minst 24 timer etter avmeldingsfristen';
+      'Betalingsfristen må være minst 24 timer etter avregistreringsfristen';
   }
 
   const mergeTimeError =
