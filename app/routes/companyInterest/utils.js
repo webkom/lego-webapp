@@ -57,7 +57,15 @@ export const interestText = {
     norwegian: 'Skriv om bedriften eller arrangementet.',
     english: 'Write about your company or the event.',
   },
-  secondComment: {
+  courseComment: {
+    norwegian: 'Skriv litt om hva slags faglig arrangement dere ønsker.',
+    english: 'Write a litte about the course you wish for.',
+  },
+  breakfastTalkComment: {
+    norwegian: 'Skriv litt om hva slags frokostforedrag dere ønsker.',
+    english: 'Write a litte about the breakfast talk you wish for.',
+  },
+  otherEventComment: {
     norwegian: 'Skriv litt om hva slags alternativt arrangement dere ønsker.',
     english: 'Write a litte about the alternative event you wish for.',
   },
@@ -102,10 +110,22 @@ export const interestText = {
     english:
       'We choose companies based on a lot of factors. However, we want to prioritize companies who could be interested in creating an alternative event. Companies  who for instance want to collaborate with other student organizations/Companies to create a bigger event. This is because the students have requested that we act innovative when creating a company event (to make them  more diverse). We also think that this will make events even more in-demand, than the ones offered today.',
   },
+  courseDescription: {
+    norwegian:
+      'Dersom dere krysser av faglig arrangement: Vi ønsker at dere pitcher en idé til kurstema. For eksempel kan det være et tema som dere jobber med mye internt i bedriften, eller noe helt annet - et tema som er nytt, spennende eller lærerikt. Generelt noe dere tror studentene vil synes er gøy og interessant.',
+    english:
+      'If you choose the course option: We want you to pitch an idea for a course theme. For example, it could be a topic that you work on a lot internally in the company, or something completely different - a topic that is new, exciting or educational. Generally something you think the students will find fun and interesting.',
+  },
+  breakfastTalkDescription: {
+    norwegian:
+      'Frokostforedrag er et populært tilbud i Abakus. Tidligere temaer har vært: cybersikkerhet, motivasjonsforedrag og bærekraftig IT. Dog står dere helt fritt til å velge hva dere vil prate om. Praktisk info om frokostforedrag: \n Frokostforedrag tildeles på behov til bedrifter som presenterer gode eller spennende temaer som passer til konseptet. Altså er frokostforedrag uavhengig av tildelingen på bedriftskurs / presentasjoner. \n Dere får max. 5 min til å snakke om deres egen bedrift i starten av foredraget. Deretter må det handle om et konkret tema. \n Foredraget vil finne sted om morgenen på skolen. Mange av studentene har forelesninger utover dagen, så det er ingen garanti for mingling i etterkant av foredraget. Likevel hender det at studenter blir igjen en stund for å stille spørsmål. \n Videre ønsker vi også at dere skriver litt om hva slags type foredrag dere ser for dere å holde.',
+    english:
+      'If you choose the breakfast talk option: Breakfast talks are a popular offer in Abakus. Previous topics have been cyber security, motivational talks and sustainable IT. Howerver, you are completely free to choose what you want to talk about. Practical information about breakfast talks: \n Breakfast talks are given on demand to companies that present good or exciting topics that fit the concept. In other words, breakfast talks are independent of the allocation to business courses / presentations. \n You get max 5 minutes to talk about your own company at the start of the lecture. Then it must be about a specific topic. \n The lecture will take place in the morning at campus. Many of the students have lectures throughout the day, so there is no guarantee of mingling after the talk. Nevertheless, it happens that students stay for a while to ask questions. \n Furthermore, we also want you to write a little about the type of talk you envision yourself giving.',
+  },
   otherEventDescription: {
     norwegian:
       'Dersom dere krysser av på alternativt arrangement ønsker vi også at dere skriver litt om hva slags type arrangement dere ser for dere å holde. Ønsker dere å gjøre noe utenfor de vanlige rammene? Vi har også idéer til hva som kan være et attraktivt opplegg, så om dere er fleksible, skriv gjerne at dere er åpne for forslag. Idéer kan være Kodekamp, Lazertag, Gocart, CTF-kveld, Paint&Sip, kveld på LaBamba (Abakus sin kjeller) o.l., mulighetene er altså mange.',
     english:
-      "We'd prefer it if you also write a little bit about what kind of event you would like to have. Do you want something outside the given options? We can also provide different ideas, which could make your company stand out, and make the event itself more popular. In that case, please tell us that you are open to hear our suggestions. Ideas can be: Lazertag, CTF, Paint&Sip, A night at LaBamba (Abakus´ own pub). In other words, the possibilities are many and varied.",
+      "We'd prefer it if you also write a little bit about what kind of event you would like to have. Do you want something outside the given options? We can also provide different ideas, which could make your company stand out, and make the event itself more popular. In that case, please tell us that you are open to hear our suggestions. Ideas can be: Lazertag, CTF, Paint&Sip, A night at LaBamba (Abakus` own pub). In other words, the possibilities are many and varied.",
   },
 };

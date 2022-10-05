@@ -45,14 +45,14 @@ export const EVENT_TYPES = {
     norwegian: 'Frokostforedrag',
     english: 'Breakfast talk',
   },
-  digital_presentation: {
-    norwegian: 'Digital presentasjon',
-    english: 'Digital presentation',
-  },
-  bedex: {
-    norwegian: 'Bedriftsekskursjon (BedEx)',
-    english: 'Company excursion (BedEx)',
-  },
+  // digital_presentation: {
+  //   norwegian: 'Digital presentasjon',
+  //   english: 'Digital presentation',
+  // },
+  // bedex: {
+  //   norwegian: 'Bedriftsekskursjon (BedEx)',
+  //   english: 'Company excursion (BedEx)',
+  // },
   other: {
     norwegian: 'Alternativt arrangement',
     english: 'Other event',
@@ -102,11 +102,11 @@ export const COLLABORATION_TYPES = {
     english: "Collaboration with the revue's anniversary committee*",
     norwegian: 'Samarbeid med Revyen sitt Jubileum*',
   },
-  collaboration_revue: {
-    english: 'Collaboration with the revue**',
-    norwegian: 'Samarbeid med Revyen**',
-  },
   */
+  collaboration_revue: {
+    norwegian: 'Samarbeid med Revyen**',
+    english: 'Collaboration with the revue**',
+  },
 };
 
 export const TARGET_GRADE_TYPES = {
@@ -311,7 +311,9 @@ type CompanyInterestFormEntity = {
   events: Array<{ name: String, checked: boolean }>,
   otherOffers: Array<{ name: String, checked: boolean }>,
   comment: string,
-  secondComment: string,
+  courseComment: string,
+  breakfastTalkComment: string,
+  otherEventComment: string,
 };
 
 type Props = FormProps & {
@@ -329,7 +331,9 @@ type Props = FormProps & {
   companyInterest?: CompanyInterestEntity,
   language: string,
   comment: string,
-  secondComment: string,
+  courseComment: string,
+  breakfastTalkComment: string,
+  otherEventComment: string,
 };
 
 const CompanyInterestPage = (props: Props) => {
@@ -369,7 +373,9 @@ const CompanyInterestPage = (props: Props) => {
       participantRangeStart: range_start,
       participantRangeEnd: range_end,
       comment: data.comment,
-      secondComment: data.secondComment,
+      courseComment: data.courseComment,
+      breakfastTalkComment: data.breakfastTalkComment,
+      otherEventComment: data.otherEventComment,
     };
 
     return props
@@ -462,11 +468,17 @@ const CompanyInterestPage = (props: Props) => {
   const { language } = props;
   const isEnglish = language === 'english';
 
-  const showOtherComment =
-    props.interestForm.events &&
-    props.interestForm.events.some(
-      (e) => e.name === 'other' && e.checked === true
-    );
+  const showCourseComment = props.interestForm.events?.some(
+    (e) => e.name === 'course' && e.checked === true
+  );
+
+  const showBreakfastTalkComment = props.interestForm.events?.some(
+    (e) => e.name === 'breakfast_talk' && e.checked === true
+  );
+
+  const showOtherEventComment = props.interestForm.events?.some(
+    (e) => e.name === 'other' && e.checked === true
+  );
 
   return (
     <Content>
@@ -527,7 +539,6 @@ const CompanyInterestPage = (props: Props) => {
               component={SemesterBox}
             />
           </Flex>
-
           <Flex column className={styles.interestBox}>
             <label htmlFor="events" className={styles.heading}>
               {labels.events[language]}
@@ -538,7 +549,6 @@ const CompanyInterestPage = (props: Props) => {
               component={EventBox}
             />
           </Flex>
-
           <Flex column className={styles.interestBox}>
             <label htmlFor="collaborations" className={styles.heading}>
               {labels.collaborations[language]}
@@ -591,7 +601,7 @@ const CompanyInterestPage = (props: Props) => {
           </Flex>
         </Flex>
 
-        <div className={styles.underline}>
+        <div className={styles.topline}>
           {interestText.text.first[language]}
           {/*
           <br />
@@ -603,10 +613,10 @@ const CompanyInterestPage = (props: Props) => {
           <br />
           <br />
           {interestText.anniversaryCollaboration[language]}
+          */}
           <br />
           <br />
           {interestText.revueCollaboration[language]}
-          */}
         </div>
 
         <Field
@@ -619,12 +629,12 @@ const CompanyInterestPage = (props: Props) => {
           required
         />
 
-        {showOtherComment && (
-          <div className={styles.underline}>
-            <p>{interestText.otherEventDescription[language]}</p>
+        {showCourseComment && (
+          <div className={styles.topline}>
+            <p>{interestText.courseDescription[language]}</p>
             <Field
-              placeholder={interestText.secondComment[language]}
-              name="secondComment"
+              placeholder={interestText.courseComment[language]}
+              name="courseComment"
               component={TextEditor.Field}
               rows={10}
               className={styles.textEditor}
@@ -634,7 +644,37 @@ const CompanyInterestPage = (props: Props) => {
           </div>
         )}
 
-        <div className={styles.underline}>
+        {showBreakfastTalkComment && (
+          <div className={styles.topline}>
+            <p>{interestText.breakfastTalkDescription[language]}</p>
+            <Field
+              placeholder={interestText.breakfastTalkComment[language]}
+              name="breakfastTalkComment"
+              component={TextEditor.Field}
+              rows={10}
+              className={styles.textEditor}
+              label={labels.secondComment[language]}
+              required
+            />
+          </div>
+        )}
+
+        {showOtherEventComment && (
+          <div className={styles.topline}>
+            <p>{interestText.otherEventDescription[language]}</p>
+            <Field
+              placeholder={interestText.otherEventComment[language]}
+              name="otherEventComment"
+              component={TextEditor.Field}
+              rows={10}
+              className={styles.textEditor}
+              label={labels.secondComment[language]}
+              required
+            />
+          </div>
+        )}
+
+        <div className={styles.topline}>
           <b>{interestText.priorityReasoningTitle[language]}</b>
           <br />
           {interestText.priorityReasoning[language]}
