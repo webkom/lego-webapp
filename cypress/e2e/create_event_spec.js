@@ -271,7 +271,9 @@ describe('Create event', () => {
         .should('not.be.disabled')
         .click();
     }
-    cy.get('button').contains(tomorrowDay).click();
+    cy.get('button')
+      .contains(new RegExp('^' + tomorrowDay + '$', 'g'))
+      .click();
     field('endTime').click();
     if (tomorrowDay < todayDay) {
       // End of month
@@ -280,7 +282,9 @@ describe('Create event', () => {
         .should('not.be.disabled')
         .click();
     }
-    cy.get('button').contains(tomorrowDay).click();
+    cy.get('button')
+      .contains(new RegExp('^' + tomorrowDay + '$', 'g'))
+      .click();
 
     // Select regitrationType
     selectField('eventStatusType').click();
