@@ -102,7 +102,7 @@ export default class Attendees extends Component<Props, State> {
     ).length;
 
     const paidCount = registered.filter(
-      (reg) => reg.paymentStatus == 'succeeded' && reg.pool
+      (reg) => reg.paymentStatus === 'succeeded' && reg.pool
     ).length;
 
     if (loading) {
