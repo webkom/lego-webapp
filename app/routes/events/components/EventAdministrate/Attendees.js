@@ -101,6 +101,10 @@ export default class Attendees extends Component<Props, State> {
       (reg) => reg.adminRegistrationReason !== '' && reg.pool
     ).length;
 
+    const paidCount = registered.filter(
+      (reg) => reg.paymentStatus == 'succeeded' && reg.pool
+    ).length;
+
     if (loading) {
       return <LoadingIndicator loading />;
     }
@@ -177,6 +181,9 @@ export default class Attendees extends Component<Props, State> {
             </div>
             <div className={styles.adminRegistrations}>
               {`${adminRegisterCount}/${event.totalCapacity} er adminpåmeldt`}
+            </div>
+            <div className={styles.adminRegistrations}>
+              {`${paidCount}/${event.totalCapacity} har betalt`}
             </div>
           </div>
           {registered.length === 0 && <li>Ingen påmeldte</li>}
