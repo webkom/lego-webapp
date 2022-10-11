@@ -325,7 +325,7 @@ function EventEditor({
             )}
             {event.isPriced && (
               <div className={styles.subSection}>
-                <Tooltip content="Manuell betaling kan også av i etterkant">
+                <Tooltip content="Manuell betaling kan også godkjennes av oss i etterkant">
                   <Field
                     label="Betaling via Abakus.no"
                     name="useStripe"
@@ -643,7 +643,7 @@ const validate = (data) => {
       .isAfter(moment(data.paymentDueDate))
   ) {
     errors.paymentDueDate =
-      'Betalingsfristen må være minst 24 timer etter avmeldingsfristen';
+      'Betalingsfristen må være minst 24 timer etter avregistreringsfristen';
   }
 
   const mergeTimeError =
