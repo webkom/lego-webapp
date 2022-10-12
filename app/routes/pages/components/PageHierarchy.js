@@ -109,11 +109,15 @@ class AccordionContainer extends Component<AccordionProps, AccordionState> {
       <div>
         <button className={styles.dropdownBtn} onClick={this.handleClick}>
           {title}{' '}
-          {this.state.isOpen ? (
-            <Icon name="arrow-down" className={styles.dropdownIcon} />
-          ) : (
-            <Icon name="arrow-forward" className={styles.dropdownIcon} />
-          )}
+          <Icon
+            name="chevron-up-outline"
+            className={styles.dropdownIcon}
+            style={
+              this.state.isOpen
+                ? { transform: 'rotateX(0deg)' }
+                : { transform: 'rotateX(180deg)' }
+            }
+          />
         </button>{' '}
         {this.state.isOpen ? <div>{children}</div> : null}
       </div>

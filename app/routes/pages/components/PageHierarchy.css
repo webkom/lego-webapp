@@ -11,25 +11,28 @@
 
 .pageList {
   text-align: left;
-  line-height: 18px;
-  width: 220px;
+  line-height: 28px;
+  width: 100%;
 }
 
 .pageList a {
-  font-size: 18px;
+  font-size: 17px;
+  color: var(--lego-text-gray);
 }
 
 .dropdownBtn {
   text-transform: uppercase;
+  width: 100%;
   letter-spacing: 1.5px;
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
   font-size: var(--font-size-large);
   font-family: Raleway, sans-serif;
   font-weight: bold;
   color: var(--lego-text-gray);
-  margin-bottom: 0.8em;
+  margin-top: 1.4em;
 }
 
 .back > i {
@@ -40,6 +43,12 @@
 .links {
   margin: 8px 0 10px 8px;
 }
+.links:first-child {
+  margin-top: 15px;
+}
+.links:last-child {
+  margin-bottom: -5px;
+}
 
 .nonSelected {
   font-weight: normal;
@@ -47,11 +56,12 @@
 
 .selected {
   font-weight: bold;
-  margin-left: -16px;
 }
 
 .selected::before {
   content: '\25CF ';
+  color: var(--lego-red);
+  margin-right: 5px;
 }
 
 .dropdownContainer {
@@ -59,5 +69,13 @@
 }
 
 .dropdownIcon {
-  padding-left: 8px;
+  align-self: flex-end;
+  transform: scale(0.9);
+  transition: transform .2s ease-in-out; 
+}
+
+@media (--mobile-device) {
+  .pageList {
+    width: 90%;
+  }
 }
