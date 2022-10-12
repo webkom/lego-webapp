@@ -193,7 +193,7 @@ class EventList extends Component<EventListProps, State> {
                 }
                 className={styles.checkbox}
               />
-              <span>Bedpres</span>
+              <span>Bedpress</span>
             </label>
             <label>
               <CheckBox
