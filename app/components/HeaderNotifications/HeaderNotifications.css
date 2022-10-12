@@ -22,10 +22,11 @@ html[data-theme='dark'] .notifications {
 
 .notification {
   border-bottom: 1px solid lightgray;
-  padding: 15px;
+  padding: 15px 15px 0;
   display: flex;
   flex-direction: row;
   color: var(--lego-font-color);
+  line-height: 1.5;
 
   &:last-child {
     border-bottom: none;
@@ -41,12 +42,14 @@ html[data-theme='dark'] .notifications {
 }
 
 .innerNotification {
+  width: 100%;
   display: flex;
   flex-direction: row;
-  align-items: center;
   padding-right: 15px;
   word-break: break-word;
   white-space: pre-line;
+  border-bottom: 1px solid var(--color-mono-gray-3);
+  padding-bottom: 15px;
 }
 
 .unRead {
@@ -54,6 +57,7 @@ html[data-theme='dark'] .notifications {
 }
 
 .icon {
+  padding-top: 1px;
   padding-right: 15px;
 }
 

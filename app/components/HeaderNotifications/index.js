@@ -104,7 +104,7 @@ export default class NotificationsDropdown extends Component<Props, State> {
         {/* TODO FIXME - do same as the menu element*/}
         {notifications.length ? (
           <div style={{ width: '100%' }}>
-            <div style={{ maxHeight: '300px', overflowY: 'auto' }}>
+            <div style={{ maxHeight: '400px', overflowY: 'auto' }}>
               {this.renderNotifications(notifications)}
             </div>
           </div>
