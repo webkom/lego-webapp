@@ -14,7 +14,8 @@
 }
 
 .page {
-  margin: -20px 0px 0px 0px;
+  margin: 0;
+  margin-top: -20px;
   width: 100%;
 }
 

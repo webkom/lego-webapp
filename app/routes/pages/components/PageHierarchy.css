@@ -43,9 +43,11 @@
 .links {
   margin: 8px 0 10px 8px;
 }
+
 .links:first-child {
   margin-top: 15px;
 }
+
 .links:last-child {
   margin-bottom: -5px;
 }
@@ -71,7 +73,7 @@
 .dropdownIcon {
   align-self: flex-end;
   transform: scale(0.9);
-  transition: transform .2s ease-in-out; 
+  transition: transform 0.2s ease-in-out;
 }
 
 @media (--mobile-device) {
