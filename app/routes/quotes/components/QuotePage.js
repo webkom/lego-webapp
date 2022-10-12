@@ -10,10 +10,14 @@ import type { ActionGrant, ID } from 'app/models';
 import type { QuoteEntity } from 'app/reducers/quotes';
 import type { EmojiEntity } from 'app/reducers/emojis';
 import LoadingIndicator from 'app/components/LoadingIndicator';
+import Select from 'react-select';
+import { useState, useEffect } from 'react';
+import { selectTheme, selectStyles } from 'app/components/Form/SelectInput';
+import { useHistory } from 'react-router-dom';
 
 type Props = {
   reactions: Array<Object>,
-  query: { approved: string },
+  query: { approved: string, ordering: string },
   quotes: Array<QuoteEntity>,
   actionGrant: ActionGrant,
   approve: (number) => Promise<*>,
@@ -34,6 +38,22 @@ type Props = {
   fetchingEmojis: boolean,
   emojis: Array<EmojiEntity>,
 };
+
+type Option = {
+  label: string,
+  value: string,
+};
+
+const filterRegDateOptions: Array<Option> = [
+  {
+    label: 'nyeste',
+    value: '',
+  },
+  {
+    label: 'flest emojis',
+    value: '?ordering=-reaction_count',
+  },
+];
 
 export default function QuotePage({
   query,
@@ -61,10 +81,40 @@ export default function QuotePage({
         ? 'Ingen sitater venter på godkjenning.'
         : 'Fant ingen sitater. Hvis du har sendt inn et sitat venter det trolig på godkjenning.';
   }
+
+  const history = useHistory();
+  const [ordering, setOrdering] = useState<Option>(
+    query.ordering === '-reaction_count'
+      ? filterRegDateOptions[1]
+      : filterRegDateOptions[0]
+  );
+
+  const handleChange = (event) => {
+    setOrdering(event);
+  };
+
+  useEffect(() => {
+    history.replace({ search: ordering.value });
+  }, [history, ordering]);
+
   return (
     <div className={cx(styles.root, styles.quoteContainer)}>
       <Helmet title="Overhørt" />
       {navigation('Overhørt', actionGrant)}
+
+      <div className={styles.select}>
+        <div>Sorter etter:</div>
+        <Select
+          name="sorting_selector"
+          value={ordering}
+          onChange={handleChange}
+          isClearable={false}
+          theme={selectTheme}
+          styles={selectStyles}
+          options={filterRegDateOptions}
+        />
+      </div>
+
       {errorMessage || (
         <QuoteList
           approve={approve}
