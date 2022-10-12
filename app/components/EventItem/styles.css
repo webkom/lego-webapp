@@ -25,9 +25,21 @@
   flex-direction: row;
 }
 
+.companyLogoExtraCompact {
+  composes: companyLogo;
+  width: 90px;
+}
+
 .companyLogo img {
   min-width: 120px;
   max-height: 80px;
+  object-fit: contain;
+  background: white;
+}
+
+.companyLogoExtraCompact img {
+  min-width: 90px;
+  height: 30px;
   object-fit: contain;
   background: white;
 }

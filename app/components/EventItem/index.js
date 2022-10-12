@@ -18,6 +18,8 @@ type AttendanceProps = {
   event: Event,
 };
 
+export type EventStyle = 'default' | 'extra-compact';
+
 const Attendance = ({ event }: AttendanceProps) => {
   const attendance = eventAttendance(event);
   return (
@@ -57,6 +59,7 @@ type EventItemProps = {
   field?: EventTimeType,
   showTags?: boolean,
   loggedIn: boolean,
+  eventStyle?: EventStyle,
 };
 
 const EventItem = ({
@@ -64,38 +67,64 @@ const EventItem = ({
   field = EVENTFIELDS.start,
   showTags = true,
   loggedIn = false,
-}: EventItemProps): Node => (
-  <div
-    style={{ borderColor: colorForEvent(event.eventType) }}
-    className={styles.eventItem}
-  >
-    <div>
-      <Link to={`/events/${event.id}`}>
-        <h3 className={styles.eventItemTitle}>{event.title}</h3>
-        {event.totalCapacity > 0 && (
-          <Attendance
-            registrationCount={event.registrationCount}
-            totalCapacity={event.totalCapacity}
-            event={event}
-          />
-        )}
-      </Link>
-      <TimeStamp event={event} field={field} loggedIn={loggedIn} />
-      {showTags && (
-        <Flex wrap>
-          {event.tags.map((tag, index) => (
-            <Tag key={index} tag={tag} />
-          ))}
-        </Flex>
-      )}
-    </div>
+  eventStyle,
+}: EventItemProps): Node => {
+  switch (eventStyle) {
+    case 'extra-compact':
+      return (
+        <div
+          style={{ borderColor: colorForEvent(event.eventType) }}
+          className={styles.eventItem}
+        >
+          <div>
+            <Link to={`/events/${event.id}`}>
+              <h4 className={styles.eventItemTitle}>{event.title}</h4>
+            </Link>
+            <Time time={event.startTime} format="ll - HH:mm" />
+          </div>
+          <Flex className={styles.companyLogoExtraCompact}>
+            {event.cover && (
+              <Image src={event.cover} placeholder={event.coverPlaceholder} />
+            )}
+          </Flex>
+        </div>
+      );
 
-    <div className={styles.companyLogo}>
-      {event.cover && (
-        <Image src={event.cover} placeholder={event.coverPlaceholder} />
-      )}
-    </div>
-  </div>
-);
+    default:
+      return (
+        <div
+          style={{ borderColor: colorForEvent(event.eventType) }}
+          className={styles.eventItem}
+        >
+          <div>
+            <Link to={`/events/${event.id}`}>
+              <h3 className={styles.eventItemTitle}>{event.title}</h3>
+              {event.totalCapacity > 0 && (
+                <Attendance
+                  registrationCount={event.registrationCount}
+                  totalCapacity={event.totalCapacity}
+                  event={event}
+                />
+              )}
+            </Link>
+            <TimeStamp event={event} field={field} loggedIn={loggedIn} />
+            {showTags && (
+              <Flex wrap>
+                {event.tags.map((tag, index) => (
+                  <Tag key={index} tag={tag} />
+                ))}
+              </Flex>
+            )}
+          </div>
+
+          <Flex className={styles.companyLogo}>
+            {event.cover && (
+              <Image src={event.cover} placeholder={event.coverPlaceholder} />
+            )}
+          </Flex>
+        </div>
+      );
+  }
+};
 
 export default EventItem;
