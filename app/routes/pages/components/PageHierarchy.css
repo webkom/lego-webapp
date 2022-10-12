@@ -17,7 +17,10 @@
 
 .pageList a {
   font-size: 17px;
-  color: var(--lego-text-gray);
+}
+
+.pageList a:hover {
+  color: var(--lego-link-color);
 }
 
 .dropdownBtn {
@@ -42,6 +45,9 @@
 
 .links {
   margin: 8px 0 10px 8px;
+  padding-bottom: 6px;  
+  padding-top: 6px;
+  border-bottom: 2px solid var(--border-gray);
 }
 
 .links:first-child {
@@ -53,10 +59,12 @@
 }
 
 .nonSelected {
+  color: var(--lego-text-gray);
   font-weight: normal;
 }
 
 .selected {
+  color: var(--lego-link-color);
   font-weight: bold;
 }
 
@@ -64,6 +72,7 @@
   content: '\25CF ';
   color: var(--lego-red);
   margin-right: 5px;
+  margin-left: -15.5px;
 }
 
 .dropdownContainer {
