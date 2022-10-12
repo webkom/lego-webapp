@@ -68,6 +68,14 @@ const readyHtml = (app) => {
   }
 };
 
+const analytics = __DEV__
+  ? ''
+  : // The .replace() remove the protocol (https://) part of the url, leaving just the domain
+    `<script defer data-domain=${config.webUrl.replace(
+      /(^\w+:|^)\/\//,
+      ''
+    )} src="https://analytics.webkom.dev/js/plausible.js"></script>`;
+
 export default function pageRenderer({
   app = undefined,
   state = {},
@@ -108,6 +116,8 @@ export default function pageRenderer({
         <meta name="apple-mobile-web-app-capable" content="yes"/>
         <meta name="mobile-web-app-capable" content="yes"/>
         <meta name="apple-mobile-web-app-title" content="Abakus"/>
+
+        ${analytics}
 
         <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:700|Raleway|Roboto" rel="stylesheet">
