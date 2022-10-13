@@ -154,7 +154,7 @@ class SurveyEditor extends Component<Props, State> {
 
     return (
       <Content className={styles.detail}>
-        <Helmet title={titleField} />
+        <Helmet title={survey.id ? survey.title : 'Ny spørreundersøkelse'} />
         {survey && survey.id ? (
           <DetailNavigation title={titleField} surveyId={Number(survey.id)} />
         ) : (
