@@ -1,6 +1,7 @@
 // @flow
 
 import styles from './EventDetail.css';
+import sharedStyles from '../Event.css';
 import { Component, Fragment } from 'react';
 import CommentView from 'app/components/Comments/CommentView';
 import Icon from 'app/components/Icon';
@@ -453,7 +454,7 @@ export default class EventDetail extends Component<Props, State> {
                   )}
                   {event.unansweredSurveys &&
                   event.unansweredSurveys.length > 0 ? (
-                    <div className={styles.eventWarning}>
+                    <div className={sharedStyles.eventWarning}>
                       <p>
                         Du kan ikke melde deg på dette arrangementet fordi du
                         har ubesvarte spørreundersøkelser.
