@@ -85,7 +85,7 @@
     "react-overlays": "5.2.1",
     "react-phone-number-input": "^3.2.11",
     "react-redux": "^8.0.4",
-    "react-router-dom": "^5.3.3",
+    "react-router-dom": "^5.3.4",
     "react-select": "^5.5.1",
     "react-soundplayer": "^1.0.4",
     "react-stickynode": "^4.1.0",
