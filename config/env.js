@@ -8,8 +8,7 @@ const config = {
   wsServerUrl: process.env.WS_URL || 'ws://127.0.0.1:8000',
   baseUrl: process.env.BASE_URL || 'http://127.0.0.1:8000',
   webUrl: process.env.WEB_URL || 'http://127.0.0.1:3000',
-  captchaKey:
-    process.env.CAPTCHA_KEY || '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI',
+  captchaKey: process.env.CAPTCHA_KEY || '1x00000000000000000000AA',
   // Requires captchaKey to be the default value (test key)
   skipCaptcha: process.env.SKIP_CAPTCHA,
   stripeKey: process.env.STRIPE_KEY || 'pk_test_VWJmJ3yOunhMBkG71SXyjdqk',

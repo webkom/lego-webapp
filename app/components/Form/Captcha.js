@@ -4,7 +4,7 @@ import { Component } from 'react';
 import config from 'app/config';
 import { createField } from './Field';
 // eslint-disable-next-line import/no-named-as-default
-import ReCAPTCHA from 'react-google-recaptcha';
+import Turnstile from 'react-turnstile';
 import styles from './Captcha.css';
 import cx from 'classnames';
 
@@ -34,13 +34,12 @@ class Captcha extends Component<Props> {
     const { className, onChange } = this.props;
     return (
       <div className={cx(className, styles.captchaContainer)}>
-        <ReCAPTCHA
+        <Turnstile
           ref={(ref) => {
             this.captcha = ref;
           }}
           sitekey={config.captchaKey}
-          onChange={onChange}
-          size={config.skipCaptcha && 'invisible'}
+          onVerify={onChange}
         />
       </div>
     );
