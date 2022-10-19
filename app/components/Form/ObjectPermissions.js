@@ -38,7 +38,7 @@ const ObjectPermissions = ({
         <CheckBox.Field
           inverted
           {...requireAuth}
-          label="Apen for alle - offentlig på nettet."
+          label="Åpen for alle - offentlig på nettet."
         />
       </Tooltip>
     ),
