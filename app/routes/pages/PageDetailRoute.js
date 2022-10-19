@@ -20,10 +20,11 @@ import PageDetail, {
   GroupRenderer,
 } from './components/PageDetail';
 import LandingPage from './components/LandingPage';
-import { GroupTypeCommittee, GroupTypeBoard } from 'app/models';
+import { GroupTypeCommittee, GroupTypeBoard, GroupTypeRevue } from 'app/models';
 import {
   selectPagesForHierarchy,
   selectCommitteeForHierarchy,
+  selectRevueForHierarchy,
   selectBoardsForHierarchy,
   selectPageHierarchy,
   selectCommitteeForPages,
@@ -99,6 +100,18 @@ const sections: {|
     hierarchySectionSelector: selectCommitteeForHierarchy,
     PageRenderer: GroupRenderer,
     fetchAll: () => fetchAllWithType(GroupTypeCommittee),
+    fetchItemActions: [
+      fetchGroup,
+      (groupId: number) => fetchAllMemberships(groupId, true),
+    ],
+  },
+  revy: {
+    title: 'Revy',
+    section: 'revy',
+    pageSelector: selectCommitteeForPages,
+    hierarchySectionSelector: selectRevueForHierarchy,
+    PageRenderer: GroupRenderer,
+    fetchAll: () => fetchAllWithType(GroupTypeRevue),
     fetchItemActions: [
       fetchGroup,
       (groupId: number) => fetchAllMemberships(groupId, true),
