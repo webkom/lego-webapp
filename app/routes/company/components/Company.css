@@ -89,6 +89,7 @@
 .companyImage {
   display: block;
   margin: auto;
+  background: white;
 }
 
 .image {

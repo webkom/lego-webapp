@@ -20,7 +20,7 @@
 
 .image {
   object-fit: contain;
-  background: var(--lego-card-color);
+  background: white;
   border-radius: 5px 5px 0 0;
 
   @media (--mobile-device) {
