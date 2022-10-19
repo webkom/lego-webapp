@@ -29,16 +29,16 @@ const Icon = ({
   ...props
 }: Props) => {
   return (
-    <ion-icon
-      name={name}
-      class={className}
+    <div
+      className={className}
       style={{
         fontSize: `${size.toString()}px`,
-        lineHeight: 2,
         ...style,
       }}
       {...(props: Object)}
-    ></ion-icon>
+    >
+      <ion-icon name={name}></ion-icon>
+    </div>
   );
 };
 
