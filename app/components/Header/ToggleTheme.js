@@ -1,5 +1,5 @@
 // @flow
-import { useCallback, useState, type Node } from 'react';
+import { useCallback, useState, type Node, useEffect } from 'react';
 import cx from 'classnames';
 import Icon from '../Icon';
 import styles from './toggleTheme.css';
@@ -24,7 +24,10 @@ const ToggleTheme = ({
   children,
   isButton = true,
 }: Props) => {
+  const [theme, setTheme] = useState(getTheme());
+  useEffect(() => {setTheme(getTheme())}, [document.documentElement.getAttribute('data-theme')]);
   const [icon, setIcon] = useState(getIcon());
+  useEffect(() => {setIcon(getIcon())}, [theme]);
   const handleThemeChange = useCallback(
     (e) => {
       e.preventDefault();
