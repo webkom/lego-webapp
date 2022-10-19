@@ -7,8 +7,8 @@
   "license": "MIT",
   "scripts": {
     "start": "webpack --config config/webpack.server.js --mode=development && node ./dist/server.js",
-    "start:staging": "set API_URL=https://lego-staging.abakus.no/api/v1&& set BASE_URL=https://lego-staging.abakus.no&& set WS_URL=wss://ws-staging.abakus.no&& set CAPTCHA_KEY=6LfS1TQUAAAAAIcxgj4EfkM7lwWeG9efLvS37tCW&& set ENVIRONMENT=local_staging&& yarn start",
-    "ssr:staging": "set API_URL=https://lego-staging.abakus.no/api/v1&& set BASE_URL=https://lego-staging.abakus.no&& set WS_URL=wss://ws-staging.abakus.no&& set CAPTCHA_KEY=6LfS1TQUAAAAAIcxgj4EfkM7lwWeG9efLvS37tCW&& yarn ssr",
+    "start:staging": "set API_URL=https://lego-staging.abakus.no/api/v1&& set BASE_URL=https://lego-staging.abakus.no && set WS_URL=wss://ws-staging.abakus.no && set CAPTCHA_KEY=6LfS1TQUAAAAAIcxgj4EfkM7lwWeG9efLvS37tCW && set ENVIRONMENT=local_staging && yarn start",
+    "ssr:staging": "set API_URL=https://lego-staging.abakus.no/api/v1 && set BASE_URL=https://lego-staging.abakus.no && set WS_URL=wss://ws-staging.abakus.no && set CAPTCHA_KEY=6LfS1TQUAAAAAIcxgj4EfkM7lwWeG9efLvS37tCW && yarn ssr",
     "ssr": "echo \"Remember that SSR does not have hot reloading, build with \"yarn build\"\" && node ./dist/server.js",
     "build": "concurrently \"yarn run build:server\" \"yarn run build:client\"",
     "build:all": "concurrently \"yarn build:server\" \"yarn build:client\" \"yarn build:dll\"",

@@ -1,4 +1,5 @@
-let fs = require('fs');
+const fetch = require('node-fetch');
+const fs = require('fs');
 
 const BASEURL = 'https://api.mazemap.com/js/';
 const MAZEMAPJS = 'mazemap.min.js';
