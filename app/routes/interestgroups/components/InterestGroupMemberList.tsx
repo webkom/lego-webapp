@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { Component, ReactNode } from 'react';
 import Modal from 'app/components/Modal';
 import styles from './InterestGroupMemberList.css';
 import { Link } from 'react-router-dom';
@@ -9,40 +9,75 @@ import Icon from 'app/components/Icon';
 import type { User, GroupMembership } from 'app/models';
 import sortBy from 'lodash/sortBy';
 
-const iconName = (role: string) => {
+const ExtraInfo = ({ user, role }: { user: User; role: string }) => {
+  if (role === 'member') {
+    return <span>{user.fullName}</span>;
+  }
+
+  let title: string;
+  let roleStyle;
   switch (role) {
     case 'leader':
-      return ['star', 'Leder'];
+      title = '(Leder)';
+      roleStyle = styles.leader;
+      break;
 
     case 'co_leader':
-      return ['star-outline', 'Nestleder'];
+      title = '(Nestleder)';
+      roleStyle = styles.coleader;
+      break;
 
     default:
-      return;
+      break;
   }
+
+  return (
+    <span>
+      <span className={roleStyle}>{user.fullName} </span>
+      <span className={styles.suffix}>{title}</span>
+    </span>
+  );
 };
 
 const RoleIcon = ({ role }: { role: string }) => {
-  const props = iconName(role);
-
-  if (props) {
-    const [name, tooltip] = props;
-    return (
-      <Tooltip content={tooltip}>
-        <Icon name={name} />
-      </Tooltip>
-    );
+  if (role === 'member') {
+    return null;
   }
 
-  return null;
+  let iconStyle;
+  let props;
+
+  switch (role) {
+    case 'leader':
+      iconStyle = styles.leadericon;
+      props = ['star', 'Leder'];
+      break;
+
+    case 'co_leader':
+      iconStyle = styles.coleadericon;
+      props = ['star-outline', 'Nestleder'];
+      break;
+
+    default:
+      return null;
+  }
+
+  const [name, tooltip] = props;
+  return (
+    <Tooltip content={tooltip}>
+      <Icon name={name} className={iconStyle} />
+    </Tooltip>
+  );
 };
 
 const ListedUser = ({ user, role }: { user: User; role: string }) => (
   <li>
     <Flex className={styles.row}>
-      <ProfilePicture size={30} user={user} />
+      <ProfilePicture size={30} user={user} alt="Profilbilde" />
       <RoleIcon role={role} />
-      <Link to={`/users/${user.username}`}>{user.fullName}</Link>
+      <Link to={`/users/${user.username}`}>
+        <ExtraInfo user={user} role={role} />
+      </Link>
     </Flex>
   </li>
 );
@@ -50,7 +85,7 @@ const ListedUser = ({ user, role }: { user: User; role: string }) => (
 // Reversed sort order
 const SORT_ORDER = ['member', 'co_leader', 'leader'];
 type Props = {
-  children: any;
+  children: ReactNode;
   memberships: Array<GroupMembership>;
 };
 type State = {
