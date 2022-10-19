@@ -6,6 +6,30 @@
   justify-content: space-between;
 }
 
+.eventItemCompact {
+  padding-left: 20px;
+  border-left: 4px solid transparent;
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.eventItemRow {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
+}
+
+.eventItemColumn {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  padding-right: 10px;
+}
+
 .eventItemTitle {
   color: var(--lego-color-gray);
   font-weight: 700;

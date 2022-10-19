@@ -7,7 +7,7 @@ const eventStatus = (
   event: Event,
   loggedIn = false,
   isPill = false
-): string | boolean => {
+): string => {
   const {
     registrationCount,
     totalCapacity,
@@ -49,9 +49,6 @@ const eventStatus = (
       if (eventStatusType === 'INFINITE') {
         return 'Åpent med påmelding';
       }
-
-      return isPill ? false : `${registrationCount}/${totalCapacity} påmeldte`;
-
     default:
       return '';
   }
@@ -71,4 +68,21 @@ const eventAttendance = (event: Event): string | boolean => {
     : `${registrationCount} / ${totalCapacity}`;
 };
 
-export { eventStatus, eventAttendance };
+const eventAttendanceAbsolute = (event: Event): string => {
+  const { registrationCount, totalCapacity, activationTime, eventStatusType } =
+    event;
+  switch (eventStatusType) {
+    case 'OPEN':
+      return 'Åpent arrangement';
+    case 'NORMAL':
+    case 'INFINITE':
+      const isFuture = moment().isBefore(activationTime);
+      return isFuture
+        ? `${totalCapacity} plasser`
+        : `${registrationCount} / ${!!totalCapacity ? totalCapacity : '∞'}`;
+    default:
+      return '';
+  }
+};
+
+export { eventStatus, eventAttendance, eventAttendanceAbsolute };
