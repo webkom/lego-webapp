@@ -227,6 +227,7 @@ export type Event = EventBase & {
   registrationCloseTime?: ?Dateish,
   unregistrationCloseTime?: ?Dateish,
   mazemapPoi: number,
+  photoConsents?: Array<PhotoConsent>,
 };
 
 type EventTransformPool = EventPoolBase & {

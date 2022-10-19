@@ -26,7 +26,7 @@ import {
 } from './AttendeeElements';
 import {
   getEventSemesterFromStartTime,
-  hasRegisteredConsent,
+  allConsentsAnswered,
   getConsent,
   PHOTO_CONSENT_DOMAINS,
 } from 'app/routes/events/utils';
@@ -119,7 +119,7 @@ const ConsentIcons = ({
   photoConsents: Array<PhotoConsent>,
   eventSemester: EventSemester,
 }) => {
-  if (hasRegisteredConsent(photoConsents, eventSemester)) {
+  if (allConsentsAnswered(photoConsents)) {
     const { WEBSITE, SOCIAL_MEDIA } = PHOTO_CONSENT_DOMAINS;
 
     const webConsent = getConsent(

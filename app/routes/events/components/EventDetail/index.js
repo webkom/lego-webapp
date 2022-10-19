@@ -429,7 +429,7 @@ export default class EventDetail extends Component<Props, State> {
                       hasOpened={moment(event.activationTime).isBefore(
                         currentMoment
                       )}
-                      photoConsents={currentUser.photoConsents}
+                      photoConsents={event.photoConsents}
                       eventSemester={getEventSemesterFromStartTime(
                         event.startTime
                       )}

@@ -15,7 +15,7 @@ import {
   paymentCardExpired,
   PHOTO_CONSENT_DOMAINS,
   getConsent,
-  hasRegisteredConsent,
+  allConsentsAnswered,
   toReadableSemester,
 } from '../utils';
 
@@ -59,7 +59,7 @@ const ConsentStatus = ({
 }) => {
   if (!useConsent) return null;
 
-  if (photoConsents && hasRegisteredConsent(photoConsents, eventSemester)) {
+  if (photoConsents && allConsentsAnswered(photoConsents)) {
     const { WEBSITE, SOCIAL_MEDIA } = PHOTO_CONSENT_DOMAINS;
     const isConsentingWeb = getConsent(
       WEBSITE,

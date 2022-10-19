@@ -25,7 +25,7 @@ import {
   penaltyHours,
   registrationIsClosed,
   getEventSemesterFromStartTime,
-  hasRegisteredConsent,
+  allConsentsAnswered,
   toReadableSemester,
 } from '../utils';
 
@@ -292,9 +292,8 @@ const JoinEventForm = (props: Props) => {
     useState(false);
 
   const eventSemester = getEventSemesterFromStartTime(event.startTime);
-  const hasRegisteredConsentForSemester = hasRegisteredConsent(
-    currentUser?.photoConsents,
-    eventSemester
+  const hasRegisteredConsentForSemester = allConsentsAnswered(
+    event.photoConsents
   );
   const hasRegisteredConsentIfRequired = event.useConsent
     ? hasRegisteredConsentForSemester
