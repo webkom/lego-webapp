@@ -17,7 +17,6 @@ const Articles = loadable(() => import('./articles'));
 const Meetings = loadable(() => import('./meetings'));
 const Admin = loadable(() => import('./admin'));
 const Quotes = loadable(() => import('./quotes'));
-const Podcasts = loadable(() => import('./podcasts'));
 const Photos = loadable(() => import('./photos'));
 const Pages = loadable(() => import('./pages'));
 const Search = loadable(() => import('./search'));
@@ -63,7 +62,6 @@ const AppWrapper = (props) => (
           <Route path="/meetings" component={Meetings} />
           <Route path="/pages" component={Pages} />
           <Route path="/photos" component={Photos} />
-          <Route path="/podcasts" component={Podcasts} />
           <Route path="/polls" component={Polls} />
           <Route path="/quotes" component={Quotes} />
           <Route path="/search" component={Search} />
