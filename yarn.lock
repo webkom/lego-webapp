@@ -7311,7 +7311,9 @@ mathml-tag-names@^2.1.3:
   integrity sha512-APMBEanjybaPzUrfqU0IMU5I0AswKMH7k8OTLs0vvV4KZpExkTkY87nR/zpbuTPj+gARop7aGUbl11pnDfW6xg==
 
 "mazemap@file:mazemap":
-  version "2.0.63"
+  version "2.0.73"
+  dependencies:
+    node-fetch "^2.0.0"
 
 md5.js@^1.3.4:
   version "1.3.5"
@@ -7585,7 +7587,7 @@ neo-async@^2.6.2:
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.2.tgz#b4aafb93e3aeb2d8174ca53cf163ab7d7308305f"
   integrity sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==
 
-node-fetch@^2.6.1:
+node-fetch@^2.0.0, node-fetch@^2.6.1:
   version "2.6.7"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.7.tgz#24de9fba827e3b4ae44dc8b20256a379160052ad"
   integrity sha512-ZjMPFEfVx5j+y2yF35Kzx5sF7kDzxuDj6ziH4FFbOp87zKDZNx8yExJIb05OGF4Nlt9IHFIMBkRl41VdvcNdbQ==
@@ -9091,6 +9093,11 @@ react-treeview@^0.4.6:
   dependencies:
     prop-types "^15.5.8"
 
+react-turnstile@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/react-turnstile/-/react-turnstile-1.0.4.tgz#bd8c434bd9ba19ef91c56d54bfe5736417d5de89"
+  integrity sha512-Pdu2uHg38tQN0buHADknR8xNzIVVGXQHigaHZeXOvtv1tRXDCA0hYfxDS0D8IyWjB+DHwN0bIcraouXOG8/pOA==
+
 react-youtube@^9.0.3:
   version "9.0.3"
   resolved "https://registry.yarnpkg.com/react-youtube/-/react-youtube-9.0.3.tgz#5d2f0e977db96bcf03921e9a5727136b32c1c744"
@@ -10305,7 +10312,7 @@ tr46@^3.0.0:
 tr46@~0.0.3:
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/tr46/-/tr46-0.0.3.tgz#8184fd347dac9cdc185992f3a6622e14b9d9ab6a"
-  integrity sha1-gYT9NH2snNwYWZLzpmIuFLnZq2o=
+  integrity sha512-N3WMsuqV66lT30CrXNbEjx4GEwlow3v6rr4mCcv6prnfwhS01rkgyFdjPNBYd9br7LpXV1+Emh01fHnq2Gdgrw==
 
 tree-kill@^1.2.2:
   version "1.2.2"
@@ -10640,7 +10647,7 @@ watchpack@^2.4.0:
 webidl-conversions@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/webidl-conversions/-/webidl-conversions-3.0.1.tgz#24534275e2a7bc6be7bc86611cc16ae0a5654871"
-  integrity sha1-JFNCdeKnvGvnvIZhHMFq4KVlSHE=
+  integrity sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ==
 
 webidl-conversions@^7.0.0:
   version "7.0.0"
@@ -10793,7 +10800,7 @@ whatwg-url@^11.0.0:
 whatwg-url@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/whatwg-url/-/whatwg-url-5.0.0.tgz#966454e8765462e37644d3626f6742ce8b70965d"
-  integrity sha1-lmRU6HZUYuN2RNNib2dCzotwll0=
+  integrity sha512-saE57nupxk6v3HY35+jzBwYa0rKSy0XR8JSxZPwgLr7ys0IBzhGviA1/TUGJLmSVqs8pb9AnvICXEuOHLprYTw==
   dependencies:
     tr46 "~0.0.3"
     webidl-conversions "^3.0.0"
