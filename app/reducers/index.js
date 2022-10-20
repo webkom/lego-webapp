@@ -11,7 +11,6 @@ import companies from './companies';
 import companySemesters from './companySemesters';
 import emailLists from './emailLists';
 import quotes from './quotes';
-import podcasts from './podcasts';
 import galleryPictures from './galleryPictures';
 import events from './events';
 import articles from './articles';
@@ -91,7 +90,6 @@ const reducers = {
   oauth2Grants,
   pages,
   penalties,
-  podcasts,
   polls,
   pools,
   quotes,
@@ -185,8 +183,6 @@ export const gallerySchema = (new schema.Entity('galleries'): Schema);
 export const quoteSchema = (new schema.Entity('quotes'): Schema);
 
 export const pollSchema = (new schema.Entity('polls'): Schema);
-
-export const podcastSchema = (new schema.Entity('podcasts'): Schema);
 
 export const pageSchema = (new schema.Entity(
   'pages',
