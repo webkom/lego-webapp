@@ -86,7 +86,7 @@
     "react-phone-number-input": "^3.2.12",
     "react-redux": "^8.0.4",
     "react-router-dom": "^5.3.4",
-    "react-select": "^5.5.2",
+    "react-select": "^5.5.3",
     "react-soundplayer": "^1.0.4",
     "react-stickynode": "^4.1.0",
     "react-swipeable": "7.0.0",
