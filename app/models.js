@@ -68,6 +68,7 @@ export type Tags = string;
 
 export const GroupTypeCommittee = 'komite';
 export const GroupTypeBoard = 'styre';
+export const GroupTypeRevue = 'revy';
 export const GroupTypeInterest = 'interesse';
 export const GroupTypeSub = 'under';
 export const GroupTypeGrade = 'klasse';

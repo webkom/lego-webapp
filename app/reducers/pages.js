@@ -88,6 +88,8 @@ export const selectCommitteeForHierarchy = createGroupSelector(
   'komiteer'
 );
 
+export const selectRevueForHierarchy = createGroupSelector('revy', 'revy');
+
 export const selectBoardsForHierarchy = createGroupSelector('styre', 'styrer');
 
 export const selectPageHierarchy = createSelector(
