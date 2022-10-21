@@ -1933,15 +1933,6 @@
     "@sentry/utils" "7.16.0"
     tslib "^1.9.3"
 
-"@sentry/core@7.15.0":
-  version "7.15.0"
-  resolved "https://registry.yarnpkg.com/@sentry/core/-/core-7.15.0.tgz#983e08326afdb8ddb10494372cd22b3886d683c9"
-  integrity sha512-W8d44g04GShBn4Z9VBTUhf1T9LTMfzUnETEx237zzUucv0kkyj3LsWQsJapWchMbmwr1V/CdnNDN+lGDm8iXQA==
-  dependencies:
-    "@sentry/types" "7.15.0"
-    "@sentry/utils" "7.15.0"
-    tslib "^1.9.3"
-
 "@sentry/core@7.16.0":
   version "7.16.0"
   resolved "https://registry.yarnpkg.com/@sentry/core/-/core-7.16.0.tgz#60f9b54ef2ec524176b329e1d15be39c36da5953"
@@ -1974,23 +1965,10 @@
     lru_map "^0.3.3"
     tslib "^1.9.3"
 
-"@sentry/types@7.15.0":
-  version "7.15.0"
-  resolved "https://registry.yarnpkg.com/@sentry/types/-/types-7.15.0.tgz#50c57c924993d4dd16b43172d310c66384d17463"
-  integrity sha512-MN9haDRh9ZOsTotoDTHu2BT3sT8Vs1F0alhizUpDyjN2YgBCqR6JV+AbAE1XNHwS2+5zbppch1PwJUVeE58URQ==
-
 "@sentry/types@7.16.0":
   version "7.16.0"
   resolved "https://registry.yarnpkg.com/@sentry/types/-/types-7.16.0.tgz#79c06ada153a84feb949fa49b1c9d15f91decd79"
   integrity sha512-i6D+OK6d0l/k+VQvRp/Pt21WkDEgVBUIZq+sOkEZJczbcfexVdXKeXXoYTD2vYuFq8Yy28fzlsZaKI+NoH94yQ==
-
-"@sentry/utils@7.15.0":
-  version "7.15.0"
-  resolved "https://registry.yarnpkg.com/@sentry/utils/-/utils-7.15.0.tgz#cda642a353a58fd6631979c1e5986788e6db6c43"
-  integrity sha512-akic22/6xa/RG5Mj7UN6pLc23VnX9zQlKM53L/q3yIr0juckSVthJiiFNdgdqrX03S1tHYlBgPeShKFFTHpkjA==
-  dependencies:
-    "@sentry/types" "7.15.0"
-    tslib "^1.9.3"
 
 "@sentry/utils@7.16.0":
   version "7.16.0"
@@ -5014,10 +4992,10 @@ eslint-plugin-react@^7.27.1, eslint-plugin-react@^7.28.0, eslint-plugin-react@^7
     semver "^6.3.0"
     string.prototype.matchall "^4.0.7"
 
-eslint-plugin-testing-library@^5.0.1, eslint-plugin-testing-library@^5.7.3:
-  version "5.7.3"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-testing-library/-/eslint-plugin-testing-library-5.7.3.tgz#2397e162f18899f13cee1d70a98238c1365a29bd"
-  integrity sha512-uLMVBkBI3rNOrV3mbtjLsm76X0cPac+cBNYn8ZwwvsYiDKKBXHAjZGtbjvRHEwNxwrsJm+rx4RtGWDjFRTWNuw==
+eslint-plugin-testing-library@^5.0.1, eslint-plugin-testing-library@^5.9.0:
+  version "5.9.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-testing-library/-/eslint-plugin-testing-library-5.9.0.tgz#772243d6848c9ac1a22ca4f742a1fe5fd378a052"
+  integrity sha512-iwPz6KNf/qc4rHMGaxn2vmS5snzuOqtia00D0FC2Wcp1xWM3J9w0/YzzrPv/UFHhLG0CwfQodyKmqL5+c6hGgg==
   dependencies:
     "@typescript-eslint/utils" "^5.13.0"
 
