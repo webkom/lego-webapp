@@ -289,7 +289,11 @@ const UserProfile = (props: Props) => {
       filteredPastMembershipsAsBadges.concat(membershipsAsBadges),
       'abakusGroup.id'
     ),
-    (memberships) => !memberships.some((membership) => membership.isActive)
+    [
+      (memberships) => !memberships.some((membership) => membership.isActive),
+      (memberships) => memberships[0].abakusGroup.type === 'interesse',
+      (memberships) => memberships[0].abakusGroup.type !== 'styre',
+    ]
   );
   const tree = {};
 
@@ -436,11 +440,8 @@ const UserProfile = (props: Props) => {
             ))}
           </Flex>
           <Flex wrap>
-            {Object.keys(groupedMemberships).map((groupId) => (
-              <GroupBadge
-                memberships={groupedMemberships[groupId]}
-                key={groupId}
-              />
+            {groupedMemberships.map((memberships) => (
+              <GroupBadge memberships={memberships} key={memberships[0].id} />
             ))}
           </Flex>
         </Flex>
