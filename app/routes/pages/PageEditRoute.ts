@@ -1,6 +1,5 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
 import {
   fetchAll,
   fetchPage,
@@ -14,6 +13,7 @@ import { selectPageBySlug } from 'app/reducers/pages';
 import { push } from 'connected-react-router';
 import { objectPermissionsToInitialValues } from 'app/components/Form/ObjectPermissions';
 import { categoryOptions } from 'app/routes/pages/PageDetailRoute';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 function mapStateToProps(state, props) {
   const { pageSlug } = props.match.params;
@@ -47,16 +47,10 @@ const mapDispatchToProps = {
   push,
 };
 export default compose(
-  prepare(
-    (
-      {
-        match: {
-          params: { pageSlug },
-        },
-      },
-      dispatch
-    ) => dispatch(fetchPage(pageSlug)),
-    ['match.params.pageSlug']
+  withPreparedDispatch(
+    'fetchPageEdit',
+    (props, dispatch) => dispatch(fetchPage(props.match.params.pageSlug)),
+    (props) => [props.match.params.pageSlug]
   ),
   connect(mapStateToProps, mapDispatchToProps),
   legoForm({

@@ -17,14 +17,7 @@ import { selectCompanyInterestById } from 'app/reducers/companyInterest';
 import { selectCompanySemesters } from 'app/reducers/companySemesters';
 import { sortSemesterChronologically } from './utils';
 import { push } from 'connected-react-router';
-import prepare from 'app/utils/prepare';
-
-const loadCompanyInterests = (props, dispatch) => {
-  const { companyInterestId } = props.match.params;
-  return dispatch(fetchSemesters()).then(() =>
-    dispatch(fetchCompanyInterest(Number(companyInterestId)))
-  );
-};
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const valueSelector = formValueSelector('CompanyInterestForm');
 
@@ -117,6 +110,11 @@ const mapDispatchToProps = (dispatch, { match: { params } }) => {
 };
 
 export default compose(
-  prepare(loadCompanyInterests),
+  withPreparedDispatch('fetchCompanyInterestEdit', (props, dispatch) =>
+    Promise.all([
+      dispatch(fetchSemesters()),
+      dispatch(fetchCompanyInterest(props.match.params.companyInterestId)),
+    ])
+  ),
   connect(mapStateToProps, mapDispatchToProps)
 )(CompanyInterestPage);

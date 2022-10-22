@@ -1,6 +1,5 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import {
   fetchArticle,
@@ -13,6 +12,7 @@ import { objectPermissionsToInitialValues } from 'app/components/Form/ObjectPerm
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { push } from 'connected-react-router';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const mapStateToProps = (state, props) => {
   const { articleId } = props.match.params;
@@ -42,7 +42,8 @@ const mapDispatchToProps = {
 };
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  prepare(
+  withPreparedDispatch(
+    'fetchArticleEdit',
     (
       {
         match: {

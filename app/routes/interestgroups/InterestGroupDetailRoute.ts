@@ -1,6 +1,5 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
 import {
   joinGroup,
   leaveGroup,
@@ -11,6 +10,7 @@ import InterestGroupDetail from './components/InterestGroupDetail';
 import { selectMembershipsForGroup } from 'app/reducers/memberships';
 import { selectGroup } from 'app/reducers/groups';
 import loadingIndicator from 'app/utils/loadingIndicator';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const mapStateToProps = (state, props) => {
   const { interestGroupId } = props.match.params;
@@ -31,20 +31,14 @@ const mapDispatchToProps = {
   leaveGroup,
 };
 export default compose(
-  prepare(
-    (
-      {
-        match: {
-          params: { interestGroupId },
-        },
-      },
-      dispatch
-    ) =>
+  withPreparedDispatch(
+    'fetchInterestGroupDetail',
+    (props, dispatch) =>
       Promise.all([
-        dispatch(fetchGroup(Number(interestGroupId))),
-        dispatch(fetchAllMemberships(interestGroupId)),
+        dispatch(fetchGroup(Number(props.match.params.interestGroupId))),
+        dispatch(fetchAllMemberships(props.match.params.interestGroupId)),
       ]),
-    ['match.params.interestGroupId']
+    (props) => [props.match.params.interestGroupId]
   ),
   connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['group'])

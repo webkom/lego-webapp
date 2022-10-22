@@ -1,4 +1,3 @@
-import prepare from 'app/utils/prepare';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import StudentConfirmation from './components/StudentConfirmation';
@@ -8,6 +7,7 @@ import {
   sendStudentConfirmationEmail,
   confirmStudentUser,
 } from 'app/actions/UserActions';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const loadData = ({ location: { search } }, dispatch) => {
   const { token } = qs.parse(search, {
@@ -35,6 +35,6 @@ const mapDispatchToProps = {
   push,
 };
 export default compose(
-  prepare(loadData),
+  withPreparedDispatch('fetchStudentConfirmation', loadData),
   connect(mapStateToProps, mapDispatchToProps)
 )(StudentConfirmationRoute);

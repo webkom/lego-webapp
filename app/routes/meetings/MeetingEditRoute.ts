@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
 import { push } from 'connected-react-router';
 import { compose } from 'redux';
 import MeetingEditor from './components/MeetingEditor';
@@ -14,6 +13,7 @@ import { selectUserById } from 'app/reducers/users';
 import { selectMeetingInvitationsForMeeting } from 'app/reducers/meetingInvitations';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const mapStateToProps = (state, props) => {
   const { meetingId } = props.match.params;
@@ -61,15 +61,8 @@ const mapDispatchToProps = {
 };
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  prepare(
-    (
-      {
-        match: {
-          params: { meetingId },
-        },
-      },
-      dispatch
-    ) => dispatch(fetchMeeting(meetingId))
+  withPreparedDispatch('fetchMeetingEdit', (props, dispatch) =>
+    dispatch(fetchMeeting(props.match.params.meetingId))
   ),
   connect(mapStateToProps, mapDispatchToProps)
 )(MeetingEditor);

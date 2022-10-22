@@ -10,7 +10,7 @@ import {
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { selectAnnouncements } from 'app/reducers/announcements';
-import prepare from 'app/utils/prepare';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const mapStateToProps = (state, props) => {
   const announcements = selectAnnouncements(state);
@@ -28,6 +28,8 @@ const mapDispatchToProps = {
 };
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  prepare((props, dispatch) => dispatch(fetchAll())),
+  withPreparedDispatch('fetchAnnouncements', (props, dispatch) =>
+    dispatch(fetchAll())
+  ),
   connect(mapStateToProps, mapDispatchToProps)
 )(AnnouncementsList);

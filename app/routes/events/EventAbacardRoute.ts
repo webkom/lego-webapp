@@ -2,13 +2,14 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
 import { debounce } from 'lodash';
-import prepare from 'app/utils/prepare';
 import { autocomplete } from 'app/actions/SearchActions';
 import { selectAutocompleteRedux as selectAutocomplete } from 'app/reducers/search';
 import { markUsernamePresent } from 'app/actions/EventActions';
 import Abacard from './components/EventAdministrate/Abacard';
 import qs from 'qs';
 import { getRegistrationGroups } from 'app/reducers/events';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
+
 const searchTypes = ['users.user'];
 
 const loadData = async (props, dispatch): any => {
@@ -52,6 +53,6 @@ const mapDispatchToProps = (dispatch, { eventId }) => {
 };
 
 export default compose(
-  prepare(loadData),
+  withPreparedDispatch('fetchEventAbacard', loadData),
   connect(mapStateToProps, mapDispatchToProps)
 )(Abacard);

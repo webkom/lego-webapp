@@ -8,7 +8,6 @@ import {
 import helmet from 'app/utils/helmet';
 import GalleryPictureModal from './components/GalleryPictureModal';
 import loadingIndicator from 'app/utils/loadingIndicator';
-import prepare from 'app/utils/prepare';
 import {
   fetchSiblingGallerPicture,
   fetchGalleryPicture,
@@ -18,6 +17,7 @@ import { updateGalleryCover, fetchGallery } from 'app/actions/GalleryActions';
 import { push } from 'connected-react-router';
 import { deleteComment } from 'app/actions/CommentActions';
 import { selectGalleryById } from 'app/reducers/galleries';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 function mapStateToProps(state, props) {
   const { galleryId, pictureId } = props.match.params;
@@ -101,12 +101,13 @@ const propertyGenerator = (props, config) => {
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  prepare(
+  withPreparedDispatch(
+    'fetchGalleryPicture',
     ({ match: { params } }, dispatch) =>
-      Promise.all[
-        (dispatch(fetchGalleryPicture(params.galleryId, params.pictureId)),
-        dispatch(fetchGallery(params.galleryId)))
-      ]
+      Promise.all([
+        dispatch(fetchGalleryPicture(params.galleryId, params.pictureId)),
+        dispatch(fetchGallery(params.galleryId)),
+      ])
   ),
   helmet(propertyGenerator),
   loadingIndicator(['picture.id', 'gallery.id'])

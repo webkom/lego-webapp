@@ -8,10 +8,10 @@ import {
 } from 'app/actions/MeetingActions';
 import MeetingDetailLoginRoute from './MeetingDetailLoginRoute';
 import MeetingAnswer from './components/MeetingAnswer';
-import prepare from 'app/utils/prepare';
 import { selectMeetingById } from 'app/reducers/meetings';
 import { deleteComment } from 'app/actions/CommentActions';
 import qs from 'qs';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const loadMeeting = (
   {
@@ -101,6 +101,9 @@ const mapDispatchToProps = {
   deleteComment,
 };
 export default compose(
-  prepare(loadData, ['match.params.meetingId', 'loggedIn']),
+  withPreparedDispatch('fetchMeetingDetail', loadData, (props) => [
+    props.match.params.meetingId,
+    props.loggedIn,
+  ]),
   connect(mapStateToProps, mapDispatchToProps)
 )(MeetingComponent);

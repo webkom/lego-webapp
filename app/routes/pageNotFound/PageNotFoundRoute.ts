@@ -1,7 +1,10 @@
 import { compose } from 'redux';
 import HTTPError from 'app/routes/errors';
 import { setStatusCode } from 'app/actions/RoutingActions';
-import prepare from 'app/utils/prepare';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
+
 export default compose(
-  prepare((props, dispatch) => dispatch(setStatusCode(404)))
+  withPreparedDispatch('setNotFoundStatusCode', (props, dispatch) =>
+    dispatch(setStatusCode(404))
+  )
 )(HTTPError);

@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import { selectPolls } from 'app/reducers/polls';
 import { fetchAll } from 'app/actions/PollActions';
-import prepare from 'app/utils/prepare';
 import PollsList from './components/PollsList';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const mapStateToProps = (state, props) => {
   return {
@@ -19,7 +19,9 @@ const mapDispatchToProps = {
   fetchAll,
 };
 export default compose(
-  prepare((props, dispatch) => dispatch(fetchAll())),
+  withPreparedDispatch('fetchPollsList', (props, dispatch) =>
+    dispatch(fetchAll())
+  ),
   connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['polls'])
 )(PollsList);

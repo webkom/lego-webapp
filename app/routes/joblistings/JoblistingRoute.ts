@@ -1,10 +1,10 @@
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
 import { fetchAll } from 'app/actions/JoblistingActions';
 import JoblistingPage from './components/JoblistingPage';
 import { compose } from 'redux';
 import moment from 'moment-timezone';
 import qs from 'qs';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 function filterJoblistings(joblistings, grades, jobTypes, workplaces) {
   return joblistings.filter((joblisting) => {
@@ -100,6 +100,8 @@ const mapDispatchToProps = {
   fetchAll,
 };
 export default compose(
-  prepare((props, dispatch) => dispatch(fetchAll())),
+  withPreparedDispatch('fetchJoblisting', (props, dispatch) =>
+    dispatch(fetchAll())
+  ),
   connect(mapStateToProps, mapDispatchToProps)
 )(JoblistingPage);

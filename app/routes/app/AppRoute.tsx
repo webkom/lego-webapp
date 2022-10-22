@@ -3,7 +3,6 @@ import type { Element } from 'react';
 import { createContext, Children, PureComponent, cloneElement } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
 import { Helmet } from 'react-helmet-async';
 import {
   loginAutomaticallyIfPossible,
@@ -33,6 +32,8 @@ import config from 'app/config';
 import moment from 'moment-timezone';
 import { fetchAll as fetchMeetings } from 'app/actions/MeetingActions';
 import coverPhoto from 'app/assets/cover.png';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
+
 type Props = {
   statusCode: number;
   location: any;
@@ -197,35 +198,32 @@ const mapDispatchToProps = {
     ),
 };
 export default compose(
-  prepare((_, dispatch) => dispatch(loginAutomaticallyIfPossible()), [], {
-    componentDidMount: false,
-    componentWillReceiveProps: false,
-  }),
-  prepare((_, dispatch) => dispatch(fetchMeta()), [], {
-    componentDidMount: false,
-    componentWillReceiveProps: false,
-    awaitOnSsr: false,
-  }),
-  prepare(
-    (props, dispatch) =>
-      Promise.all([
-        dispatch(fetchNotificationData()),
-        dispatch((dispatch, getState) => {
-          if (!selectIsLoggedIn(getState())) {
-            return Promise.resolve();
-          }
-
-          return dispatch(
-            fetchMeetings({
-              dateAfter: moment().format('YYYY-MM-DD'),
-            })
-          );
-        }),
-      ]),
-    [],
-    {
-      awaitOnSsr: false,
-    }
+  withPreparedDispatch(
+    'login',
+    (_, dispatch) => dispatch(loginAutomaticallyIfPossible()),
+    () => [],
+    { runSync: true, serverOnly: true }
+  ),
+  withPreparedDispatch(
+    'fetchMeta',
+    (_, dispatch) => dispatch(fetchMeta()),
+    () => [],
+    { serverOnly: true }
+  ),
+  withPreparedDispatch('fetchDivData', (props, dispatch) =>
+    Promise.all([
+      dispatch(fetchNotificationData()),
+      dispatch((dispatch, getState) => {
+        if (!selectIsLoggedIn(getState())) {
+          return Promise.resolve();
+        }
+        return dispatch(
+          fetchMeetings({
+            dateAfter: moment().format('YYYY-MM-DD'),
+          })
+        );
+      }),
+    ])
   ),
   connect(mapStateToProps, mapDispatchToProps)
 )(App);

@@ -21,8 +21,8 @@ import { selectGroupsWithType } from 'app/reducers/groups';
 import { selectPenaltyByUserId } from 'app/reducers/penalties';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import prepare from 'app/utils/prepare';
 import { LoginPage } from 'app/components/LoginForm';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const loadData = (
   {
@@ -115,6 +115,8 @@ const mapDispatchToProps = {
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
   connect(mapStateToProps, mapDispatchToProps),
-  prepare(loadData, ['match.params.username']),
+  withPreparedDispatch('fetchUserProfile', loadData, (props) => [
+    props.match.params.username,
+  ]),
   loadingIndicator(['user'])
 )(UserProfile);

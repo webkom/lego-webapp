@@ -2,8 +2,8 @@ import moment from 'moment-timezone';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { fetchList } from 'app/actions/EventActions';
-import prepare from 'app/utils/prepare';
 import Calendar from './components/Calendar';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const getDate = ({ params }) => {
   const year = params.year || moment().year();
@@ -41,6 +41,9 @@ const mapDispatchToProps = {
   fetchList,
 };
 export default compose(
-  prepare(loadData, ['match.params.year', 'match.params.month']),
+  withPreparedDispatch('fetchCalendar', loadData, (props) => [
+    props.match.params.year,
+    props.match.params.month,
+  ]),
   connect(mapStateToProps, mapDispatchToProps)
 )(Calendar);

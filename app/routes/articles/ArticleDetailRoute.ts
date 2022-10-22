@@ -1,6 +1,5 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
 import helmet from 'app/utils/helmet';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import { fetchArticle } from 'app/actions/ArticleActions';
@@ -14,10 +13,7 @@ import {
 } from 'app/reducers/articles';
 import { selectUserById } from 'app/reducers/users';
 import { selectEmojis } from 'app/reducers/emojis';
-
-function loadData(props, dispatch) {
-  return dispatch(fetchArticle(props.match.params.articleId), fetchEmojis());
-}
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const mapStateToProps = (state, props) => {
   const { articleId } = props.match.params;
@@ -50,7 +46,12 @@ const mapDispatchToProps = {
   deleteReaction,
 };
 export default compose(
-  prepare(loadData, ['match.params.articleId']),
+  withPreparedDispatch(
+    'fetchArticleDetail',
+    (props, dispatch) =>
+      dispatch(fetchArticle(props.match.params.articleId), fetchEmojis()),
+    (props) => [props.match.params.articleId]
+  ),
   connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['article.content']),
   helmet((props, config) => {

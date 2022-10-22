@@ -1,6 +1,5 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
 import {
   fetch as fetchCompany,
   fetchEventsForCompany,
@@ -15,6 +14,7 @@ import {
 } from 'app/reducers/companies';
 import { selectPagination } from '../../reducers/selectors';
 import createQueryString from 'app/utils/createQueryString';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const queryString = (companyId) =>
   createQueryString({
@@ -78,6 +78,6 @@ const mapDispatchToProps = (dispatch, props) => {
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  prepare(fetchData), // $FlowFixMe
+  withPreparedDispatch('fetchCompanyDetail', fetchData),
   connect(mapStateToProps, mapDispatchToProps)
 )(CompanyDetail);

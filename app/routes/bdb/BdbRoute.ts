@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
 import {
   fetchAllAdmin,
   addSemesterStatus,
@@ -15,9 +14,7 @@ import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { selectCompanySemesters } from 'app/reducers/companySemesters';
 import { push } from 'connected-react-router';
 import qs from 'qs';
-
-const loadData = (props, dispatch) =>
-  dispatch(fetchSemesters()).then(() => dispatch(fetchAllAdmin()));
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const mapStateToProps = (state, props) => ({
   companies: selectCompanies(state, props),
@@ -36,6 +33,8 @@ const mapDispatchToProps = {
 };
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  prepare(loadData),
+  withPreparedDispatch('fetchBdb', (props, dispatch) =>
+    dispatch(fetchSemesters()).then(() => dispatch(fetchAllAdmin()))
+  ),
   connect(mapStateToProps, mapDispatchToProps)
 )(BdbPage);

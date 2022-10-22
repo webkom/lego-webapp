@@ -1,6 +1,6 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
+
 import TimelinePage from './components/TimelinePage';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { LoginPage } from 'app/components/LoginForm';
@@ -9,10 +9,7 @@ import {
   selectFeedById,
   selectFeedActivitesByFeedId,
 } from 'app/reducers/feeds';
-
-const loadData = (props, dispatch) => {
-  return dispatch(fetchPersonalFeed());
-};
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const mapStateToProps = (state: Record<string, any>) => ({
   feed: selectFeedById(state, {
@@ -25,6 +22,8 @@ const mapStateToProps = (state: Record<string, any>) => ({
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  prepare(loadData), // $FlowFixMe
+  withPreparedDispatch('fetchTimeline', (_, dispatch) =>
+    dispatch(fetchPersonalFeed())
+  ),
   connect(mapStateToProps)
 )(TimelinePage);

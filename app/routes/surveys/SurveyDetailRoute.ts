@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
 import {
   fetchSurvey,
   shareSurvey,
@@ -12,15 +11,7 @@ import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import { push } from 'connected-react-router';
-
-const loadData = (
-  {
-    match: {
-      params: { surveyId },
-    },
-  },
-  dispatch
-) => dispatch(fetchSurvey(surveyId));
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const mapStateToProps = (state, props) => {
   const surveyId = Number(props.match.params.surveyId);
@@ -41,7 +32,11 @@ const mapDispatchToProps = {
 };
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  prepare(loadData, ['match.params.surveyId']),
+  withPreparedDispatch(
+    'fetchSurveyDetail',
+    (props, dispatch) => dispatch(fetchSurvey(props.match.params.surveyId)),
+    (props) => [props.match.params.surveyId]
+  ),
   connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['survey.questions', 'survey.event'])
 )(SurveyDetail);

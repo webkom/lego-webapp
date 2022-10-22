@@ -3,7 +3,6 @@ import { compose } from 'redux';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import GroupMembersList from './GroupMembersList';
 import AddGroupMember from './AddGroupMember';
-import prepare from 'app/utils/prepare';
 import { push } from 'connected-react-router';
 import styles from './GroupMembers.css';
 import {
@@ -16,6 +15,8 @@ import { selectMembershipsForGroup } from 'app/reducers/memberships';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import type { AddMemberArgs } from 'app/actions/GroupActions';
 import qs from 'qs';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
+
 type Props = {
   groupId: number;
   hasMore: boolean;
@@ -143,5 +144,7 @@ const mapDispatchToProps = {
 };
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  prepare(loadData, ['match.params.groupId'])
+  withPreparedDispatch('fetchGroupMemberships', loadData, (props) => [
+    props.match.params.groupId,
+  ])
 )(GroupMembers);

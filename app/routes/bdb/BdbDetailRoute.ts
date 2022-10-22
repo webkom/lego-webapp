@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
 import {
   fetchAdmin,
   deleteSemesterStatus,
@@ -23,6 +22,7 @@ import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { deleteComment } from 'app/actions/CommentActions';
 import { selectPagination } from 'app/reducers/selectors';
 import createQueryString from 'app/utils/createQueryString';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const queryString = (companyId) =>
   createQueryString({
@@ -104,6 +104,8 @@ const mapDispatchToProps = (dispatch, props) => {
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  prepare(loadData, ['match.params.companyId']),
+  withPreparedDispatch('withBdbDetail', loadData, (props) => [
+    props.match.params.companyId,
+  ]),
   connect(mapStateToProps, mapDispatchToProps)
 )(BdbDetail);

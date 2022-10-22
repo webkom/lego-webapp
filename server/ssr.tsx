@@ -30,7 +30,7 @@ const isReactHooksError = (error: Record<string, any>) =>
   error.name === 'Error' &&
   error.stack.includes('Invalid hook call');
 
-const prepareWithTimeout = (app) =>
+const prepareWithTimeout = (app): Promise<string> =>
   Promise.race([
     prepare(app),
     new Promise((resolve) => {
@@ -52,12 +52,14 @@ const createServerSideRenderer = (
       | React.ReactElement<React.ComponentProps<any>, any>
       | null
       | undefined = undefined,
-    state: State | Record<string, never> = Object.freeze({})
+    state: State | Record<string, never> = Object.freeze({}),
+    preparedStateCode?: string
   ) => {
     return res.send(
       pageRenderer({
         app,
         state,
+        preparedStateCode,
       })
     );
   };
@@ -121,7 +123,7 @@ const createServerSideRenderer = (
     }
   };
 
-  const respond = () => {
+  const respond = (preparedStateCode?: string) => {
     if (context.url) {
       return res.redirect(302, context.url);
     }
@@ -133,12 +135,12 @@ const createServerSideRenderer = (
     // $FlowFixMe
     const statusCode = state.router.statusCode || 200;
     res.status(statusCode);
-    return render(app, state);
+    return render(app, state, preparedStateCode);
   };
 
   prepareWithTimeout(app)
     .then(
-      () => respond(),
+      (preparedStateCode) => respond(preparedStateCode),
       (error) => {
         if (isTimeoutError(error)) {
           reportError(error.error);

@@ -11,11 +11,8 @@ import CompanyInterestPage, {
   TARGET_GRADE_TYPES,
 } from './components/CompanyInterestPage';
 import { selectCompanySemestersForInterestForm } from 'app/reducers/companySemesters';
-import prepare from 'app/utils/prepare';
 import { sortSemesterChronologically } from './utils';
-
-const loadSemesters = (props, dispatch) =>
-  dispatch(fetchSemestersForInterestform());
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const valueSelector = formValueSelector('CompanyInterestForm');
 
@@ -70,6 +67,8 @@ const mapDispatchToProps = {
   onSubmit: createCompanyInterest,
 };
 export default compose(
-  prepare(loadSemesters),
+  withPreparedDispatch('fetchCompanyInterest', (props, dispatch) =>
+    dispatch(fetchSemestersForInterestform())
+  ),
   connect(mapStateToProps, mapDispatchToProps)
 )(CompanyInterestPage);

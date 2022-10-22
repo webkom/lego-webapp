@@ -14,6 +14,7 @@ const dllPlugin = __DEV__ ? '<script src="/vendors.dll.js"></script>' : '';
 export type PageRendererProps = {
   app: React.ReactElement<React.ComponentProps<any>, any> | null | undefined;
   state: State | Record<string, never>;
+  preparedStateCode?: string;
 };
 const extractor = !__DEV__
   ? new ChunkExtractor({
@@ -77,6 +78,7 @@ const analytics = __DEV__
 export default function pageRenderer({
   app = undefined,
   state = {},
+  preparedStateCode = '',
 }: PageRendererProps = {}): string {
   const isSSR = app === undefined ? 'false' : 'true';
   const { helmet } = helmetContext;
@@ -149,6 +151,7 @@ export default function pageRenderer({
              isJSON: true,
            })};
            window.__IS_SSR__ = ${isSSR};
+           ${preparedStateCode}
         </script>
         <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
         <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>

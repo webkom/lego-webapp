@@ -1,12 +1,12 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
 import { fetchAll } from 'app/actions/CompanyActions';
 import CompaniesPage from './components/CompaniesPage';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { selectPaginationNext } from '../../reducers/selectors';
 import { selectActiveCompanies } from 'app/reducers/companies';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const mapStateToProps = (state, props) => {
   const { query } = props.location;
@@ -34,12 +34,8 @@ const mapDispatchToProps = {
 };
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  prepare((props, dispatch) =>
-    dispatch(
-      fetchAll({
-        fetchMore: false,
-      })
-    )
-  ), // $FlowFixMe connect
+  withPreparedDispatch('fetchCompanies', (props, dispatch) =>
+    dispatch(fetchAll({ fetchMore: false }))
+  ),
   connect(mapStateToProps, mapDispatchToProps)
 )(CompaniesPage);

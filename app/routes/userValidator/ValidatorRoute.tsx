@@ -2,12 +2,13 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
 import { debounce } from 'lodash';
-import prepare from 'app/utils/prepare';
 import { autocomplete } from 'app/actions/SearchActions';
 import { selectAutocompleteRedux as selectAutocomplete } from 'app/reducers/search';
 import { Content } from 'app/components/Content';
 import Validator from 'app/components/UserValidator';
 import qs from 'qs';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
+
 const searchTypes = ['users.user'];
 
 const loadData = async (props, dispatch): any => {
@@ -55,6 +56,6 @@ const WrappedValidator = (props) => (
 );
 
 export default compose(
-  prepare(loadData),
+  withPreparedDispatch('fetchValidator', loadData),
   connect(mapStateToProps, mapDispatchToProps)
 )(WrappedValidator);

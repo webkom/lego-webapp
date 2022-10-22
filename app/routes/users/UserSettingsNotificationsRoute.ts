@@ -1,6 +1,6 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
+
 import UserSettingsNotifications from './components/UserSettingsNotifications';
 import {
   fetchNotificationAlternatives,
@@ -12,13 +12,7 @@ import {
   selectNotificationSettings,
 } from 'app/reducers/notificationSettings';
 import { updateUser } from 'app/actions/UserActions';
-
-const loadData = (props, dispatch) => {
-  return Promise.all([
-    dispatch(fetchNotificationAlternatives()),
-    dispatch(fetchNotificationSettings()),
-  ]);
-};
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const mapStateToProps = (state, { currentUser }) => {
   return {
@@ -33,6 +27,11 @@ const mapDispatchToProps = {
   updateUser,
 };
 export default compose(
-  prepare(loadData),
+  withPreparedDispatch('fetchUserSettingsNotifications', (props, dispatch) =>
+    Promise.all([
+      dispatch(fetchNotificationAlternatives()),
+      dispatch(fetchNotificationSettings()),
+    ])
+  ),
   connect(mapStateToProps, mapDispatchToProps)
 )(UserSettingsNotifications);

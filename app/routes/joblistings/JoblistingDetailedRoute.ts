@@ -1,10 +1,10 @@
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
 import { fetchJoblisting } from 'app/actions/JoblistingActions';
 import JoblistingDetail from './components/JoblistingDetail';
 import { selectJoblistingById } from 'app/reducers/joblistings';
 import { compose } from 'redux';
 import { push } from 'connected-react-router';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const mapStateToProps = (state, props) => {
   const { joblistingId } = props.match.params;
@@ -26,15 +26,8 @@ const mapDispatchToProps = {
   push,
 };
 export default compose(
-  prepare(
-    (
-      {
-        match: {
-          params: { joblistingId },
-        },
-      },
-      dispatch
-    ) => dispatch(fetchJoblisting(joblistingId))
+  withPreparedDispatch('fetchJoblistingDetailed', (props, dispatch) =>
+    dispatch(fetchJoblisting(props.match.params.joblistingId))
   ),
   connect(mapStateToProps, mapDispatchToProps)
 )(JoblistingDetail);

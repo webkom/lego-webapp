@@ -7,7 +7,6 @@ import helmet from 'app/utils/helmet';
 import { connect } from 'react-redux';
 import { fetchGallery, fetchGalleryMetadata } from 'app/actions/GalleryActions';
 import loadingIndicator from 'app/utils/loadingIndicator';
-import prepare from 'app/utils/prepare';
 import {
   fetch,
   clear,
@@ -17,6 +16,7 @@ import { push } from 'connected-react-router';
 import GalleryDetail from './components/GalleryDetail';
 import { selectGalleryById } from 'app/reducers/galleries';
 import { SelectGalleryPicturesByGalleryId } from 'app/reducers/galleryPictures';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const loadData = ({ match: { params } }, dispatch) =>
   Promise.all([
@@ -127,7 +127,7 @@ function metadataHelper<Props>() {
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  prepare(loadData),
+  withPreparedDispatch('fetchGalleryDetail', loadData),
   loadingIndicator(['gallery.title']),
   helmet(propertyGenerator),
   metadataHelper()

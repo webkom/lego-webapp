@@ -1,6 +1,5 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
 import { fetchAll } from 'app/actions/MeetingActions';
 import { LoginPage } from 'app/components/LoginForm';
 import { selectGroupedMeetings } from 'app/reducers/meetings';
@@ -9,6 +8,7 @@ import MeetingList from './components/MeetingList';
 import { selectPagination } from '../../reducers/selectors';
 import createQueryString from 'app/utils/createQueryString';
 import moment from 'moment-timezone';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const mapStateToProps = (state, props) => {
   const dateAfter = moment().format('YYYY-MM-DD');
@@ -65,6 +65,8 @@ const mapDispatchToProps = {
 };
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  prepare((props, dispatch) => dispatch(fetchData())),
+  withPreparedDispatch('fetchMeetingList', (props, dispatch) =>
+    dispatch(fetchData())
+  ),
   connect(mapStateToProps, mapDispatchToProps)
 )(MeetingList);

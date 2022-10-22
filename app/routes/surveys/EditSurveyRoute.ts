@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
 import { compose } from 'redux';
 import {
   editSurvey,
@@ -15,6 +14,7 @@ import loadingIndicator from 'app/utils/loadingIndicator';
 import { formValueSelector } from 'redux-form';
 import qs from 'qs';
 import { mappings } from './utils';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const loadData = (props, dispatch) => {
   const { surveyId } = props.match.params;
@@ -99,7 +99,10 @@ const mapDispatchToProps = {
 };
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  prepare(loadData, ['match.params.surveyId', 'location.search']),
+  withPreparedDispatch('fetchEditSurvey', loadData, (props) => [
+    props.match.params.surveyId,
+    props.location.search,
+  ]),
   connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['notFetching'])
 )(SurveyEditor);

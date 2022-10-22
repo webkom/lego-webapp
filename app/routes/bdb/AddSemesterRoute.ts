@@ -14,9 +14,9 @@ import moment from 'moment-timezone';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { uploadFile } from 'app/actions/FileActions';
-import prepare from 'app/utils/prepare';
 import { selectCompanySemesters } from 'app/reducers/companySemesters';
 import { semesterCodeToName } from './utils';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const validateSemesterStatus = (data, props) => {
   const errors = {};
@@ -70,10 +70,11 @@ const mapDispatchToProps = {
 };
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  prepare(
+  withPreparedDispatch(
+    'fetchAddSemester',
     (props, dispatch) =>
       Promise.all([dispatch(fetchSemesters()), dispatch(fetchAllAdmin())]),
-    ['match.params.companyId']
+    (props) => [props.match.params.companyId]
   ),
   connect(mapStateToProps, mapDispatchToProps),
   reduxForm({

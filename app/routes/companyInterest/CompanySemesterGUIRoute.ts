@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import prepare from 'app/utils/prepare';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { LoginPage } from 'app/components/LoginForm';
 import {
@@ -13,8 +12,7 @@ import {
   fetchSemesters,
 } from 'app/actions/CompanyActions';
 import CompanySemesterGUI from './components/CompanySemesterGUI';
-
-const loadSemesters = (props, dispatch) => dispatch(fetchSemesters());
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const mapStateToProps = (state) => {
   const semesters = selectCompanySemesters(state);
@@ -34,6 +32,8 @@ const mapDispatchToProps = {
 };
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  prepare(loadSemesters),
+  withPreparedDispatch('fetchCompanySemesterGUI', (props, dispatch) =>
+    dispatch(fetchSemesters())
+  ),
   connect(mapStateToProps, mapDispatchToProps)
 )(CompanySemesterGUI);

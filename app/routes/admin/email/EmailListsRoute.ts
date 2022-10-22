@@ -4,9 +4,9 @@ import EmailLists from './components/EmailLists';
 import { fetch } from 'app/actions/EmailListActions';
 import { selectEmailLists } from 'app/reducers/emailLists';
 import { push } from 'connected-react-router';
-import prepare from 'app/utils/prepare';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import qs from 'qs';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const mapStateToProps = (state) => {
   const { search } = state.router.location;
@@ -41,11 +41,7 @@ const mapDispatchToProps = {
 };
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  prepare(({ query }, dispatch) =>
-    dispatch(
-      fetch({
-        query,
-      })
-    )
+  withPreparedDispatch('fetchEmailLists', ({ query }, dispatch) =>
+    dispatch(fetch({ query }))
   )
 )(EmailLists);

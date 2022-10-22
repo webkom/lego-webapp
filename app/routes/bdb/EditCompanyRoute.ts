@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
 import { compose } from 'redux';
 import {
   editCompany,
@@ -11,6 +10,7 @@ import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { uploadFile } from 'app/actions/FileActions';
 import { selectCompanyById } from 'app/reducers/companies';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const mapStateToProps = (state, props) => {
   const companyId = Number(props.match.params.companyId);
@@ -49,16 +49,10 @@ const mapDispatchToProps = {
 };
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  prepare(
-    (
-      {
-        match: {
-          params: { companyId },
-        },
-      },
-      dispatch
-    ) => dispatch(fetchAdmin(companyId)),
-    ['match.params.companyId']
+  withPreparedDispatch(
+    'fetchEditCompany',
+    (props, dispatch) => dispatch(fetchAdmin(props.match.params.companyId)),
+    (props) => [props.match.params.companyId]
   ),
   connect(mapStateToProps, mapDispatchToProps)
 )(CompanyEditor);

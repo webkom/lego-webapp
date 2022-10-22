@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import prepare from 'app/utils/prepare';
 import { push } from 'connected-react-router';
 import UserSettings from './components/UserSettings';
 import loadingIndicator from 'app/utils/loadingIndicator';
@@ -13,15 +12,7 @@ import {
   changePassword,
   removePicture,
 } from 'app/actions/UserActions';
-
-const loadData = (
-  {
-    match: {
-      params: { username },
-    },
-  },
-  dispatch
-) => dispatch(fetchUser(username));
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const mapStateToProps = (state, props) => {
   const {
@@ -51,7 +42,9 @@ const mapDispatchToProps = {
   removePicture,
 };
 export default compose(
-  prepare(loadData),
+  withPreparedDispatch('fetchUserSettings', (props, dispatch) =>
+    dispatch(fetchUser(props.match.params.username))
+  ),
   connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['user'])
 )(UserSettings);

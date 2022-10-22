@@ -4,7 +4,7 @@ import loadingIndicator from 'app/utils/loadingIndicator';
 import RestrictedMailEditor from './components/RestrictedMailEditor';
 import { fetchRestrictedMail } from 'app/actions/RestrictedMailActions';
 import { selectRestrictedMailById } from 'app/reducers/restrictedMails';
-import prepare from 'app/utils/prepare';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const mapStateToProps = (state, { match: { params } }) => {
   const restrictedMail = selectRestrictedMailById(state, {
@@ -41,11 +41,13 @@ const mapStateToProps = (state, { match: { params } }) => {
   };
 };
 
-const loadData = ({ match: { params } }, dispatch) =>
-  dispatch(fetchRestrictedMail(params.restrictedMailId));
-
 export default compose(
-  prepare(loadData, ['match.params.restrictedMailId']),
+  withPreparedDispatch(
+    'fetchRestrictedMail',
+    (props, dispatch) =>
+      dispatch(fetchRestrictedMail(props.match.params.restrictedMailId)),
+    (props) => [props.match.params.restrictedMailId]
+  ),
   connect(mapStateToProps, {}),
   loadingIndicator(['restrictedMail.id'])
 )(RestrictedMailEditor);

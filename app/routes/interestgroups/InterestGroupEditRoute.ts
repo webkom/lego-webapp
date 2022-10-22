@@ -1,6 +1,5 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
 import { formValueSelector } from 'redux-form';
 import { fetchGroup, editGroup } from 'app/actions/GroupActions';
 import { uploadFile } from 'app/actions/FileActions';
@@ -9,6 +8,8 @@ import { LoginPage } from 'app/components/LoginForm';
 import InterestGroupEdit from './components/InterestGroupEdit';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
+
 const mapDispatchToProps = {
   editGroup,
   uploadFile,
@@ -30,15 +31,8 @@ const mapStateToProps = (state, props) => {
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  prepare(
-    (
-      {
-        match: {
-          params: { interestGroupId },
-        },
-      },
-      dispatch
-    ) => dispatch(fetchGroup(Number(interestGroupId)))
+  withPreparedDispatch('fetchInterestGroupEdit', (props, dispatch) =>
+    dispatch(fetchGroup(Number(props.match.params.interestGroupId)))
   ),
   connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['interestGroup'])

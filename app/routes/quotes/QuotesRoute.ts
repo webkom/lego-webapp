@@ -7,7 +7,6 @@ import {
   deleteQuote,
 } from 'app/actions/QuoteActions';
 import QuotePage from './components/QuotePage';
-import prepare from 'app/utils/prepare';
 import { selectQuotes } from 'app/reducers/quotes';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
@@ -16,6 +15,7 @@ import { addReaction, deleteReaction } from 'app/actions/ReactionActions';
 import { selectEmojis } from 'app/reducers/emojis';
 import { fetchEmojis } from 'app/actions/EmojiActions';
 import qs from 'qs';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const qsParamsParser = (search) => ({
   approved:
@@ -58,14 +58,15 @@ const mapDispatchToProps = {
 };
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  prepare(
+  withPreparedDispatch(
+    'fetchQuotes',
     (props, dispatch) =>
       dispatch(
         fetchAll({
           query: qsParamsParser(props.location.search),
         })
       ),
-    ['location']
+    (props) => [props.location]
   ),
   connect(mapStateToProps, mapDispatchToProps)
 )(QuotePage);
