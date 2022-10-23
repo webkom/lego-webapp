@@ -368,7 +368,7 @@ const JoinEventForm = (props: Props) => {
                   NB!{' '}
                   {sumPenalties(penalties) > 2
                     ? `Du blir lagt rett på venteliste hvis du melder deg på`
-                    : `Påmeldingen din er forskyvet
+                    : `Påmeldingen din er forskjøvet
                       ${penaltyHours(penalties)} timer`}{' '}
                   fordi du har {sumPenalties(penalties)}{' '}
                   {sumPenalties(penalties) > 1 ? 'prikker' : 'prikk'}.
