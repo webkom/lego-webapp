@@ -3,6 +3,7 @@
 import moment from 'moment-timezone';
 import { createSelector } from 'reselect';
 import { Event } from '../actions/ActionTypes';
+import type { PhotoConsent } from '../models';
 import { mutateComments } from 'app/reducers/comments';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import joinReducers from 'app/utils/joinReducers';
@@ -18,6 +19,7 @@ export type EventEntity = {
   id: number,
   title: string,
   comments: Array<number>,
+  photoConsents?: Array<PhotoConsent>,
 };
 
 type State = any;

@@ -291,20 +291,13 @@ export const getConsent = (
     (pc) => pc.domain === domain && pc.year === year && pc.semester === semester
   );
 
-export const hasRegisteredConsent = (
-  photoConsents: Array<PhotoConsent>,
-  eventSemester: EventSemester
-): boolean => {
-  const registeredConsents =
-    photoConsents?.filter(
-      (pc) =>
-        pc.year === eventSemester.year &&
-        pc.semester === eventSemester.semester &&
-        typeof pc.isConsenting === 'boolean'
-    ) ?? [];
-
-  return registeredConsents.length === 2;
-};
+export const allConsentsAnswered = (
+  photoConsents: Array<PhotoConsent>
+): boolean =>
+  photoConsents?.reduce(
+    (all_bool, pc) => all_bool && typeof pc.isConsenting === 'boolean',
+    true
+  );
 
 export const toReadableSemester = (
   semesterObj: EventSemester | PhotoConsent
