@@ -8991,10 +8991,10 @@ react-router@5.3.4:
     tiny-invariant "^1.0.2"
     tiny-warning "^1.0.0"
 
-react-select@^5.5.3:
-  version "5.5.3"
-  resolved "https://registry.yarnpkg.com/react-select/-/react-select-5.5.3.tgz#b84a6dee4c7a7c72853fe3a88eaecd3d7150adb0"
-  integrity sha512-JwqQkQUxmilC832qd2A0SVGzC9YDgOaFbHau4GDBmnjrVC8DqGC1Vu7/jnQVW1Q023qLqdweLibQpXsJNnvJzg==
+react-select@^5.5.4:
+  version "5.5.4"
+  resolved "https://registry.yarnpkg.com/react-select/-/react-select-5.5.4.tgz#da05b8b66d33f6fc1f92fdccd0fa50d7f4418554"
+  integrity sha512-lyr19joBUm/CNJgjZMBSnFvJ/MeHCmBYvQ050qYAP3EPa7Oenlnx9guhU+SW0goYgxLQyqwRvkFllQpFAp8tmQ==
   dependencies:
     "@babel/runtime" "^7.12.0"
     "@emotion/cache" "^11.4.0"
