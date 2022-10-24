@@ -296,7 +296,7 @@ export const allConsentsAnswered = (
 ): boolean =>
   photoConsents?.reduce(
     (all_bool, pc) => all_bool && typeof pc.isConsenting === 'boolean',
-    true
+    photoConsents.length > 0
   );
 
 export const toReadableSemester = (
