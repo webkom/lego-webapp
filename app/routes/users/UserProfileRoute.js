@@ -39,7 +39,7 @@ const loadData = (
     dispatch(fetchAllWithType(GroupTypeGrade)),
     isMe && dispatch(fetchPrevious()),
     isMe && dispatch(fetchUpcoming()),
-    isMe || dispatch(fetchUser(username)),
+    dispatch(fetchUser(username)),
   ]);
 // TODO: re-enable when the user feed is fixed:
 // .then(action =>
