@@ -1,6 +1,6 @@
 // @flow
 
-import { useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { get } from 'lodash';
 import cx from 'classnames';
 import SearchPage from 'app/components/Search/SearchPage';
@@ -26,45 +26,51 @@ const Validator = (props: Props) => {
   const input = useRef<?HTMLInputElement>(null);
   const [completed, setCompleted] = useState(false);
   const [showScanner, setShowScanner] = useState(false);
-  const [processing, setProcessing] = useState(false);
+  const [scannerResult, setScannerResult] = useState('');
 
   const showCompleted = () => {
     setCompleted(true);
     setTimeout(() => setCompleted(false), 2000);
   };
 
-  const handleSelect = (result: string) => {
-    setProcessing(true);
-    props.clearSearch();
-    return props
-      .handleSelect(result)
-      .then(
-        () => {
-          const sound = new window.Audio(goodSound);
-          sound.play();
-          showCompleted();
-          setProcessing(false);
-        },
-        (err) => {
-          setProcessing(false);
-          const payload = get(err, 'payload.response.jsonData');
-          if (payload && payload.errorCode === 'not_registered') {
-            alert('Bruker er ikke påmeldt på eventet!');
-          } else if (payload && payload.errorCode === 'already_present') {
-            alert(payload.error);
-          } else {
-            alert(
-              `Det oppsto en uventet feil: ${JSON.stringify(payload || err)}`
-            );
+  const handleSelect = useCallback(
+    (result: string) => {
+      props.clearSearch();
+      return props
+        .handleSelect(result)
+        .then(
+          () => {
+            const sound = new window.Audio(goodSound);
+            sound.play();
+            showCompleted();
+          },
+          (err) => {
+            const payload = get(err, 'payload.response.jsonData');
+            if (payload && payload.errorCode === 'not_registered') {
+              alert('Bruker er ikke påmeldt på eventet!');
+            } else if (payload && payload.errorCode === 'already_present') {
+              alert(payload.error);
+            } else {
+              alert(
+                `Det oppsto en uventet feil: ${JSON.stringify(payload || err)}`
+              );
+            }
           }
-        }
-      )
-      .then(() => {
-        if (input?.current) {
-          input.current.focus();
-        }
-      });
-  };
+        )
+        .then(() => {
+          if (input?.current) {
+            input.current.focus();
+          }
+        });
+    },
+    [props]
+  );
+
+  useEffect(() => {
+    if (scannerResult.length > 0 && !completed) {
+      handleSelect(scannerResult);
+    }
+  }, [handleSelect, completed, scannerResult]);
 
   return (
     <>
@@ -89,12 +95,15 @@ const Validator = (props: Props) => {
         <h1>Scan ABA-ID</h1>
         <QrReader
           onResult={(res, error) => {
-            if (!processing && res) {
-              handleSelect(res.getText());
+            if (res) {
+              setScannerResult(res.getText());
             }
+
             if (error) {
               console.info(error);
             }
+
+            setScannerResult('');
           }}
           constraints={{ facingMode: 'environment' }}
         />
