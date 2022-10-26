@@ -374,6 +374,8 @@ const UserProfile = (props: Props) => {
     emailList.users.includes(user.id)
   );
 
+  const hasFrame = FRAMEID.includes(user.id);
+
   return (
     <div className={styles.root}>
       <Helmet title={`${firstName} ${lastName}`} />
@@ -391,19 +393,23 @@ const UserProfile = (props: Props) => {
 
       <Flex wrap className={styles.header}>
         <div className={cx(styles.sidebar, styles.picture)}>
-          {FRAMEID.includes(user.id) && (
-            <Image className={styles.frame} src={frame} />
-          )}
+          {hasFrame && <Image className={styles.frame} src={frame} />}
           <ProfilePicture user={user} size={150} />
-          <Button
-            className={styles.abaIdButton}
-            onClick={() => {
-              setShowAbaId(true);
-            }}
-          >
-            <Icon name="qr-code" size={18} />
-            Vis ABA-ID
-          </Button>
+          {isMe && (
+            <Button
+              className={
+                hasFrame
+                  ? cx(styles.abaIdButton, styles.frameMargin)
+                  : styles.abaIdButton
+              }
+              onClick={() => {
+                setShowAbaId(true);
+              }}
+            >
+              <Icon className={styles.qrIcon} name="qr-code" size={18} />
+              Vis ABA-ID
+            </Button>
+          )}
         </div>
         <Flex column className={styles.rightContent}>
           <h2>{user.fullName}</h2>

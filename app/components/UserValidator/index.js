@@ -103,7 +103,7 @@ const Validator = (props: Props) => {
         className={styles.scannerButton}
         onClick={() => setShowScanner(true)}
       >
-        <Icon name="qr-code" size={18} />
+        <Icon className={styles.qrIcon} name="qr-code" size={18} />
         Vis scanner
       </Button>
       <SearchPage
