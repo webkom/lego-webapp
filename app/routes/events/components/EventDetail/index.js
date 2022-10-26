@@ -302,15 +302,17 @@ export default class EventDetail extends Component<Props, State> {
           </span>
         ),
       },
-      event?.createdBy ? (event.createdBy && {
-        key: 'Forfatter',
-        value: (
-          <Link to={`/users/${event.createdBy.username}`}>
-            {event.createdBy.fullName} 
-          </Link>
-        ),
-      }) : ({key: 'Forfatter', value: 'Anonym'})
-      ]
+      event?.createdBy
+        ? event.createdBy && {
+            key: 'Forfatter',
+            value: (
+              <Link to={`/users/${event.createdBy.username}`}>
+                {event.createdBy.fullName}
+              </Link>
+            ),
+          }
+        : { key: 'Forfatter', value: 'Anonym' },
+    ];
 
     return (
       <div>
