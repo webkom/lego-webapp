@@ -11,7 +11,7 @@
 - `SEGMENT_WRITE_KEY` _(optional)_
   - More info here: <https://segment.com/docs/guides/setup/how-do-i-find-my-write-key/>
 - `CAPTCHA_KEY` _(optional)_
-  - More info here: <https://developers.google.com/recaptcha/docs/display>
+  - More info here: <https://developers.cloudflare.com/turnstile/frequently-asked-questions/>
 - `STRIPE_KEY` _(optional)_
   - More info here: <https://stripe.com/docs/keys>
 - `SENTRY_DSN` _(optional)_
