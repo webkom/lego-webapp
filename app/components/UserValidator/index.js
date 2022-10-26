@@ -1,6 +1,6 @@
 // @flow
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { get } from 'lodash';
 import cx from 'classnames';
 import SearchPage from 'app/components/Search/SearchPage';
@@ -23,7 +23,7 @@ type Props = {
 };
 
 const Validator = (props: Props) => {
-  const [input, setInput] = useState<?HTMLInputElement>();
+  const input = useRef<?HTMLInputElement>(null);
   const [completed, setCompleted] = useState(false);
   const [showScanner, setShowScanner] = useState(false);
   const [processing, setProcessing] = useState(false);
@@ -60,8 +60,8 @@ const Validator = (props: Props) => {
         }
       )
       .then(() => {
-        if (input) {
-          input.focus();
+        if (input?.current) {
+          input.current.focus();
         }
       });
   };
@@ -110,9 +110,7 @@ const Validator = (props: Props) => {
         {...props}
         placeholder="Skriv inn brukernavn eller navn"
         handleSelect={handleSelect}
-        inputRef={(inputEl) => {
-          setInput(inputEl);
-        }}
+        inputRef={input}
       />
     </>
   );

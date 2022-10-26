@@ -10,7 +10,7 @@ import qs from 'qs';
 type Props = {
   searching: boolean,
   location: Object,
-  inputRef?: (?HTMLInputElement) => void,
+  inputRef?: {| current: ?HTMLInputElement |},
   onQueryChanged: (string) => void,
   placeholder?: string,
   results: Array<SearchResult>,
@@ -31,7 +31,7 @@ const SearchPage = (props: Props) => {
     );
 
     setSelectedIndex(adjustedSelectedIndex);
-  }, [props, selectedIndex, setSelectedIndex]);
+  }, [props.results, selectedIndex, setSelectedIndex]);
 
   const handleKeyDown = (e: KeyboardEvent) => {
     if (props.results.length === 0) return;
