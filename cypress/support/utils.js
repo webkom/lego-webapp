@@ -64,6 +64,18 @@ export const setDatePickerTime = (name, hours, minutes) => {
   field(name).click();
 };
 
+export const setDatePickerDate = (name, date, isNextMonth = false) => {
+  field(name).click();
+
+  if (isNextMonth) {
+    cy.get(c('DatePicker__arrowIcon')).eq(1).should('not.be.disabled').click();
+  }
+
+  cy.get('button')
+    .contains(new RegExp('^' + date + '$', 'g'))
+    .click();
+};
+
 // Used to either confirm or deny the 3D secure pop-up from Stripe.
 export const confirm3DSecureDialog = (confirm = true) => {
   const target = confirm
