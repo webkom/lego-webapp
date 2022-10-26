@@ -1,6 +1,6 @@
 // @flow
 
-import { Component } from 'react';
+import { useEffect, useState } from 'react';
 import SearchPageInput from 'app/components/Search/SearchPageInput';
 import SearchPageResults from 'app/components/Search/SearchPageResults';
 import { Keyboard } from 'app/utils/constants';
@@ -10,59 +10,45 @@ import qs from 'qs';
 type Props = {
   searching: boolean,
   location: Object,
-  inputRef?: (?HTMLInputElement) => void,
+  inputRef?: {| current: ?HTMLInputElement |},
   onQueryChanged: (string) => void,
   placeholder?: string,
   results: Array<SearchResult>,
-  handleSelect: (SearchResult) => Promise<*>,
+  handleSelect: (string) => Promise<*>,
 };
 
-type State = {
-  query: mixed,
-  selectedIndex: number,
-};
+const SearchPage = (props: Props) => {
+  const [selectedIndex, setSelectedIndex] = useState<number>(0);
+  const [query, setQuery] = useState<mixed>(
+    qs.parse(props.location.search, { ignoreQueryPrefix: true }).q || ''
+  );
 
-class SearchPage extends Component<Props, State> {
-  state = {
-    selectedIndex: 0,
-    query:
-      qs.parse(this.props.location.search, { ignoreQueryPrefix: true }).q || '',
-  };
-
-  // eslint-disable-next-line
-  componentWillReceiveProps(nextProps: Props) {
+  useEffect(() => {
     // Make sure the selectedIndex is within 0 <= index < results.length:
-    const selectedIndex = Math.min(
-      this.state.selectedIndex,
-      Math.max(nextProps.results.length - 1, 0)
+    const adjustedSelectedIndex = Math.min(
+      selectedIndex,
+      Math.max(props.results.length - 1, 0)
     );
 
-    this.setState({ selectedIndex });
-  }
+    setSelectedIndex(adjustedSelectedIndex);
+  }, [props.results, selectedIndex, setSelectedIndex]);
 
-  handleKeyDown = (e: KeyboardEvent) => {
-    if (this.props.results.length === 0) return;
+  const handleKeyDown = (e: KeyboardEvent) => {
+    if (props.results.length === 0) return;
     switch (e.which) {
       case Keyboard.UP:
         e.preventDefault();
-        this.setState({
-          selectedIndex: Math.max(0, this.state.selectedIndex - 1),
-        });
+        setSelectedIndex(Math.max(0, selectedIndex - 1));
         break;
 
       case Keyboard.DOWN:
         e.preventDefault();
-        this.setState({
-          selectedIndex: Math.min(
-            this.props.results.length - 1,
-            this.state.selectedIndex + 1
-          ),
-        });
+        setSelectedIndex(Math.min(props.results.length - 1, selectedIndex + 1));
         break;
 
       case Keyboard.ENTER:
         e.preventDefault();
-        this.handleSelect(this.props.results[this.state.selectedIndex]);
+        handleSelect(props.results[selectedIndex]);
         break;
 
       default:
@@ -70,41 +56,43 @@ class SearchPage extends Component<Props, State> {
     }
   };
 
-  handleSelect = (result: SearchResult) => {
-    this.setState({ query: '', selectedIndex: 0 });
-    this.props.handleSelect(result);
+  const handleSelect = (result: SearchResult) => {
+    setQuery('');
+    setSelectedIndex(0);
+    props.handleSelect(result.username ?? '');
   };
 
-  handleQueryChange = ({ target }: SyntheticInputEvent<HTMLInputElement>) => {
+  const handleQueryChange = ({
+    target,
+  }: SyntheticInputEvent<HTMLInputElement>) => {
     const query = target.value;
-    this.setState({ query });
-    this.props.onQueryChanged(query);
+    setQuery(query);
+    props.onQueryChanged(query);
   };
 
-  render() {
-    const { inputRef, placeholder, searching, results } = this.props;
-    const value = typeof this.state.query === 'string' ? this.state.query : '';
-    return (
-      <div>
-        <SearchPageInput
-          inputRef={inputRef}
-          isSearching={searching}
-          value={value}
-          onKeyDown={this.handleKeyDown}
-          placeholder={placeholder}
-          onChange={this.handleQueryChange}
-        />
+  const { inputRef, placeholder, searching, results } = props;
+  const value = typeof query === 'string' ? query : '';
 
-        <SearchPageResults
-          onKeyDown={this.handleKeyDown}
-          onSelect={this.handleSelect}
-          query={value}
-          results={results.filter(({ link }) => link)}
-          selectedIndex={this.state.selectedIndex}
-        />
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      <SearchPageInput
+        inputRef={inputRef}
+        isSearching={searching}
+        value={value}
+        onKeyDown={handleKeyDown}
+        placeholder={placeholder}
+        onChange={handleQueryChange}
+      />
+
+      <SearchPageResults
+        onKeyDown={handleKeyDown}
+        onSelect={handleSelect}
+        query={value}
+        results={results.filter(({ link }) => link)}
+        selectedIndex={selectedIndex}
+      />
+    </div>
+  );
+};
 
 export default SearchPage;

@@ -2,7 +2,7 @@
 import styles from './SearchPageInput.css';
 
 type Props = {
-  inputRef?: (?HTMLInputElement) => void,
+  inputRef?: {| current: ?HTMLInputElement |},
   onChange: (SyntheticInputEvent<HTMLInputElement>) => void,
   onKeyDown: (KeyboardEvent) => void,
   placeholder?: string,
