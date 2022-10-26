@@ -284,7 +284,7 @@ export class RegisteredTable extends Component<Props> {
       {
         title: 'Betaling',
         dataIndex: 'paymentStatus',
-        visible: event.isPriced,
+        visible: !!event.isPriced,
         center: true,
         render: (paymentStatus, registration) => (
           <StripeStatus
@@ -293,6 +293,13 @@ export class RegisteredTable extends Component<Props> {
             handlePayment={handlePayment}
           />
         ),
+        sorter: (a, b) => {
+          const paymentStatusA = a.paymentStatus ?? 'failed';
+          const paymentStatusB = b.paymentStatus ?? 'failed';
+
+          if (paymentStatusA > paymentStatusB) return 1;
+          else return -1;
+        },
       },
       {
         title: 'Tilbakemelding',
@@ -305,8 +312,7 @@ export class RegisteredTable extends Component<Props> {
           </span>
         ),
         sorter: (a, b) => {
-          if (a.feedback > b.feedback) return 1;
-          else return -1;
+          return a.feedback.localeCompare(b.feedback);
         },
       },
       {
