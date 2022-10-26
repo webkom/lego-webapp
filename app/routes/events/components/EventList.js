@@ -120,7 +120,7 @@ const filterRegDateOptions: Array<Option> = [
 class EventList extends Component<EventListProps, State> {
   constructor(props: EventListProps) {
     super(props);
-    const locationFilters = props.location.state.filterEventType || [];
+    const locationFilters = props.location.state?.filterEventType || [];
 
     this.state = {
       selectedOption: filterRegDateOptions[0],
