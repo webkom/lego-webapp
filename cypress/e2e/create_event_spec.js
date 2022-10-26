@@ -5,6 +5,7 @@ import {
   selectField,
   selectFieldDropdown,
   selectEditor,
+  setDatePickerDate,
 } from '../support/utils.js';
 
 describe('Create event', () => {
@@ -263,28 +264,9 @@ describe('Create event', () => {
     const todayDay = dateObject.getDate();
     dateObject.setDate(dateObject.getDate() + 1);
     const tomorrowDay = dateObject.getDate();
-    field('startTime').click();
-    if (tomorrowDay < todayDay) {
-      // End of month
-      cy.get(c('DatePicker__arrowIcon'))
-        .eq(1)
-        .should('not.be.disabled')
-        .click();
-    }
-    cy.get('button')
-      .contains(new RegExp('^' + tomorrowDay + '$', 'g'))
-      .click();
-    field('endTime').click();
-    if (tomorrowDay < todayDay) {
-      // End of month
-      cy.get(c('DatePicker__arrowIcon'))
-        .eq(1)
-        .should('not.be.disabled')
-        .click();
-    }
-    cy.get('button')
-      .contains(new RegExp('^' + tomorrowDay + '$', 'g'))
-      .click();
+
+    setDatePickerDate('startTime', tomorrowDay, tomorrowDay < todayDay);
+    setDatePickerDate('endTime', tomorrowDay, tomorrowDay < todayDay);
 
     // Select regitrationType
     selectField('eventStatusType').click();
