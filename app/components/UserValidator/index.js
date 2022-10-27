@@ -23,6 +23,8 @@ type Props = {
 };
 
 const Validator = (props: Props) => {
+  const { clearSearch, handleSelect } = props;
+
   const input = useRef<?HTMLInputElement>(null);
   const [completed, setCompleted] = useState(false);
   const [showScanner, setShowScanner] = useState(false);
@@ -33,11 +35,10 @@ const Validator = (props: Props) => {
     setTimeout(() => setCompleted(false), 2000);
   };
 
-  const handleSelect = useCallback(
+  const onSelect = useCallback(
     (result: string) => {
-      props.clearSearch();
-      return props
-        .handleSelect(result)
+      clearSearch();
+      return handleSelect(result)
         .then(
           () => {
             const sound = new window.Audio(goodSound);
@@ -63,14 +64,14 @@ const Validator = (props: Props) => {
           }
         });
     },
-    [props]
+    [clearSearch, handleSelect]
   );
 
   useEffect(() => {
     if (scannerResult.length > 0 && !completed) {
-      handleSelect(scannerResult);
+      onSelect(scannerResult);
     }
-  }, [handleSelect, completed, scannerResult]);
+  }, [completed, onSelect, scannerResult]);
 
   return (
     <>
@@ -118,7 +119,7 @@ const Validator = (props: Props) => {
       <SearchPage
         {...props}
         placeholder="Skriv inn brukernavn eller navn"
-        handleSelect={handleSelect}
+        handleSelect={onSelect}
         inputRef={input}
       />
     </>
