@@ -7,6 +7,7 @@ import { createField } from './Field';
 import Turnstile from 'react-turnstile';
 import styles from './Captcha.css';
 import cx from 'classnames';
+import { getTheme } from 'app/utils/themeUtils';
 
 type Props = {
   className?: string,
@@ -40,6 +41,7 @@ class Captcha extends Component<Props> {
           }}
           sitekey={config.captchaKey}
           onVerify={onChange}
+          theme={getTheme()}
         />
       </div>
     );
