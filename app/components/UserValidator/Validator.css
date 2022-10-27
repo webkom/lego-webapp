@@ -31,6 +31,12 @@
   margin-bottom: 1rem;
 }
 
+.qrIcon {
+  display: flex;
+  align-items: center;
+  margin-right: 0.2rem;
+}
+
 .overlay i {
   font-size: 10em;
   color: green;
