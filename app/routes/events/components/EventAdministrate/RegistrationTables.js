@@ -294,11 +294,9 @@ export class RegisteredTable extends Component<Props> {
           />
         ),
         sorter: (a, b) => {
-          const paymentStatusA = a.paymentStatus ?? 'failed';
-          const paymentStatusB = b.paymentStatus ?? 'failed';
-
-          if (paymentStatusA > paymentStatusB) return 1;
-          else return -1;
+          a.paymentStatus ??= 'failed';
+          b.paymentStatus ??= 'failed';
+          return a.paymentStatus > b.paymentStatus ? 1 : -1;
         },
       },
       {
@@ -311,9 +309,7 @@ export class RegisteredTable extends Component<Props> {
             {`Matallergier: ${registration.user.allergies || '-'}`}
           </span>
         ),
-        sorter: (a, b) => {
-          return a.feedback.localeCompare(b.feedback);
-        },
+        sorter: (a, b) => a.feedback.localeCompare(b.feedback),
       },
       {
         title: 'Administrer',
