@@ -284,7 +284,7 @@ export class RegisteredTable extends Component<Props> {
       {
         title: 'Betaling',
         dataIndex: 'paymentStatus',
-        visible: !!event.isPriced,
+        visible: event.isPriced,
         center: true,
         render: (paymentStatus, registration) => (
           <StripeStatus
@@ -294,9 +294,9 @@ export class RegisteredTable extends Component<Props> {
           />
         ),
         sorter: (a, b) => {
-          a.paymentStatus ??= 'failed';
-          b.paymentStatus ??= 'failed';
-          return a.paymentStatus > b.paymentStatus ? 1 : -1;
+          const paymentStatusA = a.paymentStatus ?? 'failed';
+          const paymentStatusB = b.paymentStatus ?? 'failed';
+          return paymentStatusA > paymentStatusB ? 1 : -1;
         },
       },
       {
