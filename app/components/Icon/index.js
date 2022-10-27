@@ -1,6 +1,7 @@
 // @flow
 
 import styles from './Icon.css';
+import { Flex } from 'app/components/Layout';
 
 type Props = {
   /** Name of the icon can be found on the webpage*/
@@ -29,7 +30,7 @@ const Icon = ({
   ...props
 }: Props) => {
   return (
-    <div
+    <Flex
       className={className}
       style={{
         fontSize: `${size.toString()}px`,
@@ -38,7 +39,7 @@ const Icon = ({
       {...(props: Object)}
     >
       <ion-icon name={name}></ion-icon>
-    </div>
+    </Flex>
   );
 };
 

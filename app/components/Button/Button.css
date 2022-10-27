@@ -39,7 +39,7 @@
   }
 
   > i,
-  > ion-icon {
+  > div > ion-icon {
     margin-right: 7px;
   }
 
