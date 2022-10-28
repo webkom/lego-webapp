@@ -78,6 +78,7 @@ type EventListProps = {
   showFetchMore: boolean,
   fetchMore: () => Promise<*>,
   loggedIn: boolean,
+  location: Object,
 };
 
 type Option = {
@@ -117,15 +118,22 @@ const filterRegDateOptions: Array<Option> = [
 ];
 
 class EventList extends Component<EventListProps, State> {
-  state = {
-    selectedOption: filterRegDateOptions[0],
-    filterEventTypesSettings: {
-      showCompanyPresentation: false,
-      showCourse: false,
-      showSocial: false,
-      showOther: false,
-    },
-  };
+  constructor(props: EventListProps) {
+    super(props);
+    const locationFilters = props.location.state?.filterEventType || [];
+
+    this.state = {
+      selectedOption: filterRegDateOptions[0],
+      filterEventTypesSettings: {
+        showCompanyPresentation: locationFilters.includes(
+          'showCompanyPresentation'
+        ),
+        showCourse: locationFilters.includes('showCourse'),
+        showSocial: locationFilters.includes('showSocial'),
+        showOther: locationFilters.includes('showOther'),
+      },
+    };
+  }
 
   handleChange = (selectedOption: Option): void => {
     this.setState({ selectedOption });
