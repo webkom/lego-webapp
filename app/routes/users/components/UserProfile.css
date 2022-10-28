@@ -49,18 +49,10 @@ html[data-theme='dark'] .emptyState {
 }
 
 .frameMargin {
-  margin-top: 6.5rem;
-}
-
-.picture {
-  flex-direction: column;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  margin-top: 2rem;
 }
 
 .sidebar {
-  flex: 1;
   min-width: 320px;
   position: relative;
 }
