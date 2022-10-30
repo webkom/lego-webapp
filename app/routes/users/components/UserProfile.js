@@ -392,9 +392,11 @@ const UserProfile = (props: Props) => {
       </Modal>
 
       <Flex wrap className={styles.header}>
-        <div className={cx(styles.sidebar, styles.picture)}>
-          {hasFrame && <Image className={styles.frame} src={frame} />}
-          <ProfilePicture user={user} size={150} />
+        <Flex column alignItems="center" className={styles.sidebar}>
+          <Flex alignItems="center" justifyContent="center">
+            {hasFrame && <Image className={styles.frame} src={frame} />}
+            <ProfilePicture user={user} size={150} />
+          </Flex>
           {isMe && (
             <Button
               className={
@@ -410,7 +412,7 @@ const UserProfile = (props: Props) => {
               Vis ABA-ID
             </Button>
           )}
-        </div>
+        </Flex>
         <Flex column className={styles.rightContent}>
           <h2>{user.fullName}</h2>
           <Flex wrap>
