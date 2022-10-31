@@ -17,6 +17,10 @@
   z-index: 3;
 }
 
+html[data-theme='dark'] .backdrop {
+  background: rgba(var(--rgb-max), var(--rgb-max), var(--rgb-max), 80%);
+}
+
 .content {
   position: fixed;
   max-width: 680px;
