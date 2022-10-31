@@ -197,6 +197,7 @@ describe('Create meeting', () => {
     cy.get(c('Modal__closeButton')).click();
 
     setDatePickerTime('startTime', '17', '15');
+    setDatePickerTime('endTime', '20', '00');
     field('useMazemap').click();
     selectFromSelectField('mazemapPoi', 'Abakus, Realfagbygget', 'a');
     selectFromSelectField('users', 'bedkom bedkom (bedkom)', 'bedkom');
