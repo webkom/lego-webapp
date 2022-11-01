@@ -8,6 +8,7 @@ import type { Event, Article } from 'app/models';
 import Tag from 'app/components/Tags/Tag';
 import Tags from 'app/components/Tags';
 import truncateString from 'app/utils/truncateString';
+import moment from 'moment-timezone';
 
 export const renderMeta = (
   item: (Event | Article) & { documentType: string }
@@ -18,7 +19,11 @@ export const renderMeta = (
       <Time
         //$FlowFixMe[incompatible-type]
         time={isEvent ? item.startTime : item.createdAt}
-        format="DD.MMM HH:mm"
+        format={
+          moment().year() === moment(item.startTime).year()
+            ? 'DD.MMM HH:mm'
+            : 'DD.MM.YYYY HH:mm'
+        }
       />
 
       {item.location !== '-' && isEvent && (
