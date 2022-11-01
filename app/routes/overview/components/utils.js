@@ -21,8 +21,8 @@ export const renderMeta = (
         time={isEvent ? item.startTime : item.createdAt}
         format={
           moment().year() === moment(item.startTime).year()
-            ? 'DD.MMM HH:mm'
-            : 'DD.MM.YYYY HH:mm'
+            ? 'DD. MMM HH:mm'
+            : 'DD. MMM YYYY HH:mm'
         }
       />
 
