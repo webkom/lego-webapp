@@ -14,6 +14,8 @@ import {
 } from 'app/routes/events/utils';
 import styles from './PhotoConsents.css';
 
+import { selectStyles, selectTheme } from 'app/components/Form/SelectInput';
+
 const ConsentManager = ({
   consent,
   updateConsent,
@@ -136,6 +138,8 @@ const PhotoConsents = ({
         onChange={({ value }) =>
           setSelectedSemesterOption({ label: toReadableSemester(value), value })
         }
+        theme={selectTheme}
+        styles={selectStyles}
       />
       <ConsentManager
         consent={getConsent(
