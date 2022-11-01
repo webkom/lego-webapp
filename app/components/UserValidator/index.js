@@ -15,7 +15,7 @@ import { QrReader } from 'react-qr-reader';
 import Icon from 'app/components/Icon';
 type Props = {
   clearSearch: () => void,
-  handleSelect: (string) => Promise<void>,
+  handleSelect: (SearchResult) => Promise<void>,
   location: Object,
   onQueryChanged: (string) => void,
   results: Array<SearchResult>,
@@ -36,7 +36,7 @@ const Validator = (props: Props) => {
   };
 
   const onSelect = useCallback(
-    (result: string) => {
+    (result: SearchResult) => {
       clearSearch();
       return handleSelect(result)
         .then(
@@ -69,7 +69,18 @@ const Validator = (props: Props) => {
 
   useEffect(() => {
     if (scannerResult.length > 0 && !completed) {
-      onSelect(scannerResult);
+      onSelect({
+        username: scannerResult,
+        result: '',
+        color: '',
+        content: '',
+        icon: '',
+        label: '',
+        link: '',
+        path: '',
+        picture: '',
+        value: '',
+      });
     }
   }, [completed, onSelect, scannerResult]);
 
