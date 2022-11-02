@@ -1,108 +1,106 @@
 @import '~app/styles/variables.css';
 
+.checkbox {
+  --background: inherit;
+  --border: var(--color-mono-gray-2);
+  --border-hover: var(--color-mono-gray-1);
+  --border-active: var(--lego-red);
+  --tick: white;
+
+  position: relative;
+}
+
+.checkbox input,
+.checkbox svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  display: block;
+}
+
 .label {
   cursor: pointer;
+  user-select: none;
+}
+
+.checkbox input {
+  appearance: none;
   position: relative;
-  padding-left: 25px;
-  margin-right: 15px;
-  font-size: 13px;
-}
-
-.label:hover::before {
-  border: 1px solid var(--color-dark-mono-gray-5) !important;
-  transition: border 0.5s;
-}
-
-.checked,
-.unchecked {
-  position: absolute;
-  margin-top: 4px;
-  margin-left: 2px;
-  z-index: 1;
-  transform: scale(1.5);
-  opacity: 0;
+  outline: none;
+  background: var(--background);
+  border: none;
+  margin: 0;
+  padding: 0;
   cursor: pointer;
+  border-radius: 4px;
+  transition: box-shadow 0.2s;
+  box-shadow: inset 0 0 0 var(--s, 1px) var(--b, var(--border));
 }
 
-.checked + label::after {
-  content: '\2713';
+.checkbox input:hover {
+  --s: 2px;
+  --b: var(--border-hover);
+}
+
+.checkbox input:checked {
+  --b: var(--border-active);
+}
+
+.checkbox svg {
+  pointer-events: none;
+  fill: none;
+  stroke-width: 2px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke: var(--stroke, var(--border-active));
   position: absolute;
-  top: 4px;
-  left: 3px;
-  font-size: 16px;
-  line-height: 80%;
-  color: var(--color-white);
-  transition: all 0.2s;
-  opacity: 1;
-  transform: scale(1);
-}
-
-.unchecked + label::before {
-  background: var(--color-almost-white-2);
-}
-
-.unchecked + label::after {
-  opacity: 0;
-  transform: scale(0);
-}
-
-.checked + label::before {
-  background: var(--lego-link-color);
-  border-color: var(--lego-link-color);
-}
-
-.checked + label::before,
-.unchecked + label::before {
-  content: '';
-  position: absolute;
+  top: 0;
   left: 0;
-  top: 1px;
-  width: 17px;
-  height: 17px;
-  border: 1px solid var(--color-mono-gray-1);
-  border-radius: 3px;
+  transform: scale(var(--scale, 1)) translateZ(0);
 }
 
-/* CheckBox uses label for its clickable square, so these values are tuned for
-  checkboxes */
-.checkboxField > label label::before {
-  top: 6px;
+.checkbox.path input:checked {
+  --s: 2px;
+
+  transition-delay: 0.3s;
 }
 
-.checkboxField > label label::after {
-  top: 9px;
+.checkbox.path svg {
+  stroke-dasharray: var(--a, 86.12);
+  stroke-dashoffset: var(--o, 86.12);
+  transition: stroke-dasharray 0.6s, stroke-dashoffset 0.6s;
 }
 
-.checked:focus + label::before,
-.unchecked:focus + label::before {
-  cursor: pointer;
+.checkbox.bounce svg {
+  --scale: 0;
 }
 
-.unchecked + label,
-.checked + label {
-  position: relative;
-  cursor: pointer;
+.checkbox.path input:checked + svg {
+  --a: 16.1 86.12;
+  --o: 102.22;
 }
 
-.box {
-  display: inline-block;
-  width: 21px;
-  height: 21px;
-  margin-right: 10px;
-  margin-bottom: -3px;
+.checkbox.bounce {
+  --stroke: var(--tick);
 }
 
-.box input:disabled + label::before {
-  background: var(--color-mono-gray-4);
-  border: 1px solid var(--color-mono-gray-2);
+.checkbox.bounce input:checked {
+  --s: 11px;
 }
 
-.box input:disabled + label::after {
-  color: var(--color-dark-mono-gray-4);
+.checkbox.bounce input:checked + svg {
+  animation: bounce 0.4s linear forwards 0.2s;
 }
 
-.checkboxField > label {
-  display: flex;
-  flex-direction: row-reverse;
-  justify-content: flex-end;
+@keyframes bounce {
+  50% {
+    transform: scale(1.2);
+  }
+
+  75% {
+    transform: scale(0.9);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
