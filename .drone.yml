@@ -191,7 +191,7 @@ steps:
     commands:
       - yarn lint
 
-  - name: flow
+  - name: Typescript
     image: node:14-slim
     when:
       event: [push]
@@ -325,4 +325,4 @@ image_pull_secrets:
 
 ---
 kind: signature
-hmac: e2eb2dfdcef62b20d7da77f6345ee3f7373953bfdf694dbf8112b92fce6719ce
+hmac: 59bd0e83da97f377898c5b3bc84e0366a5de53d295805c19881a575257c70596
