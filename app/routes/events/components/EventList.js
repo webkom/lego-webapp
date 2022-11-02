@@ -192,44 +192,32 @@ class EventList extends Component<EventListProps, State> {
         <Toolbar actionGrant={this.props.actionGrant} />
         <div className={styles.filter}>
           <div className={styles.filterButtons}>
-            <label>
-              <CheckBox
-                id="companyPresentation"
-                value={showCompanyPresentation}
-                onChange={() =>
-                  this.handleFilterEventTypeChange('showCompanyPresentation')
-                }
-                className={styles.checkbox}
-              />
-              <span>Bedpres</span>
-            </label>
-            <label>
-              <CheckBox
-                id="course"
-                value={showCourse}
-                onChange={() => this.handleFilterEventTypeChange('showCourse')}
-                className={styles.checkbox}
-              />
-              <span>Kurs</span>
-            </label>
-            <label>
-              <CheckBox
-                id="social"
-                value={showSocial}
-                onChange={() => this.handleFilterEventTypeChange('showSocial')}
-                className={styles.checkbox}
-              />
-              <span>Sosialt</span>
-            </label>
-            <label>
-              <CheckBox
-                id="other"
-                value={showOther}
-                onChange={() => this.handleFilterEventTypeChange('showOther')}
-                className={styles.checkbox}
-              />
-              <span>Annet</span>
-            </label>
+            <CheckBox
+              id="companyPresentation"
+              label="Bedpres"
+              value={showCompanyPresentation}
+              onChange={() =>
+                this.handleFilterEventTypeChange('showCompanyPresentation')
+              }
+            />
+            <CheckBox
+              id="course"
+              label="Kurs"
+              value={showCourse}
+              onChange={() => this.handleFilterEventTypeChange('showCourse')}
+            />
+            <CheckBox
+              id="social"
+              label="Sosialt"
+              value={showSocial}
+              onChange={() => this.handleFilterEventTypeChange('showSocial')}
+            />
+            <CheckBox
+              id="other"
+              label="Annet"
+              value={showOther}
+              onChange={() => this.handleFilterEventTypeChange('showOther')}
+            />
           </div>
           <Icon
             name="funnel-outline"

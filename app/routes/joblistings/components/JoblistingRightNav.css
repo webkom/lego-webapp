@@ -64,12 +64,6 @@
   }
 }
 
-.filterLink {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
 .rightHeader {
   text-transform: uppercase;
   font-weight: 400;

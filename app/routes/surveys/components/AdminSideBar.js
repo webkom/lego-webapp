@@ -61,15 +61,14 @@ class AdminSideBar extends Component<Props, State> {
               <Link to={`/surveys/${surveyId}/edit`}>Endre undersøkelsen</Link>
             </li>
             {actionGrant && actionGrant.includes('edit') && shareSurvey && (
-              <div>
-                <CheckBox
-                  onChange={() =>
-                    token ? hideSurvey(surveyId) : shareSurvey(surveyId)
-                  }
-                  value={!!token}
-                />
-                Del spørreundersøkelsen
-              </div>
+              <CheckBox
+                id="shareSurvey"
+                label="Del spørreundersøkelsen"
+                onChange={() =>
+                  token ? hideSurvey(surveyId) : shareSurvey(surveyId)
+                }
+                value={!!token}
+              />
             )}
             {token && (
               <li>
