@@ -22,8 +22,8 @@
     "lint": "yarn run lint:js && yarn run lint:css && yarn run lint:prettier",
     "lint:js": "eslint . --ignore-path .prettierignore --max-warnings 0",
     "lint:css": "stylelint './app/**/*.css'",
-    "lint:prettier": "prettier '**/*.{js,css,md}' --check",
-    "prettier": "prettier '**/*.{js,css,md}' --write",
+    "lint:prettier": "prettier '**/*.{ts,tsx,js,css,md}' --check",
+    "prettier": "prettier '**/*.{ts,tsx,js,css,md}' --write",
     "flow": "flow"
   },
   "repository": {
@@ -220,7 +220,7 @@
       "^.+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp3|mp4|webm)$": "<rootDir>/testing/FileStub.js",
       "^.+\\.css$": "<rootDir>/testing/CSSStub.js"
     },
-    "testRegex": "\\.spec\\.(js|jsx)$",
+    "testRegex": "\\.spec\\.(ts|tsx)$",
     "setupFiles": [
       "<rootDir>/testing/mazemapMapbox.js",
       "<rootDir>/testing/requestAnimationFrame.js",
