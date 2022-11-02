@@ -161,7 +161,7 @@ export const FlatpageRenderer = ({ page }: { page: PageEntity }) => (
 );
 
 export const GroupRenderer = ({ page }: { page: Object }) => {
-  const { membershipsByRole, text } = page;
+  const { membershipsByRole, text, name } = page;
 
   const {
     leader: leaders = [],
@@ -178,7 +178,7 @@ export const GroupRenderer = ({ page }: { page: Object }) => {
       <div className={styles.membersSection}>
         <div className={styles.leaderBoard}>
           {leaders.map(({ user }, key) => (
-            <GroupMember user={user} key={user.id} leader />
+            <GroupMember user={user} key={user.id} leader groupName={name} />
           ))}
           {co_leaders.map(({ user }, key) => (
             <GroupMember user={user} key={user.id} co_leader />
