@@ -70,11 +70,11 @@ const readyHtml = (app) => {
 
 const analytics = __DEV__
   ? ''
-  : // The .replace() remove the protocol (https://) part of the url, leaving just the domain
+  : // The .replace() removes the protocol (https://) part of the url, leaving just the domain
     `<script defer data-domain=${config.webUrl.replace(
       /(^\w+:|^)\/\//,
       ''
-    )} src="https://analytics.webkom.dev/js/plausible.js"></script>`;
+    )} src="https://ls.webkom.dev/script.js"></script>`;
 
 export default function pageRenderer({
   app = undefined,
