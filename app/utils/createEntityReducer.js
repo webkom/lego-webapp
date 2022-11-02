@@ -1,6 +1,14 @@
 // @flow
 
-import { omit, without, isArray, get, union, isEmpty } from 'lodash';
+import {
+  omit,
+  without,
+  isArray,
+  get,
+  union,
+  intersection,
+  isEmpty,
+} from 'lodash';
 import { parse } from 'qs';
 import { configWithSSR } from 'app/config';
 import joinReducers from 'app/utils/joinReducers';
@@ -65,6 +73,7 @@ export function createAndUpdateEntities(
     if (!action.payload) return state;
     const primaryKey = get(action, ['meta', 'schemaKey']) === key;
     const result = get(action, ['payload', 'entities', key], {});
+    const cursor = get(action, ['meta', 'cursor']);
 
     /*
      * primaryKey is true if the action schema key is the same as the key specified by createEntityReducer.
@@ -110,14 +119,39 @@ export function createAndUpdateEntities(
     }
     let paginationNext = state.paginationNext;
     if (primaryKey && !action.cached && action.meta.paginationKey) {
+      const hasMore = typeof action.payload?.next === 'string';
+      const {
+        items: oldItems,
+        currentPaginationItems: oldCurrentPaginationItems,
+      } = state.paginationNext[action.meta.paginationKey];
+
+      const currentPaginationItems =
+        cursor === ''
+          ? resultIds
+          : union(intersection(oldCurrentPaginationItems, oldItems), resultIds);
+
+      // Find the last value in newCurrentPagination that is also in items
+      const matchValue = currentPaginationItems
+        .slice()
+        .reverse()
+        .find((value) => oldItems.indexOf(value) !== -1);
+
+      // If pagination is complete, or the last matching value is not in the current pagination page,
+      // drop all values to the right
+      const forceCutoff =
+        !hasMore || !resultIds.includes(matchValue) || matchValue === -1;
+
+      const items = union(
+        currentPaginationItems,
+        forceCutoff ? [] : oldItems.slice(oldItems.indexOf(matchValue))
+      );
+
       paginationNext = {
         ...state.paginationNext,
         [action.meta.paginationKey]: {
           ...state.paginationNext[action.meta.paginationKey],
-          items: union(
-            state.paginationNext[action.meta.paginationKey].items,
-            resultIds
-          ),
+          currentPaginationItems,
+          items,
         },
       };
     }
@@ -243,8 +277,9 @@ export function paginationReducer(fetchTypes: ?EntityReducerTypes): Reducer {
         paginationNext: {
           ...state.paginationNext,
           [paginationKey]: {
-            ...state.paginationNext[paginationKey],
             items: [],
+            ...state.paginationNext[paginationKey],
+            currentPaginationItems: [],
             hasMore: true,
             query,
             hasMoreBackwards: false,

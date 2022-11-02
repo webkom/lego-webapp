@@ -737,8 +737,11 @@ describe('deleteEntities()', () => {
     });
   });
 });
-
-describe('paginationReducer()', () => {
+/*
+ * Tests for the old behavior of the paginationReducer that always
+ * did a full reset once fetching the first page
+ */
+describe.skip('paginationReducer()', () => {
   it('should add data to paginationNext', () => {
     expect(
       reducer(undefined, {
@@ -1053,6 +1056,495 @@ describe('paginationReducer()', () => {
       smashed: false,
       pagination: {},
       paginationNext: {},
+    });
+  });
+});
+
+describe('paginationReducer v3()', () => {
+  it('should add data to paginationNext', () => {
+    expect(
+      reducer(undefined, {
+        type: FETCH.SUCCESS,
+        meta: {
+          schemaKey: 'events',
+          cursor: '',
+          paginationKey: '/events/?bar=true',
+        },
+        payload: {
+          actionGrant: ['list'],
+          entities: {
+            events: {
+              0: { name: 'Hello' },
+              1: { name: 'Hello' },
+            },
+          },
+          result: [0, 1],
+          next: 'https://lego-staging.abakus.no/api/v1/events/?bar=true&cursor=next-cursor',
+          previous:
+            'https://lego-staging.abakus.no/api/v1/events/?bar=true&cursor=previous-cursor',
+        },
+      }).paginationNext
+    ).toEqual({
+      '/events/?bar=true': {
+        items: [0, 1],
+        currentPaginationItems: [0, 1],
+        hasMore: true,
+        hasMoreBackwards: true,
+        next: { cursor: 'next-cursor', bar: 'true' },
+        previous: { cursor: 'previous-cursor', bar: 'true' },
+      },
+    });
+  });
+  it('should work as expected on fetch number 2', () => {
+    expect(
+      reducer(
+        {
+          actionGrant: ['list'],
+          byId: {
+            0: { name: 'Hello' },
+            1: { name: 'Hello' },
+          },
+          items: [0, 1],
+          fetching: false,
+          hasMore: true,
+          smashed: false,
+          pagination: {},
+          paginationNext: {
+            '/events/?bar=true': {
+              currentPaginationItems: [0, 1],
+              items: [0, 1],
+              hasMore: true,
+              hasMoreBackwards: true,
+              next: { cursor: 'next-cursor', bar: 'true' },
+              previous: { cursor: 'previous-cursor', bar: 'true' },
+            },
+          },
+        },
+        {
+          type: FETCH.SUCCESS,
+          meta: {
+            schemaKey: 'events',
+            cursor: 'next-cursor',
+            query: { bar: 'true' },
+            paginationKey: '/events/?bar=true',
+          },
+          payload: {
+            actionGrant: ['list'],
+            entities: {
+              events: {
+                4: { name: 'Hello' },
+                5: { name: 'Hello' },
+              },
+            },
+            result: [4, 5],
+            next: null,
+            previous:
+              'https://lego-staging.abakus.no/api/v1/events/?bar=true&cursor=previous-cursor-2',
+          },
+        }
+      ).paginationNext
+    ).toEqual({
+      '/events/?bar=true': {
+        currentPaginationItems: [0, 1, 4, 5],
+        items: [0, 1, 4, 5],
+        query: { bar: 'true' },
+        hasMore: false,
+        hasMoreBackwards: true,
+        next: null,
+        previous: { cursor: 'previous-cursor-2', bar: 'true' },
+      },
+    });
+  });
+  it('should init pagination on fetch BEGIN', () => {
+    expect(
+      reducer(undefined, {
+        type: FETCH.BEGIN,
+        meta: {
+          schemaKey: 'events',
+          cursor: '',
+          paginationKey: '/events/?bar=true',
+        },
+        payload: [],
+      })
+    ).toEqual({
+      actionGrant: [],
+      byId: {},
+      items: [],
+      fetching: true,
+      hasMore: false,
+      smashed: false,
+      pagination: {},
+      paginationNext: {
+        '/events/?bar=true': {
+          items: [],
+          currentPaginationItems: [],
+          hasMore: true,
+          hasMoreBackwards: false,
+          next: { cursor: '' },
+          previous: null,
+        },
+      },
+    });
+  });
+
+  it('Should filter out data from pagination on delete', () => {
+    expect(
+      reducer(
+        {
+          actionGrant: [],
+          byId: {
+            0: { name: 'Hello' },
+            1: { name: 'Hello' },
+          },
+          items: [0, 1],
+          fetching: true,
+          hasMore: false,
+          smashed: false,
+          pagination: {},
+          paginationNext: {
+            '/events/?bar=true': {
+              items: [0, 1],
+              currentPaginationItems: [0, 1],
+              hasMore: true,
+              hasMoreBackwards: false,
+              next: { cursor: '' },
+              previous: null,
+            },
+          },
+        },
+        {
+          type: DELETE.SUCCESS,
+          meta: {
+            id: 1,
+          },
+          payload: [],
+        }
+      ).paginationNext
+    ).toEqual({
+      '/events/?bar=true': {
+        items: [0],
+        currentPaginationItems: [0, 1],
+        hasMore: true,
+        hasMoreBackwards: false,
+        next: { cursor: '' },
+        previous: null,
+      },
+    });
+  });
+  it('should invalidate all pagination data on mutate success action', () => {
+    expect(
+      reducer(
+        {
+          actionGrant: [],
+          byId: {
+            0: { name: 'Hello' },
+            1: { name: 'Hello' },
+          },
+          items: [0, 1],
+          fetching: true,
+          hasMore: false,
+          smashed: false,
+          pagination: {},
+          paginationNext: {
+            '/events/?bar=true&foo=false': {
+              items: [0, 1],
+              hasMore: true,
+              hasMoreBackwards: false,
+              next: { cursor: '' },
+              previous: null,
+            },
+            '/events/?bar=true': {
+              items: [0, 1],
+              hasMore: true,
+              hasMoreBackwards: false,
+              next: { cursor: '' },
+              previous: null,
+            },
+          },
+        },
+        {
+          type: CREATE.SUCCESS,
+          meta: {
+            schemaKey: 'events',
+          },
+          payload: {
+            entities: {
+              events: {
+                2: { name: 'Hello' },
+              },
+            },
+            result: [2],
+          },
+        }
+      )
+    ).toEqual({
+      actionGrant: [],
+      byId: {
+        0: { name: 'Hello' },
+        1: { name: 'Hello' },
+        2: { name: 'Hello' },
+      },
+      items: [0, 1, 2],
+      fetching: true,
+      hasMore: false,
+      smashed: false,
+      pagination: {},
+      paginationNext: {},
+    });
+  });
+
+  it('should merge correctly', () => {
+    expect(
+      reducer(
+        {
+          actionGrant: ['list'],
+          byId: {
+            0: { name: 'Hello' },
+            1: { name: 'Hello' },
+            4: { name: 'Hello' },
+          },
+          items: [0, 1, 4],
+          fetching: false,
+          hasMore: true,
+          smashed: false,
+          pagination: {},
+          paginationNext: {
+            '/events/?bar=true': {
+              items: [0, 1, 4],
+              currentPaginationItems: [0, 1, 4],
+              hasMore: true,
+              hasMoreBackwards: true,
+              next: { cursor: 'next-cursor', bar: 'true' },
+              previous: { cursor: 'previous-cursor', bar: 'true' },
+            },
+          },
+        },
+        {
+          type: FETCH.SUCCESS,
+          meta: {
+            schemaKey: 'events',
+            cursor: '',
+            query: { bar: 'true' },
+            paginationKey: '/events/?bar=true',
+          },
+          payload: {
+            actionGrant: ['list'],
+            entities: {
+              events: {
+                0: { name: 'Hello' },
+                4: { name: 'Hello' },
+                5: { name: 'Hello' },
+              },
+            },
+            result: [0, 4, 5],
+            next: null,
+            previous:
+              'https://lego-staging.abakus.no/api/v1/events/?bar=true&cursor=previous-cursor-2',
+          },
+        }
+      ).paginationNext
+    ).toEqual({
+      '/events/?bar=true': {
+        currentPaginationItems: [0, 4, 5],
+        items: [0, 4, 5],
+        hasMore: false,
+        hasMoreBackwards: true,
+        query: { bar: 'true' },
+        next: null,
+        previous: { cursor: 'previous-cursor-2', bar: 'true' },
+      },
+    });
+  });
+  it('merges correctly and keeps items to the right when paginating, given it has more', () => {
+    expect(
+      reducer(
+        {
+          actionGrant: ['list'],
+          byId: {
+            0: { name: 'Hello' },
+            1: { name: 'Hello' },
+            2: { name: 'Hello' },
+            3: { name: 'Hello' },
+            4: { name: 'Hello' },
+          },
+          items: [0, 1, 2, 3, 4],
+          fetching: false,
+          hasMore: true,
+          smashed: false,
+          pagination: {},
+          paginationNext: {
+            '/events/?bar=true': {
+              items: [0, 1, 2, 3, 4],
+              currentPaginationItems: [0, 1, 2, 3, 4],
+              hasMore: true,
+              hasMoreBackwards: true,
+              next: { cursor: 'next-cursor', bar: 'true' },
+              previous: { cursor: 'previous-cursor', bar: 'true' },
+            },
+          },
+        },
+        {
+          type: FETCH.SUCCESS,
+          meta: {
+            schemaKey: 'events',
+            cursor: '',
+            query: { bar: 'true' },
+            paginationKey: '/events/?bar=true',
+          },
+          payload: {
+            actionGrant: ['list'],
+            entities: {
+              events: {
+                0: { name: 'Hello' },
+                3: { name: 'Hello' },
+              },
+            },
+            result: [0, 3],
+            next: 'https://lego-staging.abakus.no/api/v1/events/?bar=true&cursor=next-cursor-2',
+            previous:
+              'https://lego-staging.abakus.no/api/v1/events/?bar=true&cursor=previous-cursor-2',
+          },
+        }
+      ).paginationNext
+    ).toEqual({
+      '/events/?bar=true': {
+        currentPaginationItems: [0, 3],
+        items: [0, 3, 4],
+        hasMore: true,
+        hasMoreBackwards: true,
+        query: { bar: 'true' },
+        next: { cursor: 'next-cursor-2', bar: 'true' },
+        previous: { cursor: 'previous-cursor-2', bar: 'true' },
+      },
+    });
+  });
+  it('merges correctly and removes items to the right when paginating, given it has no more', () => {
+    expect(
+      reducer(
+        {
+          actionGrant: ['list'],
+          byId: {
+            0: { name: 'Hello' },
+            1: { name: 'Hello' },
+            2: { name: 'Hello' },
+            3: { name: 'Hello' },
+            4: { name: 'Hello' },
+          },
+          items: [0, 1, 2, 3, 4],
+          fetching: false,
+          hasMore: false,
+          smashed: false,
+          pagination: {},
+          paginationNext: {
+            '/events/?bar=true': {
+              items: [0, 1, 2, 3, 4],
+              currentPaginationItems: [0, 1, 2, 3, 4],
+              hasMore: true,
+              hasMoreBackwards: true,
+              next: { cursor: 'next-cursor', bar: 'true' },
+              previous: { cursor: 'previous-cursor', bar: 'true' },
+            },
+          },
+        },
+        {
+          type: FETCH.SUCCESS,
+          meta: {
+            schemaKey: 'events',
+            cursor: '',
+            query: { bar: 'true' },
+            paginationKey: '/events/?bar=true',
+          },
+          payload: {
+            actionGrant: ['list'],
+            entities: {
+              events: {
+                0: { name: 'Hello' },
+                3: { name: 'Hello' },
+              },
+            },
+            result: [0, 3],
+            next: null,
+            previous:
+              'https://lego-staging.abakus.no/api/v1/events/?bar=true&cursor=previous-cursor-2',
+          },
+        }
+      ).paginationNext
+    ).toEqual({
+      '/events/?bar=true': {
+        currentPaginationItems: [0, 3],
+        items: [0, 3],
+        hasMore: false,
+        hasMoreBackwards: true,
+        query: { bar: 'true' },
+        next: null,
+        previous: { cursor: 'previous-cursor-2', bar: 'true' },
+      },
+    });
+  });
+  it('merges correctly and removes items to the right when paginating, given fetched elements were new', () => {
+    expect(
+      reducer(
+        {
+          actionGrant: ['list'],
+          byId: {
+            0: { name: 'Hello' },
+            1: { name: 'Hello' },
+            2: { name: 'Hello' },
+            3: { name: 'Hello' },
+            4: { name: 'Hello' },
+            99: { name: 'Hello' },
+            100: { name: 'Hello' },
+          },
+          items: [0, 1, 2, 3, 4, 99, 100],
+          fetching: false,
+          hasMore: false,
+          smashed: false,
+          pagination: {},
+          paginationNext: {
+            '/events/?bar=true': {
+              items: [0, 1, 2, 3, 4, 99, 100],
+              currentPaginationItems: [0, 1, 2, 3, 4],
+              hasMore: true,
+              hasMoreBackwards: true,
+              next: { cursor: 'next-cursor', bar: 'true' },
+              previous: { cursor: 'previous-cursor', bar: 'true' },
+            },
+          },
+        },
+        {
+          type: FETCH.SUCCESS,
+          meta: {
+            schemaKey: 'events',
+            cursor: 'next-cursor',
+            query: { bar: 'true' },
+            paginationKey: '/events/?bar=true',
+          },
+          payload: {
+            actionGrant: ['list'],
+            entities: {
+              events: {
+                110: { name: 'Hello' },
+                111: { name: 'Hello' },
+                112: { name: 'Hello' },
+              },
+            },
+            result: [110, 111, 112],
+            next: 'https://lego-staging.abakus.no/api/v1/events/?bar=true&cursor=next-cursor-2',
+            previous:
+              'https://lego-staging.abakus.no/api/v1/events/?bar=true&cursor=previous-cursor-2',
+          },
+        }
+      ).paginationNext
+    ).toEqual({
+      '/events/?bar=true': {
+        currentPaginationItems: [0, 1, 2, 3, 4, 110, 111, 112],
+        items: [0, 1, 2, 3, 4, 110, 111, 112],
+        hasMore: true,
+        hasMoreBackwards: true,
+        query: { bar: 'true' },
+        next: { cursor: 'next-cursor-2', bar: 'true' },
+        previous: { cursor: 'previous-cursor-2', bar: 'true' },
+      },
     });
   });
 });
