@@ -1,30 +1,36 @@
-// @flow
-
-import cx from 'classnames';
-import styles from './Button.css';
-import LoadingIndicator from '../LoadingIndicator';
-
+import cx from "classnames";
+import styles from "./Button.css";
+import LoadingIndicator from "../LoadingIndicator";
 type Props = {
   /** content inside */
-  children?: any,
+  children?: any;
+
   /** className for styling */
-  className?: string,
+  className?: string;
+
   /** 'small', 'normal' or 'large' */
-  size?: 'small' | 'normal' | 'large',
+  size?: "small" | "normal" | "large";
+
   /** Is the button a submit button? */
-  submit?: boolean,
+  submit?: boolean;
+
   /** is the button action pending? */
-  pending?: boolean,
+  pending?: boolean;
+
   /** Dark background (red button)*/
-  dark?: boolean,
+  dark?: boolean;
+
   /** Primary button styling */
-  primary?: boolean,
+  primary?: boolean;
+
   /** Danger button styling */
-  danger?: boolean,
+  danger?: boolean;
+
   /** Success button styling */
-  success?: boolean,
+  success?: boolean;
+
   /** Make it look like a link */
-  flat?: boolean,
+  flat?: boolean;
 };
 
 /**
@@ -47,27 +53,10 @@ function Button({
   flat = false,
   ...rest
 }: Props) {
-  return (
-    <button
-      className={
-        flat
-          ? cx(styles.flat, className)
-          : cx(
-              styles.button,
-              styles[size],
-              dark && styles.dark,
-              danger && styles.danger,
-              success && styles.success,
-              className
-            )
-      }
-      type={submit ? 'submit' : 'button'}
-      {...(rest: Object)}
-    >
+  return <button className={flat ? cx(styles.flat, className) : cx(styles.button, styles[size], dark && styles.dark, danger && styles.danger, success && styles.success, className)} type={submit ? 'submit' : 'button'} {...(rest as Record<string, any>)}>
       <LoadingIndicator small margin={0} loading={pending} />
       {pending ? <span className={styles.loading}>Laster</span> : children}
-    </button>
-  );
+    </button>;
 }
 
 export default Button;

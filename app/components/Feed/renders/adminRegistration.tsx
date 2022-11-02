@@ -1,17 +1,13 @@
-// @flow
-import type { Element } from 'react';
-import Icon from 'app/components/Icon';
-import { formatHeader } from './utils';
-import { lookupContext, contextRender } from '../context';
-import type { AggregatedActivity, TagInfo } from '../types';
+import type { Element } from "react";
+import Icon from "app/components/Icon";
+import { formatHeader } from "./utils";
+import { lookupContext, contextRender } from "../context";
+import type { AggregatedActivity, TagInfo } from "../types";
 
 /**
  * Normal grouping by target and date
  */
-export function activityHeader(
-  aggregatedActivity: AggregatedActivity,
-  htmlTag: (TagInfo) => Element<*>
-) {
+export function activityHeader(aggregatedActivity: AggregatedActivity, htmlTag: (arg0: TagInfo) => Element<any>) {
   const events = aggregatedActivity.activities.reduce((acc, activity) => {
     const context = lookupContext(aggregatedActivity, activity.actor);
     return context ? acc.concat(context) : acc;
@@ -21,25 +17,18 @@ export function activityHeader(
     return null;
   }
 
-  return (
-    <b>
+  return <b>
       {'Du har blitt påmeldt på '}
-      {formatHeader(
-        events.map((event) => htmlTag(contextRender[event.contentType](event)))
-      )}
+      {formatHeader(events.map(event => htmlTag(contextRender[event.contentType](event))))}
       {' av en administrator'}
-    </b>
-  );
+    </b>;
 }
-
 export function activityContent() {
   return null;
 }
-
 export function icon() {
   return <Icon name="calendar" />;
 }
-
 export function getURL(aggregatedActivity: AggregatedActivity) {
   const events = aggregatedActivity.activities.reduce((acc, activity) => {
     const context = lookupContext(aggregatedActivity, activity.actor);
@@ -49,5 +38,6 @@ export function getURL(aggregatedActivity: AggregatedActivity) {
   if (!events || events.length !== 1) {
     return '/events';
   }
+
   return `/events/${events[0].id}`;
 }

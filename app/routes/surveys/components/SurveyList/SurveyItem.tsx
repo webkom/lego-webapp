@@ -1,39 +1,28 @@
-// @flow
-
-import { Link } from 'react-router-dom';
-import Time from 'app/components/Time';
-import { Image } from 'app/components/Image';
-import styles from '../surveys.css';
-import type { SurveyEntity } from 'app/reducers/surveys';
-import { colorForEvent } from 'app/routes/events/utils';
-
+import { Link } from "react-router-dom";
+import Time from "app/components/Time";
+import { Image } from "app/components/Image";
+import styles from "../surveys.css";
+import type { SurveyEntity } from "app/reducers/surveys";
+import { colorForEvent } from "app/routes/events/utils";
 type Props = {
-  survey: SurveyEntity,
+  survey: SurveyEntity;
 };
 
 const SurveyItem = (props: Props) => {
-  const { survey } = props;
-
-  return (
-    <div
-      className={styles.surveyItem}
-      style={{
-        borderColor: colorForEvent(
-          survey.templateType || survey.event.eventType
-        ),
-      }}
-    >
+  const {
+    survey
+  } = props;
+  return <div className={styles.surveyItem} style={{
+    borderColor: colorForEvent(survey.templateType || survey.event.eventType)
+  }}>
       <div>
         <Link to={`/surveys/${String(survey.id)}`}>
           <h3 className={styles.surveyItemTitle}>{survey.title}</h3>
         </Link>
 
-        {survey.templateType ? (
-          <div className={styles.surveyTime}>
+        {survey.templateType ? <div className={styles.surveyTime}>
             Mal for arrangement av type {String(survey.templateType)}
-          </div>
-        ) : (
-          <div>
+          </div> : <div>
             <div className={styles.surveyTime}>
               For arrangement{' '}
               <Link to={`/events/${survey.event.id}`}>
@@ -44,17 +33,13 @@ const SurveyItem = (props: Props) => {
             <div className={styles.surveyTime}>
               Aktiv fra <Time time={survey.activeFrom} format="ll HH:mm" />
             </div>
-          </div>
-        )}
+          </div>}
       </div>
 
-      {!survey.templateType && (
-        <div className={styles.companyLogo}>
+      {!survey.templateType && <div className={styles.companyLogo}>
           <Image src={survey.event.cover} />
-        </div>
-      )}
-    </div>
-  );
+        </div>}
+    </div>;
 };
 
 export default SurveyItem;

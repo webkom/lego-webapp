@@ -1,23 +1,12 @@
-// @flow
-import { pick, sumBy, find } from 'lodash';
-import moment from 'moment-timezone';
-import type {
-  TransformEvent,
-  Event,
-  EventType,
-  AddPenalty,
-  PhotoConsent,
-  PhotoConsentDomain,
-  EventSemester,
-} from 'app/models';
-
+import { pick, sumBy, find } from "lodash";
+import moment from "moment-timezone";
+import type { TransformEvent, Event, EventType, AddPenalty, PhotoConsent, PhotoConsentDomain, EventSemester } from "app/models";
 export const PHOTO_CONSENT_DOMAINS = {
   WEBSITE: 'WEBSITE',
-  SOCIAL_MEDIA: 'SOCIAL_MEDIA',
+  SOCIAL_MEDIA: 'SOCIAL_MEDIA'
 };
-
 // Current eventTypes
-export const EVENT_CONSTANTS: { [EventType]: string } = {
+export const EVENT_CONSTANTS: Record<EventType, string> = {
   company_presentation: 'Bedriftspresentasjon',
   lunch_presentation: 'Lunsjpresentasjon',
   alternative_presentation: 'Alternativ bedpres',
@@ -27,16 +16,14 @@ export const EVENT_CONSTANTS: { [EventType]: string } = {
   social: 'Sosialt',
   event: 'Arrangement',
   kid_event: 'KID-arrangement',
-  other: 'Annet',
+  other: 'Annet'
 };
-
 // Returns the string representation of an EventType
 export const eventTypeToString = (eventType: EventType): string => {
   return EVENT_CONSTANTS[eventType] || EVENT_CONSTANTS['other'];
 };
-
 // Colors for different event types
-export const COLOR_CONSTANTS: { [EventType]: string } = {
+export const COLOR_CONSTANTS: Record<EventType, string> = {
   company_presentation: '#A1C34A',
   lunch_presentation: '#A1C34A',
   alternative_presentation: '#8A2BE2',
@@ -46,83 +33,47 @@ export const COLOR_CONSTANTS: { [EventType]: string } = {
   social: 'var(--color-event-red)',
   event: 'var(--color-event-red)',
   kid_event: 'var(--color-event-black)',
-  other: 'var(--color-event-black)',
+  other: 'var(--color-event-black)'
 };
-
 // Returns the color code of an EventType
 export const colorForEvent = (eventType: EventType) => {
   return COLOR_CONSTANTS[eventType] || COLOR_CONSTANTS['other'];
 };
-
 // Event fields that should be created or updated based on the API.
-const eventCreateAndUpdateFields = [
-  'id',
-  'title',
-  'cover',
-  'description',
-  'text',
-  'company',
-  'feedbackDescription',
-  'feedbackRequired',
-  'eventType',
-  'eventStatusType',
-  'location',
-  'isPriced',
-  'priceMember',
-  'priceGuest',
-  'useStripe',
-  'paymentDueDate',
-  'useCaptcha',
-  'tags',
-  'pools',
-  'registrationDeadlineHours',
-  'pinned',
-  'heedPenalties',
-  'useConsent',
-  'useContactTracing',
-  'separateDeadlines',
-];
-
+const eventCreateAndUpdateFields = ['id', 'title', 'cover', 'description', 'text', 'company', 'feedbackDescription', 'feedbackRequired', 'eventType', 'eventStatusType', 'location', 'isPriced', 'priceMember', 'priceGuest', 'useStripe', 'paymentDueDate', 'useCaptcha', 'tags', 'pools', 'registrationDeadlineHours', 'pinned', 'heedPenalties', 'useConsent', 'useContactTracing', 'separateDeadlines'];
 // Pool fields that should be created or updated based on the API
-const poolCreateAndUpdateFields = [
-  'id',
-  'name',
-  'capacity',
-  'activationDate',
-  'permissionGroups',
-];
+const poolCreateAndUpdateFields = ['id', 'name', 'capacity', 'activationDate', 'permissionGroups'];
 
 /* Calculate the event price
  * @param isPriced: If the event is priced
  * @param addFee: If the event uses Stipe and needs a fee
  */
-const calculatePrice = (data) => {
+const calculatePrice = data => {
   if (data.isPriced) {
     if (data.addFee) {
       return addStripeFee(data.priceMember) * 100;
     }
+
     return data.priceMember * 100;
   }
+
   return 0;
 };
+
 /* Calculate the event location
  * @param eventStatusType: what kind of registrationmode this event has
  */
-const calculateLocation = (data) => {
-  if (data.eventStatusType && data.eventStatusType.value === 'TBA')
-    return 'TBA';
+const calculateLocation = data => {
+  if (data.eventStatusType && data.eventStatusType.value === 'TBA') return 'TBA';
   if (data.useMazemap) return data.mazemapPoi.label;
   return data.location;
 };
 
-const calculateMazemapPoi = (data) => {
-  if (
-    data.eventStatusType?.value === 'TBA' ||
-    !data.useMazemap ||
-    data.mazemapPoi.value === ''
-  ) {
+const calculateMazemapPoi = data => {
+  if (data.eventStatusType?.value === 'TBA' || !data.useMazemap || data.mazemapPoi.value === '') {
     return null;
   }
+
   return data.mazemapPoi.value;
 };
 
@@ -130,27 +81,24 @@ const calculateMazemapPoi = (data) => {
  * @param eventStatusType: what kind of registrationmode this event has
  * @param pools: the event groups as specified by the CreateEvent forms
  */
-const calculatePools = (data) => {
+const calculatePools = data => {
   switch (data.eventStatusType?.value) {
     case 'TBA':
     case 'OPEN':
       return [];
+
     case 'INFINITE':
-      return [
-        {
-          ...pick(data.pools[0], poolCreateAndUpdateFields),
-          activationDate: moment(data.pools[0].activationDate).toISOString(),
-          permissionGroups: data.pools[0].permissionGroups.map(
-            (group) => group.value
-          ),
-        },
-      ];
+      return [{ ...pick(data.pools[0], poolCreateAndUpdateFields),
+        activationDate: moment(data.pools[0].activationDate).toISOString(),
+        permissionGroups: data.pools[0].permissionGroups.map(group => group.value)
+      }];
+
     case 'NORMAL':
-      return data.pools.map((pool) => ({
-        ...pick(pool, poolCreateAndUpdateFields),
+      return data.pools.map(pool => ({ ...pick(pool, poolCreateAndUpdateFields),
         activationDate: moment(pool.activationDate).toISOString(),
-        permissionGroups: pool.permissionGroups.map((group) => group.value),
+        permissionGroups: pool.permissionGroups.map(group => group.value)
       }));
+
     default:
       break;
   }
@@ -159,31 +107,22 @@ const calculatePools = (data) => {
 /* Calculte and convert to payment due date
  * @param paymentDueDate: date from form
  */
-const calculatePaymentDueDate = (data) =>
-  data.isPriced ? moment(data.paymentDueDate).toISOString() : null;
+const calculatePaymentDueDate = data => data.isPriced ? moment(data.paymentDueDate).toISOString() : null;
 
 /* Calcualte and convert the registation deadline
  * @param unregistationDeadline: data from form
  */
-const calculateUnregistrationDeadline = (data) =>
-  data.unregistrationDeadline
-    ? moment(data.unregistrationDeadline).toISOString()
-    : null;
+const calculateUnregistrationDeadline = data => data.unregistrationDeadline ? moment(data.unregistrationDeadline).toISOString() : null;
 
-const calculateUnregistrationDeadlineHours = (data) =>
-  data.separateDeadlines
-    ? data.unregistrationDeadlineHours
-    : data.registrationDeadlineHours;
+const calculateUnregistrationDeadlineHours = data => data.separateDeadlines ? data.unregistrationDeadlineHours : data.registrationDeadlineHours;
 
 /* Calculate the merge time for the pools. Only set if there are more then one pool
  * @param mergeTime: date from form
  */
-const calculateMergeTime = (data) =>
-  data.pools.length > 1 ? moment(data.mergeTime).toISOString() : null;
+const calculateMergeTime = data => data.pools.length > 1 ? moment(data.mergeTime).toISOString() : null;
 
 // Takes the full data-object and input and transforms the event to the API format.
-export const transformEvent = (data: TransformEvent) => ({
-  ...pick(data, eventCreateAndUpdateFields),
+export const transformEvent = (data: TransformEvent) => ({ ...pick(data, eventCreateAndUpdateFields),
   startTime: moment(data.startTime).toISOString(),
   endTime: moment(data.endTime).toISOString(),
   mergeTime: calculateMergeTime(data),
@@ -194,114 +133,86 @@ export const transformEvent = (data: TransformEvent) => ({
   priceMember: calculatePrice(data),
   location: calculateLocation(data),
   paymentDueDate: calculatePaymentDueDate(data),
-  canViewGroups: data.isGroupOnly
-    ? data.canViewGroups.map((group) => group.id)
-    : [],
+  canViewGroups: data.isGroupOnly ? data.canViewGroups.map(group => group.id) : [],
   requireAuth: data.canViewGroups.length > 0,
   unregistrationDeadline: calculateUnregistrationDeadline(data),
   unregistrationDeadlineHours: calculateUnregistrationDeadlineHours(data),
   pools: calculatePools(data),
-  useCaptcha: true, // always use Captcha, this blocks the use of CLI
+  useCaptcha: true,
+  // always use Captcha, this blocks the use of CLI
   youtubeUrl: data.youtubeUrl,
   mazemapPoi: calculateMazemapPoi(data),
-  feedbackDescription:
-    (data.hasFeedbackQuestion && data.feedbackDescription) || '',
-  feedbackRequired: data.hasFeedbackQuestion && data.feedbackRequired,
+  feedbackDescription: data.hasFeedbackQuestion && data.feedbackDescription || '',
+  feedbackRequired: data.hasFeedbackQuestion && data.feedbackRequired
 });
-
 export const paymentPending = 'pending';
 export const paymentSuccess = 'succeeded';
 export const paymentFailure = 'failed';
 export const paymentManual = 'manual';
 export const paymentCardDeclined = 'card_declined';
 export const paymentCardExpired = 'expired_card';
-
 const paymentSuccessMappings = {
   [paymentManual]: true,
   [paymentSuccess]: true,
   [paymentPending]: false,
-  [paymentFailure]: false,
+  [paymentFailure]: false
 };
-
-export const hasPaid = (paymentStatus: string) =>
-  paymentSuccessMappings[paymentStatus];
-
+export const hasPaid = (paymentStatus: string) => paymentSuccessMappings[paymentStatus];
 export const addStripeFee = (price: number) => Math.ceil(price * 1.012 + 1.8);
-
-export const registrationCloseTime = (event: Event) =>
-  moment(event.startTime).subtract(event.registrationDeadlineHours, 'hours');
-
+export const registrationCloseTime = (event: Event) => moment(event.startTime).subtract(event.registrationDeadlineHours, 'hours');
 export const registrationIsClosed = (event: Event) => {
   return moment().isAfter(registrationCloseTime(event));
 };
-
-export const unregistrationCloseTime = (event: Event) =>
-  moment(event.startTime).subtract(event.unregistrationDeadlineHours, 'hours');
-
+export const unregistrationCloseTime = (event: Event) => moment(event.startTime).subtract(event.unregistrationDeadlineHours, 'hours');
 export const unregistrationIsClosed = (event: Event) => {
   return moment().isAfter(unregistrationCloseTime(event));
 };
-
-export const sumPenalties = (penalties: Array<AddPenalty>) =>
-  sumBy(penalties, 'weight');
-
+export const sumPenalties = (penalties: Array<AddPenalty>) => sumBy(penalties, 'weight');
 export const penaltyHours = (penalties: Array<AddPenalty>) => {
   switch (sumPenalties(penalties)) {
     case 0:
       return 0;
+
     case 1:
       return 3;
+
     case 2:
       return 12;
+
     case 3:
       return 1337;
+
     default:
       return -1;
   }
 };
-export const eventStatusTypes = [
-  { value: 'TBA', label: 'Ikke bestemt (TBA)' },
-  { value: 'NORMAL', label: 'Vanlig påmelding (med pools)' },
-  { value: 'OPEN', label: 'Åpen (uten påmelding)' },
-  { value: 'INFINITE', label: 'Åpen (med påmelding)' },
-];
-
+export const eventStatusTypes = [{
+  value: 'TBA',
+  label: 'Ikke bestemt (TBA)'
+}, {
+  value: 'NORMAL',
+  label: 'Vanlig påmelding (med pools)'
+}, {
+  value: 'OPEN',
+  label: 'Åpen (uten påmelding)'
+}, {
+  value: 'INFINITE',
+  label: 'Åpen (med påmelding)'
+}];
 export const transformEventStatusType = (eventStatusType: string) => {
-  return (
-    find(eventStatusTypes, { value: eventStatusType }) || eventStatusTypes[0]
-  );
+  return find(eventStatusTypes, {
+    value: eventStatusType
+  }) || eventStatusTypes[0];
 };
-
-export const getEventSemesterFromStartTime = (
-  startTime: moment
-): EventSemester => {
+export const getEventSemesterFromStartTime = (startTime: moment): EventSemester => {
   return {
     year: moment(startTime).year(),
-    semester: moment(startTime).month() > 6 ? 'autumn' : 'spring',
+    semester: moment(startTime).month() > 6 ? 'autumn' : 'spring'
   };
 };
-
-export const getConsent = (
-  domain: PhotoConsentDomain,
-  year: number,
-  semester: string,
-  photoConsents: Array<PhotoConsent>
-): ?PhotoConsent =>
-  photoConsents.find(
-    (pc) => pc.domain === domain && pc.year === year && pc.semester === semester
-  );
-
-export const allConsentsAnswered = (
-  photoConsents: Array<PhotoConsent>
-): boolean =>
-  photoConsents?.reduce(
-    (all_bool, pc) => all_bool && typeof pc.isConsenting === 'boolean',
-    photoConsents.length > 0
-  );
-
-export const toReadableSemester = (
-  semesterObj: EventSemester | PhotoConsent
-): string => {
+export const getConsent = (domain: PhotoConsentDomain, year: number, semester: string, photoConsents: Array<PhotoConsent>): PhotoConsent | null | undefined => photoConsents.find(pc => pc.domain === domain && pc.year === year && pc.semester === semester);
+export const allConsentsAnswered = (photoConsents: Array<PhotoConsent>): boolean => photoConsents?.reduce((all_bool, pc) => all_bool && typeof pc.isConsenting === 'boolean', photoConsents.length > 0);
+export const toReadableSemester = (semesterObj: EventSemester | PhotoConsent): string => {
   const semester = semesterObj.semester === 'spring' ? 'våren' : 'høsten';
   return `${semester} ${semesterObj.year}`;
 };

@@ -1,6 +1,5 @@
-import 'isomorphic-fetch';
-import fetchJSON from '../fetchJSON';
-
+import "isomorphic-fetch";
+import fetchJSON from "../fetchJSON";
 describe('fetchJSON', () => {
   describe('successful response', () => {
     beforeEach(() => {
@@ -8,19 +7,18 @@ describe('fetchJSON', () => {
         const res = new Response('{"hello":"world"}', {
           status: 200,
           headers: {
-            'Content-type': 'application/json',
-          },
+            'Content-type': 'application/json'
+          }
         });
         return Promise.resolve(res);
       });
     });
-
-    it('should format the response correctly', () =>
-      fetchJSON('https://abakus.no').then((response) => {
-        expect(response.jsonData).toEqual({ hello: 'world' });
-      }));
+    it('should format the response correctly', () => fetchJSON('https://abakus.no').then(response => {
+      expect(response.jsonData).toEqual({
+        hello: 'world'
+      });
+    }));
   });
-
   describe('response with error', () => {
     beforeEach(() => {
       global.fetch = jest.fn().mockImplementation(() => {
@@ -28,20 +26,14 @@ describe('fetchJSON', () => {
           status: 401,
           statusText: 'Unauthorized',
           headers: {
-            'Content-type': 'application/json',
-          },
+            'Content-type': 'application/json'
+          }
         });
-
         return Promise.resolve(response);
       });
     });
-
-    it('should catch errors', () =>
-      fetchJSON('https://abakus.no').then(
-        () => {},
-        (error) => {
-          expect(error.response.statusText).toBe('Unauthorized');
-        }
-      ));
+    it('should catch errors', () => fetchJSON('https://abakus.no').then(() => {}, error => {
+      expect(error.response.statusText).toBe('Unauthorized');
+    }));
   });
 });

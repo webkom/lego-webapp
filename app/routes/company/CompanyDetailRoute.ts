@@ -1,52 +1,46 @@
-// @flow
+import { compose } from "redux";
+import { connect } from "react-redux";
+import prepare from "app/utils/prepare";
+import { fetch as fetchCompany, fetchEventsForCompany, fetchJoblistingsForCompany } from "app/actions/CompanyActions";
+import CompanyDetail from "./components/CompanyDetail";
+import { LoginPage } from "app/components/LoginForm";
+import replaceUnlessLoggedIn from "app/utils/replaceUnlessLoggedIn";
+import { selectEventsForCompany, selectJoblistingsForCompany } from "app/reducers/companies";
+import { selectPagination } from "../../reducers/selectors";
+import createQueryString from "app/utils/createQueryString";
 
-import { compose } from 'redux';
-import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
-import {
-  fetch as fetchCompany,
-  fetchEventsForCompany,
-  fetchJoblistingsForCompany,
-} from 'app/actions/CompanyActions';
-import CompanyDetail from './components/CompanyDetail';
-import { LoginPage } from 'app/components/LoginForm';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import {
-  selectEventsForCompany,
-  selectJoblistingsForCompany,
-} from 'app/reducers/companies';
-import { selectPagination } from '../../reducers/selectors';
-import createQueryString from 'app/utils/createQueryString';
-
-const queryString = (companyId) =>
-  createQueryString({
-    company: companyId,
-    ordering: '-start_time',
-  });
+const queryString = companyId => createQueryString({
+  company: companyId,
+  ordering: '-start_time'
+});
 
 const fetchData = (props, dispatch) => {
-  const { companyId } = props.match.params;
-  return Promise.all([
-    dispatch(fetchCompany(companyId)),
-    dispatch(
-      fetchEventsForCompany({
-        queryString: queryString(companyId),
-        loadNextPage: false,
-      })
-    ),
-    dispatch(fetchJoblistingsForCompany(companyId)),
-  ]);
+  const {
+    companyId
+  } = props.match.params;
+  return Promise.all([dispatch(fetchCompany(companyId)), dispatch(fetchEventsForCompany({
+    queryString: queryString(companyId),
+    loadNextPage: false
+  })), dispatch(fetchJoblistingsForCompany(companyId))]);
 };
 
 const mapStateToProps = (state, props) => {
-  const { companyId } = props.match.params;
-  const { query } = props.location;
+  const {
+    companyId
+  } = props.match.params;
+  const {
+    query
+  } = props.location;
   const showFetchMoreEvents = selectPagination('events', {
-    queryString: queryString(companyId),
+    queryString: queryString(companyId)
   })(state);
   const company = state.companies.byId[companyId];
-  const companyEvents = selectEventsForCompany(state, { companyId });
-  const joblistings = selectJoblistingsForCompany(state, { companyId });
+  const companyEvents = selectEventsForCompany(state, {
+    companyId
+  });
+  const joblistings = selectJoblistingsForCompany(state, {
+    companyId
+  });
   return {
     company,
     companyEvents,
@@ -54,27 +48,24 @@ const mapStateToProps = (state, props) => {
     query,
     companyId,
     loggedIn: props.currentUser,
-    showFetchMoreEvents,
+    showFetchMoreEvents
   };
 };
 
 const mapDispatchToProps = (dispatch, props) => {
-  const { companyId } = props.match.params;
-  const fetchMoreEvents = () =>
-    dispatch(
-      fetchEventsForCompany({
-        queryString: queryString(companyId),
-        loadNextPage: true,
-      })
-    );
+  const {
+    companyId
+  } = props.match.params;
+
+  const fetchMoreEvents = () => dispatch(fetchEventsForCompany({
+    queryString: queryString(companyId),
+    loadNextPage: true
+  }));
+
   return {
-    fetchMoreEvents,
+    fetchMoreEvents
   };
 };
 
-export default compose(
-  replaceUnlessLoggedIn(LoginPage),
-  prepare(fetchData),
-  // $FlowFixMe
-  connect(mapStateToProps, mapDispatchToProps)
-)(CompanyDetail);
+export default compose(replaceUnlessLoggedIn(LoginPage), prepare(fetchData), // $FlowFixMe
+connect(mapStateToProps, mapDispatchToProps))(CompanyDetail);

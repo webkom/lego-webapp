@@ -1,13 +1,13 @@
-// @flow
-
 type Props = {
-  loggedIn: boolean,
-  children?: any,
+  loggedIn: boolean;
+  children?: any;
 };
 
 // DO NOT USE
-
-function RequireLogin({ loggedIn, children }: Props) {
+function RequireLogin({
+  loggedIn,
+  children
+}: Props) {
   if (!loggedIn) {
     return null;
   }

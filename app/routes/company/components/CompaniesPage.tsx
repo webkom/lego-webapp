@@ -1,41 +1,33 @@
-// @flow
-
-import type { ElementRef } from 'react';
-
-import { createRef, Component } from 'react';
-import { Helmet } from 'react-helmet-async';
-import styles from './CompaniesPage.css';
-import LoadingIndicator from 'app/components/LoadingIndicator';
-import InfiniteScroll from 'react-infinite-scroller';
-import { Link } from 'react-router-dom';
-import { Image } from 'app/components/Image';
-import type { Company } from 'app/models';
-import Icon from 'app/components/Icon';
-import { Flex } from 'app/components/Layout';
-import utilities from 'app/styles/utilities.css';
-import cx from 'classnames';
-
+import type { ElementRef } from "react";
+import { createRef, Component } from "react";
+import { Helmet } from "react-helmet-async";
+import styles from "./CompaniesPage.css";
+import LoadingIndicator from "app/components/LoadingIndicator";
+import InfiniteScroll from "react-infinite-scroller";
+import { Link } from "react-router-dom";
+import { Image } from "app/components/Image";
+import type { Company } from "app/models";
+import Icon from "app/components/Icon";
+import { Flex } from "app/components/Layout";
+import utilities from "app/styles/utilities.css";
+import cx from "classnames";
 type Props = {
-  companies: Array<Company>,
-  fetchMore: () => void,
-  showFetchMore: () => void,
-  hasMore: boolean,
-  fetching: boolean,
+  companies: Array<Company>;
+  fetchMore: () => void;
+  showFetchMore: () => void;
+  hasMore: boolean;
+  fetching: boolean;
 };
 
-const CompanyItem = ({ company }: Company) => {
-  return (
-    <div className={styles.companyItem}>
+const CompanyItem = ({
+  company
+}: Company) => {
+  return <div className={styles.companyItem}>
       <div className={styles.companyItemContent}>
         <div className={styles.companyLogoContainer}>
           <Link to={`/companies/${company.id}`}>
             <div className={styles.companyLogo}>
-              {
-                <Image
-                  src={company.logo}
-                  placeholder={company.logoPlaceholder}
-                />
-              }
+              {<Image src={company.logo} placeholder={company.logoPlaceholder} />}
             </div>
           </Link>
         </div>
@@ -44,55 +36,50 @@ const CompanyItem = ({ company }: Company) => {
             <Icon name="briefcase" size={20} />
             <span>{company.joblistingCount}</span>
           </Flex>
-          {company.website && (
-            <div className={styles.iconLink}>
-              <a
-                href={company.website}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+          {company.website && <div className={styles.iconLink}>
+              <a href={company.website} target="_blank" rel="noopener noreferrer">
                 <Flex column alignItems="center">
-                  <Icon
-                    name="at-circle"
-                    size={20}
-                    style={{ color: 'var(--lego-link-color)' }}
-                  />
+                  <Icon name="at-circle" size={20} style={{
+                color: 'var(--lego-link-color)'
+              }} />
                   <span>Link her</span>
                 </Flex>
               </a>
-            </div>
-          )}
+            </div>}
           <Flex column alignItems="center">
             <Icon name="calendar-clear" size={20} />
             <span>{company.eventCount}</span>
           </Flex>
         </Flex>
       </div>
-    </div>
-  );
+    </div>;
 };
 
 type CompanyListProps = {
-  companies: Array<Company>,
+  companies: Array<Company>;
 };
 
-const CompanyList = ({ companies = [] }: CompanyListProps) => (
-  <div className={styles.companyList}>
-    {companies.map((company, id) => (
-      <CompanyItem key={id} company={company} />
-    ))}
-  </div>
-);
+const CompanyList = ({
+  companies = []
+}: CompanyListProps) => <div className={styles.companyList}>
+    {companies.map((company, id) => <CompanyItem key={id} company={company} />)}
+  </div>;
 
-type State = { expanded: boolean };
+type State = {
+  expanded: boolean;
+};
+
 class CompaniesPage extends Component<Props, State> {
-  state = { expanded: false };
-  top = createRef<ElementRef<'h2'>>();
-  render() {
-    const { props } = this;
+  state = {
+    expanded: false
+  };
+  top = createRef<ElementRef<"h2">>();
 
-    return (
-      <div className={styles.root}>
+  render() {
+    const {
+      props
+    } = this;
+    return <div className={styles.root}>
         <Helmet title="Bedrifter" />
         <h2 ref={this.top} className={styles.heading}>
           Bedrifter
@@ -106,16 +93,13 @@ class CompaniesPage extends Component<Props, State> {
             arbeidsgivere for deg som student, som gjenspeiler mangfoldet du har
             i jobbmuligheter.
           </p>
-          {!this.state.expanded && (
-            <button
-              className={cx(styles.readMore, 'accordion')}
-              onClick={() => {
-                this.setState({ expanded: true });
-              }}
-            >
+          {!this.state.expanded && <button className={cx(styles.readMore, 'accordion')} onClick={() => {
+          this.setState({
+            expanded: true
+          });
+        }}>
               Vis mer
-            </button>
-          )}
+            </button>}
           <div className={this.state.expanded ? ' ' : utilities.hiddenOnMobile}>
             <p className={styles.infoText}>
               Trykk deg inn på en bedrift for å se hva slags type bedrift det
@@ -130,13 +114,12 @@ class CompaniesPage extends Component<Props, State> {
               Savner du en bedrift? Savner du noe informasjon om en bedrift? Ta
               kontakt med Bedkom, vi tar gjerne imot innspill!
             </p>
-            <button
-              className={cx(styles.readMore, 'accordion')}
-              onClick={() => {
-                this.setState({ expanded: false });
-                this.top.current && this.top.current.scrollIntoView();
-              }}
-            >
+            <button className={cx(styles.readMore, 'accordion')} onClick={() => {
+            this.setState({
+              expanded: false
+            });
+            this.top.current && this.top.current.scrollIntoView();
+          }}>
               Vis mindre
             </button>
           </div>
@@ -156,18 +139,12 @@ class CompaniesPage extends Component<Props, State> {
           </Flex>
         </div>
         <div id="nav" className={styles.navigationBar} />
-        <InfiniteScroll
-          element="div"
-          hasMore={props.hasMore}
-          loadMore={() => props.hasMore && !props.fetching && props.fetchMore()}
-          initialLoad={false}
-          loader={<LoadingIndicator loading />}
-        >
+        <InfiniteScroll element="div" hasMore={props.hasMore} loadMore={() => props.hasMore && !props.fetching && props.fetchMore()} initialLoad={false} loader={<LoadingIndicator loading />}>
           <CompanyList companies={props.companies} />
         </InfiniteScroll>
-      </div>
-    );
+      </div>;
   }
+
 }
 
 export default CompaniesPage;

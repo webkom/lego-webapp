@@ -1,7 +1,6 @@
-// @flow
-import { SubmissionError } from 'redux-form';
-import { get } from 'lodash';
-import { FORM_ERROR } from 'final-form';
+import { SubmissionError } from "redux-form";
+import { get } from "lodash";
+import { FORM_ERROR } from "final-form";
 
 /*
  * Simple utility that handles submission errors
@@ -13,15 +12,19 @@ import { FORM_ERROR } from 'final-form';
  */
 export const handleSubmissionError = (error: any) => {
   const errPayload = get(error, ['payload', 'response', 'jsonData']);
+
   if (!errPayload) {
     throw error;
   }
-  const { detail } = errPayload;
+
+  const {
+    detail
+  } = errPayload;
+
   const _error = typeof detail === 'object' ? JSON.stringify(detail) : detail;
 
-  throw new SubmissionError({
-    ...errPayload,
-    _error,
+  throw new SubmissionError({ ...errPayload,
+    _error
   });
 };
 
@@ -35,19 +38,19 @@ export const handleSubmissionError = (error: any) => {
  */
 export const handleSubmissionErrorFinalForm = (error: any) => {
   const errPayload = error?.payload?.response?.jsonData;
-  if (!errPayload) {
-    return { [FORM_ERROR]: error?.payload?.response?.textString };
-  }
-  const { detail } = errPayload;
-  const form_error = detail
-    ? typeof detail === 'object'
-      ? JSON.stringify(errPayload.detail)
-      : errPayload.detail
-    : errPayload.error;
 
-  return {
-    ...errPayload,
-    [FORM_ERROR]: form_error,
+  if (!errPayload) {
+    return {
+      [FORM_ERROR]: error?.payload?.response?.textString
+    };
+  }
+
+  const {
+    detail
+  } = errPayload;
+  const form_error = detail ? typeof detail === 'object' ? JSON.stringify(errPayload.detail) : errPayload.detail : errPayload.error;
+  return { ...errPayload,
+    [FORM_ERROR]: form_error
   };
 };
 
@@ -57,7 +60,6 @@ export const handleSubmissionErrorFinalForm = (error: any) => {
  * Usage:
  * withSubmissionError(onSubmit)
  */
-
-export const withSubmissionError = (func: (any) => Promise<any>) => {
+export const withSubmissionError = (func: (arg0: any) => Promise<any>) => {
   return (data: any) => func(data).catch(handleSubmissionError);
 };

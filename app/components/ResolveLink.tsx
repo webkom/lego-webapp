@@ -1,26 +1,22 @@
-// @flow
-
-import type { Node } from 'react';
-import { Link } from 'react-router-dom';
-
+import type { Node } from "react";
+import { Link } from "react-router-dom";
 type Props = {
-  link: [string, Node],
+  link: [string, Node];
 };
 
-const ResolveLink = ({ link: [href, name], ...props }: Props) => {
+const ResolveLink = ({
+  link: [href, name],
+  ...props
+}: Props) => {
   if (href.startsWith('https://') || href.startsWith('http://')) {
-    return (
-      <a {...props} href={href}>
+    return <a {...props} href={href}>
         {name}
-      </a>
-    );
+      </a>;
   }
 
-  return (
-    <Link {...props} to={href}>
+  return <Link {...props} to={href}>
       {name}
-    </Link>
-  );
+    </Link>;
 };
 
 export default ResolveLink;

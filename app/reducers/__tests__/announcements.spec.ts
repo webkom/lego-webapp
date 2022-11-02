@@ -1,13 +1,11 @@
-import announcements from '../announcements';
-import { Announcements } from '../../actions/ActionTypes';
-import timekeeper from 'timekeeper';
-import moment from 'moment';
-
+import announcements from "../announcements";
+import { Announcements } from "../../actions/ActionTypes";
+import timekeeper from "timekeeper";
+import moment from "moment";
 describe('reducers', () => {
   describe('announcements', () => {
     let time = Date.now();
     timekeeper.freeze(time);
-
     it('Announcements.SEND.SUCCESS', () => {
       const prevState = {
         actionGrant: [],
@@ -16,15 +14,15 @@ describe('reducers', () => {
         byId: {
           99: {
             id: 99,
-            sent: null,
-          },
-        },
+            sent: null
+          }
+        }
       };
       const action = {
         type: Announcements.SEND.SUCCESS,
         meta: {
-          announcementId: 99,
-        },
+          announcementId: 99
+        }
       };
       expect(announcements(prevState, action)).toEqual({
         actionGrant: [],
@@ -33,9 +31,9 @@ describe('reducers', () => {
         byId: {
           99: {
             id: 99,
-            sent: moment(),
-          },
-        },
+            sent: moment()
+          }
+        }
       });
     });
   });

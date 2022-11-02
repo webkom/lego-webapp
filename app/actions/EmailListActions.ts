@@ -1,23 +1,20 @@
-// @flow
-
-import { EmailList } from './ActionTypes';
-import { emailListSchema } from 'app/reducers';
-import callAPI from 'app/actions/callAPI';
-import { type EmailListEntity } from 'app/reducers/emailLists';
-import type { EntityID, Thunk } from 'app/types';
-
+import { EmailList } from "./ActionTypes";
+import { emailListSchema } from "app/reducers";
+import callAPI from "app/actions/callAPI";
+import type { EmailListEntity } from "app/reducers/emailLists";
+import "app/reducers/emailLists";
+import type { EntityID, Thunk } from "app/types";
 export function fetchEmailList(emailListId: EntityID): Thunk<any> {
   return callAPI({
     types: EmailList.FETCH,
     endpoint: `/email-lists/${emailListId}/`,
     schema: emailListSchema,
     meta: {
-      errorMessage: 'Henting av epostliste feilet',
+      errorMessage: 'Henting av epostliste feilet'
     },
-    propagateError: true,
+    propagateError: true
   });
 }
-
 export function createEmailList(emailList: EmailListEntity): Thunk<any> {
   return callAPI({
     types: EmailList.CREATE,
@@ -26,11 +23,10 @@ export function createEmailList(emailList: EmailListEntity): Thunk<any> {
     schema: emailListSchema,
     body: emailList,
     meta: {
-      errorMessage: 'Opprettelse av epostlisten feilet',
-    },
+      errorMessage: 'Opprettelse av epostlisten feilet'
+    }
   });
 }
-
 export function editEmailList(emailList: EmailListEntity): Thunk<any> {
   return callAPI({
     types: EmailList.EDIT,
@@ -39,25 +35,29 @@ export function editEmailList(emailList: EmailListEntity): Thunk<any> {
     schema: emailListSchema,
     body: emailList,
     meta: {
-      errorMessage: 'Endring av epostliste feilet',
-    },
+      errorMessage: 'Endring av epostliste feilet'
+    }
   });
 }
-
 export function fetch({
   next,
-  query,
-}: { next?: boolean, query: Object } = {}): Thunk<*> {
+  query
+}: {
+  next?: boolean;
+  query: Record<string, any>;
+} = {}): Thunk<any> {
   return callAPI({
     types: EmailList.FETCH,
     endpoint: '/email-lists/',
     useCache: false,
-    pagination: { fetchNext: !!next },
+    pagination: {
+      fetchNext: !!next
+    },
     query,
     schema: [emailListSchema],
     meta: {
-      errorMessage: 'Henting av epostlister feilet',
+      errorMessage: 'Henting av epostlister feilet'
     },
-    propagateError: true,
+    propagateError: true
   });
 }

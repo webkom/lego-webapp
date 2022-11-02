@@ -1,31 +1,32 @@
-// @flow
-
-import { push } from 'connected-react-router';
-import { startSubmit, stopSubmit } from 'redux-form';
-import { quoteSchema } from 'app/reducers';
-import callAPI from 'app/actions/callAPI';
-import { Quote } from './ActionTypes';
-import { addToast } from 'app/actions/ToastActions';
-import type { Thunk } from 'app/types';
-import type { ID } from 'app/models';
-
+import { push } from "connected-react-router";
+import { startSubmit, stopSubmit } from "redux-form";
+import { quoteSchema } from "app/reducers";
+import callAPI from "app/actions/callAPI";
+import { Quote } from "./ActionTypes";
+import { addToast } from "app/actions/ToastActions";
+import type { Thunk } from "app/types";
+import type { ID } from "app/models";
 export function fetchAll({
   query,
-  next = false,
-}: { query?: Object, next?: boolean } = {}): Thunk<*> {
+  next = false
+}: {
+  query?: Record<string, any>;
+  next?: boolean;
+} = {}): Thunk<any> {
   return callAPI({
     types: Quote.FETCH,
     endpoint: '/quotes/',
     schema: [quoteSchema],
     query,
-    pagination: { fetchNext: next },
-    meta: {
-      errorMessage: 'Henting av sitater feilet',
+    pagination: {
+      fetchNext: next
     },
-    propagateError: true,
+    meta: {
+      errorMessage: 'Henting av sitater feilet'
+    },
+    propagateError: true
   });
 }
-
 export function fetchQuote(quoteId: number): Thunk<any> {
   return callAPI({
     types: Quote.FETCH,
@@ -33,14 +34,13 @@ export function fetchQuote(quoteId: number): Thunk<any> {
     method: 'GET',
     meta: {
       quoteId,
-      errorMessage: 'Henting av quote feilet',
+      errorMessage: 'Henting av quote feilet'
     },
     schema: quoteSchema,
-    propagateError: true,
+    propagateError: true
   });
 }
-
-export function fetchRandomQuote(seenQuotes?: Array<ID> = []) {
+export function fetchRandomQuote(seenQuotes: Array<ID> = []) {
   const queryString = `?seen=[${String(seenQuotes)}]`;
   return callAPI({
     types: Quote.FETCH_RANDOM,
@@ -48,13 +48,12 @@ export function fetchRandomQuote(seenQuotes?: Array<ID> = []) {
     method: 'GET',
     meta: {
       queryString,
-      errorMessage: 'Henting av tilfeldig quote feilet',
+      errorMessage: 'Henting av tilfeldig quote feilet'
     },
     useCache: false,
-    schema: quoteSchema,
+    schema: quoteSchema
   });
 }
-
 export function approve(quoteId: number): Thunk<any> {
   return callAPI({
     types: Quote.APPROVE,
@@ -62,11 +61,10 @@ export function approve(quoteId: number): Thunk<any> {
     method: 'PUT',
     meta: {
       errorMessage: 'Godkjenning av quote feilet',
-      quoteId: Number(quoteId),
-    },
+      quoteId: Number(quoteId)
+    }
   });
 }
-
 export function unapprove(quoteId: number): Thunk<any> {
   return callAPI({
     types: Quote.UNAPPROVE,
@@ -74,49 +72,41 @@ export function unapprove(quoteId: number): Thunk<any> {
     method: 'PUT',
     meta: {
       errorMessage: 'Underkjenning av quote feilet',
-      quoteId: Number(quoteId),
-    },
+      quoteId: Number(quoteId)
+    }
   });
 }
-
 export function addQuotes({
   text,
-  source,
+  source
 }: {
-  text: string,
-  source: string,
-}): Thunk<*> {
-  return (dispatch) => {
+  text: string;
+  source: string;
+}): Thunk<any> {
+  return dispatch => {
     dispatch(startSubmit('addQuote'));
-
-    return dispatch(
-      callAPI({
-        types: Quote.ADD,
-        endpoint: '/quotes/',
-        method: 'POST',
-        body: {
-          text,
-          source,
-        },
-        schema: quoteSchema,
-        meta: {
-          errorMessage: 'Legg til quote feilet',
-        },
-      })
-    ).then(() => {
+    return dispatch(callAPI({
+      types: Quote.ADD,
+      endpoint: '/quotes/',
+      method: 'POST',
+      body: {
+        text,
+        source
+      },
+      schema: quoteSchema,
+      meta: {
+        errorMessage: 'Legg til quote feilet'
+      }
+    })).then(() => {
       dispatch(stopSubmit('addQuote'));
       dispatch(push('/quotes'));
-      dispatch(
-        addToast({
-          message:
-            'Sitat sendt inn. Hvis det blir godkjent vil det dukke opp her!',
-          dismissAfter: 10000,
-        })
-      );
+      dispatch(addToast({
+        message: 'Sitat sendt inn. Hvis det blir godkjent vil det dukke opp her!',
+        dismissAfter: 10000
+      }));
     });
   };
 }
-
 export function deleteQuote(id: number): Thunk<any> {
   return callAPI({
     types: Quote.DELETE,
@@ -124,7 +114,7 @@ export function deleteQuote(id: number): Thunk<any> {
     method: 'DELETE',
     meta: {
       id,
-      errorMessage: 'Sletting av quote feilet',
-    },
+      errorMessage: 'Sletting av quote feilet'
+    }
   });
 }

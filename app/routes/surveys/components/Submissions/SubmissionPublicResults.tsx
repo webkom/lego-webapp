@@ -1,19 +1,16 @@
-// @flow
-
-import styles from '../surveys.css';
-import type { SurveyEntity } from 'app/reducers/surveys';
-import { Content, ContentSection, ContentMain } from 'app/components/Content';
-import type { ActionGrant } from 'app/models';
-import Results from './Results';
-import { TokenNavigation } from '../../utils';
-
+import styles from "../surveys.css";
+import type { SurveyEntity } from "app/reducers/surveys";
+import { Content, ContentSection, ContentMain } from "app/components/Content";
+import type { ActionGrant } from "app/models";
+import Results from "./Results";
+import { TokenNavigation } from "../../utils";
 type Props = {
-  survey: SurveyEntity,
-  actionGrant: ActionGrant,
-  results: Object,
-  option: string,
-  value: string,
-  editSurvey: (Object) => Promise<*>,
+  survey: SurveyEntity;
+  actionGrant: ActionGrant;
+  results: Record<string, any>;
+  option: string;
+  value: string;
+  editSurvey: (arg0: Record<string, any>) => Promise<any>;
 };
 
 const SubmissionPublicResultsPage = ({
@@ -21,38 +18,32 @@ const SubmissionPublicResultsPage = ({
   actionGrant,
   option,
   editSurvey,
-  value,
+  value
 }: Props) => {
-  const { results = {} } = survey;
+  const {
+    results = {}
+  } = survey;
 
-  const generateTextAnswers = (question) => {
+  const generateTextAnswers = question => {
     let texts = [];
-    Object.keys(results[question.id]).forEach((name) => {
+    Object.keys(results[question.id]).forEach(name => {
       if (name !== 'questionType') {
-        texts = results[question.id][name].map((answer, i) => (
-          <li key={i}>{answer}</li>
-        ));
+        texts = results[question.id][name].map((answer, i) => <li key={i}>{answer}</li>);
       }
     });
-
     return texts.length === 0 ? <i>Ingen svar.</i> : texts;
   };
 
-  const generateQuestionData = (questionId) => {
+  const generateQuestionData = questionId => {
     const questionData = [];
-    const question =
-      survey.questions.find((q) => q.id === Number(questionId)) || {};
+    const question = survey.questions.find(q => q.id === Number(questionId)) || {};
+    Object.keys(results[questionId]).forEach(optionId => {
+      const optionText = (question.options.find(o => o.id === Number(optionId)) || {}).optionText;
 
-    Object.keys(results[questionId]).forEach((optionId) => {
-      const optionText = (
-        question.options.find((o) => o.id === Number(optionId)) || {}
-      ).optionText;
       if (optionText) {
         questionData.push({
-          option: (
-            question.options.find((o) => o.id === Number(optionId)) || {}
-          ).optionText,
-          selections: Number(results[questionId][optionId]),
+          option: (question.options.find(o => o.id === Number(optionId)) || {}).optionText,
+          selections: Number(results[questionId][optionId])
         });
       }
     });
@@ -60,32 +51,18 @@ const SubmissionPublicResultsPage = ({
   };
 
   const graphData = {};
-  Object.keys(results).forEach((questionId) => {
+  Object.keys(results).forEach(questionId => {
     graphData[Number(questionId)] = generateQuestionData(questionId);
   });
-
-  return (
-    <Content className={styles.surveyDetail} banner={survey.event.cover}>
-      <TokenNavigation
-        title={survey.title}
-        actionGrant={actionGrant}
-        surveyId={survey.id}
-      />
+  return <Content className={styles.surveyDetail} banner={survey.event.cover}>
+      <TokenNavigation title={survey.title} actionGrant={actionGrant} surveyId={survey.id} />
 
       <ContentSection>
         <ContentMain>
-          <Results
-            survey={survey}
-            graphData={graphData}
-            numberOfSubmissions={survey.submissionCount || 0}
-            generateTextAnswers={generateTextAnswers}
-            option={option}
-            value={value}
-          />
+          <Results survey={survey} graphData={graphData} numberOfSubmissions={survey.submissionCount || 0} generateTextAnswers={generateTextAnswers} option={option} value={value} />
         </ContentMain>
       </ContentSection>
-    </Content>
-  );
+    </Content>;
 };
 
 export default SubmissionPublicResultsPage;

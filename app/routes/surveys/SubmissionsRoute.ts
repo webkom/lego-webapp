@@ -1,58 +1,51 @@
-import 'isomorphic-fetch';
-import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
-import {
-  fetchSubmissions,
-  addSubmission,
-  deleteSubmission,
-  hideAnswer,
-  showAnswer,
-} from 'app/actions/SurveySubmissionActions';
-import {
-  fetchSurvey,
-  shareSurvey,
-  hideSurvey,
-  editSurvey,
-} from 'app/actions/SurveyActions';
-import SubmissionPage from './components/Submissions/SubmissionPage';
-import { compose } from 'redux';
-import { selectSurveySubmissions } from 'app/reducers/surveySubmissions';
-import { selectSurveyById } from 'app/reducers/surveys';
-import { push } from 'connected-react-router';
-import loadingIndicator from 'app/utils/loadingIndicator';
-import { LoginPage } from 'app/components/LoginForm';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import { getCsvUrl } from './utils';
+import "isomorphic-fetch";
+import { connect } from "react-redux";
+import prepare from "app/utils/prepare";
+import { fetchSubmissions, addSubmission, deleteSubmission, hideAnswer, showAnswer } from "app/actions/SurveySubmissionActions";
+import { fetchSurvey, shareSurvey, hideSurvey, editSurvey } from "app/actions/SurveyActions";
+import SubmissionPage from "./components/Submissions/SubmissionPage";
+import { compose } from "redux";
+import { selectSurveySubmissions } from "app/reducers/surveySubmissions";
+import { selectSurveyById } from "app/reducers/surveys";
+import { push } from "connected-react-router";
+import loadingIndicator from "app/utils/loadingIndicator";
+import { LoginPage } from "app/components/LoginForm";
+import replaceUnlessLoggedIn from "app/utils/replaceUnlessLoggedIn";
+import { getCsvUrl } from "./utils";
 
 const loadData = (props, dispatch) => {
-  const { surveyId } = props.match.params;
-  return Promise.all([
-    dispatch(fetchSurvey(surveyId)),
-    dispatch(fetchSubmissions(surveyId)),
-  ]);
+  const {
+    surveyId
+  } = props.match.params;
+  return Promise.all([dispatch(fetchSurvey(surveyId)), dispatch(fetchSubmissions(surveyId))]);
 };
 
 const mapStateToProps = (state, props) => {
   const surveyId = Number(props.match.params.surveyId);
   const locationStrings = props.location.pathname.split('/');
-  const isSummary =
-    locationStrings[locationStrings.length - 1] === 'individual';
-  const survey = selectSurveyById(state, { surveyId });
+  const isSummary = locationStrings[locationStrings.length - 1] === 'individual';
+  const survey = selectSurveyById(state, {
+    surveyId
+  });
   return {
     survey,
-    submissions: selectSurveySubmissions(state, { surveyId }),
+    submissions: selectSurveySubmissions(state, {
+      surveyId
+    }),
     notFetching: !state.surveys.fetching && !state.surveySubmissions.fetching,
     actionGrant: survey.actionGrant,
     isSummary,
-    exportSurvey: async (surveyId) => {
+    exportSurvey: async surveyId => {
       const blob = await fetch(getCsvUrl(surveyId), {
-        headers: { Authorization: `Bearer ${state.auth.token}` },
-      }).then((response) => response.blob());
+        headers: {
+          Authorization: `Bearer ${state.auth.token}`
+        }
+      }).then(response => response.blob());
       return {
         url: URL.createObjectURL(blob),
-        filename: survey.title.replace(/ /g, '_') + '.csv',
+        filename: survey.title.replace(/ /g, '_') + '.csv'
       };
-    },
+    }
   };
 };
 
@@ -64,12 +57,6 @@ const mapDispatchToProps = {
   hideSurvey,
   showAnswer,
   hideAnswer,
-  editSurvey,
+  editSurvey
 };
-
-export default compose(
-  replaceUnlessLoggedIn(LoginPage),
-  prepare(loadData),
-  connect(mapStateToProps, mapDispatchToProps),
-  loadingIndicator(['notFetching', 'survey.event', 'survey.questions'])
-)(SubmissionPage);
+export default compose(replaceUnlessLoggedIn(LoginPage), prepare(loadData), connect(mapStateToProps, mapDispatchToProps), loadingIndicator(['notFetching', 'survey.event', 'survey.questions']))(SubmissionPage);

@@ -1,13 +1,10 @@
-// @flow
-
-import Image from './Image';
-
+import Image from "./Image";
 type Props = {
-  src: any,
-  placeholder?: string,
-  alt: string,
-  size: number,
-  style?: Object,
+  src: any;
+  placeholder?: string;
+  alt: string;
+  size: number;
+  style?: Record<string, any>;
 };
 
 const CircularPicture = ({
@@ -17,21 +14,10 @@ const CircularPicture = ({
   size = 100,
   style,
   ...props
-}: Props) => (
-  <Image
-    src={src}
-    placeholder={placeholder}
-    alt={alt}
-    width={size}
-    height={size}
-    style={{
-      ...style,
-      borderRadius: size / 2,
-      width: size,
-      height: size,
-    }}
-    {...(props: Object)}
-  />
-);
+}: Props) => <Image src={src} placeholder={placeholder} alt={alt} width={size} height={size} style={{ ...style,
+  borderRadius: size / 2,
+  width: size,
+  height: size
+}} {...(props as Record<string, any>)} />;
 
 export default CircularPicture;

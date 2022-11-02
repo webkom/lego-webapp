@@ -1,6 +1,5 @@
-import comments, { mutateComments } from '../comments';
-import { Comment } from '../../actions/ActionTypes';
-
+import comments, { mutateComments } from "../comments";
+import { Comment } from "../../actions/ActionTypes";
 describe('reducers', () => {
   describe('comments', () => {
     it('Deleting comments should set text and author to null', () => {
@@ -14,24 +13,23 @@ describe('reducers', () => {
             text: 'hello world',
             author: {
               id: 1,
-              username: 'webkom',
+              username: 'webkom'
             },
-            parent: null,
-          },
-        },
+            parent: null
+          }
+        }
       };
       const action = {
         type: Comment.DELETE.SUCCESS,
         meta: {
-          id: 91,
-        },
+          id: 91
+        }
       };
       expect(comments(prevState, action).byId[91].text).toBeNull();
       expect(comments(prevState, action).byId[91].author).toBeNull();
     });
   });
 });
-
 describe('mutateComments', () => {
   const prevState = {
     actionGrant: [],
@@ -41,19 +39,19 @@ describe('mutateComments', () => {
       3: {
         id: 3,
         text: 'hello world',
-        name: 'welcome',
+        name: 'welcome'
       },
       4: {
         id: 4,
         text: 'test',
-        name: 'test',
-      },
-    },
+        name: 'test'
+      }
+    }
   };
   const action = {
     type: Comment.ADD.SUCCESS,
     meta: {
-      contentTarget: 'articles.article-3',
+      contentTarget: 'articles.article-3'
     },
     payload: {
       result: {
@@ -61,11 +59,11 @@ describe('mutateComments', () => {
         text: 'comment',
         author: {
           id: 1,
-          username: 'webkom',
+          username: 'webkom'
         },
-        parent: null,
-      },
-    },
+        parent: null
+      }
+    }
   };
   it('should add comment to correct entity', () => {
     const reducer = mutateComments('articles');
@@ -78,27 +76,24 @@ describe('mutateComments', () => {
           id: 3,
           text: 'hello world',
           name: 'welcome',
-          comments: [
-            {
-              id: 33,
-              text: 'comment',
-              author: {
-                id: 1,
-                username: 'webkom',
-              },
-              parent: null,
+          comments: [{
+            id: 33,
+            text: 'comment',
+            author: {
+              id: 1,
+              username: 'webkom'
             },
-          ],
+            parent: null
+          }]
         },
         4: {
           id: 4,
           text: 'test',
-          name: 'test',
-        },
-      },
+          name: 'test'
+        }
+      }
     });
   });
-
   it('should not add comment when entity is wrong', () => {
     const reducer = mutateComments('events');
     const newState = reducer(prevState, action);

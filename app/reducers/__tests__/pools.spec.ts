@@ -1,6 +1,5 @@
-import pools from '../pools';
-import { Event } from '../../actions/ActionTypes';
-
+import pools from "../pools";
+import { Event } from "../../actions/ActionTypes";
 describe('reducers', () => {
   describe('pool', () => {
     const baseState = {
@@ -11,9 +10,9 @@ describe('reducers', () => {
         3: {
           id: 3,
           registrations: [],
-          registrationCount: 0,
-        },
-      },
+          registrationCount: 0
+        }
+      }
     };
     it('Event.SOCKET_EVENT_UPDATED', () => {
       const prevState = baseState;
@@ -21,11 +20,16 @@ describe('reducers', () => {
         type: Event.SOCKET_EVENT_UPDATED,
         payload: {
           id: 1,
-          pools: [
-            { id: 3, registrations: [], registrationCount: 0 },
-            { id: 4, registrations: [], registrationCount: 0 },
-          ],
-        },
+          pools: [{
+            id: 3,
+            registrations: [],
+            registrationCount: 0
+          }, {
+            id: 4,
+            registrations: [],
+            registrationCount: 0
+          }]
+        }
       };
       expect(pools(prevState, action)).toEqual({
         actionGrant: [],
@@ -35,14 +39,14 @@ describe('reducers', () => {
           3: {
             id: 3,
             registrations: [],
-            registrationCount: 0,
+            registrationCount: 0
           },
           4: {
             id: 4,
             registrations: [],
-            registrationCount: 0,
-          },
-        },
+            registrationCount: 0
+          }
+        }
       });
     });
     it('Event.SOCKET_REGISTRATION.SUCCESS', () => {
@@ -51,8 +55,8 @@ describe('reducers', () => {
         type: Event.SOCKET_REGISTRATION.SUCCESS,
         payload: {
           id: 9,
-          pool: 3,
-        },
+          pool: 3
+        }
       };
       expect(pools(prevState, action)).toEqual({
         actionGrant: [],
@@ -62,9 +66,9 @@ describe('reducers', () => {
           3: {
             id: 3,
             registrations: [9],
-            registrationCount: 1,
-          },
-        },
+            registrationCount: 1
+          }
+        }
       });
     });
     it('Event.SOCKET_UNREGISTRATION.SUCCESS', () => {
@@ -76,18 +80,18 @@ describe('reducers', () => {
           3: {
             id: 3,
             registrations: [9, 10],
-            registrationCount: 2,
-          },
-        },
+            registrationCount: 2
+          }
+        }
       };
       const action = {
         type: Event.SOCKET_UNREGISTRATION.SUCCESS,
         meta: {
-          fromPool: 3,
+          fromPool: 3
         },
         payload: {
-          id: 10,
-        },
+          id: 10
+        }
       };
       expect(pools(prevState, action)).toEqual({
         actionGrant: [],
@@ -97,9 +101,9 @@ describe('reducers', () => {
           3: {
             id: 3,
             registrations: [9],
-            registrationCount: 1,
-          },
-        },
+            registrationCount: 1
+          }
+        }
       });
     });
   });

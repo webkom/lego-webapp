@@ -1,37 +1,38 @@
-import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
-import { fetchJoblisting } from 'app/actions/JoblistingActions';
-import JoblistingDetail from './components/JoblistingDetail';
-import { selectJoblistingById } from 'app/reducers/joblistings';
-import { compose } from 'redux';
-import { push } from 'connected-react-router';
+import { connect } from "react-redux";
+import prepare from "app/utils/prepare";
+import { fetchJoblisting } from "app/actions/JoblistingActions";
+import JoblistingDetail from "./components/JoblistingDetail";
+import { selectJoblistingById } from "app/reducers/joblistings";
+import { compose } from "redux";
+import { push } from "connected-react-router";
 
 const mapStateToProps = (state, props) => {
-  const { joblistingId } = props.match.params;
-  const joblisting = selectJoblistingById(state, { joblistingId });
-  const { fetching } = state.joblistings;
-  const actionGrant = (joblisting && joblisting.actionGrant) || [];
-
+  const {
+    joblistingId
+  } = props.match.params;
+  const joblisting = selectJoblistingById(state, {
+    joblistingId
+  });
+  const {
+    fetching
+  } = state.joblistings;
+  const actionGrant = joblisting && joblisting.actionGrant || [];
   return {
     joblisting,
     joblistingId,
     actionGrant,
-    fetching,
+    fetching
   };
 };
 
-const mapDispatchToProps = { fetchJoblisting, push };
-
-export default compose(
-  prepare(
-    (
-      {
-        match: {
-          params: { joblistingId },
-        },
-      },
-      dispatch
-    ) => dispatch(fetchJoblisting(joblistingId))
-  ),
-  connect(mapStateToProps, mapDispatchToProps)
-)(JoblistingDetail);
+const mapDispatchToProps = {
+  fetchJoblisting,
+  push
+};
+export default compose(prepare(({
+  match: {
+    params: {
+      joblistingId
+    }
+  }
+}, dispatch) => dispatch(fetchJoblisting(joblistingId))), connect(mapStateToProps, mapDispatchToProps))(JoblistingDetail);

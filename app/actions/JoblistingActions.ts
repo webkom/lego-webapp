@@ -1,23 +1,19 @@
-// @flow
-
-import { joblistingsSchema } from 'app/reducers';
-import callAPI from 'app/actions/callAPI';
-import type { Thunk } from 'app/types';
-import { Joblistings } from './ActionTypes';
-import moment from 'moment-timezone';
-
+import { joblistingsSchema } from "app/reducers";
+import callAPI from "app/actions/callAPI";
+import type { Thunk } from "app/types";
+import { Joblistings } from "./ActionTypes";
+import moment from "moment-timezone";
 export function fetchAll(): Thunk<any> {
   return callAPI({
     types: Joblistings.FETCH,
     endpoint: '/joblistings/',
     schema: [joblistingsSchema],
     meta: {
-      errorMessage: 'Henting av jobbannonser failet',
+      errorMessage: 'Henting av jobbannonser failet'
     },
-    propagateError: true,
+    propagateError: true
   });
 }
-
 export function fetchJoblisting(id: number): Thunk<any> {
   return callAPI({
     types: Joblistings.FETCH,
@@ -25,12 +21,11 @@ export function fetchJoblisting(id: number): Thunk<any> {
     schema: joblistingsSchema,
     useCache: false,
     meta: {
-      errorMessage: 'Henting av jobbannonse feilet',
+      errorMessage: 'Henting av jobbannonse feilet'
     },
-    propagateError: true,
+    propagateError: true
   });
 }
-
 export function deleteJoblisting(id: number): Thunk<any> {
   return callAPI({
     types: Joblistings.DELETE,
@@ -38,11 +33,10 @@ export function deleteJoblisting(id: number): Thunk<any> {
     method: 'DELETE',
     meta: {
       id,
-      errorMessage: 'Sletting av jobbannonse feilet',
-    },
+      errorMessage: 'Sletting av jobbannonse feilet'
+    }
   });
 }
-
 export function createJoblisting({
   company,
   responsible,
@@ -50,26 +44,24 @@ export function createJoblisting({
   visibleTo,
   visibleFrom,
   ...data
-}: Object): Thunk<any> {
+}: Record<string, any>): Thunk<any> {
   return callAPI({
     types: Joblistings.CREATE,
     endpoint: '/joblistings/',
     method: 'POST',
-    body: {
-      ...data,
+    body: { ...data,
       company: company && company.value,
       responsible: responsible && responsible.value,
       deadline: moment(deadline).toISOString(),
       visibleFrom: moment(visibleFrom).toISOString(),
-      visibleTo: moment(visibleTo).toISOString(),
+      visibleTo: moment(visibleTo).toISOString()
     },
     schema: joblistingsSchema,
     meta: {
-      errorMessage: 'Opprettelse av jobbannonse feilet',
-    },
+      errorMessage: 'Opprettelse av jobbannonse feilet'
+    }
   });
 }
-
 export function editJoblisting({
   id,
   company,
@@ -78,21 +70,20 @@ export function editJoblisting({
   visibleTo,
   visibleFrom,
   ...data
-}: Object): Thunk<any> {
+}: Record<string, any>): Thunk<any> {
   return callAPI({
     types: Joblistings.EDIT,
     endpoint: `/joblistings/${id}/`,
     method: 'PUT',
-    body: {
-      ...data,
+    body: { ...data,
       company: company && company.value,
       responsible: responsible && responsible.value,
       deadline: moment(deadline).toISOString(),
       visibleFrom: moment(visibleFrom).toISOString(),
-      visibleTo: moment(visibleTo).toISOString(),
+      visibleTo: moment(visibleTo).toISOString()
     },
     meta: {
-      errorMessage: 'Endring av jobbannonse feilet',
-    },
+      errorMessage: 'Endring av jobbannonse feilet'
+    }
   });
 }

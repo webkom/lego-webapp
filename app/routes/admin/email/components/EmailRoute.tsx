@@ -1,17 +1,15 @@
-// @flow
-
-import type { Node } from 'react';
-import NavigationTab from 'app/components/NavigationTab';
-import NavigationLink from 'app/components/NavigationTab/NavigationLink';
-import { Content } from 'app/components/Content';
-import { Helmet } from 'react-helmet-async';
-
+import type { Node } from "react";
+import NavigationTab from "app/components/NavigationTab";
+import NavigationLink from "app/components/NavigationTab/NavigationLink";
+import { Content } from "app/components/Content";
+import { Helmet } from "react-helmet-async";
 type Props = {
-  children: Node,
+  children: Node;
 };
 
-const EmailPage = ({ children }: Props) => (
-  <Content>
+const EmailPage = ({
+  children
+}: Props) => <Content>
     <Helmet title="E-post" />
     <NavigationTab title="E-post">
       <NavigationLink to="/admin/email">Lister</NavigationLink>
@@ -23,7 +21,6 @@ const EmailPage = ({ children }: Props) => (
       </NavigationLink>
     </NavigationTab>
     {children}
-  </Content>
-);
+  </Content>;
 
 export default EmailPage;

@@ -1,10 +1,10 @@
-import { connect } from 'react-redux';
-import { compose } from 'redux';
-import { addCompany } from '../../actions/CompanyActions';
-import CompanyEditor from './components/CompanyEditor';
-import { LoginPage } from 'app/components/LoginForm';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import { uploadFile } from 'app/actions/FileActions';
+import { connect } from "react-redux";
+import { compose } from "redux";
+import { addCompany } from "../../actions/CompanyActions";
+import CompanyEditor from "./components/CompanyEditor";
+import { LoginPage } from "app/components/LoginForm";
+import replaceUnlessLoggedIn from "app/utils/replaceUnlessLoggedIn";
+import { uploadFile } from "app/actions/FileActions";
 
 const mapStateToProps = (state, props) => {
   return {
@@ -18,14 +18,13 @@ const mapStateToProps = (state, props) => {
       phone: '',
       companyType: '',
       paymentMail: '',
-      address: '',
-    },
+      address: ''
+    }
   };
 };
 
-const mapDispatchToProps = { submitFunction: addCompany, uploadFile };
-
-export default compose(
-  replaceUnlessLoggedIn(LoginPage),
-  connect(mapStateToProps, mapDispatchToProps)
-)(CompanyEditor);
+const mapDispatchToProps = {
+  submitFunction: addCompany,
+  uploadFile
+};
+export default compose(replaceUnlessLoggedIn(LoginPage), connect(mapStateToProps, mapDispatchToProps))(CompanyEditor);

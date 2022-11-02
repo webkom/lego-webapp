@@ -1,61 +1,59 @@
-// @flow
-import { Children, cloneElement, Component } from 'react';
-import styles from './AprilFools.css';
-import moment from 'moment-timezone';
-import { Link } from 'react-router-dom';
-import { Image } from 'app/components/Image';
-import logoImage from 'app/assets/logo-dark.png';
-import foolsImage from 'app/assets/aprilfools-image.png';
-import LoadingBox from './LoadingBox';
-
+import { Children, cloneElement, Component } from "react";
+import styles from "./AprilFools.css";
+import moment from "moment-timezone";
+import { Link } from "react-router-dom";
+import { Image } from "app/components/Image";
+import logoImage from "app/assets/logo-dark.png";
+import foolsImage from "app/assets/aprilfools-image.png";
+import LoadingBox from "./LoadingBox";
 type Props = {
-  children: Node,
+  children: Node;
 };
-
 type State = {
-  hasClosed: boolean,
+  hasClosed: boolean;
 };
 
 class AprilFools extends Component<Props, State> {
   state = {
-    hasClosed: true,
+    hasClosed: true
   };
+
   static isCorrectDate() {
     // The year doesn't matter, as it only check month and day of the month
     const aprilFoolsDate = moment('2019-04-01');
     const now = moment();
-    return (
-      aprilFoolsDate.date() === now.date() &&
-      aprilFoolsDate.month() === now.month()
-    );
+    return aprilFoolsDate.date() === now.date() && aprilFoolsDate.month() === now.month();
   }
 
   onQueueDone() {
     localStorage.setItem('hasClosedAprilFools', 'true');
     this.setState({
-      hasClosed: true,
+      hasClosed: true
     });
   }
 
   componentDidMount() {
     const hasClosedAprilFools = localStorage.getItem('hasClosedAprilFools');
     this.setState({
-      hasClosed: hasClosedAprilFools === 'true',
+      hasClosed: hasClosedAprilFools === 'true'
     });
   }
 
   render() {
-    const { children, ...rest } = this.props;
-    const { hasClosed } = this.state;
+    const {
+      children,
+      ...rest
+    } = this.props;
+    const {
+      hasClosed
+    } = this.state;
 
     if (hasClosed) {
-      return Children.map(children, (child) =>
-        cloneElement(child, { ...rest })
-      );
+      return Children.map(children, child => cloneElement(child, { ...rest
+      }));
     }
 
-    return (
-      <div className={styles.container}>
+    return <div className={styles.container}>
         <div className={styles.contentContainer}>
           <div className={styles.leftContainer}>
             <div className={styles.logoContainer}>
@@ -87,9 +85,9 @@ class AprilFools extends Component<Props, State> {
             <Image src={foolsImage} alt="" />
           </div>
         </div>
-      </div>
-    );
+      </div>;
   }
+
 }
 
 export default AprilFools;

@@ -1,27 +1,21 @@
-// @flow
-
-import type { Node } from 'react';
-
-import { Component } from 'react';
-import cx from 'classnames';
-import styles from './Tooltip.css';
-
+import type { Node } from "react";
+import { Component } from "react";
+import cx from "classnames";
+import styles from "./Tooltip.css";
 type Props = {
-  children: Node,
-  content: Node,
-  className?: string,
-  onClick?: () => void,
-  style?: Object,
-  list?: boolean,
-  renderDirection?: string,
-  pointerPosition?: string,
+  children: Node;
+  content: Node;
+  className?: string;
+  onClick?: () => void;
+  style?: Record<string, any>;
+  list?: boolean;
+  renderDirection?: string;
+  pointerPosition?: string;
 };
-
 type State = {
-  hovered: boolean,
-  childrenContainerWidth: number,
+  hovered: boolean;
+  childrenContainerWidth: number;
 };
-
 /**
  * A tooltip that appears when you hover over the component placed within.
  * The tooltip will by default be centered, however it supports a 'renderDirection'
@@ -33,36 +27,33 @@ type State = {
 
 export default class Tooltip extends Component<Props, State> {
   static defaultProps = {
-    list: false,
+    list: false
   };
-
-  tooltip: ?HTMLDivElement;
+  tooltip: HTMLDivElement | null | undefined;
 
   measure() {
     if (!this.tooltip) {
       return;
     }
-    const width = this.tooltip.offsetWidth;
 
+    const width = this.tooltip.offsetWidth;
     this.setState({
-      childrenContainerWidth: width,
+      childrenContainerWidth: width
     });
   }
 
   state = {
     hovered: false,
-    childrenContainerWidth: 0,
+    childrenContainerWidth: 0
   };
-
   onMouseEnter = () => {
     this.setState({
-      hovered: true,
+      hovered: true
     });
   };
-
   onMouseLeave = () => {
     this.setState({
-      hovered: false,
+      hovered: false
     });
   };
 
@@ -79,58 +70,53 @@ export default class Tooltip extends Component<Props, State> {
       style,
       onClick,
       renderDirection,
-      pointerPosition,
+      pointerPosition
     } = this.props;
     let renderDirectionClass = styles.renderFromCenter;
     let startPointChildren = 2;
+
     if (!list) {
       switch (renderDirection) {
         case 'left':
           renderDirectionClass = styles.renderDirectionLeft;
           break;
+
         case 'right':
           renderDirectionClass = styles.renderDirectionRight;
           break;
+
         default:
           break;
       }
+
       switch (pointerPosition) {
         case 'left':
           startPointChildren = 9;
           break;
+
         case 'right':
           startPointChildren = 10 / 9;
           break;
+
         default:
           break;
       }
     }
-    const tooltipClass = this.state.hovered
-      ? styles.baseTooltipHover
-      : styles.tooltip;
+
+    const tooltipClass = this.state.hovered ? styles.baseTooltipHover : styles.tooltip;
     const tooltip = list ? styles.listTooltip : styles.showTooltip;
-    return (
-      <div className={className} onClick={onClick}>
-        <div
-          ref={(ref) => {
-            this.tooltip = ref;
-          }}
-          onMouseEnter={this.onMouseEnter}
-          onMouseLeave={this.onMouseLeave}
-        >
-          <div
-            className={cx(tooltipClass, tooltip, renderDirectionClass)}
-            style={{
-              ...style,
-              marginLeft:
-                this.state.childrenContainerWidth / startPointChildren - 5,
-            }}
-          >
+    return <div className={className} onClick={onClick}>
+        <div ref={ref => {
+        this.tooltip = ref;
+      }} onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave}>
+          <div className={cx(tooltipClass, tooltip, renderDirectionClass)} style={{ ...style,
+          marginLeft: this.state.childrenContainerWidth / startPointChildren - 5
+        }}>
             {content}
           </div>
           {children}
         </div>
-      </div>
-    );
+      </div>;
   }
+
 }

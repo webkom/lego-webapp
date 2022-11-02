@@ -1,18 +1,19 @@
-// @flow
-
-import cx from 'classnames';
-import styles from './Card.css';
-
+import cx from "classnames";
+import styles from "./Card.css";
 type Props = {
-  className?: string,
+  className?: string;
+
   /** Children compontents */
-  children?: any,
+  children?: any;
+
   /** Dark background  */
-  dark?: boolean,
+  dark?: boolean;
+
   /** Small */
-  tight?: boolean,
+  tight?: boolean;
+
   /** Shadow */
-  shadow?: boolean,
+  shadow?: boolean;
 };
 
 function Card({
@@ -23,20 +24,9 @@ function Card({
   shadow = true,
   ...htmlAttributes
 }: Props) {
-  return (
-    <div
-      className={cx(
-        className,
-        styles.card,
-        dark && styles.dark,
-        tight && styles.tight,
-        shadow && styles.shadow
-      )}
-      {...(htmlAttributes: Object)}
-    >
+  return <div className={cx(className, styles.card, dark && styles.dark, tight && styles.tight, shadow && styles.shadow)} {...(htmlAttributes as Record<string, any>)}>
       {children}
-    </div>
-  );
+    </div>;
 }
 
 export default Card;

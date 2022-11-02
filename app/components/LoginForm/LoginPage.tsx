@@ -1,95 +1,82 @@
-// @flow
-
-import { Component } from 'react';
-import styles from './Login.css';
-import {
-  LoginForm,
-  RegisterForm,
-  ForgotPasswordForm,
-} from 'app/components/LoginForm';
-import { Flex } from 'app/components/Layout';
-import { Content } from 'app/components/Content';
-
+import { Component } from "react";
+import styles from "./Login.css";
+import { LoginForm, RegisterForm, ForgotPasswordForm } from "app/components/LoginForm";
+import { Flex } from "app/components/Layout";
+import { Content } from "app/components/Content";
 type State = {
-  mode: 'login' | 'register' | 'forgotPassword',
+  mode: "login" | "register" | "forgotPassword";
 };
-
 type Props = {};
 
 class LoginPage extends Component<Props, State> {
   state = {
-    mode: 'login',
+    mode: 'login'
   };
-
   toggleRegisterUser = (e: Event) => {
-    this.setState({ mode: 'register' });
+    this.setState({
+      mode: 'register'
+    });
     e.stopPropagation();
   };
-
   toggleForgotPassword = (e: Event) => {
-    this.setState({ mode: 'forgotPassword' });
+    this.setState({
+      mode: 'forgotPassword'
+    });
     e.stopPropagation();
   };
-
   toggleBack = (e: Event) => {
-    this.setState({ mode: 'login' });
+    this.setState({
+      mode: 'login'
+    });
     e.stopPropagation();
   };
 
   render() {
     const isLogin = this.state.mode === 'login';
     let title, form;
+
     switch (this.state.mode) {
       case 'login':
         title = 'Logg inn';
         form = <LoginForm />;
         break;
+
       case 'register':
         title = 'Register';
         form = <RegisterForm />;
         break;
+
       case 'forgotPassword':
         title = 'Glemt passord';
         form = <ForgotPasswordForm />;
         break;
+
       default:
         break;
     }
-    return (
-      <Content>
-        <Flex
-          component="h2"
-          justifyContent="space-between"
-          allignItems="center"
-          style={{ whitespace: 'nowrap' }}
-        >
+
+    return <Content>
+        <Flex component="h2" justifyContent="space-between" allignItems="center" style={{
+        whitespace: 'nowrap'
+      }}>
           {title}
-          {isLogin && (
-            <div>
-              <button
-                onClick={this.toggleForgotPassword}
-                className={styles.toggleButton}
-              >
+          {isLogin && <div>
+              <button onClick={this.toggleForgotPassword} className={styles.toggleButton}>
                 Glemt passord
               </button>
               <span className={styles.toggleButton}>&bull;</span>
-              <button
-                onClick={this.toggleRegisterUser}
-                className={styles.toggleButton}
-              >
+              <button onClick={this.toggleRegisterUser} className={styles.toggleButton}>
                 Jeg er ny
               </button>
-            </div>
-          )}
-          {!isLogin && (
-            <button onClick={this.toggleBack} className={styles.toggleButton}>
+            </div>}
+          {!isLogin && <button onClick={this.toggleBack} className={styles.toggleButton}>
               Tilbake
-            </button>
-          )}
+            </button>}
         </Flex>
         {form}
-      </Content>
-    );
+      </Content>;
   }
+
 }
+
 export default LoginPage;

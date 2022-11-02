@@ -1,4 +1,4 @@
-import pageRenderer from './pageRenderer';
+import pageRenderer from "./pageRenderer";
 
 const noSSR = (req, res) => res.send(pageRenderer());
 

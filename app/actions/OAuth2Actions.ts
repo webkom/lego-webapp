@@ -1,36 +1,30 @@
-// @flow
-
-import callAPI from './callAPI';
-
-import { OAuth2 } from './ActionTypes';
-import type { Thunk } from 'app/types';
-import { oauth2ApplicationSchema, oauth2GrantSchema } from 'app/reducers';
-
+import callAPI from "./callAPI";
+import { OAuth2 } from "./ActionTypes";
+import type { Thunk } from "app/types";
+import { oauth2ApplicationSchema, oauth2GrantSchema } from "app/reducers";
 export function fetchOAuth2Applications(): Thunk<any> {
   return callAPI({
     types: OAuth2.FETCH_APPLICATIONS,
     endpoint: '/oauth2-applications/',
     schema: [oauth2ApplicationSchema],
     meta: {
-      errorMessage: 'Henting av OAuth2 applikasjoner feilet',
+      errorMessage: 'Henting av OAuth2 applikasjoner feilet'
     },
-    propagateError: true,
+    propagateError: true
   });
 }
-
 export function fetchOAuth2Application(applicationId: number): Thunk<any> {
   return callAPI({
     types: OAuth2.FETCH_APPLICATION,
     endpoint: `/oauth2-applications/${applicationId}/`,
     schema: oauth2ApplicationSchema,
     meta: {
-      errorMessage: 'Henting av OAuth2 applikasjon feilet',
+      errorMessage: 'Henting av OAuth2 applikasjon feilet'
     },
-    propagateError: true,
+    propagateError: true
   });
 }
-
-export function updateOAuth2Application(application: Object): Thunk<any> {
+export function updateOAuth2Application(application: Record<string, any>): Thunk<any> {
   return callAPI({
     types: OAuth2.UPDATE_APPLICATION,
     method: 'PATCH',
@@ -38,13 +32,12 @@ export function updateOAuth2Application(application: Object): Thunk<any> {
     schema: oauth2ApplicationSchema,
     body: application,
     meta: {
-      errorMessage: 'Oppdatering av OAuth2 applikasjon feilet',
+      errorMessage: 'Oppdatering av OAuth2 applikasjon feilet'
     },
-    propagateError: true,
+    propagateError: true
   });
 }
-
-export function createOAuth2Application(application: Object): Thunk<any> {
+export function createOAuth2Application(application: Record<string, any>): Thunk<any> {
   return callAPI({
     types: OAuth2.CREATE_APPLICATION,
     method: 'POST',
@@ -52,24 +45,22 @@ export function createOAuth2Application(application: Object): Thunk<any> {
     schema: oauth2ApplicationSchema,
     body: application,
     meta: {
-      errorMessage: 'Opprettelse av OAuth2 applikasjon feilet',
+      errorMessage: 'Opprettelse av OAuth2 applikasjon feilet'
     },
-    propagateError: true,
+    propagateError: true
   });
 }
-
 export function fetchOAuth2Grants(): Thunk<any> {
   return callAPI({
     types: OAuth2.FETCH_GRANTS,
     endpoint: '/oauth2-access-tokens/',
     schema: [oauth2GrantSchema],
     meta: {
-      errorMessage: 'Henting av OAuth2 stipend feilet',
+      errorMessage: 'Henting av OAuth2 stipend feilet'
     },
-    propagateError: true,
+    propagateError: true
   });
 }
-
 export function deleteOAuth2Grant(id: number): Thunk<any> {
   return callAPI({
     types: OAuth2.DELETE_GRANT,
@@ -78,8 +69,8 @@ export function deleteOAuth2Grant(id: number): Thunk<any> {
     schema: oauth2GrantSchema,
     meta: {
       id,
-      errorMessage: 'Sletting av OAuth2 stipend feilet.',
+      errorMessage: 'Sletting av OAuth2 stipend feilet.'
     },
-    propagateError: true,
+    propagateError: true
   });
 }

@@ -1,16 +1,12 @@
-//@flow
-
-import config from 'app/config';
-
+import config from "app/config";
 export const Keyboard = {
   ESCAPE: 27,
   RIGHT: 39,
   LEFT: 37,
   ENTER: 13,
   UP: 38,
-  DOWN: 40,
+  DOWN: 40
 };
-
 export const ROLES = {
   member: 'Medlem (standard)',
   leader: 'Leder',
@@ -31,19 +27,18 @@ export const ROLES = {
   dugnad_admin: 'Dugnadsansvarlig',
   trip_admin: 'Turansvarlig',
   sponsor_admin: 'Sponsoransvarlig',
-  social_admin: 'Sosialansvarlig',
+  social_admin: 'Sosialansvarlig'
 };
-
-export const roleOptions = (Object.keys(ROLES)
-  .sort()
-  .map((role) => ({
-    value: role,
-    label: ROLES[role],
-  })): Array<{ value: string, label: string }>);
-
+export const roleOptions = (Object.keys(ROLES).sort().map(role => ({
+  value: role,
+  label: ROLES[role]
+})) as Array<{
+  value: string;
+  label: string;
+}>);
 export const EVENTFIELDS = {
   start: 'startTime',
-  activate: 'activationTime',
+  activate: 'activationTime'
 };
 
 /*
@@ -51,12 +46,5 @@ export const EVENTFIELDS = {
  * (i.e. abakus.no, webapp-staging.abakus.no) or if it's run locally through yarn start:staging 'local_staging'.
  * Use the local backend group ID (12) if the webapp is running with yarn start.
  */
-export const WEBKOM_GROUP_ID: number = [
-  'production',
-  'staging',
-  'local_staging',
-].includes(config.environment)
-  ? 11
-  : 12;
-
+export const WEBKOM_GROUP_ID: number = ['production', 'staging', 'local_staging'].includes(config.environment) ? 11 : 12;
 export const EDITOR_EMPTY: string = '<p></p>';

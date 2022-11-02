@@ -1,82 +1,78 @@
-import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
-import { compose } from 'redux';
-import {
-  editSurvey,
-  fetchSurvey,
-  fetchTemplate,
-} from 'app/actions/SurveyActions';
-import SurveyEditor from './components/SurveyEditor/SurveyEditor';
-import { LoginPage } from 'app/components/LoginForm';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import { selectSurveyById, selectSurveyTemplate } from 'app/reducers/surveys';
-import { push } from 'connected-react-router';
-import loadingIndicator from 'app/utils/loadingIndicator';
-import { formValueSelector } from 'redux-form';
-import qs from 'qs';
-import { mappings } from './utils';
+import { connect } from "react-redux";
+import prepare from "app/utils/prepare";
+import { compose } from "redux";
+import { editSurvey, fetchSurvey, fetchTemplate } from "app/actions/SurveyActions";
+import SurveyEditor from "./components/SurveyEditor/SurveyEditor";
+import { LoginPage } from "app/components/LoginForm";
+import replaceUnlessLoggedIn from "app/utils/replaceUnlessLoggedIn";
+import { selectSurveyById, selectSurveyTemplate } from "app/reducers/surveys";
+import { push } from "connected-react-router";
+import loadingIndicator from "app/utils/loadingIndicator";
+import { formValueSelector } from "redux-form";
+import qs from "qs";
+import { mappings } from "./utils";
 
 const loadData = (props, dispatch) => {
-  const { surveyId } = props.match.params;
-  const { templateType } = qs.parse(props.location.search, {
-    ignoreQueryPrefix: true,
+  const {
+    surveyId
+  } = props.match.params;
+  const {
+    templateType
+  } = qs.parse(props.location.search, {
+    ignoreQueryPrefix: true
   });
+
   if (templateType) {
-    return Promise.all([
-      dispatch(fetchTemplate(templateType)),
-      dispatch(fetchSurvey(surveyId)),
-    ]);
+    return Promise.all([dispatch(fetchTemplate(templateType)), dispatch(fetchSurvey(surveyId))]);
   }
+
   return dispatch(fetchSurvey(surveyId));
 };
 
 const mapStateToProps = (state, props) => {
   const notFetching = !state.surveys.fetching;
   const surveyId = Number(props.match.params.surveyId);
-  const survey = selectSurveyById(state, { surveyId });
+  const survey = selectSurveyById(state, {
+    surveyId
+  });
   const templateType = qs.parse(props.location.search, {
-    ignoreQueryPrefix: true,
+    ignoreQueryPrefix: true
   }).templateType;
-  const template = selectSurveyTemplate(state, { ...props, templateType });
-
+  const template = selectSurveyTemplate(state, { ...props,
+    templateType
+  });
   const initialEvent = survey.event && {
     value: survey.event.id,
-    label: survey.event.title,
+    label: survey.event.title
   };
-
   let initialValues = null;
+
   if (notFetching && !(templateType && !template)) {
     if (template) {
-      initialValues = {
-        ...template,
+      initialValues = { ...template,
         title: survey.title || template.title,
         event: initialEvent,
-        activeFrom: survey.event && survey.event.endTime,
+        activeFrom: survey.event && survey.event.endTime
       };
     } else {
-      initialValues = {
-        ...survey,
+      initialValues = { ...survey,
         event: initialEvent,
-        questions:
-          survey.questions &&
-          survey.questions.map((question) => ({
-            ...question,
-            options:
-              question.options && question.options.concat({ optionText: '' }),
-            questionType: mappings.find(
-              ({ value }) => value === question.questionType
-            ),
-          })),
+        questions: survey.questions && survey.questions.map(question => ({ ...question,
+          options: question.options && question.options.concat({
+            optionText: ''
+          }),
+          questionType: mappings.find(({
+            value
+          }) => value === question.questionType)
+        }))
       };
     }
   }
 
-  const surveyToSend = template
-    ? { ...survey, questions: template.questions }
-    : survey;
-
+  const surveyToSend = template ? { ...survey,
+    questions: template.questions
+  } : survey;
   const formSelector = formValueSelector('surveyEditor');
-
   return {
     survey: surveyToSend,
     surveyId,
@@ -85,18 +81,12 @@ const mapStateToProps = (state, props) => {
     selectedTemplateType: templateType,
     initialValues,
     notFetching,
-    activeFrom: formSelector(state, 'activeFrom'),
+    activeFrom: formSelector(state, 'activeFrom')
   };
 };
 
 const mapDispatchToProps = {
   submitFunction: editSurvey,
-  push,
+  push
 };
-
-export default compose(
-  replaceUnlessLoggedIn(LoginPage),
-  prepare(loadData, ['match.params.surveyId', 'location.search']),
-  connect(mapStateToProps, mapDispatchToProps),
-  loadingIndicator(['notFetching'])
-)(SurveyEditor);
+export default compose(replaceUnlessLoggedIn(LoginPage), prepare(loadData, ['match.params.surveyId', 'location.search']), connect(mapStateToProps, mapDispatchToProps), loadingIndicator(['notFetching']))(SurveyEditor);

@@ -1,35 +1,29 @@
-// @flow
 /* eslint no-console: 0 */
-
-import 'core-js/stable';
-import 'regenerator-runtime/runtime';
-import 'animate.css/animate.css';
-import 'minireset.css/minireset.css';
-import 'app/styles/globals.css';
-import 'app/styles/icomoon.css';
-import 'app/assets/manifest.json';
-import 'app/assets/favicon.png';
-import 'app/assets/icon-48x48.png';
-import 'app/assets/icon-96x96.png';
-import 'app/assets/icon-192x192.png';
-import 'app/assets/icon-256x256.png';
-import 'app/assets/icon-384x384.png';
-import 'app/assets/icon-512x512.png';
-// $FlowFixMe
-import 'app/assets/opensearch.xml';
-import moment from 'moment-timezone';
-import 'moment/locale/nb';
-import cookie from 'js-cookie';
-import config from 'app/config';
-import * as Sentry from '@sentry/browser';
-import configureStore, { history } from 'app/utils/configureStore';
-import renderApp from './render';
-import { fetchMeta } from 'app/actions/MetaActions';
-import {
-  loginAutomaticallyIfPossible,
-  maybeRefreshToken,
-} from 'app/actions/UserActions';
-
+import "core-js/stable";
+import "regenerator-runtime/runtime";
+import "animate.css/animate.css";
+import "minireset.css/minireset.css";
+import "app/styles/globals.css";
+import "app/styles/icomoon.css";
+import "app/assets/manifest.json";
+import "app/assets/favicon.png";
+import "app/assets/icon-48x48.png";
+import "app/assets/icon-96x96.png";
+import "app/assets/icon-192x192.png";
+import "app/assets/icon-256x256.png";
+import "app/assets/icon-384x384.png";
+import "app/assets/icon-512x512.png";
+// @ts-expect-error
+import "app/assets/opensearch.xml";
+import moment from "moment-timezone";
+import "moment/locale/nb";
+import cookie from "js-cookie";
+import config from "app/config";
+import * as Sentry from "@sentry/browser";
+import configureStore, { history } from "app/utils/configureStore";
+import renderApp from "./render";
+import { fetchMeta } from "app/actions/MetaActions";
+import { loginAutomaticallyIfPossible, maybeRefreshToken } from "app/actions/UserActions";
 console.error(`
                      \`smMMms\`
                      NMMMMMMN
@@ -57,7 +51,6 @@ console.error(`
                 -/shdmNMMMMNmdhs/-
 
 `);
-
 moment.locale('nb-NO');
 
 global.log = function log(self = this) {
@@ -65,37 +58,41 @@ global.log = function log(self = this) {
   return this;
 };
 
-// $FlowFixMe
+// @ts-expect-error
 Sentry.init({
   dsn: config.sentryDSN,
   release: config.release,
   environment: config.environment,
-  normalizeDepth: 10,
+  normalizeDepth: 10
 });
-
 const preloadedState = window.__PRELOADED_STATE__;
 const isSSR = window.__IS_SSR__;
-
 const store = configureStore(preloadedState, {
   Sentry,
-  getCookie: (key) => cookie.get(key),
+  getCookie: key => cookie.get(key)
 });
 
 if (isSSR) {
   store.dispatch(maybeRefreshToken());
 } else {
-  store
-    .dispatch(loginAutomaticallyIfPossible())
-    .then(() => store.dispatch(fetchMeta()))
-    .then(() => store.dispatch(maybeRefreshToken()));
+  store.dispatch(loginAutomaticallyIfPossible()).then(() => store.dispatch(fetchMeta())).then(() => store.dispatch(maybeRefreshToken()));
 }
 
-store.dispatch({ type: 'REHYDRATED' });
-
-renderApp({ store, history, isSSR });
+store.dispatch({
+  type: 'REHYDRATED'
+});
+renderApp({
+  store,
+  history,
+  isSSR
+});
 
 if (module.hot) {
   module.hot.accept('./render', () => {
-    renderApp({ store, history, isSSR });
+    renderApp({
+      store,
+      history,
+      isSSR
+    });
   });
 }

@@ -1,15 +1,12 @@
-// @flow
-
-import styles from './Icon.css';
-import { Flex } from 'app/components/Layout';
-
+import styles from "./Icon.css";
+import { Flex } from "app/components/Layout";
 type Props = {
   /** Name of the icon can be found on the webpage*/
-  name: string,
-  scaleOnHover?: boolean,
-  className?: string,
-  size?: number,
-  style?: Object,
+  name: string;
+  scaleOnHover?: boolean;
+  className?: string;
+  size?: number;
+  style?: Record<string, any>;
 };
 
 /**
@@ -29,35 +26,33 @@ const Icon = ({
   size = 24,
   ...props
 }: Props) => {
-  return (
-    <Flex
-      className={className}
-      style={{
-        fontSize: `${size.toString()}px`,
-        ...style,
-      }}
-      {...(props: Object)}
-    >
+  return <Flex className={className} style={{
+    fontSize: `${size.toString()}px`,
+    ...style
+  }} {...(props as Record<string, any>)}>
       <ion-icon name={name}></ion-icon>
-    </Flex>
-  );
+    </Flex>;
 };
 
-Icon.Badge = ({ badgeCount, ...props }: Props & { badgeCount: number }) => {
+Icon.Badge = ({
+  badgeCount,
+  ...props
+}: Props & {
+  badgeCount: number;
+}) => {
   const icon = <Icon {...props} />;
 
   if (!badgeCount) {
     return icon;
   }
 
-  return (
-    <div style={{ position: 'relative' }}>
+  return <div style={{
+    position: 'relative'
+  }}>
       <span className={styles.badge}>{badgeCount}</span>
       {icon}
-    </div>
-  );
+    </div>;
 };
 
 Icon.Badge.displayName = 'IconBadge';
-
 export default Icon;

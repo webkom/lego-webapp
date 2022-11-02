@@ -1,19 +1,14 @@
-//@flow
-
-import type { Node } from 'react';
-
-import { Component } from 'react';
-import LoadingIndicator from 'app/components/LoadingIndicator';
-import InfiniteScroll from 'react-infinite-scroller';
-
+import type { Node } from "react";
+import { Component } from "react";
+import LoadingIndicator from "app/components/LoadingIndicator";
+import InfiniteScroll from "react-infinite-scroller";
 type Props = {
-  infiniteScroll?: boolean,
-  children: Node,
-  hasMore: boolean,
-  fetchNext: () => void,
-  fetching: boolean,
+  infiniteScroll?: boolean;
+  children: Node;
+  hasMore: boolean;
+  fetchNext: () => void;
+  fetching: boolean;
 };
-
 export default class Paginator extends Component<Props> {
   fetchNext = () => {
     if (this.props.fetchNext && !this.props.fetching) {
@@ -22,21 +17,20 @@ export default class Paginator extends Component<Props> {
   };
 
   render() {
-    const { infiniteScroll, hasMore, children, fetching } = this.props;
+    const {
+      infiniteScroll,
+      hasMore,
+      children,
+      fetching
+    } = this.props;
 
     if (infiniteScroll) {
-      return (
-        <InfiniteScroll
-          hasMore={hasMore}
-          loadMore={() => this.fetchNext()}
-          threshold={50}
-          loader={<LoadingIndicator loading={fetching} />}
-        >
+      return <InfiniteScroll hasMore={hasMore} loadMore={() => this.fetchNext()} threshold={50} loader={<LoadingIndicator loading={fetching} />}>
           {children}
-        </InfiniteScroll>
-      );
+        </InfiniteScroll>;
     }
 
     return null;
   }
+
 }

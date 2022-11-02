@@ -1,37 +1,29 @@
-import { connect } from 'react-redux';
-import { compose } from 'redux';
-import { formValueSelector } from 'redux-form';
-import { createEvent, fetchEvent } from 'app/actions/EventActions';
-import { uploadFile } from 'app/actions/FileActions';
-import EventEditor from './components/EventEditor';
-import {
-  selectEventById,
-  selectPoolsWithRegistrationsForEvent,
-} from 'app/reducers/events';
-import { LoginPage } from 'app/components/LoginForm';
-import {
-  transformEvent,
-  transformEventStatusType,
-  EVENT_CONSTANTS,
-} from './utils';
-import time from 'app/utils/time';
-import prepare from 'app/utils/prepare';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import { isEmpty } from 'lodash';
-
-import loadingIndicator from 'app/utils/loadingIndicator';
-import moment from 'moment-timezone';
+import { connect } from "react-redux";
+import { compose } from "redux";
+import { formValueSelector } from "redux-form";
+import { createEvent, fetchEvent } from "app/actions/EventActions";
+import { uploadFile } from "app/actions/FileActions";
+import EventEditor from "./components/EventEditor";
+import { selectEventById, selectPoolsWithRegistrationsForEvent } from "app/reducers/events";
+import { LoginPage } from "app/components/LoginForm";
+import { transformEvent, transformEventStatusType, EVENT_CONSTANTS } from "./utils";
+import time from "app/utils/time";
+import prepare from "app/utils/prepare";
+import replaceUnlessLoggedIn from "app/utils/replaceUnlessLoggedIn";
+import { isEmpty } from "lodash";
+import loadingIndicator from "app/utils/loadingIndicator";
+import moment from "moment-timezone";
 
 const mapStateToProps = (state, props) => {
   const actionGrant = state.events.actionGrant;
   const valueSelector = formValueSelector('eventEditor');
   const eventId = props.location.state?.id;
-
-  const eventTemplate = selectEventById(state, { eventId });
-  const poolsTemplate = selectPoolsWithRegistrationsForEvent(state, {
-    eventId,
+  const eventTemplate = selectEventById(state, {
+    eventId
   });
-
+  const poolsTemplate = selectPoolsWithRegistrationsForEvent(state, {
+    eventId
+  });
   const selectedValues = {
     event: {
       addFee: valueSelector(state, 'addFee'),
@@ -45,42 +37,46 @@ const mapStateToProps = (state, props) => {
       startTime: valueSelector(state, 'startTime'),
       separateDeadlines: valueSelector(state, 'separateDeadlines'),
       eventStatusType: valueSelector(state, 'eventStatusType'),
-      registrationDeadline:
-        valueSelector(state, 'startTime') &&
-        moment(valueSelector(state, 'startTime')).subtract(
-          valueSelector(state, 'registrationDeadlineHours'),
-          'hours'
-        ),
-      unregistrationDeadline:
-        valueSelector(state, 'startTime') &&
-        moment(valueSelector(state, 'startTime')).subtract(
-          valueSelector(state, 'unregistrationDeadlineHours'),
-          'hours'
-        ),
+      registrationDeadline: valueSelector(state, 'startTime') && moment(valueSelector(state, 'startTime')).subtract(valueSelector(state, 'registrationDeadlineHours'), 'hours'),
+      unregistrationDeadline: valueSelector(state, 'startTime') && moment(valueSelector(state, 'startTime')).subtract(valueSelector(state, 'unregistrationDeadlineHours'), 'hours'),
       useMazemap: valueSelector(state, 'useMazemap'),
       mazemapPoi: valueSelector(state, 'mazemapPoi'),
-      hasFeedbackQuestion: valueSelector(state, 'hasFeedbackQuestion'),
+      hasFeedbackQuestion: valueSelector(state, 'hasFeedbackQuestion')
     },
-    pools: valueSelector(state, 'pools'),
+    pools: valueSelector(state, 'pools')
   };
-
   const initialCreateValues = {
     initialValues: {
       title: '',
-      startTime: time({ hours: 17, minutes: 15 }),
-      endTime: time({ hours: 20, minutes: 15 }),
+      startTime: time({
+        hours: 17,
+        minutes: 15
+      }),
+      endTime: time({
+        hours: 20,
+        minutes: 15
+      }),
       description: '',
       text: '',
       eventType: '',
-      eventStatusType: { value: 'TBA', label: 'Ikke bestemt(TBA)' },
+      eventStatusType: {
+        value: 'TBA',
+        label: 'Ikke bestemt(TBA)'
+      },
       company: null,
       responsibleGroup: null,
       location: '',
       isPriced: false,
       useStripe: true,
       priceMember: 0,
-      paymentDueDate: time({ days: 7, hours: 17, minutes: 15 }),
-      mergeTime: time({ hours: 12 }),
+      paymentDueDate: time({
+        days: 7,
+        hours: 17,
+        minutes: 15
+      }),
+      mergeTime: time({
+        hours: 12
+      }),
       useCaptcha: true,
       heedPenalties: true,
       isGroupOnly: false,
@@ -90,12 +86,14 @@ const mapStateToProps = (state, props) => {
       pools: [],
       useMazemap: true,
       separateDeadlines: false,
-      unregistrationDeadline: time({ hours: 12 }),
+      unregistrationDeadline: time({
+        hours: 12
+      }),
       registrationDeadlineHours: 2,
-      unregistrationDeadlineHours: 2,
+      unregistrationDeadlineHours: 2
     },
     actionGrant,
-    ...selectedValues,
+    ...selectedValues
   };
 
   /* If there is no eventId in the params then we use the
@@ -109,59 +107,49 @@ const mapStateToProps = (state, props) => {
    * values to be set to default
    */
   if (isEmpty(eventTemplate) && eventId) {
-    return { initialValues: null };
+    return {
+      initialValues: null
+    };
   }
 
   return {
-    initialValues: {
-      ...eventTemplate,
-      mergeTime: eventTemplate.mergeTime
-        ? eventTemplate.mergeTime
-        : time({ hours: 12 }),
+    initialValues: { ...eventTemplate,
+      mergeTime: eventTemplate.mergeTime ? eventTemplate.mergeTime : time({
+        hours: 12
+      }),
       priceMember: eventTemplate.priceMember / 100,
-      pools: poolsTemplate.map((pool) => ({
+      pools: poolsTemplate.map(pool => ({
         activationDate: pool.activationDate,
         capacity: pool.capacity,
         name: pool.name,
         registrations: [],
-        permissionGroups: (pool.permissionGroups || []).map((group) => ({
+        permissionGroups: (pool.permissionGroups || []).map(group => ({
           label: group.name,
-          value: group.id,
-        })),
+          value: group.id
+        }))
       })),
       company: eventTemplate.company && {
         label: eventTemplate.company.name,
-        value: eventTemplate.company.id,
+        value: eventTemplate.company.id
       },
       responsibleGroup: eventTemplate.responsibleGroup && {
         label: eventTemplate.responsibleGroup.name,
-        value: eventTemplate.responsibleGroup.id,
+        value: eventTemplate.responsibleGroup.id
       },
       eventType: eventTemplate.eventType && {
         label: EVENT_CONSTANTS[eventTemplate.eventType],
-        value: eventTemplate.eventType,
+        value: eventTemplate.eventType
       },
-      eventStatusType:
-        eventTemplate.eventStatusType &&
-        transformEventStatusType(eventTemplate.eventStatusType),
+      eventStatusType: eventTemplate.eventStatusType && transformEventStatusType(eventTemplate.eventStatusType)
     },
     actionGrant,
-    ...selectedValues,
+    ...selectedValues
   };
 };
 
 const mapDispatchToProps = {
-  handleSubmitCallback: (event) => createEvent(transformEvent(event)),
+  handleSubmitCallback: event => createEvent(transformEvent(event)),
   fetchEvent,
-  uploadFile,
+  uploadFile
 };
-
-export default compose(
-  replaceUnlessLoggedIn(LoginPage),
-  prepare(
-    (props, dispatch) =>
-      props.match.params.id && dispatch(fetchEvent(props.match.params.id))
-  ),
-  connect(mapStateToProps, mapDispatchToProps),
-  loadingIndicator(['initialValues'])
-)(EventEditor);
+export default compose(replaceUnlessLoggedIn(LoginPage), prepare((props, dispatch) => props.match.params.id && dispatch(fetchEvent(props.match.params.id))), connect(mapStateToProps, mapDispatchToProps), loadingIndicator(['initialValues']))(EventEditor);

@@ -1,55 +1,50 @@
-// @flow
-
-import type { Node } from 'react';
-import styles from './InfoBubble.css';
-import Icon from 'app/components/Icon';
-import cx from 'classnames';
-
+import type { Node } from "react";
+import styles from "./InfoBubble.css";
+import Icon from "app/components/Icon";
+import cx from "classnames";
 type Props = {
   /** Icon name */
-  icon: string,
+  icon: string;
+
   /** Text under icon */
-  data?: Node,
+  data?: Node;
+
   /** Small text below main text */
-  meta?: string,
+  meta?: string;
+
   /** Size of button */
-  small?: boolean,
+  small?: boolean;
+
   /** Make link a clickable link - url */
-  link?: string,
+  link?: string;
+
   /** Custom class name */
-  className?: string,
+  className?: string;
 };
 
-const httpCheck = (link) =>
-  link.startsWith('http://') || link.startsWith('https://')
-    ? link
-    : `http://${link}`;
+const httpCheck = link => link.startsWith('http://') || link.startsWith('https://') ? link : `http://${link}`;
 
 const iconComponent = (icon, bubbleClass, iconClass, link = undefined) => {
   if (link) {
-    return (
-      <div className={bubbleClass}>
+    return <div className={bubbleClass}>
         <a href={httpCheck(link)} className={styles.iconLink}>
           <Icon name={icon} className={iconClass} size={30} />
         </a>
-      </div>
-    );
+      </div>;
   }
-  return (
-    <div className={bubbleClass}>
+
+  return <div className={bubbleClass}>
       <Icon name={icon} className={iconClass} size={30} />
-    </div>
-  );
+    </div>;
 };
 
 const dataComponent = (dataClass, data, link = undefined) => {
   if (link) {
-    return (
-      <a href={httpCheck(link)}>
+    return <a href={httpCheck(link)}>
         <span className={dataClass}>{data || '-'}</span>
-      </a>
-    );
+      </a>;
   }
+
   return <span className={dataClass}>{data || '-'}</span>;
 };
 
@@ -66,14 +61,11 @@ function InfoBubble({
   const iconClass = small ? styles.smallIcon : styles.icon;
   const dataClass = small ? styles.smallData : styles.data;
   const metaClass = small ? styles.smallMeta : styles.meta;
-
-  return (
-    <div className={cx(styles.infoBubble, className)} {...(props: Object)}>
+  return <div className={cx(styles.infoBubble, className)} {...(props as Record<string, any>)}>
       {iconComponent(icon, bubbleClass, iconClass, link)}
       {dataComponent(dataClass, data, link)}
       {meta && dataComponent(metaClass, meta)}
-    </div>
-  );
+    </div>;
 }
 
 export default InfoBubble;

@@ -1,53 +1,43 @@
-// @flow
-
-import { Component, type ComponentType } from 'react';
-import { debounce } from 'lodash';
-import { stripHtmlTags } from './utils.js';
-import 'node_modules/mazemap/mazemap.min.css';
-
+import type { ComponentType } from "react";
+import { Component } from "react";
+import { debounce } from "lodash";
+import { stripHtmlTags } from "./utils";
+import "node_modules/mazemap/mazemap.min.css";
 type InjectedProps = {
-  mazemapSearch: (query: string) => Promise<*>,
-  meta: any,
+  mazemapSearch: (query: string) => Promise<any>;
+  meta: any;
 };
-
 type State = {
-  searching: boolean,
-  result: Array<Object>,
-  mazemapSearchController: any,
+  searching: boolean;
+  result: Array<Record<string, any>>;
+  mazemapSearchController: any;
 };
 
 function mazemapAutocomplete<Props>({
-  WrappedComponent,
+  WrappedComponent
 }: {
-  WrappedComponent: ComponentType<Props>,
+  WrappedComponent: ComponentType<Props>;
 }) {
-  const displayName =
-    WrappedComponent.displayName || WrappedComponent.name || 'Unknown';
+  const displayName = WrappedComponent.displayName || WrappedComponent.name || 'Unknown';
 
-  const mapRoomAndBuildingToResult = (
-    poiName: string,
-    buildingName: string,
-    value: Number
-  ): Object => {
+  const mapRoomAndBuildingToResult = (poiName: string, buildingName: string, value: Number): Record<string, any> => {
     return {
       label: stripHtmlTags(poiName + ', ' + buildingName),
-      value: value,
+      value: value
     };
   };
 
   return class extends Component<InjectedProps & Props, State> {
     static displayName = `Autocomplete(${displayName})`;
-
     state = {
       searching: false,
       result: [],
-      mazemapSearchController: undefined,
+      mazemapSearchController: undefined
     };
-
     _isMounted = false;
 
     componentDidMount() {
-      import('mazemap').then((mazemap) => {
+      import('mazemap').then(mazemap => {
         this.setState({
           mazemapSearchController: new mazemap.Search.SearchController({
             campusid: 1,
@@ -56,8 +46,8 @@ function mazemapAutocomplete<Props>({
             withbuilding: false,
             withtype: false,
             withcampus: false,
-            resultsFormat: 'geojson',
-          }),
+            resultsFormat: 'geojson'
+          })
         });
       });
       this._isMounted = true;
@@ -71,38 +61,26 @@ function mazemapAutocomplete<Props>({
       if (!query) {
         return;
       }
+
       this.setState({
-        searching: true,
+        searching: true
       });
+
       if (this._isMounted) {
-        this.state.mazemapSearchController &&
-          this.state.mazemapSearchController
-            .search(query)
-            .then((results) => {
-              this.setState({
-                result: results.results.features.map((result) =>
-                  mapRoomAndBuildingToResult(
-                    result.properties.dispPoiNames[0],
-                    result.properties.dispBldNames[0],
-                    result.properties.poiId
-                  )
-                ),
-              });
-            })
-            .finally(() => this.setState({ searching: false }));
+        this.state.mazemapSearchController && this.state.mazemapSearchController.search(query).then(results => {
+          this.setState({
+            result: results.results.features.map(result => mapRoomAndBuildingToResult(result.properties.dispPoiNames[0], result.properties.dispBldNames[0], result.properties.poiId))
+          });
+        }).finally(() => this.setState({
+          searching: false
+        }));
       }
     };
 
     render() {
-      return (
-        <WrappedComponent
-          {...this.props}
-          options={this.state.result}
-          onSearch={debounce((query) => this.handleSearch(query), 300)}
-          fetching={this.state.searching}
-        />
-      );
+      return <WrappedComponent {...this.props} options={this.state.result} onSearch={debounce(query => this.handleSearch(query), 300)} fetching={this.state.searching} />;
     }
+
   };
 }
 

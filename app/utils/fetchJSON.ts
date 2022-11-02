@@ -1,43 +1,37 @@
-// @flow
-
-import 'isomorphic-fetch';
-
-export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
-
+import "isomorphic-fetch";
+export type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 export class HttpError extends Error {
   response: Response;
 }
-
 export type HttpResponse<T> = {
-  jsonData?: T | typeof undefined,
-  textString?: string,
+  jsonData?: T | typeof undefined;
+  textString?: string;
 } & Response;
-
 export type HttpRequestOptions = {
-  method?: HttpMethod,
-  headers: { [string]: string },
-  body?: Object | string,
-  json?: boolean,
-  files?: Array<string>,
-  timeout?: number,
-  retryDelays?: Array<number>,
+  method?: HttpMethod;
+  headers: Record<string, string>;
+  body?: Record<string, any> | string;
+  json?: boolean;
+  files?: Array<string>;
+  timeout?: number;
+  retryDelays?: Array<number>;
 };
 
 function parseResponseBody<T>(response: Response): Promise<HttpResponse<T>> {
-  return response.text().then((textString) => {
+  return response.text().then(textString => {
     const newResponse: HttpResponse<T> = response;
-    const contentType =
-      response.headers.get('content-type') || 'application/json';
+    const contentType = response.headers.get('content-type') || 'application/json';
 
     if (contentType.includes('application/json') && textString) {
-      newResponse.jsonData = (JSON.parse(textString): T);
+      newResponse.jsonData = (JSON.parse(textString) as T);
     }
+
     newResponse.textString = textString;
     return newResponse;
   });
 }
 
-function rejectOnHttpErrors(response: HttpResponse<*>) {
+function rejectOnHttpErrors(response: HttpResponse<any>) {
   if (response.ok) {
     return response;
   }
@@ -47,8 +41,11 @@ function rejectOnHttpErrors(response: HttpResponse<*>) {
   throw error;
 }
 
-export function stringifyBody(requestOptions: HttpRequestOptions): ?string {
-  const { body, json } = requestOptions;
+export function stringifyBody(requestOptions: HttpRequestOptions): string | null | undefined {
+  const {
+    body,
+    json
+  } = requestOptions;
 
   if (typeof body === 'string') {
     return body;
@@ -65,8 +62,8 @@ function makeFormData(files, rawBody) {
   const body = new FormData();
 
   if (rawBody && typeof rawBody === 'object') {
-    const object: { [key: string]: string } = rawBody;
-    Object.keys(object).forEach((prop) => {
+    const object: Record<string, string> = rawBody;
+    Object.keys(object).forEach(prop => {
       body.append(prop, object[prop]);
     });
   }
@@ -76,7 +73,7 @@ function makeFormData(files, rawBody) {
 }
 
 function timeoutPromise(ms = 0) {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     setTimeout(resolve, ms);
   }).then(() => {
     throw new Error('HTTP request timed out.');
@@ -85,15 +82,16 @@ function timeoutPromise(ms = 0) {
 
 const defaultOptions = {
   files: [],
-  headers: {},
+  headers: {}
 };
-
-export default function fetchJSON<T>(
-  path: string,
-  requestOptions: HttpRequestOptions = defaultOptions
-): Promise<HttpResponse<T>> {
-  const { files, retryDelays = [1000, 3000], timeout = 15000 } = requestOptions;
+export default function fetchJSON<T>(path: string, requestOptions: HttpRequestOptions = defaultOptions): Promise<HttpResponse<T>> {
+  const {
+    files,
+    retryDelays = [1000, 3000],
+    timeout = 15000
+  } = requestOptions;
   let body;
+
   if (files && files.length > 0) {
     body = makeFormData(files, requestOptions.body);
   } else if (requestOptions.body) {
@@ -101,15 +99,13 @@ export default function fetchJSON<T>(
     requestOptions.headers['Content-Type'] = 'application/json';
   }
 
-  const createRequest = () =>
-    new Request(path, {
-      ...requestOptions,
-      body,
-      headers: new Headers({
-        Accept: 'application/json',
-        ...(requestOptions.headers: Object),
-      }),
-    });
+  const createRequest = () => new Request(path, { ...requestOptions,
+    body,
+    headers: new Headers({
+      Accept: 'application/json',
+      ...(requestOptions.headers as Record<string, any>)
+    })
+  });
 
   return new Promise((resolve, reject) => {
     let requestsAttempted = 0;
@@ -117,19 +113,8 @@ export default function fetchJSON<T>(
     const wrappedFetch = () => {
       const request = createRequest();
       requestsAttempted++;
-      return Promise.race([
-        timeoutPromise(timeout),
-        fetch(request)
-          .then(parseResponseBody)
-          .then(rejectOnHttpErrors)
-          .then(resolve),
-      ]).catch((error: HttpError) => {
-        if (
-          (error.response && error.response.status < 500) ||
-          !retryDelays ||
-          requestsAttempted > retryDelays.length ||
-          !__CLIENT__
-        ) {
+      return Promise.race([timeoutPromise(timeout), fetch(request).then(parseResponseBody).then(rejectOnHttpErrors).then(resolve)]).catch((error: HttpError) => {
+        if (error.response && error.response.status < 500 || !retryDelays || requestsAttempted > retryDelays.length || !__CLIENT__) {
           return reject(error);
         }
 

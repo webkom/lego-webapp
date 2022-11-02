@@ -1,12 +1,12 @@
-// @flow
-
 type Props = {
   /** Radius of circle in px */
-  size?: number,
+  size?: number;
+
   /** Circle color */
-  color?: string,
+  color?: string;
+
   /** Extra css */
-  style?: any,
+  style?: any;
 };
 
 /**
@@ -16,20 +16,16 @@ type Props = {
 function Circle({
   size = 10,
   color = 'var(--color-mono-gray-4)',
-  style,
+  style
 }: Props) {
-  return (
-    <span
-      style={{
-        width: size,
-        height: size,
-        borderRadius: size / 2,
-        backgroundColor: color,
-        display: 'inline-block',
-        ...style,
-      }}
-    />
-  );
+  return <span style={{
+    width: size,
+    height: size,
+    borderRadius: size / 2,
+    backgroundColor: color,
+    display: 'inline-block',
+    ...style
+  }} />;
 }
 
 export default Circle;

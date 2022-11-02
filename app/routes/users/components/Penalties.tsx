@@ -1,25 +1,21 @@
-// @flow
-
-import { FormatTime } from 'app/components/Time';
-import PenaltyForm from './PenaltyForm';
-import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
-import type { AddPenalty } from 'app/models';
-import Button from 'app/components/Button';
-
+import { FormatTime } from "app/components/Time";
+import PenaltyForm from "./PenaltyForm";
+import { ConfirmModalWithParent } from "app/components/Modal/ConfirmModal";
+import type { AddPenalty } from "app/models";
+import Button from "app/components/Button";
 type Penalty = {
-  id: number,
-  reason: string,
-  weight: number,
-  exactExpiration: string,
+  id: number;
+  reason: string;
+  weight: number;
+  exactExpiration: string;
 };
-
 type Props = {
-  penalties: Array<Penalty>,
-  addPenalty: (AddPenalty) => void,
-  deletePenalty: (number) => Promise<*>,
-  username: string,
-  userId: number,
-  canDeletePenalties: boolean,
+  penalties: Array<Penalty>;
+  addPenalty: (arg0: AddPenalty) => void;
+  deletePenalty: (arg0: number) => Promise<any>;
+  username: string;
+  userId: number;
+  canDeletePenalties: boolean;
 };
 
 function Penalties({
@@ -28,16 +24,15 @@ function Penalties({
   deletePenalty,
   username,
   userId,
-  canDeletePenalties,
+  canDeletePenalties
 }: Props) {
-  return (
-    <div>
-      {penalties.length ? (
-        <ul>
-          {penalties.map((penalty) => {
-            const word = penalty.weight > 1 ? 'prikker' : 'prikk';
-            return (
-              <li key={penalty.id} style={{ marginBottom: '10px' }}>
+  return <div>
+      {penalties.length ? <ul>
+          {penalties.map(penalty => {
+        const word = penalty.weight > 1 ? 'prikker' : 'prikk';
+        return <li key={penalty.id} style={{
+          marginBottom: '10px'
+        }}>
                 <div>
                   <strong>
                     {penalty.weight} {word}
@@ -52,25 +47,14 @@ function Penalties({
                     <FormatTime time={penalty.exactExpiration} />
                   </i>
                 </div>
-                {canDeletePenalties && (
-                  <ConfirmModalWithParent
-                    title="Slett prikk"
-                    message="Er du sikker på at du vil slette denne prikken?"
-                    onConfirm={() => deletePenalty(penalty.id)}
-                  >
+                {canDeletePenalties && <ConfirmModalWithParent title="Slett prikk" message="Er du sikker på at du vil slette denne prikken?" onConfirm={() => deletePenalty(penalty.id)}>
                     <Button flat>Slett prikk</Button>
-                  </ConfirmModalWithParent>
-                )}
-              </li>
-            );
-          })}
-        </ul>
-      ) : (
-        <i>Ingen Prikker</i>
-      )}
+                  </ConfirmModalWithParent>}
+              </li>;
+      })}
+        </ul> : <i>Ingen Prikker</i>}
       <PenaltyForm user={userId} />
-    </div>
-  );
+    </div>;
 }
 
 export default Penalties;

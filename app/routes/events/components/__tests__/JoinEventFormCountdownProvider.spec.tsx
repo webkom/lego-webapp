@@ -1,14 +1,10 @@
-// @flow
-
-import { mount } from 'enzyme';
-import { Provider } from 'react-redux';
-import moment from 'moment';
-import lolex from 'lolex';
-import JoinEventForm from '../JoinEventForm';
-import configureStore from 'redux-mock-store';
-
+import { mount } from "enzyme";
+import { Provider } from "react-redux";
+import moment from "moment";
+import lolex from "lolex";
+import JoinEventForm from "../JoinEventForm";
+import configureStore from "redux-mock-store";
 jest.useFakeTimers();
-
 const EVENT = {
   id: 1,
   title: 'Big Test Event',
@@ -42,23 +38,24 @@ const EVENT = {
   thumbnail: null,
   company: {},
   comments: [],
-  pools: [],
+  pools: []
 };
-
 const defaultProps = {
-  currentUser: { username: 'webkom' },
+  currentUser: {
+    username: 'webkom'
+  },
   registration: null,
-  event: EVENT,
+  event: EVENT
 };
 const store = configureStore([])({});
 
 function renderJoinEventForm(props = {}) {
-  return mount(
-    <Provider store={store}>
-      {/* // $FlowFixMe */}
+  return mount(<Provider store={store}>
+      {
+      /* // $FlowFixMe */
+    }
       <JoinEventForm {...defaultProps} {...props} />
-    </Provider>
-  );
+    </Provider>);
 }
 
 describe('<JoinEventForm />', () => {
@@ -66,124 +63,89 @@ describe('<JoinEventForm />', () => {
   beforeEach(() => {
     clock = lolex.install();
   });
-
   afterEach(() => {
     clock.uninstall();
   });
-
   it('should start with hidden form', () => {
-    const component = renderJoinEventForm({
-      ...defaultProps,
-      event: {
-        ...defaultProps.event,
+    const component = renderJoinEventForm({ ...defaultProps,
+      event: { ...defaultProps.event,
         startTime: moment().add(7, 'days'),
-        activationTime: moment().add(20, 'minutes'),
-      },
+        activationTime: moment().add(20, 'minutes')
+      }
     }).find('JoinEventForm');
-
-    expect(component.props()).toEqual(
-      expect.objectContaining({
-        buttonOpen: false,
-        captchaOpen: false,
-        formOpen: false,
-        registrationOpensIn: null,
-      })
-    );
+    expect(component.props()).toEqual(expect.objectContaining({
+      buttonOpen: false,
+      captchaOpen: false,
+      formOpen: false,
+      registrationOpensIn: null
+    }));
   });
-
   it('should enable form when 10 minute is left', () => {
-    const component = renderJoinEventForm({
-      ...defaultProps,
-      event: {
-        ...defaultProps.event,
-        activationTime: moment().add(10, 'minutes'),
-      },
+    const component = renderJoinEventForm({ ...defaultProps,
+      event: { ...defaultProps.event,
+        activationTime: moment().add(10, 'minutes')
+      }
     }).find('JoinEventForm');
 
     /**
      * registrationOpensIn is 10:01 by intention due to we dont show 00:00
      * We go directly from 00:01 to "Meld deg på"
      */
-    expect(component.props()).toEqual(
-      expect.objectContaining({
-        buttonOpen: false,
-        captchaOpen: false,
-        formOpen: true,
-        registrationOpensIn: '10:01',
-      })
-    );
+    expect(component.props()).toEqual(expect.objectContaining({
+      buttonOpen: false,
+      captchaOpen: false,
+      formOpen: true,
+      registrationOpensIn: '10:01'
+    }));
   });
-
   it('should enable everything but the join button when 1 minute is left', () => {
-    const component = renderJoinEventForm({
-      ...defaultProps,
-      event: {
-        ...defaultProps.event,
-        activationTime: moment().add(1, 'minutes'),
-      },
+    const component = renderJoinEventForm({ ...defaultProps,
+      event: { ...defaultProps.event,
+        activationTime: moment().add(1, 'minutes')
+      }
     }).find('JoinEventForm');
-
-    expect(component.props()).toEqual(
-      expect.objectContaining({
-        buttonOpen: false,
-        captchaOpen: true,
-        formOpen: true,
-        registrationOpensIn: '01:01',
-      })
-    );
+    expect(component.props()).toEqual(expect.objectContaining({
+      buttonOpen: false,
+      captchaOpen: true,
+      formOpen: true,
+      registrationOpensIn: '01:01'
+    }));
   });
-
   it('should enable everything when countdown is done', () => {
     const activationTime = moment().add(1, 'minutes');
-    const view = renderJoinEventForm({
-      ...defaultProps,
-      event: {
-        ...defaultProps.event,
-        activationTime,
-      },
+    const view = renderJoinEventForm({ ...defaultProps,
+      event: { ...defaultProps.event,
+        activationTime
+      }
     });
-
     clock.tick('00:59');
-
     view.update();
-    expect(view.find('JoinEventForm').props()).toEqual(
-      expect.objectContaining({
-        buttonOpen: false,
-        captchaOpen: true,
-        formOpen: true,
-        registrationOpensIn: '00:02',
-      })
-    );
-
+    expect(view.find('JoinEventForm').props()).toEqual(expect.objectContaining({
+      buttonOpen: false,
+      captchaOpen: true,
+      formOpen: true,
+      registrationOpensIn: '00:02'
+    }));
     clock.tick('00:02');
-
     view.update();
-    expect(view.find('JoinEventForm').props()).toEqual(
-      expect.objectContaining({
-        buttonOpen: true,
-        captchaOpen: true,
-        formOpen: true,
-        registrationOpensIn: null,
-      })
-    );
+    expect(view.find('JoinEventForm').props()).toEqual(expect.objectContaining({
+      buttonOpen: true,
+      captchaOpen: true,
+      formOpen: true,
+      registrationOpensIn: null
+    }));
   });
-
   it('should enable everything when activationTime is in the past', () => {
-    const component = renderJoinEventForm({
-      ...defaultProps,
-      event: {
-        ...defaultProps.event,
-        activationTime: moment().subtract(1, 'seconds'),
-      },
+    const component = renderJoinEventForm({ ...defaultProps,
+      event: { ...defaultProps.event,
+        activationTime: moment().subtract(1, 'seconds')
+      }
     }).find('JoinEventForm');
-
-    expect(component.props()).toEqual(
-      expect.objectContaining({
-        buttonOpen: true,
-        captchaOpen: true,
-        formOpen: true,
-        registrationOpensIn: null,
-      })
-    );
+    expect(component.props()).toEqual(expect.objectContaining({
+      buttonOpen: true,
+      captchaOpen: true,
+      formOpen: true,
+      registrationOpensIn: null
+    }));
   });
 });

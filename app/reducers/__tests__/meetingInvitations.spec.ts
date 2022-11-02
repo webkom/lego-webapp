@@ -1,6 +1,5 @@
-import meetingInvitations from '../meetingInvitations';
-import { Meeting } from '../../actions/ActionTypes';
-
+import meetingInvitations from "../meetingInvitations";
+import { Meeting } from "../../actions/ActionTypes";
 describe('reducers', () => {
   describe('meetingInvitations', () => {
     it('Meeting.SET_INVITATION_STATUS.SUCCESS', () => {
@@ -10,9 +9,9 @@ describe('reducers', () => {
         items: ['3-test'],
         byId: {
           '3-test': {
-            status: 'nope',
-          },
-        },
+            status: 'nope'
+          }
+        }
       };
       const action = {
         type: Meeting.SET_INVITATION_STATUS.SUCCESS,
@@ -20,9 +19,9 @@ describe('reducers', () => {
           meetingId: 3,
           status: 'ok',
           user: {
-            username: 'test',
-          },
-        },
+            username: 'test'
+          }
+        }
       };
       expect(meetingInvitations(prevState, action)).toEqual({
         actionGrant: [],
@@ -30,9 +29,9 @@ describe('reducers', () => {
         items: ['3-test'],
         byId: {
           '3-test': {
-            status: 'ok',
-          },
-        },
+            status: 'ok'
+          }
+        }
       });
     });
   });

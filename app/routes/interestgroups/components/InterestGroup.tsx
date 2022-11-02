@@ -1,41 +1,37 @@
-// @flow
-
-import styles from './InterestGroup.css';
-import { Image } from 'app/components/Image';
-import { Flex } from 'app/components/Layout';
-import { Link } from 'react-router-dom';
-import type { Group } from 'app/models';
-
+import styles from "./InterestGroup.css";
+import { Image } from "app/components/Image";
+import { Flex } from "app/components/Layout";
+import { Link } from "react-router-dom";
+import type { Group } from "app/models";
 // TODO: rather handle this in the backend
 const SAMPLE_LOGO = 'https://i.imgur.com/Is9VKjb.jpg';
-
 type Props = {
-  group: Group,
-  active: boolean,
+  group: Group;
+  active: boolean;
 };
 
-const InterestGroupComponent = ({ group, active }: Props) => {
-  return (
-    <Flex className={styles.listItem}>
-      <Flex column className={styles.listItemContent} style={{ flex: '1' }}>
+const InterestGroupComponent = ({
+  group,
+  active
+}: Props) => {
+  return <Flex className={styles.listItem}>
+      <Flex column className={styles.listItemContent} style={{
+      flex: '1'
+    }}>
         <Link to={`/interest-groups/${group.id}`} className={styles.link}>
-          <h2 style={!active ? { color: 'grey' } : {}}>{group.name}</h2>
+          <h2 style={!active ? {
+          color: 'grey'
+        } : {}}>{group.name}</h2>
         </Link>
-        {active && (
-          <>
+        {active && <>
             <div>{group.description}</div>
             <div>{group.numberOfUsers} medlemmer</div>
-          </>
-        )}
+          </>}
       </Flex>
       <Flex justifyContent="center" column>
-        <Image
-          className={active ? styles.logoMedium : styles.logoSmall}
-          src={group.logo || SAMPLE_LOGO}
-        />
+        <Image className={active ? styles.logoMedium : styles.logoSmall} src={group.logo || SAMPLE_LOGO} />
       </Flex>
-    </Flex>
-  );
+    </Flex>;
 };
 
 export default InterestGroupComponent;

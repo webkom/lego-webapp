@@ -1,39 +1,38 @@
-// @flow
-import { Route, Switch } from 'react-router-dom';
-import RouteWrapper from 'app/components/RouteWrapper';
-import { UserContext } from 'app/routes/app/AppRoute';
-import PollsListRoute from './PollsListRoute';
-import PollsCreateRoute from './PollsCreateRoute';
-import PollsDetailRoute from './PollsDetailRoute';
-import PageNotFound from '../pageNotFound';
+import { Route, Switch } from "react-router-dom";
+import RouteWrapper from "app/components/RouteWrapper";
+import { UserContext } from "app/routes/app/AppRoute";
+import PollsListRoute from "./PollsListRoute";
+import PollsCreateRoute from "./PollsCreateRoute";
+import PollsDetailRoute from "./PollsDetailRoute";
+import PageNotFound from "../pageNotFound";
 
-const pollsRoute = ({ match }: { match: { path: string } }) => (
-  <UserContext.Consumer>
-    {({ currentUser, loggedIn }) => (
-      <Switch>
-        <RouteWrapper
-          exact
-          path={`${match.path}`}
-          passedProps={{ currentUser, loggedIn }}
-          Component={PollsListRoute}
-        />
-        <RouteWrapper
-          exact
-          path={`${match.path}/new`}
-          passedProps={{ currentUser, loggedIn }}
-          Component={PollsCreateRoute}
-        />
-        <RouteWrapper
-          exact
-          path={`${match.path}/:pollsId`}
-          passedProps={{ currentUser, loggedIn }}
-          Component={PollsDetailRoute}
-        />
+const pollsRoute = ({
+  match
+}: {
+  match: {
+    path: string;
+  };
+}) => <UserContext.Consumer>
+    {({
+    currentUser,
+    loggedIn
+  }) => <Switch>
+        <RouteWrapper exact path={`${match.path}`} passedProps={{
+      currentUser,
+      loggedIn
+    }} Component={PollsListRoute} />
+        <RouteWrapper exact path={`${match.path}/new`} passedProps={{
+      currentUser,
+      loggedIn
+    }} Component={PollsCreateRoute} />
+        <RouteWrapper exact path={`${match.path}/:pollsId`} passedProps={{
+      currentUser,
+      loggedIn
+    }} Component={PollsDetailRoute} />
         <Route component={PageNotFound} />
-      </Switch>
-    )}
-  </UserContext.Consumer>
-);
+      </Switch>}
+  </UserContext.Consumer>;
+
 export default function Polls() {
   return <Route path="/polls" component={pollsRoute} />;
 }

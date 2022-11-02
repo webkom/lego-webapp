@@ -1,73 +1,61 @@
-// @flow
-
-import { Component } from 'react';
-import Button from '../Button';
-import { uploadFile } from 'app/actions/FileActions';
-import { connect } from 'react-redux';
-import styles from './FileUpload.css';
-
+import { Component } from "react";
+import Button from "../Button";
+import { uploadFile } from "app/actions/FileActions";
+import { connect } from "react-redux";
+import styles from "./FileUpload.css";
 type State = {
-  pending: boolean,
+  pending: boolean;
 };
-
 type Props = {
-  uploadFile: ({ file: File }) => Promise<*>,
-  onChange: (string, string) => void,
-  className?: string,
+  uploadFile: (arg0: {
+    file: File;
+  }) => Promise<any>;
+  onChange: (arg0: string, arg1: string) => void;
+  className?: string;
 };
 
 class FileUpload extends Component<Props, State> {
-  input: ?HTMLInputElement;
-
+  input: HTMLInputElement | null | undefined;
   state = {
-    pending: false,
+    pending: false
   };
-
   handleClick = () => {
     this.input && this.input.click();
   };
-
-  handleChange = (e) => {
+  handleChange = e => {
     const file = e.target.files[0];
-    this.setState({ pending: true });
-
-    this.props
-      .uploadFile({ file })
-      .then(({ meta }) => {
-        this.setState({ pending: false });
-
-        this.props.onChange(meta.fileKey, meta.fileToken);
-      })
-      .catch((error) => {
-        this.setState({ pending: false });
-        throw error;
+    this.setState({
+      pending: true
+    });
+    this.props.uploadFile({
+      file
+    }).then(({
+      meta
+    }) => {
+      this.setState({
+        pending: false
       });
+      this.props.onChange(meta.fileKey, meta.fileToken);
+    }).catch(error => {
+      this.setState({
+        pending: false
+      });
+      throw error;
+    });
   };
 
   render() {
-    return (
-      <div>
-        <Button
-          pending={this.state.pending}
-          onClick={this.handleClick}
-          className={this.props.className}
-        >
+    return <div>
+        <Button pending={this.state.pending} onClick={this.handleClick} className={this.props.className}>
           Last opp fil
         </Button>
-        <input
-          ref={(ref) => (this.input = ref)}
-          className={styles.input}
-          onChange={this.handleChange}
-          type="file"
-          accept="application/pdf"
-        />
-      </div>
-    );
+        <input ref={ref => this.input = ref} className={styles.input} onChange={this.handleChange} type="file" accept="application/pdf" />
+      </div>;
   }
+
 }
 
 const mapDispatchToProps = {
-  uploadFile,
+  uploadFile
 };
-
 export default connect(null, mapDispatchToProps)(FileUpload);

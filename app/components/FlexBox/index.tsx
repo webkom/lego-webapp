@@ -1,19 +1,15 @@
-//@flow
-
-import cx from 'classnames';
-import styles from './index.css';
-
+import cx from "classnames";
+import styles from "./index.css";
 type Props = {
-  children?: any,
-  className?: string,
-  justifyContent?: string,
-  alignItems?: string,
-  flexWrap?: string,
-  style?: any,
-  container?: boolean,
-  flex?: any,
+  children?: any;
+  className?: string;
+  justifyContent?: string;
+  alignItems?: string;
+  flexWrap?: string;
+  style?: any;
+  container?: boolean;
+  flex?: any;
 };
-
 export const FlexRow = ({
   children,
   className,
@@ -22,21 +18,14 @@ export const FlexRow = ({
   flexWrap,
   style,
   ...rest
-}: Props) => (
-  <div
-    className={cx(styles.row, className)}
-    style={{
-      justifyContent,
-      alignItems,
-      flexWrap,
-      ...style,
-    }}
-    {...(rest: Object)}
-  >
+}: Props) => <div className={cx(styles.row, className)} style={{
+  justifyContent,
+  alignItems,
+  flexWrap,
+  ...style
+}} {...(rest as Record<string, any>)}>
     {children}
-  </div>
-);
-
+  </div>;
 export const FlexColumn = ({
   children,
   className,
@@ -45,36 +34,24 @@ export const FlexColumn = ({
   flexWrap,
   style,
   ...rest
-}: Props) => (
-  <div
-    className={cx(styles.column, className)}
-    style={{
-      justifyContent,
-      alignItems,
-      flexWrap,
-      ...style,
-    }}
-    {...(rest: Object)}
-  >
+}: Props) => <div className={cx(styles.column, className)} style={{
+  justifyContent,
+  alignItems,
+  flexWrap,
+  ...style
+}} {...(rest as Record<string, any>)}>
     {children}
-  </div>
-);
-
+  </div>;
 export const FlexItem = ({
   children,
   className,
   flex,
-  container = false, // Add display: flex;
+  container = false,
+  // Add display: flex;
   ...rest
-}: Props) => (
-  <div
-    className={className}
-    style={{
-      flex,
-      display: container ? 'flex' : 'block',
-    }}
-    {...(rest: Object)}
-  >
+}: Props) => <div className={className} style={{
+  flex,
+  display: container ? 'flex' : 'block'
+}} {...(rest as Record<string, any>)}>
     {children}
-  </div>
-);
+  </div>;

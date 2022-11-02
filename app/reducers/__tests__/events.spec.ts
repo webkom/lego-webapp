@@ -1,11 +1,9 @@
 // Hack because we have circular dependencies
 // (companies -> events -> index -> frontpage -> events)
 // This import resolves dependencies properly..
-import 'app/reducers';
-
-import events from '../events';
-import { Event } from '../../actions/ActionTypes';
-
+import "app/reducers";
+import events from "../events";
+import { Event } from "../../actions/ActionTypes";
 describe('reducers', () => {
   const baseState = {
     actionGrant: [],
@@ -15,11 +13,10 @@ describe('reducers', () => {
     byId: {
       1: {
         id: 1,
-        name: 'evt',
-      },
-    },
+        name: 'evt'
+      }
+    }
   };
-
   describe('previous and upcoming events', () => {
     it('Event.FETCH_PREVIOUS.SUCCESS', () => {
       const prevState = baseState;
@@ -31,12 +28,12 @@ describe('reducers', () => {
             events: {
               2: {
                 id: 2,
-                name: 'test',
-              },
-            },
+                name: 'test'
+              }
+            }
           },
-          result: [2],
-        },
+          result: [2]
+        }
       };
       expect(events(prevState, action)).toEqual({
         actionGrant: [],
@@ -46,17 +43,16 @@ describe('reducers', () => {
         byId: {
           1: {
             id: 1,
-            name: 'evt',
+            name: 'evt'
           },
           2: {
             id: 2,
             name: 'test',
-            isUsersUpcoming: false,
-          },
-        },
+            isUsersUpcoming: false
+          }
+        }
       });
     });
-
     it('Event.FETCH_UPCOMING.SUCCESS', () => {
       const prevState = baseState;
       const action = {
@@ -67,12 +63,12 @@ describe('reducers', () => {
             events: {
               2: {
                 id: 2,
-                name: 'test',
-              },
-            },
+                name: 'test'
+              }
+            }
           },
-          result: [2],
-        },
+          result: [2]
+        }
       };
       expect(events(prevState, action)).toEqual({
         actionGrant: [],
@@ -82,18 +78,17 @@ describe('reducers', () => {
         byId: {
           1: {
             id: 1,
-            name: 'evt',
+            name: 'evt'
           },
           2: {
             id: 2,
             name: 'test',
-            isUsersUpcoming: true,
-          },
-        },
+            isUsersUpcoming: true
+          }
+        }
       });
     });
   });
-
   describe('event reducer', () => {
     it('Event.SOCKET_EVENT_UPDATED', () => {
       const prevState = baseState;
@@ -101,8 +96,8 @@ describe('reducers', () => {
         type: Event.SOCKET_EVENT_UPDATED,
         payload: {
           id: 1,
-          name: 'updated',
-        },
+          name: 'updated'
+        }
       };
       expect(events(prevState, action)).toEqual({
         actionGrant: [],
@@ -112,16 +107,15 @@ describe('reducers', () => {
         byId: {
           1: {
             id: 1,
-            name: 'updated',
-          },
-        },
+            name: 'updated'
+          }
+        }
       });
     });
-
     it('Event.CLEAR', () => {
       const prevState = baseState;
       const action = {
-        type: Event.CLEAR,
+        type: Event.CLEAR
       };
       expect(events(prevState, action)).toEqual({
         actionGrant: [],
@@ -131,21 +125,20 @@ describe('reducers', () => {
         byId: {
           1: {
             id: 1,
-            name: 'evt',
-          },
-        },
+            name: 'evt'
+          }
+        }
       });
     });
   });
-
   describe('event registrations', () => {
     it('Event.REQUEST_REGISTER.BEGIN', () => {
       const prevState = baseState;
       const action = {
         type: Event.REQUEST_REGISTER.BEGIN,
         meta: {
-          id: 1,
-        },
+          id: 1
+        }
       };
       expect(events(prevState, action)).toEqual({
         actionGrant: [],
@@ -156,19 +149,18 @@ describe('reducers', () => {
           1: {
             id: 1,
             name: 'evt',
-            loading: true,
-          },
-        },
+            loading: true
+          }
+        }
       });
     });
-
     it('Event.REQUEST_REGISTER.FAILURE', () => {
       const prevState = baseState;
       const action = {
         type: Event.REQUEST_REGISTER.FAILURE,
         meta: {
-          id: 1,
-        },
+          id: 1
+        }
       };
       expect(events(prevState, action)).toEqual({
         actionGrant: [],
@@ -179,23 +171,21 @@ describe('reducers', () => {
           1: {
             id: 1,
             name: 'evt',
-            loading: false,
-          },
-        },
+            loading: false
+          }
+        }
       });
     });
-
     it('Event.SOCKET_REGISTRATION.SUCCESS should not crash if event is not in state', () => {
       const prevState = baseState;
       const action = {
         type: Event.SOCKET_REGISTRATION.SUCCESS,
         meta: {
-          eventId: 99,
-        },
+          eventId: 99
+        }
       };
       expect(events(prevState, action)).toEqual(prevState);
     });
-
     it('Event.SOCKET_REGISTRATION.SUCCESS should add registration to waitingRegistrations if it has no pool', () => {
       const prevState = {
         actionGrant: [],
@@ -208,18 +198,18 @@ describe('reducers', () => {
             name: 'evt',
             registrationCount: 0,
             waitingRegistrations: [],
-            waitingRegistrationCount: 0,
-          },
-        },
+            waitingRegistrationCount: 0
+          }
+        }
       };
       const action = {
         type: Event.SOCKET_REGISTRATION.SUCCESS,
         payload: {
-          id: 31,
+          id: 31
         },
         meta: {
-          eventId: 1,
-        },
+          eventId: 1
+        }
       };
       expect(events(prevState, action)).toEqual({
         actionGrant: [],
@@ -233,9 +223,9 @@ describe('reducers', () => {
             loading: false,
             registrationCount: 0,
             waitingRegistrations: [31],
-            waitingRegistrationCount: 1,
-          },
-        },
+            waitingRegistrationCount: 1
+          }
+        }
       });
     });
     it('Event.SOCKET_REGISTRATION.SUCCESS should add registration to registrationCount if it has a pool', () => {
@@ -250,19 +240,19 @@ describe('reducers', () => {
             name: 'evt',
             registrationCount: 0,
             waitingRegistrations: [],
-            waitingRegistrationCount: 0,
-          },
-        },
+            waitingRegistrationCount: 0
+          }
+        }
       };
       const action = {
         type: Event.SOCKET_REGISTRATION.SUCCESS,
         payload: {
           id: 31,
-          pool: 91,
+          pool: 91
         },
         meta: {
-          eventId: 1,
-        },
+          eventId: 1
+        }
       };
       expect(events(prevState, action)).toEqual({
         actionGrant: [],
@@ -276,19 +266,18 @@ describe('reducers', () => {
             loading: false,
             registrationCount: 1,
             waitingRegistrations: [],
-            waitingRegistrationCount: 0,
-          },
-        },
+            waitingRegistrationCount: 0
+          }
+        }
       });
     });
-
     it('Event.SOCKET_REGISTRATION.FAILURE', () => {
       const prevState = baseState;
       const action = {
         type: Event.SOCKET_REGISTRATION.FAILURE,
         meta: {
-          eventId: 1,
-        },
+          eventId: 1
+        }
       };
       expect(events(prevState, action)).toEqual({
         actionGrant: [],
@@ -299,23 +288,21 @@ describe('reducers', () => {
           1: {
             id: 1,
             name: 'evt',
-            loading: false,
-          },
-        },
+            loading: false
+          }
+        }
       });
     });
-
     it('Event.SOCKET_UNREGISTRATION.SUCCESS should not crash if event does not exist', () => {
       const prevState = baseState;
       const action = {
         type: Event.SOCKET_UNREGISTRATION.SUCCESS,
         meta: {
-          eventId: 2,
-        },
+          eventId: 2
+        }
       };
       expect(events(prevState, action)).toEqual(baseState);
     });
-
     it('Event.SOCKET_UNREGISTRATION.SUCCESS should update correctly if user is not me and no pool is provided', () => {
       const prevState = {
         actionGrant: [],
@@ -329,24 +316,24 @@ describe('reducers', () => {
             loading: false,
             registrationCount: 0,
             waitingRegistrationCount: 1,
-            waitingRegistrations: [99],
-          },
-        },
+            waitingRegistrations: [99]
+          }
+        }
       };
       const action = {
         type: Event.SOCKET_UNREGISTRATION.SUCCESS,
         payload: {
           id: 99,
           user: {
-            id: 9,
-          },
+            id: 9
+          }
         },
         meta: {
           eventId: 1,
           currentUser: {
-            id: 8,
-          },
-        },
+            id: 8
+          }
+        }
       };
       expect(events(prevState, action)).toEqual({
         actionGrant: [],
@@ -360,12 +347,11 @@ describe('reducers', () => {
             loading: false,
             registrationCount: 0,
             waitingRegistrationCount: 0,
-            waitingRegistrations: [],
-          },
-        },
+            waitingRegistrations: []
+          }
+        }
       });
     });
-
     it('Event.SOCKET_UNREGISTRATION.SUCCESS should update correctly if user is me and no pool is provided', () => {
       const prevState = {
         actionGrant: [],
@@ -379,24 +365,24 @@ describe('reducers', () => {
             loading: false,
             registrationCount: 0,
             waitingRegistrationCount: 1,
-            waitingRegistrations: [99],
-          },
-        },
+            waitingRegistrations: [99]
+          }
+        }
       };
       const action = {
         type: Event.SOCKET_UNREGISTRATION.SUCCESS,
         payload: {
           id: 99,
           user: {
-            id: 9,
-          },
+            id: 9
+          }
         },
         meta: {
           eventId: 1,
           currentUser: {
-            id: 9,
-          },
-        },
+            id: 9
+          }
+        }
       };
       expect(events(prevState, action)).toEqual({
         actionGrant: [],
@@ -410,12 +396,11 @@ describe('reducers', () => {
             loading: false,
             registrationCount: 0,
             waitingRegistrationCount: 0,
-            waitingRegistrations: [],
-          },
-        },
+            waitingRegistrations: []
+          }
+        }
       });
     });
-
     it('Event.SOCKET_UNREGISTRATION.SUCCESS should update correctly if user is me and pool is provided', () => {
       const prevState = {
         actionGrant: [],
@@ -429,25 +414,25 @@ describe('reducers', () => {
             loading: false,
             registrationCount: 3,
             waitingRegistrationCount: 0,
-            waitingRegistrations: [],
-          },
-        },
+            waitingRegistrations: []
+          }
+        }
       };
       const action = {
         type: Event.SOCKET_UNREGISTRATION.SUCCESS,
         payload: {
           id: 99,
           user: {
-            id: 9,
-          },
+            id: 9
+          }
         },
         meta: {
           fromPool: 33,
           eventId: 1,
           currentUser: {
-            id: 9,
-          },
-        },
+            id: 9
+          }
+        }
       };
       expect(events(prevState, action)).toEqual({
         actionGrant: [],
@@ -461,13 +446,12 @@ describe('reducers', () => {
             loading: false,
             registrationCount: 2,
             waitingRegistrationCount: 0,
-            waitingRegistrations: [],
-          },
-        },
+            waitingRegistrations: []
+          }
+        }
       });
     });
   });
-
   describe('event following', () => {
     it('Event.FOLLOW.SUCCESS', () => {
       const prevState = baseState;
@@ -475,8 +459,8 @@ describe('reducers', () => {
         type: Event.FOLLOW.SUCCESS,
         payload: {
           target: 1,
-          id: 3,
-        },
+          id: 3
+        }
       };
       expect(events(prevState, action)).toEqual({
         actionGrant: [],
@@ -486,12 +470,11 @@ describe('reducers', () => {
         byId: {
           1: {
             id: 1,
-            name: 'evt',
-          },
-        },
+            name: 'evt'
+          }
+        }
       });
     });
-
     it('Event.UNFOLLOW.SUCCESS', () => {
       const prevState = {
         actionGrant: [],
@@ -501,13 +484,15 @@ describe('reducers', () => {
         byId: {
           1: {
             id: 1,
-            name: 'evt',
-          },
-        },
+            name: 'evt'
+          }
+        }
       };
       const action = {
         type: Event.UNFOLLOW.SUCCESS,
-        meta: { eventId: 1 },
+        meta: {
+          eventId: 1
+        }
       };
       expect(events(prevState, action)).toEqual({
         actionGrant: [],
@@ -517,22 +502,19 @@ describe('reducers', () => {
         byId: {
           1: {
             id: 1,
-            name: 'evt',
-          },
-        },
+            name: 'evt'
+          }
+        }
       });
     });
-
     it('Event.IS_USER_FOLLOWING.SUCCESS', () => {
       const prevState = baseState;
       const action = {
         type: Event.IS_USER_FOLLOWING.SUCCESS,
-        payload: [
-          {
-            id: 4,
-            target: 1,
-          },
-        ],
+        payload: [{
+          id: 4,
+          target: 1
+        }]
       };
       expect(events(prevState, action)).toEqual({
         actionGrant: [],
@@ -542,9 +524,9 @@ describe('reducers', () => {
         byId: {
           1: {
             id: 1,
-            name: 'evt',
-          },
-        },
+            name: 'evt'
+          }
+        }
       });
     });
   });

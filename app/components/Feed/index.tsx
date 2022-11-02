@@ -1,11 +1,9 @@
-// @flow
-import type { Node } from 'react';
-import Activity from './activity';
-import type { AggregatedActivity } from './types';
-import EmptyState from 'app/components/EmptyState';
-import ErrorBoundary from 'app/components/ErrorBoundary';
-import styles from './Feed.css';
-
+import type { Node } from "react";
+import Activity from "./activity";
+import type { AggregatedActivity } from "./types";
+import EmptyState from "app/components/EmptyState";
+import ErrorBoundary from "app/components/ErrorBoundary";
+import styles from "./Feed.css";
 export const activityRenderers = {
   comment: require('./renders/comment'),
   comment_reply: require('./renders/comment_reply'),
@@ -15,27 +13,25 @@ export const activityRenderers = {
   admin_registration: require('./renders/adminRegistration'),
   announcement: require('./renders/announcement'),
   group_join: require('./renders/group'),
-  event_register: require('./renders/event_register'),
+  event_register: require('./renders/event_register')
+};
+type Props = {
+  items: Array<AggregatedActivity>;
 };
 
-type Props = { items: Array<AggregatedActivity> };
-
-const Feed = ({ items }: Props): Node => (
-  <div style={{ width: '100%' }}>
-    {items.length ? (
-      items.map((item, i) => {
-        const renders = activityRenderers[item.verb];
-        return renders ? (
-          <ErrorBoundary hidden key={item.id}>
+const Feed = ({
+  items
+}: Props): Node => <div style={{
+  width: '100%'
+}}>
+    {items.length ? items.map((item, i) => {
+    const renders = activityRenderers[item.verb];
+    return renders ? <ErrorBoundary hidden key={item.id}>
             <Activity aggregatedActivity={item} renders={renders} />
-          </ErrorBoundary>
-        ) : null;
-      })
-    ) : (
-      <EmptyState>
+          </ErrorBoundary> : null;
+  }) : <EmptyState>
         <h2 className={styles.emptyState}>Ingen aktiviteter i feeden</h2>
-      </EmptyState>
-    )}
-  </div>
-);
+      </EmptyState>}
+  </div>;
+
 export default Feed;

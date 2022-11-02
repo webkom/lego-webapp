@@ -1,14 +1,13 @@
-// @flow
-
-import LoadingIndicator from 'app/components/LoadingIndicator';
-
+import LoadingIndicator from "app/components/LoadingIndicator";
 type Props = {
-  response: ?string,
-  user: Object,
-  status: number,
-  resetMeetingsToken: () => void,
-  meeting: number,
-  router: /*TODO: Router*/ Object,
+  response: string | null | undefined;
+  user: Record<string, any>;
+  status: number;
+  resetMeetingsToken: () => void;
+  meeting: number;
+  router:
+  /*TODO: Router*/
+  Record<string, any>;
 };
 
 const MeetingAnswer = ({
@@ -17,7 +16,7 @@ const MeetingAnswer = ({
   meeting,
   status,
   router,
-  resetMeetingsToken,
+  resetMeetingsToken
 }: Props) => {
   if (!response) {
     return <LoadingIndicator loading />;
@@ -30,8 +29,9 @@ const MeetingAnswer = ({
 
   if (response === 'SUCCESS') {
     const statusText = ['', 'Delta', 'Ikke delta'][status];
-    return (
-      <div style={{ textAlign: 'center' }}>
+    return <div style={{
+      textAlign: 'center'
+    }}>
         <h1>
           {' '}
           Du har nå svart på invitasjonen{' '}
@@ -45,15 +45,15 @@ const MeetingAnswer = ({
         <p>
           Logg inn og sjekk møtet <button onClick={handleLink}> her</button>
         </p>
-      </div>
-    );
+      </div>;
   }
-  return (
-    <div style={{ textAlign: 'center' }}>
+
+  return <div style={{
+    textAlign: 'center'
+  }}>
       <h1>Det har skjedd en feil :(</h1>
       <p>Prøv å logg inn for å svare på invitasjonen</p>
-    </div>
-  );
+    </div>;
 };
 
 export default MeetingAnswer;

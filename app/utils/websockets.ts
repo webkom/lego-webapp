@@ -1,57 +1,68 @@
-import WebSocketClient from 'websocket.js';
-import config from '../config';
-import createQueryString from './createQueryString';
-import { addToast } from 'app/actions/ToastActions';
-import { User, Event } from 'app/actions/ActionTypes';
-import { selectCurrentUser } from 'app/reducers/auth';
-import { isUserFollowing } from 'app/actions/EventActions';
-
+import WebSocketClient from "websocket.js";
+import config from "../config";
+import createQueryString from "./createQueryString";
+import { addToast } from "app/actions/ToastActions";
+import { User, Event } from "app/actions/ActionTypes";
+import { selectCurrentUser } from "app/reducers/auth";
+import { isUserFollowing } from "app/actions/EventActions";
 export default function createWebSocketMiddleware() {
   let socket = null;
-
-  return (store) => {
-    const makeSocket = (jwt) => {
+  return store => {
+    const makeSocket = jwt => {
       if (socket || !jwt) return;
-
-      const qs = createQueryString({ jwt });
+      const qs = createQueryString({
+        jwt
+      });
       socket = new WebSocketClient(`${config.wsServerUrl}/${qs}`);
 
-      socket.onmessage = (event) => {
-        const { type, payload, meta: socketMeta } = JSON.parse(event.data);
-
-        const meta = {
-          ...socketMeta,
-          currentUser: selectCurrentUser(store.getState()),
+      socket.onmessage = event => {
+        const {
+          type,
+          payload,
+          meta: socketMeta
+        } = JSON.parse(event.data);
+        const meta = { ...socketMeta,
+          currentUser: selectCurrentUser(store.getState())
         };
 
-        if (
-          type === Event.SOCKET_REGISTRATION.SUCCESS &&
-          (payload.user && payload.user.id) === meta.currentUser.id
-        ) {
+        if (type === Event.SOCKET_REGISTRATION.SUCCESS && (payload.user && payload.user.id) === meta.currentUser.id) {
           store.dispatch(isUserFollowing(meta.eventId));
         }
 
-        store.dispatch({ type, payload, meta });
+        store.dispatch({
+          type,
+          payload,
+          meta
+        });
         const message = meta.successMessage || meta.errorMessage;
+
         if (message) {
-          store.dispatch(addToast({ message }));
+          store.dispatch(addToast({
+            message
+          }));
         }
       };
 
       socket.onopen = () => {
-        store.dispatch({ type: 'WS_CONNECTED' });
+        store.dispatch({
+          type: 'WS_CONNECTED'
+        });
       };
 
       socket.onclose = () => {
-        store.dispatch({ type: 'WS_CLOSED' });
+        store.dispatch({
+          type: 'WS_CLOSED'
+        });
       };
 
       socket.onerror = () => {
-        store.dispatch({ type: 'WS_ERROR' });
+        store.dispatch({
+          type: 'WS_ERROR'
+        });
       };
     };
 
-    return (next) => (action) => {
+    return next => action => {
       if (action.type === 'REHYDRATED') {
         makeSocket(store.getState().auth.token);
         return next(action);
@@ -68,7 +79,6 @@ export default function createWebSocketMiddleware() {
         }
 
         socket = null;
-
         return next(action);
       }
 

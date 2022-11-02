@@ -1,6 +1,5 @@
-import Comment from '../Comment';
-import { shallow } from 'enzyme';
-
+import Comment from "../Comment";
+import { shallow } from "enzyme";
 const comment = {
   id: 1,
   text: 'this is a nice comment',
@@ -8,10 +7,9 @@ const comment = {
   author: {
     id: 1,
     username: 'cat',
-    fullName: 'Cat Catson',
-  },
+    fullName: 'Cat Catson'
+  }
 };
-
 describe('components', () => {
   describe('Comment', () => {
     it('should show a comment', () => {
