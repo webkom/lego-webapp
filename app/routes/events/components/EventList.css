@@ -59,7 +59,8 @@
 
 .filterButtons {
   display: flex;
-  flex-wrap: wrap;
+  flex-flow: row wrap;
+  gap: 15px;
 }
 
 .filterButtons label {

@@ -8,6 +8,7 @@ import Button from 'app/components/Button';
 import cx from 'classnames';
 import type { ActionGrant } from 'app/models';
 import qs from 'qs';
+import { jobTypes } from '../constants';
 
 const updateFilters = (type, value, filters) => {
   const newFilter = {
@@ -36,18 +37,25 @@ const updateFilters = (type, value, filters) => {
   };
 };
 
-const FilterLink = ({ type, label, value, filters }: Object) => (
-  <Link
-    to={{
+const FilterLink = ({ type, label, value, filters, history }: Object) => {
+  const handleChange = () => {
+    const location = {
       pathname: '/joblistings',
       search: qs.stringify(updateFilters(type, value, filters)),
-    }}
-    className={styles.filterLink}
-  >
-    <CheckBox id={label} value={filters[type].includes(value)} readOnly />
-    {label}
-  </Link>
-);
+    };
+    history.push(location);
+  };
+
+  return (
+    <CheckBox
+      id={label}
+      label={label}
+      value={filters[type].includes(value)}
+      onChange={handleChange}
+      readOnly
+    />
+  );
+};
 
 type Filter = {
   grades: Array<string>,
@@ -141,7 +149,6 @@ const JoblistingsRightNav = (props: Props) => {
             <Button className={styles.createButton}>Ny jobbannonse</Button>
           </Link>
         )}
-
         <h3 className={styles.rightHeader}>Sorter etter:</h3>
         <label htmlFor="deadline" style={{ cursor: 'pointer' }}>
           <RadioButton
@@ -197,49 +204,33 @@ const JoblistingsRightNav = (props: Props) => {
             label={`${element}. klasse`}
             value={element}
             filters={filters}
+            history={props.history}
           />
         ))}
 
         <h3 className={styles.rightHeader}>Jobbtype:</h3>
-        <FilterLink
-          type="jobTypes"
-          label="Sommerjobb"
-          value="summer_job"
-          filters={filters}
-        />
-        <FilterLink
-          type="jobTypes"
-          value="part_time"
-          label="Deltid"
-          filters={filters}
-        />
-        <FilterLink
-          type="jobTypes"
-          value="full_time"
-          label="Fulltid"
-          filters={filters}
-        />
-        <FilterLink
-          type="jobTypes"
-          value="master_thesis"
-          label="Masteroppgave"
-          filters={filters}
-        />
-        <FilterLink
-          type="jobTypes"
-          value="other"
-          label="Annet"
-          filters={filters}
-        />
+        {jobTypes.map((el) => {
+          return (
+            <FilterLink
+              key={el.value}
+              type="jobTypes"
+              value={el.value}
+              label={el.label}
+              filters={filters}
+              history={props.history}
+            />
+          );
+        })}
 
         <h3 className={styles.rightHeader}>Sted:</h3>
         {['Oslo', 'Trondheim', 'Bergen', 'Tromsø', 'Annet'].map((element) => (
           <FilterLink
-            type="workplaces"
             key={element}
+            type="workplaces"
             value={element}
             label={element}
             filters={filters}
+            history={props.history}
           />
         ))}
       </div>

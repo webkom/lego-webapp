@@ -73,14 +73,13 @@ export default class OptionsBox extends Component<Props, State> {
 
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <div className={styles.section} style={{ order: 0 }}>
-            <label>
-              <CheckBox
-                value={this.state.active}
-                name="active"
-                onChange={() => this.toggleSection('active')}
-              />
-              <span>Er aktiv</span>
-            </label>
+            <CheckBox
+              id="isActive"
+              value={this.state.active}
+              name="active"
+              label="Er aktiv"
+              onChange={() => this.toggleSection('active')}
+            />
 
             <div
               className={styles.options}
@@ -108,14 +107,13 @@ export default class OptionsBox extends Component<Props, State> {
               </label>
             </div>
 
-            <label>
-              <CheckBox
-                value={this.state.studentContact}
-                name="studentContact"
-                onChange={() => this.toggleSection('studentContact')}
-              />
-              <span>Har studentkontakt...</span>
-            </label>
+            <CheckBox
+              id="hasStudentContact"
+              value={this.state.studentContact}
+              name="studentContact"
+              label="Har studentkontakt ..."
+              onChange={() => this.toggleSection('studentContact')}
+            />
 
             <div
               className={styles.options}
