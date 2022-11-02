@@ -24,7 +24,7 @@
     "lint:css": "stylelint './app/**/*.css'",
     "lint:prettier": "prettier '**/*.{ts,tsx,js,css,md}' --check",
     "prettier": "prettier '**/*.{ts,tsx,js,css,md}' --write",
-    "flow": "flow"
+    "types": "tsc"
   },
   "repository": {
     "type": "git",
