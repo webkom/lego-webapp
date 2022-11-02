@@ -149,6 +149,7 @@ class Header extends Component<Props, State> {
       __CLIENT__ &&
       loggedIn &&
       currentUser &&
+      currentUser.selectedTheme &&
       (currentUser.selectedTheme === 'auto'
         ? getTheme() !== getOSTheme()
         : getTheme() !== currentUser.selectedTheme)
