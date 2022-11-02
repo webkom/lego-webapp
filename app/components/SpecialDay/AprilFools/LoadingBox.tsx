@@ -49,8 +49,8 @@ class LoadingBox extends Component<Props, State> {
     let { usersInQueue } = this.state;
     const now = moment();
     const timeLeft = expectedArrivalDate.diff(now);
-    let newSecondsLeft = Math.round(timeLeft / 1000);
-    let progress = 100 - (100 / initialTimeLeft) * timeLeft;
+    const newSecondsLeft = Math.round(timeLeft / 1000);
+    const progress = 100 - (100 / initialTimeLeft) * timeLeft;
 
     if (progress >= 100) {
       clearInterval(this.interval);

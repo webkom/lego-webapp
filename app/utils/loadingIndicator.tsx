@@ -9,8 +9,8 @@ import type { Props } from 'app/components/LoadingIndicator';
 
 export default function loadingIndicator(
   loadingProps: Array<string>,
-  options: Props | null | undefined
-): any {
+  options?: Props
+): ComponentType<any | string> {
   return (Component: ComponentType<any>) => {
     const Composed = (props: Record<string, any>) => (
       <LoadingIndicator

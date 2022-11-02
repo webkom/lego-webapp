@@ -22,9 +22,9 @@
 // OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 // ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
+
 function foldl(f, initial, seq) {
   for (var i = 0; i < seq.length; ++i) initial = f(initial, seq[i]);
-
   return initial;
 }
 
@@ -68,6 +68,7 @@ ParseState.prototype.toString = function () {
 
 ParseState.prototype.getCached = function (pid) {
   if (!memoize) return false;
+
   var p = this.cache[pid];
   if (p) return p[this.index];
   else return false;
@@ -75,6 +76,7 @@ ParseState.prototype.getCached = function (pid) {
 
 ParseState.prototype.putCached = function (pid, cached) {
   if (!memoize) return false;
+
   var p = this.cache[pid];
   if (p) p[this.index] = cached;
   else {
@@ -92,11 +94,7 @@ function ps(str) {
 // was successfully matched by the parser.
 // 'ast' is the AST returned by the successfull parse.
 function make_result(r, matched, ast) {
-  return {
-    remaining: r,
-    matched: matched,
-    ast: ast,
-  };
+  return { remaining: r, matched: matched, ast: ast };
 }
 
 var parser_id = 0;
@@ -109,13 +107,9 @@ function token(s) {
     var savedState = state;
     var cached = savedState.getCached(pid);
     if (cached) return cached;
+
     var r = state.length >= s.length && state.substring(0, s.length) == s;
-    if (r)
-      cached = {
-        remaining: state.from(s.length),
-        matched: s,
-        ast: s,
-      };
+    if (r) cached = { remaining: state.from(s.length), matched: s, ast: s };
     else cached = false;
     savedState.putCached(pid, cached);
     return cached;
@@ -131,12 +125,7 @@ function ch(c) {
     var cached = savedState.getCached(pid);
     if (cached) return cached;
     var r = state.length >= 1 && state.at(0) == c;
-    if (r)
-      cached = {
-        remaining: state.from(1),
-        matched: c,
-        ast: c,
-      };
+    if (r) cached = { remaining: state.from(1), matched: c, ast: c };
     else cached = false;
     savedState.putCached(pid, cached);
     return cached;
@@ -152,15 +141,12 @@ function range(lower, upper) {
     var savedState = state;
     var cached = savedState.getCached(pid);
     if (cached) return cached;
+
     if (state.length < 1) cached = false;
     else {
       var ch = state.at(0);
       if (ch >= lower && ch <= upper)
-        cached = {
-          remaining: state.from(1),
-          matched: ch,
-          ast: ch,
-        };
+        cached = { remaining: state.from(1), matched: ch, ast: ch };
       else cached = false;
     }
     savedState.putCached(pid, cached);
@@ -183,6 +169,7 @@ function whitespace(p) {
     var savedState = state;
     var cached = savedState.getCached(pid);
     if (cached) return cached;
+
     cached = p(state.trimLeft());
     savedState.putCached(pid, cached);
     return cached;
@@ -198,15 +185,14 @@ function action(p, f) {
     var savedState = state;
     var cached = savedState.getCached(pid);
     if (cached) return cached;
-    var x = p(state);
 
+    var x = p(state);
     if (x) {
       x.ast = f(x.ast);
       cached = x;
     } else {
       cached = false;
     }
-
     savedState.putCached(pid, cached);
     return cached;
   };
@@ -263,7 +249,6 @@ function negate(p) {
     } else {
       cached = false;
     }
-
     savedState.putCached(pid, cached);
     return cached;
   };
@@ -285,15 +270,12 @@ function nothing_p(state) {
 // returns succeeds if all the parsers in the sequence succeeds. It fails if any of them fail.
 function sequence() {
   var parsers = [];
-
   for (var i = 0; i < arguments.length; ++i)
     parsers.push(toParser(arguments[i]));
-
   var pid = parser_id++;
   return function (state) {
     var savedState = state;
     var cached = savedState.getCached(pid);
-
     if (cached) {
       return cached;
     }
@@ -301,14 +283,11 @@ function sequence() {
     var ast = [];
     var matched = '';
     var i;
-
     for (i = 0; i < parsers.length; ++i) {
       var parser = parsers[i];
       var result = parser(state);
-
       if (result) {
         state = result.remaining;
-
         if (result.ast != undefined) {
           ast.push(result.ast);
           matched = matched + result.matched;
@@ -317,11 +296,9 @@ function sequence() {
         break;
       }
     }
-
     if (i == parsers.length) {
       cached = make_result(state, matched, ast);
     } else cached = false;
-
     savedState.putCached(pid, cached);
     return cached;
   };
@@ -330,11 +307,9 @@ function sequence() {
 // Like sequence, but ignores whitespace between individual parsers.
 function wsequence() {
   var parsers = [];
-
   for (var i = 0; i < arguments.length; ++i) {
     parsers.push(whitespace(toParser(arguments[i])));
   }
-
   return sequence.apply(null, parsers);
 }
 
@@ -344,30 +319,23 @@ function wsequence() {
 // successfull parse. It fails if all parsers fail.
 function choice() {
   var parsers = [];
-
   for (var i = 0; i < arguments.length; ++i)
     parsers.push(toParser(arguments[i]));
-
   var pid = parser_id++;
   return function (state) {
     var savedState = state;
     var cached = savedState.getCached(pid);
-
     if (cached) {
       return cached;
     }
-
     var i;
-
     for (i = 0; i < parsers.length; ++i) {
       var parser = parsers[i];
       var result = parser(state);
-
       if (result) {
         break;
       }
     }
-
     if (i == parsers.length) cached = false;
     else cached = result;
     savedState.putCached(pid, cached);
@@ -383,14 +351,15 @@ function butnot(p1, p2) {
   var p1 = toParser(p1);
   var p2 = toParser(p2);
   var pid = parser_id++;
+
   // match a but not b. if both match and b's matched text is shorter
   // than a's, a failed match is made
   return function (state) {
     var savedState = state;
     var cached = savedState.getCached(pid);
     if (cached) return cached;
-    var br = p2(state);
 
+    var br = p2(state);
     if (!br) {
       cached = p1(state);
     } else {
@@ -403,7 +372,6 @@ function butnot(p1, p2) {
         cached = false;
       }
     }
-
     savedState.putCached(pid, cached);
     return cached;
   };
@@ -416,14 +384,15 @@ function difference(p1, p2) {
   var p1 = toParser(p1);
   var p2 = toParser(p2);
   var pid = parser_id++;
+
   // match a but not b. if both match and b's matched text is shorter
   // than a's, a successfull match is made
   return function (state) {
     var savedState = state;
     var cached = savedState.getCached(pid);
     if (cached) return cached;
-    var br = p2(state);
 
+    var br = p2(state);
     if (!br) {
       cached = p1(state);
     } else {
@@ -431,7 +400,6 @@ function difference(p1, p2) {
       if (ar.matched.length >= br.matched.length) cached = br;
       else cached = ar;
     }
-
     savedState.putCached(pid, cached);
     return cached;
   };
@@ -444,11 +412,13 @@ function xor(p1, p2) {
   var p1 = toParser(p1);
   var p2 = toParser(p2);
   var pid = parser_id++;
+
   // match a or b but not both
   return function (state) {
     var savedState = state;
     var cached = savedState.getCached(pid);
     if (cached) return cached;
+
     var ar = p1(state);
     var br = p2(state);
     if (ar && br) cached = false;
@@ -463,10 +433,10 @@ function xor(p1, p2) {
 function repeat0(p) {
   var p = toParser(p);
   var pid = parser_id++;
+
   return function (state) {
     var savedState = state;
     var cached = savedState.getCached(pid);
-
     if (cached) {
       return cached;
     }
@@ -474,14 +444,12 @@ function repeat0(p) {
     var ast = [];
     var matched = '';
     var result;
-
     while ((result = p(state))) {
       ast.push(result.ast);
       matched = matched + result.matched;
       if (result.remaining.index == state.index) break;
       state = result.remaining;
     }
-
     cached = make_result(state, matched, ast);
     savedState.putCached(pid, cached);
     return cached;
@@ -493,10 +461,12 @@ function repeat0(p) {
 function repeat1(p) {
   var p = toParser(p);
   var pid = parser_id++;
+
   return function (state) {
     var savedState = state;
     var cached = savedState.getCached(pid);
     if (cached) return cached;
+
     var ast = [];
     var matched = '';
     var result = p(state);
@@ -509,7 +479,6 @@ function repeat1(p) {
         state = result.remaining;
         result = p(state);
       }
-
       cached = make_result(state, matched, ast);
     }
     savedState.putCached(pid, cached);
@@ -545,6 +514,7 @@ function expect(p) {
 
 function chain(p, s, f) {
   var p = toParser(p);
+
   return action(
     sequence(p, repeat0(action(sequence(s, p), f))),
     function (ast) {
@@ -583,11 +553,9 @@ function list(p, s) {
 // Like list, but ignores whitespace between individual parsers.
 function wlist() {
   var parsers = [];
-
   for (var i = 0; i < arguments.length; ++i) {
     parsers.push(whitespace(arguments[i]));
   }
-
   return list.apply(null, parsers);
 }
 
@@ -665,7 +633,8 @@ Pxxl.Font = function (version, comments, properties, glyphs) {
   this.version = version;
   this.comments = comments;
   this.properties = properties;
-  this.glyphs = glyphs; //console.log(glyphs);
+  this.glyphs = glyphs;
+  //console.log(glyphs);
   //console.log("BDF version " + this.version);
   // if (comments && comments.length)
   //   console.log(comments.join(""));
@@ -675,29 +644,37 @@ Pxxl.Font.prototype = {
   size: function () {
     return this.SIZE[0];
   },
+
   getGlyph: function (character) {
     var c = character.charCodeAt(0);
+
     return this.glyphs[c];
   },
+
   defaultWidth: function () {
     return this.FONTBOUNDINGBOX[0];
   },
+
   defaultHeight: function () {
     return this.FONTBOUNDINGBOX[1];
   },
+
   bit: function (text, row, column) {
     var t = ~~(column / 8);
     if (t < 0 || t > text.length - 1) return false;
     var c = text.charCodeAt(t);
+
     //console.log(t);
     var g = this.glyphs[c];
     if (g) return g.bit(row, column % 8);
     else return false;
   },
+
   getPixels: function (text) {
     //console.log(text, x,y, maxWidth);
     var ctx = this.ctx;
     var hspacing = this.FONTBOUNDINGBOX[0];
+
     var pixels = [];
 
     for (
@@ -707,6 +684,7 @@ Pxxl.Font.prototype = {
     ) {
       var chr = text.charCodeAt(t);
       var glyph = this.glyphs[chr];
+
       var bitmap = glyph.bitmap;
       var dx = t * hspacing;
       var dy = this.defaultHeight() - glyph.height(); // some glyphs have fewer rows
@@ -724,23 +702,19 @@ Pxxl.Font.prototype = {
           b++ // bytes in a row x
         ) {
           var byt = row[b];
-          var offset = b * 8; //consecutive bytes are drawn next to each other
 
+          var offset = b * 8; //consecutive bytes are drawn next to each other
           var bit = 256;
 
-          while ((bit >>>= 1)) {
-            // bits in a byte x
+          while (
+            (bit >>>= 1) // bits in a byte x
+          ) {
             if (byt & bit) {
               var px = dx + offset;
               var py = dy + r;
-              pixels.push({
-                x: px,
-                y: py,
-                row: r,
-                column: offset,
-              });
-            }
 
+              pixels.push({ x: px, y: py, row: r, column: offset });
+            }
             offset++;
           }
         }
@@ -762,32 +736,39 @@ Pxxl.Glyph.prototype = {
     var bit = 1 << (this.width() - x - 1);
     var byt = ~~(bit / 256);
     bit %= (byt + 1) * 256;
+
     //console.log(this.bitmap);
+
     if (value) this.bitmap[y][byt] |= bit;
-    else this.bitmap[y][byt] &= ~bit; //console.log(this.bitmap);
+    else this.bitmap[y][byt] &= ~bit;
+
+    //console.log(this.bitmap);
   },
+
   get: function (x, y) {
     var bit = 1 << (this.width() - x - 1);
     var byt = ~~(bit / 256);
     bit %= (byt + 1) * 256;
+
     var result = this.bitmap[y][byt] & bit;
     //console.log("x:"+x, "y:"+y, "bit:"+bit, "byte:"+byte, "value:"+result );
     return !!result;
   },
+
   width: function () {
     return this.BBX[0];
   },
+
   height: function () {
     return this.BBX[1];
   },
+
   toString: function () {
     var result = '';
-
     for (var y = 0; y < this.bitmap.length; y++) {
       for (var x = 0; x < this.width(); x++) {
         result += this.get(x, y) ? '*' : ' ';
       }
-
       result += '/n';
     }
 
@@ -828,6 +809,7 @@ Pxxl.Glyph.prototype = {
   var GREATER_THAN = ch('>');
   var QUESTION_MARK = ch('?');
   var SLASH = ch('/');
+
   var SpecialChar = choice(
     EXCLAMATION_MARK,
     AT,
@@ -862,19 +844,24 @@ Pxxl.Glyph.prototype = {
     QUESTION_MARK,
     SLASH
   );
+
   var Digit = range('0', '9');
   var LowerCase = range('a', 'z');
   var UpperCase = range('A', 'Z');
+
   var NEWLINE = ch('\n');
   var Space = ch(' ');
   var Tab = ch('\t');
+
   var Alpha = choice(LowerCase, UpperCase);
   var AlphaNum = choice(Alpha, Digit);
   var NoSpaceChar = choice(AlphaNum, SpecialChar);
   var Char = choice(NoSpaceChar, Space);
   var Spaces = flatten(repeat1(Space));
   var Text = flatten(repeat1(Char));
+
   var EOL = sequence(repeat0(Space), NEWLINE);
+
   var QUOTED_STRING = pick(
     1,
     sequence(
@@ -883,15 +870,18 @@ Pxxl.Glyph.prototype = {
       DOUBLE_QUOTE
     )
   );
+
   var HexDigit = choice(range('a', 'f'), range('A', 'F'), Digit);
   var Byte = action(flatten(sequence(HexDigit, HexDigit)), function (s) {
     return parseInt(s, 16);
   });
   var ByteArray = repeat1(Byte);
   var Natural = flatten(repeat1(Digit));
+
   var NegativeNumber = flatten(sequence(MINUS, Natural));
   var Integer = action(choice(Natural, NegativeNumber), parseInt);
   //var Word = flatten(repeat1(Alpha));
+
   //var PropName = flatten(sequence(Alpha, flatten(repeat0(choice(Alpha, UNDERSCORE)))));
   var PropName = flatten(repeat1(choice(Alpha, UNDERSCORE)));
   var Prop1 = action(
@@ -906,6 +896,7 @@ Pxxl.Glyph.prototype = {
   var ENDPROPERTIES = token('ENDPROPERTIES');
   var Prop = trace(choice(Prop1, Prop2, Prop3, ENDPROPERTIES), 'prop');
   var PropRow = pick(0, sequence(Prop, EOL));
+
   var BitmapRow = pick(0, sequence(ByteArray, EOL));
   var BITMAP = token('BITMAP');
   var BitmapStart = sequence(BITMAP, EOL);
@@ -913,6 +904,7 @@ Pxxl.Glyph.prototype = {
     pick(1, sequence(BitmapStart, repeat0(BitmapRow))),
     'bitmap'
   );
+
   var STARTCHAR = token('STARTCHAR');
   var ENDCHAR = token('ENDCHAR');
   var GlyphStart = trace(
@@ -924,7 +916,9 @@ Pxxl.Glyph.prototype = {
     action(sequence(GlyphStart, repeat0(PropRow), Bitmap, GlyphEnd), MakeGlyph),
     'glyph'
   );
+
   //var Glyph = action(_Glyph, function(ast) { console.log(ast)} );
+
   var STARTFONT = token('STARTFONT');
   var ENDFONT = token('ENDFONT');
   var Version = flatten(sequence(Natural, PERIOD, Natural));
@@ -933,10 +927,10 @@ Pxxl.Glyph.prototype = {
     'fontstart'
   );
   var FontEnd = trace(sequence(ENDFONT, optional(EOL)), 'fontend'); // EOL optional for now
-
   var COMMENT = token('COMMENT');
   var Comment = pick(2, sequence(COMMENT, optional(Space), optional(Text)));
   var CommentRow = trace(pick(0, sequence(Comment, EOL)), 'comment');
+
   var BDF = action(
     sequence(
       repeat0(CommentRow),
@@ -947,9 +941,8 @@ Pxxl.Glyph.prototype = {
       FontEnd
     ),
     MakeFont
-  );
+  ); // empty container is allowed
 
-  // empty container is allowed
   // input: sequence( FontStart, repeat0(CommentRow), repeat0(butnot(PropRow, GlyphStart)), repeat0(Glyph), FontEnd)
   function MakeFont(ast) {
     var formatVersion = ast[1];
@@ -968,15 +961,13 @@ Pxxl.Glyph.prototype = {
     var g = new Pxxl.Glyph(name, bitmap);
     //console.log("glyph", g.toString());
     g = PropertyBagMixin(g, properties);
-    return {
-      name: g['ENCODING'],
-      value: g,
-    };
+    return { name: g['ENCODING'], value: g };
   }
 
   function PropertyBagMixin(obj, proplist) {
     for (var i = 0; i < proplist.length; i++) {
       var prop = proplist[i];
+
       // WATCH OUT! possibly overwriting pre-existing properties!
       obj[prop.name] = prop.value;
     }
@@ -989,6 +980,7 @@ Pxxl.Glyph.prototype = {
 
     for (var i = 0; i < proplist.length; i++) {
       var prop = proplist[i];
+
       // WATCH OUT! possibly overwriting pre-existing properties!
       hash[prop.name] = prop.value;
     }
@@ -999,18 +991,14 @@ Pxxl.Glyph.prototype = {
   function MakeProp1(ast) {
     var value = ast[1];
     var name = ast[0];
+
     if (name == 'ENCODING' || name == 'CHARS') value = value[0];
-    return {
-      name: name,
-      value: value,
-    };
+
+    return { name: name, value: value };
   }
 
   function MakeProp2(ast) {
-    return {
-      name: ast[0],
-      value: ast[2],
-    };
+    return { name: ast[0], value: ast[2] };
   }
 
   function flatten(p) {
@@ -1026,28 +1014,29 @@ Pxxl.Glyph.prototype = {
   function trace(p, label) {
     var traceon = Pxxl.trace;
     var traceall = Pxxl.traceall;
+
     if (!traceon) return p;
+
     return function (state) {
       var result = p(state);
-
       if (!result.ast) {
         var matched = state.input.substring(0, state.index);
         var lines = matched.split('\n');
         //lines[lines.length-1]
         console.error(label, 'failed at line', lines.length, state);
       }
-
       if (result.ast && traceall)
         console.log(label, 'matches', result.matched, '\nAST:', result.ast);
+
       return result;
     };
   }
 
   function pre(input) {
     var lines = input.split('\n');
-
     for (var l = lines.length - 1; l >= 0; l--) {
       var line = ltrim(lines[l]);
+
       if (line == '') lines.splice(l, 1);
       else lines[l] = line;
     }
@@ -1062,6 +1051,7 @@ Pxxl.Glyph.prototype = {
   function parseBDF(input, trace, traceall) {
     Pxxl.trace = trace;
     Pxxl.traceall = traceall;
+
     input = pre(input);
     var state = ps(input);
     var before = +new Date();
@@ -1087,30 +1077,25 @@ Pxxl.Glyph.ParseJSON = function (obj) {
   for (var k in obj) {
     if (obj.hasOwnProperty(k)) g[k] = obj[k];
   }
-
   //console.log("glyph", g.toString());
   return g;
 };
 
 Pxxl.Font.ParseJSON = function (obj) {
   var f = new Pxxl.Font(obj.version, obj.comments, obj.properties, {});
-
   //console.log(f);
   for (var k in obj) {
     if (obj.hasOwnProperty(k) && k != 'glyphs') f[k] = obj[k];
   }
 
   f.glyphs = {};
-
   for (var g in obj.glyphs) {
     //console.log(g);
     if (obj.glyphs.hasOwnProperty(g))
       f.glyphs[g] = Pxxl.Glyph.ParseJSON(obj.glyphs[g]);
   }
-
   return f;
 };
-
 (function () {
   //from: http://www.quirksmode.org/js/xmlhttp.html
   function sendRequest(url, callback, postData) {
@@ -1121,18 +1106,14 @@ Pxxl.Font.ParseJSON = function (obj) {
     //req.setRequestHeader('User-Agent','XMLHTTP/1.0');
     if (postData)
       req.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-
     req.onreadystatechange = function () {
       if (req.readyState != 4) return;
-
       if (req.status != 200 && req.status != 304) {
         //          alert('HTTP error ' + req.status);
         return;
       }
-
       callback(req);
     };
-
     if (req.readyState == 4) return;
     req.send(postData);
   }
@@ -1145,17 +1126,14 @@ Pxxl.Font.ParseJSON = function (obj) {
 
   function createXMLHTTPObject() {
     var xmlhttp = false;
-
     for (var i = 0; i < XMLHttpFactories.length; i++) {
       try {
         xmlhttp = XMLHttpFactories[i]();
       } catch (e) {
         continue;
       }
-
       break;
     }
-
     return xmlhttp;
   }
 
@@ -1174,6 +1152,7 @@ Pxxl.Font.ParseJSON = function (obj) {
   // memoization funcion for use with callbacks
   function memoize2(f) {
     var cache = {};
+
     return function (arg, callback) {
       var cached = cache[arg];
 

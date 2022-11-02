@@ -13,7 +13,7 @@ import manifest from '../app/assets/manifest.json';
 const dllPlugin = __DEV__ ? '<script src="/vendors.dll.js"></script>' : '';
 export type PageRendererProps = {
   app: React.ReactElement<React.ComponentProps<any>, any> | null | undefined;
-  state: State | {};
+  state: State | Record<string, never>;
 };
 const extractor = !__DEV__
   ? new ChunkExtractor({

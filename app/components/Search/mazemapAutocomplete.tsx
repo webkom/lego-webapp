@@ -24,7 +24,7 @@ function mazemapAutocomplete<Props>({
   const mapRoomAndBuildingToResult = (
     poiName: string,
     buildingName: string,
-    value: Number
+    value: number
   ): Record<string, any> => {
     return {
       label: stripHtmlTags(poiName + ', ' + buildingName),

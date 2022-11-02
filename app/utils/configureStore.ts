@@ -37,12 +37,12 @@ export const history = __CLIENT__
   ? createBrowserHistory()
   : createMemoryHistory();
 export default function configureStore(
-  initialState: State | $Shape<{}> = {},
+  initialState: State | $Shape<Record<string, never>> = {},
   {
     Sentry,
     getCookie,
   }: {
-    Sentry: any | null | undefined;
+    Sentry?: any | null | undefined;
     getCookie?: GetCookie;
   } = {}
 ): Store {

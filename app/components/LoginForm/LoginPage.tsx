@@ -10,7 +10,7 @@ import { Content } from 'app/components/Content';
 type State = {
   mode: 'login' | 'register' | 'forgotPassword';
 };
-type Props = {};
+type Props = Record<string, any>;
 
 class LoginPage extends Component<Props, State> {
   state = {

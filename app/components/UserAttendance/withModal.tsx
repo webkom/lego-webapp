@@ -1,4 +1,4 @@
-import type { ComponentType, Element } from 'react';
+import type { ComponentType, ReactElement } from 'react';
 import { Children, cloneElement, Component } from 'react';
 import Modal from 'app/components/Modal';
 import AttendanceModal from './AttendanceModal';
@@ -6,7 +6,7 @@ type State = {
   modalVisible: boolean;
   selectedTab: number;
 };
-export default function withModal<Props extends any>(
+export default function withModal<Props extends Record<string, any>>(
   WrappedComponent: ComponentType<Props>
 ) {
   const displayName =
@@ -17,13 +17,13 @@ export default function withModal<Props extends any>(
       modalVisible: false,
       selectedTab: 0,
     };
-    toggleModal = (key: number = 0) => {
+    toggleModal = (key = 0) => {
       this.setState((state) => ({
         modalVisible: !state.modalVisible,
         selectedTab: key,
       }));
     };
-    toggleTab = (key: number = 0) => {
+    toggleTab = (key = 0) => {
       this.setState({
         selectedTab: key,
       });
@@ -54,12 +54,11 @@ const ChildrenWithProps = ({
   children,
   ...restProps
 }: {
-  children: Element<any>;
+  children: ReactElement<any>;
 }) => (
   <div>
     {Children.map(children, (child) => cloneElement(child, { ...restProps }))}
   </div>
 );
 
-//@ts-expect-error
 export const ModalParentComponent = withModal(ChildrenWithProps);

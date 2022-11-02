@@ -93,9 +93,9 @@ const PhotoConsents = ({
   updatePhotoConsent: (
     photoConsent: PhotoConsent,
     username: string,
-    userId: Number
+    userId: number
   ) => Promise<any>;
-  userId: Number;
+  userId: number;
   isMe: boolean;
 }) => {
   const semesterOptions = photoConsents

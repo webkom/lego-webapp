@@ -1,4 +1,4 @@
-import moment from 'moment-timezone';
+import moment, { Moment } from 'moment-timezone';
 import { range, takeWhile, last } from 'lodash';
 /**
  * Generate days of an entire month.
@@ -7,10 +7,10 @@ import { range, takeWhile, last } from 'lodash';
  */
 
 export default function createMonthlyCalendar(
-  date: moment$Moment,
-  weekOffset: number = 0
+  date: Moment,
+  weekOffset = 0
 ): {
-  day: moment$Moment;
+  day: Moment;
   prevOrNextMonth: boolean;
 }[] {
   const startOfMonth = date.startOf('month');

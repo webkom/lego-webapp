@@ -65,7 +65,7 @@ const getPoolName = (pools, poolId) => {
 };
 
 const getRegistrationInfo = (pool, registration) => {
-  let registrationInfo = {
+  const registrationInfo = {
     reason: 'Venteliste',
     icon: cx('fa fa-clock-o fa-2x', styles.orangeIcon),
   };

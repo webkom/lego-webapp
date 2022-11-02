@@ -1,3 +1,4 @@
+import { ButtonHTMLAttributes } from 'react';
 import cx from 'classnames';
 import styles from './Button.css';
 import LoadingIndicator from '../LoadingIndicator';
@@ -52,7 +53,7 @@ function Button({
   success = false,
   flat = false,
   ...rest
-}: Props) {
+}: ButtonHTMLAttributes<Props>) {
   return (
     <button
       className={

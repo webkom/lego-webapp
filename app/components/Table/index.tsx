@@ -63,7 +63,7 @@ const isVisible = ({ visible = true }: columnProps) => visible;
 export default class Table extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    let initialShowColumn = {};
+    const initialShowColumn = {};
     props.columns.forEach((column) => {
       if (column.columnChoices) {
         initialShowColumn[column.dataIndex] = 0;

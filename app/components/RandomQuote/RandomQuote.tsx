@@ -1,4 +1,3 @@
-// @ts-expect-error
 import { useRef, useEffect } from 'react';
 import styles from './RandomQuote.css';
 import Button from '../Button';

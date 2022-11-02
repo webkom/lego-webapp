@@ -316,11 +316,11 @@ type CompanyInterestFormEntity = {
   phone: string;
   semesters: Array<CompanySemesterEntity>;
   events: Array<{
-    name: String;
+    name: string;
     checked: boolean;
   }>;
   otherOffers: Array<{
-    name: String;
+    name: string;
     checked: boolean;
   }>;
   comment: string;

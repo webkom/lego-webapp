@@ -110,13 +110,13 @@ const reducers = {
 };
 export type Reducers = typeof reducers;
 type History = {
-  length: Number;
+  length: number;
   action: string;
   location: LocationType;
   createHref: (location: LocationType) => string;
   push: (path: string, state: Record<string, any>) => void;
   replace: (path: string, state: Record<string, any>) => void;
-  go: (n: Number) => void;
+  go: (n: number) => void;
   goBack: () => void;
   block: (prompt?: boolean) => () => void;
   listen: (listener: () => void) => () => void;

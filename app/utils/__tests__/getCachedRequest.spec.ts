@@ -1,7 +1,7 @@
 import getCachedRequest from '../getCachedRequest';
 import timekeeper from 'timekeeper';
 describe('getCachedRequest', () => {
-  let time = Date.now();
+  const time = Date.now();
   timekeeper.freeze(time);
   it('should return null without endpoint', () => {
     const state = {};

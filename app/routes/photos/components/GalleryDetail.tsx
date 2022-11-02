@@ -23,12 +23,12 @@ type Props = {
   fetching: boolean;
   children: Element<any>;
   fetch: (
-    galleryId: Number,
+    galleryId: number,
     args: {
       next: boolean;
     }
   ) => Promise<any>;
-  clear: (galleryId: Number) => Promise<any>;
+  clear: (galleryId: number) => Promise<any>;
   push: (arg0: string) => Promise<any>;
   uploadAndCreateGalleryPicture: (
     arg0: ID,

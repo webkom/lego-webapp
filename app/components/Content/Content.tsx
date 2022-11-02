@@ -1,5 +1,4 @@
-// @ts-expect-error
-import type { Node } from 'react';
+import type { ReactNode } from 'react';
 import { useState } from 'react';
 import cx from 'classnames';
 import styles from './Content.css';
@@ -14,7 +13,7 @@ type Props = {
   bannerPlaceholder?: string;
   youtubeUrl?: string;
   className?: string;
-  children: Node;
+  children: ReactNode;
 };
 
 /**

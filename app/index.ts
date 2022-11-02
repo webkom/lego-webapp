@@ -13,7 +13,6 @@ import 'app/assets/icon-192x192.png';
 import 'app/assets/icon-256x256.png';
 import 'app/assets/icon-384x384.png';
 import 'app/assets/icon-512x512.png';
-// @ts-expect-error
 import 'app/assets/opensearch.xml';
 import moment from 'moment-timezone';
 import 'moment/locale/nb';
@@ -61,7 +60,6 @@ global.log = function log(self = this) {
   return this;
 };
 
-// @ts-expect-error
 Sentry.init({
   dsn: config.sentryDSN,
   release: config.release,

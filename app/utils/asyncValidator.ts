@@ -1,10 +1,20 @@
-export type AsyncFieldValidator<T = any> = (fieldValue: T, formData: Record<string, any>) => Promise<[true] | [boolean, string]>;
-type FieldValidators = Record<string, AsyncFieldValidator<>[]>;
+export type AsyncFieldValidator<T = any> = (
+  fieldValue: T,
+  formData: Record<string, any>
+) => Promise<[true] | [boolean, string]>;
+type FieldValidators = Record<string, AsyncFieldValidator<unknown>[]>;
 
-const getValidationErrors = async (validators: AsyncFieldValidator<>[], fieldData: any, formData: Record<string, any>): Promise<string[]> => {
-  const validationResults = await Promise.all(validators.map(validator => validator(fieldData, formData)));
-  return validationResults.filter(([isValid]) => !isValid) // $FlowFixMe flow doesn't understand that the filter ensures that error message exists
-  .map(([, error]) => error);
+const getValidationErrors = async (
+  validators: AsyncFieldValidator<unknown>[],
+  fieldData: any,
+  formData: Record<string, any>
+): Promise<string[]> => {
+  const validationResults = await Promise.all(
+    validators.map((validator) => validator(fieldData, formData))
+  );
+  return validationResults
+    .filter(([isValid]) => !isValid) // $FlowFixMe flow doesn't understand that the filter ensures that error message exists
+    .map(([, error]) => error);
 };
 
 const getFieldErrorArray = async (

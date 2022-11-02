@@ -6,11 +6,11 @@ import SelectInput from 'app/components/Form/SelectInput';
 import { createValidator, required } from 'app/utils/validation';
 import { ROLES } from 'app/utils/constants';
 type Props = FormProps & {
-  groupId: Number;
+  groupId: number;
   addMember: (arg0: {
     role: $Keys<typeof ROLES>;
-    userId: Number;
-    groupId: Number;
+    userId: number;
+    groupId: number;
   }) => Promise<any>;
 };
 const roles = Object.keys(ROLES)
@@ -64,7 +64,7 @@ export default legoForm({
       role,
     }: {
       user: {
-        id: Number;
+        id: number;
       };
       role: {
         value: $Keys<typeof ROLES>;

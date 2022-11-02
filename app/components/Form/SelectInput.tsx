@@ -18,7 +18,7 @@ type Props = {
   isValidNewOption: (arg0: string) => boolean;
   value: any;
   disabled?: boolean;
-  options?: {}[];
+  options?: Record<string, any>[];
 };
 export const selectStyles = {
   control: (styles: Record<string, any>) => ({ ...styles, cursor: 'pointer' }),

@@ -5,8 +5,8 @@ import moment from 'moment-timezone';
 // eventStatusType, activationTime, capacity and totalCapacity
 const eventStatus = (
   event: Event,
-  loggedIn: boolean = false,
-  isPill: boolean = false
+  loggedIn = false,
+  isPill = false
 ): string | boolean => {
   const {
     registrationCount,

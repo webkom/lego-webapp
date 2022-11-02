@@ -31,7 +31,7 @@ import { MazemapEmbed } from 'app/components/MazemapEmbed';
 type Props = {
   meeting: Record<string, any>;
   currentUser: UserEntity;
-  showAnswer: Boolean;
+  showAnswer: boolean;
   meetingInvitations: Array<MeetingInvitationEntity>;
   setInvitationStatus: (
     meetingId: number,

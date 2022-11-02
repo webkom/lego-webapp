@@ -36,7 +36,7 @@ export function fetch(
 export function fetchSiblingGallerPicture(
   galleryId: EntityID,
   currentPictureId: EntityID,
-  next: Boolean
+  next: boolean
 ) {
   const rawCursor = `p=${currentPictureId}&r=${next ? 0 : 1}`;
   const cursor = Buffer.from(rawCursor).toString('base64');

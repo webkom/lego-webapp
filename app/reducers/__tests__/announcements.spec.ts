@@ -4,7 +4,7 @@ import timekeeper from 'timekeeper';
 import moment from 'moment';
 describe('reducers', () => {
   describe('announcements', () => {
-    let time = Date.now();
+    const time = Date.now();
     timekeeper.freeze(time);
     it('Announcements.SEND.SUCCESS', () => {
       const prevState = {

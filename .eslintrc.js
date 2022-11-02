@@ -52,6 +52,8 @@ module.exports = {
     'react-app/react/react-in-jsx-scope': 'off',
     'jest/valid-describe': 'off', // valid-describe was replaced by valid-describe-callback, but still needs its rule ...
     'jest/valid-describe-callback': 'error',
+    '@typescript-eslint/no-var-requires': 'off',
+    '@typescript-eslint/no-empty-function': 'off',
   },
   settings: {
     'import/resolver': {

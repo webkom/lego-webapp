@@ -105,7 +105,7 @@ export function editGroup(group: Record<string, any>): Thunk<any> {
 export function joinGroup(
   groupId: number,
   user: Record<string, any>,
-  role: string = 'member'
+  role = 'member'
 ): Thunk<any> {
   return (dispatch) =>
     dispatch(
@@ -155,7 +155,7 @@ export function leaveGroup(
 }
 export function fetchAllMemberships(
   groupId: number,
-  descendants: boolean = false
+  descendants = false
 ): Thunk<any> {
   return (dispatch) => {
     return dispatch(
@@ -172,7 +172,7 @@ export function fetchAllMemberships(
 }
 export function fetchMemberships(
   groupId: number,
-  descendants: boolean = false,
+  descendants = false,
   query: Record<string, any> = {}
 ): Thunk<any> {
   return fetchMembershipsPagination({

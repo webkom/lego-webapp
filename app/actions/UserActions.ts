@@ -219,7 +219,7 @@ export function removePicture(username: string): Thunk<any> {
 export function updatePhotoConsent(
   photoConsent: PhotoConsent,
   username: string,
-  userId: Number
+  userId: number
 ): Thunk<any> {
   const { year, semester, domain, isConsenting } = photoConsent;
   return callAPI({
@@ -269,7 +269,7 @@ export function updatePicture({
     );
   };
 }
-export function fetchUser(username: string = 'me'): Thunk<any> {
+export function fetchUser(username = 'me'): Thunk<any> {
   return callAPI({
     types: User.FETCH,
     endpoint: `/users/${username}/`,

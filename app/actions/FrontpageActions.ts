@@ -15,7 +15,6 @@ export function fetchData(): Thunk<any> {
   });
 }
 const readmeUrl = 'https://readme-as-a-function.abakus.no/';
-// @ts-expect-error
 const readmeFragment = gql`
   fragment readmeFragment on ReadmeUtgave {
     title
@@ -25,7 +24,6 @@ const readmeFragment = gql`
     utgave
   }
 `;
-// @ts-expect-error
 const readmeUtgaver = gql`
   query readmeUtgaver($first: Int) {
     readmeUtgaver(first: $first) {
@@ -35,7 +33,6 @@ const readmeUtgaver = gql`
   ${readmeFragment}
 `;
 export function fetchReadmes(first: number) {
-  // $FlowFixMe
   return async (dispatch) => {
     try {
       dispatch({

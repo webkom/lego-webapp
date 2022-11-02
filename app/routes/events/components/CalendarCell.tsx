@@ -1,4 +1,4 @@
-import moment from 'moment-timezone';
+import moment, { Moment } from 'moment-timezone';
 import { connect } from 'react-redux';
 import cx from 'classnames';
 import { Link } from 'react-router-dom';
@@ -62,7 +62,7 @@ const renderEvent = ({
 );
 
 type CalendarCellProps = {
-  day: moment$Moment;
+  day: Moment;
   className: string;
   prevOrNextMonth: boolean;
   events: Array<Event>;
@@ -110,6 +110,6 @@ function mapStateToProps(state, ownProps) {
   return {
     events: selectEvents(state, ownProps),
   };
-} // @ts-expect-error
+}
 
 export default connect(mapStateToProps)(CalendarCell);

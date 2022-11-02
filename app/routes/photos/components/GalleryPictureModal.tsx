@@ -28,14 +28,14 @@ type Props = {
   comments: Array<Record<string, any>>;
   actionGrant: Array<string>;
   pictures: Array<Record<string, any>>;
-  hasMore: Boolean;
+  hasMore: boolean;
   fetchSiblingGallerPicture: (
     arg0: EntityID,
     arg1: EntityID,
     arg2: boolean
   ) => Promise<any>;
-  isFirstImage: Boolean;
-  isLastImage: Boolean;
+  isFirstImage: boolean;
+  isLastImage: boolean;
   deleteComment: (id: ID, contentTarget: string) => Promise<any>;
 };
 type State = {

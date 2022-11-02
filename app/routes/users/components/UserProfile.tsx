@@ -77,7 +77,7 @@ type Props = {
   updatePhotoConsent: (
     photoConsent: PhotoConsent,
     username: string,
-    userId: Number
+    userId: number
   ) => Promise<any>;
   photoConsents: Array<PhotoConsent>;
 };
@@ -293,8 +293,8 @@ const UserProfile = (props: Props) => {
   );
   const tree = {};
 
-  for (let group of permissionsPerGroup) {
-    for (let index in group.parentPermissions) {
+  for (const group of permissionsPerGroup) {
+    for (const index in group.parentPermissions) {
       const parent = group.parentPermissions[index];
 
       if (Number(index) === 0) {
@@ -313,7 +313,7 @@ const UserProfile = (props: Props) => {
     }
   }
 
-  for (let group of permissionsPerGroup) {
+  for (const group of permissionsPerGroup) {
     tree[group.abakusGroup.id] = {
       ...group.abakusGroup,
       children: [],
@@ -337,7 +337,7 @@ const UserProfile = (props: Props) => {
       parent.children = uniqBy(parent.children.concat(node), (a) => a.id);
     }
 
-    for (let permGroup of val.parentPermissions) {
+    for (const permGroup of val.parentPermissions) {
       const abakusGroup = permGroup.abakusGroup;
       const id = abakusGroup.id;
       const node = tree[id];

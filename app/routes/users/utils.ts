@@ -4,7 +4,7 @@ type Data = {
   lastName?: string;
 };
 export const validPassword =
-  (message: string = 'Passordet er for svakt. Minimum styrke er 3.') =>
+  (message = 'Passordet er for svakt. Minimum styrke er 3.') =>
   async (value: string, data: Data) => {
     if (value === undefined) {
       return [true];

@@ -2,7 +2,7 @@ import fetchHistory from '../fetchHistory';
 import timekeeper from 'timekeeper';
 import { compose } from 'redux';
 describe('fetchHistory', () => {
-  let time = Date.now();
+  const time = Date.now();
   timekeeper.freeze(time);
   beforeEach(() => {
     global.__CLIENT__ = false;

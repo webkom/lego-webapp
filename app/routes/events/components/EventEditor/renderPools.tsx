@@ -104,7 +104,7 @@ const renderPools = ({ fields, startTime, eventStatusType }: poolProps) => (
   </ul>
 );
 
-type PermissionGroup = {};
+type PermissionGroup = unknown;
 type Pool = {
   capacity: number;
   permissionGroups: Array<PermissionGroup>;

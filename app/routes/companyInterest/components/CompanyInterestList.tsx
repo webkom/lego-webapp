@@ -131,7 +131,7 @@ class CompanyInterestList extends Component<Props, State> {
         label: 'Vis alle semestre',
       },
       ...this.props.semesters.map((semesterObj: CompanySemesterEntity) => {
-        let { id, year, semester } = semesterObj;
+        const { id, year, semester } = semesterObj;
         return {
           id,
           value: year,

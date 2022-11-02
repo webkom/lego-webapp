@@ -11,7 +11,7 @@ export function lookupContext(
 export const linkAndText = (
   link: string,
   text: string,
-  linkableContent: boolean = true
+  linkableContent = true
 ): {
   link: string;
   text: string;

@@ -1,6 +1,6 @@
 import { StaticRouter } from 'react-router';
+import { Request, Response } from 'express';
 import RouteConfig from '../app/routes';
-// @ts-expect-error
 import { ReactReduxContext } from 'react-redux';
 import * as Sentry from '@sentry/node';
 import configureStore from '../app/utils/configureStore';
@@ -12,6 +12,8 @@ import { HelmetProvider } from 'react-helmet-async';
 const serverSideTimeoutInMs = 4000;
 export const helmetContext: any = {}; // AntiPattern because of babel
 // https://github.com/babel/babel/issues/3083
+
+type Middleware = (req: Request, res: Response) => any;
 
 class TimeoutError {
   error: Error;
@@ -41,16 +43,16 @@ const prepareWithTimeout = (app) =>
   ]);
 
 const createServerSideRenderer = (
-  req: express$Request,
-  res: express$Response,
-  next: express$Middleware<express$Request, express$Response>
+  req: Request,
+  res: Response,
+  next: Middleware
 ) => {
   const render = (
     app:
       | React.ReactElement<React.ComponentProps<any>, any>
       | null
       | undefined = undefined,
-    state: State | {} = Object.freeze({})
+    state: State | Record<string, never> = Object.freeze({})
   ) => {
     return res.send(
       pageRenderer({
@@ -60,15 +62,15 @@ const createServerSideRenderer = (
     );
   };
 
-  const context = {};
+  const context: Record<string, any> = {};
   const log = req.app.get('log');
 
   const ServerConfig = ({
     req,
     context,
   }: {
-    req: express$Request;
-    context: { [key in any]?: any } & {
+    req: Request;
+    context: { [key: string]: any } & {
       status?: string;
       url?: string;
     };
