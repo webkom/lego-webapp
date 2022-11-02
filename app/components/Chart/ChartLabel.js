@@ -1,0 +1,36 @@
+// @flow
+
+import {
+  CHART_COLORS,
+  DistributionDataPoint,
+} from 'app/components/Chart/utils';
+import { Flex } from 'app/components/Layout';
+
+const ChartLabel = ({
+  distributionData,
+}: {
+  distributionData: DistributionDataPoint[],
+}) => {
+  return (
+    <div>
+      {distributionData.map((dataPoint, i) => (
+        <Flex key={i} alignItems="center">
+          <span
+            style={{
+              backgroundColor: CHART_COLORS[i % CHART_COLORS.length],
+              width: '10px',
+              height: '10px',
+              marginRight: '10px',
+              marginTop: '-5px',
+              display: 'inline-block',
+              borderRadius: '1px',
+            }}
+          />
+          <span> {dataPoint.name}</span>
+        </Flex>
+      ))}
+    </div>
+  );
+};
+
+export default ChartLabel;

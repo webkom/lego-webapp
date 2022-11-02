@@ -90,25 +90,8 @@ export const TokenNavigation = ({
   </NavigationTab>
 );
 export const defaultActiveFrom = (hours: number, minutes: number) =>
-  moment()
-    .startOf('day')
-    .add({
-      day: 1,
-      hours,
-      minutes,
-    })
-    .toISOString();
-export const CHART_COLORS = [
-  'var(--lego-red)',
-  'var(--color-blue-4)',
-  'var(--color-orange-3)',
-  'var(--color-green-5)',
-  'var(--lego-chart-purple)',
-  'var(--lego-chart-yellow)',
-  'var(--lego-chart-green)',
-  '#ff87eb',
-  'var(--color-black)',
-];
+  moment().startOf('day').add({ day: 1, hours, minutes }).toISOString();
+
 export const getCsvUrl = (surveyId: string) =>
   `${config.serverUrl}/surveys/${surveyId}/csv/`;
 export const QuestionTypeOption = ({ iconName, option, ...props }: any) => (
