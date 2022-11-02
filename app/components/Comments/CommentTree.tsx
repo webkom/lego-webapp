@@ -1,12 +1,12 @@
-import cx from "classnames";
-import Comment from "./Comment";
-import styles from "./CommentTree.css";
-import type { UserEntity } from "app/reducers/users";
-import "app/reducers/users";
-import type { CommentEntity } from "app/reducers/comments";
-import "app/reducers/comments";
-import type { ID } from "app/models";
-import "app/models";
+import cx from 'classnames';
+import Comment from './Comment';
+import styles from './CommentTree.css';
+import type { UserEntity } from 'app/reducers/users';
+import 'app/reducers/users';
+import type { CommentEntity } from 'app/reducers/comments';
+import 'app/reducers/comments';
+import type { ID } from 'app/models';
+import 'app/models';
 type Props = {
   comments: Array<CommentEntity>;
   isChild?: boolean;
@@ -28,22 +28,50 @@ function CommentTree({
   level = 0,
   deleteComment,
   user,
-  contentTarget
+  contentTarget,
 }: Props) {
-  const tree = comments.map(comment => {
-    const className = cx(isChild && level < 3 && styles.nested, isChild ? styles.child : styles.root);
+  const tree = comments.map((comment) => {
+    const className = cx(
+      isChild && level < 3 && styles.nested,
+      isChild ? styles.child : styles.root
+    );
 
     if (comment.children.length) {
-      return <div key={comment.id} className={className}>
-          <Comment comment={comment} commentFormProps={commentFormProps} deleteComment={deleteComment} user={user} contentTarget={contentTarget} />
+      return (
+        <div key={comment.id} className={className}>
+          <Comment
+            comment={comment}
+            commentFormProps={commentFormProps}
+            deleteComment={deleteComment}
+            user={user}
+            contentTarget={contentTarget}
+          />
 
-          <CommentTree comments={comment.children} isChild level={level + 1} commentFormProps={commentFormProps} deleteComment={deleteComment} user={user} contentTarget={contentTarget} />
-        </div>;
+          <CommentTree
+            comments={comment.children}
+            isChild
+            level={level + 1}
+            commentFormProps={commentFormProps}
+            deleteComment={deleteComment}
+            user={user}
+            contentTarget={contentTarget}
+          />
+        </div>
+      );
     }
 
-    return <div key={comment.id} className={className}>
-        <Comment key={comment.id} comment={comment} commentFormProps={commentFormProps} deleteComment={deleteComment} user={user} contentTarget={contentTarget} />
-      </div>;
+    return (
+      <div key={comment.id} className={className}>
+        <Comment
+          key={comment.id}
+          comment={comment}
+          commentFormProps={commentFormProps}
+          deleteComment={deleteComment}
+          user={user}
+          contentTarget={contentTarget}
+        />
+      </div>
+    );
   });
   return <div>{tree}</div>;
 }

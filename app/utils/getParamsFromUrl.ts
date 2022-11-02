@@ -2,10 +2,7 @@
 const getParamsFromUrl = (url: string): Record<string, string> => {
   let params = {};
   const urlObj = new URL(url);
-  const {
-    searchParams,
-    hostname
-  } = urlObj;
+  const { searchParams, hostname } = urlObj;
 
   if (hostname === 'youtu.be') {
     params = handleYoutubeUrl(urlObj, params);
@@ -20,10 +17,7 @@ const getParamsFromUrl = (url: string): Record<string, string> => {
 
 // Convert special urls on the form "youtu.be/{id}&t={seconds}" into object
 const handleYoutubeUrl = (urlObj, params) => {
-  const {
-    pathname,
-    search
-  } = urlObj;
+  const { pathname, search } = urlObj;
   const videoId = pathname.substring(1);
   const videoStartTime = search.substring(3);
   params['v'] = videoId;

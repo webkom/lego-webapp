@@ -1,8 +1,8 @@
-import { Component } from "react";
-import moment from "moment-timezone";
-import _ from "lodash";
-import styles from "./LoadingBox.css";
-import walkingImage from "app/assets/man_walking.gif";
+import { Component } from 'react';
+import moment from 'moment-timezone';
+import _ from 'lodash';
+import styles from './LoadingBox.css';
+import walkingImage from 'app/assets/man_walking.gif';
 type Props = {
   onQueueDone: () => void;
 };
@@ -35,7 +35,7 @@ class LoadingBox extends Component<Props, State> {
       expectedArrivalDate,
       secondsLeft: Math.floor(initialTimeLeft / 1000),
       lastUpdateTime: initialDate.format('HH:mm:ss'),
-      queueId: LoadingBox.randomString()
+      queueId: LoadingBox.randomString(),
     };
   }
 
@@ -44,21 +44,13 @@ class LoadingBox extends Component<Props, State> {
   }
 
   updateProgress() {
-    const {
-      onQueueDone
-    } = this.props;
-    const {
-      secondsLeft,
-      initialTimeLeft,
-      expectedArrivalDate
-    } = this.state;
-    let {
-      usersInQueue
-    } = this.state;
+    const { onQueueDone } = this.props;
+    const { secondsLeft, initialTimeLeft, expectedArrivalDate } = this.state;
+    let { usersInQueue } = this.state;
     const now = moment();
     const timeLeft = expectedArrivalDate.diff(now);
     let newSecondsLeft = Math.round(timeLeft / 1000);
-    let progress = 100 - 100 / initialTimeLeft * timeLeft;
+    let progress = 100 - (100 / initialTimeLeft) * timeLeft;
 
     if (progress >= 100) {
       clearInterval(this.interval);
@@ -67,7 +59,11 @@ class LoadingBox extends Component<Props, State> {
     }
 
     // Change users in queue every 5 seconds if usersInQueue is higher than 15.
-    if (secondsLeft !== newSecondsLeft && secondsLeft % 5 === 0 && usersInQueue > 15) {
+    if (
+      secondsLeft !== newSecondsLeft &&
+      secondsLeft % 5 === 0 &&
+      usersInQueue > 15
+    ) {
       // Between 10 and 25
       const randomCount = _.random(10, 25);
 
@@ -87,7 +83,7 @@ class LoadingBox extends Component<Props, State> {
       progress,
       usersInQueue,
       secondsLeft: newSecondsLeft,
-      lastUpdateTime: now.format('HH:mm:ss')
+      lastUpdateTime: now.format('HH:mm:ss'),
     });
   }
 
@@ -101,18 +97,17 @@ class LoadingBox extends Component<Props, State> {
   }
 
   render() {
-    const {
-      onQueueDone
-    } = this.props;
+    const { onQueueDone } = this.props;
     const {
       progress,
       usersInQueue,
       expectedArrivalDate,
       secondsLeft,
       lastUpdateTime,
-      queueId
+      queueId,
     } = this.state;
-    return <div className={styles.container}>
+    return (
+      <div className={styles.container}>
         <div className={styles.header}>
           <div className={styles.whatIsThis} title="Moro 😊">
             Hva er dette?
@@ -130,9 +125,12 @@ class LoadingBox extends Component<Props, State> {
             Du er på websiden om: {secondsLeft} sekunder
           </div>
           <div className={styles.progressBar}>
-            <div className={styles.progress} style={{
-            width: `${progress}%`
-          }}>
+            <div
+              className={styles.progress}
+              style={{
+                width: `${progress}%`,
+              }}
+            >
               <div className={styles.runner}>
                 <img src={walkingImage} alt="" />
               </div>
@@ -148,9 +146,9 @@ class LoadingBox extends Component<Props, State> {
           <div>Kø-ID: {queueId}</div>
           <div>Webkom queue system</div>
         </div>
-      </div>;
+      </div>
+    );
   }
-
 }
 
 export default LoadingBox;

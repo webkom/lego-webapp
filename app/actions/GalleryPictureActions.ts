@@ -1,36 +1,43 @@
-import { GalleryPicture, Gallery } from "./ActionTypes";
-import { galleryPictureSchema } from "app/reducers";
-import { uploadFile } from "./FileActions";
-import PromisePool from "es6-promise-pool";
-import type { GalleryPictureEntity } from "app/reducers/galleryPictures";
-import "app/reducers/galleryPictures";
-import callAPI from "app/actions/callAPI";
-import type { EntityID, Thunk } from "app/types";
-export function fetch(galleryId: number, {
-  next,
-  filters
-}: {
-  next: boolean;
-  filters: Record<string, any>;
-} = {}): Thunk<any> {
+import { GalleryPicture, Gallery } from './ActionTypes';
+import { galleryPictureSchema } from 'app/reducers';
+import { uploadFile } from './FileActions';
+import PromisePool from 'es6-promise-pool';
+import type { GalleryPictureEntity } from 'app/reducers/galleryPictures';
+import 'app/reducers/galleryPictures';
+import callAPI from 'app/actions/callAPI';
+import type { EntityID, Thunk } from 'app/types';
+export function fetch(
+  galleryId: number,
+  {
+    next,
+    filters,
+  }: {
+    next: boolean;
+    filters: Record<string, any>;
+  } = {}
+): Thunk<any> {
   return (dispatch, getState) => {
     const cursor = next ? getState().galleryPictures.pagination.next : {};
-    return dispatch(callAPI({
-      types: GalleryPicture.FETCH,
-      endpoint: `/galleries/${galleryId}/pictures/`,
-      useCache: false,
-      query: { ...cursor,
-        ...filters
-      },
-      schema: [galleryPictureSchema],
-      meta: {
-        errorMessage: 'Henting av bilder feilet'
-      },
-      propagateError: true
-    }));
+    return dispatch(
+      callAPI({
+        types: GalleryPicture.FETCH,
+        endpoint: `/galleries/${galleryId}/pictures/`,
+        useCache: false,
+        query: { ...cursor, ...filters },
+        schema: [galleryPictureSchema],
+        meta: {
+          errorMessage: 'Henting av bilder feilet',
+        },
+        propagateError: true,
+      })
+    );
   };
 }
-export function fetchSiblingGallerPicture(galleryId: EntityID, currentPictureId: EntityID, next: Boolean) {
+export function fetchSiblingGallerPicture(
+  galleryId: EntityID,
+  currentPictureId: EntityID,
+  next: Boolean
+) {
   const rawCursor = `p=${currentPictureId}&r=${next ? 0 : 1}`;
   const cursor = Buffer.from(rawCursor).toString('base64');
   return callAPI({
@@ -38,27 +45,32 @@ export function fetchSiblingGallerPicture(galleryId: EntityID, currentPictureId:
     endpoint: `/galleries/${galleryId}/pictures/`,
     query: {
       page_size: 1,
-      cursor
+      cursor,
     },
     schema: [galleryPictureSchema],
     meta: {
-      errorMessage: 'Henting av bilde feilet'
+      errorMessage: 'Henting av bilde feilet',
     },
-    propagateError: true
+    propagateError: true,
   });
 }
-export function fetchGalleryPicture(galleryId: EntityID, pictureId: EntityID): Thunk<any> {
+export function fetchGalleryPicture(
+  galleryId: EntityID,
+  pictureId: EntityID
+): Thunk<any> {
   return callAPI({
     types: GalleryPicture.FETCH,
     endpoint: `/galleries/${galleryId}/pictures/${pictureId}/`,
     schema: galleryPictureSchema,
     meta: {
-      errorMessage: 'Henting av galleri feilet'
+      errorMessage: 'Henting av galleri feilet',
     },
-    propagateError: true
+    propagateError: true,
   });
 }
-export function updatePicture(galleryPicture: GalleryPictureEntity): Thunk<any> {
+export function updatePicture(
+  galleryPicture: GalleryPictureEntity
+): Thunk<any> {
   return callAPI({
     types: GalleryPicture.EDIT,
     endpoint: `/galleries/${galleryPicture.gallery}/pictures/${galleryPicture.id}/`,
@@ -68,11 +80,14 @@ export function updatePicture(galleryPicture: GalleryPictureEntity): Thunk<any> 
     meta: {
       galleryId: galleryPicture.gallery,
       id: galleryPicture.id,
-      errorMessage: 'Oppdatering av bilde i galleriet feilet'
-    }
+      errorMessage: 'Oppdatering av bilde i galleriet feilet',
+    },
   });
 }
-export function deletePicture(galleryId: EntityID, pictureId: EntityID): Thunk<any> {
+export function deletePicture(
+  galleryId: EntityID,
+  pictureId: EntityID
+): Thunk<any> {
   return callAPI({
     types: GalleryPicture.DELETE,
     endpoint: `/galleries/${galleryId}/pictures/${pictureId}/`,
@@ -82,8 +97,8 @@ export function deletePicture(galleryId: EntityID, pictureId: EntityID): Thunk<a
       galleryId: galleryId,
       id: pictureId,
       errorMessage: 'Sletting av bilde i galleriet feilet',
-      successMessage: 'Bildet ble slettet!'
-    }
+      successMessage: 'Bildet ble slettet!',
+    },
   });
 }
 export function CreateGalleryPicture(galleryPicture: {
@@ -97,36 +112,41 @@ export function CreateGalleryPicture(galleryPicture: {
     body: galleryPicture,
     meta: {
       galleryId: galleryPicture.galleryId,
-      errorMessage: 'Legg til bilde i galleriet feilet'
-    }
+      errorMessage: 'Legg til bilde i galleriet feilet',
+    },
   });
 }
 const MAX_UPLOADS = 3;
 
 function uploadGalleryPicturesInTurn(files, galleryId, dispatch) {
-  const uploadPicture = async file => {
-    const action = await dispatch(uploadFile({
-      file,
-      timeout: 3 * 60 * 1000
-    }));
+  const uploadPicture = async (file) => {
+    const action = await dispatch(
+      uploadFile({
+        file,
+        timeout: 3 * 60 * 1000,
+      })
+    );
     if (!action || !action.meta) return;
-    return dispatch(CreateGalleryPicture({
-      galleryId,
-      file: action.meta.fileToken,
-      active: true
-    }));
+    return dispatch(
+      CreateGalleryPicture({
+        galleryId,
+        file: action.meta.fileToken,
+        active: true,
+      })
+    );
   };
 
-  const uploadPictureWithErrorhandler = file => uploadPicture(file).catch(error => {
-    dispatch({
-      type: GalleryPicture.UPLOAD.FAILURE,
-      error: true,
-      meta: {
-        fileName: file.name,
-        errorMessage: 'Opplasting av bilde feilet.'
-      }
+  const uploadPictureWithErrorhandler = (file) =>
+    uploadPicture(file).catch((error) => {
+      dispatch({
+        type: GalleryPicture.UPLOAD.FAILURE,
+        error: true,
+        meta: {
+          fileName: file.name,
+          errorMessage: 'Opplasting av bilde feilet.',
+        },
+      });
     });
-  });
 
   const promiseProducer = function* () {
     for (const file of files) {
@@ -139,22 +159,26 @@ function uploadGalleryPicturesInTurn(files, galleryId, dispatch) {
   return new PromisePool(() => _data.next().value, MAX_UPLOADS).start();
 }
 
-export function uploadAndCreateGalleryPicture(galleryId: number, files: Array<Record<string, any>>): Thunk<any> {
-  return dispatch => {
+export function uploadAndCreateGalleryPicture(
+  galleryId: number,
+  files: Array<Record<string, any>>
+): Thunk<any> {
+  return (dispatch) => {
     dispatch({
       type: Gallery.UPLOAD.BEGIN,
       meta: {
-        imageCount: files.length
-      }
+        imageCount: files.length,
+      },
     });
     return uploadGalleryPicturesInTurn(files, galleryId, dispatch);
   };
 }
 export function clear(galleryId: number): Thunk<any> {
-  return dispatch => dispatch({
-    type: GalleryPicture.CLEAR,
-    meta: {
-      id: galleryId
-    }
-  });
+  return (dispatch) =>
+    dispatch({
+      type: GalleryPicture.CLEAR,
+      meta: {
+        id: galleryId,
+      },
+    });
 }

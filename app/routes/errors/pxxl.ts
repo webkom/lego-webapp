@@ -46,7 +46,10 @@ ParseState.prototype.from = function (index) {
 };
 
 ParseState.prototype.substring = function (start, end) {
-  return this.input.substring(start + this.index, (end || this.length) + this.index);
+  return this.input.substring(
+    start + this.index,
+    (end || this.length) + this.index
+  );
 };
 
 ParseState.prototype.trimLeft = function () {
@@ -66,13 +69,15 @@ ParseState.prototype.toString = function () {
 ParseState.prototype.getCached = function (pid) {
   if (!memoize) return false;
   var p = this.cache[pid];
-  if (p) return p[this.index];else return false;
+  if (p) return p[this.index];
+  else return false;
 };
 
 ParseState.prototype.putCached = function (pid, cached) {
   if (!memoize) return false;
   var p = this.cache[pid];
-  if (p) p[this.index] = cached;else {
+  if (p) p[this.index] = cached;
+  else {
     p = this.cache[pid] = {};
     p[this.index] = cached;
   }
@@ -90,7 +95,7 @@ function make_result(r, matched, ast) {
   return {
     remaining: r,
     matched: matched,
-    ast: ast
+    ast: ast,
   };
 }
 
@@ -105,11 +110,13 @@ function token(s) {
     var cached = savedState.getCached(pid);
     if (cached) return cached;
     var r = state.length >= s.length && state.substring(0, s.length) == s;
-    if (r) cached = {
-      remaining: state.from(s.length),
-      matched: s,
-      ast: s
-    };else cached = false;
+    if (r)
+      cached = {
+        remaining: state.from(s.length),
+        matched: s,
+        ast: s,
+      };
+    else cached = false;
     savedState.putCached(pid, cached);
     return cached;
   };
@@ -124,11 +131,13 @@ function ch(c) {
     var cached = savedState.getCached(pid);
     if (cached) return cached;
     var r = state.length >= 1 && state.at(0) == c;
-    if (r) cached = {
-      remaining: state.from(1),
-      matched: c,
-      ast: c
-    };else cached = false;
+    if (r)
+      cached = {
+        remaining: state.from(1),
+        matched: c,
+        ast: c,
+      };
+    else cached = false;
     savedState.putCached(pid, cached);
     return cached;
   };
@@ -143,13 +152,16 @@ function range(lower, upper) {
     var savedState = state;
     var cached = savedState.getCached(pid);
     if (cached) return cached;
-    if (state.length < 1) cached = false;else {
+    if (state.length < 1) cached = false;
+    else {
       var ch = state.at(0);
-      if (ch >= lower && ch <= upper) cached = {
-        remaining: state.from(1),
-        matched: ch,
-        ast: ch
-      };else cached = false;
+      if (ch >= lower && ch <= upper)
+        cached = {
+          remaining: state.from(1),
+          matched: ch,
+          ast: ch,
+        };
+      else cached = false;
     }
     savedState.putCached(pid, cached);
     return cached;
@@ -218,9 +230,13 @@ function join_action(p, sep) {
 //   MemberExpression . Identifier
 //   new MemberExpression Arguments
 function left_factor(ast) {
-  return foldl(function (v, action) {
-    return [v, action];
-  }, ast[0], ast[1]);
+  return foldl(
+    function (v, action) {
+      return [v, action];
+    },
+    ast[0],
+    ast[1]
+  );
 }
 
 // Return a parser that left factors the ast result of the original
@@ -242,7 +258,8 @@ function negate(p) {
 
     if (state.length >= 1) {
       var r = p(state);
-      if (!r) cached = make_result(state.from(1), state.at(0), state.at(0));else cached = false;
+      if (!r) cached = make_result(state.from(1), state.at(0), state.at(0));
+      else cached = false;
     } else {
       cached = false;
     }
@@ -254,7 +271,8 @@ function negate(p) {
 
 // 'end_p' is a parser that is successful if the input string is empty (ie. end of parse).
 function end_p(state) {
-  if (state.length == 0) return make_result(state, undefined, undefined);else return false;
+  if (state.length == 0) return make_result(state, undefined, undefined);
+  else return false;
 }
 
 // 'nothing_p' is a parser that always fails.
@@ -268,7 +286,8 @@ function nothing_p(state) {
 function sequence() {
   var parsers = [];
 
-  for (var i = 0; i < arguments.length; ++i) parsers.push(toParser(arguments[i]));
+  for (var i = 0; i < arguments.length; ++i)
+    parsers.push(toParser(arguments[i]));
 
   var pid = parser_id++;
   return function (state) {
@@ -326,7 +345,8 @@ function wsequence() {
 function choice() {
   var parsers = [];
 
-  for (var i = 0; i < arguments.length; ++i) parsers.push(toParser(arguments[i]));
+  for (var i = 0; i < arguments.length; ++i)
+    parsers.push(toParser(arguments[i]));
 
   var pid = parser_id++;
   return function (state) {
@@ -348,7 +368,8 @@ function choice() {
       }
     }
 
-    if (i == parsers.length) cached = false;else cached = result;
+    if (i == parsers.length) cached = false;
+    else cached = result;
     savedState.putCached(pid, cached);
     return cached;
   };
@@ -376,7 +397,8 @@ function butnot(p1, p2) {
       var ar = p1(state);
 
       if (ar) {
-        if (ar.matched.length > br.matched.length) cached = ar;else cached = false;
+        if (ar.matched.length > br.matched.length) cached = ar;
+        else cached = false;
       } else {
         cached = false;
       }
@@ -406,7 +428,8 @@ function difference(p1, p2) {
       cached = p1(state);
     } else {
       var ar = p1(state);
-      if (ar.matched.length >= br.matched.length) cached = br;else cached = ar;
+      if (ar.matched.length >= br.matched.length) cached = br;
+      else cached = ar;
     }
 
     savedState.putCached(pid, cached);
@@ -428,7 +451,8 @@ function xor(p1, p2) {
     if (cached) return cached;
     var ar = p1(state);
     var br = p2(state);
-    if (ar && br) cached = false;else cached = ar || br;
+    if (ar && br) cached = false;
+    else cached = ar || br;
     savedState.putCached(pid, cached);
     return cached;
   };
@@ -451,7 +475,7 @@ function repeat0(p) {
     var matched = '';
     var result;
 
-    while (result = p(state)) {
+    while ((result = p(state))) {
       ast.push(result.ast);
       matched = matched + result.matched;
       if (result.remaining.index == state.index) break;
@@ -476,7 +500,8 @@ function repeat1(p) {
     var ast = [];
     var matched = '';
     var result = p(state);
-    if (!result) cached = false;else {
+    if (!result) cached = false;
+    else {
       while (result) {
         ast.push(result.ast);
         matched = matched + result.matched;
@@ -520,9 +545,12 @@ function expect(p) {
 
 function chain(p, s, f) {
   var p = toParser(p);
-  return action(sequence(p, repeat0(action(sequence(s, p), f))), function (ast) {
-    return [ast[0]].concat(ast[1]);
-  });
+  return action(
+    sequence(p, repeat0(action(sequence(s, p), f))),
+    function (ast) {
+      return [ast[0]].concat(ast[1]);
+    }
+  );
 }
 
 // A parser combinator to do left chaining and evaluation. Like 'chain', it expects a parser
@@ -533,9 +561,13 @@ function chain(p, s, f) {
 function chainl(p, s) {
   var p = toParser(p);
   return action(sequence(p, repeat0(sequence(s, p))), function (ast) {
-    return foldl(function (v, action) {
-      return action[0](v, action[1]);
-    }, ast[0], ast[1]);
+    return foldl(
+      function (v, action) {
+        return action[0](v, action[1]);
+      },
+      ast[0],
+      ast[1]
+    );
   });
 }
 
@@ -659,7 +691,8 @@ Pxxl.Font.prototype = {
     var c = text.charCodeAt(t);
     //console.log(t);
     var g = this.glyphs[c];
-    if (g) return g.bit(row, column % 8);else return false;
+    if (g) return g.bit(row, column % 8);
+    else return false;
   },
   getPixels: function (text) {
     //console.log(text, x,y, maxWidth);
@@ -667,7 +700,10 @@ Pxxl.Font.prototype = {
     var hspacing = this.FONTBOUNDINGBOX[0];
     var pixels = [];
 
-    for (var t = 0; t < text.length; t++ // characters in a string x
+    for (
+      var t = 0;
+      t < text.length;
+      t++ // characters in a string x
     ) {
       var chr = text.charCodeAt(t);
       var glyph = this.glyphs[chr];
@@ -675,19 +711,25 @@ Pxxl.Font.prototype = {
       var dx = t * hspacing;
       var dy = this.defaultHeight() - glyph.height(); // some glyphs have fewer rows
 
-      for (var r = 0; r < bitmap.length; r++ // pixelrows in a glyph y
+      for (
+        var r = 0;
+        r < bitmap.length;
+        r++ // pixelrows in a glyph y
       ) {
         var row = bitmap[r];
 
-        for (var b = 0; b < row.length; b++ // bytes in a row x
+        for (
+          var b = 0;
+          b < row.length;
+          b++ // bytes in a row x
         ) {
           var byt = row[b];
           var offset = b * 8; //consecutive bytes are drawn next to each other
 
           var bit = 256;
 
-          while (bit >>>= 1) // bits in a byte x
-          {
+          while ((bit >>>= 1)) {
+            // bits in a byte x
             if (byt & bit) {
               var px = dx + offset;
               var py = dy + r;
@@ -695,7 +737,7 @@ Pxxl.Font.prototype = {
                 x: px,
                 y: py,
                 row: r,
-                column: offset
+                column: offset,
               });
             }
 
@@ -706,7 +748,7 @@ Pxxl.Font.prototype = {
     }
 
     return pixels;
-  }
+  },
 };
 
 Pxxl.Glyph = function (name, bitmap) {
@@ -717,14 +759,15 @@ Pxxl.Glyph = function (name, bitmap) {
 
 Pxxl.Glyph.prototype = {
   set: function (x, y, value) {
-    var bit = 1 << this.width() - x - 1;
+    var bit = 1 << (this.width() - x - 1);
     var byt = ~~(bit / 256);
     bit %= (byt + 1) * 256;
     //console.log(this.bitmap);
-    if (value) this.bitmap[y][byt] |= bit;else this.bitmap[y][byt] &= ~bit; //console.log(this.bitmap);
+    if (value) this.bitmap[y][byt] |= bit;
+    else this.bitmap[y][byt] &= ~bit; //console.log(this.bitmap);
   },
   get: function (x, y) {
-    var bit = 1 << this.width() - x - 1;
+    var bit = 1 << (this.width() - x - 1);
     var byt = ~~(bit / 256);
     bit %= (byt + 1) * 256;
     var result = this.bitmap[y][byt] & bit;
@@ -749,7 +792,7 @@ Pxxl.Glyph.prototype = {
     }
 
     return result;
-  }
+  },
 };
 
 (function () {
@@ -785,7 +828,40 @@ Pxxl.Glyph.prototype = {
   var GREATER_THAN = ch('>');
   var QUESTION_MARK = ch('?');
   var SLASH = ch('/');
-  var SpecialChar = choice(EXCLAMATION_MARK, AT, HASH, DOLLAR, PERCENT, CARET, AMPERSAND, ASTERISK, LEFT_PARENTHESIS, RIGHT_PARENTHESIS, MINUS, UNDERSCORE, PLUS, EQUALS, LEFT_ACCOLADE, RIGHT_ACCOLADE, LEFT_BRACKET, RIGHT_BRACKET, COLON, SEMICOLON, QUOTE, DOUBLE_QUOTE, PIPE, BACKSLASH, TILDE, BACKTICK, COMMA, PERIOD, LESS_THAN, GREATER_THAN, QUESTION_MARK, SLASH);
+  var SpecialChar = choice(
+    EXCLAMATION_MARK,
+    AT,
+    HASH,
+    DOLLAR,
+    PERCENT,
+    CARET,
+    AMPERSAND,
+    ASTERISK,
+    LEFT_PARENTHESIS,
+    RIGHT_PARENTHESIS,
+    MINUS,
+    UNDERSCORE,
+    PLUS,
+    EQUALS,
+    LEFT_ACCOLADE,
+    RIGHT_ACCOLADE,
+    LEFT_BRACKET,
+    RIGHT_BRACKET,
+    COLON,
+    SEMICOLON,
+    QUOTE,
+    DOUBLE_QUOTE,
+    PIPE,
+    BACKSLASH,
+    TILDE,
+    BACKTICK,
+    COMMA,
+    PERIOD,
+    LESS_THAN,
+    GREATER_THAN,
+    QUESTION_MARK,
+    SLASH
+  );
   var Digit = range('0', '9');
   var LowerCase = range('a', 'z');
   var UpperCase = range('A', 'Z');
@@ -799,7 +875,14 @@ Pxxl.Glyph.prototype = {
   var Spaces = flatten(repeat1(Space));
   var Text = flatten(repeat1(Char));
   var EOL = sequence(repeat0(Space), NEWLINE);
-  var QUOTED_STRING = pick(1, sequence(DOUBLE_QUOTE, flatten(repeat1(butnot(Char, DOUBLE_QUOTE))), DOUBLE_QUOTE));
+  var QUOTED_STRING = pick(
+    1,
+    sequence(
+      DOUBLE_QUOTE,
+      flatten(repeat1(butnot(Char, DOUBLE_QUOTE))),
+      DOUBLE_QUOTE
+    )
+  );
   var HexDigit = choice(range('a', 'f'), range('A', 'F'), Digit);
   var Byte = action(flatten(sequence(HexDigit, HexDigit)), function (s) {
     return parseInt(s, 16);
@@ -811,32 +894,60 @@ Pxxl.Glyph.prototype = {
   //var Word = flatten(repeat1(Alpha));
   //var PropName = flatten(sequence(Alpha, flatten(repeat0(choice(Alpha, UNDERSCORE)))));
   var PropName = flatten(repeat1(choice(Alpha, UNDERSCORE)));
-  var Prop1 = action(sequence(PropName, repeat1(pick(1, sequence(Spaces, Integer)))), MakeProp1);
+  var Prop1 = action(
+    sequence(PropName, repeat1(pick(1, sequence(Spaces, Integer)))),
+    MakeProp1
+  );
   var Prop2 = action(sequence(PropName, Spaces, QUOTED_STRING), MakeProp2);
-  var Prop3 = action(sequence(PropName, Spaces, flatten(repeat1(NoSpaceChar))), MakeProp2);
+  var Prop3 = action(
+    sequence(PropName, Spaces, flatten(repeat1(NoSpaceChar))),
+    MakeProp2
+  );
   var ENDPROPERTIES = token('ENDPROPERTIES');
   var Prop = trace(choice(Prop1, Prop2, Prop3, ENDPROPERTIES), 'prop');
   var PropRow = pick(0, sequence(Prop, EOL));
   var BitmapRow = pick(0, sequence(ByteArray, EOL));
   var BITMAP = token('BITMAP');
   var BitmapStart = sequence(BITMAP, EOL);
-  var Bitmap = trace(pick(1, sequence(BitmapStart, repeat0(BitmapRow))), 'bitmap');
+  var Bitmap = trace(
+    pick(1, sequence(BitmapStart, repeat0(BitmapRow))),
+    'bitmap'
+  );
   var STARTCHAR = token('STARTCHAR');
   var ENDCHAR = token('ENDCHAR');
-  var GlyphStart = trace(pick(2, sequence(STARTCHAR, Space, Text, EOL)), 'glyphstart');
+  var GlyphStart = trace(
+    pick(2, sequence(STARTCHAR, Space, Text, EOL)),
+    'glyphstart'
+  );
   var GlyphEnd = sequence(ENDCHAR, EOL);
-  var Glyph = trace(action(sequence(GlyphStart, repeat0(PropRow), Bitmap, GlyphEnd), MakeGlyph), 'glyph');
+  var Glyph = trace(
+    action(sequence(GlyphStart, repeat0(PropRow), Bitmap, GlyphEnd), MakeGlyph),
+    'glyph'
+  );
   //var Glyph = action(_Glyph, function(ast) { console.log(ast)} );
   var STARTFONT = token('STARTFONT');
   var ENDFONT = token('ENDFONT');
   var Version = flatten(sequence(Natural, PERIOD, Natural));
-  var FontStart = trace(pick(2, sequence(STARTFONT, Spaces, Version, EOL)), 'fontstart');
+  var FontStart = trace(
+    pick(2, sequence(STARTFONT, Spaces, Version, EOL)),
+    'fontstart'
+  );
   var FontEnd = trace(sequence(ENDFONT, optional(EOL)), 'fontend'); // EOL optional for now
 
   var COMMENT = token('COMMENT');
   var Comment = pick(2, sequence(COMMENT, optional(Space), optional(Text)));
   var CommentRow = trace(pick(0, sequence(Comment, EOL)), 'comment');
-  var BDF = action(sequence(repeat0(CommentRow), FontStart, repeat0(CommentRow), repeat0(butnot(PropRow, GlyphStart)), repeat0(Glyph), FontEnd), MakeFont);
+  var BDF = action(
+    sequence(
+      repeat0(CommentRow),
+      FontStart,
+      repeat0(CommentRow),
+      repeat0(butnot(PropRow, GlyphStart)),
+      repeat0(Glyph),
+      FontEnd
+    ),
+    MakeFont
+  );
 
   // empty container is allowed
   // input: sequence( FontStart, repeat0(CommentRow), repeat0(butnot(PropRow, GlyphStart)), repeat0(Glyph), FontEnd)
@@ -859,7 +970,7 @@ Pxxl.Glyph.prototype = {
     g = PropertyBagMixin(g, properties);
     return {
       name: g['ENCODING'],
-      value: g
+      value: g,
     };
   }
 
@@ -891,14 +1002,14 @@ Pxxl.Glyph.prototype = {
     if (name == 'ENCODING' || name == 'CHARS') value = value[0];
     return {
       name: name,
-      value: value
+      value: value,
     };
   }
 
   function MakeProp2(ast) {
     return {
       name: ast[0],
-      value: ast[2]
+      value: ast[2],
     };
   }
 
@@ -926,7 +1037,8 @@ Pxxl.Glyph.prototype = {
         console.error(label, 'failed at line', lines.length, state);
       }
 
-      if (result.ast && traceall) console.log(label, 'matches', result.matched, '\nAST:', result.ast);
+      if (result.ast && traceall)
+        console.log(label, 'matches', result.matched, '\nAST:', result.ast);
       return result;
     };
   }
@@ -936,7 +1048,8 @@ Pxxl.Glyph.prototype = {
 
     for (var l = lines.length - 1; l >= 0; l--) {
       var line = ltrim(lines[l]);
-      if (line == '') lines.splice(l, 1);else lines[l] = line;
+      if (line == '') lines.splice(l, 1);
+      else lines[l] = line;
     }
 
     return lines.join('\n');
@@ -991,7 +1104,8 @@ Pxxl.Font.ParseJSON = function (obj) {
 
   for (var g in obj.glyphs) {
     //console.log(g);
-    if (obj.glyphs.hasOwnProperty(g)) f.glyphs[g] = Pxxl.Glyph.ParseJSON(obj.glyphs[g]);
+    if (obj.glyphs.hasOwnProperty(g))
+      f.glyphs[g] = Pxxl.Glyph.ParseJSON(obj.glyphs[g]);
   }
 
   return f;
@@ -1005,7 +1119,8 @@ Pxxl.Font.ParseJSON = function (obj) {
     var method = postData ? 'POST' : 'GET';
     req.open(method, url, true);
     //req.setRequestHeader('User-Agent','XMLHTTP/1.0');
-    if (postData) req.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    if (postData)
+      req.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 
     req.onreadystatechange = function () {
       if (req.readyState != 4) return;
@@ -1022,9 +1137,11 @@ Pxxl.Font.ParseJSON = function (obj) {
     req.send(postData);
   }
 
-  var XMLHttpFactories = [function () {
-    return new XMLHttpRequest();
-  }];
+  var XMLHttpFactories = [
+    function () {
+      return new XMLHttpRequest();
+    },
+  ];
 
   function createXMLHTTPObject() {
     var xmlhttp = false;

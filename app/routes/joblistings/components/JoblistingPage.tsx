@@ -1,14 +1,12 @@
-import { Helmet } from "react-helmet-async";
-import styles from "./JoblistingPage.css";
-import LoadingIndicator from "app/components/LoadingIndicator/";
-import JoblistingsList from "./JoblistingList";
-import JoblistingsRightNav from "./JoblistingRightNav";
-import { Flex } from "app/components/Layout";
-import type { ActionGrant } from "app/models";
+import { Helmet } from 'react-helmet-async';
+import styles from './JoblistingPage.css';
+import LoadingIndicator from 'app/components/LoadingIndicator/';
+import JoblistingsList from './JoblistingList';
+import JoblistingsRightNav from './JoblistingRightNav';
+import { Flex } from 'app/components/Layout';
+import type { ActionGrant } from 'app/models';
 type Props = {
-  joblistings: Array<
-  /*TODO: JobListing*/
-  any>;
+  joblistings: Array</*TODO: JobListing*/ any>;
   search: Record<string, any>;
   actionGrant: ActionGrant;
   history: Record<string, any>;
@@ -18,19 +16,25 @@ const JoblistingsPage = ({
   joblistings,
   search,
   actionGrant,
-  history
+  history,
 }: Props) => {
   if (!joblistings) {
     return <LoadingIndicator loading />;
   }
 
-  return <div className={styles.root}>
+  return (
+    <div className={styles.root}>
       <Helmet title="Karriere" />
       <Flex className={styles.page}>
         <JoblistingsList joblistings={joblistings} />
-        <JoblistingsRightNav query={search} actionGrant={actionGrant} history={history} />
+        <JoblistingsRightNav
+          query={search}
+          actionGrant={actionGrant}
+          history={history}
+        />
       </Flex>
-    </div>;
+    </div>
+  );
 };
 
 export default JoblistingsPage;

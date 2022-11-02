@@ -1,12 +1,12 @@
-import { Component } from "react";
-import { compose } from "redux";
-import { connect } from "react-redux";
-import type { FormProps } from "redux-form";
-import { reduxForm, Field, SubmissionError } from "redux-form";
-import { sendRegistrationEmail } from "app/actions/UserActions";
-import { Form, TextInput, Captcha } from "../Form";
-import Button from "../Button";
-import { createValidator, required, isEmail } from "app/utils/validation";
+import { Component } from 'react';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import type { FormProps } from 'redux-form';
+import { reduxForm, Field, SubmissionError } from 'redux-form';
+import { sendRegistrationEmail } from 'app/actions/UserActions';
+import { Form, TextInput, Captcha } from '../Form';
+import Button from '../Button';
+import { createValidator, required, isEmail } from 'app/utils/validation';
 type Props = {
   sendRegistrationEmail: (arg0: {
     email: string;
@@ -20,7 +20,7 @@ type State = {
 class RegisterForm extends Component<Props, State> {
   mounted = false;
   state = {
-    submitted: false
+    submitted: false,
   };
 
   componentDidMount() {
@@ -31,54 +31,65 @@ class RegisterForm extends Component<Props, State> {
     this.mounted = false;
   }
 
-  onSubmit = data => {
-    return this.props.sendRegistrationEmail(data).then(() => {
-      if (this.mounted) {
-        this.setState({
-          submitted: true
-        });
-      }
-    }).catch(err => {
-      if (this.mounted && err.payload && err.payload.response) {
-        throw new SubmissionError(err.payload.response.jsonData);
-      }
-    });
+  onSubmit = (data) => {
+    return this.props
+      .sendRegistrationEmail(data)
+      .then(() => {
+        if (this.mounted) {
+          this.setState({
+            submitted: true,
+          });
+        }
+      })
+      .catch((err) => {
+        if (this.mounted && err.payload && err.payload.response) {
+          throw new SubmissionError(err.payload.response.jsonData);
+        }
+      });
   };
 
   render() {
-    const {
-      handleSubmit,
-      invalid,
-      pristine,
-      submitting
-    } = this.props;
+    const { handleSubmit, invalid, pristine, submitting } = this.props;
 
     if (this.state.submitted) {
-      return <div>
+      return (
+        <div>
           Vi har sendt en e-post til deg hvor du kan fortsette registreringen.
-        </div>;
+        </div>
+      );
     }
 
-    return <Form onSubmit={handleSubmit(this.onSubmit)} onClick={e => e.stopPropagation()}>
+    return (
+      <Form
+        onSubmit={handleSubmit(this.onSubmit)}
+        onClick={(e) => e.stopPropagation()}
+      >
         <Field name="email" component={TextInput.Field} placeholder="E-post" />
-        <Field name="captchaResponse" fieldStyle={{
-        width: 304
-      }} component={Captcha.Field} />
+        <Field
+          name="captchaResponse"
+          fieldStyle={{
+            width: 304,
+          }}
+          component={Captcha.Field}
+        />
         <Button dark submit disabled={invalid || pristine || submitting}>
           Registrer deg
         </Button>
-      </Form>;
+      </Form>
+    );
   }
-
 }
 
 const validate = createValidator({
   email: [required(), isEmail()],
-  captchaResponse: [required('Captcha er ikke validert')]
+  captchaResponse: [required('Captcha er ikke validert')],
 });
-export default compose(connect<any, any, any, any, any, any>(null, {
-  sendRegistrationEmail
-}), reduxForm({
-  form: 'RegisterForm',
-  validate
-}))(RegisterForm);
+export default compose(
+  connect<any, any, any, any, any, any>(null, {
+    sendRegistrationEmail,
+  }),
+  reduxForm({
+    form: 'RegisterForm',
+    validate,
+  })
+)(RegisterForm);

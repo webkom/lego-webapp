@@ -1,19 +1,22 @@
-import { SurveySubmission } from "./ActionTypes";
-import callAPI from "app/actions/callAPI";
-import { surveySubmissionSchema } from "app/reducers";
-import type { Thunk } from "app/types";
+import { SurveySubmission } from './ActionTypes';
+import callAPI from 'app/actions/callAPI';
+import { surveySubmissionSchema } from 'app/reducers';
+import type { Thunk } from 'app/types';
 export function fetchSubmissions(surveyId: number): Thunk<any> {
   return callAPI({
     types: SurveySubmission.FETCH_ALL,
     endpoint: `/surveys/${surveyId}/submissions/`,
     schema: [surveySubmissionSchema],
     meta: {
-      errorMessage: 'Henting av svar på spørreundersøkelse feilet'
+      errorMessage: 'Henting av svar på spørreundersøkelse feilet',
     },
-    propagateError: true
+    propagateError: true,
   });
 }
-export function fetchUserSubmission(surveyId: number, user: number): Thunk<any> {
+export function fetchUserSubmission(
+  surveyId: number,
+  user: number
+): Thunk<any> {
   return callAPI({
     types: SurveySubmission.FETCH,
     endpoint: `/surveys/${surveyId}/submissions/?user=${user}`,
@@ -22,8 +25,9 @@ export function fetchUserSubmission(surveyId: number, user: number): Thunk<any> 
     meta: {
       surveyId,
       user,
-      errorMessage: 'Noe gikk galt i sjekking av hvorvidt brukeren allerede har svart'
-    }
+      errorMessage:
+        'Noe gikk galt i sjekking av hvorvidt brukeren allerede har svart',
+    },
   });
 }
 export function addSubmission({
@@ -39,11 +43,14 @@ export function addSubmission({
     meta: {
       errorMessage: 'Legg til svar feilet',
       successMessage: 'Undersøkelse besvart!',
-      surveyId
-    }
+      surveyId,
+    },
   });
 }
-export function deleteSubmission(surveyId: number, submissionId: number): Thunk<any> {
+export function deleteSubmission(
+  surveyId: number,
+  submissionId: number
+): Thunk<any> {
   return callAPI({
     types: SurveySubmission.DELETE,
     endpoint: `/surveys/${surveyId}/submissions/${submissionId}/`,
@@ -52,11 +59,15 @@ export function deleteSubmission(surveyId: number, submissionId: number): Thunk<
       surveyId,
       id: submissionId,
       errorMessage: 'Sletting av svar feilet',
-      successMessage: 'Svar slettet.'
-    }
+      successMessage: 'Svar slettet.',
+    },
   });
 }
-export function hideAnswer(surveyId: number, submissionId: number, answerId: number): Thunk<any> {
+export function hideAnswer(
+  surveyId: number,
+  submissionId: number,
+  answerId: number
+): Thunk<any> {
   return callAPI({
     types: SurveySubmission.HIDE_ANSWER,
     endpoint: `/surveys/${surveyId}/submissions/${submissionId}/hide/?answer=${answerId}`,
@@ -67,11 +78,15 @@ export function hideAnswer(surveyId: number, submissionId: number, answerId: num
       submissionId,
       answerId,
       errorMessage: 'Skjuling av kommentar feilet',
-      successMessage: 'Kommentar skjult.'
-    }
+      successMessage: 'Kommentar skjult.',
+    },
   });
 }
-export function showAnswer(surveyId: number, submissionId: number, answerId: number): Thunk<any> {
+export function showAnswer(
+  surveyId: number,
+  submissionId: number,
+  answerId: number
+): Thunk<any> {
   return callAPI({
     types: SurveySubmission.SHOW_ANSWER,
     endpoint: `/surveys/${surveyId}/submissions/${submissionId}/show/?answer=${answerId}`,
@@ -82,7 +97,7 @@ export function showAnswer(surveyId: number, submissionId: number, answerId: num
       submissionId,
       answerId,
       errorMessage: 'Avslutning av skjuling feilet',
-      successMessage: 'Skjuling av kommentar avsluttet.'
-    }
+      successMessage: 'Skjuling av kommentar avsluttet.',
+    },
   });
 }

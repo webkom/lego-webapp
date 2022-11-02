@@ -1,12 +1,12 @@
-import { Toasts } from "../actions/ActionTypes";
-import { produce } from "immer";
+import { Toasts } from '../actions/ActionTypes';
+import { produce } from 'immer';
 type Toast = {
   id: number;
   message: string;
   removed: boolean;
 };
 const initialState = {
-  items: []
+  items: [],
 };
 type State = {
   items: Array<Toast>;
@@ -17,16 +17,15 @@ const toasts = produce<State>((newState: State, action: any): void => {
       newState.items.push(action.payload);
       break;
 
-    case Toasts.TOAST_REMOVED:
-      {
-        const toast = newState.items.find(t => t.id === action.payload.id);
+    case Toasts.TOAST_REMOVED: {
+      const toast = newState.items.find((t) => t.id === action.payload.id);
 
-        if (toast) {
-          toast.removed = true;
-        }
-
-        break;
+      if (toast) {
+        toast.removed = true;
       }
+
+      break;
+    }
 
     default:
       break;

@@ -7,8 +7,24 @@ const getValidationErrors = async (validators: AsyncFieldValidator<>[], fieldDat
   .map(([, error]) => error);
 };
 
-const getFieldErrorArray = async (fieldValidators: FieldValidators, formData: Record<string, any>): Promise<[string, string[]][]> => {
-  return (await Promise.all(Object.keys(fieldValidators).map(async (field): Promise<[string, string[]]> => [field, await getValidationErrors(fieldValidators[field], formData[field], formData)]))).filter(([, fieldErrors]) => fieldErrors.length);
+const getFieldErrorArray = async (
+  fieldValidators: FieldValidators,
+  formData: Record<string, any>
+): Promise<[string, string[]][]> => {
+  return (
+    await Promise.all(
+      Object.keys(fieldValidators).map(
+        async (field): Promise<[string, string[]]> => [
+          field,
+          await getValidationErrors(
+            fieldValidators[field],
+            formData[field],
+            formData
+          ),
+        ]
+      )
+    )
+  ).filter(([, fieldErrors]) => fieldErrors.length);
 };
 
 export const createAsyncValidator = (fieldValidators: FieldValidators) => {

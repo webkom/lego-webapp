@@ -1,6 +1,6 @@
-import cx from "classnames";
-import { createField } from "./Field";
-import styles from "./TextInput.css";
+import cx from 'classnames';
+import { createField } from './Field';
+import styles from './TextInput.css';
 type Props = {
   type?: string;
   suffix?: string;
@@ -19,10 +19,24 @@ function TextInput({
   readOnly,
   ...props
 }: Props) {
-  return <span className={cx(suffix && styles.inputGroup)}>
-      <input ref={inputRef} type={type} disabled={disabled} readOnly={!!readOnly} className={cx(styles.input, disabled && styles.disabled, suffix && styles.suffix, className)} {...(props as Record<string, any>)} />
+  return (
+    <span className={cx(suffix && styles.inputGroup)}>
+      <input
+        ref={inputRef}
+        type={type}
+        disabled={disabled}
+        readOnly={!!readOnly}
+        className={cx(
+          styles.input,
+          disabled && styles.disabled,
+          suffix && styles.suffix,
+          className
+        )}
+        {...(props as Record<string, any>)}
+      />
       {suffix && <span className={styles.suffix}>{suffix}</span>}
-    </span>;
+    </span>
+  );
 }
 
 TextInput.Field = createField(TextInput);

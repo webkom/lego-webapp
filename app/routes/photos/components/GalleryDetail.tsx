@@ -1,19 +1,19 @@
-import { Helmet } from "react-helmet-async";
-import NavigationTab, { NavigationLink } from "app/components/NavigationTab";
-import type { Element } from "react";
-import { Component, cloneElement } from "react";
-import GalleryDetailsRow from "./GalleryDetailsRow";
-import EmptyState from "app/components/EmptyState";
-import ImageUpload from "app/components/Upload/ImageUpload";
-import { Content } from "app/components/Content";
-import Gallery from "app/components/Gallery";
-import type { DropFile } from "app/components/Upload/ImageUpload";
-import type { ID, ActionGrant } from "app/models";
-import type { GalleryPictureEntity } from "app/reducers/galleryPictures";
-import Button from "app/components/Button";
-import JsZip from "jszip";
-import FileSaver from "file-saver";
-import LoadingIndicator from "app/components/LoadingIndicator";
+import { Helmet } from 'react-helmet-async';
+import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
+import type { Element } from 'react';
+import { Component, cloneElement } from 'react';
+import GalleryDetailsRow from './GalleryDetailsRow';
+import EmptyState from 'app/components/EmptyState';
+import ImageUpload from 'app/components/Upload/ImageUpload';
+import { Content } from 'app/components/Content';
+import Gallery from 'app/components/Gallery';
+import type { DropFile } from 'app/components/Upload/ImageUpload';
+import type { ID, ActionGrant } from 'app/models';
+import type { GalleryPictureEntity } from 'app/reducers/galleryPictures';
+import Button from 'app/components/Button';
+import JsZip from 'jszip';
+import FileSaver from 'file-saver';
+import LoadingIndicator from 'app/components/LoadingIndicator';
 type Props = {
   gallery: Record<string, any>;
   loggedIn: boolean;
@@ -22,12 +22,18 @@ type Props = {
   hasMore: boolean;
   fetching: boolean;
   children: Element<any>;
-  fetch: (galleryId: Number, args: {
-    next: boolean;
-  }) => Promise<any>;
+  fetch: (
+    galleryId: Number,
+    args: {
+      next: boolean;
+    }
+  ) => Promise<any>;
   clear: (galleryId: Number) => Promise<any>;
   push: (arg0: string) => Promise<any>;
-  uploadAndCreateGalleryPicture: (arg0: ID, arg1: File | Array<DropFile>) => Promise<any>;
+  uploadAndCreateGalleryPicture: (
+    arg0: ID,
+    arg1: File | Array<DropFile>
+  ) => Promise<any>;
   actionGrant: ActionGrant;
 };
 type State = {
@@ -37,7 +43,7 @@ type State = {
 export default class GalleryDetail extends Component<Props, State> {
   state = {
     upload: false,
-    downloading: false
+    downloading: false,
   };
   toggleUpload = (response?: File | Array<DropFile>) => {
     if (response) {
@@ -45,7 +51,7 @@ export default class GalleryDetail extends Component<Props, State> {
     }
 
     this.setState({
-      upload: !this.state.upload
+      upload: !this.state.upload,
     });
   };
   handleClick = (picture: Record<string, any>) => {
@@ -53,46 +59,62 @@ export default class GalleryDetail extends Component<Props, State> {
   };
   downloadGallery = () => {
     this.setState({
-      downloading: true
+      downloading: true,
     });
     // Force re-fetch to avoid expired image urls
     this.props.clear(this.props.gallery.id);
 
-    const finishDownload = () => this.setState({
-      downloading: false
-    });
+    const finishDownload = () =>
+      this.setState({
+        downloading: false,
+      });
 
-    this.downloadNext(0, []).then(blobs => {
-      const names = this.props.pictures.map(picture => picture.file.split('/').pop());
-      this.zipFiles(this.props.gallery.title, names, blobs).finally(finishDownload);
-    }).catch(finishDownload);
+    this.downloadNext(0, [])
+      .then((blobs) => {
+        const names = this.props.pictures.map((picture) =>
+          picture.file.split('/').pop()
+        );
+        this.zipFiles(this.props.gallery.title, names, blobs).finally(
+          finishDownload
+        );
+      })
+      .catch(finishDownload);
   };
   downloadNext = (index: number, blobsAccum: Blob[]) => {
-    return this.props.fetch(this.props.gallery.id, {
-      next: true,
-      filters: {}
-    }).then(() => {
-      const urls = this.props.pictures.slice(index).map(picture => picture.rawFile);
-      return this.downloadFiles(urls).then(blobs => {
-        blobsAccum.push(...blobs);
+    return this.props
+      .fetch(this.props.gallery.id, {
+        next: true,
+        filters: {},
+      })
+      .then(() => {
+        const urls = this.props.pictures
+          .slice(index)
+          .map((picture) => picture.rawFile);
+        return this.downloadFiles(urls).then((blobs) => {
+          blobsAccum.push(...blobs);
 
-        if (this.props.hasMore) {
-          return this.downloadNext(this.props.pictures.length, blobsAccum);
-        }
+          if (this.props.hasMore) {
+            return this.downloadNext(this.props.pictures.length, blobsAccum);
+          }
 
-        return blobsAccum;
+          return blobsAccum;
+        });
       });
-    });
   };
-  downloadFiles = (urls: string[]) => Promise.all(urls.map(async url => await fetch(url).then(res => res.blob())));
+  downloadFiles = (urls: string[]) =>
+    Promise.all(
+      urls.map(async (url) => await fetch(url).then((res) => res.blob()))
+    );
   zipFiles = (zipTitle: string, fileNames: string[], blobs: Blob[]) => {
     const zip = JsZip();
     blobs.forEach((blob, i) => {
       zip.file(fileNames[i], blob);
     });
-    return zip.generateAsync({
-      type: 'blob'
-    }).then(zipFile => FileSaver.saveAs(zipFile, `${zipTitle}.zip`));
+    return zip
+      .generateAsync({
+        type: 'blob',
+      })
+      .then((zipFile) => FileSaver.saveAs(zipFile, `${zipTitle}.zip`));
   };
 
   render() {
@@ -105,41 +127,68 @@ export default class GalleryDetail extends Component<Props, State> {
       currentUser,
       hasMore,
       fetch,
-      fetching
+      fetching,
     } = this.props;
     const actionGrant = gallery && gallery.actionGrant;
-    return <Content>
+    return (
+      <Content>
         <Helmet title={gallery.title} />
-        <NavigationTab title={gallery.title} details={<>
+        <NavigationTab
+          title={gallery.title}
+          details={
+            <>
               <GalleryDetailsRow gallery={gallery} showDescription />
-              <div style={{
-          minHeight: '40px'
-        }}>
-                {this.state.downloading ? <LoadingIndicator loading={true} small margin={0} /> : <Button flat={true} onClick={this.downloadGallery}>
+              <div
+                style={{
+                  minHeight: '40px',
+                }}
+              >
+                {this.state.downloading ? (
+                  <LoadingIndicator loading={true} small margin={0} />
+                ) : (
+                  <Button flat={true} onClick={this.downloadGallery}>
                     Last ned album
-                  </Button>}
+                  </Button>
+                )}
               </div>
-            </>}>
-          <NavigationLink onClick={(e: Event) => {
-          // TODO fix this hack when react-router is done
-          if (!window.location.hash) return;
-          window.history.back();
-          e.preventDefault();
-        }} to="/photos">
+            </>
+          }
+        >
+          <NavigationLink
+            onClick={(e: Event) => {
+              // TODO fix this hack when react-router is done
+              if (!window.location.hash) return;
+              window.history.back();
+              e.preventDefault();
+            }}
+            to="/photos"
+          >
             <i className="fa fa-angle-left" /> Tilbake
           </NavigationLink>
-          {actionGrant?.includes('edit') && <div>
+          {actionGrant?.includes('edit') && (
+            <div>
               <NavigationLink to="#" onClick={() => this.toggleUpload()}>
                 Last opp bilder
               </NavigationLink>
               <NavigationLink to={`/photos/${gallery.id}/edit`}>
                 Rediger
               </NavigationLink>
-            </div>}
+            </div>
+          )}
         </NavigationTab>
-        <Gallery photos={pictures} hasMore={hasMore} fetching={fetching} fetchNext={() => fetch(gallery.id, {
-        next: true
-      })} onClick={this.handleClick} srcKey="file" renderEmpty={() => <EmptyState icon="photos-outline">
+        <Gallery
+          photos={pictures}
+          hasMore={hasMore}
+          fetching={fetching}
+          fetchNext={() =>
+            fetch(gallery.id, {
+              next: true,
+            })
+          }
+          onClick={this.handleClick}
+          srcKey="file"
+          renderEmpty={() => (
+            <EmptyState icon="photos-outline">
               <h1>Ingen bilder</h1>
               <h4>
                 Trykk{' '}
@@ -148,17 +197,28 @@ export default class GalleryDetail extends Component<Props, State> {
                 </Button>{' '}
                 for å legge inn bilder
               </h4>
-            </EmptyState>} />
+            </EmptyState>
+          )}
+        />
 
-        {this.state.upload && <ImageUpload inModal multiple crop={false} onClose={this.toggleUpload} onSubmit={this.toggleUpload} />}
+        {this.state.upload && (
+          <ImageUpload
+            inModal
+            multiple
+            crop={false}
+            onClose={this.toggleUpload}
+            onSubmit={this.toggleUpload}
+          />
+        )}
 
-        {children && cloneElement(children, {
-        gallery,
-        push,
-        loggedIn,
-        currentUser
-      })}
-      </Content>;
+        {children &&
+          cloneElement(children, {
+            gallery,
+            push,
+            loggedIn,
+            currentUser,
+          })}
+      </Content>
+    );
   }
-
 }

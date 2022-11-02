@@ -4,10 +4,7 @@ type Props = {
 };
 
 // DO NOT USE
-function RequireLogin({
-  loggedIn,
-  children
-}: Props) {
+function RequireLogin({ loggedIn, children }: Props) {
   if (!loggedIn) {
     return null;
   }

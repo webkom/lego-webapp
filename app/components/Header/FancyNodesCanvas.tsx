@@ -1,8 +1,8 @@
-import { Component } from "react";
-import debounce from "lodash/debounce";
-import drawFancyNodes from "./drawFancyNodes";
-import styles from "./FancyNodesCanvas.css";
-import { getTheme } from "app/utils/themeUtils.js";
+import { Component } from 'react';
+import debounce from 'lodash/debounce';
+import drawFancyNodes from './drawFancyNodes';
+import styles from './FancyNodesCanvas.css';
+import { getTheme } from 'app/utils/themeUtils';
 type Props = {
   height: number;
 };
@@ -13,38 +13,43 @@ type State = {
 
 class FancyNodesCanvas extends Component<Props, State> {
   static defaultProps = {
-    height: 160
+    height: 160,
   };
   state = {
     width: 0,
-    currentTheme: 'light'
+    currentTheme: 'light',
   };
   _canvas: any;
   handleResize = debounce((e: any) => {
     const newWidth = e.target.innerWidth;
-    const {
-      width
-    } = this.state;
+    const { width } = this.state;
     if (newWidth === width) return;
-    this.setState({
-      width: newWidth
-    }, () => this.drawGraphics());
+    this.setState(
+      {
+        width: newWidth,
+      },
+      () => this.drawGraphics()
+    );
   }, 70);
   handleThemeChange = () => {
     const newTheme = getTheme();
-    const {
-      currentTheme
-    } = this.state;
+    const { currentTheme } = this.state;
     if (newTheme === currentTheme) return;
-    this.setState({
-      currentTheme: newTheme
-    }, () => this.drawGraphics());
+    this.setState(
+      {
+        currentTheme: newTheme,
+      },
+      () => this.drawGraphics()
+    );
   };
 
   componentDidMount() {
-    this.setState({
-      width: global.innerWidth
-    }, () => this.drawGraphics());
+    this.setState(
+      {
+        width: global.innerWidth,
+      },
+      () => this.drawGraphics()
+    );
     global.addEventListener('resize', this.handleResize);
     global.addEventListener('themeChange', this.handleThemeChange);
   }
@@ -54,7 +59,7 @@ class FancyNodesCanvas extends Component<Props, State> {
 
     drawFancyNodes(context, {
       width: this.state.width,
-      height: this.props.height
+      height: this.props.height,
     });
   }
 
@@ -64,11 +69,17 @@ class FancyNodesCanvas extends Component<Props, State> {
   }
 
   render() {
-    return <canvas ref={ref => {
-      this._canvas = ref;
-    }} className={styles.root} width={this.state.width} height={this.props.height} />;
+    return (
+      <canvas
+        ref={(ref) => {
+          this._canvas = ref;
+        }}
+        className={styles.root}
+        width={this.state.width}
+        height={this.props.height}
+      />
+    );
   }
-
 }
 
 export default FancyNodesCanvas;

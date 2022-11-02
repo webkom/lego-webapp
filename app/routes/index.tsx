@@ -1,13 +1,13 @@
-import loadable from "@loadable/component";
-import { Route, Switch } from "react-router-dom";
-import { AppRoute } from "./app";
-import { UserContext } from "app/routes/app/AppRoute";
-import RouteWrapper from "app/components/RouteWrapper";
+import loadable from '@loadable/component';
+import { Route, Switch } from 'react-router-dom';
+import { AppRoute } from './app';
+import { UserContext } from 'app/routes/app/AppRoute';
+import RouteWrapper from 'app/components/RouteWrapper';
 const CompanyInterestInfoRoute = loadable(() => import('./companyInterest'), {
-  resolveComponent: components => components.CompanyInterestInfoRoute
+  resolveComponent: (components) => components.CompanyInterestInfoRoute,
 });
 const CompanyInterest = loadable(() => import('./companyInterest'), {
-  resolveComponent: components => components.CompanyInterest
+  resolveComponent: (components) => components.CompanyInterest,
 });
 const Companies = loadable(() => import('./company'));
 const Users = loadable(() => import('./users'));
@@ -33,20 +33,26 @@ const Polls = loadable(() => import('./polls'));
 const Events = loadable(() => import('./events'));
 const Overview = loadable(() => import('./overview'));
 
-const RouterConfig = () => <>
+const RouterConfig = () => (
+  <>
     <Route path="/" component={AppWrapper} />
-  </>;
+  </>
+);
 
-const AppWrapper = props => <AppRoute {...props}>
+const AppWrapper = (props) => (
+  <AppRoute {...props}>
     <UserContext.Consumer>
-      {({
-      currentUser,
-      loggedIn
-    }) => <Switch>
-          <RouteWrapper exact path="/" passedProps={{
-        currentUser,
-        loggedIn
-      }} Component={Overview} />
+      {({ currentUser, loggedIn }) => (
+        <Switch>
+          <RouteWrapper
+            exact
+            path="/"
+            passedProps={{
+              currentUser,
+              loggedIn,
+            }}
+            Component={Overview}
+          />
           <Route path="/announcements" component={Announcements} />
           <Route path="/admin" component={Admin} />
           <Route path="/events" component={Events} />
@@ -66,19 +72,22 @@ const AppWrapper = props => <AppRoute {...props}>
           <Route path="/users" component={Users} />
           <Route path="/validator" component={UserValidator} />
           <Route path="/brand" component={Brand} />
-          <Route path="/(register-interest|interesse)" component={CompanyInterestInfoRoute} />
+          <Route
+            path="/(register-interest|interesse)"
+            component={CompanyInterestInfoRoute}
+          />
           <Route path="/companyInterest" component={CompanyInterest} />
           <Route path="/bdb" component={Bdb} />
           <Route path="/articles" component={Articles} />
-          {
-        /* 
+          {/* 
         This will eat all routes that are written after this 
         So one cant put any routes after pageNotFound
-        */
-      }
+        */}
           <Route component={PageNotFound} />
-        </Switch>}
+        </Switch>
+      )}
     </UserContext.Consumer>
-  </AppRoute>;
+  </AppRoute>
+);
 
 export default RouterConfig;

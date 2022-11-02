@@ -1,5 +1,5 @@
-import allowed from "../allowed";
-import { Meta } from "../../actions/ActionTypes";
+import allowed from '../allowed';
+import { Meta } from '../../actions/ActionTypes';
 describe('reducers', () => {
   describe('allowed', () => {
     it('should set allowed on Meta.FETCH.SUCCESS', () => {
@@ -20,7 +20,7 @@ describe('reducers', () => {
         surveys: true,
         groups: true,
         email: true,
-        users: true
+        users: true,
       };
       const action = {
         type: Meta.FETCH.SUCCESS,
@@ -31,10 +31,10 @@ describe('reducers', () => {
             contactEmail: 'webkom@abakus.no',
             documentationUrl: '/docs/',
             domain: 'abakus.no',
-            owner: 'Abakus'
+            owner: 'Abakus',
           },
-          isAllowed: isAllowed
-        }
+          isAllowed: isAllowed,
+        },
       };
       expect(allowed(prevState, action)).toEqual(isAllowed);
     });

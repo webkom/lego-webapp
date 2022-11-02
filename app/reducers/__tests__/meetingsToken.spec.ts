@@ -1,22 +1,22 @@
-import meetingsToken from "../meetingsToken";
-import { Meeting } from "../../actions/ActionTypes";
+import meetingsToken from '../meetingsToken';
+import { Meeting } from '../../actions/ActionTypes';
 describe('reducers', () => {
   const prevState = {
     response: 'abc',
     user: {},
     meeting: null,
-    status: ''
+    status: '',
   };
   describe('meetingsToken', () => {
     it('Meeting.ANSWER_INVITATION_TOKEN.FAILURE', () => {
       const action = {
-        type: Meeting.ANSWER_INVITATION_TOKEN.FAILURE
+        type: Meeting.ANSWER_INVITATION_TOKEN.FAILURE,
       };
       expect(meetingsToken(prevState, action)).toEqual({
         response: 'abc',
         user: {},
         meeting: null,
-        status: 'FAILURE'
+        status: 'FAILURE',
       });
     });
     it('Meeting.ANSWER_INVITATION_TOKEN.SUCCESS', () => {
@@ -25,25 +25,25 @@ describe('reducers', () => {
         payload: {
           meeting: 123,
           user: 123,
-          status: 'xyz'
-        }
+          status: 'xyz',
+        },
       };
       expect(meetingsToken(prevState, action)).toEqual({
         response: 'SUCCESS',
         user: 123,
         meeting: 123,
-        status: 'xyz'
+        status: 'xyz',
       });
     });
     it('Meeting.RESET_MEETINGS_TOKEN', () => {
       const action = {
-        type: Meeting.RESET_MEETINGS_TOKEN
+        type: Meeting.RESET_MEETINGS_TOKEN,
       };
       expect(meetingsToken(prevState, action)).toEqual({
         response: '',
         user: {},
         meeting: null,
-        status: ''
+        status: '',
       });
     });
   });

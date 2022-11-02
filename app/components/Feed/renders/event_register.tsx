@@ -1,16 +1,19 @@
-import type { Element } from "react";
-import Icon from "app/components/Icon";
-import { lookupContext, contextRender } from "../context";
-import { formatHeader } from "./utils";
-import type { AggregatedActivity, Activity, TagInfo } from "../types";
-import DisplayContent from "app/components/DisplayContent";
+import type { Element } from 'react';
+import Icon from 'app/components/Icon';
+import { lookupContext, contextRender } from '../context';
+import { formatHeader } from './utils';
+import type { AggregatedActivity, Activity, TagInfo } from '../types';
+import DisplayContent from 'app/components/DisplayContent';
 
 /**
  * Grouped by target and date, standard...
  */
-export function activityHeader(aggregatedActivity: AggregatedActivity, htmlTag: (arg0: TagInfo) => Element<any>) {
+export function activityHeader(
+  aggregatedActivity: AggregatedActivity,
+  htmlTag: (arg0: TagInfo) => Element<any>
+) {
   const latestActivity = aggregatedActivity.lastActivity;
-  const actors = aggregatedActivity.actorIds.map(actorId => {
+  const actors = aggregatedActivity.actorIds.map((actorId) => {
     return lookupContext(aggregatedActivity, actorId);
   });
   const target = lookupContext(aggregatedActivity, latestActivity.target);
@@ -19,11 +22,15 @@ export function activityHeader(aggregatedActivity: AggregatedActivity, htmlTag: 
     return null;
   }
 
-  const actorsRender = actors.map(actor => htmlTag(contextRender[actor.contentType](actor)));
-  return <b>
+  const actorsRender = actors.map((actor) =>
+    htmlTag(contextRender[actor.contentType](actor))
+  );
+  return (
+    <b>
       {formatHeader(actorsRender)} meldte seg på arrangementet{' '}
       {htmlTag(contextRender[target.contentType](target))}
-    </b>;
+    </b>
+  );
 }
 export function activityContent(activity: Activity) {
   return <DisplayContent content="" />;

@@ -1,7 +1,7 @@
-import type { Node } from "react";
-import { Component } from "react";
-import cx from "classnames";
-import styles from "./Tooltip.css";
+import type { Node } from 'react';
+import { Component } from 'react';
+import cx from 'classnames';
+import styles from './Tooltip.css';
 type Props = {
   children: Node;
   content: Node;
@@ -27,7 +27,7 @@ type State = {
 
 export default class Tooltip extends Component<Props, State> {
   static defaultProps = {
-    list: false
+    list: false,
   };
   tooltip: HTMLDivElement | null | undefined;
 
@@ -38,22 +38,22 @@ export default class Tooltip extends Component<Props, State> {
 
     const width = this.tooltip.offsetWidth;
     this.setState({
-      childrenContainerWidth: width
+      childrenContainerWidth: width,
     });
   }
 
   state = {
     hovered: false,
-    childrenContainerWidth: 0
+    childrenContainerWidth: 0,
   };
   onMouseEnter = () => {
     this.setState({
-      hovered: true
+      hovered: true,
     });
   };
   onMouseLeave = () => {
     this.setState({
-      hovered: false
+      hovered: false,
     });
   };
 
@@ -70,7 +70,7 @@ export default class Tooltip extends Component<Props, State> {
       style,
       onClick,
       renderDirection,
-      pointerPosition
+      pointerPosition,
     } = this.props;
     let renderDirectionClass = styles.renderFromCenter;
     let startPointChildren = 2;
@@ -103,20 +103,32 @@ export default class Tooltip extends Component<Props, State> {
       }
     }
 
-    const tooltipClass = this.state.hovered ? styles.baseTooltipHover : styles.tooltip;
+    const tooltipClass = this.state.hovered
+      ? styles.baseTooltipHover
+      : styles.tooltip;
     const tooltip = list ? styles.listTooltip : styles.showTooltip;
-    return <div className={className} onClick={onClick}>
-        <div ref={ref => {
-        this.tooltip = ref;
-      }} onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave}>
-          <div className={cx(tooltipClass, tooltip, renderDirectionClass)} style={{ ...style,
-          marginLeft: this.state.childrenContainerWidth / startPointChildren - 5
-        }}>
+    return (
+      <div className={className} onClick={onClick}>
+        <div
+          ref={(ref) => {
+            this.tooltip = ref;
+          }}
+          onMouseEnter={this.onMouseEnter}
+          onMouseLeave={this.onMouseLeave}
+        >
+          <div
+            className={cx(tooltipClass, tooltip, renderDirectionClass)}
+            style={{
+              ...style,
+              marginLeft:
+                this.state.childrenContainerWidth / startPointChildren - 5,
+            }}
+          >
             {content}
           </div>
           {children}
         </div>
-      </div>;
+      </div>
+    );
   }
-
 }

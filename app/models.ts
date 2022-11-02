@@ -1,21 +1,31 @@
-import type Moment from "moment";
+import type Moment from 'moment';
 // TODO: Id handling could be opaque
 export type ID = number;
 export type Dateish = Moment | Date | string;
 export type ActionGrant = Array<string>;
 export type IcalToken = string;
-export type EventTimeType = "activationTime" | "startTime";
-export type EventType = "company_presentation" | "alternative_presentation" | "lunch_presentation" | "course" | "breakfast_talk" | "kid_event" | "party" | "social" | "other" | "event";
+export type EventTimeType = 'activationTime' | 'startTime';
+export type EventType =
+  | 'company_presentation'
+  | 'alternative_presentation'
+  | 'lunch_presentation'
+  | 'course'
+  | 'breakfast_talk'
+  | 'kid_event'
+  | 'party'
+  | 'social'
+  | 'other'
+  | 'event';
 type SelectInput = {
   label: string;
   value: string;
 };
-export type EventStatusType = "NORMAL" | "OPEN" | "TBA" | "INFINITE";
+export type EventStatusType = 'NORMAL' | 'OPEN' | 'TBA' | 'INFINITE';
 export type Grade = {
   name: string;
 };
-export type PhotoConsentDomain = "WEBSITE" | "SOCIAL_MEDIA";
-export type Semester = "spring" | "autumn";
+export type PhotoConsentDomain = 'WEBSITE' | 'SOCIAL_MEDIA';
+export type Semester = 'spring' | 'autumn';
 export type EventSemester = {
   year: number;
   semester: Semester;
@@ -54,9 +64,15 @@ export const GroupTypes = {
   GroupTypeInterest,
   GroupTypeSub,
   GroupTypeGrade,
-  GroupTypeOther
+  GroupTypeOther,
 };
-export type GroupType = typeof GroupTypeCommittee | typeof GroupTypeBoard | typeof GroupTypeInterest | typeof GroupTypeSub | typeof GroupTypeGrade | typeof GroupTypeOther;
+export type GroupType =
+  | typeof GroupTypeCommittee
+  | typeof GroupTypeBoard
+  | typeof GroupTypeInterest
+  | typeof GroupTypeSub
+  | typeof GroupTypeGrade
+  | typeof GroupTypeOther;
 export type GroupMembership = {
   user: User;
   role: string;
@@ -113,10 +129,24 @@ type EventBase = {
 export type Company = Record<string, any>;
 export type Comment = Record<string, any>;
 export type Permission = string;
-export type EventRegistrationPresence = "PRESENT" | "NOT_PRESENT" | "UNKNOWN";
-export type LEGACY_EventRegistrationPhotoConsent = "PHOTO_NOT_CONSENT" | "PHOTO_CONSENT" | "UNKNOWN";
-export type EventRegistrationPaymentStatus = "pending" | "manual" | "succeeded" | "failed" | "card_declined";
-export type EventRegistrationStatus = "PENDING_REGISTER" | "SUCCESS_REGISTER" | "FAILURE_REGISTER" | "PENDING_UNREGISTER" | "SUCCESS_UNREGISTER" | "FAILURE_UNREGISTER";
+export type EventRegistrationPresence = 'PRESENT' | 'NOT_PRESENT' | 'UNKNOWN';
+export type LEGACY_EventRegistrationPhotoConsent =
+  | 'PHOTO_NOT_CONSENT'
+  | 'PHOTO_CONSENT'
+  | 'UNKNOWN';
+export type EventRegistrationPaymentStatus =
+  | 'pending'
+  | 'manual'
+  | 'succeeded'
+  | 'failed'
+  | 'card_declined';
+export type EventRegistrationStatus =
+  | 'PENDING_REGISTER'
+  | 'SUCCESS_REGISTER'
+  | 'FAILURE_REGISTER'
+  | 'PENDING_UNREGISTER'
+  | 'SUCCESS_UNREGISTER'
+  | 'FAILURE_UNREGISTER';
 export type EventRegistration = {
   id: number;
   user: User;
@@ -203,7 +233,16 @@ export type Joblisting = {
   toYear: number;
   workplaces: Array<Workplace>;
 };
-export type CompanySemesterContactedStatus = "company_presentation" | "course" | "breakfast_talk" | "lunch_presentation" | "interested" | "bedex" | "not_interested" | "contacted" | "not_contacted";
+export type CompanySemesterContactedStatus =
+  | 'company_presentation'
+  | 'course'
+  | 'breakfast_talk'
+  | 'lunch_presentation'
+  | 'interested'
+  | 'bedex'
+  | 'not_interested'
+  | 'contacted'
+  | 'not_contacted';
 export type Announcement = {
   id: ID;
   message: string;

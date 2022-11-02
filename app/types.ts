@@ -1,6 +1,10 @@
-import type { Store as ReduxStore, Middleware as ReduxMiddleware } from "redux";
-import type { Reducers } from "app/reducers";
-import type { StartSubmitAction, StopSubmitAction, InitializeAction } from "redux-form/lib/actions.types.js.flow";
+import type { Store as ReduxStore, Middleware as ReduxMiddleware } from 'redux';
+import type { Reducers } from 'app/reducers';
+import type {
+  StartSubmitAction,
+  StopSubmitAction,
+  InitializeAction,
+} from 'redux-form/lib/actions.types.js.flow';
 export type AsyncActionType = {
   BEGIN: string;
   SUCCESS: string;
@@ -56,7 +60,6 @@ export type Action = {
   meta?: any;
   error?: boolean;
   success?: boolean; // 65 WAT M8 https://github.com/acdlite/flux-standard-action
-
 };
 export type PromiseAction<T> = {
   types: AsyncActionType;
@@ -66,11 +69,21 @@ export type PromiseAction<T> = {
 };
 export type GetState = () => State;
 export type GetCookie = (arg0: string) => EncodedToken | null | undefined;
-export type Thunk<R> = ( // eslint-disable-next-line no-use-before-define
-dispatch: Dispatch<R>, getState: GetState, arg2: {
-  getCookie: GetCookie;
-}) => R;
-export type AnyAction<R> = PromiseAction<R> | Thunk<R> | Action | StopSubmitAction | StartSubmitAction | InitializeAction;
+export type Thunk<R> = (
+  // eslint-disable-next-line no-use-before-define
+  dispatch: Dispatch<R>,
+  getState: GetState,
+  arg2: {
+    getCookie: GetCookie;
+  }
+) => R;
+export type AnyAction<R> =
+  | PromiseAction<R>
+  | Thunk<R>
+  | Action
+  | StopSubmitAction
+  | StartSubmitAction
+  | InitializeAction;
 export type Dispatch<R> = (action: AnyAction<R>) => R;
 export type Store = ReduxStore<State, Action, Dispatch<any>>;
 export type Middleware = ReduxMiddleware<State, AnyAction<any>, Dispatch<any>>;

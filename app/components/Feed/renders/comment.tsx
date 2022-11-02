@@ -1,17 +1,20 @@
-import type { Element } from "react";
-import Icon from "app/components/Icon";
-import { formatHeader } from "./utils";
-import { lookupContext, contextRender } from "../context";
-import type { AggregatedActivity, Activity, TagInfo } from "../types";
-import DisplayContent from "app/components/DisplayContent";
+import type { Element } from 'react';
+import Icon from 'app/components/Icon';
+import { formatHeader } from './utils';
+import { lookupContext, contextRender } from '../context';
+import type { AggregatedActivity, Activity, TagInfo } from '../types';
+import DisplayContent from 'app/components/DisplayContent';
 
 /**
  * Comments are grouped by the comment target and date.
  * This makes it possible to use the latest activity to generate the header.
  */
-export function activityHeader(aggregatedActivity: AggregatedActivity, htmlTag: (arg0: TagInfo) => Element<any>) {
+export function activityHeader(
+  aggregatedActivity: AggregatedActivity,
+  htmlTag: (arg0: TagInfo) => Element<any>
+) {
   const latestActivity = aggregatedActivity.lastActivity;
-  const actors = aggregatedActivity.actorIds.map(actorId => {
+  const actors = aggregatedActivity.actorIds.map((actorId) => {
     return lookupContext(aggregatedActivity, actorId);
   });
   const target = lookupContext(aggregatedActivity, latestActivity.target);
@@ -20,13 +23,15 @@ export function activityHeader(aggregatedActivity: AggregatedActivity, htmlTag: 
     return null;
   }
 
-  const actorsRender = actors.map(actor => {
+  const actorsRender = actors.map((actor) => {
     return htmlTag(contextRender[actor.contentType](actor));
   });
-  return <b>
+  return (
+    <b>
       {formatHeader(actorsRender)} kommenterte på{' '}
       {htmlTag(contextRender[target.contentType](target))}
-    </b>;
+    </b>
+  );
 }
 export function activityContent(activity: Activity) {
   return <DisplayContent content={activity.extraContext.content} />;
@@ -51,7 +56,9 @@ export const commentURL = (target: Record<string, any>) => {
       return !target ? '/articles' : `/articles/${target.id}`;
 
     case 'gallery.gallerypicture':
-      return !target ? '/photos' : `/photos/${target.gallery.id}/picture/${target.id}`;
+      return !target
+        ? '/photos'
+        : `/photos/${target.gallery.id}/picture/${target.id}`;
 
     default:
       return '';

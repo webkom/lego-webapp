@@ -1,7 +1,7 @@
-import moment from "moment-timezone";
-import config from "app/config";
-import type { Dateish } from "app/models";
-import "app/models";
+import moment from 'moment-timezone';
+import config from 'app/config';
+import type { Dateish } from 'app/models';
+import 'app/models';
 type Props = {
   format?: string;
   time?: Dateish;
@@ -29,15 +29,20 @@ function Time({
   wordsAgo = false,
   ...props
 }: Props) {
-  const formatted = getFormattedDateTime(moment.tz(time || moment(), config.timezone), wordsAgo ? 'timeAgoInWords' : format);
-  return <time dateTime={time} {...(props as Record<string, any>)}>
+  const formatted = getFormattedDateTime(
+    moment.tz(time || moment(), config.timezone),
+    wordsAgo ? 'timeAgoInWords' : format
+  );
+  return (
+    <time dateTime={time} {...(props as Record<string, any>)}>
       {formatted}
-    </time>;
+    </time>
+  );
 }
 
 export const FormatTime = ({
   time,
-  format
+  format,
 }: {
   time: Dateish;
   format?: string;
@@ -45,19 +50,15 @@ export const FormatTime = ({
   const dateTime = moment(time);
 
   if (!format) {
-    const defaultFormat = moment().isSame(dateTime, 'year') ? 'dddd DD. MMM HH:mm' : 'dddd DD. MMM YYYY HH:mm';
+    const defaultFormat = moment().isSame(dateTime, 'year')
+      ? 'dddd DD. MMM HH:mm'
+      : 'dddd DD. MMM YYYY HH:mm';
     return <Time time={dateTime} format={defaultFormat} />;
   } else {
     return <Time time={dateTime} format={format} />;
   }
 };
-export const FromToTime = ({
-  from,
-  to
-}: {
-  from: Dateish;
-  to: Dateish;
-}) => {
+export const FromToTime = ({ from, to }: { from: Dateish; to: Dateish }) => {
   const fromTime = moment(from);
   const toTime = moment(to);
   const toIsUnderADayAfter = toTime.diff(fromTime) < moment.duration(1, 'day');
@@ -74,9 +75,11 @@ export const FromToTime = ({
   }
 
   const toFormat = toIsUnderADayAfter ? 'HH:mm' : fromFormat;
-  return <span>
+  return (
+    <span>
       <FormatTime time={fromTime} format={fromFormat} /> -{' '}
       <FormatTime time={toTime} format={toFormat} />
-    </span>;
+    </span>
+  );
 };
 export default Time;

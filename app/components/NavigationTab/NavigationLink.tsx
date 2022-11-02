@@ -1,6 +1,6 @@
-import type { Node } from "react";
-import { NavLink } from "react-router-dom";
-import styles from "./NavigationLink.css";
+import type { Node } from 'react';
+import { NavLink } from 'react-router-dom';
+import styles from './NavigationLink.css';
 type Props = {
   to: string;
   onClick?: (e: Event) => void;
@@ -16,9 +16,18 @@ const NavigationLink = (props: Props) => {
     return props.to.replace(regex, '') === comparePath.replace(regex, '');
   };
 
-  return <NavLink exact isActive={isActive} to={props.to} onClick={props.onClick} className={styles.link} activeClassName={styles.active}>
+  return (
+    <NavLink
+      exact
+      isActive={isActive}
+      to={props.to}
+      onClick={props.onClick}
+      className={styles.link}
+      activeClassName={styles.active}
+    >
       {props.children}
-    </NavLink>;
+    </NavLink>
+  );
 };
 
 export default NavigationLink;

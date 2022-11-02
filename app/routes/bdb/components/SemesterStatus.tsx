@@ -1,12 +1,21 @@
-import { Component } from "react";
-import styles from "./bdb.css";
-import { selectColorCode, selectMostProminentStatus, getContactedStatuses } from "../utils";
-import SemesterStatusContent from "./SemesterStatusContent";
-import type { BaseSemesterStatusEntity } from "app/reducers/companies";
-import type { CompanySemesterContactedStatus } from "app/models";
+import { Component } from 'react';
+import styles from './bdb.css';
+import {
+  selectColorCode,
+  selectMostProminentStatus,
+  getContactedStatuses,
+} from '../utils';
+import SemesterStatusContent from './SemesterStatusContent';
+import type { BaseSemesterStatusEntity } from 'app/reducers/companies';
+import type { CompanySemesterContactedStatus } from 'app/models';
 type Props = {
   semesterStatus: BaseSemesterStatusEntity;
-  editChangedStatuses: (arg0: number, arg1: number, arg2: number | null | undefined, arg3: Array<CompanySemesterContactedStatus>) => any;
+  editChangedStatuses: (
+    arg0: number,
+    arg1: number,
+    arg2: number | null | undefined,
+    arg3: Array<CompanySemesterContactedStatus>
+  ) => any;
   companyId: number;
   semIndex: number;
 };
@@ -15,20 +24,36 @@ type State = {
 };
 export default class SemesterStatus extends Component<Props, State> {
   state = {
-    displayDropdown: false
+    displayDropdown: false,
   };
 
   render() {
-    const {
-      semesterStatus,
-      companyId,
-      semIndex
-    } = this.props;
-    return <td className={styles[selectColorCode(selectMostProminentStatus(semesterStatus.contactedStatus))]} style={{
-      padding: 0
-    }}>
-        <SemesterStatusContent semesterStatus={semesterStatus} editFunction={statusString => this.props.editChangedStatuses(companyId, semIndex, semesterStatus.id, getContactedStatuses(semesterStatus.contactedStatus, statusString))} />
-      </td>;
+    const { semesterStatus, companyId, semIndex } = this.props;
+    return (
+      <td
+        className={
+          styles[
+            selectColorCode(
+              selectMostProminentStatus(semesterStatus.contactedStatus)
+            )
+          ]
+        }
+        style={{
+          padding: 0,
+        }}
+      >
+        <SemesterStatusContent
+          semesterStatus={semesterStatus}
+          editFunction={(statusString) =>
+            this.props.editChangedStatuses(
+              companyId,
+              semIndex,
+              semesterStatus.id,
+              getContactedStatuses(semesterStatus.contactedStatus, statusString)
+            )
+          }
+        />
+      </td>
+    );
   }
-
 }

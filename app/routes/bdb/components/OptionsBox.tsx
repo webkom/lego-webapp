@@ -1,7 +1,7 @@
-import { Component } from "react";
-import styles from "./optionsBox.css";
-import { CheckBox, RadioButton, SelectInput } from "app/components/Form";
-import type { CompanyEntity } from "app/reducers/companies";
+import { Component } from 'react';
+import styles from './optionsBox.css';
+import { CheckBox, RadioButton, SelectInput } from 'app/components/Form';
+import type { CompanyEntity } from 'app/reducers/companies';
 type Props = {
   companies: Array<CompanyEntity>;
   updateFilters: (arg0: string, arg1: unknown) => void;
@@ -13,9 +13,7 @@ type State = {
   studentContact: boolean;
   values: {
     active: boolean;
-    studentContact:
-    /*TODO: StudentContact */
-    any;
+    studentContact: /*TODO: StudentContact */ any;
   };
 };
 export default class OptionsBox extends Component<Props, State> {
@@ -24,15 +22,11 @@ export default class OptionsBox extends Component<Props, State> {
     studentContact: false,
     values: {
       active: true,
-      studentContact: {}
-    }
+      studentContact: {},
+    },
   };
   toggleSection = (section: string) => {
-    const {
-      filters,
-      updateFilters,
-      removeFilters
-    } = this.props;
+    const { filters, updateFilters, removeFilters } = this.props;
 
     if (filters[section] === undefined) {
       updateFilters(section, this.state.values[section]);
@@ -45,76 +39,123 @@ export default class OptionsBox extends Component<Props, State> {
     this.setState(state);
   };
   updateFilters = (name: string, value: unknown) => {
-    const {
-      updateFilters
-    } = this.props;
-    this.setState(state => ({ ...state,
-      values: { ...state.values,
-        [name]: value
-      }
+    const { updateFilters } = this.props;
+    this.setState((state) => ({
+      ...state,
+      values: { ...state.values, [name]: value },
     }));
     updateFilters(name, value);
   };
   removeFilters = (name: string) => {
-    const {
-      removeFilters
-    } = this.props;
-    this.setState(state => ({ ...state,
-      values: { ...state.values,
-        [name]: undefined
-      }
+    const { removeFilters } = this.props;
+    this.setState((state) => ({
+      ...state,
+      values: { ...state.values, [name]: undefined },
     }));
     removeFilters(name);
   };
 
   render() {
-    return <div className={styles.optionsBox}>
-        <span style={{
-        display: 'block',
-        fontSize: '18px',
-        marginBottom: '5px'
-      }}>
+    return (
+      <div className={styles.optionsBox}>
+        <span
+          style={{
+            display: 'block',
+            fontSize: '18px',
+            marginBottom: '5px',
+          }}
+        >
           Filtrer basert på om bedriften...
         </span>
 
-        <div style={{
-        display: 'flex',
-        flexDirection: 'column'
-      }}>
-          <div className={styles.section} style={{
-          order: 0
-        }}>
-            <CheckBox id="isActive" value={this.state.active} name="active" label="Er aktiv" onChange={() => this.toggleSection('active')} />
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+        >
+          <div
+            className={styles.section}
+            style={{
+              order: 0,
+            }}
+          >
+            <CheckBox
+              id="isActive"
+              value={this.state.active}
+              name="active"
+              label="Er aktiv"
+              onChange={() => this.toggleSection('active')}
+            />
 
-            <div className={styles.options} style={{
-            display: this.state.active ? 'block' : 'none'
-          }}>
+            <div
+              className={styles.options}
+              style={{
+                display: this.state.active ? 'block' : 'none',
+              }}
+            >
               <label>
-                <RadioButton name="active" id="active" inputValue={true} value={this.state.values.active} onChange={() => this.updateFilters('active', true)} />
+                <RadioButton
+                  name="active"
+                  id="active"
+                  inputValue={true}
+                  value={this.state.values.active}
+                  onChange={() => this.updateFilters('active', true)}
+                />
                 <span>Vis bare aktive bedrifter</span>
               </label>
               <label>
-                <RadioButton name="active" id="inactive" inputValue={false} value={this.state.values.active} onChange={() => this.updateFilters('active', false)} />
+                <RadioButton
+                  name="active"
+                  id="inactive"
+                  inputValue={false}
+                  value={this.state.values.active}
+                  onChange={() => this.updateFilters('active', false)}
+                />
                 <span>Vis bare inaktive bedrifter</span>
               </label>
             </div>
 
-            <CheckBox id="hasStudentContact" value={this.state.studentContact} name="studentContact" label="Har studentkontakt ..." onChange={() => this.toggleSection('studentContact')} />
+            <CheckBox
+              id="hasStudentContact"
+              value={this.state.studentContact}
+              name="studentContact"
+              label="Har studentkontakt ..."
+              onChange={() => this.toggleSection('studentContact')}
+            />
 
-            <div className={styles.options} style={{
-            display: this.state.studentContact ? 'block' : 'none'
-          }}>
-              <SelectInput.WithAutocomplete value={{
-              id: this.state.values.studentContact && Number(this.state.values.studentContact.id),
-              label: this.state.values.studentContact && this.state.values.studentContact.fullName
-            }} placeholder="Studentkontakt" name="studentContact" filter={['users.user']} onChange={user => user ? this.updateFilters('studentContact', {
-              id: Number(user.id),
-              fullName: user.label
-            }) : this.removeFilters('studentContact')} onBlur={() => null} />
+            <div
+              className={styles.options}
+              style={{
+                display: this.state.studentContact ? 'block' : 'none',
+              }}
+            >
+              <SelectInput.WithAutocomplete
+                value={{
+                  id:
+                    this.state.values.studentContact &&
+                    Number(this.state.values.studentContact.id),
+                  label:
+                    this.state.values.studentContact &&
+                    this.state.values.studentContact.fullName,
+                }}
+                placeholder="Studentkontakt"
+                name="studentContact"
+                filter={['users.user']}
+                onChange={(user) =>
+                  user
+                    ? this.updateFilters('studentContact', {
+                        id: Number(user.id),
+                        fullName: user.label,
+                      })
+                    : this.removeFilters('studentContact')
+                }
+                onBlur={() => null}
+              />
             </div>
           </div>
         </div>
-      </div>;
+      </div>
+    );
   }
-
 }

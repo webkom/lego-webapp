@@ -1,10 +1,10 @@
-import createQueryString from "../createQueryString";
+import createQueryString from '../createQueryString';
 describe('createQueryString', () => {
   it('should work for strings and numbers', () => {
     const qs = createQueryString({
       year: 2016,
       name: 'webkom',
-      foo: 0
+      foo: 0,
     });
     expect(qs).toBe('?year=2016&name=webkom&foo=0');
   });
@@ -12,7 +12,7 @@ describe('createQueryString', () => {
     const qs = createQueryString({
       year: '',
       name: '',
-      bar: null
+      bar: null,
     });
     expect(qs).toBe('');
   });

@@ -1,6 +1,6 @@
-import Icon from "app/components/Icon";
-import { lookupContext } from "../context";
-import type { AggregatedActivity } from "../types";
+import Icon from 'app/components/Icon';
+import { lookupContext } from '../context';
+import type { AggregatedActivity } from '../types';
 
 /**
  * Group by object

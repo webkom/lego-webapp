@@ -1,5 +1,5 @@
-import surveySubmissions from "../surveySubmissions";
-import { SurveySubmission } from "../../actions/ActionTypes";
+import surveySubmissions from '../surveySubmissions';
+import { SurveySubmission } from '../../actions/ActionTypes';
 describe('reducers', () => {
   describe('surveySubmissions', () => {
     const baseState = {
@@ -7,14 +7,14 @@ describe('reducers', () => {
       pagination: {},
       paginationNext: {},
       items: [],
-      byId: {}
+      byId: {},
     };
     it('SurveySubmission.ADD.SUCCESS adds survey id to submission object', () => {
       const prevState = baseState;
       const action = {
         type: SurveySubmission.ADD.SUCCESS,
         meta: {
-          surveyId: 9
+          surveyId: 9,
         },
         payload: {
           result: 3,
@@ -22,11 +22,11 @@ describe('reducers', () => {
             surveySubmissions: {
               3: {
                 id: 3,
-                test: 'abc'
-              }
-            }
-          }
-        }
+                test: 'abc',
+              },
+            },
+          },
+        },
       };
       expect(surveySubmissions(prevState, action)).toEqual({
         actionGrant: [],
@@ -37,9 +37,9 @@ describe('reducers', () => {
           3: {
             id: 3,
             test: 'abc',
-            survey: 9
-          }
-        }
+            survey: 9,
+          },
+        },
       });
     });
   });

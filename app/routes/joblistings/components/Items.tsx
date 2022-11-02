@@ -1,27 +1,29 @@
-import { $Keys } from "utility-types";
-import joinValues from "app/utils/joinValues";
-import type { Workplace, Joblisting } from "app/models";
+import { $Keys } from 'utility-types';
+import joinValues from 'app/utils/joinValues';
+import type { Workplace, Joblisting } from 'app/models';
 type YearProps = {
   joblisting: Joblisting;
 };
-export const Year = ({
-  joblisting
-}: YearProps) => <span>
-    {joblisting.fromYear === joblisting.toYear ? `${joblisting.fromYear}. ` : `${joblisting.fromYear}. - ${joblisting.toYear}. `}
+export const Year = ({ joblisting }: YearProps) => (
+  <span>
+    {joblisting.fromYear === joblisting.toYear
+      ? `${joblisting.fromYear}. `
+      : `${joblisting.fromYear}. - ${joblisting.toYear}. `}
     klasse
-  </span>;
+  </span>
+);
 type WorkplacesProps = {
   places: Array<Workplace>;
 };
-export const Workplaces = ({
-  places
-}: WorkplacesProps) => <span>{joinValues(places.map(place => place.town))}</span>;
+export const Workplaces = ({ places }: WorkplacesProps) => (
+  <span>{joinValues(places.map((place) => place.town))}</span>
+);
 const types = {
   full_time: 'Fulltid',
   part_time: 'Deltid',
   summer_job: 'Sommerjobb',
   master_thesis: 'Masteroppgave',
-  other: 'Annet'
+  other: 'Annet',
 };
 type JobType = $Keys<typeof types>;
 export const jobType = (status: JobType) => {

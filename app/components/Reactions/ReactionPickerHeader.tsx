@@ -1,5 +1,5 @@
-import styles from "./ReactionPickerHeader.css";
-import ReactionPickerCategory from "./ReactionPickerCategory";
+import styles from './ReactionPickerHeader.css';
+import ReactionPickerCategory from './ReactionPickerCategory';
 type Props = {
   categories: Array<string>;
   activeCategory: string | null;
@@ -9,9 +9,18 @@ type Props = {
 const ReactionPickerHeader = ({
   categories,
   activeCategory,
-  onCategoryClick
-}: Props) => <div className={styles.reactionPickerHeader}>
-    {categories.map(category => <ReactionPickerCategory key={category} name={category} isActive={category === activeCategory} onCategoryClick={onCategoryClick} />)}
-  </div>;
+  onCategoryClick,
+}: Props) => (
+  <div className={styles.reactionPickerHeader}>
+    {categories.map((category) => (
+      <ReactionPickerCategory
+        key={category}
+        name={category}
+        isActive={category === activeCategory}
+        onCategoryClick={onCategoryClick}
+      />
+    ))}
+  </div>
+);
 
 export default ReactionPickerHeader;

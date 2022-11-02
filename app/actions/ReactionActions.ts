@@ -1,33 +1,35 @@
-import callAPI from "app/actions/callAPI";
-import { Reaction } from "./ActionTypes";
-import type { ID } from "app/models";
-import type { Thunk } from "app/types";
-import { reactionSchema } from "app/reducers";
+import callAPI from 'app/actions/callAPI';
+import { Reaction } from './ActionTypes';
+import type { ID } from 'app/models';
+import type { Thunk } from 'app/types';
+import { reactionSchema } from 'app/reducers';
 export function addReaction({
   emoji,
   contentTarget,
-  unicodeString
+  unicodeString,
 }: {
   emoji: string;
   contentTarget: string;
   unicodeString: string;
 }): Thunk<any> {
-  return dispatch => {
-    return dispatch(callAPI({
-      types: Reaction.ADD,
-      endpoint: '/reactions/',
-      method: 'POST',
-      body: {
-        emoji,
-        content_target: contentTarget
-      },
-      meta: {
-        emoji,
-        contentTarget,
-        unicodeString
-      },
-      schema: reactionSchema
-    })).catch(action => {
+  return (dispatch) => {
+    return dispatch(
+      callAPI({
+        types: Reaction.ADD,
+        endpoint: '/reactions/',
+        method: 'POST',
+        body: {
+          emoji,
+          content_target: contentTarget,
+        },
+        meta: {
+          emoji,
+          contentTarget,
+          unicodeString,
+        },
+        schema: reactionSchema,
+      })
+    ).catch((action) => {
       const status = action.payload.response.status;
       let errorMessage = 'Reaksjon feilet';
 
@@ -41,15 +43,15 @@ export function addReaction({
         type: Reaction.ADD.FAILURE,
         error: true,
         meta: {
-          errorMessage
-        }
+          errorMessage,
+        },
       });
     });
   };
 }
 export function deleteReaction({
   reactionId,
-  contentTarget
+  contentTarget,
 }: {
   reactionId: ID;
   contentTarget: string;
@@ -61,7 +63,7 @@ export function deleteReaction({
     meta: {
       id: reactionId,
       contentTarget,
-      errorMessage: 'Sletting av reaksjon feilet'
-    }
+      errorMessage: 'Sletting av reaksjon feilet',
+    },
   });
 }

@@ -1,4 +1,4 @@
-import joinValues from "app/utils/joinValues";
+import joinValues from 'app/utils/joinValues';
 export function formatHeader(values: Array<any>) {
   if (values.length === 3) {
     values = values.slice(0, 2);

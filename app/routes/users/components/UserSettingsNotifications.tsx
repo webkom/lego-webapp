@@ -1,17 +1,23 @@
-import { CheckBox } from "app/components/Form";
-import styles from "./UserSettingsNotifications.css";
-import type { UserEntity } from "app/reducers/users";
+import { CheckBox } from 'app/components/Form';
+import styles from './UserSettingsNotifications.css';
+import type { UserEntity } from 'app/reducers/users';
 type Props = {
   currentUser: UserEntity;
-  updateUser: (arg0: Record<string, any>, arg1: {
-    noRedirect: boolean;
-  }) => Promise<void>;
+  updateUser: (
+    arg0: Record<string, any>,
+    arg1: {
+      noRedirect: boolean;
+    }
+  ) => Promise<void>;
   alternatives: {
     channels: Array<string>;
     notificationTypes: Array<string>;
   };
   settings: Record<string, any>;
-  updateNotificationSetting: (notificationType: string, channels: Array<any>) => void;
+  updateNotificationSetting: (
+    notificationType: string,
+    channels: Array<any>
+  ) => void;
 };
 const notificationTypeTraslations = {
   weekly_mail: 'Ukesmail',
@@ -23,25 +29,29 @@ const notificationTypeTraslations = {
   meeting_invite: 'Invitasjon til møte',
   meeting_invitation_reminder: 'Ubesvarte møteinvitasjoner',
   penalty_creation: 'Ny prikk',
-  restricted_mail_sent: 'Engangs-e-poster som sendes til bestemte grupper (begrenset e-post)',
+  restricted_mail_sent:
+    'Engangs-e-poster som sendes til bestemte grupper (begrenset e-post)',
   company_interest_created: 'Ny bedriftsinteresse',
   comment: 'Ny kommentar',
   comment_reply: 'Svar på kommentar',
   announcement: 'Kunngjøring/Viktig melding',
   survey_created: 'Ny spørreundersøkelse',
   registration_reminder: 'Påminnelse om påmelding til arrangementer',
-  inactive_warning: 'Varsel om at kontoen din snart blir slettet grunnet inaktivitet',
-  deleted_warning: 'Varsel om at kontoen din har blitt slettet grunnet inaktivitet'
+  inactive_warning:
+    'Varsel om at kontoen din snart blir slettet grunnet inaktivitet',
+  deleted_warning:
+    'Varsel om at kontoen din har blitt slettet grunnet inaktivitet',
 };
 
 const UserSettingsNotifications = (props: Props) => {
-  const defaultNotificationSetting = notificationType => ({
+  const defaultNotificationSetting = (notificationType) => ({
     notificationType,
     enabled: true,
-    channels: props.alternatives.channels
+    channels: props.alternatives.channels,
   });
 
-  return <div>
+  return (
+    <div>
       <h1>Notifikasjoner</h1>
 
       <p>
@@ -60,49 +70,72 @@ const UserSettingsNotifications = (props: Props) => {
         <thead>
           <tr>
             <th>Type</th>
-            {props.alternatives.channels.map((channel, key) => <th key={key}>{channel}</th>)}
+            {props.alternatives.channels.map((channel, key) => (
+              <th key={key}>{channel}</th>
+            ))}
           </tr>
         </thead>
         <tbody>
           <tr key="emailLists">
             <td>E-poster som sendes direkte til deg</td>
             <td>
-              <CheckBox value={props.currentUser.emailListsEnabled} onChange={event => {
-              const target = event.target;
-              const value = target.checked;
-              props.updateUser({ ...props.currentUser,
-                emailListsEnabled: value
-              }, {
-                noRedirect: true
-              });
-            }} />
+              <CheckBox
+                value={props.currentUser.emailListsEnabled}
+                onChange={(event) => {
+                  const target = event.target;
+                  const value = target.checked;
+                  props.updateUser(
+                    { ...props.currentUser, emailListsEnabled: value },
+                    {
+                      noRedirect: true,
+                    }
+                  );
+                }}
+              />
             </td>
           </tr>
           {props.alternatives.notificationTypes.map((notificationType, key) => {
-          const setting = props.settings[notificationType] || defaultNotificationSetting(notificationType);
+            const setting =
+              props.settings[notificationType] ||
+              defaultNotificationSetting(notificationType);
 
-          const channnelSetting = channel => setting.channels.includes(channel) && setting.enabled;
+            const channnelSetting = (channel) =>
+              setting.channels.includes(channel) && setting.enabled;
 
-          const changeSetting = (changeChannel, value) => {
-            props.updateNotificationSetting(notificationType, props.alternatives.channels.filter(channel => changeChannel === channel ? value : channnelSetting(channel)));
-          };
+            const changeSetting = (changeChannel, value) => {
+              props.updateNotificationSetting(
+                notificationType,
+                props.alternatives.channels.filter((channel) =>
+                  changeChannel === channel ? value : channnelSetting(channel)
+                )
+              );
+            };
 
-          return <tr key={key}>
+            return (
+              <tr key={key}>
                 <td>
-                  {notificationTypeTraslations[notificationType] || notificationType.replace(/_/g, ' ')}
+                  {notificationTypeTraslations[notificationType] ||
+                    notificationType.replace(/_/g, ' ')}
                 </td>
-                {props.alternatives.channels.map((channel, key) => <td key={key}>
-                    <CheckBox value={channnelSetting(channel)} onChange={event => {
-                const target = event.target;
-                const value = target.checked;
-                changeSetting(channel, value);
-              }} />
-                  </td>)}
-              </tr>;
-        })}
+                {props.alternatives.channels.map((channel, key) => (
+                  <td key={key}>
+                    <CheckBox
+                      value={channnelSetting(channel)}
+                      onChange={(event) => {
+                        const target = event.target;
+                        const value = target.checked;
+                        changeSetting(channel, value);
+                      }}
+                    />
+                  </td>
+                ))}
+              </tr>
+            );
+          })}
         </tbody>
       </table>
-    </div>;
+    </div>
+  );
 };
 
 export default UserSettingsNotifications;

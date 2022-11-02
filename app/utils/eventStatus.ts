@@ -1,15 +1,19 @@
-import type { Event } from "app/models";
-import moment from "moment-timezone";
+import type { Event } from 'app/models';
+import moment from 'moment-timezone';
 
 // Calculate diplay message for an event based on
 // eventStatusType, activationTime, capacity and totalCapacity
-const eventStatus = (event: Event, loggedIn: boolean = false, isPill: boolean = false): string | boolean => {
+const eventStatus = (
+  event: Event,
+  loggedIn: boolean = false,
+  isPill: boolean = false
+): string | boolean => {
   const {
     registrationCount,
     totalCapacity,
     activationTime,
     isAdmitted,
-    eventStatusType
+    eventStatusType,
   } = event;
   const future = moment().isBefore(activationTime);
 
@@ -54,19 +58,17 @@ const eventStatus = (event: Event, loggedIn: boolean = false, isPill: boolean = 
 };
 
 const eventAttendance = (event: Event): string | boolean => {
-  const {
-    registrationCount,
-    totalCapacity,
-    activationTime,
-    isAdmitted
-  } = event;
+  const { registrationCount, totalCapacity, activationTime, isAdmitted } =
+    event;
 
   if (!isAdmitted && activationTime === null) {
     return false;
   }
 
   const isFuture = moment().isBefore(activationTime);
-  return isFuture && !isAdmitted ? `${totalCapacity} plasser` : `${registrationCount} / ${totalCapacity}`;
+  return isFuture && !isAdmitted
+    ? `${totalCapacity} plasser`
+    : `${registrationCount} / ${totalCapacity}`;
 };
 
 export { eventStatus, eventAttendance };

@@ -1,6 +1,6 @@
-import type { Node } from "react";
-import { Component } from "react";
-import styles from "./Carousel.css";
+import type { Node } from 'react';
+import { Component } from 'react';
+import styles from './Carousel.css';
 type MenuItem = {
   item: Record<string, any>;
   isActive: boolean;
@@ -17,36 +17,36 @@ type State = {
 
 class Carousel extends Component<Props, State> {
   state = {
-    selectedIndex: 0
+    selectedIndex: 0,
   };
   static defaultProps = {
-    renderMenuItem: () => <div />
+    renderMenuItem: () => <div />,
   };
 
   render() {
-    const {
-      items,
-      renderMenuItem,
-      renderContent
-    } = this.props;
-    return <div className={styles.carousel}>
+    const { items, renderMenuItem, renderContent } = this.props;
+    return (
+      <div className={styles.carousel}>
         <div className={styles.left}>
-          {items.map((item, index) => renderMenuItem({
-          item,
-          isActive: this.state.selectedIndex === index,
-          onClick: () => this.setState({
-            selectedIndex: index
-          })
-        }))}
+          {items.map((item, index) =>
+            renderMenuItem({
+              item,
+              isActive: this.state.selectedIndex === index,
+              onClick: () =>
+                this.setState({
+                  selectedIndex: index,
+                }),
+            })
+          )}
         </div>
         <div className={styles.right}>
           {renderContent({
-          item: items[this.state.selectedIndex]
-        })}
+            item: items[this.state.selectedIndex],
+          })}
         </div>
-      </div>;
+      </div>
+    );
   }
-
 }
 
 export default Carousel;

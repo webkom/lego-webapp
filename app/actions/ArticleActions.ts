@@ -1,33 +1,35 @@
-import { Article } from "./ActionTypes";
-import { articleSchema } from "app/reducers";
-import callAPI from "app/actions/callAPI";
-import type { EntityID, ArticleEntity, Thunk } from "app/types";
-import { push } from "connected-react-router";
+import { Article } from './ActionTypes';
+import { articleSchema } from 'app/reducers';
+import callAPI from 'app/actions/callAPI';
+import type { EntityID, ArticleEntity, Thunk } from 'app/types';
+import { push } from 'connected-react-router';
 export function fetchArticle(articleId: EntityID): Thunk<any> {
   return callAPI({
     types: Article.FETCH,
     endpoint: `/articles/${articleId}/`,
     schema: articleSchema,
     meta: {
-      errorMessage: 'Henting av artikkel feilet'
+      errorMessage: 'Henting av artikkel feilet',
     },
-    propagateError: true
+    propagateError: true,
   });
 }
-export function createArticle({
-  id,
-  ...data
-}: ArticleEntity): Thunk<any> {
-  return dispatch => dispatch(callAPI({
-    types: Article.CREATE,
-    endpoint: '/articles/',
-    method: 'POST',
-    schema: articleSchema,
-    body: data,
-    meta: {
-      errorMessage: 'Opprettelse av artikkel feilet'
-    }
-  })).then(res => dispatch(push(`/articles/${(res as any).payload.result}/`)));
+export function createArticle({ id, ...data }: ArticleEntity): Thunk<any> {
+  return (dispatch) =>
+    dispatch(
+      callAPI({
+        types: Article.CREATE,
+        endpoint: '/articles/',
+        method: 'POST',
+        schema: articleSchema,
+        body: data,
+        meta: {
+          errorMessage: 'Opprettelse av artikkel feilet',
+        },
+      })
+    ).then((res) =>
+      dispatch(push(`/articles/${(res as any).payload.result}/`))
+    );
 }
 export function deleteArticle(id: number): Thunk<any> {
   return callAPI({
@@ -36,28 +38,28 @@ export function deleteArticle(id: number): Thunk<any> {
     method: 'DELETE',
     meta: {
       id,
-      errorMessage: 'Sletting av artikkel feilet'
-    }
+      errorMessage: 'Sletting av artikkel feilet',
+    },
   });
 }
-export function editArticle({
-  id,
-  ...data
-}: ArticleEntity): Thunk<any> {
-  return dispatch => dispatch(callAPI({
-    types: Article.EDIT,
-    endpoint: `/articles/${id}/`,
-    method: 'PUT',
-    schema: articleSchema,
-    body: data,
-    meta: {
-      errorMessage: 'Endring av artikkel feilet'
-    }
-  })).then(res => dispatch(push(`/articles/${id}/`)));
+export function editArticle({ id, ...data }: ArticleEntity): Thunk<any> {
+  return (dispatch) =>
+    dispatch(
+      callAPI({
+        types: Article.EDIT,
+        endpoint: `/articles/${id}/`,
+        method: 'PUT',
+        schema: articleSchema,
+        body: data,
+        meta: {
+          errorMessage: 'Endring av artikkel feilet',
+        },
+      })
+    ).then((res) => dispatch(push(`/articles/${id}/`)));
 }
 export function fetchAll({
   query,
-  next = false
+  next = false,
 }: {
   query?: Record<string, any>;
   next?: boolean;
@@ -68,11 +70,11 @@ export function fetchAll({
     schema: [articleSchema],
     query,
     pagination: {
-      fetchNext: next
+      fetchNext: next,
     },
     meta: {
-      errorMessage: 'Henting av artikler feilet'
+      errorMessage: 'Henting av artikler feilet',
     },
-    propagateError: true
+    propagateError: true,
   });
 }

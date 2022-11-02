@@ -1,14 +1,14 @@
-import callAPI from "./callAPI";
-import type { Thunk } from "app/types";
-import { NotificationSettings } from "./ActionTypes";
+import callAPI from './callAPI';
+import type { Thunk } from 'app/types';
+import { NotificationSettings } from './ActionTypes';
 export function fetchNotificationAlternatives(): Thunk<any> {
   return callAPI({
     types: NotificationSettings.FETCH_ALTERNATIVES,
     endpoint: '/notification-settings/alternatives/',
     meta: {
-      errorMessage: 'Henting av varslingsalternativer feilet'
+      errorMessage: 'Henting av varslingsalternativer feilet',
     },
-    propagateError: true
+    propagateError: true,
   });
 }
 export function fetchNotificationSettings(): Thunk<any> {
@@ -16,12 +16,15 @@ export function fetchNotificationSettings(): Thunk<any> {
     types: NotificationSettings.FETCH,
     endpoint: '/notification-settings/',
     meta: {
-      errorMessage: 'Henting av varslingsinnstillinger feilet'
+      errorMessage: 'Henting av varslingsinnstillinger feilet',
     },
-    propagateError: true
+    propagateError: true,
   });
 }
-export function updateNotificationSetting(notificationType: string, channels: Array<string>): Thunk<any> {
+export function updateNotificationSetting(
+  notificationType: string,
+  channels: Array<string>
+): Thunk<any> {
   return callAPI({
     types: NotificationSettings.UPDATE,
     endpoint: '/notification-settings/',
@@ -29,11 +32,11 @@ export function updateNotificationSetting(notificationType: string, channels: Ar
     body: {
       notificationType,
       enabled: true,
-      channels
+      channels,
     },
     meta: {
       errorMessage: 'Oppdatering av varslingsinnstillinger feilet',
-      successMessage: 'Varslingsinnstillinger oppdatert'
-    }
+      successMessage: 'Varslingsinnstillinger oppdatert',
+    },
   });
 }

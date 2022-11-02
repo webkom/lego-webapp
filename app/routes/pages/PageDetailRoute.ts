@@ -1,15 +1,36 @@
-import type { Node } from "react";
-import { compose } from "redux";
-import { connect } from "react-redux";
-import prepare from "app/utils/prepare";
-import type { Thunk } from "app/types";
-import { fetchPage, updatePage, fetchAll as fetchAllPages } from "app/actions/PageActions";
-import { fetchAllMemberships, fetchAllWithType, fetchGroup } from "app/actions/GroupActions";
-import PageDetail, { FlatpageRenderer, GroupRenderer } from "./components/PageDetail";
-import LandingPage from "./components/LandingPage";
-import { GroupTypeCommittee, GroupTypeBoard, GroupTypeRevue } from "app/models";
-import { selectPagesForHierarchy, selectCommitteeForHierarchy, selectRevueForHierarchy, selectBoardsForHierarchy, selectPageHierarchy, selectCommitteeForPages, selectFlatpageForPages, selectNotFoundpageForPages, selectInfoPageForPages } from "app/reducers/pages";
-import HTTPError from "app/routes/errors/HTTPError";
+import type { Node } from 'react';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import prepare from 'app/utils/prepare';
+import type { Thunk } from 'app/types';
+import {
+  fetchPage,
+  updatePage,
+  fetchAll as fetchAllPages,
+} from 'app/actions/PageActions';
+import {
+  fetchAllMemberships,
+  fetchAllWithType,
+  fetchGroup,
+} from 'app/actions/GroupActions';
+import PageDetail, {
+  FlatpageRenderer,
+  GroupRenderer,
+} from './components/PageDetail';
+import LandingPage from './components/LandingPage';
+import { GroupTypeCommittee, GroupTypeBoard, GroupTypeRevue } from 'app/models';
+import {
+  selectPagesForHierarchy,
+  selectCommitteeForHierarchy,
+  selectRevueForHierarchy,
+  selectBoardsForHierarchy,
+  selectPageHierarchy,
+  selectCommitteeForPages,
+  selectFlatpageForPages,
+  selectNotFoundpageForPages,
+  selectInfoPageForPages,
+} from 'app/reducers/pages';
+import HTTPError from 'app/routes/errors/HTTPError';
 type Entry = {
   title: string;
   section: string;
@@ -17,7 +38,9 @@ type Entry = {
   hierarchySectionSelector: any;
   PageRenderer: (arg0: any) => Node;
   fetchAll?: () => Thunk<any>;
-  fetchItemActions: Array<((arg0: number) => Thunk<any>) | ((arg0: string) => Thunk<any>)>;
+  fetchItemActions: Array<
+    ((arg0: number) => Thunk<any>) | ((arg0: string) => Thunk<any>)
+  >;
 };
 const sections: Record<string, Entry> = {
   generelt: {
@@ -27,7 +50,7 @@ const sections: Record<string, Entry> = {
     hierarchySectionSelector: selectPagesForHierarchy('generelt'),
     PageRenderer: FlatpageRenderer,
     fetchAll: fetchAllPages,
-    fetchItemActions: [fetchPage]
+    fetchItemActions: [fetchPage],
   },
   organisasjon: {
     title: 'Organisasjon',
@@ -36,7 +59,7 @@ const sections: Record<string, Entry> = {
     hierarchySectionSelector: selectPagesForHierarchy('organisasjon'),
     PageRenderer: FlatpageRenderer,
     fetchAll: fetchAllPages,
-    fetchItemActions: [fetchPage]
+    fetchItemActions: [fetchPage],
   },
   styrer: {
     title: 'Styrer',
@@ -45,7 +68,10 @@ const sections: Record<string, Entry> = {
     hierarchySectionSelector: selectBoardsForHierarchy,
     PageRenderer: GroupRenderer,
     fetchAll: () => fetchAllWithType(GroupTypeBoard),
-    fetchItemActions: [fetchGroup, (groupId: number) => fetchAllMemberships(groupId, true)]
+    fetchItemActions: [
+      fetchGroup,
+      (groupId: number) => fetchAllMemberships(groupId, true),
+    ],
   },
   bedrifter: {
     title: 'Bedrifter',
@@ -53,7 +79,7 @@ const sections: Record<string, Entry> = {
     pageSelector: selectFlatpageForPages,
     hierarchySectionSelector: selectPagesForHierarchy('bedrifter'),
     PageRenderer: FlatpageRenderer,
-    fetchItemActions: [fetchPage]
+    fetchItemActions: [fetchPage],
   },
   arrangementer: {
     title: 'Arrangementer',
@@ -61,7 +87,7 @@ const sections: Record<string, Entry> = {
     pageSelector: selectFlatpageForPages,
     hierarchySectionSelector: selectPagesForHierarchy('arrangementer'),
     PageRenderer: FlatpageRenderer,
-    fetchItemActions: [fetchPage]
+    fetchItemActions: [fetchPage],
   },
   komiteer: {
     title: 'Komiteer',
@@ -70,7 +96,10 @@ const sections: Record<string, Entry> = {
     hierarchySectionSelector: selectCommitteeForHierarchy,
     PageRenderer: GroupRenderer,
     fetchAll: () => fetchAllWithType(GroupTypeCommittee),
-    fetchItemActions: [fetchGroup, (groupId: number) => fetchAllMemberships(groupId, true)]
+    fetchItemActions: [
+      fetchGroup,
+      (groupId: number) => fetchAllMemberships(groupId, true),
+    ],
   },
   revy: {
     title: 'Revy',
@@ -79,7 +108,10 @@ const sections: Record<string, Entry> = {
     hierarchySectionSelector: selectRevueForHierarchy,
     PageRenderer: GroupRenderer,
     fetchAll: () => fetchAllWithType(GroupTypeRevue),
-    fetchItemActions: [fetchGroup, (groupId: number) => fetchAllMemberships(groupId, true)]
+    fetchItemActions: [
+      fetchGroup,
+      (groupId: number) => fetchAllMemberships(groupId, true),
+    ],
   },
   grupper: {
     title: 'Grupper',
@@ -87,7 +119,7 @@ const sections: Record<string, Entry> = {
     pageSelector: selectFlatpageForPages,
     hierarchySectionSelector: selectPagesForHierarchy('grupper'),
     PageRenderer: FlatpageRenderer,
-    fetchItemActions: [fetchPage]
+    fetchItemActions: [fetchPage],
   },
   utnevnelser: {
     title: 'Utnevnelser',
@@ -96,7 +128,7 @@ const sections: Record<string, Entry> = {
     hierarchySectionSelector: selectPagesForHierarchy('utnevnelser'),
     PageRenderer: FlatpageRenderer,
     fetchAll: fetchAllPages,
-    fetchItemActions: [fetchPage]
+    fetchItemActions: [fetchPage],
   },
   personvern: {
     title: 'Personvern',
@@ -104,7 +136,7 @@ const sections: Record<string, Entry> = {
     pageSelector: selectFlatpageForPages,
     hierarchySectionSelector: selectPagesForHierarchy('personvern'),
     PageRenderer: FlatpageRenderer,
-    fetchItemActions: [fetchPage]
+    fetchItemActions: [fetchPage],
   },
   'info-om-abakus': {
     title: 'Info om Abakus',
@@ -112,37 +144,41 @@ const sections: Record<string, Entry> = {
     pageSelector: selectInfoPageForPages,
     hierarchySectionSelector: () => ({
       title: 'hehe',
-      items: []
+      items: [],
     }),
     PageRenderer: LandingPage,
-    fetchItemActions: []
-  }
+    fetchItemActions: [],
+  },
 };
-export const categoryOptions = Object.keys(sections).map<Entry>(key => sections[key]).filter((entry: Entry) => entry.pageSelector === selectFlatpageForPages).map<{
-  value: string;
-  label: string;
-}>((entry: Entry) => ({
-  value: entry.section,
-  label: entry.title
-}));
+export const categoryOptions = Object.keys(sections)
+  .map<Entry>((key) => sections[key])
+  .filter((entry: Entry) => entry.pageSelector === selectFlatpageForPages)
+  .map<{
+    value: string;
+    label: string;
+  }>((entry: Entry) => ({
+    value: entry.section,
+    label: entry.title,
+  }));
 
-const getSection = sectionName => sections[sectionName] || {
-  pageSelector: selectNotFoundpageForPages,
-  PageRenderer: HTTPError,
-  fetchItemActions: []
-};
+const getSection = (sectionName) =>
+  sections[sectionName] || {
+    pageSelector: selectNotFoundpageForPages,
+    PageRenderer: HTTPError,
+    fetchItemActions: [],
+  };
 
 const loadData = async (props, dispatch) => {
-  const {
-    fetchItemActions
-  } = getSection(props.match.params.section);
-  const {
-    pageSlug
-  } = props.match.params;
+  const { fetchItemActions } = getSection(props.match.params.section);
+  const { pageSlug } = props.match.params;
 
   // Only handle flatpages when user isn't authenticated
   if (!props.loggedIn) {
-    return Promise.all(fetchItemActions.map(action => dispatch(action(pageSlug))).concat(dispatch(fetchAllPages())));
+    return Promise.all(
+      fetchItemActions
+        .map((action) => dispatch(action(pageSlug)))
+        .concat(dispatch(fetchAllPages()))
+    );
   }
 
   const itemActions = [];
@@ -152,27 +188,26 @@ const loadData = async (props, dispatch) => {
   }
 
   // Avoid dispatching duplicate actions
-  const uniqueFetches = [...new Set(Object.keys(sections).map(key => sections[key].fetchAll).filter(Boolean))];
-  return Promise.all(uniqueFetches.map(fetch => dispatch(fetch())).concat(itemActions));
+  const uniqueFetches = [
+    ...new Set(
+      Object.keys(sections)
+        .map((key) => sections[key].fetchAll)
+        .filter(Boolean)
+    ),
+  ];
+  return Promise.all(
+    uniqueFetches.map((fetch) => dispatch(fetch())).concat(itemActions)
+  );
 };
 
 const mapStateToProps = (state, props) => {
-  const {
-    section,
-    pageSlug
-  } = props.match.params;
+  const { section, pageSlug } = props.match.params;
   const pageHierarchy = selectPageHierarchy(state, {
-    sections
+    sections,
   });
-  const {
-    pageSelector,
-    PageRenderer
-  } = getSection(section);
-  const {
-    selectedPage,
-    selectedPageInfo
-  } = pageSelector(state, {
-    pageSlug
+  const { pageSelector, PageRenderer } = getSection(section);
+  const { selectedPage, selectedPageInfo } = pageSelector(state, {
+    pageSlug,
   });
   return {
     selectedPage,
@@ -180,11 +215,14 @@ const mapStateToProps = (state, props) => {
     PageRenderer,
     pageHierarchy,
     pageSlug,
-    currentUrl: props.location.pathname
+    currentUrl: props.location.pathname,
   };
 };
 
 const mapDispatchToProps = {
-  updatePage
+  updatePage,
 };
-export default compose(prepare(loadData, ['match.params.pageSlug']), connect(mapStateToProps, mapDispatchToProps))(PageDetail);
+export default compose(
+  prepare(loadData, ['match.params.pageSlug']),
+  connect(mapStateToProps, mapDispatchToProps)
+)(PageDetail);

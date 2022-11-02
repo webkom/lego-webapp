@@ -1,9 +1,9 @@
-import { commentSchema } from "app/reducers";
-import callAPI from "app/actions/callAPI";
-import { Comment } from "./ActionTypes";
-import type { Thunk } from "app/types";
-import type { ID } from "app/models";
-import "app/models";
+import { commentSchema } from 'app/reducers';
+import callAPI from 'app/actions/callAPI';
+import { Comment } from './ActionTypes';
+import type { Thunk } from 'app/types';
+import type { ID } from 'app/models';
+import 'app/models';
 export type CommentEntity = {
   text: string;
   contentTarget: string;
@@ -12,7 +12,7 @@ export type CommentEntity = {
 export function addComment({
   text,
   contentTarget,
-  parent
+  parent,
 }: CommentEntity): Thunk<Promise<Record<string, any> | null | undefined>> {
   return callAPI({
     types: Comment.ADD,
@@ -21,18 +21,23 @@ export function addComment({
     body: {
       text,
       content_target: contentTarget,
-      ...(parent ? {
-        parent
-      } : {})
+      ...(parent
+        ? {
+            parent,
+          }
+        : {}),
     },
     meta: {
       contentTarget,
-      errorMessage: 'Kommentering feilet'
+      errorMessage: 'Kommentering feilet',
     },
-    schema: commentSchema
+    schema: commentSchema,
   });
 }
-export function deleteComment(commentId: ID, contentTarget: string): Thunk<any> {
+export function deleteComment(
+  commentId: ID,
+  contentTarget: string
+): Thunk<any> {
   return callAPI({
     types: Comment.DELETE,
     endpoint: `/comments/${commentId}/`,
@@ -41,7 +46,7 @@ export function deleteComment(commentId: ID, contentTarget: string): Thunk<any> 
       id: commentId,
       contentTarget,
       errorMessage: 'Sletting av kommentar feilet',
-      successMessage: 'Kommentar slettet'
-    }
+      successMessage: 'Kommentar slettet',
+    },
   });
 }

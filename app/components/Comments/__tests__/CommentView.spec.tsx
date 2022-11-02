@@ -1,7 +1,7 @@
-import { shallow } from "enzyme";
-import CommentView from "../CommentView";
-import CommentTree from "../CommentTree";
-import comments from "./fixtures/comments";
+import { shallow } from 'enzyme';
+import CommentView from '../CommentView';
+import CommentTree from '../CommentTree';
+import comments from './fixtures/comments';
 describe('components', () => {
   describe('CommentView', () => {
     it('should render a comment tree', () => {

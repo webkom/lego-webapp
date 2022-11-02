@@ -1,10 +1,10 @@
-import { Component } from "react";
-import type { Article } from "app/models";
-import { Image } from "app/components/Image";
-import truncateString from "app/utils/truncateString";
-import { Flex } from "app/components/Layout";
-import { Link } from "react-router-dom";
-import styles from "./ArticleItem.css";
+import { Component } from 'react';
+import type { Article } from 'app/models';
+import { Image } from 'app/components/Image';
+import truncateString from 'app/utils/truncateString';
+import { Flex } from 'app/components/Layout';
+import { Link } from 'react-router-dom';
+import styles from './ArticleItem.css';
 type Props = {
   item: Article;
   url: string;
@@ -14,21 +14,27 @@ type Props = {
 
 class ArticleItem extends Component<Props, any> {
   render() {
-    const {
-      item,
-      url,
-      meta,
-      weekly
-    } = this.props;
+    const { item, url, meta, weekly } = this.props;
     const TITLE_MAX_LENGTH = 45;
     const DESC_MAX_LENGTH = 100;
-    return <div className={styles.body} style={weekly && {
-      margin: '0'
-    }}>
+    return (
+      <div
+        className={styles.body}
+        style={
+          weekly && {
+            margin: '0',
+          }
+        }
+      >
         <Flex column>
           <Flex column>
             <Link to={url} className={styles.link}>
-              <Image className={styles.image} src={item.cover} placeholder={item.coverPlaceholder} height="110" />
+              <Image
+                className={styles.image}
+                src={item.cover}
+                placeholder={item.coverPlaceholder}
+                height="110"
+              />
               <div className={styles.infoWrapper}>
                 <h2 className={styles.articleTitle}>
                   {truncateString(item.title, TITLE_MAX_LENGTH)}
@@ -46,9 +52,9 @@ class ArticleItem extends Component<Props, any> {
             </Link>
           </Flex>
         </Flex>
-      </div>;
+      </div>
+    );
   }
-
 }
 
 export default ArticleItem;

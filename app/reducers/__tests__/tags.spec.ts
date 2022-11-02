@@ -1,25 +1,25 @@
-import tags from "../tags";
-import { Tag } from "../../actions/ActionTypes";
+import tags from '../tags';
+import { Tag } from '../../actions/ActionTypes';
 describe('reducers', () => {
   describe('tags', () => {
     const baseState = {
       actionGrant: [],
       pagination: {},
       items: [],
-      byId: {}
+      byId: {},
     };
     it('Fetching popular tags populates state', () => {
       const prevState = baseState;
       const action = {
         type: Tag.POPULAR.SUCCESS,
-        payload: [1, 2, 3]
+        payload: [1, 2, 3],
       };
       expect(tags(prevState, action)).toEqual({
         actionGrant: [],
         pagination: {},
         items: [],
         byId: {},
-        popular: [1, 2, 3]
+        popular: [1, 2, 3],
       });
     });
   });

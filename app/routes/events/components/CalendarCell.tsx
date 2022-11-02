@@ -1,14 +1,14 @@
-import moment from "moment-timezone";
-import { connect } from "react-redux";
-import cx from "classnames";
-import { Link } from "react-router-dom";
-import { createSelector } from "reselect";
-import Circle from "app/components/Circle";
-import Popover from "app/components/Popover";
-import { colorForEvent } from "../utils";
-import styles from "./Calendar.css";
-import Pill from "app/components/Pill";
-import type { Event } from "app/models";
+import moment from 'moment-timezone';
+import { connect } from 'react-redux';
+import cx from 'classnames';
+import { Link } from 'react-router-dom';
+import { createSelector } from 'reselect';
+import Circle from 'app/components/Circle';
+import Popover from 'app/components/Popover';
+import { colorForEvent } from '../utils';
+import styles from './Calendar.css';
+import Pill from 'app/components/Pill';
+import type { Event } from 'app/models';
 
 const renderEvent = ({
   id,
@@ -17,30 +17,49 @@ const renderEvent = ({
   eventType,
   registrationCount,
   startTime,
-  totalCapacity
-}: Event) => <Popover key={id} triggerComponent={<div className={cx(styles.cell, moment(startTime) < moment() && styles.previousEvent)}>
+  totalCapacity,
+}: Event) => (
+  <Popover
+    key={id}
+    triggerComponent={
+      <div
+        className={cx(
+          styles.cell,
+          moment(startTime) < moment() && styles.previousEvent
+        )}
+      >
         <span>
-          <Circle color={colorForEvent(eventType)} style={{
-      marginRight: '5px'
-    }} />
+          <Circle
+            color={colorForEvent(eventType)}
+            style={{
+              marginRight: '5px',
+            }}
+          />
         </span>
         <Link to={`/events/${id}`} title={title}>
           {title}
         </Link>
-      </div>}>
+      </div>
+    }
+  >
     <div>
       <h3 className={styles.eventItemTitle}>
         {title}
-        {totalCapacity > 0 && <Pill style={{
-        marginLeft: 10
-      }}>
+        {totalCapacity > 0 && (
+          <Pill
+            style={{
+              marginLeft: 10,
+            }}
+          >
             {`${registrationCount} / ${totalCapacity}`}
-          </Pill>}
+          </Pill>
+        )}
       </h3>
 
       {description}
     </div>
-  </Popover>;
+  </Popover>
+);
 
 type CalendarCellProps = {
   day: moment$Moment;
@@ -56,21 +75,41 @@ const CalendarCell = ({
   day,
   className,
   prevOrNextMonth,
-  events = []
-}: CalendarCellProps) => <div className={cx(styles.day, prevOrNextMonth && styles.prevNextMonthDay, className)}>
-    <strong className={cx(styles.dayNumber, day.isSame(moment(), 'day') && styles.currentDay)}>
+  events = [],
+}: CalendarCellProps) => (
+  <div
+    className={cx(
+      styles.day,
+      prevOrNextMonth && styles.prevNextMonthDay,
+      className
+    )}
+  >
+    <strong
+      className={cx(
+        styles.dayNumber,
+        day.isSame(moment(), 'day') && styles.currentDay
+      )}
+    >
       {day.date()}
     </strong>
     {events.map(renderEvent)}
-  </div>;
+  </div>
+);
 
-const selectEvents = createSelector(state => state.events.items, state => state.events.byId, (state, props) => props.day, (eventIds, eventsById, day) => eventIds.map(id => eventsById[id]).filter(event => moment(event.startTime).isSame(day, 'day')));
+const selectEvents = createSelector(
+  (state) => state.events.items,
+  (state) => state.events.byId,
+  (state, props) => props.day,
+  (eventIds, eventsById, day) =>
+    eventIds
+      .map((id) => eventsById[id])
+      .filter((event) => moment(event.startTime).isSame(day, 'day'))
+);
 
 function mapStateToProps(state, ownProps) {
   return {
-    events: selectEvents(state, ownProps)
+    events: selectEvents(state, ownProps),
   };
 } // @ts-expect-error
-
 
 export default connect(mapStateToProps)(CalendarCell);

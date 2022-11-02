@@ -1,13 +1,13 @@
-import { Component } from "react";
-import cx from "classnames";
-import Dropdown from "../Dropdown";
-import Icon from "../Icon";
-import { activityRenderers } from "../Feed";
-import Time from "app/components/Time";
-import styles from "./HeaderNotifications.css";
-import { Link } from "react-router-dom";
-import ErrorBoundary from "app/components/ErrorBoundary";
-import { toSpan } from "../Feed/context";
+import { Component } from 'react';
+import cx from 'classnames';
+import Dropdown from '../Dropdown';
+import Icon from '../Icon';
+import { activityRenderers } from '../Feed';
+import Time from 'app/components/Time';
+import styles from './HeaderNotifications.css';
+import { Link } from 'react-router-dom';
+import ErrorBoundary from 'app/components/ErrorBoundary';
+import { toSpan } from '../Feed/context';
 type Props = {
   notificationsData: Record<string, any>;
   fetchNotifications: () => void;
@@ -20,27 +20,38 @@ type State = {
 };
 
 const NotificationElement = ({
-  notification
+  notification,
 }: {
   notification: Record<string, any>;
 }) => {
   const renders = activityRenderers[notification.verb];
 
   if (renders) {
-    return <Link to={renders.getURL(notification)}>
-        <div className={cx(styles.notification, !notification.read ? styles.unRead : null)}>
+    return (
+      <Link to={renders.getURL(notification)}>
+        <div
+          className={cx(
+            styles.notification,
+            !notification.read ? styles.unRead : null
+          )}
+        >
           <div className={styles.innerNotification}>
             <div className={styles.icon}>{renders.icon(notification)}</div>
             <div>
               {renders.activityHeader(notification, toSpan)}
-              <Time time={notification.updatedAt} wordsAgo style={{
-              margin: '0',
-              display: 'block'
-            }} />
+              <Time
+                time={notification.updatedAt}
+                wordsAgo
+                style={{
+                  margin: '0',
+                  display: 'block',
+                }}
+              />
             </div>
           </div>
         </div>
-      </Link>;
+      </Link>
+    );
   }
 
   return null;
@@ -48,48 +59,77 @@ const NotificationElement = ({
 
 export default class NotificationsDropdown extends Component<Props, State> {
   state = {
-    notificationsOpen: false
+    notificationsOpen: false,
   };
   fetch = () => {
     this.props.fetchNotifications();
     this.props.fetchNotificationData();
   };
   renderNotifications = (notifications: Array<Record<string, any>>) => {
-    return <div>
-        {notifications.map(notification => <ErrorBoundary hidden key={notification.id}>
+    return (
+      <div>
+        {notifications.map((notification) => (
+          <ErrorBoundary hidden key={notification.id}>
             <NotificationElement notification={notification} />
-          </ErrorBoundary>)}
-      </div>;
+          </ErrorBoundary>
+        ))}
+      </div>
+    );
   };
 
   render() {
-    const {
-      notificationsData,
-      fetchNotifications,
-      notifications
-    } = this.props;
-    const {
-      unreadCount
-    } = notificationsData;
-    return <Dropdown show={this.state.notificationsOpen} toggle={() => this.setState({
-      notificationsOpen: !this.state.notificationsOpen
-    }, () => this.state.notificationsOpen ? fetchNotifications() : this.props.markAllNotifications())} closeOnContentClick triggerComponent={<Icon.Badge name="notifications" className={styles.notificationBell} badgeCount={this.state.notificationsOpen ? 0 : unreadCount} />} contentClassName={styles.notifications}>
-        {
-        /* TODO FIXME - do same as the menu element*/
-      }
-        {notifications.length ? <div style={{
-        width: '100%'
-      }}>
-            <div style={{
-          maxHeight: '400px',
-          overflowY: 'auto'
-        }}>
+    const { notificationsData, fetchNotifications, notifications } = this.props;
+    const { unreadCount } = notificationsData;
+    return (
+      <Dropdown
+        show={this.state.notificationsOpen}
+        toggle={() =>
+          this.setState(
+            {
+              notificationsOpen: !this.state.notificationsOpen,
+            },
+            () =>
+              this.state.notificationsOpen
+                ? fetchNotifications()
+                : this.props.markAllNotifications()
+          )
+        }
+        closeOnContentClick
+        triggerComponent={
+          <Icon.Badge
+            name="notifications"
+            className={styles.notificationBell}
+            badgeCount={this.state.notificationsOpen ? 0 : unreadCount}
+          />
+        }
+        contentClassName={styles.notifications}
+      >
+        {/* TODO FIXME - do same as the menu element*/}
+        {notifications.length ? (
+          <div
+            style={{
+              width: '100%',
+            }}
+          >
+            <div
+              style={{
+                maxHeight: '400px',
+                overflowY: 'auto',
+              }}
+            >
               {this.renderNotifications(notifications)}
             </div>
-          </div> : <h2 style={{
-        padding: '10px'
-      }}>Ingen varslinger</h2>}
-      </Dropdown>;
+          </div>
+        ) : (
+          <h2
+            style={{
+              padding: '10px',
+            }}
+          >
+            Ingen varslinger
+          </h2>
+        )}
+      </Dropdown>
+    );
   }
-
 }

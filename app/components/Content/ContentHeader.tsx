@@ -1,8 +1,8 @@
-import type { Node } from "react";
-import cx from "classnames";
-import styles from "./ContentHeader.css";
-import { eventTypeToString } from "app/routes/events/utils";
-import type { Event } from "app/models";
+import type { Node } from 'react';
+import cx from 'classnames';
+import styles from './ContentHeader.css';
+import { eventTypeToString } from 'app/routes/events/utils';
+import type { Event } from 'app/models';
 type Props = {
   className?: string;
   borderColor?: string;
@@ -23,16 +23,27 @@ function ContentHeader({
   color,
   ...props
 }: Props) {
-  return <div style={{
-    borderColor
-  }} className={cx(styles.header, className)} {...(props as Record<string, any>)}>
+  return (
+    <div
+      style={{
+        borderColor,
+      }}
+      className={cx(styles.header, className)}
+      {...(props as Record<string, any>)}
+    >
       <h2>{children}</h2>
-      {event && <strong style={{
-      color: borderColor
-    }} className={styles.eventType}>
+      {event && (
+        <strong
+          style={{
+            color: borderColor,
+          }}
+          className={styles.eventType}
+        >
           {eventTypeToString(event.eventType)}
-        </strong>}
-    </div>;
+        </strong>
+      )}
+    </div>
+  );
 }
 
 export default ContentHeader;

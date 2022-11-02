@@ -1,14 +1,18 @@
-import { Component } from "react";
-import { Container, Flex } from "app/components/Layout";
-import { LoginForm, RegisterForm, ForgotPasswordForm } from "app/components/LoginForm";
-import styles from "./PublicFrontpage.css";
-import netcompany from "app/assets/netcompany_dark.png";
-import CompactEvents from "./CompactEvents";
-import { Link } from "react-router-dom";
-import { Image } from "app/components/Image";
-import truncateString from "app/utils/truncateString";
-import Time from "app/components/Time";
-import { readmeIfy } from "app/components/ReadmeLogo";
+import { Component } from 'react';
+import { Container, Flex } from 'app/components/Layout';
+import {
+  LoginForm,
+  RegisterForm,
+  ForgotPasswordForm,
+} from 'app/components/LoginForm';
+import styles from './PublicFrontpage.css';
+import netcompany from 'app/assets/netcompany_dark.png';
+import CompactEvents from './CompactEvents';
+import { Link } from 'react-router-dom';
+import { Image } from 'app/components/Image';
+import truncateString from 'app/utils/truncateString';
+import Time from 'app/components/Time';
+import { readmeIfy } from 'app/components/ReadmeLogo';
 // import Banner, { COLORS } from 'app/components/Banner';
 type Props = {
   frontpage: Array<Record<string, any>>;
@@ -22,35 +26,41 @@ type State = {
 class PublicFrontpage extends Component<Props, State> {
   state = {
     registerUser: false,
-    forgotPassword: false
+    forgotPassword: false,
   };
-  toggleRegisterUser = () => this.setState({
-    registerUser: true
-  });
-  toggleForgotPassword = () => this.setState({
-    forgotPassword: true
-  });
-  toggleBack = () => this.setState({
-    registerUser: false,
-    forgotPassword: false
-  });
+  toggleRegisterUser = () =>
+    this.setState({
+      registerUser: true,
+    });
+  toggleForgotPassword = () =>
+    this.setState({
+      forgotPassword: true,
+    });
+  toggleBack = () =>
+    this.setState({
+      registerUser: false,
+      forgotPassword: false,
+    });
 
   render() {
-    const {
-      registerUser,
-      forgotPassword
-    } = this.state;
+    const { registerUser, forgotPassword } = this.state;
 
-    const isEvent = item => item.documentType === 'event';
+    const isEvent = (item) => item.documentType === 'event';
 
-    const isArticle = item => item.documentType === 'article';
+    const isArticle = (item) => item.documentType === 'article';
 
-    const topArticle = this.props.frontpage.filter(isArticle).slice(0, 1).map(item => <div key={item.id} className={styles.innerArticle}>
+    const topArticle = this.props.frontpage
+      .filter(isArticle)
+      .slice(0, 1)
+      .map((item) => (
+        <div key={item.id} className={styles.innerArticle}>
           <div className={styles.articleTitle}>
             <h4>{truncateString(item.title, 60)}</h4>
-            <h5 style={{
-          whitespace: 'pre'
-        }}>
+            <h5
+              style={{
+                whitespace: 'pre',
+              }}
+            >
               <Time format="dd D.MM" time={item.createdAt} />
             </h5>
           </div>
@@ -58,19 +68,29 @@ class PublicFrontpage extends Component<Props, State> {
             <Image src={item.cover} placeholder={item.coverPlaceholder} />
           </Link>
           {truncateString(item.description, 500)}
-        </div>);
-    const title = registerUser ? 'Registrer bruker' : forgotPassword ? 'Glemt passord' : 'Logg inn';
-    const form = registerUser ? <RegisterForm /> : forgotPassword ? <ForgotPasswordForm /> : <LoginForm />;
+        </div>
+      ));
+    const title = registerUser
+      ? 'Registrer bruker'
+      : forgotPassword
+      ? 'Glemt passord'
+      : 'Logg inn';
+    const form = registerUser ? (
+      <RegisterForm />
+    ) : forgotPassword ? (
+      <ForgotPasswordForm />
+    ) : (
+      <LoginForm />
+    );
     const [latestReadme] = this.props.readmes || [];
-    return <Container>
-        {
-        /* <Banner
+    return (
+      <Container>
+        {/* <Banner
          header="Abakusrevyen har opptak!"
          subHeader="Søk her"
          link="https://opptak.abakus.no"
          color={COLORS.red}
-        /> */
-      }
+        /> */}
         <Container className={styles.container}>
           <div className={styles.welcome}>
             <h2 className="u-mb">Velkommen til Abakus</h2>
@@ -89,31 +109,57 @@ class PublicFrontpage extends Component<Props, State> {
             </p>
           </div>
           <div className={styles.login}>
-            <Flex component="h2" justifyContent="space-between" alignItems="center" className="u-mb" style={{
-            whiteSpace: 'nowrap'
-          }}>
+            <Flex
+              component="h2"
+              justifyContent="space-between"
+              alignItems="center"
+              className="u-mb"
+              style={{
+                whiteSpace: 'nowrap',
+              }}
+            >
               {title}
-              {!(registerUser || forgotPassword) && <div>
-                  <button onClick={this.toggleForgotPassword} className={styles.toggleButton}>
+              {!(registerUser || forgotPassword) && (
+                <div>
+                  <button
+                    onClick={this.toggleForgotPassword}
+                    className={styles.toggleButton}
+                  >
                     Glemt passord
                   </button>
                   <span className={styles.toggleButton}>&bull;</span>
-                  <button onClick={this.toggleRegisterUser} className={styles.toggleButton}>
+                  <button
+                    onClick={this.toggleRegisterUser}
+                    className={styles.toggleButton}
+                  >
                     Jeg er ny
                   </button>
-                </div>}
-              {(registerUser || forgotPassword) && <button onClick={this.toggleBack} className={styles.toggleButton}>
+                </div>
+              )}
+              {(registerUser || forgotPassword) && (
+                <button
+                  onClick={this.toggleBack}
+                  className={styles.toggleButton}
+                >
                   Tilbake
-                </button>}
+                </button>
+              )}
             </Flex>
             {form}
           </div>
           <div className={styles.events}>
-            <CompactEvents events={this.props.frontpage.filter(isEvent)} frontpageHeading />
+            <CompactEvents
+              events={this.props.frontpage.filter(isEvent)}
+              frontpageHeading
+            />
           </div>
           <div className={styles.hsp}>
             <a href="https://www.netcompany.com/no" target="blank">
-              <Image className={styles.hspImage} src={netcompany} alt="NETCOMPANY" />
+              <Image
+                className={styles.hspImage}
+                src={netcompany}
+                alt="NETCOMPANY"
+              />
             </a>
             Hovedsamarbeidspartneren vår er Netcompany. Hos Netcompany står fag,
             innovasjon og samhold sterkt, og de er opptatt av å ta ansvar – både
@@ -125,9 +171,13 @@ class PublicFrontpage extends Component<Props, State> {
           </div>
           <div className={styles.readme}>
             <h2 className="u-mb">Siste utgave av {readmeIfy('readme')} </h2>
-            <a href={latestReadme && latestReadme.pdf} className={styles.thumb} style={{
-            display: 'block'
-          }}>
+            <a
+              href={latestReadme && latestReadme.pdf}
+              className={styles.thumb}
+              style={{
+                display: 'block',
+              }}
+            >
               <Image src={latestReadme && latestReadme.image} />
             </a>
           </div>
@@ -188,13 +238,19 @@ class PublicFrontpage extends Component<Props, State> {
           <div className={styles.facebook}>
             <h2 className="u-mb">Vår Facebook side</h2>
             <div className={styles.facebookIframeContainer}>
-              <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FAbakusNTNU%2F&amp;tabs=timeline&amp;small_header=true&amp;adapt_container_width=true&amp;hide_cover=false&amp;show_facepile=true&amp;appId=1717809791769695" className={styles.facebookIframe} title="facebook" scrolling="no" frameBorder="0" />
+              <iframe
+                src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FAbakusNTNU%2F&amp;tabs=timeline&amp;small_header=true&amp;adapt_container_width=true&amp;hide_cover=false&amp;show_facepile=true&amp;appId=1717809791769695"
+                className={styles.facebookIframe}
+                title="facebook"
+                scrolling="no"
+                frameBorder="0"
+              />
             </div>
           </div>
         </Container>
-      </Container>;
+      </Container>
+    );
   }
-
 }
 
 export default PublicFrontpage;

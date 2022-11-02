@@ -1,27 +1,31 @@
-import { connect } from "react-redux";
-import { createCompanyInterest } from "app/actions/CompanyInterestActions";
-import { fetchSemestersForInterestform } from "app/actions/CompanyActions";
-import { compose } from "redux";
-import { formValueSelector } from "redux-form";
-import { push } from "connected-react-router";
-import CompanyInterestPage, { EVENT_TYPES, OTHER_TYPES, COLLABORATION_TYPES, TARGET_GRADE_TYPES } from "./components/CompanyInterestPage";
-import { selectCompanySemestersForInterestForm } from "app/reducers/companySemesters";
-import prepare from "app/utils/prepare";
-import { sortSemesterChronologically } from "./utils";
+import { connect } from 'react-redux';
+import { createCompanyInterest } from 'app/actions/CompanyInterestActions';
+import { fetchSemestersForInterestform } from 'app/actions/CompanyActions';
+import { compose } from 'redux';
+import { formValueSelector } from 'redux-form';
+import { push } from 'connected-react-router';
+import CompanyInterestPage, {
+  EVENT_TYPES,
+  OTHER_TYPES,
+  COLLABORATION_TYPES,
+  TARGET_GRADE_TYPES,
+} from './components/CompanyInterestPage';
+import { selectCompanySemestersForInterestForm } from 'app/reducers/companySemesters';
+import prepare from 'app/utils/prepare';
+import { sortSemesterChronologically } from './utils';
 
-const loadSemesters = (props, dispatch) => dispatch(fetchSemestersForInterestform());
+const loadSemesters = (props, dispatch) =>
+  dispatch(fetchSemestersForInterestform());
 
 const valueSelector = formValueSelector('CompanyInterestForm');
 
 const mapStateToProps = (state, props) => {
   const semesters = selectCompanySemestersForInterestForm(state);
-  const {
-    pathname
-  } = props.location;
+  const { pathname } = props.location;
 
   if (!semesters) {
     return {
-      edit: false
+      edit: false,
     };
   }
 
@@ -34,35 +38,38 @@ const mapStateToProps = (state, props) => {
   return {
     allowedBdb,
     initialValues: {
-      events: allEvents.map(event => ({
+      events: allEvents.map((event) => ({
         name: event,
-        checked: false
+        checked: false,
       })),
-      otherOffers: allOtherOffers.map(offer => ({
+      otherOffers: allOtherOffers.map((offer) => ({
         name: offer,
-        checked: false
+        checked: false,
       })),
-      collaborations: allCollaborations.map(collab => ({
+      collaborations: allCollaborations.map((collab) => ({
         name: collab,
-        checked: false
+        checked: false,
       })),
-      targetGrades: allTargetGrades.map(targetGrade => ({
+      targetGrades: allTargetGrades.map((targetGrade) => ({
         name: targetGrade,
-        checked: false
+        checked: false,
       })),
       participantRange: null,
-      semesters: semesters.sort(sortSemesterChronologically)
+      semesters: semesters.sort(sortSemesterChronologically),
     },
     interestForm: {
-      events: valueSelector(state, 'events')
+      events: valueSelector(state, 'events'),
     },
     edit: false,
-    language
+    language,
   };
 };
 
 const mapDispatchToProps = {
   push,
-  onSubmit: createCompanyInterest
+  onSubmit: createCompanyInterest,
 };
-export default compose(prepare(loadSemesters), connect(mapStateToProps, mapDispatchToProps))(CompanyInterestPage);
+export default compose(
+  prepare(loadSemesters),
+  connect(mapStateToProps, mapDispatchToProps)
+)(CompanyInterestPage);

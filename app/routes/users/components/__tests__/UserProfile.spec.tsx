@@ -1,6 +1,6 @@
-import UserProfile from "../UserProfile";
-import { shallow } from "enzyme";
-import { Link } from "react-router-dom";
+import UserProfile from '../UserProfile';
+import { shallow } from 'enzyme';
+import { Link } from 'react-router-dom';
 const user = {
   id: 1,
   email: 'webkom@abakus.no',
@@ -9,19 +9,29 @@ const user = {
   isActive: true,
   isStaff: false,
   lastName: 'webkom',
-  username: 'webkom'
+  username: 'webkom',
 };
 describe('<UserProfile />', () => {
   it('should show a settings link if the user is me', () => {
     const wrapper = shallow(<UserProfile user={user} showSettings />);
-    expect(wrapper.containsMatchingElement(<Link to="/users/webkom/settings/profile">Innstillinger</Link>)).toBe(true);
+    expect(
+      wrapper.containsMatchingElement(
+        <Link to="/users/webkom/settings/profile">Innstillinger</Link>
+      )
+    ).toBe(true);
   });
   it('should not show a settings link for other users', () => {
     const wrapper = shallow(<UserProfile user={user} showSettings={false} />);
-    expect(wrapper.containsMatchingElement(<Link to="/users/webkom/settings/profile">Innstillinger</Link>)).toBe(false);
+    expect(
+      wrapper.containsMatchingElement(
+        <Link to="/users/webkom/settings/profile">Innstillinger</Link>
+      )
+    ).toBe(false);
   });
   it('should render user info', () => {
     const wrapper = shallow(<UserProfile user={user} showSettings={false} />);
-    expect(wrapper.containsMatchingElement(<h2>{user.fullName}</h2>)).toBe(true);
+    expect(wrapper.containsMatchingElement(<h2>{user.fullName}</h2>)).toBe(
+      true
+    );
   });
 });

@@ -1,5 +1,5 @@
-import quotes from "../quotes";
-import { Quote } from "../../actions/ActionTypes";
+import quotes from '../quotes';
+import { Quote } from '../../actions/ActionTypes';
 describe('reducers', () => {
   describe('quotes', () => {
     const baseState = {
@@ -10,46 +10,46 @@ describe('reducers', () => {
           hasMore: true,
           hasMoreBackwards: false,
           query: {
-            approved: 'true'
+            approved: 'true',
           },
           next: {
             cursor: 'next-cur',
-            approved: 'true'
+            approved: 'true',
           },
-          items: [4]
+          items: [4],
         },
         '?approved=false': {
           hasMore: true,
           hasMoreBackwards: false,
           query: {
-            approved: 'false'
+            approved: 'false',
           },
           next: {
             cursor: 'next-cur',
-            approved: 'false'
+            approved: 'false',
           },
-          items: [3]
-        }
+          items: [3],
+        },
       },
       items: [3, 4],
       byId: {
         3: {
           id: 3,
-          approved: false
+          approved: false,
         },
         4: {
           id: 4,
-          approved: true
-        }
-      }
+          approved: true,
+        },
+      },
     };
     it('Quote.APPROVE.SUCCESS', () => {
       const prevState = baseState;
       const action = {
         type: Quote.APPROVE.SUCCESS,
         meta: {
-          quoteId: 3
-        }
+          quoteId: 3,
+        },
       };
       expect(quotes(prevState, action)).toEqual({
         actionGrant: [],
@@ -59,38 +59,38 @@ describe('reducers', () => {
             hasMore: true,
             hasMoreBackwards: false,
             query: {
-              approved: 'true'
+              approved: 'true',
             },
             next: {
               cursor: 'next-cur',
-              approved: 'true'
+              approved: 'true',
             },
-            items: [4]
+            items: [4],
           },
           '?approved=false': {
             hasMore: true,
             hasMoreBackwards: false,
             query: {
-              approved: 'false'
+              approved: 'false',
             },
             next: {
               cursor: 'next-cur',
-              approved: 'false'
+              approved: 'false',
             },
-            items: []
-          }
+            items: [],
+          },
         },
         items: [3, 4],
         byId: {
           3: {
             id: 3,
-            approved: true
+            approved: true,
           },
           4: {
             id: 4,
-            approved: true
-          }
-        }
+            approved: true,
+          },
+        },
       });
     });
     it('Quote.UNAPPROVE.SUCCESS', () => {
@@ -98,8 +98,8 @@ describe('reducers', () => {
       const action = {
         type: Quote.UNAPPROVE.SUCCESS,
         meta: {
-          quoteId: 4
-        }
+          quoteId: 4,
+        },
       };
       expect(quotes(prevState, action)).toEqual({
         actionGrant: [],
@@ -109,38 +109,38 @@ describe('reducers', () => {
             hasMore: true,
             hasMoreBackwards: false,
             query: {
-              approved: 'true'
+              approved: 'true',
             },
             next: {
               cursor: 'next-cur',
-              approved: 'true'
+              approved: 'true',
             },
-            items: []
+            items: [],
           },
           '?approved=false': {
             hasMore: true,
             hasMoreBackwards: false,
             query: {
-              approved: 'false'
+              approved: 'false',
             },
             next: {
               cursor: 'next-cur',
-              approved: 'false'
+              approved: 'false',
             },
-            items: [3]
-          }
+            items: [3],
+          },
         },
         items: [3, 4],
         byId: {
           3: {
             id: 3,
-            approved: false
+            approved: false,
           },
           4: {
             id: 4,
-            approved: false
-          }
-        }
+            approved: false,
+          },
+        },
       });
     });
   });

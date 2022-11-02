@@ -1,14 +1,17 @@
-import type { Element } from "react";
-import Icon from "app/components/Icon";
-import { GroupTypeInterest, GroupTypeCommittee } from "app/models";
-import { lookupContext, contextRender } from "../context";
-import type { AggregatedActivity, Activity, TagInfo } from "../types";
-import DisplayContent from "app/components/DisplayContent";
+import type { Element } from 'react';
+import Icon from 'app/components/Icon';
+import { GroupTypeInterest, GroupTypeCommittee } from 'app/models';
+import { lookupContext, contextRender } from '../context';
+import type { AggregatedActivity, Activity, TagInfo } from '../types';
+import DisplayContent from 'app/components/DisplayContent';
 
 /**
  * Grouped by object...
  */
-export function activityHeader(aggregatedActivity: AggregatedActivity, htmlTag: (arg0: TagInfo) => Element<any>) {
+export function activityHeader(
+  aggregatedActivity: AggregatedActivity,
+  htmlTag: (arg0: TagInfo) => Element<any>
+) {
   const latestActivity = aggregatedActivity.lastActivity;
   const actor = lookupContext(aggregatedActivity, latestActivity.actor);
   const target = lookupContext(aggregatedActivity, latestActivity.target);
@@ -25,19 +28,28 @@ export function activityHeader(aggregatedActivity: AggregatedActivity, htmlTag: 
     groupType = 'komiteen';
   }
 
-  return <b>
+  return (
+    <b>
       {htmlTag(contextRender[actor.contentType](actor))}
       {` ble medlem av ${groupType} `}
       {target.name}
-    </b>;
+    </b>
+  );
 }
-export function activityContent(activity: Activity, aggregatedActivity: AggregatedActivity) {
+export function activityContent(
+  activity: Activity,
+  aggregatedActivity: AggregatedActivity
+) {
   const target = lookupContext(aggregatedActivity, activity.target);
-  return <div style={{
-    textAlign: 'center'
-  }}>
+  return (
+    <div
+      style={{
+        textAlign: 'center',
+      }}
+    >
       <DisplayContent content={`<img src="${target.logo}" />`} />
-    </div>;
+    </div>
+  );
 }
 export function icon() {
   return <Icon name="people-outline" />;

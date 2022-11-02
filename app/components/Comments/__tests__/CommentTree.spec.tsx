@@ -1,8 +1,8 @@
-import { mount, shallow } from "enzyme";
-import CommentTree from "../CommentTree";
-import comments from "./fixtures/comments";
-import { generateTreeStructure } from "../../../utils";
-import { MemoryRouter } from "react-router-dom";
+import { mount, shallow } from 'enzyme';
+import CommentTree from '../CommentTree';
+import comments from './fixtures/comments';
+import { generateTreeStructure } from '../../../utils';
+import { MemoryRouter } from 'react-router-dom';
 describe('<CommentTree />', () => {
   beforeAll(() => {
     // jest does not implement this function, so we just
@@ -17,9 +17,11 @@ describe('<CommentTree />', () => {
     expect(commentElements).toHaveLength(2);
   });
   it('should nest comments', () => {
-    const wrapper = mount(<MemoryRouter>
+    const wrapper = mount(
+      <MemoryRouter>
         <CommentTree comments={tree} />
-      </MemoryRouter>);
+      </MemoryRouter>
+    );
     const rootElements = wrapper.find('.root');
     const rootElement = rootElements.at(1);
     const childTree = rootElement.find('.child');

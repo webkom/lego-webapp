@@ -1,14 +1,20 @@
-import type { FormProps } from "redux-form";
-import { reset, Field } from "redux-form";
-import { Content } from "app/components/Content";
-import { semesterToText, SemesterNavigation } from "../utils";
-import styles from "./CompanyInterest.css";
-import { Form, TextInput, RadioButton, RadioButtonGroup, legoForm } from "app/components/Form";
-import type { CompanySemesterEntity } from "app/reducers/companySemesters";
-import Flex from "app/components/Layout/Flex";
-import Icon from "app/components/Icon";
-import Button from "app/components/Button";
-import { createValidator, required } from "app/utils/validation";
+import type { FormProps } from 'redux-form';
+import { reset, Field } from 'redux-form';
+import { Content } from 'app/components/Content';
+import { semesterToText, SemesterNavigation } from '../utils';
+import styles from './CompanyInterest.css';
+import {
+  Form,
+  TextInput,
+  RadioButton,
+  RadioButtonGroup,
+  legoForm,
+} from 'app/components/Form';
+import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
+import Flex from 'app/components/Layout/Flex';
+import Icon from 'app/components/Icon';
+import Button from 'app/components/Button';
+import { createValidator, required } from 'app/utils/validation';
 type Props = {
   onSubmit: (arg0: CompanySemesterEntity) => Promise<any>;
   push: (arg0: string) => void;
@@ -22,35 +28,61 @@ type Props = {
 } & FormProps;
 
 const CompanySemesterGUI = (props: Props) => {
-  const activeSemesters = semesters => <Flex column>
-      {semesters.map((semester, index) => <Flex key={index} className={styles.guiBoxes}>
+  const activeSemesters = (semesters) => (
+    <Flex column>
+      {semesters.map((semester, index) => (
+        <Flex key={index} className={styles.guiBoxes}>
           <div className={styles.checkboxSpan}>
-            {semesterToText({ ...semester,
-          language: 'norwegian'
-        })}
+            {semesterToText({ ...semester, language: 'norwegian' })}
           </div>
-          <Icon name="close-circle" onClick={() => props.editSemester({ ...semester,
-        activeInterestForm: false
-      })} className={styles.remove} />
-        </Flex>)}
-    </Flex>;
+          <Icon
+            name="close-circle"
+            onClick={() =>
+              props.editSemester({ ...semester, activeInterestForm: false })
+            }
+            className={styles.remove}
+          />
+        </Flex>
+      ))}
+    </Flex>
+  );
 
-  const {
-    handleSubmit,
-    autoFocus
-  } = props;
-  return <Content>
+  const { handleSubmit, autoFocus } = props;
+  return (
+    <Content>
       <SemesterNavigation title="Endre aktive semestre" />
       <Form onSubmit={handleSubmit}>
         <Flex className={styles.guiWrapper}>
-          <Flex column style={{
-          marginRight: '50px'
-        }}>
+          <Flex
+            column
+            style={{
+              marginRight: '50px',
+            }}
+          >
             <label className={styles.heading}>Legg til aktivt semester</label>
-            <Field autoFocus={autoFocus} placeholder="2020" label="År" name="year" type="number" component={TextInput.Field} className={styles.yearForm} required />
+            <Field
+              autoFocus={autoFocus}
+              placeholder="2020"
+              label="År"
+              name="year"
+              type="number"
+              component={TextInput.Field}
+              className={styles.yearForm}
+              required
+            />
             <RadioButtonGroup name="semester" label="Semester">
-              <Field name="Spring" label="Vår" component={RadioButton.Field} inputValue="spring" />
-              <Field name="Autumn" label="Høst" component={RadioButton.Field} inputValue="autumn" />
+              <Field
+                name="Spring"
+                label="Vår"
+                component={RadioButton.Field}
+                inputValue="spring"
+              />
+              <Field
+                name="Autumn"
+                label="Høst"
+                component={RadioButton.Field}
+                inputValue="autumn"
+              />
             </RadioButtonGroup>
             <Button submit className={styles.submit}>
               Legg til semester
@@ -62,37 +94,38 @@ const CompanySemesterGUI = (props: Props) => {
           </Flex>
         </Flex>
       </Form>
-    </Content>;
+    </Content>
+  );
 };
 
-const onSubmit = ({
-  year,
-  semester
-}, dispatch, props: Props) => {
-  const {
-    semesters,
-    addSemester,
-    editSemester
-  } = props;
-  const existingCompanySemester = semesters.find(companySemester => {
-    return Number(companySemester.year) === Number(year) && companySemester.semester === semester;
+const onSubmit = ({ year, semester }, dispatch, props: Props) => {
+  const { semesters, addSemester, editSemester } = props;
+  const existingCompanySemester = semesters.find((companySemester) => {
+    return (
+      Number(companySemester.year) === Number(year) &&
+      companySemester.semester === semester
+    );
   });
-  if (existingCompanySemester) return editSemester({ ...existingCompanySemester,
-    activeInterestForm: true
-  });else return addSemester({
-    year,
-    semester
-  }); // Default is activeInterestForm: true
+  if (existingCompanySemester)
+    return editSemester({
+      ...existingCompanySemester,
+      activeInterestForm: true,
+    });
+  else
+    return addSemester({
+      year,
+      semester,
+    }); // Default is activeInterestForm: true
 };
 
 const validate = createValidator({
   year: [required()],
-  semester: [required()]
+  semester: [required()],
 });
 export default legoForm({
   form: 'addCompanySemester',
   onSubmitSuccess: (result, dispatch) => dispatch(reset('addCompanySemester')),
   onSubmit,
   enableReinitialize: true,
-  validate
+  validate,
 })(CompanySemesterGUI);

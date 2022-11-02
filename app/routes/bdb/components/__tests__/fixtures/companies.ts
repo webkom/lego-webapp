@@ -1,33 +1,43 @@
-const companies = [{
-  name: 'BEKK',
-  id: 1,
-  semesterStatuses: [{
+const companies = [
+  {
+    name: 'BEKK',
     id: 1,
-    year: 2017,
-    semester: 'spring',
-    contactedStatus: ['Kontaktet', 'Ikke kontaktet', 'Bedpres', 'Kurs']
-  }],
-  studentContact: 'Marius Kotlarz',
-  adminComment: 'Husk logo på alle sider'
-}, {
-  name: 'Facebook',
-  id: 2,
-  semesterStatuses: [{
+    semesterStatuses: [
+      {
+        id: 1,
+        year: 2017,
+        semester: 'spring',
+        contactedStatus: ['Kontaktet', 'Ikke kontaktet', 'Bedpres', 'Kurs'],
+      },
+    ],
+    studentContact: 'Marius Kotlarz',
+    adminComment: 'Husk logo på alle sider',
+  },
+  {
+    name: 'Facebook',
     id: 2,
-    year: 2017,
-    semester: 'autumn',
-    contactedStatus: ['Kontaktet', 'Ikke kontaktet', 'Bedpres', 'Kurs']
-  }],
-  studentContact: 'Finn Smith'
-}, {
-  name: 'Itera',
-  id: 3,
-  semesterStatuses: [{
+    semesterStatuses: [
+      {
+        id: 2,
+        year: 2017,
+        semester: 'autumn',
+        contactedStatus: ['Kontaktet', 'Ikke kontaktet', 'Bedpres', 'Kurs'],
+      },
+    ],
+    studentContact: 'Finn Smith',
+  },
+  {
+    name: 'Itera',
     id: 3,
-    year: 2027,
-    semester: 'spring',
-    contactedStatus: ['Kontaktet', 'Ikke kontaktet', 'Bedpres', 'Kurs']
-  }],
-  studentContact: 'Ingen'
-}];
+    semesterStatuses: [
+      {
+        id: 3,
+        year: 2027,
+        semester: 'spring',
+        contactedStatus: ['Kontaktet', 'Ikke kontaktet', 'Bedpres', 'Kurs'],
+      },
+    ],
+    studentContact: 'Ingen',
+  },
+];
 export default companies;

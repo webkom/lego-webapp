@@ -1,13 +1,16 @@
-import type { FormProps } from "react-final-form";
-import type { FormApi } from "final-form";
-import { Form } from "react-final-form";
-import createFocusOnErrorDecorator from "final-form-focus";
-import * as Sentry from "@sentry/browser";
-import { handleSubmissionErrorFinalForm } from "app/components/Form/utils";
-import { isEqual } from "lodash";
+import type { FormProps } from 'react-final-form';
+import type { FormApi } from 'final-form';
+import { Form } from 'react-final-form';
+import createFocusOnErrorDecorator from 'final-form-focus';
+import * as Sentry from '@sentry/browser';
+import { handleSubmissionErrorFinalForm } from 'app/components/Form/utils';
+import { isEqual } from 'lodash';
 const focusOnError = createFocusOnErrorDecorator();
 type LegoFormProps = {
-  onSubmit: (values: Record<string, any>, form: FormApi<Record<string, any>>) => Promise<Record<string, any> | null | undefined>;
+  onSubmit: (
+    values: Record<string, any>,
+    form: FormApi<Record<string, any>>
+  ) => Promise<Record<string, any> | null | undefined>;
 
   /*
    * Automatic submission error handling
@@ -33,18 +36,27 @@ const LegoFinalForm = ({
     decorators = [focusOnError, ...decorators];
   }
 
-  return <Form {...rest} initialValuesEqual={isEqual} decorators={decorators} onSubmit={(values, form) => onSubmit(values, form).catch(error => {
-    Sentry.captureException(error);
-    if (__DEV__) console.error(error);
+  return (
+    <Form
+      {...rest}
+      initialValuesEqual={isEqual}
+      decorators={decorators}
+      onSubmit={(values, form) =>
+        onSubmit(values, form).catch((error) => {
+          Sentry.captureException(error);
+          if (__DEV__) console.error(error);
 
-    if (!enableSubmissionError) {
-      throw error;
-    }
+          if (!enableSubmissionError) {
+            throw error;
+          }
 
-    return handleSubmissionErrorFinalForm(error);
-  })}>
+          return handleSubmissionErrorFinalForm(error);
+        })
+      }
+    >
       {children}
-    </Form>;
+    </Form>
+  );
 };
 
 export default LegoFinalForm;

@@ -1,10 +1,10 @@
 /* eslint-disable react/no-danger */
-import { Component } from "react";
-import styles from "./Sidebar.css";
-import PageHierarchy from "./PageHierarchy";
-import cx from "classnames";
-import type { HierarchySectionEntity } from "./PageHierarchy";
-import Icon from "app/components/Icon";
+import { Component } from 'react';
+import styles from './Sidebar.css';
+import PageHierarchy from './PageHierarchy';
+import cx from 'classnames';
+import type { HierarchySectionEntity } from './PageHierarchy';
+import Icon from 'app/components/Icon';
 type State = {
   isOpen: boolean;
 };
@@ -23,14 +23,21 @@ class Sidebar extends Component<Props, State> {
       currentUrl,
       pageHierarchy,
       isOpen,
-      handleClose
+      handleClose,
     }: Props = this.props;
     // const pictureLabel = 'Hemmelig bilde';
-    return <div className={isOpen ? styles.sidebarWrapper : undefined} onClick={handleClose}>
-        <div className={cx(styles.side, isOpen && styles.isOpen)} onClick={event => {
-        // Just werkz
-        event.stopPropagation();
-      }}>
+    return (
+      <div
+        className={isOpen ? styles.sidebarWrapper : undefined}
+        onClick={handleClose}
+      >
+        <div
+          className={cx(styles.side, isOpen && styles.isOpen)}
+          onClick={(event) => {
+            // Just werkz
+            event.stopPropagation();
+          }}
+        >
           <aside className={styles.sidebar}>
             <div className={styles.sidebarTop}>
               <button className={styles.sidebarCloseBtn} onClick={handleClose}>
@@ -40,8 +47,7 @@ class Sidebar extends Component<Props, State> {
               <h4 className={styles.sidebarSubtitle}>
                 {categorySelected ? categorySelected : 'Generelt'}
               </h4>
-              {
-              /* <div className={styles.sidebarPicture}>
+              {/* <div className={styles.sidebarPicture}>
                <h4 className={styles.pictureHeader}> {"Abakus' Fortid"}</h4>
                <a href="https://abakus.no/">
                  <img
@@ -51,18 +57,22 @@ class Sidebar extends Component<Props, State> {
                  />
                  <span className={styles.pictureInfo}>{pictureLabel}</span>
                </a>
-              </div> */
-            }
+              </div> */}
             </div>
 
             <div className={styles.sidebarBottom}>
-              <PageHierarchy pageHierarchy={pageHierarchy} currentUrl={currentUrl} currentCategory={categorySelected} handleCloseSidebar={handleClose} />
+              <PageHierarchy
+                pageHierarchy={pageHierarchy}
+                currentUrl={currentUrl}
+                currentCategory={categorySelected}
+                handleCloseSidebar={handleClose}
+              />
             </div>
           </aside>
         </div>
-      </div>;
+      </div>
+    );
   }
-
 }
 
 export default Sidebar;

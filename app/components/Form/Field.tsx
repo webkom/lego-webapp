@@ -1,48 +1,54 @@
-import type { ComponentType, Node } from "react";
-import cx from "classnames";
-import Icon from "app/components/Icon";
-import { Flex } from "app/components/Layout";
-import Tooltip from "app/components/Tooltip";
-import styles from "./Field.css";
+import type { ComponentType, Node } from 'react';
+import cx from 'classnames';
+import Icon from 'app/components/Icon';
+import { Flex } from 'app/components/Layout';
+import Tooltip from 'app/components/Tooltip';
+import styles from './Field.css';
 
 const FieldError = ({
   error,
-  fieldName
+  fieldName,
 }: {
   error?: string;
   fieldName?: string;
-}) => error ? <div className={styles.fieldError} data-error-field-name={fieldName}>
+}) =>
+  error ? (
+    <div className={styles.fieldError} data-error-field-name={fieldName}>
       {typeof error === 'object' ? JSON.stringify(error) : error}
-    </div> : null;
+    </div>
+  ) : null;
 
-const FieldWarning = ({
-  warning
-}: {
-  warning?: string;
-}) => warning ? <div className={styles.fieldWarning}>
+const FieldWarning = ({ warning }: { warning?: string }) =>
+  warning ? (
+    <div className={styles.fieldWarning}>
       {typeof warning === 'object' ? JSON.stringify(warning) : warning}
-    </div> : null;
+    </div>
+  ) : null;
 
 export const RenderErrorMessage = ({
   error,
-  fieldName
+  fieldName,
 }: {
   error: Array<string> | string;
   fieldName?: string;
 }) => {
   if (Array.isArray(error)) {
-    return (error.map(error => <RenderErrorMessage key={error} error={error} fieldName={fieldName} />) as Array<Node>);
+    return error.map((error) => (
+      <RenderErrorMessage key={error} error={error} fieldName={fieldName} />
+    )) as Array<Node>;
   }
 
   return <FieldError error={error} fieldName={fieldName} />;
 };
 export const RenderWarningMessage = ({
-  warning
+  warning,
 }: {
   warning: Array<string> | string;
 }) => {
   if (Array.isArray(warning)) {
-    return (warning.map(warning => <RenderWarningMessage key={warning} warning={warning} />) as Array<Node>);
+    return warning.map((warning) => (
+      <RenderWarningMessage key={warning} warning={warning} />
+    )) as Array<Node>;
   }
 
   return <FieldWarning warning={warning} key={warning} />;
@@ -86,37 +92,55 @@ export function createField(Component: ComponentType<any>, options?: Options) {
       className = null,
       ...props
     } = field;
-    const {
-      error,
-      submitError,
-      warning,
-      touched
-    } = meta;
+    const { error, submitError, warning, touched } = meta;
     const anyError = error || submitError;
     const hasError = showErrors && touched && anyError && anyError.length > 0;
     const hasWarning = showErrors && touched && warning && warning.length > 0;
     const fieldName = input && input.name;
-    const content = <>
+    const content = (
+      <>
         <Flex>
-          {label && <div className={cx(styles.label, labelClassName)}>{label}</div>}
-          {description && <Tooltip style={{
-          display: 'inline-block'
-        }} content={description}>
-              <div style={{
-            marginLeft: '10px'
-          }}>
+          {label && (
+            <div className={cx(styles.label, labelClassName)}>{label}</div>
+          )}
+          {description && (
+            <Tooltip
+              style={{
+                display: 'inline-block',
+              }}
+              content={description}
+            >
+              <div
+                style={{
+                  marginLeft: '10px',
+                }}
+              >
                 <Icon size={32} name="help" />
               </div>
-            </Tooltip>}
+            </Tooltip>
+          )}
           {required && <span className={styles.required}>*</span>}
         </Flex>
-        <Component {...input} {...props} className={cx(className, hasWarning && styles.inputWithWarning, hasError && styles.inputWithError)} />
-      </>;
-    return <div className={cx(styles.field, fieldClassName)} style={fieldStyle}>
+        <Component
+          {...input}
+          {...props}
+          className={cx(
+            className,
+            hasWarning && styles.inputWithWarning,
+            hasError && styles.inputWithError
+          )}
+        />
+      </>
+    );
+    return (
+      <div className={cx(styles.field, fieldClassName)} style={fieldStyle}>
         {options && options.noLabel ? content : <label>{content}</label>}
-        {hasError && <RenderErrorMessage error={anyError} fieldName={fieldName} />}
+        {hasError && (
+          <RenderErrorMessage error={anyError} fieldName={fieldName} />
+        )}
         {hasWarning && <RenderWarningMessage warning={meta.warning} />}
-      </div>;
+      </div>
+    );
   };
 
   const name = Component && (Component.displayName || Component.name);

@@ -1,14 +1,14 @@
-import { StaticRouter } from "react-router";
-import RouteConfig from "../app/routes";
+import { StaticRouter } from 'react-router';
+import RouteConfig from '../app/routes';
 // @ts-expect-error
-import { ReactReduxContext } from "react-redux";
-import * as Sentry from "@sentry/node";
-import configureStore from "../app/utils/configureStore";
-import type { State } from "../app/types";
-import "../app/types";
-import pageRenderer from "./pageRenderer";
-import { prepare } from "@webkom/react-prepare";
-import { HelmetProvider } from "react-helmet-async";
+import { ReactReduxContext } from 'react-redux';
+import * as Sentry from '@sentry/node';
+import configureStore from '../app/utils/configureStore';
+import type { State } from '../app/types';
+import '../app/types';
+import pageRenderer from './pageRenderer';
+import { prepare } from '@webkom/react-prepare';
+import { HelmetProvider } from 'react-helmet-async';
 const serverSideTimeoutInMs = 4000;
 export const helmetContext: any = {}; // AntiPattern because of babel
 // https://github.com/babel/babel/issues/3083
@@ -19,25 +19,45 @@ class TimeoutError {
   constructor(msg) {
     this.error = new Error(msg);
   }
-
 }
 
 const isTimeoutError = (error: Error) => error instanceof TimeoutError;
 
-const isReactHooksError = (error: Record<string, any>) => typeof error === 'object' && error.name === 'Error' && error.stack.includes('Invalid hook call');
+const isReactHooksError = (error: Record<string, any>) =>
+  typeof error === 'object' &&
+  error.name === 'Error' &&
+  error.stack.includes('Invalid hook call');
 
-const prepareWithTimeout = app => Promise.race([prepare(app), new Promise(resolve => {
-  setTimeout(resolve, serverSideTimeoutInMs);
-}).then(() => {
-  throw new TimeoutError('React prepare timeout when server side rendering.');
-})]);
+const prepareWithTimeout = (app) =>
+  Promise.race([
+    prepare(app),
+    new Promise((resolve) => {
+      setTimeout(resolve, serverSideTimeoutInMs);
+    }).then(() => {
+      throw new TimeoutError(
+        'React prepare timeout when server side rendering.'
+      );
+    }),
+  ]);
 
-const createServerSideRenderer = (req: express$Request, res: express$Response, next: express$Middleware<express$Request, express$Response>) => {
-  const render = (app: React.ReactElement<React.ComponentProps<any>, any> | null | undefined = undefined, state: State | {} = Object.freeze({})) => {
-    return res.send(pageRenderer({
-      app,
-      state
-    }));
+const createServerSideRenderer = (
+  req: express$Request,
+  res: express$Response,
+  next: express$Middleware<express$Request, express$Response>
+) => {
+  const render = (
+    app:
+      | React.ReactElement<React.ComponentProps<any>, any>
+      | null
+      | undefined = undefined,
+    state: State | {} = Object.freeze({})
+  ) => {
+    return res.send(
+      pageRenderer({
+        app,
+        state,
+      })
+    );
   };
 
   const context = {};
@@ -45,24 +65,29 @@ const createServerSideRenderer = (req: express$Request, res: express$Response, n
 
   const ServerConfig = ({
     req,
-    context
+    context,
   }: {
     req: express$Request;
     context: { [key in any]?: any } & {
       status?: string;
       url?: string;
     };
-  }) => <StaticRouter location={req.url} context={context}>
+  }) => (
+    <StaticRouter location={req.url} context={context}>
       <RouteConfig />
-    </StaticRouter>;
+    </StaticRouter>
+  );
 
-  const store = configureStore({}, {
-    Sentry,
-    getCookie: key => req.cookies[key]
-  });
+  const store = configureStore(
+    {},
+    {
+      Sentry,
+      getCookie: (key) => req.cookies[key],
+    }
+  );
   const providerData = {
     store,
-    storeState: store.getState()
+    storeState: store.getState(),
   };
   const unsubscribe = store.subscribe(() => {
     const newStoreState = store.getState();
@@ -74,11 +99,13 @@ const createServerSideRenderer = (req: express$Request, res: express$Response, n
 
     providerData.storeState = newStoreState;
   });
-  const app = <HelmetProvider context={helmetContext}>
+  const app = (
+    <HelmetProvider context={helmetContext}>
       <ReactReduxContext.Provider value={providerData}>
         <ServerConfig req={req} context={context} />
       </ReactReduxContext.Provider>
-    </HelmetProvider>;
+    </HelmetProvider>
+  );
 
   const reportError = (error: Error) => {
     try {
@@ -87,7 +114,8 @@ const createServerSideRenderer = (req: express$Request, res: express$Response, n
       // $FlowFixMe
       log.error(err, 'render_error');
       Sentry.captureException(err);
-    } catch (e) {//
+    } catch (e) {
+      //
     }
   };
 
@@ -106,22 +134,28 @@ const createServerSideRenderer = (req: express$Request, res: express$Response, n
     return render(app, state);
   };
 
-  prepareWithTimeout(app).then(() => respond(), error => {
-    if (isTimeoutError(error)) {
-      reportError(error.error);
-      return render();
-    }
+  prepareWithTimeout(app)
+    .then(
+      () => respond(),
+      (error) => {
+        if (isTimeoutError(error)) {
+          reportError(error.error);
+          return render();
+        }
 
-    if (isReactHooksError(error)) {
-      return respond();
-    }
+        if (isReactHooksError(error)) {
+          return respond();
+        }
 
-    reportError(error);
-    respond();
-  }).catch(error => {
-    reportError(error);
-    render();
-  }).then(unsubscribe);
+        reportError(error);
+        respond();
+      }
+    )
+    .catch((error) => {
+      reportError(error);
+      render();
+    })
+    .then(unsubscribe);
 };
 
 export default createServerSideRenderer;

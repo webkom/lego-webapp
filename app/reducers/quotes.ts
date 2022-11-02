@@ -1,11 +1,11 @@
-import { Quote } from "../actions/ActionTypes";
-import createEntityReducer from "app/utils/createEntityReducer";
-import { createSelector } from "reselect";
-import type { ReactionEntity } from "app/reducers/reactions";
-import { mutateReactions } from "app/reducers/reactions";
-import joinReducers from "app/utils/joinReducers";
-import type { ID } from "app/models";
-import { produce } from "immer";
+import { Quote } from '../actions/ActionTypes';
+import createEntityReducer from 'app/utils/createEntityReducer';
+import { createSelector } from 'reselect';
+import type { ReactionEntity } from 'app/reducers/reactions';
+import { mutateReactions } from 'app/reducers/reactions';
+import joinReducers from 'app/utils/joinReducers';
+import type { ID } from 'app/models';
+import { produce } from 'immer';
 export type QuoteEntity = {
   id: ID;
   text: string;
@@ -24,11 +24,16 @@ const mutateQuote = produce((newState: State, action: any): void => {
       // Explicitly remove the quote from the paginated list to remove it from the list shown to the user
       // note: this will _not_ add it to the other pagination lists, since we cannot guarntee the order
       // as well as the other filtering
-      Object.keys(newState.paginationNext).forEach(paginationKey => {
+      Object.keys(newState.paginationNext).forEach((paginationKey) => {
         const paginationEntry = newState.paginationNext[paginationKey];
 
-        if (paginationEntry.items.includes(action.meta.quoteId) && paginationEntry.query.approved === 'true') {
-          paginationEntry.items = paginationEntry.items.filter(item => item !== action.meta.quoteId);
+        if (
+          paginationEntry.items.includes(action.meta.quoteId) &&
+          paginationEntry.query.approved === 'true'
+        ) {
+          paginationEntry.items = paginationEntry.items.filter(
+            (item) => item !== action.meta.quoteId
+          );
         }
       });
       break;
@@ -38,11 +43,16 @@ const mutateQuote = produce((newState: State, action: any): void => {
       // Explicitly remove the quote from the paginated list to remove it from the list shown to the user
       // note: this will _not_ add it to the other pagination lists, since we cannot guarntee the order
       // as well as the other filtering
-      Object.keys(newState.paginationNext).forEach(paginationKey => {
+      Object.keys(newState.paginationNext).forEach((paginationKey) => {
         const paginationEntry = newState.paginationNext[paginationKey];
 
-        if (paginationEntry.items.includes(action.meta.quoteId) && paginationEntry.query.approved === 'false') {
-          paginationEntry.items = paginationEntry.items.filter(item => item !== action.meta.quoteId);
+        if (
+          paginationEntry.items.includes(action.meta.quoteId) &&
+          paginationEntry.query.approved === 'false'
+        ) {
+          paginationEntry.items = paginationEntry.items.filter(
+            (item) => item !== action.meta.quoteId
+          );
         }
       });
       break;
@@ -61,16 +71,32 @@ export default createEntityReducer({
   types: {
     fetch: [Quote.FETCH, Quote.FETCH_RANDOM],
     mutate: Quote.ADD,
-    delete: Quote.DELETE
+    delete: Quote.DELETE,
   },
-  mutate
+  mutate,
 });
-export const selectQuotes = createSelector(state => state.quotes.byId, state => state.quotes.items, (_, props) => props?.pagination, (quotesById, items, pagination) => (pagination ? pagination.items : items).map(quoteId => quotesById[quoteId]));
-export const selectQuoteById = createSelector(selectQuotes, (state, quoteId) => quoteId, (quotes, quoteId) => {
-  if (!quotes || !quoteId) return {};
-  return quotes.find(quote => Number(quote.id) === Number(quoteId));
-});
-export const selectRandomQuote = createSelector(state => state.quotes.byId, state => state.quotes.randomQuote, (quotes, randomQuoteId) => {
-  if (!quotes || !randomQuoteId) return {};
-  return quotes[randomQuoteId];
-});
+export const selectQuotes = createSelector(
+  (state) => state.quotes.byId,
+  (state) => state.quotes.items,
+  (_, props) => props?.pagination,
+  (quotesById, items, pagination) =>
+    (pagination ? pagination.items : items).map(
+      (quoteId) => quotesById[quoteId]
+    )
+);
+export const selectQuoteById = createSelector(
+  selectQuotes,
+  (state, quoteId) => quoteId,
+  (quotes, quoteId) => {
+    if (!quotes || !quoteId) return {};
+    return quotes.find((quote) => Number(quote.id) === Number(quoteId));
+  }
+);
+export const selectRandomQuote = createSelector(
+  (state) => state.quotes.byId,
+  (state) => state.quotes.randomQuote,
+  (quotes, randomQuoteId) => {
+    if (!quotes || !randomQuoteId) return {};
+    return quotes[randomQuoteId];
+  }
+);

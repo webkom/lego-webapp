@@ -1,5 +1,5 @@
-import "isomorphic-fetch";
-export type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
+import 'isomorphic-fetch';
+export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 export class HttpError extends Error {
   response: Response;
 }
@@ -18,12 +18,13 @@ export type HttpRequestOptions = {
 };
 
 function parseResponseBody<T>(response: Response): Promise<HttpResponse<T>> {
-  return response.text().then(textString => {
+  return response.text().then((textString) => {
     const newResponse: HttpResponse<T> = response;
-    const contentType = response.headers.get('content-type') || 'application/json';
+    const contentType =
+      response.headers.get('content-type') || 'application/json';
 
     if (contentType.includes('application/json') && textString) {
-      newResponse.jsonData = (JSON.parse(textString) as T);
+      newResponse.jsonData = JSON.parse(textString) as T;
     }
 
     newResponse.textString = textString;
@@ -41,11 +42,10 @@ function rejectOnHttpErrors(response: HttpResponse<any>) {
   throw error;
 }
 
-export function stringifyBody(requestOptions: HttpRequestOptions): string | null | undefined {
-  const {
-    body,
-    json
-  } = requestOptions;
+export function stringifyBody(
+  requestOptions: HttpRequestOptions
+): string | null | undefined {
+  const { body, json } = requestOptions;
 
   if (typeof body === 'string') {
     return body;
@@ -63,7 +63,7 @@ function makeFormData(files, rawBody) {
 
   if (rawBody && typeof rawBody === 'object') {
     const object: Record<string, string> = rawBody;
-    Object.keys(object).forEach(prop => {
+    Object.keys(object).forEach((prop) => {
       body.append(prop, object[prop]);
     });
   }
@@ -73,7 +73,7 @@ function makeFormData(files, rawBody) {
 }
 
 function timeoutPromise(ms = 0) {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     setTimeout(resolve, ms);
   }).then(() => {
     throw new Error('HTTP request timed out.');
@@ -82,14 +82,13 @@ function timeoutPromise(ms = 0) {
 
 const defaultOptions = {
   files: [],
-  headers: {}
+  headers: {},
 };
-export default function fetchJSON<T>(path: string, requestOptions: HttpRequestOptions = defaultOptions): Promise<HttpResponse<T>> {
-  const {
-    files,
-    retryDelays = [1000, 3000],
-    timeout = 15000
-  } = requestOptions;
+export default function fetchJSON<T>(
+  path: string,
+  requestOptions: HttpRequestOptions = defaultOptions
+): Promise<HttpResponse<T>> {
+  const { files, retryDelays = [1000, 3000], timeout = 15000 } = requestOptions;
   let body;
 
   if (files && files.length > 0) {
@@ -99,13 +98,15 @@ export default function fetchJSON<T>(path: string, requestOptions: HttpRequestOp
     requestOptions.headers['Content-Type'] = 'application/json';
   }
 
-  const createRequest = () => new Request(path, { ...requestOptions,
-    body,
-    headers: new Headers({
-      Accept: 'application/json',
-      ...(requestOptions.headers as Record<string, any>)
-    })
-  });
+  const createRequest = () =>
+    new Request(path, {
+      ...requestOptions,
+      body,
+      headers: new Headers({
+        Accept: 'application/json',
+        ...(requestOptions.headers as Record<string, any>),
+      }),
+    });
 
   return new Promise((resolve, reject) => {
     let requestsAttempted = 0;
@@ -113,8 +114,19 @@ export default function fetchJSON<T>(path: string, requestOptions: HttpRequestOp
     const wrappedFetch = () => {
       const request = createRequest();
       requestsAttempted++;
-      return Promise.race([timeoutPromise(timeout), fetch(request).then(parseResponseBody).then(rejectOnHttpErrors).then(resolve)]).catch((error: HttpError) => {
-        if (error.response && error.response.status < 500 || !retryDelays || requestsAttempted > retryDelays.length || !__CLIENT__) {
+      return Promise.race([
+        timeoutPromise(timeout),
+        fetch(request)
+          .then(parseResponseBody)
+          .then(rejectOnHttpErrors)
+          .then(resolve),
+      ]).catch((error: HttpError) => {
+        if (
+          (error.response && error.response.status < 500) ||
+          !retryDelays ||
+          requestsAttempted > retryDelays.length ||
+          !__CLIENT__
+        ) {
           return reject(error);
         }
 

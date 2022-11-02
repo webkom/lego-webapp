@@ -1,1 +1,1 @@
-export { default } from "./HTTPError";
+export { default } from './HTTPError';

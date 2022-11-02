@@ -1,15 +1,15 @@
-import styles from "./Quotes.css";
-import Time from "app/components/Time";
-import { Component } from "react";
-import { Link } from "react-router-dom";
-import Dropdown from "app/components/Dropdown";
-import Icon from "app/components/Icon";
-import type { ID, ActionGrant } from "app/models";
-import type { QuoteEntity } from "app/reducers/quotes";
-import Button from "app/components/Button";
-import Reaction from "app/components/Reactions/Reaction";
-import Reactions from "app/components/Reactions";
-import type { EmojiEntity } from "app/reducers/emojis";
+import styles from './Quotes.css';
+import Time from 'app/components/Time';
+import { Component } from 'react';
+import { Link } from 'react-router-dom';
+import Dropdown from 'app/components/Dropdown';
+import Icon from 'app/components/Icon';
+import type { ID, ActionGrant } from 'app/models';
+import type { QuoteEntity } from 'app/reducers/quotes';
+import Button from 'app/components/Button';
+import Reaction from 'app/components/Reactions/Reaction';
+import Reactions from 'app/components/Reactions';
+import type { EmojiEntity } from 'app/reducers/emojis';
 type Props = {
   quote: QuoteEntity;
   deleteQuote: (arg0: number) => Promise<any>;
@@ -21,10 +21,7 @@ type Props = {
   currentUser: any;
   loggedIn: boolean;
   emojis: Array<EmojiEntity>;
-  addReaction: (arg0: {
-    emoji: string;
-    contentTarget: string;
-  }) => Promise<any>;
+  addReaction: (arg0: { emoji: string; contentTarget: string }) => Promise<any>;
   deleteReaction: (arg0: {
     reactionId: ID;
     contentTarget: string;
@@ -40,7 +37,7 @@ type State = {
 export default class Quote extends Component<Props, State> {
   state = {
     deleting: false,
-    showReactions: true
+    showReactions: true,
   };
 
   render() {
@@ -57,13 +54,16 @@ export default class Quote extends Component<Props, State> {
       deleteReaction,
       fetchEmojis,
       fetchingEmojis,
-      loggedIn
+      loggedIn,
     } = this.props;
     let mappedEmojis = [];
 
     if (!fetchingEmojis) {
-      mappedEmojis = emojis.map(emoji => {
-        const foundReaction = quote.reactionsGrouped.find(reaction => emoji.shortCode === reaction.emoji && reaction.hasReacted);
+      mappedEmojis = emojis.map((emoji) => {
+        const foundReaction = quote.reactionsGrouped.find(
+          (reaction) =>
+            emoji.shortCode === reaction.emoji && reaction.hasReacted
+        );
 
         if (foundReaction !== undefined) {
           emoji.hasReacted = true;
@@ -77,15 +77,19 @@ export default class Quote extends Component<Props, State> {
       });
     }
 
-    return <li className={styles.singleQuote}>
+    return (
+      <li className={styles.singleQuote}>
         <div className={styles.leftQuote}>
-          <i className="fa fa-quote-right" style={{
-          fontSize: '100px',
-          color: '#dbdbdb',
-          marginRight: '30px',
-          order: '0',
-          height: '0'
-        }} />
+          <i
+            className="fa fa-quote-right"
+            style={{
+              fontSize: '100px',
+              color: '#dbdbdb',
+              marginRight: '30px',
+              order: '0',
+              height: '0',
+            }}
+          />
           <h3 className={styles.theQuote}>
             <Link to={`/quotes/${quote.id}`}>{quote.text}</Link>
           </h3>
@@ -103,59 +107,124 @@ export default class Quote extends Component<Props, State> {
 
             <div className={styles.bottomRight}>
               <div className={styles.reactionCount}>
-                <Button flat onClick={() => this.setState(state => ({
-                showReactions: !state.showReactions
-              }))}>
-                  <i className="fa fa-reaction-o" style={{
-                  marginRight: '5px'
-                }} />
-                  {quote.reactions ? quote.reactions.length : quote.reactionCount}
+                <Button
+                  flat
+                  onClick={() =>
+                    this.setState((state) => ({
+                      showReactions: !state.showReactions,
+                    }))
+                  }
+                >
+                  <i
+                    className="fa fa-reaction-o"
+                    style={{
+                      marginRight: '5px',
+                    }}
+                  />
+                  {quote.reactions
+                    ? quote.reactions.length
+                    : quote.reactionCount}
                 </Button>
               </div>
 
-              {actionGrant && actionGrant.includes('approve') && <div className={styles.quoteAdmin}>
-                  <Dropdown show={displayAdmin} toggle={() => setDisplayAdmin(quote.id)} closeOnContentClick contentClassName="adminDropdown2" triggerComponent={<Icon name="chevron-down-circle-outline" className={styles.dropdownIcon} />}>
+              {actionGrant && actionGrant.includes('approve') && (
+                <div className={styles.quoteAdmin}>
+                  <Dropdown
+                    show={displayAdmin}
+                    toggle={() => setDisplayAdmin(quote.id)}
+                    closeOnContentClick
+                    contentClassName="adminDropdown2"
+                    triggerComponent={
+                      <Icon
+                        name="chevron-down-circle-outline"
+                        className={styles.dropdownIcon}
+                      />
+                    }
+                  >
                     <Dropdown.List>
                       <Dropdown.ListItem>
-                        <Button flat className="approveQuote" onClick={() => quote.approved ? unapprove(quote.id) : approve(quote.id)}>
+                        <Button
+                          flat
+                          className="approveQuote"
+                          onClick={() =>
+                            quote.approved
+                              ? unapprove(quote.id)
+                              : approve(quote.id)
+                          }
+                        >
                           {quote.approved ? 'Fjern Godkjenning' : 'Godkjenn'}
                         </Button>
                       </Dropdown.ListItem>
                       <Dropdown.Divider />
-                      {!this.state.deleting ? <Dropdown.ListItem>
-                          <Button flat className={styles.deleteQuote} onClick={e => {
-                      if (e) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                      }
+                      {!this.state.deleting ? (
+                        <Dropdown.ListItem>
+                          <Button
+                            flat
+                            className={styles.deleteQuote}
+                            onClick={(e) => {
+                              if (e) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                              }
 
-                      this.setState({
-                        deleting: true
-                      });
-                    }}>
+                              this.setState({
+                                deleting: true,
+                              });
+                            }}
+                          >
                             Slett
                           </Button>
-                        </Dropdown.ListItem> : <Dropdown.ListItem>
-                          <Button flat className={styles.deleteQuote} onClick={() => deleteQuote(quote.id)} style={{
-                      fontWeight: 600
-                    }}>
+                        </Dropdown.ListItem>
+                      ) : (
+                        <Dropdown.ListItem>
+                          <Button
+                            flat
+                            className={styles.deleteQuote}
+                            onClick={() => deleteQuote(quote.id)}
+                            style={{
+                              fontWeight: 600,
+                            }}
+                          >
                             Er du sikker?
                           </Button>
-                        </Dropdown.ListItem>}
+                        </Dropdown.ListItem>
+                      )}
                     </Dropdown.List>
                   </Dropdown>
-                </div>}
+                </div>
+              )}
             </div>
           </div>
         </div>
         <div className={styles.quoteReactions}>
-          <Reactions emojis={mappedEmojis} fetchEmojis={fetchEmojis} fetchingEmojis={fetchingEmojis} addReaction={addReaction} deleteReaction={deleteReaction} contentTarget={quote.contentTarget} loggedIn={loggedIn}>
-            {quote.reactionsGrouped.map(reaction => {
-            return <Reaction key={`reaction-${reaction.emoji}`} emoji={reaction.emoji} count={reaction.count} unicodeString={reaction.unicodeString} reactionId={reaction.reactionId} hasReacted={reaction.hasReacted} canReact={loggedIn} addReaction={addReaction} deleteReaction={deleteReaction} contentTarget={quote.contentTarget} />;
-          })}
+          <Reactions
+            emojis={mappedEmojis}
+            fetchEmojis={fetchEmojis}
+            fetchingEmojis={fetchingEmojis}
+            addReaction={addReaction}
+            deleteReaction={deleteReaction}
+            contentTarget={quote.contentTarget}
+            loggedIn={loggedIn}
+          >
+            {quote.reactionsGrouped.map((reaction) => {
+              return (
+                <Reaction
+                  key={`reaction-${reaction.emoji}`}
+                  emoji={reaction.emoji}
+                  count={reaction.count}
+                  unicodeString={reaction.unicodeString}
+                  reactionId={reaction.reactionId}
+                  hasReacted={reaction.hasReacted}
+                  canReact={loggedIn}
+                  addReaction={addReaction}
+                  deleteReaction={deleteReaction}
+                  contentTarget={quote.contentTarget}
+                />
+              );
+            })}
           </Reactions>
         </div>
-      </li>;
+      </li>
+    );
   }
-
 }

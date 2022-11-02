@@ -1,7 +1,7 @@
-import { Modal as ReactModal } from "react-overlays";
-import cx from "classnames";
-import Icon from "app/components/Icon";
-import styles from "./Modal.css";
+import { Modal as ReactModal } from 'react-overlays';
+import cx from 'classnames';
+import Icon from 'app/components/Icon';
+import styles from './Modal.css';
 type Props = {
   show: boolean;
   children: React.ReactNode;
@@ -27,10 +27,22 @@ const Modal = ({
   closeOnBackdropClick = true,
   keyboard = true,
   contentClassName,
-  backdropClassName
-}: Props) => <ReactModal className={cx(styles.content, contentClassName)} show={show} backdrop={backdrop} onHide={onHide} keyboard={keyboard} renderBackdrop={(props: {
-  onClick: (...args: Array<any>) => any;
-}) => <div {...props} className={backdropClassName || styles.backdrop} onClick={closeOnBackdropClick ? props.onClick : null} />}>
+  backdropClassName,
+}: Props) => (
+  <ReactModal
+    className={cx(styles.content, contentClassName)}
+    show={show}
+    backdrop={backdrop}
+    onHide={onHide}
+    keyboard={keyboard}
+    renderBackdrop={(props: { onClick: (...args: Array<any>) => any }) => (
+      <div
+        {...props}
+        className={backdropClassName || styles.backdrop}
+        onClick={closeOnBackdropClick ? props.onClick : null}
+      />
+    )}
+  >
     <div>
       <button onClick={onHide} className={styles.closeButton}>
         <Icon name="close" />
@@ -38,7 +50,8 @@ const Modal = ({
 
       {children}
     </div>
-  </ReactModal>;
+  </ReactModal>
+);
 
-export { default as ConfirmModal } from "./ConfirmModal";
+export { default as ConfirmModal } from './ConfirmModal';
 export default Modal;

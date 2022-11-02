@@ -1,5 +1,5 @@
-import { PureComponent } from "react";
-import { Image as ImageComponent } from "app/components/Image";
+import { PureComponent } from 'react';
+import { Image as ImageComponent } from 'app/components/Image';
 type Props = {
   src: any;
   alt: string;
@@ -20,46 +20,58 @@ type State = {
 export default class ProgressiveImage extends PureComponent<Props, State> {
   state = {
     src: this.props.base64,
-    style: { ...this.props.beforeLoadstyle,
+    style: {
+      ...this.props.beforeLoadstyle,
       filter: `blur(${this.props.blurStr}) contrast(${this.props.contrastStr})`,
-      transition: `filter ${this.props.transtionTime} linear ${this.props.transitionDelay}`
-    }
+      transition: `filter ${this.props.transtionTime} linear ${this.props.transitionDelay}`,
+    },
   };
   static defaultProps = {
-    base64: 'data:image/png;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
+    base64:
+      'data:image/png;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
     blurStr: '15px',
     contrastStr: '50%',
     transtionTime: '.2s',
-    transitionDelay: '.05s'
+    transitionDelay: '.05s',
   };
-  fetchSrc: (url: string) => Promise<any> = url => new Promise((resolve, reject) => {
-    const img = new Image();
+  fetchSrc: (url: string) => Promise<any> = (url) =>
+    new Promise((resolve, reject) => {
+      const img = new Image();
 
-    img.onload = () => resolve(url);
+      img.onload = () => resolve(url);
 
-    img.onerror = error => reject(error);
+      img.onerror = (error) => reject(error);
 
-    img.src = url;
-  });
+      img.src = url;
+    });
 
   componentDidMount() {
-    this.fetchSrc(this.props.src).then(url => {
-      this.setState({
-        src: url,
-        style: { ...this.state.style,
-          ...this.props.onLoadStyle,
-          filter: 'blur(0) contrast(100%)',
-          height: 'auto',
-          margin: 'auto'
-        }
+    this.fetchSrc(this.props.src)
+      .then((url) => {
+        this.setState({
+          src: url,
+          style: {
+            ...this.state.style,
+            ...this.props.onLoadStyle,
+            filter: 'blur(0) contrast(100%)',
+            height: 'auto',
+            margin: 'auto',
+          },
+        });
+      })
+      .catch((error) => {
+        throw error;
       });
-    }).catch(error => {
-      throw error;
-    });
   }
 
   render() {
-    return <ImageComponent src={this.state.src} alt={this.props.alt} className={this.props.className} style={this.state.style} />;
+    return (
+      <ImageComponent
+        src={this.state.src}
+        alt={this.props.alt}
+        className={this.props.className}
+        style={this.state.style}
+      />
+    );
   }
-
 }

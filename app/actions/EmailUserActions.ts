@@ -1,18 +1,18 @@
-import { EmailUser } from "./ActionTypes";
-import { emailUserSchema } from "app/reducers";
-import callAPI from "app/actions/callAPI";
-import type { EmailUserEntity } from "app/reducers/emailUsers";
-import "app/reducers/emailUsers";
-import type { EntityID, Thunk } from "app/types";
+import { EmailUser } from './ActionTypes';
+import { emailUserSchema } from 'app/reducers';
+import callAPI from 'app/actions/callAPI';
+import type { EmailUserEntity } from 'app/reducers/emailUsers';
+import 'app/reducers/emailUsers';
+import type { EntityID, Thunk } from 'app/types';
 export function fetchEmailUser(userId: EntityID): Thunk<any> {
   return callAPI({
     types: EmailUser.FETCH,
     endpoint: `/email-users/${userId}/`,
     schema: emailUserSchema,
     meta: {
-      errorMessage: 'Henting av epostliste feilet'
+      errorMessage: 'Henting av epostliste feilet',
     },
-    propagateError: true
+    propagateError: true,
   });
 }
 export function createEmailUser(emailUser: EmailUserEntity): Thunk<any> {
@@ -23,8 +23,8 @@ export function createEmailUser(emailUser: EmailUserEntity): Thunk<any> {
     schema: emailUserSchema,
     body: emailUser,
     meta: {
-      errorMessage: 'Opprettelse av epostliste feilet'
-    }
+      errorMessage: 'Opprettelse av epostliste feilet',
+    },
   });
 }
 export function editEmailUser(emailUser: EmailUserEntity): Thunk<any> {
@@ -35,31 +35,33 @@ export function editEmailUser(emailUser: EmailUserEntity): Thunk<any> {
     schema: emailUserSchema,
     body: emailUser,
     meta: {
-      errorMessage: 'Endring av epostliste feilet'
-    }
+      errorMessage: 'Endring av epostliste feilet',
+    },
   });
 }
 export function fetch({
   next,
-  query
+  query,
 }: {
   next?: boolean;
   query: Record<string, any>;
 } = {}): Thunk<any> {
   return (dispatch, getState) => {
-    return dispatch(callAPI({
-      types: EmailUser.FETCH,
-      endpoint: '/email-users/',
-      useCache: false,
-      query,
-      pagination: {
-        fetchNext: !!next
-      },
-      schema: [emailUserSchema],
-      meta: {
-        errorMessage: 'Henting av epostlister feilet'
-      },
-      propagateError: true
-    }));
+    return dispatch(
+      callAPI({
+        types: EmailUser.FETCH,
+        endpoint: '/email-users/',
+        useCache: false,
+        query,
+        pagination: {
+          fetchNext: !!next,
+        },
+        schema: [emailUserSchema],
+        meta: {
+          errorMessage: 'Henting av epostlister feilet',
+        },
+        propagateError: true,
+      })
+    );
   };
 }

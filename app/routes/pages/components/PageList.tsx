@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
-import { Content } from "app/components/Content";
+import { Link } from 'react-router-dom';
+import { Content } from 'app/components/Content';
 type Page = {
   slug: string;
   title: string;
@@ -9,19 +9,21 @@ type Props = {
   pages: Record<string, Page>;
 };
 
-const PageList = ({
-  pages
-}: Props) => {
-  return <Content>
+const PageList = ({ pages }: Props) => {
+  return (
+    <Content>
       <ul>
-        {Object.keys(pages).map(id => {
-        const page = pages[id];
-        return <li key={page.pk}>
+        {Object.keys(pages).map((id) => {
+          const page = pages[id];
+          return (
+            <li key={page.pk}>
               <Link to={`/pages/${page.slug}`}>{page.title}</Link>
-            </li>;
-      })}
+            </li>
+          );
+        })}
       </ul>
-    </Content>;
+    </Content>
+  );
 };
 
 export default PageList;

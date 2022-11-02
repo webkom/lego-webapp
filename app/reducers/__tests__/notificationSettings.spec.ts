@@ -1,10 +1,10 @@
-import notificationSettings from "../notificationSettings";
-import { NotificationSettings } from "../../actions/ActionTypes";
+import notificationSettings from '../notificationSettings';
+import { NotificationSettings } from '../../actions/ActionTypes';
 describe('reducers', () => {
   const prevState = {
     channels: [],
     notificationTypes: [],
-    settings: {}
+    settings: {},
   };
   describe('notificationSettings', () => {
     it('NotificationSettings.FETCH_ALTERNATIVES.SUCCESS', () => {
@@ -12,23 +12,25 @@ describe('reducers', () => {
         type: NotificationSettings.FETCH_ALTERNATIVES.SUCCESS,
         payload: {
           channels: ['email', 'push'],
-          notificationTypes: ['events', 'weekly']
-        }
+          notificationTypes: ['events', 'weekly'],
+        },
       };
       expect(notificationSettings(prevState, action)).toEqual({
         channels: ['email', 'push'],
         notificationTypes: ['events', 'weekly'],
-        settings: {}
+        settings: {},
       });
     });
     it('NotificationSettings.FETCH.SUCCESS', () => {
       const action = {
         type: NotificationSettings.FETCH.SUCCESS,
-        payload: [{
-          notificationType: 'weekly',
-          enabled: true,
-          channels: ['push']
-        }]
+        payload: [
+          {
+            notificationType: 'weekly',
+            enabled: true,
+            channels: ['push'],
+          },
+        ],
       };
       expect(notificationSettings(prevState, action)).toEqual({
         channels: [],
@@ -37,9 +39,9 @@ describe('reducers', () => {
           weekly: {
             notificationType: 'weekly',
             enabled: true,
-            channels: ['push']
-          }
-        }
+            channels: ['push'],
+          },
+        },
       });
     });
     it('NotificationSettings.UPDATE.SUCCESS', () => {
@@ -48,8 +50,8 @@ describe('reducers', () => {
         payload: {
           notificationType: 'comment',
           enabled: true,
-          channels: ['email']
-        }
+          channels: ['email'],
+        },
       };
       expect(notificationSettings(prevState, action)).toEqual({
         channels: [],
@@ -58,9 +60,9 @@ describe('reducers', () => {
           comment: {
             notificationType: 'comment',
             enabled: true,
-            channels: ['email']
-          }
-        }
+            channels: ['email'],
+          },
+        },
       });
     });
   });

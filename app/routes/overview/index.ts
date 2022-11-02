@@ -1,2 +1,2 @@
-import Overview from "./IndexRoute";
+import Overview from './IndexRoute';
 export default Overview;

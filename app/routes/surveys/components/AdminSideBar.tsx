@@ -1,13 +1,13 @@
-import { Component } from "react";
-import styles from "./surveys.css";
-import cx from "classnames";
-import { Link } from "react-router-dom";
-import type { ActionGrant } from "app/models";
-import { ContentSidebar } from "app/components/Content";
-import Button from "app/components/Button";
-import Icon from "app/components/Icon";
-import config from "app/config";
-import { CheckBox } from "app/components/Form";
+import { Component } from 'react';
+import styles from './surveys.css';
+import cx from 'classnames';
+import { Link } from 'react-router-dom';
+import type { ActionGrant } from 'app/models';
+import { ContentSidebar } from 'app/components/Content';
+import Button from 'app/components/Button';
+import Icon from 'app/components/Icon';
+import config from 'app/config';
+import { CheckBox } from 'app/components/Form';
 type Props = {
   surveyId: number;
   actionGrant: ActionGrant;
@@ -18,16 +18,19 @@ type Props = {
 };
 type State = {
   copied: boolean;
-  generatedCSV: {
-    url: string;
-    filename: string;
-  } | null | undefined;
+  generatedCSV:
+    | {
+        url: string;
+        filename: string;
+      }
+    | null
+    | undefined;
 };
 
 class AdminSideBar extends Component<Props, State> {
   state = {
     copied: false,
-    generatedCSV: undefined
+    generatedCSV: undefined,
   };
 
   render() {
@@ -37,14 +40,16 @@ class AdminSideBar extends Component<Props, State> {
       token,
       shareSurvey,
       hideSurvey,
-      exportSurvey
+      exportSurvey,
     } = this.props;
-    const {
-      generatedCSV
-    } = this.state;
+    const { generatedCSV } = this.state;
     const canEdit = actionGrant.includes('edit');
-    const shareLink = !token ? '' : `${config.webUrl}/surveys/${surveyId}/results/?token=${token}`;
-    return canEdit && <ContentSidebar className={styles.adminSideBar}>
+    const shareLink = !token
+      ? ''
+      : `${config.webUrl}/surveys/${surveyId}/results/?token=${token}`;
+    return (
+      canEdit && (
+        <ContentSidebar className={styles.adminSideBar}>
           <strong>Admin</strong>
           <ul>
             <li>
@@ -53,37 +58,70 @@ class AdminSideBar extends Component<Props, State> {
             <li>
               <Link to={`/surveys/${surveyId}/edit`}>Endre undersøkelsen</Link>
             </li>
-            {actionGrant && actionGrant.includes('edit') && shareSurvey && <CheckBox id="shareSurvey" label="Del spørreundersøkelsen" onChange={() => token ? hideSurvey(surveyId) : shareSurvey(surveyId)} value={!!token} />}
-            {token && <li>
-                <Button onClick={() => {
-            navigator.clipboard.writeText(shareLink).then(() => {
-              this.setState({
-                copied: true
-              });
-              setTimeout(() => this.setState({
-                copied: false
-              }), 2000);
-            });
-          }} className={cx(this.state.copied && styles.copied)}>
-                  <Icon name={this.state.copied ? 'checkmark' : 'copy-outline'} />
+            {actionGrant && actionGrant.includes('edit') && shareSurvey && (
+              <CheckBox
+                id="shareSurvey"
+                label="Del spørreundersøkelsen"
+                onChange={() =>
+                  token ? hideSurvey(surveyId) : shareSurvey(surveyId)
+                }
+                value={!!token}
+              />
+            )}
+            {token && (
+              <li>
+                <Button
+                  onClick={() => {
+                    navigator.clipboard.writeText(shareLink).then(() => {
+                      this.setState({
+                        copied: true,
+                      });
+                      setTimeout(
+                        () =>
+                          this.setState({
+                            copied: false,
+                          }),
+                        2000
+                      );
+                    });
+                  }}
+                  className={cx(this.state.copied && styles.copied)}
+                >
+                  <Icon
+                    name={this.state.copied ? 'checkmark' : 'copy-outline'}
+                  />
                   {this.state.copied ? 'Kopiert!' : 'Kopier delbar link'}
                 </Button>
-              </li>}
-            {actionGrant && actionGrant.includes('csv') && exportSurvey && <div style={{
-          marginTop: '5px'
-        }}>
-                {generatedCSV ? <a href={generatedCSV.url} download={generatedCSV.filename}>
+              </li>
+            )}
+            {actionGrant && actionGrant.includes('csv') && exportSurvey && (
+              <div
+                style={{
+                  marginTop: '5px',
+                }}
+              >
+                {generatedCSV ? (
+                  <a href={generatedCSV.url} download={generatedCSV.filename}>
                     Last ned
-                  </a> : <Button onClick={async () => this.setState({
-            generatedCSV: await exportSurvey(surveyId)
-          })}>
+                  </a>
+                ) : (
+                  <Button
+                    onClick={async () =>
+                      this.setState({
+                        generatedCSV: await exportSurvey(surveyId),
+                      })
+                    }
+                  >
                     Eksporter til CSV
-                  </Button>}
-              </div>}
+                  </Button>
+                )}
+              </div>
+            )}
           </ul>
-        </ContentSidebar>;
+        </ContentSidebar>
+      )
+    );
   }
-
 }
 
 export default AdminSideBar;

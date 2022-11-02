@@ -1,26 +1,28 @@
-import { renderToString } from "react-dom/server";
-import fs from "fs";
-import path from "path";
-import serialize from "serialize-javascript";
-import { ChunkExtractor } from "@loadable/server";
-import config from "../config/env";
-import webpackClient from "../config/webpack.client";
-import type { State } from "../app/types";
-import { selectCurrentUser } from "app/reducers/auth";
-import { isEmpty } from "lodash";
-import { helmetContext } from "./ssr";
-import manifest from "../app/assets/manifest.json";
+import { renderToString } from 'react-dom/server';
+import fs from 'fs';
+import path from 'path';
+import serialize from 'serialize-javascript';
+import { ChunkExtractor } from '@loadable/server';
+import config from '../config/env';
+import webpackClient from '../config/webpack.client';
+import type { State } from '../app/types';
+import { selectCurrentUser } from 'app/reducers/auth';
+import { isEmpty } from 'lodash';
+import { helmetContext } from './ssr';
+import manifest from '../app/assets/manifest.json';
 const dllPlugin = __DEV__ ? '<script src="/vendors.dll.js"></script>' : '';
 export type PageRendererProps = {
   app: React.ReactElement<React.ComponentProps<any>, any> | null | undefined;
   state: State | {};
 };
-const extractor = !__DEV__ ? new ChunkExtractor({
-  statsFile: path.join(webpackClient.outputPath, 'loadable-stats.json'),
-  entrypoints: ['app']
-}) : null;
+const extractor = !__DEV__
+  ? new ChunkExtractor({
+      statsFile: path.join(webpackClient.outputPath, 'loadable-stats.json'),
+      entrypoints: ['app'],
+    })
+  : null;
 
-const readyHtml = app => {
+const readyHtml = (app) => {
   if (extractor) {
     const collectedApp = extractor.collectChunks(app);
     const body = renderToString(collectedApp);
@@ -31,46 +33,61 @@ const readyHtml = app => {
       body,
       scripts,
       styles,
-      links
+      links,
     };
   } else {
     const {
       app,
       vendors,
       js,
-      styles: appStyles
-    } = JSON.parse(fs.readFileSync(path.join(webpackClient.outputPath, 'webpack-assets.json')).toString());
-    const styles = [appStyles && appStyles.css].filter(Boolean).map(css => `<link rel="stylesheet" href="${css}">`).join('\n');
-    const scripts = [...[vendors && vendors.js, app && app.js, appStyles && appStyles.js && js].filter(Boolean).map(js => `<script src="${js}"></script>`), `<script id="__LOADABLE_REQUIRED_CHUNKS__" type="application/json">[]</script>`, `<script id="__LOADABLE_REQUIRED_CHUNKS___ext" type="application/json">{"namedChunks":[]}</script>`].join('\n');
+      styles: appStyles,
+    } = JSON.parse(
+      fs
+        .readFileSync(
+          path.join(webpackClient.outputPath, 'webpack-assets.json')
+        )
+        .toString()
+    );
+    const styles = [appStyles && appStyles.css]
+      .filter(Boolean)
+      .map((css) => `<link rel="stylesheet" href="${css}">`)
+      .join('\n');
+    const scripts = [
+      ...[vendors && vendors.js, app && app.js, appStyles && appStyles.js && js]
+        .filter(Boolean)
+        .map((js) => `<script src="${js}"></script>`),
+      `<script id="__LOADABLE_REQUIRED_CHUNKS__" type="application/json">[]</script>`,
+      `<script id="__LOADABLE_REQUIRED_CHUNKS___ext" type="application/json">{"namedChunks":[]}</script>`,
+    ].join('\n');
     return {
       body: '',
       scripts,
       styles,
-      links: ''
+      links: '',
     };
   }
 };
 
-const analytics = __DEV__ ? '' : // The .replace() removes the protocol (https://) part of the url, leaving just the domain
-`<script defer data-domain=${config.webUrl.replace(/(^\w+:|^)\/\//, '')} src="https://ls.webkom.dev/script.js"></script>`;
+const analytics = __DEV__
+  ? '' // The .replace() removes the protocol (https://) part of the url, leaving just the domain
+  : `<script defer data-domain=${config.webUrl.replace(
+      /(^\w+:|^)\/\//,
+      ''
+    )} src="https://ls.webkom.dev/script.js"></script>`;
 export default function pageRenderer({
   app = undefined,
-  state = {}
+  state = {},
 }: PageRendererProps = {}): string {
   const isSSR = app === undefined ? 'false' : 'true';
-  const {
-    helmet
-  } = helmetContext;
-  const selectedTheme: string = !isEmpty(state) && selectCurrentUser(state).selectedTheme || 'auto';
-  const {
-    body,
-    scripts,
-    styles,
-    links
-  } = readyHtml(app);
+  const { helmet } = helmetContext;
+  const selectedTheme: string =
+    (!isEmpty(state) && selectCurrentUser(state).selectedTheme) || 'auto';
+  const { body, scripts, styles, links } = readyHtml(app);
   return `
     <!DOCTYPE html>
-    <html data-theme=${serialize(selectedTheme === 'auto' ? 'light' : selectedTheme)}>
+    <html data-theme=${serialize(
+      selectedTheme === 'auto' ? 'light' : selectedTheme
+    )}>
       <head>
         <meta charset="utf-8">
         ${helmet ? helmet.title.toString() : ''}
@@ -108,9 +125,11 @@ export default function pageRenderer({
         ${styles}
       </head>
       <body>
-      ${// If user has selected auto and device is in dark mode; ensure we update
-  // the theme before first render to screen
-  selectedTheme === 'auto' ? `<script>
+      ${
+        // If user has selected auto and device is in dark mode; ensure we update
+        // the theme before first render to screen
+        selectedTheme === 'auto'
+          ? `<script>
           (function () {
             try {
               if (window.matchMedia('(prefers-color-scheme: dark)').matches === true) {
@@ -118,15 +137,17 @@ export default function pageRenderer({
               }
             } catch (e) {}
            })();
-        </script>` : ''}
+        </script>`
+          : ''
+      }
         <div id="root">${body}</div>
         <script>
            window.__CONFIG__ = ${serialize(config, {
-    isJSON: true
-  })};
+             isJSON: true,
+           })};
            window.__PRELOADED_STATE__ = ${serialize(state, {
-    isJSON: true
-  })};
+             isJSON: true,
+           })};
            window.__IS_SSR__ = ${isSSR};
         </script>
         <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>

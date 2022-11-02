@@ -1,28 +1,44 @@
-import { compose } from "redux";
-import { connect } from "react-redux";
-import UserProfile from "./components/UserProfile";
-import { GroupTypeGrade } from "app/models";
-import { fetchUser, addPenalty, deletePenalty, changeGrade, updatePhotoConsent } from "app/actions/UserActions";
-import { fetchAllWithType } from "app/actions/GroupActions";
-import { fetchPrevious, fetchUpcoming } from "app/actions/EventActions";
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import UserProfile from './components/UserProfile';
+import { GroupTypeGrade } from 'app/models';
+import {
+  fetchUser,
+  addPenalty,
+  deletePenalty,
+  changeGrade,
+  updatePhotoConsent,
+} from 'app/actions/UserActions';
+import { fetchAllWithType } from 'app/actions/GroupActions';
+import { fetchPrevious, fetchUpcoming } from 'app/actions/EventActions';
 //import { fetchUserFeed } from 'app/actions/FeedActions';
-import { selectUserWithGroups } from "app/reducers/users";
-import { selectPreviousEvents, selectUpcomingEvents } from "app/reducers/events";
-import { selectGroupsWithType } from "app/reducers/groups";
-import { selectPenaltyByUserId } from "app/reducers/penalties";
-import loadingIndicator from "app/utils/loadingIndicator";
-import replaceUnlessLoggedIn from "app/utils/replaceUnlessLoggedIn";
-import prepare from "app/utils/prepare";
-import { LoginPage } from "app/components/LoginForm";
+import { selectUserWithGroups } from 'app/reducers/users';
+import {
+  selectPreviousEvents,
+  selectUpcomingEvents,
+} from 'app/reducers/events';
+import { selectGroupsWithType } from 'app/reducers/groups';
+import { selectPenaltyByUserId } from 'app/reducers/penalties';
+import loadingIndicator from 'app/utils/loadingIndicator';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import prepare from 'app/utils/prepare';
+import { LoginPage } from 'app/components/LoginForm';
 
-const loadData = ({
-  match: {
-    params: {
-      username
-    }
+const loadData = (
+  {
+    match: {
+      params: { username },
+    },
+    isMe,
   },
-  isMe
-}, dispatch) => Promise.all([dispatch(fetchAllWithType(GroupTypeGrade)), isMe && dispatch(fetchPrevious()), isMe && dispatch(fetchUpcoming()), dispatch(fetchUser(username))]);
+  dispatch
+) =>
+  Promise.all([
+    dispatch(fetchAllWithType(GroupTypeGrade)),
+    isMe && dispatch(fetchPrevious()),
+    isMe && dispatch(fetchUpcoming()),
+    dispatch(fetchUser(username)),
+  ]);
 
 // TODO: re-enable when the user feed is fixed:
 // .then(action =>
@@ -30,13 +46,12 @@ const loadData = ({
 //  );
 const mapStateToProps = (state, props) => {
   const {
-    match: {
-      params
-    }
+    match: { params },
   } = props;
-  const username = params.username === 'me' ? state.auth.username : params.username;
+  const username =
+    params.username === 'me' ? state.auth.username : params.username;
   const user = selectUserWithGroups(state, {
-    username
+    username,
   });
   //let feed;
   //let feedItems;
@@ -53,18 +68,20 @@ const mapStateToProps = (state, props) => {
     //   feedId: feedIdByUserId(user.id)
     // });
     penalties = selectPenaltyByUserId(state, {
-      userId: user.id
+      userId: user.id,
     });
   }
 
-  const isMe = params.username === 'me' || params.username === state.auth.username;
-  const actionGrant = user && user.actionGrant || [];
-  const showSettings = (isMe || actionGrant.includes('edit')) && user && user.username;
+  const isMe =
+    params.username === 'me' || params.username === state.auth.username;
+  const actionGrant = (user && user.actionGrant) || [];
+  const showSettings =
+    (isMe || actionGrant.includes('edit')) && user && user.username;
   const canChangeGrade = state.allowed.groups;
   const canEditEmailLists = state.allowed.email;
   const canDeletePenalties = state.allowed.penalties;
   const groups = selectGroupsWithType(state, {
-    groupType: 'klasse'
+    groupType: 'klasse',
   });
   return {
     username,
@@ -82,7 +99,7 @@ const mapStateToProps = (state, props) => {
     canDeletePenalties,
     groups,
     canChangeGrade,
-    canEditEmailLists
+    canEditEmailLists,
   };
 };
 
@@ -93,6 +110,11 @@ const mapDispatchToProps = {
   addPenalty,
   deletePenalty,
   changeGrade,
-  updatePhotoConsent
+  updatePhotoConsent,
 };
-export default compose(replaceUnlessLoggedIn(LoginPage), connect(mapStateToProps, mapDispatchToProps), prepare(loadData, ['match.params.username']), loadingIndicator(['user']))(UserProfile);
+export default compose(
+  replaceUnlessLoggedIn(LoginPage),
+  connect(mapStateToProps, mapDispatchToProps),
+  prepare(loadData, ['match.params.username']),
+  loadingIndicator(['user'])
+)(UserProfile);

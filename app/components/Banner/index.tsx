@@ -1,15 +1,15 @@
-import { $Keys } from "utility-types";
-import type { Node } from "react";
-import styles from "./Banner.css";
-import cx from "classnames";
-import { Link } from "react-router-dom";
+import { $Keys } from 'utility-types';
+import type { Node } from 'react';
+import styles from './Banner.css';
+import cx from 'classnames';
+import { Link } from 'react-router-dom';
 export const COLORS = {
   red: styles.red,
   white: styles.white,
   gray: styles.gray,
   lightBlue: styles.lightBlue,
   itdageneBlue: styles.itdageneBlue,
-  buddyweek2022: styles.buddyweek2022
+  buddyweek2022: styles.buddyweek2022,
 };
 type Color = $Keys<typeof COLORS>;
 type Props = {
@@ -18,34 +18,29 @@ type Props = {
   link: string;
   color?: Color;
   internal?: boolean; // true will use internal router: <Link />
-
 };
 
 const Banner = (props: Props) => {
-  const {
-    header,
-    subHeader,
-    link,
-    color,
-    internal
-  } = props;
+  const { header, subHeader, link, color, internal } = props;
 
-  const LinkComponent = ({
-    children
-  }: {
-    children: Node;
-  }) => {
-    return internal ? <Link to={link}>{children}</Link> : <a href={link} target="_blank" rel="noreferrer">
+  const LinkComponent = ({ children }: { children: Node }) => {
+    return internal ? (
+      <Link to={link}>{children}</Link>
+    ) : (
+      <a href={link} target="_blank" rel="noreferrer">
         {children}
-      </a>;
+      </a>
+    );
   };
 
-  return <LinkComponent>
+  return (
+    <LinkComponent>
       <div className={cx(styles.header, color)}>
         <h1>{header}</h1>
         {subHeader && <h4>{subHeader}</h4>}
       </div>
-    </LinkComponent>;
+    </LinkComponent>
+  );
 };
 
 export default Banner;

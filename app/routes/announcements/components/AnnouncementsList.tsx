@@ -1,9 +1,14 @@
-import styles from "./AnnouncementsList.css";
-import Flex from "app/components/Layout/Flex";
-import AnnouncementItem from "./AnnouncementItem";
-import AnnouncementsCreate from "./AnnouncementsCreate";
-import { Content, ContentMain } from "app/components/Content";
-import type { ActionGrant, Announcement, CreateAnnouncement, ID } from "app/models";
+import styles from './AnnouncementsList.css';
+import Flex from 'app/components/Layout/Flex';
+import AnnouncementItem from './AnnouncementItem';
+import AnnouncementsCreate from './AnnouncementsCreate';
+import { Content, ContentMain } from 'app/components/Content';
+import type {
+  ActionGrant,
+  Announcement,
+  CreateAnnouncement,
+  ID,
+} from 'app/models';
 type Props = {
   announcement: Announcement;
   announcements: Array<Announcement>;
@@ -26,17 +31,32 @@ const AnnouncementsList = ({
   handleSubmit,
   invalid,
   pristine,
-  submitting
+  submitting,
 }: Props) => {
-  return <Content>
-      <AnnouncementsCreate createAnnouncement={createAnnouncement} actionGrant={actionGrant} />
-      {actionGrant.includes('list') && actionGrant.includes('delete') && <ContentMain>
+  return (
+    <Content>
+      <AnnouncementsCreate
+        createAnnouncement={createAnnouncement}
+        actionGrant={actionGrant}
+      />
+      {actionGrant.includes('list') && actionGrant.includes('delete') && (
+        <ContentMain>
           <h1 className={styles.header}> Mine kunngjøringer </h1>
           <Flex column className={styles.list}>
-            {announcements.map((a, i) => <AnnouncementItem key={i} announcement={a} sendAnnouncement={sendAnnouncement} deleteAnnouncement={deleteAnnouncement} actionGrant={actionGrant} />)}
+            {announcements.map((a, i) => (
+              <AnnouncementItem
+                key={i}
+                announcement={a}
+                sendAnnouncement={sendAnnouncement}
+                deleteAnnouncement={deleteAnnouncement}
+                actionGrant={actionGrant}
+              />
+            ))}
           </Flex>
-        </ContentMain>}
-    </Content>;
+        </ContentMain>
+      )}
+    </Content>
+  );
 };
 
 export default AnnouncementsList;

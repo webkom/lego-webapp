@@ -1,5 +1,5 @@
-import type { ComponentType } from "react";
-import { Route } from "react-router-dom";
+import type { ComponentType } from 'react';
+import { Route } from 'react-router-dom';
 
 /*
  * Wrapper component for react-router v4 to allow props
@@ -14,15 +14,15 @@ type Props = {
 };
 
 const RouteWrapper = (props: Props) => {
-  const {
-    passedProps,
-    exact,
-    path,
-    Component,
-    strict,
-    ...rest
-  } = props;
-  return <Route exact={exact} path={path} strict={strict} render={props => <Component {...passedProps} {...rest} {...props} />} />;
+  const { passedProps, exact, path, Component, strict, ...rest } = props;
+  return (
+    <Route
+      exact={exact}
+      path={path}
+      strict={strict}
+      render={(props) => <Component {...passedProps} {...rest} {...props} />}
+    />
+  );
 };
 
 export default RouteWrapper;

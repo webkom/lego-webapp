@@ -1,20 +1,17 @@
 // @ts-expect-error
-import { useRef, useEffect } from "react";
-import styles from "./RandomQuote.css";
-import Button from "../Button";
-import type { QuoteEntity } from "app/reducers/quotes";
-import LegoReactions from "app/components/LegoReactions";
-import type { EmojiEntity } from "app/reducers/emojis";
-import type { ID } from "app/models";
-import NavigationLink from "app/components/NavigationTab/NavigationLink";
-import { Flex } from "app/components/Layout";
+import { useRef, useEffect } from 'react';
+import styles from './RandomQuote.css';
+import Button from '../Button';
+import type { QuoteEntity } from 'app/reducers/quotes';
+import LegoReactions from 'app/components/LegoReactions';
+import type { EmojiEntity } from 'app/reducers/emojis';
+import type { ID } from 'app/models';
+import NavigationLink from 'app/components/NavigationTab/NavigationLink';
+import { Flex } from 'app/components/Layout';
 type Props = {
   fetchRandomQuote: (arg0: Array<ID>) => Promise<Record<string, any>>;
   className?: string;
-  addReaction: (arg0: {
-    emoji: string;
-    contentTarget: string;
-  }) => Promise<any>;
+  addReaction: (arg0: { emoji: string; contentTarget: string }) => Promise<any>;
   deleteReaction: (arg0: {
     reactionId: ID;
     contentTarget: string;
@@ -37,7 +34,7 @@ const RandomQuote = (props: Props) => {
     fetchingEmojis,
     currentQuote,
     loggedIn,
-    useReactions = true
+    useReactions = true,
   } = props;
   const seenQuotes = useRef([]);
   useEffect(() => {
@@ -47,7 +44,8 @@ const RandomQuote = (props: Props) => {
       seenQuotes.current = [...seenQuotes.current, quoteId];
     }
   });
-  return <div className={className ? className : ''}>
+  return (
+    <div className={className ? className : ''}>
       <Flex justifyContent="space-between" alignItems="flex-start">
         <Flex column>
           <div className={styles.quoteText}>{currentQuote.text}</div>
@@ -55,7 +53,11 @@ const RandomQuote = (props: Props) => {
         </Flex>
 
         <Flex column justifyContent="space-between" className={styles.actions}>
-          <Button flat onClick={() => props.fetchRandomQuote(seenQuotes.current)} className={styles.fetchNew}>
+          <Button
+            flat
+            onClick={() => props.fetchRandomQuote(seenQuotes.current)}
+            className={styles.fetchNew}
+          >
             <i className="fa fa-refresh" />
           </Button>
           <NavigationLink to="/quotes/add">
@@ -64,10 +66,21 @@ const RandomQuote = (props: Props) => {
         </Flex>
       </Flex>
 
-      {useReactions && <div className={styles.quoteReactions}>
-          <LegoReactions emojis={emojis} fetchEmojis={fetchEmojis} fetchingEmojis={fetchingEmojis} addReaction={addReaction} deleteReaction={deleteReaction} parentEntity={currentQuote} loggedIn={loggedIn} />
-        </div>}
-    </div>;
+      {useReactions && (
+        <div className={styles.quoteReactions}>
+          <LegoReactions
+            emojis={emojis}
+            fetchEmojis={fetchEmojis}
+            fetchingEmojis={fetchingEmojis}
+            addReaction={addReaction}
+            deleteReaction={deleteReaction}
+            parentEntity={currentQuote}
+            loggedIn={loggedIn}
+          />
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default RandomQuote;

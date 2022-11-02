@@ -1,13 +1,10 @@
-import { createSelector } from "reselect";
-import { Group, Membership } from "../actions/ActionTypes";
-import createEntityReducer from "app/utils/createEntityReducer";
-import type { ID } from "app/models";
-import { GroupTypeInterest, GroupTypeCommittee } from "app/models";
-import { produce } from "immer";
-export const resolveGroupLink = (group: {
-  type: string;
-  id: ID;
-}) => {
+import { createSelector } from 'reselect';
+import { Group, Membership } from '../actions/ActionTypes';
+import createEntityReducer from 'app/utils/createEntityReducer';
+import type { ID } from 'app/models';
+import { GroupTypeInterest, GroupTypeCommittee } from 'app/models';
+import { produce } from 'immer';
+export const resolveGroupLink = (group: { type: string; id: ID }) => {
   switch (group.type) {
     case GroupTypeInterest:
       return `/interest-groups/${group.id}`;
@@ -24,7 +21,7 @@ export default createEntityReducer({
   key: 'groups',
   types: {
     fetch: Group.FETCH,
-    mutate: Group.MEMBERSHIP_FETCH
+    mutate: Group.MEMBERSHIP_FETCH,
   },
   mutate: produce((newState: State, action: any): void => {
     switch (action.type) {
@@ -33,7 +30,9 @@ export default createEntityReducer({
           break;
         }
 
-        if (typeof newState.byId[action.meta.groupId].numberOfUsers === 'number') {
+        if (
+          typeof newState.byId[action.meta.groupId].numberOfUsers === 'number'
+        ) {
           newState.byId[action.meta.groupId].numberOfUsers += 1;
         }
 
@@ -45,7 +44,9 @@ export default createEntityReducer({
           break;
         }
 
-        if (typeof newState.byId[action.meta.groupId].numberOfUsers === 'number') {
+        if (
+          typeof newState.byId[action.meta.groupId].numberOfUsers === 'number'
+        ) {
           newState.byId[action.meta.groupId].numberOfUsers -= 1;
         }
 
@@ -54,8 +55,20 @@ export default createEntityReducer({
       default:
         break;
     }
-  })
+  }),
 });
-export const selectGroup = createSelector(state => state && state.groups && state.groups.byId, (state, props) => props.groupId, (groupsById, id) => groupsById && groupsById[id]);
-export const selectGroups = createSelector(state => state.groups.byId, state => state.groups.items, (groupsById, groupIds) => groupIds.map(id => groupsById[id]));
-export const selectGroupsWithType = createSelector((state, props) => selectGroups(state), (state, props) => props.groupType, (groups, groupType) => groups.filter(g => g.type === groupType));
+export const selectGroup = createSelector(
+  (state) => state && state.groups && state.groups.byId,
+  (state, props) => props.groupId,
+  (groupsById, id) => groupsById && groupsById[id]
+);
+export const selectGroups = createSelector(
+  (state) => state.groups.byId,
+  (state) => state.groups.items,
+  (groupsById, groupIds) => groupIds.map((id) => groupsById[id])
+);
+export const selectGroupsWithType = createSelector(
+  (state, props) => selectGroups(state),
+  (state, props) => props.groupType,
+  (groups, groupType) => groups.filter((g) => g.type === groupType)
+);

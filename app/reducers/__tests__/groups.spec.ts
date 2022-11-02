@@ -1,5 +1,5 @@
-import groups from "../groups";
-import { Membership } from "../../actions/ActionTypes";
+import groups from '../groups';
+import { Membership } from '../../actions/ActionTypes';
 describe('reducers', () => {
   const baseState = {
     actionGrant: [],
@@ -8,9 +8,9 @@ describe('reducers', () => {
     items: [1],
     byId: {
       1: {
-        numberOfUsers: 1
-      }
-    }
+        numberOfUsers: 1,
+      },
+    },
   };
   describe('groups', () => {
     it('Membership.CREATE.SUCCESS', () => {
@@ -18,11 +18,11 @@ describe('reducers', () => {
       const action = {
         type: Membership.CREATE.SUCCESS,
         meta: {
-          groupId: 1
+          groupId: 1,
         },
         payload: {
-          result: 4
-        }
+          result: 4,
+        },
       };
       expect(groups(prevState, action)).toEqual({
         actionGrant: [],
@@ -31,9 +31,9 @@ describe('reducers', () => {
         items: [1],
         byId: {
           1: {
-            numberOfUsers: 2
-          }
-        }
+            numberOfUsers: 2,
+          },
+        },
       });
     });
     it('Membership.REMOVE.SUCCESS', () => {
@@ -42,8 +42,8 @@ describe('reducers', () => {
         type: Membership.REMOVE.SUCCESS,
         meta: {
           groupId: 1,
-          id: 3
-        }
+          id: 3,
+        },
       };
       expect(groups(prevState, action)).toEqual({
         actionGrant: [],
@@ -52,9 +52,9 @@ describe('reducers', () => {
         items: [1],
         byId: {
           1: {
-            numberOfUsers: 0
-          }
-        }
+            numberOfUsers: 0,
+          },
+        },
       });
     });
     it('Membership.CREATE.SUCCESS group missing', () => {
@@ -62,11 +62,11 @@ describe('reducers', () => {
       const action = {
         type: Membership.CREATE.SUCCESS,
         meta: {
-          groupId: 2
+          groupId: 2,
         },
         payload: {
-          result: 4
-        }
+          result: 4,
+        },
       };
       expect(groups(prevState, action)).toEqual({
         actionGrant: [],
@@ -75,9 +75,9 @@ describe('reducers', () => {
         items: [1],
         byId: {
           1: {
-            numberOfUsers: 1
-          }
-        }
+            numberOfUsers: 1,
+          },
+        },
       });
     });
     it('Membership.REMOVE.SUCCESS group missing', () => {
@@ -86,8 +86,8 @@ describe('reducers', () => {
         type: Membership.REMOVE.SUCCESS,
         meta: {
           groupId: 2,
-          id: 3
-        }
+          id: 3,
+        },
       };
       expect(groups(prevState, action)).toEqual({
         actionGrant: [],
@@ -96,9 +96,9 @@ describe('reducers', () => {
         items: [1],
         byId: {
           1: {
-            numberOfUsers: 1
-          }
-        }
+            numberOfUsers: 1,
+          },
+        },
       });
     });
   });

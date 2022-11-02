@@ -1,6 +1,6 @@
-import { SubmissionError } from "redux-form";
-import { get } from "lodash";
-import { FORM_ERROR } from "final-form";
+import { SubmissionError } from 'redux-form';
+import { get } from 'lodash';
+import { FORM_ERROR } from 'final-form';
 
 /*
  * Simple utility that handles submission errors
@@ -17,15 +17,11 @@ export const handleSubmissionError = (error: any) => {
     throw error;
   }
 
-  const {
-    detail
-  } = errPayload;
+  const { detail } = errPayload;
 
   const _error = typeof detail === 'object' ? JSON.stringify(detail) : detail;
 
-  throw new SubmissionError({ ...errPayload,
-    _error
-  });
+  throw new SubmissionError({ ...errPayload, _error });
 };
 
 /*
@@ -41,17 +37,17 @@ export const handleSubmissionErrorFinalForm = (error: any) => {
 
   if (!errPayload) {
     return {
-      [FORM_ERROR]: error?.payload?.response?.textString
+      [FORM_ERROR]: error?.payload?.response?.textString,
     };
   }
 
-  const {
-    detail
-  } = errPayload;
-  const form_error = detail ? typeof detail === 'object' ? JSON.stringify(errPayload.detail) : errPayload.detail : errPayload.error;
-  return { ...errPayload,
-    [FORM_ERROR]: form_error
-  };
+  const { detail } = errPayload;
+  const form_error = detail
+    ? typeof detail === 'object'
+      ? JSON.stringify(errPayload.detail)
+      : errPayload.detail
+    : errPayload.error;
+  return { ...errPayload, [FORM_ERROR]: form_error };
 };
 
 /*

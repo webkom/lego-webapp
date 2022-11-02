@@ -1,19 +1,19 @@
-import styles from "./ArticleDetail.css";
-import { Content } from "app/components/Content";
-import CommentView from "app/components/Comments/CommentView";
-import Tag from "app/components/Tags/Tag";
-import Tags from "app/components/Tags";
-import LegoReactions from "app/components/LegoReactions";
-import { Link } from "react-router-dom";
-import moment from "moment-timezone";
-import DisplayContent from "app/components/DisplayContent";
-import type { ArticleEntity } from "app/reducers/articles";
-import type { UserEntity } from "app/reducers/users";
-import type { CommentEntity } from "app/reducers/comments";
-import type { EmojiEntity } from "app/reducers/emojis";
-import type { ReactionEntity } from "app/reducers/reactions";
-import type { ID } from "app/models";
-import NavigationTab, { NavigationLink } from "app/components/NavigationTab";
+import styles from './ArticleDetail.css';
+import { Content } from 'app/components/Content';
+import CommentView from 'app/components/Comments/CommentView';
+import Tag from 'app/components/Tags/Tag';
+import Tags from 'app/components/Tags';
+import LegoReactions from 'app/components/LegoReactions';
+import { Link } from 'react-router-dom';
+import moment from 'moment-timezone';
+import DisplayContent from 'app/components/DisplayContent';
+import type { ArticleEntity } from 'app/reducers/articles';
+import type { UserEntity } from 'app/reducers/users';
+import type { CommentEntity } from 'app/reducers/comments';
+import type { EmojiEntity } from 'app/reducers/emojis';
+import type { ReactionEntity } from 'app/reducers/reactions';
+import type { ID } from 'app/models';
+import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 type Props = {
   article: ArticleEntity;
   comments: Array<CommentEntity>;
@@ -22,10 +22,7 @@ type Props = {
   currentUser: UserEntity;
   deleteComment: (id: ID, contentTarget: string) => Promise<any>;
   emojis: Array<EmojiEntity>;
-  addReaction: (arg0: {
-    emoji: string;
-    contentTarget: string;
-  }) => Promise<any>;
+  addReaction: (arg0: { emoji: string; contentTarget: string }) => Promise<any>;
   reactionsGrouped: Array<ReactionEntity>;
   deleteReaction: (arg0: {
     reactionId: ID;
@@ -46,13 +43,24 @@ const ArticleDetail = ({
   addReaction,
   deleteReaction,
   fetchEmojis,
-  fetchingEmojis
+  fetchingEmojis,
 }: Props) => {
-  return <Content banner={article.cover} bannerPlaceholder={article.coverPlaceholder} youtubeUrl={article.youtubeUrl}>
-      <NavigationTab headerClassName={styles.headerClassName} className={styles.articleHeader} title={article.title}>
-        {(article.actionGrant || []).includes('edit') && <NavigationLink to={`/articles/${article.id}/edit`}>
+  return (
+    <Content
+      banner={article.cover}
+      bannerPlaceholder={article.coverPlaceholder}
+      youtubeUrl={article.youtubeUrl}
+    >
+      <NavigationTab
+        headerClassName={styles.headerClassName}
+        className={styles.articleHeader}
+        title={article.title}
+      >
+        {(article.actionGrant || []).includes('edit') && (
+          <NavigationLink to={`/articles/${article.id}/edit`}>
             Rediger
-          </NavigationLink>}
+          </NavigationLink>
+        )}
       </NavigationTab>
 
       <div className={styles.articleDetails}>
@@ -68,15 +76,35 @@ const ArticleDetail = ({
       <DisplayContent content={article.content} />
 
       <Tags>
-        {article.tags.map(tag => <Tag tag={tag} key={tag} link={'/articles/?tag=' + tag} />)}
+        {article.tags.map((tag) => (
+          <Tag tag={tag} key={tag} link={'/articles/?tag=' + tag} />
+        ))}
       </Tags>
 
       <div className={styles.articleReactions}>
-        <LegoReactions emojis={emojis} fetchEmojis={fetchEmojis} fetchingEmojis={fetchingEmojis} addReaction={addReaction} deleteReaction={deleteReaction} parentEntity={article} loggedIn={loggedIn} />
+        <LegoReactions
+          emojis={emojis}
+          fetchEmojis={fetchEmojis}
+          fetchingEmojis={fetchingEmojis}
+          addReaction={addReaction}
+          deleteReaction={deleteReaction}
+          parentEntity={article}
+          loggedIn={loggedIn}
+        />
       </div>
 
-      {article.contentTarget && <CommentView formEnabled user={currentUser} contentTarget={article.contentTarget} loggedIn={loggedIn} comments={comments} deleteComment={deleteComment} />}
-    </Content>;
+      {article.contentTarget && (
+        <CommentView
+          formEnabled
+          user={currentUser}
+          contentTarget={article.contentTarget}
+          loggedIn={loggedIn}
+          comments={comments}
+          deleteComment={deleteComment}
+        />
+      )}
+    </Content>
+  );
 };
 
 export default ArticleDetail;

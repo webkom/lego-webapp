@@ -1,9 +1,9 @@
-import type { Node, Portal } from "react";
-import { useRef } from "react";
-import { Overlay } from "react-overlays";
-import cx from "classnames";
-import Icon from "app/components/Icon";
-import styles from "./Dropdown.css";
+import type { Node, Portal } from 'react';
+import { useRef } from 'react';
+import { Overlay } from 'react-overlays';
+import cx from 'classnames';
+import Icon from 'app/components/Icon';
+import styles from './Dropdown.css';
 type Props = {
   iconName?: string;
   toggle: () => any;
@@ -27,30 +27,44 @@ const Dropdown = ({
   triggerComponent,
   show,
   children,
-  style
+  style,
 }: Props) => {
   const triggerRef = useRef(null);
-  return <ComponentClass onClick={show ? null : toggle} // avoid double toggle because of rootClose
-  ref={triggerRef} className={className} style={style}>
+  return (
+    <ComponentClass
+      onClick={show ? null : toggle} // avoid double toggle because of rootClose
+      ref={triggerRef}
+      className={className}
+      style={style}
+    >
       {triggerComponent || (iconName ? <Icon name={iconName} /> : null)}
 
-      <Overlay show={show} onHide={toggle} target={triggerRef} placement="bottom" rootClose shouldUpdatePosition>
-        {({
-        props,
-        arrowProps
-      }) => <div {...props} className={cx(styles.content, contentClassName || null)} onClick={closeOnContentClick && toggle}>
+      <Overlay
+        show={show}
+        onHide={toggle}
+        target={triggerRef}
+        placement="bottom"
+        rootClose
+        shouldUpdatePosition
+      >
+        {({ props, arrowProps }) => (
+          <div
+            {...props}
+            className={cx(styles.content, contentClassName || null)}
+            onClick={closeOnContentClick && toggle}
+          >
             <div {...arrowProps} className={styles.arrow} />
             {children}
-          </div>}
+          </div>
+        )}
       </Overlay>
-    </ComponentClass>;
+    </ComponentClass>
+  );
 };
 
-const List = ({
-  children
-}: {
-  children: any;
-}): Node => <ul className={styles.dropdownList}>{children}</ul>;
+const List = ({ children }: { children: any }): Node => (
+  <ul className={styles.dropdownList}>{children}</ul>
+);
 
 const ListItem = (props: any): Node => <li {...props} />;
 

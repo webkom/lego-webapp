@@ -1,17 +1,19 @@
-import { NotificationsFeed } from "./ActionTypes";
-import callAPI from "./callAPI";
-import { selectIsLoggedIn } from "app/reducers/auth";
-import type { Thunk } from "app/types";
+import { NotificationsFeed } from './ActionTypes';
+import callAPI from './callAPI';
+import { selectIsLoggedIn } from 'app/reducers/auth';
+import type { Thunk } from 'app/types';
 export function fetchNotificationData(): Thunk<any> {
   return (dispatch, getState) => {
     if (!selectIsLoggedIn(getState())) {
       return Promise.resolve();
     }
 
-    return dispatch(callAPI({
-      types: NotificationsFeed.FETCH_DATA,
-      endpoint: '/feed-notifications/notification_data/'
-    }));
+    return dispatch(
+      callAPI({
+        types: NotificationsFeed.FETCH_DATA,
+        endpoint: '/feed-notifications/notification_data/',
+      })
+    );
   };
 }
 export function markAllNotifications(): Thunk<any> {
@@ -21,7 +23,7 @@ export function markAllNotifications(): Thunk<any> {
     method: 'POST',
     body: {
       read: true,
-      seen: true
-    }
+      seen: true,
+    },
   });
 }

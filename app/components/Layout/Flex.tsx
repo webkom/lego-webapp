@@ -1,5 +1,5 @@
-import cx from "classnames";
-import styles from "./Flex.css";
+import cx from 'classnames';
+import styles from './Flex.css';
 type Props = {
   children: any;
   className?: string;
@@ -15,8 +15,14 @@ type Props = {
 
   /** Wrap elements in reverse order */
   wrapReverse?: boolean;
-  justifyContent?: "flex-start" | "flex-end" | "center" | "space-between" | "space-around" | "space-evenly";
-  alignItems?: "flex-start" | "flex-end" | "center" | "baseline" | "stretch";
+  justifyContent?:
+    | 'flex-start'
+    | 'flex-end'
+    | 'center'
+    | 'space-between'
+    | 'space-around'
+    | 'space-evenly';
+  alignItems?: 'flex-start' | 'flex-end' | 'center' | 'baseline' | 'stretch';
   padding?: number | string;
   margin?: number | string;
   width?: number | string;
@@ -42,14 +48,28 @@ const Flex = ({
   gap,
   style,
   ...htmlAttributes
-}: Props) => <Component className={cx(styles.flex, wrap && styles.wrap, wrapReverse && styles.wrapReverse, column ? styles.column : styles.row, styles[`justifyContent__${justifyContent}`], styles[`alignItems__${alignItems}`], className)} style={{
-  padding,
-  margin,
-  width,
-  gap,
-  ...style
-}} {...(htmlAttributes as Record<string, any>)}>
+}: Props) => (
+  <Component
+    className={cx(
+      styles.flex,
+      wrap && styles.wrap,
+      wrapReverse && styles.wrapReverse,
+      column ? styles.column : styles.row,
+      styles[`justifyContent__${justifyContent}`],
+      styles[`alignItems__${alignItems}`],
+      className
+    )}
+    style={{
+      padding,
+      margin,
+      width,
+      gap,
+      ...style,
+    }}
+    {...(htmlAttributes as Record<string, any>)}
+  >
     {children}
-  </Component>;
+  </Component>
+);
 
 export default Flex;

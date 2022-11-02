@@ -1,9 +1,9 @@
-import { readmeIfy } from "app/components/ReadmeLogo";
-import type { Node } from "react";
-import { Component } from "react";
-import { Link } from "react-router-dom";
-import styles from "./PageHierarchy.css";
-import Icon from "app/components/Icon";
+import { readmeIfy } from 'app/components/ReadmeLogo';
+import type { Node } from 'react';
+import { Component } from 'react';
+import { Link } from 'react-router-dom';
+import styles from './PageHierarchy.css';
+import Icon from 'app/components/Icon';
 export type HierarchyEntity = {
   title: string;
   url: string;
@@ -23,37 +23,56 @@ const PageHierarchy = ({
   pageHierarchy,
   currentUrl,
   currentCategory,
-  handleCloseSidebar
+  handleCloseSidebar,
 }: Props) => {
-  return <div className={styles.sidebar}>
-      {pageHierarchy.map((section, key) => <HierarchySection hierarchySection={section} key={key} currentUrl={currentUrl} currentCategory={currentCategory} handleCloseSidebar={handleCloseSidebar} />)}
-    </div>;
+  return (
+    <div className={styles.sidebar}>
+      {pageHierarchy.map((section, key) => (
+        <HierarchySection
+          hierarchySection={section}
+          key={key}
+          currentUrl={currentUrl}
+          currentCategory={currentCategory}
+          handleCloseSidebar={handleCloseSidebar}
+        />
+      ))}
+    </div>
+  );
 };
 
 export default PageHierarchy;
 
 const HierarchySection = ({
-  hierarchySection: {
-    title,
-    items
-  },
+  hierarchySection: { title, items },
   currentUrl,
   currentCategory,
-  handleCloseSidebar
+  handleCloseSidebar,
 }: {
   hierarchySection: HierarchySectionEntity;
   currentUrl: string;
   currentCategory: string;
   handleCloseSidebar: any;
-}) => <nav className={styles.pageList}>
-    {items.length > 0 && <AccordionContainer title={title} currentCategory={currentCategory}>
-        {items.map((item, key) => <div key={key} className={styles.links}>
-            <Link onClick={handleCloseSidebar} className={item.url === currentUrl ? styles.selected : styles.nonSelected} to={item.url}>
+}) => (
+  <nav className={styles.pageList}>
+    {items.length > 0 && (
+      <AccordionContainer title={title} currentCategory={currentCategory}>
+        {items.map((item, key) => (
+          <div key={key} className={styles.links}>
+            <Link
+              onClick={handleCloseSidebar}
+              className={
+                item.url === currentUrl ? styles.selected : styles.nonSelected
+              }
+              to={item.url}
+            >
               {readmeIfy(item.title)}
             </Link>
-          </div>)}
-      </AccordionContainer>}
-  </nav>;
+          </div>
+        ))}
+      </AccordionContainer>
+    )}
+  </nav>
+);
 
 type AccordionProps = {
   title: string;
@@ -66,26 +85,33 @@ type AccordionState = {
 
 class AccordionContainer extends Component<AccordionProps, AccordionState> {
   state: AccordionState = {
-    isOpen: this.props.currentCategory === this.props.title.toLowerCase() || this.props.currentCategory === undefined && this.props.title.toLowerCase() === 'generelt' ? true : false
+    isOpen:
+      this.props.currentCategory === this.props.title.toLowerCase() ||
+      (this.props.currentCategory === undefined &&
+        this.props.title.toLowerCase() === 'generelt')
+        ? true
+        : false,
   };
   handleClick = () => {
-    this.setState(state => ({
-      isOpen: !state.isOpen
+    this.setState((state) => ({
+      isOpen: !state.isOpen,
     }));
   };
 
   render() {
-    const {
-      title,
-      children
-    }: AccordionProps = this.props;
-    return <div>
+    const { title, children }: AccordionProps = this.props;
+    return (
+      <div>
         <button className={styles.dropdownBtn} onClick={this.handleClick}>
           {title}{' '}
-          {this.state.isOpen ? <Icon name="arrow-down" className={styles.dropdownIcon} /> : <Icon name="arrow-forward" className={styles.dropdownIcon} />}
+          {this.state.isOpen ? (
+            <Icon name="arrow-down" className={styles.dropdownIcon} />
+          ) : (
+            <Icon name="arrow-forward" className={styles.dropdownIcon} />
+          )}
         </button>{' '}
         {this.state.isOpen ? <div>{children}</div> : null}
-      </div>;
+      </div>
+    );
   }
-
 }

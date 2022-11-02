@@ -1,17 +1,19 @@
-import { Link } from "react-router-dom";
-import Icon from "app/components/Icon";
-import { Flex } from "app/components/Layout";
-import { DisplayVisionShort } from "./subcomponents/DisplayVision";
-import TextWithBoldTitle, { TextWithTitle } from "./subcomponents/TextWithTitle";
-import Statistic from "./subcomponents/Statistic";
-import EmailItem from "./subcomponents/EmailItem";
-import styles from "./LandingPage.css";
-import Button from "app/components/Button";
-import moment from "moment-timezone";
-import { Image } from "app/components/Image";
-import cx from "classnames";
-import bannerLightMode from "app/assets/om-abakus-banner.png";
-import bannerDarkMode from "app/assets/om-abakus-banner-dark-mode.png";
+import { Link } from 'react-router-dom';
+import Icon from 'app/components/Icon';
+import { Flex } from 'app/components/Layout';
+import { DisplayVisionShort } from './subcomponents/DisplayVision';
+import TextWithBoldTitle, {
+  TextWithTitle,
+} from './subcomponents/TextWithTitle';
+import Statistic from './subcomponents/Statistic';
+import EmailItem from './subcomponents/EmailItem';
+import styles from './LandingPage.css';
+import Button from 'app/components/Button';
+import moment from 'moment-timezone';
+import { Image } from 'app/components/Image';
+import cx from 'classnames';
+import bannerLightMode from 'app/assets/om-abakus-banner.png';
+import bannerDarkMode from 'app/assets/om-abakus-banner-dark-mode.png';
 type Props = {
   whoWeAre: string;
   whatWeDo: string;
@@ -33,15 +35,26 @@ const LandingPage = ({
   officeAddress,
   webkomOfficeAddress,
   organizationNo,
-  loggedIn
+  loggedIn,
 }: Props) => {
-  return <div className={styles.pageContainer}>
+  return (
+    <div className={styles.pageContainer}>
       <a href="#contact" className={styles.contactUsLink}>
         Kontakt oss
       </a>
-      <Image className={cx(styles.banner, styles.bannerLightMode)} src={bannerLightMode} alt="Abakus - Linjeforeningen for Datateknologi og Kommunikasjonsteknologi og digital sikkerhet ved NTNU" height="265" />
+      <Image
+        className={cx(styles.banner, styles.bannerLightMode)}
+        src={bannerLightMode}
+        alt="Abakus - Linjeforeningen for Datateknologi og Kommunikasjonsteknologi og digital sikkerhet ved NTNU"
+        height="265"
+      />
 
-      <Image className={cx(styles.banner, styles.bannerDarkMode)} src={bannerDarkMode} alt="Abakus - Linjeforeningen for Datateknologi og Kommunikasjonsteknologi og digital sikkerhet ved NTNU" height="265" />
+      <Image
+        className={cx(styles.banner, styles.bannerDarkMode)}
+        src={bannerDarkMode}
+        alt="Abakus - Linjeforeningen for Datateknologi og Kommunikasjonsteknologi og digital sikkerhet ved NTNU"
+        height="265"
+      />
 
       <Flex className={styles.whoWhatWhyContainer}>
         <TextWithBoldTitle title="Hvem vi er" text={whoWeAre} />
@@ -52,12 +65,21 @@ const LandingPage = ({
       <h2 className={styles.abakusInNumbers} id="abakusInNumbers">
         Abakus i tall
       </h2>
-      <Flex wrap className={styles.statisticsContainer} alignItems="flex-end" justifyContent="center">
+      <Flex
+        wrap
+        className={styles.statisticsContainer}
+        alignItems="flex-end"
+        justifyContent="center"
+      >
         <Statistic statistic="10" label="Komiteer" />
         <Statistic statistic="5" label="Undergrupper" />
         <Statistic statistic="32" label="Interessegrupper" />
         <Statistic statistic="1000+" label="Medlemmer" />
-        <Statistic topLabel="Stiftet i" statistic="1977" label={`${moment().year() - 1977} år`} />
+        <Statistic
+          topLabel="Stiftet i"
+          statistic="1977"
+          label={`${moment().year() - 1977} år`}
+        />
       </Flex>
 
       <DisplayVisionShort />
@@ -70,17 +92,30 @@ const LandingPage = ({
         <Icon name="mail" size={80} className={styles.emailIcon} />
         <div className={styles.emails}>
           <h3 className={styles.title}>E-post</h3>
-          {loggedIn && <div>
+          {loggedIn && (
+            <div>
               Har du noe du vil spørre om eller fortelle oss? Ta kontakt med oss
               på vårt <Link to="/contact">kontaktskjema</Link> eller på
               e-postene under! På kontaktskjemaet har du mulighet til å sende
               anonyme beskjeder, og du kan lett velge hvem som skal få mailen
               din.
-            </div>}
-          <EmailItem recipient="Hovedstyret" email="abakus@abakus.no" logo="https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_hs.png" />
+            </div>
+          )}
+          <EmailItem
+            recipient="Hovedstyret"
+            email="abakus@abakus.no"
+            logo="https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_hs.png"
+          />
           <h3 className={styles.title}>E-postadresser til komiteene</h3>
           <Flex wrap className={styles.committeeEmails}>
-            {committeeEmails.map((email, index) => <EmailItem key={index} recipient={email.recipient} email={email.email} logo={email.logo} />)}
+            {committeeEmails.map((email, index) => (
+              <EmailItem
+                key={index}
+                recipient={email.recipient}
+                email={email.email}
+                logo={email.logo}
+              />
+            ))}
           </Flex>
         </div>
       </Flex>
@@ -97,28 +132,51 @@ const LandingPage = ({
             <div className={styles.socialMediaType}>
               <Icon name="logo-facebook" size={40} />
               <div className={styles.socialMediaTypeLinks}>
-                {socialMedia.facebook.map((page, index) => <a key={index} href={page.link} className={styles.socialMediaLink}>
+                {socialMedia.facebook.map((page, index) => (
+                  <a
+                    key={index}
+                    href={page.link}
+                    className={styles.socialMediaLink}
+                  >
                     {page.textInfo}
-                  </a>)}
-                {loggedIn && <a href="https://www.facebook.com/groups/398146436914007/" className={styles.socialMediaLink}>
+                  </a>
+                ))}
+                {loggedIn && (
+                  <a
+                    href="https://www.facebook.com/groups/398146436914007/"
+                    className={styles.socialMediaLink}
+                  >
                     Medlemsgruppe
-                  </a>}
+                  </a>
+                )}
               </div>
             </div>
             <div className={styles.socialMediaType}>
               <Icon name="logo-instagram" size={40} />
               <div className={styles.socialMediaTypeLinks}>
-                {socialMedia.instagram.map((page, index) => <a key={index} href={page.link} className={styles.socialMediaLink}>
+                {socialMedia.instagram.map((page, index) => (
+                  <a
+                    key={index}
+                    href={page.link}
+                    className={styles.socialMediaLink}
+                  >
                     {page.textInfo}
-                  </a>)}
+                  </a>
+                ))}
               </div>
             </div>
             <div className={styles.socialMediaType}>
-              <Icon name="logo-snapchat" size={40} className={styles.snapchatIcon} />
+              <Icon
+                name="logo-snapchat"
+                size={40}
+                className={styles.snapchatIcon}
+              />
               <div className={styles.socialMediaTypeLinks}>
-                {socialMedia.snapchat.map((page, index) => <Button flat key={index} className={styles.socialMediaLink}>
+                {socialMedia.snapchat.map((page, index) => (
+                  <Button flat key={index} className={styles.socialMediaLink}>
                     {page.name}
-                  </Button>)}
+                  </Button>
+                ))}
               </div>
             </div>
           </Flex>
@@ -127,22 +185,39 @@ const LandingPage = ({
 
       <Flex className={styles.locationContainer}>
         <div className={styles.houseIcon}>
-          <Icon name="home" size={80} style={{
-          marginRight: '1rem'
-        }} />
+          <Icon
+            name="home"
+            size={80}
+            style={{
+              marginRight: '1rem',
+            }}
+          />
         </div>
-        <TextWithTitle title="Postadresse" text={postAddress} extraStyle={{
-        flexBasis: '33.33333%'
-      }} />
-        <div style={{
-        flexBasis: '33.33333%'
-      }}>
+        <TextWithTitle
+          title="Postadresse"
+          text={postAddress}
+          extraStyle={{
+            flexBasis: '33.33333%',
+          }}
+        />
+        <div
+          style={{
+            flexBasis: '33.33333%',
+          }}
+        >
           <TextWithTitle title="Besøksadresse" text={officeAddress} />
-          <TextWithTitle title="Webkom's besøksadresse" text={webkomOfficeAddress} />
+          <TextWithTitle
+            title="Webkom's besøksadresse"
+            text={webkomOfficeAddress}
+          />
         </div>
-        <TextWithTitle title="Kontortid" text={officeHours} extraStyle={{
-        flexBasis: '33.33333%'
-      }} />
+        <TextWithTitle
+          title="Kontortid"
+          text={officeHours}
+          extraStyle={{
+            flexBasis: '33.33333%',
+          }}
+        />
       </Flex>
 
       <Flex>
@@ -152,84 +227,110 @@ const LandingPage = ({
           <span>{organizationNo}</span>
         </div>
       </Flex>
-    </div>;
+    </div>
+  );
 };
 
 LandingPage.defaultProps = {
-  whoWeAre: <span>
+  whoWeAre: (
+    <span>
       Abakus er linjeforeningen for studentene ved Datateknologi og{' '}
       <i>Kommunikasjonsteknologi og digital sikkerhet</i> på NTNU, og drives av
       studenter ved disse studiene.
-    </span>,
-  whatWeDo: "Abakus' formål er å gi disse studentene veiledning i studiesituasjonen, arrangere kurs som utfyller fagtilbudet ved NTNU, fremme kontakten med næringslivet og bidra med sosiale aktiviteter.",
-  whyWeDoIt: 'Vi jobber for å være et mangfoldig miljø og aktivitetstilbud, med muligheter for alle våre studenter, og et sted morgendagens IT-studenter vil være.',
+    </span>
+  ),
+  whatWeDo:
+    "Abakus' formål er å gi disse studentene veiledning i studiesituasjonen, arrangere kurs som utfyller fagtilbudet ved NTNU, fremme kontakten med næringslivet og bidra med sosiale aktiviteter.",
+  whyWeDoIt:
+    'Vi jobber for å være et mangfoldig miljø og aktivitetstilbud, med muligheter for alle våre studenter, og et sted morgendagens IT-studenter vil være.',
   postAddress: 'Abakus \nSem Sælands vei 7-9 \n7491 Trondheim',
   officeAddress: 'Realfagsbygget A-blokka \nTredje etasje, rom A3.133',
-  webkomOfficeAddress: 'EL-bygget rom F-252 \nO.S. Bragstads plass 2F \nNTNU Gløshaugen',
+  webkomOfficeAddress:
+    'EL-bygget rom F-252 \nO.S. Bragstads plass 2F \nNTNU Gløshaugen',
   officeHours: 'Hver tirsdag kl. 1315 - 1400 \npå Realfagsbygget',
-  organizationNo: '98 60 37 314 MVA'
+  organizationNo: '98 60 37 314 MVA',
 };
-const committeeEmails = [{
-  recipient: 'Arrkom',
-  email: 'arrkom@abakus.no',
-  logo: 'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_arrkom.png'
-}, {
-  recipient: 'Bankkom',
-  email: 'bankkom@abakus.no',
-  logo: 'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_bankkom.png'
-}, {
-  recipient: 'Bedkom',
-  email: 'bedkom@abakus.no',
-  logo: 'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_bedkom.png'
-}, {
-  recipient: 'Fagkom',
-  email: 'fagkom@abakus.no',
-  logo: 'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_fagkom.png'
-}, {
-  recipient: 'Koskom',
-  email: 'koskom@abakus.no',
-  logo: 'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_koskom.png'
-}, {
-  recipient: 'LaBamba',
-  email: 'labamba@abakus.no',
-  logo: 'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_labamba.png'
-}, {
-  recipient: 'PR',
-  email: 'pr@abakus.no',
-  logo: 'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_pr.png'
-}, {
-  recipient: 'Webkom',
-  email: 'webkom@abakus.no',
-  logo: 'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_webkom.png'
-}, {
-  recipient: 'readme',
-  email: 'readme@abakus.no',
-  logo: 'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_readme.png'
-}, {
-  recipient: 'backup',
-  email: 'backup@abakus.no',
-  logo: 'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_backup.png'
-}];
+const committeeEmails = [
+  {
+    recipient: 'Arrkom',
+    email: 'arrkom@abakus.no',
+    logo: 'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_arrkom.png',
+  },
+  {
+    recipient: 'Bankkom',
+    email: 'bankkom@abakus.no',
+    logo: 'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_bankkom.png',
+  },
+  {
+    recipient: 'Bedkom',
+    email: 'bedkom@abakus.no',
+    logo: 'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_bedkom.png',
+  },
+  {
+    recipient: 'Fagkom',
+    email: 'fagkom@abakus.no',
+    logo: 'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_fagkom.png',
+  },
+  {
+    recipient: 'Koskom',
+    email: 'koskom@abakus.no',
+    logo: 'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_koskom.png',
+  },
+  {
+    recipient: 'LaBamba',
+    email: 'labamba@abakus.no',
+    logo: 'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_labamba.png',
+  },
+  {
+    recipient: 'PR',
+    email: 'pr@abakus.no',
+    logo: 'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_pr.png',
+  },
+  {
+    recipient: 'Webkom',
+    email: 'webkom@abakus.no',
+    logo: 'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_webkom.png',
+  },
+  {
+    recipient: 'readme',
+    email: 'readme@abakus.no',
+    logo: 'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_readme.png',
+  },
+  {
+    recipient: 'backup',
+    email: 'backup@abakus.no',
+    logo: 'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_backup.png',
+  },
+];
 const socialMedia = {
-  facebook: [{
-    link: 'https://www.facebook.com/AbakusNTNU/?ref=bookmarks',
-    textInfo: 'Hovedside for Abakus'
-  }, {
-    link: 'https://www.facebook.com/Abakus-Bedriftsarrangementer-245005099523282/',
-    textInfo: 'Bedriftsarrangementer'
-  }],
-  instagram: [{
-    link: 'https://www.instagram.com/abakusntnu/',
-    textInfo: 'Abakus - @Abakusntnu'
-  }, {
-    link: 'https://www.instagram.com/abakushs/',
-    textInfo: 'Hovedstyret - @abakushs'
-  }, {
-    link: 'https://www.instagram.com/abakusbedrift/',
-    textInfo: 'Bedrift - @abakusbedrift'
-  }],
-  snapchat: [{
-    name: '@abakusntnu'
-  }]
+  facebook: [
+    {
+      link: 'https://www.facebook.com/AbakusNTNU/?ref=bookmarks',
+      textInfo: 'Hovedside for Abakus',
+    },
+    {
+      link: 'https://www.facebook.com/Abakus-Bedriftsarrangementer-245005099523282/',
+      textInfo: 'Bedriftsarrangementer',
+    },
+  ],
+  instagram: [
+    {
+      link: 'https://www.instagram.com/abakusntnu/',
+      textInfo: 'Abakus - @Abakusntnu',
+    },
+    {
+      link: 'https://www.instagram.com/abakushs/',
+      textInfo: 'Hovedstyret - @abakushs',
+    },
+    {
+      link: 'https://www.instagram.com/abakusbedrift/',
+      textInfo: 'Bedrift - @abakusbedrift',
+    },
+  ],
+  snapchat: [
+    {
+      name: '@abakusntnu',
+    },
+  ],
 };
 export default LandingPage;

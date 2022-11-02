@@ -1,5 +1,5 @@
-import styles from "./Icon.css";
-import { Flex } from "app/components/Layout";
+import styles from './Icon.css';
+import { Flex } from 'app/components/Layout';
 type Props = {
   /** Name of the icon can be found on the webpage*/
   name: string;
@@ -26,12 +26,18 @@ const Icon = ({
   size = 24,
   ...props
 }: Props) => {
-  return <Flex className={className} style={{
-    fontSize: `${size.toString()}px`,
-    ...style
-  }} {...(props as Record<string, any>)}>
+  return (
+    <Flex
+      className={className}
+      style={{
+        fontSize: `${size.toString()}px`,
+        ...style,
+      }}
+      {...(props as Record<string, any>)}
+    >
       <ion-icon name={name}></ion-icon>
-    </Flex>;
+    </Flex>
+  );
 };
 
 Icon.Badge = ({
@@ -46,12 +52,16 @@ Icon.Badge = ({
     return icon;
   }
 
-  return <div style={{
-    position: 'relative'
-  }}>
+  return (
+    <div
+      style={{
+        position: 'relative',
+      }}
+    >
       <span className={styles.badge}>{badgeCount}</span>
       {icon}
-    </div>;
+    </div>
+  );
 };
 
 Icon.Badge.displayName = 'IconBadge';

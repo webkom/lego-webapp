@@ -1,33 +1,41 @@
-import { connect } from "react-redux";
-import prepare from "app/utils/prepare";
-import { compose } from "redux";
-import { addSubmission, fetchUserSubmission } from "../../actions/SurveySubmissionActions";
-import { fetchSurvey } from "app/actions/SurveyActions";
-import SubmissionContainer from "./components/SubmissionEditor/SubmissionContainer";
-import { selectSurveyById } from "app/reducers/surveys";
-import { selectSurveySubmissionForUser } from "app/reducers/surveySubmissions";
-import { LoginPage } from "app/components/LoginForm";
-import replaceUnlessLoggedIn from "app/utils/replaceUnlessLoggedIn";
-import loadingIndicator from "app/utils/loadingIndicator";
+import { connect } from 'react-redux';
+import prepare from 'app/utils/prepare';
+import { compose } from 'redux';
+import {
+  addSubmission,
+  fetchUserSubmission,
+} from '../../actions/SurveySubmissionActions';
+import { fetchSurvey } from 'app/actions/SurveyActions';
+import SubmissionContainer from './components/SubmissionEditor/SubmissionContainer';
+import { selectSurveyById } from 'app/reducers/surveys';
+import { selectSurveySubmissionForUser } from 'app/reducers/surveySubmissions';
+import { LoginPage } from 'app/components/LoginForm';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import loadingIndicator from 'app/utils/loadingIndicator';
 
-const loadData = ({
-  match: {
-    params: {
-      surveyId
-    }
+const loadData = (
+  {
+    match: {
+      params: { surveyId },
+    },
+    currentUser,
   },
-  currentUser
-}, dispatch) => Promise.all([dispatch(fetchSurvey(surveyId)), currentUser.id && dispatch(fetchUserSubmission(surveyId, currentUser.id))]);
+  dispatch
+) =>
+  Promise.all([
+    dispatch(fetchSurvey(surveyId)),
+    currentUser.id && dispatch(fetchUserSubmission(surveyId, currentUser.id)),
+  ]);
 
 const mapStateToProps = (state, props) => {
   const surveyId = Number(props.match.params.surveyId);
   const survey = selectSurveyById(state, {
-    surveyId
+    surveyId,
   });
   const currentUser = props.currentUser;
   const submission = selectSurveySubmissionForUser(state, {
     surveyId,
-    currentUser
+    currentUser,
   });
   const notFetching = state.surveySubmissions.fetching;
   return {
@@ -38,12 +46,17 @@ const mapStateToProps = (state, props) => {
     notFetching,
     actionGrant: survey.actionGrant,
     initialValues: {
-      answers: []
-    }
+      answers: [],
+    },
   };
 };
 
 const mapDispatchToProps = {
-  submitFunction: addSubmission
+  submitFunction: addSubmission,
 };
-export default compose(replaceUnlessLoggedIn(LoginPage), prepare(loadData, ['match.params.surveyId', 'currentUser.id', 'notFetching']), connect(mapStateToProps, mapDispatchToProps), loadingIndicator(['survey.questions', 'survey.event']))(SubmissionContainer);
+export default compose(
+  replaceUnlessLoggedIn(LoginPage),
+  prepare(loadData, ['match.params.surveyId', 'currentUser.id', 'notFetching']),
+  connect(mapStateToProps, mapDispatchToProps),
+  loadingIndicator(['survey.questions', 'survey.event'])
+)(SubmissionContainer);

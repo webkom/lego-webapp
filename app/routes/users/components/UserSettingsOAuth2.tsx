@@ -1,10 +1,10 @@
-import { Link } from "react-router-dom";
-import keys from "lodash/keys";
-import config from "app/config";
-import Time from "app/components/Time";
-import Icon from "app/components/Icon";
-import Tooltip from "app/components/Tooltip";
-import styles from "./UserSettingsOAuth2.css";
+import { Link } from 'react-router-dom';
+import keys from 'lodash/keys';
+import config from 'app/config';
+import Time from 'app/components/Time';
+import Icon from 'app/components/Icon';
+import Tooltip from 'app/components/Tooltip';
+import styles from './UserSettingsOAuth2.css';
 type Props = {
   applications: Array<any>;
   grants: Array<any>;
@@ -13,7 +13,8 @@ type Props = {
 };
 
 const UserSettingsOAuth2 = (props: Props) => {
-  return <div>
+  return (
+    <div>
       <h1>OAuth2</h1>
       <p>
         Denne nettsiden benytter seg av et API som også er tiljengelig for andre
@@ -57,7 +58,9 @@ const UserSettingsOAuth2 = (props: Props) => {
       <br />
 
       <h3>Applikasjoner</h3>
-      {props.actionGrant.includes('create') && <Link to="/users/me/settings/oauth2/new">Ny Applikasjon</Link>}
+      {props.actionGrant.includes('create') && (
+        <Link to="/users/me/settings/oauth2/new">Ny Applikasjon</Link>
+      )}
       <table className={styles.table}>
         <thead>
           <tr>
@@ -67,7 +70,8 @@ const UserSettingsOAuth2 = (props: Props) => {
           </tr>
         </thead>
         <tbody>
-          {props.applications.map((application, key) => <tr key={key}>
+          {props.applications.map((application, key) => (
+            <tr key={key}>
               <td>
                 <Link to={`/users/me/settings/oauth2/${application.id}`}>
                   {application.name}
@@ -75,10 +79,13 @@ const UserSettingsOAuth2 = (props: Props) => {
               </td>
               <td>{application.description}</td>
               <td>{application.clientId}</td>
-            </tr>)}
-          {props.applications.length === 0 && <tr>
+            </tr>
+          ))}
+          {props.applications.length === 0 && (
+            <tr>
               <td colSpan="3">Du har ingen applikasjoner.</td>
-            </tr>}
+            </tr>
+          )}
         </tbody>
       </table>
 
@@ -96,7 +103,9 @@ const UserSettingsOAuth2 = (props: Props) => {
           </tr>
         </thead>
         <tbody>
-          {props.grants.map((grant, key) => grant.id ? <tr key={key}>
+          {props.grants.map((grant, key) =>
+            grant.id ? (
+              <tr key={key}>
                 <td>{grant.application.name}</td>
                 <td>
                   <Time time={grant.expires} format="LLL" />
@@ -104,19 +113,28 @@ const UserSettingsOAuth2 = (props: Props) => {
                 <td>{grant.token}</td>
                 <td>{keys(grant.scopes).join(', ')}</td>
                 <td>
-                  <Tooltip content="Fjern" onClick={() => props.deleteOAuth2Grant(grant.id)} style={{
-              marginTop: '-5px'
-            }}>
+                  <Tooltip
+                    content="Fjern"
+                    onClick={() => props.deleteOAuth2Grant(grant.id)}
+                    style={{
+                      marginTop: '-5px',
+                    }}
+                  >
                     <Icon name="trash" size={28} />
                   </Tooltip>
                 </td>
-              </tr> : null)}
-          {props.grants.length === 0 && <tr>
+              </tr>
+            ) : null
+          )}
+          {props.grants.length === 0 && (
+            <tr>
               <td colSpan="5">Du har ikke logget logget på en app enda.</td>
-            </tr>}
+            </tr>
+          )}
         </tbody>
       </table>
-    </div>;
+    </div>
+  );
 };
 
 export default UserSettingsOAuth2;

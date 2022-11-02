@@ -1,8 +1,8 @@
-import { createSelector } from "reselect";
-import createEntityReducer from "../utils/createEntityReducer";
-import { Poll } from "../actions/ActionTypes";
-import type { Tags, ID } from "app/models";
-import "app/models";
+import { createSelector } from 'reselect';
+import createEntityReducer from '../utils/createEntityReducer';
+import { Poll } from '../actions/ActionTypes';
+import type { Tags, ID } from 'app/models';
+import 'app/models';
 export type OptionEntity = {
   id: number;
   name: string;
@@ -24,14 +24,24 @@ export default createEntityReducer({
   types: {
     fetch: [Poll.FETCH, Poll.FETCH_ALL],
     mutate: Poll.CREATE,
-    delete: Poll.DELETE
+    delete: Poll.DELETE,
+  },
+});
+export const selectPolls = createSelector(
+  (state) => state.polls.byId,
+  (state) => state.polls.items,
+  (pollsById, pollsIds) => {
+    return pollsIds.map((id) => pollsById[id]);
   }
-});
-export const selectPolls = createSelector(state => state.polls.byId, state => state.polls.items, (pollsById, pollsIds) => {
-  return pollsIds.map(id => pollsById[id]);
-});
-export const selectPollById = createSelector(selectPolls, (state, pollsId) => pollsId, (polls, pollsId) => {
-  if (!polls || !pollsId) return {};
-  return polls.find(polls => Number(polls.id) === Number(pollsId));
-});
-export const selectPinnedPolls = createSelector(selectPolls, polls => polls.filter(polls => polls.pinned));
+);
+export const selectPollById = createSelector(
+  selectPolls,
+  (state, pollsId) => pollsId,
+  (polls, pollsId) => {
+    if (!polls || !pollsId) return {};
+    return polls.find((polls) => Number(polls.id) === Number(pollsId));
+  }
+);
+export const selectPinnedPolls = createSelector(selectPolls, (polls) =>
+  polls.filter((polls) => polls.pinned)
+);

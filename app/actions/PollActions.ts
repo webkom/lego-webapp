@@ -1,28 +1,30 @@
-import callAPI from "./callAPI";
-import { Poll } from "./ActionTypes";
-import { pollSchema } from "../reducers";
-import { push } from "connected-react-router";
-import type { Thunk } from "app/types";
-import type { OptionEntity } from "app/reducers/polls";
-import "app/reducers/polls";
-import type { Tags } from "app/models";
-import "app/models";
+import callAPI from './callAPI';
+import { Poll } from './ActionTypes';
+import { pollSchema } from '../reducers';
+import { push } from 'connected-react-router';
+import type { Thunk } from 'app/types';
+import type { OptionEntity } from 'app/reducers/polls';
+import 'app/reducers/polls';
+import type { Tags } from 'app/models';
+import 'app/models';
 export function fetchAll({
-  next = false
+  next = false,
 }: {
   next: boolean;
 } = {}): Thunk<any> {
   return (dispatch, getState) => {
     const cursor = next ? getState().polls.pagination.next : {};
-    return dispatch(callAPI({
-      types: Poll.FETCH_ALL,
-      endpoint: '/polls/',
-      schema: [pollSchema],
-      query: cursor,
-      meta: {
-        errorMessage: 'Henting av avstemninger feilet'
-      }
-    }));
+    return dispatch(
+      callAPI({
+        types: Poll.FETCH_ALL,
+        endpoint: '/polls/',
+        schema: [pollSchema],
+        query: cursor,
+        meta: {
+          errorMessage: 'Henting av avstemninger feilet',
+        },
+      })
+    );
   };
 }
 export function fetchPoll(pollId: number): Thunk<any> {
@@ -31,9 +33,9 @@ export function fetchPoll(pollId: number): Thunk<any> {
     endpoint: `/polls/${pollId}/`,
     schema: pollSchema,
     meta: {
-      errorMessage: 'Henting av avstemning feilet'
+      errorMessage: 'Henting av avstemning feilet',
     },
-    propagateError: true
+    propagateError: true,
   });
 }
 export function createPoll(data: {
@@ -44,26 +46,32 @@ export function createPoll(data: {
     name: string;
   }>;
 }): Thunk<any> {
-  return dispatch => dispatch(callAPI({
-    types: Poll.CREATE,
-    endpoint: '/polls/',
-    method: 'POST',
-    body: data,
-    schema: pollSchema,
-    meta: {
-      errorMessage: 'Legg til avstemning feilet',
-      successMessage: 'Avstemning lagt til!'
-    }
-  })).then(() => dispatch(push(`/polls/`)));
+  return (dispatch) =>
+    dispatch(
+      callAPI({
+        types: Poll.CREATE,
+        endpoint: '/polls/',
+        method: 'POST',
+        body: data,
+        schema: pollSchema,
+        meta: {
+          errorMessage: 'Legg til avstemning feilet',
+          successMessage: 'Avstemning lagt til!',
+        },
+      })
+    ).then(() => dispatch(push(`/polls/`)));
 }
 export function editPoll(data: {
   pollId: number;
   description: string;
   pinned: boolean;
   tags: Tags;
-  options: Array<OptionEntity | {
-    name: string;
-  }>;
+  options: Array<
+    | OptionEntity
+    | {
+        name: string;
+      }
+  >;
 }): Thunk<any> {
   return callAPI({
     types: Poll.UPDATE,
@@ -73,20 +81,23 @@ export function editPoll(data: {
     schema: pollSchema,
     meta: {
       errorMessage: 'Endring av avstemning feilet',
-      successMessage: 'Avstemning endret'
-    }
+      successMessage: 'Avstemning endret',
+    },
   });
 }
 export function deletePoll(id: number): Thunk<any> {
-  return dispatch => dispatch(callAPI({
-    types: Poll.DELETE,
-    endpoint: `/polls/${id}/`,
-    method: 'DELETE',
-    meta: {
-      id,
-      errorMessage: 'Fjerning av avstemning feilet!'
-    }
-  })).then(() => dispatch(push(`/polls/`)));
+  return (dispatch) =>
+    dispatch(
+      callAPI({
+        types: Poll.DELETE,
+        endpoint: `/polls/${id}/`,
+        method: 'DELETE',
+        meta: {
+          id,
+          errorMessage: 'Fjerning av avstemning feilet!',
+        },
+      })
+    ).then(() => dispatch(push(`/polls/`)));
 }
 export function votePoll(pollId: number, optionId: number): Thunk<any> {
   return callAPI({
@@ -95,13 +106,13 @@ export function votePoll(pollId: number, optionId: number): Thunk<any> {
     method: 'POST',
     schema: pollSchema,
     body: {
-      optionId
+      optionId,
     },
     meta: {
       pollId,
       optionId,
       errorMessage: 'Avstemning feilet!',
-      successMessage: 'Avstemning registrert!'
-    }
+      successMessage: 'Avstemning registrert!',
+    },
   });
 }

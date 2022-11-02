@@ -1,11 +1,11 @@
-import { Component } from "react";
-import config from "app/config";
-import { createField } from "./Field";
+import { Component } from 'react';
+import config from 'app/config';
+import { createField } from './Field';
 // eslint-disable-next-line import/no-named-as-default
-import Turnstile from "react-turnstile";
-import styles from "./Captcha.css";
-import cx from "classnames";
-import { getTheme } from "app/utils/themeUtils";
+import Turnstile from 'react-turnstile';
+import styles from './Captcha.css';
+import cx from 'classnames';
+import { getTheme } from 'app/utils/themeUtils';
 type Props = {
   className?: string;
   onChange?: void;
@@ -13,10 +13,13 @@ type Props = {
 };
 
 class Captcha extends Component<Props> {
-  captcha: {
-    reset: () => void;
-    execute: () => void;
-  } | null | undefined;
+  captcha:
+    | {
+        reset: () => void;
+        execute: () => void;
+      }
+    | null
+    | undefined;
 
   // eslint-disable-next-line
   componentWillReceiveProps(nextProps: Props) {
@@ -32,15 +35,19 @@ class Captcha extends Component<Props> {
   }
 
   render() {
-    const {
-      className,
-      onChange
-    } = this.props;
-    return <div className={cx(className, styles.captchaContainer)}>
-        <Turnstile ref={ref => {
-        this.captcha = ref;
-      }} sitekey={config.captchaKey} onVerify={onChange} theme={getTheme()} />
-      </div>;
+    const { className, onChange } = this.props;
+    return (
+      <div className={cx(className, styles.captchaContainer)}>
+        <Turnstile
+          ref={(ref) => {
+            this.captcha = ref;
+          }}
+          sitekey={config.captchaKey}
+          onVerify={onChange}
+          theme={getTheme()}
+        />
+      </div>
+    );
   }
 
   static Field = createField(Captcha);

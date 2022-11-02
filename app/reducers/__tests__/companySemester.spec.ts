@@ -1,5 +1,5 @@
-import companySemesters from "../companySemesters";
-import { Company } from "../../actions/ActionTypes";
+import companySemesters from '../companySemesters';
+import { Company } from '../../actions/ActionTypes';
 describe('reducers', () => {
   describe('company semester', () => {
     it('Company.ADD_SEMESTER.SUCCESS', () => {
@@ -12,9 +12,9 @@ describe('reducers', () => {
             id: 1,
             year: 2001,
             semester: 'spring',
-            activeInterestForm: false
-          }
-        }
+            activeInterestForm: false,
+          },
+        },
       };
       const action = {
         type: Company.ADD_SEMESTER.SUCCESS,
@@ -22,8 +22,8 @@ describe('reducers', () => {
           id: 2,
           year: 2001,
           semester: 'autumn',
-          activeInterestForm: false
-        }
+          activeInterestForm: false,
+        },
       };
       expect(companySemesters(prevState, action)).toEqual({
         actionGrant: [],
@@ -34,15 +34,15 @@ describe('reducers', () => {
             id: 1,
             year: 2001,
             semester: 'spring',
-            activeInterestForm: false
+            activeInterestForm: false,
           },
           2: {
             id: 2,
             year: 2001,
             semester: 'autumn',
-            activeInterestForm: false
-          }
-        }
+            activeInterestForm: false,
+          },
+        },
       });
     });
   });

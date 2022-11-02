@@ -16,16 +16,20 @@ type Props = {
 function Circle({
   size = 10,
   color = 'var(--color-mono-gray-4)',
-  style
+  style,
 }: Props) {
-  return <span style={{
-    width: size,
-    height: size,
-    borderRadius: size / 2,
-    backgroundColor: color,
-    display: 'inline-block',
-    ...style
-  }} />;
+  return (
+    <span
+      style={{
+        width: size,
+        height: size,
+        borderRadius: size / 2,
+        backgroundColor: color,
+        display: 'inline-block',
+        ...style,
+      }}
+    />
+  );
 }
 
 export default Circle;

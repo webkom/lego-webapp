@@ -1,7 +1,7 @@
-import { createField } from "./Field";
-import type { FormProps } from "./Field";
-import styles from "./RadioButton.css";
-import cx from "classnames";
+import { createField } from './Field';
+import type { FormProps } from './Field';
+import styles from './RadioButton.css';
+import cx from 'classnames';
 type Props = {
   id: string;
   type?: string;
@@ -19,18 +19,29 @@ function RadioButton({
   className,
   ...props
 }: Props) {
-  return <div className={cx(styles.box, className)}>
-      <input {...props} className={styles.input} checked={inputValue === value} type="radio" id={id} value={inputValue} />
+  return (
+    <div className={cx(styles.box, className)}>
+      <input
+        {...props}
+        className={styles.input}
+        checked={inputValue === value}
+        type="radio"
+        id={id}
+        value={inputValue}
+      />
       <span className={styles.label}>{label}</span>
-    </div>;
+    </div>
+  );
 }
 
 const RawField = createField(RadioButton);
 
-const StyledField = ({
-  fieldClassName,
-  ...props
-}: FormProps) => <RawField fieldClassName={cx(fieldClassName, styles.radioField)} {...(props as Record<string, any>)} />;
+const StyledField = ({ fieldClassName, ...props }: FormProps) => (
+  <RawField
+    fieldClassName={cx(fieldClassName, styles.radioField)}
+    {...(props as Record<string, any>)}
+  />
+);
 
 RadioButton.Field = StyledField;
 export default RadioButton;

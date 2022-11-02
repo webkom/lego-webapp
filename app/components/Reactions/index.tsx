@@ -1,21 +1,18 @@
-import type { Node } from "react";
-import { Component } from "react";
-import classNames from "classnames";
-import styles from "./index.css";
-import type { EmojiEntity } from "app/reducers/emojis";
-import type { ID } from "app/models";
-import reactionStyles from "./Reaction.css";
-import ReactionPicker from "./ReactionPicker";
-import AddReactionEmoji from "./assets/AddReactionEmoji";
+import type { Node } from 'react';
+import { Component } from 'react';
+import classNames from 'classnames';
+import styles from './index.css';
+import type { EmojiEntity } from 'app/reducers/emojis';
+import type { ID } from 'app/models';
+import reactionStyles from './Reaction.css';
+import ReactionPicker from './ReactionPicker';
+import AddReactionEmoji from './assets/AddReactionEmoji';
 type Props = {
   children: Node;
   className?: string;
   emojis: Array<EmojiEntity>;
   fetchingEmojis: boolean;
-  addReaction: (arg0: {
-    emoji: string;
-    contentTarget: string;
-  }) => Promise<any>;
+  addReaction: (arg0: { emoji: string; contentTarget: string }) => Promise<any>;
   deleteReaction: (arg0: {
     reactionId: ID;
     contentTarget: string;
@@ -38,26 +35,26 @@ class Reactions extends Component<Props, State> {
     hovered: false,
     addEmojiHovered: false,
     reactionPickerOpen: false,
-    fetchedEmojis: false
+    fetchedEmojis: false,
   };
   onMouseEnter = () => {
     this.setState({
-      hovered: true
+      hovered: true,
     });
   };
   onMouseLeave = () => {
     this.setState({
-      hovered: false
+      hovered: false,
     });
   };
   onAddEmojiEnter = () => {
     this.setState({
-      addEmojiHovered: true
+      addEmojiHovered: true,
     });
   };
   onAddEmojiLeave = () => {
     this.setState({
-      addEmojiHovered: false
+      addEmojiHovered: false,
     });
   };
   toggleReactionPicker = (e: Event) => {
@@ -73,7 +70,7 @@ class Reactions extends Component<Props, State> {
 
     this.setState({
       reactionPickerOpen: !this.state.reactionPickerOpen,
-      fetchedEmojis: true
+      fetchedEmojis: true,
     });
     e.stopPropagation();
   };
@@ -94,27 +91,52 @@ class Reactions extends Component<Props, State> {
       addReaction,
       deleteReaction,
       contentTarget,
-      loggedIn
+      loggedIn,
     } = this.props;
-    const {
-      reactionPickerOpen,
-      addEmojiHovered
-    } = this.state;
-    return <div className={styles.reactionsContainer} ref={node => {
-      this.node = node;
-    }}>
-        <div className={className ? className : styles.reactions} onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave}>
+    const { reactionPickerOpen, addEmojiHovered } = this.state;
+    return (
+      <div
+        className={styles.reactionsContainer}
+        ref={(node) => {
+          this.node = node;
+        }}
+      >
+        <div
+          className={className ? className : styles.reactions}
+          onMouseEnter={this.onMouseEnter}
+          onMouseLeave={this.onMouseLeave}
+        >
           {children}
-          {loggedIn && <div className={classNames(reactionStyles.reaction, styles.addReaction)} onClick={this.toggleReactionPicker} onMouseEnter={this.onAddEmojiEnter} onMouseLeave={this.onAddEmojiLeave}>
-              <AddReactionEmoji color={addEmojiHovered ? '#E20D13' : '#F7A4A6'} />
-            </div>}
+          {loggedIn && (
+            <div
+              className={classNames(
+                reactionStyles.reaction,
+                styles.addReaction
+              )}
+              onClick={this.toggleReactionPicker}
+              onMouseEnter={this.onAddEmojiEnter}
+              onMouseLeave={this.onAddEmojiLeave}
+            >
+              <AddReactionEmoji
+                color={addEmojiHovered ? '#E20D13' : '#F7A4A6'}
+              />
+            </div>
+          )}
         </div>
-        {reactionPickerOpen && <div className={styles.reactionPickerContainer}>
-            <ReactionPicker emojis={emojis} isLoading={fetchingEmojis} addReaction={addReaction} deleteReaction={deleteReaction} contentTarget={contentTarget} />
-          </div>}
-      </div>;
+        {reactionPickerOpen && (
+          <div className={styles.reactionPickerContainer}>
+            <ReactionPicker
+              emojis={emojis}
+              isLoading={fetchingEmojis}
+              addReaction={addReaction}
+              deleteReaction={deleteReaction}
+              contentTarget={contentTarget}
+            />
+          </div>
+        )}
+      </div>
+    );
   }
-
 }
 
 export default Reactions;

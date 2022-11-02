@@ -1,13 +1,13 @@
-import { compose } from "redux";
-import { connect } from "react-redux";
-import { fetchCompanyContacts } from "app/actions/CompanyActions";
-import { createJoblisting } from "app/actions/JoblistingActions";
-import JoblistingEditor from "app/routes/joblistings/components/JoblistingEditor";
-import { push } from "connected-react-router";
-import { LoginPage } from "app/components/LoginForm";
-import replaceUnlessLoggedIn from "app/utils/replaceUnlessLoggedIn";
-import time from "app/utils/time";
-import { yearValues, jobTypes } from "./constants";
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { fetchCompanyContacts } from 'app/actions/CompanyActions';
+import { createJoblisting } from 'app/actions/JoblistingActions';
+import JoblistingEditor from 'app/routes/joblistings/components/JoblistingEditor';
+import { push } from 'connected-react-router';
+import { LoginPage } from 'app/components/LoginForm';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import time from 'app/utils/time';
+import { yearValues, jobTypes } from './constants';
 
 const mapStateToProps = () => ({
   initialValues: {
@@ -16,35 +16,32 @@ const mapStateToProps = () => ({
     text: '<p></p>',
     description: '',
     visibleFrom: time({
-      hours: 12
+      hours: 12,
     }),
     visibleTo: time({
       days: 31,
       hours: 23,
-      minutes: 59
+      minutes: 59,
     }),
     deadline: time({
       days: 30,
       hours: 23,
-      minutes: 59
+      minutes: 59,
     }),
-    fromYear: yearValues.find(({
-      value
-    }) => value === 1),
-    toYear: yearValues.find(({
-      value
-    }) => value === 5),
-    jobType: jobTypes.find(({
-      value
-    }) => value === 'summer_job'),
-    workplaces: []
+    fromYear: yearValues.find(({ value }) => value === 1),
+    toYear: yearValues.find(({ value }) => value === 5),
+    jobType: jobTypes.find(({ value }) => value === 'summer_job'),
+    workplaces: [],
   },
-  isNew: true
+  isNew: true,
 });
 
 const mapDispatchToProps = {
   submitJoblisting: createJoblisting,
   fetchCompanyContacts,
-  push
+  push,
 };
-export default compose(replaceUnlessLoggedIn(LoginPage), connect(mapStateToProps, mapDispatchToProps))(JoblistingEditor);
+export default compose(
+  replaceUnlessLoggedIn(LoginPage),
+  connect(mapStateToProps, mapDispatchToProps)
+)(JoblistingEditor);

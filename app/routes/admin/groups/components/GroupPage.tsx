@@ -1,20 +1,17 @@
-import { Helmet } from "react-helmet-async";
-import NavigationTab from "app/components/NavigationTab";
-import NavigationLink from "app/components/NavigationTab/NavigationLink";
-import { Content } from "app/components/Content";
-import GroupTree from "./GroupTree";
-import styles from "./GroupPage.css";
-import { Route, Switch } from "react-router-dom";
-import GroupDetailRoute from "../GroupDetailRoute";
-import type { LocationType } from "app/models";
+import { Helmet } from 'react-helmet-async';
+import NavigationTab from 'app/components/NavigationTab';
+import NavigationLink from 'app/components/NavigationTab/NavigationLink';
+import { Content } from 'app/components/Content';
+import GroupTree from './GroupTree';
+import styles from './GroupPage.css';
+import { Route, Switch } from 'react-router-dom';
+import GroupDetailRoute from '../GroupDetailRoute';
+import type { LocationType } from 'app/models';
 
-const NavigationLinks = ({
-  groupId
-}: {
-  groupId: string;
-}) => {
+const NavigationLinks = ({ groupId }: { groupId: string }) => {
   const baseUrl = `/admin/groups/${groupId}`;
-  return <div>
+  return (
+    <div>
       <NavigationLink to={`${baseUrl}/settings`}>Rediger</NavigationLink>
       <NavigationLink to={`${baseUrl}/members?descendants=false`}>
         Medlemmer
@@ -23,21 +20,30 @@ const NavigationLinks = ({
         Implisitte medlemmer
       </NavigationLink>
       <NavigationLink to={`${baseUrl}/permissions`}>Rettigheter</NavigationLink>
-    </div>;
+    </div>
+  );
 };
 
-const SelectGroup = () => <h2 style={{
-  textAlign: 'center'
-}}>← Vennligst velg en gruppe fra menyen</h2>;
+const SelectGroup = () => (
+  <h2
+    style={{
+      textAlign: 'center',
+    }}
+  >
+    ← Vennligst velg en gruppe fra menyen
+  </h2>
+);
 
 const GroupPageNavigation = ({
-  groupId
+  groupId,
 }: {
   groupId: string | null | undefined;
 }) => {
-  return <NavigationTab title="Grupper">
+  return (
+    <NavigationTab title="Grupper">
       {groupId && <NavigationLinks groupId={groupId} />}
-    </NavigationTab>;
+    </NavigationTab>
+  );
 };
 
 type GroupPageProps = {
@@ -51,17 +57,17 @@ type GroupPageProps = {
   };
 };
 
-const GroupPage = ({
-  groups,
-  location,
-  match
-}: GroupPageProps) => {
-  return <Content>
+const GroupPage = ({ groups, location, match }: GroupPageProps) => {
+  return (
+    <Content>
       <Helmet title="Grupper" />
       <GroupPageNavigation groupId={match.params.groupId} />
       <div className={styles.groupPage}>
         <section className={styles.sidebar}>
-          <GroupTree groups={groups} pathname={location.pathname + location.search} />
+          <GroupTree
+            groups={groups}
+            pathname={location.pathname + location.search}
+          />
         </section>
 
         <section className={styles.main}>
@@ -71,7 +77,8 @@ const GroupPage = ({
           </Switch>
         </section>
       </div>
-    </Content>;
+    </Content>
+  );
 };
 
 export default GroupPage;

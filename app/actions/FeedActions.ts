@@ -1,16 +1,16 @@
-import { Feed } from "./ActionTypes";
-import type { Thunk } from "app/types";
-import callAPI from "./callAPI";
-import { feedActivitySchema } from "app/reducers";
-import { feedIdByUserId } from "app/reducers/feeds";
+import { Feed } from './ActionTypes';
+import type { Thunk } from 'app/types';
+import callAPI from './callAPI';
+import { feedActivitySchema } from 'app/reducers';
+import { feedIdByUserId } from 'app/reducers/feeds';
 export function fetchUserFeed(userId: string): Thunk<any> {
   return callAPI({
     types: Feed.FETCH,
     endpoint: `/feed-user/${userId}/`,
     schema: [feedActivitySchema],
     meta: {
-      feedId: feedIdByUserId(userId)
-    }
+      feedId: feedIdByUserId(userId),
+    },
   });
 }
 export function fetchPersonalFeed(): Thunk<any> {
@@ -19,8 +19,8 @@ export function fetchPersonalFeed(): Thunk<any> {
     endpoint: '/feed-personal/',
     schema: [feedActivitySchema],
     meta: {
-      feedId: 'personal'
-    }
+      feedId: 'personal',
+    },
   });
 }
 export function fetchNotificationFeed(): Thunk<any> {
@@ -29,7 +29,7 @@ export function fetchNotificationFeed(): Thunk<any> {
     endpoint: '/feed-notifications/',
     schema: [feedActivitySchema],
     meta: {
-      feedId: 'notifications'
-    }
+      feedId: 'notifications',
+    },
   });
 }

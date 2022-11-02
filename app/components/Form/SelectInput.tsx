@@ -1,9 +1,9 @@
-import Select from "react-select";
-import Creatable from "react-select/creatable";
-import { createField } from "./Field";
-import withAutocomplete from "../Search/withAutocomplete";
-import mazemapAutocomplete from "../Search/mazemapAutocomplete";
-import style from "./SelectInput.css";
+import Select from 'react-select';
+import Creatable from 'react-select/creatable';
+import { createField } from './Field';
+import withAutocomplete from '../Search/withAutocomplete';
+import mazemapAutocomplete from '../Search/mazemapAutocomplete';
+import style from './SelectInput.css';
 type Props = {
   name: string;
   placeholder?: string;
@@ -21,22 +21,26 @@ type Props = {
   options?: {}[];
 };
 export const selectStyles = {
-  control: (styles: Record<string, any>) => ({ ...styles,
-    cursor: 'pointer'
-  }),
-  option: (styles: Record<string, any>, {
-    isDisabled,
-    isSelected
-  }: {
-    isDisabled: boolean;
-    isSelected: boolean;
-  }) => ({ ...styles,
+  control: (styles: Record<string, any>) => ({ ...styles, cursor: 'pointer' }),
+  option: (
+    styles: Record<string, any>,
+    {
+      isDisabled,
+      isSelected,
+    }: {
+      isDisabled: boolean;
+      isSelected: boolean;
+    }
+  ) => ({
+    ...styles,
     cursor: isDisabled ? 'not-allowed' : 'pointer',
-    color: isSelected ? 'var(--color-light-gray-5)' : undefined
-  })
+    color: isSelected ? 'var(--color-light-gray-5)' : undefined,
+  }),
 };
-export const selectTheme = (theme: Record<string, any>) => ({ ...theme,
-  colors: { ...theme.colors,
+export const selectTheme = (theme: Record<string, any>) => ({
+  ...theme,
+  colors: {
+    ...theme.colors,
     //primary: 'var(--color-blue-4)', // Selected backgroundColor
     primary25: 'var(--color-select-hover)',
     // Hover backgroundColor
@@ -52,10 +56,9 @@ export const selectTheme = (theme: Record<string, any>) => ({ ...theme,
     // neutral50: // Placholder font color,
     // neutral60: // Unknown
     // neutral70: // Unknown
-    neutral80: 'var(--lego-font-color)' // Font color
+    neutral80: 'var(--lego-font-color)', // Font color
     // neutral90: // Unknown
-
-  }
+  },
 });
 
 function SelectInput({
@@ -72,36 +75,66 @@ function SelectInput({
   ...props
 }: Props) {
   if (props.tags) {
-    return <div className={style.field}>
-        <Creatable {...props} isDisabled={disabled} placeholder={!disabled && placeholder} instanceId={name} isMulti onBlur={() => onBlur(value)} value={value} isValidNewOption={isValidNewOption} shouldKeyDownEventCreateNewOption={shouldKeyDownEventCreateNewOption} options={options} isLoading={fetching} onInputChange={value => {
-        if (props.onSearch) {
-          props.onSearch(value);
-        }
+    return (
+      <div className={style.field}>
+        <Creatable
+          {...props}
+          isDisabled={disabled}
+          placeholder={!disabled && placeholder}
+          instanceId={name}
+          isMulti
+          onBlur={() => onBlur(value)}
+          value={value}
+          isValidNewOption={isValidNewOption}
+          shouldKeyDownEventCreateNewOption={shouldKeyDownEventCreateNewOption}
+          options={options}
+          isLoading={fetching}
+          onInputChange={(value) => {
+            if (props.onSearch) {
+              props.onSearch(value);
+            }
 
-        return value;
-      }} />
-      </div>;
+            return value;
+          }}
+        />
+      </div>
+    );
   }
 
-  return <div className={style.field}>
-      <Select {...props} isDisabled={disabled} placeholder={disabled ? 'Tomt' : placeholder} instanceId={name} shouldKeyDownEventCreateNewOption={shouldKeyDownEventCreateNewOption} onBlur={() => onBlur(value)} value={value} options={options} isLoading={fetching} onInputChange={value => {
-      if (props.onSearch) {
-        props.onSearch(value);
-      }
+  return (
+    <div className={style.field}>
+      <Select
+        {...props}
+        isDisabled={disabled}
+        placeholder={disabled ? 'Tomt' : placeholder}
+        instanceId={name}
+        shouldKeyDownEventCreateNewOption={shouldKeyDownEventCreateNewOption}
+        onBlur={() => onBlur(value)}
+        value={value}
+        options={options}
+        isLoading={fetching}
+        onInputChange={(value) => {
+          if (props.onSearch) {
+            props.onSearch(value);
+          }
 
-      return value;
-    }} styles={selectStyle ?? selectStyles} theme={selectTheme} />
-    </div>;
+          return value;
+        }}
+        styles={selectStyle ?? selectStyles}
+        theme={selectTheme}
+      />
+    </div>
+  );
 }
 
 SelectInput.Field = createField(SelectInput);
 SelectInput.AutocompleteField = withAutocomplete({
-  WrappedComponent: SelectInput.Field
+  WrappedComponent: SelectInput.Field,
 });
 SelectInput.WithAutocomplete = withAutocomplete({
-  WrappedComponent: SelectInput
+  WrappedComponent: SelectInput,
 });
 SelectInput.MazemapAutocomplete = mazemapAutocomplete({
-  WrappedComponent: SelectInput.Field
+  WrappedComponent: SelectInput.Field,
 });
 export default SelectInput;

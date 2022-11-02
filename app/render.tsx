@@ -1,26 +1,31 @@
-import { loadableReady } from "@loadable/component";
-import { hydrate, render } from "react-dom";
-import Root from "./Root";
-import routes from "app/routes";
-import type { Store } from "app/types";
+import { loadableReady } from '@loadable/component';
+import { hydrate, render } from 'react-dom';
+import Root from './Root';
+import routes from 'app/routes';
+import type { Store } from 'app/types';
 
 const renderApp = ({
   store,
   history,
-  isSSR
+  isSSR,
 }: {
   store: Store;
   history: any;
   isSSR: boolean;
 }) => {
-  const rootElement: HTMLElement = (document.getElementById('root') as any);
+  const rootElement: HTMLElement = document.getElementById('root') as any;
   const reactRenderFunc = isSSR ? hydrate : render;
   loadableReady(() => {
-    reactRenderFunc(<Root {...{
-      store,
-      history,
-      routes
-    }} />, rootElement);
+    reactRenderFunc(
+      <Root
+        {...{
+          store,
+          history,
+          routes,
+        }}
+      />,
+      rootElement
+    );
   });
 };
 

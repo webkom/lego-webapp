@@ -1,4 +1,4 @@
-import type { Node } from "react";
+import type { Node } from 'react';
 type Item = {
   key: string;
   keyNode?: Node;
@@ -14,24 +14,29 @@ type Props = {
  * Location <strong>Oslo</strong>
  * Time <strong>Yesterday</strong>
  */
-function InfoList({
-  items,
-  className
-}: Props) {
-  return <table className={className}>
-      {items.filter(Boolean).map(({
-      key,
-      keyNode,
-      value
-    }) => <tr key={key}>
-          <td>{keyNode ?? <span style={{
-          marginRight: 5
-        }}>{key}</span>}</td>
+function InfoList({ items, className }: Props) {
+  return (
+    <table className={className}>
+      {items.filter(Boolean).map(({ key, keyNode, value }) => (
+        <tr key={key}>
+          <td>
+            {keyNode ?? (
+              <span
+                style={{
+                  marginRight: 5,
+                }}
+              >
+                {key}
+              </span>
+            )}
+          </td>
           <td>
             <strong>{value}</strong>
           </td>
-        </tr>)}
-    </table>;
+        </tr>
+      ))}
+    </table>
+  );
 }
 
 export default InfoList;

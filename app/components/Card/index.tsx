@@ -1,5 +1,5 @@
-import cx from "classnames";
-import styles from "./Card.css";
+import cx from 'classnames';
+import styles from './Card.css';
 type Props = {
   className?: string;
 
@@ -24,9 +24,20 @@ function Card({
   shadow = true,
   ...htmlAttributes
 }: Props) {
-  return <div className={cx(className, styles.card, dark && styles.dark, tight && styles.tight, shadow && styles.shadow)} {...(htmlAttributes as Record<string, any>)}>
+  return (
+    <div
+      className={cx(
+        className,
+        styles.card,
+        dark && styles.dark,
+        tight && styles.tight,
+        shadow && styles.shadow
+      )}
+      {...(htmlAttributes as Record<string, any>)}
+    >
       {children}
-    </div>;
+    </div>
+  );
 }
 
 export default Card;

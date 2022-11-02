@@ -1,20 +1,14 @@
-import prepare from "app/utils/prepare";
-import { compose } from "redux";
-import { connect } from "react-redux";
-import { formValueSelector } from "redux-form";
-import UserConfirmation from "./components/UserConfirmation";
-import { createUser, validateRegistrationToken } from "app/actions/UserActions";
-import qs from "qs";
+import prepare from 'app/utils/prepare';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { formValueSelector } from 'redux-form';
+import UserConfirmation from './components/UserConfirmation';
+import { createUser, validateRegistrationToken } from 'app/actions/UserActions';
+import qs from 'qs';
 
-const loadData = ({
-  location: {
-    search
-  }
-}, dispatch) => {
-  const {
-    token
-  } = qs.parse(search, {
-    ignoreQueryPrefix: true
+const loadData = ({ location: { search } }, dispatch) => {
+  const { token } = qs.parse(search, {
+    ignoreQueryPrefix: true,
   });
 
   if (token) {
@@ -30,12 +24,15 @@ const mapStateToProps = (state, props) => {
       username: valueSelector(state, 'username'),
       firstName: valueSelector(state, 'firstName'),
       lastName: valueSelector(state, 'lastName'),
-      allergies: valueSelector(state, 'allergies')
-    }
+      allergies: valueSelector(state, 'allergies'),
+    },
   };
 };
 
 const mapDispatchToProps = {
-  createUser
+  createUser,
 };
-export default compose(prepare(loadData), connect(mapStateToProps, mapDispatchToProps))(UserConfirmation);
+export default compose(
+  prepare(loadData),
+  connect(mapStateToProps, mapDispatchToProps)
+)(UserConfirmation);

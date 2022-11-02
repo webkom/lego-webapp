@@ -1,5 +1,5 @@
-import cx from "classnames";
-import styles from "./index.css";
+import cx from 'classnames';
+import styles from './index.css';
 type Props = {
   children?: any;
   className?: string;
@@ -18,14 +18,20 @@ export const FlexRow = ({
   flexWrap,
   style,
   ...rest
-}: Props) => <div className={cx(styles.row, className)} style={{
-  justifyContent,
-  alignItems,
-  flexWrap,
-  ...style
-}} {...(rest as Record<string, any>)}>
+}: Props) => (
+  <div
+    className={cx(styles.row, className)}
+    style={{
+      justifyContent,
+      alignItems,
+      flexWrap,
+      ...style,
+    }}
+    {...(rest as Record<string, any>)}
+  >
     {children}
-  </div>;
+  </div>
+);
 export const FlexColumn = ({
   children,
   className,
@@ -34,14 +40,20 @@ export const FlexColumn = ({
   flexWrap,
   style,
   ...rest
-}: Props) => <div className={cx(styles.column, className)} style={{
-  justifyContent,
-  alignItems,
-  flexWrap,
-  ...style
-}} {...(rest as Record<string, any>)}>
+}: Props) => (
+  <div
+    className={cx(styles.column, className)}
+    style={{
+      justifyContent,
+      alignItems,
+      flexWrap,
+      ...style,
+    }}
+    {...(rest as Record<string, any>)}
+  >
     {children}
-  </div>;
+  </div>
+);
 export const FlexItem = ({
   children,
   className,
@@ -49,9 +61,15 @@ export const FlexItem = ({
   container = false,
   // Add display: flex;
   ...rest
-}: Props) => <div className={className} style={{
-  flex,
-  display: container ? 'flex' : 'block'
-}} {...(rest as Record<string, any>)}>
+}: Props) => (
+  <div
+    className={className}
+    style={{
+      flex,
+      display: container ? 'flex' : 'block',
+    }}
+    {...(rest as Record<string, any>)}
+  >
     {children}
-  </div>;
+  </div>
+);

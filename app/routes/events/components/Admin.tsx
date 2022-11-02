@@ -1,12 +1,12 @@
-import { Component } from "react";
-import { Link } from "react-router-dom";
-import type { ID, Event, ActionGrant } from "app/models";
-import AnnouncementInLine from "app/components/AnnouncementInLine";
-import { ConfirmModalWithParent } from "app/components/Modal/ConfirmModal";
-import Button from "app/components/Button";
-import Icon from "app/components/Icon";
-import Flex from "app/components/Layout/Flex";
-import moment from "moment-timezone";
+import { Component } from 'react';
+import { Link } from 'react-router-dom';
+import type { ID, Event, ActionGrant } from 'app/models';
+import AnnouncementInLine from 'app/components/AnnouncementInLine';
+import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
+import Button from 'app/components/Button';
+import Icon from 'app/components/Icon';
+import Flex from 'app/components/Layout/Flex';
+import moment from 'moment-timezone';
 type Props = {
   deleteEvent: (eventId: ID) => Promise<any>;
   event: Event;
@@ -25,108 +25,148 @@ type State = {
 class DeleteButton extends Component<ButtonProps, State> {
   state = {
     arrName: '',
-    show: false
+    show: false,
   };
 
   render() {
-    const {
-      deleteEvent,
-      eventId,
-      title
-    } = this.props;
+    const { deleteEvent, eventId, title } = this.props;
     let deleteEventButton;
 
     if (this.state.arrName === title) {
-      deleteEventButton = <ConfirmModalWithParent title="Slett arrangement" message="Er du sikker på at du vil slette dette arrangementet?" onConfirm={() => deleteEvent(eventId)}>
+      deleteEventButton = (
+        <ConfirmModalWithParent
+          title="Slett arrangement"
+          message="Er du sikker på at du vil slette dette arrangementet?"
+          onConfirm={() => deleteEvent(eventId)}
+        >
           <Button danger>
             <Icon name="trash" size={19} />
             Slett
           </Button>
-        </ConfirmModalWithParent>;
+        </ConfirmModalWithParent>
+      );
     }
 
-    return <div>
-        {this.state.show === false && <Button danger onClick={() => this.setState({
-        show: true
-      })}>
+    return (
+      <div>
+        {this.state.show === false && (
+          <Button
+            danger
+            onClick={() =>
+              this.setState({
+                show: true,
+              })
+            }
+          >
             <Icon name="trash" size={19} />
             Slett arrangement
-          </Button>}
-        {this.state.show && <>
+          </Button>
+        )}
+        {this.state.show && (
+          <>
             <span> Skriv inn navnet på arrangementet du vil slette: </span>
-            <input type="text" id="slettArrangement" placeholder="Arrangementnavn" onChange={e => this.setState({
-          arrName: e.target.value
-        })} />{' '}
+            <input
+              type="text"
+              id="slettArrangement"
+              placeholder="Arrangementnavn"
+              onChange={(e) =>
+                this.setState({
+                  arrName: e.target.value,
+                })
+              }
+            />{' '}
             <br />
             {deleteEventButton}
-          </>}
-      </div>;
+          </>
+        )}
+      </div>
+    );
   }
-
 }
 
-const Admin = ({
-  actionGrant,
-  event,
-  deleteEvent
-}: Props) => {
+const Admin = ({ actionGrant, event, deleteEvent }: Props) => {
   const canEdit = actionGrant.includes('edit');
   const canDelete = actionGrant.includes('delete');
-  const showRegisterButton = Math.abs(moment.duration(moment(event.startTime).diff(moment.now())).get('days')) < 1;
-  return <Flex column gap={7}>
-      {(canEdit || canDelete) && <>
+  const showRegisterButton =
+    Math.abs(
+      moment.duration(moment(event.startTime).diff(moment.now())).get('days')
+    ) < 1;
+  return (
+    <Flex column gap={7}>
+      {(canEdit || canDelete) && (
+        <>
           <h3>Admin</h3>
 
-          {showRegisterButton && <Link to={`/events/${event.id}/administrate/abacard`}>
+          {showRegisterButton && (
+            <Link to={`/events/${event.id}/administrate/abacard`}>
               <Button success>
                 <Icon name="id-card" size={19} />
                 Registrer oppmøte
               </Button>
-            </Link>}
+            </Link>
+          )}
 
-          {canEdit && <Link to={`/events/${event.id}/administrate/attendees`}>
+          {canEdit && (
+            <Link to={`/events/${event.id}/administrate/attendees`}>
               <Button>
                 <Icon name="people-outline" size={19} />
                 Se påmeldinger
               </Button>
-            </Link>}
+            </Link>
+          )}
 
-          {canEdit && <Link to={`/events/${event.id}/edit`}>
+          {canEdit && (
+            <Link to={`/events/${event.id}/edit`}>
               <Button>
                 <Icon name="create-outline" size={19} />
                 Rediger
               </Button>
-            </Link>}
+            </Link>
+          )}
 
           <AnnouncementInLine event={event} />
 
-          {event.survey ? <Link to={`/surveys/${event.survey}`}>
+          {event.survey ? (
+            <Link to={`/surveys/${event.survey}`}>
               <Button>
                 <Icon name="clipboard-outline" size={19} />
                 Gå til spørreundersøkelse
               </Button>
-            </Link> : <Link to={`/surveys/add/?event=${event.id}`}>
+            </Link>
+          ) : (
+            <Link to={`/surveys/add/?event=${event.id}`}>
               <Button>
                 <Icon name="clipboard-outline" size={19} />
                 Lag spørreundersøkelse
               </Button>
-            </Link>}
+            </Link>
+          )}
 
-          <Link to={{
-        pathname: `/events/create`,
-        state: {
-          id: event.id
-        }
-      }}>
+          <Link
+            to={{
+              pathname: `/events/create`,
+              state: {
+                id: event.id,
+              },
+            }}
+          >
             <Button>
               <Icon name="copy-outline" size={19} />
               Lag kopi av arrangement
             </Button>
           </Link>
 
-          {canDelete && <DeleteButton eventId={event.id} title={event.title} deleteEvent={deleteEvent} />}
-        </>}
-    </Flex>;
+          {canDelete && (
+            <DeleteButton
+              eventId={event.id}
+              title={event.title}
+              deleteEvent={deleteEvent}
+            />
+          )}
+        </>
+      )}
+    </Flex>
+  );
 };
 
 export default Admin;

@@ -1,13 +1,14 @@
-import { Content } from "app/components/Content";
-import NavigationTab from "app/components/NavigationTab";
-import styles from "./BrandPage.css";
-import Button from "app/components/Button";
-import logosDos from "app/assets/logos-dos.png";
-import logosDonts from "app/assets/logos-donts.png";
-import { Flex } from "app/components/Layout";
-import { Image } from "app/components/Image";
+import { Content } from 'app/components/Content';
+import NavigationTab from 'app/components/NavigationTab';
+import styles from './BrandPage.css';
+import Button from 'app/components/Button';
+import logosDos from 'app/assets/logos-dos.png';
+import logosDonts from 'app/assets/logos-donts.png';
+import { Flex } from 'app/components/Layout';
+import { Image } from 'app/components/Image';
 
-const BrandPage = () => <Content>
+const BrandPage = () => (
+  <Content>
     <NavigationTab title="Brand Guidelines" />
     <section>
       <Flex className={styles.root}>
@@ -80,7 +81,10 @@ const BrandPage = () => <Content>
         <div>
           <h2 className={styles.h2Padding}>Logoer i vektorformat</h2>
           <Button>
-            <a href="https://github.com/abakus-ntnu/grafisk-profil/archive/master.zip" download="proposed_file_name">
+            <a
+              href="https://github.com/abakus-ntnu/grafisk-profil/archive/master.zip"
+              download="proposed_file_name"
+            >
               Last Ned
             </a>
           </Button>
@@ -98,13 +102,17 @@ const BrandPage = () => <Content>
             Denne malen skal brukes for presentasjoner som holdes i Abakus-regi
           </p>
           <Button>
-            <a href="https://github.com/abakus-ntnu/grafisk-profil/blob/master/maler/Abakus%20-%20Presentasjonsmal.pptx?raw=true" download="proposed_file_name">
+            <a
+              href="https://github.com/abakus-ntnu/grafisk-profil/blob/master/maler/Abakus%20-%20Presentasjonsmal.pptx?raw=true"
+              download="proposed_file_name"
+            >
               Last Ned
             </a>
           </Button>
         </div>
       </Flex>
     </section>
-  </Content>;
+  </Content>
+);
 
 export default BrandPage;

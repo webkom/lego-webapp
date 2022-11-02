@@ -1,20 +1,16 @@
-import { connect } from "react-redux";
-import { unregister, updatePresence, updatePayment } from "app/actions/EventActions";
-import Attendees from "./components/EventAdministrate/Attendees";
-import { getRegistrationGroups } from "app/reducers/events";
+import { connect } from 'react-redux';
+import {
+  unregister,
+  updatePresence,
+  updatePayment,
+} from 'app/actions/EventActions';
+import Attendees from './components/EventAdministrate/Attendees';
+import { getRegistrationGroups } from 'app/reducers/events';
 
 const mapStateToProps = (state, props) => {
-  const {
+  const { eventId, event, actionGrant, loading } = props;
+  const { registered, unregistered } = getRegistrationGroups(state, {
     eventId,
-    event,
-    actionGrant,
-    loading
-  } = props;
-  const {
-    registered,
-    unregistered
-  } = getRegistrationGroups(state, {
-    eventId
   });
   return {
     eventId,
@@ -22,13 +18,13 @@ const mapStateToProps = (state, props) => {
     loading,
     event,
     registered,
-    unregistered
+    unregistered,
   };
 };
 
 const mapDispatchToProps = {
   unregister,
   updatePresence,
-  updatePayment
+  updatePayment,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Attendees);

@@ -1,7 +1,7 @@
-import { createSelector } from "reselect";
-import { CompanyInterestForm } from "../actions/ActionTypes";
-import createEntityReducer from "app/utils/createEntityReducer";
-import type { CompanySemesterEntity } from "app/reducers/companySemesters";
+import { createSelector } from 'reselect';
+import { CompanyInterestForm } from '../actions/ActionTypes';
+import createEntityReducer from 'app/utils/createEntityReducer';
+import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 export type CompanyInterestEntity = {
   id: number;
   companyName: string;
@@ -21,16 +21,30 @@ export default createEntityReducer({
   types: {
     fetch: CompanyInterestForm.FETCH_ALL,
     mutate: CompanyInterestForm.CREATE,
-    delete: CompanyInterestForm.DELETE
-  }
+    delete: CompanyInterestForm.DELETE,
+  },
 });
-export const selectCompanyInterestList = createSelector(state => state.companyInterest.byId, state => state.companyInterest.items, (state, props) => props, (companyInterestById, companyInterestIds, semesterId) => {
-  const companyInterests = companyInterestIds.map(id => companyInterestById[id]);
+export const selectCompanyInterestList = createSelector(
+  (state) => state.companyInterest.byId,
+  (state) => state.companyInterest.items,
+  (state, props) => props,
+  (companyInterestById, companyInterestIds, semesterId) => {
+    const companyInterests = companyInterestIds.map(
+      (id) => companyInterestById[id]
+    );
 
-  if (semesterId === 0) {
-    return companyInterests;
+    if (semesterId === 0) {
+      return companyInterests;
+    }
+
+    return companyInterests.filter((companyInterest) =>
+      companyInterest.semesters.includes(semesterId)
+    );
   }
-
-  return companyInterests.filter(companyInterest => companyInterest.semesters.includes(semesterId));
-});
-export const selectCompanyInterestById = createSelector(state => state.companyInterest.byId, (state, props) => props.companyInterestId, (companyInterestById, companyInterestId) => companyInterestById[companyInterestId]);
+);
+export const selectCompanyInterestById = createSelector(
+  (state) => state.companyInterest.byId,
+  (state, props) => props.companyInterestId,
+  (companyInterestById, companyInterestId) =>
+    companyInterestById[companyInterestId]
+);

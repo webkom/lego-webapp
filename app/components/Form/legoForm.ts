@@ -1,7 +1,7 @@
-import { reduxForm, SubmissionError } from "redux-form";
-import { handleSubmissionError } from "./utils";
-import * as Sentry from "@sentry/browser";
-import { pick } from "lodash";
+import { reduxForm, SubmissionError } from 'redux-form';
+import { handleSubmissionError } from './utils';
+import * as Sentry from '@sentry/browser';
+import { pick } from 'lodash';
 type Props = any & {
   onSubmitFail: (arg0: any) => any;
   onSubmit: (arg0: any) => Promise<any>;
@@ -46,53 +46,63 @@ const legoForm = ({
   enableValuePicking = false,
   pickAdditionalValues = [],
   ...rest
-}: Props) => reduxForm({ ...rest,
-  onSubmitFail: errors => {
-    if (!enableFocusOnError) {
+}: Props) =>
+  reduxForm({
+    ...rest,
+    onSubmitFail: (errors) => {
+      if (!enableFocusOnError) {
+        return onSubmitFail(errors);
+      }
+
+      try {
+        // We should instead check if error is SubmissionError. Does not work now
+        let [firstErrorField] = Object.keys(errors);
+
+        if (firstErrorField === '_error') {
+          // This is because of the stange usage of SubmissionError in
+          // app/routes/surveys/components/SubmissionEditor/SubmissionEditor.js
+          // That code should instead use redux-form FieldArray :smile:
+          [firstErrorField] = Object.keys(errors._error.questions);
+          firstErrorField = `question[${firstErrorField}]`;
+        }
+
+        const field = document.querySelector(`[name="${firstErrorField}"]`);
+
+        if (field && field.scrollIntoView) {
+          field.scrollIntoView();
+        }
+
+        if (field && field.focus) {
+          field.focus();
+        }
+      } catch (e) {
+        //
+      }
+
       return onSubmitFail(errors);
-    }
+    },
+    onSubmit: (values, dispatch, props) => {
+      const pickedValues = enableValuePicking
+        ? pick(
+            values,
+            Object.keys(props.registeredFields)
+              .concat('id')
+              .concat(pickAdditionalValues)
+          )
+        : values;
+      return onSubmit(pickedValues, dispatch, props).catch((error) => {
+        Sentry.captureException(error);
 
-    try {
-      // We should instead check if error is SubmissionError. Does not work now
-      let [firstErrorField] = Object.keys(errors);
+        /* eslint no-console: 0 */
+        if (__DEV__) console.error(error);
 
-      if (firstErrorField === '_error') {
-        // This is because of the stange usage of SubmissionError in
-        // app/routes/surveys/components/SubmissionEditor/SubmissionEditor.js
-        // That code should instead use redux-form FieldArray :smile:
-        [firstErrorField] = Object.keys(errors._error.questions);
-        firstErrorField = `question[${firstErrorField}]`;
-      }
+        if (error instanceof SubmissionError || !enableSubmissionError) {
+          throw error;
+        }
 
-      const field = document.querySelector(`[name="${firstErrorField}"]`);
-
-      if (field && field.scrollIntoView) {
-        field.scrollIntoView();
-      }
-
-      if (field && field.focus) {
-        field.focus();
-      }
-    } catch (e) {//
-    }
-
-    return onSubmitFail(errors);
-  },
-  onSubmit: (values, dispatch, props) => {
-    const pickedValues = enableValuePicking ? pick(values, Object.keys(props.registeredFields).concat('id').concat(pickAdditionalValues)) : values;
-    return onSubmit(pickedValues, dispatch, props).catch(error => {
-      Sentry.captureException(error);
-
-      /* eslint no-console: 0 */
-      if (__DEV__) console.error(error);
-
-      if (error instanceof SubmissionError || !enableSubmissionError) {
-        throw error;
-      }
-
-      return handleSubmissionError(error);
-    });
-  }
-});
+        return handleSubmissionError(error);
+      });
+    },
+  });
 
 export default legoForm;

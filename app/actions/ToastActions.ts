@@ -1,15 +1,11 @@
-import { Toasts } from "./ActionTypes";
-import type { Action } from "app/types";
-export function removeToast({
-  id
-}: {
-  id: number;
-}): Action {
+import { Toasts } from './ActionTypes';
+import type { Action } from 'app/types';
+export function removeToast({ id }: { id: number }): Action {
   return {
     type: Toasts.TOAST_REMOVED,
     payload: {
-      id
-    }
+      id,
+    },
   };
 }
 export function addToast({
@@ -27,7 +23,7 @@ export function addToast({
       message,
       action,
       dismissAfter,
-      ...rest
-    }
+      ...rest,
+    },
   };
 }

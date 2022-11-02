@@ -1,7 +1,7 @@
-import styles from "./AttendanceStatus.css";
-import withModal from "./withModal";
-import type { EventPool } from "app/models";
-import Button from "app/components/Button";
+import styles from './AttendanceStatus.css';
+import withModal from './withModal';
+import type { EventPool } from 'app/models';
+import Button from 'app/components/Button';
 type AttendanceElementProps = {
   pool: EventPool;
   index: number;
@@ -9,27 +9,30 @@ type AttendanceElementProps = {
 };
 
 const AttendanceElement = ({
-  pool: {
-    name,
-    registrations,
-    registrationCount,
-    capacity
-  },
+  pool: { name, registrations, registrationCount, capacity },
   index,
-  toggleModal
+  toggleModal,
 }: AttendanceElementProps) => {
   const totalCount = registrations ? registrations.length : registrationCount;
 
-  const Status = () => <strong>
+  const Status = () => (
+    <strong>
       <p>{`${totalCount}/${capacity ? capacity : '∞'}`}</p>
-    </strong>;
+    </strong>
+  );
 
-  return <div className={styles.poolBox}>
+  return (
+    <div className={styles.poolBox}>
       <strong>{name}</strong>
-      {registrations ? <Button flat onClick={() => toggleModal(index)}>
+      {registrations ? (
+        <Button flat onClick={() => toggleModal(index)}>
           <Status />
-        </Button> : <Status />}
-    </div>;
+        </Button>
+      ) : (
+        <Status />
+      )}
+    </div>
+  );
 };
 
 export type AttendanceStatusProps = {
@@ -41,19 +44,30 @@ export type AttendanceStatusProps = {
 const AttendanceStatus = ({
   pools,
   toggleModal,
-  legacyRegistrationCount
+  legacyRegistrationCount,
 }: AttendanceStatusProps) => {
-  const toggleKey = key => pools.length > 1 ? key + 1 : key;
+  const toggleKey = (key) => (pools.length > 1 ? key + 1 : key);
 
-  return <div className={styles.attendanceBox}>
-      {(pools || []).map((pool, index) => <AttendanceElement key={index} pool={pool} index={index} toggleModal={key => toggleModal(toggleKey(key))} />)}
-      {!!legacyRegistrationCount && <div className={styles.poolBox}>
+  return (
+    <div className={styles.attendanceBox}>
+      {(pools || []).map((pool, index) => (
+        <AttendanceElement
+          key={index}
+          pool={pool}
+          index={index}
+          toggleModal={(key) => toggleModal(toggleKey(key))}
+        />
+      ))}
+      {!!legacyRegistrationCount && (
+        <div className={styles.poolBox}>
           <strong>Anonyme</strong>
           <strong>
             <p>{`${legacyRegistrationCount}/∞`}</p>
           </strong>
-        </div>}
-    </div>;
+        </div>
+      )}
+    </div>
+  );
 };
 
 AttendanceStatus.Modal = withModal(AttendanceStatus);

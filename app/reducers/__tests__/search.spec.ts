@@ -1,5 +1,5 @@
-import search from "../search";
-import { Search } from "../../actions/ActionTypes";
+import search from '../search';
+import { Search } from '../../actions/ActionTypes';
 describe('reducers', () => {
   describe('search', () => {
     it('Search should populate default state correctly', () => {
@@ -10,7 +10,7 @@ describe('reducers', () => {
         autocomplete: [],
         query: '',
         searching: false,
-        open: false
+        open: false,
       });
     });
     it('Search.SEARCH.BEGIN', () => {
@@ -19,20 +19,20 @@ describe('reducers', () => {
         autocomplete: [],
         query: '',
         searching: false,
-        open: false
+        open: false,
       };
       const action = {
         type: Search.SEARCH.BEGIN,
         meta: {
-          query: 'abakus'
-        }
+          query: 'abakus',
+        },
       };
       expect(search(prevState, action)).toEqual({
         results: [],
         autocomplete: [],
         query: 'abakus',
         searching: true,
-        open: false
+        open: false,
       });
     });
     it('Search.AUTOCOMPLETE.BEGIN', () => {
@@ -41,20 +41,20 @@ describe('reducers', () => {
         autocomplete: [],
         query: '',
         searching: false,
-        open: false
+        open: false,
       };
       const action = {
         type: Search.AUTOCOMPLETE.BEGIN,
         meta: {
-          query: 'abakus'
-        }
+          query: 'abakus',
+        },
       };
       expect(search(prevState, action)).toEqual({
         results: [],
         autocomplete: [],
         query: 'abakus',
         searching: true,
-        open: false
+        open: false,
       });
     });
     it('Search.SEARCH.SUCCESS', () => {
@@ -63,21 +63,21 @@ describe('reducers', () => {
         autocomplete: [],
         query: 'abakus',
         searching: true,
-        open: false
+        open: false,
       };
       const action = {
         type: Search.SEARCH.SUCCESS,
         meta: {
-          query: 'abakus'
+          query: 'abakus',
         },
-        payload: [1, 2, 3]
+        payload: [1, 2, 3],
       };
       expect(search(prevState, action)).toEqual({
         results: [1, 2, 3],
         autocomplete: [],
         query: 'abakus',
         searching: false,
-        open: false
+        open: false,
       });
     });
     it('Search.SEARCH.SUCCESS does nothing if query has changed', () => {
@@ -86,21 +86,21 @@ describe('reducers', () => {
         autocomplete: [],
         query: 'hello',
         searching: true,
-        open: false
+        open: false,
       };
       const action = {
         type: Search.SEARCH.SUCCESS,
         meta: {
-          query: 'abakus'
+          query: 'abakus',
         },
-        payload: [1, 2, 3]
+        payload: [1, 2, 3],
       };
       expect(search(prevState, action)).toEqual({
         results: [],
         autocomplete: [],
         query: 'hello',
         searching: true,
-        open: false
+        open: false,
       });
     });
     it('Search.AUTOCOMPLETE.SUCCESS', () => {
@@ -109,21 +109,21 @@ describe('reducers', () => {
         autocomplete: [],
         query: 'abakus',
         searching: true,
-        open: false
+        open: false,
       };
       const action = {
         type: Search.AUTOCOMPLETE.SUCCESS,
         meta: {
-          query: 'abakus'
+          query: 'abakus',
         },
-        payload: [1, 2, 3]
+        payload: [1, 2, 3],
       };
       expect(search(prevState, action)).toEqual({
         results: [],
         autocomplete: [1, 2, 3],
         query: 'abakus',
         searching: false,
-        open: false
+        open: false,
       });
     });
     it('Search.AUTOCOMPLETE.SUCCESS does nothing if query has changed', () => {
@@ -132,21 +132,21 @@ describe('reducers', () => {
         autocomplete: [],
         query: 'hello',
         searching: true,
-        open: false
+        open: false,
       };
       const action = {
         type: Search.AUTOCOMPLETE.SUCCESS,
         meta: {
-          query: 'abakus'
+          query: 'abakus',
         },
-        payload: [1, 2, 3]
+        payload: [1, 2, 3],
       };
       expect(search(prevState, action)).toEqual({
         results: [],
         autocomplete: [],
         query: 'hello',
         searching: true,
-        open: false
+        open: false,
       });
     });
     it('Search.SEARCH.FAILURE', () => {
@@ -155,17 +155,17 @@ describe('reducers', () => {
         autocomplete: [],
         query: 'hello',
         searching: true,
-        open: false
+        open: false,
       };
       const action = {
-        type: Search.SEARCH.FAILURE
+        type: Search.SEARCH.FAILURE,
       };
       expect(search(prevState, action)).toEqual({
         results: [],
         autocomplete: [],
         query: 'hello',
         searching: false,
-        open: false
+        open: false,
       });
     });
     it('Search.AUTOCOMPLETE.FAILURE', () => {
@@ -174,17 +174,17 @@ describe('reducers', () => {
         autocomplete: [],
         query: 'hello',
         searching: true,
-        open: false
+        open: false,
       };
       const action = {
-        type: Search.AUTOCOMPLETE.FAILURE
+        type: Search.AUTOCOMPLETE.FAILURE,
       };
       expect(search(prevState, action)).toEqual({
         results: [],
         autocomplete: [],
         query: 'hello',
         searching: false,
-        open: false
+        open: false,
       });
     });
     it('Search.TOGGLE_OPEN works to open search', () => {
@@ -193,17 +193,17 @@ describe('reducers', () => {
         autocomplete: [1, 2, 3],
         query: '',
         searching: false,
-        open: false
+        open: false,
       };
       const action = {
-        type: Search.TOGGLE_OPEN
+        type: Search.TOGGLE_OPEN,
       };
       expect(search(prevState, action)).toEqual({
         results: [],
         autocomplete: [],
         query: '',
         searching: false,
-        open: true
+        open: true,
       });
     });
     it('Search.TOGGLE_OPEN works to close search', () => {
@@ -212,17 +212,17 @@ describe('reducers', () => {
         autocomplete: [1, 2, 3],
         query: '',
         searching: false,
-        open: true
+        open: true,
       };
       const action = {
-        type: Search.TOGGLE_OPEN
+        type: Search.TOGGLE_OPEN,
       };
       expect(search(prevState, action)).toEqual({
         results: [],
         autocomplete: [],
         query: '',
         searching: false,
-        open: false
+        open: false,
       });
     });
   });

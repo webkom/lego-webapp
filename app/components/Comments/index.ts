@@ -1,1 +1,1 @@
-export { default as CommentView } from "./CommentView";
+export { default as CommentView } from './CommentView';

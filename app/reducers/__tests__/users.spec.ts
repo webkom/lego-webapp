@@ -1,5 +1,5 @@
-import users from "../users";
-import { Event } from "../../actions/ActionTypes";
+import users from '../users';
+import { Event } from '../../actions/ActionTypes';
 describe('reducers', () => {
   describe('users', () => {
     const baseState = {
@@ -8,9 +8,9 @@ describe('reducers', () => {
       items: [3],
       byId: {
         3: {
-          id: 3
-        }
-      }
+          id: 3,
+        },
+      },
     };
     it('Event.SOCKET_EVENT_UPDATED', () => {
       const prevState = baseState;
@@ -18,22 +18,28 @@ describe('reducers', () => {
         type: Event.SOCKET_EVENT_UPDATED,
         payload: {
           id: 1,
-          pools: [{
-            registrations: [{
-              id: 31,
+          pools: [
+            {
+              registrations: [
+                {
+                  id: 31,
+                  user: {
+                    id: 49,
+                  },
+                },
+              ],
+            },
+          ],
+          waitingRegistrations: [
+            {
+              id: 33,
               user: {
-                id: 49
-              }
-            }]
-          }],
-          waitingRegistrations: [{
-            id: 33,
-            user: {
-              id: 50,
-              pic: '123'
-            }
-          }]
-        }
+                id: 50,
+                pic: '123',
+              },
+            },
+          ],
+        },
       };
       expect(users(prevState, action)).toEqual({
         actionGrant: [],
@@ -41,16 +47,16 @@ describe('reducers', () => {
         items: [3, 49, 50],
         byId: {
           3: {
-            id: 3
+            id: 3,
           },
           49: {
-            id: 49
+            id: 49,
           },
           50: {
             id: 50,
-            pic: '123'
-          }
-        }
+            pic: '123',
+          },
+        },
       });
     });
     it('Event.SOCKET_REGISTRATION.SUCCESS and ADMIN_REGISTER.SUCCESS', () => {
@@ -60,9 +66,9 @@ describe('reducers', () => {
         payload: {
           id: 31,
           user: {
-            id: 49
-          }
-        }
+            id: 49,
+          },
+        },
       };
       expect(users(prevState, action)).toEqual({
         actionGrant: [],
@@ -70,12 +76,12 @@ describe('reducers', () => {
         items: [3, 49],
         byId: {
           3: {
-            id: 3
+            id: 3,
           },
           49: {
-            id: 49
-          }
-        }
+            id: 49,
+          },
+        },
       });
     });
   });

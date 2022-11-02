@@ -1,8 +1,8 @@
-import LoginForm from "./LoginForm";
-import { Field } from "redux-form";
-import { Provider } from "react-redux";
-import configureStore from "redux-mock-store";
-import { mount } from "enzyme";
+import LoginForm from './LoginForm';
+import { Field } from 'redux-form';
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
+import { mount } from 'enzyme';
 describe('components', () => {
   describe('LoginForm', () => {
     it('should render correctly', () => {
@@ -10,11 +10,15 @@ describe('components', () => {
 
       const mockStore = configureStore();
       const store = mockStore();
-      const wrapper = mount(<Provider {...{
-        store
-      }}>
+      const wrapper = mount(
+        <Provider
+          {...{
+            store,
+          }}
+        >
           <LoginForm login={login} className="LoginForm" />
-        </Provider>);
+        </Provider>
+      );
       const form = wrapper.find('form');
       expect(form.hasClass('LoginForm')).toBe(true);
       const username = form.childAt(0);

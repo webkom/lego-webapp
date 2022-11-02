@@ -5,12 +5,15 @@ type Reducer<S, A> = (state: S, action: A) => S;
  * reduced prevState.
  */
 
-export default function joinReducers<S, A>(...reducers: Array<Reducer<S, A> | null | undefined>): Reducer<S, A> {
-  return (state, action) => reducers.reduce((nextState, reducer) => {
-    if (typeof reducer !== 'function') {
-      return nextState;
-    }
+export default function joinReducers<S, A>(
+  ...reducers: Array<Reducer<S, A> | null | undefined>
+): Reducer<S, A> {
+  return (state, action) =>
+    reducers.reduce((nextState, reducer) => {
+      if (typeof reducer !== 'function') {
+        return nextState;
+      }
 
-    return reducer(nextState, action);
-  }, state);
+      return reducer(nextState, action);
+    }, state);
 }

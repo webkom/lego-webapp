@@ -1,4 +1,4 @@
-import Image from "./Image";
+import Image from './Image';
 type Props = {
   src: any;
   placeholder?: string;
@@ -14,10 +14,16 @@ const CircularPicture = ({
   size = 100,
   style,
   ...props
-}: Props) => <Image src={src} placeholder={placeholder} alt={alt} width={size} height={size} style={{ ...style,
-  borderRadius: size / 2,
-  width: size,
-  height: size
-}} {...(props as Record<string, any>)} />;
+}: Props) => (
+  <Image
+    src={src}
+    placeholder={placeholder}
+    alt={alt}
+    width={size}
+    height={size}
+    style={{ ...style, borderRadius: size / 2, width: size, height: size }}
+    {...(props as Record<string, any>)}
+  />
+);
 
 export default CircularPicture;

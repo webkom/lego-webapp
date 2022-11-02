@@ -1,14 +1,14 @@
-import { Component } from "react";
-import classNames from "classnames";
-import styles from "./ReactionPickerCategory.css";
-import Emoji from "app/components/Emoji";
+import { Component } from 'react';
+import classNames from 'classnames';
+import styles from './ReactionPickerCategory.css';
+import Emoji from 'app/components/Emoji';
 type Props = {
   isActive: boolean;
   name: string;
   onCategoryClick: (category: string) => void;
 };
 
-const mapCategoryNameToIcon = name => {
+const mapCategoryNameToIcon = (name) => {
   switch (name) {
     case 'people':
       return '😃';
@@ -41,11 +41,7 @@ const mapCategoryNameToIcon = name => {
 
 class ReactionPickerCategory extends Component<Props> {
   render() {
-    const {
-      isActive,
-      name,
-      onCategoryClick
-    } = this.props;
+    const { isActive, name, onCategoryClick } = this.props;
     const containerClasses = [styles.reactionPickerCategoryContainer];
     const categoryClasses = [styles.reactionPickerCategory];
 
@@ -54,15 +50,16 @@ class ReactionPickerCategory extends Component<Props> {
       categoryClasses.push(styles.isActiveCategory);
     }
 
-    return <div title={name} onClick={() => onCategoryClick(name)}>
+    return (
+      <div title={name} onClick={() => onCategoryClick(name)}>
         <div className={classNames(containerClasses)}>
           <div className={classNames(categoryClasses)}>
             <Emoji unicodeString={mapCategoryNameToIcon(name)} />
           </div>
         </div>
-      </div>;
+      </div>
+    );
   }
-
 }
 
 export default ReactionPickerCategory;

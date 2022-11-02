@@ -1,4 +1,4 @@
-import { Meta } from "../actions/ActionTypes";
+import { Meta } from '../actions/ActionTypes';
 const initialState = {
   events: false,
   articles: false,
@@ -15,7 +15,7 @@ const initialState = {
   groups: false,
   email: false,
   users: false,
-  polls: false
+  polls: false,
 };
 // export type Allowed = {
 //   [$Keys<typeof initialState>]: boolean
