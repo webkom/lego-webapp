@@ -14,7 +14,7 @@ module.exports = (env, argv) => {
     entry: {
       server: [
         !isProduction && 'webpack/hot/poll?1000',
-        path.resolve(__dirname, '..', 'server/index.js'),
+        path.resolve(__dirname, '..', 'server/index.ts'),
       ].filter(Boolean),
     },
     optimization: {
@@ -59,7 +59,7 @@ module.exports = (env, argv) => {
 
     resolve: {
       modules: [root, 'node_modules'],
-      extensions: ['.js', '.jsx', '.json'],
+      extensions: ['.js', '.ts', '.tsx', '.jsx', '.json'],
       alias: {
         lodash: 'node_modules/lodash-es',
         'moment-timezone':
@@ -70,7 +70,7 @@ module.exports = (env, argv) => {
     module: {
       rules: [
         {
-          test: /\.js$/,
+          test: /\.[tj]sx?$/,
           exclude: /node_modules/,
           loader: 'babel-loader',
         },

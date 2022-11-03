@@ -50,11 +50,11 @@ module.exports = (env, argv) => {
     devtool: isProduction ? 'source-map' : 'eval-source-map',
     entry: {
       app: isProduction
-        ? ['./app/index.js']
+        ? ['./app/index.ts']
         : [
             'webpack-hot-middleware/client',
             'react-hot-loader/patch',
-            './app/index.js',
+            './app/index.ts',
           ],
     },
 
@@ -126,6 +126,7 @@ module.exports = (env, argv) => {
     ]),
     resolve: {
       modules: [root, 'node_modules'],
+      extensions: ['.js', '.ts', '.tsx'],
       alias: {
         // react-hot-loader imports merge like this "require('lodash/merge')"
         // Aka. doesn't support our lodash-es alias by default
@@ -163,7 +164,7 @@ module.exports = (env, argv) => {
     module: {
       rules: [
         {
-          test: /\.jsx?$/,
+          test: /\.[tj]sx?$/,
           loader: 'babel-loader',
           include: [path.resolve(root, 'app'), path.resolve(root, 'config')],
         },

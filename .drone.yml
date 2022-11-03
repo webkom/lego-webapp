@@ -191,14 +191,15 @@ steps:
     commands:
       - yarn lint
 
-  - name: flow
+  - name: typescript
     image: node:14-slim
     when:
       event: [push]
     depends_on:
       - setup
     commands:
-      - yarn flow --quiet
+      - yarn types
+    failure: ignore
 
   - name: install_cypress
     image: node:14-alpine
@@ -267,7 +268,7 @@ steps:
       - build_client
       - test
       - lint
-      - flow
+      - typescript
       - ssr
       - cypress
     environment:
@@ -325,4 +326,4 @@ image_pull_secrets:
 
 ---
 kind: signature
-hmac: e2eb2dfdcef62b20d7da77f6345ee3f7373953bfdf694dbf8112b92fce6719ce
+hmac: 389f3aee8c1e7fbcfba1a037d7c1317eaca7f2f797be4a540f1016dacb1eb13e

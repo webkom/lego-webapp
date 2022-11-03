@@ -8,7 +8,7 @@ module.exports = {
     jest: true,
   },
   extends: [
-    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
     //'plugin:cypress/recommended',
     'plugin:import/errors',
     'plugin:import/warnings',
@@ -17,7 +17,6 @@ module.exports = {
     'plugin:react/recommended',
     'plugin:react-hooks/recommended',
     //'plugin:react-redux/recommended',
-    'react-app',
     'react-app/jest',
     'prettier',
   ],
@@ -29,7 +28,7 @@ module.exports = {
     __CLIENT__: true,
     cypress: true,
   },
-  parser: '@babel/eslint-parser',
+  parser: '@typescript-eslint/parser',
   parserOptions: {
     sourceType: 'module',
     babelOptions: {
@@ -42,6 +41,7 @@ module.exports = {
     'jsx-a11y',
     'promise',
     'react',
+    '@typescript-eslint',
     'react-hooks',
     'react-redux',
   ],
@@ -52,6 +52,8 @@ module.exports = {
     'react-app/react/react-in-jsx-scope': 'off',
     'jest/valid-describe': 'off', // valid-describe was replaced by valid-describe-callback, but still needs its rule ...
     'jest/valid-describe-callback': 'error',
+    '@typescript-eslint/no-var-requires': 'off',
+    '@typescript-eslint/no-empty-function': 'off',
   },
   settings: {
     'import/resolver': {

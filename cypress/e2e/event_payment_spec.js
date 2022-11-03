@@ -273,6 +273,7 @@ describe('Event registration & payment', () => {
       cy.contains('Du har betalt').should('be.visible');
     });
   } else {
+    // eslint-disable-next-line
     it('Skipping stripe tests (set env ENABLE_STRIPE to run)', () => {});
   }
 });
