@@ -45,6 +45,7 @@ import type {
 import type { CommentEntity } from 'app/reducers/comments';
 import type { UserEntity } from 'app/reducers/users';
 import { MazemapEmbed } from 'app/components/MazemapEmbed';
+import { resolveGroupLink } from 'app/reducers/groups';
 type InterestedButtonProps = {
   isInterested: boolean;
 };
@@ -297,15 +298,16 @@ export default class EventDetail extends Component<Props, State> {
           }
         : null,
     ];
+
+    const groupLink =
+      event.responsibleGroup && resolveGroupLink(event.responsibleGroup);
     const eventCreator = [
       event.responsibleGroup && {
         key: 'Arrangør',
         value: (
           <span>
-            {event.responsibleGroup.type === 'komite' ? (
-              <Link to={`/pages/komiteer/${event.responsibleGroup.id}`}>
-                {event.responsibleGroup.name}
-              </Link>
+            {groupLink ? (
+              <Link to={groupLink}>{event.responsibleGroup.name}</Link>
             ) : (
               event.responsibleGroup.name
             )}{' '}
@@ -331,6 +333,7 @@ export default class EventDetail extends Component<Props, State> {
             value: 'Anonym',
           },
     ];
+
     return (
       <div>
         <Content
