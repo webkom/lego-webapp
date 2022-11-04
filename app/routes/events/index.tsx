@@ -1,6 +1,7 @@
 import loadable from '@loadable/component';
 import { Route, Switch } from 'react-router-dom';
 import { UserContext } from 'app/routes/app/AppRoute';
+import EventStatistics from 'app/routes/events/EventStatisticsRoute';
 const EventEditRoute = loadable(() => import('./EventEditRoute'));
 const EventAdministrateRoute = loadable(
   () => import('./EventAdministrateRoute')
@@ -82,6 +83,15 @@ const eventRoute = ({
                 exact
                 path={`${match.path}/attendees`}
                 Component={EventAttendeeRoute}
+                passedProps={{
+                  currentUser,
+                  loggedIn,
+                }}
+              />
+              <RouteWrapper
+                exact
+                path={`${match.path}/statistics`}
+                Component={EventStatistics}
                 passedProps={{
                   currentUser,
                   loggedIn,

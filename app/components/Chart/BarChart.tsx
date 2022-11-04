@@ -1,5 +1,3 @@
-// @flow
-
 import { BarChart, Bar, CartesianGrid, Cell, XAxis, YAxis } from 'recharts';
 import {
   CHART_COLORS,

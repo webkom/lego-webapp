@@ -1,5 +1,3 @@
-// @flow
-
 import { DistributionDataPoint } from 'app/components/Chart/utils';
 import type { Dateish, EventRegistration } from 'app/models';
 import DistributionPieChart from 'app/components/Chart/PieChart';
@@ -21,9 +19,6 @@ interface RegistrationDateDataPoint {
   registrations: number;
   unregistrations: number;
 }
-
-const ABAKOM_GROUP_IDS = [4, 5, 6, 7, 8, 9, 10, 11, 98, 231];
-const REVY_GROUP_IDS = [59, 119, 120, 121, 123, 124, 153, 154, 214, 222, 225];
 
 const PieChartWithLabel = ({
   label,
@@ -52,7 +47,7 @@ const toLocalizedGender = (gender: string) => {
   return 'Annet';
 };
 
-const createGenericDataPoint = (
+const addGenericDataPoint = (
   selectedDistribution: DistributionDataPoint[],
   selectedDataPoint: string
 ) => {
@@ -66,27 +61,29 @@ const createGenericDataPoint = (
   }
 };
 
-const createGroupDataPoint = (
+const addGroupDataPoint = (
   groupDistribution: DistributionDataPoint[],
-  userGroups: number[]
+  userGroups: number[],
+  committeeGroupIDs: number[],
+  revueGroupIDs: number[]
 ) => {
   const isAbakom = userGroups.some((userGroup) =>
-    ABAKOM_GROUP_IDS.includes(userGroup)
+    committeeGroupIDs.includes(userGroup)
   );
   const isRevue = userGroups.some((userGroup) =>
-    REVY_GROUP_IDS.includes(userGroup)
+    revueGroupIDs.includes(userGroup)
   );
 
   if (isAbakom) {
-    createGenericDataPoint(groupDistribution, 'Abakom');
+    addGenericDataPoint(groupDistribution, 'Abakom');
   } else if (isRevue) {
-    createGenericDataPoint(groupDistribution, 'Revy');
+    addGenericDataPoint(groupDistribution, 'Revy');
   } else {
-    createGenericDataPoint(groupDistribution, 'Abakus');
+    addGenericDataPoint(groupDistribution, 'Abakus');
   }
 };
 
-const createRegistrationDateDataPoint = (
+const addRegistrationDateDataPoint = (
   registrationTimeDistribution: RegistrationDateDataPoint[],
   registrationDate: Dateish,
   isRegister: boolean
@@ -112,7 +109,9 @@ const createRegistrationDateDataPoint = (
 
 const createAttendeeDataPoints = (
   registrations: Array<EventRegistration>,
-  unregistrations: Array<EventRegistration>
+  unregistrations: Array<EventRegistration>,
+  committeeGroupIDs: number[],
+  revueGroupIDs: number[]
 ) => {
   const attendeeStatistics: {
     genderDistribution: DistributionDataPoint[];
@@ -135,12 +134,12 @@ const createAttendeeDataPoints = (
     count: 0,
   };
   const komTekTotal: DistributionDataPoint = {
-    name: 'Komunikasjonsteknologi',
+    name: 'Kommunikasjonsteknologi og digital sikkerhet',
     count: 0,
   };
 
   for (const registration of registrations) {
-    createRegistrationDateDataPoint(
+    addRegistrationDateDataPoint(
       attendeeStatistics.registrationTimeDistribution,
       registration.registrationDate,
       true
@@ -153,28 +152,30 @@ const createAttendeeDataPoints = (
 
     const grade = registration.user.grade?.name ?? 'Ikke student';
     if (grade.includes('Datateknologi')) {
-      createGenericDataPoint(attendeeStatistics.dataTekDistribution, grade);
+      addGenericDataPoint(attendeeStatistics.dataTekDistribution, grade);
       dataTekTotal.count++;
     } else if (grade.includes('Kommunikasjonsteknologi')) {
-      createGenericDataPoint(attendeeStatistics.komTekDistribution, grade);
+      addGenericDataPoint(attendeeStatistics.komTekDistribution, grade);
       komTekTotal.count++;
     } else {
-      createGenericDataPoint(attendeeStatistics.totalDistribution, grade);
+      addGenericDataPoint(attendeeStatistics.totalDistribution, grade);
     }
 
-    createGenericDataPoint(
+    addGenericDataPoint(
       attendeeStatistics.genderDistribution,
       toLocalizedGender(registration.user.gender)
     );
 
-    createGroupDataPoint(
+    addGroupDataPoint(
       attendeeStatistics.groupDistribution,
-      registration.user.abakusGroups
+      registration.user.abakusGroups,
+      committeeGroupIDs,
+      revueGroupIDs
     );
   }
 
   for (const unregistration of unregistrations) {
-    createRegistrationDateDataPoint(
+    addRegistrationDateDataPoint(
       attendeeStatistics.registrationTimeDistribution,
       unregistration.unregistrationDate,
       false
@@ -198,9 +199,13 @@ const createAttendeeDataPoints = (
 const EventAttendeeStatistics = ({
   registrations,
   unregistrations,
+  committeeGroupIDs,
+  revueGroupIDs,
 }: {
   registrations: Array<EventRegistration>;
   unregistrations: Array<EventRegistration>;
+  committeeGroupIDs: number[];
+  revueGroupIDs: number[];
 }) => {
   const {
     genderDistribution,
@@ -209,14 +214,15 @@ const EventAttendeeStatistics = ({
     dataTekDistribution,
     komTekDistribution,
     totalDistribution,
-  } = createAttendeeDataPoints(registrations, unregistrations);
+  } = createAttendeeDataPoints(
+    registrations,
+    unregistrations,
+    committeeGroupIDs,
+    revueGroupIDs
+  );
 
   return (
     <>
-      <h3 style={{ textAlign: 'center', marginTop: '1rem' }}>
-        Deltakerstatistikk
-      </h3>
-
       {registrations.length === 0 ? (
         <p style={{ textAlign: 'center' }}>Ingen er påmeldt enda.</p>
       ) : (

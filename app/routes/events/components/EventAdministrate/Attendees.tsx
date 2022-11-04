@@ -19,7 +19,6 @@ import type {
   EventRegistrationPaymentStatus,
   EventRegistrationPresence,
 } from 'app/models';
-import EventAttendeeStatistics from 'app/routes/events/components/EventAttendeeStatistics';
 
 export type Props = {
   eventId: number;
@@ -210,10 +209,6 @@ export default class Attendees extends Component<Props, State> {
             Avmeldte:
           </strong>
           <UnregisteredTable unregistered={unregistered} loading={loading} />
-          <EventAttendeeStatistics
-            registrations={registered}
-            unregistrations={unregistered}
-          />
         </Flex>
       </div>
     );
