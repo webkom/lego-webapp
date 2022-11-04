@@ -2535,10 +2535,10 @@
     react "^16.4.0"
     react-dom "^16.4.0"
 
-"@webkom/react-prepare@^0.10.2":
-  version "0.10.2"
-  resolved "https://registry.yarnpkg.com/@webkom/react-prepare/-/react-prepare-0.10.2.tgz#3c8b1f49777dd4c29ac608a34887e2793bff60e9"
-  integrity sha512-esfjOExW+K/qYfZw9AWs1YgZHM9hgbTAxvsbdYVaYK+1phCf12d42jMqA2cSHDX5eqhc7BZxM8zrdt2abO7wrg==
+"@webkom/react-prepare@^0.10.3":
+  version "0.10.3"
+  resolved "https://registry.yarnpkg.com/@webkom/react-prepare/-/react-prepare-0.10.3.tgz#291158200f92949112b60af1b310fa16f1d22d3c"
+  integrity sha512-XE9XGej7vDyt6eTZNJw5SLs3x76FORypwHWXd/ssAnQsFTKPgbhlc195NEYclEyl/uoIYWGfpUGERJfZnZqv2Q==
 
 "@webpack-cli/configtest@^1.2.0":
   version "1.2.0"

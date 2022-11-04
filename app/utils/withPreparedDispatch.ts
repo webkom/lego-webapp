@@ -21,7 +21,7 @@ const injectDispatch = connect(mapState, mapDispatch);
 
 const withPreparedDispatch = <P>(
   key: string,
-  prepareDispatchFn: (props: P, dispatch: Dispatch<any>) => Promise<void>,
+  prepareDispatchFn: (props: P, dispatch: Dispatch<any>) => Promise<unknown>,
   depsFn?: (props: P) => DependencyList,
   options?: PreparedEffectOptions
 ) =>
