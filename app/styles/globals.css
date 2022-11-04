@@ -1,4 +1,4 @@
-@import './variables.css';
+@import url('./variables.css');
 
 @font-face {
   font-family: 'OCR A Extended';

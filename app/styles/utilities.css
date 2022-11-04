@@ -1,4 +1,4 @@
-@import './variables.css';
+@import url('./variables.css');
 
 /**
  * Utility classes for use by other classes.

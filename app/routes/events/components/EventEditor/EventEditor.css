@@ -1,4 +1,4 @@
-@import '../Event.css';
+@import url('../Event.css');
 
 .fieldShadow {
   box-shadow: 0 0 10px var(--color-dark-gray-1);
