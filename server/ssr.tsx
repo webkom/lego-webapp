@@ -25,11 +25,6 @@ class TimeoutError {
 
 const isTimeoutError = (error: Error) => error instanceof TimeoutError;
 
-const isReactHooksError = (error: Record<string, any>) =>
-  typeof error === 'object' &&
-  error.name === 'Error' &&
-  error.stack.includes('Invalid hook call');
-
 const prepareWithTimeout = (app): Promise<string> =>
   Promise.race([
     prepare(app),
@@ -145,10 +140,6 @@ const createServerSideRenderer = (
         if (isTimeoutError(error)) {
           reportError(error.error);
           return render();
-        }
-
-        if (isReactHooksError(error)) {
-          return respond();
         }
 
         reportError(error);
