@@ -1,5 +1,3 @@
-// @flow
-
 import {
   CHART_COLORS,
   DistributionDataPoint,
@@ -9,7 +7,7 @@ import { Flex } from 'app/components/Layout';
 const ChartLabel = ({
   distributionData,
 }: {
-  distributionData: DistributionDataPoint[],
+  distributionData: DistributionDataPoint[];
 }) => {
   return (
     <div>

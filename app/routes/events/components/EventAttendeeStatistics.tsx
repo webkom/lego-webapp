@@ -29,8 +29,8 @@ const PieChartWithLabel = ({
   label,
   distributionData,
 }: {
-  label: string,
-  distributionData: DistributionDataPoint[],
+  label: string;
+  distributionData: DistributionDataPoint[];
 }) => {
   return (
     <>
@@ -115,12 +115,12 @@ const createAttendeeDataPoints = (
   unregistrations: Array<EventRegistration>
 ) => {
   const attendeeStatistics: {
-    genderDistribution: DistributionDataPoint[],
-    groupDistribution: DistributionDataPoint[],
-    dataTekDistribution: DistributionDataPoint[],
-    komTekDistribution: DistributionDataPoint[],
-    totalDistribution: DistributionDataPoint[],
-    registrationTimeDistribution: RegistrationDateDataPoint[],
+    genderDistribution: DistributionDataPoint[];
+    groupDistribution: DistributionDataPoint[];
+    dataTekDistribution: DistributionDataPoint[];
+    komTekDistribution: DistributionDataPoint[];
+    totalDistribution: DistributionDataPoint[];
+    registrationTimeDistribution: RegistrationDateDataPoint[];
   } = {
     genderDistribution: [],
     groupDistribution: [],
@@ -199,8 +199,8 @@ const EventAttendeeStatistics = ({
   registrations,
   unregistrations,
 }: {
-  registrations: Array<EventRegistration>,
-  unregistrations: Array<EventRegistration>,
+  registrations: Array<EventRegistration>;
+  unregistrations: Array<EventRegistration>;
 }) => {
   const {
     genderDistribution,

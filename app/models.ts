@@ -43,6 +43,8 @@ export type User = {
   fullName: string;
   username: string;
   grade: Grade;
+  abakusGroups: number[];
+  gender: string;
   allergies: string;
   profilePicture: string;
   profilePicturePlaceholder?: string;

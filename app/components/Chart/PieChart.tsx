@@ -1,5 +1,3 @@
-// @flow
-
 import {
   CHART_COLORS,
   renderCustomizedLabel,
@@ -11,8 +9,8 @@ const DistributionPieChart = ({
   dataKey,
   distributionData,
 }: {
-  distributionData: DistributionDataPoint[],
-  dataKey: string,
+  distributionData: DistributionDataPoint[];
+  dataKey: string;
 }) => {
   return (
     <PieChart width={400} height={350}>

@@ -10,15 +10,14 @@ const DistributionBarChart = ({
   dataKey,
   distributionData,
 }: {
-  distributionData: DistributionDataPoint[],
-  dataKey: string,
+  distributionData: DistributionDataPoint[];
+  dataKey: string;
 }) => {
   return (
     <BarChart
       width={375}
       height={350}
       data={distributionData}
-      dataKey={dataKey}
       margin={{
         top: 50,
         right: 30,

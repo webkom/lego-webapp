@@ -1,5 +1,3 @@
-// @flow
-
 export interface DistributionDataPoint {
   name: string;
   count: number;
@@ -18,13 +16,13 @@ export const CHART_COLORS = [
 ];
 
 type GraphProps = {
-  cx: number,
-  cy: number,
-  midAngle: number,
-  innerRadius: number,
-  outerRadius: number,
-  percent: number,
-  index: number,
+  cx: number;
+  cy: number;
+  midAngle: number;
+  innerRadius: number;
+  outerRadius: number;
+  percent: number;
+  index: number;
 };
 
 const RADIAN = Math.PI / 180;

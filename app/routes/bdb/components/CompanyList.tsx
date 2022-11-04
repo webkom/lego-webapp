@@ -79,7 +79,7 @@ export default class CompanyList extends Component<Props> {
 
     /*
     **
-    Could possibly move this constant to utils.js, but I didn't because it's dependent
+    Could possibly move this constant to utils.tsx, but I didn't because it's dependent
     on the findTitle() function, which in turns needs the props in this file. Would have
     to send a lot of props to the utils file.
     **
