@@ -26,8 +26,8 @@ html[data-theme='dark'] .descriptionEditor {
 }
 
 .formField {
-  padding: 1px;
-  padding-left: 5px;
+  margin: 1px;
+  margin-left: 3px;
 }
 
 .registrationDeadlineHours {
