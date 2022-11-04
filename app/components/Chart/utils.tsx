@@ -10,9 +10,12 @@ export const CHART_COLORS = [
   'var(--color-green-5)',
   'var(--lego-chart-purple)',
   'var(--lego-chart-yellow)',
-  'var(--lego-chart-green)',
   '#ff87eb',
-  'var(--color-black)',
+  'var(--lego-chart-black)',
+  'var(--lego-chart-green)',
+  'var(--lego-chart-blue)',
+  'var(--lego-chart-salmon)',
+  'var(--lego-chart-navajo)',
 ];
 
 type GraphProps = {

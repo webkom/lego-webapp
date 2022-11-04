@@ -24,8 +24,12 @@
 
   --lego-chart-purple: #c73aea;
   --lego-chart-yellow: #f4ee42;
-  --lego-chart-greeen: #98f442;
+  --lego-chart-green: #98e442;
   --lego-chart-pink: #ff87eb;
+  --lego-chart-blue: #145bd4;
+  --lego-chart-black: #000;
+  --lego-chart-salmon: #fa8072;
+  --lego-chart-navajo: #ffdead;
 
   --color-event-red: #b11c11;
   --color-event-black: #111;
@@ -155,8 +159,12 @@
 
   --lego-chart-purple: #c73aea;
   --lego-chart-yellow: #f4ee42;
-  --lego-chart-greeen: #98f442;
+  --lego-chart-green: #98e442;
   --lego-chart-pink: #ff87eb;
+  --lego-chart-blue: #145bd4;
+  --lego-chart-black: #000;
+  --lego-chart-salmon: #fa8072;
+  --lego-chart-navajo: #ffdead;
 
   --color-event-red: #b11c11;
   --color-event-black: #ddd;
