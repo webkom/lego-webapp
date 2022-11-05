@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
 import { addSurvey, fetchTemplates } from '../../actions/SurveyActions';
 import SurveyPage from './components/SurveyList/SurveyPage';
 import { compose } from 'redux';
@@ -8,8 +7,7 @@ import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { push } from 'connected-react-router';
 import loadingIndicator from 'app/utils/loadingIndicator';
-
-const loadData = (props, dispatch) => dispatch(fetchTemplates());
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const mapStateToProps = (state, props) => ({
   surveys: selectSurveyTemplates(state, props),
@@ -22,7 +20,9 @@ const mapDispatchToProps = {
 };
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  prepare(loadData),
+  withPreparedDispatch('fetchTemplates', (props, dispatch) =>
+    dispatch(fetchTemplates())
+  ),
   connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['notFetching'])
 )(SurveyPage);

@@ -5,7 +5,7 @@ import EmailListEditor from './components/EmailListEditor';
 import { fetchEmailList, editEmailList } from 'app/actions/EmailListActions';
 import { selectEmailListById } from 'app/reducers/emailLists';
 import { ROLES } from 'app/utils/constants';
-import prepare from 'app/utils/prepare';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const mapStateToProps = (state, { match: { params } }) => {
   const emailList = selectEmailListById(state, {
@@ -47,11 +47,13 @@ const mapDispatchToProps = {
   mutateFunction: editEmailList,
 };
 
-const loadData = ({ match: { params } }, dispatch) =>
-  dispatch(fetchEmailList(params.emailListId));
-
 export default compose(
-  prepare(loadData, ['match.params.emailListId']),
+  withPreparedDispatch(
+    'fetchEmailList',
+    (props, dispatch) =>
+      dispatch(fetchEmailList(props.match.params.emailListId)),
+    (props) => [props.match.params.emailListId]
+  ),
   connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['emailList.name'])
 )(EmailListEditor);

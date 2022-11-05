@@ -15,11 +15,11 @@ import {
   EVENT_CONSTANTS,
 } from './utils';
 import time from 'app/utils/time';
-import prepare from 'app/utils/prepare';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { isEmpty } from 'lodash';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import moment from 'moment-timezone';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const mapStateToProps = (state, props) => {
   const actionGrant = state.events.actionGrant;
@@ -176,7 +176,8 @@ const mapDispatchToProps = {
 };
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  prepare(
+  withPreparedDispatch(
+    'fetchEventCreate',
     (props, dispatch) =>
       props.match.params.id && dispatch(fetchEvent(props.match.params.id))
   ),

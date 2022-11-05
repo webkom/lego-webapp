@@ -1,6 +1,5 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
 import { fetchData, fetchReadmes } from 'app/actions/FrontpageActions';
 import { login, logout } from 'app/actions/UserActions';
 import { isEmpty } from 'lodash';
@@ -17,6 +16,7 @@ import {
 } from 'app/reducers/feeds';
 import { selectPinnedPolls } from 'app/reducers/polls';
 import { votePoll } from 'app/actions/PollActions';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const mapStateToProps = (state) => ({
   frontpage: selectFrontpage(state),
@@ -42,17 +42,12 @@ export default compose(
   //   loggedIn ? dispatch(fetchPersonalFeed()) : Promise.resolve()
   // ),
   connect(mapStateToProps, mapDispatchToProps),
-  prepare(
-    ({ shouldFetchQuote, loggedIn }, dispatch) =>
-      Promise.all([
-        loggedIn && shouldFetchQuote && dispatch(fetchRandomQuote()),
-        dispatch(fetchReadmes(loggedIn ? 4 : 1)),
-      ]),
-    [],
-    {
-      awaitOnSsr: false,
-    }
+  withPreparedDispatch('fetchIndex', (props, dispatch) =>
+    Promise.all([
+      props.loggedIn && props.shouldFetchQuote && dispatch(fetchRandomQuote()),
+      dispatch(fetchReadmes(props.loggedIn ? 4 : 1)),
+      dispatch(fetchData()),
+    ])
   ),
-  prepare(({ loggedIn }, dispatch) => dispatch(fetchData())),
   replaceUnlessLoggedIn(PublicFrontpage)
 )(Overview);

@@ -9,15 +9,12 @@ import QuotePage from './components/QuotePage';
 import { compose } from 'redux';
 import { selectQuoteById } from 'app/reducers/quotes';
 import { LoginPage } from 'app/components/LoginForm';
-import prepare from 'app/utils/prepare';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { addReaction, deleteReaction } from 'app/actions/ReactionActions';
 import { selectEmojis } from 'app/reducers/emojis';
 import { fetchEmojis } from 'app/actions/EmojiActions';
 import qs from 'qs';
-
-const loadData = ({ match: { params } }, dispatch) =>
-  dispatch(fetchQuote(params.quoteId), fetchEmojis());
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const mapStateToProps = (state, props) => {
   const query = qs.parse(props.location.search, {
@@ -47,6 +44,11 @@ const mapDispatchToProps = {
 };
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  prepare(loadData, ['match.params.quoteId']),
+  withPreparedDispatch(
+    'fetchQuoteDetail',
+    (props, dispatch) =>
+      dispatch(fetchQuote(props.match.params.quoteId), fetchEmojis()),
+    (props) => [props.match.params.quoteId]
+  ),
   connect(mapStateToProps, mapDispatchToProps)
 )(QuotePage);

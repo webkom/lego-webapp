@@ -1,7 +1,6 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import prepare from 'app/utils/prepare';
 import { fetchList } from 'app/actions/EventActions';
 import EventList from './components/EventList';
 import { selectSortedEvents } from 'app/reducers/events';
@@ -9,6 +8,7 @@ import moment from 'moment-timezone';
 import { selectPagination } from '../../reducers/selectors';
 import createQueryString from 'app/utils/createQueryString';
 import loadingIndicator from 'app/utils/loadingIndicator';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const mapStateToProps = (state, ownProps) => {
   const dateAfter = moment().format('YYYY-MM-DD');
@@ -60,7 +60,9 @@ const mapDispatchToProps = {
     }),
 };
 export default compose(
-  prepare((props, dispatch) => dispatch(fetchData())),
+  withPreparedDispatch('fetchEventList', (props, dispatch) =>
+    dispatch(fetchData())
+  ),
   connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['notLoading'])
 )(EventList);

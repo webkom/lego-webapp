@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
 import { compose } from 'redux';
 import {
   addSubmission,
@@ -12,20 +11,7 @@ import { selectSurveySubmissionForUser } from 'app/reducers/surveySubmissions';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import loadingIndicator from 'app/utils/loadingIndicator';
-
-const loadData = (
-  {
-    match: {
-      params: { surveyId },
-    },
-    currentUser,
-  },
-  dispatch
-) =>
-  Promise.all([
-    dispatch(fetchSurvey(surveyId)),
-    currentUser.id && dispatch(fetchUserSubmission(surveyId, currentUser.id)),
-  ]);
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const mapStateToProps = (state, props) => {
   const surveyId = Number(props.match.params.surveyId);
@@ -56,7 +42,25 @@ const mapDispatchToProps = {
 };
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  prepare(loadData, ['match.params.surveyId', 'currentUser.id', 'notFetching']),
+  withPreparedDispatch(
+    'fetchAddSubmissions',
+    (props, dispatch) =>
+      Promise.all([
+        dispatch(fetchSurvey(props.match.params.surveyId)),
+        props.currentUser.id &&
+          dispatch(
+            fetchUserSubmission(
+              props.match.params.surveyId,
+              props.currentUser.id
+            )
+          ),
+      ]),
+    (props) => [
+      props.match.params.surveyId,
+      props.currentUser.id,
+      props.notFetching,
+    ]
+  ),
   connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['survey.questions', 'survey.event'])
 )(SubmissionContainer);

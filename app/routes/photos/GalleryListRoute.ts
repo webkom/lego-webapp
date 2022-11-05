@@ -1,10 +1,10 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
 import { fetch } from 'app/actions/GalleryActions';
 import { push } from 'connected-react-router';
 import Overview from './components/Overview';
 import { selectGalleries } from 'app/reducers/galleries';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const mapStateToProps = (state) => {
   const actionGrant = state.galleries.actionGrant;
@@ -22,5 +22,7 @@ const mapDispatchToProps = {
 };
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  prepare((props, dispatch) => dispatch(fetch()))
+  withPreparedDispatch('fetchGalleryList', (props, dispatch) =>
+    dispatch(fetch())
+  )
 )(Overview);

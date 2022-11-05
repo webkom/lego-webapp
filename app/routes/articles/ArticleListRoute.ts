@@ -5,10 +5,10 @@ import Overview from './components/Overview';
 import { selectArticles } from 'app/reducers/articles';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { selectUserById } from 'app/reducers/users';
-import prepare from 'app/utils/prepare';
 import { fetchPopular } from 'app/actions/TagActions';
 import { selectPopularTags } from 'app/reducers/tags';
 import qs from 'qs';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const mapStateToProps = (state, props) => {
   const query = {
@@ -43,20 +43,19 @@ const mapDispatchToProps = {
   fetchPopular,
 };
 export default compose(
-  prepare((props, dispatch) => dispatch(fetchPopular()), [], {
-    awaitOnSsr: false,
-  }),
-  prepare((props, dispatch) =>
-    dispatch(
-      fetchAll({
-        next: false,
-        query: {
-          tag: qs.parse(props.location.search, {
-            ignoreQueryPrefix: true,
-          }).tag,
-        },
-      })
-    )
+  withPreparedDispatch('fetchArticleList', (props, dispatch) =>
+    Promise.all([
+      dispatch(fetchPopular()),
+      dispatch(
+        fetchAll({
+          next: false,
+          query: {
+            tag: qs.parse(props.location.search, { ignoreQueryPrefix: true })
+              .tag,
+          },
+        })
+      ),
+    ])
   ),
   connect(mapStateToProps, mapDispatchToProps)
 )(Overview);

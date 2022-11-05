@@ -2,10 +2,10 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { fetch } from 'app/actions/TagActions';
 import loadingIndicator from 'app/utils/loadingIndicator';
-import prepare from 'app/utils/prepare';
 import { push } from 'connected-react-router';
 import TagDetail from './components/TagDetail';
 import { selectTagById } from 'app/reducers/tags';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 function mapStateToProps(state, props) {
   const { tagId } = props.match.params;
@@ -21,7 +21,9 @@ const mapDispatchToProps = {
   fetch,
 };
 export default compose(
-  prepare(({ match: { params } }, dispatch) => dispatch(fetch(params.tagId))),
+  withPreparedDispatch('fetchTagDetail', ({ match: { params } }, dispatch) =>
+    dispatch(fetch(params.tagId))
+  ),
   connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['tag.tag'])
 )(TagDetail);

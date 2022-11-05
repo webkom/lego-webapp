@@ -1,6 +1,5 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
 import UserSettingsOAuth2 from './components/UserSettingsOAuth2';
 import {
   fetchOAuth2Applications,
@@ -11,13 +10,7 @@ import {
   selectOAuth2Applications,
   selectOAuth2Grants,
 } from 'app/reducers/oauth2';
-
-const loadData = (props, dispatch) => {
-  return Promise.all([
-    dispatch(fetchOAuth2Applications()),
-    dispatch(fetchOAuth2Grants()),
-  ]);
-};
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const mapStateToProps = (state) => {
   return {
@@ -33,6 +26,11 @@ const mapDispatchToProps = {
   deleteOAuth2Grant,
 };
 export default compose(
-  prepare(loadData),
+  withPreparedDispatch('fetchUserSettingsOAuth2', (props, dispatch) =>
+    Promise.all([
+      dispatch(fetchOAuth2Applications()),
+      dispatch(fetchOAuth2Grants()),
+    ])
+  ),
   connect(mapStateToProps, mapDispatchToProps)
 )(UserSettingsOAuth2);

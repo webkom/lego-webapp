@@ -1,6 +1,5 @@
 import 'isomorphic-fetch';
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
 import {
   fetchSubmissions,
   addSubmission,
@@ -23,6 +22,7 @@ import loadingIndicator from 'app/utils/loadingIndicator';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { getCsvUrl } from './utils';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const loadData = (props, dispatch) => {
   const { surveyId } = props.match.params;
@@ -74,7 +74,7 @@ const mapDispatchToProps = {
 };
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  prepare(loadData),
+  withPreparedDispatch('fetchSubmissions', loadData),
   connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['notFetching', 'survey.event', 'survey.questions'])
 )(SubmissionPage);

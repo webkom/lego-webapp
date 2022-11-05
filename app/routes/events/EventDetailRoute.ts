@@ -1,6 +1,5 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
 import {
   fetchEvent,
   deleteEvent,
@@ -30,6 +29,7 @@ import { deleteComment } from 'app/actions/CommentActions';
 import { selectUserWithGroups } from 'app/reducers/users';
 import { selectFollowersCurrentUser } from 'app/reducers/followers';
 import { selectPenaltyByUserId } from 'app/reducers/penalties';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const mapStateToProps = (state, props) => {
   const {
@@ -160,20 +160,6 @@ const mapDispatchToProps = {
   deleteComment,
 };
 
-const loadData = async (
-  {
-    match: {
-      params: { eventId },
-    },
-    loggedIn,
-  },
-  dispatch
-) =>
-  Promise.all([
-    dispatch(fetchEvent(eventId)),
-    loggedIn && dispatch(isUserFollowing(eventId)),
-  ]);
-
 const propertyGenerator = (props, config) => {
   if (!props.event) return;
   const tags = (props.event.tags || []).map((content) => ({
@@ -223,7 +209,15 @@ const propertyGenerator = (props, config) => {
 };
 
 export default compose(
-  prepare(loadData, ['match.params.eventId']),
+  withPreparedDispatch(
+    'fetchEventDetail',
+    (props, dispatch) =>
+      Promise.all([
+        dispatch(fetchEvent(props.match.params.eventId)),
+        props.loggedIn && dispatch(isUserFollowing(props.match.params.eventId)),
+      ]),
+    (props) => [props.match.params.eventId]
+  ),
   connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['notLoading', 'event.text']),
   helmet(propertyGenerator)

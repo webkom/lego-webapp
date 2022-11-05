@@ -1,6 +1,5 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import {
   fetch,
@@ -18,6 +17,7 @@ import GalleryEditor from './components/GalleryEditor';
 import { selectGalleryById } from 'app/reducers/galleries';
 import { SelectGalleryPicturesByGalleryId } from 'app/reducers/galleryPictures';
 import { objectPermissionsToInitialValues } from 'app/components/Form/ObjectPermissions';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 function mapStateToProps(state, props) {
   const { galleryId } = props.match.params;
@@ -59,7 +59,7 @@ const mapDispatchToProps = {
 };
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  prepare(({ match: { params } }, dispatch) =>
+  withPreparedDispatch('fetchGalleryEdit', ({ match: { params } }, dispatch) =>
     Promise.all([
       dispatch(fetch(params.galleryId)),
       dispatch(fetchGallery(params.galleryId)),

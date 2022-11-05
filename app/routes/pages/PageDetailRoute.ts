@@ -1,7 +1,6 @@
 import type { Node } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
 import type { Thunk } from 'app/types';
 import {
   fetchPage,
@@ -31,6 +30,8 @@ import {
   selectInfoPageForPages,
 } from 'app/reducers/pages';
 import HTTPError from 'app/routes/errors/HTTPError';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
+
 type Entry = {
   title: string;
   section: string;
@@ -223,6 +224,8 @@ const mapDispatchToProps = {
   updatePage,
 };
 export default compose(
-  prepare(loadData, ['match.params.pageSlug']),
+  withPreparedDispatch('fetchPageDetail', loadData, (props) => [
+    props.match.params.pageSlug,
+  ]),
   connect(mapStateToProps, mapDispatchToProps)
 )(PageDetail);

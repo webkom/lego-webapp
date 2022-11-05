@@ -1,6 +1,5 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
 import { formValueSelector } from 'redux-form';
 import {
   fetchEvent,
@@ -27,6 +26,7 @@ import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import moment from 'moment-timezone';
 import { push } from 'connected-react-router';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const mapStateToProps = (state, props) => {
   const eventId = props.match.params.eventId;
@@ -137,15 +137,8 @@ const mapDispatchToProps = {
 };
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  prepare(
-    (
-      {
-        match: {
-          params: { eventId },
-        },
-      },
-      dispatch
-    ) => dispatch(fetchEvent(eventId))
+  withPreparedDispatch('fetchEventEdit', (props, dispatch) =>
+    dispatch(fetchEvent(props.match.params.eventId))
   ),
   connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['event.title'])

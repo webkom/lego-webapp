@@ -9,28 +9,22 @@ import '../app/types';
 import pageRenderer from './pageRenderer';
 import { prepare } from '@webkom/react-prepare';
 import { HelmetProvider } from 'react-helmet-async';
+import { ReactElement } from 'react';
 const serverSideTimeoutInMs = 4000;
 export const helmetContext: any = {}; // AntiPattern because of babel
 // https://github.com/babel/babel/issues/3083
 
-type Middleware = (req: Request, res: Response) => any;
-
-class TimeoutError {
-  error: Error;
-
-  constructor(msg) {
-    this.error = new Error(msg);
+class TimeoutError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'TimeoutError';
   }
 }
 
-const isTimeoutError = (error: Error) => error instanceof TimeoutError;
+const isTimeoutError = (error: unknown): error is TimeoutError =>
+  error instanceof TimeoutError;
 
-const isReactHooksError = (error: Record<string, any>) =>
-  typeof error === 'object' &&
-  error.name === 'Error' &&
-  error.stack.includes('Invalid hook call');
-
-const prepareWithTimeout = (app) =>
+const prepareWithTimeout = (app): Promise<string> =>
   Promise.race([
     prepare(app),
     new Promise((resolve) => {
@@ -42,22 +36,17 @@ const prepareWithTimeout = (app) =>
     }),
   ]);
 
-const createServerSideRenderer = (
-  req: Request,
-  res: Response,
-  next: Middleware
-) => {
+const createServerSideRenderer = (req: Request, res: Response) => {
   const render = (
-    app:
-      | React.ReactElement<React.ComponentProps<any>, any>
-      | null
-      | undefined = undefined,
-    state: State | Record<string, never> = Object.freeze({})
+    app?: ReactElement,
+    state: State | Record<string, never> = Object.freeze({}),
+    preparedStateCode?: string
   ) => {
     return res.send(
       pageRenderer({
         app,
         state,
+        preparedStateCode,
       })
     );
   };
@@ -111,9 +100,9 @@ const createServerSideRenderer = (
 
   const reportError = (error: Error) => {
     try {
-      // $FlowFixMe
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       const err = error.error ? error.payload : error;
-      // $FlowFixMe
       log.error(err, 'render_error');
       Sentry.captureException(err);
     } catch (e) {
@@ -121,7 +110,7 @@ const createServerSideRenderer = (
     }
   };
 
-  const respond = () => {
+  const respond = (preparedStateCode?: string) => {
     if (context.url) {
       return res.redirect(302, context.url);
     }
@@ -130,26 +119,20 @@ const createServerSideRenderer = (
     // TODO: remove workaround when redux-form is replaced
     state.form = {}; // Lego-editor doesn't initialize correctly when redux-form is initialized by ssr (react-prepare)
 
-    // $FlowFixMe
     const statusCode = state.router.statusCode || 200;
     res.status(statusCode);
-    return render(app, state);
+    return render(app, state, preparedStateCode);
   };
 
   prepareWithTimeout(app)
     .then(
-      () => respond(),
+      (preparedStateCode) => respond(preparedStateCode),
       (error) => {
+        reportError(error);
         if (isTimeoutError(error)) {
-          reportError(error.error);
           return render();
         }
 
-        if (isReactHooksError(error)) {
-          return respond();
-        }
-
-        reportError(error);
         respond();
       }
     )

@@ -6,9 +6,10 @@ import { sendContactMessage } from 'app/actions/ContactActions';
 import { addToast } from 'app/actions/ToastActions';
 import { selectGroupsWithType } from 'app/reducers/groups';
 import { fetchAllWithType } from 'app/actions/GroupActions';
-import prepare from 'app/utils/prepare';
 import { GroupTypeCommittee } from 'app/models';
 import Contact from './components/Contact';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
+
 const validate = createValidator({
   recipient_group: [required()],
   title: [required(), maxLength(80)],
@@ -16,8 +17,6 @@ const validate = createValidator({
   captchaResponse: [required('Captcha er ikke validert')],
 });
 const groupType = GroupTypeCommittee;
-
-const loadData = (props, dispatch) => dispatch(fetchAllWithType(groupType));
 
 const mapStateToProps = (state, props) => {
   const groups = selectGroupsWithType(state, {
@@ -35,7 +34,9 @@ const mapDispatchToProps = {
   change,
 };
 export default compose(
-  prepare(loadData),
+  withPreparedDispatch('fetchContact', (_, dispatch) =>
+    dispatch(fetchAllWithType(groupType))
+  ),
   connect(mapStateToProps, mapDispatchToProps),
   reduxForm({
     form: 'contactForm',

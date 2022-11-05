@@ -1,6 +1,5 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
 import { fetchAdministrate } from 'app/actions/EventActions';
 import EventAdministrateIndex from './components/EventAdministrate';
 import {
@@ -8,6 +7,7 @@ import {
   selectPoolsWithRegistrationsForEvent,
   selectMergedPoolWithRegistrations,
 } from 'app/reducers/events';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const mapStateToProps = (state, props) => {
   const eventId = props.match.params.eventId;
@@ -32,10 +32,8 @@ const mapStateToProps = (state, props) => {
 };
 
 export default compose(
-  prepare(
-    ({ match }, dispatch) =>
-      dispatch(fetchAdministrate(Number(match.params.eventId))),
-    []
+  withPreparedDispatch('fetchAdministrate', ({ match }, dispatch) =>
+    dispatch(fetchAdministrate(Number(match.params.eventId)))
   ),
   connect(mapStateToProps)
 )(EventAdministrateIndex);

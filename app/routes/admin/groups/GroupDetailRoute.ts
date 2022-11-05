@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import GroupView from './components/GroupView';
 import { fetchGroup } from 'app/actions/GroupActions';
 import { selectGroup } from 'app/reducers/groups';
-import prepare from 'app/utils/prepare';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 function mapStateToProps(state, props) {
   const { groupId } = props.match.params;
@@ -17,11 +17,11 @@ function mapStateToProps(state, props) {
   };
 }
 
-function loadData({ match: { params } }, dispatch) {
-  return dispatch(fetchGroup(params.groupId));
-}
-
 export default compose(
-  prepare(loadData, ['match.params.groupId']),
+  withPreparedDispatch(
+    'fetchGroupDetail',
+    (props, dispatch) => dispatch(fetchGroup(props.match.params.groupId)),
+    (props) => [props.match.params.groupId]
+  ),
   connect(mapStateToProps, {})
 )(GroupView);

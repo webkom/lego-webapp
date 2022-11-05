@@ -1,6 +1,5 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
 import { Content } from 'app/components/Content';
 import { search } from 'app/actions/SearchActions';
 import SearchPage from 'app/components/Search/SearchPage';
@@ -8,6 +7,7 @@ import { push } from 'connected-react-router';
 import { debounce } from 'lodash';
 import { selectResult } from 'app/reducers/search';
 import qs from 'qs';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const loadData = (props, dispatch) => {
   const query = qs.parse(props.location.search, {
@@ -47,6 +47,8 @@ function SearchPageWrapper(props) {
 }
 
 export default compose(
-  prepare(loadData, ['location.search']),
+  withPreparedDispatch('fetchSearch', loadData, (props) => [
+    props.location.search,
+  ]),
   connect(mapStateToProps, mapDispatchToProps)
 )(SearchPageWrapper);
