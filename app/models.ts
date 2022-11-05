@@ -1,3 +1,4 @@
+import type { History } from 'history';
 import type { Moment } from 'moment';
 // TODO: Id handling could be opaque
 export type ID = number;
@@ -342,13 +343,7 @@ export type AddPenalty = {
   weight: number;
   sourceEvent: ID;
 };
-export type LocationType = {
-  key: string;
-  pathname: string;
-  search: string;
-  hash: string;
-  state: { [key in any]?: boolean };
-};
+export type LocationType = History['location'];
 export type FollowerItem = {
   id: ID;
   follower: ID;
