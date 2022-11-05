@@ -1,7 +1,6 @@
 import { connectRouter } from 'connected-react-router';
 import { schema } from 'normalizr';
 import { combineReducers } from 'redux';
-import type { LocationType } from 'app/models';
 import type { Reducer } from 'app/types';
 import joinReducers from 'app/utils/joinReducers';
 import allowed from './allowed';
@@ -56,6 +55,7 @@ import surveys from './surveys';
 import tags from './tags';
 import toasts from './toasts';
 import users from './users';
+import type { History } from 'history';
 import type { Schema } from 'normalizr';
 
 const reducers = {
@@ -108,18 +108,7 @@ const reducers = {
   followersEvent,
 };
 export type Reducers = typeof reducers;
-type History = {
-  length: number;
-  action: string;
-  location: LocationType;
-  createHref: (location: LocationType) => string;
-  push: (path: string, state: Record<string, any>) => void;
-  replace: (path: string, state: Record<string, any>) => void;
-  go: (n: number) => void;
-  goBack: () => void;
-  block: (prompt?: boolean) => () => void;
-  listen: (listener: () => void) => () => void;
-};
+
 export default function rootReducer(history: History): Reducer {
   return combineReducers({
     router: joinReducers(connectRouter(history), routing),

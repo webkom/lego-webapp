@@ -3,10 +3,10 @@ import { Route, Switch } from 'react-router-dom';
 import { Content } from 'app/components/Content';
 import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
-import type { LocationType } from 'app/models';
 import GroupDetailRoute from '../GroupDetailRoute';
 import styles from './GroupPage.css';
 import GroupTree from './GroupTree';
+import type { Location } from 'history';
 
 const NavigationLinks = ({ groupId }: { groupId: string }) => {
   const baseUrl = `/admin/groups/${groupId}`;
@@ -48,7 +48,7 @@ const GroupPageNavigation = ({
 
 type GroupPageProps = {
   groups: Array<Record<string, any>>;
-  location: LocationType;
+  location: Location;
   match: {
     path: string;
     params: {
