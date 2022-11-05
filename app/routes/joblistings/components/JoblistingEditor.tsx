@@ -126,7 +126,7 @@ class JoblistingEditor extends Component<Props, State> {
           back={{
             label: 'Tilbake',
             path: !isNew
-              ? `/joblistings${this.props.joblisting.id}`
+              ? `/joblistings/${this.props.joblisting.id}`
               : '/joblistings',
           }}
         />
