@@ -1,4 +1,4 @@
-@import '../Event.css';
+@import url('../Event.css');
 
 .star {
   color: var(--color-orange-5);

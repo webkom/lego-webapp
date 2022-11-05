@@ -1,4 +1,4 @@
-@import '~app/styles/variables.css';
+@import url('~app/styles/variables.css');
 
 .heading {
   color: var(--color-dark-mono-gray-3);

@@ -1,6 +1,6 @@
 /* stylelint-disable selector-class-pattern */
 
-@import '~app/styles/variables.css';
+@import url('~app/styles/variables.css');
 
 .flex {
   display: flex;

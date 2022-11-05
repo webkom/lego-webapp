@@ -1,4 +1,4 @@
-@import '../Event.css';
+@import url('../Event.css');
 
 .counter {
   text-align: center;
