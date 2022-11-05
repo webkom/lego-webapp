@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { getRegistrationGroups } from 'app/reducers/events';
 import Statistics from 'app/routes/events/components/EventAdministrate/Statistics';
 import { fetchAllWithType } from 'app/actions/GroupActions';
-import prepare from 'app/utils/prepare';
 import { selectGroupsWithType } from 'app/reducers/groups';
 import { GroupTypeCommittee, GroupTypeRevue } from 'app/models';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const groups: {
   committee: typeof GroupTypeCommittee;
@@ -33,7 +33,7 @@ const mapStateToProps = (state, props) => {
 };
 
 export default compose(
-  prepare((_, dispatch) =>
+  withPreparedDispatch('fetchStatisticsGroups', (_, dispatch) =>
     Promise.all([
       dispatch(fetchAllWithType(groups.committee)),
       dispatch(fetchAllWithType(groups.revue)),
