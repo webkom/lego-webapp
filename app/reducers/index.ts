@@ -1,4 +1,5 @@
 import type { Schema } from 'normalizr';
+import type { History } from 'history';
 import { schema } from 'normalizr';
 import type { Reducer } from 'app/types';
 import 'app/types';
@@ -57,8 +58,8 @@ import {
   followersUser,
   followersKeyGen,
 } from './followers';
-import type { LocationType } from 'app/models';
 import 'app/models';
+
 const reducers = {
   allowed,
   announcements,
@@ -109,18 +110,7 @@ const reducers = {
   followersEvent,
 };
 export type Reducers = typeof reducers;
-type History = {
-  length: number;
-  action: string;
-  location: LocationType;
-  createHref: (location: LocationType) => string;
-  push: (path: string, state: Record<string, any>) => void;
-  replace: (path: string, state: Record<string, any>) => void;
-  go: (n: number) => void;
-  goBack: () => void;
-  block: (prompt?: boolean) => () => void;
-  listen: (listener: () => void) => () => void;
-};
+
 export default function rootReducer(history: History): Reducer {
   return combineReducers({
     router: joinReducers(connectRouter(history), routing),
