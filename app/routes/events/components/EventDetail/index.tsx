@@ -45,7 +45,7 @@ import type {
 import type { CommentEntity } from 'app/store/slices/commentsSlice';
 import type { UserEntity } from 'app/store/slices/usersSlice';
 import { MazemapEmbed } from 'app/components/MazemapEmbed';
-import { resolveGroupLink } from 'app/reducers/groups';
+import { resolveGroupLink } from 'app/store/slices/groupsSlice';
 type InterestedButtonProps = {
   isInterested: boolean;
 };

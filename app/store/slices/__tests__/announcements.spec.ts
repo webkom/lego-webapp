@@ -1,5 +1,5 @@
 import announcements from '../announcementsSlice';
-import { Announcements } from '../../../actions/ActionTypes';
+import { Announcements } from 'app/actions/ActionTypes';
 import timekeeper from 'timekeeper';
 import moment from 'moment';
 describe('reducers', () => {

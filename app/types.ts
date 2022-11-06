@@ -5,7 +5,6 @@ export type AsyncActionType = {
   SUCCESS: string;
   FAILURE: string;
 };
-export type AsyncActionTypeArray = [string, string, string];
 export type EntityID = number;
 export type ArticleEntity = {
   id: EntityID;

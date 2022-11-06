@@ -2,7 +2,7 @@ import { GetCookie, SentryType } from 'app/types';
 import { configureStore } from '@reduxjs/toolkit';
 import { createBrowserHistory, createMemoryHistory } from 'history';
 import type { History } from 'history';
-import createRootReducer from 'app/store/rootReducer';
+import createRootReducer, { RootState } from 'app/store/rootReducer';
 import { routerMiddleware } from 'connected-react-router';
 import promiseMiddleware from 'app/store/middleware/promiseMiddleware';
 import createMessageMiddleware from 'app/store/middleware/messageMiddleware';
@@ -69,3 +69,8 @@ export default createStore;
 
 export type Store = ReturnType<typeof createStore>;
 export type AppDispatch = Store['dispatch'];
+
+export interface AsyncThunkConfig {
+  state: RootState;
+  dispatch: AppDispatch;
+}

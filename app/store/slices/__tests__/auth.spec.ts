@@ -1,10 +1,11 @@
-import authSlice from '../authSlice';
-import { User } from '../../../actions/ActionTypes';
+import auth from '../authSlice';
+import { User } from 'app/actions/ActionTypes';
+
 describe('reducers', () => {
   describe('auth', () => {
     it('should have correct initialState', () => {
       const prevState = undefined;
-      expect(authSlice(prevState, {})).toEqual({
+      expect(auth(prevState, {})).toEqual({
         username: null,
         id: null,
         token: null,
@@ -19,23 +20,23 @@ describe('reducers', () => {
       const action = {
         type: User.LOGIN.BEGIN,
       };
-      const state = authSlice(prevState, action);
+      const state = auth(prevState, action);
       expect(state.loggingIn).toBe(true);
       expect(state.loginFailed).toBe(false);
     });
     it('should set loggingIn to false and loginFailed to true when logging in fails', () => {
-      const prevState = authSlice(undefined, {
+      const prevState = auth(undefined, {
         type: User.LOGIN.BEGIN,
       });
       const action = {
         type: User.LOGIN.FAILURE,
       };
-      const state = authSlice(prevState, action);
+      const state = auth(prevState, action);
       expect(state.loggingIn).toBe(false);
       expect(state.loginFailed).toBe(true);
     });
     it('should set username and token correctly when login succeeds', () => {
-      const prevState = authSlice(undefined, {
+      const prevState = auth(undefined, {
         type: User.LOGIN.BEGIN,
       });
       const action = {
@@ -47,7 +48,7 @@ describe('reducers', () => {
           },
         },
       };
-      expect(authSlice(prevState, action)).toEqual({
+      expect(auth(prevState, action)).toEqual({
         username: null,
         id: null,
         token: action.payload.token,
@@ -58,7 +59,7 @@ describe('reducers', () => {
       });
     });
     it('should clear the username and token when logging out', () => {
-      const _prevState = authSlice(undefined, {
+      const _prevState = auth(undefined, {
         type: User.LOGIN.BEGIN,
       });
 
@@ -71,11 +72,11 @@ describe('reducers', () => {
           },
         },
       };
-      const prevState = authSlice(_prevState, _action);
+      const prevState = auth(_prevState, _action);
       const action = {
         type: User.LOGOUT,
       };
-      expect(authSlice(prevState, action)).toEqual({
+      expect(auth(prevState, action)).toEqual({
         username: null,
         id: null,
         token: null,

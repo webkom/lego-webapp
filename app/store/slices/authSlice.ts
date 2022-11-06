@@ -1,13 +1,20 @@
 import { createSelector } from 'reselect';
-import { User } from '../../actions/ActionTypes';
-type State = {
-  id: number | null | undefined;
-  username: string | null | undefined;
-  token: string | null | undefined;
+import { User } from 'app/actions/ActionTypes';
+import { createSlice } from '@reduxjs/toolkit';
+import type { AnyAction } from '@reduxjs/toolkit';
+import { RootState } from 'app/store/rootReducer';
+
+interface AuthState {
+  id: number | null;
+  username: string | null;
+  token: string | null;
   loginFailed: boolean;
   loggingIn: boolean;
-};
-const initialState = {
+  registrationToken: string | null;
+  studentConfirmed: boolean | null;
+}
+
+const initialState: AuthState = {
   username: null,
   id: null,
   token: null,
@@ -16,59 +23,68 @@ const initialState = {
   registrationToken: null,
   studentConfirmed: null,
 };
-export default function authSlice(
-  state: State = initialState,
-  action: any
-): State {
-  switch (action.type) {
-    case User.LOGIN.BEGIN:
-      return { ...state, loggingIn: true, loginFailed: false };
 
-    case User.LOGIN.FAILURE:
-      return { ...state, loggingIn: false, loginFailed: true };
-
-    case User.CREATE_USER.SUCCESS:
-    case User.LOGIN.SUCCESS:
-    case User.REFRESH_TOKEN.SUCCESS:
-      return {
-        ...state,
-        loggingIn: false,
-        token: action.payload.token,
-        registrationToken: null,
-      };
-
-    case User.FETCH.SUCCESS:
-      if (!action.meta.isCurrentUser) {
-        return state;
-      }
-
-      return {
-        ...state,
-        id: action.payload.result,
-        username: action.payload.entities.users[action.payload.result].username,
-      };
-
-    case User.LOGOUT:
-      return initialState;
-
-    case User.VALIDATE_REGISTRATION_TOKEN.SUCCESS:
-      return { ...state, registrationToken: action.meta.token };
-
-    case User.CONFIRM_STUDENT_USER.FAILURE:
-      return { ...state, studentConfirmed: false };
-
-    case User.CONFIRM_STUDENT_USER.SUCCESS:
-      return { ...state, studentConfirmed: true };
-
-    default:
-      return state;
-  }
+interface ActionWithToken extends AnyAction {
+  payload: {
+    token: string;
+  };
 }
-export function selectIsLoggedIn(state: any) {
+
+const authSlice = createSlice({
+  name: 'auth',
+  initialState,
+  reducers: {
+    logout: () => initialState,
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(User.LOGIN.BEGIN, (state) => {
+        state.loggingIn = true;
+        state.loginFailed = false;
+      })
+      .addCase(User.LOGIN.FAILURE, (state) => {
+        state.loggingIn = false;
+        state.loginFailed = true;
+      })
+      .addCase(User.FETCH.SUCCESS, (state, action) => {
+        if (action.meta.isCurrentUser) {
+          state.id = action.payload.result;
+          state.username =
+            action.payload.entities.users[action.payload.result].username;
+        }
+      })
+      .addCase(User.VALIDATE_REGISTRATION_TOKEN.SUCCESS, (state, action) => {
+        state.registrationToken = action.payload.token;
+      })
+      .addCase(User.CONFIRM_STUDENT_USER.FAILURE, (state) => {
+        state.studentConfirmed = false;
+      })
+      .addCase(User.CONFIRM_STUDENT_USER.SUCCESS, (state) => {
+        state.studentConfirmed = true;
+      })
+      .addMatcher(
+        (action: AnyAction): action is ActionWithToken =>
+          [
+            User.CREATE_USER.SUCCESS,
+            User.LOGIN.SUCCESS,
+            User.REFRESH_TOKEN.SUCCESS,
+          ].includes(action.type),
+        (state, action) => {
+          state.loggingIn = false;
+          state.token = action.payload.token;
+          state.registrationToken = null;
+        }
+      );
+  },
+});
+
+export default authSlice.reducer;
+
+export function selectIsLoggedIn(state: RootState) {
   return state.auth.token !== null;
 }
 export const selectCurrentUser = createSelector(
-  (state) => state.users.byId,
-  (state) => state.auth.id,
+  (state: RootState) => state.users.byId,
+  (state: RootState) => state.auth.id,
   (usersById, userId) => usersById[userId] || {}
 );

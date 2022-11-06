@@ -6,13 +6,15 @@ import {
   createAnnouncement,
   sendAnnouncement,
   deleteAnnouncement,
+  deleteAnnouncement2,
 } from 'app/actions/AnnouncementsActions';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { selectAnnouncements } from 'app/store/slices/announcementsSlice';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
+import { RootState } from 'app/store/rootReducer';
 
-const mapStateToProps = (state, props) => {
+const mapStateToProps = (state: RootState, props) => {
   const announcements = selectAnnouncements(state);
   const actionGrant = state.announcements.actionGrant;
   return {

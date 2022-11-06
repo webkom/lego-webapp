@@ -4,7 +4,7 @@ export class HttpError extends Error {
   response: Response;
 }
 export type HttpResponse<T> = {
-  jsonData?: T | typeof undefined;
+  jsonData?: T;
   textString?: string;
 } & Response;
 export type HttpRequestOptions = {
