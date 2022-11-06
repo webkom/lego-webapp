@@ -16,8 +16,18 @@ import moment from 'moment';
 
 interface RegistrationDateDataPoint {
   name: string;
+  fullDate: Dateish;
   registrations: number;
   unregistrations: number;
+}
+
+interface AttendeeStatistics {
+  genderDistribution: DistributionDataPoint[];
+  groupDistribution: DistributionDataPoint[];
+  dataTekDistribution: DistributionDataPoint[];
+  komTekDistribution: DistributionDataPoint[];
+  totalDistribution: DistributionDataPoint[];
+  registrationTimeDistribution: RegistrationDateDataPoint[];
 }
 
 const PieChartWithLabel = ({
@@ -88,9 +98,9 @@ const addRegistrationDateDataPoint = (
   registrationDate: Dateish,
   isRegister: boolean
 ) => {
-  const formatedDate = moment(registrationDate).format('DD/MM');
+  const formattedDate = moment(registrationDate).format('DD/MM');
   const existingTimeEntry = registrationTimeDistribution.find(
-    (entry) => entry.name === formatedDate
+    (entry) => entry.name === formattedDate
   );
   if (existingTimeEntry) {
     if (isRegister) {
@@ -100,10 +110,25 @@ const addRegistrationDateDataPoint = (
     }
   } else {
     registrationTimeDistribution.push({
-      name: formatedDate,
+      name: formattedDate,
+      fullDate: registrationDate,
       registrations: isRegister ? 1 : 0,
       unregistrations: isRegister ? 0 : 1,
     });
+  }
+};
+
+const sortAttendeeStatistics = (attendeeStatistics: AttendeeStatistics) => {
+  for (const attendeeStatisticsKey in attendeeStatistics) {
+    if (attendeeStatisticsKey === 'registrationTimeDistribution') {
+      attendeeStatistics[attendeeStatisticsKey].sort((a, b) =>
+        moment(a.fullDate).isBefore(moment(b.fullDate)) ? -1 : 1
+      );
+      continue;
+    }
+    attendeeStatistics[attendeeStatisticsKey].sort((a, b) =>
+      a.name.localeCompare(b.name)
+    );
   }
 };
 
@@ -113,14 +138,7 @@ const createAttendeeDataPoints = (
   committeeGroupIDs: number[],
   revueGroupIDs: number[]
 ) => {
-  const attendeeStatistics: {
-    genderDistribution: DistributionDataPoint[];
-    groupDistribution: DistributionDataPoint[];
-    dataTekDistribution: DistributionDataPoint[];
-    komTekDistribution: DistributionDataPoint[];
-    totalDistribution: DistributionDataPoint[];
-    registrationTimeDistribution: RegistrationDateDataPoint[];
-  } = {
+  const attendeeStatistics: AttendeeStatistics = {
     genderDistribution: [],
     groupDistribution: [],
     dataTekDistribution: [],
@@ -185,13 +203,7 @@ const createAttendeeDataPoints = (
   attendeeStatistics.totalDistribution.push(dataTekTotal);
   attendeeStatistics.totalDistribution.push(komTekTotal);
 
-  attendeeStatistics.dataTekDistribution.sort((a, b) =>
-    a.name.localeCompare(b.name)
-  );
-
-  attendeeStatistics.komTekDistribution.sort((a, b) =>
-    a.name.localeCompare(b.name)
-  );
+  sortAttendeeStatistics(attendeeStatistics);
 
   return attendeeStatistics;
 };
