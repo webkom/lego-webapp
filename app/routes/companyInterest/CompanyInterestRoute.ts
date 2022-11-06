@@ -10,7 +10,7 @@ import CompanyInterestPage, {
   COLLABORATION_TYPES,
   TARGET_GRADE_TYPES,
 } from './components/CompanyInterestPage';
-import { selectCompanySemestersForInterestForm } from 'app/reducers/companySemesters';
+import { selectCompanySemestersForInterestForm } from 'app/store/slices/companySemestersSlice';
 import { sortSemesterChronologically } from './utils';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 

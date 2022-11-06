@@ -1,7 +1,7 @@
 import createSentryMiddleware from 'redux-sentry-middleware';
 import jwtDecode from 'jwt-decode';
 import { omit } from 'lodash';
-import { selectCurrentUser } from 'app/reducers/auth';
+import { selectCurrentUser } from 'app/store/slices/authSlice';
 import { RootState } from 'app/store/rootReducer';
 
 const sentryMiddlewareOptions: createSentryMiddleware.Options<RootState> = {

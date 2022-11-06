@@ -2,7 +2,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import RestrictedMails from './components/RestrictedMails';
 import { fetch } from 'app/actions/RestrictedMailActions';
-import { selectRestrictedMails } from 'app/reducers/restrictedMails';
+import { selectRestrictedMails } from 'app/store/slices/restrictedMailsSlice';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const mapStateToProps = (state) => ({

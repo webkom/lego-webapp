@@ -9,7 +9,7 @@ import {
 import {
   selectOAuth2Applications,
   selectOAuth2Grants,
-} from 'app/reducers/oauth2';
+} from 'app/store/slices/oauth2Slice';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const mapStateToProps = (state) => {

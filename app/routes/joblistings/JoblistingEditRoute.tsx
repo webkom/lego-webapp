@@ -8,7 +8,7 @@ import {
 } from 'app/actions/JoblistingActions';
 import { fetchCompanyContacts } from 'app/actions/CompanyActions';
 import JoblistingEditor from 'app/routes/joblistings/components/JoblistingEditor';
-import { selectJoblistingById } from 'app/reducers/joblistings';
+import { selectJoblistingById } from 'app/store/slices/joblistingsSlice';
 import { formValueSelector } from 'redux-form';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import { LoginPage } from 'app/components/LoginForm';

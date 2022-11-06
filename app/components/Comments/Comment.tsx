@@ -6,10 +6,10 @@ import { ProfilePicture } from 'app/components/Image';
 import DisplayContent from 'app/components/DisplayContent';
 import styles from './Comment.css';
 import { Flex } from 'app/components/Layout';
-import type { UserEntity } from 'app/reducers/users';
-import 'app/reducers/users';
-import type { CommentEntity } from 'app/reducers/comments';
-import 'app/reducers/comments';
+import type { UserEntity } from 'app/store/slices/usersSlice';
+import 'app/store/slices/usersSlice';
+import type { CommentEntity } from 'app/store/slices/commentsSlice';
+import 'app/store/slices/commentsSlice';
 import type { ID } from 'app/models';
 import Button from '../Button';
 type Props = {

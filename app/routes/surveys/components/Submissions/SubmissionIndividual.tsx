@@ -1,6 +1,6 @@
 import styles from '../surveys.css';
-import type { SubmissionEntity } from 'app/reducers/surveySubmissions';
-import type { SurveyEntity } from 'app/reducers/surveys';
+import type { SubmissionEntity } from 'app/store/slices/surveySubmissionsSlice';
+import type { SurveyEntity } from 'app/store/slices/surveysSlice';
 import StaticSubmission from '../StaticSubmission';
 import cx from 'classnames';
 type Props = {

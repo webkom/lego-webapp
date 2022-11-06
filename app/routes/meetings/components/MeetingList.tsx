@@ -8,8 +8,11 @@ import Toolbar from './Toolbar';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { Content } from 'app/components/Content';
 import Button from 'app/components/Button';
-import type { MeetingEntity, MeetingSection } from 'app/reducers/meetings';
-import type { UserEntity } from 'app/reducers/users';
+import type {
+  MeetingEntity,
+  MeetingSection,
+} from 'app/store/slices/meetingsSlice';
+import type { UserEntity } from 'app/store/slices/usersSlice';
 
 function MeetingListItem({
   meeting,

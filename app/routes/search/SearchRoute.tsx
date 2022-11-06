@@ -5,7 +5,7 @@ import { search } from 'app/actions/SearchActions';
 import SearchPage from 'app/components/Search/SearchPage';
 import { push } from 'connected-react-router';
 import { debounce } from 'lodash';
-import { selectResult } from 'app/reducers/search';
+import { selectResult } from 'app/store/slices/searchSlice';
 import qs from 'qs';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 

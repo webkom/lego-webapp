@@ -6,7 +6,7 @@ import {
 } from 'app/actions/SurveyActions';
 import SurveyDetail from './components/SurveyDetail';
 import { compose } from 'redux';
-import { selectSurveyById } from 'app/reducers/surveys';
+import { selectSurveyById } from 'app/store/slices/surveysSlice';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import loadingIndicator from 'app/utils/loadingIndicator';

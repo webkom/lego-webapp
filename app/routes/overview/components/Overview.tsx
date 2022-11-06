@@ -12,7 +12,7 @@ import Icon from 'app/components/Icon';
 import { Link } from 'react-router-dom';
 import NextEvent from './NextEvent';
 import Poll from 'app/components/Poll';
-import type { PollEntity } from 'app/reducers/polls';
+import type { PollEntity } from 'app/store/slices/pollsSlice';
 import RandomQuote from 'app/components/RandomQuote';
 import { renderMeta } from './utils';
 // import Banner, { COLORS } from 'app/components/Banner';

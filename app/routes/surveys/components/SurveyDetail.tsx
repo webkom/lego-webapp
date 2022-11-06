@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import Time from 'app/components/Time';
 import styles from './surveyDetail.css';
-import type { SurveyEntity } from 'app/reducers/surveys';
+import type { SurveyEntity } from 'app/store/slices/surveysSlice';
 import { DetailNavigation } from '../utils';
 import { Content, ContentSection, ContentMain } from 'app/components/Content';
 import type { ActionGrant } from 'app/models';

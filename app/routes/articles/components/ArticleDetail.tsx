@@ -7,11 +7,11 @@ import LegoReactions from 'app/components/LegoReactions';
 import { Link } from 'react-router-dom';
 import moment from 'moment-timezone';
 import DisplayContent from 'app/components/DisplayContent';
-import type { ArticleEntity } from 'app/reducers/articles';
-import type { UserEntity } from 'app/reducers/users';
-import type { CommentEntity } from 'app/reducers/comments';
-import type { EmojiEntity } from 'app/reducers/emojis';
-import type { ReactionEntity } from 'app/reducers/reactions';
+import type { ArticleEntity } from 'app/store/slices/articlesSlice';
+import type { UserEntity } from 'app/store/slices/usersSlice';
+import type { CommentEntity } from 'app/store/slices/commentsSlice';
+import type { EmojiEntity } from 'app/store/slices/emojisSlice';
+import type { ReactionEntity } from 'app/store/slices/reactionsSlice';
 import type { ID } from 'app/models';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 type Props = {

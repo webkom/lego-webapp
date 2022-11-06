@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { get } from 'lodash';
 import cx from 'classnames';
 import SearchPage from 'app/components/Search/SearchPage';
-import type { SearchResult } from 'app/reducers/search';
+import type { SearchResult } from 'app/store/slices/searchSlice';
 import styles from './Validator.css';
 import goodSound from 'app/assets/good-sound.mp3';
 import Button from 'app/components/Button';

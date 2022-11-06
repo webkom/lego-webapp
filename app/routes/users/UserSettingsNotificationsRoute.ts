@@ -10,7 +10,7 @@ import {
 import {
   selectNotificationSettingsAlternatives,
   selectNotificationSettings,
-} from 'app/reducers/notificationSettings';
+} from 'app/store/slices/notificationSettingsSlice';
 import { updateUser } from 'app/actions/UserActions';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 

@@ -20,9 +20,9 @@ import type {
   CompanyEntity,
   BaseSemesterStatusEntity,
   SemesterStatusEntity,
-} from 'app/reducers/companies';
-import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
-import type { UserEntity } from 'app/reducers/users';
+} from 'app/store/slices/companiesSlice';
+import type { CompanySemesterEntity } from 'app/store/slices/companySemestersSlice';
+import type { UserEntity } from 'app/store/slices/usersSlice';
 import Button from 'app/components/Button';
 import Tooltip from 'app/components/Tooltip';
 import type { CompanySemesterContactedStatus, ID } from 'app/models';

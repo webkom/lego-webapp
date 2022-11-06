@@ -2,9 +2,9 @@ import { generateTreeStructure } from 'app/utils';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import CommentForm from 'app/components/CommentForm';
 import { Flex } from 'app/components/Layout';
-import type { UserEntity } from 'app/reducers/users';
+import type { UserEntity } from 'app/store/slices/usersSlice';
 import CommentTree from './CommentTree';
-import type { CommentEntity } from 'app/reducers/comments';
+import type { CommentEntity } from 'app/store/slices/commentsSlice';
 import type { ID } from 'app/models';
 type Props = {
   comments: Array<CommentEntity>;

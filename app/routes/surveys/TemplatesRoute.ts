@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { addSurvey, fetchTemplates } from '../../actions/SurveyActions';
 import SurveyPage from './components/SurveyList/SurveyPage';
 import { compose } from 'redux';
-import { selectSurveyTemplates } from 'app/reducers/surveys';
+import { selectSurveyTemplates } from 'app/store/slices/surveysSlice';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { push } from 'connected-react-router';

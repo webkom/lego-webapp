@@ -9,7 +9,7 @@ import CompanyContactEditor from './components/CompanyContactEditor';
 import {
   selectCompanyById,
   selectCompanyContactById,
-} from 'app/reducers/companies';
+} from 'app/store/slices/companiesSlice';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';

@@ -8,7 +8,7 @@ import {
   fetchOAuth2Application,
   updateOAuth2Application,
 } from 'app/actions/OAuth2Actions';
-import { selectOAuth2ApplicationById } from 'app/reducers/oauth2';
+import { selectOAuth2ApplicationById } from 'app/store/slices/oauth2Slice';
 import { push } from 'connected-react-router';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 

@@ -5,11 +5,11 @@ import { Link } from 'react-router-dom';
 import Dropdown from 'app/components/Dropdown';
 import Icon from 'app/components/Icon';
 import type { ID, ActionGrant } from 'app/models';
-import type { QuoteEntity } from 'app/reducers/quotes';
+import type { QuoteEntity } from 'app/store/slices/quotesSlice';
 import Button from 'app/components/Button';
 import Reaction from 'app/components/Reactions/Reaction';
 import Reactions from 'app/components/Reactions';
-import type { EmojiEntity } from 'app/reducers/emojis';
+import type { EmojiEntity } from 'app/store/slices/emojisSlice';
 type Props = {
   quote: QuoteEntity;
   deleteQuote: (arg0: number) => Promise<any>;

@@ -11,8 +11,8 @@ import {
   selectColorCode,
   DetailNavigation,
 } from '../utils';
-import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
-import type { SemesterStatusEntity } from 'app/reducers/companies';
+import type { CompanySemesterEntity } from 'app/store/slices/companySemestersSlice';
+import type { SemesterStatusEntity } from 'app/store/slices/companiesSlice';
 import type { CompanySemesterContactedStatus } from 'app/models';
 type Props = {
   addSemesterStatus: (

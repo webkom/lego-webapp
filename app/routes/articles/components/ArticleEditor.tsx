@@ -1,10 +1,10 @@
 import { Content } from 'app/components/Content';
 import Button from 'app/components/Button';
 import { Helmet } from 'react-helmet-async';
-import type { UserEntity } from 'app/reducers/users';
-import 'app/reducers/users';
-import type { ArticleEntity } from 'app/reducers/articles';
-import 'app/reducers/articles';
+import type { UserEntity } from 'app/store/slices/usersSlice';
+import 'app/store/slices/usersSlice';
+import type { ArticleEntity } from 'app/store/slices/articlesSlice';
+import 'app/store/slices/articlesSlice';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import styles from './ArticleEditor.css';
 import { normalizeObjectPermissions } from 'app/components/Form/ObjectPermissions';

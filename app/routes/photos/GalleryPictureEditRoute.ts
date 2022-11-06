@@ -9,8 +9,8 @@ import loadingIndicator from 'app/utils/loadingIndicator';
 import {
   selectGalleryPictureById,
   selectCommentsForGalleryPicture,
-} from 'app/reducers/galleryPictures';
-import { selectGalleryById } from 'app/reducers/galleries';
+} from 'app/store/slices/galleryPicturesSlice';
+import { selectGalleryById } from 'app/store/slices/galleriesSlice';
 import { push } from 'connected-react-router';
 
 function mapStateToProps(state, props) {

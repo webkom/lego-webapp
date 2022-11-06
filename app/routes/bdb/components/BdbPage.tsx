@@ -11,8 +11,8 @@ import LoadingIndicator from 'app/components/LoadingIndicator';
 import type {
   CompanyEntity,
   BaseSemesterStatusEntity,
-} from 'app/reducers/companies';
-import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
+} from 'app/store/slices/companiesSlice';
+import type { CompanySemesterEntity } from 'app/store/slices/companySemestersSlice';
 import type { CompanySemesterContactedStatus, LocationType } from 'app/models';
 import qs from 'qs';
 type Props = {

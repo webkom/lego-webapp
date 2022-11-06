@@ -1,4 +1,4 @@
-import type { SearchResult as SearchResultType } from 'app/reducers/search';
+import type { SearchResult as SearchResultType } from 'app/store/slices/searchSlice';
 import EmptyState from 'app/components/EmptyState';
 import { Link } from 'react-router-dom';
 import { ProfilePicture, Image } from 'app/components/Image';

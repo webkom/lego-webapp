@@ -1,7 +1,7 @@
 import { schema } from 'normalizr';
 import type { Schema } from 'normalizr';
-import { getMeetingInvitationId } from 'app/reducers/meetingInvitations';
-import { followersKeyGen } from 'app/reducers/followers';
+import { getMeetingInvitationId } from 'app/store/slices/meetingInvitationsSlice';
+import { followersKeyGen } from 'app/store/slices/followersSlice';
 
 export const restrictedMailSchema = new schema.Entity(
   'restrictedMails'

@@ -22,13 +22,13 @@ import {
   selectMergedPool,
   selectWaitingRegistrationsForEvent,
   selectRegistrationForEventByUserId,
-} from 'app/reducers/events';
+} from 'app/store/slices/eventsSlice';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import helmet from 'app/utils/helmet';
 import { deleteComment } from 'app/actions/CommentActions';
-import { selectUserWithGroups } from 'app/reducers/users';
-import { selectFollowersCurrentUser } from 'app/reducers/followers';
-import { selectPenaltyByUserId } from 'app/reducers/penalties';
+import { selectUserWithGroups } from 'app/store/slices/usersSlice';
+import { selectFollowersCurrentUser } from 'app/store/slices/followersSlice';
+import { selectPenaltyByUserId } from 'app/store/slices/penaltiesSlice';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const mapStateToProps = (state, props) => {

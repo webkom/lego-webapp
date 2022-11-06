@@ -1,8 +1,8 @@
 import { EmailList } from './ActionTypes';
 import { emailListSchema } from 'app/store/schemas';
 import callAPI from 'app/actions/callAPI';
-import type { EmailListEntity } from 'app/reducers/emailLists';
-import 'app/reducers/emailLists';
+import type { EmailListEntity } from 'app/store/slices/emailListsSlice';
+import 'app/store/slices/emailListsSlice';
 import type { EntityID, Thunk } from 'app/types';
 export function fetchEmailList(emailListId: EntityID): Thunk<any> {
   return callAPI({

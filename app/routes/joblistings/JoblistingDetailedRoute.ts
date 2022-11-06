@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { fetchJoblisting } from 'app/actions/JoblistingActions';
 import JoblistingDetail from './components/JoblistingDetail';
-import { selectJoblistingById } from 'app/reducers/joblistings';
+import { selectJoblistingById } from 'app/store/slices/joblistingsSlice';
 import { compose } from 'redux';
 import { push } from 'connected-react-router';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';

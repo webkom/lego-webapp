@@ -11,7 +11,7 @@ import { DetailNavigation } from '../utils';
 import type {
   CompanyEntity,
   CompanyContactEntity,
-} from 'app/reducers/companies';
+} from 'app/store/slices/companiesSlice';
 type Props = {
   submitFunction: (
     arg0: CompanyContactEntity,

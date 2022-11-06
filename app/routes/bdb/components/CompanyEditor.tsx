@@ -18,7 +18,7 @@ import { createValidator, required, isEmail } from 'app/utils/validation';
 import type {
   CompanyEntity,
   SubmitCompanyEntity,
-} from 'app/reducers/companies';
+} from 'app/store/slices/companiesSlice';
 type Props = {
   uploadFile: (arg0: Record<string, any>) => Promise<any>;
   company: CompanyEntity;

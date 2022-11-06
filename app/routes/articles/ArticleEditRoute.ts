@@ -7,7 +7,7 @@ import {
   deleteArticle,
 } from 'app/actions/ArticleActions';
 import ArticleEditor from './components/ArticleEditor';
-import { selectArticleById } from 'app/reducers/articles';
+import { selectArticleById } from 'app/store/slices/articlesSlice';
 import { objectPermissionsToInitialValues } from 'app/components/Form/ObjectPermissions';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';

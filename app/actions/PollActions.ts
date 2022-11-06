@@ -3,8 +3,8 @@ import { Poll } from './ActionTypes';
 import { pollSchema } from 'app/store/schemas';
 import { push } from 'connected-react-router';
 import type { Thunk } from 'app/types';
-import type { OptionEntity } from 'app/reducers/polls';
-import 'app/reducers/polls';
+import type { OptionEntity } from 'app/store/slices/pollsSlice';
+import 'app/store/slices/pollsSlice';
 import type { Tags } from 'app/models';
 import 'app/models';
 export function fetchAll({

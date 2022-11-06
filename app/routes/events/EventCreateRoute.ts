@@ -7,7 +7,7 @@ import EventEditor from './components/EventEditor';
 import {
   selectEventById,
   selectPoolsWithRegistrationsForEvent,
-} from 'app/reducers/events';
+} from 'app/store/slices/eventsSlice';
 import { LoginPage } from 'app/components/LoginForm';
 import {
   transformEvent,

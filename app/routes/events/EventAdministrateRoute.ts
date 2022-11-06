@@ -6,7 +6,7 @@ import {
   selectEventById,
   selectPoolsWithRegistrationsForEvent,
   selectMergedPoolWithRegistrations,
-} from 'app/reducers/events';
+} from 'app/store/slices/eventsSlice';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const mapStateToProps = (state, props) => {

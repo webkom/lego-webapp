@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import styles from './optionsBox.css';
 import { CheckBox, RadioButton, SelectInput } from 'app/components/Form';
-import type { CompanyEntity } from 'app/reducers/companies';
+import type { CompanyEntity } from 'app/store/slices/companiesSlice';
 type Props = {
   companies: Array<CompanyEntity>;
   updateFilters: (arg0: string, arg1: unknown) => void;

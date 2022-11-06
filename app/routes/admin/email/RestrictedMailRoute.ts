@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import RestrictedMailEditor from './components/RestrictedMailEditor';
 import { fetchRestrictedMail } from 'app/actions/RestrictedMailActions';
-import { selectRestrictedMailById } from 'app/reducers/restrictedMails';
+import { selectRestrictedMailById } from 'app/store/slices/restrictedMailsSlice';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const mapStateToProps = (state, { match: { params } }) => {

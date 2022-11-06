@@ -14,8 +14,8 @@ import {
 } from 'app/actions/GalleryPictureActions';
 import { push } from 'connected-react-router';
 import GalleryDetail from './components/GalleryDetail';
-import { selectGalleryById } from 'app/reducers/galleries';
-import { SelectGalleryPicturesByGalleryId } from 'app/reducers/galleryPictures';
+import { selectGalleryById } from 'app/store/slices/galleriesSlice';
+import { SelectGalleryPicturesByGalleryId } from 'app/store/slices/galleryPicturesSlice';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const loadData = ({ match: { params } }, dispatch) =>

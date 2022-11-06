@@ -9,7 +9,7 @@ import CompanyEditor from './components/CompanyEditor';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { uploadFile } from 'app/actions/FileActions';
-import { selectCompanyById } from 'app/reducers/companies';
+import { selectCompanyById } from 'app/store/slices/companiesSlice';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const mapStateToProps = (state, props) => {

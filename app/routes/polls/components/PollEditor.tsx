@@ -23,8 +23,8 @@ import {
 } from 'app/components/Form';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import styles from './PollEditor.css';
-import type { PollEntity } from 'app/reducers/polls';
-import 'app/reducers/polls';
+import type { PollEntity } from 'app/store/slices/pollsSlice';
+import 'app/store/slices/pollsSlice';
 import type { ID } from 'app/models';
 import 'app/models';
 const keyCodes = {

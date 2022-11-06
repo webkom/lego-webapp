@@ -13,8 +13,8 @@ import { logout } from 'app/actions/UserActions';
 import getCachedRequest from 'app/utils/getCachedRequest';
 import { setStatusCode } from 'app/store/slices/routerSlice';
 import type { AsyncActionType, Thunk } from 'app/types';
-import { selectIsLoggedIn } from 'app/reducers/auth';
-import { selectPaginationNext } from 'app/reducers/selectors';
+import { selectIsLoggedIn } from 'app/store/slices/authSlice';
+import { selectPaginationNext } from 'app/store/slices/selectorsSlice';
 
 function urlFor(resource: string) {
   if (resource.match(/^\/\//)) {

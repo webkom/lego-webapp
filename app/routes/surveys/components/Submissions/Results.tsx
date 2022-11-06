@@ -1,5 +1,5 @@
 import styles from '../surveys.css';
-import type { SurveyEntity, QuestionEntity } from 'app/reducers/surveys';
+import type { SurveyEntity, QuestionEntity } from 'app/store/slices/surveysSlice';
 import {
   QuestionTypes,
   CHART_COLORS,

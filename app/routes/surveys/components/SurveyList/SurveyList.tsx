@@ -1,6 +1,6 @@
 import styles from '../surveys.css';
 import SurveyItem from './SurveyItem';
-import type { SurveyEntity } from 'app/reducers/surveys';
+import type { SurveyEntity } from 'app/store/slices/surveysSlice';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 type Props = {
   surveys: Array<SurveyEntity>;

@@ -5,7 +5,7 @@ import { LoginPage } from 'app/components/LoginForm';
 import {
   selectCompanySemesters,
   selectCompanySemestersForInterestForm,
-} from 'app/reducers/companySemesters';
+} from 'app/store/slices/companySemestersSlice';
 import {
   addSemester,
   editSemester,

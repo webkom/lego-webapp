@@ -6,7 +6,7 @@ import {
   getContactedStatuses,
 } from '../utils';
 import SemesterStatusContent from './SemesterStatusContent';
-import type { BaseSemesterStatusEntity } from 'app/reducers/companies';
+import type { BaseSemesterStatusEntity } from 'app/store/slices/companiesSlice';
 import type { CompanySemesterContactedStatus } from 'app/models';
 type Props = {
   semesterStatus: BaseSemesterStatusEntity;

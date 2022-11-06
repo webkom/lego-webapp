@@ -12,7 +12,7 @@ import { startSubmit, stopSubmit } from 'redux-form';
 import { push } from 'connected-react-router';
 import type { Thunk } from 'app/types';
 import { addToast } from 'app/actions/ToastActions';
-import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
+import type { CompanySemesterEntity } from 'app/store/slices/companySemestersSlice';
 export const fetchAll = ({ fetchMore }: { fetchMore: boolean }): Thunk<any> => {
   return callAPI({
     types: Company.FETCH,

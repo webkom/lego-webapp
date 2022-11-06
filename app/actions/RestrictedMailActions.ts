@@ -2,7 +2,7 @@ import { RestrictedMail } from './ActionTypes';
 import { restrictedMailSchema } from 'app/store/schemas';
 import callAPI from 'app/actions/callAPI';
 import type { EntityID, Thunk } from 'app/types';
-import type { RestrictedMailEntity } from 'app/reducers/restrictedMails';
+import type { RestrictedMailEntity } from 'app/store/slices/restrictedMailsSlice';
 export function fetchRestrictedMail(restrictedMailId: EntityID): Thunk<any> {
   return callAPI({
     types: RestrictedMail.FETCH,

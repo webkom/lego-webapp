@@ -10,7 +10,10 @@ import LoadingIndicator from 'app/components/LoadingIndicator';
 import { AttendanceStatus } from 'app/components/UserAttendance';
 import moment from 'moment-timezone';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
-import { statusesText, statuses } from 'app/reducers/meetingInvitations';
+import {
+  statusesText,
+  statuses,
+} from 'app/store/slices/meetingInvitationsSlice';
 import DisplayContent from 'app/components/DisplayContent';
 import urlifyString from 'app/utils/urlifyString';
 import {
@@ -22,8 +25,8 @@ import {
 import type {
   MeetingInvitationEntity,
   MeetingInvitationStatus,
-} from 'app/reducers/meetingInvitations';
-import type { UserEntity } from 'app/reducers/users';
+} from 'app/store/slices/meetingInvitationsSlice';
+import type { UserEntity } from 'app/store/slices/usersSlice';
 import type { Dateish, ID } from 'app/models';
 import AnnouncementInLine from 'app/components/AnnouncementInLine';
 import InfoList from 'app/components/InfoList';

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import SearchPageInput from 'app/components/Search/SearchPageInput';
 import SearchPageResults from 'app/components/Search/SearchPageResults';
 import { Keyboard } from 'app/utils/constants';
-import type { SearchResult } from 'app/reducers/search';
+import type { SearchResult } from 'app/store/slices/searchSlice';
 import qs from 'qs';
 type Props = {
   searching: boolean;

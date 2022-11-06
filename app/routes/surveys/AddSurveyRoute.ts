@@ -9,9 +9,9 @@ import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { push } from 'connected-react-router';
 
-import { selectSurveyTemplate } from 'app/reducers/surveys';
+import { selectSurveyTemplate } from 'app/store/slices/surveysSlice';
 import { fetchEvent } from 'app/actions/EventActions';
-import { selectEventById } from 'app/reducers/events';
+import { selectEventById } from 'app/store/slices/eventsSlice';
 import { defaultActiveFrom } from './utils';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import qs from 'qs';

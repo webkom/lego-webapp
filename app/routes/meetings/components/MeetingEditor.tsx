@@ -1,4 +1,4 @@
-import type { UserEntity } from 'app/reducers/users';
+import type { UserEntity } from 'app/store/slices/usersSlice';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import { useHistory } from 'react-router-dom';

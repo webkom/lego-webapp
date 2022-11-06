@@ -4,7 +4,7 @@ import {
   SelectGalleryPicturesByGalleryId,
   selectGalleryPictureById,
   selectCommentsForGalleryPicture,
-} from '../../reducers/galleryPictures';
+} from '../../store/slices/galleryPicturesSlice';
 import helmet from 'app/utils/helmet';
 import GalleryPictureModal from './components/GalleryPictureModal';
 import loadingIndicator from 'app/utils/loadingIndicator';
@@ -16,7 +16,7 @@ import {
 import { updateGalleryCover, fetchGallery } from 'app/actions/GalleryActions';
 import { push } from 'connected-react-router';
 import { deleteComment } from 'app/actions/CommentActions';
-import { selectGalleryById } from 'app/reducers/galleries';
+import { selectGalleryById } from 'app/store/slices/galleriesSlice';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 function mapStateToProps(state, props) {

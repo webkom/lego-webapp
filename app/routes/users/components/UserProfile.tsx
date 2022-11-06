@@ -13,7 +13,7 @@ import GroupChange from './GroupChange';
 import styles from './UserProfile.css';
 import { Flex } from 'app/components/Layout';
 import Tooltip from 'app/components/Tooltip';
-import { resolveGroupLink } from 'app/reducers/groups';
+import { resolveGroupLink } from 'app/store/slices/groupsSlice';
 import type {
   Group,
   AddPenalty,

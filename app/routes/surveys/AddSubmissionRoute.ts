@@ -6,8 +6,8 @@ import {
 } from '../../actions/SurveySubmissionActions';
 import { fetchSurvey } from 'app/actions/SurveyActions';
 import SubmissionContainer from './components/SubmissionEditor/SubmissionContainer';
-import { selectSurveyById } from 'app/reducers/surveys';
-import { selectSurveySubmissionForUser } from 'app/reducers/surveySubmissions';
+import { selectSurveyById } from 'app/store/slices/surveysSlice';
+import { selectSurveySubmissionForUser } from 'app/store/slices/surveySubmissionsSlice';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import loadingIndicator from 'app/utils/loadingIndicator';

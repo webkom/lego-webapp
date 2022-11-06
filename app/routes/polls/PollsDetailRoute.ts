@@ -1,6 +1,6 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { selectPollById } from 'app/reducers/polls';
+import { selectPollById } from 'app/store/slices/pollsSlice';
 import {
   fetchPoll,
   deletePoll,

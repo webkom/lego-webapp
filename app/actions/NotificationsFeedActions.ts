@@ -1,6 +1,6 @@
 import { NotificationsFeed } from './ActionTypes';
 import callAPI from './callAPI';
-import { selectIsLoggedIn } from 'app/reducers/auth';
+import { selectIsLoggedIn } from 'app/store/slices/authSlice';
 import type { Thunk } from 'app/types';
 export function fetchNotificationData(): Thunk<any> {
   return (dispatch, getState) => {

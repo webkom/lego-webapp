@@ -7,8 +7,8 @@ import Paginator from 'app/components/Paginator';
 import Icon from 'app/components/Icon';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { Flex } from 'app/components/Layout';
-import type { PollEntity } from 'app/reducers/polls';
-import 'app/reducers/polls';
+import type { PollEntity } from 'app/store/slices/pollsSlice';
+import 'app/store/slices/pollsSlice';
 import type { ActionGrant } from 'app/models';
 import 'app/models';
 type Props = {

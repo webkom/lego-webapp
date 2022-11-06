@@ -2,7 +2,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import GroupPage from './components/GroupPage';
 import { fetchAll } from 'app/actions/GroupActions';
-import { selectGroups } from 'app/reducers/groups';
+import { selectGroups } from 'app/store/slices/groupsSlice';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const mapStateToProps = (state, props) => {

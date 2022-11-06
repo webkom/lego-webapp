@@ -5,7 +5,7 @@ import {
   updatePayment,
 } from 'app/actions/EventActions';
 import Attendees from './components/EventAdministrate/Attendees';
-import { getRegistrationGroups } from 'app/reducers/events';
+import { getRegistrationGroups } from 'app/store/slices/eventsSlice';
 
 const mapStateToProps = (state, props) => {
   const { eventId, event, actionGrant, loading } = props;

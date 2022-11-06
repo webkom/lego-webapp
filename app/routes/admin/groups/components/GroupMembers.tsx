@@ -11,8 +11,8 @@ import {
   addMember,
   removeMember,
 } from 'app/actions/GroupActions';
-import { selectMembershipsForGroup } from 'app/reducers/memberships';
-import { selectPaginationNext } from 'app/reducers/selectors';
+import { selectMembershipsForGroup } from 'app/store/slices/membershipsSlice';
+import { selectPaginationNext } from 'app/store/slices/selectorsSlice';
 import type { AddMemberArgs } from 'app/actions/GroupActions';
 import qs from 'qs';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';

@@ -1,7 +1,7 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import loadingIndicator from 'app/utils/loadingIndicator';
-import { selectPolls } from 'app/reducers/polls';
+import { selectPolls } from 'app/store/slices/pollsSlice';
 import { fetchAll } from 'app/actions/PollActions';
 import PollsList from './components/PollsList';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';

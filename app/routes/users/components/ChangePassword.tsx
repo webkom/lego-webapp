@@ -5,8 +5,8 @@ import { TextInput, Form, legoForm } from 'app/components/Form';
 import { createValidator, required, sameAs } from 'app/utils/validation';
 import { validPassword } from '../utils';
 import PasswordField from './PasswordField';
-import type { UserEntity } from 'app/reducers/users';
-import 'app/reducers/users';
+import type { UserEntity } from 'app/store/slices/usersSlice';
+import 'app/store/slices/usersSlice';
 import { createAsyncValidator } from 'app/utils/asyncValidator';
 type PasswordPayload = {
   newPassword: string;

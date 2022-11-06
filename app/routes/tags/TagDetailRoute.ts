@@ -4,7 +4,7 @@ import { fetch } from 'app/actions/TagActions';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import { push } from 'connected-react-router';
 import TagDetail from './components/TagDetail';
-import { selectTagById } from 'app/reducers/tags';
+import { selectTagById } from 'app/store/slices/tagsSlice';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 function mapStateToProps(state, props) {

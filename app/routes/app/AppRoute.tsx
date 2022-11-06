@@ -16,7 +16,7 @@ import {
 } from 'app/actions/NotificationsFeedActions';
 import { fetchNotificationFeed } from 'app/actions/FeedActions';
 import { fetchMeta } from 'app/store/actions/metaActions';
-import { selectFeedActivitesByFeedId } from 'app/reducers/feeds';
+import { selectFeedActivitesByFeedId } from 'app/store/slices/feedsSlice';
 import { toggleSearch } from 'app/actions/SearchActions';
 import ErrorBoundary from 'app/components/ErrorBoundary';
 import SpecialDay from 'app/components/SpecialDay';
@@ -24,7 +24,10 @@ import Header from 'app/components/Header';
 import Footer from 'app/components/Footer';
 import ToastContainer from 'app/components/Toast/ToastContainer';
 import PhotoUploadStatus from 'app/components/PhotoUploadStatus';
-import { selectIsLoggedIn, selectCurrentUser } from 'app/reducers/auth';
+import {
+  selectIsLoggedIn,
+  selectCurrentUser,
+} from 'app/store/slices/authSlice';
 import cx from 'classnames';
 import HTTPError from '../errors/HTTPError';
 import { setStatusCode } from 'app/store/slices/routerSlice';

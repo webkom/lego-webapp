@@ -1,8 +1,8 @@
 import { EmailUser } from './ActionTypes';
 import { emailUserSchema } from 'app/store/schemas';
 import callAPI from 'app/actions/callAPI';
-import type { EmailUserEntity } from 'app/reducers/emailUsers';
-import 'app/reducers/emailUsers';
+import type { EmailUserEntity } from 'app/store/slices/emailUsersSlice';
+import 'app/store/slices/emailUsersSlice';
 import type { EntityID, Thunk } from 'app/types';
 export function fetchEmailUser(userId: EntityID): Thunk<any> {
   return callAPI({

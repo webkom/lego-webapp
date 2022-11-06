@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import EmailUserEditor from './components/EmailUserEditor';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import { get } from 'lodash';
-import { selectEmailUserById } from 'app/reducers/emailUsers';
+import { selectEmailUserById } from 'app/store/slices/emailUsersSlice';
 import { editEmailUser, fetchEmailUser } from 'app/actions/EmailUserActions';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 

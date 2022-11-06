@@ -5,12 +5,12 @@ import { fetchMeeting, setInvitationStatus } from 'app/actions/MeetingActions';
 import {
   selectMeetingById,
   selectCommentsForMeeting,
-} from 'app/reducers/meetings';
+} from 'app/store/slices/meetingsSlice';
 import {
   selectMeetingInvitationsForMeeting,
   selectMeetingInvitation,
-} from 'app/reducers/meetingInvitations';
-import { selectUserById } from 'app/reducers/users';
+} from 'app/store/slices/meetingInvitationsSlice';
+import { selectUserById } from 'app/store/slices/usersSlice';
 import MeetingDetail from './components/MeetingDetail';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';

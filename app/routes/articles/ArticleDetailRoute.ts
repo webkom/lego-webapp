@@ -10,9 +10,9 @@ import ArticleDetail from './components/ArticleDetail';
 import {
   selectArticleById,
   selectCommentsForArticle,
-} from 'app/reducers/articles';
-import { selectUserById } from 'app/reducers/users';
-import { selectEmojis } from 'app/reducers/emojis';
+} from 'app/store/slices/articlesSlice';
+import { selectUserById } from 'app/store/slices/usersSlice';
+import { selectEmojis } from 'app/store/slices/emojisSlice';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const mapStateToProps = (state, props) => {

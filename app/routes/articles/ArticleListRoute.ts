@@ -2,11 +2,11 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { fetchAll } from 'app/actions/ArticleActions';
 import Overview from './components/Overview';
-import { selectArticles } from 'app/reducers/articles';
-import { selectPaginationNext } from 'app/reducers/selectors';
-import { selectUserById } from 'app/reducers/users';
+import { selectArticles } from 'app/store/slices/articlesSlice';
+import { selectPaginationNext } from 'app/store/slices/selectorsSlice';
+import { selectUserById } from 'app/store/slices/usersSlice';
 import { fetchPopular } from 'app/actions/TagActions';
-import { selectPopularTags } from 'app/reducers/tags';
+import { selectPopularTags } from 'app/store/slices/tagsSlice';
 import qs from 'qs';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 

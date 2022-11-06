@@ -1,5 +1,5 @@
 import { get } from 'lodash';
-import { fetchHistoryEntryKey } from 'app/reducers/fetchHistory';
+import { fetchHistoryEntryKey } from 'app/store/slices/fetchHistorySlice';
 import type { PromiseAction } from 'app/types';
 import 'app/types';
 

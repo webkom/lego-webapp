@@ -3,7 +3,7 @@ import config from 'app/config';
 import createQueryString from 'app/utils/createQueryString';
 import { addToast } from 'app/actions/ToastActions';
 import { User, Event } from 'app/actions/ActionTypes';
-import { selectCurrentUser } from 'app/reducers/auth';
+import { selectCurrentUser } from 'app/store/slices/authSlice';
 import { isUserFollowing } from 'app/actions/EventActions';
 import type { Middleware } from '@reduxjs/toolkit';
 import { RootState } from 'app/store/rootReducer';

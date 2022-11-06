@@ -7,7 +7,7 @@ import Button from 'app/components/Button';
 import { ContentMain } from 'app/components/Content';
 import type { ActionGrant, CreateAnnouncement } from 'app/models';
 import { connect } from 'react-redux';
-import { selectAutocomplete } from 'app/reducers/search';
+import { selectAutocomplete } from 'app/store/slices/searchSlice';
 type Props = {
   createAnnouncement: (arg0: CreateAnnouncement) => Promise<any>;
   actionGrant: ActionGrant;

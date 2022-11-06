@@ -10,7 +10,7 @@ import {
   RadioButtonGroup,
   legoForm,
 } from 'app/components/Form';
-import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
+import type { CompanySemesterEntity } from 'app/store/slices/companySemestersSlice';
 import Flex from 'app/components/Layout/Flex';
 import Icon from 'app/components/Icon';
 import Button from 'app/components/Button';

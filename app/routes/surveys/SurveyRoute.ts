@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { fetchAll } from '../../actions/SurveyActions';
 import SurveyPage from './components/SurveyList/SurveyPage';
 import { compose } from 'redux';
-import { selectSurveys } from 'app/reducers/surveys';
+import { selectSurveys } from 'app/store/slices/surveysSlice';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { push } from 'connected-react-router';

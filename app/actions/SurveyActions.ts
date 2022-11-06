@@ -3,7 +3,7 @@ import callAPI from 'app/actions/callAPI';
 import { surveySchema } from 'app/store/schemas';
 import type { Thunk } from 'app/types';
 import moment from 'moment-timezone';
-import type { SurveyEntity } from 'app/reducers/surveys';
+import type { SurveyEntity } from 'app/store/slices/surveysSlice';
 export function fetchSurvey(surveyId: number): Thunk<any> {
   return (dispatch) =>
     dispatch(

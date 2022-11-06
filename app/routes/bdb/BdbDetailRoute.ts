@@ -15,12 +15,12 @@ import {
   selectCompanyById,
   selectEventsForCompany,
   selectCommentsForCompany,
-} from 'app/reducers/companies';
-import { selectCompanySemesters } from 'app/reducers/companySemesters';
+} from 'app/store/slices/companiesSlice';
+import { selectCompanySemesters } from 'app/store/slices/companySemestersSlice';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { deleteComment } from 'app/actions/CommentActions';
-import { selectPagination } from 'app/reducers/selectors';
+import { selectPagination } from 'app/store/slices/selectorsSlice';
 import createQueryString from 'app/utils/createQueryString';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 

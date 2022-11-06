@@ -11,8 +11,8 @@ import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import {
   selectEventsForCompany,
   selectJoblistingsForCompany,
-} from 'app/reducers/companies';
-import { selectPagination } from '../../reducers/selectors';
+} from 'app/store/slices/companiesSlice';
+import { selectPagination } from '../../store/slices/selectorsSlice';
 import createQueryString from 'app/utils/createQueryString';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 

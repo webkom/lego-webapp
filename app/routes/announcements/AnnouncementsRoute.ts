@@ -9,7 +9,7 @@ import {
 } from 'app/actions/AnnouncementsActions';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import { selectAnnouncements } from 'app/reducers/announcements';
+import { selectAnnouncements } from 'app/store/slices/announcementsSlice';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const mapStateToProps = (state, props) => {

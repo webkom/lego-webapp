@@ -13,7 +13,7 @@ import Icon from 'app/components/Icon';
 import { Image } from 'app/components/Image';
 import type { HierarchySectionEntity } from './PageHierarchy';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
-import type { PageEntity } from 'app/reducers/pages';
+import type { PageEntity } from 'app/store/slices/pagesSlice';
 import Sidebar from './Sidebar';
 type State = {
   isOpen: boolean;

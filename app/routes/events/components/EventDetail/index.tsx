@@ -42,8 +42,8 @@ import type {
   AddPenalty,
   FollowerItem,
 } from 'app/models';
-import type { CommentEntity } from 'app/reducers/comments';
-import type { UserEntity } from 'app/reducers/users';
+import type { CommentEntity } from 'app/store/slices/commentsSlice';
+import type { UserEntity } from 'app/store/slices/usersSlice';
 import { MazemapEmbed } from 'app/components/MazemapEmbed';
 import { resolveGroupLink } from 'app/reducers/groups';
 type InterestedButtonProps = {

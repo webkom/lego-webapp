@@ -4,17 +4,17 @@ import { fetchData, fetchReadmes } from 'app/actions/FrontpageActions';
 import { login, logout } from 'app/actions/UserActions';
 import { isEmpty } from 'lodash';
 import Overview from './components/Overview';
-import { selectFrontpage } from 'app/reducers/frontpage';
+import { selectFrontpage } from 'app/store/slices/frontpageSlice';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import PublicFrontpage from './components/PublicFrontpage';
-import { selectRandomQuote } from 'app/reducers/quotes';
+import { selectRandomQuote } from 'app/store/slices/quotesSlice';
 import { fetchRandomQuote } from 'app/actions/QuoteActions';
 // import { fetchPersonalFeed } from 'app/actions/FeedActions';
 import {
   selectFeedById,
   selectFeedActivitesByFeedId,
-} from 'app/reducers/feeds';
-import { selectPinnedPolls } from 'app/reducers/polls';
+} from 'app/store/slices/feedsSlice';
+import { selectPinnedPolls } from 'app/store/slices/pollsSlice';
 import { votePoll } from 'app/actions/PollActions';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 

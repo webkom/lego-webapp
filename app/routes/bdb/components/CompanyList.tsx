@@ -5,7 +5,7 @@ import CompanySingleRow from './CompanySingleRow';
 import { indexToSemester } from '../utils';
 import Icon from 'app/components/Icon';
 import cx from 'classnames';
-import type { CompanyEntity } from 'app/reducers/companies';
+import type { CompanyEntity } from 'app/store/slices/companiesSlice';
 import type { CompanySemesterContactedStatus } from 'app/models';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import Button from 'app/components/Button';

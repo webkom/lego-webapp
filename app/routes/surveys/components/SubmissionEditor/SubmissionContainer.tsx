@@ -1,5 +1,5 @@
-import type { SurveyEntity } from 'app/reducers/surveys';
-import type { SubmissionEntity } from 'app/reducers/surveySubmissions';
+import type { SurveyEntity } from 'app/store/slices/surveysSlice';
+import type { SubmissionEntity } from 'app/store/slices/surveySubmissionsSlice';
 import { Content } from 'app/components/Content';
 import { Link } from 'react-router-dom';
 import AlreadyAnswered from './AlreadyAnswered';

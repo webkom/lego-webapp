@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import Time from 'app/components/Time';
 import { Image } from 'app/components/Image';
 import styles from '../surveys.css';
-import type { SurveyEntity } from 'app/reducers/surveys';
+import type { SurveyEntity } from 'app/store/slices/surveysSlice';
 import { colorForEvent } from 'app/routes/events/utils';
 type Props = {
   survey: SurveyEntity;

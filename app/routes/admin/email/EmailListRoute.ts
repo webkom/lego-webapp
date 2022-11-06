@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import EmailListEditor from './components/EmailListEditor';
 import { fetchEmailList, editEmailList } from 'app/actions/EmailListActions';
-import { selectEmailListById } from 'app/reducers/emailLists';
+import { selectEmailListById } from 'app/store/slices/emailListsSlice';
 import { ROLES } from 'app/utils/constants';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 

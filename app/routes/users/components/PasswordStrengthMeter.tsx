@@ -8,8 +8,8 @@ import {
   barColor,
   passwordFeedbackMessages,
 } from './passwordStrengthVariables';
-import type { UserEntity } from 'app/reducers/users';
-import 'app/reducers/users';
+import type { UserEntity } from 'app/store/slices/usersSlice';
+import 'app/store/slices/usersSlice';
 type Props = {
   password: string;
   user: UserEntity;

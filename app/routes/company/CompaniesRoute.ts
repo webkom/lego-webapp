@@ -4,8 +4,8 @@ import { fetchAll } from 'app/actions/CompanyActions';
 import CompaniesPage from './components/CompaniesPage';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import { selectPaginationNext } from '../../reducers/selectors';
-import { selectActiveCompanies } from 'app/reducers/companies';
+import { selectPaginationNext } from '../../store/slices/selectorsSlice';
+import { selectActiveCompanies } from 'app/store/slices/companiesSlice';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const mapStateToProps = (state, props) => {

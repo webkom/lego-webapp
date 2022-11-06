@@ -9,7 +9,7 @@ import { Content } from 'app/components/Content';
 import Gallery from 'app/components/Gallery';
 import type { DropFile } from 'app/components/Upload/ImageUpload';
 import type { ID, ActionGrant } from 'app/models';
-import type { GalleryPictureEntity } from 'app/reducers/galleryPictures';
+import type { GalleryPictureEntity } from 'app/store/slices/galleryPicturesSlice';
 import Button from 'app/components/Button';
 import JsZip from 'jszip';
 import FileSaver from 'file-saver';

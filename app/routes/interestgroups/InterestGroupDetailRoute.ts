@@ -7,8 +7,8 @@ import {
   fetchAllMemberships,
 } from 'app/actions/GroupActions';
 import InterestGroupDetail from './components/InterestGroupDetail';
-import { selectMembershipsForGroup } from 'app/reducers/memberships';
-import { selectGroup } from 'app/reducers/groups';
+import { selectMembershipsForGroup } from 'app/store/slices/membershipsSlice';
+import { selectGroup } from 'app/store/slices/groupsSlice';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 

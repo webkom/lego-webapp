@@ -4,7 +4,7 @@ import { reduxForm, reset, change } from 'redux-form';
 import { createValidator, required, maxLength } from 'app/utils/validation';
 import { sendContactMessage } from 'app/actions/ContactActions';
 import { addToast } from 'app/actions/ToastActions';
-import { selectGroupsWithType } from 'app/reducers/groups';
+import { selectGroupsWithType } from 'app/store/slices/groupsSlice';
 import { fetchAllWithType } from 'app/actions/GroupActions';
 import { GroupTypeCommittee } from 'app/models';
 import Contact from './components/Contact';

@@ -2,7 +2,7 @@ import { Feed } from './ActionTypes';
 import type { Thunk } from 'app/types';
 import callAPI from './callAPI';
 import { feedActivitySchema } from 'app/store/schemas';
-import { feedIdByUserId } from 'app/reducers/feeds';
+import { feedIdByUserId } from 'app/store/slices/feedsSlice';
 export function fetchUserFeed(userId: string): Thunk<any> {
   return callAPI({
     types: Feed.FETCH,

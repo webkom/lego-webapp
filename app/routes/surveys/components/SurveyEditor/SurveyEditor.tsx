@@ -14,7 +14,7 @@ import {
   legoForm,
 } from 'app/components/Form';
 import { createValidator, required } from 'app/utils/validation';
-import type { SurveyEntity } from 'app/reducers/surveys';
+import type { SurveyEntity } from 'app/store/slices/surveysSlice';
 import { Content } from 'app/components/Content';
 import Icon from 'app/components/Icon';
 import { Link } from 'react-router-dom';

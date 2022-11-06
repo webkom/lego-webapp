@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { fetchAdmin, addCompanyContact } from '../../actions/CompanyActions';
 import CompanyContactEditor from './components/CompanyContactEditor';
-import { selectCompanyById } from 'app/reducers/companies';
+import { selectCompanyById } from 'app/store/slices/companiesSlice';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';

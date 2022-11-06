@@ -2,8 +2,8 @@ import { Component, Fragment } from 'react';
 import { TextInput } from 'app/components/Form';
 import { Field } from 'redux-form';
 import PasswordStrengthMeter from './PasswordStrengthMeter';
-import type { UserEntity } from 'app/reducers/users';
-import 'app/reducers/users';
+import type { UserEntity } from 'app/store/slices/usersSlice';
+import 'app/store/slices/usersSlice';
 type Props = {
   user: UserEntity;
   label: string;

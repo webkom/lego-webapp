@@ -12,13 +12,13 @@ import {
 import { fetchAllWithType } from 'app/actions/GroupActions';
 import { fetchPrevious, fetchUpcoming } from 'app/actions/EventActions';
 //import { fetchUserFeed } from 'app/actions/FeedActions';
-import { selectUserWithGroups } from 'app/reducers/users';
+import { selectUserWithGroups } from 'app/store/slices/usersSlice';
 import {
   selectPreviousEvents,
   selectUpcomingEvents,
-} from 'app/reducers/events';
-import { selectGroupsWithType } from 'app/reducers/groups';
-import { selectPenaltyByUserId } from 'app/reducers/penalties';
+} from 'app/store/slices/eventsSlice';
+import { selectGroupsWithType } from 'app/store/slices/groupsSlice';
+import { selectPenaltyByUserId } from 'app/store/slices/penaltiesSlice';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { LoginPage } from 'app/components/LoginForm';

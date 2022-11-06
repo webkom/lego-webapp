@@ -8,7 +8,7 @@ import {
 } from 'app/actions/MeetingActions';
 import MeetingDetailLoginRoute from './MeetingDetailLoginRoute';
 import MeetingAnswer from './components/MeetingAnswer';
-import { selectMeetingById } from 'app/reducers/meetings';
+import { selectMeetingById } from 'app/store/slices/meetingsSlice';
 import { deleteComment } from 'app/actions/CommentActions';
 import qs from 'qs';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';

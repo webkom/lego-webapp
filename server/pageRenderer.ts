@@ -6,7 +6,7 @@ import { ChunkExtractor } from '@loadable/server';
 import config from '../config/env';
 import webpackClient from '../config/webpack.client';
 import type { State } from '../app/types';
-import { selectCurrentUser } from 'app/reducers/auth';
+import { selectCurrentUser } from 'app/store/slices/authSlice';
 import { isEmpty } from 'lodash';
 import { helmetContext } from './ssr';
 import manifest from '../app/assets/manifest.json';

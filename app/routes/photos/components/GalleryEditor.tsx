@@ -27,8 +27,8 @@ import styles from './Overview.css';
 import { without, find } from 'lodash';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import type { ID } from 'app/models';
-import type { GalleryEntity } from 'app/reducers/galleries';
-import type { GalleryPictureEntity } from 'app/reducers/galleryPictures';
+import type { GalleryEntity } from 'app/store/slices/galleriesSlice';
+import type { GalleryPictureEntity } from 'app/store/slices/galleryPicturesSlice';
 type Props = {
   isNew: boolean;
   gallery: GalleryEntity;

@@ -2,8 +2,8 @@ import { GalleryPicture, Gallery } from './ActionTypes';
 import { galleryPictureSchema } from 'app/store/schemas';
 import { uploadFile } from './FileActions';
 import PromisePool from 'es6-promise-pool';
-import type { GalleryPictureEntity } from 'app/reducers/galleryPictures';
-import 'app/reducers/galleryPictures';
+import type { GalleryPictureEntity } from 'app/store/slices/galleryPicturesSlice';
+import 'app/store/slices/galleryPicturesSlice';
 import callAPI from 'app/actions/callAPI';
 import type { EntityID, Thunk } from 'app/types';
 export function fetch(

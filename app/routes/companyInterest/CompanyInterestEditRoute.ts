@@ -13,8 +13,8 @@ import CompanyInterestPage, {
   TARGET_GRADE_TYPES,
   PARTICIPANT_RANGE_MAP,
 } from './components/CompanyInterestPage';
-import { selectCompanyInterestById } from 'app/reducers/companyInterest';
-import { selectCompanySemesters } from 'app/reducers/companySemesters';
+import { selectCompanyInterestById } from 'app/store/slices/companyInterestSlice';
+import { selectCompanySemesters } from 'app/store/slices/companySemestersSlice';
 import { sortSemesterChronologically } from './utils';
 import { push } from 'connected-react-router';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';

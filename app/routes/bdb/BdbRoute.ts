@@ -8,10 +8,10 @@ import {
 } from '../../actions/CompanyActions';
 import BdbPage from './components/BdbPage';
 import { compose } from 'redux';
-import { selectCompanies } from 'app/reducers/companies';
+import { selectCompanies } from 'app/store/slices/companiesSlice';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import { selectCompanySemesters } from 'app/reducers/companySemesters';
+import { selectCompanySemesters } from 'app/store/slices/companySemestersSlice';
 import { push } from 'connected-react-router';
 import qs from 'qs';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';

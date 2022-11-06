@@ -1,5 +1,5 @@
 import { get } from 'lodash';
-import type { SearchResult } from 'app/reducers/search';
+import type { SearchResult } from 'app/store/slices/searchSlice';
 import styles from './Abacard.css';
 import Validator from 'app/components/UserValidator';
 import type { EventRegistration, Event } from 'app/models';

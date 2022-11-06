@@ -14,7 +14,7 @@ import {
   selectPoolsWithRegistrationsForEvent,
   selectRegistrationsFromPools,
   selectWaitingRegistrationsForEvent,
-} from 'app/reducers/events';
+} from 'app/store/slices/eventsSlice';
 import { LoginPage } from 'app/components/LoginForm';
 import {
   transformEvent,

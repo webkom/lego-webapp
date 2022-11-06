@@ -8,11 +8,11 @@ import Tooltip from 'app/components/Tooltip';
 import type {
   UploadStatus,
   GalleryPictureEntity,
-} from 'app/reducers/galleryPictures';
+} from 'app/store/slices/galleryPicturesSlice';
 import {
   selectGalleryPictureById,
   initialUploadStatus,
-} from 'app/reducers/galleryPictures';
+} from 'app/store/slices/galleryPicturesSlice';
 import { Image } from 'app/components/Image';
 import styles from './PhotoUploadStatus.css';
 type StateProps = {

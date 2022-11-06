@@ -1,6 +1,6 @@
 import Paginator from 'app/components/Paginator';
 import SurveyList from './SurveyList';
-import type { SurveyEntity } from 'app/reducers/surveys';
+import type { SurveyEntity } from 'app/store/slices/surveysSlice';
 import { ListNavigation } from '../../utils';
 import { Content } from 'app/components/Content';
 import { Helmet } from 'react-helmet-async';

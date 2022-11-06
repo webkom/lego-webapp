@@ -7,7 +7,7 @@ import {
 } from '../utils';
 import SemesterStatusContent from './SemesterStatusContent';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import type { SemesterStatusEntity } from 'app/reducers/companies';
+import type { SemesterStatusEntity } from 'app/store/slices/companiesSlice';
 import FileUpload from 'app/components/Upload/FileUpload';
 import truncateString from 'app/utils/truncateString';
 import type { CompanySemesterContactedStatus } from 'app/models';

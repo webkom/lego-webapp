@@ -7,13 +7,13 @@ import {
 } from 'app/actions/CompanyInterestActions';
 import { fetchSemesters } from 'app/actions/CompanyActions';
 import CompanyInterestList from './components/CompanyInterestList';
-import { selectCompanyInterestList } from 'app/reducers/companyInterest';
-import { selectCompanySemestersForInterestForm } from 'app/reducers/companySemesters';
+import { selectCompanyInterestList } from 'app/store/slices/companyInterestSlice';
+import { selectCompanySemestersForInterestForm } from 'app/store/slices/companySemestersSlice';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { push } from 'connected-react-router';
 import { semesterToText } from './utils';
-import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
+import type { CompanySemesterEntity } from 'app/store/slices/companySemestersSlice';
 import qs from 'qs';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 

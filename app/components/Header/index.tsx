@@ -19,7 +19,7 @@ import { Flex } from 'app/components/Layout';
 import cx from 'classnames';
 import { applySelectedTheme, getOSTheme, getTheme } from 'app/utils/themeUtils';
 import utilStyles from 'app/styles/utilities.css';
-import type { UserEntity } from 'app/reducers/users';
+import type { UserEntity } from 'app/store/slices/usersSlice';
 import logoLightMode from 'app/assets/logo-dark.png';
 import logoDarkMode from 'app/assets/logo.png';
 import LoadingIndicator from 'app/components/LoadingIndicator';

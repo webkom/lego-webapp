@@ -2,7 +2,7 @@ import type { Node } from 'react';
 import { Component } from 'react';
 import classNames from 'classnames';
 import styles from './index.css';
-import type { EmojiEntity } from 'app/reducers/emojis';
+import type { EmojiEntity } from 'app/store/slices/emojisSlice';
 import type { ID } from 'app/models';
 import reactionStyles from './Reaction.css';
 import ReactionPicker from './ReactionPicker';

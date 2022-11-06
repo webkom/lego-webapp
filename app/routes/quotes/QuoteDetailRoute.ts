@@ -7,11 +7,11 @@ import {
 } from '../../actions/QuoteActions';
 import QuotePage from './components/QuotePage';
 import { compose } from 'redux';
-import { selectQuoteById } from 'app/reducers/quotes';
+import { selectQuoteById } from 'app/store/slices/quotesSlice';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { addReaction, deleteReaction } from 'app/actions/ReactionActions';
-import { selectEmojis } from 'app/reducers/emojis';
+import { selectEmojis } from 'app/store/slices/emojisSlice';
 import { fetchEmojis } from 'app/actions/EmojiActions';
 import qs from 'qs';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';

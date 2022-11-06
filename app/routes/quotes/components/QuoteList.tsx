@@ -1,8 +1,8 @@
 import { Component } from 'react';
 import Quote from './Quote';
 import type { ID, ActionGrant } from 'app/models';
-import type { QuoteEntity } from 'app/reducers/quotes';
-import type { EmojiEntity } from 'app/reducers/emojis';
+import type { QuoteEntity } from 'app/store/slices/quotesSlice';
+import type { EmojiEntity } from 'app/store/slices/emojisSlice';
 type Props = {
   quotes: Array<QuoteEntity>;
   approve: (arg0: number) => Promise<any>;

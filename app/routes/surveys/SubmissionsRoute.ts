@@ -15,8 +15,8 @@ import {
 } from 'app/actions/SurveyActions';
 import SubmissionPage from './components/Submissions/SubmissionPage';
 import { compose } from 'redux';
-import { selectSurveySubmissions } from 'app/reducers/surveySubmissions';
-import { selectSurveyById } from 'app/reducers/surveys';
+import { selectSurveySubmissions } from 'app/store/slices/surveySubmissionsSlice';
+import { selectSurveyById } from 'app/store/slices/surveysSlice';
 import { push } from 'connected-react-router';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import { LoginPage } from 'app/components/LoginForm';

@@ -2,12 +2,12 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import EmailUsers from './components/EmailUsers';
 import { fetch } from 'app/actions/EmailUserActions';
-import { selectEmailUsers } from 'app/reducers/emailUsers';
+import { selectEmailUsers } from 'app/store/slices/emailUsersSlice';
 import { fetchAllWithType } from 'app/actions/GroupActions';
 import { GroupTypeCommittee, GroupTypeGrade } from 'app/models';
-import { selectPaginationNext } from 'app/reducers/selectors';
+import { selectPaginationNext } from 'app/store/slices/selectorsSlice';
 import { push } from 'connected-react-router';
-import { selectGroupsWithType } from 'app/reducers/groups';
+import { selectGroupsWithType } from 'app/store/slices/groupsSlice';
 import qs from 'qs';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 

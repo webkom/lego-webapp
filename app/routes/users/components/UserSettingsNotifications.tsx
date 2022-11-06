@@ -1,6 +1,6 @@
 import { CheckBox } from 'app/components/Form';
 import styles from './UserSettingsNotifications.css';
-import type { UserEntity } from 'app/reducers/users';
+import type { UserEntity } from 'app/store/slices/usersSlice';
 type Props = {
   currentUser: UserEntity;
   updateUser: (

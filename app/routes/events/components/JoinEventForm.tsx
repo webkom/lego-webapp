@@ -26,8 +26,8 @@ import {
   allConsentsAnswered,
   toReadableSemester,
 } from '../utils';
-import { selectUserByUsername } from 'app/reducers/users';
-import { selectPenaltyByUserId } from 'app/reducers/penalties';
+import { selectUserByUsername } from 'app/store/slices/usersSlice';
+import { selectPenaltyByUserId } from 'app/store/slices/penaltiesSlice';
 import type {
   User,
   EventRegistration,

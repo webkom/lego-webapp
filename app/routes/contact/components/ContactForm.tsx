@@ -9,7 +9,7 @@ import {
   Captcha,
   SelectInput,
 } from 'app/components/Form';
-import type { ContactForm as ContactFormType } from 'app/reducers/contact';
+import type { ContactForm as ContactFormType } from 'app/store/slices/contactSlice';
 import type { FormProps } from 'redux-form';
 type Props = FormProps & {
   sendContactMessage: (message: ContactFormType) => Promise<any>;

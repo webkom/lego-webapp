@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
 import { debounce } from 'lodash';
 import { autocomplete } from 'app/actions/SearchActions';
-import { selectAutocompleteRedux as selectAutocomplete } from 'app/reducers/search';
+import { selectAutocompleteRedux as selectAutocomplete } from 'app/store/slices/searchSlice';
 import { markUsernamePresent } from 'app/actions/EventActions';
 import Abacard from './components/EventAdministrate/Abacard';
 import qs from 'qs';
-import { getRegistrationGroups } from 'app/reducers/events';
+import { getRegistrationGroups } from 'app/store/slices/eventsSlice';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const searchTypes = ['users.user'];

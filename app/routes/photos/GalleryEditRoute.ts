@@ -14,8 +14,8 @@ import {
 } from 'app/actions/GalleryActions';
 import { push } from 'connected-react-router';
 import GalleryEditor from './components/GalleryEditor';
-import { selectGalleryById } from 'app/reducers/galleries';
-import { SelectGalleryPicturesByGalleryId } from 'app/reducers/galleryPictures';
+import { selectGalleryById } from 'app/store/slices/galleriesSlice';
+import { SelectGalleryPicturesByGalleryId } from 'app/store/slices/galleryPicturesSlice';
 import { objectPermissionsToInitialValues } from 'app/components/Form/ObjectPermissions';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 

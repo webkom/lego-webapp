@@ -8,9 +8,9 @@ import {
   inviteUsersAndGroups,
   deleteMeeting,
 } from 'app/actions/MeetingActions';
-import { selectMeetingById } from 'app/reducers/meetings';
-import { selectUserById } from 'app/reducers/users';
-import { selectMeetingInvitationsForMeeting } from 'app/reducers/meetingInvitations';
+import { selectMeetingById } from 'app/store/slices/meetingsSlice';
+import { selectUserById } from 'app/store/slices/usersSlice';
+import { selectMeetingInvitationsForMeeting } from 'app/store/slices/meetingInvitationsSlice';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';

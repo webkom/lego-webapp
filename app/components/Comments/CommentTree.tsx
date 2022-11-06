@@ -1,10 +1,10 @@
 import cx from 'classnames';
 import Comment from './Comment';
 import styles from './CommentTree.css';
-import type { UserEntity } from 'app/reducers/users';
-import 'app/reducers/users';
-import type { CommentEntity } from 'app/reducers/comments';
-import 'app/reducers/comments';
+import type { UserEntity } from 'app/store/slices/usersSlice';
+import 'app/store/slices/usersSlice';
+import type { CommentEntity } from 'app/store/slices/commentsSlice';
+import 'app/store/slices/commentsSlice';
 import type { ID } from 'app/models';
 import 'app/models';
 type Props = {

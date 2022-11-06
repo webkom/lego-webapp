@@ -28,7 +28,7 @@ import {
   selectFlatpageForPages,
   selectNotFoundpageForPages,
   selectInfoPageForPages,
-} from 'app/reducers/pages';
+} from 'app/store/slices/pagesSlice';
 import HTTPError from 'app/routes/errors/HTTPError';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 

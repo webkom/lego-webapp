@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
 import { debounce } from 'lodash';
 import { autocomplete } from 'app/actions/SearchActions';
-import { selectAutocompleteRedux as selectAutocomplete } from 'app/reducers/search';
+import { selectAutocompleteRedux as selectAutocomplete } from 'app/store/slices/searchSlice';
 import { Content } from 'app/components/Content';
 import Validator from 'app/components/UserValidator';
 import qs from 'qs';

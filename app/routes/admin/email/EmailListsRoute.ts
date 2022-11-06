@@ -2,9 +2,9 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import EmailLists from './components/EmailLists';
 import { fetch } from 'app/actions/EmailListActions';
-import { selectEmailLists } from 'app/reducers/emailLists';
+import { selectEmailLists } from 'app/store/slices/emailListsSlice';
 import { push } from 'connected-react-router';
-import { selectPaginationNext } from 'app/reducers/selectors';
+import { selectPaginationNext } from 'app/store/slices/selectorsSlice';
 import qs from 'qs';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 

@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import Button from 'app/components/Button';
 import styles from './Poll.css';
-import type { PollEntity, OptionEntity } from 'app/reducers/polls';
+import type { PollEntity, OptionEntity } from 'app/store/slices/pollsSlice';
 import { sortBy } from 'lodash';
 import { Link } from 'react-router-dom';
 import Icon from 'app/components/Icon';

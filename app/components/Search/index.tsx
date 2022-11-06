@@ -5,7 +5,7 @@ import { debounce } from 'lodash';
 import Icon from '../Icon';
 import SearchResults from './SearchResults';
 import { autocomplete } from 'app/actions/SearchActions';
-import { selectAutocompleteRedux } from 'app/reducers/search';
+import { selectAutocompleteRedux } from 'app/store/slices/searchSlice';
 import { push } from 'connected-react-router';
 import { Keyboard } from 'app/utils/constants';
 import { RootState } from 'app/store/rootReducer';

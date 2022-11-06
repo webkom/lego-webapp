@@ -2,7 +2,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { fetchAllWithType } from 'app/actions/GroupActions';
 import InterestGroupList from './components/InterestGroupList';
-import { selectGroupsWithType } from 'app/reducers/groups';
+import { selectGroupsWithType } from 'app/store/slices/groupsSlice';
 import { GroupTypeInterest } from 'app/models';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';

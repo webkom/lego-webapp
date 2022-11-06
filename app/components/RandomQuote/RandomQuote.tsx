@@ -1,9 +1,9 @@
 import { useRef, useEffect } from 'react';
 import styles from './RandomQuote.css';
 import Button from '../Button';
-import type { QuoteEntity } from 'app/reducers/quotes';
+import type { QuoteEntity } from 'app/store/slices/quotesSlice';
 import LegoReactions from 'app/components/LegoReactions';
-import type { EmojiEntity } from 'app/reducers/emojis';
+import type { EmojiEntity } from 'app/store/slices/emojisSlice';
 import type { ID } from 'app/models';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import { Flex } from 'app/components/Layout';

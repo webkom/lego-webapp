@@ -9,7 +9,7 @@ import {
 import { uploadFile } from 'app/actions/FileActions';
 import PageEditor from './components/PageEditor';
 import { legoForm } from 'app/components/Form/';
-import { selectPageBySlug } from 'app/reducers/pages';
+import { selectPageBySlug } from 'app/store/slices/pagesSlice';
 import { push } from 'connected-react-router';
 import { objectPermissionsToInitialValues } from 'app/components/Form/ObjectPermissions';
 import { categoryOptions } from 'app/routes/pages/PageDetailRoute';

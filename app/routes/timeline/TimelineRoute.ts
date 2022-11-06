@@ -8,7 +8,7 @@ import { fetchPersonalFeed } from 'app/actions/FeedActions';
 import {
   selectFeedById,
   selectFeedActivitesByFeedId,
-} from 'app/reducers/feeds';
+} from 'app/store/slices/feedsSlice';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const mapStateToProps = (state: Record<string, any>) => ({
