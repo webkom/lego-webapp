@@ -15,7 +15,7 @@ import {
   markAllNotifications,
 } from 'app/actions/NotificationsFeedActions';
 import { fetchNotificationFeed } from 'app/actions/FeedActions';
-import { fetchMeta } from 'app/actions/MetaActions';
+import { fetchMeta } from 'app/store/actions/metaActions';
 import { selectFeedActivitesByFeedId } from 'app/reducers/feeds';
 import { toggleSearch } from 'app/actions/SearchActions';
 import ErrorBoundary from 'app/components/ErrorBoundary';

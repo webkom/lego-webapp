@@ -8,7 +8,7 @@ import { userSchema, penaltySchema } from 'app/store/schemas';
 import callAPI from 'app/actions/callAPI';
 import { User, FetchHistory, Penalty } from './ActionTypes';
 import { uploadFile } from './FileActions';
-import { fetchMeta } from './MetaActions';
+import { fetchMeta } from 'app/store/actions/metaActions';
 import type { Thunk, Action, Token, EncodedToken, GetCookie } from 'app/types';
 import type { AddPenalty, ID, PhotoConsent } from 'app/models';
 import { setStatusCode } from 'app/store/slices/routerSlice';

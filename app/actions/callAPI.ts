@@ -1,4 +1,3 @@
-import { $Shape } from 'utility-types';
 import type { Schema } from 'normalizr';
 import { normalize } from 'normalizr';
 import type {

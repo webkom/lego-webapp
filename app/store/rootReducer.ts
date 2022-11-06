@@ -3,7 +3,7 @@ import joinReducers from 'app/utils/joinReducers';
 import routerSlice, { RouterState } from 'app/store/slices/routerSlice';
 import { connectRouter } from 'connected-react-router';
 import type { History } from 'history';
-import allowed from 'app/reducers/allowed';
+import allowed from 'app/store/slices/allowedSlice';
 import announcements from 'app/reducers/announcements';
 import articles from 'app/reducers/articles';
 import auth from 'app/reducers/auth';

@@ -1,4 +1,4 @@
-import { Meta } from './ActionTypes';
+import { Meta } from 'app/actions/ActionTypes';
 import callAPI from 'app/actions/callAPI';
 import type { Thunk } from 'app/types';
 export function fetchMeta(): Thunk<any> {

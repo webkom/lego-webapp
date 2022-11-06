@@ -21,7 +21,7 @@ import config from 'app/config';
 import * as Sentry from '@sentry/browser';
 import createStore, { history } from 'app/store/store';
 import renderApp from './render';
-import { fetchMeta } from 'app/actions/MetaActions';
+import { fetchMeta } from 'app/store/actions/metaActions';
 import {
   loginAutomaticallyIfPossible,
   maybeRefreshToken,

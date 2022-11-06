@@ -1,9 +1,9 @@
-import type { Node } from 'react';
-import type { Allowed } from 'app/reducers/allowed';
+import { ReactNode } from 'react';
+import type { AllowedState } from 'app/store/slices/allowedSlice';
 import ReadmeLogo from 'app/components/ReadmeLogo';
 type Link = {
   key: string;
-  title: Node;
+  title: ReactNode;
   url: string;
   admin?: boolean;
   requireLogin?: boolean;
@@ -129,14 +129,17 @@ const sortFn = (a, b) => {
 const SORTED_REGULAR = LINKS.filter((link) => !link.admin).sort(sortFn);
 const SORTED_ADMIN = LINKS.filter((link) => link.admin).sort(sortFn);
 type Options = {
-  allowed: Allowed;
+  allowed: AllowedState;
   loggedIn: boolean;
 };
 
 /**
  * Finds the links that the user should be able to see.
  */
-function retrieveAllowed(links: Array<Link>, { allowed, loggedIn }: Options) {
+function retrieveAllowed(
+  links: Array<Link>,
+  { allowed, loggedIn }: Options
+): NavigationLink[] {
   return links
     .filter(({ key, requireLogin }) => {
       // If we have a mapping for this from the server, check that:
@@ -150,7 +153,7 @@ function retrieveAllowed(links: Array<Link>, { allowed, loggedIn }: Options) {
     .map(({ url, title }) => [url, title]);
 }
 
-type NavigationLink = [string, Node]; // [url, label(as a react-node)]
+type NavigationLink = [string, ReactNode]; // [url, label(as a react-node)]
 
 export function getRegularLinks(options: Options): Array<NavigationLink> {
   return retrieveAllowed(SORTED_REGULAR, options);

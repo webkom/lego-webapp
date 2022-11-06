@@ -8,12 +8,16 @@ import { autocomplete } from 'app/actions/SearchActions';
 import { selectAutocompleteRedux } from 'app/reducers/search';
 import { push } from 'connected-react-router';
 import { Keyboard } from 'app/utils/constants';
-import type { State as ReducerState } from 'app/types';
-import type { Allowed } from 'app/reducers/allowed';
+import { RootState } from 'app/store/rootReducer';
+import type { AllowedState } from 'app/store/slices/allowedSlice';
 import { getAdminLinks, getRegularLinks } from './utils';
+
 type StateProps = {
-  allowed: Allowed;
+  allowed: AllowedState;
+  results: any;
+  searching: boolean;
 };
+
 type DispatchProps = {
   onQueryChanged: (value: string) => any;
   openSearchRoute: (query: string) => any;
@@ -144,7 +148,7 @@ class Search extends Component<Props, State> {
   }
 }
 
-function mapStateToProps(state: ReducerState): StateProps {
+function mapStateToProps(state: RootState): StateProps {
   return {
     allowed: state.allowed,
     results: selectAutocompleteRedux(state),

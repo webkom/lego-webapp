@@ -1,4 +1,4 @@
-import type { Middleware } from '@reduxjs/toolkit';
+import type { Action, Middleware } from '@reduxjs/toolkit';
 import { RootState } from 'app/store/rootReducer';
 
 interface AsyncActionType {
@@ -26,6 +26,23 @@ export interface PromiseAction<T> {
   payload?: any;
 }
 
+export interface ApiPendingAction<T = any> extends Action<`${string}.PENDING`> {
+  payload: T;
+  meta: any;
+}
+export interface ApiSuccessAction<T = any> extends Action<`${string}.SUCCESS`> {
+  payload: T;
+  success: true;
+  meta: any;
+}
+
+export interface ApiFailureAction<T = unknown>
+  extends Action<`${string}.FAILURE`> {
+  payload: T;
+  error: true;
+  meta: any;
+}
+
 export default function promiseMiddleware(): Middleware<
   <T>(action: PromiseAction<T>) => Promise<T>,
   RootState
@@ -41,7 +58,7 @@ export default function promiseMiddleware(): Middleware<
       type: PENDING,
       payload,
       meta,
-    });
+    } as ApiPendingAction);
     return new Promise((resolve, reject) => {
       promise.then(
         (payload) =>
@@ -51,7 +68,7 @@ export default function promiseMiddleware(): Middleware<
               payload,
               success: true,
               meta,
-            })
+            } as ApiSuccessAction)
           ),
         (error: boolean) =>
           reject(
@@ -60,7 +77,7 @@ export default function promiseMiddleware(): Middleware<
               payload: error,
               error: true,
               meta,
-            })
+            } as ApiFailureAction)
           )
       );
     });

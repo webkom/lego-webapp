@@ -1,5 +1,6 @@
-import allowed from '../allowed';
-import { Meta } from '../../actions/ActionTypes';
+import allowed from '../allowedSlice';
+import { Meta } from 'app/actions/ActionTypes';
+
 describe('reducers', () => {
   describe('allowed', () => {
     it('should set allowed on Meta.FETCH.SUCCESS', () => {
