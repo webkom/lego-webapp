@@ -1,7 +1,7 @@
 import callAPI from 'app/actions/callAPI';
 import { Tag } from './ActionTypes';
 import type { Thunk } from 'app/types';
-import { tagSchema } from 'app/reducers';
+import { tagSchema } from 'app/store/schemas';
 export function fetch(id: string): Thunk<any> {
   return callAPI({
     types: Tag.FETCH,
@@ -26,7 +26,7 @@ export function fetchPopular(): Thunk<any> {
 export function fetchAll({
   next = false,
 }: {
-  next: boolean;
+  next?: boolean;
 } = {}): Thunk<any> {
   return callAPI({
     types: Tag.FETCH,

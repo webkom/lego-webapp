@@ -6,7 +6,7 @@ import {
   companySemesterSchema,
   eventSchema,
   joblistingsSchema,
-} from 'app/reducers';
+} from 'app/store/schemas';
 import createQueryString from 'app/utils/createQueryString';
 import { startSubmit, stopSubmit } from 'redux-form';
 import { push } from 'connected-react-router';

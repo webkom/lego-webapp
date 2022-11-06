@@ -1,6 +1,6 @@
 import callAPI from 'app/actions/callAPI';
 import { Announcements } from './ActionTypes';
-import { announcementsSchema } from 'app/reducers';
+import { announcementsSchema } from 'app/store/schemas';
 import { stopSubmit } from 'redux-form';
 import type { Thunk } from 'app/types';
 export function fetchAll(): Thunk<any> {

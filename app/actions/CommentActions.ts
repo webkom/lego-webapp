@@ -1,4 +1,4 @@
-import { commentSchema } from 'app/reducers';
+import { commentSchema } from 'app/store/schemas';
 import callAPI from 'app/actions/callAPI';
 import { Comment } from './ActionTypes';
 import type { Thunk } from 'app/types';

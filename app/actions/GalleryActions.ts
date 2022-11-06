@@ -1,5 +1,5 @@
 import { Gallery } from './ActionTypes';
-import { gallerySchema } from 'app/reducers';
+import { gallerySchema } from 'app/store/schemas';
 import callAPI from 'app/actions/callAPI';
 import type { EntityID, GalleryEntity, Thunk } from 'app/types';
 export function fetch({

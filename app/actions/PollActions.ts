@@ -1,6 +1,6 @@
 import callAPI from './callAPI';
 import { Poll } from './ActionTypes';
-import { pollSchema } from '../reducers';
+import { pollSchema } from 'app/store/schemas';
 import { push } from 'connected-react-router';
 import type { Thunk } from 'app/types';
 import type { OptionEntity } from 'app/reducers/polls';

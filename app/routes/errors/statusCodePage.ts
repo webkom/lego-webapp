@@ -1,11 +1,11 @@
 import { compose } from 'redux';
 import HTTPError from 'app/routes/errors';
-import { setStatusCode } from 'app/actions/RoutingActions';
+import { setStatusCode } from 'app/store/slices/routerSlice';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const statusCodePage = (statusCode: number) =>
   compose(
-    withPreparedDispatch('setStatusCode', (props, dispatch) =>
+    withPreparedDispatch('setStatusCode', async (props, dispatch) =>
       dispatch(setStatusCode(statusCode))
     )
   )(HTTPError);

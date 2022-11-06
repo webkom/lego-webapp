@@ -1,13 +1,15 @@
 import { hot } from 'react-hot-loader/root';
 import { ConnectedRouter } from 'connected-react-router';
 import { Provider } from 'react-redux';
-import type { Store } from 'app/types';
+import { Store } from 'app/store/store';
 import RouteConfig from './routes';
 import ErrorBoundary from 'app/components/ErrorBoundary';
 import { HelmetProvider } from 'react-helmet-async';
+import type { History } from 'history';
+
 type Props = {
   store: Store;
-  history: any;
+  history: History;
 };
 
 const Root = (props: Props) => {

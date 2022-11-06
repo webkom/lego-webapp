@@ -12,7 +12,7 @@ import { omit, isArray } from 'lodash';
 import createQueryString from 'app/utils/createQueryString';
 import { logout } from 'app/actions/UserActions';
 import getCachedRequest from 'app/utils/getCachedRequest';
-import { setStatusCode } from './RoutingActions';
+import { setStatusCode } from 'app/store/slices/routerSlice';
 import type { AsyncActionType, Thunk } from 'app/types';
 import { selectIsLoggedIn } from 'app/reducers/auth';
 import { selectPaginationNext } from 'app/reducers/selectors';
@@ -74,19 +74,6 @@ type CallAPIOptions = {
   };
 };
 
-function toHttpRequestOptions(
-  options: $Shape<CallAPIOptions>
-): HttpRequestOptions {
-  return {
-    method: options.method,
-    headers: options.headers || {},
-    body: options.body,
-    json: options.json,
-    files: options.files,
-    timeout: options.timeout,
-  };
-}
-
 export default function callAPI({
   types,
   method = 'GET',
@@ -110,14 +97,14 @@ export default function callAPI({
     const methodUpperCase = method.toUpperCase();
     const shouldUseCache =
       typeof useCache === 'undefined' ? methodUpperCase === 'GET' : useCache;
-    const requestOptions = toHttpRequestOptions({
+    const requestOptions: HttpRequestOptions = {
       method,
       body,
       files,
       headers,
       json,
       timeout,
-    });
+    };
     const state = getState();
     const loggedIn = selectIsLoggedIn(state);
     const jwt = state.auth.token;

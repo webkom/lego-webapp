@@ -3,7 +3,7 @@ import {
   eventSchema,
   eventAdministrateSchema,
   followersEventSchema,
-} from 'app/reducers';
+} from 'app/store/schemas';
 import createQueryString from 'app/utils/createQueryString';
 import callAPI from 'app/actions/callAPI';
 import { Event } from './ActionTypes';

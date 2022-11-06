@@ -4,14 +4,14 @@ import config from 'app/config';
 import cookie from 'js-cookie';
 import moment from 'moment-timezone';
 import { push } from 'connected-react-router';
-import { userSchema, penaltySchema } from 'app/reducers';
+import { userSchema, penaltySchema } from 'app/store/schemas';
 import callAPI from 'app/actions/callAPI';
 import { User, FetchHistory, Penalty } from './ActionTypes';
 import { uploadFile } from './FileActions';
 import { fetchMeta } from './MetaActions';
 import type { Thunk, Action, Token, EncodedToken, GetCookie } from 'app/types';
 import type { AddPenalty, ID, PhotoConsent } from 'app/models';
-import { setStatusCode } from './RoutingActions';
+import { setStatusCode } from 'app/store/slices/routerSlice';
 const USER_STORAGE_KEY = 'lego.auth';
 
 function saveToken(token: EncodedToken) {

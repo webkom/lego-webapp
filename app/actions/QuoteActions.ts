@@ -1,6 +1,6 @@
 import { push } from 'connected-react-router';
 import { startSubmit, stopSubmit } from 'redux-form';
-import { quoteSchema } from 'app/reducers';
+import { quoteSchema } from 'app/store/schemas';
 import callAPI from 'app/actions/callAPI';
 import { Quote } from './ActionTypes';
 import { addToast } from 'app/actions/ToastActions';

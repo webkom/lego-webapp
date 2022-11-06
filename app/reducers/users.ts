@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 import { User, Event } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { normalize } from 'normalizr';
-import { eventSchema, registrationSchema } from 'app/reducers';
+import { eventSchema, registrationSchema } from 'app/store/schemas';
 import mergeObjects from 'app/utils/mergeObjects';
 import { produce } from 'immer';
 import type { PhotoConsent } from '../models';

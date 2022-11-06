@@ -2,7 +2,7 @@ import { withPreparedEffect } from '@webkom/react-prepare';
 import type { PreparedEffectOptions } from '@webkom/react-prepare';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { Dispatch } from 'app/types';
+import { AppDispatch } from 'app/store/store';
 import { DependencyList } from 'react';
 
 const mapDispatch = (dispatch) => ({ dispatch });
@@ -21,13 +21,13 @@ const injectDispatch = connect(mapState, mapDispatch);
 
 const withPreparedDispatch = <P>(
   key: string,
-  prepareDispatchFn: (props: P, dispatch: Dispatch<any>) => Promise<unknown>,
+  prepareDispatchFn: (props: P, dispatch: AppDispatch) => Promise<unknown>,
   depsFn?: (props: P) => DependencyList,
   options?: PreparedEffectOptions
 ) =>
   compose(
     injectDispatch,
-    withPreparedEffect<P & { dispatch: Dispatch<any> }>(
+    withPreparedEffect<P & { dispatch: AppDispatch }>(
       key,
       (props) => prepareDispatchFn(props, props.dispatch),
       depsFn,

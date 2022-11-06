@@ -1,11 +1,20 @@
 import WebSocketClient from 'websocket.js';
-import config from '../config';
-import createQueryString from './createQueryString';
+import config from 'app/config';
+import createQueryString from 'app/utils/createQueryString';
 import { addToast } from 'app/actions/ToastActions';
 import { User, Event } from 'app/actions/ActionTypes';
 import { selectCurrentUser } from 'app/reducers/auth';
 import { isUserFollowing } from 'app/actions/EventActions';
-export default function createWebSocketMiddleware() {
+import type { Middleware } from '@reduxjs/toolkit';
+import { RootState } from 'app/store/rootReducer';
+import { AppDispatch } from 'app/store/store';
+
+const createWebSocketMiddleware = (): Middleware<
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  {},
+  RootState,
+  AppDispatch
+> => {
   let socket = null;
   return (store) => {
     const makeSocket = (jwt) => {
@@ -87,4 +96,6 @@ export default function createWebSocketMiddleware() {
       return next(action);
     };
   };
-}
+};
+
+export default createWebSocketMiddleware;

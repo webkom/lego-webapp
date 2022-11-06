@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from 'app/store/hooks';
 import cx from 'classnames';
 import { EditorField } from 'app/components/Form';
 import Button from 'app/components/Button';
@@ -34,7 +34,7 @@ const CommentForm = ({
   autoFocus = false,
   parent,
 }: Props) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   // editor must be disabled while server-side rendering
   const [editorSsrDisabled, setEditorSsrDisabled] = useState(true);
   useEffect(() => {

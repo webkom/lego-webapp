@@ -1,4 +1,4 @@
-import { joblistingsSchema } from 'app/reducers';
+import { joblistingsSchema } from 'app/store/schemas';
 import callAPI from 'app/actions/callAPI';
 import type { Thunk } from 'app/types';
 import { Joblistings } from './ActionTypes';

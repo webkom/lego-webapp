@@ -1,5 +1,5 @@
 import { Page } from './ActionTypes';
-import { pageSchema } from 'app/reducers';
+import { pageSchema } from 'app/store/schemas';
 import type { Thunk } from 'app/types';
 import callAPI from 'app/actions/callAPI';
 export function fetchPage(pageSlug: string): Thunk<any> {

@@ -4,7 +4,7 @@ import createEntityReducer, {
   deleteEntities,
 } from '../createEntityReducer';
 import joinReducers from '../joinReducers';
-import { eventSchema } from 'app/reducers';
+import { eventSchema } from 'app/store/schemas';
 import { normalize } from 'normalizr';
 const FETCH = {
   BEGIN: 'FETCH.BEGIN',

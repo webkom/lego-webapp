@@ -3,7 +3,8 @@ import { parse } from 'qs';
 import { configWithSSR } from 'app/config';
 import joinReducers from 'app/utils/joinReducers';
 import mergeObjects from 'app/utils/mergeObjects';
-import type { Reducer, AsyncActionType } from 'app/types';
+import type { AsyncActionType } from 'app/types';
+import type { Reducer } from '@reduxjs/toolkit';
 export type EntityReducerTypes = AsyncActionType | Array<AsyncActionType>;
 type EntityReducerOptions = {
   key: string;
@@ -39,10 +40,10 @@ export function fetching(
   fetchTypes: EntityReducerTypes | null | undefined
 ): Reducer {
   return (
-    state: any = {
+    state = {
       fetching: false,
     },
-    action: any
+    action
   ) => {
     for (const fetchType of toArray(fetchTypes)) {
       switch (action.type) {
@@ -65,7 +66,7 @@ export function createAndUpdateEntities(
   fetchTypes: EntityReducerTypes | null | undefined,
   key: string
 ): Reducer {
-  return (state: any = defaultState, action: any) => {
+  return (state = defaultState, action) => {
     if (!action.payload) return state;
     const primaryKey = get(action, ['meta', 'schemaKey']) === key;
     const result = get(action, ['payload', 'entities', key], {});
@@ -147,7 +148,7 @@ export function createAndUpdateEntities(
 export function deleteEntities(
   deleteTypes: EntityReducerTypes | null | undefined
 ): Reducer {
-  return (state: any = defaultState, action: any) => {
+  return (state = defaultState, action) => {
     if (
       !toArray(deleteTypes).some(
         (deleteType) => action.type === deleteType.SUCCESS
@@ -189,7 +190,7 @@ export function deleteEntities(
 export function optimisticDelete(
   deleteTypes: EntityReducerTypes | null | undefined
 ): Reducer {
-  return (state: any, action: any) => {
+  return (state, action) => {
     if (!deleteTypes || !action.meta || !action.meta.enableOptimistic) {
       return state;
     }
@@ -217,7 +218,7 @@ export function optimisticDelete(
 export function optimistic(
   mutateTypes: EntityReducerTypes | null | undefined
 ): Reducer {
-  return (state: any, action: any) => {
+  return (state, action) => {
     if (
       !toArray(mutateTypes).some((mutateType) =>
         [mutateType.FAILURE, mutateType.SUCCESS].includes(action.type)
@@ -237,7 +238,7 @@ export function optimistic(
 export function paginationReducer(
   fetchTypes: EntityReducerTypes | null | undefined
 ): Reducer {
-  return (state: any, action: any) => {
+  return (state, action) => {
     const paginationKey = get(action, ['meta', 'paginationKey']);
     const cursor = get(action, ['meta', 'cursor']);
     const query = get(action, ['meta', 'query']);
@@ -340,5 +341,5 @@ export default function createEntityReducer({
     optimisticDelete(deleteTypes),
     mutate
   );
-  return (state: any = finalInitialState, action: any) => reduce(state, action);
+  return (state = finalInitialState, action) => reduce(state, action);
 }

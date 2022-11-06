@@ -1,5 +1,5 @@
 import { GalleryPicture, Gallery } from './ActionTypes';
-import { galleryPictureSchema } from 'app/reducers';
+import { galleryPictureSchema } from 'app/store/schemas';
 import { uploadFile } from './FileActions';
 import PromisePool from 'es6-promise-pool';
 import type { GalleryPictureEntity } from 'app/reducers/galleryPictures';

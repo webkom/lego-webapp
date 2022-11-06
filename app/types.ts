@@ -1,10 +1,5 @@
-import type { Store as ReduxStore, Middleware as ReduxMiddleware } from 'redux';
-import type { Reducers } from 'app/reducers';
-import type {
-  StartSubmitAction,
-  StopSubmitAction,
-  InitializeAction,
-} from 'redux-form/lib/actions.types.js.flow';
+import type { AnyAction, ThunkAction } from '@reduxjs/toolkit';
+import { RootState } from 'app/store/rootReducer';
 export type AsyncActionType = {
   BEGIN: string;
   SUCCESS: string;
@@ -38,8 +33,6 @@ export type GalleryEntity = {
   photographers?: EntityID[];
   event?: EntityID;
 };
-type $ExtractFunctionReturn = <V>(v: (...args: any) => V) => V;
-export type State = $ObjMap<Reducers, $ExtractFunctionReturn>;
 export type EncodedToken = string;
 export type DecodedToken = {
   user_id: number;
@@ -51,8 +44,6 @@ export type DecodedToken = {
 export type Token = DecodedToken & {
   encodedToken: EncodedToken;
 };
-// Todo: remove any
-export type Reducer = any; // (state: State, action: Action) => State;
 
 export type Action = {
   type: string;
@@ -67,29 +58,21 @@ export type PromiseAction<T> = {
   meta?: any;
   payload?: any;
 };
-export type GetState = () => State;
 export type GetCookie = (arg0: string) => EncodedToken | null | undefined;
-export type Thunk<R> = (
-  // eslint-disable-next-line no-use-before-define
-  dispatch: Dispatch<R>,
-  getState: GetState,
-  arg2: {
+export type Thunk<ReturnType> = ThunkAction<
+  ReturnType,
+  RootState,
+  {
     getCookie: GetCookie;
-  }
-) => R;
-export type AnyAction<R> =
-  | PromiseAction<R>
-  | Thunk<R>
-  | Action
-  | StopSubmitAction
-  | StartSubmitAction
-  | InitializeAction;
-export type Dispatch<R> = (action: AnyAction<R>) => R;
-export type Store = ReduxStore<State, Action, Dispatch<any>>;
-export type Middleware = ReduxMiddleware<State, AnyAction<any>, Dispatch<any>>;
+  },
+  AnyAction
+>;
 export type ReduxFormProps = {
   pristine: boolean;
   submitting: boolean;
   invalid: boolean;
   handleSubmit: (arg0: (...args: Array<any>) => any) => void;
 };
+
+// TODO: Add proper type
+export type SentryType = any;

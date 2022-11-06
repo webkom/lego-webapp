@@ -19,7 +19,7 @@ import 'moment/locale/nb';
 import cookie from 'js-cookie';
 import config from 'app/config';
 import * as Sentry from '@sentry/browser';
-import configureStore, { history } from 'app/utils/configureStore';
+import createStore, { history } from 'app/store/store';
 import renderApp from './render';
 import { fetchMeta } from 'app/actions/MetaActions';
 import {
@@ -68,7 +68,7 @@ Sentry.init({
 });
 const preloadedState = window.__PRELOADED_STATE__;
 const isSSR = window.__IS_SSR__;
-const store = configureStore(preloadedState, {
+const store = createStore(preloadedState, {
   Sentry,
   getCookie: (key) => cookie.get(key),
 });

@@ -1,5 +1,5 @@
 import { Article } from './ActionTypes';
-import { articleSchema } from 'app/reducers';
+import { articleSchema } from 'app/store/schemas';
 import callAPI from 'app/actions/callAPI';
 import type { EntityID, ArticleEntity, Thunk } from 'app/types';
 import { push } from 'connected-react-router';

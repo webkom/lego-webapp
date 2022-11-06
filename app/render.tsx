@@ -2,7 +2,8 @@ import { loadableReady } from '@loadable/component';
 import { hydrate, render } from 'react-dom';
 import Root from './Root';
 import routes from 'app/routes';
-import type { Store } from 'app/types';
+import { Store } from 'app/store/store';
+import type { History } from 'history';
 
 const renderApp = ({
   store,
@@ -10,7 +11,7 @@ const renderApp = ({
   isSSR,
 }: {
   store: Store;
-  history: any;
+  history: History;
   isSSR: boolean;
 }) => {
   const rootElement: HTMLElement = document.getElementById('root') as any;

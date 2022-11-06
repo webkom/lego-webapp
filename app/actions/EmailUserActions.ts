@@ -1,5 +1,5 @@
 import { EmailUser } from './ActionTypes';
-import { emailUserSchema } from 'app/reducers';
+import { emailUserSchema } from 'app/store/schemas';
 import callAPI from 'app/actions/callAPI';
 import type { EmailUserEntity } from 'app/reducers/emailUsers';
 import 'app/reducers/emailUsers';

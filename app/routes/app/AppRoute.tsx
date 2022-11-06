@@ -1,5 +1,5 @@
 import styles from './AppRoute.css';
-import type { Element } from 'react';
+import type { ReactElement } from 'react';
 import { createContext, Children, PureComponent, cloneElement } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
@@ -27,7 +27,7 @@ import PhotoUploadStatus from 'app/components/PhotoUploadStatus';
 import { selectIsLoggedIn, selectCurrentUser } from 'app/reducers/auth';
 import cx from 'classnames';
 import HTTPError from '../errors/HTTPError';
-import { setStatusCode } from 'app/actions/RoutingActions';
+import { setStatusCode } from 'app/store/slices/routerSlice';
 import config from 'app/config';
 import moment from 'moment-timezone';
 import { fetchAll as fetchMeetings } from 'app/actions/MeetingActions';
@@ -37,7 +37,7 @@ import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 type Props = {
   statusCode: number;
   location: any;
-  children: Element<any>;
+  children: ReactElement;
   currentUser: /*TODO: User*/ Record<string, any>;
   setStatusCode: (code: number | null | undefined) => void;
   loggedIn: boolean;

@@ -6,7 +6,7 @@ import { mutateComments } from 'app/reducers/comments';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import joinReducers from 'app/utils/joinReducers';
 import { normalize } from 'normalizr';
-import { eventSchema } from 'app/reducers';
+import { eventSchema } from 'app/store/schemas';
 import mergeObjects from 'app/utils/mergeObjects';
 import { groupBy, orderBy, without } from 'lodash';
 import { produce } from 'immer';

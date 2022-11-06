@@ -1,5 +1,5 @@
 import type { Thunk } from 'app/types';
-import { groupSchema, membershipSchema } from 'app/reducers';
+import { groupSchema, membershipSchema } from 'app/store/schemas';
 import callAPI from 'app/actions/callAPI';
 import { Group, Membership } from './ActionTypes';
 import { push } from 'connected-react-router';

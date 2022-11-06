@@ -1,5 +1,5 @@
 import { EmailList } from './ActionTypes';
-import { emailListSchema } from 'app/reducers';
+import { emailListSchema } from 'app/store/schemas';
 import callAPI from 'app/actions/callAPI';
 import type { EmailListEntity } from 'app/reducers/emailLists';
 import 'app/reducers/emailLists';

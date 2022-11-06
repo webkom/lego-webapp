@@ -1,5 +1,5 @@
 import { Meeting } from './ActionTypes';
-import { meetingSchema } from 'app/reducers';
+import { meetingSchema } from 'app/store/schemas';
 import callAPI from 'app/actions/callAPI';
 import { startSubmit, stopSubmit } from 'redux-form';
 import moment from 'moment-timezone';

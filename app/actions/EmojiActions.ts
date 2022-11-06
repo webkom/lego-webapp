@@ -1,7 +1,7 @@
 import callAPI from 'app/actions/callAPI';
 import { Emoji } from './ActionTypes';
 import type { Thunk } from 'app/types';
-import { emojiSchema } from 'app/reducers';
+import { emojiSchema } from 'app/store/schemas';
 export function fetchEmoji(shortCode: string): Thunk<any> {
   return callAPI({
     types: Emoji.FETCH,

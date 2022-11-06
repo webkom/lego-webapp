@@ -1,6 +1,6 @@
 import { Survey } from './ActionTypes';
 import callAPI from 'app/actions/callAPI';
-import { surveySchema } from 'app/reducers';
+import { surveySchema } from 'app/store/schemas';
 import type { Thunk } from 'app/types';
 import moment from 'moment-timezone';
 import type { SurveyEntity } from 'app/reducers/surveys';

@@ -2,7 +2,7 @@ import callAPI from 'app/actions/callAPI';
 import { Reaction } from './ActionTypes';
 import type { ID } from 'app/models';
 import type { Thunk } from 'app/types';
-import { reactionSchema } from 'app/reducers';
+import { reactionSchema } from 'app/store/schemas';
 export function addReaction({
   emoji,
   contentTarget,
