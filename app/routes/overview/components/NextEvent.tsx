@@ -4,7 +4,6 @@ import styles from './NextEvent.css';
 import { colorForEvent } from 'app/routes/events/utils';
 import { Flex } from 'app/components/Layout';
 import type { Event } from 'app/models';
-import alarm from 'app/assets/alarm.svg';
 import truncateString from 'app/utils/truncateString';
 import { orderBy } from 'lodash';
 import moment from 'moment-timezone';
@@ -63,15 +62,9 @@ class EventItem extends Component<Props, State> {
             <h4>{truncateString(selected.title, 43)}</h4>
           </Link>
 
-          <div className={styles.info}>
+          <Flex alignItems="center" className={styles.info}>
+            <Icon name="alarm-outline" size={20} />
             <span>
-              <img alt="alarm-icon" className={styles.alarm} src={alarm} />
-            </span>
-            <span
-              style={{
-                color: 'grey',
-              }}
-            >
               Påmelding {/*Change based on time*/}
               {moment().isBefore(selected.activationTime) ? 'åpner' : 'åpnet'}
             </span>
@@ -81,7 +74,7 @@ class EventItem extends Component<Props, State> {
               {/*Minutter is too long of string*/}
               {this.state.time.replace('minutter', 'min')}
             </span>
-          </div>
+          </Flex>
         </Flex>
       </Tooltip>
     );

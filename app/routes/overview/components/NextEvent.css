@@ -12,6 +12,11 @@
   margin: 0;
 }
 
+.info {
+  color: gray;
+  margin: -3px 10px;
+}
+
 .info span {
   margin: 0 10px;
 }
