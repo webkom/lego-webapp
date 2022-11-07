@@ -1,11 +1,12 @@
 import EventAttendeeStatistics from 'app/routes/events/components/EventAttendeeStatistics';
-import { EventRegistration, Group } from 'app/models';
+import { Event, EventRegistration, Group } from 'app/models';
 
 interface Props {
   committees: Group[];
   revueGroups: Group[];
   registered: EventRegistration[];
   unregistered: EventRegistration[];
+  event: Event;
 }
 
 const Statistics = ({
@@ -13,6 +14,7 @@ const Statistics = ({
   revueGroups,
   registered,
   unregistered,
+  event,
 }: Props) => {
   return (
     <EventAttendeeStatistics
@@ -20,6 +22,7 @@ const Statistics = ({
       unregistrations={unregistered}
       committeeGroupIDs={committees.map((group) => group.id)}
       revueGroupIDs={revueGroups.map((group) => group.id)}
+      eventStartTime={event.startTime}
     />
   );
 };

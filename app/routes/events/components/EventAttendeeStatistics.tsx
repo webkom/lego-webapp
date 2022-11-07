@@ -1,3 +1,4 @@
+import styles from './Event.css';
 import { DistributionDataPoint } from 'app/components/Chart/utils';
 import type { Dateish, EventRegistration } from 'app/models';
 import DistributionPieChart from 'app/components/Chart/PieChart';
@@ -13,6 +14,7 @@ import {
   YAxis,
 } from 'recharts';
 import moment from 'moment';
+import Icon from 'app/components/Icon';
 
 interface RegistrationDateDataPoint {
   name: string;
@@ -208,16 +210,30 @@ const createAttendeeDataPoints = (
   return attendeeStatistics;
 };
 
+const isEventFromPreviousSemester = (eventStartTime: Dateish): boolean => {
+  const eventDate = moment(eventStartTime);
+  const now = moment();
+
+  return (
+    now.year() > eventDate.year() ||
+    (now.year() === eventDate.year() &&
+      now.month() > 6 &&
+      eventDate.month() <= 6)
+  );
+};
+
 const EventAttendeeStatistics = ({
   registrations,
   unregistrations,
   committeeGroupIDs,
   revueGroupIDs,
+  eventStartTime,
 }: {
   registrations: Array<EventRegistration>;
   unregistrations: Array<EventRegistration>;
   committeeGroupIDs: number[];
   revueGroupIDs: number[];
+  eventStartTime: Dateish;
 }) => {
   const {
     genderDistribution,
@@ -235,6 +251,17 @@ const EventAttendeeStatistics = ({
 
   return (
     <>
+      {isEventFromPreviousSemester(eventStartTime) && (
+        <Flex alignItems="center" className={styles.eventWarning}>
+          <Icon name="warning" />
+          <span>
+            Dette arrangementet er fra et tidligere semester, og kan derfor ha
+            feil fordeling av klassetrinn og gruppetilhørighet. Dette er fordi
+            dataen om deltakerne bruker <i>nåværende</i> klassetrinn og
+            gruppemedlemskap.
+          </span>
+        </Flex>
+      )}
       {registrations.length === 0 ? (
         <p style={{ textAlign: 'center' }}>Ingen er påmeldt enda.</p>
       ) : (

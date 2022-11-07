@@ -8,8 +8,9 @@ import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import { GroupType } from 'app/models';
 
 const mapStateToProps = (state, props) => {
+  const { eventId, event } = props;
   const { registered, unregistered } = getRegistrationGroups(state, {
-    eventId: props.eventId,
+    eventId: eventId,
   });
 
   return {
@@ -21,6 +22,7 @@ const mapStateToProps = (state, props) => {
     }),
     registered,
     unregistered,
+    event,
   };
 };
 
