@@ -53,28 +53,16 @@ export type User = {
   photoConsents: Array<PhotoConsent>;
 };
 export type Tags = string;
-export const GroupTypeCommittee = 'komite';
-export const GroupTypeBoard = 'styre';
-export const GroupTypeRevue = 'revy';
-export const GroupTypeInterest = 'interesse';
-export const GroupTypeSub = 'under';
-export const GroupTypeGrade = 'klasse';
-export const GroupTypeOther = 'annen';
-export const GroupTypes = {
-  GroupTypeCommittee,
-  GroupTypeBoard,
-  GroupTypeInterest,
-  GroupTypeSub,
-  GroupTypeGrade,
-  GroupTypeOther,
-};
-export type GroupType =
-  | typeof GroupTypeCommittee
-  | typeof GroupTypeBoard
-  | typeof GroupTypeInterest
-  | typeof GroupTypeSub
-  | typeof GroupTypeGrade
-  | typeof GroupTypeOther;
+
+export enum GroupType {
+  Committee = 'komite',
+  Board = 'styre',
+  Revue = 'revy',
+  Interest = 'interesse',
+  SubGroup = 'under',
+  Grade = 'klasse',
+  Other = 'annen',
+}
 export type GroupMembership = {
   user: User;
   role: string;

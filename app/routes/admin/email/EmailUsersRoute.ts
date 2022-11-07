@@ -4,7 +4,7 @@ import EmailUsers from './components/EmailUsers';
 import { fetch } from 'app/actions/EmailUserActions';
 import { selectEmailUsers } from 'app/reducers/emailUsers';
 import { fetchAllWithType } from 'app/actions/GroupActions';
-import { GroupTypeCommittee, GroupTypeGrade } from 'app/models';
+import { GroupType } from 'app/models';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { push } from 'connected-react-router';
 import { selectGroupsWithType } from 'app/reducers/groups';
@@ -44,10 +44,10 @@ const mapStateToProps = (state) => {
     query,
     filters,
     committees: selectGroupsWithType(state, {
-      groupType: GroupTypeCommittee,
+      groupType: GroupType.Committee,
     }),
     grades: selectGroupsWithType(state, {
-      groupType: GroupTypeGrade,
+      groupType: GroupType.Grade,
     }),
   };
 };
@@ -59,8 +59,8 @@ const mapDispatchToProps = {
 export default compose(
   withPreparedDispatch('fetchEmailUsersGroups', (_, dispatch) =>
     Promise.all([
-      dispatch(fetchAllWithType(GroupTypeCommittee)),
-      dispatch(fetchAllWithType(GroupTypeGrade)),
+      dispatch(fetchAllWithType(GroupType.Committee)),
+      dispatch(fetchAllWithType(GroupType.Grade)),
     ])
   ),
   connect(mapStateToProps, mapDispatchToProps),

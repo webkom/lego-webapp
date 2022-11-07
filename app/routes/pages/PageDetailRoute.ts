@@ -17,7 +17,7 @@ import PageDetail, {
   GroupRenderer,
 } from './components/PageDetail';
 import LandingPage from './components/LandingPage';
-import { GroupTypeCommittee, GroupTypeBoard, GroupTypeRevue } from 'app/models';
+import { GroupType } from 'app/models';
 import {
   selectPagesForHierarchy,
   selectCommitteeForHierarchy,
@@ -68,7 +68,7 @@ const sections: Record<string, Entry> = {
     pageSelector: selectCommitteeForPages,
     hierarchySectionSelector: selectBoardsForHierarchy,
     PageRenderer: GroupRenderer,
-    fetchAll: () => fetchAllWithType(GroupTypeBoard),
+    fetchAll: () => fetchAllWithType(GroupType.Board),
     fetchItemActions: [
       fetchGroup,
       (groupId: number) => fetchAllMemberships(groupId, true),
@@ -96,7 +96,7 @@ const sections: Record<string, Entry> = {
     pageSelector: selectCommitteeForPages,
     hierarchySectionSelector: selectCommitteeForHierarchy,
     PageRenderer: GroupRenderer,
-    fetchAll: () => fetchAllWithType(GroupTypeCommittee),
+    fetchAll: () => fetchAllWithType(GroupType.Committee),
     fetchItemActions: [
       fetchGroup,
       (groupId: number) => fetchAllMemberships(groupId, true),
@@ -108,7 +108,7 @@ const sections: Record<string, Entry> = {
     pageSelector: selectCommitteeForPages,
     hierarchySectionSelector: selectRevueForHierarchy,
     PageRenderer: GroupRenderer,
-    fetchAll: () => fetchAllWithType(GroupTypeRevue),
+    fetchAll: () => fetchAllWithType(GroupType.Revue),
     fetchItemActions: [
       fetchGroup,
       (groupId: number) => fetchAllMemberships(groupId, true),

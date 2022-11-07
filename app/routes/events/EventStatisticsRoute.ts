@@ -4,16 +4,8 @@ import { getRegistrationGroups } from 'app/reducers/events';
 import Statistics from 'app/routes/events/components/EventAdministrate/Statistics';
 import { fetchAllWithType } from 'app/actions/GroupActions';
 import { selectGroupsWithType } from 'app/reducers/groups';
-import { GroupTypeCommittee, GroupTypeRevue } from 'app/models';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
-
-const groups: {
-  committee: typeof GroupTypeCommittee;
-  revue: typeof GroupTypeRevue;
-} = {
-  committee: 'komite',
-  revue: 'revy',
-};
+import { GroupType } from 'app/models';
 
 const mapStateToProps = (state, props) => {
   const { registered, unregistered } = getRegistrationGroups(state, {
@@ -22,10 +14,10 @@ const mapStateToProps = (state, props) => {
 
   return {
     committees: selectGroupsWithType(state, {
-      groupType: groups.committee,
+      groupType: GroupType.Committee,
     }),
     revueGroups: selectGroupsWithType(state, {
-      groupType: groups.revue,
+      groupType: GroupType.Revue,
     }),
     registered,
     unregistered,
@@ -35,8 +27,8 @@ const mapStateToProps = (state, props) => {
 export default compose(
   withPreparedDispatch('fetchStatisticsGroups', (_, dispatch) =>
     Promise.all([
-      dispatch(fetchAllWithType(groups.committee)),
-      dispatch(fetchAllWithType(groups.revue)),
+      dispatch(fetchAllWithType(GroupType.Committee)),
+      dispatch(fetchAllWithType(GroupType.Revue)),
     ])
   ),
   connect(mapStateToProps, {})

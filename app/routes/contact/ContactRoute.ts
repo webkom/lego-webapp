@@ -6,9 +6,9 @@ import { sendContactMessage } from 'app/actions/ContactActions';
 import { addToast } from 'app/actions/ToastActions';
 import { selectGroupsWithType } from 'app/reducers/groups';
 import { fetchAllWithType } from 'app/actions/GroupActions';
-import { GroupTypeCommittee } from 'app/models';
 import Contact from './components/Contact';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
+import { GroupType } from 'app/models';
 
 const validate = createValidator({
   recipient_group: [required()],
@@ -16,7 +16,7 @@ const validate = createValidator({
   message: [required()],
   captchaResponse: [required('Captcha er ikke validert')],
 });
-const groupType = GroupTypeCommittee;
+const groupType = GroupType.Committee;
 
 const mapStateToProps = (state, props) => {
   const groups = selectGroupsWithType(state, {
