@@ -1,8 +1,8 @@
-import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Button from 'app/components/Button';
 import Icon from 'app/components/Icon';
 import type { Group, Event, Meeting } from 'app/models';
+import { useAppSelector } from 'app/store/hooks';
 
 type Props = {
   event?: Event;
@@ -11,7 +11,7 @@ type Props = {
 };
 
 const AnnouncementInLine = ({ event, meeting, group }: Props) => {
-  const actionGrant = useSelector((state) => state.allowed.announcements);
+  const actionGrant = useAppSelector((state) => state.allowed.announcements);
   return (
     actionGrant && (
       <Link

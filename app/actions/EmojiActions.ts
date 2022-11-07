@@ -1,5 +1,5 @@
 import callAPI from 'app/actions/callAPI';
-import { emojiSchema } from 'app/reducers';
+import { emojiSchema } from 'app/store/schemas';
 import type { Thunk } from 'app/types';
 import { Emoji } from './ActionTypes';
 

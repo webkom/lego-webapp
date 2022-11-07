@@ -1,7 +1,7 @@
 import { produce } from 'immer';
 import { union, without } from 'lodash';
 import { normalize } from 'normalizr';
-import { eventSchema } from 'app/reducers';
+import { eventSchema } from 'app/store/schemas';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import mergeObjects from 'app/utils/mergeObjects';
 import { Event } from '../actions/ActionTypes';

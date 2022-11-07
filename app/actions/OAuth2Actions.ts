@@ -1,4 +1,4 @@
-import { oauth2ApplicationSchema, oauth2GrantSchema } from 'app/reducers';
+import { oauth2ApplicationSchema, oauth2GrantSchema } from 'app/store/schemas';
 import type { Thunk } from 'app/types';
 import { OAuth2 } from './ActionTypes';
 import callAPI from './callAPI';

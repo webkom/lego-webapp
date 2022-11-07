@@ -24,7 +24,8 @@ import {
   maybeRefreshToken,
 } from 'app/actions/UserActions';
 import config from 'app/config';
-import configureStore, { history } from 'app/utils/configureStore';
+import createStore from 'app/store/store';
+import { history } from 'app/utils/configureStore';
 import renderApp from './render';
 
 console.error(`
@@ -69,7 +70,7 @@ Sentry.init({
 });
 const preloadedState = window.__PRELOADED_STATE__;
 const isSSR = window.__IS_SSR__;
-const store = configureStore(preloadedState, {
+const store = createStore(preloadedState, {
   Sentry,
   getCookie: (key) => cookie.get(key),
 });

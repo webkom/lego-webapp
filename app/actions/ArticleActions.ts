@@ -1,6 +1,6 @@
 import { push } from 'connected-react-router';
 import callAPI from 'app/actions/callAPI';
-import { articleSchema } from 'app/reducers';
+import { articleSchema } from 'app/store/schemas';
 import type { EntityID, ArticleEntity, Thunk } from 'app/types';
 import { Article } from './ActionTypes';
 

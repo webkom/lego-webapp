@@ -1,6 +1,6 @@
 import callAPI from 'app/actions/callAPI';
-import { emailUserSchema } from 'app/reducers';
 import type { EmailUserEntity } from 'app/reducers/emailUsers';
+import { emailUserSchema } from 'app/store/schemas';
 import type { EntityID, Thunk } from 'app/types';
 import { EmailUser } from './ActionTypes';
 

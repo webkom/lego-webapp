@@ -1,9 +1,9 @@
 import Editor from '@webkom/lego-editor';
 import cx from 'classnames';
-import { useDispatch } from 'react-redux';
 import '@webkom/lego-editor/dist/style.css';
 import 'react-image-crop/dist/ReactCrop.css';
 import { uploadFile } from 'app/actions/FileActions';
+import { useAppDispatch } from 'app/store/hooks';
 import { createField } from './Field';
 import styles from './TextInput.css';
 
@@ -34,7 +34,7 @@ const EditorField = ({ className, name, initialized, ...props }: Props) => {
     throw new NoSSRError('Cannot SSR editor');
   }
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const imageUpload = async (file: File) => {
     const response = await dispatch(

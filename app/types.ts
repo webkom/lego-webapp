@@ -1,5 +1,5 @@
-import type { Reducers } from 'app/reducers';
-import type { Store as ReduxStore, Middleware as ReduxMiddleware } from 'redux';
+import { RootState } from 'app/store/rootReducer';
+import type { Middleware as ReduxMiddleware } from 'redux';
 import type {
   StartSubmitAction,
   StopSubmitAction,
@@ -39,8 +39,7 @@ export type GalleryEntity = {
   photographers?: EntityID[];
   event?: EntityID;
 };
-type $ExtractFunctionReturn = <V>(v: (...args: any) => V) => V;
-export type State = $ObjMap<Reducers, $ExtractFunctionReturn>;
+export type State = RootState;
 export type EncodedToken = string;
 export type DecodedToken = {
   user_id: number;
@@ -86,7 +85,6 @@ export type AnyAction<R> =
   | StartSubmitAction
   | InitializeAction;
 export type Dispatch<R> = (action: AnyAction<R>) => R;
-export type Store = ReduxStore<State, Action, Dispatch<any>>;
 export type Middleware = ReduxMiddleware<State, AnyAction<any>, Dispatch<any>>;
 export type ReduxFormProps = {
   pristine: boolean;

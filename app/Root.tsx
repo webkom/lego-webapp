@@ -3,7 +3,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import { hot } from 'react-hot-loader/root';
 import { Provider } from 'react-redux';
 import ErrorBoundary from 'app/components/ErrorBoundary';
-import type { Store } from 'app/types';
+import type { Store } from 'app/store/store';
 import RouteConfig from './routes';
 
 type Props = {

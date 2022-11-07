@@ -1,5 +1,5 @@
 import { normalize } from 'normalizr';
-import { eventSchema } from 'app/reducers';
+import { eventSchema } from 'app/store/schemas';
 import createEntityReducer, {
   fetching,
   createAndUpdateEntities,

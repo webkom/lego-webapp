@@ -6,7 +6,7 @@ import { normalize } from 'normalizr';
 import callAPI from 'app/actions/callAPI';
 import config from 'app/config';
 import type { AddPenalty, ID, PhotoConsent } from 'app/models';
-import { userSchema, penaltySchema } from 'app/reducers';
+import { userSchema, penaltySchema } from 'app/store/schemas';
 import type { Thunk, Action, Token, EncodedToken, GetCookie } from 'app/types';
 import { User, FetchHistory, Penalty } from './ActionTypes';
 import { uploadFile } from './FileActions';

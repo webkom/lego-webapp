@@ -1,5 +1,5 @@
 import callAPI from 'app/actions/callAPI';
-import { tagSchema } from 'app/reducers';
+import { tagSchema } from 'app/store/schemas';
 import type { Thunk } from 'app/types';
 import { Tag } from './ActionTypes';
 

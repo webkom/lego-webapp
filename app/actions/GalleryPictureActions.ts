@@ -1,7 +1,7 @@
 import PromisePool from 'es6-promise-pool';
 import callAPI from 'app/actions/callAPI';
-import { galleryPictureSchema } from 'app/reducers';
 import type { GalleryPictureEntity } from 'app/reducers/galleryPictures';
+import { galleryPictureSchema } from 'app/store/schemas';
 import type { EntityID, Thunk } from 'app/types';
 import { GalleryPicture, Gallery } from './ActionTypes';
 import { uploadFile } from './FileActions';

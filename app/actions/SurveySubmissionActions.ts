@@ -1,5 +1,5 @@
 import callAPI from 'app/actions/callAPI';
-import { surveySubmissionSchema } from 'app/reducers';
+import { surveySubmissionSchema } from 'app/store/schemas';
 import type { Thunk } from 'app/types';
 import { SurveySubmission } from './ActionTypes';
 

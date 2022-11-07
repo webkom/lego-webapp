@@ -2,7 +2,7 @@ import { produce } from 'immer';
 import { union, find } from 'lodash';
 import { normalize } from 'normalizr';
 import { createSelector } from 'reselect';
-import { eventSchema, registrationSchema } from 'app/reducers';
+import { eventSchema, registrationSchema } from 'app/store/schemas';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import mergeObjects from 'app/utils/mergeObjects';
 import { User, Event } from '../actions/ActionTypes';

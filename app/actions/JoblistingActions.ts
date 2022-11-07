@@ -1,6 +1,6 @@
 import moment from 'moment-timezone';
 import callAPI from 'app/actions/callAPI';
-import { joblistingsSchema } from 'app/reducers';
+import { joblistingsSchema } from 'app/store/schemas';
 import type { Thunk } from 'app/types';
 import { Joblistings } from './ActionTypes';
 

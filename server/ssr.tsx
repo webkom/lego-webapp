@@ -1,14 +1,15 @@
 import * as Sentry from '@sentry/node';
+import '../app/types';
 import { prepare } from '@webkom/react-prepare';
 import { Request, Response } from 'express';
 import { ReactElement } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
 import { ReactReduxContext } from 'react-redux';
 import { StaticRouter } from 'react-router';
+import { RootState } from 'app/store/rootReducer';
+import createStore from 'app/store/store';
 import RouteConfig from '../app/routes';
-import configureStore from '../app/utils/configureStore';
 import pageRenderer from './pageRenderer';
-import type { State } from '../app/types';
 import type { StaticRouterContext } from 'react-router';
 
 const serverSideTimeoutInMs = 4000;
@@ -40,7 +41,7 @@ const prepareWithTimeout = (app): Promise<string> =>
 const createServerSideRenderer = (req: Request, res: Response) => {
   const render = (
     app?: ReactElement,
-    state: State | Record<string, never> = Object.freeze({}),
+    state: RootState | Record<string, never> = Object.freeze({}),
     preparedStateCode?: string
   ) => {
     return res.send(
@@ -67,7 +68,7 @@ const createServerSideRenderer = (req: Request, res: Response) => {
     </StaticRouter>
   );
 
-  const store = configureStore(
+  const store = createStore(
     {},
     {
       Sentry,
@@ -113,7 +114,7 @@ const createServerSideRenderer = (req: Request, res: Response) => {
       return res.redirect(302, context.url);
     }
 
-    const state: State = store.getState();
+    const state: RootState = store.getState();
     // TODO: remove workaround when redux-form is replaced
     state.form = {}; // Lego-editor doesn't initialize correctly when redux-form is initialized by ssr (react-prepare)
 

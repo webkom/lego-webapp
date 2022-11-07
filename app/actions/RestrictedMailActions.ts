@@ -1,6 +1,6 @@
 import callAPI from 'app/actions/callAPI';
-import { restrictedMailSchema } from 'app/reducers';
 import type { RestrictedMailEntity } from 'app/reducers/restrictedMails';
+import { restrictedMailSchema } from 'app/store/schemas';
 import type { EntityID, Thunk } from 'app/types';
 import { RestrictedMail } from './ActionTypes';
 

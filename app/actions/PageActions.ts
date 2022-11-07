@@ -1,5 +1,5 @@
 import callAPI from 'app/actions/callAPI';
-import { pageSchema } from 'app/reducers';
+import { pageSchema } from 'app/store/schemas';
 import type { Thunk } from 'app/types';
 import { Page } from './ActionTypes';
 

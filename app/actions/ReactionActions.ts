@@ -1,6 +1,6 @@
 import callAPI from 'app/actions/callAPI';
 import type { ID } from 'app/models';
-import { reactionSchema } from 'app/reducers';
+import { reactionSchema } from 'app/store/schemas';
 import type { Thunk } from 'app/types';
 import { Reaction } from './ActionTypes';
 

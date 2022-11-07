@@ -2,7 +2,7 @@ import { produce } from 'immer';
 import { union, omit } from 'lodash';
 import moment from 'moment-timezone';
 import { normalize } from 'normalizr';
-import { eventSchema, registrationSchema } from 'app/reducers';
+import { eventSchema, registrationSchema } from 'app/store/schemas';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import mergeObjects from 'app/utils/mergeObjects';
 import { Event } from '../actions/ActionTypes';

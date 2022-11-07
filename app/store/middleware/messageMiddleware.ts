@@ -1,7 +1,16 @@
 import { get } from 'lodash';
+import { RootState } from 'app/store/rootReducer';
+import type { AnyAction, Middleware } from '@reduxjs/toolkit';
 
-export default function createMessageMiddleware(actionToDispatch, Sentry) {
-  return (store) => (next) => (action) => {
+const createMessageMiddleware =
+  (
+    actionToDispatch: (message: string) => AnyAction,
+    Sentry: any
+    // eslint-disable-next-line @typescript-eslint/ban-types
+  ): Middleware<{}, RootState> =>
+  (store) =>
+  (next) =>
+  (action) => {
     const success = action.success && get(action, ['meta', 'successMessage']);
     const error = action.error && get(action, ['meta', 'errorMessage']);
 
@@ -24,4 +33,5 @@ export default function createMessageMiddleware(actionToDispatch, Sentry) {
 
     return next(action);
   };
-}
+
+export default createMessageMiddleware;

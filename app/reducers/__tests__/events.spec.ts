@@ -1,8 +1,8 @@
 // Hack because we have circular dependencies
 // (companies -> events -> index -> frontpage -> events)
 // This import resolves dependencies properly..
-import 'app/reducers';
-import { Event } from '../../actions/ActionTypes';
+import 'app/store/rootReducer';
+import { Event } from 'app/actions/ActionTypes';
 import events from '../events';
 
 describe('reducers', () => {

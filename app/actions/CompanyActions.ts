@@ -2,13 +2,13 @@ import { push } from 'connected-react-router';
 import { startSubmit, stopSubmit } from 'redux-form';
 import { addToast } from 'app/actions/ToastActions';
 import callAPI from 'app/actions/callAPI';
+import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 import {
   companySchema,
   companySemesterSchema,
   eventSchema,
   joblistingsSchema,
-} from 'app/reducers';
-import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
+} from 'app/store/schemas';
 import type { Thunk } from 'app/types';
 import createQueryString from 'app/utils/createQueryString';
 import { semesterToText } from '../routes/companyInterest/utils';

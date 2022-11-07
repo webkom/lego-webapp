@@ -1,5 +1,5 @@
-import { feedActivitySchema } from 'app/reducers';
 import { feedIdByUserId } from 'app/reducers/feeds';
+import { feedActivitySchema } from 'app/store/schemas';
 import type { Thunk } from 'app/types';
 import { Feed } from './ActionTypes';
 import callAPI from './callAPI';

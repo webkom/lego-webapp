@@ -6,7 +6,7 @@ import {
   eventSchema,
   eventAdministrateSchema,
   followersEventSchema,
-} from 'app/reducers';
+} from 'app/store/schemas';
 import type { Thunk, Action } from 'app/types';
 import createQueryString from 'app/utils/createQueryString';
 import { Event } from './ActionTypes';

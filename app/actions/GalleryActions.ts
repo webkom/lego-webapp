@@ -1,5 +1,5 @@
 import callAPI from 'app/actions/callAPI';
-import { gallerySchema } from 'app/reducers';
+import { gallerySchema } from 'app/store/schemas';
 import type { EntityID, GalleryEntity, Thunk } from 'app/types';
 import { Gallery } from './ActionTypes';
 
