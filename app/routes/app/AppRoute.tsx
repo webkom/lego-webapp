@@ -11,7 +11,6 @@ import {
   fetchNotificationData,
   markAllNotifications,
 } from 'app/actions/NotificationsFeedActions';
-import { setStatusCode } from 'app/actions/RoutingActions';
 import { toggleSearch } from 'app/actions/SearchActions';
 import {
   loginAutomaticallyIfPossible,
@@ -29,15 +28,16 @@ import ToastContainer from 'app/components/Toast/ToastContainer';
 import config from 'app/config';
 import { selectIsLoggedIn, selectCurrentUser } from 'app/reducers/auth';
 import { selectFeedActivitesByFeedId } from 'app/reducers/feeds';
+import { setStatusCode } from 'app/reducers/routing';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import HTTPError from '../errors/HTTPError';
 import styles from './AppRoute.css';
-import type { Element } from 'react';
+import type { ReactElement } from 'react';
 
 type Props = {
   statusCode: number;
   location: any;
-  children: Element<any>;
+  children: ReactElement;
   currentUser: /*TODO: User*/ Record<string, any>;
   setStatusCode: (code: number | null | undefined) => void;
   loggedIn: boolean;
