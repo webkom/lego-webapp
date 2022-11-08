@@ -367,9 +367,6 @@ export const Contact = {
 /**
  *
  */
-export const Meta = {
-  FETCH: generateStatuses('Meta.FETCH') as AAT,
-};
 export const Frontpage = {
   FETCH: generateStatuses('Frontpage.FETCH') as AAT,
 };

@@ -1,4 +1,4 @@
-import { Meta } from '../../actions/ActionTypes';
+import { fetchMeta } from 'app/actions/MetaActions';
 import allowed from '../allowed';
 
 describe('reducers', () => {
@@ -23,8 +23,7 @@ describe('reducers', () => {
         email: true,
         users: true,
       };
-      const action = {
-        type: Meta.FETCH.SUCCESS,
+      const action = fetchMeta.success({
         payload: {
           site: {
             name: 'LEGO',
@@ -36,7 +35,8 @@ describe('reducers', () => {
           },
           isAllowed: isAllowed,
         },
-      };
+        meta: undefined as any,
+      });
       expect(allowed(prevState, action)).toEqual(isAllowed);
     });
   });

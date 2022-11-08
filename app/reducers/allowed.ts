@@ -1,6 +1,9 @@
-import { Meta } from '../actions/ActionTypes';
+import { createSlice } from '@reduxjs/toolkit';
+import { fetchMeta, IsAllowedMap } from 'app/actions/MetaActions';
 
-const initialState = {
+export type AllowedState = IsAllowedMap;
+
+const initialState: AllowedState = {
   events: false,
   articles: false,
   joblistings: false,
@@ -18,16 +21,16 @@ const initialState = {
   users: false,
   polls: false,
 };
-// export type Allowed = {
-//   [$Keys<typeof initialState>]: boolean
-// };
-export type Allowed = $ObjMap<typeof initialState, <V>(v: any) => boolean>;
-export default function allowed(state: Allowed = initialState, action: any) {
-  switch (action.type) {
-    case Meta.FETCH.SUCCESS:
-      return action.payload.isAllowed;
 
-    default:
-      return state;
-  }
-}
+const allowedSlice = createSlice({
+  name: 'allowed',
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(fetchMeta.success, (_, action) => {
+      return action.payload.isAllowed;
+    });
+  },
+});
+
+export default allowedSlice.reducer;
