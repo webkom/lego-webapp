@@ -1703,6 +1703,15 @@
     "@sentry/utils" "7.17.4"
     tslib "^1.9.3"
 
+"@sentry/core@7.18.0":
+  version "7.18.0"
+  resolved "https://registry.yarnpkg.com/@sentry/core/-/core-7.18.0.tgz#9fe4c6f45086c20ad45a6357a33381a500a8b704"
+  integrity sha512-erDEMGM+9Msvz/fQaKlYHD8vXDs/Mv5trZc6rlS/gnlaIPQQ8cALH7UdH2UO0eoCLH3/pEYTsa4Qh8AMz6Y86w==
+  dependencies:
+    "@sentry/types" "7.18.0"
+    "@sentry/utils" "7.18.0"
+    tslib "^1.9.3"
+
 "@sentry/integrations@^7.18.0":
   version "7.18.0"
   resolved "https://registry.yarnpkg.com/@sentry/integrations/-/integrations-7.18.0.tgz#6ebaa9973cbfbc8f0c47030293f44f4791b10a8b"
@@ -1713,14 +1722,14 @@
     localforage "^1.8.1"
     tslib "^1.9.3"
 
-"@sentry/node@^7.17.4":
-  version "7.17.4"
-  resolved "https://registry.yarnpkg.com/@sentry/node/-/node-7.17.4.tgz#647ebcbd7228e5fa326dc3f95aceab34771205d3"
-  integrity sha512-cR+Gsir9c/tzFWxvk4zXkMQy6tNRHEYixHrb88XIjZVYDqDS9l2/bKs5nJusdmaUeLtmPp5Et2o7RJyS7gvKTQ==
+"@sentry/node@^7.18.0":
+  version "7.18.0"
+  resolved "https://registry.yarnpkg.com/@sentry/node/-/node-7.18.0.tgz#0af74872b6cbb54e40d1dd024aa396be8bf95ac4"
+  integrity sha512-bc/cta6hnyqaGKECl2Ycffb7L6b+Xy4wzDR5j49FepCCYkXC3CcR/879AIf3sb0/TXP2QMIyfGN8TKlHigX6bA==
   dependencies:
-    "@sentry/core" "7.17.4"
-    "@sentry/types" "7.17.4"
-    "@sentry/utils" "7.17.4"
+    "@sentry/core" "7.18.0"
+    "@sentry/types" "7.18.0"
+    "@sentry/utils" "7.18.0"
     cookie "^0.4.1"
     https-proxy-agent "^5.0.0"
     lru_map "^0.3.3"
