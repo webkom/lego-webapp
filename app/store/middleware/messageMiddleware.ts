@@ -1,6 +1,6 @@
-import { get } from 'lodash';
 import { RootState } from 'app/store/rootReducer';
 import type { AnyAction, Middleware } from '@reduxjs/toolkit';
+import { isLegoApiAction } from 'app/store/utils/createLegoApiAction';
 
 const createMessageMiddleware =
   (
@@ -11,8 +11,12 @@ const createMessageMiddleware =
   (store) =>
   (next) =>
   (action) => {
-    const success = action.success && get(action, ['meta', 'successMessage']);
-    const error = action.error && get(action, ['meta', 'errorMessage']);
+    if (!isLegoApiAction(action)) {
+      return next(action);
+    }
+
+    const success = action.success && action.meta.successMessage;
+    const error = action.error && action.meta.errorMessage;
 
     if (!(success || error)) {
       return next(action);
@@ -21,7 +25,7 @@ const createMessageMiddleware =
     let message;
 
     if (error) {
-      message = typeof error === 'function' ? error(action.error) : error;
+      message = error;
       Sentry.captureException(action.payload);
     } else {
       message = success;

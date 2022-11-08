@@ -5,6 +5,7 @@ import { logout } from 'app/actions/UserActions';
 import { selectIsLoggedIn } from 'app/reducers/auth';
 import { setStatusCode } from 'app/reducers/routing';
 import { selectPaginationNext } from 'app/reducers/selectors';
+import { DefaultExtraMeta } from 'app/store/utils/createLegoApiAction';
 import type { AsyncActionType, Thunk } from 'app/types';
 import createQueryString from 'app/utils/createQueryString';
 import type {
@@ -51,7 +52,7 @@ function handleError(error, propagateError, endpoint, loggedIn): Thunk<any> {
   };
 }
 
-type CallAPIOptions = {
+export interface CallAPIOptions<ExtraMeta = Record<string, unknown>> {
   types: AsyncActionType;
   endpoint: string;
   method?: HttpMethod;
@@ -60,7 +61,7 @@ type CallAPIOptions = {
   body?: Record<string, any> | string;
   query?: Record<string, any>;
   json?: boolean;
-  meta?: Record<string, unknown>;
+  meta?: ExtraMeta;
   files?: Array<any>;
   force?: boolean;
   useCache?: boolean;
@@ -72,7 +73,7 @@ type CallAPIOptions = {
   pagination?: {
     fetchNext: boolean;
   };
-};
+}
 
 function toHttpRequestOptions(
   options: $Shape<CallAPIOptions>
@@ -87,7 +88,9 @@ function toHttpRequestOptions(
   };
 }
 
-export default function callAPI({
+export default function callAPI<
+  ExtraMeta extends DefaultExtraMeta = DefaultExtraMeta
+>({
   types,
   method = 'GET',
   headers = {},
@@ -105,7 +108,7 @@ export default function callAPI({
   enableOptimistic = false,
   requiresAuthentication = true,
   timeout,
-}: CallAPIOptions): Thunk<Promise<any>> {
+}: CallAPIOptions<ExtraMeta>): Thunk<Promise<any>> {
   return (dispatch, getState) => {
     const methodUpperCase = method.toUpperCase();
     const shouldUseCache =
