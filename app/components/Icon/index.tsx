@@ -1,5 +1,6 @@
 import { Flex } from 'app/components/Layout';
 import styles from './Icon.css';
+import type { ComponentProps } from 'react';
 
 type Props = {
   /** Name of the icon can be found on the webpage*/
@@ -7,8 +8,8 @@ type Props = {
   scaleOnHover?: boolean;
   className?: string;
   size?: number;
-  style?: Record<string, any>;
-};
+  style?: Record<string, string>;
+} & ComponentProps<typeof Flex>;
 
 /**
  * Render an Icon like this with the name of your icon:
@@ -21,7 +22,6 @@ type Props = {
  */
 const Icon = ({
   name = 'star',
-  scaleOnHover = false,
   className,
   style = {},
   size = 24,
@@ -34,19 +34,21 @@ const Icon = ({
         fontSize: `${size.toString()}px`,
         ...style,
       }}
-      {...(props as Record<string, any>)}
+      {...props}
     >
+      {/* eslint-disable-next-line*/}
+      {/* @ts-ignore*/}
       <ion-icon name={name}></ion-icon>
     </Flex>
   );
 };
 
-Icon.Badge = ({
+Icon.Badge = function IconBadge({
   badgeCount,
   ...props
 }: Props & {
   badgeCount: number;
-}) => {
+}) {
   const icon = <Icon {...props} />;
 
   if (!badgeCount) {
@@ -65,5 +67,4 @@ Icon.Badge = ({
   );
 };
 
-Icon.Badge.displayName = 'IconBadge';
 export default Icon;

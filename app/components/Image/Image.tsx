@@ -4,11 +4,12 @@ import styles from './Image.css';
 
 type Props = {
   src: string;
-  placeholder: string;
+  placeholder?: string;
   className?: string;
   alt: string;
-  style: Record<string, any>;
+  style?: Record<string, string>;
 };
+
 const EMPTY_IMAGE =
   'data:image/png;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
 
@@ -55,14 +56,7 @@ const ImageComponent = (props: Props) => {
     className,
     !imageLoaded && !imageError && isProgressive && styles.blur
   );
-  if (!src)
-    return (
-      <div
-        className={finalClass}
-        style={style}
-        {...(rest as Record<string, any>)}
-      />
-    );
+  if (!src) return <div className={finalClass} style={style} {...rest} />;
   return (
     <img
       className={isProgressive ? finalClass : defaultClass}
@@ -70,7 +64,7 @@ const ImageComponent = (props: Props) => {
       loading="lazy"
       alt={alt}
       style={style}
-      {...(rest as Record<string, any>)}
+      {...rest}
     />
   );
 };

@@ -16,6 +16,7 @@ type Props = {
   markAllNotifications: () => Promise<void>;
   fetchNotificationData: () => Promise<void>;
 };
+
 type State = {
   notificationsOpen: boolean;
 };

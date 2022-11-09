@@ -1,11 +1,11 @@
 import cx from 'classnames';
-import { ButtonHTMLAttributes } from 'react';
+import { ButtonHTMLAttributes, ReactNode } from 'react';
 import LoadingIndicator from '../LoadingIndicator';
 import styles from './Button.css';
 
 type Props = {
   /** content inside */
-  children?: any;
+  children?: ReactNode;
 
   /** className for styling */
   className?: string;
@@ -54,7 +54,7 @@ function Button({
   success = false,
   flat = false,
   ...rest
-}: ButtonHTMLAttributes<Props>) {
+}: Props & ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
     <button
       className={
@@ -70,7 +70,7 @@ function Button({
             )
       }
       type={submit ? 'submit' : 'button'}
-      {...(rest as Record<string, any>)}
+      {...rest}
     >
       <LoadingIndicator small margin={0} loading={pending} />
       {pending ? <span className={styles.loading}>Laster</span> : children}

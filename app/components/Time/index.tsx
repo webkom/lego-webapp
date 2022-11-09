@@ -1,6 +1,7 @@
 import moment from 'moment-timezone';
 import config from 'app/config';
 import type { Dateish } from 'app/models';
+import type { TimeHTMLAttributes } from 'react';
 
 type Props = {
   format?: string;
@@ -28,13 +29,14 @@ function Time({
   time,
   wordsAgo = false,
   ...props
-}: Props) {
+}: Props & TimeHTMLAttributes<HTMLTimeElement>) {
   const formatted = getFormattedDateTime(
     moment.tz(time || moment(), config.timezone),
     wordsAgo ? 'timeAgoInWords' : format
   );
+
   return (
-    <time dateTime={time} {...(props as Record<string, any>)}>
+    <time dateTime={time?.toString()} {...props}>
       {formatted}
     </time>
   );
@@ -58,10 +60,13 @@ export const FormatTime = ({
     return <Time time={dateTime} format={format} />;
   }
 };
+
 export const FromToTime = ({ from, to }: { from: Dateish; to: Dateish }) => {
   const fromTime = moment(from);
   const toTime = moment(to);
-  const toIsUnderADayAfter = toTime.diff(fromTime) < moment.duration(1, 'day');
+  const toIsUnderADayAfter =
+    moment.duration(toTime.diff(fromTime)) < moment.duration(1, 'day');
+
   let fromFormat = 'dd DD. MMM, HH:mm';
 
   if (!moment().isSame(fromTime, 'year')) {

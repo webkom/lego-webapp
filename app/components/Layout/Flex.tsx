@@ -1,15 +1,16 @@
 import cx from 'classnames';
 import styles from './Flex.css';
+import type { ReactNode, ElementType } from 'react';
 
 type Props = {
-  children: any;
+  children?: ReactNode;
   className?: string;
 
   /** Column or row */
   column?: boolean;
 
   /* Container component*/
-  component?: any;
+  component?: ElementType;
 
   /** Wrap elements */
   wrap?: boolean;
@@ -28,7 +29,7 @@ type Props = {
   margin?: number | string;
   width?: number | string;
   gap?: number | string;
-  style?: Record<string, any>;
+  style?: Record<string, string>;
 };
 
 /**
@@ -67,7 +68,7 @@ const Flex = ({
       gap,
       ...style,
     }}
-    {...(htmlAttributes as Record<string, any>)}
+    {...htmlAttributes}
   >
     {children}
   </Component>

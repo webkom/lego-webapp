@@ -16,6 +16,7 @@ export type UserEntity = {
   lastName: string;
   gender: string;
   profilePicture: string;
+  profilePicturePlaceholder?: string;
   emailListsEnabled?: boolean;
   selectedTheme: string;
   photoConsents?: Array<PhotoConsent>;

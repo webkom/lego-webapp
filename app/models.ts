@@ -1,4 +1,4 @@
-import type Moment from 'moment';
+import type { Moment } from 'moment';
 // TODO: Id handling could be opaque
 export type ID = number;
 export type Dateish = Moment | Date | string;
