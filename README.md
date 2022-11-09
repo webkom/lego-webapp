@@ -52,8 +52,8 @@ We use some conventions and tools for our JavaScript/React development.
   - `yarn prettier`
 - [eslint](https://eslint.org/) for finding and fixing problems in your JavaScript code.
   - `yarn lint`
-- [flow](https://flow.org/) as a static type checker for JavaScript.
-  - `yarn flow`
+- [TypeScript](https://www.typescriptlang.org) for type checking.
+  - `yarn types`
 
 We recommend getting plugins/extensions in `VSCode` or `Vim` so the code auto-formats, and automatically prompts you with errors. When you submit code to Github the CI server will automatically run all the commands above to check that your code is up to par.
 
@@ -88,9 +88,9 @@ Lego can be found here: https://github.com/webkom/lego. Lego is assumed to have 
 
 ```bash
 $ cd ../lego
-$ docker-compose up -d # Start all services that lego depends on
+$ docker compose up -d # Start all services that lego depends on
 $ python manage.py initialize_development # Initialize and load data sources (postgres)
-$ docker-compose restart lego_cypress_helper # The cypress helper resets database between every test and might need this restart to function correctly
+$ docker compose restart lego_cypress_helper # The cypress helper resets database between every test and might need this restart to function correctly
 $ python manage.py runserver
 ```
 
@@ -100,7 +100,7 @@ $ python manage.py runserver
 python manage.py reset_db
 python manage.py migrate
 python manage.py load_fixtures
-docker-compose restart lego_cypress_helper # Make sure the copy is of the clean database
+docker compose restart lego_cypress_helper # Make sure the copy is of the clean database
 ```
 
 #### Frontend
