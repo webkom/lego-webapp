@@ -164,7 +164,7 @@
     "express-static-gzip": "^2.1.7",
     "identity-obj-proxy": "3.0.0",
     "jest": "^29.2.2",
-    "jest-environment-jsdom": "^29.3.0",
+    "jest-environment-jsdom": "^29.3.1",
     "lolex": "^6.0.0",
     "mini-css-extract-plugin": "^2.6.1",
     "null-loader": "^4.0.1",
