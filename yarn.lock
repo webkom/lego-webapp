@@ -4745,7 +4745,7 @@ eslint-plugin-flowtype@^8.0.3:
     lodash "^4.17.21"
     string-natural-compare "^3.0.1"
 
-eslint-plugin-import@^2.25.3:
+eslint-plugin-import@^2.25.3, eslint-plugin-import@^2.26.0:
   version "2.26.0"
   resolved "https://registry.yarnpkg.com/eslint-plugin-import/-/eslint-plugin-import-2.26.0.tgz#f812dc47be4f2b72b478a021605a59fc6fe8b88b"
   integrity sha512-hYfi3FXaM8WPLf4S1cikh/r4IxnO6zrhZbEGz2b660EJRbuxgpDS5gkCuYgGWg2xxh2rBuIr4Pvhve/7c31koA==
@@ -4836,9 +4836,9 @@ eslint-plugin-react@^7.27.1, eslint-plugin-react@^7.28.0, eslint-plugin-react@^7
     string.prototype.matchall "^4.0.7"
 
 eslint-plugin-testing-library@^5.0.1:
-  version "5.8.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-testing-library/-/eslint-plugin-testing-library-5.8.0.tgz#0faed7695ba76c0021fde3aeda9b90748995d2f2"
-  integrity sha512-QzOKgu4x8WmNq4LdbHb8lz5nBR+KX5kSg5VvIdr/5f1BvHx2IoO1B/tgDa5pD/ng2LsiQ0/HIH6gsUuxpbcrkQ==
+  version "5.5.1"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-testing-library/-/eslint-plugin-testing-library-5.5.1.tgz#6fe602f9082a421b471bbae8aed692e26fe981b3"
+  integrity sha512-plLEkkbAKBjPxsLj7x4jNapcHAg2ernkQlKKrN2I8NrQwPISZHyCUNvg5Hv3EDqOQReToQb5bnqXYbkijJPE/g==
   dependencies:
     "@typescript-eslint/utils" "^5.13.0"
 
