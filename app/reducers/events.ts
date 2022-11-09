@@ -309,8 +309,9 @@ export const selectAllRegistrationsForEvent = createSelector(
   (state, props) => props.eventId,
   (registrationsById, registrationItems, usersById, eventId) =>
     registrationItems
-      .map((regId, i) => {
-        const registration = registrationsById[regId];
+      .map((regId) => registrationsById[regId])
+      .filter((registration) => registration.event === Number(eventId))
+      .map((registration) => {
         const user = registration.user.id
           ? registration.user
           : usersById[registration.user];
@@ -331,7 +332,6 @@ export const selectAllRegistrationsForEvent = createSelector(
           updatedBy,
         });
       })
-      .filter((reg) => reg.event === Number(eventId))
 );
 export const selectWaitingRegistrationsForEvent = createSelector(
   selectEventById,
