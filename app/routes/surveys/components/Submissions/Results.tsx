@@ -2,23 +2,16 @@ import styles from '../surveys.css';
 import type { SurveyEntity, QuestionEntity } from 'app/reducers/surveys';
 import {
   QuestionTypes,
-  CHART_COLORS,
   QuestionTypeValue,
   QuestionTypeOption,
 } from '../../utils';
 import InfoBubble from 'app/components/InfoBubble';
-import {
-  PieChart,
-  Pie,
-  Cell,
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-} from 'recharts';
 import Select from 'react-select';
 import { selectTheme, selectStyles } from 'app/components/Form/SelectInput';
+import DistributionPieChart from 'app/components/Chart/PieChart';
+import ChartLabel from 'app/components/Chart/ChartLabel';
+import DistributionBarChart from 'app/components/Chart/BarChart';
+
 type Props = {
   survey: SurveyEntity;
   graphData: Record<string, any>;
@@ -35,15 +28,6 @@ type Info = {
 };
 type EventDataProps = {
   info: Array<Info>;
-};
-type GraphProps = {
-  cx: number;
-  cy: number;
-  midAngle: number;
-  innerRadius: number;
-  outerRadius: number;
-  percent: number;
-  index: number;
 };
 
 const EventData = ({ info }: EventDataProps) => {
@@ -99,32 +83,6 @@ const Results = ({
       label: 'Stolpediagram',
     },
   ];
-  const RADIAN = Math.PI / 180;
-
-  const renderCustomizedLabel = ({
-    cx,
-    cy,
-    midAngle,
-    innerRadius,
-    outerRadius,
-    percent,
-    index,
-  }: GraphProps) => {
-    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-    const x = cx + radius * Math.cos(-midAngle * RADIAN);
-    const y = cy + radius * Math.sin(-midAngle * RADIAN);
-    return (
-      <text
-        x={x}
-        y={y}
-        fill="white"
-        textAnchor="middle"
-        dominantBaseline="central"
-      >
-        {`${(percent * 100).toFixed(0)}%`}
-      </text>
-    );
-  };
 
   const switchGraph = (id, index, selectedType) => {
     const newQuestions = survey.questions;
@@ -173,9 +131,6 @@ const Results = ({
 
             return true;
           });
-          const pieColors = CHART_COLORS.filter(
-            (color, i) => !colorsToRemove.includes(i)
-          );
           const graphType = graphOptions.find(
             (a) => a.value === question.displayType
           );
@@ -195,87 +150,23 @@ const Results = ({
                       }}
                     >
                       {question.displayType !== 'bar_chart' ? (
-                        <div className={styles.pieChart}>
-                          <PieChart width={400} height={350}>
-                            <Pie
-                              data={pieData}
-                              cx={200}
-                              cy={150}
-                              labelLine={false}
-                              label={renderCustomizedLabel}
-                              outerRadius={110}
-                              dataKey="selections"
-                              isAnimationActive={false}
-                            >
-                              {pieData.map((entry, index) => (
-                                <Cell
-                                  key={`cell-${index}`}
-                                  fill={pieColors[index % pieColors.length]}
-                                />
-                              ))}
-                            </Pie>
-                          </PieChart>
-                        </div>
+                        <DistributionPieChart
+                          distributionData={pieData}
+                          dataKey="selections"
+                        />
                       ) : (
-                        <div className={styles.barChart}>
-                          <BarChart
-                            width={375}
-                            height={350}
-                            data={pieData}
-                            margin={{
-                              top: 50,
-                              right: 30,
-                              left: 20,
-                              bottom: 10,
-                            }}
-                          >
-                            <XAxis dataKey=" " />
-                            <YAxis />
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <Bar
-                              dataKey="selections"
-                              label={{
-                                position: 'top',
-                              }}
-                              background={{
-                                fill: 'var(--color-mono-gray-5)',
-                              }}
-                              isAnimationActive={false}
-                            >
-                              {pieData.map((entry, index) => (
-                                <Cell
-                                  key={`cell-${index}`}
-                                  fill={pieColors[index % pieColors.length]}
-                                />
-                              ))}
-                            </Bar>
-                          </BarChart>
-                        </div>
+                        <DistributionBarChart
+                          distributionData={pieData}
+                          dataKey="selections"
+                        />
                       )}
                     </div>
-                    <div>
-                      <ul className={styles.graphData}>
-                        {graphData[question.id].map((dataPoint, i) => (
-                          <li key={i}>
-                            <span
-                              className={styles.colorBox}
-                              style={{
-                                backgroundColor: CHART_COLORS[i],
-                              }}
-                            >
-                              &nbsp;
-                            </span>
-                            <span
-                              style={{
-                                marginTop: '-5px',
-                              }}
-                            >
-                              {dataPoint.option}
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                    <ChartLabel
+                      distributionData={graphData[question.id].map((data) => ({
+                        name: data.option,
+                        count: data.selections,
+                      }))}
+                    />
                   </div>
                   {editSurvey && (
                     <div className={styles.selectGraphContainer}>

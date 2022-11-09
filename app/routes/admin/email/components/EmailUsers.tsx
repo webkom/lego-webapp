@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import Button from 'app/components/Button';
 import Flex from 'app/components/Layout/Flex';
 import type { Group } from 'app/models';
-import { GroupTypeCommittee, GroupTypeGrade } from 'app/models';
+import { GroupType } from 'app/models';
 import qs from 'qs';
 type Props = {
   fetching: boolean;
@@ -62,7 +62,7 @@ export default class EmailUsers extends Component<Props> {
           }),
         render: (_, emailUser) => {
           const output = emailUser.user.abakusGroups
-            .filter((abakusGroup) => abakusGroup.type === GroupTypeCommittee)
+            .filter((abakusGroup) => abakusGroup.type === GroupType.Committee)
             .map((committee) => (
               <Link
                 key={committee.id}
@@ -91,7 +91,7 @@ export default class EmailUsers extends Component<Props> {
         filterMessage: '- for å få brukere uten klasse',
         render: (_, emailUser) => {
           const output = emailUser.user.abakusGroups
-            .filter((abakusGroup) => abakusGroup.type === GroupTypeGrade)
+            .filter((abakusGroup) => abakusGroup.type === GroupType.Grade)
             .map((grade) => (
               <Link key={grade.id} to={`/admin/groups/${grade.id}/members`}>
                 {grade.name}{' '}

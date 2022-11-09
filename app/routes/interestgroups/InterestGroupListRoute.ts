@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 import { fetchAllWithType } from 'app/actions/GroupActions';
 import InterestGroupList from './components/InterestGroupList';
 import { selectGroupsWithType } from 'app/reducers/groups';
-import { GroupTypeInterest } from 'app/models';
+import { GroupType } from 'app/models';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
-const groupType = GroupTypeInterest;
+const groupType = GroupType.Interest;
 
 const mapStateToProps = (state) => ({
   interestGroups: selectGroupsWithType(state, {

@@ -344,23 +344,9 @@
   }
 }
 
-.graphData li {
-  display: flex;
-  align-items: center;
-}
-
 .textAnswers li {
   line-height: 19px;
   margin-bottom: 10px;
-}
-
-.colorBox {
-  width: 10px;
-  height: 10px;
-  margin-right: 10px;
-  margin-top: -5px;
-  display: inline-block;
-  border-radius: 1px;
 }
 
 .adminAnswer {

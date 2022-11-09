@@ -19,6 +19,7 @@ import type {
   EventRegistrationPaymentStatus,
   EventRegistrationPresence,
 } from 'app/models';
+
 export type Props = {
   eventId: number;
   event: Event;

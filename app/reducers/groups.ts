@@ -2,21 +2,17 @@ import { createSelector } from 'reselect';
 import { Group, Membership } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import type { ID } from 'app/models';
-import {
-  GroupTypeInterest,
-  GroupTypeCommittee,
-  GroupTypeRevue,
-} from 'app/models';
+import { GroupType } from 'app/models';
 import { produce } from 'immer';
 export const resolveGroupLink = (group: { type: string; id: ID }) => {
   switch (group.type) {
-    case GroupTypeInterest:
+    case GroupType.Interest:
       return `/interest-groups/${group.id}`;
 
-    case GroupTypeCommittee:
+    case GroupType.Committee:
       return `/pages/komiteer/${group.id}`;
 
-    case GroupTypeRevue:
+    case GroupType.Revue:
       return `/pages/revy/${group.id}`;
 
     default:
