@@ -9,6 +9,7 @@ import type {
   PhotoConsentDomain,
   EventSemester,
 } from 'app/models';
+
 export const PHOTO_CONSENT_DOMAINS = {
   WEBSITE: 'WEBSITE',
   SOCIAL_MEDIA: 'SOCIAL_MEDIA',

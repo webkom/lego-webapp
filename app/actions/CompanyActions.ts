@@ -1,5 +1,6 @@
-import { semesterToText } from '../routes/companyInterest/utils';
-import { Company, Event, Joblistings } from './ActionTypes';
+import { push } from 'connected-react-router';
+import { startSubmit, stopSubmit } from 'redux-form';
+import { addToast } from 'app/actions/ToastActions';
 import callAPI from 'app/actions/callAPI';
 import {
   companySchema,
@@ -7,12 +8,12 @@ import {
   eventSchema,
   joblistingsSchema,
 } from 'app/reducers';
-import createQueryString from 'app/utils/createQueryString';
-import { startSubmit, stopSubmit } from 'redux-form';
-import { push } from 'connected-react-router';
-import type { Thunk } from 'app/types';
-import { addToast } from 'app/actions/ToastActions';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
+import type { Thunk } from 'app/types';
+import createQueryString from 'app/utils/createQueryString';
+import { semesterToText } from '../routes/companyInterest/utils';
+import { Company, Event, Joblistings } from './ActionTypes';
+
 export const fetchAll = ({ fetchMore }: { fetchMore: boolean }): Thunk<any> => {
   return callAPI({
     types: Company.FETCH,

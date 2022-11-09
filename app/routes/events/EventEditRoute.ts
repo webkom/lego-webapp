@@ -1,5 +1,7 @@
-import { compose } from 'redux';
+import { push } from 'connected-react-router';
+import moment from 'moment-timezone';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { formValueSelector } from 'redux-form';
 import {
   fetchEvent,
@@ -8,25 +10,23 @@ import {
   setCoverPhoto,
 } from 'app/actions/EventActions';
 import { uploadFile } from 'app/actions/FileActions';
-import EventEditor from './components/EventEditor';
+import { LoginPage } from 'app/components/LoginForm';
 import {
   selectEventById,
   selectPoolsWithRegistrationsForEvent,
   selectRegistrationsFromPools,
   selectWaitingRegistrationsForEvent,
 } from 'app/reducers/events';
-import { LoginPage } from 'app/components/LoginForm';
+import loadingIndicator from 'app/utils/loadingIndicator';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import time from 'app/utils/time';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
+import EventEditor from './components/EventEditor';
 import {
   transformEvent,
   transformEventStatusType,
   EVENT_CONSTANTS,
 } from './utils';
-import time from 'app/utils/time';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import loadingIndicator from 'app/utils/loadingIndicator';
-import moment from 'moment-timezone';
-import { push } from 'connected-react-router';
-import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const mapStateToProps = (state, props) => {
   const eventId = props.match.params.eventId;

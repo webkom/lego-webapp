@@ -1,9 +1,9 @@
-import { commentSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
-import { Comment } from './ActionTypes';
-import type { Thunk } from 'app/types';
 import type { ID } from 'app/models';
-import 'app/models';
+import { commentSchema } from 'app/reducers';
+import type { Thunk } from 'app/types';
+import { Comment } from './ActionTypes';
+
 export type CommentEntity = {
   text: string;
   contentTarget: string;

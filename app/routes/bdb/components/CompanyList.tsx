@@ -1,14 +1,15 @@
-import { Component } from 'react';
-import styles from './bdb.css';
-import { Link } from 'react-router-dom';
-import CompanySingleRow from './CompanySingleRow';
-import { indexToSemester } from '../utils';
-import Icon from 'app/components/Icon';
 import cx from 'classnames';
-import type { CompanyEntity } from 'app/reducers/companies';
-import type { CompanySemesterContactedStatus } from 'app/models';
-import LoadingIndicator from 'app/components/LoadingIndicator';
+import { Component } from 'react';
+import { Link } from 'react-router-dom';
 import Button from 'app/components/Button';
+import Icon from 'app/components/Icon';
+import LoadingIndicator from 'app/components/LoadingIndicator';
+import type { CompanySemesterContactedStatus } from 'app/models';
+import type { CompanyEntity } from 'app/reducers/companies';
+import { indexToSemester } from '../utils';
+import CompanySingleRow from './CompanySingleRow';
+import styles from './bdb.css';
+
 type Props = {
   companies: Array<CompanyEntity>;
   startYear: number;

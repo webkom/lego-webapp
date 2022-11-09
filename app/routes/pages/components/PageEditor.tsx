@@ -1,9 +1,8 @@
+import { get } from 'lodash';
 import { Component } from 'react';
+import { Field, Fields } from 'redux-form';
 import Button from 'app/components/Button';
-import LoadingIndicator from 'app/components/LoadingIndicator';
-import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
-import styles from './PageEditor.css';
-import { normalizeObjectPermissions } from 'app/components/Form/ObjectPermissions';
+import { Content } from 'app/components/Content';
 import {
   EditorField,
   TextInput,
@@ -12,14 +11,16 @@ import {
   SelectInput,
   ObjectPermissions,
 } from 'app/components/Form';
-import ImageUpload from 'app/components/Upload/ImageUpload';
-import NavigationTab from 'app/components/NavigationTab';
-import { Field, Fields } from 'redux-form';
-import { Content } from 'app/components/Content';
-import { get } from 'lodash';
-import { categoryOptions } from 'app/routes/pages/PageDetailRoute';
+import { normalizeObjectPermissions } from 'app/components/Form/ObjectPermissions';
 import Icon from 'app/components/Icon';
 import Flex from 'app/components/Layout/Flex';
+import LoadingIndicator from 'app/components/LoadingIndicator';
+import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
+import NavigationTab from 'app/components/NavigationTab';
+import ImageUpload from 'app/components/Upload/ImageUpload';
+import { categoryOptions } from 'app/routes/pages/PageDetailRoute';
+import styles from './PageEditor.css';
+
 type Page = {
   title: string;
   content: string;

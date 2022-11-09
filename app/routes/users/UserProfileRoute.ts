@@ -1,7 +1,7 @@
-import { compose } from 'redux';
 import { connect } from 'react-redux';
-import UserProfile from './components/UserProfile';
-import { GroupType } from 'app/models';
+import { compose } from 'redux';
+import { fetchPrevious, fetchUpcoming } from 'app/actions/EventActions';
+import { fetchAllWithType } from 'app/actions/GroupActions';
 import {
   fetchUser,
   addPenalty,
@@ -9,20 +9,20 @@ import {
   changeGrade,
   updatePhotoConsent,
 } from 'app/actions/UserActions';
-import { fetchAllWithType } from 'app/actions/GroupActions';
-import { fetchPrevious, fetchUpcoming } from 'app/actions/EventActions';
-//import { fetchUserFeed } from 'app/actions/FeedActions';
-import { selectUserWithGroups } from 'app/reducers/users';
+import { LoginPage } from 'app/components/LoginForm';
+import { GroupType } from 'app/models';
 import {
   selectPreviousEvents,
   selectUpcomingEvents,
 } from 'app/reducers/events';
 import { selectGroupsWithType } from 'app/reducers/groups';
 import { selectPenaltyByUserId } from 'app/reducers/penalties';
+import { selectUserWithGroups } from 'app/reducers/users';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import { LoginPage } from 'app/components/LoginForm';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
+//import { fetchUserFeed } from 'app/actions/FeedActions';
+import UserProfile from './components/UserProfile';
 
 const loadData = (
   {

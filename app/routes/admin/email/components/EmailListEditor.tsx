@@ -1,6 +1,5 @@
+import { Form, Field } from 'redux-form';
 import Button from 'app/components/Button';
-import { createValidator, required, EMAIL_REGEX } from 'app/utils/validation';
-import { roleOptions } from 'app/utils/constants';
 import {
   TextInput,
   SelectInput,
@@ -8,8 +7,10 @@ import {
   handleSubmissionError,
   legoForm,
 } from 'app/components/Form';
-import { Form, Field } from 'redux-form';
 import Tooltip from 'app/components/Tooltip';
+import { roleOptions } from 'app/utils/constants';
+import { createValidator, required, EMAIL_REGEX } from 'app/utils/validation';
+
 export type Props = {
   emailListId?: number;
   submitting: boolean;

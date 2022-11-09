@@ -1,6 +1,7 @@
-import type { Node } from 'react';
 import { NavLink } from 'react-router-dom';
 import styles from './NavigationLink.css';
+import type { Node } from 'react';
+
 type Props = {
   to: string;
   onClick?: (e: Event) => void;

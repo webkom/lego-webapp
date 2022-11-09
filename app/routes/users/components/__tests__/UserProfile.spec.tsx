@@ -1,6 +1,7 @@
-import UserProfile from '../UserProfile';
 import { shallow } from 'enzyme';
 import { Link } from 'react-router-dom';
+import UserProfile from '../UserProfile';
+
 const user = {
   id: 1,
   email: 'webkom@abakus.no',

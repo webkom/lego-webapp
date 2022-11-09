@@ -1,29 +1,7 @@
-import styles from './EventDetail.css';
-import sharedStyles from '../Event.css';
-import { Component, Fragment } from 'react';
-import CommentView from 'app/components/Comments/CommentView';
-import Icon from 'app/components/Icon';
-import JoinEventForm from '../JoinEventForm';
-import RegisteredSummary from '../RegisteredSummary';
-import {
-  AttendanceStatus,
-  ModalParentComponent,
-} from 'app/components/UserAttendance';
-import Tag from 'app/components/Tags/Tag';
 import moment from 'moment-timezone';
-import { FormatTime, FromToTime } from 'app/components/Time';
-import InfoList from 'app/components/InfoList';
-import { Flex } from 'app/components/Layout';
-import Tooltip from 'app/components/Tooltip';
-import {
-  colorForEvent,
-  penaltyHours,
-  getEventSemesterFromStartTime,
-  registrationCloseTime,
-} from '../../utils';
-import Admin from '../Admin';
-import RegistrationMeta from '../RegistrationMeta';
-import DisplayContent from 'app/components/DisplayContent';
+import { Component, Fragment } from 'react';
+import { Link } from 'react-router-dom';
+import CommentView from 'app/components/Comments/CommentView';
 import {
   Content,
   ContentHeader,
@@ -31,7 +9,18 @@ import {
   ContentMain,
   ContentSidebar,
 } from 'app/components/Content';
-import { Link } from 'react-router-dom';
+import DisplayContent from 'app/components/DisplayContent';
+import Icon from 'app/components/Icon';
+import InfoList from 'app/components/InfoList';
+import { Flex } from 'app/components/Layout';
+import { MazemapEmbed } from 'app/components/MazemapEmbed';
+import Tag from 'app/components/Tags/Tag';
+import { FormatTime, FromToTime } from 'app/components/Time';
+import Tooltip from 'app/components/Tooltip';
+import {
+  AttendanceStatus,
+  ModalParentComponent,
+} from 'app/components/UserAttendance';
 import UserGrid from 'app/components/UserGrid';
 import type {
   ID,
@@ -43,9 +32,21 @@ import type {
   FollowerItem,
 } from 'app/models';
 import type { CommentEntity } from 'app/reducers/comments';
-import type { UserEntity } from 'app/reducers/users';
-import { MazemapEmbed } from 'app/components/MazemapEmbed';
 import { resolveGroupLink } from 'app/reducers/groups';
+import type { UserEntity } from 'app/reducers/users';
+import {
+  colorForEvent,
+  penaltyHours,
+  getEventSemesterFromStartTime,
+  registrationCloseTime,
+} from '../../utils';
+import Admin from '../Admin';
+import sharedStyles from '../Event.css';
+import JoinEventForm from '../JoinEventForm';
+import RegisteredSummary from '../RegisteredSummary';
+import RegistrationMeta from '../RegistrationMeta';
+import styles from './EventDetail.css';
+
 type InterestedButtonProps = {
   isInterested: boolean;
 };

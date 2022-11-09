@@ -1,12 +1,13 @@
-import { union, find } from 'lodash';
-import { createSelector } from 'reselect';
-import { User, Event } from '../actions/ActionTypes';
-import createEntityReducer from 'app/utils/createEntityReducer';
-import { normalize } from 'normalizr';
-import { eventSchema, registrationSchema } from 'app/reducers';
-import mergeObjects from 'app/utils/mergeObjects';
 import { produce } from 'immer';
+import { union, find } from 'lodash';
+import { normalize } from 'normalizr';
+import { createSelector } from 'reselect';
+import { eventSchema, registrationSchema } from 'app/reducers';
+import createEntityReducer from 'app/utils/createEntityReducer';
+import mergeObjects from 'app/utils/mergeObjects';
+import { User, Event } from '../actions/ActionTypes';
 import type { PhotoConsent } from '../models';
+
 export type UserEntity = {
   id: number;
   username: string;

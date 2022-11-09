@@ -1,11 +1,12 @@
-import { Children, cloneElement, Component } from 'react';
-import styles from './AprilFools.css';
 import moment from 'moment-timezone';
+import { Children, cloneElement, Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Image } from 'app/components/Image';
-import logoImage from 'app/assets/logo-dark.png';
 import foolsImage from 'app/assets/aprilfools-image.png';
+import logoImage from 'app/assets/logo-dark.png';
+import { Image } from 'app/components/Image';
+import styles from './AprilFools.css';
 import LoadingBox from './LoadingBox';
+
 type Props = {
   children: Node;
 };

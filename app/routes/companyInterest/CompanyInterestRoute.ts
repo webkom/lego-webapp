@@ -1,18 +1,18 @@
+import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
-import { createCompanyInterest } from 'app/actions/CompanyInterestActions';
-import { fetchSemestersForInterestform } from 'app/actions/CompanyActions';
 import { compose } from 'redux';
 import { formValueSelector } from 'redux-form';
-import { push } from 'connected-react-router';
+import { fetchSemestersForInterestform } from 'app/actions/CompanyActions';
+import { createCompanyInterest } from 'app/actions/CompanyInterestActions';
+import { selectCompanySemestersForInterestForm } from 'app/reducers/companySemesters';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import CompanyInterestPage, {
   EVENT_TYPES,
   OTHER_TYPES,
   COLLABORATION_TYPES,
   TARGET_GRADE_TYPES,
 } from './components/CompanyInterestPage';
-import { selectCompanySemestersForInterestForm } from 'app/reducers/companySemesters';
 import { sortSemesterChronologically } from './utils';
-import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const valueSelector = formValueSelector('CompanyInterestForm');
 

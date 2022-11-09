@@ -1,13 +1,14 @@
-import type { ReactNode } from 'react';
-import { useState } from 'react';
 import cx from 'classnames';
-import styles from './Content.css';
-import { Image } from 'app/components/Image';
-import Youtube from 'react-youtube';
-import Flex from '../Layout/Flex';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import { isEmpty } from 'lodash';
+import { useState } from 'react';
+import Youtube from 'react-youtube';
+import { Image } from 'app/components/Image';
+import LoadingIndicator from 'app/components/LoadingIndicator';
 import getParamsFromUrl from 'app/utils/getParamsFromUrl';
+import Flex from '../Layout/Flex';
+import styles from './Content.css';
+import type { ReactNode } from 'react';
+
 type Props = {
   banner?: string;
   bannerPlaceholder?: string;

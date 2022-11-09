@@ -1,7 +1,8 @@
-import type { Node } from 'react';
-import { Component } from 'react';
 import cx from 'classnames';
+import { Component } from 'react';
 import styles from './Tooltip.css';
+import type { Node } from 'react';
+
 type Props = {
   children: Node;
   content: Node;

@@ -1,7 +1,8 @@
-import Reaction from 'app/components/Reactions/Reaction';
 import Reactions from 'app/components/Reactions';
-import type { EmojiEntity } from 'app/reducers/emojis';
+import Reaction from 'app/components/Reactions/Reaction';
 import type { ID } from 'app/models';
+import type { EmojiEntity } from 'app/reducers/emojis';
+
 type Props = {
   addReaction: (arg0: { emoji: string; contentTarget: string }) => Promise<any>;
   deleteReaction: (arg0: {

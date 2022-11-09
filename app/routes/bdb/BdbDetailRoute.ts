@@ -1,4 +1,6 @@
 import { connect } from 'react-redux';
+import { compose, bindActionCreators } from 'redux';
+import { deleteComment } from 'app/actions/CommentActions';
 import {
   fetchAdmin,
   deleteSemesterStatus,
@@ -9,20 +11,18 @@ import {
   editCompany,
   deleteCompany,
 } from 'app/actions/CompanyActions';
-import BdbDetail from './components/BdbDetail';
-import { compose, bindActionCreators } from 'redux';
+import { LoginPage } from 'app/components/LoginForm';
 import {
   selectCompanyById,
   selectEventsForCompany,
   selectCommentsForCompany,
 } from 'app/reducers/companies';
 import { selectCompanySemesters } from 'app/reducers/companySemesters';
-import { LoginPage } from 'app/components/LoginForm';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import { deleteComment } from 'app/actions/CommentActions';
 import { selectPagination } from 'app/reducers/selectors';
 import createQueryString from 'app/utils/createQueryString';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
+import BdbDetail from './components/BdbDetail';
 
 const queryString = (companyId) =>
   createQueryString({

@@ -1,9 +1,9 @@
 import moment from 'moment-timezone';
-import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { fetchList } from 'app/actions/EventActions';
-import Calendar from './components/Calendar';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
+import Calendar from './components/Calendar';
 
 const getDate = ({ params }) => {
   const year = params.year || moment().year();

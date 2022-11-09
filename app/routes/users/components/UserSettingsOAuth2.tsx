@@ -1,10 +1,11 @@
-import { Link } from 'react-router-dom';
 import keys from 'lodash/keys';
-import config from 'app/config';
-import Time from 'app/components/Time';
+import { Link } from 'react-router-dom';
 import Icon from 'app/components/Icon';
+import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
+import config from 'app/config';
 import styles from './UserSettingsOAuth2.css';
+
 type Props = {
   applications: Array<any>;
   grants: Array<any>;

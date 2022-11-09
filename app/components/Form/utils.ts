@@ -1,6 +1,6 @@
-import { SubmissionError } from 'redux-form';
-import { get } from 'lodash';
 import { FORM_ERROR } from 'final-form';
+import { get } from 'lodash';
+import { SubmissionError } from 'redux-form';
 
 /*
  * Simple utility that handles submission errors

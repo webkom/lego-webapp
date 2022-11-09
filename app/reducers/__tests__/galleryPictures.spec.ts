@@ -1,5 +1,6 @@
-import galleryPictures from '../galleryPictures';
 import { GalleryPicture, Gallery } from '../../actions/ActionTypes';
+import galleryPictures from '../galleryPictures';
+
 describe('reducers', () => {
   const baseState = {
     actionGrant: [],

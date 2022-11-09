@@ -10,8 +10,7 @@ module.exports = {
   extends: [
     'plugin:@typescript-eslint/recommended',
     //'plugin:cypress/recommended',
-    'plugin:import/errors',
-    'plugin:import/warnings',
+    'plugin:import/recommended',
     //'plugin:jsx-a11y/recommended',
     //'plugin:promise/recommended',
     'plugin:react/recommended',
@@ -47,6 +46,9 @@ module.exports = {
   ],
   ignorePatterns: ['mazemap/mazemap.min.*', '**/vendor/*.js'],
   rules: {
+    'import/first': 'error',
+    'import/newline-after-import': 'error',
+    'import/no-duplicates': 'error',
     'react/jsx-uses-react': 'off',
     'react/react-in-jsx-scope': 'off',
     'react-app/react/react-in-jsx-scope': 'off',
@@ -54,7 +56,35 @@ module.exports = {
     'jest/valid-describe-callback': 'error',
     '@typescript-eslint/no-var-requires': 'off',
     '@typescript-eslint/no-empty-function': 'off',
+    'import/order': [
+      'error',
+      {
+        groups: [
+          'builtin',
+          'external',
+          'internal',
+          'parent',
+          'sibling',
+          'index',
+          'type',
+        ],
+        pathGroups: [
+          {
+            pattern: 'app/**',
+            group: 'internal',
+          },
+        ],
+        alphabetize: {
+          order: 'asc',
+        },
+      },
+    ],
   },
+  overrides: [
+    {
+      files: ['*.js', '*.jsx', '*.ts', '*.tsx'],
+    },
+  ],
   settings: {
     'import/resolver': {
       node: {

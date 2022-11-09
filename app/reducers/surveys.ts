@@ -1,10 +1,11 @@
-import { Survey } from '../actions/ActionTypes';
-import createEntityReducer from 'app/utils/createEntityReducer';
-import { createSelector } from 'reselect';
-import { selectEvents } from './events';
 import { omit } from 'lodash';
+import { createSelector } from 'reselect';
 import type { EventType } from 'app/models';
 import type { State } from 'app/types';
+import createEntityReducer from 'app/utils/createEntityReducer';
+import { Survey } from '../actions/ActionTypes';
+import { selectEvents } from './events';
+
 export type OptionEntity = {
   id: number;
   optionText: string;

@@ -1,4 +1,5 @@
 import styles from './index.css';
+
 type Props = {
   unicodeString: string;
   shortCode?: string;

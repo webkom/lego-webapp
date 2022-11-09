@@ -1,5 +1,6 @@
-import type { Node } from 'react';
 import styles from './TextWithTitle.css';
+import type { Node } from 'react';
+
 type Props = {
   title: string;
   text: Node;

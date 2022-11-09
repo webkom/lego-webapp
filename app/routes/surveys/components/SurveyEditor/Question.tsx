@@ -1,15 +1,11 @@
-import { $PropertyType } from 'utility-types';
-import type { Node } from 'react';
-import type { FieldArrayProps } from 'redux-form';
 import { Field, FieldArray } from 'redux-form';
+import { $PropertyType } from 'utility-types';
 import {
   TextInput,
   TextArea,
   CheckBox,
   SelectInput,
 } from 'app/components/Form';
-import Option from './Option';
-import styles from '../surveys.css';
 import Icon from 'app/components/Icon';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import {
@@ -18,6 +14,11 @@ import {
   QuestionTypeOption,
   QuestionTypeValue,
 } from '../../utils';
+import styles from '../surveys.css';
+import Option from './Option';
+import type { Node } from 'react';
+import type { FieldArrayProps } from 'redux-form';
+
 type Fields = $PropertyType<FieldArrayProps, 'fields'>;
 type Props = {
   deleteQuestion: (arg0: number) => Promise<any>;

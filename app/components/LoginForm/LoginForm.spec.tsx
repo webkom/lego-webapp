@@ -1,8 +1,9 @@
-import LoginForm from './LoginForm';
-import { Field } from 'redux-form';
-import { Provider } from 'react-redux';
-import configureStore from 'redux-mock-store';
 import { mount } from 'enzyme';
+import { Provider } from 'react-redux';
+import { Field } from 'redux-form';
+import configureStore from 'redux-mock-store';
+import LoginForm from './LoginForm';
+
 describe('components', () => {
   describe('LoginForm', () => {
     it('should render correctly', () => {

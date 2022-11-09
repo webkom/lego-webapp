@@ -1,10 +1,10 @@
-import { LoginPage } from 'app/components/LoginForm';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import RouteWrapper from 'app/components/RouteWrapper';
 import { Switch } from 'react-router-dom';
-import groups from './groups';
-import email from './email';
+import { LoginPage } from 'app/components/LoginForm';
+import RouteWrapper from 'app/components/RouteWrapper';
 import type { User } from 'app/models';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import email from './email';
+import groups from './groups';
 
 const OverviewRoute = ({
   children,

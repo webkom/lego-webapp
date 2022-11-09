@@ -1,7 +1,8 @@
 import { reduxForm, Field } from 'redux-form';
 import { Form, Button, TextInput } from 'app/components/Form';
-import styles from './UpdateAllergies.css';
 import formStyles from 'app/components/Form/Field.css';
+import styles from './UpdateAllergies.css';
+
 export type Props = {
   handleSubmit: (arg0: (...args: Array<any>) => any) => void;
   username: string;

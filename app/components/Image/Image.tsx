@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
 import cx from 'classnames';
+import { useEffect, useState } from 'react';
 import styles from './Image.css';
+
 type Props = {
   src: string;
   placeholder: string;

@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import styles from './LoadingIndicator.css';
+
 export type Props = {
   loading: boolean;
   small?: boolean;

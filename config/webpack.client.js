@@ -1,21 +1,22 @@
 /* eslint no-console: 0 */
-const path = require('path');
 const fs = require('fs');
-const webpack = require('webpack');
-const { StatsWriterPlugin } = require('webpack-stats-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const BundleAnalyzerPlugin =
-  require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const path = require('path');
+const LoadablePlugin = require('@loadable/webpack-plugin');
 const AssetsPlugin = require('assets-webpack-plugin');
-const FilterWarningsPlugin = require('webpack-filter-warnings-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin');
-const LoadablePlugin = require('@loadable/webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
-const CompressionPlugin = require('compression-webpack-plugin');
+const webpack = require('webpack');
+const BundleAnalyzerPlugin =
+  require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const FilterWarningsPlugin = require('webpack-filter-warnings-plugin');
+const { StatsWriterPlugin } = require('webpack-stats-plugin');
 
 const root = path.resolve(__dirname, '..');
 const packageJson = require('../package.json');
+
 const dllConfig = packageJson.dllPlugin;
 const compact = (array) => array.filter(Boolean);
 

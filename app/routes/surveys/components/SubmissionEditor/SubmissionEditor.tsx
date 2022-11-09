@@ -1,13 +1,14 @@
-import styles from '../surveys.css';
 import { Helmet } from 'react-helmet-async';
+import { Link } from 'react-router-dom';
 import { Field, SubmissionError } from 'redux-form';
 import Button from 'app/components/Button';
+import { Content, ContentHeader } from 'app/components/Content';
 import { TextArea, RadioButton, CheckBox, legoForm } from 'app/components/Form';
 import type { SurveyEntity } from 'app/reducers/surveys';
-import { Content, ContentHeader } from 'app/components/Content';
-import { Link } from 'react-router-dom';
-import { QuestionTypes } from '../../utils';
 import type { UserEntity } from 'app/reducers/users';
+import { QuestionTypes } from '../../utils';
+import styles from '../surveys.css';
+
 type Props = {
   survey: SurveyEntity;
   submitting: boolean;

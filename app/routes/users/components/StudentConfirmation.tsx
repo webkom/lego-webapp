@@ -1,5 +1,4 @@
-import styles from './UserConfirmation.css';
-import { Container, Flex } from 'app/components/Layout';
+import { Link } from 'react-router-dom';
 import { reduxForm, Field } from 'redux-form';
 import {
   Form,
@@ -9,11 +8,13 @@ import {
   Button,
   Captcha,
 } from 'app/components/Form';
-import { Link } from 'react-router-dom';
-import Tooltip from 'app/components/Tooltip';
 import Icon from 'app/components/Icon';
-import { createValidator, required } from 'app/utils/validation';
+import { Container, Flex } from 'app/components/Layout';
+import Tooltip from 'app/components/Tooltip';
 import type { ReduxFormProps } from 'app/types';
+import { createValidator, required } from 'app/utils/validation';
+import styles from './UserConfirmation.css';
+
 type Props = {
   studentConfirmed: boolean;
   handleSubmit: (arg0: (...args: Array<any>) => any) => void;

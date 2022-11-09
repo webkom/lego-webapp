@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom';
-import styles from './EventFooter.css';
-import { eventTypeToString, colorForEvent, EVENT_CONSTANTS } from '../utils';
 import Circle from 'app/components/Circle';
 import config from 'app/config';
+import { eventTypeToString, colorForEvent, EVENT_CONSTANTS } from '../utils';
+import styles from './EventFooter.css';
+
 const icalTypes = [
   {
     name: 'events',

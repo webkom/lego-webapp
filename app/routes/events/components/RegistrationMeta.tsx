@@ -16,6 +16,7 @@ import {
   allConsentsAnswered,
   toReadableSemester,
 } from '../utils';
+
 type Props = {
   registration: Record<string, any>;
   isPriced: boolean;

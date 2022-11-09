@@ -1,9 +1,10 @@
-import { Component } from 'react';
 import classNames from 'classnames';
+import { Component } from 'react';
+import Emoji from 'app/components/Emoji';
 import Tooltip from 'app/components/Tooltip';
 import type { ID } from 'app/models';
 import styles from './Reaction.css';
-import Emoji from 'app/components/Emoji';
+
 type Props = {
   className?: string;
   emoji: string;

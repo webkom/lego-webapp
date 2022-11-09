@@ -1,5 +1,5 @@
-import type { ComponentType } from 'react';
 import { Route } from 'react-router-dom';
+import type { ComponentType } from 'react';
 
 /*
  * Wrapper component for react-router v4 to allow props

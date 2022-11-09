@@ -1,8 +1,8 @@
 import { createSelector } from 'reselect';
-import createEntityReducer from '../utils/createEntityReducer';
-import { Poll } from '../actions/ActionTypes';
 import type { Tags, ID } from 'app/models';
-import 'app/models';
+import { Poll } from '../actions/ActionTypes';
+import createEntityReducer from '../utils/createEntityReducer';
+
 export type OptionEntity = {
   id: number;
   name: string;

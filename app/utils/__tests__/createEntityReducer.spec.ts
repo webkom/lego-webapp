@@ -1,11 +1,12 @@
+import { normalize } from 'normalizr';
+import { eventSchema } from 'app/reducers';
 import createEntityReducer, {
   fetching,
   createAndUpdateEntities,
   deleteEntities,
 } from '../createEntityReducer';
 import joinReducers from '../joinReducers';
-import { eventSchema } from 'app/reducers';
-import { normalize } from 'normalizr';
+
 const FETCH = {
   BEGIN: 'FETCH.BEGIN',
   SUCCESS: 'FETCH.SUCCESS',

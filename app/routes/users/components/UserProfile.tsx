@@ -1,19 +1,23 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
+import cx from 'classnames';
 import { sumBy, sortBy, uniqBy, groupBy, orderBy } from 'lodash';
-import { ProfilePicture, CircularPicture, Image } from 'app/components/Image';
+import moment from 'moment-timezone';
+import { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
+import { QRCode } from 'react-qrcode-logo';
+import { Link } from 'react-router-dom';
+import frame from 'app/assets/frame.png';
+import Button from 'app/components/Button';
 import Card from 'app/components/Card';
-import Pill from 'app/components/Pill';
-import LoadingIndicator from 'app/components/LoadingIndicator';
-//import Feed from 'app/components/Feed';
-import Penalties from './Penalties';
-import PhotoConsents from './PhotoConsents';
-import GroupChange from './GroupChange';
-import styles from './UserProfile.css';
+import EmptyState from 'app/components/EmptyState';
+import EventItem from 'app/components/EventItem';
+import type { EventStyle } from 'app/components/EventItem';
+import Icon from 'app/components/Icon';
+import { ProfilePicture, CircularPicture, Image } from 'app/components/Image';
 import { Flex } from 'app/components/Layout';
+import LoadingIndicator from 'app/components/LoadingIndicator';
+import Modal from 'app/components/Modal';
+import Pill from 'app/components/Pill';
 import Tooltip from 'app/components/Tooltip';
-import { resolveGroupLink } from 'app/reducers/groups';
 import type {
   Group,
   AddPenalty,
@@ -22,16 +26,13 @@ import type {
   PhotoConsent,
   Dateish,
 } from 'app/models';
-import cx from 'classnames';
-import EventItem from 'app/components/EventItem';
-import EmptyState from 'app/components/EmptyState';
-import moment from 'moment-timezone';
-import frame from 'app/assets/frame.png';
-import type { EventStyle } from 'app/components/EventItem';
-import Button from 'app/components/Button';
-import Modal from 'app/components/Modal';
-import { QRCode } from 'react-qrcode-logo';
-import Icon from 'app/components/Icon';
+import { resolveGroupLink } from 'app/reducers/groups';
+//import Feed from 'app/components/Feed';
+import GroupChange from './GroupChange';
+import Penalties from './Penalties';
+import PhotoConsents from './PhotoConsents';
+import styles from './UserProfile.css';
+
 const fieldTranslations = {
   username: 'Brukernavn',
   email: 'E-post',

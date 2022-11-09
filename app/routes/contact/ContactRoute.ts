@@ -1,14 +1,14 @@
-import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { reduxForm, reset, change } from 'redux-form';
-import { createValidator, required, maxLength } from 'app/utils/validation';
 import { sendContactMessage } from 'app/actions/ContactActions';
-import { addToast } from 'app/actions/ToastActions';
-import { selectGroupsWithType } from 'app/reducers/groups';
 import { fetchAllWithType } from 'app/actions/GroupActions';
-import Contact from './components/Contact';
-import withPreparedDispatch from 'app/utils/withPreparedDispatch';
+import { addToast } from 'app/actions/ToastActions';
 import { GroupType } from 'app/models';
+import { selectGroupsWithType } from 'app/reducers/groups';
+import { createValidator, required, maxLength } from 'app/utils/validation';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
+import Contact from './components/Contact';
 
 const validate = createValidator({
   recipient_group: [required()],

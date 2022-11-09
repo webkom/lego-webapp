@@ -1,14 +1,15 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { get } from 'lodash';
 import cx from 'classnames';
+import { get } from 'lodash';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { QrReader } from 'react-qr-reader';
+import goodSound from 'app/assets/good-sound.mp3';
+import Button from 'app/components/Button';
+import Icon from 'app/components/Icon';
+import Modal from 'app/components/Modal';
 import SearchPage from 'app/components/Search/SearchPage';
 import type { SearchResult } from 'app/reducers/search';
 import styles from './Validator.css';
-import goodSound from 'app/assets/good-sound.mp3';
-import Button from 'app/components/Button';
-import Modal from 'app/components/Modal';
-import { QrReader } from 'react-qr-reader';
-import Icon from 'app/components/Icon';
+
 type Props = {
   clearSearch: () => void;
   handleSelect: (arg0: SearchResult) => Promise<void>;

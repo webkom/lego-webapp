@@ -1,12 +1,12 @@
-import { compose } from 'redux';
+import { push } from 'connected-react-router';
+import qs from 'qs';
 import { connect } from 'react-redux';
-import EmailLists from './components/EmailLists';
+import { compose } from 'redux';
 import { fetch } from 'app/actions/EmailListActions';
 import { selectEmailLists } from 'app/reducers/emailLists';
-import { push } from 'connected-react-router';
 import { selectPaginationNext } from 'app/reducers/selectors';
-import qs from 'qs';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
+import EmailLists from './components/EmailLists';
 
 const mapStateToProps = (state) => {
   const { search } = state.router.location;

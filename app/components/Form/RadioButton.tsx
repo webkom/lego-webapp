@@ -1,7 +1,8 @@
-import { createField } from './Field';
-import type { FormProps } from './Field';
-import styles from './RadioButton.css';
 import cx from 'classnames';
+import { createField } from './Field';
+import styles from './RadioButton.css';
+import type { FormProps } from './Field';
+
 type Props = {
   id: string;
   type?: string;

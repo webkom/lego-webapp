@@ -1,6 +1,7 @@
-import type { Node } from 'react';
-import type { Allowed } from 'app/reducers/allowed';
 import ReadmeLogo from 'app/components/ReadmeLogo';
+import type { Allowed } from 'app/reducers/allowed';
+import type { Node } from 'react';
+
 type Link = {
   key: string;
   title: Node;

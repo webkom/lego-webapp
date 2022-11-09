@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet-async';
-import styles from './Toolbar.css';
 import { Flex } from 'app/components/Layout';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
+import styles from './Toolbar.css';
 
 const Toolbar = () => {
   return (

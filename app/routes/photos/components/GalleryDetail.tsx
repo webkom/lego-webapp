@@ -1,19 +1,20 @@
-import { Helmet } from 'react-helmet-async';
-import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
-import type { Element } from 'react';
+import FileSaver from 'file-saver';
+import JsZip from 'jszip';
 import { Component, cloneElement } from 'react';
-import GalleryDetailsRow from './GalleryDetailsRow';
-import EmptyState from 'app/components/EmptyState';
-import ImageUpload from 'app/components/Upload/ImageUpload';
+import { Helmet } from 'react-helmet-async';
+import Button from 'app/components/Button';
 import { Content } from 'app/components/Content';
+import EmptyState from 'app/components/EmptyState';
 import Gallery from 'app/components/Gallery';
+import LoadingIndicator from 'app/components/LoadingIndicator';
+import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
+import ImageUpload from 'app/components/Upload/ImageUpload';
 import type { DropFile } from 'app/components/Upload/ImageUpload';
 import type { ID, ActionGrant } from 'app/models';
 import type { GalleryPictureEntity } from 'app/reducers/galleryPictures';
-import Button from 'app/components/Button';
-import JsZip from 'jszip';
-import FileSaver from 'file-saver';
-import LoadingIndicator from 'app/components/LoadingIndicator';
+import GalleryDetailsRow from './GalleryDetailsRow';
+import type { Element } from 'react';
+
 type Props = {
   gallery: Record<string, any>;
   loggedIn: boolean;

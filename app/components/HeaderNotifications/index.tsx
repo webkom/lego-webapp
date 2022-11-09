@@ -1,13 +1,14 @@
-import { Component } from 'react';
 import cx from 'classnames';
-import Dropdown from '../Dropdown';
-import Icon from '../Icon';
-import { activityRenderers } from '../Feed';
-import Time from 'app/components/Time';
-import styles from './HeaderNotifications.css';
+import { Component } from 'react';
 import { Link } from 'react-router-dom';
 import ErrorBoundary from 'app/components/ErrorBoundary';
+import Time from 'app/components/Time';
+import Dropdown from '../Dropdown';
+import { activityRenderers } from '../Feed';
 import { toSpan } from '../Feed/context';
+import Icon from '../Icon';
+import styles from './HeaderNotifications.css';
+
 type Props = {
   notificationsData: Record<string, any>;
   fetchNotifications: () => void;

@@ -1,8 +1,8 @@
 import { Route, Switch } from 'react-router-dom';
 import RouteWrapper from 'app/components/RouteWrapper';
 import { UserContext } from 'app/routes/app/AppRoute';
-import SearchRoute from './SearchRoute';
 import PageNotFound from '../pageNotFound';
+import SearchRoute from './SearchRoute';
 
 const searchRoute = ({
   match,

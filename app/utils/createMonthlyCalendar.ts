@@ -1,5 +1,5 @@
-import moment, { Moment } from 'moment-timezone';
 import { range, takeWhile, last } from 'lodash';
+import moment, { Moment } from 'moment-timezone';
 /**
  * Generate days of an entire month.
  *

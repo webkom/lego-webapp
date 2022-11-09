@@ -1,4 +1,5 @@
 import Image from './Image';
+
 type Props = {
   src: any;
   placeholder?: string;

@@ -1,10 +1,11 @@
+import { produce } from 'immer';
+import { createSelector } from 'reselect';
 import { $Keys } from 'utility-types';
+import createEntityReducer from 'app/utils/createEntityReducer';
 import { Meeting } from '../actions/ActionTypes';
 import { selectMeetingById } from './meetings';
-import { createSelector } from 'reselect';
-import createEntityReducer from 'app/utils/createEntityReducer';
 import type { UserEntity } from './users';
-import { produce } from 'immer';
+
 export const statusesText = {
   NO_ANSWER: 'Ikke svart',
   ATTENDING: 'Deltar',

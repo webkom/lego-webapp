@@ -1,23 +1,23 @@
+import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import {
-  SelectGalleryPicturesByGalleryId,
-  selectGalleryPictureById,
-  selectCommentsForGalleryPicture,
-} from '../../reducers/galleryPictures';
-import helmet from 'app/utils/helmet';
-import GalleryPictureModal from './components/GalleryPictureModal';
-import loadingIndicator from 'app/utils/loadingIndicator';
+import { deleteComment } from 'app/actions/CommentActions';
+import { updateGalleryCover, fetchGallery } from 'app/actions/GalleryActions';
 import {
   fetchSiblingGallerPicture,
   fetchGalleryPicture,
   deletePicture,
 } from 'app/actions/GalleryPictureActions';
-import { updateGalleryCover, fetchGallery } from 'app/actions/GalleryActions';
-import { push } from 'connected-react-router';
-import { deleteComment } from 'app/actions/CommentActions';
 import { selectGalleryById } from 'app/reducers/galleries';
+import helmet from 'app/utils/helmet';
+import loadingIndicator from 'app/utils/loadingIndicator';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
+import {
+  SelectGalleryPicturesByGalleryId,
+  selectGalleryPictureById,
+  selectCommentsForGalleryPicture,
+} from '../../reducers/galleryPictures';
+import GalleryPictureModal from './components/GalleryPictureModal';
 
 function mapStateToProps(state, props) {
   const { galleryId, pictureId } = props.match.params;

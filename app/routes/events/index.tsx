@@ -2,6 +2,7 @@ import loadable from '@loadable/component';
 import { Route, Switch } from 'react-router-dom';
 import { UserContext } from 'app/routes/app/AppRoute';
 import EventStatistics from 'app/routes/events/EventStatisticsRoute';
+
 const EventEditRoute = loadable(() => import('./EventEditRoute'));
 const EventAdministrateRoute = loadable(
   () => import('./EventAdministrateRoute')

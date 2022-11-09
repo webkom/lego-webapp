@@ -1,8 +1,8 @@
-import { connect } from 'react-redux';
-import UserResetPassword from './components/UserResetPassword';
-import { resetPassword } from 'app/actions/UserActions';
-import qs from 'qs';
 import { push } from 'connected-react-router';
+import qs from 'qs';
+import { connect } from 'react-redux';
+import { resetPassword } from 'app/actions/UserActions';
+import UserResetPassword from './components/UserResetPassword';
 
 const mapStateToProps = (state, { location: { search } }) => {
   const { token } = qs.parse(search, {

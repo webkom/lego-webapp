@@ -1,5 +1,6 @@
-import type { Node } from 'react';
 import { Flex } from 'app/components/Layout';
+import type { Node } from 'react';
+
 type Props = {
   className?: string;
   children: Node;

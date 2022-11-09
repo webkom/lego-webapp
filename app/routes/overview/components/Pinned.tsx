@@ -1,10 +1,11 @@
 import { Component } from 'react';
-import type { Element } from 'react';
-import type { Event, Article } from 'app/models';
+import { Link } from 'react-router-dom';
 import { Image } from 'app/components/Image';
 import { Flex } from 'app/components/Layout';
-import { Link } from 'react-router-dom';
+import type { Event, Article } from 'app/models';
 import styles from './Pinned.css';
+import type { Element } from 'react';
+
 type Props = {
   item: Event | Article;
   url: string;

@@ -1,8 +1,9 @@
 import { Field } from 'redux-form';
-import type { FormProps } from 'redux-form';
 import { legoForm, Button, Form } from 'app/components/Form';
 import TextInput from 'app/components/Form/TextInput';
 import { createValidator, matchesRegex, required } from 'app/utils/validation';
+import type { FormProps } from 'redux-form';
+
 type Props = FormProps & {
   group: Record<string, any>;
 };

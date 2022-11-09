@@ -1,19 +1,20 @@
+import cx from 'classnames';
 import { Component } from 'react';
-import styles from './bdb.css';
+import Button from 'app/components/Button';
+import LoadingIndicator from 'app/components/LoadingIndicator';
+import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
+import FileUpload from 'app/components/Upload/FileUpload';
+import type { CompanySemesterContactedStatus } from 'app/models';
+import type { SemesterStatusEntity } from 'app/reducers/companies';
+import truncateString from 'app/utils/truncateString';
 import {
   selectColorCode,
   semesterCodeToName,
   selectMostProminentStatus,
 } from '../utils';
 import SemesterStatusContent from './SemesterStatusContent';
-import LoadingIndicator from 'app/components/LoadingIndicator';
-import type { SemesterStatusEntity } from 'app/reducers/companies';
-import FileUpload from 'app/components/Upload/FileUpload';
-import truncateString from 'app/utils/truncateString';
-import type { CompanySemesterContactedStatus } from 'app/models';
-import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
-import cx from 'classnames';
-import Button from 'app/components/Button';
+import styles from './bdb.css';
+
 const FILE_NAME_LENGTH = 30;
 type Props = {
   semesterStatus: SemesterStatusEntity;

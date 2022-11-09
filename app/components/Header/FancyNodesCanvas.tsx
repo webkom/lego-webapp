@@ -1,8 +1,9 @@
-import { Component } from 'react';
 import debounce from 'lodash/debounce';
-import drawFancyNodes from './drawFancyNodes';
-import styles from './FancyNodesCanvas.css';
+import { Component } from 'react';
 import { getTheme } from 'app/utils/themeUtils';
+import styles from './FancyNodesCanvas.css';
+import drawFancyNodes from './drawFancyNodes';
+
 type Props = {
   height: number;
 };

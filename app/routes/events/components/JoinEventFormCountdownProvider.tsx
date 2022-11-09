@@ -1,8 +1,9 @@
-import type { Node, ComponentType } from 'react';
-import { Component } from 'react';
 import moment from 'moment-timezone';
+import { Component } from 'react';
 import type { Dateish, Event, EventRegistration } from 'app/models';
 import { registrationIsClosed } from '../utils';
+import type { Node, ComponentType } from 'react';
+
 type Action =
   | 'REGISTRATION_AVAILABLE'
   | '90_SECONDS_LEFT'

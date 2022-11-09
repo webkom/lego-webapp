@@ -1,9 +1,10 @@
-import Button from 'app/components/Button';
-import config from 'app/config';
 import { reduxForm, Form, Field } from 'redux-form';
-import { isEmail, createValidator, required } from 'app/utils/validation';
+import Button from 'app/components/Button';
 import { TextInput, SelectInput } from 'app/components/Form';
 import CheckBox from 'app/components/Form/CheckBox';
+import config from 'app/config';
+import { isEmail, createValidator, required } from 'app/utils/validation';
+
 export type Props = {
   restrictedMailId?: number;
   restrictedMail: Record<string, any>;

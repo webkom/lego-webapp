@@ -1,19 +1,19 @@
+import { isEmpty, orderBy } from 'lodash';
+import moment from 'moment-timezone';
 import { Component } from 'react';
 import { Helmet } from 'react-helmet-async';
-import moment from 'moment-timezone';
-import Button from 'app/components/Button';
-import EventItem from 'app/components/EventItem';
-import Toolbar from './Toolbar';
-import styles from './EventList.css';
-import EventFooter from './EventFooter';
-import EmptyState from 'app/components/EmptyState';
-import { isEmpty, orderBy } from 'lodash';
-import type { Event, ActionGrant, IcalToken, EventTimeType } from 'app/models';
 import Select from 'react-select';
-import Icon from 'app/components/Icon';
-import { EVENTFIELDS } from 'app/utils/constants';
+import Button from 'app/components/Button';
+import EmptyState from 'app/components/EmptyState';
+import EventItem from 'app/components/EventItem';
 import { CheckBox } from 'app/components/Form/';
 import { selectTheme, selectStyles } from 'app/components/Form/SelectInput';
+import Icon from 'app/components/Icon';
+import type { Event, ActionGrant, IcalToken, EventTimeType } from 'app/models';
+import { EVENTFIELDS } from 'app/utils/constants';
+import EventFooter from './EventFooter';
+import styles from './EventList.css';
+import Toolbar from './Toolbar';
 
 const groupEvents = ({
   events,

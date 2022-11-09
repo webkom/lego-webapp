@@ -1,10 +1,11 @@
 import { Helmet } from 'react-helmet-async';
-import styles from './JoblistingPage.css';
-import LoadingIndicator from 'app/components/LoadingIndicator/';
-import JoblistingsList from './JoblistingList';
-import JoblistingsRightNav from './JoblistingRightNav';
 import { Flex } from 'app/components/Layout';
+import LoadingIndicator from 'app/components/LoadingIndicator/';
 import type { ActionGrant } from 'app/models';
+import JoblistingsList from './JoblistingList';
+import styles from './JoblistingPage.css';
+import JoblistingsRightNav from './JoblistingRightNav';
+
 type Props = {
   joblistings: Array</*TODO: JobListing*/ any>;
   search: Record<string, any>;

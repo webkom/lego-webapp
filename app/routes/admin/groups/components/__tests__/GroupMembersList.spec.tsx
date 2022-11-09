@@ -1,9 +1,10 @@
 /* eslint-disable no-unused-expressions */
-import { GroupMembers } from '../GroupMembers';
-import GroupMembersList from '../GroupMembersList';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import { shallow } from 'enzyme';
 import { omit } from 'lodash';
+import LoadingIndicator from 'app/components/LoadingIndicator';
+import { GroupMembers } from '../GroupMembers';
+import GroupMembersList from '../GroupMembersList';
+
 const memberships = [
   {
     id: 1,

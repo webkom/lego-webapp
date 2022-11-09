@@ -1,4 +1,5 @@
 import { Meta } from '../actions/ActionTypes';
+
 const initialState = {
   events: false,
   articles: false,

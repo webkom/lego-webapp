@@ -1,9 +1,9 @@
-import { UserContext } from 'app/routes/app/AppRoute';
-import CompaniesRoute from './CompaniesRoute';
-import CompanyDetailRoute from './CompanyDetailRoute';
 import { Route, Switch } from 'react-router-dom';
 import RouteWrapper from 'app/components/RouteWrapper';
+import { UserContext } from 'app/routes/app/AppRoute';
 import PageNotFound from '../pageNotFound';
+import CompaniesRoute from './CompaniesRoute';
+import CompanyDetailRoute from './CompanyDetailRoute';
 
 const CompanyRoute = ({
   match,

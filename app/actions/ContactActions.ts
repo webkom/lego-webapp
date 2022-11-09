@@ -1,7 +1,8 @@
-import { Contact } from './ActionTypes';
-import type { Thunk } from 'app/types';
-import callAPI from './callAPI';
 import type { ContactForm } from 'app/reducers/contact';
+import type { Thunk } from 'app/types';
+import { Contact } from './ActionTypes';
+import callAPI from './callAPI';
+
 export function sendContactMessage(contactForm: ContactForm): Thunk<any> {
   return callAPI({
     types: Contact.SEND_MESSAGE,

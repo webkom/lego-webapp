@@ -1,7 +1,7 @@
-import type { User } from 'app/models';
 import { Link } from 'react-router-dom';
-import Tooltip from 'app/components/Tooltip';
 import { ProfilePicture } from 'app/components/Image';
+import Tooltip from 'app/components/Tooltip';
+import type { User } from 'app/models';
 
 const UserGrid = ({
   users,

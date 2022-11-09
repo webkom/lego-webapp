@@ -1,6 +1,7 @@
-import Time, { FromToTime, FormatTime } from '../Time';
 import { shallow } from 'enzyme';
 import moment from 'moment-timezone';
+import Time, { FromToTime, FormatTime } from '../Time';
+
 jest.mock('app/config', () => {
   return {
     timezone: 'GMT',

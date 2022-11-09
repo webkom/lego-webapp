@@ -1,8 +1,9 @@
 import { get } from 'lodash';
-import type { SearchResult } from 'app/reducers/search';
-import styles from './Abacard.css';
 import Validator from 'app/components/UserValidator';
 import type { EventRegistration, Event } from 'app/models';
+import type { SearchResult } from 'app/reducers/search';
+import styles from './Abacard.css';
+
 type Props = {
   registered: Array<EventRegistration>;
   event: Event;

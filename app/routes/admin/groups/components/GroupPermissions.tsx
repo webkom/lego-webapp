@@ -1,13 +1,14 @@
-import { compose } from 'redux';
 import { sortBy } from 'lodash';
-import type { ID } from 'app/models';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import styles from './GroupMembers.css';
-import AddGroupPermission from './AddGroupPermission';
+import { Link } from 'react-router-dom';
+import { compose } from 'redux';
 import { editGroup } from 'app/actions/GroupActions';
-import loadingIndicator from 'app/utils/loadingIndicator';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
+import type { ID } from 'app/models';
+import loadingIndicator from 'app/utils/loadingIndicator';
+import AddGroupPermission from './AddGroupPermission';
+import styles from './GroupMembers.css';
+
 type PermissionListProps = {
   permissions: Array<string>;
   parentPermissions: Array<{

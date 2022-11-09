@@ -1,5 +1,6 @@
-import users from '../users';
 import { Event } from '../../actions/ActionTypes';
+import users from '../users';
+
 describe('reducers', () => {
   describe('users', () => {
     const baseState = {

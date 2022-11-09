@@ -1,10 +1,11 @@
-import BdbPage from '../BdbPage';
 import { shallow } from 'enzyme';
-import companies from './fixtures/companies';
-import companySemesters from './fixtures/companySemesters';
+import TextInput from 'app/components/Form/TextInput';
+import BdbPage from '../BdbPage';
 import CompanyList from '../CompanyList';
 import OptionsBox from '../OptionsBox';
-import TextInput from 'app/components/Form/TextInput';
+import companies from './fixtures/companies';
+import companySemesters from './fixtures/companySemesters';
+
 describe('components', () => {
   describe('BdbPage', () => {
     it('should render sub-components properly', () => {

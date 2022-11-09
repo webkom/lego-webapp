@@ -1,7 +1,7 @@
+import slug from 'slugify';
+import type { Thunk } from 'app/types';
 import { File as FileType } from './ActionTypes';
 import callAPI from './callAPI';
-import type { Thunk } from 'app/types';
-import slug from 'slugify';
 
 const slugifyFilename: (filename: string) => string = (filename) => {
   // Slug options

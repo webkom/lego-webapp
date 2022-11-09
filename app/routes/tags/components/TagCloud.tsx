@@ -1,8 +1,9 @@
 import { Component } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Content } from 'app/components/Content';
-import { TagCloud as Cloud } from 'react-tagcloud';
 import { Link } from 'react-router-dom';
+import { TagCloud as Cloud } from 'react-tagcloud';
+import { Content } from 'app/components/Content';
+
 type Props = {
   tags: Array<Record<string, any>>;
   fetching: boolean;

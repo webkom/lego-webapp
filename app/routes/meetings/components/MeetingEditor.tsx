@@ -1,6 +1,6 @@
-import type { UserEntity } from 'app/reducers/users';
-import LegoFinalForm from 'app/components/Form/LegoFinalForm';
-import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
+import { unionBy } from 'lodash';
+import { Field } from 'react-final-form';
+import { Helmet } from 'react-helmet-async';
 import { useHistory } from 'react-router-dom';
 import {
   Button,
@@ -12,16 +12,17 @@ import {
   TextArea,
   TextInput,
 } from 'app/components/Form';
+import LegoFinalForm from 'app/components/Form/LegoFinalForm';
+import SubmissionError from 'app/components/Form/SubmissionError';
 import Icon from 'app/components/Icon';
-import { Field } from 'react-final-form';
-import LoadingIndicator from 'app/components/LoadingIndicator';
-import styles from 'app/routes/meetings/components/MeetingEditor.css';
-import { Helmet } from 'react-helmet-async';
-import NavigationTab from 'app/components/NavigationTab';
 import { Flex } from 'app/components/Layout';
+import LoadingIndicator from 'app/components/LoadingIndicator';
 import MazemapLink from 'app/components/MazemapEmbed/MazemapLink';
-import { unionBy } from 'lodash';
+import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
+import NavigationTab from 'app/components/NavigationTab';
 import { AttendanceStatus } from 'app/components/UserAttendance';
+import type { UserEntity } from 'app/reducers/users';
+import styles from 'app/routes/meetings/components/MeetingEditor.css';
 import { spySubmittable, spyValues } from 'app/utils/formSpyUtils';
 import {
   createValidator,
@@ -31,7 +32,7 @@ import {
   required,
   timeIsAfter,
 } from 'app/utils/validation';
-import SubmissionError from 'app/components/Form/SubmissionError';
+
 type Values = {
   title?: string;
   report?: string;

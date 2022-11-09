@@ -1,7 +1,8 @@
-import type { EmojiEntity } from 'app/reducers/emojis';
-import type { ID } from 'app/models';
-import styles from './ReactionPickerContent.css';
 import Emoji from 'app/components/Emoji';
+import type { ID } from 'app/models';
+import type { EmojiEntity } from 'app/reducers/emojis';
+import styles from './ReactionPickerContent.css';
+
 type Props = {
   emojis: Array<EmojiEntity>;
   searchResults: Array<EmojiEntity> | null;

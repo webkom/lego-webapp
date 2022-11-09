@@ -1,9 +1,10 @@
+import qs from 'qs';
 import { useEffect, useState } from 'react';
 import SearchPageInput from 'app/components/Search/SearchPageInput';
 import SearchPageResults from 'app/components/Search/SearchPageResults';
-import { Keyboard } from 'app/utils/constants';
 import type { SearchResult } from 'app/reducers/search';
-import qs from 'qs';
+import { Keyboard } from 'app/utils/constants';
+
 type Props = {
   searching: boolean;
   location: Record<string, any>;

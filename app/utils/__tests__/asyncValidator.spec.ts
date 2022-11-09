@@ -1,4 +1,5 @@
 import { createAsyncValidator } from 'app/utils/asyncValidator';
+
 describe('asyncValidator', () => {
   it('should validate a text field', async () => {
     const asyncValidate = createAsyncValidator({

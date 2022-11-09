@@ -1,8 +1,9 @@
-import { Article } from './ActionTypes';
-import { articleSchema } from 'app/reducers';
-import callAPI from 'app/actions/callAPI';
-import type { EntityID, ArticleEntity, Thunk } from 'app/types';
 import { push } from 'connected-react-router';
+import callAPI from 'app/actions/callAPI';
+import { articleSchema } from 'app/reducers';
+import type { EntityID, ArticleEntity, Thunk } from 'app/types';
+import { Article } from './ActionTypes';
+
 export function fetchArticle(articleId: EntityID): Thunk<any> {
   return callAPI({
     types: Article.FETCH,

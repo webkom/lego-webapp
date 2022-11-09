@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
-import { OAuth2 } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
+import { OAuth2 } from '../actions/ActionTypes';
+
 export type OAuth2ApplicationEntity = {
   id: number;
   name: string;

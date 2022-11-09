@@ -1,9 +1,9 @@
+import { PieChart, Cell, Pie } from 'recharts';
 import {
   CHART_COLORS,
   renderCustomizedLabel,
   DistributionDataPoint,
 } from 'app/components/Chart/utils';
-import { PieChart, Cell, Pie } from 'recharts';
 
 const DistributionPieChart = ({
   dataKey,

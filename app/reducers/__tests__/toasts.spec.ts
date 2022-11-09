@@ -1,5 +1,6 @@
-import toasts from '../toasts';
 import { Toasts } from '../../actions/ActionTypes';
+import toasts from '../toasts';
+
 describe('reducers', () => {
   describe('toasts', () => {
     it('Toasts should populate default state correctly', () => {

@@ -1,5 +1,6 @@
-import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { deleteComment } from 'app/actions/CommentActions';
 import {
   fetchEvent,
   deleteEvent,
@@ -11,7 +12,6 @@ import {
   unfollow,
   isUserFollowing,
 } from 'app/actions/EventActions';
-import EventDetail from './components/EventDetail';
 import {
   selectEventById,
   selectCommentsForEvent,
@@ -23,13 +23,13 @@ import {
   selectWaitingRegistrationsForEvent,
   selectRegistrationForEventByUserId,
 } from 'app/reducers/events';
-import loadingIndicator from 'app/utils/loadingIndicator';
-import helmet from 'app/utils/helmet';
-import { deleteComment } from 'app/actions/CommentActions';
-import { selectUserWithGroups } from 'app/reducers/users';
 import { selectFollowersCurrentUser } from 'app/reducers/followers';
 import { selectPenaltyByUserId } from 'app/reducers/penalties';
+import { selectUserWithGroups } from 'app/reducers/users';
+import helmet from 'app/utils/helmet';
+import loadingIndicator from 'app/utils/loadingIndicator';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
+import EventDetail from './components/EventDetail';
 
 const mapStateToProps = (state, props) => {
   const {

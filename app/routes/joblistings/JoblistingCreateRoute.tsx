@@ -1,10 +1,10 @@
-import { compose } from 'redux';
+import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { fetchCompanyContacts } from 'app/actions/CompanyActions';
 import { createJoblisting } from 'app/actions/JoblistingActions';
-import JoblistingEditor from 'app/routes/joblistings/components/JoblistingEditor';
-import { push } from 'connected-react-router';
 import { LoginPage } from 'app/components/LoginForm';
+import JoblistingEditor from 'app/routes/joblistings/components/JoblistingEditor';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import time from 'app/utils/time';
 import { yearValues, jobTypes } from './constants';

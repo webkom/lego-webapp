@@ -1,14 +1,15 @@
 import { useEffect, useState, useCallback, Fragment, Component } from 'react';
-import { useDropzone } from 'react-dropzone';
 import { Cropper } from 'react-cropper';
-import { Flex } from 'app/components/Layout';
+import { useDropzone } from 'react-dropzone';
 import 'cropperjs/dist/cropper.css';
-import Modal from 'app/components/Modal';
-import Icon from 'app/components/Icon';
-import TextInput from 'app/components/Form/TextInput';
 import Button from 'app/components/Button';
-import styles from './UploadImage.css';
+import TextInput from 'app/components/Form/TextInput';
+import Icon from 'app/components/Icon';
 import { Image } from 'app/components/Image';
+import { Flex } from 'app/components/Layout';
+import Modal from 'app/components/Modal';
+import styles from './UploadImage.css';
+
 export type DropFile = File & {
   preview: string;
 };

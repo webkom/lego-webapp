@@ -1,9 +1,10 @@
-import styles from './ConfirmModal.css';
-import type { ComponentType, Node } from 'react';
-import { Component, Children, cloneElement } from 'react';
 import { get } from 'lodash';
+import { Component, Children, cloneElement } from 'react';
 import Modal from 'app/components/Modal';
 import Button from '../Button';
+import styles from './ConfirmModal.css';
+import type { ComponentType, Node } from 'react';
+
 type ConfirmModalProps = {
   onConfirm?: () => Promise<any>;
   onCancel?: () => Promise<any>;

@@ -1,12 +1,13 @@
-import type { Node } from 'react';
-import { Component } from 'react';
 import classNames from 'classnames';
-import styles from './index.css';
-import type { EmojiEntity } from 'app/reducers/emojis';
+import { Component } from 'react';
 import type { ID } from 'app/models';
+import type { EmojiEntity } from 'app/reducers/emojis';
 import reactionStyles from './Reaction.css';
 import ReactionPicker from './ReactionPicker';
 import AddReactionEmoji from './assets/AddReactionEmoji';
+import styles from './index.css';
+import type { Node } from 'react';
+
 type Props = {
   children: Node;
   className?: string;

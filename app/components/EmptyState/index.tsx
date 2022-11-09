@@ -1,7 +1,8 @@
-import type { Node } from 'react';
-import styles from './EmptyState.css';
-import Icon from '../Icon';
 import cx from 'classnames';
+import Icon from '../Icon';
+import styles from './EmptyState.css';
+import type { Node } from 'react';
+
 type Props = {
   /** name of icon */
   icon?: string;

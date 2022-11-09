@@ -1,19 +1,20 @@
-import styles from './bdb.css';
-import { Content } from 'app/components/Content';
 import { Component } from 'react';
 import { Field } from 'redux-form';
 import Button from 'app/components/Button';
+import { Content } from 'app/components/Content';
 import { TextInput, RadioButton, RadioButtonGroup } from 'app/components/Form';
-import SemesterStatusContent from './SemesterStatusContent';
+import type { CompanySemesterContactedStatus } from 'app/models';
+import type { SemesterStatusEntity } from 'app/reducers/companies';
+import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 import {
   getContactedStatuses,
   selectMostProminentStatus,
   selectColorCode,
   DetailNavigation,
 } from '../utils';
-import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
-import type { SemesterStatusEntity } from 'app/reducers/companies';
-import type { CompanySemesterContactedStatus } from 'app/models';
+import SemesterStatusContent from './SemesterStatusContent';
+import styles from './bdb.css';
+
 type Props = {
   addSemesterStatus: (
     arg0: Record<string, any>,

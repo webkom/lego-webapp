@@ -1,8 +1,9 @@
-import { Meeting } from '../actions/ActionTypes';
 import moment from 'moment-timezone';
 import { createSelector } from 'reselect';
-import createEntityReducer from 'app/utils/createEntityReducer';
 import { mutateComments } from 'app/reducers/comments';
+import createEntityReducer from 'app/utils/createEntityReducer';
+import { Meeting } from '../actions/ActionTypes';
+
 export type MeetingEntity = {
   id: number;
   title: string;

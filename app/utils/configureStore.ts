@@ -1,23 +1,24 @@
-import { $Shape } from 'utility-types';
+import { routerMiddleware } from 'connected-react-router';
+import { createBrowserHistory, createMemoryHistory } from 'history';
+import jwtDecode from 'jwt-decode';
+import { omit } from 'lodash';
 import {
   // $FlowFixMe
   legacy_createStore as createStore,
   applyMiddleware,
   compose,
 } from 'redux';
-import thunkMiddleware from 'redux-thunk';
 import { createLogger } from 'redux-logger';
-import jwtDecode from 'jwt-decode';
-import { routerMiddleware } from 'connected-react-router';
-import { createBrowserHistory, createMemoryHistory } from 'history';
 import createSentryMiddleware from 'redux-sentry-middleware';
+import thunkMiddleware from 'redux-thunk';
+import { $Shape } from 'utility-types';
 import { addToast } from 'app/actions/ToastActions';
-import promiseMiddleware from './promiseMiddleware';
 import { selectCurrentUser } from 'app/reducers/auth';
-import createMessageMiddleware from './messageMiddleware';
 import type { State, Store, GetCookie } from 'app/types';
-import { omit } from 'lodash';
 import createRootReducer from '../reducers';
+import createMessageMiddleware from './messageMiddleware';
+import promiseMiddleware from './promiseMiddleware';
+
 const sentryMiddlewareOptions = {
   stateTransformer: (state) => {
     try {

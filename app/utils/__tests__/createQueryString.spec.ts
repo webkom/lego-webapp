@@ -1,4 +1,5 @@
 import createQueryString from '../createQueryString';
+
 describe('createQueryString', () => {
   it('should work for strings and numbers', () => {
     const qs = createQueryString({

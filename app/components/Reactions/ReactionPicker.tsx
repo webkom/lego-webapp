@@ -1,13 +1,14 @@
-import { useMemo, useState, useCallback } from 'react';
 import fuzzy from 'fuzzy';
-import type { EmojiEntity } from 'app/reducers/emojis';
-import type { ID } from 'app/models';
-import styles from './ReactionPicker.css';
-import ReactionPickerHeader from './ReactionPickerHeader';
-import ReactionPickerContent from './ReactionPickerContent';
-import ReactionPickerFooter from './ReactionPickerFooter';
+import { useMemo, useState, useCallback } from 'react';
 import emojiLoading from 'app/assets/emoji_loading.svg';
 import { Image } from 'app/components/Image';
+import type { ID } from 'app/models';
+import type { EmojiEntity } from 'app/reducers/emojis';
+import styles from './ReactionPicker.css';
+import ReactionPickerContent from './ReactionPickerContent';
+import ReactionPickerFooter from './ReactionPickerFooter';
+import ReactionPickerHeader from './ReactionPickerHeader';
+
 type Props = {
   isLoading: boolean;
   emojis: Array<EmojiEntity>;

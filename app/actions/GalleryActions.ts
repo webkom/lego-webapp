@@ -1,7 +1,8 @@
-import { Gallery } from './ActionTypes';
-import { gallerySchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
+import { gallerySchema } from 'app/reducers';
 import type { EntityID, GalleryEntity, Thunk } from 'app/types';
+import { Gallery } from './ActionTypes';
+
 export function fetch({
   next,
   filters,

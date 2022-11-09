@@ -1,13 +1,14 @@
-import type { Element } from 'react';
+import { omit } from 'lodash';
 import { cloneElement } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { Helmet } from 'react-helmet-async';
-import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { Content } from 'app/components/Content';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { LoginPage } from 'app/components/LoginForm';
-import { omit } from 'lodash';
+import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import type { Element } from 'react';
+
 type Props = {
   children: Array<Element<any>>;
   currentUser: Record<string, any>;

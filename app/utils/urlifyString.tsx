@@ -1,6 +1,7 @@
+import { compact } from 'lodash';
 import * as React from 'react';
 import { isEmail, isURL } from 'validator';
-import { compact } from 'lodash';
+
 type Urlified = Array<React.ReactNode | string>;
 export const emailToLink = (mail: string): React.ReactNode => (
   <a

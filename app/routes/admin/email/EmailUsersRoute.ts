@@ -1,15 +1,15 @@
-import { compose } from 'redux';
+import { push } from 'connected-react-router';
+import qs from 'qs';
 import { connect } from 'react-redux';
-import EmailUsers from './components/EmailUsers';
+import { compose } from 'redux';
 import { fetch } from 'app/actions/EmailUserActions';
-import { selectEmailUsers } from 'app/reducers/emailUsers';
 import { fetchAllWithType } from 'app/actions/GroupActions';
 import { GroupType } from 'app/models';
-import { selectPaginationNext } from 'app/reducers/selectors';
-import { push } from 'connected-react-router';
+import { selectEmailUsers } from 'app/reducers/emailUsers';
 import { selectGroupsWithType } from 'app/reducers/groups';
-import qs from 'qs';
+import { selectPaginationNext } from 'app/reducers/selectors';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
+import EmailUsers from './components/EmailUsers';
 
 const mapStateToProps = (state) => {
   const { search } = state.router.location;

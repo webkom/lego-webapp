@@ -1,8 +1,9 @@
+import Button from 'app/components/Button';
 import type { SubmissionEntity } from 'app/reducers/surveySubmissions';
 import type { SurveyEntity, QuestionEntity } from 'app/reducers/surveys';
-import Results from './Results';
 import styles from '../surveys.css';
-import Button from 'app/components/Button';
+import Results from './Results';
+
 type Props = {
   submissions: Array<SubmissionEntity>;
   addSubmission: (arg0: SubmissionEntity) => Promise<any>;

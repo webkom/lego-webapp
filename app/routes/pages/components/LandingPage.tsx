@@ -1,19 +1,20 @@
+import cx from 'classnames';
+import moment from 'moment-timezone';
 import { Link } from 'react-router-dom';
+import bannerDarkMode from 'app/assets/om-abakus-banner-dark-mode.png';
+import bannerLightMode from 'app/assets/om-abakus-banner.png';
+import Button from 'app/components/Button';
 import Icon from 'app/components/Icon';
+import { Image } from 'app/components/Image';
 import { Flex } from 'app/components/Layout';
+import styles from './LandingPage.css';
 import { DisplayVisionShort } from './subcomponents/DisplayVision';
+import EmailItem from './subcomponents/EmailItem';
+import Statistic from './subcomponents/Statistic';
 import TextWithBoldTitle, {
   TextWithTitle,
 } from './subcomponents/TextWithTitle';
-import Statistic from './subcomponents/Statistic';
-import EmailItem from './subcomponents/EmailItem';
-import styles from './LandingPage.css';
-import Button from 'app/components/Button';
-import moment from 'moment-timezone';
-import { Image } from 'app/components/Image';
-import cx from 'classnames';
-import bannerLightMode from 'app/assets/om-abakus-banner.png';
-import bannerDarkMode from 'app/assets/om-abakus-banner-dark-mode.png';
+
 type Props = {
   whoWeAre: string;
   whatWeDo: string;

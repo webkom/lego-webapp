@@ -1,7 +1,8 @@
-import type { ComponentType, ReactElement } from 'react';
 import { Children, cloneElement, Component } from 'react';
 import Modal from 'app/components/Modal';
 import AttendanceModal from './AttendanceModal';
+import type { ComponentType, ReactElement } from 'react';
+
 type State = {
   modalVisible: boolean;
   selectedTab: number;

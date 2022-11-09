@@ -1,13 +1,14 @@
-import { Component } from 'react';
-import styles from './surveys.css';
 import cx from 'classnames';
+import { Component } from 'react';
 import { Link } from 'react-router-dom';
-import type { ActionGrant } from 'app/models';
-import { ContentSidebar } from 'app/components/Content';
 import Button from 'app/components/Button';
+import { ContentSidebar } from 'app/components/Content';
+import { CheckBox } from 'app/components/Form';
 import Icon from 'app/components/Icon';
 import config from 'app/config';
-import { CheckBox } from 'app/components/Form';
+import type { ActionGrant } from 'app/models';
+import styles from './surveys.css';
+
 type Props = {
   surveyId: number;
   actionGrant: ActionGrant;

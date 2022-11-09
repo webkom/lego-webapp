@@ -1,5 +1,6 @@
 import 'isomorphic-fetch';
 import fetchJSON from '../fetchJSON';
+
 describe('fetchJSON', () => {
   describe('successful response', () => {
     beforeEach(() => {

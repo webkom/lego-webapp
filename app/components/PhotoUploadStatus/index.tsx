@@ -1,9 +1,10 @@
 import { Fragment } from 'react';
-import Card from 'app/components/Card';
-import Icon from 'app/components/Icon';
-import Flex from 'app/components/Layout/Flex';
 import { connect } from 'react-redux';
 import { Gallery } from 'app/actions/ActionTypes';
+import Card from 'app/components/Card';
+import Icon from 'app/components/Icon';
+import { Image } from 'app/components/Image';
+import Flex from 'app/components/Layout/Flex';
 import Tooltip from 'app/components/Tooltip';
 import type {
   UploadStatus,
@@ -13,8 +14,8 @@ import {
   selectGalleryPictureById,
   initialUploadStatus,
 } from 'app/reducers/galleryPictures';
-import { Image } from 'app/components/Image';
 import styles from './PhotoUploadStatus.css';
+
 type StateProps = {
   uploadStatus: UploadStatus;
   lastImage: GalleryPictureEntity | null | undefined;

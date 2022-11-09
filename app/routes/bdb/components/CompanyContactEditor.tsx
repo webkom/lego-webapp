@@ -1,17 +1,18 @@
-import styles from './bdb.css';
 import { Component } from 'react';
-import { Content } from 'app/components/Content';
+import { Link } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form';
 import Button from 'app/components/Button';
+import { Content } from 'app/components/Content';
 import { TextInput } from 'app/components/Form';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import { Link } from 'react-router-dom';
-import { createValidator, required, isEmail } from 'app/utils/validation';
-import { DetailNavigation } from '../utils';
 import type {
   CompanyEntity,
   CompanyContactEntity,
 } from 'app/reducers/companies';
+import { createValidator, required, isEmail } from 'app/utils/validation';
+import { DetailNavigation } from '../utils';
+import styles from './bdb.css';
+
 type Props = {
   submitFunction: (
     arg0: CompanyContactEntity,

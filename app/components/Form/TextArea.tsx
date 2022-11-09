@@ -1,7 +1,8 @@
 import cx from 'classnames';
-import { createField } from './Field';
 import Textarea from 'react-textarea-autosize';
+import { createField } from './Field';
 import styles from './TextInput.css';
+
 type Props = {
   type?: string;
   className?: string;

@@ -1,10 +1,10 @@
-import { compose } from 'redux';
-import { connect } from 'react-redux';
-import { createPage } from 'app/actions/PageActions';
-import PageEditor from './components/PageEditor';
-import { uploadFile } from 'app/actions/FileActions';
-import { legoForm } from 'app/components/Form';
 import { push } from 'connected-react-router';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { uploadFile } from 'app/actions/FileActions';
+import { createPage } from 'app/actions/PageActions';
+import { legoForm } from 'app/components/Form';
+import PageEditor from './components/PageEditor';
 
 function mapStateToProps(state, props) {
   return {

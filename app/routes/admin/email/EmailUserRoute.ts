@@ -1,11 +1,11 @@
-import { compose } from 'redux';
-import { connect } from 'react-redux';
-import EmailUserEditor from './components/EmailUserEditor';
-import loadingIndicator from 'app/utils/loadingIndicator';
 import { get } from 'lodash';
-import { selectEmailUserById } from 'app/reducers/emailUsers';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { editEmailUser, fetchEmailUser } from 'app/actions/EmailUserActions';
+import { selectEmailUserById } from 'app/reducers/emailUsers';
+import loadingIndicator from 'app/utils/loadingIndicator';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
+import EmailUserEditor from './components/EmailUserEditor';
 
 const mapStateToProps = (state, { match: { params } }) => {
   const { emailUserId } = params;

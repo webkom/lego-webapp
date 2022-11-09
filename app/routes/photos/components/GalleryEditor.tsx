@@ -1,9 +1,13 @@
+import cx from 'classnames';
+import { without, find } from 'lodash';
+import moment from 'moment-timezone';
 import { Component } from 'react';
 import { Helmet } from 'react-helmet-async';
-import cx from 'classnames';
-import moment from 'moment-timezone';
-import NavigationTab from 'app/components/NavigationTab';
+import { Link } from 'react-router-dom';
+import { Field, Fields } from 'redux-form';
 import Button from 'app/components/Button';
+import { Content } from 'app/components/Content';
+import EmptyState from 'app/components/EmptyState';
 import {
   TextInput,
   CheckBox,
@@ -15,20 +19,17 @@ import {
   legoForm,
 } from 'app/components/Form';
 import { normalizeObjectPermissions } from 'app/components/Form/ObjectPermissions';
-import { Field, Fields } from 'redux-form';
-import { Flex } from 'app/components/Layout';
-import { Content } from 'app/components/Content';
-import { Link } from 'react-router-dom';
-import Icon from 'app/components/Icon';
-import EmptyState from 'app/components/EmptyState';
-import GalleryEditorActions from './GalleryEditorActions';
 import GalleryComponent from 'app/components/Gallery';
-import styles from './Overview.css';
-import { without, find } from 'lodash';
+import Icon from 'app/components/Icon';
+import { Flex } from 'app/components/Layout';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
+import NavigationTab from 'app/components/NavigationTab';
 import type { ID } from 'app/models';
 import type { GalleryEntity } from 'app/reducers/galleries';
 import type { GalleryPictureEntity } from 'app/reducers/galleryPictures';
+import GalleryEditorActions from './GalleryEditorActions';
+import styles from './Overview.css';
+
 type Props = {
   isNew: boolean;
   gallery: GalleryEntity;

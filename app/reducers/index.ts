@@ -1,64 +1,63 @@
-import type { Schema } from 'normalizr';
-import { schema } from 'normalizr';
-import type { Reducer } from 'app/types';
-import 'app/types';
-import { combineReducers } from 'redux';
 import { connectRouter } from 'connected-react-router';
-import routing from './routing';
+import { schema } from 'normalizr';
+import { combineReducers } from 'redux';
+import type { LocationType } from 'app/models';
+import type { Reducer } from 'app/types';
+import joinReducers from 'app/utils/joinReducers';
 import allowed from './allowed';
-import form from './forms';
+import announcements from './announcements';
+import articles from './articles';
+import auth from './auth';
+import comments from './comments';
 import companies from './companies';
+import companyInterest from './companyInterest';
 import companySemesters from './companySemesters';
 import emailLists from './emailLists';
-import quotes from './quotes';
-import galleryPictures from './galleryPictures';
-import events from './events';
-import articles from './articles';
-import pools from './pools';
-import registrations from './registrations';
-import meetingsToken from './meetingsToken';
-import restrictedMails from './restrictedMails';
-import meetings from './meetings';
-import meetingInvitations, {
-  getMeetingInvitationId,
-} from './meetingInvitations';
-import memberships from './memberships';
-import search from './search';
-import auth from './auth';
-import users from './users';
-import penalties from './penalties';
 import emailUsers from './emailUsers';
-import groups from './groups';
-import { oauth2Applications, oauth2Grants } from './oauth2';
-import toasts from './toasts';
-import notificationsFeed from './notificationsFeed';
-import notificationSettings from './notificationSettings';
-import galleries from './galleries';
-import comments from './comments';
-import pages from './pages';
-import polls from './polls';
-import companyInterest from './companyInterest';
-import joblistings from './joblistings';
-import announcements from './announcements';
+import emojis from './emojis';
+import events from './events';
 import feedActivities from './feedActivities';
 import feeds from './feeds';
-import frontpage from './frontpage';
-import surveys from './surveys';
-import emojis from './emojis';
-import reactions from './reactions';
-import readme from './readme';
-import surveySubmissions from './surveySubmissions';
-import tags from './tags';
 import fetchHistory from './fetchHistory';
-import joinReducers from 'app/utils/joinReducers';
 import {
   followersEvent,
   followersCompany,
   followersUser,
   followersKeyGen,
 } from './followers';
-import type { LocationType } from 'app/models';
-import 'app/models';
+import form from './forms';
+import frontpage from './frontpage';
+import galleries from './galleries';
+import galleryPictures from './galleryPictures';
+import groups from './groups';
+import joblistings from './joblistings';
+import meetingInvitations, {
+  getMeetingInvitationId,
+} from './meetingInvitations';
+import meetings from './meetings';
+import meetingsToken from './meetingsToken';
+import memberships from './memberships';
+import notificationSettings from './notificationSettings';
+import notificationsFeed from './notificationsFeed';
+import { oauth2Applications, oauth2Grants } from './oauth2';
+import pages from './pages';
+import penalties from './penalties';
+import polls from './polls';
+import pools from './pools';
+import quotes from './quotes';
+import reactions from './reactions';
+import readme from './readme';
+import registrations from './registrations';
+import restrictedMails from './restrictedMails';
+import routing from './routing';
+import search from './search';
+import surveySubmissions from './surveySubmissions';
+import surveys from './surveys';
+import tags from './tags';
+import toasts from './toasts';
+import users from './users';
+import type { Schema } from 'normalizr';
+
 const reducers = {
   allowed,
   announcements,

@@ -1,4 +1,5 @@
 import styles from './SearchPageInput.css';
+
 type Props = {
   inputRef?: {
     current: HTMLInputElement | null | undefined;

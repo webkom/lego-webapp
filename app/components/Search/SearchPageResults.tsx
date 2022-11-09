@@ -1,11 +1,12 @@
-import type { SearchResult as SearchResultType } from 'app/reducers/search';
-import EmptyState from 'app/components/EmptyState';
 import { Link } from 'react-router-dom';
-import { ProfilePicture, Image } from 'app/components/Image';
-import truncateString from 'app/utils/truncateString';
+import EmptyState from 'app/components/EmptyState';
 import Icon from 'app/components/Icon';
-import styles from './SearchPageResults.css';
+import { ProfilePicture, Image } from 'app/components/Image';
 import { Flex } from 'app/components/Layout';
+import type { SearchResult as SearchResultType } from 'app/reducers/search';
+import truncateString from 'app/utils/truncateString';
+import styles from './SearchPageResults.css';
+
 type Props = {
   query: string;
   results: Array<SearchResultType>;

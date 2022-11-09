@@ -1,14 +1,14 @@
 import { Route, Switch } from 'react-router-dom';
 import RouteWrapper from 'app/components/RouteWrapper';
 import { UserContext } from 'app/routes/app/AppRoute';
-import BdbRoute from './BdbRoute';
-import AddCompanyRoute from './AddCompanyRoute';
-import BdbDetailRoute from './BdbDetailRoute';
-import EditCompanyRoute from './EditCompanyRoute';
-import AddSemesterRoute from './AddSemesterRoute';
-import AddCompanyContactRoute from './AddCompanyContactRoute';
-import EditCompanyContactRoute from './EditCompanyContactRoute';
 import PageNotFound from '../pageNotFound';
+import AddCompanyContactRoute from './AddCompanyContactRoute';
+import AddCompanyRoute from './AddCompanyRoute';
+import AddSemesterRoute from './AddSemesterRoute';
+import BdbDetailRoute from './BdbDetailRoute';
+import BdbRoute from './BdbRoute';
+import EditCompanyContactRoute from './EditCompanyContactRoute';
+import EditCompanyRoute from './EditCompanyRoute';
 
 const bdbRoute = ({
   match,

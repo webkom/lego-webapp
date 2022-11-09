@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { adminRegister } from 'app/actions/EventActions';
-import AdminRegister from './components/EventAdministrate/AdminRegister';
 import { selectPoolsForEvent } from 'app/reducers/events';
+import AdminRegister from './components/EventAdministrate/AdminRegister';
 
 const mapStateToProps = (state, { eventId, event, actionGrant, loading }) => {
   const pools = selectPoolsForEvent(state, {

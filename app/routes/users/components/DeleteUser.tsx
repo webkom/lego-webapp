@@ -1,11 +1,11 @@
 import { useState } from 'react';
+import { Field } from 'redux-form';
 import Button from 'app/components/Button';
 import { TextInput, Form, legoForm } from 'app/components/Form';
-import type { FormProps } from 'redux-form';
-import { Field } from 'redux-form';
 import type { UserEntity } from 'app/reducers/users';
-import 'app/reducers/users';
 import { createValidator, required } from 'app/utils/validation';
+import type { FormProps } from 'redux-form';
+
 type Props = FormProps & {
   push: (arg0: string) => void;
   deleteUser: (arg0: string) => Promise<void>;

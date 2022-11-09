@@ -1,12 +1,12 @@
-import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { fetchAllWithType } from 'app/actions/GroupActions';
-import InterestGroupList from './components/InterestGroupList';
-import { selectGroupsWithType } from 'app/reducers/groups';
-import { GroupType } from 'app/models';
 import { LoginPage } from 'app/components/LoginForm';
+import { GroupType } from 'app/models';
+import { selectGroupsWithType } from 'app/reducers/groups';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
+import InterestGroupList from './components/InterestGroupList';
 
 const groupType = GroupType.Interest;
 

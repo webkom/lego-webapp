@@ -1,10 +1,11 @@
-import styles from './Search.css';
 import cx from 'classnames';
 import { Link } from 'react-router-dom';
-import { ProfilePicture } from '../Image';
-import Icon from '../Icon';
 import ResolveLink from 'app/components/ResolveLink';
 import Time from 'app/components/Time';
+import Icon from '../Icon';
+import { ProfilePicture } from '../Image';
+import styles from './Search.css';
+
 type SearchResultItemProps = {
   result: Record<string, any>;
   isSelected: boolean;

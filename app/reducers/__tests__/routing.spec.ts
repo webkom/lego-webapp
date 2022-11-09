@@ -1,5 +1,6 @@
-import routing from '../routing';
 import { Routing } from '../../actions/ActionTypes';
+import routing from '../routing';
+
 describe('reducers', () => {
   describe('routing', () => {
     const prevState = undefined;

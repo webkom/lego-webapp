@@ -1,16 +1,17 @@
-import type { Node } from 'react';
-import styles from './styles.css';
-import Pill from 'app/components/Pill';
-import { colorForEvent } from 'app/routes/events/utils';
+import moment from 'moment-timezone';
 import { Link } from 'react-router-dom';
 import { Image } from 'app/components/Image';
-import Time from 'app/components/Time';
-import Tag from 'app/components/Tags/Tag';
 import { Flex } from 'app/components/Layout';
+import Pill from 'app/components/Pill';
+import Tag from 'app/components/Tags/Tag';
+import Time from 'app/components/Time';
 import type { Event, EventTimeType } from 'app/models';
+import { colorForEvent } from 'app/routes/events/utils';
 import { EVENTFIELDS } from 'app/utils/constants';
 import { eventStatus, eventAttendance } from 'app/utils/eventStatus';
-import moment from 'moment-timezone';
+import styles from './styles.css';
+import type { Node } from 'react';
+
 type AttendanceProps = {
   event: Event;
 };

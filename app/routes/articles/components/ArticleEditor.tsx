@@ -1,13 +1,7 @@
-import { Content } from 'app/components/Content';
-import Button from 'app/components/Button';
 import { Helmet } from 'react-helmet-async';
-import type { UserEntity } from 'app/reducers/users';
-import 'app/reducers/users';
-import type { ArticleEntity } from 'app/reducers/articles';
-import 'app/reducers/articles';
-import LoadingIndicator from 'app/components/LoadingIndicator';
-import styles from './ArticleEditor.css';
-import { normalizeObjectPermissions } from 'app/components/Form/ObjectPermissions';
+import { Form, Fields, Field } from 'redux-form';
+import Button from 'app/components/Button';
+import { Content } from 'app/components/Content';
 import {
   EditorField,
   TextInput,
@@ -18,12 +12,17 @@ import {
   ImageUploadField,
   legoForm,
 } from 'app/components/Form';
-import { Form, Fields, Field } from 'redux-form';
-import { createValidator, validYoutubeUrl } from 'app/utils/validation';
-import Flex from 'app/components/Layout/Flex';
-import Tooltip from 'app/components/Tooltip';
+import { normalizeObjectPermissions } from 'app/components/Form/ObjectPermissions';
 import Icon from 'app/components/Icon';
+import Flex from 'app/components/Layout/Flex';
+import LoadingIndicator from 'app/components/LoadingIndicator';
 import NavigationTab from 'app/components/NavigationTab';
+import Tooltip from 'app/components/Tooltip';
+import type { ArticleEntity } from 'app/reducers/articles';
+import type { UserEntity } from 'app/reducers/users';
+import { createValidator, validYoutubeUrl } from 'app/utils/validation';
+import styles from './ArticleEditor.css';
+
 export type Props = {
   article?: ArticleEntity;
   articleId: number;

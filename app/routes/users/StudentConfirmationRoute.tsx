@@ -1,13 +1,13 @@
-import { compose } from 'redux';
-import { connect } from 'react-redux';
-import StudentConfirmation from './components/StudentConfirmation';
 import { push } from 'connected-react-router';
 import qs from 'qs';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 import {
   sendStudentConfirmationEmail,
   confirmStudentUser,
 } from 'app/actions/UserActions';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
+import StudentConfirmation from './components/StudentConfirmation';
 
 const loadData = ({ location: { search } }, dispatch) => {
   const { token } = qs.parse(search, {

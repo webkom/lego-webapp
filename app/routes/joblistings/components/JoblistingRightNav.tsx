@@ -1,12 +1,12 @@
-import styles from './JoblistingRightNav.css';
+import cx from 'classnames';
+import qs from 'qs';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { CheckBox, RadioButton } from 'app/components/Form/';
 import Button from 'app/components/Button';
-import cx from 'classnames';
+import { CheckBox, RadioButton } from 'app/components/Form/';
 import type { ActionGrant } from 'app/models';
-import qs from 'qs';
 import { jobTypes } from '../constants';
+import styles from './JoblistingRightNav.css';
 
 const updateFilters = (type, value, filters) => {
   const newFilter = {

@@ -1,5 +1,6 @@
-import styles from './ReactionPickerHeader.css';
 import ReactionPickerCategory from './ReactionPickerCategory';
+import styles from './ReactionPickerHeader.css';
+
 type Props = {
   categories: Array<string>;
   activeCategory: string | null;

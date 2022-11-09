@@ -1,11 +1,11 @@
 import { Route, Switch } from 'react-router-dom';
 import RouteWrapper from 'app/components/RouteWrapper';
 import { UserContext } from 'app/routes/app/AppRoute';
-import JoblistingRoute from './JoblistingRoute';
+import PageNotFound from '../pageNotFound';
 import JoblistingCreateRoute from './JoblistingCreateRoute';
 import JoblistingDetailedRoute from './JoblistingDetailedRoute';
 import JoblistingEditRoute from './JoblistingEditRoute';
-import PageNotFound from '../pageNotFound';
+import JoblistingRoute from './JoblistingRoute';
 
 const jobListingRoute = ({
   match,

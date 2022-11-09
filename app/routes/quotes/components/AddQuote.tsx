@@ -1,10 +1,11 @@
+import { Helmet } from 'react-helmet-async';
+import { Field, reduxForm } from 'redux-form';
 import { Button, TextEditor, withSubmissionError } from 'app/components/Form';
 import RandomQuote from 'app/components/RandomQuote/RandomQuote';
 import { createValidator, required } from 'app/utils/validation';
-import { Helmet } from 'react-helmet-async';
-import { Field, reduxForm } from 'redux-form';
 import { navigation } from '../utils';
 import styles from './Quotes.css';
+
 type Props = {
   addQuotes: (arg0: Record<string, any>) => Promise<any>;
   invalid: boolean;

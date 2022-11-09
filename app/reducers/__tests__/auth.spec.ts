@@ -1,5 +1,6 @@
-import auth from '../auth';
 import { User } from '../../actions/ActionTypes';
+import auth from '../auth';
+
 describe('reducers', () => {
   describe('auth', () => {
     it('should have correct initialState', () => {

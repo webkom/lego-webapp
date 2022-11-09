@@ -1,12 +1,12 @@
-import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { fetchAll } from 'app/actions/CompanyActions';
-import CompaniesPage from './components/CompaniesPage';
 import { LoginPage } from 'app/components/LoginForm';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import { selectPaginationNext } from '../../reducers/selectors';
 import { selectActiveCompanies } from 'app/reducers/companies';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
+import { selectPaginationNext } from '../../reducers/selectors';
+import CompaniesPage from './components/CompaniesPage';
 
 const mapStateToProps = (state, props) => {
   const { query } = props.location;

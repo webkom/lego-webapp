@@ -1,6 +1,5 @@
-import { compose } from 'redux';
 import { connect } from 'react-redux';
-import UserSettingsOAuth2 from './components/UserSettingsOAuth2';
+import { compose } from 'redux';
 import {
   fetchOAuth2Applications,
   fetchOAuth2Grants,
@@ -11,6 +10,7 @@ import {
   selectOAuth2Grants,
 } from 'app/reducers/oauth2';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
+import UserSettingsOAuth2 from './components/UserSettingsOAuth2';
 
 const mapStateToProps = (state) => {
   return {

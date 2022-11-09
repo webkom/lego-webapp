@@ -1,6 +1,7 @@
-import { Link } from 'react-router-dom';
 import cx from 'classnames';
+import { Link } from 'react-router-dom';
 import styles from './Tag.css';
+
 type Props = {
   /** The tag value - the text */
   tag: string;

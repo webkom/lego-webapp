@@ -1,5 +1,13 @@
 import 'isomorphic-fetch';
+import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
+import {
+  fetchSurvey,
+  shareSurvey,
+  hideSurvey,
+  editSurvey,
+} from 'app/actions/SurveyActions';
 import {
   fetchSubmissions,
   addSubmission,
@@ -7,22 +15,14 @@ import {
   hideAnswer,
   showAnswer,
 } from 'app/actions/SurveySubmissionActions';
-import {
-  fetchSurvey,
-  shareSurvey,
-  hideSurvey,
-  editSurvey,
-} from 'app/actions/SurveyActions';
-import SubmissionPage from './components/Submissions/SubmissionPage';
-import { compose } from 'redux';
+import { LoginPage } from 'app/components/LoginForm';
 import { selectSurveySubmissions } from 'app/reducers/surveySubmissions';
 import { selectSurveyById } from 'app/reducers/surveys';
-import { push } from 'connected-react-router';
 import loadingIndicator from 'app/utils/loadingIndicator';
-import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import { getCsvUrl } from './utils';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
+import SubmissionPage from './components/Submissions/SubmissionPage';
+import { getCsvUrl } from './utils';
 
 const loadData = (props, dispatch) => {
   const { surveyId } = props.match.params;

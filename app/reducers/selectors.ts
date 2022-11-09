@@ -1,7 +1,7 @@
 import { get, isArray } from 'lodash';
-import type { Schema } from 'normalizr';
-import 'normalizr';
 import createQueryString from 'app/utils/createQueryString';
+import type { Schema } from 'normalizr';
+
 export const selectPagination =
   (
     entityName: string,

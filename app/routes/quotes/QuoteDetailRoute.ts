@@ -1,4 +1,13 @@
+import qs from 'qs';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { fetchEmojis } from 'app/actions/EmojiActions';
+import { addReaction, deleteReaction } from 'app/actions/ReactionActions';
+import { LoginPage } from 'app/components/LoginForm';
+import { selectEmojis } from 'app/reducers/emojis';
+import { selectQuoteById } from 'app/reducers/quotes';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import {
   fetchQuote,
   approve,
@@ -6,15 +15,6 @@ import {
   deleteQuote,
 } from '../../actions/QuoteActions';
 import QuotePage from './components/QuotePage';
-import { compose } from 'redux';
-import { selectQuoteById } from 'app/reducers/quotes';
-import { LoginPage } from 'app/components/LoginForm';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import { addReaction, deleteReaction } from 'app/actions/ReactionActions';
-import { selectEmojis } from 'app/reducers/emojis';
-import { fetchEmojis } from 'app/actions/EmojiActions';
-import qs from 'qs';
-import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const mapStateToProps = (state, props) => {
   const query = qs.parse(props.location.search, {

@@ -1,11 +1,12 @@
-import { Link } from 'react-router-dom';
-import styles from './JoblistingList.css';
-import { Image } from 'app/components/Image';
-import Time from 'app/components/Time';
-import { Flex } from 'app/components/Layout';
-import { Year, jobType, Workplaces } from './Items';
-import Tag from 'app/components/Tags/Tag';
 import moment from 'moment-timezone';
+import { Link } from 'react-router-dom';
+import { Image } from 'app/components/Image';
+import { Flex } from 'app/components/Layout';
+import Tag from 'app/components/Tags/Tag';
+import Time from 'app/components/Time';
+import { Year, jobType, Workplaces } from './Items';
+import styles from './JoblistingList.css';
+
 type JobListingItemProps = {
   joblisting: /*TODO: JobListing*/ Record<string, any>;
 };

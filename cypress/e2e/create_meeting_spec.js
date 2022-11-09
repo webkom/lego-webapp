@@ -1,3 +1,5 @@
+import moment from 'moment-timezone';
+import config from '../support/config';
 import {
   c,
   field,
@@ -10,8 +12,6 @@ import {
   selectFieldDropdown,
   selectField,
 } from '../support/utils.js';
-import moment from 'moment-timezone';
-import config from '../support/config';
 
 describe('Create meeting', () => {
   beforeEach(() => {

@@ -1,4 +1,5 @@
 import LoadingIndicator from 'app/components/LoadingIndicator';
+
 type Props = {
   response: string | null | undefined;
   user: Record<string, any>;

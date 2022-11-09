@@ -1,28 +1,29 @@
+import cx from 'classnames';
 import { Component } from 'react';
-import { Link, NavLink, withRouter } from 'react-router-dom';
 import { Modal } from 'react-overlays';
-import Dropdown from '../Dropdown';
-import Icon from '../Icon';
-import Search from '../Search';
-import { ProfilePicture, Image } from '../Image';
-import FancyNodesCanvas from './FancyNodesCanvas';
-import NotificationsDropdown from '../HeaderNotifications';
-import ToggleTheme from './ToggleTheme';
-import Button from '../Button';
-import styles from './Header.css';
+import { Link, NavLink, withRouter } from 'react-router-dom';
+import logoLightMode from 'app/assets/logo-dark.png';
+import logoDarkMode from 'app/assets/logo.png';
+import { Flex } from 'app/components/Layout';
+import LoadingIndicator from 'app/components/LoadingIndicator';
 import {
   LoginForm,
   RegisterForm,
   ForgotPasswordForm,
 } from 'app/components/LoginForm';
-import { Flex } from 'app/components/Layout';
-import cx from 'classnames';
-import { applySelectedTheme, getOSTheme, getTheme } from 'app/utils/themeUtils';
-import utilStyles from 'app/styles/utilities.css';
 import type { UserEntity } from 'app/reducers/users';
-import logoLightMode from 'app/assets/logo-dark.png';
-import logoDarkMode from 'app/assets/logo.png';
-import LoadingIndicator from 'app/components/LoadingIndicator';
+import utilStyles from 'app/styles/utilities.css';
+import { applySelectedTheme, getOSTheme, getTheme } from 'app/utils/themeUtils';
+import Button from '../Button';
+import Dropdown from '../Dropdown';
+import NotificationsDropdown from '../HeaderNotifications';
+import Icon from '../Icon';
+import { ProfilePicture, Image } from '../Image';
+import Search from '../Search';
+import FancyNodesCanvas from './FancyNodesCanvas';
+import styles from './Header.css';
+import ToggleTheme from './ToggleTheme';
+
 type Props = {
   searchOpen: boolean;
   toggleSearch: () => any;

@@ -1,5 +1,6 @@
-import surveySubmissions from '../surveySubmissions';
 import { SurveySubmission } from '../../actions/ActionTypes';
+import surveySubmissions from '../surveySubmissions';
+
 describe('reducers', () => {
   describe('surveySubmissions', () => {
     const baseState = {

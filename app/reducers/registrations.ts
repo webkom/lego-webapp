@@ -1,11 +1,12 @@
+import { produce } from 'immer';
 import { union, omit } from 'lodash';
-import { Event } from '../actions/ActionTypes';
-import createEntityReducer from 'app/utils/createEntityReducer';
+import moment from 'moment-timezone';
 import { normalize } from 'normalizr';
 import { eventSchema, registrationSchema } from 'app/reducers';
+import createEntityReducer from 'app/utils/createEntityReducer';
 import mergeObjects from 'app/utils/mergeObjects';
-import moment from 'moment-timezone';
-import { produce } from 'immer';
+import { Event } from '../actions/ActionTypes';
+
 type State = any;
 export default createEntityReducer({
   key: 'registrations',

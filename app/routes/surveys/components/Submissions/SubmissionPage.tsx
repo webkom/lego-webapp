@@ -1,13 +1,14 @@
-import type { Element } from 'react';
 import { cloneElement } from 'react';
-import styles from '../surveys.css';
+import { Link } from 'react-router-dom';
+import { Content, ContentSection, ContentMain } from 'app/components/Content';
+import type { ActionGrant } from 'app/models';
 import type { SubmissionEntity } from 'app/reducers/surveySubmissions';
 import type { SurveyEntity } from 'app/reducers/surveys';
 import { DetailNavigation } from '../../utils';
-import { Content, ContentSection, ContentMain } from 'app/components/Content';
-import { Link } from 'react-router-dom';
 import AdminSideBar from '../AdminSideBar';
-import type { ActionGrant } from 'app/models';
+import styles from '../surveys.css';
+import type { Element } from 'react';
+
 type Props = {
   submissions: Array<SubmissionEntity>;
   addSubmission: (arg0: SubmissionEntity) => Promise<any>;

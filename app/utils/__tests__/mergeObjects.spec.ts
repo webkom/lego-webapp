@@ -1,4 +1,5 @@
 import mergeObjects from '../mergeObjects';
+
 describe('mergeObjects', () => {
   it('should merge objects deeply', () => {
     const first = {

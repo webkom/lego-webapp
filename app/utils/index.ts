@@ -1,4 +1,5 @@
 import type { ID } from 'app/models';
+
 type Tree<T extends Record<string, any>> = Array<
   T & {
     children: Tree<any>;

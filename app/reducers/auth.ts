@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect';
 import { User } from '../actions/ActionTypes';
+
 type State = {
   id: number | null | undefined;
   username: string | null | undefined;

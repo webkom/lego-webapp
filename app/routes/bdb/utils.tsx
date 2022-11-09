@@ -1,12 +1,13 @@
-import type { Node } from 'react';
-import NavigationTab from 'app/components/NavigationTab';
-import NavigationLink from 'app/components/NavigationTab/NavigationLink';
-import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
-import type { Semester, CompanySemesterContactedStatus } from 'app/models';
-import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
+import { sortBy } from 'lodash';
 import Button from 'app/components/Button';
 import Icon from 'app/components/Icon';
-import { sortBy } from 'lodash';
+import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
+import NavigationTab from 'app/components/NavigationTab';
+import NavigationLink from 'app/components/NavigationTab/NavigationLink';
+import type { Semester, CompanySemesterContactedStatus } from 'app/models';
+import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
+import type { Node } from 'react';
+
 export const statusStrings = {
   company_presentation: 'Bedpres',
   course: 'Kurs',

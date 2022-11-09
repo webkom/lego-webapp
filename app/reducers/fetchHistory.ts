@@ -1,5 +1,6 @@
-import { FetchHistory, User } from 'app/actions/ActionTypes';
 import { omit } from 'lodash';
+import { FetchHistory, User } from 'app/actions/ActionTypes';
+
 type State = unknown;
 const initialState = {};
 export const fetchHistoryEntryKey = (

@@ -1,12 +1,12 @@
-import { compose } from 'redux';
-import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
 import { debounce } from 'lodash';
+import qs from 'qs';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { autocomplete } from 'app/actions/SearchActions';
-import { selectAutocompleteRedux as selectAutocomplete } from 'app/reducers/search';
 import { Content } from 'app/components/Content';
 import Validator from 'app/components/UserValidator';
-import qs from 'qs';
+import { selectAutocompleteRedux as selectAutocomplete } from 'app/reducers/search';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const searchTypes = ['users.user'];

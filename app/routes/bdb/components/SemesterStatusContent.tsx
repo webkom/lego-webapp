@@ -1,16 +1,17 @@
-import { Component } from 'react';
-import Dropdown from 'app/components/Dropdown';
-import styles from './bdb.css';
 import cx from 'classnames';
-import Icon from 'app/components/Icon';
+import { Component } from 'react';
 import Button from 'app/components/Button';
+import Dropdown from 'app/components/Dropdown';
+import Icon from 'app/components/Icon';
+import type { CompanySemesterContactedStatus } from 'app/models';
 import {
   sortStatusesByProminence,
   getStatusString,
   statusStrings,
   selectColorCode,
 } from '../utils';
-import type { CompanySemesterContactedStatus } from 'app/models';
+import styles from './bdb.css';
+
 type Props = {
   semesterStatus: Record<string, any>;
   editFunction: (

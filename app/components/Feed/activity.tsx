@@ -1,14 +1,15 @@
-import type { Node } from 'react';
+import Linkify from 'linkify-react';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Button from 'app/components/Button';
 import Card from 'app/components/Card';
-import Time from 'app/components/Time';
 import { ProfilePicture } from 'app/components/Image';
+import Time from 'app/components/Time';
 import styles from './activity.css';
 import { lookupContext, toLink } from './context';
 import type { AggregatedActivity, Activity } from './types';
-import Linkify from 'linkify-react';
+import type { Node } from 'react';
+
 type Props = {
   aggregatedActivity: AggregatedActivity;
   activity?: Activity;

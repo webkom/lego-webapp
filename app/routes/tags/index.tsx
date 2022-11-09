@@ -1,9 +1,9 @@
 import { Route, Switch } from 'react-router-dom';
 import RouteWrapper from 'app/components/RouteWrapper';
 import { UserContext } from 'app/routes/app/AppRoute';
-import TagsListRoute from './TagsListRoute';
-import TagDetailRoute from './TagDetailRoute';
 import PageNotFound from '../pageNotFound';
+import TagDetailRoute from './TagDetailRoute';
+import TagsListRoute from './TagsListRoute';
 
 const tagsRoute = ({
   match,

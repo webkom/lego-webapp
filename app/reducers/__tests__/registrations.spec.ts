@@ -1,6 +1,7 @@
-import registrations from '../registrations';
-import { Event } from '../../actions/ActionTypes';
 import moment from 'moment';
+import { Event } from '../../actions/ActionTypes';
+import registrations from '../registrations';
+
 describe('reducers', () => {
   describe('registrations', () => {
     const baseState = {

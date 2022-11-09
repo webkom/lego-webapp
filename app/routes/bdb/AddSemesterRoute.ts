@@ -1,6 +1,13 @@
+import moment from 'moment-timezone';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { reduxForm } from 'redux-form';
+import { uploadFile } from 'app/actions/FileActions';
+import { LoginPage } from 'app/components/LoginForm';
+import { selectCompanies } from 'app/reducers/companies';
+import { selectCompanySemesters } from 'app/reducers/companySemesters';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import {
   addSemesterStatus,
   fetchSemesters,
@@ -8,15 +15,8 @@ import {
   fetchAllAdmin,
   deleteCompany,
 } from '../../actions/CompanyActions';
-import { selectCompanies } from 'app/reducers/companies';
 import AddSemester from './components/AddSemester';
-import moment from 'moment-timezone';
-import { LoginPage } from 'app/components/LoginForm';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import { uploadFile } from 'app/actions/FileActions';
-import { selectCompanySemesters } from 'app/reducers/companySemesters';
 import { semesterCodeToName } from './utils';
-import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const validateSemesterStatus = (data, props) => {
   const errors = {};

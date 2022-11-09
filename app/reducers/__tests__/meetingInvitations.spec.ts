@@ -1,5 +1,6 @@
-import meetingInvitations from '../meetingInvitations';
 import { Meeting } from '../../actions/ActionTypes';
+import meetingInvitations from '../meetingInvitations';
+
 describe('reducers', () => {
   describe('meetingInvitations', () => {
     it('Meeting.SET_INVITATION_STATUS.SUCCESS', () => {

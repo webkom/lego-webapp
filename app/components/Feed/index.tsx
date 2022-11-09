@@ -1,9 +1,10 @@
-import type { Node } from 'react';
-import Activity from './activity';
-import type { AggregatedActivity } from './types';
 import EmptyState from 'app/components/EmptyState';
 import ErrorBoundary from 'app/components/ErrorBoundary';
 import styles from './Feed.css';
+import Activity from './activity';
+import type { AggregatedActivity } from './types';
+import type { Node } from 'react';
+
 export const activityRenderers = {
   comment: require('./renders/comment'),
   comment_reply: require('./renders/comment_reply'),

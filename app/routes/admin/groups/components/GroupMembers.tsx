@@ -1,21 +1,21 @@
+import { push } from 'connected-react-router';
+import qs from 'qs';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import LoadingIndicator from 'app/components/LoadingIndicator';
-import GroupMembersList from './GroupMembersList';
-import AddGroupMember from './AddGroupMember';
-import { push } from 'connected-react-router';
-import styles from './GroupMembers.css';
 import {
   fetchMemberships,
   fetchMembershipsPagination,
   addMember,
   removeMember,
 } from 'app/actions/GroupActions';
+import type { AddMemberArgs } from 'app/actions/GroupActions';
+import LoadingIndicator from 'app/components/LoadingIndicator';
 import { selectMembershipsForGroup } from 'app/reducers/memberships';
 import { selectPaginationNext } from 'app/reducers/selectors';
-import type { AddMemberArgs } from 'app/actions/GroupActions';
-import qs from 'qs';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
+import AddGroupMember from './AddGroupMember';
+import styles from './GroupMembers.css';
+import GroupMembersList from './GroupMembersList';
 
 type Props = {
   groupId: number;

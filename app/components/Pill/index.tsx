@@ -1,4 +1,5 @@
 import styles from './Pill.css';
+
 type Props = {
   /** background color of pill */
   color?: string;

@@ -1,9 +1,6 @@
+import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { push } from 'connected-react-router';
-import UserSettings from './components/UserSettings';
-import loadingIndicator from 'app/utils/loadingIndicator';
-import { selectUserByUsername } from 'app/reducers/users';
 import {
   fetchUser,
   updateUser,
@@ -12,7 +9,10 @@ import {
   changePassword,
   removePicture,
 } from 'app/actions/UserActions';
+import { selectUserByUsername } from 'app/reducers/users';
+import loadingIndicator from 'app/utils/loadingIndicator';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
+import UserSettings from './components/UserSettings';
 
 const mapStateToProps = (state, props) => {
   const {

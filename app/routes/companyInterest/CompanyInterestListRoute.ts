@@ -1,21 +1,21 @@
-import { compose } from 'redux';
+import { push } from 'connected-react-router';
+import qs from 'qs';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { fetchSemesters } from 'app/actions/CompanyActions';
 import {
   fetchAll,
   deleteCompanyInterest,
   fetch,
 } from 'app/actions/CompanyInterestActions';
-import { fetchSemesters } from 'app/actions/CompanyActions';
-import CompanyInterestList from './components/CompanyInterestList';
+import { LoginPage } from 'app/components/LoginForm';
 import { selectCompanyInterestList } from 'app/reducers/companyInterest';
 import { selectCompanySemestersForInterestForm } from 'app/reducers/companySemesters';
-import { LoginPage } from 'app/components/LoginForm';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import { push } from 'connected-react-router';
-import { semesterToText } from './utils';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
-import qs from 'qs';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
+import CompanyInterestList from './components/CompanyInterestList';
+import { semesterToText } from './utils';
 
 const mapStateToProps = (state, props) => {
   const semesterId = Number(

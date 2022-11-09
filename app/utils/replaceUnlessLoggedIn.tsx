@@ -1,5 +1,6 @@
-import type { ComponentType } from 'react';
 import { PureComponent } from 'react';
+import type { ComponentType } from 'react';
+
 type LoginProps = {
   loggedIn: boolean;
 }; // TODO add proper typings to this when starting to deal with TS

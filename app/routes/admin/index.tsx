@@ -1,8 +1,8 @@
-import OverviewRoute from './OverviewRoute';
 import { Route, Switch } from 'react-router-dom';
 import RouteWrapper from 'app/components/RouteWrapper';
-import PageNotFound from '../pageNotFound';
 import { UserContext } from 'app/routes/app/AppRoute';
+import PageNotFound from '../pageNotFound';
+import OverviewRoute from './OverviewRoute';
 
 const adminRoute = ({
   match,
