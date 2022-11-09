@@ -54,16 +54,16 @@ export const RenderWarningMessage = ({
   return <FieldWarning warning={warning} key={warning} />;
 };
 export type FormProps = {
-  className: string;
+  className?: string;
   input: Record<string, any>;
   meta: Record<string, any>;
-  required: boolean;
-  label: string;
+  required?: boolean;
+  label?: string;
   description?: string;
-  fieldStyle: any;
-  fieldClassName: string;
-  labelClassName: string;
-  showErrors: boolean;
+  fieldStyle?: any;
+  fieldClassName?: string;
+  labelClassName?: string;
+  showErrors?: boolean;
 };
 type Options = {
   // Removes the html <label> around the component

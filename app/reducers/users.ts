@@ -20,7 +20,9 @@ export type UserEntity = {
   emailListsEnabled?: boolean;
   selectedTheme?: string;
   photoConsents?: Array<PhotoConsent>;
+  isStudent?: boolean;
 };
+
 type State = any;
 export default createEntityReducer({
   key: 'users',

@@ -1,13 +1,17 @@
 import cx from 'classnames';
 import styles from './Form.css';
-import type { ReactNode, HTMLAttributes } from 'react';
+import type { ReactNode, FormHTMLAttributes } from 'react';
 
-type Props = {
+interface Props {
   children: ReactNode;
   className?: string;
-} & HTMLAttributes<HTMLFormElement>;
+}
 
-function Form({ children, className, ...props }: Props) {
+function Form({
+  children,
+  className,
+  ...props
+}: Props & FormHTMLAttributes<HTMLFormElement>) {
   return (
     <form className={cx(styles.form, className)} {...props} method="post">
       {children}

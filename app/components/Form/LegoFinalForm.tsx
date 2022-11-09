@@ -11,7 +11,7 @@ type LegoFormProps = {
   onSubmit: (
     values: Record<string, any>,
     form: FormApi<Record<string, any>>
-  ) => Promise<Record<string, any> | null | undefined>;
+  ) => Promise<Record<string, any> | void | null | undefined>;
 
   /*
    * Automatic submission error handling
