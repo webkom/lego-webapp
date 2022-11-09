@@ -1,11 +1,11 @@
-import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { getRegistrationGroups } from 'app/reducers/events';
-import Statistics from 'app/routes/events/components/EventAdministrate/Statistics';
+import { compose } from 'redux';
 import { fetchAllWithType } from 'app/actions/GroupActions';
-import { selectGroupsWithType } from 'app/reducers/groups';
-import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import { GroupType } from 'app/models';
+import { getRegistrationGroups } from 'app/reducers/events';
+import { selectGroupsWithType } from 'app/reducers/groups';
+import Statistics from 'app/routes/events/components/EventAdministrate/Statistics';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const mapStateToProps = (state, props) => {
   const { eventId, event } = props;

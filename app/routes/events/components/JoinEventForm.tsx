@@ -1,21 +1,25 @@
+import moment from 'moment-timezone';
 import { useState, useEffect } from 'react';
-import styles from './Event.css';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { compose } from 'redux';
 import { reduxForm, Field, SubmissionError } from 'redux-form';
-import { Form, Captcha, TextInput } from 'app/components/Form';
 import Button from 'app/components/Button';
-import PaymentRequestForm from './StripeElement';
-import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
-import LoadingIndicator, { ProgressBar } from 'app/components/LoadingIndicator';
-import Time from 'app/components/Time';
-import { Flex } from 'app/components/Layout';
-import withCountdown from './JoinEventFormCountdownProvider';
+import { Form, Captcha, TextInput } from 'app/components/Form';
 import formStyles from 'app/components/Form/Field.css';
 import Icon from 'app/components/Icon';
+import { Flex } from 'app/components/Layout';
+import LoadingIndicator, { ProgressBar } from 'app/components/LoadingIndicator';
+import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
+import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
-import moment from 'moment-timezone';
+import type {
+  User,
+  EventRegistration,
+  EventRegistrationStatus,
+} from 'app/models';
+import { selectPenaltyByUserId } from 'app/reducers/penalties';
+import { selectUserByUsername } from 'app/reducers/users';
 import {
   paymentSuccess,
   paymentManual,
@@ -26,13 +30,10 @@ import {
   allConsentsAnswered,
   toReadableSemester,
 } from '../utils';
-import { selectUserByUsername } from 'app/reducers/users';
-import { selectPenaltyByUserId } from 'app/reducers/penalties';
-import type {
-  User,
-  EventRegistration,
-  EventRegistrationStatus,
-} from 'app/models';
+import styles from './Event.css';
+import withCountdown from './JoinEventFormCountdownProvider';
+import PaymentRequestForm from './StripeElement';
+
 type Event = Record<string, any>;
 export type Props = {
   title?: string;

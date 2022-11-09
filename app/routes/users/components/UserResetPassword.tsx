@@ -1,12 +1,13 @@
-import type { FormProps } from 'react-redux';
 import { reduxForm, Field } from 'redux-form';
 import { Content } from 'app/components/Content';
-import type { Action } from 'app/types';
 import { Form, Button, TextInput } from 'app/components/Form';
+import type { Action } from 'app/types';
+import { createAsyncValidator } from 'app/utils/asyncValidator';
 import { createValidator, required, sameAs } from 'app/utils/validation';
 import { validPassword } from '../utils';
 import PasswordField from './PasswordField';
-import { createAsyncValidator } from 'app/utils/asyncValidator';
+import type { FormProps } from 'react-redux';
+
 type Props = {
   token: string;
   resetPassword: (arg0: { token: string; password: string }) => Promise<any>;

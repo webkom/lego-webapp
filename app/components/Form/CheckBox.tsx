@@ -1,8 +1,9 @@
+import cx from 'classnames';
 import { Flex } from '../Layout';
+import styles from './CheckBox.css';
 import { createField } from './Field';
 import type { FormProps } from './Field';
-import styles from './CheckBox.css';
-import cx from 'classnames';
+
 type Props = {
   id?: string;
   type?: string;

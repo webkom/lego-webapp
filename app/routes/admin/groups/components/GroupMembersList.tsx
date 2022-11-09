@@ -1,9 +1,10 @@
+import qs from 'qs';
 import { Link } from 'react-router-dom';
+import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
+import Table from 'app/components/Table';
 import { ROLES } from 'app/utils/constants';
 import styles from './GroupMembersList.css';
-import Table from 'app/components/Table';
-import qs from 'qs';
-import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
+
 type Props = {
   fetching: boolean;
   hasMore: boolean;

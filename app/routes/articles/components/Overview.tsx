@@ -1,18 +1,17 @@
-import styles from './Overview.css';
 import { Component } from 'react';
 import { Helmet } from 'react-helmet-async';
-import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { Link } from 'react-router-dom';
 import { Content } from 'app/components/Content';
-import type { ArticleEntity } from 'app/reducers/articles';
-import 'app/reducers/articles';
-import Time from 'app/components/Time';
 import { Image } from 'app/components/Image';
-import Tag from 'app/components/Tags/Tag';
-import Tags from 'app/components/Tags';
+import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import Paginator from 'app/components/Paginator';
+import Tags from 'app/components/Tags';
+import Tag from 'app/components/Tags/Tag';
+import Time from 'app/components/Time';
 import type { ActionGrant } from 'app/models';
-import 'app/models';
+import type { ArticleEntity } from 'app/reducers/articles';
+import styles from './Overview.css';
+
 const HEADLINE_EVENTS = 2;
 
 const OverviewItem = ({ article }: { article: ArticleEntity }) => (

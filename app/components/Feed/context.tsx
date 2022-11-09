@@ -1,7 +1,8 @@
-import type { Node } from 'react';
 import { Link } from 'react-router-dom';
-import type { AggregatedActivity, TagInfo } from './types';
 import styles from './context.css';
+import type { AggregatedActivity, TagInfo } from './types';
+import type { Node } from 'react';
+
 export function lookupContext(
   aggregatedActivity: AggregatedActivity,
   key: string

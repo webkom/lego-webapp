@@ -1,5 +1,6 @@
-import pools from '../pools';
 import { Event } from '../../actions/ActionTypes';
+import pools from '../pools';
+
 describe('reducers', () => {
   describe('pool', () => {
     const baseState = {

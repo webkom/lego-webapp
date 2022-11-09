@@ -1,6 +1,7 @@
 import Editor from '@webkom/lego-editor';
 import '@webkom/lego-editor/dist/style.css';
 import 'react-image-crop/dist/ReactCrop.css';
+
 type Props = {
   /** The content to be displayed - the text */
   content: string;

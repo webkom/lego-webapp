@@ -1,8 +1,9 @@
 import { mount, shallow } from 'enzyme';
+import { MemoryRouter } from 'react-router-dom';
+import { generateTreeStructure } from '../../../utils';
 import CommentTree from '../CommentTree';
 import comments from './fixtures/comments';
-import { generateTreeStructure } from '../../../utils';
-import { MemoryRouter } from 'react-router-dom';
+
 describe('<CommentTree />', () => {
   beforeAll(() => {
     // jest does not implement this function, so we just

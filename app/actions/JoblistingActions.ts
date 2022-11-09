@@ -1,8 +1,9 @@
-import { joblistingsSchema } from 'app/reducers';
+import moment from 'moment-timezone';
 import callAPI from 'app/actions/callAPI';
+import { joblistingsSchema } from 'app/reducers';
 import type { Thunk } from 'app/types';
 import { Joblistings } from './ActionTypes';
-import moment from 'moment-timezone';
+
 export function fetchAll(): Thunk<any> {
   return callAPI({
     types: Joblistings.FETCH,

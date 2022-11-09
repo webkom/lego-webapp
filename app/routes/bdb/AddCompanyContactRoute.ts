@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { fetchAdmin, addCompanyContact } from '../../actions/CompanyActions';
-import CompanyContactEditor from './components/CompanyContactEditor';
-import { selectCompanyById } from 'app/reducers/companies';
 import { LoginPage } from 'app/components/LoginForm';
+import { selectCompanyById } from 'app/reducers/companies';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
+import { fetchAdmin, addCompanyContact } from '../../actions/CompanyActions';
+import CompanyContactEditor from './components/CompanyContactEditor';
 
 const mapStateToProps = (state, props) => {
   const companyId = Number(props.match.params.companyId);

@@ -1,7 +1,7 @@
-import GroupsRoute from './GroupsRoute';
 import { Route, Switch } from 'react-router-dom';
-import PageNotFound from '../../pageNotFound';
 import { UserContext } from 'app/routes/app/AppRoute';
+import PageNotFound from '../../pageNotFound';
+import GroupsRoute from './GroupsRoute';
 
 const groupRoute = ({
   match,

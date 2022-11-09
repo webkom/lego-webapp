@@ -1,7 +1,8 @@
-import GroupTree from '../GroupTree';
-import TreeView from 'react-treeview';
 import { shallow } from 'enzyme';
 import { Link } from 'react-router-dom';
+import TreeView from 'react-treeview';
+import GroupTree from '../GroupTree';
+
 const groups = [
   {
     description: 'cool group',

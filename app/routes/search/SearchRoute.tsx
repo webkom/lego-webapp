@@ -1,12 +1,12 @@
-import { compose } from 'redux';
-import { connect } from 'react-redux';
-import { Content } from 'app/components/Content';
-import { search } from 'app/actions/SearchActions';
-import SearchPage from 'app/components/Search/SearchPage';
 import { push } from 'connected-react-router';
 import { debounce } from 'lodash';
-import { selectResult } from 'app/reducers/search';
 import qs from 'qs';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { search } from 'app/actions/SearchActions';
+import { Content } from 'app/components/Content';
+import SearchPage from 'app/components/Search/SearchPage';
+import { selectResult } from 'app/reducers/search';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const loadData = (props, dispatch) => {

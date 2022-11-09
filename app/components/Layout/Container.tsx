@@ -1,6 +1,7 @@
-import type { Node } from 'react';
 import cx from 'classnames';
 import styles from './Container.css';
+import type { Node } from 'react';
+
 type Props = {
   className?: string;
   children: Node;

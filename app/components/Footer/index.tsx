@@ -1,11 +1,12 @@
 import cx from 'classnames';
-import utilityStyles from 'app/styles/utilities.css';
-import { Image } from 'app/components/Image';
-import netcompany from 'app/assets/netcompany_white.svg';
-import octocat from 'app/assets/octocat.png';
-import styles from './Footer.css';
 import moment from 'moment-timezone';
 import { Link } from 'react-router-dom';
+import netcompany from 'app/assets/netcompany_white.svg';
+import octocat from 'app/assets/octocat.png';
+import { Image } from 'app/components/Image';
+import utilityStyles from 'app/styles/utilities.css';
+import styles from './Footer.css';
+
 type Props = {
   loggedIn: boolean;
 };

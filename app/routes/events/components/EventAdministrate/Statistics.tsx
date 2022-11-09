@@ -1,5 +1,5 @@
-import EventAttendeeStatistics from 'app/routes/events/components/EventAttendeeStatistics';
 import { Event, EventRegistration, Group } from 'app/models';
+import EventAttendeeStatistics from 'app/routes/events/components/EventAttendeeStatistics';
 
 interface Props {
   committees: Group[];

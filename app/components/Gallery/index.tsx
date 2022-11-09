@@ -1,9 +1,10 @@
-import type { Node } from 'react';
-import { PureComponent } from 'react';
 import { chunk, get } from 'lodash';
+import { PureComponent } from 'react';
 import { Image } from 'app/components/Image';
 import Paginator from 'app/components/Paginator';
 import styles from './Gallery.css';
+import type { Node } from 'react';
+
 export type Photo = Record<string, any>;
 type Props = {
   onClick?: (arg0: Photo) => unknown;

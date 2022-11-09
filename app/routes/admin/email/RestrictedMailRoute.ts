@@ -1,10 +1,10 @@
-import { compose } from 'redux';
 import { connect } from 'react-redux';
-import loadingIndicator from 'app/utils/loadingIndicator';
-import RestrictedMailEditor from './components/RestrictedMailEditor';
+import { compose } from 'redux';
 import { fetchRestrictedMail } from 'app/actions/RestrictedMailActions';
 import { selectRestrictedMailById } from 'app/reducers/restrictedMails';
+import loadingIndicator from 'app/utils/loadingIndicator';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
+import RestrictedMailEditor from './components/RestrictedMailEditor';
 
 const mapStateToProps = (state, { match: { params } }) => {
   const restrictedMail = selectRestrictedMailById(state, {

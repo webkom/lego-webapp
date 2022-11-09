@@ -1,7 +1,8 @@
-import Button from 'app/components/Button';
-import { createValidator, required } from 'app/utils/validation';
 import { reduxForm, Form, Field } from 'redux-form';
+import Button from 'app/components/Button';
 import { TextInput, SelectInput, CheckBox } from 'app/components/Form';
+import { createValidator, required } from 'app/utils/validation';
+
 export type Props = {
   emailUserId?: number;
   submitting: boolean;

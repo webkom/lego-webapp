@@ -1,7 +1,8 @@
 import { createSelector } from 'reselect';
-import { EmailList } from '../actions/ActionTypes';
 import { mutateComments } from 'app/reducers/comments';
 import createEntityReducer from 'app/utils/createEntityReducer';
+import { EmailList } from '../actions/ActionTypes';
+
 export type EmailListEntity = {
   id: number;
   title: string;

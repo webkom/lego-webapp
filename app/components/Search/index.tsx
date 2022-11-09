@@ -1,16 +1,17 @@
-import styles from './Search.css';
+import { push } from 'connected-react-router';
+import { debounce } from 'lodash';
 import { Component } from 'react';
 import { connect } from 'react-redux';
-import { debounce } from 'lodash';
-import Icon from '../Icon';
-import SearchResults from './SearchResults';
 import { autocomplete } from 'app/actions/SearchActions';
-import { selectAutocompleteRedux } from 'app/reducers/search';
-import { push } from 'connected-react-router';
-import { Keyboard } from 'app/utils/constants';
-import type { State as ReducerState } from 'app/types';
 import type { Allowed } from 'app/reducers/allowed';
+import { selectAutocompleteRedux } from 'app/reducers/search';
+import type { State as ReducerState } from 'app/types';
+import { Keyboard } from 'app/utils/constants';
+import Icon from '../Icon';
+import styles from './Search.css';
+import SearchResults from './SearchResults';
 import { getAdminLinks, getRegularLinks } from './utils';
+
 type StateProps = {
   allowed: Allowed;
 };

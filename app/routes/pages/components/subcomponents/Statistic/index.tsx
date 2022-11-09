@@ -1,4 +1,5 @@
 import styles from './Statistic.css';
+
 type Props = {
   statistic: string;
   label: string;

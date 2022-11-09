@@ -1,13 +1,12 @@
+import moment from 'moment-timezone';
 import { Helmet } from 'react-helmet-async';
-import styles from './EventEditor.css';
-import renderPools, { validatePools } from './renderPools';
-import {
-  AttendanceStatus,
-  ModalParentComponent,
-} from 'app/components/UserAttendance';
-import Tag from 'app/components/Tags/Tag';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import { Field, FieldArray } from 'redux-form';
+import {
+  Content,
+  ContentSection,
+  ContentMain,
+  ContentSidebar,
+} from 'app/components/Content';
 import {
   Form,
   EditorField,
@@ -20,7 +19,20 @@ import {
   ImageUploadField,
   legoForm,
 } from 'app/components/Form';
+import Icon from 'app/components/Icon';
 import { Flex } from 'app/components/Layout';
+import LoadingIndicator from 'app/components/LoadingIndicator';
+import MazemapLink from 'app/components/MazemapEmbed/MazemapLink';
+import NavigationTab from 'app/components/NavigationTab';
+import Tag from 'app/components/Tags/Tag';
+import { FormatTime } from 'app/components/Time';
+import Tooltip from 'app/components/Tooltip';
+import {
+  AttendanceStatus,
+  ModalParentComponent,
+} from 'app/components/UserAttendance';
+import type { ID } from 'app/models';
+import { validYoutubeUrl } from 'app/utils/validation';
 import {
   addStripeFee,
   EVENT_CONSTANTS,
@@ -28,20 +40,9 @@ import {
   eventStatusTypes,
 } from '../../utils';
 import Admin from '../Admin';
-import {
-  Content,
-  ContentSection,
-  ContentMain,
-  ContentSidebar,
-} from 'app/components/Content';
-import Tooltip from 'app/components/Tooltip';
-import Icon from 'app/components/Icon';
-import type { ID } from 'app/models';
-import { validYoutubeUrl } from 'app/utils/validation';
-import { FormatTime } from 'app/components/Time';
-import moment from 'moment-timezone';
-import MazemapLink from 'app/components/MazemapEmbed/MazemapLink';
-import NavigationTab from 'app/components/NavigationTab';
+import styles from './EventEditor.css';
+import renderPools, { validatePools } from './renderPools';
+
 type Props = {
   eventId: number;
   event: Record<string, any>;

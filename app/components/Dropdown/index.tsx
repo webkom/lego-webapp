@@ -1,9 +1,10 @@
-import type { Node, Portal } from 'react';
+import cx from 'classnames';
 import { useRef } from 'react';
 import { Overlay } from 'react-overlays';
-import cx from 'classnames';
 import Icon from 'app/components/Icon';
 import styles from './Dropdown.css';
+import type { Node, Portal } from 'react';
+
 type Props = {
   iconName?: string;
   toggle: () => any;

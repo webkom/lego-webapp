@@ -1,8 +1,9 @@
 const path = require('path');
-const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const webpack = require('webpack');
 const FilterWarningsPlugin = require('webpack-filter-warnings-plugin');
 const nodeExternals = require('webpack-node-externals');
+
 const root = path.resolve(__dirname, '..');
 
 module.exports = (env, argv) => {

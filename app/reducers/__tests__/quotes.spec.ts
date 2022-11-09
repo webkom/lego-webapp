@@ -1,5 +1,6 @@
-import quotes from '../quotes';
 import { Quote } from '../../actions/ActionTypes';
+import quotes from '../quotes';
+
 describe('reducers', () => {
   describe('quotes', () => {
     const baseState = {

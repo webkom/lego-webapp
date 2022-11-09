@@ -1,7 +1,8 @@
-import { Flex } from 'app/components/Layout';
-import { Link } from 'react-router-dom';
 import moment from 'moment-timezone';
+import { Link } from 'react-router-dom';
+import { Flex } from 'app/components/Layout';
 import styles from './GalleryDetailsRow.css';
+
 type Props = {
   gallery: Record<string, any>;
   showDescription?: boolean;

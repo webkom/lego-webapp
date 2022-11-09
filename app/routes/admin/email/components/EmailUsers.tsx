@@ -1,12 +1,13 @@
+import qs from 'qs';
 import { Component } from 'react';
-import Table from 'app/components/Table';
-import Tag from 'app/components/Tags/Tag';
 import { Link } from 'react-router-dom';
 import Button from 'app/components/Button';
 import Flex from 'app/components/Layout/Flex';
+import Table from 'app/components/Table';
+import Tag from 'app/components/Tags/Tag';
 import type { Group } from 'app/models';
 import { GroupType } from 'app/models';
-import qs from 'qs';
+
 type Props = {
   fetching: boolean;
   hasMore: boolean;

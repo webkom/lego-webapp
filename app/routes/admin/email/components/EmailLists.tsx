@@ -1,10 +1,11 @@
+import qs from 'qs';
 import { Component } from 'react';
-import Table from 'app/components/Table';
 import { Link } from 'react-router-dom';
-import Tag from 'app/components/Tags/Tag';
 import Button from 'app/components/Button';
 import Flex from 'app/components/Layout/Flex';
-import qs from 'qs';
+import Table from 'app/components/Table';
+import Tag from 'app/components/Tags/Tag';
+
 type Props = {
   fetching: boolean;
   hasMore: boolean;

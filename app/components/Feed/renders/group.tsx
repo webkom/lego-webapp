@@ -1,9 +1,9 @@
-import type { Element } from 'react';
+import DisplayContent from 'app/components/DisplayContent';
 import Icon from 'app/components/Icon';
 import { GroupType } from 'app/models';
 import { lookupContext, contextRender } from '../context';
 import type { AggregatedActivity, Activity, TagInfo } from '../types';
-import DisplayContent from 'app/components/DisplayContent';
+import type { Element } from 'react';
 
 /**
  * Grouped by object...

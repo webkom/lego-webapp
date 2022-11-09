@@ -1,4 +1,5 @@
 import config from '../config/env';
+
 export default function healthCheck(
   req: express$Request,
   res: express$Response

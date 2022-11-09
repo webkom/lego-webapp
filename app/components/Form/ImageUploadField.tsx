@@ -1,12 +1,13 @@
-import { Component } from 'react';
 import cx from 'classnames';
-import { createField } from './Field';
+import { Component } from 'react';
+import { connect } from 'react-redux';
 import { uploadFile } from 'app/actions/FileActions';
 import type { UploadArgs } from 'app/actions/FileActions';
 import type { DropFile } from 'app/components/Upload/ImageUpload';
-import { connect } from 'react-redux';
 import ImageUpload from 'app/components/Upload/ImageUpload';
+import { createField } from './Field';
 import styles from './ImageUploadField.css';
+
 type Props = {
   className?: string;
   style?: Record<string, any>;

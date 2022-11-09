@@ -1,21 +1,16 @@
-import { Component } from 'react';
 import cx from 'classnames';
-import styles from './bdb.css';
-import { Content } from 'app/components/Content';
-import {
-  sortByYearThenSemester,
-  getContactedStatuses,
-  DetailNavigation,
-} from '../utils';
-import InfoBubble from 'app/components/InfoBubble';
-import CommentView from 'app/components/Comments/CommentView';
-import Time from 'app/components/Time';
+import { Component } from 'react';
 import { Link } from 'react-router-dom';
-import LoadingIndicator from 'app/components/LoadingIndicator';
+import Button from 'app/components/Button';
+import CommentView from 'app/components/Comments/CommentView';
+import { Content } from 'app/components/Content';
 import { Image } from 'app/components/Image';
-import SemesterStatusDetail from './SemesterStatusDetail';
-import { EVENT_CONSTANTS } from 'app/routes/events/utils';
-import truncateString from 'app/utils/truncateString';
+import InfoBubble from 'app/components/InfoBubble';
+import LoadingIndicator from 'app/components/LoadingIndicator';
+import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
+import Time from 'app/components/Time';
+import Tooltip from 'app/components/Tooltip';
+import type { CompanySemesterContactedStatus, ID } from 'app/models';
 import type {
   CompanyEntity,
   BaseSemesterStatusEntity,
@@ -23,10 +18,16 @@ import type {
 } from 'app/reducers/companies';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 import type { UserEntity } from 'app/reducers/users';
-import Button from 'app/components/Button';
-import Tooltip from 'app/components/Tooltip';
-import type { CompanySemesterContactedStatus, ID } from 'app/models';
-import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
+import { EVENT_CONSTANTS } from 'app/routes/events/utils';
+import truncateString from 'app/utils/truncateString';
+import {
+  sortByYearThenSemester,
+  getContactedStatuses,
+  DetailNavigation,
+} from '../utils';
+import SemesterStatusDetail from './SemesterStatusDetail';
+import styles from './bdb.css';
+
 type Props = {
   company: CompanyEntity;
   comments: Array<Record<string, any>>;

@@ -1,10 +1,11 @@
-import { compose } from 'redux';
-import { connect } from 'react-redux';
-import { reduxForm } from 'redux-form';
-import { createValidator, required } from 'app/utils/validation';
-import { createOAuth2Application } from 'app/actions/OAuth2Actions';
-import UserSettingsOAuth2Form from './components/UserSettingsOAuth2Form';
 import { push } from 'connected-react-router';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { reduxForm } from 'redux-form';
+import { createOAuth2Application } from 'app/actions/OAuth2Actions';
+import { createValidator, required } from 'app/utils/validation';
+import UserSettingsOAuth2Form from './components/UserSettingsOAuth2Form';
+
 const validate = createValidator({
   name: [required()],
   description: [required()],

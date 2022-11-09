@@ -1,10 +1,11 @@
-import { Event } from '../actions/ActionTypes';
-import createEntityReducer from 'app/utils/createEntityReducer';
+import { produce } from 'immer';
+import { union, without } from 'lodash';
 import { normalize } from 'normalizr';
 import { eventSchema } from 'app/reducers';
-import { union, without } from 'lodash';
+import createEntityReducer from 'app/utils/createEntityReducer';
 import mergeObjects from 'app/utils/mergeObjects';
-import { produce } from 'immer';
+import { Event } from '../actions/ActionTypes';
+
 type State = any;
 export default createEntityReducer({
   key: 'pools',

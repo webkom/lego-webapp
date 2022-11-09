@@ -1,14 +1,14 @@
-import { compose } from 'redux';
-import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
 import { debounce } from 'lodash';
-import { autocomplete } from 'app/actions/SearchActions';
-import { selectAutocompleteRedux as selectAutocomplete } from 'app/reducers/search';
-import { markUsernamePresent } from 'app/actions/EventActions';
-import Abacard from './components/EventAdministrate/Abacard';
 import qs from 'qs';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { markUsernamePresent } from 'app/actions/EventActions';
+import { autocomplete } from 'app/actions/SearchActions';
 import { getRegistrationGroups } from 'app/reducers/events';
+import { selectAutocompleteRedux as selectAutocomplete } from 'app/reducers/search';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
+import Abacard from './components/EventAdministrate/Abacard';
 
 const searchTypes = ['users.user'];
 

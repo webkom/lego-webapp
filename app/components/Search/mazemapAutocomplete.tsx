@@ -1,8 +1,9 @@
-import type { ComponentType } from 'react';
-import { Component } from 'react';
 import { debounce } from 'lodash';
+import { Component } from 'react';
 import { stripHtmlTags } from './utils';
+import type { ComponentType } from 'react';
 import 'node_modules/mazemap/mazemap.min.css';
+
 type InjectedProps = {
   mazemapSearch: (query: string) => Promise<any>;
   meta: any;

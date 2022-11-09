@@ -1,4 +1,5 @@
 import styles from './ReactionPickerFooter.css';
+
 type Props = {
   onSearch: (searchString: string) => void;
 };

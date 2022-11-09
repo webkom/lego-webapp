@@ -1,8 +1,9 @@
-import type { Node } from 'react';
 import cx from 'classnames';
-import styles from './ContentHeader.css';
-import { eventTypeToString } from 'app/routes/events/utils';
 import type { Event } from 'app/models';
+import { eventTypeToString } from 'app/routes/events/utils';
+import styles from './ContentHeader.css';
+import type { Node } from 'react';
+
 type Props = {
   className?: string;
   borderColor?: string;

@@ -2,6 +2,7 @@ import { merge } from 'lodash';
 import moment from 'moment-timezone';
 import config from 'app/config';
 import { EDITOR_EMPTY } from 'app/utils/constants';
+
 export const EMAIL_REGEX = /.+@.+\..+/;
 const YOUTUBE_URL_REGEX =
   /(?:https?:\/\/)?(?:www[.])?(?:youtube[.]com\/watch[?]v=|youtu[.]be\/)([^&]{11})/;

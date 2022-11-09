@@ -1,6 +1,6 @@
-import BrandPage from './components/BrandPage';
 import { Route, Switch } from 'react-router-dom';
 import PageNotFound from '../pageNotFound';
+import BrandPage from './components/BrandPage';
 
 const brandRoute = ({
   match,

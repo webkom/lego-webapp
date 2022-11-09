@@ -1,7 +1,6 @@
+import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
-import LoadingIndicator from 'app/components/LoadingIndicator/';
-import DisplayContent from 'app/components/DisplayContent';
-import InfoList from 'app/components/InfoList';
+import Button from 'app/components/Button';
 import {
   Content,
   ContentSection,
@@ -9,13 +8,15 @@ import {
   ContentSidebar,
   ContentHeader,
 } from 'app/components/Content';
-import { jobType, Year, Workplaces } from './Items';
-import Time from 'app/components/Time';
-import { Helmet } from 'react-helmet-async';
-import Button from 'app/components/Button';
+import DisplayContent from 'app/components/DisplayContent';
 import Icon from 'app/components/Icon';
+import InfoList from 'app/components/InfoList';
 import Flex from 'app/components/Layout/Flex';
+import LoadingIndicator from 'app/components/LoadingIndicator/';
+import Time from 'app/components/Time';
 import type { ActionGrant } from 'app/models';
+import { jobType, Year, Workplaces } from './Items';
+
 type Props = {
   joblisting: Record<string, any>;
   actionGrant: ActionGrant;

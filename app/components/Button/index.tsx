@@ -1,7 +1,8 @@
-import { ButtonHTMLAttributes } from 'react';
 import cx from 'classnames';
-import styles from './Button.css';
+import { ButtonHTMLAttributes } from 'react';
 import LoadingIndicator from '../LoadingIndicator';
+import styles from './Button.css';
+
 type Props = {
   /** content inside */
   children?: any;

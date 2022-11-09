@@ -1,10 +1,11 @@
 import { Component } from 'react';
-import type { SurveyEntity } from 'app/reducers/surveys';
-import type { SubmissionEntity } from 'app/reducers/surveySubmissions';
-import { Content } from 'app/components/Content';
 import { Link } from 'react-router-dom';
+import { Content } from 'app/components/Content';
+import type { SubmissionEntity } from 'app/reducers/surveySubmissions';
+import type { SurveyEntity } from 'app/reducers/surveys';
 import StaticSubmission from '../StaticSubmission';
 import styles from '../surveys.css';
+
 type Props = {
   survey: SurveyEntity;
   submission: SubmissionEntity;

@@ -1,17 +1,17 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { fetchSurvey } from 'app/actions/SurveyActions';
+import { LoginPage } from 'app/components/LoginForm';
+import { selectSurveySubmissionForUser } from 'app/reducers/surveySubmissions';
+import { selectSurveyById } from 'app/reducers/surveys';
+import loadingIndicator from 'app/utils/loadingIndicator';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import {
   addSubmission,
   fetchUserSubmission,
 } from '../../actions/SurveySubmissionActions';
-import { fetchSurvey } from 'app/actions/SurveyActions';
 import SubmissionContainer from './components/SubmissionEditor/SubmissionContainer';
-import { selectSurveyById } from 'app/reducers/surveys';
-import { selectSurveySubmissionForUser } from 'app/reducers/surveySubmissions';
-import { LoginPage } from 'app/components/LoginForm';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import loadingIndicator from 'app/utils/loadingIndicator';
-import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const mapStateToProps = (state, props) => {
   const surveyId = Number(props.match.params.surveyId);

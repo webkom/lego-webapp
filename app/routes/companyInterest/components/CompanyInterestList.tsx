@@ -1,16 +1,17 @@
+import { Component } from 'react';
+import { Link } from 'react-router-dom';
+import Select from 'react-select';
+import Button from 'app/components/Button';
+import { Content } from 'app/components/Content';
+import { selectTheme, selectStyles } from 'app/components/Form/SelectInput';
+import Flex from 'app/components/Layout/Flex';
+import Table from 'app/components/Table';
+import type { CompanyInterestEntity } from 'app/reducers/companyInterest';
+import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 import { ListNavigation } from 'app/routes/bdb/utils';
 import { semesterToText } from '../utils';
 import styles from './CompanyInterest.css';
-import { Component } from 'react';
-import Button from 'app/components/Button';
-import { Link } from 'react-router-dom';
-import { Content } from 'app/components/Content';
-import Flex from 'app/components/Layout/Flex';
-import type { CompanyInterestEntity } from 'app/reducers/companyInterest';
-import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
-import Table from 'app/components/Table';
-import Select from 'react-select';
-import { selectTheme, selectStyles } from 'app/components/Form/SelectInput';
+
 export type Option = {
   id: number;
   semester: string;

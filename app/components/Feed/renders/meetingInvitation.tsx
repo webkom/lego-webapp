@@ -1,8 +1,8 @@
-import type { Element } from 'react';
 import Icon from 'app/components/Icon';
 import joinValues from 'app/utils/joinValues';
 import { lookupContext, contextRender } from '../context';
 import type { AggregatedActivity, TagInfo } from '../types';
+import type { Element } from 'react';
 
 /**
  * Group by actor

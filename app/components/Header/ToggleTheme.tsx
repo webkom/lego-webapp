@@ -1,9 +1,9 @@
-import type { Node } from 'react';
-import { useCallback, useState } from 'react';
 import cx from 'classnames';
+import { useCallback, useState } from 'react';
+import { applySelectedTheme, getTheme } from 'app/utils/themeUtils';
 import Icon from '../Icon';
 import styles from './toggleTheme.css';
-import { applySelectedTheme, getTheme } from 'app/utils/themeUtils';
+import type { Node } from 'react';
 
 const getIcon = () => (getTheme() === 'dark' ? 'sunny' : 'moon');
 

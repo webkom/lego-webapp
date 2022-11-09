@@ -1,19 +1,19 @@
-import { compose } from 'redux';
 import { connect } from 'react-redux';
-import helmet from 'app/utils/helmet';
-import loadingIndicator from 'app/utils/loadingIndicator';
+import { compose } from 'redux';
 import { fetchArticle } from 'app/actions/ArticleActions';
 import { deleteComment } from 'app/actions/CommentActions';
-import { addReaction, deleteReaction } from 'app/actions/ReactionActions';
 import { fetchEmojis } from 'app/actions/EmojiActions';
-import ArticleDetail from './components/ArticleDetail';
+import { addReaction, deleteReaction } from 'app/actions/ReactionActions';
 import {
   selectArticleById,
   selectCommentsForArticle,
 } from 'app/reducers/articles';
-import { selectUserById } from 'app/reducers/users';
 import { selectEmojis } from 'app/reducers/emojis';
+import { selectUserById } from 'app/reducers/users';
+import helmet from 'app/utils/helmet';
+import loadingIndicator from 'app/utils/loadingIndicator';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
+import ArticleDetail from './components/ArticleDetail';
 
 const mapStateToProps = (state, props) => {
   const { articleId } = props.match.params;

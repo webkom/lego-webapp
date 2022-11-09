@@ -1,5 +1,5 @@
-import type { Event } from 'app/models';
 import moment from 'moment-timezone';
+import type { Event } from 'app/models';
 
 // Calculate diplay message for an event based on
 // eventStatusType, activationTime, capacity and totalCapacity

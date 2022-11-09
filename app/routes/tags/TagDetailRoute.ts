@@ -1,11 +1,11 @@
-import { compose } from 'redux';
-import { connect } from 'react-redux';
-import { fetch } from 'app/actions/TagActions';
-import loadingIndicator from 'app/utils/loadingIndicator';
 import { push } from 'connected-react-router';
-import TagDetail from './components/TagDetail';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { fetch } from 'app/actions/TagActions';
 import { selectTagById } from 'app/reducers/tags';
+import loadingIndicator from 'app/utils/loadingIndicator';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
+import TagDetail from './components/TagDetail';
 
 function mapStateToProps(state, props) {
   const { tagId } = props.match.params;

@@ -1,17 +1,18 @@
-import path from 'path';
 import fs from 'fs';
-import express from 'express';
-import morgan from 'morgan';
-import moment from 'moment-timezone';
-import bunyan from 'bunyan';
-import expressStaticGzip from 'express-static-gzip';
-import bunyanPretty from 'bunyan-pretty';
+import path from 'path';
 import * as Sentry from '@sentry/node';
+import bunyan from 'bunyan';
+import bunyanPretty from 'bunyan-pretty';
 import cookieParser from 'cookie-parser';
-import render from './render';
-import config from './env';
+import express from 'express';
+import expressStaticGzip from 'express-static-gzip';
+import moment from 'moment-timezone';
+import morgan from 'morgan';
 import baseConfig from 'config/env';
+import config from './env';
 import healthCheck from './health';
+import render from './render';
+
 moment.locale('nb-NO');
 const app = express();
 app.use(Sentry.Handlers.requestHandler());

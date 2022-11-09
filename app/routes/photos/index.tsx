@@ -1,13 +1,13 @@
 import { Route, Switch } from 'react-router-dom';
 import RouteWrapper from 'app/components/RouteWrapper';
 import { UserContext } from 'app/routes/app/AppRoute';
-import GalleryListRoute from './GalleryListRoute';
+import PageNotFound from '../pageNotFound';
 import GalleryCreateRoute from './GalleryCreateRoute';
 import GalleryDetailRoute from './GalleryDetailRoute';
 import GalleryEditRoute from './GalleryEditRoute';
-import GalleryPictureRoute from './GalleryPictureRoute';
+import GalleryListRoute from './GalleryListRoute';
 import GalleryPictureEditRoute from './GalleryPictureEditRoute';
-import PageNotFound from '../pageNotFound';
+import GalleryPictureRoute from './GalleryPictureRoute';
 
 const photosRoute = ({
   match,

@@ -1,4 +1,5 @@
 import 'isomorphic-fetch';
+
 export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 export class HttpError extends Error {
   response: Response;

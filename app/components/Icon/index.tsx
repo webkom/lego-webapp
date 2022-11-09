@@ -1,5 +1,6 @@
-import styles from './Icon.css';
 import { Flex } from 'app/components/Layout';
+import styles from './Icon.css';
+
 type Props = {
   /** Name of the icon can be found on the webpage*/
   name: string;

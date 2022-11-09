@@ -1,7 +1,7 @@
-import type { ComponentType } from 'react';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import { get } from 'lodash';
+import LoadingIndicator from 'app/components/LoadingIndicator';
 import type { Props } from 'app/components/LoadingIndicator';
+import type { ComponentType } from 'react';
 /**
  * A higher order component that wraps the given component in
  * LoadingIndicator while `props[loadingProp]` is being fetched.

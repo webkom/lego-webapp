@@ -1,8 +1,9 @@
-import styles from '../surveys.css';
+import cx from 'classnames';
 import type { SubmissionEntity } from 'app/reducers/surveySubmissions';
 import type { SurveyEntity } from 'app/reducers/surveys';
 import StaticSubmission from '../StaticSubmission';
-import cx from 'classnames';
+import styles from '../surveys.css';
+
 type Props = {
   submissions: Array<SubmissionEntity>;
   addSubmission: (arg0: SubmissionEntity) => Promise<any>;

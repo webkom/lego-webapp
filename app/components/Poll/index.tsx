@@ -1,14 +1,15 @@
-import { Component } from 'react';
-import Button from 'app/components/Button';
-import styles from './Poll.css';
-import type { PollEntity, OptionEntity } from 'app/reducers/polls';
+import cx from 'classnames';
+import Linkify from 'linkify-react';
 import { sortBy } from 'lodash';
+import { Component } from 'react';
 import { Link } from 'react-router-dom';
+import Button from 'app/components/Button';
 import Icon from 'app/components/Icon';
 import { Flex } from 'app/components/Layout';
 import Tooltip from 'app/components/Tooltip';
-import cx from 'classnames';
-import Linkify from 'linkify-react';
+import type { PollEntity, OptionEntity } from 'app/reducers/polls';
+import styles from './Poll.css';
+
 type Props = {
   poll: PollEntity;
   handleVote: (pollId: number, optionId: number) => Promise<any>;

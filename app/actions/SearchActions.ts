@@ -1,7 +1,8 @@
 import callAPI from 'app/actions/callAPI';
-import { Search } from './ActionTypes';
 import { selectAutocomplete } from 'app/reducers/search';
 import type { Action, Thunk } from 'app/types';
+import { Search } from './ActionTypes';
+
 export function toggleSearch(): Action {
   return {
     type: Search.TOGGLE_OPEN,

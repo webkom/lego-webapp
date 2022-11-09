@@ -1,7 +1,8 @@
-import { Content } from 'app/components/Content';
 import { Helmet } from 'react-helmet-async';
+import { Content } from 'app/components/Content';
 import Feed from 'app/components/Feed';
 import LoadingIndicator from 'app/components/LoadingIndicator';
+
 type Props = {
   feedItems: Array<any>;
   feed: Record<string, any>;

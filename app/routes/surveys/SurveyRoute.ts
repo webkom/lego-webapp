@@ -1,12 +1,12 @@
+import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { LoginPage } from 'app/components/LoginForm';
+import { selectSurveys } from 'app/reducers/surveys';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import { fetchAll } from '../../actions/SurveyActions';
 import SurveyPage from './components/SurveyList/SurveyPage';
-import { compose } from 'redux';
-import { selectSurveys } from 'app/reducers/surveys';
-import { LoginPage } from 'app/components/LoginForm';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import { push } from 'connected-react-router';
-import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const mapStateToProps = (state, props) => ({
   surveys: selectSurveys(state, props).filter((survey) => !survey.templateType),

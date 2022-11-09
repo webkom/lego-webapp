@@ -1,6 +1,7 @@
-import fetchHistory from '../fetchHistory';
-import timekeeper from 'timekeeper';
 import { compose } from 'redux';
+import timekeeper from 'timekeeper';
+import fetchHistory from '../fetchHistory';
+
 describe('fetchHistory', () => {
   const time = Date.now();
   timekeeper.freeze(time);

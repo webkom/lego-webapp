@@ -1,14 +1,14 @@
-import { compose } from 'redux';
+import moment from 'moment-timezone';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import { fetchList } from 'app/actions/EventActions';
-import EventList from './components/EventList';
 import { selectSortedEvents } from 'app/reducers/events';
-import moment from 'moment-timezone';
-import { selectPagination } from '../../reducers/selectors';
 import createQueryString from 'app/utils/createQueryString';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
+import { selectPagination } from '../../reducers/selectors';
+import EventList from './components/EventList';
 
 const mapStateToProps = (state, ownProps) => {
   const dateAfter = moment().format('YYYY-MM-DD');

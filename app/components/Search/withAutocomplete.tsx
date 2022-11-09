@@ -1,9 +1,10 @@
-import type { ComponentType } from 'react';
-import { Component } from 'react';
-import { compose } from 'redux';
-import { connect } from 'react-redux';
-import { autocomplete } from 'app/actions/SearchActions';
 import { debounce } from 'lodash';
+import { Component } from 'react';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { autocomplete } from 'app/actions/SearchActions';
+import type { ComponentType } from 'react';
+
 type InjectedProps = {
   filter: Array<string>;
   autocomplete: (query: string, filter?: Array<string>) => Promise<any>;

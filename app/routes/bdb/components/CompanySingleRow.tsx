@@ -1,9 +1,10 @@
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
+import type { CompanySemesterContactedStatus } from 'app/models';
 import { indexToSemester } from '../utils';
 import SemesterStatus from './SemesterStatus';
 import styles from './bdb.css';
-import type { CompanySemesterContactedStatus } from 'app/models';
+
 type Props = {
   company: Record<string, any>;
   startYear: number;

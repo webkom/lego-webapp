@@ -1,6 +1,4 @@
-import styles from './index.css';
 import { Field } from 'redux-form';
-import type { FormProps } from 'redux-form';
 import {
   Form,
   TextInput,
@@ -12,6 +10,9 @@ import {
 } from 'app/components/Form';
 import Tooltip from 'app/components/Tooltip';
 import { createValidator, required } from 'app/utils/validation';
+import styles from './index.css';
+import type { FormProps } from 'redux-form';
+
 type OwnProps = {
   handleSubmitCallback: (arg0: Record<string, any>) => Promise<any>;
   group: Record<string, any>;

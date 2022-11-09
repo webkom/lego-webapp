@@ -1,17 +1,17 @@
+import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 import {
   fetchSurvey,
   shareSurvey,
   hideSurvey,
 } from 'app/actions/SurveyActions';
-import SurveyDetail from './components/SurveyDetail';
-import { compose } from 'redux';
-import { selectSurveyById } from 'app/reducers/surveys';
 import { LoginPage } from 'app/components/LoginForm';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import { selectSurveyById } from 'app/reducers/surveys';
 import loadingIndicator from 'app/utils/loadingIndicator';
-import { push } from 'connected-react-router';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
+import SurveyDetail from './components/SurveyDetail';
 
 const mapStateToProps = (state, props) => {
   const surveyId = Number(props.match.params.surveyId);

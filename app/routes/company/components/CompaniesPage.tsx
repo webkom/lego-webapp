@@ -1,16 +1,17 @@
-import type { ElementRef } from 'react';
+import cx from 'classnames';
 import { createRef, Component } from 'react';
 import { Helmet } from 'react-helmet-async';
-import styles from './CompaniesPage.css';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import InfiniteScroll from 'react-infinite-scroller';
 import { Link } from 'react-router-dom';
-import { Image } from 'app/components/Image';
-import type { Company } from 'app/models';
 import Icon from 'app/components/Icon';
+import { Image } from 'app/components/Image';
 import { Flex } from 'app/components/Layout';
+import LoadingIndicator from 'app/components/LoadingIndicator';
+import type { Company } from 'app/models';
 import utilities from 'app/styles/utilities.css';
-import cx from 'classnames';
+import styles from './CompaniesPage.css';
+import type { ElementRef } from 'react';
+
 type Props = {
   companies: Array<Company>;
   fetchMore: () => void;

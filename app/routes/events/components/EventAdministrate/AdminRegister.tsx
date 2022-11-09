@@ -1,10 +1,11 @@
-import type { FormProps } from 'react-redux';
 import { Field } from 'redux-form';
-import { RenderErrorMessage } from 'app/components/Form/Field';
-import { legoForm, TextEditor, SelectInput } from 'app/components/Form';
-import Button from 'app/components/Button';
-import type { ID, EventPool, User } from 'app/models';
 import { waitinglistPoolId } from 'app/actions/EventActions';
+import Button from 'app/components/Button';
+import { legoForm, TextEditor, SelectInput } from 'app/components/Form';
+import { RenderErrorMessage } from 'app/components/Form/Field';
+import type { ID, EventPool, User } from 'app/models';
+import type { FormProps } from 'react-redux';
+
 type Props = {
   eventId: ID;
   adminRegister: (

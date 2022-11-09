@@ -1,4 +1,5 @@
 import styles from './Octagon.css';
+
 type Props = {
   size: number | string;
   children?: any;

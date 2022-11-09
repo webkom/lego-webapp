@@ -1,17 +1,18 @@
-import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import cx from 'classnames';
-import { EditorField } from 'app/components/Form';
-import Button from 'app/components/Button';
-import { ProfilePicture } from 'app/components/Image';
-import { addComment } from 'app/actions/CommentActions';
-import styles from './CommentForm.css';
-import DisplayContent from 'app/components/DisplayContent';
-import { EDITOR_EMPTY } from 'app/utils/constants';
-import LegoFinalForm from 'app/components/Form/LegoFinalForm';
+import { useEffect, useState } from 'react';
 import { Field } from 'react-final-form';
+import { useDispatch } from 'react-redux';
+import { addComment } from 'app/actions/CommentActions';
+import Button from 'app/components/Button';
+import DisplayContent from 'app/components/DisplayContent';
+import { EditorField } from 'app/components/Form';
+import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
+import { ProfilePicture } from 'app/components/Image';
+import { EDITOR_EMPTY } from 'app/utils/constants';
 import { createValidator, legoEditorRequired } from 'app/utils/validation';
+import styles from './CommentForm.css';
+
 type Props = {
   contentTarget: string;
   user: Record<string, any>;

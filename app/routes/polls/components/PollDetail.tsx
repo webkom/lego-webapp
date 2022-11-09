@@ -1,15 +1,14 @@
 import { Component } from 'react';
-import { Content } from 'app/components/Content';
 import { Helmet } from 'react-helmet-async';
+import Button from 'app/components/Button';
+import { Content } from 'app/components/Content';
+import Icon from 'app/components/Icon';
 import NavigationTab from 'app/components/NavigationTab';
 import Poll from 'app/components/Poll';
-import Button from 'app/components/Button';
-import PollEditor from './PollEditor';
-import type { PollEntity } from 'app/reducers/polls';
-import 'app/reducers/polls';
 import type { ActionGrant, ID } from 'app/models';
-import 'app/models';
-import Icon from 'app/components/Icon';
+import type { PollEntity } from 'app/reducers/polls';
+import PollEditor from './PollEditor';
+
 type Props = {
   poll: PollEntity;
   editPoll: (arg0: PollEntity) => Promise<any>;

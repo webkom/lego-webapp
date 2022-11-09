@@ -1,9 +1,10 @@
 import { mount } from 'enzyme';
-import { Provider } from 'react-redux';
-import moment from 'moment';
 import lolex from 'lolex';
-import JoinEventForm from '../JoinEventForm';
+import moment from 'moment';
+import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
+import JoinEventForm from '../JoinEventForm';
+
 jest.useFakeTimers();
 const EVENT = {
   id: 1,

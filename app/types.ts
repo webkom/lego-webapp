@@ -1,10 +1,11 @@
-import type { Store as ReduxStore, Middleware as ReduxMiddleware } from 'redux';
 import type { Reducers } from 'app/reducers';
+import type { Store as ReduxStore, Middleware as ReduxMiddleware } from 'redux';
 import type {
   StartSubmitAction,
   StopSubmitAction,
   InitializeAction,
 } from 'redux-form/lib/actions.types.js.flow';
+
 export type AsyncActionType = {
   BEGIN: string;
   SUCCESS: string;

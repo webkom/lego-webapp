@@ -1,7 +1,8 @@
-import type { Node } from 'react';
 import { Component } from 'react';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import InfiniteScroll from 'react-infinite-scroller';
+import LoadingIndicator from 'app/components/LoadingIndicator';
+import type { Node } from 'react';
+
 type Props = {
   infiniteScroll?: boolean;
   children: Node;

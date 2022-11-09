@@ -1,7 +1,8 @@
 import { Reaction } from 'app/actions/ActionTypes';
+import type { ID } from 'app/models';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import getEntityType from 'app/utils/getEntityType';
-import type { ID } from 'app/models';
+
 export type ReactionEntity = {
   reactionId: ID;
   emoji: string;

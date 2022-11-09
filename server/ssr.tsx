@@ -1,15 +1,15 @@
-import { StaticRouter } from 'react-router';
-import { Request, Response } from 'express';
-import RouteConfig from '../app/routes';
-import { ReactReduxContext } from 'react-redux';
 import * as Sentry from '@sentry/node';
-import configureStore from '../app/utils/configureStore';
-import type { State } from '../app/types';
-import '../app/types';
-import pageRenderer from './pageRenderer';
 import { prepare } from '@webkom/react-prepare';
-import { HelmetProvider } from 'react-helmet-async';
+import { Request, Response } from 'express';
 import { ReactElement } from 'react';
+import { HelmetProvider } from 'react-helmet-async';
+import { ReactReduxContext } from 'react-redux';
+import { StaticRouter } from 'react-router';
+import RouteConfig from '../app/routes';
+import configureStore from '../app/utils/configureStore';
+import pageRenderer from './pageRenderer';
+import type { State } from '../app/types';
+
 const serverSideTimeoutInMs = 4000;
 export const helmetContext: any = {}; // AntiPattern because of babel
 // https://github.com/babel/babel/issues/3083

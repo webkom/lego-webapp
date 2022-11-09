@@ -1,4 +1,5 @@
 import ImageUpload from 'app/components/Upload/ImageUpload';
+
 type Props = {
   updatePicture: (arg0: Record<string, any>) => void;
   user: Record<string, any>;

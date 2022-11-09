@@ -1,8 +1,9 @@
-import type { Thunk } from 'app/types';
-import { groupSchema, membershipSchema } from 'app/reducers';
-import callAPI from 'app/actions/callAPI';
-import { Group, Membership } from './ActionTypes';
 import { push } from 'connected-react-router';
+import callAPI from 'app/actions/callAPI';
+import { groupSchema, membershipSchema } from 'app/reducers';
+import type { Thunk } from 'app/types';
+import { Group, Membership } from './ActionTypes';
+
 export type AddMemberArgs = {
   groupId: number;
   userId: number;

@@ -1,11 +1,12 @@
-import styles from './InterestGroup.css';
 import { Helmet } from 'react-helmet-async';
-import InterestGroupComponent from './InterestGroup';
+import { Link } from 'react-router-dom';
 import Button from 'app/components/Button';
 import { Content } from 'app/components/Content';
-import { Link } from 'react-router-dom';
 import NavigationTab from 'app/components/NavigationTab';
 import type { ActionGrant, Group } from 'app/models';
+import InterestGroupComponent from './InterestGroup';
+import styles from './InterestGroup.css';
+
 export type Props = {
   actionGrant: ActionGrant;
   interestGroups: Array<Group>;

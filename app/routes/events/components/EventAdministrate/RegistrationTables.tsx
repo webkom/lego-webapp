@@ -1,10 +1,9 @@
-import styles from './Administrate.css';
+import cx from 'classnames';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
-import Tooltip from 'app/components/Tooltip';
+import Table from 'app/components/Table';
 import Time from 'app/components/Time';
-import cx from 'classnames';
-import { WEBKOM_GROUP_ID } from 'app/utils/constants';
+import Tooltip from 'app/components/Tooltip';
 import type {
   EventRegistration,
   EventRegistrationPresence,
@@ -15,19 +14,21 @@ import type {
   PhotoConsent,
   EventSemester,
 } from 'app/models';
-import Table from 'app/components/Table';
-import {
-  StripeStatus,
-  TooltipIcon,
-  PresenceIcons,
-  Unregister,
-} from './AttendeeElements';
 import {
   getEventSemesterFromStartTime,
   allConsentsAnswered,
   getConsent,
   PHOTO_CONSENT_DOMAINS,
 } from 'app/routes/events/utils';
+import { WEBKOM_GROUP_ID } from 'app/utils/constants';
+import styles from './Administrate.css';
+import {
+  StripeStatus,
+  TooltipIcon,
+  PresenceIcons,
+  Unregister,
+} from './AttendeeElements';
+
 type Props = {
   registered: Array<EventRegistration>;
   loading: boolean;

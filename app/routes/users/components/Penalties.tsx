@@ -1,8 +1,9 @@
-import { FormatTime } from 'app/components/Time';
-import PenaltyForm from './PenaltyForm';
-import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
-import type { AddPenalty } from 'app/models';
 import Button from 'app/components/Button';
+import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
+import { FormatTime } from 'app/components/Time';
+import type { AddPenalty } from 'app/models';
+import PenaltyForm from './PenaltyForm';
+
 type Penalty = {
   id: number;
   reason: string;

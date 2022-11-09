@@ -1,6 +1,7 @@
-import styles from './EmailItem.css';
-import { readmeIfy } from 'app/components/ReadmeLogo';
 import { Image } from 'app/components/Image';
+import { readmeIfy } from 'app/components/ReadmeLogo';
+import styles from './EmailItem.css';
+
 type Props = {
   email: string;
   logo?: any;

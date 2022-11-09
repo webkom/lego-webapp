@@ -1,7 +1,7 @@
-import { Feed } from '../actions/ActionTypes';
+import { union } from 'lodash';
 import { createSelector } from 'reselect';
 import createEntityReducer from 'app/utils/createEntityReducer';
-import { union } from 'lodash';
+import { Feed } from '../actions/ActionTypes';
 
 function arrayOf(value) {
   if (Array.isArray(value)) return value;

@@ -1,10 +1,10 @@
-import { compose } from 'redux';
 import { connect } from 'react-redux';
-import loadingIndicator from 'app/utils/loadingIndicator';
-import { selectPolls } from 'app/reducers/polls';
+import { compose } from 'redux';
 import { fetchAll } from 'app/actions/PollActions';
-import PollsList from './components/PollsList';
+import { selectPolls } from 'app/reducers/polls';
+import loadingIndicator from 'app/utils/loadingIndicator';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
+import PollsList from './components/PollsList';
 
 const mapStateToProps = (state, props) => {
   return {

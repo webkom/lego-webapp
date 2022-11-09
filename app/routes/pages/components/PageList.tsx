@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Content } from 'app/components/Content';
+
 type Page = {
   slug: string;
   title: string;

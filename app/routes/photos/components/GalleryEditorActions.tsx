@@ -1,8 +1,9 @@
-import { Flex } from 'app/components/Layout';
 import { Collapse } from 'react-collapse';
 import Sticky from 'react-stickynode';
-import styles from './Overview.css';
 import Button from 'app/components/Button';
+import { Flex } from 'app/components/Layout';
+import styles from './Overview.css';
+
 type Props = {
   selectedCount: number;
   newPicutureStatus: number;

@@ -1,22 +1,15 @@
-import type { Node } from 'react';
-import { compose } from 'redux';
 import { connect } from 'react-redux';
-import type { Thunk } from 'app/types';
-import {
-  fetchPage,
-  updatePage,
-  fetchAll as fetchAllPages,
-} from 'app/actions/PageActions';
+import { compose } from 'redux';
 import {
   fetchAllMemberships,
   fetchAllWithType,
   fetchGroup,
 } from 'app/actions/GroupActions';
-import PageDetail, {
-  FlatpageRenderer,
-  GroupRenderer,
-} from './components/PageDetail';
-import LandingPage from './components/LandingPage';
+import {
+  fetchPage,
+  updatePage,
+  fetchAll as fetchAllPages,
+} from 'app/actions/PageActions';
 import { GroupType } from 'app/models';
 import {
   selectPagesForHierarchy,
@@ -30,7 +23,14 @@ import {
   selectInfoPageForPages,
 } from 'app/reducers/pages';
 import HTTPError from 'app/routes/errors/HTTPError';
+import type { Thunk } from 'app/types';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
+import LandingPage from './components/LandingPage';
+import PageDetail, {
+  FlatpageRenderer,
+  GroupRenderer,
+} from './components/PageDetail';
+import type { Node } from 'react';
 
 type Entry = {
   title: string;

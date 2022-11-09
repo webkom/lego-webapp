@@ -1,12 +1,13 @@
 import { Component } from 'react';
-import { compose } from 'redux';
 import { connect } from 'react-redux';
-import type { FormProps } from 'redux-form';
+import { compose } from 'redux';
 import { reduxForm, Field, SubmissionError } from 'redux-form';
 import { sendForgotPasswordEmail } from 'app/actions/UserActions';
-import { Form, TextInput } from '../Form';
-import Button from '../Button';
 import { createValidator, required, isEmail } from 'app/utils/validation';
+import Button from '../Button';
+import { Form, TextInput } from '../Form';
+import type { FormProps } from 'redux-form';
+
 type Props = {
   sendForgotPasswordEmail: (arg0: { email: string }) => any;
 } & FormProps;

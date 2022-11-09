@@ -1,4 +1,5 @@
 import Poll from '../.';
+
 const props = {
   poll: {
     options: [

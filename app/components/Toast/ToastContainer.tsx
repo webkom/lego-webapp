@@ -2,6 +2,7 @@ import { Component } from 'react';
 import { NotificationStack } from 'react-notification';
 import { connect } from 'react-redux';
 import { removeToast } from 'app/actions/ToastActions';
+
 type Props = {
   removeToast: (arg0: { id: string }) => void;
   toasts: Array<any>;

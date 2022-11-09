@@ -1,9 +1,10 @@
 import { omit, without, isArray, get, union, isEmpty } from 'lodash';
 import { parse } from 'qs';
 import { configWithSSR } from 'app/config';
+import type { Reducer, AsyncActionType } from 'app/types';
 import joinReducers from 'app/utils/joinReducers';
 import mergeObjects from 'app/utils/mergeObjects';
-import type { Reducer, AsyncActionType } from 'app/types';
+
 export type EntityReducerTypes = AsyncActionType | Array<AsyncActionType>;
 type EntityReducerOptions = {
   key: string;

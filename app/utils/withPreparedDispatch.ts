@@ -1,9 +1,9 @@
 import { withPreparedEffect } from '@webkom/react-prepare';
-import type { PreparedEffectOptions } from '@webkom/react-prepare';
+import { DependencyList } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { Dispatch } from 'app/types';
-import { DependencyList } from 'react';
+import type { PreparedEffectOptions } from '@webkom/react-prepare';
 
 const mapDispatch = (dispatch) => ({ dispatch });
 const mapState = () => ({});

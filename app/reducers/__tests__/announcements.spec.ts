@@ -1,7 +1,8 @@
-import announcements from '../announcements';
-import { Announcements } from '../../actions/ActionTypes';
-import timekeeper from 'timekeeper';
 import moment from 'moment';
+import timekeeper from 'timekeeper';
+import { Announcements } from '../../actions/ActionTypes';
+import announcements from '../announcements';
+
 describe('reducers', () => {
   describe('announcements', () => {
     const time = Date.now();

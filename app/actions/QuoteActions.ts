@@ -1,11 +1,12 @@
 import { push } from 'connected-react-router';
 import { startSubmit, stopSubmit } from 'redux-form';
-import { quoteSchema } from 'app/reducers';
-import callAPI from 'app/actions/callAPI';
-import { Quote } from './ActionTypes';
 import { addToast } from 'app/actions/ToastActions';
-import type { Thunk } from 'app/types';
+import callAPI from 'app/actions/callAPI';
 import type { ID } from 'app/models';
+import { quoteSchema } from 'app/reducers';
+import type { Thunk } from 'app/types';
+import { Quote } from './ActionTypes';
+
 export function fetchAll({
   query,
   next = false,

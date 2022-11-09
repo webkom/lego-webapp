@@ -1,11 +1,12 @@
-import { useDispatch } from 'react-redux';
-import cx from 'classnames';
 import Editor from '@webkom/lego-editor';
+import cx from 'classnames';
+import { useDispatch } from 'react-redux';
 import '@webkom/lego-editor/dist/style.css';
 import 'react-image-crop/dist/ReactCrop.css';
 import { uploadFile } from 'app/actions/FileActions';
 import { createField } from './Field';
 import styles from './TextInput.css';
+
 type Props = {
   type?: string;
   className?: string;

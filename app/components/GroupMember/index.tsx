@@ -1,8 +1,9 @@
-import styles from './GroupMember.css';
-import { Link } from 'react-router-dom';
 import cx from 'classnames';
-import type { User } from 'app/models';
+import { Link } from 'react-router-dom';
 import { Image } from 'app/components/Image';
+import type { User } from 'app/models';
+import styles from './GroupMember.css';
+
 type Props = {
   user: User;
   leader?: boolean;

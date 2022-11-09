@@ -1,5 +1,6 @@
-import groups from '../groups';
 import { Membership } from '../../actions/ActionTypes';
+import groups from '../groups';
+
 describe('reducers', () => {
   const baseState = {
     actionGrant: [],

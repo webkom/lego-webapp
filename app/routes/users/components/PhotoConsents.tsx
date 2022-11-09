@@ -1,17 +1,17 @@
+import moment from 'moment-timezone';
 import { useState } from 'react';
 import Select from 'react-select';
 import Button from 'app/components/Button';
+import { selectStyles, selectTheme } from 'app/components/Form/SelectInput';
 import Flex from 'app/components/Layout/Flex';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import type { PhotoConsent } from 'app/models';
-import moment from 'moment-timezone';
 import {
   getConsent,
   PHOTO_CONSENT_DOMAINS,
   toReadableSemester,
 } from 'app/routes/events/utils';
 import styles from './PhotoConsents.css';
-import { selectStyles, selectTheme } from 'app/components/Form/SelectInput';
 
 const ConsentManager = ({
   consent,

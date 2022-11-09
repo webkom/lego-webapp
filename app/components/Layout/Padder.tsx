@@ -1,4 +1,5 @@
 import type { Node } from 'react';
+
 type Props = {
   left: number;
   right: number;

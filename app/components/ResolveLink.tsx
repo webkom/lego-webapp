@@ -1,5 +1,6 @@
-import type { Node } from 'react';
 import { Link } from 'react-router-dom';
+import type { Node } from 'react';
+
 type Props = {
   link: [string, Node];
 };

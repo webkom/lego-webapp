@@ -1,18 +1,18 @@
-import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 
-import UserSettingsNotifications from './components/UserSettingsNotifications';
 import {
   fetchNotificationAlternatives,
   fetchNotificationSettings,
   updateNotificationSetting,
 } from 'app/actions/NotificationSettingsActions';
+import { updateUser } from 'app/actions/UserActions';
 import {
   selectNotificationSettingsAlternatives,
   selectNotificationSettings,
 } from 'app/reducers/notificationSettings';
-import { updateUser } from 'app/actions/UserActions';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
+import UserSettingsNotifications from './components/UserSettingsNotifications';
 
 const mapStateToProps = (state, { currentUser }) => {
   return {

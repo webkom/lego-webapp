@@ -1,14 +1,15 @@
-import type { Node } from 'react';
+import cx from 'classnames';
+import { debounce, isEmpty, get } from 'lodash';
 import { Component } from 'react';
+import InfiniteScroll from 'react-infinite-scroller';
+import Dropdown from 'app/components/Dropdown';
+import { TextInput, CheckBox, RadioButton } from 'app/components/Form';
 import Icon from 'app/components/Icon';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import { TextInput, CheckBox, RadioButton } from 'app/components/Form';
-import { debounce, isEmpty, get } from 'lodash';
-import cx from 'classnames';
-import InfiniteScroll from 'react-infinite-scroller';
-import styles from './Table.css';
 import Button from '../Button';
-import Dropdown from 'app/components/Dropdown';
+import styles from './Table.css';
+import type { Node } from 'react';
+
 type sortProps = {
   direction?: 'asc' | 'desc';
   dataIndex?: string;

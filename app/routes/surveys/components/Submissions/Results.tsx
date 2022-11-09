@@ -1,16 +1,16 @@
-import styles from '../surveys.css';
+import Select from 'react-select';
+import DistributionBarChart from 'app/components/Chart/BarChart';
+import ChartLabel from 'app/components/Chart/ChartLabel';
+import DistributionPieChart from 'app/components/Chart/PieChart';
+import { selectTheme, selectStyles } from 'app/components/Form/SelectInput';
+import InfoBubble from 'app/components/InfoBubble';
 import type { SurveyEntity, QuestionEntity } from 'app/reducers/surveys';
 import {
   QuestionTypes,
   QuestionTypeValue,
   QuestionTypeOption,
 } from '../../utils';
-import InfoBubble from 'app/components/InfoBubble';
-import Select from 'react-select';
-import { selectTheme, selectStyles } from 'app/components/Form/SelectInput';
-import DistributionPieChart from 'app/components/Chart/PieChart';
-import ChartLabel from 'app/components/Chart/ChartLabel';
-import DistributionBarChart from 'app/components/Chart/BarChart';
+import styles from '../surveys.css';
 
 type Props = {
   survey: SurveyEntity;

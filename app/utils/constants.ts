@@ -1,4 +1,5 @@
 import config from 'app/config';
+
 export const Keyboard = {
   ESCAPE: 27,
   RIGHT: 39,

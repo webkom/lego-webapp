@@ -1,11 +1,11 @@
-import { compose } from 'redux';
 import { connect } from 'react-redux';
-import loadingIndicator from 'app/utils/loadingIndicator';
-import EmailListEditor from './components/EmailListEditor';
+import { compose } from 'redux';
 import { fetchEmailList, editEmailList } from 'app/actions/EmailListActions';
 import { selectEmailListById } from 'app/reducers/emailLists';
 import { ROLES } from 'app/utils/constants';
+import loadingIndicator from 'app/utils/loadingIndicator';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
+import EmailListEditor from './components/EmailListEditor';
 
 const mapStateToProps = (state, { match: { params } }) => {
   const emailList = selectEmailListById(state, {

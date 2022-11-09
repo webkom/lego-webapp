@@ -1,10 +1,11 @@
+import cx from 'classnames';
+import { flatMap } from 'lodash';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
-import cx from 'classnames';
 import { ProfilePicture } from 'app/components/Image';
-import styles from './AttendanceModal.css';
-import { flatMap } from 'lodash';
 import Button from '../Button';
+import styles from './AttendanceModal.css';
+
 type Pool = {
   name: string;
   registrations: Array<Record<string, any>>;

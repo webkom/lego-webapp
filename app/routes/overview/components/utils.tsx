@@ -1,11 +1,12 @@
-import styles from './Overview.css';
-import Time from 'app/components/Time';
-import { eventTypeToString } from 'app/routes/events/utils';
-import type { Event, Article } from 'app/models';
-import Tag from 'app/components/Tags/Tag';
-import Tags from 'app/components/Tags';
-import truncateString from 'app/utils/truncateString';
 import moment from 'moment-timezone';
+import Tags from 'app/components/Tags';
+import Tag from 'app/components/Tags/Tag';
+import Time from 'app/components/Time';
+import type { Event, Article } from 'app/models';
+import { eventTypeToString } from 'app/routes/events/utils';
+import truncateString from 'app/utils/truncateString';
+import styles from './Overview.css';
+
 export const renderMeta = (
   item: (Event | Article) & {
     documentType: string;

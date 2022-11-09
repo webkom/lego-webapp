@@ -1,10 +1,6 @@
-import styles from './bdb.css';
-import { Content } from 'app/components/Content';
-import { httpCheck, DetailNavigation, ListNavigation } from '../utils';
-import LoadingIndicator from 'app/components/LoadingIndicator';
-import InfoBubble from 'app/components/InfoBubble';
 import { Field } from 'redux-form';
 import Button from 'app/components/Button';
+import { Content } from 'app/components/Content';
 import {
   TextEditor,
   TextInput,
@@ -14,11 +10,16 @@ import {
   RadioButtonGroup,
   legoForm,
 } from 'app/components/Form';
-import { createValidator, required, isEmail } from 'app/utils/validation';
+import InfoBubble from 'app/components/InfoBubble';
+import LoadingIndicator from 'app/components/LoadingIndicator';
 import type {
   CompanyEntity,
   SubmitCompanyEntity,
 } from 'app/reducers/companies';
+import { createValidator, required, isEmail } from 'app/utils/validation';
+import { httpCheck, DetailNavigation, ListNavigation } from '../utils';
+import styles from './bdb.css';
+
 type Props = {
   uploadFile: (arg0: Record<string, any>) => Promise<any>;
   company: CompanyEntity;

@@ -1,18 +1,18 @@
 import { Component } from 'react';
+import { Link } from 'react-router-dom';
+import netcompany from 'app/assets/netcompany_dark.png';
+import { Image } from 'app/components/Image';
 import { Container, Flex } from 'app/components/Layout';
 import {
   LoginForm,
   RegisterForm,
   ForgotPasswordForm,
 } from 'app/components/LoginForm';
-import styles from './PublicFrontpage.css';
-import netcompany from 'app/assets/netcompany_dark.png';
-import CompactEvents from './CompactEvents';
-import { Link } from 'react-router-dom';
-import { Image } from 'app/components/Image';
-import truncateString from 'app/utils/truncateString';
-import Time from 'app/components/Time';
 import { readmeIfy } from 'app/components/ReadmeLogo';
+import Time from 'app/components/Time';
+import truncateString from 'app/utils/truncateString';
+import CompactEvents from './CompactEvents';
+import styles from './PublicFrontpage.css';
 // import Banner, { COLORS } from 'app/components/Banner';
 type Props = {
   frontpage: Array<Record<string, any>>;

@@ -1,9 +1,4 @@
-import styles from './Event.css';
-import { DistributionDataPoint } from 'app/components/Chart/utils';
-import type { Dateish, EventRegistration } from 'app/models';
-import DistributionPieChart from 'app/components/Chart/PieChart';
-import ChartLabel from 'app/components/Chart/ChartLabel';
-import { Flex } from 'app/components/Layout';
+import moment from 'moment';
 import {
   CartesianGrid,
   Legend,
@@ -13,8 +8,13 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
-import moment from 'moment';
+import ChartLabel from 'app/components/Chart/ChartLabel';
+import DistributionPieChart from 'app/components/Chart/PieChart';
+import { DistributionDataPoint } from 'app/components/Chart/utils';
 import Icon from 'app/components/Icon';
+import { Flex } from 'app/components/Layout';
+import type { Dateish, EventRegistration } from 'app/models';
+import styles from './Event.css';
 
 interface RegistrationDateDataPoint {
   name: string;

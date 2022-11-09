@@ -1,17 +1,17 @@
+import qs from 'qs';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { deleteComment } from 'app/actions/CommentActions';
 import {
   fetchMeeting,
   setInvitationStatus,
   answerMeetingInvitation,
   resetMeetingsToken,
 } from 'app/actions/MeetingActions';
+import { selectMeetingById } from 'app/reducers/meetings';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import MeetingDetailLoginRoute from './MeetingDetailLoginRoute';
 import MeetingAnswer from './components/MeetingAnswer';
-import { selectMeetingById } from 'app/reducers/meetings';
-import { deleteComment } from 'app/actions/CommentActions';
-import qs from 'qs';
-import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const loadMeeting = (
   {

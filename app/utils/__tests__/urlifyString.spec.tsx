@@ -1,5 +1,6 @@
-import urlifyString from '../urlifyString';
 import * as React from 'react';
+import urlifyString from '../urlifyString';
+
 describe('UrlifyString', () => {
   const data: Array<{
     input: string;

@@ -1,8 +1,9 @@
-import type { Node } from 'react';
+import cx from 'classnames';
 import { useRef, useState } from 'react';
 import { Overlay } from 'react-overlays';
-import cx from 'classnames';
 import styles from './Popover.css';
+import type { Node } from 'react';
+
 type Props = {
   triggerComponent: Node;
   children: any;

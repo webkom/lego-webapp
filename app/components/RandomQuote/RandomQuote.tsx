@@ -1,12 +1,13 @@
 import { useRef, useEffect } from 'react';
-import styles from './RandomQuote.css';
-import Button from '../Button';
-import type { QuoteEntity } from 'app/reducers/quotes';
-import LegoReactions from 'app/components/LegoReactions';
-import type { EmojiEntity } from 'app/reducers/emojis';
-import type { ID } from 'app/models';
-import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import { Flex } from 'app/components/Layout';
+import LegoReactions from 'app/components/LegoReactions';
+import NavigationLink from 'app/components/NavigationTab/NavigationLink';
+import type { ID } from 'app/models';
+import type { EmojiEntity } from 'app/reducers/emojis';
+import type { QuoteEntity } from 'app/reducers/quotes';
+import Button from '../Button';
+import styles from './RandomQuote.css';
+
 type Props = {
   fetchRandomQuote: (arg0: Array<ID>) => Promise<Record<string, any>>;
   className?: string;

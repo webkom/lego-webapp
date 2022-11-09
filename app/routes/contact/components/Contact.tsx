@@ -1,9 +1,10 @@
-import type { Group } from 'app/models';
 import { Helmet } from 'react-helmet-async';
 import { Content } from 'app/components/Content';
-import ContactForm from './ContactForm';
+import type { Group } from 'app/models';
 import type { ContactForm as ContactFormType } from 'app/reducers/contact';
+import ContactForm from './ContactForm';
 import type { FormProps } from 'redux-form';
+
 type Props = {
   sendContactMessage: (message: ContactFormType) => Promise<any>;
   addToast: (arg0: { message: string }) => void;

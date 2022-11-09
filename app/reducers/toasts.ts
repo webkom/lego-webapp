@@ -1,5 +1,6 @@
-import { Toasts } from '../actions/ActionTypes';
 import { produce } from 'immer';
+import { Toasts } from '../actions/ActionTypes';
+
 type Toast = {
   id: number;
   message: string;

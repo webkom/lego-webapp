@@ -1,13 +1,11 @@
-import { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { RegisteredTable, UnregisteredTable } from './RegistrationTables';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import moment from 'moment-timezone';
-import { Flex } from 'app/components/Layout';
-import styles from './Abacard.css';
-import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
-import Button from 'app/components/Button';
+import { Component } from 'react';
 import { formatPhoneNumber, parsePhoneNumber } from 'react-phone-number-input';
+import { Link } from 'react-router-dom';
+import Button from 'app/components/Button';
+import { Flex } from 'app/components/Layout';
+import LoadingIndicator from 'app/components/LoadingIndicator';
+import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import type {
   Event,
   Comment,
@@ -19,6 +17,8 @@ import type {
   EventRegistrationPaymentStatus,
   EventRegistrationPresence,
 } from 'app/models';
+import styles from './Abacard.css';
+import { RegisteredTable, UnregisteredTable } from './RegistrationTables';
 
 export type Props = {
   eventId: number;

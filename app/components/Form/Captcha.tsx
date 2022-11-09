@@ -1,11 +1,12 @@
+import cx from 'classnames';
 import { Component } from 'react';
+import Turnstile from 'react-turnstile';
 import config from 'app/config';
+import { getTheme } from 'app/utils/themeUtils';
+import styles from './Captcha.css';
 import { createField } from './Field';
 // eslint-disable-next-line import/no-named-as-default
-import Turnstile from 'react-turnstile';
-import styles from './Captcha.css';
-import cx from 'classnames';
-import { getTheme } from 'app/utils/themeUtils';
+
 type Props = {
   className?: string;
   onChange?: void;

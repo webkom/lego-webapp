@@ -1,14 +1,15 @@
-import { Company } from '../actions/ActionTypes';
-import createEntityReducer from 'app/utils/createEntityReducer';
-import { createSelector } from 'reselect';
-import { selectEvents } from './events';
-import { mutateComments } from 'app/reducers/comments';
-import joinReducers from 'app/utils/joinReducers';
-import { selectCompanySemesters } from './companySemesters';
-import type { UserEntity } from 'app/reducers/users';
-import type { CompanySemesterContactedStatus, Semester } from 'app/models';
-import { selectJoblistings } from 'app/reducers/joblistings';
 import { produce } from 'immer';
+import { createSelector } from 'reselect';
+import type { CompanySemesterContactedStatus, Semester } from 'app/models';
+import { mutateComments } from 'app/reducers/comments';
+import { selectJoblistings } from 'app/reducers/joblistings';
+import type { UserEntity } from 'app/reducers/users';
+import createEntityReducer from 'app/utils/createEntityReducer';
+import joinReducers from 'app/utils/joinReducers';
+import { Company } from '../actions/ActionTypes';
+import { selectCompanySemesters } from './companySemesters';
+import { selectEvents } from './events';
+
 export type BaseSemesterStatusEntity = {
   id?: number;
   companyId?: number;

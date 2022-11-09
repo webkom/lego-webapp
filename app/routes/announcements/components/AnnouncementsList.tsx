@@ -1,14 +1,15 @@
-import styles from './AnnouncementsList.css';
-import Flex from 'app/components/Layout/Flex';
-import AnnouncementItem from './AnnouncementItem';
-import AnnouncementsCreate from './AnnouncementsCreate';
 import { Content, ContentMain } from 'app/components/Content';
+import Flex from 'app/components/Layout/Flex';
 import type {
   ActionGrant,
   Announcement,
   CreateAnnouncement,
   ID,
 } from 'app/models';
+import AnnouncementItem from './AnnouncementItem';
+import AnnouncementsCreate from './AnnouncementsCreate';
+import styles from './AnnouncementsList.css';
+
 type Props = {
   announcement: Announcement;
   announcements: Array<Announcement>;

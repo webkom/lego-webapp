@@ -1,17 +1,18 @@
-import jwtDecode from 'jwt-decode';
-import { normalize } from 'normalizr';
-import config from 'app/config';
-import cookie from 'js-cookie';
-import moment from 'moment-timezone';
 import { push } from 'connected-react-router';
-import { userSchema, penaltySchema } from 'app/reducers';
+import cookie from 'js-cookie';
+import jwtDecode from 'jwt-decode';
+import moment from 'moment-timezone';
+import { normalize } from 'normalizr';
 import callAPI from 'app/actions/callAPI';
+import config from 'app/config';
+import type { AddPenalty, ID, PhotoConsent } from 'app/models';
+import { userSchema, penaltySchema } from 'app/reducers';
+import type { Thunk, Action, Token, EncodedToken, GetCookie } from 'app/types';
 import { User, FetchHistory, Penalty } from './ActionTypes';
 import { uploadFile } from './FileActions';
 import { fetchMeta } from './MetaActions';
-import type { Thunk, Action, Token, EncodedToken, GetCookie } from 'app/types';
-import type { AddPenalty, ID, PhotoConsent } from 'app/models';
 import { setStatusCode } from './RoutingActions';
+
 const USER_STORAGE_KEY = 'lego.auth';
 
 function saveToken(token: EncodedToken) {

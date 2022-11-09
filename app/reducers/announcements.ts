@@ -1,8 +1,9 @@
-import { createSelector } from 'reselect';
-import { Announcements } from '../actions/ActionTypes';
-import createEntityReducer from 'app/utils/createEntityReducer';
-import moment from 'moment-timezone';
 import { produce } from 'immer';
+import moment from 'moment-timezone';
+import { createSelector } from 'reselect';
+import createEntityReducer from 'app/utils/createEntityReducer';
+import { Announcements } from '../actions/ActionTypes';
+
 type State = any;
 export default createEntityReducer({
   key: 'announcements',

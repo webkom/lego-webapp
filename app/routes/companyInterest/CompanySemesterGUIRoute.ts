@@ -1,18 +1,18 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import { LoginPage } from 'app/components/LoginForm';
-import {
-  selectCompanySemesters,
-  selectCompanySemestersForInterestForm,
-} from 'app/reducers/companySemesters';
 import {
   addSemester,
   editSemester,
   fetchSemesters,
 } from 'app/actions/CompanyActions';
-import CompanySemesterGUI from './components/CompanySemesterGUI';
+import { LoginPage } from 'app/components/LoginForm';
+import {
+  selectCompanySemesters,
+  selectCompanySemestersForInterestForm,
+} from 'app/reducers/companySemesters';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
+import CompanySemesterGUI from './components/CompanySemesterGUI';
 
 const mapStateToProps = (state) => {
   const semesters = selectCompanySemesters(state);

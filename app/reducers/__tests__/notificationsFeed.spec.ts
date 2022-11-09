@@ -1,5 +1,6 @@
-import notificationsFeed from '../notificationsFeed';
 import { NotificationsFeed } from '../../actions/ActionTypes';
+import notificationsFeed from '../notificationsFeed';
+
 describe('reducers', () => {
   describe('NotificationsFeed.FETCH_DATA.SUCCESS', () => {
     it('NotificationsFeed.FETCH_DATA.SUCCESS', () => {

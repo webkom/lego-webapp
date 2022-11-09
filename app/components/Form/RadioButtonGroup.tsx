@@ -1,6 +1,7 @@
-import type { Node } from 'react';
 import { Children, cloneElement } from 'react';
 import styles from './RadioButtonGroup.css';
+import type { Node } from 'react';
+
 type Props = {
   name: string;
   label: string;

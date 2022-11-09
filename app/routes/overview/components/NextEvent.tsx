@@ -1,14 +1,15 @@
-import { Component } from 'react';
-import { Link } from 'react-router-dom';
-import styles from './NextEvent.css';
-import { colorForEvent } from 'app/routes/events/utils';
-import { Flex } from 'app/components/Layout';
-import type { Event } from 'app/models';
-import truncateString from 'app/utils/truncateString';
 import { orderBy } from 'lodash';
 import moment from 'moment-timezone';
+import { Component } from 'react';
+import { Link } from 'react-router-dom';
 import Icon from 'app/components/Icon';
+import { Flex } from 'app/components/Layout';
 import Tooltip from 'app/components/Tooltip';
+import type { Event } from 'app/models';
+import { colorForEvent } from 'app/routes/events/utils';
+import truncateString from 'app/utils/truncateString';
+import styles from './NextEvent.css';
+
 type Props = {
   event: Event;
 };

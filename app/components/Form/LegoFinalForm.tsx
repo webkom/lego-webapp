@@ -1,10 +1,11 @@
-import type { FormProps } from 'react-final-form';
-import type { FormApi } from 'final-form';
-import { Form } from 'react-final-form';
-import createFocusOnErrorDecorator from 'final-form-focus';
 import * as Sentry from '@sentry/browser';
-import { handleSubmissionErrorFinalForm } from 'app/components/Form/utils';
+import createFocusOnErrorDecorator from 'final-form-focus';
 import { isEqual } from 'lodash';
+import { Form } from 'react-final-form';
+import { handleSubmissionErrorFinalForm } from 'app/components/Form/utils';
+import type { FormApi } from 'final-form';
+import type { FormProps } from 'react-final-form';
+
 const focusOnError = createFocusOnErrorDecorator();
 type LegoFormProps = {
   onSubmit: (

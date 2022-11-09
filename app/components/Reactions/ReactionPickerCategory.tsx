@@ -1,7 +1,8 @@
-import { Component } from 'react';
 import classNames from 'classnames';
-import styles from './ReactionPickerCategory.css';
+import { Component } from 'react';
 import Emoji from 'app/components/Emoji';
+import styles from './ReactionPickerCategory.css';
+
 type Props = {
   isActive: boolean;
   name: string;

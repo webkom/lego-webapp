@@ -1,10 +1,10 @@
-import { connect } from 'react-redux';
-import { fetchAll } from 'app/actions/JoblistingActions';
-import JoblistingPage from './components/JoblistingPage';
-import { compose } from 'redux';
 import moment from 'moment-timezone';
 import qs from 'qs';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { fetchAll } from 'app/actions/JoblistingActions';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
+import JoblistingPage from './components/JoblistingPage';
 
 function filterJoblistings(joblistings, grades, jobTypes, workplaces) {
   return joblistings.filter((joblisting) => {

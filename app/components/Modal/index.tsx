@@ -1,7 +1,8 @@
-import { Modal as ReactModal } from 'react-overlays';
 import cx from 'classnames';
+import { Modal as ReactModal } from 'react-overlays';
 import Icon from 'app/components/Icon';
 import styles from './Modal.css';
+
 type Props = {
   show: boolean;
   children: React.ReactNode;

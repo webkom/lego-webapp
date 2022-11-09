@@ -1,15 +1,16 @@
-import styles from './Quotes.css';
-import Time from 'app/components/Time';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
+import Button from 'app/components/Button';
 import Dropdown from 'app/components/Dropdown';
 import Icon from 'app/components/Icon';
-import type { ID, ActionGrant } from 'app/models';
-import type { QuoteEntity } from 'app/reducers/quotes';
-import Button from 'app/components/Button';
-import Reaction from 'app/components/Reactions/Reaction';
 import Reactions from 'app/components/Reactions';
+import Reaction from 'app/components/Reactions/Reaction';
+import Time from 'app/components/Time';
+import type { ID, ActionGrant } from 'app/models';
 import type { EmojiEntity } from 'app/reducers/emojis';
+import type { QuoteEntity } from 'app/reducers/quotes';
+import styles from './Quotes.css';
+
 type Props = {
   quote: QuoteEntity;
   deleteQuote: (arg0: number) => Promise<any>;

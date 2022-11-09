@@ -1,9 +1,10 @@
-import type { Node } from 'react';
-import { NavLink } from 'react-router-dom';
-import NavigationLink from './NavigationLink';
-import Icon from 'app/components/Icon';
-import styles from './NavigationTab.css';
 import cx from 'classnames';
+import { NavLink } from 'react-router-dom';
+import Icon from 'app/components/Icon';
+import NavigationLink from './NavigationLink';
+import styles from './NavigationTab.css';
+import type { Node } from 'react';
+
 type Props = {
   title?: Node;
   back?: {

@@ -1,10 +1,10 @@
-import type { Element } from 'react';
+import DisplayContent from 'app/components/DisplayContent';
 import Icon from 'app/components/Icon';
 import { lookupContext, contextRender } from '../context';
+import { commentURL } from './comment';
 import { formatHeader } from './utils';
 import type { AggregatedActivity, Activity, TagInfo } from '../types';
-import DisplayContent from 'app/components/DisplayContent';
-import { commentURL } from './comment';
+import type { Element } from 'react';
 
 /**
  * Comments are grouped by the comment target and date.

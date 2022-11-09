@@ -1,9 +1,9 @@
-import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { fetchAll } from 'app/actions/TagActions';
-import TagCloud from './components/TagCloud';
 import { selectTags } from 'app/reducers/tags';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
+import TagCloud from './components/TagCloud';
 
 const mapStateToProps = (state) => ({
   tags: selectTags(state),

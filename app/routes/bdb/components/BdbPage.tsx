@@ -1,20 +1,21 @@
+import qs from 'qs';
 import { Component } from 'react';
-import CompanyList from './CompanyList';
-import { Content } from 'app/components/Content';
 import { Helmet } from 'react-helmet-async';
-import styles from './bdb.css';
-import sortCompanies from '../SortCompanies';
-import { indexToSemester, ListNavigation } from '../utils';
-import OptionsBox from './OptionsBox';
+import { Content } from 'app/components/Content';
 import TextInput from 'app/components/Form/TextInput';
 import LoadingIndicator from 'app/components/LoadingIndicator';
+import type { CompanySemesterContactedStatus, LocationType } from 'app/models';
 import type {
   CompanyEntity,
   BaseSemesterStatusEntity,
 } from 'app/reducers/companies';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
-import type { CompanySemesterContactedStatus, LocationType } from 'app/models';
-import qs from 'qs';
+import sortCompanies from '../SortCompanies';
+import { indexToSemester, ListNavigation } from '../utils';
+import CompanyList from './CompanyList';
+import OptionsBox from './OptionsBox';
+import styles from './bdb.css';
+
 type Props = {
   companies: Array<CompanyEntity>;
   query: Record<string, any>;

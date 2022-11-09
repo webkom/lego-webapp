@@ -1,19 +1,19 @@
-import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
+import { connect } from 'react-redux';
 import { compose } from 'redux';
-import MeetingEditor from './components/MeetingEditor';
 import {
   editMeeting,
   fetchMeeting,
   inviteUsersAndGroups,
   deleteMeeting,
 } from 'app/actions/MeetingActions';
+import { LoginPage } from 'app/components/LoginForm';
+import { selectMeetingInvitationsForMeeting } from 'app/reducers/meetingInvitations';
 import { selectMeetingById } from 'app/reducers/meetings';
 import { selectUserById } from 'app/reducers/users';
-import { selectMeetingInvitationsForMeeting } from 'app/reducers/meetingInvitations';
-import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
+import MeetingEditor from './components/MeetingEditor';
 
 const mapStateToProps = (state, props) => {
   const { meetingId } = props.match.params;

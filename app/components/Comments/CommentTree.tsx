@@ -1,12 +1,10 @@
 import cx from 'classnames';
+import type { ID } from 'app/models';
+import type { CommentEntity } from 'app/reducers/comments';
+import type { UserEntity } from 'app/reducers/users';
 import Comment from './Comment';
 import styles from './CommentTree.css';
-import type { UserEntity } from 'app/reducers/users';
-import 'app/reducers/users';
-import type { CommentEntity } from 'app/reducers/comments';
-import 'app/reducers/comments';
-import type { ID } from 'app/models';
-import 'app/models';
+
 type Props = {
   comments: Array<CommentEntity>;
   isChild?: boolean;

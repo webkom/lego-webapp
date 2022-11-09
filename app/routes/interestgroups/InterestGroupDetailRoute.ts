@@ -1,16 +1,16 @@
-import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 import {
   joinGroup,
   leaveGroup,
   fetchGroup,
   fetchAllMemberships,
 } from 'app/actions/GroupActions';
-import InterestGroupDetail from './components/InterestGroupDetail';
-import { selectMembershipsForGroup } from 'app/reducers/memberships';
 import { selectGroup } from 'app/reducers/groups';
+import { selectMembershipsForGroup } from 'app/reducers/memberships';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
+import InterestGroupDetail from './components/InterestGroupDetail';
 
 const mapStateToProps = (state, props) => {
   const { interestGroupId } = props.match.params;

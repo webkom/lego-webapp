@@ -1,15 +1,15 @@
+import moment from 'moment-timezone';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
-import moment from 'moment-timezone';
-import Time from 'app/components/Time';
-import Pill from 'app/components/Pill';
-import styles from './MeetingList.css';
-import Toolbar from './Toolbar';
-import LoadingIndicator from 'app/components/LoadingIndicator';
-import { Content } from 'app/components/Content';
 import Button from 'app/components/Button';
+import { Content } from 'app/components/Content';
+import LoadingIndicator from 'app/components/LoadingIndicator';
+import Pill from 'app/components/Pill';
+import Time from 'app/components/Time';
 import type { MeetingEntity, MeetingSection } from 'app/reducers/meetings';
 import type { UserEntity } from 'app/reducers/users';
+import styles from './MeetingList.css';
+import Toolbar from './Toolbar';
 
 function MeetingListItem({
   meeting,

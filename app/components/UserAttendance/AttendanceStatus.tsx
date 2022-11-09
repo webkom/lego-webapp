@@ -1,7 +1,8 @@
+import Button from 'app/components/Button';
+import type { EventPool } from 'app/models';
 import styles from './AttendanceStatus.css';
 import withModal from './withModal';
-import type { EventPool } from 'app/models';
-import Button from 'app/components/Button';
+
 type AttendanceElementProps = {
   pool: EventPool;
   index: number;

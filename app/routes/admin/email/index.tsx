@@ -1,16 +1,16 @@
 import { Route, Switch } from 'react-router-dom';
-import PageNotFound from '../../pageNotFound';
 import { UserContext } from 'app/routes/app/AppRoute';
-import EmailRoute from './components/EmailRoute';
-import EmailListsRoute from './EmailListsRoute';
+import PageNotFound from '../../pageNotFound';
 import CreateEmailListRoute from './CreateEmailListRoute';
-import EmailListRoute from './EmailListRoute';
-import EmailUsersRoute from './EmailUsersRoute';
 import CreateEmailUserRoute from './CreateEmailUserRoute';
-import EmailUserRoute from './EmailUserRoute';
-import RestrictedMailsRoute from './RestrictedMailsRoute';
 import CreateRestrictedMailRoute from './CreateRestrictedMailRoute';
+import EmailListRoute from './EmailListRoute';
+import EmailListsRoute from './EmailListsRoute';
+import EmailUserRoute from './EmailUserRoute';
+import EmailUsersRoute from './EmailUsersRoute';
 import RestrictedMailRoute from './RestrictedMailRoute';
+import RestrictedMailsRoute from './RestrictedMailsRoute';
+import EmailRoute from './components/EmailRoute';
 
 const groupRoute = ({
   match,

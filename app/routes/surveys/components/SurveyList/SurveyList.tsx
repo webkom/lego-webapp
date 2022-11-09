@@ -1,7 +1,8 @@
+import LoadingIndicator from 'app/components/LoadingIndicator';
+import type { SurveyEntity } from 'app/reducers/surveys';
 import styles from '../surveys.css';
 import SurveyItem from './SurveyItem';
-import type { SurveyEntity } from 'app/reducers/surveys';
-import LoadingIndicator from 'app/components/LoadingIndicator';
+
 type Props = {
   surveys: Array<SurveyEntity>;
   fetching: boolean;

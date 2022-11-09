@@ -1,11 +1,15 @@
-import { compose } from 'redux';
+import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { formValueSelector } from 'redux-form';
 import { fetchSemesters } from 'app/actions/CompanyActions';
 import {
   fetchCompanyInterest,
   updateCompanyInterest,
 } from 'app/actions/CompanyInterestActions';
+import { selectCompanyInterestById } from 'app/reducers/companyInterest';
+import { selectCompanySemesters } from 'app/reducers/companySemesters';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import CompanyInterestPage, {
   COLLABORATION_TYPES,
   EVENT_TYPES,
@@ -13,11 +17,7 @@ import CompanyInterestPage, {
   TARGET_GRADE_TYPES,
   PARTICIPANT_RANGE_MAP,
 } from './components/CompanyInterestPage';
-import { selectCompanyInterestById } from 'app/reducers/companyInterest';
-import { selectCompanySemesters } from 'app/reducers/companySemesters';
 import { sortSemesterChronologically } from './utils';
-import { push } from 'connected-react-router';
-import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 const valueSelector = formValueSelector('CompanyInterestForm');
 

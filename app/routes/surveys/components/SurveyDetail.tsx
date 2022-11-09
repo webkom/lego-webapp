@@ -1,16 +1,17 @@
 import { Component } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
-import Time from 'app/components/Time';
-import styles from './surveyDetail.css';
-import type { SurveyEntity } from 'app/reducers/surveys';
-import { DetailNavigation } from '../utils';
-import { Content, ContentSection, ContentMain } from 'app/components/Content';
-import type { ActionGrant } from 'app/models';
-import AdminSideBar from './AdminSideBar';
 import Button from 'app/components/Button';
-import StaticSubmission from './StaticSubmission';
+import { Content, ContentSection, ContentMain } from 'app/components/Content';
+import Time from 'app/components/Time';
+import type { ActionGrant } from 'app/models';
+import type { SurveyEntity } from 'app/reducers/surveys';
 import { eventTypeToString } from 'app/routes/events/utils';
+import { DetailNavigation } from '../utils';
+import AdminSideBar from './AdminSideBar';
+import StaticSubmission from './StaticSubmission';
+import styles from './surveyDetail.css';
+
 type Props = {
   survey: SurveyEntity;
   actionGrant: ActionGrant;

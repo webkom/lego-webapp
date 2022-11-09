@@ -1,6 +1,7 @@
-import type { Node } from 'react';
 import { Component } from 'react';
 import styles from './Carousel.css';
+import type { Node } from 'react';
+
 type MenuItem = {
   item: Record<string, any>;
   isActive: boolean;

@@ -1,8 +1,8 @@
 /* eslint react/display-name: 0 */
+import { createElement } from 'react';
 import { Helmet } from 'react-helmet-async';
 import config from 'app/config';
 import type { ComponentType } from 'react';
-import { createElement } from 'react';
 
 /**
  * A higher order component that wraps the given component in

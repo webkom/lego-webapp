@@ -1,12 +1,13 @@
 import { Component } from 'react';
 import { Helmet } from 'react-helmet-async';
-import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
-import EmptyState from 'app/components/EmptyState';
+import Button from 'app/components/Button';
 import { Content } from 'app/components/Content';
+import EmptyState from 'app/components/EmptyState';
 import type { Photo } from 'app/components/Gallery';
 import Gallery from 'app/components/Gallery';
+import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import styles from './Overview.css';
-import Button from 'app/components/Button';
+
 type Props = {
   fetching: boolean;
   hasMore: boolean;

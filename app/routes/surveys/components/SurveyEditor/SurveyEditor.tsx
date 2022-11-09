@@ -1,28 +1,29 @@
-import styles from '../surveys.css';
-import type { Element } from 'react';
 import { Component } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { DetailNavigation, ListNavigation, QuestionTypes } from '../../utils';
-import Question from './Question';
+import { Link } from 'react-router-dom';
 import { Field, FieldArray } from 'redux-form';
-import type { FieldArrayProps, FormProps } from 'redux-form';
 import Button from 'app/components/Button';
+import { Content } from 'app/components/Content';
+import Dropdown from 'app/components/Dropdown';
 import {
   TextInput,
   SelectInput,
   DatePicker,
   legoForm,
 } from 'app/components/Form';
-import { createValidator, required } from 'app/utils/validation';
-import type { SurveyEntity } from 'app/reducers/surveys';
-import { Content } from 'app/components/Content';
 import Icon from 'app/components/Icon';
-import { Link } from 'react-router-dom';
-import Dropdown from 'app/components/Dropdown';
-import { eventTypeToString, EVENT_CONSTANTS } from 'app/routes/events/utils';
+import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import Time from 'app/components/Time';
 import type { EventType } from 'app/models';
-import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
+import type { SurveyEntity } from 'app/reducers/surveys';
+import { eventTypeToString, EVENT_CONSTANTS } from 'app/routes/events/utils';
+import { createValidator, required } from 'app/utils/validation';
+import { DetailNavigation, ListNavigation, QuestionTypes } from '../../utils';
+import styles from '../surveys.css';
+import Question from './Question';
+import type { Element } from 'react';
+import type { FieldArrayProps, FormProps } from 'redux-form';
+
 type Props = FormProps & {
   survey: SurveyEntity;
   autoFocus: Record<string, any>;

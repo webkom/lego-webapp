@@ -1,11 +1,12 @@
-import { Component } from 'react';
 import cx from 'classnames';
-import { Form, Button, TextInput } from '../Form';
+import { Component } from 'react';
 import { connect } from 'react-redux';
 import { SubmissionError, Field, reduxForm } from 'redux-form';
-import type { FormProps } from 'redux-form';
 import { login } from 'app/actions/UserActions';
 import { createValidator, required } from 'app/utils/validation';
+import { Form, Button, TextInput } from '../Form';
+import type { FormProps } from 'redux-form';
+
 type ConnectedProps = {
   login: (username: string, password: string) => Promise<void>;
 };
