@@ -4,7 +4,7 @@
 module.exports = {
   env: {
     browser: true,
-    es2021: true,
+    es2022: true,
     jest: true,
   },
   extends: [
@@ -32,7 +32,7 @@ module.exports = {
   parserOptions: {
     sourceType: 'module',
     babelOptions: {
-      configFile: './.babelrc',
+      configFile: './babel.config.js',
     },
   },
   plugins: [
@@ -66,7 +66,6 @@ module.exports = {
     },
     react: {
       version: 'detect',
-      flowVersion: '0.131.0',
     },
     jest: {
       version: require('jest/package.json').version,
