@@ -1,3 +1,17 @@
+:root {
+  --color-gold-blur: rgba(255, 172, 47, 0%);
+  --color-silver-blur: rgba(192, 192, 192, 0%);
+  --color-leader-gold: rgb(233, 150, 6);
+  --color-co-leader-silver: #c0c0c0;
+}
+
+[data-theme='dark'] {
+  --color-gold-blur: rgba(248, 203, 22, 80%);
+  --color-silver-blur: rgba(192, 192, 192, 80%);
+  --color-leader-gold: #f8cb16;
+  --color-co-leader-silver: #c0c0c0;
+}
+
 .list {
   width: 100%;
   min-height: 100px;
@@ -31,4 +45,32 @@
 
 .row i {
   margin-right: 5px;
+}
+
+.leader {
+  font-weight: 900;
+  text-shadow: 0.0625em 0.125em 0.875em var(--color-gold-blur);
+  color: var(--color-leader-gold);
+}
+
+.coleader {
+  font-weight: 750;
+  text-shadow: 0.0625em 0.125em 0.875em var(--color-silver-blur);
+  color: var(--color-co-leader-silver);
+}
+
+.leadericon {
+  margin: 0.2em 0.2em 0;
+  filter: drop-shadow(0.0625em 0.125em 0.625em var(--color-gold-blur));
+  color: var(--color-leader-gold);
+}
+
+.coleadericon {
+  margin: 0.2em 0.2em 0;
+  filter: drop-shadow(0.0625em 0.125em 0.625em var(--color-silver-blur));
+  color: var(--color-co-leader-silver);
+}
+
+.suffix {
+  font-style: italic;
 }
