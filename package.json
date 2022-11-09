@@ -137,7 +137,7 @@
     "@types/react-select": "^5.0.1",
     "@types/webpack": "^5.28.0",
     "@types/webpack-env": "^1.18.0",
-    "@typescript-eslint/eslint-plugin": "^5.42.0",
+    "@typescript-eslint/eslint-plugin": "^5.42.1",
     "assets-webpack-plugin": "^7.1.1",
     "babel-loader": "^9.1.0",
     "compression-webpack-plugin": "^10.0.0",
