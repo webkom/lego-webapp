@@ -1,58 +1,64 @@
 import { push } from 'connected-react-router';
-import { addToast } from 'app/actions/ToastActions';
-import callAPI from 'app/actions/callAPI';
-import type { EventRegistrationPresence } from 'app/models';
+import type { Dateish, EventRegistrationPresence } from 'app/models';
+import type { EventEntity } from 'app/reducers/events';
+import { addToast } from 'app/reducers/toasts';
+import type { ID } from 'app/store/models';
+import type { EntityType } from 'app/store/models/Entities';
+import type Registration from 'app/store/models/Registration';
+import type User from 'app/store/models/User';
+import type { RootState } from 'app/store/rootReducer';
 import {
   eventSchema,
   eventAdministrateSchema,
   followersEventSchema,
 } from 'app/store/schemas';
-import type { Thunk, Action } from 'app/types';
+import createLegoApiAction, {
+  LegoApiSuccessPayload,
+} from 'app/store/utils/createLegoApiAction';
 import createQueryString from 'app/utils/createQueryString';
 import { Event } from './ActionTypes';
 
 export const waitinglistPoolId = -1;
-export function fetchEvent(eventId: string): Thunk<any> {
-  return callAPI({
-    types: Event.FETCH,
+
+export const fetchEvent = createLegoApiAction()(
+  'Event.FETCH',
+  (_, eventId: ID) => ({
     endpoint: `/events/${eventId}/`,
     schema: eventSchema,
     meta: {
       errorMessage: 'Henting av hendelse feilet',
     },
     propagateError: true,
-  });
-}
-export function fetchPrevious(): Thunk<any> {
-  return (dispatch) =>
-    dispatch(
-      callAPI({
-        types: Event.FETCH_PREVIOUS,
-        endpoint: '/events/previous/',
-        schema: [eventSchema],
-        meta: {
-          errorMessage: 'Henting av hendelser feilet',
-        },
-        propagateError: true,
-      })
-    );
-}
-export function fetchUpcoming(): Thunk<any> {
-  return (dispatch) =>
-    dispatch(
-      callAPI({
-        types: Event.FETCH_UPCOMING,
-        endpoint: '/events/upcoming/',
-        schema: [eventSchema],
-        meta: {
-          errorMessage: 'Henting av hendelser feilet',
-        },
-        propagateError: true,
-      })
-    );
-}
+  })
+);
 
-const getEndpoint = (state, loadNextPage, queryString) => {
+export const fetchPrevious = createLegoApiAction<
+  LegoApiSuccessPayload<EntityType.Events>
+>()('Event.FETCH_PREVIOUS', () => ({
+  endpoint: '/events/previous/',
+  schema: [eventSchema],
+  meta: {
+    errorMessage: 'Henting av hendelser feilet',
+  },
+  propagateError: true,
+}));
+
+export const fetchUpcoming = createLegoApiAction<
+  LegoApiSuccessPayload<EntityType.Events>
+>()('Event.FETCH_UPCOMING', () => ({
+  endpoint: '/events/upcoming/',
+  schema: [eventSchema],
+  meta: {
+    errorMessage: 'Henting av hendelser feilet',
+  },
+  propagateError: true,
+}));
+
+const getEndpoint = (
+  state: RootState,
+  loadNextPage: boolean,
+  queryString: string
+): string => {
   const pagination = state.events.pagination;
   let endpoint = `/events/${queryString}`;
   const paginationObject = pagination[queryString];
@@ -68,29 +74,32 @@ const getEndpoint = (state, loadNextPage, queryString) => {
   return endpoint;
 };
 
-export const fetchList =
-  ({
-    dateAfter,
-    dateBefore,
-    refresh = false,
-    loadNextPage = false,
-  }: Record<string, any> = {}): Thunk<any> =>
-  (dispatch, getState) => {
-    const query: Record<string, any> = {
-      date_after: dateAfter,
-      date_before: dateBefore,
-    };
+interface FetchEventListOptions {
+  dateAfter?: Dateish;
+  dateBefore?: Dateish;
+  refresh?: boolean;
+  loadNextPage?: boolean;
+}
 
-    if (dateBefore && dateAfter) {
-      query.page_size = 60;
-    }
+export const fetchList = createLegoApiAction()(
+  'Event.FETCH_LIST',
+  (
+    { getState, dispatch },
+    {
+      dateAfter,
+      dateBefore,
+      refresh = false,
+      loadNextPage = false,
+    }: FetchEventListOptions
+  ) => {
+    const query = {
+      date_after: dateAfter?.toString(),
+      date_before: dateBefore?.toString(),
+      page_size: dateBefore && dateAfter ? 60 : undefined,
+    };
 
     const queryString = createQueryString(query);
     const endpoint = getEndpoint(getState(), loadNextPage, queryString);
-
-    if (!endpoint) {
-      return Promise.resolve(null);
-    }
 
     if (refresh && !loadNextPage) {
       dispatch({
@@ -98,93 +107,96 @@ export const fetchList =
       });
     }
 
-    return dispatch(
-      callAPI({
-        types: Event.FETCH,
-        endpoint: endpoint,
-        schema: [eventSchema],
-        meta: {
-          errorMessage: 'Fetching events failed',
-          queryString,
-          endpoint,
-        },
-        useCache: refresh,
-        cacheSeconds: Infinity,
-        // don't expire cache unless we pass useCache
-        propagateError: true,
-      })
-    );
-  };
-export function fetchAdministrate(eventId: number): Thunk<any> {
-  return callAPI({
-    types: Event.FETCH,
+    return {
+      endpoint,
+      schema: [eventSchema],
+      meta: {
+        errorMessage: 'Fetching events failed',
+        queryString,
+        endpoint,
+      },
+      useCache: refresh,
+      cacheSeconds: Infinity,
+      // don't expire cache unless we pass useCache
+      propagateError: true,
+    };
+  }
+);
+
+export const fetchAdministrate = createLegoApiAction()(
+  'Event.FETCH_ADMINISTRATE',
+  (_, eventId: ID) => ({
     endpoint: `/events/${eventId}/administrate/`,
     schema: eventAdministrateSchema,
     meta: {
       errorMessage: 'Henting av registreringer feilet',
     },
-  });
-}
-export function createEvent(
-  event: Record<string, any>
-): Thunk<Promise<Action | null | undefined>> {
-  return (dispatch) =>
-    dispatch(
-      callAPI({
-        types: Event.CREATE,
-        endpoint: '/events/',
-        method: 'POST',
-        body: event,
-        schema: eventSchema,
-        meta: {
-          errorMessage: 'Opprettelse av hendelse feilet',
-        },
-      })
-    ).then(
-      (action) =>
-        action &&
-        action.payload &&
-        dispatch(push(`/events/${action.payload.result}/`))
-    );
-}
-export function editEvent(event: Record<string, any>): Thunk<Promise<any>> {
-  return (dispatch) =>
-    dispatch(
-      callAPI({
-        types: Event.EDIT,
-        endpoint: `/events/${event.id}/`,
-        method: 'PUT',
-        body: { ...event, cover: event.cover || undefined },
-        meta: {
-          errorMessage: 'Endring av hendelse feilet',
-        },
-      })
-    ).then(() => dispatch(push(`/events/${event.id}`)));
-}
-export function deleteEvent(eventId: number): Thunk<Promise<any>> {
-  return (dispatch) =>
-    dispatch(
-      callAPI({
-        types: Event.DELETE,
-        endpoint: `/events/${eventId}/`,
-        method: 'DELETE',
-        meta: {
-          id: eventId,
-          errorMessage: 'Sletting av hendelse feilet',
-        },
-      })
-    ).then(() => {
+  })
+);
+
+export const createEvent = createLegoApiAction<
+  LegoApiSuccessPayload<EntityType.Events>
+>()(
+  'Event.CREATE',
+  (_, event: EventEntity) => ({
+    endpoint: '/events/',
+    method: 'POST',
+    body: event,
+    schema: eventSchema,
+    meta: {
+      errorMessage: 'Opprettelse av hendelse feilet',
+    },
+  }),
+  {
+    onSuccess: (action, dispatch) => {
+      dispatch(push(`/events/${action.payload.result}/`));
+    },
+  }
+);
+
+export const editEvent = createLegoApiAction()(
+  'Event.EDIT',
+  (_, event: EventEntity) => ({
+    endpoint: `/events/${event.id}/`,
+    method: 'PUT',
+    body: { ...event, cover: event.cover || undefined },
+    meta: {
+      eventId: event.id,
+      errorMessage: 'Endring av hendelse feilet',
+    },
+  }),
+  {
+    onSuccess: (action, dispatch) => {
+      dispatch(push(`/events/${action.meta.eventId}`));
+    },
+  }
+);
+
+export const deleteEvent = createLegoApiAction()(
+  'Event.DELETE',
+  (_, eventId: ID) => ({
+    endpoint: `/events/${eventId}/`,
+    method: 'DELETE',
+    meta: {
+      id: eventId,
+      errorMessage: 'Sletting av hendelse feilet',
+    },
+  }),
+  {
+    onSuccess: (action, dispatch) => {
       dispatch(
         addToast({
           message: 'Deleted',
         })
       );
       dispatch(push('/events'));
-    });
-}
-export function setCoverPhoto(id: number, token: string): Thunk<any> {
-  return callAPI({
-    types: Event.EDIT,
+    },
+  }
+);
+
+export const setCoverPhoto = createLegoApiAction()(
+  'Event.SET_COVER_PHOTO',
+  (_, id: ID, token: string) => ({
     endpoint: `/events/${id}/`,
     method: 'PATCH',
     body: {
@@ -194,21 +206,19 @@ export function setCoverPhoto(id: number, token: string): Thunk<any> {
     meta: {
       errorMessage: 'Endring av cover bilde feilet',
     },
-  });
-}
-export function register({
-  eventId,
-  captchaResponse,
-  feedback,
-  userId,
-}: {
-  eventId: number;
+  })
+);
+
+interface EventRegisterArgs {
+  eventId: ID;
   captchaResponse: string;
   feedback: string;
   userId: number;
-}): Thunk<any> {
-  return callAPI({
-    types: Event.REQUEST_REGISTER,
+}
+
+export const register = createLegoApiAction()(
+  'Event.REQUEST_REGISTER',
+  (_, { eventId, captchaResponse, feedback, userId }: EventRegisterArgs) => ({
     endpoint: `/events/${eventId}/registrations/`,
     method: 'POST',
     body: {
@@ -220,21 +230,19 @@ export function register({
       userId,
       errorMessage: 'Registering til hendelse feilet',
     },
-  });
-}
-export function unregister({
-  eventId,
-  registrationId,
-  userId,
-  admin = false,
-}: {
-  eventId: number;
+  })
+);
+
+interface EventUnregisterArgs {
+  eventId: ID;
   registrationId: number;
   userId: number;
   admin: boolean;
-}): Thunk<any> {
-  return callAPI({
-    types: Event.REQUEST_UNREGISTER,
+}
+
+export const unregister = createLegoApiAction()(
+  'Event.REQUEST_UNREGISTER',
+  (_, { eventId, registrationId, userId, admin }: EventUnregisterArgs) => ({
     endpoint: `/events/${eventId}/registrations/${registrationId}/`,
     method: 'DELETE',
     body: {},
@@ -244,17 +252,21 @@ export function unregister({
       userId,
       id: Number(registrationId),
     },
-  });
-}
-export function adminRegister(
-  eventId: number,
-  userId: number,
-  poolId?: number,
-  feedback: string,
-  adminRegistrationReason: string
-): Thunk<any> {
-  return callAPI({
-    types: Event.ADMIN_REGISTER,
+  })
+);
+
+export const adminRegister = createLegoApiAction<
+  Registration & { user: User }
+>()(
+  'Event.ADMIN_REGISTER',
+  (
+    _,
+    eventId: ID,
+    userId: ID,
+    poolId: ID | undefined,
+    feedback: string,
+    adminRegistrationReason: string
+  ) => ({
     endpoint: `/events/${eventId}/registrations/admin_register/`,
     method: 'POST',
     body: {
@@ -267,45 +279,38 @@ export function adminRegister(
       errorMessage: 'Admin registrering feilet',
       successMessage: 'Brukeren ble registrert',
     },
-  });
-}
-export function payment(eventId: number): Thunk<any> {
-  return callAPI({
-    types: Event.PAYMENT_QUEUE,
+  })
+);
+
+export const payment = createLegoApiAction()(
+  'Event.PAYMENT_QUEUE',
+  (_, eventId: ID) => ({
     endpoint: `/events/${eventId}/payment/`,
     method: 'POST',
     meta: {
       errorMessage: 'Betaling feilet',
     },
-  });
-}
-export function updateFeedback(
-  eventId: number,
-  registrationId: number,
-  feedback: string
-): Thunk<Promise<any>> {
-  return (dispatch) =>
-    dispatch(
-      callAPI({
-        types: Event.UPDATE_REGISTRATION,
-        endpoint: `/events/${eventId}/registrations/${registrationId}/`,
-        method: 'PATCH',
-        body: {
-          feedback,
-        },
-        meta: {
-          successMessage: 'Tilbakemelding oppdatert',
-          errorMessage: 'Tilbakemelding oppdatering feilet',
-        },
-      })
-    );
-}
-export function markUsernamePresent(
-  eventId: number,
-  username: string
-): Thunk<Promise<any>> {
-  return callAPI({
-    types: Event.UPDATE_REGISTRATION,
+  })
+);
+
+export const updateFeedback = createLegoApiAction()(
+  'Event.UPDATE_FEEDBACK',
+  (_, eventId: ID, registrationId: ID, feedback: string) => ({
+    endpoint: `/events/${eventId}/registrations/${registrationId}/`,
+    method: 'PATCH',
+    body: {
+      feedback,
+    },
+    meta: {
+      successMessage: 'Tilbakemelding oppdatert',
+      errorMessage: 'Tilbakemelding oppdatering feilet',
+    },
+  })
+);
+
+export const markUsernamePresent = createLegoApiAction()(
+  'Event.MARK_USERNAME_PRESENT',
+  (_, eventId: ID, username: string) => ({
     endpoint: `/events/${eventId}/registration_search/`,
     method: 'POST',
     body: {
@@ -314,15 +319,17 @@ export function markUsernamePresent(
     meta: {
       errorMessage: 'Oppdatering av tilstedeværelse feilet',
     },
-  });
-}
-export function updatePresence(
-  eventId: number,
-  registrationId: number,
-  presence: EventRegistrationPresence
-): Thunk<Promise<any>> {
-  return callAPI({
-    types: Event.UPDATE_REGISTRATION,
+  })
+);
+
+export const updatePresence = createLegoApiAction()(
+  'Event.UPDATE_PRESENCE',
+  (
+    _,
+    eventId: ID,
+    registrationId: ID,
+    presence: EventRegistrationPresence
+  ) => ({
     endpoint: `/events/${eventId}/registrations/${registrationId}/`,
     method: 'PATCH',
     body: {
@@ -332,79 +339,69 @@ export function updatePresence(
       successMessage: 'Tilstedeværelse oppdatert',
       errorMessage: 'Oppdatering av tilstedeværelse feilet',
     },
-  });
-}
-export function updatePayment(
-  eventId: number,
-  registrationId: number,
-  paymentStatus: string
-): Thunk<Promise<Action | null | undefined>> {
-  return (dispatch) =>
-    dispatch(
-      callAPI({
-        types: Event.UPDATE_REGISTRATION,
-        endpoint: `/events/${eventId}/registrations/${registrationId}/`,
-        method: 'PATCH',
-        body: {
-          paymentStatus,
-        },
-        meta: {
-          errorMessage: 'Oppdatering av betaling feilet',
-        },
-      })
-    ).then(() =>
+  })
+);
+
+export const updatePayment = createLegoApiAction()(
+  'Event.UPDATE_PAYMENT',
+  (_, eventId: ID, registrationId: ID, paymentStatus: string) => ({
+    endpoint: `/events/${eventId}/registrations/${registrationId}/`,
+    method: 'PATCH',
+    body: {
+      paymentStatus,
+    },
+    meta: {
+      errorMessage: 'Oppdatering av betaling feilet',
+    },
+  }),
+  {
+    onSuccess: (action, dispatch) =>
       dispatch(
         addToast({
           message: 'Payment updated',
         })
-      )
-    );
-}
-export function follow(userId: number, eventId: number): Thunk<any> {
-  return (dispatch) =>
-    dispatch(
-      callAPI({
-        types: Event.FOLLOW,
-        enableOptimistic: true,
-        endpoint: `/followers-event/`,
-        schema: followersEventSchema,
-        method: 'POST',
-        body: {
-          target: eventId,
-          follower: userId,
-        },
-        meta: {
-          errorMessage: 'Registrering av interesse feilet',
-        },
-      })
-    );
-}
-export function unfollow(
-  followId: number,
-  eventId: number
-): Thunk<Promise<any>> {
-  return (dispatch) =>
-    dispatch(
-      callAPI({
-        types: Event.UNFOLLOW,
-        endpoint: `/followers-event/${followId}/`,
-        enableOptimistic: true,
-        method: 'DELETE',
-        meta: {
-          id: followId,
-          errorMessage: 'Avregistering fra interesse feilet',
-        },
-      })
-    );
-}
-export function isUserFollowing(eventId: number): Thunk<any> {
-  return callAPI({
-    types: Event.IS_USER_FOLLOWING,
+      ),
+  }
+);
+
+export const follow = createLegoApiAction()(
+  'Event.FOLLOW',
+  (_, userId: ID, eventId: ID) => ({
+    enableOptimistic: true,
+    endpoint: `/followers-event/`,
+    schema: followersEventSchema,
+    method: 'POST',
+    body: {
+      target: eventId,
+      follower: userId,
+    },
+    meta: {
+      errorMessage: 'Registrering av interesse feilet',
+    },
+  })
+);
+
+export const unfollow = createLegoApiAction()(
+  'Event.UNFOLLOW',
+  (_, followId: ID) => ({
+    endpoint: `/followers-event/${followId}/`,
+    enableOptimistic: true,
+    method: 'DELETE',
+    meta: {
+      id: followId,
+      errorMessage: 'Avregistering fra interesse feilet',
+    },
+  })
+);
+
+export const isUserFollowing = createLegoApiAction()(
+  'Event.IS_USER_FOLLOWING',
+  (_, eventId: ID) => ({
     endpoint: `/followers-event/?target=${eventId}`,
     schema: [followersEventSchema],
     method: 'GET',
     meta: {
       errorMessage: 'Henting av interesse feilet',
     },
-  });
-}
+  })
+);

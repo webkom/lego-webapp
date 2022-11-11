@@ -1,6 +1,6 @@
 import { RootState } from 'app/store/rootReducer';
-import type { AnyAction, Middleware } from '@reduxjs/toolkit';
 import { isLegoApiAction } from 'app/store/utils/createLegoApiAction';
+import type { AnyAction, Middleware } from '@reduxjs/toolkit';
 
 const createMessageMiddleware =
   (

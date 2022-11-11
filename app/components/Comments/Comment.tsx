@@ -6,19 +6,20 @@ import { ProfilePicture } from 'app/components/Image';
 import { Flex } from 'app/components/Layout';
 import Time from 'app/components/Time';
 import type { ID, Comment as CommentType, User } from 'app/models';
+import type { ContentTarget } from 'app/store/utils/contentTarget';
 import Button from '../Button';
 import styles from './Comment.css';
 
 type Props = {
   comment: CommentType;
   commentFormProps: {
-    contentTarget: string;
+    contentTarget: ContentTarget;
     user: User;
     loggedIn: boolean;
   };
   deleteComment: (id: ID, contentTarget: string) => Promise<void>;
   user: User;
-  contentTarget: string;
+  contentTarget: ContentTarget;
 };
 type State = {
   replyOpen: boolean;

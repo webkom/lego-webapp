@@ -1,79 +1,108 @@
 import { stopSubmit } from 'redux-form';
-import callAPI from 'app/actions/callAPI';
+import type { ID } from 'app/store/models';
+import type {
+  NormalizedEntityPayload,
+  EntityType,
+} from 'app/store/models/Entities';
 import { announcementsSchema } from 'app/store/schemas';
-import type { Thunk } from 'app/types';
-import { Announcements } from './ActionTypes';
+import createLegoApiAction from 'app/store/utils/createLegoApiAction';
 
-export function fetchAll(): Thunk<any> {
-  return callAPI({
-    types: Announcements.FETCH_ALL,
-    endpoint: '/announcements/',
-    schema: [announcementsSchema],
-    meta: {
-      errorMessage: 'Henting av kunngjøringer feilet',
-    },
-    propagateError: true,
-  });
+export const fetchAll = createLegoApiAction()('Announcements.FETCH', () => ({
+  endpoint: '/announcements/',
+  schema: [announcementsSchema],
+  meta: {
+    errorMessage: 'Henting av kunngjøringer feilet',
+  },
+  propagateError: true,
+}));
+
+interface CreateAnnouncementOptions {
+  message: any;
+  users: any;
+  groups: any;
+  events: any;
+  meetings: any;
+  fromGroup: any;
+  send: any;
 }
-export function createAnnouncement({
-  message,
-  users,
-  groups,
-  events,
-  meetings,
-  fromGroup,
-  send,
-}: Record<string, any>): /*AnnouncementModel*/
-Thunk<any> {
-  return (dispatch) =>
-    dispatch(
-      callAPI({
-        types: Announcements.CREATE,
-        endpoint: '/announcements/',
-        method: 'POST',
-        body: {
-          message,
-          users,
-          groups,
-          events,
-          meetings,
-          fromGroup,
-        },
-        schema: announcementsSchema,
-        meta: {
-          errorMessage: 'Opprettelse av kunngjøringer feilet',
-        },
-      })
-    )
-      .then((action) => {
-        if (send && action && action.payload) {
+
+interface CreateAnnouncementSuccessPayload
+  extends NormalizedEntityPayload<EntityType.Announcements> {
+  result: ID;
+}
+
+export const createAnnouncement =
+  createLegoApiAction<CreateAnnouncementSuccessPayload>()(
+    'Announcements.CREATE',
+    (
+      _,
+      {
+        message,
+        users,
+        groups,
+        events,
+        meetings,
+        fromGroup,
+        send,
+      }: CreateAnnouncementOptions
+    ) => ({
+      endpoint: '/announcements/',
+      method: 'POST',
+      body: {
+        message,
+        users,
+        groups,
+        events,
+        meetings,
+        fromGroup,
+      },
+      schema: announcementsSchema,
+      meta: {
+        errorMessage: 'Opprettelse av kunngjøringer feilet',
+        send,
+      },
+    }),
+    {
+      onSuccess: (action, dispatch) => {
+        if (action.meta.send && action.payload) {
           dispatch(sendAnnouncement(action.payload.result));
         }
-      })
-      .catch((action) => {
-        const errors = { ...action.error.response.jsonData };
-        dispatch(stopSubmit('AnnouncementsCreate', errors));
-      });
+      },
+      onFailure: (action, dispatch) => {
+        if (action.error) {
+          dispatch(
+            stopSubmit('AnnouncementsCreate', action.payload.response.jsonData)
+          );
+        }
+      },
+    }
+  );
+
+interface AnnouncementSendSuccessPayload {
+  status: string;
 }
-export function sendAnnouncement(announcementId: number): Thunk<any> {
-  return callAPI({
-    types: Announcements.SEND,
-    endpoint: `/announcements/${announcementId}/send/`,
-    method: 'POST',
-    meta: {
-      errorMessage: 'Sending av kunngjøringer feilet',
-      announcementId,
-    },
-  });
-}
-export function deleteAnnouncement(id: number): Thunk<any> {
-  return callAPI({
-    types: Announcements.DELETE,
+
+export const sendAnnouncement =
+  createLegoApiAction<AnnouncementSendSuccessPayload>()(
+    'Announcements.SEND',
+    (_, announcementId: ID) => ({
+      endpoint: `/announcements/${announcementId}/send/`,
+      method: 'POST',
+      meta: {
+        errorMessage: 'Sending av kunngjøringer feilet',
+        announcementId,
+      },
+    })
+  );
+
+export const deleteAnnouncement = createLegoApiAction()(
+  'Announcements.DELETE',
+  (_, id: ID) => ({
     endpoint: `/announcements/${id}/`,
     method: 'DELETE',
     meta: {
       id,
       errorMessage: 'Sletting av kunngjøringer feilet',
     },
-  });
-}
+  })
+);

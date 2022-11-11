@@ -1,5 +1,6 @@
 import { loadableReady } from '@loadable/component';
 import { hydrate, render } from 'react-dom';
+import Root from 'app/Root';
 import routes from 'app/routes';
 import type { Store } from 'app/store/store';
 

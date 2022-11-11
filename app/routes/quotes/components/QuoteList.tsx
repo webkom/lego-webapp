@@ -2,6 +2,7 @@ import { Component } from 'react';
 import type { ID, ActionGrant } from 'app/models';
 import type { EmojiEntity } from 'app/reducers/emojis';
 import type { QuoteEntity } from 'app/reducers/quotes';
+import type { ContentTarget } from 'app/store/utils/contentTarget';
 import Quote from './Quote';
 
 type Props = {
@@ -16,7 +17,7 @@ type Props = {
   addReaction: (arg0: { emoji: string; contentTarget: string }) => Promise<any>;
   deleteReaction: (arg0: {
     reactionId: ID;
-    contentTarget: string;
+    contentTarget: ContentTarget;
   }) => Promise<any>;
   fetchEmojis: () => Promise<any>;
   fetchingEmojis: boolean;

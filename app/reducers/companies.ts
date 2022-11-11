@@ -1,12 +1,31 @@
+import { createSlice } from '@reduxjs/toolkit';
 import { produce } from 'immer';
 import { createSelector } from 'reselect';
+import {
+  addCompany,
+  addCompanyContact,
+  addSemesterStatus,
+  deleteCompany,
+  deleteCompanyContact,
+  deleteSemesterStatus,
+  editCompanyContact,
+  editSemesterStatus,
+  fetch,
+  fetchAdmin,
+  fetchAll,
+  fetchAllAdmin,
+} from 'app/actions/CompanyActions';
 import type { CompanySemesterContactedStatus, Semester } from 'app/models';
-import { mutateComments } from 'app/reducers/comments';
+import { addMutateCommentsReducer } from 'app/reducers/comments';
 import { selectJoblistings } from 'app/reducers/joblistings';
-import type { UserEntity } from 'app/reducers/users';
-import createEntityReducer from 'app/utils/createEntityReducer';
-import joinReducers from 'app/utils/joinReducers';
-import { Company } from '../actions/ActionTypes';
+import type { ID } from 'app/store/models';
+import type Company from 'app/store/models/Company';
+import { EntityType } from 'app/store/models/Entities';
+import type { RootState } from 'app/store/rootReducer';
+import addEntityReducer, {
+  EntityReducerState,
+  getInitialEntityReducerState,
+} from 'app/store/utils/entityReducer';
 import { selectCompanySemesters } from './companySemesters';
 import { selectEvents } from './events';
 
@@ -38,117 +57,82 @@ export type BaseCompanyContactEntity = {
 export type CompanyContactEntity = BaseCompanyContactEntity & {
   id: number;
 };
-export type BaseCompanyEntity = {
-  name: string;
-  companyId?: number;
-  description?: string;
-  studentContact?: UserEntity;
-  phone?: string;
-  companyType?: string;
-  website?: string;
-  address?: string;
-  paymentMail?: string;
-  active?: boolean;
-  adminComment?: string;
-  companyType?: string;
-  contentTarget: string;
-  comments: Array<{
-    id: string;
-    parent: string;
-  }>;
-  semesterStatuses: Array<SemesterStatusEntity>;
-  logo?: string;
-  files?: Array<Record<string, any>>;
-  companyContacts: Array<CompanyContactEntity>;
-};
-export type CompanyEntity = BaseCompanyEntity & {
-  id: number;
-};
-export type SubmitCompanyEntity = BaseCompanyEntity & {
+export type CompanyEntity = Company;
+export type SubmitCompanyEntity = Omit<Company, 'id'> & {
   studentContact?: number;
 };
-type State = any;
 
-function mutateCompanies(state: State, action) {
-  return produce(state, (newState: State): void => {
-    switch (action.type) {
-      case Company.DELETE.SUCCESS:
-        newState.items = newState.items.filter((id) => id !== action.meta.id);
-        break;
+export type CompaniesState = EntityReducerState<Company>;
 
-      case Company.ADD_SEMESTER_STATUS.SUCCESS:
-        newState.byId[action.meta.companyId].semesterStatuses =
-          newState.byId[action.meta.companyId].semesterStatuses || [];
-        newState.byId[action.meta.companyId].semesterStatuses.push(
-          action.payload
-        );
-        break;
+const initialState: CompaniesState = getInitialEntityReducerState();
 
-      case Company.EDIT_SEMESTER_STATUS.SUCCESS: {
+const companiesSlice = createSlice({
+  name: EntityType.Companies,
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(deleteCompany.success, (state, action) => {
+        state.items = state.items.filter((id) => id !== action.meta.id);
+      })
+      .addCase(addSemesterStatus.success, (state, action) => {
+        state.byId[action.meta.companyId].semesterStatuses =
+          state.byId[action.meta.companyId].semesterStatuses || [];
+        state.byId[action.meta.companyId].semesterStatuses.push(action.payload);
+      })
+      .addCase(editSemesterStatus.success, (state, action) => {
         const { companyId, semesterStatusId } = action.meta;
-        const index = newState.byId[companyId].semesterStatuses.findIndex(
+        const index = state.byId[companyId].semesterStatuses.findIndex(
           (s) => s.id === semesterStatusId
         );
-        newState.byId[companyId].semesterStatuses[index] = action.payload;
-        break;
-      }
-
-      case Company.DELETE_SEMESTER_STATUS.SUCCESS: {
+        state.byId[companyId].semesterStatuses[index] = action.payload;
+      })
+      .addCase(deleteSemesterStatus.success, (state, action) => {
         const companyId = action.meta.companyId;
-        newState.byId[companyId].semesterStatuses = newState.byId[
+        state.byId[companyId].semesterStatuses = state.byId[
           companyId
         ].semesterStatuses.filter(
           (status) => status.id !== action.meta.semesterStatusId
         );
-        break;
-      }
-
-      case Company.ADD_COMPANY_CONTACT.SUCCESS:
-        newState.byId[action.meta.companyId].companyContacts = (
-          newState.byId[action.meta.companyId].companyContacts || []
+      })
+      .addCase(addCompanyContact.success, (state, action) => {
+        state.byId[action.meta.companyId].companyContacts = (
+          state.byId[action.meta.companyId].companyContacts || []
         ).concat(action.payload);
-        break;
-
-      case Company.EDIT_COMPANY_CONTACT.SUCCESS: {
+      })
+      .addCase(editCompanyContact.success, (state, action) => {
         const companyId = action.meta.companyId;
-        const index = newState.byId[companyId].companyContacts.findIndex(
+        const index = state.byId[companyId].companyContacts.findIndex(
           (cc) => cc.id === action.payload.id
         );
-        newState.byId[companyId].companyContacts[index] = action.payload;
-        break;
-      }
-
-      case Company.DELETE_COMPANY_CONTACT.SUCCESS: {
+        state.byId[companyId].companyContacts[index] = action.payload;
+      })
+      .addCase(deleteCompanyContact.success, (state, action) => {
         const companyId = action.meta.companyId;
-        newState.byId[companyId].companyContacts = newState.byId[
+        state.byId[companyId].companyContacts = state.byId[
           companyId
         ].companyContacts.filter(
           (contact) => contact.id !== action.meta.companyContactId
         );
-        break;
-      }
+      });
 
-      default:
-        break;
-    }
-  });
-}
+    addEntityReducer(builder, EntityType.Companies, {
+      fetch: [fetch, fetchAdmin, fetchAll, fetchAllAdmin],
+      mutate: addCompany,
+      delete: deleteCompany,
+    });
 
-const mutate = joinReducers(mutateComments('companies'), mutateCompanies);
-export default createEntityReducer({
-  key: 'companies',
-  types: {
-    fetch: Company.FETCH,
-    mutate: Company.ADD,
-    delete: Company.DELETE,
+    addMutateCommentsReducer(builder, EntityType.Companies);
   },
-  mutate,
 });
+
+export default companiesSlice.reducer;
+
 export const selectCompanies = createSelector(
-  (state) => state.companies.items,
-  (state) => state.companies.byId,
-  (state) => state.users.byId,
-  (state) => state,
+  (state: RootState) => state.companies.items,
+  (state: RootState) => state.companies.byId,
+  (state: RootState) => state.users.byId,
+  (state: RootState) => state,
   (companyIds, companiesById, usersById, state) => {
     if (companyIds.length === 0) return [];
     const companySemesters = selectCompanySemesters(state);
@@ -168,6 +152,7 @@ export const selectCompanies = createSelector(
       .sort((a, b) => (a.name < b.name ? -1 : 1));
   }
 );
+
 export const selectActiveCompanies = createSelector(
   selectCompanies,
   (companies) => companies.filter((company) => company.active)
@@ -188,16 +173,16 @@ const selectSemesterStatuses = (semesterStatuses, companySemesters) =>
 
 export const selectCompanyById = createSelector(
   selectCompanies,
-  (state, props) => props.companyId,
-  (state, props) => state.users,
-  (companies, companyId, users) => {
+  (_: RootState, props: { companyId: ID }) => props.companyId,
+  (companies, companyId) => {
     const company = companies.find((company) => company.id === companyId);
     return company || {};
   }
 );
+
 export const selectEventsForCompany = createSelector(
-  (state, props) => selectEvents(state, props),
-  (state, props) => props.companyId,
+  (state: RootState) => selectEvents(state),
+  (state: RootState, props: { companyId: ID }) => props.companyId,
   (events, companyId) => {
     if (!companyId || !events) return [];
     return events.filter(
@@ -206,7 +191,7 @@ export const selectEventsForCompany = createSelector(
   }
 );
 export const selectJoblistingsForCompany = createSelector(
-  (state, props) => props.companyId,
+  (state: RootState, props: { companyId: ID }) => props.companyId,
   selectJoblistings,
   (companyId, joblistings) => {
     if (!companyId || !joblistings) return [];
@@ -217,9 +202,12 @@ export const selectJoblistingsForCompany = createSelector(
     );
   }
 );
+
 export const selectCompanyContactById = createSelector(
-  (state, props) => selectCompanyById(state, props),
-  (state, props) => props.companyContactId,
+  (state: RootState, props: { companyId: ID; companyContactId: ID }) =>
+    selectCompanyById(state, props),
+  (state: RootState, props: { companyId: ID; companyContactId: ID }) =>
+    props.companyContactId,
   (company, companyContactId) => {
     if (!company || !company.companyContacts) return {};
     return company.companyContacts.find(
@@ -229,7 +217,7 @@ export const selectCompanyContactById = createSelector(
 );
 export const selectCommentsForCompany = createSelector(
   selectCompanyById,
-  (state) => state.comments.byId,
+  (state: RootState) => state.comments.byId,
   (company, commentsById) => {
     if (!company || !commentsById) return [];
     return (company.comments || []).map((commentId) => commentsById[commentId]);

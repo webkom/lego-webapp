@@ -23,9 +23,7 @@ const valueSelector = formValueSelector('CompanyInterestForm');
 
 const mapStateToProps = (state, props) => {
   const { companyInterestId } = props.match.params;
-  const companyInterest = selectCompanyInterestById(state, {
-    companyInterestId,
-  });
+  const companyInterest = selectCompanyInterestById(state, companyInterestId);
   const semesters = selectCompanySemesters(state);
   if (!companyInterest || !semesters)
     return {

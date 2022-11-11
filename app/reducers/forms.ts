@@ -1,4 +1,4 @@
-import moment from 'moment-timezone'; //@ts-expect-error[prop-missing] plugin is missing? :upside_down_face:
+import moment from 'moment-timezone';
 import { reducer as formReducer } from 'redux-form';
 import { Event } from '../actions/ActionTypes';
 

@@ -1,36 +1,26 @@
-import { Component } from 'react';
-import { NotificationStack } from 'react-notification';
-import { connect } from 'react-redux';
-import { removeToast } from 'app/actions/ToastActions';
+import { NotificationObject, NotificationStack } from 'react-notification';
+import { removeToast, selectToasts } from 'app/reducers/toasts';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 
-type Props = {
-  removeToast: (arg0: { id: string }) => void;
-  toasts: Array<any>;
-};
-
-class ToastContainer extends Component<Props> {
-  render() {
-    const toasts = this.props.toasts.map((toast) => ({
+const ToastContainer = () => {
+  const dispatch = useAppDispatch();
+  const toasts: NotificationObject[] = useAppSelector(selectToasts).map(
+    (toast) => ({
       dismissAfter: 5000,
-      // onClick has to be implemented on each object because NotificationStack
-      // does not support onClick like it supports onDismiss (see below)
-      ...toast,
       key: toast.id,
-    }));
-    return (
-      <NotificationStack
-        notifications={toasts}
-        barStyleFactory={toastStyleFactoryInactive}
-        activeBarStyleFactory={toastStyleFactory}
-        onDismiss={(toast) =>
-          this.props.removeToast({
-            id: toast.id,
-          })
-        }
-      />
-    );
-  }
-}
+      ...toast,
+    })
+  );
+
+  return (
+    <NotificationStack
+      notifications={toasts}
+      barStyleFactory={toastStyleFactoryInactive}
+      activeBarStyleFactory={toastStyleFactory}
+      onDismiss={(notification) => dispatch(removeToast(notification.key))}
+    />
+  );
+};
 
 function toastStyleFactory(index, style) {
   if (__CLIENT__ && window.matchMedia('(max-width: 35em)').matches) {
@@ -55,13 +45,4 @@ function toastStyleFactoryInactive(index, style) {
   return toastStyleFactory(index - 1, style);
 }
 
-function mapStateToProps(state) {
-  return {
-    toasts: state.toasts.items.filter((n) => !n.removed),
-  };
-}
-
-const mapDispatchToProps = {
-  removeToast,
-};
-export default connect(mapStateToProps, mapDispatchToProps)(ToastContainer);
+export default ToastContainer;

@@ -2,6 +2,7 @@ import CommentForm from 'app/components/CommentForm';
 import { Flex } from 'app/components/Layout';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import type { ID, Comment, User } from 'app/models';
+import type { ContentTarget } from 'app/store/utils/contentTarget';
 import { generateTreeStructure } from 'app/utils';
 import CommentTree from './CommentTree';
 import type { StyleHTMLAttributes } from 'react';
@@ -9,7 +10,7 @@ import type { StyleHTMLAttributes } from 'react';
 type Props = {
   comments: Array<Comment>;
   formDisabled?: boolean;
-  contentTarget: string;
+  contentTarget: ContentTarget;
   user: User;
   loggedIn: boolean;
   displayTitle?: boolean;

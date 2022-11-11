@@ -2,19 +2,19 @@ import moment from 'moment-timezone';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { reduxForm } from 'redux-form';
-import { uploadFile } from 'app/actions/FileActions';
-import { LoginPage } from 'app/components/LoginForm';
-import { selectCompanies } from 'app/reducers/companies';
-import { selectCompanySemesters } from 'app/reducers/companySemesters';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import {
   addSemesterStatus,
   fetchSemesters,
   addSemester,
   fetchAllAdmin,
   deleteCompany,
-} from '../../actions/CompanyActions';
+} from 'app/actions/CompanyActions';
+import { uploadFile } from 'app/actions/FileActions';
+import { LoginPage } from 'app/components/LoginForm';
+import { selectCompanies } from 'app/reducers/companies';
+import { selectCompanySemesters } from 'app/reducers/companySemesters';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import AddSemester from './components/AddSemester';
 import { semesterCodeToName } from './utils';
 

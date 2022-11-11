@@ -1,11 +1,13 @@
 import { omit, isArray } from 'lodash';
 import { normalize } from 'normalizr';
-import { $Shape } from 'utility-types';
 import { logout } from 'app/actions/UserActions';
 import { selectIsLoggedIn } from 'app/reducers/auth';
 import { setStatusCode } from 'app/reducers/routing';
 import { selectPaginationNext } from 'app/reducers/selectors';
-import { DefaultExtraMeta } from 'app/store/utils/createLegoApiAction';
+import type {
+  DefaultExtraMeta,
+  LegoApiSuccessAction,
+} from 'app/store/utils/createLegoApiAction';
 import type { AsyncActionType, Thunk } from 'app/types';
 import createQueryString from 'app/utils/createQueryString';
 import type {
@@ -52,8 +54,11 @@ function handleError(error, propagateError, endpoint, loggedIn): Thunk<any> {
   };
 }
 
-export interface CallAPIOptions<ExtraMeta = Record<string, unknown>> {
-  types: AsyncActionType;
+export interface CallAPIOptions<
+  PrefixType extends string = string,
+  ExtraMeta = Record<string, unknown>
+> {
+  types: AsyncActionType<PrefixType>;
   endpoint: string;
   method?: HttpMethod;
   headers?: Record<string, string>;
@@ -76,7 +81,7 @@ export interface CallAPIOptions<ExtraMeta = Record<string, unknown>> {
 }
 
 function toHttpRequestOptions(
-  options: $Shape<CallAPIOptions>
+  options: Partial<CallAPIOptions>
 ): HttpRequestOptions {
   return {
     method: options.method,
@@ -89,6 +94,8 @@ function toHttpRequestOptions(
 }
 
 export default function callAPI<
+  PrefixType extends string = string,
+  SuccessPayload = unknown,
   ExtraMeta extends DefaultExtraMeta = DefaultExtraMeta
 >({
   types,
@@ -108,7 +115,11 @@ export default function callAPI<
   enableOptimistic = false,
   requiresAuthentication = true,
   timeout,
-}: CallAPIOptions<ExtraMeta>): Thunk<Promise<any>> {
+}: CallAPIOptions<PrefixType, ExtraMeta>): Thunk<
+  Promise<
+    LegoApiSuccessAction<`${PrefixType}.SUCCESS`, SuccessPayload, ExtraMeta>
+  >
+> {
   return (dispatch, getState) => {
     const methodUpperCase = method.toUpperCase();
     const shouldUseCache =

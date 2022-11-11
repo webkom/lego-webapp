@@ -1,81 +1,98 @@
-import { produce } from 'immer';
-import { union, find } from 'lodash';
+import { type AnyAction, createSlice } from '@reduxjs/toolkit';
+import { union } from 'lodash';
 import { normalize } from 'normalizr';
 import { createSelector } from 'reselect';
+import { adminRegister } from 'app/actions/EventActions';
+import { confirmStudentUser, fetchUser } from 'app/actions/UserActions';
+import {
+  socketEventUpdated,
+  socketRegistrationSuccess,
+} from 'app/actions/WebsocketActions';
+import type { ID } from 'app/store/models';
+import { EntityType } from 'app/store/models/Entities';
+import type UserType from 'app/store/models/User';
+import type { RootState } from 'app/store/rootReducer';
 import { eventSchema, registrationSchema } from 'app/store/schemas';
-import createEntityReducer from 'app/utils/createEntityReducer';
+import type { EntityReducerState } from 'app/store/utils/entityReducer';
+import addEntityReducer, {
+  getInitialEntityReducerState,
+} from 'app/store/utils/entityReducer';
 import mergeObjects from 'app/utils/mergeObjects';
-import { User, Event } from '../actions/ActionTypes';
 import type { PhotoConsent } from '../models';
 
-export type UserEntity = {
-  id: number;
-  username: string;
-  fullName: string;
-  firstName: string;
-  lastName: string;
-  gender: string;
-  profilePicture: string;
-  profilePicturePlaceholder?: string;
+export interface UserEntity extends UserType {
   emailListsEnabled?: boolean;
   selectedTheme?: string;
   photoConsents?: Array<PhotoConsent>;
-};
-type State = any;
-export default createEntityReducer({
-  key: 'users',
-  types: {
-    fetch: User.FETCH,
-  },
-  mutate: produce((newState: State, action: any): void => {
-    switch (action.type) {
-      case Event.SOCKET_EVENT_UPDATED: {
+}
+
+export type UsersState = EntityReducerState<UserType>;
+
+const initialState: UsersState = getInitialEntityReducerState();
+
+const usersSlice = createSlice({
+  name: EntityType.Users,
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(confirmStudentUser.success, (state, action) => {
+        state.byId = mergeObjects(state.byId, action.payload);
+      })
+      .addCase(socketEventUpdated, (state, action) => {
         const users =
           normalize(action.payload, eventSchema).entities.users || {};
-        newState.byId = mergeObjects(newState.byId, users);
-        newState.items = union(
-          newState.items,
-          (Object.values(users) as any).map((u) => u.id)
+        state.byId = mergeObjects(state.byId, users);
+        state.items = union(
+          state.items,
+          Object.values(users).map((u) => u.id)
         );
-        break;
-      }
+      });
 
-      case Event.SOCKET_REGISTRATION.SUCCESS:
-      case Event.ADMIN_REGISTER.SUCCESS: {
-        if (!action.payload.user) break;
+    builder.addMatcher(
+      (
+        action: AnyAction
+      ): action is
+        | ReturnType<typeof socketRegistrationSuccess>
+        | ReturnType<typeof adminRegister.success> =>
+        socketRegistrationSuccess.match(action) ||
+        adminRegister.success.match(action),
+      (state, action) => {
+        if (!action.payload.user) return;
         const users = normalize(action.payload, registrationSchema).entities
           .users;
-        newState.byId = mergeObjects(newState.byId, users);
-        newState.items = union(
-          newState.items,
-          (Object.values(users) as any).map((u) => u.id)
+        state.byId = mergeObjects(state.byId, users);
+        state.items = union(
+          state.items,
+          Object.values(users).map((u) => u.id)
         );
-        break;
       }
+    );
 
-      case User.CONFIRM_STUDENT_USER.SUCCESS: {
-        newState.byId = mergeObjects(newState.byId, action.payload);
-        break;
-      }
-
-      default:
-        break;
-    }
-  }),
+    addEntityReducer(builder, EntityType.Users, {
+      fetch: fetchUser,
+    });
+  },
 });
+
+export default usersSlice.reducer;
+
 export const selectUserById = createSelector(
-  (state) => state.users.byId,
-  (state, props) => props.userId,
-  (usersById, userId) => usersById[userId] || {}
+  (state: RootState) => state.users.byId,
+  (state: RootState, props: { userId: ID }) => props.userId,
+  (usersById, userId) => usersById[userId] || undefined
 );
+
 export const selectUserByUsername = createSelector(
-  (state) => state.users.byId,
-  (state, props) => props.username,
-  (usersById, username) => find(usersById, ['username', username])
+  (state: RootState) => state.users.byId,
+  (state: RootState, props: { username: string }) => props.username,
+  (usersById, username) =>
+    Object.values(usersById).find((user) => user.username === username)
 );
+
 export const selectUserWithGroups = createSelector(
   (
-    state,
+    state: RootState,
     {
       username,
       userId,
@@ -91,7 +108,7 @@ export const selectUserWithGroups = createSelector(
       : selectUserById(state, {
           userId,
         }),
-  (state) => state.groups.byId,
+  (state: RootState) => state.groups.byId,
   (user, groupsById) => {
     if (!user) return;
     return {

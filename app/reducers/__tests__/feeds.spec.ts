@@ -1,34 +1,36 @@
-import { Feed } from '../../actions/ActionTypes';
-import feeds from '../feeds';
+import { fetchFeed } from 'app/actions/FeedActions';
+import type Feed from 'app/store/models/Feed';
+import { getInitialEntityReducerState } from 'app/store/utils/entityReducer';
+import feeds, { FeedsState } from '../feeds';
 
 describe('reducers', () => {
   describe('feeds', () => {
     it('Fetching feed populates state correctly', () => {
-      const prevState = {
-        actionGrant: [],
-        pagination: {},
+      const prevState: FeedsState = {
+        ...getInitialEntityReducerState(),
         items: ['x'],
         byId: {
-          x: {},
+          x: {} as Feed,
         },
       };
-      const action = {
-        type: Feed.FETCH.SUCCESS,
+      const action = fetchFeed.success({
         meta: {
-          feedId: 'myfeed',
+          feedId: 'notifications',
         },
         payload: {
+          entities: {
+            feedActivities: {},
+          },
           result: [1, 2, 3],
         },
-      };
+      });
       expect(feeds(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
-        items: ['x', 'myfeed'],
+        ...getInitialEntityReducerState(),
+        items: ['x', 'notifications'],
         byId: {
           x: {},
-          myfeed: {
-            type: 'myfeed',
+          notifications: {
+            type: 'notifications',
             activities: [1, 2, 3],
           },
         },

@@ -50,8 +50,9 @@ export default compose(
         fetchAll({
           next: false,
           query: {
-            tag: qs.parse(props.location.search, { ignoreQueryPrefix: true })
-              .tag,
+            tag: qs
+              .parse(props.location.search, { ignoreQueryPrefix: true })
+              .tag?.toString(),
           },
         })
       ),

@@ -9,12 +9,13 @@ import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { ProfilePicture } from 'app/components/Image';
 import { useAppDispatch } from 'app/store/hooks';
+import { ContentTarget } from 'app/store/utils/contentTarget';
 import { EDITOR_EMPTY } from 'app/utils/constants';
 import { createValidator, legoEditorRequired } from 'app/utils/validation';
 import styles from './CommentForm.css';
 
 type Props = {
-  contentTarget: string;
+  contentTarget: ContentTarget;
   user: Record<string, any>;
   loggedIn: boolean;
   submitText?: string;

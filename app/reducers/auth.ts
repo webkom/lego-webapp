@@ -1,14 +1,27 @@
+import { type AnyAction, createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
-import { User } from '../actions/ActionTypes';
+import {
+  confirmStudentUser,
+  createUser,
+  fetchUser,
+  login,
+  refreshToken,
+  validateRegistrationToken,
+} from 'app/actions/UserActions';
+import type { ID } from 'app/store/models';
+import type { RootState } from 'app/store/rootReducer';
 
-type State = {
-  id: number | null | undefined;
-  username: string | null | undefined;
-  token: string | null | undefined;
+interface AuthState {
+  id: ID | null;
+  username: string | null;
+  token: string | null;
   loginFailed: boolean;
   loggingIn: boolean;
-};
-const initialState = {
+  registrationToken: string | null;
+  studentConfirmed: boolean | null;
+}
+
+const initialState: AuthState = {
   username: null,
   id: null,
   token: null,
@@ -17,56 +30,69 @@ const initialState = {
   registrationToken: null,
   studentConfirmed: null,
 };
-export default function auth(state: State = initialState, action: any): State {
-  switch (action.type) {
-    case User.LOGIN.BEGIN:
-      return { ...state, loggingIn: true, loginFailed: false };
 
-    case User.LOGIN.FAILURE:
-      return { ...state, loggingIn: false, loginFailed: true };
+const authSlice = createSlice({
+  name: 'auth',
+  initialState,
+  reducers: {
+    logout: () => initialState,
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(login.begin, (state) => {
+        state.loggingIn = true;
+        state.loginFailed = false;
+      })
+      .addCase(login.failure, (state) => {
+        state.loggingIn = false;
+        state.loginFailed = true;
+      })
+      .addCase(fetchUser.success, (state, action) => {
+        if (!action.meta.isCurrentUser) {
+          return;
+        }
 
-    case User.CREATE_USER.SUCCESS:
-    case User.LOGIN.SUCCESS:
-    case User.REFRESH_TOKEN.SUCCESS:
-      return {
-        ...state,
-        loggingIn: false,
-        token: action.payload.token,
-        registrationToken: null,
-      };
+        state.id = action.payload.result;
+        state.username =
+          action.payload.entities.users[action.payload.result].username;
+      })
+      .addCase(validateRegistrationToken.success, (state, action) => {
+        state.registrationToken = action.meta.token;
+      })
+      .addCase(confirmStudentUser.failure, (state) => {
+        state.studentConfirmed = false;
+      })
+      .addCase(confirmStudentUser.success, (state) => {
+        state.studentConfirmed = true;
+      })
+      .addMatcher(
+        (
+          action: AnyAction
+        ): action is
+          | ReturnType<typeof login.success>
+          | ReturnType<typeof createUser.success>
+          | ReturnType<typeof refreshToken.success> =>
+          login.success.match(action) ||
+          createUser.success.match(action) ||
+          refreshToken.success.match(action),
+        (state, action) => {
+          state.loggingIn = false;
+          state.token = action.payload.token;
+          state.registrationToken = null;
+        }
+      );
+  },
+});
 
-    case User.FETCH.SUCCESS:
-      if (!action.meta.isCurrentUser) {
-        return state;
-      }
+export default authSlice.reducer;
 
-      return {
-        ...state,
-        id: action.payload.result,
-        username: action.payload.entities.users[action.payload.result].username,
-      };
+export const { logout } = authSlice.actions;
 
-    case User.LOGOUT:
-      return initialState;
-
-    case User.VALIDATE_REGISTRATION_TOKEN.SUCCESS:
-      return { ...state, registrationToken: action.meta.token };
-
-    case User.CONFIRM_STUDENT_USER.FAILURE:
-      return { ...state, studentConfirmed: false };
-
-    case User.CONFIRM_STUDENT_USER.SUCCESS:
-      return { ...state, studentConfirmed: true };
-
-    default:
-      return state;
-  }
-}
-export function selectIsLoggedIn(state: any) {
+export function selectIsLoggedIn(state: RootState) {
   return state.auth.token !== null;
 }
 export const selectCurrentUser = createSelector(
-  (state) => state.users.byId,
-  (state) => state.auth.id,
+  (state: RootState) => state.users.byId,
+  (state: RootState) => state.auth.id,
   (usersById, userId) => usersById[userId] || {}
 );

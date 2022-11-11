@@ -2,53 +2,68 @@
 // (companies -> events -> index -> frontpage -> events)
 // This import resolves dependencies properly..
 import 'app/store/rootReducer';
-import { Event } from 'app/actions/ActionTypes';
-import events from '../events';
+import {
+  fetchPrevious,
+  fetchUpcoming,
+  follow,
+  isUserFollowing,
+  register,
+  unfollow,
+} from 'app/actions/EventActions';
+import {
+  socketEventUpdated,
+  socketRegistrationFailure,
+  socketRegistrationSuccess,
+  socketUnregistrationSuccess,
+} from 'app/actions/WebsocketActions';
+import type Event from 'app/store/models/Event';
+import type User from 'app/store/models/User';
+import { getInitialEntityReducerState } from 'app/store/utils/entityReducer';
+import events, { clear, EventsState } from '../events';
 
 describe('reducers', () => {
-  const baseState = {
-    actionGrant: [],
-    pagination: {},
+  const baseState: EventsState = {
+    ...getInitialEntityReducerState(),
     items: [1],
     fetching: false,
     byId: {
       1: {
         id: 1,
-        name: 'evt',
-      },
+        title: 'evt',
+      } as Event,
     },
   };
   describe('previous and upcoming events', () => {
     it('Event.FETCH_PREVIOUS.SUCCESS', () => {
       const prevState = baseState;
-      const action = {
-        type: Event.FETCH_PREVIOUS.SUCCESS,
-        meta: {},
+      const action = fetchPrevious.success({
+        meta: {
+          errorMessage: '',
+        },
         payload: {
           entities: {
             events: {
               2: {
                 id: 2,
-                name: 'test',
-              },
+                title: 'test',
+              } as Event,
             },
           },
           result: [2],
         },
-      };
+      });
       expect(events(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
+        ...getInitialEntityReducerState(),
         items: [1, 2],
         fetching: false,
         byId: {
           1: {
             id: 1,
-            name: 'evt',
+            title: 'evt',
           },
           2: {
             id: 2,
-            name: 'test',
+            title: 'test',
             isUsersUpcoming: false,
           },
         },
@@ -56,34 +71,34 @@ describe('reducers', () => {
     });
     it('Event.FETCH_UPCOMING.SUCCESS', () => {
       const prevState = baseState;
-      const action = {
-        type: Event.FETCH_UPCOMING.SUCCESS,
-        meta: {},
+      const action = fetchUpcoming.success({
+        meta: {
+          errorMessage: '',
+        },
         payload: {
           entities: {
             events: {
               2: {
                 id: 2,
-                name: 'test',
-              },
+                title: 'test',
+              } as Event,
             },
           },
           result: [2],
         },
-      };
+      });
       expect(events(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
+        ...getInitialEntityReducerState(),
         items: [1, 2],
         fetching: false,
         byId: {
           1: {
             id: 1,
-            name: 'evt',
+            title: 'evt',
           },
           2: {
             id: 2,
-            name: 'test',
+            title: 'test',
             isUsersUpcoming: true,
           },
         },
@@ -93,40 +108,38 @@ describe('reducers', () => {
   describe('event reducer', () => {
     it('Event.SOCKET_EVENT_UPDATED', () => {
       const prevState = baseState;
-      const action = {
-        type: Event.SOCKET_EVENT_UPDATED,
+      const action = socketEventUpdated({
+        meta: {
+          currentUser: null,
+        },
         payload: {
           id: 1,
-          name: 'updated',
-        },
-      };
+          title: 'updated',
+        } as Event,
+      });
       expect(events(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
+        ...getInitialEntityReducerState(),
         items: [1],
         fetching: false,
         byId: {
           1: {
             id: 1,
-            name: 'updated',
+            title: 'updated',
           },
         },
       });
     });
     it('Event.CLEAR', () => {
       const prevState = baseState;
-      const action = {
-        type: Event.CLEAR,
-      };
+      const action = clear();
       expect(events(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
+        ...getInitialEntityReducerState(),
         items: [],
         fetching: false,
         byId: {
           1: {
             id: 1,
-            name: 'evt',
+            title: 'evt',
           },
         },
       });
@@ -135,21 +148,19 @@ describe('reducers', () => {
   describe('event registrations', () => {
     it('Event.REQUEST_REGISTER.BEGIN', () => {
       const prevState = baseState;
-      const action = {
-        type: Event.REQUEST_REGISTER.BEGIN,
+      const action = register.begin({
         meta: {
           id: 1,
-        },
-      };
+        } as any,
+      });
       expect(events(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
+        ...getInitialEntityReducerState(),
         items: [1],
         fetching: false,
         byId: {
           1: {
             id: 1,
-            name: 'evt',
+            title: 'evt',
             loading: true,
           },
         },
@@ -157,21 +168,20 @@ describe('reducers', () => {
     });
     it('Event.REQUEST_REGISTER.FAILURE', () => {
       const prevState = baseState;
-      const action = {
-        type: Event.REQUEST_REGISTER.FAILURE,
+      const action = register.failure({
         meta: {
           id: 1,
-        },
-      };
+        } as any,
+        payload: {} as any,
+      });
       expect(events(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
+        ...getInitialEntityReducerState(),
         items: [1],
         fetching: false,
         byId: {
           1: {
             id: 1,
-            name: 'evt',
+            title: 'evt',
             loading: false,
           },
         },
@@ -179,48 +189,45 @@ describe('reducers', () => {
     });
     it('Event.SOCKET_REGISTRATION.SUCCESS should not crash if event is not in state', () => {
       const prevState = baseState;
-      const action = {
-        type: Event.SOCKET_REGISTRATION.SUCCESS,
+      const action = socketRegistrationSuccess({
+        payload: {} as any,
         meta: {
           eventId: 99,
-        },
-      };
+        } as any,
+      });
       expect(events(prevState, action)).toEqual(prevState);
     });
     it('Event.SOCKET_REGISTRATION.SUCCESS should add registration to waitingRegistrations if it has no pool', () => {
-      const prevState = {
-        actionGrant: [],
-        pagination: {},
+      const prevState: EventsState = {
+        ...getInitialEntityReducerState(),
         items: [1],
         fetching: false,
         byId: {
           1: {
             id: 1,
-            name: 'evt',
+            title: 'evt',
             registrationCount: 0,
             waitingRegistrations: [],
             waitingRegistrationCount: 0,
-          },
+          } as Event,
         },
       };
-      const action = {
-        type: Event.SOCKET_REGISTRATION.SUCCESS,
+      const action = socketRegistrationSuccess({
         payload: {
           id: 31,
-        },
+        } as any,
         meta: {
           eventId: 1,
-        },
-      };
+        } as any,
+      });
       expect(events(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
+        ...getInitialEntityReducerState(),
         items: [1],
         fetching: false,
         byId: {
           1: {
             id: 1,
-            name: 'evt',
+            title: 'evt',
             loading: false,
             registrationCount: 0,
             waitingRegistrations: [31],
@@ -230,40 +237,37 @@ describe('reducers', () => {
       });
     });
     it('Event.SOCKET_REGISTRATION.SUCCESS should add registration to registrationCount if it has a pool', () => {
-      const prevState = {
-        actionGrant: [],
-        pagination: {},
+      const prevState: EventsState = {
+        ...getInitialEntityReducerState(),
         items: [1],
         fetching: false,
         byId: {
           1: {
             id: 1,
-            name: 'evt',
+            title: 'evt',
             registrationCount: 0,
             waitingRegistrations: [],
             waitingRegistrationCount: 0,
-          },
+          } as Event,
         },
       };
-      const action = {
-        type: Event.SOCKET_REGISTRATION.SUCCESS,
+      const action = socketRegistrationSuccess({
         payload: {
           id: 31,
           pool: 91,
-        },
+        } as any,
         meta: {
           eventId: 1,
-        },
-      };
+        } as any,
+      });
       expect(events(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
+        ...getInitialEntityReducerState(),
         items: [1],
         fetching: false,
         byId: {
           1: {
             id: 1,
-            name: 'evt',
+            title: 'evt',
             loading: false,
             registrationCount: 1,
             waitingRegistrations: [],
@@ -274,21 +278,20 @@ describe('reducers', () => {
     });
     it('Event.SOCKET_REGISTRATION.FAILURE', () => {
       const prevState = baseState;
-      const action = {
-        type: Event.SOCKET_REGISTRATION.FAILURE,
+      const action = socketRegistrationFailure({
         meta: {
           eventId: 1,
-        },
-      };
+        } as any,
+        payload: {} as any,
+      });
       expect(events(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
+        ...getInitialEntityReducerState(),
         items: [1],
         fetching: false,
         byId: {
           1: {
             id: 1,
-            name: 'evt',
+            title: 'evt',
             loading: false,
           },
         },
@@ -296,55 +299,52 @@ describe('reducers', () => {
     });
     it('Event.SOCKET_UNREGISTRATION.SUCCESS should not crash if event does not exist', () => {
       const prevState = baseState;
-      const action = {
-        type: Event.SOCKET_UNREGISTRATION.SUCCESS,
+      const action = socketUnregistrationSuccess({
         meta: {
           eventId: 2,
-        },
-      };
+        } as any,
+        payload: {} as any,
+      });
       expect(events(prevState, action)).toEqual(baseState);
     });
     it('Event.SOCKET_UNREGISTRATION.SUCCESS should update correctly if user is not me and no pool is provided', () => {
-      const prevState = {
-        actionGrant: [],
-        pagination: {},
+      const prevState: EventsState = {
+        ...getInitialEntityReducerState(),
         items: [1],
         fetching: false,
         byId: {
           1: {
             id: 1,
-            name: 'evt',
+            title: 'evt',
             loading: false,
             registrationCount: 0,
             waitingRegistrationCount: 1,
             waitingRegistrations: [99],
-          },
+          } as Event,
         },
       };
-      const action = {
-        type: Event.SOCKET_UNREGISTRATION.SUCCESS,
+      const action = socketUnregistrationSuccess({
         payload: {
           id: 99,
           user: {
             id: 9,
-          },
-        },
+          } as User,
+        } as any,
         meta: {
           eventId: 1,
           currentUser: {
             id: 8,
-          },
-        },
-      };
+          } as User,
+        } as any,
+      });
       expect(events(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
+        ...getInitialEntityReducerState(),
         items: [1],
         fetching: false,
         byId: {
           1: {
             id: 1,
-            name: 'evt',
+            title: 'evt',
             loading: false,
             registrationCount: 0,
             waitingRegistrationCount: 0,
@@ -354,46 +354,43 @@ describe('reducers', () => {
       });
     });
     it('Event.SOCKET_UNREGISTRATION.SUCCESS should update correctly if user is me and no pool is provided', () => {
-      const prevState = {
-        actionGrant: [],
-        pagination: {},
+      const prevState: EventsState = {
+        ...getInitialEntityReducerState(),
         items: [1],
         fetching: false,
         byId: {
           1: {
             id: 1,
-            name: 'evt',
+            title: 'evt',
             loading: false,
             registrationCount: 0,
             waitingRegistrationCount: 1,
             waitingRegistrations: [99],
-          },
+          } as Event,
         },
       };
-      const action = {
-        type: Event.SOCKET_UNREGISTRATION.SUCCESS,
+      const action = socketUnregistrationSuccess({
         payload: {
           id: 99,
           user: {
             id: 9,
-          },
-        },
+          } as User,
+        } as any,
         meta: {
           eventId: 1,
           currentUser: {
             id: 9,
-          },
-        },
-      };
+          } as User,
+        } as any,
+      });
       expect(events(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
+        ...getInitialEntityReducerState(),
         items: [1],
         fetching: false,
         byId: {
           1: {
             id: 1,
-            name: 'evt',
+            title: 'evt',
             loading: false,
             registrationCount: 0,
             waitingRegistrationCount: 0,
@@ -403,47 +400,44 @@ describe('reducers', () => {
       });
     });
     it('Event.SOCKET_UNREGISTRATION.SUCCESS should update correctly if user is me and pool is provided', () => {
-      const prevState = {
-        actionGrant: [],
-        pagination: {},
+      const prevState: EventsState = {
+        ...getInitialEntityReducerState(),
         items: [1],
         fetching: false,
         byId: {
           1: {
             id: 1,
-            name: 'evt',
+            title: 'evt',
             loading: false,
             registrationCount: 3,
             waitingRegistrationCount: 0,
             waitingRegistrations: [],
-          },
+          } as Event,
         },
       };
-      const action = {
-        type: Event.SOCKET_UNREGISTRATION.SUCCESS,
+      const action = socketUnregistrationSuccess({
         payload: {
           id: 99,
           user: {
             id: 9,
-          },
-        },
+          } as User,
+        } as any,
         meta: {
           fromPool: 33,
           eventId: 1,
           currentUser: {
             id: 9,
-          },
-        },
-      };
+          } as User,
+        } as any,
+      });
       expect(events(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
+        ...getInitialEntityReducerState(),
         items: [1],
         fetching: false,
         byId: {
           1: {
             id: 1,
-            name: 'evt',
+            title: 'evt',
             loading: false,
             registrationCount: 2,
             waitingRegistrationCount: 0,
@@ -456,78 +450,76 @@ describe('reducers', () => {
   describe('event following', () => {
     it('Event.FOLLOW.SUCCESS', () => {
       const prevState = baseState;
-      const action = {
-        type: Event.FOLLOW.SUCCESS,
+      const action = follow.success({
+        meta: {
+          errorMessage: '',
+        },
         payload: {
           target: 1,
           id: 3,
         },
-      };
+      });
       expect(events(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
+        ...getInitialEntityReducerState(),
         items: [1],
         fetching: false,
         byId: {
           1: {
             id: 1,
-            name: 'evt',
+            title: 'evt',
           },
         },
       });
     });
     it('Event.UNFOLLOW.SUCCESS', () => {
-      const prevState = {
-        actionGrant: [],
-        pagination: {},
+      const prevState: EventsState = {
+        ...getInitialEntityReducerState(),
         items: [1],
         fetching: false,
         byId: {
           1: {
             id: 1,
-            name: 'evt',
-          },
+            title: 'evt',
+          } as Event,
         },
       };
-      const action = {
-        type: Event.UNFOLLOW.SUCCESS,
+      const action = unfollow.success({
         meta: {
           eventId: 1,
-        },
-      };
+        } as any,
+        payload: {} as any,
+      });
       expect(events(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
+        ...getInitialEntityReducerState(),
         items: [1],
         fetching: false,
         byId: {
           1: {
             id: 1,
-            name: 'evt',
+            title: 'evt',
           },
         },
       });
     });
     it('Event.IS_USER_FOLLOWING.SUCCESS', () => {
       const prevState = baseState;
-      const action = {
-        type: Event.IS_USER_FOLLOWING.SUCCESS,
+      const action = isUserFollowing.success({
+        meta: {} as any,
         payload: [
           {
             id: 4,
             target: 1,
           },
         ],
-      };
+      });
       expect(events(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
+        ...getInitialEntityReducerState(),
         items: [1],
         fetching: false,
         byId: {
           1: {
             id: 1,
-            name: 'evt',
+            title: 'evt',
           },
         },
       });

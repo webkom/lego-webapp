@@ -1,23 +1,27 @@
-import callAPI from 'app/actions/callAPI';
 import type { EmailUserEntity } from 'app/reducers/emailUsers';
+import type { ID } from 'app/store/models';
+import type { EntityType } from 'app/store/models/Entities';
 import { emailUserSchema } from 'app/store/schemas';
-import type { EntityID, Thunk } from 'app/types';
-import { EmailUser } from './ActionTypes';
+import createLegoApiAction, {
+  LegoApiSuccessPayload,
+} from 'app/store/utils/createLegoApiAction';
 
-export function fetchEmailUser(userId: EntityID): Thunk<any> {
-  return callAPI({
-    types: EmailUser.FETCH,
-    endpoint: `/email-users/${userId}/`,
-    schema: emailUserSchema,
-    meta: {
-      errorMessage: 'Henting av epostliste feilet',
-    },
-    propagateError: true,
-  });
-}
-export function createEmailUser(emailUser: EmailUserEntity): Thunk<any> {
-  return callAPI({
-    types: EmailUser.CREATE,
+export const fetchEmailUser = createLegoApiAction<
+  LegoApiSuccessPayload<
+    EntityType.EmailUsers | EntityType.Users | EntityType.Groups
+  >
+>()('EmailUser.FETCH', (_, userId: ID) => ({
+  endpoint: `/email-users/${userId}/`,
+  schema: emailUserSchema,
+  meta: {
+    errorMessage: 'Henting av epostliste feilet',
+  },
+  propagateError: true,
+}));
+
+export const createEmailUser = createLegoApiAction()(
+  'EmailUser.CREATE',
+  (_, emailUser: EmailUserEntity) => ({
     endpoint: '/email-users/',
     method: 'POST',
     schema: emailUserSchema,
@@ -25,11 +29,12 @@ export function createEmailUser(emailUser: EmailUserEntity): Thunk<any> {
     meta: {
       errorMessage: 'Opprettelse av epostliste feilet',
     },
-  });
-}
-export function editEmailUser(emailUser: EmailUserEntity): Thunk<any> {
-  return callAPI({
-    types: EmailUser.EDIT,
+  })
+);
+
+export const editEmailUser = createLegoApiAction()(
+  'EmailUser.EDIT',
+  (_, emailUser: EmailUserEntity) => ({
     endpoint: `/email-users/${emailUser.id}/`,
     method: 'PUT',
     schema: emailUserSchema,
@@ -37,31 +42,28 @@ export function editEmailUser(emailUser: EmailUserEntity): Thunk<any> {
     meta: {
       errorMessage: 'Endring av epostliste feilet',
     },
-  });
-}
-export function fetch({
-  next,
-  query,
-}: {
+  })
+);
+
+interface FetchEmailUserArgs {
   next?: boolean;
-  query: Record<string, any>;
-} = {}): Thunk<any> {
-  return (dispatch, getState) => {
-    return dispatch(
-      callAPI({
-        types: EmailUser.FETCH,
-        endpoint: '/email-users/',
-        useCache: false,
-        query,
-        pagination: {
-          fetchNext: !!next,
-        },
-        schema: [emailUserSchema],
-        meta: {
-          errorMessage: 'Henting av epostlister feilet',
-        },
-        propagateError: true,
-      })
-    );
-  };
+  query?: Record<string, string>;
 }
+
+export const fetch = createLegoApiAction<
+  LegoApiSuccessPayload<
+    EntityType.EmailUsers | EntityType.Users | EntityType.Groups
+  >
+>()('EmailUser.FETCH', (_, { next, query }: FetchEmailUserArgs = {}) => ({
+  endpoint: '/email-users/',
+  useCache: false,
+  query,
+  pagination: {
+    fetchNext: !!next,
+  },
+  schema: [emailUserSchema],
+  meta: {
+    errorMessage: 'Henting av epostlister feilet',
+  },
+  propagateError: true,
+}));

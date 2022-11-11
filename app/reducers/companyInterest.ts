@@ -1,34 +1,45 @@
+import { createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
-import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
-import createEntityReducer from 'app/utils/createEntityReducer';
-import { CompanyInterestForm } from '../actions/ActionTypes';
+import {
+  createCompanyInterest,
+  deleteCompanyInterest,
+  fetch,
+  fetchAll,
+} from 'app/actions/CompanyInterestActions';
+import type { ID } from 'app/store/models';
+import type CompanyInterest from 'app/store/models/CompanyInterest';
+import { EntityType } from 'app/store/models/Entities';
+import type { RootState } from 'app/store/rootReducer';
+import addEntityReducer, {
+  EntityReducerState,
+  getInitialEntityReducerState,
+} from 'app/store/utils/entityReducer';
 
-export type CompanyInterestEntity = {
-  id: number;
-  companyName: string;
-  mail: string;
-  contactPerson: string;
-  companyPresentation: boolean;
-  course: boolean;
-  breakfastTalk: boolean;
-  lunchPresentation: boolean;
-  readme: boolean;
-  collaboration: boolean;
-  comment: boolean;
-  semesters: Array<CompanySemesterEntity>;
-};
-export default createEntityReducer({
-  key: 'companyInterest',
-  types: {
-    fetch: CompanyInterestForm.FETCH_ALL,
-    mutate: CompanyInterestForm.CREATE,
-    delete: CompanyInterestForm.DELETE,
+export type CompanyInterestEntity = CompanyInterest;
+
+export type CompanyInterestsState = EntityReducerState<CompanyInterest>;
+
+const initialState: CompanyInterestsState = getInitialEntityReducerState();
+
+const companyInterestsSlice = createSlice({
+  name: EntityType.CompanyInterests,
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    addEntityReducer(builder, EntityType.CompanyInterests, {
+      fetch: [fetchAll, fetch],
+      mutate: createCompanyInterest,
+      delete: deleteCompanyInterest,
+    });
   },
 });
+
+export default companyInterestsSlice.reducer;
+
 export const selectCompanyInterestList = createSelector(
-  (state) => state.companyInterest.byId,
-  (state) => state.companyInterest.items,
-  (state, props) => props,
+  (state: RootState) => state.companyInterest.byId,
+  (state: RootState) => state.companyInterest.items,
+  (_: RootState, semesterId: ID) => semesterId,
   (companyInterestById, companyInterestIds, semesterId) => {
     const companyInterests = companyInterestIds.map(
       (id) => companyInterestById[id]
@@ -43,9 +54,10 @@ export const selectCompanyInterestList = createSelector(
     );
   }
 );
+
 export const selectCompanyInterestById = createSelector(
-  (state) => state.companyInterest.byId,
-  (state, props) => props.companyInterestId,
+  (state: RootState) => state.companyInterest.byId,
+  (_: RootState, companyInterestId: ID) => companyInterestId,
   (companyInterestById, companyInterestId) =>
     companyInterestById[companyInterestId]
 );

@@ -1,27 +1,48 @@
+import { createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
-import type { UserEntity } from 'app/reducers/users';
+import {
+  fetch,
+  fetchEmailUser,
+  createEmailUser,
+} from 'app/actions/EmailUserActions';
 import { selectUserWithGroups } from 'app/reducers/users';
-import createEntityReducer from 'app/utils/createEntityReducer';
-import { EmailUser } from '../actions/ActionTypes';
+import type { ID } from 'app/store/models';
+import type EmailUser from 'app/store/models/EmailUser';
+import { EntityType } from 'app/store/models/Entities';
+import type User from 'app/store/models/User';
+import type { RootState } from 'app/store/rootReducer';
+import type { EntityReducerState } from 'app/store/utils/entityReducer';
+import addEntityReducer, {
+  getInitialEntityReducerState,
+} from 'app/store/utils/entityReducer';
 
-export type EmailUserEntity = {
-  id: number;
-  user: UserEntity;
-  internalEmailEnabled: boolean;
-  internalEmail: string;
+export type EmailUserEntity = Omit<EmailUser, 'user'> & {
+  user: User;
 };
-export default createEntityReducer({
-  key: 'emailUsers',
-  types: {
-    fetch: EmailUser.FETCH,
-    mutate: EmailUser.CREATE,
+
+type EmailUserState = EntityReducerState<EmailUser>;
+
+const initialState: EmailUserState = getInitialEntityReducerState();
+
+const emailUsersSlice = createSlice({
+  name: EntityType.EmailUsers,
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    addEntityReducer(builder, EntityType.EmailUsers, {
+      fetch: [fetch, fetchEmailUser],
+      mutate: createEmailUser,
+    });
   },
 });
+
+export default emailUsersSlice.reducer;
+
 export const selectEmailUsers = createSelector(
-  (state) => state.emailUsers.byId,
-  (state) => state.users.byId,
-  (state) => state.emailUsers.items,
-  (_, { pagination }) => pagination,
+  (state: RootState) => state.emailUsers.byId,
+  (state: RootState) => state.users.byId,
+  (state: RootState) => state.emailUsers.items,
+  (_: RootState, { pagination }: { pagination: string }) => pagination,
   (state) => state,
   (
     emailUsersById,
@@ -42,16 +63,18 @@ export const selectEmailUsers = createSelector(
       }))
 );
 export const selectEmailUserById = createSelector(
-  (state) => state.emailUsers.byId,
-  (state) => state.users.byId,
-  (state, props) => props.emailUserId,
-  (emailUsersById, usersById, emailUserId) => {
+  (state: RootState) => state.emailUsers.byId,
+  (state: RootState) => state.users.byId,
+  (state: RootState, props: { emailUserId: ID }) => props.emailUserId,
+  (
+    emailUsersById,
+    usersById,
+    emailUserId
+  ): EmailUserEntity | Record<string, never> => {
     const emailUser = emailUsersById[emailUserId];
 
     if (!emailUser) {
-      return {
-        user: {},
-      };
+      return {};
     }
 
     return { ...emailUser, user: usersById[emailUser.user] };

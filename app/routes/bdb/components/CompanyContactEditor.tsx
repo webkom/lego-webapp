@@ -5,22 +5,20 @@ import Button from 'app/components/Button';
 import { Content } from 'app/components/Content';
 import { TextInput } from 'app/components/Form';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import type {
-  CompanyEntity,
-  CompanyContactEntity,
-} from 'app/reducers/companies';
+import type Company from 'app/store/models/Company';
+import type { CompanyContact } from 'app/store/models/Company';
 import { createValidator, required, isEmail } from 'app/utils/validation';
 import { DetailNavigation } from '../utils';
 import styles from './bdb.css';
 
 type Props = {
   submitFunction: (
-    arg0: CompanyContactEntity,
+    arg0: CompanyContact,
     arg1: Record<string, any> | null | undefined
   ) => Promise<any>;
-  handleSubmit: (arg0: (arg0: CompanyContactEntity) => Promise<any>) => void;
-  company: CompanyEntity;
-  companyContact?: CompanyContactEntity;
+  handleSubmit: (arg0: (arg0: CompanyContact) => Promise<any>) => void;
+  company: Company;
+  companyContact?: CompanyContact;
   submitting: boolean;
   autoFocus: any;
   fetching: boolean;

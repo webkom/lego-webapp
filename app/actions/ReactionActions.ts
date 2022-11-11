@@ -1,64 +1,50 @@
-import callAPI from 'app/actions/callAPI';
 import type { ID } from 'app/models';
+import Entities, { EntityType } from 'app/store/models/Entities';
 import { reactionSchema } from 'app/store/schemas';
-import type { Thunk } from 'app/types';
-import { Reaction } from './ActionTypes';
+import type { ContentTarget } from 'app/store/utils/contentTarget';
+import createLegoApiAction from 'app/store/utils/createLegoApiAction';
 
-export function addReaction({
-  emoji,
-  contentTarget,
-  unicodeString,
-}: {
+interface AddReactionArgs {
   emoji: string;
-  contentTarget: string;
+  contentTarget: ContentTarget;
   unicodeString: string;
-}): Thunk<any> {
-  return (dispatch) => {
-    return dispatch(
-      callAPI({
-        types: Reaction.ADD,
-        endpoint: '/reactions/',
-        method: 'POST',
-        body: {
-          emoji,
-          content_target: contentTarget,
-        },
-        meta: {
-          emoji,
-          contentTarget,
-          unicodeString,
-        },
-        schema: reactionSchema,
-      })
-    ).catch((action) => {
-      const status = action.payload.response.status;
-      let errorMessage = 'Reaksjon feilet';
-
-      if (status === 409) {
-        errorMessage = 'Du har allerede reagert med denne emojien';
-      } else if (status === 413) {
-        errorMessage = 'Du har reagert for mange ganger';
-      }
-
-      dispatch({
-        type: Reaction.ADD.FAILURE,
-        error: true,
-        meta: {
-          errorMessage,
-        },
-      });
-    });
-  };
 }
-export function deleteReaction({
-  reactionId,
-  contentTarget,
-}: {
+
+interface AddReactionSuccessPayload {
+  result: ID;
+  entities: Pick<Entities, EntityType.Reactions>;
+}
+
+export const addReaction = createLegoApiAction<
+  AddReactionSuccessPayload,
+  unknown
+>()(
+  'Reaction.ADD',
+  (_, { contentTarget, emoji, unicodeString }: AddReactionArgs) => ({
+    endpoint: '/reactions/',
+    method: 'POST',
+    body: {
+      emoji,
+      content_target: contentTarget,
+    },
+    meta: {
+      errorMessage: 'Reaksjon feilet',
+      emoji,
+      contentTarget,
+      unicodeString,
+    },
+    schema: reactionSchema,
+  })
+);
+
+interface DeleteReactionArgs {
   reactionId: ID;
-  contentTarget: string;
-}): Thunk<any> {
-  return callAPI({
-    types: Reaction.DELETE,
+  contentTarget: ContentTarget;
+}
+
+export const deleteReaction = createLegoApiAction()(
+  'Reaction.DELETE',
+  (_, { reactionId, contentTarget }: DeleteReactionArgs) => ({
     endpoint: `/reactions/${reactionId}/`,
     method: 'DELETE',
     meta: {
@@ -66,5 +52,5 @@ export function deleteReaction({
       contentTarget,
       errorMessage: 'Sletting av reaksjon feilet',
     },
-  });
-}
+  })
+);

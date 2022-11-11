@@ -1,124 +1,108 @@
-import { addToast } from 'app/actions/ToastActions';
-import callAPI from 'app/actions/callAPI';
 import type { CompanyInterestEntity } from 'app/reducers/companyInterest';
+import { addToast } from 'app/reducers/toasts';
 import { companyInterestSchema } from 'app/store/schemas';
-import type { Thunk } from 'app/types';
-import { CompanyInterestForm } from './ActionTypes';
+import createLegoApiAction from 'app/store/utils/createLegoApiAction';
 
-export function fetchAll(): Thunk<any> {
-  return callAPI({
-    types: CompanyInterestForm.FETCH_ALL,
+export const fetchAll = createLegoApiAction()(
+  'CompanyInterestForm.FETCH_ALL',
+  () => ({
     endpoint: '/company-interests/',
     schema: [companyInterestSchema],
     meta: {
       errorMessage: 'Henting av bedriftsinteresser feilet',
     },
-  });
-}
-export function fetchCompanyInterest(companyInterestId: number): Thunk<any> {
-  return callAPI({
-    types: CompanyInterestForm.FETCH,
-    endpoint: `/company-interests/${companyInterestId}/`,
+  })
+);
+
+export const fetchCompanyInterest = createLegoApiAction()(
+  'CompanyInterestForm.FETCH',
+  (_, id: number) => ({
+    endpoint: `/company-interests/${id}/`,
     schema: companyInterestSchema,
     meta: {
       errorMessage: 'Henting av bedriftsinteresse feilet',
     },
-  });
-}
-export function createCompanyInterest(
-  data: CompanyInterestEntity,
-  isEnglish: boolean
-): Thunk<any> {
-  return (dispatch) => {
-    return dispatch(
-      callAPI({
-        types: CompanyInterestForm.CREATE,
-        endpoint: '/company-interests/',
-        method: 'POST',
-        schema: companyInterestSchema,
-        body: data,
-        meta: {
-          errorMessage: 'Opprette bedriftsinteresse feilet',
-        },
-      })
-    ).then(() =>
+  })
+);
+
+export const createCompanyInterest = createLegoApiAction()(
+  'CompanyInterestForm.CREATE',
+  (_, data: CompanyInterestEntity, isEnglish: boolean) => ({
+    endpoint: '/company-interests/',
+    method: 'POST',
+    schema: companyInterestSchema,
+    body: data,
+    meta: {
+      isEnglish,
+    },
+  }),
+  {
+    onSuccess: (action, dispatch) => {
       dispatch(
         addToast({
-          message: isEnglish
-            ? 'Submission successful!'
-            : 'Bedriftsinteresse opprettet!',
+          message: action.meta.isEnglish
+            ? 'Company interest created'
+            : 'Bedriftsinteresse opprettet',
         })
-      )
-    );
-  };
-}
-export function deleteCompanyInterest(id: number): Thunk<any> {
-  return (dispatch) => {
-    return dispatch(
-      callAPI({
-        types: CompanyInterestForm.DELETE,
-        endpoint: `/company-interests/${id}/`,
-        method: 'DELETE',
-        meta: {
-          id,
-          errorMessage: 'Fjerning av bedriftsinteresse feilet!',
-        },
-      })
-    ).then(() =>
+      );
+    },
+    onFailure: (action, dispatch) => {
       dispatch(
         addToast({
-          message: 'Bedriftsinteresse fjernet!',
+          message: action.meta.isEnglish
+            ? 'Failed to create company interest'
+            : 'Opprette bedriftsinteresse feilet',
         })
-      )
-    );
-  };
+      );
+    },
+  }
+);
+
+export const deleteCompanyInterest = createLegoApiAction()(
+  'CompanyInterestForm.DELETE',
+  (_, id: number) => ({
+    endpoint: `/company-interests/${id}/`,
+    method: 'DELETE',
+    meta: {
+      id,
+      successMessage: 'Bedriftsinteresse slettet',
+      errorMessage: 'Fjerning av bedriftsinteresse feilet!',
+    },
+  })
+);
+
+export const updateCompanyInterest = createLegoApiAction()(
+  'CompanyInterestForm.UPDATE',
+  (_, id: number, data: CompanyInterestEntity) => ({
+    endpoint: `/company-interests/${id}/`,
+    method: 'PATCH',
+    body: data,
+    meta: {
+      companyInterestId: id,
+      successMessage: 'Bedriftsinteresse endret',
+      errorMessage: 'Endring av bedriftsinteresse feilet!',
+    },
+  })
+);
+
+interface FetchCompanyInterestsArgs {
+  next?: boolean;
+  filters?: Record<string, any>;
 }
-export function updateCompanyInterest(
-  id: number,
-  data: CompanyInterestEntity
-): Thunk<any> {
-  return (dispatch) => {
-    return dispatch(
-      callAPI({
-        types: CompanyInterestForm.UPDATE,
-        endpoint: `/company-interests/${id}/`,
-        method: 'PATCH',
-        body: data,
-        meta: {
-          companyInterestId: id,
-          errorMessage: 'Endring av bedriftsinteresse feilet!',
-        },
-      })
-    ).then(() =>
-      dispatch(
-        addToast({
-          message: 'Bedriftsinteresse endret!',
-        })
-      )
-    );
-  };
-}
-export function fetch({
-  next,
-  filters,
-}: {
-  next: boolean;
-  filters: Record<string, any>;
-} = {}): Thunk<any> {
-  return (dispatch, getState) => {
+
+export const fetch = createLegoApiAction()(
+  'CompanyInterestForm.FETCH_ALL',
+  ({ getState }, { next, filters }: FetchCompanyInterestsArgs = {}) => {
     const cursor = next ? getState().companyInterest.pagination.next : {};
-    return dispatch(
-      callAPI({
-        types: CompanyInterestForm.FETCH_ALL,
-        endpoint: '/company-interests/',
-        useCache: false,
-        query: { ...cursor, ...filters },
-        schema: [companyInterestSchema],
-        meta: {
-          errorMessage: 'Henting av bedriftsinteresser feilet',
-        },
-        propagateError: true,
-      })
-    );
-  };
-}
+    return {
+      endpoint: '/company-interests/',
+      useCache: false,
+      query: { ...cursor, ...filters },
+      schema: [companyInterestSchema],
+      meta: {
+        errorMessage: 'Henting av bedriftsinteresser feilet',
+      },
+      propagateError: true,
+    };
+  }
+);

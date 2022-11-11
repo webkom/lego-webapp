@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import { Field } from 'redux-form';
+import type { addSemesterStatus } from 'app/actions/CompanyActions';
 import Button from 'app/components/Button';
 import { Content } from 'app/components/Content';
 import { TextInput, RadioButton, RadioButtonGroup } from 'app/components/Form';
@@ -17,8 +18,7 @@ import styles from './bdb.css';
 
 type Props = {
   addSemesterStatus: (
-    arg0: Record<string, any>,
-    arg1: Record<string, any> | null | undefined
+    ...args: Parameters<typeof addSemesterStatus>
   ) => Promise<any>;
   handleSubmit: (
     arg0: (arg0: Record<string, any>) => Promise<any> | null | undefined
@@ -67,7 +67,7 @@ export default class AddSemester extends Component<Props, State> {
       return addSemester({
         year,
         semester,
-      } as Record<string, any>).then((response) => {
+      }).then((response) => {
         addSemesterStatus(
           {
             companyId,

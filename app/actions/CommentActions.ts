@@ -1,52 +1,48 @@
-import callAPI from 'app/actions/callAPI';
-import type { ID } from 'app/models';
+import type { ID } from 'app/store/models';
+import type { EntityType } from 'app/store/models/Entities';
 import { commentSchema } from 'app/store/schemas';
-import type { Thunk } from 'app/types';
-import { Comment } from './ActionTypes';
+import type { ContentTarget } from 'app/store/utils/contentTarget';
+import createLegoApiAction, {
+  LegoApiSuccessPayload,
+} from 'app/store/utils/createLegoApiAction';
 
-export type CommentEntity = {
+interface AddCommentArgs {
   text: string;
-  contentTarget: string;
-  parent?: number;
-};
-export function addComment({
-  text,
-  contentTarget,
-  parent,
-}: CommentEntity): Thunk<Promise<Record<string, any> | null | undefined>> {
-  return callAPI({
-    types: Comment.ADD,
-    endpoint: '/comments/',
-    method: 'POST',
-    body: {
-      text,
-      content_target: contentTarget,
-      ...(parent
-        ? {
-            parent,
-          }
-        : {}),
-    },
-    meta: {
-      contentTarget,
-      errorMessage: 'Kommentering feilet',
-    },
-    schema: commentSchema,
-  });
+  contentTarget: ContentTarget;
+  parent?: ID;
 }
-export function deleteComment(
-  commentId: ID,
-  contentTarget: string
-): Thunk<any> {
-  return callAPI({
-    types: Comment.DELETE,
-    endpoint: `/comments/${commentId}/`,
+
+export const addComment = createLegoApiAction<
+  LegoApiSuccessPayload<EntityType.Comments>
+>()('Comment.ADD', (_, { text, contentTarget, parent }: AddCommentArgs) => ({
+  endpoint: '/comments/',
+  method: 'POST',
+  body: {
+    text,
+    content_target: contentTarget,
+    ...(parent
+      ? {
+          parent,
+        }
+      : {}),
+  },
+  meta: {
+    contentTarget,
+    errorMessage: 'Kommentering feilet',
+  },
+  schema: commentSchema,
+}));
+
+export const deleteComment = createLegoApiAction()(
+  'Comment.DELETE',
+  (_, id: ID, contentTarget: ContentTarget) => ({
+    endpoint: `/comments/${id}/`,
     method: 'DELETE',
     meta: {
-      id: commentId,
+      id,
       contentTarget,
       errorMessage: 'Sletting av kommentar feilet',
       successMessage: 'Kommentar slettet',
     },
-  });
-}
+  })
+);

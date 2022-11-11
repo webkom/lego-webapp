@@ -1,11 +1,11 @@
-import { fetchMeta } from 'app/actions/MetaActions';
+import { fetchMeta, IsAllowedMap } from 'app/actions/MetaActions';
 import allowed from '../allowed';
 
 describe('reducers', () => {
   describe('allowed', () => {
-    it('should set allowed on Meta.FETCH.SUCCESS', () => {
+    it('should set allowed on fetchMeta.success', () => {
       const prevState = undefined;
-      const isAllowed = {
+      const isAllowed: IsAllowedMap = {
         events: true,
         articles: true,
         joblistings: true,

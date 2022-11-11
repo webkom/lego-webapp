@@ -1,4 +1,4 @@
-import { RootState } from 'app/store/rootReducer';
+import type { RootState } from 'app/store/rootReducer';
 import type { Middleware as ReduxMiddleware } from 'redux';
 import type {
   StartSubmitAction,
@@ -6,11 +6,11 @@ import type {
   InitializeAction,
 } from 'redux-form';
 
-export type AsyncActionType = {
-  BEGIN: string;
-  SUCCESS: string;
-  FAILURE: string;
-};
+export interface AsyncActionType<PrefixType extends string = string> {
+  BEGIN: `${PrefixType}.BEGIN`;
+  SUCCESS: `${PrefixType}.SUCCESS`;
+  FAILURE: `${PrefixType}.FAILURE`;
+}
 export type AsyncActionTypeArray = [string, string, string];
 export type EntityID = number;
 export type ArticleEntity = {

@@ -1,13 +1,11 @@
 import type { ContactForm } from 'app/reducers/contact';
-import type { Thunk } from 'app/types';
-import { Contact } from './ActionTypes';
-import callAPI from './callAPI';
+import createLegoApiAction from 'app/store/utils/createLegoApiAction';
 
-export function sendContactMessage(contactForm: ContactForm): Thunk<any> {
-  return callAPI({
-    types: Contact.SEND_MESSAGE,
+export const sendContactMessage = createLegoApiAction()(
+  'Contact.SEND_MESSAGE',
+  (_, contactForm: ContactForm) => ({
     method: 'POST',
     endpoint: '/contact-form/',
     body: contactForm,
-  });
-}
+  })
+);

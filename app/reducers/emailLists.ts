@@ -1,32 +1,37 @@
+import { createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
-import { mutateComments } from 'app/reducers/comments';
-import createEntityReducer from 'app/utils/createEntityReducer';
-import { EmailList } from '../actions/ActionTypes';
+import {
+  createEmailList,
+  fetch,
+  fetchEmailList,
+} from 'app/actions/EmailListActions';
+import type EmailList from 'app/store/models/EmailList';
+import { EntityType } from 'app/store/models/Entities';
+import addEntityReducer, {
+  EntityReducerState,
+  getInitialEntityReducerState,
+} from 'app/store/utils/entityReducer';
 
-export type EmailListEntity = {
-  id: number;
-  title: string;
-  contentTarget: string;
-  description: string;
-  author: number;
-  cover: string;
-  createdAt: string;
-  content: string;
-  startTime: string;
-  text: string;
-  tags: Array<string>;
-  actionGrant: Record<string, any>;
-  comments: Array<number>;
-};
-const mutate = mutateComments('emailLists');
-export default createEntityReducer({
-  key: 'emailLists',
-  types: {
-    fetch: EmailList.FETCH,
-    mutate: EmailList.CREATE,
+export type EmailListEntity = EmailList;
+
+export type EmailListsState = EntityReducerState<EmailList>;
+
+const initialState: EmailListsState = getInitialEntityReducerState();
+
+const emailListsSlice = createSlice({
+  name: EntityType.EmailLists,
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    addEntityReducer(builder, EntityType.CompanySemesters, {
+      fetch: [fetch, fetchEmailList],
+      mutate: createEmailList,
+    });
   },
-  mutate,
 });
+
+export default emailListsSlice.reducer;
+
 export const selectEmailLists = createSelector(
   (state) => state.emailLists.byId,
   (state) => state.emailLists.items,

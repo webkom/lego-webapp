@@ -1,6 +1,7 @@
 import moment from 'moment-timezone';
 import { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
+import type { deleteComment } from 'app/actions/CommentActions';
 import CommentView from 'app/components/Comments/CommentView';
 import {
   Content,
@@ -122,7 +123,7 @@ type Props = {
     feedback: string
   ) => Promise<any>;
   deleteEvent: (eventId: ID) => Promise<any>;
-  deleteComment: (id: ID, contentTarget: string) => Promise<any>;
+  deleteComment: typeof deleteComment;
   currentUserFollowing: FollowerItem | null | undefined;
 };
 type State = {

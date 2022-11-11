@@ -1,166 +1,173 @@
+import { createSlice } from '@reduxjs/toolkit';
 import { produce } from 'immer';
 import { groupBy, orderBy, without } from 'lodash';
 import moment from 'moment-timezone';
 import { normalize } from 'normalizr';
 import { createSelector } from 'reselect';
+import {
+  deleteEvent,
+  fetchAdministrate,
+  fetchEvent,
+  fetchList,
+  fetchPrevious,
+  fetchUpcoming,
+  register,
+} from 'app/actions/EventActions';
+import {
+  socketEventUpdated,
+  socketRegistrationFailure,
+  socketRegistrationSuccess,
+  socketUnregistrationSuccess,
+} from 'app/actions/WebsocketActions';
 import config from 'app/config';
-import { mutateComments } from 'app/reducers/comments';
+import type { ID } from 'app/store/models';
+import { EntityType } from 'app/store/models/Entities';
+import type Event from 'app/store/models/Event';
+import type { RootState } from 'app/store/rootReducer';
 import { eventSchema } from 'app/store/schemas';
-import createEntityReducer from 'app/utils/createEntityReducer';
-import joinReducers from 'app/utils/joinReducers';
+import type { EntityReducerState } from 'app/store/utils/entityReducer';
+import addEntityReducer, {
+  getInitialEntityReducerState,
+} from 'app/store/utils/entityReducer';
 import mergeObjects from 'app/utils/mergeObjects';
-import { Event } from '../actions/ActionTypes';
-import type { PhotoConsent } from '../models';
 
-export type EventEntity = {
-  id: number;
-  title: string;
-  comments: Array<number>;
-  photoConsents?: Array<PhotoConsent>;
-};
-type State = any;
-const mutateEvent = produce((newState: State, action: any): void => {
-  switch (action.type) {
-    case Event.FETCH_PREVIOUS.SUCCESS:
-      for (const eventId in action.payload.entities.events) {
-        const event = action.payload.entities.events[eventId];
-        newState.byId[eventId] = produce(event, (e): void => {
-          e.isUsersUpcoming = false;
-        });
-      }
+export type EventEntity = Event;
 
-      break;
+export type EventsState = EntityReducerState<Event>;
 
-    case Event.FETCH_UPCOMING.SUCCESS:
-      for (const eventId in action.payload.entities.events) {
-        const event = action.payload.entities.events[eventId];
-        newState.byId[eventId] = produce(event, (e): void => {
-          e.isUsersUpcoming = true;
-        });
-      }
+const initialState: EventsState = getInitialEntityReducerState();
 
-      break;
+const eventsSlice = createSlice({
+  name: EntityType.Events,
+  initialState,
+  reducers: {
+    clear: (state) => {
+      state.items = [];
+      state.pagination = {};
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchPrevious.success, (state, action) => {
+        for (const eventId in action.payload.entities.events) {
+          const event = action.payload.entities.events[eventId];
+          state.byId[eventId] = produce(event, (e): void => {
+            e.isUsersUpcoming = false;
+          });
+        }
+      })
+      .addCase(fetchUpcoming.success, (state, action) => {
+        for (const eventId in action.payload.entities.events) {
+          const event = action.payload.entities.events[eventId];
+          state.byId[eventId] = produce(event, (e): void => {
+            e.isUsersUpcoming = true;
+          });
+        }
+      })
+      .addCase(deleteEvent.success, (state, action) => {
+        state.items = without(state.items, action.meta.id);
+      })
+      .addCase(socketEventUpdated, (state, action) => {
+        const events = normalize(action.payload, eventSchema).entities.events;
+        state.byId = mergeObjects(state.byId, events);
+      })
+      .addCase(register.begin, (state, action) => {
+        state.byId[action.meta.id].loading = true;
+      })
+      .addCase(socketRegistrationSuccess, (state, action) => {
+        const eventId = action.meta.eventId;
+        const registration = action.payload;
+        const stateEvent = state.byId[eventId];
 
-    case Event.DELETE.SUCCESS:
-      newState.items = without(newState.items, action.meta.id);
-      break;
+        if (!stateEvent) {
+          return;
+        }
 
-    case Event.SOCKET_EVENT_UPDATED: {
-      const events = normalize(action.payload, eventSchema).entities.events;
-      newState.byId = mergeObjects(newState.byId, events);
-      break;
-    }
+        let registrationCount = stateEvent.registrationCount;
+        let waitingRegistrations = stateEvent.waitingRegistrations;
+        let waitingRegistrationCount = stateEvent.waitingRegistrationCount;
 
-    case Event.CLEAR:
-      newState.items = [];
-      newState.pagination = {};
-      break;
+        if (!registration.pool) {
+          waitingRegistrationCount = waitingRegistrationCount + 1;
 
-    case Event.REQUEST_REGISTER.BEGIN:
-      newState.byId[action.meta.id].loading = true;
-      break;
+          if (waitingRegistrations) {
+            waitingRegistrations = [...waitingRegistrations, registration.id];
+          }
+        } else {
+          registrationCount++;
+        }
 
-    case Event.SOCKET_REGISTRATION.SUCCESS: {
-      const eventId = action.meta.eventId;
-      const registration = action.payload;
-      const stateEvent = newState.byId[eventId];
-
-      if (!stateEvent) {
-        return;
-      }
-
-      let registrationCount = stateEvent.registrationCount;
-      let waitingRegistrations = stateEvent.waitingRegistrations;
-      let waitingRegistrationCount = stateEvent.waitingRegistrationCount;
-
-      if (!registration.pool) {
-        waitingRegistrationCount = waitingRegistrationCount + 1;
+        stateEvent.loading = false;
+        stateEvent.registrationCount = registrationCount;
+        stateEvent.waitingRegistrationCount = waitingRegistrationCount;
 
         if (waitingRegistrations) {
-          waitingRegistrations = [...waitingRegistrations, registration.id];
+          stateEvent.waitingRegistrations = waitingRegistrations;
         }
-      } else {
-        registrationCount++;
-      }
+      })
+      .addCase(socketUnregistrationSuccess, (state, action) => {
+        const {
+          eventId,
+          activationTime: activationTimeFromMeta,
+          fromPool,
+          currentUser,
+        } = action.meta;
+        const stateEvent = state.byId[eventId];
+        const registration = action.payload;
 
-      stateEvent.loading = false;
-      stateEvent.registrationCount = registrationCount;
-      stateEvent.waitingRegistrationCount = waitingRegistrationCount;
+        if (!stateEvent) {
+          return;
+        }
 
-      if (waitingRegistrations) {
-        stateEvent.waitingRegistrations = waitingRegistrations;
-      }
+        const isMe =
+          (registration.user && registration.user.id) === currentUser.id;
+        stateEvent.loading = false;
 
-      break;
-    }
+        if (isMe) {
+          stateEvent.activationTime = activationTimeFromMeta;
+        }
 
-    case Event.SOCKET_UNREGISTRATION.SUCCESS: {
-      const {
-        eventId,
-        activationTime: activationTimeFromMeta,
-        fromPool,
-        currentUser,
-      } = action.meta;
-      const stateEvent = newState.byId[eventId];
-      const registration = action.payload;
+        if (fromPool) {
+          stateEvent.registrationCount--;
+        } else {
+          stateEvent.waitingRegistrationCount--;
+        }
 
-      if (!stateEvent) {
-        return;
-      }
+        if (stateEvent.waitingRegistrations) {
+          stateEvent.waitingRegistrations =
+            stateEvent.waitingRegistrations.filter(
+              (id) => id !== action.payload.id
+            );
+        }
+      })
+      .addCase(socketRegistrationFailure, (state, action) => {
+        if (state.byId[action.meta.eventId]) {
+          state.byId[action.meta.eventId].loading = false;
+        }
+      })
+      .addCase(register.failure, (state, action) => {
+        if (state.byId[action.meta.id]) {
+          state.byId[action.meta.id].loading = false;
+        }
+      });
 
-      const isMe =
-        (registration.user && registration.user.id) === currentUser.id;
-      stateEvent.loading = false;
-
-      if (isMe) {
-        stateEvent.activationTime = activationTimeFromMeta;
-      }
-
-      if (fromPool) {
-        stateEvent.registrationCount--;
-      } else {
-        stateEvent.waitingRegistrationCount--;
-      }
-
-      if (stateEvent.waitingRegistrations) {
-        stateEvent.waitingRegistrations =
-          stateEvent.waitingRegistrations.filter(
-            (id) => id !== action.payload.id
-          );
-      }
-
-      break;
-    }
-
-    case Event.SOCKET_REGISTRATION.FAILURE:
-      if (newState.byId[action.meta.eventId]) {
-        newState.byId[action.meta.eventId].loading = false;
-      }
-
-      break;
-
-    case Event.REQUEST_REGISTER.FAILURE:
-      if (newState.byId[action.meta.id]) {
-        newState.byId[action.meta.id].loading = false;
-      }
-
-      break;
-
-    default:
-      break;
-  }
-});
-const mutate = joinReducers(mutateComments('events'), mutateEvent);
-export default createEntityReducer({
-  key: 'events',
-  types: {
-    fetch: [Event.FETCH, Event.FETCH_PREVIOUS, Event.FETCH_UPCOMING],
-    delete: Event.DELETE,
+    addEntityReducer(builder, EntityType.Events, {
+      fetch: [
+        fetchEvent,
+        fetchList,
+        fetchAdministrate,
+        fetchPrevious,
+        fetchUpcoming,
+      ],
+      delete: deleteEvent,
+    });
   },
-  mutate,
 });
 
-function transformEvent(event) {
+export default eventsSlice.reducer;
+export const { clear } = eventsSlice.actions;
+
+function transformEvent(event: Event): EventEntity {
   return {
     ...event,
     startTime: moment(event.startTime),
@@ -181,8 +188,8 @@ function transformRegistration(registration) {
 }
 
 export const selectEvents = createSelector(
-  (state) => state.events.byId,
-  (state) => state.events.items,
+  (state: RootState) => state.events.byId,
+  (state: RootState) => state.events.items,
   (eventsById, eventIds) => eventIds.map((id) => transformEvent(eventsById[id]))
 );
 export const selectPreviousEvents = createSelector(selectEvents, (events) =>
@@ -195,8 +202,8 @@ export const selectSortedEvents = createSelector(selectEvents, (events) =>
   events.sort((a, b) => a.startTime - b.startTime)
 );
 export const selectEventById = createSelector(
-  (state) => state.events.byId,
-  (state, props) => props.eventId,
+  (state: RootState) => state.events.byId,
+  (state: RootState, props: { eventId: ID }) => props.eventId,
   (eventsById, eventId) => {
     const event = eventsById[eventId];
 
@@ -204,12 +211,12 @@ export const selectEventById = createSelector(
       return transformEvent(event);
     }
 
-    return {};
+    return {} as Record<string, never>;
   }
 );
 export const selectPoolsForEvent = createSelector(
   selectEventById,
-  (state) => state.pools.byId,
+  (state: RootState) => state.pools.byId,
   (event, poolsById) => {
     if (!event) return [];
     return (event.pools || []).map((poolId) => poolsById[poolId]);
@@ -217,8 +224,8 @@ export const selectPoolsForEvent = createSelector(
 );
 export const selectPoolsWithRegistrationsForEvent = createSelector(
   selectPoolsForEvent,
-  (state) => state.registrations.byId,
-  (state) => state.users.byId,
+  (state: RootState) => state.registrations.byId,
+  (state: RootState) => state.users.byId,
   (pools, registrationsById, usersById) =>
     pools.map((pool) => ({
       ...pool,
@@ -262,8 +269,8 @@ export const selectMergedPool = createSelector(selectPoolsForEvent, (pools) => {
 });
 export const selectMergedPoolWithRegistrations = createSelector(
   selectPoolsForEvent,
-  (state) => state.registrations.byId,
-  (state) => state.users.byId,
+  (state: RootState) => state.registrations.byId,
+  (state: RootState) => state.users.byId,
   (pools, registrationsById, usersById) => {
     if (pools.length === 0) return [];
     return [
@@ -304,10 +311,10 @@ export const selectMergedPoolWithRegistrations = createSelector(
   }
 );
 export const selectAllRegistrationsForEvent = createSelector(
-  (state) => state.registrations.byId,
-  (state) => state.registrations.items,
-  (state) => state.users.byId,
-  (state, props) => props.eventId,
+  (state: RootState) => state.registrations.byId,
+  (state: RootState) => state.registrations.items,
+  (state: RootState) => state.users.byId,
+  (state: RootState, props: { eventId: ID }) => props.eventId,
   (registrationsById, registrationItems, usersById, eventId) =>
     registrationItems
       .map((regId) => registrationsById[regId])
@@ -336,8 +343,8 @@ export const selectAllRegistrationsForEvent = createSelector(
 );
 export const selectWaitingRegistrationsForEvent = createSelector(
   selectEventById,
-  (state) => state.registrations.byId,
-  (state) => state.users.byId,
+  (state: RootState) => state.registrations.byId,
+  (state: RootState) => state.users.byId,
   (event, registrationsById, usersById) => {
     if (!event) return [];
     return (event.waitingRegistrations || []).map((regId) => {
@@ -348,7 +355,7 @@ export const selectWaitingRegistrationsForEvent = createSelector(
 );
 export const selectRegistrationForEventByUserId = createSelector(
   selectAllRegistrationsForEvent,
-  (state, props) => props.userId,
+  (state: RootState, props: { userId: ID }) => props.userId,
   (registrations, userId) => {
     const userReg = registrations.filter((reg) => reg.user.id === userId);
     return userReg.length > 0 ? userReg[0] : null;
@@ -356,7 +363,7 @@ export const selectRegistrationForEventByUserId = createSelector(
 );
 export const selectCommentsForEvent = createSelector(
   selectEventById,
-  (state) => state.comments.byId,
+  (state: RootState) => state.comments.byId,
   (event, commentsById) => {
     if (!event) return [];
     return (event.comments || []).map((commentId) => commentsById[commentId]);
@@ -366,7 +373,6 @@ export const selectRegistrationsFromPools = createSelector(
   selectPoolsWithRegistrationsForEvent,
   (pools) =>
     orderBy(
-      // $FlowFixMe
       pools.flatMap((pool) => pool.registrations || []),
       'sharedMemberships',
       'desc'

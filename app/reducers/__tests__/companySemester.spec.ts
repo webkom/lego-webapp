@@ -1,34 +1,34 @@
-import { Company } from '../../actions/ActionTypes';
-import companySemesters from '../companySemesters';
+import { addSemester } from 'app/actions/CompanyActions';
+import { Semester } from 'app/store/models';
+import { getInitialEntityReducerState } from 'app/store/utils/entityReducer';
+import companySemesters, { CompanySemestersState } from '../companySemesters';
 
 describe('reducers', () => {
   describe('company semester', () => {
     it('Company.ADD_SEMESTER.SUCCESS', () => {
-      const prevState = {
-        actionGrant: [],
-        pagination: {},
+      const prevState: CompanySemestersState = {
+        ...getInitialEntityReducerState(),
         items: [1],
         byId: {
           1: {
             id: 1,
             year: 2001,
-            semester: 'spring',
+            semester: Semester.Spring,
             activeInterestForm: false,
           },
         },
       };
-      const action = {
-        type: Company.ADD_SEMESTER.SUCCESS,
+      const action = addSemester.success({
         payload: {
           id: 2,
           year: 2001,
-          semester: 'autumn',
+          semester: Semester.Autumn,
           activeInterestForm: false,
         },
-      };
+        meta: {} as any,
+      });
       expect(companySemesters(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
+        ...getInitialEntityReducerState(),
         items: [1, 2],
         byId: {
           1: {

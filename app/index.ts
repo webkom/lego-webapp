@@ -24,8 +24,7 @@ import {
   maybeRefreshToken,
 } from 'app/actions/UserActions';
 import config from 'app/config';
-import createStore from 'app/store/store';
-import { history } from 'app/utils/configureStore';
+import createStore, { history } from 'app/store/store';
 import renderApp from './render';
 
 console.error(`

@@ -33,14 +33,14 @@ export interface FetchMetaSuccessPayload {
   isAllowed: IsAllowedMap;
 }
 
-export const fetchMeta = createLegoApiAction<FetchMetaSuccessPayload, unknown>(
-  'Meta.FETCH',
-  () => ({
-    useCache: false,
-    endpoint: '/site-meta/',
-    meta: {
-      errorMessage: 'Noe gikk galt med innlastingen av sida',
-    },
-    propagateError: true,
-  })
-);
+export const fetchMeta = createLegoApiAction<
+  FetchMetaSuccessPayload,
+  unknown
+>()('Meta.FETCH', () => ({
+  useCache: false,
+  endpoint: '/site-meta/',
+  meta: {
+    errorMessage: 'Noe gikk galt med innlastingen av sida',
+  },
+  propagateError: true,
+}));

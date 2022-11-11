@@ -1,12 +1,10 @@
-import { Toasts } from '../../actions/ActionTypes';
-import toasts from '../toasts';
+import toasts, { addToast, removeToast } from '../toasts';
 
 describe('reducers', () => {
   describe('toasts', () => {
     it('Toasts should populate default state correctly', () => {
       const prevState = undefined;
-      const randomAction = {};
-      expect(toasts(prevState, randomAction)).toEqual({
+      expect(toasts(prevState, { type: 'RANDOM' })).toEqual({
         items: [],
       });
     });
@@ -20,14 +18,10 @@ describe('reducers', () => {
           },
         ],
       };
-      const action = {
-        type: Toasts.TOAST_ADDED,
-        payload: {
-          id: 2,
-          message: 'hi',
-          removed: false,
-        },
-      };
+      const action = addToast({
+        id: 2,
+        message: 'hi',
+      });
       expect(toasts(prevState, action)).toEqual({
         items: [
           {
@@ -53,12 +47,7 @@ describe('reducers', () => {
           },
         ],
       };
-      const action = {
-        type: Toasts.TOAST_REMOVED,
-        payload: {
-          id: 1,
-        },
-      };
+      const action = removeToast(1);
       expect(toasts(prevState, action)).toEqual({
         items: [
           {

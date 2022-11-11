@@ -2,10 +2,7 @@
  *
  */
 export default function createQueryString(
-  query: Record<
-    string,
-    (string | null | undefined) | (number | null | undefined)
-  >
+  query: Record<string, string | number>
 ): string {
   const queryString = Object.keys(query)
     .filter((key) => typeof query[key] === 'number' || !!query[key])

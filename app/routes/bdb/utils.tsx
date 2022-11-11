@@ -6,7 +6,8 @@ import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import type { Semester, CompanySemesterContactedStatus } from 'app/models';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
-import type { Node } from 'react';
+import type { ID } from 'app/store/models';
+import type { ReactNode } from 'react';
 
 export const statusStrings = {
   company_presentation: 'Bedpres',
@@ -89,7 +90,7 @@ export const indexToSemester = (
   startYear: number,
   startSem: number,
   companySemesters?: Array<CompanySemesterEntity>
-) => {
+): CompanySemesterEntity => {
   const semester = semesterNameOf(((index % 2) + startSem) % 2);
   let year = 0;
 
@@ -165,9 +166,9 @@ export const DetailNavigation = ({
   companyId,
   deleteFunction,
 }: {
-  title: Node;
-  companyId: number;
-  deleteFunction: (arg0: number) => Promise<any>;
+  title: ReactNode;
+  companyId: ID;
+  deleteFunction: (id: ID) => Promise<unknown>;
 }) => (
   <NavigationTab
     title={title}

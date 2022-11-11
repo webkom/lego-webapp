@@ -2,6 +2,7 @@ import throttle from 'lodash/throttle';
 import { Component, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useSwipeable, RIGHT, LEFT } from 'react-swipeable';
+import { deleteComment } from 'app/actions/CommentActions';
 import Button from 'app/components/Button';
 import CommentView from 'app/components/Comments/CommentView';
 import { Content } from 'app/components/Content';
@@ -11,9 +12,8 @@ import { Image } from 'app/components/Image';
 import { Flex } from 'app/components/Layout';
 import Modal from 'app/components/Modal';
 import ProgressiveImage from 'app/components/ProgressiveImage';
-import type { ID } from 'app/models';
 import type { EntityID } from 'app/types';
-import { Keyboard } from '../../../utils/constants';
+import { Keyboard } from 'app/utils/constants';
 import GalleryDetailsRow from './GalleryDetailsRow';
 import styles from './GalleryPictureModal.css';
 
@@ -37,7 +37,7 @@ type Props = {
   ) => Promise<any>;
   isFirstImage: boolean;
   isLastImage: boolean;
-  deleteComment: (id: ID, contentTarget: string) => Promise<any>;
+  deleteComment: typeof deleteComment;
 };
 type State = {
   showMore: boolean;

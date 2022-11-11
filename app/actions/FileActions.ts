@@ -1,9 +1,8 @@
 import slug from 'slugify';
-import type { Thunk } from 'app/types';
-import { File as FileType } from './ActionTypes';
-import callAPI from './callAPI';
+import type { AppDispatch } from 'app/store/store';
+import createLegoApiAction from 'app/store/utils/createLegoApiAction';
 
-const slugifyFilename: (filename: string) => string = (filename) => {
+const slugifyFilename = (filename: string): string => {
   // Slug options
   const slugOpts = {
     replacement: '-',
@@ -23,58 +22,80 @@ const slugifyFilename: (filename: string) => string = (filename) => {
   return slug(filename, slugOpts);
 };
 
-export function fetchSignedPost(key: string, isPublic: boolean): Thunk<any> {
-  return callAPI({
-    types: FileType.FETCH_SIGNED_POST,
+interface FetchSignedPostSuccessPayload {
+  url: string;
+  file_key: string;
+  file_token: string;
+  fields: {
+    success_action_redirect: string;
+    acl: string;
+    'Content-Type': string;
+    key: string;
+    'x-amz-algorithm': string;
+    'x-amz-credential': string;
+    'x-amz-date': string;
+    policy: string;
+    'x-amz-signature': string;
+  };
+}
+
+export const fetchSignedPost =
+  createLegoApiAction<FetchSignedPostSuccessPayload>()(
+    'File.FETCH_SIGNED_POST',
+    (_, key: string, isPublic: boolean) => ({
+      method: 'POST',
+      endpoint: '/files/',
+      body: {
+        key: slugifyFilename(key),
+        public: isPublic,
+      },
+      meta: {
+        errorMessage: 'Filopplasting feilet',
+      },
+    })
+  );
+
+const uploadFileWithSignedPost = createLegoApiAction()(
+  'File.UPLOAD',
+  (
+    _,
+    { file, timeout }: Pick<UploadArgs, 'file' | 'timeout'>,
+    signedPostPayload: FetchSignedPostSuccessPayload
+  ) => ({
     method: 'POST',
-    endpoint: '/files/',
-    body: {
-      key: slugifyFilename(key),
-      public: isPublic,
+    endpoint: signedPostPayload.url,
+    body: signedPostPayload.fields,
+    files: [file],
+    timeout,
+    json: false,
+    headers: {
+      Accept: 'application/json',
     },
+    requiresAuthentication: false,
     meta: {
+      fileKey: signedPostPayload.file_key,
+      fileToken: signedPostPayload.file_token,
       errorMessage: 'Filopplasting feilet',
     },
-  });
-}
-export type UploadArgs = {
+  })
+);
+
+export interface UploadArgs {
   file: File;
   fileName?: string;
   isPublic?: boolean;
   // Use big timeouts for big files. See app/utils/fetchJSON.js for more info
   // In ms. aka. 2sec = 2 * 1000;
   timeout?: number;
-};
-export function uploadFile({
-  file,
-  fileName,
-  isPublic = false,
-  timeout,
-}: UploadArgs): Thunk<any> {
-  return (dispatch) =>
-    dispatch(fetchSignedPost(fileName || file.name, isPublic)).then(
-      (action) => {
-        if (!action || !action.payload) return;
-        return dispatch(
-          callAPI({
-            types: FileType.UPLOAD,
-            method: 'POST',
-            endpoint: action.payload.url,
-            body: action.payload.fields,
-            files: [file],
-            timeout,
-            json: false,
-            headers: {
-              Accept: 'application/json',
-            },
-            requiresAuthentication: false,
-            meta: {
-              fileKey: action.payload.file_key,
-              fileToken: action.payload.file_token,
-              errorMessage: 'Filopplasting feilet',
-            },
-          })
-        );
-      }
-    );
 }
+
+export const uploadFile =
+  ({ file, fileName, isPublic = false, timeout }: UploadArgs) =>
+  async (dispatch: AppDispatch) => {
+    const signedPost = await dispatch(
+      fetchSignedPost(fileName || file.name, isPublic)
+    );
+    return dispatch(
+      uploadFileWithSignedPost({ file, timeout }, signedPost.payload)
+    );
+  };

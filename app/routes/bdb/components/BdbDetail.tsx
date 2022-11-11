@@ -1,6 +1,7 @@
 import cx from 'classnames';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { deleteComment } from 'app/actions/CommentActions';
 import Button from 'app/components/Button';
 import CommentView from 'app/components/Comments/CommentView';
 import { Content } from 'app/components/Content';
@@ -10,7 +11,7 @@ import LoadingIndicator from 'app/components/LoadingIndicator';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
-import type { CompanySemesterContactedStatus, ID } from 'app/models';
+import type { CompanySemesterContactedStatus } from 'app/models';
 import type {
   CompanyEntity,
   BaseSemesterStatusEntity,
@@ -45,7 +46,7 @@ type Props = {
   fetching: boolean;
   editCompany: (arg0: Record<string, any>) => void;
   deleteCompany: (arg0: number) => Promise<any>;
-  deleteComment: (id: ID, contentTarget: string) => Promise<any>;
+  deleteComment: typeof deleteComment;
   showFetchMoreEvents: boolean;
   fetchMoreEvents: () => Promise<any>;
 };

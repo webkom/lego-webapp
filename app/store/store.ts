@@ -1,13 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { routerMiddleware } from 'connected-react-router';
 import { createBrowserHistory, createMemoryHistory } from 'history';
-import { addToast } from 'app/actions/ToastActions';
+import { addToast } from 'app/reducers/toasts';
 import loggerMiddleware from 'app/store/middleware/loggerMiddleware';
 import createMessageMiddleware from 'app/store/middleware/messageMiddleware';
 import promiseMiddleware from 'app/store/middleware/promiseMiddleware';
 import createSentryMiddleware from 'app/store/middleware/sentryMiddleware';
-import createRootReducer from 'app/store/rootReducer';
+import createRootReducer, { RootState } from 'app/store/rootReducer';
 import { GetCookie } from 'app/types';
+import type { Action, ThunkAction } from '@reduxjs/toolkit';
 import type { History } from 'history';
 
 export const history: History = __CLIENT__
@@ -69,3 +70,9 @@ export default createStore;
 
 export type Store = ReturnType<typeof createStore>;
 export type AppDispatch = Store['dispatch'];
+export type AppThunk<ReturnType> = ThunkAction<
+  ReturnType,
+  RootState,
+  { getCookie?: GetCookie },
+  Action
+>;

@@ -1,3 +1,4 @@
+import type { ContentTarget } from 'app/store/utils/contentTarget';
 import type { History } from 'history';
 import type { Moment } from 'moment';
 // TODO: Id handling could be opaque
@@ -248,7 +249,7 @@ export type Event = EventBase & {
   thumbnail: string | null | undefined;
   company: Company;
   comments: Array<Comment>;
-  contentTarget: string;
+  contentTarget: ContentTarget;
   pools: Array<EventPool>;
   survey: ID | null | undefined;
   userReg: EventRegistration;
@@ -318,7 +319,7 @@ export type Meeting = {
   report?: string;
   invitations: string[];
   comments?: ID[];
-  contentTarget?: string;
+  contentTarget?: ContentTarget;
   actionGrant?: ActionGrant;
 };
 

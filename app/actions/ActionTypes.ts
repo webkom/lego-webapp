@@ -41,16 +41,6 @@ export const Event = {
 /**
  *
  */
-export const Article = {
-  FETCH: generateStatuses('Article.FETCH') as AAT,
-  CREATE: generateStatuses('Article.CREATE') as AAT,
-  EDIT: generateStatuses('Article.EDIT') as AAT,
-  DELETE: generateStatuses('Article.DELETE') as AAT,
-};
-
-/**
- *
- */
 export const EmailList = {
   FETCH: generateStatuses('EmailList.FETCH') as AAT,
   CREATE: generateStatuses('EmailList.CREATE') as AAT,
@@ -113,16 +103,6 @@ export const Joblistings = {
 /**
  *
  */
-export const Announcements = {
-  FETCH_ALL: generateStatuses('Announcements.FETCH_ALL') as AAT,
-  CREATE: generateStatuses('Announcements.CREATE') as AAT,
-  SEND: generateStatuses('Announcements.SEND') as AAT,
-  DELETE: generateStatuses('Announcements.DELETE') as AAT,
-};
-
-/**
- *
- */
 export const Meeting = {
   FETCH: generateStatuses('Meeting.FETCH') as AAT,
   SET_INVITATION_STATUS: generateStatuses(
@@ -148,13 +128,7 @@ export const Group = {
   REMOVE: generateStatuses('Group.REMOVE') as AAT,
   MEMBERSHIP_FETCH: generateStatuses('Group.MEMBERSHIP_FETCH') as AAT,
 };
-export const CompanyInterestForm = {
-  FETCH_ALL: generateStatuses('CompanyInterestForm.FETCH_ALL') as AAT,
-  FETCH: generateStatuses('CompanyInterestForm.FETCH') as AAT,
-  CREATE: generateStatuses('CompanyInterestForm.CREATE') as AAT,
-  DELETE: generateStatuses('CompanyInterestForm.DELETE') as AAT,
-  UPDATE: generateStatuses('CompanyInterestForm.UPDATE') as AAT,
-};
+
 export const Membership = {
   CREATE: generateStatuses('Membership.CREATE') as AAT,
   REMOVE: generateStatuses('Membership.REMOVE') as AAT,
@@ -167,15 +141,6 @@ export const Membership = {
  */
 export const Favorite = {
   FETCH_ALL: generateStatuses('Favorite.FETCH_ALL') as AAT,
-};
-
-/**
- *
- */
-export const Comment = {
-  FETCH: generateStatuses('Comment.FETCH') as AAT,
-  ADD: generateStatuses('Comment.ADD') as AAT,
-  DELETE: generateStatuses('Comment.DELETE') as AAT,
 };
 
 /**
@@ -311,25 +276,7 @@ export const SurveySubmission = {
   HIDE_ANSWER: generateStatuses('SurveySubmission.HIDE_ANSWER') as AAT,
   SHOW_ANSWER: generateStatuses('SurveySubmission.SHOW_ANSWER') as AAT,
 };
-export const Emoji = {
-  FETCH: generateStatuses('Emoji.FETCH') as AAT,
-  FETCH_ALL: generateStatuses('Emoji.FETCH_ALL') as AAT,
-};
 
-/**
- *
- */
-export const File = {
-  FETCH_SIGNED_POST: generateStatuses('File.FETCH_SIGNED_POST') as AAT,
-  UPLOAD: generateStatuses('File.UPLOAD') as AAT,
-};
-
-/**
- *
- */
-export const Feed = {
-  FETCH: generateStatuses('Feed.FETCH') as AAT,
-};
 export const FetchHistory = {
   CLEAR_HISTORY: 'FetchHistory.CLEAR_HISTORY',
 };
@@ -364,24 +311,9 @@ export const Contact = {
   SEND_MESSAGE: generateStatuses('Contact.SEND_MESSAGE') as AAT,
 };
 
-/**
- *
- */
-export const Frontpage = {
-  FETCH: generateStatuses('Frontpage.FETCH') as AAT,
-};
-export const Readme = {
-  FETCH: generateStatuses('Readme.FETCH') as AAT,
-};
 export const Tag = {
   FETCH: generateStatuses('Tag.FETCH') as AAT,
   POPULAR: generateStatuses('Tag.POPULAR') as AAT,
-};
-export const Podcast = {
-  FETCH: generateStatuses('Podcast.FETCH') as AAT,
-  DELETE: generateStatuses('Podcast.DELETE') as AAT,
-  CREATE: generateStatuses('Podcast.CREATE') as AAT,
-  UPDATE: generateStatuses('Podcast.UPDATE') as AAT,
 };
 export const Poll = {
   FETCH: generateStatuses('Poll.FETCH') as AAT,
