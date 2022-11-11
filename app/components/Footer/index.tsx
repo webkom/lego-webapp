@@ -22,7 +22,7 @@ const Footer = ({ loggedIn }: Props) => (
           className={styles.gitHubLink}
         >
           <span className={styles.subHeader}>LEG</span>
-          <Image className={styles.octocat} src={octocat} />
+          <Image alt="Octocat" className={styles.octocat} src={octocat} />
         </a>
         <p>
           Er du interessert i hvordan LEGO fungerer, eller vil du rapportere en

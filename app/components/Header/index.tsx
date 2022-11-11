@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import { Component } from 'react';
+import { Component, MouseEventHandler } from 'react';
 import { Modal } from 'react-overlays';
 import { Link, NavLink, withRouter } from 'react-router-dom';
 import logoLightMode from 'app/assets/logo-dark.png';
@@ -40,11 +40,19 @@ type Props = {
   loading: boolean;
   updateUserTheme: (username: string, theme: string) => Promise<void>;
 };
+
+enum LoginMode {
+  LOGIN = 'login',
+  REGISTER = 'register',
+  FORGOT_PASSWORD = 'forgotPassword',
+}
+
 type State = {
   accountOpen: boolean;
   shake: boolean;
-  mode: 'login' | 'register' | 'forgotPassword';
+  mode: LoginMode;
 };
+
 type AccountDropdownItemsProps = {
   logout: () => void;
   onClose: () => void;
@@ -119,30 +127,33 @@ class Header extends Component<Props, State> {
   state = {
     accountOpen: false,
     shake: false,
-    mode: 'login',
+    mode: LoginMode.LOGIN,
   };
-  toggleRegisterUser = (e: Event) => {
+
+  toggleRegisterUser: MouseEventHandler<HTMLButtonElement> = (e) => {
     this.setState({
-      mode: 'register',
+      mode: LoginMode.REGISTER,
     });
     e.stopPropagation();
   };
-  toggleForgotPassword = (e: Event) => {
+
+  toggleForgotPassword: MouseEventHandler<HTMLButtonElement> = (e) => {
     this.setState({
-      mode: 'forgotPassword',
+      mode: LoginMode.FORGOT_PASSWORD,
     });
     e.stopPropagation();
   };
-  toggleBack = (e: Event) => {
+
+  toggleBack: MouseEventHandler<HTMLButtonElement> = (e) => {
     this.setState({
-      mode: 'login',
+      mode: LoginMode.LOGIN,
     });
     e.stopPropagation();
   };
 
   render() {
     const { loggedIn, currentUser, loading } = this.props;
-    const isLogin = this.state.mode === 'login';
+    const isLogin = this.state.mode === LoginMode.LOGIN;
     let title, form;
 
     if (
@@ -158,17 +169,17 @@ class Header extends Component<Props, State> {
     }
 
     switch (this.state.mode) {
-      case 'login':
+      case LoginMode.LOGIN:
         title = 'Logg inn';
         form = <LoginForm />;
         break;
 
-      case 'register':
+      case LoginMode.REGISTER:
         title = 'Register';
         form = <RegisterForm />;
         break;
 
-      case 'forgotPassword':
+      case LoginMode.FORGOT_PASSWORD:
         title = 'Glemt passord';
         form = <ForgotPasswordForm />;
         break;
@@ -188,7 +199,7 @@ class Header extends Component<Props, State> {
       </button>
     ));
     return (
-      <header className={styles.header}>
+      <header>
         <FancyNodesCanvas height={300} />
         <div className={styles.content}>
           <Link to="/">
@@ -309,7 +320,7 @@ class Header extends Component<Props, State> {
                     <Flex
                       component="h2"
                       justifyContent="space-between"
-                      allignItems="center"
+                      alignItems="center"
                       className="u-mb"
                       style={{
                         whitespace: 'nowrap',
@@ -364,11 +375,9 @@ class Header extends Component<Props, State> {
           >
             <Search
               loggedIn={loggedIn}
-              isOpen={this.props.searchOpen}
               onCloseSearch={this.props.toggleSearch}
               updateUserTheme={this.props.updateUserTheme}
               username={this.props.currentUser?.username}
-              className={utilStyles.hiddenOnMobile}
             />
           </Modal>
         </div>

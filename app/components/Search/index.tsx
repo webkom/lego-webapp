@@ -15,11 +15,13 @@ import { getAdminLinks, getRegularLinks } from './utils';
 type StateProps = {
   allowed: Allowed;
 };
+
 type DispatchProps = {
   onQueryChanged: (value: string) => any;
   openSearchRoute: (query: string) => any;
   push: (arg0: string) => void;
 };
+
 type Props = StateProps &
   DispatchProps & {
     loggedIn: boolean;
@@ -29,6 +31,7 @@ type Props = StateProps &
     username?: string;
     updateUserTheme: (username: string, theme: string) => Promise<any>;
   };
+
 type State = {
   query: string;
   selectedIndex: number;
@@ -116,7 +119,7 @@ class Search extends Component<Props, State> {
               onChange={(e) => this.onQueryChanged(e.target.value)}
               value={this.state.query}
               type="search"
-              size="1"
+              size={1}
               placeholder="Hva leter du etter?"
               ref={(input) => input && k.autoFocus && input.focus()}
             />

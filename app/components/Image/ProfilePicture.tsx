@@ -1,11 +1,11 @@
-import type { User } from 'app/models';
+import type { UserEntity } from 'app/reducers/users';
 import CircularPicture from './CircularPicture';
 
 type Props = {
-  user: User;
+  user: UserEntity;
   alt: string;
   size: number;
-  style?: Record<string, any>;
+  style?: Record<string, string>;
 };
 
 const ProfilePicture = ({ alt, user, size = 100, style, ...props }: Props) => (
@@ -15,7 +15,7 @@ const ProfilePicture = ({ alt, user, size = 100, style, ...props }: Props) => (
     placeholder={user.profilePicturePlaceholder}
     size={size}
     style={style}
-    {...(props as Record<string, any>)}
+    {...props}
   />
 );
 
