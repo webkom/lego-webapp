@@ -142,14 +142,11 @@ steps:
       - thumbor
       - redis
       - api
-    volumes:
-      - name: yarn_cache
-        path: /tmp/cache
     environment:
       CYPRESS_INSTALL_BINARY: 0
     commands:
       - apk --no-cache add curl
-      - yarn --frozen-lockfile --cache-folder /tmp/cache
+      - yarn install --immutable --immutable-cache
 
   - name: build_server
     image: node:14-alpine
@@ -315,11 +312,6 @@ steps:
         - rollback
       branch:
         - build
-
-volumes:
-  - name: yarn_cache
-    host:
-      path: /tmp/drone-cache/yarn
 
 image_pull_secrets:
   - dockerconfigjson
