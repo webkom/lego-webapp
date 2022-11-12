@@ -17,6 +17,3 @@ declare module '*.jpg' {
   const value: string;
   export default value;
 }
-
-declare const __DEV__: boolean;
-declare const __CLIENT__: boolean;

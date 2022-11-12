@@ -10,13 +10,16 @@ import config from '../config/env';
 import webpackClient from '../config/webpack.client';
 import { helmetContext } from './ssr';
 import type { State } from '../app/types';
+import type { FilledContext } from 'react-helmet-async';
 
 const dllPlugin = __DEV__ ? '<script src="/vendors.dll.js"></script>' : '';
+
 export type PageRendererProps = {
-  app: React.ReactElement<React.ComponentProps<any>, any> | null | undefined;
-  state: State | Record<string, never>;
+  app?: React.ReactElement<React.ComponentProps<any>, any>;
+  state?: State | Record<string, never>;
   preparedStateCode?: string;
 };
+
 const extractor = !__DEV__
   ? new ChunkExtractor({
       statsFile: path.join(webpackClient.outputPath, 'loadable-stats.json'),
@@ -76,13 +79,14 @@ const analytics = __DEV__
       /(^\w+:|^)\/\//,
       ''
     )} src="https://ls.webkom.dev/script.js"></script>`;
+
 export default function pageRenderer({
   app = undefined,
   state = {},
   preparedStateCode = '',
 }: PageRendererProps = {}): string {
   const isSSR = app === undefined ? 'false' : 'true';
-  const { helmet } = helmetContext;
+  const { helmet } = helmetContext as FilledContext;
   const selectedTheme: string =
     (!isEmpty(state) && selectCurrentUser(state).selectedTheme) || 'auto';
   const { body, scripts, styles, links } = readyHtml(app);

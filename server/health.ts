@@ -1,9 +1,7 @@
 import config from '../config/env';
+import type { Request, Response } from 'express';
 
-export default function healthCheck(
-  req: express$Request,
-  res: express$Response
-) {
+export default function healthCheck(req: Request, res: Response) {
   const log = req.app.get('log');
   fetch(config.baseUrl, {
     method: 'GET',
@@ -15,13 +13,11 @@ export default function healthCheck(
       if (response.status === 200) {
         res.sendStatus(200);
       } else {
-        // $FlowFixMe
         log.warn('unhealthy_response', response);
         res.sendStatus(500);
       }
     })
     .catch((err) => {
-      // $FlowFixMe
       log.warn('unhealthy', err);
       res.sendStatus(500);
     });
