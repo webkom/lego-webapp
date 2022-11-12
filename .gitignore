@@ -17,6 +17,13 @@ package-lock.json
 .idea
 report.*.json
 mazemap/mazemap.min.*
+.yarn/*
+!.yarn/cache
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
 
 
 # Certs
