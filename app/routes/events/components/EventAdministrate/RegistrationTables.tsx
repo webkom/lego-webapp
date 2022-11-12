@@ -14,11 +14,11 @@ import type {
   PhotoConsent,
   EventSemester,
 } from 'app/models';
+import { PhotoConsentDomain } from 'app/models';
 import {
   getEventSemesterFromStartTime,
   allConsentsAnswered,
   getConsent,
-  PHOTO_CONSENT_DOMAINS,
 } from 'app/routes/events/utils';
 import { WEBKOM_GROUP_ID } from 'app/utils/constants';
 import styles from './Administrate.css';
@@ -99,7 +99,7 @@ const consentMessage = (photoConsent) =>
   `Brukeren godkjenner ${
     photoConsent?.isConsenting ? ' ' : 'IKKE '
   } at bilder publiseres på ${
-    photoConsent?.domain === PHOTO_CONSENT_DOMAINS.WEBSITE
+    photoConsent?.domain === PhotoConsentDomain.WEBSITE
       ? 'abakus.no'
       : 'sosiale medier'
   }`;
@@ -107,7 +107,7 @@ const consentMessage = (photoConsent) =>
 const iconClass = (photoConsent) =>
   cx(
     photoConsent?.isConsenting ? styles.greenIcon : styles.redIcon,
-    photoConsent?.domain === PHOTO_CONSENT_DOMAINS.WEBSITE
+    photoConsent?.domain === PhotoConsentDomain.WEBSITE
       ? 'fa fa-desktop'
       : 'fa fa-share-square'
   );
@@ -122,7 +122,7 @@ const ConsentIcons = ({
   eventSemester: EventSemester;
 }) => {
   if (allConsentsAnswered(photoConsents)) {
-    const { WEBSITE, SOCIAL_MEDIA } = PHOTO_CONSENT_DOMAINS;
+    const { WEBSITE, SOCIAL_MEDIA } = PhotoConsentDomain;
     const webConsent = getConsent(
       WEBSITE,
       eventSemester.year,

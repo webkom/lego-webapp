@@ -4,10 +4,10 @@
     "jsx": "react-jsx",
     "module": "commonjs",
     "moduleResolution": "node",
-     "baseUrl": "./",
-     "paths": {
-       "app/*": ["app/*"],
-     },
+    "baseUrl": "./",
+    "paths": {
+      "app/*": ["app/*"]
+    },
     "allowJs": true,
     "sourceMap": true,
     "noEmit": true,
@@ -18,8 +18,14 @@
     "noImplicitAny": false,
     "skipLibCheck": true,
     "resolveJsonModule": true,
-    "plugins": [{ "name": "typescript-plugin-css-modules", "options": {
-      "customMatcher": "\\.css$"
-    } }]
-  }
+    "plugins": [
+      {
+        "name": "typescript-plugin-css-modules",
+        "options": {
+          "customMatcher": "\\.css$"
+        }
+      }
+    ]
+  },
+  "include": ["app/**/*", "server/**/*"]
 }

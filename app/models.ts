@@ -24,7 +24,10 @@ export type EventStatusType = 'NORMAL' | 'OPEN' | 'TBA' | 'INFINITE';
 export type Grade = {
   name: string;
 };
-export type PhotoConsentDomain = 'WEBSITE' | 'SOCIAL_MEDIA';
+export enum PhotoConsentDomain {
+  WEBSITE = 'WEBSITE',
+  SOCIAL_MEDIA = 'SOCIAL_MEDIA',
+}
 export type Semester = 'spring' | 'autumn';
 export type EventSemester = {
   year: number;
@@ -40,8 +43,10 @@ export type PhotoConsent = {
 export type User = {
   id: ID;
   firstName: string;
+  lastName: string;
   fullName: string;
   username: string;
+  emailAddress?: string;
   grade: Grade;
   abakusGroups: number[];
   gender: string;
@@ -51,6 +56,16 @@ export type User = {
   email?: string;
   phoneNumber?: string;
   photoConsents: Array<PhotoConsent>;
+};
+
+export type Penalty = {
+  id: ID;
+  createdAt: Dateish;
+  user: ID;
+  reason: string;
+  weight: number;
+  sourceEvent: ID;
+  exactExpiration: Dateish;
 };
 export type Tags = string;
 
@@ -66,6 +81,18 @@ export enum GroupType {
 export type GroupMembership = {
   user: User;
   role: string;
+};
+
+export type UserMembership = {
+  id: ID;
+  user: User;
+  abakusGroup: ID;
+  role: string;
+  isActive: boolean;
+  emailListsEnabled: boolean;
+  createdAt: Dateish;
+  startDate?: Dateish;
+  endDate?: Dateish;
 };
 export type Group = {
   id: ID;

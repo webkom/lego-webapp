@@ -1,16 +1,18 @@
 import type { UserEntity } from 'app/reducers/users';
 import CircularPicture from './CircularPicture';
+import type { ComponentProps } from 'react';
 
-type Props = {
-  user: UserEntity;
-  alt: string;
-  size: number;
-  style?: Record<string, string>;
-};
+type Props = Omit<
+  {
+    user: UserEntity;
+    size: number;
+  } & ComponentProps<typeof CircularPicture>,
+  'placeholder' | 'src' | 'alt'
+>;
 
-const ProfilePicture = ({ alt, user, size = 100, style, ...props }: Props) => (
+const ProfilePicture = ({ user, size = 100, style, ...props }: Props) => (
   <CircularPicture
-    alt={alt}
+    alt={`${user.username} profile picture`}
     src={user.profilePicture}
     placeholder={user.profilePicturePlaceholder}
     size={size}

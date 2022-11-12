@@ -1,6 +1,6 @@
 import cx from 'classnames';
 import styles from './Flex.css';
-import type { ReactNode, ElementType } from 'react';
+import type { ReactNode, ElementType, HTMLAttributes } from 'react';
 
 type Props = {
   children?: ReactNode;
@@ -29,8 +29,7 @@ type Props = {
   margin?: number | string;
   width?: number | string;
   gap?: number | string;
-  style?: Record<string, string>;
-};
+} & HTMLAttributes<HTMLDivElement>;
 
 /**
  * Simple FlexBox component

@@ -6,6 +6,7 @@ import type { CommentEntity } from 'app/reducers/comments';
 import type { UserEntity } from 'app/reducers/users';
 import { generateTreeStructure } from 'app/utils';
 import CommentTree from './CommentTree';
+import type { StyleHTMLAttributes } from 'react';
 
 type Props = {
   comments: Array<CommentEntity>;
@@ -14,9 +15,9 @@ type Props = {
   user: UserEntity;
   loggedIn: boolean;
   displayTitle?: boolean;
-  style?: Record<string, any>;
+  style?: StyleHTMLAttributes<HTMLDivElement>;
   newOnTop?: boolean;
-  deleteComment: (id: ID, contentTarget: string) => Promise<any>;
+  deleteComment: (id: ID, contentTarget: string) => Promise<void>;
 };
 
 const Title = ({ displayTitle }: { displayTitle: boolean }) =>

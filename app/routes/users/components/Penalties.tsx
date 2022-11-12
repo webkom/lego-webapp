@@ -1,19 +1,13 @@
 import Button from 'app/components/Button';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import { FormatTime } from 'app/components/Time';
-import type { AddPenalty } from 'app/models';
+import type { AddPenalty, Penalty } from 'app/models';
 import PenaltyForm from './PenaltyForm';
 
-type Penalty = {
-  id: number;
-  reason: string;
-  weight: number;
-  exactExpiration: string;
-};
 type Props = {
   penalties: Array<Penalty>;
   addPenalty: (arg0: AddPenalty) => void;
-  deletePenalty: (arg0: number) => Promise<any>;
+  deletePenalty: (arg0: number) => Promise<void>;
   username: string;
   userId: number;
   canDeletePenalties: boolean;

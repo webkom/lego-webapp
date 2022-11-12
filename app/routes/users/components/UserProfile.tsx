@@ -19,12 +19,15 @@ import Modal from 'app/components/Modal';
 import Pill from 'app/components/Pill';
 import Tooltip from 'app/components/Tooltip';
 import type {
+  User,
   Group,
   AddPenalty,
   Event,
   ID,
   PhotoConsent,
   Dateish,
+  Penalty,
+  UserMembership,
 } from 'app/models';
 import { resolveGroupLink } from 'app/reducers/groups';
 //import Feed from 'app/components/Feed';
@@ -58,7 +61,7 @@ const fieldRenders = {
   internalEmailAddress: emailFieldRender,
 };
 type Props = {
-  user: any;
+  user: User;
   showSettings: boolean;
   //feedItems: Array<any>,
   //feed: Object,
@@ -68,18 +71,18 @@ type Props = {
   previousEvents: Array<Event>;
   upcomingEvents: Array<Event>;
   addPenalty: (arg0: AddPenalty) => void;
-  deletePenalty: (arg0: number) => Promise<any>;
-  penalties: Array<Record<string, any>>;
+  deletePenalty: (arg0: number) => Promise<void>;
+  penalties: Penalty[];
   canDeletePenalties: boolean;
   groups: Array<Group>;
   canChangeGrade: boolean;
   canEditEmailLists: boolean;
-  changeGrade: (arg0: ID, arg1: string) => Promise<any>;
+  changeGrade: (arg0: ID, arg1: string) => Promise<void>;
   updatePhotoConsent: (
     photoConsent: PhotoConsent,
     username: string,
     userId: number
-  ) => Promise<any>;
+  ) => Promise<void>;
   photoConsents: Array<PhotoConsent>;
 };
 type EventsProps = {
@@ -112,13 +115,13 @@ const BadgeTooltip = ({
 }) => {
   const startYear = moment(start).year();
   const endYear = end ? moment(end).year() : 'd.d.';
-  return `${group.name} (${startYear} - ${endYear})`;
+  return <>{`${group.name} (${startYear} - ${endYear})`}</>;
 };
 
 const GroupBadge = ({
   memberships,
 }: {
-  memberships: Array<Record<string, any>>;
+  memberships: (UserMembership & { abakusGroup: Group })[];
 }) => {
   const activeMemberships = memberships.find(
     (membership) => membership.isActive
@@ -181,7 +184,7 @@ const ListEvents = ({
   <div>
     {events && events.length ? (
       <Flex column wrap>
-        {events.map((event, i) => (
+        {events.map((event) => (
           <EventItem
             key={event.id}
             event={event}
@@ -251,6 +254,7 @@ const UserProfile = (props: Props) => {
     permissionsPerGroup = [],
     photoConsents,
   } = user;
+
   const allAbakusGroupsWithPerms = uniqBy(
     permissionsPerGroup.concat(
       permissionsPerGroup.flatMap(({ parentPermissions }) => parentPermissions)
@@ -414,7 +418,9 @@ const UserProfile = (props: Props) => {
       <Flex wrap className={styles.header}>
         <Flex column alignItems="center" className={styles.sidebar}>
           <Flex alignItems="center" justifyContent="center">
-            {hasFrame && <Image className={styles.frame} src={frame} />}
+            {hasFrame && (
+              <Image alt="Golden frame" className={styles.frame} src={frame} />
+            )}
             <ProfilePicture user={user} size={150} />
           </Flex>
           {isMe && (

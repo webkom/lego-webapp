@@ -4,7 +4,7 @@ import type {
   StartSubmitAction,
   StopSubmitAction,
   InitializeAction,
-} from 'redux-form/lib/actions.types.js.flow';
+} from 'redux-form';
 
 export type AsyncActionType = {
   BEGIN: string;

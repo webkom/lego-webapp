@@ -10,10 +10,11 @@ import { Flex } from 'app/components/Layout';
 import Modal from 'app/components/Modal';
 import styles from './UploadImage.css';
 
-export type DropFile = File & {
-  preview: string;
-};
-type Props = {
+export interface DropFile extends File {
+  preview?: string;
+}
+
+type BaseProps = {
   crop?: boolean;
   inModal?: boolean;
   multiple?: boolean;
@@ -23,6 +24,13 @@ type Props = {
   onDrop?: () => void;
   onClose?: () => void;
 };
+
+type Props = BaseProps &
+  (
+    | { multiple: true; onSubmit: (files: Array<DropFile>) => void }
+    | { multiple: false; onSubmit: (file: File) => void }
+  );
+
 type State = {
   cropOpen: boolean;
   file: DropFile | null | undefined;
@@ -40,7 +48,7 @@ type UploadAreaProps = {
 };
 
 const FilePreview = ({ file, onRemove }: FilePreviewProps) => {
-  const [previewUrl, setPreviewUrl] = useState();
+  const [previewUrl, setPreviewUrl] = useState<string | undefined>();
   useEffect(() => {
     !previewUrl && setPreviewUrl(URL.createObjectURL(file));
     return () => {
@@ -140,7 +148,7 @@ const UploadArea = ({ multiple, onDrop, image }: UploadAreaProps) => {
 };
 
 export default class ImageUpload extends Component<Props, State> {
-  crop: any;
+  crop: Cropper;
   state = {
     cropOpen: this.props.inModal || false,
     file: null,
@@ -169,16 +177,18 @@ export default class ImageUpload extends Component<Props, State> {
     }
   };
   onSubmit = () => {
-    if (this.props.crop && this.state.file) {
+    if (this.props.crop && !this.props.multiple && this.state.file) {
       const { name } = this.state.file;
-      this.crop.cropper.getCroppedCanvas().toBlob((image) => {
-        image.name = name;
-        this.props.onSubmit(image);
-        this.setState((state) => ({
-          img: window.URL.createObjectURL(image),
-        }));
-        this.closeModal();
-      });
+      if (this.crop) {
+        this.crop.getCroppedCanvas().toBlob((image) => {
+          const file = new File([image], name);
+          this.props.onSubmit(file);
+          this.setState(() => ({
+            img: window.URL.createObjectURL(image),
+          }));
+          this.closeModal();
+        });
+      }
     }
 
     if (this.props.multiple && this.state.files.length) {
@@ -202,7 +212,6 @@ export default class ImageUpload extends Component<Props, State> {
     if (this.props.multiple) {
       this.setState((state) => {
         const files = state.files.slice();
-        // $FlowFixMe revamp File types
         files[index] = { ...files[index], name };
         return {
           files,
@@ -218,7 +227,7 @@ export default class ImageUpload extends Component<Props, State> {
       });
     }
   };
-  componentDidUpdate = (props: Record<string, any>) => {
+  componentDidUpdate = (props: Props) => {
     if (props.img !== this.props.img) {
       this.setState({
         img: this.props.img,
@@ -261,8 +270,8 @@ export default class ImageUpload extends Component<Props, State> {
             )}
             {preview && (
               <Cropper
-                ref={(node) => {
-                  this.crop = node;
+                onInitialized={(cropper) => {
+                  this.crop = cropper;
                 }}
                 src={preview}
                 className={styles.cropper}
@@ -288,12 +297,7 @@ export default class ImageUpload extends Component<Props, State> {
               justifyContent="space-evenly"
             >
               <Button onClick={this.onSubmit}>Last opp</Button>
-              <Button
-                onClick={() => this.closeModal()}
-                className={styles.cancelButton}
-              >
-                Avbryt
-              </Button>
+              <Button onClick={() => this.closeModal()}>Avbryt</Button>
             </Flex>
           </Fragment>
         </Modal>

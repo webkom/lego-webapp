@@ -1,12 +1,10 @@
 import styles from './Pill.css';
+import type { HTMLAttributes } from 'react';
 
 type Props = {
   /** background color of pill */
   color?: string;
-
-  /** extra css styling */
-  style?: any;
-};
+} & HTMLAttributes<HTMLSpanElement>;
 
 /**
  * Basic `Pill` component to wrap extra content inside
@@ -19,7 +17,7 @@ function Pill({ color, style, ...props }: Props) {
         backgroundColor: color,
         ...style,
       }}
-      {...(props as Record<string, any>)}
+      {...props}
     />
   );
 }

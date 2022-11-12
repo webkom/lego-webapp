@@ -6,11 +6,8 @@ import { selectStyles, selectTheme } from 'app/components/Form/SelectInput';
 import Flex from 'app/components/Layout/Flex';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import type { PhotoConsent } from 'app/models';
-import {
-  getConsent,
-  PHOTO_CONSENT_DOMAINS,
-  toReadableSemester,
-} from 'app/routes/events/utils';
+import { PhotoConsentDomain } from 'app/models';
+import { getConsent, toReadableSemester } from 'app/routes/events/utils';
 import styles from './PhotoConsents.css';
 
 const ConsentManager = ({
@@ -19,7 +16,7 @@ const ConsentManager = ({
   isMe,
 }: {
   consent: PhotoConsent | null | undefined;
-  updateConsent: (consent: PhotoConsent) => Promise<any>;
+  updateConsent: (consent: PhotoConsent) => Promise<void>;
   isMe: boolean;
 }) => {
   if (!consent) {
@@ -33,7 +30,7 @@ const ConsentManager = ({
         : 'Du trakk samtykket den '
       : 'Du har ikke tatt stilling til samtykket.';
   const presentableDomain =
-    consent.domain === PHOTO_CONSENT_DOMAINS.WEBSITE
+    consent.domain === PhotoConsentDomain.WEBSITE
       ? 'Abakus.no'
       : 'Sosiale medier';
   return (
@@ -94,14 +91,14 @@ const PhotoConsents = ({
     photoConsent: PhotoConsent,
     username: string,
     userId: number
-  ) => Promise<any>;
+  ) => Promise<void>;
   userId: number;
   isMe: boolean;
 }) => {
   const semesterOptions = photoConsents
     .slice(0)
     .filter(
-      (photoConsent) => photoConsent.domain === PHOTO_CONSENT_DOMAINS.WEBSITE
+      (photoConsent) => photoConsent.domain === PhotoConsentDomain.WEBSITE
     )
     .sort((a, b) => {
       if (a.year === b.year) {
@@ -145,7 +142,7 @@ const PhotoConsents = ({
       />
       <ConsentManager
         consent={getConsent(
-          PHOTO_CONSENT_DOMAINS.SOCIAL_MEDIA,
+          PhotoConsentDomain.SOCIAL_MEDIA,
           selectedSemesterOption.value.year,
           selectedSemesterOption.value.semester,
           photoConsents
@@ -155,7 +152,7 @@ const PhotoConsents = ({
       />
       <ConsentManager
         consent={getConsent(
-          PHOTO_CONSENT_DOMAINS.WEBSITE,
+          PhotoConsentDomain.WEBSITE,
           selectedSemesterOption.value.year,
           selectedSemesterOption.value.semester,
           photoConsents

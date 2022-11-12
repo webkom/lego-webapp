@@ -1,15 +1,16 @@
 import cx from 'classnames';
 import { createField } from './Field';
 import styles from './TextInput.css';
+import type { RefObject, InputHTMLAttributes } from 'react';
 
 type Props = {
   type?: string;
   suffix?: string;
   className?: string;
-  inputRef?: any;
+  inputRef?: RefObject<HTMLInputElement>;
   disabled?: boolean;
   readOnly?: boolean;
-};
+} & InputHTMLAttributes<HTMLInputElement>;
 
 function TextInput({
   type = 'text',
@@ -33,7 +34,7 @@ function TextInput({
           suffix && styles.suffix,
           className
         )}
-        {...(props as Record<string, any>)}
+        {...props}
       />
       {suffix && <span className={styles.suffix}>{suffix}</span>}
     </span>

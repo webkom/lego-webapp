@@ -18,7 +18,7 @@ type Props = {
     user: UserEntity;
     loggedIn: boolean;
   };
-  deleteComment: (id: ID, contentTarget: string) => Promise<any>;
+  deleteComment: (id: ID, contentTarget: string) => Promise<void>;
   user: UserEntity;
   contentTarget: string;
 };

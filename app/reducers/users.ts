@@ -18,7 +18,7 @@ export type UserEntity = {
   profilePicture: string;
   profilePicturePlaceholder?: string;
   emailListsEnabled?: boolean;
-  selectedTheme: string;
+  selectedTheme?: string;
   photoConsents?: Array<PhotoConsent>;
 };
 type State = any;

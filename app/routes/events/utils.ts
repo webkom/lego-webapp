@@ -8,12 +8,9 @@ import type {
   PhotoConsent,
   PhotoConsentDomain,
   EventSemester,
+  Dateish,
 } from 'app/models';
 
-export const PHOTO_CONSENT_DOMAINS = {
-  WEBSITE: 'WEBSITE',
-  SOCIAL_MEDIA: 'SOCIAL_MEDIA',
-};
 // Current eventTypes
 export const EVENT_CONSTANTS: Record<EventType, string> = {
   company_presentation: 'Bedriftspresentasjon',
@@ -223,17 +220,22 @@ const paymentSuccessMappings = {
 };
 export const hasPaid = (paymentStatus: string) =>
   paymentSuccessMappings[paymentStatus];
+
 export const addStripeFee = (price: number) => Math.ceil(price * 1.012 + 1.8);
+
 export const registrationCloseTime = (event: Event) =>
   moment(event.startTime).subtract(event.registrationDeadlineHours, 'hours');
+
 export const registrationIsClosed = (event: Event) => {
   return moment().isAfter(registrationCloseTime(event));
 };
+
 export const unregistrationCloseTime = (event: Event) =>
   moment(event.startTime).subtract(event.unregistrationDeadlineHours, 'hours');
 export const unregistrationIsClosed = (event: Event) => {
   return moment().isAfter(unregistrationCloseTime(event));
 };
+
 export const sumPenalties = (penalties: Array<AddPenalty>) =>
   sumBy(penalties, 'weight');
 export const penaltyHours = (penalties: Array<AddPenalty>) => {
@@ -254,6 +256,7 @@ export const penaltyHours = (penalties: Array<AddPenalty>) => {
       return -1;
   }
 };
+
 export const eventStatusTypes = [
   {
     value: 'TBA',
@@ -272,6 +275,7 @@ export const eventStatusTypes = [
     label: 'Åpen (med påmelding)',
   },
 ];
+
 export const transformEventStatusType = (eventStatusType: string) => {
   return (
     find(eventStatusTypes, {
@@ -279,14 +283,16 @@ export const transformEventStatusType = (eventStatusType: string) => {
     }) || eventStatusTypes[0]
   );
 };
+
 export const getEventSemesterFromStartTime = (
-  startTime: moment
+  startTime: Dateish
 ): EventSemester => {
   return {
     year: moment(startTime).year(),
     semester: moment(startTime).month() > 6 ? 'autumn' : 'spring',
   };
 };
+
 export const getConsent = (
   domain: PhotoConsentDomain,
   year: number,
@@ -296,6 +302,7 @@ export const getConsent = (
   photoConsents.find(
     (pc) => pc.domain === domain && pc.year === year && pc.semester === semester
   );
+
 export const allConsentsAnswered = (
   photoConsents: Array<PhotoConsent>
 ): boolean =>
@@ -303,6 +310,7 @@ export const allConsentsAnswered = (
     (all_bool, pc) => all_bool && typeof pc.isConsenting === 'boolean',
     photoConsents.length > 0
   );
+
 export const toReadableSemester = (
   semesterObj: EventSemester | PhotoConsent
 ): string => {
