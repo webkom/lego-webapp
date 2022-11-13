@@ -22,11 +22,15 @@ const ImageComponent = (props: Props) => {
   const [imageError, setImageError] = useState<boolean>(false);
   const [loadStart, setLoadStart] = useState<number>(0);
   const [loadEnd, setLoadEnd] = useState<number>(0);
+
   const { src, className, alt = 'image', style, ...rest } = props;
+
   const isProgressive = !!props.placeholder;
+
   useEffect(() => {
     setProgressiveSrc(props.placeholder || EMPTY_IMAGE);
   }, [props.placeholder]);
+
   useEffect(() => {
     if (isProgressive) {
       setImageLoaded(false);
@@ -47,6 +51,7 @@ const ImageComponent = (props: Props) => {
       setImageError(true);
     };
   }, [isProgressive, src]);
+
   const defaultClass = cx(styles.image, className);
   // Skip the transition effect if the image loads very quick.
   // F.ex. when high bandwith or cached
@@ -57,7 +62,9 @@ const ImageComponent = (props: Props) => {
     className,
     !imageLoaded && !imageError && isProgressive && styles.blur
   );
+
   if (!src) return <div className={finalClass} style={style} {...rest} />;
+
   return (
     <img
       className={isProgressive ? finalClass : defaultClass}

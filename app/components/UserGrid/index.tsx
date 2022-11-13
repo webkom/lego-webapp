@@ -1,7 +1,9 @@
+import cx from 'classnames';
 import { Link } from 'react-router-dom';
 import { ProfilePicture } from 'app/components/Image';
 import Tooltip from 'app/components/Tooltip';
 import type { User } from 'app/models';
+import styles from './UserGrid.css';
 
 const UserGrid = ({
   users,
@@ -10,7 +12,7 @@ const UserGrid = ({
   minRows = 0,
   padding = 3,
 }: {
-  users: Array<User>;
+  users: User[];
 
   /* profile picture size */
   size?: number;
@@ -26,17 +28,23 @@ const UserGrid = ({
       }px, 1fr))`,
       gridTemplateRows: users.length === 0 ? 0 : size + padding,
       overflow: 'hidden',
-      minHeight: minRows * size + (minRows - 1) * padding,
-      maxHeight: maxRows * size + (maxRows - 1) * padding,
+      minHeight: minRows * size + (minRows - 1) * padding + 3.3,
+      maxHeight: maxRows * size + (maxRows - 1) * padding + 3.3,
     }}
   >
     {users.map((user) => (
-      <RegisteredCell key={user.id} user={user} />
+      <RegisteredUserCell key={user.id} user={user} />
     ))}
+
+    {/* Only 15 users are passed into the users prop */}
+    {minRows > 0 &&
+      Array.from({ length: 15 - users.length }, (_, index) => (
+        <SkeletonUserCell key={index} />
+      ))}
   </div>
 );
 
-export const RegisteredCell = ({ user }: { user: User }) => (
+const RegisteredUserCell = ({ user }: { user: User }) => (
   <Tooltip
     style={{
       marginTop: '-7px',
@@ -45,14 +53,17 @@ export const RegisteredCell = ({ user }: { user: User }) => (
   >
     <Link to={`/users/${user.username}`}>
       <ProfilePicture
+        alt={`${user.username}'s profile picture`}
         size={56}
         user={user}
-        style={{
-          margin: '0 auto',
-          display: 'block',
-        }}
+        className={styles.cell}
       />
     </Link>
   </Tooltip>
 );
+
+const SkeletonUserCell = () => (
+  <div className={cx(styles.skeletonCell, styles.cell)} />
+);
+
 export default UserGrid;

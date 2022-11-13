@@ -13,13 +13,13 @@
 .poolBox {
   display: flex;
   flex: 1;
-  background-color: rgba(200, 200, 200, 30%);
   max-width: 100%;
   min-width: 25%;
   flex-direction: column;
   align-items: center;
+  background-color: rgba(200, 200, 200, 30%);
 }
 
 html[data-theme='dark'] .poolBox {
-  background-color: rgba(50, 50, 50, 30%);
+  background-color: rgba(80, 80, 80, 30%);
 }
