@@ -1,0 +1,18 @@
+.cell {
+  margin: 0 auto;
+
+  /* 3.3 pixels are added to the minimum height of the outer grid */
+  margin-bottom: 3.3px;
+}
+
+.skeletonCell {
+  /* The same dimensions as the profile pictures  */
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: var(--color-mono-gray-2);
+}
+
+html[data-theme='dark'] .skeletonCell {
+  background-color: var(--color-mono-gray-1);
+}

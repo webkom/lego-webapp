@@ -6,16 +6,24 @@ type Props = Omit<
   {
     user: UserEntity;
     size: number;
+    className?: string;
   } & ComponentProps<typeof CircularPicture>,
   'placeholder' | 'src' | 'alt'
 >;
 
-const ProfilePicture = ({ user, size = 100, style, ...props }: Props) => (
+const ProfilePicture = ({
+  user,
+  size = 100,
+  className,
+  style,
+  ...props
+}: Props) => (
   <CircularPicture
-    alt={`${user.username} profile picture`}
+    alt={`${user.username}'s profile picture`}
     src={user.profilePicture}
     placeholder={user.profilePicturePlaceholder}
     size={size}
+    className={className}
     style={style}
     {...props}
   />

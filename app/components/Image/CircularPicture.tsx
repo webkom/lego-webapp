@@ -10,6 +10,7 @@ const CircularPicture = ({
   placeholder,
   alt,
   size = 100,
+  className,
   style,
   ...props
 }: Props) => (
@@ -17,8 +18,7 @@ const CircularPicture = ({
     src={src}
     placeholder={placeholder}
     alt={alt}
-    width={size}
-    height={size}
+    className={className}
     style={{ ...style, borderRadius: size / 2, width: size, height: size }}
     {...props}
   />

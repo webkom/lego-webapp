@@ -51,6 +51,9 @@ type InterestedButtonProps = {
   isInterested: boolean;
 };
 
+const MIN_USER_GRID_ROWS = 2;
+const MAX_USER_GRID_ROWS = 2;
+
 const Line = () => <div className={styles.line} />;
 
 const InterestedButton = ({ isInterested }: InterestedButtonProps) => {
@@ -206,16 +209,29 @@ export default class EventDetail extends Component<Props, State> {
     }
 
     const color = colorForEvent(event.eventType);
+
     const onRegisterClick = currentUserFollowing
       ? () => unfollow(currentUserFollowing.id, event.id)
       : () => follow(currentUser.id, event.id);
+
     const currentMoment = moment();
+
     const activationTimeMoment = moment(event.activationTime);
+
     const eventRegistrationTime = activationTimeMoment.subtract(
       penaltyHours(penalties),
       'hours'
     );
+
     const registrationCloseTimeMoment = registrationCloseTime(event);
+
+    // The UserGrid is expanded when there's less than 5 minutes till activation
+    const minUserGridRows = currentMoment.isAfter(
+      activationTimeMoment.subtract(5, 'minutes')
+    )
+      ? MIN_USER_GRID_ROWS
+      : 0;
+
     const deadlines = [
       event.activationTime && currentMoment.isBefore(activationTimeMoment)
         ? {
@@ -302,6 +318,7 @@ export default class EventDetail extends Component<Props, State> {
 
     const groupLink =
       event.responsibleGroup && resolveGroupLink(event.responsibleGroup);
+
     const eventCreator = [
       event.responsibleGroup && {
         key: 'Arrangør',
@@ -418,8 +435,8 @@ export default class EventDetail extends Component<Props, State> {
                   {registrations ? (
                     <Fragment>
                       <UserGrid
-                        minRows={0}
-                        maxRows={2}
+                        minRows={minUserGridRows}
+                        maxRows={MAX_USER_GRID_ROWS}
                         users={registrations
                           .slice(0, 14)
                           .map((reg) => reg.user)}
