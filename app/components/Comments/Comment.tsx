@@ -5,21 +5,19 @@ import DisplayContent from 'app/components/DisplayContent';
 import { ProfilePicture } from 'app/components/Image';
 import { Flex } from 'app/components/Layout';
 import Time from 'app/components/Time';
-import type { ID } from 'app/models';
-import type { CommentEntity } from 'app/reducers/comments';
-import type { UserEntity } from 'app/reducers/users';
+import type { ID, Comment as CommentType, User } from 'app/models';
 import Button from '../Button';
 import styles from './Comment.css';
 
 type Props = {
-  comment: CommentEntity;
+  comment: CommentType;
   commentFormProps: {
     contentTarget: string;
-    user: UserEntity;
+    user: User;
     loggedIn: boolean;
   };
   deleteComment: (id: ID, contentTarget: string) => Promise<void>;
-  user: UserEntity;
+  user: User;
   contentTarget: string;
 };
 type State = {

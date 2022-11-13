@@ -1,11 +1,9 @@
 import cx from 'classnames';
 import styles from './Card.css';
+import type { HTMLAttributes } from 'react';
 
 type Props = {
   className?: string;
-
-  /** Children compontents */
-  children?: any;
 
   /** Dark background  */
   dark?: boolean;
@@ -15,7 +13,7 @@ type Props = {
 
   /** Shadow */
   shadow?: boolean;
-};
+} & HTMLAttributes<HTMLDivElement>;
 
 function Card({
   children,
@@ -34,7 +32,7 @@ function Card({
         tight && styles.tight,
         shadow && styles.shadow
       )}
-      {...(htmlAttributes as Record<string, any>)}
+      {...htmlAttributes}
     >
       {children}
     </div>

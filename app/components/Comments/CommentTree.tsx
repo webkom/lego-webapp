@@ -1,21 +1,20 @@
 import cx from 'classnames';
-import type { ID } from 'app/models';
-import type { CommentEntity } from 'app/reducers/comments';
-import type { UserEntity } from 'app/reducers/users';
+import type { ID, Comment as CommentType, User } from 'app/models';
+import type { Tree } from 'app/utils';
 import Comment from './Comment';
 import styles from './CommentTree.css';
 
 type Props = {
-  comments: Array<CommentEntity>;
+  comments: Tree<CommentType>;
   isChild?: boolean;
   commentFormProps: {
     contentTarget: string;
-    user: UserEntity;
+    user: User;
     loggedIn: boolean;
   };
   level?: number;
-  deleteComment: (id: ID, contentTarget: string) => Promise<any>;
-  user: UserEntity;
+  deleteComment: (id: ID, contentTarget: string) => Promise<void>;
+  user: User;
   contentTarget: string;
 };
 

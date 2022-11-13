@@ -1,8 +1,8 @@
 import type { ID } from 'app/models';
 
-type Tree<T extends Record<string, any>> = Array<
+export type Tree<T> = Array<
   T & {
-    children: Tree<any>;
+    children: Tree<T>;
   }
 >;
 

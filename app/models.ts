@@ -96,7 +96,7 @@ export type UserMembership = {
 };
 export type Group = {
   id: ID;
-  actionGrant: Array<string>;
+  actionGrant: ActionGrant;
   type: GroupType;
   name: string;
   numberOfUsers?: number;
@@ -143,8 +143,18 @@ type EventBase = {
   useContactTracing: boolean;
   legacyRegistrationCount: number;
 };
+
 export type Company = Record<string, any>;
-export type Comment = Record<string, any>;
+
+export type Comment = {
+  id: ID;
+  text: string;
+  author: User;
+  createdAt: Dateish;
+  updatedAt: Dateish;
+  parent?: ID;
+};
+
 export type Permission = string;
 export type EventRegistrationPresence = 'PRESENT' | 'NOT_PRESENT' | 'UNKNOWN';
 export type LEGACY_EventRegistrationPhotoConsent =
@@ -194,7 +204,7 @@ export type EventPool = EventPoolBase & {
   permissionGroups: Array<Record<string, any>>;
 };
 export type Event = EventBase & {
-  actionGrant: Array<string>;
+  actionGrant: ActionGrant;
   activationTime: Dateish | null | undefined;
   isAdmitted: boolean | null | undefined;
   activeCapacity: number;
@@ -241,9 +251,11 @@ export type UserFollowing = {
 export type Article = Record<string, any>;
 export type Feed = Record<string, any>;
 export type FeedItem = Record<string, any>;
+
 export type Workplace = {
   town: string;
 };
+
 export type Joblisting = {
   id: ID;
   fromYear: number;
@@ -260,16 +272,35 @@ export type CompanySemesterContactedStatus =
   | 'not_interested'
   | 'contacted'
   | 'not_contacted';
+
+export type Meeting = {
+  id: ID;
+  createdBy: ID;
+  title: string;
+  location: string;
+  startTime: Dateish;
+  endTime: Dateish;
+  reportAuthor: ID | null;
+  mazemapPoi: number | null;
+  description?: string;
+  report?: string;
+  invitations: string[];
+  comments?: ID[];
+  contentTarget?: string;
+  actionGrant?: ActionGrant;
+};
+
 export type Announcement = {
   id: ID;
   message: string;
-  users: Array<Record<string, any>>;
-  groups: Array<Record<string, any>>;
-  events: Array<Record<string, any>>;
-  meetings: Array<Record<string, any>>;
+  users: User[];
+  groups: Group[];
+  events: Event[];
+  meetings: Meeting[];
   fromGroup: Group;
   sent?: Dateish;
 };
+
 export type CreateAnnouncement = Announcement & {
   send: boolean | null | undefined;
 };

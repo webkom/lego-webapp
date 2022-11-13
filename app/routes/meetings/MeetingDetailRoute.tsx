@@ -8,6 +8,7 @@ import {
   answerMeetingInvitation,
   resetMeetingsToken,
 } from 'app/actions/MeetingActions';
+import type { User } from 'app/models';
 import { selectMeetingById } from 'app/reducers/meetings';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import MeetingDetailLoginRoute from './MeetingDetailLoginRoute';
@@ -73,7 +74,12 @@ const mapStateToProps = (state, props) => {
 
 type Props = {
   loggedIn: boolean;
-  meetingsToken: Record<string, any>;
+  meetingsToken: {
+    status: number;
+    user: User;
+    response: string;
+    meeting: number;
+  };
   router: any;
   resetMeetingsToken: () => void;
 };

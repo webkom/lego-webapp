@@ -1,18 +1,16 @@
 import CommentForm from 'app/components/CommentForm';
 import { Flex } from 'app/components/Layout';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import type { ID } from 'app/models';
-import type { CommentEntity } from 'app/reducers/comments';
-import type { UserEntity } from 'app/reducers/users';
+import type { ID, Comment, User } from 'app/models';
 import { generateTreeStructure } from 'app/utils';
 import CommentTree from './CommentTree';
 import type { StyleHTMLAttributes } from 'react';
 
 type Props = {
-  comments: Array<CommentEntity>;
+  comments: Array<Comment>;
   formDisabled?: boolean;
   contentTarget: string;
-  user: UserEntity;
+  user: User;
   loggedIn: boolean;
   displayTitle?: boolean;
   style?: StyleHTMLAttributes<HTMLDivElement>;

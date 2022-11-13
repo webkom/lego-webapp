@@ -7,3 +7,11 @@
     margin-left: 20px;
   }
 }
+
+.root {
+  border: 0;
+}
+
+.child {
+  border: 0;
+}

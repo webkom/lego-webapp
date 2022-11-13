@@ -141,6 +141,7 @@ function InterestGroupDetail(props: Props) {
         </ContentMain>
         <ContentSidebar>
           <Image
+            alt={`${group.name} logo`}
             className={styles.logo}
             src={logo}
             placeholder={group.logoPlaceholder}
