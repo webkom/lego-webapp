@@ -14,13 +14,14 @@ import {
   withSubmissionError,
 } from 'app/components/Form';
 import type { AddPenalty, ID } from 'app/models';
+import type { FormEventHandler } from 'react';
 
 type Props = {
   user: ID;
-  addPenalty: (arg0: AddPenalty) => Promise<any>;
+  addPenalty: (arg0: AddPenalty) => Promise<void>;
   reason?: string;
   weight?: number;
-  handleSubmit: (arg0: (...args: Array<any>) => any) => void;
+  handleSubmit: (arg0: (...args: Array<any>) => any) => FormEventHandler;
   actionGrant: boolean;
   hidden?: boolean;
   button?: boolean;

@@ -2,6 +2,7 @@ import cx from 'classnames';
 import { createField } from './Field';
 import styles from './RadioButton.css';
 import type { FormProps } from './Field';
+import type { InputHTMLAttributes } from 'react';
 
 type Props = {
   id: string;
@@ -9,8 +10,8 @@ type Props = {
   label?: string;
   className?: string;
   inputValue?: string;
-  value?: string;
-};
+  value?: string | number;
+} & InputHTMLAttributes<HTMLInputElement>;
 
 function RadioButton({
   id,
@@ -38,10 +39,7 @@ function RadioButton({
 const RawField = createField(RadioButton);
 
 const StyledField = ({ fieldClassName, ...props }: FormProps) => (
-  <RawField
-    fieldClassName={cx(fieldClassName, styles.radioField)}
-    {...(props as Record<string, any>)}
-  />
+  <RawField fieldClassName={cx(fieldClassName, styles.radioField)} {...props} />
 );
 
 RadioButton.Field = StyledField;
