@@ -6,19 +6,22 @@ import reactionStyles from './Reaction.css';
 import ReactionPicker from './ReactionPicker';
 import AddReactionEmoji from './assets/AddReactionEmoji';
 import styles from './index.css';
-import type { Node } from 'react';
+import type { ReactNode, MouseEventHandler, RefObject } from 'react';
 
 type Props = {
-  children: Node;
+  children: ReactNode;
   className?: string;
   emojis: Array<EmojiEntity>;
   fetchingEmojis: boolean;
-  addReaction: (arg0: { emoji: string; contentTarget: string }) => Promise<any>;
+  addReaction: (arg0: {
+    emoji: string;
+    contentTarget: string;
+  }) => Promise<void>;
   deleteReaction: (arg0: {
     reactionId: ID;
     contentTarget: string;
-  }) => Promise<any>;
-  fetchEmojis: () => Promise<any>;
+  }) => Promise<void>;
+  fetchEmojis: () => Promise<void>;
   contentTarget: string;
   loggedIn: boolean;
 };
@@ -31,7 +34,8 @@ type State = {
 // app/components/LegoReactions.
 
 class Reactions extends Component<Props, State> {
-  node: any | null | undefined = null;
+  node: RefObject<HTMLDivElement>;
+
   state = {
     hovered: false,
     addEmojiHovered: false,
@@ -58,7 +62,7 @@ class Reactions extends Component<Props, State> {
       addEmojiHovered: false,
     });
   };
-  toggleReactionPicker = (e: Event) => {
+  toggleReactionPicker: MouseEventHandler<HTMLDivElement> = (e) => {
     if (!this.state.reactionPickerOpen) {
       if (!this.state.fetchedEmojis) {
         this.props.fetchEmojis();
@@ -75,8 +79,9 @@ class Reactions extends Component<Props, State> {
     });
     e.stopPropagation();
   };
-  handleOutsideClick = (e: Event) => {
-    if (this.node && this.node.contains(e.target)) {
+
+  handleOutsideClick = (e) => {
+    if (this.node.current && this.node.current.contains(e.target)) {
       return;
     }
 
@@ -96,12 +101,7 @@ class Reactions extends Component<Props, State> {
     } = this.props;
     const { reactionPickerOpen, addEmojiHovered } = this.state;
     return (
-      <div
-        className={styles.reactionsContainer}
-        ref={(node) => {
-          this.node = node;
-        }}
-      >
+      <div className={styles.reactionsContainer} ref={this.node}>
         <div
           className={className ? className : styles.reactions}
           onMouseEnter={this.onMouseEnter}
@@ -112,7 +112,7 @@ class Reactions extends Component<Props, State> {
             <div
               className={classNames(
                 reactionStyles.reaction,
-                styles.addReaction
+                styles.addReactionEmojiContainer
               )}
               onClick={this.toggleReactionPicker}
               onMouseEnter={this.onAddEmojiEnter}

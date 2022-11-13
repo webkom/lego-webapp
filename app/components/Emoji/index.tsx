@@ -6,11 +6,10 @@ type Props = {
   size?: string;
 };
 
-const Emoji = ({ shortCode, unicodeString, size = 'inherit' }: Props) => {
+const Emoji = ({ unicodeString, size = 'inherit' }: Props) => {
   return (
     <div
       className={styles.emoji}
-      alt={shortCode}
       style={{
         height: size,
         width: size,

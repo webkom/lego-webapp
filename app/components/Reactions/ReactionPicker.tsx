@@ -12,15 +12,18 @@ import ReactionPickerHeader from './ReactionPickerHeader';
 type Props = {
   isLoading: boolean;
   emojis: Array<EmojiEntity>;
-  addReaction: (arg0: { emoji: string; contentTarget: string }) => Promise<any>;
+  addReaction: (arg0: {
+    emoji: string;
+    contentTarget: string;
+  }) => Promise<void>;
   deleteReaction: (arg0: {
     reactionId: ID;
     contentTarget: string;
-  }) => Promise<any>;
+  }) => Promise<void>;
   contentTarget: string;
 };
 
-const searchEmojis = (emojis, searchString) => {
+const searchEmojis = (emojis: EmojiEntity[], searchString: string) => {
   const matchingEmojis = [];
   let currentEmojis = emojis;
 
