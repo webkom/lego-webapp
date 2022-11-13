@@ -19,36 +19,35 @@ import { MazemapEmbed } from 'app/components/MazemapEmbed';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import Time, { FromToTime } from 'app/components/Time';
 import { AttendanceStatus } from 'app/components/UserAttendance';
-import type { Dateish, ID } from 'app/models';
-import { statusesText, statuses } from 'app/reducers/meetingInvitations';
-import type {
-  MeetingInvitationEntity,
+import type { Dateish, ID, Meeting, Comment, User } from 'app/models';
+import {
+  statusesText,
   MeetingInvitationStatus,
 } from 'app/reducers/meetingInvitations';
-import type { UserEntity } from 'app/reducers/users';
+import type { MeetingInvitationEntity } from 'app/reducers/meetingInvitations';
 import urlifyString from 'app/utils/urlifyString';
 import styles from './MeetingDetail.css';
 
 type Props = {
-  meeting: Record<string, any>;
-  currentUser: UserEntity;
+  meeting: Meeting;
+  currentUser: User;
   showAnswer: boolean;
-  meetingInvitations: Array<MeetingInvitationEntity>;
+  meetingInvitations: Array<MeetingInvitationEntity & { id: ID }>;
   setInvitationStatus: (
     meetingId: number,
     status: MeetingInvitationStatus,
-    user: UserEntity
-  ) => Promise<any>;
-  reportAuthor: UserEntity;
-  createdBy: UserEntity;
+    user: User
+  ) => Promise<void>;
+  reportAuthor: User;
+  createdBy: User;
   currentUserInvitation: MeetingInvitationEntity;
   loggedIn: boolean;
-  comments: Array<Record<string, any>>;
-  push: (arg0: string) => Promise<any>;
-  deleteComment: (id: ID, contentTarget: string) => Promise<any>;
+  comments: Comment[];
+  push: (arg0: string) => Promise<void>;
+  deleteComment: (id: ID, contentTarget: string) => Promise<void>;
 };
 
-const UserLink = ({ user }: { user: UserEntity }) =>
+const UserLink = ({ user }: { user: User }) =>
   user ? (
     <Link to={`/users/${user.username}`}> {user.fullName} </Link>
   ) : (
@@ -60,22 +59,28 @@ class MeetingDetails extends Component<Props> {
     const { meeting, currentUser } = this.props;
     this.props.setInvitationStatus(meeting.id, newStatus, currentUser);
   };
-  acceptInvitation = () => this.setInvitationStatus(statuses.ATTENDING);
-  rejectInvitation = () => this.setInvitationStatus(statuses.NOT_ATTENDING);
+
+  acceptInvitation = () =>
+    this.setInvitationStatus(MeetingInvitationStatus.ATTENDING);
+
+  rejectInvitation = () =>
+    this.setInvitationStatus(MeetingInvitationStatus.NOT_ATTENDING);
+
   sortInvitations = () => {
     const { meetingInvitations } = this.props;
-    return Object.keys(statuses).map((invitationStatus) => ({
+    return (
+      Object.keys(MeetingInvitationStatus) as Array<
+        keyof typeof MeetingInvitationStatus
+      >
+    ).map((invitationStatus) => ({
       name: statusesText[invitationStatus],
       capacity: meetingInvitations.length,
       registrations: meetingInvitations.filter(
         (invite) => invite.status === invitationStatus
       ),
-    })) as Array<{
-      name: string;
-      capacity: number;
-      registrations: Array<MeetingInvitationEntity>;
-    }>;
+    }));
   };
+
   attendanceButtons = (
     statusMe: string | null | undefined,
     startTime: Dateish
@@ -86,14 +91,14 @@ class MeetingDetails extends Component<Props> {
         <Button
           success
           onClick={this.acceptInvitation}
-          disabled={statusMe === statuses.ATTENDING}
+          disabled={statusMe === MeetingInvitationStatus.ATTENDING}
         >
           Delta
         </Button>
         <Button
           dark
           onClick={this.rejectInvitation}
-          disabled={statusMe === statuses.NOT_ATTENDING}
+          disabled={statusMe === MeetingInvitationStatus.NOT_ATTENDING}
         >
           Avslå
         </Button>

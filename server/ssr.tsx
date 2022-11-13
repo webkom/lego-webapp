@@ -9,9 +9,10 @@ import RouteConfig from '../app/routes';
 import configureStore from '../app/utils/configureStore';
 import pageRenderer from './pageRenderer';
 import type { State } from '../app/types';
+import type { StaticRouterContext } from 'react-router';
 
 const serverSideTimeoutInMs = 4000;
-export const helmetContext: any = {}; // AntiPattern because of babel
+export const helmetContext = {}; // AntiPattern because of babel
 // https://github.com/babel/babel/issues/3083
 
 class TimeoutError extends Error {
@@ -51,7 +52,7 @@ const createServerSideRenderer = (req: Request, res: Response) => {
     );
   };
 
-  const context: Record<string, any> = {};
+  const context: StaticRouterContext = {};
   const log = req.app.get('log');
 
   const ServerConfig = ({
@@ -59,10 +60,7 @@ const createServerSideRenderer = (req: Request, res: Response) => {
     context,
   }: {
     req: Request;
-    context: { [key: string]: any } & {
-      status?: string;
-      url?: string;
-    };
+    context: StaticRouterContext;
   }) => (
     <StaticRouter location={req.url} context={context}>
       <RouteConfig />

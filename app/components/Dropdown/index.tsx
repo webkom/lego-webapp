@@ -3,7 +3,7 @@ import { useRef } from 'react';
 import { Overlay } from 'react-overlays';
 import Icon from 'app/components/Icon';
 import styles from './Dropdown.css';
-import type { Node, Portal } from 'react';
+import type { ReactNode, ReactPortal, HTMLAttributes } from 'react';
 
 type Props = {
   iconName?: string;
@@ -12,10 +12,11 @@ type Props = {
   className?: string;
   contentClassName?: string;
   componentClass?: any;
-  triggerComponent?: Node | Portal;
+  triggerComponent?: ReactNode | ReactPortal;
   show: boolean;
-  children?: any;
-  style?: any;
+  children?: ReactNode;
+  style?: Record<string, string>;
+  rootClose?: boolean;
 };
 
 const Dropdown = ({
@@ -29,6 +30,7 @@ const Dropdown = ({
   show,
   children,
   style,
+  rootClose,
 }: Props) => {
   const triggerRef = useRef(null);
   return (
@@ -45,8 +47,7 @@ const Dropdown = ({
         onHide={toggle}
         target={triggerRef}
         placement="bottom"
-        rootClose
-        shouldUpdatePosition
+        rootClose={rootClose ?? true}
       >
         {({ props, arrowProps }) => (
           <div
@@ -54,6 +55,8 @@ const Dropdown = ({
             className={cx(styles.content, contentClassName || null)}
             onClick={closeOnContentClick && toggle}
           >
+            {/*eslint-disable-next-line */}
+            {/*@ts-ignore The css TS plugin does not understand our css alias imports*/}
             <div {...arrowProps} className={styles.arrow} />
             {children}
           </div>
@@ -63,13 +66,13 @@ const Dropdown = ({
   );
 };
 
-const List = ({ children }: { children: any }): Node => (
+const List = ({ children }: { children: ReactNode }) => (
   <ul className={styles.dropdownList}>{children}</ul>
 );
 
-const ListItem = (props: any): Node => <li {...props} />;
+const ListItem = (props: HTMLAttributes<HTMLLIElement>) => <li {...props} />;
 
-const Divider = (): Node => <li className={styles.divider} />;
+const Divider = () => <li className={styles.divider} />;
 
 Dropdown.List = List;
 Dropdown.ListItem = ListItem;

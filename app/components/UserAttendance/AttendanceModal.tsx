@@ -3,22 +3,36 @@ import { flatMap } from 'lodash';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { ProfilePicture } from 'app/components/Image';
+import type { ID, User } from 'app/models';
 import Button from '../Button';
 import styles from './AttendanceModal.css';
 
-type Pool = {
-  name: string;
-  registrations: Array<Record<string, any>>;
+export type Registration = {
+  id: ID;
+  user: User;
 };
-export type Props = {
+
+export type Pool = {
+  name: string;
+  registrations: Registration[];
+};
+
+type Props = {
   pools: Array<Pool>;
   title: string;
   togglePool: (arg0: number) => void;
   selectedPool: number;
-  allRegistrations?: Array<Record<string, any>>;
+  allRegistrations?: Registration[];
 };
 
-const Tab = ({ name, index, activePoolIndex, togglePool }: any) => (
+type TabProps = {
+  name: string;
+  index: number;
+  activePoolIndex: number;
+  togglePool: (pool: number) => void;
+};
+
+const Tab = ({ name, index, activePoolIndex, togglePool }: TabProps) => (
   <Button
     flat
     onClick={() => togglePool(index)}
@@ -32,10 +46,7 @@ const Tab = ({ name, index, activePoolIndex, togglePool }: any) => (
 );
 
 type State = {
-  pools: Array<
-    /*TODO: Pool*/
-    Record<string, any>
-  >;
+  pools: Pool[];
 };
 
 class AttendanceModal extends Component<Props, State> {
@@ -46,20 +57,19 @@ class AttendanceModal extends Component<Props, State> {
     title: 'Status',
   };
 
-  // eslint-disable-next-line
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.generateAmendedPools(this.props.pools, this.props.allRegistrations);
   }
 
   generateAmendedPools = (
     pools: Array<Pool>,
-    allRegistrations?: Array<Record<string, any>>
+    allRegistrations?: Registration[]
   ) => {
     if (pools.length === 1)
       return this.setState({
         pools,
       });
-    const registrations = // $FlowFixMe
+    const registrations =
       allRegistrations || flatMap(pools, (pool) => pool.registrations);
     const summaryPool = {
       name: 'Alle',
@@ -78,7 +88,7 @@ class AttendanceModal extends Component<Props, State> {
       <div>
         <h2>{title}</h2>
         <ul className={styles.list}>
-          {activePool.registrations.map((registration, i) => (
+          {activePool.registrations.map((registration) => (
             <li key={registration.id}>
               <div className={styles.row}>
                 <ProfilePicture size={30} user={registration.user} />

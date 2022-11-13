@@ -1,33 +1,35 @@
 import { produce } from 'immer';
 import { createSelector } from 'reselect';
-import { $Keys } from 'utility-types';
+import type { User } from 'app/models';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { Meeting } from '../actions/ActionTypes';
 import { selectMeetingById } from './meetings';
-import type { UserEntity } from './users';
 
-export const statusesText = {
+export const statusesText: {
+  [key in MeetingInvitationStatus]: string;
+} = {
   NO_ANSWER: 'Ikke svart',
   ATTENDING: 'Deltar',
   NOT_ATTENDING: 'Deltar ikke',
 };
-export const statuses = {
-  NO_ANSWER: 'NO_ANSWER',
-  ATTENDING: 'ATTENDING',
-  NOT_ATTENDING: 'NOT_ATTENDING',
-};
+export enum MeetingInvitationStatus {
+  NO_ANSWER = 'NO_ANSWER',
+  ATTENDING = 'ATTENDING',
+  NOT_ATTENDING = 'NOT_ATTENDING',
+}
 export const getMeetingInvitationId = (meetingId: number, username: string) =>
   `${meetingId}-${username}`;
-export type MeetingInvitationStatus = $Keys<typeof statuses>;
+
 export type MeetingInvitationEntity = {
-  user: UserEntity;
+  user: User;
   status: MeetingInvitationStatus;
   meeting: number;
 };
+
 export default createEntityReducer({
   key: 'meetingInvitations',
   types: {},
-  mutate: produce((newState: State, action: any): void => {
+  mutate: produce((newState: any, action: any): void => {
     switch (action.type) {
       case Meeting.SET_INVITATION_STATUS.SUCCESS: {
         const { meetingId, status, user } = action.meta;
@@ -41,7 +43,7 @@ export default createEntityReducer({
     }
   }),
 });
-type State = any;
+
 export const selectMeetingInvitation = createSelector(
   (state) => state.meetingInvitations.byId,
   (state, props) => props.meetingId,
@@ -57,7 +59,10 @@ export const selectMeetingInvitationsForMeeting = createSelector(
     const meetingInvitations = meeting.invitations;
     if (!meetingInvitations) return [];
     return meetingInvitations
-      .map((invitation) => meetingInvitationsById[invitation])
+      .map((invitation) => ({
+        ...meetingInvitationsById[invitation],
+        id: invitation,
+      }))
       .map((invitation) => {
         const userId = invitation.user;
         const user = users[userId];

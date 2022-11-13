@@ -1,8 +1,9 @@
 import LoadingIndicator from 'app/components/LoadingIndicator';
+import type { User } from 'app/models';
 
 type Props = {
   response: string | null | undefined;
-  user: Record<string, any>;
+  user: User;
   status: number;
   resetMeetingsToken: () => void;
   meeting: number;

@@ -84,7 +84,7 @@ const UserSettingsOAuth2 = (props: Props) => {
           ))}
           {props.applications.length === 0 && (
             <tr>
-              <td colSpan="3">Du har ingen applikasjoner.</td>
+              <td colSpan={3}>Du har ingen applikasjoner.</td>
             </tr>
           )}
         </tbody>
@@ -129,7 +129,7 @@ const UserSettingsOAuth2 = (props: Props) => {
           )}
           {props.grants.length === 0 && (
             <tr>
-              <td colSpan="5">Du har ikke logget logget på en app enda.</td>
+              <td colSpan={5}>Du har ikke logget logget på en app enda.</td>
             </tr>
           )}
         </tbody>

@@ -2,11 +2,11 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Button from 'app/components/Button';
 import Icon from 'app/components/Icon';
-import type { Group, Event } from 'app/models';
+import type { Group, Event, Meeting } from 'app/models';
 
 type Props = {
   event?: Event;
-  meeting?: Record<string, any>;
+  meeting?: Meeting;
   group?: Group;
 };
 

@@ -10,11 +10,15 @@ type Props = {
   emoji: string;
   count: number;
   unicodeString: string;
-  addReaction: (arg0: { emoji: string; contentTarget: string }) => Promise<any>;
+  addReaction: (arg0: {
+    emoji: string;
+    contentTarget: string;
+    unicodeString?: string;
+  }) => Promise<void>;
   deleteReaction: (arg0: {
     reactionId: ID;
     contentTarget: string;
-  }) => Promise<any>;
+  }) => Promise<void>;
   hasReacted: boolean;
   canReact: boolean;
   reactionId: ID;
@@ -35,7 +39,7 @@ class Reaction extends Component<Props> {
       canReact,
       reactionId,
       contentTarget,
-    }: Props = this.props;
+    } = this.props;
     const classes = [
       className ? className : styles.reaction,
       canReact && styles.clickable,
@@ -71,7 +75,7 @@ class Reaction extends Component<Props> {
             }
           >
             <div className={styles.reactionIcon}>
-              <Emoji id={emoji} unicodeString={unicodeString} />
+              <Emoji unicodeString={unicodeString} />
             </div>
             <div className={styles.reactionCount}>{count}</div>
           </div>

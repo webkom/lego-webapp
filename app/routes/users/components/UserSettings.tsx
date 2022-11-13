@@ -8,6 +8,7 @@ import {
   legoForm,
   PhoneNumberInput,
 } from 'app/components/Form';
+import type { UserEntity } from 'app/reducers/users';
 import DeleteUser from 'app/routes/users/components/DeleteUser';
 import RemovePicture from 'app/routes/users/components/RemovePicture';
 import { createValidator, required, isEmail } from 'app/utils/validation';
@@ -25,7 +26,7 @@ type Props = FormProps & {
   changePassword: (arg0: PasswordPayload) => Promise<void>;
   updateUser: (arg0: Record<string, any>) => Promise<void>;
   deleteUser: (arg0: Record<string, any>) => Promise<void>;
-  user: any;
+  user: UserEntity;
   isMe: boolean;
   push: (arg0: string) => void;
   updatePicture: (arg0: Record<string, any>) => void;

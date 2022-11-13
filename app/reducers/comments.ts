@@ -9,10 +9,11 @@ export type CommentEntity = {
   id: ID;
   parent?: ID;
   createdAt: string;
-  children: Array<Record<string, any>>;
+  children?: Array<Record<string, any>>;
   text: string | null;
   author: UserEntity | null;
 };
+
 type State = any;
 
 /**

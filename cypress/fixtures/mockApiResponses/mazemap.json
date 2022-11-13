@@ -6,17 +6,11 @@
       "nodeId": null,
       "geometry": {
         "type": "Point",
-        "coordinates": [
-          10.40460307573571,
-          63.41540585926938
-        ]
+        "coordinates": [10.40460307573571, 63.41540585926938]
       },
       "point": {
         "type": "Point",
-        "coordinates": [
-          10.40460307573571,
-          63.41540585926938
-        ]
+        "coordinates": [10.40460307573571, 63.41540585926938]
       },
       "campusId": 1,
       "floorId": 383,
@@ -40,17 +34,9 @@
       "zName": "3",
       "dispTypeNames": [],
       "campusName": "NTNU - Gl\u00f8shaugen",
-      "dispBldNames": [
-        "Realfagbygget"
-      ],
-      "dispPoiNames": [
-        "<em>Abakus</em>",
-        "A3-133"
-      ],
-      "poiNames": [
-        "Abakus",
-        "A3-133"
-      ],
+      "dispBldNames": ["Realfagbygget"],
+      "dispPoiNames": ["<em>Abakus</em>", "A3-133"],
+      "poiNames": ["Abakus", "A3-133"],
       "bldId": 67,
       "typeIds": [],
       "typeNames": [],
@@ -63,17 +49,11 @@
       "nodeId": null,
       "geometry": {
         "type": "Point",
-        "coordinates": [
-          10.405566999677829,
-          63.41574702200566
-        ]
+        "coordinates": [10.405566999677829, 63.41574702200566]
       },
       "point": {
         "type": "Point",
-        "coordinates": [
-          10.405566999677829,
-          63.41574702200566
-        ]
+        "coordinates": [10.405566999677829, 63.41574702200566]
       },
       "campusId": 1,
       "floorId": 300,
@@ -97,15 +77,9 @@
       "zName": "1",
       "dispTypeNames": [],
       "campusName": "NTNU - Gl\u00f8shaugen",
-      "dispBldNames": [
-        "Realfagbygget"
-      ],
-      "dispPoiNames": [
-        "Datamuseet - NTNU og Norges datahistorie"
-      ],
-      "poiNames": [
-        "Datamuseet - NTNU og Norges datahistorie"
-      ],
+      "dispBldNames": ["Realfagbygget"],
+      "dispPoiNames": ["Datamuseet - NTNU og Norges datahistorie"],
+      "poiNames": ["Datamuseet - NTNU og Norges datahistorie"],
       "bldId": 67,
       "typeIds": [],
       "typeNames": [],

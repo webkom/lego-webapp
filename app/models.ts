@@ -24,12 +24,37 @@ export type EventStatusType = 'NORMAL' | 'OPEN' | 'TBA' | 'INFINITE';
 export type Grade = {
   name: string;
 };
-export type PhotoConsentDomain = 'WEBSITE' | 'SOCIAL_MEDIA';
+export enum PhotoConsentDomain {
+  WEBSITE = 'WEBSITE',
+  SOCIAL_MEDIA = 'SOCIAL_MEDIA',
+}
 export type Semester = 'spring' | 'autumn';
 export type EventSemester = {
   year: number;
   semester: Semester;
 };
+
+export type GroupMembership = {
+  user: User;
+  role: string;
+};
+
+export type UserMembership = {
+  id: ID;
+  user: User;
+  abakusGroup: ID;
+  role: string;
+  isActive: boolean;
+  emailListsEnabled: boolean;
+  createdAt: Dateish;
+  startDate?: Dateish;
+  endDate?: Dateish;
+};
+
+type UserPastMembership = UserMembership & {
+  abakusGroup: Group;
+};
+
 export type PhotoConsent = {
   year: number;
   semester: Semester;
@@ -37,13 +62,31 @@ export type PhotoConsent = {
   isConsenting: boolean | null | undefined;
   updatedAt: Dateish | null | undefined;
 };
+export type PermissionPerGroup = {
+  abakusGroup: Group;
+  permissions: string[];
+  parentPermissions: PermissionPerGroup[];
+};
+
+export type EmailList = {
+  id: ID;
+  users: ID[];
+  name: string;
+  email: string;
+  groups: ID[];
+  groupRoles: string[];
+  requireInternalEmailAddress: boolean[];
+};
+
 export type User = {
   id: ID;
   firstName: string;
+  lastName: string;
   fullName: string;
   username: string;
+  emailAddress?: string;
   grade: Grade;
-  abakusGroups: number[];
+  abakusGroups: Group[];
   gender: string;
   allergies: string;
   profilePicture: string;
@@ -51,6 +94,22 @@ export type User = {
   email?: string;
   phoneNumber?: string;
   photoConsents: Array<PhotoConsent>;
+
+  // UserDetail properties
+  pastMemberships?: UserPastMembership[];
+  memberships?: UserMembership[];
+  abakusEmailLists?: EmailList[];
+  permissionsPerGroup?: PermissionPerGroup[];
+};
+
+export type Penalty = {
+  id: ID;
+  createdAt: Dateish;
+  user: ID;
+  reason: string;
+  weight: number;
+  sourceEvent: ID;
+  exactExpiration: Dateish;
 };
 export type Tags = string;
 
@@ -63,13 +122,9 @@ export enum GroupType {
   Grade = 'klasse',
   Other = 'annen',
 }
-export type GroupMembership = {
-  user: User;
-  role: string;
-};
 export type Group = {
   id: ID;
-  actionGrant: Array<string>;
+  actionGrant: ActionGrant;
   type: GroupType;
   name: string;
   numberOfUsers?: number;
@@ -116,8 +171,18 @@ type EventBase = {
   useContactTracing: boolean;
   legacyRegistrationCount: number;
 };
+
 export type Company = Record<string, any>;
-export type Comment = Record<string, any>;
+
+export type Comment = {
+  id: ID;
+  text: string;
+  author: User;
+  createdAt: Dateish;
+  updatedAt: Dateish;
+  parent?: ID;
+};
+
 export type Permission = string;
 export type EventRegistrationPresence = 'PRESENT' | 'NOT_PRESENT' | 'UNKNOWN';
 export type LEGACY_EventRegistrationPhotoConsent =
@@ -167,7 +232,7 @@ export type EventPool = EventPoolBase & {
   permissionGroups: Array<Record<string, any>>;
 };
 export type Event = EventBase & {
-  actionGrant: Array<string>;
+  actionGrant: ActionGrant;
   activationTime: Dateish | null | undefined;
   isAdmitted: boolean | null | undefined;
   activeCapacity: number;
@@ -214,9 +279,11 @@ export type UserFollowing = {
 export type Article = Record<string, any>;
 export type Feed = Record<string, any>;
 export type FeedItem = Record<string, any>;
+
 export type Workplace = {
   town: string;
 };
+
 export type Joblisting = {
   id: ID;
   fromYear: number;
@@ -233,16 +300,35 @@ export type CompanySemesterContactedStatus =
   | 'not_interested'
   | 'contacted'
   | 'not_contacted';
+
+export type Meeting = {
+  id: ID;
+  createdBy: ID;
+  title: string;
+  location: string;
+  startTime: Dateish;
+  endTime: Dateish;
+  reportAuthor: ID | null;
+  mazemapPoi: number | null;
+  description?: string;
+  report?: string;
+  invitations: string[];
+  comments?: ID[];
+  contentTarget?: string;
+  actionGrant?: ActionGrant;
+};
+
 export type Announcement = {
   id: ID;
   message: string;
-  users: Array<Record<string, any>>;
-  groups: Array<Record<string, any>>;
-  events: Array<Record<string, any>>;
-  meetings: Array<Record<string, any>>;
+  users: User[];
+  groups: Group[];
+  events: Event[];
+  meetings: Meeting[];
   fromGroup: Group;
   sent?: Dateish;
 };
+
 export type CreateAnnouncement = Announcement & {
   send: boolean | null | undefined;
 };

@@ -8,7 +8,7 @@ import Icon from 'app/components/Icon';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import Button from '../Button';
 import styles from './Table.css';
-import type { Node } from 'react';
+import type { ReactNode, ChangeEvent } from 'react';
 
 type sortProps = {
   direction?: 'asc' | 'desc';
@@ -34,7 +34,7 @@ type columnProps = {
   filterMapping?: (arg0: any) => any;
   search?: boolean;
   width?: number;
-  render?: (arg0: any, arg1: Record<string, any>) => Node;
+  render?: (arg0: any, arg1: Record<string, any>) => ReactNode;
   // Should column be rendered. Will render when not set
   visible?: boolean;
   center?: boolean;
@@ -103,7 +103,7 @@ export default class Table extends Component<Props, State> {
     });
   };
   onSearchInput = (
-    { target }: React.SyntheticEvent<any>,
+    { target }: ChangeEvent<HTMLInputElement>,
     dataIndex: string
   ) => {
     this.setState(
@@ -336,6 +336,7 @@ export default class Table extends Component<Props, State> {
                   >
                     <p key={title}>
                       <RadioButton
+                        id={dataIndexColumnChoices}
                         name={dataIndexColumnChoices}
                         inputValue={
                           this.state.showColumn[dataIndexColumnChoices]

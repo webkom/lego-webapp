@@ -1,13 +1,20 @@
 import { Children, cloneElement, Component } from 'react';
 import Modal from 'app/components/Modal';
 import AttendanceModal from './AttendanceModal';
+import type { Pool, Registration } from './AttendanceModal';
 import type { ComponentType, ReactElement } from 'react';
 
 type State = {
   modalVisible: boolean;
   selectedTab: number;
 };
-export default function withModal<Props extends Record<string, any>>(
+
+type WithModalProps = {
+  pools: Pool[];
+  registrations?: Registration[];
+};
+
+export default function withModal<Props extends WithModalProps>(
   WrappedComponent: ComponentType<Props>
 ) {
   const displayName =
@@ -54,8 +61,8 @@ export default function withModal<Props extends Record<string, any>>(
 const ChildrenWithProps = ({
   children,
   ...restProps
-}: {
-  children: ReactElement<any>;
+}: WithModalProps & {
+  children: ReactElement;
 }) => (
   <div>
     {Children.map(children, (child) => cloneElement(child, { ...restProps }))}

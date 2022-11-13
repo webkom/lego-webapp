@@ -1,5 +1,6 @@
 import moment from 'moment-timezone';
 import { createSelector } from 'reselect';
+import type { Dateish } from 'app/models';
 import { mutateComments } from 'app/reducers/comments';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { Meeting } from '../actions/ActionTypes';
@@ -8,19 +9,22 @@ export type MeetingEntity = {
   id: number;
   title: string;
   location: string;
-  startTime: moment$Moment;
-  endTime: moment$Moment;
+  startTime: Dateish;
+  endTime: Dateish;
   report: string;
   invitations: Array<number>;
   reportAuthor: number;
   createdBy: number;
   mazemapPoi: number;
 };
+
 export type MeetingSection = {
   title: string;
   meetings: Array<MeetingEntity>;
 };
+
 const mutate = mutateComments('meetings');
+
 export default createEntityReducer({
   key: 'meetings',
   types: {

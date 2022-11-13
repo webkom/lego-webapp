@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import fs from 'fs';
@@ -20,6 +19,7 @@ Sentry.init({
     }),
   ],
 });
+
 const server = config.https
   ? https.createServer(
       {
@@ -29,13 +29,17 @@ const server = config.https
       app
     )
   : http.createServer(app);
+
 let currentApp = app;
 const log = app.get('log');
-server.listen(app.get('port'), app.get('host'), (err) => {
+
+server.on('error', (err) => {
   if (err) {
     log.error(err, 'could_not_start_server');
   }
+});
 
+server.listen({ port: app.get('port'), host: app.get('host') }, () => {
   log.info(
     {
       port: app.get('port'),

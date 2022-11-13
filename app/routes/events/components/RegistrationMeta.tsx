@@ -5,13 +5,13 @@ import type {
   PhotoConsent,
   EventSemester,
 } from 'app/models';
+import { PhotoConsentDomain } from 'app/models';
 import {
   paymentPending,
   paymentCardDeclined,
   paymentSuccess,
   paymentManual,
   paymentCardExpired,
-  PHOTO_CONSENT_DOMAINS,
   getConsent,
   allConsentsAnswered,
   toReadableSemester,
@@ -58,7 +58,7 @@ const ConsentStatus = ({
   if (!useConsent) return null;
 
   if (photoConsents && allConsentsAnswered(photoConsents)) {
-    const { WEBSITE, SOCIAL_MEDIA } = PHOTO_CONSENT_DOMAINS;
+    const { WEBSITE, SOCIAL_MEDIA } = PhotoConsentDomain;
     const isConsentingWeb = getConsent(
       WEBSITE,
       eventSemester.year,

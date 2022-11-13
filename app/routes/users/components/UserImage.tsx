@@ -1,8 +1,15 @@
 import ImageUpload from 'app/components/Upload/ImageUpload';
+import type { User } from 'app/models';
 
 type Props = {
-  updatePicture: (arg0: Record<string, any>) => void;
-  user: Record<string, any>;
+  updatePicture: ({
+    picture,
+    username,
+  }: {
+    picture: File;
+    username: string;
+  }) => void;
+  user: User;
 };
 
 function UploadPage({ updatePicture, user }: Props) {

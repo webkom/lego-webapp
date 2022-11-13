@@ -22,8 +22,8 @@
     "lint": "yarn run lint:js && yarn run lint:css && yarn run lint:prettier",
     "lint:js": "eslint . --ignore-path .prettierignore --max-warnings 1320",
     "lint:css": "stylelint './app/**/*.css'",
-    "lint:prettier": "prettier '**/*.{ts,tsx,js,css,md}' --check",
-    "prettier": "prettier '**/*.{ts,tsx,js,css,md}' --write",
+    "lint:prettier": "prettier '**/*.{ts,tsx,js,css,md,json}' --check",
+    "prettier": "prettier '**/*.{ts,tsx,js,css,md,json}' --write",
     "types": "tsc"
   },
   "repository": {
@@ -121,6 +121,7 @@
     "@babel/preset-env": "^7.20.2",
     "@babel/preset-react": "^7.18.6",
     "@babel/preset-typescript": "^7.18.6",
+    "@jest/globals": "^29.3.1",
     "@loadable/babel-plugin": "^5.13.2",
     "@loadable/server": "^5.15.2",
     "@loadable/webpack-plugin": "^5.15.2",

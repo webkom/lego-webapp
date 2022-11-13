@@ -1,12 +1,9 @@
 import Image from './Image';
+import type { ComponentProps } from 'react';
 
 type Props = {
-  src: any;
-  placeholder?: string;
-  alt: string;
   size: number;
-  style?: Record<string, any>;
-};
+} & ComponentProps<typeof Image>;
 
 const CircularPicture = ({
   src,
@@ -23,7 +20,7 @@ const CircularPicture = ({
     width={size}
     height={size}
     style={{ ...style, borderRadius: size / 2, width: size, height: size }}
-    {...(props as Record<string, any>)}
+    {...props}
   />
 );
 

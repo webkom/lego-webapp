@@ -1,4 +1,4 @@
-import Select from 'react-select';
+import Select, { type ThemeConfig } from 'react-select';
 import Creatable from 'react-select/creatable';
 import mazemapAutocomplete from '../Search/mazemapAutocomplete';
 import withAutocomplete from '../Search/withAutocomplete';
@@ -21,6 +21,7 @@ type Props = {
   disabled?: boolean;
   options?: Record<string, any>[];
 };
+
 export const selectStyles = {
   control: (styles: Record<string, any>) => ({ ...styles, cursor: 'pointer' }),
   option: (
@@ -38,7 +39,9 @@ export const selectStyles = {
     color: isSelected ? 'var(--color-light-gray-5)' : undefined,
   }),
 };
-export const selectTheme = (theme: Record<string, any>) => ({
+export const selectTheme = (
+  theme: ThemeConfig & { colors: Record<string, string> }
+) => ({
   ...theme,
   colors: {
     ...theme.colors,

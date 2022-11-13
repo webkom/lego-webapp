@@ -8,7 +8,6 @@ type Props = {
   scaleOnHover?: boolean;
   className?: string;
   size?: number;
-  style?: Record<string, string>;
 } & ComponentProps<typeof Flex>;
 
 /**

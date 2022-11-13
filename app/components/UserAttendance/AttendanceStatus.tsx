@@ -1,10 +1,15 @@
 import Button from 'app/components/Button';
-import type { EventPool } from 'app/models';
 import styles from './AttendanceStatus.css';
 import withModal from './withModal';
+import type { Pool } from './AttendanceModal';
+
+type AttendancePool = Pool & {
+  capacity: number;
+  registrationCount?: number;
+};
 
 type AttendanceElementProps = {
-  pool: EventPool;
+  pool: AttendancePool;
   index: number;
   toggleModal: (arg0: number) => void;
 };
@@ -37,9 +42,9 @@ const AttendanceElement = ({
 };
 
 export type AttendanceStatusProps = {
-  pools: Array<EventPool>;
-  toggleModal: (arg0: number) => void;
-  legacyRegistrationCount: number;
+  pools: Array<AttendancePool>;
+  toggleModal?: (arg0: number) => void;
+  legacyRegistrationCount?: number;
 };
 
 const AttendanceStatus = ({
@@ -71,5 +76,5 @@ const AttendanceStatus = ({
   );
 };
 
-AttendanceStatus.Modal = withModal(AttendanceStatus);
+AttendanceStatus.Modal = withModal<AttendanceStatusProps>(AttendanceStatus);
 export default AttendanceStatus;

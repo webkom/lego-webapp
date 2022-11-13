@@ -1,14 +1,15 @@
 import cx from 'classnames';
 import { useEffect, useState } from 'react';
 import styles from './Image.css';
+import type { ImgHTMLAttributes, StyleHTMLAttributes } from 'react';
 
 type Props = {
   src: string;
   placeholder?: string;
   className?: string;
   alt: string;
-  style?: Record<string, string>;
-};
+  style?: StyleHTMLAttributes<HTMLImageElement>;
+} & ImgHTMLAttributes<HTMLImageElement>;
 
 const EMPTY_IMAGE =
   'data:image/png;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
