@@ -202,6 +202,14 @@ const ListEvents = ({
   </div>
 );
 
+type PermissionTreeNode = Group & {
+  children?: Group[];
+  parent?: number;
+  isMember?: boolean;
+};
+
+type PermissionTree = { [key: number]: PermissionTreeNode };
+
 const UserProfile = (props: Props) => {
   const [showAbaId, setShowAbaId] = useState(false);
 
@@ -288,10 +296,12 @@ const UserProfile = (props: Props) => {
       );
     }
   );
-  // $FlowFixMe
+
   const groupedMemberships = orderBy(
     groupBy(
-      filteredPastMembershipsAsBadges.concat(membershipsAsBadges),
+      filteredPastMembershipsAsBadges.concat(
+        membershipsAsBadges as User['pastMemberships']
+      ),
       'abakusGroup.id'
     ),
     [
@@ -300,7 +310,7 @@ const UserProfile = (props: Props) => {
       (memberships) => memberships[0].abakusGroup.type !== 'styre',
     ]
   );
-  const tree = {};
+  const tree: PermissionTree = {};
 
   for (const group of permissionsPerGroup) {
     for (const index in group.parentPermissions) {
@@ -389,13 +399,14 @@ const UserProfile = (props: Props) => {
   };
 
   const emailListsMapping = allAbakusGroups
-    .map((abakusGroup) => [
+    .map((abakusGroup) => ({
       abakusGroup,
-      abakusEmailLists.filter((emailList) =>
+      emailLists: abakusEmailLists.filter((emailList) =>
         emailList.groups.includes(abakusGroup.id)
       ),
-    ])
-    .filter(([, emailLists]) => emailLists.length);
+    }))
+    .filter(({ emailLists }) => emailLists.length);
+
   const emailListsOnUser = abakusEmailLists.filter((emailList) =>
     emailList.users.includes(user.id)
   );
@@ -542,7 +553,7 @@ const UserProfile = (props: Props) => {
             <div>
               <h3>Epostlister</h3>
               <Card className={styles.infoCard}>
-                {emailListsMapping.map(([abakusGroup, emailLists]) => (
+                {emailListsMapping.map(({ abakusGroup, emailLists }) => (
                   <>
                     <h4>Epostlister fra gruppen {abakusGroup.name}</h4>
                     <ul>

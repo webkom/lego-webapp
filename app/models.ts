@@ -33,6 +33,28 @@ export type EventSemester = {
   year: number;
   semester: Semester;
 };
+
+export type GroupMembership = {
+  user: User;
+  role: string;
+};
+
+export type UserMembership = {
+  id: ID;
+  user: User;
+  abakusGroup: ID;
+  role: string;
+  isActive: boolean;
+  emailListsEnabled: boolean;
+  createdAt: Dateish;
+  startDate?: Dateish;
+  endDate?: Dateish;
+};
+
+type UserPastMembership = UserMembership & {
+  abakusGroup: Group;
+};
+
 export type PhotoConsent = {
   year: number;
   semester: Semester;
@@ -40,6 +62,22 @@ export type PhotoConsent = {
   isConsenting: boolean | null | undefined;
   updatedAt: Dateish | null | undefined;
 };
+export type PermissionPerGroup = {
+  abakusGroup: Group;
+  permissions: string[];
+  parentPermissions: PermissionPerGroup[];
+};
+
+export type EmailList = {
+  id: ID;
+  users: ID[];
+  name: string;
+  email: string;
+  groups: ID[];
+  groupRoles: string[];
+  requireInternalEmailAddress: boolean[];
+};
+
 export type User = {
   id: ID;
   firstName: string;
@@ -48,7 +86,7 @@ export type User = {
   username: string;
   emailAddress?: string;
   grade: Grade;
-  abakusGroups: number[];
+  abakusGroups: Group[];
   gender: string;
   allergies: string;
   profilePicture: string;
@@ -56,6 +94,12 @@ export type User = {
   email?: string;
   phoneNumber?: string;
   photoConsents: Array<PhotoConsent>;
+
+  // UserDetail properties
+  pastMemberships?: UserPastMembership[];
+  memberships?: UserMembership[];
+  abakusEmailLists?: EmailList[];
+  permissionsPerGroup?: PermissionPerGroup[];
 };
 
 export type Penalty = {
@@ -78,22 +122,6 @@ export enum GroupType {
   Grade = 'klasse',
   Other = 'annen',
 }
-export type GroupMembership = {
-  user: User;
-  role: string;
-};
-
-export type UserMembership = {
-  id: ID;
-  user: User;
-  abakusGroup: ID;
-  role: string;
-  isActive: boolean;
-  emailListsEnabled: boolean;
-  createdAt: Dateish;
-  startDate?: Dateish;
-  endDate?: Dateish;
-};
 export type Group = {
   id: ID;
   actionGrant: ActionGrant;
