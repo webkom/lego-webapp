@@ -12,6 +12,7 @@ type State = {
 type WithModalProps = {
   pools: Pool[];
   registrations?: Registration[];
+  title?: string;
 };
 
 export default function withModal<Props extends WithModalProps>(
@@ -46,6 +47,7 @@ export default function withModal<Props extends WithModalProps>(
             onHide={() => this.toggleModal(0)}
           >
             <AttendanceModal
+              title={this.props.title}
               selectedPool={this.state.selectedTab}
               togglePool={this.toggleTab}
               pools={this.props.pools}

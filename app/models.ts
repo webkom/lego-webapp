@@ -202,8 +202,9 @@ export type EventRegistrationStatus =
   | 'PENDING_UNREGISTER'
   | 'SUCCESS_UNREGISTER'
   | 'FAILURE_UNREGISTER';
+
 export type EventRegistration = {
-  id: number;
+  id: ID;
   user: User;
   createdBy?: User;
   updatedBy?: User;
@@ -220,14 +221,16 @@ export type EventRegistration = {
   clientSecret?: string;
   paymentError?: string;
 };
+
 type EventPoolBase = {
   id: ID;
   name: string;
   capacity: number;
   activationDate: Dateish;
 };
+
 export type EventPool = EventPoolBase & {
-  registrations?: Array<EventRegistration>;
+  registrations: Array<EventRegistration>;
   registrationCount: number;
   permissionGroups: Array<Record<string, any>>;
 };

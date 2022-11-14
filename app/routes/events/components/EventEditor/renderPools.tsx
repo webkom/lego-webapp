@@ -111,16 +111,19 @@ type Pool = {
   permissionGroups: Array<PermissionGroup>;
   name?: string | null | undefined;
 };
+
+type ValidationError<T> = Partial<{ [key in keyof T]: string | string[] }>;
+
 export const validatePools = (pools: Array<Pool>) => {
   const capacity = pools.reduce((a, b) => a + b.capacity, 0);
-  const errors = pools.map((pool, i) => {
-    const poolError = {};
+  const errors = pools.map((pool) => {
+    const poolError: ValidationError<Pool> = {};
 
     if (!pool.name) {
       poolError.name = 'Navn påkrevet';
     }
 
-    if (isNaN(parseInt(pool.capacity, 10))) {
+    if (isNaN(parseInt(`${pool.capacity}`, 10))) {
       poolError.capacity = 'Kapasitet påkrevet';
     }
 
