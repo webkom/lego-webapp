@@ -2,21 +2,66 @@ import { produce } from 'immer';
 import { get } from 'lodash';
 import moment from 'moment-timezone';
 import { createSelector } from 'reselect';
+import type {
+  User,
+  Article,
+  Event,
+  Company,
+  Group,
+  Meeting,
+  Dateish,
+} from 'app/models';
 import { resolveGroupLink } from 'app/reducers/groups';
 import { categoryOptions } from 'app/routes/pages/PageDetailRoute';
 import { Search } from '../actions/ActionTypes';
 
-export type SearchResult = {
+type SearchResultBase = {
+  type?: string;
   label: string;
-  color: string;
-  picture: string;
-  path: string;
-  value: string;
-  link: string;
-  content: string;
-  icon: string;
-  username?: string;
+  title: string;
+  id?: string;
+  color?: string;
+  picture?: string;
+  path?: string;
+  value?: string;
+  link?: string;
+  content?: string;
+  icon?: string;
+  date?: Dateish;
+  profilePicture?: string;
 };
+
+type UserSearchResult = SearchResultBase & {
+  username: string;
+  profilePicture: string;
+  type: 'Bruker';
+};
+
+export type SearchResult = SearchResultBase | UserSearchResult;
+
+type SearchResultMapping<T, K = SearchResultBase> = {
+  [key in keyof K]: string | ((arg0: T) => string);
+};
+
+export const isUserResult = (value: SearchResult): value is UserSearchResult =>
+  value.type === 'Bruker';
+
+interface SearchMapping {
+  'users.user': SearchResultMapping<User, UserSearchResult>;
+  'articles.article': SearchResultMapping<Article>;
+  'events.event': SearchResultMapping<Event>;
+  'flatpages.page': SearchResultMapping<Record<string, string>>;
+  'gallery.gallery': SearchResultMapping<any>;
+  'companies.company': SearchResultMapping<Company>;
+  'tags.tag': SearchResultMapping<Record<string, string>>;
+  'users.abakusgroup': SearchResultMapping<Group>;
+  'meetings.meeting': SearchResultMapping<Meeting>;
+}
+
+export interface RawSearchResult extends Record<string, string> {
+  contentType: string;
+}
+
 const initialState = {
   results: [],
   autocomplete: [],
@@ -24,7 +69,8 @@ const initialState = {
   searching: false,
   open: false,
 };
-const searchMapping = {
+
+const searchMapping: SearchMapping = {
   'users.user': {
     label: (user) => `${user.fullName} (${user.username})`,
     title: 'fullName',
@@ -112,7 +158,7 @@ const searchMapping = {
     profilePicture: 'logo',
     id: 'id',
     type: 'type',
-    icon: (group) => (group.profilePicture ? null : 'people'),
+    icon: (group) => (group.logo ? null : 'people'),
     color: '#000000',
   },
   'meetings.meeting': {
@@ -129,7 +175,8 @@ const searchMapping = {
   },
 };
 type State = typeof initialState;
-const search = produce<State>((newState: State, action: any): void => {
+
+const search = produce((newState: State, action: any): void => {
   switch (action.type) {
     case Search.SEARCH.BEGIN:
     case Search.AUTOCOMPLETE.BEGIN:
@@ -176,9 +223,9 @@ export default search;
  * const mapped = results.map(transformResult).filter(Boolean)
  */
 
-const transformResult = (result) => {
+const transformResult = (result: RawSearchResult) => {
   const fields = searchMapping[result.contentType];
-  const item = {};
+  const item: Partial<SearchResult> = {};
   Object.keys(fields).forEach((field) => {
     const value = fields[field];
 
@@ -189,15 +236,17 @@ const transformResult = (result) => {
     }
   });
   item.link = fields.link ? item.link : item.path + item.value;
-  return item;
+  return item as SearchResult;
 };
 
-export const selectAutocomplete = (autocomplete: Array<any>) =>
+export const selectAutocomplete = (autocomplete: Array<RawSearchResult>) =>
   autocomplete.map(transformResult).filter(Boolean);
+
 export const selectAutocompleteRedux = createSelector(
   (state) => state.search.autocomplete,
   (autocomplete) => autocomplete.map(transformResult).filter(Boolean)
 );
+
 export const selectResult = createSelector(
   (state) => state.search.results,
   (results) => results.map(transformResult).filter(Boolean)

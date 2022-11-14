@@ -2,14 +2,27 @@ import cx from 'classnames';
 import { Link } from 'react-router-dom';
 import ResolveLink from 'app/components/ResolveLink';
 import Time from 'app/components/Time';
+import type { SearchResult } from 'app/reducers/search';
+import { isUserResult } from 'app/reducers/search';
 import Icon from '../Icon';
 import { ProfilePicture } from '../Image';
 import styles from './Search.css';
+import type { NavigationLink } from './utils';
 
 type SearchResultItemProps = {
-  result: Record<string, any>;
+  result: SearchResult;
   isSelected: boolean;
   onCloseSearch: () => void;
+};
+
+type SearchResultProps = {
+  query: string;
+  searching: boolean;
+  results: SearchResult[];
+  navigationLinks: NavigationLink[];
+  adminLinks: NavigationLink[];
+  onCloseSearch: () => void;
+  selectedIndex: number;
 };
 
 const SearchResultItem = ({
@@ -19,7 +32,7 @@ const SearchResultItem = ({
 }: SearchResultItemProps) => (
   <Link to={result.link} onClick={onCloseSearch}>
     <li className={cx(isSelected && styles.isSelected, styles.resultItem)}>
-      {result.profilePicture && (
+      {isUserResult(result) && (
         <ProfilePicture
           size={28}
           user={result}
@@ -28,7 +41,7 @@ const SearchResultItem = ({
           }}
         />
       )}
-      {!result.profilePicture && result.icon && (
+      {!isUserResult(result) && result.icon && (
         <Icon
           name={result.icon}
           size={28}
@@ -67,7 +80,7 @@ const SearchResults = ({
   onCloseSearch,
   searching,
   selectedIndex,
-}: Record<string, any>) => (
+}: SearchResultProps) => (
   <div className={styles.resultsContainer}>
     <div>
       <div className={styles.scrollAble}>
@@ -81,7 +94,7 @@ const SearchResults = ({
               <div>
                 {results.map((result, i) => (
                   <SearchResultItem
-                    key={i}
+                    key={result.id}
                     result={result}
                     onCloseSearch={onCloseSearch}
                     isSelected={i === selectedIndex - 1}

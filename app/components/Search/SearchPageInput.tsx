@@ -1,10 +1,11 @@
 import styles from './SearchPageInput.css';
+import type { SyntheticEvent, KeyboardEvent } from 'react';
 
 type Props = {
   inputRef?: {
     current: HTMLInputElement | null | undefined;
   };
-  onChange: (arg0: React.SyntheticEvent<HTMLInputElement>) => void;
+  onChange: (arg0: SyntheticEvent<HTMLInputElement>) => void;
   onKeyDown: (arg0: KeyboardEvent) => void;
   placeholder?: string;
   value: string;
