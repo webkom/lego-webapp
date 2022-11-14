@@ -16,40 +16,37 @@ type Property = {
   rel?: string;
   href?: string;
 };
-type PropertyGenerator = (
-  props: Record<string, any>,
-  config?: Record<string, any>
+
+type PropertyGenerator<T> = (
+  props: T,
+  config?: Record<string, string | number | boolean>
 ) => Array<Property> | null | undefined;
+
 export default function helmet<T>(
-  propertyGenerator: PropertyGenerator | null | undefined
-): any {
-  return (Component: ComponentType<T>) =>
-    ({
-      PropertyGenerator,
-      ...props
-    }: T & {
-      PropertyGenerator: PropertyGenerator | null | undefined;
-    }): any => {
-      const properties: Array<Property> | null | undefined =
-        propertyGenerator && propertyGenerator(props, config);
-      return (
-        <>
-          {properties && (
-            <Helmet>
-              {properties.map(({ element, children, ...props }, index) =>
-                createElement(
-                  element || 'meta',
-                  {
-                    key: index,
-                    ...(props as Record<string, any>),
-                  },
-                  children
-                )
-              )}
-            </Helmet>
-          )}
-          <Component {...props} />
-        </>
-      );
-    };
+  propertyGenerator: PropertyGenerator<T> | null | undefined
+) {
+  return (Component: ComponentType<T>) => (props: T) => {
+    const properties: Array<Property> | null | undefined =
+      propertyGenerator && propertyGenerator(props, config);
+
+    return (
+      <>
+        {properties && (
+          <Helmet>
+            {properties.map(({ element, children, ...props }, index) =>
+              createElement(
+                element || 'meta',
+                {
+                  key: index,
+                  ...props,
+                },
+                children
+              )
+            )}
+          </Helmet>
+        )}
+        <Component {...props} />
+      </>
+    );
+  };
 }
