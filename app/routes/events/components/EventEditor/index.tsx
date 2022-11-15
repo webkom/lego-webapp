@@ -31,7 +31,7 @@ import {
   AttendanceStatus,
   ModalParentComponent,
 } from 'app/components/UserAttendance';
-import type { ID } from 'app/models';
+import type { ID, EventRegistration, EventPool, ActionGrant } from 'app/models';
 import { validYoutubeUrl } from 'app/utils/validation';
 import {
   addStripeFee,
@@ -43,18 +43,20 @@ import Admin from '../Admin';
 import styles from './EventEditor.css';
 import renderPools, { validatePools } from './renderPools';
 
+import type { EditingEvent } from '../../utils';
+import type { FormEventHandler } from 'react';
+
 type Props = {
   eventId: number;
-  event: Record<string, any>;
-  actionGrant: Array<string>;
+  event: EditingEvent;
+  actionGrant: ActionGrant;
   error?: Record<string, any>;
   loading: boolean;
-  pools: Array<Record<string, any>>;
-  registrations: Array<Record<string, any>>;
-  waitingRegistrations: Array<Record<string, any>>;
-  change: void;
+  pools: EventPool[];
+  registrations: EventRegistration[];
+  waitingRegistrations: EventRegistration[];
   isUserInterested: boolean;
-  handleSubmit: (arg0: void) => void;
+  handleSubmit: FormEventHandler;
   handleSubmitCallback: (arg0: any) => Promise<any>;
   uploadFile: () => Promise<any>;
   setCoverPhoto: (arg0: number, arg1: string) => void;
@@ -70,11 +72,8 @@ function EventEditor({
   eventId,
   actionGrant,
   error,
-  loading,
   pools,
   registrations,
-  waitingRegistrations,
-  change,
   handleSubmit,
   uploadFile,
   setCoverPhoto,
@@ -186,7 +185,6 @@ function EventEditor({
           name="description"
           label="Kalenderbeskrivelse"
           placeholder="Kom på fest den..."
-          className={styles.description}
           component={TextEditor.Field}
         />
         <ContentSection>
@@ -200,6 +198,8 @@ function EventEditor({
               uploadFile={uploadFile}
               initialized={initialized}
             />
+            {/* eslint-disable-next-line */}
+            {/* @ts-ignore There are some issues with our postcss config and the TS css module plugin */}
             <Flex className={styles.tagRow}>
               {(event.tags || []).map((tag, i) => (
                 <Tag key={i} tag={tag} />
@@ -543,7 +543,7 @@ function EventEditor({
                   registrations={registrations || []}
                   title="Påmeldte"
                 >
-                  <AttendanceStatus />
+                  <AttendanceStatus pools={pools} />
                 </ModalParentComponent>
                 <div className={styles.metaList}>
                   <FieldArray
@@ -591,8 +591,12 @@ function EventEditor({
 
 const isInteger = (value) => /^-?\d+$/.test(value);
 
+type ValidationError<T> = Partial<{
+  [key in keyof T]: string | Record<string, string>[];
+}>;
+
 const validate = (data) => {
-  const errors = {};
+  const errors: ValidationError<EditingEvent> = {};
   const [isValidYoutubeUrl, errorMessage = ''] = validYoutubeUrl()(
     data.youtubeUrl
   );

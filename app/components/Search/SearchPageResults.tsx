@@ -4,13 +4,16 @@ import Icon from 'app/components/Icon';
 import { ProfilePicture, Image } from 'app/components/Image';
 import { Flex } from 'app/components/Layout';
 import type { SearchResult as SearchResultType } from 'app/reducers/search';
+import { isUserResult } from 'app/reducers/search';
 import truncateString from 'app/utils/truncateString';
 import styles from './SearchPageResults.css';
+import type { KeyboardEventHandler } from 'react';
 
 type Props = {
   query: string;
   results: Array<SearchResultType>;
   onSelect: (arg0: SearchResultType) => void;
+  onKeyDown: KeyboardEventHandler;
   selectedIndex: number;
 };
 type SearchResultProps = {
@@ -39,14 +42,11 @@ function SearchResult({ result, onSelect, isSelected }: SearchResultProps) {
         >
           <h3 className={styles.searchResultTitle}>
             <span>
-              {result.label} {/* $FlowFixMe*/}
-              {typeof result.username === 'string' && (
-                <span>({result.username})</span>
-              )}
+              {result.label}
+              {isUserResult(result) && <span>({result.username})</span>}
             </span>
 
-            {/* $FlowFixMe*/}
-            {result.profilePicture ? (
+            {isUserResult(result) ? (
               <ProfilePicture
                 className={styles.searchResultItemIcon}
                 size={24}
@@ -62,7 +62,7 @@ function SearchResult({ result, onSelect, isSelected }: SearchResultProps) {
         </Link>
         <div>
           {result.content && (
-            <div className={styles.content}>
+            <div>
               <span>
                 {truncateString(
                   result.content.replace(/(<([^>]+)>)/gi, ''),

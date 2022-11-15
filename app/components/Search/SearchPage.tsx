@@ -4,17 +4,19 @@ import SearchPageInput from 'app/components/Search/SearchPageInput';
 import SearchPageResults from 'app/components/Search/SearchPageResults';
 import type { SearchResult } from 'app/reducers/search';
 import { Keyboard } from 'app/utils/constants';
+import type { Location } from 'history';
+import type { ChangeEventHandler, KeyboardEvent } from 'react';
 
 type Props = {
   searching: boolean;
-  location: Record<string, any>;
+  location: Location;
   inputRef?: {
     current: HTMLInputElement | null | undefined;
   };
   onQueryChanged: (arg0: string) => void;
   placeholder?: string;
   results: Array<SearchResult>;
-  handleSelect: (arg0: SearchResult) => Promise<any>;
+  handleSelect: (arg0: SearchResult) => Promise<void>;
 };
 
 const SearchPage = (props: Props) => {
@@ -63,9 +65,9 @@ const SearchPage = (props: Props) => {
     props.handleSelect(result);
   };
 
-  const handleQueryChange = ({
+  const handleQueryChange: ChangeEventHandler<HTMLInputElement> = ({
     target,
-  }: React.SyntheticEvent<HTMLInputElement>) => {
+  }) => {
     const query = target.value;
     setQuery(query);
     props.onQueryChanged(query);

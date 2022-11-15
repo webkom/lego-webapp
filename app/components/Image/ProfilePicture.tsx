@@ -1,10 +1,13 @@
-import type { UserEntity } from 'app/reducers/users';
+import type { User } from 'app/models';
 import CircularPicture from './CircularPicture';
 import type { ComponentProps } from 'react';
 
 type Props = Omit<
   {
-    user: UserEntity;
+    user: Pick<
+      User,
+      'profilePicture' | 'username' | 'profilePicturePlaceholder'
+    >;
     size: number;
     className?: string;
   } & ComponentProps<typeof CircularPicture>,

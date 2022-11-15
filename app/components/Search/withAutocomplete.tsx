@@ -3,18 +3,20 @@ import { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { autocomplete } from 'app/actions/SearchActions';
+import type { SearchResult } from 'app/reducers/search';
 import type { ComponentType } from 'react';
 
 type InjectedProps = {
   filter: Array<string>;
-  autocomplete: (query: string, filter?: Array<string>) => Promise<any>;
+  autocomplete: (
+    query: string,
+    filter?: Array<string>
+  ) => Promise<SearchResult[]>;
 };
+
 type State = {
   searching: boolean;
-  result: Array<
-    /*Todo: AutocompleteResult */
-    Record<string, any>
-  >;
+  result: SearchResult[];
 };
 
 function withAutocomplete<Props>({
@@ -26,7 +28,6 @@ function withAutocomplete<Props>({
 }) {
   const displayName =
     WrappedComponent.displayName || WrappedComponent.name || 'Unknown';
-  // $FlowFixMe[escaped-generic]
   return class extends Component<InjectedProps & Props, State> {
     static displayName = `Autocomplete(${displayName})`;
     state = {
@@ -82,9 +83,8 @@ function withAutocomplete<Props>({
     render() {
       const { filter, autocomplete, ...restProps } = this.props;
       return (
-        // $FlowFixMe
         <WrappedComponent
-          {...restProps}
+          {...(restProps as Props)}
           options={this.state.result}
           onSearch={debounce((query) => this.handleSearch(query, filter), 100)}
           fetching={this.state.searching}
@@ -97,6 +97,6 @@ function withAutocomplete<Props>({
 
 const mapDispatchToProps = {
   autocomplete,
-}; //@ts-expect-error[missing-annot]
+};
 
 export default compose(connect(null, mapDispatchToProps), withAutocomplete);

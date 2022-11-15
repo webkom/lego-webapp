@@ -9,10 +9,11 @@ import type {
   PhotoConsentDomain,
   EventSemester,
   Dateish,
+  EventStatusType,
 } from 'app/models';
 
 // Current eventTypes
-export const EVENT_CONSTANTS: Record<EventType, string> = {
+export const EVENT_CONSTANTS = {
   company_presentation: 'Bedriftspresentasjon',
   lunch_presentation: 'Lunsjpresentasjon',
   alternative_presentation: 'Alternativ bedpres',
@@ -23,7 +24,7 @@ export const EVENT_CONSTANTS: Record<EventType, string> = {
   event: 'Arrangement',
   kid_event: 'KID-arrangement',
   other: 'Annet',
-};
+} as const;
 // Returns the string representation of an EventType
 export const eventTypeToString = (eventType: EventType): string => {
   return EVENT_CONSTANTS[eventType] || EVENT_CONSTANTS['other'];
@@ -45,6 +46,25 @@ export const COLOR_CONSTANTS: Record<EventType, string> = {
 export const colorForEvent = (eventType: EventType) => {
   return COLOR_CONSTANTS[eventType] || COLOR_CONSTANTS['other'];
 };
+
+type Option<T = string, K = string> = { label: T; value: K };
+
+export type EditingEvent = Event & {
+  eventType: Option<
+    typeof EVENT_CONSTANTS[keyof typeof EVENT_CONSTANTS],
+    EventType
+  >;
+  company: Option;
+  responsibleGroup: Option;
+  isGroupOnly: boolean;
+  mazemapPoi: Option<string, number>;
+  useMazemap: boolean;
+  eventStatusType: Option<string, EventStatusType>;
+  addFee: boolean;
+  registrationDeadline: Dateish;
+  hasFeedbackQuestion: boolean;
+};
+
 // Event fields that should be created or updated based on the API.
 const eventCreateAndUpdateFields = [
   'id',

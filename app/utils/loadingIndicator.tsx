@@ -7,12 +7,12 @@ import type { ComponentType } from 'react';
  * LoadingIndicator while `props[loadingProp]` is being fetched.
  */
 
-export default function loadingIndicator(
+export default function loadingIndicator<WrappedProps>(
   loadingProps: Array<string>,
   options?: Props
-): ComponentType<any | string> {
-  return (Component: ComponentType<any>) => {
-    const Composed = (props: Record<string, any>) => (
+) {
+  return (Component: ComponentType<WrappedProps>) => {
+    const Composed = (props: Props & WrappedProps) => (
       <LoadingIndicator
         {...options}
         loading={
@@ -20,7 +20,7 @@ export default function loadingIndicator(
             .length !== 0
         }
       >
-        <Component {...props} />
+        <Component {...(props as WrappedProps)} />
       </LoadingIndicator>
     );
 

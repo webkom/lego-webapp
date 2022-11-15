@@ -1,14 +1,15 @@
 import ReadmeLogo from 'app/components/ReadmeLogo';
 import type { Allowed } from 'app/reducers/allowed';
-import type { Node } from 'react';
+import type { ReactNode } from 'react';
 
 type Link = {
   key: string;
-  title: Node;
+  title: ReactNode;
   url: string;
   admin?: boolean;
   requireLogin?: boolean;
 };
+
 const LINKS: Array<Link> = [
   {
     key: 'profile',
@@ -148,10 +149,10 @@ function retrieveAllowed(links: Array<Link>, { allowed, loggedIn }: Options) {
       // Otherwise check if we're logged in if this requires login:
       return !requireLogin || loggedIn;
     })
-    .map(({ url, title }) => [url, title]);
+    .map(({ url, title }) => [url, title]) as NavigationLink[];
 }
 
-type NavigationLink = [string, Node]; // [url, label(as a react-node)]
+export type NavigationLink = [string, ReactNode]; // [url, label(as a react-node)]
 
 export function getRegularLinks(options: Options): Array<NavigationLink> {
   return retrieveAllowed(SORTED_REGULAR, options);

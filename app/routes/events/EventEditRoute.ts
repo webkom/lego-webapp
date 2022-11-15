@@ -130,7 +130,7 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = {
   fetchEvent,
   deleteEvent,
-  handleSubmitCallback: (event) => editEvent(transformEvent(event, true)),
+  handleSubmitCallback: (event) => editEvent(transformEvent(event)),
   uploadFile,
   setCoverPhoto,
   push,
