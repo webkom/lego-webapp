@@ -200,7 +200,6 @@ export function fetchMembershipsPagination({
         types: Group.MEMBERSHIP_FETCH,
         endpoint: `/groups/${groupId}/memberships/`,
         schema: [membershipSchema],
-        useCache: false,
         pagination: {
           fetchNext: next,
         },
