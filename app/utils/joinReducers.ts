@@ -7,7 +7,7 @@ import type { AnyAction, Reducer } from '@reduxjs/toolkit';
  */
 
 export default function joinReducers<S, A extends AnyAction = AnyAction>(
-  ...reducers: Array<Reducer<S, A> | null | undefined>
+  ...reducers: Reducer<S, A>[]
 ): Reducer<S, A> {
   return (state, action) =>
     reducers.reduce((nextState, reducer) => {

@@ -1,4 +1,4 @@
-import { combineReducers } from '@reduxjs/toolkit';
+import { combineReducers, type Reducer } from '@reduxjs/toolkit';
 import { connectRouter } from 'connected-react-router';
 import allowed from 'app/reducers/allowed';
 import announcements from 'app/reducers/announcements';
@@ -42,7 +42,7 @@ import reactions from 'app/reducers/reactions';
 import readme from 'app/reducers/readme';
 import registrations from 'app/reducers/registrations';
 import restrictedMails from 'app/reducers/restrictedMails';
-import routing from 'app/reducers/routing';
+import routing, { RoutingState } from 'app/reducers/routing';
 import search from 'app/reducers/search';
 import surveySubmissions from 'app/reducers/surveySubmissions';
 import surveys from 'app/reducers/surveys';
@@ -54,7 +54,10 @@ import type { History } from 'history';
 
 const createRootReducer = (history: History) =>
   combineReducers({
-    router: joinReducers(connectRouter(history), routing),
+    router: joinReducers(
+      connectRouter(history) as Reducer<RoutingState>, // typecast as connectRouter state doesn't contain statusCode
+      routing
+    ),
     allowed,
     announcements,
     articles,
