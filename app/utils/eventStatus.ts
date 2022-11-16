@@ -3,11 +3,7 @@ import type { Event } from 'app/models';
 
 // Calculate diplay message for an event based on
 // eventStatusType, activationTime, capacity and totalCapacity
-const eventStatus = (
-  event: Event,
-  loggedIn = false,
-  isPill = false
-): string => {
+const eventStatus = (event: Event, loggedIn = false): string => {
   const {
     registrationCount,
     totalCapacity,
@@ -79,7 +75,7 @@ const eventAttendanceAbsolute = (event: Event): string => {
       const isFuture = moment().isBefore(activationTime);
       return isFuture
         ? `${totalCapacity} plasser`
-        : `${registrationCount} / ${!!totalCapacity ? totalCapacity : '∞'}`;
+        : `${registrationCount} / ${totalCapacity || '∞'}`;
     default:
       return '';
   }

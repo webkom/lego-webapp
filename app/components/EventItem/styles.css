@@ -7,27 +7,9 @@
 }
 
 .eventItemCompact {
-  padding-left: 20px;
-  border-left: 4px solid transparent;
-  margin-bottom: 15px;
-  display: flex;
+  composes: eventItem;
   flex-direction: column;
-  justify-content: flex-start;
-}
-
-.eventItemRow {
-  width: 100%;
-  display: flex;
-  justify-content: flex-start;
-  flex-direction: row;
-}
-
-.eventItemColumn {
-  width: 100%;
-  display: flex;
-  justify-content: flex-start;
-  flex-direction: column;
-  padding-right: 10px;
+  justify-content: space-between;
 }
 
 .eventItemTitle {
@@ -57,6 +39,13 @@
 .companyLogo img {
   min-width: 120px;
   max-height: 80px;
+  object-fit: contain;
+  background: white;
+}
+
+.companyLogoCompact img {
+  min-width: 120px;
+  max-height: 100%;
   object-fit: contain;
   background: white;
 }
