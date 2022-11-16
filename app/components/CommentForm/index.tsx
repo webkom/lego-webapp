@@ -1,7 +1,6 @@
 import cx from 'classnames';
 import { useEffect, useState } from 'react';
 import { Field } from 'react-final-form';
-import { useDispatch } from 'react-redux';
 import { addComment } from 'app/actions/CommentActions';
 import Button from 'app/components/Button';
 import DisplayContent from 'app/components/DisplayContent';
@@ -9,6 +8,7 @@ import { EditorField } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { ProfilePicture } from 'app/components/Image';
+import { useAppDispatch } from 'app/store/hooks';
 import { EDITOR_EMPTY } from 'app/utils/constants';
 import { createValidator, legoEditorRequired } from 'app/utils/validation';
 import styles from './CommentForm.css';
@@ -35,7 +35,7 @@ const CommentForm = ({
   autoFocus = false,
   parent,
 }: Props) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   // editor must be disabled while server-side rendering
   const [editorSsrDisabled, setEditorSsrDisabled] = useState(true);
   useEffect(() => {
