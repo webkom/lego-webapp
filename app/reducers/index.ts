@@ -58,6 +58,7 @@ import {
   followersKeyGen,
 } from './followers';
 import type { LocationType } from 'app/models';
+import imageGallery from './imageGallery';
 import 'app/models';
 const reducers = {
   allowed,
@@ -107,6 +108,7 @@ const reducers = {
   followersCompany,
   followersUser,
   followersEvent,
+  imageGallery,
 };
 export type Reducers = typeof reducers;
 type History = {
@@ -171,6 +173,13 @@ export const galleryPictureSchema = new schema.Entity('galleryPictures', {
   comments: [commentSchema],
 }) as Schema;
 export const gallerySchema = new schema.Entity('galleries') as Schema;
+export const imageGallerySchema = new schema.Entity(
+  'imageGallery',
+  {},
+  {
+    idAttribute: 'key',
+  }
+) as Schema;
 export const quoteSchema = new schema.Entity('quotes') as Schema;
 export const pollSchema = new schema.Entity('polls') as Schema;
 export const pageSchema = new schema.Entity(

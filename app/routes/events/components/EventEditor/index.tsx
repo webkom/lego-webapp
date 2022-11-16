@@ -63,6 +63,10 @@ type Props = {
   initialized: boolean;
   push: (arg0: string) => void;
 };
+import { fetchImageGallery } from 'app/actions/FileActions'
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectImageGalleries } from 'app/reducers/imageGallery';
 
 function EventEditor({
   event,
@@ -83,6 +87,10 @@ function EventEditor({
   initialized,
   push,
 }: Props) {
+  const dispatch = useDispatch();
+  useEffect(() => {dispatch(fetchImageGallery())}, [])
+  const imageGalleries = useSelector(selectImageGalleries)
+
   const isEditPage = eventId !== undefined;
 
   if (isEditPage && !actionGrant.includes('edit')) {
@@ -129,13 +137,13 @@ function EventEditor({
           edit={isEditPage && ((token) => setCoverPhoto(eventId, token))}
           aspectRatio={20 / 6}
           img={event.cover}
-        />
-        <Flex>
+          value={imageGalleries?.[0]?.key}
+      />
+         <Flex>
           <Field
             name="youtubeUrl"
             label={
               <Flex>
-                <div>Erstatt cover-bildet med video fra YouTube</div>
                 <div
                   style={{
                     marginLeft: '5px',
@@ -632,7 +640,7 @@ const validate = (data) => {
     errors.feedbackDescription = 'Spørsmål er tomt.';
   }
 
-  if (!data.id && !data.cover) {
+  if ((!data.id && !data.cover) || !data.stockImage) {
     errors.cover = 'Cover er påkrevet';
   }
 

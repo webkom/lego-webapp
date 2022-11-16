@@ -90,6 +90,13 @@ export const Gallery = {
 /**
  *
  */
+export const ImageGallery = {
+  FETCH_ALL: generateStatuses('ImageGallery.FETCH_ALL') as AAT,
+};
+
+/**
+ *
+ */
 export const GalleryPicture = {
   FETCH: generateStatuses('GalleryPicture.FETCH') as AAT,
   FETCH_SIBLING: generateStatuses('GalleryPicture.FETCH_SIBLING') as AAT,

@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback, Fragment, Component } from 'react';
-import { useDropzone } from 'react-dropzone';
+import { Accept, useDropzone } from 'react-dropzone';
 import { Cropper } from 'react-cropper';
 import { Flex } from 'app/components/Layout';
 import 'cropperjs/dist/cropper.css';
@@ -36,6 +36,7 @@ type UploadAreaProps = {
   onDrop: (files: Array<DropFile>) => void;
   multiple?: boolean;
   image: string | null | undefined;
+  accept: Accept;
 };
 
 const FilePreview = ({ file, onRemove }: FilePreviewProps) => {
@@ -99,7 +100,7 @@ const FilePreview = ({ file, onRemove }: FilePreviewProps) => {
   );
 };
 
-const UploadArea = ({ multiple, onDrop, image }: UploadAreaProps) => {
+const UploadArea = ({ multiple, onDrop, image, accept}: UploadAreaProps) => {
   const word = multiple ? 'bilder' : 'bilde';
   const onDropCallback = useCallback(
     (files: Array<DropFile>) => {
@@ -109,6 +110,7 @@ const UploadArea = ({ multiple, onDrop, image }: UploadAreaProps) => {
   );
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: onDropCallback,
+    accept: accept,
   });
   return (
     <div
@@ -234,6 +236,9 @@ export default class ImageUpload extends Component<Props, State> {
     const { inModal, aspectRatio, multiple, crop } = this.props;
     const { cropOpen, file, files } = this.state;
     const preview = file && file.preview;
+    const accept = {
+      'image/*': '*',
+    }
     return (
       <div className={styles.container}>
         {!inModal && (
@@ -241,6 +246,7 @@ export default class ImageUpload extends Component<Props, State> {
             onDrop={this.onDrop}
             multiple={multiple}
             image={this.state.img}
+            accept={accept}
           />
         )}
         <Modal
