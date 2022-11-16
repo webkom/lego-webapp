@@ -1,10 +1,5 @@
-import type {
-  Middleware,
-  AsyncActionType,
-  AsyncActionTypeArray,
-  PromiseAction,
-  AnyAction,
-} from 'app/types';
+import type { State, AsyncActionType, AsyncActionTypeArray } from 'app/types';
+import type { Middleware } from '@reduxjs/toolkit';
 
 function extractTypes(
   types: AsyncActionType | AsyncActionTypeArray
@@ -16,13 +11,23 @@ function extractTypes(
   return [types.BEGIN, types.SUCCESS, types.FAILURE];
 }
 
-export default function promiseMiddleware(): Middleware {
-  return (store) => (next) => (action: AnyAction<any>) => {
+export interface PromiseAction<T> {
+  types: AsyncActionType;
+  promise: Promise<T>;
+  meta?: any;
+  payload?: any;
+}
+
+export default function promiseMiddleware(): Middleware<
+  <T>(action: PromiseAction<T>) => Promise<T>,
+  State
+> {
+  return () => (next) => (action) => {
     if (typeof action !== 'object' || !action.types) {
       return next(action);
     }
 
-    const { types, payload, promise, meta } = action as PromiseAction<any>;
+    const { types, payload, promise, meta } = action as PromiseAction<unknown>;
     const [PENDING, SUCCESS, FAILURE] = extractTypes(types);
     next({
       type: PENDING,

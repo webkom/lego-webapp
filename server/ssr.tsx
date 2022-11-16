@@ -5,10 +5,10 @@ import { ReactElement } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
 import { ReactReduxContext } from 'react-redux';
 import { StaticRouter } from 'react-router';
+import createStore from 'app/store/createStore';
+import { State } from 'app/types';
 import RouteConfig from '../app/routes';
-import configureStore from '../app/utils/configureStore';
 import pageRenderer from './pageRenderer';
-import type { State } from '../app/types';
 import type { StaticRouterContext } from 'react-router';
 
 const serverSideTimeoutInMs = 4000;
@@ -67,7 +67,7 @@ const createServerSideRenderer = (req: Request, res: Response) => {
     </StaticRouter>
   );
 
-  const store = configureStore(
+  const store = createStore(
     {},
     {
       Sentry,
