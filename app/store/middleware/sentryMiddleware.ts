@@ -2,9 +2,9 @@ import jwtDecode from 'jwt-decode';
 import { omit } from 'lodash';
 import createSentryMiddleware from 'redux-sentry-middleware';
 import { selectCurrentUser } from 'app/reducers/auth';
-import type { State } from 'app/types';
+import type { RootState } from 'app/store/createRootReducer';
 
-const sentryMiddlewareOptions: createSentryMiddleware.Options<State> = {
+const sentryMiddlewareOptions: createSentryMiddleware.Options<RootState> = {
   stateTransformer: (state) => {
     try {
       const token = jwtDecode(state.auth.token);

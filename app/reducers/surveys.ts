@@ -1,7 +1,7 @@
 import { omit } from 'lodash';
 import { createSelector } from 'reselect';
 import type { EventType } from 'app/models';
-import type { State } from 'app/types';
+import type { RootState } from 'app/store/createRootReducer';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { Survey } from '../actions/ActionTypes';
 import { selectEvents } from './events';
@@ -37,9 +37,9 @@ export default createEntityReducer({
     mutate: Survey.ADD,
   },
 });
-export const selectSurveys = createSelector<State, any, any, any, any, any>(
-  (state: State) => state.surveys.items,
-  (state) => state.surveys.byId,
+export const selectSurveys = createSelector(
+  (state: RootState) => state.surveys.items,
+  (state: RootState) => state.surveys.byId,
   selectEvents,
   (surveyIds, surveysById, events) => {
     return surveyIds.map((surveyId) => ({
@@ -48,7 +48,7 @@ export const selectSurveys = createSelector<State, any, any, any, any, any>(
     }));
   }
 );
-export const selectSurveyById = createSelector<State, any, any, any, any>(
+export const selectSurveyById = createSelector<RootState, any, any, any, any>(
   (state, props) => selectSurveys(state, props),
   (state, props) => props.surveyId,
   (surveys, surveyId) => {
@@ -56,7 +56,7 @@ export const selectSurveyById = createSelector<State, any, any, any, any>(
     return survey || {};
   }
 );
-export const selectSurveyTemplates = createSelector<State, any, any, any>(
+export const selectSurveyTemplates = createSelector<RootState, any, any, any>(
   (state, props) => selectSurveys(state, props),
   (surveys) => surveys.filter((survey) => survey.templateType)
 );

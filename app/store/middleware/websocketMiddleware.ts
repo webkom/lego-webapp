@@ -4,14 +4,14 @@ import { isUserFollowing } from 'app/actions/EventActions';
 import { addToast } from 'app/actions/ToastActions';
 import config from 'app/config';
 import { selectCurrentUser } from 'app/reducers/auth';
-import { AppDispatch } from 'app/store/createStore';
-import type { State } from 'app/types';
+import type { RootState } from 'app/store/createRootReducer';
+import type { AppDispatch } from 'app/store/createStore';
 import createQueryString from 'app/utils/createQueryString';
 import type { Middleware } from '@reduxjs/toolkit';
 
 const createWebSocketMiddleware = (): Middleware<
   Record<string, never>,
-  State,
+  RootState,
   AppDispatch
 > => {
   let socket = null;

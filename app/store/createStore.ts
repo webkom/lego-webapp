@@ -2,7 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { routerMiddleware } from 'connected-react-router';
 import { createBrowserHistory, createMemoryHistory } from 'history';
 import { addToast } from 'app/actions/ToastActions';
-import rootReducer from 'app/reducers';
+import createRootReducer from 'app/store/createRootReducer';
 import loggerMiddleware from 'app/store/middleware/loggerMiddleware';
 import createMessageMiddleware from 'app/store/middleware/messageMiddleware';
 import promiseMiddleware from 'app/store/middleware/promiseMiddleware';
@@ -26,7 +26,7 @@ const createStore = (
 ) => {
   const store = configureStore({
     preloadedState: initialState,
-    reducer: rootReducer(history),
+    reducer: createRootReducer(history),
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({
         thunk: {

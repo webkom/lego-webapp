@@ -1,4 +1,5 @@
-import type { State, AsyncActionType, AsyncActionTypeArray } from 'app/types';
+import type { RootState } from 'app/store/createRootReducer';
+import type { AsyncActionType, AsyncActionTypeArray } from 'app/types';
 import type { Middleware } from '@reduxjs/toolkit';
 
 function extractTypes(
@@ -20,7 +21,7 @@ export interface PromiseAction<T> {
 
 export default function promiseMiddleware(): Middleware<
   <T>(action: PromiseAction<T>) => Promise<T>,
-  State
+  RootState
 > {
   return () => (next) => (action) => {
     if (typeof action !== 'object' || !action.types) {
