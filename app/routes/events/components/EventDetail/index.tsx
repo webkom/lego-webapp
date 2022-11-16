@@ -494,7 +494,8 @@ export default class EventDetail extends Component<Props, State> {
                     </div>
                   )}
                   {event.unansweredSurveys &&
-                  event.unansweredSurveys.length > 0 ? (
+                  event.unansweredSurveys.length > 0 &&
+                  !event.isAdmitted ? (
                     <div className={sharedStyles.eventWarning}>
                       <p>
                         Du kan ikke melde deg på dette arrangementet fordi du
