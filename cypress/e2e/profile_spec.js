@@ -126,13 +126,11 @@ describe('Profile settings', () => {
     field('firstName').clear().blur();
 
     fieldError('firstName').should('contain', 'må fylles ut');
-    submitButton().should('be.disabled');
 
     // lastName field validation
     field('lastName').clear().blur();
 
     fieldError('lastName').should('contain', 'må fylles ut');
-    submitButton().should('be.disabled');
 
     // allergies field validation
     field('allergies').clear().blur();
@@ -143,7 +141,6 @@ describe('Profile settings', () => {
     field('email').clear().blur();
 
     fieldError('email').should('contain', 'må fylles ut');
-    submitButton().should('be.disabled');
   });
 
   it('does not allow user to set @abakus.no email', () => {

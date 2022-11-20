@@ -10,6 +10,7 @@ type Props = {
   label?: string;
   className?: string;
   inputValue?: string;
+  checked?: boolean;
   value?: string | number;
 } & InputHTMLAttributes<HTMLInputElement>;
 
@@ -17,19 +18,23 @@ function RadioButton({
   id,
   label,
   inputValue,
-  value,
+  checked,
   className,
+  value,
   ...props
 }: Props) {
+  // TODO: Remove this when redux-form is gone
+  checked = inputValue ? inputValue === value : checked;
+  value = inputValue ?? value;
   return (
     <div className={cx(styles.box, className)}>
       <input
         {...props}
         className={styles.input}
-        checked={inputValue === value}
+        checked={checked}
         type="radio"
         id={id}
-        value={inputValue}
+        value={value}
       />
       <span className={styles.label}>{label}</span>
     </div>
