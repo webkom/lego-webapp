@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback, Fragment, Component } from 'react';
 import { Cropper } from 'react-cropper';
-import { useDropzone } from 'react-dropzone';
+import { type Accept, useDropzone } from 'react-dropzone';
 import 'cropperjs/dist/cropper.css';
 import Button from 'app/components/Button';
 import TextInput from 'app/components/Form/TextInput';
@@ -45,6 +45,7 @@ type UploadAreaProps = {
   onDrop: (files: Array<DropFile>) => void;
   multiple?: boolean;
   image: string | null | undefined;
+  accept: Accept;
 };
 
 const FilePreview = ({ file, onRemove }: FilePreviewProps) => {
@@ -108,7 +109,7 @@ const FilePreview = ({ file, onRemove }: FilePreviewProps) => {
   );
 };
 
-const UploadArea = ({ multiple, onDrop, image }: UploadAreaProps) => {
+const UploadArea = ({ multiple, onDrop, image, accept }: UploadAreaProps) => {
   const word = multiple ? 'bilder' : 'bilde';
   const onDropCallback = useCallback(
     (files: Array<DropFile>) => {
@@ -118,6 +119,7 @@ const UploadArea = ({ multiple, onDrop, image }: UploadAreaProps) => {
   );
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: onDropCallback,
+    accept: accept,
   });
   return (
     <div
@@ -244,6 +246,15 @@ export default class ImageUpload extends Component<Props, State> {
     const { inModal, aspectRatio, multiple, crop } = this.props;
     const { cropOpen, file, files } = this.state;
     const preview = file && file.preview;
+    const accept: Accept = {
+      'image/jpeg': ['*'],
+      'image/png': ['*'],
+      'image/gif': ['*'],
+      'image/webp': ['*'],
+      'image/tif': ['*'],
+      'image/bmp': ['*'],
+      'image/avif': ['*'],
+    };
     return (
       <div className={styles.container}>
         {!inModal && (
@@ -251,6 +262,7 @@ export default class ImageUpload extends Component<Props, State> {
             onDrop={this.onDrop}
             multiple={multiple}
             image={this.state.img}
+            accept={accept}
           />
         )}
         <Modal
@@ -265,6 +277,7 @@ export default class ImageUpload extends Component<Props, State> {
                   onDrop={this.onDrop}
                   multiple={multiple}
                   image={this.state.img}
+                  accept={accept}
                 />
               </div>
             )}
