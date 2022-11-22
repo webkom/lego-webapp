@@ -1703,13 +1703,13 @@
     "@sentry/utils" "7.20.0"
     tslib "^1.9.3"
 
-"@sentry/integrations@^7.20.0":
-  version "7.20.0"
-  resolved "https://registry.yarnpkg.com/@sentry/integrations/-/integrations-7.20.0.tgz#78fc544847c5516acb86fc507d0bfdaedb295fd8"
-  integrity sha512-wT00rtdKiVOZm/2fGEotIQ2ItCU9xTODz3KveQLq2X2nI5Jg4opkDOY2NorEnuOfBNg6BncBxaC8TG8ujvRyfw==
+"@sentry/integrations@^7.20.1":
+  version "7.20.1"
+  resolved "https://registry.yarnpkg.com/@sentry/integrations/-/integrations-7.20.1.tgz#8ad8bbc3bd8fd6e958579004db4258f45752d8aa"
+  integrity sha512-vFhn+KBE71k8T08Ra162+suUsYN0U/a0oTTbKIx4SJE9Q5w/7aFHF/nuNqGIxatnxI0VkA83zqCPexOweDqlsA==
   dependencies:
-    "@sentry/types" "7.20.0"
-    "@sentry/utils" "7.20.0"
+    "@sentry/types" "7.20.1"
+    "@sentry/utils" "7.20.1"
     localforage "^1.8.1"
     tslib "^1.9.3"
 
@@ -1731,12 +1731,25 @@
   resolved "https://registry.yarnpkg.com/@sentry/types/-/types-7.20.0.tgz#ace232e00407355dccedf65e27471635b4331265"
   integrity sha512-x17ddduGWqW95neBFVvxzmInb5WXVw+2PcNASHXpGFhi7v2gz2a7/w2CcIKxsqODNnc+z/k1t0Y+uy9B6aH6ag==
 
+"@sentry/types@7.20.1":
+  version "7.20.1"
+  resolved "https://registry.yarnpkg.com/@sentry/types/-/types-7.20.1.tgz#26c6fc94dd25a66aeabbd795fa8985d768190970"
+  integrity sha512-bI4t5IXGLIQYH5MegKRl4x2LDSlPVbQJ5eE6NJCMrCm8PcFUo3WgkwP6toG9ThQwpTx/DhUo1sVNKrr0oW4cpA==
+
 "@sentry/utils@7.20.0":
   version "7.20.0"
   resolved "https://registry.yarnpkg.com/@sentry/utils/-/utils-7.20.0.tgz#cca09e2256b64bfb41a78c89af3c88fcc7ca84c2"
   integrity sha512-4lc122TFgkaCAvoPRy+uc5vgOCumTa/2nPkzCSxVsezQs+ebHxyMJQK7GWBLI6P+EzKfEjlgyMzRWaPJ3iJatA==
   dependencies:
     "@sentry/types" "7.20.0"
+    tslib "^1.9.3"
+
+"@sentry/utils@7.20.1":
+  version "7.20.1"
+  resolved "https://registry.yarnpkg.com/@sentry/utils/-/utils-7.20.1.tgz#01b881b82598fca5c04af771ffe44663b66dee6f"
+  integrity sha512-wToW0710OijQLUZnbbOx1pxwJ4mXUZ5ZFl4/x7ubNftkOz5NwJ+F3ylRqHXpZJaR9pUfR5CNdInTFZn05h/KeQ==
+  dependencies:
+    "@sentry/types" "7.20.1"
     tslib "^1.9.3"
 
 "@sinclair/typebox@^0.24.1":
