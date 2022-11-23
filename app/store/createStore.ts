@@ -34,6 +34,9 @@ const createStore = (
             getCookie,
           },
         },
+        serializableCheck: {
+          ignoreActions: true,
+        },
       })
         .prepend(promiseMiddleware())
         .concat(
