@@ -342,13 +342,6 @@ export type AddPenalty = {
   weight: number;
   sourceEvent: ID;
 };
-export type LocationType = {
-  key: string;
-  pathname: string;
-  search: string;
-  hash: string;
-  state: { [key in any]?: boolean };
-};
 export type FollowerItem = {
   id: ID;
   follower: ID;

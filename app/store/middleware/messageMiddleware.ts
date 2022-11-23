@@ -1,7 +1,11 @@
 import { get } from 'lodash';
+import type { AnyAction, Middleware } from '@reduxjs/toolkit';
 
-export default function createMessageMiddleware(actionToDispatch, Sentry) {
-  return (store) => (next) => (action) => {
+const createMessageMiddleware =
+  (actionToDispatch: (message: string) => AnyAction, Sentry: any): Middleware =>
+  ({ dispatch }) =>
+  (next) =>
+  (action) => {
     const success = action.success && get(action, ['meta', 'successMessage']);
     const error = action.error && get(action, ['meta', 'errorMessage']);
 
@@ -19,9 +23,10 @@ export default function createMessageMiddleware(actionToDispatch, Sentry) {
     }
 
     if (actionToDispatch) {
-      store.dispatch(actionToDispatch(message));
+      dispatch(actionToDispatch(message));
     }
 
     return next(action);
   };
-}
+
+export default createMessageMiddleware;

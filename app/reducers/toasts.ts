@@ -1,5 +1,6 @@
 import { produce } from 'immer';
 import { Toasts } from '../actions/ActionTypes';
+import type { Reducer } from '@reduxjs/toolkit';
 
 type Toast = {
   id: number;
@@ -12,7 +13,7 @@ const initialState = {
 type State = {
   items: Array<Toast>;
 };
-const toasts = produce<State>((newState: State, action: any): void => {
+const toasts: Reducer<State> = produce((newState, action) => {
   switch (action.type) {
     case Toasts.TOAST_ADDED:
       newState.items.push(action.payload);

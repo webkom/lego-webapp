@@ -1,10 +1,5 @@
-import type { Reducers } from 'app/reducers';
-import type { Store as ReduxStore, Middleware as ReduxMiddleware } from 'redux';
-import type {
-  StartSubmitAction,
-  StopSubmitAction,
-  InitializeAction,
-} from 'redux-form';
+import type { RootState } from 'app/store/createRootReducer';
+import type { ThunkAction } from '@reduxjs/toolkit';
 
 export type AsyncActionType = {
   BEGIN: string;
@@ -39,8 +34,6 @@ export type GalleryEntity = {
   photographers?: EntityID[];
   event?: EntityID;
 };
-type $ExtractFunctionReturn = <V>(v: (...args: any) => V) => V;
-export type State = $ObjMap<Reducers, $ExtractFunctionReturn>;
 export type EncodedToken = string;
 export type DecodedToken = {
   user_id: number;
@@ -68,26 +61,18 @@ export type PromiseAction<T> = {
   meta?: any;
   payload?: any;
 };
-export type GetState = () => State;
+export type GetState = () => RootState;
 export type GetCookie = (arg0: string) => EncodedToken | null | undefined;
-export type Thunk<R> = (
-  // eslint-disable-next-line no-use-before-define
-  dispatch: Dispatch<R>,
-  getState: GetState,
-  arg2: {
+
+export type Thunk<Returned> = ThunkAction<
+  Returned,
+  RootState,
+  {
     getCookie: GetCookie;
-  }
-) => R;
-export type AnyAction<R> =
-  | PromiseAction<R>
-  | Thunk<R>
-  | Action
-  | StopSubmitAction
-  | StartSubmitAction
-  | InitializeAction;
-export type Dispatch<R> = (action: AnyAction<R>) => R;
-export type Store = ReduxStore<State, Action, Dispatch<any>>;
-export type Middleware = ReduxMiddleware<State, AnyAction<any>, Dispatch<any>>;
+  },
+  Action
+>;
+
 export type ReduxFormProps = {
   pristine: boolean;
   submitting: boolean;

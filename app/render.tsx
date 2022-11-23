@@ -1,7 +1,7 @@
 import { loadableReady } from '@loadable/component';
 import { hydrate, render } from 'react-dom';
 import routes from 'app/routes';
-import type { Store } from 'app/types';
+import type { Store } from 'app/store/createStore';
 import Root from './Root';
 
 const renderApp = ({

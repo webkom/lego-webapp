@@ -5,10 +5,10 @@ import { ReactElement } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
 import { ReactReduxContext } from 'react-redux';
 import { StaticRouter } from 'react-router';
+import type { RootState } from 'app/store/createRootReducer';
+import createStore from 'app/store/createStore';
 import RouteConfig from '../app/routes';
-import configureStore from '../app/utils/configureStore';
 import pageRenderer from './pageRenderer';
-import type { State } from '../app/types';
 import type { StaticRouterContext } from 'react-router';
 
 const serverSideTimeoutInMs = 4000;
@@ -40,7 +40,7 @@ const prepareWithTimeout = (app): Promise<string> =>
 const createServerSideRenderer = (req: Request, res: Response) => {
   const render = (
     app?: ReactElement,
-    state: State | Record<string, never> = Object.freeze({}),
+    state: RootState | Record<string, never> = Object.freeze({}),
     preparedStateCode?: string
   ) => {
     return res.send(
@@ -67,7 +67,7 @@ const createServerSideRenderer = (req: Request, res: Response) => {
     </StaticRouter>
   );
 
-  const store = configureStore(
+  const store = createStore(
     {},
     {
       Sentry,
@@ -113,9 +113,8 @@ const createServerSideRenderer = (req: Request, res: Response) => {
       return res.redirect(302, context.url);
     }
 
-    const state: State = store.getState();
     // TODO: remove workaround when redux-form is replaced
-    state.form = {}; // Lego-editor doesn't initialize correctly when redux-form is initialized by ssr (react-prepare)
+    const state: RootState = { ...store.getState(), form: {} };
 
     const statusCode = state.router.statusCode || 200;
     res.status(statusCode);

@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 import { autocomplete } from 'app/actions/SearchActions';
 import type { Allowed } from 'app/reducers/allowed';
 import { selectAutocompleteRedux } from 'app/reducers/search';
-import type { State as ReducerState } from 'app/types';
+import type { RootState } from 'app/store/createRootReducer';
+import type { AppDispatch } from 'app/store/createStore';
 import { Keyboard } from 'app/utils/constants';
 import Icon from '../Icon';
 import styles from './Search.css';
@@ -148,7 +149,7 @@ class Search extends Component<Props, State> {
   }
 }
 
-function mapStateToProps(state: ReducerState): StateProps {
+function mapStateToProps(state: RootState): StateProps {
   return {
     allowed: state.allowed,
     results: selectAutocompleteRedux(state),
@@ -156,7 +157,7 @@ function mapStateToProps(state: ReducerState): StateProps {
   };
 }
 
-function mapDispatchToProps(dispatch: any): DispatchProps {
+function mapDispatchToProps(dispatch: AppDispatch): DispatchProps {
   return {
     onQueryChanged: debounce((query) => dispatch(autocomplete(query)), 300),
     openSearchRoute: (query) => dispatch(push(`/search?q=${query}`)),

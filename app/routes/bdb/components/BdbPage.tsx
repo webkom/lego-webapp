@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import { Content } from 'app/components/Content';
 import TextInput from 'app/components/Form/TextInput';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import type { CompanySemesterContactedStatus, LocationType } from 'app/models';
+import type { CompanySemesterContactedStatus } from 'app/models';
 import type {
   CompanyEntity,
   BaseSemesterStatusEntity,
@@ -15,6 +15,7 @@ import { indexToSemester, ListNavigation } from '../utils';
 import CompanyList from './CompanyList';
 import OptionsBox from './OptionsBox';
 import styles from './bdb.css';
+import type { Location } from 'history';
 
 type Props = {
   companies: Array<CompanyEntity>;
@@ -31,7 +32,7 @@ type Props = {
   addSemester: (arg0: CompanySemesterEntity) => Promise<any>;
   companySemesters: Array<CompanySemesterEntity>;
   push: (arg0: string) => void;
-  location: LocationType;
+  location: Location;
 };
 type State = {
   startYear: number;

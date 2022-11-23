@@ -1,12 +1,13 @@
-type Reducer<S, A> = (state: S, action: A) => S;
+import type { AnyAction, Reducer } from '@reduxjs/toolkit';
+
 /**
  * Return the new state after `reducers` has been run
  * in sequence with the nextState being the value of a
  * reduced prevState.
  */
 
-export default function joinReducers<S, A>(
-  ...reducers: Array<Reducer<S, A> | null | undefined>
+export default function joinReducers<S, A extends AnyAction = AnyAction>(
+  ...reducers: Reducer<S, A>[]
 ): Reducer<S, A> {
   return (state, action) =>
     reducers.reduce((nextState, reducer) => {
