@@ -133,7 +133,7 @@ steps:
       - echo "server stopped"
 
   - name: setup
-    image: node:14-alpine
+    image: node:16-alpine
     when:
       event: [push]
     depends_on:
@@ -152,7 +152,7 @@ steps:
       - yarn --frozen-lockfile --cache-folder /tmp/cache
 
   - name: build_server
-    image: node:14-alpine
+    image: node:16-alpine
     when:
       event: [push]
       branch:
@@ -163,7 +163,7 @@ steps:
       - yarn build:server
 
   - name: build_client
-    image: node:14-alpine
+    image: node:16-alpine
     when:
       event: [push]
       branch:
@@ -174,7 +174,7 @@ steps:
       - yarn build:client
 
   - name: test
-    image: node:14-alpine
+    image: node:16-alpine
     when:
       event: [push]
     depends_on:
@@ -183,7 +183,7 @@ steps:
       - yarn test
 
   - name: lint
-    image: node:14-alpine
+    image: node:16-alpine
     when:
       event: [push]
     depends_on:
@@ -192,7 +192,7 @@ steps:
       - yarn lint
 
   - name: typescript
-    image: node:14-slim
+    image: node:16-slim
     when:
       event: [push]
     depends_on:
@@ -202,7 +202,7 @@ steps:
     failure: ignore
 
   - name: install_cypress
-    image: node:14-alpine
+    image: node:16-alpine
     when:
       event: [push]
       branch:
@@ -215,7 +215,7 @@ steps:
       - yarn cypress install
 
   - name: ssr
-    image: node:14-alpine
+    image: node:16-alpine
     detach: true
     when:
       event: [push]
@@ -233,7 +233,7 @@ steps:
       - yarn ssr
 
   - name: cypress
-    image: cypress/browsers:node14.16.0-chrome89-ff86
+    image: cypress/browsers:node16.18.0-chrome107-ff106-edge
     shm_size: 512m
     ipc: host
     when:
@@ -326,4 +326,4 @@ image_pull_secrets:
 
 ---
 kind: signature
-hmac: 389f3aee8c1e7fbcfba1a037d7c1317eaca7f2f797be4a540f1016dacb1eb13e
+hmac: d6e422f60f9be44b614e2f7c6c6279599cd00b63fb175dc75133c66ab5ccad12
