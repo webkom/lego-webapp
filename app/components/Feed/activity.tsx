@@ -94,19 +94,20 @@ export default class ActivityRenderer extends Component<Props, State> {
         (aggregatedActivity.activityCount > activities.length &&
           this.state.expanded) ? (
           <div className={styles.activityFooter}>
-            {aggregatedActivity.activities.length > 3 && !this.state.expanded && (
-              <Button
-                size="small"
-                submit={false}
-                onClick={() =>
-                  this.setState({
-                    expanded: true,
-                  })
-                }
-              >
-                Vis mer
-              </Button>
-            )}
+            {aggregatedActivity.activities.length > 3 &&
+              !this.state.expanded && (
+                <Button
+                  size="small"
+                  submit={false}
+                  onClick={() =>
+                    this.setState({
+                      expanded: true,
+                    })
+                  }
+                >
+                  Vis mer
+                </Button>
+              )}
             {aggregatedActivity.activityCount > activities.length &&
               this.state.expanded &&
               `og ${
