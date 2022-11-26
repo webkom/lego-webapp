@@ -9,7 +9,7 @@ import callAPI from './callAPI';
 export function fetchAll({
   next = false,
 }: {
-  next: boolean;
+  next?: boolean;
 } = {}): Thunk<any> {
   return (dispatch, getState) => {
     const cursor = next ? getState().polls.pagination.next : {};

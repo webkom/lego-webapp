@@ -7,8 +7,8 @@ export function fetch({
   next,
   filters,
 }: {
-  next: boolean;
-  filters: Record<string, any>;
+  next?: boolean;
+  filters?: Record<string, string | number>;
 } = {}): Thunk<any> {
   return (dispatch, getState) => {
     const cursor = next ? getState().galleries.pagination.next : {};

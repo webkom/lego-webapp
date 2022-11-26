@@ -40,7 +40,7 @@ export function fetchWithToken(surveyId: number, token: string): Thunk<any> {
 export function fetchAll({
   next = false,
 }: {
-  next: boolean;
+  next?: boolean;
 } = {}): Thunk<any> {
   return (dispatch, getState) => {
     const cursor = next ? getState().surveys.pagination.next : {};

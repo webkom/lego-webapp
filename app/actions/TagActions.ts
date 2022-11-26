@@ -27,7 +27,7 @@ export function fetchPopular(): Thunk<any> {
 export function fetchAll({
   next = false,
 }: {
-  next: boolean;
+  next?: boolean;
 } = {}): Thunk<any> {
   return callAPI({
     types: Tag.FETCH,

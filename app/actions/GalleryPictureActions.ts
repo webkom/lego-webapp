@@ -12,8 +12,8 @@ export function fetch(
     next,
     filters,
   }: {
-    next: boolean;
-    filters: Record<string, any>;
+    next?: boolean;
+    filters?: Record<string, string | number>;
   } = {}
 ): Thunk<any> {
   return (dispatch, getState) => {
@@ -103,6 +103,8 @@ export function deletePicture(
 }
 export function CreateGalleryPicture(galleryPicture: {
   galleryId: number;
+  file: string;
+  active: boolean;
 }): Thunk<any> {
   return callAPI({
     types: GalleryPicture.CREATE,

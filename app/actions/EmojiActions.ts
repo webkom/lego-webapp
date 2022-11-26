@@ -17,7 +17,7 @@ export function fetchEmoji(shortCode: string): Thunk<any> {
 export function fetchEmojis({
   next = false,
 }: {
-  next: boolean;
+  next?: boolean;
 } = {}): Thunk<any> {
   return (dispatch, getState) => {
     const cursor = next ? getState().emojis.pagination.next : {};
