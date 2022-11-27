@@ -44,7 +44,7 @@ export function fetch({
   query,
 }: {
   next?: boolean;
-  query: Record<string, any>;
+  query?: Record<string, string | number>;
 } = {}): Thunk<any> {
   return callAPI({
     types: EmailList.FETCH,

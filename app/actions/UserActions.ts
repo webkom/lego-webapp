@@ -16,7 +16,7 @@ import { setStatusCode } from './RoutingActions';
 const USER_STORAGE_KEY = 'lego.auth';
 
 function saveToken(token: EncodedToken) {
-  const decoded = jwtDecode(token);
+  const decoded = jwtDecode<Token>(token);
   const expires = moment.unix(decoded.exp);
   return cookie.set(USER_STORAGE_KEY, token, {
     path: '/',
@@ -37,7 +37,7 @@ function getToken(getCookie: GetCookie): Token | null | undefined {
   if (!encodedToken) return;
 
   try {
-    const decoded = jwtDecode(encodedToken);
+    const decoded = jwtDecode<Token>(encodedToken);
     return { ...decoded, encodedToken };
   } catch (e) {
     // Treat invalid tokens as if no token is stored

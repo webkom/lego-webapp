@@ -1,5 +1,6 @@
 import type { RootState } from 'app/store/createRootReducer';
 import type { ThunkAction } from '@reduxjs/toolkit';
+import type { JwtPayload } from 'jwt-decode';
 
 export type AsyncActionType = {
   BEGIN: string;
@@ -35,7 +36,7 @@ export type GalleryEntity = {
   event?: EntityID;
 };
 export type EncodedToken = string;
-export type DecodedToken = {
+export type DecodedToken = JwtPayload & {
   user_id: number;
   username: string;
   exp: number;

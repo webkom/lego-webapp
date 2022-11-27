@@ -192,7 +192,7 @@ export function fetchMembershipsPagination({
   groupId: number;
   next: boolean;
   descendants?: boolean;
-  query?: Record<string, any>;
+  query?: Record<string, string | number | boolean>;
 }): Thunk<any> {
   return (dispatch, getState) => {
     return dispatch(

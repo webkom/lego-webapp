@@ -249,7 +249,7 @@ export function unregister({
 export function adminRegister(
   eventId: number,
   userId: number,
-  poolId?: number,
+  poolId: number | undefined,
   feedback: string,
   adminRegistrationReason: string
 ): Thunk<any> {

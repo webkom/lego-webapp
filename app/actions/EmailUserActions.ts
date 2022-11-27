@@ -44,9 +44,9 @@ export function fetch({
   query,
 }: {
   next?: boolean;
-  query: Record<string, any>;
+  query?: Record<string, string | number>;
 } = {}): Thunk<any> {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     return dispatch(
       callAPI({
         types: EmailUser.FETCH,

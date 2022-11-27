@@ -32,7 +32,7 @@ export function createRestrictedMail(
 export function fetch({
   next,
 }: {
-  next: boolean;
+  next?: boolean;
 } = {}): Thunk<any> {
   return (dispatch, getState) => {
     return dispatch(

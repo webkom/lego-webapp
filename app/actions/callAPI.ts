@@ -34,7 +34,6 @@ function handleError(error, propagateError, endpoint, loggedIn): Thunk<any> {
 
     if (statusCode) {
       if (statusCode === 401 && loggedIn) {
-        // $FlowFixMe
         dispatch(logout());
       }
 
@@ -58,7 +57,7 @@ type CallAPIOptions = {
   headers?: Record<string, string>;
   schema?: Schema;
   body?: Record<string, any> | string;
-  query?: Record<string, any>;
+  query?: Record<string, string | number | boolean>;
   json?: boolean;
   meta?: Record<string, unknown>;
   files?: Array<any>;
