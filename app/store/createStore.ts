@@ -58,8 +58,8 @@ const createStore = (
   });
 
   if (module.hot) {
-    module.hot.accept('./rootReducer', () => {
-      const nextReducer = require('./rootReducer').default;
+    module.hot.accept('app/store/createRootReducer', () => {
+      const nextReducer = require('app/store/createRootReducer').default;
 
       store.replaceReducer(nextReducer(history));
     });
