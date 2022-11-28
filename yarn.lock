@@ -9000,10 +9000,10 @@ react-treeview@^0.4.6:
   dependencies:
     prop-types "^15.5.8"
 
-react-turnstile@^1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/react-turnstile/-/react-turnstile-1.0.5.tgz#1f57e96efe75faa3f56a09854df7bdca9c224a18"
-  integrity sha512-fLwFMXerdgAUERozg4PlcjB05l4uRb9miLAYNsSAOtU9jpv97Q19bkuY+XoLV9edec5ctW0JX1iUHQju5bvWTQ==
+react-turnstile@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/react-turnstile/-/react-turnstile-1.0.6.tgz#c1106d084d005972cfd1aed27ef2d299889e2846"
+  integrity sha512-4HD11+b5eVswNvDPbTSBSFsCD/fTYiWaKui737Ze+8DSciZbqvXzk6ffmjJKXlVuOELqvzLw91BhUQLkS59vRw==
 
 react-youtube@^9.0.3:
   version "9.0.3"
