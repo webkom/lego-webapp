@@ -161,6 +161,10 @@ export const GroupRenderer: PageRenderer = ({ page }) => {
     'co-leader': co_leaders = [],
     member: members = [],
     active_retiree: activeRetirees = [],
+    social_admin: social_admins = [],
+    recruiting: recruiters = [],
+    treasurer: treasurers = [],
+    media_relations: pr_responsibles = [],
   } = membershipsByRole;
   return (
     <article className={styles.detail}>
@@ -176,7 +180,20 @@ export const GroupRenderer: PageRenderer = ({ page }) => {
             <GroupMember user={user} key={user.id} co_leader />
           ))}
         </div>
+
         <div className={styles.members}>
+          {social_admins.map(({ user }) => (
+            <GroupMember user={user} key={user.id} social_admin />
+          ))}
+          {recruiters.map(({ user }) => (
+            <GroupMember user={user} key={user.id} recruiting />
+          ))}
+          {treasurers.map(({ user }) => (
+            <GroupMember user={user} key={user.id} treasurer />
+          ))}
+          {pr_responsibles.map(({ user }) => (
+            <GroupMember user={user} key={user.id} pr_responsible />
+          ))}
           {members.map(({ user }) => (
             <GroupMember user={user} key={user.id} />
           ))}
