@@ -40,7 +40,7 @@
     "@stripe/stripe-js": "^1.44.1",
     "@webkom/lego-editor": "^2.0.3",
     "@webkom/react-meter-bar": "^1.0.3",
-    "@webkom/react-prepare": "^0.10.3",
+    "@webkom/react-prepare": "^1.0.0",
     "animate.css": "^4.1.1",
     "buffer": "^6.0.3",
     "bunyan": "^1.8.15",
