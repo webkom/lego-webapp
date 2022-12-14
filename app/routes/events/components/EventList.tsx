@@ -9,19 +9,25 @@ import EventItem from 'app/components/EventItem';
 import { CheckBox } from 'app/components/Form/';
 import { selectTheme, selectStyles } from 'app/components/Form/SelectInput';
 import Icon from 'app/components/Icon';
-import type { Event, ActionGrant, IcalToken, EventTimeType } from 'app/models';
-import { EVENTFIELDS } from 'app/utils/constants';
+import type { Event, ActionGrant, IcalToken } from 'app/models';
+import { EventTime } from 'app/models';
 import EventFooter from './EventFooter';
 import styles from './EventList.css';
 import Toolbar from './Toolbar';
 
+type GroupedEvents = {
+  currentWeek?: Event[];
+  nextWeek?: Event[];
+  later?: Event[];
+};
+
 const groupEvents = ({
   events,
-  field = 'startTime',
+  field = EventTime.start,
 }: {
   events: Array<Event>;
-  field?: EventTimeType;
-}) => {
+  field?: EventTime;
+}): GroupedEvents => {
   const nextWeek = moment().add(1, 'week');
   const groups = {
     currentWeek: (event) => event[field].isSame(moment(), 'week'),
@@ -42,12 +48,12 @@ const groupEvents = ({
 
 const EventListGroup = ({
   name,
-  field = 'startTime',
+  field = EventTime.start,
   events = [],
   loggedIn = false,
 }: {
   name: string;
-  field?: EventTimeType;
+  field?: EventTime;
   events?: Array<Event>;
   loggedIn: boolean;
 }) => {
@@ -79,7 +85,8 @@ type EventListProps = {
 type Option = {
   filterRegDateFunc: (arg0: Event) => boolean;
   label: string;
-  field: EventTimeType;
+  value: string;
+  field: EventTime;
 };
 type State = {
   selectedOption: Option;
@@ -90,7 +97,7 @@ const filterRegDateOptions: Array<Option> = [
     filterRegDateFunc: (event) => !!event,
     label: 'Vis alle',
     value: 'Vis alle',
-    field: EVENTFIELDS.start,
+    field: EventTime.start,
   },
   {
     filterRegDateFunc: (event) =>
@@ -98,7 +105,7 @@ const filterRegDateOptions: Array<Option> = [
       moment(event.activationTime).isBefore(moment()),
     label: 'P\xe5melding \xe5pnet',
     value: 'P\xe5melding \xe5pnet',
-    field: EVENTFIELDS.start,
+    field: EventTime.start,
   },
   {
     filterRegDateFunc: (event) =>
@@ -106,7 +113,7 @@ const filterRegDateOptions: Array<Option> = [
       moment(event.activationTime).isAfter(moment()),
     label: '\xc5pner i fremtiden',
     value: '\xc5pner i fremtiden',
-    field: EVENTFIELDS.activate,
+    field: EventTime.activate,
   },
 ];
 

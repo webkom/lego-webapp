@@ -1,6 +1,7 @@
 import Editor from '@webkom/lego-editor';
 import '@webkom/lego-editor/dist/style.css';
 import 'react-image-crop/dist/ReactCrop.css';
+import type { CSSProperties } from 'react';
 
 type Props = {
   /** The content to be displayed - the text */
@@ -13,7 +14,7 @@ type Props = {
   className?: string;
 
   /** Any style tp be added to the div wrapping the content - the style */
-  style?: Record<string, any>;
+  style?: CSSProperties;
   placeholder?: string;
 };
 

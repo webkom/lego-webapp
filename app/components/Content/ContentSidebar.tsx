@@ -1,11 +1,11 @@
 import cx from 'classnames';
 import { Flex } from 'app/components/Layout';
 import styles from './ContentSidebar.css';
-import type { Node } from 'react';
+import type { ReactNode } from 'react';
 
 type Props = {
   className?: string;
-  children: Node;
+  children: ReactNode;
 };
 
 /**

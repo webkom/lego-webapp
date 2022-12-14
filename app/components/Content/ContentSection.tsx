@@ -1,9 +1,9 @@
 import { Flex } from 'app/components/Layout';
-import type { Node } from 'react';
+import type { ReactNode } from 'react';
 
 type Props = {
   className?: string;
-  children: Node;
+  children: ReactNode;
 };
 
 function ContentSection({ children, className }: Props) {

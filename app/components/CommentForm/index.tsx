@@ -8,6 +8,7 @@ import { EditorField } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { ProfilePicture } from 'app/components/Image';
+import type { User } from 'app/models';
 import { useAppDispatch } from 'app/store/hooks';
 import { EDITOR_EMPTY } from 'app/utils/constants';
 import { createValidator, legoEditorRequired } from 'app/utils/validation';
@@ -15,7 +16,7 @@ import styles from './CommentForm.css';
 
 type Props = {
   contentTarget: string;
-  user: Record<string, any>;
+  user: User;
   loggedIn: boolean;
   submitText?: string;
   inlineMode?: boolean;
@@ -90,7 +91,6 @@ const CommentForm = ({
               {editorSsrDisabled ? (
                 <DisplayContent
                   id="comment-text"
-                  className={styles.text}
                   content=""
                   placeholder="Skriv en kommentar"
                 />

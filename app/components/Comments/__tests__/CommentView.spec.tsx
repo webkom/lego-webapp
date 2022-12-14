@@ -6,10 +6,14 @@ import comments from './fixtures/comments';
 describe('components', () => {
   describe('CommentView', () => {
     it('should render a comment tree', () => {
+      // eslint-disable-next-line
+      // @ts-ignore
       const wrapper = shallow(<CommentView comments={comments} />);
       expect(wrapper.find(CommentTree)).toHaveLength(1);
     });
     it('should pass the comment tree a tree structure', () => {
+      // eslint-disable-next-line
+      // @ts-ignore
       const wrapper = shallow(<CommentView comments={comments} />);
       const tree = wrapper.find(CommentTree).props().comments;
       const [first, second] = tree;

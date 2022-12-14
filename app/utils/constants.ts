@@ -39,10 +39,6 @@ export const roleOptions = Object.keys(ROLES)
   value: string;
   label: string;
 }>;
-export const EVENTFIELDS = {
-  start: 'startTime',
-  activate: 'activationTime',
-};
 
 /*
  * Use the production group ID (11) if the ENVIRONMENT environment value is 'production' or 'staging'

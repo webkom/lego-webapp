@@ -4,7 +4,10 @@ export type ID = number;
 export type Dateish = Moment | Date | string;
 export type ActionGrant = Array<string>;
 export type IcalToken = string;
-export type EventTimeType = 'activationTime' | 'startTime';
+export enum EventTime {
+  activate = 'activationTime',
+  start = 'startTime',
+}
 export type EventType =
   | 'company_presentation'
   | 'alternative_presentation'
@@ -177,7 +180,14 @@ export type Company = Record<string, any>;
 export type Comment = {
   id: ID;
   text: string;
-  author: User;
+  author: Pick<
+    User,
+    | 'profilePicture'
+    | 'profilePicturePlaceholder'
+    | 'username'
+    | 'id'
+    | 'fullName'
+  >;
   createdAt: Dateish;
   updatedAt: Dateish;
   parent?: ID;

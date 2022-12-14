@@ -2,12 +2,12 @@ import cx from 'classnames';
 import type { Event } from 'app/models';
 import { eventTypeToString } from 'app/routes/events/utils';
 import styles from './ContentHeader.css';
-import type { Node } from 'react';
+import type { ReactNode } from 'react';
 
 type Props = {
   className?: string;
   borderColor?: string;
-  children: Node;
+  children: ReactNode;
   event?: Event;
   color: string;
 };
@@ -21,7 +21,6 @@ function ContentHeader({
   className,
   borderColor = DEFAULT_BORDER_COLOR,
   event,
-  color,
   ...props
 }: Props) {
   return (
@@ -30,7 +29,7 @@ function ContentHeader({
         borderColor,
       }}
       className={cx(styles.header, className)}
-      {...(props as Record<string, any>)}
+      {...props}
     >
       <h2>{children}</h2>
       {event && (

@@ -3,8 +3,9 @@ import { Flex } from '../Layout';
 import styles from './CheckBox.css';
 import { createField } from './Field';
 import type { FormProps } from './Field';
+import type { InputHTMLAttributes } from 'react';
 
-type Props = {
+type Props = InputHTMLAttributes<HTMLInputElement> & {
   id?: string;
   type?: string;
   label?: string;
@@ -50,7 +51,7 @@ const RawField = createField(CheckBox);
 const StyledField = ({ fieldClassName, ...props }: FormProps) => (
   <RawField
     fieldClassName={cx(fieldClassName, styles.checkboxField)}
-    {...(props as Record<string, any>)}
+    {...props}
   />
 );
 

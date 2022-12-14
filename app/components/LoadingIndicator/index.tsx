@@ -1,12 +1,15 @@
+import cx from 'classnames';
 import { Component } from 'react';
 import styles from './LoadingIndicator.css';
+import type { ReactNode, CSSProperties } from 'react';
 
 export type Props = {
   loading: boolean;
   small?: boolean;
   margin?: number | string;
-  loadingStyle?: Record<string, any>;
-  children?: any;
+  loadingStyle?: CSSProperties;
+  children?: ReactNode;
+  className?: string;
 };
 export default class LoadingIndicator extends Component<Props> {
   static defaultProps = {
@@ -19,7 +22,7 @@ export default class LoadingIndicator extends Component<Props> {
     if (this.props.loading) {
       return (
         <div
-          className={spinnerStyle}
+          className={cx(spinnerStyle, this.props.className)}
           style={{ ...this.props.loadingStyle, margin: this.props.margin }}
         >
           <div className={styles.bounce1} />
