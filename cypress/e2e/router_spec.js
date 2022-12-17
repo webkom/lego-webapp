@@ -1,6 +1,6 @@
 import { c, a } from '../support/utils.js';
 
-describe('Create event', () => {
+describe('Navigate throughout app', () => {
   beforeEach(() => {
     cy.resetDb();
     cy.cachedLogin();
@@ -11,9 +11,11 @@ describe('Create event', () => {
     cy.get(c('buttonGroup')).within(() => {
       cy.get(c('searchIcon')).click();
     });
-    cy.get(c('Search__navigationFlex')).within(() => {
-      cy.contains(name).click();
-    });
+    cy.get(c('Search__navigationFlex'))
+      .first()
+      .within(() => {
+        cy.contains(name).click();
+      });
     cy.url().should('contain', path);
   };
 
@@ -54,17 +56,21 @@ describe('Create event', () => {
     });
 
     // Go to profile
-    cy.get(c('Dropdown')).within(() => {
-      cy.get(a('/users/me')).click();
-    });
+    cy.get(c('Dropdown'))
+      .first()
+      .within(() => {
+        cy.get(a('/users/me')).click();
+      });
     cy.url().should('contain', '/users/me');
     cy.contains('Brukerinfo');
     cy.contains('Prikker');
 
     // Go to settings from profile
-    cy.get(c('UserProfile__infoCard')).within(() => {
-      cy.contains('Innstillinger').click();
-    });
+    cy.get(c('UserProfile__infoCard'))
+      .first()
+      .within(() => {
+        cy.contains('Innstillinger').click();
+      });
     cy.contains('Brukernavn');
   });
 
@@ -75,30 +81,38 @@ describe('Create event', () => {
     });
 
     // Go to users settings
-    cy.get(c('Dropdown')).within(() => {
-      cy.contains('Innstillinger').click();
-    });
+    cy.get(c('Dropdown'))
+      .first()
+      .within(() => {
+        cy.contains('Innstillinger').click();
+      });
     cy.url().should('contain', '/users/me/settings');
     cy.contains('Brukernavn');
 
     // Go to notifications
-    cy.get(c('NavigationTab')).within(() => {
-      cy.contains('Notifikasjoner').click();
-    });
+    cy.get(c('NavigationTab'))
+      .first()
+      .within(() => {
+        cy.contains('Notifikasjoner').click();
+      });
     cy.url().should('contain', '/users/me/settings/notifications');
     cy.contains('E-poster som sendes direkte til deg');
 
     // Go to OAuth2
-    cy.get(c('NavigationTab')).within(() => {
-      cy.contains('OAuth2').click();
-    });
+    cy.get(c('NavigationTab'))
+      .first()
+      .within(() => {
+        cy.contains('OAuth2').click();
+      });
     cy.url().should('contain', '/users/me/settings/oauth2');
     cy.contains('Denne nettsiden benytter seg av et API');
 
     // Go to student confirmation
-    cy.get(c('NavigationTab')).within(() => {
-      cy.contains('Verifiser studentstatus').click();
-    });
+    cy.get(c('NavigationTab'))
+      .first()
+      .within(() => {
+        cy.contains('Verifiser studentstatus').click();
+      });
     cy.url().should('contain', '/users/me/settings/student-confirmation');
     cy.contains('NTNU Brukernavn');
   });
@@ -110,25 +124,31 @@ describe('Create event', () => {
     });
 
     // Go to meetings
-    cy.get(c('Dropdown')).within(() => {
-      cy.contains('Møteinnkallinger').click();
-    });
+    cy.get(c('Dropdown'))
+      .first()
+      .within(() => {
+        cy.contains('Møteinnkallinger').click();
+      });
     cy.url().should('contain', '/meetings');
     cy.contains('Dine Møter');
     cy.contains('Hent gamle');
 
     // Go to create new
-    cy.get(c('NavigationTab')).within(() => {
-      cy.contains('Nytt møte').click();
-    });
+    cy.get(c('NavigationTab'))
+      .first()
+      .within(() => {
+        cy.contains('Nytt møte').click();
+      });
     cy.url().should('contain', '/meetings/create');
     cy.contains('Nytt møte');
     cy.contains('Tittel');
 
     // Go back to meetings
-    cy.get(c('NavigationTab')).within(() => {
-      cy.contains('Mine møter').click();
-    });
+    cy.get(c('NavigationTab'))
+      .first()
+      .within(() => {
+        cy.contains('Mine møter').click();
+      });
     cy.url().should('contain', '/meetings');
     cy.contains('Dine Møter');
   });
@@ -208,16 +228,18 @@ describe('Create event', () => {
     cy.contains('lorem');
   });
 
-  it('should be able to logg out', () => {
+  it('should be able to log out', () => {
     cy.visit('/');
     cy.get(c('buttonGroup')).within(() => {
       cy.get('img[alt="user"]').click();
     });
 
     // Logg out
-    cy.get(c('Dropdown')).within(() => {
-      cy.contains('Logg ut').click();
-    });
+    cy.get(c('Dropdown'))
+      .first()
+      .within(() => {
+        cy.contains('Logg ut').click();
+      });
     cy.url().should('contain', '/');
     cy.contains('Velkommen til Abakus');
     cy.contains('Logg inn');
