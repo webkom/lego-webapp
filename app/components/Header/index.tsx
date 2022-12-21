@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import { Component, MouseEventHandler } from 'react';
+import { Component } from 'react';
 import { Modal } from 'react-overlays';
 import { Link, NavLink, withRouter } from 'react-router-dom';
 import logoLightMode from 'app/assets/logo-dark.png';
@@ -23,6 +23,7 @@ import Search from '../Search';
 import FancyNodesCanvas from './FancyNodesCanvas';
 import styles from './Header.css';
 import ToggleTheme from './ToggleTheme';
+import type { MouseEventHandler } from 'react';
 
 type Props = {
   searchOpen: boolean;

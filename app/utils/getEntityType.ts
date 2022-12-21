@@ -1,4 +1,4 @@
-import { $Keys } from 'utility-types';
+import type { $Keys } from 'utility-types';
 
 const entityTypeMappings = {
   'events.event': 'events',

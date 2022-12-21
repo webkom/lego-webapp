@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import moment, { Moment } from 'moment-timezone';
+import moment from 'moment-timezone';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { createSelector } from 'reselect';
@@ -9,6 +9,7 @@ import Popover from 'app/components/Popover';
 import type { Event } from 'app/models';
 import { colorForEvent } from '../utils';
 import styles from './Calendar.css';
+import type { Moment } from 'moment-timezone';
 
 const renderEvent = ({
   id,

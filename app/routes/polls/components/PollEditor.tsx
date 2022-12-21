@@ -1,12 +1,6 @@
 import { Component } from 'react';
 import { Helmet } from 'react-helmet-async';
-import {
-  fieldArrayMetaPropTypes,
-  fieldArrayFieldsPropTypes,
-  Form,
-  Field,
-  FieldArray,
-} from 'redux-form';
+import { Form, Field, FieldArray } from 'redux-form';
 import Button from 'app/components/Button';
 import { Content } from 'app/components/Content';
 import {
@@ -25,6 +19,10 @@ import type { ID } from 'app/models';
 import type { PollEntity } from 'app/reducers/polls';
 import styles from './PollEditor.css';
 import type { Node } from 'react';
+import type {
+  fieldArrayMetaPropTypes,
+  fieldArrayFieldsPropTypes,
+} from 'redux-form';
 
 const keyCodes = {
   enter: 13,

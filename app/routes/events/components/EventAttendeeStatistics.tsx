@@ -10,7 +10,7 @@ import {
 } from 'recharts';
 import ChartLabel from 'app/components/Chart/ChartLabel';
 import DistributionPieChart from 'app/components/Chart/PieChart';
-import { DistributionDataPoint } from 'app/components/Chart/utils';
+import type { DistributionDataPoint } from 'app/components/Chart/utils';
 import Icon from 'app/components/Icon';
 import { Flex } from 'app/components/Layout';
 import type { Dateish, EventRegistration } from 'app/models';

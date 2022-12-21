@@ -1,10 +1,10 @@
 import { Field, SubmissionError } from 'redux-form';
-import { $Keys } from 'utility-types';
 import { legoForm, Button, Form } from 'app/components/Form';
 import SelectInput from 'app/components/Form/SelectInput';
 import { ROLES } from 'app/utils/constants';
 import { createValidator, required } from 'app/utils/validation';
 import type { FormProps } from 'redux-form';
+import type { $Keys } from 'utility-types';
 
 type Props = FormProps & {
   groupId: number;

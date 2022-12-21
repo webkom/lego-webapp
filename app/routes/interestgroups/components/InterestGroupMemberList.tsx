@@ -1,5 +1,5 @@
 import sortBy from 'lodash/sortBy';
-import { Component, ReactNode } from 'react';
+import { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Icon from 'app/components/Icon';
 import { ProfilePicture } from 'app/components/Image';
@@ -8,6 +8,7 @@ import Modal from 'app/components/Modal';
 import Tooltip from 'app/components/Tooltip';
 import type { User, GroupMembership } from 'app/models';
 import styles from './InterestGroupMemberList.css';
+import type { ReactNode } from 'react';
 
 const ExtraInfo = ({ user, role }: { user: User; role: string }) => {
   if (role === 'member') {

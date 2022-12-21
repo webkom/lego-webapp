@@ -1,6 +1,6 @@
-import { $Keys } from 'utility-types';
 import type { Workplace, Joblisting } from 'app/models';
 import joinValues from 'app/utils/joinValues';
+import type { $Keys } from 'utility-types';
 
 type YearProps = {
   joblisting: Joblisting;

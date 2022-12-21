@@ -1,7 +1,5 @@
 import * as Sentry from '@sentry/node';
 import { prepare } from '@webkom/react-prepare';
-import { Request, Response } from 'express';
-import { ReactElement } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
 import { ReactReduxContext } from 'react-redux';
 import { StaticRouter } from 'react-router';
@@ -9,6 +7,8 @@ import type { RootState } from 'app/store/createRootReducer';
 import createStore from 'app/store/createStore';
 import RouteConfig from '../app/routes';
 import pageRenderer from './pageRenderer';
+import type { Request, Response } from 'express';
+import type { ReactElement } from 'react';
 import type { StaticRouterContext } from 'react-router';
 
 const serverSideTimeoutInMs = 4000;
