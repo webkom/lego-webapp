@@ -1,6 +1,5 @@
 import { omit, isArray } from 'lodash';
 import { normalize } from 'normalizr';
-import { $Shape } from 'utility-types';
 import { logout } from 'app/actions/UserActions';
 import { selectIsLoggedIn } from 'app/reducers/auth';
 import { selectPaginationNext } from 'app/reducers/selectors';
@@ -16,6 +15,7 @@ import getCachedRequest from 'app/utils/getCachedRequest';
 import { configWithSSR } from '../config';
 import { setStatusCode } from './RoutingActions';
 import type { Schema } from 'normalizr';
+import type { $Shape } from 'utility-types';
 
 function urlFor(resource: string) {
   if (resource.match(/^\/\//)) {

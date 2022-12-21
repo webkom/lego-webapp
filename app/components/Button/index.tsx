@@ -1,7 +1,7 @@
 import cx from 'classnames';
-import { ButtonHTMLAttributes, ReactNode } from 'react';
 import LoadingIndicator from '../LoadingIndicator';
 import styles from './Button.css';
+import type { ButtonHTMLAttributes, ReactNode } from 'react';
 
 type Props = {
   /** content inside */

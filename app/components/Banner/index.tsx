@@ -1,8 +1,8 @@
 import cx from 'classnames';
 import { Link } from 'react-router-dom';
-import { $Keys } from 'utility-types';
 import styles from './Banner.css';
 import type { Node } from 'react';
+import type { $Keys } from 'utility-types';
 
 export const COLORS = {
   red: styles.red,

@@ -1,5 +1,4 @@
 import { Field, FieldArray } from 'redux-form';
-import { $PropertyType } from 'utility-types';
 import {
   TextInput,
   TextArea,
@@ -18,6 +17,7 @@ import styles from '../surveys.css';
 import Option from './Option';
 import type { Node } from 'react';
 import type { FieldArrayProps } from 'redux-form';
+import type { $PropertyType } from 'utility-types';
 
 type Fields = $PropertyType<FieldArrayProps, 'fields'>;
 type Props = {
