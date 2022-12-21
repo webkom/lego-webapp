@@ -27,6 +27,8 @@ describe('View event', () => {
   });
 
   it('Should be possible to update event details', () => {
+    cy.visit('/events/20');
+    
     // Update message
     cy.contains('button', 'Oppdater').should('be.disabled');
     cy.get('#feedback').click().type('This is some feedback text');
@@ -47,6 +49,8 @@ describe('View event', () => {
   //})
 
   it('Should be possible to comment', () => {
+    cy.visit('/events/20');
+    
     cy.contains('button', 'Kommenter').should('not.exist');
 
     cy.get(c('CommentForm') + ' [data-slate-editor="true"]')
