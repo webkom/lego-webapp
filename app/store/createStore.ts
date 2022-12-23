@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { routerMiddleware } from 'connected-react-router';
 import { createBrowserHistory, createMemoryHistory } from 'history';
 import { addToast } from 'app/actions/ToastActions';
+import type { RootState } from 'app/store/createRootReducer';
 import createRootReducer from 'app/store/createRootReducer';
 import loggerMiddleware from 'app/store/middleware/loggerMiddleware';
 import createMessageMiddleware from 'app/store/middleware/messageMiddleware';
@@ -15,7 +16,7 @@ export const history: History = __CLIENT__
   : createMemoryHistory();
 
 const createStore = (
-  initialState = {},
+  initialState: RootState | Record<string, never> = {},
   {
     Sentry,
     getCookie,
