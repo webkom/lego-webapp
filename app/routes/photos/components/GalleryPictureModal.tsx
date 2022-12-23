@@ -191,9 +191,11 @@ export default class GalleryPictureModal extends Component<Props, State> {
     trailing: false,
   });
   handleKeyDown = (e: KeyboardEvent): void => {
-    // Dont handle events inside the comment form... :smile:
-    // $FlowFixMe
-    if (e.target.className === 'notranslate public-DraftEditor-content') {
+    // Don't handle events inside the comment form... :smile:
+    if (
+      e.target instanceof Element &&
+      e.target.className === 'notranslate public-DraftEditor-content'
+    ) {
       return;
     }
 

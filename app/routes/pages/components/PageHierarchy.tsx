@@ -17,7 +17,7 @@ type Props = {
   pageHierarchy: Array<HierarchySectionEntity>;
   currentUrl: string;
   currentCategory: string;
-  handleCloseSidebar: any;
+  handleCloseSidebar: () => void;
 };
 
 const PageHierarchy = ({
@@ -52,7 +52,7 @@ const HierarchySection = ({
   hierarchySection: HierarchySectionEntity;
   currentUrl: string;
   currentCategory: string;
-  handleCloseSidebar: any;
+  handleCloseSidebar: () => void;
 }) => (
   <nav className={styles.pageList}>
     {items.length > 0 && (
@@ -89,9 +89,7 @@ class AccordionContainer extends Component<AccordionProps, AccordionState> {
     isOpen:
       this.props.currentCategory === this.props.title.toLowerCase() ||
       (this.props.currentCategory === undefined &&
-        this.props.title.toLowerCase() === 'generelt')
-        ? true
-        : false,
+        this.props.title.toLowerCase() === 'generelt'),
   };
   handleClick = () => {
     this.setState((state) => ({

@@ -14,7 +14,7 @@ import type { PageEntity } from 'app/reducers/pages';
 import styles from './PageDetail.css';
 import Sidebar from './Sidebar';
 import type { HierarchySectionEntity } from './PageHierarchy';
-import type { ReactNode } from 'react';
+import type { ComponentType } from 'react';
 
 type State = {
   isOpen: boolean;
@@ -31,10 +31,17 @@ type Props = {
   selectedPage: any;
   currentUrl: string;
   selectedPageInfo: PageInfo;
-  PageRenderer: (arg0: { page: any }) => ReactNode;
+  PageRenderer: PageRenderer;
   pageHierarchy: Array<HierarchySectionEntity>;
   loggedIn: boolean;
 };
+
+type PageRendererProps = {
+  page: PageEntity;
+  pageInfo: PageInfo;
+  loggedIn: boolean;
+};
+export type PageRenderer = ComponentType<PageRendererProps>;
 
 class PageDetail extends Component<Props, State> {
   state = {
@@ -115,18 +122,15 @@ export const MainPageRenderer = ({
   pageInfo,
   ChildPageRenderer,
   loggedIn,
-}: {
-  page: Record<string, any>;
-  pageInfo: Record<string, any>;
-  ChildPageRenderer: (arg0: { page: any }) => ReactNode;
-  loggedIn: boolean;
+}: PageRendererProps & {
+  ChildPageRenderer: PageRenderer;
 }) => {
-  const pageBanner = page.logo || page.picture; //Splittet fra hverandre, var pageBanner = pic || logo
+  const pageBanner = page.logo || page.picture; // Splittet fra hverandre, var pageBanner = pic || logo
 
   const pageBannerPlaceholder = page.logoPlaceholder || page.picturePlaceholder;
   const { title } = pageInfo;
   return (
-    <article className={styles.pageWrapper}>
+    <article>
       <div className={styles.headWrapper}>
         {pageBanner && (
           <div className={styles.banner}>
@@ -145,12 +149,12 @@ export const MainPageRenderer = ({
     </article>
   );
 };
-export const FlatpageRenderer = ({ page }: { page: PageEntity }) => (
+export const FlatpageRenderer: PageRenderer = ({ page }) => (
   <article className={styles.detail}>
     <DisplayContent content={page.content} />
   </article>
 );
-export const GroupRenderer = ({ page }: { page: Record<string, any> }) => {
+export const GroupRenderer: PageRenderer = ({ page }) => {
   const { membershipsByRole, text, name } = page;
   const {
     leader: leaders = [],
@@ -165,20 +169,20 @@ export const GroupRenderer = ({ page }: { page: Record<string, any> }) => {
       <h3 className={styles.heading}>MEDLEMMER</h3>
       <div className={styles.membersSection}>
         <div className={styles.leaderBoard}>
-          {leaders.map(({ user }, key) => (
+          {leaders.map(({ user }) => (
             <GroupMember user={user} key={user.id} leader groupName={name} />
           ))}
-          {co_leaders.map(({ user }, key) => (
+          {co_leaders.map(({ user }) => (
             <GroupMember user={user} key={user.id} co_leader />
           ))}
         </div>
         <div className={styles.members}>
-          {members.map(({ user }, key) => (
+          {members.map(({ user }) => (
             <GroupMember user={user} key={user.id} />
           ))}
         </div>
         <div className={styles.members}>
-          {activeRetirees.map(({ user }, key) => (
+          {activeRetirees.map(({ user }) => (
             <GroupMember user={user} key={user.id} />
           ))}
         </div>
