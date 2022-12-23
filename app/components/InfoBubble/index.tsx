@@ -1,14 +1,14 @@
 import cx from 'classnames';
 import Icon from 'app/components/Icon';
 import styles from './InfoBubble.css';
-import type { Node } from 'react';
+import type { ReactNode } from 'react';
 
 type Props = {
   /** Icon name */
   icon: string;
 
   /** Text under icon */
-  data?: Node;
+  data?: ReactNode;
 
   /** Small text below main text */
   meta?: string;

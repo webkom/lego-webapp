@@ -2,13 +2,9 @@ import { Helmet } from 'react-helmet-async';
 import { Content } from 'app/components/Content';
 import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
-import type { Node } from 'react';
+import type { PropsWithChildren } from 'react';
 
-type Props = {
-  children: Node;
-};
-
-const EmailPage = ({ children }: Props) => (
+const EmailPage = ({ children }: PropsWithChildren) => (
   <Content>
     <Helmet title="E-post" />
     <NavigationTab title="E-post">

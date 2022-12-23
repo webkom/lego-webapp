@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import styles from './context.css';
 import type { AggregatedActivity, TagInfo } from './types';
-import type { Node } from 'react';
+import type { ReactNode } from 'react';
 
 export function lookupContext(
   aggregatedActivity: AggregatedActivity,
@@ -87,14 +87,14 @@ export const contextRender = {
   'notifications.announcement': renderAnnouncement,
   'gallery.gallerypicture': renderGalleryPicture,
 };
-export function toLink(linkAndText: TagInfo): Node {
+export function toLink(linkAndText: TagInfo): ReactNode {
   return linkAndText.linkableContent ? (
     <Link to={linkAndText.link}>{linkAndText.text}</Link>
   ) : (
     toSpan(linkAndText)
   );
 }
-export function toSpan(linkAndText: TagInfo): Node {
+export function toSpan(linkAndText: TagInfo): ReactNode {
   const classname = linkAndText.linkableContent ? styles.highlight : '';
   return <span className={classname}>{linkAndText.text}</span>;
 }

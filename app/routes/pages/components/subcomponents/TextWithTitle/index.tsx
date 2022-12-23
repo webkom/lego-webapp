@@ -1,9 +1,9 @@
 import styles from './TextWithTitle.css';
-import type { Node } from 'react';
+import type { ReactNode } from 'react';
 
 type Props = {
   title: string;
-  text: Node;
+  text: ReactNode;
   extraStyle?: Record<string, any>;
 };
 

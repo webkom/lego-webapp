@@ -30,14 +30,14 @@ import PageDetail, {
   FlatpageRenderer,
   GroupRenderer,
 } from './components/PageDetail';
-import type { Node } from 'react';
+import type { ReactNode } from 'react';
 
 type Entry = {
   title: string;
   section: string;
   pageSelector: any;
   hierarchySectionSelector: any;
-  PageRenderer: (arg0: any) => Node;
+  PageRenderer: (arg0: any) => ReactNode;
   fetchAll?: () => Thunk<any>;
   fetchItemActions: Array<
     ((arg0: number) => Thunk<any>) | ((arg0: string) => Thunk<any>)

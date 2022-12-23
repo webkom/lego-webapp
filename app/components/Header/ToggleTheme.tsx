@@ -3,7 +3,7 @@ import { useCallback, useState } from 'react';
 import { applySelectedTheme, getTheme } from 'app/utils/themeUtils';
 import Icon from '../Icon';
 import styles from './toggleTheme.css';
-import type { Node } from 'react';
+import type { ReactNode } from 'react';
 
 const getIcon = () => (getTheme() === 'dark' ? 'sunny' : 'moon');
 
@@ -12,7 +12,7 @@ type Props = {
   username?: string;
   updateUserTheme: (username: string, theme: string) => Promise<any>;
   className?: string;
-  children?: Node;
+  children?: ReactNode;
   isButton?: boolean;
 };
 

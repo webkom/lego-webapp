@@ -32,12 +32,12 @@ import { selectFeedActivitesByFeedId } from 'app/reducers/feeds';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import HTTPError from '../errors/HTTPError';
 import styles from './AppRoute.css';
-import type { Element } from 'react';
+import type { ReactElement } from 'react';
 
 type Props = {
   statusCode: number;
   location: any;
-  children: Element<any>;
+  children: ReactElement | ReactElement[];
   currentUser: /*TODO: User*/ Record<string, any>;
   setStatusCode: (code: number | null | undefined) => void;
   loggedIn: boolean;

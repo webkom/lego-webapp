@@ -3,11 +3,11 @@ import { Children, cloneElement, Component } from 'react';
 import awSnap from 'app/assets/sentry-aw-snap.svg';
 import { Image } from 'app/components/Image';
 import styles from './ErrorBoundary.css';
-import type { Node } from 'react';
+import type { ReactNode, ReactElement } from 'react';
 
 type Props = {
   openReportDialog?: boolean;
-  children: any;
+  children: ReactElement | ReactElement[];
   hidden?: boolean;
 
   /* Reset error when this prop changes */
@@ -74,7 +74,7 @@ class ErrorBoundary extends Component<Props, State> {
     });
   }
 
-  render(): Node {
+  render(): ReactNode {
     const { openReportDialog, hidden = false, children, ...rest } = this.props;
 
     if (!this.state.error) {

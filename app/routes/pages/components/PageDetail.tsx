@@ -14,7 +14,7 @@ import type { PageEntity } from 'app/reducers/pages';
 import styles from './PageDetail.css';
 import Sidebar from './Sidebar';
 import type { HierarchySectionEntity } from './PageHierarchy';
-import type { Node } from 'react';
+import type { ReactNode } from 'react';
 
 type State = {
   isOpen: boolean;
@@ -31,7 +31,7 @@ type Props = {
   selectedPage: any;
   currentUrl: string;
   selectedPageInfo: PageInfo;
-  PageRenderer: (arg0: { page: any }) => Node;
+  PageRenderer: (arg0: { page: any }) => ReactNode;
   pageHierarchy: Array<HierarchySectionEntity>;
   loggedIn: boolean;
 };
@@ -118,7 +118,7 @@ export const MainPageRenderer = ({
 }: {
   page: Record<string, any>;
   pageInfo: Record<string, any>;
-  ChildPageRenderer: (arg0: { page: any }) => Node;
+  ChildPageRenderer: (arg0: { page: any }) => ReactNode;
   loggedIn: boolean;
 }) => {
   const pageBanner = page.logo || page.picture; //Splittet fra hverandre, var pageBanner = pic || logo

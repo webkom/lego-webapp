@@ -3,12 +3,12 @@ import { Component, Children, cloneElement } from 'react';
 import Modal from 'app/components/Modal';
 import Button from '../Button';
 import styles from './ConfirmModal.css';
-import type { ComponentType, Node } from 'react';
+import type { ComponentType, ReactElement, ReactNode } from 'react';
 
 type ConfirmModalProps = {
   onConfirm?: () => Promise<any>;
   onCancel?: () => Promise<any>;
-  message: Node;
+  message: ReactNode;
   title: string;
   disabled?: boolean;
   errorMessage?: string;
@@ -54,7 +54,7 @@ type State = {
   working: boolean;
   errorMessage: string;
 };
-type withModalProps = {
+type WithModalProps = {
   /* Close the modal after confirm promise is resolved
    * This should only be used if the component isn't automatically
    * unmounted when the given promise resolves */
@@ -64,14 +64,14 @@ type withModalProps = {
    * This should only be true if the component isn't automatically
    * unmounted when the given promise resolves */
   closeOnCancel?: boolean;
-  children: Node;
+  children: ReactNode;
 };
 export default function withModal<Props>(
   WrappedComponent: ComponentType<Props>
 ) {
   const displayName =
     WrappedComponent.displayName || WrappedComponent.name || 'Unknown';
-  return class extends Component<withModalProps & ConfirmModalProps, State> {
+  return class extends Component<WithModalProps & ConfirmModalProps, State> {
     static displayName = `WithModal(${displayName})`;
     state = {
       modalVisible: false,
@@ -179,7 +179,15 @@ export default function withModal<Props>(
   };
 }
 
-const ChildrenWithProps = ({ children, ...restProps }: { children: Node }) =>
-  Children.map(children, (child) => cloneElement(child, { ...restProps }));
+const ChildrenWithProps = ({
+  children,
+  ...restProps
+}: {
+  children: ReactElement | ReactElement[];
+}): ReactElement => (
+  <>
+    {Children.map(children, (child) => cloneElement(child, { ...restProps }))}
+  </>
+);
 
 export const ConfirmModalWithParent = withModal(ChildrenWithProps);

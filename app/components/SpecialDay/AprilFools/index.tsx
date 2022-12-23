@@ -6,9 +6,10 @@ import logoImage from 'app/assets/logo-dark.png';
 import { Image } from 'app/components/Image';
 import styles from './AprilFools.css';
 import LoadingBox from './LoadingBox';
+import type { ReactNode } from 'react';
 
 type Props = {
-  children: Node;
+  children: ReactNode;
 };
 type State = {
   hasClosed: boolean;

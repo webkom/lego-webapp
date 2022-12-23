@@ -3,19 +3,18 @@ import { NavLink } from 'react-router-dom';
 import Icon from 'app/components/Icon';
 import NavigationLink from './NavigationLink';
 import styles from './NavigationTab.css';
-import type { Node } from 'react';
+import type { ReactNode } from 'react';
 
 type Props = {
-  title?: Node;
+  title?: ReactNode;
   back?: {
     label: string;
     path: string;
   };
-  details?: Node;
+  details?: ReactNode;
   headerClassName?: string;
   className?: string;
-  headerClassName?: string;
-  children?: Node;
+  children?: ReactNode;
 };
 
 const NavigationTab = (props: Props) => (

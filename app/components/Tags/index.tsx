@@ -1,8 +1,8 @@
 import styles from './Tag.css';
-import type { Node } from 'react';
+import type { ReactNode } from 'react';
 
 type Props = {
-  children: Node;
+  children: ReactNode;
   className?: string;
 };
 

@@ -2,10 +2,11 @@ import cx from 'classnames';
 import { Modal as ReactModal } from 'react-overlays';
 import Icon from 'app/components/Icon';
 import styles from './Modal.css';
+import type { ReactNode } from 'react';
 
 type Props = {
   show: boolean;
-  children: React.ReactNode;
+  children: ReactNode;
   onHide: () => any;
   backdrop?: boolean;
   closeOnBackdropClick?: boolean;

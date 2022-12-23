@@ -3,7 +3,7 @@ import ErrorBoundary from 'app/components/ErrorBoundary';
 import styles from './Feed.css';
 import Activity from './activity';
 import type { AggregatedActivity } from './types';
-import type { Node } from 'react';
+import type { ReactNode } from 'react';
 
 export const activityRenderers = {
   comment: require('./renders/comment'),
@@ -20,7 +20,7 @@ type Props = {
   items: Array<AggregatedActivity>;
 };
 
-const Feed = ({ items }: Props): Node => (
+const Feed = ({ items }: Props): ReactNode => (
   <div
     style={{
       width: '100%',

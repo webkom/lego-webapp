@@ -8,7 +8,7 @@ import Time from 'app/components/Time';
 import styles from './activity.css';
 import { lookupContext, toLink } from './context';
 import type { AggregatedActivity, Activity } from './types';
-import type { Node } from 'react';
+import type { ReactNode } from 'react';
 
 type Props = {
   aggregatedActivity: AggregatedActivity;
@@ -27,7 +27,7 @@ export default class ActivityRenderer extends Component<Props, State> {
   renderHeader(
     activity: Activity,
     aggregatedActivity: AggregatedActivity
-  ): Node {
+  ): ReactNode {
     const actor = lookupContext(aggregatedActivity, activity.actor);
     if (actor.contentType !== 'users.user') return null;
     return (
@@ -51,7 +51,7 @@ export default class ActivityRenderer extends Component<Props, State> {
     );
   }
 
-  render(): Node {
+  render(): ReactNode {
     const { aggregatedActivity, renders } = this.props;
     const activities = this.state.expanded
       ? aggregatedActivity.activities

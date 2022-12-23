@@ -3,6 +3,7 @@ import { reduxForm, Field, SubmissionError, FieldArray } from 'redux-form';
 import english from 'app/assets/great_britain.svg';
 import norwegian from 'app/assets/norway.svg';
 import { Content } from 'app/components/Content';
+import { FlexRow } from 'app/components/FlexBox';
 import {
   TextEditor,
   TextInput,
@@ -20,10 +21,9 @@ import withAutocomplete from 'app/components/Search/withAutocomplete';
 import type { CompanyInterestEntity } from 'app/reducers/companyInterest';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 import { createValidator, required, isEmail } from 'app/utils/validation';
-import { FlexRow } from '../../../components/FlexBox';
 import { interestText, semesterToText } from '../utils';
 import styles from './CompanyInterest.css';
-import type { Node } from 'react';
+import type { ReactNode } from 'react';
 import type { FormProps, FieldArrayProps } from 'redux-form';
 
 export const EVENT_TYPES = {
@@ -159,7 +159,7 @@ const SemesterBox = ({
   language,
 }: {
   language: string;
-} & FieldArrayProps): Node => (
+} & FieldArrayProps): ReactNode => (
   <Flex column className={styles.checkboxWrapper}>
     {fields.map((item, index) => (
       <Flex key={index}>
@@ -186,7 +186,7 @@ const EventBox = ({
   language,
 }: {
   language: string;
-} & FieldArrayProps): Node => (
+} & FieldArrayProps): ReactNode => (
   <Flex column className={styles.checkboxWrapper}>
     {fields.map((key, index) => (
       <Flex key={index}>
@@ -213,7 +213,7 @@ const TargetGradeBox = ({
   language,
 }: {
   language: string;
-} & FieldArrayProps): Node => (
+} & FieldArrayProps): ReactNode => (
   <Flex column className={styles.checkboxWrapper}>
     {fields.map((key, index) => (
       <Flex key={index}>
@@ -240,7 +240,7 @@ const OtherBox = ({
   language,
 }: {
   language: string;
-} & FieldArrayProps): Node => (
+} & FieldArrayProps): ReactNode => (
   <Flex column className={styles.checkboxWrapper}>
     {fields.map((key, index) => (
       <Flex key={index}>
@@ -267,7 +267,7 @@ const CollaborationBox = ({
   language,
 }: {
   language: string;
-} & FieldArrayProps): Node => (
+} & FieldArrayProps): ReactNode => (
   <Flex column className={styles.checkboxWrapper}>
     {fields.map((key, index) => (
       <Flex key={index}>

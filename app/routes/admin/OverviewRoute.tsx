@@ -6,19 +6,15 @@ import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import email from './email';
 import groups from './groups';
 
-const OverviewRoute = ({
-  children,
-  currentUser,
-  loggedIn,
-  match,
-}: {
-  children: any;
+type Props = {
   currentUser: User;
   loggedIn: boolean;
   match: {
     path: string;
   };
-}) => {
+};
+
+const OverviewRoute = ({ currentUser, loggedIn, match }: Props) => {
   return (
     <Switch>
       <RouteWrapper

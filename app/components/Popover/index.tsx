@@ -2,11 +2,11 @@ import cx from 'classnames';
 import { useRef, useState } from 'react';
 import { Overlay } from 'react-overlays';
 import styles from './Popover.css';
-import type { Node } from 'react';
+import type { ReactNode } from 'react';
 
 type Props = {
-  triggerComponent: Node;
-  children: any;
+  triggerComponent: ReactNode;
+  children: ReactNode;
   contentClassName?: string;
 };
 

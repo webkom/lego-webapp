@@ -1,9 +1,9 @@
-import type { Node } from 'react';
+import type { ReactNode } from 'react';
 
 type Item = {
   key: string;
-  keyNode?: Node;
-  value: Node;
+  keyNode?: ReactNode;
+  value: ReactNode;
 };
 type Props = {
   items: Array<Item | null | undefined>;

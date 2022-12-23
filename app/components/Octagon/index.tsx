@@ -1,8 +1,9 @@
 import styles from './Octagon.css';
+import type { ReactNode } from 'react';
 
 type Props = {
   size: number | string;
-  children?: any;
+  children?: ReactNode;
 };
 
 function Octagon({ size, children }: Props) {

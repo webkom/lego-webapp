@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Icon from 'app/components/Icon';
 import { readmeIfy } from 'app/components/ReadmeLogo';
 import styles from './PageHierarchy.css';
-import type { Node } from 'react';
+import type { ReactNode } from 'react';
 
 export type HierarchyEntity = {
   title: string;
@@ -77,7 +77,7 @@ const HierarchySection = ({
 
 type AccordionProps = {
   title: string;
-  children: Node;
+  children: ReactNode;
   currentCategory: string;
 };
 type AccordionState = {
