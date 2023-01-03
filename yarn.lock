@@ -2214,10 +2214,10 @@
   dependencies:
     redux "^4.0.0"
 
-"@types/redux-sentry-middleware@^0.2.1":
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/@types/redux-sentry-middleware/-/redux-sentry-middleware-0.2.1.tgz#b9f06e595a64b66ec88d4eac2d4e72e65b21f62b"
-  integrity sha512-dLzkjzl0S3polAU8hxW6zaqeEqysJQCGsl24JElTpnD61RoJ/mFU1aoI6eRJqq5C33SB65hz5no0/1FAvHubwA==
+"@types/redux-sentry-middleware@^0.2.2":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@types/redux-sentry-middleware/-/redux-sentry-middleware-0.2.2.tgz#ddc37ea30ec99026a0d58e988423ef33705980e2"
+  integrity sha512-G94PrzTCKIwvWACiRxwNqnYVlovFbzSWJqp7YaWRSO4LbM63klHp9KmLYiIIFyuzKRnyxVTaHIuPZIKb8hWIGA==
   dependencies:
     "@sentry/browser" "^5.0.0 || ^6.0.0"
     redux "^4.0.0"
