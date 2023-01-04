@@ -5,3 +5,8 @@
 .table thead {
   text-transform: capitalize;
 }
+
+/* Override the Checkbox alignment from flex-start to center */
+td div {
+  justify-content: center !important;
+}

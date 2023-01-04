@@ -35,7 +35,7 @@ export type Props = {
     eventId: ID;
     registrationId: ID;
     admin: boolean;
-  }) => Promise<any>;
+  }) => Promise<void>;
   updatePresence: (arg0: number, arg1: number, arg2: string) => Promise<any>;
   updatePayment: (
     arg0: ID,
@@ -48,31 +48,19 @@ export type Props = {
   searching: boolean;
 };
 type State = {
-  clickedUnregister: number;
   generatedCsvUrl?: string;
 };
 export default class Attendees extends Component<Props, State> {
   state = {
-    clickedUnregister: 0,
     generatedCsvUrl: '',
   };
-  handleUnregister = (registrationId: number) => {
+  handleUnregister = async (registrationId: number) => {
     const { unregister, eventId } = this.props;
-
-    if (this.state.clickedUnregister === registrationId) {
-      unregister({
-        eventId,
-        registrationId,
-        admin: true,
-      });
-      this.setState({
-        clickedUnregister: 0,
-      });
-    } else {
-      this.setState({
-        clickedUnregister: registrationId,
-      });
-    }
+    await unregister({
+      eventId,
+      registrationId,
+      admin: true,
+    });
   };
   handlePresence = (registrationId: ID, presence: EventRegistrationPresence) =>
     this.props.updatePresence(this.props.eventId, registrationId, presence);
@@ -113,6 +101,11 @@ export default class Attendees extends Component<Props, State> {
       return <div>{error.message}</div>;
     }
 
+    // Not showing the presence column until 1 day before start or if someone has been given set to presence
+    const showPresence =
+      moment().isAfter(moment(event.startTime).subtract(1, 'day')) ||
+      registerCount > 0;
+
     const showUnregister = // Show unregister button until 1 day after event has ended,
       // or until reg/unreg has ended if that is more than 1 day
       // after event end
@@ -150,7 +143,7 @@ export default class Attendees extends Component<Props, State> {
 
     return (
       <div>
-        <Flex row justifyContent="space-between">
+        <Flex justifyContent="space-between">
           <h2>
             <Link to={`/events/${eventId}`}>
               <i className="fa fa-angle-left" />
@@ -197,7 +190,7 @@ export default class Attendees extends Component<Props, State> {
             handlePresence={this.handlePresence}
             handlePayment={this.handlePayment}
             handleUnregister={this.handleUnregister}
-            clickedUnregister={this.state.clickedUnregister}
+            showPresence={showPresence}
             showUnregister={showUnregister}
             pools={pools}
           />

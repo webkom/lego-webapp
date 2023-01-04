@@ -1,9 +1,12 @@
 import cx from 'classnames';
 import Button from 'app/components/Button';
+import Icon from 'app/components/Icon';
 import { Flex } from 'app/components/Layout';
 import LoadingIndicator from 'app/components/LoadingIndicator';
+import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import Tooltip from 'app/components/Tooltip';
 import type {
+  EventRegistration,
   EventRegistrationPaymentStatus,
   EventRegistrationPresence,
   ID,
@@ -23,9 +26,8 @@ type PresenceProps = {
 };
 type UnregisterProps = {
   fetching: boolean;
-  handleUnregister: (arg0: ID) => void;
-  id: ID;
-  clickedUnregister: ID;
+  handleUnregister: (arg0: ID) => Promise<void>;
+  registration: EventRegistration;
 };
 type StripeStatusProps = {
   id: ID;
@@ -35,6 +37,7 @@ type StripeStatusProps = {
   ) => Promise<any>;
   paymentStatus: EventRegistrationPaymentStatus;
 };
+
 export const TooltipIcon = ({
   onClick,
   content,
@@ -42,7 +45,7 @@ export const TooltipIcon = ({
   iconClass,
 }: TooltipIconProps) => {
   return (
-    <Tooltip className={styles.cell} content={content}>
+    <Tooltip content={content}>
       <Button
         flat
         className={cx(transparent && styles.transparent)}
@@ -53,13 +56,14 @@ export const TooltipIcon = ({
     </Tooltip>
   );
 };
+
 export const PresenceIcons = ({
   handlePresence,
   presence,
   id,
 }: PresenceProps) => {
   return (
-    <Flex className={styles.presenceIcons}>
+    <Flex justifyContent="center" gap={5}>
       <TooltipIcon
         content="Til stede"
         iconClass={cx('fa fa-check', styles.greenIcon)}
@@ -81,12 +85,13 @@ export const PresenceIcons = ({
     </Flex>
   );
 };
+
 export const StripeStatus = ({
   id,
   handlePayment,
   paymentStatus,
 }: StripeStatusProps) => (
-  <Flex className={styles.presenceIcons}>
+  <Flex justifyContent="center" gap={5}>
     <TooltipIcon
       content="Betalt stripe"
       iconClass={cx('fa fa-cc-stripe', styles.greenIcon)}
@@ -106,28 +111,32 @@ export const StripeStatus = ({
     />
   </Flex>
 );
+
 export const Unregister = ({
   fetching,
   handleUnregister,
-  id,
-  clickedUnregister,
+  registration,
 }: UnregisterProps) => {
   return (
-    <div>
+    <>
       {fetching ? (
-        <LoadingIndicator loading={true} small />
+        <LoadingIndicator loading small />
       ) : (
-        <Button flat onClick={() => handleUnregister(id)}>
-          <i
-            className="fa fa-minus-circle"
-            style={{
-              color: '#C24538',
-              marginRight: '5px',
-            }}
-          />
-          {clickedUnregister === id ? 'Er du sikker?' : 'Meld av'}
-        </Button>
+        <ConfirmModalWithParent
+          title="Bekreft utmelding"
+          message={`Er du sikker på at du vil melde av "${registration.user.fullName}"?`}
+          onConfirm={() => handleUnregister(registration.id)}
+          closeOnCancel
+        >
+          <Tooltip content="Meld av bruker" style={{ marginTop: '-7px' }}>
+            <Icon
+              name="person-remove-outline"
+              size={18}
+              className={styles.unregisterIcon}
+            />
+          </Tooltip>
+        </ConfirmModalWithParent>
       )}
-    </div>
+    </>
   );
 };
