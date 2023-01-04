@@ -1,5 +1,52 @@
 @import url('~app/styles/variables.css');
 
+:root {
+  --button-color: var(--color-white);
+  --button-box-shadow: 0 1px 0 rgba(27, 31, 36, 10%),
+    inset 0 1px 0 rgba(255, 255, 255, 3%);
+  --button-background: var(--color-light-gray-4);
+  --button-background-hover: var(--color-light-gray-3);
+  --button-border: #30404d77;
+  --button-border-hover: #394b59aa;
+
+  --button-dark-background: var(--color-red-2);
+  --button-dark-background-hover: var(--color-red-1);
+  --button-dark-border: #bfccd633;
+  --button-dark-border-hover: #ced9e044;
+  --button-dark-box-shadow-focus: #db373744;
+
+  --button-danger-box-shadow-focus: #db373744;
+
+  --button-success-background: var(--color-green-7);
+  --button-success-background-hover: var(--color-green-6);
+  --button-success-border: #a7b6c233;
+  --button-success-border-hover: #bfccd644;
+  --button-success-box-shadow-focus: #2c974b44;
+}
+
+[data-theme='dark'] {
+  --button-color: var(--color-black);
+  --button-box-shadow: 0 0 transparent, inset 0 0 transparent;
+  --button-background: var(--color-mono-gray-2);
+  --button-background-hover: var(--color-mono-gray-4);
+  --button-border: #a7b6c277;
+  --button-border-hover: #bfccd6aa;
+
+  --button-dark-background: var(--color-red-1);
+  --button-dark-background-hover: var(--color-red-2);
+  --button-dark-border: #a7b6c233;
+  --button-dark-border-hover: #bfccd644;
+  --button-dark-box-shadow-focus: #ff737344;
+
+  --button-danger-box-shadow-focus: #ff737344;
+
+  --button-success-background: var(--color-green-4);
+  --button-success-background-hover: var(--color-green-3);
+  --button-success-border: #bfccd633;
+  --button-success-border-hover: #ced9e044;
+  --button-success-box-shadow-focus: #2da44e44;
+}
+
 .button {
   display: inline-flex;
   align-items: center;

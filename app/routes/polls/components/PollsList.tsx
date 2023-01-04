@@ -65,7 +65,7 @@ const PollsList = ({
                         name="checkmark-circle-outline"
                         size={20}
                         style={{
-                          color: 'var(--color-green-4)',
+                          color: 'var(--color-green-8)',
                         }}
                       />
                     </>

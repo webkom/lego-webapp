@@ -6,8 +6,8 @@ export interface DistributionDataPoint {
 export const CHART_COLORS = [
   'var(--lego-red)',
   'var(--color-blue-4)',
-  'var(--color-orange-3)',
-  'var(--color-green-5)',
+  'var(--color-orange-7)',
+  'var(--color-green-8)',
   'var(--lego-chart-purple)',
   'var(--lego-chart-yellow)',
   '#ff87eb',
