@@ -142,7 +142,7 @@
     "@types/webpack-env": "^1.18.0",
     "@typescript-eslint/eslint-plugin": "^5.48.0",
     "assets-webpack-plugin": "^7.1.1",
-    "babel-loader": "^9.1.0",
+    "babel-loader": "^9.1.2",
     "compression-webpack-plugin": "^10.0.0",
     "concurrently": "^7.6.0",
     "css-loader": "^6.7.3",
