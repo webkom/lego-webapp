@@ -20,7 +20,16 @@ type Props = {
 const NavigationTab = (props: Props) => (
   <>
     {props.back && (
-      <NavLink to={props.back.path} className={styles.back}>
+      <NavLink
+        to={props.back.path}
+        onClick={(e: Event) => {
+          // TODO fix this hack when react-router is done
+          if (!window.location.hash) return;
+          window.history.back();
+          e.preventDefault();
+        }}
+        className={styles.back}
+      >
         <Icon name="arrow-back" size={19} className={styles.backIcon} />
         <span className={styles.backLabel}>{props.back.label}</span>
       </NavLink>
