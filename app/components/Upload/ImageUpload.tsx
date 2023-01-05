@@ -3,7 +3,6 @@ import { Cropper } from 'react-cropper';
 import { type Accept, useDropzone } from 'react-dropzone';
 import 'cropperjs/dist/cropper.css';
 import Button from 'app/components/Button';
-import TextInput from 'app/components/Form/TextInput';
 import Icon from 'app/components/Icon';
 import { Image } from 'app/components/Image';
 import { Flex } from 'app/components/Layout';
@@ -59,50 +58,16 @@ const FilePreview = ({ file, onRemove }: FilePreviewProps) => {
   return (
     <Flex
       wrap
-      className={styles.previewRow}
       alignItems="center"
       justifyContent="space-between"
+      className={styles.previewRow}
     >
-      <div
-        style={{
-          width: '90%',
-          display: 'flex',
-        }}
-      >
-        <div
-          style={{
-            width: '80px',
-            display: 'flex',
-            justifyContent: 'center',
-          }}
-        >
-          <img
-            alt="preview"
-            style={{
-              height: '50px',
-            }}
-            src={previewUrl}
-          />
-        </div>
-        <div
-          style={{
-            flex: '1 1 auto',
-          }}
-        >
-          <TextInput
-            disabled
-            value={file.name}
-            style={{
-              width: '100%',
-              height: 50,
-            }}
-          />
-        </div>
-      </div>
+      <img alt="preview" className={styles.previewImage} src={previewUrl} />
+      <div className={styles.fileName}>{file.name}</div>
       <Icon
         onClick={onRemove}
         name="trash"
-        size={32}
+        size={28}
         className={styles.removeIcon}
       />
     </Flex>
@@ -134,12 +99,18 @@ const UploadArea = ({ multiple, onDrop, image, accept }: UploadAreaProps) => {
           className: styles.dropArea,
         })}
       >
-        <div className={styles.placeholderContainer}>
-          <Icon size={82} name="image" />
-          <h2 className={styles.placeholderTitle}>
-            {`Dropp ${word} her eller trykk for å velge fra fil`}
-          </h2>
-        </div>
+        <Flex
+          column
+          alignItems="center"
+          justifyContent="center"
+          gap={5}
+          className={styles.placeholderContainer}
+        >
+          <Icon size={70} name="cloud-upload-outline" />
+          <h4 className={styles.placeholderTitle}>
+            {`Dropp ${word} her eller trykk for å velge fra filsystem`}
+          </h4>
+        </Flex>
         {image && (
           <Image alt="presentation" className={styles.image} src={image} />
         )}
@@ -256,7 +227,7 @@ export default class ImageUpload extends Component<Props, State> {
       'image/avif': ['*'],
     };
     return (
-      <div className={styles.container}>
+      <>
         {!inModal && (
           <UploadArea
             onDrop={this.onDrop}
@@ -265,12 +236,8 @@ export default class ImageUpload extends Component<Props, State> {
             accept={accept}
           />
         )}
-        <Modal
-          contentClassName={styles.modal}
-          show={cropOpen}
-          onHide={this.closeModal}
-        >
-          <Fragment>
+        <Modal show={cropOpen} onHide={this.closeModal}>
+          <Flex className={styles.modal}>
             {inModal && !preview && (
               <div className={styles.inModalUpload}>
                 <UploadArea
@@ -293,7 +260,7 @@ export default class ImageUpload extends Component<Props, State> {
               />
             )}
             {multiple && !crop && (
-              <Flex wrap column>
+              <Flex wrap column gap={7}>
                 {files.map((file, index) => (
                   <FilePreview
                     onRemove={() => this.onRemove(index)}
@@ -303,18 +270,19 @@ export default class ImageUpload extends Component<Props, State> {
                 ))}
               </Flex>
             )}
-            <Flex
-              wrap
-              className={styles.footer}
-              alignItems="center"
-              justifyContent="space-evenly"
-            >
-              <Button onClick={this.onSubmit}>Last opp</Button>
+            <Flex wrap gap={35}>
+              <Button
+                success
+                disabled={files.length === 0}
+                onClick={this.onSubmit}
+              >
+                Last opp
+              </Button>
               <Button onClick={() => this.closeModal()}>Avbryt</Button>
             </Flex>
-          </Fragment>
+          </Flex>
         </Modal>
-      </div>
+      </>
     );
   }
 }

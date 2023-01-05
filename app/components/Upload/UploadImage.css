@@ -1,22 +1,10 @@
 @import url('~app/styles/variables.css');
 
-.container {
-  border-radius: inherit;
-  height: inherit;
-  width: inherit;
-}
-
 .modal {
-  box-shadow: 0 4px 4px rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 5%);
-  border: 1px solid rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 9%);
-  border-radius: 5px;
-}
-
-.uploadContainer {
-  position: absolute;
-  border-radius: inherit;
-  height: inherit;
-  width: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
 }
 
 .dropArea {
@@ -25,70 +13,67 @@
   width: inherit;
   z-index: 0;
   position: absolute;
-  background-color: gainsboro;
   cursor: pointer;
 }
 
-html[data-theme='dark'] .dropArea {
-  background-color: var(--color-mono-gray-1);
-}
-
 .inModalUpload {
-  height: 320px;
-  width: 600px;
+  width: 325px;
+  height: 200.861px;
+  border-radius: 1rem;
 }
 
 .placeholderContainer {
   overflow: hidden;
   border-radius: inherit;
   height: inherit;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   width: inherit;
   position: absolute;
 }
 
 .placeholderTitle {
-  background: rgba(var(--rgb-max), var(--rgb-max), var(--rgb-max), 80%);
-  border-radius: 5px;
-  padding: 0 20px;
+  background: rgba(var(--rgb-max), var(--rgb-max), var(--rgb-max), 70%);
+  padding: 10px 40px;
   text-align: center;
 }
 
+.inModalUpload .placeholderTitle {
+  background: none;
+}
+
 .image {
-  border-radius: inherit;
-  height: inherit;
   width: 100%;
+  height: inherit;
   object-fit: cover;
   background: white;
+  border-radius: inherit;
 }
 
 .cropper {
-  height: 400px;
   width: 100%;
 }
 
-.footer {
-  margin-top: 20px;
-}
-
 .previewRow {
+  width: 325px;
   height: 52px;
-  margin: 5px 0;
+  color: var(--color-light-gray-5);
 }
 
-.previewRowImage {
-  height: 50px;
+.previewImage {
   width: 80px;
+  height: 50px;
   object-fit: cover;
+}
+
+.fileName {
+  width: 180px;
+  font-size: 14px;
+  font-weight: 500;
 }
 
 .removeIcon {
   cursor: pointer;
 
   &:hover {
-    color: var(--lego-red-color);
+    color: var(--color-red-3);
   }
 }
