@@ -1,7 +1,7 @@
 import cx from 'classnames';
 import { Link } from 'react-router-dom';
 import styles from './Banner.css';
-import type { Node } from 'react';
+import type { ReactNode } from 'react';
 import type { $Keys } from 'utility-types';
 
 export const COLORS = {
@@ -24,7 +24,7 @@ type Props = {
 const Banner = (props: Props) => {
   const { header, subHeader, link, color, internal } = props;
 
-  const LinkComponent = ({ children }: { children: Node }) => {
+  const LinkComponent = ({ children }: { children: ReactNode }) => {
     return internal ? (
       <Link to={link}>{children}</Link>
     ) : (

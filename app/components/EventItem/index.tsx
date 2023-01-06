@@ -5,12 +5,10 @@ import { Flex } from 'app/components/Layout';
 import Pill from 'app/components/Pill';
 import Tag from 'app/components/Tags/Tag';
 import Time from 'app/components/Time';
-import type { Event, EventTimeType } from 'app/models';
+import type { Event, EventTime } from 'app/models';
 import { colorForEvent } from 'app/routes/events/utils';
-import { EVENTFIELDS } from 'app/utils/constants';
 import { eventStatus, eventAttendance } from 'app/utils/eventStatus';
 import styles from './styles.css';
-import type { Node } from 'react';
 
 type AttendanceProps = {
   event: Event;
@@ -36,11 +34,10 @@ const Attendance = ({ event }: AttendanceProps) => {
 
 type TimeStampProps = {
   event: Event;
-  field: EventTimeType;
   loggedIn: boolean;
 };
 
-const TimeStamp = ({ event, field, loggedIn }: TimeStampProps) => {
+const TimeStamp = ({ event, loggedIn }: TimeStampProps) => {
   const registration = eventStatus(event, loggedIn, true);
   const hasStarted = moment().isAfter(event.startTime);
   const startedStatus = hasStarted ? 'Startet' : 'Starter';
@@ -59,7 +56,7 @@ const TimeStamp = ({ event, field, loggedIn }: TimeStampProps) => {
 
 type EventItemProps = {
   event: Event;
-  field?: EventTimeType;
+  field?: EventTime;
   showTags?: boolean;
   loggedIn: boolean;
   eventStyle?: EventStyle;
@@ -67,11 +64,10 @@ type EventItemProps = {
 
 const EventItem = ({
   event,
-  field = EVENTFIELDS.start,
   showTags = true,
   loggedIn = false,
   eventStyle,
-}: EventItemProps): Node => {
+}: EventItemProps) => {
   switch (eventStyle) {
     case 'extra-compact':
       return (
@@ -89,7 +85,11 @@ const EventItem = ({
           </div>
           <Flex className={styles.companyLogoExtraCompact}>
             {event.cover && (
-              <Image src={event.cover} placeholder={event.coverPlaceholder} />
+              <Image
+                alt="Event cover image"
+                src={event.cover}
+                placeholder={event.coverPlaceholder}
+              />
             )}
           </Flex>
         </div>
@@ -106,15 +106,9 @@ const EventItem = ({
           <div>
             <Link to={`/events/${event.id}`}>
               <h3 className={styles.eventItemTitle}>{event.title}</h3>
-              {event.totalCapacity > 0 && (
-                <Attendance
-                  registrationCount={event.registrationCount}
-                  totalCapacity={event.totalCapacity}
-                  event={event}
-                />
-              )}
+              {event.totalCapacity > 0 && <Attendance event={event} />}
             </Link>
-            <TimeStamp event={event} field={field} loggedIn={loggedIn} />
+            <TimeStamp event={event} loggedIn={loggedIn} />
             {showTags && (
               <Flex wrap>
                 {event.tags.map((tag, index) => (
@@ -126,7 +120,11 @@ const EventItem = ({
 
           <Flex className={styles.companyLogo}>
             {event.cover && (
-              <Image src={event.cover} placeholder={event.coverPlaceholder} />
+              <Image
+                alt="Event cover"
+                src={event.cover}
+                placeholder={event.coverPlaceholder}
+              />
             )}
           </Flex>
         </div>

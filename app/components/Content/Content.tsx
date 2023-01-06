@@ -49,7 +49,7 @@ function Content({
         <div>
           <LoadingIndicator
             loading={isLoading}
-            className={isLoading ? {} : styles.hidden}
+            className={isLoading && styles.hidden}
           />
           <Flex
             justifyContent="center"
@@ -78,6 +78,7 @@ function Content({
               placeholder={bannerPlaceholder}
               width={1667}
               height={500}
+              alt="Content banner"
             />
           </div>
         )
