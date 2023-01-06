@@ -1,4 +1,5 @@
-import { useEffect, useState, useCallback, Fragment, Component } from 'react';
+import cx from 'classnames';
+import { useEffect, useState, useCallback, useMemo, Component } from 'react';
 import { Cropper } from 'react-cropper';
 import { type Accept, useDropzone } from 'react-dropzone';
 import 'cropperjs/dist/cropper.css';
@@ -82,10 +83,21 @@ const UploadArea = ({ multiple, onDrop, image, accept }: UploadAreaProps) => {
     },
     [multiple, onDrop]
   );
-  const { getRootProps, getInputProps } = useDropzone({
-    onDrop: onDropCallback,
-    accept: accept,
-  });
+  const { getRootProps, getInputProps, isFocused, isDragAccept, isDragReject } =
+    useDropzone({
+      onDrop: onDropCallback,
+      accept: accept,
+    });
+
+  const style = useMemo(
+    () =>
+      cx(
+        isFocused && styles.focused,
+        isDragAccept && styles.dragAccept,
+        isDragReject && styles.dragReject
+      ),
+    [isFocused, isDragAccept, isDragReject]
+  );
   return (
     <div
       onClick={(e) => {
@@ -96,7 +108,7 @@ const UploadArea = ({ multiple, onDrop, image, accept }: UploadAreaProps) => {
     >
       <div
         {...getRootProps({
-          className: styles.dropArea,
+          className: cx(styles.dropArea, style),
         })}
       >
         <Flex
@@ -106,7 +118,10 @@ const UploadArea = ({ multiple, onDrop, image, accept }: UploadAreaProps) => {
           gap={5}
           className={styles.placeholderContainer}
         >
-          <Icon size={70} name="cloud-upload-outline" />
+          <Icon
+            size={60}
+            name={multiple ? 'images-outline' : 'image-outline'}
+          />
           <h4 className={styles.placeholderTitle}>
             {`Dropp ${word} her eller trykk for å velge fra filsystem`}
           </h4>
@@ -273,7 +288,7 @@ export default class ImageUpload extends Component<Props, State> {
             <Flex wrap gap={35}>
               <Button
                 success
-                disabled={files.length === 0}
+                disabled={files.length === 0 && !preview}
                 onClick={this.onSubmit}
               >
                 Last opp
