@@ -1,7 +1,9 @@
 import { get } from 'lodash';
 import { Component, Children, cloneElement } from 'react';
+import Button from 'app/components/Button';
+import Icon from 'app/components/Icon';
+import Flex from 'app/components/Layout/Flex';
 import Modal from 'app/components/Modal';
-import Button from '../Button';
 import styles from './ConfirmModal.css';
 import type { ComponentType, ReactElement, ReactNode } from 'react';
 
@@ -14,8 +16,9 @@ type ConfirmModalProps = {
   errorMessage?: string;
   cancelText?: string;
   confirmText?: string;
-  safeConfirm?: boolean;
+  danger?: boolean;
 };
+
 export const ConfirmModal = ({
   message,
   onConfirm,
@@ -25,30 +28,26 @@ export const ConfirmModal = ({
   errorMessage = '',
   cancelText = 'Avbryt',
   confirmText = 'Ja',
-  safeConfirm = false,
+  danger = true,
 }: ConfirmModalProps) => (
-  <div className={styles.overlay}>
-    <div className={styles.confirmContainer}>
-      <h2 className={styles.confirmTitle}>{title}</h2>
-      <div className={styles.confirmMessage}>{message}</div>
-      <div className={styles.buttonGroup}>
-        <Button disabled={disabled} onClick={onCancel}>
-          {cancelText}
-        </Button>
-        <Button danger={!safeConfirm} disabled={disabled} onClick={onConfirm}>
-          {confirmText}
-        </Button>
-        <p
-          style={{
-            color: 'red',
-          }}
-        >
-          {errorMessage}{' '}
-        </p>
-      </div>
+  <Flex column gap={15}>
+    <Flex wrap alignItems="center" gap={10}>
+      <Icon name="warning" className={styles.warningIcon} />
+      <h2 className={danger && styles.dangerTitle}>{title}</h2>
+    </Flex>
+    <span>{message}</span>
+    <div>
+      <Button disabled={disabled} onClick={onCancel}>
+        {cancelText}
+      </Button>
+      <Button danger={danger} disabled={disabled} onClick={onConfirm}>
+        {confirmText}
+      </Button>
     </div>
-  </div>
+    {errorMessage && <p className={styles.errorMessage}>{errorMessage} </p>}
+  </Flex>
 );
+
 type State = {
   modalVisible: boolean;
   working: boolean;
