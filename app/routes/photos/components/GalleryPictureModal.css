@@ -1,30 +1,9 @@
 @import url('~app/styles/variables.css');
 
-.modal {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 2;
-  right: 0;
-}
-
-.backdrop {
-  position: fixed;
-  background: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 80%);
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
-
 .content {
   padding: 0;
-  border-radius: 0;
-  background: none;
   max-width: 1100px;
-  margin: 0 auto;
-  overflow-y: auto;
+  max-height: calc(100vh - 100px);
 
   @media (max-width: 800px) {
     position: fixed;
@@ -35,30 +14,10 @@
   }
 }
 
-.topContent {
-  border-bottom-left-radius: 0;
-  border-bottom-right-radi: 0;
-
-  @media (max-width: 800px) {
-    border-radius: 0;
-  }
-}
-
-.bottomContent {
-  border-top-right-radius: 0;
-  border-top-left-radius: 0;
-
-  @media (max-width: 800px) {
-    border-radius: 0;
-    height: inherit;
-  }
-}
-
 .pictureContainer {
   display: grid;
   justify-content: center;
-  background-color: var(--color-white);
-  min-height: 700px;
+  min-height: 600px;
 }
 
 .pictureDescription {

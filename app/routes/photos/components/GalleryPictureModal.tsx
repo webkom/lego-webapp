@@ -231,6 +231,7 @@ export default class GalleryPictureModal extends Component<Props, State> {
       deleteComment,
     } = this.props;
     const { showMore } = this.state;
+
     return (
       <Modal
         onHide={() => push(`/photos/${gallery.id}`)}
@@ -239,7 +240,7 @@ export default class GalleryPictureModal extends Component<Props, State> {
       >
         <Swipeable onSwiping={this.handleSwipe}>
           <OnKeyDownHandler handler={this.handleKeyDown} />
-          <Content className={styles.topContent}>
+          <Content>
             <Flex
               width="100%"
               justifyContent="space-between"
@@ -253,9 +254,7 @@ export default class GalleryPictureModal extends Component<Props, State> {
                 />
 
                 <Flex column justifyContent="space-around">
-                  <h5 className={styles.header}>
-                    <Link to={`/photos/${gallery.id}`}>{gallery.title}</Link>
-                  </h5>
+                  <Link to={`/photos/${gallery.id}`}>{gallery.title}</Link>
                   <GalleryDetailsRow size="small" gallery={gallery} />
                 </Flex>
               </Flex>
@@ -327,14 +326,16 @@ export default class GalleryPictureModal extends Component<Props, State> {
               </Dropdown>
             </Flex>
           </Content>
+
           <Flex className={styles.pictureContainer}>
             <ProgressiveImage
               key={picture.id}
               src={picture.file}
-              alt="some alt"
+              alt={picture.description}
             />
           </Flex>
-          <Content className={styles.bottomContent}>
+
+          <Content>
             <Flex justifyContent="center">
               {this.state.hasPrevious && (
                 <Link

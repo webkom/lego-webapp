@@ -1,6 +1,6 @@
-import moment from 'moment-timezone';
 import { Link } from 'react-router-dom';
 import { Flex } from 'app/components/Layout';
+import Time from 'app/components/Time';
 import styles from './GalleryDetailsRow.css';
 
 type Props = {
@@ -26,7 +26,7 @@ const GalleryDetailsRow = ({
 
       {gallery.takenAt && (
         <span className={styles.detail}>
-          {moment(gallery.takenAt).format('ll')}
+          <Time time={gallery.takenAt} format="DD.MM.YYYY" />
         </span>
       )}
 
