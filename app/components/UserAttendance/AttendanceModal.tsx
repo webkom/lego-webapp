@@ -116,12 +116,12 @@ class AttendanceModal extends Component<Props, State> {
         <ul className={styles.list}>
           {registrations.map((registration) => (
             <li key={registration.id}>
-              <div className={styles.row}>
+              <Flex alignItems="center" className={styles.row}>
                 <ProfilePicture size={30} user={registration.user} />
                 <Link to={`/users/${registration.user.username}`}>
                   {registration.user.fullName}
                 </Link>
-              </div>
+              </Flex>
             </li>
           ))}
         </ul>

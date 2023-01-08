@@ -96,9 +96,7 @@ html[data-theme='dark'] .list > li:nth-child(even) {
 }
 
 .row {
-  display: flex;
   height: 50px;
-  align-items: center;
 }
 
 .row > img {

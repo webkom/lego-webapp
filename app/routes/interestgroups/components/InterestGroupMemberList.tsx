@@ -1,43 +1,36 @@
 import sortBy from 'lodash/sortBy';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
+import TextInput from 'app/components/Form/TextInput';
 import Icon from 'app/components/Icon';
 import { ProfilePicture } from 'app/components/Image';
 import { Flex } from 'app/components/Layout';
 import Modal from 'app/components/Modal';
 import Tooltip from 'app/components/Tooltip';
+import shared from 'app/components/UserAttendance/AttendanceModal.css';
 import type { User, GroupMembership } from 'app/models';
 import styles from './InterestGroupMemberList.css';
 import type { ReactNode } from 'react';
 
-const ExtraInfo = ({ user, role }: { user: User; role: string }) => {
+const Name = ({ user, role }: { user: User; role: string }) => {
   if (role === 'member') {
     return <span>{user.fullName}</span>;
   }
 
-  let title: string;
   let roleStyle;
   switch (role) {
     case 'leader':
-      title = '(Leder)';
       roleStyle = styles.leader;
       break;
 
     case 'co_leader':
-      title = '(Nestleder)';
       roleStyle = styles.coleader;
       break;
 
     default:
       break;
   }
-
-  return (
-    <span>
-      <span className={roleStyle}>{user.fullName} </span>
-      <span className={styles.suffix}>{title}</span>
-    </span>
-  );
+  return <span className={roleStyle}>{user.fullName} </span>;
 };
 
 const RoleIcon = ({ role }: { role: string }) => {
@@ -73,11 +66,11 @@ const RoleIcon = ({ role }: { role: string }) => {
 
 const ListedUser = ({ user, role }: { user: User; role: string }) => (
   <li>
-    <Flex className={styles.row}>
-      <ProfilePicture size={30} user={user} alt="Profilbilde" />
+    <Flex alignItems="center" gap={10} className={shared.row}>
+      <ProfilePicture size={30} user={user} />
       <RoleIcon role={role} />
       <Link to={`/users/${user.username}`}>
-        <ExtraInfo user={user} role={role} />
+        <Name user={user} role={role} />
       </Link>
     </Flex>
   </li>
@@ -87,14 +80,16 @@ const ListedUser = ({ user, role }: { user: User; role: string }) => (
 const SORT_ORDER = ['member', 'co_leader', 'leader'];
 type Props = {
   children: ReactNode;
-  memberships: Array<GroupMembership>;
+  memberships: GroupMembership[];
 };
 type State = {
   modalVisible: boolean;
+  filter: string;
 };
 export default class InterestGroupMemberList extends Component<Props, State> {
   state = {
     modalVisible: false,
+    filter: '',
   };
   toggleModal = () => {
     this.setState((state) => ({
@@ -103,25 +98,47 @@ export default class InterestGroupMemberList extends Component<Props, State> {
   };
 
   render() {
-    const sorted = sortBy(this.props.memberships, ({ role }) =>
+    const memberships = this.props.memberships.filter((membership) =>
+      membership.user.fullName
+        .toLowerCase()
+        .includes(this.state.filter.toLowerCase())
+    );
+    const sorted = sortBy(memberships, ({ role }) =>
       SORT_ORDER.indexOf(role)
     ).reverse();
+
     return (
-      <div>
+      <>
         <div onClick={this.toggleModal}>{this.props.children}</div>
         <Modal show={this.state.modalVisible} onHide={this.toggleModal}>
-          <h2>Medlemmer</h2>
-          <ul className={styles.list}>
-            {sorted.map((membership) => (
-              <ListedUser
-                key={membership.user.id}
-                user={membership.user}
-                role={membership.role}
+          <Flex
+            column
+            justifyContent="space-between"
+            gap={15}
+            className={shared.modal}
+          >
+            <h2>Medlemmer</h2>
+            <Flex alignItems="center" className={shared.search}>
+              <Icon name="search" size={16} />
+              <TextInput
+                type="text"
+                placeholder="Søk etter navn"
+                onChange={(e) => this.setState({ filter: e.target.value })}
               />
-            ))}
-          </ul>
+            </Flex>
+
+            <ul className={shared.list}>
+              {sorted.map((membership) => (
+                <ListedUser
+                  key={membership.user.id}
+                  user={membership.user}
+                  role={membership.role}
+                />
+              ))}
+            </ul>
+          </Flex>
         </Modal>
-      </div>
+      </>
     );
   }
 }
