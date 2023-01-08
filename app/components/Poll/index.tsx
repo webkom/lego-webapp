@@ -183,6 +183,7 @@ class Poll extends Component<Props, State> {
                             {ratio < 18 && (
                               <span
                                 style={{
+                                  padding: '5px',
                                   marginLeft: '2px',
                                 }}
                               >

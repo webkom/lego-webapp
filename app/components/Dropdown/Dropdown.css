@@ -7,7 +7,7 @@
 
 html[data-theme='dark'] .dropdownList > li > a:hover,
 html[data-theme='dark'] .dropdownList > li > button:hover {
-  background: var(--color-gray-2);
+  background: var(--color-gray-8);
 }
 
 .divider {

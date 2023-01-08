@@ -10,6 +10,6 @@
   }
 
   &.active {
-    border-bottom: 2px solid var(--color-red-3);
+    border-bottom: 2px solid var(--color-red-2);
   }
 }

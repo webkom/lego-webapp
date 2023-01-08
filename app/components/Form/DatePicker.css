@@ -51,7 +51,7 @@ html[data-theme='dark'] .calendarItem {
   color: var(--lego-font-color);
 
   &:hover {
-    background: var(--color-gray-2);
+    background: var(--color-gray-7);
   }
 }
 

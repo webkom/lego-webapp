@@ -1,53 +1,27 @@
 @import url('~app/styles/variables.css');
 
-.tableDiv {
+.wrapper {
   overflow-x: scroll;
 }
 
-.table {
+table {
   width: 100%;
 }
 
-.tableHeader {
-  display: flex;
-  padding: 0 10px;
+thead button {
+  padding: 0;
 }
 
-.sorter {
-  display: inline-block;
-  margin-right: 5px;
-  margin-top: 5px;
-  vertical-align: middle;
-  line-height: 1;
+thead i {
   cursor: pointer;
-  position: relative;
 }
 
-.searchIcon {
-  display: inline-block;
-  margin-left: 5px;
-  vertical-align: middle;
-  line-height: 1;
-  cursor: pointer;
-  position: relative;
+tr:nth-child(even) {
+  background-color: var(--color-light-gray-5);
 }
 
-.filterIcon {
-  display: inline-block;
-  margin-right: 5px;
-  vertical-align: middle;
-  line-height: 1;
-  cursor: pointer;
-  position: relative;
-}
-
-.arrowDownIcon {
-  display: inline-block;
-  margin-left: 5px;
-  vertical-align: middle;
-  line-height: 1;
-  cursor: pointer;
-  position: relative;
+html[data-theme='dark'] tr:nth-child(even) {
+  background-color: var(--color-gray-8);
 }
 
 .checkbox {
@@ -56,7 +30,7 @@
   padding: 8px;
 }
 
-.checkbox div {
+.checkbox > div {
   margin-bottom: 10px;
 }
 
@@ -74,9 +48,9 @@
 }
 
 .icon {
-  color: var(--lego-font-color);
+  color: var(--color-gray-2);
 }
 
 .iconActive {
-  color: var(--lego-link-color);
+  color: var(--color-red-4);
 }

@@ -11,7 +11,7 @@
 
 .sun {
   @media (--mobile-device) {
-    color: var(--color-orange-4);
+    color: var(--color-orange-6);
   }
 }
 
@@ -20,5 +20,5 @@
 }
 
 .sun:hover {
-  color: var(--color-orange-4);
+  color: var(--color-orange-6);
 }

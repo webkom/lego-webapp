@@ -24,33 +24,71 @@
   grid-template-columns: repeat(5, 20%);
 }
 
-.webkomIcon {
-  font-size: 1.1em;
-  background: #e20d13;
-  color: var(--color-white);
+.pill {
+  margin: 0 auto;
   display: inline-block;
-  border-radius: 60px;
-  padding: 0.1em 0.2em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.375rem;
+  font-size: 0.7rem;
+  font-weight: bold;
+  border-radius: 1rem;
+  letter-spacing: 0.6px;
+  line-height: 1;
+  box-shadow: rgb(0, 0, 0 / 5%) 1px 2px 5px 0;
+  align-items: center;
+  align-self: center;
+}
+
+.webkomPill {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 0, 0, 100%) 0%,
+    rgba(255, 154, 0, 100%) 10%,
+    rgba(208, 222, 33, 100%) 20%,
+    rgba(79, 220, 74, 100%) 30%,
+    rgba(63, 218, 216, 100%) 40%,
+    rgba(47, 201, 226, 100%) 50%,
+    rgba(28, 127, 238, 100%) 60%,
+    rgba(95, 21, 242, 100%) 70%,
+    rgba(186, 12, 248, 100%) 80%,
+    rgba(251, 7, 217, 100%) 90%,
+    rgba(255, 0, 0, 100%) 100%
+  );
+  color: white;
+}
+
+.greenPill {
+  background-color: var(--color-green-2);
+  color: var(--color-green-7);
 }
 
 .greenIcon {
-  font-size: 1.5em;
-  color: green;
+  font-size: 1.4em;
+  color: var(--color-green-6);
 }
 
-.orangeIcon {
-  font-size: 1.5em;
-  color: var(--color-orange-3);
+.orangePill {
+  background-color: var(--color-orange-2);
+  color: var(--color-orange-7);
 }
 
 .questionIcon {
-  font-size: 1.5em;
-  color: var(--color-blue-1);
+  font-size: 1.4em;
+  color: var(--color-blue-6);
+}
+
+.bluePill {
+  background-color: var(--color-blue-2);
+  color: var(--color-blue-6);
 }
 
 .redIcon {
-  font-size: 1.5em;
-  color: '#C24538';
+  font-size: 1.4em;
+  color: var(--color-red-3);
+}
+
+.consentIcon {
+  font-size: 1.15em;
 }
 
 .center {
@@ -77,18 +115,13 @@ a.transparent:hover {
   border-bottom: 1px solid var(--color-mono-gray-3);
 }
 
-.presenceIcons {
-  display: flex;
-  flex-direction: row;
-  align-content: space-around;
-  margin: 5px;
-}
-
-.cell {
-  margin: 2px;
-}
-
 .consents {
   display: flex;
   justify-content: center;
+}
+
+.unregisterIcon {
+  justify-content: center;
+  cursor: pointer;
+  color: var(--color-red-3);
 }

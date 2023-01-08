@@ -50,29 +50,26 @@ const GroupMembersList = ({
   const GroupMembersListColumns = (fullName, membership) => {
     const { user, abakusGroup } = membership;
     return (
-      true && (
-        <>
-          <ConfirmModalWithParent
-            title="Bekreft utmelding"
-            message={`Er du sikker på at du vil melde ut "${user.fullName}" fra gruppen "${groupsById[abakusGroup].name}?"`}
-            onConfirm={() => removeMember(membership)}
-          >
-            <i key="icon" className={`fa fa-times ${styles.removeIcon}`} />
-          </ConfirmModalWithParent>
-          <Link key="link" to={`/users/${user.username}`}>
-            {user.fullName} ({user.username})
-          </Link>
-        </>
-      )
+      <>
+        <ConfirmModalWithParent
+          title="Bekreft utmelding"
+          message={`Er du sikker på at du vil melde ut "${user.fullName}" fra gruppen "${groupsById[abakusGroup].name}?"`}
+          onConfirm={() => removeMember(membership)}
+        >
+          <i key="icon" className={`fa fa-times ${styles.removeIcon}`} />
+        </ConfirmModalWithParent>
+        <Link key="link" to={`/users/${user.username}`}>
+          {user.fullName} ({user.username})
+        </Link>
+      </>
     );
   };
 
-  const GroupLinkRender = (abakusGroup) =>
-    true && (
-      <Link to={`/admin/groups/${abakusGroup}/members?descendants=false`}>
-        {groupsById[abakusGroup] && groupsById[abakusGroup].name}
-      </Link>
-    );
+  const GroupLinkRender = (abakusGroup) => (
+    <Link to={`/admin/groups/${abakusGroup}/members?descendants=false`}>
+      {groupsById[abakusGroup] && groupsById[abakusGroup].name}
+    </Link>
+  );
 
   const RoleRender = (role: string) =>
     role !== 'member' && <i>{ROLES[role] || role} </i>;
@@ -83,6 +80,7 @@ const GroupMembersList = ({
       dataIndex: 'user.fullName',
       search: true,
       inlineFiltering: false,
+      centered: false,
       render: GroupMembersListColumns,
     },
     showDescendants
@@ -108,10 +106,10 @@ const GroupMembersList = ({
       render: RoleRender,
     },
   ].filter(Boolean);
+
   return (
     <>
       <Table
-        infiniteScroll
         onChange={(filters, sort) => {
           push({
             pathname,

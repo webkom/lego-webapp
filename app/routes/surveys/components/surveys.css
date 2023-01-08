@@ -391,11 +391,11 @@
 }
 
 .copied {
-  border-color: var(--color-green-3);
-  color: var(--color-green-3);
-  outline-color: var(--color-green-3);
+  border-color: var(--color-green-8);
+  color: var(--color-green-8);
+  outline-color: var(--color-green-8);
 
   &:hover:not(:disabled) {
-    border-color: var(--color-green-3);
+    border-color: var(--color-green-8);
   }
 }

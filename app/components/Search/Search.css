@@ -144,7 +144,7 @@ html[data-theme='dark'] .quickLinks {
 }
 
 html[data-theme='dark'] .quickLinks a:hover {
-  background-color: var(--color-gray-2);
+  background-color: var(--color-gray-8);
 }
 
 .results {

@@ -1,6 +1,7 @@
 import cx from 'classnames';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
+import Flex from 'app/components/Layout/Flex';
 import Table from 'app/components/Table';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
@@ -40,8 +41,8 @@ type Props = {
     registrationId: ID,
     paymentStatus: EventRegistrationPaymentStatus
   ) => Promise<any>;
-  handleUnregister: (registrationId: ID) => void;
-  clickedUnregister: ID;
+  handleUnregister: (registrationId: ID) => Promise<void>;
+  showPresence: boolean;
   showUnregister: boolean;
   event: Event;
   pools: Array<EventPool>;
@@ -52,8 +53,8 @@ const GradeRenderer = (group: { name: string }) =>
     <Tooltip content={group.name}>
       <span>
         {group.name
-          .replace('Kommunikasjonsteknologi', 'Komtek')
-          .replace('Datateknologi', 'Data')}
+          .replace('klasse Kommunikasjonsteknologi', 'komtek')
+          .replace('klasse Datateknologi', 'data')}
       </span>
     </Tooltip>
   );
@@ -65,31 +66,60 @@ const getPoolName = (pools, poolId) => {
   return pool && pool.name;
 };
 
+type RegistrationPillProps = {
+  status: string;
+  reason: string;
+  className: string;
+};
+
+const RegistrationPill = ({
+  status,
+  reason,
+  className,
+}: RegistrationPillProps) => {
+  if (reason.length === 0)
+    return (
+      <div className={cx(styles.pill, className)}>
+        <span>{status}</span>
+      </div>
+    );
+
+  return (
+    <Tooltip content={reason}>
+      <div className={cx(styles.pill, className)}>
+        <span>{status}</span>
+      </div>
+    </Tooltip>
+  );
+};
+
 const getRegistrationInfo = (pool, registration) => {
   const registrationInfo = {
-    reason: 'Venteliste',
-    icon: cx('fa fa-clock-o fa-2x', styles.orangeIcon),
+    status: 'Venteliste',
+    reason: '',
+    className: styles.orangePill,
   };
 
   if (registration.adminRegistrationReason !== '') {
-    registrationInfo.icon = cx('fa fa-user-secret', styles.greenIcon);
+    registrationInfo.className = styles.bluePill;
 
     if (registration.createdBy !== null) {
       if (
         hasWebkomGroup(registration.user) &&
         hasWebkomGroup(registration.createdBy)
       ) {
-        registrationInfo.icon = cx('fa fa-power-off', styles.webkomIcon);
+        registrationInfo.className = styles.webkomPill;
         registrationInfo.reason = `Webkompåmeldt av ${registration.createdBy.username}: ${registration.adminRegistrationReason}`;
       } else {
+        registrationInfo.status = 'Påmeldt';
         registrationInfo.reason = `Adminpåmeldt av ${registration.createdBy.username}: ${registration.adminRegistrationReason}`;
       }
     } else {
       registrationInfo.reason = `Adminpåmeldt: ${registration.adminRegistrationReason}`;
     }
   } else if (pool) {
-    registrationInfo.reason = 'Påmeldt';
-    registrationInfo.icon = cx('fa fa-check-circle', styles.greenIcon);
+    registrationInfo.status = 'Påmeldt';
+    registrationInfo.className = styles.greenPill;
   }
 
   return registrationInfo;
@@ -106,6 +136,7 @@ const consentMessage = (photoConsent) =>
 
 const iconClass = (photoConsent) =>
   cx(
+    styles.consentIcon,
     photoConsent?.isConsenting ? styles.greenIcon : styles.redIcon,
     photoConsent?.domain === PhotoConsentDomain.WEBSITE
       ? 'fa fa-desktop'
@@ -136,7 +167,7 @@ const ConsentIcons = ({
       photoConsents
     );
     return (
-      <>
+      <Flex justifyContent="center" gap={5}>
         <TooltipIcon
           content={consentMessage(webConsent)}
           iconClass={iconClass(webConsent)}
@@ -145,7 +176,7 @@ const ConsentIcons = ({
           content={consentMessage(soMeConsent)}
           iconClass={iconClass(soMeConsent)}
         />
-      </>
+      </Flex>
     );
   }
 
@@ -169,14 +200,29 @@ export class RegisteredTable extends Component<Props> {
       handlePresence,
       handlePayment,
       handleUnregister,
-      clickedUnregister,
+      showPresence,
       showUnregister,
       event,
       pools,
     } = this.props;
+
+    const gradeColumn = {
+      title: 'Klassetrinn',
+      dataIndex: 'user.grade',
+      render: GradeRenderer,
+      sorter: (a, b) => {
+        if (a.user.grade && b.user.grade) {
+          if (a.user.grade.name === b.user.grade.name) return 0;
+          if (a.user.grade.name > b.user.grade.name) return 1;
+        }
+        if (!a.user.grade && b.user.grade) return 1;
+        else return -1;
+      },
+    };
+
     const columns = [
       {
-        title: 'Nr.',
+        title: '#',
         dataIndex: 'nr',
         render: (_, registration) => (
           <span>{registered.indexOf(registration) + 1}.</span>
@@ -190,25 +236,22 @@ export class RegisteredTable extends Component<Props> {
         title: 'Bruker',
         dataIndex: 'user',
         search: true,
+        centered: false,
         render: (user) => (
           <Link to={`/users/${user.username}`}>{user.fullName}</Link>
         ),
-        sorter: (a, b) => {
-          if (a.user.username > b.user.username) return 1;
-          else return -1;
-        },
         filterMapping: (user) => user.fullName,
       },
       {
         title: 'Status',
-        center: true,
         dataIndex: 'pool',
         render: (pool, registration) => {
           const registrationInfo = getRegistrationInfo(pool, registration);
           return (
-            <TooltipIcon
-              content={registrationInfo.reason}
-              iconClass={registrationInfo.icon}
+            <RegistrationPill
+              status={registrationInfo.status}
+              reason={registrationInfo.reason}
+              className={registrationInfo.className}
             />
           );
         },
@@ -216,6 +259,7 @@ export class RegisteredTable extends Component<Props> {
       {
         title: 'Til stede',
         dataIndex: 'presence',
+        visible: showPresence,
         render: (presence, registration) => {
           return (
             <PresenceIcons
@@ -239,7 +283,6 @@ export class RegisteredTable extends Component<Props> {
         title: 'Samtykke',
         dataIndex: 'photoConsents',
         visible: !!event.useConsent,
-        center: true,
         render: (feedback, registration) => {
           const eventSemester = getEventSemesterFromStartTime(event.startTime);
           const photoConsents = registration.photoConsents;
@@ -255,38 +298,31 @@ export class RegisteredTable extends Component<Props> {
           );
         },
       },
-      {
-        dataIndex: 'gradeOrPool',
-        columnChoices: [
-          {
-            title: 'Klassetrinn',
-            dataIndex: 'user.grade',
-            render: GradeRenderer,
-            sorter: (a, b) => {
-              if (a.user.grade && b.user.grade) {
-                if (a.user.grade.name > b.user.grade.name) return 1;
-              }
-
-              if (!a.user.grade && b.user.grade) return 1;
-              else return -1;
-            },
+      pools.length === 1
+        ? {
+            ...gradeColumn,
+          }
+        : {
+            dataIndex: 'gradeOrPool',
+            columnChoices: [
+              {
+                ...gradeColumn,
+              },
+              {
+                title: 'Pool',
+                dataIndex: 'pool',
+                render: (pool, registration) => {
+                  const poolName = getPoolName(pools, pool);
+                  return <span>{poolName}</span>;
+                },
+                sorter: true,
+              },
+            ],
           },
-          {
-            title: 'Pool',
-            dataIndex: 'pool',
-            render: (pool, registration) => {
-              const poolName = getPoolName(pools, pool);
-              return <span>{poolName}</span>;
-            },
-            sorter: true,
-          },
-        ],
-      },
       {
         title: 'Betaling',
         dataIndex: 'paymentStatus',
-        visible: event.isPriced,
-        center: true,
+        visible: !!event.isPriced,
         render: (paymentStatus, registration) => (
           <StripeStatus
             id={registration.id}
@@ -303,6 +339,7 @@ export class RegisteredTable extends Component<Props> {
       {
         title: 'Tilbakemelding',
         dataIndex: 'feedback',
+        centered: false,
         render: (feedback, registration) => (
           <span>
             {feedback || '-'}
@@ -313,22 +350,19 @@ export class RegisteredTable extends Component<Props> {
         sorter: (a, b) => a.feedback.localeCompare(b.feedback),
       },
       {
-        title: 'Administrer',
-        dataIndex: 'fetching',
+        dataIndex: 'unregister',
         visible: showUnregister,
         render: (fetching, registration) => (
           <Unregister
             fetching={fetching}
             handleUnregister={handleUnregister}
-            id={registration.id}
-            clickedUnregister={clickedUnregister}
+            registration={registration}
           />
         ),
       },
     ];
     return (
       <Table
-        infiniteScroll
         hasMore={false}
         columns={columns}
         loading={loading}
@@ -401,11 +435,6 @@ export class UnregisteredTable extends Component<UnregisteredTableProps> {
         ),
       },
       {
-        title: 'Status',
-        dataIndex: 'user',
-        render: () => <span>Avmeldt</span>,
-      },
-      {
         title: 'Påmeldt',
         dataIndex: 'registrationDate',
         render: (registrationDate) => (
@@ -429,15 +458,9 @@ export class UnregisteredTable extends Component<UnregisteredTableProps> {
           </Tooltip>
         ),
       },
-      {
-        title: 'Klassetrinn',
-        dataIndex: 'user.grade',
-        render: GradeRenderer,
-      },
     ];
     return (
       <Table
-        infiniteScroll
         hasMore={false}
         columns={columns}
         loading={loading}
