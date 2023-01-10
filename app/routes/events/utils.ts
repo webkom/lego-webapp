@@ -51,7 +51,7 @@ type Option<T = string, K = string> = { label: T; value: K };
 
 export type EditingEvent = Event & {
   eventType: Option<
-    typeof EVENT_CONSTANTS[keyof typeof EVENT_CONSTANTS],
+    (typeof EVENT_CONSTANTS)[keyof typeof EVENT_CONSTANTS],
     EventType
   >;
   company: Option;
