@@ -53,6 +53,7 @@ function Penalties({
                     title="Slett prikk"
                     message="Er du sikker på at du vil slette denne prikken?"
                     onConfirm={() => deletePenalty(penalty.id)}
+                    closeOnConfirm
                   >
                     <Button flat>Slett prikk</Button>
                   </ConfirmModalWithParent>
