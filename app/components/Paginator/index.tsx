@@ -1,11 +1,11 @@
 import { Component } from 'react';
 import InfiniteScroll from 'react-infinite-scroller';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import type { Node } from 'react';
+import type { ReactNode } from 'react';
 
 type Props = {
   infiniteScroll?: boolean;
-  children: Node;
+  children: ReactNode;
   hasMore: boolean;
   fetchNext: () => void;
   fetching: boolean;

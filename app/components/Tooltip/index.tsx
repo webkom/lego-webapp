@@ -1,14 +1,14 @@
 import cx from 'classnames';
 import { Component } from 'react';
 import styles from './Tooltip.css';
-import type { Node } from 'react';
+import type { ReactNode, CSSProperties } from 'react';
 
 type Props = {
-  children: Node;
-  content: Node;
+  children: ReactNode;
+  content: ReactNode;
   className?: string;
   onClick?: () => void;
-  style?: Record<string, any>;
+  style?: CSSProperties;
   list?: boolean;
   renderDirection?: string;
   pointerPosition?: string;

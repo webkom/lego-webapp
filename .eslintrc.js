@@ -52,6 +52,7 @@ module.exports = {
     'react/jsx-uses-react': 'off',
     'react/react-in-jsx-scope': 'off',
     'react-app/react/react-in-jsx-scope': 'off',
+    'react/prop-types': 'off',
     'jest/valid-describe': 'off', // valid-describe was replaced by valid-describe-callback, but still needs its rule ...
     'jest/valid-describe-callback': 'error',
     '@typescript-eslint/no-var-requires': 'off',

@@ -6,7 +6,7 @@ import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import config from 'app/config';
 import type { ActionGrant } from 'app/models';
 import styles from './components/surveys.css';
-import type { Node } from 'react';
+import type { ReactNode } from 'react';
 
 const questionStrings = {
   single: 'single_choice',
@@ -48,7 +48,7 @@ export const graphMappings = Object.keys(displayTypeStrings).map((key) => ({
   value: string;
   label: string;
 }>;
-export const ListNavigation = ({ title }: { title: Node }) => (
+export const ListNavigation = ({ title }: { title: ReactNode }) => (
   <NavigationTab title={title} headerClassName={styles.navTab}>
     <NavigationLink to="/surveys">Liste</NavigationLink>
     <NavigationLink to="/surveys/add">Ny undersøkelse</NavigationLink>
@@ -60,7 +60,7 @@ export const DetailNavigation = ({
   surveyId,
   actionGrant,
 }: {
-  title: Node;
+  title: ReactNode;
   surveyId: number;
   actionGrant?: ActionGrant;
 }) => (
@@ -77,7 +77,7 @@ export const TokenNavigation = ({
   surveyId,
   actionGrant = [],
 }: {
-  title: Node;
+  title: ReactNode;
   surveyId: number;
   actionGrant?: ActionGrant;
 }) => (

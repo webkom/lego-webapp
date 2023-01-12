@@ -15,7 +15,7 @@ import {
 } from '../../utils';
 import styles from '../surveys.css';
 import Option from './Option';
-import type { Node } from 'react';
+import type { ReactNode } from 'react';
 import type { FieldArrayProps } from 'redux-form';
 import type { $PropertyType } from 'utility-types';
 
@@ -176,7 +176,7 @@ const renderOptions = ({
 }: {
   fields: Fields;
   questionType: string;
-}): Node => (
+}): ReactNode => (
   <ul className={styles.options}>
     {fields.map((option, relativeIndex) => {
       const isLast = fields.length - 1 === relativeIndex;

@@ -2,7 +2,7 @@ import moment from 'moment-timezone';
 import { Component } from 'react';
 import type { Dateish, Event, EventRegistration } from 'app/models';
 import { registrationIsClosed } from '../utils';
-import type { Node, ComponentType } from 'react';
+import type { ComponentType, ReactNode } from 'react';
 
 type Action =
   | 'REGISTRATION_AVAILABLE'
@@ -21,7 +21,7 @@ type State = {
 export type Props = {
   event: Event;
   registration: EventRegistration | null | undefined;
-  render?: (state: State) => Node;
+  render?: (state: State) => ReactNode;
 };
 const COUNTDOWN_STARTS_WHEN_MINUTES_LEFT = 10;
 // How often to check when to start the real countdown

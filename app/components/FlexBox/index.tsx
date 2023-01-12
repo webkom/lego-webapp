@@ -1,8 +1,9 @@
 import cx from 'classnames';
 import styles from './index.css';
+import type { ReactNode } from 'react';
 
 type Props = {
-  children?: any;
+  children?: ReactNode;
   className?: string;
   justifyContent?: string;
   alignItems?: string;

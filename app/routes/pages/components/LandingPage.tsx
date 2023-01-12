@@ -7,6 +7,7 @@ import Button from 'app/components/Button';
 import Icon from 'app/components/Icon';
 import { Image } from 'app/components/Image';
 import { Flex } from 'app/components/Layout';
+import type { PageRenderer } from 'app/routes/pages/components/PageDetail';
 import styles from './LandingPage.css';
 import { DisplayVisionShort } from './subcomponents/DisplayVision';
 import EmailItem from './subcomponents/EmailItem';
@@ -15,29 +16,7 @@ import TextWithBoldTitle, {
   TextWithTitle,
 } from './subcomponents/TextWithTitle';
 
-type Props = {
-  whoWeAre: string;
-  whatWeDo: string;
-  whyWeDoIt: string;
-  postAddress: string;
-  officeHours: string;
-  officeAddress: string;
-  webkomOfficeAddress: string;
-  organizationNo: string;
-  loggedIn: boolean;
-};
-
-const LandingPage = ({
-  whoWeAre,
-  whatWeDo,
-  whyWeDoIt,
-  postAddress,
-  officeHours,
-  officeAddress,
-  webkomOfficeAddress,
-  organizationNo,
-  loggedIn,
-}: Props) => {
+const LandingPage: PageRenderer = ({ loggedIn }) => {
   return (
     <div className={styles.pageContainer}>
       <a href="#contact" className={styles.contactUsLink}>
@@ -58,9 +37,9 @@ const LandingPage = ({
       />
 
       <Flex className={styles.whoWhatWhyContainer}>
-        <TextWithBoldTitle title="Hvem vi er" text={whoWeAre} />
-        <TextWithBoldTitle title="Hva vi gjør" text={whatWeDo} />
-        <TextWithBoldTitle title="Hvorfor vi gjør det" text={whyWeDoIt} />
+        <TextWithBoldTitle title="Hvem vi er" text={info.whoWeAre} />
+        <TextWithBoldTitle title="Hva vi gjør" text={info.whatWeDo} />
+        <TextWithBoldTitle title="Hvorfor vi gjør det" text={info.whyWeDoIt} />
       </Flex>
 
       <h2 className={styles.abakusInNumbers} id="abakusInNumbers">
@@ -108,7 +87,7 @@ const LandingPage = ({
             logo="https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_hs.png"
           />
           <h3 className={styles.title}>E-postadresser til komiteene</h3>
-          <Flex wrap className={styles.committeeEmails}>
+          <Flex wrap>
             {committeeEmails.map((email, index) => (
               <EmailItem
                 key={index}
@@ -129,7 +108,7 @@ const LandingPage = ({
             Har du lyst til å følge med på hva de forskjellige delene av abakus
             driver med? Følg oss på sosiale medier!
           </div>
-          <Flex wrap className={styles.committeeEmails}>
+          <Flex wrap>
             <div className={styles.socialMediaType}>
               <Icon name="logo-facebook" size={40} />
               <div className={styles.socialMediaTypeLinks}>
@@ -196,7 +175,7 @@ const LandingPage = ({
         </div>
         <TextWithTitle
           title="Postadresse"
-          text={postAddress}
+          text={info.postAddress}
           extraStyle={{
             flexBasis: '33.33333%',
           }}
@@ -206,15 +185,15 @@ const LandingPage = ({
             flexBasis: '33.33333%',
           }}
         >
-          <TextWithTitle title="Besøksadresse" text={officeAddress} />
+          <TextWithTitle title="Besøksadresse" text={info.officeAddress} />
           <TextWithTitle
             title="Webkom's besøksadresse"
-            text={webkomOfficeAddress}
+            text={info.webkomOfficeAddress}
           />
         </div>
         <TextWithTitle
           title="Kontortid"
-          text={officeHours}
+          text={info.officeHours}
           extraStyle={{
             flexBasis: '33.33333%',
           }}
@@ -225,14 +204,14 @@ const LandingPage = ({
         <Icon name="briefcase" size={80} className={styles.organizationIcon} />
         <div className={styles.organization}>
           <h3 className={styles.title}>Organisasjonsnummer</h3>
-          <span>{organizationNo}</span>
+          <span>{info.organizationNo}</span>
         </div>
       </Flex>
     </div>
   );
 };
 
-LandingPage.defaultProps = {
+const info = {
   whoWeAre: (
     <span>
       Abakus er linjeforeningen for studentene ved Datateknologi og{' '}

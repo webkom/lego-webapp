@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import styles from './Carousel.css';
-import type { Node } from 'react';
+import type { ReactNode } from 'react';
 
 type MenuItem = {
   item: Record<string, any>;
@@ -9,8 +9,8 @@ type MenuItem = {
 };
 type Props = {
   items: Array<Record<string, any>>;
-  renderMenuItem: (arg0: MenuItem) => Node;
-  renderContent: (arg0: Record<string, any>) => Node;
+  renderMenuItem: (arg0: MenuItem) => ReactNode;
+  renderContent: (arg0: Record<string, any>) => ReactNode;
 };
 type State = {
   selectedIndex: number;

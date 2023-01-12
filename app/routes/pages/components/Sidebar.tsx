@@ -14,7 +14,7 @@ type Props = {
   currentUrl: string;
   pageHierarchy: Array<HierarchySectionEntity>;
   isOpen: boolean;
-  handleClose: any;
+  handleClose: () => void;
 };
 
 class Sidebar extends Component<Props, State> {

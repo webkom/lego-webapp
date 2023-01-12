@@ -6,7 +6,7 @@ import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import type { Semester, CompanySemesterContactedStatus } from 'app/models';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
-import type { Node } from 'react';
+import type { ReactNode } from 'react';
 
 export const statusStrings = {
   company_presentation: 'Bedpres',
@@ -153,7 +153,7 @@ export const getContactedStatuses = (
   });
   return contacted;
 };
-export const ListNavigation = ({ title }: { title: Node }) => (
+export const ListNavigation = ({ title }: { title: ReactNode }) => (
   <NavigationTab title={title}>
     <NavigationLink to="/companyInterest/">Interesseskjema</NavigationLink>
     <NavigationLink to="/bdb">BDB</NavigationLink>
@@ -165,7 +165,7 @@ export const DetailNavigation = ({
   companyId,
   deleteFunction,
 }: {
-  title: Node;
+  title: ReactNode;
   companyId: number;
   deleteFunction: (arg0: number) => Promise<any>;
 }) => (

@@ -13,9 +13,10 @@ import Modal from 'app/components/Modal';
 import ProgressiveImage from 'app/components/ProgressiveImage';
 import type { ID } from 'app/models';
 import type { EntityID } from 'app/types';
-import { Keyboard } from '../../../utils/constants';
+import { Keyboard } from 'app/utils/constants';
 import GalleryDetailsRow from './GalleryDetailsRow';
 import styles from './GalleryPictureModal.css';
+import type { ReactNode } from 'react';
 
 type Props = {
   picture: Record<string, any>;
@@ -123,7 +124,7 @@ const RenderGalleryPicture = ({
 
 const Swipeable = (props: {
   onSwiping: (arg0: { dir: string }) => void;
-  children: any;
+  children: ReactNode;
 }) => {
   const handlers = useSwipeable({
     onSwiped: (eventData) => props.onSwiping(eventData),
@@ -190,9 +191,11 @@ export default class GalleryPictureModal extends Component<Props, State> {
     trailing: false,
   });
   handleKeyDown = (e: KeyboardEvent): void => {
-    // Dont handle events inside the comment form... :smile:
-    // $FlowFixMe
-    if (e.target.className === 'notranslate public-DraftEditor-content') {
+    // Don't handle events inside the comment form... :smile:
+    if (
+      e.target instanceof Element &&
+      e.target.className === 'notranslate public-DraftEditor-content'
+    ) {
       return;
     }
 

@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
-import type { Node } from 'react';
+import type { ReactNode } from 'react';
 
 type Props = {
-  link: [string, Node];
+  link: [string, ReactNode];
 };
 
 const ResolveLink = ({ link: [href, name], ...props }: Props) => {

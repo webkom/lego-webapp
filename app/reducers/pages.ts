@@ -1,5 +1,6 @@
 import { uniqBy, sortBy, groupBy } from 'lodash';
 import { createSelector } from 'reselect';
+import type { User } from 'app/models';
 import { selectMembershipsForGroup } from 'app/reducers/memberships';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { Page } from '../actions/ActionTypes';
@@ -13,6 +14,12 @@ export type PageEntity = {
   content: string;
   comments: Array<number>;
   picture: string;
+  picturePlaceholder: string;
+  logo?: string;
+  logoPlaceholder?: string;
+  membershipsByRole: Record<string, { user: User }[]>;
+  text?: string;
+  name?: string;
 };
 export default createEntityReducer({
   key: 'pages',
@@ -29,8 +36,7 @@ export const selectPageBySlug = createSelector(
 );
 export const selectPages = createSelector(
   (state) => state.pages.byId,
-  (pagesBySlug, pageSlug) =>
-    Object.keys(pagesBySlug).map((slug) => pagesBySlug[slug])
+  (pagesBySlug) => Object.keys(pagesBySlug).map((slug) => pagesBySlug[slug])
 );
 export const selectPagesForHierarchy = (category: string) =>
   createSelector(

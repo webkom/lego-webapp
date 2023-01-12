@@ -1,7 +1,7 @@
 import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
-import type { Node } from 'react';
+import type { ReactNode } from 'react';
 
 export const sortSemesterChronologically = (
   a: CompanySemesterEntity,
@@ -15,7 +15,7 @@ export const sortSemesterChronologically = (
     ? Number(a.year) - Number(b.year)
     : semesterCodeToPriority[a.semester] - semesterCodeToPriority[b.semester];
 };
-export const SemesterNavigation = ({ title }: { title: Node }) => (
+export const SemesterNavigation = ({ title }: { title: ReactNode }) => (
   <NavigationTab
     title={title}
     back={{

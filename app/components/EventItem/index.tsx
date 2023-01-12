@@ -9,6 +9,7 @@ import type { Event, EventTime } from 'app/models';
 import { colorForEvent } from 'app/routes/events/utils';
 import { eventStatus, eventAttendance } from 'app/utils/eventStatus';
 import styles from './styles.css';
+import type { ReactNode } from 'react';
 
 type AttendanceProps = {
   event: Event;
@@ -67,7 +68,7 @@ const EventItem = ({
   showTags = true,
   loggedIn = false,
   eventStyle,
-}: EventItemProps) => {
+}: EventItemProps): ReactNode => {
   switch (eventStyle) {
     case 'extra-compact':
       return (

@@ -18,7 +18,7 @@ import Tooltip from 'app/components/Tooltip';
 import type { ID } from 'app/models';
 import type { PollEntity } from 'app/reducers/polls';
 import styles from './PollEditor.css';
-import type { Node } from 'react';
+import type { ReactNode } from 'react';
 import type {
   fieldArrayMetaPropTypes,
   fieldArrayFieldsPropTypes,
@@ -48,7 +48,7 @@ type FieldArrayPropTypes = {
 const renderOptions = ({
   fields,
   meta: { touched, error },
-}: FieldArrayPropTypes): Node => (
+}: FieldArrayPropTypes): ReactNode => (
   <div>
     <ul className={styles.options}>
       {fields.map((option, i) => (

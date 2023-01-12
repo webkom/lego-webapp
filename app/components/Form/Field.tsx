@@ -3,7 +3,7 @@ import Icon from 'app/components/Icon';
 import { Flex } from 'app/components/Layout';
 import Tooltip from 'app/components/Tooltip';
 import styles from './Field.css';
-import type { ComponentType, Node } from 'react';
+import type { ComponentType } from 'react';
 
 const FieldError = ({
   error,
@@ -33,9 +33,13 @@ export const RenderErrorMessage = ({
   fieldName?: string;
 }) => {
   if (Array.isArray(error)) {
-    return error.map((error) => (
-      <RenderErrorMessage key={error} error={error} fieldName={fieldName} />
-    )) as Array<Node>;
+    return (
+      <>
+        {error.map((error) => (
+          <RenderErrorMessage key={error} error={error} fieldName={fieldName} />
+        ))}
+      </>
+    );
   }
 
   return <FieldError error={error} fieldName={fieldName} />;
@@ -46,9 +50,13 @@ export const RenderWarningMessage = ({
   warning: Array<string> | string;
 }) => {
   if (Array.isArray(warning)) {
-    return warning.map((warning) => (
-      <RenderWarningMessage key={warning} warning={warning} />
-    )) as Array<Node>;
+    return (
+      <>
+        {warning.map((warning) => (
+          <RenderWarningMessage key={warning} warning={warning} />
+        ))}
+      </>
+    );
   }
 
   return <FieldWarning warning={warning} key={warning} />;

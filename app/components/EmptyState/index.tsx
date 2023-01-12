@@ -1,14 +1,14 @@
 import cx from 'classnames';
 import Icon from '../Icon';
 import styles from './EmptyState.css';
-import type { Node } from 'react';
+import type { ReactNode } from 'react';
 
 type Props = {
   /** name of icon */
   icon?: string;
 
   /** html to display in an EmptyState */
-  children?: Node;
+  children?: ReactNode;
   size?: number;
   className?: string;
 };

@@ -3,15 +3,15 @@ import { PureComponent } from 'react';
 import { Image } from 'app/components/Image';
 import Paginator from 'app/components/Paginator';
 import styles from './Gallery.css';
-import type { Node } from 'react';
+import type { ReactNode } from 'react';
 
 export type Photo = Record<string, any>;
 type Props = {
   onClick?: (arg0: Photo) => unknown;
-  renderOverlay?: (arg0: Photo) => Node;
-  renderTop?: (arg0: Photo) => Node;
-  renderBottom?: (arg0: Photo) => Node;
-  renderEmpty?: () => Node;
+  renderOverlay?: (arg0: Photo) => ReactNode;
+  renderTop?: (arg0: Photo) => ReactNode;
+  renderBottom?: (arg0: Photo) => ReactNode;
+  renderEmpty?: () => ReactNode;
   margin?: number;
   loading?: boolean;
   srcKey: string;
