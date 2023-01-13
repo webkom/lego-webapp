@@ -2,9 +2,12 @@ import cx from 'classnames';
 import { flatMap } from 'lodash';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
+import Button from 'app/components/Button';
+import { TextInput } from 'app/components/Form';
+import Icon from 'app/components/Icon';
 import { ProfilePicture } from 'app/components/Image';
+import Flex from 'app/components/Layout/Flex';
 import type { ID, User } from 'app/models';
-import Button from '../Button';
 import styles from './AttendanceModal.css';
 
 export type Registration = {
@@ -47,11 +50,13 @@ const Tab = ({ name, index, activePoolIndex, togglePool }: TabProps) => (
 
 type State = {
   pools: Pool[];
+  filter: string;
 };
 
 class AttendanceModal extends Component<Props, State> {
   state = {
     pools: [],
+    filter: '',
   };
   static defaultProps = {
     title: 'Status',
@@ -82,25 +87,46 @@ class AttendanceModal extends Component<Props, State> {
 
   render() {
     const { title, togglePool, selectedPool } = this.props;
-    const { pools } = this.state;
-    const activePool = pools[selectedPool];
+    const { pools, filter } = this.state;
+    const registrations = pools[selectedPool].registrations.filter(
+      (registration) => {
+        return registration.user.fullName
+          .toLowerCase()
+          .includes(filter.toLowerCase());
+      }
+    );
+
     return (
-      <div>
+      <Flex
+        column
+        justifyContent="space-between"
+        gap={15}
+        className={styles.modal}
+      >
         <h2>{title}</h2>
+        <Flex alignItems="center" className={styles.search}>
+          <Icon name="search" size={16} />
+          <TextInput
+            type="text"
+            placeholder="Søk etter navn"
+            onChange={(e) => this.setState({ filter: e.target.value })}
+          />
+        </Flex>
+
         <ul className={styles.list}>
-          {activePool.registrations.map((registration) => (
+          {registrations.map((registration) => (
             <li key={registration.id}>
-              <div className={styles.row}>
+              <Flex alignItems="center" className={styles.row}>
                 <ProfilePicture size={30} user={registration.user} />
                 <Link to={`/users/${registration.user.username}`}>
                   {registration.user.fullName}
                 </Link>
-              </div>
+              </Flex>
             </li>
           ))}
         </ul>
 
-        <div className={styles.nav}>
+        <Flex justifyContent="space-between" className={styles.nav}>
           {pools.map((pool, i) => (
             <Tab
               name={pool.name}
@@ -110,8 +136,8 @@ class AttendanceModal extends Component<Props, State> {
               togglePool={togglePool}
             />
           ))}
-        </div>
-      </div>
+        </Flex>
+      </Flex>
     );
   }
 }

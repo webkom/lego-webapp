@@ -136,6 +136,10 @@ export default class GalleryDetail extends Component<Props, State> {
         <Helmet title={gallery.title} />
         <NavigationTab
           title={gallery.title}
+          back={{
+            label: 'Tilbake',
+            path: '/photos',
+          }}
           details={
             <>
               <GalleryDetailsRow gallery={gallery} showDescription />
@@ -155,17 +159,6 @@ export default class GalleryDetail extends Component<Props, State> {
             </>
           }
         >
-          <NavigationLink
-            onClick={(e: Event) => {
-              // TODO fix this hack when react-router is done
-              if (!window.location.hash) return;
-              window.history.back();
-              e.preventDefault();
-            }}
-            to="/photos"
-          >
-            <i className="fa fa-angle-left" /> Tilbake
-          </NavigationLink>
           {actionGrant?.includes('edit') && (
             <div>
               <NavigationLink to="#" onClick={() => this.toggleUpload()}>

@@ -53,7 +53,7 @@ const GroupMembersList = ({
       <>
         <ConfirmModalWithParent
           title="Bekreft utmelding"
-          message={`Er du sikker på at du vil melde ut "${user.fullName}" fra gruppen "${groupsById[abakusGroup].name}?"`}
+          message={`Er du sikker på at du vil melde ut "${user.fullName}" fra gruppen "${groupsById[abakusGroup].name}"?`}
           onConfirm={() => removeMember(membership)}
         >
           <i key="icon" className={`fa fa-times ${styles.removeIcon}`} />
