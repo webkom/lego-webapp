@@ -4,23 +4,23 @@
   overflow-x: scroll;
 }
 
-table {
+.wrapper table {
   width: 100%;
 }
 
-thead button {
+.wrapper thead button {
   padding: 0;
 }
 
-thead i {
+.wrapper thead i {
   cursor: pointer;
 }
 
-tr:nth-child(even) {
+.wrapper tr:nth-child(even) {
   background-color: var(--color-light-gray-5);
 }
 
-html[data-theme='dark'] tr:nth-child(even) {
+html[data-theme='dark'] .wrapper tr:nth-child(even) {
   background-color: var(--color-gray-8);
 }
 
