@@ -1,10 +1,17 @@
-.table {
-  width: 100%;
+.copyIcon {
+  cursor: pointer;
 }
 
-.table i {
-  display: flex;
-  justify-content: center;
+.copied {
+  color: var(--color-green-6);
+}
+
+.deleteIcon {
   cursor: pointer;
-  color: var(--color-red-2);
+  color: var(--color-red-3);
+  transition: color 150ms ease-in-out;
+
+  &:hover {
+    color: var(--color-red-5);
+  }
 }

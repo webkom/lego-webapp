@@ -1,6 +1,11 @@
+import cx from 'classnames';
 import keys from 'lodash/keys';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import Button from 'app/components/Button';
 import Icon from 'app/components/Icon';
+import Flex from 'app/components/Layout/Flex';
+import Table from 'app/components/Table';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
 import config from 'app/config';
@@ -11,11 +16,95 @@ type Props = {
   grants: Array<any>;
   deleteOAuth2Grant: (grantId: number) => void;
   actionGrant: Array<string>;
+  fetchingApplications: boolean;
+  fetchingGrants: boolean;
 };
 
 const UserSettingsOAuth2 = (props: Props) => {
+  const [copiedClientId, setCopiedClientId] = useState<string>('');
+
+  const applicationColumns = [
+    {
+      title: 'Navn',
+      dataIndex: 'application.name',
+      render: (id, application) => (
+        <Link to={`/users/me/settings/oauth2/${application.id}`}>
+          {application.name}
+        </Link>
+      ),
+    },
+    {
+      title: 'Beskrivelse',
+      dataIndex: 'application.description',
+      render: (id, application) => application.description,
+    },
+    {
+      title: 'Client ID',
+      dataIndex: 'application.clientId',
+      render: (id, application) => {
+        const copied = copiedClientId === application.clientId;
+        return (
+          <Flex wrap gap={10}>
+            {application.clientId}
+            <Tooltip content="Kopiér client ID" renderDirection="right">
+              <Icon
+                name={copied ? 'copy' : 'copy-outline'}
+                size={20}
+                className={cx(styles.copyIcon, copied && styles.copied)}
+                onClick={() => {
+                  navigator.clipboard.writeText(application.clientId);
+                  setCopiedClientId(application.clientId);
+                  setTimeout(() => setCopiedClientId(''), 2000);
+                }}
+              />
+            </Tooltip>
+          </Flex>
+        );
+      },
+    },
+  ];
+
+  const acceptedApplicationcolumns = [
+    {
+      title: 'Applikasjon',
+      dataIndex: 'grant.application.name',
+      render: (id, grant) => grant.application.name,
+    },
+    {
+      title: 'Utløper',
+      dataIndex: 'grant.expires',
+      render: (id, grant) => (
+        <Time time={grant.expires} format="DD.MM.YYYY HH:mm" />
+      ),
+    },
+    {
+      title: 'Token',
+      dataIndex: 'grant.token',
+      render: (id, grant) => grant.token,
+    },
+    {
+      title: 'Tilganger',
+      dataIndex: 'grant.scopes',
+      render: (id, grant) => keys(grant.scopes).join(', '),
+    },
+    {
+      dataIndex: 'delete',
+      render: (id, grant) => (
+        <Tooltip
+          content="Fjern"
+          onClick={() => props.deleteOAuth2Grant(grant.id)}
+          style={{
+            marginTop: '-7px',
+          }}
+        >
+          <Icon name="trash-outline" size={20} className={styles.deleteIcon} />
+        </Tooltip>
+      ),
+    },
+  ];
+
   return (
-    <div>
+    <Flex column gap={15}>
       <h1>OAuth2</h1>
       <p>
         Denne nettsiden benytter seg av et API som også er tiljengelig for andre
@@ -26,18 +115,16 @@ const UserSettingsOAuth2 = (props: Props) => {
         </a>{' '}
         til APIet. Kontakt{' '}
         <a href="mailto:webkom@abakus.no">webkom@abakus.no</a> hvis du ønsker å
-        slette en Applikasjon du har opprettet.
+        slette en applikasjon du har opprettet.
       </p>
 
       <p>
         <b>
-          Client ID og Client Secret ansees om hemmelig og må ikke inkluderes i
+          Client ID og Client Secret ansees som hemmelig og må ikke inkluderes i
           kode som gjøres tiljengelig for sluttbrukere, typisk en webapp eller
           en mobilapplikasjon.
         </b>
       </p>
-
-      <br />
 
       <ul>
         <li>
@@ -56,85 +143,35 @@ const UserSettingsOAuth2 = (props: Props) => {
         </li>
       </ul>
 
-      <br />
-
       <h3>Applikasjoner</h3>
       {props.actionGrant.includes('create') && (
-        <Link to="/users/me/settings/oauth2/new">Ny Applikasjon</Link>
+        <Button>
+          <Link to="/users/me/settings/oauth2/new">Ny applikasjon</Link>
+        </Button>
       )}
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            <th>Navn</th>
-            <th>Beskrivelse</th>
-            <th>Client ID</th>
-          </tr>
-        </thead>
-        <tbody>
-          {props.applications.map((application, key) => (
-            <tr key={key}>
-              <td>
-                <Link to={`/users/me/settings/oauth2/${application.id}`}>
-                  {application.name}
-                </Link>
-              </td>
-              <td>{application.description}</td>
-              <td>{application.clientId}</td>
-            </tr>
-          ))}
-          {props.applications.length === 0 && (
-            <tr>
-              <td colSpan={3}>Du har ingen applikasjoner.</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+      {props.applications.length === 0 ? (
+        <span>Du har ingen applikasjoner</span>
+      ) : (
+        <Table
+          columns={applicationColumns}
+          data={props.applications}
+          loading={props.fetchingApplications}
+          hasMore={false}
+        />
+      )}
 
-      <br />
-
-      <h3>Akseptere Applikasjoner</h3>
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            <th>Applikasjon</th>
-            <th>Utløper</th>
-            <th>Token</th>
-            <th>Tilganger</th>
-            <th>Handlinger</th>
-          </tr>
-        </thead>
-        <tbody>
-          {props.grants.map((grant, key) =>
-            grant.id ? (
-              <tr key={key}>
-                <td>{grant.application.name}</td>
-                <td>
-                  <Time time={grant.expires} format="LLL" />
-                </td>
-                <td>{grant.token}</td>
-                <td>{keys(grant.scopes).join(', ')}</td>
-                <td>
-                  <Tooltip
-                    content="Fjern"
-                    onClick={() => props.deleteOAuth2Grant(grant.id)}
-                    style={{
-                      marginTop: '-5px',
-                    }}
-                  >
-                    <Icon name="trash" size={28} />
-                  </Tooltip>
-                </td>
-              </tr>
-            ) : null
-          )}
-          {props.grants.length === 0 && (
-            <tr>
-              <td colSpan={5}>Du har ikke logget logget på en app enda.</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-    </div>
+      <h3>Aksepterte applikasjoner</h3>
+      {props.grants.length === 0 ? (
+        <span>Du har ikke logget på en app enda.</span>
+      ) : (
+        <Table
+          columns={acceptedApplicationcolumns}
+          data={props.grants}
+          loading={props.fetchingGrants}
+          hasMore={false}
+        />
+      )}
+    </Flex>
   );
 };
 

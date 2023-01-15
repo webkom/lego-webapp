@@ -29,7 +29,7 @@ const UserSettingsOAuth2Form = (props: Props) => {
 
   return (
     <div>
-      <h1>{props.create ? 'Opprett' : 'Endre'} Applikasjon</h1>
+      <h1>{props.create ? 'Opprett' : 'Endre'} applikasjon</h1>
 
       <Form onSubmit={props.handleSubmit(submit)}>
         <Field

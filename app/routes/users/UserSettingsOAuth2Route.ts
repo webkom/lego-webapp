@@ -17,6 +17,8 @@ const mapStateToProps = (state) => {
     applications: selectOAuth2Applications(state),
     grants: selectOAuth2Grants(state),
     actionGrant: state.oauth2Applications.actionGrant,
+    fetchingApplications: state.oauth2Applications.fetching,
+    fetchingGrants: state.oauth2Grants.fetching,
   };
 };
 
