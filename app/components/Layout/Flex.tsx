@@ -1,9 +1,14 @@
 import cx from 'classnames';
 import styles from './Flex.css';
-import type { ReactNode, ElementType, HTMLAttributes } from 'react';
+import type {
+  ReactNodeArray,
+  ReactNode,
+  ElementType,
+  HTMLAttributes,
+} from 'react';
 
 type Props = {
-  children?: ReactNode;
+  children?: ReactNode | ReactNodeArray;
   className?: string;
 
   /** Column or row */

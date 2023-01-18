@@ -12,7 +12,7 @@ import styles from './Poll.css';
 
 type Props = {
   poll: PollEntity;
-  handleVote: (pollId: number, optionId: number) => Promise<any>;
+  handleVote: (pollId: number, optionId: number) => Promise<void>;
   allowedToViewHiddenResults?: boolean;
   backgroundLight?: boolean;
   truncate?: number;

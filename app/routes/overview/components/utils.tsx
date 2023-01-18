@@ -7,15 +7,11 @@ import { eventTypeToString } from 'app/routes/events/utils';
 import truncateString from 'app/utils/truncateString';
 import styles from './Overview.css';
 
-export const renderMeta = (
-  item: (Event | Article) & {
-    documentType: string;
-  }
-) => {
+export const renderMeta = (item: Event | Article) => {
   const isEvent = item.eventType ? true : false;
   return (
     <span className={styles.itemInfo}>
-      <Time //$FlowFixMe[incompatible-type]
+      <Time
         time={isEvent ? item.startTime : item.createdAt}
         format={
           moment().year() === moment(item.startTime).year()
