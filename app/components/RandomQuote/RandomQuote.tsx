@@ -1,4 +1,5 @@
-import { useRef, useEffect } from 'react';
+import cx from 'classnames';
+import { useRef, useEffect, useState } from 'react';
 import { Flex } from 'app/components/Layout';
 import LegoReactions from 'app/components/LegoReactions';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
@@ -9,14 +10,17 @@ import Button from '../Button';
 import styles from './RandomQuote.css';
 
 type Props = {
-  fetchRandomQuote: (arg0: Array<ID>) => Promise<Record<string, any>>;
+  fetchRandomQuote: (arg0: Array<ID>) => Promise<void>;
   className?: string;
-  addReaction: (arg0: { emoji: string; contentTarget: string }) => Promise<any>;
+  addReaction: (arg0: {
+    emoji: string;
+    contentTarget: string;
+  }) => Promise<void>;
   deleteReaction: (arg0: {
     reactionId: ID;
     contentTarget: string;
-  }) => Promise<any>;
-  fetchEmojis: () => Promise<any>;
+  }) => Promise<void>;
+  fetchEmojis: () => Promise<void>;
   fetchingEmojis: boolean;
   emojis: Array<EmojiEntity>;
   currentQuote: QuoteEntity;
@@ -37,6 +41,9 @@ const RandomQuote = (props: Props) => {
     useReactions = true,
   } = props;
   const seenQuotes = useRef([]);
+
+  const [animation, setAnimation] = useState(false);
+
   useEffect(() => {
     const quoteId = props.currentQuote.id;
 
@@ -44,6 +51,12 @@ const RandomQuote = (props: Props) => {
       seenQuotes.current = [...seenQuotes.current, quoteId];
     }
   });
+
+  const onClick = () => {
+    setAnimation(true);
+    props.fetchRandomQuote(seenQuotes.current);
+    setTimeout(() => setAnimation(false), 1000);
+  };
   return (
     <div className={className ? className : ''}>
       <Flex justifyContent="space-between" alignItems="flex-start">
@@ -53,12 +66,10 @@ const RandomQuote = (props: Props) => {
         </Flex>
 
         <Flex column justifyContent="space-between" className={styles.actions}>
-          <Button
-            flat
-            onClick={() => props.fetchRandomQuote(seenQuotes.current)}
-            className={styles.fetchNew}
-          >
-            <i className="fa fa-refresh" />
+          <Button flat onClick={onClick} className={styles.fetchNew}>
+            <i
+              className={cx(['fa fa-refresh', animation && styles.rotateIcon])}
+            />
           </Button>
           <NavigationLink to="/quotes/add">
             <i className="fa fa-plus" />
