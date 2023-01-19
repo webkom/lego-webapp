@@ -7,6 +7,6 @@
 }
 
 /* Override the Checkbox alignment from flex-start to center */
-td div {
-  justify-content: center !important;
+.table td div {
+  justify-content: center;
 }
