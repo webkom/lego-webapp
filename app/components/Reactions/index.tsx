@@ -81,7 +81,7 @@ class Reactions extends Component<Props, State> {
   };
 
   handleOutsideClick = (e) => {
-    if (this.node.current && this.node.current.contains(e.target)) {
+    if (this.node?.current?.contains(e.target)) {
       return;
     }
 
