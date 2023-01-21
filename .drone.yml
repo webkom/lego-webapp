@@ -177,6 +177,8 @@ steps:
     image: node:16-alpine
     when:
       event: [push]
+      branch:
+        exclude: [build]
     depends_on:
       - setup
     commands:
@@ -186,6 +188,8 @@ steps:
     image: node:16-alpine
     when:
       event: [push]
+      branch:
+        exclude: [build]
     depends_on:
       - setup
     commands:
@@ -195,6 +199,8 @@ steps:
     image: node:16-slim
     when:
       event: [push]
+      branch:
+        exclude: [build]
     depends_on:
       - setup
     commands:
@@ -326,4 +332,6 @@ image_pull_secrets:
 
 ---
 kind: signature
-hmac: 86b9ed130571ff0ed1b85f175f1e582d41d8db91c07e841913ebe853bc179b2f
+hmac: c4e7ed334ff36b875afd68d769dec76a2cb15ba2239344f716f2c717585efbd3
+
+...
