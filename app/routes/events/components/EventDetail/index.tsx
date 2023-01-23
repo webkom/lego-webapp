@@ -227,7 +227,7 @@ export default class EventDetail extends Component<Props, State> {
 
     // The UserGrid is expanded when there's less than 5 minutes till activation
     const minUserGridRows = currentMoment.isAfter(
-      activationTimeMoment.subtract(5, 'minutes')
+      moment(activationTimeMoment).subtract(5, 'minutes')
     )
       ? MIN_USER_GRID_ROWS
       : 0;
