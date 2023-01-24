@@ -40,7 +40,7 @@ html[data-theme='dark'] .backdrop {
   right: 1rem;
   padding: 0;
   color: var(--color-dark-mono-gray-3);
-  transition: color 150ms ease-in-out;
+  transition: color var(--easing-medium);
 
   &:hover {
     color: var(--color-dark-mono-gray-4);

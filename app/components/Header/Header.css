@@ -45,7 +45,7 @@
   border: 0;
   color: var(--lego-text-gray);
   cursor: pointer;
-  transition: color 0.3s;
+  transition: color var(--linear-medium);
 
   &:hover,
   &.activeItem {
@@ -151,7 +151,7 @@
   align-items: center;
   justify-content: center;
   position: relative;
-  transition: color 0.2s;
+  transition: color var(--linear-medium);
   white-space: nowrap;
 
   &::after {
@@ -162,7 +162,7 @@
     position: absolute;
     bottom: 4px;
     transform: scaleX(0);
-    transition: all 0.2s ease-in-out;
+    transition: all var(--easing-medium);
   }
 
   &:hover,
@@ -199,7 +199,7 @@ html[data-theme='dark'] .logoDarkMode {
 
 html[data-theme='dark'] .meetingIcon {
   color: var(--color-light-gray-5);
-  transition: color 0.1s;
+  transition: color var(--linear-fast);
 
   &:hover {
     color: var(--color-gray-5);

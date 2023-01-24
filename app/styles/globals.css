@@ -19,7 +19,7 @@ body {
   font-family: Raleway, 'Helvetica Neue', Arial, sans-serif;
   background: var(--lego-background-color);
   color: var(--lego-font-color);
-  transition: color 0.2s;
+  transition: color var(--linear-medium);
   position: relative;
 }
 

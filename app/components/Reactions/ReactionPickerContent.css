@@ -23,7 +23,7 @@
   margin: 0 1px 1px 0;
   border-radius: 6px;
   cursor: pointer;
-  transition: background 0.05s ease-out 25ms;
+  transition: background var(--easing-fast);
   line-height: 26px;
 }
 

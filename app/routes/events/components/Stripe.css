@@ -24,7 +24,7 @@
   letter-spacing: 0.025em;
   background-color: var(--lego-red);
   text-decoration: none;
-  transition: all 150ms ease;
+  transition: all var(--easing-medium);
   margin-top: 10px;
 }
 
@@ -85,5 +85,5 @@
   padding: 5px 10px;
   margin-top: 3px;
   border-radius: 3px;
-  transition: background 0.8s ease-in;
+  transition: background var(--easing-slow);
 }

@@ -8,7 +8,7 @@
   border: 1px solid #e8e5e5;
   color: var(--color-dark-mono-gray-1);
   margin: 2px;
-  transition: 0.2s;
+  transition: var(--linear-medium);
 }
 
 .clickable {

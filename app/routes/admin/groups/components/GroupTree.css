@@ -24,7 +24,7 @@
     margin-right: 6px;
     display: inline-block;
     user-select: none;
-    transition: all 0.1s;
+    transition: all var(--linear-fast);
   }
 
   .tree-view_arrow::after {
@@ -41,7 +41,7 @@
   }
 
   .node {
-    transition: all 0.5s;
+    transition: all var(--linear-slow);
     border-radius: 3px;
   }
 

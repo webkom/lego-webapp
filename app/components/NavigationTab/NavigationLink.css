@@ -2,7 +2,7 @@
   display: inline;
   font-size: 20px;
   margin-right: 15px;
-  transition: all 125ms ease-in-out;
+  transition: all var(--easing-fast);
   border-bottom: 2px solid transparent;
 
   &:hover:not(.active) {

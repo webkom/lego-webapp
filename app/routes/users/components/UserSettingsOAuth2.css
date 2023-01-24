@@ -9,7 +9,7 @@
 .deleteIcon {
   cursor: pointer;
   color: var(--color-red-3);
-  transition: color 150ms ease-in-out;
+  transition: color var(--easing-medium);
 
   &:hover {
     color: var(--color-red-5);

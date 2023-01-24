@@ -31,13 +31,13 @@ html[data-theme='dark'] .footer {
 
 .footerContent a {
   color: #5d0909;
-  transition: all 100ms ease-in-out;
+  transition: all var(--easing-fast);
   margin-bottom: 0.5em;
 }
 
 .bottomContent a {
   color: #460707;
-  transition: all 100ms ease-in-out;
+  transition: all var(--easing-fast);
 }
 
 .footerContent a:hover {
@@ -67,7 +67,7 @@ html[data-theme='dark'] .footer {
   width: 1.3em;
   height: auto;
   margin-left: 1px;
-  transition: transform 400ms linear;
+  transition: transform var(--easing-slow);
   transform-style: preserve-3d;
 }
 
@@ -106,7 +106,7 @@ html[data-theme='dark'] .footer {
 .socialMediaIcon {
   width: 2.5em;
   height: auto;
-  transition: transform 100ms ease-in-out;
+  transition: transform var(--easing-fast);
 
   &:hover {
     transform: scale(1.1);

@@ -44,7 +44,7 @@
   min-width: 280px;
   border-radius: 5px;
   color: var(--lego-font-color);
-  transition: background-color 75ms ease-in-out;
+  transition: background-color var(--easing-fast);
 
   &:hover {
     background-color: rgba(255, 0, 0, 8%);
