@@ -1,6 +1,7 @@
 import type { DistributionDataPoint } from 'app/components/Chart/utils';
 import { CHART_COLORS } from 'app/components/Chart/utils';
 import { Flex } from 'app/components/Layout';
+import styles from './Chart.css';
 
 const ChartLabel = ({
   distributionData,
@@ -8,7 +9,7 @@ const ChartLabel = ({
   distributionData: DistributionDataPoint[];
 }) => {
   return (
-    <div>
+    <div className={styles.wrapOnMobile}>
       {distributionData.map((dataPoint, i) => (
         <Flex key={i} alignItems="center">
           <span

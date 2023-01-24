@@ -13,7 +13,7 @@ const DistributionPieChart = ({
   dataKey: string;
 }) => {
   return (
-    <PieChart width={400} height={350}>
+    <PieChart width={400} height={275}>
       <Pie
         data={distributionData}
         cx={200}
