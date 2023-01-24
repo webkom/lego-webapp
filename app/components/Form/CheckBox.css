@@ -61,13 +61,13 @@
 .checkbox.path input:checked {
   --s: 2px;
 
-  transition-delay: var(--linear-medium);
+  transition-delay: 0.3s;
 }
 
 .checkbox.path svg {
   stroke-dasharray: var(--a, 86.12);
   stroke-dashoffset: var(--o, 86.12);
-  transition: stroke-dasharray, stroke-dashoffset var(--linear-slow);
+  transition: stroke-dasharray var(--linear-slow), stroke-dashoffset var(--linear-slow);
 }
 
 .checkbox.bounce svg {
