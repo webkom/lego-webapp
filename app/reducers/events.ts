@@ -10,7 +10,7 @@ import createEntityReducer from 'app/utils/createEntityReducer';
 import joinReducers from 'app/utils/joinReducers';
 import mergeObjects from 'app/utils/mergeObjects';
 import { Event } from '../actions/ActionTypes';
-import type { PhotoConsent } from '../models';
+import type { Event as EventType, PhotoConsent } from '../models';
 
 export type EventEntity = {
   id: number;
@@ -160,7 +160,7 @@ export default createEntityReducer({
   mutate,
 });
 
-function transformEvent(event) {
+function transformEvent(event: EventType) {
   return {
     ...event,
     startTime: moment(event.startTime),
@@ -183,7 +183,10 @@ function transformRegistration(registration) {
 export const selectEvents = createSelector(
   (state) => state.events.byId,
   (state) => state.events.items,
-  (eventsById, eventIds) => eventIds.map((id) => transformEvent(eventsById[id]))
+  (eventsById, eventIds) =>
+    eventIds.map((id) => transformEvent(eventsById[id])) as ReadonlyArray<
+      ReturnType<typeof transformEvent>
+    >
 );
 export const selectPreviousEvents = createSelector(selectEvents, (events) =>
   events.filter((event) => event.isUsersUpcoming === false)
@@ -192,7 +195,7 @@ export const selectUpcomingEvents = createSelector(selectEvents, (events) =>
   events.filter((event) => event.isUsersUpcoming)
 );
 export const selectSortedEvents = createSelector(selectEvents, (events) =>
-  events.sort((a, b) => a.startTime - b.startTime)
+  [...events].sort((a, b) => a.startTime.unix() - b.startTime.unix())
 );
 export const selectEventById = createSelector(
   (state) => state.events.byId,

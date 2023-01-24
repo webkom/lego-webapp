@@ -6,17 +6,16 @@ import type { Event } from 'app/models';
 import { colorForEvent } from 'app/routes/events/utils';
 import { eventStatus } from 'app/utils/eventStatus';
 import styles from './EventItem.css';
-import type { Element } from 'react';
 
 type Props = {
   item: Event;
   url: string;
-  meta: Element<'span'> | null;
+  meta: JSX.Element | null;
   loggedIn: boolean;
   isFrontPage: boolean;
 };
 
-class EventItem extends Component<Props, any> {
+class EventItem extends Component<Props> {
   render() {
     const { item, url, meta, loggedIn, isFrontPage } = this.props;
     const info = eventStatus(item, loggedIn);
@@ -32,6 +31,7 @@ class EventItem extends Component<Props, any> {
                     width={270}
                     height={80}
                     src={item.cover}
+                    alt={`${item.title} cover image`}
                     placeholder={item.coverPlaceholder}
                   />
                 )}
@@ -44,6 +44,7 @@ class EventItem extends Component<Props, any> {
                     className={styles.image}
                     src={item.cover}
                     placeholder={item.coverPlaceholder}
+                    alt={`${item.title} cover image`}
                     width={390}
                     height={80}
                   />
@@ -58,8 +59,10 @@ class EventItem extends Component<Props, any> {
                 borderBottom: `5px solid ${colorForEvent(item.eventType)}`,
               }}
             >
-              <h2 className={styles.itemTitle}>{item.title}</h2>
-              {meta}
+              <>
+                <h2 className={styles.itemTitle}>{item.title}</h2>
+                {meta}
+              </>
             </div>
           </Flex>
         </Link>

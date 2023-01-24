@@ -244,6 +244,7 @@ export type EventPool = EventPoolBase & {
   registrationCount: number;
   permissionGroups: Array<Record<string, any>>;
 };
+
 export type Event = EventBase & {
   actionGrant: ActionGrant;
   activationTime: Dateish | null | undefined;
@@ -269,10 +270,14 @@ export type Event = EventBase & {
   unregistrationCloseTime?: Dateish | null | undefined;
   mazemapPoi: number;
   photoConsents?: Array<PhotoConsent>;
+  isUsersUpcoming?: boolean;
+  documentType?: 'event';
 };
+
 type EventTransformPool = EventPoolBase & {
   permissionGroups: Array<SelectInput>;
 };
+
 export type TransformEvent = EventBase & {
   addFee: boolean;
   pools: Array<EventTransformPool>;
@@ -289,7 +294,18 @@ export type UserFollowing = {
   follower: User;
   target: ID;
 };
-export type Article = Record<string, any>;
+export type Article = {
+  id: ID;
+  title: string;
+  cover: string;
+  coverPlaceholder: string;
+  author: ID;
+  description: string;
+  tags: Tags[];
+  createdAt: Dateish;
+  pinned: boolean;
+  documentType?: 'article';
+};
 export type Feed = Record<string, any>;
 export type FeedItem = Record<string, any>;
 
@@ -356,4 +372,12 @@ export type FollowerItem = {
   id: ID;
   follower: ID;
   target: ID;
+};
+
+export type Readme = {
+  title: string;
+  image: string;
+  pdf: string;
+  year: number;
+  utgave: number;
 };

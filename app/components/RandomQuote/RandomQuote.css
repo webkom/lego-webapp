@@ -20,3 +20,8 @@
 .fetchNew {
   margin-bottom: 5px;
 }
+
+.rotateIcon {
+  transform: rotate(360deg);
+  transition: 1s;
+}
