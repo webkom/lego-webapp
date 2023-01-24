@@ -8,55 +8,26 @@
   composes: contentContainer from '~app/styles/utilities.css';
 }
 
-.grid {
-  display: flex;
-  width: 100%;
-  flex-wrap: wrap;
-  margin: 0;
-}
-
 .header {
   display: flex;
   justify-content: space-between;
-  margin: 0 0 2rem;
+  align-items: center;
+  margin: 0 0 1rem;
 }
 
-.dayNumber {
-  position: absolute;
-  top: 5px;
-  right: 8px;
+.grid {
+  display: grid;
+  grid-template-columns: repeat(7, calc(100% / 7));
+  max-width: 100%;
 }
 
-.currentDay {
-  width: 29px;
-  height: 29px;
-  border-radius: 50%;
-  color: var(--color-white);
-  text-align: center;
-  background-color: var(--color-red-3);
-}
-
-.headingItem {
-  flex: 0 14.2857%;
-  color: #444;
-  text-align: right;
-  padding-right: 8px;
-  border-bottom: 2px solid var(--color-mono-gray-4);
-}
-
-html[data-theme='dark'] .headingItem {
-  color: var(--lego-font-color);
-}
-
-.day {
-  flex: 0 14.2857%;
+.cell {
+  position: relative;
+  padding-top: 26px;
+  min-height: 120px;
+  background: var(--color-white);
   border-right: var(--calendar-border);
   border-bottom: var(--calendar-border);
-  background: var(--color-white);
-  position: relative;
-  min-height: 100px;
-  padding: 20px 10px;
-  overflow-x: hidden;
 
   &:nth-child(7n + 1) {
     border-left: var(--calendar-border);
@@ -67,26 +38,77 @@ html[data-theme='dark'] .headingItem {
   }
 }
 
+.eventPill {
+  white-space: normal;
+  overflow-wrap: anywhere;
+  padding: 2px 5px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin: 3px;
+  line-height: 1.25;
+}
+
+.eventTitle {
+  font-size: 13px;
+  color: var(--color-white);
+}
+
+.dayNumber {
+  position: absolute;
+  top: 2px;
+  right: 5px;
+  font-size: 13px;
+}
+
+.currentDay {
+  font-size: 14px;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  color: #fff;
+  text-align: center;
+  background-color: var(--color-event-red);
+}
+
+.popoverEventTitle {
+  font-size: 22px;
+  display: inline-block;
+  line-height: 1.3;
+  padding-bottom: 10px;
+}
+
+.popoverEventTitleText {
+  vertical-align: middle;
+}
+
+.popoverEventDescription {
+  line-height: 1.3;
+}
+
+.iconWithText {
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+}
+
+.infoIcon {
+  width: 25px;
+  display: flex;
+  justify-content: center;
+  padding-right: 0.2em;
+}
+
+.weekdayHeading {
+  padding-right: 1px;
+  text-align: right;
+  border-bottom: 1px solid var(--color-mono-gray-4);
+}
+
 .prevNextMonthDay {
-  color: var(--color-mono-gray-2);
+  color: var(--color-gray-3);
 }
 
-html[data-theme='dark'] .prevNextMonthDay {
-  color: var(--color-mono-gray-4);
-}
-
-.previousEvent a {
-  color: var(--color-dark-mono-gray-5);
-}
-
-html[data-theme='dark'] .previousEvent a {
-  color: var(--color-mono-gray-5);
-}
-
-.previousEvent span {
+.previousEvent {
   opacity: 0.5;
-}
-
-.cell {
-  composes: truncateString from '~app/styles/utilities.css';
 }
