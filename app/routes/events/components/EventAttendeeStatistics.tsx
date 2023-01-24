@@ -149,15 +149,6 @@ const createAttendeeDataPoints = (
     registrationTimeDistribution: [],
   };
 
-  const dataTekTotal: DistributionDataPoint = {
-    name: 'Datateknologi',
-    count: 0,
-  };
-  const komTekTotal: DistributionDataPoint = {
-    name: 'Kommunikasjonsteknologi og digital sikkerhet',
-    count: 0,
-  };
-
   for (const registration of registrations) {
     addRegistrationDateDataPoint(
       attendeeStatistics.registrationTimeDistribution,
@@ -173,10 +164,16 @@ const createAttendeeDataPoints = (
     const grade = registration.user.grade?.name ?? 'Ikke student';
     if (grade.includes('Datateknologi')) {
       addGenericDataPoint(attendeeStatistics.dataTekDistribution, grade);
-      dataTekTotal.count++;
+      addGenericDataPoint(
+        attendeeStatistics.totalDistribution,
+        'Datateknologi'
+      );
     } else if (grade.includes('Kommunikasjonsteknologi')) {
       addGenericDataPoint(attendeeStatistics.komTekDistribution, grade);
-      komTekTotal.count++;
+      addGenericDataPoint(
+        attendeeStatistics.totalDistribution,
+        'Kommunikasjonsteknologi og digital sikkerhet'
+      );
     } else {
       addGenericDataPoint(attendeeStatistics.totalDistribution, grade);
     }
@@ -201,9 +198,6 @@ const createAttendeeDataPoints = (
       false
     );
   }
-
-  attendeeStatistics.totalDistribution.push(dataTekTotal);
-  attendeeStatistics.totalDistribution.push(komTekTotal);
 
   sortAttendeeStatistics(attendeeStatistics);
 
