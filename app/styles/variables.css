@@ -128,6 +128,16 @@
   --font-size: 16px;
   --font-size-small: 12px;
   --font-size-large: 18px;
+
+  --easing: cubic-bezier(0.35, 0, 0.65, 1);
+  --easing-fast: 100ms var(--easing);
+  --easing-medium: 200ms var(--easing);
+  --easing-slow: 400ms var(--easing);
+
+  --linear: cubic-bezier(0.1, 0, 0.9, 1);
+  --linear-fast: 100ms var(--linear);
+  --linear-medium: 200ms var(--linear);
+  --linear-slow: 400ms var(--linear);
 }
 
 [data-theme='dark'] {

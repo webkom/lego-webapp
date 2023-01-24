@@ -11,7 +11,7 @@
   height: 56.25vw;
   max-width: 1100px;
   max-height: 619px;
-  transition: max-height 0.05s ease-in-out;
+  transition: max-height var(--easing-fast);
 }
 
 .youtubeFrame iframe {

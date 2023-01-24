@@ -63,7 +63,7 @@ html[data-theme='dark'] .notifications {
 
 html[data-theme='dark'] .notificationBell {
   color: var(--color-light-gray-5);
-  transition: color 0.1s;
+  transition: color var(--linear-fast);
 
   &:hover {
     color: var(--color-gray-5);

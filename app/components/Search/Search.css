@@ -133,7 +133,7 @@ html[data-theme='dark'] .quickLinks {
   padding: 4px 15px;
   font-size: 1.2rem;
   text-transform: uppercase;
-  transition: 0.1s background-color;
+  transition: background-color var(--linear-fast);
 }
 
 .quickLinks a:hover {

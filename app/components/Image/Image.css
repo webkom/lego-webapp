@@ -20,7 +20,5 @@
 }
 
 .finalImage {
-  transition-property: filter, opacity;
-  transition-duration: 500ms;
-  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  transition: filter var(--easing-slow), opacity var(--easing-slow);
 }

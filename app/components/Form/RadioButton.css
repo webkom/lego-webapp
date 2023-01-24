@@ -48,7 +48,7 @@
   height: 16px;
   border-radius: 8px;
   background: #d13c32;
-  transition: all 0.2s;
+  transition: all var(--linear-medium);
 }
 
 /* checked mark aspect changes */
@@ -81,7 +81,7 @@
 /* hover style just for information */
 .input:not(:disabled):hover + .label::before {
   border: 1px solid var(--color-dark-mono-gray-5) !important;
-  transition: border 0.5s;
+  transition: border var(--linear-slow);
 }
 
 .radioField > label {

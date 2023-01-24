@@ -75,7 +75,7 @@
 }
 
 .itemInfo {
-  transition: color 0.2s;
+  transition: color var(--linear-medium);
   font-size: 0.8rem;
   font-weight: 600;
   color: var(--color-dark-gray-5);

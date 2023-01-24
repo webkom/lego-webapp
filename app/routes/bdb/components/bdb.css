@@ -16,7 +16,7 @@
   font-size: 100%;
   font-family: proxima-nova, 'Helvetica Neue', Arial, sans-serif;
   cursor: pointer;
-  transition: color 0.2s;
+  transition: color var(--linear-medium);
   text-indent: 1px;
   text-overflow: '';
   background-color: inherit;
@@ -80,7 +80,7 @@
 
 .yearNavigator {
   margin-bottom: -5px;
-  transition: color 0.3s ease;
+  transition: color var(--easing-medium);
   color: var(--lego-text-color);
 
   &:hover {
@@ -254,7 +254,7 @@ background-color. By making it this way I don't have to rewrite it 🤷 */
 
   & a {
     color: var(--lego-link-color);
-    transition: color 0.3s;
+    transition: color var(--easing-medium);
   }
 
   & a:hover {
