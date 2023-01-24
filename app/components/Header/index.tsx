@@ -91,7 +91,7 @@ function AccountDropdownItems({
       <Dropdown.ListItem>
         <Link to="/meetings/" onClick={onClose}>
           Møteinnkallinger
-          <Icon name="calendar-outline" size={24} />
+          <Icon name="people-outline" size={24} />
         </Link>
       </Dropdown.ListItem>
       <Dropdown.Divider />
@@ -196,7 +196,7 @@ class Header extends Component<Props, State> {
           history.push(`/meetings/${this.props.upcomingMeeting}`);
         }}
       >
-        <Icon name="calendar" className={styles.meetingIcon} />
+        <Icon name="people" className={styles.meetingIcon} />
       </button>
     ));
     return (
