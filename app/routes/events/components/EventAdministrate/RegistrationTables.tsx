@@ -115,6 +115,7 @@ const getRegistrationInfo = (pool, registration) => {
         registrationInfo.reason = `Adminpåmeldt av ${registration.createdBy.username}: ${registration.adminRegistrationReason}`;
       }
     } else {
+      registrationInfo.status = 'Påmeldt';
       registrationInfo.reason = `Adminpåmeldt: ${registration.adminRegistrationReason}`;
     }
   } else if (pool) {
