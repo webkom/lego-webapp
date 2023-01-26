@@ -1,25 +1,60 @@
-import moment from 'moment-timezone';
 import { Link } from 'react-router-dom';
+import Icon from 'app/components/Icon';
 import { Image } from 'app/components/Image';
 import { Flex } from 'app/components/Layout';
 import Pill from 'app/components/Pill';
 import Tag from 'app/components/Tags/Tag';
 import Time from 'app/components/Time';
+import Tooltip from 'app/components/Tooltip';
 import type { Event, EventTime } from 'app/models';
 import { colorForEvent } from 'app/routes/events/utils';
-import { eventStatus, eventAttendance } from 'app/utils/eventStatus';
+import { eventAttendanceAbsolute } from 'app/utils/eventStatus';
 import styles from './styles.css';
 import type { ReactNode } from 'react';
 
-type AttendanceProps = {
-  event: Event;
-};
-export type EventStyle = 'default' | 'extra-compact';
+export type EventStyle = 'default' | 'extra-compact' | 'compact';
 
-const Attendance = ({ event }: AttendanceProps) => {
-  const attendance = eventAttendance(event);
+type statusIconProps = {
+  status: string;
+  icon: string;
+  color: string;
+  tooltip: string;
+};
+
+const eventStatusObject = (event: Event): statusIconProps => {
+  const { isAdmitted, eventStatusType } = event;
+
+  switch (eventStatusType) {
+    case 'NORMAL':
+    case 'INFINITE':
+      if (isAdmitted) {
+        return {
+          status: 'Admitted',
+          icon: 'checkmark-circle-outline',
+          color: '#1ec91e',
+          tooltip: 'Du er påmeldt',
+        } as statusIconProps;
+      }
+      return {
+        status: 'Waitlist',
+        icon: 'timer-outline',
+        color: '#fc9003',
+        tooltip: 'Du er på ventelisten',
+      } as statusIconProps;
+    default:
+      return {
+        status: 'Error',
+        icon: 'help-outline',
+        color: 'blue',
+        tooltip: 'Det har oppstått en feil',
+      } as statusIconProps;
+  }
+};
+
+const Attendance = ({ event }) => {
+  const attendance = eventAttendanceAbsolute(event);
   return (
-    attendance && (
+    !!attendance && (
       <Pill
         style={{
           marginLeft: '5px',
@@ -38,20 +73,41 @@ type TimeStampProps = {
   loggedIn: boolean;
 };
 
-const TimeStamp = ({ event, loggedIn }: TimeStampProps) => {
-  const registration = eventStatus(event, loggedIn, true);
-  const hasStarted = moment().isAfter(event.startTime);
-  const startedStatus = hasStarted ? 'Startet' : 'Starter';
+const TimeStamp = ({ event }) => {
   return (
     <div className={styles.eventTime}>
-      {registration && (
-        <span>
-          {registration}
-          <br />
-        </span>
-      )}
-      {startedStatus} <Time time={event.startTime} format="ll - HH:mm" />
+      <Flex alignItems="center">
+        <Icon
+          name="calendar-number-outline"
+          size={23}
+          style={{ cursor: 'pointer', marginRight: '10px' }}
+        />
+        <Time time={event.startTime} format="ll" />
+      </Flex>
+      <Flex alignItems="center">
+        <Icon
+          name="time-outline"
+          size={23}
+          style={{ cursor: 'pointer', marginRight: '10px' }}
+        />
+        <Time time={event.startTime} format="HH:mm" />
+      </Flex>
     </div>
+  );
+};
+
+const RegistrationIcon = ({ event, loggedIn }: TimeStampProps) => {
+  const iconStyle = eventStatusObject(event, loggedIn);
+  return (
+    <Flex justifyContent="center" alignItems="center">
+      <Tooltip content={iconStyle.tooltip}>
+        <Icon
+          name={iconStyle.icon}
+          size={23}
+          style={{ cursor: 'pointer', color: iconStyle.color }}
+        />
+      </Tooltip>
+    </Flex>
   );
 };
 
@@ -65,6 +121,7 @@ type EventItemProps = {
 
 const EventItem = ({
   event,
+  field,
   showTags = true,
   loggedIn = false,
   eventStyle,
@@ -95,7 +152,58 @@ const EventItem = ({
           </Flex>
         </div>
       );
+    case 'compact':
+      return (
+        <div
+          style={{ borderColor: colorForEvent(event.eventType) }}
+          className={styles.eventItemCompact}
+        >
+          <Flex width="100%">
+            <Link to={`/events/${event.id}`}>
+              <h3 className={styles.eventItemTitle}>{event.title}</h3>
+            </Link>
+          </Flex>
+          <Flex width="100%" justifyContent="space-between">
+            <Flex width="72%">
+              <Flex className={styles.companyLogoCompact}>
+                {event.cover && (
+                  <Link to={`/events/${event.id}`}>
+                    <Image
+                      src={event.cover}
+                      placeholder={event.coverPlaceholder}
+                    />
+                  </Link>
+                )}
+              </Flex>
+            </Flex>
+            <Flex
+              display="flex"
+              justifyContent="flex-start"
+              column="true"
+              width="25%"
+            >
+              <Flex width="100%" justifyContent="flex-start">
+                <RegistrationIcon
+                  event={event}
+                  field={field}
+                  loggedIn={loggedIn}
+                />
+                <Attendance event={event} />
+              </Flex>
 
+              <TimeStamp event={event} field={field} loggedIn={loggedIn} />
+            </Flex>
+          </Flex>
+          {showTags && (
+            <Flex wrap width="100%" justifyContent="flex-start">
+              {event.tags.map((tag, index) => (
+                <Tag key={index} tag={tag} />
+              ))}
+            </Flex>
+          )}
+        </div>
+      );
+    case 'default':
     default:
       return (
         <div

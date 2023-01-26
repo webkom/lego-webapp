@@ -179,7 +179,7 @@ const ListEvents = ({
   events,
   noEventsMessage,
   loggedIn,
-  eventStyle,
+  eventStyle = 'default',
 }: EventsProps) => (
   <div>
     {events && events.length ? (
@@ -730,20 +730,10 @@ const UserProfile = (props: Props) => {
                 <LoadingIndicator margin="20px auto" loading />
               ) : (
                 <ListEvents
-                  events={upcomingEvents.filter((e) => e.userReg.pool !== null)}
+                  events={upcomingEvents}
                   noEventsMessage="Du har ingen kommende arrangementer"
                   loggedIn={loggedIn}
-                />
-              )}
-              <h3>Arrangementer der du er på ventelista</h3>
-
-              {loading ? (
-                <LoadingIndicator margin="20px auto" loading />
-              ) : (
-                <ListEvents
-                  events={upcomingEvents.filter((e) => e.userReg.pool === null)}
-                  noEventsMessage="Du har ingen kommende arrangementer"
-                  loggedIn={loggedIn}
+                  eventStyle="compact"
                 />
               )}
               <h3>

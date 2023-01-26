@@ -6,6 +6,12 @@
   justify-content: space-between;
 }
 
+.eventItemCompact {
+  composes: eventItem;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 .eventItemTitle {
   color: var(--lego-color-gray);
   font-weight: 700;
@@ -33,6 +39,13 @@
 .companyLogo img {
   min-width: 120px;
   max-height: 80px;
+  object-fit: contain;
+  background: white;
+}
+
+.companyLogoCompact img {
+  min-width: 120px;
+  max-height: 100%;
   object-fit: contain;
   background: white;
 }
