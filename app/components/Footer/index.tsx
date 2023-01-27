@@ -129,6 +129,9 @@ const Footer = ({ loggedIn }: Props) => (
         <Link to="/pages/personvern/114-informasjonskapsler">
           Informasjonskapsler (cookies)
         </Link>
+        <Link to="/pages/personvern/124-personvernserklring">
+          Personvernserklæring
+        </Link>
         <span>© {moment().year()} Abakus</span>
       </div>
     </div>
