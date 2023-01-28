@@ -38,8 +38,6 @@
 .pickerItem {
   text-align: center;
   color: var(--lego-color-gray);
-  text-transform: uppercase;
-  letter-spacing: 1px;
   padding: 5px 20px;
   font-size: 20px;
   border-bottom: 1px solid var(--color-almost-white-5);

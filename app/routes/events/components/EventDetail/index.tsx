@@ -386,27 +386,23 @@ export default class EventDetail extends Component<Props, State> {
               {event.company && (
                 <div className={styles.iconWithText}>
                   <Icon name="briefcase-outline" className={styles.infoIcon} />
-                  <strong>
-                    <Link to={`/companies/${event.company.id}`}>
-                      {event.company.name}
-                    </Link>
-                  </strong>
+                  <Link to={`/companies/${event.company.id}`}>
+                    {event.company.name}
+                  </Link>
                 </div>
               )}
               <div className={styles.iconWithText}>
                 <Icon name="time-outline" className={styles.infoIcon} />
-                <strong>
-                  <FromToTime from={event.startTime} to={event.endTime} />
-                </strong>
+                <FromToTime from={event.startTime} to={event.endTime} />
               </div>
               <div className={styles.iconWithText}>
                 <Icon name="location-outline" className={styles.infoIcon} />
-                <strong>{event.location}</strong>
+                {event.location}
               </div>
               {event.isPriced && (
                 <div className={styles.iconWithText}>
                   <Icon name="cash-outline" className={styles.infoIcon} />
-                  <strong>{event.priceMember / 100},-</strong>
+                  {event.priceMember / 100},-
                 </div>
               )}
               {event.mazemapPoi && (

@@ -142,11 +142,10 @@
 }
 
 .navigation a {
-  font-size: 1.35rem;
+  font-size: 1.2rem;
   padding: 10px 1rem;
   height: 100%;
   color: var(--color-dark-gray-5);
-  text-transform: uppercase;
   display: flex;
   align-items: center;
   justify-content: center;

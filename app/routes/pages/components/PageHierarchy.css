@@ -20,15 +20,13 @@
 }
 
 .dropdownBtn {
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
   display: flex;
   flex-direction: row;
   align-items: center;
   font-size: var(--font-size-large);
-  font-family: Raleway, sans-serif;
+  font-family: Inter, sans-serif;
   font-weight: bold;
-  color: var(--lego-text-gray);
+  color: var(--lego-font-color);
   margin-bottom: 0.8em;
 }
 

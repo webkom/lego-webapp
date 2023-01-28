@@ -124,7 +124,7 @@ export default function pageRenderer({
         ${analytics}
 
         <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css?family=Open+Sans:700|Raleway|Roboto" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Open+Sans:wght@700&display=swap" rel="stylesheet">
         ${links}
 
         ${helmet ? helmet.meta.toString() : ''}

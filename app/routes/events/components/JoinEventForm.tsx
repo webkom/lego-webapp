@@ -169,7 +169,7 @@ const PaymentForm = ({
       width: '100%',
     }}
   >
-    <div className={styles.joinHeader}>Betaling</div>
+    <h3>Betaling</h3>
     <div className={styles.eventPrice} title="Special price for you my friend!">
       Du skal betale{' '}
       <b>{(event.price / 100).toFixed(2).replace('.', ',')} kr</b>
@@ -336,7 +336,7 @@ const JoinEventForm = (props: Props) => {
 
   return (
     <>
-      <div className={styles.joinHeader}>Påmelding</div>
+      <h3 className={styles.subHeader}>Påmelding</h3>
       <Flex column>
         {['OPEN', 'TBA'].includes(event.eventStatusType) ? (
           registrationMessage(event)

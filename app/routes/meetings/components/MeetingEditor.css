@@ -4,15 +4,6 @@
   composes: contentContainer from '~app/styles/utilities.css';
 }
 
-.heading {
-  color: var(--color-dark-mono-gray-3);
-  letter-spacing: 2px;
-  font-weight: 400;
-  text-transform: uppercase;
-  font-size: 20px;
-  border-bottom: 1px solid var(--color-mono-gray-4);
-}
-
 .sideBySideBoxes {
   display: flex;
   justify-content: space-between;

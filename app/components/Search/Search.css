@@ -132,7 +132,6 @@ html[data-theme='dark'] .quickLinks {
   color: var(--lego-link-color);
   padding: 4px 15px;
   font-size: 1.2rem;
-  text-transform: uppercase;
   transition: background-color var(--linear-fast);
 }
 

@@ -1,10 +1,6 @@
 @import url('~app/styles/variables.css');
 
 .heading {
-  color: var(--color-dark-mono-gray-3);
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  margin-bottom: 12px;
   display: flex;
   border-bottom: 1px solid var(--color-mono-gray-4);
   justify-content: space-between;
@@ -12,7 +8,6 @@
 }
 
 .headingText {
-  font-weight: 400;
   font-size: 24px;
   margin-bottom: 0;
 }
@@ -79,7 +74,6 @@
   color: var(--color-dark-gray-1);
   font-weight: 600;
   font-size: 16px;
-  letter-spacing: 2px;
   margin-right: 5px;
   margin-bottom: 10px;
 }

@@ -60,9 +60,9 @@ const RandomQuote = (props: Props) => {
   return (
     <div className={className ? className : ''}>
       <Flex justifyContent="space-between" alignItems="flex-start">
-        <Flex column>
+        <Flex column className={styles.content}>
           <div className={styles.quoteText}>{currentQuote.text}</div>
-          <div className={styles.quoteSource}>-{currentQuote.source}</div>
+          <div className={styles.quoteSource}>- {currentQuote.source}</div>
         </Flex>
 
         <Flex column justifyContent="space-between" className={styles.actions}>
