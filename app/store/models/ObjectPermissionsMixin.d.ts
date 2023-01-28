@@ -1,4 +1,4 @@
-import { ID } from 'app/store/models/index';
+import type { ID } from 'app/store/models';
 
 interface ObjectPermissionsMixin {
   canEditUsers: ID[];

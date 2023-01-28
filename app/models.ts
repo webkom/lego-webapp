@@ -1,3 +1,4 @@
+import type Comment from 'app/store/models/Comment';
 import type { Moment } from 'moment';
 // TODO: Id handling could be opaque
 export type ID = number;
@@ -177,22 +178,6 @@ type EventBase = {
 
 export type Company = Record<string, any>;
 
-export type Comment = {
-  id: ID;
-  text: string;
-  author: Pick<
-    User,
-    | 'profilePicture'
-    | 'profilePicturePlaceholder'
-    | 'username'
-    | 'id'
-    | 'fullName'
-  >;
-  createdAt: Dateish;
-  updatedAt: Dateish;
-  parent?: ID;
-};
-
 export type Permission = string;
 export type EventRegistrationPresence = 'PRESENT' | 'NOT_PRESENT' | 'UNKNOWN';
 export type LEGACY_EventRegistrationPhotoConsent =
@@ -257,7 +242,7 @@ export type Event = EventBase & {
   totalCapacity: number;
   thumbnail: string | null | undefined;
   company: Company;
-  comments: Array<Comment>;
+  comments: Comment[];
   contentTarget: string;
   pools: Array<EventPool>;
   survey: ID | null | undefined;

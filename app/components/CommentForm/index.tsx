@@ -8,21 +8,23 @@ import { EditorField } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { ProfilePicture } from 'app/components/Image';
-import type { User } from 'app/models';
 import { useAppDispatch } from 'app/store/hooks';
+import type { ID } from 'app/store/models';
+import type { CurrentUser } from 'app/store/models/User';
 import { EDITOR_EMPTY } from 'app/utils/constants';
 import { createValidator, legoEditorRequired } from 'app/utils/validation';
 import styles from './CommentForm.css';
 
 type Props = {
   contentTarget: string;
-  user: User;
+  user: CurrentUser;
   loggedIn: boolean;
   submitText?: string;
   inlineMode?: boolean;
   autoFocus?: boolean;
-  parent?: number;
+  parent?: ID;
 };
+
 const validate = createValidator({
   text: [legoEditorRequired('Kommentaren kan ikke være tom')],
 });

@@ -144,6 +144,9 @@ export type SearchUser = Pick<
   | 'profilePicturePlaceholder'
 >;
 
+/*
+Some user object, unknown serializer
+ */
 export type UnknownUser =
   | CurrentUser
   | DetailedUser

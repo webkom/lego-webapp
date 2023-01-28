@@ -1,4 +1,5 @@
 import type { Dateish } from 'app/models';
+import type AllowedPermissionsMixin from 'app/store/models/AllowedPermissionsMixin';
 import type ObjectPermissionsMixin from 'app/store/models/ObjectPermissionsMixin';
 import type { ReactionsGrouped } from 'app/store/models/Reaction';
 import type { ID } from 'app/store/models/index';
@@ -37,7 +38,8 @@ export type DetailedArticle = Pick<
   | 'pinned'
   | 'reactionsGrouped'
   | 'youtubeUrl'
->;
+> &
+  AllowedPermissionsMixin;
 
 export type AdminDetailedArticle = DetailedArticle & ObjectPermissionsMixin;
 
@@ -57,7 +59,8 @@ export type PublicArticle = Pick<
   | 'tags'
   | 'createdAt'
   | 'pinned'
->;
+> &
+  AllowedPermissionsMixin;
 
 export type UnknownArticle =
   | DetailedArticle

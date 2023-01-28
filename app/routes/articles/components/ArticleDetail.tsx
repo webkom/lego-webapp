@@ -8,28 +8,34 @@ import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import Tags from 'app/components/Tags';
 import Tag from 'app/components/Tags/Tag';
 import type { ID } from 'app/models';
-import type { ArticleEntity } from 'app/reducers/articles';
-import type { CommentEntity } from 'app/reducers/comments';
 import type { EmojiEntity } from 'app/reducers/emojis';
 import type { ReactionEntity } from 'app/reducers/reactions';
-import type { UserEntity } from 'app/reducers/users';
+import type {
+  AdminDetailedArticle,
+  DetailedArticle,
+} from 'app/store/models/Article';
+import type Comment from 'app/store/models/Comment';
+import type { CurrentUser, DetailedUser } from 'app/store/models/User';
 import styles from './ArticleDetail.css';
 
 type Props = {
-  article: ArticleEntity;
-  comments: Array<CommentEntity>;
+  article: DetailedArticle | AdminDetailedArticle;
+  comments: Array<Comment>;
   loggedIn: boolean;
-  author: UserEntity;
-  currentUser: UserEntity;
-  deleteComment: (id: ID, contentTarget: string) => Promise<any>;
+  author: DetailedUser;
+  currentUser: CurrentUser;
+  deleteComment: (id: ID, contentTarget: string) => Promise<void>;
   emojis: Array<EmojiEntity>;
-  addReaction: (arg0: { emoji: string; contentTarget: string }) => Promise<any>;
+  addReaction: (arg0: {
+    emoji: string;
+    contentTarget: string;
+  }) => Promise<unknown>;
   reactionsGrouped: Array<ReactionEntity>;
   deleteReaction: (arg0: {
     reactionId: ID;
     contentTarget: string;
-  }) => Promise<any>;
-  fetchEmojis: () => Promise<any>;
+  }) => Promise<void>;
+  fetchEmojis: () => Promise<void>;
   fetchingEmojis: boolean;
 };
 
@@ -96,7 +102,6 @@ const ArticleDetail = ({
 
       {article.contentTarget && (
         <CommentView
-          formEnabled
           user={currentUser}
           contentTarget={article.contentTarget}
           loggedIn={loggedIn}
