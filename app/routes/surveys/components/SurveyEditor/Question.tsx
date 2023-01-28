@@ -67,7 +67,7 @@ const Question = ({
             }}
           />
         </div>
-        {questionData.questionType === QuestionTypes('text') ? (
+        {questionData.questionType.value === QuestionTypes('text') ? (
           <TextArea
             className={styles.freeText}
             placeholder="Fritekst - sånn vil den se ut :smile:"
@@ -77,7 +77,7 @@ const Question = ({
         ) : (
           <FieldArray
             name={`${question}.options`}
-            questionType={questionData.questionType}
+            questionType={questionData.questionType.value}
             component={renderOptions}
           />
         )}
