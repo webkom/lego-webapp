@@ -1,22 +1,23 @@
 import { Content, ContentMain } from 'app/components/Content';
 import Flex from 'app/components/Layout/Flex';
+import type { ActionGrant } from 'app/models';
+import type { ID } from 'app/store/models';
 import type {
-  ActionGrant,
-  Announcement,
-  CreateAnnouncement,
-  ID,
-} from 'app/models';
+  DetailedAnnouncement,
+  ListAnnouncement,
+} from 'app/store/models/Announcement';
 import AnnouncementItem from './AnnouncementItem';
 import AnnouncementsCreate from './AnnouncementsCreate';
 import styles from './AnnouncementsList.css';
 
 type Props = {
-  announcement: Announcement;
-  announcements: Array<Announcement>;
+  announcements: Array<ListAnnouncement>;
   actionGrant: ActionGrant;
-  sendAnnouncement: (arg0: ID) => Promise<any>;
-  createAnnouncement: (arg0: CreateAnnouncement) => Promise<any>;
-  deleteAnnouncement: (arg0: ID) => Promise<any>;
+  sendAnnouncement: (id: ID) => Promise<unknown>;
+  createAnnouncement: (
+    announcement: DetailedAnnouncement & { send: boolean }
+  ) => Promise<unknown>;
+  deleteAnnouncement: (id: ID) => Promise<unknown>;
   handleSubmit: (arg0: (...args: Array<any>) => any) => void;
   invalid: string;
   pristine: string;

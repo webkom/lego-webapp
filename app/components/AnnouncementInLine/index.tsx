@@ -1,13 +1,15 @@
 import { Link } from 'react-router-dom';
 import Button from 'app/components/Button';
 import Icon from 'app/components/Icon';
-import type { Group, Event, Meeting } from 'app/models';
 import { useAppSelector } from 'app/store/hooks';
+import type { AnyEvent } from 'app/store/models/Event';
+import type { AnyGroup } from 'app/store/models/Group';
+import type { AnyMeeting } from 'app/store/models/Meeting';
 
 type Props = {
-  event?: Event;
-  meeting?: Meeting;
-  group?: Group;
+  event?: AnyEvent;
+  meeting?: AnyMeeting;
+  group?: AnyGroup;
 };
 
 const AnnouncementInLine = ({ event, meeting, group }: Props) => {

@@ -347,20 +347,6 @@ export type Meeting = {
   actionGrant?: ActionGrant;
 };
 
-export type Announcement = {
-  id: ID;
-  message: string;
-  users: User[];
-  groups: Group[];
-  events: Event[];
-  meetings: Meeting[];
-  fromGroup: Group;
-  sent?: Dateish;
-};
-
-export type CreateAnnouncement = Announcement & {
-  send: boolean | null | undefined;
-};
 export type AddPenalty = {
   id: ID;
   user: ID;
