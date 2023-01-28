@@ -16,7 +16,7 @@ html {
 
 body {
   line-height: 1.8;
-  font-family: Raleway, 'Helvetica Neue', Arial, sans-serif;
+  font-family: Inter, sans-serif;
   background: var(--lego-background-color);
   color: var(--lego-font-color);
   transition: color var(--linear-medium);
@@ -49,7 +49,7 @@ ul {
 h2,
 h3,
 h4 {
-  font-weight: 700;
+  font-weight: 600;
 }
 
 h2 {

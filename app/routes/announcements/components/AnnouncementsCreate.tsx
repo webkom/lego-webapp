@@ -45,13 +45,13 @@ let AnnouncementsCreate = ({
       <Helmet title="Kunngjøringer" />
       {actionGrant.includes('create') && (
         <Flex column>
-          <h2 className={styles.header}>Ny kunngjøring</h2>
+          <h1>Ny kunngjøring</h1>
           <Form className={styles.form}>
             <Field
               className={styles.msgField}
               name="message"
               component={TextArea.Field}
-              placeholder="Skriv din melding her..."
+              placeholder="Skriv din melding her ..."
               label="Kunngjøring:"
             />
             <span className={styles.formHeaders}>Mottakere:</span>

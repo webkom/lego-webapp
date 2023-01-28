@@ -48,17 +48,6 @@ class Sidebar extends Component<Props, State> {
               <h4 className={styles.sidebarSubtitle}>
                 {categorySelected ? categorySelected : 'Generelt'}
               </h4>
-              {/* <div className={styles.sidebarPicture}>
-               <h4 className={styles.pictureHeader}> {"Abakus' Fortid"}</h4>
-               <a href="https://abakus.no/">
-                 <img
-                   alt={pictureLabel}
-                   className={styles.oldImg}
-                   src="https://thumbor.abakus.no/"
-                 />
-                 <span className={styles.pictureInfo}>{pictureLabel}</span>
-               </a>
-              </div> */}
             </div>
 
             <div className={styles.sidebarBottom}>

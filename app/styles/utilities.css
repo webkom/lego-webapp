@@ -90,12 +90,12 @@ html[data-theme='dark'] .contentContainer {
 
   /* stylelint-disable-next-line selector-class-pattern */
   .u-ui-heading {
-    color: var(--color-dark-mono-gray-2);
-    text-transform: uppercase;
-    padding: 10px;
-    font-size: 18px;
-    font-weight: 400;
-    letter-spacing: 1px;
+    color: var(--color-gray-1);
+    font-size: 1.1rem;
+    font-weight: 500;
+    line-height: 1.2;
+    margin-top: 2rem;
+    margin-bottom: 0.8rem;
 
     @media (--mobile-device) {
       padding: 0;

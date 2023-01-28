@@ -63,12 +63,8 @@
   }
 }
 
-.joinHeader {
-  margin-top: 20px;
-  font-size: 20px;
-  color: var(--lego-color-gray);
-  text-transform: uppercase;
-  letter-spacing: 1px;
+.subHeader {
+  margin-top: 18px;
 }
 
 .summary {

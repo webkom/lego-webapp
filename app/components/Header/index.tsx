@@ -103,7 +103,7 @@ function AccountDropdownItems({
           className={styles.themeChange}
           isButton={false}
         >
-          <strong>Endre tema</strong>
+          Endre tema
         </ToggleTheme>
       </Dropdown.ListItem>
 

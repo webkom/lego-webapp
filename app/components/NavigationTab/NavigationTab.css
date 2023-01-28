@@ -10,13 +10,12 @@
 
 .header {
   display: inline;
-  font-weight: 400;
+  font-weight: 600;
   line-height: 34px;
   margin: 0;
   padding-top: 15px;
   padding-bottom: 15px;
   padding-right: 20px;
-  text-transform: uppercase;
   flex-shrink: 99999;
   word-break: break-word;
 }

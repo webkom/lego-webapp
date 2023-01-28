@@ -5,19 +5,6 @@
   justify-content: space-between;
 }
 
-.header {
-  color: var(--color-dark-mono-gray-3);
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  margin-bottom: 12px;
-  margin-top: 8px;
-  border-bottom: 1px solid var(--color-mono-gray-4);
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  font-size: 30px;
-}
-
 .form {
   width: 100%;
   padding: 10px;
@@ -28,7 +15,6 @@
   border: 1px solid var(--color-mono-gray-3);
   width: 100%;
   margin-bottom: 10px;
-  font-family: Raleway, 'Helvetica Neue', Arial, sans-serif;
 }
 
 .formHeaders {

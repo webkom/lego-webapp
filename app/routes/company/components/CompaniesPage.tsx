@@ -98,9 +98,7 @@ class CompaniesPage extends Component<Props, State> {
     return (
       <div className={styles.root}>
         <Helmet title="Bedrifter" />
-        <h2 ref={this.top} className={styles.heading}>
-          Bedrifter
-        </h2>
+        <h1 ref={this.top}>Bedrifter</h1>
         <div>
           <p className={styles.infoText}>
             Vil du jobbe som in-house utvikler i din drømmebedrift? Ser du for

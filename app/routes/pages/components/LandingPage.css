@@ -34,7 +34,8 @@
   color: var(--lego-font-color);
   font-size: 1.7rem;
   text-align: center;
-  font-family: RalewayBold, sans-serif;
+  font-family: Inter, sans-serif;
+  font-weight: 600;
   text-transform: uppercase;
 }
 
@@ -42,7 +43,8 @@
   color: var(--lego-font-color);
   font-size: 1.7rem;
   text-align: center;
-  font-family: RalewayBold, sans-serif;
+  font-family: Inter, sans-serif;
+  font-weight: 600;
   text-transform: uppercase;
   margin: 3rem auto 1.5rem;
 }

@@ -86,7 +86,7 @@ export default class CompactEvents extends Component<Props> {
                 },
               }}
             >
-              <h3 className={headerStyle}>Bedpres og Kurs</h3>
+              <h3 className={headerStyle}>Bedpres og kurs</h3>
             </Link>
             <ul className={styles.innerList}>{leftEvents}</ul>
           </Flex>

@@ -8,8 +8,8 @@
 .boldTitle {
   font-size: 1.2rem;
   color: var(--lego-font-color);
-  text-transform: uppercase;
-  font-family: RalewayBold, sans-serif;
+  font-family: Inter, sans-serif;
+  font-weight: 600;
 }
 
 .title {
@@ -19,7 +19,6 @@
 }
 
 .smallerText {
-  font-family: Raleway, sans-serif;
   line-height: 1.5rem;
 }
 

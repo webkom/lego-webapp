@@ -7,8 +7,7 @@
 .title {
   font-size: 24px;
   color: var(--lego-font-color);
-  font-family: Raleway, 'Helvetica Neue', Arial, sans-serif;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .editors {

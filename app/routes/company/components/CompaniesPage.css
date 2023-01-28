@@ -8,16 +8,6 @@
   background-color: var(--color-white);
 }
 
-.heading {
-  color: var(--color-dark-mono-gray-3);
-  letter-spacing: 2px;
-  font-weight: 400;
-  text-transform: uppercase;
-  font-size: 24px;
-  border-bottom: 1px solid var(--color-mono-gray-4);
-  margin-bottom: 20px;
-}
-
 .titleFlex {
   display: flex;
   flex-flow: row nowrap;
@@ -147,7 +137,6 @@ html[data-theme='dark'] .companyItem {
 
 .readMore {
   display: none;
-  font-family: Raleway, sans-serif;
   font-size: var(--font-size);
   color: var(--lego-red);
   margin-top: 17px;

@@ -4,13 +4,13 @@
 @custom-media --lego-max-width (max-width: 1100px);
 
 :root {
-  --lego-background-color: linear-gradient(0deg, #f4f4f4, #eae9e8);
-  --lego-font-color: #394b59;
+  --lego-background-color: #f9fafe;
+  --lego-font-color: var(--color-gray-1);
   --lego-link-color: #c0392b;
   --lego-red: #c0392b;
   --lego-max-width: 1100px;
   --lego-default-padding: 2rem;
-  --lego-card-color: rgba(245, 244, 244, 100%);
+  --lego-card-color: #fff;
   --lego-footer-color: #e21617;
   --lego-dark-red-color: #b21c17;
   --lego-red-color: #c0392b;
@@ -141,8 +141,8 @@
 }
 
 [data-theme='dark'] {
-  --lego-background-color: linear-gradient(0deg, #0d0d0d, #181818);
-  --lego-font-color: #f4f4f4;
+  --lego-background-color: #0d0d0d;
+  --lego-font-color: var(--color-gray-1);
   --lego-link-color: #c0392b;
   --lego-red: #c0392b;
   --lego-max-width: 1100px;

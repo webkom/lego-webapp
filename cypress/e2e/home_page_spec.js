@@ -10,7 +10,7 @@ describe('The Home Page and Login', () => {
     cy.contains('a', 'For bedrifter');
     cy.contains('a', 'Om Abakus');
 
-    cy.contains('h3', 'Bedpres og Kurs');
+    cy.contains('h3', 'Bedpres og kurs');
     cy.contains('li', 'DIPS');
 
     cy.contains('h3', 'Arrangementer');
@@ -46,7 +46,7 @@ describe('The Home Page and Login', () => {
     cy.cachedLogin();
     cy.visit('/');
 
-    cy.contains('h3', 'Bedpres og Kurs');
+    cy.contains('h3', 'Bedpres og kurs');
     cy.contains('li', 'Deloitte AS');
 
     cy.contains('h3', 'Arrangementer');
