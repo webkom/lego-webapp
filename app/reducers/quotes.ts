@@ -15,6 +15,7 @@ export type QuoteEntity = {
   contentTarget: string;
   reactionsGrouped: Array<ReactionEntity>;
   reactions: Array<ReactionEntity>;
+  reactionCount: number;
   createdAt?: string;
 };
 type State = any;

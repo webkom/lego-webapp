@@ -4,6 +4,7 @@ import { sortBy } from 'lodash';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Button from 'app/components/Button';
+import Card from 'app/components/Card';
 import Icon from 'app/components/Icon';
 import { Flex } from 'app/components/Layout';
 import Tooltip from 'app/components/Tooltip';
@@ -14,7 +15,6 @@ type Props = {
   poll: PollEntity;
   handleVote: (pollId: number, optionId: number) => Promise<void>;
   allowedToViewHiddenResults?: boolean;
-  backgroundLight?: boolean;
   truncate?: number;
   details?: boolean;
 };
@@ -92,14 +92,8 @@ class Poll extends Component<Props, State> {
   };
 
   render() {
-    const {
-      poll,
-      handleVote,
-      backgroundLight,
-      details,
-      truncate,
-      allowedToViewHiddenResults,
-    } = this.props;
+    const { poll, handleVote, details, truncate, allowedToViewHiddenResults } =
+      this.props;
     const { truncateOptions, expanded, shuffledOptions } = this.state;
     const { id, title, description, hasAnswered, totalVotes, resultsHidden } =
       poll;
@@ -110,7 +104,7 @@ class Poll extends Component<Props, State> {
       : orderedOptions.slice(0, truncate);
     const showResults = !resultsHidden || allowedToViewHiddenResults;
     return (
-      <div className={cx(styles.poll, backgroundLight ? styles.pollLight : '')}>
+      <Card>
         <Flex justifyContent="space-between">
           <Link to={`/polls/${id}`}>
             <Flex gap={10}>
@@ -272,7 +266,7 @@ class Poll extends Component<Props, State> {
             )}
           </div>
         </div>
-      </div>
+      </Card>
     );
   }
 }

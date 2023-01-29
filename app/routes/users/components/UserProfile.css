@@ -82,12 +82,7 @@ html[data-theme='dark'] .emptyState {
 }
 
 .infoCard {
-  margin-top: 10px;
-  margin-bottom: 20px;
-}
-
-html[data-theme='dark'] .infoCard {
-  background-color: var(--lego-card-color);
+  margin: 10px 0;
 }
 
 .bottomMargin {

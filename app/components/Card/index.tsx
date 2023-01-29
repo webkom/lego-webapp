@@ -13,6 +13,9 @@ type Props = {
 
   /** Shadow */
   shadow?: boolean;
+
+  /** Hidden overflow */
+  overflow?: boolean;
 } & HTMLAttributes<HTMLDivElement>;
 
 function Card({
@@ -21,6 +24,7 @@ function Card({
   dark = false,
   tight = false,
   shadow = true,
+  overflow = false,
   ...htmlAttributes
 }: Props) {
   return (
@@ -32,6 +36,9 @@ function Card({
         tight && styles.tight,
         shadow && styles.shadow
       )}
+      style={{
+        overflow: overflow && 'hidden',
+      }}
       {...htmlAttributes}
     >
       {children}

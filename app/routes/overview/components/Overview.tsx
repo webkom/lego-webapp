@@ -76,9 +76,7 @@ const Overview = (props: Props) => {
   );
 
   const pinnedComponent = pinned && (
-    <div>
-      <Pinned item={pinned} url={itemUrl(pinned)} meta={renderMeta(pinned)} />
-    </div>
+    <Pinned item={pinned} url={itemUrl(pinned)} meta={renderMeta(pinned)} />
   );
 
   const readMe = (
@@ -142,12 +140,12 @@ const Events = ({
   events: Event[];
   loggedIn: boolean;
 }) => (
-  <Flex column>
+  <Flex column className={styles.events}>
     <Link to="/events">
       <h3 className="u-ui-heading">Arrangementer</h3>
     </Link>
 
-    <Flex className={styles.events}>
+    <Flex column gap={20}>
       {events.map((event) => (
         <EventItem
           key={event.id}
@@ -169,23 +167,25 @@ const Weekly = ({ weeklyArticle }: { weeklyArticle: Article }) => (
         <Link to="/articles?tag=weekly">
           <h3 className="u-ui-heading">Weekly</h3>
         </Link>
+
         <ArticleItem
           key={weeklyArticle.id}
           item={weeklyArticle}
           url={itemUrl(weeklyArticle)}
           meta={renderMeta(weeklyArticle)}
-          weekly
         />
       </>
     )}
   </Flex>
 );
+
 const Articles = ({ articles }: { articles: Article[] }) => (
   <Flex column>
     <Link to="/articles">
       <h3 className="u-ui-heading">Artikler</h3>
     </Link>
-    <Flex className={styles.articles}>
+
+    <Flex column gap={20}>
       {articles.map((article) => (
         <ArticleItem
           key={article.id}
@@ -197,6 +197,7 @@ const Articles = ({ articles }: { articles: Article[] }) => (
     </Flex>
   </Flex>
 );
+
 const NextEventSection = ({ events }: { events: Event[] }) => (
   <Flex column>
     <Link to="/events">
@@ -209,9 +210,11 @@ const NextEventSection = ({ events }: { events: Event[] }) => (
         Påmeldinger
       </h3>
     </Link>
+
     <NextEvent events={events} />
   </Flex>
 );
+
 const PollItem = ({
   poll,
   votePoll,
@@ -225,17 +228,20 @@ const PollItem = ({
         <Link to="/polls">
           <h3 className="u-ui-heading">Avstemning</h3>
         </Link>
-        <Poll poll={poll} backgroundLight truncate={3} handleVote={votePoll} />
+
+        <Poll poll={poll} truncate={3} handleVote={votePoll} />
       </>
     )}
   </Flex>
 );
+
 const QuoteItem = ({ loggedIn }: { loggedIn: boolean }) => (
   <Flex column>
     <Link to="/quotes">
       <h3 className="u-ui-heading">Overhørt</h3>
     </Link>
-    <RandomQuote loggedIn={loggedIn} className={styles.quote} />
+
+    <RandomQuote loggedIn={loggedIn} />
   </Flex>
 );
 

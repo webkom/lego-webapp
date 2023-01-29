@@ -1,13 +1,11 @@
 @import url('~app/styles/variables.css');
 
 .pinned {
-  flex: 1;
   width: 100%;
 }
 
-.innerPinned {
-  composes: withShadow from '~app/styles/utilities.css';
-  background: var(--lego-card-color);
+.body {
+  padding: 0;
 }
 
 .innerLinks {
@@ -21,14 +19,10 @@
 .image {
   object-fit: contain;
   background: white;
-  border-radius: 5px 5px 0 0;
 
   @media (--mobile-device) {
     object-fit: scale-down;
     border-right: none;
-    border-bottom: 1px solid
-      rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 9%);
-    border-radius: 3px 3px 0 0;
     display: block;
   }
 }

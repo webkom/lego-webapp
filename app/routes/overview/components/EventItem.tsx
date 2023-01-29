@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
+import Card from 'app/components/Card';
 import { Image } from 'app/components/Image';
 import { Flex } from 'app/components/Layout';
 import type { Event } from 'app/models';
@@ -20,7 +21,7 @@ class EventItem extends Component<Props> {
     const { item, url, meta, loggedIn, isFrontPage } = this.props;
     const info = eventStatus(item, loggedIn);
     return (
-      <div className={styles.body}>
+      <Card overflow className={styles.body}>
         <Link to={url} className={styles.link}>
           <Flex className={styles.wrapper}>
             {isFrontPage ? (
@@ -66,7 +67,7 @@ class EventItem extends Component<Props> {
             </div>
           </Flex>
         </Link>
-      </div>
+      </Card>
     );
   }
 }

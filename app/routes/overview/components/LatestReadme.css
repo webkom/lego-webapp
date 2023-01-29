@@ -2,18 +2,11 @@
 
 .latestReadme {
   flex: 1;
-  composes: withShadow from '~app/styles/utilities.css';
-  background: var(--lego-card-color);
-  padding: 10px 20px;
-
-  @media (--mobile-device) {
-    padding: 10px 5px;
-  }
 }
 
 .heading {
   font-size: 27px;
-  color: var(--color-dark-mono-gray-1);
+  width: 100%;
 }
 
 .thumb {
@@ -29,6 +22,6 @@
   }
 
   &:hover {
-    transform: scale(1.1);
+    transform: scale(1.05);
   }
 }

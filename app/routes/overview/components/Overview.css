@@ -1,19 +1,5 @@
 @import url('~app/styles/variables.css');
 
-.header {
-  padding: 0 0 0 10px;
-  flex: 1;
-  width: 100%;
-  color: var(--color-dark-mono-gray-2);
-  font-weight: 400;
-  letter-spacing: 1px;
-
-  @media (--mobile-device) {
-    padding: 0;
-    margin-left: 10px;
-  }
-}
-
 .leftColumn {
   flex: 13;
   margin-right: 10px;
@@ -57,43 +43,8 @@
 }
 
 .events {
-  display: flex;
-  justify-content: flex-start;
-  flex-flow: column wrap;
-
   @media (--mobile-device) {
     margin-right: 0;
-  }
-}
-
-.articles {
-  display: flex;
-  justify-content: space-between;
-  flex-flow: row wrap;
-}
-
-.weeklyArticles {
-  border: 1px solid rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 9%);
-  box-shadow: 0 1px 4px rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 4%);
-  border-radius: 3px;
-  background: var(--lego-card-color);
-
-  @media (--mobile-device) {
-    height: auto;
-    max-height: 495px;
-  }
-}
-
-.quote {
-  composes: withShadow from '~app/styles/utilities.css';
-  background: var(--lego-card-color);
-  padding: 15px 20px 8px;
-}
-
-@media only screen and (max-width: 855px) {
-  .weeklyArticles {
-    height: auto;
-    max-height: 659px;
   }
 }
 
@@ -101,6 +52,7 @@
   display: flex;
   justify-content: center;
   cursor: pointer;
+  margin-top: 20px;
 }
 
 .desktopContainer {

@@ -9,16 +9,18 @@ import styles from './Overview.css';
 
 export const renderMeta = (item: Event | Article) => {
   const isEvent = item.eventType ? true : false;
+
+  let format =
+    moment().year() === moment(item.startTime).year()
+      ? 'DD. MMM'
+      : 'DD. MMM YYYY';
+  if (isEvent) {
+    format += ' HH:mm';
+  }
+
   return (
     <span className={styles.itemInfo}>
-      <Time
-        time={isEvent ? item.startTime : item.createdAt}
-        format={
-          moment().year() === moment(item.startTime).year()
-            ? 'DD. MMM HH:mm'
-            : 'DD. MMM YYYY HH:mm'
-        }
-      />
+      <Time time={isEvent ? item.startTime : item.createdAt} format={format} />
 
       {item.location !== '-' && isEvent && (
         <span>
