@@ -1,19 +1,20 @@
 import { range, takeWhile, last } from 'lodash';
 import moment from 'moment-timezone';
-import type { Moment } from 'moment-timezone';
 /**
  * Generate days of an entire month.
  *
  * @TODO: memoize
  */
 
-export default function createMonthlyCalendar(
-  date: Moment,
-  weekOffset = 0
-): {
-  day: Moment;
+type CalendarDay = {
+  day: moment.Moment;
   prevOrNextMonth: boolean;
-}[] {
+};
+
+const createMonthlyCalendar = (
+  date: moment.Moment,
+  weekOffset = 0
+): CalendarDay[] => {
   const startOfMonth = date.startOf('month');
   let diff = startOfMonth.weekday() - weekOffset;
   if (diff < 0) diff += 7;
@@ -34,4 +35,6 @@ export default function createMonthlyCalendar(
     prevOrNextMonth: true,
   }));
   return [...prevMonthDays, ...currentMonthDays, ...nextMonthDays];
-}
+};
+
+export default createMonthlyCalendar;

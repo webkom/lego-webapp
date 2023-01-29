@@ -30,7 +30,7 @@ export const eventTypeToString = (eventType: EventType): string => {
   return EVENT_CONSTANTS[eventType] || EVENT_CONSTANTS['other'];
 };
 // Colors for different event types
-export const COLOR_CONSTANTS: Record<EventType, string> = {
+const COLOR_CONSTANTS: Record<EventType, string> = {
   company_presentation: '#A1C34A',
   lunch_presentation: '#A1C34A',
   alternative_presentation: '#8A2BE2',
@@ -41,10 +41,28 @@ export const COLOR_CONSTANTS: Record<EventType, string> = {
   event: 'var(--color-event-red)',
   kid_event: 'var(--color-event-black)',
   other: 'var(--color-event-black)',
-};
+} as const;
 // Returns the color code of an EventType
 export const colorForEvent = (eventType: EventType) => {
   return COLOR_CONSTANTS[eventType] || COLOR_CONSTANTS['other'];
+};
+
+// Hard-coded text colors for different event types
+const TEXT_COLOR_CONSTANTS: Record<EventType, string> = {
+  company_presentation: '#000',
+  lunch_presentation: '#000',
+  alternative_presentation: '#FFF',
+  course: '#000',
+  breakfast_talk: '#000',
+  party: '#000',
+  social: '#FFF',
+  event: '#FFF',
+  kid_event: 'var(--color-white)',
+  other: 'var(--color-white)',
+} as const;
+// Returns a color that is appropriate to be used for text put on top of a background with the color code of an EventType
+export const textColorForEvent = (eventType: EventType) => {
+  return TEXT_COLOR_CONSTANTS[eventType] || TEXT_COLOR_CONSTANTS['other'];
 };
 
 type Option<T = string, K = string> = { label: T; value: K };
