@@ -2,10 +2,11 @@ import { produce } from 'immer';
 import { get } from 'lodash';
 import moment from 'moment-timezone';
 import { createSelector } from 'reselect';
-import type { User, Event, Company, Group, Meeting, Dateish } from 'app/models';
+import type { User, Event, Group, Meeting, Dateish } from 'app/models';
 import { resolveGroupLink } from 'app/reducers/groups';
 import { categoryOptions } from 'app/routes/pages/PageDetailRoute';
 import type { SearchArticle } from 'app/store/models/Article';
+import type { SearchCompany } from 'app/store/models/Company';
 import { Search } from '../actions/ActionTypes';
 
 type SearchResultBase = {
@@ -45,7 +46,7 @@ interface SearchMapping {
   'events.event': SearchResultMapping<Event>;
   'flatpages.page': SearchResultMapping<Record<string, string>>;
   'gallery.gallery': SearchResultMapping<any>;
-  'companies.company': SearchResultMapping<Company>;
+  'companies.company': SearchResultMapping<SearchCompany>;
   'tags.tag': SearchResultMapping<Record<string, string>>;
   'users.abakusgroup': SearchResultMapping<Group>;
   'meetings.meeting': SearchResultMapping<Meeting>;

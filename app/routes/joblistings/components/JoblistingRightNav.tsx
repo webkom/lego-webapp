@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import Button from 'app/components/Button';
 import { CheckBox, RadioButton } from 'app/components/Form/';
 import type { ActionGrant } from 'app/models';
+import type { JobType } from 'app/routes/joblistings/components/Items';
 import { jobTypes } from '../constants';
 import styles from './JoblistingRightNav.css';
 
@@ -21,7 +22,6 @@ const updateFilters = (type, value, filters) => {
           grades: newFilter.grades.toString(),
         }
       : {}),
-    //$FlowFixMe[exponential-spread]
     ...(newFilter.jobTypes.length > 0
       ? {
           jobTypes: newFilter.jobTypes.toString(),
@@ -63,7 +63,7 @@ const FilterLink = ({
 
 type Filter = {
   grades: Array<string>;
-  jobTypes: Array<string>;
+  jobTypes: JobType[];
   workplaces: Array<string>;
 };
 type Order = {
@@ -74,10 +74,10 @@ type Order = {
 type Props = {
   actionGrant: ActionGrant;
   query: {
-    grades: string;
-    jobTypes: string;
-    workplaces: string;
-    order: string;
+    grades?: string;
+    jobTypes?: string;
+    workplaces?: string;
+    order?: string;
   };
   history: any;
 };
@@ -98,7 +98,7 @@ const JoblistingsRightNav = (props: Props) => {
     const query = props.query;
     setFilters({
       grades: query.grades ? query.grades.split(',') : [],
-      jobTypes: query.jobTypes ? query.jobTypes.split(',') : [],
+      jobTypes: query.jobTypes ? (query.jobTypes.split(',') as JobType[]) : [],
       workplaces: query.workplaces ? query.workplaces.split(',') : [],
     });
     setOrder({
@@ -147,7 +147,7 @@ const JoblistingsRightNav = (props: Props) => {
       >
         {props.actionGrant.includes('create') && (
           <Link to="/joblistings/create">
-            <Button className={styles.createButton}>Ny jobbannonse</Button>
+            <Button>Ny jobbannonse</Button>
           </Link>
         )}
         <h3 className={styles.rightHeader}>Sorter etter:</h3>
@@ -160,8 +160,7 @@ const JoblistingsRightNav = (props: Props) => {
           <RadioButton
             name="sort"
             id="deadline"
-            inputValue={true}
-            value={order.deadline}
+            checked={order.deadline}
             onChange={() => {
               props.history.push({
                 pathname: '/joblistings',
@@ -180,8 +179,7 @@ const JoblistingsRightNav = (props: Props) => {
           <RadioButton
             name="sort"
             id="company"
-            inputValue={true}
-            value={order.company}
+            checked={order.company}
             onChange={() => {
               props.history.push({
                 pathname: '/joblistings',
@@ -200,8 +198,7 @@ const JoblistingsRightNav = (props: Props) => {
           <RadioButton
             name="sort"
             id="createdAt"
-            inputValue={true}
-            value={order.createdAt}
+            checked={order.createdAt}
             onChange={() => {
               props.history.push({
                 pathname: '/joblistings',

@@ -1,4 +1,5 @@
 import type { Dateish } from 'app/models';
+import type { CompanyContact, ListCompany } from 'app/store/models/Company';
 import type { ID } from 'app/store/models/index';
 
 enum JobType {
@@ -11,7 +12,7 @@ enum JobType {
 
 type JoblistingYear = 1 | 2 | 3 | 4 | 5;
 
-interface Workplace {
+export interface Workplace {
   id: ID;
   town: string;
 }
@@ -20,9 +21,9 @@ interface Joblisting {
   id: ID;
   title: string;
   text: string;
-  company: ID;
-  responsible: ID;
-  contactEmail: string;
+  company: ListCompany; // TODO: normalize?
+  responsible: CompanyContact | null;
+  contactMail: string;
   description: string;
   deadline: Dateish;
   jobType: JobType;
@@ -56,7 +57,7 @@ export type DetailedJoblisting = Pick<
   | 'text'
   | 'company'
   | 'responsible'
-  | 'contactEmail'
+  | 'contactMail'
   | 'description'
   | 'deadline'
   | 'jobType'

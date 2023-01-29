@@ -176,8 +176,6 @@ type EventBase = {
   legacyRegistrationCount: number;
 };
 
-export type Company = Record<string, any>;
-
 export type Permission = string;
 export type EventRegistrationPresence = 'PRESENT' | 'NOT_PRESENT' | 'UNKNOWN';
 export type LEGACY_EventRegistrationPhotoConsent =

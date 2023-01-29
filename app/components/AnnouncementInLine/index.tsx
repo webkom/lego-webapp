@@ -2,14 +2,14 @@ import { Link } from 'react-router-dom';
 import Button from 'app/components/Button';
 import Icon from 'app/components/Icon';
 import { useAppSelector } from 'app/store/hooks';
-import type { AnyEvent } from 'app/store/models/Event';
-import type { AnyGroup } from 'app/store/models/Group';
-import type { AnyMeeting } from 'app/store/models/Meeting';
+import type { UnknownEvent } from 'app/store/models/Event';
+import type { UnknownGroup } from 'app/store/models/Group';
+import type { UnknownMeeting } from 'app/store/models/Meeting';
 
 type Props = {
-  event?: AnyEvent;
-  meeting?: AnyMeeting;
-  group?: AnyGroup;
+  event?: UnknownEvent;
+  meeting?: UnknownMeeting;
+  group?: UnknownGroup;
 };
 
 const AnnouncementInLine = ({ event, meeting, group }: Props) => {

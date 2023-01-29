@@ -3,14 +3,14 @@ import { compose } from 'redux';
 import { fetchAll } from 'app/actions/CompanyActions';
 import { LoginPage } from 'app/components/LoginForm';
 import { selectActiveCompanies } from 'app/reducers/companies';
+import { selectPaginationNext } from 'app/reducers/selectors';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
-import { selectPaginationNext } from '../../reducers/selectors';
 import CompaniesPage from './components/CompaniesPage';
 
 const mapStateToProps = (state, props) => {
   const { query } = props.location;
-  const companies = selectActiveCompanies(state, props);
+  const companies = selectActiveCompanies(state);
   const { pagination } = selectPaginationNext({
     query: {},
     entity: 'companies',

@@ -2,13 +2,19 @@ import { Helmet } from 'react-helmet-async';
 import { Flex } from 'app/components/Layout';
 import LoadingIndicator from 'app/components/LoadingIndicator/';
 import type { ActionGrant } from 'app/models';
+import type { ListJoblisting } from 'app/store/models/Joblisting';
 import JoblistingsList from './JoblistingList';
 import styles from './JoblistingPage.css';
 import JoblistingsRightNav from './JoblistingRightNav';
 
 type Props = {
-  joblistings: Array</*TODO: JobListing*/ any>;
-  search: Record<string, any>;
+  joblistings: ListJoblisting[];
+  search: {
+    grades?: string;
+    jobTypes?: string;
+    workplaces?: string;
+    order?: string;
+  };
   actionGrant: ActionGrant;
   history: Record<string, any>;
 };

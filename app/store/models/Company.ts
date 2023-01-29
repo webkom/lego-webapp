@@ -109,7 +109,7 @@ export type AdminListCompany = Pick<
   | 'active'
 >;
 
-export type DetailCompany = Pick<
+export type DetailedCompany = Pick<
   Company,
   | 'id'
   | 'name'
@@ -151,6 +151,6 @@ export type AdminDetailCompany = Pick<
 export type UnknownCompany =
   | ListCompany
   | AdminListCompany
-  | DetailCompany
+  | DetailedCompany
   | SearchCompany
   | AdminDetailCompany;
