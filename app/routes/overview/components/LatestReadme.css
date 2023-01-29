@@ -7,6 +7,7 @@
 .heading {
   font-size: 27px;
   width: 100%;
+  color: var(--lego-font-color);
 }
 
 .thumb {

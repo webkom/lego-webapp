@@ -41,18 +41,9 @@
   font-weight: 600;
 }
 
-.submitQuote {
-  padding: 10px 20px;
-  font-size: 14px;
-  margin: 10px 0 50px;
-}
-
-.submitQuote:disabled {
-  color: var(--color-mono-gray-3);
-}
-
 .addQuote {
   max-width: 550px;
+  margin-bottom: 3rem;
 }
 
 .addQuote label {
@@ -148,7 +139,7 @@
 }
 
 .singleQuote h3 a:hover {
-  color: var(--color-orange-3);
+  color: var(--color-orange-6);
 }
 
 .quoteDefault {
@@ -264,19 +255,8 @@
   }
 }
 
-.outerPreview {
-  background: var(--lego-background-color);
-  border-radius: 10px;
-  width: 560px;
-  padding: 100px;
-}
-
 .innerPreview {
-  composes: withShadow from '~app/styles/utilities.css';
-  background: var(--lego-card-color);
   width: 360px;
-  border-radius: 10px;
-  padding: 10px;
 }
 
 .select {
