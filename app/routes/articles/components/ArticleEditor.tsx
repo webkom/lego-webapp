@@ -18,19 +18,18 @@ import Flex from 'app/components/Layout/Flex';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import NavigationTab from 'app/components/NavigationTab';
 import Tooltip from 'app/components/Tooltip';
-import type { ArticleEntity } from 'app/reducers/articles';
-import type { UserEntity } from 'app/reducers/users';
+import type { DetailedArticle } from 'app/store/models/Article';
+import type { CurrentUser } from 'app/store/models/User';
 import { createValidator, validYoutubeUrl } from 'app/utils/validation';
-import styles from './ArticleEditor.css';
 
 export type Props = {
-  article?: ArticleEntity;
+  article?: DetailedArticle;
   articleId: number;
-  currentUser: UserEntity;
+  currentUser: CurrentUser;
   isNew: boolean;
   handleSubmit: (arg0: Record<string, any>) => void;
-  submitArticle: (arg0: Record<string, any>) => Promise<any>;
-  deleteArticle: (arg0: number) => Promise<any>;
+  submitArticle: (arg0: Record<string, any>) => Promise<void>;
+  deleteArticle: (arg0: number) => Promise<void>;
   push: (arg0: string) => void;
   initialized: boolean;
 };
@@ -108,8 +107,6 @@ const ArticleEditor = ({
           label="Festet på forsiden"
           name="pinned"
           component={CheckBox.Field}
-          fieldClassName={styles.metaField}
-          className={styles.formField}
           normalize={(v) => !!v}
         />
         <Field

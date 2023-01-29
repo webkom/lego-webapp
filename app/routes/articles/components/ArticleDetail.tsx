@@ -20,7 +20,7 @@ import styles from './ArticleDetail.css';
 
 type Props = {
   article: DetailedArticle | AdminDetailedArticle;
-  comments: Array<Comment>;
+  comments: Comment[];
   loggedIn: boolean;
   author: DetailedUser;
   currentUser: CurrentUser;

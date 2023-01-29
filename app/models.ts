@@ -279,18 +279,6 @@ export type UserFollowing = {
   follower: User;
   target: ID;
 };
-export type Article = {
-  id: ID;
-  title: string;
-  cover: string;
-  coverPlaceholder: string;
-  author: ID;
-  description: string;
-  tags: Tags[];
-  createdAt: Dateish;
-  pinned: boolean;
-  documentType?: 'article';
-};
 export type Feed = Record<string, any>;
 export type FeedItem = Record<string, any>;
 

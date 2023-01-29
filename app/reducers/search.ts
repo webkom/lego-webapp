@@ -2,17 +2,10 @@ import { produce } from 'immer';
 import { get } from 'lodash';
 import moment from 'moment-timezone';
 import { createSelector } from 'reselect';
-import type {
-  User,
-  Article,
-  Event,
-  Company,
-  Group,
-  Meeting,
-  Dateish,
-} from 'app/models';
+import type { User, Event, Company, Group, Meeting, Dateish } from 'app/models';
 import { resolveGroupLink } from 'app/reducers/groups';
 import { categoryOptions } from 'app/routes/pages/PageDetailRoute';
+import type { SearchArticle } from 'app/store/models/Article';
 import { Search } from '../actions/ActionTypes';
 
 type SearchResultBase = {
@@ -48,7 +41,7 @@ export const isUserResult = (value: SearchResult): value is UserSearchResult =>
 
 interface SearchMapping {
   'users.user': SearchResultMapping<User, UserSearchResult>;
-  'articles.article': SearchResultMapping<Article>;
+  'articles.article': SearchResultMapping<SearchArticle>;
   'events.event': SearchResultMapping<Event>;
   'flatpages.page': SearchResultMapping<Record<string, string>>;
   'gallery.gallery': SearchResultMapping<any>;
