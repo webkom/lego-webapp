@@ -1,4 +1,3 @@
-import { PureComponent } from 'react';
 import type { ComponentType } from 'react';
 
 type LoginProps = {
@@ -9,17 +8,13 @@ export default function replaceUnlessLoggedIn(
   ReplacementComponent: ComponentType<any>
 ): (ActualComponent: ComponentType<any>) => ComponentType<any> {
   return (ActualComponent) => {
-    class Replacement extends PureComponent<any & LoginProps> {
-      render() {
-        const { loggedIn, ...props } = this.props;
-
-        if (loggedIn) {
-          return <ActualComponent loggedIn={loggedIn} {...props} />;
-        }
-
-        return <ReplacementComponent loggedIn={loggedIn} {...props} />;
+    const Replacement = ({ loggedIn, ...props }: LoginProps) => {
+      if (loggedIn) {
+        return <ActualComponent loggedIn={loggedIn} {...props} />;
       }
-    }
+
+      return <ReplacementComponent loggedIn={loggedIn} {...props} />;
+    };
 
     return Replacement;
   };
