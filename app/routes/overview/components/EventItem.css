@@ -9,8 +9,7 @@
 .body {
   display: flex;
   flex-direction: row;
-  width: 100%;
-  margin-bottom: 20px;
+  padding: 0;
 }
 
 .image {
@@ -38,16 +37,12 @@
 }
 
 .right {
-  composes: withShadow from '~app/styles/utilities.css';
   text-align: center;
   padding: 20px;
   height: 100%;
   flex: 1;
-  border-radius: 0 0 5px;
-  background: var(--lego-card-color);
 
   @media (--mobile-device) {
-    background: var(--color-white);
     border: none;
   }
 }
@@ -55,6 +50,7 @@
 .wrapper {
   display: flex;
   width: 100%;
+  height: 100%;
 
   @media (--mobile-device) {
     flex-direction: column;
@@ -62,12 +58,9 @@
 }
 
 .left {
-  composes: withShadow from '~app/styles/utilities.css';
-  background: var(--lego-card-color);
   text-align: center;
   font-size: 1rem;
   width: 390px;
-  border-radius: 0 0 5px 5px;
   color: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 80%);
 
   @media (--mobile-device) {
@@ -77,12 +70,9 @@
 }
 
 .leftFrontpage {
-  composes: withShadow from '~app/styles/utilities.css';
-  background: var(--lego-card-color);
   text-align: center;
   font-size: 1rem;
   width: 272px;
-  border-radius: 0 0 5px 5px;
   color: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 80%);
 
   @media (--mobile-device) {
@@ -92,10 +82,7 @@
 }
 
 .info {
-  background: var(--color-white);
   text-align: center;
-  border-radius: 0 0 0 5px;
-  color: var(--lego-font-color);
   padding: 3px 6px;
 
   @media (--mobile-device) {

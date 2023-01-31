@@ -1,17 +1,17 @@
 import cx from 'classnames';
 import { useRef, useEffect, useState } from 'react';
+import Button from 'app/components/Button';
+import Card from 'app/components/Card';
 import { Flex } from 'app/components/Layout';
 import LegoReactions from 'app/components/LegoReactions';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import type { ID } from 'app/models';
 import type { EmojiEntity } from 'app/reducers/emojis';
 import type { QuoteEntity } from 'app/reducers/quotes';
-import Button from '../Button';
 import styles from './RandomQuote.css';
 
 type Props = {
   fetchRandomQuote: (arg0: Array<ID>) => Promise<void>;
-  className?: string;
   addReaction: (arg0: {
     emoji: string;
     contentTarget: string;
@@ -30,7 +30,6 @@ type Props = {
 
 const RandomQuote = (props: Props) => {
   const {
-    className,
     addReaction,
     deleteReaction,
     emojis,
@@ -57,8 +56,9 @@ const RandomQuote = (props: Props) => {
     props.fetchRandomQuote(seenQuotes.current);
     setTimeout(() => setAnimation(false), 1000);
   };
+
   return (
-    <div className={className ? className : ''}>
+    <Card>
       <Flex justifyContent="space-between" alignItems="flex-start">
         <Flex column className={styles.content}>
           <div className={styles.quoteText}>{currentQuote.text}</div>
@@ -90,7 +90,7 @@ const RandomQuote = (props: Props) => {
           />
         </div>
       )}
-    </div>
+    </Card>
   );
 };
 

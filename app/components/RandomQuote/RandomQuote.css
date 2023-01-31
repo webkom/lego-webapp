@@ -13,9 +13,8 @@
 }
 
 .quoteText {
-  font-weight: 600;
+  font-weight: 500;
   font-size: 15px;
-  color: var(--color-dark-gray-3);
 }
 
 .quoteReactions {
@@ -32,5 +31,5 @@
 
 .rotateIcon {
   transform: rotate(360deg);
-  transition: 1s;
+  transition: var(--easing-slow);
 }

@@ -5,13 +5,7 @@
 }
 
 .body {
-  composes: withShadow from '~app/styles/utilities.css';
   text-align: center;
-  background: var(--lego-card-color);
-  height: 322px;
-  width: 100%;
-  margin-bottom: 20px;
-  position: relative;
 }
 
 .image {
@@ -25,8 +19,6 @@
   margin: 0 5px;
   line-height: 1.1;
   font-size: 1.2rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
   word-break: break-word;
 }
 

@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import Card from 'app/components/Card';
 import Icon from 'app/components/Icon';
 import { Image } from 'app/components/Image';
 import { Flex } from 'app/components/Layout';
@@ -37,7 +38,7 @@ class LatestReadme extends Component<Props, State> {
 
     const { readmes = [] } = this.props;
     return (
-      <Flex column className={styles.latestReadme}>
+      <Card className={styles.latestReadme}>
         <button className={styles.heading} onClick={toggle}>
           <Flex justifyContent="space-between" alignItems="center">
             {readmeIfy('readme')}
@@ -55,12 +56,12 @@ class LatestReadme extends Component<Props, State> {
           >
             {readmes.slice(0, 4).map(({ image, pdf, title }) => (
               <a key={title} href={pdf} className={styles.thumb}>
-                <Image src={image} />
+                <Image src={image} alt={`Cover of ${title}`} />
               </a>
             ))}
           </Flex>
         )}
-      </Flex>
+      </Card>
     );
   }
 }

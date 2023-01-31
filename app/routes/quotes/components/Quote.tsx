@@ -21,7 +21,6 @@ type Props = {
   displayAdmin: boolean;
   currentUser: any;
   loggedIn: boolean;
-  emojis: Array<EmojiEntity>;
   addReaction: (arg0: { emoji: string; contentTarget: string }) => Promise<any>;
   deleteReaction: (arg0: {
     reactionId: ID;

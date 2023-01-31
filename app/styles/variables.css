@@ -4,7 +4,7 @@
 @custom-media --lego-max-width (max-width: 1100px);
 
 :root {
-  --lego-background-color: #f9fafe;
+  --lego-background-color: #f8f9fa;
   --lego-font-color: var(--color-gray-1);
   --lego-link-color: #c0392b;
   --lego-red: #c0392b;
@@ -147,7 +147,7 @@
   --lego-red: #c0392b;
   --lego-max-width: 1100px;
   --lego-default-padding: 2rem;
-  --lego-card-color: #262626;
+  --lego-card-color: #222;
   --lego-footer-color: #e21617;
   --lego-dark-red-color: #b21c17;
   --lego-red-color: #c0392b;

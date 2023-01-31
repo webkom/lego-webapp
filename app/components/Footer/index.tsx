@@ -130,7 +130,7 @@ const Footer = ({ loggedIn }: Props) => (
           Informasjonskapsler (cookies)
         </Link>
         <Link to="/pages/personvern/124-personvernserklring">
-          Personvernserklæring
+          Personvernerklæring
         </Link>
         <span>© {moment().year()} Abakus</span>
       </div>

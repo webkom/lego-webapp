@@ -30,16 +30,6 @@
   padding-left: 13px;
 }
 
-.poll {
-  composes: withShadow from '~app/styles/utilities.css';
-  background: var(--lego-card-color);
-  padding: 15px 20px 8px;
-}
-
-.pollLight {
-  background: var(--lego-card-color);
-}
-
 .noVotes {
   font-style: italic;
 }

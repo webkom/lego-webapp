@@ -1,5 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
+import Card from 'app/components/Card';
 import { Content } from 'app/components/Content';
 import Icon from 'app/components/Icon';
 import { Flex } from 'app/components/Layout';
@@ -49,7 +50,7 @@ const PollsList = ({
             to={`/polls/${poll.id}`}
             className={styles.pollItem}
           >
-            <div className={styles.pollListItem}>
+            <Card className={styles.pollListItem}>
               <Flex>
                 <Icon name="stats-chart" size={35} className={styles.icon} />
                 <h3 className={styles.heading}>{poll.title}</h3>
@@ -83,7 +84,7 @@ const PollsList = ({
                   )}
                 </Flex>
               </Flex>
-            </div>
+            </Card>
           </Link>
         ))}
       </section>

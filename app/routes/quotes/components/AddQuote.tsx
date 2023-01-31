@@ -52,40 +52,34 @@ const AddQuote = ({
 
           <div className={styles.clear} />
 
-          <Button
-            type="submit"
-            className={styles.submitQuote}
-            disabled={disabledButton}
-          >
+          <Button type="submit" disabled={disabledButton}>
             Send inn sitat
           </Button>
         </form>
       </div>
 
       <h2>Forhåndsvisning</h2>
-      <div className={styles.outerPreview}>
-        <h2>OVERHØRT</h2>
-        <div className={styles.innerPreview}>
-          <RandomQuote
-            fetchRandomQuote={() => Promise.resolve()}
-            addReaction={() => Promise.resolve()}
-            deleteReaction={() => Promise.resolve()}
-            fetchEmojis={() => Promise.resolve()}
-            fetchingEmojis={false}
-            emojis={[]}
-            currentQuote={{
-              id: 1,
-              text: text || 'Det er bare å gjøre det',
-              source: source || 'Esso',
-              approved: true,
-              contentTarget: '',
-              reactionsGrouped: [],
-              reactions: [],
-            }}
-            loggedIn={true}
-            useReactions={false}
-          />
-        </div>
+      <h3 className="u-ui-heading">Overhørt</h3>
+      <div className={styles.innerPreview}>
+        <RandomQuote
+          fetchRandomQuote={() => Promise.resolve()}
+          addReaction={() => Promise.resolve()}
+          deleteReaction={() => Promise.resolve()}
+          fetchEmojis={() => Promise.resolve()}
+          fetchingEmojis={false}
+          emojis={[]}
+          currentQuote={{
+            id: 1,
+            text: text || 'Det er bare å gjøre det',
+            source: source || 'Esso',
+            approved: true,
+            contentTarget: '',
+            reactionsGrouped: [],
+            reactions: [],
+          }}
+          loggedIn={true}
+          useReactions={false}
+        />
       </div>
     </div>
   );
