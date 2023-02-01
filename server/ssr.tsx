@@ -74,10 +74,12 @@ const createServerSideRenderer = (req: Request, res: Response) => {
       getCookie: (key) => req.cookies[key],
     }
   );
+
   const providerData = {
     store,
     storeState: store.getState(),
   };
+
   const unsubscribe = store.subscribe(() => {
     const newStoreState = store.getState();
 
@@ -88,6 +90,7 @@ const createServerSideRenderer = (req: Request, res: Response) => {
 
     providerData.storeState = newStoreState;
   });
+
   const app = (
     <HelmetProvider context={helmetContext}>
       <ReactReduxContext.Provider value={providerData}>
