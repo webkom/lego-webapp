@@ -1,8 +1,7 @@
 .reactionPickerHeader {
-  height: 38px;
-  padding: 4px 4px 0;
+  width: 100%;
+  height: 50px;
+  padding: 15px;
   border-bottom: 1px solid
     rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 15%);
-  display: flex;
-  justify-content: space-between;
 }

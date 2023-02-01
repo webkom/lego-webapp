@@ -21,7 +21,7 @@ const ReactionPickerContent = ({
   deleteReaction,
   contentTarget,
 }: Props) => (
-  <div className={styles.ReactionPickerContentContainer}>
+  <div className={styles.container}>
     {searchResults !== null && searchResults.length === 0 ? (
       <div className={styles.noEmojisFound}>
         Fant ingen emojis{' '}
@@ -30,11 +30,12 @@ const ReactionPickerContent = ({
         </span>
       </div>
     ) : (
-      <div className={styles.reactionPickerContent}>
+      <div className={styles.content}>
         {(searchResults !== null ? searchResults : emojis).map(
           (emoji: EmojiEntity) => (
             <div
               key={emoji.shortCode}
+              className={styles.emoji}
               onClick={() =>
                 emoji.hasReacted && emoji.reactionId
                   ? deleteReaction({
@@ -48,18 +49,7 @@ const ReactionPickerContent = ({
                     })
               }
             >
-              <div
-                className={styles.reactionPickerItemContainer}
-                title={emoji.shortCode}
-              >
-                <div>
-                  <Emoji
-                    size="22px"
-                    id={emoji.shortCode}
-                    unicodeString={emoji.unicodeString}
-                  />
-                </div>
-              </div>
+              <Emoji size="22px" unicodeString={emoji.unicodeString} />
             </div>
           )
         )}

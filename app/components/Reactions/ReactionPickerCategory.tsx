@@ -1,66 +1,75 @@
-import classNames from 'classnames';
-import { Component } from 'react';
-import Emoji from 'app/components/Emoji';
+import cx from 'classnames';
+import Icon from 'app/components/Icon';
 import styles from './ReactionPickerCategory.css';
 
 type Props = {
   isActive: boolean;
   name: string;
   onCategoryClick: (category: string) => void;
+  isSearching: boolean;
 };
 
 const mapCategoryNameToIcon = (name) => {
   switch (name) {
     case 'people':
-      return '😃';
+      return 'happy';
 
     case 'animals_and_nature':
-      return '🍃';
+      return 'leaf';
 
     case 'food_and_drink':
-      return '🍔';
+      return 'beer';
 
     case 'activity':
-      return '⚽';
+      return 'football';
 
     case 'travel_and_places':
-      return '✈';
+      return 'airplane';
 
     case 'objects':
-      return '💡';
+      return 'bulb';
 
     case 'symbols':
-      return '❤';
+      return 'heart';
 
     case 'flags':
-      return '🇵🇱 ';
+      return 'flag';
 
     default:
-      return name.charAt(0).toUpperCase();
+      return 'help';
   }
 };
 
-class ReactionPickerCategory extends Component<Props> {
-  render() {
-    const { isActive, name, onCategoryClick } = this.props;
-    const containerClasses = [styles.reactionPickerCategoryContainer];
-    const categoryClasses = [styles.reactionPickerCategory];
+const ReactionPickerCategory = ({
+  isActive,
+  name,
+  onCategoryClick,
+  isSearching,
+}: Props) => {
+  const categoryClasses = [styles.category];
 
-    if (isActive) {
-      containerClasses.push(styles.isActiveContainer);
-      categoryClasses.push(styles.isActiveCategory);
-    }
+  if (isActive) {
+    categoryClasses.push(styles.isActiveCategory);
+  }
 
-    return (
-      <div title={name} onClick={() => onCategoryClick(name)}>
-        <div className={classNames(containerClasses)}>
-          <div className={classNames(categoryClasses)}>
-            <Emoji unicodeString={mapCategoryNameToIcon(name)} />
-          </div>
+  if (isSearching) {
+    categoryClasses.push(styles.isSearching);
+  }
+
+  return (
+    <div title={name} onClick={() => onCategoryClick(name)}>
+      <div className={styles.container}>
+        <div className={cx(categoryClasses)}>
+          <Icon
+            size={22}
+            name={`${mapCategoryNameToIcon(name)}${
+              !isActive ? '-outline' : ''
+            }`}
+          />
         </div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default ReactionPickerCategory;

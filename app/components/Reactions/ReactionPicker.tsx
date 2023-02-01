@@ -1,6 +1,7 @@
 import fuzzy from 'fuzzy';
 import { useMemo, useState, useCallback } from 'react';
 import emojiLoading from 'app/assets/emoji_loading.svg';
+import Card from 'app/components/Card';
 import { Image } from 'app/components/Image';
 import type { ID } from 'app/models';
 import type { EmojiEntity } from 'app/reducers/emojis';
@@ -95,7 +96,7 @@ const searchEmojis = (emojis: EmojiEntity[], searchString: string) => {
   });
 
   /*
-   * STEP 3
+   * STEP 4
    * Look if the keywords for the emoji match exactly
    *
    * Examples (searchString = "vehicle"):
@@ -117,7 +118,7 @@ const searchEmojis = (emojis: EmojiEntity[], searchString: string) => {
   });
 
   /*
-   * STEP 4
+   * STEP 5
    * Perform a fuzzy search at the end for the remaining emojis.
    *
    * Examples (searchString = "car"):
@@ -143,7 +144,7 @@ const ReactionPicker = ({
   contentTarget,
 }: Props) => {
   const [activeCategory, setActiveCategory] = useState(null);
-  const [searchString, setSearchString] = useState(null);
+  const [searchString, setSearchString] = useState<string>(null);
   const categories = useMemo(() => {
     if (!emojis) {
       return {};
@@ -183,34 +184,34 @@ const ReactionPicker = ({
     (searchString) => setSearchString(searchString.trim().toLowerCase()),
     []
   );
+
   return (
-    <div className={styles.reactionPicker}>
+    <Card className={styles.reactionPicker}>
+      <ReactionPickerHeader
+        activeCategory={activeCategory}
+        categories={Object.keys(categories)}
+        onCategoryClick={onCategoryClick}
+        isSearching={searchString !== null && searchString !== ''}
+      />
       {isLoading ? (
         <div className={styles.emojiLoading}>
-          <Image src={emojiLoading} alt="Emoji Loading Indicator" />
+          <Image src={emojiLoading} alt="Emoji loading indicator" />
         </div>
       ) : (
-        <div>
-          <ReactionPickerHeader
-            activeCategory={activeCategory}
-            categories={Object.keys(categories)}
-            onCategoryClick={onCategoryClick}
-          />
-          <ReactionPickerContent
-            emojis={
-              activeCategory && categories[activeCategory]
-                ? categories[activeCategory].emojis
-                : []
-            }
-            searchResults={searchResults}
-            addReaction={addReaction}
-            deleteReaction={deleteReaction}
-            contentTarget={contentTarget}
-          />
-          <ReactionPickerFooter onSearch={onSearch} />
-        </div>
+        <ReactionPickerContent
+          emojis={
+            activeCategory && categories[activeCategory]
+              ? categories[activeCategory].emojis
+              : []
+          }
+          searchResults={searchResults}
+          addReaction={addReaction}
+          deleteReaction={deleteReaction}
+          contentTarget={contentTarget}
+        />
       )}
-    </div>
+      <ReactionPickerFooter onSearch={onSearch} />
+    </Card>
   );
 };
 
