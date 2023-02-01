@@ -1,0 +1,13 @@
+@import url('~app/styles/variables.css');
+
+.wrapOnMobile {
+  margin-top: 3rem;
+
+  @media (--mobile-device) {
+    margin-top: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}

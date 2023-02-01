@@ -42,7 +42,7 @@ const PieChartWithLabel = ({
   return (
     <>
       <h4>{label}</h4>
-      <Flex alignItems="center">
+      <Flex alignItems="center" style={{ marginBottom: '3rem' }} wrap={true}>
         <DistributionPieChart
           dataKey="count"
           distributionData={distributionData}
@@ -149,15 +149,6 @@ const createAttendeeDataPoints = (
     registrationTimeDistribution: [],
   };
 
-  const dataTekTotal: DistributionDataPoint = {
-    name: 'Datateknologi',
-    count: 0,
-  };
-  const komTekTotal: DistributionDataPoint = {
-    name: 'Kommunikasjonsteknologi og digital sikkerhet',
-    count: 0,
-  };
-
   for (const registration of registrations) {
     addRegistrationDateDataPoint(
       attendeeStatistics.registrationTimeDistribution,
@@ -173,10 +164,16 @@ const createAttendeeDataPoints = (
     const grade = registration.user.grade?.name ?? 'Ikke student';
     if (grade.includes('Datateknologi')) {
       addGenericDataPoint(attendeeStatistics.dataTekDistribution, grade);
-      dataTekTotal.count++;
+      addGenericDataPoint(
+        attendeeStatistics.totalDistribution,
+        'Datateknologi'
+      );
     } else if (grade.includes('Kommunikasjonsteknologi')) {
       addGenericDataPoint(attendeeStatistics.komTekDistribution, grade);
-      komTekTotal.count++;
+      addGenericDataPoint(
+        attendeeStatistics.totalDistribution,
+        'Kommunikasjonsteknologi og digital sikkerhet'
+      );
     } else {
       addGenericDataPoint(attendeeStatistics.totalDistribution, grade);
     }
@@ -201,9 +198,6 @@ const createAttendeeDataPoints = (
       false
     );
   }
-
-  attendeeStatistics.totalDistribution.push(dataTekTotal);
-  attendeeStatistics.totalDistribution.push(komTekTotal);
 
   sortAttendeeStatistics(attendeeStatistics);
 
@@ -263,9 +257,9 @@ const EventAttendeeStatistics = ({
         </Flex>
       )}
       {registrations.length === 0 ? (
-        <p style={{ textAlign: 'center' }}>Ingen er påmeldt enda.</p>
+        <p className={styles.noRegistrationsText}>Ingen er påmeldt enda.</p>
       ) : (
-        <>
+        <div className={styles.chartContainer}>
           <PieChartWithLabel
             label={'Kjønnsfordeling'}
             distributionData={genderDistribution}
@@ -289,13 +283,12 @@ const EventAttendeeStatistics = ({
 
           <h4>Påmeldinger og avmeldinger per dag</h4>
           <LineChart
-            width={500}
+            width={375}
             height={300}
             data={registrationTimeDistribution}
             margin={{
-              top: 5,
+              top: 10,
               right: 30,
-              left: 20,
               bottom: 5,
             }}
           >
@@ -319,7 +312,7 @@ const EventAttendeeStatistics = ({
               activeDot={{ r: 8 }}
             />
           </LineChart>
-        </>
+        </div>
       )}
     </>
   );
