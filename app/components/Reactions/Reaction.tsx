@@ -1,6 +1,7 @@
-import classNames from 'classnames';
+import cx from 'classnames';
 import { Component } from 'react';
 import Emoji from 'app/components/Emoji';
+import Flex from 'app/components/Layout/Flex';
 import Tooltip from 'app/components/Tooltip';
 import type { ID } from 'app/models';
 import styles from './Reaction.css';
@@ -54,10 +55,13 @@ class Reaction extends Component<Props> {
     }
 
     return (
-      <div>
+      <>
         <Tooltip content={emoji}>
-          <div
-            className={classNames(classes)}
+          <Flex
+            gap={4}
+            justifyContent="center"
+            alignItems="center"
+            className={cx(classes)}
             onClick={
               canReact
                 ? () =>
@@ -74,13 +78,13 @@ class Reaction extends Component<Props> {
                 : null
             }
           >
-            <div className={styles.reactionIcon}>
+            <div>
               <Emoji unicodeString={unicodeString} />
             </div>
-            <div className={styles.reactionCount}>{count}</div>
-          </div>
+            <span className={styles.reactionCount}>{count}</span>
+          </Flex>
         </Tooltip>
-      </div>
+      </>
     );
   }
 }

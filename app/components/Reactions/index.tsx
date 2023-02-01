@@ -1,5 +1,6 @@
-import classNames from 'classnames';
+import cx from 'classnames';
 import { Component } from 'react';
+import Flex from 'app/components/Layout/Flex';
 import type { ID } from 'app/models';
 import type { EmojiEntity } from 'app/reducers/emojis';
 import reactionStyles from './Reaction.css';
@@ -81,7 +82,7 @@ class Reactions extends Component<Props, State> {
   };
 
   handleOutsideClick = (e) => {
-    if (this.node?.current?.contains(e.target)) {
+    if (this.node && this.node.contains(e.target)) {
       return;
     }
 
@@ -101,7 +102,12 @@ class Reactions extends Component<Props, State> {
     } = this.props;
     const { reactionPickerOpen, addEmojiHovered } = this.state;
     return (
-      <div className={styles.reactionsContainer} ref={this.node}>
+      <div
+        className={styles.reactionsContainer}
+        ref={(node) => {
+          this.node = node;
+        }}
+      >
         <div
           className={className ? className : styles.reactions}
           onMouseEnter={this.onMouseEnter}
@@ -109,8 +115,10 @@ class Reactions extends Component<Props, State> {
         >
           {children}
           {loggedIn && (
-            <div
-              className={classNames(
+            <Flex
+              alignItems="center"
+              justifyContent="center"
+              className={cx(
                 reactionStyles.reaction,
                 styles.addReactionEmojiContainer
               )}
@@ -119,11 +127,16 @@ class Reactions extends Component<Props, State> {
               onMouseLeave={this.onAddEmojiLeave}
             >
               <AddReactionEmoji
-                color={addEmojiHovered ? '#E20D13' : '#F7A4A6'}
+                color={
+                  addEmojiHovered || reactionPickerOpen
+                    ? 'var(--color-orange-6)'
+                    : 'var(--color-gray-2)'
+                }
               />
-            </div>
+            </Flex>
           )}
         </div>
+
         {reactionPickerOpen && (
           <div className={styles.reactionPickerContainer}>
             <ReactionPicker
