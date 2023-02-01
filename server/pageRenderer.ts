@@ -86,10 +86,10 @@ export default function pageRenderer({
   preparedStateCode = '',
 }: PageRendererProps = {}): string {
   const isSSR = app === undefined ? 'false' : 'true';
-  const { helmet } = helmetContext as FilledContext;
   const selectedTheme: string =
     (!isEmpty(state) && selectCurrentUser(state).selectedTheme) || 'auto';
   const { body, scripts, styles, links } = readyHtml(app);
+  const { helmet } = helmetContext as FilledContext;
   return `
     <!DOCTYPE html>
     <html data-theme=${serialize(
