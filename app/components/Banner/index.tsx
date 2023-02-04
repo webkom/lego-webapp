@@ -1,5 +1,6 @@
 import cx from 'classnames';
 import { Link } from 'react-router-dom';
+import Card from 'app/components/Card';
 import styles from './Banner.css';
 import type { ReactNode } from 'react';
 import type { $Keys } from 'utility-types';
@@ -36,10 +37,10 @@ const Banner = (props: Props) => {
 
   return (
     <LinkComponent>
-      <div className={cx(styles.header, color)}>
+      <Card className={cx(styles.header, color)}>
         <h1>{header}</h1>
         {subHeader && <h4>{subHeader}</h4>}
-      </div>
+      </Card>
     </LinkComponent>
   );
 };
