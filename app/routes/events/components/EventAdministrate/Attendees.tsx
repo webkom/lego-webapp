@@ -171,18 +171,21 @@ const Attendees = ({
             {`${paidCount}/${event.registrationCount} har betalt`}
           </div>
         </div>
-        {registered.length === 0 && <li>Ingen påmeldte</li>}
-        <RegisteredTable
-          event={event}
-          registered={registered}
-          loading={loading}
-          handlePresence={handlePresence}
-          handlePayment={handlePayment}
-          handleUnregister={handleUnregister}
-          showPresence={showPresence}
-          showUnregister={showUnregister}
-          pools={pools}
-        />
+        {registered.length === 0 ? (
+          <li>Ingen påmeldte</li>
+        ) : (
+          <RegisteredTable
+            event={event}
+            registered={registered}
+            loading={loading}
+            handlePresence={handlePresence}
+            handlePayment={handlePayment}
+            handleUnregister={handleUnregister}
+            showPresence={showPresence}
+            showUnregister={showUnregister}
+            pools={pools}
+          />
+        )}
         <strong
           style={{
             marginTop: '10px',
@@ -190,7 +193,11 @@ const Attendees = ({
         >
           Avmeldte:
         </strong>
-        <UnregisteredTable unregistered={unregistered} loading={loading} />
+        {unregistered.length === 0 ? (
+          <li>Ingen avmeldte</li>
+        ) : (
+          <UnregisteredTable unregistered={unregistered} loading={loading} />
+        )}
       </Flex>
     </div>
   );
