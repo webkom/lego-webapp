@@ -16,10 +16,6 @@
   }
 }
 
-html[data-theme='dark'] .notifications {
-  background-color: var(--lego-card-color);
-}
-
 .notification {
   border-bottom: 1px solid lightgray;
   padding: 15px 15px 0;
