@@ -1,7 +1,6 @@
 import moment from 'moment-timezone';
 import { useState } from 'react';
 import { formatPhoneNumber, parsePhoneNumber } from 'react-phone-number-input';
-import { Link } from 'react-router-dom';
 import Button from 'app/components/Button';
 import { Flex } from 'app/components/Layout';
 import LoadingIndicator from 'app/components/LoadingIndicator';
@@ -140,12 +139,6 @@ const Attendees = ({
   return (
     <div>
       <Flex justifyContent="space-between">
-        <h2>
-          <Link to={`/events/${eventId}`}>
-            <i className="fa fa-angle-left" />
-            {` ${event.title}`}
-          </Link>
-        </h2>
         {event.useContactTracing &&
           (currentUser.id === event.createdBy ||
             currentUser.id === event.createdBy.id) &&
