@@ -1,42 +1,40 @@
-.reactionPickerContentContainer {
-  padding: 4px 4px 0;
+.container {
+  position: relative;
+  width: 100%;
+  min-height: 100px;
+  height: 90%;
+  overflow-y: auto;
 }
 
-.reactionPickerContent {
-  height: 220px;
-  overflow: hidden auto;
-  padding: 4px 4px 8px;
-  background: var(--color-white) none repeat scroll 0% 0%;
+.content {
   display: grid;
-  grid-template-columns: repeat(auto-fill, 36px);
-  column-gap: 5px;
+  grid-template-columns: repeat(auto-fill, 40px);
+  gap: 2.5px;
+  padding: 5px;
   align-content: start;
   justify-content: space-around;
 }
 
-.reactionPickerItemContainer {
-  width: 36px;
-  height: 32px;
+.emoji {
+  width: 40px;
+  height: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0 1px 1px 0;
+  padding-right: 5px;
+  padding-bottom: 5px;
   border-radius: 6px;
   cursor: pointer;
-  transition: background var(--easing-fast);
-  line-height: 26px;
+  transition: background var(--linear-fast);
 }
 
-.reactionPickerItemContainer:hover {
-  background: rgba(226, 13, 19, var(--color-red-hover-alpha)) none repeat scroll
-    0% 0%;
+.emoji:hover {
+  background-color: rgba(255, 0, 0, var(--color-red-hover-alpha));
 }
 
 .noEmojisFound {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  height: 220px;
-  background: var(--color-white) none repeat scroll 0% 0%;
+  height: 100%;
 }

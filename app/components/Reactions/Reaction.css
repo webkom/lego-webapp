@@ -1,14 +1,21 @@
 .reaction {
-  height: 30px;
-  width: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 4px;
-  border: 1px solid #e8e5e5;
-  color: var(--color-dark-mono-gray-1);
+  position: relative;
+  height: 29px;
+  width: 54px;
+  border-radius: 1rem;
+  background-color: var(--color-gray-9);
+  border: 0 solid var(--color-red-4);
+  color: var(--color-gray-2);
   margin: 2px;
-  transition: var(--linear-medium);
+  transition: var(--linear-fast);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+html[data-theme='dark'] .reaction {
+  background-color: var(--color-gray-7);
+  border-color: var(--color-red-2);
+  color: var(--color-gray-2);
 }
 
 .clickable {
@@ -16,15 +23,17 @@
 }
 
 .reacted {
-  background-color: rgba(226, 13, 19, 5%);
-  border-color: rgba(226, 13, 19, 15%);
+  background-color: var(--color-red-7);
+  color: var(--color-red-4);
+  border-width: 1.5px;
+}
+
+html[data-theme='dark'] .reacted {
+  background-color: var(--color-red-6);
+  color: var(--color-red-2);
 }
 
 .reactionCount {
-  padding-left: 5px;
-  font-weight: bold;
-}
-
-.reactionIcon {
-  font-size: 1rem;
+  width: 0.9rem;
+  text-align: center;
 }
