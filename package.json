@@ -107,7 +107,7 @@
     "slugify": "^1.6.5",
     "stream-browserify": "^3.0.0",
     "util": "^0.12.5",
-    "validator": "^13.7.0",
+    "validator": "^13.9.0",
     "vm-browserify": "^1.1.2",
     "websocket.js": "^0.1.7",
     "zxcvbn": "^4.4.2"
