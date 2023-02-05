@@ -43,13 +43,13 @@
 .buttonGroup button,
 .buttonGroup img {
   border: 0;
-  color: var(--lego-text-gray);
+  color: var(--lego-font-color);
   cursor: pointer;
-  transition: color var(--linear-medium);
+  transition: color var(--linear-fast);
 
   &:hover,
   &.activeItem {
-    color: var(--color-black);
+    color: var(--color-gray-7);
   }
 }
 
@@ -145,7 +145,7 @@
   font-size: 1.2rem;
   padding: 10px 1rem;
   height: 100%;
-  color: var(--color-dark-gray-5);
+  color: var(--lego-font-color);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -166,20 +166,12 @@
 
   &:hover,
   &.activeItem {
-    color: var(--color-black);
+    color: var(--color-gray-7);
   }
 
   &:hover::after,
   &.activeItem::after {
     transform: scaleX(1);
-  }
-
-  &.readmeLink {
-    font-family: 'OCR A Extended', sans-serif;
-    font-size: 1.7rem;
-    text-transform: lowercase;
-    letter-spacing: 0;
-    padding-bottom: 7px;
   }
 }
 
@@ -194,13 +186,4 @@ html[data-theme='light'] .logoLightMode {
 
 html[data-theme='dark'] .logoDarkMode {
   display: block;
-}
-
-html[data-theme='dark'] .meetingIcon {
-  color: var(--color-light-gray-5);
-  transition: color var(--linear-fast);
-
-  &:hover {
-    color: var(--color-gray-5);
-  }
 }

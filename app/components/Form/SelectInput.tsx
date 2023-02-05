@@ -36,7 +36,7 @@ export const selectStyles = {
   ) => ({
     ...styles,
     cursor: isDisabled ? 'not-allowed' : 'pointer',
-    color: isSelected ? 'var(--color-light-gray-5)' : undefined,
+    color: isSelected ? 'var(--color-gray-1)' : undefined,
   }),
 };
 export const selectTheme = (

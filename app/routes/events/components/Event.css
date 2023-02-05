@@ -50,19 +50,6 @@
   }
 }
 
-.openFor {
-  background: var(--color-gray-5);
-  padding: 20px;
-  border-radius: 5px;
-  margin-left: 1em;
-  flex: 1;
-
-  @media (--small-viewport) {
-    margin-left: 0;
-    margin-bottom: 1em;
-  }
-}
-
 .subHeader {
   margin-top: 18px;
 }

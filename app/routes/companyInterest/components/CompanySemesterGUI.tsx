@@ -85,9 +85,7 @@ const CompanySemesterGUI = (props: Props) => {
                 inputValue="autumn"
               />
             </RadioButtonGroup>
-            <Button submit className={styles.submit}>
-              Legg til semester
-            </Button>
+            <Button submit>Legg til semester</Button>
           </Flex>
           <Flex column>
             <label className={styles.heading}>Deaktiver semestre</label>

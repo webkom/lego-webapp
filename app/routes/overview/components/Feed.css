@@ -36,7 +36,7 @@
 }
 
 .item {
-  border-bottom: 1px solid var(--lego-color-gray-light);
+  border-bottom: 1px solid var(--border-gray);
   padding: 10px 20px;
   display: flex;
   flex-direction: row;
@@ -48,7 +48,7 @@
   }
 
   &:active {
-    border: 2px solid var(--color-light-gray-1);
+    border: 2px solid var(--border-gray);
   }
 
   &:first-child {

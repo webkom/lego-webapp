@@ -35,7 +35,7 @@
 }
 
 .inModalUpload .placeholderContainer {
-  background-color: var(--color-gray-6);
+  background-color: var(--color-gray-2);
   border: 3px dashed var(--color-blue-6);
 }
 
@@ -49,10 +49,6 @@
 
 .dragReject .placeholderContainer {
   border: 3px dashed var(--color-red-4);
-}
-
-html[data-theme='dark'] .inModalUpload .placeholderContainer {
-  background-color: var(--color-gray-8);
 }
 
 .placeholderTitle {
@@ -80,7 +76,7 @@ html[data-theme='dark'] .inModalUpload .placeholderContainer {
 .previewRow {
   width: 325px;
   height: 52px;
-  color: var(--color-gray-2);
+  color: var(--color-gray-6);
 }
 
 .previewImage {

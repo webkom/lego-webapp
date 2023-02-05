@@ -3,8 +3,9 @@
 .inputContainer {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   height: 120px;
-  border-bottom: 1px solid var(--color-mono-gray-3);
+  border-bottom: 1px solid var(--border-gray);
   padding: 0 20px;
 }
 
@@ -16,11 +17,11 @@
   padding: 0 1rem;
   font-size: 1.4rem;
   font-weight: 400;
-  color: var(--lego-color-gray);
+  color: var(--lego-font-color);
   background: transparent;
 
   &::placeholder {
-    color: var(--color-dark-mono-gray-2);
+    color: var(--color-gray-6);
   }
 }
 
@@ -41,7 +42,7 @@
 }
 
 .searchIcon {
-  color: var(--color-dark-mono-gray-3);
+  color: var(--color-gray-6);
   width: 30px;
   display: flex;
   align-items: center;
@@ -59,8 +60,13 @@
   outline: none;
   border: 0;
   background: transparent;
-  color: var(--lego-color-gray);
+  color: var(--color-gray-7);
+  transition: color var(--easing-mediun);
   cursor: pointer;
+
+  &:hover {
+    color: var(--color-gray-8);
+  }
 }
 
 .resultsContainer {
@@ -68,7 +74,7 @@
   overflow-y: auto;
   height: 100%;
   max-height: calc(100vh - 120px);
-  border-radius: 0 0 7px 7px;
+  border-radius: 0 0 1rem 1rem;
 
   @media (--small-viewport) {
     flex-direction: column;
@@ -108,12 +114,9 @@
 
 .quickLinks {
   flex: 1;
+  background-color: var(--lego-card-color);
   color: var(--color-white);
   padding: 2rem;
-}
-
-html[data-theme='dark'] .quickLinks {
-  background-color: var(--lego-card-color);
 }
 
 .quickLinks::after {
@@ -129,21 +132,14 @@ html[data-theme='dark'] .quickLinks {
 
 .quickLinks a {
   display: block;
-  color: var(--lego-link-color);
   padding: 4px 15px;
   font-size: 1.2rem;
   transition: background-color var(--linear-fast);
+  border-radius: 8px;
 }
 
 .quickLinks a:hover {
-  background-color: var(--lego-color-gray-light);
-  border: 1px solid var(--color-mono-gray-3);
-  border-radius: 3px;
-  padding: 3px 14px;
-}
-
-html[data-theme='dark'] .quickLinks a:hover {
-  background-color: var(--color-gray-8);
+  background-color: var(--additive-background);
 }
 
 .results {
@@ -189,7 +185,7 @@ html[data-theme='dark'] .results {
 }
 
 .resultItem {
-  border-bottom: 1px solid var(--color-mono-gray-4);
+  border-bottom: 1px solid var(--border-gray);
   padding: 0.5rem;
   height: 64px;
   display: flex;
@@ -212,15 +208,5 @@ html[data-theme='dark'] .results {
 }
 
 .isSelected {
-  font-weight: 700;
-}
-
-.toggleTheme {
-  display: none;
-  padding: 0.5em 2rem;
-  background: rgba(var(--rgb-max), var(--rgb-max), var(--rgb-max), 80%);
-
-  @media (--small-viewport) {
-    display: flex;
-  }
+  font-weight: 600;
 }

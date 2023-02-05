@@ -5,18 +5,14 @@
 }
 
 .heading {
-  color: var(--color-dark-mono-gray-3);
-  letter-spacing: 2px;
-  font-weight: 400;
   font-size: 20px;
-  border-bottom: 1px solid var(--color-mono-gray-4);
+  border-bottom: 1px solid var(--border-gray);
   padding-bottom: 10px;
   margin-bottom: 20px;
 }
 
 .noEvents {
-  color: var(--color-dark-mono-gray-3);
-  letter-spacing: 2px;
+  color: var(--color-gray-5);
   font-weight: 400;
   font-size: 20px;
 }
@@ -27,7 +23,7 @@
 
 .bottomBorder {
   margin-top: 40px;
-  border-top: 1px solid var(--color-mono-gray-4);
+  border-top: 1px solid var(--border-gray);
 }
 
 .filter {

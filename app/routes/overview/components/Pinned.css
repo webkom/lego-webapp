@@ -40,5 +40,5 @@
 }
 
 .itemTitle > a {
-  color: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 90%);
+  color: var(--lego-font-color);
 }

@@ -27,7 +27,7 @@ const DistributionBarChart = ({
       <Bar
         dataKey={dataKey}
         label={{ position: 'top' }}
-        background={{ fill: 'var(--color-mono-gray-5)' }}
+        background={{ fill: 'var(--additive-background)' }}
         isAnimationActive={false}
       >
         {distributionData.map((entry, index) => (

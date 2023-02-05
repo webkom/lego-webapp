@@ -33,7 +33,7 @@
   &::before {
     border-left: 8.414px solid transparent;
     border-right: 8.414px solid transparent;
-    border-bottom: 8.414px solid var(--color-gray-3);
+    border-bottom: 8.414px solid var(--border-gray);
   }
 
   &::after {
@@ -59,6 +59,6 @@
   transition: background var(--linear-fast);
 
   &:hover {
-    background: linear-gradient(#f5f5f5, #f9f7f7);
+    background-color: var(--additive-background);
   }
 }

@@ -99,9 +99,9 @@ export const QuestionTypeOption = ({ iconName, option, ...props }: any) => (
     style={{
       cursor: 'pointer',
       backgroundColor: props.isSelected
-        ? 'var(--color-almost-white-1)'
+        ? 'var(--color-gray-2)'
         : props.isFocused
-        ? 'var(--color-almost-white-5)'
+        ? 'var(--additive-background)'
         : 'var(--color-white)',
     }}
     className={cx(styles.dropdownOption, styles.dropdown)}

@@ -27,10 +27,8 @@ html[data-theme='dark'] .backdrop {
   overflow-y: auto;
   z-index: 4;
   /* stylelint-disable indentation */
-  box-shadow: 0 5px 10px
-      rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 12%),
-    0 6px 6px rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 15%);
-  border: 1px solid rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 9%);
+  box-shadow: 0 2px 8px 2px rgba(104, 112, 118, 7%),
+    0 2px 4px -1px rgba(104, 112, 118, 4%);
   border-radius: 1rem;
 }
 
@@ -39,11 +37,11 @@ html[data-theme='dark'] .backdrop {
   top: 1rem;
   right: 1rem;
   padding: 0;
-  color: var(--color-dark-mono-gray-3);
+  color: var(--color-gray-6);
   transition: color var(--easing-medium);
 
   &:hover {
-    color: var(--color-dark-mono-gray-4);
+    color: var(--color-gray-5);
   }
 }
 

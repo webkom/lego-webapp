@@ -4,11 +4,6 @@
   border-radius: 1rem;
 }
 
-.dark {
-  background: var(--lego-color-gray);
-  color: var(--color-white);
-}
-
 .tight {
   padding: 0;
 }

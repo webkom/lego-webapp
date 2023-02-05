@@ -34,16 +34,11 @@
   margin-left: 0;
   padding-top: 6px;
   padding-left: 20px;
-  border-left: 4px solid var(--color-dark-mono-gray-5);
+  border-left: 4px solid var(--border-gray);
   display: flex;
   -webkit-box-pack: justify;
   -ms-flex-pack: justify;
   justify-content: space-between;
-}
-
-.categoryHeader {
-  font-weight: bold;
-  background-color: var(--color-mono-gray-5);
 }
 
 .coverImage {

@@ -90,7 +90,7 @@ const UserSettings = (props: Props) => {
               name="username"
               readOnly
               component={TextInput.Field}
-              disabled={true}
+              disabled
             />
 
             <Field

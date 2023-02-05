@@ -3,19 +3,13 @@
   height: 29px;
   width: 54px;
   border-radius: 1rem;
-  background-color: var(--color-gray-9);
+  background-color: var(--additive-background);
   border: 0 solid var(--color-red-4);
-  color: var(--color-gray-2);
+  color: var(--color-gray-6);
   margin: 2px;
   transition: var(--linear-fast);
   font-weight: 600;
   font-size: 0.9rem;
-}
-
-html[data-theme='dark'] .reaction {
-  background-color: var(--color-gray-7);
-  border-color: var(--color-red-2);
-  color: var(--color-gray-2);
 }
 
 .clickable {

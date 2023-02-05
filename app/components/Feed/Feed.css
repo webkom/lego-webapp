@@ -8,5 +8,5 @@
 }
 
 html[data-theme='dark'] .emptyState {
-  color: var(--color-light-gray-3);
+  color: var(--color-gray-7);
 }

@@ -1,9 +1,10 @@
 .removeIcon {
   cursor: pointer;
   padding-right: 10px;
-  color: var(--color-mono-gray-2);
+  color: var(--color-gray-4);
+  transition: color var(--easing-fast);
 
   &:hover {
-    color: var(--color-mono-gray-1);
+    color: var(--color-gray-5);
   }
 }

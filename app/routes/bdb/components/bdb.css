@@ -24,8 +24,7 @@
   outline: none;
 
   &:hover {
-    color: var(--color-dark-mono-gray-3);
-    cursor: pointer;
+    color: var(--secondary-font-color);
   }
 
   &:focus {
@@ -48,20 +47,20 @@
 
 .companyList table a {
   display: block;
-  color: var(--color-black);
+  color: var(--lego-font-color);
 }
 
 .companyList th {
   padding: 5px 0;
-  border-top: 1px solid var(--color-mono-gray-1);
-  border-bottom: 1px solid var(--color-mono-gray-1) !important;
+  border-top: 1px solid var(--border-gray);
+  border-bottom: 1px solid var(--border-gray) !important;
 }
 
 .companyList th,
 .companyList td {
   padding-left: 7px;
   width: 140px;
-  border-bottom: 1px dashed var(--color-mono-gray-1);
+  border-bottom: 1px dashed var(--border-gray);
   text-align: left;
   display: table-cell;
 
@@ -80,8 +79,8 @@
 
 .yearNavigator {
   margin-bottom: -5px;
-  transition: color var(--easing-medium);
-  color: var(--lego-text-color);
+  transition: color var(--easing-fast);
+  color: var(--secondary-font-color);
 
   &:hover {
     cursor: pointer;
@@ -100,11 +99,6 @@
 .adminComment {
   padding: 5px 0;
   line-height: 17px;
-}
-
-.categoryHeader {
-  font-weight: bold;
-  background-color: var(--color-mono-gray-5);
 }
 
 .title {
@@ -141,7 +135,7 @@
 }
 
 .notContacted {
-  background-color: var(--color-mono-gray-3);
+  background-color: var(--additive-background);
 }
 
 .bedex {
@@ -197,7 +191,7 @@
   float: right;
   width: 10%;
   padding-right: 20px;
-  color: var(--color-dark-mono-gray-5);
+  color: var(--lego-font-color);
 }
 
 .hidden,
@@ -323,7 +317,7 @@ background-color. By making it this way I don't have to rewrite it 🤷 */
 .description {
   margin: 0 0 35px;
   line-height: 24px;
-  border-left: 4px solid var(--color-dark-mono-gray-5);
+  border-left: 4px solid var(--border-gray);
   padding-left: 20px;
   max-width: 90%;
 
@@ -378,16 +372,6 @@ background-color. By making it this way I don't have to rewrite it 🤷 */
   width: 100%;
   padding-bottom: 50px;
   flex-direction: column;
-}
-
-.submit {
-  padding: 10px 20px;
-  font-size: 14px;
-  margin: 10px 0 50px;
-
-  &:disabled {
-    color: var(--color-mono-gray-3);
-  }
 }
 
 .checkBox {

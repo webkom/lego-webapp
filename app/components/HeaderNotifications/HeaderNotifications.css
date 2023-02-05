@@ -17,7 +17,7 @@
 }
 
 .notification {
-  border-bottom: 1px solid lightgray;
+  border-bottom: 1px solid var(--border-gray);
   padding: 15px 15px 0;
   display: flex;
   flex-direction: row;
@@ -29,11 +29,7 @@
   }
 
   &:hover {
-    background-color: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 4%);
-  }
-
-  &:active {
-    border: 2px solid var(--color-light-gray-1);
+    background-color: var(--additive-background);
   }
 }
 
@@ -44,7 +40,7 @@
   padding-right: 15px;
   word-break: break-word;
   white-space: pre-line;
-  border-bottom: 1px solid var(--color-mono-gray-3);
+  border-bottom: 1px solid var(--border-gray);
   padding-bottom: 15px;
 }
 
@@ -55,13 +51,4 @@
 .icon {
   padding-top: 1px;
   padding-right: 15px;
-}
-
-html[data-theme='dark'] .notificationBell {
-  color: var(--color-light-gray-5);
-  transition: color var(--linear-fast);
-
-  &:hover {
-    color: var(--color-gray-5);
-  }
 }

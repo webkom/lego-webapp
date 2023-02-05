@@ -1,12 +1,7 @@
 @import url('~app/styles/variables.css');
 
 .root {
-  color: var(--lego-text-gray);
   flex-direction: column;
-}
-
-html[data-theme='dark'] .root {
-  color: var(--lego-text-color);
 }
 
 .colLeft {
@@ -17,10 +12,7 @@ html[data-theme='dark'] .root {
   flex: 2;
   align-items: center;
   padding-top: 10px;
-}
-
-html[data-theme='dark'] .colRight {
-  background-color: var(--color-black);
+  background-color: var(--color-absolute-white);
 }
 
 .colLeft ul {

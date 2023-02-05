@@ -58,7 +58,6 @@ const Attendance = ({ event }) => {
       <Pill
         style={{
           marginLeft: '5px',
-          color: 'black',
           whiteSpace: 'nowrap',
         }}
       >

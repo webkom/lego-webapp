@@ -74,7 +74,7 @@ function AccountDropdownItems({
           to="/users/me"
           onClick={onClose}
           style={{
-            color: 'var(--lego-color-gray)',
+            color: 'var(--lego-font-color)',
           }}
         >
           <strong>{username}</strong>
@@ -196,7 +196,7 @@ class Header extends Component<Props, State> {
           history.push(`/meetings/${this.props.upcomingMeeting}`);
         }}
       >
-        <Icon name="people" className={styles.meetingIcon} />
+        <Icon name="people" />
       </button>
     ));
     return (

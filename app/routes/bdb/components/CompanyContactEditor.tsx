@@ -104,7 +104,6 @@ class CompanyContactEditor extends Component<Props> {
 
             <div className={styles.clear} />
             <Button
-              className={styles.submit}
               disabled={submitting}
               submit
               style={{

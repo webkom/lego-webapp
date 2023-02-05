@@ -1,13 +1,3 @@
 .groupMembers h3 {
   margin-top: 20px;
 }
-
-.removeIcon {
-  cursor: pointer;
-  padding-right: 10px;
-  color: var(--color-mono-gray-2);
-
-  &:hover {
-    color: var(--color-mono-gray-1);
-  }
-}

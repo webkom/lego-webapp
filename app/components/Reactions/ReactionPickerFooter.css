@@ -7,26 +7,25 @@
   align-items: center;
   padding: 15px;
   background-color: var(--lego-card-color);
-  border-top: 1px solid
-    rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 15%);
+  border-top: 1px solid var(--border-gray);
 }
 
 .search {
   width: 60%;
   height: 30px;
   padding: 7px;
-  border: 1px solid var(--color-light-gray-1);
+  border: 1px solid var(--border-gray);
   border-radius: 5px;
   color: var(--color-gray-5);
 
   &:focus-within {
-    border-color: var(--color-gray-5);
+    border-color: var(--color-gray-4);
   }
 }
 
 /* Search icon */
 .search > div {
-  color: var(--color-light-gray-1);
+  color: var(--color-gray-4);
 }
 
 .search input {
@@ -41,7 +40,7 @@
   }
 
   &::placeholder {
-    color: var(--color-light-gray-1);
+    color: var(--color-gray-4);
   }
 }
 

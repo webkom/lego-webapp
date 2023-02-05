@@ -1,24 +1,20 @@
 .input {
   padding: 10px;
   font-size: 16px;
-  border: 1px solid var(--color-mono-gray-3);
+  border: 1px solid var(--border-gray);
   border-radius: 3px;
   width: 100%;
   background-color: inherit;
 }
 
-.disabled {
-  background-color: var(--color-almost-white-1);
-}
-
 .input:focus {
   outline: none;
-  box-shadow: 0 0 5px var(--color-mono-gray-3);
-  border-color: var(--color-mono-gray-1);
+  box-shadow: 0 0 5px var(--color-gray-3);
+  border-color: var(--color-gray-4);
 }
 
 .input::placeholder {
-  color: var(--color-mono-gray-1);
+  color: var(--color-gray-4);
 }
 
 html[data-theme='dark'] .input {
@@ -28,13 +24,12 @@ html[data-theme='dark'] .input {
 
 span.suffix {
   padding: 0 4px;
-  color: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 65%);
+  color: var(--color-gray-5);
   text-align: center;
-  background-color: var(--lego-color-gray-light);
-  border: 1px solid #d9d9d9;
+  background-color: var(--additive-background);
+  border: 1px solid var(--border-gray);
   border-radius: 3px;
   position: relative;
-  transition: all var(--linear-medium);
   display: table-cell;
   border-left: none;
   border-top-left-radius: 0;

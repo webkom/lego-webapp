@@ -112,7 +112,7 @@ a.transparent:hover {
 
 .grid > li {
   padding-bottom: 5px;
-  border-bottom: 1px solid var(--color-mono-gray-3);
+  border-bottom: 1px solid var(--border-gray);
 }
 
 .consents {

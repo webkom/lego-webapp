@@ -68,7 +68,7 @@ html[data-theme='dark'] .container {
 }
 
 .bullet {
-  color: var(--color-dark-mono-gray-4);
+  color: var(--secondary-font-color);
   padding: 0 8px;
   font-size: 15px;
 
@@ -78,7 +78,7 @@ html[data-theme='dark'] .container {
 }
 
 .timestamp {
-  color: var(--color-dark-mono-gray-3);
+  color: var(--secondary-font-color);
   font-size: 15px;
   overflow: hidden;
   text-overflow: ellipsis;

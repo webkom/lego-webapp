@@ -45,15 +45,6 @@
   margin-top: 10px;
 }
 
-.mobileHeader {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid var(--color-gray-3);
-  border-top: 1px solid var(--color-gray-3);
-}
-
 .textEditor {
   @media (--small-viewport) {
     width: 300px;
@@ -74,18 +65,16 @@
 }
 
 .heading {
-  color: var(--lego-font-color);
-  letter-spacing: 2px;
-  font-weight: 400;
+  font-weight: 500;
   text-transform: uppercase;
-  font-size: 20px;
-  border-bottom: 1px solid var(--color-gray-3) !important;
+  border-bottom: 1px solid var(--border-gray);
+  margin-top: 0.7rem;
 }
 
 .topline {
   margin: 15px 0;
   padding: 10px 0;
-  border-top: 1px solid var(--color-gray-3);
+  border-top: 1px solid var(--border-gray);
 }
 
 .checkboxField {
@@ -99,21 +88,6 @@
 
   @media (--small-viewport) {
     flex-direction: column;
-  }
-}
-
-.bold {
-  font-weight: bold;
-}
-
-.submit {
-  padding: 10px 20px;
-  font-size: 14px;
-  margin: 10px 0 50px;
-  width: 200px;
-
-  &:disabled {
-    color: var(--color-mono-gray-3);
   }
 }
 
@@ -142,8 +116,8 @@
 
 .companyList th {
   padding: 5px 0;
-  border-top: 1px solid var(--color-gray-3);
-  border-bottom: 1px solid var(--color-gray-3) !important;
+  border-top: 1px solid var(--border-gray);
+  border-bottom: 1px solid var(--border-gray);
 }
 
 .companyInterestList th,

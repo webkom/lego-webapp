@@ -5,7 +5,7 @@
   width: 100%;
   height: 100%;
   text-align: center;
-  border-radius: 0.3rem;
+  border-radius: 0.6rem;
   margin: 10px 0;
   overflow: hidden;
 }
@@ -17,9 +17,5 @@
   min-width: 25%;
   flex-direction: column;
   align-items: center;
-  background-color: rgba(200, 200, 200, 30%);
-}
-
-html[data-theme='dark'] .poolBox {
-  background-color: rgba(80, 80, 80, 30%);
+  background-color: var(--additive-background);
 }

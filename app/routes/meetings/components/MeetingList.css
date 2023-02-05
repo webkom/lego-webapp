@@ -2,16 +2,14 @@
 
 .root {
   composes: contentContainer from '~app/styles/utilities.css';
-  margin-top: 2rem;
 }
 
 .heading {
-  color: var(--color-dark-mono-gray-3);
-  letter-spacing: 2px;
-  font-weight: 400;
+  color: var(--color-gray-5);
+  font-weight: 500;
   text-transform: uppercase;
-  font-size: 20px;
-  border-bottom: 1px solid var(--color-mono-gray-4);
+  font-size: 1.05rem;
+  border-bottom: 1px solid var(--color-gray-2);
 }
 
 .meetingItem {
@@ -23,9 +21,8 @@
 }
 
 .meetingItemTitle {
-  color: var(--lego-color-gray);
-  font-weight: 700;
-  margin: 0;
+  color: var(--lego-font-color);
+  font-weight: 600;
 }
 
 .meetingGroup {
@@ -33,7 +30,7 @@
 }
 
 .meetingTime {
-  color: var(--color-dark-mono-gray-3);
+  color: var(--secondary-font-color);
 }
 
 .logo {
