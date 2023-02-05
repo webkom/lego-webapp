@@ -1,7 +1,6 @@
 import moment from 'moment-timezone';
-import { Component } from 'react';
+import { useState } from 'react';
 import { formatPhoneNumber, parsePhoneNumber } from 'react-phone-number-input';
-import { Link } from 'react-router-dom';
 import Button from 'app/components/Button';
 import { Flex } from 'app/components/Layout';
 import LoadingIndicator from 'app/components/LoadingIndicator';
@@ -47,163 +46,161 @@ export type Props = {
   onQueryChanged: (value: string) => any;
   searching: boolean;
 };
-type State = {
-  generatedCsvUrl?: string;
-};
-export default class Attendees extends Component<Props, State> {
-  state = {
-    generatedCsvUrl: '',
-  };
-  handleUnregister = async (registrationId: number) => {
-    const { unregister, eventId } = this.props;
+
+const Attendees = ({
+  eventId,
+  event,
+  pools,
+  currentUser,
+  error,
+  loading,
+  registered,
+  unregistered,
+  unregister,
+  updatePresence,
+  updatePayment,
+}: Props) => {
+  const [generatedCsvUrl, setGeneratedCsvUrl] = useState('');
+
+  const handleUnregister = async (registrationId: number) => {
     await unregister({
       eventId,
       registrationId,
       admin: true,
     });
   };
-  handlePresence = (registrationId: ID, presence: EventRegistrationPresence) =>
-    this.props.updatePresence(this.props.eventId, registrationId, presence);
-  handlePayment = (
+  const handlePresence = (
+    registrationId: ID,
+    presence: EventRegistrationPresence
+  ) => updatePresence(eventId, registrationId, presence);
+  const handlePayment = (
     registrationId: number,
     paymentStatus: EventRegistrationPaymentStatus
-  ) =>
-    this.props.updatePayment(this.props.eventId, registrationId, paymentStatus);
+  ) => updatePayment(eventId, registrationId, paymentStatus);
 
-  render() {
-    const {
-      eventId,
-      event,
-      error,
-      loading,
-      registered,
-      unregistered,
-      currentUser,
-      pools,
-    } = this.props;
-    const registerCount = registered.filter(
-      (reg) => reg.presence === 'PRESENT' && reg.pool
-    ).length;
-    const adminRegisterCount = registered.filter(
-      (reg) => reg.adminRegistrationReason !== '' && reg.pool
-    ).length;
-    const paidCount = registered.filter(
-      (reg) =>
-        (reg.paymentStatus === 'succeeded' || reg.paymentStatus === 'manual') &&
-        reg.pool
-    ).length;
+  const registerCount = registered.filter(
+    (reg) => reg.presence === 'PRESENT' && reg.pool
+  ).length;
+  const adminRegisterCount = registered.filter(
+    (reg) => reg.adminRegistrationReason !== '' && reg.pool
+  ).length;
+  const paidCount = registered.filter(
+    (reg) =>
+      (reg.paymentStatus === 'succeeded' || reg.paymentStatus === 'manual') &&
+      reg.pool
+  ).length;
 
-    if (loading) {
-      return <LoadingIndicator loading />;
-    }
+  if (loading) {
+    return <LoadingIndicator loading />;
+  }
 
-    if (error) {
-      return <div>{error.message}</div>;
-    }
+  if (error) {
+    return <div>{error.message}</div>;
+  }
 
-    // Not showing the presence column until 1 day before start or if someone has been given set to presence
-    const showPresence =
-      moment().isAfter(moment(event.startTime).subtract(1, 'day')) ||
-      registerCount > 0;
+  // Not showing the presence column until 1 day before start or if someone has been given set to presence
+  const showPresence =
+    moment().isAfter(moment(event.startTime).subtract(1, 'day')) ||
+    registerCount > 0;
 
-    const showUnregister = // Show unregister button until 1 day after event has ended,
-      // or until reg/unreg has ended if that is more than 1 day
-      // after event end
-      moment().isBefore(moment(event.endTime).add('days', 1)) ||
-      moment().isBefore(event.unregistrationCloseTime) ||
-      moment().isBefore(event.registrationCloseTime);
-    const exportInfoMessage = `Informasjonen du eksporterer MÅ slettes når det ikke lenger er behov for den,
+  const showUnregister = // Show unregister button until 1 day after event has ended,
+    // or until reg/unreg has ended if that is more than 1 day
+    // after event end
+    moment().isBefore(moment(event.endTime).add('days', 1)) ||
+    moment().isBefore(event.unregistrationCloseTime) ||
+    moment().isBefore(event.registrationCloseTime);
+  const exportInfoMessage = `Informasjonen du eksporterer MÅ slettes når det ikke lenger er behov for den,
                 og skal kun distribueres gjennom mail. Dersom informasjonen skal deles med personer utenfor Abakus
                 må det spesifiseres for de påmeldte hvem informasjonen skal deles med.`;
 
-    const createInfoCSV = async () => {
-      const data = registered.map((registration) => ({
-        name: registration.user.fullName,
-        email: registration.user.email,
-        phoneNumber: registration.user.phoneNumber,
-      }));
-      const csvBeginning = 'navn,epost,landskode,telefonnummer\n';
-      const csvString = data.reduce(
-        (prev, current) =>
-          prev +
-          `${current.name},${current.email || ''},${
-            parsePhoneNumber(current.phoneNumber).countryCallingCode || ''
-          },${formatPhoneNumber(current.phoneNumber) || ''}\n`,
-        csvBeginning
-      );
-      const blobUrl = URL.createObjectURL(
-        new Blob([csvString], {
-          type: 'text/csv',
-        })
-      );
-      this.setState({
-        generatedCsvUrl: blobUrl,
-      });
-    };
+  const createInfoCSV = async () => {
+    const data = registered.map((registration) => ({
+      name: registration.user.fullName,
+      email: registration.user.email,
+      phoneNumber: registration.user.phoneNumber,
+    }));
+    const csvBeginning = 'navn,epost,landskode,telefonnummer\n';
+    const csvString = data.reduce(
+      (prev, current) =>
+        prev +
+        `${current.name},${current.email || ''},${
+          parsePhoneNumber(current.phoneNumber).countryCallingCode || ''
+        },${formatPhoneNumber(current.phoneNumber) || ''}\n`,
+      csvBeginning
+    );
+    const blobUrl = URL.createObjectURL(
+      new Blob([csvString], {
+        type: 'text/csv',
+      })
+    );
+    setGeneratedCsvUrl(blobUrl);
+  };
 
-    return (
-      <div>
-        <Flex justifyContent="space-between">
-          <h2>
-            <Link to={`/events/${eventId}`}>
-              <i className="fa fa-angle-left" />
-              {` ${event.title}`}
-            </Link>
-          </h2>
-          {event.useContactTracing &&
-            (currentUser.id === event.createdBy ||
-              currentUser.id === event.createdBy.id) &&
-            moment().isBefore(moment(event.endTime).add('days', 14)) &&
-            (this.state.generatedCsvUrl ? (
-              <a href={this.state.generatedCsvUrl} download="attendees.csv">
-                Last ned
-              </a>
-            ) : (
-              <ConfirmModalWithParent
-                title="Eksporter til csv"
-                closeOnConfirm={true}
-                message={exportInfoMessage}
-                onConfirm={createInfoCSV}
-              >
-                <Button size="large">Eksporter deltakere til csv</Button>
-              </ConfirmModalWithParent>
-            ))}
-        </Flex>
-        <Flex column>
-          <div>
-            <strong>Påmeldte:</strong>
-            <div className={styles.attendees}>
-              {`${registerCount}/${event.registrationCount} har møtt opp`}
-            </div>
-            <div className={styles.adminRegistrations}>
-              {`${adminRegisterCount}/${event.registrationCount} er adminpåmeldt`}
-            </div>
-            <div className={styles.adminRegistrations}>
-              {`${paidCount}/${event.registrationCount} har betalt`}
-            </div>
+  return (
+    <div>
+      <Flex justifyContent="space-between">
+        {event.useContactTracing &&
+          (currentUser.id === event.createdBy ||
+            currentUser.id === event.createdBy.id) &&
+          moment().isBefore(moment(event.endTime).add('days', 14)) &&
+          (generatedCsvUrl ? (
+            <a href={generatedCsvUrl} download="attendees.csv">
+              Last ned
+            </a>
+          ) : (
+            <ConfirmModalWithParent
+              title="Eksporter til csv"
+              closeOnConfirm={true}
+              message={exportInfoMessage}
+              onConfirm={createInfoCSV}
+            >
+              <Button size="large">Eksporter deltakere til csv</Button>
+            </ConfirmModalWithParent>
+          ))}
+      </Flex>
+      <Flex column>
+        <div>
+          <strong>Påmeldte:</strong>
+          <div className={styles.attendees}>
+            {`${registerCount}/${event.registrationCount} har møtt opp`}
           </div>
-          {registered.length === 0 && <li>Ingen påmeldte</li>}
+          <div className={styles.adminRegistrations}>
+            {`${adminRegisterCount}/${event.registrationCount} er adminpåmeldt`}
+          </div>
+          <div className={styles.adminRegistrations}>
+            {`${paidCount}/${event.registrationCount} har betalt`}
+          </div>
+        </div>
+        {registered.length === 0 ? (
+          <li>Ingen påmeldte</li>
+        ) : (
           <RegisteredTable
             event={event}
             registered={registered}
             loading={loading}
-            handlePresence={this.handlePresence}
-            handlePayment={this.handlePayment}
-            handleUnregister={this.handleUnregister}
+            handlePresence={handlePresence}
+            handlePayment={handlePayment}
+            handleUnregister={handleUnregister}
             showPresence={showPresence}
             showUnregister={showUnregister}
             pools={pools}
           />
-          <strong
-            style={{
-              marginTop: '10px',
-            }}
-          >
-            Avmeldte:
-          </strong>
+        )}
+        <strong
+          style={{
+            marginTop: '10px',
+          }}
+        >
+          Avmeldte:
+        </strong>
+        {unregistered.length === 0 ? (
+          <li>Ingen avmeldte</li>
+        ) : (
           <UnregisteredTable unregistered={unregistered} loading={loading} />
-        </Flex>
-      </div>
-    );
-  }
-}
+        )}
+      </Flex>
+    </div>
+  );
+};
+
+export default Attendees;

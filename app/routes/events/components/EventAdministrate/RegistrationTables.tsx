@@ -440,7 +440,9 @@ export class UnregisteredTable extends Component<UnregisteredTableProps> {
         dataIndex: 'registrationDate',
         render: (registrationDate) => (
           <Tooltip
-            content={<Time time={registrationDate} format="DD.MM.YYYY HH:mm" />}
+            content={
+              <Time time={registrationDate} format="DD.MM.YYYY HH:mm:ss" />
+            }
           >
             <Time time={registrationDate} format="DD.MM.YYYY" />
           </Tooltip>

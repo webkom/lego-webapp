@@ -27,7 +27,13 @@ const EventAdministrateIndex = (props: Props) => {
   // the other tabs.
   return (
     <Content>
-      <NavigationTab title={props.event ? props.event.title : ''}>
+      <NavigationTab
+        title={props.event ? props.event.title : ''}
+        back={{
+          label: 'Tilbake',
+          path: '/events/' + props.event.id,
+        }}
+      >
         <NavigationLink to={`${base}/attendees`}>Påmeldinger</NavigationLink>
         <NavigationLink to={`${base}/statistics`}>Statistikk</NavigationLink>
         <NavigationLink to={`${base}/admin-register`}>
