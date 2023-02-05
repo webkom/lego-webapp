@@ -201,14 +201,7 @@ const Articles = ({ articles }: { articles: Article[] }) => (
 const NextEventSection = ({ events }: { events: Event[] }) => (
   <Flex column>
     <Link to="/events">
-      <h3
-        className="u-ui-heading"
-        style={{
-          padding: '5px 10px 10px',
-        }}
-      >
-        Påmeldinger
-      </h3>
+      <h3 className="u-ui-heading">Påmeldinger</h3>
     </Link>
 
     <NextEvent events={events} />
