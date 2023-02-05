@@ -17,11 +17,7 @@
 }
 
 .wrapper tr:nth-child(even) {
-  background-color: var(--color-light-gray-5);
-}
-
-html[data-theme='dark'] .wrapper tr:nth-child(even) {
-  background-color: var(--color-gray-8);
+  background-color: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 3%);
 }
 
 .checkbox {
@@ -48,7 +44,7 @@ html[data-theme='dark'] .wrapper tr:nth-child(even) {
 }
 
 .icon {
-  color: var(--color-gray-2);
+  color: var(--color-gray-6);
 }
 
 .iconActive {

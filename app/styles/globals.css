@@ -81,10 +81,10 @@ table {
 }
 
 thead {
-  background-color: var(--color-gray-9);
-  color: var(--color-gray-2);
+  background-color: var(--color-gray-2);
+  color: var(--color-gray-7);
   font-size: 0.9rem;
-  font-weight: bold;
+  font-weight: 600;
 }
 
 th,

@@ -28,12 +28,7 @@ function TextInput({
         type={type}
         disabled={disabled}
         readOnly={!!readOnly}
-        className={cx(
-          styles.input,
-          disabled && styles.disabled,
-          suffix && styles.suffix,
-          className
-        )}
+        className={cx(styles.input, suffix && styles.suffix, className)}
         {...props}
       />
       {suffix && <span className={styles.suffix}>{suffix}</span>}

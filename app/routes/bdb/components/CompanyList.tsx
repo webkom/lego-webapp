@@ -172,7 +172,7 @@ export default class CompanyList extends Component<Props> {
               </Button>
             </tr>
 
-            <tr className={styles.categoryHeader}>{headers}</tr>
+            <tr>{headers}</tr>
           </thead>
 
           <tbody>

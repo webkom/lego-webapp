@@ -220,7 +220,7 @@ const CompanyDetail = (props: Props) => {
       </h3>
       {joblistingsList.length > 0 ? (
         <table className={styles.companyEventTable}>
-          <thead className={styles.categoryHeader}>
+          <thead>
             <tr>
               <th>Tittel</th>
               <th>Jobbtype</th>

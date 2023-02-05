@@ -1,7 +1,7 @@
 @import url('~app/styles/variables.css');
 
 :root {
-  --calendar-border: 1px solid var(--color-mono-gray-4);
+  --calendar-border: 1px solid var(--border-gray);
 }
 
 .root {
@@ -102,11 +102,11 @@
 .weekdayHeading {
   padding-right: 1px;
   text-align: right;
-  border-bottom: 1px solid var(--color-mono-gray-4);
+  border-bottom: 1px solid var(--border-gray);
 }
 
 .prevNextMonthDay {
-  color: var(--color-gray-3);
+  color: var(--color-gray-4);
 }
 
 .previousEvent {

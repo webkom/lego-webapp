@@ -22,14 +22,10 @@
 }
 
 .emptyState {
-  color: var(--color-gray-1);
+  color: var(--secondary-font-color);
   font-size: 20px;
   font-weight: lighter;
   font-style: italic;
-}
-
-html[data-theme='dark'] .emptyState {
-  color: var(--color-light-gray-3);
 }
 
 .content {

@@ -32,7 +32,7 @@
   left: 0;
   width: 22px;
   height: 22px;
-  border: 1px solid var(--color-mono-gray-1);
+  border: 1px solid var(--border-gray);
   background: var(--color-white);
   border-radius: 11px;
   box-shadow: inset 0 1px 3px
@@ -66,21 +66,21 @@
 .input:disabled:not(:checked) + .label::before,
 .input:disabled:checked + .label::before {
   box-shadow: none;
-  border-color: var(--color-mono-gray-2);
-  background-color: var(--color-mono-gray-4);
+  border-color: var(--color-gray-4);
+  background-color: var(--color-gray-3);
 }
 
 .input:disabled:checked + .label::after {
-  color: var(--color-dark-mono-gray-5);
+  color: var(--color-gray-5);
 }
 
 .input:disabled + .label {
-  color: var(--color-mono-gray-1);
+  color: var(--color-gray-5);
 }
 
 /* hover style just for information */
 .input:not(:disabled):hover + .label::before {
-  border: 1px solid var(--color-dark-mono-gray-5) !important;
+  border: 1px solid var(--border-gray) !important;
   transition: border var(--linear-slow);
 }
 

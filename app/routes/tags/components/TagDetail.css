@@ -6,7 +6,7 @@
 }
 
 .entity {
-  border: 1px solid var(--lego-color-gray-light);
+  border: 1px solid var(--border-gray);
   flex: 1;
   min-width: 200px;
   margin: 5px;

@@ -1,11 +1,11 @@
 .toggleIcon {
   visibility: visible;
-  color: var(--lego-font-color);
+  transition: color var(--linear-fast);
 }
 
 .moon {
   @media (--mobile-device) {
-    color: var(--color-blue-1);
+    color: var(--color-blue-8);
   }
 }
 

@@ -296,7 +296,7 @@ export default class BdbDetail extends Component<Props, State> {
               src={company.logo}
               style={{
                 height: 'inherit',
-                border: '1px solid var(--color-mono-gray-3)',
+                border: '1px solid var(--border-gray)',
                 marginBottom: '15px',
               }}
             />
@@ -382,7 +382,7 @@ export default class BdbDetail extends Component<Props, State> {
               }}
             >
               <table className={styles.contactTable}>
-                <thead className={styles.categoryHeader}>
+                <thead>
                   <tr>
                     <th>Navn</th>
                     <th>Rolle</th>
@@ -426,7 +426,7 @@ export default class BdbDetail extends Component<Props, State> {
             >
               <p>Tips: Du kan endre semestere ved å trykke på dem i listen!</p>
               <table className={styles.detailTable}>
-                <thead className={styles.categoryHeader}>
+                <thead>
                   <tr>
                     <th>Semester</th>
                     <th>Status</th>
@@ -475,7 +475,7 @@ export default class BdbDetail extends Component<Props, State> {
           {events.length > 0 ? (
             <div className={styles.companyList}>
               <table className={styles.eventsTable}>
-                <thead className={styles.categoryHeader}>
+                <thead>
                   <tr>
                     <th>Tittel</th>
                     <th>Arrangementstype</th>

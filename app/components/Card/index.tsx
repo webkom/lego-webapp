@@ -5,9 +5,6 @@ import type { HTMLAttributes } from 'react';
 type Props = {
   className?: string;
 
-  /** Dark background  */
-  dark?: boolean;
-
   /** Small */
   tight?: boolean;
 
@@ -21,7 +18,6 @@ type Props = {
 function Card({
   children,
   className,
-  dark = false,
   tight = false,
   shadow = true,
   overflow = false,
@@ -32,7 +28,6 @@ function Card({
       className={cx(
         className,
         styles.card,
-        dark && styles.dark,
         tight && styles.tight,
         shadow && styles.shadow
       )}

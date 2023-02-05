@@ -4,7 +4,7 @@
   display: flex;
   justify-content: space-between;
   padding: 12px 0;
-  border-bottom: 1px solid var(--color-mono-gray-3);
+  border-bottom: 1px solid var(--border-gray);
   margin-bottom: 15px;
 
   @media (--small-viewport) {
@@ -24,17 +24,17 @@
   padding: 0 1rem;
   font-size: 1.6rem;
   font-weight: 500;
-  color: var(--lego-color-gray);
+  color: var(--lego-font-color);
   background: transparent;
   overflow: hidden;
 
   &::placeholder {
-    color: #444;
+    color: var(--color-gray-6);
   }
 }
 
 .searchIcon {
-  color: var(--color-dark-mono-gray-3);
+  color: var(--color-gray-6);
   font-size: 1.8rem;
   width: 30px;
   display: flex;

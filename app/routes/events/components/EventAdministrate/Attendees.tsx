@@ -161,13 +161,13 @@ const Attendees = ({
       <Flex column>
         <div>
           <strong>Påmeldte:</strong>
-          <div className={styles.attendees}>
+          <div className={styles.attendeeStatistics}>
             {`${registerCount}/${event.registrationCount} har møtt opp`}
           </div>
-          <div className={styles.adminRegistrations}>
+          <div className={styles.attendeeStatistics}>
             {`${adminRegisterCount}/${event.registrationCount} er adminpåmeldt`}
           </div>
-          <div className={styles.adminRegistrations}>
+          <div className={styles.attendeeStatistics}>
             {`${paidCount}/${event.registrationCount} har betalt`}
           </div>
         </div>

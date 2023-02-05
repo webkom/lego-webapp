@@ -130,7 +130,7 @@ class Reactions extends Component<Props, State> {
                 color={
                   addEmojiHovered || reactionPickerOpen
                     ? 'var(--color-orange-6)'
-                    : 'var(--color-gray-2)'
+                    : 'var(--color-gray-5)'
                 }
               />
             </Flex>

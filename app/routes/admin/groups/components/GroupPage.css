@@ -40,27 +40,3 @@
     color: #808080;
   }
 }
-
-.tabs {
-  height: 40px;
-  display: flex;
-  border-bottom: 2px solid var(--color-mono-gray-4);
-  flex-direction: row;
-  width: 100%;
-}
-
-.tab {
-  border-left: 4px solid var(--lego-link-color);
-  width: 100%;
-  font-size: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: bottom;
-  color: #868686;
-  background-color: #e2e2e2;
-
-  &.active {
-    background-color: var(--color-white);
-    color: var(--lego-link-color);
-  }
-}

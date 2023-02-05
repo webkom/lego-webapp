@@ -10,9 +10,5 @@
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background-color: var(--color-mono-gray-2);
-}
-
-html[data-theme='dark'] .skeletonCell {
-  background-color: var(--color-mono-gray-1);
+  background-color: var(--additive-background);
 }

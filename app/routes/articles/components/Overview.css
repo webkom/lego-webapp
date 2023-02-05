@@ -20,8 +20,7 @@
 }
 
 .overviewAuthor::after {
-  text-decoration: none;
-  color: var(--color-black);
+  color: var(--secondary-font-color);
   content: ' \2022';
 }
 
@@ -75,14 +74,12 @@
 }
 
 .itemInfo {
-  transition: color var(--linear-medium);
   font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--color-dark-gray-5);
+  color: var(--secondary-font-color);
 }
 
 .item:not(:last-child, :nth-child(3n)) {
-  border-right: 1px solid var(--color-mono-gray-4);
+  border-right: 1px solid var(--border-gray);
 
   @media (--mobile-device) {
     border: none;

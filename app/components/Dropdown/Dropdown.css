@@ -5,13 +5,8 @@
   width: 250px;
 }
 
-html[data-theme='dark'] .dropdownList > li > a:hover,
-html[data-theme='dark'] .dropdownList > li > button:hover {
-  background: var(--color-gray-8);
-}
-
 .divider {
   height: 1px;
   width: 100%;
-  background-color: var(--color-mono-gray-3);
+  background-color: var(--border-gray);
 }

@@ -13,14 +13,13 @@
 }
 
 .eventItemTitle {
-  color: var(--lego-color-gray);
-  font-weight: 700;
+  color: var(--lego-font-color);
   margin: 0;
   word-break: break-word;
 }
 
 .eventTime {
-  color: var(--color-dark-mono-gray-3);
+  color: var(--secondary-font-color);
 }
 
 .companyLogo {

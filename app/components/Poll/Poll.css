@@ -41,23 +41,14 @@
   border-radius: 0 2px 2px 0;
   font-style: italic;
   font-weight: 300;
-  color: var(--color-white);
+  color: var(--color-absolute-white);
   height: 30px;
 }
 
 .fullGraph {
-  background-color: #e7e7e7;
+  background-color: var(--additive-background);
   width: 100%;
   display: flex;
-}
-
-html[data-theme='dark'] .fullGraph {
-  color: var(--color-white);
-  background-color: var(--color-mono-gray-5);
-}
-
-html[data-theme='dark'] .pollGraph {
-  color: var(--color-black);
 }
 
 .pollGraph span {

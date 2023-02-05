@@ -72,8 +72,7 @@ html[data-theme='dark'] .companyItem {
 }
 
 .companyInfo {
-  color: var(--color-dark-mono-gray-3);
-  font-weight: 200;
+  color: var(--secondary-font-color);
   font-style: italic;
   justify-content: space-between;
   padding: 0 30px;

@@ -9,7 +9,7 @@
   margin-top: 5px;
   font-style: italic;
   font-size: 15px;
-  color: var(--color-dark-mono-gray-2);
+  color: var(--secondary-font-color);
 }
 
 .quoteText {

@@ -13,18 +13,6 @@
   margin: 0 0 20px;
 }
 
-.quotepageRight {
-  min-height: 300px;
-  padding: 0 0 0 30px;
-  margin-left: 60px;
-  border-left: 1px solid var(--color-mono-gray-3);
-  order: 2;
-}
-
-.quotepageRight a {
-  display: block;
-}
-
 .reactions {
   order: 3;
   margin: 15px 0 0 20px;
@@ -130,7 +118,7 @@
 }
 
 .singleQuote h3 a {
-  color: var(--color-dark-mono-gray-3);
+  color: var(--color-gray-8);
 }
 
 .theQuote a:hover {
@@ -140,10 +128,6 @@
 
 .singleQuote h3 a:hover {
   color: var(--color-orange-6);
-}
-
-.quoteDefault {
-  color: var(--color-gray-1);
 }
 
 .quoteSource {
@@ -177,7 +161,7 @@
 }
 
 .quoteDate {
-  color: var(--color-dark-mono-gray-2);
+  color: var(--secondary-font-color);
   font-size: 13px;
   order: 1;
   margin-top: 3px;

@@ -156,7 +156,7 @@ export default class AddSemester extends Component<Props, State> {
                 minHeight: '30px',
                 margin: '15px 0 25px',
                 borderRadius: '5px',
-                border: '1px solid var(--color-mono-gray-3)',
+                border: '1px solid var(--border-gray)',
               }}
               type="button"
               className={
@@ -181,7 +181,6 @@ export default class AddSemester extends Component<Props, State> {
             <div className={styles.clear} />
 
             <Button
-              className={styles.submit}
               disabled={submitting}
               onClick={() =>
                 this.setState({

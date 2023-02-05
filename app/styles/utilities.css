@@ -51,7 +51,7 @@ html[data-theme='dark'] .contentContainer {
 }
 
 .withShadow {
-  border: 1px solid rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 9%);
+  border: 1px solid var(--border-gray);
   box-shadow: 0 1px 4px rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 4%);
   border-radius: 5px;
 }
@@ -59,8 +59,8 @@ html[data-theme='dark'] .contentContainer {
 .editShadow {
   composes: withShadow;
   outline: none;
-  box-shadow: 0 0 5px var(--color-mono-gray-3);
-  border-color: var(--color-mono-gray-1);
+  box-shadow: 0 0 5px var(--color-gray-4);
+  border-color: var(--border-gray);
 }
 
 .truncateString {
@@ -96,7 +96,7 @@ html[data-theme='dark'] .contentContainer {
 
   /* stylelint-disable-next-line selector-class-pattern */
   .u-ui-heading {
-    color: var(--color-gray-1);
+    color: var(--lego-font-color);
     font-size: 1.1rem;
     font-weight: 500;
     line-height: 1.2;

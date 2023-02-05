@@ -1,5 +1,5 @@
 :root {
-  --calendar-border: 1px solid var(--color-mono-gray-4);
+  --calendar-border: 1px solid var(--border-gray);
 }
 
 .calendar {
@@ -30,6 +30,7 @@
   border-right: var(--calendar-border);
   border-bottom: var(--calendar-border);
   background: var(--color-white);
+  color: var(--lego-font-color);
   text-align: center;
   font-size: 16px;
   padding: 5px;
@@ -43,30 +44,18 @@
   }
 
   &:hover {
-    background: var(--lego-color-gray-light);
-  }
-}
-
-html[data-theme='dark'] .calendarItem {
-  color: var(--lego-font-color);
-
-  &:hover {
-    background: var(--color-gray-7);
+    background: var(--additive-background);
   }
 }
 
 .prevOrNextMonth {
-  color: var(--color-mono-gray-2);
-}
-
-html[data-theme='dark'] .prevOrNextMonth {
-  color: var(--color-mono-gray-4);
+  opacity: 0.3;
 }
 
 .selectedDate {
-  font-weight: 700;
+  font-weight: 600;
 }
 
-html[data-theme='dark'] .arrowIcon {
-  color: var(--color-black);
+.arrowIcon {
+  color: var(--lego-font-color);
 }

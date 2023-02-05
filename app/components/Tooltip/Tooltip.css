@@ -6,7 +6,7 @@
   text-align: center;
   display: block;
   position: absolute;
-  background: var(--lego-color-gray);
+  background: var(--color-gray-8);
   color: var(--color-white);
   border-radius: 5px;
   padding: 5px 15px;
@@ -24,7 +24,7 @@
 
 .showTooltip::after {
   top: 100%;
-  border-color: var(--lego-color-gray) transparent transparent;
+  border-color: var(--color-gray-8) transparent transparent;
 }
 
 .renderDirectionLeft {
@@ -58,6 +58,6 @@
 }
 
 .listTooltip::after {
-  border-color: transparent transparent var(--lego-color-gray);
+  border-color: transparent transparent var(--color-gray-8);
   bottom: 100%;
 }

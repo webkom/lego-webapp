@@ -1,7 +1,7 @@
 @import url('../Event.css');
 
 .fieldShadow {
-  box-shadow: 0 0 10px var(--color-dark-gray-1);
+  box-shadow: 0 0 10px var(--color-gray-3);
 }
 
 .title {
@@ -11,7 +11,7 @@
 }
 
 .editors {
-  border: 1px solid var(--color-light-gray-1);
+  border: 1px solid var(--border-gray);
   border-radius: 3px;
   padding: 10px;
 }

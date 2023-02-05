@@ -88,7 +88,7 @@ const SearchResults = ({
           <ul className={styles.results}>
             {searching ? (
               <p>
-                <i className="fa fa-spinner fa-spin" /> Søker...
+                <i className="fa fa-spinner fa-spin" /> Søker ...
               </p>
             ) : (
               <div>

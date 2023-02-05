@@ -42,21 +42,21 @@
 }
 
 input[type='text']:disabled {
-  background-color: var(--color-mono-gray-4);
-  color: var(--color-dark-mono-gray-4);
+  background-color: var(--additive-background);
+  color: var(--color-gray-5);
 }
 
 :global {
   /* stylelint-disable-next-line selector-class-pattern */
   .Select.is-disabled > .Select-control {
-    background-color: var(--color-mono-gray-4) !important;
-    color: var(--color-dark-mono-gray-4);
+    background-color: var(--additive-background) !important;
+    color: var(--color-gray-5);
   }
 
   /* stylelint-disable-next-line selector-class-pattern */
   .Select--multi.is-disabled .Select-value-label {
-    background-color: var(--color-mono-gray-4) !important;
-    color: var(--color-dark-mono-gray-4);
+    background-color: var(--additive-background) !important;
+    color: var(--color-gray-5);
   }
 
   /* stylelint-disable-next-line selector-class-pattern */
