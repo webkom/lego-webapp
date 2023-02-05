@@ -11,8 +11,8 @@ type Props = Omit<
     size: number;
     className?: string;
   } & ComponentProps<typeof CircularPicture>,
-  'placeholder' | 'src' | 'alt'
->;
+  'placeholder' | 'src'
+> & { alt?: string };
 
 const ProfilePicture = ({
   user,

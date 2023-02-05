@@ -1,6 +1,7 @@
 @import url('~app/styles/variables.css');
 
 .reactionPicker {
+  composes: popover from '~app/styles/utilities.css';
   height: 400px;
   width: 309px;
   line-height: 1.3;

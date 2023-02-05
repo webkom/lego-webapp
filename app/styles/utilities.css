@@ -12,6 +12,12 @@
   margin: 0 auto;
 }
 
+.popover {
+  border: 1px solid var(--border-gray);
+  box-shadow: 0 2px 8px 2px rgba(104, 112, 118, 7%),
+    0 2px 4px -1px rgba(104, 112, 118, 4%);
+}
+
 .contentContainer {
   composes: container;
   background: var(--color-white);
