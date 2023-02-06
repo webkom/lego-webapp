@@ -46,6 +46,12 @@ ul {
   list-style: none;
 }
 
+h1 {
+  font-size: 30px;
+  margin: 15px 0;
+}
+
+h1,
 h2,
 h3,
 h4 {
@@ -100,12 +106,6 @@ th:first-child {
 
 th:last-child {
   border-radius: 0 2em 2em 0;
-}
-
-h1 {
-  font-size: 30px;
-  font-weight: bold;
-  margin: 15px 0;
 }
 
 label {

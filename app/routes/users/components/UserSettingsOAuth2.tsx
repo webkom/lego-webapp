@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import Button from 'app/components/Button';
 import Icon from 'app/components/Icon';
 import Flex from 'app/components/Layout/Flex';
+import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import Table from 'app/components/Table';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
@@ -14,7 +15,7 @@ import styles from './UserSettingsOAuth2.css';
 type Props = {
   applications: Array<any>;
   grants: Array<any>;
-  deleteOAuth2Grant: (grantId: number) => void;
+  deleteOAuth2Grant: (grantId: number) => Promise<void>;
   actionGrant: Array<string>;
   fetchingApplications: boolean;
   fetchingGrants: boolean;
@@ -90,15 +91,20 @@ const UserSettingsOAuth2 = (props: Props) => {
     {
       dataIndex: 'delete',
       render: (id, grant) => (
-        <Tooltip
-          content="Fjern"
-          onClick={() => props.deleteOAuth2Grant(grant.id)}
-          style={{
-            marginTop: '-7px',
-          }}
+        <ConfirmModalWithParent
+          title="Bekreft handling"
+          message={`Er du sikker på at du vil fjerne token?`}
+          onConfirm={() => props.deleteOAuth2Grant(grant.id)}
+          closeOnCancel
         >
-          <Icon name="trash-outline" size={20} className={styles.deleteIcon} />
-        </Tooltip>
+          <Tooltip content="Fjern" style={{ marginTop: '-7px' }}>
+            <Icon
+              name="trash-outline"
+              size={18}
+              className={styles.deleteIcon}
+            />
+          </Tooltip>
+        </ConfirmModalWithParent>
       ),
     },
   ];

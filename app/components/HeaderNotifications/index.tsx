@@ -44,10 +44,7 @@ const NotificationElement = ({
               <Time
                 time={notification.updatedAt}
                 wordsAgo
-                style={{
-                  margin: '0',
-                  display: 'block',
-                }}
+                className={styles.updatedAt}
               />
             </div>
           </div>
@@ -69,13 +66,15 @@ export default class NotificationsDropdown extends Component<Props, State> {
   };
   renderNotifications = (notifications: Array<Record<string, any>>) => {
     return (
-      <div>
+      <Dropdown.List className={styles.maxHeight}>
         {notifications.map((notification) => (
-          <ErrorBoundary hidden key={notification.id}>
-            <NotificationElement notification={notification} />
-          </ErrorBoundary>
+          <Dropdown.ListItem key={notification.id}>
+            <ErrorBoundary hidden>
+              <NotificationElement notification={notification} />
+            </ErrorBoundary>
+          </Dropdown.ListItem>
         ))}
-      </div>
+      </Dropdown.List>
     );
   };
 
@@ -108,20 +107,7 @@ export default class NotificationsDropdown extends Component<Props, State> {
       >
         {/* TODO FIXME - do same as the menu element*/}
         {notifications.length ? (
-          <div
-            style={{
-              width: '100%',
-            }}
-          >
-            <div
-              style={{
-                maxHeight: '400px',
-                overflowY: 'auto',
-              }}
-            >
-              {this.renderNotifications(notifications)}
-            </div>
-          </div>
+          <>{this.renderNotifications(notifications)}</>
         ) : (
           <h2
             style={{
