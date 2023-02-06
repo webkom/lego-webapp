@@ -10,3 +10,7 @@
 .table td div {
   justify-content: center;
 }
+
+.table tr:nth-child(even) {
+  background-color: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 3%);
+}

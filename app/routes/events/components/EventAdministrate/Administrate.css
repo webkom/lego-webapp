@@ -124,4 +124,9 @@ a.transparent:hover {
   justify-content: center;
   cursor: pointer;
   color: var(--color-red-3);
+  transition: color var(--easing-medium);
+
+  &:hover {
+    color: var(--color-red-5);
+  }
 }
