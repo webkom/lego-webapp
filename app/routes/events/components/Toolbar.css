@@ -13,13 +13,6 @@
   }
 }
 
-.time {
-  grid-area: time;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-}
-
 .create {
   grid-area: create;
   display: flex;

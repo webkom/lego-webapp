@@ -52,3 +52,9 @@
   padding-top: 1px;
   padding-right: 15px;
 }
+
+.updatedAt {
+  display: block;
+  margin: 0;
+  color: var(--secondary-font-color);
+}

@@ -44,10 +44,7 @@ const NotificationElement = ({
               <Time
                 time={notification.updatedAt}
                 wordsAgo
-                style={{
-                  margin: '0',
-                  display: 'block',
-                }}
+                className={styles.updatedAt}
               />
             </div>
           </div>
