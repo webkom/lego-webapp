@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Collapse } from 'react-collapse';
 import Card from 'app/components/Card';
 import Icon from 'app/components/Icon';
 import { Image } from 'app/components/Image';
@@ -28,7 +29,7 @@ const LatestReadme = ({ readmes, expandedInitially }: Props) => {
         </Flex>
       </button>
 
-      {expanded && (
+      <Collapse isOpened={expanded}>
         <Flex
           wrap
           justifyContent="space-around"
@@ -42,7 +43,7 @@ const LatestReadme = ({ readmes, expandedInitially }: Props) => {
             </a>
           ))}
         </Flex>
-      )}
+      </Collapse>
     </Card>
   );
 };
