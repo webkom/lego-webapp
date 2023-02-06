@@ -15,7 +15,7 @@ const icalTypes = [
   },
   {
     name: 'personal',
-    title: 'Mine møter og favorittarrangementer',
+    title: 'Dine møter og favorittarrangementer',
   },
 ];
 

@@ -147,7 +147,7 @@ describe('Navigate throughout app', () => {
     cy.get(c('NavigationTab'))
       .first()
       .within(() => {
-        cy.contains('Mine møter').click();
+        cy.contains('Dine møter').click();
       });
     cy.url().should('contain', '/meetings');
     cy.contains('Dine Møter');

@@ -163,7 +163,7 @@ class MeetingDetails extends Component<Props> {
               />
             }
             back={{
-              label: 'Mine møter',
+              label: 'Dine møter',
               path: '/meetings',
             }}
           >
