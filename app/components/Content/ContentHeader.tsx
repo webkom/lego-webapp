@@ -2,15 +2,15 @@ import cx from 'classnames';
 import type { Event } from 'app/models';
 import { eventTypeToString } from 'app/routes/events/utils';
 import styles from './ContentHeader.css';
-import type { ReactNode } from 'react';
+import type { HTMLAttributes, ReactNode } from 'react';
 
 type Props = {
   className?: string;
   borderColor?: string;
   children: ReactNode;
   event?: Event;
-  color: string;
-};
+  color?: string;
+} & HTMLAttributes<HTMLDivElement>;
 const DEFAULT_BORDER_COLOR = '#FCD748';
 
 /**

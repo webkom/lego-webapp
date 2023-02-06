@@ -1,6 +1,8 @@
 import moment from 'moment-timezone';
 import { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
+import mazemapLogo from 'app/assets/mazemap.png';
+import Button from 'app/components/Button';
 import CommentView from 'app/components/Comments/CommentView';
 import {
   Content,
@@ -11,6 +13,7 @@ import {
 } from 'app/components/Content';
 import DisplayContent from 'app/components/DisplayContent';
 import Icon from 'app/components/Icon';
+import { Image } from 'app/components/Image';
 import InfoList from 'app/components/InfoList';
 import { Flex } from 'app/components/Layout';
 import { MazemapEmbed } from 'app/components/MazemapEmbed';
@@ -395,10 +398,30 @@ export default class EventDetail extends Component<Props, State> {
                 <Icon name="time-outline" className={styles.infoIcon} />
                 <FromToTime from={event.startTime} to={event.endTime} />
               </div>
-              <div className={styles.iconWithText}>
-                <Icon name="location-outline" className={styles.infoIcon} />
-                {event.location}
+              <div className={styles.infoIconLocation}>
+                <div className={styles.iconWithText}>
+                  <Icon name="location-outline" className={styles.infoIcon} />
+                  {event.location}
+                </div>
+                {event.mazemapPoi && (
+                  <Button
+                    className={styles.mapButton}
+                    onClick={() =>
+                      this.setState({
+                        mapIsOpen: !this.state.mapIsOpen,
+                      })
+                    }
+                  >
+                    <Image
+                      className={styles.mazemapImg}
+                      alt="mazemapLogo"
+                      src={mazemapLogo}
+                    />
+                    {this.state.mapIsOpen ? 'Skjul kart' : 'Vis kart'}
+                  </Button>
+                )}
               </div>
+
               {event.isPriced && (
                 <div className={styles.iconWithText}>
                   <Icon name="cash-outline" className={styles.infoIcon} />
@@ -407,17 +430,6 @@ export default class EventDetail extends Component<Props, State> {
               )}
               {event.mazemapPoi && (
                 <>
-                  <div
-                    className={styles.simulateLink}
-                    onClick={() =>
-                      this.setState({
-                        mapIsOpen: !this.state.mapIsOpen,
-                      })
-                    }
-                  >
-                    {' '}
-                    {this.state.mapIsOpen ? 'Skjul kart' : 'Vis kart'}
-                  </div>
                   {this.state.mapIsOpen && (
                     <MazemapEmbed mazemapPoi={event.mazemapPoi} />
                   )}
