@@ -8,7 +8,7 @@ import config from 'app/config';
 import type { AddPenalty, ID, PhotoConsent } from 'app/models';
 import { userSchema, penaltySchema } from 'app/reducers';
 import type { Thunk, Action, Token, EncodedToken, GetCookie } from 'app/types';
-import { User, FetchHistory, Penalty } from './ActionTypes';
+import { User, Penalty } from './ActionTypes';
 import { uploadFile } from './FileActions';
 import { fetchMeta } from './MetaActions';
 import { setStatusCode } from './RoutingActions';
@@ -67,9 +67,6 @@ export function login(
       if (!action || !action.payload) return;
       const { user, token } = action.payload;
       saveToken(token);
-      dispatch({
-        type: FetchHistory.CLEAR_HISTORY,
-      });
       dispatch(fetchMeta());
       dispatch(setStatusCode(null));
       return dispatch({
@@ -275,7 +272,6 @@ export function fetchUser(username = 'me'): Thunk<any> {
     types: User.FETCH,
     endpoint: `/users/${username}/`,
     schema: userSchema,
-    useCache: false,
     meta: {
       errorMessage: 'Henting av bruker feilet',
       isCurrentUser: username === 'me',
@@ -447,7 +443,6 @@ export function confirmStudentUser(token: string): Thunk<any> {
     meta: {
       errorMessage: 'Student bekreftelse feilet',
     },
-    useCache: true,
   });
 }
 export function sendForgotPasswordEmail({

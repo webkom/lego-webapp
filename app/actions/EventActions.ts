@@ -108,9 +108,6 @@ export const fetchList =
           queryString,
           endpoint,
         },
-        useCache: refresh,
-        cacheSeconds: Infinity,
-        // don't expire cache unless we pass useCache
         propagateError: true,
       })
     );
