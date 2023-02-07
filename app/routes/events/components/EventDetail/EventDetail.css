@@ -58,3 +58,9 @@
 .registeredBox {
   margin-top: 1em;
 }
+
+.organizerLogo {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}

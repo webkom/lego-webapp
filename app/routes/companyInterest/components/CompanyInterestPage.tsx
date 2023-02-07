@@ -620,7 +620,7 @@ const CompanyInterestPage = (props: Props) => {
           {interestText.text.second[language]}
           <br />
           <br />
-          {interestText.bedex[language] 
+          {interestText.bedex[language]
           <br />
           <br />
           {interestText.anniversaryCollaboration[language]}

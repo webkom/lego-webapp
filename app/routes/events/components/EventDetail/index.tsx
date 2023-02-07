@@ -11,6 +11,8 @@ import {
 } from 'app/components/Content';
 import DisplayContent from 'app/components/DisplayContent';
 import Icon from 'app/components/Icon';
+import CircularPicture from 'app/components/Image/CircularPicture';
+import ProfilePicture from 'app/components/Image/ProfilePicture';
 import InfoList from 'app/components/InfoList';
 import { Flex } from 'app/components/Layout';
 import { MazemapEmbed } from 'app/components/MazemapEmbed';
@@ -315,7 +317,7 @@ export default class EventDetail extends Component<Props, State> {
           }
         : null,
     ];
-
+    c;
     const groupLink =
       event.responsibleGroup && resolveGroupLink(event.responsibleGroup);
 
@@ -323,18 +325,16 @@ export default class EventDetail extends Component<Props, State> {
       event.responsibleGroup && {
         key: 'Arrangør',
         value: (
-          <span>
-            {groupLink ? (
-              <Link to={groupLink}>{event.responsibleGroup.name}</Link>
-            ) : (
-              event.responsibleGroup.name
-            )}{' '}
-            {event.responsibleGroup.contactEmail && (
-              <a href={`mailto:${event.responsibleGroup.contactEmail}`}>
-                {event.responsibleGroup.contactEmail}
-              </a>
+          <Link to={groupLink} className={styles.organizerLogo}>
+            {groupLink && (
+              <CircularPicture
+                alt={event.responsibleGroup.name}
+                src={event.responsibleGroup.logo}
+                size={40}
+              />
             )}
-          </span>
+            {event.responsibleGroup.name}
+          </Link>
         ),
       },
       event?.createdBy
