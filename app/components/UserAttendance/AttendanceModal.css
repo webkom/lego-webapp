@@ -1,5 +1,9 @@
 .modal {
-  height: calc(100vh - 400px);
+  height: calc(100vh - 100px - 70px);
+
+  @media (--tall-viewport) {
+    max-height: calc(100vh - 300px - 70px);
+  }
 }
 
 .search {
