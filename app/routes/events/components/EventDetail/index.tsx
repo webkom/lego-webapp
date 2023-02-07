@@ -11,6 +11,8 @@ import {
 } from 'app/components/Content';
 import DisplayContent from 'app/components/DisplayContent';
 import Icon from 'app/components/Icon';
+import CircularPicture from 'app/components/Image/CircularPicture';
+import ProfilePicture from 'app/components/Image/ProfilePicture';
 import InfoList from 'app/components/InfoList';
 import { Flex } from 'app/components/Layout';
 import { MazemapEmbed } from 'app/components/MazemapEmbed';
@@ -84,6 +86,26 @@ const InterestedButton = ({ isInterested }: InterestedButtonProps) => {
       </Tooltip>
     </div>
   );
+};
+
+const groupLogoDict: { [key: string]: string } = {
+  Arrkom:
+    'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_arrkom.png',
+  Bedkom:
+    'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_bedkom.png',
+  Fagkom:
+    'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_fagkom.png',
+  Webkom:
+    'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_webkom.png',
+  Bankkom:
+    'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_bankkom.png',
+  LaBamba:
+    'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_labamba.png',
+  PR: 'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_pr.png',
+  Readme:
+    'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_readme.png',
+  Koskom:
+    'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_koskom.png',
 };
 
 type Props = {
@@ -323,27 +345,27 @@ export default class EventDetail extends Component<Props, State> {
       event.responsibleGroup && {
         key: 'Arrangør',
         value: (
-          <span>
-            {groupLink ? (
-              <Link to={groupLink}>{event.responsibleGroup.name}</Link>
-            ) : (
-              event.responsibleGroup.name
-            )}{' '}
-            {event.responsibleGroup.contactEmail && (
-              <a href={`mailto:${event.responsibleGroup.contactEmail}`}>
-                {event.responsibleGroup.contactEmail}
-              </a>
+          <Link to={groupLink} className={styles.organizerLogo}>
+            {groupLink && (
+              <CircularPicture
+                alt={event.responsibleGroup.name}
+                src={event.responsibleGroup.logo}
+                size={40}
+              />
             )}
-          </span>
+            {event.responsibleGroup.name}
+          </Link>
         ),
       },
       event?.createdBy
         ? event.createdBy && {
             key: 'Forfatter',
             value: (
-              <Link to={`/users/${event.createdBy.username}`}>
-                {event.createdBy.fullName}
-              </Link>
+              <span className={styles.organizerLogo}>
+                <Link to={`/users/${event.createdBy.username}`}>
+                  {event.createdBy.fullName}
+                </Link>
+              </span>
             ),
           }
         : {
