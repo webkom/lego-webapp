@@ -57,16 +57,10 @@ const ArticleEditor = ({
   return (
     <Content>
       <Helmet
-        title={
-          !isNew && article ? `Redigerer: ${article.title}` : 'Ny artikkel'
-        }
+        title={isNew ? 'Ny artikkel' : 'Redigerer artikkel: ' + article?.title}
       />
       <NavigationTab
-        title={
-          isNew && article
-            ? 'Ny artikkel'
-            : 'Redigerer artikkel: ' + article.title
-        }
+        title={isNew ? 'Ny artikkel' : 'Redigerer artikkel: ' + article?.title}
         back={{
           label: 'Tilbake',
           path: `/articles/${isNew ? '' : articleId}`,
