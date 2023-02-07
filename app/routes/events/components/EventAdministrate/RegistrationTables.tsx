@@ -421,10 +421,15 @@ export const UnregisteredElement = ({
 type UnregisteredTableProps = {
   loading: boolean;
   unregistered: Array<EventRegistration>;
+  handlePayment: (
+    registrationId: ID,
+    paymentStatus: EventRegistrationPaymentStatus
+  ) => Promise<any>;
+  event: Event;
 };
 export class UnregisteredTable extends Component<UnregisteredTableProps> {
   render() {
-    const { loading, unregistered } = this.props;
+    const { loading, unregistered, handlePayment, event } = this.props;
     const columns = [
       {
         title: 'Bruker',
@@ -459,6 +464,18 @@ export class UnregisteredTable extends Component<UnregisteredTableProps> {
           >
             <Time time={unregistrationDate} format="DD.MM.YYYY" />
           </Tooltip>
+        ),
+      },
+      {
+        title: 'Betaling',
+        dataIndex: 'paymentStatus',
+        visible: !!event.isPriced,
+        render: (paymentStatus, registration) => (
+          <StripeStatus
+            id={registration.id}
+            paymentStatus={paymentStatus}
+            handlePayment={handlePayment}
+          />
         ),
       },
     ];
