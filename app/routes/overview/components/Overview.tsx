@@ -81,7 +81,10 @@ const Overview = (props: Props) => {
 
   const readMe = (
     <Flex className={styles.readMe}>
-      <LatestReadme readmes={readmes} expanded={frontpage.length === 0} />
+      <LatestReadme
+        readmes={readmes}
+        expandedInitially={frontpage.length === 0}
+      />
     </Flex>
   );
 
