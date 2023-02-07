@@ -38,8 +38,6 @@ export type Props = {
 const ArticleEditor = ({
   isNew,
   articleId,
-  currentUser,
-  submitArticle,
   handleSubmit,
   deleteArticle,
   push,
@@ -64,7 +62,11 @@ const ArticleEditor = ({
         }
       />
       <NavigationTab
-        title={isNew ? 'Ny artikkel' : 'Redigerer: ' + article.title}
+        title={
+          isNew && article
+            ? 'Ny artikkel'
+            : 'Redigerer artikkel: ' + article.title
+        }
         back={{
           label: 'Tilbake',
           path: `/articles/${isNew ? '' : articleId}`,
@@ -184,7 +186,6 @@ const ArticleEditor = ({
 
 const onSubmit = (
   data,
-  dispatch,
   { currentUser, isNew, articleId, submitArticle }: Props
 ) => {
   const body = {
