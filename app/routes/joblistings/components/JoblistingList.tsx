@@ -4,11 +4,12 @@ import { Image } from 'app/components/Image';
 import { Flex } from 'app/components/Layout';
 import Tag from 'app/components/Tags/Tag';
 import Time from 'app/components/Time';
+import type { ListJoblisting } from 'app/store/models/Joblisting';
 import { Year, jobType, Workplaces } from './Items';
 import styles from './JoblistingList.css';
 
 type JobListingItemProps = {
-  joblisting: /*TODO: JobListing*/ Record<string, any>;
+  joblisting: ListJoblisting;
 };
 
 const JoblistingItem = ({ joblisting }: JobListingItemProps) => (
@@ -18,6 +19,7 @@ const JoblistingItem = ({ joblisting }: JobListingItemProps) => (
         className={styles.companyLogo}
         src={joblisting.company.logo}
         placeholder={joblisting.company.logoPlaceholder}
+        alt={`${joblisting.company.name} logo`}
       />
     )}
     <div className={styles.listItem}>
@@ -60,7 +62,7 @@ const JoblistingItem = ({ joblisting }: JobListingItemProps) => (
 );
 
 type JobListingsListProps = {
-  joblistings: /*TODO: JobListings*/ Array<Record<string, any>>;
+  joblistings: ListJoblisting[];
 };
 
 const JoblistingsList = ({ joblistings }: JobListingsListProps) => (

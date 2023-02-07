@@ -11,12 +11,15 @@ import NavigationTab from 'app/components/NavigationTab';
 import { jobType, Year } from 'app/routes/joblistings/components/Items';
 import EventItem from 'app/routes/overview/components/EventItem';
 import { renderMeta } from 'app/routes/overview/components/utils';
+import type { DetailedCompany } from 'app/store/models/Company';
+import type { ListEvent } from 'app/store/models/Event';
+import type { ListJoblisting } from 'app/store/models/Joblisting';
 import styles from './Company.css';
 
 type Props = {
-  company: Record<string, any>;
-  companyEvents: Array<Record<string, any>>;
-  joblistings: Array<Record<string, any>>;
+  company: DetailedCompany;
+  companyEvents: ListEvent[];
+  joblistings: ListJoblisting[];
   showFetchMoreEvents: boolean;
   fetchMoreEvents: () => Promise<any>;
   loggedIn: boolean;
@@ -48,8 +51,6 @@ function insertInfoBubbles(company) {
           }}
           link={info[1] && info[1].includes('.') ? info[1] : undefined}
           small
-          iconClass={styles.icon}
-          dataClass={styles.data}
         />
       ))}
     </div>
@@ -67,7 +68,8 @@ class CompanyEvents extends Component<EventProps, any> {
     const { loggedIn, companyEvents, showFetchMoreEvents, fetchMoreEvents } =
       this.props;
     const sortedEvents = companyEvents.sort(
-      (a, b) => new Date(b.startTime) - new Date(a.startTime)
+      (a, b) =>
+        new Date(b.startTime).getTime() - new Date(a.startTime).getTime()
     );
     const upcomingEvents = sortedEvents.filter((event) =>
       moment().isBefore(moment(event.startTime))
@@ -79,7 +81,6 @@ class CompanyEvents extends Component<EventProps, any> {
     const EventTable = ({ events }) =>
       events.map((event) => (
         <EventItem
-          className={styles.companyEvent}
           key={event.id}
           item={event}
           url={`/events/${event.id}`}
@@ -159,15 +160,18 @@ const CompanyDetail = (props: Props) => {
           <Year joblisting={joblisting} />
         </td>
         <td>
-          {joblisting.applicationUrl && (
-            <a
-              href={joblisting.applicationUrl}
-              target="_blank"
-              rel="noreferrer"
-            >
-              <strong>SØK HER</strong>
-            </a>
-          )}
+          {
+            // TODO: this doesn't work, because applicationUrl doesn't exist with list-serializer
+            joblisting.applicationUrl && (
+              <a
+                href={joblisting.applicationUrl}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <strong>SØK HER</strong>
+              </a>
+            )
+          }
         </td>
       </tr>
     ));
@@ -175,8 +179,12 @@ const CompanyDetail = (props: Props) => {
     <Content>
       <Helmet title={company.name} />
       {company.logo && (
-        <div className={styles.companyLogoDetail}>
-          <Image src={company.logo} className={styles.companyImage} />
+        <div>
+          <Image
+            src={company.logo}
+            className={styles.companyImage}
+            alt={`${company.name} logo`}
+          />
         </div>
       )}
 

@@ -1,4 +1,4 @@
-import type { ID } from 'app/models';
+import type { ID } from 'app/store/models';
 
 export type Tree<T> = Array<
   T & {

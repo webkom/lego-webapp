@@ -5,8 +5,11 @@ import Icon from 'app/components/Icon';
 import { Container, Flex } from 'app/components/Layout';
 import Poll from 'app/components/Poll';
 import RandomQuote from 'app/components/RandomQuote';
-import type { Event, Article, Readme } from 'app/models';
+import type { Event, Readme } from 'app/models';
+import type { WithDocumentType } from 'app/reducers/frontpage';
+import { isArticle, isEvent } from 'app/reducers/frontpage';
 import type { PollEntity } from 'app/reducers/polls';
+import type { PublicArticle } from 'app/store/models/Article';
 import ArticleItem from './ArticleItem';
 import CompactEvents from './CompactEvents';
 import EventItem from './EventItem';
@@ -18,14 +21,14 @@ import { renderMeta } from './utils';
 // import Banner, { COLORS } from 'app/components/Banner';
 
 type Props = {
-  frontpage: Array<Article | Event>;
-  readmes: Array<Readme>;
+  frontpage: WithDocumentType<PublicArticle | Event>[];
+  readmes: Readme[];
   poll: PollEntity | null | undefined;
   votePoll: () => Promise<void>;
   loggedIn: boolean;
 };
 
-const itemUrl = (item: Event | Article) => {
+const itemUrl = (item: WithDocumentType<PublicArticle | Event>) => {
   return `/${item.documentType === 'event' ? 'events' : 'articles'}/${item.id}`;
 };
 
@@ -40,11 +43,7 @@ const Overview = (props: Props) => {
 
   const { loggedIn, frontpage, readmes, poll, votePoll } = props;
 
-  const events = useMemo(
-    () =>
-      frontpage.filter((item): item is Event => item.documentType === 'event'),
-    [frontpage]
-  );
+  const events = useMemo(() => frontpage.filter(isEvent), [frontpage]);
 
   const pinned = frontpage[0];
 
@@ -54,10 +53,7 @@ const Overview = (props: Props) => {
   );
 
   const articles = useMemo(
-    () =>
-      frontpage.filter(
-        (item): item is Article => item.documentType === 'article'
-      ),
+    () => frontpage.filter(isArticle) as WithDocumentType<PublicArticle>[],
     [frontpage]
   );
 
@@ -140,7 +136,7 @@ const Events = ({
   events,
   loggedIn,
 }: {
-  events: Event[];
+  events: WithDocumentType<Event>[];
   loggedIn: boolean;
 }) => (
   <Flex column className={styles.events}>
@@ -163,7 +159,11 @@ const Events = ({
   </Flex>
 );
 
-const Weekly = ({ weeklyArticle }: { weeklyArticle: Article }) => (
+const Weekly = ({
+  weeklyArticle,
+}: {
+  weeklyArticle: WithDocumentType<PublicArticle>;
+}) => (
   <Flex column>
     {weeklyArticle && (
       <>
@@ -181,8 +181,11 @@ const Weekly = ({ weeklyArticle }: { weeklyArticle: Article }) => (
     )}
   </Flex>
 );
-
-const Articles = ({ articles }: { articles: Article[] }) => (
+const Articles = ({
+  articles,
+}: {
+  articles: WithDocumentType<PublicArticle>[];
+}) => (
   <Flex column>
     <Link to="/articles">
       <h3 className="u-ui-heading">Artikler</h3>

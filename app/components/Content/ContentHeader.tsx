@@ -11,6 +11,7 @@ type Props = {
   event?: Event;
   color?: string;
 } & HTMLAttributes<HTMLDivElement>;
+
 const DEFAULT_BORDER_COLOR = '#FCD748';
 
 /**

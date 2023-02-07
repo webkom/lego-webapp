@@ -10,7 +10,7 @@ import LoadingIndicator from 'app/components/LoadingIndicator';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
-import type { CompanySemesterContactedStatus, ID } from 'app/models';
+import type { CompanySemesterContactedStatus } from 'app/models';
 import type {
   CompanyEntity,
   BaseSemesterStatusEntity,
@@ -19,6 +19,9 @@ import type {
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 import type { UserEntity } from 'app/reducers/users';
 import { EVENT_CONSTANTS } from 'app/routes/events/utils';
+import type { ID } from 'app/store/models';
+import type Comment from 'app/store/models/Comment';
+import type { CurrentUser } from 'app/store/models/User';
 import truncateString from 'app/utils/truncateString';
 import {
   sortByYearThenSemester,
@@ -30,9 +33,9 @@ import styles from './bdb.css';
 
 type Props = {
   company: CompanyEntity;
-  comments: Array<Record<string, any>>;
+  comments: Comment[];
   companyEvents: Array<Record<string, any>>;
-  currentUser: any;
+  currentUser: CurrentUser;
   deleteSemesterStatus: (arg0: number, arg1: number) => Promise<any>;
   deleteCompanyContact: (arg0: number, arg1: number) => Promise<any>;
   loggedIn: boolean;
@@ -41,7 +44,6 @@ type Props = {
     arg0: BaseSemesterStatusEntity,
     arg1: Record<string, any> | null | undefined
   ) => Promise<any>;
-  companyEvents: Array<Record<string, any>>;
   fetching: boolean;
   editCompany: (arg0: Record<string, any>) => void;
   deleteCompany: (arg0: number) => Promise<any>;

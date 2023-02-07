@@ -7,7 +7,6 @@ import LoadingIndicator from 'app/components/LoadingIndicator';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import type {
   Event,
-  Comment,
   EventPool,
   ActionGrant,
   User,
@@ -16,16 +15,18 @@ import type {
   EventRegistrationPaymentStatus,
   EventRegistrationPresence,
 } from 'app/models';
+import type Comment from 'app/store/models/Comment';
+import type { CurrentUser } from 'app/store/models/User';
 import styles from './Abacard.css';
 import { RegisteredTable, UnregisteredTable } from './RegistrationTables';
 
 export type Props = {
   eventId: number;
   event: Event;
-  comments: Array<Comment>;
+  comments: Comment[];
   pools: Array<EventPool>;
   loggedIn: boolean;
-  currentUser: Record<string, any>;
+  currentUser: CurrentUser;
   error: Record<string, any>;
   loading: boolean;
   registered: Array<EventRegistration>;

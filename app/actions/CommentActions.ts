@@ -1,19 +1,15 @@
 import callAPI from 'app/actions/callAPI';
-import type { ID } from 'app/models';
 import { commentSchema } from 'app/reducers';
+import type { ID } from 'app/store/models';
+import type CommentType from 'app/store/models/Comment';
 import type { Thunk } from 'app/types';
 import { Comment } from './ActionTypes';
 
-export type CommentEntity = {
-  text: string;
-  contentTarget: string;
-  parent?: number;
-};
 export function addComment({
   text,
   contentTarget,
   parent,
-}: CommentEntity): Thunk<Promise<Record<string, any> | null | undefined>> {
+}: CommentType): Thunk<Promise<Record<string, any> | null | undefined>> {
   return callAPI({
     types: Comment.ADD,
     endpoint: '/comments/',

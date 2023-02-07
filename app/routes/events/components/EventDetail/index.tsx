@@ -26,7 +26,6 @@ import {
 } from 'app/components/UserAttendance';
 import UserGrid from 'app/components/UserGrid';
 import type {
-  ID,
   EventPool,
   EventRegistration,
   Event,
@@ -34,9 +33,10 @@ import type {
   AddPenalty,
   FollowerItem,
 } from 'app/models';
-import type { CommentEntity } from 'app/reducers/comments';
 import { resolveGroupLink } from 'app/reducers/groups';
-import type { UserEntity } from 'app/reducers/users';
+import type { ID } from 'app/store/models';
+import type Comment from 'app/store/models/Comment';
+import type { CurrentUser } from 'app/store/models/User';
 import {
   colorForEvent,
   penaltyHours,
@@ -93,9 +93,9 @@ type Props = {
   eventId: ID;
   event: Event;
   loggedIn: boolean;
-  currentUser: UserEntity;
+  currentUser: CurrentUser;
   actionGrant: ActionGrant;
-  comments: Array<CommentEntity>;
+  comments: Array<Comment>;
   error?: Record<string, any>;
   pools: Array<EventPool>;
   registrations: Array<EventRegistration>;

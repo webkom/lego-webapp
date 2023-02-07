@@ -1,6 +1,6 @@
 import { mount, shallow } from 'enzyme';
 import { MemoryRouter } from 'react-router-dom';
-import { generateTreeStructure } from '../../../utils';
+import { generateTreeStructure } from 'app/utils';
 import CommentTree from '../CommentTree';
 import comments from './fixtures/comments';
 

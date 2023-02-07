@@ -57,14 +57,6 @@
   width: 100%;
 }
 
-.companyEvent {
-  width: 150%;
-  display: flex;
-  background: var(--color-white);
-  margin-top: 10px;
-  justify-content: center;
-}
-
 .companyEventsShowMore {
   padding-left: 10px;
   padding-bottom: 20px;

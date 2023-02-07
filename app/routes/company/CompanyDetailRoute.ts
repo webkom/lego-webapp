@@ -10,10 +10,10 @@ import {
   selectEventsForCompany,
   selectJoblistingsForCompany,
 } from 'app/reducers/companies';
+import { selectPagination } from 'app/reducers/selectors';
 import createQueryString from 'app/utils/createQueryString';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
-import { selectPagination } from '../../reducers/selectors';
 import CompanyDetail from './components/CompanyDetail';
 
 const queryString = (companyId) =>

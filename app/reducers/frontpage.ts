@@ -2,13 +2,23 @@ import { sortBy } from 'lodash';
 import moment from 'moment-timezone';
 import { createSelector } from 'reselect';
 import { Frontpage } from 'app/actions/ActionTypes';
-import type { Article, Event } from 'app/models';
+import type { Event } from 'app/models';
+import type { UnknownArticle } from 'app/store/models/Article';
 import { fetching } from 'app/utils/createEntityReducer';
 import { selectArticles } from './articles';
 import { selectEvents } from './events';
 
-const isEvent = (item: Article | Event): item is Event =>
-  item.documentType === 'event';
+export type WithDocumentType<T> = T & {
+  documentType: 'event' | 'article';
+};
+
+export const isEvent = <T extends Event>(
+  item: WithDocumentType<T | unknown>
+): item is WithDocumentType<T> => item.documentType === 'event';
+
+export const isArticle = <T extends UnknownArticle>(
+  item: WithDocumentType<T | unknown>
+): item is WithDocumentType<T> => item.documentType === 'article';
 
 export default fetching(Frontpage.FETCH);
 export const selectFrontpage = createSelector(
@@ -30,7 +40,7 @@ export const selectFrontpage = createSelector(
         // Always sort pinned items first:
         (item) => !item.pinned,
         (item) => {
-          // For events we care about when the event starts, whereas for articles
+          // For events, we care about when the event starts, whereas for articles
           // we look at when it was written:
           const timeField = isEvent(item) ? item.startTime : item.createdAt;
           return Math.abs(now.diff(timeField));

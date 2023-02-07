@@ -7,20 +7,20 @@ import Icon from 'app/components/Icon';
 import { Image } from 'app/components/Image';
 import { Flex } from 'app/components/Layout';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import type { Company } from 'app/models';
+import type { ListCompany } from 'app/store/models/Company';
 import utilities from 'app/styles/utilities.css';
 import styles from './CompaniesPage.css';
 import type { ElementRef } from 'react';
 
 type Props = {
-  companies: Array<Company>;
+  companies: ListCompany[];
   fetchMore: () => void;
   showFetchMore: () => void;
   hasMore: boolean;
   fetching: boolean;
 };
 
-const CompanyItem = ({ company }: Company) => {
+const CompanyItem = ({ company }: { company: ListCompany }) => {
   return (
     <div className={styles.companyItem}>
       <div className={styles.companyItemContent}>
@@ -31,6 +31,7 @@ const CompanyItem = ({ company }: Company) => {
                 <Image
                   src={company.logo}
                   placeholder={company.logoPlaceholder}
+                  alt={`${company.name} logo`}
                 />
               }
             </div>
@@ -72,7 +73,7 @@ const CompanyItem = ({ company }: Company) => {
 };
 
 type CompanyListProps = {
-  companies: Array<Company>;
+  companies: ListCompany[];
 };
 
 const CompanyList = ({ companies = [] }: CompanyListProps) => (
@@ -161,7 +162,6 @@ class CompaniesPage extends Component<Props, State> {
             <span className={styles.iconInfo}> Kommende arrangementer</span>
           </Flex>
         </div>
-        <div id="nav" className={styles.navigationBar} />
         <InfiniteScroll
           element="div"
           hasMore={props.hasMore}
