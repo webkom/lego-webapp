@@ -38,8 +38,6 @@ export type Props = {
 const ArticleEditor = ({
   isNew,
   articleId,
-  currentUser,
-  submitArticle,
   handleSubmit,
   deleteArticle,
   push,
@@ -58,16 +56,12 @@ const ArticleEditor = ({
 
   return (
     <Content>
-      <Helmet
-        title={
-          !isNew && article ? `Redigerer: ${article.title}` : 'Ny artikkel'
-        }
-      />
+      <Helmet title={isNew ? 'Ny artikkel' : 'Redigerer: ' + article?.title} />
       <NavigationTab
-        title="Rediger artikkel"
+        title={isNew ? 'Ny artikkel' : 'Redigerer: ' + article?.title}
         back={{
           label: 'Tilbake',
-          path: `/articles/${articleId}`,
+          path: `/articles/${isNew ? '' : articleId}`,
         }}
       />
 
@@ -164,7 +158,9 @@ const ArticleEditor = ({
           initialized={initialized}
         />
         <Flex wrap>
-          <Button onClick={() => push(`/articles/${articleId}`)}>Avbryt</Button>
+          <Button onClick={() => push(`/articles/${isNew ? '' : articleId}`)}>
+            Avbryt
+          </Button>
           <Button submit success={!isNew}>
             {!isNew ? 'Lagre endringer' : 'Opprett'}
           </Button>
@@ -182,7 +178,6 @@ const ArticleEditor = ({
 
 const onSubmit = (
   data,
-  dispatch,
   { currentUser, isNew, articleId, submitArticle }: Props
 ) => {
   const body = {

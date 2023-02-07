@@ -42,7 +42,7 @@ const AnnouncementsList = ({
       />
       {actionGrant.includes('list') && actionGrant.includes('delete') && (
         <ContentMain>
-          <h1> Mine kunngjøringer </h1>
+          <h1> Dine kunngjøringer </h1>
           <Flex column className={styles.list}>
             {announcements.map((a, i) => (
               <AnnouncementItem
