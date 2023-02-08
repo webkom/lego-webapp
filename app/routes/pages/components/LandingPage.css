@@ -50,8 +50,8 @@
 }
 
 .contactUsLink {
-  color: var(--lego-red);
-  font-weight: bold;
+  color: var(--lego-link-color);
+  font-weight: 600;
   text-transform: uppercase;
   margin-left: auto;
   margin-right: 1.5em;
@@ -59,6 +59,10 @@
   position: absolute;
   right: 0;
   top: 0;
+
+  &:hover {
+    color: var(--lego-red-color-hover);
+  }
 }
 
 .emailIcon {

@@ -207,7 +207,7 @@ class SurveyEditor extends Component<Props, State> {
           {survey.templateType ? (
             <h2
               style={{
-                color: 'red',
+                color: 'var(--lego-color-red)',
               }}
             >
               Dette er malen for arrangementer av type{' '}

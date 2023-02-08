@@ -2,21 +2,21 @@ import DividerWithDots from 'app/components/DividerWithDots';
 import Vision from '../Vision';
 import styles from './DisplayVision.css';
 
-type Props = {
+type VisionType = {
   title: string;
-  vision1: Record<string, any>;
-  vision2: Record<string, any>;
-  vision3: Record<string, any>;
-  vision4: Record<string, any>;
+  summary: string;
+  paragraphs?: string[];
 };
 
-const DisplayVision = ({
-  title,
-  vision1,
-  vision2,
-  vision3,
-  vision4,
-}: Props) => (
+type Props = {
+  title: string;
+  vision1: VisionType;
+  vision2: VisionType;
+  vision3: VisionType;
+  vision4: VisionType;
+};
+
+const DisplayVision = ({ vision1, vision2, vision3, vision4 }: Props) => (
   <div className={styles.vision}>
     <div className={styles.sectionLeft}>
       <Vision
@@ -34,6 +34,7 @@ const DisplayVision = ({
     </div>
 
     <DividerWithDots />
+
     <div className={styles.sectionRight}>
       <Vision
         title={vision3.title}
@@ -104,13 +105,7 @@ DisplayVision.defaultProps = {
   },
 };
 
-const DisplayVisionShort = ({
-  title,
-  vision1,
-  vision2,
-  vision3,
-  vision4,
-}: Props) => {
+const DisplayVisionShort = ({ vision1, vision2, vision3, vision4 }: Props) => {
   return (
     <div>
       <h2 className={styles.visionTitle}>Våre Verdier</h2>
@@ -120,7 +115,7 @@ const DisplayVisionShort = ({
           <Vision title={vision2.title} summary={vision2.summary} left />
         </div>
 
-        <DividerWithDots className={styles.divWithDots} />
+        <DividerWithDots />
 
         <div className={styles.sectionRight}>
           <Vision title={vision3.title} summary={vision3.summary} />

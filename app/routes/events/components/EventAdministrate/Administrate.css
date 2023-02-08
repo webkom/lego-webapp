@@ -84,7 +84,7 @@
 
 .redIcon {
   font-size: 1.4em;
-  color: var(--color-red-3);
+  color: var(--danger-color);
 }
 
 .consentIcon {
@@ -123,10 +123,10 @@ a.transparent:hover {
 .unregisterIcon {
   justify-content: center;
   cursor: pointer;
-  color: var(--color-red-3);
-  transition: color var(--easing-medium);
+  color: var(--danger-color);
+  transition: color var(--easing-fast);
 
   &:hover {
-    color: var(--color-red-5);
+    color: var(--color-red-7);
   }
 }

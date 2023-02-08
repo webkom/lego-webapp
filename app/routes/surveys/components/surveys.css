@@ -67,7 +67,7 @@
 
 .question {
   border: 2px solid var(--border-gray);
-  border-left: 3px solid var(--color-red-4);
+  border-left: 3px solid var(--lego-red-color);
   padding: 20px 25px;
   margin-bottom: 35px;
   display: flex;
@@ -222,11 +222,11 @@
 
 .deleteQuestion {
   cursor: pointer;
-  color: var(--color-red-4);
+  color: var(--danger-color);
   transition: color var(--easing-fast);
 
   &:hover {
-    color: var(--color-red-5);
+    color: var(--color-red-7);
   }
 }
 

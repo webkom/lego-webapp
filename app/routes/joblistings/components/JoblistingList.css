@@ -42,7 +42,7 @@
   transition: background-color var(--easing-fast);
 
   &:hover {
-    background-color: rgba(255, 0, 0, 8%);
+    background-color: rgba(255, 0, 0, var(--color-red-hover-alpha));
   }
 
   @media (--mobile-device) {

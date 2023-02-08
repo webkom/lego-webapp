@@ -75,6 +75,6 @@ html[data-theme='dark'] .descriptionEditor {
 
 .subSection {
   margin-left: 10px;
-  border-left: 4px solid var(--lego-red);
+  border-left: 4px solid var(--lego-red-color);
   padding: 0 0 10px 10px;
 }

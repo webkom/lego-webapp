@@ -5,7 +5,7 @@
   display: flex;
   justify-content: center;
   box-sizing: border-box;
-  border-right: 2px solid var(--lego-red);
+  border-right: 2px solid var(--lego-red-color);
   margin-bottom: 5em;
   width: 270px;
 }

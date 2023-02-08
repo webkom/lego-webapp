@@ -123,13 +123,7 @@ html[data-theme='dark'] .search input {
 }
 
 .activeItem {
-  background-color: var(--color-red-8);
-  box-shadow: 0 0 0 1px var(--color-red-3);
-  color: var(--color-red-3);
-}
-
-html[data-theme='dark'] .activeItem {
-  background-color: var(--color-red-0);
-  box-shadow: 0 0 0 1px var(--color-red-3);
-  color: var(--color-red-3);
+  background-color: var(--color-red-1);
+  box-shadow: 0 0 0 1px var(--lego-red-color);
+  color: var(--lego-red-color);
 }

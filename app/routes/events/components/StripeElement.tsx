@@ -9,6 +9,7 @@ import {
 } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import { Component, useState, useEffect, useCallback } from 'react';
+import Button from 'app/components/Button';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import config from 'app/config';
 import type { EventRegistrationPaymentStatus, User, Event } from 'app/models';
@@ -55,15 +56,15 @@ type CompleteStatus =
 const StripeElementStyle = {
   style: {
     base: {
-      color: '#424770',
+      color: '#0d0d0d',
       letterSpacing: '0.025em',
       fontFamily: 'Source Code Pro, monospace',
       '::placeholder': {
-        color: '#aab7c4',
+        color: '#8c8c8c',
       },
     },
     invalid: {
-      color: '#9e2146',
+      color: '#c81917',
     },
   },
 };
@@ -155,7 +156,9 @@ const CardForm = (props: CardFormProps) => {
             options={StripeElementStyle}
           />
         </label>
-        <button className={stripeStyles.stripeButton}>Betal</button>
+        <Button dark className={stripeStyles.stripeButton}>
+          Betal
+        </Button>
       </fieldset>
     </form>
   ) : (

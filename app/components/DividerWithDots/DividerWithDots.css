@@ -1,7 +1,7 @@
 @import url('~app/styles/variables.css');
 
 .visionLine {
-  border-left: 3px solid var(--lego-red);
+  border-left: 3px solid var(--lego-red-color);
   display: flex;
   flex-direction: column;
   margin: 10px 2rem;
@@ -11,7 +11,7 @@
 .dot {
   height: 9px;
   width: 9px;
-  background-color: var(--lego-red);
+  background-color: var(--lego-red-color);
   border-radius: 50%;
   display: inline-block;
   position: absolute;
@@ -21,7 +21,7 @@
 .dotBottom {
   height: 9px;
   width: 9px;
-  background-color: var(--lego-red);
+  background-color: var(--lego-red-color);
   border-radius: 50%;
   display: inline-block;
   position: absolute;

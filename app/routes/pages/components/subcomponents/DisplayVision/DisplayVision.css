@@ -24,11 +24,6 @@
   flex-basis: 50%;
 }
 
-.divWithDots {
-  margin-bottom: 2.2rem;
-  margin-top: 1.2rem;
-}
-
 @media (--mobile-device) {
   .visionTitle {
     font-size: 30px;
