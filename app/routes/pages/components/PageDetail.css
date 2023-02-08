@@ -114,7 +114,7 @@
 }
 
 .sidebarOpenBtn {
-  background-color: #f7f7f7;
+  background-color: var(--color-red-2);
   width: 40px;
   height: 65px;
   position: sticky;
@@ -123,9 +123,8 @@
   align-items: center;
   justify-content: center;
   border-radius: 0 50px 50px 0;
-  border: 1px solid #d1d1d1;
   border-left: 0;
-  color: var(--lego-red);
+  color: #000;
   z-index: 10;
 
   @media (--mobile-device) {
