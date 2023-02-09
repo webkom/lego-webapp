@@ -12,7 +12,7 @@ type JobListingItemProps = {
   joblisting: ListJoblisting;
 };
 
-const JoblistingItem = ({ joblisting }: JobListingItemProps) => (
+export const JoblistingItem = ({ joblisting }: JobListingItemProps) => (
   <Link to={`/joblistings/${joblisting.id}/`} className={styles.joblistingItem}>
     {joblisting.company.logo && (
       <Image

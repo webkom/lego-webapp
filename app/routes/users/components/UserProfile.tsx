@@ -175,7 +175,7 @@ const GroupBadge = ({
   );
 };
 
-const ListEvents = ({
+export const ListEvents = ({
   events,
   noEventsMessage,
   loggedIn,

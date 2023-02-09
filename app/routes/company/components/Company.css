@@ -1,81 +1,15 @@
 @import url('~app/styles/variables.css');
 
-.infoBubbles {
-  margin-top: 1em;
+.infoIcon {
+  min-width: 26px;
   display: flex;
-  flex-direction: row;
   justify-content: center;
+  padding-right: 0.2em;
 }
 
-.bubbleContainer {
-  display: flex;
-  justify-content: space-between;
-}
-
-.showAllEventsButton {
-  color: var(--lego-link-color);
-  font-size: var(--font-size-large);
-  margin-left: -9px;
-}
-
-.editLink {
-  margin-top: 0.2em;
-  margin-right: 0.5em;
-}
-
-.inactiveLink {
-  pointer-events: none;
-  cursor: default;
-}
-
-.description {
-  margin: 15px;
-  margin-bottom: 35px;
-  margin-left: 0;
-  padding-top: 6px;
-  padding-left: 20px;
-  border-left: 4px solid var(--border-gray);
-  display: flex;
-  -webkit-box-pack: justify;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-}
-
-.coverImage {
-  width: 100%;
-  height: 300px;
-  overflow: hidden;
-}
-
-.companyEventList {
-  border-collapse: collapse;
-  width: 100%;
-}
-
-.companyEventTable {
+.sectionHeader {
+  font-size: 20px;
   margin-top: 20px;
-  width: 100%;
-}
-
-.companyEventsShowMore {
-  padding-left: 10px;
-  padding-bottom: 20px;
-}
-
-.companyImage {
-  display: block;
-  margin: auto;
-  background: white;
-}
-
-.image {
-  object-fit: cover;
-  background: var(--color-white);
-  height: 80px;
-  width: 300px;
-
-  @media (--mobile-device) {
-    height: auto;
-    width: 100%;
-  }
+  border-bottom: 1px solid var(--border-gray);
+  margin-bottom: 20px;
 }
