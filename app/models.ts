@@ -232,6 +232,7 @@ export type Event = EventBase & {
   actionGrant: ActionGrant;
   activationTime: Dateish | null | undefined;
   isAdmitted: boolean | null | undefined;
+  following: false | ID;
   activeCapacity: number;
   eventType: EventType;
   eventStatusType: EventStatusType;
