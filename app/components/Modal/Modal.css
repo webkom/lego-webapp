@@ -42,7 +42,7 @@ html[data-theme='dark'] .backdrop {
   right: 1rem;
   padding: 0;
   color: var(--color-gray-6);
-  transition: color var(--easing-medium);
+  transition: color var(--easing-fast);
 
   &:hover {
     color: var(--color-gray-5);

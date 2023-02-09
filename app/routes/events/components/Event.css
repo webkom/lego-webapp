@@ -93,7 +93,7 @@
 .eventWarning {
   padding: 10px;
   border-radius: 10px;
-  background: var(--color-red-4);
+  background: var(--danger-color);
   text-align: center;
   margin-bottom: 0.5rem;
 }
@@ -105,12 +105,20 @@
 }
 
 .eventWarning a {
-  font-weight: bold;
-  color: var(--color-event-red);
+  font-weight: 600;
+  color: var(--color-red-9);
+
+  &:hover {
+    color: var(--color-red-8);
+  }
 }
 
-.eventWarning a:hover {
-  color: #6b0d06;
+html[data-theme='dark'] .eventWarning a {
+  color: var(--color-red-1);
+
+  &:hover {
+    color: var(--color-red-2);
+  }
 }
 
 .eventPrice {

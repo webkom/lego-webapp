@@ -76,7 +76,7 @@ html[data-theme='dark'] .companyItem {
   font-style: italic;
   justify-content: space-between;
   padding: 0 30px;
-  border-top: 2px solid var(--lego-red);
+  border-top: 2px solid var(--lego-red-color);
   padding-top: 20px;
 }
 
@@ -137,7 +137,7 @@ html[data-theme='dark'] .companyItem {
 .readMore {
   display: none;
   font-size: var(--font-size);
-  color: var(--lego-red);
+  color: var(--lego-red-color);
   margin-top: 17px;
 }
 

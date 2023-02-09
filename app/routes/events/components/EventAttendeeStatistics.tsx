@@ -301,14 +301,14 @@ const EventAttendeeStatistics = ({
               type="monotone"
               dataKey="registrations"
               name="Påmeldinger"
-              stroke="green"
+              stroke="var(--color-green-6)"
               activeDot={{ r: 8 }}
             />
             <Line
               type="monotone"
               dataKey="unregistrations"
               name="Avmeldinger"
-              stroke="red"
+              stroke="var(--lego-red-color)"
               activeDot={{ r: 8 }}
             />
           </LineChart>

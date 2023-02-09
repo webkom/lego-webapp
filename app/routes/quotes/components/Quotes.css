@@ -47,12 +47,12 @@
 }
 
 .addQuote .fieldError {
-  color: var(--lego-red-color);
+  color: var(--danger-color);
   font-weight: bold;
 }
 
 .errorMessage {
-  color: var(--lego-red-color);
+  color: var(--danger-color);
 }
 
 .clear {

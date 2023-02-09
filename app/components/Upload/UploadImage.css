@@ -48,7 +48,7 @@
 }
 
 .dragReject .placeholderContainer {
-  border: 3px dashed var(--color-red-4);
+  border: 3px dashed var(--danger-color);
 }
 
 .placeholderTitle {
@@ -93,8 +93,10 @@
 
 .removeIcon {
   cursor: pointer;
+  color: var(--danger-color);
+  transition: color var(--easing-fast);
 
   &:hover {
-    color: var(--color-red-3);
+    color: var(--color-red-7);
   }
 }
