@@ -9,6 +9,7 @@ import EventItem from 'app/components/EventItem';
 import { CheckBox } from 'app/components/Form/';
 import { selectTheme, selectStyles } from 'app/components/Form/SelectInput';
 import Icon from 'app/components/Icon';
+import LoadingIndicator from 'app/components/LoadingIndicator';
 import type { Event, ActionGrant, IcalToken } from 'app/models';
 import { EventTime } from 'app/models';
 import EventFooter from './EventFooter';
@@ -81,6 +82,7 @@ type EventListProps = {
   fetchMore: () => Promise<any>;
   loggedIn: boolean;
   location: Record<string, any>;
+  fetching: boolean;
 };
 type Option = {
   filterRegDateFunc: (arg0: Event) => boolean;
@@ -149,8 +151,9 @@ class EventList extends Component<EventListProps, State> {
   };
 
   render() {
-    const { icalToken, showFetchMore, fetchMore, events, loggedIn } =
+    const { icalToken, showFetchMore, fetchMore, events, loggedIn, fetching } =
       this.props;
+
     const { field, filterRegDateFunc } = this.state.selectedOption;
     const { showCompanyPresentation, showCourse, showSocial, showOther } =
       this.state.filterEventTypesSettings;
@@ -261,7 +264,8 @@ class EventList extends Component<EventListProps, State> {
           field={field}
           loggedIn={loggedIn}
         />
-        {isEmpty(this.props.events) && (
+        {isEmpty(events) && fetching && <LoadingIndicator loading />}
+        {isEmpty(events) && !fetching && (
           <EmptyState icon="book-outline" size={40}>
             <h2 className={styles.noEvents}>Ingen kommende arrangementer</h2>
           </EmptyState>
