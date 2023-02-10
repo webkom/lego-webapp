@@ -175,6 +175,7 @@ const ArticleEditor = ({
 
 const onSubmit = (
   data,
+  dispatch,
   { currentUser, isNew, articleId, submitArticle }: Props
 ) => {
   const body = {
