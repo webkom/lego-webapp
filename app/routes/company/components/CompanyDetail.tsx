@@ -9,21 +9,20 @@ import {
   ContentSidebar,
 } from 'app/components/Content';
 import DisplayContent from 'app/components/DisplayContent';
+import EventListCompact from 'app/components/EventListCompact';
 import Icon from 'app/components/Icon';
 import { Flex } from 'app/components/Layout';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import NavigationTab from 'app/components/NavigationTab';
+import type { Event } from 'app/models';
 import { JoblistingItem } from 'app/routes/joblistings/components/JoblistingList';
-import { ListEvents } from 'app/routes/users/components/UserProfile';
 import type { DetailedCompany } from 'app/store/models/Company';
-import type { ListEvent } from 'app/store/models/Event';
 import type { ListJoblisting } from 'app/store/models/Joblisting';
-
 import styles from './Company.css';
 
 type Props = {
   company: DetailedCompany;
-  companyEvents: ListEvent[];
+  companyEvents: Event[];
   joblistings: ListJoblisting[];
   showFetchMoreEvents: boolean;
   fetchMoreEvents: () => Promise<any>;
@@ -99,7 +98,7 @@ const CompanyDetail = ({
             <DisplayContent content={company.description} />
           </i>
           <h3 className={styles.sectionHeader}>Kommende arrangementer</h3>
-          <ListEvents
+          <EventListCompact
             events={upcomingEvents}
             noEventsMessage="Ingen kommende arrangementer"
             loggedIn={loggedIn}
@@ -116,7 +115,7 @@ const CompanyDetail = ({
           {viewOldEvents && (
             <>
               <h3 className={styles.sectionHeader}>Tidligere arrangementer</h3>
-              <ListEvents
+              <EventListCompact
                 events={oldEvents}
                 noEventsMessage="Ingen tidligere arrangementer"
                 loggedIn={loggedIn}
