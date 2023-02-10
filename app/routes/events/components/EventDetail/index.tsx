@@ -126,7 +126,6 @@ type Props = {
   ) => Promise<any>;
   deleteEvent: (eventId: ID) => Promise<any>;
   deleteComment: (id: ID, contentTarget: string) => Promise<any>;
-  currentUserFollowing: FollowerItem | null | undefined;
 };
 type State = {
   mapIsOpen: boolean;
@@ -200,7 +199,6 @@ export default class EventDetail extends Component<Props, State> {
       follow,
       unfollow,
       deleteComment,
-      currentUserFollowing,
     } = this.props;
 
     if (!event.id) {
@@ -213,8 +211,8 @@ export default class EventDetail extends Component<Props, State> {
 
     const color = colorForEvent(event.eventType);
 
-    const onRegisterClick = currentUserFollowing
-      ? () => unfollow(currentUserFollowing.id, event.id)
+    const onRegisterClick = event.following
+      ? () => unfollow(event.following, event.id)
       : () => follow(currentUser.id, event.id);
 
     const currentMoment = moment();
@@ -370,9 +368,7 @@ export default class EventDetail extends Component<Props, State> {
             className={styles.title}
             event={event}
           >
-            {loggedIn && (
-              <InterestedButton isInterested={!!currentUserFollowing} />
-            )}
+            {loggedIn && <InterestedButton isInterested={!!event.following} />}
             {event.title}
           </ContentHeader>
 

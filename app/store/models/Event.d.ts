@@ -72,6 +72,7 @@ interface Event {
   price: number;
   activationTime: Dateish;
   isAdmitted: boolean;
+  following: false | ID;
   spotsLeft: number;
   pendingRegistration: boolean;
   photoConsents: ID[];
@@ -174,6 +175,7 @@ export type UserDetailedEvent = Pick<
   | 'price'
   | 'activationTime'
   | 'isAdmitted'
+  | 'following'
   | 'spotsLeft'
   | 'pendingRegistration'
   | 'photoConsents'
