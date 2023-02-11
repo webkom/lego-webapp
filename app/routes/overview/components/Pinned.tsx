@@ -16,7 +16,7 @@ type Props = {
 const Pinned = ({ item, url, meta }: Props) => (
   <Flex column className={styles.pinned}>
     <h3 className="u-ui-heading">Festet oppslag</h3>
-    <Card overflow className={styles.body}>
+    <Card hideOverflow className={styles.body}>
       <Link to={url} className={styles.innerLinks}>
         <Image
           className={styles.image}
