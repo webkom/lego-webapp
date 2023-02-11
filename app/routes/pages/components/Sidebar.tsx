@@ -45,9 +45,6 @@ class Sidebar extends Component<Props, State> {
                 <Icon name="close" size={50} />
               </button>
               <h3 className={styles.sidebarHeader}>Om Abakus</h3>
-              <h4 className={styles.sidebarSubtitle}>
-                {categorySelected ? categorySelected : 'Generelt'}
-              </h4>
             </div>
 
             <div className={styles.sidebarBottom}>

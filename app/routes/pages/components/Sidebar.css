@@ -5,15 +5,14 @@
   display: flex;
   justify-content: center;
   box-sizing: border-box;
-  border-right: 2px solid var(--lego-red-color);
+  background-color: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 2%);
   margin-bottom: 5em;
-  width: 270px;
+  width: 290px;
 }
 
 .sidebar {
-  min-width: 150px;
-  max-width: 230px;
   margin: 0 1.5em;
+  width: 100%;
   padding-top: 20px;
   display: flex;
   flex-direction: column;
@@ -27,6 +26,10 @@
   font-size: 2em;
   margin-bottom: -10px;
   font-weight: 600;
+  width: 95%;
+  text-align: center;
+  padding-bottom: 0.2em;
+  border-bottom: 2px solid rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 5%);;
 }
 
 .sidebarSubtitle {
@@ -51,7 +54,7 @@
 }
 
 .sidebarBottom {
-  margin-top: 1.5em;
+  margin-top: 2em;
 }
 
 .oldImg {
