@@ -23,13 +23,13 @@
 }
 
 .sidebarHeader {
-  font-size: 2em;
-  margin-bottom: -10px;
+  font-size: 1.8em;
+  margin: 20px 0 0px 0;
   font-weight: 600;
   width: 95%;
   text-align: center;
-  padding-bottom: 0.2em;
-  border-bottom: 2px solid rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 5%);;
+  border-bottom: 2px solid var(--additive-background);
+  padding-bottom: 0.6em;
 }
 
 .sidebarSubtitle {

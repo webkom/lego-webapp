@@ -27,9 +27,9 @@
   justify-content: space-between;
   font-size: var(--font-size-large);
   font-family: Inter, sans-serif;
-  font-weight: bold;
+  font-weight: 500;
   color: var(--lego-font-color);
-  margin-bottom: 1em;
+  margin-bottom: 0.8em;
   border-radius: 5px;
   padding: 4px 8px 4px 8px;
   width: 100%;
@@ -71,11 +71,11 @@
 
 .dropdownContainer {
   display: block;
-  margin-left: 0em;
   margin-bottom: 1em;
 
 }
 
 .dropdownIcon {
   padding-left: 8px;
+  transition: var(--easing-medium);
 }
