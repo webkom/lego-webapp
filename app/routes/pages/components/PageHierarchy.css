@@ -51,7 +51,7 @@
 }
 
 .links:hover {
-  background-color: var(--color-red-hightlight);;
+  background-color: var(--color-red-hightlight);
 }
 
 .nonSelected {
@@ -72,7 +72,6 @@
 .dropdownContainer {
   display: block;
   margin-bottom: 1em;
-
 }
 
 .dropdownIcon {
