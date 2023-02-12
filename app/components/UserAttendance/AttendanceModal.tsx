@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import { flatMap } from 'lodash';
+import { flatMap } from 'lodash-es';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Button from 'app/components/Button';
@@ -25,7 +25,7 @@ type Props = {
   title: string;
   togglePool: (arg0: number) => void;
   selectedPool: number;
-  allRegistrations?: Registration[];
+  isMeeting?: boolean;
 };
 
 type TabProps = {
@@ -63,19 +63,16 @@ class AttendanceModal extends Component<Props, State> {
   };
 
   UNSAFE_componentWillMount() {
-    this.generateAmendedPools(this.props.pools, this.props.allRegistrations);
+    this.generateAmendedPools(this.props.pools);
   }
 
-  generateAmendedPools = (
-    pools: Array<Pool>,
-    allRegistrations?: Registration[]
-  ) => {
+  generateAmendedPools = (pools: Pool[]) => {
     if (pools.length === 1)
       return this.setState({
         pools,
       });
-    const registrations =
-      allRegistrations || flatMap(pools, (pool) => pool.registrations);
+
+    const registrations = flatMap(pools, (pool) => pool.registrations);
     const summaryPool = {
       name: 'Alle',
       registrations,
@@ -86,8 +83,9 @@ class AttendanceModal extends Component<Props, State> {
   };
 
   render() {
-    const { title, togglePool, selectedPool } = this.props;
+    const { title, togglePool, selectedPool, isMeeting } = this.props;
     const { pools, filter } = this.state;
+
     const registrations = pools[selectedPool].registrations.filter(
       (registration) => {
         return registration.user.fullName
@@ -116,8 +114,21 @@ class AttendanceModal extends Component<Props, State> {
         <ul className={styles.list}>
           {registrations.map((registration) => (
             <li key={registration.id}>
-              <Flex alignItems="center" className={styles.row}>
-                <ProfilePicture size={30} user={registration.user} />
+              <Flex
+                alignItems="center"
+                className={cx(
+                  styles.row,
+                  !isMeeting &&
+                    !registration.pool &&
+                    pools[selectedPool].name === 'Alle' &&
+                    styles.opacity
+                )}
+              >
+                <ProfilePicture
+                  size={30}
+                  user={registration.user}
+                  alt={`${registration.user.name}'s profile picture`}
+                />
                 <Link to={`/users/${registration.user.username}`}>
                   {registration.user.fullName}
                 </Link>

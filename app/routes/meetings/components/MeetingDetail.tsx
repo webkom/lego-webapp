@@ -18,7 +18,10 @@ import LoadingIndicator from 'app/components/LoadingIndicator';
 import { MazemapEmbed } from 'app/components/MazemapEmbed';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import Time, { FromToTime } from 'app/components/Time';
-import { AttendanceStatus } from 'app/components/UserAttendance';
+import {
+  AttendanceStatus,
+  ModalParentComponent,
+} from 'app/components/UserAttendance';
 import type { Dateish, ID, Meeting, User } from 'app/models';
 import {
   statusesText,
@@ -196,7 +199,14 @@ class MeetingDetails extends Component<Props> {
                   {this.attendanceButtons(statusMe, meeting.startTime)}
                   <InfoList items={infoItems} />
                   <li>
-                    <AttendanceStatus.Modal pools={this.sortInvitations()} />
+                    <ModalParentComponent
+                      isMeeting
+                      key="modal"
+                      pools={this.sortInvitations()}
+                      title="Påmeldte"
+                    >
+                      <AttendanceStatus pools={this.sortInvitations()} />
+                    </ModalParentComponent>
                   </li>
                   {meeting.mazemapPoi && (
                     <MazemapEmbed mazemapPoi={meeting.mazemapPoi} />

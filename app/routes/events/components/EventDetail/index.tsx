@@ -448,7 +448,6 @@ export default class EventDetail extends Component<Props, State> {
                       <ModalParentComponent
                         key="modal"
                         pools={pools}
-                        registrations={registrations}
                         title="Påmeldte"
                       >
                         <RegisteredSummary
@@ -456,6 +455,7 @@ export default class EventDetail extends Component<Props, State> {
                           currentRegistration={currentRegistration}
                         />
                         <AttendanceStatus
+                          pools={pools}
                           legacyRegistrationCount={
                             event.legacyRegistrationCount
                           }
