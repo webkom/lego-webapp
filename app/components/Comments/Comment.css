@@ -1,9 +1,9 @@
 @import url('~app/styles/variables.css');
 
 .container {
-  background-color: var(--color-white);
-  box-shadow: 0 1px 4px rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 3%);
-  border: 1px solid rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 4%);
+  background-color: var(--lego-card-color);
+  box-shadow: var(--shadow-sm);
+  border-radius: 1rem;
   margin-bottom: 15px;
   padding: 25px;
   align-items: center;
@@ -13,12 +13,6 @@
   @media (--mobile-device) {
     padding: 8px;
   }
-}
-
-html[data-theme='dark'] .container {
-  box-shadow: 0 1px 4px
-    rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 14%);
-  border: 1px solid rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 15%);
 }
 
 .comment {

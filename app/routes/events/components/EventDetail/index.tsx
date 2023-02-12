@@ -31,7 +31,6 @@ import type {
   Event,
   ActionGrant,
   AddPenalty,
-  FollowerItem,
 } from 'app/models';
 import { resolveGroupLink } from 'app/reducers/groups';
 import type { ID } from 'app/store/models';
