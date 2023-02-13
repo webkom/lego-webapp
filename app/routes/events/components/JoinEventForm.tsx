@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { compose } from 'redux';
 import { reduxForm, Field, SubmissionError } from 'redux-form';
 import Button from 'app/components/Button';
+import Card from 'app/components/Card';
 import { Form, Captcha, TextInput } from 'app/components/Form';
 import formStyles from 'app/components/Form/Field.css';
 import Icon from 'app/components/Icon';
@@ -115,7 +116,7 @@ const RegistrationPending = ({
 }: {
   reg_status?: EventRegistrationStatus;
 }) => (
-  <div className={styles.registrationPending}>
+  <Card className={styles.registrationPending}>
     <span className={styles.registrationPendingHeader}>
       <h3>
         Vi behandler din{' '}
@@ -150,7 +151,7 @@ const RegistrationPending = ({
       </Tooltip>
     </p>
     <ProgressBar />
-  </div>
+  </Card>
 );
 
 const PaymentForm = ({

@@ -11,12 +11,12 @@ import {
 import DisplayContent from 'app/components/DisplayContent';
 import Icon from 'app/components/Icon';
 import InfoList from 'app/components/InfoList';
+import { jobType, Year, Workplaces } from 'app/components/JoblistingItem/Items';
 import Flex from 'app/components/Layout/Flex';
 import LoadingIndicator from 'app/components/LoadingIndicator/';
 import Time from 'app/components/Time';
 import type { ActionGrant } from 'app/models';
 import type { DetailedJoblisting } from 'app/store/models/Joblisting';
-import { jobType, Year, Workplaces } from './Items';
 
 type Props = {
   joblisting: DetailedJoblisting;

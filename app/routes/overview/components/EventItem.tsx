@@ -18,7 +18,7 @@ type Props = {
 const EventItem = ({ item, url, meta, loggedIn, isFrontPage }: Props) => {
   const info = eventStatus(item, loggedIn);
   return (
-    <Card overflow className={styles.body}>
+    <Card hideOverflow className={styles.body}>
       <Link to={url} className={styles.link}>
         <Flex className={styles.wrapper}>
           {isFrontPage ? (

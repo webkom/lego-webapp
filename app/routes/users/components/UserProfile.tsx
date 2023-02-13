@@ -8,9 +8,7 @@ import { Link } from 'react-router-dom';
 import frame from 'app/assets/frame.png';
 import Button from 'app/components/Button';
 import Card from 'app/components/Card';
-import EmptyState from 'app/components/EmptyState';
-import EventItem from 'app/components/EventItem';
-import type { EventStyle } from 'app/components/EventItem';
+import EventListCompact from 'app/components/EventListCompact';
 import Icon from 'app/components/Icon';
 import { ProfilePicture, CircularPicture, Image } from 'app/components/Image';
 import { Flex } from 'app/components/Layout';
@@ -84,12 +82,6 @@ type Props = {
     userId: number
   ) => Promise<void>;
   photoConsents: Array<PhotoConsent>;
-};
-type EventsProps = {
-  events: Array<Event>;
-  noEventsMessage: string;
-  loggedIn: boolean;
-  eventStyle?: EventStyle;
 };
 
 const GroupPill = ({ group }: { group: Group }) =>
@@ -174,33 +166,6 @@ const GroupBadge = ({
     </Link>
   );
 };
-
-const ListEvents = ({
-  events,
-  noEventsMessage,
-  loggedIn,
-  eventStyle = 'default',
-}: EventsProps) => (
-  <div>
-    {events && events.length ? (
-      <Flex column wrap>
-        {events.map((event) => (
-          <EventItem
-            key={event.id}
-            event={event}
-            showTags={false}
-            loggedIn={loggedIn}
-            eventStyle={eventStyle}
-          />
-        ))}
-      </Flex>
-    ) : (
-      <EmptyState>
-        <h2 className={styles.emptyState}>{noEventsMessage}</h2>
-      </EmptyState>
-    )}
-  </div>
-);
 
 type PermissionTreeNode = Group & {
   children?: Group[];
@@ -729,7 +694,7 @@ const UserProfile = (props: Props) => {
               {loading ? (
                 <LoadingIndicator margin="20px auto" loading />
               ) : (
-                <ListEvents
+                <EventListCompact
                   events={upcomingEvents}
                   noEventsMessage="Du har ingen kommende arrangementer"
                   loggedIn={loggedIn}
@@ -743,7 +708,7 @@ const UserProfile = (props: Props) => {
               {loading ? (
                 <LoadingIndicator margin="20px auto" loading />
               ) : (
-                <ListEvents
+                <EventListCompact
                   events={
                     previousEvents === undefined
                       ? []

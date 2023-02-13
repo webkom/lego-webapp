@@ -90,7 +90,7 @@
     position: absolute;
     z-index: 11;
     width: 100%;
-    box-shadow: 10px 10px 27px -15px rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 75%);
+    box-shadow: var(--shadow-lg);
     height: 100%;
   }
 

@@ -76,18 +76,16 @@
 }
 
 .registrationPending {
-  background-color: var(--lego-card-color);
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  box-shadow: rgba(149, 157, 165, 20%) 0 8px 24px;
-  padding: 5px;
+  line-height: 1.3;
   text-align: center;
+  margin: 1rem 0;
 }
 
 .registrationPendingHeader {
   display: flex;
   align-items: center;
   justify-content: space-around;
+  margin-bottom: 1rem;
 }
 
 .eventWarning {

@@ -61,7 +61,7 @@ const mapStateToProps = (state, props) => {
 };
 
 const mapDispatchToProps = (dispatch, props) => {
-  const { companyId } = props.match.params;
+  const { companyId, loading } = props.match.params;
 
   const fetchMoreEvents = () =>
     dispatch(
@@ -73,6 +73,7 @@ const mapDispatchToProps = (dispatch, props) => {
 
   return {
     fetchMoreEvents,
+    loading,
   };
 };
 

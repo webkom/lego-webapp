@@ -38,10 +38,10 @@
   padding: 10px 14px;
   font-size: 1em;
   font-family: 'Source Code Pro', monospace;
-  box-shadow: rgba(50, 50, 93, 14.902%) 0 1px 3px, rgba(0, 0, 0, 1.96%) 0 1px 0;
+  box-shadow: var(--shadow-sm);
   border: 0;
   outline: 0;
-  border-radius: 4px;
+  border-radius: 6px;
   background: white;
 }
 

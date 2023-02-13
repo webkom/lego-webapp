@@ -26,9 +26,7 @@ html[data-theme='dark'] .backdrop {
   outline: none;
   overflow-y: auto;
   z-index: 4;
-  /* stylelint-disable indentation */
-  box-shadow: 0 2px 8px 2px rgba(104, 112, 118, 7%),
-    0 2px 4px -1px rgba(104, 112, 118, 4%);
+  box-shadow: var(--shadow-sm);
   border-radius: 1rem;
 
   @media (--tall-viewport) {
