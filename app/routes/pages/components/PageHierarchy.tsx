@@ -1,5 +1,5 @@
-import { Component } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import Icon from 'app/components/Icon';
 import { readmeIfy } from 'app/components/ReadmeLogo';
 import styles from './PageHierarchy.css';
@@ -84,43 +84,32 @@ type AccordionProps = {
   children: ReactNode;
   currentCategory: string;
 };
-type AccordionState = {
-  isOpen: boolean;
+
+const AccordionContainer = ({ title, children }: AccordionProps) => {
+  const location = useLocation();
+  const currentCategory = location.pathname.split('/')[2];
+
+  const [isOpen, setIsOpen] = useState(
+    currentCategory === title.toLowerCase() ||
+      (currentCategory === 'info-om-abakus' &&
+        title.toLowerCase() === 'generelt')
+  );
+
+  return (
+    <div>
+      <button className={styles.dropdownBtn} onClick={() => setIsOpen(!isOpen)}>
+        {title}
+        <Icon
+          name="chevron-up-outline"
+          className={styles.dropdownIcon}
+          style={
+            isOpen
+              ? { transform: 'rotateX(0deg)' }
+              : { transform: 'rotateX(180deg)' }
+          }
+        />
+      </button>
+      {isOpen && <div className={styles.dropdownContainer}>{children}</div>}
+    </div>
+  );
 };
-
-class AccordionContainer extends Component<AccordionProps, AccordionState> {
-  state: AccordionState = {
-    isOpen:
-      this.props.currentCategory === this.props.title.toLowerCase() ||
-      (this.props.currentCategory === undefined &&
-        this.props.title.toLowerCase() === 'generelt'),
-  };
-  handleClick = () => {
-    this.setState((state) => ({
-      isOpen: !state.isOpen,
-    }));
-  };
-
-  render() {
-    const { title, children }: AccordionProps = this.props;
-    return (
-      <div>
-        <button className={styles.dropdownBtn} onClick={this.handleClick}>
-          {title}{' '}
-          <Icon
-            name="chevron-up-outline"
-            className={styles.dropdownIcon}
-            style={
-              this.state.isOpen
-                ? { transform: 'rotateX(0deg)' }
-                : { transform: 'rotateX(180deg)' }
-            }
-          />
-        </button>{' '}
-        {this.state.isOpen ? (
-          <div className={styles.dropdownContainer}>{children}</div>
-        ) : null}
-      </div>
-    );
-  }
-}

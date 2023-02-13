@@ -1,4 +1,3 @@
-/* eslint-disable react/no-danger */
 import cx from 'classnames';
 import { Component } from 'react';
 import Icon from 'app/components/Icon';
