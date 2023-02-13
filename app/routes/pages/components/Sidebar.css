@@ -33,13 +33,6 @@
   padding-bottom: 0.6em;
 }
 
-.sidebarSubtitle {
-  margin-top: 0;
-  padding-top: 0;
-  font-size: 15px;
-  font-weight: bold;
-}
-
 .sidebarPicture {
   margin-top: 30px;
   display: none;
