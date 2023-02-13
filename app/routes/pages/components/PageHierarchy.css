@@ -3,6 +3,7 @@
 .sidebar {
   display: flex;
   flex-direction: column;
+  margin: 0;
 
   @media (--mobile-device) {
     margin-left: 1.5em;
@@ -11,23 +12,31 @@
 
 .pageList {
   text-align: left;
-  line-height: 18px;
-  width: 220px;
+  line-height: 16px;
 }
 
 .pageList a {
-  font-size: 18px;
+  font-size: 16px;
+  color: var(--lego-font-color);
 }
 
 .dropdownBtn {
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
   font-size: var(--font-size-large);
   font-family: Inter, sans-serif;
-  font-weight: bold;
+  font-weight: 500;
   color: var(--lego-font-color);
   margin-bottom: 0.8em;
+  border-radius: 5px;
+  padding: 6px 8px;
+  width: 100%;
+}
+
+.dropdownBtn:hover {
+  background-color: rgba(255, 0, 0, var(--color-red-hover-alpha));
 }
 
 .back > i {
@@ -36,26 +45,42 @@
 }
 
 .links {
-  margin: 8px 0 10px 8px;
+  margin-left: 0.5em;
+  width: 93%;
+  border-radius: 6px;
+}
+
+.links:hover {
+  background-color: rgba(255, 0, 0, var(--color-red-hover-alpha));
 }
 
 .nonSelected {
   font-weight: normal;
+  padding: 8px;
+  margin-bottom: 10px;
+  border-radius: 6px;
 }
 
 .selected {
-  font-weight: bold;
-  margin-left: -16px;
-}
-
-.selected::before {
-  content: '\25CF ';
+  padding: 8px;
+  margin: 0 0 10px;
+  border-radius: 6px;
+  color: var(--color-absolute-white);
+  background-color: var(--color-red-3);
 }
 
 .dropdownContainer {
   display: block;
+  margin-bottom: 1em;
 }
 
 .dropdownIcon {
   padding-left: 8px;
+  transition: var(--easing-medium);
+}
+
+@media (--mobile-device) {
+  .dropdownBtn:hover {
+    background-color: transparent;
+  }
 }

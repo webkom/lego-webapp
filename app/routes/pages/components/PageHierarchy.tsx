@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import Icon from 'app/components/Icon';
 import { readmeIfy } from 'app/components/ReadmeLogo';
 import styles from './PageHierarchy.css';
@@ -53,27 +53,31 @@ const HierarchySection = ({
   currentUrl: string;
   currentCategory: string;
   handleCloseSidebar: () => void;
-}) => (
-  <nav className={styles.pageList}>
-    {items.length > 0 && (
-      <AccordionContainer title={title} currentCategory={currentCategory}>
-        {items.map((item, key) => (
-          <div key={key} className={styles.links}>
-            <Link
-              onClick={handleCloseSidebar}
-              className={
-                item.url === currentUrl ? styles.selected : styles.nonSelected
-              }
-              to={item.url}
-            >
-              {readmeIfy(item.title)}
+}) => {
+  return (
+    <nav className={styles.pageList}>
+      {items.length > 0 && (
+        <AccordionContainer title={title} currentCategory={currentCategory}>
+          {items.map((item, key) => (
+            <Link to={item.url} key={key}>
+              <div className={styles.links} onClick={handleCloseSidebar}>
+                <div
+                  className={
+                    item.url === currentUrl
+                      ? styles.selected
+                      : styles.nonSelected
+                  }
+                >
+                  {readmeIfy(item.title)}
+                </div>
+              </div>
             </Link>
-          </div>
-        ))}
-      </AccordionContainer>
-    )}
-  </nav>
-);
+          ))}
+        </AccordionContainer>
+      )}
+    </nav>
+  );
+};
 
 type AccordionProps = {
   title: string;
@@ -103,13 +107,19 @@ class AccordionContainer extends Component<AccordionProps, AccordionState> {
       <div>
         <button className={styles.dropdownBtn} onClick={this.handleClick}>
           {title}{' '}
-          {this.state.isOpen ? (
-            <Icon name="arrow-down" className={styles.dropdownIcon} />
-          ) : (
-            <Icon name="arrow-forward" className={styles.dropdownIcon} />
-          )}
+          <Icon
+            name="chevron-up-outline"
+            className={styles.dropdownIcon}
+            style={
+              this.state.isOpen
+                ? { transform: 'rotateX(0deg)' }
+                : { transform: 'rotateX(180deg)' }
+            }
+          />
         </button>{' '}
-        {this.state.isOpen ? <div>{children}</div> : null}
+        {this.state.isOpen ? (
+          <div className={styles.dropdownContainer}>{children}</div>
+        ) : null}
       </div>
     );
   }

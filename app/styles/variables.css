@@ -38,7 +38,7 @@
   --color-white: var(--color-absolute-white);
   --color-black: #000;
 
-  --border-gray: var(--color-gray-3);
+  --border-gray: var(--color-gray-2);
 
   --rgb-max: 255;
   --rgb-min: 0;
