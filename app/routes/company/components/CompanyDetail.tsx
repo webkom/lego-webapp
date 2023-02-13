@@ -11,11 +11,11 @@ import {
 import DisplayContent from 'app/components/DisplayContent';
 import EventListCompact from 'app/components/EventListCompact';
 import Icon from 'app/components/Icon';
+import JoblistingItem from 'app/components/JoblistingItem';
 import { Flex } from 'app/components/Layout';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import NavigationTab from 'app/components/NavigationTab';
 import type { Event } from 'app/models';
-import { JoblistingItem } from 'app/routes/joblistings/components/JoblistingList';
 import type { DetailedCompany } from 'app/store/models/Company';
 import type { ListJoblisting } from 'app/store/models/Joblisting';
 import styles from './Company.css';
