@@ -201,14 +201,15 @@ export const selectEvents = createSelector(
       ReturnType<typeof transformEvent>
     >
 );
+export const selectSortedEvents = createSelector(selectEvents, (events) =>
+  [...events].sort((a, b) => a.startTime.unix() - b.startTime.unix())
+);
 export const selectPreviousEvents = createSelector(selectEvents, (events) =>
   events.filter((event) => event.isUsersUpcoming === false)
 );
-export const selectUpcomingEvents = createSelector(selectEvents, (events) =>
-  events.filter((event) => event.isUsersUpcoming)
-);
-export const selectSortedEvents = createSelector(selectEvents, (events) =>
-  [...events].sort((a, b) => a.startTime.unix() - b.startTime.unix())
+export const selectUpcomingEvents = createSelector(
+  selectSortedEvents,
+  (events) => events.filter((event) => event.isUsersUpcoming)
 );
 export const selectEventById = createSelector(
   (state) => state.events.byId,
