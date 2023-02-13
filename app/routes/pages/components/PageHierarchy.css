@@ -3,7 +3,7 @@
 .sidebar {
   display: flex;
   flex-direction: column;
-  margin: 0 -0.2em;
+  margin: 0;
 
   @media (--mobile-device) {
     margin-left: 1.5em;
@@ -31,7 +31,7 @@
   color: var(--lego-font-color);
   margin-bottom: 0.8em;
   border-radius: 5px;
-  padding: 4px 8px 4px 8px;
+  padding: 4px 8px;
   width: 100%;
 }
 
@@ -56,14 +56,14 @@
 
 .nonSelected {
   font-weight: normal;
-  padding: 8px 8px 8px 8px;
-  margin: 0 0 10px 0;
+  padding: 8px;
+  margin-bottom: 10px;
   border-radius: 6px;
 }
 
 .selected {
-  padding: 8px 8px 8px 8px;
-  margin: 0 0 10px 0;
+  padding: 8px;
+  margin: 0 0 10px;
   border-radius: 6px;
   color: var(--color-absolute-white);
   background-color: var(--color-red-3);
@@ -77,4 +77,10 @@
 .dropdownIcon {
   padding-left: 8px;
   transition: var(--easing-medium);
+}
+
+@media (--mobile-device) {
+  .dropdownBtn:hover {
+    background-color: transparent;
+  }
 }

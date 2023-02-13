@@ -11,7 +11,7 @@
 }
 
 .sidebar {
-  margin: 0 1.5em;
+  margin: 0 1.1em;
   width: 100%;
   padding-top: 20px;
   display: flex;
@@ -19,12 +19,13 @@
 
   @media (--mobile-device) {
     margin: 0;
+    padding-right: 1.5rem;
   }
 }
 
 .sidebarHeader {
   font-size: 1.8em;
-  margin: 20px 0 0px 0;
+  margin-left: 20px;
   font-weight: 600;
   width: 95%;
   text-align: center;
@@ -95,7 +96,7 @@
     display: block;
     position: absolute;
     z-index: 11;
-    width: 90%;
+    width: 100%;
     box-shadow: 10px 10px 27px -15px rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 75%);
     height: 100%;
   }
