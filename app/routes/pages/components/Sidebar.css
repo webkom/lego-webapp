@@ -25,11 +25,11 @@
 
 .sidebarHeader {
   font-size: 1.8em;
-  margin-left: 20px;
   font-weight: 600;
+  margin-top: 20px;
   width: 95%;
   text-align: center;
-  border-bottom: 2px solid var(--additive-background);
+  border-bottom: 2px solid var(--border-gray);
   padding-bottom: 0.6em;
 }
 

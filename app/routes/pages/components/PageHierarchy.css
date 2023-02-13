@@ -12,11 +12,11 @@
 
 .pageList {
   text-align: left;
-  line-height: 18px;
+  line-height: 16px;
 }
 
 .pageList a {
-  font-size: 18px;
+  font-size: 16px;
   color: var(--lego-font-color);
 }
 
@@ -31,12 +31,12 @@
   color: var(--lego-font-color);
   margin-bottom: 0.8em;
   border-radius: 5px;
-  padding: 4px 8px;
+  padding: 6px 8px;
   width: 100%;
 }
 
 .dropdownBtn:hover {
-  background-color: var(--color-red-hightlight);
+  background-color: rgba(255, 0, 0, var(--color-red-hover-alpha));
 }
 
 .back > i {
@@ -51,7 +51,7 @@
 }
 
 .links:hover {
-  background-color: var(--color-red-hightlight);
+  background-color: rgba(255, 0, 0, var(--color-red-hover-alpha));
 }
 
 .nonSelected {
