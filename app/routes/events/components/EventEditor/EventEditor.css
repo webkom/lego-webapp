@@ -1,9 +1,5 @@
 @import url('../Event.css');
 
-.fieldShadow {
-  box-shadow: 0 0 10px var(--color-gray-3);
-}
-
 .title {
   font-size: 24px;
   color: var(--lego-font-color);

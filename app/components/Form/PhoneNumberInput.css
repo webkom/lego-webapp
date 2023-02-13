@@ -10,7 +10,6 @@
 
 .input input:focus {
   outline: none;
-  box-shadow: 0 0 5px var(--color-gray-3);
   border-color: var(--color-gray-4);
 }
 
