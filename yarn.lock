@@ -1758,15 +1758,6 @@
     "@sentry/utils" "6.19.7"
     tslib "^1.9.3"
 
-"@sentry/core@7.37.0":
-  version "7.37.0"
-  resolved "https://registry.yarnpkg.com/@sentry/core/-/core-7.37.0.tgz#df4036012dbadee9a0569d392d73d034c4e758fa"
-  integrity sha512-2M6aZKIG/1HgfE0hobQ9tKSo6ZsyBrSQqjtQhMVFwVzZJyFw3m1AqcrB+f0myi+1ay2MMPbJ+HhYtBPR3e4EvA==
-  dependencies:
-    "@sentry/types" "7.37.0"
-    "@sentry/utils" "7.37.0"
-    tslib "^1.9.3"
-
 "@sentry/core@7.37.1":
   version "7.37.1"
   resolved "https://registry.yarnpkg.com/@sentry/core/-/core-7.37.1.tgz#6d8d151b3d6ae0d6f81c7f4da92cd2e7cb5bf1fa"
@@ -3826,10 +3817,10 @@ core-js-compat@^3.25.1:
   dependencies:
     browserslist "^4.21.4"
 
-core-js@^3.27.2, core-js@^3.6.5:
-  version "3.27.2"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.27.2.tgz#85b35453a424abdcacb97474797815f4d62ebbf7"
-  integrity sha512-9ashVQskuh5AZEZ1JdQWp1GqSoC1e1G87MzRqg2gIfVAQ7Qn9K+uFj8EcniUFA4P2NLZfV+TOlX1SzoKfo+s7w==
+core-js@^3.28.0, core-js@^3.6.5:
+  version "3.28.0"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.28.0.tgz#ed8b9e99c273879fdfff0edfc77ee709a5800e4a"
+  integrity sha512-GiZn9D4Z/rSYvTeg1ljAIsEqFm0LaN9gVtwDCrKL80zHtS31p9BAjmTxVqTQDMpwlMolJZOFntUG2uwyj7DAqw==
 
 core-util-is@1.0.2:
   version "1.0.2"
