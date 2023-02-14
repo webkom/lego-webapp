@@ -127,3 +127,8 @@ html[data-theme='dark'] .search input {
   box-shadow: 0 0 0 1px var(--lego-red-color);
   color: var(--lego-red-color);
 }
+
+.opacity {
+  transition: opacity var(--linear-fast);
+  opacity: 0.4;
+}
