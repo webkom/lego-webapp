@@ -22,6 +22,7 @@ import { renderMeta } from './utils';
 
 type Props = {
   frontpage: WithDocumentType<PublicArticle | Event>[];
+  fetchingFrontpage: boolean;
   readmes: Readme[];
   poll: PollEntity | null | undefined;
   votePoll: () => Promise<void>;
@@ -41,7 +42,8 @@ const Overview = (props: Props) => {
     setArticlesToShow(articlesToShow + 2);
   };
 
-  const { loggedIn, frontpage, readmes, poll, votePoll } = props;
+  const { loggedIn, frontpage, readmes, poll, votePoll, fetchingFrontpage } =
+    props;
 
   const events = useMemo(() => frontpage.filter(isEvent), [frontpage]);
 
@@ -79,7 +81,7 @@ const Overview = (props: Props) => {
     <Flex className={styles.readMe}>
       <LatestReadme
         readmes={readmes}
-        expandedInitially={frontpage.length === 0}
+        expandedInitially={frontpage.length === 0 && !fetchingFrontpage}
       />
     </Flex>
   );
