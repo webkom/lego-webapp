@@ -81,6 +81,7 @@ export type EditingEvent = Event & {
   addFee: boolean;
   registrationDeadline: Dateish;
   hasFeedbackQuestion: boolean;
+  isClarified: boolean;
 };
 
 // Event fields that should be created or updated based on the API.

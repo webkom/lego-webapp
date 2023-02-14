@@ -39,6 +39,11 @@ html[data-theme='dark'] .descriptionEditor {
   margin-bottom: 0;
 }
 
+.metaFieldInformation {
+  margin-bottom: 0;
+  font-size: small;
+}
+
 .metaField input {
   padding-bottom: 5px;
   padding-top: 5px;

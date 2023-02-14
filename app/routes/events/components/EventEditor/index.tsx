@@ -574,7 +574,25 @@ function EventEditor({
               </Flex>
             )}
           </ContentSidebar>
+
         </ContentSection>
+        <Tooltip
+          style={{
+            marginLeft: '3px',
+          }}
+          content="Jeg er kjent med at jeg kun kan bruke rettighetene mine til å opprette abakusarrangement som er i tråd med arrangementskalenderen og Abakus sine blesteregler, og at jeg må ta kontakt med hs@abakus.no dersom jeg er usikker eller ønsker å oprette et annet/eksternt arrangement."
+        >
+
+          <Field
+            label="Arrangementet er avklart i arrangementskalenderen"
+            name="isClarified"
+            component={CheckBox.Field}
+            fieldClassName={styles.metaFieldInformation}
+            className={styles.formField}
+            normalize={(v) => !!v}
+          />
+        </Tooltip>
+
 
         <Flex wrap>
           {isEditPage && (
@@ -651,6 +669,10 @@ const validate = (data) => {
 
   if (data.feedbackRequired && !data.feedbackDescription) {
     errors.feedbackDescription = 'Kan ikke være tomt';
+  }
+
+  if (!data.isClarified) {
+    errors.isClarified = 'Arrangementet må være avklart'
   }
 
   if (!isInteger(data.registrationDeadlineHours)) {
