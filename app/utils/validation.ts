@@ -53,6 +53,16 @@ export const timeIsAfter = (otherField, message) => (value, context) => {
   return [true];
 };
 
+export const isValidAllergy =
+  (
+    message = 'La feltet stå tomt hvis du ikke har noen allergier/preferanser'
+  ) =>
+  (value: string) => {
+    const notValidAnswers = ['ingen', 'ingenting', 'nei', 'nope', 'nada'];
+
+    return [!notValidAnswers.includes(value.toLowerCase()), message];
+  };
+
 export const ifField = (field, validator) => (value, context) =>
   context[field] ? validator(value, context) : [true];
 

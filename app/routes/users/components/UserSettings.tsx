@@ -12,7 +12,12 @@ import type { UserEntity } from 'app/reducers/users';
 import DeleteUser from 'app/routes/users/components/DeleteUser';
 import RemovePicture from 'app/routes/users/components/RemovePicture';
 import { spySubmittable } from 'app/utils/formSpyUtils';
-import { createValidator, required, isEmail } from 'app/utils/validation';
+import {
+  createValidator,
+  required,
+  isEmail,
+  isValidAllergy,
+} from 'app/utils/validation';
 import ChangePassword from './ChangePassword';
 import UserImage from './UserImage';
 import styles from './UserSettings.css';
@@ -52,6 +57,7 @@ const validate = createValidator({
   lastName: [required()],
   gender: [required()],
   email: [required(), isEmail()],
+  allergies: [isValidAllergy()],
 });
 
 const UserSettings = (props: Props) => {
@@ -67,7 +73,9 @@ const UserSettings = (props: Props) => {
     updateUser,
   } = props;
   const showAbakusMembership = user.isStudent;
+
   const onSubmit = (values: FormValues) => updateUser(values);
+
   return (
     <div>
       <div className={styles.pictureSection}>
@@ -130,8 +138,10 @@ const UserSettings = (props: Props) => {
                 component={RadioButton.Field}
               />
             </RadioButtonGroup>
+
             <Field
               label="Matallergier/preferanser"
+              parse={(value) => value}
               name="allergies"
               component={TextInput.Field}
             />
