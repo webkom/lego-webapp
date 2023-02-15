@@ -695,7 +695,7 @@ const UserProfile = (props: Props) => {
                 <LoadingIndicator margin="20px auto" loading />
               ) : (
                 <EventListCompact
-                  events={upcomingEvents}
+                  events={orderBy(upcomingEvents, 'startTime')}
                   noEventsMessage="Du har ingen kommende arrangementer"
                   loggedIn={loggedIn}
                   eventStyle="compact"
