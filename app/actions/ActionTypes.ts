@@ -86,6 +86,9 @@ export const Gallery = {
   DELETE: generateStatuses('Gallery.DELETE') as AAT,
   HIDE_UPLOAD_STATUS: 'Gallery.HIDE_UPLOAD_STATUS',
 };
+export const ImageGallery = {
+  FETCH_ALL: generateStatuses('ImageGallery.FETCH_ALL') as AAT,
+};
 
 /**
  *
