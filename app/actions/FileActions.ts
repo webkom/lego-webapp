@@ -1,6 +1,6 @@
 import slug from 'slugify';
 import type { Thunk } from 'app/types';
-import { File as FileType } from './ActionTypes';
+import { File as FileType, ImageGallery } from './ActionTypes';
 import callAPI from './callAPI';
 
 const slugifyFilename: (filename: string) => string = (filename) => {
@@ -77,4 +77,27 @@ export function uploadFile({
         );
       }
     );
+}
+export function fetchImageGallery({
+  query,
+  next = false,
+}: {
+  query?: Record<string, any>;
+  next?: boolean;
+} = {}): Thunk<any> {
+  return callAPI({
+    types: ImageGallery.FETCH_ALL,
+    endpoint: '/events/imagegallery/',
+    schema: [imageGallerySchema],
+    query,
+    method: 'GET',
+    json: true,
+    pagination: {
+      fetchNext: next,
+    },
+    meta: {
+      errorMessage: 'Henting av bilder feilet',
+    },
+    propagateError: true,
+  });
 }
