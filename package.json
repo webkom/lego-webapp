@@ -96,7 +96,7 @@
     "react-treeview": "^0.4.6",
     "react-turnstile": "^1.0.6",
     "react-youtube": "^9.0.3",
-    "recharts": "^2.4.1",
+    "recharts": "^2.4.2",
     "redux": "^4.2.1",
     "redux-form": "8.3.9",
     "redux-logger": "^3.0.1",
