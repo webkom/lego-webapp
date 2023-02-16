@@ -2,6 +2,7 @@ import slug from 'slugify';
 import type { Thunk } from 'app/types';
 import { File as FileType, ImageGallery } from './ActionTypes';
 import callAPI from './callAPI';
+import { imageGallerySchema } from 'app/reducers';
 
 const slugifyFilename: (filename: string) => string = (filename) => {
   // Slug options
