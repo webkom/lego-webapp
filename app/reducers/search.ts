@@ -25,10 +25,11 @@ type SearchResultBase = {
   profilePicture?: string;
 };
 
-type UserSearchResult = SearchResultBase & {
+export type UserSearchResult = SearchResultBase & {
   username: string;
   profilePicture: string;
   type: 'Bruker';
+  isAbakusMember: boolean;
 };
 
 export type SearchResult = SearchResultBase | UserSearchResult;
