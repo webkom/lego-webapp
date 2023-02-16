@@ -21,6 +21,7 @@ import loadingIndicator from 'app/utils/loadingIndicator';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import time from 'app/utils/time';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
+import { selectImageGalleries } from 'app/reducers/imageGallery';
 import EventEditor from './components/EventEditor';
 import {
   transformEvent,
@@ -44,6 +45,7 @@ const mapStateToProps = (state, props) => {
     eventId,
   });
   const valueSelector = formValueSelector('eventEditor');
+  const imageGallery = selectImageGalleries(state);
   return {
     initialValues: {
       ...event,
