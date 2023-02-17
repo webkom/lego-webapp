@@ -165,42 +165,35 @@ const LandingPage: PageRenderer = ({ loggedIn }) => {
 
       <Flex className={styles.locationContainer}>
         <div className={styles.houseIcon}>
-          <Icon
-            name="home"
-            size={80}
-            style={{
-              marginRight: '1rem',
-            }}
-          />
+          <Icon name="home" size={80} />
         </div>
-        <TextWithTitle
-          title="Postadresse"
-          text={info.postAddress}
-          extraStyle={{
-            flexBasis: '33.33333%',
-          }}
-        />
-        <div
-          style={{
-            flexBasis: '33.33333%',
-          }}
-        >
-          <TextWithTitle title="Besøksadresse" text={info.officeAddress} />
+        <Flex wrap>
+          <div className={styles.locationContainerItem}>
+            <TextWithTitle
+              title="Besøksadresse"
+              text={info.officeAddress}
+              extraStyle={{ margin: 0 }}
+            />
+            <TextWithTitle
+              title="Webkom's besøksadresse"
+              text={info.webkomOfficeAddress}
+              extraStyle={{ margin: 0 }}
+            />
+          </div>
           <TextWithTitle
-            title="Webkom's besøksadresse"
-            text={info.webkomOfficeAddress}
+            title="Postadresse"
+            text={info.postAddress}
+            extraClassName={styles.locationContainerItem}
           />
-        </div>
-        <TextWithTitle
-          title="Kontortid"
-          text={info.officeHours}
-          extraStyle={{
-            flexBasis: '33.33333%',
-          }}
-        />
+          <TextWithTitle
+            title="Kontortid"
+            text={info.officeHours}
+            extraClassName={styles.locationContainerItem}
+          />
+        </Flex>
       </Flex>
 
-      <Flex>
+      <Flex alignItems="center">
         <Icon name="briefcase" size={80} className={styles.organizationIcon} />
         <div className={styles.organization}>
           <h3 className={styles.title}>Organisasjonsnummer</h3>
