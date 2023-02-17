@@ -267,7 +267,15 @@ export function updatePicture({
     );
   };
 }
-export function fetchUser(username = 'me'): Thunk<any> {
+
+const defaultOptions = {
+  propagateError: true,
+};
+
+export function fetchUser(
+  username = 'me',
+  { propagateError } = defaultOptions
+): Thunk<any> {
   return callAPI({
     types: User.FETCH,
     endpoint: `/users/${username}/`,
@@ -276,7 +284,7 @@ export function fetchUser(username = 'me'): Thunk<any> {
       errorMessage: 'Henting av bruker feilet',
       isCurrentUser: username === 'me',
     },
-    propagateError: true,
+    propagateError,
   });
 }
 export function refreshToken(token: EncodedToken): Thunk<any> {
