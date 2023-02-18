@@ -56,6 +56,21 @@ export const handleSubmissionErrorFinalForm = (error: any) => {
  * Usage:
  * withSubmissionError(onSubmit)
  */
-export const withSubmissionError = (func: (arg0: any) => Promise<any>) => {
-  return (data: any) => func(data).catch(handleSubmissionError);
+export const withSubmissionError = <Args extends unknown[], Return>(
+  onSubmit: (...args: Args) => Promise<Return>
+) => {
+  return (...data: Args) => onSubmit(...data).catch(handleSubmissionError);
+};
+
+/*
+ * Simple utility that handles submission errors (for final-form)
+ *
+ * Usage:
+ * withSubmissionErrorFinalForm(onSubmit)
+ */
+export const withSubmissionErrorFinalForm = <Args extends unknown[], Return>(
+  onSubmit: (...args: Args) => Promise<Return>
+) => {
+  return (...args: Args) =>
+    onSubmit(...args).catch(handleSubmissionErrorFinalForm);
 };
