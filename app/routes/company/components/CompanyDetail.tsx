@@ -2,13 +2,13 @@ import moment from 'moment-timezone';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import Button from 'app/components/Button';
+import CollapsibleDisplayContent from 'app/components/CollapsibleDisplayContent';
 import {
   Content,
   ContentMain,
   ContentSection,
   ContentSidebar,
 } from 'app/components/Content';
-import DisplayContent from 'app/components/DisplayContent';
 import EventListCompact from 'app/components/EventListCompact';
 import Icon from 'app/components/Icon';
 import JoblistingItem from 'app/components/JoblistingItem';
@@ -95,7 +95,7 @@ const CompanyDetail = ({
       <ContentSection>
         <ContentMain>
           <i>
-            <DisplayContent content={company.description} />
+            <CollapsibleDisplayContent content={company.description} />
           </i>
           <h3 className={styles.sectionHeader}>Kommende arrangementer</h3>
           <EventListCompact

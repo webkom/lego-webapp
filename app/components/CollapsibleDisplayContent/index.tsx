@@ -1,0 +1,86 @@
+import Editor from '@webkom/lego-editor';
+import '@webkom/lego-editor/dist/style.css';
+import 'react-image-crop/dist/ReactCrop.css';
+import { type CSSProperties, useRef, useState } from 'react';
+import Icon from 'app/components/Icon';
+import styles from './CollapsibleDisplayContent.css';
+
+type Props = {
+  content: string;
+  id?: string;
+  className?: string;
+  style?: CSSProperties;
+  placeholder?: string;
+  collapsedHeight?: number;
+};
+
+/**
+ * Renders `content` produced by the Editor component in a collapsible read-only format.
+ */
+function CollapsibleDisplayContent({
+  content,
+  id,
+  style,
+  className,
+  placeholder,
+  collapsedHeight = 250,
+}: Props) {
+  let domParser = null;
+
+  if (!__CLIENT__) {
+    const JSDOM = require('jsdom').JSDOM;
+
+    domParser = (val) => new JSDOM(val).window.document;
+  }
+
+  const [isOpened, setIsOpened] = useState(false);
+
+  const ref = useRef<HTMLDivElement>(null);
+  const useCollapse =
+    collapsedHeight < ref.current?.clientHeight || !ref.current;
+
+  return (
+    <div
+      className={styles.collapse}
+      style={{
+        height: !useCollapse
+          ? null
+          : isOpened
+          ? ref.current?.clientHeight + 50
+          : collapsedHeight + 'px' ?? collapsedHeight,
+      }}
+    >
+      <div key={content} id={id} style={style} className={className} ref={ref}>
+        <Editor
+          onChange={() => {}}
+          onBlur={() => {}}
+          onFocus={() => {}}
+          value={content}
+          placeholder={placeholder}
+          disabled
+          domParser={domParser}
+        />
+      </div>
+      {useCollapse && (
+        <div
+          className={styles.showMore}
+          onClick={() => {
+            setIsOpened(!isOpened);
+          }}
+        >
+          <Icon
+            name={
+              isOpened
+                ? 'chevron-up-circle-outline'
+                : 'chevron-down-circle-outline'
+            }
+            className={styles.showMoreIcon}
+            size={40}
+          />
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default CollapsibleDisplayContent;
