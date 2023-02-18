@@ -69,10 +69,9 @@ const Attendance = ({ event }) => {
 
 type TimeStampProps = {
   event: Event;
-  loggedIn: boolean;
 };
 
-const TimeStamp = ({ event }) => {
+const TimeStamp = ({ event }: TimeStampProps) => {
   return (
     <div className={styles.eventTime}>
       <Flex alignItems="center">
@@ -95,8 +94,8 @@ const TimeStamp = ({ event }) => {
   );
 };
 
-const RegistrationIcon = ({ event, loggedIn }: TimeStampProps) => {
-  const iconStyle = eventStatusObject(event, loggedIn);
+const RegistrationIcon = ({ event }: TimeStampProps) => {
+  const iconStyle = eventStatusObject(event);
   return (
     <Flex justifyContent="center" alignItems="center">
       <Tooltip content={iconStyle.tooltip}>
@@ -112,17 +111,13 @@ const RegistrationIcon = ({ event, loggedIn }: TimeStampProps) => {
 
 type EventItemProps = {
   event: Event;
-  field?: EventTime;
   showTags?: boolean;
-  loggedIn: boolean;
   eventStyle?: EventStyle;
 };
 
 const EventItem = ({
   event,
-  field,
   showTags = true,
-  loggedIn = false,
   eventStyle,
 }: EventItemProps): ReactNode => {
   switch (eventStyle) {
@@ -170,27 +165,19 @@ const EventItem = ({
                     <Image
                       src={event.cover}
                       placeholder={event.coverPlaceholder}
+                      alt={`Event cover image - ${event.title}`}
                     />
                   </Link>
                 )}
               </Flex>
             </Flex>
-            <Flex
-              display="flex"
-              justifyContent="flex-start"
-              column="true"
-              width="25%"
-            >
+            <Flex justifyContent="flex-start" column={true} width="25%">
               <Flex width="100%" justifyContent="flex-start">
-                <RegistrationIcon
-                  event={event}
-                  field={field}
-                  loggedIn={loggedIn}
-                />
+                <RegistrationIcon event={event} />
                 <Attendance event={event} />
               </Flex>
 
-              <TimeStamp event={event} field={field} loggedIn={loggedIn} />
+              <TimeStamp event={event} />
             </Flex>
           </Flex>
           {showTags && (
@@ -216,7 +203,7 @@ const EventItem = ({
               <h3 className={styles.eventItemTitle}>{event.title}</h3>
               {event.totalCapacity > 0 && <Attendance event={event} />}
             </Link>
-            <TimeStamp event={event} loggedIn={loggedIn} />
+            <TimeStamp event={event} />
             {showTags && (
               <Flex wrap>
                 {event.tags.map((tag, index) => (
