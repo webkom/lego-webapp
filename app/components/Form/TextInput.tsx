@@ -4,7 +4,7 @@ import Icon from 'app/components/Icon';
 import Flex from 'app/components/Layout/Flex';
 import { createField } from './Field';
 import styles from './TextInput.css';
-import type { RefObject, ReactNode, InputHTMLAttributes } from 'react';
+import type { ReactNode, InputHTMLAttributes } from 'react';
 
 type Props = {
   type?: string;
