@@ -100,12 +100,12 @@ const AccordionContainer = ({ title, children }: AccordionProps) => {
       <button className={styles.dropdownBtn} onClick={() => setIsOpen(!isOpen)}>
         {title}
         <Icon
-          name="chevron-up-outline"
+          name="chevron-down-outline"
           className={styles.dropdownIcon}
           style={
             isOpen
-              ? { transform: 'rotateX(0deg)' }
-              : { transform: 'rotateX(180deg)' }
+              ? { transform: 'rotate(0deg)' }
+              : { transform: 'rotate(-90deg)' }
           }
         />
       </button>
