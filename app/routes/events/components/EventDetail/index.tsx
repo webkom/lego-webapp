@@ -110,8 +110,8 @@ type Props = {
     feedback: string;
     userId: ID;
   }) => Promise<any>;
-  follow: (eventId: ID, userId: ID) => Promise<any>;
-  unfollow: (eventId: ID, userId: ID) => Promise<any>;
+  follow: (userId: ID, eventId: ID) => Promise<any>;
+  unfollow: (followId: ID, eventId: ID) => Promise<any>;
   unregister: (arg0: {
     eventId: ID;
     registrationId: ID;
