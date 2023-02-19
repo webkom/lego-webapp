@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { Field, FieldArray } from 'redux-form';
@@ -40,10 +40,6 @@ type Props = FormProps & {
   initialize: () => void;
   activeFrom: string;
 };
-type State = {
-  templatePickerOpen: boolean;
-  templateTypeSelected: string;
-};
 type TemplateTypeDropdownItemsProps = {
   survey?: Record<string, any>;
   push: (arg0: string) => void;
@@ -81,15 +77,24 @@ function TemplateTypeDropdownItems({
   );
 }
 
-class SurveyEditor extends Component<Props, State> {
-  state = {
-    templatePickerOpen: false,
-    templateTypeSelected: '',
-  };
-  updateRelativeIndexes = (oldIndex, newIndex, fields) => {
+const SurveyEditor = ({
+  survey,
+  submitting,
+  autoFocus,
+  handleSubmit,
+  template,
+  push,
+  destroy,
+  activeFrom,
+  selectedTemplateType,
+}: Props) => {
+  const [isTemplatePickerOpen, setTemplatePickerOpen] = useState(false);
+
+  const updateRelativeIndexes = (oldIndex, newIndex, fields) => {
     fields.move(oldIndex, newIndex);
   };
-  renderQuestions = ({
+
+  const renderQuestions = ({
     fields,
     meta: { touched, error },
   }: FieldArrayProps): Element<any> => {
@@ -103,7 +108,7 @@ class SurveyEditor extends Component<Props, State> {
               question={question}
               questionData={fields.get(i)}
               deleteQuestion={() => Promise.resolve(fields.remove(i))}
-              updateRelativeIndexes={this.updateRelativeIndexes}
+              updateRelativeIndexes={updateRelativeIndexes}
               relativeIndex={i}
               fields={fields}
             />
@@ -125,153 +130,129 @@ class SurveyEditor extends Component<Props, State> {
     );
   };
 
-  render() {
-    const {
-      survey,
-      submitting,
-      autoFocus,
-      handleSubmit,
-      template,
-      push,
-      destroy,
-      activeFrom,
-      selectedTemplateType,
-    } = this.props;
-    const titleField = (
-      <Field
-        placeholder="Tittel"
-        label=" "
-        autoFocus={autoFocus}
-        name="title"
-        component={TextInput.Field}
-        className={styles.editTitle}
-      />
-    );
+  const titleField = (
+    <Field
+      placeholder="Tittel"
+      label=" "
+      autoFocus={autoFocus}
+      name="title"
+      component={TextInput.Field}
+      className={styles.editTitle}
+    />
+  );
 
-    const editing = !!survey.id;
+  const editing = !!survey.id;
 
-    return (
-      <Content className={styles.detail}>
-        <Helmet title={editing ? survey.title : 'Ny spørreundersøkelse'} />
+  return (
+    <Content className={styles.detail}>
+      <Helmet title={editing ? survey.title : 'Ny spørreundersøkelse'} />
 
-        {editing ? (
-          <DetailNavigation title={titleField} surveyId={Number(survey.id)} />
-        ) : (
-          <ListNavigation title={titleField} />
-        )}
-        <ConfirmModalWithParent
-          title="Bekreft bruk av mal"
-          message={
-            'Dette vil slette alle ulagrede endringer i undersøkelsen!\n' +
-            'Lagrede endringer vil ikke overskrives før du trykker "Lagre".'
-          }
-          closeOnConfirm={true}
-          onCancel={() => {
-            this.setState((state) => ({
-              templatePickerOpen: false,
-            }));
-            return Promise.resolve();
-          }}
-          onConfirm={() => {
-            this.setState((state) => ({
-              templatePickerOpen: true,
-            }));
-            return Promise.resolve();
-          }}
-        >
-          <Button className={styles.templatePicker}>
-            {template ? 'Bytt mal' : 'Bruk mal'}
-            <Dropdown
-              className={styles.templateDropdown}
-              show={this.state.templatePickerOpen}
-              toggle={() => {
-                this.setState((state) => ({
-                  templatePickerOpen: !state.templatePickerOpen,
-                }));
-              }}
-              closeOnContentClick
-            >
-              <TemplateTypeDropdownItems
-                survey={survey}
-                push={push}
-                destroy={destroy}
-              />
-            </Dropdown>
-          </Button>
-        </ConfirmModalWithParent>
+      {editing ? (
+        <DetailNavigation title={titleField} surveyId={Number(survey.id)} />
+      ) : (
+        <ListNavigation title={titleField} />
+      )}
 
-        <form onSubmit={handleSubmit}>
-          <div className={styles.templateType}>
-            {selectedTemplateType && (
-              <span>
-                Mal i bruk: <i>{EVENT_CONSTANTS[selectedTemplateType]}</i>
-              </span>
-            )}
-          </div>
+      <ConfirmModalWithParent
+        title="Bekreft bruk av mal"
+        message={
+          'Dette vil slette alle ulagrede endringer i undersøkelsen!\n' +
+          'Lagrede endringer vil ikke overskrives før du trykker "Lagre".'
+        }
+        closeOnConfirm
+        onCancel={() => {
+          return Promise.all([setTemplatePickerOpen(false)]);
+        }}
+        onConfirm={() => {
+          return Promise.all([setTemplatePickerOpen(true)]);
+        }}
+      >
+        <Button className={styles.templatePicker}>
+          {template ? 'Bytt mal' : 'Bruk mal'}
+          <Dropdown
+            className={styles.templateDropdown}
+            show={isTemplatePickerOpen}
+            toggle={() => setTemplatePickerOpen(!isTemplatePickerOpen)}
+            closeOnContentClick
+          >
+            <TemplateTypeDropdownItems
+              survey={survey}
+              push={push}
+              destroy={destroy}
+            />
+          </Dropdown>
+        </Button>
+      </ConfirmModalWithParent>
 
-          {survey.templateType ? (
-            <h2
-              style={{
-                color: 'var(--lego-color-red)',
-              }}
-            >
-              Dette er malen for arrangementer av type{' '}
-              {eventTypeToString(survey.templateType)}
-            </h2>
-          ) : (
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-              }}
-            >
-              <Field
-                placeholder="Velg arrangement"
-                label="Arrangement"
-                autoFocus={autoFocus}
-                name="event"
-                component={SelectInput.AutocompleteField}
-                className={styles.editEvent}
-                filter={['events.event']}
-              />
-
-              <Field
-                label="Aktiveringstidspunkt"
-                name="activeFrom"
-                component={DatePicker.Field}
-              />
-            </div>
+      <form onSubmit={handleSubmit}>
+        <div className={styles.templateType}>
+          {selectedTemplateType && (
+            <span>
+              Mal i bruk: <i>{EVENT_CONSTANTS[selectedTemplateType]}</i>
+            </span>
           )}
-          <FieldArray
-            name="questions"
-            component={this.renderQuestions}
-            rerenderOnEveryChange={true}
-          />
+        </div>
 
-          <Flex>
-            <Button success disabled={submitting} submit>
-              {editing ? 'Lagre' : 'Opprett'}
-            </Button>
-            <Button
-              onClick={() =>
-                push(editing ? `/surveys/${survey.id}` : '/surveys')
-              }
-            >
-              Avbryt
-            </Button>
-          </Flex>
+        {survey.templateType ? (
+          <h2
+            style={{
+              color: 'var(--lego-color-red)',
+            }}
+          >
+            Dette er malen for arrangementer av type{' '}
+            {eventTypeToString(survey.templateType)}
+          </h2>
+        ) : (
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+            }}
+          >
+            <Field
+              placeholder="Velg arrangement"
+              label="Arrangement"
+              autoFocus={autoFocus}
+              name="event"
+              component={SelectInput.AutocompleteField}
+              className={styles.editEvent}
+              filter={['events.event']}
+            />
 
-          <i className={styles.mailInfo}>
-            Deltagerene på arrangementet vil få mail med link til
-            spørreundersøkelsen når den aktiveres (
-            <Time time={activeFrom} format="HH:mm DD. MMM" />
-            ).
-          </i>
-        </form>
-      </Content>
-    );
-  }
-}
+            <Field
+              label="Aktiveringstidspunkt"
+              name="activeFrom"
+              component={DatePicker.Field}
+            />
+          </div>
+        )}
+        <FieldArray
+          name="questions"
+          component={renderQuestions}
+          rerenderOnEveryChange={true}
+        />
+
+        <Flex>
+          <Button success disabled={submitting} submit>
+            {editing ? 'Lagre' : 'Opprett'}
+          </Button>
+          <Button
+            onClick={() => push(editing ? `/surveys/${survey.id}` : '/surveys')}
+          >
+            Avbryt
+          </Button>
+        </Flex>
+
+        <i className={styles.mailInfo}>
+          Deltagerene på arrangementet vil få mail med link til
+          spørreundersøkelsen når den aktiveres (
+          <Time time={activeFrom} format="HH:mm DD. MMM" />
+          ).
+        </i>
+      </form>
+    </Content>
+  );
+};
 
 export const initialQuestion = {
   questionText: '',
