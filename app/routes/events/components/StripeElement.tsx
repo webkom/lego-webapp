@@ -156,7 +156,7 @@ const CardForm = (props: CardFormProps) => {
             options={StripeElementStyle}
           />
         </label>
-        <Button dark className={stripeStyles.stripeButton}>
+        <Button submit dark className={stripeStyles.stripeButton}>
           Betal
         </Button>
       </fieldset>
