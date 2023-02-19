@@ -12,6 +12,7 @@ import {
   legoForm,
 } from 'app/components/Form';
 import Icon from 'app/components/Icon';
+import Flex from 'app/components/Layout/Flex';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import Time from 'app/components/Time';
 import type { EventType } from 'app/models';
@@ -146,10 +147,14 @@ class SurveyEditor extends Component<Props, State> {
         className={styles.editTitle}
       />
     );
+
+    const editing = !!survey.id;
+
     return (
       <Content className={styles.detail}>
-        <Helmet title={survey.id ? survey.title : 'Ny spørreundersøkelse'} />
-        {survey && survey.id ? (
+        <Helmet title={editing ? survey.title : 'Ny spørreundersøkelse'} />
+
+        {editing ? (
           <DetailNavigation title={titleField} surveyId={Number(survey.id)} />
         ) : (
           <ListNavigation title={titleField} />
@@ -242,10 +247,20 @@ class SurveyEditor extends Component<Props, State> {
             component={this.renderQuestions}
             rerenderOnEveryChange={true}
           />
-          <div className={styles.clear} />
-          <Button success disabled={submitting} submit>
-            Lagre
-          </Button>
+
+          <Flex>
+            <Button success disabled={submitting} submit>
+              {editing ? 'Lagre' : 'Opprett'}
+            </Button>
+            <Button
+              onClick={() =>
+                push(editing ? `/surveys/${survey.id}` : '/surveys')
+              }
+            >
+              Avbryt
+            </Button>
+          </Flex>
+
           <i className={styles.mailInfo}>
             Deltagerene på arrangementet vil få mail med link til
             spørreundersøkelsen når den aktiveres (

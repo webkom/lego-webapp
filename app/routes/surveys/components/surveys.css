@@ -258,10 +258,6 @@
   margin: 0 0 10px;
 }
 
-.adminSideBar {
-  flex: 0.65;
-}
-
 .formOption {
   width: 18px;
 }
@@ -330,12 +326,6 @@
   }
 }
 
-.navTab > div > div {
-  font-size: 16px;
-  text-transform: none;
-  font-weight: normal;
-}
-
 .eventSummary {
   margin: 15px 0;
 }
@@ -395,15 +385,5 @@
   @media (--mobile-device) {
     flex-direction: column;
     padding-bottom: 15px;
-  }
-}
-
-.copied {
-  border-color: var(--color-green-8);
-  color: var(--color-green-8);
-  outline-color: var(--color-green-8);
-
-  &:hover:not(:disabled) {
-    border-color: var(--color-green-8);
   }
 }
