@@ -37,6 +37,8 @@
 
 .searchResultItemIcon {
   margin-left: 10px;
+  font-size: 0.3rem;
+  color: initial;
 }
 
 .textbox {
