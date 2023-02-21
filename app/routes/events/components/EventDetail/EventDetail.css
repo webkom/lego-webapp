@@ -67,6 +67,11 @@
   margin-top: 1em;
 }
 
+.organizerLogo {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
 .mapButton {
   max-width: 120px;
   max-height: 30px;
