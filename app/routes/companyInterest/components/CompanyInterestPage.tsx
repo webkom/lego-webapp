@@ -297,18 +297,6 @@ const EventBox = ({
           </div>
           <Flex gap="4px" alignItems="center">
             {EVENT_TYPES[eventToString(key)][language]}
-
-            <Tooltip
-              content={
-                interestText[
-                  Object.keys(interestText).filter((key) =>
-                    key.includes('Description')
-                  )[index]
-                ][language]
-              }
-            >
-              <Icon name="information-circle-outline" />
-            </Tooltip>
           </Flex>
         </label>
       </Flex>
@@ -549,7 +537,7 @@ const CompanyInterestPage = (props: Props) => {
     },
     subHeading: {
       norwegian:
-        'Dette skjemaet bør ikke brukes for annonser. For Annonser, send epost til ',
+        'Dette skjemaet skal ikke brukes for annonser. For annonser, send epost til ',
       english:
         'This form is not to be used for job listings. For such enquiries, send an email to ',
     },
@@ -564,10 +552,8 @@ const CompanyInterestPage = (props: Props) => {
       },
     },
     officeInTrondheim: {
-      norwegian:
-        'Har bedriften et kontor i Trondheim som ønsker/egner seg for besøk?',
-      english:
-        'Does the company have an office in Trondheim that wishes/is suited for visiting?',
+      norwegian: 'Har dere kontorer i Trondheim som egner seg for besøk?',
+      english: 'Do you have offices in Trondheim suited for visiting?',
     },
     contactPerson: {
       header: {
@@ -612,8 +598,8 @@ const CompanyInterestPage = (props: Props) => {
       english: 'Target Grades',
     },
     companyCourseThemes: {
-      norwegian: 'Spørreundersøkelser',
-      english: 'Survey Offers',
+      norwegian: 'Tema for kurs (uforpliktende)',
+      english: 'Course themes (non-binding)',
     },
     participantRange: {
       norwegian: 'Antall deltagere',
@@ -630,6 +616,16 @@ const CompanyInterestPage = (props: Props) => {
     create: {
       norwegian: 'Opprett bedriftsinteresse',
       english: 'Submit',
+    },
+    eventDescriptionHeader: {
+      norwegian: 'Pitch/Forklar dine ønsker for arrangementet',
+      english: 'Pitch/Explain your wishes for the event',
+    },
+    eventDescriptionIntro: {
+      norwegian:
+        'Skriv gjerne litt om hvilke type arrangementer dere ønsker å arrangere. Vi prøver å planlegge med flere ulike typer arrangementer og bedrifter der vi prøver å lage et variert, spennende og nyskapende program. Våre bedriftskontakter har også muligheten til å hjelpe med å utvikle gode arrangementer.',
+      english:
+        'Please write a bit about what types of events you would like to arrange. We try to plan with several different types of events and companies, where we try to create a varied, exciting and innovative program. Our company contacts also have the opportunity to help develop good events.',
     },
   };
   const { language } = props;
@@ -674,10 +670,15 @@ const CompanyInterestPage = (props: Props) => {
           </Link>
         </FlexRow>
         <h5 className={styles.subHeading}>
-          {labels.subHeading[language]}
-          <a href={'mailto:bedriftskontakt@abakus.no'}>
-            bedriftskontakt@abakus.no
-          </a>
+          <Flex alignItems="center">
+            <Icon name="warning" />
+            <span>
+              {labels.subHeading[language]}
+              <a href={'mailto:bedriftskontakt@abakus.no'}>
+                bedriftskontakt@abakus.no
+              </a>
+            </span>
+          </Flex>
         </h5>
         <Field
           name="company"
@@ -712,65 +713,67 @@ const CompanyInterestPage = (props: Props) => {
           component={TextInput.Field}
           required
         />
-        <Flex column className={styles.interestBox}>
-          <label htmlFor="companyType" className={styles.heading}>
-            {labels.companyTypes[language]}
-          </label>
-          <RadioButtonGroup name="companyType">
-            {Object.keys(COMPANY_TYPES).map((key, index) => (
-              <Field
-                key={key}
-                name={key}
-                label={COMPANY_TYPES[key][language]}
-                component={RadioButton.Field}
-                inputValue={key}
-              />
-            ))}
-          </RadioButtonGroup>
-        </Flex>
-        <Flex column className={styles.interestBox}>
-          <label htmlFor="officeInTrondheim" className={styles.heading}>
-            {labels.officeInTrondheim[language]}
-          </label>
-          <RadioButtonGroup name="officeInTrondheim">
-            {Object.keys(OFFICE_IN_TRONDHEIM).map((key, index) => (
-              <Field
-                key={key}
-                name={key}
-                label={OFFICE_IN_TRONDHEIM[key][language]}
-                component={RadioButton.Field}
-                inputValue={key === 'true'}
-                normalize={(value) => value === 'true'}
-              />
-            ))}
-          </RadioButtonGroup>
-        </Flex>
-        <Flex column className={styles.interestBox}>
-          <label htmlFor="companyCourseThemes" className={styles.heading}>
-            <Flex alignItems="center" gap="5px">
-              {labels.companyCourseThemes[language]}
-              <Tooltip
-                className={styles.tooltip}
-                renderDirection="right"
-                content={
-                  <span>
-                    {language === 'norwegian'
-                      ? 'Dette er temaer fra bedriftsundersøkelsen som studenter uttrykte interesse for å lære mer om. Vil noen av disse være av interesse å inkludere for dere? (Uforpliktende)'
-                      : 'These are topics from the company survey that students expressed interest in learning more about. Would any of these be of interest to you to include? (Non-binding)'}
-                  </span>
-                }
-              >
-                <Icon name="alert-circle-outline" />
-              </Tooltip>
-            </Flex>
-          </label>
 
-          <FieldArray
-            label="companyCourseThemes"
-            name="companyCourseThemes"
-            language={language}
-            component={SurveyOffersBox}
-          />
+        <Flex wrap justifyContent="space-between">
+          <Flex column className={styles.interestBox}>
+            <label htmlFor="companyType" className={styles.heading}>
+              {labels.companyTypes[language]}
+            </label>
+            <RadioButtonGroup name="companyType">
+              {Object.keys(COMPANY_TYPES).map((key, index) => (
+                <Field
+                  key={key}
+                  name={key}
+                  label={COMPANY_TYPES[key][language]}
+                  component={RadioButton.Field}
+                  inputValue={key}
+                />
+              ))}
+            </RadioButtonGroup>
+          </Flex>
+          <Flex column className={styles.interestBox}>
+            <label htmlFor="officeInTrondheim" className={styles.heading}>
+              {labels.officeInTrondheim[language]}
+            </label>
+            <RadioButtonGroup name="officeInTrondheim">
+              {Object.keys(OFFICE_IN_TRONDHEIM).map((key, index) => (
+                <Field
+                  key={key}
+                  name={key}
+                  label={OFFICE_IN_TRONDHEIM[key][language]}
+                  component={RadioButton.Field}
+                  inputValue={key}
+                />
+              ))}
+            </RadioButtonGroup>
+          </Flex>
+          <Flex column className={styles.interestBox}>
+            <label htmlFor="companyCourseThemes" className={styles.heading}>
+              <Flex alignItems="center" gap="5px">
+                {labels.companyCourseThemes[language]}
+                <Tooltip
+                  className={styles.tooltip}
+                  renderDirection="right"
+                  content={
+                    <span>
+                      {language === 'norwegian'
+                        ? 'Dette er temaer som studenter uttrykte interesse for å lære mer om i vår bedriftsundersøkelse. Er dere interessert i å avholde faglige arrangementer innen noen av disse temaene? (Uforpliktende)'
+                        : 'These are topics that students expressed interest in learning more about in our company survey. Would you be interested in arranging a course or workshop about one of these topics? (Non-binding)'}
+                    </span>
+                  }
+                >
+                  <Icon name="information-circle-outline" />
+                </Tooltip>
+              </Flex>
+            </label>
+
+            <FieldArray
+              label="companyCourseThemes"
+              name="companyCourseThemes"
+              language={language}
+              component={SurveyOffersBox}
+            />
+          </Flex>
         </Flex>
         <div className={styles.topline}>
           {interestText.text.first[language]}
@@ -874,6 +877,10 @@ const CompanyInterestPage = (props: Props) => {
             />
           </Flex>
         </Flex>
+        <h3 className={styles.topline}>
+          {labels.eventDescriptionHeader[language]}
+        </h3>
+        <p>{labels.eventDescriptionIntro[language]}</p>
         {showCompanyPresentation && (
           <div className={styles.topline}>
             <p>{interestText.companyPresentationDescription[language]}</p>
