@@ -1,10 +1,13 @@
 import { shallow } from 'enzyme';
+import type CommentType from 'app/store/models/Comment';
 import Comment from '../Comment';
 
-const comment = {
+const comment: CommentType = {
   id: 1,
   text: 'this is a nice comment',
   createdAt: '2016-02-02T22:17:21.838103Z',
+  updatedAt: '2016-02-02T22:17:21.838103Z',
+  contentTarget: 'event-1',
   author: {
     id: 1,
     username: 'cat',
@@ -14,6 +17,7 @@ const comment = {
     lastName: 'Catson',
     profilePicture: 'picture',
   },
+  parent: null,
 };
 describe('components', () => {
   describe('Comment', () => {

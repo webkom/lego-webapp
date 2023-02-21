@@ -27,6 +27,7 @@ a {
   color: var(--lego-link-color);
   cursor: pointer;
   text-decoration: none;
+  transition: color var(--easing-blazingly-fast);
 
   /* Wrap Links */
   overflow-wrap: break-word;

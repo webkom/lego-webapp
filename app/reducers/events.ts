@@ -146,6 +146,19 @@ const mutateEvent = produce((newState: State, action: any): void => {
 
       break;
 
+    case Event.FOLLOW.SUCCESS:
+      if (newState.byId[action.meta.body.target]) {
+        newState.byId[action.meta.body.target].following =
+          action.payload.result;
+      }
+      break;
+
+    case Event.UNFOLLOW.SUCCESS:
+      if (newState.byId[action.meta.eventId]) {
+        newState.byId[action.meta.eventId].following = false;
+      }
+      break;
+
     default:
       break;
   }

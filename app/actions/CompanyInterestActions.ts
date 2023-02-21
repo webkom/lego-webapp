@@ -111,7 +111,6 @@ export function fetch({
       callAPI({
         types: CompanyInterestForm.FETCH_ALL,
         endpoint: '/company-interests/',
-        useCache: false,
         query: { ...cursor, ...filters },
         schema: [companyInterestSchema],
         meta: {

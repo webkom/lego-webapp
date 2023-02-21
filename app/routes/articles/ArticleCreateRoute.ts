@@ -1,3 +1,4 @@
+import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createArticle } from 'app/actions/ArticleActions';
@@ -17,6 +18,7 @@ const mapStateToProps = () => ({
 const mapDispatchToProps = {
   submitArticle: createArticle,
   uploadFile,
+  push,
 };
 export default compose(
   replaceUnlessLoggedIn(LoginPage),

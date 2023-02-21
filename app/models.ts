@@ -1,3 +1,4 @@
+import type Comment from 'app/store/models/Comment';
 import type { Moment } from 'moment';
 // TODO: Id handling could be opaque
 export type ID = number;
@@ -103,6 +104,7 @@ export type User = {
   memberships?: UserMembership[];
   abakusEmailLists?: EmailList[];
   permissionsPerGroup?: PermissionPerGroup[];
+  isAbakusMember?: boolean;
 };
 
 export type Penalty = {
@@ -175,24 +177,6 @@ type EventBase = {
   legacyRegistrationCount: number;
 };
 
-export type Company = Record<string, any>;
-
-export type Comment = {
-  id: ID;
-  text: string;
-  author: Pick<
-    User,
-    | 'profilePicture'
-    | 'profilePicturePlaceholder'
-    | 'username'
-    | 'id'
-    | 'fullName'
-  >;
-  createdAt: Dateish;
-  updatedAt: Dateish;
-  parent?: ID;
-};
-
 export type Permission = string;
 export type EventRegistrationPresence = 'PRESENT' | 'NOT_PRESENT' | 'UNKNOWN';
 export type LEGACY_EventRegistrationPhotoConsent =
@@ -249,6 +233,7 @@ export type Event = EventBase & {
   actionGrant: ActionGrant;
   activationTime: Dateish | null | undefined;
   isAdmitted: boolean | null | undefined;
+  following: false | ID;
   activeCapacity: number;
   eventType: EventType;
   eventStatusType: EventStatusType;
@@ -257,7 +242,7 @@ export type Event = EventBase & {
   totalCapacity: number;
   thumbnail: string | null | undefined;
   company: Company;
-  comments: Array<Comment>;
+  comments: Comment[];
   contentTarget: string;
   pools: Array<EventPool>;
   survey: ID | null | undefined;
@@ -293,18 +278,6 @@ export type UserFollowing = {
   id: ID;
   follower: User;
   target: ID;
-};
-export type Article = {
-  id: ID;
-  title: string;
-  cover: string;
-  coverPlaceholder: string;
-  author: ID;
-  description: string;
-  tags: Tags[];
-  createdAt: Dateish;
-  pinned: boolean;
-  documentType?: 'article';
 };
 export type Feed = Record<string, any>;
 export type FeedItem = Record<string, any>;
@@ -347,20 +320,6 @@ export type Meeting = {
   actionGrant?: ActionGrant;
 };
 
-export type Announcement = {
-  id: ID;
-  message: string;
-  users: User[];
-  groups: Group[];
-  events: Event[];
-  meetings: Meeting[];
-  fromGroup: Group;
-  sent?: Dateish;
-};
-
-export type CreateAnnouncement = Announcement & {
-  send: boolean | null | undefined;
-};
 export type AddPenalty = {
   id: ID;
   user: ID;

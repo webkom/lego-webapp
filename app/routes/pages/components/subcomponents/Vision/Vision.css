@@ -2,7 +2,7 @@
 
 .title {
   font-size: 1.3rem;
-  color: var(--lego-red);
+  color: var(--lego-red-color);
   font-family: Inter, sans-serif;
   font-weight: 600;
 }

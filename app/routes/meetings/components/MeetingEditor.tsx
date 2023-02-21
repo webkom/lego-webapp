@@ -132,8 +132,8 @@ const MeetingEditor = ({
         title={isEditPage ? `Redigerer: ${meeting.title}` : 'Nytt møte'}
         className={styles.detailTitle}
         back={{
-          label: 'Mine møter',
-          path: '/meetings',
+          label: `${isEditPage ? 'Tilbake' : 'Dine møter'}`,
+          path: `/meetings/${isEditPage ? meetingId : ''}`,
         }}
       />
       <LegoFinalForm
@@ -264,7 +264,11 @@ const MeetingEditor = ({
               )}
               <SubmissionError />
               <Flex wrap>
-                <Button onClick={() => push(`/meetings/${meeting.id}`)}>
+                <Button
+                  onClick={() =>
+                    push(`/meetings/${isEditPage ? meeting.id : ''}`)
+                  }
+                >
                   Avbryt
                 </Button>
                 {spySubmittable((submittable) => (

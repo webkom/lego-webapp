@@ -5,14 +5,17 @@ import Button from 'app/components/Button';
 import { ContentMain } from 'app/components/Content';
 import { Form, SelectInput, TextArea } from 'app/components/Form';
 import Flex from 'app/components/Layout/Flex';
-import type { ActionGrant, CreateAnnouncement } from 'app/models';
+import type { ActionGrant } from 'app/models';
 import { selectAutocomplete } from 'app/reducers/search';
+import type { DetailedAnnouncement } from 'app/store/models/Announcement';
 import styles from './AnnouncementsList.css';
 
 type Props = {
-  createAnnouncement: (arg0: CreateAnnouncement) => Promise<any>;
+  createAnnouncement: (
+    announcement: DetailedAnnouncement & { send: boolean }
+  ) => Promise<unknown>;
   actionGrant: ActionGrant;
-  handleSubmit: (arg0: (...args: Array<any>) => any) => void;
+  handleSubmit: (arg0: (...args: Array<any>) => any) => any;
   invalid: boolean;
   pristine: boolean;
   submitting: boolean;

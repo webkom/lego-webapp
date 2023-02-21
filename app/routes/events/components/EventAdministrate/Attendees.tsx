@@ -7,7 +7,6 @@ import LoadingIndicator from 'app/components/LoadingIndicator';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import type {
   Event,
-  Comment,
   EventPool,
   ActionGrant,
   User,
@@ -16,16 +15,18 @@ import type {
   EventRegistrationPaymentStatus,
   EventRegistrationPresence,
 } from 'app/models';
+import type Comment from 'app/store/models/Comment';
+import type { CurrentUser } from 'app/store/models/User';
 import styles from './Abacard.css';
 import { RegisteredTable, UnregisteredTable } from './RegistrationTables';
 
 export type Props = {
   eventId: number;
   event: Event;
-  comments: Array<Comment>;
+  comments: Comment[];
   pools: Array<EventPool>;
   loggedIn: boolean;
-  currentUser: Record<string, any>;
+  currentUser: CurrentUser;
   error: Record<string, any>;
   loading: boolean;
   registered: Array<EventRegistration>;
@@ -84,10 +85,14 @@ const Attendees = ({
   const adminRegisterCount = registered.filter(
     (reg) => reg.adminRegistrationReason !== '' && reg.pool
   ).length;
-  const paidCount = registered.filter(
+  const registeredPaidCount = registered.filter(
     (reg) =>
       (reg.paymentStatus === 'succeeded' || reg.paymentStatus === 'manual') &&
       reg.pool
+  ).length;
+  const unRegisteredPaidCount = unregistered.filter(
+    (unreg) =>
+      unreg.paymentStatus === 'succeeded' || unreg.paymentStatus === 'manual'
   ).length;
 
   if (loading) {
@@ -168,7 +173,14 @@ const Attendees = ({
             {`${adminRegisterCount}/${event.registrationCount} er adminpåmeldt`}
           </div>
           <div className={styles.attendeeStatistics}>
-            {`${paidCount}/${event.registrationCount} har betalt`}
+            {registeredPaidCount > 0
+              ? `${registeredPaidCount}/${event.registrationCount} registrerte har betalt`
+              : ''}
+          </div>
+          <div className={styles.attendeeStatistics}>
+            {unRegisteredPaidCount > 0
+              ? `${unRegisteredPaidCount}/${unregistered.length} avregistrerte har betalt`
+              : ''}
           </div>
         </div>
         {registered.length === 0 ? (
@@ -196,7 +208,12 @@ const Attendees = ({
         {unregistered.length === 0 ? (
           <li>Ingen avmeldte</li>
         ) : (
-          <UnregisteredTable unregistered={unregistered} loading={loading} />
+          <UnregisteredTable
+            unregistered={unregistered}
+            loading={loading}
+            event={event}
+            handlePayment={handlePayment}
+          />
         )}
       </Flex>
     </div>

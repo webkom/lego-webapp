@@ -2,7 +2,7 @@
 
 .footer {
   width: 100%;
-  background-color: var(--lego-footer-color);
+  background-color: var(--lego-red-color);
   color: var(--color-absolute-white);
   margin-top: 3.1em;
   font-size: 0.9em;
@@ -10,10 +10,6 @@
   @media (--lego-max-width) {
     margin-top: 0.5em;
   }
-}
-
-html[data-theme='dark'] .footer {
-  color: #f9f9f9;
 }
 
 .footerContent {
@@ -29,26 +25,44 @@ html[data-theme='dark'] .footer {
   }
 }
 
+/* stylelint-disable no-descending-specificity */
 .footerContent a {
-  color: #5d0909;
-  transition: all var(--easing-fast);
+  color: var(--color-red-8);
   margin-bottom: 0.5em;
+
+  &:hover {
+    color: var(--color-red-7);
+    text-shadow: 0 0 0.003em var(--color-red-7);
+  }
+}
+
+html[data-theme='dark'] .footerContent a {
+  color: var(--color-red-2);
+
+  &:hover {
+    color: var(--color-red-3);
+    text-shadow: 0 0 0.003em var(--color-red-3);
+  }
 }
 
 .bottomContent a {
-  color: #460707;
-  transition: all var(--easing-fast);
+  color: var(--color-red-9);
+
+  &:hover {
+    color: var(--color-red-8);
+    text-shadow: 0 0 0.003em var(--color-red-8);
+  }
 }
 
-.footerContent a:hover {
-  color: #a21010;
-  text-shadow: 0 0 0.003em #740b0b;
-}
+html[data-theme='dark'] .bottomContent a {
+  color: var(--color-red-1);
 
-.bottomContent a:hover {
-  color: #740b0b;
-  text-shadow: 0 0 0.003em #460707;
+  &:hover {
+    color: var(--color-red-2);
+    text-shadow: 0 0 0.003em var(--color-red-2);
+  }
 }
+/* stylelint-enable no-descending-specificity */
 
 .footerContent .section {
   width: 20em;
@@ -122,7 +136,11 @@ html[data-theme='dark'] .footer {
 
 .bottom {
   width: 100%;
-  background-color: var(--lego-dark-red-color);
+  background-color: var(--color-red-7);
+}
+
+html[data-theme='dark'] .bottom {
+  background-color: var(--color-red-4);
 }
 
 .bottomContent {

@@ -108,9 +108,6 @@ export const fetchList =
           queryString,
           endpoint,
         },
-        useCache: refresh,
-        cacheSeconds: Infinity,
-        // don't expire cache unless we pass useCache
         propagateError: true,
       })
     );
@@ -392,6 +389,7 @@ export function unfollow(
         method: 'DELETE',
         meta: {
           id: followId,
+          eventId,
           errorMessage: 'Avregistering fra interesse feilet',
         },
       })

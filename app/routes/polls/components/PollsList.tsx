@@ -50,7 +50,7 @@ const PollsList = ({
             to={`/polls/${poll.id}`}
             className={styles.pollItem}
           >
-            <Card className={styles.pollListItem}>
+            <Card isHoverable className={styles.pollListItem}>
               <Flex>
                 <Icon name="stats-chart" size={35} className={styles.icon} />
                 <h3 className={styles.heading}>{poll.title}</h3>

@@ -51,7 +51,6 @@ export function fetch({
       callAPI({
         types: EmailUser.FETCH,
         endpoint: '/email-users/',
-        useCache: false,
         query,
         pagination: {
           fetchNext: !!next,

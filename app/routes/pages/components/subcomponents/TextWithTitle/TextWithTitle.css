@@ -14,8 +14,8 @@
 
 .title {
   font-size: 1.2rem;
-  line-height: 1.2rem;
-  margin-bottom: 0.4rem;
+  line-height: 1.5rem;
+  margin-bottom: 0.2rem;
 }
 
 .smallerText {
@@ -24,6 +24,7 @@
 
 .textContainer {
   margin-bottom: 1.5rem;
+  white-space: normal;
 }
 
 @media (--mobile-device) {

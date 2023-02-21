@@ -26,13 +26,7 @@ const InterestGroupList = ({ actionGrant, interestGroups }: Props) => {
     <Content>
       <Helmet title="Interessegrupper" />
       <div className={styles.section}>
-        <NavigationTab
-          title="Interessegrupper"
-          back={{
-            label: 'Hjem',
-            path: '/',
-          }}
-        />
+        <NavigationTab title="Interessegrupper" />
         <p>
           <Link to="/pages/generelt/39-praktisk-informasjon">Her</Link> finner
           du all praktisk informasjon knyttet til våre interessegrupper.

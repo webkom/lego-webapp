@@ -101,7 +101,7 @@ export function createAndUpdateEntities(
     let pagination = state.pagination;
     const queryString = action.meta && action.meta.queryString;
 
-    if (primaryKey && !action.cached && queryString !== undefined) {
+    if (primaryKey && queryString !== undefined) {
       const nextPage =
         action.payload.next &&
         action.payload.next.replace(configWithSSR.serverUrl, '');
@@ -116,7 +116,7 @@ export function createAndUpdateEntities(
 
     let paginationNext = state.paginationNext;
 
-    if (primaryKey && !action.cached && action.meta.paginationKey) {
+    if (primaryKey && action.meta.paginationKey) {
       paginationNext = {
         ...state.paginationNext,
         [action.meta.paginationKey]: {

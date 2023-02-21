@@ -66,8 +66,12 @@ const Dropdown = ({
   );
 };
 
-const List = ({ children }: { children: ReactNode }) => (
-  <ul className={styles.dropdownList}>{children}</ul>
+type ListProps = {
+  children: ReactNode;
+} & HTMLAttributes<HTMLUListElement>;
+
+const List = ({ children, className }: ListProps) => (
+  <ul className={cx(className, styles.dropdownList)}>{children}</ul>
 );
 
 const ListItem = (props: HTMLAttributes<HTMLLIElement>) => <li {...props} />;

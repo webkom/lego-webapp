@@ -18,25 +18,30 @@ import LoadingIndicator from 'app/components/LoadingIndicator';
 import { MazemapEmbed } from 'app/components/MazemapEmbed';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import Time, { FromToTime } from 'app/components/Time';
-import { AttendanceStatus } from 'app/components/UserAttendance';
-import type { Dateish, ID, Meeting, Comment, User } from 'app/models';
+import {
+  AttendanceStatus,
+  ModalParentComponent,
+} from 'app/components/UserAttendance';
+import type { Dateish, ID, Meeting, User } from 'app/models';
 import {
   statusesText,
   MeetingInvitationStatus,
 } from 'app/reducers/meetingInvitations';
 import type { MeetingInvitationEntity } from 'app/reducers/meetingInvitations';
+import type Comment from 'app/store/models/Comment';
+import type { CurrentUser } from 'app/store/models/User';
 import urlifyString from 'app/utils/urlifyString';
 import styles from './MeetingDetail.css';
 
 type Props = {
   meeting: Meeting;
-  currentUser: User;
+  currentUser: CurrentUser;
   showAnswer: boolean;
   meetingInvitations: Array<MeetingInvitationEntity & { id: ID }>;
   setInvitationStatus: (
     meetingId: number,
     status: MeetingInvitationStatus,
-    user: User
+    user: CurrentUser
   ) => Promise<void>;
   reportAuthor: User;
   createdBy: User;
@@ -163,7 +168,7 @@ class MeetingDetails extends Component<Props> {
               />
             }
             back={{
-              label: 'Mine møter',
+              label: 'Dine møter',
               path: '/meetings',
             }}
           >
@@ -194,7 +199,14 @@ class MeetingDetails extends Component<Props> {
                   {this.attendanceButtons(statusMe, meeting.startTime)}
                   <InfoList items={infoItems} />
                   <li>
-                    <AttendanceStatus.Modal pools={this.sortInvitations()} />
+                    <ModalParentComponent
+                      isMeeting
+                      key="modal"
+                      pools={this.sortInvitations()}
+                      title="Påmeldte"
+                    >
+                      <AttendanceStatus pools={this.sortInvitations()} />
+                    </ModalParentComponent>
                   </li>
                   {meeting.mazemapPoi && (
                     <MazemapEmbed mazemapPoi={meeting.mazemapPoi} />

@@ -7,8 +7,14 @@ import { selectArticles } from 'app/reducers/articles';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { selectPopularTags } from 'app/reducers/tags';
 import { selectUserById } from 'app/reducers/users';
+import type { PublicArticle } from 'app/store/models/Article';
+import type { PublicUser } from 'app/store/models/User';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import Overview from './components/Overview';
+
+export type ArticleWithAuthorDetails = Omit<PublicArticle, 'author'> & {
+  author: PublicUser;
+};
 
 const mapStateToProps = (state, props) => {
   const query = {
@@ -21,15 +27,20 @@ const mapStateToProps = (state, props) => {
     query,
     entity: 'articles',
   })(state);
-  return {
-    articles: selectArticles(state, {
+  const articles: ArticleWithAuthorDetails[] = selectArticles<PublicArticle[]>(
+    state,
+    {
       pagination,
-    }).map((article) => ({
-      ...article,
-      author: selectUserById(state, {
-        userId: article.author,
-      }),
-    })),
+    }
+  ).map((article) => ({
+    ...article,
+    author: selectUserById(state, {
+      userId: article.author,
+    }),
+  }));
+
+  return {
+    articles,
     fetching: state.articles.fetching,
     hasMore: pagination.hasMore,
     tags: selectPopularTags(state),

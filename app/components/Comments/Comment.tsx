@@ -5,7 +5,9 @@ import DisplayContent from 'app/components/DisplayContent';
 import { ProfilePicture } from 'app/components/Image';
 import { Flex } from 'app/components/Layout';
 import Time from 'app/components/Time';
-import type { ID, Comment as CommentType, User } from 'app/models';
+import type { ID } from 'app/store/models';
+import type CommentType from 'app/store/models/Comment';
+import type { CurrentUser } from 'app/store/models/User';
 import Button from '../Button';
 import styles from './Comment.css';
 
@@ -13,11 +15,11 @@ type Props = {
   comment: CommentType;
   commentFormProps: {
     contentTarget: string;
-    user: User;
+    user: CurrentUser;
     loggedIn: boolean;
   };
   deleteComment: (id: ID, contentTarget: string) => Promise<void>;
-  user: User;
+  user: CurrentUser;
   contentTarget: string;
 };
 type State = {

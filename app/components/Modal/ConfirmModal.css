@@ -3,9 +3,9 @@
 }
 
 .dangerTitle {
-  color: var(--color-red-2);
+  color: var(--danger-color);
 }
 
 .errorMessage {
-  color: var(--color-red-2);
+  color: var(--danger-color);
 }

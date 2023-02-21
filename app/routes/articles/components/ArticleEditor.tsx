@@ -18,19 +18,18 @@ import Flex from 'app/components/Layout/Flex';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import NavigationTab from 'app/components/NavigationTab';
 import Tooltip from 'app/components/Tooltip';
-import type { ArticleEntity } from 'app/reducers/articles';
-import type { UserEntity } from 'app/reducers/users';
+import type { DetailedArticle } from 'app/store/models/Article';
+import type { CurrentUser } from 'app/store/models/User';
 import { createValidator, validYoutubeUrl } from 'app/utils/validation';
-import styles from './ArticleEditor.css';
 
 export type Props = {
-  article?: ArticleEntity;
+  article?: DetailedArticle;
   articleId: number;
-  currentUser: UserEntity;
+  currentUser: CurrentUser;
   isNew: boolean;
   handleSubmit: (arg0: Record<string, any>) => void;
-  submitArticle: (arg0: Record<string, any>) => Promise<any>;
-  deleteArticle: (arg0: number) => Promise<any>;
+  submitArticle: (arg0: Record<string, any>) => Promise<void>;
+  deleteArticle: (arg0: number) => Promise<void>;
   push: (arg0: string) => void;
   initialized: boolean;
 };
@@ -38,8 +37,6 @@ export type Props = {
 const ArticleEditor = ({
   isNew,
   articleId,
-  currentUser,
-  submitArticle,
   handleSubmit,
   deleteArticle,
   push,
@@ -58,16 +55,12 @@ const ArticleEditor = ({
 
   return (
     <Content>
-      <Helmet
-        title={
-          !isNew && article ? `Redigerer: ${article.title}` : 'Ny artikkel'
-        }
-      />
+      <Helmet title={isNew ? 'Ny artikkel' : 'Redigerer: ' + article?.title} />
       <NavigationTab
-        title="Rediger artikkel"
+        title={isNew ? 'Ny artikkel' : 'Redigerer: ' + article?.title}
         back={{
           label: 'Tilbake',
-          path: `/articles/${articleId}`,
+          path: `/articles/${isNew ? '' : articleId}`,
         }}
       />
 
@@ -114,8 +107,6 @@ const ArticleEditor = ({
           label="Festet på forsiden"
           name="pinned"
           component={CheckBox.Field}
-          fieldClassName={styles.metaField}
-          className={styles.formField}
           normalize={(v) => !!v}
         />
         <Field
@@ -164,7 +155,9 @@ const ArticleEditor = ({
           initialized={initialized}
         />
         <Flex wrap>
-          <Button onClick={() => push(`/articles/${articleId}`)}>Avbryt</Button>
+          <Button onClick={() => push(`/articles/${isNew ? '' : articleId}`)}>
+            Avbryt
+          </Button>
           <Button submit success={!isNew}>
             {!isNew ? 'Lagre endringer' : 'Opprett'}
           </Button>

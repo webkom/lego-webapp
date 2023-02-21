@@ -11,5 +11,5 @@
 
 .deleteUser {
   margin-top: 30px;
-  color: var(--color-red-2);
+  color: var(--danger-color);
 }

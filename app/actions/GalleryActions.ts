@@ -16,7 +16,6 @@ export function fetch({
       callAPI({
         types: Gallery.FETCH,
         endpoint: `/galleries/`,
-        useCache: false,
         query: { ...cursor, ...filters },
         schema: [gallerySchema],
         meta: {

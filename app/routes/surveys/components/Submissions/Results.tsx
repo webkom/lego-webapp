@@ -2,6 +2,7 @@ import Select from 'react-select';
 import DistributionBarChart from 'app/components/Chart/BarChart';
 import ChartLabel from 'app/components/Chart/ChartLabel';
 import DistributionPieChart from 'app/components/Chart/PieChart';
+import { CHART_COLORS } from 'app/components/Chart/utils';
 import { selectTheme, selectStyles } from 'app/components/Form/SelectInput';
 import InfoBubble from 'app/components/InfoBubble';
 import type { SurveyEntity, QuestionEntity } from 'app/reducers/surveys';
@@ -131,6 +132,9 @@ const Results = ({
 
             return true;
           });
+          const chartColors = CHART_COLORS.filter(
+            (_, i) => !colorsToRemove.includes(i)
+          );
           const graphType = graphOptions.find(
             (a) => a.value === question.displayType
           );
@@ -152,11 +156,13 @@ const Results = ({
                       {question.displayType !== 'bar_chart' ? (
                         <DistributionPieChart
                           distributionData={pieData}
+                          chartColors={chartColors}
                           dataKey="selections"
                         />
                       ) : (
                         <DistributionBarChart
                           distributionData={pieData}
+                          chartColors={chartColors}
                           dataKey="selections"
                         />
                       )}

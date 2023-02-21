@@ -30,18 +30,8 @@
 .companyItem {
   width: 220px;
   height: 220px;
-  padding-bottom: 10px;
-  margin-bottom: 15px;
-  margin-left: 8px;
-  color: var(--color-black);
-  box-shadow: 5px 2px 5px #ede7e7;
-  border-radius: 2px;
+  padding: 0;
   word-wrap: break-word;
-}
-
-html[data-theme='dark'] .companyItem {
-  box-shadow: 5px 2px 5px
-    rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 10%);
 }
 
 .companyItemContent {
@@ -52,19 +42,6 @@ html[data-theme='dark'] .companyItem {
   height: 100%;
 }
 
-.companyItemTitle {
-  color: var(--lego-font-color);
-  font-weight: 700;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  line-height: 25px;
-  height: 46px;
-}
-
-.companyItemTitle > * {
-  padding-bottom: 10px;
-}
-
 .iconLink {
   color: var(--lego-link-color);
   display: flex;
@@ -72,12 +49,15 @@ html[data-theme='dark'] .companyItem {
 }
 
 .companyInfo {
+  background-color: var(--additive-background);
   color: var(--secondary-font-color);
-  font-style: italic;
-  justify-content: space-between;
-  padding: 0 30px;
-  border-top: 2px solid var(--lego-red);
-  padding-top: 20px;
+  font-weight: 600;
+  padding: 3px 50px;
+  padding-top: 15px;
+}
+
+.interestingCount {
+  color: var(--lego-red-color);
 }
 
 .companyLogoContainer {
@@ -121,12 +101,7 @@ html[data-theme='dark'] .companyItem {
 }
 
 .iconInfoPlacement {
-  flex-flow: row;
-  display: flex;
-  align-content: stretch;
-  justify-content: center;
-  margin-top: 38px;
-  margin-bottom: 39px;
+  margin: 38px 0;
 }
 
 .infoText {
@@ -137,7 +112,7 @@ html[data-theme='dark'] .companyItem {
 .readMore {
   display: none;
   font-size: var(--font-size);
-  color: var(--lego-red);
+  color: var(--lego-red-color);
   margin-top: 17px;
 }
 

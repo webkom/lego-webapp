@@ -55,6 +55,14 @@
   padding-right: 0.2em;
 }
 
+.infoIconLocation {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
 .registeredBox {
   margin-top: 1em;
 }
@@ -63,4 +71,15 @@
   display: flex;
   align-items: center;
   gap: 20px;
+
+.mapButton {
+  max-width: 120px;
+  max-height: 30px;
+  gap: 5px;
+  font-size: 14px;
+}
+
+.mazemapImg {
+  width: 25px;
+  margin-left: -8px;
 }

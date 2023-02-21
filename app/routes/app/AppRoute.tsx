@@ -111,7 +111,7 @@ class App extends PureComponent<AppProps> {
           {config.environment !== 'production' && (
             <div
               style={{
-                backgroundColor: 'red',
+                backgroundColor: 'var(--danger-color)',
                 color: 'white',
                 fontWeight: 'bold',
                 padding: '10px',

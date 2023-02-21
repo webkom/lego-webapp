@@ -17,8 +17,12 @@ import { Flex } from 'app/components/Layout';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import NavigationTab from 'app/components/NavigationTab';
-import type { Joblisting, Workplace, ID } from 'app/models';
 import { httpCheck } from 'app/routes/bdb/utils';
+import type { ID } from 'app/store/models';
+import type {
+  DetailedJoblisting,
+  Workplace,
+} from 'app/store/models/Joblisting';
 import { validYoutubeUrl } from 'app/utils/validation';
 import { places, jobTypes, yearValues } from '../constants';
 import styles from './JoblistingEditor.css';
@@ -30,8 +34,8 @@ type SelectInputObject = {
 };
 type Props = {
   joblistingId?: string;
-  joblisting: Joblisting;
-  handleSubmit: (arg0: (...args: Array<any>) => any) => void;
+  joblisting: DetailedJoblisting;
+  handleSubmit: any;
   submitJoblisting: (arg0: Workplace) => Promise<any>;
   deleteJoblisting: (arg0: ID) => Promise<any>;
   event: SelectInputObject;
@@ -146,7 +150,6 @@ class JoblistingEditor extends Component<Props, State> {
             component={SelectInput.AutocompleteField}
             filter={['companies.company']}
             onChange={(event) => {
-              // $FlowFixMe
               this.fetchContacts(event).then(() => {
                 dispatch(
                   change('joblistingEditor', 'responsible', {

@@ -49,7 +49,6 @@ export function fetch({
   return callAPI({
     types: EmailList.FETCH,
     endpoint: '/email-lists/',
-    useCache: false,
     pagination: {
       fetchNext: !!next,
     },

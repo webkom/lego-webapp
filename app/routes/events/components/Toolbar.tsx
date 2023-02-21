@@ -10,9 +10,7 @@ type Props = {
 
 const Toolbar = ({ actionGrant }: Props) => (
   <div className={styles.root}>
-    <div className={styles.time}>
-      <Time format="ll" className={styles.timeNow} />
-    </div>
+    <Time format="ll" className={styles.timeNow} />
 
     <NavLink
       exact

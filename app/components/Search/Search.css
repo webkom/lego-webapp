@@ -61,7 +61,7 @@
   border: 0;
   background: transparent;
   color: var(--color-gray-7);
-  transition: color var(--easing-mediun);
+  transition: color var(--easing-fast);
   cursor: pointer;
 
   &:hover {

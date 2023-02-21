@@ -2,14 +2,15 @@
   display: inline;
   font-size: 20px;
   margin-right: 15px;
-  transition: all var(--easing-fast);
   border-bottom: 2px solid transparent;
+  transition-property: color, border-bottom;
 
   &:hover:not(.active) {
     border-bottom: 2px solid var(--border-gray);
   }
 
   &.active {
-    border-bottom: 2px solid var(--color-red-2);
+    color: var(--lego-red-color-hover);
+    border-bottom: 2px solid var(--lego-red-color-hover);
   }
 }

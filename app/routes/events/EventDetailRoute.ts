@@ -23,7 +23,6 @@ import {
   selectWaitingRegistrationsForEvent,
   selectRegistrationForEventByUserId,
 } from 'app/reducers/events';
-import { selectFollowersCurrentUser } from 'app/reducers/followers';
 import { selectPenaltyByUserId } from 'app/reducers/penalties';
 import { selectUserWithGroups } from 'app/reducers/users';
 import helmet from 'app/utils/helmet';
@@ -53,10 +52,6 @@ const mapStateToProps = (state, props) => {
         userId: user.id,
       })
     : [];
-  const currentUserFollowing = selectFollowersCurrentUser(state, {
-    target: eventId,
-    type: 'event',
-  });
 
   if (!hasFullAccess) {
     const normalPools = event.isMerged
@@ -81,7 +76,6 @@ const mapStateToProps = (state, props) => {
       eventId,
       pools,
       comments: [],
-      currentUserFollowing,
     };
   }
 
@@ -143,7 +137,6 @@ const mapStateToProps = (state, props) => {
     pendingRegistration,
     hasSimpleWaitingList,
     penalties,
-    currentUserFollowing,
   };
 };
 
@@ -211,11 +204,7 @@ const propertyGenerator = (props, config) => {
 export default compose(
   withPreparedDispatch(
     'fetchEventDetail',
-    (props, dispatch) =>
-      Promise.all([
-        dispatch(fetchEvent(props.match.params.eventId)),
-        props.loggedIn && dispatch(isUserFollowing(props.match.params.eventId)),
-      ]),
+    (props, dispatch) => dispatch(fetchEvent(props.match.params.eventId)),
     (props) => [props.match.params.eventId]
   ),
   connect(mapStateToProps, mapDispatchToProps),

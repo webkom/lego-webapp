@@ -53,6 +53,7 @@ describe('View event', () => {
 
     cy.contains('button', 'Kommenter').should('not.exist');
 
+    cy.wait(2000);
     cy.get(c('CommentForm') + ' [data-slate-editor="true"]')
       .last()
       .click()
@@ -76,9 +77,9 @@ describe('View event', () => {
     // Nested comments should work as expected
     // TODO fix form clearing
     cy.reload();
+    cy.wait(2000);
     cy.get(c('CommentForm') + ' [data-slate-editor="true"]')
       .last()
-      .wait(500)
       .click()
       .wait(100);
     cy.contains('button', 'Kommenter').should('be.disabled');

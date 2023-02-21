@@ -11,23 +11,22 @@ import {
 import DisplayContent from 'app/components/DisplayContent';
 import Icon from 'app/components/Icon';
 import InfoList from 'app/components/InfoList';
+import { jobType, Year, Workplaces } from 'app/components/JoblistingItem/Items';
 import Flex from 'app/components/Layout/Flex';
 import LoadingIndicator from 'app/components/LoadingIndicator/';
 import Time from 'app/components/Time';
 import type { ActionGrant } from 'app/models';
-import { jobType, Year, Workplaces } from './Items';
+import type { DetailedJoblisting } from 'app/store/models/Joblisting';
 
 type Props = {
-  joblisting: Record<string, any>;
+  joblisting: DetailedJoblisting;
   actionGrant: ActionGrant;
   fetching: boolean;
-  push: (arg0: string) => void;
 };
 
 const JoblistingDetail = ({
   joblisting,
   actionGrant,
-  push,
   fetching = false,
 }: Props) => {
   if (fetching || !joblisting) {

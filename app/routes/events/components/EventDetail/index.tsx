@@ -1,6 +1,8 @@
 import moment from 'moment-timezone';
 import { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
+import mazemapLogo from 'app/assets/mazemap.png';
+import Button from 'app/components/Button';
 import CommentView from 'app/components/Comments/CommentView';
 import {
   Content,
@@ -13,6 +15,7 @@ import DisplayContent from 'app/components/DisplayContent';
 import Icon from 'app/components/Icon';
 import CircularPicture from 'app/components/Image/CircularPicture';
 import ProfilePicture from 'app/components/Image/ProfilePicture';
+import { Image } from 'app/components/Image';
 import InfoList from 'app/components/InfoList';
 import { Flex } from 'app/components/Layout';
 import { MazemapEmbed } from 'app/components/MazemapEmbed';
@@ -25,17 +28,16 @@ import {
 } from 'app/components/UserAttendance';
 import UserGrid from 'app/components/UserGrid';
 import type {
-  ID,
   EventPool,
   EventRegistration,
   Event,
   ActionGrant,
   AddPenalty,
-  FollowerItem,
 } from 'app/models';
-import type { CommentEntity } from 'app/reducers/comments';
 import { resolveGroupLink } from 'app/reducers/groups';
-import type { UserEntity } from 'app/reducers/users';
+import type { ID } from 'app/store/models';
+import type Comment from 'app/store/models/Comment';
+import type { CurrentUser } from 'app/store/models/User';
 import {
   colorForEvent,
   penaltyHours,
@@ -112,9 +114,9 @@ type Props = {
   eventId: ID;
   event: Event;
   loggedIn: boolean;
-  currentUser: UserEntity;
+  currentUser: CurrentUser;
   actionGrant: ActionGrant;
-  comments: Array<CommentEntity>;
+  comments: Array<Comment>;
   error?: Record<string, any>;
   pools: Array<EventPool>;
   registrations: Array<EventRegistration>;
@@ -130,8 +132,8 @@ type Props = {
     feedback: string;
     userId: ID;
   }) => Promise<any>;
-  follow: (eventId: ID, userId: ID) => Promise<any>;
-  unfollow: (eventId: ID, userId: ID) => Promise<any>;
+  follow: (userId: ID, eventId: ID) => Promise<any>;
+  unfollow: (followId: ID, eventId: ID) => Promise<any>;
   unregister: (arg0: {
     eventId: ID;
     registrationId: ID;
@@ -145,7 +147,6 @@ type Props = {
   ) => Promise<any>;
   deleteEvent: (eventId: ID) => Promise<any>;
   deleteComment: (id: ID, contentTarget: string) => Promise<any>;
-  currentUserFollowing: FollowerItem | null | undefined;
 };
 type State = {
   mapIsOpen: boolean;
@@ -219,7 +220,6 @@ export default class EventDetail extends Component<Props, State> {
       follow,
       unfollow,
       deleteComment,
-      currentUserFollowing,
     } = this.props;
 
     if (!event.id) {
@@ -232,8 +232,8 @@ export default class EventDetail extends Component<Props, State> {
 
     const color = colorForEvent(event.eventType);
 
-    const onRegisterClick = currentUserFollowing
-      ? () => unfollow(currentUserFollowing.id, event.id)
+    const onRegisterClick = event.following
+      ? () => unfollow(event.following, event.id)
       : () => follow(currentUser.id, event.id);
 
     const currentMoment = moment();
@@ -389,9 +389,7 @@ export default class EventDetail extends Component<Props, State> {
             className={styles.title}
             event={event}
           >
-            {loggedIn && (
-              <InterestedButton isInterested={!!currentUserFollowing} />
-            )}
+            {loggedIn && <InterestedButton isInterested={!!event.following} />}
             {event.title}
           </ContentHeader>
 
@@ -417,10 +415,30 @@ export default class EventDetail extends Component<Props, State> {
                 <Icon name="time-outline" className={styles.infoIcon} />
                 <FromToTime from={event.startTime} to={event.endTime} />
               </div>
-              <div className={styles.iconWithText}>
-                <Icon name="location-outline" className={styles.infoIcon} />
-                {event.location}
+              <div className={styles.infoIconLocation}>
+                <div className={styles.iconWithText}>
+                  <Icon name="location-outline" className={styles.infoIcon} />
+                  {event.location}
+                </div>
+                {event.mazemapPoi && (
+                  <Button
+                    className={styles.mapButton}
+                    onClick={() =>
+                      this.setState({
+                        mapIsOpen: !this.state.mapIsOpen,
+                      })
+                    }
+                  >
+                    <Image
+                      className={styles.mazemapImg}
+                      alt="mazemapLogo"
+                      src={mazemapLogo}
+                    />
+                    {this.state.mapIsOpen ? 'Skjul kart' : 'Vis kart'}
+                  </Button>
+                )}
               </div>
+
               {event.isPriced && (
                 <div className={styles.iconWithText}>
                   <Icon name="cash-outline" className={styles.infoIcon} />
@@ -429,17 +447,6 @@ export default class EventDetail extends Component<Props, State> {
               )}
               {event.mazemapPoi && (
                 <>
-                  <div
-                    className={styles.simulateLink}
-                    onClick={() =>
-                      this.setState({
-                        mapIsOpen: !this.state.mapIsOpen,
-                      })
-                    }
-                  >
-                    {' '}
-                    {this.state.mapIsOpen ? 'Skjul kart' : 'Vis kart'}
-                  </div>
                   {this.state.mapIsOpen && (
                     <MazemapEmbed mazemapPoi={event.mazemapPoi} />
                   )}
@@ -462,7 +469,6 @@ export default class EventDetail extends Component<Props, State> {
                       <ModalParentComponent
                         key="modal"
                         pools={pools}
-                        registrations={registrations}
                         title="Påmeldte"
                       >
                         <RegisteredSummary
@@ -470,6 +476,7 @@ export default class EventDetail extends Component<Props, State> {
                           currentRegistration={currentRegistration}
                         />
                         <AttendanceStatus
+                          pools={pools}
                           legacyRegistrationCount={
                             event.legacyRegistrationCount
                           }

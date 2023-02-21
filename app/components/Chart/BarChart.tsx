@@ -4,9 +4,11 @@ import { CHART_COLORS } from 'app/components/Chart/utils';
 
 const DistributionBarChart = ({
   dataKey,
+  chartColors = CHART_COLORS,
   distributionData,
 }: {
   distributionData: DistributionDataPoint[];
+  chartColors: string[];
   dataKey: string;
 }) => {
   return (
@@ -33,7 +35,7 @@ const DistributionBarChart = ({
         {distributionData.map((entry, index) => (
           <Cell
             key={`cell-${index}`}
-            fill={CHART_COLORS[index % CHART_COLORS.length]}
+            fill={chartColors[index % chartColors.length]}
           />
         ))}
       </Bar>

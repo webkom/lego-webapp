@@ -330,9 +330,6 @@ export const File = {
 export const Feed = {
   FETCH: generateStatuses('Feed.FETCH') as AAT,
 };
-export const FetchHistory = {
-  CLEAR_HISTORY: 'FetchHistory.CLEAR_HISTORY',
-};
 
 /**
  *

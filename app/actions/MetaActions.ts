@@ -5,7 +5,6 @@ import { Meta } from './ActionTypes';
 export function fetchMeta(): Thunk<any> {
   return callAPI({
     types: Meta.FETCH,
-    useCache: false,
     endpoint: '/site-meta/',
     meta: {
       errorMessage: 'Noe gikk galt med innlastingen av sida',

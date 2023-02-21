@@ -10,10 +10,10 @@ import {
   selectEventsForCompany,
   selectJoblistingsForCompany,
 } from 'app/reducers/companies';
+import { selectPagination } from 'app/reducers/selectors';
 import createQueryString from 'app/utils/createQueryString';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
-import { selectPagination } from '../../reducers/selectors';
 import CompanyDetail from './components/CompanyDetail';
 
 const queryString = (companyId) =>
@@ -61,7 +61,7 @@ const mapStateToProps = (state, props) => {
 };
 
 const mapDispatchToProps = (dispatch, props) => {
-  const { companyId } = props.match.params;
+  const { companyId, loading } = props.match.params;
 
   const fetchMoreEvents = () =>
     dispatch(
@@ -73,6 +73,7 @@ const mapDispatchToProps = (dispatch, props) => {
 
   return {
     fetchMoreEvents,
+    loading,
   };
 };
 

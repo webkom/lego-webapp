@@ -540,7 +540,6 @@ function EventEditor({
                 <ModalParentComponent
                   key="modal"
                   pools={pools || []}
-                  registrations={registrations || []}
                   title="Påmeldte"
                 >
                   <AttendanceStatus pools={pools} />

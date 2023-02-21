@@ -20,7 +20,6 @@ export function fetchJoblisting(id: number): Thunk<any> {
     types: Joblistings.FETCH,
     endpoint: `/joblistings/${id}/`,
     schema: joblistingsSchema,
-    useCache: false,
     meta: {
       errorMessage: 'Henting av jobbannonse feilet',
     },

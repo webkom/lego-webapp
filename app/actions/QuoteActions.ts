@@ -51,7 +51,6 @@ export function fetchRandomQuote(seenQuotes: Array<ID> = []) {
       queryString,
       errorMessage: 'Henting av tilfeldig quote feilet',
     },
-    useCache: false,
     schema: quoteSchema,
   });
 }

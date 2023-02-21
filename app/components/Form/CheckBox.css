@@ -4,7 +4,7 @@
   --background: inherit;
   --border: var(--border-gray);
   --border-hover: var(--color-gray-4);
-  --border-active: var(--lego-red);
+  --border-active: var(--lego-red-color);
   --tick: white;
 
   position: relative;

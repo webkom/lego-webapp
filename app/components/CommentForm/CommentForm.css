@@ -1,7 +1,7 @@
 .form {
-  background-color: var(--color-white);
-  box-shadow: 0 1px 4px rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 3%);
-  border: 1px solid rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 4%);
+  background-color: var(--lego-card-color);
+  box-shadow: var(--shadow-sm);
+  border-radius: 1rem;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -24,12 +24,6 @@
       min-height: 0;
     }
   }
-}
-
-html[data-theme='dark'] .form {
-  box-shadow: 0 1px 4px
-    rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 14%);
-  border: 1px solid rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 15%);
 }
 
 .inlineForm {

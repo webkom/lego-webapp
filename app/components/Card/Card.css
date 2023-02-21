@@ -9,6 +9,10 @@
 }
 
 .shadow {
-  box-shadow: 0 2px 8px 2px rgba(104, 112, 118, 7%),
-    0 2px 4px -1px rgba(104, 112, 118, 4%);
+  box-shadow: var(--shadow-sm);
+}
+
+.isHoverable:hover {
+  transition: box-shadow var(--easing-medium);
+  box-shadow: var(--shadow-md);
 }

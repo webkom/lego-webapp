@@ -11,7 +11,6 @@ import type {
   HttpResponse,
 } from 'app/utils/fetchJSON';
 import fetchJSON from 'app/utils/fetchJSON';
-import getCachedRequest from 'app/utils/getCachedRequest';
 import { configWithSSR } from '../config';
 import { setStatusCode } from './RoutingActions';
 import type { Schema } from 'normalizr';
@@ -62,8 +61,6 @@ type CallAPIOptions = {
   meta?: Record<string, unknown>;
   files?: Array<any>;
   force?: boolean;
-  useCache?: boolean;
-  cacheSeconds?: number;
   propagateError?: boolean;
   enableOptimistic?: boolean;
   requiresAuthentication?: boolean;
@@ -72,19 +69,6 @@ type CallAPIOptions = {
     fetchNext: boolean;
   };
 };
-
-function toHttpRequestOptions(
-  options: $Shape<CallAPIOptions>
-): HttpRequestOptions {
-  return {
-    method: options.method,
-    headers: options.headers || {},
-    body: options.body,
-    json: options.json,
-    files: options.files,
-    timeout: options.timeout,
-  };
-}
 
 export default function callAPI({
   types,
@@ -97,26 +81,22 @@ export default function callAPI({
   files,
   meta,
   schema,
-  useCache,
   pagination,
-  cacheSeconds = 10,
   propagateError = false,
   enableOptimistic = false,
   requiresAuthentication = true,
   timeout,
 }: CallAPIOptions): Thunk<Promise<any>> {
   return (dispatch, getState) => {
-    const methodUpperCase = method.toUpperCase();
-    const shouldUseCache =
-      typeof useCache === 'undefined' ? methodUpperCase === 'GET' : useCache;
-    const requestOptions = toHttpRequestOptions({
+    const requestOptions: HttpRequestOptions = {
       method,
       body,
       files,
-      headers,
+      headers: headers || {},
       json,
       timeout,
-    });
+    };
+
     const state = getState();
     const loggedIn = selectIsLoggedIn(state);
     const jwt = state.auth.token;
@@ -190,20 +170,6 @@ export default function callAPI({
         ? paginationForRequest.pagination.next.cursor
         : '';
 
-    if (shouldUseCache) {
-      const cachedRequest = getCachedRequest(
-        state,
-        endpoint,
-        paginationForRequest ? paginationForRequest.paginationKey : '',
-        cursor,
-        cacheSeconds
-      );
-
-      if (cachedRequest) {
-        return Promise.resolve(dispatch(cachedRequest));
-      }
-    }
-
     const qs =
       query || cursor
         ? createQueryString({
@@ -228,7 +194,6 @@ export default function callAPI({
         optimisticId: optimisticPayload ? optimisticPayload.result : undefined,
         enableOptimistic,
         endpoint,
-        success: shouldUseCache && types.SUCCESS,
         body,
         schemaKey,
       },

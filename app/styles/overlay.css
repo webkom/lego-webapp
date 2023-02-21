@@ -45,7 +45,7 @@
 
 .dropdownList {
   border-radius: inherit;
-  overflow: hidden;
+  overflow-y: auto;
 }
 
 .dropdownList > li > a,

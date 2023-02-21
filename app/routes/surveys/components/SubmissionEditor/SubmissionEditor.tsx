@@ -56,7 +56,7 @@ const SubmissionEditor = ({
                 {error && error.questions && error.questions[question.id] ? (
                   <span
                     style={{
-                      color: 'red',
+                      color: 'var(--danger-color)',
                       marginLeft: '20px',
                     }}
                   >

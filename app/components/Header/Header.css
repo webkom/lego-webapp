@@ -62,7 +62,7 @@
 
   &:hover,
   &.activeItem {
-    color: var(--color-red-1);
+    color: var(--lego-red-color-hover);
   }
 }
 

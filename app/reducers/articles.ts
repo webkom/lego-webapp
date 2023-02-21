@@ -1,32 +1,13 @@
 import { orderBy } from 'lodash';
 import { createSelector } from 'reselect';
-import type { Article as ArticleType } from 'app/models';
 import { mutateComments } from 'app/reducers/comments';
-import type { ReactionEntity } from 'app/reducers/reactions';
 import { mutateReactions } from 'app/reducers/reactions';
+import { typeable } from 'app/reducers/utils';
+import type { UnknownArticle } from 'app/store/models/Article';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import joinReducers from 'app/utils/joinReducers';
 import { Article } from '../actions/ActionTypes';
 
-export type ArticleEntity = {
-  id: number;
-  title: string;
-  contentTarget: string;
-  description: string;
-  author: Record<string, any>;
-  cover: string;
-  coverPlaceholder: string;
-  createdAt: string;
-  content: string;
-  startTime: string;
-  text: string;
-  tags: Array<string>;
-  reactionsGrouped: Array<ReactionEntity>;
-  reactions: Array<ReactionEntity>;
-  actionGrant: Record<string, any>;
-  comments: Array<number>;
-  youtubeUrl: string;
-};
 export default createEntityReducer({
   key: 'articles',
   types: {
@@ -41,18 +22,20 @@ function transformArticle(article) {
   return { ...article };
 }
 
-export const selectArticles = createSelector(
-  (state) => state.articles.byId,
-  (state) => state.articles.items,
-  (_, props) => props && props.pagination,
-  (articlesById, articleIds, pagination) =>
-    orderBy<ArticleType>(
-      (pagination ? pagination.items : articleIds).map((id) =>
-        transformArticle(articlesById[id])
-      ) as ReadonlyArray<ArticleType>,
-      ['createdAt', 'id'],
-      ['desc', 'desc']
-    )
+export const selectArticles = typeable(
+  createSelector(
+    (state) => state.articles.byId,
+    (state) => state.articles.items,
+    (_, props) => props && props.pagination,
+    (articlesById, articleIds, pagination) =>
+      orderBy<UnknownArticle>(
+        (pagination ? pagination.items : articleIds).map((id) =>
+          transformArticle(articlesById[id])
+        ) as ReadonlyArray<UnknownArticle>,
+        ['createdAt', 'id'],
+        ['desc', 'desc']
+      )
+  )
 );
 export const selectArticlesByTag = createSelector(
   selectArticles,

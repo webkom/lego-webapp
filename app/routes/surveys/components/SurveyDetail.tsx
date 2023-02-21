@@ -44,7 +44,7 @@ class SurveyDetail extends Component<Props> {
             {survey.templateType ? (
               <h2
                 style={{
-                  color: 'red',
+                  color: 'var(--lego-red-color)',
                 }}
               >
                 Dette er malen for arrangementer av type{' '}

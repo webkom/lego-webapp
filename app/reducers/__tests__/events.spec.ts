@@ -459,8 +459,22 @@ describe('reducers', () => {
       const action = {
         type: Event.FOLLOW.SUCCESS,
         payload: {
-          target: 1,
-          id: 3,
+          entities: {
+            followerEvents: {
+              3: {
+                target: 1,
+                follower: 2,
+                id: 3,
+              },
+            },
+          },
+          result: 3,
+        },
+        meta: {
+          body: {
+            target: 1,
+            follower: 2,
+          },
         },
       };
       expect(events(prevState, action)).toEqual({
@@ -471,6 +485,7 @@ describe('reducers', () => {
         byId: {
           1: {
             id: 1,
+            following: 3,
             name: 'evt',
           },
         },
@@ -485,6 +500,7 @@ describe('reducers', () => {
         byId: {
           1: {
             id: 1,
+            following: 3,
             name: 'evt',
           },
         },
@@ -503,6 +519,7 @@ describe('reducers', () => {
         byId: {
           1: {
             id: 1,
+            following: false,
             name: 'evt',
           },
         },

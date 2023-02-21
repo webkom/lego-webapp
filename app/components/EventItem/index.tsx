@@ -78,7 +78,7 @@ const TimeStamp = ({ event }) => {
       <Flex alignItems="center">
         <Icon
           name="calendar-number-outline"
-          size={23}
+          size={20}
           style={{ cursor: 'pointer', marginRight: '10px' }}
         />
         <Time time={event.startTime} format="ll" />
@@ -86,7 +86,7 @@ const TimeStamp = ({ event }) => {
       <Flex alignItems="center">
         <Icon
           name="time-outline"
-          size={23}
+          size={20}
           style={{ cursor: 'pointer', marginRight: '10px' }}
         />
         <Time time={event.startTime} format="HH:mm" />

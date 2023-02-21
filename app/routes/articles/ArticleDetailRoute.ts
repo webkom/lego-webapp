@@ -10,6 +10,8 @@ import {
 } from 'app/reducers/articles';
 import { selectEmojis } from 'app/reducers/emojis';
 import { selectUserById } from 'app/reducers/users';
+import type { PublicArticle } from 'app/store/models/Article';
+import type { PublicUser } from 'app/store/models/User';
 import helmet from 'app/utils/helmet';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
@@ -54,7 +56,7 @@ export default compose(
   ),
   connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['article.content']),
-  helmet((props, config) => {
+  helmet((props: { article: PublicArticle; author: PublicUser }, config) => {
     const tags = props.article.tags.map((content) => ({
       content,
       property: 'article:tag',
@@ -95,7 +97,7 @@ export default compose(
       },
       {
         property: 'article:published_time',
-        content: props.article.createdAt,
+        content: props.article.createdAt.toString(),
       },
       {
         property: 'og:description',

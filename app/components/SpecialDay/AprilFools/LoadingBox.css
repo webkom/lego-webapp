@@ -63,7 +63,7 @@
 }
 
 .progressBar .progress {
-  background-color: var(--lego-red);
+  background-color: var(--lego-red-color);
   background-image: none;
   height: 100%;
   text-align: right;

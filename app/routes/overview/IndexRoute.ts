@@ -29,6 +29,7 @@ const mapStateToProps = (state) => ({
   }),
   readmes: state.readme,
   poll: selectPinnedPolls(state)[0],
+  fetchingFrontpage: state.frontpage.fetching,
 });
 
 const mapDispatchToProps = {
@@ -36,6 +37,7 @@ const mapDispatchToProps = {
   logout,
   votePoll,
 };
+
 export default compose(
   // Feed not in use
   // prepare(({ loggedIn }, dispatch) =>

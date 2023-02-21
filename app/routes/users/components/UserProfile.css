@@ -21,13 +21,6 @@
   }
 }
 
-.emptyState {
-  color: var(--secondary-font-color);
-  font-size: 20px;
-  font-weight: lighter;
-  font-style: italic;
-}
-
 .content {
   display: flex;
   flex-direction: row;

@@ -4,7 +4,7 @@
 }
 
 .snap {
-  border: 1px red dashed;
+  border: 1px var(--danger-color) dashed;
   display: flex;
   justify-content: center;
   align-items: center;

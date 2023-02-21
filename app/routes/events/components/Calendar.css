@@ -68,7 +68,7 @@
   border-radius: 50%;
   color: #fff;
   text-align: center;
-  background-color: var(--color-event-red);
+  background-color: var(--color-red-5);
 }
 
 .popoverEventTitle {

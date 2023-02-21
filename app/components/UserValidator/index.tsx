@@ -1,30 +1,33 @@
 import cx from 'classnames';
 import { get } from 'lodash';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { QrReader } from 'react-qr-reader';
 import goodSound from 'app/assets/good-sound.mp3';
 import Button from 'app/components/Button';
 import Icon from 'app/components/Icon';
 import Modal from 'app/components/Modal';
 import SearchPage from 'app/components/Search/SearchPage';
-import type { SearchResult } from 'app/reducers/search';
+import type { User } from 'app/models';
+import type { UserSearchResult } from 'app/reducers/search';
 import styles from './Validator.css';
+import type { ComponentProps } from 'react';
+import type { Required } from 'utility-types';
+
+type UserWithUsername = Required<Partial<UserSearchResult>, 'username'>;
 
 type Props = {
   clearSearch: () => void;
-  handleSelect: (arg0: SearchResult) => Promise<void>;
-  location: Record<string, any>;
+  handleSelect: (arg0: UserWithUsername) => Promise<User>;
   onQueryChanged: (arg0: string) => void;
-  results: Array<SearchResult>;
+  results: Array<UserSearchResult>;
   searching: boolean;
-};
+} & ComponentProps<typeof SearchPage<UserSearchResult>>;
 
 const Validator = (props: Props) => {
   const { clearSearch, handleSelect } = props;
   const input = useRef<HTMLInputElement | null | undefined>(null);
   const [completed, setCompleted] = useState(false);
   const [showScanner, setShowScanner] = useState(false);
-  const [scannerResult, setScannerResult] = useState('');
 
   const showCompleted = () => {
     setCompleted(true);
@@ -32,22 +35,24 @@ const Validator = (props: Props) => {
   };
 
   const onSelect = useCallback(
-    (result: SearchResult) => {
+    (result: UserWithUsername) => {
       clearSearch();
       return handleSelect(result)
         .then(
-          () => {
-            const sound = new window.Audio(goodSound);
-            sound.play();
-            showCompleted();
+          (user: User) => {
+            if (user.isAbakusMember) {
+              const sound = new window.Audio(goodSound);
+              sound.play();
+              showCompleted();
+            } else {
+              alert('Brukeren er ikke medlem av Abakus!');
+            }
           },
           (err) => {
             const payload = get(err, 'payload.response.jsonData');
 
-            if (payload && payload.errorCode === 'not_registered') {
-              alert('Bruker er ikke påmeldt på eventet!');
-            } else if (payload && payload.errorCode === 'already_present') {
-              alert(payload.error);
+            if (payload && payload.detail === 'Not found.') {
+              alert(`Brukeren finnes ikke!\nBrukernavn: ${result.username}`);
             } else {
               alert(
                 `Det oppsto en uventet feil: ${JSON.stringify(payload || err)}`
@@ -63,22 +68,15 @@ const Validator = (props: Props) => {
     },
     [clearSearch, handleSelect]
   );
-  useEffect(() => {
+
+  const handleScannerResult = (scannerResult: string) => {
     if (scannerResult.length > 0 && !completed) {
       onSelect({
         username: scannerResult,
-        result: '',
-        color: '',
-        content: '',
-        icon: '',
-        label: '',
-        link: '',
-        path: '',
-        picture: '',
-        value: '',
       });
     }
-  }, [completed, onSelect, scannerResult]);
+  };
+
   return (
     <>
       <div
@@ -103,14 +101,12 @@ const Validator = (props: Props) => {
         <QrReader
           onResult={(res, error) => {
             if (res) {
-              setScannerResult(res.getText());
+              handleScannerResult(res.getText());
             }
 
             if (error) {
               console.info(error);
             }
-
-            setScannerResult('');
           }}
           constraints={{
             facingMode: 'environment',
@@ -124,7 +120,7 @@ const Validator = (props: Props) => {
         <Icon className={styles.qrIcon} name="qr-code" size={18} />
         Vis scanner
       </Button>
-      <SearchPage
+      <SearchPage<UserSearchResult>
         {...props}
         placeholder="Skriv inn brukernavn eller navn"
         handleSelect={onSelect}

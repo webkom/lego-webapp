@@ -76,8 +76,6 @@ export function fetchAll({
           errorMessage: 'Henting av møter feilet',
         },
         propagateError: true,
-        useCache: refresh,
-        cacheSeconds: Infinity,
       })
     );
   };
@@ -193,7 +191,6 @@ export function answerMeetingInvitation(
         meta: {
           errorMessage: 'Svar på invitasjon feilet',
         },
-        useCache: true,
       })
     )
       .then(() => {

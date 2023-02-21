@@ -14,7 +14,6 @@ import emojis from 'app/reducers/emojis';
 import events from 'app/reducers/events';
 import feedActivities from 'app/reducers/feedActivities';
 import feeds from 'app/reducers/feeds';
-import fetchHistory from 'app/reducers/fetchHistory';
 import {
   followersCompany,
   followersEvent,
@@ -72,7 +71,6 @@ const createRootReducer = (history: History) =>
     events,
     feedActivities,
     feeds,
-    fetchHistory,
     form,
     frontpage,
     galleries,

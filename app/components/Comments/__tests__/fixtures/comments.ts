@@ -1,10 +1,12 @@
-const comments = [
+import type Comment from 'app/store/models/Comment';
+
+const comments: Comment[] = [
   {
     id: 2,
     text: 'blaargarhgh',
     createdAt: '2016-02-02T22:17:21.838103Z',
     updatedAt: '2016-02-02T22:17:21.838103Z',
-    source: 'event-1',
+    contentTarget: 'event-1',
     author: {
       id: 1,
       username: 'webkom',
@@ -13,13 +15,14 @@ const comments = [
       fullName: 'webkom webkom',
       profilePicture: 'https://example.picture/profile.png',
     },
+    parent: null,
   },
   {
     id: 3,
     text: 'sure man',
     createdAt: '2016-02-04T22:17:21.838103Z',
     updatedAt: '2016-02-04T22:17:21.838103Z',
-    source: 'event-1',
+    contentTarget: 'event-1',
     author: {
       id: 2,
       username: 'plebkom',
@@ -28,6 +31,7 @@ const comments = [
       fullName: 'plebkom lelkom',
       profilePicture: 'https://example.picture/profile.png',
     },
+    parent: null,
   },
   {
     id: 4,
@@ -35,7 +39,7 @@ const comments = [
     text: 'how can mirrors be real',
     createdAt: '2016-02-04T22:17:21.838103Z',
     updatedAt: '2016-02-04T22:17:21.838103Z',
-    source: 'event-1',
+    contentTarget: 'event-1',
     author: {
       id: 1,
       username: 'webkom',

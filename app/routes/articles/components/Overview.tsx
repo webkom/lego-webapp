@@ -9,12 +9,12 @@ import Tags from 'app/components/Tags';
 import Tag from 'app/components/Tags/Tag';
 import Time from 'app/components/Time';
 import type { ActionGrant } from 'app/models';
-import type { ArticleEntity } from 'app/reducers/articles';
+import type { ArticleWithAuthorDetails } from 'app/routes/articles/ArticleListRoute';
 import styles from './Overview.css';
 
 const HEADLINE_EVENTS = 2;
 
-const OverviewItem = ({ article }: { article: ArticleEntity }) => (
+const OverviewItem = ({ article }: { article: ArticleWithAuthorDetails }) => (
   <div className={styles.item}>
     <Link to={`/articles/${article.id}`} className={styles.imageLink}>
       <Image src={article.cover} placeholder={article.coverPlaceholder} />
@@ -48,7 +48,7 @@ const OverviewItem = ({ article }: { article: ArticleEntity }) => (
 );
 
 type Props = {
-  articles: Array<Record<string, any>>;
+  articles: ArticleWithAuthorDetails[];
   fetching: boolean;
   hasMore: boolean;
   fetchAll: (arg0: { next?: boolean }) => Promise<any>;

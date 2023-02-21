@@ -1,6 +1,6 @@
 import cx from 'classnames';
-import { flatMap } from 'lodash';
-import { Component } from 'react';
+import { flatMap } from 'lodash-es';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Button from 'app/components/Button';
 import { TextInput } from 'app/components/Form';
@@ -21,11 +21,11 @@ export type Pool = {
 };
 
 type Props = {
-  pools: Array<Pool>;
+  pools: Pool[];
   title: string;
   togglePool: (arg0: number) => void;
   selectedPool: number;
-  allRegistrations?: Registration[];
+  isMeeting?: boolean;
 };
 
 type TabProps = {
@@ -48,98 +48,99 @@ const Tab = ({ name, index, activePoolIndex, togglePool }: TabProps) => (
   </Button>
 );
 
-type State = {
-  pools: Pool[];
-  filter: string;
-};
+const AttendanceModal = ({
+  title = 'Status',
+  pools,
+  togglePool,
+  selectedPool,
+  isMeeting,
+}: Props) => {
+  const [amendedPools, setAmendedPools] = useState<Pool[]>([]);
+  const [registrations, setRegistrations] = useState<Registration[]>([]);
+  const [filter, setFilter] = useState<string>('');
 
-class AttendanceModal extends Component<Props, State> {
-  state = {
-    pools: [],
-    filter: '',
-  };
-  static defaultProps = {
-    title: 'Status',
-  };
+  useEffect(() => {
+    generateAmendedPools(pools);
+  }, [pools]);
 
-  UNSAFE_componentWillMount() {
-    this.generateAmendedPools(this.props.pools, this.props.allRegistrations);
-  }
+  const generateAmendedPools = (pools: Pool[]) => {
+    if (pools.length === 1) return setAmendedPools(pools);
 
-  generateAmendedPools = (
-    pools: Array<Pool>,
-    allRegistrations?: Registration[]
-  ) => {
-    if (pools.length === 1)
-      return this.setState({
-        pools,
-      });
-    const registrations =
-      allRegistrations || flatMap(pools, (pool) => pool.registrations);
+    const registrations = flatMap(pools, (pool) => pool.registrations);
     const summaryPool = {
       name: 'Alle',
       registrations,
     };
-    return this.setState({
-      pools: [summaryPool, ...pools],
-    });
+    return setAmendedPools([summaryPool, ...pools]);
   };
 
-  render() {
-    const { title, togglePool, selectedPool } = this.props;
-    const { pools, filter } = this.state;
-    const registrations = pools[selectedPool].registrations.filter(
+  useEffect(() => {
+    const registrations = amendedPools[selectedPool]?.registrations.filter(
       (registration) => {
         return registration.user.fullName
           .toLowerCase()
           .includes(filter.toLowerCase());
       }
     );
+    setRegistrations(registrations);
+  }, [filter, amendedPools, selectedPool]);
 
-    return (
-      <Flex
-        column
-        justifyContent="space-between"
-        gap={15}
-        className={styles.modal}
-      >
-        <h2>{title}</h2>
-        <Flex alignItems="center" className={styles.search}>
-          <Icon name="search" size={16} />
-          <TextInput
-            type="text"
-            placeholder="Søk etter navn"
-            onChange={(e) => this.setState({ filter: e.target.value })}
-          />
-        </Flex>
-
-        <ul className={styles.list}>
-          {registrations.map((registration) => (
-            <li key={registration.id}>
-              <Flex alignItems="center" className={styles.row}>
-                <ProfilePicture size={30} user={registration.user} />
-                <Link to={`/users/${registration.user.username}`}>
-                  {registration.user.fullName}
-                </Link>
-              </Flex>
-            </li>
-          ))}
-        </ul>
-
-        <Flex justifyContent="space-between" className={styles.nav}>
-          {pools.map((pool, i) => (
-            <Tab
-              name={pool.name}
-              key={i}
-              index={i}
-              activePoolIndex={selectedPool}
-              togglePool={togglePool}
-            />
-          ))}
-        </Flex>
+  return (
+    <Flex
+      column
+      justifyContent="space-between"
+      gap={15}
+      className={styles.modal}
+    >
+      <h2>{title}</h2>
+      <Flex alignItems="center" className={styles.search}>
+        <Icon name="search" size={16} />
+        <TextInput
+          type="text"
+          placeholder="Søk etter navn"
+          onChange={(e) => setFilter(e.target.value)}
+        />
       </Flex>
-    );
-  }
-}
+
+      <ul className={styles.list}>
+        {registrations?.map((registration) => (
+          <li key={registration.id}>
+            <Flex
+              alignItems="center"
+              className={cx(
+                styles.row,
+                !isMeeting &&
+                  !registration.pool &&
+                  amendedPools[selectedPool].name === 'Alle' &&
+                  styles.opacity
+              )}
+            >
+              <ProfilePicture
+                size={30}
+                user={registration.user}
+                alt={`${registration.user.fullName}'s profile picture`}
+              />
+              <Link to={`/users/${registration.user.username}`}>
+                {registration.user.fullName}
+              </Link>
+            </Flex>
+          </li>
+        ))}
+      </ul>
+
+      <Flex justifyContent="space-between" className={styles.nav}>
+        {amendedPools.map((pool, i) => (
+          <Tab
+            name={pool.name}
+            key={i}
+            index={i}
+            activePoolIndex={selectedPool}
+            togglePool={togglePool}
+          />
+        ))}
+      </Flex>
+    </Flex>
+  );
+};
 
 export default AttendanceModal;

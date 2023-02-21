@@ -41,17 +41,11 @@
   bottom: 0;
 }
 
-.overlay:hover {
-  background: linear-gradient(
-    var(--color-black),
-    rgba(var(--rgb-max), var(--rgb-max), var(--rgb-max), 30%)
-  );
-}
-
+.overlay:hover,
 .overlaySelected {
   background: linear-gradient(
-    var(--color-black),
-    rgba(var(--rgb-max), var(--rgb-max), var(--rgb-max), 30%)
+    rgba(255, 0, 0, calc(var(--color-red-hover-alpha) + 35%)),
+    rgba(255, 0, 0, var(--color-red-hover-alpha))
   );
 }
 
@@ -61,7 +55,7 @@
 }
 
 .iconSelected {
-  color: green;
+  color: var(--color-green-6);
 }
 
 .createState {
@@ -78,26 +72,8 @@
 }
 
 .actionsContainer {
-  padding: 0 20px;
   height: 66px;
-  color: var(--color-white);
-  background: var(--lego-red);
-  border-radius: 4px;
   margin-bottom: 1rem;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.actionIcon {
-  font-size: 40px;
-  vertical-align: middle;
-}
-
-.action {
-  margin-left: 10px;
-  cursor: pointer;
-  flex-direction: column;
-  justify-content: center;
 }
 
 .infoOverlay {
@@ -107,7 +83,7 @@
 }
 
 .buttonRow {
-  padding-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .detailTitle {
