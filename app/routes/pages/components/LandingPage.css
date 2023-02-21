@@ -2,7 +2,7 @@
 
 .pageContainer {
   position: relative;
-  margin-top: -2em;
+  margin-top: -15px;
 }
 
 .banner {
@@ -19,13 +19,28 @@
 }
 
 .emailContainer {
-  margin-top: -2em;
   margin-bottom: 30px;
+}
+
+div > .locationContainerItem {
+  margin: 0 1%;
+  flex-basis: 31.3333%;
+  width: 31.3333%;
+
+  @media (--medium-viewport) {
+    flex-basis: 50%;
+    margin: 0;
+  }
+
+  @media (--small-viewport) {
+    flex-basis: 98%;
+  }
 }
 
 .title {
   font-size: 1.2rem;
   line-height: 1.2rem;
+  margin-top: 0.2rem;
   margin-bottom: 0.4rem;
 }
 
@@ -46,7 +61,7 @@
   font-family: Inter, sans-serif;
   font-weight: 600;
   text-transform: uppercase;
-  margin: 3rem auto 1.5rem;
+  margin: 3rem auto 0;
 }
 
 .contactUsLink {
@@ -84,15 +99,14 @@
 }
 
 .emails {
-  margin-top: 30px;
-}
-
-.organization {
   margin-top: 25px;
 }
 
+.organization {
+  margin-top: 10px;
+}
+
 .socialMediaContainer {
-  margin-top: -2em;
   margin-bottom: 30px;
 }
 
@@ -103,11 +117,15 @@
   margin: 6px;
   align-items: center;
 
-  @media (--mobile-device) {
+  @media (--medium-viewport) {
     flex-direction: row;
-    flex-basis: 100%;
+    flex-basis: 50%;
     margin: auto;
     padding: 0.8rem;
+  }
+
+  @media (--small-viewport) {
+    flex-basis: 100%;
   }
 }
 

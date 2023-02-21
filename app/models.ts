@@ -104,6 +104,7 @@ export type User = {
   memberships?: UserMembership[];
   abakusEmailLists?: EmailList[];
   permissionsPerGroup?: PermissionPerGroup[];
+  isAbakusMember?: boolean;
 };
 
 export type Penalty = {
