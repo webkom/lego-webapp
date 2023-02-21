@@ -27,7 +27,7 @@ export type CompanyInterestEntity = {
   comment: boolean;
   semesters: Array<CompanySemesterEntity>;
   companyType: CompanyInterestCompanyType;
-  officeInTrondheim: string;
+  officeInTrondheim: boolean;
 };
 export default createEntityReducer({
   key: 'companyInterest',

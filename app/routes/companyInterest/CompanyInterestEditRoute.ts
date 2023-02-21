@@ -16,7 +16,7 @@ import CompanyInterestPage, {
   OTHER_TYPES,
   TARGET_GRADE_TYPES,
   PARTICIPANT_RANGE_MAP,
-  OFFICE_IN_TRODHEIM,
+  OFFICE_IN_TRONDHEIM,
   SURVEY_OFFER_TYPES,
 } from './components/CompanyInterestPage';
 import { sortSemesterChronologically } from './utils';

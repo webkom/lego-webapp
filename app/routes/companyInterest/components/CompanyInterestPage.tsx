@@ -241,9 +241,9 @@ const SemesterBox = ({
               normalize={(v) => !!v}
             />
           </div>
-          <span className={styles.checkboxSpan}>
+          <Flex gap="4px" alignItems="center">
             {semesterToText({ ...fields.get(index), language })}
-          </span>
+          </Flex>
         </label>
       </Flex>
     ))}
@@ -268,9 +268,9 @@ const SurveyOffersBox = ({
               normalize={(v) => !!v}
             />
           </div>
-          <span className={styles.checkboxSpan}>
+          <Flex gap="4px" alignItems="center">
             {SURVEY_OFFER_TYPES[surveyOffersToString(item)][language]}
-          </span>
+          </Flex>
         </label>
       </Flex>
     ))}
@@ -295,7 +295,7 @@ const EventBox = ({
               normalize={(v) => !!v}
             />
           </div>
-          <span className={styles.checkboxSpan}>
+          <Flex gap="4px" alignItems="center">
             {EVENT_TYPES[eventToString(key)][language]}
 
             <Tooltip
@@ -306,11 +306,10 @@ const EventBox = ({
                   )[index]
                 ][language]
               }
-              onClick={() => console.log(key)}
             >
-              <Icon name="alert-circle-outline" />
+              <Icon name="information-circle-outline" />
             </Tooltip>
-          </span>
+          </Flex>
         </label>
       </Flex>
     ))}
@@ -335,9 +334,9 @@ const TargetGradeBox = ({
               normalize={(v) => !!v}
             />
           </div>
-          <span className={styles.checkboxSpan}>
+          <Flex gap="4px" alignItems="center">
             {TARGET_GRADE_TYPES[targetGradeToString(key)][language]}
-          </span>
+          </Flex>
         </label>
       </Flex>
     ))}
@@ -362,9 +361,9 @@ const OtherBox = ({
               normalize={(v) => !!v}
             />
           </div>
-          <span className={styles.checkboxSpan}>
+          <Flex gap="4px" alignItems="center">
             {OTHER_TYPES[otherOffersToString(key)][language]}
-          </span>
+          </Flex>
         </label>
       </Flex>
     ))}
@@ -389,9 +388,9 @@ const CollaborationBox = ({
               normalize={(v) => !!v}
             />
           </div>
-          <span className={styles.checkboxSpan}>
+          <Flex gap="4px" alignItems="center">
             {COLLABORATION_TYPES[collaborationToString(key)][language]}
-          </span>
+          </Flex>
         </label>
       </Flex>
     ))}
@@ -444,7 +443,7 @@ type CompanyInterestFormEntity = {
   companyToCompanyComment: string;
   companyPresentationComment: string;
   companyType: string;
-  officeInTrondheim: string;
+  officeInTrondheim: boolean;
 };
 type Props = FormProps & {
   allowedBdb: boolean;
@@ -474,7 +473,7 @@ type Props = FormProps & {
   companyToCompanyComment: string;
   companyPresentationComment: string;
   companyType: string;
-  officeInTrondheim: string;
+  officeInTrondheim: boolean;
 };
 
 const CompanyInterestPage = (props: Props) => {
@@ -597,7 +596,7 @@ const CompanyInterestPage = (props: Props) => {
       english: 'Events',
     },
     otherOffers: {
-      norwegian: 'Annter',
+      norwegian: 'Annet',
       english: 'Other',
     },
     companyTypes: {
@@ -676,7 +675,7 @@ const CompanyInterestPage = (props: Props) => {
         </FlexRow>
         <h5 className={styles.subHeading}>
           {labels.subHeading[language]}
-          <a href={`mailto:bedriftskontakt@abakus.no`}>
+          <a href={'mailto:bedriftskontakt@abakus.no'}>
             bedriftskontakt@abakus.no
           </a>
         </h5>
@@ -748,8 +747,24 @@ const CompanyInterestPage = (props: Props) => {
         </Flex>
         <Flex column className={styles.interestBox}>
           <label htmlFor="companyCourseThemes" className={styles.heading}>
-            {labels.companyCourseThemes[language]}
+            <Flex alignItems="center" gap="5px">
+              {labels.companyCourseThemes[language]}
+              <Tooltip
+                className={styles.tooltip}
+                renderDirection="right"
+                content={
+                  <span>
+                    {language === 'norwegian'
+                      ? 'Dette er temaer fra bedriftsundersøkelsen som studenter uttrykte interesse for å lære mer om. Vil noen av disse være av interesse å inkludere for dere? (Uforpliktende)'
+                      : 'These are topics from the company survey that students expressed interest in learning more about. Would any of these be of interest to you to include? (Non-binding)'}
+                  </span>
+                }
+              >
+                <Icon name="alert-circle-outline" />
+              </Tooltip>
+            </Flex>
           </label>
+
           <FieldArray
             label="companyCourseThemes"
             name="companyCourseThemes"
