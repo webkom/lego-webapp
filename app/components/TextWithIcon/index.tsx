@@ -7,7 +7,7 @@ import type { ReactElement } from 'react';
 type Props = {
   iconName: string;
   className?: string;
-  content: ReactElement;
+  content: ReactElement | string;
   tooltipContentIcon?: ReactElement;
   iconRight?: boolean;
   size?: number;

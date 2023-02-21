@@ -155,7 +155,7 @@ const CompanyDetail = ({
                     info.link ? (
                       <a href={info.text}>{company.name}</a>
                     ) : (
-                      <>{info.text}</>
+                      info.text
                     )
                   }
                 />

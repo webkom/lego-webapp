@@ -212,7 +212,7 @@ export default class EventDetail extends Component<Props, State> {
     const color = colorForEvent(event.eventType);
 
     const onRegisterClick = event.following
-      ? () => unfollow(event.id, event.id)
+      ? () => unfollow(event.following, event.id)
       : () => follow(currentUser.id, event.id);
 
     const currentMoment = moment();
@@ -253,7 +253,7 @@ export default class EventDetail extends Component<Props, State> {
             keyNode: (
               <TextWithIcon
                 iconName="help-circle-outline"
-                content={<>Frist for prikk</>}
+                content="Frist for prikk"
                 tooltipContentIcon={
                   <>
                     Lurer du på hvordan prikksystemet fungerer? Sjekk ut{' '}
@@ -282,11 +282,9 @@ export default class EventDetail extends Component<Props, State> {
               <TextWithIcon
                 iconName="help-circle-outline"
                 content={
-                  <>
-                    {currentMoment.isBefore(registrationCloseTimeMoment)
-                      ? 'Påmelding stenger'
-                      : 'Påmelding stengte'}
-                  </>
+                  currentMoment.isBefore(registrationCloseTimeMoment)
+                    ? 'Påmelding stenger'
+                    : 'Påmelding stengte'
                 }
                 tooltipContentIcon={
                   <>
@@ -403,7 +401,7 @@ export default class EventDetail extends Component<Props, State> {
               <div className={styles.infoIconLocation}>
                 <TextWithIcon
                   iconName="location-outline"
-                  content={<>{event.location}</>}
+                  content={event.location}
                 />
                 {event.mazemapPoi && (
                   <Button
@@ -427,7 +425,7 @@ export default class EventDetail extends Component<Props, State> {
               {event.isPriced && (
                 <TextWithIcon
                   iconName="cash-outline"
-                  content={<>{event.priceMember / 100},-</>}
+                  content={event.priceMember / 100 + ',-'}
                 />
               )}
               {event.mazemapPoi && (
