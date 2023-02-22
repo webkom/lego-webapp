@@ -54,13 +54,10 @@ html[data-theme='dark'] .descriptionEditor {
 }
 
 .poolBox {
-  background: rgba(200, 200, 200, 50%);
+  background-color: var(--additive-background);
+  border-radius: 1rem;
   padding: 10px;
   margin-top: 10px;
-}
-
-[data-theme='dark'] .poolBox {
-  background: rgba(50, 50, 50, 50%);
 }
 
 .centeredButton {
