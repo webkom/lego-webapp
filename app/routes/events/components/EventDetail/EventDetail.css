@@ -43,18 +43,6 @@
   }
 }
 
-.iconWithText {
-  display: flex;
-  align-items: center;
-}
-
-.infoIcon {
-  min-width: 26px;
-  display: flex;
-  justify-content: center;
-  padding-right: 0.2em;
-}
-
 .infoIconLocation {
   display: flex;
   flex-wrap: wrap;

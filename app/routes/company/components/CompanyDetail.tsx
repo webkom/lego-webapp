@@ -15,6 +15,7 @@ import JoblistingItem from 'app/components/JoblistingItem';
 import { Flex } from 'app/components/Layout';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import NavigationTab from 'app/components/NavigationTab';
+import TextWithIcon from 'app/components/TextWithIcon';
 import type { Event } from 'app/models';
 import type { DetailedCompany } from 'app/store/models/Company';
 import type { ListJoblisting } from 'app/store/models/Joblisting';
@@ -147,14 +148,17 @@ const CompanyDetail = ({
           {companyInfo.map(
             (info) =>
               info.text && (
-                <Flex key={info.text}>
-                  <Icon name={info.icon} className={styles.infoIcon} />
-                  {info.link ? (
-                    <a href={info.text}>{company.name}</a>
-                  ) : (
-                    info.text
-                  )}
-                </Flex>
+                <TextWithIcon
+                  key={info.text}
+                  iconName={info.icon}
+                  content={
+                    info.link ? (
+                      <a href={info.text}>{company.name}</a>
+                    ) : (
+                      info.text
+                    )
+                  }
+                />
               )
           )}
         </ContentSidebar>

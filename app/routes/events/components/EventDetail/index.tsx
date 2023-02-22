@@ -18,6 +18,7 @@ import InfoList from 'app/components/InfoList';
 import { Flex } from 'app/components/Layout';
 import { MazemapEmbed } from 'app/components/MazemapEmbed';
 import Tag from 'app/components/Tags/Tag';
+import TextWithIcon from 'app/components/TextWithIcon';
 import { FormatTime, FromToTime } from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
 import {
@@ -250,22 +251,21 @@ export default class EventDetail extends Component<Props, State> {
         ? {
             key: 'Frist for prikk',
             keyNode: (
-              <Tooltip
-                content={
-                  <span>
+              <TextWithIcon
+                iconName="help-circle-outline"
+                content="Frist for prikk"
+                tooltipContentIcon={
+                  <>
                     Lurer du på hvordan prikksystemet fungerer? Sjekk ut{' '}
                     <Link to="/pages/arrangementer/26-arrangementsregler">
                       arrangementsreglene
                     </Link>
                     .
-                  </span>
+                  </>
                 }
-              >
-                <Flex alignItems="center" gap={4}>
-                  Frist for prikk
-                  <Icon name="help-circle-outline" size={16} />
-                </Flex>
-              </Tooltip>
+                iconRight={true}
+                size={16}
+              />
             ),
             value: (
               <FormatTime
@@ -279,21 +279,22 @@ export default class EventDetail extends Component<Props, State> {
         ? {
             key: 'Frist for av/påmelding',
             keyNode: (
-              <Tooltip
+              <TextWithIcon
+                iconName="help-circle-outline"
                 content={
-                  <span>
+                  currentMoment.isBefore(registrationCloseTimeMoment)
+                    ? 'Påmelding stenger'
+                    : 'Påmelding stengte'
+                }
+                tooltipContentIcon={
+                  <>
                     Etter påmeldingen stenger er det hverken mulig å melde seg
                     på eller av arrangementet.
-                  </span>
+                  </>
                 }
-              >
-                <Flex alignItems="center" gap={4}>
-                  {currentMoment.isBefore(registrationCloseTimeMoment)
-                    ? 'Påmelding stenger'
-                    : 'Påmelding stengte'}{' '}
-                  <Icon name="help-circle-outline" size={16} />
-                </Flex>
-              </Tooltip>
+                iconRight={true}
+                size={16}
+              />
             ),
             value: (
               <FormatTime
@@ -382,22 +383,26 @@ export default class EventDetail extends Component<Props, State> {
             </ContentMain>
             <ContentSidebar>
               {event.company && (
-                <div className={styles.iconWithText}>
-                  <Icon name="briefcase-outline" className={styles.infoIcon} />
-                  <Link to={`/companies/${event.company.id}`}>
-                    {event.company.name}
-                  </Link>
-                </div>
+                <TextWithIcon
+                  iconName="briefcase-outline"
+                  content={
+                    <Link to={`/companies/${event.company.id}`}>
+                      {event.company.name}
+                    </Link>
+                  }
+                />
               )}
-              <div className={styles.iconWithText}>
-                <Icon name="time-outline" className={styles.infoIcon} />
-                <FromToTime from={event.startTime} to={event.endTime} />
-              </div>
+              <TextWithIcon
+                iconName="time-outline"
+                content={
+                  <FromToTime from={event.startTime} to={event.endTime} />
+                }
+              />
               <div className={styles.infoIconLocation}>
-                <div className={styles.iconWithText}>
-                  <Icon name="location-outline" className={styles.infoIcon} />
-                  {event.location}
-                </div>
+                <TextWithIcon
+                  iconName="location-outline"
+                  content={event.location}
+                />
                 {event.mazemapPoi && (
                   <Button
                     className={styles.mapButton}
@@ -418,10 +423,10 @@ export default class EventDetail extends Component<Props, State> {
               </div>
 
               {event.isPriced && (
-                <div className={styles.iconWithText}>
-                  <Icon name="cash-outline" className={styles.infoIcon} />
-                  {event.priceMember / 100},-
-                </div>
+                <TextWithIcon
+                  iconName="cash-outline"
+                  content={event.priceMember / 100 + ',-'}
+                />
               )}
               {event.mazemapPoi && (
                 <>
@@ -545,21 +550,25 @@ export default class EventDetail extends Component<Props, State> {
               <InfoList items={eventCreator} className={styles.infoList} />
               <Line />
               {loggedIn && (
-                <Link
-                  to={`/users/${currentUser.username}/settings/profile`}
-                  className={styles.iconWithText}
-                >
-                  <Icon name="create-outline" className={styles.infoIcon} />
-                  <span>Oppdater matallergier/preferanser</span>
-                </Link>
+                <TextWithIcon
+                  iconName="create-outline"
+                  content={
+                    <Link
+                      to={`/users/${currentUser.username}/settings/profile`}
+                    >
+                      Oppdater matallergier/preferanser
+                    </Link>
+                  }
+                />
               )}
-              <Link
-                to="/pages/arrangementer/26-arrangementsregler"
-                className={styles.iconWithText}
-              >
-                <Icon name="document-outline" className={styles.infoIcon} />
-                <span>Arrangementsregler</span>
-              </Link>
+              <TextWithIcon
+                iconName="document-outline"
+                content={
+                  <Link to="/pages/arrangementer/26-arrangementsregler">
+                    Arrangementsregler
+                  </Link>
+                }
+              />
               {(actionGrant.includes('edit') ||
                 actionGrant.includes('delete')) && <Line />}
               <Flex column>

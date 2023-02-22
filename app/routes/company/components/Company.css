@@ -1,12 +1,5 @@
 @import url('~app/styles/variables.css');
 
-.infoIcon {
-  min-width: 26px;
-  display: flex;
-  justify-content: center;
-  padding-right: 0.2em;
-}
-
 .sectionHeader {
   font-size: 20px;
   margin-top: 20px;
