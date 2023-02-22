@@ -742,7 +742,8 @@ const CompanyInterestPage = (props: Props) => {
                   name={key}
                   label={OFFICE_IN_TRONDHEIM[key][language]}
                   component={RadioButton.Field}
-                  inputValue={key}
+                  inputValue={key === 'true'}
+                  normalize={(value) => value === 'true'}
                 />
               ))}
             </RadioButtonGroup>
@@ -883,6 +884,10 @@ const CompanyInterestPage = (props: Props) => {
         <p>{labels.eventDescriptionIntro[language]}</p>
         {showCompanyPresentation && (
           <div className={styles.topline}>
+            <Flex alignItems="center" gap={1}>
+              <h4>{EVENT_TYPES.company_presentation[language]}</h4>
+              <p className={styles.label}>*</p>
+            </Flex>
             <p>{interestText.companyPresentationDescription[language]}</p>
             <Field
               placeholder={interestText.companyPresentationComment[language]}
@@ -890,13 +895,15 @@ const CompanyInterestPage = (props: Props) => {
               component={TextEditor.Field}
               rows={10}
               className={styles.textEditor}
-              label={EVENT_TYPES.company_presentation[language]}
-              required
             />
           </div>
         )}
         {showLunchPresentationComment && (
           <div className={styles.topline}>
+            <Flex alignItems="center" gap={1}>
+              <h4>{EVENT_TYPES.lunch_presentation[language]}</h4>
+              <p className={styles.label}>*</p>
+            </Flex>
             <p>{interestText.lunchPresentationDescriptiont[language]}</p>
             <Field
               placeholder={interestText.lunchPresentationComment[language]}
@@ -904,13 +911,15 @@ const CompanyInterestPage = (props: Props) => {
               component={TextEditor.Field}
               rows={10}
               className={styles.textEditor}
-              label={EVENT_TYPES.lunch_presentation[language]}
-              required
             />
           </div>
         )}
         {showCourseComment && (
           <div className={styles.topline}>
+            <Flex alignItems="center" gap={1}>
+              <h4>{EVENT_TYPES.course[language]}</h4>
+              <p className={styles.label}>*</p>
+            </Flex>
             <p>{interestText.courseDescription[language]}</p>
             <Field
               placeholder={interestText.courseComment[language]}
@@ -918,14 +927,16 @@ const CompanyInterestPage = (props: Props) => {
               component={TextEditor.Field}
               rows={10}
               className={styles.textEditor}
-              label={EVENT_TYPES.course[language]}
-              required
             />
           </div>
         )}
 
         {showBreakfastTalkComment && (
           <div className={styles.topline}>
+            <Flex alignItems="center" gap={1}>
+              <h4>{EVENT_TYPES.breakfast_talk[language]}</h4>
+              <p className={styles.label}>*</p>
+            </Flex>
             <p>{interestText.breakfastTalkDescription[language]}</p>
             <Field
               placeholder={interestText.breakfastTalkComment[language]}
@@ -933,13 +944,15 @@ const CompanyInterestPage = (props: Props) => {
               component={TextEditor.Field}
               rows={10}
               className={styles.textEditor}
-              label={EVENT_TYPES.breakfast_talk[language]}
-              required
             />
           </div>
         )}
         {showBedexComment && (
           <div className={styles.topline}>
+            <Flex alignItems="center" gap={1}>
+              <h4>{EVENT_TYPES.bedex[language]}</h4>
+              <p className={styles.label}>*</p>
+            </Flex>
             <p>{interestText.bedexDescription[language]}</p>
             <Field
               placeholder={interestText.bedexComment[language]}
@@ -947,14 +960,16 @@ const CompanyInterestPage = (props: Props) => {
               component={TextEditor.Field}
               rows={10}
               className={styles.textEditor}
-              label={EVENT_TYPES.bedex[language]}
-              required
             />
           </div>
         )}
 
         {showOtherEventComment && (
           <div className={styles.topline}>
+            <Flex alignItems="center" gap={1}>
+              <h4>{EVENT_TYPES.other[language]}</h4>
+              <p className={styles.label}>*</p>
+            </Flex>
             <p>{interestText.otherEventDescription[language]}</p>
             <Field
               placeholder={interestText.otherEventComment[language]}
@@ -962,14 +977,16 @@ const CompanyInterestPage = (props: Props) => {
               component={TextEditor.Field}
               rows={10}
               className={styles.textEditor}
-              label={EVENT_TYPES.other[language]}
-              required
             />
           </div>
         )}
 
         {showStartupComment && (
           <div className={styles.topline}>
+            <Flex alignItems="center" gap={1}>
+              <h4>{EVENT_TYPES.start_up[language]}</h4>
+              <p className={styles.label}>*</p>
+            </Flex>
             <p>{interestText.startUpDescription[language]}</p>
             <Field
               placeholder={interestText.startUpComment[language]}
@@ -977,14 +994,17 @@ const CompanyInterestPage = (props: Props) => {
               component={TextEditor.Field}
               rows={10}
               className={styles.textEditor}
-              label={EVENT_TYPES.start_up[language]}
-              required
             />
           </div>
         )}
 
         {showCompanyToCompanyComment && (
           <div className={styles.topline}>
+            <Flex alignItems="center" gap={1}>
+              <h4>{EVENT_TYPES.company_to_company[language]}</h4>
+              <p className={styles.label}>*</p>
+            </Flex>
+
             <p>{interestText.companyToCompanyDescription[language]}</p>
             <Field
               placeholder={interestText.companyToCompanyComment[language]}
@@ -992,8 +1012,6 @@ const CompanyInterestPage = (props: Props) => {
               component={TextEditor.Field}
               rows={10}
               className={styles.textEditor}
-              label={EVENT_TYPES.company_to_company[language]}
-              required
             />
           </div>
         )}

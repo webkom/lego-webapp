@@ -162,3 +162,7 @@ ion-icon {
   text-transform: initial;
   font-weight: initial;
 }
+
+.label {
+  color: rgb(194, 69, 56);
+}
