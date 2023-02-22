@@ -8,31 +8,27 @@
 }
 
 .inputWithError {
-  border: 1.5px solid var(--danger-color) !important;
+  border: 1px solid #c24538 !important;
 }
 
 .inputWithWarning {
-  border: 1.5px solid var(--color-orange-6) !important;
+  border: 1px solid #ff8000 !important;
 }
 
 .fieldError {
-  height: 35px;
+  background: #c24538;
+  color: var(--color-white);
   padding: 5px 10px;
   margin-top: 3px;
-  background: var(--danger-color);
-  color: var(--color-absolute-white);
-  font-size: 0.9rem;
-  border-radius: 6px;
+  border-radius: 3px;
 }
 
 .fieldWarning {
-  height: 35px;
+  background: #ff8000;
+  color: var(--color-white);
   padding: 5px 10px;
   margin-top: 3px;
-  background: var(--color-orange-6);
-  color: var(--color-absolute-white);
-  font-size: 0.9rem;
-  border-radius: 6px;
+  border-radius: 3px;
 }
 
 .label {
@@ -40,9 +36,14 @@
 }
 
 .required {
-  color: var(--danger-color);
+  color: #c24538;
   font-weight: 600;
   margin-left: 2px;
+}
+
+input[type='text']:disabled {
+  background-color: var(--additive-background);
+  color: var(--color-gray-5);
 }
 
 :global {

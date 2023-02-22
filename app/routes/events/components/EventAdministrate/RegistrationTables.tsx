@@ -434,7 +434,6 @@ export class UnregisteredTable extends Component<UnregisteredTableProps> {
       {
         title: 'Bruker',
         dataIndex: 'user',
-        filterMessage: 'Filtrer på navn',
         render: (user) => (
           <Tooltip content={user.fullName}>
             <Link to={`/users/${user.username}`}>{user.username}</Link>
