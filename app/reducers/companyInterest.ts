@@ -3,6 +3,16 @@ import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { CompanyInterestForm } from '../actions/ActionTypes';
 
+export enum CompanyInterestCompanyType {
+  SmallConsultant = 'company_types_small_consultant',
+  MediumConsultant = 'company_types_medium_consultant',
+  LargeConsultant = 'company_types_large_consultant',
+  Inhouse = 'company_types_inhouse',
+  Others = 'company_types_others',
+  StartUp = 'company_types_start_up',
+  Governmental = 'company_types_governmental',
+}
+
 export type CompanyInterestEntity = {
   id: number;
   companyName: string;
@@ -16,6 +26,8 @@ export type CompanyInterestEntity = {
   collaboration: boolean;
   comment: boolean;
   semesters: Array<CompanySemesterEntity>;
+  companyType: CompanyInterestCompanyType;
+  officeInTrondheim: boolean;
 };
 export default createEntityReducer({
   key: 'companyInterest',

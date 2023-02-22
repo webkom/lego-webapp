@@ -16,6 +16,7 @@ import CompanyInterestPage, {
   OTHER_TYPES,
   TARGET_GRADE_TYPES,
   PARTICIPANT_RANGE_MAP,
+  SURVEY_OFFER_TYPES,
 } from './components/CompanyInterestPage';
 import { sortSemesterChronologically } from './utils';
 
@@ -37,6 +38,7 @@ const mapStateToProps = (state, props) => {
   const allCollaborations = Object.keys(COLLABORATION_TYPES);
   const allTargetGrades = Object.keys(TARGET_GRADE_TYPES);
   const allParticipantRanges = Object.keys(PARTICIPANT_RANGE_MAP);
+  const allSurveyOffers = Object.keys(SURVEY_OFFER_TYPES);
   const allowedBdb = state.allowed.bdb;
   const participantRange =
     allParticipantRanges.filter(
@@ -62,6 +64,12 @@ const mapStateToProps = (state, props) => {
         checked:
           companyInterest.events && companyInterest.events.includes(event),
       })),
+      companyCourseThemes: allSurveyOffers.map((offer) => ({
+        name: offer,
+        checked:
+          companyInterest.companyCourseThemes &&
+          companyInterest.companyCourseThemes.includes(offer),
+      })),
       otherOffers: allOtherOffers.map((offer) => ({
         name: offer,
         checked:
@@ -80,6 +88,7 @@ const mapStateToProps = (state, props) => {
           companyInterest.targetGrades &&
           companyInterest.targetGrades.includes(Number(targetGrade)),
       })),
+
       participantRange: (participantRange && participantRange[0]) || null,
       semesters: semesters
         .map((semester) => ({

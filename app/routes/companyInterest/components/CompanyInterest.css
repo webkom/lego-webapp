@@ -79,6 +79,7 @@
 
 .checkboxField {
   width: 30px;
+  margin-top: 5px;
 }
 
 .content {
@@ -147,4 +148,17 @@
   height: 3em;
   width: 5em;
   object-fit: cover;
+}
+
+.subHeading {
+  margin-bottom: 0.5em;
+}
+
+ion-icon {
+  font-size: 20px;
+}
+
+.tooltip {
+  text-transform: initial;
+  font-weight: initial;
 }

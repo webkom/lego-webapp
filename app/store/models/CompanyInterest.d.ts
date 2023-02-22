@@ -11,8 +11,9 @@ interface CompleteCompanyInterest {
   phone: string;
   semesters: ID[];
   createdAt: Dateish;
-
+  officeInTrondheim: string;
   events: string[];
+  companyCourseThemes: string[];
   otherOffers: string[];
   collaborations: string[];
   targetGrades: number[];
@@ -22,6 +23,11 @@ interface CompleteCompanyInterest {
   courseComment: string;
   breakfastTalkComment: string;
   otherEventComment: string;
+  startupComment: string;
+  lunchPresentationComment: string;
+  bedexComment: string;
+  companyToCompanyComment: string;
+  companyPresentationComment: string;
 }
 
 export type DetailedCompanyInterest = Pick<
@@ -34,6 +40,7 @@ export type DetailedCompanyInterest = Pick<
   | 'phone'
   | 'semesters'
   | 'events'
+  | 'companyCourseThemes'
   | 'otherOffers'
   | 'collaborations'
   | 'targetGrades'
@@ -43,6 +50,12 @@ export type DetailedCompanyInterest = Pick<
   | 'courseComment'
   | 'breakfastTalkComment'
   | 'otherEventComment'
+  | 'startupComment'
+  | 'lunchPresentationComment'
+  | 'bedexComment'
+  | 'companyToCompanyComment'
+  | 'companyPresentationComment'
+  | 'officeInTrondheim'
 >;
 
 export type ListCompanyInterest = Pick<
