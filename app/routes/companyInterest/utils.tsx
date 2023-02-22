@@ -92,9 +92,8 @@ export const interestText = {
   text: {
     first: {
       norwegian:
-        'Dersom dere ikke har hatt arrangement med Abakus før, eller om det er lenge siden vi har samarbeidet, ønsker vi at dere skriver litt om selskapet. Dette hjelper oss mye når vi skal sette sammen arrangementskalenderen.',
-      english:
-        'If you have not previously organized an event with Abakus previously, or if it has  been a while since we last cooperated, we would like you to tell us a bit about  your company. That is helpful when we are distributing dates for events. ',
+        'Kan dere skrive litt om deres bedrift og hva dere jobber med?',
+      english: 'Can you write a little about your company and what you do?',
     },
     second: {
       norwegian:
@@ -126,9 +125,9 @@ export const interestText = {
   },
   priorityReasoning: {
     norwegian:
-      'Vi velger bedrifter på bakgrunn av mange faktorer. Vi ønsker likevel å vektlegge bedrifter med ambisjoner om et alternativt opplegg. Bedrifter som for eksempel er interessert i å samarbeide med andre linjeforeninger/bedrifter om større arrangement (som Bedrift-til-Bedrift). Vi begrunner dette med et ønske fra studentene om nytenking rundt «formatet» til en standard bedriftspresentasjon. Vi tror dette vil gi studentene et attraktivt arrangement, som er mer konkurransedyktig enn det som  tilbys i dag. ',
+      'Vi velger bedrifter på bakgrunn av mange faktorer. Vi ønsker å ha et sammensatt og variert tilbud som representerer flere ulike bransjer, teknologier og type arrangement. Viktige faktorer er kreativitet, nytenking og interaktivitet.',
     english:
-      'We choose companies based on a lot of factors. However, we want to prioritize companies who could be interested in creating an alternative event. Companies  who for instance want to collaborate with other student organizations/Companies to create a bigger event. This is because the students have requested that we act innovative when creating a company event (to make them  more diverse). We also think that this will make events even more in-demand, than the ones offered today.',
+      'We choose companies based on many factors. We want to have a varied and diverse offer that represents many different industries, technologies and types of events. Important factors are creativity, innovation and interactivity.',
   },
   companyPresentationDescription: {
     norwegian:
@@ -151,9 +150,9 @@ export const interestText = {
   },
   breakfastTalkDescription: {
     norwegian:
-      'Tildeling av frokostforedrag skjer uavhengig av andre tildelelser etter tilgjengelighet og tema. Vi ønsker gjerne at dere foreslår temaer til frokostforedraget dere ønsker å holde. Det er åpent for alt, tidligere temaer har vært softskills, spennende caser fra jobb, teknologiutvikling, motivasjonsforedrag eller bærekraft.',
+      'Tildeling av frokostforedrag skjer uavhengig av andre tildelelser, så dere kan få frokostforedrag i tillegg til et annet arrangement. Vi ønsker gjerne at dere foreslår temaer til frokostforedraget dere ønsker å holde. Det er åpent for alt. Tidligere temaer har vært softskills, spennende caser fra jobb, teknologiutvikling, motivasjonsforedrag eller bærekraft.',
     english:
-      'Allocation of the breakfast lecture is independent of other allocations, based on availability and topic. We would like for you to suggest topics for the breakfast lecture you want to hold. Everything is open, previous topics have been soft skills, exciting cases from work, technology development, motivational lectures, or sustainability.',
+      'Allocation of the breakfast lecture is independent of other allocations, so you can have a breakfast talk in addition to another event. We would like for you to suggest topics for the breakfast lecture you want to hold. We are open for everything. Previous topics have been soft skills, exciting cases from work, technology development, motivational lectures, or sustainability.',
   },
   bedexDescription: {
     norwegian:
@@ -175,8 +174,8 @@ export const interestText = {
   },
   companyToCompanyDescription: {
     norwegian:
-      'Et av våre mer spennende arrangementer i løpet av våren er bedrift til bedrift. Her er det 3 grupper som besøker bedriften deres bedrifter i ca. 40 minutter og ser hvordan dere har det før vi drar ut og har felles mingling. Her kan det presenteres caser fra deres bedrift, ha escape room konkurranser eller finne på noe annet gøy. Skriv gjerne om dere har noen gode ideer.',
+      'Et av våre mer spennende arrangementer er bedrift til bedrift. Her er det 3 grupper som rullerer på å besøke bedriften deres i ca. 40 minutter og ser hvordan dere har det før vi drar ut og har felles mingling. Her kan det presenteres caser fra deres bedrift, ha escape room konkurranser eller finne på noe annet gøy. Skriv gjerne om dere har noen gode ideer.',
     english:
-      'One of our more exciting events during the spring is the company-to-company event. Here, there are 3 groups that visit your company for about 40 minutes and see how you are doing before we go out and have a common networking event. Cases from your company can be presented, escape room competitions can be held, or something else fun can be arranged. Please write about any good ideas you have.',
+      'One of our more exciting events is the company-to-company event. Here, there are 3 groups that in turn visit your company for about 40 minutes and see how you are doing before we go out and have a common networking event. Cases from your company can be presented, escape room competitions can be held, or something else fun can be arranged. Please write about any good ideas you have.',
   },
 };
