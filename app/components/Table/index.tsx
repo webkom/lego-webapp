@@ -241,7 +241,6 @@ export default class Table extends Component<Props, State> {
             >
               <TextInput
                 autoFocus
-                removeBorder
                 placeholder={filterMessage}
                 value={filters[dataIndex]}
                 onChange={(e) => this.onSearchInput(e, dataIndex)}

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Button from 'app/components/Button';
 import { TextInput } from 'app/components/Form';
+import Icon from 'app/components/Icon';
 import { ProfilePicture } from 'app/components/Image';
 import Flex from 'app/components/Layout/Flex';
 import type { ID, User } from 'app/models';
@@ -92,12 +93,14 @@ const AttendanceModal = ({
       className={styles.modal}
     >
       <h2>{title}</h2>
-      <TextInput
-        type="text"
-        prefix="search"
-        placeholder="Søk etter navn"
-        onChange={(e) => setFilter(e.target.value)}
-      />
+      <Flex alignItems="center" className={styles.search}>
+        <Icon name="search" size={16} />
+        <TextInput
+          type="text"
+          placeholder="Søk etter navn"
+          onChange={(e) => setFilter(e.target.value)}
+        />
+      </Flex>
 
       <ul className={styles.list}>
         {registrations?.map((registration) => (

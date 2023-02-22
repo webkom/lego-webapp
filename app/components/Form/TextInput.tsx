@@ -1,70 +1,40 @@
 import cx from 'classnames';
-import { useRef } from 'react';
-import Icon from 'app/components/Icon';
-import Flex from 'app/components/Layout/Flex';
 import { createField } from './Field';
 import styles from './TextInput.css';
-import type { ReactNode, InputHTMLAttributes } from 'react';
+import type { RefObject, InputHTMLAttributes } from 'react';
 
 type Props = {
   type?: string;
-  prefix?: ReactNode;
   suffix?: string;
   className?: string;
-  inputRef?: HTMLInputElement;
+  inputRef?: RefObject<HTMLInputElement>;
   disabled?: boolean;
   readOnly?: boolean;
-  placeholder?: string;
-  removeBorder?: boolean;
 } & InputHTMLAttributes<HTMLInputElement>;
 
-const TextInput = ({
+function TextInput({
   type = 'text',
   className,
   disabled,
   inputRef,
-  prefix,
   suffix,
   readOnly,
-  placeholder,
-  removeBorder = false,
   ...props
-}: Props) => {
-  /* New ref is made because text inputs that are not Fields are not given a ref */
-  const newInputRef = useRef<HTMLInputElement>(inputRef);
-
+}: Props) {
   return (
-    <Flex
-      alignItems="center"
-      gap={10}
-      style={{ border: removeBorder && 'none' }}
-      className={cx(
-        styles.input,
-        disabled && styles.disabled,
-        !prefix && styles.spacing,
-        className
-      )}
-    >
-      {prefix && (
-        <Icon
-          name={prefix}
-          size={16}
-          onClick={() => newInputRef.current.focus()}
-          className={styles.prefix}
-        />
-      )}
+    <span className={cx(suffix && styles.inputGroup)}>
       <input
-        ref={newInputRef}
+        ref={inputRef}
         type={type}
-        placeholder={placeholder}
         disabled={disabled}
         readOnly={!!readOnly}
+        className={cx(styles.input, suffix && styles.suffix, className)}
         {...props}
       />
       {suffix && <span className={styles.suffix}>{suffix}</span>}
-    </Flex>
+    </span>
   );
-};
+}
 
 TextInput.Field = createField(TextInput);
 export default TextInput;
