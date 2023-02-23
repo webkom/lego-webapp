@@ -598,8 +598,8 @@ const CompanyInterestPage = (props: Props) => {
       english: 'Target Grades',
     },
     companyCourseThemes: {
-      norwegian: 'Tema for kurs (uforpliktende)',
-      english: 'Course themes (non-binding)',
+      norwegian: 'Temaer som er relevant for dere',
+      english: 'Topics relevant for you',
     },
     participantRange: {
       norwegian: 'Antall deltagere',
@@ -758,8 +758,8 @@ const CompanyInterestPage = (props: Props) => {
                   content={
                     <span>
                       {language === 'norwegian'
-                        ? 'Dette er temaer som studenter uttrykte interesse for å lære mer om i vår bedriftsundersøkelse. Er dere interessert i å avholde faglige arrangementer innen noen av disse temaene? (Uforpliktende)'
-                        : 'These are topics that students expressed interest in learning more about in our company survey. Would you be interested in arranging a course or workshop about one of these topics? (Non-binding)'}
+                        ? 'Dette er temaer som studenter uttrykte interesse for å lære mer om i vår bedriftsundersøkelse. Er dette relevante temaer for deres bedrift dere kan være interessert i å avholde faglige arrangementer eller snakke om på deres presentasjoner? (Uforpliktende)'
+                        : 'These are topics that students expressed interest in learning more about in our company survey. Are these relevant topics for your company that you might be interested in arranging a course or workshop about or talk about in your presentations? (Non-binding'}
                     </span>
                   }
                 >
