@@ -27,11 +27,7 @@ const Abacard = (props: Props) => {
     (reg) => reg.presence === 'PRESENT' && reg.pool
   ).length;
 
-  const handleSelect = ({
-    username,
-  }: {
-    username: string;
-  }): Promise<{ payload: unknown }> =>
+  const handleSelect = ({ username }: { username: string }) =>
     markUsernamePresent(id.toString(), username).then(async (result) => {
       const payload = get(result, 'payload.response.jsonData');
       if (payload && payload.error) return result;
