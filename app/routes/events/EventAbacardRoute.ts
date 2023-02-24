@@ -12,7 +12,7 @@ import Abacard from './components/EventAdministrate/Abacard';
 
 const searchTypes = ['users.user'];
 
-const loadData = async (props, dispatch): any => {
+const loadData = async (props, dispatch): Promise<void> => {
   const query = qs.parse(props.location.search, {
     ignoreQueryPrefix: true,
   }).q;
@@ -23,7 +23,7 @@ const loadData = async (props, dispatch): any => {
 };
 
 const mapStateToProps = (state, props) => {
-  const query = qs.parse(props.location.search).q;
+  const query = qs.parse(props.location.search, { ignoreQueryPrefix: true }).q;
   const results = query ? selectAutocomplete(state) : [];
   const { eventId } = props;
   const { registered } = getRegistrationGroups(state, {
@@ -41,7 +41,8 @@ const mapDispatchToProps = (dispatch, { eventId }) => {
   const url = `/events/${eventId}/administrate/abacard?q=`;
   return {
     clearSearch: () => dispatch(replace(url)),
-    markUsernamePresent: (...props) => dispatch(markUsernamePresent(...props)),
+    markUsernamePresent: (eventId: number, username: string) =>
+      dispatch(markUsernamePresent(eventId, username)),
     onQueryChanged: debounce((query) => {
       dispatch(replace(url + query));
 
