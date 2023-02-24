@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import { flatMap } from 'lodash-es';
+import { flatMap } from 'lodash';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Button from 'app/components/Button';
