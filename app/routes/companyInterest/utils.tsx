@@ -52,8 +52,8 @@ export const semesterToText = ({
 };
 export const interestText = {
   comment: {
-    norwegian: 'Skriv om bedriften.',
-    english: 'Write about your company.',
+    norwegian: 'Skriv litt om bedriften.',
+    english: 'Write a little about your company.',
   },
   courseComment: {
     norwegian: 'Skriv litt om hva slags faglig arrangement dere ønsker.',

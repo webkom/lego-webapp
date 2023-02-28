@@ -1,3 +1,4 @@
+import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { reduxForm, Field, SubmissionError, FieldArray } from 'redux-form';
 import english from 'app/assets/great_britain.svg';
@@ -18,6 +19,7 @@ import Icon from 'app/components/Icon';
 import { Image } from 'app/components/Image';
 import Flex from 'app/components/Layout/Flex';
 import LoadingIndicator from 'app/components/LoadingIndicator';
+import { readmeIfy } from 'app/components/ReadmeLogo';
 import withAutocomplete from 'app/components/Search/withAutocomplete';
 import Tooltip from 'app/components/Tooltip';
 import type {
@@ -76,23 +78,23 @@ export const SURVEY_OFFER_TYPES = {
   },
   company_survey_ai: {
     norwegian: 'Kunstig intelligens',
-    english: 'AI',
+    english: 'Artificial intelligence',
   },
   company_survey_big_data: {
     norwegian: 'Big data',
     english: 'Big data',
   },
   company_survey_front_back_end: {
-    norwegian: 'Front end/Back end',
-    english: 'Front and back-end',
+    norwegian: 'Front- og back-end',
+    english: 'Front- and back-end',
   },
   company_survey_iot: {
-    norwegian: 'Internet of things',
-    english: 'IoT',
+    norwegian: 'Internet of Things',
+    english: 'Internet of Things',
   },
   company_survey_gamedev: {
     norwegian: 'Spillutvikling',
-    english: 'Gamedev',
+    english: 'Game development',
   },
   company_survey_softskills: {
     norwegian: 'Softskills',
@@ -105,13 +107,13 @@ export const SURVEY_OFFER_TYPES = {
 };
 export const OTHER_TYPES = {
   readme: {
-    norwegian: 'Annonsere i readme',
+    norwegian: 'Annonse i readme',
     english: 'Advertisement in readme',
   },
   /*
   collaboration: {
     norwegian: 'Samarbeid med andre linjeforeninger',
-    english: `Event in collaboration with other student organizations`,
+    english: 'Collaboration with other student organizations',
   },
   */
 };
@@ -350,7 +352,7 @@ const OtherBox = ({
             />
           </div>
           <Flex gap="4px" alignItems="center">
-            {OTHER_TYPES[otherOffersToString(key)][language]}
+            {readmeIfy(OTHER_TYPES[otherOffersToString(key)][language])}
           </Flex>
         </label>
       </Flex>
@@ -533,18 +535,18 @@ const CompanyInterestPage = (props: Props) => {
   const labels = {
     mainHeading: {
       norwegian: 'Meld interesse',
-      english: 'Contact us',
+      english: 'Register interest',
     },
     subHeading: {
       norwegian:
-        'Dette skjemaet skal ikke brukes for annonser. For annonser, send epost til ',
+        'Dette skjemaet skal ikke brukes for annonser. For slikt, send en e-post til ',
       english:
-        'This form is not to be used for job listings. For such enquiries, send an email to ',
+        'This form is not to be used for job listings. For such enquiries, send an e-mail to ',
     },
     company: {
       header: {
         norwegian: 'Navn på bedrift',
-        english: 'Company',
+        english: 'Name of company',
       },
       placeholder: {
         norwegian: 'Bedriftsnavn',
@@ -552,13 +554,13 @@ const CompanyInterestPage = (props: Props) => {
       },
     },
     officeInTrondheim: {
-      norwegian: 'Har dere kontorer i Trondheim som egner seg for besøk?',
+      norwegian: 'Har dere kontorer i Trondheim egnet for besøk?',
       english: 'Do you have offices in Trondheim suited for visiting?',
     },
     contactPerson: {
       header: {
         norwegian: 'Kontaktperson',
-        english: 'Your contact person',
+        english: 'Contact person',
       },
       placeholder: {
         norwegian: 'Kari Nordmann',
@@ -566,8 +568,8 @@ const CompanyInterestPage = (props: Props) => {
       },
     },
     mail: {
-      norwegian: 'Mail',
-      english: 'E-Mail',
+      norwegian: 'E-post',
+      english: 'E-mail',
     },
     phone: {
       norwegian: 'Telefonnummer',
@@ -587,19 +589,19 @@ const CompanyInterestPage = (props: Props) => {
     },
     companyTypes: {
       norwegian: 'Bedriftstype',
-      english: 'Company Type',
+      english: 'Company type',
     },
     collaborations: {
       norwegian: 'Samarbeid',
-      english: 'Collaborations',
+      english: 'Collaboration',
     },
     targetGrades: {
       norwegian: 'Klassetrinn',
-      english: 'Target Grades',
+      english: 'Target grades',
     },
     companyCourseThemes: {
       norwegian: 'Temaer som er relevant for dere',
-      english: 'Topics relevant for you',
+      english: 'Topics that are relevant for you',
     },
     participantRange: {
       norwegian: 'Antall deltagere',
@@ -614,12 +616,12 @@ const CompanyInterestPage = (props: Props) => {
       english: 'Other comment',
     },
     create: {
-      norwegian: 'Opprett bedriftsinteresse',
-      english: 'Submit',
+      norwegian: 'Send bedriftsinteresse',
+      english: 'Submit interest',
     },
     eventDescriptionHeader: {
-      norwegian: 'Pitch/Forklar dine ønsker for arrangementet',
-      english: 'Pitch/Explain your wishes for the event',
+      norwegian: 'Pitch/forklar dine ønsker for arrangementet',
+      english: 'Pitch/explain your wishes for the event',
     },
     eventDescriptionIntro: {
       norwegian:
@@ -657,9 +659,11 @@ const CompanyInterestPage = (props: Props) => {
 
   return (
     <Content>
+      <Helmet title="Bedriftsinteresse" />
+
       <Form onSubmit={props.handleSubmit(onSubmit)}>
         <FlexRow alignItems="center" justifyContent="space-between">
-          <h1 className={styles.mainHeading}>{labels.mainHeading[language]}</h1>
+          <h1>{labels.mainHeading[language]}</h1>
           <Link
             to={isEnglish ? '/interesse' : '/register-interest'}
             style={{
@@ -670,7 +674,7 @@ const CompanyInterestPage = (props: Props) => {
           </Link>
         </FlexRow>
         <h5 className={styles.subHeading}>
-          <Flex alignItems="center">
+          <Flex alignItems="center" gap={5}>
             <Icon name="warning" />
             <span>
               {labels.subHeading[language]}
@@ -1022,13 +1026,9 @@ const CompanyInterestPage = (props: Props) => {
           {interestText.priorityReasoning[language]}
         </div>
 
-        <Flex column className={styles.content}>
-          <Button success={props.edit} type="submit" submit>
-            {props.edit
-              ? 'Oppdater bedriftsinteresse'
-              : labels.create[language]}
-          </Button>
-        </Flex>
+        <Button success={props.edit} submit>
+          {props.edit ? 'Oppdater bedriftsinteresse' : labels.create[language]}
+        </Button>
       </Form>
     </Content>
   );

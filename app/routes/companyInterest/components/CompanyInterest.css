@@ -51,14 +51,6 @@
   }
 }
 
-.mainHeading {
-  color: var(--lego-font-color);
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  font-size: 25px;
-  font-weight: bold;
-}
-
 .semesterBox {
   justify-content: space-between;
   width: 125px;
@@ -80,16 +72,6 @@
 .checkboxField {
   width: 30px;
   margin-top: 5px;
-}
-
-.content {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-
-  @media (--small-viewport) {
-    flex-direction: column;
-  }
 }
 
 .section {
@@ -160,5 +142,5 @@
 }
 
 .label {
-  color: rgb(194, 69, 56);
+  color: var(--danger-color);
 }
