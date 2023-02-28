@@ -3,6 +3,7 @@ import EventItem, { type EventStyle } from 'app/components/EventItem';
 import { Flex } from 'app/components/Layout';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import type { Event } from 'app/models';
+import styles from './EventListCompact.css';
 
 type Props = {
   events: Array<Event>;
@@ -17,9 +18,10 @@ const EventListCompact = ({
   eventStyle = 'default',
   loading,
 }: Props) => {
-  return loading ? (
-    <LoadingIndicator margin="20px auto" loading />
-  ) : events && events.length ? (
+  if (loading) {
+    return <LoadingIndicator margin="20px auto" loading />;
+  }
+  return events && events.length ? (
     <Flex column wrap>
       {events.map((event) => (
         <EventItem
@@ -31,8 +33,8 @@ const EventListCompact = ({
       ))}
     </Flex>
   ) : (
-    <EmptyState>
-      <i>{noEventsMessage}</i>
+    <EmptyState className={styles.noEventsMessage}>
+      {noEventsMessage}
     </EmptyState>
   );
 };

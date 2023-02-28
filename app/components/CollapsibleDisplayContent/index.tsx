@@ -51,17 +51,15 @@ function CollapsibleDisplayContent({
       }}
     >
       <div key={content} id={id} style={style} className={className} ref={ref}>
-        <i>
-          <Editor
-            onChange={() => {}}
-            onBlur={() => {}}
-            onFocus={() => {}}
-            value={content}
-            placeholder={placeholder}
-            disabled
-            domParser={domParser}
-          />
-        </i>
+        <Editor
+          onChange={() => {}}
+          onBlur={() => {}}
+          onFocus={() => {}}
+          value={content}
+          placeholder={placeholder}
+          disabled
+          domParser={domParser}
+        />
       </div>
       {useCollapse && (
         <div

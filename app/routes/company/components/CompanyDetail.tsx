@@ -135,7 +135,9 @@ const CompanyDetail = ({
               <JoblistingItem key={joblisting.id} joblisting={joblisting} />
             ))
           ) : (
-            <i>Ingen tilgjengelige jobbannonser</i>
+            <span className={styles.noEventsMessage}>
+              Ingen tilgjengelige jobbannonser
+            </span>
           )}
         </ContentMain>
         {companyInfo.some((info) => info.text) && (
