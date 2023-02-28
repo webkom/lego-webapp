@@ -9,7 +9,7 @@ import {
   deleteEvent,
   setCoverPhoto,
 } from 'app/actions/EventActions';
-import { uploadFile } from 'app/actions/FileActions';
+import { fetchImageGallery, uploadFile } from 'app/actions/FileActions';
 import { LoginPage } from 'app/components/LoginForm';
 import {
   selectEventById,
@@ -17,11 +17,11 @@ import {
   selectRegistrationsFromPools,
   selectWaitingRegistrationsForEvent,
 } from 'app/reducers/events';
+import { selectImageGalleries } from 'app/reducers/imageGallery';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import time from 'app/utils/time';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
-import { selectImageGalleries } from 'app/reducers/imageGallery';
 import EventEditor from './components/EventEditor';
 import {
   transformEvent,
@@ -93,6 +93,9 @@ const mapStateToProps = (state, props) => {
       useMazemap: event.eventStatusType === 'TBA' || event.mazemapPoi > 0,
       hasFeedbackQuestion: !!event.feedbackDescription,
     },
+    imageGallery: imageGallery.map((e) => {
+      return { key: e.key, cover: e.cover };
+    }),
     actionGrant,
     event: {
       ...event,
@@ -140,7 +143,10 @@ const mapDispatchToProps = {
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
   withPreparedDispatch('fetchEventEdit', (props, dispatch) =>
-    dispatch(fetchEvent(props.match.params.eventId))
+    Promise.all([
+      dispatch(fetchEvent(props.match.params.eventId)),
+      dispatch(fetchImageGallery()),
+    ])
   ),
   connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['event.title'])

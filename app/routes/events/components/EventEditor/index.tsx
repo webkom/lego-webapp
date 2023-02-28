@@ -31,7 +31,13 @@ import {
   AttendanceStatus,
   ModalParentComponent,
 } from 'app/components/UserAttendance';
-import type { ID, EventRegistration, EventPool, ActionGrant } from 'app/models';
+import type {
+  ID,
+  EventRegistration,
+  EventPool,
+  ActionGrant,
+  imageGallery,
+} from 'app/models';
 import { validYoutubeUrl } from 'app/utils/validation';
 import {
   addStripeFee,
@@ -65,6 +71,7 @@ type Props = {
   pristine: boolean;
   initialized: boolean;
   push: (arg0: string) => void;
+  imageGallery: imageGallery;
 };
 
 function EventEditor({
@@ -82,6 +89,7 @@ function EventEditor({
   pristine,
   initialized,
   push,
+  imageGallery,
 }: Props) {
   const isEditPage = eventId !== undefined;
 

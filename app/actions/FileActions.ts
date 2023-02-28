@@ -93,9 +93,7 @@ export function fetchImageGallery({
     query,
     method: 'GET',
     json: true,
-    pagination: {
-      fetchNext: next,
-    },
+
     meta: {
       errorMessage: 'Henting av bilder feilet',
     },

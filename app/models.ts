@@ -229,6 +229,15 @@ export type EventPool = EventPoolBase & {
   permissionGroups: Array<Record<string, any>>;
 };
 
+type imageGalleryEntry = {
+  key: string;
+  cover: string;
+};
+
+export type imageGallery = {
+  imageGalleryEntry: [imageGalleryEntry];
+};
+
 export type Event = EventBase & {
   actionGrant: ActionGrant;
   activationTime: Dateish | null | undefined;
