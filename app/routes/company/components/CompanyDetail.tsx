@@ -95,9 +95,7 @@ const CompanyDetail = ({
 
       <ContentSection>
         <ContentMain>
-          <i>
-            <CollapsibleDisplayContent content={company.description} />
-          </i>
+          <CollapsibleDisplayContent content={company.description} />
           <h3 className={styles.sectionHeader}>Kommende arrangementer</h3>
           <EventListCompact
             events={upcomingEvents}
@@ -128,7 +126,7 @@ const CompanyDetail = ({
             <Flex justifyContent="center">
               <Icon
                 name="chevron-down-circle-outline"
-                size={35}
+                size={40}
                 onClick={fetchMoreEvents}
                 style={{ cursor: 'pointer' }}
               />
