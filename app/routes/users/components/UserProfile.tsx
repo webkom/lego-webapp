@@ -12,7 +12,6 @@ import EventListCompact from 'app/components/EventListCompact';
 import Icon from 'app/components/Icon';
 import { ProfilePicture, CircularPicture, Image } from 'app/components/Image';
 import { Flex } from 'app/components/Layout';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import Modal from 'app/components/Modal';
 import Pill from 'app/components/Pill';
 import Tooltip from 'app/components/Tooltip';
@@ -198,7 +197,6 @@ const UserProfile = (props: Props) => {
   const {
     user,
     isMe,
-    loggedIn,
     showSettings,
     //feedItems,
     //feed,
@@ -690,42 +688,31 @@ const UserProfile = (props: Props) => {
           {isMe && (
             <div className={styles.bottomMargin}>
               <h3>Dine kommende arrangementer</h3>
-
-              {loading ? (
-                <LoadingIndicator margin="20px auto" loading />
-              ) : (
-                <EventListCompact
-                  events={orderBy(upcomingEvents, 'startTime')}
-                  noEventsMessage="Du har ingen kommende arrangementer"
-                  loggedIn={loggedIn}
-                  eventStyle="compact"
-                />
-              )}
+              <EventListCompact
+                events={orderBy(upcomingEvents, 'startTime')}
+                noEventsMessage="Du har ingen kommende arrangementer"
+                eventStyle="compact"
+                loading={loading}
+              />
               <h3>
                 Dine tidligere arrangementer (
                 {previousEvents === undefined ? 0 : previousEvents.length})
               </h3>
-              {loading ? (
-                <LoadingIndicator margin="20px auto" loading />
-              ) : (
-                <EventListCompact
-                  events={
-                    previousEvents === undefined
-                      ? []
-                      : orderBy(
-                          previousEvents
-                            .filter((e) => e.userReg.pool !== null)
-                            .filter(
-                              (e) => e.userReg.presence !== 'NOT_PRESENT'
-                            ),
-                          'startTime'
-                        ).reverse()
-                  }
-                  noEventsMessage="Du har ingen tidligere arrangementer"
-                  loggedIn={loggedIn}
-                  eventStyle="extra-compact"
-                />
-              )}
+              <EventListCompact
+                events={
+                  previousEvents === undefined
+                    ? []
+                    : orderBy(
+                        previousEvents
+                          .filter((e) => e.userReg.pool !== null)
+                          .filter((e) => e.userReg.presence !== 'NOT_PRESENT'),
+                        'startTime'
+                      ).reverse()
+                }
+                noEventsMessage="Du har ingen tidligere arrangementer"
+                eventStyle="extra-compact"
+                loading={loading}
+              />
             </div>
           )}
         </div>

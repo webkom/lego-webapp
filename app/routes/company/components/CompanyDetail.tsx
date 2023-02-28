@@ -27,7 +27,6 @@ type Props = {
   joblistings: ListJoblisting[];
   showFetchMoreEvents: boolean;
   fetchMoreEvents: () => Promise<any>;
-  loggedIn: boolean;
   loading: boolean;
 };
 
@@ -37,7 +36,6 @@ const CompanyDetail = ({
   joblistings,
   fetchMoreEvents,
   showFetchMoreEvents,
-  loggedIn,
   loading,
 }: Props) => {
   const [viewOldEvents, setViewOldEvents] = useState(false);
@@ -100,7 +98,6 @@ const CompanyDetail = ({
           <EventListCompact
             events={upcomingEvents}
             noEventsMessage="Ingen kommende arrangementer"
-            loggedIn={loggedIn}
             eventStyle="extra-compact"
           />
 
@@ -117,7 +114,6 @@ const CompanyDetail = ({
               <EventListCompact
                 events={oldEvents}
                 noEventsMessage="Ingen tidligere arrangementer"
-                loggedIn={loggedIn}
                 eventStyle="extra-compact"
               />
             </>
@@ -142,24 +138,26 @@ const CompanyDetail = ({
             <i>Ingen tilgjengelige jobbannonser</i>
           )}
         </ContentMain>
-        <ContentSidebar>
-          {companyInfo.map(
-            (info) =>
-              info.text && (
-                <TextWithIcon
-                  key={info.text}
-                  iconName={info.icon}
-                  content={
-                    info.link ? (
-                      <a href={info.text}>{company.name}</a>
-                    ) : (
-                      info.text
-                    )
-                  }
-                />
-              )
-          )}
-        </ContentSidebar>
+        {companyInfo.some((info) => info.text) && (
+          <ContentSidebar>
+            {companyInfo.map(
+              (info) =>
+                info.text && (
+                  <TextWithIcon
+                    key={info.text}
+                    iconName={info.icon}
+                    content={
+                      info.link ? (
+                        <a href={info.text}>{company.name}</a>
+                      ) : (
+                        info.text
+                      )
+                    }
+                  />
+                )
+            )}
+          </ContentSidebar>
+        )}
       </ContentSection>
     </Content>
   );
