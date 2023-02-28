@@ -78,7 +78,7 @@ const analytics = __DEV__
   : `<script defer data-domain=${config.webUrl.replace(
       /(^\w+:|^)\/\//,
       ''
-    )} src="https://ls.webkom.dev/script.js"></script>`;
+    )} src="https://ls.webkom.dev/js/script.js"></script>`;
 
 export default function pageRenderer({
   app = undefined,
