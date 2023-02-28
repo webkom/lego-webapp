@@ -134,28 +134,17 @@ function EventEditor({
           <Field
             name="youtubeUrl"
             label={
-              <Flex>
+              <Flex alignItems="center" gap={6}>
                 <div>Erstatt cover-bildet med video fra YouTube</div>
-                <div
-                  style={{
-                    marginLeft: '5px',
-                  }}
-                >
-                  <Tooltip
+                <Tooltip content="Valgfritt felt. Videoen erstatter ikke coveret i listen over arrangementer.">
+                  <Icon
+                    name="information-circle-outline"
+                    size={20}
                     style={{
-                      marginLeft: '3px',
+                      cursor: 'pointer',
                     }}
-                    content="Valgfritt felt. Videoen erstatter ikke coveret i listen over arrangementer."
-                  >
-                    <Icon
-                      name="information-circle-outline"
-                      size={20}
-                      style={{
-                        cursor: 'pointer',
-                      }}
-                    />
-                  </Tooltip>
-                </div>
+                  />
+                </Tooltip>
               </Flex>
             }
             placeholder="https://www.youtube.com/watch?v=bLHL75H_VEM&t=5"
@@ -175,7 +164,7 @@ function EventEditor({
             name="title"
             placeholder="Tittel"
             style={{
-              borderBottom: `2px solid ${color}`,
+              borderBottom: `3px solid ${color}`,
             }}
             className={styles.title}
             component={TextInput.Field}

@@ -40,6 +40,7 @@ const TextInput = ({
       style={{ border: removeBorder && 'none' }}
       className={cx(
         styles.input,
+        styles.textInput,
         disabled && styles.disabled,
         !prefix && styles.spacing,
         className

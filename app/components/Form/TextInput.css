@@ -1,9 +1,8 @@
 .input {
-  height: 38px;
   font-size: var(--font-size);
   border: 1.5px solid var(--border-gray);
   border-radius: 6px;
-  color: var(--color-gray-5);
+  color: var(--lego-font-color);
   background-color: inherit;
   overflow: hidden;
 
@@ -14,6 +13,7 @@
 
 .spacing input,
 .prefix {
+  color: var(--color-gray-5);
   padding-left: 10px;
 }
 
@@ -39,6 +39,10 @@
     transition: opacity var(--easing-medium);
     opacity: 0;
   }
+}
+
+.textInput {
+  height: 38px;
 }
 
 .disabled {

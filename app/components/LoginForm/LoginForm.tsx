@@ -1,13 +1,31 @@
-import cx from 'classnames';
+import { FORM_ERROR } from 'final-form';
 import { Field } from 'react-final-form';
 import { login } from 'app/actions/UserActions';
 import Button from 'app/components/Button';
-// import Form from 'app/components/Form/Form';
+import { Form } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import TextInput from 'app/components/Form/TextInput';
 import { useAppDispatch } from 'app/store/hooks';
-import { spySubmittable } from 'app/utils/formSpyUtils';
+import { spyFormError, spySubmittable } from 'app/utils/formSpyUtils';
 import { createValidator, required } from 'app/utils/validation';
+
+type ErrorProps = {
+  error: string;
+};
+
+const Error = ({ error }: ErrorProps) => {
+  console.log(error);
+
+  return (
+    <p
+      style={{
+        color: 'var(--danger-color)',
+      }}
+    >
+      {error}
+    </p>
+  );
+};
 
 type FormValues = {
   username: string;
@@ -19,10 +37,8 @@ type ConnectedProps = {
 };
 type OwnProps = {
   className?: string;
-
-  // TODO: add this with eik's error util wrapper thingy
-  // postLoginFail?: (arg0: any) => any;
-  // postLoginSuccess?: (arg0: any) => any;
+  postLoginFail?: (arg0: any) => any;
+  postLoginSuccess?: (arg0: any) => any;
 };
 type Props = ConnectedProps & OwnProps;
 
@@ -34,14 +50,28 @@ const validate = createValidator({
 const LoginForm = (props: Props) => {
   const dispatch = useAppDispatch();
 
-  const onSubmit = async (values: FormValues) =>
-    await dispatch(login(values.username, values.password));
+  const {
+    postLoginSuccess = (res) => res,
+    postLoginFail = (error) => {
+      console.error(error);
+    },
+  } = props;
+
+  const onSubmit = async (values: FormValues) => {
+    try {
+      const res = await dispatch(login(values.username, values.password));
+      return postLoginSuccess(res);
+    } catch (error) {
+      postLoginFail(error);
+      return { [FORM_ERROR]: 'Feil brukernavn eller passord' };
+    }
+  };
 
   return (
     <div onClick={(e) => e.stopPropagation()}>
       <LegoFinalForm onSubmit={onSubmit} validate={validate} subscription={{}}>
         {({ handleSubmit }) => (
-          <form onSubmit={handleSubmit} className={props.className}>
+          <Form onSubmit={handleSubmit} className={props.className}>
             <Field
               name="username"
               placeholder="Brukernavn"
@@ -59,12 +89,16 @@ const LoginForm = (props: Props) => {
               component={TextInput.Field}
             />
 
+            {spyFormError((error) => (
+              <>{error && <Error error={error} />}</>
+            ))}
+
             {spySubmittable((submittable) => (
               <Button dark submit disabled={!submittable}>
                 Logg inn
               </Button>
             ))}
-          </form>
+          </Form>
         )}
       </LegoFinalForm>
     </div>
