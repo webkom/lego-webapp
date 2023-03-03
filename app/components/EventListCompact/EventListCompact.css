@@ -1,6 +1,4 @@
-.emptyState {
+.noEventsMessage {
   color: var(--secondary-font-color);
-  font-size: 20px;
-  font-weight: lighter;
   font-style: italic;
 }
