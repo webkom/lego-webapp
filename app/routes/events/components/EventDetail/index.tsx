@@ -364,7 +364,7 @@ export default class EventDetail extends Component<Props, State> {
         >
           <ContentHeader
             borderColor={color}
-            onClick={loggedIn && onRegisterClick}
+            onClick={loggedIn ? onRegisterClick : undefined}
             className={styles.title}
             event={event}
           >

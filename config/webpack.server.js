@@ -91,6 +91,7 @@ module.exports = (env, argv) => {
                 {
                   loader: 'css-loader',
                   options: {
+                    importLoaders: 1,
                     modules: {
                       localIdentName:
                         '[name]__[local]--[contenthash:base64:10]',

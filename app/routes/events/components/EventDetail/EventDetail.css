@@ -18,6 +18,10 @@
   cursor: pointer;
 }
 
+.tagRow {
+  margin-top: 16px;
+}
+
 .paymentInfo {
   margin-top: 10px;
 }

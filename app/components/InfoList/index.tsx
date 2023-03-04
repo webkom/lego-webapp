@@ -18,24 +18,26 @@ type Props = {
 function InfoList({ items, className }: Props) {
   return (
     <table className={className}>
-      {items.filter(Boolean).map(({ key, keyNode, value }) => (
-        <tr key={key}>
-          <td>
-            {keyNode ?? (
-              <span
-                style={{
-                  marginRight: 5,
-                }}
-              >
-                {key}
-              </span>
-            )}
-          </td>
-          <td>
-            <strong>{value}</strong>
-          </td>
-        </tr>
-      ))}
+      <tbody>
+        {items.filter(Boolean).map(({ key, keyNode, value }) => (
+          <tr key={key}>
+            <td>
+              {keyNode ?? (
+                <span
+                  style={{
+                    marginRight: 5,
+                  }}
+                >
+                  {key}
+                </span>
+              )}
+            </td>
+            <td>
+              <strong>{value}</strong>
+            </td>
+          </tr>
+        ))}
+      </tbody>
     </table>
   );
 }
