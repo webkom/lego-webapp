@@ -24,7 +24,7 @@ const eventStatus = (event: Event, loggedIn = false): string => {
     case 'INFINITE':
       // Check if event has been
       if (event.startTime > moment()) {
-        return `${registrationCount}/${totalCapacity} påmeldte`;
+        return `${registrationCount}/${totalCapacity || '∞'} påmeldte`;
       }
 
       if (!loggedIn) {
