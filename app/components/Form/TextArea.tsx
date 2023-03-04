@@ -2,10 +2,11 @@ import cx from 'classnames';
 import Textarea from 'react-textarea-autosize';
 import { createField } from './Field';
 import styles from './TextInput.css';
+import type { RefObject } from 'react';
 
 type Props = {
   className?: string;
-  inputRef?: any;
+  inputRef?: RefObject<HTMLTextAreaElement>;
   readOnly?: boolean;
 } & Parameters<typeof Textarea>;
 
