@@ -139,6 +139,7 @@ const PhotoConsents = ({
         }
         theme={selectTheme}
         styles={selectStyles}
+        instanceId="profile-consent-semester"
       />
       <ConsentManager
         consent={getConsent(

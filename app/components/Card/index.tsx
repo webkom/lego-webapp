@@ -29,7 +29,7 @@ function Card({
         isHoverable && styles.isHoverable
       )}
       style={{
-        overflow: hideOverflow && 'hidden',
+        overflow: hideOverflow ? 'hidden' : 'initial',
       }}
       {...htmlAttributes}
     >

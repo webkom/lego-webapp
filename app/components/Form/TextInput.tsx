@@ -37,7 +37,7 @@ const TextInput = ({
     <Flex
       alignItems="center"
       gap={10}
-      style={{ border: removeBorder && 'none' }}
+      style={{ border: removeBorder ? 'none' : 'initial' }}
       className={cx(
         styles.input,
         styles.textInput,

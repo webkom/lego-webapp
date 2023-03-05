@@ -14,3 +14,4 @@ const Tags = ({ children, className }: Props) => {
 };
 
 export default Tags;
+export { default as Tag } from './Tag';

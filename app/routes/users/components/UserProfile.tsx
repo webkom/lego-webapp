@@ -340,7 +340,7 @@ const UserProfile = (props: Props) => {
     return groups.map((group) => {
       if (group.children.length) {
         return (
-          <>
+          <div key={group.id}>
             {genTree([{ ...group, children: [] }])}
             <div
               style={{
@@ -349,7 +349,7 @@ const UserProfile = (props: Props) => {
             >
               {genTree(group.children)}
             </div>
-          </>
+          </div>
         );
       }
 
@@ -517,7 +517,7 @@ const UserProfile = (props: Props) => {
               <h3>Epostlister</h3>
               <Card className={styles.infoCard}>
                 {emailListsMapping.map(({ abakusGroup, emailLists }) => (
-                  <>
+                  <div key={abakusGroup.id}>
                     <h4>Epostlister fra gruppen {abakusGroup.name}</h4>
                     <ul>
                       {emailLists.map((emailList) => (
@@ -539,7 +539,7 @@ const UserProfile = (props: Props) => {
                         </li>
                       ))}
                     </ul>
-                  </>
+                  </div>
                 ))}
                 {emailListsOnUser.length > 0 && (
                   <>
@@ -590,7 +590,7 @@ const UserProfile = (props: Props) => {
                 {allAbakusGroupsWithPerms.map(
                   ({ abakusGroup, permissions }) =>
                     !!permissions.length && (
-                      <>
+                      <div key={abakusGroup.id}>
                         <h4>
                           Rettigheter fra gruppen
                           <Link
@@ -607,7 +607,7 @@ const UserProfile = (props: Props) => {
                             </li>
                           ))}
                         </ul>
-                      </>
+                      </div>
                     )
                 )}
                 <h4>Sum alle</h4>
