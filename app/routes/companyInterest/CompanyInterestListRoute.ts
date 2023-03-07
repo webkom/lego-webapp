@@ -6,7 +6,7 @@ import { fetchSemesters } from 'app/actions/CompanyActions';
 import {
   fetchAll,
   deleteCompanyInterest,
-  fetch,
+  fetch as fetchCIA,
 } from 'app/actions/CompanyInterestActions';
 import { LoginPage } from 'app/components/LoginForm';
 import { selectCompanyInterestList } from 'app/reducers/companyInterest';
@@ -15,7 +15,7 @@ import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import CompanyInterestList from './components/CompanyInterestList';
-import { semesterToText } from './utils';
+import { getCsvUrl, semesterToText } from './utils';
 
 const mapStateToProps = (state, props) => {
   const semesterId = Number(
@@ -27,7 +27,7 @@ const mapStateToProps = (state, props) => {
   const semesterObj: CompanySemesterEntity | null | undefined = semesters.find(
     (semester) => semester.id === semesterId
   );
-  const selectedOption = {
+  const selectedSemesterOption = {
     id: semesterId ? semesterId : 0,
     semester: semesterObj != null ? semesterObj.semester : '',
     year: semesterObj != null ? semesterObj.year : '',
@@ -40,9 +40,13 @@ const mapStateToProps = (state, props) => {
           })
         : 'Vis alle semestre',
   };
+  const selectedEventOption = {
+    value: 'company_presentation',
+    label: 'Bedriftspresentasjon',
+  };
   const companyInterestList = selectCompanyInterestList(
     state,
-    selectedOption.id
+    selectedSemesterOption.id
   );
   const hasMore = state.companyInterest.hasMore;
   const fetching = state.companyInterest.fetching;
@@ -51,14 +55,32 @@ const mapStateToProps = (state, props) => {
     companyInterestList,
     hasMore,
     fetching,
-    selectedOption,
+    selectedSemesterOption,
+
+    exportSurvey: async (event?: string) => {
+      const blob = await fetch(
+        getCsvUrl(
+          selectedSemesterOption.year,
+          selectedSemesterOption.semester,
+          event
+        ),
+        {
+          headers: {
+            Authorization: `Bearer ${state.auth.token}`,
+          },
+        }
+      ).then((response) => response.blob());
+      return {
+        url: URL.createObjectURL(blob),
+      };
+    },
   };
 };
 
 const mapDispatchToProps = {
   fetchAll,
   deleteCompanyInterest,
-  fetch,
+  fetch: fetchCIA,
   push,
 };
 export default compose(
