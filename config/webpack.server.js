@@ -64,7 +64,7 @@ module.exports = (env, argv) => {
       alias: {
         lodash: 'node_modules/lodash-es',
         'moment-timezone':
-          'moment-timezone/builds/moment-timezone-with-data-2012-2022.min',
+          'moment-timezone/builds/moment-timezone-with-data-10-year-range.min',
       },
     },
 
@@ -91,6 +91,7 @@ module.exports = (env, argv) => {
                 {
                   loader: 'css-loader',
                   options: {
+                    importLoaders: 1,
                     modules: {
                       localIdentName:
                         '[name]__[local]--[contenthash:base64:10]',

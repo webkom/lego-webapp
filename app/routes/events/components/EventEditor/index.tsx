@@ -187,8 +187,6 @@ function EventEditor({
               uploadFile={uploadFile}
               initialized={initialized}
             />
-            {/* eslint-disable-next-line */}
-            {/* @ts-ignore There are some issues with our postcss config and the TS css module plugin */}
             <Flex className={styles.tagRow}>
               {(event.tags || []).map((tag, i) => (
                 <Tag key={i} tag={tag} />

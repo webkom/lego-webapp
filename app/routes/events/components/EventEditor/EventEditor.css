@@ -53,6 +53,10 @@ html[data-theme='dark'] .descriptionEditor {
   text-align: center;
 }
 
+.tagRow {
+  margin-top: 16px;
+}
+
 .poolBox {
   background-color: var(--additive-background);
   border-radius: 1rem;
