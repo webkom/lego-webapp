@@ -66,3 +66,7 @@ span.suffix {
   border-bottom-left-radius: 0;
   font-size: 0.9rem;
 }
+
+.removeBorder {
+  border: none;
+}
