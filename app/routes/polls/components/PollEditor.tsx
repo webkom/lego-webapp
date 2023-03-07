@@ -18,6 +18,7 @@ import NavigationTab from 'app/components/NavigationTab';
 import Tooltip from 'app/components/Tooltip';
 import type { ID } from 'app/models';
 import type { PollEntity } from 'app/reducers/polls';
+import { createValidator, required } from 'app/utils/validation';
 import styles from './PollEditor.css';
 import type { ReactNode } from 'react';
 
@@ -45,6 +46,11 @@ const renderOptions = ({ fields }: any): ReactNode => (
             label={`Valg nr. ${i + 1}`}
             placeholder={`Valg ${i + 1}`}
             component={TextInput.Field}
+            validate={(value) =>
+              value && value.length > 0
+                ? undefined
+                : 'Alle alternativer må ha et navn'
+            }
             required
           />
           <ConfirmModalWithParent
@@ -68,6 +74,10 @@ const renderOptions = ({ fields }: any): ReactNode => (
     </Button>
   </div>
 );
+
+const validate = createValidator({
+  title: [required('Du må gi avstemningen en tittel')],
+});
 
 const EditPollForm = ({
   deletePoll,
@@ -122,6 +132,7 @@ const EditPollForm = ({
       <LegoFinalForm
         onSubmit={onSubmit}
         initialValues={initialValues ?? { options: [{}, {}], pinned: false }}
+        validate={validate}
         mutators={{
           ...arrayMutators,
         }}
