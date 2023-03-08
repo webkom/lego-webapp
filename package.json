@@ -172,7 +172,7 @@
     "jest": "^29.5.0",
     "jest-environment-jsdom": "^29.5.0",
     "lolex": "^6.0.0",
-    "mini-css-extract-plugin": "^2.7.2",
+    "mini-css-extract-plugin": "^2.7.3",
     "null-loader": "^4.0.1",
     "postcss-import": "^15.1.0",
     "postcss-loader": "^7.0.2",
