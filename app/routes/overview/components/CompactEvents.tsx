@@ -63,6 +63,7 @@ export default class CompactEvents extends Component<Props> {
       'alternative_presentation',
       'course',
       'breakfast_talk',
+      'kid_event',
     ]);
     const leftEvents =
       presentations.length > 0 ? presentations : ['Ingen presentasjoner'];

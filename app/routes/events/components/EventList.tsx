@@ -180,6 +180,7 @@ class EventList extends Component<EventListProps, State> {
           return showSocial;
 
         case 'other':
+        case 'kid_event':
           return showOther;
 
         default:
