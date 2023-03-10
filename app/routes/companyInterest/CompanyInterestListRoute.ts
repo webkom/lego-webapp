@@ -1,4 +1,4 @@
-import { push } from 'connected-react-router';
+import { replace } from 'connected-react-router';
 import qs from 'qs';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -6,7 +6,7 @@ import { fetchSemesters } from 'app/actions/CompanyActions';
 import {
   fetchAll,
   deleteCompanyInterest,
-  fetch as fetchCIA,
+  fetch,
 } from 'app/actions/CompanyInterestActions';
 import { LoginPage } from 'app/components/LoginForm';
 import { selectCompanyInterestList } from 'app/reducers/companyInterest';
@@ -15,7 +15,8 @@ import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import CompanyInterestList from './components/CompanyInterestList';
-import { getCsvUrl, semesterToText } from './utils';
+import { EVENT_TYPE_OPTIONS } from './components/CompanyInterestPage';
+import { semesterToText } from './utils';
 
 const mapStateToProps = (state, props) => {
   const semesterId = Number(
@@ -27,6 +28,9 @@ const mapStateToProps = (state, props) => {
   const semesterObj: CompanySemesterEntity | null | undefined = semesters.find(
     (semester) => semester.id === semesterId
   );
+  const eventValue = qs.parse(props.location.search, {
+    ignoreQueryPrefix: true,
+  }).event;
   const selectedSemesterOption = {
     id: semesterId ? semesterId : 0,
     semester: semesterObj != null ? semesterObj.semester : '',
@@ -41,47 +45,36 @@ const mapStateToProps = (state, props) => {
         : 'Vis alle semestre',
   };
   const selectedEventOption = {
-    value: 'company_presentation',
-    label: 'Bedriftspresentasjon',
+    value: eventValue ? eventValue : '',
+    label: eventValue
+      ? EVENT_TYPE_OPTIONS.find((eventType) => eventType.value === eventValue)
+          .label
+      : 'Vis alle arrangementstyper',
   };
   const companyInterestList = selectCompanyInterestList(
     state,
-    selectedSemesterOption.id
+    selectedSemesterOption.id,
+    selectedEventOption.value
   );
   const hasMore = state.companyInterest.hasMore;
   const fetching = state.companyInterest.fetching;
+
   return {
     semesters,
     companyInterestList,
     hasMore,
     fetching,
     selectedSemesterOption,
-
-    exportSurvey: async (event?: string) => {
-      const blob = await fetch(
-        getCsvUrl(
-          selectedSemesterOption.year,
-          selectedSemesterOption.semester,
-          event
-        ),
-        {
-          headers: {
-            Authorization: `Bearer ${state.auth.token}`,
-          },
-        }
-      ).then((response) => response.blob());
-      return {
-        url: URL.createObjectURL(blob),
-      };
-    },
+    selectedEventOption,
+    authToken: state.auth.token,
   };
 };
 
 const mapDispatchToProps = {
   fetchAll,
   deleteCompanyInterest,
-  fetch: fetchCIA,
-  push,
+  fetch,
+  replace,
 };
 export default compose(
   replaceUnlessLoggedIn(LoginPage),

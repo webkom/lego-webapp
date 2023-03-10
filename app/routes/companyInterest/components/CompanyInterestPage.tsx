@@ -116,6 +116,20 @@ export const OTHER_TYPES = {
   */
 };
 
+export const EVENT_TYPE_OPTIONS = [
+  { value: '', label: 'Vis alle arrangementstyper' },
+  { value: 'company_presentation', label: 'Bedriftspresentasjon' },
+  { value: 'course', label: 'Kurs' },
+  { value: 'breakfast_talk', label: 'Frokostforedrag' },
+  { value: 'lunch_presentation', label: 'Lunsjpresentasjon' },
+  { value: 'bedex', label: 'BedEx' },
+  { value: 'digital_presentation', label: 'Digital presentasjon' },
+  { value: 'other', label: 'Alternativt arrangement' },
+  { value: 'sponsor', label: 'Sponser' },
+  { value: 'start_up', label: 'Start-up kveld' },
+  { value: 'company_to_company', label: 'Bedrift-til-bedrift' },
+];
+
 export const OFFICE_IN_TRONDHEIM = {
   true: { norwegian: 'Ja', english: 'Yes' },
   false: { norwegian: 'Nei', english: 'No' },

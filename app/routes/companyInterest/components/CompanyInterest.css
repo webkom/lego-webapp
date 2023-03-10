@@ -105,19 +105,6 @@
   }
 }
 
-.event_section {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  margin: 30px auto;
-  align-items: flex-end;
-
-  @media (--small-viewport) {
-    flex-flow: column wrap;
-    align-items: center;
-  }
-}
-
 .companyInterestList {
   @media (--small-viewport) {
     display: none;
@@ -178,4 +165,8 @@ ion-icon {
 
 .label {
   color: rgb(194, 69, 56);
+}
+
+.selector {
+  min-width: 500px;
 }

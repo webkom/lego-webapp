@@ -1,9 +1,9 @@
+import qs from 'qs';
 import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import config from 'app/config';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 import type { ReactNode } from 'react';
-import qs from 'qs';
 
 export const sortSemesterChronologically = (
   a: CompanySemesterEntity,

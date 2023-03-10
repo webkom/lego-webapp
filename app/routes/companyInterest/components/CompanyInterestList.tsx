@@ -6,54 +6,48 @@ import { Content } from 'app/components/Content';
 import { selectTheme, selectStyles } from 'app/components/Form/SelectInput';
 import Flex from 'app/components/Layout/Flex';
 import Table from 'app/components/Table';
-import config from 'app/config';
+import Tooltip from 'app/components/Tooltip';
 import type { CompanyInterestEntity } from 'app/reducers/companyInterest';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 import { ListNavigation } from 'app/routes/bdb/utils';
-import { semesterToText } from '../utils';
+import { getCsvUrl, semesterToText } from '../utils';
 import styles from './CompanyInterest.css';
-import { getCsvUrl } from '../utils';
+import { EVENT_TYPE_OPTIONS } from './CompanyInterestPage';
 
-export type SemesterOption = {
+type SemesterOptionType = {
   id: number;
   semester: string;
   year: string;
   label: string;
 };
 
-export type EventOption = {
+type EventOptionType = {
   value: string;
   label: string;
 };
 
-export type Props = {
+type Props = {
   companyInterestList: Array<CompanyInterestEntity>;
   deleteCompanyInterest: (arg0: number) => Promise<any>;
   fetch: (arg0: Record<string, any>) => Promise<any>;
   hasMore: boolean;
   fetching: boolean;
   semesters: Array<CompanySemesterEntity>;
-  push: (arg0: string) => void;
-  selectedSemesterOption: SemesterOption;
-  selectedEventOption: EventOption;
+  replace: (arg0: string) => void;
+  selectedSemesterOption: SemesterOptionType;
+  selectedEventOption: EventOptionType;
   router: any;
-  exportSurvey?: (arg0?: string) => Promise<any>;
+  authToken: string;
 };
+
 type State = {
   clickedCompanyInterest: number;
-  generatedCSV:
-    | {
-        url: string;
-      }
-    | null
-    | undefined;
-  selectedEvent: string;
+  generatedCSV?: { url: string; filename: string };
 };
 
 const RenderCompanyActions = ({
   id,
   handleDelete,
-  fetching,
   clickedCompanyInterest,
 }: {
   id: number;
@@ -77,8 +71,8 @@ class CompanyInterestList extends Component<Props, State> {
   state = {
     clickedCompanyInterest: 0,
     generatedCSV: undefined,
-    selectedEvent: '',
   };
+
   handleDelete = (clickedCompanyInterest: number) => {
     if (this.state.clickedCompanyInterest === clickedCompanyInterest) {
       this.props
@@ -94,7 +88,7 @@ class CompanyInterestList extends Component<Props, State> {
       });
     }
   };
-  handleSemesterChange = (clickedOption: SemesterOption): void => {
+  handleSemesterChange = (clickedOption: SemesterOptionType): void => {
     const { id } = clickedOption;
     this.props
       .fetch({
@@ -103,27 +97,20 @@ class CompanyInterestList extends Component<Props, State> {
         },
       })
       .then(() => {
-        this.props.push(`/companyInterest?semesters=${clickedOption.id}`);
+        this.props.replace(
+          `/companyInterest?semesters=${clickedOption.id}&event=${this.props.selectedEventOption.value}`
+        );
       });
   };
-  handleEventChange = (clickedOption: EventOption): void => {
-    // const { value } = clickedOption;
-    // this.props
-    //   .fetch({
-    //     filters: {
-    //       events: value !== null ? value : null,
-    //     },
-    //   })
-    //   .then(() => {
-    //     this.props.push(`/companyInterest?events=${clickedOption.value}`);
-    //   });
-    this.setState({ selectedEvent: clickedOption.value });
+  handleEventChange = (clickedOption: EventOptionType): void => {
+    this.props.replace(
+      `/companyInterest?semesters=${this.props.selectedSemesterOption.id}&event=${clickedOption.value}`
+    );
   };
 
-  componentDidUpdate(prevProps, prevStates) {
+  componentDidUpdate(prevProps) {
     if (
-      this.props.selectedSemesterOption !== prevProps.selectedSemesterOption ||
-      this.state.selectedEvent !== prevStates.selectedEvent
+      this.props.selectedSemesterOption !== prevProps.selectedSemesterOption
     ) {
       this.setState({
         generatedCSV: undefined,
@@ -131,9 +118,33 @@ class CompanyInterestList extends Component<Props, State> {
     }
   }
 
+  async exportInterestList(event?: string) {
+    const blob = await fetch(
+      getCsvUrl(
+        this.props.selectedSemesterOption.year,
+        this.props.selectedSemesterOption.semester,
+        event
+      ),
+      {
+        headers: {
+          Authorization: `Bearer ${this.props.authToken}`,
+        },
+      }
+    ).then((response) => response.blob());
+    return {
+      url: URL.createObjectURL(blob),
+      filename: `company-interests-${this.props.selectedSemesterOption.year}-${
+        this.props.selectedSemesterOption.semester
+      }${
+        this.props.selectedEventOption.value
+          ? `-${this.props.selectedEventOption.value}`
+          : ''
+      }.csv`,
+    };
+  }
+
   render() {
-    const { exportSurvey } = this.props;
-    const { generatedCSV, selectedEvent } = this.state;
+    const { generatedCSV } = this.state;
     const columns = [
       {
         title: 'Bedriftsnavn',
@@ -169,7 +180,7 @@ class CompanyInterestList extends Component<Props, State> {
         ),
       },
     ];
-    const semester_options = [
+    const semesterOptions = [
       {
         value: 9999,
         year: 9999,
@@ -187,43 +198,29 @@ class CompanyInterestList extends Component<Props, State> {
         };
       }),
     ].sort((o1, o2) => {
-      if (Number(o1.year) === Number(o2.year)) {
-        if (o1.semester === 'spring') {
-          return -1;
-        }
-
-        return 1;
-      }
-
-      return Number(o1.year) > Number(o2.year) ? -1 : 1;
+      return Number(o1.year) === Number(o2.year)
+        ? o1.semester === 'spring'
+          ? -1
+          : 1
+        : Number(o1.year) > Number(o2.year)
+        ? -1
+        : 1;
     });
 
-    const event_type_options = [
-      { value: 'company_presentation', label: 'Bedriftspresentasjon' },
-      { value: 'course', label: 'Kurs' },
-      { value: 'breakfast_talk', label: 'Frokostforedrag' },
-      { value: 'lunch_presentation', label: 'Lunsjpresentasjon' },
-      { value: 'bedex', label: 'BedEx' },
-      { value: 'digital_presentation', label: 'Digital presentasjon' },
-      { value: 'other', label: 'Alternativt arrangement' },
-      { value: 'sponsor', label: 'Sponser' },
-      { value: 'start_up', label: 'Start-up kveld' },
-      { value: 'company_to_company', label: 'Bedrift-til-bedrift' },
-    ];
     return (
       <Content>
         <ListNavigation title="Bedriftsinteresser" />
         <Flex className={styles.section}>
           <Flex column>
-            <p onClick={() => console.log('p', selectedEvent)}>
+            <p>
               Her finner du all praktisk informasjon knyttet til
               <strong> bedriftsinteresser</strong>.
             </p>
             <Select
-              name="form-field-name"
+              name="form-semester-selector"
               value={this.props.selectedSemesterOption}
               onChange={this.handleSemesterChange}
-              options={semester_options}
+              options={semesterOptions}
               isClearable={false}
               theme={selectTheme}
               styles={selectStyles}
@@ -237,18 +234,17 @@ class CompanyInterestList extends Component<Props, State> {
           </Link>
         </Flex>
 
-        <Flex className={styles.event_section}>
-          <div style={{ minWidth: '500px' }}>
-            <Select
-              name="form-field-name"
-              value={this.props.selectedEventOption}
-              onChange={this.handleEventChange}
-              options={event_type_options}
-              isClearable={false}
-              theme={selectTheme}
-              styles={selectStyles}
-            />
-          </div>
+        <Flex className={styles.section}>
+          <Select
+            name="form-event-selector"
+            value={this.props.selectedEventOption}
+            onChange={this.handleEventChange}
+            options={EVENT_TYPE_OPTIONS}
+            isClearable={false}
+            theme={selectTheme}
+            styles={selectStyles}
+            className={styles.selector}
+          />
 
           <div
             style={{
@@ -256,17 +252,29 @@ class CompanyInterestList extends Component<Props, State> {
             }}
           >
             {generatedCSV ? (
-              <a href={generatedCSV.url}>Last ned</a>
+              <a href={generatedCSV.url} download={generatedCSV.filename}>
+                Last ned
+              </a>
             ) : (
-              <Button
-                onClick={async () =>
-                  this.setState({
-                    generatedCSV: await exportSurvey(selectedEvent),
-                  })
+              <Tooltip
+                style={
+                  this.props.selectedSemesterOption.year && { display: 'none' }
                 }
+                content={'Vennligst velg semester'}
               >
-                Eksporter til CSV
-              </Button>
+                <Button
+                  onClick={async () =>
+                    this.setState({
+                      generatedCSV: await this.exportInterestList(
+                        this.props.selectedEventOption.value
+                      ),
+                    })
+                  }
+                  disabled={!this.props.selectedSemesterOption.year}
+                >
+                  Eksporter til CSV
+                </Button>
+              </Tooltip>
             )}
           </div>
         </Flex>
