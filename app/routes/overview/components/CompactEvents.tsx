@@ -1,3 +1,4 @@
+import moment from 'moment-timezone';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Flex } from 'app/components/Layout';
@@ -18,7 +19,8 @@ export default class CompactEvents extends Component<Props> {
       return events
         .filter(
           (event) =>
-            event.endTime.isAfter() && eventTypes.includes(event.eventType)
+            moment(event.endTime).isAfter() &&
+            eventTypes.includes(event.eventType)
         )
         .slice(0, 5)
         .map((event, key) => (

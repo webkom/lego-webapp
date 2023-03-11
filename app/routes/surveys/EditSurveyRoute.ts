@@ -1,4 +1,5 @@
 import { push } from 'connected-react-router';
+import moment from 'moment-timezone';
 import qs from 'qs';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -54,7 +55,7 @@ const mapStateToProps = (state, props) => {
         ...template,
         title: survey.title || template.title,
         event: initialEvent,
-        activeFrom: survey.event && survey.event.endTime,
+        activeFrom: moment(survey.event?.endTime),
       };
     } else {
       initialValues = {
