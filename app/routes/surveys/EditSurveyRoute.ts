@@ -2,7 +2,6 @@ import { push } from 'connected-react-router';
 import qs from 'qs';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { formValueSelector } from 'redux-form';
 import {
   editSurvey,
   fetchSurvey,
@@ -80,7 +79,6 @@ const mapStateToProps = (state, props) => {
   const surveyToSend = template
     ? { ...survey, questions: template.questions }
     : survey;
-  const formSelector = formValueSelector('surveyEditor');
   return {
     survey: surveyToSend,
     surveyId,
@@ -89,7 +87,6 @@ const mapStateToProps = (state, props) => {
     selectedTemplateType: templateType,
     initialValues,
     notFetching,
-    activeFrom: formSelector(state, 'activeFrom'),
   };
 };
 

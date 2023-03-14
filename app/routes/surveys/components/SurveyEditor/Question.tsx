@@ -1,4 +1,5 @@
-import { Field, FieldArray } from 'redux-form';
+import { Field } from 'react-final-form';
+import { FieldArray } from 'react-final-form-arrays';
 import {
   TextInput,
   TextArea,
@@ -16,18 +17,15 @@ import {
 import styles from '../surveys.css';
 import Option from './Option';
 import type { ReactNode } from 'react';
-import type { FieldArrayProps } from 'redux-form';
-import type { $PropertyType } from 'utility-types';
 
-type Fields = $PropertyType<FieldArrayProps, 'fields'>;
 type Props = {
   deleteQuestion: (arg0: number) => Promise<any>;
   questionData: Record<string, any>;
   question: string;
   relativeIndex: number;
   numberOfQuestions: number;
-  updateRelativeIndexes: (arg0: number, arg1: number, arg2: Fields) => void;
-  fields: Fields;
+  updateRelativeIndexes: (arg0: number, arg1: number, arg2: any) => void;
+  fields: any;
   option?: string;
   value?: string;
 };
@@ -53,6 +51,7 @@ const Question = ({
   fields,
 }: Props) => {
   const indexOptions = questionIndexMappings(numberOfQuestions);
+
   return (
     <div className={styles.question}>
       <div className={styles.left}>
@@ -70,7 +69,7 @@ const Question = ({
         {questionData.questionType.value === QuestionTypes('text') ? (
           <TextArea
             className={styles.freeText}
-            placeholder="Fritekst - sånn vil den se ut :smile:"
+            placeholder="Fritekst - sånn her vil den se ut :smile:"
             value=""
             disabled
           />
@@ -174,7 +173,7 @@ const renderOptions = ({
   fields,
   questionType,
 }: {
-  fields: Fields;
+  fields: any;
   questionType: string;
 }): ReactNode => (
   <ul className={styles.options}>
