@@ -71,7 +71,7 @@
   margin: 5px auto;
   height: 40px;
   border: 1px solid var(--border-gray);
-  border-radius: 5px;
+  border-radius: var(--border-radius-md);
   font-size: 0.9rem;
 }
 

@@ -22,7 +22,7 @@
   background: var(--danger-color);
   color: var(--color-absolute-white);
   font-size: 0.9rem;
-  border-radius: 6px;
+  border-radius: var(--border-radius-md);
 }
 
 .fieldWarning {
@@ -32,7 +32,7 @@
   background: var(--color-orange-6);
   color: var(--color-absolute-white);
   font-size: 0.9rem;
-  border-radius: 6px;
+  border-radius: var(--border-radius-md);
 }
 
 .label {

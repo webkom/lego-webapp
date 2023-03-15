@@ -15,7 +15,7 @@
   width: 70px;
   height: 70px;
   background-color: #d13c32;
-  border-radius: 35px;
+  border-radius: 50%;
 }
 
 .data,
@@ -60,7 +60,7 @@
   order: 0;
   width: 56px;
   height: 56px;
-  border-radius: 28px;
+  border-radius: 50%;
   background-color: #d13c32;
 }
 

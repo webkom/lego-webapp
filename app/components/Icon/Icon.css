@@ -1,12 +1,12 @@
 .badge {
   position: absolute;
-  top: -14px;
-  right: -10px;
-  background: linear-gradient(45deg, #842219, #e55649);
+  top: -12px;
+  right: -8px;
+  background-color: var(--lego-red-color);
   color: var(--color-white);
-  border-radius: 8px;
-  min-width: 24px;
-  font-size: 16px;
+  border-radius: 50%;
+  min-width: 22px;
+  font-size: 15px;
   padding: 2px;
   opacity: 0.9;
   z-index: 1;
