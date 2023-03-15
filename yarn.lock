@@ -2673,10 +2673,10 @@
     "@webassemblyjs/ast" "1.11.1"
     "@xtuc/long" "4.2.2"
 
-"@webkom/lego-editor@^2.0.3":
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/@webkom/lego-editor/-/lego-editor-2.0.3.tgz#2e1257d0430daf25b31b5500c1bb308452193a4c"
-  integrity sha512-G+JNi2y48EyZdndFp+189Qy2a/zzSJXRxZtb00WThnqfYK/UPvsU77iKnQwkh6FKd2ToIV3mFNfOWTahsweULw==
+"@webkom/lego-editor@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@webkom/lego-editor/-/lego-editor-2.1.0.tgz#96c511acb8c18242656099da0d9bc57376d886ac"
+  integrity sha512-JjVV4cT0CtMJQX4kQhMivt290f6W9qW8EVKJRwtncdWUYScrCBlPExLIBLZk296ewhNp+eVTaDy2U6Axj43lPg==
   dependencies:
     classnames "^2.2.6"
     escape-html "^1.0.3"
