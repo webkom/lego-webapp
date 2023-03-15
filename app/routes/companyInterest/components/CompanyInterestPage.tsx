@@ -482,6 +482,16 @@ type Props = {
   officeInTrondheim: boolean;
   initialValues: any;
 };
+type EventDetailType = {
+  norwegian: string;
+  english: string;
+};
+type EventCommentFieldType = {
+  name: string;
+  eventTitle: EventDetailType;
+  eventDescription: EventDetailType;
+  eventComment: EventDetailType;
+};
 
 const validate = createValidator({
   company: [required()],
@@ -658,6 +668,57 @@ const CompanyInterestPage = (props: Props) => {
   const { language } = props;
   const isEnglish = language === 'english';
 
+  const eventCommentFields: EventCommentFieldType[] = [
+    {
+      name: 'company_presentation',
+      eventTitle: EVENT_TYPES.company_presentation,
+      eventDescription: interestText.companyPresentationDescription,
+      eventComment: interestText.companyPresentationComment,
+    },
+    {
+      name: 'lunch_presentation',
+      eventTitle: EVENT_TYPES.lunch_presentation,
+      eventDescription: interestText.lunchPresentationDescriptiont,
+      eventComment: interestText.lunchPresentationComment,
+    },
+    {
+      name: 'course',
+      eventTitle: EVENT_TYPES.course,
+      eventDescription: interestText.courseDescription,
+      eventComment: interestText.courseComment,
+    },
+    {
+      name: 'breakfast_talk',
+      eventTitle: EVENT_TYPES.breakfast_talk,
+      eventDescription: interestText.breakfastTalkDescription,
+      eventComment: interestText.breakfastTalkComment,
+    },
+    {
+      name: 'bedex',
+      eventTitle: EVENT_TYPES.bedex,
+      eventDescription: interestText.bedexDescription,
+      eventComment: interestText.bedexComment,
+    },
+    {
+      name: 'other',
+      eventTitle: EVENT_TYPES.other,
+      eventDescription: interestText.otherEventDescription,
+      eventComment: interestText.otherEventComment,
+    },
+    {
+      name: 'start_up',
+      eventTitle: EVENT_TYPES.start_up,
+      eventDescription: interestText.startUpDescription,
+      eventComment: interestText.startUpComment,
+    },
+    {
+      name: 'company_to_company',
+      eventTitle: EVENT_TYPES.company_to_company,
+      eventDescription: interestText.companyToCompanyDescription,
+      eventComment: interestText.companyToCompanyComment,
+    },
+  ];
+
   return (
     <Content>
       <Helmet title="Bedriftsinteresse" />
@@ -793,21 +854,6 @@ const CompanyInterestPage = (props: Props) => {
             </Flex>
             <div className={styles.topline}>
               {interestText.text.first[language]}
-              {/*
-          <br />
-          <br />
-          {interestText.text.second[language]}
-          <br />
-          <br />
-          {interestText.bedex[language]
-          <br />
-          <br />
-          {interestText.anniversaryCollaboration[language]}
-          */}
-              {/*           <br />
-          <br />
-          {interestText.revueCollaboration[language]}
- */}{' '}
             </div>
 
             <Field
@@ -899,215 +945,32 @@ const CompanyInterestPage = (props: Props) => {
             </h3>
             <p>{labels.eventDescriptionIntro[language]}</p>
 
-            {spyValues((values: CompanyInterestFormEntity) => {
-              const showCompanyPresentation = values.events?.some(
-                (e) => e.name === 'company_presentation' && e.checked === true
-              );
+            {eventCommentFields.map((event) => {
+              return spyValues((values: CompanyInterestFormEntity) => {
+                const showComment = values.events?.some(
+                  (e) => e.name === event.name && e.checked === true
+                );
 
-              return (
-                showCompanyPresentation && (
-                  <div className={styles.topline}>
-                    <Flex alignItems="center" gap={1}>
-                      <h4>{EVENT_TYPES.company_presentation[language]}</h4>
-                      <p className={styles.label}>*</p>
-                    </Flex>
-                    <p>
-                      {interestText.companyPresentationDescription[language]}
-                    </p>
-                    <Field
-                      placeholder={
-                        interestText.companyPresentationComment[language]
-                      }
-                      name="companyPresentationComment"
-                      component={TextEditor.Field}
-                      rows={10}
-                      className={styles.textEditor}
-                    />
-                  </div>
-                )
-              );
-            })}
+                return (
+                  showComment && (
+                    <div className={styles.topline} key={event.name}>
+                      <Flex alignItems="center" gap={1}>
+                        <h4>{event.eventTitle[language]}</h4>
+                        <p className={styles.label}>*</p>
+                      </Flex>
 
-            {spyValues((values: CompanyInterestFormEntity) => {
-              const showLunchPresentationComment = values.events?.some(
-                (e) => e.name === 'lunch_presentation' && e.checked === true
-              );
-
-              return (
-                showLunchPresentationComment && (
-                  <div className={styles.topline}>
-                    <Flex alignItems="center" gap={1}>
-                      <h4>{EVENT_TYPES.lunch_presentation[language]}</h4>
-                      <p className={styles.label}>*</p>
-                    </Flex>
-                    <p>
-                      {interestText.lunchPresentationDescriptiont[language]}
-                    </p>
-                    <Field
-                      placeholder={
-                        interestText.lunchPresentationComment[language]
-                      }
-                      name="lunchPresentationComment"
-                      component={TextEditor.Field}
-                      rows={10}
-                      className={styles.textEditor}
-                    />
-                  </div>
-                )
-              );
-            })}
-
-            {spyValues((values: CompanyInterestFormEntity) => {
-              const showCourseComment = values.events?.some(
-                (e) => e.name === 'course' && e.checked === true
-              );
-
-              return (
-                showCourseComment && (
-                  <div className={styles.topline}>
-                    <Flex alignItems="center" gap={1}>
-                      <h4>{EVENT_TYPES.course[language]}</h4>
-                      <p className={styles.label}>*</p>
-                    </Flex>
-                    <p>{interestText.courseDescription[language]}</p>
-                    <Field
-                      placeholder={interestText.courseComment[language]}
-                      name="courseComment"
-                      component={TextEditor.Field}
-                      rows={10}
-                      className={styles.textEditor}
-                    />
-                  </div>
-                )
-              );
-            })}
-
-            {spyValues((values: CompanyInterestFormEntity) => {
-              const showBreakfastTalkComment = values.events?.some(
-                (e) => e.name === 'breakfast_talk' && e.checked === true
-              );
-
-              return (
-                showBreakfastTalkComment && (
-                  <div className={styles.topline}>
-                    <Flex alignItems="center" gap={1}>
-                      <h4>{EVENT_TYPES.breakfast_talk[language]}</h4>
-                      <p className={styles.label}>*</p>
-                    </Flex>
-                    <p>{interestText.breakfastTalkDescription[language]}</p>
-                    <Field
-                      placeholder={interestText.breakfastTalkComment[language]}
-                      name="breakfastTalkComment"
-                      component={TextEditor.Field}
-                      rows={10}
-                      className={styles.textEditor}
-                    />
-                  </div>
-                )
-              );
-            })}
-
-            {spyValues((values: CompanyInterestFormEntity) => {
-              const showBedexComment = values.events?.some(
-                (e) => e.name === 'bedex' && e.checked === true
-              );
-
-              return (
-                showBedexComment && (
-                  <div className={styles.topline}>
-                    <Flex alignItems="center" gap={1}>
-                      <h4>{EVENT_TYPES.bedex[language]}</h4>
-                      <p className={styles.label}>*</p>
-                    </Flex>
-                    <p>{interestText.bedexDescription[language]}</p>
-                    <Field
-                      placeholder={interestText.bedexComment[language]}
-                      name="bedexComment"
-                      component={TextEditor.Field}
-                      rows={10}
-                      className={styles.textEditor}
-                    />
-                  </div>
-                )
-              );
-            })}
-
-            {spyValues((values: CompanyInterestFormEntity) => {
-              const showOtherEventComment = values.events?.some(
-                (e) => e.name === 'other' && e.checked === true
-              );
-
-              return (
-                showOtherEventComment && (
-                  <div className={styles.topline}>
-                    <Flex alignItems="center" gap={1}>
-                      <h4>{EVENT_TYPES.other[language]}</h4>
-                      <p className={styles.label}>*</p>
-                    </Flex>
-                    <p>{interestText.otherEventDescription[language]}</p>
-                    <Field
-                      placeholder={interestText.otherEventComment[language]}
-                      name="otherEventComment"
-                      component={TextEditor.Field}
-                      rows={10}
-                      className={styles.textEditor}
-                    />
-                  </div>
-                )
-              );
-            })}
-
-            {spyValues((values: CompanyInterestFormEntity) => {
-              const showStartupComment = values.events?.some(
-                (e) => e.name === 'start_up' && e.checked === true
-              );
-
-              return (
-                showStartupComment && (
-                  <div className={styles.topline}>
-                    <Flex alignItems="center" gap={1}>
-                      <h4>{EVENT_TYPES.start_up[language]}</h4>
-                      <p className={styles.label}>*</p>
-                    </Flex>
-                    <p>{interestText.startUpDescription[language]}</p>
-                    <Field
-                      placeholder={interestText.startUpComment[language]}
-                      name="startupComment"
-                      component={TextEditor.Field}
-                      rows={10}
-                      className={styles.textEditor}
-                    />
-                  </div>
-                )
-              );
-            })}
-
-            {spyValues((values: CompanyInterestFormEntity) => {
-              const showCompanyToCompanyComment = values.events?.some(
-                (e) => e.name === 'company_to_company' && e.checked === true
-              );
-
-              return (
-                showCompanyToCompanyComment && (
-                  <div className={styles.topline}>
-                    <Flex alignItems="center" gap={1}>
-                      <h4>{EVENT_TYPES.company_to_company[language]}</h4>
-                      <p className={styles.label}>*</p>
-                    </Flex>
-
-                    <p>{interestText.companyToCompanyDescription[language]}</p>
-                    <Field
-                      placeholder={
-                        interestText.companyToCompanyComment[language]
-                      }
-                      name="companyToCompanyComment"
-                      component={TextEditor.Field}
-                      rows={10}
-                      className={styles.textEditor}
-                    />
-                  </div>
-                )
-              );
+                      <p>{event.eventDescription[language]}</p>
+                      <Field
+                        placeholder={event.eventComment[language]}
+                        name={event.name}
+                        component={TextEditor.Field}
+                        rows={10}
+                        className={styles.textEditor}
+                      />
+                    </div>
+                  )
+                );
+              });
             })}
 
             <div className={styles.topline}>
