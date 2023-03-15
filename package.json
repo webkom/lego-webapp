@@ -75,7 +75,7 @@
     "qs": "^6.11.1",
     "react": "^18.2.0",
     "react-collapse": "^5.1.1",
-    "react-cropper": "^2.1.8",
+    "react-cropper": "^2.3.2",
     "react-dom": "^18.2.0",
     "react-dropzone": "^14.2.2",
     "react-final-form": "^6.5.9",
