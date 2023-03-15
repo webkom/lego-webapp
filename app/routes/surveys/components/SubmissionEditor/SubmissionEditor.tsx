@@ -25,10 +25,8 @@ type Props = {
 
 const SubmissionEditor = ({
   survey,
-  fetching,
   submitting,
   handleSubmit,
-  submitFunction,
   error,
 }: Props) => {
   return (

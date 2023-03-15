@@ -49,8 +49,7 @@ export const graphMappings = Object.keys(displayTypeStrings).map((key) => ({
   label: string;
 }>;
 export const ListNavigation = ({ title }: { title: ReactNode }) => (
-  <NavigationTab title={title} headerClassName={styles.navTab}>
-    <NavigationLink to="/surveys">Liste</NavigationLink>
+  <NavigationTab title={title}>
     <NavigationLink to="/surveys/add">Ny undersøkelse</NavigationLink>
     <NavigationLink to="/surveys/templates">Maler</NavigationLink>
   </NavigationTab>
@@ -58,14 +57,18 @@ export const ListNavigation = ({ title }: { title: ReactNode }) => (
 export const DetailNavigation = ({
   title,
   surveyId,
-  actionGrant,
 }: {
   title: ReactNode;
   surveyId: number;
   actionGrant?: ActionGrant;
 }) => (
-  <NavigationTab title={title} headerClassName={styles.navTab}>
-    <NavigationLink to="/surveys">Liste</NavigationLink>
+  <NavigationTab
+    title={title}
+    back={{
+      label: 'Tilbake til undersøkelser',
+      path: '/surveys',
+    }}
+  >
     <NavigationLink to={`/surveys/${surveyId}`}>Undersøkelsen</NavigationLink>
     <NavigationLink to={`/surveys/${surveyId}/submissions/summary`}>
       Resultater
@@ -81,7 +84,7 @@ export const TokenNavigation = ({
   surveyId: number;
   actionGrant?: ActionGrant;
 }) => (
-  <NavigationTab title={title} headerClassName={styles.navTab}>
+  <NavigationTab title={title}>
     {actionGrant.includes('EDIT') && (
       <NavigationLink to={`/surveys/${surveyId}/submissions/summary`}>
         Adminversjon
