@@ -23,7 +23,7 @@
 .inModalUpload {
   width: 325px;
   height: 200.861px;
-  border-radius: 1rem;
+  border-radius: var(--border-radius-lg);
 }
 
 .placeholderContainer {

@@ -1,7 +1,7 @@
 .input {
   font-size: var(--font-size);
   border: 1.5px solid var(--border-gray);
-  border-radius: 6px;
+  border-radius: var(--border-radius-md);
   color: var(--lego-font-color);
   background-color: inherit;
   overflow: hidden;

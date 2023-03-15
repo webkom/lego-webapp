@@ -22,7 +22,7 @@
   background: var(--color-white);
   padding: 40px;
   box-shadow: var(--shadow-sm);
-  border-radius: 6px;
+  border-radius: var(--border-radius-lg);
 
   @media (--small-viewport) {
     padding: 40px 10px;
@@ -51,7 +51,7 @@ html[data-theme='dark'] .contentContainer {
 .withShadow {
   border: 1px solid var(--border-gray);
   box-shadow: var(--shadow-sm);
-  border-radius: 5px;
+  border-radius: var(--border-radius-lg);
 }
 
 .truncateString {

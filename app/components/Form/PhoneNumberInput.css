@@ -2,7 +2,7 @@
   padding: 10px;
   font-size: 1rem;
   border: 1px solid var(--border-gray);
-  border-radius: 3px;
+  border-radius: var(--border-radius-md);
   width: 100%;
   color: var(--lego-font-color);
   background-color: var(--color-white);

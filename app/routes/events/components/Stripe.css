@@ -14,7 +14,7 @@
   margin: 1em 0;
   padding: 1em;
   border: 1px solid #6772e585;
-  border-radius: 1rem;
+  border-radius: var(--border-radius-lg);
 }
 
 .elementsLedgend {
@@ -41,7 +41,7 @@
   box-shadow: var(--shadow-sm);
   border: 0;
   outline: 0;
-  border-radius: 6px;
+  border-radius: var(--border-radius-md);
   background: white;
 }
 
@@ -50,7 +50,7 @@
   color: #fff;
   padding: 5px 10px;
   margin-bottom: 1em;
-  border-radius: 3px;
+  border-radius: var(--border-radius-sm);
 }
 
 .success {
@@ -59,6 +59,6 @@
   text-align: center;
   padding: 5px 10px;
   margin-top: 3px;
-  border-radius: 3px;
+  border-radius: var(--border-radius-sm);
   transition: background var(--easing-slow);
 }

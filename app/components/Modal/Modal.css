@@ -27,7 +27,7 @@ html[data-theme='dark'] .backdrop {
   overflow-y: auto;
   z-index: 4;
   box-shadow: var(--shadow-sm);
-  border-radius: 1rem;
+  border-radius: var(--border-radius-lg);
 
   @media (--tall-viewport) {
     max-height: calc(100vh - 300px);
