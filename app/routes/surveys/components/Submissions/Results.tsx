@@ -109,6 +109,14 @@ const Results = ({
       editSurvey({ ...newSurvey, surveyId: survey.id, event: survey.event.id });
   };
 
+  const getAverage = (data) => {
+    const [sum, numberOfAnswers] = data.reduce( (accumulator, optionData) => {
+      const optionNumber = Number(optionData.option.match(/^\d+/)[0])
+      return [accumulator[0] + optionData.selections*optionNumber, accumulator[1] + optionData.selections]
+    }, [0, 0])  
+    return  Number((sum/numberOfAnswers).toFixed(2))
+  }
+
   const graphTypeToIcon = {
     bar_chart: 'bar-chart',
     pie_chart: 'pie-chart',
@@ -138,6 +146,7 @@ const Results = ({
           const graphType = graphOptions.find(
             (a) => a.value === question.displayType
           );
+          const questionIsNumberic = question.options.reduce((result, option) => result && /^\d+/.test(option.optionText), true);
           return (
             <li key={question.id}>
               <h3>{question.questionText}</h3>
@@ -166,6 +175,11 @@ const Results = ({
                           dataKey="selections"
                         />
                       )}
+                      <div>
+                      {questionIsNumberic &&
+                        <p>Gjennomsnitt: {getAverage(graphData[question.id])}</p>
+                      }
+                      </div>
                     </div>
                     <ChartLabel
                       distributionData={graphData[question.id].map((data) => ({
