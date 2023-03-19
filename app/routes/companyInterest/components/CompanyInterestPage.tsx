@@ -23,7 +23,6 @@ import { Image } from 'app/components/Image';
 import Flex from 'app/components/Layout/Flex';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { readmeIfy } from 'app/components/ReadmeLogo';
-import withAutocomplete from 'app/components/Search/withAutocomplete';
 import Tooltip from 'app/components/Tooltip';
 import type {
   CompanyInterestEntity,
@@ -122,8 +121,8 @@ export const OTHER_TYPES = {
 };
 
 export const OFFICE_IN_TRONDHEIM = {
-  true: { norwegian: 'Ja', english: 'Yes' },
-  false: { norwegian: 'Nei', english: 'No' },
+  yes: { norwegian: 'Ja', english: 'Yes' },
+  no: { norwegian: 'Nei', english: 'No' },
 };
 
 export const COLLABORATION_TYPES = {
@@ -510,7 +509,7 @@ const CompanyInterestPage = (props: Props) => {
       contactPerson: data.contactPerson,
       mail: data.mail,
       phone: data.phone,
-      officeInTrondheim: data.officeInTrondheim,
+      officeInTrondheim: data.officeInTrondheim === 'yes',
       semesters: data.semesters
         .filter((semester) => semester.checked)
         .map((semester) => semester.id),
@@ -660,7 +659,7 @@ const CompanyInterestPage = (props: Props) => {
 
   return (
     <Content>
-      <Helmet title="Bedriftsinteresse" />
+      <Helmet title={isEnglish ? 'Company interest' : 'Bedriftsinteresse'} />
 
       <LegoFinalForm
         onSubmit={onSubmit}
@@ -675,14 +674,11 @@ const CompanyInterestPage = (props: Props) => {
           <form onSubmit={handleSubmit}>
             <FlexRow alignItems="center" justifyContent="space-between">
               <h1>{labels.mainHeading[language]}</h1>
-              <Link
-                to={isEnglish ? '/interesse' : '/register-interest'}
-                style={{
-                  display: props.edit ? 'none' : 'block',
-                }}
-              >
-                <LanguageFlag language={language} />
-              </Link>
+              {!props.edit && (
+                <Link to={isEnglish ? '/interesse' : '/register-interest'}>
+                  <LanguageFlag language={language} />
+                </Link>
+              )}
             </FlexRow>
             <h5 className={styles.subHeading}>
               <Flex alignItems="center" gap={5}>
@@ -733,14 +729,14 @@ const CompanyInterestPage = (props: Props) => {
                   {labels.companyTypes[language]}
                 </label>
                 <RadioButtonGroup name="companyType">
-                  {Object.keys(COMPANY_TYPES).map((key, index) => (
+                  {Object.keys(COMPANY_TYPES).map((key) => (
                     <Field
                       key={key}
                       name={key}
                       label={COMPANY_TYPES[key][language]}
                       type="radio"
                       component={RadioButton.Field}
-                      inputValue={key}
+                      value={key}
                     />
                   ))}
                 </RadioButtonGroup>
@@ -750,15 +746,14 @@ const CompanyInterestPage = (props: Props) => {
                   {labels.officeInTrondheim[language]}
                 </label>
                 <RadioButtonGroup name="officeInTrondheim">
-                  {Object.keys(OFFICE_IN_TRONDHEIM).map((key, index) => (
+                  {Object.keys(OFFICE_IN_TRONDHEIM).map((key) => (
                     <Field
                       key={key}
                       name={key}
                       label={OFFICE_IN_TRONDHEIM[key][language]}
                       type="radio"
                       component={RadioButton.Field}
-                      inputValue={key === 'true'}
-                      normalize={(value) => value === 'true'}
+                      value={key}
                     />
                   ))}
                 </RadioButtonGroup>
@@ -871,14 +866,14 @@ const CompanyInterestPage = (props: Props) => {
                   {labels.participantRange[language]}
                 </label>
                 <RadioButtonGroup name="participantRange">
-                  {Object.keys(PARTICIPANT_RANGE_TYPES).map((key, index) => (
+                  {Object.keys(PARTICIPANT_RANGE_TYPES).map((key) => (
                     <Field
                       key={key}
                       name={key}
                       label={PARTICIPANT_RANGE_TYPES[key]}
                       type="radio"
                       component={RadioButton.Field}
-                      inputValue={key}
+                      value={key}
                     />
                   ))}
                 </RadioButtonGroup>

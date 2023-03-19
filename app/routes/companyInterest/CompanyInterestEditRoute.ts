@@ -45,6 +45,7 @@ const mapStateToProps = (state, props) => {
       (p) =>
         PARTICIPANT_RANGE_MAP[p][0] === companyInterest.participantRangeStart
     ) || null;
+
   return {
     allowedBdb,
     initialValues: {
@@ -88,8 +89,8 @@ const mapStateToProps = (state, props) => {
           companyInterest.targetGrades &&
           companyInterest.targetGrades.includes(Number(targetGrade)),
       })),
-
       participantRange: (participantRange && participantRange[0]) || null,
+      officeInTrondheim: companyInterest.officeInTrondheim ? 'yes' : 'no',
       semesters: semesters
         .map((semester) => ({
           ...semester,
