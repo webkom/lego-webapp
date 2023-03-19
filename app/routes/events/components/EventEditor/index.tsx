@@ -161,12 +161,12 @@ function EventEditor({
         />
         <Flex wrap alignItems="center" justifyContent="space-between">
           <Field
+            label="Tittel"
             name="title"
             placeholder="Tittel"
             style={{
               borderBottom: `3px solid ${color}`,
             }}
-            className={styles.title}
             component={TextInput.Field}
           />
         </Flex>

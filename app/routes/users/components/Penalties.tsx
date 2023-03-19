@@ -63,7 +63,7 @@ function Penalties({
           })}
         </ul>
       ) : (
-        <i>Ingen Prikker</i>
+        <i>Ingen prikker</i>
       )}
       <PenaltyForm user={userId} />
     </div>

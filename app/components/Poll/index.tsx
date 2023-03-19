@@ -150,7 +150,7 @@ class Poll extends Component<Props, State> {
               size={20}
               style={{
                 marginLeft: '10px',
-                color: 'green',
+                color: 'var(--color-green-6)',
               }}
             />
           </div>

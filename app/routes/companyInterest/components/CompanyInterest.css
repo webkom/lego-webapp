@@ -41,10 +41,6 @@
   display: block;
 }
 
-.link {
-  margin-top: 10px;
-}
-
 .textEditor {
   @media (--small-viewport) {
     width: 300px;
@@ -75,11 +71,7 @@
 }
 
 .section {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
   margin: 30px auto;
-  align-items: flex-end;
 
   @media (--small-viewport) {
     flex-flow: column wrap;

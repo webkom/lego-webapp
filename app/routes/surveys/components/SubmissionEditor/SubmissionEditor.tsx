@@ -100,9 +100,8 @@ const SubmissionEditor = ({
           ))}
         </ul>
 
-        <div className={styles.clear} />
         <Button success disabled={submitting} submit>
-          Lagre
+          Send svar
         </Button>
       </form>
     </Content>
