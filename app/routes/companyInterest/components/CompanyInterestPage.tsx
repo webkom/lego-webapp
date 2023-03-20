@@ -187,18 +187,18 @@ export const COMPANY_TYPES: Record<
   { norwegian: string; english: string }
 > = {
   company_types_small_consultant: {
-    norwegian: 'Liten Konsulentbedrift ( < ∼50)',
-    english: 'Small Consultant ( < ∼50)',
+    norwegian: 'Liten konsulentbedrift ( < ~50)',
+    english: 'Small consultant company ( < ~50)',
   },
   company_types_medium_consultant: {
-    norwegian: 'Medium Konsulentbedrift ( < 400)',
-    english: 'Medium Consultant ( < 400)',
+    norwegian: 'Medium konsulentbedrift ( < 400)',
+    english: 'Medium consultant company ( < 400)',
   },
   company_types_large_consultant: {
-    norwegian: 'Stor Konsulentbedrift ( > 400)',
-    english: 'Large Consultant ( > 400)',
+    norwegian: 'Stor konsulentbedrift ( > 400)',
+    english: 'Large consultant company ( > 400)',
   },
-  company_types_inhouse: { norwegian: 'Inhouse', english: 'Inhouse' },
+  company_types_inhouse: { norwegian: 'In-house', english: 'In-house' },
   company_types_others: { norwegian: 'Annet', english: 'Other' },
   company_types_start_up: { norwegian: 'Start-up', english: 'Start-up' },
   company_types_governmental: { norwegian: 'Statlig', english: 'Governmental' },

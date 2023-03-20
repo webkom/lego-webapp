@@ -39,7 +39,7 @@
 
 .overlay i {
   font-size: 10em;
-  color: green;
+  color: var(--color-green-6);
 }
 
 .shown {

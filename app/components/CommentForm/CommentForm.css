@@ -58,7 +58,7 @@
   font-size: 18px;
   margin-left: 25px;
   font-weight: 500;
-  color: #ba1414;
+  color: var(--lego-red-color);
 }
 
 .activeFields {

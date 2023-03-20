@@ -12,6 +12,10 @@
   justify-content: space-between;
 }
 
+.time {
+  color: var(--secondary-font-color);
+}
+
 .eventItemTitle {
   color: var(--lego-font-color);
   margin: 0;

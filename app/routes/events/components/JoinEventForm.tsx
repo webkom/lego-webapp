@@ -7,7 +7,6 @@ import { reduxForm, Field, SubmissionError } from 'redux-form';
 import Button from 'app/components/Button';
 import Card from 'app/components/Card';
 import { Form, Captcha, TextInput } from 'app/components/Form';
-import formStyles from 'app/components/Form/Field.css';
 import Icon from 'app/components/Icon';
 import { Flex } from 'app/components/Layout';
 import LoadingIndicator, { ProgressBar } from 'app/components/LoadingIndicator';
@@ -466,12 +465,9 @@ const JoinEventForm = (props: Props) => {
                     )}
                   </Form>
 
-                  <label className={formStyles.label} htmlFor={feedbackName}>
-                    {feedbackLabel}
-                  </label>
                   <Flex
                     style={{
-                      marginBottom: '20px',
+                      margin: '20px 0',
                     }}
                   >
                     <Field
@@ -479,7 +475,7 @@ const JoinEventForm = (props: Props) => {
                       placeholder="Melding til arrangør"
                       name={feedbackName}
                       component={TextInput.Field}
-                      labelClassName={styles.feedbackLabel}
+                      label={feedbackLabel}
                       className={styles.feedbackText}
                       fieldClassName={styles.feedbackField}
                       rows={1}

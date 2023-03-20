@@ -23,7 +23,7 @@ export const EVENT_CONSTANTS = {
   party: 'Fest',
   social: 'Sosialt',
   event: 'Arrangement',
-  kid_event: 'KID-arrangement',
+  kid_event: 'KiD-arrangement',
   other: 'Annet',
 } as const;
 // Returns the string representation of an EventType

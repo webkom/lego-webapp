@@ -97,7 +97,7 @@
 .dot {
   height: 10px;
   width: 10px;
-  background-color: #e20d13;
+  background-color: var(--lego-red-color);
   border-radius: 50%;
   display: inline-block;
   margin-right: 6px;

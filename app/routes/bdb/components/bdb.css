@@ -178,7 +178,7 @@
 }
 
 .deleteIcon {
-  color: #d13c32;
+  color: var(--danger-color);
 
   &:hover {
     cursor: pointer;

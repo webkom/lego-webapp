@@ -86,7 +86,7 @@ function GroupForm({
         required
       />
       <Button success={!isNew} disabled={invalid || submitting} submit>
-        {isNew ? 'Lag gruppe' : 'Lagre gruppe'}
+        {isNew ? 'Lag gruppe' : 'Lagre endringer'}
       </Button>
     </Form>
   );

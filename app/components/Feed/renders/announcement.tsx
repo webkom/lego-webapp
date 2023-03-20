@@ -15,16 +15,18 @@ export function activityHeader(
   const actor = lookupContext(aggregatedActivity, latestActivity.actor);
   const object = lookupContext(aggregatedActivity, latestActivity.object);
   return (
-    <b>
-      {object.fromGroup ? (
-        <span className={styles.highlight}>{object.fromGroup.name}</span>
-      ) : (
-        htmlTag(contextRender[actor.contentType](actor))
-      )}
-      {' sendte ut en kunngjøring:'}
+    <span>
+      <b>
+        {object.fromGroup ? (
+          <span className={styles.highlight}>{object.fromGroup.name}</span>
+        ) : (
+          htmlTag(contextRender[actor.contentType](actor))
+        )}
+        {' sendte ut en kunngjøring:'}
+      </b>
       <br />
       {htmlTag(contextRender[object.contentType](object))}
-    </b>
+    </span>
   );
 }
 export function activityContent() {

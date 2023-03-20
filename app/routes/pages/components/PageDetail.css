@@ -53,6 +53,7 @@ div .cont {
 }
 
 .mainTxt {
+  margin-top: 1em;
   padding: 2em 1.5em;
   flex-grow: 1;
 }
