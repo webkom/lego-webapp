@@ -136,6 +136,8 @@ steps:
     image: node:16-alpine
     when:
       event: [push]
+      branch:
+        exclude: [build]
     depends_on:
       - postgres
       - minio
@@ -332,6 +334,6 @@ image_pull_secrets:
 
 ---
 kind: signature
-hmac: c4e7ed334ff36b875afd68d769dec76a2cb15ba2239344f716f2c717585efbd3
+hmac: 8f83845c7b79818c5d134ac26d38e837d4540f736f59aebbd04c43000a929feb
 
 ...
