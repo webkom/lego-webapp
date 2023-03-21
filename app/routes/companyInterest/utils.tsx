@@ -52,8 +52,8 @@ export const semesterToText = ({
 };
 export const interestText = {
   comment: {
-    norwegian: 'Skriv om bedriften eller arrangementet.',
-    english: 'Write about your company or the event.',
+    norwegian: 'Skriv litt om bedriften.',
+    english: 'Write a little about your company.',
   },
   courseComment: {
     norwegian: 'Skriv litt om hva slags faglig arrangement dere ønsker.',
@@ -67,12 +67,33 @@ export const interestText = {
     norwegian: 'Skriv litt om hva slags alternativt arrangement dere ønsker.',
     english: 'Write a litte about the alternative event you wish for.',
   },
+  startUpComment: {
+    norwegian: 'Skriv litt om hva slags startup-arrangement dere ønsker.',
+    english: 'Write a litte about the startup event you wish for.',
+  },
+  lunchPresentationComment: {
+    norwegian: 'Skriv litt om hva slags lunsjpresentasjon dere ønsker.',
+    english: 'Write a litte about the lunch presentation you wish for.',
+  },
+  bedexComment: {
+    norwegian: 'Skriv litt om hva slags bedex-arrangement dere ønsker.',
+    english: 'Write a litte about the bedex event you wish for.',
+  },
+  companyToCompanyComment: {
+    norwegian:
+      'Skriv litt om hva slags bedrift-til-bedriftsarrangement dere ønsker.',
+    english: 'Write a litte about the company to company event you wish for.',
+  },
+  companyPresentationComment: {
+    norwegian: 'Skriv litt om hva slags bedriftspresentasjon dere ønsker.',
+    english: 'Write a litte about the company presentation event you wish for.',
+  },
+
   text: {
     first: {
       norwegian:
-        'Dersom dere ikke har hatt arrangement med Abakus før, eller om det er lenge siden vi har samarbeidet, ønsker vi at dere skriver litt om selskapet. Dette hjelper oss mye når vi skal sette sammen arrangementskalenderen.',
-      english:
-        'If you have not previously organized an event with Abakus previously, or if it has  been a while since we last cooperated, we would like you to tell us a bit about  your company. That is helpful when we are distributing dates for events. ',
+        'Kan dere skrive litt om deres bedrift og hva dere jobber med?',
+      english: 'Can you write a little about your company and what you do?',
     },
     second: {
       norwegian:
@@ -104,26 +125,57 @@ export const interestText = {
   },
   priorityReasoning: {
     norwegian:
-      'Vi velger bedrifter på bakgrunn av mange faktorer. Vi ønsker likevel å vektlegge bedrifter med ambisjoner om et alternativt opplegg. Bedrifter som for eksempel er interessert i å samarbeide med andre linjeforeninger/bedrifter om større arrangement (som Bedrift-til-Bedrift). Vi begrunner dette med et ønske fra studentene om nytenking rundt «formatet» til en standard bedriftspresentasjon. Vi tror dette vil gi studentene et attraktivt arrangement, som er mer konkurransedyktig enn det som  tilbys i dag. ',
+      'Vi velger bedrifter på bakgrunn av mange faktorer. Vi ønsker å ha et sammensatt og variert tilbud som representerer flere ulike bransjer, teknologier og type arrangement. Viktige faktorer er kreativitet, nytenking og interaktivitet.',
     english:
-      'We choose companies based on a lot of factors. However, we want to prioritize companies who could be interested in creating an alternative event. Companies  who for instance want to collaborate with other student organizations/Companies to create a bigger event. This is because the students have requested that we act innovative when creating a company event (to make them  more diverse). We also think that this will make events even more in-demand, than the ones offered today.',
+      'We choose companies based on many factors. We want to have a varied and diverse offer that represents many different industries, technologies and types of events. Important factors are creativity, innovation and interactivity.',
+  },
+  companyPresentationDescription: {
+    norwegian:
+      'Vi ønsker gjerne at dere vil beskrive hvordan bedriftspresentasjon dere ønsker. Har dere noen tanker om innhold i presentasjonen dere ønsker å fokusere på eller typen mingling i etterkant?',
+    english:
+      'We would like for you to describe the type of company presentation you want. Do you have any thoughts about the content of the presentation that you want to focus on or the type of networking afterwards?',
+  },
+
+  lunchPresentationDescriptiont: {
+    norwegian:
+      'Skriv gjerne litt om hvordan presentasjon dere ønsker i forhold til innhold og mingling. I motsetning til bedriftspresentasjon legger denne opp til å starte ved lunsjtider og holder minglingen på Gløshaugen.',
+    english:
+      'Please write a little bit about the type of presentation you would like in terms of content and networking. In contrast to the company presentation, this is scheduled to start at lunchtime and will hold networking at Gløshaugen.',
   },
   courseDescription: {
     norwegian:
-      'Dersom dere krysser av faglig arrangement: Vi ønsker at dere pitcher en idé til kurstema. For eksempel kan det være et tema som dere jobber med mye internt i bedriften, eller noe helt annet - et tema som er nytt, spennende eller lærerikt. Generelt noe dere tror studentene vil synes er gøy og interessant.',
+      'Vi ønsker gjerne at dere pitcher en ide til kurstema eller hva slags type kurs dere ønsker å arrangere. Har dere noe dere jobber mye med internt? Noe som passer ifht. de foreslåtte temaene eller noe dere tror er spennende?',
     english:
-      'If you choose the course option: We want you to pitch an idea for a course theme. For example, it could be a topic that you work on a lot internally in the company, or something completely different - a topic that is new, exciting or educational. Generally something you think the students will find fun and interesting.',
+      'We would like for you to pitch an idea for a course topic or the type of course you would like to arrange. Is there something you are working on a lot internally? Something that fits with the proposed topics or something you think is exciting?',
   },
   breakfastTalkDescription: {
     norwegian:
-      'Frokostforedrag er et populært tilbud i Abakus. Tidligere temaer har vært: cybersikkerhet, motivasjonsforedrag og bærekraftig IT. Dog står dere helt fritt til å velge hva dere vil prate om. Praktisk info om frokostforedrag: \n Frokostforedrag tildeles på behov til bedrifter som presenterer gode eller spennende temaer som passer til konseptet. Altså er frokostforedrag uavhengig av tildelingen på bedriftskurs / presentasjoner. \n Dere får max. 5 min til å snakke om deres egen bedrift i starten av foredraget. Deretter må det handle om et konkret tema. \n Foredraget vil finne sted om morgenen på skolen. Mange av studentene har forelesninger utover dagen, så det er ingen garanti for mingling i etterkant av foredraget. Likevel hender det at studenter blir igjen en stund for å stille spørsmål. \n Videre ønsker vi også at dere skriver litt om hva slags type foredrag dere ser for dere å holde.',
+      'Tildeling av frokostforedrag skjer uavhengig av andre tildelelser, så dere kan få frokostforedrag i tillegg til et annet arrangement. Vi ønsker gjerne at dere foreslår temaer til frokostforedraget dere ønsker å holde. Det er åpent for alt. Tidligere temaer har vært softskills, spennende caser fra jobb, teknologiutvikling, motivasjonsforedrag eller bærekraft.',
     english:
-      'If you choose the breakfast talk option: Breakfast talks are a popular offer in Abakus. Previous topics have been cyber security, motivational talks and sustainable IT. Howerver, you are completely free to choose what you want to talk about. Practical information about breakfast talks: \n Breakfast talks are given on demand to companies that present good or exciting topics that fit the concept. In other words, breakfast talks are independent of the allocation to business courses / presentations. \n You get max 5 minutes to talk about your own company at the start of the lecture. Then it must be about a specific topic. \n The lecture will take place in the morning at campus. Many of the students have lectures throughout the day, so there is no guarantee of mingling after the talk. Nevertheless, it happens that students stay for a while to ask questions. \n Furthermore, we also want you to write a little about the type of talk you envision yourself giving.',
+      'Allocation of the breakfast lecture is independent of other allocations, so you can have a breakfast talk in addition to another event. We would like for you to suggest topics for the breakfast lecture you want to hold. We are open for everything. Previous topics have been soft skills, exciting cases from work, technology development, motivational lectures, or sustainability.',
+  },
+  bedexDescription: {
+    norwegian:
+      'BedEx er Abakus sin bedriftsekskursjon til Oslo for studenter i 4. og 5. klasse. I løpet av 3 dager i Oslo får dere besøke 6 spennende bedrifter som tar dere imot i sine kontorlokaler. Her vil dere gjennom opplegg fra bedriften og møte med de ansatte få et ekstra godt innblikk i hva bedriften driver med, og hvordan de jobber. BedEx-teamet bestiller felles flytur fra Trondheim til Oslo på morgenen onsdag 07. september, og hotell til og med lørdag 10. september. Hjemreisen bestiller hver enkelt deltaker selv, slik at de som vil besøke familie i nærheten eller ta en langhelg i Oslo har muligheten til dette.',
+    english:
+      "BedEx is Abakus' company excursion to Oslo for students in their 4th and 5th year of study. Over the course of 3 days in Oslo, you will visit 6 exciting companies that will welcome you to their office space. Through activities arranged by the companies and meetings with their employees, you will gain a deeper insight into what the company does and how they operate. The BedEx team will book a shared flight from Trondheim to Oslo on the morning of Wednesday, September 7th, as well as hotel accommodations until Saturday, September 10th. Each participant is responsible for booking their own return travel, giving those who wish to visit family in the area or spend an extended weekend in Oslo the opportunity to do so.",
   },
   otherEventDescription: {
     norwegian:
-      'Dersom dere krysser av på alternativt arrangement ønsker vi også at dere skriver litt om hva slags type arrangement dere ser for dere å holde. Ønsker dere å gjøre noe utenfor de vanlige rammene? Vi har også idéer til hva som kan være et attraktivt opplegg, så om dere er fleksible, skriv gjerne at dere er åpne for forslag. Idéer kan være Kodekamp, Lazertag, Gocart, CTF-kveld, Paint&Sip, kveld på LaBamba (Abakus sin kjeller) o.l., mulighetene er altså mange.',
+      'Har dere ønsker om å arrangere noe mer enn en vanlig bedriftspresentasjon eller noe som ikke helt passer som et faglig arrangement? Skriv en beskrivelse av hva dere har tenkt eller ønsker. Også mulig å sparre med oss så kan vi finne på spennende arrangementer.',
     english:
-      "We'd prefer it if you also write a little bit about what kind of event you would like to have. Do you want something outside the given options? We can also provide different ideas, which could make your company stand out, and make the event itself more popular. In that case, please tell us that you are open to hear our suggestions. Ideas can be: Lazertag, CTF, Paint&Sip, A night at LaBamba (Abakus` own pub). In other words, the possibilities are many and varied.",
+      "Do you have any wishes to arrange something more than a regular company presentation or something that doesn't quite fit as a professional event? Write a description of what you have in mind or want. It is also possible to brainstorm with us so that we can come up with exciting events.",
+  },
+  startUpDescription: {
+    norwegian:
+      'Er dere en start-up som hadde vært spennende å høre om på en av våre start-up kvelder? Da er det bare å skrive en beskrivelse her og gjerne litt hva/hvordan arrangement dere kan ha lyst på.',
+    english:
+      'Are you a start-up that would be exciting to hear about at one of our start-up evenings? Then just write a description here and also what kind of event you might want.',
+  },
+  companyToCompanyDescription: {
+    norwegian:
+      'Et av våre mer spennende arrangementer er bedrift til bedrift. Her er det 3 grupper som rullerer på å besøke bedriften deres i ca. 40 minutter og ser hvordan dere har det før vi drar ut og har felles mingling. Her kan det presenteres caser fra deres bedrift, ha escape room konkurranser eller finne på noe annet gøy. Skriv gjerne om dere har noen gode ideer.',
+    english:
+      'One of our more exciting events is the company-to-company event. Here, there are 3 groups that in turn visit your company for about 40 minutes and see how you are doing before we go out and have a common networking event. Cases from your company can be presented, escape room competitions can be held, or something else fun can be arranged. Please write about any good ideas you have.',
   },
 };

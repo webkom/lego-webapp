@@ -16,6 +16,7 @@ import { normalizeObjectPermissions } from 'app/components/Form/ObjectPermission
 import Icon from 'app/components/Icon';
 import Flex from 'app/components/Layout/Flex';
 import LoadingIndicator from 'app/components/LoadingIndicator';
+import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import NavigationTab from 'app/components/NavigationTab';
 import Tooltip from 'app/components/Tooltip';
 import type { DetailedArticle } from 'app/store/models/Article';
@@ -47,8 +48,8 @@ const ArticleEditor = ({
     return <LoadingIndicator loading />;
   }
 
-  const handleDeleteArticle = () => {
-    deleteArticle(articleId).then(() => {
+  const handleDeleteArticle = async () => {
+    await deleteArticle(articleId).then(() => {
       push('/articles/');
     });
   };
@@ -162,10 +163,16 @@ const ArticleEditor = ({
             {!isNew ? 'Lagre endringer' : 'Opprett'}
           </Button>
           {!isNew && (
-            <Button danger onClick={handleDeleteArticle}>
-              <Icon name="trash" size={19} />
-              Slett artikkel
-            </Button>
+            <ConfirmModalWithParent
+              title="Slett artikkelen"
+              message="Er du sikker på at du vil slette artikkelen?"
+              onConfirm={handleDeleteArticle}
+            >
+              <Button danger>
+                <Icon name="trash" size={19} />
+                Slett artikkel
+              </Button>
+            </ConfirmModalWithParent>
           )}
         </Flex>
       </Form>

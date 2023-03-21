@@ -9,7 +9,11 @@ import {
   deleteEvent,
   setCoverPhoto,
 } from 'app/actions/EventActions';
-import { fetchImageGallery, uploadFile } from 'app/actions/FileActions';
+import {
+  fetchImageGallery,
+  setSaveForUse,
+  uploadFile,
+} from 'app/actions/FileActions';
 import { LoginPage } from 'app/components/LoginForm';
 import {
   selectEventById,
@@ -94,7 +98,7 @@ const mapStateToProps = (state, props) => {
       hasFeedbackQuestion: !!event.feedbackDescription,
     },
     imageGallery: imageGallery.map((e) => {
-      return { key: e.key, cover: e.cover };
+      return { key: e.key, cover: e.cover, token: e.token };
     }),
     actionGrant,
     event: {
@@ -138,6 +142,7 @@ const mapDispatchToProps = {
   handleSubmitCallback: (event) => editEvent(transformEvent(event)),
   uploadFile,
   setCoverPhoto,
+  setSaveForUse,
   push,
 };
 export default compose(

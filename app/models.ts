@@ -1,4 +1,5 @@
 import type Comment from 'app/store/models/Comment';
+import type { ReactionsGrouped } from './store/models/Reaction';
 import type { Moment } from 'moment';
 // TODO: Id handling could be opaque
 export type ID = number;
@@ -142,10 +143,16 @@ export type Group = {
   active: boolean;
   contactEmail: string;
 };
+
+type Cover = {
+  url: string;
+  fileKey: string;
+};
+
 type EventBase = {
   id: ID;
   title: string;
-  cover: string;
+  cover: Cover;
   coverPlaceholder: string;
   description: string;
   createdAt: Dateish | null | undefined;
@@ -232,11 +239,10 @@ export type EventPool = EventPoolBase & {
 type imageGalleryEntry = {
   key: string;
   cover: string;
+  token: string;
 };
 
-export type imageGallery = {
-  imageGalleryEntry: [imageGalleryEntry];
-};
+export type imageGallery = imageGalleryEntry[];
 
 export type Event = EventBase & {
   actionGrant: ActionGrant;
@@ -327,6 +333,7 @@ export type Meeting = {
   comments?: ID[];
   contentTarget?: string;
   actionGrant?: ActionGrant;
+  reactionsGrouped?: ReactionsGrouped;
 };
 
 export type AddPenalty = {

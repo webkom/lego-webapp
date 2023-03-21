@@ -1,4 +1,5 @@
 import moment from 'moment-timezone';
+import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Field, FieldArray } from 'redux-form';
 import {
@@ -23,6 +24,8 @@ import Icon from 'app/components/Icon';
 import { Flex } from 'app/components/Layout';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import MazemapLink from 'app/components/MazemapEmbed/MazemapLink';
+import Modal from 'app/components/Modal';
+import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import NavigationTab from 'app/components/NavigationTab';
 import Tag from 'app/components/Tags/Tag';
 import { FormatTime } from 'app/components/Time';
@@ -72,6 +75,8 @@ type Props = {
   initialized: boolean;
   push: (arg0: string) => void;
   imageGallery: imageGallery;
+  change: (arg0: string, arg1: any) => void;
+  setSaveForUse: (arg0: string, arg1: boolean) => Promise<any>;
 };
 
 function EventEditor({
@@ -90,8 +95,13 @@ function EventEditor({
   initialized,
   push,
   imageGallery,
+  change,
+  setSaveForUse,
 }: Props) {
   const isEditPage = eventId !== undefined;
+  const [showImageGallery, setShowImageGallery] = useState(false);
+  const [useImageGallery, setUseImageGallery] = useState(false);
+  const [imageGalleryUrl, setImageGalleryUrl] = useState('');
 
   if (isEditPage && !actionGrant.includes('edit')) {
     return null;
@@ -134,36 +144,106 @@ function EventEditor({
           name="cover"
           component={ImageUploadField}
           uploadFile={uploadFile}
-          edit={isEditPage && ((token) => setCoverPhoto(eventId, token))}
           aspectRatio={20 / 6}
-          img={event.cover}
+          img={useImageGallery ? imageGalleryUrl : event.cover}
         />
+        <Modal
+          show={showImageGallery}
+          onHide={() => setShowImageGallery(false)}
+          contentClassName={styles.imageGallery}
+        >
+          <>
+            <Flex column alignItems="center">
+              <h1>Bildegalleri:</h1>
+              <Flex wrap alignItems="center" justifyContent="space-around">
+                {imageGallery &&
+                  imageGallery.map((e) => {
+                    return (
+                      <div key={e.key} className={styles.imageGalleryContainer}>
+                        <ConfirmModalWithParent
+                          title="Fjern fra galleri"
+                          message="Er du sikker på at du vil fjerne bildet fra bildegalleriet? (Bildet blir ikke slettet!)"
+                          onConfirm={() =>
+                            setSaveForUse(`${e.key}:${e.token}`, false)
+                          }
+                          closeOnConfirm
+                        >
+                          <button className={styles.closeButton}>
+                            <Icon name="close-circle" size={24} />
+                          </button>
+                        </ConfirmModalWithParent>
+
+                        <img
+                          src={`${e.cover}`}
+                          key={e.key}
+                          onClick={() => {
+                            change('cover', `${e.key}:${e.token}`);
+                            setShowImageGallery(false);
+                            setUseImageGallery(true);
+                            setImageGalleryUrl(e.cover);
+                          }}
+                          className={styles.imageGalleryEntry}
+                        />
+                      </div>
+                    );
+                  })}
+                {imageGallery.length === 0 && (
+                  <h2>
+                    Det finnes ingen bilder i bildegalleriet. Hvorfor ikke laste
+                    opp ett?
+                  </h2>
+                )}
+              </Flex>
+            </Flex>
+          </>
+        </Modal>
+
+        <Flex wrap alignItems="center" justifyContent="space-between">
+          <Flex alignItems="center" justifyContent="space-between">
+            <Button
+              className={styles.scannerButton}
+              onClick={() => setShowImageGallery(true)}
+            >
+              Velg bilde fra Bildegalleriet
+            </Button>
+            <Tooltip content="Velg et bilde som er lastet opp og markert for bruk fra tidligere arrangementer.">
+              <Icon
+                name="information-circle-outline"
+                size={20}
+                style={{
+                  cursor: 'pointer',
+                  marginLeft: '0.5em',
+                }}
+              />
+            </Tooltip>
+          </Flex>
+
+          <Tooltip content="Lagre bildet til bildegalleriet. Det kan da brukes i andre arrangementer.">
+            <Field
+              label="Lagre til bildegalleriet"
+              name="saveToImageGallery"
+              component={CheckBox.Field}
+              fieldClassName={styles.metaField}
+              className={styles.formField}
+              normalize={(v) => !!v}
+            />
+          </Tooltip>
+        </Flex>
         <Flex>
           <Field
             name="youtubeUrl"
             label={
-              <Flex>
+              <Flex alignItems="center" gap={6}>
                 <div>Erstatt cover-bildet med video fra YouTube</div>
-                <div
-                  style={{
-                    marginLeft: '5px',
-                  }}
-                >
-                  <Tooltip
+                <Tooltip content="Valgfritt felt. Videoen erstatter ikke coveret i listen over arrangementer.">
+                  <Icon
+                    name="information-circle-outline"
+                    size={20}
                     style={{
-                      marginLeft: '3px',
+                      cursor: 'pointer',
                     }}
-                    content="Valgfritt felt. Videoen erstatter ikke coveret i listen over arrangementer."
-                  >
-                    <Icon
-                      name="information-circle-outline"
-                      size={20}
-                      style={{
-                        cursor: 'pointer',
-                      }}
-                    />
-                  </Tooltip>
-                </div>
+                  />
+                </Tooltip>
               </Flex>
             }
             placeholder="https://www.youtube.com/watch?v=bLHL75H_VEM&t=5"
@@ -180,12 +260,12 @@ function EventEditor({
         />
         <Flex wrap alignItems="center" justifyContent="space-between">
           <Field
+            label="Tittel"
             name="title"
             placeholder="Tittel"
             style={{
-              borderBottom: `2px solid ${color}`,
+              borderBottom: `3px solid ${color}`,
             }}
-            className={styles.title}
             component={TextInput.Field}
           />
         </Flex>
@@ -206,8 +286,6 @@ function EventEditor({
               uploadFile={uploadFile}
               initialized={initialized}
             />
-            {/* eslint-disable-next-line */}
-            {/* @ts-ignore There are some issues with our postcss config and the TS css module plugin */}
             <Flex className={styles.tagRow}>
               {(event.tags || []).map((tag, i) => (
                 <Tag key={i} tag={tag} />
@@ -700,6 +778,10 @@ const validate = (data) => {
 export default legoForm({
   form: 'eventEditor',
   validate,
-  onSubmit: (values, dispatch, props: Props) =>
-    props.handleSubmitCallback(values),
+  onSubmit: (values, dispatch, props: Props) => {
+    props.handleSubmitCallback(values);
+    if (values.saveToImageGallery) {
+      props.setSaveForUse(values.cover, true);
+    }
+  },
 })(EventEditor);

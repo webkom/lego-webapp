@@ -1,15 +1,15 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import {
+  editCompany,
+  fetchAdmin,
+  deleteCompany,
+} from 'app/actions/CompanyActions';
 import { uploadFile } from 'app/actions/FileActions';
 import { LoginPage } from 'app/components/LoginForm';
 import { selectCompanyById } from 'app/reducers/companies';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
-import {
-  editCompany,
-  fetchAdmin,
-  deleteCompany,
-} from '../../actions/CompanyActions';
 import CompanyEditor from './components/CompanyEditor';
 
 const mapStateToProps = (state, props) => {

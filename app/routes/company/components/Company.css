@@ -1,15 +1,13 @@
 @import url('~app/styles/variables.css');
 
-.infoIcon {
-  min-width: 26px;
-  display: flex;
-  justify-content: center;
-  padding-right: 0.2em;
-}
-
 .sectionHeader {
   font-size: 20px;
   margin-top: 20px;
   border-bottom: 1px solid var(--border-gray);
   margin-bottom: 20px;
+}
+
+.noEventsMessage {
+  color: var(--secondary-font-color);
+  font-style: italic;
 }

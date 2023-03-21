@@ -15,16 +15,28 @@ import type { Required } from 'utility-types';
 
 type UserWithUsername = Required<Partial<UserSearchResult>, 'username'>;
 
-type Props = {
+type Res = {
+  payload: unknown;
+};
+
+type Props = Omit<
+  ComponentProps<typeof SearchPage<UserSearchResult>>,
+  'handleSelect'
+> & {
   clearSearch: () => void;
-  handleSelect: (arg0: UserWithUsername) => Promise<User>;
+  handleSelect: (arg0: UserWithUsername) => Promise<User | Res>;
   onQueryChanged: (arg0: string) => void;
   results: Array<UserSearchResult>;
   searching: boolean;
-} & ComponentProps<typeof SearchPage<UserSearchResult>>;
+  validateAbakusGroup: boolean;
+};
+
+const isUser = (user: User | Res): user is User => {
+  return 'username' in user;
+};
 
 const Validator = (props: Props) => {
-  const { clearSearch, handleSelect } = props;
+  const { clearSearch, handleSelect, validateAbakusGroup } = props;
   const input = useRef<HTMLInputElement | null | undefined>(null);
   const [completed, setCompleted] = useState(false);
   const [showScanner, setShowScanner] = useState(false);
@@ -39,8 +51,8 @@ const Validator = (props: Props) => {
       clearSearch();
       return handleSelect(result)
         .then(
-          (user: User) => {
-            if (user.isAbakusMember) {
+          (user) => {
+            if (!validateAbakusGroup || (isUser(user) && user.isAbakusMember)) {
               const sound = new window.Audio(goodSound);
               sound.play();
               showCompleted();
@@ -50,8 +62,11 @@ const Validator = (props: Props) => {
           },
           (err) => {
             const payload = get(err, 'payload.response.jsonData');
-
-            if (payload && payload.detail === 'Not found.') {
+            if (payload && payload.errorCode === 'not_registered') {
+              alert('Bruker er ikke påmeldt på eventet!');
+            } else if (payload && payload.errorCode === 'already_present') {
+              alert(payload.error);
+            } else if (payload && payload.detail === 'Not found.') {
               alert(`Brukeren finnes ikke!\nBrukernavn: ${result.username}`);
             } else {
               alert(
@@ -66,7 +81,7 @@ const Validator = (props: Props) => {
           }
         });
     },
-    [clearSearch, handleSelect]
+    [clearSearch, handleSelect, validateAbakusGroup]
   );
 
   const handleScannerResult = (scannerResult: string) => {

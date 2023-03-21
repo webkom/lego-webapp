@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import { applySelectedTheme, getTheme } from 'app/utils/themeUtils';
 import Icon from '../Icon';
 import styles from './toggleTheme.css';
@@ -24,7 +24,14 @@ const ToggleTheme = ({
   children,
   isButton = true,
 }: Props) => {
-  const [icon, setIcon] = useState(getIcon());
+  const [icon, setIcon] = useState('moon');
+
+  // Since the theme depends on the client preferences, we need to just set it static on SSR and
+  // update to the correct icon once on the client.
+  useEffect(() => {
+    setIcon(getIcon());
+  }, []);
+
   const handleThemeChange = useCallback(
     (e) => {
       e.preventDefault();

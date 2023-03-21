@@ -2,7 +2,9 @@ import { map, toPairs } from 'lodash';
 import { Component } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
+import Card from 'app/components/Card';
 import { Content } from 'app/components/Content';
+import Flex from 'app/components/Layout/Flex';
 import styles from './TagDetail.css';
 
 type Props = {
@@ -37,14 +39,14 @@ class TagDetail extends Component<Props> {
         <Helmet title={tag.tag} />
         <h1>{tag.tag}</h1>
 
-        <div className={styles.wrapper}>
+        <Flex wrap>
           {map(toPairs(tag.relatedCounts), (pair) => (
-            <div className={styles.entity}>
+            <Card className={styles.entity}>
               <h2>{pair[1]}</h2>
               {this.link(pair[0], tag.tag)}
-            </div>
+            </Card>
           ))}
-        </div>
+        </Flex>
       </Content>
     );
   }

@@ -35,6 +35,7 @@ const EventAdministrateIndex = (props: Props) => {
         }}
       >
         <NavigationLink to={`${base}/attendees`}>Påmeldinger</NavigationLink>
+        <NavigationLink to={`${base}/allergies`}>Allergier</NavigationLink>
         <NavigationLink to={`${base}/statistics`}>Statistikk</NavigationLink>
         <NavigationLink to={`${base}/admin-register`}>
           Adminregistrering

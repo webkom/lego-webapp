@@ -19,3 +19,9 @@
   display: flex;
   margin-bottom: 10px;
 }
+
+.meetingReactions {
+  display: flex;
+  flex-direction: row;
+  margin: 0.5em 0;
+}

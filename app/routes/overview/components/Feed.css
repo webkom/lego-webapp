@@ -19,7 +19,7 @@
 .content {
   border: 1px solid rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 9%);
   box-shadow: var(--shadow-sm);
-  border-radius: 3px;
+  border-radius: var(--border-radius-md);
   overflow-y: auto;
   height: 459px;
   flex: 1;

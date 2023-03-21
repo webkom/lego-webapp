@@ -7,10 +7,10 @@ import type { FormApi } from 'final-form';
 import type { FormProps } from 'react-final-form';
 
 const focusOnError = createFocusOnErrorDecorator();
-type LegoFormProps = {
+type LegoFormProps<FormValues> = {
   onSubmit: (
-    values: Record<string, any>,
-    form: FormApi<Record<string, any>>
+    values: FormValues,
+    form: FormApi<FormValues>
   ) => Promise<Record<string, any> | void | null | undefined>;
 
   /*
@@ -23,16 +23,16 @@ type LegoFormProps = {
   /* Move the screen to the first error in the list on SubmissionError */
   enableFocusOnError?: boolean;
 };
-type Props = LegoFormProps & FormProps<Record<string, any>>;
+type Props<FormValues> = LegoFormProps<FormValues> & FormProps<FormValues>;
 
-const LegoFinalForm = ({
+const LegoFinalForm = <FormValues,>({
   children,
   onSubmit,
   enableSubmissionError = true,
   enableFocusOnError = true,
   decorators = [],
   ...rest
-}: Props) => {
+}: Props<FormValues>) => {
   if (enableFocusOnError) {
     decorators = [focusOnError, ...decorators];
   }

@@ -58,7 +58,7 @@
   margin: 25px auto;
   background: #fff;
   border: 0;
-  border-radius: 15px;
+  border-radius: var(--border-radius-lg);
   width: 70%;
 }
 
@@ -71,7 +71,7 @@
   float: left;
   position: relative;
   min-width: 20px;
-  border-radius: 15px;
+  border-radius: var(--border-radius-lg);
 }
 
 .progressBar .clear {
@@ -97,7 +97,7 @@
 .dot {
   height: 10px;
   width: 10px;
-  background-color: #e20d13;
+  background-color: var(--lego-red-color);
   border-radius: 50%;
   display: inline-block;
   margin-right: 6px;

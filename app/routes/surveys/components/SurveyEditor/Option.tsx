@@ -1,4 +1,4 @@
-import { Field } from 'redux-form';
+import { Field } from 'react-final-form';
 import Button from 'app/components/Button';
 import { RadioButton, TextInput, CheckBox } from 'app/components/Form';
 import { QuestionTypes } from 'app/routes/surveys/utils';
@@ -47,7 +47,7 @@ const MultipleChoice = (props: Props) => {
 const Checkbox = (props: Props) => {
   return (
     <li>
-      <CheckBox checked={false} className={styles.option} />
+      <CheckBox defaultChecked={false} className={styles.option} />
       <Field
         onChange={props.onChange}
         name={`${props.option}.optionText`}

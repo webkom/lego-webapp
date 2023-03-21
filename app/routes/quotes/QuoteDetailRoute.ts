@@ -2,18 +2,18 @@ import qs from 'qs';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { fetchEmojis } from 'app/actions/EmojiActions';
+import {
+  fetchQuote,
+  approve,
+  unapprove,
+  deleteQuote,
+} from 'app/actions/QuoteActions';
 import { addReaction, deleteReaction } from 'app/actions/ReactionActions';
 import { LoginPage } from 'app/components/LoginForm';
 import { selectEmojis } from 'app/reducers/emojis';
 import { selectQuoteById } from 'app/reducers/quotes';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
-import {
-  fetchQuote,
-  approve,
-  unapprove,
-  deleteQuote,
-} from '../../actions/QuoteActions';
 import QuotePage from './components/QuotePage';
 
 const mapStateToProps = (state, props) => {

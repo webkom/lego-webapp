@@ -1,17 +1,20 @@
 import { FormSpy } from 'react-final-form';
+import type { ReactNode } from 'react';
+import type { FormSpyRenderProps } from 'react-final-form';
 
-export const spyValues = (
-  render: (values: Record<string, any>) => React.ReactNode
+export const spyValues = <FormValues,>(
+  render: (values: FormValues) => ReactNode
 ) => (
   <FormSpy
     subscription={{
       values: true,
     }}
   >
-    {({ values }) => render(values)}
+    {({ values }: FormSpyRenderProps<FormValues>) => render(values)}
   </FormSpy>
 );
-export const spyFormError = (render: (error: any) => React.ReactNode) => (
+
+export const spyFormError = (render: (error: any) => ReactNode) => (
   <FormSpy
     subscription={{
       error: true,
@@ -21,9 +24,8 @@ export const spyFormError = (render: (error: any) => React.ReactNode) => (
     {({ error, submitError }) => render(error || submitError)}
   </FormSpy>
 );
-export const spySubmittable = (
-  render: (submittable: boolean) => React.ReactNode
-) => (
+
+export const spySubmittable = (render: (submittable: boolean) => ReactNode) => (
   <FormSpy
     subscription={{
       pristine: true,

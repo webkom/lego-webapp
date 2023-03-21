@@ -30,8 +30,8 @@
   font-weight: 500;
   color: var(--lego-font-color);
   margin-bottom: 0.8em;
-  border-radius: 5px;
-  padding: 6px 8px;
+  border-radius: var(--border-radius-md);
+  padding: 7px 8px;
   width: 100%;
 }
 
@@ -47,7 +47,7 @@
 .links {
   margin-left: 0.5em;
   width: 93%;
-  border-radius: 6px;
+  border-radius: var(--border-radius-md);
 }
 
 .links:hover {
@@ -58,13 +58,13 @@
   font-weight: normal;
   padding: 8px;
   margin-bottom: 10px;
-  border-radius: 6px;
+  border-radius: var(--border-radius-md);
 }
 
 .selected {
   padding: 8px;
-  margin: 0 0 10px;
-  border-radius: 6px;
+  margin-bottom: 10px;
+  border-radius: var(--border-radius-md);
   color: var(--color-absolute-white);
   background-color: var(--color-red-3);
 }

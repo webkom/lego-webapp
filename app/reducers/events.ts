@@ -176,11 +176,11 @@ export default createEntityReducer({
 function transformEvent(event: EventType) {
   return {
     ...event,
-    startTime: moment(event.startTime),
-    endTime: moment(event.endTime),
+    startTime: event.startTime && moment(event.startTime).toISOString(),
+    endTime: event.endTime && moment(event.endTime).toISOString(),
     activationTime:
-      event.activationTime !== null ? moment(event.activationTime) : null,
-    mergeTime: event.mergeTime && moment(event.mergeTime),
+      event.activationTime && moment(event.activationTime).toISOString(),
+    mergeTime: event.mergeTime && moment(event.mergeTime).toISOString(),
     useCaptcha: config.environment === 'ci' ? false : event.useCaptcha,
   };
 }
@@ -208,7 +208,9 @@ export const selectUpcomingEvents = createSelector(selectEvents, (events) =>
   events.filter((event) => event.isUsersUpcoming)
 );
 export const selectSortedEvents = createSelector(selectEvents, (events) =>
-  [...events].sort((a, b) => a.startTime.unix() - b.startTime.unix())
+  [...events].sort(
+    (a, b) => moment(a.startTime).unix() - moment(b.startTime).unix()
+  )
 );
 export const selectEventById = createSelector(
   (state) => state.events.byId,

@@ -18,6 +18,7 @@ import InfoList from 'app/components/InfoList';
 import { Flex } from 'app/components/Layout';
 import { MazemapEmbed } from 'app/components/MazemapEmbed';
 import Tag from 'app/components/Tags/Tag';
+import TextWithIcon from 'app/components/TextWithIcon';
 import { FormatTime, FromToTime } from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
 import {
@@ -250,22 +251,21 @@ export default class EventDetail extends Component<Props, State> {
         ? {
             key: 'Frist for prikk',
             keyNode: (
-              <Tooltip
-                content={
-                  <span>
+              <TextWithIcon
+                iconName="help-circle-outline"
+                content="Frist for prikk"
+                tooltipContentIcon={
+                  <>
                     Lurer du på hvordan prikksystemet fungerer? Sjekk ut{' '}
                     <Link to="/pages/arrangementer/26-arrangementsregler">
                       arrangementsreglene
                     </Link>
                     .
-                  </span>
+                  </>
                 }
-              >
-                <Flex alignItems="center" gap={4}>
-                  Frist for prikk
-                  <Icon name="help-circle-outline" size={16} />
-                </Flex>
-              </Tooltip>
+                iconRight={true}
+                size={16}
+              />
             ),
             value: (
               <FormatTime
@@ -279,21 +279,22 @@ export default class EventDetail extends Component<Props, State> {
         ? {
             key: 'Frist for av/påmelding',
             keyNode: (
-              <Tooltip
+              <TextWithIcon
+                iconName="help-circle-outline"
                 content={
-                  <span>
+                  currentMoment.isBefore(registrationCloseTimeMoment)
+                    ? 'Påmelding stenger'
+                    : 'Påmelding stengte'
+                }
+                tooltipContentIcon={
+                  <>
                     Etter påmeldingen stenger er det hverken mulig å melde seg
                     på eller av arrangementet.
-                  </span>
+                  </>
                 }
-              >
-                <Flex alignItems="center" gap={4}>
-                  {currentMoment.isBefore(registrationCloseTimeMoment)
-                    ? 'Påmelding stenger'
-                    : 'Påmelding stengte'}{' '}
-                  <Icon name="help-circle-outline" size={16} />
-                </Flex>
-              </Tooltip>
+                iconRight={true}
+                size={16}
+              />
             ),
             value: (
               <FormatTime
@@ -353,238 +354,236 @@ export default class EventDetail extends Component<Props, State> {
     ];
 
     return (
-      <div>
-        <Content
-          banner={event.cover || event.company?.logo}
-          bannerPlaceholder={
-            event.coverPlaceholder || event.company?.logoPlaceholder
-          }
-          youtubeUrl={event.youtubeUrl}
+      <Content
+        banner={event.cover || event.company?.logo}
+        bannerPlaceholder={
+          event.coverPlaceholder || event.company?.logoPlaceholder
+        }
+        youtubeUrl={event.youtubeUrl}
+      >
+        <ContentHeader
+          borderColor={color}
+          onClick={loggedIn ? onRegisterClick : undefined}
+          className={styles.title}
+          event={event}
         >
-          <ContentHeader
-            borderColor={color}
-            onClick={loggedIn && onRegisterClick}
-            className={styles.title}
-            event={event}
-          >
-            {loggedIn && <InterestedButton isInterested={!!event.following} />}
-            {event.title}
-          </ContentHeader>
+          {loggedIn && <InterestedButton isInterested={!!event.following} />}
+          {event.title}
+        </ContentHeader>
 
-          <ContentSection>
-            <ContentMain>
-              <DisplayContent content={event.text} />
-              <Flex className={styles.tagRow}>
-                {event.tags.map((tag, i) => (
-                  <Tag key={i} tag={tag} />
-                ))}
-              </Flex>
-            </ContentMain>
-            <ContentSidebar>
-              {event.company && (
-                <div className={styles.iconWithText}>
-                  <Icon name="briefcase-outline" className={styles.infoIcon} />
+        <ContentSection>
+          <ContentMain>
+            <DisplayContent content={event.text} />
+            <Flex className={styles.tagRow}>
+              {event.tags.map((tag, i) => (
+                <Tag key={i} tag={tag} />
+              ))}
+            </Flex>
+          </ContentMain>
+          <ContentSidebar>
+            {event.company && (
+              <TextWithIcon
+                iconName="briefcase-outline"
+                content={
                   <Link to={`/companies/${event.company.id}`}>
                     {event.company.name}
                   </Link>
-                </div>
-              )}
-              <div className={styles.iconWithText}>
-                <Icon name="time-outline" className={styles.infoIcon} />
-                <FromToTime from={event.startTime} to={event.endTime} />
-              </div>
-              <div className={styles.infoIconLocation}>
-                <div className={styles.iconWithText}>
-                  <Icon name="location-outline" className={styles.infoIcon} />
-                  {event.location}
-                </div>
-                {event.mazemapPoi && (
-                  <Button
-                    className={styles.mapButton}
-                    onClick={() =>
-                      this.setState({
-                        mapIsOpen: !this.state.mapIsOpen,
-                      })
-                    }
-                  >
-                    <Image
-                      className={styles.mazemapImg}
-                      alt="mazemapLogo"
-                      src={mazemapLogo}
-                    />
-                    {this.state.mapIsOpen ? 'Skjul kart' : 'Vis kart'}
-                  </Button>
-                )}
-              </div>
-
-              {event.isPriced && (
-                <div className={styles.iconWithText}>
-                  <Icon name="cash-outline" className={styles.infoIcon} />
-                  {event.priceMember / 100},-
-                </div>
-              )}
-              {event.mazemapPoi && (
-                <>
-                  {this.state.mapIsOpen && (
-                    <MazemapEmbed mazemapPoi={event.mazemapPoi} />
-                  )}
-                </>
-              )}
-              {['OPEN', 'TBA'].includes(event.eventStatusType) ? (
-                <JoinEventForm event={event} />
-              ) : (
-                <Flex column className={styles.registeredBox}>
-                  <h3>Påmeldte</h3>
-                  {registrations ? (
-                    <Fragment>
-                      <UserGrid
-                        minRows={minUserGridRows}
-                        maxRows={MAX_USER_GRID_ROWS}
-                        users={registrations
-                          .slice(0, 14)
-                          .map((reg) => reg.user)}
-                      />
-                      <ModalParentComponent
-                        key="modal"
-                        pools={pools}
-                        title="Påmeldte"
-                      >
-                        <RegisteredSummary
-                          registrations={registrations}
-                          currentRegistration={currentRegistration}
-                        />
-                        <AttendanceStatus
-                          pools={pools}
-                          legacyRegistrationCount={
-                            event.legacyRegistrationCount
-                          }
-                        />
-                      </ModalParentComponent>
-                    </Fragment>
-                  ) : (
-                    <AttendanceStatus
-                      pools={pools}
-                      legacyRegistrationCount={event.legacyRegistrationCount}
-                    />
-                  )}
-                  {loggedIn && (
-                    <RegistrationMeta
-                      useConsent={event.useConsent}
-                      hasOpened={moment(event.activationTime).isBefore(
-                        currentMoment
-                      )}
-                      photoConsents={event.photoConsents}
-                      eventSemester={getEventSemesterFromStartTime(
-                        event.startTime
-                      )}
-                      hasEnded={moment(event.endTime).isBefore(currentMoment)}
-                      registration={currentRegistration}
-                      isPriced={event.isPriced}
-                      registrationIndex={currentRegistrationIndex}
-                      hasSimpleWaitingList={hasSimpleWaitingList}
-                    />
-                  )}
-                  {event.useContactTracing && !currentRegistration && (
-                    <div>
-                      <i className="fa fa-exclamation-circle" /> Ved å melde deg
-                      på dette arrangementet samtykker du til at
-                      kontaktinformasjonen din (navn, telefonnummer og epost)
-                      kan deles med FHI og NTNU (og eventuelt andre aktører
-                      nevnt i beskrivelsen av arrangementet) for smittesporing.
-                      Kontaktinformasjonen vil være tilgjengelig for brukeren
-                      som laget arrangementet i 14 dager etter at arrangementet
-                      har funnet sted, og vil kun brukes til smittesporing.
-                    </div>
-                  )}
-                  {event.unansweredSurveys &&
-                  event.unansweredSurveys.length > 0 &&
-                  !event.isAdmitted ? (
-                    <div className={sharedStyles.eventWarning}>
-                      <p>
-                        Du kan ikke melde deg på dette arrangementet fordi du
-                        har ubesvarte spørreundersøkelser.
-                      </p>
-                      <br />
-                      <p>
-                        Man må svare på alle spørreundersøkelser for tidligere
-                        arrangementer før man kan melde seg på nye
-                        arrangementer. Du kan svare på undersøkelsene dine ved å
-                        trykke på følgende linker:
-                      </p>
-                      <ul>
-                        {event.unansweredSurveys.map((surveyId, i) => (
-                          <li key={surveyId}>
-                            <Link to={`/surveys/${surveyId}`}>
-                              Undersøkelse {i + 1}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  ) : (
-                    <div>
-                      <JoinEventForm
-                        event={event}
-                        registration={currentRegistration}
-                        currentUser={currentUser}
-                        pendingRegistration={pendingRegistration}
-                        createPaymentIntent={this.handlePaymentMethod}
-                        onSubmit={this.handleRegistration}
-                      />
-                    </div>
-                  )}
-                </Flex>
-              )}
-              {deadlines.some((d) => d !== null) && (
-                <>
-                  <Line />
-                  <InfoList className={styles.infoList} items={deadlines} />
-                </>
-              )}
-              <Line />
-              <InfoList items={eventCreator} className={styles.infoList} />
-              <Line />
-              {loggedIn && (
-                <Link
-                  to={`/users/${currentUser.username}/settings/profile`}
-                  className={styles.iconWithText}
-                >
-                  <Icon name="create-outline" className={styles.infoIcon} />
-                  <span>Oppdater matallergier/preferanser</span>
-                </Link>
-              )}
-              <Link
-                to="/pages/arrangementer/26-arrangementsregler"
-                className={styles.iconWithText}
-              >
-                <Icon name="document-outline" className={styles.infoIcon} />
-                <span>Arrangementsregler</span>
-              </Link>
-              {(actionGrant.includes('edit') ||
-                actionGrant.includes('delete')) && <Line />}
-              <Flex column>
-                <Admin
-                  actionGrant={actionGrant}
-                  event={event}
-                  deleteEvent={deleteEvent}
-                />
-              </Flex>
-            </ContentSidebar>
-          </ContentSection>
-          {event.contentTarget && (
-            <CommentView
-              style={{
-                marginTop: 20,
-              }}
-              user={currentUser}
-              contentTarget={event.contentTarget}
-              loggedIn={loggedIn}
-              comments={comments}
-              deleteComment={deleteComment}
+                }
+              />
+            )}
+            <TextWithIcon
+              iconName="time-outline"
+              content={<FromToTime from={event.startTime} to={event.endTime} />}
             />
-          )}
-        </Content>
-      </div>
+            <div className={styles.infoIconLocation}>
+              <TextWithIcon
+                iconName="location-outline"
+                content={event.location}
+              />
+              {event.mazemapPoi && (
+                <Button
+                  className={styles.mapButton}
+                  onClick={() =>
+                    this.setState({
+                      mapIsOpen: !this.state.mapIsOpen,
+                    })
+                  }
+                >
+                  <Image
+                    className={styles.mazemapImg}
+                    alt="mazemapLogo"
+                    src={mazemapLogo}
+                  />
+                  {this.state.mapIsOpen ? 'Skjul kart' : 'Vis kart'}
+                </Button>
+              )}
+            </div>
+
+            {event.isPriced && (
+              <TextWithIcon
+                iconName="cash-outline"
+                content={event.priceMember / 100 + ',-'}
+              />
+            )}
+            {event.mazemapPoi && (
+              <>
+                {this.state.mapIsOpen && (
+                  <MazemapEmbed mazemapPoi={event.mazemapPoi} />
+                )}
+              </>
+            )}
+            {['OPEN', 'TBA'].includes(event.eventStatusType) ? (
+              <JoinEventForm event={event} />
+            ) : (
+              <Flex column>
+                <h3>Påmeldte</h3>
+                {registrations ? (
+                  <Fragment>
+                    <UserGrid
+                      minRows={minUserGridRows}
+                      maxRows={MAX_USER_GRID_ROWS}
+                      users={registrations.slice(0, 14).map((reg) => reg.user)}
+                    />
+                    <ModalParentComponent
+                      key="modal"
+                      pools={pools}
+                      title="Påmeldte"
+                    >
+                      <RegisteredSummary
+                        registrations={registrations}
+                        currentRegistration={currentRegistration}
+                      />
+                      <AttendanceStatus
+                        pools={pools}
+                        legacyRegistrationCount={event.legacyRegistrationCount}
+                      />
+                    </ModalParentComponent>
+                  </Fragment>
+                ) : (
+                  <AttendanceStatus
+                    pools={pools}
+                    legacyRegistrationCount={event.legacyRegistrationCount}
+                  />
+                )}
+                {loggedIn && (
+                  <RegistrationMeta
+                    useConsent={event.useConsent}
+                    hasOpened={moment(event.activationTime).isBefore(
+                      currentMoment
+                    )}
+                    photoConsents={event.photoConsents}
+                    eventSemester={getEventSemesterFromStartTime(
+                      event.startTime
+                    )}
+                    hasEnded={moment(event.endTime).isBefore(currentMoment)}
+                    registration={currentRegistration}
+                    isPriced={event.isPriced}
+                    registrationIndex={currentRegistrationIndex}
+                    hasSimpleWaitingList={hasSimpleWaitingList}
+                  />
+                )}
+                {event.useContactTracing && !currentRegistration && (
+                  <div>
+                    <i className="fa fa-exclamation-circle" /> Ved å melde deg
+                    på dette arrangementet samtykker du til at
+                    kontaktinformasjonen din (navn, telefonnummer og epost) kan
+                    deles med FHI og NTNU (og eventuelt andre aktører nevnt i
+                    beskrivelsen av arrangementet) for smittesporing.
+                    Kontaktinformasjonen vil være tilgjengelig for brukeren som
+                    laget arrangementet i 14 dager etter at arrangementet har
+                    funnet sted, og vil kun brukes til smittesporing.
+                  </div>
+                )}
+                {event.unansweredSurveys &&
+                event.unansweredSurveys.length > 0 &&
+                !event.isAdmitted ? (
+                  <div className={sharedStyles.eventWarning}>
+                    <p>
+                      Du kan ikke melde deg på dette arrangementet fordi du har
+                      ubesvarte spørreundersøkelser.
+                    </p>
+                    <br />
+                    <p>
+                      Man må svare på alle spørreundersøkelser for tidligere
+                      arrangementer før man kan melde seg på nye arrangementer.
+                      Du kan svare på undersøkelsene dine ved å trykke på
+                      følgende linker:
+                    </p>
+                    <ul>
+                      {event.unansweredSurveys.map((surveyId, i) => (
+                        <li key={surveyId}>
+                          <Link to={`/surveys/${surveyId}`}>
+                            Undersøkelse {i + 1}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : (
+                  <div>
+                    <JoinEventForm
+                      event={event}
+                      registration={currentRegistration}
+                      currentUser={currentUser}
+                      pendingRegistration={pendingRegistration}
+                      createPaymentIntent={this.handlePaymentMethod}
+                      onSubmit={this.handleRegistration}
+                    />
+                  </div>
+                )}
+              </Flex>
+            )}
+            {deadlines.some((d) => d !== null) && (
+              <>
+                <Line />
+                <InfoList className={styles.infoList} items={deadlines} />
+              </>
+            )}
+            <Line />
+            <InfoList items={eventCreator} className={styles.infoList} />
+            <Line />
+            {loggedIn && (
+              <TextWithIcon
+                iconName="create-outline"
+                content={
+                  <Link to={`/users/${currentUser.username}/settings/profile`}>
+                    Oppdater matallergier/preferanser
+                  </Link>
+                }
+              />
+            )}
+            <TextWithIcon
+              iconName="document-outline"
+              content={
+                <Link to="/pages/arrangementer/26-arrangementsregler">
+                  Arrangementsregler
+                </Link>
+              }
+            />
+            {(actionGrant.includes('edit') ||
+              actionGrant.includes('delete')) && <Line />}
+            <Flex column>
+              <Admin
+                actionGrant={actionGrant}
+                event={event}
+                deleteEvent={deleteEvent}
+              />
+            </Flex>
+          </ContentSidebar>
+        </ContentSection>
+        {event.contentTarget && (
+          <CommentView
+            style={{
+              marginTop: 20,
+            }}
+            user={currentUser}
+            contentTarget={event.contentTarget}
+            loggedIn={loggedIn}
+            comments={comments}
+            deleteComment={deleteComment}
+          />
+        )}
+      </Content>
     );
   }
 }

@@ -3,9 +3,9 @@ import moment from 'moment-timezone';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { createSelector } from 'reselect';
-import Icon from 'app/components/Icon';
 import Pill from 'app/components/Pill';
 import Popover from 'app/components/Popover';
+import TextWithIcon from 'app/components/TextWithIcon';
 import { FromToTime } from 'app/components/Time';
 import type { Event } from 'app/models';
 import { colorForEvent, textColorForEvent } from '../utils';
@@ -25,8 +25,7 @@ const renderEvent = (event: Event) => {
   const startTime = moment(event.startTime);
   const endTime = moment(event.endTime);
 
-  const isPreviousEvent =
-    moment(startTime).startOf('day') < moment().startOf('day');
+  const isPreviousEvent = moment(endTime) < moment();
 
   const pillColor = colorForEvent(eventType);
   const titleColor = textColorForEvent(eventType);
@@ -57,24 +56,28 @@ const renderEvent = (event: Event) => {
         )}
       </h3>
       <p className={styles.popoverEventDescription}>{description}</p>
-      <div className={styles.iconWithText}>
-        <Icon name="time-outline" className={styles.infoIcon} />
-        <strong>
-          {moment.duration(endTime.diff(startTime)) <
-          moment.duration(1, 'days') ? (
-            <span>
-              <time>{startTime.format('HH:mm')}</time> -{' '}
-              <time>{endTime.format('HH:mm')}</time>
-            </span>
-          ) : (
-            <FromToTime from={event.startTime} to={event.endTime} />
-          )}
-        </strong>
-      </div>
-      <div className={styles.iconWithText}>
-        <Icon name="location-outline" className={styles.infoIcon} />
-        <strong>{event.location}</strong>
-      </div>
+      <TextWithIcon
+        iconName="time-outline"
+        content={
+          <strong>
+            {moment.duration(endTime.diff(startTime)) <
+            moment.duration(1, 'days') ? (
+              <span>
+                <time>{startTime.format('HH:mm')}</time> -{' '}
+                <time>{endTime.format('HH:mm')}</time>
+              </span>
+            ) : (
+              <FromToTime from={event.startTime} to={event.endTime} />
+            )}
+          </strong>
+        }
+        className={styles.textWithIcon}
+      />
+      <TextWithIcon
+        iconName="location-outline"
+        content={<strong>{event.location}</strong>}
+        className={styles.textWithIcon}
+      />
     </Popover>
   );
 };

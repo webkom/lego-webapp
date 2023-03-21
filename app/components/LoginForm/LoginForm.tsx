@@ -1,126 +1,106 @@
-import cx from 'classnames';
-import { Component } from 'react';
-import { connect } from 'react-redux';
-import { SubmissionError, Field, reduxForm } from 'redux-form';
+import { FORM_ERROR } from 'final-form';
+import { Field } from 'react-final-form';
 import { login } from 'app/actions/UserActions';
+import Button from 'app/components/Button';
+import { Form } from 'app/components/Form';
+import LegoFinalForm from 'app/components/Form/LegoFinalForm';
+import TextInput from 'app/components/Form/TextInput';
+import { useAppDispatch } from 'app/store/hooks';
+import { spyFormError, spySubmittable } from 'app/utils/formSpyUtils';
 import { createValidator, required } from 'app/utils/validation';
-import { Form, Button, TextInput } from '../Form';
-import type { FormProps } from 'redux-form';
+
+type ErrorProps = {
+  error: string;
+};
+
+const Error = ({ error }: ErrorProps) => {
+  return (
+    <p
+      style={{
+        color: 'var(--danger-color)',
+      }}
+    >
+      {error}
+    </p>
+  );
+};
+
+type FormValues = {
+  username: string;
+  password: string;
+};
 
 type ConnectedProps = {
-  login: (username: string, password: string) => Promise<void>;
+  login: (FormValues) => Promise<void>;
 };
 type OwnProps = {
   className?: string;
   postLoginFail?: (arg0: any) => any;
   postLoginSuccess?: (arg0: any) => any;
 };
-type Props = ConnectedProps & OwnProps & FormProps;
-type ErrorProps = {
-  error: string;
-};
-
-const Error = ({ error }: ErrorProps) => (
-  <p
-    style={{
-      color: '#c24538',
-    }}
-  >
-    {error}
-  </p>
-);
-
-class LoginForm extends Component<Props> {
-  usernameRef: HTMLInputElement;
-  passwordRef: HTMLInputElement;
-
-  componentDidMount() {
-    // Trigger onChange of the fields in case the inputs
-    // were initialized with data from e.g. a mobile phone's autofill:
-    this.props.change('username', this.usernameRef.value);
-    this.props.change('password', this.passwordRef.value);
-  }
-
-  login = (values) => {
-    // Autofill in some mobile browsers doesn't trigger onChange,
-    // so use the direct values if redux-form won't give us anything:
-    const username = values.username || this.usernameRef.value;
-    const password = values.password || this.passwordRef.value;
-    const {
-      postLoginSuccess = (res) => res,
-      postLoginFail = (error) => {
-        throw error;
-      },
-    } = this.props;
-    return this.props
-      .login(username, password)
-      .then(postLoginSuccess, postLoginFail)
-      .catch((err) => {
-        // Throw a SubmissionError to show validation errors with redux-form:
-        if (err.payload.response.status === 400) {
-          throw new SubmissionError({
-            _error: 'Feil brukernavn eller passord',
-          });
-        }
-
-        throw new SubmissionError({
-          _error: err.meta.errorMessage,
-        });
-      });
-  };
-
-  render() {
-    const { error, submitting, handleSubmit } = this.props;
-    const style = {
-      marginBottom: 10,
-    };
-    return (
-      <Form
-        onSubmit={handleSubmit(this.login)}
-        className={cx(this.props.className)}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <Field
-          name="username"
-          placeholder="Brukernavn"
-          fieldStyle={style}
-          showErrors={false}
-          autocomplete="username"
-          inputRef={(node) => {
-            this.usernameRef = node;
-          }}
-          component={TextInput.Field}
-        />
-        <Field
-          name="password"
-          type="password"
-          autocomplete="current-password"
-          placeholder="Passord"
-          fieldStyle={style}
-          showErrors={false}
-          inputRef={(node) => {
-            this.passwordRef = node;
-          }}
-          component={TextInput.Field}
-        />
-        {error && <Error error={error} />}
-        <Button dark submit disabled={submitting}>
-          Logg inn
-        </Button>
-      </Form>
-    );
-  }
-}
+type Props = ConnectedProps & OwnProps;
 
 const validate = createValidator({
   username: [required()],
   password: [required()],
 });
-export default reduxForm({
-  validate,
-  form: 'LoginForm',
-})(
-  connect(null, {
-    login,
-  })(LoginForm)
-);
+
+const LoginForm = (props: Props) => {
+  const dispatch = useAppDispatch();
+
+  const {
+    postLoginSuccess = (res) => res,
+    postLoginFail = (error) => {
+      console.error(error);
+    },
+  } = props;
+
+  const onSubmit = async (values: FormValues) => {
+    try {
+      const res = await dispatch(login(values.username, values.password));
+      return postLoginSuccess(res);
+    } catch (error) {
+      postLoginFail(error);
+      return { [FORM_ERROR]: 'Feil brukernavn eller passord' };
+    }
+  };
+
+  return (
+    <div onClick={(e) => e.stopPropagation()}>
+      <LegoFinalForm onSubmit={onSubmit} validate={validate} subscription={{}}>
+        {({ handleSubmit }) => (
+          <Form onSubmit={handleSubmit} className={props.className}>
+            <Field
+              name="username"
+              placeholder="Brukernavn"
+              showErrors={false}
+              autoComplete="username"
+              component={TextInput.Field}
+            />
+
+            <Field
+              name="password"
+              type="password"
+              autoComplete="current-password"
+              placeholder="Passord"
+              showErrors={false}
+              component={TextInput.Field}
+            />
+
+            {spyFormError((error) => (
+              <>{error && <Error error={error} />}</>
+            ))}
+
+            {spySubmittable((submittable) => (
+              <Button dark submit disabled={!submittable}>
+                Logg inn
+              </Button>
+            ))}
+          </Form>
+        )}
+      </LegoFinalForm>
+    </div>
+  );
+};
+
+export default LoginForm;

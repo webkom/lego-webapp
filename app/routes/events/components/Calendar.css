@@ -42,7 +42,7 @@
   white-space: normal;
   overflow-wrap: anywhere;
   padding: 2px 5px;
-  border-radius: 4px;
+  border-radius: var(--border-radius-sm);
   font-size: 0.9rem;
   font-weight: 700;
   margin: 3px;
@@ -86,17 +86,8 @@
   line-height: 1.3;
 }
 
-.iconWithText {
+.textWithIcon {
   font-size: 14px;
-  display: flex;
-  align-items: center;
-}
-
-.infoIcon {
-  width: 25px;
-  display: flex;
-  justify-content: center;
-  padding-right: 0.2em;
 }
 
 .weekdayHeading {

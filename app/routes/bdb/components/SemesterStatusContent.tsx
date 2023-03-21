@@ -57,7 +57,7 @@ export default class SemesterStatusContent extends Component<Props, State> {
                   <Icon
                     name="checkmark"
                     style={{
-                      color: 'green',
+                      color: 'var(--color-green-6)',
                       marginRight: '5px',
                       position: 'relative',
                       top: '5px',

@@ -13,13 +13,13 @@ type Props = {
   fetchAll: (arg0: Record<string, any>) => Promise<any>;
 };
 
-const SurveyPage = ({ surveys, fetching, push, hasMore, fetchAll }: Props) => {
+const SurveyPage = ({ surveys, fetching, hasMore, fetchAll }: Props) => {
   return (
     <Content>
       <Helmet title="Spørreundersøkelser" />
       <ListNavigation title="Spørreundersøkelser" />
 
-      {fetchAll && (
+      {fetchAll ? (
         <Paginator
           infiniteScroll={true}
           hasMore={hasMore}
@@ -32,8 +32,9 @@ const SurveyPage = ({ surveys, fetching, push, hasMore, fetchAll }: Props) => {
         >
           <SurveyList surveys={surveys} fetching={fetching} />
         </Paginator>
+      ) : (
+        <SurveyList surveys={surveys} fetching={fetching} />
       )}
-      {!fetchAll && <SurveyList surveys={surveys} fetching={fetching} />}
     </Content>
   );
 };

@@ -155,7 +155,12 @@ class CompanyInterestList extends Component<Props, State> {
     return (
       <Content>
         <ListNavigation title="Bedriftsinteresser" />
-        <Flex className={styles.section}>
+        <Flex
+          wrap
+          justifyContent="space-between"
+          alignItems="flex-end"
+          className={styles.section}
+        >
           <Flex column>
             <p>
               Her finner du all praktisk informasjon knyttet til
@@ -171,15 +176,14 @@ class CompanyInterestList extends Component<Props, State> {
               styles={selectStyles}
             />
           </Flex>
-          <Link to="/companyInterest/semesters" className={styles.link}>
+          <Link to="/companyInterest/semesters">
             <Button>Endre aktive semestre</Button>
           </Link>
-          <Link to="/companyInterest/create" className={styles.link}>
+          <Link to="/companyInterest/create">
             <Button>Opprett ny bedriftsinteresse</Button>
           </Link>
         </Flex>
         <Table
-          infiniteScroll
           columns={columns}
           onLoad={(filters, sort) => {
             this.props.fetch({

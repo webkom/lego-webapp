@@ -66,7 +66,7 @@ const mapDispatchToProps = (dispatch, { location }) => {
 
 const WrappedValidator = (props: ComponentProps<typeof Validator>) => (
   <Content>
-    <Validator {...props} />
+    <Validator {...props} validateAbakusGroup />
   </Content>
 );
 

@@ -12,7 +12,6 @@ import EventListCompact from 'app/components/EventListCompact';
 import Icon from 'app/components/Icon';
 import { ProfilePicture, CircularPicture, Image } from 'app/components/Image';
 import { Flex } from 'app/components/Layout';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import Modal from 'app/components/Modal';
 import Pill from 'app/components/Pill';
 import Tooltip from 'app/components/Tooltip';
@@ -198,7 +197,6 @@ const UserProfile = (props: Props) => {
   const {
     user,
     isMe,
-    loggedIn,
     showSettings,
     //feedItems,
     //feed,
@@ -342,7 +340,7 @@ const UserProfile = (props: Props) => {
     return groups.map((group) => {
       if (group.children.length) {
         return (
-          <>
+          <div key={group.id}>
             {genTree([{ ...group, children: [] }])}
             <div
               style={{
@@ -351,7 +349,7 @@ const UserProfile = (props: Props) => {
             >
               {genTree(group.children)}
             </div>
-          </>
+          </div>
         );
       }
 
@@ -519,7 +517,7 @@ const UserProfile = (props: Props) => {
               <h3>Epostlister</h3>
               <Card className={styles.infoCard}>
                 {emailListsMapping.map(({ abakusGroup, emailLists }) => (
-                  <>
+                  <div key={abakusGroup.id}>
                     <h4>Epostlister fra gruppen {abakusGroup.name}</h4>
                     <ul>
                       {emailLists.map((emailList) => (
@@ -541,7 +539,7 @@ const UserProfile = (props: Props) => {
                         </li>
                       ))}
                     </ul>
-                  </>
+                  </div>
                 ))}
                 {emailListsOnUser.length > 0 && (
                   <>
@@ -592,7 +590,7 @@ const UserProfile = (props: Props) => {
                 {allAbakusGroupsWithPerms.map(
                   ({ abakusGroup, permissions }) =>
                     !!permissions.length && (
-                      <>
+                      <div key={abakusGroup.id}>
                         <h4>
                           Rettigheter fra gruppen
                           <Link
@@ -609,7 +607,7 @@ const UserProfile = (props: Props) => {
                             </li>
                           ))}
                         </ul>
-                      </>
+                      </div>
                     )
                 )}
                 <h4>Sum alle</h4>
@@ -690,42 +688,31 @@ const UserProfile = (props: Props) => {
           {isMe && (
             <div className={styles.bottomMargin}>
               <h3>Dine kommende arrangementer</h3>
-
-              {loading ? (
-                <LoadingIndicator margin="20px auto" loading />
-              ) : (
-                <EventListCompact
-                  events={orderBy(upcomingEvents, 'startTime')}
-                  noEventsMessage="Du har ingen kommende arrangementer"
-                  loggedIn={loggedIn}
-                  eventStyle="compact"
-                />
-              )}
+              <EventListCompact
+                events={orderBy(upcomingEvents, 'startTime')}
+                noEventsMessage="Du har ingen kommende arrangementer"
+                eventStyle="compact"
+                loading={loading}
+              />
               <h3>
                 Dine tidligere arrangementer (
                 {previousEvents === undefined ? 0 : previousEvents.length})
               </h3>
-              {loading ? (
-                <LoadingIndicator margin="20px auto" loading />
-              ) : (
-                <EventListCompact
-                  events={
-                    previousEvents === undefined
-                      ? []
-                      : orderBy(
-                          previousEvents
-                            .filter((e) => e.userReg.pool !== null)
-                            .filter(
-                              (e) => e.userReg.presence !== 'NOT_PRESENT'
-                            ),
-                          'startTime'
-                        ).reverse()
-                  }
-                  noEventsMessage="Du har ingen tidligere arrangementer"
-                  loggedIn={loggedIn}
-                  eventStyle="extra-compact"
-                />
-              )}
+              <EventListCompact
+                events={
+                  previousEvents === undefined
+                    ? []
+                    : orderBy(
+                        previousEvents
+                          .filter((e) => e.userReg.pool !== null)
+                          .filter((e) => e.userReg.presence !== 'NOT_PRESENT'),
+                        'startTime'
+                      ).reverse()
+                }
+                noEventsMessage="Du har ingen tidligere arrangementer"
+                eventStyle="extra-compact"
+                loading={loading}
+              />
             </div>
           )}
         </div>

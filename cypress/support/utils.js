@@ -39,12 +39,8 @@ export const button = (buttonText) => cy.contains('button', buttonText);
 
 export const selectEditor = (name) =>
   name
-    ? cy
-        .wait(500)
-        .get(`[name="${name}"] div[data-slate-editor="true"]`)
-        .click()
-        .wait(500)
-    : cy.wait(500).get('div[data-slate-editor="true"]').click().wait(500);
+    ? cy.get(`[name="${name}"] div[data-slate-editor="true"]`).click().click()
+    : cy.get('div[data-slate-editor="true"]').click().click();
 
 export const setDatePickerTime = (name, hours, minutes) => {
   field(name).click();

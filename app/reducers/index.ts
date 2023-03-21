@@ -91,6 +91,7 @@ export const meetingSchema = new schema.Entity('meetings', {
   reportAuthor: userSchema,
   createdBy: userSchema,
   comments: [commentSchema],
+  reactions: [reactionSchema],
 });
 export const frontpageSchema = new schema.Entity('frontpage', {
   events: [eventSchema],

@@ -1,7 +1,7 @@
 .card {
   background: var(--lego-card-color);
   padding: 20px;
-  border-radius: 1rem;
+  border-radius: var(--border-radius-lg);
 }
 
 .tight {

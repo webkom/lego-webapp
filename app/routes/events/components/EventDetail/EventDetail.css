@@ -18,6 +18,10 @@
   cursor: pointer;
 }
 
+.tagRow {
+  margin-top: 16px;
+}
+
 .paymentInfo {
   margin-top: 10px;
 }
@@ -43,28 +47,11 @@
   }
 }
 
-.iconWithText {
-  display: flex;
-  align-items: center;
-}
-
-.infoIcon {
-  min-width: 26px;
-  display: flex;
-  justify-content: center;
-  padding-right: 0.2em;
-}
-
 .infoIconLocation {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
   align-items: center;
-  margin-bottom: 10px;
-}
-
-.registeredBox {
-  margin-top: 1em;
 }
 
 .mapButton {

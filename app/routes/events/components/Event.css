@@ -3,13 +3,7 @@
 .feedbackLabel {
   display: flex;
   flex: 1;
-}
-
-.feedbackField {
-  display: flex;
-  flex: 1;
-  margin-bottom: 0;
-  min-height: 40px;
+  margin-top: 16px;
 }
 
 .feedbackText {
@@ -31,11 +25,6 @@
   overflow: hidden;
 }
 
-.mainRow {
-  margin-bottom: 1em;
-  margin-top: 0.5em;
-}
-
 .meta {
   flex: 1;
   padding: 20px;
@@ -52,10 +41,6 @@
 
 .subHeader {
   margin-top: 18px;
-}
-
-.summary {
-  flex-wrap: wrap;
 }
 
 .tagRow {
@@ -90,7 +75,7 @@
 
 .eventWarning {
   padding: 10px;
-  border-radius: 10px;
+  border-radius: var(--border-radius-lg);
   background: var(--danger-color);
   text-align: center;
   margin-bottom: 0.5rem;

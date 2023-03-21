@@ -325,6 +325,7 @@ export const Emoji = {
 export const File = {
   FETCH_SIGNED_POST: generateStatuses('File.FETCH_SIGNED_POST') as AAT,
   UPLOAD: generateStatuses('File.UPLOAD') as AAT,
+  PATCH: generateStatuses('File.PATCH') as AAT,
 };
 
 /**

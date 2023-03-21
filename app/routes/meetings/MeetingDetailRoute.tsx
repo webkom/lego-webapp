@@ -2,14 +2,18 @@ import qs from 'qs';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { deleteComment } from 'app/actions/CommentActions';
+import { fetchEmojis } from 'app/actions/EmojiActions';
 import {
   fetchMeeting,
   setInvitationStatus,
   answerMeetingInvitation,
   resetMeetingsToken,
 } from 'app/actions/MeetingActions';
+import { addReaction, deleteReaction } from 'app/actions/ReactionActions';
 import type { User } from 'app/models';
+import { selectEmojis } from 'app/reducers/emojis';
 import { selectMeetingById } from 'app/reducers/meetings';
+import type { ReactionEntity } from 'app/reducers/reactions';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import MeetingDetailLoginRoute from './MeetingDetailLoginRoute';
 import MeetingAnswer from './components/MeetingAnswer';
@@ -22,7 +26,10 @@ const loadMeeting = (
     },
   },
   dispatch
-) => (loggedIn ? dispatch(fetchMeeting(meetingId)) : Promise.resolve());
+) =>
+  loggedIn
+    ? Promise.all([dispatch(fetchMeeting(meetingId), dispatch(fetchEmojis()))])
+    : Promise.resolve();
 
 const loadData = (props, dispatch): any => {
   const search = qs.parse(props.location.search, {
@@ -63,12 +70,15 @@ const mapStateToProps = (state, props) => {
   const showAnswer = Boolean(
     meetingsToken.response === 'SUCCESS' && action && token
   );
+  const emojis = selectEmojis(state);
   return {
     meetingsToken,
     user: props.currentUser,
     showAnswer,
     meeting,
     currentUser,
+    emojis,
+    fetchingEmojis: state.emojis.fetching,
   };
 };
 
@@ -79,6 +89,7 @@ type Props = {
     user: User;
     response: string;
     meeting: number;
+    reactionsGrouped: Array<ReactionEntity>;
   };
   router: any;
   resetMeetingsToken: () => void;
@@ -105,6 +116,9 @@ const mapDispatchToProps = {
   setInvitationStatus,
   resetMeetingsToken,
   deleteComment,
+  fetchEmojis,
+  addReaction,
+  deleteReaction,
 };
 export default compose(
   withPreparedDispatch('fetchMeetingDetail', loadData, (props) => [

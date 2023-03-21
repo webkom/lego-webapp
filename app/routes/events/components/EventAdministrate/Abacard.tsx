@@ -1,17 +1,18 @@
 import { get } from 'lodash';
 import Validator from 'app/components/UserValidator';
 import type { EventRegistration, Event } from 'app/models';
-import type { SearchResult } from 'app/reducers/search';
+import type { UserSearchResult } from 'app/reducers/search';
 import styles from './Abacard.css';
+import type { Location } from 'history';
 
 type Props = {
   registered: Array<EventRegistration>;
   event: Event;
   clearSearch: () => void;
   markUsernamePresent: (arg0: string, arg1: string) => Promise<any>;
-  location: Record<string, any>;
+  location: Location;
   onQueryChanged: (arg0: string) => void;
-  results: Array<SearchResult>;
+  results: Array<UserSearchResult>;
   searching: boolean;
 };
 
@@ -26,7 +27,7 @@ const Abacard = (props: Props) => {
     (reg) => reg.presence === 'PRESENT' && reg.pool
   ).length;
 
-  const handleSelect = ({ username = '' }: { username?: string }) =>
+  const handleSelect = ({ username }: { username: string }) =>
     markUsernamePresent(id.toString(), username).then(async (result) => {
       const payload = get(result, 'payload.response.jsonData');
       if (payload && payload.error) return result;
@@ -35,7 +36,11 @@ const Abacard = (props: Props) => {
 
   return (
     <div>
-      <Validator {...validatorProps} handleSelect={handleSelect} />
+      <Validator
+        {...validatorProps}
+        handleSelect={handleSelect}
+        validateAbakusGroup={false}
+      />
       <div className={styles.counter}>
         {registerCount}/{registrationCount} har møtt opp
       </div>

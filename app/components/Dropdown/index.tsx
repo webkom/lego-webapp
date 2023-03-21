@@ -53,7 +53,7 @@ const Dropdown = ({
           <div
             {...props}
             className={cx(styles.content, contentClassName || null)}
-            onClick={closeOnContentClick && toggle}
+            onClick={closeOnContentClick ? toggle : undefined}
           >
             {/*eslint-disable-next-line */}
             {/*@ts-ignore The css TS plugin does not understand our css alias imports*/}

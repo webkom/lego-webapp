@@ -6,7 +6,7 @@ import Pill from 'app/components/Pill';
 import Tag from 'app/components/Tags/Tag';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
-import type { Event, EventTime } from 'app/models';
+import type { Event } from 'app/models';
 import { colorForEvent } from 'app/routes/events/utils';
 import { eventAttendanceAbsolute } from 'app/utils/eventStatus';
 import styles from './styles.css';
@@ -31,21 +31,21 @@ const eventStatusObject = (event: Event): statusIconProps => {
         return {
           status: 'Admitted',
           icon: 'checkmark-circle-outline',
-          color: '#1ec91e',
+          color: 'var(--color-green-6)',
           tooltip: 'Du er påmeldt',
         } as statusIconProps;
       }
       return {
         status: 'Waitlist',
         icon: 'timer-outline',
-        color: '#fc9003',
+        color: 'var(--color-orange-6)',
         tooltip: 'Du er på ventelisten',
       } as statusIconProps;
     default:
       return {
         status: 'Error',
         icon: 'help-outline',
-        color: 'blue',
+        color: 'var(--danger-color)',
         tooltip: 'Det har oppstått en feil',
       } as statusIconProps;
   }
@@ -69,10 +69,9 @@ const Attendance = ({ event }) => {
 
 type TimeStampProps = {
   event: Event;
-  loggedIn: boolean;
 };
 
-const TimeStamp = ({ event }) => {
+const TimeStamp = ({ event }: TimeStampProps) => {
   return (
     <div className={styles.eventTime}>
       <Flex alignItems="center">
@@ -95,8 +94,8 @@ const TimeStamp = ({ event }) => {
   );
 };
 
-const RegistrationIcon = ({ event, loggedIn }: TimeStampProps) => {
-  const iconStyle = eventStatusObject(event, loggedIn);
+const RegistrationIcon = ({ event }: TimeStampProps) => {
+  const iconStyle = eventStatusObject(event);
   return (
     <Flex justifyContent="center" alignItems="center">
       <Tooltip content={iconStyle.tooltip}>
@@ -112,17 +111,13 @@ const RegistrationIcon = ({ event, loggedIn }: TimeStampProps) => {
 
 type EventItemProps = {
   event: Event;
-  field?: EventTime;
   showTags?: boolean;
-  loggedIn: boolean;
   eventStyle?: EventStyle;
 };
 
 const EventItem = ({
   event,
-  field,
   showTags = true,
-  loggedIn = false,
   eventStyle,
 }: EventItemProps): ReactNode => {
   switch (eventStyle) {
@@ -138,7 +133,11 @@ const EventItem = ({
             <Link to={`/events/${event.id}`}>
               <h4 className={styles.eventItemTitle}>{event.title}</h4>
             </Link>
-            <Time time={event.startTime} format="ll - HH:mm" />
+            <Time
+              time={event.startTime}
+              format="ll - HH:mm"
+              className={styles.time}
+            />
           </div>
           <Flex className={styles.companyLogoExtraCompact}>
             {event.cover && (
@@ -170,27 +169,19 @@ const EventItem = ({
                     <Image
                       src={event.cover}
                       placeholder={event.coverPlaceholder}
+                      alt={`Event cover image - ${event.title}`}
                     />
                   </Link>
                 )}
               </Flex>
             </Flex>
-            <Flex
-              display="flex"
-              justifyContent="flex-start"
-              column="true"
-              width="25%"
-            >
+            <Flex justifyContent="flex-start" column={true} width="25%">
               <Flex width="100%" justifyContent="flex-start">
-                <RegistrationIcon
-                  event={event}
-                  field={field}
-                  loggedIn={loggedIn}
-                />
+                <RegistrationIcon event={event} />
                 <Attendance event={event} />
               </Flex>
 
-              <TimeStamp event={event} field={field} loggedIn={loggedIn} />
+              <TimeStamp event={event} />
             </Flex>
           </Flex>
           {showTags && (
@@ -216,7 +207,7 @@ const EventItem = ({
               <h3 className={styles.eventItemTitle}>{event.title}</h3>
               {event.totalCapacity > 0 && <Attendance event={event} />}
             </Link>
-            <TimeStamp event={event} loggedIn={loggedIn} />
+            <TimeStamp event={event} />
             {showTags && (
               <Flex wrap>
                 {event.tags.map((tag, index) => (

@@ -47,7 +47,7 @@
   width: 16px;
   height: 16px;
   border-radius: 8px;
-  background: #d13c32;
+  background: var(--lego-red-color);
   transition: all var(--linear-medium);
 }
 

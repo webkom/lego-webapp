@@ -72,7 +72,7 @@ type RegistrationPillProps = {
   className: string;
 };
 
-const RegistrationPill = ({
+export const RegistrationPill = ({
   status,
   reason,
   className,
@@ -93,7 +93,7 @@ const RegistrationPill = ({
   );
 };
 
-const getRegistrationInfo = (pool, registration) => {
+export const getRegistrationInfo = (registration) => {
   const registrationInfo = {
     status: 'Venteliste',
     reason: '',
@@ -118,7 +118,7 @@ const getRegistrationInfo = (pool, registration) => {
       registrationInfo.status = 'Påmeldt';
       registrationInfo.reason = `Adminpåmeldt: ${registration.adminRegistrationReason}`;
     }
-  } else if (pool) {
+  } else if (registration.pool) {
     registrationInfo.status = 'Påmeldt';
     registrationInfo.className = styles.greenPill;
   }
@@ -247,7 +247,7 @@ export class RegisteredTable extends Component<Props> {
         title: 'Status',
         dataIndex: 'pool',
         render: (pool, registration) => {
-          const registrationInfo = getRegistrationInfo(pool, registration);
+          const registrationInfo = getRegistrationInfo(registration);
           return (
             <RegistrationPill
               status={registrationInfo.status}
@@ -255,6 +255,11 @@ export class RegisteredTable extends Component<Props> {
               className={registrationInfo.className}
             />
           );
+        },
+        sorter: (a, b) => {
+          if (a.pool && !b.pool) return -1;
+          if (!a.pool && b.pool) return 1;
+          return 0;
         },
       },
       {
@@ -341,13 +346,7 @@ export class RegisteredTable extends Component<Props> {
         title: 'Tilbakemelding',
         dataIndex: 'feedback',
         centered: false,
-        render: (feedback, registration) => (
-          <span>
-            {feedback || '-'}
-            <br />
-            {`Matallergier: ${registration.user.allergies || '-'}`}
-          </span>
-        ),
+        render: (feedback) => <span>{feedback || '-'}</span>,
         sorter: (a, b) => a.feedback.localeCompare(b.feedback),
       },
       {
@@ -434,6 +433,7 @@ export class UnregisteredTable extends Component<UnregisteredTableProps> {
       {
         title: 'Bruker',
         dataIndex: 'user',
+        filterMessage: 'Filtrer på navn',
         render: (user) => (
           <Tooltip content={user.fullName}>
             <Link to={`/users/${user.username}`}>{user.username}</Link>

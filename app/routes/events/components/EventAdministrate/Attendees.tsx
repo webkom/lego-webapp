@@ -31,12 +31,16 @@ export type Props = {
   loading: boolean;
   registered: Array<EventRegistration>;
   unregistered: Array<EventRegistration>;
-  unregister: (arg0: {
+  unregister: (registrationId: {
     eventId: ID;
     registrationId: ID;
     admin: boolean;
   }) => Promise<void>;
-  updatePresence: (arg0: number, arg1: number, arg2: string) => Promise<any>;
+  updatePresence: (
+    eventId: number,
+    registrationId: number,
+    presence: string
+  ) => Promise<any>;
   updatePayment: (
     arg0: ID,
     arg1: ID,
@@ -111,7 +115,7 @@ const Attendees = ({
   const showUnregister = // Show unregister button until 1 day after event has ended,
     // or until reg/unreg has ended if that is more than 1 day
     // after event end
-    moment().isBefore(moment(event.endTime).add('days', 1)) ||
+    moment().isBefore(moment(event.endTime).add(1, 'day')) ||
     moment().isBefore(event.unregistrationCloseTime) ||
     moment().isBefore(event.registrationCloseTime);
   const exportInfoMessage = `Informasjonen du eksporterer MÅ slettes når det ikke lenger er behov for den,
@@ -147,7 +151,7 @@ const Attendees = ({
         {event.useContactTracing &&
           (currentUser.id === event.createdBy ||
             currentUser.id === event.createdBy.id) &&
-          moment().isBefore(moment(event.endTime).add('days', 14)) &&
+          moment().isBefore(moment(event.endTime).add(14, 'days')) &&
           (generatedCsvUrl ? (
             <a href={generatedCsvUrl} download="attendees.csv">
               Last ned

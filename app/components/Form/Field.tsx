@@ -72,6 +72,7 @@ export type FormProps = {
   fieldClassName?: string;
   labelClassName?: string;
   showErrors?: boolean;
+  onChange?: (value: string) => void;
 };
 type Options = {
   // Removes the html <label> around the component
@@ -79,9 +80,7 @@ type Options = {
 };
 
 /**
- * Wraps Component, so it works with redux-form/react-final-form and add some
- * default field behaviour.
- *
+ * Wraps field component
  * http://redux-form.com/6.0.5/docs/api/Field.md/
  * https://final-form.org/docs/react-final-form/api/Field
  */
@@ -96,6 +95,7 @@ export function createField(Component: ComponentType<any>, options?: Options) {
       description,
       fieldClassName,
       labelClassName,
+      onChange,
       showErrors = true,
       className = null,
       ...props
@@ -132,6 +132,10 @@ export function createField(Component: ComponentType<any>, options?: Options) {
         <Component
           {...input}
           {...props}
+          onChange={(value) => {
+            input.onChange(value);
+            onChange?.(value);
+          }}
           className={cx(
             className,
             hasWarning && styles.inputWithWarning,
