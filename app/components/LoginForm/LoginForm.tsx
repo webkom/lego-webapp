@@ -6,6 +6,7 @@ import { Form } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import TextInput from 'app/components/Form/TextInput';
 import { useAppDispatch } from 'app/store/hooks';
+import type { Action } from 'app/types';
 import { spyFormError, spySubmittable } from 'app/utils/formSpyUtils';
 import { createValidator, required } from 'app/utils/validation';
 
@@ -30,15 +31,11 @@ type FormValues = {
   password: string;
 };
 
-type ConnectedProps = {
-  login: (FormValues) => Promise<void>;
-};
-type OwnProps = {
+type Props = {
   className?: string;
-  postLoginFail?: (arg0: any) => any;
-  postLoginSuccess?: (arg0: any) => any;
+  postLoginFail?: (error: unknown) => void;
+  postLoginSuccess?: (res: Action) => any;
 };
-type Props = ConnectedProps & OwnProps;
 
 const validate = createValidator({
   username: [required()],
