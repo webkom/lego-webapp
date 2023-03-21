@@ -48,6 +48,7 @@ import sharedStyles from '../Event.css';
 import JoinEventForm from '../JoinEventForm';
 import RegisteredSummary from '../RegisteredSummary';
 import RegistrationMeta from '../RegistrationMeta';
+import SpecialJoinEventForm from '../SpecialJoinEventForm';
 import styles from './EventDetail.css';
 
 type InterestedButtonProps = {
@@ -136,6 +137,12 @@ export default class EventDetail extends Component<Props, State> {
     this.state = {
       mapIsOpen: false,
     };
+  }
+  static isCorrectDate() {
+    // The year doesn't matter, as it only check month and day of the month
+    const aprilFoolsDate = moment('2023-04-01 11:00', 'YYYY-MM-DD HH:mm');
+    const now = moment();
+    return aprilFoolsDate.isBefore(now);
   }
 
   handleRegistration = ({
@@ -418,7 +425,6 @@ export default class EventDetail extends Component<Props, State> {
                 </Button>
               )}
             </div>
-
             {event.isPriced && (
               <TextWithIcon
                 iconName="cash-outline"
@@ -466,21 +472,23 @@ export default class EventDetail extends Component<Props, State> {
                   />
                 )}
                 {loggedIn && (
-                  <RegistrationMeta
-                    useConsent={event.useConsent}
-                    hasOpened={moment(event.activationTime).isBefore(
-                      currentMoment
-                    )}
-                    photoConsents={event.photoConsents}
-                    eventSemester={getEventSemesterFromStartTime(
-                      event.startTime
-                    )}
-                    hasEnded={moment(event.endTime).isBefore(currentMoment)}
-                    registration={currentRegistration}
-                    isPriced={event.isPriced}
-                    registrationIndex={currentRegistrationIndex}
-                    hasSimpleWaitingList={hasSimpleWaitingList}
-                  />
+                  <>
+                    <RegistrationMeta
+                      useConsent={event.useConsent}
+                      hasOpened={moment(event.activationTime).isBefore(
+                        currentMoment
+                      )}
+                      photoConsents={event.photoConsents}
+                      eventSemester={getEventSemesterFromStartTime(
+                        event.startTime
+                      )}
+                      hasEnded={moment(event.endTime).isBefore(currentMoment)}
+                      registration={currentRegistration}
+                      isPriced={event.isPriced}
+                      registrationIndex={currentRegistrationIndex}
+                      hasSimpleWaitingList={hasSimpleWaitingList}
+                    />
+                  </>
                 )}
                 {event.useContactTracing && !currentRegistration && (
                   <div>
@@ -509,6 +517,7 @@ export default class EventDetail extends Component<Props, State> {
                       Du kan svare på undersøkelsene dine ved å trykke på
                       følgende linker:
                     </p>
+
                     <ul>
                       {event.unansweredSurveys.map((surveyId, i) => (
                         <li key={surveyId}>
@@ -521,18 +530,30 @@ export default class EventDetail extends Component<Props, State> {
                   </div>
                 ) : (
                   <div>
-                    <JoinEventForm
-                      event={event}
-                      registration={currentRegistration}
-                      currentUser={currentUser}
-                      pendingRegistration={pendingRegistration}
-                      createPaymentIntent={this.handlePaymentMethod}
-                      onSubmit={this.handleRegistration}
-                    />
+                    {EventDetail.isCorrectDate() ? (
+                      <SpecialJoinEventForm
+                        event={event}
+                        registration={currentRegistration}
+                        currentUser={currentUser}
+                        pendingRegistration={pendingRegistration}
+                        createPaymentIntent={this.handlePaymentMethod}
+                        onSubmit={this.handleRegistration}
+                      />
+                    ) : (
+                      <JoinEventForm
+                        event={event}
+                        registration={currentRegistration}
+                        currentUser={currentUser}
+                        pendingRegistration={pendingRegistration}
+                        createPaymentIntent={this.handlePaymentMethod}
+                        onSubmit={this.handleRegistration}
+                      />
+                    )}
                   </div>
                 )}
               </Flex>
             )}
+
             {deadlines.some((d) => d !== null) && (
               <>
                 <Line />

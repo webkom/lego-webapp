@@ -22,12 +22,9 @@ class AprilFools extends Component<Props, State> {
 
   static isCorrectDate() {
     // The year doesn't matter, as it only check month and day of the month
-    const aprilFoolsDate = moment('2019-04-01');
+    const aprilFoolsDate = moment('2030-03-29 19:30', 'YYYY-MM-DD HH:mm');
     const now = moment();
-    return (
-      aprilFoolsDate.date() === now.date() &&
-      aprilFoolsDate.month() === now.month()
-    );
+    return aprilFoolsDate.isBefore(now);
   }
 
   onQueueDone() {
