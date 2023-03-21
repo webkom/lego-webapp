@@ -1973,10 +1973,10 @@
   dependencies:
     prop-types "^15.7.2"
 
-"@stripe/stripe-js@^1.46.0":
-  version "1.46.0"
-  resolved "https://registry.yarnpkg.com/@stripe/stripe-js/-/stripe-js-1.46.0.tgz#2b9acca0dfa7b90aaecd909e678a049f799a27d6"
-  integrity sha512-dkm0zCEoRLu5rTnsIgwDf/QG2DKcalOT2dk1IVgMySOHWTChLyOvQwMYhEduGgLvyYWTwNhAUV4WOLPQvjwLwA==
+"@stripe/stripe-js@^1.50.0":
+  version "1.50.0"
+  resolved "https://registry.yarnpkg.com/@stripe/stripe-js/-/stripe-js-1.50.0.tgz#1a5040485ee96fecc67b9d58533bb7ea7b23efc9"
+  integrity sha512-7j52eB98l/oJL1ywREs7UJAKEavM1HTtS8LUHt1dso8TJN8kNz561/847Xqbafe0yCReET8WFeIBvMeewug8xQ==
 
 "@tootallnate/once@2":
   version "2.0.0"
