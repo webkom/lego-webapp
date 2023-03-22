@@ -38,8 +38,9 @@ export const reactionSchema = new schema.Entity('reactions');
 export const articleSchema = new schema.Entity('articles', {
   comments: [commentSchema],
   reactions: [reactionSchema],
-  author: userSchema,
+  authors: [userSchema],
 });
+
 export const galleryPictureSchema = new schema.Entity('galleryPictures', {
   comments: [commentSchema],
 });

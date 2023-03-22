@@ -24,17 +24,17 @@ const OverviewItem = ({ article }: { article: ArticleWithAuthorDetails }) => (
     </h2>
 
     <span className={styles.itemInfo}>
-      {article.author.id && (
-        <span>
-          <Link
-            to={`/users/${article.author.username}`}
-            className={styles.overviewAuthor}
-          >
-            {' '}
-            {article.author.fullName}
-          </Link>{' '}
-        </span>
-      )}
+      {article.authors.map((e) => {
+        return (
+          <span key={e.username}>
+            <Link to={`/users/${e.username}`} className={styles.overviewAuthor}>
+              {' '}
+              {e.fullName}
+            </Link>{' '}
+          </span>
+        );
+      })}
+
       <Time time={article.createdAt} format="DD.MM.YYYY HH:mm" />
       <Tags className={styles.tagline}>
         {article.tags.map((tag) => (

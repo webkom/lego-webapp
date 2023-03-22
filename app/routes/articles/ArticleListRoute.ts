@@ -12,8 +12,8 @@ import type { PublicUser } from 'app/store/models/User';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import Overview from './components/Overview';
 
-export type ArticleWithAuthorDetails = Omit<PublicArticle, 'author'> & {
-  author: PublicUser;
+export type ArticleWithAuthorDetails = Omit<PublicArticle, 'authors'> & {
+  authors: Array<PublicUser>;
 };
 
 const mapStateToProps = (state, props) => {
@@ -34,8 +34,10 @@ const mapStateToProps = (state, props) => {
     }
   ).map((article) => ({
     ...article,
-    author: selectUserById(state, {
-      userId: article.author,
+    authors: article.authors.map((e) => {
+      return selectUserById(state, {
+        userId: e,
+      });
     }),
   }));
 

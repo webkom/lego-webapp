@@ -22,7 +22,7 @@ type Props = {
   article: DetailedArticle | AdminDetailedArticle;
   comments: Comment[];
   loggedIn: boolean;
-  author: DetailedUser;
+  authors: DetailedUser[];
   currentUser: CurrentUser;
   deleteComment: (id: ID, contentTarget: string) => Promise<void>;
   emojis: Array<EmojiEntity>;
@@ -30,7 +30,7 @@ type Props = {
     emoji: string;
     contentTarget: string;
   }) => Promise<unknown>;
-  reactionsGrouped: Array<ReactionEntity>;
+  reactionsGrouped: ReactionEntity[];
   deleteReaction: (arg0: {
     reactionId: ID;
     contentTarget: string;
@@ -41,7 +41,7 @@ type Props = {
 
 const ArticleDetail = ({
   article,
-  author,
+  authors,
   loggedIn,
   currentUser,
   comments,
@@ -70,16 +70,30 @@ const ArticleDetail = ({
         )}
       </NavigationTab>
 
-      <div className={styles.articleDetails}>
-        <span className={styles.detail}>
-          Skrevet av
-          <Link to={`/users/${author.username}`}> {author.fullName}</Link>
-        </span>
-        <span className={styles.detail}>
-          {moment(article.createdAt).format('lll')}
-        </span>
-      </div>
-
+      {
+        <div className={styles.articleDetails}>
+          <span className={styles.detail}>
+            Skrevet av{' '}
+            {authors?.map((e, i) => {
+              return (
+                <span key={e.username}>
+                  <Link
+                    to={`/users/${e.username}`}
+                    className={styles.overviewAuthor}
+                  >
+                    {' '}
+                    {e.fullName}
+                  </Link>
+                  {i === authors.length - 1 ? '' : ','}
+                </span>
+              );
+            })}
+          </span>
+          <span className={styles.detail}>
+            {moment(article.createdAt).format('lll')}
+          </span>
+        </div>
+      }
       <DisplayContent content={article.content} />
 
       <Tags>
