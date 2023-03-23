@@ -12,12 +12,6 @@ import mergeObjects from 'app/utils/mergeObjects';
 import { Event } from '../actions/ActionTypes';
 import type { Event as EventType, PhotoConsent } from '../models';
 
-export type EventEntity = {
-  id: number;
-  title: string;
-  comments: Array<number>;
-  photoConsents?: Array<PhotoConsent>;
-};
 type State = any;
 const mutateEvent = produce((newState: State, action: any): void => {
   switch (action.type) {

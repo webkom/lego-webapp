@@ -10,7 +10,7 @@ import type {
   EventRegistrationPresence,
   EventRegistrationPaymentStatus,
   ID,
-  Event,
+  EventAdministrate,
   EventPool,
   PhotoConsent,
   EventSemester,
@@ -44,7 +44,7 @@ type Props = {
   handleUnregister: (registrationId: ID) => Promise<void>;
   showPresence: boolean;
   showUnregister: boolean;
-  event: Event;
+  event: EventAdministrate;
   pools: Array<EventPool>;
 };
 
@@ -424,7 +424,7 @@ type UnregisteredTableProps = {
     registrationId: ID,
     paymentStatus: EventRegistrationPaymentStatus
   ) => Promise<any>;
-  event: Event;
+  event: EventAdministrate;
 };
 export class UnregisteredTable extends Component<UnregisteredTableProps> {
   render() {
