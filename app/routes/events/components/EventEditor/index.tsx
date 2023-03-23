@@ -279,15 +279,15 @@ function EventEditor({
             {['NORMAL', 'OPEN', 'INFINITE'].includes(
               event.eventStatusType && event.eventStatusType.value
             ) && (
-                <Field
-                  label="Bruk mazemap"
-                  name="useMazemap"
-                  component={CheckBox.Field}
-                  fieldClassName={styles.metaField}
-                  className={styles.formField}
-                  normalize={(v) => !!v}
-                />
-              )}
+              <Field
+                label="Bruk mazemap"
+                name="useMazemap"
+                component={CheckBox.Field}
+                fieldClassName={styles.metaField}
+                className={styles.formField}
+                normalize={(v) => !!v}
+              />
+            )}
             {['NORMAL', 'OPEN', 'INFINITE'].includes(
               event.eventStatusType && event.eventStatusType.value
             ) &&
@@ -321,15 +321,15 @@ function EventEditor({
             {['NORMAL', 'INFINITE'].includes(
               event.eventStatusType && event.eventStatusType.value
             ) && (
-                <Field
-                  label="Betalt arrangement"
-                  name="isPriced"
-                  component={CheckBox.Field}
-                  fieldClassName={styles.metaField}
-                  className={styles.formField}
-                  normalize={(v) => !!v}
-                />
-              )}
+              <Field
+                label="Betalt arrangement"
+                name="isPriced"
+                component={CheckBox.Field}
+                fieldClassName={styles.metaField}
+                className={styles.formField}
+                normalize={(v) => !!v}
+              />
+            )}
             {event.isPriced && (
               <div className={styles.subSection}>
                 <Tooltip content="Manuell betaling kan også godkjennes av oss i etterkant">
@@ -389,15 +389,15 @@ function EventEditor({
             {['NORMAL', 'INFINITE'].includes(
               event.eventStatusType && event.eventStatusType.value
             ) && (
-                <Field
-                  label="Bruk prikker"
-                  name="heedPenalties"
-                  component={CheckBox.Field}
-                  fieldClassName={styles.metaField}
-                  className={styles.formField}
-                  normalize={(v) => !!v}
-                />
-              )}
+              <Field
+                label="Bruk prikker"
+                name="heedPenalties"
+                component={CheckBox.Field}
+                fieldClassName={styles.metaField}
+                className={styles.formField}
+                normalize={(v) => !!v}
+              />
+            )}
             {['NORMAL', 'INFINITE'].includes(
               event.eventStatusType && event.eventStatusType.value
             ) &&
@@ -418,17 +418,17 @@ function EventEditor({
             {['NORMAL', 'INFINITE'].includes(
               event.eventStatusType && event.eventStatusType.value
             ) && (
-                <Tooltip content="Separate frister for påmelding og avmelding - antall timer før arrangementet. Det vil ikke være mulig å melde seg av eller på etter de satte fristene (negativ verdi betyr antall timer etter starten på arrangementet)">
-                  <Field
-                    label="Separat avregistregistreringsfrist"
-                    name="separateDeadlines"
-                    component={CheckBox.Field}
-                    fieldClassName={styles.metaField}
-                    className={styles.formField}
-                    normalize={(v) => !!v}
-                  />
-                </Tooltip>
-              )}
+              <Tooltip content="Separate frister for påmelding og avmelding - antall timer før arrangementet. Det vil ikke være mulig å melde seg av eller på etter de satte fristene (negativ verdi betyr antall timer etter starten på arrangementet)">
+                <Field
+                  label="Separat avregistregistreringsfrist"
+                  name="separateDeadlines"
+                  component={CheckBox.Field}
+                  fieldClassName={styles.metaField}
+                  className={styles.formField}
+                  normalize={(v) => !!v}
+                />
+              </Tooltip>
+            )}
             {['NORMAL', 'INFINITE'].includes(
               event.eventStatusType && event.eventStatusType.value
             ) &&
@@ -450,65 +450,65 @@ function EventEditor({
             {['NORMAL', 'INFINITE'].includes(
               event.eventStatusType && event.eventStatusType.value
             ) && (
-                <Tooltip content="Frist for påmelding/avmelding - antall timer før arrangementet. Det er ikke mulig å melde seg hverken på eller av etter denne fristen (negativ verdi betyr antall timer etter starten på arrangementet)">
-                  <Field
-                    key="registrationDeadlineHours"
-                    label="Registrering antall timer før"
-                    name="registrationDeadlineHours"
-                    type="number"
-                    component={TextInput.Field}
-                    fieldClassName={styles.metaField}
-                    className={styles.formField}
-                  />
-                  <p className={styles.registrationDeadlineHours}>
-                    Stenger:{' '}
-                    <FormatTime time={moment(event.registrationDeadline)} />
-                  </p>
-                </Tooltip>
-              )}
+              <Tooltip content="Frist for påmelding/avmelding - antall timer før arrangementet. Det er ikke mulig å melde seg hverken på eller av etter denne fristen (negativ verdi betyr antall timer etter starten på arrangementet)">
+                <Field
+                  key="registrationDeadlineHours"
+                  label="Registrering antall timer før"
+                  name="registrationDeadlineHours"
+                  type="number"
+                  component={TextInput.Field}
+                  fieldClassName={styles.metaField}
+                  className={styles.formField}
+                />
+                <p className={styles.registrationDeadlineHours}>
+                  Stenger:{' '}
+                  <FormatTime time={moment(event.registrationDeadline)} />
+                </p>
+              </Tooltip>
+            )}
             {['NORMAL', 'INFINITE'].includes(
               event.eventStatusType && event.eventStatusType.value
             ) && (
-                <Tooltip content="Bruk samtykke til bilder">
-                  <Field
-                    label="Samtykke til bilder"
-                    name="useConsent"
-                    component={CheckBox.Field}
-                    fieldClassName={styles.metaField}
-                    className={styles.formField}
-                    normalize={(v) => !!v}
-                  />
-                </Tooltip>
-              )}
+              <Tooltip content="Bruk samtykke til bilder">
+                <Field
+                  label="Samtykke til bilder"
+                  name="useConsent"
+                  component={CheckBox.Field}
+                  fieldClassName={styles.metaField}
+                  className={styles.formField}
+                  normalize={(v) => !!v}
+                />
+              </Tooltip>
+            )}
             {['NORMAL', 'INFINITE'].includes(
               event.eventStatusType && event.eventStatusType.value
             ) && (
-                <Tooltip content="Navn, telefonnummer og epost kan deles med folk utenfor Abakus til smittesporing. Dersom informasjonen skal kunne deles med andre enn FHI og NTNU, må dette spesifiseres i beskrivelsen.">
-                  <Field
-                    label="Informasjon kan deles til smittesporing"
-                    name="useContactTracing"
-                    component={CheckBox.Field}
-                    fieldClassName={styles.metaField}
-                    className={styles.formField}
-                    normalize={(v) => !!v}
-                    disabled={moment().isAfter(event.activationTime)}
-                  />
-                </Tooltip>
-              )}
+              <Tooltip content="Navn, telefonnummer og epost kan deles med folk utenfor Abakus til smittesporing. Dersom informasjonen skal kunne deles med andre enn FHI og NTNU, må dette spesifiseres i beskrivelsen.">
+                <Field
+                  label="Informasjon kan deles til smittesporing"
+                  name="useContactTracing"
+                  component={CheckBox.Field}
+                  fieldClassName={styles.metaField}
+                  className={styles.formField}
+                  normalize={(v) => !!v}
+                  disabled={moment().isAfter(event.activationTime)}
+                />
+              </Tooltip>
+            )}
             {['NORMAL', 'INFINITE'].includes(
               event.eventStatusType && event.eventStatusType.value
             ) && (
-                <Tooltip content="Still et spørsmål ved påmelding">
-                  <Field
-                    label="Påmeldingsspørsmål"
-                    name="hasFeedbackQuestion"
-                    component={CheckBox.Field}
-                    fieldClassName={styles.metaField}
-                    className={styles.formField}
-                    normalize={(v) => !!v}
-                  />
-                </Tooltip>
-              )}
+              <Tooltip content="Still et spørsmål ved påmelding">
+                <Field
+                  label="Påmeldingsspørsmål"
+                  name="hasFeedbackQuestion"
+                  component={CheckBox.Field}
+                  fieldClassName={styles.metaField}
+                  className={styles.formField}
+                  normalize={(v) => !!v}
+                />
+              </Tooltip>
+            )}
             {['NORMAL', 'INFINITE'].includes(
               event.eventStatusType && event.eventStatusType.value
             ) &&
@@ -535,44 +535,44 @@ function EventEditor({
             {['NORMAL', 'INFINITE'].includes(
               event.eventStatusType && event.eventStatusType.value
             ) && (
-                <Flex column>
-                  <h3>Pools</h3>
-                  <ModalParentComponent
-                    key="modal"
-                    pools={pools || []}
-                    registrations={registrations || []}
-                    title="Påmeldte"
-                  >
-                    <AttendanceStatus pools={pools} />
-                  </ModalParentComponent>
-                  <div className={styles.metaList}>
-                    <FieldArray
-                      name="pools"
-                      component={renderPools}
-                      startTime={event.startTime}
-                      eventStatusType={event.eventStatusType?.value}
+              <Flex column>
+                <h3>Pools</h3>
+                <ModalParentComponent
+                  key="modal"
+                  pools={pools || []}
+                  registrations={registrations || []}
+                  title="Påmeldte"
+                >
+                  <AttendanceStatus pools={pools} />
+                </ModalParentComponent>
+                <div className={styles.metaList}>
+                  <FieldArray
+                    name="pools"
+                    component={renderPools}
+                    startTime={event.startTime}
+                    eventStatusType={event.eventStatusType?.value}
+                  />
+                </div>
+                {pools && pools.length > 1 && (
+                  <Tooltip content="Tidspunkt for å slå sammen poolene">
+                    <Field
+                      label="Sammenslåingstidspunkt"
+                      name="mergeTime"
+                      component={DatePicker.Field}
+                      fieldClassName={styles.metaField}
+                      className={styles.formField}
                     />
-                  </div>
-                  {pools && pools.length > 1 && (
-                    <Tooltip content="Tidspunkt for å slå sammen poolene">
-                      <Field
-                        label="Sammenslåingstidspunkt"
-                        name="mergeTime"
-                        component={DatePicker.Field}
-                        fieldClassName={styles.metaField}
-                        className={styles.formField}
-                      />
-                    </Tooltip>
-                  )}
-                  {isEditPage && (
-                    <Admin
-                      actionGrant={actionGrant}
-                      event={event}
-                      deleteEvent={deleteEvent}
-                    />
-                  )}
-                </Flex>
-              )}
+                  </Tooltip>
+                )}
+                {isEditPage && (
+                  <Admin
+                    actionGrant={actionGrant}
+                    event={event}
+                    deleteEvent={deleteEvent}
+                  />
+                )}
+              </Flex>
+            )}
           </ContentSidebar>
         </ContentSection>
         <Tooltip
