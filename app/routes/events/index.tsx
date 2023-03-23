@@ -57,7 +57,7 @@ const eventRoute = ({
         />
         <RouteWrapper
           exact
-          path={`${match.path}/:eventId`}
+          path={`${match.path}/:eventIdOrSlug`}
           passedProps={{
             currentUser,
             loggedIn,
@@ -65,7 +65,7 @@ const eventRoute = ({
           Component={DetailRoute}
         />
         <RouteWrapper
-          path={`${match.path}/:eventId/edit`}
+          path={`${match.path}/:eventIdOrSlug/edit`}
           passedProps={{
             currentUser,
             loggedIn,

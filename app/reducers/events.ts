@@ -225,6 +225,22 @@ export const selectEventById = createSelector(
     return {};
   }
 );
+export const selectEventBySlug = createSelector(
+  (state) => state.events.byId,
+  (state, props) => props.eventSlug,
+  (eventsById, eventSlug) => {
+    const event = Object.values(eventsById).find(
+      (event) => event.slug === eventSlug
+    );
+
+    if (event) {
+      return transformEvent(event);
+    }
+
+    return {};
+  }
+);
+
 export const selectPoolsForEvent = createSelector(
   selectEventById,
   (state) => state.pools.byId,
