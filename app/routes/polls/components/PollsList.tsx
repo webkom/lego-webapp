@@ -50,7 +50,7 @@ const PollsList = ({
             to={`/polls/${poll.id}`}
             className={styles.pollItem}
           >
-            <Card className={styles.pollListItem}>
+            <Card isHoverable className={styles.pollListItem}>
               <Flex>
                 <Icon name="stats-chart" size={35} className={styles.icon} />
                 <h3 className={styles.heading}>{poll.title}</h3>
@@ -66,7 +66,7 @@ const PollsList = ({
                         name="checkmark-circle-outline"
                         size={20}
                         style={{
-                          color: 'var(--color-green-8)',
+                          color: 'var(--color-green-6)',
                         }}
                       />
                     </>
@@ -77,7 +77,7 @@ const PollsList = ({
                         name="close-circle-outline"
                         size={20}
                         style={{
-                          color: 'var(--lego-link-color)',
+                          color: 'var(--danger-color)',
                         }}
                       />
                     </>

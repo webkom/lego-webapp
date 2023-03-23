@@ -56,23 +56,19 @@ type State = {
   selected: Array<number>;
 };
 
-const photoOverlay = (photo: Record<string, any>, selected: Array<number>) => (
-  <div
-    className={cx(
-      styles.overlay,
-      selected.includes(photo.id) && styles.overlaySelected
-    )}
-  >
-    <Icon
-      name="checkmark-circle-outline"
-      size={32}
-      className={cx(
-        styles.icon,
-        selected.includes(photo.id) && styles.iconSelected
-      )}
-    />
-  </div>
-);
+const photoOverlay = (photo: Record<string, any>, selected: Array<number>) => {
+  const isSelected = selected.includes(photo.id);
+
+  return (
+    <div className={cx(styles.overlay, isSelected && styles.overlaySelected)}>
+      <Icon
+        name={isSelected ? 'checkmark-circle' : 'ellipse-outline'}
+        size={32}
+        className={cx(styles.icon, isSelected && styles.iconSelected)}
+      />
+    </div>
+  );
+};
 
 const renderBottom = (photo: Record<string, any>, gallery: GalleryEntity) => (
   <Flex className={styles.infoOverlay} justifyContent="space-between">

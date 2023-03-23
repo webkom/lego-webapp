@@ -151,6 +151,7 @@ const sections: Record<string, Entry> = {
     fetchItemActions: [],
   },
 };
+
 export const categoryOptions = Object.keys(sections)
   .map<Entry>((key) => sections[key])
   .filter((entry: Entry) => entry.pageSelector === selectFlatpageForPages)

@@ -6,17 +6,18 @@
 
 :root {
   --lego-background-color: #f8f9fa;
+  --lego-card-color: #fff;
 
   --lego-font-color: var(--color-gray-9);
   --secondary-font-color: #606060;
-  --lego-link-color: #c0392b;
-  --lego-red: #c0392b;
+
+  --lego-red-color: var(--color-red-5);
+  --lego-red-color-hover: var(--color-red-6);
+  --lego-link-color: var(--lego-red-color);
+  --danger-color: var(--color-red-6);
+
   --lego-max-width: 1100px;
   --lego-default-padding: 2rem;
-  --lego-card-color: #fff;
-  --lego-footer-color: #e21617;
-  --lego-dark-red-color: #b21c17;
-  --lego-red-color: #c0392b;
 
   --lego-header-height: 120px;
   --lego-main-nav-height: 50px;
@@ -37,7 +38,7 @@
   --color-white: var(--color-absolute-white);
   --color-black: #000;
 
-  --border-gray: var(--color-gray-3);
+  --border-gray: var(--color-gray-2);
 
   --rgb-max: 255;
   --rgb-min: 0;
@@ -84,26 +85,31 @@
   --color-green-8: #108944;
   --color-green-9: #06371b;
 
-  --color-red-1: #a82a2a;
-  --color-red-2: #c23030;
-  --color-red-3: #f31260;
-  --color-red-4: #f4256d;
-  --color-red-5: #f881ab;
-  --color-red-6: #faa8c5;
-  --color-red-7: #fcc5d8;
-  --color-red-8: #fdd8e5;
-  --color-red-9: #fee7ef;
+  --color-red-1: #ffc8c8;
+  --color-red-2: #f18888;
+  --color-red-3: #e9494a;
+  --color-red-4: #e52d2e;
+  --color-red-5: #e21617;
+  --color-red-6: #c81917;
+  --color-red-7: #b21c17;
+  --color-red-8: #730202;
+  --color-red-9: #400101;
 
   --color-select-hover: rgb(178, 212, 255);
   --color-select-multi-bg: rgb(230, 230, 230);
 
-  --color-red-hover-alpha: 10%;
+  --color-red-hover-alpha: 5%;
 
   --font-size: 16px;
   --font-size-small: 12px;
   --font-size-large: 18px;
 
+  --border-radius-sm: 0.3rem;
+  --border-radius-md: 0.5rem;
+  --border-radius-lg: 1rem;
+
   --easing: cubic-bezier(0.35, 0, 0.65, 1);
+  --easing-blazingly-fast: 30ms var(--easing);
   --easing-fast: 100ms var(--easing);
   --easing-medium: 200ms var(--easing);
   --easing-slow: 400ms var(--easing);
@@ -112,22 +118,22 @@
   --linear-fast: 100ms var(--linear);
   --linear-medium: 200ms var(--linear);
   --linear-slow: 400ms var(--linear);
+
+  --shadow-xs: 0 2px 8px 1px rgba(104, 112, 118, 7%),
+    0 1px 1px -1px rgba(104, 112, 118, 4%);
+  --shadow-sm: 0 2px 8px 2px rgba(104, 112, 118, 7%),
+    0 2px 4px -1px rgba(104, 112, 118, 4%);
+  --shadow-md: 0 12px 20px 6px rgba(104, 112, 118, 8%);
+  --shadow-lg: 0 12px 34px 6px rgba(104, 112, 118, 18%);
 }
 
 [data-theme='dark'] {
   --lego-background-color: #0d0d0d;
-  --secondary-font-color: #aaa;
-  --lego-link-color: #c0392b;
-  --lego-red: #c0392b;
-  --lego-max-width: 1100px;
-  --lego-default-padding: 2rem;
   --lego-card-color: #222;
-  --lego-footer-color: #e21617;
-  --lego-dark-red-color: #b21c17;
-  --lego-red-color: #c0392b;
 
-  --lego-header-height: 120px;
-  --lego-main-nav-height: 50px;
+  --secondary-font-color: #aaa;
+
+  --lego-red-color: var(--color-red-7);
 
   --lego-chart-purple: #c73aea;
   --lego-chart-yellow: #f4ee42;
@@ -138,7 +144,6 @@
   --lego-chart-salmon: #fa8072;
   --lego-chart-navajo: #ffdead;
 
-  --color-event-red: #b11c11;
   --color-event-black: #ddd;
   --color-white: #181818;
   --color-black: #fff;
@@ -188,19 +193,18 @@
   --color-green-8: #78f2ad;
   --color-green-9: #ecfdf4;
 
-  --color-red-0: #300313;
-  --color-red-1: #a82a2a;
-  --color-red-2: #c23030;
-  --color-red-3: #f4256d;
-  --color-red-4: #f55656;
-  --color-red-5: #f881ab;
-  --color-red-6: #faa8c5;
-  --color-red-7: #fcc5d8;
-  --color-red-8: #fdd8e5;
-  --color-red-9: #fee7ef;
+  --color-red-1: #400101;
+  --color-red-2: #730202;
+  --color-red-3: #a10d0d;
+  --color-red-4: #b21c17;
+  --color-red-5: #be1a17;
+  --color-red-6: #c81917;
+  --color-red-7: #e21617;
+  --color-red-8: #e52d2e;
+  --color-red-9: #e9494a;
 
   --color-select-hover: var(--color-gray-4);
   --color-select-multi-bg: var(--color-gray-5);
 
-  --color-red-hover-alpha: 50%;
+  --color-red-hover-alpha: 10%;
 }

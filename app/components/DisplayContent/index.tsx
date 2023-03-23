@@ -4,16 +4,9 @@ import 'react-image-crop/dist/ReactCrop.css';
 import type { CSSProperties } from 'react';
 
 type Props = {
-  /** The content to be displayed - the text */
   content: string;
-
-  /** The id of the div wrapping the content - the id */
   id?: string;
-
-  /** The classname of the div wrapping the content - the className */
   className?: string;
-
-  /** Any style tp be added to the div wrapping the content - the style */
   style?: CSSProperties;
   placeholder?: string;
 };

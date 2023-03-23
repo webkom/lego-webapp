@@ -22,7 +22,7 @@ function MeetingListItem({
   return (
     <div
       style={{
-        borderColor: isDone ? 'var(--color-gray-4)' : 'var(--color-red-4)',
+        borderColor: isDone ? 'var(--color-gray-4)' : 'var(--lego-red-color)',
       }}
       className={styles.meetingItem}
     >

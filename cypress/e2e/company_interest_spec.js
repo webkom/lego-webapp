@@ -17,6 +17,7 @@ const createCompanyInterest = () => {
   field('mail').click().type('webkom@webkom.no');
 
   field('phone').click().type('90909090');
+  field('officeInTrondheim').check();
 
   field('semesters[0].checked').check();
   field('events[0].checked').check();
@@ -24,7 +25,7 @@ const createCompanyInterest = () => {
 
   field('comment').type('random comment');
 
-  cy.contains('Opprett bedriftsinteresse').click();
+  cy.contains('Send bedriftsinteresse').click();
 };
 
 describe('Company interest', () => {
@@ -77,7 +78,7 @@ describe('Admin company interest', () => {
 
     field('comment').type('random comment');
 
-    cy.contains('Opprett bedriftsinteresse').click();
+    cy.contains('Send bedriftsinteresse').click();
 
     cy.url().should('not.include', `/companyInterest`);
   });

@@ -11,6 +11,7 @@ import CompanyInterestPage, {
   OTHER_TYPES,
   COLLABORATION_TYPES,
   TARGET_GRADE_TYPES,
+  SURVEY_OFFER_TYPES,
 } from './components/CompanyInterestPage';
 import { sortSemesterChronologically } from './utils';
 
@@ -30,6 +31,7 @@ const mapStateToProps = (state, props) => {
   const allOtherOffers = Object.keys(OTHER_TYPES);
   const allCollaborations = Object.keys(COLLABORATION_TYPES);
   const allTargetGrades = Object.keys(TARGET_GRADE_TYPES);
+  const allSurveyOffers = Object.keys(SURVEY_OFFER_TYPES);
   const allowedBdb = state.allowed.bdb;
   const language = pathname === '/register-interest' ? 'english' : 'norwegian';
   return {
@@ -37,6 +39,10 @@ const mapStateToProps = (state, props) => {
     initialValues: {
       events: allEvents.map((event) => ({
         name: event,
+        checked: false,
+      })),
+      companyCourseThemes: allSurveyOffers.map((offer) => ({
+        name: offer,
         checked: false,
       })),
       otherOffers: allOtherOffers.map((offer) => ({
@@ -52,6 +58,8 @@ const mapStateToProps = (state, props) => {
         checked: false,
       })),
       participantRange: null,
+      companyType: null,
+      officeInTrondheim: null,
       semesters: semesters.sort(sortSemesterChronologically),
     },
     interestForm: {

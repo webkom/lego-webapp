@@ -1,3 +1,4 @@
+import moment from 'moment-timezone';
 import { useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
@@ -22,6 +23,7 @@ import { renderMeta } from './utils';
 
 type Props = {
   frontpage: WithDocumentType<PublicArticle | Event>[];
+  fetchingFrontpage: boolean;
   readmes: Readme[];
   poll: PollEntity | null | undefined;
   votePoll: () => Promise<void>;
@@ -41,14 +43,21 @@ const Overview = (props: Props) => {
     setArticlesToShow(articlesToShow + 2);
   };
 
-  const { loggedIn, frontpage, readmes, poll, votePoll } = props;
+  const { loggedIn, frontpage, readmes, poll, votePoll, fetchingFrontpage } =
+    props;
 
   const events = useMemo(() => frontpage.filter(isEvent), [frontpage]);
 
   const pinned = frontpage[0];
 
   const eventsShown = useMemo(
-    () => events.filter((item) => item.id !== pinned.id).slice(0, eventsToShow),
+    () =>
+      events
+        .filter(
+          (item) =>
+            item.id !== pinned.id && moment(item.startTime).isAfter(moment())
+        )
+        .slice(0, eventsToShow),
     [events, eventsToShow, pinned]
   );
 
@@ -79,7 +88,7 @@ const Overview = (props: Props) => {
     <Flex className={styles.readMe}>
       <LatestReadme
         readmes={readmes}
-        expandedInitially={frontpage.length === 0}
+        expandedInitially={frontpage.length === 0 && !fetchingFrontpage}
       />
     </Flex>
   );

@@ -1,5 +1,5 @@
 import { loadableReady } from '@loadable/component';
-import { hydrate, render } from 'react-dom';
+import { createRoot, hydrateRoot } from 'react-dom/client';
 import routes from 'app/routes';
 import type { Store } from 'app/store/createStore';
 import Root from './Root';
@@ -13,19 +13,30 @@ const renderApp = ({
   history: any;
   isSSR: boolean;
 }) => {
-  const rootElement: HTMLElement = document.getElementById('root') as any;
-  const reactRenderFunc = isSSR ? hydrate : render;
+  const rootElement: HTMLElement = document.getElementById('root');
   loadableReady(() => {
-    reactRenderFunc(
-      <Root
-        {...{
-          store,
-          history,
-          routes,
-        }}
-      />,
-      rootElement
-    );
+    if (isSSR) {
+      hydrateRoot(
+        rootElement,
+        <Root
+          {...{
+            store,
+            history,
+            routes,
+          }}
+        />
+      );
+    } else {
+      createRoot(rootElement).render(
+        <Root
+          {...{
+            store,
+            history,
+            routes,
+          }}
+        />
+      );
+    }
   });
 };
 

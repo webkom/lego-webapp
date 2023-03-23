@@ -7,7 +7,7 @@ import { Keyboard } from 'app/utils/constants';
 import type { Location } from 'history';
 import type { ChangeEventHandler, KeyboardEvent } from 'react';
 
-type Props = {
+type Props<T> = {
   searching: boolean;
   location: Location;
   inputRef?: {
@@ -15,11 +15,13 @@ type Props = {
   };
   onQueryChanged: (arg0: string) => void;
   placeholder?: string;
-  results: Array<SearchResult>;
-  handleSelect: (arg0: SearchResult) => Promise<void>;
+  results: Array<T>;
+  handleSelect: (arg0: T) => Promise<void>;
 };
 
-const SearchPage = (props: Props) => {
+const SearchPage = <SearchType extends SearchResult>(
+  props: Props<SearchType>
+) => {
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
   const [query, setQuery] = useState<unknown>(
     qs.parse(props.location.search, {
@@ -59,7 +61,7 @@ const SearchPage = (props: Props) => {
     }
   };
 
-  const handleSelect = (result: SearchResult) => {
+  const handleSelect = (result: SearchType) => {
     setQuery('');
     setSelectedIndex(0);
     props.handleSelect(result);

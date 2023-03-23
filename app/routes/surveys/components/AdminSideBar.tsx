@@ -50,75 +50,76 @@ class AdminSideBar extends Component<Props, State> {
       : `${config.webUrl}/surveys/${surveyId}/results/?token=${token}`;
     return (
       canEdit && (
-        <ContentSidebar className={styles.adminSideBar}>
-          <strong>Admin</strong>
-          <ul>
-            <li>
-              <Link to="/surveys/add">Ny undersøkelse</Link>
-            </li>
-            <li>
-              <Link to={`/surveys/${surveyId}/edit`}>Endre undersøkelsen</Link>
-            </li>
-            {actionGrant && actionGrant.includes('edit') && shareSurvey && (
-              <CheckBox
-                id="shareSurvey"
-                label="Del spørreundersøkelsen"
-                onChange={() =>
-                  token ? hideSurvey(surveyId) : shareSurvey(surveyId)
-                }
-                value={!!token}
-              />
-            )}
-            {token && (
-              <li>
+        <ContentSidebar>
+          <h3>Admin</h3>
+
+          <Link to="/surveys/add">
+            <Button>
+              <Icon name="add" size={19} />
+              Ny undersøkelse
+            </Button>
+          </Link>
+
+          <Link to={`/surveys/${surveyId}/edit`}>
+            <Button>
+              <Icon name="create-outline" size={19} />
+              Rediger
+            </Button>
+          </Link>
+
+          {actionGrant && actionGrant.includes('csv') && exportSurvey && (
+            <div>
+              {generatedCSV ? (
+                <a href={generatedCSV.url} download={generatedCSV.filename}>
+                  Last ned
+                </a>
+              ) : (
                 <Button
-                  onClick={() => {
-                    navigator.clipboard.writeText(shareLink).then(() => {
-                      this.setState({
-                        copied: true,
-                      });
-                      setTimeout(
-                        () =>
-                          this.setState({
-                            copied: false,
-                          }),
-                        2000
-                      );
-                    });
-                  }}
-                  className={cx(this.state.copied && styles.copied)}
+                  onClick={async () =>
+                    this.setState({
+                      generatedCSV: await exportSurvey(surveyId),
+                    })
+                  }
                 >
-                  <Icon
-                    name={this.state.copied ? 'checkmark' : 'copy-outline'}
-                  />
-                  {this.state.copied ? 'Kopiert!' : 'Kopier delbar link'}
+                  Eksporter til CSV
                 </Button>
-              </li>
-            )}
-            {actionGrant && actionGrant.includes('csv') && exportSurvey && (
-              <div
-                style={{
-                  marginTop: '5px',
-                }}
-              >
-                {generatedCSV ? (
-                  <a href={generatedCSV.url} download={generatedCSV.filename}>
-                    Last ned
-                  </a>
-                ) : (
-                  <Button
-                    onClick={async () =>
+              )}
+            </div>
+          )}
+
+          {actionGrant && actionGrant.includes('edit') && shareSurvey && (
+            <CheckBox
+              id="shareSurvey"
+              label="Del spørreundersøkelsen"
+              onChange={() =>
+                token ? hideSurvey(surveyId) : shareSurvey(surveyId)
+              }
+              value={!!token}
+            />
+          )}
+
+          {token && (
+            <Button
+              onClick={() => {
+                navigator.clipboard.writeText(shareLink).then(() => {
+                  this.setState({
+                    copied: true,
+                  });
+                  setTimeout(
+                    () =>
                       this.setState({
-                        generatedCSV: await exportSurvey(surveyId),
-                      })
-                    }
-                  >
-                    Eksporter til CSV
-                  </Button>
-                )}
-              </div>
-            )}
-          </ul>
+                        copied: false,
+                      }),
+                    2000
+                  );
+                });
+              }}
+              success={this.state.copied}
+            >
+              <Icon name={this.state.copied ? 'checkmark' : 'copy-outline'} />
+              {this.state.copied ? 'Kopiert!' : 'Kopier delbar link'}
+            </Button>
+          )}
         </ContentSidebar>
       )
     );

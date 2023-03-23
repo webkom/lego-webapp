@@ -1,0 +1,4 @@
+.noEventsMessage {
+  color: var(--secondary-font-color);
+  font-style: italic;
+}

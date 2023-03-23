@@ -40,20 +40,8 @@
     transform: rotate(-90deg);
   }
 
-  .node {
-    transition: all var(--linear-slow);
-    border-radius: 3px;
-  }
-
-  .info,
-  .node {
+  .info {
     padding: 2px 10px 2px 5px;
-    font: 14px Helvetica, Arial, sans-serif;
     user-select: none;
-  }
-
-  .node:hover {
-    background-color: rgb(220, 245, 243);
-    cursor: pointer;
   }
 }

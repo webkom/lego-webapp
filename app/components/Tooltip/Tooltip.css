@@ -8,7 +8,7 @@
   position: absolute;
   background: var(--color-gray-8);
   color: var(--color-white);
-  border-radius: 5px;
+  border-radius: var(--border-radius-md);
   padding: 5px 15px;
   z-index: 1;
 }

@@ -26,10 +26,8 @@ html[data-theme='dark'] .backdrop {
   outline: none;
   overflow-y: auto;
   z-index: 4;
-  /* stylelint-disable indentation */
-  box-shadow: 0 2px 8px 2px rgba(104, 112, 118, 7%),
-    0 2px 4px -1px rgba(104, 112, 118, 4%);
-  border-radius: 1rem;
+  box-shadow: var(--shadow-sm);
+  border-radius: var(--border-radius-lg);
 
   @media (--tall-viewport) {
     max-height: calc(100vh - 300px);
@@ -42,7 +40,7 @@ html[data-theme='dark'] .backdrop {
   right: 1rem;
   padding: 0;
   color: var(--color-gray-6);
-  transition: color var(--easing-medium);
+  transition: color var(--easing-fast);
 
   &:hover {
     color: var(--color-gray-5);

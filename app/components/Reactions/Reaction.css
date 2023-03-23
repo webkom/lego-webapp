@@ -2,7 +2,7 @@
   position: relative;
   height: 29px;
   width: 54px;
-  border-radius: 1rem;
+  border-radius: var(--border-radius-lg);
   background-color: var(--additive-background);
   border: 0 solid var(--color-red-4);
   color: var(--color-gray-6);
@@ -17,14 +17,9 @@
 }
 
 .reacted {
-  background-color: var(--color-red-7);
+  background-color: var(--color-red-1);
   color: var(--color-red-4);
   border-width: 1.5px;
-}
-
-html[data-theme='dark'] .reacted {
-  background-color: var(--color-red-6);
-  color: var(--color-red-2);
 }
 
 .reactionCount {

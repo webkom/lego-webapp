@@ -134,28 +134,17 @@ function EventEditor({
           <Field
             name="youtubeUrl"
             label={
-              <Flex>
+              <Flex alignItems="center" gap={6}>
                 <div>Erstatt cover-bildet med video fra YouTube</div>
-                <div
-                  style={{
-                    marginLeft: '5px',
-                  }}
-                >
-                  <Tooltip
+                <Tooltip content="Valgfritt felt. Videoen erstatter ikke coveret i listen over arrangementer.">
+                  <Icon
+                    name="information-circle-outline"
+                    size={20}
                     style={{
-                      marginLeft: '3px',
+                      cursor: 'pointer',
                     }}
-                    content="Valgfritt felt. Videoen erstatter ikke coveret i listen over arrangementer."
-                  >
-                    <Icon
-                      name="information-circle-outline"
-                      size={20}
-                      style={{
-                        cursor: 'pointer',
-                      }}
-                    />
-                  </Tooltip>
-                </div>
+                  />
+                </Tooltip>
               </Flex>
             }
             placeholder="https://www.youtube.com/watch?v=bLHL75H_VEM&t=5"
@@ -172,12 +161,12 @@ function EventEditor({
         />
         <Flex wrap alignItems="center" justifyContent="space-between">
           <Field
+            label="Tittel"
             name="title"
             placeholder="Tittel"
             style={{
-              borderBottom: `2px solid ${color}`,
+              borderBottom: `3px solid ${color}`,
             }}
-            className={styles.title}
             component={TextInput.Field}
           />
         </Flex>
@@ -198,8 +187,6 @@ function EventEditor({
               uploadFile={uploadFile}
               initialized={initialized}
             />
-            {/* eslint-disable-next-line */}
-            {/* @ts-ignore There are some issues with our postcss config and the TS css module plugin */}
             <Flex className={styles.tagRow}>
               {(event.tags || []).map((tag, i) => (
                 <Tag key={i} tag={tag} />
@@ -540,7 +527,6 @@ function EventEditor({
                 <ModalParentComponent
                   key="modal"
                   pools={pools || []}
-                  registrations={registrations || []}
                   title="Påmeldte"
                 >
                   <AttendanceStatus pools={pools} />

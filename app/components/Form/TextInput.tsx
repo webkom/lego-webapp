@@ -1,40 +1,71 @@
 import cx from 'classnames';
+import { useRef } from 'react';
+import Icon from 'app/components/Icon';
+import Flex from 'app/components/Layout/Flex';
 import { createField } from './Field';
 import styles from './TextInput.css';
-import type { RefObject, InputHTMLAttributes } from 'react';
+import type { ReactNode, InputHTMLAttributes } from 'react';
 
 type Props = {
   type?: string;
+  prefix?: ReactNode;
   suffix?: string;
   className?: string;
-  inputRef?: RefObject<HTMLInputElement>;
+  inputRef?: HTMLInputElement;
   disabled?: boolean;
   readOnly?: boolean;
+  placeholder?: string;
+  removeBorder?: boolean;
 } & InputHTMLAttributes<HTMLInputElement>;
 
-function TextInput({
+const TextInput = ({
   type = 'text',
   className,
   disabled,
   inputRef,
+  prefix,
   suffix,
   readOnly,
+  placeholder,
+  removeBorder = false,
   ...props
-}: Props) {
+}: Props) => {
+  /* New ref is made because text inputs that are not Fields are not given a ref */
+  const newInputRef = useRef<HTMLInputElement>(inputRef);
+
   return (
-    <span className={cx(suffix && styles.inputGroup)}>
+    <Flex
+      alignItems="center"
+      gap={10}
+      className={cx(
+        styles.input,
+        styles.textInput,
+        disabled && styles.disabled,
+        !prefix && styles.spacing,
+        removeBorder && styles.removeBorder,
+        className
+      )}
+    >
+      {prefix && (
+        <Icon
+          name={prefix}
+          size={16}
+          onClick={() => newInputRef.current.focus()}
+          className={styles.prefix}
+        />
+      )}
       <input
-        ref={inputRef}
+        ref={newInputRef}
         type={type}
+        placeholder={placeholder}
         disabled={disabled}
         readOnly={!!readOnly}
-        className={cx(styles.input, suffix && styles.suffix, className)}
         {...props}
       />
       {suffix && <span className={styles.suffix}>{suffix}</span>}
-    </span>
+    </Flex>
   );
-}
+};
 
 TextInput.Field = createField(TextInput);
 export default TextInput;

@@ -2,7 +2,6 @@ import { push } from 'connected-react-router';
 import qs from 'qs';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { formValueSelector } from 'redux-form';
 import { fetchEvent } from 'app/actions/EventActions';
 import { LoginPage } from 'app/components/LoginForm';
 import { selectEventById } from 'app/reducers/events';
@@ -69,7 +68,6 @@ const mapStateToProps = (state, props) => {
     }
   }
 
-  const formSelector = formValueSelector('surveyEditor');
   return {
     template,
     selectedTemplateType,
@@ -79,7 +77,6 @@ const mapStateToProps = (state, props) => {
       event: event && fullEvent,
     },
     notFetching,
-    activeFrom: formSelector(state, 'activeFrom') || defaultActiveFrom(12, 0),
   };
 };
 

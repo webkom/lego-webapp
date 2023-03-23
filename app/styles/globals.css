@@ -27,6 +27,7 @@ a {
   color: var(--lego-link-color);
   cursor: pointer;
   text-decoration: none;
+  transition: color var(--easing-blazingly-fast);
 
   /* Wrap Links */
   overflow-wrap: break-word;
@@ -49,6 +50,11 @@ ul {
 h1 {
   font-size: 30px;
   margin: 15px 0;
+}
+
+h2,
+h3 {
+  margin: 10px 0;
 }
 
 h1,

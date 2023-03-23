@@ -1,7 +1,7 @@
 import { Children, cloneElement, Component } from 'react';
 import Modal from 'app/components/Modal';
 import AttendanceModal from './AttendanceModal';
-import type { Pool, Registration } from './AttendanceModal';
+import type { Pool } from './AttendanceModal';
 import type { ComponentType, ReactElement } from 'react';
 
 type State = {
@@ -11,8 +11,8 @@ type State = {
 
 type WithModalProps = {
   pools: Pool[];
-  registrations?: Registration[];
   title?: string;
+  isMeeting?: boolean;
 };
 
 export default function withModal<Props extends WithModalProps>(
@@ -51,7 +51,7 @@ export default function withModal<Props extends WithModalProps>(
               selectedPool={this.state.selectedTab}
               togglePool={this.toggleTab}
               pools={this.props.pools}
-              allRegistrations={this.props.registrations}
+              isMeeting={this.props.isMeeting}
             />
           </Modal>
         </div>

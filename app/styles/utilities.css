@@ -14,17 +14,15 @@
 
 .popover {
   border: 1px solid var(--border-gray);
-  box-shadow: 0 2px 8px 2px rgba(104, 112, 118, 7%),
-    0 2px 4px -1px rgba(104, 112, 118, 4%);
+  box-shadow: var(--shadow-sm);
 }
 
 .contentContainer {
   composes: container;
   background: var(--color-white);
   padding: 40px;
-  box-shadow: 0 1px 20px
-    rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 5%);
-  border-radius: 3px;
+  box-shadow: var(--shadow-sm);
+  border-radius: var(--border-radius-lg);
 
   @media (--small-viewport) {
     padding: 40px 10px;
@@ -52,15 +50,8 @@ html[data-theme='dark'] .contentContainer {
 
 .withShadow {
   border: 1px solid var(--border-gray);
-  box-shadow: 0 1px 4px rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 4%);
-  border-radius: 5px;
-}
-
-.editShadow {
-  composes: withShadow;
-  outline: none;
-  box-shadow: 0 0 5px var(--color-gray-4);
-  border-color: var(--border-gray);
+  box-shadow: var(--shadow-sm);
+  border-radius: var(--border-radius-lg);
 }
 
 .truncateString {

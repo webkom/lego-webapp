@@ -53,12 +53,13 @@ describe('View event', () => {
 
     cy.contains('button', 'Kommenter').should('not.exist');
 
+    cy.wait(2000);
     cy.get(c('CommentForm') + ' [data-slate-editor="true"]')
       .last()
       .click()
       .wait(100);
     cy.contains('button', 'Kommenter').should('be.disabled');
-    cy.focused().type('This event will be awesome');
+    cy.focused().click().type('This event will be awesome');
     cy.contains('button', 'Kommenter').should('not.be.disabled').click();
 
     // We should see the comment and be able to delete it
@@ -76,13 +77,13 @@ describe('View event', () => {
     // Nested comments should work as expected
     // TODO fix form clearing
     cy.reload();
+    cy.wait(2000);
     cy.get(c('CommentForm') + ' [data-slate-editor="true"]')
       .last()
-      .wait(500)
       .click()
       .wait(100);
     cy.contains('button', 'Kommenter').should('be.disabled');
-    cy.focused().type('This is the top comment');
+    cy.focused().click().type('This is the top comment');
     cy.contains('button', 'Kommenter').should('not.be.disabled').click();
 
     cy.get(c('Comment__comment')).last().contains('This is the top comment');

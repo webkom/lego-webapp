@@ -1,4 +1,4 @@
-import { push } from 'connected-react-router';
+import { replace } from 'connected-react-router';
 import { debounce } from 'lodash';
 import qs from 'qs';
 import { connect } from 'react-redux';
@@ -12,7 +12,7 @@ import Abacard from './components/EventAdministrate/Abacard';
 
 const searchTypes = ['users.user'];
 
-const loadData = async (props, dispatch): any => {
+const loadData = async (props, dispatch): Promise<void> => {
   const query = qs.parse(props.location.search, {
     ignoreQueryPrefix: true,
   }).q;
@@ -23,7 +23,7 @@ const loadData = async (props, dispatch): any => {
 };
 
 const mapStateToProps = (state, props) => {
-  const query = qs.parse(props.location.search);
+  const query = qs.parse(props.location.search, { ignoreQueryPrefix: true }).q;
   const results = query ? selectAutocomplete(state) : [];
   const { eventId } = props;
   const { registered } = getRegistrationGroups(state, {
@@ -40,15 +40,16 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = (dispatch, { eventId }) => {
   const url = `/events/${eventId}/administrate/abacard?q=`;
   return {
-    clearSearch: () => dispatch(push(url)),
-    markUsernamePresent: (...props) => dispatch(markUsernamePresent(...props)),
+    clearSearch: () => dispatch(replace(url)),
+    markUsernamePresent: (eventId: number, username: string) =>
+      dispatch(markUsernamePresent(eventId, username)),
     onQueryChanged: debounce((query) => {
-      dispatch(push(url + query));
+      dispatch(replace(url + query));
 
       if (query) {
         dispatch(autocomplete(query, searchTypes));
       }
-    }, 100),
+    }, 300),
   };
 };
 

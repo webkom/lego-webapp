@@ -4,15 +4,10 @@ import type { HTMLAttributes } from 'react';
 
 type Props = {
   className?: string;
-
-  /** Small */
   tight?: boolean;
-
-  /** Shadow */
   shadow?: boolean;
-
-  /** Hidden overflow */
-  overflow?: boolean;
+  hideOverflow?: boolean;
+  isHoverable?: boolean;
 } & HTMLAttributes<HTMLDivElement>;
 
 function Card({
@@ -20,7 +15,8 @@ function Card({
   className,
   tight = false,
   shadow = true,
-  overflow = false,
+  hideOverflow = false,
+  isHoverable = false,
   ...htmlAttributes
 }: Props) {
   return (
@@ -29,10 +25,11 @@ function Card({
         className,
         styles.card,
         tight && styles.tight,
-        shadow && styles.shadow
+        shadow && styles.shadow,
+        isHoverable && styles.isHoverable
       )}
       style={{
-        overflow: overflow && 'hidden',
+        overflow: hideOverflow ? 'hidden' : 'initial',
       }}
       {...htmlAttributes}
     >

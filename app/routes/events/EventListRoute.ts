@@ -31,7 +31,7 @@ const mapStateToProps = (state, ownProps) => {
       actionGrant,
     })(state, ownProps),
     icalToken,
-    notLoading: !state.events.fetching,
+    fetching: state.events.fetching,
   };
 };
 
@@ -63,6 +63,5 @@ export default compose(
   withPreparedDispatch('fetchEventList', (props, dispatch) =>
     dispatch(fetchData())
   ),
-  connect(mapStateToProps, mapDispatchToProps),
-  loadingIndicator(['notLoading'])
+  connect(mapStateToProps, mapDispatchToProps)
 )(EventList);

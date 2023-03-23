@@ -8,6 +8,7 @@ const EventAdministrateRoute = loadable(
   () => import('./EventAdministrateRoute')
 );
 const EventAttendeeRoute = loadable(() => import('./EventAttendeeRoute'));
+const EventAllergiesRoute = loadable(() => import('./EventAllergiesRoute'));
 const EventAdminRegisterRoute = loadable(
   () => import('./EventAdminRegisterRoute')
 );
@@ -84,6 +85,15 @@ const eventRoute = ({
                 exact
                 path={`${match.path}/attendees`}
                 Component={EventAttendeeRoute}
+                passedProps={{
+                  currentUser,
+                  loggedIn,
+                }}
+              />
+              <RouteWrapper
+                exact
+                path={`${match.path}/allergies`}
+                Component={EventAllergiesRoute}
                 passedProps={{
                   currentUser,
                   loggedIn,

@@ -271,7 +271,7 @@ export default class BdbDetail extends Component<Props, State> {
         {!company.active && (
           <span
             style={{
-              color: 'red',
+              color: 'var(--danger-color)',
             }}
           >
             {' '}

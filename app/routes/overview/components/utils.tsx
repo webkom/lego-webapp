@@ -38,7 +38,7 @@ export const renderMeta = (item: WithDocumentType<Event | PublicArticle>) => {
       {item.tags?.length > 0 && (
         <Tags className={styles.tagline}>
           {item.tags.slice(0, 3).map((tag) => (
-            <Tag tag={tag} key={tag} link={`/articles/?tag=${tag}`} />
+            <Tag tag={tag} key={tag} />
           ))}
         </Tags>
       )}

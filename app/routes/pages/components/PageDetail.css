@@ -1,6 +1,6 @@
 @import url('~app/styles/variables.css');
 
-.cont {
+div .cont {
   padding: 0;
 }
 
@@ -20,16 +20,13 @@
 
 .navTab {
   position: relative;
-  margin-top: -2em;
+  margin-top: -30px;
 }
 
 .detail {
   flex: 1;
-  min-width: 300px;
   width: 100%;
-  max-width: 685px;
-  margin: auto;
-  padding-right: 10px;
+  padding: 1em;
 }
 
 .header {
@@ -39,7 +36,7 @@
 .headWrapper {
   display: flex;
   flex-flow: column wrap;
-  margin-top: 35px;
+  margin-top: -15px;
 }
 
 .header1 {
@@ -56,7 +53,9 @@
 }
 
 .mainTxt {
-  padding: 2.5em 0 4em 2em;
+  margin-top: 1em;
+  padding: 2em 1.5em;
+  flex-grow: 1;
 }
 
 .action {
@@ -80,10 +79,9 @@
 }
 
 .banner img {
-  height: 275px;
+  max-height: 275px;
   width: 100%;
   object-fit: contain;
-  margin-top: -2.1em;
 }
 
 .heading {
@@ -114,7 +112,7 @@
 }
 
 .sidebarOpenBtn {
-  background-color: #f7f7f7;
+  background-color: var(--color-red-6);
   width: 40px;
   height: 65px;
   position: sticky;
@@ -122,10 +120,9 @@
   display: none;
   align-items: center;
   justify-content: center;
-  border-radius: 0 50px 50px 0;
-  border: 1px solid #d1d1d1;
+  border-radius: 0 100% 100% 0/0 50% 50% 0;
   border-left: 0;
-  color: var(--lego-red);
+  color: #000;
   z-index: 10;
 
   @media (--mobile-device) {
@@ -139,8 +136,8 @@
   }
 
   .mainTxt {
-    padding: 1.5em;
-    padding-bottom: 3em;
+    padding: 1em;
+    padding-bottom: 1em;
   }
 
   .header1 {
@@ -156,7 +153,6 @@
 
   .navTab {
     display: flex;
-    justify-content: left;
   }
 
   .leaderBoard {

@@ -1,4 +1,5 @@
 import type Comment from 'app/store/models/Comment';
+import type { ReactionsGrouped } from './store/models/Reaction';
 import type { Moment } from 'moment';
 // TODO: Id handling could be opaque
 export type ID = number;
@@ -104,6 +105,7 @@ export type User = {
   memberships?: UserMembership[];
   abakusEmailLists?: EmailList[];
   permissionsPerGroup?: PermissionPerGroup[];
+  isAbakusMember?: boolean;
 };
 
 export type Penalty = {
@@ -232,6 +234,7 @@ export type Event = EventBase & {
   actionGrant: ActionGrant;
   activationTime: Dateish | null | undefined;
   isAdmitted: boolean | null | undefined;
+  following: false | ID;
   activeCapacity: number;
   eventType: EventType;
   eventStatusType: EventStatusType;
@@ -316,6 +319,7 @@ export type Meeting = {
   comments?: ID[];
   contentTarget?: string;
   actionGrant?: ActionGrant;
+  reactionsGrouped?: ReactionsGrouped;
 };
 
 export type AddPenalty = {

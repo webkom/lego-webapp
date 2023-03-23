@@ -1,5 +1,6 @@
 import { pick, sumBy, find } from 'lodash';
 import moment from 'moment-timezone';
+import config from 'app/config';
 import type {
   TransformEvent,
   Event,
@@ -22,7 +23,7 @@ export const EVENT_CONSTANTS = {
   party: 'Fest',
   social: 'Sosialt',
   event: 'Arrangement',
-  kid_event: 'KID-arrangement',
+  kid_event: 'KiD-arrangement',
   other: 'Annet',
 } as const;
 // Returns the string representation of an EventType
@@ -82,6 +83,7 @@ export type EditingEvent = Event & {
   registrationDeadline: Dateish;
   hasFeedbackQuestion: boolean;
   isClarified: boolean;
+  authors: Option[];
 };
 
 // Event fields that should be created or updated based on the API.
@@ -237,8 +239,7 @@ export const transformEvent = (data: TransformEvent) => ({
   unregistrationDeadline: calculateUnregistrationDeadline(data),
   unregistrationDeadlineHours: calculateUnregistrationDeadlineHours(data),
   pools: calculatePools(data),
-  useCaptcha: true,
-  // always use Captcha, this blocks the use of CLI
+  useCaptcha: config.environment === 'ci' ? false : data.useCaptcha,
   youtubeUrl: data.youtubeUrl,
   mazemapPoi: calculateMazemapPoi(data),
   feedbackDescription:

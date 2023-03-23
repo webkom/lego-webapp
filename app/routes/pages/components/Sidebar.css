@@ -5,35 +5,32 @@
   display: flex;
   justify-content: center;
   box-sizing: border-box;
-  border-right: 2px solid var(--lego-red);
+  background-color: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 2%);
   margin-bottom: 5em;
-  width: 270px;
+  width: 290px;
 }
 
 .sidebar {
-  min-width: 150px;
-  max-width: 230px;
-  margin: 0 1.5em;
+  margin: 0 1.1em;
+  width: 100%;
   padding-top: 20px;
   display: flex;
   flex-direction: column;
 
   @media (--mobile-device) {
     margin: 0;
+    padding-right: 1.5rem;
   }
 }
 
 .sidebarHeader {
-  font-size: 2em;
-  margin-bottom: -10px;
+  font-size: 1.8em;
   font-weight: 600;
-}
-
-.sidebarSubtitle {
-  margin-top: 0;
-  padding-top: 0;
-  font-size: 15px;
-  font-weight: bold;
+  margin-top: 20px;
+  width: 95%;
+  text-align: center;
+  border-bottom: 2px solid var(--border-gray);
+  padding-bottom: 0.6em;
 }
 
 .sidebarPicture {
@@ -51,7 +48,7 @@
 }
 
 .sidebarBottom {
-  margin-top: 1.5em;
+  margin-top: 2em;
 }
 
 .oldImg {
@@ -92,15 +89,15 @@
     display: block;
     position: absolute;
     z-index: 11;
-    width: 90%;
-    box-shadow: 10px 10px 27px -15px rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 75%);
+    width: 100%;
+    box-shadow: var(--shadow-lg);
     height: 100%;
   }
 
   .sidebar {
     width: 100%;
     max-width: 100%;
-    background-color: #f6f6f6;
+    background-color: var(--lego-card-color);
     height: 100%;
   }
 

@@ -1,0 +1,55 @@
+@import url('~app/styles/variables.css');
+
+.collapse {
+  position: relative;
+  overflow: hidden;
+  transition: height var(--easing-slow);
+}
+
+.base {
+  word-break: break-word;
+
+  div[data-type='todo'] > input {
+    cursor: pointer;
+    float: left;
+    position: relative;
+    top: 4px;
+    left: -4px;
+  }
+
+  ul {
+    margin-left: 15px;
+  }
+
+  ol {
+    margin-left: 15px;
+  }
+
+  figure {
+    text-align: center;
+    font-size: 13px;
+  }
+}
+
+.showMore {
+  display: flex;
+  justify-content: center;
+  height: 50px;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  background-image: linear-gradient(
+    rgba(0, 0, 0, 0%),
+    var(--lego-card-color),
+    var(--lego-card-color)
+  );
+  cursor: pointer;
+}
+
+.showMoreIcon {
+  padding: 3px;
+  margin: 0;
+  border-radius: 50%;
+  background-color: var(--lego-card-color);
+  box-shadow: 0 0 5px var(--lego-card-color);
+}

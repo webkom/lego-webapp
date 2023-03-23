@@ -8,27 +8,31 @@
 }
 
 .inputWithError {
-  border: 1px solid #c24538 !important;
+  border: 1.5px solid var(--danger-color) !important;
 }
 
 .inputWithWarning {
-  border: 1px solid #ff8000 !important;
+  border: 1.5px solid var(--color-orange-6) !important;
 }
 
 .fieldError {
-  background: #c24538;
-  color: var(--color-white);
+  min-height: 35px;
   padding: 5px 10px;
   margin-top: 3px;
-  border-radius: 3px;
+  background: var(--danger-color);
+  color: var(--color-absolute-white);
+  font-size: 0.9rem;
+  border-radius: var(--border-radius-md);
 }
 
 .fieldWarning {
-  background: #ff8000;
-  color: var(--color-white);
+  min-height: 35px;
   padding: 5px 10px;
   margin-top: 3px;
-  border-radius: 3px;
+  background: var(--color-orange-6);
+  color: var(--color-absolute-white);
+  font-size: 0.9rem;
+  border-radius: var(--border-radius-md);
 }
 
 .label {
@@ -36,14 +40,9 @@
 }
 
 .required {
-  color: #c24538;
+  color: var(--danger-color);
   font-weight: 600;
   margin-left: 2px;
-}
-
-input[type='text']:disabled {
-  background-color: var(--additive-background);
-  color: var(--color-gray-5);
 }
 
 :global {

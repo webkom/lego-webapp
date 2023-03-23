@@ -78,6 +78,7 @@ class Poll extends Component<Props, State> {
       })
       .sort((a, b) => b.ratio - a.ratio);
   };
+
   shuffle = (array: Array<OptionEntityRatio>) => {
     const oldArray = array.slice(0);
     const newArray = [];
@@ -98,7 +99,9 @@ class Poll extends Component<Props, State> {
     const { id, title, description, hasAnswered, totalVotes, resultsHidden } =
       poll;
     const options = this.optionsWithPerfectRatios(this.props.poll.options);
-    const orderedOptions = hasAnswered ? options : shuffledOptions;
+    // Random ordering breaks SSR
+    //const orderedOptions = hasAnswered ? options : shuffledOptions;
+    const orderedOptions = options;
     const optionsToShow = expanded
       ? orderedOptions
       : orderedOptions.slice(0, truncate);
@@ -147,7 +150,7 @@ class Poll extends Component<Props, State> {
               size={20}
               style={{
                 marginLeft: '10px',
-                color: 'green',
+                color: 'var(--color-green-6)',
               }}
             />
           </div>

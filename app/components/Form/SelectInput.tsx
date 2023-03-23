@@ -1,9 +1,11 @@
-import Select, { type ThemeConfig } from 'react-select';
+import Select from 'react-select';
 import Creatable from 'react-select/creatable';
 import mazemapAutocomplete from '../Search/mazemapAutocomplete';
 import withAutocomplete from '../Search/withAutocomplete';
 import { createField } from './Field';
 import style from './SelectInput.css';
+import type { ChangeEvent, FocusEvent } from 'react';
+import type { GroupBase, StylesConfig, ThemeConfig } from 'react-select';
 
 type Props = {
   name: string;
@@ -12,8 +14,18 @@ type Props = {
   tags?: boolean;
   fetching: boolean;
   className?: string;
-  selectStyle?: string;
-  onBlur: (e: any) => void;
+  selectStyle?: StylesConfig<any, false, GroupBase<any>>;
+  onBlur: (
+    event: FocusEvent<HTMLInputElement>,
+    newValue?: string,
+    previousValue?: string,
+    name?: string
+  ) => void;
+  onChange?: (
+    event: ChangeEvent,
+    newValue: string,
+    previousValue: string
+  ) => void;
   onSearch: (arg0: string) => void;
   shouldKeyDownEventCreateNewOption: (arg0: number) => boolean;
   isValidNewOption: (arg0: string) => boolean;
@@ -126,6 +138,7 @@ function SelectInput({
         }}
         styles={selectStyle ?? selectStyles}
         theme={selectTheme}
+        blurInputOnSelect={false}
       />
     </div>
   );

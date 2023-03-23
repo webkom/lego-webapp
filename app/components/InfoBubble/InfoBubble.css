@@ -14,8 +14,8 @@
   order: 0;
   width: 70px;
   height: 70px;
-  background-color: #d13c32;
-  border-radius: 35px;
+  background-color: var(--lego-red-color);
+  border-radius: 50%;
 }
 
 .data,
@@ -60,8 +60,8 @@
   order: 0;
   width: 56px;
   height: 56px;
-  border-radius: 28px;
-  background-color: #d13c32;
+  background-color: var(--lego-red-color);
+  border-radius: 50%;
 }
 
 .smallIcon {

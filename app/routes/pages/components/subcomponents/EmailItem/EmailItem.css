@@ -6,7 +6,11 @@
   padding: 0.3rem;
   flex-basis: calc(100% / 3);
 
-  @media (--mobile-device) {
+  @media (--medium-viewport) {
+    flex-basis: 50%;
+  }
+
+  @media (--small-viewport) {
     flex-basis: 100%;
   }
 }

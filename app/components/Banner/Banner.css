@@ -14,8 +14,8 @@
 }
 
 .red {
-  background-color: var(--color-red-3);
-  color: var(--color-white);
+  background-color: var(--color-red-5);
+  color: var(--color-absolute-white);
 }
 
 .gray {
