@@ -136,3 +136,7 @@
 .label {
   color: var(--danger-color);
 }
+
+.selector {
+  min-width: 500px;
+}

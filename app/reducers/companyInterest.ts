@@ -41,17 +41,29 @@ export const selectCompanyInterestList = createSelector(
   (state) => state.companyInterest.byId,
   (state) => state.companyInterest.items,
   (state, props) => props,
-  (companyInterestById, companyInterestIds, semesterId) => {
+  (state, props, selectedEventOption) => selectedEventOption,
+  (companyInterestById, companyInterestIds, semesterId, eventValue) => {
     const companyInterests = companyInterestIds.map(
       (id) => companyInterestById[id]
     );
-
-    if (semesterId === 0) {
+    if (semesterId === 0 && eventValue === '') {
       return companyInterests;
     }
+    if (semesterId === 0 && eventValue !== '') {
+      return companyInterests.filter((companyInterest) =>
+        companyInterest.events.includes(eventValue)
+      );
+    }
+    if (semesterId !== 0 && eventValue === '') {
+      return companyInterests.filter((companyInterest) =>
+        companyInterest.semesters.includes(semesterId)
+      );
+    }
 
-    return companyInterests.filter((companyInterest) =>
-      companyInterest.semesters.includes(semesterId)
+    return companyInterests.filter(
+      (companyInterest) =>
+        companyInterest.semesters.includes(semesterId) &&
+        companyInterest.events.includes(eventValue)
     );
   }
 );
