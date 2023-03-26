@@ -239,49 +239,49 @@ class CompanyInterestList extends Component<Props, State> {
           </Link>
         </Flex>
 
-        <Flex className={styles.section}>
-          <Select
-            name="form-event-selector"
-            value={this.props.selectedEventOption}
-            onChange={this.handleEventChange}
-            options={EVENT_TYPE_OPTIONS}
-            isClearable={false}
-            theme={selectTheme}
-            styles={selectStyles}
-            className={styles.selector}
-          />
+        <Flex
+          wrap
+          justifyContent="space-between"
+          alignItems="flex-end"
+          className={styles.section}
+        >
+          <Flex column>
+            <Select
+              name="form-event-selector"
+              value={this.props.selectedEventOption}
+              onChange={this.handleEventChange}
+              options={EVENT_TYPE_OPTIONS}
+              isClearable={false}
+              theme={selectTheme}
+              styles={selectStyles}
+            />
+          </Flex>
 
-          <div
-            style={{
-              marginTop: '5px',
-            }}
-          >
-            {generatedCSV ? (
-              <a href={generatedCSV.url} download={generatedCSV.filename}>
-                Last ned
-              </a>
-            ) : (
-              <Tooltip
-                style={
-                  this.props.selectedSemesterOption.year && { display: 'none' }
+          {generatedCSV ? (
+            <a href={generatedCSV.url} download={generatedCSV.filename}>
+              Last ned
+            </a>
+          ) : (
+            <Tooltip
+              style={
+                this.props.selectedSemesterOption.year && { display: 'none' }
+              }
+              content={'Vennligst velg semester'}
+            >
+              <Button
+                onClick={async () =>
+                  this.setState({
+                    generatedCSV: await this.exportInterestList(
+                      this.props.selectedEventOption.value
+                    ),
+                  })
                 }
-                content={'Vennligst velg semester'}
+                disabled={!this.props.selectedSemesterOption.year}
               >
-                <Button
-                  onClick={async () =>
-                    this.setState({
-                      generatedCSV: await this.exportInterestList(
-                        this.props.selectedEventOption.value
-                      ),
-                    })
-                  }
-                  disabled={!this.props.selectedSemesterOption.year}
-                >
-                  Eksporter til CSV
-                </Button>
-              </Tooltip>
-            )}
-          </div>
+                Eksporter til CSV
+              </Button>
+            </Tooltip>
+          )}
         </Flex>
 
         <Table
