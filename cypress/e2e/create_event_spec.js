@@ -18,8 +18,8 @@ describe('Create event', () => {
     // Upload file
     cy.upload_file(
       c('ImageUploadField__coverImage') +
-      ' ' +
-      c('UploadImage__placeholderTitle'),
+        ' ' +
+        c('UploadImage__placeholderTitle'),
       'images/screenshot.png'
     );
     cy.get('.cropper-move').click();
@@ -154,8 +154,8 @@ describe('Create event', () => {
     // Fill rest of form
     cy.upload_file(
       c('ImageUploadField__coverImage') +
-      ' ' +
-      c('UploadImage__placeholderTitle'),
+        ' ' +
+        c('UploadImage__placeholderTitle'),
       'images/screenshot.png'
     );
     cy.get('.cropper-move').click();
@@ -247,7 +247,6 @@ describe('Create event', () => {
 
     // Check clarification
     field('isClarified').check();
-
 
     cy.contains('button', 'Opprett').should('not.be.disabled').click();
 
