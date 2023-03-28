@@ -354,9 +354,9 @@ const JoinEventForm = (props: Props) => {
               <div>Du kan ikke melde deg på dette arrangementet.</div>
             )}
             {sumPenalties(penalties) > 0 && event.heedPenalties && (
-              <div className={styles.eventWarning}>
+              <Card danger>
+                <Card.Header>NB!</Card.Header>
                 <p>
-                  NB!{' '}
                   {sumPenalties(penalties) > 2
                     ? `Du blir lagt rett på venteliste hvis du melder deg på`
                     : `Påmeldingen din er forskjøvet
@@ -367,13 +367,13 @@ const JoinEventForm = (props: Props) => {
                 <Link to="/pages/arrangementer/26-arrangementsregler">
                   Les mer om prikker her
                 </Link>
-              </div>
+              </Card>
             )}
             {!disabledForUser &&
               event.useContactTracing &&
               !currentUser.phoneNumber && (
-                <div className={styles.eventWarning}>
-                  <p>NB!</p>
+                <Card danger>
+                  <Card.Header>NB!</Card.Header>
                   <p>
                     Du må legge til telefonnummer for å melde deg på dette
                     arrangementet.
@@ -381,20 +381,20 @@ const JoinEventForm = (props: Props) => {
                   <Link to={`/users/me/settings/profile`}>
                     Gå til innstillinger
                   </Link>
-                </div>
+                </Card>
               )}
             {!disabledForUser &&
               event.useConsent &&
               !hasRegisteredConsentForSemester && (
-                <div className={styles.eventWarning}>
-                  <p>NB!</p>
+                <Card>
+                  <Card.Header>NB!</Card.Header>
                   <p>
                     Du må ta stilling til bildesamtykke for semesteret{' '}
                     {toReadableSemester(eventSemester)} for å melde deg på dette
                     arrangement.
                   </p>
                   <Link to={`/users/me/`}>Gå til min profil</Link>
-                </div>
+                </Card>
               )}
             {formOpen &&
               hasRegisteredConsentIfRequired &&
