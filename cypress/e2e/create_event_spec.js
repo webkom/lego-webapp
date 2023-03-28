@@ -37,6 +37,7 @@ describe('Create event', () => {
     fieldError('title').should('not.exist');
     fieldError('description').should('not.exist');
     fieldError('eventType').should('not.exist');
+    fieldError('isClarified').should('not.exist');
 
     cy.contains('button', 'Opprett').should('be.disabled');
     // click editor to initialize form and enable Opprett button
@@ -49,6 +50,7 @@ describe('Create event', () => {
     fieldError('title').should('be.visible');
     fieldError('description').should('be.visible');
     fieldError('eventType').should('be.visible');
+    fieldError('isClarified').should('be.visible');
 
     // Upload file
     uploadHeader();
@@ -59,6 +61,9 @@ describe('Create event', () => {
 
     field('description').type('blir fett').blur();
     fieldError('description').should('not.exist');
+
+    field('isClarified').check();
+    fieldError('isClarified').should('not.exist');
 
     // TODO: Make the suggestion box open if you click the label, not only when you click the input field
     selectField('eventType').click();
@@ -160,6 +165,7 @@ describe('Create event', () => {
       .click();
     field('title').type('Pils på Webkomkontoret!').blur();
     field('description').type('blir fett').blur();
+    field('isClarified').check();
     selectField('eventType').click();
     cy.focused().type('sos{enter}', { force: true });
 
@@ -207,6 +213,9 @@ describe('Create event', () => {
       .and('contain', 'Bedkom');
     cy.focused().type('{enter}', { force: true });
 
+    // Check clarification
+    field('isClarified').check();
+
     cy.contains('button', 'Opprett').should('not.be.disabled').click();
 
     // Verify that created event looks good..
@@ -235,6 +244,9 @@ describe('Create event', () => {
     // Select regitrationType
     selectField('eventStatusType').click();
     cy.focused().type('TBA{enter}', { force: true });
+
+    // Check clarification
+    field('isClarified').check();
 
     cy.contains('button', 'Opprett').should('not.be.disabled').click();
 
@@ -311,6 +323,9 @@ describe('Create event', () => {
     cy.get(c('DatePicker__header')).find('button:last-child').click();
     cy.contains(c('DatePicker__calendarItem'), '15').click();
 
+    // Check clarification
+    field('isClarified').check();
+
     cy.contains('button', 'Opprett').should('not.be.disabled').click();
 
     // Verify that created event looks good..
@@ -347,6 +362,9 @@ describe('Create event', () => {
     field('useMazemap').uncheck();
     cy.contains('Sted').click();
     cy.focused().type('Kjellern');
+
+    // Check clarification
+    field('isClarified').check();
 
     cy.contains('button', 'Opprett').should('not.be.disabled').click();
 
@@ -398,6 +416,9 @@ describe('Create event', () => {
       .should('not.contain', 'No results')
       .and('contain', 'Abakus');
     cy.focused().type('{enter}', { force: true });
+
+    // Check clarification
+    field('isClarified').check();
 
     cy.contains('button', 'Opprett').should('not.be.disabled').click();
 

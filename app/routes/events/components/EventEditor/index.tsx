@@ -561,6 +561,23 @@ function EventEditor({
             )}
           </ContentSidebar>
         </ContentSection>
+        {!isEditPage && (
+          <Tooltip
+            style={{
+              marginLeft: '3px',
+            }}
+            content="Jeg er kjent med at jeg kun kan bruke rettighetene mine til å opprette abakusarrangement som er i tråd med arrangementskalenderen og Abakus sine blesteregler, og at jeg må ta kontakt med hs@abakus.no dersom jeg er usikker eller ønsker å opprette et annet/eksternt arrangement."
+          >
+            <Field
+              label="Arrangementet er avklart i arrangementskalenderen"
+              name="isClarified"
+              component={CheckBox.Field}
+              fieldClassName={styles.metaFieldInformation}
+              className={styles.formField}
+              normalize={(v) => !!v}
+            />
+          </Tooltip>
+        )}
 
         <Flex wrap>
           {isEditPage && (
@@ -592,15 +609,15 @@ const validate = (data) => {
   }
 
   if (!data.title) {
-    errors.title = 'Tittel er påkrevet';
+    errors.title = 'Tittel er påkrevd';
   }
 
   if (!data.description || data.description.trim() === '') {
-    errors.description = 'Kalenderbeskrivelse er påkrevet';
+    errors.description = 'Kalenderbeskrivelse er påkrevd';
   }
 
   if (!data.eventType) {
-    errors.eventType = 'Arrangementstype er påkrevet';
+    errors.eventType = 'Arrangementstype er påkrevd';
   }
 
   if (data.isPriced && data.priceMember > 10000) {
@@ -612,7 +629,7 @@ const validate = (data) => {
   }
 
   if (!data.location) {
-    errors.location = 'Lokasjon er påkrevet';
+    errors.location = 'Lokasjon er påkrevd';
   }
 
   if (data.useMazemap && !data.mazemapPoi) {
@@ -624,7 +641,7 @@ const validate = (data) => {
   }
 
   if (!data.id && !data.cover) {
-    errors.cover = 'Cover er påkrevet';
+    errors.cover = 'Cover er påkrevd';
   }
 
   if (!data.eventStatusType) {
@@ -637,6 +654,10 @@ const validate = (data) => {
 
   if (data.feedbackRequired && !data.feedbackDescription) {
     errors.feedbackDescription = 'Kan ikke være tomt';
+  }
+
+  if (!data.isClarified) {
+    errors.isClarified = 'Arrangementet må være avklart';
   }
 
   if (!isInteger(data.registrationDeadlineHours)) {

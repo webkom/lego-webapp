@@ -82,6 +82,7 @@ export type EditingEvent = Event & {
   addFee: boolean;
   registrationDeadline: Dateish;
   hasFeedbackQuestion: boolean;
+  isClarified: boolean;
   authors: Option[];
 };
 

@@ -100,6 +100,7 @@ describe('Editor', () => {
     field('description').type('blir fett').blur();
     selectField('eventType').click();
     cy.focused().type('sos{enter}', { force: true });
+    field('isClarified').check();
 
     // Create event
     cy.contains('button', 'Opprett').should('not.be.disabled').click();
