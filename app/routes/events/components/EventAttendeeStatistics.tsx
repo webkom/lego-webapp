@@ -9,10 +9,9 @@ import {
   YAxis,
 } from 'recharts';
 import Card from 'app/components/Card';
-import ChartLabel from 'app/components/Chart/ChartLabel';
-import DistributionPieChart from 'app/components/Chart/PieChart';
+import PieChartWithLabel from 'app/components/Chart/PieChartWithLabel';
 import type { DistributionDataPoint } from 'app/components/Chart/utils';
-import { Flex } from 'app/components/Layout';
+import { addGenericDataPoint } from 'app/components/Statistics/aggregationUtils';
 import type { Dateish, EventRegistration } from 'app/models';
 import styles from './Event.css';
 
@@ -32,45 +31,10 @@ interface AttendeeStatistics {
   registrationTimeDistribution: RegistrationDateDataPoint[];
 }
 
-const PieChartWithLabel = ({
-  label,
-  distributionData,
-}: {
-  label: string;
-  distributionData: DistributionDataPoint[];
-}) => {
-  return (
-    <>
-      <h4>{label}</h4>
-      <Flex alignItems="center" style={{ marginBottom: '3rem' }} wrap={true}>
-        <DistributionPieChart
-          dataKey="count"
-          distributionData={distributionData}
-        />
-        <ChartLabel distributionData={distributionData} />
-      </Flex>
-    </>
-  );
-};
-
 const toLocalizedGender = (gender: string) => {
   if (gender === 'male') return 'Mann';
   if (gender === 'female') return 'Kvinne';
   return 'Annet';
-};
-
-const addGenericDataPoint = (
-  selectedDistribution: DistributionDataPoint[],
-  selectedDataPoint: string
-) => {
-  const dataPointEntry = selectedDistribution.find(
-    (entry) => entry.name === selectedDataPoint
-  );
-  if (dataPointEntry) {
-    dataPointEntry.count++;
-  } else {
-    selectedDistribution.push({ name: selectedDataPoint, count: 1 });
-  }
 };
 
 const addGroupDataPoint = (
