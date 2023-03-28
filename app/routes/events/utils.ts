@@ -32,7 +32,7 @@ export const eventTypeToString = (eventType: EventType): string => {
   return EVENT_CONSTANTS[eventType] || EVENT_CONSTANTS['other'];
 };
 // Colors for different event types
-const COLOR_CONSTANTS: Record<EventType, string> = {
+export const COLOR_CONSTANTS: Record<EventType, string> = {
   company_presentation: '#A1C34A',
   lunch_presentation: '#A1C34A',
   alternative_presentation: '#8A2BE2',

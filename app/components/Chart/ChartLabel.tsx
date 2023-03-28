@@ -5,8 +5,10 @@ import styles from './Chart.css';
 
 const ChartLabel = ({
   distributionData,
+  displayCount,
 }: {
   distributionData: DistributionDataPoint[];
+  displayCount: boolean;
 }) => {
   return (
     <div className={styles.wrapOnMobile}>
@@ -23,7 +25,10 @@ const ChartLabel = ({
               borderRadius: '1px',
             }}
           />
-          <span> {dataPoint.name}</span>
+          <span>
+            {' '}
+            {dataPoint.name} {displayCount ? `(${dataPoint.count})` : ''}
+          </span>
         </Flex>
       ))}
     </div>

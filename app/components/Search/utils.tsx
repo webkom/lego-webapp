@@ -113,6 +113,12 @@ const LINKS: Array<Link> = [
     title: 'Spørreundersøkelser',
     url: '/surveys',
   },
+  {
+    admin: true,
+    key: 'statistics',
+    title: 'Statistikk',
+    url: '/statistics',
+  },
 ];
 
 const sortFn = (a, b) => {

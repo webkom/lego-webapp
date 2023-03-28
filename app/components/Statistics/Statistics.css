@@ -1,0 +1,16 @@
+@import url('~app/styles/variables.css');
+
+.selectPeriod {
+  width: 20rem;
+}
+
+.selectPeriodContainer {
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  margin-bottom: 3rem;
+}
+
+.selectEventType {
+  margin-bottom: 2rem;
+  width: 20rem;
+}

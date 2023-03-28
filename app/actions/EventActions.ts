@@ -73,6 +73,7 @@ export const fetchList =
     dateAfter,
     dateBefore,
     refresh = false,
+    usePagination = true,
     loadNextPage = false,
   }: Record<string, any> = {}): Thunk<any> =>
   (dispatch, getState) => {
@@ -83,6 +84,10 @@ export const fetchList =
 
     if (dateBefore && dateAfter) {
       query.page_size = 60;
+    }
+
+    if (!usePagination) {
+      query.page_size = 0;
     }
 
     const queryString = createQueryString(query);

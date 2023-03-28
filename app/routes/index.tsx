@@ -33,6 +33,7 @@ const UserValidator = loadable(() => import('./userValidator'));
 const Polls = loadable(() => import('./polls'));
 const Events = loadable(() => import('./events'));
 const Overview = loadable(() => import('./overview'));
+const Statistics = loadable(() => import('./statistics'));
 
 const RouterConfig = () => (
   <>
@@ -83,7 +84,8 @@ const AppWrapper = (props) => (
           <Route path="/companyInterest" component={CompanyInterest} />
           <Route path="/bdb" component={Bdb} />
           <Route path="/articles" component={Articles} />
-          {/* 
+          <Route path="/statistics" component={Statistics} />
+          {/*
         This will eat all routes that are written after this 
         So one cant put any routes after pageNotFound
         */}
