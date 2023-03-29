@@ -130,7 +130,6 @@ const renderQuestions = ({
             fields={fields}
           />
         ))}
-        <span>{error}</span>
       </ul>
 
       <Link
