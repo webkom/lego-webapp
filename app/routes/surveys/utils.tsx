@@ -50,6 +50,7 @@ export const graphMappings = Object.keys(displayTypeStrings).map((key) => ({
 }>;
 export const ListNavigation = ({ title }: { title: ReactNode }) => (
   <NavigationTab title={title}>
+    <NavigationLink to="/surveys">Undersøkelser</NavigationLink>
     <NavigationLink to="/surveys/add">Ny undersøkelse</NavigationLink>
     <NavigationLink to="/surveys/templates">Maler</NavigationLink>
   </NavigationTab>
