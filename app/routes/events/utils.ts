@@ -293,7 +293,7 @@ export const penaltyHours = (penalties: Array<AddPenalty>) => {
       return 1337;
 
     default:
-      return -1;
+      return 0;
   }
 };
 

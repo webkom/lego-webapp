@@ -243,6 +243,7 @@ export type Event = EventBase & {
   totalCapacity: number;
   thumbnail: string | null | undefined;
   company: Company;
+  spotsLeft: number;
   comments: Comment[];
   contentTarget: string;
   pools: Array<EventPool>;
