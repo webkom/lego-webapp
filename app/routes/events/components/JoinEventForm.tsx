@@ -17,6 +17,8 @@ import type {
   User,
   EventRegistration,
   EventRegistrationStatus,
+  Penalty,
+  Event,
 } from 'app/models';
 import { selectPenaltyByUserId } from 'app/reducers/penalties';
 import { selectUserByUsername } from 'app/reducers/users';
@@ -34,7 +36,6 @@ import styles from './Event.css';
 import withCountdown from './JoinEventFormCountdownProvider';
 import PaymentRequestForm from './StripeElement';
 
-type Event = Record<string, any>;
 export type Props = {
   title?: string;
   event: Event;
@@ -54,7 +55,7 @@ export type Props = {
   captchaOpen: boolean;
   buttonOpen: boolean;
   registrationOpensIn: string | null | undefined;
-  penalties: Array<Record<string, any>>;
+  penalties: Penalty[];
   touch: (field: string) => void;
 };
 type SpotsLeftProps = {
@@ -159,7 +160,7 @@ const PaymentForm = ({
   currentUser,
   registration,
 }: {
-  createPaymentIntent: () => Promise<any>;
+  createPaymentIntent: () => Promise<void>;
   event: Event;
   currentUser: User;
   registration: EventRegistration;
@@ -344,9 +345,7 @@ const JoinEventForm = (props: Props) => {
           <>
             {!formOpen && event.activationTime && (
               <div>
-                {new Date(event.activationTime) < new Date()
-                  ? 'Åpnet '
-                  : 'Åpner '}
+                {moment(event.activationTime) < moment() ? 'Åpnet ' : 'Åpner '}
                 <Time time={event.activationTime} format="nowToTimeInWords" />
               </div>
             )}
@@ -477,7 +476,6 @@ const JoinEventForm = (props: Props) => {
                       component={TextInput.Field}
                       label={feedbackLabel}
                       className={styles.feedbackText}
-                      fieldClassName={styles.feedbackField}
                       rows={1}
                     />
                     {registration && (

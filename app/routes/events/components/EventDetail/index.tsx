@@ -212,17 +212,19 @@ export default class EventDetail extends Component<Props, State> {
     const color = colorForEvent(event.eventType);
 
     const onRegisterClick = event.following
-      ? () => unfollow(event.following, event.id)
+      ? () => unfollow(event.following as number, event.id)
       : () => follow(currentUser.id, event.id);
 
     const currentMoment = moment();
 
     const activationTimeMoment = moment(event.activationTime);
 
-    const eventRegistrationTime = activationTimeMoment.subtract(
-      penaltyHours(penalties),
-      'hours'
-    );
+    // Get the actual activation time.
+    // The time from LEGO is with penalties applied.
+    // This "unapplies" the penalties again
+    const eventRegistrationTime = event.heedPenalties
+      ? activationTimeMoment.subtract(penaltyHours(penalties), 'hours')
+      : activationTimeMoment;
 
     const registrationCloseTimeMoment = registrationCloseTime(event);
 
