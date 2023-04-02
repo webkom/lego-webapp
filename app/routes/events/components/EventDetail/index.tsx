@@ -140,9 +140,10 @@ export default class EventDetail extends Component<Props, State> {
   }
   static isCorrectDate() {
     // The year doesn't matter, as it only check month and day of the month
-    const aprilFoolsDate = moment('2023-04-01 11:00', 'YYYY-MM-DD HH:mm');
+    const aprilFoolsDateStart = moment('2023-04-01 11:00', 'YYYY-MM-DD HH:mm');
+    const aprilFoolsDateEnd = moment('2023-04-01 18:00', 'YYYY-MM-DD HH:mm');
     const now = moment();
-    return aprilFoolsDate.isBefore(now);
+    return aprilFoolsDateStart.isBefore(now) && aprilFoolsDateEnd.isAfter(now);
   }
 
   handleRegistration = ({
