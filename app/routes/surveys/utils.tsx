@@ -106,7 +106,7 @@ export const QuestionTypeOption = ({ iconName, option, ...props }: any) => (
         ? 'var(--color-gray-2)'
         : props.isFocused
         ? 'var(--additive-background)'
-        : 'var(--color-white)',
+        : 'var(--lego-card-color)',
     }}
     className={cx(styles.dropdownOption, styles.dropdown)}
     onMouseDown={(event) => {

@@ -122,6 +122,7 @@ const ArticleEditor = ({
           component={TextInput.Field}
           id="article-title"
         />
+
         <Field
           name="tags"
           label="Tags"
