@@ -3,6 +3,7 @@ import { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import mazemapLogo from 'app/assets/mazemap.png';
 import Button from 'app/components/Button';
+import Card from 'app/components/Card';
 import CommentView from 'app/components/Comments/CommentView';
 import {
   Content,
@@ -499,17 +500,11 @@ export default class EventDetail extends Component<Props, State> {
                 {event.unansweredSurveys &&
                 event.unansweredSurveys.length > 0 &&
                 !event.isAdmitted ? (
-                  <div className={sharedStyles.eventWarning}>
+                  <Card danger>
                     <p>
                       Du kan ikke melde deg på dette arrangementet fordi du har
-                      ubesvarte spørreundersøkelser.
-                    </p>
-                    <br />
-                    <p>
-                      Man må svare på alle spørreundersøkelser for tidligere
-                      arrangementer før man kan melde seg på nye arrangementer.
-                      Du kan svare på undersøkelsene dine ved å trykke på
-                      følgende linker:
+                      ubesvarte spørreundersøkelser. Gå til lenkene under for å
+                      svare:
                     </p>
                     <ul>
                       {event.unansweredSurveys.map((surveyId, i) => (
@@ -520,7 +515,7 @@ export default class EventDetail extends Component<Props, State> {
                         </li>
                       ))}
                     </ul>
-                  </div>
+                  </Card>
                 ) : (
                   <div>
                     <JoinEventForm
