@@ -42,10 +42,14 @@ function Card({
       }}
       {...htmlAttributes}
     >
-      <Flex gap={20}>
-        {danger && <Icon name="warning" className={styles.warningIcon} />}
-        <Flex column>{children}</Flex>
-      </Flex>
+      {danger ? (
+        <Flex gap={20}>
+          {danger && <Icon name="warning" className={styles.warningIcon} />}
+          <Flex column>{children}</Flex>
+        </Flex>
+      ) : (
+        <>{children}</>
+      )}
     </div>
   );
 }
