@@ -250,22 +250,14 @@ const SemesterBox = ({
 }): ReactNode => (
   <Flex column className={styles.checkboxWrapper}>
     {fields.map((item, index) => (
-      <Flex key={item}>
-        <label className={styles.checkboxLabel}>
-          <div className={styles.checkboxField}>
-            <Field
-              key={`semester${index}`}
-              name={`semesters[${index}].checked`}
-              type="checkbox"
-              component={CheckBox.Field}
-              normalize={(v) => !!v}
-            />
-          </div>
-          <Flex gap="4px" alignItems="center">
-            {semesterToText({ ...fields.value[index], language })}
-          </Flex>
-        </label>
-      </Flex>
+      <Field
+        key={`semester${index}`}
+        name={`semesters[${index}].checked`}
+        label={semesterToText({ ...fields.value[index], language })}
+        type="checkbox"
+        component={CheckBox.Field}
+        normalize={(v) => !!v}
+      />
     ))}
   </Flex>
 );
@@ -279,22 +271,14 @@ const SurveyOffersBox = ({
 }): ReactNode => (
   <Flex column className={styles.checkboxWrapper}>
     {fields.map((item, index) => (
-      <Flex key={item}>
-        <label className={styles.checkboxLabel}>
-          <div className={styles.checkboxField}>
-            <Field
-              key={`companyCourseThemes[${index}]`}
-              name={`companyCourseThemes[${index}].checked`}
-              type="checkbox"
-              component={CheckBox.Field}
-              normalize={(v) => !!v}
-            />
-          </div>
-          <Flex gap="4px" alignItems="center">
-            {SURVEY_OFFER_TYPES[surveyOffersToString(item)][language]}
-          </Flex>
-        </label>
-      </Flex>
+      <Field
+        key={`companyCourseThemes[${index}]`}
+        name={`companyCourseThemes[${index}].checked`}
+        label={SURVEY_OFFER_TYPES[surveyOffersToString(item)][language]}
+        type="checkbox"
+        component={CheckBox.Field}
+        normalize={(v) => !!v}
+      />
     ))}
   </Flex>
 );
@@ -308,22 +292,14 @@ const EventBox = ({
 }): ReactNode => (
   <Flex column className={styles.checkboxWrapper}>
     {fields.map((key, index) => (
-      <Flex key={key} alignItems="center">
-        <label className={styles.checkboxLabel}>
-          <div className={styles.checkboxField}>
-            <Field
-              key={`events[${index}]`}
-              name={`events[${index}].checked`}
-              type="checkbox"
-              component={CheckBox.Field}
-              normalize={(v) => !!v}
-            />
-          </div>
-          <Flex gap="4px" alignItems="center">
-            {EVENT_TYPES[eventToString(key)][language]}
-          </Flex>
-        </label>
-      </Flex>
+      <Field
+        key={`events[${index}]`}
+        name={`events[${index}].checked`}
+        label={EVENT_TYPES[eventToString(key)][language]}
+        type="checkbox"
+        component={CheckBox.Field}
+        normalize={(v) => !!v}
+      />
     ))}
   </Flex>
 );
@@ -337,22 +313,14 @@ const TargetGradeBox = ({
 }): ReactNode => (
   <Flex column className={styles.checkboxWrapper}>
     {fields.map((key, index) => (
-      <Flex key={key}>
-        <label className={styles.checkboxLabel}>
-          <div className={styles.checkboxField}>
-            <Field
-              key={`targetGrades[${index}]`}
-              name={`targetGrades[${index}].checked`}
-              type="checkbox"
-              component={CheckBox.Field}
-              normalize={(v) => !!v}
-            />
-          </div>
-          <Flex gap="4px" alignItems="center">
-            {TARGET_GRADE_TYPES[targetGradeToString(key)][language]}
-          </Flex>
-        </label>
-      </Flex>
+      <Field
+        key={`targetGrades[${index}]`}
+        name={`targetGrades[${index}].checked`}
+        label={TARGET_GRADE_TYPES[targetGradeToString(key)][language]}
+        type="checkbox"
+        component={CheckBox.Field}
+        normalize={(v) => !!v}
+      />
     ))}
   </Flex>
 );
@@ -366,22 +334,14 @@ const OtherBox = ({
 }): ReactNode => (
   <Flex column className={styles.checkboxWrapper}>
     {fields.map((key, index) => (
-      <Flex key={key}>
-        <label className={styles.checkboxLabel}>
-          <div className={styles.checkboxField}>
-            <Field
-              key={`otherOffers[${index}]`}
-              name={`otherOffers[${index}].checked`}
-              type="checkbox"
-              component={CheckBox.Field}
-              normalize={(v) => !!v}
-            />
-          </div>
-          <Flex gap="4px" alignItems="center">
-            {readmeIfy(OTHER_TYPES[otherOffersToString(key)][language])}
-          </Flex>
-        </label>
-      </Flex>
+      <Field
+        key={`otherOffers[${index}]`}
+        name={`otherOffers[${index}].checked`}
+        label={readmeIfy(OTHER_TYPES[otherOffersToString(key)][language])}
+        type="checkbox"
+        component={CheckBox.Field}
+        normalize={(v) => !!v}
+      />
     ))}
   </Flex>
 );
@@ -395,22 +355,14 @@ const CollaborationBox = ({
 }): ReactNode => (
   <Flex column className={styles.checkboxWrapper}>
     {fields.map((key, index) => (
-      <Flex key={key}>
-        <label className={styles.checkboxLabel}>
-          <div className={styles.checkboxField}>
-            <Field
-              key={`collaborations[${index}]`}
-              name={`collaborations[${index}].checked`}
-              type="checkbox"
-              component={CheckBox.Field}
-              normalize={(v) => !!v}
-            />
-          </div>
-          <Flex gap="4px" alignItems="center">
-            {COLLABORATION_TYPES[collaborationToString(key)][language]}
-          </Flex>
-        </label>
-      </Flex>
+      <Field
+        key={`collaborations[${index}]`}
+        name={`collaborations[${index}].checked`}
+        label={COLLABORATION_TYPES[collaborationToString(key)][language]}
+        type="checkbox"
+        component={CheckBox.Field}
+        normalize={(v) => !!v}
+      />
     ))}
   </Flex>
 );
