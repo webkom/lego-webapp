@@ -1,4 +1,5 @@
 import cx from 'classnames';
+import Flex from 'app/components/Layout/Flex';
 import { createField } from './Field';
 import styles from './RadioButton.css';
 import type { FormProps } from './Field';
@@ -27,7 +28,7 @@ function RadioButton({
   checked = inputValue ? inputValue === value : checked;
   value = inputValue ?? value;
   return (
-    <div className={cx(styles.box, className)}>
+    <Flex gap={7} className={cx(styles.box, className)}>
       <input
         {...props}
         className={styles.input}
@@ -36,8 +37,10 @@ function RadioButton({
         id={id}
         value={value}
       />
-      <span className={styles.label}>{label}</span>
-    </div>
+      <label htmlFor={id} className={styles.label}>
+        {label}
+      </label>
+    </Flex>
   );
 }
 

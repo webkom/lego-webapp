@@ -3,7 +3,7 @@ import Icon from 'app/components/Icon';
 import { Flex } from 'app/components/Layout';
 import Tooltip from 'app/components/Tooltip';
 import styles from './Field.css';
-import type { ComponentType } from 'react';
+import type { ComponentType, CSSProperties, InputHTMLAttributes } from 'react';
 
 const FieldError = ({
   error,
@@ -63,12 +63,12 @@ export const RenderWarningMessage = ({
 };
 export type FormProps = {
   className?: string;
-  input: Record<string, any>;
+  input: InputHTMLAttributes<HTMLInputElement>;
   meta: Record<string, any>;
   required?: boolean;
   label?: string;
   description?: string;
-  fieldStyle?: any;
+  fieldStyle?: CSSProperties;
   fieldClassName?: string;
   labelClassName?: string;
   showErrors?: boolean;
@@ -102,55 +102,81 @@ export function createField(Component: ComponentType<any>, options?: Options) {
     } = field;
     const { error, submitError, warning, touched } = meta;
     const anyError = error || submitError;
-    const hasError = showErrors && touched && anyError && anyError.length > 0;
-    const hasWarning = showErrors && touched && warning && warning.length > 0;
-    const fieldName = input && input.name;
-    const content = (
-      <>
-        <Flex>
-          {label && (
-            <div className={cx(styles.label, labelClassName)}>{label}</div>
-          )}
-          {description && (
-            <Tooltip
+    const hasError = showErrors && touched && anyError?.length > 0;
+    const hasWarning = showErrors && touched && warning?.length > 0;
+    const fieldName = input?.name;
+    // CheckBox and RadioButton should have an inline label
+    const inlineLabel =
+      Component.name === 'CheckBox' || Component.name === 'RadioButton';
+
+    const labelComponent = (
+      <Flex>
+        {label && (
+          <div
+            style={{
+              cursor: inlineLabel ? 'pointer' : 'default',
+              fontSize: !inlineLabel ? 'var(--font-size-large)' : 'inherit',
+            }}
+            className={labelClassName}
+          >
+            {label}
+          </div>
+        )}
+        {description && (
+          <Tooltip
+            style={{
+              display: 'inline-block',
+            }}
+            content={description}
+          >
+            <div
               style={{
-                display: 'inline-block',
+                marginLeft: '10px',
               }}
-              content={description}
             >
-              <div
-                style={{
-                  marginLeft: '10px',
-                }}
-              >
-                <Icon size={32} name="help" />
-              </div>
-            </Tooltip>
-          )}
-          {required && <span className={styles.required}>*</span>}
-        </Flex>
-        <Component
-          {...input}
-          {...props}
-          onChange={(value) => {
-            input.onChange(value);
-            onChange?.(value);
-          }}
-          className={cx(
-            className,
-            hasWarning && styles.inputWithWarning,
-            hasError && styles.inputWithError
-          )}
-        />
+              <Icon size={32} name="help" />
+            </div>
+          </Tooltip>
+        )}
+        {required && <span className={styles.required}>*</span>}
+      </Flex>
+    );
+
+    const component = (
+      <Component
+        {...input}
+        {...props}
+        onChange={(value) => {
+          input.onChange(value);
+          onChange?.(value);
+        }}
+        className={cx(
+          className,
+          hasWarning && styles.inputWithWarning,
+          hasError && styles.inputWithError
+        )}
+      />
+    );
+
+    const content = inlineLabel ? (
+      <Flex gap={7}>
+        {component}
+        {labelComponent}
+      </Flex>
+    ) : (
+      <>
+        {labelComponent}
+        {component}
       </>
     );
+
     return (
       <div className={cx(styles.field, fieldClassName)} style={fieldStyle}>
-        {options && options.noLabel ? content : <label>{content}</label>}
+        {options?.noLabel ? content : <label>{content}</label>}
         {hasError && (
           <RenderErrorMessage error={anyError} fieldName={fieldName} />
         )}
-        {hasWarning && <RenderWarningMessage warning={meta.warning} />}
+        {hasWarning && <RenderWarningMessage warning={warning} />}
       </div>
     );
   };
