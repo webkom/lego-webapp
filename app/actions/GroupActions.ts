@@ -1,6 +1,7 @@
 import { push } from 'connected-react-router';
 import callAPI from 'app/actions/callAPI';
 import { groupSchema, membershipSchema } from 'app/reducers';
+import type MembershipType from 'app/store/models/Membership';
 import type { Thunk } from 'app/types';
 import { Group, Membership } from './ActionTypes';
 
@@ -30,7 +31,7 @@ export function addMember({
     },
   });
 }
-export function removeMember(membership: Record<string, any>): Thunk<any> {
+export function removeMember(membership: MembershipType): Thunk<any> {
   return callAPI({
     types: Membership.REMOVE,
     endpoint: `/groups/${membership.abakusGroup}/memberships/${membership.id}/`,

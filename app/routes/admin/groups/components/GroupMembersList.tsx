@@ -2,6 +2,7 @@ import qs from 'qs';
 import { Link } from 'react-router-dom';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import Table from 'app/components/Table';
+import type Membership from 'app/store/models/Membership';
 import { ROLES } from 'app/utils/constants';
 import styles from './GroupMembersList.css';
 
@@ -9,8 +10,8 @@ type Props = {
   fetching: boolean;
   hasMore: boolean;
   groupId: number;
-  memberships: Array<Record<string, any>>;
-  removeMember: (arg0: Record<string, any>) => Promise<any>;
+  memberships: Membership[];
+  removeMember: (membership: Membership) => Promise<void>;
   showDescendants: boolean;
   groupsById: Record<
     string,

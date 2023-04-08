@@ -1,4 +1,5 @@
 import { Helmet } from 'react-helmet-async';
+import { Link } from 'react-router-dom';
 import AnnouncementInLine from 'app/components/AnnouncementInLine';
 import Button from 'app/components/Button';
 import {
@@ -8,34 +9,14 @@ import {
   ContentSidebar,
 } from 'app/components/Content';
 import DisplayContent from 'app/components/DisplayContent';
+import Icon from 'app/components/Icon';
 import { Image } from 'app/components/Image';
 import { Flex } from 'app/components/Layout';
-import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
+import NavigationTab from 'app/components/NavigationTab';
 import UserGrid from 'app/components/UserGrid';
 import type { Group, User, GroupMembership, ID } from 'app/models';
 import styles from './InterestGroup.css';
 import InterestGroupMemberList from './InterestGroupMemberList';
-
-type TitleProps = {
-  group: Group;
-  showEdit: boolean;
-};
-
-const Title = ({ group: { name, id }, showEdit }: TitleProps) => (
-  <NavigationTab
-    title={name}
-    back={{
-      label: 'Tilbake',
-      path: '/interest-groups',
-    }}
-  >
-    {showEdit && (
-      <NavigationLink to={`/interest-groups/${id}/edit`}>
-        Rediger
-      </NavigationLink>
-    )}
-  </NavigationTab>
-);
 
 type MembersProps = {
   members: Array<GroupMembership>;
@@ -44,7 +25,7 @@ type MembersProps = {
 
 const Members = ({ group, members }: MembersProps) => (
   <Flex column>
-    <h4>Medlemmer {group.numberOfUsers}</h4>
+    <h4>{group.numberOfUsers} medlemmer</h4>
     <UserGrid
       users={members && members.slice(0, 14).map((reg) => reg.user)}
       maxRows={2}
@@ -127,12 +108,18 @@ type Props = {
 
 function InterestGroupDetail(props: Props) {
   const { group } = props;
-  const canEdit = group.actionGrant && group.actionGrant.includes('edit');
+  const canEdit = group.actionGrant?.includes('edit');
   const logo = group.logo || 'https://i.imgur.com/Is9VKjb.jpg';
   return (
     <Content>
       <Helmet title={group.name} />
-      <Title group={group} showEdit={canEdit} />
+      <NavigationTab
+        title={group.name}
+        back={{
+          label: 'Tilbake',
+          path: '/interest-groups',
+        }}
+      />
       <ContentSection>
         <ContentMain>
           <p className={styles.description}>{group.description}</p>
@@ -148,6 +135,17 @@ function InterestGroupDetail(props: Props) {
           />
           <Members group={group} members={group.memberships} />
           <Contact group={group} />
+
+          <h3>Admin</h3>
+          {canEdit && (
+            <Link to={`/interest-groups/${group.id}/edit`}>
+              <Button>
+                <Icon name="create-outline" size={19} />
+                Rediger
+              </Button>
+            </Link>
+          )}
+
           <AnnouncementInLine group={group} />
         </ContentSidebar>
       </ContentSection>

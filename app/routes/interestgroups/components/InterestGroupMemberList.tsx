@@ -118,14 +118,12 @@ export default class InterestGroupMemberList extends Component<Props, State> {
             className={shared.modal}
           >
             <h2>Medlemmer</h2>
-            <Flex alignItems="center" className={shared.search}>
-              <Icon name="search" size={16} />
-              <TextInput
-                type="text"
-                placeholder="Søk etter navn"
-                onChange={(e) => this.setState({ filter: e.target.value })}
-              />
-            </Flex>
+            <TextInput
+              type="text"
+              prefix="search"
+              placeholder="Søk etter navn"
+              onChange={(e) => this.setState({ filter: e.target.value })}
+            />
 
             <ul className={shared.list}>
               {sorted.map((membership) => (

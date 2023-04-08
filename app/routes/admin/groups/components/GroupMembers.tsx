@@ -12,9 +12,9 @@ import type { AddMemberArgs } from 'app/actions/GroupActions';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { selectMembershipsForGroup } from 'app/reducers/memberships';
 import { selectPaginationNext } from 'app/reducers/selectors';
+import type Membership from 'app/store/models/Membership';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import AddGroupMember from './AddGroupMember';
-import styles from './GroupMembers.css';
 import GroupMembersList from './GroupMembersList';
 
 type Props = {
@@ -34,10 +34,10 @@ type Props = {
       numberOfUsers?: number;
     }
   >;
-  memberships: Array<Record<string, any>>;
+  memberships: Membership[];
   showDescendants: boolean;
   addMember: (arg0: AddMemberArgs) => Promise<any>;
-  removeMember: (arg0: Record<string, any>) => Promise<any>;
+  removeMember: (membership: Membership) => Promise<void>;
   push: (arg0: any) => void;
   pathname: string;
   search: string;
@@ -60,7 +60,7 @@ export const GroupMembers = ({
   query,
   filters,
 }: Props) => (
-  <div className={styles.groupMembers}>
+  <>
     <>
       Antall medlemmer (inkl. undergrupper):{' '}
       {groupsById[groupId.toString()].numberOfUsers}
@@ -69,7 +69,7 @@ export const GroupMembers = ({
       <AddGroupMember addMember={addMember} groupId={groupId} />
     )}
     <LoadingIndicator loading={!memberships}>
-      <h3 className={styles.subTitle}>Brukere</h3>
+      <h3>Brukere</h3>
       <GroupMembersList
         key={groupId + showDescendants}
         groupId={groupId}
@@ -87,7 +87,7 @@ export const GroupMembers = ({
         memberships={memberships}
       />
     </LoadingIndicator>
-  </div>
+  </>
 );
 
 function loadData({ query, match: { params }, location }, dispatch) {
