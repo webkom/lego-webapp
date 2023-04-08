@@ -157,6 +157,7 @@ export const CompanyInterestForm = {
 };
 export const Membership = {
   CREATE: generateStatuses('Membership.CREATE') as AAT,
+  UPDATE: generateStatuses('Membership.UPDATE') as AAT,
   REMOVE: generateStatuses('Membership.REMOVE') as AAT,
   JOIN_GROUP: generateStatuses('Membership.JOIN_GROUP') as AAT,
   LEAVE_GROUP: generateStatuses('Membership.LEAVE_GROUP') as AAT,

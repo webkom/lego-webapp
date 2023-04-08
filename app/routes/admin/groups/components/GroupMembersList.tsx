@@ -1,8 +1,16 @@
+import cx from 'classnames';
 import qs from 'qs';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import Select from 'react-select';
+import type { AddMemberArgs } from 'app/actions/GroupActions';
+import Icon from 'app/components/Icon';
+import Flex from 'app/components/Layout/Flex';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import Table from 'app/components/Table';
+import { isCurrentUser as checkIfCurrentUser } from 'app/routes/users/utils';
 import type Membership from 'app/store/models/Membership';
+import type { CurrentUser } from 'app/store/models/User';
 import { ROLES } from 'app/utils/constants';
 import styles from './GroupMembersList.css';
 
@@ -11,6 +19,7 @@ type Props = {
   hasMore: boolean;
   groupId: number;
   memberships: Membership[];
+  addMember: (arg0: AddMemberArgs) => Promise<any>;
   removeMember: (membership: Membership) => Promise<void>;
   showDescendants: boolean;
   groupsById: Record<
@@ -31,11 +40,13 @@ type Props = {
   search: string;
   query: Record<string, any>;
   filters: Record<string, any>;
+  currentUser: CurrentUser;
 };
 
 const GroupMembersList = ({
   memberships,
   groupId,
+  addMember,
   removeMember,
   showDescendants,
   fetch,
@@ -47,22 +58,17 @@ const GroupMembersList = ({
   search,
   query,
   filters,
+  currentUser,
 }: Props) => {
-  const GroupMembersListColumns = (fullName, membership) => {
-    const { user, abakusGroup } = membership;
+  // State for keeping track of which memberships are being edited
+  const [membershipsInEditMode, setMembershipsInEditMode] = useState({});
+
+  const GroupMembersListColumns = (fullName, membership: Membership) => {
+    const { user } = membership;
     return (
-      <>
-        <ConfirmModalWithParent
-          title="Bekreft utmelding"
-          message={`Er du sikker på at du vil melde ut "${user.fullName}" fra gruppen "${groupsById[abakusGroup].name}"?`}
-          onConfirm={() => removeMember(membership)}
-        >
-          <i key="icon" className={`fa fa-times ${styles.removeIcon}`} />
-        </ConfirmModalWithParent>
-        <Link key="link" to={`/users/${user.username}`}>
-          {user.fullName} ({user.username})
-        </Link>
-      </>
+      <Link key={user.id} to={`/users/${user.username}`}>
+        {user.fullName} ({user.username})
+      </Link>
     );
   };
 
@@ -72,8 +78,74 @@ const GroupMembersList = ({
     </Link>
   );
 
-  const RoleRender = (role: string) =>
-    role !== 'member' && <i>{ROLES[role] || role} </i>;
+  const RoleRender = (fullName, membership: Membership) => {
+    const { id, role } = membership;
+
+    if (membershipsInEditMode[id]) {
+      return (
+        <Select
+          value={{
+            value: role,
+            label: ROLES[role],
+          }}
+          placeholder="tre"
+          options={Object.keys(ROLES).map((key) => ({
+            value: key,
+            label: ROLES[key],
+          }))}
+          onChange={async (value: { label: string; value: string }) => {
+            setMembershipsInEditMode((prev) => ({
+              ...prev,
+              [id]: false,
+            }));
+            await removeMember(membership).then(() =>
+              addMember({
+                userId: membership.user.id,
+                groupId: membership.abakusGroup,
+                role: value.value,
+              })
+            );
+          }}
+        />
+      );
+    }
+
+    return role !== 'member' && <i>{ROLES[role] || role} </i>;
+  };
+
+  const EditRender = (fullName, membership: Membership) => {
+    const { id, user, abakusGroup } = membership;
+    const isCurrentUser = checkIfCurrentUser(
+      user.username,
+      currentUser.username
+    );
+
+    return (
+      <Flex justifyContent="center" alignItems="center" gap={5}>
+        {!membershipsInEditMode[id] && (
+          <Icon
+            name="pencil"
+            size={20}
+            className={cx(styles.editIcon, isCurrentUser && styles.disabled)}
+            onClick={() =>
+              !isCurrentUser &&
+              setMembershipsInEditMode((prev) => ({
+                ...prev,
+                [id]: true,
+              }))
+            }
+          />
+        )}
+        <ConfirmModalWithParent
+          title="Bekreft utmelding"
+          message={`Er du sikker på at du vil melde ut "${user.fullName}" fra gruppen "${groupsById[abakusGroup].name}"?`}
+          onConfirm={() => removeMember(membership)}
+        >
+          <Icon name="trash" size={20} className={styles.removeIcon} />
+        </ConfirmModalWithParent>
+      </Flex>
+    );
+  };
 
   const columns = [
     {
@@ -105,6 +177,9 @@ const GroupMembersList = ({
       filterMapping: (role) =>
         role === 'member' || !ROLES[role] ? '' : ROLES[role],
       render: RoleRender,
+    },
+    {
+      render: EditRender,
     },
   ].filter(Boolean);
 
@@ -138,6 +213,7 @@ const GroupMembersList = ({
         loading={fetching}
         data={memberships}
         filters={filters}
+        className={styles.list}
       />
       {!memberships.length && !fetching && <div>Ingen brukere</div>}
     </>

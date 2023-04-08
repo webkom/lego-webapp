@@ -10,9 +10,11 @@ import {
 } from 'app/actions/GroupActions';
 import type { AddMemberArgs } from 'app/actions/GroupActions';
 import LoadingIndicator from 'app/components/LoadingIndicator';
+import { selectCurrentUser } from 'app/reducers/auth';
 import { selectMembershipsForGroup } from 'app/reducers/memberships';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import type Membership from 'app/store/models/Membership';
+import type { CurrentUser } from 'app/store/models/User';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import AddGroupMember from './AddGroupMember';
 import GroupMembersList from './GroupMembersList';
@@ -43,6 +45,7 @@ type Props = {
   search: string;
   query: Record<string, any>;
   filters: Record<string, any>;
+  currentUser: CurrentUser;
 };
 export const GroupMembers = ({
   addMember,
@@ -59,6 +62,7 @@ export const GroupMembers = ({
   search,
   query,
   filters,
+  currentUser,
 }: Props) => (
   <>
     <>
@@ -71,7 +75,7 @@ export const GroupMembers = ({
     <LoadingIndicator loading={!memberships}>
       <h3>Brukere</h3>
       <GroupMembersList
-        key={groupId + showDescendants}
+        key={groupId + Number(showDescendants)}
         groupId={groupId}
         filters={filters}
         query={query}
@@ -83,8 +87,10 @@ export const GroupMembers = ({
         fetch={fetch}
         fetching={fetching}
         showDescendants={showDescendants}
+        addMember={addMember}
         removeMember={removeMember}
         memberships={memberships}
+        currentUser={currentUser}
       />
     </LoadingIndicator>
   </>
@@ -122,6 +128,7 @@ function mapStateToProps(state, props) {
     descendants: showDescendants,
     pagination,
   });
+  const currentUser = selectCurrentUser(state);
   return {
     memberships,
     groupId,
@@ -133,6 +140,7 @@ function mapStateToProps(state, props) {
     search,
     query,
     filters,
+    currentUser,
   };
 }
 
@@ -142,6 +150,7 @@ const mapDispatchToProps = {
   fetch: fetchMembershipsPagination,
   push,
 };
+
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   withPreparedDispatch('fetchGroupMemberships', loadData, (props) => [
