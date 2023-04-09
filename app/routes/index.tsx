@@ -59,7 +59,10 @@ const AppWrapper = (props) => (
           <Route path="/events" component={Events} />
           <Route path="/companies" component={Companies} />
           <Route path={['/contact', '/kontakt']} component={Contact} />
-          <Route path="/interest-groups" component={InterestGroups} />
+          <Route
+            path={['/interest-groups', '/interestgroups']}
+            component={InterestGroups}
+          />
           <Route path="/joblistings" component={Joblistings} />
           <Route path="/meetings" component={Meetings} />
           <Route path="/pages" component={Pages} />
