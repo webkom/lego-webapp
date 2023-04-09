@@ -11,7 +11,7 @@ import Table from 'app/components/Table';
 import { isCurrentUser as checkIfCurrentUser } from 'app/routes/users/utils';
 import type Membership from 'app/store/models/Membership';
 import type { CurrentUser } from 'app/store/models/User';
-import { ROLES } from 'app/utils/constants';
+import { ROLES, type RoleType } from 'app/utils/constants';
 import styles from './GroupMembersList.css';
 
 type Props = {
@@ -89,11 +89,11 @@ const GroupMembersList = ({
             label: ROLES[role],
           }}
           placeholder="tre"
-          options={Object.keys(ROLES).map((key) => ({
+          options={Object.keys(ROLES).map((key: RoleType) => ({
             value: key,
             label: ROLES[key],
           }))}
-          onChange={async (value: { label: string; value: string }) => {
+          onChange={async (value: { label: string; value: RoleType }) => {
             setMembershipsInEditMode((prev) => ({
               ...prev,
               [id]: false,
@@ -168,7 +168,7 @@ const GroupMembersList = ({
     {
       title: 'Rolle',
       dataIndex: 'role',
-      filter: Object.keys(ROLES).map((value) => ({
+      filter: Object.keys(ROLES).map((value: RoleType) => ({
         value,
         label: ROLES[value],
       })),

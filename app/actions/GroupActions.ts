@@ -4,12 +4,13 @@ import { groupSchema, membershipSchema } from 'app/reducers';
 import type MembershipType from 'app/store/models/Membership';
 import type { ID } from 'app/store/models/index';
 import type { Thunk } from 'app/types';
+import type { RoleType } from 'app/utils/constants';
 import { Group, Membership } from './ActionTypes';
 
 export type AddMemberArgs = {
   groupId: ID;
   userId: ID;
-  role: string;
+  role: RoleType;
 };
 export function addMember({
   groupId,
