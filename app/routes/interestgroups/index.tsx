@@ -59,5 +59,10 @@ const interestGroupRoute = ({
 );
 
 export default function InterestGroups() {
-  return <Route path="/interest-groups" component={interestGroupRoute} />;
+  return (
+    <Route
+      path={['/interest-groups', '/interestgroups']}
+      component={interestGroupRoute}
+    />
+  );
 }
