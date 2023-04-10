@@ -12,7 +12,6 @@ type Props = {
   actionGrant: ActionGrant;
   currentUser: any;
   loggedIn: boolean;
-  reactions: Record<string, any>;
   addReaction: (arg0: { emoji: string; contentTarget: string }) => Promise<any>;
   deleteReaction: (arg0: {
     reactionId: ID;
@@ -52,7 +51,6 @@ export default class QuoteList extends Component<Props, State> {
       deleteQuote,
       currentUser,
       loggedIn,
-      reactions,
       addReaction,
       deleteReaction,
       emojis,
@@ -73,7 +71,6 @@ export default class QuoteList extends Component<Props, State> {
             displayAdmin={quote.id === this.state.displayAdminId}
             currentUser={currentUser}
             loggedIn={loggedIn}
-            reactions={reactions}
             addReaction={addReaction}
             deleteReaction={deleteReaction}
             emojis={emojis}
