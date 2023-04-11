@@ -74,7 +74,7 @@
   overflow-y: auto;
   height: 100%;
   max-height: calc(100vh - 120px);
-  border-radius: 0 0 1rem 1rem;
+  border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg);
 
   @media (--small-viewport) {
     flex-direction: column;
@@ -116,7 +116,7 @@
   flex: 1;
   background-color: var(--lego-card-color);
   color: var(--color-white);
-  padding: 2rem;
+  padding: 2rem 2rem 3rem;
 }
 
 .quickLinks::after {
@@ -135,7 +135,7 @@
   padding: 4px 15px;
   font-size: 1.2rem;
   transition: background-color var(--linear-fast);
-  border-radius: 8px;
+  border-radius: var(--border-radius-md);
 }
 
 .quickLinks a:hover {

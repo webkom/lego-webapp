@@ -18,25 +18,3 @@
   flex-direction: column;
   flex: 1;
 }
-
-.header {
-  text-align: center;
-  border-bottom: 2px solid var(--lego-link-color);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-top: 25px;
-  padding-bottom: 10px;
-
-  > h2 {
-    line-height: 1;
-    margin: 0 10px;
-  }
-
-  > span {
-    line-height: 1;
-    margin: 0 10px;
-    font-size: 15px;
-    color: #808080;
-  }
-}

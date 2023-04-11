@@ -178,7 +178,7 @@
 }
 
 .deleteIcon {
-  color: #d13c32;
+  color: var(--danger-color);
 
   &:hover {
     cursor: pointer;
@@ -212,7 +212,7 @@ background-color. By making it this way I don't have to rewrite it 🤷 */
 .lazyCircle {
   width: 20px;
   height: 20px;
-  border-radius: 10px;
+  border-radius: 50%;
 }
 
 /* Semesters in detailroute */

@@ -15,7 +15,7 @@ type Props = {
  */
 function ContentSidebar({ children, className }: Props) {
   return (
-    <Flex column className={cx(styles.sidebar, className)}>
+    <Flex column gap={7} className={cx(styles.sidebar, className)}>
       {children}
     </Flex>
   );

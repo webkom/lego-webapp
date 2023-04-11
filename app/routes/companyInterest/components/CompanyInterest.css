@@ -41,22 +41,10 @@
   display: block;
 }
 
-.link {
-  margin-top: 10px;
-}
-
 .textEditor {
   @media (--small-viewport) {
     width: 300px;
   }
-}
-
-.mainHeading {
-  color: var(--lego-font-color);
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  font-size: 25px;
-  font-weight: bold;
 }
 
 .semesterBox {
@@ -82,22 +70,8 @@
   margin-top: 5px;
 }
 
-.content {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-
-  @media (--small-viewport) {
-    flex-direction: column;
-  }
-}
-
 .section {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
   margin: 30px auto;
-  align-items: flex-end;
 
   @media (--small-viewport) {
     flex-flow: column wrap;
@@ -160,5 +134,9 @@
 }
 
 .label {
-  color: rgb(194, 69, 56);
+  color: var(--danger-color);
+}
+
+.selector {
+  min-width: 500px;
 }

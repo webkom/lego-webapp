@@ -6,37 +6,48 @@ import { Content } from 'app/components/Content';
 import { selectTheme, selectStyles } from 'app/components/Form/SelectInput';
 import Flex from 'app/components/Layout/Flex';
 import Table from 'app/components/Table';
+import Tooltip from 'app/components/Tooltip';
 import type { CompanyInterestEntity } from 'app/reducers/companyInterest';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 import { ListNavigation } from 'app/routes/bdb/utils';
-import { semesterToText } from '../utils';
+import { getCsvUrl, semesterToText } from '../utils';
 import styles from './CompanyInterest.css';
+import { EVENT_TYPE_OPTIONS } from './CompanyInterestPage';
 
-export type Option = {
+type SemesterOptionType = {
   id: number;
   semester: string;
   year: string;
   label: string;
 };
-export type Props = {
+
+type EventOptionType = {
+  value: string;
+  label: string;
+};
+
+type Props = {
   companyInterestList: Array<CompanyInterestEntity>;
   deleteCompanyInterest: (arg0: number) => Promise<any>;
   fetch: (arg0: Record<string, any>) => Promise<any>;
   hasMore: boolean;
   fetching: boolean;
   semesters: Array<CompanySemesterEntity>;
-  push: (arg0: string) => void;
-  selectedOption: Option;
+  replace: (arg0: string) => void;
+  selectedSemesterOption: SemesterOptionType;
+  selectedEventOption: EventOptionType;
   router: any;
+  authToken: string;
 };
+
 type State = {
   clickedCompanyInterest: number;
+  generatedCSV?: { url: string; filename: string };
 };
 
 const RenderCompanyActions = ({
   id,
   handleDelete,
-  fetching,
   clickedCompanyInterest,
 }: {
   id: number;
@@ -59,7 +70,9 @@ const RenderCompanyActions = ({
 class CompanyInterestList extends Component<Props, State> {
   state = {
     clickedCompanyInterest: 0,
+    generatedCSV: undefined,
   };
+
   handleDelete = (clickedCompanyInterest: number) => {
     if (this.state.clickedCompanyInterest === clickedCompanyInterest) {
       this.props
@@ -75,7 +88,7 @@ class CompanyInterestList extends Component<Props, State> {
       });
     }
   };
-  handleChange = (clickedOption: Option): void => {
+  handleSemesterChange = (clickedOption: SemesterOptionType): void => {
     const { id } = clickedOption;
     this.props
       .fetch({
@@ -84,11 +97,54 @@ class CompanyInterestList extends Component<Props, State> {
         },
       })
       .then(() => {
-        this.props.push(`/companyInterest?semesters=${clickedOption.id}`);
+        this.props.replace(
+          `/companyInterest?semesters=${clickedOption.id}&event=${this.props.selectedEventOption.value}`
+        );
       });
   };
+  handleEventChange = (clickedOption: EventOptionType): void => {
+    this.props.replace(
+      `/companyInterest?semesters=${this.props.selectedSemesterOption.id}&event=${clickedOption.value}`
+    );
+  };
+
+  componentDidUpdate(prevProps) {
+    if (
+      this.props.selectedSemesterOption !== prevProps.selectedSemesterOption
+    ) {
+      this.setState({
+        generatedCSV: undefined,
+      });
+    }
+  }
+
+  async exportInterestList(event?: string) {
+    const blob = await fetch(
+      getCsvUrl(
+        this.props.selectedSemesterOption.year,
+        this.props.selectedSemesterOption.semester,
+        event
+      ),
+      {
+        headers: {
+          Authorization: `Bearer ${this.props.authToken}`,
+        },
+      }
+    ).then((response) => response.blob());
+    return {
+      url: URL.createObjectURL(blob),
+      filename: `company-interests-${this.props.selectedSemesterOption.year}-${
+        this.props.selectedSemesterOption.semester
+      }${
+        this.props.selectedEventOption.value
+          ? `-${this.props.selectedEventOption.value}`
+          : ''
+      }.csv`,
+    };
+  }
 
   render() {
+    const { generatedCSV } = this.state;
     const columns = [
       {
         title: 'Bedriftsnavn',
@@ -124,7 +180,7 @@ class CompanyInterestList extends Component<Props, State> {
         ),
       },
     ];
-    const options = [
+    const semesterOptions = [
       {
         value: 9999,
         year: 9999,
@@ -142,44 +198,93 @@ class CompanyInterestList extends Component<Props, State> {
         };
       }),
     ].sort((o1, o2) => {
-      if (Number(o1.year) === Number(o2.year)) {
-        if (o1.semester === 'spring') {
-          return -1;
-        }
-
-        return 1;
-      }
-
-      return Number(o1.year) > Number(o2.year) ? -1 : 1;
+      return Number(o1.year) === Number(o2.year)
+        ? o1.semester === 'spring'
+          ? -1
+          : 1
+        : Number(o1.year) > Number(o2.year)
+        ? -1
+        : 1;
     });
+
     return (
       <Content>
         <ListNavigation title="Bedriftsinteresser" />
-        <Flex className={styles.section}>
+        <Flex
+          wrap
+          justifyContent="space-between"
+          alignItems="flex-end"
+          className={styles.section}
+        >
           <Flex column>
             <p>
               Her finner du all praktisk informasjon knyttet til
               <strong> bedriftsinteresser</strong>.
             </p>
             <Select
-              name="form-field-name"
-              value={this.props.selectedOption}
-              onChange={this.handleChange}
-              options={options}
+              name="form-semester-selector"
+              value={this.props.selectedSemesterOption}
+              onChange={this.handleSemesterChange}
+              options={semesterOptions}
               isClearable={false}
               theme={selectTheme}
               styles={selectStyles}
             />
           </Flex>
-          <Link to="/companyInterest/semesters" className={styles.link}>
+          <Link to="/companyInterest/semesters">
             <Button>Endre aktive semestre</Button>
           </Link>
-          <Link to="/companyInterest/create" className={styles.link}>
+          <Link to="/companyInterest/create">
             <Button>Opprett ny bedriftsinteresse</Button>
           </Link>
         </Flex>
+
+        <Flex
+          wrap
+          justifyContent="space-between"
+          alignItems="flex-end"
+          className={styles.section}
+        >
+          <Flex column>
+            <Select
+              name="form-event-selector"
+              value={this.props.selectedEventOption}
+              onChange={this.handleEventChange}
+              options={EVENT_TYPE_OPTIONS}
+              isClearable={false}
+              theme={selectTheme}
+              styles={selectStyles}
+            />
+          </Flex>
+
+          {generatedCSV ? (
+            <a href={generatedCSV.url} download={generatedCSV.filename}>
+              Last ned
+            </a>
+          ) : (
+            <Tooltip
+              style={
+                this.props.selectedSemesterOption.year && { display: 'none' }
+              }
+              content={'Vennligst velg semester'}
+            >
+              <Button
+                onClick={async () =>
+                  this.setState({
+                    generatedCSV: await this.exportInterestList(
+                      this.props.selectedEventOption.value
+                    ),
+                  })
+                }
+                disabled={!this.props.selectedSemesterOption.year}
+              >
+                Eksporter til CSV
+              </Button>
+            </Tooltip>
+          )}
+        </Flex>
+
         <Table
-          infiniteScroll
           columns={columns}
           onLoad={(filters, sort) => {
             this.props.fetch({

@@ -42,7 +42,7 @@
   white-space: normal;
   overflow-wrap: anywhere;
   padding: 2px 5px;
-  border-radius: 4px;
+  border-radius: var(--border-radius-sm);
   font-size: 0.9rem;
   font-weight: 700;
   margin: 3px;

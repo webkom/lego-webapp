@@ -14,8 +14,6 @@ type ErrorProps = {
 };
 
 const Error = ({ error }: ErrorProps) => {
-  console.log(error);
-
   return (
     <p
       style={{

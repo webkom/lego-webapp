@@ -23,7 +23,7 @@ export const EVENT_CONSTANTS = {
   party: 'Fest',
   social: 'Sosialt',
   event: 'Arrangement',
-  kid_event: 'KID-arrangement',
+  kid_event: 'KiD-arrangement',
   other: 'Annet',
 } as const;
 // Returns the string representation of an EventType
@@ -82,6 +82,8 @@ export type EditingEvent = Event & {
   addFee: boolean;
   registrationDeadline: Dateish;
   hasFeedbackQuestion: boolean;
+  isClarified: boolean;
+  authors: Option[];
 };
 
 // Event fields that should be created or updated based on the API.
@@ -291,7 +293,7 @@ export const penaltyHours = (penalties: Array<AddPenalty>) => {
       return 1337;
 
     default:
-      return -1;
+      return 0;
   }
 };
 

@@ -19,9 +19,14 @@ import LoadingIndicator from 'app/components/LoadingIndicator';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import NavigationTab from 'app/components/NavigationTab';
 import Tooltip from 'app/components/Tooltip';
+import type { EditingEvent } from 'app/routes/events/utils';
 import type { DetailedArticle } from 'app/store/models/Article';
 import type { CurrentUser } from 'app/store/models/User';
-import { createValidator, validYoutubeUrl } from 'app/utils/validation';
+import {
+  createValidator,
+  validYoutubeUrl,
+  required,
+} from 'app/utils/validation';
 
 export type Props = {
   article?: DetailedArticle;
@@ -117,6 +122,7 @@ const ArticleEditor = ({
           component={TextInput.Field}
           id="article-title"
         />
+
         <Field
           name="tags"
           label="Tags"
@@ -132,6 +138,17 @@ const ArticleEditor = ({
           }) => keyCode === 32 || keyCode === 13}
         />
 
+        <Field
+          placeholder="Velg forfattere"
+          name="authors"
+          label="Forfattere"
+          component={SelectInput.AutocompleteField}
+          isMulti
+          filter={['users.user']}
+          id="article-title"
+          required
+        />
+
         <Fields
           names={[
             'requireAuth',
@@ -141,6 +158,7 @@ const ArticleEditor = ({
           ]}
           component={ObjectPermissions}
         />
+
         <Field
           placeholder="En kort beskrivelse av artikkelen"
           name="description"
@@ -197,23 +215,42 @@ const onSubmit = (
         }
       : {}),
     ...normalizeObjectPermissions(data),
+    authors: data.authors.map((e) => e.value),
     youtubeUrl: data.youtubeUrl,
     title: data.title,
-    author: currentUser.id,
     description: data.description,
     content: data.content,
     tags: (data.tags || []).map((tag) => tag.value.toLowerCase()),
     pinned: data.pinned,
   };
+
   return submitArticle(body);
+};
+
+type ValidationError<T> = Partial<{
+  [key in keyof T]: string | Record<string, string>[];
+}>;
+
+const validate = (data) => {
+  const errors: ValidationError<EditingEvent> = {};
+  const [isValidYoutubeUrl, errorMessage = ''] = validYoutubeUrl()(
+    data.youtubeUrl
+  );
+
+  if (!isValidYoutubeUrl) {
+    errors.youtubeUrl = errorMessage;
+  }
+
+  if (!data.authors || data.authors.length === 0) {
+    errors.authors = 'Forfatter er påkrevd';
+  }
+  return errors;
 };
 
 export default legoForm({
   destroyOnUnmount: false,
   form: 'article',
-  validate: createValidator({
-    youtubeUrl: [validYoutubeUrl()],
-  }),
+  validate,
   enableReinitialize: true,
   onSubmit,
 })(ArticleEditor);

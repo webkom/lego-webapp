@@ -58,7 +58,7 @@
   background-color: var(--button-background);
   color: var(--color-gray-8);
   outline: none;
-  border-radius: 8px;
+  border-radius: var(--border-radius-md);
   border: 1px solid var(--button-border);
   transition: var(--easing-fast);
   /* stylelint-disable value-list-comma-newline-after */

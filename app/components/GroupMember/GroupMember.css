@@ -7,7 +7,7 @@
 }
 
 .member.leader img {
-  border-color: #cca84c;
+  border-color: var(--color-orange-6);
 }
 
 .member.coLeader img {

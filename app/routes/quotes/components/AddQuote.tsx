@@ -30,7 +30,22 @@ const validate = createValidator({
 });
 
 const AddQuote = ({ addQuotes, actionGrant }: Props) => {
-  const onSubmit = withSubmissionErrorFinalForm(addQuotes);
+  const removeUnnecessaryDash = (source: string) => {
+    if (source === undefined) return undefined;
+
+    const dashIndex = source.indexOf('-');
+    if (source.slice(0, dashIndex).match(/^ *$/)) {
+      source = source.slice(dashIndex + 1).trim();
+    }
+
+    return source;
+  };
+
+  const onSubmit = (quote: { text: string; source: string }) =>
+    withSubmissionErrorFinalForm(addQuotes)({
+      text: quote.text,
+      source: removeUnnecessaryDash(quote.source),
+    });
 
   return (
     <div className={styles.root}>
@@ -86,7 +101,7 @@ const AddQuote = ({ addQuotes, actionGrant }: Props) => {
                   currentQuote={{
                     id: 1,
                     text: values.text || 'Det er bare å gjøre det',
-                    source: values.source || 'Esso',
+                    source: removeUnnecessaryDash(values.source) || 'Esso',
                     approved: true,
                     contentTarget: '',
                     reactionsGrouped: [],
