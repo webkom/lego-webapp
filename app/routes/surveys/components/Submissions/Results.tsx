@@ -5,6 +5,7 @@ import DistributionPieChart from 'app/components/Chart/PieChart';
 import { CHART_COLORS } from 'app/components/Chart/utils';
 import { selectTheme, selectStyles } from 'app/components/Form/SelectInput';
 import InfoBubble from 'app/components/InfoBubble';
+import Pill from 'app/components/Pill';
 import type { SurveyEntity, QuestionEntity } from 'app/reducers/surveys';
 import {
   QuestionTypes,
@@ -110,17 +111,68 @@ const Results = ({
   };
 
   const getAverage = (data) => {
-    const [sum, numberOfAnswers] = data.reduce( (accumulator, optionData) => {
-      const optionNumber = Number(optionData.option.match(/^\d+/)[0])
-      return [accumulator[0] + optionData.selections*optionNumber, accumulator[1] + optionData.selections]
-    }, [0, 0])  
-    return  Number((sum/numberOfAnswers).toFixed(2))
-  }
+    const [sum, numberOfAnswers] = data.reduce(
+      (accumulator, optionData) => {
+        const optionNumber = Number(optionData.option.match(/^\d+/)[0]);
+        return [
+          accumulator[0] + optionData.selections * optionNumber,
+          accumulator[1] + optionData.selections,
+        ];
+      },
+      [0, 0]
+    );
+    return Number((sum / numberOfAnswers).toFixed(2));
+  };
+
+  // Returns the lowest and highest number that an option starts with
+  const getMinMaxOption = (options) => {
+    return options.reduce(
+      (result, option) => {
+        const optionNumber = Number(option.optionText.match(/^\d+/)[0]);
+        return [
+          Math.min(result[0], optionNumber),
+          Math.max(result[1], optionNumber),
+        ];
+      },
+      [Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY]
+    );
+  };
+
+  // Linear transform used to map the average from the interval of the alternatives to the interval of number of colors used for the pill
+  const mapValueToNewInterval = (value, start, end, newStart, newEnd) => {
+    return ((value - start) * (newEnd - newStart)) / (end - start) + newStart;
+  };
+
+  const averagePillColors = [
+    'var(--color-red-6)',
+    'var(--color-orange-6)',
+    'var(--color-yellow)',
+    'var(--color-green-6)',
+  ];
+
+  const averagePill = (options, data) => {
+    const average = getAverage(data);
+    const [optionMin, optionMax] = getMinMaxOption(options);
+    const mappedAverage = mapValueToNewInterval(
+      average,
+      optionMin,
+      optionMax,
+      0,
+      averagePillColors.length - 1
+    );
+
+    return (
+      <Pill color={averagePillColors[Math.round(mappedAverage)]}>
+        {average}
+      </Pill>
+    );
+  };
 
   const graphTypeToIcon = {
     bar_chart: 'bar-chart',
     pie_chart: 'pie-chart',
   };
+
   return (
     <div>
       <div className={styles.eventSummary}>
@@ -146,7 +198,10 @@ const Results = ({
           const graphType = graphOptions.find(
             (a) => a.value === question.displayType
           );
-          const questionIsNumberic = question.options.reduce((result, option) => result && /^\d+/.test(option.optionText), true);
+          const questionIsNumeric = question.options.reduce(
+            (result, option) => result && /^\d+/.test(option.optionText),
+            true
+          );
           return (
             <li key={question.id}>
               <h3>{question.questionText}</h3>
@@ -175,11 +230,19 @@ const Results = ({
                           dataKey="selections"
                         />
                       )}
-                      <div>
-                      {questionIsNumberic &&
-                        <p>Gjennomsnitt: {getAverage(graphData[question.id])}</p>
-                      }
-                      </div>
+                      {questionIsNumeric && (
+                        <span
+                          style={{
+                            marginLeft: '15px',
+                          }}
+                        >
+                          Gjennomsnittet er{' '}
+                          {averagePill(
+                            question.options,
+                            graphData[question.id]
+                          )}
+                        </span>
+                      )}
                     </div>
                     <ChartLabel
                       distributionData={graphData[question.id].map((data) => ({
