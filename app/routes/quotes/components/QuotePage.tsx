@@ -1,4 +1,5 @@
 import cx from 'classnames';
+import qs from 'qs';
 import { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useHistory } from 'react-router-dom';
@@ -14,7 +15,6 @@ import QuoteList from './QuoteList';
 import styles from './Quotes.css';
 
 type Props = {
-  reactions: Array<Record<string, any>>;
   query: {
     approved: string;
     ordering: string;
@@ -28,6 +28,7 @@ type Props = {
     arg0: {
       query: {
         approved: string;
+        ordering: string;
       };
     },
     next?: boolean
@@ -35,7 +36,6 @@ type Props = {
   showFetchMore: boolean;
   currentUser: any;
   loggedIn: boolean;
-  reactions: Record<string, any>;
   addReaction: (arg0: { emoji: string; contentTarget: string }) => Promise<any>;
   deleteReaction: (arg0: {
     reactionId: ID;
@@ -71,7 +71,6 @@ export default function QuotePage({
   showFetchMore,
   currentUser,
   loggedIn,
-  reactions,
   addReaction,
   deleteReaction,
   emojis,
@@ -100,10 +99,15 @@ export default function QuotePage({
   };
 
   useEffect(() => {
+    // Update url with the new filtering/ordering params while ignoring the default values
+    const searchObject = qs.parse(ordering.value, { ignoreQueryPrefix: true });
+    if (query.approved === 'false') searchObject['approved'] = query.approved;
+    const searchString = qs.stringify(searchObject, { addQueryPrefix: true });
     history.replace({
-      search: ordering.value,
+      search: searchString,
     });
-  }, [history, ordering]);
+  }, [history, ordering, query.approved]);
+
   return (
     <div className={cx(styles.root, styles.quoteContainer)}>
       <Helmet title="Overhørt" />
@@ -131,7 +135,6 @@ export default function QuotePage({
           quotes={quotes}
           currentUser={currentUser}
           loggedIn={loggedIn}
-          reactions={reactions}
           addReaction={addReaction}
           deleteReaction={deleteReaction}
           emojis={emojis}
