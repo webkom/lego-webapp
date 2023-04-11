@@ -129,14 +129,15 @@ export function createAndUpdateEntities(
       };
     }
 
-    return {
-      ...state,
-      byId: mergeObjects(state.byId, result),
-      items: union(state.items, resultIds),
-      actionGrant: union(state.actionGrant, actionGrant),
-      pagination,
-      paginationNext,
-    };
+    return produce(state, (draft) => {
+      if (result && !isEmpty(result)) {
+        draft.byId = mergeObjects(state.byId, result);
+      }
+      draft.items = union(state.items, resultIds);
+      draft.actionGrant = union(state.actionGrant, actionGrant);
+      draft.pagination = pagination;
+      draft.paginationNext = paginationNext;
+    });
   };
 }
 
