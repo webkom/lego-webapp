@@ -29,16 +29,6 @@
   grid-area: welcome;
 }
 
-.login {
-  composes: rootCardStyle;
-  grid-area: login;
-}
-
-.toggleButton {
-  color: var(--lego-link-color);
-  font-size: 14px;
-}
-
 .events {
   composes: rootCardStyle;
   grid-area: events;
