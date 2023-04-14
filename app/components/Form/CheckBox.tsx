@@ -48,7 +48,7 @@ const CheckBox = ({
   );
 };
 
-const RawField = createField(CheckBox);
+const RawField = createField(CheckBox, { inlineLabel: true });
 
 const StyledField = ({ fieldClassName, ...props }: FormProps) => (
   <RawField fieldClassName={fieldClassName} {...props} />

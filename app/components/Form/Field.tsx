@@ -77,6 +77,8 @@ export type FormProps = {
 type Options = {
   // Removes the html <label> around the component
   noLabel?: boolean;
+  // Sets the label to be inline with the component
+  inlineLabel?: boolean;
 };
 
 /**
@@ -105,9 +107,7 @@ export function createField(Component: ComponentType<any>, options?: Options) {
     const hasError = showErrors && touched && anyError?.length > 0;
     const hasWarning = showErrors && touched && warning?.length > 0;
     const fieldName = input?.name;
-    // CheckBox and RadioButton should have an inline label
-    const inlineLabel =
-      Component.name === 'CheckBox' || Component.name === 'RadioButton';
+    const inlineLabel = options?.inlineLabel;
 
     const labelComponent = (
       <Flex>
