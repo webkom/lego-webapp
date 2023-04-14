@@ -150,64 +150,44 @@ const JoblistingsRightNav = (props: Props) => {
             <Button>Ny jobbannonse</Button>
           </Link>
         )}
+
         <h3 className={styles.rightHeader}>Sorter etter:</h3>
-        <label
-          htmlFor="deadline"
-          style={{
-            cursor: 'pointer',
+        <RadioButton
+          name="sort"
+          id="deadline"
+          label="Frist"
+          checked={order.deadline}
+          onChange={() => {
+            props.history.push({
+              pathname: '/joblistings',
+              search: qs.stringify(handleQuery('order', 'deadline')),
+            });
           }}
-        >
-          <RadioButton
-            name="sort"
-            id="deadline"
-            checked={order.deadline}
-            onChange={() => {
-              props.history.push({
-                pathname: '/joblistings',
-                search: qs.stringify(handleQuery('order', 'deadline')),
-              });
-            }}
-          />
-          Frist
-        </label>
-        <label
-          htmlFor="company"
-          style={{
-            cursor: 'pointer',
+        />
+        <RadioButton
+          name="sort"
+          id="company"
+          label="Bedrift"
+          checked={order.company}
+          onChange={() => {
+            props.history.push({
+              pathname: '/joblistings',
+              search: qs.stringify(handleQuery('order', 'company')),
+            });
           }}
-        >
-          <RadioButton
-            name="sort"
-            id="company"
-            checked={order.company}
-            onChange={() => {
-              props.history.push({
-                pathname: '/joblistings',
-                search: qs.stringify(handleQuery('order', 'company')),
-              });
-            }}
-          />
-          Bedrift
-        </label>
-        <label
-          htmlFor="createdAt"
-          style={{
-            cursor: 'pointer',
+        />
+        <RadioButton
+          name="sort"
+          id="createdAt"
+          label="Publisert"
+          checked={order.createdAt}
+          onChange={() => {
+            props.history.push({
+              pathname: '/joblistings',
+              search: qs.stringify(handleQuery('order', 'createdAt')),
+            });
           }}
-        >
-          <RadioButton
-            name="sort"
-            id="createdAt"
-            checked={order.createdAt}
-            onChange={() => {
-              props.history.push({
-                pathname: '/joblistings',
-                search: qs.stringify(handleQuery('order', 'createdAt')),
-              });
-            }}
-          />
-          Publisert
-        </label>
+        />
 
         <h3 className={styles.rightHeader}>Klassetrinn:</h3>
         {['1', '2', '3', '4', '5'].map((element) => (
@@ -220,7 +200,6 @@ const JoblistingsRightNav = (props: Props) => {
             history={props.history}
           />
         ))}
-
         <h3 className={styles.rightHeader}>Jobbtype:</h3>
         {jobTypes.map((el) => {
           return (
@@ -234,7 +213,6 @@ const JoblistingsRightNav = (props: Props) => {
             />
           );
         })}
-
         <h3 className={styles.rightHeader}>Sted:</h3>
         {['Oslo', 'Trondheim', 'Bergen', 'Tromsø', 'Annet'].map((element) => (
           <FilterLink
