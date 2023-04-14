@@ -1,6 +1,12 @@
 import cx from 'classnames';
 import moment from 'moment-timezone';
-import { createContext, Children, PureComponent, cloneElement } from 'react';
+import {
+  createContext,
+  Children,
+  PureComponent,
+  cloneElement,
+  useContext,
+} from 'react';
 import { Helmet } from 'react-helmet-async';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -29,6 +35,7 @@ import ToastContainer from 'app/components/Toast/ToastContainer';
 import config from 'app/config';
 import { selectIsLoggedIn, selectCurrentUser } from 'app/reducers/auth';
 import { selectFeedActivitesByFeedId } from 'app/reducers/feeds';
+import type { CurrentUser } from 'app/store/models/User';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import HTTPError from '../errors/HTTPError';
 import styles from './AppRoute.css';
@@ -38,17 +45,19 @@ type Props = {
   statusCode: number;
   location: any;
   children: ReactElement | ReactElement[];
-  currentUser: /*TODO: User*/ Record<string, any>;
+  currentUser: CurrentUser;
   setStatusCode: (code: number | null | undefined) => void;
   loggedIn: boolean;
 };
 export const UserContext = createContext<{
-  currentUser: Record<string, any>;
+  currentUser: CurrentUser | Record<string, never>;
   loggedIn: boolean;
 }>({
   currentUser: {},
   loggedIn: false,
 });
+
+export const useUserContext = () => useContext(UserContext);
 
 class AppChildren extends PureComponent<Props> {
   render() {

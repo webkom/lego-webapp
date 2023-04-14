@@ -6,22 +6,24 @@ import type { RouteComponentProps } from 'react-router-dom';
  * Wrapper component for react-router v4 to allow props
  * to be passed down to a route component by a parent component.
  */
-type Props<PassedProps> = {
+type Props<PassedProps, RouteProps extends RouteComponentProps> = {
   passedProps: PassedProps;
   exact?: boolean;
   path: string | string[];
-  Component: ComponentType<PassedProps & RouteComponentProps>;
+  Component: ComponentType<PassedProps & RouteProps>;
   strict?: boolean;
 };
 
-const RouteWrapper = <PassedProps,>(props: Props<PassedProps>) => {
+const RouteWrapper = <PassedProps, RouteProps extends RouteComponentProps>(
+  props: Props<PassedProps, RouteProps>
+) => {
   const { passedProps, exact, path, Component, strict } = props;
   return (
     <Route
       exact={exact}
       path={path}
       strict={strict}
-      render={(props) => <Component {...passedProps} {...props} />}
+      render={(props: RouteProps) => <Component {...passedProps} {...props} />}
     />
   );
 };
