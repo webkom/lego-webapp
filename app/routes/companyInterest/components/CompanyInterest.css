@@ -13,10 +13,6 @@
   margin-bottom: -5px;
 }
 
-.checkboxLabel {
-  display: flex;
-}
-
 .guiWrapper {
   margin-right: 30px;
   flex-wrap: wrap;
@@ -63,11 +59,6 @@
   margin: 15px 0;
   padding: 10px 0;
   border-top: 1px solid var(--border-gray);
-}
-
-.checkboxField {
-  width: 30px;
-  margin-top: 5px;
 }
 
 .section {
