@@ -24,19 +24,7 @@
   }
 }
 
-.welcome {
-  composes: rootCardStyle;
-  grid-area: welcome;
-}
-
-.events {
-  composes: rootCardStyle;
-  grid-area: events;
-}
-
 .hsp {
-  composes: rootCardStyle;
-  grid-area: hsp;
   text-align: center;
 }
 
@@ -45,26 +33,6 @@
   height: auto;
   display: block;
   margin: auto;
-}
-
-.article {
-  composes: rootCardStyle;
-  grid-area: article;
-}
-
-.readme {
-  composes: rootCardStyle;
-  grid-area: readme;
-}
-
-.links {
-  composes: rootCardStyle;
-  grid-area: links;
-}
-
-.facebook {
-  composes: rootCardStyle;
-  grid-area: facebook;
 }
 
 .facebookIframeContainer {
@@ -78,12 +46,6 @@
   overflow: hidden;
   height: 500px;
   width: 340px;
-}
-
-.articleTitle {
-  display: flex;
-  overflow: hidden;
-  justify-content: space-between;
 }
 
 .usefulLinks {
