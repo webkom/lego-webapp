@@ -5,7 +5,7 @@ import DistributionPieChart from 'app/components/Chart/PieChart';
 import { CHART_COLORS } from 'app/components/Chart/utils';
 import { selectTheme, selectStyles } from 'app/components/Form/SelectInput';
 import InfoBubble from 'app/components/InfoBubble';
-import Pill from 'app/components/Pill';
+import Tag, { type TagColors } from 'app/components/Tags/Tag';
 import type { SurveyEntity, QuestionEntity } from 'app/reducers/surveys';
 import {
   QuestionTypes,
@@ -143,12 +143,7 @@ const Results = ({
     return ((value - start) * (newEnd - newStart)) / (end - start) + newStart;
   };
 
-  const averagePillColors = [
-    'var(--color-red-6)',
-    'var(--color-orange-6)',
-    'var(--color-yellow)',
-    'var(--color-green-6)',
-  ];
+  const averageTagColors: TagColors[] = ['red', 'orange', 'yellow', 'green'];
 
   const averagePill = (options, data) => {
     const average = getAverage(data);
@@ -158,13 +153,14 @@ const Results = ({
       optionMin,
       optionMax,
       0,
-      averagePillColors.length - 1
+      averageTagColors.length - 1
     );
 
     return (
-      <Pill color={averagePillColors[Math.round(mappedAverage)]}>
-        {average}
-      </Pill>
+      <Tag
+        color={averageTagColors[Math.round(mappedAverage)]}
+        tag={Number.isNaN(average) ? '?' : String(average)}
+      />
     );
   };
 

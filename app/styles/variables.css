@@ -97,9 +97,6 @@
 
   --color-yellow: #fcd703;
 
-  --color-select-hover: rgb(178, 212, 255);
-  --color-select-multi-bg: rgb(230, 230, 230);
-
   --color-red-hover-alpha: 5%;
 
   --font-size: 16px;
@@ -206,9 +203,6 @@
   --color-red-9: #e9494a;
 
   --color-yellow: #fcd703;
-
-  --color-select-hover: var(--color-gray-4);
-  --color-select-multi-bg: var(--color-gray-5);
 
   --color-red-hover-alpha: 10%;
 }
