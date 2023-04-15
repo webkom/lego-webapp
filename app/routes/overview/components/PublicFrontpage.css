@@ -5,12 +5,12 @@
   grid-gap: 30px;
   grid-template-columns: 1fr 1fr 1.3fr;
   grid-auto-rows: auto;
-  grid-template-areas: 'welcome welcome login' 'events events hsp' 'article article readme' 'links links facebook';
+  grid-template-areas: 'welcome welcome login' 'events events hsp' 'article article readme' 'links links links';
 
   @media (--mobile-device) {
     grid-gap: 10px;
     grid-template-columns: 1fr;
-    grid-template-areas: 'welcome' 'login' 'events' 'hsp' 'article' 'readme' 'links' 'facebook';
+    grid-template-areas: 'welcome' 'login' 'events' 'hsp' 'article' 'readme' 'links';
   }
 }
 

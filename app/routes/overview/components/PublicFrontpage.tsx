@@ -70,9 +70,6 @@ const PublicFrontpage = ({ frontpage, readmes }: Props) => {
         <Card style={{ gridArea: 'links' }}>
           <UsefulLinks />
         </Card>
-        <Card style={{ gridArea: 'facebook' }}>
-          <Facebook />
-        </Card>
       </Container>
     </Container>
   );
@@ -172,21 +169,6 @@ const UsefulLinks = () => (
         </div>
       </li>
     </ul>
-  </>
-);
-
-const Facebook = () => (
-  <>
-    <h2 className="u-mb">Vår Facebook side</h2>
-    <div className={styles.facebookIframeContainer}>
-      <iframe
-        src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FAbakusNTNU%2F&amp;tabs=timeline&amp;small_header=true&amp;adapt_container_width=true&amp;hide_cover=false&amp;show_facepile=true&amp;appId=1717809791769695"
-        className={styles.facebookIframe}
-        title="facebook"
-        scrolling="no"
-        frameBorder="0"
-      />
-    </div>
   </>
 );
 
