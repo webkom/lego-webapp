@@ -7,9 +7,12 @@ import Select from 'react-select';
 import Button from 'app/components/Button';
 import { selectTheme, selectStyles } from 'app/components/Form/SelectInput';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import type { ActionGrant, ID } from 'app/models';
-import type { EmojiEntity } from 'app/reducers/emojis';
-import type { QuoteEntity } from 'app/reducers/quotes';
+import type { ActionGrant } from 'app/models';
+import type { ID } from 'app/store/models';
+import type Emoji from 'app/store/models/Emoji';
+import type Quote from 'app/store/models/Quote';
+import type { CurrentUser } from 'app/store/models/User';
+import type { ContentTarget } from 'app/store/utils/contentTarget';
 import { navigation } from '../utils';
 import QuoteList from './QuoteList';
 import styles from './Quotes.css';
@@ -19,32 +22,33 @@ type Props = {
     approved: string;
     ordering: string;
   };
-  quotes: Array<QuoteEntity>;
+  quotes: Quote[];
   actionGrant: ActionGrant;
-  approve: (arg0: number) => Promise<any>;
-  unapprove: (arg0: number) => Promise<any>;
-  deleteQuote: (arg0: number) => Promise<any>;
-  fetchAll: (
-    arg0: {
-      query: {
-        approved: string;
-        ordering: string;
-      };
-    },
-    next?: boolean
-  ) => Promise<any>;
+  approve: (id: ID) => Promise<void>;
+  unapprove: (id: ID) => Promise<void>;
+  deleteQuote: (id: ID) => Promise<void>;
+  fetchAll: (args: {
+    query: {
+      approved: string;
+      ordering: string;
+    };
+    next?: boolean;
+  }) => Promise<void>;
   showFetchMore: boolean;
-  currentUser: any;
+  currentUser: CurrentUser;
   loggedIn: boolean;
-  addReaction: (arg0: { emoji: string; contentTarget: string }) => Promise<any>;
-  deleteReaction: (arg0: {
+  addReaction: (args: {
+    emoji: string;
+    contentTarget: ContentTarget;
+  }) => Promise<void>;
+  deleteReaction: (args: {
     reactionId: ID;
-    contentTarget: string;
-  }) => Promise<any>;
+    contentTarget: ContentTarget;
+  }) => Promise<void>;
   fetching: boolean;
-  fetchEmojis: () => Promise<any>;
+  fetchEmojis: () => Promise<void>;
   fetchingEmojis: boolean;
-  emojis: Array<EmojiEntity>;
+  emojis: Emoji[];
 };
 type Option = {
   label: string;

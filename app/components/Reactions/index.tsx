@@ -2,7 +2,8 @@ import cx from 'classnames';
 import { Component } from 'react';
 import Flex from 'app/components/Layout/Flex';
 import type { ID } from 'app/models';
-import type { EmojiEntity } from 'app/reducers/emojis';
+import type Emoji from 'app/store/models/Emoji';
+import type { ContentTarget } from 'app/store/utils/contentTarget';
 import reactionStyles from './Reaction.css';
 import ReactionPicker from './ReactionPicker';
 import AddReactionEmoji from './assets/AddReactionEmoji';
@@ -12,20 +13,21 @@ import type { ReactNode, MouseEventHandler, RefObject } from 'react';
 type Props = {
   children: ReactNode;
   className?: string;
-  emojis: Array<EmojiEntity>;
+  emojis: Emoji[];
   fetchingEmojis: boolean;
-  addReaction: (arg0: {
+  addReaction: (args: {
     emoji: string;
-    contentTarget: string;
+    contentTarget: ContentTarget;
   }) => Promise<void>;
-  deleteReaction: (arg0: {
+  deleteReaction: (args: {
     reactionId: ID;
-    contentTarget: string;
+    contentTarget: ContentTarget;
   }) => Promise<void>;
   fetchEmojis: () => Promise<void>;
-  contentTarget: string;
+  contentTarget: ContentTarget;
   loggedIn: boolean;
 };
+
 type State = {
   hovered: boolean;
   addEmojiHovered: boolean;
