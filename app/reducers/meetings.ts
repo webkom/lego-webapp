@@ -60,17 +60,6 @@ export const selectCommentsForMeeting = createSelector(
   }
 );
 
-export const selectReactionsForMeeting = createSelector(
-  selectMeetingById,
-  (state) => state.reactions.byId,
-  (meeting, reactionsById) => {
-    if (!meeting) return [];
-    return (meeting.reactionsGrouped || []).map(
-      (reactionId) => reactionsById[reactionId]
-    );
-  }
-);
-
 export const selectGroupedMeetings = createSelector(
   selectMeetings,
   (meetings) => {

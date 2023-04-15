@@ -1,6 +1,5 @@
 import callAPI from 'app/actions/callAPI';
 import type { ID } from 'app/models';
-import { reactionSchema } from 'app/reducers';
 import type { Thunk } from 'app/types';
 import { Reaction } from './ActionTypes';
 
@@ -28,7 +27,6 @@ export function addReaction({
           contentTarget,
           unicodeString,
         },
-        schema: reactionSchema,
       })
     ).catch((action) => {
       const status = action.payload.response.status;

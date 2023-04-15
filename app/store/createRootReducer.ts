@@ -37,7 +37,6 @@ import penalties from 'app/reducers/penalties';
 import polls from 'app/reducers/polls';
 import pools from 'app/reducers/pools';
 import quotes from 'app/reducers/quotes';
-import reactions from 'app/reducers/reactions';
 import readme from 'app/reducers/readme';
 import registrations from 'app/reducers/registrations';
 import restrictedMails from 'app/reducers/restrictedMails';
@@ -95,7 +94,6 @@ const createRootReducer = (history: History) =>
     restrictedMails,
     search,
     emojis,
-    reactions,
     surveySubmissions,
     surveys,
     tags,

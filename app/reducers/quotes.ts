@@ -14,7 +14,6 @@ export type QuoteEntity = {
   approved: boolean;
   contentTarget: string;
   reactionsGrouped: ReactionsGrouped[];
-  reactions: unknown;
   reactionCount: number;
   createdAt?: string;
 };
