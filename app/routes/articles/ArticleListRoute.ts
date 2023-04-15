@@ -3,7 +3,10 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { fetchAll } from 'app/actions/ArticleActions';
 import { fetchPopular } from 'app/actions/TagActions';
-import { selectArticles } from 'app/reducers/articles';
+import {
+  selectArticles,
+  selectArticlesWithAuthorDetails,
+} from 'app/reducers/articles';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { selectPopularTags } from 'app/reducers/tags';
 import { selectUserById } from 'app/reducers/users';
@@ -27,19 +30,9 @@ const mapStateToProps = (state, props) => {
     query,
     entity: 'articles',
   })(state);
-  const articles: ArticleWithAuthorDetails[] = selectArticles<PublicArticle[]>(
-    state,
-    {
-      pagination,
-    }
-  ).map((article) => ({
-    ...article,
-    authors: article.authors.map((e) => {
-      return selectUserById(state, {
-        userId: e,
-      });
-    }),
-  }));
+  const articles = selectArticlesWithAuthorDetails(state, {
+    pagination,
+  });
 
   return {
     articles,

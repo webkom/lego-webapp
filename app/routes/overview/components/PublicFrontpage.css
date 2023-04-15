@@ -5,12 +5,12 @@
   grid-gap: 30px;
   grid-template-columns: 1fr 1fr 1.3fr;
   grid-auto-rows: auto;
-  grid-template-areas: 'welcome welcome login' 'events events hsp' 'article article readme' 'links links facebook';
+  grid-template-areas: 'welcome welcome login' 'events events hsp' 'article article readme' 'links links links';
 
   @media (--mobile-device) {
     grid-gap: 10px;
     grid-template-columns: 1fr;
-    grid-template-areas: 'welcome' 'login' 'events' 'hsp' 'article' 'readme' 'links' 'facebook';
+    grid-template-areas: 'welcome' 'login' 'events' 'hsp' 'article' 'readme' 'links';
   }
 }
 
@@ -24,29 +24,7 @@
   }
 }
 
-.welcome {
-  composes: rootCardStyle;
-  grid-area: welcome;
-}
-
-.login {
-  composes: rootCardStyle;
-  grid-area: login;
-}
-
-.toggleButton {
-  color: var(--lego-link-color);
-  font-size: 14px;
-}
-
-.events {
-  composes: rootCardStyle;
-  grid-area: events;
-}
-
 .hsp {
-  composes: rootCardStyle;
-  grid-area: hsp;
   text-align: center;
 }
 
@@ -55,26 +33,6 @@
   height: auto;
   display: block;
   margin: auto;
-}
-
-.article {
-  composes: rootCardStyle;
-  grid-area: article;
-}
-
-.readme {
-  composes: rootCardStyle;
-  grid-area: readme;
-}
-
-.links {
-  composes: rootCardStyle;
-  grid-area: links;
-}
-
-.facebook {
-  composes: rootCardStyle;
-  grid-area: facebook;
 }
 
 .facebookIframeContainer {
@@ -88,12 +46,6 @@
   overflow: hidden;
   height: 500px;
   width: 340px;
-}
-
-.articleTitle {
-  display: flex;
-  overflow: hidden;
-  justify-content: space-between;
 }
 
 .usefulLinks {
