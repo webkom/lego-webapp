@@ -2,11 +2,11 @@ import moment from 'moment-timezone';
 import { createSelector } from 'reselect';
 import type { Dateish } from 'app/models';
 import { mutateComments } from 'app/reducers/comments';
+import type { ReactionsGrouped } from 'app/store/models/Reaction';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import joinReducers from 'app/utils/joinReducers';
 import { Meeting } from '../actions/ActionTypes';
 import { mutateReactions } from './reactions';
-import type { ReactionEntity } from './reactions';
 
 export type MeetingEntity = {
   id: number;
@@ -19,7 +19,7 @@ export type MeetingEntity = {
   reportAuthor: number;
   createdBy: number;
   mazemapPoi: number;
-  reactionsGrouped?: Array<ReactionEntity>;
+  reactionsGrouped?: ReactionsGrouped[];
 };
 
 export type MeetingSection = {

@@ -1,22 +1,19 @@
 import { produce } from 'immer';
 import { createSelector } from 'reselect';
 import type { User } from 'app/models';
+import type { MeetingInvitationStatus } from 'app/store/models/MeetingInvitation';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { Meeting } from '../actions/ActionTypes';
 import { selectMeetingById } from './meetings';
 
 export const statusesText: {
-  [key in MeetingInvitationStatus]: string;
+  [value in MeetingInvitationStatus]: string;
 } = {
   NO_ANSWER: 'Ikke svart',
   ATTENDING: 'Deltar',
   NOT_ATTENDING: 'Deltar ikke',
 };
-export enum MeetingInvitationStatus {
-  NO_ANSWER = 'NO_ANSWER',
-  ATTENDING = 'ATTENDING',
-  NOT_ATTENDING = 'NOT_ATTENDING',
-}
+
 export const getMeetingInvitationId = (meetingId: number, username: string) =>
   `${meetingId}-${username}`;
 

@@ -12,7 +12,7 @@ export function addReaction({
   emoji: string;
   contentTarget: string;
   unicodeString: string;
-}): Thunk<any> {
+}): Thunk<void> {
   return (dispatch) => {
     return dispatch(
       callAPI({

@@ -1,8 +1,8 @@
 import { produce } from 'immer';
 import { createSelector } from 'reselect';
 import type { ID } from 'app/models';
-import type { ReactionEntity } from 'app/reducers/reactions';
 import { mutateReactions } from 'app/reducers/reactions';
+import type { ReactionsGrouped } from 'app/store/models/Reaction';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import joinReducers from 'app/utils/joinReducers';
 import { Quote } from '../actions/ActionTypes';
@@ -13,8 +13,8 @@ export type QuoteEntity = {
   source: string;
   approved: boolean;
   contentTarget: string;
-  reactionsGrouped: Array<ReactionEntity>;
-  reactions: Array<ReactionEntity>;
+  reactionsGrouped: ReactionsGrouped[];
+  reactions: unknown;
   reactionCount: number;
   createdAt?: string;
 };

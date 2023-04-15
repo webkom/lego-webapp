@@ -13,7 +13,7 @@ import { addReaction, deleteReaction } from 'app/actions/ReactionActions';
 import type { User } from 'app/models';
 import { selectEmojis } from 'app/reducers/emojis';
 import { selectMeetingById } from 'app/reducers/meetings';
-import type { ReactionEntity } from 'app/reducers/reactions';
+import type { ReactionsGrouped } from 'app/store/models/Reaction';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import MeetingDetailLoginRoute from './MeetingDetailLoginRoute';
 import MeetingAnswer from './components/MeetingAnswer';
@@ -89,7 +89,7 @@ type Props = {
     user: User;
     response: string;
     meeting: number;
-    reactionsGrouped: Array<ReactionEntity>;
+    reactionsGrouped: ReactionsGrouped[];
   };
   router: any;
   resetMeetingsToken: () => void;

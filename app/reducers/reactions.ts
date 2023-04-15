@@ -1,15 +1,7 @@
 import { Reaction } from 'app/actions/ActionTypes';
-import type { ID } from 'app/models';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import getEntityType from 'app/utils/getEntityType';
 
-export type ReactionEntity = {
-  reactionId: ID;
-  emoji: string;
-  unicodeString: string;
-  count: number;
-  hasReacted: boolean;
-};
 export function mutateReactions(forTargetType: string) {
   return (state: any, action: any) => {
     switch (action.type) {

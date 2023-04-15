@@ -22,51 +22,50 @@ import {
   AttendanceStatus,
   ModalParentComponent,
 } from 'app/components/UserAttendance';
-import type { Dateish, ID, Meeting, User } from 'app/models';
-import type { EmojiEntity } from 'app/reducers/emojis';
-import {
-  statusesText,
-  MeetingInvitationStatus,
-} from 'app/reducers/meetingInvitations';
-import type { MeetingInvitationEntity } from 'app/reducers/meetingInvitations';
-import type { ReactionEntity } from 'app/reducers/reactions';
+import type { Dateish, ID } from 'app/models';
+import { statusesText } from 'app/reducers/meetingInvitations';
 import type Comment from 'app/store/models/Comment';
-import type { CurrentUser } from 'app/store/models/User';
+import type Emoji from 'app/store/models/Emoji';
+import type { DetailedMeeting } from 'app/store/models/Meeting';
+import { MeetingInvitationStatus } from 'app/store/models/MeetingInvitation';
+import type { MeetingInvitation } from 'app/store/models/MeetingInvitation';
+import type { ReactionsGrouped } from 'app/store/models/Reaction';
+import type { CurrentUser, PublicUser } from 'app/store/models/User';
+import type { ContentTarget } from 'app/store/utils/contentTarget';
 import urlifyString from 'app/utils/urlifyString';
 import styles from './MeetingDetail.css';
 
 type Props = {
-  meeting: Meeting;
+  meeting: DetailedMeeting;
   currentUser: CurrentUser;
   showAnswer: boolean;
-  meetingInvitations: Array<MeetingInvitationEntity & { id: ID }>;
+  meetingInvitations: MeetingInvitation[];
   setInvitationStatus: (
     meetingId: number,
     status: MeetingInvitationStatus,
     user: CurrentUser
   ) => Promise<void>;
-  reportAuthor: User;
-  createdBy: User;
-  currentUserInvitation: MeetingInvitationEntity;
+  reportAuthor: PublicUser;
+  createdBy: PublicUser;
+  currentUserInvitation: MeetingInvitation;
   loggedIn: boolean;
   comments: Comment[];
-  push: (arg0: string) => Promise<void>;
-  deleteComment: (id: ID, contentTarget: string) => Promise<void>;
-  emojis: Array<EmojiEntity>;
-  addReaction: (arg0: {
+  deleteComment: (id: ID, contentTarget: ContentTarget) => Promise<void>;
+  emojis: Emoji[];
+  addReaction: (args: {
     emoji: string;
-    contentTarget: string;
-  }) => Promise<unknown>;
-  reactionsGrouped: Array<ReactionEntity>;
-  deleteReaction: (arg0: {
+    contentTarget: ContentTarget;
+  }) => Promise<void>;
+  reactionsGrouped: ReactionsGrouped[];
+  deleteReaction: (args: {
     reactionId: ID;
-    contentTarget: string;
+    contentTarget: ContentTarget;
   }) => Promise<void>;
   fetchEmojis: () => Promise<void>;
   fetchingEmojis: boolean;
 };
 
-const UserLink = ({ user }: { user: User }) =>
+const UserLink = ({ user }: { user: PublicUser }) =>
   user ? (
     <Link to={`/users/${user.username}`}> {user.fullName} </Link>
   ) : (
@@ -95,17 +94,13 @@ const MeetingDetails = ({
   };
 
   const acceptInvitation = () =>
-    setMeetingInvitationStatus(MeetingInvitationStatus.ATTENDING);
+    setMeetingInvitationStatus(MeetingInvitationStatus.Attending);
 
   const rejectInvitation = () =>
-    setMeetingInvitationStatus(MeetingInvitationStatus.NOT_ATTENDING);
+    setMeetingInvitationStatus(MeetingInvitationStatus.NotAttending);
 
   const sortInvitations = () => {
-    return (
-      Object.keys(MeetingInvitationStatus) as Array<
-        keyof typeof MeetingInvitationStatus
-      >
-    ).map((invitationStatus) => ({
+    return Object.values(MeetingInvitationStatus).map((invitationStatus) => ({
       name: statusesText[invitationStatus],
       capacity: meetingInvitations.length,
       registrations: meetingInvitations.filter(
@@ -124,14 +119,14 @@ const MeetingDetails = ({
         <Button
           success
           onClick={acceptInvitation}
-          disabled={statusMe === MeetingInvitationStatus.ATTENDING}
+          disabled={statusMe === MeetingInvitationStatus.Attending}
         >
           Delta
         </Button>
         <Button
           dark
           onClick={rejectInvitation}
-          disabled={statusMe === MeetingInvitationStatus.NOT_ATTENDING}
+          disabled={statusMe === MeetingInvitationStatus.NotAttending}
         >
           Avslå
         </Button>

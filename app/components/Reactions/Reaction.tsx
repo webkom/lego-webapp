@@ -1,5 +1,4 @@
 import cx from 'classnames';
-import { Component } from 'react';
 import Emoji from 'app/components/Emoji';
 import Flex from 'app/components/Layout/Flex';
 import Tooltip from 'app/components/Tooltip';
@@ -29,66 +28,63 @@ type Props = {
 // Note: Most use cases won't want to use this class directly. Instead, use
 // app/components/LegoReactions.
 
-class Reaction extends Component<Props> {
-  render() {
-    const {
-      className,
-      emoji,
-      count,
-      unicodeString,
-      addReaction,
-      deleteReaction,
-      hasReacted,
-      canReact,
-      reactionId,
-      contentTarget,
-    } = this.props;
-    const classes = [
-      className ? className : styles.reaction,
-      canReact && styles.clickable,
-    ];
+const Reaction = ({
+  className,
+  emoji,
+  count,
+  unicodeString,
+  addReaction,
+  deleteReaction,
+  hasReacted,
+  canReact,
+  reactionId,
+  contentTarget,
+}: Props) => {
+  const classes = [
+    className ? className : styles.reaction,
+    canReact && styles.clickable,
+  ];
 
-    if (hasReacted) {
-      classes.push(styles.reacted);
-    }
-
-    if (count === 0) {
-      return <></>;
-    }
-
-    return (
-      <>
-        <Tooltip content={emoji}>
-          <Flex
-            gap={4}
-            justifyContent="center"
-            alignItems="center"
-            className={cx(classes)}
-            onClick={
-              canReact
-                ? () =>
-                    hasReacted
-                      ? deleteReaction({
-                          reactionId,
-                          contentTarget: contentTarget,
-                        })
-                      : addReaction({
-                          emoji,
-                          contentTarget,
-                          unicodeString,
-                        })
-                : null
-            }
-          >
-            <div>
-              <Emoji unicodeString={unicodeString} />
-            </div>
-            <span className={styles.reactionCount}>{count}</span>
-          </Flex>
-        </Tooltip>
-      </>
-    );
+  if (hasReacted) {
+    classes.push(styles.reacted);
   }
-}
+
+  if (count === 0) {
+    return <></>;
+  }
+
+  return (
+    <>
+      <Tooltip content={emoji}>
+        <Flex
+          gap={4}
+          justifyContent="center"
+          alignItems="center"
+          className={cx(classes)}
+          onClick={
+            canReact
+              ? () =>
+                  hasReacted
+                    ? deleteReaction({
+                        reactionId,
+                        contentTarget: contentTarget,
+                      })
+                    : addReaction({
+                        emoji,
+                        contentTarget,
+                        unicodeString,
+                      })
+              : null
+          }
+        >
+          <div>
+            <Emoji unicodeString={unicodeString} />
+          </div>
+          <span className={styles.reactionCount}>{count}</span>
+        </Flex>
+      </Tooltip>
+    </>
+  );
+};
 
 export default Reaction;

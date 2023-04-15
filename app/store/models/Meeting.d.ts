@@ -1,4 +1,4 @@
-import type { Dateish } from 'app/models';
+import type { ActionGrant, Dateish } from 'app/models';
 import type { ReactionsGrouped } from 'app/store/models/Reaction';
 import type { ID } from 'app/store/models/index';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
@@ -17,7 +17,8 @@ interface Meeting {
   comments: ID[];
   contentTarget: ContentTarget;
   mazemapPoi?: number;
-  reactionsGrouped?: ReactionsGrouped;
+  reactionsGrouped?: ReactionsGrouped[];
+  actionGrant: ActionGrant;
 }
 
 export type DetailedMeeting = Pick<
@@ -33,9 +34,10 @@ export type DetailedMeeting = Pick<
   | 'reportAuthor'
   | 'invitations'
   | 'comments'
-  | 'content_target'
+  | 'contentTarget'
   | 'mazemapPoi'
   | 'reactionsGrouped'
+  | 'actionGrant'
 >;
 
 export type ListMeeting = Pick<
