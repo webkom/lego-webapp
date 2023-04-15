@@ -4,6 +4,7 @@ import type { CompanySemesterContactedStatus, Semester } from 'app/models';
 import { mutateComments } from 'app/reducers/comments';
 import { selectJoblistings } from 'app/reducers/joblistings';
 import type { UserEntity } from 'app/reducers/users';
+import type { ContentTarget } from 'app/store/utils/contentTarget';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import joinReducers from 'app/utils/joinReducers';
 import { Company } from '../actions/ActionTypes';
@@ -51,7 +52,7 @@ export type BaseCompanyEntity = {
   active?: boolean;
   adminComment?: string;
   companyType?: string;
-  contentTarget: string;
+  contentTarget: ContentTarget;
   comments: Array<{
     id: string;
     parent: string;

@@ -16,6 +16,7 @@ import type {
 } from 'app/store/models/Article';
 import type Comment from 'app/store/models/Comment';
 import type { CurrentUser, DetailedUser } from 'app/store/models/User';
+import type { ContentTarget } from 'app/store/utils/contentTarget';
 import styles from './ArticleDetail.css';
 
 type Props = {
@@ -28,12 +29,12 @@ type Props = {
   emojis: Array<EmojiEntity>;
   addReaction: (arg0: {
     emoji: string;
-    contentTarget: string;
+    contentTarget: ContentTarget;
   }) => Promise<unknown>;
   reactionsGrouped: ReactionEntity[];
   deleteReaction: (arg0: {
     reactionId: ID;
-    contentTarget: string;
+    contentTarget: ContentTarget;
   }) => Promise<void>;
   fetchEmojis: () => Promise<void>;
   fetchingEmojis: boolean;
