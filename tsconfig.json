@@ -18,7 +18,6 @@
     "noImplicitAny": false,
     "skipLibCheck": true,
     "resolveJsonModule": true,
-    "importsNotUsedAsValues": "error",
     "plugins": [
       {
         "name": "typescript-plugin-css-modules",
