@@ -16,15 +16,16 @@ import { createValidator, required, sameAs } from 'app/utils/validation';
 import { validPassword } from '../utils';
 import PasswordField from './PasswordField';
 import styles from './UserConfirmation.css';
+import type { RouteChildrenProps } from 'react-router';
 
-type Props = {
+export type Props = {
   token: string;
   user: UserEntity;
   handleSubmit: (arg0: (...args: Array<any>) => any) => void;
   createUser: (token: string, data: Record<string, any>) => void;
   router: any;
   submitSucceeded: () => void;
-};
+} & RouteChildrenProps<{ username: string }>;
 
 const UserConfirmation = ({
   token,

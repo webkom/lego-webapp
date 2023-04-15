@@ -6,6 +6,7 @@ import { createSelector } from 'reselect';
 import config from 'app/config';
 import { eventSchema } from 'app/reducers';
 import { mutateComments } from 'app/reducers/comments';
+import { isCurrentUser as checkIfCurrentUser } from 'app/routes/users/utils';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import joinReducers from 'app/utils/joinReducers';
 import mergeObjects from 'app/utils/mergeObjects';
@@ -108,11 +109,12 @@ const mutateEvent = produce((newState: State, action: any): void => {
         return;
       }
 
-      const isMe =
-        (registration.user && registration.user.id) === currentUser.id;
+      const isCurrentUser =
+        registration.user &&
+        checkIfCurrentUser(registration.user.id, currentUser.id);
       stateEvent.loading = false;
 
-      if (isMe) {
+      if (isCurrentUser) {
         stateEvent.activationTime = activationTimeFromMeta;
       }
 

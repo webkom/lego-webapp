@@ -5,12 +5,11 @@ import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import type { EventPool } from 'app/models';
 import type { EventEntity } from 'app/reducers/events';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import type { Element } from 'react';
+import type { ReactElement } from 'react';
 
 type Props = {
-  children: Array<Element<any>>;
+  children: Array<ReactElement>;
   currentUser: Record<string, any>;
-  isMe: boolean;
   event: EventEntity | null | undefined;
   match: {
     params: {

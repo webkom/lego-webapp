@@ -62,7 +62,7 @@ type Props = {
   showSettings: boolean;
   //feedItems: Array<any>,
   //feed: Object,
-  isMe: boolean;
+  isCurrentUser: boolean;
   loggedIn: boolean;
   loading: boolean;
   previousEvents: Array<Event>;
@@ -196,7 +196,7 @@ const UserProfile = (props: Props) => {
 
   const {
     user,
-    isMe,
+    isCurrentUser,
     showSettings,
     //feedItems,
     //feed,
@@ -395,9 +395,9 @@ const UserProfile = (props: Props) => {
             {hasFrame && (
               <Image alt="Golden frame" className={styles.frame} src={frame} />
             )}
-            <ProfilePicture user={user} size={150} />
+            <ProfilePicture user={user} alt="Profile picture" size={150} />
           </Flex>
-          {isMe && (
+          {isCurrentUser && (
             <Button
               className={
                 hasFrame
@@ -468,7 +468,7 @@ const UserProfile = (props: Props) => {
                   username={user.username}
                   updatePhotoConsent={updatePhotoConsent}
                   userId={user.id}
-                  isMe={isMe}
+                  isCurrentUser={isCurrentUser}
                 />
               </Card>
             </div>
@@ -650,7 +650,7 @@ const UserProfile = (props: Props) => {
             </div>
           )}
 
-          {isMe && user.email !== user.emailAddress && (
+          {isCurrentUser && user.email !== user.emailAddress && (
             <div>
               <h3>Google GSuite</h3>
               <Card className={styles.infoCard}>
@@ -685,7 +685,7 @@ const UserProfile = (props: Props) => {
              <LoadingIndicator loading />
            )}
            */}
-          {isMe && (
+          {isCurrentUser && (
             <div className={styles.bottomMargin}>
               <h3>Dine kommende arrangementer</h3>
               <EventListCompact

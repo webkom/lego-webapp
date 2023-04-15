@@ -1,3 +1,5 @@
+import { useUserContext } from 'app/routes/app/AppRoute';
+
 type Data = {
   username?: string;
   firstName?: string;
@@ -17,3 +19,11 @@ export const validPassword =
     const evalPass = zxcvbn(value, userValues);
     return [evalPass.score >= 3, message];
   };
+
+export const isCurrentUser = (username: string, currentUsername: string) =>
+  username === 'me' || username === currentUsername;
+
+export const useIsCurrentUser = (username: string) => {
+  const { currentUser } = useUserContext();
+  return isCurrentUser(username, currentUser.username);
+};
