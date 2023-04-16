@@ -3,13 +3,9 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { fetchAll } from 'app/actions/ArticleActions';
 import { fetchPopular } from 'app/actions/TagActions';
-import {
-  selectArticles,
-  selectArticlesWithAuthorDetails,
-} from 'app/reducers/articles';
+import { selectArticlesWithAuthorDetails } from 'app/reducers/articles';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { selectPopularTags } from 'app/reducers/tags';
-import { selectUserById } from 'app/reducers/users';
 import type { PublicArticle } from 'app/store/models/Article';
 import type { PublicUser } from 'app/store/models/User';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';

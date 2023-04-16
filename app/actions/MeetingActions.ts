@@ -3,6 +3,7 @@ import { startSubmit, stopSubmit } from 'redux-form';
 import callAPI from 'app/actions/callAPI';
 import { meetingSchema } from 'app/reducers';
 import type { UserEntity } from 'app/reducers/users';
+import type { ID } from 'app/store/models';
 import type { Thunk, Action } from 'app/types';
 import createQueryString from 'app/utils/createQueryString';
 import { Meeting } from './ActionTypes';
@@ -150,19 +151,18 @@ export function inviteUsersAndGroups({
   users,
   groups,
 }: {
-  id: number;
+  id: ID;
   users: [
     {
-      value: number;
-      id: number;
+      id: ID;
     }
   ];
   groups: [
     {
-      value: number;
+      value: ID;
     }
   ];
-}): Thunk<any> {
+}): Thunk<Promise<void>> {
   return callAPI({
     types: Meeting.EDIT,
     endpoint: `/meetings/${id}/bulk_invite/`,
@@ -180,7 +180,7 @@ export function answerMeetingInvitation(
   action: string,
   token: string,
   loggedIn: boolean
-): Thunk<any> {
+): Thunk<Promise<void>> {
   return (dispatch) => {
     dispatch(startSubmit('answerMeetingInvitation'));
     return dispatch(

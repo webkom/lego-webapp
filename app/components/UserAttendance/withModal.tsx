@@ -64,7 +64,7 @@ const ChildrenWithProps = ({
   children,
   ...restProps
 }: WithModalProps & {
-  children: ReactElement[];
+  children: ReactElement | ReactElement[];
 }) => (
   <div>
     {Children.map(children, (child) => cloneElement(child, { ...restProps }))}

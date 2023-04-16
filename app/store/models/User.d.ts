@@ -144,6 +144,14 @@ export type SearchUser = Pick<
   | 'profilePicturePlaceholder'
 >;
 
+export type AutocompleteUser = Pick<
+  User,
+  'username' | 'fullName' | 'profilePicture' | 'id'
+> & {
+  contentType: 'users.user';
+  text: 'text';
+};
+
 /*
 Some user object, unknown serializer
  */

@@ -23,12 +23,12 @@ import {
   ModalParentComponent,
 } from 'app/components/UserAttendance';
 import type { Dateish, ID } from 'app/models';
+import type { MeetingInvitationWithUser } from 'app/reducers/meetingInvitations';
 import { statusesText } from 'app/reducers/meetingInvitations';
 import type Comment from 'app/store/models/Comment';
 import type Emoji from 'app/store/models/Emoji';
 import type { DetailedMeeting } from 'app/store/models/Meeting';
 import { MeetingInvitationStatus } from 'app/store/models/MeetingInvitation';
-import type { MeetingInvitation } from 'app/store/models/MeetingInvitation';
 import type { ReactionsGrouped } from 'app/store/models/Reaction';
 import type { CurrentUser, PublicUser } from 'app/store/models/User';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
@@ -39,7 +39,7 @@ type Props = {
   meeting: DetailedMeeting;
   currentUser: CurrentUser;
   showAnswer: boolean;
-  meetingInvitations: MeetingInvitation[];
+  meetingInvitations: MeetingInvitationWithUser[];
   setInvitationStatus: (
     meetingId: number,
     status: MeetingInvitationStatus,
@@ -47,7 +47,7 @@ type Props = {
   ) => Promise<void>;
   reportAuthor: PublicUser;
   createdBy: PublicUser;
-  currentUserInvitation: MeetingInvitation;
+  currentUserInvitation: MeetingInvitationWithUser;
   loggedIn: boolean;
   comments: Comment[];
   deleteComment: (id: ID, contentTarget: ContentTarget) => Promise<void>;
@@ -163,102 +163,100 @@ const MeetingDetails = ({
     },
   ];
   return (
-    <div>
+    <Content>
       <Helmet title={meeting.title} />
-      <Content>
-        <NavigationTab
-          title={meeting.title}
-          className={styles.detailTitle}
-          details={
-            <Time
-              style={{
-                color: 'grey',
-              }}
-              time={meeting.startTime}
-              format="ll [-] HH:mm"
-            />
-          }
-          back={{
-            label: 'Dine møter',
-            path: '/meetings',
-          }}
-        >
-          {canEdit && (
-            <NavigationLink to={`/meetings/${meeting.id}/edit`}>
-              Rediger
-            </NavigationLink>
-          )}
-        </NavigationTab>
+      <NavigationTab
+        title={meeting.title}
+        className={styles.detailTitle}
+        details={
+          <Time
+            style={{
+              color: 'grey',
+            }}
+            time={meeting.startTime}
+            format="ll [-] HH:mm"
+          />
+        }
+        back={{
+          label: 'Dine møter',
+          path: '/meetings',
+        }}
+      >
+        {canEdit && (
+          <NavigationLink to={`/meetings/${meeting.id}/edit`}>
+            Rediger
+          </NavigationLink>
+        )}
+      </NavigationTab>
 
-        <ContentSection>
-          <ContentMain>
-            {meeting.description && (
-              <div>{urlifyString(meeting.description)}</div>
-            )}
-            <h2>Referat</h2>
-            <DisplayContent content={meeting.report} />
-          </ContentMain>
-          <ContentSidebar>
-            <Card
-              style={{
-                border: 'none',
-                padding: 0,
-              }}
-              shadow={false}
-            >
-              <ul>
-                {attendanceButtons(statusMe, meeting.startTime)}
-                <InfoList items={infoItems} />
-                <li>
-                  <ModalParentComponent
-                    isMeeting
-                    key="modal"
-                    pools={sortInvitations()}
-                    title="Påmeldte"
-                  >
-                    <AttendanceStatus pools={sortInvitations()} />
-                  </ModalParentComponent>
-                </li>
-                {meeting.mazemapPoi && (
-                  <MazemapEmbed mazemapPoi={meeting.mazemapPoi} />
+      <ContentSection>
+        <ContentMain>
+          {meeting.description && (
+            <div>{urlifyString(meeting.description)}</div>
+          )}
+          <h2>Referat</h2>
+          <DisplayContent content={meeting.report} />
+        </ContentMain>
+        <ContentSidebar>
+          <Card
+            style={{
+              border: 'none',
+              padding: 0,
+            }}
+            shadow={false}
+          >
+            <ul>
+              {attendanceButtons(statusMe, meeting.startTime)}
+              <InfoList items={infoItems} />
+              <li>
+                <ModalParentComponent
+                  isMeeting
+                  key="modal"
+                  pools={sortInvitations()}
+                  title="Påmeldte"
+                >
+                  <AttendanceStatus pools={sortInvitations()} />
+                </ModalParentComponent>
+              </li>
+              {meeting.mazemapPoi && (
+                <MazemapEmbed mazemapPoi={meeting.mazemapPoi} />
+              )}
+              <li>
+                <AnnouncementInLine meeting={meeting} />
+              </li>
+              <li>
+                {meeting.contentTarget && (
+                  <div className={styles.meetingReactions}>
+                    <LegoReactions
+                      emojis={emojis}
+                      fetchEmojis={fetchEmojis}
+                      fetchingEmojis={fetchingEmojis}
+                      addReaction={addReaction}
+                      deleteReaction={deleteReaction}
+                      parentEntity={meeting}
+                      loggedIn={loggedIn}
+                    />
+                  </div>
                 )}
-                <li>
-                  <AnnouncementInLine meeting={meeting} />
-                </li>
-                <li>
-                  {meeting.contentTarget && (
-                    <div className={styles.meetingReactions}>
-                      <LegoReactions
-                        emojis={emojis}
-                        fetchEmojis={fetchEmojis}
-                        fetchingEmojis={fetchingEmojis}
-                        addReaction={addReaction}
-                        deleteReaction={deleteReaction}
-                        parentEntity={meeting}
-                        loggedIn={loggedIn}
-                      />
-                    </div>
-                  )}
-                </li>
-              </ul>
-            </Card>
-          </ContentSidebar>
-        </ContentSection>
-        <ContentSection>
-          <ContentMain>
-            {meeting.contentTarget && (
-              <CommentView
-                user={currentUser}
-                contentTarget={meeting.contentTarget}
-                loggedIn={loggedIn}
-                comments={comments}
-                deleteComment={deleteComment}
-              />
-            )}
-          </ContentMain>
-        </ContentSection>
-      </Content>
-    </div>
+              </li>
+            </ul>
+          </Card>
+        </ContentSidebar>
+      </ContentSection>
+      <ContentSection>
+        <ContentMain>
+          {meeting.contentTarget && (
+            <CommentView
+              user={currentUser}
+              contentTarget={meeting.contentTarget}
+              loggedIn={loggedIn}
+              comments={comments}
+              deleteComment={deleteComment}
+            />
+          )}
+        </ContentMain>
+      </ContentSection>
+    </Content>
   );
 };
 

@@ -5,7 +5,7 @@ import type { ID } from 'app/store/models';
 import type { ArticleEntity, Thunk } from 'app/types';
 import { Article } from './ActionTypes';
 
-export function fetchArticle(articleId: ID): Thunk<void> {
+export function fetchArticle(articleId: ID): Thunk<Promise<void>> {
   return callAPI({
     types: Article.FETCH,
     endpoint: `/articles/${articleId}/`,

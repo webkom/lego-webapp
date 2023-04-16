@@ -12,8 +12,15 @@ import {
   selectCommentsForMeeting,
 } from 'app/reducers/meetings';
 import { selectUserById } from 'app/reducers/users';
+import type { UserContextType } from 'app/routes/app/AppRoute';
+import type { RootState } from 'app/store/createRootReducer';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import MeetingDetail from './components/MeetingDetail';
+import type { RouteChildrenProps } from 'react-router';
+
+type Params = {
+  meetingId: string;
+};
 
 const mapDispatchToProps = {
   setInvitationStatus,
@@ -21,7 +28,10 @@ const mapDispatchToProps = {
   push,
 };
 
-const mapStateToProps = (state, props) => {
+const mapStateToProps = (
+  state: RootState,
+  props: RouteChildrenProps<Params> & UserContextType
+) => {
   const { meetingId } = props.match.params;
   const { currentUser } = props;
   const meeting = selectMeetingById(state, {

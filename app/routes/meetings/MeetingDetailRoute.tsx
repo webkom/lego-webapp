@@ -10,13 +10,22 @@ import {
   resetMeetingsToken,
 } from 'app/actions/MeetingActions';
 import { addReaction, deleteReaction } from 'app/actions/ReactionActions';
-import type { User } from 'app/models';
 import { selectEmojis } from 'app/reducers/emojis';
 import { selectMeetingById } from 'app/reducers/meetings';
-import type { ReactionsGrouped } from 'app/store/models/Reaction';
+import type { MeetingsTokenResponse } from 'app/reducers/meetingsToken';
+import type { UserContextType } from 'app/routes/app/AppRoute';
+import type { AppDispatch } from 'app/store/createStore';
+import type { ID } from 'app/store/models';
+import type { MeetingInvitationStatus } from 'app/store/models/MeetingInvitation';
+import type { PublicUser } from 'app/store/models/User';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import MeetingDetailLoginRoute from './MeetingDetailLoginRoute';
 import MeetingAnswer from './components/MeetingAnswer';
+import type { RouteChildrenProps } from 'react-router';
+
+type Params = {
+  meetingId: string;
+};
 
 const loadMeeting = (
   {
@@ -31,7 +40,10 @@ const loadMeeting = (
     ? Promise.all([dispatch(fetchMeeting(meetingId), dispatch(fetchEmojis()))])
     : Promise.resolve();
 
-const loadData = (props, dispatch): any => {
+const loadData = async (
+  props: RouteChildrenProps<Params> & UserContextType,
+  dispatch: AppDispatch
+) => {
   const search = qs.parse(props.location.search, {
     ignoreQueryPrefix: true,
   });
@@ -44,9 +56,8 @@ const loadData = (props, dispatch): any => {
     typeof token === 'string' &&
     typeof action === 'string'
   ) {
-    return dispatch(answerMeetingInvitation(action, token, loggedIn)).then(() =>
-      loadMeeting(props, dispatch)
-    );
+    await dispatch(answerMeetingInvitation(action, token, loggedIn));
+    return loadMeeting(props, dispatch);
   }
 
   return loadMeeting(props, dispatch);
@@ -85,24 +96,21 @@ const mapStateToProps = (state, props) => {
 type Props = {
   loggedIn: boolean;
   meetingsToken: {
-    status: number;
-    user: User;
-    response: string;
-    meeting: number;
-    reactionsGrouped: ReactionsGrouped[];
+    user: PublicUser;
+    response: MeetingsTokenResponse;
+    meeting: ID;
+    status: MeetingInvitationStatus;
   };
-  router: any;
   resetMeetingsToken: () => void;
 };
 
 const MeetingComponent = (props: Props) => {
-  const { loggedIn, meetingsToken, router, resetMeetingsToken } = props;
+  const { loggedIn, meetingsToken, resetMeetingsToken } = props;
 
   if (!loggedIn && meetingsToken.meeting) {
     return (
       <MeetingAnswer
         {...meetingsToken}
-        router={router}
         resetMeetingsToken={resetMeetingsToken}
       />
     );
