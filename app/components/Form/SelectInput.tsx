@@ -1,6 +1,6 @@
 import Select from 'react-select';
 import Creatable from 'react-select/creatable';
-import mazemapAutocomplete from '../Search/mazemapAutocomplete';
+import withMazemapAutocomplete from '../Search/mazemapAutocomplete';
 import withAutocomplete from '../Search/withAutocomplete';
 import { createField } from './Field';
 import style from './SelectInput.css';
@@ -177,7 +177,7 @@ SelectInput.AutocompleteField = withAutocomplete({
 SelectInput.WithAutocomplete = withAutocomplete({
   WrappedComponent: SelectInput,
 });
-SelectInput.MazemapAutocomplete = mazemapAutocomplete({
+SelectInput.MazemapAutocomplete = withMazemapAutocomplete({
   WrappedComponent: SelectInput.Field,
 });
 export default SelectInput;

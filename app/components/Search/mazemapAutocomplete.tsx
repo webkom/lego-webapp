@@ -1,112 +1,120 @@
 import { debounce } from 'lodash';
-import { Component } from 'react';
+import { useEffect, useState } from 'react';
 import { stripHtmlTags } from './utils';
 import type { ComponentType } from 'react';
 import 'node_modules/mazemap/mazemap.min.css';
 
 type InjectedProps = {
-  mazemapSearch: (query: string) => Promise<any>;
-  meta: any;
-};
-type State = {
-  searching: boolean;
-  result: Array<Record<string, any>>;
-  mazemapSearchController: any;
+  options: SelectOption[];
+  onSearch: (query: string) => void;
+  fetching: boolean;
 };
 
-function mazemapAutocomplete<Props>({
+type SelectOption = {
+  label: string;
+  value: number;
+};
+
+const mapRoomAndBuildingToSelectOption = (
+  poiName: string,
+  buildingName: string,
+  value: number
+): SelectOption => {
+  return {
+    label: stripHtmlTags(poiName + ', ' + buildingName),
+    value: value,
+  };
+};
+
+// This type is incomplete, but contains the parts we use
+type MazemapSearchController = {
+  search: (query: string) => Promise<{
+    results: {
+      features: {
+        properties: {
+          dispPoiNames: string[];
+          dispBldNames: string[];
+          poiId: number;
+        };
+      }[];
+    };
+  }>;
+};
+
+export const useMazemapAutocomplete = () => {
+  const [options, setOptions] = useState<SelectOption[]>([]);
+  const [fetching, setFetching] = useState(false);
+  const [mazemapSearchController, setMazemapSearchController] =
+    useState<MazemapSearchController>();
+
+  useEffect(() => {
+    import('mazemap').then((mazemap) => {
+      setMazemapSearchController(
+        new mazemap.Search.SearchController({
+          campusid: 1,
+          rows: 10,
+          withpois: true,
+          withbuilding: false,
+          withtype: false,
+          withcampus: false,
+          resultsFormat: 'geojson',
+        })
+      );
+    });
+  }, []);
+
+  const onSearch = (query: string) => {
+    if (!query) {
+      return;
+    }
+
+    setFetching(true);
+
+    mazemapSearchController &&
+      mazemapSearchController
+        .search(query)
+        .then((results) => {
+          setOptions(
+            results.results.features.map((result) =>
+              mapRoomAndBuildingToSelectOption(
+                result.properties.dispPoiNames[0],
+                result.properties.dispBldNames[0],
+                result.properties.poiId
+              )
+            )
+          );
+        })
+        .catch(() => {})
+        .finally(() => setFetching(false));
+  };
+
+  const debouncedOnSearch = debounce(onSearch, 100);
+
+  return { options, onSearch: debouncedOnSearch, fetching };
+};
+
+const withMazemapAutocomplete = <P,>({
   WrappedComponent,
 }: {
-  WrappedComponent: ComponentType<Props>;
-}) {
+  WrappedComponent: ComponentType<P & InjectedProps>;
+}) => {
+  const Component = (props: P) => {
+    const { options, onSearch, fetching } = useMazemapAutocomplete();
+
+    return (
+      <WrappedComponent
+        {...props}
+        options={options}
+        onSearch={onSearch}
+        fetching={fetching}
+      />
+    );
+  };
   const displayName =
     WrappedComponent.displayName || WrappedComponent.name || 'Unknown';
+  Component.displayName = `MazemapAutocomplete(${displayName})`;
 
-  const mapRoomAndBuildingToResult = (
-    poiName: string,
-    buildingName: string,
-    value: number
-  ): Record<string, any> => {
-    return {
-      label: stripHtmlTags(poiName + ', ' + buildingName),
-      value: value,
-    };
-  };
+  return Component;
+};
 
-  return class extends Component<InjectedProps & Props, State> {
-    static displayName = `Autocomplete(${displayName})`;
-    state = {
-      searching: false,
-      result: [],
-      mazemapSearchController: undefined,
-    };
-    _isMounted = false;
-
-    componentDidMount() {
-      import('mazemap').then((mazemap) => {
-        this.setState({
-          mazemapSearchController: new mazemap.Search.SearchController({
-            campusid: 1,
-            rows: 10,
-            withpois: true,
-            withbuilding: false,
-            withtype: false,
-            withcampus: false,
-            resultsFormat: 'geojson',
-          }),
-        });
-      });
-      this._isMounted = true;
-    }
-
-    componentWillUnmount() {
-      this._isMounted = false;
-    }
-
-    handleSearch = (query: string): void => {
-      if (!query) {
-        return;
-      }
-
-      this.setState({
-        searching: true,
-      });
-
-      if (this._isMounted) {
-        this.state.mazemapSearchController &&
-          this.state.mazemapSearchController
-            .search(query)
-            .then((results) => {
-              this.setState({
-                result: results.results.features.map((result) =>
-                  mapRoomAndBuildingToResult(
-                    result.properties.dispPoiNames[0],
-                    result.properties.dispBldNames[0],
-                    result.properties.poiId
-                  )
-                ),
-              });
-            })
-            .catch(() => {})
-            .finally(() =>
-              this.setState({
-                searching: false,
-              })
-            );
-      }
-    };
-
-    render() {
-      return (
-        <WrappedComponent
-          {...this.props}
-          options={this.state.result}
-          onSearch={debounce((query) => this.handleSearch(query), 300)}
-          fetching={this.state.searching}
-        />
-      );
-    }
-  };
-}
-
-export default mazemapAutocomplete;
+export default withMazemapAutocomplete;
