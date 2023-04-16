@@ -28,18 +28,25 @@ function RadioButton({
   checked = inputValue ? inputValue === value : checked;
   value = inputValue ?? value;
   return (
-    <Flex gap={7} className={cx(styles.box, className)}>
-      <input
-        {...props}
-        className={styles.input}
-        checked={checked}
-        type="radio"
-        id={id}
-        value={value}
-      />
-      <label htmlFor={id} className={styles.label}>
-        {label}
-      </label>
+    <Flex wrap alignItems="center" gap={7}>
+      <div className={cx(styles.radioButton, styles.bounce, className)}>
+        <input
+          {...props}
+          className={styles.input}
+          checked={checked}
+          type="radio"
+          id={id}
+          value={value}
+        />
+        <svg viewBox="0 0 21 21">
+          <circle cx="10.5" cy="10.5" r="7" />
+        </svg>
+      </div>
+      {label && (
+        <label htmlFor={id} className={styles.label}>
+          {label}
+        </label>
+      )}
     </Flex>
   );
 }

@@ -120,7 +120,7 @@ const UserConfirmation = ({
             autocomplete="family-name"
             component={TextInput.Field}
           />
-          <RadioButtonGroup name="gender">
+          <RadioButtonGroup label="Kjønn" name="gender">
             <Field
               name="genderMan"
               label="Mann"

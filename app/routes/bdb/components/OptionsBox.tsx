@@ -77,26 +77,22 @@ export default class OptionsBox extends Component<Props, State> {
                 display: this.state.active ? 'block' : 'none',
               }}
             >
-              <label>
-                <RadioButton
-                  name="active"
-                  id="active"
-                  inputValue={true}
-                  value={this.state.values.active}
-                  onChange={() => this.updateFilters('active', true)}
-                />
-                <span>Vis bare aktive bedrifter</span>
-              </label>
-              <label>
-                <RadioButton
-                  name="active"
-                  id="inactive"
-                  inputValue={false}
-                  value={this.state.values.active}
-                  onChange={() => this.updateFilters('active', false)}
-                />
-                <span>Vis bare inaktive bedrifter</span>
-              </label>
+              <RadioButton
+                name="active"
+                id="active"
+                label="Vis bare aktive bedrifter"
+                inputValue={true}
+                value={this.state.values.active}
+                onChange={() => this.updateFilters('active', true)}
+              />
+              <RadioButton
+                name="active"
+                id="inactive"
+                label="Vis bare inaktive bedrifter"
+                inputValue={false}
+                value={this.state.values.active}
+                onChange={() => this.updateFilters('active', false)}
+              />
             </div>
 
             <CheckBox
