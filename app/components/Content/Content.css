@@ -33,7 +33,7 @@
   position: relative;
   width: 100%;
 
-  img {
+  & img {
     object-fit: cover;
     display: block;
     background: white;

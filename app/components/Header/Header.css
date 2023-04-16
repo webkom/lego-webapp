@@ -22,7 +22,7 @@
   align-items: center;
   cursor: pointer;
 
-  button {
+  & button {
     padding: 0;
   }
 }
