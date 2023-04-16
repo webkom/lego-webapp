@@ -1,9 +1,14 @@
-import { Link } from 'react-router-dom';
+import buddyWeekGraphic from 'app/assets/frontpage-graphic-buddyweek.png';
+import dataGraphic from 'app/assets/frontpage-graphic-data.png';
+import forCompaniesGraphic from 'app/assets/frontpage-graphic-for-companies.png';
+import komtekGraphic from 'app/assets/frontpage-graphic-komtek.png';
+import readmeGraphic from 'app/assets/frontpage-graphic-readme.png';
 import netcompany from 'app/assets/netcompany_dark.png';
 import AuthSection from 'app/components/AuthSection/AuthSection';
+import Button from 'app/components/Button';
 import Card from 'app/components/Card';
 import { Image } from 'app/components/Image';
-import { Container } from 'app/components/Layout';
+import { Container, Flex } from 'app/components/Layout';
 import { readmeIfy } from 'app/components/ReadmeLogo';
 import type { Readme } from 'app/models';
 import type { WithDocumentType } from 'app/reducers/frontpage';
@@ -67,10 +72,8 @@ const PublicFrontpage = ({ frontpage, readmes }: Props) => {
           collapsible={false}
           style={{ gridArea: 'readme' }}
         />
-        <Card style={{ gridArea: 'links' }}>
-          <UsefulLinks />
-        </Card>
       </Container>
+      <UsefulLinks />
     </Container>
   );
 };
@@ -116,59 +119,81 @@ const LatestArticle = ({ frontpage }: Pick<Props, 'frontpage'>) => (
   </>
 );
 
+const usefulLinksConf = [
+  {
+    title: 'Fadderperioden 2022',
+    image: buddyWeekGraphic,
+    description:
+      'Abakus arrangerer fadderperioden for alle nye studenter, og her finner du informasjon om fadderperioden 2022.',
+    buttonText: 'Les deg opp',
+    link: '/articles/414',
+    isInternalLink: true,
+  },
+  {
+    title: 'Datateknologi',
+    image: dataGraphic,
+    description:
+      'Datateknologi er en helt sentral del av alle fremtidsrettede teknologier; som for eksempel kunstig intelligens, medisinsk teknologi og søkemotorteknologi.',
+    buttonText: 'Sjekk ut studiet',
+    link: 'https://www.ntnu.no/studier/mtdt',
+    isInternalLink: false,
+  },
+  {
+    title: 'Kommunikasjonsteknologi og digital sikkerhet',
+    image: komtekGraphic,
+    description:
+      'Vi bruker stadig mer av livene våre på nett, på jobb som i fritid. Kommunikasjonsteknologi og digital sikkerhet blir stadig viktigere i en digital verden.',
+    buttonText: 'Sjekk ut studiet',
+    link: 'https://www.ntnu.no/studier/mtkom',
+    isInternalLink: false,
+  },
+  {
+    title: 'For bedrifter',
+    image: forCompaniesGraphic,
+    description:
+      "Her finner du som bedriftsrepresentant informasjon om Abakus' prosedyrer for bedriftspresentasjoner, og andre nyttige fakta.",
+    buttonText: 'Undersøk muligheter',
+    link: '/pages/bedrifter/for-bedrifter',
+    isInternalLink: true,
+  },
+  {
+    title: 'readme',
+    image: readmeGraphic,
+    description:
+      'Abakus har sitt eget magasin, readme. Her kan du lese om hva vi driver med, og få et innblikk i oss som organisasjon.',
+    buttonText: 'Utforsk magasiner',
+    link: 'https://readme.abakus.no/',
+    isInternalLink: false,
+  },
+];
+
 const UsefulLinks = () => (
   <>
     <h2 className="u-mb">Nyttige lenker</h2>
-    <ul>
-      <li>
-        <Link to="/articles/414">
-          <i className="fa fa-caret-right" /> Fadderperioden 2022
-        </Link>
-        <div className={styles.linkDescription}>
-          Informasjon om fadderperioden 2022
-        </div>
-      </li>
-      <li>
-        <a href="https://www.ntnu.no/studier/mtdt" target="blank">
-          <i className="fa fa-caret-right" /> Datateknologi
+
+    <Flex wrap justifyContent="center" gap={40}>
+      {usefulLinksConf.map((item) => (
+        <a
+          href={item.link}
+          key={item.title}
+          rel="noreferrer"
+          target={item.isInternalLink ? '_self' : '_blank'}
+        >
+          <Card isHoverable className={styles.usefulLink}>
+            <Card.Header className={styles.usefulLinkHeader}>
+              {readmeIfy(item.title)}
+            </Card.Header>
+            <Image
+              src={item.image}
+              alt={item.title}
+              className={styles.usefulLinkGraphic}
+            />
+            <p className={styles.usefulLinkDescription}>{item.description}</p>
+            <Button ghost>{item.buttonText}</Button>
+          </Card>
         </a>
-        <div className={styles.linkDescription}>
-          Datateknologi er en helt sentral del av alle fremtidsrettede
-          teknologier, som for eksempel kunstig intelligens, medisinsk teknologi
-          og søkemotorteknologi.
-        </div>
-      </li>
-      <li>
-        <a href="http://www.ntnu.no/studier/mtkom" target="blank">
-          <i className="fa fa-caret-right" /> Kommunikasjonsteknologi og digital
-          sikkerhet
-        </a>
-        <div className={styles.linkDescription}>
-          Vi bruker stadig mer av livene våre på nett, på jobb som i fritid.
-          Kommunikasjonsteknologi og digital sikkerhet blir stadig viktigere i
-          en digital verden.
-        </div>
-      </li>
-      <li>
-        <Link to="/pages/bedrifter/for-bedrifter">
-          <i className="fa fa-caret-right" /> For bedrifter
-        </Link>
-        <div className={styles.linkDescription}>
-          Her finner du som bedriftsrepresentant informasjon om Abakus{"' "}
-          prosedyrer for bedriftspresentasjoner og andre nyttige fakta.
-        </div>
-      </li>
-      <li>
-        <a href="https://readme.abakus.no">
-          <i className="fa fa-caret-right" /> {readmeIfy('readme')}
-        </a>
-        <div className={styles.linkDescription}>
-          Abakus har sitt eget magasin skrevet av {readmeIfy('readme')}. Her kan
-          du lese om hva abakus driver med og få et innblikk i abakus som
-          organisasjon.
-        </div>
-      </li>
-    </ul>
+      ))}
+    </Flex>
   </>
 );
 

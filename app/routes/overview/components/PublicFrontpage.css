@@ -35,33 +35,23 @@
   margin: auto;
 }
 
-.facebookIframeContainer {
-  width: 100%;
-  display: flex;
-  justify-content: center;
+.usefulLink {
+  width: 325px;
+  height: 400px;
+  line-height: 1.3;
 }
 
-.facebookIframe {
-  border: none;
-  overflow: hidden;
-  height: 500px;
-  width: 340px;
+.usefulLinkHeader {
+  height: 14%;
 }
 
-.usefulLinks {
-  composes: rootCardStyle;
-  flex: 1.8;
-  margin-right: 30px;
+.usefulLinkDescription {
+  color: var(--lego-font-color);
+  height: 30%;
 }
 
-.usefulLinks a {
-  font-size: 20px;
-}
-
-.usefulLinks li {
-  margin-bottom: 15px;
-}
-
-.linkDescription {
-  margin-left: 30px;
+.usefulLinkGraphic {
+  margin: 0 auto;
+  width: auto;
+  height: 40%;
 }
