@@ -62,6 +62,7 @@ const PublicFrontpage = ({ frontpage, readmes }: Props) => {
           <LatestArticle frontpage={frontpage} />
         </Card>
         <LatestReadme
+          imageClassName={styles.latestReadme}
           readmes={readmes}
           expandedInitially
           collapsible={false}

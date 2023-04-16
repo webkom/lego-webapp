@@ -65,3 +65,9 @@
 .linkDescription {
   margin-left: 30px;
 }
+
+.latestReadme {
+  min-height: 410px;
+  max-width: 330px;
+  width: 100%;
+}
