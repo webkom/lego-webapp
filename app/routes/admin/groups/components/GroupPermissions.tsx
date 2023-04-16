@@ -7,7 +7,6 @@ import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import type { ID } from 'app/models';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import AddGroupPermission from './AddGroupPermission';
-import styles from './GroupMembers.css';
 
 type PermissionListProps = {
   permissions: Array<string>;
@@ -132,7 +131,7 @@ export const GroupPermissions = ({
 }: GroupPermissionsProps) => {
   const { permissions, parentPermissions } = group;
   return (
-    <div className={styles.groupMembers}>
+    <div>
       <PermissionList
         group={group}
         permissions={permissions}

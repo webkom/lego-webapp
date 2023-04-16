@@ -14,7 +14,7 @@ export interface PhotoConsent {
 }
 
 interface User {
-  id: number;
+  id: ID;
   username: string;
   firstName: string;
   lastName: string;

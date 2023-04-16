@@ -1,12 +1,13 @@
 import type { Dateish } from 'app/models';
-import type User from 'app/store/models/User';
+import type { PublicUser } from 'app/store/models/User';
 import type { ID } from 'app/store/models/index';
+import type { RoleType } from 'app/utils/constants';
 
 export default interface Membership {
   id: ID;
-  user: User;
+  user: PublicUser;
   abakusGroup: ID;
-  role: string;
+  role: RoleType;
   isActive: boolean;
   emailListsEnabled: boolean;
   createdAt: Dateish;

@@ -8,6 +8,7 @@ export const Keyboard = {
   UP: 38,
   DOWN: 40,
 };
+
 export const ROLES = {
   member: 'Medlem (standard)',
   leader: 'Leder',
@@ -30,14 +31,17 @@ export const ROLES = {
   sponsor_admin: 'Sponsoransvarlig',
   social_admin: 'Sosialansvarlig',
 };
+
+export type RoleType = keyof typeof ROLES;
+
 export const roleOptions = Object.keys(ROLES)
   .sort()
   .map((role) => ({
     value: role,
     label: ROLES[role],
   })) as Array<{
-  value: string;
-  label: string;
+  value: RoleType;
+  label: (typeof ROLES)[RoleType];
 }>;
 
 /*
