@@ -4,7 +4,7 @@
   width: 100%;
   padding-top: 20px;
 
-  h3 {
+  & h3 {
     margin: 0;
   }
 }
