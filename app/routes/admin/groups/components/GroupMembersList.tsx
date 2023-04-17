@@ -2,7 +2,7 @@ import { ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
 import { Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router';
-import { removeMember, addMember } from 'app/actions/GroupActions';
+import { removeMember, editMembership } from 'app/actions/GroupActions';
 import { SelectInput } from 'app/components/Form';
 import Table from 'app/components/Table';
 import { selectGroupEntities } from 'app/reducers/groups';
@@ -73,20 +73,13 @@ const GroupMembersList = ({
             label: ROLES[role],
           }}
           options={roleOptions}
-          onChange={async (value: { label: string; value: RoleType }) => {
-            setMembershipsInEditMode((prev) => ({
-              ...prev,
-              [id]: false,
-            }));
-            await dispatch(removeMember(membership));
-            await dispatch(
-              addMember({
-                userId: membership.user.id,
-                groupId: membership.abakusGroup,
-                role: value.value,
-              }),
-            );
-            await fetchMemberships(false);
+          onChange={(value: { label: string; value: RoleType }) => {
+            dispatch(editMembership(membership, value.value)).then(() => {
+              setMembershipsInEditMode((prev) => ({
+                ...prev,
+                [id]: false,
+              }));
+            });
           }}
         />
       );
