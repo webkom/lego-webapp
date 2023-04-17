@@ -1159,32 +1159,17 @@
     "@csstools/color-helpers" "^2.0.0"
     "@csstools/css-calc" "^1.1.1"
 
-"@csstools/css-parser-algorithms@^2.1.0":
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/@csstools/css-parser-algorithms/-/css-parser-algorithms-2.1.0.tgz#c0a605b0218790faeb5911f240964891c6031501"
-  integrity sha512-KP8TicdXpUyeB1NMlbHud/1l39xvLGvqNFWMpG4qC6H1zs9SadGUHe5SO92n/659sDW9aGDvm9AMru0DZkN1Bw==
-
-"@csstools/css-parser-algorithms@^2.1.1":
+"@csstools/css-parser-algorithms@^2.1.0", "@csstools/css-parser-algorithms@^2.1.1":
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/@csstools/css-parser-algorithms/-/css-parser-algorithms-2.1.1.tgz#7b62e6412a468a2d1096ed267edd1e4a7fd4a119"
   integrity sha512-viRnRh02AgO4mwIQb2xQNJju0i+Fh9roNgmbR5xEuG7J3TGgxjnE95HnBLgsFJOJOksvcfxOUCgODcft6Y07cA==
 
-"@csstools/css-tokenizer@^2.1.0":
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/@csstools/css-tokenizer/-/css-tokenizer-2.1.0.tgz#fee4de3d444db3ce9007f3af6474af8ba3e4b930"
-  integrity sha512-dtqFyoJBHUxGi9zPZdpCKP1xk8tq6KPHJ/NY4qWXiYo6IcSGwzk3L8x2XzZbbyOyBs9xQARoGveU2AsgLj6D2A==
-
-"@csstools/css-tokenizer@^2.1.1":
+"@csstools/css-tokenizer@^2.1.0", "@csstools/css-tokenizer@^2.1.1":
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/@csstools/css-tokenizer/-/css-tokenizer-2.1.1.tgz#07ae11a0a06365d7ec686549db7b729bc036528e"
   integrity sha512-GbrTj2Z8MCTUv+52GE0RbFGM527xuXZ0Xa5g0Z+YN573uveS4G0qi6WNOMyz3yrFM/jaILTTwJ0+umx81EzqfA==
 
-"@csstools/media-query-list-parser@^2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@csstools/media-query-list-parser/-/media-query-list-parser-2.0.1.tgz#d85a366811563a5d002755ed10e5212a1613c91d"
-  integrity sha512-X2/OuzEbjaxhzm97UJ+95GrMeT29d1Ib+Pu+paGLuRWZnWRK9sI9r3ikmKXPWGA1C4y4JEdBEFpp9jEqCvLeRA==
-
-"@csstools/media-query-list-parser@^2.0.4":
+"@csstools/media-query-list-parser@^2.0.2", "@csstools/media-query-list-parser@^2.0.4":
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/@csstools/media-query-list-parser/-/media-query-list-parser-2.0.4.tgz#466bd254041530dfd1e88bcb1921e8ca4af75b6a"
   integrity sha512-GyYot6jHgcSDZZ+tLSnrzkR7aJhF2ZW6d+CXH66mjy5WpAQhZD4HDke2OQ36SivGRWlZJpAz7TzbW6OKlEpxAA==
@@ -1906,16 +1891,6 @@
   resolved "https://registry.yarnpkg.com/@rushstack/eslint-patch/-/eslint-patch-1.2.0.tgz#8be36a1f66f3265389e90b5f9c9962146758f728"
   integrity sha512-sXo/qW2/pAcmT43VoRKOJbDOfV3cYpq3szSVfIThQXNt+E4DfKj361vaAt3c88U5tPUxzEswam7GW48PJqtKAg==
 
-"@sentry-internal/tracing@7.47.0":
-  version "7.47.0"
-  resolved "https://registry.yarnpkg.com/@sentry-internal/tracing/-/tracing-7.47.0.tgz#45e92eb4c8d049d93bd4fab961eaa38a4fb680f3"
-  integrity sha512-udpHnCzF8DQsWf0gQwd0XFGp6Y8MOiwnl8vGt2ohqZGS3m1+IxoRLXsSkD8qmvN6KKDnwbaAvYnK0z0L+AW95g==
-  dependencies:
-    "@sentry/core" "7.47.0"
-    "@sentry/types" "7.47.0"
-    "@sentry/utils" "7.47.0"
-    tslib "^1.9.3"
-
 "@sentry-internal/tracing@7.48.0":
   version "7.48.0"
   resolved "https://registry.yarnpkg.com/@sentry-internal/tracing/-/tracing-7.48.0.tgz#d0c1eac1c046fda5c79d16dc1c918fee3bae3e9d"
@@ -1957,15 +1932,6 @@
     "@sentry/minimal" "6.19.7"
     "@sentry/types" "6.19.7"
     "@sentry/utils" "6.19.7"
-    tslib "^1.9.3"
-
-"@sentry/core@7.47.0":
-  version "7.47.0"
-  resolved "https://registry.yarnpkg.com/@sentry/core/-/core-7.47.0.tgz#6a723d96f64009a9c1b9bc44e259956b7eca0a3f"
-  integrity sha512-EFhZhKdMu7wKmWYZwbgTi8FNZ7Fq+HdlXiZWNz51Bqe3pHmfAkdHtAEs0Buo0v623MKA0CA4EjXIazGUM34XTg==
-  dependencies:
-    "@sentry/types" "7.47.0"
-    "@sentry/utils" "7.47.0"
     tslib "^1.9.3"
 
 "@sentry/core@7.48.0":
@@ -2033,11 +1999,6 @@
   resolved "https://registry.yarnpkg.com/@sentry/types/-/types-6.19.7.tgz#c6b337912e588083fc2896eb012526cf7cfec7c7"
   integrity sha512-jH84pDYE+hHIbVnab3Hr+ZXr1v8QABfhx39KknxqKWr2l0oEItzepV0URvbEhB446lk/S/59230dlUUIBGsXbg==
 
-"@sentry/types@7.47.0":
-  version "7.47.0"
-  resolved "https://registry.yarnpkg.com/@sentry/types/-/types-7.47.0.tgz#fd07dbec11a26ae861532a9abe75bd31663ca09b"
-  integrity sha512-GxXocplN0j1+uczovHrfkykl9wvkamDtWxlPUQgyGlbLGZn+UH1Y79D4D58COaFWGEZdSNKr62gZAjfEYu9nQA==
-
 "@sentry/types@7.48.0":
   version "7.48.0"
   resolved "https://registry.yarnpkg.com/@sentry/types/-/types-7.48.0.tgz#57f3c9cf331a5621e82dda04eefcf8c19ee42bc9"
@@ -2049,14 +2010,6 @@
   integrity sha512-z95ECmE3i9pbWoXQrD/7PgkBAzJYR+iXtPuTkpBjDKs86O3mT+PXOT3BAn79w2wkn7/i3vOGD2xVr1uiMl26dA==
   dependencies:
     "@sentry/types" "6.19.7"
-    tslib "^1.9.3"
-
-"@sentry/utils@7.47.0":
-  version "7.47.0"
-  resolved "https://registry.yarnpkg.com/@sentry/utils/-/utils-7.47.0.tgz#e62fdede15e45387b40c9fa135feba48f0960826"
-  integrity sha512-A89SaOLp6XeZfByeYo2C8Ecye/YAtk/gENuyOUhQEdMulI6mZdjqtHAp7pTMVgkBc/YNARVuoa+kR/IdRrTPkQ==
-  dependencies:
-    "@sentry/types" "7.47.0"
     tslib "^1.9.3"
 
 "@sentry/utils@7.48.0":
@@ -6084,10 +6037,10 @@ html-escaper@^2.0.0:
   resolved "https://registry.yarnpkg.com/html-escaper/-/html-escaper-2.0.2.tgz#dfd60027da36a36dfcbe236262c00a5822681453"
   integrity sha512-H2iMtd0I4Mt5eYiapRdIDjp+XzelXQ0tFE4JS7YFwFevXXMmOp9myNrUvCg0D6ws8iqkRPBfKHgbwig1SmlLfg==
 
-html-tags@^3.2.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/html-tags/-/html-tags-3.2.0.tgz#dbb3518d20b726524e4dd43de397eb0a95726961"
-  integrity sha512-vy7ClnArOZwCnqZgvv+ddgHgJiAFXe3Ge9ML5/mBctVJoUoYPCdxVucOywjDARn6CVoh3dRSFdPHy2sX80L0Wg==
+html-tags@^3.3.1:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/html-tags/-/html-tags-3.3.1.tgz#a04026a18c882e4bba8a01a3d39cfe465d40b5ce"
+  integrity sha512-ztqyC3kLto0e9WbNp0aeP+M3kTt+nbaIveGmUxAtZa+8iFgKLUOD4YKM5j+f3QD89bra7UeumolZHKuOXnTmeQ==
 
 htmlparser2@^8.0.1:
   version "8.0.1"
@@ -10324,14 +10277,14 @@ stylelint-config-standard@^32.0.0:
   dependencies:
     stylelint-config-recommended "^11.0.0"
 
-stylelint@^15.4.0:
-  version "15.4.0"
-  resolved "https://registry.yarnpkg.com/stylelint/-/stylelint-15.4.0.tgz#3958fff41fbcd68cf947fdecb329762d45f87013"
-  integrity sha512-TlOvpG3MbcFwHmK0q2ykhmpKo7Dq892beJit0NPdpyY9b1tFah/hGhqnAz/bRm2PDhDbJLKvjzkEYYBEz7Dxcg==
+stylelint@^15.5.0:
+  version "15.5.0"
+  resolved "https://registry.yarnpkg.com/stylelint/-/stylelint-15.5.0.tgz#f16c238231f3f32e62da8a88969821d237eae8a6"
+  integrity sha512-jyMO3R1QtE5mUS4v40+Gg+sIQBqe7CF1xPslxycDzNVkIBCUD4O+5F1vLPq16VmunUTv4qG9o2rUKLnU5KkVeQ==
   dependencies:
     "@csstools/css-parser-algorithms" "^2.1.0"
     "@csstools/css-tokenizer" "^2.1.0"
-    "@csstools/media-query-list-parser" "^2.0.1"
+    "@csstools/media-query-list-parser" "^2.0.2"
     "@csstools/selector-specificity" "^2.2.0"
     balanced-match "^2.0.0"
     colord "^2.9.3"
@@ -10345,7 +10298,7 @@ stylelint@^15.4.0:
     global-modules "^2.0.0"
     globby "^11.1.0"
     globjoin "^0.1.4"
-    html-tags "^3.2.0"
+    html-tags "^3.3.1"
     ignore "^5.2.4"
     import-lazy "^4.0.0"
     imurmurhash "^0.1.4"
