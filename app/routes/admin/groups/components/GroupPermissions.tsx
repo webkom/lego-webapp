@@ -94,7 +94,7 @@ const PermissionList = ({
                 closeOnConfirm={true}
                 onConfirm={() => removePermission(permission, group, editGroup)}
               >
-                <i className={`fa fa-times ${styles.removeIcon}`} />
+                <i className={`fa fa-times`} />
               </ConfirmModalWithParent>
               {permission}
             </li>
