@@ -1,7 +1,7 @@
 import { ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { removeMember, addMember } from 'app/actions/GroupActions';
+import { removeMember, editMembership } from 'app/actions/GroupActions';
 import { SelectInput } from 'app/components/Form';
 import Table from 'app/components/Table';
 import { defaultGroupMembersQuery } from 'app/routes/admin/groups/components/GroupMembers';
@@ -74,18 +74,11 @@ const GroupMembersList = ({
           }}
           options={roleOptions}
           onChange={(value: { label: string; value: RoleType }) => {
-            setMembershipsInEditMode((prev) => ({
-              ...prev,
-              [id]: false,
-            }));
-            dispatch(removeMember(membership)).then(() => {
-              dispatch(
-                addMember({
-                  userId: membership.user.id,
-                  groupId: membership.abakusGroup,
-                  role: value.value,
-                })
-              );
+            dispatch(editMembership(membership, value.value)).then(() => {
+              setMembershipsInEditMode((prev) => ({
+                ...prev,
+                [id]: false,
+              }));
             });
           }}
         />
