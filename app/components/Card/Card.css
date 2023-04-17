@@ -48,4 +48,5 @@ html[data-theme='dark'] .danger a:hover {
 .header {
   font-weight: 600;
   font-size: var(--font-size-large);
+  line-height: 1.3;
 }

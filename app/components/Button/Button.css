@@ -171,6 +171,23 @@
   cursor: pointer;
 }
 
+.ghost {
+  background: none;
+  box-shadow: none;
+  border: 1px solid var(--button-dark-background);
+  color: var(--button-dark-background);
+
+  &:focus-visible {
+    box-shadow: 0 0 0 3px var(--button-dark-box-shadow-focus);
+  }
+
+  &:hover:not(:disabled) {
+    background-color: var(--button-dark-background);
+    border-color: var(--button-dark-background);
+    color: var(--button-color);
+  }
+}
+
 .small {
   padding: 10px 15px;
   font-size: 0.8rem;

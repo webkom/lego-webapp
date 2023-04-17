@@ -4,8 +4,13 @@ import Flex from 'app/components/Layout/Flex';
 import styles from './Card.css';
 import type { HTMLAttributes, ReactNode } from 'react';
 
-const CardHeader = ({ children }: { children: ReactNode }) => (
-  <div className={styles.header}>{children}</div>
+type CardHeaderProps = {
+  children: ReactNode;
+  className?: string;
+};
+
+const CardHeader = ({ children, className }: CardHeaderProps) => (
+  <div className={cx(styles.header, className)}>{children}</div>
 );
 
 type Props = {
