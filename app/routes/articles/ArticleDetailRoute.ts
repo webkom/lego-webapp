@@ -16,6 +16,11 @@ import helmet from 'app/utils/helmet';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import ArticleDetail from './components/ArticleDetail';
+import type { RouteChildrenProps } from 'react-router';
+
+type Params = {
+  articleId: string;
+};
 
 const mapStateToProps = (state, props) => {
   const { articleId } = props.match.params;
@@ -52,8 +57,11 @@ const mapDispatchToProps = {
 export default compose(
   withPreparedDispatch(
     'fetchArticleDetail',
-    (props, dispatch) =>
-      dispatch(fetchArticle(props.match.params.articleId), fetchEmojis()),
+    (props: RouteChildrenProps<Params>, dispatch) =>
+      Promise.all([
+        dispatch(fetchArticle(props.match.params.articleId)),
+        dispatch(fetchEmojis()),
+      ]),
     (props) => [props.match.params.articleId]
   ),
   connect(mapStateToProps, mapDispatchToProps),

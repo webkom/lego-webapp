@@ -8,14 +8,15 @@ import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import Tags from 'app/components/Tags';
 import Tag from 'app/components/Tags/Tag';
 import type { ID } from 'app/models';
-import type { EmojiEntity } from 'app/reducers/emojis';
-import type { ReactionEntity } from 'app/reducers/reactions';
 import type {
   AdminDetailedArticle,
   DetailedArticle,
 } from 'app/store/models/Article';
 import type Comment from 'app/store/models/Comment';
+import type Emoji from 'app/store/models/Emoji';
+import type { ReactionsGrouped } from 'app/store/models/Reaction';
 import type { CurrentUser, DetailedUser } from 'app/store/models/User';
+import type { ContentTarget } from 'app/store/utils/contentTarget';
 import styles from './ArticleDetail.css';
 
 type Props = {
@@ -25,15 +26,15 @@ type Props = {
   authors: DetailedUser[];
   currentUser: CurrentUser;
   deleteComment: (id: ID, contentTarget: string) => Promise<void>;
-  emojis: Array<EmojiEntity>;
-  addReaction: (arg0: {
+  emojis: Emoji[];
+  addReaction: (args: {
     emoji: string;
-    contentTarget: string;
-  }) => Promise<unknown>;
-  reactionsGrouped: ReactionEntity[];
+    contentTarget: ContentTarget;
+  }) => Promise<void>;
+  reactionsGrouped: ReactionsGrouped[];
   deleteReaction: (arg0: {
     reactionId: ID;
-    contentTarget: string;
+    contentTarget: ContentTarget;
   }) => Promise<void>;
   fetchEmojis: () => Promise<void>;
   fetchingEmojis: boolean;
@@ -77,13 +78,7 @@ const ArticleDetail = ({
             {authors?.map((e, i) => {
               return (
                 <span key={e.username}>
-                  <Link
-                    to={`/users/${e.username}`}
-                    className={styles.overviewAuthor}
-                  >
-                    {' '}
-                    {e.fullName}
-                  </Link>
+                  <Link to={`/users/${e.username}`}> {e.fullName}</Link>
                   {i === authors.length - 1 ? '' : ','}
                 </span>
               );

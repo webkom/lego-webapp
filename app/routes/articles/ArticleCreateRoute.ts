@@ -8,7 +8,7 @@ import { selectCurrentUser } from 'app/reducers/auth';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import ArticleEditor from './components/ArticleEditor';
 
-const mapStateToProps = (state, props) => {
+const mapStateToProps = (state) => {
   const currentUser = selectCurrentUser(state);
   const authors = [currentUser];
   return {

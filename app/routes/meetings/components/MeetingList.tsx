@@ -1,21 +1,23 @@
 import moment from 'moment-timezone';
-import { Component } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import Button from 'app/components/Button';
 import { Content } from 'app/components/Content';
 import LoadingIndicator from 'app/components/LoadingIndicator';
+import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import Pill from 'app/components/Pill';
 import Time from 'app/components/Time';
-import type { MeetingEntity, MeetingSection } from 'app/reducers/meetings';
+import type { MeetingSection } from 'app/reducers/meetings';
 import type { UserEntity } from 'app/reducers/users';
+import type { ListMeeting } from 'app/store/models/Meeting';
+import type { CurrentUser } from 'app/store/models/User';
 import styles from './MeetingList.css';
-import Toolbar from './Toolbar';
 
 function MeetingListItem({
   meeting,
   username,
 }: {
-  meeting: MeetingEntity;
+  meeting: ListMeeting;
   username: string;
 }) {
   const isDone = moment(meeting.startTime) < moment();
@@ -93,39 +95,38 @@ const MeetingListView = ({
 );
 
 type Props = {
-  meetingSections: Array<MeetingSection>;
-  currentUser: UserEntity;
+  meetingSections: MeetingSection[];
+  currentUser: CurrentUser;
   loading: boolean;
-  fetchMore: () => Promise<any>;
-  fetchOlder: () => Promise<any>;
+  fetchMore: () => Promise<void>;
+  fetchOlder: () => Promise<void>;
   showFetchMore: boolean;
   showFetchOlder: boolean;
 };
-export default class MeetingList extends Component<Props> {
-  render() {
-    const {
-      meetingSections,
-      currentUser,
-      loading,
-      fetchMore,
-      fetchOlder,
-      showFetchMore,
-      showFetchOlder,
-    } = this.props;
-    return (
-      <Content>
-        <Toolbar />
-        {!meetingSections || loading ? (
-          <LoadingIndicator loading />
-        ) : (
-          <MeetingListView
-            currentUser={currentUser}
-            sections={meetingSections}
-          />
-        )}
-        {showFetchMore && <Button onClick={fetchMore}>Last flere</Button>}
-        {showFetchOlder && <Button onClick={fetchOlder}>Hent gamle</Button>}
-      </Content>
-    );
-  }
-}
+const MeetingList = ({
+  meetingSections,
+  currentUser,
+  loading,
+  fetchMore,
+  fetchOlder,
+  showFetchMore,
+  showFetchOlder,
+}: Props) => {
+  return (
+    <Content>
+      <Helmet title="Dine møter" />
+      <NavigationTab title="Dine Møter">
+        <NavigationLink to="/meetings/create/">Nytt møte</NavigationLink>
+      </NavigationTab>
+      {!meetingSections || loading ? (
+        <LoadingIndicator loading />
+      ) : (
+        <MeetingListView currentUser={currentUser} sections={meetingSections} />
+      )}
+      {showFetchMore && <Button onClick={fetchMore}>Last flere</Button>}
+      {showFetchOlder && <Button onClick={fetchOlder}>Hent gamle</Button>}
+    </Content>
+  );
+};
+
+export default MeetingList;

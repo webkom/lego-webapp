@@ -6,12 +6,13 @@ import Button from 'app/components/Button';
 import { TextInput } from 'app/components/Form';
 import { ProfilePicture } from 'app/components/Image';
 import Flex from 'app/components/Layout/Flex';
-import type { ID, User } from 'app/models';
+import type { ID } from 'app/store/models';
+import type { PublicUser } from 'app/store/models/User';
 import styles from './AttendanceModal.css';
 
 export type Registration = {
   id: ID;
-  user: User;
+  user: PublicUser;
 };
 
 export type Pool = {
@@ -22,7 +23,7 @@ export type Pool = {
 type Props = {
   pools: Pool[];
   title: string;
-  togglePool: (arg0: number) => void;
+  togglePool: (index: number) => void;
   selectedPool: number;
   isMeeting?: boolean;
 };

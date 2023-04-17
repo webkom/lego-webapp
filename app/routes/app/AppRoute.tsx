@@ -57,6 +57,9 @@ export const UserContext = createContext<{
   loggedIn: false,
 });
 
+// Extract the type of the user context
+export type UserContextType = ReturnType<typeof useUserContext>;
+
 export const useUserContext = () => useContext(UserContext);
 
 class AppChildren extends PureComponent<Props> {

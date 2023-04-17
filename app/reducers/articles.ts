@@ -81,13 +81,3 @@ export const selectCommentsForArticle = createSelector(
     return (article.comments || []).map((commentId) => commentsById[commentId]);
   }
 );
-export const selectReactionsForArticle = createSelector(
-  selectArticleById,
-  (state) => state.reactions.byId,
-  (article, reactionsById) => {
-    if (!article) return [];
-    return (article.reactionsGrouped || []).map(
-      (reactionId) => reactionsById[reactionId]
-    );
-  }
-);

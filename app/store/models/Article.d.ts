@@ -18,7 +18,7 @@ interface CompleteArticle {
   content: string;
   createdAt: Dateish;
   pinned: boolean;
-  reactionsGrouped?: ReactionsGrouped;
+  reactionsGrouped?: ReactionsGrouped[];
   youtubeUrl: string;
 }
 

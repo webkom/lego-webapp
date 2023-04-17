@@ -5,7 +5,7 @@ import withModal from './withModal';
 import type { Pool } from './AttendanceModal';
 
 type AttendancePool = Pool & {
-  capacity: number;
+  capacity?: number;
   registrationCount?: number;
 };
 

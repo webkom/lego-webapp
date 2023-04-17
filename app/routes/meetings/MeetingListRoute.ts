@@ -4,10 +4,10 @@ import { compose } from 'redux';
 import { fetchAll } from 'app/actions/MeetingActions';
 import { LoginPage } from 'app/components/LoginForm';
 import { selectGroupedMeetings } from 'app/reducers/meetings';
+import { selectPagination } from 'app/reducers/selectors';
 import createQueryString from 'app/utils/createQueryString';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
-import { selectPagination } from '../../reducers/selectors';
 import MeetingList from './components/MeetingList';
 
 const mapStateToProps = (state, props) => {
