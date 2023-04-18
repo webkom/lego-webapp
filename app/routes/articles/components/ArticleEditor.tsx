@@ -105,11 +105,6 @@ const ArticleEditor = ({
           component={SelectInput.AutocompleteField}
           isMulti
           tags
-          shouldKeyDownEventCreateNewOption={({
-            keyCode,
-          }: {
-            keyCode: number;
-          }) => keyCode === 32 || keyCode === 13}
         />
 
         <Field

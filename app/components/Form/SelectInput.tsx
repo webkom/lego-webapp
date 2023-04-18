@@ -23,7 +23,6 @@ type Props<Option, IsMulti extends boolean = false> = {
   ) => void;
   onChange?: (event: ChangeEvent | string) => void;
   onSearch: (search: string) => void;
-  shouldKeyDownEventCreateNewOption: (arg0: number) => boolean;
   isValidNewOption: (arg0: string) => boolean;
   value: any;
   disabled?: boolean;
@@ -79,7 +78,6 @@ const SelectInput = <Option, IsMulti extends boolean = false>({
   fetching,
   selectStyle,
   onBlur,
-  shouldKeyDownEventCreateNewOption,
   isValidNewOption,
   value,
   options = [],
@@ -108,7 +106,6 @@ const SelectInput = <Option, IsMulti extends boolean = false>({
           onBlur={() => onBlur(value)}
           value={value}
           isValidNewOption={isValidNewOption}
-          shouldKeyDownEventCreateNewOption={shouldKeyDownEventCreateNewOption}
           options={options}
           isLoading={fetching}
           styles={selectStyle ?? selectStyles}
@@ -129,7 +126,6 @@ const SelectInput = <Option, IsMulti extends boolean = false>({
         isDisabled={disabled}
         placeholder={disabled ? 'Tomt' : placeholder || defaultPlaceholder}
         instanceId={name}
-        shouldKeyDownEventCreateNewOption={shouldKeyDownEventCreateNewOption}
         onBlur={() => onBlur(value)}
         value={value}
         options={options}
