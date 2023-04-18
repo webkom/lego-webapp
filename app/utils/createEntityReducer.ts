@@ -2,10 +2,10 @@ import { produce } from 'immer';
 import { omit, without, isArray, get, union, isEmpty } from 'lodash';
 import { parse } from 'qs';
 import { configWithSSR } from 'app/config';
+import type { ID } from 'app/store/models';
 import type { Reducer, AsyncActionType } from 'app/types';
 import joinReducers from 'app/utils/joinReducers';
 import mergeObjects from 'app/utils/mergeObjects';
-import type { Optional } from 'utility-types';
 
 export type EntityReducerTypes = AsyncActionType | Array<AsyncActionType>;
 type EntityReducerOptions<
@@ -32,10 +32,15 @@ const defaultState = {
 };
 
 // TODO FIXME Validate what should be Optional here and what should always be the base state
-export type EntityReducerState = Optional<
-  typeof defaultState,
-  'fetching' | 'paginationNext'
->;
+export type EntityReducerState<T = any> = {
+  actionGrant: string[];
+  pagination: unknown; // TODO type me
+  paginationNext: unknown; // TODO type me
+  byId: Record<ID, T>;
+  items: ID[];
+  fetching: boolean;
+  hasMore?: boolean;
+};
 
 const toArray = (
   value: EntityReducerTypes | null | undefined
@@ -330,9 +335,15 @@ export function paginationReducer(
  */
 
 export default function createEntityReducer<
-  Key extends string = string,
-  State extends EntityReducerState = EntityReducerState
->({ key, types, mutate, initialState }: EntityReducerOptions<State, Key>) {
+  Entity = EntityReducerState,
+  Key extends string = string
+>({
+  key,
+  types,
+  mutate,
+  initialState,
+}: EntityReducerOptions<EntityReducerState<Entity>, Key>) {
+  type State = EntityReducerState<Entity>;
   const finalInitialState: State = {
     actionGrant: [],
     pagination: {},
