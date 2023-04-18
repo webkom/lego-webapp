@@ -3,12 +3,14 @@ import type User from 'app/store/models/User';
 import type { ID } from 'app/store/models/index';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 
-export default interface Comment {
+export interface Comment {
   id: ID;
-  text: string;
-  author: User;
+  text: string | null;
+  author: User | null;
   contentTarget: ContentTarget;
   createdAt: Dateish;
   updatedAt: Dateish;
   parent: ID | null;
 }
+
+export default Comment;

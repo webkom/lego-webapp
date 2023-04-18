@@ -2,10 +2,13 @@ import { produce } from 'immer';
 import { createSelector } from 'reselect';
 import type { ID } from 'app/models';
 import { mutateReactions } from 'app/reducers/reactions';
+import type QuoteType from 'app/store/models/Quote';
 import type { ReactionsGrouped } from 'app/store/models/Reaction';
+import type { EntityReducerState } from 'app/utils/createEntityReducer';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import joinReducers from 'app/utils/joinReducers';
 import { Quote } from '../actions/ActionTypes';
+import type { AnyAction } from 'redux';
 
 /**
  * @deprecated Do not use me
@@ -22,57 +25,67 @@ export type QuoteEntity = {
   reactionCount: number;
   createdAt?: string;
 };
-type State = any;
-const mutateQuote = produce((newState: State, action: any): void => {
-  switch (action.type) {
-    case Quote.UNAPPROVE.SUCCESS:
-      newState.byId[action.meta.quoteId].approved = false;
-      // Explicitly remove the quote from the paginated list to remove it from the list shown to the user
-      // note: this will _not_ add it to the other pagination lists, since we cannot guarntee the order
-      // as well as the other filtering
-      Object.keys(newState.paginationNext).forEach((paginationKey) => {
-        const paginationEntry = newState.paginationNext[paginationKey];
 
-        if (
-          paginationEntry.items.includes(action.meta.quoteId) &&
-          paginationEntry.query.approved === 'true'
-        ) {
-          paginationEntry.items = paginationEntry.items.filter(
-            (item) => item !== action.meta.quoteId
-          );
-        }
-      });
-      break;
+export type QuoteEntityReducerState = EntityReducerState<QuoteType> & {
+  randomQuote: QuoteType;
+};
 
-    case Quote.APPROVE.SUCCESS:
-      newState.byId[action.meta.quoteId].approved = true;
-      // Explicitly remove the quote from the paginated list to remove it from the list shown to the user
-      // note: this will _not_ add it to the other pagination lists, since we cannot guarntee the order
-      // as well as the other filtering
-      Object.keys(newState.paginationNext).forEach((paginationKey) => {
-        const paginationEntry = newState.paginationNext[paginationKey];
+const mutateQuote = produce(
+  (newState: QuoteEntityReducerState, action: AnyAction): void => {
+    switch (action.type) {
+      case Quote.UNAPPROVE.SUCCESS:
+        newState.byId[action.meta.quoteId].approved = false;
+        // Explicitly remove the quote from the paginated list to remove it from the list shown to the user
+        // note: this will _not_ add it to the other pagination lists, since we cannot guarntee the order
+        // as well as the other filtering
+        Object.keys(newState.paginationNext).forEach((paginationKey) => {
+          const paginationEntry = newState.paginationNext[paginationKey];
 
-        if (
-          paginationEntry.items.includes(action.meta.quoteId) &&
-          paginationEntry.query.approved === 'false'
-        ) {
-          paginationEntry.items = paginationEntry.items.filter(
-            (item) => item !== action.meta.quoteId
-          );
-        }
-      });
-      break;
+          if (
+            paginationEntry.items.includes(action.meta.quoteId) &&
+            paginationEntry.query.approved === 'true'
+          ) {
+            paginationEntry.items = paginationEntry.items.filter(
+              (item) => item !== action.meta.quoteId
+            );
+          }
+        });
+        break;
 
-    case Quote.FETCH_RANDOM.SUCCESS:
-      newState.randomQuote = action.payload.result;
-      break;
+      case Quote.APPROVE.SUCCESS:
+        newState.byId[action.meta.quoteId].approved = true;
+        // Explicitly remove the quote from the paginated list to remove it from the list shown to the user
+        // note: this will _not_ add it to the other pagination lists, since we cannot guarntee the order
+        // as well as the other filtering
+        Object.keys(newState.paginationNext).forEach((paginationKey) => {
+          const paginationEntry = newState.paginationNext[paginationKey];
 
-    default:
-      break;
+          if (
+            paginationEntry.items.includes(action.meta.quoteId) &&
+            paginationEntry.query.approved === 'false'
+          ) {
+            paginationEntry.items = paginationEntry.items.filter(
+              (item) => item !== action.meta.quoteId
+            );
+          }
+        });
+        break;
+
+      case Quote.FETCH_RANDOM.SUCCESS:
+        newState.randomQuote = action.payload.result;
+        break;
+
+      default:
+        break;
+    }
   }
-});
-const mutate = joinReducers(mutateReactions('quotes'), mutateQuote);
-export default createEntityReducer({
+);
+const mutate = joinReducers(
+  mutateReactions<QuoteType, QuoteEntityReducerState>('quotes'),
+  mutateQuote
+);
+
+export default createEntityReducer<QuoteEntityReducerState>({
   key: 'quotes',
   types: {
     fetch: [Quote.FETCH, Quote.FETCH_RANDOM],

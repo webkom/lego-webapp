@@ -37,11 +37,24 @@ type Pagination = {
   next?: string;
 };
 
+type PaginationCursor = Record<string, string> & { cursor: string };
+
+type PaginationNext = {
+  [query: string]: {
+    items: ID[];
+    hasMore: boolean;
+    query: Record<string, string>;
+    hasMoreBackwards: boolean;
+    next: PaginationCursor;
+    previous: PaginationCursor;
+  };
+};
+
 // TODO FIXME Validate what should be Optional here and what should always be the base state
 export type EntityReducerState<T = any> = {
   actionGrant: string[];
   pagination: Pagination;
-  paginationNext: unknown; // TODO type me
+  paginationNext: PaginationNext;
   byId: Record<ID, T>;
   items: ID[];
   fetching: boolean;

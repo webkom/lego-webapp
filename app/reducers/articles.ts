@@ -12,14 +12,17 @@ import joinReducers from 'app/utils/joinReducers';
 import { Article } from '../actions/ActionTypes';
 import type { Selector } from 'reselect';
 
-export default createEntityReducer({
+export default createEntityReducer<UnknownArticle>({
   key: 'articles',
   types: {
     fetch: Article.FETCH,
     mutate: Article.CREATE,
     delete: Article.DELETE,
   },
-  mutate: joinReducers(mutateComments('articles'), mutateReactions('articles')),
+  mutate: joinReducers(
+    mutateReactions<UnknownArticle>('articles'),
+    mutateComments<UnknownArticle>('articles')
+  ),
 });
 
 function transformArticle(article) {
