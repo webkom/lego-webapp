@@ -1,3 +1,4 @@
+import { type AnyAction } from '@reduxjs/toolkit';
 import { Meta } from '../actions/ActionTypes';
 
 const initialState = {
@@ -18,11 +19,8 @@ const initialState = {
   users: false,
   polls: false,
 };
-// export type Allowed = {
-//   [$Keys<typeof initialState>]: boolean
-// };
-export type Allowed = $ObjMap<typeof initialState, <V>(v: any) => boolean>;
-export default function allowed(state: Allowed = initialState, action: any) {
+
+export default function allowed(state = initialState, action: AnyAction) {
   switch (action.type) {
     case Meta.FETCH.SUCCESS:
       return action.payload.isAllowed;

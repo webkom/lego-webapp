@@ -3,6 +3,8 @@ import type { ID } from './models';
 import type { ThunkAction } from '@reduxjs/toolkit';
 import type { JwtPayload } from 'jwt-decode';
 
+export type { Reducer } from '@reduxjs/toolkit';
+
 export type AsyncActionType = {
   BEGIN: string;
   SUCCESS: string;
@@ -47,8 +49,6 @@ export type DecodedToken = JwtPayload & {
 export type Token = DecodedToken & {
   encodedToken: EncodedToken;
 };
-// Todo: remove any
-export type Reducer = any; // (state: State, action: Action) => State;
 
 export type Action = {
   type: string;

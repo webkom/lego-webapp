@@ -160,7 +160,7 @@ const mutateEvent = produce((newState: State, action: any): void => {
   }
 });
 const mutate = joinReducers(mutateComments('events'), mutateEvent);
-export default createEntityReducer({
+export default createEntityReducer<'events'>({
   key: 'events',
   types: {
     fetch: [Event.FETCH, Event.FETCH_PREVIOUS, Event.FETCH_UPCOMING],

@@ -5,10 +5,14 @@ import { configWithSSR } from 'app/config';
 import type { Reducer, AsyncActionType } from 'app/types';
 import joinReducers from 'app/utils/joinReducers';
 import mergeObjects from 'app/utils/mergeObjects';
+import type { Optional } from 'utility-types';
 
 export type EntityReducerTypes = AsyncActionType | Array<AsyncActionType>;
-type EntityReducerOptions<State extends EntityReducerState> = {
-  key: string;
+type EntityReducerOptions<
+  State extends EntityReducerState,
+  Key extends string
+> = {
+  key: Key;
   types: {
     fetch?: EntityReducerTypes;
     mutate?: EntityReducerTypes;
@@ -24,9 +28,14 @@ const defaultState = {
   paginationNext: {},
   byId: {},
   items: [],
+  fetching: false,
 };
 
-export type EntityReducerState = typeof defaultState;
+// TODO FIXME Validate what should be Optional here and what should always be the base state
+export type EntityReducerState = Optional<
+  typeof defaultState,
+  'fetching' | 'paginationNext'
+>;
 
 const toArray = (
   value: EntityReducerTypes | null | undefined
@@ -40,15 +49,15 @@ const toArray = (
 
 const isNumber = (id) => !isNaN(Number(id)) && !isNaN(parseInt(id, 10));
 
-export function fetching(
+type FetchingState = {
+  fetching?: boolean;
+};
+
+export function fetching<State extends FetchingState>(
   fetchTypes: EntityReducerTypes | null | undefined
-): Reducer {
-  return (
-    state = {
-      fetching: false,
-    },
-    action
-  ) => {
+): Reducer<State> {
+  return (state, action) => {
+    state.fetching = false;
     for (const fetchType of toArray(fetchTypes)) {
       switch (action.type) {
         case fetchType.BEGIN:
@@ -320,13 +329,11 @@ export function paginationReducer(
  * Create reducers for common crud actions
  */
 
-export default function createEntityReducer<State extends EntityReducerState>({
-  key,
-  types,
-  mutate,
-  initialState,
-}: EntityReducerOptions<State>): Reducer {
-  const finalInitialState = {
+export default function createEntityReducer<
+  Key extends string = string,
+  State extends EntityReducerState = EntityReducerState
+>({ key, types, mutate, initialState }: EntityReducerOptions<State, Key>) {
+  const finalInitialState: State = {
     actionGrant: [],
     pagination: {},
     paginationNext: {},
@@ -337,7 +344,7 @@ export default function createEntityReducer<State extends EntityReducerState>({
     ...initialState,
   };
   const { fetch: fetchTypes, delete: deleteTypes, mutate: mutateTypes } = types;
-  const reduce = joinReducers(
+  const reduce = joinReducers<State>(
     fetching(fetchTypes),
     paginationReducer(fetchTypes),
     createAndUpdateEntities(fetchTypes, key),
