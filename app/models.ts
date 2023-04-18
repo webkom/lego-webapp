@@ -344,3 +344,8 @@ export type Readme = {
   year: number;
   utgave: number;
 };
+
+export type EventAdministrate = Omit<Event, 'createdBy' | 'comments'> & {
+  createdBy: number;
+  comments: number[];
+};

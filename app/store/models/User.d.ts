@@ -126,10 +126,12 @@ export type PublicUserWithGroups = Pick<
 > &
   PublicUser;
 
-export type AdministrateUser = Pick<User, 'abakusGroups' | 'allergies'> &
-  PublicUser;
+export type AdministrateUser = Pick<User, 'abakusGroups'> & PublicUser;
 
 export type AdministrateExportUser = Pick<User, 'email' | 'phoneNumber'> &
+  AdministrateUser;
+
+export type AdministrateAllergiesUser = Pick<User, 'allergies'> &
   AdministrateUser;
 
 export type SearchUser = Pick<
@@ -163,4 +165,5 @@ export type UnknownUser =
   | PublicUserWithGroups
   | AdministrateUser
   | AdministrateExportUser
+  | AdministrateAllergiesUser
   | SearchUser;
