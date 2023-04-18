@@ -14,6 +14,7 @@ import {
 } from 'app/actions/EventActions';
 import {
   selectEventById,
+  selectEventBySlug,
   selectCommentsForEvent,
   selectPoolsWithRegistrationsForEvent,
   selectPoolsForEvent,
@@ -33,13 +34,20 @@ import EventDetail from './components/EventDetail';
 const mapStateToProps = (state, props) => {
   const {
     match: {
-      params: { eventId },
+      params: { eventIdOrSlug },
     },
     currentUser,
   } = props;
-  const event = selectEventById(state, {
-    eventId,
-  });
+  const event = !isNaN(eventIdOrSlug)
+    ? selectEventById(state, { eventId: eventIdOrSlug })
+    : selectEventBySlug(state, { eventSlug: eventIdOrSlug });
+
+  if (event && event.slug && eventIdOrSlug !== event.slug) {
+    props.history.replace(`/events/${event.slug}`);
+  }
+
+  const eventId = event.id;
+
   const actionGrant = event.actionGrant || [];
   const hasFullAccess = Boolean(event.waitingRegistrations);
   const user = state.auth
@@ -204,8 +212,8 @@ const propertyGenerator = (props, config) => {
 export default compose(
   withPreparedDispatch(
     'fetchEventDetail',
-    (props, dispatch) => dispatch(fetchEvent(props.match.params.eventId)),
-    (props) => [props.match.params.eventId]
+    (props, dispatch) => dispatch(fetchEvent(props.match.params.eventIdOrSlug)),
+    (props) => [props.match.params.eventIdOrSlug]
   ),
   connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['notLoading', 'event.text']),
