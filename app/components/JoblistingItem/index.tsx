@@ -13,7 +13,10 @@ type JobListingItemProps = {
 };
 
 const JoblistingItem = ({ joblisting }: JobListingItemProps) => (
-  <Link to={`/joblistings/${joblisting.id}/`} className={styles.joblistingItem}>
+  <Link
+    to={`/joblistings/${joblisting.slug}/`}
+    className={styles.joblistingItem}
+  >
     {joblisting.company.logo && (
       <Image
         className={styles.companyLogo}

@@ -20,6 +20,7 @@ export interface Workplace {
 interface Joblisting {
   id: ID;
   title: string;
+  slug: string;
   text: string;
   company: ListCompany; // TODO: normalize?
   responsible: CompanyContact | null;
@@ -41,6 +42,7 @@ export type ListJoblisting = Pick<
   Joblisting,
   | 'id'
   | 'title'
+  | 'slug'
   | 'company'
   | 'deadline'
   | 'jobType'
@@ -54,6 +56,7 @@ export type DetailedJoblisting = Pick<
   Joblisting,
   | 'id'
   | 'title'
+  | 'slug'
   | 'text'
   | 'company'
   | 'responsible'

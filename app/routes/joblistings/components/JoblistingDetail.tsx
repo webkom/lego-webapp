@@ -21,12 +21,22 @@ type Props = {
   joblisting: DetailedJoblisting;
   actionGrant: ActionGrant;
   fetching: boolean;
+  match: {
+    params: {
+      joblistingIdOrSlug: string;
+    };
+  };
+  history: History;
 };
 
 const JoblistingDetail = ({
   joblisting,
   actionGrant,
   fetching = false,
+  match: {
+    params: { joblistingIdOrSlug },
+  },
+  history,
 }: Props) => {
   if (fetching || !joblisting) {
     return <LoadingIndicator loading />;
