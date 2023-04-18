@@ -1,3 +1,5 @@
 .input {
   composes: input from './TextInput.css';
+  width: 100%;
+  padding: 5px;
 }

@@ -13,7 +13,7 @@
   background: var(--color-white);
   margin: 0 35%;
   border: 10px solid #fbfbfb;
-  border-radius: 5%;
+  border-radius: var(--border-radius-lg);
   opacity: 0;
   visibility: hidden;
   transition: opacity var(--linear-slow), visibility var(--linear-slow);
@@ -39,7 +39,7 @@
 
 .overlay i {
   font-size: 10em;
-  color: green;
+  color: var(--color-green-6);
 }
 
 .shown {

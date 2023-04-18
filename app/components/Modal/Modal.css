@@ -1,10 +1,7 @@
 .backdrop {
   position: fixed;
   background: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 80%);
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  inset: 0;
   z-index: 3;
 }
 
@@ -27,7 +24,7 @@ html[data-theme='dark'] .backdrop {
   overflow-y: auto;
   z-index: 4;
   box-shadow: var(--shadow-sm);
-  border-radius: 1rem;
+  border-radius: var(--border-radius-lg);
 
   @media (--tall-viewport) {
     max-height: calc(100vh - 300px);

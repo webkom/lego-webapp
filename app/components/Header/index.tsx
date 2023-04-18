@@ -4,6 +4,7 @@ import { Modal } from 'react-overlays';
 import { Link, NavLink, withRouter } from 'react-router-dom';
 import logoLightMode from 'app/assets/logo-dark.png';
 import logoDarkMode from 'app/assets/logo.png';
+import AuthSection from 'app/components/AuthSection/AuthSection';
 import { Flex } from 'app/components/Layout';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import {
@@ -42,16 +43,9 @@ type Props = {
   updateUserTheme: (username: string, theme: string) => Promise<void>;
 };
 
-enum LoginMode {
-  LOGIN = 'login',
-  REGISTER = 'register',
-  FORGOT_PASSWORD = 'forgotPassword',
-}
-
 type State = {
   accountOpen: boolean;
   shake: boolean;
-  mode: LoginMode;
 };
 
 type AccountDropdownItemsProps = {
@@ -128,34 +122,10 @@ class Header extends Component<Props, State> {
   state = {
     accountOpen: false,
     shake: false,
-    mode: LoginMode.LOGIN,
-  };
-
-  toggleRegisterUser: MouseEventHandler<HTMLButtonElement> = (e) => {
-    this.setState({
-      mode: LoginMode.REGISTER,
-    });
-    e.stopPropagation();
-  };
-
-  toggleForgotPassword: MouseEventHandler<HTMLButtonElement> = (e) => {
-    this.setState({
-      mode: LoginMode.FORGOT_PASSWORD,
-    });
-    e.stopPropagation();
-  };
-
-  toggleBack: MouseEventHandler<HTMLButtonElement> = (e) => {
-    this.setState({
-      mode: LoginMode.LOGIN,
-    });
-    e.stopPropagation();
   };
 
   render() {
     const { loggedIn, currentUser, loading } = this.props;
-    const isLogin = this.state.mode === LoginMode.LOGIN;
-    let title, form;
 
     if (
       __CLIENT__ &&
@@ -167,26 +137,6 @@ class Header extends Component<Props, State> {
         : getTheme() !== currentUser.selectedTheme)
     ) {
       applySelectedTheme(currentUser.selectedTheme || 'light');
-    }
-
-    switch (this.state.mode) {
-      case LoginMode.LOGIN:
-        title = 'Logg inn';
-        form = <LoginForm />;
-        break;
-
-      case LoginMode.REGISTER:
-        title = 'Register';
-        form = <RegisterForm />;
-        break;
-
-      case LoginMode.FORGOT_PASSWORD:
-        title = 'Glemt passord';
-        form = <ForgotPasswordForm />;
-        break;
-
-      default:
-        break;
     }
 
     const MeetingButton = withRouter(({ history }) => (
@@ -313,50 +263,7 @@ class Header extends Component<Props, State> {
                   )}
                   triggerComponent={<Icon name="person-circle-outline" />}
                 >
-                  <div
-                    style={{
-                      padding: 10,
-                    }}
-                  >
-                    <Flex
-                      component="h2"
-                      justifyContent="space-between"
-                      alignItems="center"
-                      className="u-mb"
-                      style={{
-                        whitespace: 'nowrap',
-                      }}
-                    >
-                      {title}
-                      {isLogin && (
-                        <div>
-                          <button
-                            onClick={this.toggleForgotPassword}
-                            className={styles.toggleButton}
-                          >
-                            Glemt passord
-                          </button>
-                          <span className={styles.toggleButton}>&bull;</span>
-                          <button
-                            onClick={this.toggleRegisterUser}
-                            className={styles.toggleButton}
-                          >
-                            Jeg er ny
-                          </button>
-                        </div>
-                      )}
-
-                      {!isLogin && (
-                        <button
-                          onClick={this.toggleBack}
-                          className={styles.toggleButton}
-                        >
-                          Tilbake
-                        </button>
-                      )}
-                    </Flex>
-                    {form}
-                  </div>
+                  <AuthSection />
                 </Dropdown>
               )}
 

@@ -134,28 +134,17 @@ function EventEditor({
           <Field
             name="youtubeUrl"
             label={
-              <Flex>
+              <Flex alignItems="center" gap={6}>
                 <div>Erstatt cover-bildet med video fra YouTube</div>
-                <div
-                  style={{
-                    marginLeft: '5px',
-                  }}
-                >
-                  <Tooltip
+                <Tooltip content="Valgfritt felt. Videoen erstatter ikke coveret i listen over arrangementer.">
+                  <Icon
+                    name="information-circle-outline"
+                    size={20}
                     style={{
-                      marginLeft: '3px',
+                      cursor: 'pointer',
                     }}
-                    content="Valgfritt felt. Videoen erstatter ikke coveret i listen over arrangementer."
-                  >
-                    <Icon
-                      name="information-circle-outline"
-                      size={20}
-                      style={{
-                        cursor: 'pointer',
-                      }}
-                    />
-                  </Tooltip>
-                </div>
+                  />
+                </Tooltip>
               </Flex>
             }
             placeholder="https://www.youtube.com/watch?v=bLHL75H_VEM&t=5"
@@ -172,12 +161,12 @@ function EventEditor({
         />
         <Flex wrap alignItems="center" justifyContent="space-between">
           <Field
+            label="Tittel"
             name="title"
             placeholder="Tittel"
             style={{
-              borderBottom: `2px solid ${color}`,
+              borderBottom: `3px solid ${color}`,
             }}
-            className={styles.title}
             component={TextInput.Field}
           />
         </Flex>
@@ -198,8 +187,6 @@ function EventEditor({
               uploadFile={uploadFile}
               initialized={initialized}
             />
-            {/* eslint-disable-next-line */}
-            {/* @ts-ignore There are some issues with our postcss config and the TS css module plugin */}
             <Flex className={styles.tagRow}>
               {(event.tags || []).map((tag, i) => (
                 <Tag key={i} tag={tag} />
@@ -574,6 +561,23 @@ function EventEditor({
             )}
           </ContentSidebar>
         </ContentSection>
+        {!isEditPage && (
+          <Tooltip
+            style={{
+              marginLeft: '3px',
+            }}
+            content="Jeg er kjent med at jeg kun kan bruke rettighetene mine til å opprette abakusarrangement som er i tråd med arrangementskalenderen og Abakus sine blesteregler, og at jeg må ta kontakt med hs@abakus.no dersom jeg er usikker eller ønsker å opprette et annet/eksternt arrangement."
+          >
+            <Field
+              label="Arrangementet er avklart i arrangementskalenderen"
+              name="isClarified"
+              component={CheckBox.Field}
+              fieldClassName={styles.metaFieldInformation}
+              className={styles.formField}
+              normalize={(v) => !!v}
+            />
+          </Tooltip>
+        )}
 
         <Flex wrap>
           {isEditPage && (
@@ -605,15 +609,15 @@ const validate = (data) => {
   }
 
   if (!data.title) {
-    errors.title = 'Tittel er påkrevet';
+    errors.title = 'Tittel er påkrevd';
   }
 
   if (!data.description || data.description.trim() === '') {
-    errors.description = 'Kalenderbeskrivelse er påkrevet';
+    errors.description = 'Kalenderbeskrivelse er påkrevd';
   }
 
   if (!data.eventType) {
-    errors.eventType = 'Arrangementstype er påkrevet';
+    errors.eventType = 'Arrangementstype er påkrevd';
   }
 
   if (data.isPriced && data.priceMember > 10000) {
@@ -625,7 +629,7 @@ const validate = (data) => {
   }
 
   if (!data.location) {
-    errors.location = 'Lokasjon er påkrevet';
+    errors.location = 'Lokasjon er påkrevd';
   }
 
   if (data.useMazemap && !data.mazemapPoi) {
@@ -637,7 +641,7 @@ const validate = (data) => {
   }
 
   if (!data.id && !data.cover) {
-    errors.cover = 'Cover er påkrevet';
+    errors.cover = 'Cover er påkrevd';
   }
 
   if (!data.eventStatusType) {
@@ -650,6 +654,10 @@ const validate = (data) => {
 
   if (data.feedbackRequired && !data.feedbackDescription) {
     errors.feedbackDescription = 'Kan ikke være tomt';
+  }
+
+  if (!data.isClarified) {
+    errors.isClarified = 'Arrangementet må være avklart';
   }
 
   if (!isInteger(data.registrationDeadlineHours)) {

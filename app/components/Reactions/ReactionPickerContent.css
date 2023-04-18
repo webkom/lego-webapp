@@ -23,9 +23,9 @@
   align-items: center;
   padding-right: 5px;
   padding-bottom: 5px;
-  border-radius: 6px;
+  border-radius: var(--border-radius-md);
   cursor: pointer;
-  transition: background var(--linear-fast);
+  transition: background var(--easing-blazingly-fast);
 }
 
 .emoji:hover {

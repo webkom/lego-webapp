@@ -1,29 +1,21 @@
 import moment from 'moment-timezone';
 import { createSelector } from 'reselect';
-import type { Dateish } from 'app/models';
 import { mutateComments } from 'app/reducers/comments';
+import type { ListMeeting } from 'app/store/models/Meeting';
 import createEntityReducer from 'app/utils/createEntityReducer';
+import joinReducers from 'app/utils/joinReducers';
 import { Meeting } from '../actions/ActionTypes';
-
-export type MeetingEntity = {
-  id: number;
-  title: string;
-  location: string;
-  startTime: Dateish;
-  endTime: Dateish;
-  report: string;
-  invitations: Array<number>;
-  reportAuthor: number;
-  createdBy: number;
-  mazemapPoi: number;
-};
+import { mutateReactions } from './reactions';
 
 export type MeetingSection = {
   title: string;
-  meetings: Array<MeetingEntity>;
+  meetings: ListMeeting[];
 };
 
-const mutate = mutateComments('meetings');
+const mutate = joinReducers(
+  mutateComments('meetings'),
+  mutateReactions('meetings')
+);
 
 export default createEntityReducer({
   key: 'meetings',
@@ -52,6 +44,7 @@ export const selectCommentsForMeeting = createSelector(
     return meeting.comments.map((commentId) => commentsById[commentId]);
   }
 );
+
 export const selectGroupedMeetings = createSelector(
   selectMeetings,
   (meetings) => {

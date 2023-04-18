@@ -1,22 +1,7 @@
 @import url('../Event.css');
 
-.title {
-  font-size: 24px;
-  color: var(--lego-font-color);
-  font-weight: 600;
-}
-
-.editors {
-  border: 1px solid var(--border-gray);
-  border-radius: 3px;
-  padding: 10px;
-}
-
 .descriptionEditor {
   background: inherit;
-}
-
-html[data-theme='dark'] .descriptionEditor {
   color: var(--lego-font-color);
 }
 
@@ -33,6 +18,11 @@ html[data-theme='dark'] .descriptionEditor {
 
 .metaField {
   margin-bottom: 0;
+}
+
+.metaFieldInformation {
+  margin-bottom: 0;
+  font-size: small;
 }
 
 .metaField input {
@@ -53,14 +43,15 @@ html[data-theme='dark'] .descriptionEditor {
   text-align: center;
 }
 
-.poolBox {
-  background: rgba(200, 200, 200, 50%);
-  padding: 10px;
-  margin-top: 10px;
+.tagRow {
+  margin-top: 16px;
 }
 
-[data-theme='dark'] .poolBox {
-  background: rgba(50, 50, 50, 50%);
+.poolBox {
+  background-color: var(--additive-background);
+  border-radius: var(--border-radius-lg);
+  padding: 10px;
+  margin-top: 10px;
 }
 
 .centeredButton {

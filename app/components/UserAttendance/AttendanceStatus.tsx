@@ -1,10 +1,11 @@
 import Button from 'app/components/Button';
+import Flex from 'app/components/Layout/Flex';
 import styles from './AttendanceStatus.css';
 import withModal from './withModal';
 import type { Pool } from './AttendanceModal';
 
 type AttendancePool = Pool & {
-  capacity: number;
+  capacity?: number;
   registrationCount?: number;
 };
 
@@ -22,13 +23,11 @@ const AttendanceElement = ({
   const totalCount = registrations ? registrations.length : registrationCount;
 
   const Status = () => (
-    <strong>
-      <p>{`${totalCount}/${capacity ? capacity : '∞'}`}</p>
-    </strong>
+    <strong>{`${totalCount}/${capacity ? capacity : '∞'}`}</strong>
   );
 
   return (
-    <div className={styles.poolBox}>
+    <Flex className={styles.poolBox}>
       <strong>{name}</strong>
       {registrations ? (
         <Button flat onClick={() => toggleModal(index)}>
@@ -37,7 +36,7 @@ const AttendanceElement = ({
       ) : (
         <Status />
       )}
-    </div>
+    </Flex>
   );
 };
 

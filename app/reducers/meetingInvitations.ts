@@ -1,22 +1,26 @@
 import { produce } from 'immer';
 import { createSelector } from 'reselect';
 import type { User } from 'app/models';
+import type { RootState } from 'app/store/createRootReducer';
+import type { ID } from 'app/store/models';
+import type {
+  MeetingInvitation,
+  MeetingInvitationStatus,
+} from 'app/store/models/MeetingInvitation';
+import type { PublicUser } from 'app/store/models/User';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { Meeting } from '../actions/ActionTypes';
 import { selectMeetingById } from './meetings';
+import type { Selector } from 'reselect';
 
 export const statusesText: {
-  [key in MeetingInvitationStatus]: string;
+  [value in MeetingInvitationStatus]: string;
 } = {
   NO_ANSWER: 'Ikke svart',
   ATTENDING: 'Deltar',
   NOT_ATTENDING: 'Deltar ikke',
 };
-export enum MeetingInvitationStatus {
-  NO_ANSWER = 'NO_ANSWER',
-  ATTENDING = 'ATTENDING',
-  NOT_ATTENDING = 'NOT_ATTENDING',
-}
+
 export const getMeetingInvitationId = (meetingId: number, username: string) =>
   `${meetingId}-${username}`;
 
@@ -51,7 +55,16 @@ export const selectMeetingInvitation = createSelector(
   (meetingInvitationsById, meetingId, userId) =>
     meetingInvitationsById[getMeetingInvitationId(meetingId, userId)]
 );
-export const selectMeetingInvitationsForMeeting = createSelector(
+
+export type MeetingInvitationWithUser = Omit<MeetingInvitation, 'user'> & {
+  id: ID;
+  user: PublicUser;
+};
+
+export const selectMeetingInvitationsForMeeting: Selector<
+  RootState,
+  MeetingInvitationWithUser[]
+> = createSelector(
   selectMeetingById,
   (state) => state.meetingInvitations.byId,
   (state) => state.users.byId,

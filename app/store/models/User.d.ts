@@ -14,7 +14,7 @@ export interface PhotoConsent {
 }
 
 interface User {
-  id: number;
+  id: ID;
   username: string;
   firstName: string;
   lastName: string;
@@ -145,6 +145,14 @@ export type SearchUser = Pick<
   | 'profilePicture'
   | 'profilePicturePlaceholder'
 >;
+
+export type AutocompleteUser = Pick<
+  User,
+  'username' | 'fullName' | 'profilePicture' | 'id'
+> & {
+  contentType: 'users.user';
+  text: 'text';
+};
 
 /*
 Some user object, unknown serializer

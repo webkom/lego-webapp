@@ -5,6 +5,7 @@ import DistributionPieChart from 'app/components/Chart/PieChart';
 import { CHART_COLORS } from 'app/components/Chart/utils';
 import { selectTheme, selectStyles } from 'app/components/Form/SelectInput';
 import InfoBubble from 'app/components/InfoBubble';
+import Tag, { type TagColors } from 'app/components/Tags/Tag';
 import type { SurveyEntity, QuestionEntity } from 'app/reducers/surveys';
 import {
   QuestionTypes,
@@ -109,10 +110,65 @@ const Results = ({
       editSurvey({ ...newSurvey, surveyId: survey.id, event: survey.event.id });
   };
 
+  const getAverage = (data) => {
+    const [sum, numberOfAnswers] = data.reduce(
+      (accumulator, optionData) => {
+        const optionNumber = Number(optionData.option.match(/^\d+/)[0]);
+        return [
+          accumulator[0] + optionData.selections * optionNumber,
+          accumulator[1] + optionData.selections,
+        ];
+      },
+      [0, 0]
+    );
+    return Number((sum / numberOfAnswers).toFixed(2));
+  };
+
+  // Returns the lowest and highest number that an option starts with
+  const getMinMaxOption = (options) => {
+    return options.reduce(
+      (result, option) => {
+        const optionNumber = Number(option.optionText.match(/^\d+/)[0]);
+        return [
+          Math.min(result[0], optionNumber),
+          Math.max(result[1], optionNumber),
+        ];
+      },
+      [Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY]
+    );
+  };
+
+  // Linear transform used to map the average from the interval of the alternatives to the interval of number of colors used for the pill
+  const mapValueToNewInterval = (value, start, end, newStart, newEnd) => {
+    return ((value - start) * (newEnd - newStart)) / (end - start) + newStart;
+  };
+
+  const averageTagColors: TagColors[] = ['red', 'orange', 'yellow', 'green'];
+
+  const averagePill = (options, data) => {
+    const average = getAverage(data);
+    const [optionMin, optionMax] = getMinMaxOption(options);
+    const mappedAverage = mapValueToNewInterval(
+      average,
+      optionMin,
+      optionMax,
+      0,
+      averageTagColors.length - 1
+    );
+
+    return (
+      <Tag
+        color={averageTagColors[Math.round(mappedAverage)]}
+        tag={Number.isNaN(average) ? '?' : String(average)}
+      />
+    );
+  };
+
   const graphTypeToIcon = {
     bar_chart: 'bar-chart',
     pie_chart: 'pie-chart',
   };
+
   return (
     <div>
       <div className={styles.eventSummary}>
@@ -137,6 +193,10 @@ const Results = ({
           );
           const graphType = graphOptions.find(
             (a) => a.value === question.displayType
+          );
+          const questionIsNumeric = question.options.reduce(
+            (result, option) => result && /^\d+/.test(option.optionText),
+            true
           );
           return (
             <li key={question.id}>
@@ -165,6 +225,19 @@ const Results = ({
                           chartColors={chartColors}
                           dataKey="selections"
                         />
+                      )}
+                      {questionIsNumeric && (
+                        <span
+                          style={{
+                            marginLeft: '15px',
+                          }}
+                        >
+                          Gjennomsnittet er{' '}
+                          {averagePill(
+                            question.options,
+                            graphData[question.id]
+                          )}
+                        </span>
                       )}
                     </div>
                     <ChartLabel

@@ -53,6 +53,7 @@ div .cont {
 }
 
 .mainTxt {
+  margin-top: 1em;
   padding: 2em 1.5em;
   flex-grow: 1;
 }
@@ -119,7 +120,7 @@ div .cont {
   display: none;
   align-items: center;
   justify-content: center;
-  border-radius: 0 50px 50px 0;
+  border-radius: 0 100% 100% 0/0 50% 50% 0;
   border-left: 0;
   color: #000;
   z-index: 10;

@@ -5,7 +5,7 @@ import { Frontpage } from 'app/actions/ActionTypes';
 import type { Event } from 'app/models';
 import type { UnknownArticle } from 'app/store/models/Article';
 import { fetching } from 'app/utils/createEntityReducer';
-import { selectArticles } from './articles';
+import { selectArticlesWithAuthorDetails } from './articles';
 import { selectEvents } from './events';
 
 export type WithDocumentType<T> = T & {
@@ -22,7 +22,7 @@ export const isArticle = <T extends UnknownArticle>(
 
 export default fetching(Frontpage.FETCH);
 export const selectFrontpage = createSelector(
-  selectArticles,
+  selectArticlesWithAuthorDetails,
   selectEvents,
   (articles, events) => {
     const articlesWithType = articles.map((article) => ({

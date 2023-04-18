@@ -23,8 +23,8 @@ const eventStatus = (event: Event, loggedIn = false): string => {
     case 'NORMAL':
     case 'INFINITE':
       // Check if event has been
-      if (event.startTime > moment()) {
-        return `${registrationCount}/${totalCapacity} påmeldte`;
+      if (moment(event.startTime) > moment()) {
+        return `${registrationCount}/${totalCapacity || '∞'} påmeldte`;
       }
 
       if (!loggedIn) {

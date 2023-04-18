@@ -100,6 +100,11 @@ export const getRegistrationInfo = (registration) => {
     className: styles.orangePill,
   };
 
+  if (registration.pool) {
+    registrationInfo.status = 'Påmeldt';
+    registrationInfo.className = styles.greenPill;
+  }
+
   if (registration.adminRegistrationReason !== '') {
     registrationInfo.className = styles.bluePill;
 
@@ -111,16 +116,11 @@ export const getRegistrationInfo = (registration) => {
         registrationInfo.className = styles.webkomPill;
         registrationInfo.reason = `Webkompåmeldt av ${registration.createdBy.username}: ${registration.adminRegistrationReason}`;
       } else {
-        registrationInfo.status = 'Påmeldt';
         registrationInfo.reason = `Adminpåmeldt av ${registration.createdBy.username}: ${registration.adminRegistrationReason}`;
       }
     } else {
-      registrationInfo.status = 'Påmeldt';
       registrationInfo.reason = `Adminpåmeldt: ${registration.adminRegistrationReason}`;
     }
-  } else if (registration.pool) {
-    registrationInfo.status = 'Påmeldt';
-    registrationInfo.className = styles.greenPill;
   }
 
   return registrationInfo;
@@ -433,6 +433,7 @@ export class UnregisteredTable extends Component<UnregisteredTableProps> {
       {
         title: 'Bruker',
         dataIndex: 'user',
+        filterMessage: 'Filtrer på navn',
         render: (user) => (
           <Tooltip content={user.fullName}>
             <Link to={`/users/${user.username}`}>{user.username}</Link>

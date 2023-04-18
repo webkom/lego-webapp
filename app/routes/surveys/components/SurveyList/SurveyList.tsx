@@ -21,9 +21,8 @@ const SurveyList = (props: Props) => {
       ) : (
         'Ingen spørreundersøkelser funnet.'
       );
-    } else {
-      return surveys_to_render;
     }
+    return surveys_to_render;
   };
 
   return <div className={styles.surveyList}>{contentToRender()}</div>;

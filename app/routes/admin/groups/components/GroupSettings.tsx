@@ -2,10 +2,11 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { editGroup } from 'app/actions/GroupActions';
 import GroupForm from 'app/components/GroupForm';
+import type { DetailedGroup } from 'app/store/models/Group';
 import loadingIndicator from 'app/utils/loadingIndicator';
 
 type Props = {
-  group: Record<string, any>;
+  group: DetailedGroup;
   editGroup: (arg0: any) => Promise<any>;
 };
 

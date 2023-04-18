@@ -1,17 +1,20 @@
+import moment from 'moment-timezone';
 import { Field } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
 import { Button, TextInput } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import { withSubmissionErrorFinalForm } from 'app/components/Form/utils';
 import RandomQuote from 'app/components/RandomQuote/RandomQuote';
+import type { ActionGrant } from 'app/models';
+import type { ContentTarget } from 'app/store/utils/contentTarget';
 import { spySubmittable, spyValues } from 'app/utils/formSpyUtils';
 import { createValidator, required } from 'app/utils/validation';
 import { navigation } from '../utils';
 import styles from './Quotes.css';
 
 type Props = {
-  addQuotes: (quote: { text: string; source: string }) => Promise<unknown>;
-  actionGrant: Array<string>;
+  addQuotes: (quote: { text: string; source: string }) => Promise<void>;
+  actionGrant: ActionGrant;
 };
 
 type FormValues = {
@@ -30,7 +33,22 @@ const validate = createValidator({
 });
 
 const AddQuote = ({ addQuotes, actionGrant }: Props) => {
-  const onSubmit = withSubmissionErrorFinalForm(addQuotes);
+  const removeUnnecessaryDash = (source: string) => {
+    if (source === undefined) return undefined;
+
+    const dashIndex = source.indexOf('-');
+    if (source.slice(0, dashIndex).match(/^ *$/)) {
+      source = source.slice(dashIndex + 1).trim();
+    }
+
+    return source;
+  };
+
+  const onSubmit = (quote: { text: string; source: string }) =>
+    withSubmissionErrorFinalForm(addQuotes)({
+      text: quote.text,
+      source: removeUnnecessaryDash(quote.source),
+    });
 
   return (
     <div className={styles.root}>
@@ -86,12 +104,12 @@ const AddQuote = ({ addQuotes, actionGrant }: Props) => {
                   currentQuote={{
                     id: 1,
                     text: values.text || 'Det er bare å gjøre det',
-                    source: values.source || 'Esso',
+                    source: removeUnnecessaryDash(values.source) || 'Esso',
                     approved: true,
-                    contentTarget: '',
+                    contentTarget: '' as ContentTarget,
                     reactionsGrouped: [],
-                    reactions: [],
-                    reactionCount: 0,
+                    createdAt: moment(),
+                    tags: [],
                   }}
                   loggedIn={true}
                   useReactions={false}

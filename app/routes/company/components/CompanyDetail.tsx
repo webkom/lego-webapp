@@ -27,7 +27,6 @@ type Props = {
   joblistings: ListJoblisting[];
   showFetchMoreEvents: boolean;
   fetchMoreEvents: () => Promise<any>;
-  loggedIn: boolean;
   loading: boolean;
 };
 
@@ -37,7 +36,6 @@ const CompanyDetail = ({
   joblistings,
   fetchMoreEvents,
   showFetchMoreEvents,
-  loggedIn,
   loading,
 }: Props) => {
   const [viewOldEvents, setViewOldEvents] = useState(false);
@@ -95,14 +93,11 @@ const CompanyDetail = ({
 
       <ContentSection>
         <ContentMain>
-          <i>
-            <CollapsibleDisplayContent content={company.description} />
-          </i>
+          <CollapsibleDisplayContent content={company.description} />
           <h3 className={styles.sectionHeader}>Kommende arrangementer</h3>
           <EventListCompact
             events={upcomingEvents}
             noEventsMessage="Ingen kommende arrangementer"
-            loggedIn={loggedIn}
             eventStyle="extra-compact"
           />
 
@@ -119,7 +114,6 @@ const CompanyDetail = ({
               <EventListCompact
                 events={oldEvents}
                 noEventsMessage="Ingen tidligere arrangementer"
-                loggedIn={loggedIn}
                 eventStyle="extra-compact"
               />
             </>
@@ -128,7 +122,7 @@ const CompanyDetail = ({
             <Flex justifyContent="center">
               <Icon
                 name="chevron-down-circle-outline"
-                size={35}
+                size={40}
                 onClick={fetchMoreEvents}
                 style={{ cursor: 'pointer' }}
               />
@@ -141,27 +135,31 @@ const CompanyDetail = ({
               <JoblistingItem key={joblisting.id} joblisting={joblisting} />
             ))
           ) : (
-            <i>Ingen tilgjengelige jobbannonser</i>
+            <span className={styles.noEventsMessage}>
+              Ingen tilgjengelige jobbannonser
+            </span>
           )}
         </ContentMain>
-        <ContentSidebar>
-          {companyInfo.map(
-            (info) =>
-              info.text && (
-                <TextWithIcon
-                  key={info.text}
-                  iconName={info.icon}
-                  content={
-                    info.link ? (
-                      <a href={info.text}>{company.name}</a>
-                    ) : (
-                      info.text
-                    )
-                  }
-                />
-              )
-          )}
-        </ContentSidebar>
+        {companyInfo.some((info) => info.text) && (
+          <ContentSidebar>
+            {companyInfo.map(
+              (info) =>
+                info.text && (
+                  <TextWithIcon
+                    key={info.text}
+                    iconName={info.icon}
+                    content={
+                      info.link ? (
+                        <a href={info.text}>{company.name}</a>
+                      ) : (
+                        info.text
+                      )
+                    }
+                  />
+                )
+            )}
+          </ContentSidebar>
+        )}
       </ContentSection>
     </Content>
   );

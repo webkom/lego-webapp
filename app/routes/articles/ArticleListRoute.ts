@@ -3,17 +3,16 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { fetchAll } from 'app/actions/ArticleActions';
 import { fetchPopular } from 'app/actions/TagActions';
-import { selectArticles } from 'app/reducers/articles';
+import { selectArticlesWithAuthorDetails } from 'app/reducers/articles';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { selectPopularTags } from 'app/reducers/tags';
-import { selectUserById } from 'app/reducers/users';
 import type { PublicArticle } from 'app/store/models/Article';
 import type { PublicUser } from 'app/store/models/User';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import Overview from './components/Overview';
 
-export type ArticleWithAuthorDetails = Omit<PublicArticle, 'author'> & {
-  author: PublicUser;
+export type ArticleWithAuthorDetails = Omit<PublicArticle, 'authors'> & {
+  authors: Array<PublicUser>;
 };
 
 const mapStateToProps = (state, props) => {
@@ -27,17 +26,9 @@ const mapStateToProps = (state, props) => {
     query,
     entity: 'articles',
   })(state);
-  const articles: ArticleWithAuthorDetails[] = selectArticles<PublicArticle[]>(
-    state,
-    {
-      pagination,
-    }
-  ).map((article) => ({
-    ...article,
-    author: selectUserById(state, {
-      userId: article.author,
-    }),
-  }));
+  const articles = selectArticlesWithAuthorDetails(state, {
+    pagination,
+  });
 
   return {
     articles,

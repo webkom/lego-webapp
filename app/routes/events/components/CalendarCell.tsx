@@ -25,8 +25,7 @@ const renderEvent = (event: Event) => {
   const startTime = moment(event.startTime);
   const endTime = moment(event.endTime);
 
-  const isPreviousEvent =
-    moment(startTime).startOf('day') < moment().startOf('day');
+  const isPreviousEvent = moment(endTime) < moment();
 
   const pillColor = colorForEvent(eventType);
   const titleColor = textColorForEvent(eventType);

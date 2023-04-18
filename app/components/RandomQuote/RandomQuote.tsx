@@ -5,46 +5,48 @@ import Card from 'app/components/Card';
 import { Flex } from 'app/components/Layout';
 import LegoReactions from 'app/components/LegoReactions';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
-import type { ID } from 'app/models';
-import type { EmojiEntity } from 'app/reducers/emojis';
-import type { QuoteEntity } from 'app/reducers/quotes';
+import type { ID } from 'app/store/models';
+import type Emoji from 'app/store/models/Emoji';
+import type Quote from 'app/store/models/Quote';
+import type { ContentTarget } from 'app/store/utils/contentTarget';
 import styles from './RandomQuote.css';
 
 type Props = {
-  fetchRandomQuote: (arg0: Array<ID>) => Promise<void>;
-  addReaction: (arg0: {
+  fetchRandomQuote: (seen: ID[]) => Promise<void>;
+  addReaction: (args: {
     emoji: string;
-    contentTarget: string;
+    contentTarget: ContentTarget;
+    unicodeString: string;
   }) => Promise<void>;
-  deleteReaction: (arg0: {
+  deleteReaction: (args: {
     reactionId: ID;
-    contentTarget: string;
+    contentTarget: ContentTarget;
   }) => Promise<void>;
   fetchEmojis: () => Promise<void>;
   fetchingEmojis: boolean;
-  emojis: Array<EmojiEntity>;
-  currentQuote: QuoteEntity;
+  emojis: Emoji[];
+  currentQuote: Quote;
   loggedIn: boolean;
   useReactions?: boolean;
 };
 
-const RandomQuote = (props: Props) => {
-  const {
-    addReaction,
-    deleteReaction,
-    emojis,
-    fetchEmojis,
-    fetchingEmojis,
-    currentQuote,
-    loggedIn,
-    useReactions = true,
-  } = props;
+const RandomQuote = ({
+  fetchRandomQuote,
+  addReaction,
+  deleteReaction,
+  emojis,
+  fetchEmojis,
+  fetchingEmojis,
+  currentQuote,
+  loggedIn,
+  useReactions = true,
+}: Props) => {
   const seenQuotes = useRef([]);
 
   const [animation, setAnimation] = useState(false);
 
   useEffect(() => {
-    const quoteId = props.currentQuote.id;
+    const quoteId = currentQuote.id;
 
     if (!seenQuotes.current.includes(quoteId)) {
       seenQuotes.current = [...seenQuotes.current, quoteId];
@@ -53,7 +55,7 @@ const RandomQuote = (props: Props) => {
 
   const onClick = () => {
     setAnimation(true);
-    props.fetchRandomQuote(seenQuotes.current);
+    fetchRandomQuote(seenQuotes.current);
     setTimeout(() => setAnimation(false), 1000);
   };
 

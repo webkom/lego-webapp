@@ -1,4 +1,5 @@
 import cx from 'classnames';
+import Flex from 'app/components/Layout/Flex';
 import { createField } from './Field';
 import styles from './RadioButton.css';
 import type { FormProps } from './Field';
@@ -27,21 +28,30 @@ function RadioButton({
   checked = inputValue ? inputValue === value : checked;
   value = inputValue ?? value;
   return (
-    <div className={cx(styles.box, className)}>
-      <input
-        {...props}
-        className={styles.input}
-        checked={checked}
-        type="radio"
-        id={id}
-        value={value}
-      />
-      <span className={styles.label}>{label}</span>
-    </div>
+    <Flex wrap alignItems="center" gap={7}>
+      <div className={cx(styles.radioButton, styles.bounce, className)}>
+        <input
+          {...props}
+          className={styles.input}
+          checked={checked}
+          type="radio"
+          id={id}
+          value={value}
+        />
+        <svg viewBox="0 0 21 21">
+          <circle cx="10.5" cy="10.5" r="7" />
+        </svg>
+      </div>
+      {label && (
+        <label htmlFor={id} className={styles.label}>
+          {label}
+        </label>
+      )}
+    </Flex>
   );
 }
 
-const RawField = createField(RadioButton);
+const RawField = createField(RadioButton, { inlineLabel: true });
 
 const StyledField = ({ fieldClassName, ...props }: FormProps) => (
   <RawField fieldClassName={cx(fieldClassName, styles.radioField)} {...props} />

@@ -1,13 +1,12 @@
-import { cloneElement } from 'react';
 import { Content } from 'app/components/Content';
 import { LoginPage } from 'app/components/LoginForm';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import type { EventPool, EventAdministrate } from 'app/models';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import type { Element } from 'react';
+import type { ReactNode } from 'react';
 
 type Props = {
-  children: Array<Element<any>>;
+  children: (props: Props) => ReactNode;
   currentUser: Record<string, any>;
   isMe: boolean;
   event?: EventAdministrate;
@@ -44,10 +43,7 @@ const EventAdministrateIndex = (props: Props) => {
         </NavigationLink>
         <NavigationLink to={`${base}/abacard`}>Abacard</NavigationLink>
       </NavigationTab>
-      {props.children &&
-        props.children.map((child) =>
-          cloneElement(child, { ...props, children: undefined })
-        )}
+      {props.children(props)}
     </Content>
   );
 };

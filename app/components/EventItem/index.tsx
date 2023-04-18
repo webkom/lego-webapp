@@ -31,21 +31,21 @@ const eventStatusObject = (event: Event): statusIconProps => {
         return {
           status: 'Admitted',
           icon: 'checkmark-circle-outline',
-          color: '#1ec91e',
+          color: 'var(--color-green-6)',
           tooltip: 'Du er påmeldt',
         } as statusIconProps;
       }
       return {
         status: 'Waitlist',
         icon: 'timer-outline',
-        color: '#fc9003',
+        color: 'var(--color-orange-6)',
         tooltip: 'Du er på ventelisten',
       } as statusIconProps;
     default:
       return {
         status: 'Error',
         icon: 'help-outline',
-        color: 'blue',
+        color: 'var(--danger-color)',
         tooltip: 'Det har oppstått en feil',
       } as statusIconProps;
   }
@@ -133,7 +133,11 @@ const EventItem = ({
             <Link to={`/events/${event.id}`}>
               <h4 className={styles.eventItemTitle}>{event.title}</h4>
             </Link>
-            <Time time={event.startTime} format="ll - HH:mm" />
+            <Time
+              time={event.startTime}
+              format="ll - HH:mm"
+              className={styles.time}
+            />
           </div>
           <Flex className={styles.companyLogoExtraCompact}>
             {event.cover && (

@@ -1,54 +1,72 @@
 .input {
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid var(--border-gray);
-  border-radius: 3px;
-  width: 100%;
-  background-color: inherit;
-}
-
-.input:focus {
-  outline: none;
-  box-shadow: 0 0 5px var(--color-gray-3);
-  border-color: var(--color-gray-4);
-}
-
-.input::placeholder {
-  color: var(--color-gray-4);
-}
-
-html[data-theme='dark'] .input {
-  background-color: var(--color-white);
+  font-size: var(--font-size);
+  border: 1.5px solid var(--border-gray);
+  border-radius: var(--border-radius-md);
   color: var(--lego-font-color);
+  background-color: inherit;
+  overflow: hidden;
+
+  &:focus-within {
+    border-color: var(--color-gray-4);
+  }
+}
+
+.spacing input,
+.prefix {
+  color: var(--color-gray-5);
+  padding-left: 10px;
+}
+
+.input input {
+  width: 100%;
+  height: 100%;
+  background-color: inherit;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  color: var(--lego-font-color);
+
+  &:focus {
+    border: none;
+    box-shadow: none;
+  }
+
+  &::placeholder {
+    color: var(--color-gray-5);
+  }
+
+  &:focus::placeholder {
+    transition: opacity var(--easing-medium);
+    opacity: 0;
+  }
+}
+
+.textInput {
+  height: 38px;
+}
+
+.disabled {
+  opacity: 0.5;
 }
 
 span.suffix {
-  padding: 0 4px;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
+  width: fit-content;
+  height: inherit;
+  margin-left: auto;
+  padding: 0 10px;
   color: var(--color-gray-5);
   text-align: center;
   background-color: var(--additive-background);
-  border: 1px solid var(--border-gray);
-  border-radius: 3px;
   position: relative;
-  display: table-cell;
-  border-left: none;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
+  font-size: 0.9rem;
 }
 
-span.inputGroup > input {
-  display: table-cell;
-}
-
-input.suffix {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-
-span.inputGroup {
-  position: relative;
-  display: table;
-  border-collapse: separate;
-  border-spacing: 0;
-  width: 100%;
+.removeBorder {
+  border: none;
 }

@@ -9,12 +9,9 @@
   right: 0;
 }
 
+/* Makes it possible to close the header modal by clicking outside */
 .backdrop {
-  background: rgba(var(--rgb-max), var(--rgb-max), var(--rgb-max), 50%);
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   position: fixed;
 }
 
@@ -25,7 +22,7 @@
   align-items: center;
   cursor: pointer;
 
-  button {
+  & button {
     padding: 0;
   }
 }

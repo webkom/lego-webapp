@@ -13,6 +13,7 @@ import { uploadFile } from 'app/actions/FileActions';
 import { LoginPage } from 'app/components/LoginForm';
 import {
   selectEventById,
+  selectEventBySlug,
   selectPoolsWithRegistrationsForEvent,
   selectRegistrationsFromPools,
   selectWaitingRegistrationsForEvent,
@@ -29,10 +30,17 @@ import {
 } from './utils';
 
 const mapStateToProps = (state, props) => {
-  const eventId = props.match.params.eventId;
-  const event = selectEventById(state, {
-    eventId,
-  });
+  const eventIdOrSlug = props.match.params.eventIdOrSlug;
+  const event = !isNaN(eventIdOrSlug)
+    ? selectEventById(state, { eventId: eventIdOrSlug })
+    : selectEventBySlug(state, { eventSlug: eventIdOrSlug });
+
+  if (event && event.slug && eventIdOrSlug !== event.slug) {
+    props.history.replace(`/events/${event.slug}/edit`);
+  }
+
+  const eventId = event.id;
+
   const actionGrant = event.actionGrant || [];
   const pools = selectPoolsWithRegistrationsForEvent(state, {
     eventId,
@@ -138,7 +146,7 @@ const mapDispatchToProps = {
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
   withPreparedDispatch('fetchEventEdit', (props, dispatch) =>
-    dispatch(fetchEvent(props.match.params.eventId))
+    dispatch(fetchEvent(props.match.params.eventIdOrSlug))
   ),
   connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['event.title'])

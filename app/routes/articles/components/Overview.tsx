@@ -14,27 +14,36 @@ import styles from './Overview.css';
 
 const HEADLINE_EVENTS = 2;
 
-const OverviewItem = ({ article }: { article: ArticleWithAuthorDetails }) => (
+export const OverviewItem = ({
+  article,
+}: {
+  article: ArticleWithAuthorDetails;
+}) => (
   <div className={styles.item}>
     <Link to={`/articles/${article.id}`} className={styles.imageLink}>
-      <Image src={article.cover} placeholder={article.coverPlaceholder} />
+      <Image
+        src={article.cover}
+        alt="Article cover"
+        placeholder={article.coverPlaceholder}
+      />
     </Link>
     <h2 className={styles.itemTitle}>
       <Link to={`/articles/${article.id}`}>{article.title}</Link>
     </h2>
 
     <span className={styles.itemInfo}>
-      {article.author.id && (
-        <span>
+      {article.authors.map((author) => (
+        <span key={author.username}>
           <Link
-            to={`/users/${article.author.username}`}
+            to={`/users/${author.username}`}
             className={styles.overviewAuthor}
           >
             {' '}
-            {article.author.fullName}
+            {author.fullName}
           </Link>{' '}
         </span>
-      )}
+      ))}
+
       <Time time={article.createdAt} format="DD.MM.YYYY HH:mm" />
       <Tags className={styles.tagline}>
         {article.tags.map((tag) => (

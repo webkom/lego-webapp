@@ -1,6 +1,6 @@
 import { mount } from 'enzyme';
+import { Field } from 'react-final-form';
 import { Provider } from 'react-redux';
-import { Field } from 'redux-form';
 import configureStore from 'redux-mock-store';
 import LoginForm from './LoginForm';
 
@@ -24,11 +24,9 @@ describe('components', () => {
       expect(form.hasClass('LoginForm')).toBe(true);
       const username = form.childAt(0);
       const password = form.childAt(1);
-      const submit = form.childAt(2);
       expect(username.type()).toEqual(Field);
       expect(password.type()).toEqual(Field);
       expect(password.prop('type')).toBe('password');
-      expect(submit.prop('submit')).toBe(true);
     });
   });
 });

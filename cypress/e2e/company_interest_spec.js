@@ -25,7 +25,7 @@ const createCompanyInterest = () => {
 
   field('comment').type('random comment');
 
-  cy.contains('Opprett bedriftsinteresse').click();
+  cy.contains('Send bedriftsinteresse').click();
 };
 
 describe('Company interest', () => {
@@ -78,7 +78,7 @@ describe('Admin company interest', () => {
 
     field('comment').type('random comment');
 
-    cy.contains('Opprett bedriftsinteresse').click();
+    cy.contains('Send bedriftsinteresse').click();
 
     cy.url().should('not.include', `/companyInterest`);
   });

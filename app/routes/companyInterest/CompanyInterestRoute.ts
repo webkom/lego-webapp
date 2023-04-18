@@ -58,7 +58,7 @@ const mapStateToProps = (state, props) => {
         checked: false,
       })),
       participantRange: null,
-      companyTypes: null,
+      companyType: null,
       officeInTrondheim: null,
       semesters: semesters.sort(sortSemesterChronologically),
     },

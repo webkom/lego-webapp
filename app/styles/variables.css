@@ -95,14 +95,17 @@
   --color-red-8: #730202;
   --color-red-9: #400101;
 
-  --color-select-hover: rgb(178, 212, 255);
-  --color-select-multi-bg: rgb(230, 230, 230);
+  --color-yellow: #fcd703;
 
   --color-red-hover-alpha: 5%;
 
   --font-size: 16px;
   --font-size-small: 12px;
   --font-size-large: 18px;
+
+  --border-radius-sm: 0.3rem;
+  --border-radius-md: 0.5rem;
+  --border-radius-lg: 1rem;
 
   --easing: cubic-bezier(0.35, 0, 0.65, 1);
   --easing-blazingly-fast: 30ms var(--easing);
@@ -130,9 +133,6 @@
   --secondary-font-color: #aaa;
 
   --lego-red-color: var(--color-red-7);
-
-  --lego-header-height: 120px;
-  --lego-main-nav-height: 50px;
 
   --lego-chart-purple: #c73aea;
   --lego-chart-yellow: #f4ee42;
@@ -202,8 +202,7 @@
   --color-red-8: #e52d2e;
   --color-red-9: #e9494a;
 
-  --color-select-hover: var(--color-gray-4);
-  --color-select-multi-bg: var(--color-gray-5);
+  --color-yellow: #fcd703;
 
   --color-red-hover-alpha: 10%;
 }

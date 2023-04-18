@@ -1,5 +1,9 @@
+import arrayMutators from 'final-form-arrays';
+import { Field } from 'react-final-form';
+import { FieldArray } from 'react-final-form-arrays';
+import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
-import { reduxForm, Field, SubmissionError, FieldArray } from 'redux-form';
+import { SubmissionError } from 'redux-form';
 import english from 'app/assets/great_britain.svg';
 import norwegian from 'app/assets/norway.svg';
 import { Content } from 'app/components/Content';
@@ -10,26 +14,26 @@ import {
   Button,
   CheckBox,
   SelectInput,
-  Form,
   RadioButton,
   RadioButtonGroup,
 } from 'app/components/Form';
+import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import Icon from 'app/components/Icon';
 import { Image } from 'app/components/Image';
 import Flex from 'app/components/Layout/Flex';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import withAutocomplete from 'app/components/Search/withAutocomplete';
+import { readmeIfy } from 'app/components/ReadmeLogo';
 import Tooltip from 'app/components/Tooltip';
 import type {
   CompanyInterestEntity,
   CompanyInterestCompanyType,
 } from 'app/reducers/companyInterest';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
+import { spySubmittable, spyValues } from 'app/utils/formSpyUtils';
 import { createValidator, required, isEmail } from 'app/utils/validation';
 import { interestText, semesterToText } from '../utils';
 import styles from './CompanyInterest.css';
 import type { ReactNode } from 'react';
-import type { FormProps, FieldArrayProps } from 'redux-form';
 
 export const EVENT_TYPES = {
   company_presentation: {
@@ -76,23 +80,23 @@ export const SURVEY_OFFER_TYPES = {
   },
   company_survey_ai: {
     norwegian: 'Kunstig intelligens',
-    english: 'AI',
+    english: 'Artificial intelligence',
   },
   company_survey_big_data: {
     norwegian: 'Big data',
     english: 'Big data',
   },
   company_survey_front_back_end: {
-    norwegian: 'Front end/Back end',
-    english: 'Front and back-end',
+    norwegian: 'Front- og back-end',
+    english: 'Front- and back-end',
   },
   company_survey_iot: {
-    norwegian: 'Internet of things',
-    english: 'IoT',
+    norwegian: 'Internet of Things',
+    english: 'Internet of Things',
   },
   company_survey_gamedev: {
     norwegian: 'Spillutvikling',
-    english: 'Gamedev',
+    english: 'Game development',
   },
   company_survey_softskills: {
     norwegian: 'Softskills',
@@ -105,20 +109,34 @@ export const SURVEY_OFFER_TYPES = {
 };
 export const OTHER_TYPES = {
   readme: {
-    norwegian: 'Annonsere i readme',
+    norwegian: 'Annonse i readme',
     english: 'Advertisement in readme',
   },
   /*
   collaboration: {
     norwegian: 'Samarbeid med andre linjeforeninger',
-    english: `Event in collaboration with other student organizations`,
+    english: 'Collaboration with other student organizations',
   },
   */
 };
 
+export const EVENT_TYPE_OPTIONS = [
+  { value: '', label: 'Vis alle arrangementstyper' },
+  { value: 'company_presentation', label: 'Bedriftspresentasjon' },
+  { value: 'course', label: 'Kurs' },
+  { value: 'breakfast_talk', label: 'Frokostforedrag' },
+  { value: 'lunch_presentation', label: 'Lunsjpresentasjon' },
+  { value: 'bedex', label: 'BedEx' },
+  { value: 'digital_presentation', label: 'Digital presentasjon' },
+  { value: 'other', label: 'Alternativt arrangement' },
+  { value: 'sponsor', label: 'Sponser' },
+  { value: 'start_up', label: 'Start-up kveld' },
+  { value: 'company_to_company', label: 'Bedrift-til-bedrift' },
+];
+
 export const OFFICE_IN_TRONDHEIM = {
-  true: { norwegian: 'Ja', english: 'Yes' },
-  false: { norwegian: 'Nei', english: 'No' },
+  yes: { norwegian: 'Ja', english: 'Yes' },
+  no: { norwegian: 'Nei', english: 'No' },
 };
 
 export const COLLABORATION_TYPES = {
@@ -183,18 +201,18 @@ export const COMPANY_TYPES: Record<
   { norwegian: string; english: string }
 > = {
   company_types_small_consultant: {
-    norwegian: 'Liten Konsulentbedrift ( < ∼50)',
-    english: 'Small Consultant ( < ∼50)',
+    norwegian: 'Liten konsulentbedrift ( < ~50)',
+    english: 'Small consultant company ( < ~50)',
   },
   company_types_medium_consultant: {
-    norwegian: 'Medium Konsulentbedrift ( < 400)',
-    english: 'Medium Consultant ( < 400)',
+    norwegian: 'Medium konsulentbedrift ( < 400)',
+    english: 'Medium consultant company ( < 400)',
   },
   company_types_large_consultant: {
-    norwegian: 'Stor Konsulentbedrift ( > 400)',
-    english: 'Large Consultant ( > 400)',
+    norwegian: 'Stor konsulentbedrift ( > 400)',
+    english: 'Large consultant company ( > 400)',
   },
-  company_types_inhouse: { norwegian: 'Inhouse', english: 'Inhouse' },
+  company_types_inhouse: { norwegian: 'In-house', english: 'In-house' },
   company_types_others: { norwegian: 'Annet', english: 'Other' },
   company_types_start_up: { norwegian: 'Start-up', english: 'Start-up' },
   company_types_governmental: { norwegian: 'Statlig', english: 'Governmental' },
@@ -227,25 +245,19 @@ const SemesterBox = ({
   fields,
   language,
 }: {
+  fields: any;
   language: string;
-} & FieldArrayProps): ReactNode => (
+}): ReactNode => (
   <Flex column className={styles.checkboxWrapper}>
     {fields.map((item, index) => (
-      <Flex key={item}>
-        <label className={styles.checkboxLabel}>
-          <div className={styles.checkboxField}>
-            <Field
-              key={`semester${index}`}
-              name={`semesters[${index}].checked`}
-              component={CheckBox.Field}
-              normalize={(v) => !!v}
-            />
-          </div>
-          <Flex gap="4px" alignItems="center">
-            {semesterToText({ ...fields.get(index), language })}
-          </Flex>
-        </label>
-      </Flex>
+      <Field
+        key={`semester${index}`}
+        name={`semesters[${index}].checked`}
+        label={semesterToText({ ...fields.value[index], language })}
+        type="checkbox"
+        component={CheckBox.Field}
+        normalize={(v) => !!v}
+      />
     ))}
   </Flex>
 );
@@ -254,25 +266,19 @@ const SurveyOffersBox = ({
   fields,
   language,
 }: {
+  fields: any;
   language: string;
-} & FieldArrayProps): ReactNode => (
+}): ReactNode => (
   <Flex column className={styles.checkboxWrapper}>
     {fields.map((item, index) => (
-      <Flex key={item}>
-        <label className={styles.checkboxLabel}>
-          <div className={styles.checkboxField}>
-            <Field
-              key={`companyCourseThemes[${index}]`}
-              name={`companyCourseThemes[${index}].checked`}
-              component={CheckBox.Field}
-              normalize={(v) => !!v}
-            />
-          </div>
-          <Flex gap="4px" alignItems="center">
-            {SURVEY_OFFER_TYPES[surveyOffersToString(item)][language]}
-          </Flex>
-        </label>
-      </Flex>
+      <Field
+        key={`companyCourseThemes[${index}]`}
+        name={`companyCourseThemes[${index}].checked`}
+        label={SURVEY_OFFER_TYPES[surveyOffersToString(item)][language]}
+        type="checkbox"
+        component={CheckBox.Field}
+        normalize={(v) => !!v}
+      />
     ))}
   </Flex>
 );
@@ -281,25 +287,19 @@ const EventBox = ({
   fields,
   language,
 }: {
+  fields: any;
   language: string;
-} & FieldArrayProps): ReactNode => (
+}): ReactNode => (
   <Flex column className={styles.checkboxWrapper}>
     {fields.map((key, index) => (
-      <Flex key={key} alignItems="center">
-        <label className={styles.checkboxLabel}>
-          <div className={styles.checkboxField}>
-            <Field
-              key={`events[${index}]`}
-              name={`events[${index}].checked`}
-              component={CheckBox.Field}
-              normalize={(v) => !!v}
-            />
-          </div>
-          <Flex gap="4px" alignItems="center">
-            {EVENT_TYPES[eventToString(key)][language]}
-          </Flex>
-        </label>
-      </Flex>
+      <Field
+        key={`events[${index}]`}
+        name={`events[${index}].checked`}
+        label={EVENT_TYPES[eventToString(key)][language]}
+        type="checkbox"
+        component={CheckBox.Field}
+        normalize={(v) => !!v}
+      />
     ))}
   </Flex>
 );
@@ -308,25 +308,19 @@ const TargetGradeBox = ({
   fields,
   language,
 }: {
+  fields: any;
   language: string;
-} & FieldArrayProps): ReactNode => (
+}): ReactNode => (
   <Flex column className={styles.checkboxWrapper}>
     {fields.map((key, index) => (
-      <Flex key={key}>
-        <label className={styles.checkboxLabel}>
-          <div className={styles.checkboxField}>
-            <Field
-              key={`targetGrades[${index}]`}
-              name={`targetGrades[${index}].checked`}
-              component={CheckBox.Field}
-              normalize={(v) => !!v}
-            />
-          </div>
-          <Flex gap="4px" alignItems="center">
-            {TARGET_GRADE_TYPES[targetGradeToString(key)][language]}
-          </Flex>
-        </label>
-      </Flex>
+      <Field
+        key={`targetGrades[${index}]`}
+        name={`targetGrades[${index}].checked`}
+        label={TARGET_GRADE_TYPES[targetGradeToString(key)][language]}
+        type="checkbox"
+        component={CheckBox.Field}
+        normalize={(v) => !!v}
+      />
     ))}
   </Flex>
 );
@@ -335,25 +329,19 @@ const OtherBox = ({
   fields,
   language,
 }: {
+  fields: any;
   language: string;
-} & FieldArrayProps): ReactNode => (
+}): ReactNode => (
   <Flex column className={styles.checkboxWrapper}>
     {fields.map((key, index) => (
-      <Flex key={key}>
-        <label className={styles.checkboxLabel}>
-          <div className={styles.checkboxField}>
-            <Field
-              key={`otherOffers[${index}]`}
-              name={`otherOffers[${index}].checked`}
-              component={CheckBox.Field}
-              normalize={(v) => !!v}
-            />
-          </div>
-          <Flex gap="4px" alignItems="center">
-            {OTHER_TYPES[otherOffersToString(key)][language]}
-          </Flex>
-        </label>
-      </Flex>
+      <Field
+        key={`otherOffers[${index}]`}
+        name={`otherOffers[${index}].checked`}
+        label={readmeIfy(OTHER_TYPES[otherOffersToString(key)][language])}
+        type="checkbox"
+        component={CheckBox.Field}
+        normalize={(v) => !!v}
+      />
     ))}
   </Flex>
 );
@@ -362,25 +350,19 @@ const CollaborationBox = ({
   fields,
   language,
 }: {
+  fields: any;
   language: string;
-} & FieldArrayProps): ReactNode => (
+}): ReactNode => (
   <Flex column className={styles.checkboxWrapper}>
     {fields.map((key, index) => (
-      <Flex key={key}>
-        <label className={styles.checkboxLabel}>
-          <div className={styles.checkboxField}>
-            <Field
-              key={`collaborations[${index}]`}
-              name={`collaborations[${index}].checked`}
-              component={CheckBox.Field}
-              normalize={(v) => !!v}
-            />
-          </div>
-          <Flex gap="4px" alignItems="center">
-            {COLLABORATION_TYPES[collaborationToString(key)][language]}
-          </Flex>
-        </label>
-      </Flex>
+      <Field
+        key={`collaborations[${index}]`}
+        name={`collaborations[${index}].checked`}
+        label={COLLABORATION_TYPES[collaborationToString(key)][language]}
+        type="checkbox"
+        component={CheckBox.Field}
+        normalize={(v) => !!v}
+      />
     ))}
   </Flex>
 );
@@ -433,7 +415,8 @@ type CompanyInterestFormEntity = {
   companyType: string;
   officeInTrondheim: boolean;
 };
-type Props = FormProps & {
+
+type Props = {
   allowedBdb: boolean;
   onSubmit: (
     arg0: CompanyInterestFormEntity,
@@ -462,7 +445,16 @@ type Props = FormProps & {
   companyPresentationComment: string;
   companyType: string;
   officeInTrondheim: boolean;
+  initialValues: any;
 };
+
+const validate = createValidator({
+  company: [required()],
+  contactPerson: [required()],
+  mail: [required(), isEmail()],
+  phone: [required()],
+  comment: [required()],
+});
 
 const CompanyInterestPage = (props: Props) => {
   if (props.edit && !props.companyInterest) {
@@ -483,7 +475,7 @@ const CompanyInterestPage = (props: Props) => {
       contactPerson: data.contactPerson,
       mail: data.mail,
       phone: data.phone,
-      officeInTrondheim: data.officeInTrondheim,
+      officeInTrondheim: data.officeInTrondheim === 'yes',
       semesters: data.semesters
         .filter((semester) => semester.checked)
         .map((semester) => semester.id),
@@ -533,18 +525,18 @@ const CompanyInterestPage = (props: Props) => {
   const labels = {
     mainHeading: {
       norwegian: 'Meld interesse',
-      english: 'Contact us',
+      english: 'Register interest',
     },
     subHeading: {
       norwegian:
-        'Dette skjemaet skal ikke brukes for annonser. For annonser, send epost til ',
+        'Dette skjemaet skal ikke brukes for annonser. For slikt, send en e-post til ',
       english:
-        'This form is not to be used for job listings. For such enquiries, send an email to ',
+        'This form is not to be used for job listings. For such enquiries, send an e-mail to ',
     },
     company: {
       header: {
         norwegian: 'Navn på bedrift',
-        english: 'Company',
+        english: 'Name of company',
       },
       placeholder: {
         norwegian: 'Bedriftsnavn',
@@ -552,13 +544,13 @@ const CompanyInterestPage = (props: Props) => {
       },
     },
     officeInTrondheim: {
-      norwegian: 'Har dere kontorer i Trondheim som egner seg for besøk?',
+      norwegian: 'Har dere kontorer i Trondheim egnet for besøk?',
       english: 'Do you have offices in Trondheim suited for visiting?',
     },
     contactPerson: {
       header: {
         norwegian: 'Kontaktperson',
-        english: 'Your contact person',
+        english: 'Contact person',
       },
       placeholder: {
         norwegian: 'Kari Nordmann',
@@ -566,8 +558,8 @@ const CompanyInterestPage = (props: Props) => {
       },
     },
     mail: {
-      norwegian: 'Mail',
-      english: 'E-Mail',
+      norwegian: 'E-post',
+      english: 'E-mail',
     },
     phone: {
       norwegian: 'Telefonnummer',
@@ -587,19 +579,19 @@ const CompanyInterestPage = (props: Props) => {
     },
     companyTypes: {
       norwegian: 'Bedriftstype',
-      english: 'Company Type',
+      english: 'Company type',
     },
     collaborations: {
       norwegian: 'Samarbeid',
-      english: 'Collaborations',
+      english: 'Collaboration',
     },
     targetGrades: {
       norwegian: 'Klassetrinn',
-      english: 'Target Grades',
+      english: 'Target grades',
     },
     companyCourseThemes: {
       norwegian: 'Temaer som er relevant for dere',
-      english: 'Topics relevant for you',
+      english: 'Topics that are relevant for you',
     },
     participantRange: {
       norwegian: 'Antall deltagere',
@@ -614,12 +606,12 @@ const CompanyInterestPage = (props: Props) => {
       english: 'Other comment',
     },
     create: {
-      norwegian: 'Opprett bedriftsinteresse',
-      english: 'Submit',
+      norwegian: 'Send bedriftsinteresse',
+      english: 'Submit interest',
     },
     eventDescriptionHeader: {
-      norwegian: 'Pitch/Forklar dine ønsker for arrangementet',
-      english: 'Pitch/Explain your wishes for the event',
+      norwegian: 'Pitch/forklar dine ønsker for arrangementet',
+      english: 'Pitch/explain your wishes for the event',
     },
     eventDescriptionIntro: {
       norwegian:
@@ -630,155 +622,139 @@ const CompanyInterestPage = (props: Props) => {
   };
   const { language } = props;
   const isEnglish = language === 'english';
-  const showCourseComment = props.interestForm.events?.some(
-    (e) => e.name === 'course' && e.checked === true
-  );
-  const showBreakfastTalkComment = props.interestForm.events?.some(
-    (e) => e.name === 'breakfast_talk' && e.checked === true
-  );
-  const showOtherEventComment = props.interestForm.events?.some(
-    (e) => e.name === 'other' && e.checked === true
-  );
-  const showStartupComment = props.interestForm.events?.some(
-    (e) => e.name === 'start_up' && e.checked === true
-  );
-  const showLunchPresentationComment = props.interestForm.events?.some(
-    (e) => e.name === 'lunch_presentation' && e.checked === true
-  );
-  const showCompanyToCompanyComment = props.interestForm.events?.some(
-    (e) => e.name === 'company_to_company' && e.checked === true
-  );
-  const showBedexComment = props.interestForm.events?.some(
-    (e) => e.name === 'bedex' && e.checked === true
-  );
-  const showCompanyPresentation = props.interestForm.events?.some(
-    (e) => e.name === 'company_presentation' && e.checked === true
-  );
 
   return (
     <Content>
-      <Form onSubmit={props.handleSubmit(onSubmit)}>
-        <FlexRow alignItems="center" justifyContent="space-between">
-          <h1 className={styles.mainHeading}>{labels.mainHeading[language]}</h1>
-          <Link
-            to={isEnglish ? '/interesse' : '/register-interest'}
-            style={{
-              display: props.edit ? 'none' : 'block',
-            }}
-          >
-            <LanguageFlag language={language} />
-          </Link>
-        </FlexRow>
-        <h5 className={styles.subHeading}>
-          <Flex alignItems="center">
-            <Icon name="warning" />
-            <span>
-              {labels.subHeading[language]}
-              <a href={'mailto:bedriftskontakt@abakus.no'}>
-                bedriftskontakt@abakus.no
-              </a>
-            </span>
-          </Flex>
-        </h5>
-        <Field
-          name="company"
-          label={labels.company.header[language]}
-          placeholder={labels.company.placeholder[language]}
-          filter={['companies.company']}
-          fieldClassName={styles.metaField}
-          component={withAutocomplete({
-            WrappedComponent: SelectInput.Field,
-            retainFailedQuery: true,
-          })}
-          required
-        />
-        <Field
-          label={labels.contactPerson.header[language]}
-          placeholder={labels.contactPerson.placeholder[language]}
-          name="contactPerson"
-          component={TextInput.Field}
-          required
-        />
-        <Field
-          label={labels.mail[language]}
-          placeholder="example@gmail.com"
-          name="mail"
-          component={TextInput.Field}
-          required
-        />
-        <Field
-          label={labels.phone[language]}
-          placeholder="+47 909 09 090"
-          name="phone"
-          component={TextInput.Field}
-          required
-        />
+      <Helmet title={isEnglish ? 'Company interest' : 'Bedriftsinteresse'} />
 
-        <Flex wrap justifyContent="space-between">
-          <Flex column className={styles.interestBox}>
-            <label htmlFor="companyType" className={styles.heading}>
-              {labels.companyTypes[language]}
-            </label>
-            <RadioButtonGroup name="companyType">
-              {Object.keys(COMPANY_TYPES).map((key, index) => (
-                <Field
-                  key={key}
-                  name={key}
-                  label={COMPANY_TYPES[key][language]}
-                  component={RadioButton.Field}
-                  inputValue={key}
-                />
-              ))}
-            </RadioButtonGroup>
-          </Flex>
-          <Flex column className={styles.interestBox}>
-            <label htmlFor="officeInTrondheim" className={styles.heading}>
-              {labels.officeInTrondheim[language]}
-            </label>
-            <RadioButtonGroup name="officeInTrondheim">
-              {Object.keys(OFFICE_IN_TRONDHEIM).map((key, index) => (
-                <Field
-                  key={key}
-                  name={key}
-                  label={OFFICE_IN_TRONDHEIM[key][language]}
-                  component={RadioButton.Field}
-                  inputValue={key === 'true'}
-                  normalize={(value) => value === 'true'}
-                />
-              ))}
-            </RadioButtonGroup>
-          </Flex>
-          <Flex column className={styles.interestBox}>
-            <label htmlFor="companyCourseThemes" className={styles.heading}>
-              <Flex alignItems="center" gap="5px">
-                {labels.companyCourseThemes[language]}
-                <Tooltip
-                  className={styles.tooltip}
-                  renderDirection="right"
-                  content={
-                    <span>
-                      {language === 'norwegian'
-                        ? 'Dette er temaer som studenter uttrykte interesse for å lære mer om i vår bedriftsundersøkelse. Er dette relevante temaer for deres bedrift dere kan være interessert i å avholde faglige arrangementer eller snakke om på deres presentasjoner? (Uforpliktende)'
-                        : 'These are topics that students expressed interest in learning more about in our company survey. Are these relevant topics for your company that you might be interested in arranging a course or workshop about or talk about in your presentations? (Non-binding'}
-                    </span>
-                  }
-                >
-                  <Icon name="information-circle-outline" />
-                </Tooltip>
+      <LegoFinalForm
+        onSubmit={onSubmit}
+        validate={validate}
+        initialValues={props.initialValues}
+        subscription={{}}
+        mutators={{
+          ...arrayMutators,
+        }}
+      >
+        {({ handleSubmit }) => (
+          <form onSubmit={handleSubmit}>
+            <FlexRow alignItems="center" justifyContent="space-between">
+              <h1>{labels.mainHeading[language]}</h1>
+              {!props.edit && (
+                <Link to={isEnglish ? '/interesse' : '/register-interest'}>
+                  <LanguageFlag language={language} />
+                </Link>
+              )}
+            </FlexRow>
+            <h5 className={styles.subHeading}>
+              <Flex alignItems="center" gap={5}>
+                <Icon name="warning" />
+                <span>
+                  {labels.subHeading[language]}
+                  <a href={'mailto:bedriftskontakt@abakus.no'}>
+                    bedriftskontakt@abakus.no
+                  </a>
+                </span>
               </Flex>
-            </label>
+            </h5>
 
-            <FieldArray
-              label="companyCourseThemes"
-              name="companyCourseThemes"
-              language={language}
-              component={SurveyOffersBox}
+            <Field
+              name="company"
+              label={labels.company.header[language]}
+              placeholder={labels.company.placeholder[language]}
+              filter={['companies.company']}
+              fieldClassName={styles.metaField}
+              component={SelectInput.AutocompleteField}
+              required
             />
-          </Flex>
-        </Flex>
-        <div className={styles.topline}>
-          {interestText.text.first[language]}
-          {/*
+            <Field
+              label={labels.contactPerson.header[language]}
+              placeholder={labels.contactPerson.placeholder[language]}
+              name="contactPerson"
+              component={TextInput.Field}
+              required
+            />
+            <Field
+              label={labels.mail[language]}
+              placeholder="example@gmail.com"
+              name="mail"
+              component={TextInput.Field}
+              required
+            />
+            <Field
+              label={labels.phone[language]}
+              placeholder="+47 909 09 090"
+              name="phone"
+              component={TextInput.Field}
+              required
+            />
+
+            <Flex wrap justifyContent="space-between">
+              <Flex column className={styles.interestBox}>
+                <label htmlFor="companyType" className={styles.heading}>
+                  {labels.companyTypes[language]}
+                </label>
+                <RadioButtonGroup name="companyType">
+                  {Object.keys(COMPANY_TYPES).map((key) => (
+                    <Field
+                      key={key}
+                      name={key}
+                      label={COMPANY_TYPES[key][language]}
+                      type="radio"
+                      component={RadioButton.Field}
+                      value={key}
+                    />
+                  ))}
+                </RadioButtonGroup>
+              </Flex>
+              <Flex column className={styles.interestBox}>
+                <label htmlFor="officeInTrondheim" className={styles.heading}>
+                  {labels.officeInTrondheim[language]}
+                </label>
+                <RadioButtonGroup name="officeInTrondheim">
+                  {Object.keys(OFFICE_IN_TRONDHEIM).map((key) => (
+                    <Field
+                      key={key}
+                      name={key}
+                      label={OFFICE_IN_TRONDHEIM[key][language]}
+                      type="radio"
+                      component={RadioButton.Field}
+                      value={key}
+                    />
+                  ))}
+                </RadioButtonGroup>
+              </Flex>
+              <Flex column className={styles.interestBox}>
+                <label htmlFor="companyCourseThemes" className={styles.heading}>
+                  <Flex alignItems="center" gap="5px">
+                    {labels.companyCourseThemes[language]}
+                    <Tooltip
+                      className={styles.tooltip}
+                      renderDirection="right"
+                      content={
+                        <span>
+                          {language === 'norwegian'
+                            ? 'Dette er temaer som studenter uttrykte interesse for å lære mer om i vår bedriftsundersøkelse. Er dette relevante temaer for deres bedrift dere kan være interessert i å avholde faglige arrangementer eller snakke om på deres presentasjoner? (Uforpliktende)'
+                            : 'These are topics that students expressed interest in learning more about in our company survey. Are these relevant topics for your company that you might be interested in arranging a course or workshop about or talk about in your presentations? (Non-binding'}
+                        </span>
+                      }
+                    >
+                      <Icon name="information-circle-outline" />
+                    </Tooltip>
+                  </Flex>
+                </label>
+
+                <FieldArray
+                  label="companyCourseThemes"
+                  name="companyCourseThemes"
+                  language={language}
+                  component={SurveyOffersBox}
+                />
+              </Flex>
+            </Flex>
+            <div className={styles.topline}>
+              {interestText.text.first[language]}
+              {/*
           <br />
           <br />
           {interestText.text.second[language]}
@@ -789,261 +765,330 @@ const CompanyInterestPage = (props: Props) => {
           <br />
           {interestText.anniversaryCollaboration[language]}
           */}
-          {/*           <br />
+              {/*           <br />
           <br />
           {interestText.revueCollaboration[language]}
  */}{' '}
-        </div>
+            </div>
 
-        <Field
-          placeholder={interestText.comment[language]}
-          name="comment"
-          component={TextEditor.Field}
-          rows={10}
-          className={styles.textEditor}
-          label={labels.comment[language]}
-          required
-        />
+            <Field
+              placeholder={interestText.comment[language]}
+              name="comment"
+              component={TextEditor.Field}
+              rows={10}
+              className={styles.textEditor}
+              label={labels.comment[language]}
+              required
+            />
 
-        <Flex wrap justifyContent="space-between">
-          <Flex column className={styles.interestBox}>
-            <label htmlFor="semesters" className={styles.heading}>
-              {labels.semester[language]}
-            </label>
-            <FieldArray
-              label="semesters"
-              name="semesters"
-              language={language}
-              component={SemesterBox}
-            />
-          </Flex>
-          <Flex column className={styles.interestBox}>
-            <label htmlFor="events" className={styles.heading}>
-              {labels.events[language]}
-            </label>
-            <FieldArray
-              name="events"
-              language={language}
-              component={EventBox}
-            />
-          </Flex>
-          <Flex column className={styles.interestBox}>
-            <label htmlFor="collaborations" className={styles.heading}>
-              {labels.collaborations[language]}
-            </label>
-            <FieldArray
-              name="collaborations"
-              language={language}
-              component={CollaborationBox}
-            />
-          </Flex>
-        </Flex>
-
-        <Flex wrap justifyContent="space-between">
-          <Flex column className={styles.interestBox}>
-            <label htmlFor="targetGrades" className={styles.heading}>
-              {labels.targetGrades[language]}
-            </label>
-            <FieldArray
-              name="targetGrades"
-              language={language}
-              component={TargetGradeBox}
-            />
-          </Flex>
-
-          <Flex column className={styles.interestBox}>
-            <label htmlFor="participantRange" className={styles.heading}>
-              {labels.participantRange[language]}
-            </label>
-            <RadioButtonGroup name="participantRange">
-              {Object.keys(PARTICIPANT_RANGE_TYPES).map((key, index) => (
-                <Field
-                  key={key}
-                  name={key}
-                  label={PARTICIPANT_RANGE_TYPES[key]}
-                  component={RadioButton.Field}
-                  inputValue={key}
+            <Flex wrap justifyContent="space-between">
+              <Flex column className={styles.interestBox}>
+                <label htmlFor="semesters" className={styles.heading}>
+                  {labels.semester[language]}
+                </label>
+                <FieldArray
+                  label="semesters"
+                  name="semesters"
+                  language={language}
+                  component={SemesterBox}
                 />
-              ))}
-            </RadioButtonGroup>
-          </Flex>
-          <Flex column className={styles.interestBox}>
-            <label htmlFor="otherOffers" className={styles.heading}>
-              {labels.otherOffers[language]}
-            </label>
-            <FieldArray
-              name="otherOffers"
-              language={language}
-              component={OtherBox}
-            />
-          </Flex>
-        </Flex>
-        <h3 className={styles.topline}>
-          {labels.eventDescriptionHeader[language]}
-        </h3>
-        <p>{labels.eventDescriptionIntro[language]}</p>
-        {showCompanyPresentation && (
-          <div className={styles.topline}>
-            <Flex alignItems="center" gap={1}>
-              <h4>{EVENT_TYPES.company_presentation[language]}</h4>
-              <p className={styles.label}>*</p>
-            </Flex>
-            <p>{interestText.companyPresentationDescription[language]}</p>
-            <Field
-              placeholder={interestText.companyPresentationComment[language]}
-              name="companyPresentationComment"
-              component={TextEditor.Field}
-              rows={10}
-              className={styles.textEditor}
-            />
-          </div>
-        )}
-        {showLunchPresentationComment && (
-          <div className={styles.topline}>
-            <Flex alignItems="center" gap={1}>
-              <h4>{EVENT_TYPES.lunch_presentation[language]}</h4>
-              <p className={styles.label}>*</p>
-            </Flex>
-            <p>{interestText.lunchPresentationDescriptiont[language]}</p>
-            <Field
-              placeholder={interestText.lunchPresentationComment[language]}
-              name="lunchPresentationComment"
-              component={TextEditor.Field}
-              rows={10}
-              className={styles.textEditor}
-            />
-          </div>
-        )}
-        {showCourseComment && (
-          <div className={styles.topline}>
-            <Flex alignItems="center" gap={1}>
-              <h4>{EVENT_TYPES.course[language]}</h4>
-              <p className={styles.label}>*</p>
-            </Flex>
-            <p>{interestText.courseDescription[language]}</p>
-            <Field
-              placeholder={interestText.courseComment[language]}
-              name="courseComment"
-              component={TextEditor.Field}
-              rows={10}
-              className={styles.textEditor}
-            />
-          </div>
-        )}
-
-        {showBreakfastTalkComment && (
-          <div className={styles.topline}>
-            <Flex alignItems="center" gap={1}>
-              <h4>{EVENT_TYPES.breakfast_talk[language]}</h4>
-              <p className={styles.label}>*</p>
-            </Flex>
-            <p>{interestText.breakfastTalkDescription[language]}</p>
-            <Field
-              placeholder={interestText.breakfastTalkComment[language]}
-              name="breakfastTalkComment"
-              component={TextEditor.Field}
-              rows={10}
-              className={styles.textEditor}
-            />
-          </div>
-        )}
-        {showBedexComment && (
-          <div className={styles.topline}>
-            <Flex alignItems="center" gap={1}>
-              <h4>{EVENT_TYPES.bedex[language]}</h4>
-              <p className={styles.label}>*</p>
-            </Flex>
-            <p>{interestText.bedexDescription[language]}</p>
-            <Field
-              placeholder={interestText.bedexComment[language]}
-              name="bedexComment"
-              component={TextEditor.Field}
-              rows={10}
-              className={styles.textEditor}
-            />
-          </div>
-        )}
-
-        {showOtherEventComment && (
-          <div className={styles.topline}>
-            <Flex alignItems="center" gap={1}>
-              <h4>{EVENT_TYPES.other[language]}</h4>
-              <p className={styles.label}>*</p>
-            </Flex>
-            <p>{interestText.otherEventDescription[language]}</p>
-            <Field
-              placeholder={interestText.otherEventComment[language]}
-              name="otherEventComment"
-              component={TextEditor.Field}
-              rows={10}
-              className={styles.textEditor}
-            />
-          </div>
-        )}
-
-        {showStartupComment && (
-          <div className={styles.topline}>
-            <Flex alignItems="center" gap={1}>
-              <h4>{EVENT_TYPES.start_up[language]}</h4>
-              <p className={styles.label}>*</p>
-            </Flex>
-            <p>{interestText.startUpDescription[language]}</p>
-            <Field
-              placeholder={interestText.startUpComment[language]}
-              name="startupComment"
-              component={TextEditor.Field}
-              rows={10}
-              className={styles.textEditor}
-            />
-          </div>
-        )}
-
-        {showCompanyToCompanyComment && (
-          <div className={styles.topline}>
-            <Flex alignItems="center" gap={1}>
-              <h4>{EVENT_TYPES.company_to_company[language]}</h4>
-              <p className={styles.label}>*</p>
+              </Flex>
+              <Flex column className={styles.interestBox}>
+                <label htmlFor="events" className={styles.heading}>
+                  {labels.events[language]}
+                </label>
+                <FieldArray
+                  name="events"
+                  language={language}
+                  component={EventBox}
+                />
+              </Flex>
+              <Flex column className={styles.interestBox}>
+                <label htmlFor="collaborations" className={styles.heading}>
+                  {labels.collaborations[language]}
+                </label>
+                <FieldArray
+                  name="collaborations"
+                  language={language}
+                  component={CollaborationBox}
+                />
+              </Flex>
             </Flex>
 
-            <p>{interestText.companyToCompanyDescription[language]}</p>
-            <Field
-              placeholder={interestText.companyToCompanyComment[language]}
-              name="companyToCompanyComment"
-              component={TextEditor.Field}
-              rows={10}
-              className={styles.textEditor}
-            />
-          </div>
+            <Flex wrap justifyContent="space-between">
+              <Flex column className={styles.interestBox}>
+                <label htmlFor="targetGrades" className={styles.heading}>
+                  {labels.targetGrades[language]}
+                </label>
+                <FieldArray
+                  name="targetGrades"
+                  language={language}
+                  component={TargetGradeBox}
+                />
+              </Flex>
+
+              <Flex column className={styles.interestBox}>
+                <label htmlFor="participantRange" className={styles.heading}>
+                  {labels.participantRange[language]}
+                </label>
+                <RadioButtonGroup name="participantRange">
+                  {Object.keys(PARTICIPANT_RANGE_TYPES).map((key) => (
+                    <Field
+                      key={key}
+                      name={key}
+                      label={PARTICIPANT_RANGE_TYPES[key]}
+                      type="radio"
+                      component={RadioButton.Field}
+                      value={key}
+                    />
+                  ))}
+                </RadioButtonGroup>
+              </Flex>
+              <Flex column className={styles.interestBox}>
+                <label htmlFor="otherOffers" className={styles.heading}>
+                  {labels.otherOffers[language]}
+                </label>
+                <FieldArray
+                  name="otherOffers"
+                  language={language}
+                  component={OtherBox}
+                />
+              </Flex>
+            </Flex>
+            <h3 className={styles.topline}>
+              {labels.eventDescriptionHeader[language]}
+            </h3>
+            <p>{labels.eventDescriptionIntro[language]}</p>
+
+            {spyValues((values: CompanyInterestFormEntity) => {
+              const showCompanyPresentation = values.events?.some(
+                (e) => e.name === 'company_presentation' && e.checked === true
+              );
+
+              return (
+                showCompanyPresentation && (
+                  <div className={styles.topline}>
+                    <Flex alignItems="center" gap={1}>
+                      <h4>{EVENT_TYPES.company_presentation[language]}</h4>
+                      <p className={styles.label}>*</p>
+                    </Flex>
+                    <p>
+                      {interestText.companyPresentationDescription[language]}
+                    </p>
+                    <Field
+                      placeholder={
+                        interestText.companyPresentationComment[language]
+                      }
+                      name="companyPresentationComment"
+                      component={TextEditor.Field}
+                      rows={10}
+                      className={styles.textEditor}
+                    />
+                  </div>
+                )
+              );
+            })}
+
+            {spyValues((values: CompanyInterestFormEntity) => {
+              const showLunchPresentationComment = values.events?.some(
+                (e) => e.name === 'lunch_presentation' && e.checked === true
+              );
+
+              return (
+                showLunchPresentationComment && (
+                  <div className={styles.topline}>
+                    <Flex alignItems="center" gap={1}>
+                      <h4>{EVENT_TYPES.lunch_presentation[language]}</h4>
+                      <p className={styles.label}>*</p>
+                    </Flex>
+                    <p>
+                      {interestText.lunchPresentationDescriptiont[language]}
+                    </p>
+                    <Field
+                      placeholder={
+                        interestText.lunchPresentationComment[language]
+                      }
+                      name="lunchPresentationComment"
+                      component={TextEditor.Field}
+                      rows={10}
+                      className={styles.textEditor}
+                    />
+                  </div>
+                )
+              );
+            })}
+
+            {spyValues((values: CompanyInterestFormEntity) => {
+              const showCourseComment = values.events?.some(
+                (e) => e.name === 'course' && e.checked === true
+              );
+
+              return (
+                showCourseComment && (
+                  <div className={styles.topline}>
+                    <Flex alignItems="center" gap={1}>
+                      <h4>{EVENT_TYPES.course[language]}</h4>
+                      <p className={styles.label}>*</p>
+                    </Flex>
+                    <p>{interestText.courseDescription[language]}</p>
+                    <Field
+                      placeholder={interestText.courseComment[language]}
+                      name="courseComment"
+                      component={TextEditor.Field}
+                      rows={10}
+                      className={styles.textEditor}
+                    />
+                  </div>
+                )
+              );
+            })}
+
+            {spyValues((values: CompanyInterestFormEntity) => {
+              const showBreakfastTalkComment = values.events?.some(
+                (e) => e.name === 'breakfast_talk' && e.checked === true
+              );
+
+              return (
+                showBreakfastTalkComment && (
+                  <div className={styles.topline}>
+                    <Flex alignItems="center" gap={1}>
+                      <h4>{EVENT_TYPES.breakfast_talk[language]}</h4>
+                      <p className={styles.label}>*</p>
+                    </Flex>
+                    <p>{interestText.breakfastTalkDescription[language]}</p>
+                    <Field
+                      placeholder={interestText.breakfastTalkComment[language]}
+                      name="breakfastTalkComment"
+                      component={TextEditor.Field}
+                      rows={10}
+                      className={styles.textEditor}
+                    />
+                  </div>
+                )
+              );
+            })}
+
+            {spyValues((values: CompanyInterestFormEntity) => {
+              const showBedexComment = values.events?.some(
+                (e) => e.name === 'bedex' && e.checked === true
+              );
+
+              return (
+                showBedexComment && (
+                  <div className={styles.topline}>
+                    <Flex alignItems="center" gap={1}>
+                      <h4>{EVENT_TYPES.bedex[language]}</h4>
+                      <p className={styles.label}>*</p>
+                    </Flex>
+                    <p>{interestText.bedexDescription[language]}</p>
+                    <Field
+                      placeholder={interestText.bedexComment[language]}
+                      name="bedexComment"
+                      component={TextEditor.Field}
+                      rows={10}
+                      className={styles.textEditor}
+                    />
+                  </div>
+                )
+              );
+            })}
+
+            {spyValues((values: CompanyInterestFormEntity) => {
+              const showOtherEventComment = values.events?.some(
+                (e) => e.name === 'other' && e.checked === true
+              );
+
+              return (
+                showOtherEventComment && (
+                  <div className={styles.topline}>
+                    <Flex alignItems="center" gap={1}>
+                      <h4>{EVENT_TYPES.other[language]}</h4>
+                      <p className={styles.label}>*</p>
+                    </Flex>
+                    <p>{interestText.otherEventDescription[language]}</p>
+                    <Field
+                      placeholder={interestText.otherEventComment[language]}
+                      name="otherEventComment"
+                      component={TextEditor.Field}
+                      rows={10}
+                      className={styles.textEditor}
+                    />
+                  </div>
+                )
+              );
+            })}
+
+            {spyValues((values: CompanyInterestFormEntity) => {
+              const showStartupComment = values.events?.some(
+                (e) => e.name === 'start_up' && e.checked === true
+              );
+
+              return (
+                showStartupComment && (
+                  <div className={styles.topline}>
+                    <Flex alignItems="center" gap={1}>
+                      <h4>{EVENT_TYPES.start_up[language]}</h4>
+                      <p className={styles.label}>*</p>
+                    </Flex>
+                    <p>{interestText.startUpDescription[language]}</p>
+                    <Field
+                      placeholder={interestText.startUpComment[language]}
+                      name="startupComment"
+                      component={TextEditor.Field}
+                      rows={10}
+                      className={styles.textEditor}
+                    />
+                  </div>
+                )
+              );
+            })}
+
+            {spyValues((values: CompanyInterestFormEntity) => {
+              const showCompanyToCompanyComment = values.events?.some(
+                (e) => e.name === 'company_to_company' && e.checked === true
+              );
+
+              return (
+                showCompanyToCompanyComment && (
+                  <div className={styles.topline}>
+                    <Flex alignItems="center" gap={1}>
+                      <h4>{EVENT_TYPES.company_to_company[language]}</h4>
+                      <p className={styles.label}>*</p>
+                    </Flex>
+
+                    <p>{interestText.companyToCompanyDescription[language]}</p>
+                    <Field
+                      placeholder={
+                        interestText.companyToCompanyComment[language]
+                      }
+                      name="companyToCompanyComment"
+                      component={TextEditor.Field}
+                      rows={10}
+                      className={styles.textEditor}
+                    />
+                  </div>
+                )
+              );
+            })}
+
+            <div className={styles.topline}>
+              <b>{interestText.priorityReasoningTitle[language]}</b>
+              <br />
+              {interestText.priorityReasoning[language]}
+            </div>
+
+            {spySubmittable((submittable) => (
+              <Button success={props.edit} disabled={!submittable} submit>
+                {props.edit
+                  ? 'Oppdater bedriftsinteresse'
+                  : labels.create[language]}
+              </Button>
+            ))}
+          </form>
         )}
-
-        <div className={styles.topline}>
-          <b>{interestText.priorityReasoningTitle[language]}</b>
-          <br />
-          {interestText.priorityReasoning[language]}
-        </div>
-
-        <Flex column className={styles.content}>
-          <Button success={props.edit} type="submit" submit>
-            {props.edit
-              ? 'Oppdater bedriftsinteresse'
-              : labels.create[language]}
-          </Button>
-        </Flex>
-      </Form>
+      </LegoFinalForm>
     </Content>
   );
 };
 
-const validate = createValidator({
-  company: [required()],
-  contactPerson: [required()],
-  mail: [required(), isEmail()],
-  phone: [required()],
-  comment: [required()],
-});
-export default reduxForm({
-  form: 'CompanyInterestForm',
-  validate,
-  enableReinitialize: true,
-  keepDirtyOnReinitialize: true,
-})(CompanyInterestPage);
+export default CompanyInterestPage;

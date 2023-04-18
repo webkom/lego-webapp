@@ -1,13 +1,16 @@
 import { push } from 'connected-react-router';
 import callAPI from 'app/actions/callAPI';
 import { groupSchema, membershipSchema } from 'app/reducers';
+import type MembershipType from 'app/store/models/Membership';
+import type { ID } from 'app/store/models/index';
 import type { Thunk } from 'app/types';
+import type { RoleType } from 'app/utils/constants';
 import { Group, Membership } from './ActionTypes';
 
 export type AddMemberArgs = {
-  groupId: number;
-  userId: number;
-  role: string;
+  groupId: ID;
+  userId: ID;
+  role: RoleType;
 };
 export function addMember({
   groupId,
@@ -30,7 +33,7 @@ export function addMember({
     },
   });
 }
-export function removeMember(membership: Record<string, any>): Thunk<any> {
+export function removeMember(membership: MembershipType): Thunk<any> {
   return callAPI({
     types: Membership.REMOVE,
     endpoint: `/groups/${membership.abakusGroup}/memberships/${membership.id}/`,

@@ -2,7 +2,7 @@
   position: relative;
   height: 29px;
   width: 54px;
-  border-radius: 1rem;
+  border-radius: var(--border-radius-lg);
   background-color: var(--additive-background);
   border: 0 solid var(--color-red-4);
   color: var(--color-gray-6);

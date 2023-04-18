@@ -9,6 +9,8 @@ import {
 import { objectPermissionsToInitialValues } from 'app/components/Form/ObjectPermissions';
 import { LoginPage } from 'app/components/LoginForm';
 import { selectArticleById } from 'app/reducers/articles';
+import { selectCurrentUser } from 'app/reducers/auth';
+import { selectUserById } from 'app/reducers/users';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
@@ -19,13 +21,26 @@ const mapStateToProps = (state, props) => {
   const article = selectArticleById(state, {
     articleId,
   });
+
+  const currentUser = selectCurrentUser(state);
+  const authors = article?.authors?.length
+    ? article.authors.map((e) => selectUserById(state, { userId: e }))
+    : [currentUser];
+
   return {
     article,
     articleId,
     isNew: false,
     initialValues: {
       ...article,
-      ...objectPermissionsToInitialValues(article),
+      ...objectPermissionsToInitialValues({
+        canViewGroups: article.canViewGroups,
+        canEditGroups: article.canEditGroups,
+        canEditUsers: article.canEditUsers,
+      }),
+      authors: authors
+        .filter(Boolean)
+        .map((user) => ({ user, label: user.fullName, value: user.id })),
       tags: (article.tags || []).map((tag) => ({
         label: tag,
         value: tag,

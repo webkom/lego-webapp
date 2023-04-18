@@ -1,4 +1,4 @@
-import { push } from 'connected-react-router';
+import { replace } from 'connected-react-router';
 import qs from 'qs';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -15,6 +15,7 @@ import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import CompanyInterestList from './components/CompanyInterestList';
+import { EVENT_TYPE_OPTIONS } from './components/CompanyInterestPage';
 import { semesterToText } from './utils';
 
 const mapStateToProps = (state, props) => {
@@ -27,7 +28,10 @@ const mapStateToProps = (state, props) => {
   const semesterObj: CompanySemesterEntity | null | undefined = semesters.find(
     (semester) => semester.id === semesterId
   );
-  const selectedOption = {
+  const eventValue = qs.parse(props.location.search, {
+    ignoreQueryPrefix: true,
+  }).event;
+  const selectedSemesterOption = {
     id: semesterId ? semesterId : 0,
     semester: semesterObj != null ? semesterObj.semester : '',
     year: semesterObj != null ? semesterObj.year : '',
@@ -40,18 +44,29 @@ const mapStateToProps = (state, props) => {
           })
         : 'Vis alle semestre',
   };
+  const selectedEventOption = {
+    value: eventValue ? eventValue : '',
+    label: eventValue
+      ? EVENT_TYPE_OPTIONS.find((eventType) => eventType.value === eventValue)
+          .label
+      : 'Vis alle arrangementstyper',
+  };
   const companyInterestList = selectCompanyInterestList(
     state,
-    selectedOption.id
+    selectedSemesterOption.id,
+    selectedEventOption.value
   );
   const hasMore = state.companyInterest.hasMore;
   const fetching = state.companyInterest.fetching;
+
   return {
     semesters,
     companyInterestList,
     hasMore,
     fetching,
-    selectedOption,
+    selectedSemesterOption,
+    selectedEventOption,
+    authToken: state.auth.token,
   };
 };
 
@@ -59,7 +74,7 @@ const mapDispatchToProps = {
   fetchAll,
   deleteCompanyInterest,
   fetch,
-  push,
+  replace,
 };
 export default compose(
   replaceUnlessLoggedIn(LoginPage),

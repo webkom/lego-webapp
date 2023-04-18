@@ -71,6 +71,7 @@ class GroupChange extends Component<Props, State> {
           isClearable={false}
           theme={selectTheme}
           styles={selectStyles}
+          instanceId="profile-group"
         />
         {this.state.selectedOption && (
           <Button onClick={this.handleOnClick} success>

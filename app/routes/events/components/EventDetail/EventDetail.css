@@ -18,6 +18,10 @@
   cursor: pointer;
 }
 
+.tagRow {
+  margin-top: 16px;
+}
+
 .paymentInfo {
   margin-top: 10px;
 }
@@ -48,11 +52,6 @@
   flex-wrap: wrap;
   gap: 10px;
   align-items: center;
-  margin-bottom: 10px;
-}
-
-.registeredBox {
-  margin-top: 1em;
 }
 
 .mapButton {

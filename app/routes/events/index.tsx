@@ -57,7 +57,7 @@ const eventRoute = ({
         />
         <RouteWrapper
           exact
-          path={`${match.path}/:eventId`}
+          path={`${match.path}/:eventIdOrSlug`}
           passedProps={{
             currentUser,
             loggedIn,
@@ -65,7 +65,7 @@ const eventRoute = ({
           Component={DetailRoute}
         />
         <RouteWrapper
-          path={`${match.path}/:eventId/edit`}
+          path={`${match.path}/:eventIdOrSlug/edit`}
           passedProps={{
             currentUser,
             loggedIn,
@@ -81,51 +81,60 @@ const eventRoute = ({
                 loggedIn,
               }}
             >
-              <RouteWrapper
-                exact
-                path={`${match.path}/attendees`}
-                Component={EventAttendeeRoute}
-                passedProps={{
-                  currentUser,
-                  loggedIn,
-                }}
-              />
-              <RouteWrapper
-                exact
-                path={`${match.path}/allergies`}
-                Component={EventAllergiesRoute}
-                passedProps={{
-                  currentUser,
-                  loggedIn,
-                }}
-              />
-              <RouteWrapper
-                exact
-                path={`${match.path}/statistics`}
-                Component={EventStatistics}
-                passedProps={{
-                  currentUser,
-                  loggedIn,
-                }}
-              />
-              <RouteWrapper
-                exact
-                path={`${match.path}/admin-register`}
-                Component={EventAdminRegisterRoute}
-                passedProps={{
-                  currentUser,
-                  loggedIn,
-                }}
-              />
-              <RouteWrapper
-                exact
-                path={`${match.path}/abacard`}
-                Component={EventAbacardRoute}
-                passedProps={{
-                  currentUser,
-                  loggedIn,
-                }}
-              />
+              {(props) => (
+                <>
+                  <RouteWrapper
+                    exact
+                    path={`${match.path}/attendees`}
+                    Component={EventAttendeeRoute}
+                    passedProps={{
+                      currentUser,
+                      loggedIn,
+                      ...props,
+                    }}
+                  />
+                  <RouteWrapper
+                    exact
+                    path={`${match.path}/allergies`}
+                    Component={EventAllergiesRoute}
+                    passedProps={{
+                      currentUser,
+                      loggedIn,
+                      ...props,
+                    }}
+                  />
+                  <RouteWrapper
+                    exact
+                    path={`${match.path}/statistics`}
+                    Component={EventStatistics}
+                    passedProps={{
+                      currentUser,
+                      loggedIn,
+                      ...props,
+                    }}
+                  />
+                  <RouteWrapper
+                    exact
+                    path={`${match.path}/admin-register`}
+                    Component={EventAdminRegisterRoute}
+                    passedProps={{
+                      currentUser,
+                      loggedIn,
+                      ...props,
+                    }}
+                  />
+                  <RouteWrapper
+                    exact
+                    path={`${match.path}/abacard`}
+                    Component={EventAbacardRoute}
+                    passedProps={{
+                      currentUser,
+                      loggedIn,
+                      ...props,
+                    }}
+                  />
+                </>
+              )}
             </EventAdministrateRoute>
           )}
         </Route>

@@ -4,15 +4,15 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Button from 'app/components/Button';
 import { TextInput } from 'app/components/Form';
-import Icon from 'app/components/Icon';
 import { ProfilePicture } from 'app/components/Image';
 import Flex from 'app/components/Layout/Flex';
-import type { ID, User } from 'app/models';
+import type { ID } from 'app/store/models';
+import type { PublicUser } from 'app/store/models/User';
 import styles from './AttendanceModal.css';
 
 export type Registration = {
   id: ID;
-  user: User;
+  user: PublicUser;
 };
 
 export type Pool = {
@@ -23,7 +23,7 @@ export type Pool = {
 type Props = {
   pools: Pool[];
   title: string;
-  togglePool: (arg0: number) => void;
+  togglePool: (index: number) => void;
   selectedPool: number;
   isMeeting?: boolean;
 };
@@ -93,14 +93,12 @@ const AttendanceModal = ({
       className={styles.modal}
     >
       <h2>{title}</h2>
-      <Flex alignItems="center" className={styles.search}>
-        <Icon name="search" size={16} />
-        <TextInput
-          type="text"
-          placeholder="Søk etter navn"
-          onChange={(e) => setFilter(e.target.value)}
-        />
-      </Flex>
+      <TextInput
+        type="text"
+        prefix="search"
+        placeholder="Søk etter navn"
+        onChange={(e) => setFilter(e.target.value)}
+      />
 
       <ul className={styles.list}>
         {registrations?.map((registration) => (

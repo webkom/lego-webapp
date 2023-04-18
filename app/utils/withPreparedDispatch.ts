@@ -5,10 +5,7 @@ import type { AppDispatch } from 'app/store/createStore';
 import type { PreparedEffectOptions } from '@webkom/react-prepare';
 import type { DependencyList } from 'react';
 
-const mapDispatch = (dispatch) => ({ dispatch });
-const mapState = () => ({});
-const injectDispatch = connect(mapState, mapDispatch);
-
+const mapDispatch = (dispatch: AppDispatch) => ({ dispatch });
 /**
  * A higher order component that calls prepareFn
  * whenever one of the given watchProps change.
@@ -26,7 +23,7 @@ const withPreparedDispatch = <P>(
   options?: PreparedEffectOptions
 ) =>
   compose(
-    injectDispatch,
+    connect(undefined, mapDispatch),
     withPreparedEffect<P & { dispatch: AppDispatch }>(
       key,
       (props) => prepareDispatchFn(props, props.dispatch),

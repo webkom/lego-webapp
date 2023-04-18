@@ -10,7 +10,7 @@ interface CompleteArticle {
   title: string;
   cover: string;
   coverPlaceholder: string;
-  author: ID;
+  authors: Array<ID>;
   description: string;
   comments: ID[];
   contentTarget: ContentTarget;
@@ -18,7 +18,7 @@ interface CompleteArticle {
   content: string;
   createdAt: Dateish;
   pinned: boolean;
-  reactionsGrouped?: ReactionsGrouped;
+  reactionsGrouped?: ReactionsGrouped[];
   youtubeUrl: string;
 }
 
@@ -28,7 +28,7 @@ export type DetailedArticle = Pick<
   | 'title'
   | 'cover'
   | 'coverPlaceholder'
-  | 'author'
+  | 'authors'
   | 'description'
   | 'comments'
   | 'contentTarget'
@@ -54,7 +54,7 @@ export type PublicArticle = Pick<
   | 'title'
   | 'cover'
   | 'coverPlaceholder'
-  | 'author'
+  | 'authors'
   | 'description'
   | 'tags'
   | 'createdAt'

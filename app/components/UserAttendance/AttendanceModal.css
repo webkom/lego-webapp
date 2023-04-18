@@ -6,44 +6,6 @@
   }
 }
 
-.search {
-  width: 60%;
-  height: 35px;
-  padding: 10px;
-  border: 1px solid var(--border-gray);
-  border-radius: 5px;
-  color: var(--color-gray-5);
-
-  &:focus-within {
-    border-color: var(--color-gray-4);
-  }
-}
-
-/* Search icon */
-.search > div {
-  color: var(--color-gray-4);
-}
-
-.search input {
-  border: none;
-  outline: none;
-  box-shadow: none;
-  font-size: 0.9rem;
-
-  &:focus {
-    border: none;
-    box-shadow: none;
-  }
-
-  &::placeholder {
-    color: var(--color-gray-4);
-  }
-}
-
-html[data-theme='dark'] .search input {
-  background: none;
-}
-
 .list {
   position: relative;
   width: 100%;
@@ -109,7 +71,7 @@ html[data-theme='dark'] .search input {
   margin: 5px auto;
   height: 40px;
   border: 1px solid var(--border-gray);
-  border-radius: 5px;
+  border-radius: var(--border-radius-md);
   font-size: 0.9rem;
 }
 

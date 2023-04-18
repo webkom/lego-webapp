@@ -70,6 +70,7 @@ export const selectUserById = createSelector(
   (state, props) => props.userId,
   (usersById, userId) => usersById[userId] || {}
 );
+
 export const selectUserByUsername = createSelector(
   (state) => state.users.byId,
   (state, props) => props.username,

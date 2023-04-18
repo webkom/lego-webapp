@@ -1,7 +1,7 @@
 import loadable from '@loadable/component';
 import Bar from '@webkom/react-meter-bar';
+import '@webkom/react-meter-bar/style.css';
 import moment from 'moment-timezone';
-import '@webkom/react-meter-bar/dist/Bar.css';
 import type { UserEntity } from 'app/reducers/users';
 import styles from './PasswordStrengthMeter.css';
 import {
@@ -84,7 +84,7 @@ const PasswordStrengthBar = ({ strengthScore }: { strengthScore: number }) => {
         labelColor="#000"
         progress={strengthScore * 25}
         barColor={barColor[strengthScore]}
-        seperatorColor="#fff"
+        separatorColor="#fff"
       />
     </div>
   );

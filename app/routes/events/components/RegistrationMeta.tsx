@@ -1,3 +1,4 @@
+import Flex from 'app/components/Layout/Flex';
 import type {
   EventRegistrationPresence,
   EventRegistrationPaymentStatus,
@@ -248,7 +249,7 @@ const RegistrationMeta = ({
   photoConsents,
   eventSemester,
 }: Props) => (
-  <>
+  <Flex column gap={5}>
     {!registration && hasOpened && (
       <div>
         <i className="fa fa-times-circle" /> Du {hasEnded ? 'var' : 'er'} ikke
@@ -290,7 +291,7 @@ const RegistrationMeta = ({
       photoConsents={photoConsents}
       eventSemester={eventSemester}
     />
-  </>
+  </Flex>
 );
 
 export default RegistrationMeta;

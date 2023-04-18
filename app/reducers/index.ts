@@ -34,12 +34,11 @@ export const eventAdministrateSchema = new schema.Entity('events', {
   unregistered: [registrationSchema],
   waitingRegistrations: [registrationSchema],
 });
-export const reactionSchema = new schema.Entity('reactions');
 export const articleSchema = new schema.Entity('articles', {
   comments: [commentSchema],
-  reactions: [reactionSchema],
-  author: userSchema,
+  authors: [userSchema],
 });
+
 export const galleryPictureSchema = new schema.Entity('galleryPictures', {
   comments: [commentSchema],
 });

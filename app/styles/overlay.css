@@ -3,7 +3,7 @@
 .content {
   composes: popover from '~app/styles/utilities.css';
   background: var(--lego-card-color);
-  border-radius: 1rem;
+  border-radius: var(--border-radius-lg);
   position: absolute;
   margin-top: 10px;
   z-index: 2;
@@ -12,7 +12,7 @@
     width: calc(100% - 10px);
   }
 
-  h2 {
+  & h2 {
     margin: 0;
     font-size: 1.2rem;
   }

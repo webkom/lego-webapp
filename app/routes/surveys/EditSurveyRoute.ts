@@ -1,8 +1,8 @@
 import { push } from 'connected-react-router';
+import moment from 'moment-timezone';
 import qs from 'qs';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { formValueSelector } from 'redux-form';
 import {
   editSurvey,
   fetchSurvey,
@@ -54,7 +54,7 @@ const mapStateToProps = (state, props) => {
         ...template,
         title: survey.title || template.title,
         event: initialEvent,
-        activeFrom: survey.event && survey.event.endTime,
+        activeFrom: moment(survey.event?.endTime),
       };
     } else {
       initialValues = {
@@ -80,7 +80,6 @@ const mapStateToProps = (state, props) => {
   const surveyToSend = template
     ? { ...survey, questions: template.questions }
     : survey;
-  const formSelector = formValueSelector('surveyEditor');
   return {
     survey: surveyToSend,
     surveyId,
@@ -89,7 +88,6 @@ const mapStateToProps = (state, props) => {
     selectedTemplateType: templateType,
     initialValues,
     notFetching,
-    activeFrom: formSelector(state, 'activeFrom'),
   };
 };
 

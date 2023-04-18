@@ -1,4 +1,6 @@
 import type Comment from 'app/store/models/Comment';
+import type { RoleType } from 'app/utils/constants';
+import type { ReactionsGrouped } from './store/models/Reaction';
 import type { Moment } from 'moment';
 // TODO: Id handling could be opaque
 export type ID = number;
@@ -40,14 +42,14 @@ export type EventSemester = {
 
 export type GroupMembership = {
   user: User;
-  role: string;
+  role: RoleType;
 };
 
 export type UserMembership = {
   id: ID;
   user: User;
   abakusGroup: ID;
-  role: string;
+  role: RoleType;
   isActive: boolean;
   emailListsEnabled: boolean;
   createdAt: Dateish;
@@ -242,6 +244,7 @@ export type Event = EventBase & {
   totalCapacity: number;
   thumbnail: string | null | undefined;
   company: Company;
+  spotsLeft: number;
   comments: Comment[];
   contentTarget: string;
   pools: Array<EventPool>;
@@ -318,6 +321,7 @@ export type Meeting = {
   comments?: ID[];
   contentTarget?: string;
   actionGrant?: ActionGrant;
+  reactionsGrouped?: ReactionsGrouped;
 };
 
 export type AddPenalty = {

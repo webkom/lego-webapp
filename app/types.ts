@@ -1,4 +1,5 @@
 import type { RootState } from 'app/store/createRootReducer';
+import type { ID } from './models';
 import type { ThunkAction } from '@reduxjs/toolkit';
 import type { JwtPayload } from 'jwt-decode';
 
@@ -12,7 +13,7 @@ export type EntityID = number;
 export type ArticleEntity = {
   id: EntityID;
   title: string;
-  author: number;
+  authors: Array<ID>;
   content: string;
   tags: Array<string>;
   cover: string;

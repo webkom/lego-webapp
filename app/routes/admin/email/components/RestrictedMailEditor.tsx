@@ -143,7 +143,7 @@ const RestrictedMailEditor = ({
         disabled={restrictedMailId}
         label="Epost addresser"
         name="rawAddresses"
-        placeholder="Enkelte eposter du ønsker å sende til"
+        placeholder="Enkelte e-poster du ønsker å sende til"
         component={SelectInput.Field}
         tags
         isMulti

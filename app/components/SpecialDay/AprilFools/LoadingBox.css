@@ -58,7 +58,7 @@
   margin: 25px auto;
   background: #fff;
   border: 0;
-  border-radius: 15px;
+  border-radius: var(--border-radius-lg);
   width: 70%;
 }
 
@@ -71,7 +71,7 @@
   float: left;
   position: relative;
   min-width: 20px;
-  border-radius: 15px;
+  border-radius: var(--border-radius-lg);
 }
 
 .progressBar .clear {
@@ -97,7 +97,7 @@
 .dot {
   height: 10px;
   width: 10px;
-  background-color: #e20d13;
+  background-color: var(--lego-red-color);
   border-radius: 50%;
   display: inline-block;
   margin-right: 6px;
@@ -120,7 +120,7 @@
   font-weight: bold;
 }
 
-@media only screen and (max-width: 500px) {
+@media only screen and (width <= 500px) {
   .whatIsThis {
     font-size: 0.9rem;
   }
@@ -135,7 +135,7 @@
   }
 }
 
-@media only screen and (max-width: 400px) {
+@media only screen and (width <= 400px) {
   .contentContainer {
     font-size: 0.75rem;
   }

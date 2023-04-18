@@ -32,7 +32,6 @@ a {
   /* Wrap Links */
   overflow-wrap: break-word;
   word-wrap: break-word;
-  word-break: break-all;
   word-break: break-word;
   hyphens: auto;
 }
@@ -50,6 +49,11 @@ ul {
 h1 {
   font-size: 30px;
   margin: 15px 0;
+}
+
+h2,
+h3 {
+  margin: 10px 0;
 }
 
 h1,

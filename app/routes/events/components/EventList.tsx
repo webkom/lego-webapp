@@ -31,9 +31,9 @@ const groupEvents = ({
 }): GroupedEvents => {
   const nextWeek = moment().add(1, 'week');
   const groups = {
-    currentWeek: (event) => event[field].isSame(moment(), 'week'),
-    nextWeek: (event) => event[field].isSame(nextWeek, 'week'),
-    later: (event) => event[field].isAfter(nextWeek),
+    currentWeek: (event) => moment(event[field]).isSame(moment(), 'week'),
+    nextWeek: (event) => moment(event[field]).isSame(nextWeek, 'week'),
+    later: (event) => moment(event[field]).isAfter(nextWeek),
   };
   return events.reduce((result, event) => {
     for (const groupName in groups) {
@@ -180,6 +180,7 @@ class EventList extends Component<EventListProps, State> {
           return showSocial;
 
         case 'other':
+        case 'kid_event':
           return showOther;
 
         default:

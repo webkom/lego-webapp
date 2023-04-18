@@ -7,7 +7,6 @@ import { reduxForm, Field, SubmissionError } from 'redux-form';
 import Button from 'app/components/Button';
 import Card from 'app/components/Card';
 import { Form, Captcha, TextInput } from 'app/components/Form';
-import formStyles from 'app/components/Form/Field.css';
 import Icon from 'app/components/Icon';
 import { Flex } from 'app/components/Layout';
 import LoadingIndicator, { ProgressBar } from 'app/components/LoadingIndicator';
@@ -18,6 +17,8 @@ import type {
   User,
   EventRegistration,
   EventRegistrationStatus,
+  Penalty,
+  Event,
 } from 'app/models';
 import { selectPenaltyByUserId } from 'app/reducers/penalties';
 import { selectUserByUsername } from 'app/reducers/users';
@@ -35,7 +36,6 @@ import styles from './Event.css';
 import withCountdown from './JoinEventFormCountdownProvider';
 import PaymentRequestForm from './StripeElement';
 
-type Event = Record<string, any>;
 export type Props = {
   title?: string;
   event: Event;
@@ -55,7 +55,7 @@ export type Props = {
   captchaOpen: boolean;
   buttonOpen: boolean;
   registrationOpensIn: string | null | undefined;
-  penalties: Array<Record<string, any>>;
+  penalties: Penalty[];
   touch: (field: string) => void;
 };
 type SpotsLeftProps = {
@@ -160,7 +160,7 @@ const PaymentForm = ({
   currentUser,
   registration,
 }: {
-  createPaymentIntent: () => Promise<any>;
+  createPaymentIntent: () => Promise<void>;
   event: Event;
   currentUser: User;
   registration: EventRegistration;
@@ -345,9 +345,7 @@ const JoinEventForm = (props: Props) => {
           <>
             {!formOpen && event.activationTime && (
               <div>
-                {new Date(event.activationTime) < new Date()
-                  ? 'Åpnet '
-                  : 'Åpner '}
+                {moment(event.activationTime) < moment() ? 'Åpnet ' : 'Åpner '}
                 <Time time={event.activationTime} format="nowToTimeInWords" />
               </div>
             )}
@@ -355,9 +353,9 @@ const JoinEventForm = (props: Props) => {
               <div>Du kan ikke melde deg på dette arrangementet.</div>
             )}
             {sumPenalties(penalties) > 0 && event.heedPenalties && (
-              <div className={styles.eventWarning}>
+              <Card danger>
+                <Card.Header>NB!</Card.Header>
                 <p>
-                  NB!{' '}
                   {sumPenalties(penalties) > 2
                     ? `Du blir lagt rett på venteliste hvis du melder deg på`
                     : `Påmeldingen din er forskjøvet
@@ -368,13 +366,13 @@ const JoinEventForm = (props: Props) => {
                 <Link to="/pages/arrangementer/26-arrangementsregler">
                   Les mer om prikker her
                 </Link>
-              </div>
+              </Card>
             )}
             {!disabledForUser &&
               event.useContactTracing &&
               !currentUser.phoneNumber && (
-                <div className={styles.eventWarning}>
-                  <p>NB!</p>
+                <Card danger>
+                  <Card.Header>NB!</Card.Header>
                   <p>
                     Du må legge til telefonnummer for å melde deg på dette
                     arrangementet.
@@ -382,20 +380,20 @@ const JoinEventForm = (props: Props) => {
                   <Link to={`/users/me/settings/profile`}>
                     Gå til innstillinger
                   </Link>
-                </div>
+                </Card>
               )}
             {!disabledForUser &&
               event.useConsent &&
               !hasRegisteredConsentForSemester && (
-                <div className={styles.eventWarning}>
-                  <p>NB!</p>
+                <Card>
+                  <Card.Header>NB!</Card.Header>
                   <p>
                     Du må ta stilling til bildesamtykke for semesteret{' '}
                     {toReadableSemester(eventSemester)} for å melde deg på dette
                     arrangement.
                   </p>
                   <Link to={`/users/me/`}>Gå til min profil</Link>
-                </div>
+                </Card>
               )}
             {formOpen &&
               hasRegisteredConsentIfRequired &&
@@ -466,12 +464,9 @@ const JoinEventForm = (props: Props) => {
                     )}
                   </Form>
 
-                  <label className={formStyles.label} htmlFor={feedbackName}>
-                    {feedbackLabel}
-                  </label>
                   <Flex
                     style={{
-                      marginBottom: '20px',
+                      margin: '20px 0',
                     }}
                   >
                     <Field
@@ -479,9 +474,8 @@ const JoinEventForm = (props: Props) => {
                       placeholder="Melding til arrangør"
                       name={feedbackName}
                       component={TextInput.Field}
-                      labelClassName={styles.feedbackLabel}
+                      label={feedbackLabel}
                       className={styles.feedbackText}
-                      fieldClassName={styles.feedbackField}
                       rows={1}
                     />
                     {registration && (

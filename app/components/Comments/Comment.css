@@ -3,7 +3,7 @@
 .container {
   background-color: var(--lego-card-color);
   box-shadow: var(--shadow-sm);
-  border-radius: 1rem;
+  border-radius: var(--border-radius-lg);
   margin-bottom: 15px;
   padding: 25px;
   align-items: center;

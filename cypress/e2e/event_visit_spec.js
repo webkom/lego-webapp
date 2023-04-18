@@ -59,7 +59,7 @@ describe('View event', () => {
       .click()
       .wait(100);
     cy.contains('button', 'Kommenter').should('be.disabled');
-    cy.focused().type('This event will be awesome');
+    cy.focused().click().type('This event will be awesome');
     cy.contains('button', 'Kommenter').should('not.be.disabled').click();
 
     // We should see the comment and be able to delete it
@@ -83,7 +83,7 @@ describe('View event', () => {
       .click()
       .wait(100);
     cy.contains('button', 'Kommenter').should('be.disabled');
-    cy.focused().type('This is the top comment');
+    cy.focused().click().type('This is the top comment');
     cy.contains('button', 'Kommenter').should('not.be.disabled').click();
 
     cy.get(c('Comment__comment')).last().contains('This is the top comment');

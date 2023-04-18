@@ -1,15 +1,16 @@
-import { Component } from 'react';
+import arrayMutators from 'final-form-arrays';
+import { Field } from 'react-final-form';
+import { FieldArray } from 'react-final-form-arrays';
 import { Helmet } from 'react-helmet-async';
-import { Form, Field, FieldArray } from 'redux-form';
 import Button from 'app/components/Button';
 import { Content } from 'app/components/Content';
 import {
   TextInput,
   SelectInput,
   TextArea,
-  legoForm,
   CheckBox,
 } from 'app/components/Form';
+import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import Icon from 'app/components/Icon';
 import Flex from 'app/components/Layout/Flex';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
@@ -17,22 +18,16 @@ import NavigationTab from 'app/components/NavigationTab';
 import Tooltip from 'app/components/Tooltip';
 import type { ID } from 'app/models';
 import type { PollEntity } from 'app/reducers/polls';
+import { createValidator, required } from 'app/utils/validation';
 import styles from './PollEditor.css';
 import type { ReactNode } from 'react';
-import type {
-  fieldArrayMetaPropTypes,
-  fieldArrayFieldsPropTypes,
-} from 'redux-form';
 
 const keyCodes = {
   enter: 13,
   space: 32,
 };
 type Props = {
-  pristine: boolean;
-  submitting: boolean;
   editOrCreatePoll: (arg0: PollEntity) => Promise<any>;
-  handleSubmit: (arg0: Record<string, any>) => Promise<any>;
   //TODO add reduxForm typing
   editing: boolean;
   initialValues: PollEntity;
@@ -40,24 +35,22 @@ type Props = {
   deletePoll: () => Promise<any>;
   toggleEdit: () => void;
 };
-type FieldArrayPropTypes = {
-  fields: fieldArrayFieldsPropTypes;
-  meta: fieldArrayMetaPropTypes;
-};
 
-const renderOptions = ({
-  fields,
-  meta: { touched, error },
-}: FieldArrayPropTypes): ReactNode => (
+const renderOptions = ({ fields }: any): ReactNode => (
   <div>
     <ul className={styles.options}>
-      {fields.map((option, i) => (
+      {fields.map((option: string, i: number) => (
         <li className={styles.optionField} key={i}>
           <Field
             name={`${option}.name`}
             label={`Valg nr. ${i + 1}`}
             placeholder={`Valg ${i + 1}`}
             component={TextInput.Field}
+            validate={(value) =>
+              value && value.length > 0
+                ? undefined
+                : 'Alle alternativer må ha et navn'
+            }
             required
           />
           <ConfirmModalWithParent
@@ -82,92 +75,18 @@ const renderOptions = ({
   </div>
 );
 
-class EditPollForm extends Component<Props, any> {
-  render() {
-    const { pristine, submitting, handleSubmit, editing, deletePoll } =
-      this.props;
-    return (
-      <Content>
-        <Helmet title={editing ? `Redigerer avstemning` : 'Ny avstemning'} />
-        {!editing && (
-          <NavigationTab
-            title="Ny avstemning"
-            back={{
-              label: 'Tilbake',
-              path: '/polls',
-            }}
-          />
-        )}
-        <Form onSubmit={handleSubmit}>
-          <Field
-            name="title"
-            label="Spørsmål"
-            placeholder="Hva er din favorittrett?"
-            component={TextInput.Field}
-            required
-          />
-          <span />
-          <Field
-            name="description"
-            label="Beskrivelse"
-            placeholder="Mer info..."
-            component={TextArea.Field}
-          />
-          <Field
-            name="pinned"
-            label="Vis på forsiden"
-            component={CheckBox.Field}
-          />
-          <Field
-            name="resultsHidden"
-            label="Skjul resultatet"
-            component={CheckBox.Field}
-          />
-          <Field
-            name="tags"
-            label="Tags"
-            filter={['tags.tag']}
-            placeholder="Skriv inn tags"
-            component={SelectInput.AutocompleteField}
-            isMulti
-            tags
-            shouldKeyDownEventCreateNewOption={({
-              keyCode,
-            }: {
-              keyCode: number;
-            }) => keyCode === keyCodes.enter || keyCode === keyCodes.space}
-          />
-          <FieldArray
-            name="options"
-            component={renderOptions}
-            rerenderOnEveryChange={true}
-          />
-          <Flex className={styles.actionButtons}>
-            <Button disabled={pristine || submitting} success={editing} submit>
-              {editing ? 'Lagre endringer' : 'Lag ny avstemning'}
-            </Button>
-            {editing && (
-              <ConfirmModalWithParent
-                title="Slett avstemning"
-                message="Er du sikker på at du vil slette avstemningen?"
-                onConfirm={deletePoll}
-                closeOnConfirm
-              >
-                <Button danger>
-                  <Icon name="trash" size={19} />
-                  Slett avstemning
-                </Button>
-              </ConfirmModalWithParent>
-            )}
-          </Flex>
-        </Form>
-      </Content>
-    );
-  }
-}
+const validate = createValidator({
+  title: [required('Du må gi avstemningen en tittel')],
+});
 
-const onSubmit = (
-  {
+const EditPollForm = ({
+  deletePoll,
+  editOrCreatePoll,
+  editing,
+  initialValues,
+  toggleEdit,
+}: Props) => {
+  const onSubmit = ({
     title,
     description,
     tags,
@@ -187,12 +106,8 @@ const onSubmit = (
     }>;
     resultsHidden: boolean;
     pinned: boolean;
-  },
-  dispatch,
-  props
-) =>
-  props
-    .editOrCreatePoll({
+  }) =>
+    editOrCreatePoll({
       title,
       description,
       resultsHidden,
@@ -200,14 +115,99 @@ const onSubmit = (
       options,
       pinned: pinned ? pinned : false,
       ...(rest as Record<string, any>),
-    })
-    .then(() => props.toggleEdit());
+    }).then(() => toggleEdit());
 
-export default legoForm({
-  form: 'createPollForm',
-  onSubmit,
-  initialValues: {
-    options: [{}, {}],
-    pinned: false,
-  },
-})(EditPollForm);
+  return (
+    <Content>
+      <Helmet title={editing ? `Redigerer avstemning` : 'Ny avstemning'} />
+      {!editing && (
+        <NavigationTab
+          title="Ny avstemning"
+          back={{
+            label: 'Tilbake',
+            path: '/polls',
+          }}
+        />
+      )}
+      <LegoFinalForm
+        onSubmit={onSubmit}
+        initialValues={initialValues ?? { options: [{}, {}], pinned: false }}
+        validate={validate}
+        mutators={{
+          ...arrayMutators,
+        }}
+      >
+        {({ handleSubmit, pristine, submitting }) => (
+          <form onSubmit={handleSubmit}>
+            <Field
+              name="title"
+              label="Spørsmål"
+              placeholder="Hva er din favorittrett?"
+              component={TextInput.Field}
+              required
+            />
+            <Field
+              name="description"
+              label="Beskrivelse"
+              placeholder="Mer info..."
+              component={TextArea.Field}
+            />
+            <Field
+              name="pinned"
+              label="Vis på forsiden"
+              component={CheckBox.Field}
+            />
+            <Field
+              name="resultsHidden"
+              label="Skjul resultatet"
+              component={CheckBox.Field}
+            />
+            <Field
+              name="tags"
+              label="Tags"
+              filter={['tags.tag']}
+              placeholder="Skriv inn tags"
+              component={SelectInput.AutocompleteField}
+              isMulti
+              tags
+              shouldKeyDownEventCreateNewOption={({
+                keyCode,
+              }: {
+                keyCode: number;
+              }) => keyCode === keyCodes.enter || keyCode === keyCodes.space}
+            />
+            <FieldArray
+              name="options"
+              component={renderOptions}
+              rerenderOnEveryChange={true}
+            />
+            <Flex className={styles.actionButtons}>
+              <Button
+                disabled={pristine || submitting}
+                success={editing}
+                submit
+              >
+                {editing ? 'Lagre endringer' : 'Lag ny avstemning'}
+              </Button>
+              {editing && (
+                <ConfirmModalWithParent
+                  title="Slett avstemning"
+                  message="Er du sikker på at du vil slette avstemningen?"
+                  onConfirm={deletePoll}
+                  closeOnConfirm
+                >
+                  <Button danger>
+                    <Icon name="trash" size={19} />
+                    Slett avstemning
+                  </Button>
+                </ConfirmModalWithParent>
+              )}
+            </Flex>
+          </form>
+        )}
+      </LegoFinalForm>
+    </Content>
+  );
+};
+
+export default EditPollForm;

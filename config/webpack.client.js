@@ -135,7 +135,7 @@ module.exports = (env, argv) => {
         'lodash/fp': 'node_modules/lodash/fp',
         lodash: 'node_modules/lodash-es',
         'moment-timezone':
-          'moment-timezone/builds/moment-timezone-with-data-2012-2022.min',
+          'moment-timezone/builds/moment-timezone-with-data-10-year-range.min',
       },
       fallback: {
         util: require.resolve('util/'),

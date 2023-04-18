@@ -13,11 +13,11 @@ import styles from './PhotoConsents.css';
 const ConsentManager = ({
   consent,
   updateConsent,
-  isMe,
+  isCurrentUser,
 }: {
   consent: PhotoConsent | null | undefined;
   updateConsent: (consent: PhotoConsent) => Promise<void>;
-  isMe: boolean;
+  isCurrentUser: boolean;
 }) => {
   if (!consent) {
     return null;
@@ -59,7 +59,7 @@ const ConsentManager = ({
         >
           <Button
             dark
-            disabled={!isMe || consent.isConsenting === false}
+            disabled={!isCurrentUser || consent.isConsenting === false}
             className={styles.consentBtn}
           >
             Trekk samtykke
@@ -67,7 +67,7 @@ const ConsentManager = ({
         </ConfirmModalWithParent>
         <Button
           success
-          disabled={!isMe || consent.isConsenting === true}
+          disabled={!isCurrentUser || consent.isConsenting === true}
           onClick={() => updateConsent({ ...consent, isConsenting: true })}
           className={styles.consentBtn}
         >
@@ -83,7 +83,7 @@ const PhotoConsents = ({
   username,
   updatePhotoConsent,
   userId,
-  isMe,
+  isCurrentUser,
 }: {
   photoConsents: Array<PhotoConsent>;
   username: string;
@@ -93,7 +93,7 @@ const PhotoConsents = ({
     userId: number
   ) => Promise<void>;
   userId: number;
-  isMe: boolean;
+  isCurrentUser: boolean;
 }) => {
   const semesterOptions = photoConsents
     .slice(0)
@@ -139,6 +139,7 @@ const PhotoConsents = ({
         }
         theme={selectTheme}
         styles={selectStyles}
+        instanceId="profile-consent-semester"
       />
       <ConsentManager
         consent={getConsent(
@@ -148,7 +149,7 @@ const PhotoConsents = ({
           photoConsents
         )}
         updateConsent={updateConsent}
-        isMe={isMe}
+        isCurrentUser={isCurrentUser}
       />
       <ConsentManager
         consent={getConsent(
@@ -158,7 +159,7 @@ const PhotoConsents = ({
           photoConsents
         )}
         updateConsent={updateConsent}
-        isMe={isMe}
+        isCurrentUser={isCurrentUser}
       />
     </Flex>
   );

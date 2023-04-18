@@ -78,7 +78,7 @@ const analytics = __DEV__
   : `<script defer data-domain=${config.webUrl.replace(
       /(^\w+:|^)\/\//,
       ''
-    )} src="https://ls.webkom.dev/script.js"></script>`;
+    )} src="https://ls.webkom.dev/js/script.js"></script>`;
 
 export default function pageRenderer({
   app = undefined,
@@ -158,8 +158,8 @@ export default function pageRenderer({
            window.__IS_SSR__ = ${isSSR};
            ${preparedStateCode}
         </script>
-        <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-        <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
         ${dllPlugin}
         ${scripts}
       </body>

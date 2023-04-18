@@ -1,156 +1,125 @@
 import cx from 'classnames';
-import { Component } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Flex from 'app/components/Layout/Flex';
+import type { EmojiWithReactionData } from 'app/components/LegoReactions';
 import type { ID } from 'app/models';
-import type { EmojiEntity } from 'app/reducers/emojis';
+import type { ContentTarget } from 'app/store/utils/contentTarget';
 import reactionStyles from './Reaction.css';
 import ReactionPicker from './ReactionPicker';
 import AddReactionEmoji from './assets/AddReactionEmoji';
 import styles from './index.css';
-import type { ReactNode, MouseEventHandler, RefObject } from 'react';
+import type { ReactNode, SyntheticEvent } from 'react';
 
 type Props = {
   children: ReactNode;
   className?: string;
-  emojis: Array<EmojiEntity>;
+  emojis: EmojiWithReactionData[];
   fetchingEmojis: boolean;
-  addReaction: (arg0: {
+  addReaction: (args: {
     emoji: string;
-    contentTarget: string;
+    contentTarget: ContentTarget;
+    unicodeString: string;
   }) => Promise<void>;
-  deleteReaction: (arg0: {
+  deleteReaction: (args: {
     reactionId: ID;
-    contentTarget: string;
+    contentTarget: ContentTarget;
   }) => Promise<void>;
   fetchEmojis: () => Promise<void>;
-  contentTarget: string;
+  contentTarget: ContentTarget;
   loggedIn: boolean;
 };
-type State = {
-  hovered: boolean;
-  addEmojiHovered: boolean;
-  reactionPickerOpen: boolean;
-  fetchedEmojis: boolean;
-}; // Note: Most use cases won't want to use this class directly. Instead, use
+
+// Note: Most use cases won't want to use this class directly. Instead, use
 // app/components/LegoReactions.
 
-class Reactions extends Component<Props, State> {
-  node: RefObject<HTMLDivElement>;
+const Reactions = ({
+  children,
+  className,
+  emojis,
+  fetchingEmojis,
+  addReaction,
+  deleteReaction,
+  fetchEmojis,
+  contentTarget,
+  loggedIn,
+}: Props) => {
+  const [reactionPickerOpen, setReactionPickerOpen] = useState(false);
+  const [addEmojiHovered, setAddEmojiHovered] = useState(false);
+  const [fetchedEmojis, setFetchedEmojis] = useState(false);
+  const nodeRef = useRef<HTMLDivElement>();
 
-  state = {
-    hovered: false,
-    addEmojiHovered: false,
-    reactionPickerOpen: false,
-    fetchedEmojis: false,
-  };
-  onMouseEnter = () => {
-    this.setState({
-      hovered: true,
-    });
-  };
-  onMouseLeave = () => {
-    this.setState({
-      hovered: false,
-    });
-  };
-  onAddEmojiEnter = () => {
-    this.setState({
-      addEmojiHovered: true,
-    });
-  };
-  onAddEmojiLeave = () => {
-    this.setState({
-      addEmojiHovered: false,
-    });
-  };
-  toggleReactionPicker: MouseEventHandler<HTMLDivElement> = (e) => {
-    if (!this.state.reactionPickerOpen) {
-      if (!this.state.fetchedEmojis) {
-        this.props.fetchEmojis();
+  const toggleReactionPicker = useCallback(
+    (e: MouseEvent | SyntheticEvent) => {
+      if (!reactionPickerOpen && !fetchedEmojis) {
+        fetchEmojis();
       }
 
-      document.addEventListener('click', this.handleOutsideClick, false);
-    } else {
-      document.removeEventListener('click', this.handleOutsideClick, false);
+      setReactionPickerOpen(!reactionPickerOpen);
+      setFetchedEmojis(true);
+      e.stopPropagation();
+    },
+    [fetchEmojis, fetchedEmojis, reactionPickerOpen]
+  );
+
+  useEffect(() => {
+    const handleOutsideClick = (e: MouseEvent) => {
+      if (
+        nodeRef.current &&
+        e.target instanceof Node &&
+        nodeRef.current.contains(e.target)
+      ) {
+        return;
+      }
+      toggleReactionPicker(e);
+    };
+
+    if (reactionPickerOpen) {
+      document.addEventListener('click', handleOutsideClick, false);
+      return () =>
+        document.removeEventListener('click', handleOutsideClick, false);
     }
+  }, [reactionPickerOpen, toggleReactionPicker]);
 
-    this.setState({
-      reactionPickerOpen: !this.state.reactionPickerOpen,
-      fetchedEmojis: true,
-    });
-    e.stopPropagation();
-  };
-
-  handleOutsideClick = (e) => {
-    if (this.node && this.node.contains(e.target)) {
-      return;
-    }
-
-    this.toggleReactionPicker(e);
-  };
-
-  render() {
-    const {
-      children,
-      className,
-      emojis,
-      fetchingEmojis,
-      addReaction,
-      deleteReaction,
-      contentTarget,
-      loggedIn,
-    } = this.props;
-    const { reactionPickerOpen, addEmojiHovered } = this.state;
-    return (
-      <div
-        className={styles.reactionsContainer}
-        ref={(node) => {
-          this.node = node;
-        }}
-      >
-        <div
-          className={className ? className : styles.reactions}
-          onMouseEnter={this.onMouseEnter}
-          onMouseLeave={this.onMouseLeave}
-        >
-          {children}
-          {loggedIn && (
-            <Flex
-              alignItems="center"
-              justifyContent="center"
-              className={cx(
-                reactionStyles.reaction,
-                styles.addReactionEmojiContainer
-              )}
-              onClick={this.toggleReactionPicker}
-              onMouseEnter={this.onAddEmojiEnter}
-              onMouseLeave={this.onAddEmojiLeave}
-            >
-              <AddReactionEmoji
-                color={
-                  addEmojiHovered || reactionPickerOpen
-                    ? 'var(--color-orange-6)'
-                    : 'var(--color-gray-5)'
-                }
-              />
-            </Flex>
-          )}
-        </div>
-
-        {reactionPickerOpen && (
-          <div className={styles.reactionPickerContainer}>
-            <ReactionPicker
-              emojis={emojis}
-              isLoading={fetchingEmojis}
-              addReaction={addReaction}
-              deleteReaction={deleteReaction}
-              contentTarget={contentTarget}
+  return (
+    <div className={styles.reactionsContainer} ref={nodeRef}>
+      <div className={className ? className : styles.reactions}>
+        {children}
+        {loggedIn && (
+          <Flex
+            alignItems="center"
+            justifyContent="center"
+            className={cx(
+              reactionStyles.reaction,
+              styles.addReactionEmojiContainer
+            )}
+            onClick={toggleReactionPicker}
+            onMouseEnter={() => setAddEmojiHovered(true)}
+            onMouseLeave={() => setAddEmojiHovered(false)}
+          >
+            <AddReactionEmoji
+              color={
+                addEmojiHovered || reactionPickerOpen
+                  ? 'var(--color-orange-6)'
+                  : 'var(--color-gray-5)'
+              }
             />
-          </div>
+          </Flex>
         )}
       </div>
-    );
-  }
-}
+
+      {reactionPickerOpen && (
+        <div className={styles.reactionPickerContainer}>
+          <ReactionPicker
+            emojis={emojis}
+            isLoading={fetchingEmojis}
+            addReaction={addReaction}
+            deleteReaction={deleteReaction}
+            contentTarget={contentTarget}
+          />
+        </div>
+      )}
+    </div>
+  );
+};
 
 export default Reactions;

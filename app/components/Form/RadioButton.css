@@ -1,91 +1,95 @@
-.box {
-  display: inline-flex;
-  width: 21px;
-  height: 21px;
-  margin-right: 10px;
+@import url('~app/styles/variables.css');
+
+.radioButton {
+  --border-hover: var(--color-gray-4);
+  --border-active: var(--lego-red-color);
+  --inner-circle: white;
+
+  position: relative;
 }
 
-/* Base for label styling */
-.input {
-  cursor: pointer;
-  position: absolute;
-  z-index: 1;
-  opacity: 0;
+.radioButton input,
+.radioButton svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  display: block;
 }
 
 .label {
-  position: relative;
-  display: inline-block;
   cursor: pointer;
-  padding: 4px 26px;
+  user-select: none;
 }
 
-.input:disabled,
-.input:disabled + .label {
-  cursor: default;
+.radioButton input {
+  appearance: none;
+  position: relative;
+  outline: none;
+  background: inherit;
+  border: none;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: box-shadow var(--linear-medium);
+  box-shadow: inset 0 0 0 var(--s, 1px) var(--b, var(--border-gray));
+
+  &:disabled {
+    background-color: var(--additive-background);
+  }
 }
 
-/* radio aspect */
-.label::before {
-  content: '';
+.radioButton input:hover:not(:disabled) {
+  --s: 2px;
+  --b: var(--border-hover);
+}
+
+.radioButton input:checked:not(:disabled) {
+  --b: var(--border-active);
+}
+
+.radioButton svg {
+  pointer-events: none;
+  fill: none;
+  stroke-width: 2px;
+  stroke: var(--stroke, var(--border-active));
   position: absolute;
+  top: 0;
   left: 0;
-  width: 22px;
-  height: 22px;
-  border: 1px solid var(--border-gray);
-  background: var(--color-white);
-  border-radius: 11px;
-  box-shadow: inset 0 1px 3px
-    rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 30%);
+  transform: scale(var(--scale, 1)) translateZ(0);
 }
 
-/* checked mark aspect */
-.label::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  width: 16px;
-  height: 16px;
-  border-radius: 8px;
-  background: #d13c32;
-  transition: all var(--linear-medium);
+.radioButton.path input:checked {
+  --s: 2px;
+
+  transition-delay: 0.2s;
 }
 
-/* checked mark aspect changes */
-.input:not(:checked) + .label::after {
-  opacity: 0;
-  transform: scale(0) translate(11px, 11px);
+.radioButton.bounce svg {
+  --scale: 0;
 }
 
-.input:checked + .label::after {
-  opacity: 1;
-  transform: scale(1) translate(3px, 3px);
+.radioButton.bounce {
+  --stroke: var(--inner-circle);
 }
 
-/* disabled radio */
-.input:disabled:not(:checked) + .label::before,
-.input:disabled:checked + .label::before {
-  box-shadow: none;
-  border-color: var(--color-gray-4);
-  background-color: var(--color-gray-3);
+.radioButton.bounce input:checked {
+  --s: 11px;
 }
 
-.input:disabled:checked + .label::after {
-  color: var(--color-gray-5);
+.radioButton.bounce input:checked + svg {
+  animation: bounce var(--linear-medium) forwards 0.2s;
 }
 
-.input:disabled + .label {
-  color: var(--color-gray-5);
-}
+@keyframes bounce {
+  50% {
+    transform: scale(1.2);
+  }
 
-/* hover style just for information */
-.input:not(:disabled):hover + .label::before {
-  border: 1px solid var(--border-gray) !important;
-  transition: border var(--linear-slow);
-}
+  75% {
+    transform: scale(0.9);
+  }
 
-.radioField > label {
-  display: flex;
-  flex-direction: row-reverse;
-  justify-content: flex-end;
+  100% {
+    transform: scale(1);
+  }
 }

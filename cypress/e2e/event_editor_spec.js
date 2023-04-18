@@ -24,7 +24,7 @@ describe('Editor', () => {
     cy.get('div[data-slate-editor="true"]').click();
     // Sidebar is visible
     cy.get('._legoEditor_Toolbar_root').should('be.visible');
-    cy.focused().type('{enter}hello{uparrow}lol{enter}');
+    cy.focused().click().type('{enter}hello{uparrow}lol{enter}');
 
     cy.get('._legoEditor_Toolbar_root button').first().click();
     // Format text
@@ -100,6 +100,7 @@ describe('Editor', () => {
     field('description').type('blir fett').blur();
     selectField('eventType').click();
     cy.focused().type('sos{enter}', { force: true });
+    field('isClarified').check();
 
     // Create event
     cy.contains('button', 'Opprett').should('not.be.disabled').click();

@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { fetchEmailList, editEmailList } from 'app/actions/EmailListActions';
 import { selectEmailListById } from 'app/reducers/emailLists';
-import { ROLES } from 'app/utils/constants';
+import { ROLES, type RoleType } from 'app/utils/constants';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import EmailListEditor from './components/EmailListEditor';
@@ -22,7 +22,7 @@ const mapStateToProps = (state, { match: { params } }) => {
         value: groups.id,
       })),
       // $FlowFixMe
-      groupRoles: (emailList.groupRoles || []).map((groupRoles) => ({
+      groupRoles: (emailList.groupRoles || []).map((groupRoles: RoleType) => ({
         label: ROLES[groupRoles],
         value: groupRoles,
       })),

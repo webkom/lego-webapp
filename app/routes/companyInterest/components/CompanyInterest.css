@@ -13,10 +13,6 @@
   margin-bottom: -5px;
 }
 
-.checkboxLabel {
-  display: flex;
-}
-
 .guiWrapper {
   margin-right: 30px;
   flex-wrap: wrap;
@@ -41,22 +37,10 @@
   display: block;
 }
 
-.link {
-  margin-top: 10px;
-}
-
 .textEditor {
   @media (--small-viewport) {
     width: 300px;
   }
-}
-
-.mainHeading {
-  color: var(--lego-font-color);
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  font-size: 25px;
-  font-weight: bold;
 }
 
 .semesterBox {
@@ -77,27 +61,8 @@
   border-top: 1px solid var(--border-gray);
 }
 
-.checkboxField {
-  width: 30px;
-  margin-top: 5px;
-}
-
-.content {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-
-  @media (--small-viewport) {
-    flex-direction: column;
-  }
-}
-
 .section {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
   margin: 30px auto;
-  align-items: flex-end;
 
   @media (--small-viewport) {
     flex-flow: column wrap;
@@ -154,15 +119,15 @@
   margin-bottom: 0.5em;
 }
 
-ion-icon {
-  font-size: 20px;
-}
-
 .tooltip {
   text-transform: initial;
   font-weight: initial;
 }
 
 .label {
-  color: rgb(194, 69, 56);
+  color: var(--danger-color);
+}
+
+.selector {
+  min-width: 500px;
 }
