@@ -61,25 +61,27 @@
   padding: 0 0 10px 10px;
 }
 
-.imageGallery{
+.imageGallery {
   width: 60%;
 }
 
-.imageGalleryEntry{
+.imageGalleryEntry {
   border-radius: var(--border-radius-md);
-
 }
 
-.imageGalleryEntry:hover{
+.imageGalleryEntry:hover {
   opacity: 80%;
 }
 
-.imageGalleryContainer{
-  margin: 1em;
-
+.imageGalleryEntry:active {
+  opacity: 65%;
 }
 
-.closeButton{
+.imageGalleryContainer {
+  margin: 1em;
+}
+
+.closeButton {
   color: var(--lego-red-color);
   position: relative;
   float: right;
@@ -87,6 +89,10 @@
   top: 0.7em;
 }
 
-.closeButton:hover{
+.closeButton:hover {
   opacity: 80%;
+}
+
+.closeButton:active {
+  opacity: 65%;
 }
