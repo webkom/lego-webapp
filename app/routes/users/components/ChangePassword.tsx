@@ -25,7 +25,6 @@ const ChangePassword = ({
   pristine,
   submitting,
   user,
-  ...props
 }: Props) => {
   const disabledButton = invalid || pristine || submitting;
   return (

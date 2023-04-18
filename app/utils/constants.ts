@@ -49,11 +49,9 @@ export const roleOptions = Object.keys(ROLES)
  * (i.e. abakus.no, webapp-staging.abakus.no) or if it's run locally through yarn start:staging 'local_staging'.
  * Use the local backend group ID (12) if the webapp is running with yarn start.
  */
-export const WEBKOM_GROUP_ID: number = [
-  'production',
-  'staging',
-  'local_staging',
-].includes(config.environment)
-  ? 11
-  : 12;
+export const WEBKOM_GROUP_ID: number =
+  config.environment &&
+  ['production', 'staging', 'local_staging'].includes(config.environment)
+    ? 11
+    : 12;
 export const EDITOR_EMPTY = '<p></p>';

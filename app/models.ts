@@ -1,6 +1,7 @@
 import type Comment from 'app/store/models/Comment';
+import type { ListCompany } from 'app/store/models/Company';
+import type { ReactionsGrouped } from 'app/store/models/Reaction';
 import type { RoleType } from 'app/utils/constants';
-import type { ReactionsGrouped } from './store/models/Reaction';
 import type { Moment } from 'moment';
 // TODO: Id handling could be opaque
 export type ID = number;
@@ -243,7 +244,7 @@ export type Event = EventBase & {
   waitingRegistrationCount: number;
   totalCapacity: number;
   thumbnail: string | null | undefined;
-  company: Company;
+  company: ListCompany;
   spotsLeft: number;
   comments: Comment[];
   contentTarget: string;

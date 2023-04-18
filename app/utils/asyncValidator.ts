@@ -1,25 +1,36 @@
-export type AsyncFieldValidator<T = any> = (
-  fieldValue: T,
-  formData: Record<string, any>
-) => Promise<[true] | [boolean, string]>;
-type FieldValidators = Record<string, AsyncFieldValidator<unknown>[]>;
+import type { ValidatorResult } from 'app/utils/validation';
 
-const getValidationErrors = async (
-  validators: AsyncFieldValidator<unknown>[],
-  fieldData: any,
-  formData: Record<string, any>
-): Promise<string[]> => {
+type AsyncValidator<T = any, C = any> = (
+  message?: string
+) => (value: T, context?: C) => Promise<Readonly<[boolean, string] | [true]>>;
+
+type FieldValidators<S> = {
+  [field: string]: ReturnType<AsyncValidator>[];
+};
+
+const isValidatorMessage = (
+  val: Readonly<[true] | [boolean, string]>
+): val is Readonly<[boolean, string]> => {
+  return val.length > 1;
+};
+
+const getValidationErrors = async <T, S>(
+  validators: ReturnType<AsyncValidator>[],
+  fieldData: T,
+  formData: S
+) => {
   const validationResults = await Promise.all(
     validators.map((validator) => validator(fieldData, formData))
   );
   return validationResults
-    .filter(([isValid]) => !isValid) // $FlowFixMe flow doesn't understand that the filter ensures that error message exists
+    .filter(isValidatorMessage)
+    .filter(([isValid]) => !isValid)
     .map(([, error]) => error);
 };
 
-const getFieldErrorArray = async (
-  fieldValidators: FieldValidators,
-  formData: Record<string, any>
+const getFieldErrorArray = async <T>(
+  fieldValidators: FieldValidators<T>,
+  formData: T
 ): Promise<[string, string[]][]> => {
   return (
     await Promise.all(
@@ -37,15 +48,20 @@ const getFieldErrorArray = async (
   ).filter(([, fieldErrors]) => fieldErrors.length);
 };
 
-export const createAsyncValidator = (fieldValidators: FieldValidators) => {
-  return async (formData: Record<string, any>) => {
+export const createAsyncValidator = <T>(
+  fieldValidators: FieldValidators<T>
+) => {
+  return async (formData: T) => {
     const fieldErrorArray = await getFieldErrorArray(fieldValidators, formData);
 
     if (fieldErrorArray.length) {
-      throw fieldErrorArray.reduce((errors, [field, fieldErrors]) => {
-        errors[field] = fieldErrors;
-        return errors;
-      }, {});
+      throw fieldErrorArray.reduce(
+        (errors: ValidatorResult, [field, fieldErrors]) => {
+          errors[field] = fieldErrors;
+          return errors;
+        },
+        {}
+      );
     }
   };
 };
