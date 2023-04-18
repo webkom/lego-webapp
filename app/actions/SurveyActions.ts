@@ -1,7 +1,8 @@
 import moment from 'moment-timezone';
 import callAPI from 'app/actions/callAPI';
 import { surveySchema } from 'app/reducers';
-import type { SurveyEntity } from 'app/reducers/surveys';
+import type { ID } from 'app/store/models';
+import type { CreateSurvey } from 'app/store/models/Survey';
 import type { Thunk } from 'app/types';
 import { Survey } from './ActionTypes';
 
@@ -58,7 +59,7 @@ export function fetchAll({
     );
   };
 }
-export function addSurvey(data: SurveyEntity): Thunk<any> {
+export function addSurvey(data: CreateSurvey): Thunk<any> {
   return callAPI({
     types: Survey.ADD,
     endpoint: '/surveys/',
@@ -74,7 +75,7 @@ export function addSurvey(data: SurveyEntity): Thunk<any> {
 export function editSurvey({
   surveyId,
   ...data
-}: Record<string, any>): Thunk<any> {
+}: Partial<CreateSurvey> & { surveyId: ID }): Thunk<any> {
   return callAPI({
     types: Survey.EDIT,
     endpoint: `/surveys/${surveyId}/`,

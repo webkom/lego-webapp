@@ -26,6 +26,7 @@ export const EVENT_CONSTANTS = {
   kid_event: 'KiD-arrangement',
   other: 'Annet',
 } as const;
+
 // Returns the string representation of an EventType
 export const eventTypeToString = (eventType: EventType): string => {
   return EVENT_CONSTANTS[eventType] || EVENT_CONSTANTS['other'];

@@ -14,13 +14,17 @@ import Flex from 'app/components/Layout/Flex';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import Time from 'app/components/Time';
 import type { EventType } from 'app/models';
-import type { SurveyEntity } from 'app/reducers/surveys';
 import { eventTypeToString, EVENT_CONSTANTS } from 'app/routes/events/utils';
 import {
   DetailNavigation,
   ListNavigation,
   QuestionTypes,
 } from 'app/routes/surveys/utils';
+import type {
+  CreateSurvey,
+  DetailedSurvey,
+  FormSurvey,
+} from 'app/store/models/Survey';
 import { spySubmittable } from 'app/utils/formSpyUtils';
 import { createValidator, required } from 'app/utils/validation';
 import styles from '../surveys.css';
@@ -28,17 +32,17 @@ import Question from './Question';
 import type { ReactNode } from 'react';
 
 type Props = {
-  survey: SurveyEntity;
+  survey: DetailedSurvey;
   autoFocus: Record<string, any>;
   surveyData: Array<Record<string, any>>;
-  submitFunction: (arg0: any) => Promise<void>;
+  submitFunction: (surveyData: CreateSurvey) => Promise<void>;
   push: (arg0: string) => void;
-  template?: Record<string, any>;
+  template?: DetailedSurvey;
   selectedTemplateType?: EventType;
   destroy: () => void;
   initialize: () => void;
   activeFrom: string;
-  initialValues: Record<string, any>;
+  initialValues: FormSurvey;
 };
 type TemplateTypeDropdownItemsProps = {
   survey?: Record<string, any>;
@@ -167,7 +171,7 @@ const SurveyEditor = ({
 }: Props) => {
   const [isTemplatePickerOpen, setTemplatePickerOpen] = useState(false);
 
-  const onSubmit = (formContent: Record<string, any>) => {
+  const onSubmit = (formContent: FormSurvey) => {
     // Remove options if it's a free text question, and remove all empty options
     // options
     const cleanQuestions = formContent.questions.map((q, i) => {

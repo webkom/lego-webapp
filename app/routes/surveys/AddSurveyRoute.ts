@@ -6,6 +6,7 @@ import { fetchEvent } from 'app/actions/EventActions';
 import { LoginPage } from 'app/components/LoginForm';
 import { selectEventById } from 'app/reducers/events';
 import { selectSurveyTemplate } from 'app/reducers/surveys';
+import type { FormSurvey } from 'app/store/models/Survey';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
@@ -15,19 +16,20 @@ import SurveyEditor, {
   initialQuestion,
 } from './components/SurveyEditor/SurveyEditor';
 import { defaultActiveFrom } from './utils';
+import type { DeepPartial } from 'utility-types';
 
 const loadData = (props, dispatch) => {
   const { templateType, event } = qs.parse(props.location.search, {
     ignoreQueryPrefix: true,
   });
 
-  if (event) {
+  if (event && typeof event === 'string') {
     return dispatch(fetchEvent(event)).then((result) =>
       dispatch(fetchTemplate(result.payload.entities.events[event].eventType))
     );
   }
 
-  if (templateType) {
+  if (templateType && typeof templateType === 'string') {
     return dispatch(fetchTemplate(templateType));
   }
 };
@@ -37,23 +39,25 @@ const mapStateToProps = (state, props) => {
   const { templateType, event } = qs.parse(props.location.search, {
     ignoreQueryPrefix: true,
   });
+
   const fullEvent = selectEventById(state, {
     eventId: event,
   });
-  const selectedTemplateType = templateType || fullEvent.eventType;
+
+  const selectedTemplateType = templateType || fullEvent?.eventType;
   const template = selectSurveyTemplate(state, {
     ...props,
-    templateType: templateType || fullEvent.eventType,
+    templateType: templateType || fullEvent?.eventType,
   });
-  const initialEvent = event
+  const initialEvent = fullEvent
     ? {
         value: fullEvent.id,
         label: fullEvent.title,
       }
-    : '';
-  const activeFrom = event ? fullEvent.endTime : defaultActiveFrom(12, 0);
-  const title = event ? `Spørreundersøkelse for ${fullEvent.title}` : '';
-  let initialValues = null;
+    : undefined;
+  const activeFrom = fullEvent ? fullEvent.endTime : defaultActiveFrom(12, 0);
+  const title = fullEvent ? `Spørreundersøkelse for ${fullEvent.title}` : '';
+  let initialValues: DeepPartial<FormSurvey> | null = null;
 
   if (notFetching) {
     if (template) {

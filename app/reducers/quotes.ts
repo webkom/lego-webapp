@@ -7,6 +7,11 @@ import createEntityReducer from 'app/utils/createEntityReducer';
 import joinReducers from 'app/utils/joinReducers';
 import { Quote } from '../actions/ActionTypes';
 
+/**
+ * @deprecated Do not use me
+ *
+ * Use new models in app/store/models/
+ */
 export type QuoteEntity = {
   id: ID;
   text: string;

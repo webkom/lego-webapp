@@ -4,8 +4,10 @@ import { parse } from 'qs';
 import { configWithSSR } from 'app/config';
 import type { ID } from 'app/store/models';
 import type { Reducer, AsyncActionType } from 'app/types';
+import type { StrictReducer } from 'app/utils/joinReducers';
 import joinReducers from 'app/utils/joinReducers';
 import mergeObjects from 'app/utils/mergeObjects';
+import type { AnyAction } from 'redux';
 
 export type EntityReducerTypes = AsyncActionType | Array<AsyncActionType>;
 type EntityReducerOptions<
@@ -18,7 +20,7 @@ type EntityReducerOptions<
     mutate?: EntityReducerTypes;
     delete?: EntityReducerTypes;
   };
-  mutate?: Reducer;
+  mutate?: StrictReducer<State, AnyAction>;
   initialState?: State;
 };
 
@@ -31,10 +33,14 @@ const defaultState = {
   fetching: false,
 };
 
+type Pagination = {
+  next?: string;
+};
+
 // TODO FIXME Validate what should be Optional here and what should always be the base state
 export type EntityReducerState<T = any> = {
   actionGrant: string[];
-  pagination: unknown; // TODO type me
+  pagination: Pagination;
   paginationNext: unknown; // TODO type me
   byId: Record<ID, T>;
   items: ID[];
@@ -55,14 +61,13 @@ const toArray = (
 const isNumber = (id) => !isNaN(Number(id)) && !isNaN(parseInt(id, 10));
 
 type FetchingState = {
-  fetching?: boolean;
+  fetching: boolean;
 };
 
 export function fetching<State extends FetchingState>(
   fetchTypes: EntityReducerTypes | null | undefined
-): Reducer<State> {
-  return (state, action) => {
-    state.fetching = false;
+): StrictReducer<State> {
+  return (state = { fetching: false } as State, action) => {
     for (const fetchType of toArray(fetchTypes)) {
       switch (action.type) {
         case fetchType.BEGIN:
@@ -226,7 +231,9 @@ export function optimisticDelete(
     }
 
     if (
-      toArray(deleteTypes).some((deleteType) => action === deleteType.FAILURE)
+      toArray(deleteTypes).some(
+        (deleteType) => action.type === deleteType.FAILURE
+      )
     ) {
       return { ...state, items: state.items.concat(action.meta.id) };
     }
