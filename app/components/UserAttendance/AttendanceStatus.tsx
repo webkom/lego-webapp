@@ -1,5 +1,6 @@
 import Button from 'app/components/Button';
 import Flex from 'app/components/Layout/Flex';
+import Tooltip from 'app/components/Tooltip';
 import styles from './AttendanceStatus.css';
 import withModal from './withModal';
 import type { Pool } from './AttendanceModal';
@@ -65,10 +66,12 @@ const AttendanceStatus = ({
       ))}
       {!!legacyRegistrationCount && (
         <div className={styles.poolBox}>
-          <strong>Anonyme</strong>
-          <strong>
-            <p>{`${legacyRegistrationCount}/∞`}</p>
-          </strong>
+          <Tooltip content="Disse brukerne har blitt slettet etter de deltok på arrangementet">
+            <strong>Anonyme</strong>
+            <strong>
+              <p>{`${legacyRegistrationCount}/∞`}</p>
+            </strong>
+          </Tooltip>
         </div>
       )}
     </div>
