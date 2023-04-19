@@ -45,6 +45,10 @@
   }
 }
 
+.smallReadme {
+  width: 150px;
+}
+
 .showMore {
   display: flex;
   justify-content: center;
