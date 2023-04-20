@@ -42,9 +42,12 @@ const mapStateToProps = (state, props) => {
     ? selectEventById(state, { eventId: eventIdOrSlug })
     : selectEventBySlug(state, { eventSlug: eventIdOrSlug });
 
-  if (event && event.slug && eventIdOrSlug !== event.slug) {
+  /*
+    * FIXME: This produces an insane amount of location change events for some reason
+  if (event?.slug && eventIdOrSlug !== event.slug) {
     props.history.replace(`/events/${event.slug}`);
   }
+  */
 
   const eventId = event.id;
 
