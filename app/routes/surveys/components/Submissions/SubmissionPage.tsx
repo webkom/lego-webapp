@@ -1,24 +1,24 @@
-import { cloneElement } from 'react';
 import { Link } from 'react-router-dom';
 import { Content, ContentSection, ContentMain } from 'app/components/Content';
 import type { ActionGrant } from 'app/models';
 import type { SubmissionEntity } from 'app/reducers/surveySubmissions';
 import type { SurveyEntity } from 'app/reducers/surveys';
+import type { ID } from 'app/store/models';
 import { DetailNavigation } from '../../utils';
 import AdminSideBar from '../AdminSideBar';
 import styles from '../surveys.css';
-import type { Element } from 'react';
+import type { ReactNode } from 'react';
 
 type Props = {
   submissions: Array<SubmissionEntity>;
-  addSubmission: (arg0: SubmissionEntity) => Promise<any>;
+  addSubmission: (submission: SubmissionEntity) => Promise<void>;
   survey: SurveyEntity;
-  children: Array<Element<any>>;
+  children: (props: Omit<Props, 'children'>) => ReactNode;
   actionGrant: ActionGrant;
   isSummary: boolean;
-  shareSurvey: (arg0: number) => Promise<any>;
-  hideSurvey: (arg0: number) => Promise<any>;
-  exportSurvey: (arg0: number) => Promise<any>;
+  shareSurvey: (id: ID) => Promise<void>;
+  hideSurvey: (id: ID) => Promise<void>;
+  exportSurvey: (id: ID) => Promise<void>;
 };
 
 const SubmissionPage = (props: Props) => {
@@ -31,7 +31,7 @@ const SubmissionPage = (props: Props) => {
     exportSurvey,
   } = props;
   return (
-    <Content className={styles.surveyDetail} banner={survey.event.cover}>
+    <Content banner={survey.event.cover}>
       <DetailNavigation title={survey.title} surveyId={Number(survey.id)} />
 
       <ContentSection>
@@ -52,9 +52,7 @@ const SubmissionPage = (props: Props) => {
             </Link>
           </div>
 
-          {props.children.map((child, i) =>
-            cloneElement(child, { ...props, children: undefined })
-          )}
+          {props.children(props)}
         </ContentMain>
 
         <AdminSideBar

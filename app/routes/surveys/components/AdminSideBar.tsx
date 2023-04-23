@@ -1,4 +1,3 @@
-import cx from 'classnames';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Button from 'app/components/Button';
@@ -7,15 +6,15 @@ import { CheckBox } from 'app/components/Form';
 import Icon from 'app/components/Icon';
 import config from 'app/config';
 import type { ActionGrant } from 'app/models';
-import styles from './surveys.css';
+import type { ID } from 'app/store/models';
 
 type Props = {
-  surveyId: number;
+  surveyId: ID;
   actionGrant: ActionGrant;
   token?: string;
-  shareSurvey: (arg0: number) => Promise<any>;
-  hideSurvey: (arg0: number) => Promise<any>;
-  exportSurvey?: (arg0: number) => Promise<any>;
+  shareSurvey: (id: ID) => Promise<void>;
+  hideSurvey: (id: ID) => Promise<void>;
+  exportSurvey?: (id: ID) => Promise<void>;
 };
 type State = {
   copied: boolean;
