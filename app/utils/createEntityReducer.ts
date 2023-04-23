@@ -2,19 +2,25 @@ import { produce } from 'immer';
 import { omit, without, isArray, get, union, isEmpty } from 'lodash';
 import { parse } from 'qs';
 import { configWithSSR } from 'app/config';
+import type { ID } from 'app/store/models';
 import type { Reducer, AsyncActionType } from 'app/types';
+import type { StrictReducer } from 'app/utils/joinReducers';
 import joinReducers from 'app/utils/joinReducers';
 import mergeObjects from 'app/utils/mergeObjects';
+import type { AnyAction } from 'redux';
 
 export type EntityReducerTypes = AsyncActionType | Array<AsyncActionType>;
-type EntityReducerOptions<State extends EntityReducerState> = {
-  key: string;
+type EntityReducerOptions<
+  State extends EntityReducerState,
+  Key extends string
+> = {
+  key: Key;
   types: {
     fetch?: EntityReducerTypes;
     mutate?: EntityReducerTypes;
     delete?: EntityReducerTypes;
   };
-  mutate?: Reducer;
+  mutate?: StrictReducer<State, AnyAction>;
   initialState?: State;
 };
 
@@ -24,9 +30,36 @@ const defaultState = {
   paginationNext: {},
   byId: {},
   items: [],
+  fetching: false,
 };
 
-export type EntityReducerState = typeof defaultState;
+type Pagination = {
+  next?: string;
+};
+
+type PaginationCursor = Record<string, string> & { cursor: string };
+
+type PaginationNext = {
+  [query: string]: {
+    items: ID[];
+    hasMore: boolean;
+    query: Record<string, string>;
+    hasMoreBackwards: boolean;
+    next: PaginationCursor;
+    previous: PaginationCursor;
+  };
+};
+
+// TODO FIXME Validate what should be Optional here and what should always be the base state
+export type EntityReducerState<T = any> = {
+  actionGrant: string[];
+  pagination: Pagination;
+  paginationNext: PaginationNext;
+  byId: Record<ID, T>;
+  items: ID[];
+  fetching: boolean;
+  hasMore?: boolean;
+};
 
 const toArray = (
   value: EntityReducerTypes | null | undefined
@@ -40,15 +73,14 @@ const toArray = (
 
 const isNumber = (id) => !isNaN(Number(id)) && !isNaN(parseInt(id, 10));
 
-export function fetching(
+type FetchingState = {
+  fetching: boolean;
+};
+
+export function fetching<State extends FetchingState>(
   fetchTypes: EntityReducerTypes | null | undefined
-): Reducer {
-  return (
-    state = {
-      fetching: false,
-    },
-    action
-  ) => {
+): StrictReducer<State> {
+  return (state = { fetching: false } as State, action) => {
     for (const fetchType of toArray(fetchTypes)) {
       switch (action.type) {
         case fetchType.BEGIN:
@@ -212,7 +244,9 @@ export function optimisticDelete(
     }
 
     if (
-      toArray(deleteTypes).some((deleteType) => action === deleteType.FAILURE)
+      toArray(deleteTypes).some(
+        (deleteType) => action.type === deleteType.FAILURE
+      )
     ) {
       return { ...state, items: state.items.concat(action.meta.id) };
     }
@@ -320,13 +354,17 @@ export function paginationReducer(
  * Create reducers for common crud actions
  */
 
-export default function createEntityReducer<State extends EntityReducerState>({
+export default function createEntityReducer<
+  Entity = EntityReducerState,
+  Key extends string = string
+>({
   key,
   types,
   mutate,
   initialState,
-}: EntityReducerOptions<State>): Reducer {
-  const finalInitialState = {
+}: EntityReducerOptions<EntityReducerState<Entity>, Key>) {
+  type State = EntityReducerState<Entity>;
+  const finalInitialState: State = {
     actionGrant: [],
     pagination: {},
     paginationNext: {},
@@ -337,7 +375,7 @@ export default function createEntityReducer<State extends EntityReducerState>({
     ...initialState,
   };
   const { fetch: fetchTypes, delete: deleteTypes, mutate: mutateTypes } = types;
-  const reduce = joinReducers(
+  const reduce = joinReducers<State>(
     fetching(fetchTypes),
     paginationReducer(fetchTypes),
     createAndUpdateEntities(fetchTypes, key),

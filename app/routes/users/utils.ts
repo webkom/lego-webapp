@@ -9,7 +9,7 @@ export const validPassword =
   (message = 'Passordet er for svakt. Minimum styrke er 3.') =>
   async (value: string, data: Data) => {
     if (value === undefined) {
-      return [true];
+      return [true] as const;
     }
 
     const zxcvbn = (await import('zxcvbn')).default;
@@ -17,7 +17,7 @@ export const validPassword =
       Boolean
     );
     const evalPass = zxcvbn(value, userValues);
-    return [evalPass.score >= 3, message];
+    return [evalPass.score >= 3, message] as const;
   };
 
 export const isCurrentUser = (username: string, currentUsername: string) =>

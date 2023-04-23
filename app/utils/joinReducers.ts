@@ -1,4 +1,10 @@
-import type { AnyAction, Reducer } from '@reduxjs/toolkit';
+import type { AnyAction } from '@reduxjs/toolkit';
+
+// Don't allow passing in undefined state
+export type StrictReducer<State, Action = AnyAction> = (
+  state: State,
+  action: Action
+) => State;
 
 /**
  * Return the new state after `reducers` has been run
@@ -7,8 +13,8 @@ import type { AnyAction, Reducer } from '@reduxjs/toolkit';
  */
 
 export default function joinReducers<S, A extends AnyAction = AnyAction>(
-  ...reducers: Reducer<S, A>[]
-): Reducer<S, A> {
+  ...reducers: (StrictReducer<S, A> | undefined)[]
+): StrictReducer<S, A> {
   return (state, action) =>
     reducers.reduce((nextState, reducer) => {
       if (typeof reducer !== 'function') {

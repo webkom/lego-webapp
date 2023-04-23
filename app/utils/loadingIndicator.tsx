@@ -20,7 +20,7 @@ export default function loadingIndicator<WrappedProps>(
             .length !== 0
         }
       >
-        <Component {...(props as WrappedProps)} />
+        <Component {...props} />
       </LoadingIndicator>
     );
 

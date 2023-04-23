@@ -2,6 +2,20 @@ import type { RootState } from 'app/store/createRootReducer';
 import type { ID } from './models';
 import type { ThunkAction } from '@reduxjs/toolkit';
 import type { JwtPayload } from 'jwt-decode';
+import type { Overwrite } from 'utility-types';
+
+export type { Reducer } from '@reduxjs/toolkit';
+
+/**
+ * Utility type for forms. Converts a value of type T to the form:
+ * { value: T, label: number | string }
+ */
+export type ValueLabel<T extends object, K extends keyof T> = Overwrite<
+  T,
+  {
+    [P in K]: { value: T[K]; label: number | string };
+  }
+>;
 
 export type AsyncActionType = {
   BEGIN: string;
@@ -47,8 +61,6 @@ export type DecodedToken = JwtPayload & {
 export type Token = DecodedToken & {
   encodedToken: EncodedToken;
 };
-// Todo: remove any
-export type Reducer = any; // (state: State, action: Action) => State;
 
 export type Action = {
   type: string;

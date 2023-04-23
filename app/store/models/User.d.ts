@@ -4,6 +4,7 @@ import type Group from 'app/store/models/Group';
 import type Membership from 'app/store/models/Membership';
 import type PastMembership from 'app/store/models/PastMembership';
 import type { ID } from 'app/store/models/index';
+import type { Required } from 'utility-types';
 
 export interface PhotoConsent {
   year: number;
@@ -167,3 +168,23 @@ export type UnknownUser =
   | AdministrateExportUser
   | AdministrateAllergiesUser
   | SearchUser;
+
+export type UpdateUser = Required<
+  Partial<
+    Pick<
+      User,
+      | 'username'
+      | 'firstName'
+      | 'lastName'
+      | 'email'
+      | 'phoneNumber'
+      | 'gender'
+      | 'allergies'
+      | 'profilePicture'
+      | 'isAbakusMember'
+      | 'emailListsEnabled'
+      | 'selectedTheme'
+    >
+  >,
+  'username'
+>;

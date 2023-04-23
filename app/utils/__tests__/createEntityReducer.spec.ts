@@ -530,6 +530,7 @@ describe('createAndUpdateEntities()', () => {
         },
       },
       items: [1, 2],
+      fetching: false,
       pagination: {},
       paginationNext: {},
     });

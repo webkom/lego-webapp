@@ -14,7 +14,6 @@ import fetchJSON from 'app/utils/fetchJSON';
 import { configWithSSR } from '../config';
 import { setStatusCode } from './RoutingActions';
 import type { Schema } from 'normalizr';
-import type { $Shape } from 'utility-types';
 
 function urlFor(resource: string) {
   if (resource.match(/^\/\//)) {
