@@ -5,6 +5,7 @@ import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import config from 'app/config';
 import type { ActionGrant } from 'app/models';
+import type { ID } from 'app/store/models';
 import styles from './components/surveys.css';
 import type { ReactNode } from 'react';
 
@@ -96,7 +97,7 @@ export const TokenNavigation = ({
 export const defaultActiveFrom = (hours: number, minutes: number) =>
   moment().startOf('day').add({ day: 1, hours, minutes }).toISOString();
 
-export const getCsvUrl = (surveyId: string) =>
+export const getCsvUrl = (surveyId: ID) =>
   `${config.serverUrl}/surveys/${surveyId}/csv/`;
 export const QuestionTypeOption = ({ iconName, option, ...props }: any) => (
   <div
@@ -147,7 +148,7 @@ export const QuestionTypeValue = ({ iconName, option, ...props }: any) => (
     ref={props.innerRef}
     {...props.innerProps}
   >
-    <span className={cx('Select-value-label', styles.dropdownColor)}>
+    <span className={styles.dropdownColor}>
       <Icon
         name={iconName}
         style={{
