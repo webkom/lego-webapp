@@ -18,11 +18,13 @@ import {
 import { LoginPage } from 'app/components/LoginForm';
 import { selectSurveySubmissions } from 'app/reducers/surveySubmissions';
 import { selectSurveyById } from 'app/reducers/surveys';
+import type { RootState } from 'app/store/createRootReducer';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import SubmissionPage from './components/Submissions/SubmissionPage';
 import { getCsvUrl } from './utils';
+import type { RouteChildrenProps } from 'react-router';
 
 const loadData = (props, dispatch) => {
   const { surveyId } = props.match.params;
@@ -32,7 +34,10 @@ const loadData = (props, dispatch) => {
   ]);
 };
 
-const mapStateToProps = (state, props) => {
+const mapStateToProps = (
+  state: RootState,
+  props: RouteChildrenProps<{ surveyId: string }>
+) => {
   const surveyId = Number(props.match.params.surveyId);
   const locationStrings = props.location.pathname.split('/');
   const isSummary =
