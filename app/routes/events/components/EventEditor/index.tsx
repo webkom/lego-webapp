@@ -1,5 +1,6 @@
 import moment from 'moment-timezone';
 import { Helmet } from 'react-helmet-async';
+import { Link } from 'react-router-dom';
 import { Field, FieldArray } from 'redux-form';
 import {
   Content,
@@ -566,10 +567,28 @@ function EventEditor({
             style={{
               marginLeft: '3px',
             }}
-            content="Jeg er kjent med at jeg kun kan bruke rettighetene mine til å opprette abakusarrangement som er i tråd med arrangementskalenderen og Abakus sine blesteregler, og at jeg må ta kontakt med hs@abakus.no dersom jeg er usikker eller ønsker å opprette et annet/eksternt arrangement."
+            content={
+              <>
+                Jeg er kjent med at jeg kun kan bruke rettighetene mine til å
+                opprette et Abakusarrangement som er i tråd med{' '}
+                <Link to="/pages/arrangementer/86-arrangementskalender">
+                  arrangementskalenderen
+                </Link>{' '}
+                og Abakus sine blesteregler, og at jeg må ta kontakt med{' '}
+                <a href="mailto:hs@abakus.no">hs@abakus.no</a> dersom jeg er
+                usikker eller ønsker å opprette et annet/eksternt arrangement.
+              </>
+            }
           >
             <Field
-              label="Arrangementet er avklart i arrangementskalenderen"
+              label={
+                <>
+                  Arrangementet er avklart i{' '}
+                  <Link to="/pages/arrangementer/86-arrangementskalender">
+                    arrangementskalenderen
+                  </Link>
+                </>
+              }
               name="isClarified"
               component={CheckBox.Field}
               fieldClassName={styles.metaFieldInformation}
