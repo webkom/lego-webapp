@@ -162,7 +162,7 @@ const Question = ({
             closeOnConfirm
             className={styles.deleteQuestion}
           >
-            <Icon name="trash" />
+            <Icon name="trash" danger />
           </ConfirmModalWithParent>
         </div>
       </div>

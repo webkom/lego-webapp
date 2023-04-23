@@ -3,6 +3,7 @@ import { Component } from 'react';
 import Button from 'app/components/Button';
 import Dropdown from 'app/components/Dropdown';
 import Icon from 'app/components/Icon';
+import { Flex } from 'app/components/Layout';
 import type { CompanySemesterContactedStatus } from 'app/models';
 import {
   sortStatusesByProminence,
@@ -52,29 +53,11 @@ export default class SemesterStatusContent extends Component<Props, State> {
         {statusCodes.map((statusString, j) => (
           <Dropdown.ListItem key={j} className={styles.dropDownItem}>
             <Button flat onClick={(e) => editFunction(statusString)}>
-              <div>
-                {semesterStatus.contactedStatus.indexOf(statusString) !== -1 ? (
-                  <Icon
-                    name="checkmark"
-                    style={{
-                      color: 'var(--color-green-6)',
-                      marginRight: '5px',
-                      position: 'relative',
-                      top: '5px',
-                    }}
-                    size={25}
-                  />
-                ) : (
-                  <div
-                    style={{
-                      width: '10px',
-                      height: '1px',
-                      display: 'inline-block',
-                    }}
-                  />
-                )}
+              <Flex>
                 {getStatusString(statusString)}
-              </div>
+                {semesterStatus.contactedStatus.indexOf(statusString) !==
+                  -1 && <Icon name="checkmark" success size={25} />}
+              </Flex>
               <div
                 className={cx(
                   styles[selectColorCode(statusString)],

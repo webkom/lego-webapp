@@ -4,32 +4,3 @@
   to change the role of the users at the bottom */
   padding-bottom: 300px;
 }
-
-.editIcon {
-  cursor: pointer;
-  color: var(--color-orange-6);
-  transition: color var(--easing-fast);
-
-  &:hover {
-    color: var(--color-orange-7);
-  }
-}
-
-.removeIcon {
-  cursor: pointer;
-  color: var(--danger-color);
-  transition: color var(--easing-fast);
-
-  &:hover {
-    color: var(--color-red-7);
-  }
-}
-
-.disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-
-  &:hover {
-    color: var(--color-orange-6);
-  }
-}

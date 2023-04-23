@@ -173,14 +173,6 @@
   }
 }
 
-.deleteIcon {
-  color: var(--danger-color);
-
-  &:hover {
-    cursor: pointer;
-  }
-}
-
 .showAscending .upArrow,
 .showDescending .downArrow {
   display: block !important;
