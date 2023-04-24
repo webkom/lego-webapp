@@ -12,12 +12,14 @@ type Props = {
   surveyId: ID;
   actionGrant: ActionGrant;
   token?: string;
-  shareSurvey: (id: ID) => Promise<void>;
-  hideSurvey: (id: ID) => Promise<void>;
-  exportSurvey?: (id: ID) => Promise<void>;
+  shareSurvey: (surveyId: ID) => Promise<void>;
+  hideSurvey: (surveyId: ID) => Promise<void>;
+  exportSurvey?: (surveyId: ID) => Promise<void>;
 };
+
 type State = {
   copied: boolean;
+  timeoutId: number | null;
   generatedCSV:
     | {
         url: string;
@@ -30,7 +32,30 @@ type State = {
 class AdminSideBar extends Component<Props, State> {
   state = {
     copied: false,
+    timeoutId: null,
     generatedCSV: undefined,
+  };
+
+  handleCopyButtonClick = (shareLink: string) => {
+    navigator.clipboard.writeText(shareLink).then(() => {
+      if (this.state.timeoutId) {
+        clearTimeout(this.state.timeoutId);
+      }
+
+      this.setState({
+        copied: true,
+      });
+
+      const timeoutId = setTimeout(() => {
+        this.setState({
+          copied: false,
+        });
+      }, 2000);
+
+      this.setState({
+        timeoutId,
+      });
+    });
   };
 
   render() {
@@ -99,20 +124,7 @@ class AdminSideBar extends Component<Props, State> {
 
           {token && (
             <Button
-              onClick={() => {
-                navigator.clipboard.writeText(shareLink).then(() => {
-                  this.setState({
-                    copied: true,
-                  });
-                  setTimeout(
-                    () =>
-                      this.setState({
-                        copied: false,
-                      }),
-                    2000
-                  );
-                });
-              }}
+              onClick={() => this.handleCopyButtonClick(shareLink)}
               success={this.state.copied}
             >
               <Icon name={this.state.copied ? 'checkmark' : 'copy-outline'} />

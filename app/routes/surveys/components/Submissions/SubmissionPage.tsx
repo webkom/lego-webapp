@@ -16,8 +16,8 @@ type Props = {
   children: (props: Omit<Props, 'children'>) => ReactNode;
   actionGrant: ActionGrant;
   isSummary: boolean;
-  shareSurvey: (id: ID) => Promise<void>;
-  hideSurvey: (id: ID) => Promise<void>;
+  shareSurvey: (surveyId: ID) => Promise<void>;
+  hideSurvey: (surveyId: ID) => Promise<void>;
   exportSurvey: (id: ID) => Promise<void>;
 };
 

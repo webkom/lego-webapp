@@ -3,6 +3,7 @@ import qs from 'qs';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { fetchEvent } from 'app/actions/EventActions';
+import { addSurvey, fetchTemplate } from 'app/actions/SurveyActions';
 import { LoginPage } from 'app/components/LoginForm';
 import { selectEventById } from 'app/reducers/events';
 import { selectSurveyTemplate } from 'app/reducers/surveys';
@@ -10,8 +11,6 @@ import type { FormSurvey } from 'app/store/models/Survey';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
-
-import { addSurvey, fetchTemplate } from '../../actions/SurveyActions';
 import SurveyEditor, {
   initialQuestion,
 } from './components/SurveyEditor/SurveyEditor';

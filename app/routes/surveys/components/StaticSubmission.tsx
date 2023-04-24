@@ -72,17 +72,18 @@ const StaticSubmission = ({ survey, submission }: Props) => {
                         <RadioButton
                           inputValue={selected}
                           value={true}
+                          label={option.optionText}
                           className={styles.option}
-                          disabled={true}
+                          disabled
                         />
                       ) : (
                         <CheckBox
                           value={selected}
+                          label={option.optionText}
                           className={styles.option}
-                          disabled={true}
+                          disabled
                         />
                       )}
-                      {option.optionText}
                     </li>
                   );
                 })}
