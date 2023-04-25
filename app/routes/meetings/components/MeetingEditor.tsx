@@ -1,5 +1,6 @@
 import { unionBy } from 'lodash';
-import { Field } from 'react-final-form';
+import moment from 'moment-timezone';
+import { Field, FormSpy } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
 import { useHistory } from 'react-router-dom';
 import { Content } from 'app/components/Content';
@@ -162,7 +163,7 @@ const MeetingEditor = ({
         validate={validate}
         subscription={{}}
       >
-        {({ handleSubmit }) => {
+        {({ handleSubmit, form }) => {
           return (
             <Form onSubmit={handleSubmit}>
               <Field
@@ -183,6 +184,23 @@ const MeetingEditor = ({
                 component={TextArea.Field}
               />
               <div className={styles.sideBySideBoxes}>
+                <FormSpy
+                  subscription={{ values: true }}
+                  onChange={({ values }) => {
+                    const startTime = moment(values.startTime);
+                    const endTime = moment(values.endTime);
+                    if (endTime.isBefore(startTime)) {
+                      form.change(
+                        'endTime',
+                        startTime
+                          .clone()
+                          .add(1, 'hour')
+                          .add(45, 'minutes')
+                          .toISOString()
+                      );
+                    }
+                  }}
+                />
                 <Field
                   name="startTime"
                   label="Starttidspunkt"
