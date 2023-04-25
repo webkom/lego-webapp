@@ -37,11 +37,6 @@
   margin-right: 0.2rem;
 }
 
-.overlay i {
-  font-size: 10em;
-  color: var(--color-green-6);
-}
-
 .shown {
   visibility: visible;
   opacity: 1;

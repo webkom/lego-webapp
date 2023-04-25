@@ -1,6 +1,6 @@
-import cx from 'classnames';
 import { Component } from 'react';
 import Button from 'app/components/Button';
+import Icon from 'app/components/Icon';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import FileUpload from 'app/components/Upload/FileUpload';
@@ -119,13 +119,7 @@ export default class SemesterStatusDetail extends Component<Props, State> {
                 }))
               }
             >
-              <i
-                className="fa fa-pencil"
-                style={{
-                  marginRight: '5px',
-                  color: 'orange',
-                }}
-              />
+              <Icon name="pencil" edit size={20} />
             </Button>
             <ConfirmModalWithParent
               title="Slett semesterstatus"
@@ -133,7 +127,7 @@ export default class SemesterStatusDetail extends Component<Props, State> {
               onConfirm={this.deleteSemesterStatus}
               closeOnConfirm
             >
-              <i className={cx('fa fa-times', styles.deleteIcon)} />
+              <Icon name="trash" danger size={20} />
             </ConfirmModalWithParent>
           </span>
         </td>
@@ -179,12 +173,7 @@ const RenderFile = (props: RenderFileProps) => {
           onConfirm={() => removeFile(type)}
           closeOnConfirm
         >
-          <i
-            className="fa fa-times"
-            style={{
-              color: '#d13c32',
-            }}
-          />
+          <Icon name="trash" danger />
         </ConfirmModalWithParent>
       </span>
     );

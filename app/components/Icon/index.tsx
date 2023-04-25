@@ -1,3 +1,4 @@
+import cx from 'classnames';
 import { Flex } from 'app/components/Layout';
 import styles from './Icon.css';
 import type { ComponentProps } from 'react';
@@ -8,6 +9,10 @@ type Props = {
   scaleOnHover?: boolean;
   className?: string;
   size?: number;
+  danger?: boolean; // name: trash
+  success?: boolean; // name: checkmark
+  edit?: boolean; // name: pencil
+  disabled?: boolean;
 } & ComponentProps<typeof Flex>;
 
 /**
@@ -24,11 +29,21 @@ const Icon = ({
   className,
   style = {},
   size = 24,
+  danger = false,
+  success = false,
+  edit = false,
+  disabled = false,
   ...props
 }: Props) => {
   return (
     <Flex
-      className={className}
+      className={cx(
+        className,
+        danger && styles.danger,
+        success && styles.success,
+        edit && styles.edit,
+        disabled && styles.disabled
+      )}
       style={{
         fontSize: `${size.toString()}px`,
         ...style,

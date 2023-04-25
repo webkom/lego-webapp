@@ -11,3 +11,42 @@
   opacity: 0.9;
   z-index: 1;
 }
+
+.danger {
+  color: var(--danger-color);
+  transition: color var(--easing-fast);
+  cursor: pointer;
+
+  &:hover {
+    color: var(--color-red-7);
+  }
+}
+
+.success {
+  color: var(--color-green-6);
+  transition: color var(--easing-fast);
+  cursor: pointer;
+
+  &:hover {
+    color: var(--color-green-7);
+  }
+}
+
+.edit {
+  color: var(--color-orange-6);
+  transition: color var(--easing-fast);
+  cursor: pointer;
+
+  &:hover {
+    color: var(--color-orange-7);
+  }
+}
+
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+
+  &:hover {
+    color: var(--color-orange-6);
+  }
+}

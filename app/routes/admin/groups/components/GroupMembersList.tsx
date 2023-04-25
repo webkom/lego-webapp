@@ -126,7 +126,8 @@ const GroupMembersList = ({
           <Icon
             name="pencil"
             size={20}
-            className={cx(styles.editIcon, isCurrentUser && styles.disabled)}
+            edit
+            disabled={isCurrentUser}
             onClick={() =>
               !isCurrentUser &&
               setMembershipsInEditMode((prev) => ({
@@ -141,7 +142,7 @@ const GroupMembersList = ({
           message={`Er du sikker på at du vil melde ut "${user.fullName}" fra gruppen "${groupsById[abakusGroup].name}"?`}
           onConfirm={() => removeMember(membership)}
         >
-          <Icon name="trash" size={20} className={styles.removeIcon} />
+          <Icon name="trash" size={20} danger />
         </ConfirmModalWithParent>
       </Flex>
     );

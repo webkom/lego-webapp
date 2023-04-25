@@ -90,13 +90,3 @@
   font-size: 14px;
   font-weight: 500;
 }
-
-.removeIcon {
-  cursor: pointer;
-  color: var(--danger-color);
-  transition: color var(--easing-fast);
-
-  &:hover {
-    color: var(--color-red-7);
-  }
-}

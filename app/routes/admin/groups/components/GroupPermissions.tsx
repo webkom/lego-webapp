@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { compose } from 'redux';
 import { editGroup } from 'app/actions/GroupActions';
+import Icon from 'app/components/Icon';
+import { Flex } from 'app/components/Layout';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import type { ID } from 'app/models';
 import loadingIndicator from 'app/utils/loadingIndicator';
@@ -88,15 +90,19 @@ const PermissionList = ({
         {permissions.length ? (
           permissions.map((permission) => (
             <li key={permission}>
-              <ConfirmModalWithParent
-                title="Bekreft fjerning av rettighet"
-                message={`Er du sikker på at du vil fjerne tilgangen ${permission}?`}
-                closeOnConfirm={true}
-                onConfirm={() => removePermission(permission, group, editGroup)}
-              >
-                <i className={`fa fa-times`} />
-              </ConfirmModalWithParent>
-              {permission}
+              <Flex>
+                <ConfirmModalWithParent
+                  title="Bekreft fjerning av rettighet"
+                  message={`Er du sikker på at du vil fjerne tilgangen ${permission}?`}
+                  closeOnConfirm={true}
+                  onConfirm={() =>
+                    removePermission(permission, group, editGroup)
+                  }
+                >
+                  <Icon name="trash" danger />
+                </ConfirmModalWithParent>
+                {permission}
+              </Flex>
             </li>
           ))
         ) : (
