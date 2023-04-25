@@ -39,6 +39,14 @@ export const articleSchema = new schema.Entity('articles', {
   authors: [userSchema],
 });
 
+export const imageGallerySchema = new schema.Entity(
+  'imageGallery',
+  {},
+  {
+    idAttribute: 'key',
+  }
+);
+
 export const galleryPictureSchema = new schema.Entity('galleryPictures', {
   comments: [commentSchema],
 });

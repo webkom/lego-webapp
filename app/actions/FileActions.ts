@@ -1,6 +1,7 @@
 import slug from 'slugify';
+import { imageGallerySchema } from 'app/reducers';
 import type { Thunk } from 'app/types';
-import { File as FileType } from './ActionTypes';
+import { File, File as FileType, ImageGallery } from './ActionTypes';
 import callAPI from './callAPI';
 
 const slugifyFilename: (filename: string) => string = (filename) => {
@@ -76,5 +77,43 @@ export function uploadFile({
           })
         );
       }
+    );
+}
+export function fetchImageGallery({
+  query,
+  next = false,
+}: {
+  query?: Record<string, any>;
+  next?: boolean;
+} = {}): Thunk<any> {
+  return callAPI({
+    types: ImageGallery.FETCH_ALL,
+    endpoint: '/events/cover_image_gallery/',
+    schema: [imageGallerySchema],
+    query,
+    method: 'GET',
+    meta: {
+      errorMessage: 'Henting av bilder feilet',
+    },
+    propagateError: true,
+  });
+}
+
+export function setSaveForUse(
+  file: string,
+  saveForUse: boolean
+): Thunk<Promise<any>> {
+  return (dispatch) =>
+    dispatch(
+      callAPI({
+        types: File.PATCH,
+        endpoint: `/files/${file.split(':')[0]}/imagegallery/`,
+        method: 'PATCH',
+        body: { token: file.split(':')[1], save_for_use: saveForUse },
+        meta: {
+          errorMessage: 'Endring av hendelse feilet',
+          id: file.split(':')[0],
+        },
+      })
     );
 }

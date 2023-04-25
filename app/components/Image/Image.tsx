@@ -9,6 +9,7 @@ type Props = {
   placeholder?: string;
   className?: string;
   alt: string;
+  darkModeSource?: string;
   style?: StyleHTMLAttributes<HTMLImageElement>;
   darkThemeSource?: string;
 } & ImgHTMLAttributes<HTMLImageElement>;
@@ -25,7 +26,14 @@ const ImageComponent = (props: Props) => {
   const [loadStart, setLoadStart] = useState<number>(0);
   const [loadEnd, setLoadEnd] = useState<number>(0);
 
-  const { src, className, alt = 'image', style, ...rest } = props;
+  const {
+    src,
+    className,
+    alt = 'image',
+    style,
+    darkModeSource,
+    ...rest
+  } = props;
 
   const theme = useTheme();
   const themedSource =
@@ -44,7 +52,11 @@ const ImageComponent = (props: Props) => {
     }
 
     const image = new Image();
-    image.src = themedSource;
+    if (darkModeSource) {
+      image.src = darkModeSource;
+    } else {
+      image.src = src;
+    }
 
     image.onload = () => {
       setImageLoaded(true);

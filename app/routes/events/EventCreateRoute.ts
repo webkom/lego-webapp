@@ -4,12 +4,17 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { formValueSelector } from 'redux-form';
 import { createEvent, fetchEvent } from 'app/actions/EventActions';
-import { uploadFile } from 'app/actions/FileActions';
+import {
+  fetchImageGallery,
+  setSaveForUse,
+  uploadFile,
+} from 'app/actions/FileActions';
 import { LoginPage } from 'app/components/LoginForm';
 import {
   selectEventById,
   selectPoolsWithRegistrationsForEvent,
 } from 'app/reducers/events';
+import { selectImageGalleries } from 'app/reducers/imageGallery';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import time from 'app/utils/time';
@@ -31,6 +36,7 @@ const mapStateToProps = (state, props) => {
   const poolsTemplate = selectPoolsWithRegistrationsForEvent(state, {
     eventId,
   });
+  const imageGallery = selectImageGalleries(state);
   const selectedValues = {
     event: {
       addFee: valueSelector(state, 'addFee'),
@@ -110,6 +116,14 @@ const mapStateToProps = (state, props) => {
       unregistrationDeadlineHours: 2,
     },
     actionGrant,
+    imageGallery: imageGallery.map((e) => {
+      return {
+        key: e.key,
+        cover: e.cover,
+        token: e.token,
+        coverPlaceholder: e.coverPlaceholder,
+      };
+    }),
     ...selectedValues,
   };
 
@@ -126,6 +140,9 @@ const mapStateToProps = (state, props) => {
   if (isEmpty(eventTemplate) && eventId) {
     return {
       initialValues: null,
+      imageGallery: imageGallery.map((e) => {
+        return { key: e.key, cover: e.cover, token: e.token };
+      }),
     };
   }
 
@@ -165,6 +182,9 @@ const mapStateToProps = (state, props) => {
         transformEventStatusType(eventTemplate.eventStatusType),
     },
     actionGrant,
+    imageGallery: imageGallery.map((e) => {
+      return { key: e.key, cover: e.cover, token: e.token };
+    }),
     ...selectedValues,
   };
 };
@@ -173,13 +193,12 @@ const mapDispatchToProps = {
   handleSubmitCallback: (event) => createEvent(transformEvent(event)),
   fetchEvent,
   uploadFile,
+  setSaveForUse,
 };
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  withPreparedDispatch(
-    'fetchEventCreate',
-    (props, dispatch) =>
-      props.match.params.id && dispatch(fetchEvent(props.match.params.id))
+  withPreparedDispatch('fetchEventCreate', (props, dispatch) =>
+    Promise.all([dispatch(fetchImageGallery())])
   ),
   connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['initialValues'])

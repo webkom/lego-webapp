@@ -9,7 +9,11 @@ import {
   deleteEvent,
   setCoverPhoto,
 } from 'app/actions/EventActions';
-import { uploadFile } from 'app/actions/FileActions';
+import {
+  fetchImageGallery,
+  setSaveForUse,
+  uploadFile,
+} from 'app/actions/FileActions';
 import { LoginPage } from 'app/components/LoginForm';
 import {
   selectEventById,
@@ -18,6 +22,7 @@ import {
   selectRegistrationsFromPools,
   selectWaitingRegistrationsForEvent,
 } from 'app/reducers/events';
+import { selectImageGalleries } from 'app/reducers/imageGallery';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import time from 'app/utils/time';
@@ -52,6 +57,7 @@ const mapStateToProps = (state, props) => {
     eventId,
   });
   const valueSelector = formValueSelector('eventEditor');
+  const imageGallery = selectImageGalleries(state);
   return {
     initialValues: {
       ...event,
@@ -99,6 +105,14 @@ const mapStateToProps = (state, props) => {
       useMazemap: event.eventStatusType === 'TBA' || event.mazemapPoi > 0,
       hasFeedbackQuestion: !!event.feedbackDescription,
     },
+    imageGallery: imageGallery.map((e) => {
+      return {
+        key: e.key,
+        cover: e.cover,
+        token: e.token,
+        coverPlaceholder: e.coverPlaceholder,
+      };
+    }),
     actionGrant,
     event: {
       ...event,
@@ -141,12 +155,16 @@ const mapDispatchToProps = {
   handleSubmitCallback: (event) => editEvent(transformEvent(event)),
   uploadFile,
   setCoverPhoto,
+  setSaveForUse,
   push,
 };
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
   withPreparedDispatch('fetchEventEdit', (props, dispatch) =>
-    dispatch(fetchEvent(props.match.params.eventIdOrSlug))
+    Promise.all([
+      dispatch(fetchEvent(props.match.params.eventIdOrSlug)),
+      dispatch(fetchImageGallery()),
+    ])
   ),
   connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['event.title'])
