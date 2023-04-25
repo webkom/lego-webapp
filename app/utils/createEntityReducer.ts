@@ -1,64 +1,27 @@
-import { produce } from 'immer';
 import { omit, without, isArray, get, union, isEmpty } from 'lodash';
 import { parse } from 'qs';
 import { configWithSSR } from 'app/config';
-import type { ID } from 'app/store/models';
 import type { Reducer, AsyncActionType } from 'app/types';
-import type { StrictReducer } from 'app/utils/joinReducers';
 import joinReducers from 'app/utils/joinReducers';
 import mergeObjects from 'app/utils/mergeObjects';
-import type { AnyAction } from 'redux';
 
 export type EntityReducerTypes = AsyncActionType | Array<AsyncActionType>;
-type EntityReducerOptions<
-  State extends EntityReducerState,
-  Key extends string
-> = {
-  key: Key;
+type EntityReducerOptions = {
+  key: string;
   types: {
     fetch?: EntityReducerTypes;
     mutate?: EntityReducerTypes;
     delete?: EntityReducerTypes;
   };
-  mutate?: StrictReducer<State, AnyAction>;
-  initialState?: State;
+  mutate?: Reducer;
+  initialState?: Record<string, any>;
 };
-
 const defaultState = {
   actionGrant: [],
   pagination: {},
   paginationNext: {},
   byId: {},
   items: [],
-  fetching: false,
-};
-
-type Pagination = {
-  next?: string;
-};
-
-type PaginationCursor = Record<string, string> & { cursor: string };
-
-type PaginationNext = {
-  [query: string]: {
-    items: ID[];
-    hasMore: boolean;
-    query: Record<string, string>;
-    hasMoreBackwards: boolean;
-    next: PaginationCursor;
-    previous: PaginationCursor;
-  };
-};
-
-// TODO FIXME Validate what should be Optional here and what should always be the base state
-export type EntityReducerState<T = any> = {
-  actionGrant: string[];
-  pagination: Pagination;
-  paginationNext: PaginationNext;
-  byId: Record<ID, T>;
-  items: ID[];
-  fetching: boolean;
-  hasMore?: boolean;
 };
 
 const toArray = (
@@ -73,14 +36,15 @@ const toArray = (
 
 const isNumber = (id) => !isNaN(Number(id)) && !isNaN(parseInt(id, 10));
 
-type FetchingState = {
-  fetching: boolean;
-};
-
-export function fetching<State extends FetchingState>(
+export function fetching(
   fetchTypes: EntityReducerTypes | null | undefined
-): StrictReducer<State> {
-  return (state = { fetching: false } as State, action) => {
+): Reducer {
+  return (
+    state: any = {
+      fetching: false,
+    },
+    action: any
+  ) => {
     for (const fetchType of toArray(fetchTypes)) {
       switch (action.type) {
         case fetchType.BEGIN:
@@ -102,7 +66,7 @@ export function createAndUpdateEntities(
   fetchTypes: EntityReducerTypes | null | undefined,
   key: string
 ): Reducer {
-  return (state = defaultState, action) => {
+  return (state: any = defaultState, action: any) => {
     if (!action.payload) return state;
     const primaryKey = get(action, ['meta', 'schemaKey']) === key;
     const result = get(action, ['payload', 'entities', key], {});
@@ -165,15 +129,14 @@ export function createAndUpdateEntities(
       };
     }
 
-    return produce(state, (draft) => {
-      if (result && !isEmpty(result)) {
-        draft.byId = mergeObjects(state.byId, result);
-      }
-      draft.items = union(state.items, resultIds);
-      draft.actionGrant = union(state.actionGrant, actionGrant);
-      draft.pagination = pagination;
-      draft.paginationNext = paginationNext;
-    });
+    return {
+      ...state,
+      byId: mergeObjects(state.byId, result),
+      items: union(state.items, resultIds),
+      actionGrant: union(state.actionGrant, actionGrant),
+      pagination,
+      paginationNext,
+    };
   };
 }
 
@@ -185,7 +148,7 @@ export function createAndUpdateEntities(
 export function deleteEntities(
   deleteTypes: EntityReducerTypes | null | undefined
 ): Reducer {
-  return (state = defaultState, action) => {
+  return (state: any = defaultState, action: any) => {
     if (
       !toArray(deleteTypes).some(
         (deleteType) => action.type === deleteType.SUCCESS
@@ -227,7 +190,7 @@ export function deleteEntities(
 export function optimisticDelete(
   deleteTypes: EntityReducerTypes | null | undefined
 ): Reducer {
-  return (state, action) => {
+  return (state: any, action: any) => {
     if (!deleteTypes || !action.meta || !action.meta.enableOptimistic) {
       return state;
     }
@@ -244,9 +207,7 @@ export function optimisticDelete(
     }
 
     if (
-      toArray(deleteTypes).some(
-        (deleteType) => action.type === deleteType.FAILURE
-      )
+      toArray(deleteTypes).some((deleteType) => action === deleteType.FAILURE)
     ) {
       return { ...state, items: state.items.concat(action.meta.id) };
     }
@@ -257,7 +218,7 @@ export function optimisticDelete(
 export function optimistic(
   mutateTypes: EntityReducerTypes | null | undefined
 ): Reducer {
-  return (state, action) => {
+  return (state: any, action: any) => {
     if (
       !toArray(mutateTypes).some((mutateType) =>
         [mutateType.FAILURE, mutateType.SUCCESS].includes(action.type)
@@ -277,7 +238,7 @@ export function optimistic(
 export function paginationReducer(
   fetchTypes: EntityReducerTypes | null | undefined
 ): Reducer {
-  return (state, action) => {
+  return (state: any, action: any) => {
     const paginationKey = get(action, ['meta', 'paginationKey']);
     const cursor = get(action, ['meta', 'cursor']);
     const query = get(action, ['meta', 'query']);
@@ -354,17 +315,13 @@ export function paginationReducer(
  * Create reducers for common crud actions
  */
 
-export default function createEntityReducer<
-  Entity = EntityReducerState,
-  Key extends string = string
->({
+export default function createEntityReducer({
   key,
   types,
   mutate,
-  initialState,
-}: EntityReducerOptions<EntityReducerState<Entity>, Key>) {
-  type State = EntityReducerState<Entity>;
-  const finalInitialState: State = {
+  initialState = {},
+}: EntityReducerOptions): Reducer {
+  const finalInitialState = {
     actionGrant: [],
     pagination: {},
     paginationNext: {},
@@ -375,7 +332,7 @@ export default function createEntityReducer<
     ...initialState,
   };
   const { fetch: fetchTypes, delete: deleteTypes, mutate: mutateTypes } = types;
-  const reduce = joinReducers<State>(
+  const reduce = joinReducers(
     fetching(fetchTypes),
     paginationReducer(fetchTypes),
     createAndUpdateEntities(fetchTypes, key),
@@ -384,5 +341,5 @@ export default function createEntityReducer<
     optimisticDelete(deleteTypes),
     mutate
   );
-  return (state = finalInitialState, action) => reduce(state, action);
+  return (state: any = finalInitialState, action: any) => reduce(state, action);
 }

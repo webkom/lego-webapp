@@ -1,3 +1,4 @@
+import cx from 'classnames';
 import keys from 'lodash/keys';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -50,8 +51,7 @@ const UserSettingsOAuth2 = (props: Props) => {
               <Icon
                 name={copied ? 'copy' : 'copy-outline'}
                 size={20}
-                success={copied}
-                className={styles.copyIcon}
+                className={cx(styles.copyIcon, copied && styles.copied)}
                 onClick={() => {
                   navigator.clipboard.writeText(application.clientId);
                   setCopiedClientId(application.clientId);
@@ -98,9 +98,11 @@ const UserSettingsOAuth2 = (props: Props) => {
           closeOnCancel
         >
           <Tooltip content="Fjern" style={{ marginTop: '-7px' }}>
-            <Flex justifyContent="center">
-              <Icon name="trash" size={19} danger />
-            </Flex>
+            <Icon
+              name="trash-outline"
+              size={18}
+              className={styles.deleteIcon}
+            />
           </Tooltip>
         </ConfirmModalWithParent>
       ),

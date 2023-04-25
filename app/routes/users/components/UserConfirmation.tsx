@@ -16,16 +16,15 @@ import { createValidator, required, sameAs } from 'app/utils/validation';
 import { validPassword } from '../utils';
 import PasswordField from './PasswordField';
 import styles from './UserConfirmation.css';
-import type { RouteChildrenProps } from 'react-router';
 
-export type Props = {
+type Props = {
   token: string;
   user: UserEntity;
   handleSubmit: (arg0: (...args: Array<any>) => any) => void;
   createUser: (token: string, data: Record<string, any>) => void;
   router: any;
   submitSucceeded: () => void;
-} & RouteChildrenProps<{ username: string }>;
+};
 
 const UserConfirmation = ({
   token,
@@ -120,7 +119,7 @@ const UserConfirmation = ({
             autocomplete="family-name"
             component={TextInput.Field}
           />
-          <RadioButtonGroup label="Kjønn" name="gender">
+          <RadioButtonGroup name="gender">
             <Field
               name="genderMan"
               label="Mann"

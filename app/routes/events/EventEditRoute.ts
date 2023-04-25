@@ -9,15 +9,19 @@ import {
   deleteEvent,
   setCoverPhoto,
 } from 'app/actions/EventActions';
-import { uploadFile } from 'app/actions/FileActions';
+import {
+  fetchImageGallery,
+  setSaveForUse,
+  uploadFile,
+} from 'app/actions/FileActions';
 import { LoginPage } from 'app/components/LoginForm';
 import {
   selectEventById,
-  selectEventBySlug,
   selectPoolsWithRegistrationsForEvent,
   selectRegistrationsFromPools,
   selectWaitingRegistrationsForEvent,
 } from 'app/reducers/events';
+import { selectImageGalleries } from 'app/reducers/imageGallery';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import time from 'app/utils/time';
@@ -30,17 +34,10 @@ import {
 } from './utils';
 
 const mapStateToProps = (state, props) => {
-  const eventIdOrSlug = props.match.params.eventIdOrSlug;
-  const event = !isNaN(eventIdOrSlug)
-    ? selectEventById(state, { eventId: eventIdOrSlug })
-    : selectEventBySlug(state, { eventSlug: eventIdOrSlug });
-
-  if (event && event.slug && eventIdOrSlug !== event.slug) {
-    props.history.replace(`/events/${event.slug}/edit`);
-  }
-
-  const eventId = event.id;
-
+  const eventId = props.match.params.eventId;
+  const event = selectEventById(state, {
+    eventId,
+  });
   const actionGrant = event.actionGrant || [];
   const pools = selectPoolsWithRegistrationsForEvent(state, {
     eventId,
@@ -52,6 +49,7 @@ const mapStateToProps = (state, props) => {
     eventId,
   });
   const valueSelector = formValueSelector('eventEditor');
+  const imageGallery = selectImageGalleries(state);
   return {
     initialValues: {
       ...event,
@@ -99,6 +97,9 @@ const mapStateToProps = (state, props) => {
       useMazemap: event.eventStatusType === 'TBA' || event.mazemapPoi > 0,
       hasFeedbackQuestion: !!event.feedbackDescription,
     },
+    imageGallery: imageGallery.map((e) => {
+      return { key: e.key, cover: e.cover, token: e.token };
+    }),
     actionGrant,
     event: {
       ...event,
@@ -141,12 +142,16 @@ const mapDispatchToProps = {
   handleSubmitCallback: (event) => editEvent(transformEvent(event)),
   uploadFile,
   setCoverPhoto,
+  setSaveForUse,
   push,
 };
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
   withPreparedDispatch('fetchEventEdit', (props, dispatch) =>
-    dispatch(fetchEvent(props.match.params.eventIdOrSlug))
+    Promise.all([
+      dispatch(fetchEvent(props.match.params.eventId)),
+      dispatch(fetchImageGallery()),
+    ])
   ),
   connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['event.title'])

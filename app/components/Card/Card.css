@@ -16,37 +16,3 @@
   transition: box-shadow var(--easing-medium);
   box-shadow: var(--shadow-md);
 }
-
-.danger {
-  background-color: var(--color-red-1);
-  border: 3px solid var(--danger-color);
-  color: var(--danger-color);
-}
-
-html[data-theme='dark'] .danger {
-  color: var(--color-red-8);
-  border-color: var(--color-red-8);
-}
-
-.warningIcon {
-  color: var(--danger-color);
-}
-
-.danger a {
-  color: var(--color-red-8);
-  text-decoration: underline;
-
-  &:hover {
-    color: var(--color-red-7);
-  }
-}
-
-html[data-theme='dark'] .danger a:hover {
-  color: var(--color-red-3);
-}
-
-.header {
-  font-weight: 600;
-  font-size: var(--font-size-large);
-  line-height: 1.3;
-}

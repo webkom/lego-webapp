@@ -1,6 +1,4 @@
 import type { ID } from 'app/store/models/index';
-import type { ValueLabel } from 'app/types';
-import type { Overwrite } from 'utility-types';
 
 export enum SurveyQuestionType {
   SingleChoice = 'single_choice',
@@ -27,24 +25,4 @@ export interface SurveyQuestion {
 export interface SurveyQuestionOption {
   id: ID;
   optionText: string;
-  relativeIndex: number;
 }
-
-export type CreateSurveyQuestion = Pick<
-  SurveyQuestion,
-  | 'displayType'
-  | 'questionType'
-  | 'questionText'
-  | 'mandatory'
-  | 'relativeIndex'
-> & { options: Pick<SurveyQuestionOption, 'optionText' | 'relativeIndex'>[] };
-
-export type FormSurveyQuestionOption = ValueLabel<
-  SurveyQuestionOption,
-  'relativeIndex'
->;
-
-export type FormSurveyQuestion = Overwrite<
-  CreateSurveyQuestion,
-  { options: FormSurveyQuestionOption[] }
->;

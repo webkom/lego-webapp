@@ -122,18 +122,6 @@ export function fetchAdministrate(eventId: number): Thunk<any> {
     },
   });
 }
-
-export function fetchAllergies(eventId: number): Thunk<any> {
-  return callAPI({
-    types: Event.FETCH,
-    endpoint: `/events/${eventId}/allergies/`,
-    schema: eventAdministrateSchema,
-    meta: {
-      errorMessage: 'Henting av allergier feilet',
-    },
-  });
-}
-
 export function createEvent(
   event: Record<string, any>
 ): Thunk<Promise<Action | null | undefined>> {

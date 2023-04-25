@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { formValueSelector } from 'redux-form';
 import { createUser, validateRegistrationToken } from 'app/actions/UserActions';
-import type { RootState } from 'app/store/createRootReducer';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import UserConfirmation from './components/UserConfirmation';
 
@@ -12,12 +11,12 @@ const loadData = ({ location: { search } }, dispatch) => {
     ignoreQueryPrefix: true,
   });
 
-  if (token && typeof token === 'string') {
+  if (token) {
     return dispatch(validateRegistrationToken(token));
   }
 };
 
-const mapStateToProps = (state: RootState) => {
+const mapStateToProps = (state, props) => {
   const valueSelector = formValueSelector('ConfirmationForm');
   return {
     token: state.auth.registrationToken,

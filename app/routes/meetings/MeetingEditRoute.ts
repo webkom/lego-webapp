@@ -11,21 +11,11 @@ import { LoginPage } from 'app/components/LoginForm';
 import { selectMeetingInvitationsForMeeting } from 'app/reducers/meetingInvitations';
 import { selectMeetingById } from 'app/reducers/meetings';
 import { selectUserById } from 'app/reducers/users';
-import type { UserContextType } from 'app/routes/app/AppRoute';
-import type { RootState } from 'app/store/createRootReducer';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import MeetingEditor from './components/MeetingEditor';
-import type { RouteChildrenProps } from 'react-router';
 
-type Params = {
-  meetingId: string;
-};
-
-const mapStateToProps = (
-  state: RootState,
-  props: RouteChildrenProps<Params> & UserContextType
-) => {
+const mapStateToProps = (state, props) => {
   const { meetingId } = props.match.params;
   const meeting = selectMeetingById(state, {
     meetingId,
@@ -71,10 +61,8 @@ const mapDispatchToProps = {
 };
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  withPreparedDispatch(
-    'fetchMeetingEdit',
-    (props: RouteChildrenProps<Params>, dispatch) =>
-      dispatch(fetchMeeting(props.match.params.meetingId))
+  withPreparedDispatch('fetchMeetingEdit', (props, dispatch) =>
+    dispatch(fetchMeeting(props.match.params.meetingId))
   ),
   connect(mapStateToProps, mapDispatchToProps)
 )(MeetingEditor);

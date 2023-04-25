@@ -11,7 +11,6 @@ import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import type { UserEntity } from 'app/reducers/users';
 import DeleteUser from 'app/routes/users/components/DeleteUser';
 import RemovePicture from 'app/routes/users/components/RemovePicture';
-import { useIsCurrentUser } from 'app/routes/users/utils';
 import { spySubmittable } from 'app/utils/formSpyUtils';
 import {
   createValidator,
@@ -33,6 +32,7 @@ interface Props {
   updateUser: (arg0: Record<string, any>) => Promise<void>;
   deleteUser: (arg0: Record<string, any>) => Promise<void>;
   user: UserEntity;
+  isMe: boolean;
   push: (arg0: string) => void;
   updatePicture: (arg0: Record<string, any>) => void;
   removePicture: (arg0: string) => Promise<any>;
@@ -63,6 +63,7 @@ const validate = createValidator({
 const UserSettings = (props: Props) => {
   const {
     changePassword,
+    isMe,
     updatePicture,
     removePicture,
     push,
@@ -71,7 +72,6 @@ const UserSettings = (props: Props) => {
     initialValues,
     updateUser,
   } = props;
-  const isCurrentUser = useIsCurrentUser(user.username);
   const showAbakusMembership = user.isStudent;
 
   const onSubmit = (values: FormValues) => updateUser(values);
@@ -205,7 +205,7 @@ const UserSettings = (props: Props) => {
         )}
       </LegoFinalForm>
 
-      {isCurrentUser && (
+      {isMe && (
         <>
           <div className={styles.changePassword}>
             <h2>Endre passord</h2>

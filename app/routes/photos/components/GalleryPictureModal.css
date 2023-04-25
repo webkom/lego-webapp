@@ -4,6 +4,14 @@
   padding: 0;
   width: var(--lego-max-width);
   max-height: calc(100vh - 100px);
+
+  @media (max-width: 800px) {
+    position: fixed;
+    top: 0;
+    max-height: 100vh;
+    height: 100vh;
+    width: 100vw;
+  }
 }
 
 .pictureContainer {

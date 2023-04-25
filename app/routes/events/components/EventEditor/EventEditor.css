@@ -20,11 +20,6 @@
   margin-bottom: 0;
 }
 
-.metaFieldInformation {
-  margin-bottom: 0;
-  font-size: small;
-}
-
 .metaField input {
   padding-bottom: 5px;
   padding-top: 5px;
@@ -64,4 +59,40 @@
   margin-left: 10px;
   border-left: 4px solid var(--lego-red-color);
   padding: 0 0 10px 10px;
+}
+
+.imageGallery {
+  width: 60%;
+}
+
+.imageGalleryEntry {
+  border-radius: var(--border-radius-md);
+}
+
+.imageGalleryEntry:hover {
+  opacity: 80%;
+}
+
+.imageGalleryEntry:active {
+  opacity: 65%;
+}
+
+.imageGalleryContainer {
+  margin: 1em;
+}
+
+.closeButton {
+  color: var(--lego-red-color);
+  position: relative;
+  float: right;
+  right: -1.5em;
+  top: 0.7em;
+}
+
+.closeButton:hover {
+  opacity: 80%;
+}
+
+.closeButton:active {
+  opacity: 65%;
 }

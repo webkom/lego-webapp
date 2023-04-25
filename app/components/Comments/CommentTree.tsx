@@ -2,7 +2,6 @@ import cx from 'classnames';
 import type { ID } from 'app/store/models';
 import type CommentType from 'app/store/models/Comment';
 import type { CurrentUser } from 'app/store/models/User';
-import type { ContentTarget } from 'app/store/utils/contentTarget';
 import type { Tree } from 'app/utils';
 import Comment from './Comment';
 import styles from './CommentTree.css';
@@ -11,14 +10,14 @@ type Props = {
   comments: Tree<CommentType>;
   isChild?: boolean;
   commentFormProps: {
-    contentTarget: ContentTarget;
+    contentTarget: string;
     user: CurrentUser;
     loggedIn: boolean;
   };
   level?: number;
-  deleteComment: (id: ID, contentTarget: ContentTarget) => Promise<void>;
+  deleteComment: (id: ID, contentTarget: string) => Promise<void>;
   user: CurrentUser;
-  contentTarget: ContentTarget;
+  contentTarget: string;
 };
 
 function CommentTree({

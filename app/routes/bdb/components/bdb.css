@@ -8,6 +8,10 @@
   margin-top: 15px;
 }
 
+.search {
+  display: flex;
+}
+
 .root select {
   font-size: 100%;
   font-family: proxima-nova, 'Helvetica Neue', Arial, sans-serif;
@@ -170,6 +174,14 @@
 
   & span {
     max-width: 200px;
+  }
+}
+
+.deleteIcon {
+  color: var(--danger-color);
+
+  &:hover {
+    cursor: pointer;
   }
 }
 

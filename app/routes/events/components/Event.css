@@ -73,6 +73,37 @@
   margin-bottom: 1rem;
 }
 
+.eventWarning {
+  padding: 10px;
+  border-radius: var(--border-radius-lg);
+  background: var(--danger-color);
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.eventWarning > p {
+  color: white;
+  font-weight: bold;
+  margin: 0;
+}
+
+.eventWarning a {
+  font-weight: 600;
+  color: var(--color-red-9);
+
+  &:hover {
+    color: var(--color-red-8);
+  }
+}
+
+html[data-theme='dark'] .eventWarning a {
+  color: var(--color-red-1);
+
+  &:hover {
+    color: var(--color-red-2);
+  }
+}
+
 .eventPrice {
   text-align: center;
   width: 100%;

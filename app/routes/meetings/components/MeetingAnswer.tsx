@@ -1,23 +1,13 @@
-import { useHistory } from 'react-router-dom';
-import Button from 'app/components/Button';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import type { MeetingsTokenResponse } from 'app/reducers/meetingsToken';
-import type { ID } from 'app/store/models';
-import { MeetingInvitationStatus } from 'app/store/models/MeetingInvitation';
-import type { PublicUser } from 'app/store/models/User';
+import type { User } from 'app/models';
 
 type Props = {
-  response: MeetingsTokenResponse;
-  user: PublicUser;
-  status: MeetingInvitationStatus;
+  response: string | null | undefined;
+  user: User;
+  status: number;
   resetMeetingsToken: () => void;
-  meeting: ID;
-};
-
-const statusTexts: { [value in MeetingInvitationStatus]: string } = {
-  [MeetingInvitationStatus.Attending]: 'skal nå delta',
-  [MeetingInvitationStatus.NotAttending]: 'skal nå ikke delta',
-  [MeetingInvitationStatus.NoAnswer]: 'har nå ikke svart på om de skal delta',
+  meeting: number;
+  router: /*TODO: Router*/ Record<string, any>;
 };
 
 const MeetingAnswer = ({
@@ -25,21 +15,20 @@ const MeetingAnswer = ({
   user,
   meeting,
   status,
+  router,
   resetMeetingsToken,
 }: Props) => {
-  const history = useHistory();
-
   if (!response) {
     return <LoadingIndicator loading />;
   }
 
   const handleLink = () => {
-    history.push(`/meetings/${meeting}`);
+    router.push(`/meetings/${meeting}`);
     resetMeetingsToken();
   };
 
   if (response === 'SUCCESS') {
-    const statusText = statusTexts[status];
+    const statusText = ['', 'Delta', 'Ikke delta'][status];
     return (
       <div
         style={{
@@ -47,18 +36,17 @@ const MeetingAnswer = ({
         }}
       >
         <h1>
+          {' '}
           Du har nå svart på invitasjonen{' '}
           <span role="img" aria-label="happy">
             😃
           </span>
         </h1>
         <p>
-          {user.firstName} {statusText} på møtet!
+          {user.firstName} skal nå {statusText} på møtet!
         </p>
         <p>
-          <Button dark onClick={handleLink}>
-            Logg inn og sjekk møtet
-          </Button>
+          Logg inn og sjekk møtet <button onClick={handleLink}> her</button>
         </p>
       </div>
     );
@@ -72,7 +60,6 @@ const MeetingAnswer = ({
     >
       <h1>Det har skjedd en feil :(</h1>
       <p>Prøv å logg inn for å svare på invitasjonen</p>
-      <Button onClick={handleLink}>Logg inn</Button>
     </div>
   );
 };

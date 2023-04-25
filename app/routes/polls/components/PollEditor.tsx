@@ -61,7 +61,7 @@ const renderOptions = ({ fields }: any): ReactNode => (
             className={styles.deleteOption}
           >
             <Tooltip content="Fjern">
-              <Icon name="trash" danger />
+              <Icon name="trash" className={styles.deleteOption} />
             </Tooltip>
           </ConfirmModalWithParent>
         </li>

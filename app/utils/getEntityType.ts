@@ -8,7 +8,7 @@ const entityTypeMappings = {
   'meetings.meeting': 'meetings',
   'gallery.gallerypicture': 'galleryPictures',
 };
-export type EntityServerName = $Keys<typeof entityTypeMappings>;
-export default function getEntityType(serverName: EntityServerName): string {
+type ServerName = $Keys<typeof entityTypeMappings>;
+export default function getEntityType(serverName: ServerName): string {
   return entityTypeMappings[serverName] || serverName;
 }

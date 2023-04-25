@@ -1,7 +1,5 @@
-import qs from 'qs';
 import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
-import config from 'app/config';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 import type { ReactNode } from 'react';
 
@@ -39,17 +37,6 @@ export const SEMESTER_TRANSLATION = {
     english: 'Autumn',
   },
 };
-export const getCsvUrl = (
-  year: number | string,
-  semester: string,
-  event?: string
-) =>
-  `${config.serverUrl}/company-interests/csv/?${qs.stringify({
-    year,
-    semester,
-    event,
-  })}`;
-
 export const semesterToText = ({
   semester,
   year,

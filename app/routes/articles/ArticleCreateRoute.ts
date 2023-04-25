@@ -4,26 +4,17 @@ import { compose } from 'redux';
 import { createArticle } from 'app/actions/ArticleActions';
 import { uploadFile } from 'app/actions/FileActions';
 import { LoginPage } from 'app/components/LoginForm';
-import { selectCurrentUser } from 'app/reducers/auth';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import ArticleEditor from './components/ArticleEditor';
 
-const mapStateToProps = (state) => {
-  const currentUser = selectCurrentUser(state);
-  const authors = [currentUser];
-  return {
-    isNew: true,
-    article: {},
-    initialValues: {
-      content: '',
-      authors: authors.map((user) => ({
-        ...user,
-        label: user.fullName,
-        value: user.id,
-      })),
-    },
-  };
-};
+const mapStateToProps = () => ({
+  isNew: true,
+  article: {},
+  initialValues: {
+    content: '',
+  },
+});
+
 const mapDispatchToProps = {
   submitArticle: createArticle,
   uploadFile,

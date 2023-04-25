@@ -1,6 +1,6 @@
 import moment from 'moment-timezone';
+import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
 import { Field, FieldArray } from 'redux-form';
 import {
   Content,
@@ -24,6 +24,8 @@ import Icon from 'app/components/Icon';
 import { Flex } from 'app/components/Layout';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import MazemapLink from 'app/components/MazemapEmbed/MazemapLink';
+import Modal from 'app/components/Modal';
+import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import NavigationTab from 'app/components/NavigationTab';
 import Tag from 'app/components/Tags/Tag';
 import { FormatTime } from 'app/components/Time';
@@ -32,7 +34,13 @@ import {
   AttendanceStatus,
   ModalParentComponent,
 } from 'app/components/UserAttendance';
-import type { ID, EventRegistration, EventPool, ActionGrant } from 'app/models';
+import type {
+  ID,
+  EventRegistration,
+  EventPool,
+  ActionGrant,
+  imageGallery,
+} from 'app/models';
 import { validYoutubeUrl } from 'app/utils/validation';
 import {
   addStripeFee,
@@ -66,6 +74,9 @@ type Props = {
   pristine: boolean;
   initialized: boolean;
   push: (arg0: string) => void;
+  imageGallery: imageGallery;
+  change: (arg0: string, arg1: any) => void;
+  setSaveForUse: (arg0: string, arg1: boolean) => Promise<any>;
 };
 
 function EventEditor({
@@ -83,8 +94,14 @@ function EventEditor({
   pristine,
   initialized,
   push,
+  imageGallery,
+  change,
+  setSaveForUse,
 }: Props) {
   const isEditPage = eventId !== undefined;
+  const [showImageGallery, setShowImageGallery] = useState(false);
+  const [useImageGallery, setUseImageGallery] = useState(false);
+  const [imageGalleryUrl, setImageGalleryUrl] = useState('');
 
   if (isEditPage && !actionGrant.includes('edit')) {
     return null;
@@ -127,10 +144,91 @@ function EventEditor({
           name="cover"
           component={ImageUploadField}
           uploadFile={uploadFile}
-          edit={isEditPage && ((token) => setCoverPhoto(eventId, token))}
           aspectRatio={20 / 6}
-          img={event.cover}
+          img={useImageGallery ? imageGalleryUrl : event.cover}
         />
+        <Modal
+          show={showImageGallery}
+          onHide={() => setShowImageGallery(false)}
+          contentClassName={styles.imageGallery}
+        >
+          <>
+            <Flex column alignItems>
+              <h1>Bildegalleri:</h1>
+              <Flex wrap alignItems="center" justifyContent="space-around">
+                {imageGallery &&
+                  imageGallery.map((e) => {
+                    return (
+                      <div key={e.key} className={styles.imageGalleryContainer}>
+                        <ConfirmModalWithParent
+                          title="Fjern fra galleri"
+                          message="Er du sikker på at du vil fjerne bildet fra bildegalleriet? (Bildet blir ikke slettet!)"
+                          onConfirm={() =>
+                            setSaveForUse(`${e.key}:${e.token}`, false)
+                          }
+                          closeOnConfirm
+                        >
+                          <button className={styles.closeButton}>
+                            <Icon name="close-circle" size={24} />
+                          </button>
+                        </ConfirmModalWithParent>
+
+                        <img
+                          src={`${e.cover}`}
+                          key={e.key}
+                          onClick={() => {
+                            change('cover', `${e.key}:${e.token}`);
+                            setShowImageGallery(false);
+                            setUseImageGallery(true);
+                            setImageGalleryUrl(e.cover);
+                          }}
+                          className={styles.imageGalleryEntry}
+                        />
+                      </div>
+                    );
+                  })}
+                {imageGallery.length === 0 && (
+                  <h2>
+                    Det finnes ingen bilder i bildegalleriet. Hvorfor ikke laste
+                    opp ett?
+                  </h2>
+                )}
+              </Flex>
+            </Flex>
+          </>
+        </Modal>
+
+        <Flex wrap alignItems="center" justifyContent="space-between">
+          <Flex alignItems="center" justifyContent="space-between">
+            <Button
+              className={styles.scannerButton}
+              onClick={() => setShowImageGallery(true)}
+            >
+              Velg bilde fra Bildegalleriet
+            </Button>
+            <Tooltip content="Velg et bilde som er lastet opp og markert for bruk fra tidligere arrangementer.">
+              <Icon
+                name="information-circle-outline"
+                size={20}
+                style={{
+                  cursor: 'pointer',
+                  marginLeft: '0.5em',
+                }}
+              />
+            </Tooltip>
+          </Flex>
+
+          <Tooltip content="Lagre bildet til bildegalleriet. Det kan da brukes i andre arrangementer.">
+            <Field
+              label="Lagre til bildegalleriet"
+              name="saveToImageGallery"
+              component={CheckBox.Field}
+              fieldClassName={styles.metaField}
+              className={styles.formField}
+              normalize={(v) => !!v}
+            />
+          </Tooltip>
+        </Flex>
         <Flex>
           <Field
             name="youtubeUrl"
@@ -562,41 +660,6 @@ function EventEditor({
             )}
           </ContentSidebar>
         </ContentSection>
-        {!isEditPage && (
-          <Tooltip
-            style={{
-              marginLeft: '3px',
-            }}
-            content={
-              <>
-                Jeg er kjent med at jeg kun kan bruke rettighetene mine til å
-                opprette et Abakusarrangement som er i tråd med{' '}
-                <Link to="/pages/arrangementer/86-arrangementskalender">
-                  arrangementskalenderen
-                </Link>{' '}
-                og Abakus sine blesteregler, og at jeg må ta kontakt med{' '}
-                <a href="mailto:hs@abakus.no">hs@abakus.no</a> dersom jeg er
-                usikker eller ønsker å opprette et annet/eksternt arrangement.
-              </>
-            }
-          >
-            <Field
-              label={
-                <>
-                  Arrangementet er avklart i{' '}
-                  <Link to="/pages/arrangementer/86-arrangementskalender">
-                    arrangementskalenderen
-                  </Link>
-                </>
-              }
-              name="isClarified"
-              component={CheckBox.Field}
-              fieldClassName={styles.metaFieldInformation}
-              className={styles.formField}
-              normalize={(v) => !!v}
-            />
-          </Tooltip>
-        )}
 
         <Flex wrap>
           {isEditPage && (
@@ -628,15 +691,15 @@ const validate = (data) => {
   }
 
   if (!data.title) {
-    errors.title = 'Tittel er påkrevd';
+    errors.title = 'Tittel er påkrevet';
   }
 
   if (!data.description || data.description.trim() === '') {
-    errors.description = 'Kalenderbeskrivelse er påkrevd';
+    errors.description = 'Kalenderbeskrivelse er påkrevet';
   }
 
   if (!data.eventType) {
-    errors.eventType = 'Arrangementstype er påkrevd';
+    errors.eventType = 'Arrangementstype er påkrevet';
   }
 
   if (data.isPriced && data.priceMember > 10000) {
@@ -648,7 +711,7 @@ const validate = (data) => {
   }
 
   if (!data.location) {
-    errors.location = 'Lokasjon er påkrevd';
+    errors.location = 'Lokasjon er påkrevet';
   }
 
   if (data.useMazemap && !data.mazemapPoi) {
@@ -660,7 +723,7 @@ const validate = (data) => {
   }
 
   if (!data.id && !data.cover) {
-    errors.cover = 'Cover er påkrevd';
+    errors.cover = 'Cover er påkrevet';
   }
 
   if (!data.eventStatusType) {
@@ -673,10 +736,6 @@ const validate = (data) => {
 
   if (data.feedbackRequired && !data.feedbackDescription) {
     errors.feedbackDescription = 'Kan ikke være tomt';
-  }
-
-  if (!data.isClarified) {
-    errors.isClarified = 'Arrangementet må være avklart';
   }
 
   if (!isInteger(data.registrationDeadlineHours)) {
@@ -719,6 +778,10 @@ const validate = (data) => {
 export default legoForm({
   form: 'eventEditor',
   validate,
-  onSubmit: (values, dispatch, props: Props) =>
-    props.handleSubmitCallback(values),
+  onSubmit: (values, dispatch, props: Props) => {
+    props.handleSubmitCallback(values);
+    if (values.saveToImageGallery) {
+      props.setSaveForUse(values.cover, true);
+    }
+  },
 })(EventEditor);

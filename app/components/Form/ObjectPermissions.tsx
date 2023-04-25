@@ -1,6 +1,5 @@
 import { SelectInput, CheckBox } from 'app/components/Form';
 import Tooltip from 'app/components/Tooltip';
-import type { PublicGroup } from 'app/store/models/Group';
 
 /*
  * Usage inside redux-form:
@@ -27,10 +26,10 @@ const ObjectPermissions = ({
   requireAuth,
   ...props
 }: {
-  canEditUsers?: PublicGroup[];
-  canEditGroups?: PublicGroup[];
-  canViewGroups?: PublicGroup[];
-  requireAuth?: boolean;
+  canEditUsers?: any;
+  canEditGroups?: any;
+  canViewGroups?: any;
+  requireAuth?: any;
 }) => {
   return [
     requireAuth && (
@@ -79,13 +78,28 @@ export const normalizeObjectPermissions = ({
   canViewGroups: initialCanViewGroups,
   canEditGroups: initialCanEditGroups,
   canEditUsers: initialCanEditUsers,
-  currentUser: currentUser,
 }: Record<string, any>) => {
+  const canEditUsers = initialCanEditUsers && initialCanEditUsers.map(toIds);
+  const canViewGroups = initialCanViewGroups && initialCanViewGroups.map(toIds);
+  const canEditGroups = initialCanEditGroups && initialCanEditGroups.map(toIds);
   return {
     requireAuth: !!requireAuth,
-    canEditUsers: initialCanEditUsers?.map(toIds) ?? {},
-    canViewGroups: initialCanViewGroups?.map(toIds) ?? {},
-    canEditGroups: initialCanEditGroups?.map(toIds) ?? {},
+    ...(canEditUsers
+      ? {
+          canEditUsers,
+        }
+      : {}),
+    //$FlowFixMe
+    ...(canEditGroups
+      ? {
+          canEditGroups,
+        }
+      : {}),
+    ...(canViewGroups
+      ? {
+          canViewGroups,
+        }
+      : {}),
   };
 };
 export const objectPermissionsToInitialValues = ({
@@ -93,19 +107,38 @@ export const objectPermissionsToInitialValues = ({
   canEditGroups: initialCanEditGroups,
   canEditUsers: initialCanEditUsers,
 }: Record<string, any>) => {
-  const canEditGroups = initialCanEditGroups
-    ?.filter(Boolean)
-    .map((group) => ({ ...group, label: group.name, value: group.id }));
-  const canViewGroups = initialCanViewGroups
-    ?.filter(Boolean)
-    .map((group) => ({ ...group, label: group.name, value: group.id }));
-  const canEditUsers = initialCanEditUsers
-    ?.filter(Boolean)
-    .map((user) => ({ ...user, label: user.fullName, value: user.id }));
+  const canEditGroups =
+    initialCanEditGroups &&
+    initialCanEditGroups
+      .filter(Boolean)
+      .map((group) => ({ ...group, label: group.name, value: group.id }));
+  const canViewGroups =
+    initialCanViewGroups &&
+    initialCanViewGroups
+      .filter(Boolean)
+      .map((group) => ({ ...group, label: group.name, value: group.id }));
+  const canEditUsers =
+    initialCanEditUsers &&
+    initialCanEditUsers
+      .filter(Boolean)
+      .map((user) => ({ ...user, label: user.fullName, value: user.id }));
   return {
-    canEditUsers: canEditUsers ?? {},
-    canEditGroups: canEditGroups ?? {},
-    canViewGroups: canViewGroups ?? {},
+    ...(canEditUsers
+      ? {
+          canEditUsers,
+        }
+      : {}),
+    //$FlowFixMe
+    ...(canEditGroups
+      ? {
+          canEditGroups,
+        }
+      : {}),
+    ...(canViewGroups
+      ? {
+          canViewGroups,
+        }
+      : {}),
   };
 };
 export const objectPermissionsInitialValues = {

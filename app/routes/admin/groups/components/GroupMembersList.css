@@ -1,6 +1,10 @@
-.list {
-  /* Padding must be added to the table, to prevent the select 
-  options from "falling behind" the table, making it difficult
-  to change the role of the users at the bottom */
-  padding-bottom: 300px;
+.removeIcon {
+  cursor: pointer;
+  padding-right: 10px;
+  color: var(--color-gray-4);
+  transition: color var(--easing-fast);
+
+  &:hover {
+    color: var(--color-gray-5);
+  }
 }

@@ -1,26 +1,26 @@
 import { produce } from 'immer';
 import { Comment } from 'app/actions/ActionTypes';
 import type { ID } from 'app/models';
-import type { Comment as CommentType } from 'app/store/models/Comment';
-import createEntityReducer, {
-  type EntityReducerState,
-} from 'app/utils/createEntityReducer';
+import type { UserEntity } from 'app/reducers/users';
+import createEntityReducer from 'app/utils/createEntityReducer';
 import getEntityType from 'app/utils/getEntityType';
-import type { AnyAction } from 'redux';
 
-type WithComments<T> = T & { comments: CommentType[] };
-
-type StateWithComments<T, S> = S & {
-  byId: Record<ID, WithComments<T>>;
+export type CommentEntity = {
+  id: ID;
+  parent?: ID;
+  createdAt: string;
+  children?: Array<Record<string, any>>;
+  text: string | null;
+  author: UserEntity | null;
 };
+
+type State = any;
 
 /**
  * Used by the individual entity reducers
  */
-export function mutateComments<T, S = EntityReducerState<T>>(
-  forTargetType: string
-) {
-  return produce((newState: StateWithComments<T, S>, action: AnyAction) => {
+export function mutateComments(forTargetType: string) {
+  return produce<State>((newState: State, action: any): void => {
     switch (action.type) {
       case Comment.ADD.SUCCESS: {
         const [serverTargetType, targetId] =
@@ -41,22 +41,19 @@ export function mutateComments<T, S = EntityReducerState<T>>(
     }
   });
 }
+type CommentState = any;
+const mutate = produce((newState: CommentState, action: any): void => {
+  switch (action.type) {
+    case Comment.DELETE.SUCCESS:
+      newState.byId[action.meta.id].text = null;
+      newState.byId[action.meta.id].author = null;
+      break;
 
-const mutate = produce(
-  (newState: EntityReducerState<CommentType>, action: AnyAction): void => {
-    switch (action.type) {
-      case Comment.DELETE.SUCCESS:
-        newState.byId[action.meta.id].text = null;
-        newState.byId[action.meta.id].author = null;
-        break;
-
-      default:
-        break;
-    }
+    default:
+      break;
   }
-);
-
-export default createEntityReducer<CommentType>({
+});
+export default createEntityReducer({
   key: 'comments',
   types: {
     fetch: Comment.FETCH,

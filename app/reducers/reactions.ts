@@ -1,20 +1,17 @@
 import { Reaction } from 'app/actions/ActionTypes';
-import type { ID } from 'app/store/models';
-import type { ReactionsGrouped } from 'app/store/models/Reaction';
-import type { EntityReducerState } from 'app/utils/createEntityReducer';
+import type { ID } from 'app/models';
+import createEntityReducer from 'app/utils/createEntityReducer';
 import getEntityType from 'app/utils/getEntityType';
-import type { AnyAction } from '@reduxjs/toolkit';
 
-type WithReactions<T> = T & { reactionsGrouped: ReactionsGrouped[] };
-
-type StateWithReactions<T, S> = S & {
-  byId: Record<ID, WithReactions<T>>;
+export type ReactionEntity = {
+  reactionId: ID;
+  emoji: string;
+  unicodeString: string;
+  count: number;
+  hasReacted: boolean;
 };
-
-export function mutateReactions<T, S = EntityReducerState<T>>(
-  forTargetType: string
-) {
-  return (state: StateWithReactions<T, S>, action: AnyAction) => {
+export function mutateReactions(forTargetType: string) {
+  return (state: any, action: any) => {
     switch (action.type) {
       case Reaction.ADD.SUCCESS: {
         const [serverTargetType, targetId] =
@@ -106,3 +103,8 @@ export function mutateReactions<T, S = EntityReducerState<T>>(
     }
   };
 }
+export default createEntityReducer({
+  key: 'reactions',
+  types: {},
+  mutateReactions,
+});

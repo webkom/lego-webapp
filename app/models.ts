@@ -1,7 +1,5 @@
 import type Comment from 'app/store/models/Comment';
-import type { ListCompany } from 'app/store/models/Company';
-import type { ReactionsGrouped } from 'app/store/models/Reaction';
-import type { RoleType } from 'app/utils/constants';
+import type { ReactionsGrouped } from './store/models/Reaction';
 import type { Moment } from 'moment';
 // TODO: Id handling could be opaque
 export type ID = number;
@@ -43,14 +41,14 @@ export type EventSemester = {
 
 export type GroupMembership = {
   user: User;
-  role: RoleType;
+  role: string;
 };
 
 export type UserMembership = {
   id: ID;
   user: User;
   abakusGroup: ID;
-  role: RoleType;
+  role: string;
   isActive: boolean;
   emailListsEnabled: boolean;
   createdAt: Dateish;
@@ -145,10 +143,16 @@ export type Group = {
   active: boolean;
   contactEmail: string;
 };
+
+type Cover = {
+  url: string;
+  fileKey: string;
+};
+
 type EventBase = {
   id: ID;
   title: string;
-  cover: string;
+  cover: Cover;
   coverPlaceholder: string;
   description: string;
   createdAt: Dateish | null | undefined;
@@ -232,6 +236,14 @@ export type EventPool = EventPoolBase & {
   permissionGroups: Array<Record<string, any>>;
 };
 
+type imageGalleryEntry = {
+  key: string;
+  cover: string;
+  token: string;
+};
+
+export type imageGallery = imageGalleryEntry[];
+
 export type Event = EventBase & {
   actionGrant: ActionGrant;
   activationTime: Dateish | null | undefined;
@@ -244,8 +256,7 @@ export type Event = EventBase & {
   waitingRegistrationCount: number;
   totalCapacity: number;
   thumbnail: string | null | undefined;
-  company: ListCompany;
-  spotsLeft: number;
+  company: Company;
   comments: Comment[];
   contentTarget: string;
   pools: Array<EventPool>;
@@ -344,9 +355,4 @@ export type Readme = {
   pdf: string;
   year: number;
   utgave: number;
-};
-
-export type EventAdministrate = Omit<Event, 'createdBy' | 'comments'> & {
-  createdBy: number;
-  comments: number[];
 };

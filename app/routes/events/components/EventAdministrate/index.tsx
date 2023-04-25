@@ -1,15 +1,17 @@
+import { cloneElement } from 'react';
 import { Content } from 'app/components/Content';
 import { LoginPage } from 'app/components/LoginForm';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
-import type { EventPool, EventAdministrate } from 'app/models';
+import type { EventPool } from 'app/models';
+import type { EventEntity } from 'app/reducers/events';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import type { ReactNode } from 'react';
+import type { Element } from 'react';
 
 type Props = {
-  children: (props: Props) => ReactNode;
+  children: Array<Element<any>>;
   currentUser: Record<string, any>;
   isMe: boolean;
-  event?: EventAdministrate;
+  event: EventEntity | null | undefined;
   match: {
     params: {
       eventId: string;
@@ -23,7 +25,6 @@ const EventAdministrateIndex = (props: Props) => {
   // At the moment changing settings for other users only works
   // for the settings under `/profile` - so no point in showing
   // the other tabs.
-
   return (
     <Content>
       <NavigationTab
@@ -34,16 +35,17 @@ const EventAdministrateIndex = (props: Props) => {
         }}
       >
         <NavigationLink to={`${base}/attendees`}>Påmeldinger</NavigationLink>
-        {props.currentUser.id === props.event.createdBy && (
-          <NavigationLink to={`${base}/allergies`}>Allergier</NavigationLink>
-        )}
+        <NavigationLink to={`${base}/allergies`}>Allergier</NavigationLink>
         <NavigationLink to={`${base}/statistics`}>Statistikk</NavigationLink>
         <NavigationLink to={`${base}/admin-register`}>
           Adminregistrering
         </NavigationLink>
         <NavigationLink to={`${base}/abacard`}>Abacard</NavigationLink>
       </NavigationTab>
-      {props.children(props)}
+      {props.children &&
+        props.children.map((child) =>
+          cloneElement(child, { ...props, children: undefined })
+        )}
     </Content>
   );
 };

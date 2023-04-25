@@ -5,7 +5,6 @@ import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import config from 'app/config';
 import type { ActionGrant } from 'app/models';
-import type { ID } from 'app/store/models';
 import styles from './components/surveys.css';
 import type { ReactNode } from 'react';
 
@@ -51,7 +50,6 @@ export const graphMappings = Object.keys(displayTypeStrings).map((key) => ({
 }>;
 export const ListNavigation = ({ title }: { title: ReactNode }) => (
   <NavigationTab title={title}>
-    <NavigationLink to="/surveys">Undersøkelser</NavigationLink>
     <NavigationLink to="/surveys/add">Ny undersøkelse</NavigationLink>
     <NavigationLink to="/surveys/templates">Maler</NavigationLink>
   </NavigationTab>
@@ -97,7 +95,7 @@ export const TokenNavigation = ({
 export const defaultActiveFrom = (hours: number, minutes: number) =>
   moment().startOf('day').add({ day: 1, hours, minutes }).toISOString();
 
-export const getCsvUrl = (surveyId: ID) =>
+export const getCsvUrl = (surveyId: string) =>
   `${config.serverUrl}/surveys/${surveyId}/csv/`;
 export const QuestionTypeOption = ({ iconName, option, ...props }: any) => (
   <div
@@ -107,7 +105,7 @@ export const QuestionTypeOption = ({ iconName, option, ...props }: any) => (
         ? 'var(--color-gray-2)'
         : props.isFocused
         ? 'var(--additive-background)'
-        : 'var(--lego-card-color)',
+        : 'var(--color-white)',
     }}
     className={cx(styles.dropdownOption, styles.dropdown)}
     onMouseDown={(event) => {
@@ -148,7 +146,7 @@ export const QuestionTypeValue = ({ iconName, option, ...props }: any) => (
     ref={props.innerRef}
     {...props.innerProps}
   >
-    <span className={styles.dropdownColor}>
+    <span className={cx('Select-value-label', styles.dropdownColor)}>
       <Icon
         name={iconName}
         style={{

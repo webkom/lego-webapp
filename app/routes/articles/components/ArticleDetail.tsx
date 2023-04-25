@@ -8,33 +8,32 @@ import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import Tags from 'app/components/Tags';
 import Tag from 'app/components/Tags/Tag';
 import type { ID } from 'app/models';
+import type { EmojiEntity } from 'app/reducers/emojis';
+import type { ReactionEntity } from 'app/reducers/reactions';
 import type {
   AdminDetailedArticle,
   DetailedArticle,
 } from 'app/store/models/Article';
 import type Comment from 'app/store/models/Comment';
-import type Emoji from 'app/store/models/Emoji';
-import type { ReactionsGrouped } from 'app/store/models/Reaction';
 import type { CurrentUser, DetailedUser } from 'app/store/models/User';
-import type { ContentTarget } from 'app/store/utils/contentTarget';
 import styles from './ArticleDetail.css';
 
 type Props = {
   article: DetailedArticle | AdminDetailedArticle;
   comments: Comment[];
   loggedIn: boolean;
-  authors: DetailedUser[];
+  author: DetailedUser;
   currentUser: CurrentUser;
   deleteComment: (id: ID, contentTarget: string) => Promise<void>;
-  emojis: Emoji[];
-  addReaction: (args: {
+  emojis: Array<EmojiEntity>;
+  addReaction: (arg0: {
     emoji: string;
-    contentTarget: ContentTarget;
-  }) => Promise<void>;
-  reactionsGrouped: ReactionsGrouped[];
+    contentTarget: string;
+  }) => Promise<unknown>;
+  reactionsGrouped: Array<ReactionEntity>;
   deleteReaction: (arg0: {
     reactionId: ID;
-    contentTarget: ContentTarget;
+    contentTarget: string;
   }) => Promise<void>;
   fetchEmojis: () => Promise<void>;
   fetchingEmojis: boolean;
@@ -42,7 +41,7 @@ type Props = {
 
 const ArticleDetail = ({
   article,
-  authors,
+  author,
   loggedIn,
   currentUser,
   comments,
@@ -71,24 +70,16 @@ const ArticleDetail = ({
         )}
       </NavigationTab>
 
-      {
-        <div className={styles.articleDetails}>
-          <span className={styles.detail}>
-            Skrevet av{' '}
-            {authors?.map((e, i) => {
-              return (
-                <span key={e.username}>
-                  <Link to={`/users/${e.username}`}> {e.fullName}</Link>
-                  {i === authors.length - 1 ? '' : ','}
-                </span>
-              );
-            })}
-          </span>
-          <span className={styles.detail}>
-            {moment(article.createdAt).format('lll')}
-          </span>
-        </div>
-      }
+      <div className={styles.articleDetails}>
+        <span className={styles.detail}>
+          Skrevet av
+          <Link to={`/users/${author.username}`}> {author.fullName}</Link>
+        </span>
+        <span className={styles.detail}>
+          {moment(article.createdAt).format('lll')}
+        </span>
+      </div>
+
       <DisplayContent content={article.content} />
 
       <Tags>

@@ -1,76 +1,87 @@
-import { useState } from 'react';
-import type { ActionGrant } from 'app/models';
-import type { ID } from 'app/store/models';
-import type Emoji from 'app/store/models/Emoji';
-import type QuoteType from 'app/store/models/Quote';
-import type { CurrentUser } from 'app/store/models/User';
-import type { ContentTarget } from 'app/store/utils/contentTarget';
+import { Component } from 'react';
+import type { ID, ActionGrant } from 'app/models';
+import type { EmojiEntity } from 'app/reducers/emojis';
+import type { QuoteEntity } from 'app/reducers/quotes';
 import Quote from './Quote';
 
 type Props = {
-  quotes: QuoteType[];
-  approve: (id: ID) => Promise<void>;
-  deleteQuote: (id: ID) => Promise<void>;
-  unapprove: (id: ID) => Promise<void>;
+  quotes: Array<QuoteEntity>;
+  approve: (arg0: number) => Promise<any>;
+  deleteQuote: (arg0: number) => Promise<any>;
+  unapprove: (arg0: number) => Promise<any>;
   actionGrant: ActionGrant;
-  currentUser: CurrentUser;
+  currentUser: any;
   loggedIn: boolean;
-  addReaction: (args: {
-    emoji: string;
-    contentTarget: ContentTarget;
-  }) => Promise<void>;
-  deleteReaction: (args: {
+  reactions: Record<string, any>;
+  addReaction: (arg0: { emoji: string; contentTarget: string }) => Promise<any>;
+  deleteReaction: (arg0: {
     reactionId: ID;
-    contentTarget: ContentTarget;
-  }) => Promise<void>;
-  fetchEmojis: () => Promise<void>;
+    contentTarget: string;
+  }) => Promise<any>;
+  fetchEmojis: () => Promise<any>;
   fetchingEmojis: boolean;
-  emojis: Emoji[];
+  emojis: Array<EmojiEntity>;
 };
-
-const QuoteList = ({
-  quotes,
-  actionGrant,
-  approve,
-  unapprove,
-  deleteQuote,
-  currentUser,
-  loggedIn,
-  addReaction,
-  deleteReaction,
-  emojis,
-  fetchEmojis,
-  fetchingEmojis,
-}: Props) => {
-  const [displayAdminId, setDisplayAdminId] = useState<ID>();
-
-  return (
-    <ul>
-      {quotes.filter(Boolean).map((quote) => (
-        <Quote
-          actionGrant={actionGrant}
-          approve={approve}
-          unapprove={unapprove}
-          deleteQuote={deleteQuote}
-          quote={quote}
-          key={quote.id}
-          toggleDisplayAdmin={() =>
-            setDisplayAdminId(
-              quote.id === displayAdminId ? undefined : quote.id
-            )
-          }
-          displayAdmin={quote.id === displayAdminId}
-          currentUser={currentUser}
-          loggedIn={loggedIn}
-          addReaction={addReaction}
-          deleteReaction={deleteReaction}
-          emojis={emojis}
-          fetchEmojis={fetchEmojis}
-          fetchingEmojis={fetchingEmojis}
-        />
-      ))}
-    </ul>
-  );
+type State = {
+  displayAdminId: number;
 };
+export default class QuoteList extends Component<Props, State> {
+  state = {
+    displayAdminId: -1,
+  };
 
-export default QuoteList;
+  // eslint-disable-next-line
+  componentWillReceiveProps(newProps: Record<string, any>) {
+    this.setState({
+      displayAdminId: -1,
+    });
+  }
+
+  setDisplayAdmin = (id: number) => {
+    this.setState((state) => ({
+      displayAdminId: state.displayAdminId === id ? -1 : id,
+    }));
+  };
+
+  render() {
+    const {
+      quotes,
+      actionGrant,
+      approve,
+      unapprove,
+      deleteQuote,
+      currentUser,
+      loggedIn,
+      reactions,
+      addReaction,
+      deleteReaction,
+      emojis,
+      fetchEmojis,
+      fetchingEmojis,
+    } = this.props;
+    return (
+      <ul>
+        {quotes.filter(Boolean).map((quote) => (
+          <Quote
+            actionGrant={actionGrant}
+            approve={approve}
+            unapprove={unapprove}
+            deleteQuote={deleteQuote}
+            quote={quote}
+            key={quote.id}
+            setDisplayAdmin={this.setDisplayAdmin}
+            displayAdmin={quote.id === this.state.displayAdminId}
+            currentUser={currentUser}
+            loggedIn={loggedIn}
+            reactions={reactions}
+            addReaction={addReaction}
+            deleteReaction={deleteReaction}
+            emojis={emojis}
+            fetchEmojis={fetchEmojis}
+            fetchingEmojis={fetchingEmojis}
+          />
+        ))}
+      </ul>
+    );
+  }
+}

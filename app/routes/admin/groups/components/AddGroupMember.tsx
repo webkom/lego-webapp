@@ -1,19 +1,22 @@
 import { Field, SubmissionError } from 'redux-form';
-import type { AddMemberArgs } from 'app/actions/GroupActions';
 import { legoForm, Button, Form } from 'app/components/Form';
 import SelectInput from 'app/components/Form/SelectInput';
-import type { ID } from 'app/store/models';
-import { ROLES, type RoleType } from 'app/utils/constants';
+import { ROLES } from 'app/utils/constants';
 import { createValidator, required } from 'app/utils/validation';
 import type { FormProps } from 'redux-form';
+import type { $Keys } from 'utility-types';
 
 type Props = FormProps & {
   groupId: number;
-  addMember: (arg0: AddMemberArgs) => Promise<any>;
+  addMember: (arg0: {
+    role: $Keys<typeof ROLES>;
+    userId: number;
+    groupId: number;
+  }) => Promise<any>;
 };
 const roles = Object.keys(ROLES)
   .sort()
-  .map((role: RoleType) => ({
+  .map((role) => ({
     value: role,
     label: ROLES[role],
   }));
@@ -62,10 +65,10 @@ export default legoForm({
       role,
     }: {
       user: {
-        id: ID;
+        id: number;
       };
       role: {
-        value: RoleType;
+        value: $Keys<typeof ROLES>;
       };
     },
     dispatch,

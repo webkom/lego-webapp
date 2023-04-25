@@ -116,7 +116,7 @@
   flex: 1;
   background-color: var(--lego-card-color);
   color: var(--color-white);
-  padding: 2rem 2rem 3rem;
+  padding: 2rem;
 }
 
 .quickLinks::after {

@@ -12,7 +12,6 @@
 }
 
 .tag {
-  /* The default red color */
   --label-r: 192;
   --label-g: 57;
   --label-b: 43;
@@ -166,13 +165,4 @@ html[data-theme='dark'] .active {
   --label-h: 256;
   --label-s: 81;
   --label-l: 50;
-}
-
-.orange {
-  --label-r: 242;
-  --label-g: 92;
-  --label-b: 5;
-  --label-h: 22;
-  --label-s: 96;
-  --label-l: 48;
 }

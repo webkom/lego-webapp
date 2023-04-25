@@ -3,7 +3,6 @@ import { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import mazemapLogo from 'app/assets/mazemap.png';
 import Button from 'app/components/Button';
-import Card from 'app/components/Card';
 import CommentView from 'app/components/Comments/CommentView';
 import {
   Content,
@@ -213,19 +212,17 @@ export default class EventDetail extends Component<Props, State> {
     const color = colorForEvent(event.eventType);
 
     const onRegisterClick = event.following
-      ? () => unfollow(event.following as number, event.id)
+      ? () => unfollow(event.following, event.id)
       : () => follow(currentUser.id, event.id);
 
     const currentMoment = moment();
 
     const activationTimeMoment = moment(event.activationTime);
 
-    // Get the actual activation time.
-    // The time from LEGO is with penalties applied.
-    // This "unapplies" the penalties again
-    const eventRegistrationTime = event.heedPenalties
-      ? activationTimeMoment.subtract(penaltyHours(penalties), 'hours')
-      : activationTimeMoment;
+    const eventRegistrationTime = activationTimeMoment.subtract(
+      penaltyHours(penalties),
+      'hours'
+    );
 
     const registrationCloseTimeMoment = registrationCloseTime(event);
 
@@ -500,11 +497,17 @@ export default class EventDetail extends Component<Props, State> {
                 {event.unansweredSurveys &&
                 event.unansweredSurveys.length > 0 &&
                 !event.isAdmitted ? (
-                  <Card danger>
+                  <div className={sharedStyles.eventWarning}>
                     <p>
                       Du kan ikke melde deg på dette arrangementet fordi du har
-                      ubesvarte spørreundersøkelser. Gå til lenkene under for å
-                      svare:
+                      ubesvarte spørreundersøkelser.
+                    </p>
+                    <br />
+                    <p>
+                      Man må svare på alle spørreundersøkelser for tidligere
+                      arrangementer før man kan melde seg på nye arrangementer.
+                      Du kan svare på undersøkelsene dine ved å trykke på
+                      følgende linker:
                     </p>
                     <ul>
                       {event.unansweredSurveys.map((surveyId, i) => (
@@ -515,7 +518,7 @@ export default class EventDetail extends Component<Props, State> {
                         </li>
                       ))}
                     </ul>
-                  </Card>
+                  </div>
                 ) : (
                   <div>
                     <JoinEventForm

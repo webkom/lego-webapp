@@ -10,7 +10,7 @@ import type {
   EventRegistrationPresence,
   EventRegistrationPaymentStatus,
   ID,
-  EventAdministrate,
+  Event,
   EventPool,
   PhotoConsent,
   EventSemester,
@@ -44,7 +44,7 @@ type Props = {
   handleUnregister: (registrationId: ID) => Promise<void>;
   showPresence: boolean;
   showUnregister: boolean;
-  event: EventAdministrate;
+  event: Event;
   pools: Array<EventPool>;
 };
 
@@ -100,11 +100,6 @@ export const getRegistrationInfo = (registration) => {
     className: styles.orangePill,
   };
 
-  if (registration.pool) {
-    registrationInfo.status = 'Påmeldt';
-    registrationInfo.className = styles.greenPill;
-  }
-
   if (registration.adminRegistrationReason !== '') {
     registrationInfo.className = styles.bluePill;
 
@@ -116,11 +111,16 @@ export const getRegistrationInfo = (registration) => {
         registrationInfo.className = styles.webkomPill;
         registrationInfo.reason = `Webkompåmeldt av ${registration.createdBy.username}: ${registration.adminRegistrationReason}`;
       } else {
+        registrationInfo.status = 'Påmeldt';
         registrationInfo.reason = `Adminpåmeldt av ${registration.createdBy.username}: ${registration.adminRegistrationReason}`;
       }
     } else {
+      registrationInfo.status = 'Påmeldt';
       registrationInfo.reason = `Adminpåmeldt: ${registration.adminRegistrationReason}`;
     }
+  } else if (registration.pool) {
+    registrationInfo.status = 'Påmeldt';
+    registrationInfo.className = styles.greenPill;
   }
 
   return registrationInfo;
@@ -424,7 +424,7 @@ type UnregisteredTableProps = {
     registrationId: ID,
     paymentStatus: EventRegistrationPaymentStatus
   ) => Promise<any>;
-  event: EventAdministrate;
+  event: Event;
 };
 export class UnregisteredTable extends Component<UnregisteredTableProps> {
   render() {

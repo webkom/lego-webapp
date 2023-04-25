@@ -8,8 +8,8 @@ import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import { fetchAll } from '../../actions/SurveyActions';
 import SurveyPage from './components/SurveyList/SurveyPage';
 
-const mapStateToProps = (state) => ({
-  surveys: selectSurveys(state).filter((survey) => !survey.templateType),
+const mapStateToProps = (state, props) => ({
+  surveys: selectSurveys(state, props).filter((survey) => !survey.templateType),
   fetching: state.surveys.fetching,
   hasMore: state.surveys.hasMore,
 });

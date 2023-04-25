@@ -4,7 +4,6 @@ import type Group from 'app/store/models/Group';
 import type Membership from 'app/store/models/Membership';
 import type PastMembership from 'app/store/models/PastMembership';
 import type { ID } from 'app/store/models/index';
-import type { Required } from 'utility-types';
 
 export interface PhotoConsent {
   year: number;
@@ -15,7 +14,7 @@ export interface PhotoConsent {
 }
 
 interface User {
-  id: ID;
+  id: number;
   username: string;
   firstName: string;
   lastName: string;
@@ -127,12 +126,10 @@ export type PublicUserWithGroups = Pick<
 > &
   PublicUser;
 
-export type AdministrateUser = Pick<User, 'abakusGroups'> & PublicUser;
+export type AdministrateUser = Pick<User, 'abakusGroups' | 'allergies'> &
+  PublicUser;
 
 export type AdministrateExportUser = Pick<User, 'email' | 'phoneNumber'> &
-  AdministrateUser;
-
-export type AdministrateAllergiesUser = Pick<User, 'allergies'> &
   AdministrateUser;
 
 export type SearchUser = Pick<
@@ -147,14 +144,6 @@ export type SearchUser = Pick<
   | 'profilePicturePlaceholder'
 >;
 
-export type AutocompleteUser = Pick<
-  User,
-  'username' | 'fullName' | 'profilePicture' | 'id'
-> & {
-  contentType: 'users.user';
-  text: 'text';
-};
-
 /*
 Some user object, unknown serializer
  */
@@ -166,25 +155,4 @@ export type UnknownUser =
   | PublicUserWithGroups
   | AdministrateUser
   | AdministrateExportUser
-  | AdministrateAllergiesUser
   | SearchUser;
-
-export type UpdateUser = Required<
-  Partial<
-    Pick<
-      User,
-      | 'username'
-      | 'firstName'
-      | 'lastName'
-      | 'email'
-      | 'phoneNumber'
-      | 'gender'
-      | 'allergies'
-      | 'profilePicture'
-      | 'isAbakusMember'
-      | 'emailListsEnabled'
-      | 'selectedTheme'
-    >
-  >,
-  'username'
->;

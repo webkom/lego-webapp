@@ -22,50 +22,51 @@ import {
   AttendanceStatus,
   ModalParentComponent,
 } from 'app/components/UserAttendance';
-import type { Dateish, ID } from 'app/models';
-import type { MeetingInvitationWithUser } from 'app/reducers/meetingInvitations';
-import { statusesText } from 'app/reducers/meetingInvitations';
+import type { Dateish, ID, Meeting, User } from 'app/models';
+import type { EmojiEntity } from 'app/reducers/emojis';
+import {
+  statusesText,
+  MeetingInvitationStatus,
+} from 'app/reducers/meetingInvitations';
+import type { MeetingInvitationEntity } from 'app/reducers/meetingInvitations';
+import type { ReactionEntity } from 'app/reducers/reactions';
 import type Comment from 'app/store/models/Comment';
-import type Emoji from 'app/store/models/Emoji';
-import type { DetailedMeeting } from 'app/store/models/Meeting';
-import { MeetingInvitationStatus } from 'app/store/models/MeetingInvitation';
-import type { ReactionsGrouped } from 'app/store/models/Reaction';
-import type { CurrentUser, PublicUser } from 'app/store/models/User';
-import type { ContentTarget } from 'app/store/utils/contentTarget';
+import type { CurrentUser } from 'app/store/models/User';
 import urlifyString from 'app/utils/urlifyString';
 import styles from './MeetingDetail.css';
 
 type Props = {
-  meeting: DetailedMeeting;
+  meeting: Meeting;
   currentUser: CurrentUser;
   showAnswer: boolean;
-  meetingInvitations: MeetingInvitationWithUser[];
+  meetingInvitations: Array<MeetingInvitationEntity & { id: ID }>;
   setInvitationStatus: (
     meetingId: number,
     status: MeetingInvitationStatus,
     user: CurrentUser
   ) => Promise<void>;
-  reportAuthor: PublicUser;
-  createdBy: PublicUser;
-  currentUserInvitation: MeetingInvitationWithUser;
+  reportAuthor: User;
+  createdBy: User;
+  currentUserInvitation: MeetingInvitationEntity;
   loggedIn: boolean;
   comments: Comment[];
-  deleteComment: (id: ID, contentTarget: ContentTarget) => Promise<void>;
-  emojis: Emoji[];
-  addReaction: (args: {
+  push: (arg0: string) => Promise<void>;
+  deleteComment: (id: ID, contentTarget: string) => Promise<void>;
+  emojis: Array<EmojiEntity>;
+  addReaction: (arg0: {
     emoji: string;
-    contentTarget: ContentTarget;
-  }) => Promise<void>;
-  reactionsGrouped: ReactionsGrouped[];
-  deleteReaction: (args: {
+    contentTarget: string;
+  }) => Promise<unknown>;
+  reactionsGrouped: Array<ReactionEntity>;
+  deleteReaction: (arg0: {
     reactionId: ID;
-    contentTarget: ContentTarget;
+    contentTarget: string;
   }) => Promise<void>;
   fetchEmojis: () => Promise<void>;
   fetchingEmojis: boolean;
 };
 
-const UserLink = ({ user }: { user: PublicUser }) =>
+const UserLink = ({ user }: { user: User }) =>
   user ? (
     <Link to={`/users/${user.username}`}> {user.fullName} </Link>
   ) : (
@@ -94,13 +95,17 @@ const MeetingDetails = ({
   };
 
   const acceptInvitation = () =>
-    setMeetingInvitationStatus(MeetingInvitationStatus.Attending);
+    setMeetingInvitationStatus(MeetingInvitationStatus.ATTENDING);
 
   const rejectInvitation = () =>
-    setMeetingInvitationStatus(MeetingInvitationStatus.NotAttending);
+    setMeetingInvitationStatus(MeetingInvitationStatus.NOT_ATTENDING);
 
   const sortInvitations = () => {
-    return Object.values(MeetingInvitationStatus).map((invitationStatus) => ({
+    return (
+      Object.keys(MeetingInvitationStatus) as Array<
+        keyof typeof MeetingInvitationStatus
+      >
+    ).map((invitationStatus) => ({
       name: statusesText[invitationStatus],
       capacity: meetingInvitations.length,
       registrations: meetingInvitations.filter(
@@ -119,14 +124,14 @@ const MeetingDetails = ({
         <Button
           success
           onClick={acceptInvitation}
-          disabled={statusMe === MeetingInvitationStatus.Attending}
+          disabled={statusMe === MeetingInvitationStatus.ATTENDING}
         >
           Delta
         </Button>
         <Button
           dark
           onClick={rejectInvitation}
-          disabled={statusMe === MeetingInvitationStatus.NotAttending}
+          disabled={statusMe === MeetingInvitationStatus.NOT_ATTENDING}
         >
           Avslå
         </Button>
@@ -163,100 +168,102 @@ const MeetingDetails = ({
     },
   ];
   return (
-    <Content>
+    <div>
       <Helmet title={meeting.title} />
-      <NavigationTab
-        title={meeting.title}
-        className={styles.detailTitle}
-        details={
-          <Time
-            style={{
-              color: 'grey',
-            }}
-            time={meeting.startTime}
-            format="ll [-] HH:mm"
-          />
-        }
-        back={{
-          label: 'Dine møter',
-          path: '/meetings',
-        }}
-      >
-        {canEdit && (
-          <NavigationLink to={`/meetings/${meeting.id}/edit`}>
-            Rediger
-          </NavigationLink>
-        )}
-      </NavigationTab>
-
-      <ContentSection>
-        <ContentMain>
-          {meeting.description && (
-            <div>{urlifyString(meeting.description)}</div>
-          )}
-          <h2>Referat</h2>
-          <DisplayContent content={meeting.report} />
-        </ContentMain>
-        <ContentSidebar>
-          <Card
-            style={{
-              border: 'none',
-              padding: 0,
-            }}
-            shadow={false}
-          >
-            <ul>
-              {attendanceButtons(statusMe, meeting.startTime)}
-              <InfoList items={infoItems} />
-              <li>
-                <ModalParentComponent
-                  isMeeting
-                  key="modal"
-                  pools={sortInvitations()}
-                  title="Påmeldte"
-                >
-                  <AttendanceStatus pools={sortInvitations()} />
-                </ModalParentComponent>
-              </li>
-              {meeting.mazemapPoi && (
-                <MazemapEmbed mazemapPoi={meeting.mazemapPoi} />
-              )}
-              <li>
-                <AnnouncementInLine meeting={meeting} />
-              </li>
-              <li>
-                {meeting.contentTarget && (
-                  <div className={styles.meetingReactions}>
-                    <LegoReactions
-                      emojis={emojis}
-                      fetchEmojis={fetchEmojis}
-                      fetchingEmojis={fetchingEmojis}
-                      addReaction={addReaction}
-                      deleteReaction={deleteReaction}
-                      parentEntity={meeting}
-                      loggedIn={loggedIn}
-                    />
-                  </div>
-                )}
-              </li>
-            </ul>
-          </Card>
-        </ContentSidebar>
-      </ContentSection>
-      <ContentSection>
-        <ContentMain>
-          {meeting.contentTarget && (
-            <CommentView
-              user={currentUser}
-              contentTarget={meeting.contentTarget}
-              loggedIn={loggedIn}
-              comments={comments}
-              deleteComment={deleteComment}
+      <Content>
+        <NavigationTab
+          title={meeting.title}
+          className={styles.detailTitle}
+          details={
+            <Time
+              style={{
+                color: 'grey',
+              }}
+              time={meeting.startTime}
+              format="ll [-] HH:mm"
             />
+          }
+          back={{
+            label: 'Dine møter',
+            path: '/meetings',
+          }}
+        >
+          {canEdit && (
+            <NavigationLink to={`/meetings/${meeting.id}/edit`}>
+              Rediger
+            </NavigationLink>
           )}
-        </ContentMain>
-      </ContentSection>
-    </Content>
+        </NavigationTab>
+
+        <ContentSection>
+          <ContentMain>
+            {meeting.description && (
+              <div>{urlifyString(meeting.description)}</div>
+            )}
+            <h2>Referat</h2>
+            <DisplayContent content={meeting.report} />
+          </ContentMain>
+          <ContentSidebar>
+            <Card
+              style={{
+                border: 'none',
+                padding: 0,
+              }}
+              shadow={false}
+            >
+              <ul>
+                {attendanceButtons(statusMe, meeting.startTime)}
+                <InfoList items={infoItems} />
+                <li>
+                  <ModalParentComponent
+                    isMeeting
+                    key="modal"
+                    pools={sortInvitations()}
+                    title="Påmeldte"
+                  >
+                    <AttendanceStatus pools={sortInvitations()} />
+                  </ModalParentComponent>
+                </li>
+                {meeting.mazemapPoi && (
+                  <MazemapEmbed mazemapPoi={meeting.mazemapPoi} />
+                )}
+                <li>
+                  <AnnouncementInLine meeting={meeting} />
+                </li>
+                <li>
+                  {meeting.contentTarget && (
+                    <div className={styles.meetingReactions}>
+                      <LegoReactions
+                        emojis={emojis}
+                        fetchEmojis={fetchEmojis}
+                        fetchingEmojis={fetchingEmojis}
+                        addReaction={addReaction}
+                        deleteReaction={deleteReaction}
+                        parentEntity={meeting}
+                        loggedIn={loggedIn}
+                      />
+                    </div>
+                  )}
+                </li>
+              </ul>
+            </Card>
+          </ContentSidebar>
+        </ContentSection>
+        <ContentSection>
+          <ContentMain>
+            {meeting.contentTarget && (
+              <CommentView
+                user={currentUser}
+                contentTarget={meeting.contentTarget}
+                loggedIn={loggedIn}
+                comments={comments}
+                deleteComment={deleteComment}
+              />
+            )}
+          </ContentMain>
+        </ContentSection>
+      </Content>
+    </div>
   );
 };
 

@@ -1,19 +1,14 @@
 import { createSelector } from 'reselect';
-import type { RootState } from 'app/store/createRootReducer';
 import { User } from '../actions/ActionTypes';
-import type { AnyAction } from '@reduxjs/toolkit';
 
 type State = {
-  id: number | null;
-  username: string | null;
-  token: string | null;
+  id: number | null | undefined;
+  username: string | null | undefined;
+  token: string | null | undefined;
   loginFailed: boolean;
   loggingIn: boolean;
-  registrationToken: string | null;
-  studentConfirmed: boolean | null;
 };
-
-const initialState: State = {
+const initialState = {
   username: null,
   id: null,
   token: null,
@@ -22,10 +17,7 @@ const initialState: State = {
   registrationToken: null,
   studentConfirmed: null,
 };
-export default function auth(
-  state: State = initialState,
-  action: AnyAction
-): State {
+export default function auth(state: State = initialState, action: any): State {
   switch (action.type) {
     case User.LOGIN.BEGIN:
       return { ...state, loggingIn: true, loginFailed: false };
@@ -70,7 +62,7 @@ export default function auth(
       return state;
   }
 }
-export function selectIsLoggedIn(state: RootState) {
+export function selectIsLoggedIn(state: any) {
   return state.auth.token !== null;
 }
 export const selectCurrentUser = createSelector(

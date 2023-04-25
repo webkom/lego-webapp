@@ -120,7 +120,7 @@
   font-weight: bold;
 }
 
-@media only screen and (width <= 500px) {
+@media only screen and (max-width: 500px) {
   .whatIsThis {
     font-size: 0.9rem;
   }
@@ -135,7 +135,7 @@
   }
 }
 
-@media only screen and (width <= 400px) {
+@media only screen and (max-width: 400px) {
   .contentContainer {
     font-size: 0.75rem;
   }

@@ -87,7 +87,6 @@ const Overview = (props: Props) => {
   const readMe = (
     <Flex className={styles.readMe}>
       <LatestReadme
-        imageClassName={styles.smallReadme}
         readmes={readmes}
         expandedInitially={frontpage.length === 0 && !fetchingFrontpage}
       />

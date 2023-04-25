@@ -86,6 +86,9 @@ export const Gallery = {
   DELETE: generateStatuses('Gallery.DELETE') as AAT,
   HIDE_UPLOAD_STATUS: 'Gallery.HIDE_UPLOAD_STATUS',
 };
+export const ImageGallery = {
+  FETCH_ALL: generateStatuses('ImageGallery.FETCH_ALL') as AAT,
+};
 
 /**
  *
@@ -157,7 +160,6 @@ export const CompanyInterestForm = {
 };
 export const Membership = {
   CREATE: generateStatuses('Membership.CREATE') as AAT,
-  UPDATE: generateStatuses('Membership.UPDATE') as AAT,
   REMOVE: generateStatuses('Membership.REMOVE') as AAT,
   JOIN_GROUP: generateStatuses('Membership.JOIN_GROUP') as AAT,
   LEAVE_GROUP: generateStatuses('Membership.LEAVE_GROUP') as AAT,
@@ -323,6 +325,7 @@ export const Emoji = {
 export const File = {
   FETCH_SIGNED_POST: generateStatuses('File.FETCH_SIGNED_POST') as AAT,
   UPLOAD: generateStatuses('File.UPLOAD') as AAT,
+  PATCH: generateStatuses('File.PATCH') as AAT,
 };
 
 /**

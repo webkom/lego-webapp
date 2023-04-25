@@ -10,13 +10,11 @@ import {
 } from 'app/actions/GroupActions';
 import type { AddMemberArgs } from 'app/actions/GroupActions';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import { selectCurrentUser } from 'app/reducers/auth';
 import { selectMembershipsForGroup } from 'app/reducers/memberships';
 import { selectPaginationNext } from 'app/reducers/selectors';
-import type Membership from 'app/store/models/Membership';
-import type { CurrentUser } from 'app/store/models/User';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import AddGroupMember from './AddGroupMember';
+import styles from './GroupMembers.css';
 import GroupMembersList from './GroupMembersList';
 
 type Props = {
@@ -36,16 +34,15 @@ type Props = {
       numberOfUsers?: number;
     }
   >;
-  memberships: Membership[];
+  memberships: Array<Record<string, any>>;
   showDescendants: boolean;
   addMember: (arg0: AddMemberArgs) => Promise<any>;
-  removeMember: (membership: Membership) => Promise<void>;
+  removeMember: (arg0: Record<string, any>) => Promise<any>;
   push: (arg0: any) => void;
   pathname: string;
   search: string;
   query: Record<string, any>;
   filters: Record<string, any>;
-  currentUser: CurrentUser;
 };
 export const GroupMembers = ({
   addMember,
@@ -62,9 +59,8 @@ export const GroupMembers = ({
   search,
   query,
   filters,
-  currentUser,
 }: Props) => (
-  <>
+  <div className={styles.groupMembers}>
     <>
       Antall medlemmer (inkl. undergrupper):{' '}
       {groupsById[groupId.toString()].numberOfUsers}
@@ -73,9 +69,9 @@ export const GroupMembers = ({
       <AddGroupMember addMember={addMember} groupId={groupId} />
     )}
     <LoadingIndicator loading={!memberships}>
-      <h3>Brukere</h3>
+      <h3 className={styles.subTitle}>Brukere</h3>
       <GroupMembersList
-        key={groupId + Number(showDescendants)}
+        key={groupId + showDescendants}
         groupId={groupId}
         filters={filters}
         query={query}
@@ -87,13 +83,11 @@ export const GroupMembers = ({
         fetch={fetch}
         fetching={fetching}
         showDescendants={showDescendants}
-        addMember={addMember}
         removeMember={removeMember}
         memberships={memberships}
-        currentUser={currentUser}
       />
     </LoadingIndicator>
-  </>
+  </div>
 );
 
 function loadData({ query, match: { params }, location }, dispatch) {
@@ -128,7 +122,6 @@ function mapStateToProps(state, props) {
     descendants: showDescendants,
     pagination,
   });
-  const currentUser = selectCurrentUser(state);
   return {
     memberships,
     groupId,
@@ -140,7 +133,6 @@ function mapStateToProps(state, props) {
     search,
     query,
     filters,
-    currentUser,
   };
 }
 
@@ -150,7 +142,6 @@ const mapDispatchToProps = {
   fetch: fetchMembershipsPagination,
   push,
 };
-
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   withPreparedDispatch('fetchGroupMemberships', loadData, (props) => [

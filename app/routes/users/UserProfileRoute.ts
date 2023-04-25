@@ -29,14 +29,14 @@ const loadData = (
     match: {
       params: { username },
     },
-    isCurrentUser,
+    isMe,
   },
   dispatch
 ) =>
   Promise.all([
     dispatch(fetchAllWithType(GroupType.Grade)),
-    isCurrentUser && dispatch(fetchPrevious()),
-    isCurrentUser && dispatch(fetchUpcoming()),
+    isMe && dispatch(fetchPrevious()),
+    isMe && dispatch(fetchUpcoming()),
     dispatch(fetchUser(username)),
   ]);
 
@@ -72,11 +72,11 @@ const mapStateToProps = (state, props) => {
     });
   }
 
-  const isCurrentUser =
+  const isMe =
     params.username === 'me' || params.username === state.auth.username;
   const actionGrant = (user && user.actionGrant) || [];
   const showSettings =
-    (isCurrentUser || actionGrant.includes('edit')) && user && user.username;
+    (isMe || actionGrant.includes('edit')) && user && user.username;
   const canChangeGrade = state.allowed.groups;
   const canEditEmailLists = state.allowed.email;
   const canDeletePenalties = state.allowed.penalties;
@@ -93,7 +93,7 @@ const mapStateToProps = (state, props) => {
     //feed,
     //feedItems,
     showSettings,
-    isCurrentUser,
+    isMe,
     loading: state.events.fetching,
     penalties,
     canDeletePenalties,
@@ -117,7 +117,6 @@ export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   withPreparedDispatch('fetchUserProfile', loadData, (props) => [
     props.match.params.username,
-    props.isCurrentUser,
   ]),
   loadingIndicator(['user'])
 )(UserProfile);

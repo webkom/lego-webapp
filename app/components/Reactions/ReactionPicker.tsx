@@ -3,9 +3,8 @@ import { useMemo, useState, useCallback } from 'react';
 import emojiLoading from 'app/assets/emoji_loading.svg';
 import Card from 'app/components/Card';
 import { Image } from 'app/components/Image';
-import type { EmojiWithReactionData } from 'app/components/LegoReactions';
-import type { ID } from 'app/store/models';
-import type { ContentTarget } from 'app/store/utils/contentTarget';
+import type { ID } from 'app/models';
+import type { EmojiEntity } from 'app/reducers/emojis';
 import styles from './ReactionPicker.css';
 import ReactionPickerContent from './ReactionPickerContent';
 import ReactionPickerFooter from './ReactionPickerFooter';
@@ -13,23 +12,19 @@ import ReactionPickerHeader from './ReactionPickerHeader';
 
 type Props = {
   isLoading: boolean;
-  emojis: EmojiWithReactionData[];
-  addReaction: (args: {
+  emojis: Array<EmojiEntity>;
+  addReaction: (arg0: {
     emoji: string;
-    contentTarget: ContentTarget;
-    unicodeString: string;
+    contentTarget: string;
   }) => Promise<void>;
-  deleteReaction: (args: {
+  deleteReaction: (arg0: {
     reactionId: ID;
-    contentTarget: ContentTarget;
+    contentTarget: string;
   }) => Promise<void>;
-  contentTarget: ContentTarget;
+  contentTarget: string;
 };
 
-const searchEmojis = (
-  emojis: EmojiWithReactionData[],
-  searchString: string
-) => {
+const searchEmojis = (emojis: EmojiEntity[], searchString: string) => {
   const matchingEmojis = [];
   let currentEmojis = emojis;
 

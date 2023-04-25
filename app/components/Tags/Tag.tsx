@@ -2,23 +2,18 @@ import cx from 'classnames';
 import { Link } from 'react-router-dom';
 import styles from './Tag.css';
 
-const tagColors = [
-  'red',
-  'gray',
-  'pink',
-  'yellow',
-  'green',
-  'cyan',
-  'blue',
-  'purple',
-  'orange',
-] as const;
-
-export type TagColors = (typeof tagColors)[number];
-
 type Props = {
+  /** The tag value - the text */
   tag: string;
-  color?: TagColors;
+  color?:
+    | 'gray'
+    | 'pink'
+    | 'yellow'
+    | 'green'
+    | 'cyan'
+    | 'blue'
+    | 'purple'
+    | '';
   link?: string;
   className?: string;
   active?: boolean;

@@ -14,6 +14,7 @@ import sortCompanies from '../SortCompanies';
 import { indexToSemester, ListNavigation } from '../utils';
 import CompanyList from './CompanyList';
 import OptionsBox from './OptionsBox';
+import styles from './bdb.css';
 import type { Location } from 'history';
 
 type Props = {
@@ -199,12 +200,13 @@ export default class BdbPage extends Component<Props, State> {
         <Helmet title="Bedriftsdatabase" />
         <ListNavigation title="Bedriftsdatabase" />
 
-        <TextInput
-          prefix="search"
-          placeholder="Søk etter bedrifter"
-          onChange={this.updateSearchQuery}
-          onKeyPress={searchKeyPress}
-        />
+        <div className={styles.search}>
+          <h2>Søk</h2>
+          <TextInput
+            onChange={this.updateSearchQuery}
+            onKeyPress={searchKeyPress}
+          />
+        </div>
 
         <OptionsBox
           companies={companies}

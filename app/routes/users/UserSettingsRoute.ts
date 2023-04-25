@@ -10,31 +10,22 @@ import {
   removePicture,
 } from 'app/actions/UserActions';
 import { selectUserByUsername } from 'app/reducers/users';
-import { isCurrentUser } from 'app/routes/users/utils';
-import type { RootState } from 'app/store/createRootReducer';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import UserSettings from './components/UserSettings';
-import type { RouteChildrenProps } from 'react-router';
 
-type Params = { username: string };
-
-const mapStateToProps = (
-  state: RootState,
-  props: RouteChildrenProps<Params>
-) => {
+const mapStateToProps = (state, props) => {
   const {
+    isMe,
     match: { params },
   } = props;
-  const username = isCurrentUser(params.username, state.auth.username)
-    ? state.auth.username
-    : params.username;
+  const username = isMe ? state.auth.username : params.username;
   const user = selectUserByUsername(state, {
     username,
   });
-
   return {
     user,
+    isMe,
     initialValues: {
       ...user,
       isAbakusMember: user && user.isAbakusMember.toString(),

@@ -8,10 +8,10 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
-import Card from 'app/components/Card';
 import ChartLabel from 'app/components/Chart/ChartLabel';
 import DistributionPieChart from 'app/components/Chart/PieChart';
 import type { DistributionDataPoint } from 'app/components/Chart/utils';
+import Icon from 'app/components/Icon';
 import { Flex } from 'app/components/Layout';
 import type { Dateish, EventRegistration } from 'app/models';
 import styles from './Event.css';
@@ -246,14 +246,15 @@ const EventAttendeeStatistics = ({
   return (
     <>
       {isEventFromPreviousSemester(eventStartTime) && (
-        <Card danger>
+        <Flex alignItems="center" className={styles.eventWarning}>
+          <Icon name="warning" />
           <span>
             Dette arrangementet er fra et tidligere semester, og kan derfor ha
             feil fordeling av klassetrinn og gruppetilhørighet. Dette er fordi
             dataen om deltakerne bruker <i>nåværende</i> klassetrinn og
             gruppemedlemskap.
           </span>
-        </Card>
+        </Flex>
       )}
       {registrations.length === 0 ? (
         <p className={styles.noRegistrationsText}>Ingen er påmeldt enda.</p>

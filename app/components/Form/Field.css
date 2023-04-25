@@ -8,13 +8,11 @@
 }
 
 .inputWithError {
-  border: 1.5px solid var(--danger-color);
-  border-radius: var(--border-radius-md);
+  border: 1.5px solid var(--danger-color) !important;
 }
 
 .inputWithWarning {
-  border: 1.5px solid var(--color-orange-6);
-  border-radius: var(--border-radius-md);
+  border: 1.5px solid var(--color-orange-6) !important;
 }
 
 .fieldError {
@@ -38,11 +36,30 @@
 }
 
 .label {
-  font-size: var(--font-size-large);
+  font-size: 18px;
 }
 
 .required {
   color: var(--danger-color);
   font-weight: 600;
   margin-left: 2px;
+}
+
+:global {
+  /* stylelint-disable-next-line selector-class-pattern */
+  .Select.is-disabled > .Select-control {
+    background-color: var(--additive-background) !important;
+    color: var(--color-gray-5);
+  }
+
+  /* stylelint-disable-next-line selector-class-pattern */
+  .Select--multi.is-disabled .Select-value-label {
+    background-color: var(--additive-background) !important;
+    color: var(--color-gray-5);
+  }
+
+  /* stylelint-disable-next-line selector-class-pattern */
+  .Select--multi.is-disabled .Select-value {
+    border: none !important;
+  }
 }

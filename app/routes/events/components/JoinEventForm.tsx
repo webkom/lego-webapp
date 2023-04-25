@@ -17,8 +17,6 @@ import type {
   User,
   EventRegistration,
   EventRegistrationStatus,
-  Penalty,
-  Event,
 } from 'app/models';
 import { selectPenaltyByUserId } from 'app/reducers/penalties';
 import { selectUserByUsername } from 'app/reducers/users';
@@ -36,6 +34,7 @@ import styles from './Event.css';
 import withCountdown from './JoinEventFormCountdownProvider';
 import PaymentRequestForm from './StripeElement';
 
+type Event = Record<string, any>;
 export type Props = {
   title?: string;
   event: Event;
@@ -55,7 +54,7 @@ export type Props = {
   captchaOpen: boolean;
   buttonOpen: boolean;
   registrationOpensIn: string | null | undefined;
-  penalties: Penalty[];
+  penalties: Array<Record<string, any>>;
   touch: (field: string) => void;
 };
 type SpotsLeftProps = {
@@ -160,7 +159,7 @@ const PaymentForm = ({
   currentUser,
   registration,
 }: {
-  createPaymentIntent: () => Promise<void>;
+  createPaymentIntent: () => Promise<any>;
   event: Event;
   currentUser: User;
   registration: EventRegistration;
@@ -345,7 +344,9 @@ const JoinEventForm = (props: Props) => {
           <>
             {!formOpen && event.activationTime && (
               <div>
-                {moment(event.activationTime) < moment() ? 'Åpnet ' : 'Åpner '}
+                {new Date(event.activationTime) < new Date()
+                  ? 'Åpnet '
+                  : 'Åpner '}
                 <Time time={event.activationTime} format="nowToTimeInWords" />
               </div>
             )}
@@ -353,9 +354,9 @@ const JoinEventForm = (props: Props) => {
               <div>Du kan ikke melde deg på dette arrangementet.</div>
             )}
             {sumPenalties(penalties) > 0 && event.heedPenalties && (
-              <Card danger>
-                <Card.Header>NB!</Card.Header>
+              <div className={styles.eventWarning}>
                 <p>
+                  NB!{' '}
                   {sumPenalties(penalties) > 2
                     ? `Du blir lagt rett på venteliste hvis du melder deg på`
                     : `Påmeldingen din er forskjøvet
@@ -366,13 +367,13 @@ const JoinEventForm = (props: Props) => {
                 <Link to="/pages/arrangementer/26-arrangementsregler">
                   Les mer om prikker her
                 </Link>
-              </Card>
+              </div>
             )}
             {!disabledForUser &&
               event.useContactTracing &&
               !currentUser.phoneNumber && (
-                <Card danger>
-                  <Card.Header>NB!</Card.Header>
+                <div className={styles.eventWarning}>
+                  <p>NB!</p>
                   <p>
                     Du må legge til telefonnummer for å melde deg på dette
                     arrangementet.
@@ -380,20 +381,20 @@ const JoinEventForm = (props: Props) => {
                   <Link to={`/users/me/settings/profile`}>
                     Gå til innstillinger
                   </Link>
-                </Card>
+                </div>
               )}
             {!disabledForUser &&
               event.useConsent &&
               !hasRegisteredConsentForSemester && (
-                <Card>
-                  <Card.Header>NB!</Card.Header>
+                <div className={styles.eventWarning}>
+                  <p>NB!</p>
                   <p>
                     Du må ta stilling til bildesamtykke for semesteret{' '}
                     {toReadableSemester(eventSemester)} for å melde deg på dette
                     arrangement.
                   </p>
                   <Link to={`/users/me/`}>Gå til min profil</Link>
-                </Card>
+                </div>
               )}
             {formOpen &&
               hasRegisteredConsentIfRequired &&
@@ -476,6 +477,7 @@ const JoinEventForm = (props: Props) => {
                       component={TextInput.Field}
                       label={feedbackLabel}
                       className={styles.feedbackText}
+                      fieldClassName={styles.feedbackField}
                       rows={1}
                     />
                     {registration && (

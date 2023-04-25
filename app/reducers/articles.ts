@@ -2,27 +2,20 @@ import { orderBy } from 'lodash';
 import { createSelector } from 'reselect';
 import { mutateComments } from 'app/reducers/comments';
 import { mutateReactions } from 'app/reducers/reactions';
-import { selectUserById } from 'app/reducers/users';
 import { typeable } from 'app/reducers/utils';
-import type { ArticleWithAuthorDetails } from 'app/routes/articles/ArticleListRoute';
-import type { RootState } from 'app/store/createRootReducer';
-import type { PublicArticle, UnknownArticle } from 'app/store/models/Article';
+import type { UnknownArticle } from 'app/store/models/Article';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import joinReducers from 'app/utils/joinReducers';
 import { Article } from '../actions/ActionTypes';
-import type { Selector } from 'reselect';
 
-export default createEntityReducer<UnknownArticle>({
+export default createEntityReducer({
   key: 'articles',
   types: {
     fetch: Article.FETCH,
     mutate: Article.CREATE,
     delete: Article.DELETE,
   },
-  mutate: joinReducers(
-    mutateReactions<UnknownArticle>('articles'),
-    mutateComments<UnknownArticle>('articles')
-  ),
+  mutate: joinReducers(mutateComments('articles'), mutateReactions('articles')),
 });
 
 function transformArticle(article) {
@@ -44,25 +37,6 @@ export const selectArticles = typeable(
       )
   )
 );
-
-export const selectArticlesWithAuthorDetails: Selector<
-  RootState,
-  ArticleWithAuthorDetails[],
-  [
-    {
-      pagination: any;
-    }
-  ]
-> = (state, props) =>
-  selectArticles<PublicArticle[]>(state, props).map((article) => ({
-    ...article,
-    authors: article.authors.map((e) => {
-      return selectUserById(state, {
-        userId: e,
-      });
-    }),
-  }));
-
 export const selectArticlesByTag = createSelector(
   selectArticles,
   (state, props) => props.tag,
@@ -82,5 +56,15 @@ export const selectCommentsForArticle = createSelector(
   (article, commentsById) => {
     if (!article) return [];
     return (article.comments || []).map((commentId) => commentsById[commentId]);
+  }
+);
+export const selectReactionsForArticle = createSelector(
+  selectArticleById,
+  (state) => state.reactions.byId,
+  (article, reactionsById) => {
+    if (!article) return [];
+    return (article.reactionsGrouped || []).map(
+      (reactionId) => reactionsById[reactionId]
+    );
   }
 );

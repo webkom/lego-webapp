@@ -4,10 +4,8 @@ import { Link } from 'react-router-dom';
 import Button from 'app/components/Button';
 import CommentView from 'app/components/Comments/CommentView';
 import { Content } from 'app/components/Content';
-import Icon from 'app/components/Icon';
 import { Image } from 'app/components/Image';
 import InfoBubble from 'app/components/InfoBubble';
-import { Flex } from 'app/components/Layout';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import Time from 'app/components/Time';
@@ -205,7 +203,13 @@ export default class BdbDetail extends Component<Props, State> {
                       contact.id
                     )}`}
                   >
-                    <Icon name="pencil" edit size={20} />
+                    <i
+                      className="fa fa-pencil"
+                      style={{
+                        marginRight: '5px',
+                        color: 'orange',
+                      }}
+                    />
                   </Link>
                   <ConfirmModalWithParent
                     title="Slett bedriftskontakt"
@@ -213,7 +217,14 @@ export default class BdbDetail extends Component<Props, State> {
                     onConfirm={() => this.deleteCompanyContact(contact.id)}
                     closeOnConfirm
                   >
-                    <Icon name="trash" danger size={20} />
+                    <i
+                      className="fa fa-times"
+                      style={{
+                        color: '#d13c32',
+                        position: 'relative',
+                        top: '5px',
+                      }}
+                    />
                   </ConfirmModalWithParent>
                 </span>
               </div>
@@ -255,7 +266,7 @@ export default class BdbDetail extends Component<Props, State> {
           </tr>
         ));
     const title = (
-      <Flex alignItems="center" gap={5}>
+      <span>
         {company.name}
         {!company.active && (
           <span
@@ -268,9 +279,16 @@ export default class BdbDetail extends Component<Props, State> {
           </span>
         )}
         <Link to={`/bdb/${company.id}/edit`}>
-          <Icon name="pencil" edit size={20} />
+          <i
+            className="fa fa-pencil"
+            style={{
+              marginLeft: '15px',
+              color: 'orange',
+              fontSize: '20px',
+            }}
+          />
         </Link>
-      </Flex>
+      </span>
     );
     return (
       <Content>

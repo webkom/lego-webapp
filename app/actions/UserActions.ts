@@ -7,7 +7,6 @@ import callAPI from 'app/actions/callAPI';
 import config from 'app/config';
 import type { AddPenalty, ID, PhotoConsent } from 'app/models';
 import { userSchema, penaltySchema } from 'app/reducers';
-import type { UpdateUser } from 'app/store/models/User';
 import type { Thunk, Action, Token, EncodedToken, GetCookie } from 'app/types';
 import { User, Penalty } from './ActionTypes';
 import { uploadFile } from './FileActions';
@@ -79,13 +78,13 @@ export function login(
       });
     });
 }
-export function logoutWithRedirect(): Thunk<void> {
+export function logoutWithRedirect(): Thunk<any> {
   return (dispatch) => {
     dispatch(logout());
     dispatch(push('/'));
   };
 }
-export function logout(): Thunk<void> {
+export function logout(): Thunk<any> {
   return (dispatch) => {
     removeToken();
     dispatch({
@@ -95,7 +94,8 @@ export function logout(): Thunk<void> {
   };
 }
 export function updateUser(
-  user: UpdateUser,
+  user: Record<string, any>,
+  /*Todo: UserModel*/
   options: {
     noRedirect: boolean;
     updateProfilePicture?: boolean;
@@ -103,7 +103,7 @@ export function updateUser(
     noRedirect: false,
     updateProfilePicture: false,
   }
-): Thunk<Promise<void | Action | null | undefined>> {
+): Thunk<Promise<Action | null | undefined>> {
   const {
     username,
     firstName,
@@ -163,7 +163,7 @@ export function changePassword({
   password,
   newPassword,
   retypeNewPassword,
-}: PasswordPayload): Thunk<void> {
+}: PasswordPayload): Thunk<any> {
   return callAPI({
     types: User.PASSWORD_CHANGE,
     endpoint: '/password-change/',
@@ -180,7 +180,7 @@ export function changePassword({
     },
   });
 }
-export function changeGrade(groupId: ID, username: string): Thunk<void> {
+export function changeGrade(groupId: ID, username: string): Thunk<any> {
   return callAPI({
     types: User.UPDATE,
     endpoint: `/users/${username}/change_grade/`,
@@ -195,7 +195,7 @@ export function changeGrade(groupId: ID, username: string): Thunk<void> {
     },
   });
 }
-export function removePicture(username: string): Thunk<void> {
+export function removePicture(username: string): Thunk<any> {
   return (dispatch) =>
     dispatch(
       callAPI({
@@ -218,7 +218,7 @@ export function updatePhotoConsent(
   photoConsent: PhotoConsent,
   username: string,
   userId: number
-): Thunk<void> {
+): Thunk<any> {
   const { year, semester, domain, isConsenting } = photoConsent;
   return callAPI({
     types: User.UPDATE,
@@ -244,8 +244,8 @@ export function updatePicture({
 }: {
   picture: File;
   username: string;
-}): Thunk<void> {
-  return (dispatch) => {
+}): Thunk<any> {
+  return (dispatch, getState) => {
     return dispatch(
       uploadFile({
         file: picture,
@@ -275,7 +275,7 @@ const defaultOptions = {
 export function fetchUser(
   username = 'me',
   { propagateError } = defaultOptions
-): Thunk<void> {
+): Thunk<any> {
   return callAPI({
     types: User.FETCH,
     endpoint: `/users/${username}/`,
@@ -287,7 +287,7 @@ export function fetchUser(
     propagateError,
   });
 }
-export function refreshToken(token: EncodedToken): Thunk<void> {
+export function refreshToken(token: EncodedToken): Thunk<any> {
   return callAPI({
     types: User.REFRESH_TOKEN,
     endpoint: '//authorization/token-auth/refresh/',
@@ -297,7 +297,7 @@ export function refreshToken(token: EncodedToken): Thunk<void> {
     },
   });
 }
-export function loginWithExistingToken(token: Token): Thunk<void> {
+export function loginWithExistingToken(token: Token): Thunk<any> {
   return (dispatch) => {
     const now = moment();
     const expirationTime = moment.unix(token.exp);
@@ -320,7 +320,7 @@ export function loginWithExistingToken(token: Token): Thunk<void> {
 /**
  * Refreshes the token if it was issued any other day than today.
  */
-export function maybeRefreshToken(): Thunk<void> {
+export function maybeRefreshToken(): Thunk<any> {
   return (dispatch, getState, { getCookie }) => {
     const token = getToken(getCookie);
     if (!token) return Promise.resolve();
@@ -342,7 +342,7 @@ export function maybeRefreshToken(): Thunk<void> {
 /**
  * Dispatch a login success if a token exists in local storage.
  */
-export function loginAutomaticallyIfPossible(): Thunk<void> {
+export function loginAutomaticallyIfPossible(): Thunk<any> {
   return (dispatch, getState, { getCookie }) => {
     const token = getToken(getCookie);
 
@@ -360,7 +360,7 @@ type EmailArgs = {
 export function sendRegistrationEmail({
   email,
   captchaResponse,
-}: EmailArgs): Thunk<void> {
+}: EmailArgs): Thunk<any> {
   return (dispatch) =>
     dispatch(
       callAPI({
@@ -377,7 +377,7 @@ export function sendRegistrationEmail({
       })
     );
 }
-export function validateRegistrationToken(token: string): Thunk<void> {
+export function validateRegistrationToken(token: string): Thunk<any> {
   return (dispatch) =>
     dispatch(
       callAPI({
@@ -390,7 +390,7 @@ export function validateRegistrationToken(token: string): Thunk<void> {
       })
     );
 }
-export function createUser(token: string, user: string): Thunk<void> {
+export function createUser(token: string, user: string): Thunk<any> {
   return (dispatch) =>
     dispatch(
       callAPI({
@@ -415,7 +415,7 @@ export function createUser(token: string, user: string): Thunk<void> {
       });
     });
 }
-export function deleteUser(password: string): Thunk<Promise<void>> {
+export function deleteUser(password: string): Thunk<Promise<any>> {
   return (dispatch) =>
     dispatch(
       callAPI({
@@ -432,7 +432,7 @@ export function deleteUser(password: string): Thunk<Promise<void>> {
       })
     );
 }
-export function sendStudentConfirmationEmail(user: string): Thunk<void> {
+export function sendStudentConfirmationEmail(user: string): Thunk<any> {
   return callAPI({
     types: User.SEND_STUDENT_CONFIRMATION_TOKEN,
     endpoint: `/users-student-confirmation-request/`,
@@ -443,7 +443,7 @@ export function sendStudentConfirmationEmail(user: string): Thunk<void> {
     },
   });
 }
-export function confirmStudentUser(token: string): Thunk<void> {
+export function confirmStudentUser(token: string): Thunk<any> {
   return callAPI({
     types: User.CONFIRM_STUDENT_USER,
     endpoint: `/users-student-confirmation-perform/?token=${token}`,
@@ -457,7 +457,7 @@ export function sendForgotPasswordEmail({
   email,
 }: {
   email: string;
-}): Thunk<void> {
+}): Thunk<any> {
   return (dispatch) =>
     dispatch(
       callAPI({
@@ -478,7 +478,7 @@ export function addPenalty({
   reason,
   weight,
   sourceEvent,
-}: AddPenalty): Thunk<void> {
+}: AddPenalty): Thunk<any> {
   return callAPI({
     types: Penalty.CREATE,
     endpoint: '/penalties/',
@@ -495,7 +495,7 @@ export function addPenalty({
     },
   });
 }
-export function deletePenalty(id: number): Thunk<void> {
+export function deletePenalty(id: number): Thunk<any> {
   return callAPI({
     types: Penalty.DELETE,
     endpoint: `/penalties/${id}/`,
@@ -514,7 +514,7 @@ export function resetPassword({
 }: {
   token: string;
   password: string;
-}): Thunk<void> {
+}): Thunk<any> {
   return (dispatch) =>
     dispatch(
       callAPI({

@@ -9,22 +9,21 @@ import {
   legoForm,
 } from 'app/components/Form';
 import Tooltip from 'app/components/Tooltip';
-import type { DetailedGroup } from 'app/store/models/Group';
 import { createValidator, required } from 'app/utils/validation';
 import styles from './index.css';
 import type { FormProps } from 'redux-form';
 
 type OwnProps = {
   handleSubmitCallback: (arg0: Record<string, any>) => Promise<any>;
-  group: DetailedGroup;
+  group: Record<string, any>;
 };
-
 type Props = OwnProps & FormProps;
 
 const logoValidator = (value) => (value ? undefined : 'Bilde er påkrevd');
 
 function GroupForm({
   handleSubmit,
+  handleSubmitCallback,
   group,
   submitting,
   invalid,

@@ -3,10 +3,10 @@ import meetingsToken from '../meetingsToken';
 
 describe('reducers', () => {
   const prevState = {
-    response: undefined,
-    user: undefined,
-    meeting: undefined,
-    status: undefined,
+    response: 'abc',
+    user: {},
+    meeting: null,
+    status: '',
   };
   describe('meetingsToken', () => {
     it('Meeting.ANSWER_INVITATION_TOKEN.FAILURE', () => {
@@ -14,10 +14,10 @@ describe('reducers', () => {
         type: Meeting.ANSWER_INVITATION_TOKEN.FAILURE,
       };
       expect(meetingsToken(prevState, action)).toEqual({
-        response: 'FAILURE',
-        user: undefined,
-        meeting: undefined,
-        status: undefined,
+        response: 'abc',
+        user: {},
+        meeting: null,
+        status: 'FAILURE',
       });
     });
     it('Meeting.ANSWER_INVITATION_TOKEN.SUCCESS', () => {
@@ -41,10 +41,10 @@ describe('reducers', () => {
         type: Meeting.RESET_MEETINGS_TOKEN,
       };
       expect(meetingsToken(prevState, action)).toEqual({
-        response: undefined,
-        user: undefined,
-        meeting: undefined,
-        status: undefined,
+        response: '',
+        user: {},
+        meeting: null,
+        status: '',
       });
     });
   });

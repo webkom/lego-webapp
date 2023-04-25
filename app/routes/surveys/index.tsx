@@ -87,30 +87,24 @@ const surveysRoute = ({
                 location,
               }}
             >
-              {(props) => (
-                <>
-                  <RouteWrapper
-                    exact
-                    path={`${match.path}/summary`}
-                    passedProps={{
-                      currentUser,
-                      loggedIn,
-                      ...props,
-                    }}
-                    Component={SubmissionSummary}
-                  />
-                  <RouteWrapper
-                    exact
-                    path={`${match.path}/individual`}
-                    passedProps={{
-                      currentUser,
-                      loggedIn,
-                      ...props,
-                    }}
-                    Component={SubmissionIndividual}
-                  />
-                </>
-              )}
+              <RouteWrapper
+                exact
+                path={`${match.path}/summary`}
+                passedProps={{
+                  currentUser,
+                  loggedIn,
+                }}
+                Component={SubmissionSummary}
+              />
+              <RouteWrapper
+                exact
+                path={`${match.path}/individual`}
+                passedProps={{
+                  currentUser,
+                  loggedIn,
+                }}
+                Component={SubmissionIndividual}
+              />
             </SubmissionsRoute>
           )}
         </Route>

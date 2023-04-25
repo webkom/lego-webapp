@@ -74,12 +74,20 @@ type TimeStampProps = {
 const TimeStamp = ({ event }: TimeStampProps) => {
   return (
     <div className={styles.eventTime}>
-      <Flex alignItems="center" gap={10}>
-        <Icon name="calendar-number-outline" size={20} />
+      <Flex alignItems="center">
+        <Icon
+          name="calendar-number-outline"
+          size={20}
+          style={{ cursor: 'pointer', marginRight: '10px' }}
+        />
         <Time time={event.startTime} format="ll" />
       </Flex>
-      <Flex alignItems="center" gap={10}>
-        <Icon name="time-outline" size={20} />
+      <Flex alignItems="center">
+        <Icon
+          name="time-outline"
+          size={20}
+          style={{ cursor: 'pointer', marginRight: '10px' }}
+        />
         <Time time={event.startTime} format="HH:mm" />
       </Flex>
     </div>
@@ -94,7 +102,7 @@ const RegistrationIcon = ({ event }: TimeStampProps) => {
         <Icon
           name={iconStyle.icon}
           size={23}
-          style={{ color: iconStyle.color }}
+          style={{ cursor: 'pointer', color: iconStyle.color }}
         />
       </Tooltip>
     </Flex>

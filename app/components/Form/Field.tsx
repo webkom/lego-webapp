@@ -3,7 +3,7 @@ import Icon from 'app/components/Icon';
 import { Flex } from 'app/components/Layout';
 import Tooltip from 'app/components/Tooltip';
 import styles from './Field.css';
-import type { ComponentType, CSSProperties, InputHTMLAttributes } from 'react';
+import type { ComponentType } from 'react';
 
 const FieldError = ({
   error,
@@ -63,12 +63,12 @@ export const RenderWarningMessage = ({
 };
 export type FormProps = {
   className?: string;
-  input: InputHTMLAttributes<HTMLInputElement>;
+  input: Record<string, any>;
   meta: Record<string, any>;
   required?: boolean;
   label?: string;
   description?: string;
-  fieldStyle?: CSSProperties;
+  fieldStyle?: any;
   fieldClassName?: string;
   labelClassName?: string;
   showErrors?: boolean;
@@ -77,8 +77,6 @@ export type FormProps = {
 type Options = {
   // Removes the html <label> around the component
   noLabel?: boolean;
-  // Sets the label to be inline with the component
-  inlineLabel?: boolean;
 };
 
 /**
@@ -104,79 +102,55 @@ export function createField(Component: ComponentType<any>, options?: Options) {
     } = field;
     const { error, submitError, warning, touched } = meta;
     const anyError = error || submitError;
-    const hasError = showErrors && touched && anyError?.length > 0;
-    const hasWarning = showErrors && touched && warning?.length > 0;
-    const fieldName = input?.name;
-    const inlineLabel = options?.inlineLabel;
-
-    const labelComponent = (
-      <Flex>
-        {label && (
-          <div
-            style={{
-              cursor: inlineLabel ? 'pointer' : 'default',
-              fontSize: !inlineLabel ? 'var(--font-size-large)' : 'inherit',
-            }}
-            className={labelClassName}
-          >
-            {label}
-          </div>
-        )}
-        {description && (
-          <Tooltip
-            style={{
-              display: 'inline-block',
-            }}
-            content={description}
-          >
-            <div
-              style={{
-                marginLeft: '10px',
-              }}
-            >
-              <Icon size={32} name="help" />
-            </div>
-          </Tooltip>
-        )}
-        {required && <span className={styles.required}>*</span>}
-      </Flex>
-    );
-
-    const component = (
-      <Component
-        {...input}
-        {...props}
-        onChange={(value) => {
-          input.onChange(value);
-          onChange?.(value);
-        }}
-        className={cx(
-          className,
-          hasWarning && styles.inputWithWarning,
-          hasError && styles.inputWithError
-        )}
-      />
-    );
-
-    const content = inlineLabel ? (
-      <Flex gap={7}>
-        {component}
-        {labelComponent}
-      </Flex>
-    ) : (
+    const hasError = showErrors && touched && anyError && anyError.length > 0;
+    const hasWarning = showErrors && touched && warning && warning.length > 0;
+    const fieldName = input && input.name;
+    const content = (
       <>
-        {labelComponent}
-        {component}
+        <Flex>
+          {label && (
+            <div className={cx(styles.label, labelClassName)}>{label}</div>
+          )}
+          {description && (
+            <Tooltip
+              style={{
+                display: 'inline-block',
+              }}
+              content={description}
+            >
+              <div
+                style={{
+                  marginLeft: '10px',
+                }}
+              >
+                <Icon size={32} name="help" />
+              </div>
+            </Tooltip>
+          )}
+          {required && <span className={styles.required}>*</span>}
+        </Flex>
+        <Component
+          {...input}
+          {...props}
+          onChange={(value) => {
+            input.onChange(value);
+            onChange?.(value);
+          }}
+          className={cx(
+            className,
+            hasWarning && styles.inputWithWarning,
+            hasError && styles.inputWithError
+          )}
+        />
       </>
     );
-
     return (
       <div className={cx(styles.field, fieldClassName)} style={fieldStyle}>
-        {options?.noLabel ? content : <label>{content}</label>}
+        {options && options.noLabel ? content : <label>{content}</label>}
         {hasError && (
           <RenderErrorMessage error={anyError} fieldName={fieldName} />
         )}
-        {hasWarning && <RenderWarningMessage warning={warning} />}
+        {hasWarning && <RenderWarningMessage warning={meta.warning} />}
       </div>
     );
   };

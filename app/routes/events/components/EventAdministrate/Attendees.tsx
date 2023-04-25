@@ -6,7 +6,7 @@ import { Flex } from 'app/components/Layout';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import type {
-  EventAdministrate,
+  Event,
   EventPool,
   ActionGrant,
   User,
@@ -22,7 +22,7 @@ import { RegisteredTable, UnregisteredTable } from './RegistrationTables';
 
 export type Props = {
   eventId: number;
-  event: EventAdministrate;
+  event: Event;
   comments: Comment[];
   pools: Array<EventPool>;
   loggedIn: boolean;
@@ -149,7 +149,8 @@ const Attendees = ({
     <div>
       <Flex justifyContent="space-between">
         {event.useContactTracing &&
-          currentUser.id === event.createdBy &&
+          (currentUser.id === event.createdBy ||
+            currentUser.id === event.createdBy.id) &&
           moment().isBefore(moment(event.endTime).add(14, 'days')) &&
           (generatedCsvUrl ? (
             <a href={generatedCsvUrl} download="attendees.csv">
@@ -162,7 +163,7 @@ const Attendees = ({
               message={exportInfoMessage}
               onConfirm={createInfoCSV}
             >
-              <Button>Eksporter deltakere til csv</Button>
+              <Button size="large">Eksporter deltakere til csv</Button>
             </ConfirmModalWithParent>
           ))}
       </Flex>

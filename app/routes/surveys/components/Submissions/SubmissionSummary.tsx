@@ -8,16 +8,8 @@ type Props = {
   submissions: Array<SubmissionEntity>;
   addSubmission: (arg0: SubmissionEntity) => Promise<any>;
   survey: SurveyEntity;
-  hideAnswer: (
-    surveyId: number,
-    submissionId: number,
-    answerId: number
-  ) => Promise<void>;
-  showAnswer: (
-    surveyId: number,
-    submissionId: number,
-    answerId: number
-  ) => Promise<void>;
+  hideAnswer: (arg0: number, arg1: number, arg2: number) => Promise<any>;
+  showAnswer: (arg0: number, arg1: number, arg2: number) => Promise<any>;
   editSurvey: (arg0: Record<string, any>) => Promise<any>;
   value: string;
   option: string;
@@ -44,8 +36,7 @@ const SubmissionSummary = ({
               key={answer.id}
               className={styles.adminAnswer}
               style={{
-                backgroundColor:
-                  answer.hideFromPublic && 'var(--additive-background)',
+                backgroundColor: answer.hideFromPublic && 'var(--color-gray-3)',
                 padding: answer.hideFromPublic && '5px',
               }}
             >

@@ -14,7 +14,6 @@ import {
 } from 'app/actions/EventActions';
 import {
   selectEventById,
-  selectEventBySlug,
   selectCommentsForEvent,
   selectPoolsWithRegistrationsForEvent,
   selectPoolsForEvent,
@@ -34,23 +33,13 @@ import EventDetail from './components/EventDetail';
 const mapStateToProps = (state, props) => {
   const {
     match: {
-      params: { eventIdOrSlug },
+      params: { eventId },
     },
     currentUser,
   } = props;
-  const event = !isNaN(eventIdOrSlug)
-    ? selectEventById(state, { eventId: eventIdOrSlug })
-    : selectEventBySlug(state, { eventSlug: eventIdOrSlug });
-
-  /*
-    * FIXME: This produces an insane amount of location change events for some reason
-  if (event?.slug && eventIdOrSlug !== event.slug) {
-    props.history.replace(`/events/${event.slug}`);
-  }
-  */
-
-  const eventId = event.id;
-
+  const event = selectEventById(state, {
+    eventId,
+  });
   const actionGrant = event.actionGrant || [];
   const hasFullAccess = Boolean(event.waitingRegistrations);
   const user = state.auth
@@ -215,8 +204,8 @@ const propertyGenerator = (props, config) => {
 export default compose(
   withPreparedDispatch(
     'fetchEventDetail',
-    (props, dispatch) => dispatch(fetchEvent(props.match.params.eventIdOrSlug)),
-    (props) => [props.match.params.eventIdOrSlug]
+    (props, dispatch) => dispatch(fetchEvent(props.match.params.eventId)),
+    (props) => [props.match.params.eventId]
   ),
   connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['notLoading', 'event.text']),

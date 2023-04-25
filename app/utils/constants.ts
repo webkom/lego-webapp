@@ -8,7 +8,6 @@ export const Keyboard = {
   UP: 38,
   DOWN: 40,
 };
-
 export const ROLES = {
   member: 'Medlem (standard)',
   leader: 'Leder',
@@ -31,17 +30,14 @@ export const ROLES = {
   sponsor_admin: 'Sponsoransvarlig',
   social_admin: 'Sosialansvarlig',
 };
-
-export type RoleType = keyof typeof ROLES;
-
 export const roleOptions = Object.keys(ROLES)
   .sort()
   .map((role) => ({
     value: role,
     label: ROLES[role],
   })) as Array<{
-  value: RoleType;
-  label: (typeof ROLES)[RoleType];
+  value: string;
+  label: string;
 }>;
 
 /*
@@ -49,9 +45,11 @@ export const roleOptions = Object.keys(ROLES)
  * (i.e. abakus.no, webapp-staging.abakus.no) or if it's run locally through yarn start:staging 'local_staging'.
  * Use the local backend group ID (12) if the webapp is running with yarn start.
  */
-export const WEBKOM_GROUP_ID: number =
-  config.environment &&
-  ['production', 'staging', 'local_staging'].includes(config.environment)
-    ? 11
-    : 12;
+export const WEBKOM_GROUP_ID: number = [
+  'production',
+  'staging',
+  'local_staging',
+].includes(config.environment)
+  ? 11
+  : 12;
 export const EDITOR_EMPTY = '<p></p>';

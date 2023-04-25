@@ -105,7 +105,7 @@ const Validator = (props: Props) => {
             😀
           </span>
         </h3>
-        <Icon name="checkmark" success size={160} />
+        <i className="fa fa-check" />
       </div>
       <Modal
         contentClassName={styles.scannerModal}

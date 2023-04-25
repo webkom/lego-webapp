@@ -4,7 +4,6 @@ import LoadingIndicator from 'app/components/LoadingIndicator';
 import type { ID } from 'app/store/models';
 import type Comment from 'app/store/models/Comment';
 import type { CurrentUser } from 'app/store/models/User';
-import type { ContentTarget } from 'app/store/utils/contentTarget';
 import { generateTreeStructure } from 'app/utils';
 import CommentTree from './CommentTree';
 import type { CSSProperties } from 'react';
@@ -12,13 +11,13 @@ import type { CSSProperties } from 'react';
 type Props = {
   comments: Array<Comment>;
   formDisabled?: boolean;
-  contentTarget: ContentTarget;
+  contentTarget: string;
   user: CurrentUser;
   loggedIn: boolean;
   displayTitle?: boolean;
   style?: CSSProperties;
   newOnTop?: boolean;
-  deleteComment: (id: ID, contentTarget: ContentTarget) => Promise<void>;
+  deleteComment: (id: ID, contentTarget: string) => Promise<void>;
 };
 
 const Title = ({ displayTitle }: { displayTitle: boolean }) =>

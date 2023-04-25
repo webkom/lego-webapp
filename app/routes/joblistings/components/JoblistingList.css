@@ -23,7 +23,7 @@
 .joblistingList {
   flex: 3;
 
-  @media (width <= 321px) {
+  @media (max-width: 321px) {
     margin-left: 10px;
     margin-right: 10px;
   }

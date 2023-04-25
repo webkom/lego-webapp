@@ -86,7 +86,6 @@ const Question = ({
           <div className={styles.questionType}>
             <Field
               name={`${question}.questionType`}
-              placeholder="Velg type"
               component={SelectInput.Field}
               components={{
                 Option: (props: any) => {
@@ -162,7 +161,7 @@ const Question = ({
             closeOnConfirm
             className={styles.deleteQuestion}
           >
-            <Icon name="trash" danger />
+            <Icon name="trash" />
           </ConfirmModalWithParent>
         </div>
       </div>

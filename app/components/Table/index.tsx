@@ -55,7 +55,6 @@ type Props = {
   onChange?: (filters: Record<string, any>, sort: sortProps) => void;
   onLoad?: (filters: Record<string, any>, sort: sortProps) => void;
   filters?: Record<string, any>;
-  className?: string;
 };
 
 type State = {
@@ -388,7 +387,7 @@ export default class Table extends Component<Props, State> {
   }, 170);
 
   render() {
-    const { columns, data, rowKey, hasMore, loading, className } = this.props;
+    const { columns, data, rowKey, hasMore, loading } = this.props;
     let sorter = this.state.sort.sorter;
     const { direction, dataIndex } = this.state.sort;
     if (typeof sorter == 'boolean')
@@ -402,7 +401,7 @@ export default class Table extends Component<Props, State> {
     if (direction === 'desc') sortedData.reverse();
 
     return (
-      <div className={cx(styles.wrapper, className)}>
+      <div className={styles.wrapper}>
         <table>
           <thead>
             <tr>

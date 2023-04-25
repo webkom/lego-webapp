@@ -1,3 +1,12 @@
+.root {
+  composes: contentContainer from '~app/styles/utilities.css';
+}
+
+.heading {
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
 .detailTitle {
   margin-bottom: 0;
 

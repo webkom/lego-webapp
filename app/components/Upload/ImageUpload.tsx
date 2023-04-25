@@ -65,7 +65,12 @@ const FilePreview = ({ file, onRemove }: FilePreviewProps) => {
     >
       <img alt="preview" className={styles.previewImage} src={previewUrl} />
       <div className={styles.fileName}>{file.name}</div>
-      <Icon onClick={onRemove} name="trash" danger />
+      <Icon
+        onClick={onRemove}
+        name="trash"
+        size={28}
+        className={styles.removeIcon}
+      />
     </Flex>
   );
 };

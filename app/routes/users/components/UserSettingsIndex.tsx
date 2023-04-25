@@ -1,25 +1,27 @@
 import { omit } from 'lodash';
 import { cloneElement } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { Content } from 'app/components/Content';
 import { LoginPage } from 'app/components/LoginForm';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
-import { useIsCurrentUser } from 'app/routes/users/utils';
-import type { CurrentUser } from 'app/store/models/User';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import type { ReactElement } from 'react';
-import type { RouteChildrenProps } from 'react-router';
+import type { Element } from 'react';
 
 type Props = {
-  children: ReactElement[];
-  currentUser: CurrentUser;
-  loggedIn: boolean;
-} & RouteChildrenProps<{ username: string }>;
+  children: Array<Element<any>>;
+  currentUser: Record<string, any>;
+  isMe: boolean;
+  match: {
+    path: string;
+    params: {
+      username: string;
+    };
+  };
+};
 
 const UserSettingsIndex = (props: Props) => {
-  const isCurrentUser = useIsCurrentUser(props.match.params.username);
-
   const base = `/users/${props.match.params.username}/settings`;
   // At the moment changing settings for other users only works
   // for the settings under `/profile` - so no point in showing
@@ -28,7 +30,7 @@ const UserSettingsIndex = (props: Props) => {
     <Content>
       <Helmet title="Innstillinger" />
       <NavigationTab title="Innstillinger">
-        {isCurrentUser && (
+        {props.isMe && (
           <>
             <NavigationLink to={`${base}/profile`}>Profil</NavigationLink>
             <NavigationLink to={`${base}/notifications`}>
@@ -51,4 +53,15 @@ const UserSettingsIndex = (props: Props) => {
   );
 };
 
-export default compose(replaceUnlessLoggedIn(LoginPage))(UserSettingsIndex);
+const mapStateToProps = (state, props) => {
+  const { username } = props.match.params;
+  const isMe = username === 'me' || username === state.auth.username;
+  return {
+    isMe,
+  };
+};
+
+export default compose(
+  replaceUnlessLoggedIn(LoginPage), // $FlowFixMe
+  connect(mapStateToProps)
+)(UserSettingsIndex);

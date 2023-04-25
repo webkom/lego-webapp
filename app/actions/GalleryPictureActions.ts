@@ -138,7 +138,7 @@ function uploadGalleryPicturesInTurn(files, galleryId, dispatch) {
   };
 
   const uploadPictureWithErrorhandler = (file) =>
-    uploadPicture(file).catch(() => {
+    uploadPicture(file).catch((error) => {
       dispatch({
         type: GalleryPicture.UPLOAD.FAILURE,
         error: true,

@@ -2,7 +2,6 @@ import { unionBy } from 'lodash';
 import { Field } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
 import { useHistory } from 'react-router-dom';
-import { Content } from 'app/components/Content';
 import {
   Button,
   CheckBox,
@@ -22,11 +21,8 @@ import MazemapLink from 'app/components/MazemapEmbed/MazemapLink';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import NavigationTab from 'app/components/NavigationTab';
 import { AttendanceStatus } from 'app/components/UserAttendance';
-import type { MeetingInvitationWithUser } from 'app/reducers/meetingInvitations';
+import type { UserEntity } from 'app/reducers/users';
 import styles from 'app/routes/meetings/components/MeetingEditor.css';
-import type { ID } from 'app/store/models';
-import type { DetailedMeeting } from 'app/store/models/Meeting';
-import type { AutocompleteUser, CurrentUser } from 'app/store/models/User';
 import { spySubmittable, spyValues } from 'app/utils/formSpyUtils';
 import {
   createValidator,
@@ -36,7 +32,6 @@ import {
   required,
   timeIsAfter,
 } from 'app/utils/validation';
-import type { Push } from 'connected-react-router';
 
 type Values = {
   title?: string;
@@ -45,35 +40,21 @@ type Values = {
   startTime?: string;
   endTime?: string;
   useMazemap: boolean;
-  mazemapPoi?: { value: number; label: string };
+  mazemapPoi?: number;
   location?: string;
-  users?: AutocompleteUser[];
+  users?: Array<Record<string, any>>;
 };
-
 type Props = {
   meetingId?: string;
-  meeting: DetailedMeeting;
-  currentUser: CurrentUser;
-  meetingInvitations: MeetingInvitationWithUser[];
+  meeting: Record<string, any>;
+  user: UserEntity;
+  meetingInvitations: Array<Record<string, any>>;
   initialValues: Values;
-  handleSubmitCallback: (data: Values) => Promise<{ payload: { result: ID } }>;
-  push: Push;
-  inviteUsersAndGroups: (args: {
-    id: ID;
-    users: [
-      {
-        id: ID;
-      }
-    ];
-    groups: [
-      {
-        value: ID;
-      }
-    ];
-  }) => Promise<void>;
-  deleteMeeting: (args: ID) => Promise<void>;
+  handleSubmitCallback: (data: Values) => Promise<any>;
+  push: (arg0: string) => void;
+  inviteUsersAndGroups: (arg0: Record<string, any>) => Promise<any>;
+  deleteMeeting: (arg0: number) => Promise<any>;
 };
-
 const validate = createValidator({
   title: [required('Du må gi møtet en tittel')],
   report: [legoEditorRequired('Referatet kan ikke være tomt')],
@@ -93,7 +74,7 @@ const validate = createValidator({
 const MeetingEditor = ({
   meetingId,
   meeting,
-  currentUser,
+  user,
   meetingInvitations,
   initialValues,
   handleSubmitCallback,
@@ -108,12 +89,11 @@ const MeetingEditor = ({
     return <LoadingIndicator loading />;
   }
 
-  const currentUserSearchable = {
-    value: currentUser.username,
-    label: currentUser.fullName,
-    id: currentUser.id,
+  const userSearchable = {
+    value: user.username,
+    label: user.fullName,
+    id: user.id,
   };
-
   const invitedUsersSearchable = meetingInvitations
     ? meetingInvitations.map((invite) => ({
         value: invite.user.username,
@@ -144,7 +124,7 @@ const MeetingEditor = ({
   const actionGrant = meeting?.actionGrant;
   const canDelete = actionGrant?.includes('delete');
   return (
-    <Content>
+    <div className={styles.root}>
       <Helmet
         title={isEditPage ? `Redigerer: ${meeting.title}` : 'Nytt møte'}
       />
@@ -200,7 +180,7 @@ const MeetingEditor = ({
                 component={CheckBox.Field}
                 type="checkbox"
               />
-              {spyValues<Values>((values) => {
+              {spyValues((values) => {
                 return values?.useMazemap ? (
                   <Flex alignItems="center">
                     <Field
@@ -226,10 +206,10 @@ const MeetingEditor = ({
                   />
                 );
               })}
-              {spyValues<Values>((values) => {
+              {spyValues((values) => {
                 const invitingUsers = values?.users ?? [];
                 const possibleReportAuthors = unionBy(
-                  [currentUserSearchable],
+                  [userSearchable],
                   invitedUsersSearchable,
                   invitingUsers,
                   'value'
@@ -313,7 +293,7 @@ const MeetingEditor = ({
           );
         }}
       </LegoFinalForm>
-    </Content>
+    </div>
   );
 };
 

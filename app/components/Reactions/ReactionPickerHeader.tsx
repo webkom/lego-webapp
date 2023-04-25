@@ -3,7 +3,7 @@ import ReactionPickerCategory from './ReactionPickerCategory';
 import styles from './ReactionPickerHeader.css';
 
 type Props = {
-  categories: string[];
+  categories: Array<string>;
   activeCategory: string | null;
   onCategoryClick: (category: string) => void;
   isSearching: boolean;

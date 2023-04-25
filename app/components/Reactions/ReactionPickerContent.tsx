@@ -1,22 +1,17 @@
 import Emoji from 'app/components/Emoji';
-import type { EmojiWithReactionData } from 'app/components/LegoReactions';
-import type { ID } from 'app/store/models';
-import type { ContentTarget } from 'app/store/utils/contentTarget';
+import type { ID } from 'app/models';
+import type { EmojiEntity } from 'app/reducers/emojis';
 import styles from './ReactionPickerContent.css';
 
 type Props = {
-  emojis: EmojiWithReactionData[];
-  searchResults: EmojiWithReactionData[] | null;
-  addReaction: (args: {
-    emoji: string;
-    contentTarget: ContentTarget;
-    unicodeString: string;
-  }) => Promise<void>;
-  deleteReaction: (args: {
+  emojis: Array<EmojiEntity>;
+  searchResults: Array<EmojiEntity> | null;
+  addReaction: (arg0: { emoji: string; contentTarget: string }) => Promise<any>;
+  deleteReaction: (arg0: {
     reactionId: ID;
-    contentTarget: ContentTarget;
-  }) => Promise<void>;
-  contentTarget: ContentTarget;
+    contentTarget: string;
+  }) => Promise<any>;
+  contentTarget: string;
 };
 
 const ReactionPickerContent = ({
@@ -37,7 +32,7 @@ const ReactionPickerContent = ({
     ) : (
       <div className={styles.content}>
         {(searchResults !== null ? searchResults : emojis).map(
-          (emoji: EmojiWithReactionData) => (
+          (emoji: EmojiEntity) => (
             <div
               key={emoji.shortCode}
               className={styles.emoji}

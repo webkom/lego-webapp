@@ -1,0 +1,28 @@
+.root {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 40px;
+}
+
+.detailTitle {
+  margin-bottom: 0;
+  width: 100%;
+
+  & h1 {
+    margin-bottom: 0;
+  }
+}
+
+.section {
+  flex: 1;
+  display: flex;
+  align-items: center;
+
+  &:last-of-type {
+    justify-content: flex-end;
+  }
+
+  &:first-of-type {
+    justify-content: flex-start;
+  }
+}

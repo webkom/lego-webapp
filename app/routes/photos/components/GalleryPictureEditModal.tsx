@@ -46,6 +46,7 @@ const GalleryPictureEditModal = ({
   return (
     <Modal
       onHide={() => push(`/photos/${gallery.id}`)}
+      backdropClassName={styles.backdrop}
       show
       contentClassName={styles.content}
     >

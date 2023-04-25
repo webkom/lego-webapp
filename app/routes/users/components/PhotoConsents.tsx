@@ -13,11 +13,11 @@ import styles from './PhotoConsents.css';
 const ConsentManager = ({
   consent,
   updateConsent,
-  isCurrentUser,
+  isMe,
 }: {
   consent: PhotoConsent | null | undefined;
   updateConsent: (consent: PhotoConsent) => Promise<void>;
-  isCurrentUser: boolean;
+  isMe: boolean;
 }) => {
   if (!consent) {
     return null;
@@ -59,7 +59,7 @@ const ConsentManager = ({
         >
           <Button
             dark
-            disabled={!isCurrentUser || consent.isConsenting === false}
+            disabled={!isMe || consent.isConsenting === false}
             className={styles.consentBtn}
           >
             Trekk samtykke
@@ -67,7 +67,7 @@ const ConsentManager = ({
         </ConfirmModalWithParent>
         <Button
           success
-          disabled={!isCurrentUser || consent.isConsenting === true}
+          disabled={!isMe || consent.isConsenting === true}
           onClick={() => updateConsent({ ...consent, isConsenting: true })}
           className={styles.consentBtn}
         >
@@ -83,7 +83,7 @@ const PhotoConsents = ({
   username,
   updatePhotoConsent,
   userId,
-  isCurrentUser,
+  isMe,
 }: {
   photoConsents: Array<PhotoConsent>;
   username: string;
@@ -93,7 +93,7 @@ const PhotoConsents = ({
     userId: number
   ) => Promise<void>;
   userId: number;
-  isCurrentUser: boolean;
+  isMe: boolean;
 }) => {
   const semesterOptions = photoConsents
     .slice(0)
@@ -149,7 +149,7 @@ const PhotoConsents = ({
           photoConsents
         )}
         updateConsent={updateConsent}
-        isCurrentUser={isCurrentUser}
+        isMe={isMe}
       />
       <ConsentManager
         consent={getConsent(
@@ -159,7 +159,7 @@ const PhotoConsents = ({
           photoConsents
         )}
         updateConsent={updateConsent}
-        isCurrentUser={isCurrentUser}
+        isMe={isMe}
       />
     </Flex>
   );

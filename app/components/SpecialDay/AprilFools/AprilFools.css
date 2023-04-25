@@ -47,7 +47,7 @@
   align-items: center;
 }
 
-@media only screen and (width <= 1000px) {
+@media only screen and (max-width: 1000px) {
   .leftContainer {
     width: 60vw;
   }
@@ -57,7 +57,7 @@
   }
 }
 
-@media only screen and (width <= 500px) {
+@media only screen and (max-width: 500px) {
   .contentContainer {
     align-items: normal;
     font-size: 1rem;
@@ -78,7 +78,7 @@
   }
 }
 
-@media only screen and (width <= 400px) {
+@media only screen and (max-width: 400px) {
   .contentContainer {
     align-items: normal;
     font-size: 0.85rem;

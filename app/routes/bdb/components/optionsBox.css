@@ -1,0 +1,36 @@
+.optionsHeader {
+  margin-bottom: 10px;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.optionsBox {
+  width: 350px;
+  min-height: 50px;
+  margin: 25px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+input {
+  margin-right: 5px;
+}
+
+.section {
+  min-width: 220px;
+}
+
+.options {
+  margin: 0 0 10px 20px;
+}
+
+.options > label {
+  display: block;
+}
+
+.optionsBox + label {
+  display: inline;
+  cursor: pointer;
+}

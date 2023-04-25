@@ -1,8 +1,7 @@
 import { Component } from 'react';
 import { CheckBox, RadioButton, SelectInput } from 'app/components/Form';
-import Flex from 'app/components/Layout/Flex';
 import type { CompanyEntity } from 'app/reducers/companies';
-import styles from './OptionsBox.css';
+import styles from './optionsBox.css';
 
 type Props = {
   companies: Array<CompanyEntity>;
@@ -60,9 +59,28 @@ export default class OptionsBox extends Component<Props, State> {
   render() {
     return (
       <div className={styles.optionsBox}>
-        <Flex column>
-          <h4>Filtrer basert på om bedriften ...</h4>
-          <div className={styles.section}>
+        <span
+          style={{
+            display: 'block',
+            fontSize: '18px',
+            marginBottom: '5px',
+          }}
+        >
+          Filtrer basert på om bedriften...
+        </span>
+
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+        >
+          <div
+            className={styles.section}
+            style={{
+              order: 0,
+            }}
+          >
             <CheckBox
               id="isActive"
               value={this.state.active}
@@ -77,22 +95,26 @@ export default class OptionsBox extends Component<Props, State> {
                 display: this.state.active ? 'block' : 'none',
               }}
             >
-              <RadioButton
-                name="active"
-                id="active"
-                label="Vis bare aktive bedrifter"
-                inputValue={true}
-                value={this.state.values.active}
-                onChange={() => this.updateFilters('active', true)}
-              />
-              <RadioButton
-                name="active"
-                id="inactive"
-                label="Vis bare inaktive bedrifter"
-                inputValue={false}
-                value={this.state.values.active}
-                onChange={() => this.updateFilters('active', false)}
-              />
+              <label>
+                <RadioButton
+                  name="active"
+                  id="active"
+                  inputValue={true}
+                  value={this.state.values.active}
+                  onChange={() => this.updateFilters('active', true)}
+                />
+                <span>Vis bare aktive bedrifter</span>
+              </label>
+              <label>
+                <RadioButton
+                  name="active"
+                  id="inactive"
+                  inputValue={false}
+                  value={this.state.values.active}
+                  onChange={() => this.updateFilters('active', false)}
+                />
+                <span>Vis bare inaktive bedrifter</span>
+              </label>
             </div>
 
             <CheckBox
@@ -133,7 +155,7 @@ export default class OptionsBox extends Component<Props, State> {
               />
             </div>
           </div>
-        </Flex>
+        </div>
       </div>
     );
   }

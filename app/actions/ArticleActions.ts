@@ -1,11 +1,10 @@
 import { push } from 'connected-react-router';
 import callAPI from 'app/actions/callAPI';
 import { articleSchema } from 'app/reducers';
-import type { ID } from 'app/store/models';
-import type { ArticleEntity, Thunk } from 'app/types';
+import type { EntityID, ArticleEntity, Thunk } from 'app/types';
 import { Article } from './ActionTypes';
 
-export function fetchArticle(articleId: ID): Thunk<Promise<void>> {
+export function fetchArticle(articleId: EntityID): Thunk<any> {
   return callAPI({
     types: Article.FETCH,
     endpoint: `/articles/${articleId}/`,

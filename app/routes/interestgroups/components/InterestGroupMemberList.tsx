@@ -9,11 +9,10 @@ import Modal from 'app/components/Modal';
 import Tooltip from 'app/components/Tooltip';
 import shared from 'app/components/UserAttendance/AttendanceModal.css';
 import type { User, GroupMembership } from 'app/models';
-import type { RoleType } from 'app/utils/constants';
 import styles from './InterestGroupMemberList.css';
 import type { ReactNode } from 'react';
 
-const Name = ({ user, role }: { user: User; role: RoleType }) => {
+const Name = ({ user, role }: { user: User; role: string }) => {
   if (role === 'member') {
     return <span>{user.fullName}</span>;
   }
@@ -34,7 +33,7 @@ const Name = ({ user, role }: { user: User; role: RoleType }) => {
   return <span className={roleStyle}>{user.fullName} </span>;
 };
 
-const RoleIcon = ({ role }: { role: RoleType }) => {
+const RoleIcon = ({ role }: { role: string }) => {
   if (role === 'member') {
     return null;
   }
@@ -65,7 +64,7 @@ const RoleIcon = ({ role }: { role: RoleType }) => {
   );
 };
 
-const ListedUser = ({ user, role }: { user: User; role: RoleType }) => (
+const ListedUser = ({ user, role }: { user: User; role: string }) => (
   <li>
     <Flex alignItems="center" gap={10} className={shared.row}>
       <ProfilePicture size={30} user={user} />
@@ -119,12 +118,14 @@ export default class InterestGroupMemberList extends Component<Props, State> {
             className={shared.modal}
           >
             <h2>Medlemmer</h2>
-            <TextInput
-              type="text"
-              prefix="search"
-              placeholder="Søk etter navn"
-              onChange={(e) => this.setState({ filter: e.target.value })}
-            />
+            <Flex alignItems="center" className={shared.search}>
+              <Icon name="search" size={16} />
+              <TextInput
+                type="text"
+                placeholder="Søk etter navn"
+                onChange={(e) => this.setState({ filter: e.target.value })}
+              />
+            </Flex>
 
             <ul className={shared.list}>
               {sorted.map((membership) => (

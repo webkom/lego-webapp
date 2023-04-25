@@ -1,10 +1,10 @@
 import type { ID } from 'app/store/models';
 
-type TreeNode<T> = T & {
-  children: Tree<T>;
-};
-
-export type Tree<T> = Array<TreeNode<T>>;
+export type Tree<T> = Array<
+  T & {
+    children: Tree<T>;
+  }
+>;
 
 /**
  * Generates a tree structure on the form of
@@ -28,15 +28,11 @@ export function generateTreeStructure<
   }
 >(nodes: Array<T>): Tree<T> {
   // Create a map of id -> node for retrievals later:
-  const tree: { [id: ID]: TreeNode<T> } = nodes.reduce(
-    (acc: { [id: ID]: TreeNode<T> }, node: T) => ({
-      ...acc,
-      [node.id]: { ...node, children: [] },
-    }),
+  const tree = nodes.reduce(
+    (acc, node) => ({ ...acc, [node.id]: { ...node, children: [] } }),
     {}
   );
-
-  return nodes.reduce((roots: Tree<T>, { id }) => {
+  return nodes.reduce((roots, { id }) => {
     const node = tree[id];
 
     if (!node.parent) {

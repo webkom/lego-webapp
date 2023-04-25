@@ -1,5 +1,4 @@
 import cx from 'classnames';
-import qs from 'qs';
 import { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useHistory } from 'react-router-dom';
@@ -7,48 +6,45 @@ import Select from 'react-select';
 import Button from 'app/components/Button';
 import { selectTheme, selectStyles } from 'app/components/Form/SelectInput';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import type { ActionGrant } from 'app/models';
-import type { ID } from 'app/store/models';
-import type Emoji from 'app/store/models/Emoji';
-import type Quote from 'app/store/models/Quote';
-import type { CurrentUser } from 'app/store/models/User';
-import type { ContentTarget } from 'app/store/utils/contentTarget';
+import type { ActionGrant, ID } from 'app/models';
+import type { EmojiEntity } from 'app/reducers/emojis';
+import type { QuoteEntity } from 'app/reducers/quotes';
 import { navigation } from '../utils';
 import QuoteList from './QuoteList';
 import styles from './Quotes.css';
 
 type Props = {
+  reactions: Array<Record<string, any>>;
   query: {
     approved: string;
     ordering: string;
   };
-  quotes: Quote[];
+  quotes: Array<QuoteEntity>;
   actionGrant: ActionGrant;
-  approve: (id: ID) => Promise<void>;
-  unapprove: (id: ID) => Promise<void>;
-  deleteQuote: (id: ID) => Promise<void>;
-  fetchAll: (args: {
-    query: {
-      approved: string;
-      ordering: string;
-    };
-    next?: boolean;
-  }) => Promise<void>;
+  approve: (arg0: number) => Promise<any>;
+  unapprove: (arg0: number) => Promise<any>;
+  deleteQuote: (arg0: number) => Promise<any>;
+  fetchAll: (
+    arg0: {
+      query: {
+        approved: string;
+      };
+    },
+    next?: boolean
+  ) => Promise<any>;
   showFetchMore: boolean;
-  currentUser: CurrentUser;
+  currentUser: any;
   loggedIn: boolean;
-  addReaction: (args: {
-    emoji: string;
-    contentTarget: ContentTarget;
-  }) => Promise<void>;
-  deleteReaction: (args: {
+  reactions: Record<string, any>;
+  addReaction: (arg0: { emoji: string; contentTarget: string }) => Promise<any>;
+  deleteReaction: (arg0: {
     reactionId: ID;
-    contentTarget: ContentTarget;
-  }) => Promise<void>;
+    contentTarget: string;
+  }) => Promise<any>;
   fetching: boolean;
-  fetchEmojis: () => Promise<void>;
+  fetchEmojis: () => Promise<any>;
   fetchingEmojis: boolean;
-  emojis: Emoji[];
+  emojis: Array<EmojiEntity>;
 };
 type Option = {
   label: string;
@@ -75,6 +71,7 @@ export default function QuotePage({
   showFetchMore,
   currentUser,
   loggedIn,
+  reactions,
   addReaction,
   deleteReaction,
   emojis,
@@ -103,15 +100,10 @@ export default function QuotePage({
   };
 
   useEffect(() => {
-    // Update url with the new filtering/ordering params while ignoring the default values
-    const searchObject = qs.parse(ordering.value, { ignoreQueryPrefix: true });
-    if (query.approved === 'false') searchObject['approved'] = query.approved;
-    const searchString = qs.stringify(searchObject, { addQueryPrefix: true });
     history.replace({
-      search: searchString,
+      search: ordering.value,
     });
-  }, [history, ordering, query.approved]);
-
+  }, [history, ordering]);
   return (
     <div className={cx(styles.root, styles.quoteContainer)}>
       <Helmet title="Overhørt" />
@@ -139,6 +131,7 @@ export default function QuotePage({
           quotes={quotes}
           currentUser={currentUser}
           loggedIn={loggedIn}
+          reactions={reactions}
           addReaction={addReaction}
           deleteReaction={deleteReaction}
           emojis={emojis}

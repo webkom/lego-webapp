@@ -9,7 +9,7 @@
 .base {
   word-break: break-word;
 
-  & div[data-type='todo'] > input {
+  div[data-type='todo'] > input {
     cursor: pointer;
     float: left;
     position: relative;
@@ -17,15 +17,15 @@
     left: -4px;
   }
 
-  & ul {
+  ul {
     margin-left: 15px;
   }
 
-  & ol {
+  ol {
     margin-left: 15px;
   }
 
-  & figure {
+  figure {
     text-align: center;
     font-size: 13px;
   }

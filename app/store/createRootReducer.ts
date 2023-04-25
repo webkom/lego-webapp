@@ -1,4 +1,4 @@
-import { combineReducers } from '@reduxjs/toolkit';
+import { combineReducers, type Reducer } from '@reduxjs/toolkit';
 import { connectRouter } from 'connected-react-router';
 import allowed from 'app/reducers/allowed';
 import announcements from 'app/reducers/announcements';
@@ -24,6 +24,7 @@ import frontpage from 'app/reducers/frontpage';
 import galleries from 'app/reducers/galleries';
 import galleryPictures from 'app/reducers/galleryPictures';
 import groups from 'app/reducers/groups';
+import imageGallery from 'app/reducers/imageGallery';
 import joblistings from 'app/reducers/joblistings';
 import meetingInvitations from 'app/reducers/meetingInvitations';
 import meetings from 'app/reducers/meetings';
@@ -37,6 +38,7 @@ import penalties from 'app/reducers/penalties';
 import polls from 'app/reducers/polls';
 import pools from 'app/reducers/pools';
 import quotes from 'app/reducers/quotes';
+import reactions from 'app/reducers/reactions';
 import readme from 'app/reducers/readme';
 import registrations from 'app/reducers/registrations';
 import restrictedMails from 'app/reducers/restrictedMails';
@@ -48,14 +50,13 @@ import surveys from 'app/reducers/surveys';
 import tags from 'app/reducers/tags';
 import toasts from 'app/reducers/toasts';
 import users from 'app/reducers/users';
-import type { StrictReducer } from 'app/utils/joinReducers';
 import joinReducers from 'app/utils/joinReducers';
 import type { History } from 'history';
 
 const createRootReducer = (history: History) =>
   combineReducers({
     router: joinReducers(
-      connectRouter(history) as StrictReducer<RoutingState>,
+      connectRouter(history) as Reducer<RoutingState>, // typecast as connectRouter state doesn't contain statusCode
       routing
     ),
     allowed,
@@ -73,6 +74,7 @@ const createRootReducer = (history: History) =>
     feeds,
     form,
     frontpage,
+    imageGallery,
     galleries,
     galleryPictures,
     groups,
@@ -95,6 +97,7 @@ const createRootReducer = (history: History) =>
     restrictedMails,
     search,
     emojis,
+    reactions,
     surveySubmissions,
     surveys,
     tags,

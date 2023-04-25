@@ -34,11 +34,19 @@ export const eventAdministrateSchema = new schema.Entity('events', {
   unregistered: [registrationSchema],
   waitingRegistrations: [registrationSchema],
 });
+export const reactionSchema = new schema.Entity('reactions');
 export const articleSchema = new schema.Entity('articles', {
   comments: [commentSchema],
-  authors: [userSchema],
+  reactions: [reactionSchema],
+  author: userSchema,
 });
-
+export const imageGallerySchema = new schema.Entity(
+  'imageGallery',
+  {},
+  {
+    idAttribute: 'key',
+  }
+);
 export const galleryPictureSchema = new schema.Entity('galleryPictures', {
   comments: [commentSchema],
 });
@@ -83,6 +91,7 @@ export const meetingSchema = new schema.Entity('meetings', {
   reportAuthor: userSchema,
   createdBy: userSchema,
   comments: [commentSchema],
+  reactions: [reactionSchema],
 });
 export const frontpageSchema = new schema.Entity('frontpage', {
   events: [eventSchema],

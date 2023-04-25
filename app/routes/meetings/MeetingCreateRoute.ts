@@ -12,7 +12,7 @@ import { EDITOR_EMPTY } from 'app/utils/constants';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import MeetingEditor from './components/MeetingEditor';
 
-const time = (hours: number, minutes?: number) =>
+const time = (hours, minutes) =>
   moment()
     .tz(config.timezone)
     .startOf('day')

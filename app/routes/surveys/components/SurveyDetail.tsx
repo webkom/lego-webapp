@@ -7,19 +7,17 @@ import Time from 'app/components/Time';
 import type { ActionGrant } from 'app/models';
 import type { SurveyEntity } from 'app/reducers/surveys';
 import { eventTypeToString } from 'app/routes/events/utils';
-import type { ID } from 'app/store/models';
 import { DetailNavigation } from '../utils';
 import AdminSideBar from './AdminSideBar';
 import StaticSubmission from './StaticSubmission';
 import styles from './surveyDetail.css';
-import type { Push } from 'connected-react-router';
 
 type Props = {
   survey: SurveyEntity;
   actionGrant: ActionGrant;
-  push: Push;
-  shareSurvey: (surveyId: ID) => Promise<void>;
-  hideSurvey: (surveyId: ID) => Promise<void>;
+  push: (arg0: string) => void;
+  shareSurvey: (arg0: number) => Promise<any>;
+  hideSurvey: (arg0: number) => Promise<any>;
 };
 
 class SurveyDetail extends Component<Props> {

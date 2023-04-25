@@ -1,23 +1,25 @@
+import moment from 'moment-timezone';
 import { Link } from 'react-router-dom';
-import Button from 'app/components/Button';
 import { Flex } from 'app/components/Layout';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import Table from 'app/components/Table';
 import type {
-  EventAdministrate,
+  Event,
   EventPool,
   ActionGrant,
   User,
+  ID,
   EventRegistration,
+  EventRegistrationPaymentStatus,
+  EventRegistrationPresence,
 } from 'app/models';
-import HTTPError from 'app/routes/errors/HTTPError';
 import type Comment from 'app/store/models/Comment';
 import type { CurrentUser } from 'app/store/models/User';
 import { RegistrationPill, getRegistrationInfo } from './RegistrationTables';
 
 export type Props = {
   eventId: number;
-  event: EventAdministrate;
+  event: Event;
   comments: Comment[];
   pools: Array<EventPool>;
   loggedIn: boolean;
@@ -32,13 +34,7 @@ export type Props = {
   searching: boolean;
 };
 
-const Allergies = ({
-  event,
-  error,
-  loading,
-  registered,
-  currentUser,
-}: Props) => {
+const Allergies = ({ eventId, event, error, loading, registered }: Props) => {
   if (loading) {
     return <LoadingIndicator loading />;
   }
@@ -47,25 +43,7 @@ const Allergies = ({
     return <div>{error.message}</div>;
   }
 
-  const registeredAllergies = registered.filter((registration) => {
-    return registration?.user.allergies;
-  });
-
-  const data = registeredAllergies
-    .filter(
-      (registration) =>
-        getRegistrationInfo(registration).status !== 'Venteliste'
-    )
-    .map((registration) => registration.user.allergies)
-    .join('\n');
-
-  const allergiesTXT = URL.createObjectURL(
-    new Blob([data], {
-      type: 'text/plain',
-    })
-  );
-
-  const initialColumns = [
+  const columns = [
     {
       title: 'Bruker',
       dataIndex: 'user',
@@ -103,56 +81,28 @@ const Allergies = ({
       sorter: (a, b) => a.user.allergies.localeCompare(b.user.allergies),
     },
   ];
-
-  const columns = event.feedbackRequired
-    ? initialColumns.concat({
-        title: 'Tilbakemelding',
-        dataIndex: 'feedback',
-        centered: false,
-        render: (feedback) => <span>{feedback || '-'}</span>,
-        sorter: (a, b) => a.feedback.localeCompare(b.feedback),
-      })
-    : initialColumns;
-
   const numOfAllergies = () => {
     return registered.filter(
-      (registration) => registration.user.allergies?.length !== 0
+      (registration) => registration.user.allergies.length != 0
     ).length;
   };
   return (
-    <>
-      {currentUser.id === event.createdBy ? (
-        <>
-          <Flex column>
-            {numOfAllergies() === 0 ? (
-              <p>Ingen påmeldte med allergier</p>
-            ) : (
-              <Table
-                hasMore={false}
-                columns={columns}
-                loading={loading}
-                data={registeredAllergies}
-              />
-            )}
-          </Flex>
-          <br></br>
-          <Flex justifyContent="space-between">
-            <Button>
-              <a
-                href={allergiesTXT}
-                download={
-                  'allergier_' + event.title.replaceAll(' ', '_') + '.txt'
-                }
-              >
-                Last ned påmeldte til tekst fil
-              </a>
-            </Button>
-          </Flex>
-        </>
-      ) : (
-        <HTTPError statusCode={403} location={location} />
-      )}
-    </>
+    <div>
+      <Flex column>
+        {numOfAllergies() == 0 ? (
+          <li>Ingen påmeldte med allergier</li>
+        ) : (
+          <Table
+            hasMore={false}
+            columns={columns}
+            loading={loading}
+            data={registered.filter((registration) => {
+              return registration.user.allergies;
+            })}
+          />
+        )}
+      </Flex>
+    </div>
   );
 };
 

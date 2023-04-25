@@ -33,9 +33,6 @@ type Props = {
 
   /** Make it look like a link */
   flat?: boolean;
-
-  /** Ghost button styling */
-  ghost?: boolean;
 };
 
 /**
@@ -56,7 +53,6 @@ function Button({
   danger = false,
   success = false,
   flat = false,
-  ghost = false,
   ...rest
 }: Props & ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
@@ -70,7 +66,6 @@ function Button({
               dark && styles.dark,
               danger && styles.danger,
               success && styles.success,
-              ghost && styles.ghost,
               className
             )
       }

@@ -35,18 +35,7 @@ type Props = {
 };
 
 export const selectStyles = {
-  control: (
-    styles: Record<string, any>,
-    { isDisabled }: { isDisabled: boolean }
-  ) => ({
-    ...styles,
-    cursor: 'pointer',
-    opacity: isDisabled ? '0.5' : 1,
-    backgroundColor: isDisabled && undefined,
-    border: '1.5px solid var(--border-gray)',
-    borderRadius: 'var(--border-radius-md)',
-    fontSize: '14px',
-  }),
+  control: (styles: Record<string, any>) => ({ ...styles, cursor: 'pointer' }),
   option: (
     styles: Record<string, any>,
     {
@@ -60,7 +49,6 @@ export const selectStyles = {
     ...styles,
     cursor: isDisabled ? 'not-allowed' : 'pointer',
     color: isSelected ? 'var(--color-gray-1)' : undefined,
-    fontSize: '14px',
   }),
 };
 export const selectTheme = (
@@ -69,23 +57,23 @@ export const selectTheme = (
   ...theme,
   colors: {
     ...theme.colors,
-    primary: 'var(--color-gray-4)', // Primary color
-    // primary75: // Unknown
-    // primary50: // Unknown
-    primary25: 'var(--additive-background)', // Hover background color
-    neutral0: 'var(--lego-card-color)', // Background color
-    // netutral5: // Unknown
-    neutral10: 'var(--additive-background)', // Multi select item background
-    neutral20: 'var(--border-gray)', // Border color
-    neutral30: 'var(--border-gray)', // Hover border color
-    neutral40: 'var(--secondary-font-color)', //  Text color in dropdown ("No options" and "Loading...")
-    neutral50: 'var(--color-gray-5)', // Placholder color,
-    neutral60: 'var(--color-gray-4)', // Focused arrow color
+    //primary: 'var(--color-blue-4)', // Selected backgroundColor
+    primary25: 'var(--color-select-hover)',
+    // Hover backgroundColor
+    //primary75:  // Unknown
+    neutral0: 'var(--color-white)',
+    // Background color
+    //neutral5: // Unknown
+    neutral10: 'var(--color-select-multi-bg)',
+    // Multiselect item background
+    // neutral20: // Border color
+    // neutral30: // Hover border color
+    // neutral40: // Unknown
+    // neutral50: // Placholder font color,
+    // neutral60: // Unknown
     // neutral70: // Unknown
-    neutral80: 'var(--lego-font-color)', // Font color and hover arrow color
+    neutral80: 'var(--lego-font-color)', // Font color
     // neutral90: // Unknown
-    danger: 'var(--danger-color)', // Color of delete button in multi select items
-    dangerLight: 'rgba(255, 0, 0, var(--color-red-hover-alpha))', // Background color of delete button in multi select items
   },
 });
 
@@ -117,8 +105,6 @@ function SelectInput({
           shouldKeyDownEventCreateNewOption={shouldKeyDownEventCreateNewOption}
           options={options}
           isLoading={fetching}
-          styles={selectStyle ?? selectStyles}
-          theme={selectTheme}
           onInputChange={(value) => {
             if (props.onSearch) {
               props.onSearch(value);

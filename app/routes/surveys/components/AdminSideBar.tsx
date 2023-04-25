@@ -1,3 +1,4 @@
+import cx from 'classnames';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Button from 'app/components/Button';
@@ -6,20 +7,18 @@ import { CheckBox } from 'app/components/Form';
 import Icon from 'app/components/Icon';
 import config from 'app/config';
 import type { ActionGrant } from 'app/models';
-import type { ID } from 'app/store/models';
+import styles from './surveys.css';
 
 type Props = {
-  surveyId: ID;
+  surveyId: number;
   actionGrant: ActionGrant;
   token?: string;
-  shareSurvey: (surveyId: ID) => Promise<void>;
-  hideSurvey: (surveyId: ID) => Promise<void>;
-  exportSurvey?: (surveyId: ID) => Promise<void>;
+  shareSurvey: (arg0: number) => Promise<any>;
+  hideSurvey: (arg0: number) => Promise<any>;
+  exportSurvey?: (arg0: number) => Promise<any>;
 };
-
 type State = {
   copied: boolean;
-  timeoutId: number | null;
   generatedCSV:
     | {
         url: string;
@@ -32,30 +31,7 @@ type State = {
 class AdminSideBar extends Component<Props, State> {
   state = {
     copied: false,
-    timeoutId: null,
     generatedCSV: undefined,
-  };
-
-  handleCopyButtonClick = (shareLink: string) => {
-    navigator.clipboard.writeText(shareLink).then(() => {
-      if (this.state.timeoutId) {
-        clearTimeout(this.state.timeoutId);
-      }
-
-      this.setState({
-        copied: true,
-      });
-
-      const timeoutId = setTimeout(() => {
-        this.setState({
-          copied: false,
-        });
-      }, 2000);
-
-      this.setState({
-        timeoutId,
-      });
-    });
   };
 
   render() {
@@ -124,7 +100,20 @@ class AdminSideBar extends Component<Props, State> {
 
           {token && (
             <Button
-              onClick={() => this.handleCopyButtonClick(shareLink)}
+              onClick={() => {
+                navigator.clipboard.writeText(shareLink).then(() => {
+                  this.setState({
+                    copied: true,
+                  });
+                  setTimeout(
+                    () =>
+                      this.setState({
+                        copied: false,
+                      }),
+                    2000
+                  );
+                });
+              }}
               success={this.state.copied}
             >
               <Icon name={this.state.copied ? 'checkmark' : 'copy-outline'} />
