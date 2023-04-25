@@ -20,7 +20,7 @@ import { selectStyles, selectTheme } from 'app/components/Form/SelectInput';
 import { Flex } from 'app/components/Layout';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import type { Dateish, Event, Group } from 'app/models';
-import { EVENT_CONSTANTS } from 'app/routes/events/utils';
+import { COLOR_CONSTANTS, EVENT_CONSTANTS } from 'app/routes/events/utils';
 import styles from './Statistics.css';
 
 interface Props {
@@ -63,7 +63,7 @@ const EVENT_TYPE_OPTIONS = Object.keys(EVENT_CONSTANTS).map((type) => ({
   value: type,
 }));
 
-const PAST_FIVE_YEARS_OPTIONS = [0, 1, 2, 3, 4].map((yearOffset) => {
+const PAST_FIVE_YEARS_OPTIONS = [...Array(5)].map((_, yearOffset) => {
   const year = moment().year() - yearOffset;
   return { value: year, label: String(year) };
 });
@@ -201,7 +201,7 @@ const Statistics = (props: Props) => {
     return (
       <Content>
         <Helmet title="Statistikk" />
-        <h2>Statistikk</h2>
+        <h1>Statistikk</h1>
         <LoadingIndicator loading={true} />
       </Content>
     );
@@ -210,8 +210,8 @@ const Statistics = (props: Props) => {
   return (
     <Content>
       <Helmet title="Statistikk" />
-      <h2>Statistikk</h2>
-      <Flex className={styles.selectPeriodContainer}>
+      <h1>Statistikk</h1>
+      <Flex wrap gap="0.4rem" className={styles.selectPeriodContainer}>
         <Select
           name="select-year"
           value={
@@ -221,7 +221,7 @@ const Statistics = (props: Props) => {
           }
           options={PAST_FIVE_YEARS_OPTIONS}
           onChange={(selectedYear) => {
-            props.onSelect(String(selectedYear.value), semester as string);
+            props.onSelect(String(selectedYear.value), String(semester));
           }}
           isClearable={false}
           theme={selectTheme}
@@ -254,6 +254,14 @@ const Statistics = (props: Props) => {
           count: eventTypeDataPoint.count,
         }))}
         displayCount={true}
+        namedChartColors={Object.keys(COLOR_CONSTANTS).reduce(
+          (acc, colorConstantKey) => ({
+            ...acc,
+            [EVENT_CONSTANTS[colorConstantKey]]:
+              COLOR_CONSTANTS[colorConstantKey],
+          }),
+          {}
+        )}
       />
 
       <h4>Arrangementstyper per uke</h4>
@@ -278,7 +286,7 @@ const Statistics = (props: Props) => {
             key={EVENT_CONSTANTS[dataPoint.eventType]}
             dataKey={EVENT_CONSTANTS[dataPoint.eventType]}
             stackId="a"
-            fill={CHART_COLORS[index % CHART_COLORS.length]}
+            fill={COLOR_CONSTANTS[dataPoint.eventType]}
           />
         ))}
       </BarChart>

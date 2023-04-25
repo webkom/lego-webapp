@@ -34,14 +34,14 @@ export const eventTypeToString = (eventType: EventType): string => {
 // Colors for different event types
 export const COLOR_CONSTANTS: Record<EventType, string> = {
   company_presentation: '#A1C34A',
-  lunch_presentation: '#A1C34A',
+  lunch_presentation: '#98f942',
   alternative_presentation: '#8A2BE2',
   course: '#52B0EC',
   breakfast_talk: '#86D1D0',
   party: '#FCD748',
-  social: 'var(--color-event-red)',
+  social: '#ff87eb',
   event: 'var(--color-event-red)',
-  kid_event: 'var(--color-event-black)',
+  kid_event: '#144e9d',
   other: 'var(--color-event-black)',
 } as const;
 // Returns the color code of an EventType

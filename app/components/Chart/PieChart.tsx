@@ -9,10 +9,12 @@ const DistributionPieChart = ({
   dataKey,
   chartColors = CHART_COLORS,
   distributionData,
+  namedChartColors,
 }: {
   distributionData: DistributionDataPoint[];
   chartColors: string[];
   dataKey: string;
+  namedChartColors?: Record<string, string>;
 }) => {
   return (
     <PieChart width={400} height={275}>
@@ -29,7 +31,11 @@ const DistributionPieChart = ({
         {distributionData.map((entry, index) => (
           <Cell
             key={`cell-${index}`}
-            fill={chartColors[index % chartColors.length]}
+            fill={
+              namedChartColors
+                ? namedChartColors[entry.name]
+                : chartColors[index % chartColors.length]
+            }
           />
         ))}
       </Pie>

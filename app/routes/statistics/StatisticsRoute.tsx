@@ -29,7 +29,7 @@ function fetchEventsFromSelectedPeriod(
   semester: string
 ) {
   const startMonth = semester === 'autumn' ? 6 : 0;
-  const durationInMonths = semester ? 6 : 12;
+  const durationInMonths = semester === 'year' ? 12 : 6;
   const fromDate = moment(year).startOf('year').add(startMonth, 'months');
   const toDate = moment(year)
     .startOf('year')
@@ -67,8 +67,10 @@ export default compose(
       dispatch(fetchAllWithType(GroupType.Revue)),
       fetchEventsFromSelectedPeriod(
         dispatch,
-        (year as string) ?? currentYear,
-        (semester as string) || currentSemester
+        typeof year === 'string' ? year : currentYear,
+        typeof semester === 'string' && semester.length > 0
+          ? semester
+          : currentSemester
       ),
     ]);
   }),

@@ -6,9 +6,11 @@ import styles from './Chart.css';
 const ChartLabel = ({
   distributionData,
   displayCount,
+  namedChartColors,
 }: {
   distributionData: DistributionDataPoint[];
   displayCount: boolean;
+  namedChartColors?: Record<string, string>;
 }) => {
   return (
     <div className={styles.wrapOnMobile}>
@@ -16,7 +18,9 @@ const ChartLabel = ({
         <Flex key={i} alignItems="center">
           <span
             style={{
-              backgroundColor: CHART_COLORS[i % CHART_COLORS.length],
+              backgroundColor: namedChartColors
+                ? namedChartColors[dataPoint.name]
+                : CHART_COLORS[i % CHART_COLORS.length],
               width: '10px',
               height: '10px',
               marginRight: '10px',
