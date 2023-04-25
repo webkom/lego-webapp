@@ -7,11 +7,11 @@
   box-sizing: border-box;
   background-color: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 2%);
   margin-bottom: 5em;
-  width: 290px;
+  width: 320px;
 }
 
 .sidebar {
-  margin: 0 1.1em;
+  margin: 0 40px;
   width: 100%;
   padding-top: 20px;
   display: flex;
@@ -24,11 +24,10 @@
 }
 
 .sidebarHeader {
-  font-size: 1.8em;
+  font-size: 24px;
   font-weight: 600;
-  margin-top: 20px;
+  margin-top: 30px;
   width: 95%;
-  text-align: center;
   border-bottom: 2px solid var(--border-gray);
   padding-bottom: 0.6em;
 }

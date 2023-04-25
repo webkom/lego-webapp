@@ -2,13 +2,15 @@
 
 .root {
   composes: contentContainer from '~app/styles/utilities.css';
+  margin-top: 12px;
 }
 
 .heading {
-  font-size: 20px;
-  border-bottom: 1px solid var(--border-gray);
-  padding-bottom: 10px;
-  margin-bottom: 20px;
+  font-size: 18px;
+  border-bottom: 2px solid var(--border-gray);
+  font-weight: 500;
+  padding-bottom: 15px;
+  margin-bottom: 30px;
 }
 
 .noEvents {
@@ -23,14 +25,14 @@
 
 .bottomBorder {
   margin-top: 40px;
-  border-top: 1px solid var(--border-gray);
+  border-top: 2px solid var(--border-gray);
 }
 
 .filter {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  margin-bottom: -36px;
+  margin-bottom: -46px;
   margin-right: -2px;
 
   @media (--mobile-device) {
@@ -44,6 +46,7 @@
 
 .select {
   width: 200px;
+  margin-left: 15px;
 }
 
 .checkbox {
@@ -54,7 +57,7 @@
 .filterButtons {
   display: flex;
   flex-flow: row wrap;
-  gap: 15px;
+  gap: 10px;
 }
 
 .filterButtons label {
