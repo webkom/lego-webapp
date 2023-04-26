@@ -11,7 +11,7 @@ const DistributionPieChart = ({
   distributionData,
 }: {
   distributionData: DistributionDataPoint[];
-  chartColors: string[];
+  chartColors?: string[];
   dataKey: string;
 }) => {
   return (

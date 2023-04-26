@@ -1,12 +1,13 @@
-import type { Event, EventRegistration, Group } from 'app/models';
+import type { EventRegistration, Group } from 'app/models';
 import EventAttendeeStatistics from 'app/routes/events/components/EventAttendeeStatistics';
+import type { DetailedEvent } from 'app/store/models/Event';
 
 interface Props {
   committees: Group[];
   revueGroups: Group[];
   registered: EventRegistration[];
   unregistered: EventRegistration[];
-  event: Event;
+  event: DetailedEvent;
 }
 
 const Statistics = ({
@@ -18,6 +19,7 @@ const Statistics = ({
 }: Props) => {
   return (
     <EventAttendeeStatistics
+      eventId={event.id}
       registrations={registered}
       unregistrations={unregistered}
       committeeGroupIDs={committees.map((group) => group.id)}
