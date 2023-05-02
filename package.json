@@ -176,7 +176,7 @@
     "mini-css-extract-plugin": "^2.7.5",
     "null-loader": "^4.0.1",
     "postcss-import": "^15.1.0",
-    "postcss-loader": "^7.2.4",
+    "postcss-loader": "^7.3.0",
     "postcss-nested": "^6.0.1",
     "postcss-preset-env": "^8.3.2",
     "prettier": "2.8.8",
