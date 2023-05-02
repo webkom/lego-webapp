@@ -151,6 +151,7 @@ export type Group = {
 type EventBase = {
   id: ID;
   title: string;
+  slug: string;
   cover: string;
   coverPlaceholder: string;
   description: string;

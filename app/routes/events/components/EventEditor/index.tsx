@@ -117,7 +117,7 @@ function EventEditor({
         title={isEditPage ? `Redigerer: ${event.title}` : 'Nytt arrangement'}
         back={{
           label: 'Tilbake',
-          path: isEditPage ? `/events/${event.id}` : '/events',
+          path: isEditPage ? `/events/${event.slug}` : '/events',
         }}
       />
       <Form onSubmit={handleSubmit}>
@@ -590,7 +590,7 @@ function EventEditor({
 
         <Flex wrap>
           {isEditPage && (
-            <Button flat onClick={() => push(`/events/${event.id}`)}>
+            <Button flat onClick={() => push(`/events/${event.slug}`)}>
               Avbryt
             </Button>
           )}

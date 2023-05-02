@@ -119,7 +119,7 @@ const Admin = ({ actionGrant, event, deleteEvent }: Props) => {
           )}
 
           {canEdit && (
-            <Link to={`/events/${event.id}/edit`}>
+            <Link to={`/events/${event.slug}/edit`}>
               <Button>
                 <Icon name="create-outline" size={19} />
                 Rediger

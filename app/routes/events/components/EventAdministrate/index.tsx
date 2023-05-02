@@ -30,7 +30,7 @@ const EventAdministrateIndex = (props: Props) => {
         title={props.event ? props.event.title : ''}
         back={{
           label: 'Tilbake',
-          path: '/events/' + props.event.id,
+          path: '/events/' + props.event?.slug,
         }}
       >
         <NavigationLink to={`${base}/attendees`}>Påmeldinger</NavigationLink>
