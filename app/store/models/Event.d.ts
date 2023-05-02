@@ -160,6 +160,7 @@ export type DetailedEvent = Pick<
   | 'youtubeUrl'
   | 'useContactTracing'
   | 'mazemapPoi'
+  | 'activationTime'
 > &
   ObjectPermissionsMixin;
 

@@ -7,6 +7,7 @@ import {
   eventAdministrateSchema,
   followersEventSchema,
 } from 'app/reducers';
+import type { ID } from 'app/store/models';
 import type { Thunk, Action } from 'app/types';
 import createQueryString from 'app/utils/createQueryString';
 import { Event } from './ActionTypes';
@@ -415,6 +416,16 @@ export function isUserFollowing(eventId: number): Thunk<any> {
     method: 'GET',
     meta: {
       errorMessage: 'Henting av interesse feilet',
+    },
+  });
+}
+export function fetchAnalytics(eventId: ID): Thunk<Promise<Action>> {
+  return callAPI({
+    types: Event.FETCH,
+    endpoint: `/events/${String(eventId)}/statistics/`,
+    method: 'GET',
+    meta: {
+      errorMessage: 'Henting av analyse feilet',
     },
   });
 }

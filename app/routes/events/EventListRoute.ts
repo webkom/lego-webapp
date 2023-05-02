@@ -5,7 +5,6 @@ import { createStructuredSelector } from 'reselect';
 import { fetchList } from 'app/actions/EventActions';
 import { selectSortedEvents } from 'app/reducers/events';
 import createQueryString from 'app/utils/createQueryString';
-import loadingIndicator from 'app/utils/loadingIndicator';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import { selectPagination } from '../../reducers/selectors';
 import EventList from './components/EventList';
