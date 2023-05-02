@@ -102,6 +102,7 @@ steps:
       STRIPE_API_KEY: '123'
       STRIPE_WEBHOOK_SECRET: '123'
       CAPTCHA_KEY: '123'
+      PLAUSIBLE_KEY: 'lego-dev'
       LDAP_SERVER: 'localhost'
       LDAP_USER: '123'
       LDAP_PASSWORD: '123'
@@ -334,6 +335,6 @@ image_pull_secrets:
 
 ---
 kind: signature
-hmac: 8f83845c7b79818c5d134ac26d38e837d4540f736f59aebbd04c43000a929feb
+hmac: 06c35cbf3b24429bab4079e5b5574ed3752fde1390d9dab94010a800b3909863
 
 ...
