@@ -8,6 +8,7 @@ import type { ContentTarget } from 'app/store/utils/contentTarget';
 interface CompleteArticle {
   id: ID;
   title: string;
+  slug: string;
   cover: string;
   coverPlaceholder: string;
   authors: Array<ID>;
@@ -26,6 +27,7 @@ export type DetailedArticle = Pick<
   CompleteArticle,
   | 'id'
   | 'title'
+  | 'slug'
   | 'cover'
   | 'coverPlaceholder'
   | 'authors'
@@ -52,6 +54,7 @@ export type PublicArticle = Pick<
   CompleteArticle,
   | 'id'
   | 'title'
+  | 'slug'
   | 'cover'
   | 'coverPlaceholder'
   | 'authors'

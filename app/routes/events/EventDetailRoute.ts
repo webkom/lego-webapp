@@ -42,6 +42,7 @@ const mapStateToProps = (state, props) => {
     ? selectEventById(state, { eventId: eventIdOrSlug })
     : selectEventBySlug(state, { eventSlug: eventIdOrSlug });
 
+  // TODO: Use a hook for this when EventDetail is converted, like in ArticleDetail
   setTimeout(() => {
     if (event?.slug && eventIdOrSlug !== event.slug) {
       props.history.replace(`/events/${event.slug}`);

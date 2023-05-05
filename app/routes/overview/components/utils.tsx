@@ -15,7 +15,9 @@ import styles from './Overview.css';
 export const itemUrl = (
   item: WithDocumentType<ArticleWithAuthorDetails | PublicArticle | PublicEvent>
 ) => {
-  return `/${item.documentType === 'event' ? 'events' : 'articles'}/${item.id}`;
+  return `/${item.documentType === 'event' ? 'events' : 'articles'}/${
+    item.slug
+  }`;
 };
 
 export const renderMeta = (

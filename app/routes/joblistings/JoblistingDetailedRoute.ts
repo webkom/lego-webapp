@@ -22,11 +22,6 @@ const mapStateToProps = (state, props) => {
   const { fetching } = state.joblistings;
   const joblistingId = joblisting && joblisting.id;
   const actionGrant = (joblisting && joblisting.actionGrant) || [];
-  setTimeout(() => {
-    if (joblisting?.slug && joblistingIdOrSlug !== joblisting?.slug) {
-      props.history.replace(`/joblistings/${joblisting.slug}`);
-    }
-  }, 0);
   return {
     joblisting,
     joblistingId,
@@ -50,7 +45,7 @@ const propertyGenerator = ({ joblisting }, config) => {
     {
       element: 'link',
       rel: 'canonical',
-      href: `${config.webUrl}/joblistings/${joblisting.slug}`,
+      href: `${config.webUrl}/joblistings/${joblisting.id}`,
     },
     {
       property: 'og:description',
@@ -70,7 +65,7 @@ const propertyGenerator = ({ joblisting }, config) => {
     },
     {
       property: 'og:url',
-      content: `${config.webUrl}/joblistings/${joblisting.slug}`,
+      content: `${config.webUrl}/joblistings/${joblisting.id}`,
     },
     {
       property: 'og:image',

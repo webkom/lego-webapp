@@ -25,7 +25,6 @@ type Params = {
 
 const mapStateToProps = (state, props) => {
   const { articleIdOrSlug } = props.match.params;
-  console.log('articleIdOrSlug', articleIdOrSlug);
   const article = !isNaN(articleIdOrSlug)
     ? selectArticleById(state, {
         articleId: articleIdOrSlug,
@@ -44,11 +43,7 @@ const mapStateToProps = (state, props) => {
     });
   });
   const emojis = selectEmojis(state);
-  setTimeout(() => {
-    if (article?.slug && articleIdOrSlug !== article.slug) {
-      props.history.replace(`/articles/${article.slug}`);
-    }
-  }, 0);
+
   return {
     fetching: state.articles.fetching,
     fetchingEmojis: state.emojis.fetching,

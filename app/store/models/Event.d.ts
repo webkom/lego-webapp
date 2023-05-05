@@ -86,6 +86,7 @@ interface Event {
 export type PublicEvent = Pick<
   Event,
   | 'id'
+  | 'slug'
   | 'title'
   | 'description'
   | 'eventType'
