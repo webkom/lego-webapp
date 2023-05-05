@@ -76,6 +76,17 @@ export const selectArticleById = createSelector(
   (state, props) => props.articleId,
   (articlesById, articleId) => transformArticle(articlesById[articleId])
 );
+export const selectArticleBySlug = createSelector(
+  (state) => state.articles.byId,
+  (state, props) => props.articleSlug,
+  (articlesById, articleSlug) =>
+    transformArticle(
+      Object.values(articlesById).find(
+        (article) => article.slug === articleSlug
+      )
+    )
+);
+
 export const selectCommentsForArticle = createSelector(
   selectArticleById,
   (state) => state.comments.byId,

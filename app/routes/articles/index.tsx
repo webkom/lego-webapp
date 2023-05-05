@@ -37,7 +37,7 @@ const articleRoute = ({
         />
         <RouteWrapper
           exact
-          path={`${match.path}/:articleId`}
+          path={`${match.path}/:articleIdOrSlug`}
           passedProps={{
             currentUser,
             loggedIn,
