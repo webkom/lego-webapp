@@ -2,12 +2,13 @@ import { merge } from 'lodash';
 import moment from 'moment-timezone';
 import config from 'app/config';
 import { EDITOR_EMPTY } from 'app/utils/constants';
+import type { ValidationErrors } from 'final-form';
 
 type Validator<T = any, C = any> = (
   message?: string
 ) => (value: T, context?: C) => Readonly<[boolean, string]>;
 
-export type ValidatorResult = { [field: string]: string[] };
+export type ValidatorResult = ValidationErrors;
 
 export const EMAIL_REGEX = /.+@.+\..+/;
 const YOUTUBE_URL_REGEX =

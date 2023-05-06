@@ -8,8 +8,8 @@ import styles from './ConfirmModal.css';
 import type { ComponentType, ReactElement, ReactNode } from 'react';
 
 type ConfirmModalProps = {
-  onConfirm?: () => Promise<any>;
-  onCancel?: () => Promise<any>;
+  onConfirm?: () => Promise<void>;
+  onCancel?: () => Promise<void>;
   message: ReactNode;
   title: string;
   disabled?: boolean;
