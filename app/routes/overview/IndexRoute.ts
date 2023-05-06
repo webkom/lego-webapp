@@ -44,12 +44,17 @@ export default compose(
   //   loggedIn ? dispatch(fetchPersonalFeed()) : Promise.resolve()
   // ),
   connect(mapStateToProps, mapDispatchToProps),
-  withPreparedDispatch('fetchIndex', (props, dispatch) =>
-    Promise.all([
-      props.loggedIn && props.shouldFetchQuote && dispatch(fetchRandomQuote()),
-      dispatch(fetchReadmes(props.loggedIn ? 4 : 1)),
-      dispatch(fetchData()),
-    ])
+  withPreparedDispatch(
+    'fetchIndex',
+    (props, dispatch) =>
+      Promise.all([
+        props.loggedIn &&
+          props.shouldFetchQuote &&
+          dispatch(fetchRandomQuote()),
+        dispatch(fetchReadmes(props.loggedIn ? 4 : 1)),
+        dispatch(fetchData()),
+      ]),
+    (props) => [props.loggedIn, props.shouldFetchQuote]
   ),
   replaceUnlessLoggedIn(PublicFrontpage)
 )(Overview);
