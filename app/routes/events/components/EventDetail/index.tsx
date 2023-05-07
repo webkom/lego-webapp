@@ -22,10 +22,8 @@ import Tag from 'app/components/Tags/Tag';
 import TextWithIcon from 'app/components/TextWithIcon';
 import { FormatTime, FromToTime } from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
-import {
-  AttendanceStatus,
-  ModalParentComponent,
-} from 'app/components/UserAttendance';
+import { AttendanceStatus } from 'app/components/UserAttendance';
+import AttendanceModal from 'app/components/UserAttendance/AttendanceModal';
 import UserGrid from 'app/components/UserGrid';
 import type {
   EventPool,
@@ -447,20 +445,24 @@ export default class EventDetail extends Component<Props, State> {
                       maxRows={MAX_USER_GRID_ROWS}
                       users={registrations.slice(0, 14).map((reg) => reg.user)}
                     />
-                    <ModalParentComponent
-                      key="modal"
-                      pools={pools}
-                      title="Påmeldte"
-                    >
-                      <RegisteredSummary
-                        registrations={registrations}
-                        currentRegistration={currentRegistration}
-                      />
-                      <AttendanceStatus
-                        pools={pools}
-                        legacyRegistrationCount={event.legacyRegistrationCount}
-                      />
-                    </ModalParentComponent>
+                    <AttendanceModal key="modal" pools={pools} title="Påmeldte">
+                      {({ toggleModal }) => (
+                        <>
+                          <RegisteredSummary
+                            toggleModal={toggleModal}
+                            registrations={registrations}
+                            currentRegistration={currentRegistration}
+                          />
+                          <AttendanceStatus
+                            toggleModal={toggleModal}
+                            pools={pools}
+                            legacyRegistrationCount={
+                              event.legacyRegistrationCount
+                            }
+                          />
+                        </>
+                      )}
+                    </AttendanceModal>
                   </Fragment>
                 ) : (
                   <AttendanceStatus

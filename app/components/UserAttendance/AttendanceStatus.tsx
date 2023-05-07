@@ -1,8 +1,9 @@
 import Button from 'app/components/Button';
 import Flex from 'app/components/Layout/Flex';
 import Tooltip from 'app/components/Tooltip';
+import type { AttendanceModalProps } from 'app/components/UserAttendance/AttendanceModal';
+import AttendanceModal from 'app/components/UserAttendance/AttendanceModal';
 import styles from './AttendanceStatus.css';
-import withModal from './withModal';
 import type { Pool } from './AttendanceModalContent';
 
 type AttendancePool = Pool & {
@@ -13,7 +14,7 @@ type AttendancePool = Pool & {
 type AttendanceElementProps = {
   pool: AttendancePool;
   index: number;
-  toggleModal: (arg0: number) => void;
+  toggleModal: (tabIndex: number) => void;
 };
 
 const AttendanceElement = ({
@@ -42,8 +43,8 @@ const AttendanceElement = ({
 };
 
 export type AttendanceStatusProps = {
-  pools: Array<AttendancePool>;
-  toggleModal?: (arg0: number) => void;
+  pools: AttendancePool[];
+  toggleModal?: (index: number) => void;
   legacyRegistrationCount?: number;
 };
 
@@ -61,7 +62,7 @@ const AttendanceStatus = ({
           key={index}
           pool={pool}
           index={index}
-          toggleModal={(key) => toggleModal(toggleKey(key))}
+          toggleModal={(key) => toggleModal?.(toggleKey(key))}
         />
       ))}
       {!!legacyRegistrationCount && (
@@ -78,5 +79,24 @@ const AttendanceStatus = ({
   );
 };
 
-AttendanceStatus.Modal = withModal<AttendanceStatusProps>(AttendanceStatus);
+const AttendanceStatusModal = ({
+  pools,
+  legacyRegistrationCount,
+  title,
+  isMeeting,
+}: Omit<AttendanceStatusProps, 'toggleModal'> &
+  Omit<AttendanceModalProps, 'children'>) => (
+  <AttendanceModal pools={pools} title={title} isMeeting={isMeeting}>
+    {({ toggleModal }) => (
+      <AttendanceStatus
+        pools={pools}
+        toggleModal={toggleModal}
+        legacyRegistrationCount={legacyRegistrationCount}
+      />
+    )}
+  </AttendanceModal>
+);
+
+AttendanceStatus.Modal = AttendanceStatusModal;
+
 export default AttendanceStatus;

@@ -127,8 +127,8 @@ describe('Create meeting', () => {
       .find('button')
       .click();
 
-    cy.get(c('AttendanceModal__list'))
-      .find(c('AttendanceModal__row'))
+    cy.get(c('AttendanceModalContent__list'))
+      .find(c('AttendanceModalContent__row'))
       .should('have.length', 2)
       .should('contain', 'bedkom bedkom')
       .should('contain', 'webkom webkom');
@@ -191,7 +191,7 @@ describe('Create meeting', () => {
 
     // verify invited users modal
     cy.get(c('AttendanceStatus__poolBox')).find('button').click();
-    cy.contains(c('AttendanceModal__row'), 'webkom webkom').should(
+    cy.contains(c('AttendanceModalContent__row'), 'webkom webkom').should(
       'be.visible'
     );
     cy.get(c('Modal__closeButton')).click();
@@ -244,8 +244,8 @@ describe('Create meeting', () => {
       .find('button')
       .click();
 
-    cy.get(c('AttendanceModal__list'))
-      .find(c('AttendanceModal__row'))
+    cy.get(c('AttendanceModalContent__list'))
+      .find(c('AttendanceModalContent__row'))
       .should('have.length', 2)
       .should('contain', 'bedkom bedkom')
       .should('contain', 'webkom webkom');
