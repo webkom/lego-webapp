@@ -2,7 +2,7 @@ import { Component } from 'react';
 import Button from 'app/components/Button';
 import Icon from 'app/components/Icon';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
+import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import FileUpload from 'app/components/Upload/FileUpload';
 import type { CompanySemesterContactedStatus } from 'app/models';
 import type { SemesterStatusEntity } from 'app/reducers/companies';
@@ -121,14 +121,21 @@ export default class SemesterStatusDetail extends Component<Props, State> {
             >
               <Icon name="pencil" edit size={20} />
             </Button>
-            <ConfirmModalWithParent
+            <ConfirmModal
               title="Slett semesterstatus"
               message={`Er du sikker på at du vil slette semesterstatusen for ${humanReadableSemester}? Alle filer for dette semesteret vil bli slettet.`}
               onConfirm={this.deleteSemesterStatus}
               closeOnConfirm
             >
-              <Icon name="trash" danger size={20} />
-            </ConfirmModalWithParent>
+              {({ openConfirmModal }) => (
+                <Icon
+                  onClick={openConfirmModal}
+                  name="trash"
+                  danger
+                  size={20}
+                />
+              )}
+            </ConfirmModal>
           </span>
         </td>
       </tr>
@@ -167,14 +174,16 @@ const RenderFile = (props: RenderFileProps) => {
     return (
       <span className={styles.deleteFile}>
         <span>{fileName}</span>
-        <ConfirmModalWithParent
+        <ConfirmModal
           title="Slett fil"
           message="Er du sikker på at du vil slette denne filen?"
           onConfirm={() => removeFile(type)}
           closeOnConfirm
         >
-          <Icon name="trash" danger />
-        </ConfirmModalWithParent>
+          {({ openConfirmModal }) => (
+            <Icon onClick={openConfirmModal} name="trash" danger />
+          )}
+        </ConfirmModal>
       </span>
     );
   } else if (displayUploadButton) {

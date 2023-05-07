@@ -5,7 +5,7 @@ import AnnouncementInLine from 'app/components/AnnouncementInLine';
 import Button from 'app/components/Button';
 import Icon from 'app/components/Icon';
 import Flex from 'app/components/Layout/Flex';
-import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
+import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import type { ID, Event, ActionGrant } from 'app/models';
 
 type Props = {
@@ -35,16 +35,18 @@ class DeleteButton extends Component<ButtonProps, State> {
 
     if (this.state.arrName === title) {
       deleteEventButton = (
-        <ConfirmModalWithParent
+        <ConfirmModal
           title="Slett arrangement"
           message="Er du sikker på at du vil slette dette arrangementet?"
           onConfirm={() => deleteEvent(eventId)}
         >
-          <Button danger>
-            <Icon name="trash" size={19} />
-            Slett
-          </Button>
-        </ConfirmModalWithParent>
+          {({ openConfirmModal }) => (
+            <Button onClick={openConfirmModal} danger>
+              <Icon name="trash" size={19} />
+              Slett
+            </Button>
+          )}
+        </ConfirmModal>
       );
     }
 

@@ -15,7 +15,7 @@ import {
 import Icon from 'app/components/Icon';
 import { Flex } from 'app/components/Layout';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
+import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import NavigationTab from 'app/components/NavigationTab';
 import { httpCheck } from 'app/routes/bdb/utils';
 import type { ID } from 'app/store/models';
@@ -265,16 +265,18 @@ class JoblistingEditor extends Component<Props, State> {
               {isNew ? 'Opprett' : 'Lagre endringer'}
             </Button>
             {!isNew && (
-              <ConfirmModalWithParent
+              <ConfirmModal
                 title="Slett jobbannonse"
                 message="Er du sikker på at du vil slette denne jobbannonsen?"
                 onConfirm={this.onDeleteJoblisting}
               >
-                <Button danger>
-                  <Icon name="trash" size={19} />
-                  Slett jobbannonse
-                </Button>
-              </ConfirmModalWithParent>
+                {({ openConfirmModal }) => (
+                  <Button onClick={openConfirmModal} danger>
+                    <Icon name="trash" size={19} />
+                    Slett jobbannonse
+                  </Button>
+                )}
+              </ConfirmModal>
             )}
           </Flex>
         </Form>

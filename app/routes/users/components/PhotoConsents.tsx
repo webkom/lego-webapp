@@ -4,7 +4,7 @@ import Select from 'react-select';
 import Button from 'app/components/Button';
 import { selectStyles, selectTheme } from 'app/components/Form/SelectInput';
 import Flex from 'app/components/Layout/Flex';
-import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
+import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import type { PhotoConsent } from 'app/models';
 import { PhotoConsentDomain } from 'app/models';
 import { getConsent, toReadableSemester } from 'app/routes/events/utils';
@@ -49,7 +49,7 @@ const ConsentManager = ({
         )}
       </div>
       <div className={styles.consentBtnContainer}>
-        <ConfirmModalWithParent
+        <ConfirmModal
           closeOnConfirm={true}
           title={`Trekke bildesamtykke på ${presentableDomain}`}
           message={`Er du sikker på at du vil trekke bildesamtykket ditt for ${toReadableSemester(
@@ -57,14 +57,17 @@ const ConsentManager = ({
           )} på ${presentableDomain}? Dersom du ønsker å fjerne noen spesifikke bilder, kan du i stedet sende en mail til pr@abakus.no med informasjon om hvilke bilder du vil fjerne.`}
           onConfirm={() => updateConsent({ ...consent, isConsenting: false })}
         >
-          <Button
-            dark
-            disabled={!isCurrentUser || consent.isConsenting === false}
-            className={styles.consentBtn}
-          >
-            Trekk samtykke
-          </Button>
-        </ConfirmModalWithParent>
+          {({ openConfirmModal }) => (
+            <Button
+              onClick={openConfirmModal}
+              dark
+              disabled={!isCurrentUser || consent.isConsenting === false}
+              className={styles.consentBtn}
+            >
+              Trekk samtykke
+            </Button>
+          )}
+        </ConfirmModal>
         <Button
           success
           disabled={!isCurrentUser || consent.isConsenting === true}

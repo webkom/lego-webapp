@@ -11,7 +11,7 @@ import { DatePicker, SelectInput, TextInput } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import Icon from 'app/components/Icon';
 import Flex from 'app/components/Layout/Flex';
-import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
+import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import Time from 'app/components/Time';
 import type { EventType } from 'app/models';
 import { EVENT_CONSTANTS, eventTypeToString } from 'app/routes/events/utils';
@@ -243,7 +243,7 @@ const SurveyEditor = ({
               <ListNavigation title={titleField} />
             )}
 
-            <ConfirmModalWithParent
+            <ConfirmModal
               title="Bekreft bruk av mal"
               message={
                 'Dette vil slette alle ulagrede endringer i undersøkelsen!\n' +
@@ -253,18 +253,23 @@ const SurveyEditor = ({
               onCancel={async () => setTemplatePickerOpen(false)}
               onConfirm={async () => setTemplatePickerOpen(true)}
             >
-              <Button className={styles.templatePicker}>
-                {template ? 'Bytt mal' : 'Bruk mal'}
-                <Dropdown
-                  className={styles.templateDropdown}
-                  show={isTemplatePickerOpen}
-                  toggle={() => setTemplatePickerOpen(false)}
-                  closeOnContentClick
+              {({ openConfirmModal }) => (
+                <Button
+                  onClick={openConfirmModal}
+                  className={styles.templatePicker}
                 >
-                  <TemplateTypeDropdownItems survey={survey} push={push} />
-                </Dropdown>
-              </Button>
-            </ConfirmModalWithParent>
+                  {template ? 'Bytt mal' : 'Bruk mal'}
+                  <Dropdown
+                    className={styles.templateDropdown}
+                    show={isTemplatePickerOpen}
+                    toggle={() => setTemplatePickerOpen(false)}
+                    closeOnContentClick
+                  >
+                    <TemplateTypeDropdownItems survey={survey} push={push} />
+                  </Dropdown>
+                </Button>
+              )}
+            </ConfirmModal>
 
             {selectedTemplateType && (
               <div className={styles.templateType}>

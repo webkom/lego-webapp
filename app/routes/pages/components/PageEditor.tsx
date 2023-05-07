@@ -15,7 +15,7 @@ import { normalizeObjectPermissions } from 'app/components/Form/ObjectPermission
 import Icon from 'app/components/Icon';
 import Flex from 'app/components/Layout/Flex';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
+import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import NavigationTab from 'app/components/NavigationTab';
 import ImageUpload from 'app/components/Upload/ImageUpload';
 import { categoryOptions } from 'app/routes/pages/PageDetailRoute';
@@ -167,16 +167,18 @@ export default class PageEditor extends Component<Props, State> {
 
             <Flex margin="0 0 0 10px">
               {!isNew && (
-                <ConfirmModalWithParent
+                <ConfirmModal
                   title="Slett side"
                   message="Er du sikker på at du vil slette denne infosiden?"
                   onConfirm={this.onDelete}
                 >
-                  <Button danger>
-                    <Icon name="trash" size={19} />
-                    Slett
-                  </Button>
-                </ConfirmModalWithParent>
+                  {({ openConfirmModal }) => (
+                    <Button onClick={openConfirmModal} danger>
+                      <Icon name="trash" size={19} />
+                      Slett
+                    </Button>
+                  )}
+                </ConfirmModal>
               )}
               <Button success={!isNew} type="submit">
                 {isNew ? 'Opprett' : 'Lagre'}

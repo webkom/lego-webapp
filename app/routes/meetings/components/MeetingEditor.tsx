@@ -19,7 +19,7 @@ import Icon from 'app/components/Icon';
 import { Flex } from 'app/components/Layout';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import MazemapLink from 'app/components/MazemapEmbed/MazemapLink';
-import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
+import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import NavigationTab from 'app/components/NavigationTab';
 import { AttendanceStatus } from 'app/components/UserAttendance';
 import type { MeetingInvitationWithUser } from 'app/reducers/meetingInvitations';
@@ -297,16 +297,18 @@ const MeetingEditor = ({
                   </Button>
                 ))}
                 {isEditPage && canDelete && (
-                  <ConfirmModalWithParent
+                  <ConfirmModal
                     title="Slett møtet"
                     message="Er du sikker på at du vil slette møtet?"
                     onConfirm={onDeleteMeeting}
                   >
-                    <Button danger>
-                      <Icon name="trash" size={19} />
-                      Slett møtet
-                    </Button>
-                  </ConfirmModalWithParent>
+                    {({ openConfirmModal }) => (
+                      <Button onClick={openConfirmModal} danger>
+                        <Icon name="trash" size={19} />
+                        Slett møtet
+                      </Button>
+                    )}
+                  </ConfirmModal>
                 )}
               </Flex>
             </Form>

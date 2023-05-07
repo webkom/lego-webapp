@@ -1,10 +1,10 @@
-import { Children, cloneElement, useState } from 'react';
+import { useState } from 'react';
 import Button from 'app/components/Button';
 import Icon from 'app/components/Icon';
 import Flex from 'app/components/Layout/Flex';
 import Modal from 'app/components/Modal';
 import styles from './ConfirmModal.css';
-import type { ComponentType, ReactElement, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 type ConfirmModalContentProps = {
   onConfirm?: () => Promise<void>;
@@ -128,33 +128,3 @@ export const ConfirmModal = ({
     </>
   );
 };
-
-export default function withModal<Props extends { onClick: () => void }>(
-  WrappedComponent: ComponentType<Omit<Props, 'onClick'>>
-) {
-  const displayName =
-    WrappedComponent.displayName || WrappedComponent.name || 'Unknown';
-  const WithModal = (props: Props & Omit<ConfirmModalProps, 'children'>) => (
-    <ConfirmModal {...props}>
-      {({ openConfirmModal }) => (
-        <WrappedComponent {...props} onClick={openConfirmModal} />
-      )}
-    </ConfirmModal>
-  );
-  WithModal.displayName = `WithModal(${displayName})`;
-
-  return WithModal;
-}
-
-const ChildrenWithProps = ({
-  children,
-  ...restProps
-}: {
-  children: ReactElement | ReactElement[];
-}): ReactElement => (
-  <>
-    {Children.map(children, (child) => cloneElement(child, { ...restProps }))}
-  </>
-);
-
-export const ConfirmModalWithParent = withModal(ChildrenWithProps);

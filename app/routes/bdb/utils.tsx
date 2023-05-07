@@ -1,7 +1,7 @@
 import { sortBy } from 'lodash';
 import Button from 'app/components/Button';
 import Icon from 'app/components/Icon';
-import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
+import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import type { Semester, CompanySemesterContactedStatus } from 'app/models';
@@ -179,15 +179,17 @@ export const DetailNavigation = ({
     <NavigationLink to={`/bdb/${companyId}`}>Bedriftens side</NavigationLink>
     <NavigationLink to={`/bdb/${companyId}/edit`}>Rediger</NavigationLink>
     <NavigationLink to={'/bdb/add'}>Ny bedrift</NavigationLink>
-    <ConfirmModalWithParent
+    <ConfirmModal
       title="Slett bedrift"
       message="Er du sikker på at du vil slette denne bedriften?"
       onConfirm={() => deleteFunction(companyId)}
     >
-      <Button danger>
-        <Icon name="trash" size={19} />
-        Slett bedrift
-      </Button>
-    </ConfirmModalWithParent>
+      {({ openConfirmModal }) => (
+        <Button onClick={openConfirmModal} danger>
+          <Icon name="trash" size={19} />
+          Slett bedrift
+        </Button>
+      )}
+    </ConfirmModal>
   </NavigationTab>
 );

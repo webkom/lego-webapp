@@ -1,5 +1,5 @@
 import Button from 'app/components/Button';
-import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
+import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import { FormatTime } from 'app/components/Time';
 import type { AddPenalty, Penalty } from 'app/models';
 import PenaltyForm from './PenaltyForm';
@@ -49,14 +49,18 @@ function Penalties({
                   </i>
                 </div>
                 {canDeletePenalties && (
-                  <ConfirmModalWithParent
+                  <ConfirmModal
                     title="Slett prikk"
                     message="Er du sikker på at du vil slette denne prikken?"
                     onConfirm={() => deletePenalty(penalty.id)}
                     closeOnConfirm
                   >
-                    <Button flat>Slett prikk</Button>
-                  </ConfirmModalWithParent>
+                    {({ openConfirmModal }) => (
+                      <Button onClick={openConfirmModal} flat>
+                        Slett prikk
+                      </Button>
+                    )}
+                  </ConfirmModal>
                 )}
               </li>
             );
