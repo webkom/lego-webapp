@@ -31,11 +31,16 @@ const ToggleTheme = ({
   // update to the correct icon once on the client.
   useEffect(() => {
     setIcon(getIcon());
-  }, []);
 
-  window.addEventListener('themeChange', () => {
-    setIcon(getIcon());
-  });
+    function handleChangeEvent() {
+      setIcon(getIcon());
+    }
+
+    window.addEventListener('themeChange', handleChangeEvent);
+    return () => {
+      window.removeEventListener('themeChange', handleChangeEvent);
+    };
+  }, []);
 
   const handleThemeChange = useCallback(
     (e) => {
