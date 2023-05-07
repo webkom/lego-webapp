@@ -21,9 +21,13 @@
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
+  transition: background-color var(--linear-medium);
 
   & button {
     padding: 0;
+  }
+  &:hover {
+   background-color: var(--color-gray-1);
   }
 }
 
