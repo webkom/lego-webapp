@@ -7,14 +7,14 @@ import { Link } from 'react-router-dom';
 import Button from 'app/components/Button';
 import { Content } from 'app/components/Content';
 import Dropdown from 'app/components/Dropdown';
-import { TextInput, SelectInput, DatePicker } from 'app/components/Form';
+import { DatePicker, SelectInput, TextInput } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import Icon from 'app/components/Icon';
 import Flex from 'app/components/Layout/Flex';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import Time from 'app/components/Time';
 import type { EventType } from 'app/models';
-import { eventTypeToString, EVENT_CONSTANTS } from 'app/routes/events/utils';
+import { EVENT_CONSTANTS, eventTypeToString } from 'app/routes/events/utils';
 import {
   DetailNavigation,
   ListNavigation,
@@ -30,7 +30,6 @@ import { createValidator, required } from 'app/utils/validation';
 import styles from '../surveys.css';
 import Question from './Question';
 import type { Push } from 'connected-react-router';
-import type { ReactNode } from 'react';
 
 type Props = {
   survey: DetailedSurvey;
@@ -40,7 +39,6 @@ type Props = {
   push: Push;
   template?: DetailedSurvey;
   selectedTemplateType?: EventType;
-  destroy: () => void;
   initialize: () => void;
   activeFrom: string;
   initialValues: FormSurvey;
@@ -49,13 +47,11 @@ type Props = {
 type TemplateTypeDropdownItemsProps = {
   survey?: DetailedSurvey;
   push: Push;
-  destroy: () => void;
 };
 
 function TemplateTypeDropdownItems({
   survey,
   push,
-  destroy,
 }: TemplateTypeDropdownItemsProps) {
   const link = (eventType) =>
     survey?.id
@@ -64,21 +60,22 @@ function TemplateTypeDropdownItems({
 
   return (
     <Dropdown.List>
-      {Object.keys(EVENT_CONSTANTS).map((eventType: EventType) => (
-        <Dropdown.ListItem key={eventType}>
-          <Link
-            to="#"
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              destroy();
-              push(link(eventType));
-            }}
-          >
-            {eventTypeToString(eventType)}
-          </Link>
-        </Dropdown.ListItem>
-      ))}
+      {(Object.keys(EVENT_CONSTANTS) as (keyof typeof EVENT_CONSTANTS)[]).map(
+        (eventType: EventType) => (
+          <Dropdown.ListItem key={eventType}>
+            <Link
+              to="#"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                push(link(eventType));
+              }}
+            >
+              {eventTypeToString(eventType)}
+            </Link>
+          </Dropdown.ListItem>
+        )
+      )}
     </Dropdown.List>
   );
 }
@@ -98,9 +95,18 @@ export const initialQuestion = {
   ],
 };
 
-export const hasOptions = (data: Record<string, any>) => {
-  const message = {};
-  message.questions = [];
+type QuestionsValidationErrors = {
+  questions: {
+    questionText: string[];
+  }[];
+};
+
+export const hasOptions = (
+  data: Record<string, any>
+): QuestionsValidationErrors => {
+  const message: QuestionsValidationErrors = {
+    questions: [],
+  };
   data.questions?.forEach((element, i) => {
     if (!['multiple_choice', 'single_choice'].includes(element.questionType))
       return;
@@ -117,40 +123,34 @@ const updateRelativeIndexes = (oldIndex, newIndex, fields) => {
   fields.move(oldIndex, newIndex);
 };
 
-const renderQuestions = ({
-  fields,
-  meta: { touched, error },
-}: any): ReactNode => {
-  return (
-    <>
-      <ul className={styles.questions} key="questions">
-        {fields.map((question, i) => (
-          <Question
-            key={i}
-            numberOfQuestions={fields.length}
-            question={question}
-            questionData={fields.value[i]}
-            deleteQuestion={() => Promise.resolve(fields.remove(i))}
-            updateRelativeIndexes={updateRelativeIndexes}
-            relativeIndex={i}
-            fields={fields}
-          />
-        ))}
-      </ul>
+const renderQuestions = ({ fields }) => (
+  <>
+    <ul className={styles.questions} key="questions">
+      {fields.map((question, i) => (
+        <Question
+          key={i}
+          numberOfQuestions={fields.length}
+          question={question}
+          questionData={fields.value[i]}
+          deleteQuestion={() => Promise.resolve(fields.remove(i))}
+          updateRelativeIndexes={updateRelativeIndexes}
+          relativeIndex={i}
+          fields={fields}
+        />
+      ))}
+    </ul>
 
-      <Link
-        key="addNew"
-        to="#"
-        onClick={() => {
-          const newQuestion = initialQuestion;
-          fields.push(newQuestion);
-        }}
-      >
-        <Icon name="add-circle" size={30} className={styles.addQuestion} />
-      </Link>
-    </>
-  );
-};
+    <Link
+      key="addNew"
+      to="#"
+      onClick={() => {
+        fields.push(initialQuestion);
+      }}
+    >
+      <Icon name="add-circle" size={30} className={styles.addQuestion} />
+    </Link>
+  </>
+);
 
 const validate = createValidator(
   {
@@ -160,12 +160,13 @@ const validate = createValidator(
   hasOptions
 );
 
+const TypedLegoForm = LegoFinalForm<FormSurvey>;
+
 const SurveyEditor = ({
   survey,
   autoFocus,
   template,
   push,
-  destroy,
   activeFrom,
   selectedTemplateType,
   submitFunction,
@@ -219,10 +220,10 @@ const SurveyEditor = ({
   const editing = !!survey.id;
 
   return (
-    <Content className={styles.detail}>
+    <Content>
       <Helmet title={editing ? survey.title : 'Ny spørreundersøkelse'} />
 
-      <LegoFinalForm
+      <TypedLegoForm
         onSubmit={onSubmit}
         validate={validate}
         initialValues={initialValues}
@@ -249,26 +250,18 @@ const SurveyEditor = ({
                 'Lagrede endringer vil ikke overskrives før du trykker "Lagre".'
               }
               closeOnConfirm
-              onCancel={() => {
-                return Promise.all([setTemplatePickerOpen(false)]);
-              }}
-              onConfirm={() => {
-                return Promise.all([setTemplatePickerOpen(true)]);
-              }}
+              onCancel={async () => setTemplatePickerOpen(false)}
+              onConfirm={async () => setTemplatePickerOpen(true)}
             >
               <Button className={styles.templatePicker}>
                 {template ? 'Bytt mal' : 'Bruk mal'}
                 <Dropdown
                   className={styles.templateDropdown}
                   show={isTemplatePickerOpen}
-                  toggle={() => setTemplatePickerOpen(!isTemplatePickerOpen)}
+                  toggle={() => setTemplatePickerOpen(false)}
                   closeOnContentClick
                 >
-                  <TemplateTypeDropdownItems
-                    survey={survey}
-                    push={push}
-                    destroy={destroy}
-                  />
+                  <TemplateTypeDropdownItems survey={survey} push={push} />
                 </Dropdown>
               </Button>
             </ConfirmModalWithParent>
@@ -337,7 +330,7 @@ const SurveyEditor = ({
             </Flex>
           </form>
         )}
-      </LegoFinalForm>
+      </TypedLegoForm>
 
       <i className={styles.mailInfo}>
         Deltagerene på arrangementet vil få mail med link til

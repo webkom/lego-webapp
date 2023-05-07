@@ -191,8 +191,11 @@
 }
 
 .templateDropdown {
-  position: absolute;
   color: transparent;
+  position: absolute;
+  bottom: 0;
+  height: 0;
+  width: 0;
 }
 
 .freeText {
