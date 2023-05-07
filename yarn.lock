@@ -1814,6 +1814,11 @@
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
 
+"@juggle/resize-observer@^3.4.0":
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/@juggle/resize-observer/-/resize-observer-3.4.0.tgz#08d6c5e20cf7e4cc02fd181c4b0c225cd31dbb60"
+  integrity sha512-dfLbk+PwWvFzSxwk3n5ySL0hfBog779o8h68wK/7/APo/7cgyWp5jcXockbxdk5kFRkbeXWm4Fbi9FrdN381sA==
+
 "@loadable/babel-plugin@^5.15.3":
   version "5.15.3"
   resolved "https://registry.yarnpkg.com/@loadable/babel-plugin/-/babel-plugin-5.15.3.tgz#d36ef4d4dc41bf4dca9a8b7c8e695e5ea43259db"
@@ -2801,10 +2806,10 @@
     "@webassemblyjs/ast" "1.11.5"
     "@xtuc/long" "4.2.2"
 
-"@webkom/lego-editor@^2.1.0":
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/@webkom/lego-editor/-/lego-editor-2.1.0.tgz#96c511acb8c18242656099da0d9bc57376d886ac"
-  integrity sha512-JjVV4cT0CtMJQX4kQhMivt290f6W9qW8EVKJRwtncdWUYScrCBlPExLIBLZk296ewhNp+eVTaDy2U6Axj43lPg==
+"@webkom/lego-editor@^2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@webkom/lego-editor/-/lego-editor-2.2.0.tgz#a1376b4c245262fd3dabdc32fcad5dfac744bffa"
+  integrity sha512-k8Hj2ica10S6630zOYuTbkvfywQUEN17W2SSuRigAH/QVn4K+F4PXR1AjAbIpk13Sg6H/z/PwzAVDxc5N24R4w==
   dependencies:
     classnames "^2.2.6"
     escape-html "^1.0.3"
@@ -2812,10 +2817,10 @@
     react-dropzone "^14.2.2"
     react-image-crop "^10.0.4"
     react-modal "^3.11.2"
-    slate "^0.82.0"
-    slate-history "^0.66.0"
-    slate-hyperscript "^0.77.0"
-    slate-react "^0.82.0"
+    slate "^0.94.0"
+    slate-history "^0.93.0"
+    slate-hyperscript "^0.81.3"
+    slate-react "^0.94.0"
 
 "@webkom/react-meter-bar@^2.0.0":
   version "2.0.0"
@@ -9966,25 +9971,26 @@ slash@^3.0.0:
   resolved "https://registry.yarnpkg.com/slash/-/slash-3.0.0.tgz#6539be870c165adbd5240220dbe361f1bc4d4634"
   integrity sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==
 
-slate-history@^0.66.0:
-  version "0.66.0"
-  resolved "https://registry.yarnpkg.com/slate-history/-/slate-history-0.66.0.tgz#ac63fddb903098ceb4c944433e3f75fe63acf940"
-  integrity sha512-6MWpxGQZiMvSINlCbMW43E2YBSVMCMCIwQfBzGssjWw4kb0qfvj0pIdblWNRQZD0hR6WHP+dHHgGSeVdMWzfng==
+slate-history@^0.93.0:
+  version "0.93.0"
+  resolved "https://registry.yarnpkg.com/slate-history/-/slate-history-0.93.0.tgz#d2fad47e4e8b262ab7c86b653f5dd6d9b6d85277"
+  integrity sha512-Gr1GMGPipRuxIz41jD2/rbvzPj8eyar56TVMyJBvBeIpQSSjNISssvGNDYfJlSWM8eaRqf6DAcxMKzsLCYeX6g==
   dependencies:
     is-plain-object "^5.0.0"
 
-slate-hyperscript@^0.77.0:
-  version "0.77.0"
-  resolved "https://registry.yarnpkg.com/slate-hyperscript/-/slate-hyperscript-0.77.0.tgz#72c1c0fbd54dc6b6210ecd81d020c8d3d0ab8eae"
-  integrity sha512-M6uRpttwKnosniQORNPYQABHQ9XWC7qaSr/127LWWPjTOR5MSSwrHGrghN81BhZVqpICHrI7jkPA2813cWdHNA==
+slate-hyperscript@^0.81.3:
+  version "0.81.3"
+  resolved "https://registry.yarnpkg.com/slate-hyperscript/-/slate-hyperscript-0.81.3.tgz#0c8f446d6bef717d2fe855239fb86a000ba2d0d2"
+  integrity sha512-A/jvoLTAgeRcJaUPQCYOikCJxSws6+/jkL7mM+QuZljNd7EA5YqafGA7sVBJRFpcoSsDRUIah1yNiC/7vxZPYg==
   dependencies:
     is-plain-object "^5.0.0"
 
-slate-react@^0.82.0:
-  version "0.82.2"
-  resolved "https://registry.yarnpkg.com/slate-react/-/slate-react-0.82.2.tgz#4344ef392e3e51e5cd7c3272d3e5d61483c41823"
-  integrity sha512-lNmSqqNOKQJG1i3Wx4MkggWr6dLhQ43n4exPf5NLmKVBHPBuQSRNaWhAAKm6HOEC36Q6xBfkVONIQWi3GSyIEQ==
+slate-react@^0.94.0:
+  version "0.94.0"
+  resolved "https://registry.yarnpkg.com/slate-react/-/slate-react-0.94.0.tgz#dfee63d4e70fbc1b47c853e0e879f079dcc2a32b"
+  integrity sha512-8LW3HdC3Rya+3E1Gm5voyXdEfQrJGvm0QYl0bgtW2C06Dh82imxhGIPqRv2sj8j2Zf869oJGNp2bGUoCuNBJ6g==
   dependencies:
+    "@juggle/resize-observer" "^3.4.0"
     "@types/is-hotkey" "^0.1.1"
     "@types/lodash" "^4.14.149"
     direction "^1.0.3"
@@ -9994,10 +10000,10 @@ slate-react@^0.82.0:
     scroll-into-view-if-needed "^2.2.20"
     tiny-invariant "1.0.6"
 
-slate@^0.82.0:
-  version "0.82.1"
-  resolved "https://registry.yarnpkg.com/slate/-/slate-0.82.1.tgz#cf43cb828c980734dab01c9bbb517fd4d20892f7"
-  integrity sha512-3mdRdq7U3jSEoyFrGvbeb28hgrvrr4NdFCtJX+IjaNvSFozY0VZd/CGHF0zf/JDx7aEov864xd5uj0HQxxEWTQ==
+slate@^0.94.0:
+  version "0.94.0"
+  resolved "https://registry.yarnpkg.com/slate/-/slate-0.94.0.tgz#7066a8f4bb659c60cbe278edf9f5399f7f5dd5ad"
+  integrity sha512-JVQ07odcLBmQHLI/MI6E6cuQ+HPpMph7Ek2Kq9CkUwW+vXoBYuCisqpXTlcvO1RyuJJOZqLQzN/jscXkaAoEjg==
   dependencies:
     immer "^9.0.6"
     is-plain-object "^5.0.0"
