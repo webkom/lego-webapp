@@ -24,7 +24,7 @@ const Name = ({ user, role }: { user: User; role: RoleType }) => {
       roleStyle = styles.leader;
       break;
 
-    case 'co_leader':
+    case 'co-leader':
       roleStyle = styles.coleader;
       break;
 
@@ -48,7 +48,7 @@ const RoleIcon = ({ role }: { role: RoleType }) => {
       props = ['star', 'Leder'];
       break;
 
-    case 'co_leader':
+    case 'co-leader':
       iconStyle = styles.coleadericon;
       props = ['star-outline', 'Nestleder'];
       break;
