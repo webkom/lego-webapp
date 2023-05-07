@@ -3,7 +3,7 @@ import Flex from 'app/components/Layout/Flex';
 import Tooltip from 'app/components/Tooltip';
 import styles from './AttendanceStatus.css';
 import withModal from './withModal';
-import type { Pool } from './AttendanceModal';
+import type { Pool } from './AttendanceModalContent';
 
 type AttendancePool = Pool & {
   capacity?: number;

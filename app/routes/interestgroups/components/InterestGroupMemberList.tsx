@@ -7,7 +7,7 @@ import { ProfilePicture } from 'app/components/Image';
 import { Flex } from 'app/components/Layout';
 import Modal from 'app/components/Modal';
 import Tooltip from 'app/components/Tooltip';
-import shared from 'app/components/UserAttendance/AttendanceModal.css';
+import shared from 'app/components/UserAttendance/AttendanceModalContent.css';
 import type { User, GroupMembership } from 'app/models';
 import type { RoleType } from 'app/utils/constants';
 import styles from './InterestGroupMemberList.css';

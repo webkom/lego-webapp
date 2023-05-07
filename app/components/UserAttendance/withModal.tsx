@@ -1,7 +1,7 @@
 import { Children, cloneElement, Component } from 'react';
 import Modal from 'app/components/Modal';
-import AttendanceModal from './AttendanceModal';
-import type { Pool } from './AttendanceModal';
+import AttendanceModalContent from './AttendanceModalContent';
+import type { Pool } from './AttendanceModalContent';
 import type { ComponentType, ReactElement } from 'react';
 
 type State = {
@@ -46,7 +46,7 @@ export default function withModal<Props extends WithModalProps>(
             show={this.state.modalVisible}
             onHide={() => this.toggleModal(0)}
           >
-            <AttendanceModal
+            <AttendanceModalContent
               title={this.props.title}
               selectedPool={this.state.selectedTab}
               togglePool={this.toggleTab}
