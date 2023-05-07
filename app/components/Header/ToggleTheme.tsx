@@ -1,4 +1,5 @@
 import cx from 'classnames';
+import { debounce } from 'lodash';
 import { useCallback, useState, useEffect } from 'react';
 import { applySelectedTheme, getTheme } from 'app/utils/themeUtils';
 import Icon from '../Icon';
@@ -32,6 +33,10 @@ const ToggleTheme = ({
     setIcon(getIcon());
   }, []);
 
+  window.addEventListener('themeChange', () => {
+    setIcon(getIcon());
+  });
+
   const handleThemeChange = useCallback(
     (e) => {
       e.preventDefault();
@@ -50,7 +55,7 @@ const ToggleTheme = ({
   const props = {
     name: 'Endre tema',
     className: classN,
-    onClick: handleThemeChange,
+    onClick: debounce(handleThemeChange, 200),
   };
   return isButton ? (
     <button {...props}>
