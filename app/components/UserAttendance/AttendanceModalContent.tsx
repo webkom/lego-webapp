@@ -1,6 +1,6 @@
 import cx from 'classnames';
 import { flatMap } from 'lodash';
-import { useState, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import Button from 'app/components/Button';
 import { TextInput } from 'app/components/Form';
@@ -13,6 +13,7 @@ import styles from './AttendanceModalContent.css';
 export type Registration = {
   id: ID;
   user: PublicUser;
+  pool?: Pool;
 };
 
 export type Pool = {
@@ -48,6 +49,18 @@ const Tab = ({ name, index, activePoolIndex, togglePool }: TabProps) => (
   </Button>
 );
 
+const generateAmendedPools = (pools: Pool[]) => {
+  if (pools.length === 1) return pools;
+
+  const registrations = flatMap(pools, (pool) => pool.registrations);
+  const summaryPool = {
+    id: 'all',
+    name: 'Alle',
+    registrations,
+  };
+  return [summaryPool, ...pools];
+};
+
 const AttendanceModalContent = ({
   title = 'Status',
   pools,
@@ -55,35 +68,19 @@ const AttendanceModalContent = ({
   selectedPool,
   isMeeting,
 }: Props) => {
-  const [amendedPools, setAmendedPools] = useState<Pool[]>([]);
-  const [registrations, setRegistrations] = useState<Registration[]>([]);
   const [filter, setFilter] = useState<string>('');
 
-  useEffect(() => {
-    generateAmendedPools(pools);
-  }, [pools]);
+  const amendedPools = useMemo(() => generateAmendedPools(pools), [pools]);
 
-  const generateAmendedPools = (pools: Pool[]) => {
-    if (pools.length === 1) return setAmendedPools(pools);
-
-    const registrations = flatMap(pools, (pool) => pool.registrations);
-    const summaryPool = {
-      name: 'Alle',
-      registrations,
-    };
-    return setAmendedPools([summaryPool, ...pools]);
-  };
-
-  useEffect(() => {
-    const registrations = amendedPools[selectedPool]?.registrations.filter(
-      (registration) => {
+  const registrations = useMemo(
+    () =>
+      amendedPools[selectedPool]?.registrations.filter((registration) => {
         return registration.user.fullName
           .toLowerCase()
           .includes(filter.toLowerCase());
-      }
-    );
-    setRegistrations(registrations);
-  }, [filter, amendedPools, selectedPool]);
+      }),
+    [filter, amendedPools, selectedPool]
+  );
 
   return (
     <Flex
@@ -130,7 +127,7 @@ const AttendanceModalContent = ({
         {amendedPools.map((pool, i) => (
           <Tab
             name={pool.name}
-            key={i}
+            key={pool.name} // TODO: Once typed better it shouldn't be too hard to change this into an ID
             index={i}
             activePoolIndex={selectedPool}
             togglePool={togglePool}
