@@ -39,7 +39,8 @@ describe('reducers', () => {
           unicodeString: '123',
         },
         payload: {
-          result: 33,
+          id: 33,
+          emoji: ':pizza:',
         },
       };
       expect(reducer(prevState, action)).toEqual({
@@ -87,7 +88,8 @@ describe('reducers', () => {
           unicodeString: '123',
         },
         payload: {
-          result: 33,
+          id: 33,
+          emoji: ':pizza:',
         },
       };
       expect(reducer(prevState, action)).toEqual({
@@ -172,7 +174,8 @@ describe('reducers', () => {
           unicodeString: '123',
         },
         payload: {
-          result: 33,
+          id: 33,
+          emoji: ':pizza:',
         },
       };
       const newState = reducer(prevState, action);

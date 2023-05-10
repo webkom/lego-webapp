@@ -21,7 +21,7 @@ export function mutateReactions<T, S = EntityReducerState<T>>(
           action.meta.contentTarget.split('-');
         const reactionEmoji = action.meta.emoji;
         const unicodeString = action.meta.unicodeString;
-        const reactionId = action.payload.result;
+        const reactionId = action.payload.id;
         const targetType = getEntityType(serverTargetType);
 
         if (targetType !== forTargetType) {
