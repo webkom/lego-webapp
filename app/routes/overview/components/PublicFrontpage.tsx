@@ -4,6 +4,7 @@ import forCompaniesGraphic from 'app/assets/frontpage-graphic-for-companies.png'
 import komtekGraphic from 'app/assets/frontpage-graphic-komtek.png';
 import readmeGraphic from 'app/assets/frontpage-graphic-readme.png';
 import netcompany from 'app/assets/netcompany_dark.png';
+import netcompanyLight from 'app/assets/netcompany_white.svg';
 import AuthSection from 'app/components/AuthSection/AuthSection';
 import Button from 'app/components/Button';
 import Card from 'app/components/Card';
@@ -99,7 +100,12 @@ const HspInfo = () => (
   <div className={styles.hsp}>
     <h3>
       <a href="https://www.netcompany.com/no" target="blank">
-        <Image className={styles.hspImage} src={netcompany} alt="NETCOMPANY" />
+        <Image
+          className={styles.hspImage}
+          src={netcompany}
+          alt="NETCOMPANY"
+          darkThemeSource={netcompanyLight}
+        />
       </a>
     </h3>
     Hovedsamarbeidspartneren vår er Netcompany. Hos Netcompany står fag,
