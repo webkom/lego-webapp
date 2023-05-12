@@ -6,7 +6,7 @@ import Select from 'react-select';
 import type { AddMemberArgs } from 'app/actions/GroupActions';
 import Icon from 'app/components/Icon';
 import Flex from 'app/components/Layout/Flex';
-import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
+import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import Table from 'app/components/Table';
 import { isCurrentUser as checkIfCurrentUser } from 'app/routes/users/utils';
 import type Membership from 'app/store/models/Membership';
@@ -137,13 +137,15 @@ const GroupMembersList = ({
             }
           />
         )}
-        <ConfirmModalWithParent
+        <ConfirmModal
           title="Bekreft utmelding"
           message={`Er du sikker på at du vil melde ut "${user.fullName}" fra gruppen "${groupsById[abakusGroup].name}"?`}
           onConfirm={() => removeMember(membership)}
         >
-          <Icon name="trash" size={20} danger />
-        </ConfirmModalWithParent>
+          {({ openConfirmModal }) => (
+            <Icon onClick={openConfirmModal} name="trash" size={20} danger />
+          )}
+        </ConfirmModal>
       </Flex>
     );
   };

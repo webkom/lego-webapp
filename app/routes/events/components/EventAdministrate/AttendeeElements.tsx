@@ -3,7 +3,7 @@ import Button from 'app/components/Button';
 import Icon from 'app/components/Icon';
 import { Flex } from 'app/components/Layout';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
+import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import Tooltip from 'app/components/Tooltip';
 import type {
   EventRegistration,
@@ -122,20 +122,23 @@ export const Unregister = ({
       {fetching ? (
         <LoadingIndicator loading small />
       ) : (
-        <ConfirmModalWithParent
+        <ConfirmModal
           title="Bekreft utmelding"
           message={`Er du sikker på at du vil melde av "${registration.user.fullName}"?`}
           onConfirm={() => handleUnregister(registration.id)}
           closeOnCancel
         >
-          <Tooltip content="Meld av bruker" style={{ marginTop: '-7px' }}>
-            <Icon
-              name="person-remove-outline"
-              size={18}
-              className={styles.unregisterIcon}
-            />
-          </Tooltip>
-        </ConfirmModalWithParent>
+          {({ openConfirmModal }) => (
+            <Tooltip content="Meld av bruker" style={{ marginTop: '-7px' }}>
+              <Icon
+                onClick={openConfirmModal}
+                name="person-remove-outline"
+                size={18}
+                className={styles.unregisterIcon}
+              />
+            </Tooltip>
+          )}
+        </ConfirmModal>
       )}
     </>
   );

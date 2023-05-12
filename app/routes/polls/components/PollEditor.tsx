@@ -13,7 +13,7 @@ import {
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import Icon from 'app/components/Icon';
 import Flex from 'app/components/Layout/Flex';
-import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
+import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import NavigationTab from 'app/components/NavigationTab';
 import Tooltip from 'app/components/Tooltip';
 import type { ID } from 'app/models';
@@ -53,17 +53,18 @@ const renderOptions = ({ fields }: any): ReactNode => (
             }
             required
           />
-          <ConfirmModalWithParent
+          <ConfirmModal
             title="Slett valg"
             message="Er du sikker på at du vil slette dette valget?"
             onConfirm={async () => fields.remove(i)}
             closeOnConfirm
-            className={styles.deleteOption}
           >
-            <Tooltip content="Fjern">
-              <Icon name="trash" danger />
-            </Tooltip>
-          </ConfirmModalWithParent>
+            {({ openConfirmModal }) => (
+              <Tooltip className={styles.deleteOption} content="Fjern">
+                <Icon onClick={openConfirmModal} name="trash" danger />
+              </Tooltip>
+            )}
+          </ConfirmModal>
         </li>
       ))}
     </ul>
@@ -190,17 +191,19 @@ const EditPollForm = ({
                 {editing ? 'Lagre endringer' : 'Lag ny avstemning'}
               </Button>
               {editing && (
-                <ConfirmModalWithParent
+                <ConfirmModal
                   title="Slett avstemning"
                   message="Er du sikker på at du vil slette avstemningen?"
                   onConfirm={deletePoll}
                   closeOnConfirm
                 >
-                  <Button danger>
-                    <Icon name="trash" size={19} />
-                    Slett avstemning
-                  </Button>
-                </ConfirmModalWithParent>
+                  {({ openConfirmModal }) => (
+                    <Button onClick={openConfirmModal} danger>
+                      <Icon name="trash" size={19} />
+                      Slett avstemning
+                    </Button>
+                  )}
+                </ConfirmModal>
               )}
             </Flex>
           </form>

@@ -28,10 +28,8 @@ import NavigationTab from 'app/components/NavigationTab';
 import Tag from 'app/components/Tags/Tag';
 import { FormatTime } from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
-import {
-  AttendanceStatus,
-  ModalParentComponent,
-} from 'app/components/UserAttendance';
+import { AttendanceStatus } from 'app/components/UserAttendance';
+import AttendanceModal from 'app/components/UserAttendance/AttendanceModal';
 import type { ID, EventRegistration, EventPool, ActionGrant } from 'app/models';
 import { validYoutubeUrl } from 'app/utils/validation';
 import {
@@ -525,13 +523,15 @@ function EventEditor({
             ) && (
               <Flex column>
                 <h3>Pools</h3>
-                <ModalParentComponent
+                <AttendanceModal
                   key="modal"
                   pools={pools || []}
                   title="Påmeldte"
                 >
-                  <AttendanceStatus pools={pools} />
-                </ModalParentComponent>
+                  {({ toggleModal }) => (
+                    <AttendanceStatus toggleModal={toggleModal} pools={pools} />
+                  )}
+                </AttendanceModal>
                 <div className={styles.metaList}>
                   <FieldArray
                     name="pools"

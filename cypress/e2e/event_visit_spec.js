@@ -20,7 +20,7 @@ describe('View event', () => {
       .click();
     // When clicking on attendees we should get the modal
     cy.get(c('Modal')).should('be.visible');
-    cy.get(c('AttendanceModal__list') + ' li').should('have.length', 9);
+    cy.get(c('AttendanceModalContent__list') + ' li').should('have.length', 9);
 
     cy.get('body').click(20, 20);
     cy.get(c('Modal')).should('not.exist');

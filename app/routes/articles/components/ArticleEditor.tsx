@@ -16,7 +16,7 @@ import { normalizeObjectPermissions } from 'app/components/Form/ObjectPermission
 import Icon from 'app/components/Icon';
 import Flex from 'app/components/Layout/Flex';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
+import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import NavigationTab from 'app/components/NavigationTab';
 import Tooltip from 'app/components/Tooltip';
 import type { EditingEvent } from 'app/routes/events/utils';
@@ -181,16 +181,18 @@ const ArticleEditor = ({
             {!isNew ? 'Lagre endringer' : 'Opprett'}
           </Button>
           {!isNew && (
-            <ConfirmModalWithParent
+            <ConfirmModal
               title="Slett artikkelen"
               message="Er du sikker på at du vil slette artikkelen?"
               onConfirm={handleDeleteArticle}
             >
-              <Button danger>
-                <Icon name="trash" size={19} />
-                Slett artikkel
-              </Button>
-            </ConfirmModalWithParent>
+              {({ openConfirmModal }) => (
+                <Button onClick={openConfirmModal} danger>
+                  <Icon name="trash" size={19} />
+                  Slett artikkel
+                </Button>
+              )}
+            </ConfirmModal>
           )}
         </Flex>
       </Form>

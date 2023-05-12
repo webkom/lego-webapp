@@ -7,7 +7,7 @@ import { ProfilePicture } from 'app/components/Image';
 import { Flex } from 'app/components/Layout';
 import Modal from 'app/components/Modal';
 import Tooltip from 'app/components/Tooltip';
-import shared from 'app/components/UserAttendance/AttendanceModal.css';
+import shared from 'app/components/UserAttendance/AttendanceModalContent.css';
 import type { User, GroupMembership } from 'app/models';
 import type { RoleType } from 'app/utils/constants';
 import styles from './InterestGroupMemberList.css';
@@ -24,7 +24,7 @@ const Name = ({ user, role }: { user: User; role: RoleType }) => {
       roleStyle = styles.leader;
       break;
 
-    case 'co_leader':
+    case 'co-leader':
       roleStyle = styles.coleader;
       break;
 
@@ -48,7 +48,7 @@ const RoleIcon = ({ role }: { role: RoleType }) => {
       props = ['star', 'Leder'];
       break;
 
-    case 'co_leader':
+    case 'co-leader':
       iconStyle = styles.coleadericon;
       props = ['star-outline', 'Nestleder'];
       break;

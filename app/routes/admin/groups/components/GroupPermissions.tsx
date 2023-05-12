@@ -5,7 +5,7 @@ import { compose } from 'redux';
 import { editGroup } from 'app/actions/GroupActions';
 import Icon from 'app/components/Icon';
 import { Flex } from 'app/components/Layout';
-import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
+import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import type { ID } from 'app/models';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import AddGroupPermission from './AddGroupPermission';
@@ -91,7 +91,7 @@ const PermissionList = ({
           permissions.map((permission) => (
             <li key={permission}>
               <Flex>
-                <ConfirmModalWithParent
+                <ConfirmModal
                   title="Bekreft fjerning av rettighet"
                   message={`Er du sikker på at du vil fjerne tilgangen ${permission}?`}
                   closeOnConfirm={true}
@@ -99,8 +99,10 @@ const PermissionList = ({
                     removePermission(permission, group, editGroup)
                   }
                 >
-                  <Icon name="trash" danger />
-                </ConfirmModalWithParent>
+                  {({ openConfirmModal }) => (
+                    <Icon onClick={openConfirmModal} name="trash" danger />
+                  )}
+                </ConfirmModal>
                 {permission}
               </Flex>
             </li>

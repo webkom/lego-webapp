@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import Button from 'app/components/Button';
 import Icon from 'app/components/Icon';
 import Flex from 'app/components/Layout/Flex';
-import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
+import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import Table from 'app/components/Table';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
@@ -91,18 +91,25 @@ const UserSettingsOAuth2 = (props: Props) => {
     {
       dataIndex: 'delete',
       render: (id, grant) => (
-        <ConfirmModalWithParent
+        <ConfirmModal
           title="Bekreft handling"
           message={`Er du sikker på at du vil fjerne token?`}
           onConfirm={() => props.deleteOAuth2Grant(grant.id)}
           closeOnCancel
         >
-          <Tooltip content="Fjern" style={{ marginTop: '-7px' }}>
-            <Flex justifyContent="center">
-              <Icon name="trash" size={19} danger />
-            </Flex>
-          </Tooltip>
-        </ConfirmModalWithParent>
+          {({ openConfirmModal }) => (
+            <Tooltip content="Fjern" style={{ marginTop: '-7px' }}>
+              <Flex justifyContent="center">
+                <Icon
+                  onClick={openConfirmModal}
+                  name="trash"
+                  size={19}
+                  danger
+                />
+              </Flex>
+            </Tooltip>
+          )}
+        </ConfirmModal>
       ),
     },
   ];

@@ -7,7 +7,7 @@ import {
   SelectInput,
 } from 'app/components/Form';
 import Icon from 'app/components/Icon';
-import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
+import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import {
   mappings,
   QuestionTypes,
@@ -155,15 +155,21 @@ const Question = ({
             />
           </div>
 
-          <ConfirmModalWithParent
+          <ConfirmModal
             title="Slett spørsmål"
             message="Er du sikker på at du vil slette dette spørsmålet?"
             onConfirm={() => deleteQuestion(relativeIndex)}
             closeOnConfirm
-            className={styles.deleteQuestion}
           >
-            <Icon name="trash" danger />
-          </ConfirmModalWithParent>
+            {({ openConfirmModal }) => (
+              <Icon
+                onClick={openConfirmModal}
+                className={styles.deleteQuestion}
+                name="trash"
+                danger
+              />
+            )}
+          </ConfirmModal>
         </div>
       </div>
     </div>

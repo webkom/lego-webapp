@@ -1,13 +1,12 @@
-import { get } from 'lodash';
-import { Component, Children, cloneElement } from 'react';
+import { useState } from 'react';
 import Button from 'app/components/Button';
 import Icon from 'app/components/Icon';
 import Flex from 'app/components/Layout/Flex';
 import Modal from 'app/components/Modal';
 import styles from './ConfirmModal.css';
-import type { ComponentType, ReactElement, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
-type ConfirmModalProps = {
+type ConfirmModalContentProps = {
   onConfirm?: () => Promise<void>;
   onCancel?: () => Promise<void>;
   message: ReactNode;
@@ -19,21 +18,21 @@ type ConfirmModalProps = {
   danger?: boolean;
 };
 
-export const ConfirmModal = ({
+const ConfirmModalContent = ({
   message,
   onConfirm,
   onCancel,
   title,
   disabled = false,
-  errorMessage = '',
+  errorMessage,
   cancelText = 'Avbryt',
   confirmText = 'Ja',
   danger = true,
-}: ConfirmModalProps) => (
+}: ConfirmModalContentProps) => (
   <Flex column gap={15}>
     <Flex wrap alignItems="center" gap={10}>
       <Icon name="warning" className={styles.warningIcon} />
-      <h2 className={danger && styles.dangerTitle}>{title}</h2>
+      <h2 className={danger ? styles.dangerTitle : undefined}>{title}</h2>
     </Flex>
     <span>{message}</span>
     <div>
@@ -48,12 +47,10 @@ export const ConfirmModal = ({
   </Flex>
 );
 
-type State = {
-  modalVisible: boolean;
-  working: boolean;
-  errorMessage: string;
-};
-type WithModalProps = {
+type ConfirmModalProps = {
+  onConfirm?: () => Promise<void>;
+  onCancel?: () => Promise<void>;
+
   /* Close the modal after confirm promise is resolved
    * This should only be used if the component isn't automatically
    * unmounted when the given promise resolves */
@@ -63,130 +60,71 @@ type WithModalProps = {
    * This should only be true if the component isn't automatically
    * unmounted when the given promise resolves */
   closeOnCancel?: boolean;
-  children: ReactNode;
+
+  children: (props: { openConfirmModal: () => void }) => ReactNode;
+
+  // The following props are only passed on to ConfirmModalContent
+  message: ReactNode;
+  title: string;
+  cancelText?: string;
+  confirmText?: string;
+  danger?: boolean;
 };
-export default function withModal<Props>(
-  WrappedComponent: ComponentType<Props>
-) {
-  const displayName =
-    WrappedComponent.displayName || WrappedComponent.name || 'Unknown';
-  return class extends Component<WithModalProps & ConfirmModalProps, State> {
-    static displayName = `WithModal(${displayName})`;
-    state = {
-      modalVisible: false,
-      working: false,
-      errorMessage: '',
-    };
-    toggleModal = () => {
-      this.setState((state) => ({
-        modalVisible: !state.modalVisible,
-      }));
-      this.stopWorking();
-      this.resetError();
-    };
-    hideModal = () => {
-      this.setState({
-        modalVisible: false,
-      });
-    };
-    startWorking = () => {
-      this.setState({
-        working: true,
-      });
-    };
-    stopWorking = () => {
-      this.setState({
-        working: false,
-      });
-    };
-    setErrorMessage = (errorMessage: string) => {
-      this.setState({
-        errorMessage,
-      });
-    };
-    resetError = () => {
-      this.setState({
-        errorMessage: '',
-      });
-    };
 
-    render() {
-      const {
-        onConfirm = () => Promise.resolve(),
-        onCancel = () => Promise.resolve(),
-        message,
-        title,
-        closeOnCancel = true,
-        closeOnConfirm = false,
-        ...props
-      } = this.props;
-
-      const wrapAction = (
-        action: () => Promise<any>,
-        closeWhenDone: boolean
-      ) => {
-        return () => {
-          const onResolve = closeWhenDone
-            ? (result) => {
-                this.stopWorking();
-                this.hideModal();
-                this.resetError();
-                return result;
-              }
-            : (result) => result;
-
-          const onError = (error) => {
-            this.stopWorking();
-            const errorMessage =
-              get(error, ['meta', 'errorMessage']) || 'Det skjedde en feil...';
-            this.setErrorMessage(errorMessage);
-            throw error;
-          };
-
-          this.resetError();
-          this.startWorking();
-          return action().then(onResolve, onError);
-        };
-      };
-
-      const modalOnConfirm = wrapAction(onConfirm, closeOnConfirm);
-      const modalOnCancel = wrapAction(onCancel, closeOnCancel);
-      const { working, errorMessage } = this.state;
-      return (
-        <>
-          <WrappedComponent
-            {...(props as Record<string, any>)}
-            onClick={this.toggleModal}
-          />
-          <Modal
-            closeOnBackdropClick={!working}
-            show={this.state.modalVisible}
-            onHide={this.toggleModal}
-          >
-            <ConfirmModal
-              onCancel={modalOnCancel}
-              onConfirm={modalOnConfirm}
-              message={message}
-              title={title}
-              disabled={working}
-              errorMessage={errorMessage}
-            />
-          </Modal>
-        </>
-      );
-    }
-  };
-}
-
-const ChildrenWithProps = ({
+export const ConfirmModal = ({
+  onConfirm = async () => {},
+  onCancel = async () => {},
+  closeOnCancel = true,
+  closeOnConfirm = false,
   children,
-  ...restProps
-}: {
-  children: ReactElement | ReactElement[];
-}): ReactElement => (
-  <>
-    {Children.map(children, (child) => cloneElement(child, { ...restProps }))}
-  </>
-);
+  ...contentProps
+}: ConfirmModalProps) => {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [working, setWorking] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string>();
 
-export const ConfirmModalWithParent = withModal(ChildrenWithProps);
+  const wrapAction = <T,>(action: () => Promise<T>, closeWhenDone: boolean) => {
+    return async () => {
+      setErrorMessage(undefined);
+      setWorking(true);
+
+      try {
+        const result = await action();
+        if (closeWhenDone) {
+          setWorking(false);
+          setModalVisible(false);
+          setErrorMessage(undefined);
+        }
+        return result;
+      } catch (error) {
+        setWorking(false);
+        setErrorMessage(
+          (error as any)?.meta?.errorMessage || 'Det skjedde en feil...'
+        );
+        throw error;
+      }
+    };
+  };
+
+  const modalOnConfirm = wrapAction(onConfirm, closeOnConfirm);
+  const modalOnCancel = wrapAction(onCancel, closeOnCancel);
+
+  return (
+    <>
+      {children({ openConfirmModal: () => setModalVisible(true) })}
+      <Modal
+        closeOnBackdropClick={!working}
+        show={modalVisible}
+        onHide={() => setModalVisible(false)}
+      >
+        <ConfirmModalContent
+          onConfirm={modalOnConfirm}
+          onCancel={modalOnCancel}
+          disabled={working}
+          errorMessage={errorMessage}
+          {...contentProps}
+        />
+      </Modal>
+    </>
+  );
+};

@@ -9,7 +9,7 @@ import { Image } from 'app/components/Image';
 import InfoBubble from 'app/components/InfoBubble';
 import { Flex } from 'app/components/Layout';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
+import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
 import type { CompanySemesterContactedStatus } from 'app/models';
@@ -207,14 +207,21 @@ export default class BdbDetail extends Component<Props, State> {
                   >
                     <Icon name="pencil" edit size={20} />
                   </Link>
-                  <ConfirmModalWithParent
+                  <ConfirmModal
                     title="Slett bedriftskontakt"
                     message="Er du sikker på at du vil slette denne bedriftskontakten?"
                     onConfirm={() => this.deleteCompanyContact(contact.id)}
                     closeOnConfirm
                   >
-                    <Icon name="trash" danger size={20} />
-                  </ConfirmModalWithParent>
+                    {({ openConfirmModal }) => (
+                      <Icon
+                        onClick={openConfirmModal}
+                        name="trash"
+                        danger
+                        size={20}
+                      />
+                    )}
+                  </ConfirmModal>
                 </span>
               </div>
             </td>

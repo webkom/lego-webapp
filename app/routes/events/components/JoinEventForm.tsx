@@ -10,7 +10,7 @@ import { Form, Captcha, TextInput } from 'app/components/Form';
 import Icon from 'app/components/Icon';
 import { Flex } from 'app/components/Layout';
 import LoadingIndicator, { ProgressBar } from 'app/components/LoadingIndicator';
-import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
+import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
 import type {
@@ -95,7 +95,7 @@ const SubmitButton = ({
     </Flex>
   );
   return (
-    <ConfirmModalWithParent
+    <ConfirmModal
       title="Avregistrer"
       message={message}
       onConfirm={() => {
@@ -103,11 +103,18 @@ const SubmitButton = ({
         return Promise.resolve();
       }}
     >
-      <Button className={styles.registrationBtn} danger disabled={disabled}>
-        <Icon name="person-remove" size={19} />
-        {title}
-      </Button>
-    </ConfirmModalWithParent>
+      {({ openConfirmModal }) => (
+        <Button
+          onClick={openConfirmModal}
+          className={styles.registrationBtn}
+          danger
+          disabled={disabled}
+        >
+          <Icon name="person-remove" size={19} />
+          {title}
+        </Button>
+      )}
+    </ConfirmModal>
   );
 };
 

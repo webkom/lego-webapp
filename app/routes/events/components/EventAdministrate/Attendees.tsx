@@ -4,7 +4,7 @@ import { formatPhoneNumber, parsePhoneNumber } from 'react-phone-number-input';
 import Button from 'app/components/Button';
 import { Flex } from 'app/components/Layout';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
+import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import type {
   EventAdministrate,
   EventPool,
@@ -156,14 +156,18 @@ const Attendees = ({
               Last ned
             </a>
           ) : (
-            <ConfirmModalWithParent
+            <ConfirmModal
               title="Eksporter til csv"
               closeOnConfirm={true}
               message={exportInfoMessage}
               onConfirm={createInfoCSV}
             >
-              <Button>Eksporter deltakere til csv</Button>
-            </ConfirmModalWithParent>
+              {({ openConfirmModal }) => (
+                <Button onClick={openConfirmModal}>
+                  Eksporter deltakere til csv
+                </Button>
+              )}
+            </ConfirmModal>
           ))}
       </Flex>
       <Flex column>

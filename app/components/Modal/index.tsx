@@ -7,7 +7,7 @@ import type { ReactNode } from 'react';
 type Props = {
   show: boolean;
   children: ReactNode;
-  onHide: () => any;
+  onHide: () => void;
   backdrop?: boolean;
   closeOnBackdropClick?: boolean;
   keyboard?: boolean;
@@ -37,11 +37,11 @@ const Modal = ({
     backdrop={backdrop}
     onHide={onHide}
     keyboard={keyboard}
-    renderBackdrop={(props: { onClick: (...args: Array<any>) => any }) => (
+    renderBackdrop={(props) => (
       <div
         {...props}
         className={backdropClassName || styles.backdrop}
-        onClick={closeOnBackdropClick ? props.onClick : null}
+        onClick={closeOnBackdropClick ? props.onClick : undefined}
       />
     )}
   >
@@ -55,5 +55,4 @@ const Modal = ({
   </ReactModal>
 );
 
-export { default as ConfirmModal } from './ConfirmModal';
 export default Modal;

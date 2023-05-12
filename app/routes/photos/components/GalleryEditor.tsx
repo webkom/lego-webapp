@@ -22,7 +22,7 @@ import { normalizeObjectPermissions } from 'app/components/Form/ObjectPermission
 import GalleryComponent from 'app/components/Gallery';
 import Icon from 'app/components/Icon';
 import { Flex } from 'app/components/Layout';
-import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
+import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import NavigationTab from 'app/components/NavigationTab';
 import type { ID } from 'app/models';
 import type { GalleryEntity } from 'app/reducers/galleries';
@@ -251,16 +251,18 @@ class GalleryEditor extends Component<Props, State> {
 
           <Flex className={styles.buttonRow} justifyContent="flex-end">
             {!isNew && (
-              <ConfirmModalWithParent
+              <ConfirmModal
                 title="Slett album"
                 message="Vil du slette hele albumet og alle bildene albumet inneholder?"
                 onConfirm={this.onDeleteGallery}
               >
-                <Button danger>
-                  <Icon name="trash" size={19} />
-                  Slett album
-                </Button>
-              </ConfirmModalWithParent>
+                {({ openConfirmModal }) => (
+                  <Button onClick={openConfirmModal} danger>
+                    <Icon name="trash" size={19} />
+                    Slett album
+                  </Button>
+                )}
+              </ConfirmModal>
             )}
             <Button success={!isNew} disabled={submitting} type="submit">
               {isNew ? 'Opprett' : 'Lagre'}
