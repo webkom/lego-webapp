@@ -1,86 +1,48 @@
 import debounce from 'lodash/debounce';
-import { Component } from 'react';
-import { getTheme } from 'app/utils/themeUtils';
+import { useEffect, useRef, useState } from 'react';
+import { useTheme } from 'app/utils/themeUtils';
 import styles from './FancyNodesCanvas.css';
 import drawFancyNodes from './drawFancyNodes';
 
 type Props = {
-  height: number;
-};
-type State = {
-  width: number;
-  currentTheme: string;
+  height?: number;
 };
 
-class FancyNodesCanvas extends Component<Props, State> {
-  static defaultProps = {
-    height: 160,
-  };
-  state = {
-    width: 0,
-    currentTheme: 'light',
-  };
-  _canvas: any;
-  handleResize = debounce((e: any) => {
-    const newWidth = e.target.innerWidth;
-    const { width } = this.state;
-    if (newWidth === width) return;
-    this.setState(
-      {
-        width: newWidth,
-      },
-      () => this.drawGraphics()
-    );
-  }, 70);
-  handleThemeChange = () => {
-    const newTheme = getTheme();
-    const { currentTheme } = this.state;
-    if (newTheme === currentTheme) return;
-    this.setState(
-      {
-        currentTheme: newTheme,
-      },
-      () => this.drawGraphics()
-    );
-  };
+const FancyNodesCanvas = ({ height = 160 }: Props) => {
+  const [width, setWidth] = useState(0);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const theme = useTheme();
 
-  componentDidMount() {
-    this.setState(
-      {
-        width: global.innerWidth,
-      },
-      () => this.drawGraphics()
-    );
-    global.addEventListener('resize', this.handleResize);
-    global.addEventListener('themeChange', this.handleThemeChange);
-  }
+  useEffect(() => {
+    setWidth(global.innerWidth);
+  }, []);
 
-  drawGraphics() {
-    const context = this._canvas.getContext('2d');
+  useEffect(() => {
+    const handleResize = debounce((e: UIEvent) => {
+      setWidth((e.target as Window).innerWidth);
+    }, 70);
+    global.addEventListener('resize', handleResize);
+    return () => global.removeEventListener('resize', handleResize);
+  }, [width]);
 
-    drawFancyNodes(context, {
-      width: this.state.width,
-      height: this.props.height,
+  useEffect(() => {
+    const context = canvasRef.current?.getContext('2d');
+    if (!context) return;
+
+    drawFancyNodes(context, theme, {
+      width,
+      height,
     });
-  }
+  }, [height, theme, width]);
 
-  componentWillUnmount() {
-    global.removeEventListener('resize', this.handleResize);
-    global.removeEventListener('themeChange', this.handleThemeChange);
-  }
-
-  render() {
-    return (
-      <canvas
-        ref={(ref) => {
-          this._canvas = ref;
-        }}
-        className={styles.root}
-        width={this.state.width}
-        height={this.props.height}
-      />
-    );
-  }
-}
+  return (
+    <canvas
+      ref={canvasRef}
+      className={styles.root}
+      width={width}
+      height={height}
+    />
+  );
+};
 
 export default FancyNodesCanvas;

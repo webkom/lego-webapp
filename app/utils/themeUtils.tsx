@@ -36,8 +36,8 @@ export const useTheme = () => {
   return useAppSelector((state) => state.theme.theme);
 };
 
-export const getFancyNodeColor = () => {
-  return getTheme() !== 'dark' ? 'rgba(0,0,0, 0.3)' : 'rgba(255,255,255, 0.5)';
+export const getFancyNodeColor = (theme: 'dark' | 'light') => {
+  return theme === 'light' ? 'rgba(0,0,0, 0.3)' : 'rgba(255,255,255, 0.5)';
 };
 
 export const getOSTheme = () => {

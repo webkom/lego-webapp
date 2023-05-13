@@ -1,8 +1,16 @@
 import { mount, shallow } from 'enzyme';
+import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
+import configureStore from 'redux-mock-store';
 import { generateTreeStructure } from 'app/utils';
 import CommentTree from '../CommentTree';
 import comments from './fixtures/comments';
+
+const store = configureStore([])({
+  theme: {
+    theme: 'light',
+  },
+});
 
 describe('<CommentTree />', () => {
   beforeAll(() => {
@@ -24,9 +32,11 @@ describe('<CommentTree />', () => {
   it('should nest comments', () => {
     const wrapper = mount(
       <MemoryRouter>
-        {/*eslint-disable*/}
-        {/* @ts-ignore*/}
-        <CommentTree comments={tree} />
+        <Provider store={store}>
+          {/*eslint-disable*/}
+          {/* @ts-ignore*/}
+          <CommentTree comments={tree} />
+        </Provider>
       </MemoryRouter>
     );
     const rootElements = wrapper.find('.root');

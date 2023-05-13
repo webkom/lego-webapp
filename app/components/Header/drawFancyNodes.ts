@@ -41,9 +41,13 @@ function drawNetwork(context, nodes, graph) {
   });
 }
 
-export default function drawFancyNodes(context, { width, height }) {
+export default function drawFancyNodes(
+  context: CanvasRenderingContext2D,
+  theme: 'dark' | 'light',
+  { width, height }: { width: number; height: number }
+) {
   context.clearRect(0, 0, width, height);
-  context.fillStyle = getFancyNodeColor();
+  context.fillStyle = getFancyNodeColor(theme);
   context.strokeStyle = context.fillStyle;
   context.globalCompositeOperation = 'overlay';
   context.lineWidth = 1;
