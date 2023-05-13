@@ -2,7 +2,7 @@ import cx from 'classnames';
 import { useEffect, useState } from 'react';
 import Turnstile from 'react-turnstile';
 import config from 'app/config';
-import { getTheme } from 'app/utils/themeUtils';
+import { useTheme } from 'app/utils/themeUtils';
 import usePrevious from 'app/utils/usePrevious';
 import styles from './Captcha.css';
 import { createField } from './Field';
@@ -14,7 +14,7 @@ type Props = {
 };
 
 const Captcha = ({ className, onChange = () => {}, value }: Props) => {
-  const theme = getTheme();
+  const theme = useTheme();
   const [captchaKey, setCaptchaKey] = useState(0);
 
   // Reset the captcha when the form is reset

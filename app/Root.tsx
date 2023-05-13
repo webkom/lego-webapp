@@ -4,6 +4,7 @@ import { hot } from 'react-hot-loader/root';
 import { Provider } from 'react-redux';
 import ErrorBoundary from 'app/components/ErrorBoundary';
 import type { Store } from 'app/store/createStore';
+import { ThemeContextListener } from 'app/utils/themeUtils';
 import RouteConfig from './routes';
 
 type Props = {
@@ -16,6 +17,7 @@ const Root = (props: Props) => {
   return (
     <HelmetProvider>
       <Provider store={store}>
+        <ThemeContextListener />
         <ErrorBoundary openReportDialog>
           <ConnectedRouter history={history}>
             <RouteConfig {...restProps} />

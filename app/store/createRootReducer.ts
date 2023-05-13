@@ -46,6 +46,7 @@ import search from 'app/reducers/search';
 import surveySubmissions from 'app/reducers/surveySubmissions';
 import surveys from 'app/reducers/surveys';
 import tags from 'app/reducers/tags';
+import theme from 'app/reducers/theme';
 import toasts from 'app/reducers/toasts';
 import users from 'app/reducers/users';
 import type { StrictReducer } from 'app/utils/joinReducers';
@@ -98,6 +99,7 @@ const createRootReducer = (history: History) =>
     surveySubmissions,
     surveys,
     tags,
+    theme,
     toasts,
     users,
     followersCompany,

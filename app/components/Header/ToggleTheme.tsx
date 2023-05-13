@@ -1,12 +1,12 @@
 import cx from 'classnames';
 import { debounce } from 'lodash';
-import { useCallback, useState, useEffect } from 'react';
-import { applySelectedTheme, getTheme } from 'app/utils/themeUtils';
+import { useCallback } from 'react';
+import { applySelectedTheme, getTheme, useTheme } from 'app/utils/themeUtils';
 import Icon from '../Icon';
 import styles from './toggleTheme.css';
 import type { ReactNode } from 'react';
 
-const getIcon = () => (getTheme() === 'dark' ? 'sunny' : 'moon');
+const useIcon = () => (useTheme() === 'dark' ? 'sunny' : 'moon');
 
 type Props = {
   loggedIn: boolean;
@@ -25,22 +25,7 @@ const ToggleTheme = ({
   children,
   isButton = true,
 }: Props) => {
-  const [icon, setIcon] = useState('moon');
-
-  // Since the theme depends on the client preferences, we need to just set it static on SSR and
-  // update to the correct icon once on the client.
-  useEffect(() => {
-    setIcon(getIcon());
-
-    function handleChangeEvent() {
-      setIcon(getIcon());
-    }
-
-    window.addEventListener('themeChange', handleChangeEvent);
-    return () => {
-      window.removeEventListener('themeChange', handleChangeEvent);
-    };
-  }, []);
+  const icon = useIcon();
 
   const handleThemeChange = useCallback(
     (e) => {
@@ -48,7 +33,6 @@ const ToggleTheme = ({
       const currentTheme = getTheme();
       const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
       applySelectedTheme(newTheme);
-      setIcon(getIcon());
       loggedIn && username && updateUserTheme(username, newTheme);
     },
     [loggedIn, username, updateUserTheme]
