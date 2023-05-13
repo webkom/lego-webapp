@@ -1,5 +1,6 @@
 import cx from 'classnames';
 import { useEffect, useState } from 'react';
+import { getTheme } from 'app/utils/themeUtils';
 import styles from './Image.css';
 import type { ImgHTMLAttributes, StyleHTMLAttributes } from 'react';
 
@@ -9,6 +10,7 @@ type Props = {
   className?: string;
   alt: string;
   style?: StyleHTMLAttributes<HTMLImageElement>;
+  darkThemeSource?: string;
 } & ImgHTMLAttributes<HTMLImageElement>;
 
 const EMPTY_IMAGE =
@@ -24,9 +26,33 @@ const ImageComponent = (props: Props) => {
   const [loadEnd, setLoadEnd] = useState<number>(0);
 
   const { src, className, alt = 'image', style, ...rest } = props;
+  const [themedSource, setThemedSource] = useState<string>(
+    props.darkThemeSource
+      ? getTheme() === 'light'
+        ? src
+        : props.darkThemeSource
+      : src
+  );
+
+  useEffect(() => {
+    const onThemeChange = () => {
+      setThemedSource(
+        props.darkThemeSource
+          ? getTheme() === 'light'
+            ? src
+            : props.darkThemeSource
+          : src
+      );
+    };
+
+    window.addEventListener('themeChange', onThemeChange);
+
+    return () => {
+      window.removeEventListener('themeChange', onThemeChange);
+    };
+  }, [src, props.darkThemeSource]);
 
   const isProgressive = !!props.placeholder;
-
   useEffect(() => {
     setProgressiveSrc(props.placeholder || EMPTY_IMAGE);
   }, [props.placeholder]);
@@ -39,18 +65,18 @@ const ImageComponent = (props: Props) => {
     }
 
     const image = new Image();
-    image.src = src;
+    image.src = themedSource;
 
     image.onload = () => {
       setImageLoaded(true);
       setLoadEnd(Date.now());
-      setProgressiveSrc(src);
+      setProgressiveSrc(themedSource);
     };
 
     image.onerror = () => {
       setImageError(true);
     };
-  }, [isProgressive, src]);
+  }, [isProgressive, themedSource]);
 
   const defaultClass = cx(styles.image, className);
   // Skip the transition effect if the image loads very quick.
@@ -63,12 +89,13 @@ const ImageComponent = (props: Props) => {
     !imageLoaded && !imageError && isProgressive && styles.blur
   );
 
-  if (!src) return <div className={finalClass} style={style} {...rest} />;
+  if (!themedSource)
+    return <div className={finalClass} style={style} {...rest} />;
 
   return (
     <img
       className={isProgressive ? finalClass : defaultClass}
-      src={isProgressive ? progressiveSrc : src}
+      src={isProgressive ? progressiveSrc : themedSource}
       loading="lazy"
       alt={alt}
       style={style}
