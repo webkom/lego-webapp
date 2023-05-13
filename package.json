@@ -186,7 +186,7 @@
     "style-loader": "^3.3.2",
     "stylelint": "^15.6.1",
     "stylelint-config-standard": "^33.0.0",
-    "terser-webpack-plugin": "^5.3.7",
+    "terser-webpack-plugin": "^5.3.8",
     "timekeeper": "^2.2.0",
     "ts-loader": "^9.4.2",
     "typescript": "^5.0.4",
