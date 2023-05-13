@@ -71,6 +71,22 @@ export const isValidAllergy =
     return [!notValidAnswers.includes(value.toLowerCase()), message] as const;
   };
 
+export const isValidGithubUsername =
+  (message = 'Ikke et gyldig GitHub-brukernavn') =>
+  (value: string) => {
+    const validRegex = /^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/i;
+
+    return [validRegex.test(value), message] as const;
+  };
+
+export const isValidLinkedinId =
+  (message = 'Ikke en gyldig Linkedin ID') =>
+  (value: string) => {
+    const validRegex = /^[a-zA-Z0-9-]{0,70}$/i;
+
+    return [validRegex.test(value), message] as const;
+  };
+
 export const ifField =
   (field: string, validator: ReturnType<Validator>) => (value, context) =>
     context[field] ? validator(value, context) : ([true] as const);

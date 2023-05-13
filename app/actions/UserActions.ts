@@ -116,6 +116,8 @@ export function updateUser(
     isAbakusMember,
     emailListsEnabled,
     selectedTheme,
+    githubUsername,
+    linkedinId,
   } = user;
   return (dispatch) =>
     dispatch(
@@ -134,6 +136,8 @@ export function updateUser(
           selectedTheme,
           isAbakusMember,
           emailListsEnabled,
+          githubUsername,
+          linkedinId,
           ...(options.updateProfilePicture
             ? {
                 profilePicture,

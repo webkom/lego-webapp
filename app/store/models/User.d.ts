@@ -39,6 +39,11 @@ interface User {
   isAbakomMember: boolean;
   pastMemberships: PastMembership[];
   selectedTheme: string;
+<<<<<<< HEAD
+=======
+  githubUsername: string;
+
+>>>>>>> 466c449bc (Implement github usernames on profiles.)
   permissionsPerGroup: {
     abakusGroup: Pick<Group, 'id' | 'name'>;
     permissions: string[];
@@ -82,6 +87,10 @@ export type CurrentUser = Pick<
   | 'permissionsPerGroup'
   | 'photoConsents'
   | 'githubUsername'
+<<<<<<< HEAD
+=======
+  | 'linkedinId'
+>>>>>>> 466c449bc (Implement github usernames on profiles.)
 >;
 
 export type DetailedUser = Pick<
@@ -104,6 +113,7 @@ export type DetailedUser = Pick<
   | 'pastMemberships'
   | 'permissionsPerGroup'
   | 'githubUsername'
+  | 'linkedinId'
 >;
 
 export type PublicUser = Pick<
@@ -118,6 +128,7 @@ export type PublicUser = Pick<
   | 'profilePicturePlaceholder'
   | 'internalEmailAddress'
   | 'githubUsername'
+  | 'linkedinId'
 >;
 
 export type PublicUserWithAbakusGroups = Pick<User, 'abakusGroups'> &
@@ -186,6 +197,8 @@ export type UpdateUser = Required<
       | 'isAbakusMember'
       | 'emailListsEnabled'
       | 'selectedTheme'
+      | 'githubUsername'
+      | 'linkedinId'
     >
   >,
   'username'

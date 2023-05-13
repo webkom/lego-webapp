@@ -109,6 +109,8 @@ export type User = {
   abakusEmailLists?: EmailList[];
   permissionsPerGroup?: PermissionPerGroup[];
   isAbakusMember?: boolean;
+  githubUsername?: string;
+  linkedinId?: string;
 };
 
 export type Penalty = {

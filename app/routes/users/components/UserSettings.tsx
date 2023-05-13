@@ -18,6 +18,8 @@ import {
   required,
   isEmail,
   isValidAllergy,
+  isValidGithubUsername,
+  isValidLinkedinId,
 } from 'app/utils/validation';
 import ChangePassword from './ChangePassword';
 import UserImage from './UserImage';
@@ -49,6 +51,7 @@ interface FormValues {
   phoneNumber: string;
   selectedTheme: string;
   isAbakusMember: string;
+  githubUsername: string;
 }
 
 const validate = createValidator({
@@ -58,6 +61,8 @@ const validate = createValidator({
   gender: [required()],
   email: [required(), isEmail()],
   allergies: [isValidAllergy()],
+  githubUsername: [isValidGithubUsername()],
+  linkedinId: [isValidLinkedinId()],
 });
 
 const UserSettings = (props: Props) => {
@@ -157,6 +162,18 @@ const UserSettings = (props: Props) => {
               label="Telefonnummer"
               name="phoneNumber"
               component={PhoneNumberInput.Field}
+            />
+
+            <Field
+              label="Github Brukernavn"
+              name="githubUsername"
+              component={TextInput.Field}
+            />
+
+            <Field
+              label="Linkedin Id"
+              name="linkedinId"
+              component={TextInput.Field}
             />
 
             <RadioButtonGroup label="Theme" name="selectedTheme">

@@ -38,6 +38,8 @@ const fieldTranslations = {
   username: 'Brukernavn',
   email: 'E-post',
   internalEmailAddress: 'Abakus e-post',
+  githubUsername: 'Github',
+  linkedinId: 'Linkedin',
 };
 
 const defaultFieldRender = (field, value) => (
@@ -53,10 +55,37 @@ const emailFieldRender = (field, value) => (
   </span>
 );
 
+const githubFieldRender = (field: string, value: string) => (
+  <span>
+    <Flex alignItems="center">
+      <Icon name={'logo-github'} className={styles.githubIcon} />
+      <a href={`https://github.com/${value}`}> {value}</a>
+    </Flex>
+  </span>
+);
+
+const linkedinFieldRender = (field: string, value: string) => (
+  <span>
+    <Flex alignItems="center">
+      <Icon name={'logo-linkedin'} className={styles.githubIcon} />
+      <a href={`https://www.linkedin.com/in/${value}`}>
+        {' '}
+        {value
+          .split('-')
+          .slice(0, -1)
+          .map((e) => e.charAt(0).toUpperCase() + e.slice(1))
+          .join(' ')}
+      </a>
+    </Flex>
+  </span>
+);
+
 const fieldRenders = {
   username: defaultFieldRender,
   email: emailFieldRender,
   internalEmailAddress: emailFieldRender,
+  githubUsername: githubFieldRender,
+  linkedinId: linkedinFieldRender,
 };
 type Props = {
   user: CurrentUser;
@@ -416,6 +445,7 @@ const UserProfile = (props: Props) => {
           )}
         </Flex>
         <Flex column className={styles.rightContent}>
+<<<<<<< HEAD
           <Flex justifyContent="space-between" alignItems="center">
             <h2>{user.fullName}</h2>
             <Icon
@@ -425,6 +455,9 @@ const UserProfile = (props: Props) => {
               to={`/users/${user.username}/settings/profile`}
             />
           </Flex>
+=======
+          <h2>{user.fullName}</h2>{' '}
+>>>>>>> 466c449bc (Implement github usernames on profiles.)
           <Flex wrap>
             {membershipsAsPills.map((membership) => (
               <GroupPill key={membership.id} group={membership.abakusGroup} />
