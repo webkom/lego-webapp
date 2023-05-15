@@ -9165,10 +9165,10 @@ react-overlays@5.2.1:
     uncontrollable "^7.2.1"
     warning "^4.0.3"
 
-react-phone-number-input@^3.2.22:
-  version "3.2.22"
-  resolved "https://registry.yarnpkg.com/react-phone-number-input/-/react-phone-number-input-3.2.22.tgz#fd572485b1686a9c7bf34206a3d5908841e44839"
-  integrity sha512-mcWw8xez3Q66BYVN1CPC3OEnfJoSGgcTsezss5I3AbAHYG6fyfhTh45fGwoMGBmiuuGJw9LbMqULPwW3TnIeHw==
+react-phone-number-input@^3.2.23:
+  version "3.2.23"
+  resolved "https://registry.yarnpkg.com/react-phone-number-input/-/react-phone-number-input-3.2.23.tgz#e8c02587bb80804c4044255875c2ec326ee82370"
+  integrity sha512-xhYD+8XFlU9ICEM2VeQAbAulGHAsk2Rrnt7a3/c7kls+g3HLcwo1ox7DCw/lWZOCq5DJwM79oTSMMj04iuqb3A==
   dependencies:
     classnames "^2.3.1"
     country-flag-icons "^1.5.4"
