@@ -34,7 +34,7 @@
     "@loadable/component": "^5.15.3",
     "@reduxjs/toolkit": "^1.9.5",
     "@sentry/browser": "^7.52.1",
-    "@sentry/integrations": "^7.51.0",
+    "@sentry/integrations": "^7.52.1",
     "@sentry/node": "^7.51.2",
     "@stripe/react-stripe-js": "^1.14.2",
     "@stripe/stripe-js": "^1.46.0",
