@@ -133,7 +133,7 @@
     "@types/jest": "^29.5.1",
     "@types/lodash": "^4.14.194",
     "@types/moment-timezone": "^0.5.30",
-    "@types/node": "^20.1.7",
+    "@types/node": "^20.2.0",
     "@types/react": "^18.2.6",
     "@types/react-dom": "^18.2.4",
     "@types/react-router": "^5.1.20",
