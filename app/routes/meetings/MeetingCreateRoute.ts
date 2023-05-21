@@ -26,8 +26,8 @@ const mapStateToProps = (state, props) => {
   return {
     user: props.currentUser,
     initialValues: {
-      startTime: time(17, 15),
-      endTime: time(20),
+      startTime: time(16, 15),
+      endTime: time(18),
       report: EDITOR_EMPTY,
       useMazemap: true,
     },

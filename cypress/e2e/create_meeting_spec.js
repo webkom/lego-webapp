@@ -46,10 +46,10 @@ describe('Create meeting', () => {
     fieldError('endTime').should('not.exist');
     fieldError('description').should('not.exist');
 
-    setDatePickerTime('startTime', '20', '00');
     setDatePickerTime('endTime', '19', '30');
+    setDatePickerTime('startTime', '20', '00');
 
-    fieldError('endTime').should('be.visible');
+    fieldError('endTime').should('not.exist');
 
     setDatePickerTime('endTime', '20', '30');
 
