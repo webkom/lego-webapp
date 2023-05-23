@@ -23,7 +23,7 @@
   margin-top: 3px;
   background: var(--danger-color);
   color: var(--color-absolute-white);
-  font-size: 0.9rem;
+  font-size: var(--font-size-sm);
   border-radius: var(--border-radius-md);
 }
 
@@ -33,12 +33,12 @@
   margin-top: 3px;
   background: var(--color-orange-6);
   color: var(--color-absolute-white);
-  font-size: 0.9rem;
+  font-size: var(--font-size-sm);
   border-radius: var(--border-radius-md);
 }
 
 .label {
-  font-size: var(--font-size-large);
+  font-size: var(--font-size-lg);
 }
 
 .required {

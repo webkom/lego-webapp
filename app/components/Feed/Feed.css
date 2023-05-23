@@ -1,12 +1,8 @@
 @import url('~app/styles/variables.css');
 
 .emptyState {
-  color: var(--color-gray-1);
-  font-size: 20px;
+  color: var(--secondary-font-color);
+  font-size: var(--font-size-lg);
   font-style: italic;
   font-weight: lighter;
-}
-
-html[data-theme='dark'] .emptyState {
-  color: var(--color-gray-7);
 }

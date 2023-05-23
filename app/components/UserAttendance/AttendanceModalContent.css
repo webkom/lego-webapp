@@ -72,7 +72,7 @@
   height: 40px;
   border: 1px solid var(--border-gray);
   border-radius: var(--border-radius-md);
-  font-size: 0.9rem;
+  font-size: var(--font-size-sm);
 }
 
 .navButton {

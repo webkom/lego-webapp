@@ -21,7 +21,7 @@ const Footer = ({ loggedIn }: Props) => (
           target="_blank"
           className={styles.gitHubLink}
         >
-          <span className={styles.subHeader}>LEG</span>
+          <h2 className={styles.subHeader}>LEG</h2>
           <Image alt="Octocat" className={styles.octocat} src={octocat} />
         </a>
         <p>
@@ -48,7 +48,7 @@ const Footer = ({ loggedIn }: Props) => (
         </div>
       </div>
       <div className={cx(styles.section, styles.rightSection)}>
-        <span className={styles.subHeader}>Kontakt oss</span>
+        <h2 className={styles.subHeader}>Kontakt oss</h2>
         <p>
           Abakus <br />
           Sem Sælands vei 7-9 <br />

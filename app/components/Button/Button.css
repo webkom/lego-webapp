@@ -190,7 +190,7 @@
 
 .small {
   padding: 10px 15px;
-  font-size: 0.8rem;
+  font-size: var(--font-size-sm);
 }
 
 .normal {
@@ -198,5 +198,5 @@
 }
 
 .large {
-  font-size: 1.4rem;
+  font-size: var(--font-size-lg);
 }

@@ -68,22 +68,6 @@
   }
 }
 
-.burger {
-  @media (--mobile-device) {
-    order: 4;
-  }
-}
-
-.burger i {
-  font-size: 30px;
-  line-height: 60px;
-  margin-right: 20px;
-
-  @media (--mobile-device) {
-    margin-right: 0;
-  }
-}
-
 .hideOnMobile {
   @media (--mobile-device) {
     display: none;
@@ -112,7 +96,7 @@
 
 .toggleButton {
   color: var(--lego-link-color);
-  font-size: 14px;
+  font-size: var(--font-size-sm);
 }
 
 .dropdown {
@@ -144,7 +128,7 @@
 }
 
 .navigation a {
-  font-size: 1.2rem;
+  font-size: var(--font-size-lg);
   padding: 10px 1rem;
   height: 100%;
   color: var(--lego-font-color);

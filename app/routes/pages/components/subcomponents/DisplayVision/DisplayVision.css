@@ -7,13 +7,8 @@
 }
 
 .visionTitle {
-  font-size: 1.7rem;
-  line-height: 2rem;
   text-align: center;
-  font-weight: bold;
   margin-bottom: 1rem;
-  font-family: Inter, sans-serif;
-  text-transform: uppercase;
 }
 
 .sectionLeft {
@@ -26,7 +21,6 @@
 
 @media (--mobile-device) {
   .visionTitle {
-    font-size: 30px;
     text-align: center;
     word-spacing: normal;
   }

@@ -9,7 +9,7 @@
   margin: 2px;
   transition: var(--linear-fast);
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: var(--font-size-sm);
 }
 
 .clickable {

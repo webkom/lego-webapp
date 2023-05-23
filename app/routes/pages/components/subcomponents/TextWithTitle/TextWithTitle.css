@@ -6,14 +6,14 @@
 }
 
 .boldTitle {
-  font-size: 1.2rem;
+  font-size: var(--font-size-lg);
   color: var(--lego-font-color);
   font-family: Inter, sans-serif;
   font-weight: 600;
 }
 
 .title {
-  font-size: 1.2rem;
+  font-size: var(--font-size-lg);
   line-height: 1.5rem;
   margin-bottom: 0.2rem;
 }

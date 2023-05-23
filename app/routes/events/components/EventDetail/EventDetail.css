@@ -58,7 +58,7 @@
   max-width: 120px;
   max-height: 30px;
   gap: 5px;
-  font-size: 14px;
+  font-size: var(--font-size-sm);
 }
 
 .mazemapImg {

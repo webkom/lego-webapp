@@ -115,7 +115,7 @@ export function createField(Component: ComponentType<any>, options?: Options) {
           <div
             style={{
               cursor: inlineLabel ? 'pointer' : 'default',
-              fontSize: !inlineLabel ? 'var(--font-size-large)' : 'inherit',
+              fontSize: !inlineLabel ? 'var(--font-size-lg)' : 'inherit',
             }}
             className={labelClassName}
           >

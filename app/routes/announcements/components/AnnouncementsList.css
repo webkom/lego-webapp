@@ -18,7 +18,7 @@
 }
 
 .formHeaders {
-  font-size: 18px;
+  font-size: var(--font-size-lg);
 }
 
 .recField {
@@ -39,12 +39,6 @@
   font-weight: bold;
   text-decoration: underline;
   margin-top: 5px;
-}
-
-.msg,
-.date,
-.recHeader {
-  font-size: 120%;
 }
 
 .recHeader {

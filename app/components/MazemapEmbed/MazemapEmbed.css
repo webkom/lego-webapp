@@ -1,6 +1,6 @@
 .blockingText {
   z-index: 5;
-  font-size: 1.5rem;
+  font-size: var(--font-size-lg);
   text-align: center;
   color: #111;
   position: absolute;

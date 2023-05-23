@@ -6,18 +6,16 @@ import styles from './GalleryDetailsRow.css';
 type Props = {
   gallery: Record<string, any>;
   showDescription?: boolean;
-  size?: 'small' | 'large';
+  small?: boolean;
 };
 
 const GalleryDetailsRow = ({
   gallery,
   showDescription = false,
-  size = 'large',
+  small = false,
 }: Props) => (
   <Flex className={styles.details} column>
-    <div
-      className={size === 'small' ? styles.smallDetails : styles.largeDetails}
-    >
+    <div className={small ? styles.smallDetails : undefined}>
       {gallery.event && (
         <span className={styles.detail}>
           <Link to={`/events/${gallery.event.id}`}>{gallery.event.title}</Link>

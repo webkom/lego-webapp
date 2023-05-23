@@ -59,7 +59,7 @@
 
 .left {
   text-align: center;
-  font-size: 1rem;
+  font-size: var(--font-size-md);
   width: 390px;
   color: var(--secondary-font-color);
 
@@ -71,7 +71,7 @@
 
 .leftFrontpage {
   text-align: center;
-  font-size: 1rem;
+  font-size: var(--font-size-md);
   width: 272px;
   color: var(--secondary-font-color);
 
@@ -93,7 +93,7 @@
 .itemTitle {
   margin: 0;
   height: 40px;
-  font-size: 1.2rem;
+  font-size: var(--font-size-lg);
   word-break: break-word;
   overflow: hidden;
 

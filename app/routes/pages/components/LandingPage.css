@@ -38,39 +38,26 @@ div > .locationContainerItem {
 }
 
 .title {
-  font-size: 1.2rem;
-  line-height: 1.2rem;
+  font-size: var(--font-size-lg);
   margin-top: 0.2rem;
   margin-bottom: 0.4rem;
 }
 
 .abakusInNumbers {
   display: none;
-  color: var(--lego-font-color);
-  font-size: 1.7rem;
   text-align: center;
-  font-family: Inter, sans-serif;
-  font-weight: 600;
-  text-transform: uppercase;
 }
 
 .contactTitle {
-  color: var(--lego-font-color);
-  font-size: 1.7rem;
   text-align: center;
-  font-family: Inter, sans-serif;
-  font-weight: 600;
-  text-transform: uppercase;
   margin: 3rem auto 0;
 }
 
 .contactUsLink {
   color: var(--lego-link-color);
-  font-weight: 600;
-  text-transform: uppercase;
   margin-left: auto;
   margin-right: 1.5em;
-  font-size: 1.3rem;
+  font-size: var(--font-size-lg);
   position: absolute;
   right: 0;
   top: 0;
@@ -183,7 +170,7 @@ div > .locationContainerItem {
   .contactUsLink {
     margin-bottom: 2px;
     top: 0.5em;
-    font-size: 1.2em;
+    font-size: var(--font-size-lg);
   }
 
   .pageContainer {

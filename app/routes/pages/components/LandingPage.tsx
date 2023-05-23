@@ -69,7 +69,7 @@ const LandingPage: PageRenderer = ({ loggedIn }) => {
       </h2>
 
       <Flex className={styles.emailContainer}>
-        <Icon name="mail" size={80} className={styles.emailIcon} />
+        <Icon name="mail" size={40} className={styles.emailIcon} />
         <div className={styles.emails}>
           <h3 className={styles.title}>E-post</h3>
           {loggedIn && (
@@ -101,7 +101,7 @@ const LandingPage: PageRenderer = ({ loggedIn }) => {
       </Flex>
 
       <Flex className={styles.socialMediaContainer}>
-        <Icon name="people" size={80} className={styles.emailIcon} />
+        <Icon name="people" size={40} className={styles.emailIcon} />
         <div className={styles.emails}>
           <h3 className={styles.title}>Sosiale medier</h3>
           <div>
@@ -165,7 +165,7 @@ const LandingPage: PageRenderer = ({ loggedIn }) => {
 
       <Flex className={styles.locationContainer}>
         <div className={styles.houseIcon}>
-          <Icon name="home" size={80} />
+          <Icon name="home" size={40} />
         </div>
         <Flex wrap>
           <div className={styles.locationContainerItem}>
@@ -194,7 +194,7 @@ const LandingPage: PageRenderer = ({ loggedIn }) => {
       </Flex>
 
       <Flex alignItems="center">
-        <Icon name="briefcase" size={80} className={styles.organizationIcon} />
+        <Icon name="briefcase" size={40} className={styles.organizationIcon} />
         <div className={styles.organization}>
           <h3 className={styles.title}>Organisasjonsnummer</h3>
           <span>{info.organizationNo}</span>

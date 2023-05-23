@@ -151,7 +151,7 @@ const JoblistingsRightNav = (props: Props) => {
           </Link>
         )}
 
-        <h3 className={styles.rightHeader}>Sorter etter:</h3>
+        <h3 className={styles.rightHeader}>Sorter etter</h3>
         <RadioButton
           name="sort"
           id="deadline"
@@ -189,7 +189,7 @@ const JoblistingsRightNav = (props: Props) => {
           }}
         />
 
-        <h3 className={styles.rightHeader}>Klassetrinn:</h3>
+        <h3 className={styles.rightHeader}>Klassetrinn</h3>
         {['1', '2', '3', '4', '5'].map((element) => (
           <FilterLink
             key={element}
@@ -200,7 +200,7 @@ const JoblistingsRightNav = (props: Props) => {
             history={props.history}
           />
         ))}
-        <h3 className={styles.rightHeader}>Jobbtype:</h3>
+        <h3 className={styles.rightHeader}>Jobbtype</h3>
         {jobTypes.map((el) => {
           return (
             <FilterLink
@@ -213,7 +213,7 @@ const JoblistingsRightNav = (props: Props) => {
             />
           );
         })}
-        <h3 className={styles.rightHeader}>Sted:</h3>
+        <h3 className={styles.rightHeader}>Sted</h3>
         {['Oslo', 'Trondheim', 'Bergen', 'Tromsø', 'Annet'].map((element) => (
           <FilterLink
             key={element}

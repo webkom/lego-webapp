@@ -7,10 +7,6 @@ span.detail + span.detail::before {
   content: '•';
 }
 
-.largeDetails {
-  font-size: 18px;
-}
-
 .smallDetails {
-  font-size: 14px;
+  font-size: var(--font-size-sm);
 }

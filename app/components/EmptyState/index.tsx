@@ -19,7 +19,7 @@ type Props = {
  */
 const EmptyState = ({ icon, size = 88, className, children }: Props) => (
   <div className={cx(styles.container, icon && styles.centered, className)}>
-    {icon && <Icon name={icon} className={styles.icon} size={size} />}
+    {icon && <Icon name={icon} size={size} />}
     {children}
   </div>
 );

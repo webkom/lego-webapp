@@ -4,7 +4,7 @@
   height: 100vh;
   width: auto;
   max-width: 1600px;
-  font-size: 1.3rem;
+  font-size: var(--font-size-lg);
   margin: 0 auto;
 }
 
@@ -18,12 +18,6 @@
 
 .leftContainer {
   width: 60%;
-}
-
-.title {
-  font-weight: 800;
-  font-size: 2.3rem;
-  line-height: 29px;
 }
 
 .description {
@@ -60,12 +54,7 @@
 @media only screen and (width <= 500px) {
   .contentContainer {
     align-items: normal;
-    font-size: 1rem;
-  }
-
-  .title {
-    font-size: 1.5rem;
-    line-height: 29px;
+    font-size: var(--font-size-md);
   }
 
   .description {
@@ -81,7 +70,7 @@
 @media only screen and (width <= 400px) {
   .contentContainer {
     align-items: normal;
-    font-size: 0.85rem;
+    font-size: var(--font-size-sm);
   }
 
   .description {

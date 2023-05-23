@@ -62,7 +62,7 @@ const GalleryPictureEditModal = ({
               <h5 className={styles.header}>
                 <Link to={`/photos/${gallery.id}`}>{gallery.title}</Link>
               </h5>
-              <GalleryDetailsRow size="small" gallery={gallery} />
+              <GalleryDetailsRow small gallery={gallery} />
             </Flex>
           </Flex>
         </Flex>

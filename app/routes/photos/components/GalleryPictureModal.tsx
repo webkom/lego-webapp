@@ -255,7 +255,7 @@ export default class GalleryPictureModal extends Component<Props, State> {
 
                 <Flex column justifyContent="space-around">
                   <Link to={`/photos/${gallery.id}`}>{gallery.title}</Link>
-                  <GalleryDetailsRow size="small" gallery={gallery} />
+                  <GalleryDetailsRow small gallery={gallery} />
                 </Flex>
               </Flex>
 

@@ -2,13 +2,13 @@
 
 .counter {
   text-align: center;
-  font-size: 20px;
+  font-size: var(--font-size-lg);
   flex-direction: column;
   color: var(--secondary-font-color);
 }
 
 .attendeeStatistics {
-  font-size: 16px;
+  font-size: var(--font-size-md);
   color: var(--secondary-font-color);
   padding-left: 15px;
   float: right;

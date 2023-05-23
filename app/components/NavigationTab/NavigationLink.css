@@ -1,6 +1,6 @@
 .link {
   display: inline;
-  font-size: 20px;
+  font-size: var(--font-size-lg);
   margin-right: 15px;
   border-bottom: 2px solid transparent;
   transition-property: color, border-bottom;

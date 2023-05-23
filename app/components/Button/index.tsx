@@ -38,14 +38,6 @@ type Props = {
   ghost?: boolean;
 };
 
-/**
- * A basic Button component
- *
- * ### Example Usage
- * ```js
- * <Button size='large' submit>Save</Button>
- * ```
- */
 function Button({
   children,
   className,

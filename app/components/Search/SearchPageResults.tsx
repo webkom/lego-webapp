@@ -87,22 +87,13 @@ function SearchPageResults({ onSelect, results, selectedIndex, query }: Props) {
   if (results.length === 0) {
     return (
       <EmptyState icon="glasses-outline">
-        <h1>
-          {query ? (
-            <span>
-              Fant ingen treff på søket{' '}
-              <em
-                style={{
-                  fontWeight: 100,
-                }}
-              >
-                {query}
-              </em>
-            </span>
-          ) : (
-            <span>Søk i vei!</span>
-          )}
-        </h1>
+        {query ? (
+          <span>
+            Fant ingen treff på søket <em>{query}</em>
+          </span>
+        ) : (
+          <span>Søk i vei!</span>
+        )}
       </EmptyState>
     );
   }

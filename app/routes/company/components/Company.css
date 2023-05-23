@@ -1,7 +1,7 @@
 @import url('~app/styles/variables.css');
 
 .sectionHeader {
-  font-size: 20px;
+  font-size: var(--font-size-lg);
   margin-top: 20px;
   border-bottom: 1px solid var(--border-gray);
   margin-bottom: 20px;

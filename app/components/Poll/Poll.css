@@ -9,7 +9,7 @@
 
 .pollTable {
   width: 100%;
-  font-size: 14px;
+  font-size: var(--font-size-sm);
 }
 
 .pollTable td {
@@ -72,7 +72,6 @@
 .voteButton {
   width: 100%;
   margin: 1px !important;
-  font-size: 15px;
   max-width: 400px;
 }
 

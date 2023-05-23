@@ -47,7 +47,6 @@
   display: flex;
   align-items: center;
   margin-bottom: 10px;
-  font-size: 18px;
   width: inherit;
 }
 
@@ -64,7 +63,6 @@
 .bullet {
   color: var(--secondary-font-color);
   padding: 0 8px;
-  font-size: 15px;
 
   @media (--mobile-device) {
     display: none;
@@ -73,19 +71,17 @@
 
 .timestamp {
   color: var(--secondary-font-color);
-  font-size: 15px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 
   @media (--mobile-device) {
     padding: none;
-    font-size: 10px;
+    font-size: var(--font-size-sm);
   }
 }
 
 .text {
-  font-size: 1.1rem;
   margin: 0;
 }
 

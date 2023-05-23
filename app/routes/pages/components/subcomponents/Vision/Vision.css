@@ -1,7 +1,7 @@
 @import url('~app/styles/variables.css');
 
 .title {
-  font-size: 1.3rem;
+  font-size: var(--font-size-lg);
   color: var(--lego-red-color);
   font-family: Inter, sans-serif;
   font-weight: 600;
@@ -12,7 +12,7 @@
 }
 
 .summary {
-  font-size: 1.1rem;
+  font-size: var(--font-size-lg);
 }
 
 .summaryLeft {

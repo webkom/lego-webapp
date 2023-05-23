@@ -16,7 +16,7 @@
 }
 
 .pageList a {
-  font-size: 16px;
+  font-size: var(--font-size-md);
   color: var(--lego-font-color);
 }
 
@@ -25,7 +25,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  font-size: var(--font-size-large);
+  font-size: var(--font-size-lg);
   font-family: Inter, sans-serif;
   font-weight: 500;
   color: var(--lego-font-color);

@@ -52,10 +52,10 @@
   padding: 1px 7px;
   border: 1px solid transparent;
   border-radius: var(--border-radius-lg);
-  font-size: 0.8em;
+  font-size: var(--font-size-xs);
   font-weight: 500;
   font-variant-numeric: tabular-nums;
-  line-height: 18px;
+  line-height: 1.5;
   transition: var(--easing-fast);
   transition-property: color, background, border-color, box-shadow, opacity;
 }

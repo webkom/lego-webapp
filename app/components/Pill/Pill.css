@@ -4,7 +4,7 @@
   border-radius: var(--border-radius-sm);
   text-transform: uppercase;
   text-align: center;
-  font-size: 0.9rem;
+  font-size: var(--font-size-sm);
   font-weight: 600;
   color: var(--lego-font-color);
 }

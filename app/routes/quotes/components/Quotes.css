@@ -131,7 +131,7 @@
 }
 
 .quoteSource {
-  font-size: 20px;
+  font-size: var(--font-size-lg);
   order: 1;
   margin-top: -5px;
   width: 70%;
@@ -139,7 +139,7 @@
 }
 
 .quoteSource i {
-  font-size: 20px !important;
+  font-size: var(--font-size-lg) !important;
 }
 
 .bottomRow {
@@ -162,14 +162,14 @@
 
 .quoteDate {
   color: var(--secondary-font-color);
-  font-size: 13px;
+  font-size: var(--font-size-sm);
   order: 1;
   margin-top: 3px;
 }
 
 .dropdownIcon {
   color: var(--lego-link-color);
-  font-size: 18px;
+  font-size: var(--font-size-lg);
   margin: 0;
   padding: 0;
 }
@@ -231,7 +231,7 @@
     order: 99;
     border: 0;
     margin: 0 0 0 100px;
-    font-size: 20px;
+    font-size: var(--font-size-lg);
   }
 
   .quoteReactions {
@@ -248,7 +248,7 @@
   margin-right: 0;
   margin-left: auto;
   margin-bottom: 30px;
-  font-size: 18px;
+  font-size: var(--font-size-lg);
 
   @media (--mobile-device) {
     margin-left: 0;
