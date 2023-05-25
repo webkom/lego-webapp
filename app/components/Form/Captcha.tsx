@@ -1,57 +1,40 @@
 import cx from 'classnames';
-import { Component } from 'react';
+import { useEffect, useState } from 'react';
 import Turnstile from 'react-turnstile';
 import config from 'app/config';
-import { getTheme } from 'app/utils/themeUtils';
+import { useTheme } from 'app/utils/themeUtils';
+import usePrevious from 'app/utils/usePrevious';
 import styles from './Captcha.css';
 import { createField } from './Field';
-// eslint-disable-next-line import/no-named-as-default
 
 type Props = {
   className?: string;
-  onChange?: void;
+  onChange?: (token: string) => void;
   value: string;
 };
 
-class Captcha extends Component<Props> {
-  captcha:
-    | {
-        reset: () => void;
-        execute: () => void;
-      }
-    | null
-    | undefined;
+const Captcha = ({ className, onChange = () => {}, value }: Props) => {
+  const theme = useTheme();
+  const [captchaKey, setCaptchaKey] = useState(0);
 
-  // eslint-disable-next-line
-  componentWillReceiveProps(nextProps: Props) {
-    if (nextProps.value === '') {
-      this.captcha && this.captcha.reset();
-    }
-  }
+  // Reset the captcha when the form is reset
+  const prevValue = usePrevious(value);
+  useEffect(() => {
+    if (value === '' && prevValue !== '') setCaptchaKey(captchaKey + 1);
+  }, [prevValue, value, captchaKey]);
 
-  componentDidMount() {
-    if (config.skipCaptcha) {
-      this.captcha && this.captcha.execute();
-    }
-  }
+  return (
+    <div className={cx(className, styles.captchaContainer)}>
+      <Turnstile
+        key={captchaKey}
+        sitekey={config.captchaKey}
+        onVerify={onChange}
+        theme={theme}
+      />
+    </div>
+  );
+};
 
-  render() {
-    const { className, onChange } = this.props;
-    return (
-      <div className={cx(className, styles.captchaContainer)}>
-        <Turnstile
-          ref={(ref) => {
-            this.captcha = ref;
-          }}
-          sitekey={config.captchaKey}
-          onVerify={onChange}
-          theme={getTheme()}
-        />
-      </div>
-    );
-  }
-
-  static Field = createField(Captcha);
-}
+Captcha.Field = createField(Captcha);
 
 export default Captcha;

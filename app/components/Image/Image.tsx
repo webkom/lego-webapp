@@ -1,6 +1,6 @@
 import cx from 'classnames';
 import { useEffect, useState } from 'react';
-import { getTheme } from 'app/utils/themeUtils';
+import { useTheme } from 'app/utils/themeUtils';
 import styles from './Image.css';
 import type { ImgHTMLAttributes, StyleHTMLAttributes } from 'react';
 
@@ -26,31 +26,10 @@ const ImageComponent = (props: Props) => {
   const [loadEnd, setLoadEnd] = useState<number>(0);
 
   const { src, className, alt = 'image', style, ...rest } = props;
-  const [themedSource, setThemedSource] = useState<string>(
-    props.darkThemeSource
-      ? getTheme() === 'light'
-        ? src
-        : props.darkThemeSource
-      : src
-  );
 
-  useEffect(() => {
-    const onThemeChange = () => {
-      setThemedSource(
-        props.darkThemeSource
-          ? getTheme() === 'light'
-            ? src
-            : props.darkThemeSource
-          : src
-      );
-    };
-
-    window.addEventListener('themeChange', onThemeChange);
-
-    return () => {
-      window.removeEventListener('themeChange', onThemeChange);
-    };
-  }, [src, props.darkThemeSource]);
+  const theme = useTheme();
+  const themedSource =
+    props.darkThemeSource && theme === 'dark' ? props.darkThemeSource : src;
 
   const isProgressive = !!props.placeholder;
   useEffect(() => {

@@ -48,7 +48,11 @@ const defaultProps = {
   registration: null,
   event: EVENT,
 };
-const store = configureStore([])({});
+const store = configureStore([])({
+  theme: {
+    theme: 'light',
+  },
+});
 
 function renderJoinEventForm(props = {}) {
   return mount(
