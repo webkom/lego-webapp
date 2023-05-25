@@ -1,3 +1,4 @@
+import { produce } from 'immer';
 import Select from 'react-select';
 import DistributionBarChart from 'app/components/Chart/BarChart';
 import ChartLabel from 'app/components/Chart/ChartLabel';
@@ -87,8 +88,7 @@ const Results = ({
   ];
 
   const switchGraph = (id, index, selectedType) => {
-    const newQuestions = survey.questions;
-    const questionToUpdate = newQuestions.find(
+    const questionToUpdate = survey.questions.find(
       (question) => question.id === id
     );
 
@@ -99,12 +99,13 @@ const Results = ({
       return;
     }
 
-    questionToUpdate.displayType =
-      questionToUpdate.displayType === 'pie_chart' ? 'bar_chart' : 'pie_chart';
-    const qIndex = newQuestions.indexOf(
-      newQuestions.find((question) => question.id === id)
-    );
-    newQuestions[qIndex] = questionToUpdate;
+    const newQuestion = produce(questionToUpdate, (draft) => {
+      draft.displayType = selectedType.value;
+    });
+    const qIndex = survey.questions.indexOf(questionToUpdate);
+    const newQuestions = produce(survey.questions, (draft) => {
+      draft[qIndex] = newQuestion;
+    });
     const newSurvey = { ...survey, questions: newQuestions };
     editSurvey &&
       editSurvey({ ...newSurvey, surveyId: survey.id, event: survey.event.id });
