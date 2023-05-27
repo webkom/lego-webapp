@@ -134,6 +134,11 @@ module.exports = (env, argv) => {
         lodash: 'node_modules/lodash-es',
         'moment-timezone':
           'moment-timezone/builds/moment-timezone-with-data-10-year-range.min',
+        ...(!isProduction && {
+          '@webkom/lego-bricks/dist/style.css':
+            'packages/lego-bricks/src/global.css',
+          '@webkom/lego-bricks': 'packages/lego-bricks/src',
+        }),
       },
       fallback: {
         util: require.resolve('util/'),
@@ -164,7 +169,11 @@ module.exports = (env, argv) => {
       rules: [
         {
           test: /\.[tj]sx?$/,
-          include: [path.resolve(root, 'app'), path.resolve(root, 'config')],
+          include: [
+            path.resolve(root, 'app'),
+            path.resolve(root, 'config'),
+            path.resolve(root, 'packages'),
+          ],
           use: [
             {
               loader: require.resolve('babel-loader'),
@@ -178,7 +187,7 @@ module.exports = (env, argv) => {
         },
         {
           test: /\.css$/,
-          include: /node_modules/,
+          include: /node_modules|packages/,
           use: [
             isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
             'css-loader',
@@ -186,7 +195,7 @@ module.exports = (env, argv) => {
         },
         {
           test: /\.css$/,
-          exclude: /node_modules/,
+          exclude: /node_modules|packages/,
           use: [
             isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
             {

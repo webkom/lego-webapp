@@ -15,6 +15,7 @@ styleguide
 *.swp
 package-lock.json
 .idea
+*.iml
 report.*.json
 mazemap/mazemap.min.*
 

@@ -1,0 +1,23 @@
+{
+  "files": ["./src/index.ts"],
+  "compilerOptions": {
+    "target": "ESNext",
+    "jsx": "react-jsx",
+    "module": "commonjs",
+    "lib": ["ES2019", "DOM"],
+    "allowJs": false,
+    "checkJs": false,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "downlevelIteration": true,
+
+    "strict": true,
+
+    "esModuleInterop": true,
+    "inlineSources": true,
+    "isolatedModules": true
+  }
+}

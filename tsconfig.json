@@ -6,7 +6,9 @@
     "moduleResolution": "node",
     "baseUrl": "./",
     "paths": {
-      "app/*": ["app/*"]
+      "app/*": ["app/*"],
+      // alias to allow for "go to definition" on local packages
+      "@webkom/lego-bricks": ["packages/lego-bricks/src"]
     },
     "allowJs": true,
     "sourceMap": true,
@@ -27,5 +29,5 @@
       }
     ]
   },
-  "include": ["app/**/*", "server/**/*"]
+  "include": ["app/**/*", "server/**/*", "packages/*/src/**/*"]
 }

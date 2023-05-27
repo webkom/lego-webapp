@@ -14,6 +14,7 @@ import 'app/assets/icon-256x256.png';
 import 'app/assets/icon-384x384.png';
 import 'app/assets/icon-512x512.png';
 import 'app/assets/opensearch.xml';
+import '@webkom/lego-bricks/dist/style.css';
 import * as Sentry from '@sentry/browser';
 import cookie from 'js-cookie';
 import moment from 'moment-timezone';
