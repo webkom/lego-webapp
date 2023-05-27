@@ -184,23 +184,6 @@ const MeetingEditor = ({
                 component={TextArea.Field}
               />
               <div className={styles.sideBySideBoxes}>
-                <FormSpy
-                  subscription={{ values: true }}
-                  onChange={({ values }) => {
-                    const startTime = moment(values.startTime);
-                    const endTime = moment(values.endTime);
-                    if (endTime.isBefore(startTime)) {
-                      form.change(
-                        'endTime',
-                        startTime
-                          .clone()
-                          .add(1, 'hour')
-                          .add(45, 'minutes')
-                          .toISOString()
-                      );
-                    }
-                  }}
-                />
                 <Field
                   name="startTime"
                   label="Starttidspunkt"
