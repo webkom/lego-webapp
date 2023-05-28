@@ -1,7 +1,7 @@
+import { Button } from '@webkom/lego-bricks';
 import { FORM_ERROR } from 'final-form';
 import { Field } from 'react-final-form';
 import { login } from 'app/actions/UserActions';
-import Button from 'app/components/Button';
 import { Form } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import TextInput from 'app/components/Form/TextInput';

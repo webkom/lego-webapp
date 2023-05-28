@@ -1,6 +1,5 @@
-import { LoadingIndicator } from '@webkom/lego-bricks';
+import { LoadingIndicator, Button } from '@webkom/lego-bricks';
 import { Field } from 'redux-form';
-import Button from 'app/components/Button';
 import { Content } from 'app/components/Content';
 import {
   TextEditor,

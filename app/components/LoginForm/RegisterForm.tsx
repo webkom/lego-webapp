@@ -1,10 +1,10 @@
+import { Button } from '@webkom/lego-bricks';
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { reduxForm, Field, SubmissionError } from 'redux-form';
 import { sendRegistrationEmail } from 'app/actions/UserActions';
 import { createValidator, required, isEmail } from 'app/utils/validation';
-import Button from '../Button';
 import { Form, TextInput, Captcha } from '../Form';
 import type { FormProps } from 'redux-form';
 

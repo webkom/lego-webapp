@@ -1,6 +1,6 @@
+import { Button } from '@webkom/lego-bricks';
 import { Component } from 'react';
 import { Field } from 'redux-form';
-import Button from 'app/components/Button';
 import { Content } from 'app/components/Content';
 import { TextInput, RadioButton, RadioButtonGroup } from 'app/components/Form';
 import type { CompanySemesterContactedStatus } from 'app/models';

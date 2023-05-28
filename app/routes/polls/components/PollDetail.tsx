@@ -1,6 +1,6 @@
+import { Button } from '@webkom/lego-bricks';
 import { Component } from 'react';
 import { Helmet } from 'react-helmet-async';
-import Button from 'app/components/Button';
 import { Content } from 'app/components/Content';
 import Icon from 'app/components/Icon';
 import NavigationTab from 'app/components/NavigationTab';

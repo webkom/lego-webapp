@@ -1,7 +1,6 @@
-import { LoadingIndicator } from '@webkom/lego-bricks';
+import { LoadingIndicator, Button } from '@webkom/lego-bricks';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
-import Button from 'app/components/Button';
 import {
   Content,
   ContentSection,

@@ -1,9 +1,8 @@
-import { LoadingIndicator } from '@webkom/lego-bricks';
+import { LoadingIndicator, Button } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { debounce, isEmpty, get } from 'lodash';
 import { Component } from 'react';
 import InfiniteScroll from 'react-infinite-scroller';
-import Button from 'app/components/Button';
 import Dropdown from 'app/components/Dropdown';
 import { TextInput, CheckBox, RadioButton } from 'app/components/Form';
 import Icon from 'app/components/Icon';

@@ -1,5 +1,5 @@
+import { Button } from '@webkom/lego-bricks';
 import { sortBy } from 'lodash';
-import Button from 'app/components/Button';
 import Icon from 'app/components/Icon';
 import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import NavigationTab from 'app/components/NavigationTab';

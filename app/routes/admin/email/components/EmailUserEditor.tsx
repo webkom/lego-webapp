@@ -1,5 +1,5 @@
+import { Button } from '@webkom/lego-bricks';
 import { reduxForm, Form, Field } from 'redux-form';
-import Button from 'app/components/Button';
 import { TextInput, SelectInput, CheckBox } from 'app/components/Form';
 import { createValidator, required } from 'app/utils/validation';
 

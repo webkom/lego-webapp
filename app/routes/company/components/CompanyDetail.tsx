@@ -1,8 +1,7 @@
-import { LoadingIndicator } from '@webkom/lego-bricks';
+import { LoadingIndicator, Button } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import Button from 'app/components/Button';
 import CollapsibleDisplayContent from 'app/components/CollapsibleDisplayContent';
 import {
   Content,

@@ -1,8 +1,7 @@
-import { LoadingIndicator } from '@webkom/lego-bricks';
+import { LoadingIndicator, Button } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
-import Button from 'app/components/Button';
 import Card from 'app/components/Card';
 import CommentView from 'app/components/Comments/CommentView';
 import { Content } from 'app/components/Content';

@@ -1,6 +1,6 @@
+import { Button } from '@webkom/lego-bricks';
 import { Link } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form';
-import Button from 'app/components/Button';
 import { Content } from 'app/components/Content';
 import { Form, TextArea, SelectInput, CheckBox } from 'app/components/Form';
 import Icon from 'app/components/Icon';

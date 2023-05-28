@@ -1,8 +1,8 @@
+import { Button } from '@webkom/lego-bricks';
 import arrayMutators from 'final-form-arrays';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { Helmet } from 'react-helmet-async';
-import Button from 'app/components/Button';
 import { Content } from 'app/components/Content';
 import {
   TextInput,

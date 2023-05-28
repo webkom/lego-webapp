@@ -1,6 +1,6 @@
+import { Button } from '@webkom/lego-bricks';
 import { Component } from 'react';
 import { Helmet } from 'react-helmet-async';
-import Button from 'app/components/Button';
 import { Content } from 'app/components/Content';
 import EmptyState from 'app/components/EmptyState';
 import type { Photo } from 'app/components/Gallery';

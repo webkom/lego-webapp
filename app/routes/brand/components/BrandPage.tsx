@@ -1,6 +1,6 @@
+import { Button } from '@webkom/lego-bricks';
 import logosDonts from 'app/assets/logos-donts.png';
 import logosDos from 'app/assets/logos-dos.png';
-import Button from 'app/components/Button';
 import { Content } from 'app/components/Content';
 import Icon from 'app/components/Icon';
 import { Image } from 'app/components/Image';

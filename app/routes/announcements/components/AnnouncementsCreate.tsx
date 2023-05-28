@@ -1,7 +1,7 @@
+import { Button } from '@webkom/lego-bricks';
 import { Helmet } from 'react-helmet-async';
 import { connect } from 'react-redux';
 import { reduxForm, Field, reset } from 'redux-form';
-import Button from 'app/components/Button';
 import Card from 'app/components/Card';
 import { ContentMain } from 'app/components/Content';
 import { Form, SelectInput, TextArea } from 'app/components/Form';

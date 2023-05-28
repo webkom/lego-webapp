@@ -1,9 +1,8 @@
-import { LoadingIndicator } from '@webkom/lego-bricks';
+import { LoadingIndicator, Button } from '@webkom/lego-bricks';
 import FileSaver from 'file-saver';
 import JsZip from 'jszip';
 import { Component, cloneElement } from 'react';
 import { Helmet } from 'react-helmet-async';
-import Button from 'app/components/Button';
 import { Content } from 'app/components/Content';
 import EmptyState from 'app/components/EmptyState';
 import Gallery from 'app/components/Gallery';

@@ -1,9 +1,9 @@
+import { Button } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { get } from 'lodash';
 import { useCallback, useRef, useState } from 'react';
 import { QrReader } from 'react-qr-reader';
 import goodSound from 'app/assets/good-sound.mp3';
-import Button from 'app/components/Button';
 import Icon from 'app/components/Icon';
 import Modal from 'app/components/Modal';
 import SearchPage from 'app/components/Search/SearchPage';

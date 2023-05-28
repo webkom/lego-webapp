@@ -1,8 +1,8 @@
+import { Button } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { flatMap } from 'lodash';
 import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import Button from 'app/components/Button';
 import { TextInput } from 'app/components/Form';
 import { ProfilePicture } from 'app/components/Image';
 import Flex from 'app/components/Layout/Flex';

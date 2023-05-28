@@ -1,7 +1,7 @@
+import { Button } from '@webkom/lego-bricks';
 import { Component } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
-import Button from 'app/components/Button';
 import { Content, ContentSection, ContentMain } from 'app/components/Content';
 import Time from 'app/components/Time';
 import type { ActionGrant } from 'app/models';

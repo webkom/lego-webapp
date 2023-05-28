@@ -1,8 +1,7 @@
-import { LoadingIndicator } from '@webkom/lego-bricks';
+import { LoadingIndicator, Button } from '@webkom/lego-bricks';
 import { get } from 'lodash';
 import { Component } from 'react';
 import { Field, Fields } from 'redux-form';
-import Button from 'app/components/Button';
 import { Content } from 'app/components/Content';
 import {
   EditorField,

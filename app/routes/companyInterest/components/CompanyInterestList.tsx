@@ -1,7 +1,7 @@
+import { Button } from '@webkom/lego-bricks';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Select from 'react-select';
-import Button from 'app/components/Button';
 import { Content } from 'app/components/Content';
 import { selectTheme, selectStyles } from 'app/components/Form/SelectInput';
 import Icon from 'app/components/Icon';

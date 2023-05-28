@@ -1,10 +1,9 @@
-import { LoadingIndicator } from '@webkom/lego-bricks';
+import { LoadingIndicator, Button } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { useState, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import InfiniteScroll from 'react-infinite-scroller';
 import { Link } from 'react-router-dom';
-import Button from 'app/components/Button';
 import Card from 'app/components/Card';
 import Icon from 'app/components/Icon';
 import { Image } from 'app/components/Image';

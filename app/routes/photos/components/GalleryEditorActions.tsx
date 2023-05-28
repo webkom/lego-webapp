@@ -1,6 +1,6 @@
+import { Button } from '@webkom/lego-bricks';
 import { Collapse } from 'react-collapse';
 import Sticky from 'react-stickynode';
-import Button from 'app/components/Button';
 import Card from 'app/components/Card';
 import { Flex } from 'app/components/Layout';
 import styles from './Overview.css';

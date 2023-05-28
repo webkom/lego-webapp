@@ -1,5 +1,5 @@
+import { Button } from '@webkom/lego-bricks';
 import { Field } from 'react-final-form';
-import Button from 'app/components/Button';
 import {
   Form,
   TextInput,

@@ -1,7 +1,7 @@
+import { Button } from '@webkom/lego-bricks';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { Field, SubmissionError } from 'redux-form';
-import Button from 'app/components/Button';
 import { Content, ContentHeader } from 'app/components/Content';
 import { TextArea, RadioButton, CheckBox, legoForm } from 'app/components/Form';
 import type { SurveyEntity } from 'app/reducers/surveys';

@@ -1,4 +1,4 @@
-import Button from 'app/components/Button';
+import { Button } from '@webkom/lego-bricks';
 import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import { FormatTime } from 'app/components/Time';
 import type { Penalty } from 'app/models';

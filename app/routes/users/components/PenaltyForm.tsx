@@ -1,10 +1,10 @@
+import { Button } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { Field } from 'redux-form';
 import { addPenalty } from 'app/actions/UserActions';
-import Button from 'app/components/Button';
 import {
   legoForm,
   Form,

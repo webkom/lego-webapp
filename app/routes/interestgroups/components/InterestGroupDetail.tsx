@@ -1,7 +1,7 @@
+import { Button } from '@webkom/lego-bricks';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import AnnouncementInLine from 'app/components/AnnouncementInLine';
-import Button from 'app/components/Button';
 import {
   Content,
   ContentSection,

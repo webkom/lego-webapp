@@ -1,6 +1,5 @@
-import { LoadingIndicator } from '@webkom/lego-bricks';
+import { LoadingIndicator, Button } from '@webkom/lego-bricks';
 import { Component } from 'react';
-import Button from 'app/components/Button';
 import Icon from 'app/components/Icon';
 import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import FileUpload from 'app/components/Upload/FileUpload';
