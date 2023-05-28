@@ -6,6 +6,7 @@
 
 .root {
   composes: contentContainer from '~app/styles/utilities.css';
+  margin-top: 12px;
 }
 
 .header {

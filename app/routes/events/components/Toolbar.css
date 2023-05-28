@@ -1,48 +1,70 @@
 @import url('~app/styles/variables.css');
 
 .root {
-  display: grid;
-  grid-template: 'time list calender create' 1fr / 1fr 1fr 1fr 1fr;
-  white-space: nowrap;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
   margin-bottom: 20px;
+}
 
-  @media (--mobile-device) {
-    grid-template:
-      'time create'
-      'list calender';
-  }
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
 }
 
 .create {
-  grid-area: create;
+  margin-top: 2px;
+}
+
+.picker {
   display: flex;
-  justify-content: flex-end;
+  flex-direction: row;
+  justify-self: flex-end;
+  align-self: flex-end;
   align-items: center;
+  margin-bottom: 8px;
+  flex-wrap: nowrap;
 }
 
-.list {
-  grid-area: list;
-}
-
-.calender {
-  grid-area: calender;
+.title {
+  font-size: 24px;
+  justify-self: start;
 }
 
 .pickerItem {
   text-align: center;
   color: var(--lego-font-color);
-  padding: 5px 20px;
+  padding: 5px 5px;
   font-size: 20px;
-  border-bottom: 1px solid var(--border-gray);
   transition: all var(--easing-medium);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.pickerItem::after {
+  content: '';
+  height: 4px;
+  width: 4px;
+  background-color: transparent;
+  border-radius: 100%;
+  margin-top: 5px;
 }
 
 .active {
   font-weight: 600;
-  border-bottom: 1px solid var(--color-gray-5);
 }
 
-.timeNow {
-  font-size: 18px;
-  color: var(--secondary-font-color);
+.active::after {
+  content: '';
+  height: 4px;
+  width: 4px;
+  background-color: var(--lego-font-color);
+  border-radius: 100%;
+  margin-top: 5px;
 }

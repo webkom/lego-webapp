@@ -228,14 +228,6 @@ class EventList extends Component<EventListProps, State> {
               onChange={() => this.handleFilterEventTypeChange('showOther')}
             />
           </div>
-          <Icon
-            name="funnel-outline"
-            size={25}
-            style={{
-              marginRight: '5px',
-              marginLeft: '10px',
-            }}
-          />
           <Select
             name="form-field-name"
             value={this.state.selectedOption}

@@ -57,6 +57,7 @@ const FilterLink = ({
       value={filters[type].includes(value)}
       onChange={handleChange}
       readOnly
+      className={styles.filterCheckbox}
     />
   );
 };
@@ -88,12 +89,15 @@ const JoblistingsRightNav = (props: Props) => {
     jobTypes: [],
     workplaces: [],
   });
+
   const [order, setOrder] = useState<Order>({
     deadline: true,
     company: false,
     createdAt: false,
   });
+
   const [displayOptions, setDisplayOptions] = useState<boolean>(true);
+
   useEffect(() => {
     const query = props.query;
     setFilters({
@@ -126,18 +130,19 @@ const JoblistingsRightNav = (props: Props) => {
       <Button
         flat
         onClick={() => setDisplayOptions(!displayOptions)}
-        className={styles.optionsTitle}
+        className={styles.mobileTitle}
       >
-        <h2>
-          Valg
+        <h3>
+          Filtre
           <i
             className={cx(
               'fa fa-caret-down',
               !displayOptions && styles.rotateCaret
             )}
           />
-        </h2>
+        </h3>
       </Button>
+      <h3 className={styles.title}>Filtre</h3>
 
       <div
         className={styles.options}
@@ -145,12 +150,6 @@ const JoblistingsRightNav = (props: Props) => {
           display: displayOptions ? 'block' : 'none',
         }}
       >
-        {props.actionGrant.includes('create') && (
-          <Link to="/joblistings/create">
-            <Button>Ny jobbannonse</Button>
-          </Link>
-        )}
-
         <h3 className={styles.rightHeader}>Sorter etter:</h3>
         <RadioButton
           name="sort"
@@ -225,6 +224,11 @@ const JoblistingsRightNav = (props: Props) => {
           />
         ))}
       </div>
+      {props.actionGrant.includes('create') && (
+        <Link to="/joblistings/create">
+          <Button>Ny jobbannonse</Button>
+        </Link>
+      )}
     </div>
   );
 };

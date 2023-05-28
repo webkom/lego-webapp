@@ -2,10 +2,11 @@
 
 .root {
   composes: contentContainer from '~app/styles/utilities.css';
+  padding: 0px 0px 0px 0px;
 }
 
 .page {
-  margin-top: 2rem;
+  margin-top: 12px;
   justify-content: space-around;
 
   @media (--small-viewport) {
