@@ -1,12 +1,6 @@
 import cx from 'classnames';
 import moment from 'moment-timezone';
-import {
-  createContext,
-  Children,
-  PureComponent,
-  cloneElement,
-  useContext,
-} from 'react';
+import { createContext, Children, cloneElement, useContext } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -39,11 +33,12 @@ import type { CurrentUser } from 'app/store/models/User';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import HTTPError from '../errors/HTTPError';
 import styles from './AppRoute.css';
+import type { Location } from 'history';
 import type { ReactElement } from 'react';
 
 type Props = {
   statusCode: number;
-  location: any;
+  location: Location;
   children: ReactElement | ReactElement[];
   currentUser: CurrentUser;
   setStatusCode: (code: number | null | undefined) => void;
@@ -62,112 +57,107 @@ export type UserContextType = ReturnType<typeof useUserContext>;
 
 export const useUserContext = () => useContext(UserContext);
 
-class AppChildren extends PureComponent<Props> {
-  render() {
-    const children = Children.map(this.props.children, (child) =>
-      cloneElement(child, {
-        passedProps: {
-          currentUser: this.props.currentUser,
-          loggedIn: this.props.loggedIn,
-        },
-      })
-    );
-    const userValue = {
-      currentUser: this.props.currentUser,
-      loggedIn: this.props.loggedIn,
-    };
-    return (
-      <div
-        style={{
-          flex: 1,
-        }}
-      >
-        <ErrorBoundary resetOnChange={this.props.location}>
-          <ToastContainer />
-          {this.props.statusCode ? (
-            <HTTPError
-              statusCode={this.props.statusCode}
-              setStatusCode={this.props.setStatusCode}
-              location={this.props.location}
-            />
-          ) : (
-            <UserContext.Provider value={userValue}>
-              {children}
-            </UserContext.Provider>
-          )}
-        </ErrorBoundary>
-      </div>
-    );
-  }
-} // TODO: Type it
+const AppChildren = (props: Props) => {
+  const children = Children.map(props.children, (child) =>
+    cloneElement(child, {
+      passedProps: {
+        currentUser: props.currentUser,
+        loggedIn: props.loggedIn,
+      },
+    })
+  );
+  const userValue = {
+    currentUser: props.currentUser,
+    loggedIn: props.loggedIn,
+  };
+  return (
+    <div
+      style={{
+        flex: 1,
+      }}
+    >
+      <ErrorBoundary resetOnChange={props.location}>
+        <ToastContainer />
+        {props.statusCode ? (
+          <HTTPError
+            statusCode={props.statusCode}
+            setStatusCode={props.setStatusCode}
+            location={props.location}
+          />
+        ) : (
+          <UserContext.Provider value={userValue}>
+            {children}
+          </UserContext.Provider>
+        )}
+      </ErrorBoundary>
+    </div>
+  );
+};
 
+// TODO: Type it
 type AppProps = any;
 
-class App extends PureComponent<AppProps> {
-  render() {
-    return (
-      <div
-        className={cx(styles.appRoute, {
-          [styles.searchOpen]: this.props.searchOpen,
-        })}
+const App = (props: AppProps) => (
+  <div
+    className={cx(styles.appRoute, {
+      [styles.searchOpen]: props.searchOpen,
+    })}
+  >
+    <Helmet defaultTitle="Abakus.no" titleTemplate="%s | Abakus.no">
+      <meta property="og:image" content={coverPhoto} />
+      <meta
+        property="og:description"
+        content="Abakus er linjeforeningen for studentene ved Datateknologi og Kommunikasjonsteknologi på NTNU, og drives av studenter ved disse studiene."
+      />
+    </Helmet>
+
+    <SpecialDay>
+      {config.environment !== 'production' && (
+        <div
+          style={{
+            backgroundColor: 'var(--danger-color)',
+            color: 'white',
+            fontWeight: 'bold',
+            padding: '10px',
+          }}
+        >
+          This is a development version of lego-webapp.
+        </div>
+      )}
+
+      <Header
+        searchOpen={props.searchOpen}
+        toggleSearch={props.toggleSearch}
+        currentUser={props.currentUser}
+        loggedIn={props.loggedIn}
+        logout={props.logout}
+        login={props.login}
+        notificationsData={props.notificationsData}
+        fetchNotifications={props.fetchNotificationFeed}
+        fetchingNotifications={props.fetchingNotifications}
+        notifications={props.notifications}
+        markAllNotifications={props.markAllNotifications}
+        fetchNotificationData={props.fetchNotificationData}
+        upcomingMeeting={props.upcomingMeeting}
+        loading={props.loading}
+        updateUserTheme={props.updateUserTheme}
+      />
+      <AppChildren
+        currentUser={props.currentUser}
+        loggedIn={props.loggedIn}
+        statusCode={props.statusCode}
+        setStatusCode={props.setStatusCode}
+        location={props.location}
       >
-        <Helmet defaultTitle="Abakus.no" titleTemplate="%s | Abakus.no">
-          <meta property="og:image" content={coverPhoto} />
-          <meta
-            property="og:description"
-            content="Abakus er linjeforeningen for studentene ved Datateknologi og Kommunikasjonsteknologi på NTNU, og drives av studenter ved disse studiene."
-          />
-        </Helmet>
+        {props.children}
+      </AppChildren>
 
-        <SpecialDay>
-          {config.environment !== 'production' && (
-            <div
-              style={{
-                backgroundColor: 'var(--danger-color)',
-                color: 'white',
-                fontWeight: 'bold',
-                padding: '10px',
-              }}
-            >
-              This is a development version of lego-webapp.
-            </div>
-          )}
+      <PhotoUploadStatus />
 
-          <Header
-            searchOpen={this.props.searchOpen}
-            toggleSearch={this.props.toggleSearch}
-            currentUser={this.props.currentUser}
-            loggedIn={this.props.loggedIn}
-            logout={this.props.logout}
-            login={this.props.login}
-            notificationsData={this.props.notificationsData}
-            fetchNotifications={this.props.fetchNotificationFeed}
-            fetchingNotifications={this.props.fetchingNotifications}
-            notifications={this.props.notifications}
-            markAllNotifications={this.props.markAllNotifications}
-            fetchNotificationData={this.props.fetchNotificationData}
-            upcomingMeeting={this.props.upcomingMeeting}
-            loading={this.props.loading}
-            updateUserTheme={this.props.updateUserTheme}
-          />
-          <AppChildren
-            currentUser={this.props.currentUser}
-            loggedIn={this.props.loggedIn}
-            statusCode={this.props.statusCode}
-            setStatusCode={this.props.setStatusCode}
-            location={this.props.location}
-          >
-            {this.props.children}
-          </AppChildren>
-
-          <PhotoUploadStatus />
-
-          <Footer {...this.props} />
-        </SpecialDay>
-      </div>
-    );
-  }
-}
+      <Footer {...props} />
+    </SpecialDay>
+  </div>
+);
 
 const mapStateToProps = (state) => {
   const upcomingMeetings = Object.values(state.meetings.byId)
