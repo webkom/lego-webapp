@@ -1,4 +1,5 @@
 const path = require('path');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const webpack = require('webpack');
 const FilterWarningsPlugin = require('webpack-filter-warnings-plugin');
@@ -39,6 +40,7 @@ module.exports = (env, argv) => {
 
     plugins: [
       !isProduction && new webpack.HotModuleReplacementPlugin(),
+      !isProduction && new ReactRefreshWebpackPlugin(),
       new webpack.optimize.LimitChunkCountPlugin({
         maxChunks: 1,
       }),

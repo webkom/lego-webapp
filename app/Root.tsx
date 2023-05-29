@@ -1,6 +1,5 @@
 import { ConnectedRouter } from 'connected-react-router';
 import { HelmetProvider } from 'react-helmet-async';
-import { hot } from 'react-hot-loader/root';
 import { Provider } from 'react-redux';
 import ErrorBoundary from 'app/components/ErrorBoundary';
 import type { Store } from 'app/store/createStore';
@@ -28,4 +27,4 @@ const Root = (props: Props) => {
   );
 };
 
-export default hot(Root);
+export default Root;

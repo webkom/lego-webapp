@@ -2,6 +2,7 @@
 const fs = require('fs');
 const path = require('path');
 const LoadablePlugin = require('@loadable/webpack-plugin');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const AssetsPlugin = require('assets-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
@@ -52,11 +53,7 @@ module.exports = (env, argv) => {
     entry: {
       app: isProduction
         ? ['./app/index.ts']
-        : [
-            'webpack-hot-middleware/client',
-            'react-hot-loader/patch',
-            './app/index.ts',
-          ],
+        : ['webpack-hot-middleware/client', './app/index.ts'],
     },
 
     output: {
@@ -95,6 +92,7 @@ module.exports = (env, argv) => {
       }),
       process.env.BUNDLE_ANALYZER && new BundleAnalyzerPlugin(),
       !isProduction && new webpack.HotModuleReplacementPlugin(),
+      !isProduction && new ReactRefreshWebpackPlugin(),
 
       new StatsWriterPlugin({
         filename: 'stats.json',
@@ -166,8 +164,17 @@ module.exports = (env, argv) => {
       rules: [
         {
           test: /\.[tj]sx?$/,
-          loader: 'babel-loader',
           include: [path.resolve(root, 'app'), path.resolve(root, 'config')],
+          use: [
+            {
+              loader: require.resolve('babel-loader'),
+              options: {
+                plugins: [
+                  !isProduction && require.resolve('react-refresh/babel'),
+                ].filter(Boolean),
+              },
+            },
+          ],
         },
         {
           test: /\.css$/,
