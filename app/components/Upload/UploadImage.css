@@ -87,6 +87,6 @@
 
 .fileName {
   width: 180px;
-  font-size: 14px;
+  font-size: var(--font-size-sm);
   font-weight: 500;
 }

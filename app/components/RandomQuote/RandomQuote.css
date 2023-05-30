@@ -8,13 +8,11 @@
 .quoteSource {
   margin-top: 5px;
   font-style: italic;
-  font-size: 15px;
   color: var(--secondary-font-color);
 }
 
 .quoteText {
   font-weight: 500;
-  font-size: 15px;
 }
 
 .quoteReactions {

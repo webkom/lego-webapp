@@ -99,9 +99,11 @@
 
   --color-red-hover-alpha: 5%;
 
-  --font-size: 16px;
-  --font-size-small: 12px;
-  --font-size-large: 18px;
+  --font-size-xs: 0.7rem;
+  --font-size-sm: 0.875rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.875rem;
 
   --border-radius-sm: 0.3rem;
   --border-radius-md: 0.5rem;

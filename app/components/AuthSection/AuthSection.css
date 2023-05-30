@@ -1,4 +1,4 @@
 .toggleButton {
   color: var(--lego-link-color);
-  font-size: var(--font-size-small);
+  font-size: var(--font-size-sm);
 }

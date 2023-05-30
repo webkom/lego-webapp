@@ -64,12 +64,12 @@ class AprilFools extends Component<Props, State> {
               </Link>
             </div>
             <div className={styles.textContainer}>
-              <div className={styles.title}>
+              <h1>
                 VI BEKLAGER{' '}
                 <span role="img" aria-label="Sad emoji">
                   🙁
                 </span>
-              </div>
+              </h1>
               <div className={styles.description}>
                 Vi har dessverre
                 <i> tekniske &quot;utfordringer&quot; </i>

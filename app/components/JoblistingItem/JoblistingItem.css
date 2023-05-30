@@ -34,7 +34,6 @@
   display: flex;
   flex: 1;
   justify-content: space-between;
-  font-size: 15px;
 
   @media (--mobile-device) {
     flex-direction: column;
@@ -43,7 +42,7 @@
 
 .joblistingItemTitle {
   font-weight: 600;
-  font-size: 16px;
+  font-size: var(--font-size-lg);
   margin-right: 5px;
   margin-bottom: 10px;
 }
@@ -53,6 +52,7 @@
   align-items: center;
   justify-content: flex-end;
   min-width: 145px;
+  font-size: var(--font-size-sm);
 
   @media (--mobile-device) {
     justify-content: flex-start;

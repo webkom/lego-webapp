@@ -43,14 +43,14 @@
   overflow-wrap: anywhere;
   padding: 2px 5px;
   border-radius: var(--border-radius-sm);
-  font-size: 0.9rem;
+  font-size: var(--font-size-sm);
   font-weight: 700;
   margin: 3px;
   line-height: 1.25;
 }
 
 .eventTitle {
-  font-size: 13px;
+  font-size: var(--font-size-xs);
   color: var(--color-white);
 }
 
@@ -58,15 +58,15 @@
   position: absolute;
   top: 2px;
   right: 5px;
-  font-size: 13px;
+  font-size: var(--font-size-sm);
 }
 
 .currentDay {
-  font-size: 14px;
+  font-size: var(--font-size-sm);
   width: 25px;
   height: 25px;
   border-radius: 50%;
-  color: #fff;
+  color: var(--color-absolute-white);
   text-align: center;
   background-color: var(--color-red-5);
 }
@@ -87,7 +87,7 @@
 }
 
 .textWithIcon {
-  font-size: 14px;
+  font-size: var(--font-size-sm);
 }
 
 .weekdayHeading {

@@ -18,7 +18,7 @@
 }
 
 .galleryDescription {
-  font-size: 14px;
+  font-size: var(--font-size-sm);
 }
 
 .descriptionRow {
@@ -63,10 +63,6 @@
   text-align: center;
 }
 
-.createStateIcon {
-  font-size: 120px;
-}
-
 .form {
   width: 100%;
 }
@@ -77,8 +73,7 @@
 }
 
 .infoOverlay {
-  font-size: 12px;
-  font-weight: 600;
+  font-size: var(--font-size-sm);
   margin-bottom: 12px;
 }
 

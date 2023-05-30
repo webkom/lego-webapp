@@ -11,7 +11,7 @@
 }
 
 html {
-  font-size: 1rem;
+  font-size: var(--font-size-md);
 }
 
 body {
@@ -47,7 +47,7 @@ ul {
 }
 
 h1 {
-  font-size: 30px;
+  font-size: var(--font-size-xl);
   margin: 15px 0;
 }
 
@@ -60,6 +60,7 @@ h1,
 h2,
 h3,
 h4 {
+  line-height: 1.3;
   font-weight: 600;
 }
 
@@ -94,7 +95,7 @@ table {
 thead {
   background-color: var(--color-gray-2);
   color: var(--color-gray-7);
-  font-size: 0.9rem;
+  font-size: var(--font-size-sm);
   font-weight: 600;
 }
 

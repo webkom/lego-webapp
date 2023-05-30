@@ -24,8 +24,6 @@
 }
 
 .sidebarHeader {
-  font-size: 1.8em;
-  font-weight: 600;
   margin-top: 20px;
   width: 95%;
   text-align: center;
@@ -68,7 +66,6 @@
   align-items: right;
   justify-content: flex-end;
   color: var(--lego-font-color);
-  font-size: 0.75em;
   z-index: 10;
 
   @media (--mobile-device) {

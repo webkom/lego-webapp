@@ -20,7 +20,7 @@
 }
 
 .description {
-  font-size: 18px;
+  font-size: var(--font-size-lg);
   font-style: italic;
 }
 

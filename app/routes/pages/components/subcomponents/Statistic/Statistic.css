@@ -9,15 +9,11 @@
 }
 
 .statistic {
-  font-size: 2.2rem;
+  font-size: var(--font-size-xl);
   font-weight: bold;
 }
 
 @media (--mobile-device) {
-  .statistic {
-    font-size: 1.8rem;
-  }
-
   .container {
     margin: 0 0.5rem 0.5rem;
     flex-basis: 40%;

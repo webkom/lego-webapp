@@ -71,7 +71,7 @@ const MeetingListView = ({
   <div>
     {sections.map((item, key) => (
       <div key={key}>
-        <h2 className={styles.heading}>{item.title}</h2>
+        <h3 className={styles.heading}>{item.title}</h3>
         {item.meetings.map((item, key) => (
           <MeetingListItem
             key={key}

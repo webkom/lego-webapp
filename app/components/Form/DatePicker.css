@@ -20,7 +20,7 @@
 }
 
 .header {
-  font-size: 1.3em;
+  font-size: var(--font-size-lg);
   text-align: center;
   padding: 10px;
 }
@@ -32,7 +32,7 @@
   background: var(--color-white);
   color: var(--lego-font-color);
   text-align: center;
-  font-size: 16px;
+  font-size: var(--font-size-md);
   padding: 5px;
 
   &:nth-child(7n + 1) {

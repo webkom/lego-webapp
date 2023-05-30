@@ -32,7 +32,7 @@
   text-align: center;
   color: var(--lego-font-color);
   padding: 5px 20px;
-  font-size: 20px;
+  font-size: var(--font-size-lg);
   border-bottom: 1px solid var(--border-gray);
   transition: all var(--easing-medium);
 }
@@ -43,6 +43,6 @@
 }
 
 .timeNow {
-  font-size: 18px;
+  font-size: var(--font-size-lg);
   color: var(--secondary-font-color);
 }

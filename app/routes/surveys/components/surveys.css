@@ -21,7 +21,7 @@
 
 .editTitle {
   width: 550px;
-  font-size: 20px;
+  font-size: var(--font-size-lg);
   margin: 0 0 -10px;
 }
 
@@ -294,7 +294,7 @@
 
 .removeOption {
   color: var(--color-gray-4);
-  font-size: 20px;
+  font-size: var(--font-size-lg);
   margin-left: -5px;
   transition: color var(--easing-fast);
 

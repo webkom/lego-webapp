@@ -77,7 +77,7 @@ html[data-theme='dark'] .contentContainer {
 :global {
   /* stylelint-disable-next-line selector-class-pattern */
   .u-small {
-    font-size: 14px;
+    font-size: var(--font-size-sm);
   }
 
   /* stylelint-disable-next-line selector-class-pattern */
@@ -88,7 +88,7 @@ html[data-theme='dark'] .contentContainer {
   /* stylelint-disable-next-line selector-class-pattern */
   .u-ui-heading {
     color: var(--lego-font-color);
-    font-size: 1.1rem;
+    font-size: var(--font-size-lg);
     font-weight: 500;
     line-height: 1.2;
     margin-top: 2rem;

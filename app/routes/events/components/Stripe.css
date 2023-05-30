@@ -36,7 +36,7 @@
   margin: 10px 0 20px;
   max-width: 500px;
   padding: 10px 14px;
-  font-size: 1em;
+  font-size: var(--font-size-md);
   font-family: 'Source Code Pro', monospace;
   box-shadow: var(--shadow-sm);
   border: 0;

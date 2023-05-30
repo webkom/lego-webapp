@@ -27,7 +27,7 @@
 
   & figure {
     text-align: center;
-    font-size: 13px;
+    font-size: var(--font-size-sm);
   }
 }
 

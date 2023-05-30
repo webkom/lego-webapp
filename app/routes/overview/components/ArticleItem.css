@@ -18,7 +18,7 @@
 .articleTitle {
   margin: 0 5px;
   line-height: 1.1;
-  font-size: 1.2rem;
+  font-size: var(--font-size-lg);
   word-break: break-word;
 }
 

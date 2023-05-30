@@ -62,8 +62,7 @@
 }
 
 .rightHeader {
-  font-weight: 400;
-  font-size: 17px;
+  font-size: var(--font-size-md);
   border-bottom: 1px solid var(--border-gray);
   margin-bottom: 2%;
   margin-top: 8%;

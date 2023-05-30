@@ -11,7 +11,7 @@
 
 .whatIsThis {
   text-decoration: underline;
-  font-size: 1rem;
+  font-size: var(--font-size-md);
 }
 
 .whatIsThis:hover {
@@ -21,7 +21,7 @@
 .header .skip {
   display: grid;
   align-content: end;
-  font-size: 0.8rem;
+  font-size: var(--font-size-sm);
   opacity: 0.1;
   font-family: monospace;
   text-transform: uppercase;
@@ -38,7 +38,7 @@
   text-align: center;
   background-color: #eee7e7;
   padding: 20px;
-  font-size: 14px;
+  font-size: var(--font-size-sm);
   width: 100%;
 }
 
@@ -49,7 +49,7 @@
 
 /* Arrival time */
 .contentContainer div:nth-child(3) {
-  font-size: 18px;
+  font-size: var(--font-size-lg);
   padding-top: 10px;
 }
 
@@ -91,7 +91,7 @@
 
 /* Updated time */
 .updateTime {
-  font-size: 0.8rem;
+  font-size: var(--font-size-sm);
 }
 
 .dot {
@@ -107,7 +107,7 @@
   display: grid;
   grid-auto-flow: column;
   justify-items: space-between;
-  font-size: 0.7rem;
+  font-size: var(--font-size-sm);
 }
 
 /* Queue logo */
@@ -121,15 +121,6 @@
 }
 
 @media only screen and (width <= 500px) {
-  .whatIsThis {
-    font-size: 0.9rem;
-  }
-
-  /* Arrival time */
-  .contentContainer div:nth-child(3) {
-    font-size: 0.95rem;
-  }
-
   .progressBar {
     width: 95%;
   }
@@ -137,16 +128,16 @@
 
 @media only screen and (width <= 400px) {
   .contentContainer {
-    font-size: 0.75rem;
+    font-size: var(--font-size-sm);
   }
 
   .whatIsThis {
-    font-size: 0.75rem;
+    font-size: var(--font-size-sm);
   }
 
   /* Arrival time */
   .contentContainer div:nth-child(3) {
-    font-size: 0.8rem;
+    font-size: var(--font-size-sm);
     padding-top: 10px;
   }
 

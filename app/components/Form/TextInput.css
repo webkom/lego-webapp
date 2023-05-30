@@ -64,7 +64,7 @@ span.suffix {
   position: relative;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
-  font-size: 0.9rem;
+  font-size: var(--font-size-sm);
 }
 
 .removeBorder {

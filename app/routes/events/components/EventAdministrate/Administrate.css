@@ -29,7 +29,7 @@
   display: inline-block;
   text-transform: uppercase;
   padding: 0.25rem 0.375rem;
-  font-size: 0.7rem;
+  font-size: var(--font-size-xs);
   font-weight: bold;
   border-radius: var(--border-radius-lg);
   letter-spacing: 0.6px;

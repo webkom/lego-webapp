@@ -43,7 +43,7 @@ class Sidebar extends Component<Props, State> {
               <button className={styles.sidebarCloseBtn} onClick={handleClose}>
                 <Icon name="close" size={50} />
               </button>
-              <h3 className={styles.sidebarHeader}>Om Abakus</h3>
+              <h2 className={styles.sidebarHeader}>Om Abakus</h2>
             </div>
 
             <div className={styles.sidebarBottom}>

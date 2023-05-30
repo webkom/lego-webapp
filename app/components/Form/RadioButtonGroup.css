@@ -4,7 +4,7 @@
 }
 
 .groupLabel {
-  font-size: 18px;
+  font-size: var(--font-size-lg);
 }
 
 .radioField {
@@ -21,7 +21,7 @@
 }
 
 .radioLabel > span {
-  font-size: 16px;
+  font-size: var(--font-size-md);
   margin-left: 15px;
 
   /* For radio groups we want the label last: */

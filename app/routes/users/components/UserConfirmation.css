@@ -6,6 +6,6 @@
 }
 
 .infoText {
-  font-size: 0.9em;
+  font-size: var(--font-size-sm);
   line-height: 1.4em;
 }

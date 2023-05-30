@@ -74,7 +74,7 @@
 }
 
 .itemInfo {
-  font-size: 0.8rem;
+  font-size: var(--font-size-sm);
   color: var(--secondary-font-color);
 }
 
@@ -88,19 +88,18 @@
 
 .itemType {
   margin: 0;
-  font-size: 1rem;
-  line-height: 1;
+  font-size: var(--font-size-md);
+  line-height: 1.3;
 }
 
 .itemTitle {
   margin: 0;
   padding-top: 10px;
-  line-height: 1.1;
-  font-size: 1.6rem;
+  line-height: 1.3;
 }
 
 .normal .itemTitle {
-  font-size: 1.2rem;
+  font-size: var(--font-size-lg);
 }
 
 .itemTitle > a {
@@ -110,13 +109,11 @@
 .itemDescription {
   padding-top: 10px;
   margin: 0;
-  font-family: skolar-latin, sans-serif;
-  font-size: 1.1rem;
-  -webkit-font-smoothing: initial;
+  line-height: 1.3;
 }
 
 .normal .itemDescription {
-  font-size: 1rem;
+  font-size: var(--font-size-md);
 }
 
 .sidebar {

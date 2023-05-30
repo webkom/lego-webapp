@@ -5,7 +5,7 @@
 }
 
 .heading {
-  font-size: 20px;
+  font-size: var(--font-size-lg);
   border-bottom: 1px solid var(--border-gray);
   padding-bottom: 10px;
   margin-bottom: 20px;
@@ -14,7 +14,7 @@
 .noEvents {
   color: var(--color-gray-5);
   font-weight: 400;
-  font-size: 20px;
+  font-size: var(--font-size-lg);
 }
 
 .eventGroup {

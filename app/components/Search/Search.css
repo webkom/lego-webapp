@@ -15,8 +15,7 @@
   outline: none;
   border: 0;
   padding: 0 1rem;
-  font-size: 1.4rem;
-  font-weight: 400;
+  font-size: var(--font-size-lg);
   color: var(--lego-font-color);
   background: transparent;
 
@@ -43,11 +42,9 @@
 
 .searchIcon {
   color: var(--color-gray-6);
-  width: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 30px;
 }
 
 .searchResultItemIcon {
@@ -133,7 +130,7 @@
 .quickLinks a {
   display: block;
   padding: 4px 15px;
-  font-size: 1.2rem;
+  font-size: var(--font-size-lg);
   transition: background-color var(--linear-fast);
   border-radius: var(--border-radius-md);
 }
@@ -174,7 +171,7 @@ html[data-theme='dark'] .results {
 
 .resultDetails {
   color: var(--lego-font-color);
-  font-size: 0.7rem;
+  font-size: var(--font-size-sm);
   display: flex;
   justify-content: space-between;
   line-height: 15px;

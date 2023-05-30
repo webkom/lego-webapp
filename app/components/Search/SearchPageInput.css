@@ -22,8 +22,7 @@
   outline: none;
   border: 0;
   padding: 0 1rem;
-  font-size: 1.6rem;
-  font-weight: 500;
+  font-size: var(--font-size-lg);
   color: var(--lego-font-color);
   background: transparent;
   overflow: hidden;
@@ -35,8 +34,6 @@
 
 .searchIcon {
   color: var(--color-gray-6);
-  font-size: 1.8rem;
-  width: 30px;
   display: flex;
   align-items: center;
 }

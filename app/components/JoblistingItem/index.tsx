@@ -28,7 +28,7 @@ const JoblistingItem = ({ joblisting }: JobListingItemProps) => (
           {moment(joblisting.createdAt).isAfter(
             moment().subtract(3, 'days')
           ) && <Tag tag="Ny" color="green" />}
-          <h3 className={styles.joblistingItemTitle}>{joblisting.title}</h3>
+          <span className={styles.joblistingItemTitle}>{joblisting.title}</span>
         </Flex>
         <div>
           {joblisting.company.name}
