@@ -35,7 +35,7 @@
 }
 
 .unRead {
-  background-color: rgba(255, 143, 131, 29%);
+  background-color: rgba(255, 0, 0, var(--color-red-hover-alpha));
 }
 
 .icon {

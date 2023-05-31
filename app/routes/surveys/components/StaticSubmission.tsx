@@ -19,14 +19,16 @@ const StaticSubmission = ({ survey, submission }: Props) => {
     question: QuestionEntity
   ) => {
     if (answer) {
-      return answer.answerText || <i>Tomt svar</i>;
+      return (
+        answer.answerText || <i className="secondaryFontColor">Tomt svar</i>
+      );
     }
 
     if (
       submission &&
       !submission.answers.map((answer) => answer.question).includes(question.id)
     ) {
-      return <i>Tomt svar</i>;
+      return <i className="secondaryFontColor">Tomt svar</i>;
     }
 
     return (

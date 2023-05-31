@@ -82,14 +82,7 @@ const MeetingListView = ({
       </div>
     ))}
     {!sections.length && (
-      <h2
-        style={{
-          textAlign: 'center',
-          marginBottom: 10,
-        }}
-      >
-        Ingen møter å vise
-      </h2>
+      <h3 className={styles.noDataMessage}>Ingen møter å vise</h3>
     )}
   </div>
 );

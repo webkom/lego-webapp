@@ -17,14 +17,14 @@
 
 .articleTitle {
   margin: 0 5px;
-  line-height: 1.1;
+  line-height: 1.3;
   font-size: var(--font-size-lg);
   word-break: break-word;
 }
 
 .articleMeta {
   margin: 0 5px;
-  font-weight: bold;
+  font-weight: 500;
 }
 
 .infoWrapper {
@@ -36,4 +36,5 @@
 
 .articleDescription {
   padding: 0 10px 10px;
+  color: var(--secondary-font-color);
 }

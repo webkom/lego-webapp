@@ -191,7 +191,7 @@ const Attendees = ({
           </div>
         </div>
         {registered.length === 0 ? (
-          <li>Ingen påmeldte</li>
+          <span className="secondaryFontColor">Ingen påmeldte</span>
         ) : (
           <RegisteredTable
             event={event}
@@ -213,7 +213,7 @@ const Attendees = ({
           Avmeldte:
         </strong>
         {unregistered.length === 0 ? (
-          <li>Ingen avmeldte</li>
+          <span className="secondaryFontColor">Ingen avmeldte</span>
         ) : (
           <UnregisteredTable
             unregistered={unregistered}

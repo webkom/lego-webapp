@@ -6,8 +6,3 @@
   border-bottom: 1px solid var(--border-gray);
   margin-bottom: 20px;
 }
-
-.noEventsMessage {
-  color: var(--secondary-font-color);
-  font-style: italic;
-}

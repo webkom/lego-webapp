@@ -165,7 +165,9 @@ class Poll extends Component<Props, State> {
                       <td className={styles.textColumn}>{name}</td>
                       <td className={styles.graphColumn}>
                         {votes === 0 ? (
-                          <span className={styles.noVotes}>Ingen stemmer</span>
+                          <span className="secondaryFontColor">
+                            Ingen stemmer
+                          </span>
                         ) : (
                           <div className={styles.fullGraph}>
                             <div
@@ -261,7 +263,10 @@ class Poll extends Component<Props, State> {
               )}
           </div>
           <div className={styles.bottomInfo}>
-            <span>{`Stemmer: ${totalVotes}`}</span>
+            <span>
+              <span className={styles.totalVotes}>{totalVotes}</span>{' '}
+              {totalVotes == 1 ? 'stemme' : 'stemmer'}
+            </span>
             {hasAnswered && !showResults && (
               <span className={styles.resultsHidden}>
                 Resultatet er skjult.

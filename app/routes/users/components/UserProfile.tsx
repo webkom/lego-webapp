@@ -496,11 +496,7 @@ const UserProfile = (props: Props) => {
 
                 <div>
                   <br />
-                  <i
-                    style={{
-                      fontSize: 14,
-                    }}
-                  >
+                  <i className={styles.groupExplanation}>
                     Du er medlem av gruppene markert med fet tekst, og indirekte
                     medlem av gruppene i kursiv.
                   </i>

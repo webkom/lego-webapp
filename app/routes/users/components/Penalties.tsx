@@ -67,7 +67,7 @@ function Penalties({
           })}
         </ul>
       ) : (
-        <i>Ingen prikker</i>
+        <span className="secondaryFontColor">Ingen prikker</span>
       )}
       <PenaltyForm user={userId} />
     </div>
