@@ -14,7 +14,7 @@ export const barColor = {
 };
 export const passwordFeedbackMessages = {
   'Add another word or two. Uncommon words are better.':
-    'Legg til ett ord eller to. Uvanlige ord er best.',
+    'Legg til et ord eller to. Uvanlige ord er best.',
   'Straight rows of keys are easy to guess':
     'Rader fra tastaturet er enkle å gjette.',
   'Short keyboard patterns are easy to guess':

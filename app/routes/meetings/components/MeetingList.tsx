@@ -108,7 +108,7 @@ const MeetingList = ({
   return (
     <Content>
       <Helmet title="Dine møter" />
-      <NavigationTab title="Dine Møter">
+      <NavigationTab title="Dine møter">
         <NavigationLink to="/meetings/create/">Nytt møte</NavigationLink>
       </NavigationTab>
       {!meetingSections || loading ? (

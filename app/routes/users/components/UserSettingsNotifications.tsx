@@ -53,7 +53,7 @@ const UserSettingsNotifications = (props: Props) => {
 
   return (
     <div>
-      <h1>Notifikasjoner</h1>
+      <h2>Notifikasjoner</h2>
 
       <p>
         Abakus sender ut notifikasjoner for forskjellige hendleser som skjer.

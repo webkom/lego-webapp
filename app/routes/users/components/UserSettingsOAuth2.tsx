@@ -46,7 +46,7 @@ const UserSettingsOAuth2 = (props: Props) => {
         return (
           <Flex wrap gap={10}>
             {application.clientId}
-            <Tooltip content="Kopiér client ID" renderDirection="right">
+            <Tooltip content="Kopier client ID" renderDirection="right">
               <Icon
                 name={copied ? 'copy' : 'copy-outline'}
                 size={20}
@@ -116,7 +116,7 @@ const UserSettingsOAuth2 = (props: Props) => {
 
   return (
     <Flex column gap={15}>
-      <h1>OAuth2</h1>
+      <h2>OAuth2</h2>
       <p>
         Denne nettsiden benytter seg av et API som også er tiljengelig for andre
         applikasjoner. OAuth2 er samme metode som GitHub og andre benytter seg
@@ -131,7 +131,7 @@ const UserSettingsOAuth2 = (props: Props) => {
 
       <p>
         <b>
-          Client ID og Client Secret ansees som hemmelig og må ikke inkluderes i
+          Client ID og Client secret ansees som hemmelig og må ikke inkluderes i
           kode som gjøres tiljengelig for sluttbrukere, typisk en webapp eller
           en mobilapplikasjon.
         </b>

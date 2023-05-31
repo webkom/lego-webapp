@@ -35,7 +35,7 @@
 }
 
 .inModalUpload .placeholderContainer {
-  background-color: var(--color-gray-2);
+  background-color: var(--additive-background);
   border: 3px dashed var(--color-blue-6);
 }
 
@@ -76,7 +76,7 @@
 .previewRow {
   width: 325px;
   height: 52px;
-  color: var(--color-gray-6);
+  color: var(--secondary-font-color);
 }
 
 .previewImage {

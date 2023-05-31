@@ -177,7 +177,7 @@ const ArticleEditor = ({
           <Button onClick={() => push(`/articles/${isNew ? '' : articleId}`)}>
             Avbryt
           </Button>
-          <Button submit success={!isNew}>
+          <Button submit success>
             {!isNew ? 'Lagre endringer' : 'Opprett'}
           </Button>
           {!isNew && (

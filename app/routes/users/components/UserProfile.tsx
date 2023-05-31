@@ -450,9 +450,7 @@ const UserProfile = (props: Props) => {
               <Card className={styles.infoCard}>
                 <Penalties
                   penalties={penalties}
-                  addPenalty={addPenalty}
                   deletePenalty={deletePenalty}
-                  username={user.username}
                   userId={user.id}
                   canDeletePenalties={canDeletePenalties}
                 />
@@ -476,7 +474,7 @@ const UserProfile = (props: Props) => {
 
           {canChangeGrade && (
             <div>
-              <h3>Endre Klasse</h3>
+              <h3>Endre klasse</h3>
               <Card className={styles.infoCard}>
                 <GroupChange
                   grades={groups}
@@ -674,7 +672,7 @@ const UserProfile = (props: Props) => {
         </div>
         <div className={styles.rightContent}>
           {/*
-           <h3>Nylig Aktivitet</h3>
+           <h3>Nylig aktivitet</h3>
            {feed ? (
              <Feed items={feedItems} feed={feed} />
            ) : (

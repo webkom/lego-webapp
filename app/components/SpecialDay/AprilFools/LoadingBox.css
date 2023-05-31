@@ -36,7 +36,7 @@
 
 .contentContainer {
   text-align: center;
-  background-color: #eee7e7;
+  background-color: var(--additive-background);
   padding: 20px;
   font-size: var(--font-size-sm);
   width: 100%;

@@ -117,7 +117,7 @@ div .cont {
   justify-content: center;
   border-radius: 0 100% 100% 0/0 50% 50% 0;
   border-left: 0;
-  color: #000;
+  color: var(--lego-font-color);
   z-index: 10;
 
   @media (--mobile-device) {

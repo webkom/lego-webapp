@@ -71,7 +71,7 @@ export const selectTheme = (
     ...theme.colors,
     primary: 'var(--color-gray-4)', // Primary color
     // primary75: // Unknown
-    // primary50: // Unknown
+    primary50: 'var(--color-gray-3)', // Focused item background color
     primary25: 'var(--additive-background)', // Hover background color
     neutral0: 'var(--lego-card-color)', // Background color
     // netutral5: // Unknown

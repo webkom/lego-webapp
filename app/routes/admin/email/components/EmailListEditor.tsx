@@ -34,7 +34,7 @@ const EmailListEditor = ({ submitting, handleSubmit, emailListId }: Props) => (
       placeholder="abakus"
       suffix="@abakus.no"
       name="email"
-      label="Epost"
+      label="E-post"
       component={TextInput.Field}
     />
     <Field
@@ -54,7 +54,7 @@ const EmailListEditor = ({ submitting, handleSubmit, emailListId }: Props) => (
       component={SelectInput.AutocompleteField}
     />
     <Field
-      label="Roller (hvis du lar denne stå tom betyr det at alle medlemmene i gruppene får mail!)"
+      label="Roller (hvis du lar denne stå tom betyr det at alle medlemmene i gruppene får e-post!)"
       name="groupRoles"
       isMulti
       placeholder="Velg rolle"
@@ -62,7 +62,7 @@ const EmailListEditor = ({ submitting, handleSubmit, emailListId }: Props) => (
       component={SelectInput.Field}
     />
 
-    <Tooltip content="Når denne er aktivert vil kun brukere med aktiv @abakus.no-adresse få mail fra denne listen">
+    <Tooltip content="Når denne er aktivert vil kun brukere med aktiv @abakus.no-adresse få e-post fra denne listen">
       <Field
         label="Kun for for brukere med internmail (@abakus.no)"
         name="requireInternalAddress"

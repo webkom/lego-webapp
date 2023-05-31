@@ -1,23 +1,20 @@
 import Button from 'app/components/Button';
 import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import { FormatTime } from 'app/components/Time';
-import type { AddPenalty, Penalty } from 'app/models';
+import type { Penalty } from 'app/models';
+import styles from './Penalties.css';
 import PenaltyForm from './PenaltyForm';
 
 type Props = {
   penalties: Array<Penalty>;
-  addPenalty: (arg0: AddPenalty) => void;
   deletePenalty: (arg0: number) => Promise<void>;
-  username: string;
   userId: number;
   canDeletePenalties: boolean;
 };
 
 function Penalties({
   penalties,
-  addPenalty,
   deletePenalty,
-  username,
   userId,
   canDeletePenalties,
 }: Props) {
@@ -28,12 +25,7 @@ function Penalties({
           {penalties.map((penalty) => {
             const word = penalty.weight > 1 ? 'prikker' : 'prikk';
             return (
-              <li
-                key={penalty.id}
-                style={{
-                  marginBottom: '10px',
-                }}
-              >
+              <li key={penalty.id} className={styles.penalty}>
                 <div>
                   <strong>
                     {penalty.weight} {word}

@@ -148,7 +148,7 @@ const UserSettings = (props: Props) => {
 
             <Field
               placeholder="abc@stud.ntnu.no"
-              label="Epost"
+              label="E-post"
               name="email"
               component={TextInput.Field}
             />

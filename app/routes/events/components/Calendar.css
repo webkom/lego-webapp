@@ -68,7 +68,7 @@
   border-radius: 50%;
   color: var(--color-absolute-white);
   text-align: center;
-  background-color: var(--color-red-5);
+  background-color: var(--lego-red-color);
 }
 
 .popoverEventTitle {

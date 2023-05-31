@@ -19,7 +19,7 @@ class PasswordField extends Component<Props, State> {
   };
   static defaultProps = {
     user: {},
-    label: 'Password',
+    label: 'Passord',
     name: 'password',
   };
 

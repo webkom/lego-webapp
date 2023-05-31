@@ -95,13 +95,10 @@ const JoblistingDetail = ({
           {joblisting.applicationUrl && (
             <a
               href={joblisting.applicationUrl}
-              style={{
-                marginTop: '10px',
-              }}
               target="_blank"
               rel="noreferrer"
             >
-              <strong>SØK HER</strong>
+              <Button success>Søk her</Button>
             </a>
           )}
           {(joblisting.responsible || joblisting.contactMail) && (
@@ -116,7 +113,7 @@ const JoblistingDetail = ({
                   <InfoList
                     items={[
                       {
-                        key: 'Epost',
+                        key: 'E-post',
                         value: joblisting.contactMail,
                       },
                     ]}
@@ -127,7 +124,7 @@ const JoblistingDetail = ({
                         marginTop: '10px',
                       }}
                     >
-                      <strong>Kontaktperson:</strong>
+                      <strong>Kontaktperson</strong>
                     </div>
                   )}
                 </div>
@@ -145,7 +142,7 @@ const JoblistingDetail = ({
                         value: joblisting.responsible.name || 'Ikke oppgitt.',
                       },
                       {
-                        key: 'Epost',
+                        key: 'E-post',
                         value: joblisting.responsible.mail || 'Ikke oppgitt.',
                       },
                       {

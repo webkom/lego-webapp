@@ -491,7 +491,7 @@ export default class EventDetail extends Component<Props, State> {
                   <div>
                     <i className="fa fa-exclamation-circle" /> Ved å melde deg
                     på dette arrangementet samtykker du til at
-                    kontaktinformasjonen din (navn, telefonnummer og epost) kan
+                    kontaktinformasjonen din (navn, telefonnummer og e-post) kan
                     deles med FHI og NTNU (og eventuelt andre aktører nevnt i
                     beskrivelsen av arrangementet) for smittesporing.
                     Kontaktinformasjonen vil være tilgjengelig for brukeren som

@@ -49,27 +49,27 @@ export default class RestrictedMails extends Component<Props> {
     return (
       <div>
         <p>
-          Begrenset epost benyttes om det ønskes å sende en målrettet epost til
-          en kombinasjon av grupper, brukere, møter, arrangementer eller
-          definerte adresser. En begrenset epost kan kun benyttes en gang, og må
-          komme fra en forhåndsdefinert adresse. For ytterligere sikkerhet må en
-          fil legges som vedlegg for verifisering av avsender. Denne filen vil
-          bli validert og fjernet før eposten sendes til mottakere. Begrenset
-          epost kan sendes med skult avsender, mottakere vil da ikke kunne svare
-          på eposten.
+          Begrenset e-post benyttes om det ønskes å sende en målrettet e-post
+          til en kombinasjon av grupper, brukere, møter, arrangementer eller
+          definerte adresser. En begrenset e-post kan kun benyttes en gang, og
+          må komme fra en forhåndsdefinert adresse. For ytterligere sikkerhet må
+          en fil legges som vedlegg for verifisering av avsender. Denne filen
+          vil bli validert og fjernet før eposten sendes til mottakere.
+          Begrenset e-post kan sendes med skult avsender, mottakere vil da ikke
+          kunne svare på eposten.
           <ul
             style={{
               listStyleType: 'circle',
               listStylePosition: 'inside',
             }}
           >
-            <li>Opprett en begrenset epost</li>
-            <li>Last ned epost token</li>
-            <li>Opprett en epost med oppgitt avsender</li>
+            <li>Opprett en begrenset e-post</li>
+            <li>Last ned e-post token</li>
+            <li>Opprett en e-post med oppgitt avsender</li>
             <li>
               Mottaker settes til <b>restricted@abakus.no</b>
             </li>
-            <li>Legg inn epost token som vedlegg</li>
+            <li>Legg inn e-post token som vedlegg</li>
             <li>Send eposten</li>
           </ul>
         </p>
@@ -81,7 +81,7 @@ export default class RestrictedMails extends Component<Props> {
         >
           <h3>Dine begrensede e-poster</h3>
           <Link to={'/admin/email/restricted/new'}>
-            <Button>Ny begrenset epost</Button>
+            <Button>Ny begrenset e-post</Button>
           </Link>
         </Flex>
         <Table

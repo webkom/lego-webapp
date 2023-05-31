@@ -31,14 +31,14 @@ export default class EmailLists extends Component<Props> {
         ),
       },
       {
-        title: 'Epost',
+        title: 'E-post',
         dataIndex: 'email',
         search: true,
         inlineFiltering: false,
         render: (email: string) => <span>{`${email}@abakus.no`}</span>,
       },
       {
-        title: 'Kun for brukere med @abakus-epost',
+        title: 'Kun for brukere med @abakus e-post',
         dataIndex: 'requireInternalAddress',
         filter: [
           {
@@ -66,8 +66,9 @@ export default class EmailLists extends Component<Props> {
           brukere eller grupper. Lister kan ikke slettes, men mottakere kan
           endres. Delen av adressen som kommer før @abakus.no er unik og kan
           ikke brukes andre steder på abakus.no. Lister er åpne og alle kan
-          sende epost til disse. Ønsker brukere å sende mail fra en @abakus.no
-          adresse må de få opprettet en personlig adresse under Brukere.
+          sende e-post til disse. Ønsker brukere å sende e-post fra en
+          @abakus.no adresse må de få opprettet en personlig adresse under
+          Brukere.
         </p>
         <Flex
           justifyContent="space-between"
