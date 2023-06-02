@@ -114,20 +114,11 @@
 }
 
 .theQuote a {
-  color: black;
-}
+  color: var(--lego-font-color);
 
-.singleQuote h3 a {
-  color: var(--color-gray-8);
-}
-
-.theQuote a:hover {
-  color: black;
-  text-decoration: none;
-}
-
-.singleQuote h3 a:hover {
-  color: var(--color-orange-6);
+  &:hover {
+    color: var(--color-orange-6);
+  }
 }
 
 .quoteSource {

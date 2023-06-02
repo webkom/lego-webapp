@@ -74,7 +74,7 @@ const AddQuote = ({ addQuotes, actionGrant }: Props) => {
 
                 <Field
                   placeholder="Eks: Esso"
-                  label="Hvor sitatet kommer fra (sleng gjerne med noe snaks!)"
+                  label="Hvor sitatet kommer fra (sleng gjerne med noe snacks!)"
                   name="source"
                   component={TextInput.Field}
                   type="text"

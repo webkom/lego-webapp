@@ -142,7 +142,7 @@ const Quote = ({
                             : approve(quote.id)
                         }
                       >
-                        {quote.approved ? 'Fjern Godkjenning' : 'Godkjenn'}
+                        {quote.approved ? 'Fjern godkjenning' : 'Godkjenn'}
                       </Button>
                     </Dropdown.ListItem>
                     <Dropdown.Divider />

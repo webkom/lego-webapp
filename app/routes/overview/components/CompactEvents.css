@@ -41,7 +41,7 @@
 }
 
 .compactEvents a:hover {
-  color: #c0392b;
+  color: var(--lego-link-color);
 }
 
 .showMoreLink {

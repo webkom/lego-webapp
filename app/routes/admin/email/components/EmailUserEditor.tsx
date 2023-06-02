@@ -72,17 +72,17 @@ const EmailUserEditor = ({
         placeholder="abakus"
         suffix="@abakus.no"
         name="internalEmail"
-        label="Gsuite Epost"
+        label="G Suite e-post"
         component={TextInput.Field}
       />
       <Field
-        label="Aktiv epost"
+        label="Aktiv e-post"
         name="internalEmailEnabled"
         component={CheckBox.Field}
         normalize={(v) => !!v}
       />
       <Button submit disabled={submitting}>
-        {emailUserId ? 'Oppdater epostbruker' : 'Lag epostbruker'}
+        {emailUserId ? 'Oppdater e-postbruker' : 'Lag e-postbruker'}
       </Button>
     </Form>
   );

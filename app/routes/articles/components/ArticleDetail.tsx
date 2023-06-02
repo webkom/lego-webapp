@@ -73,7 +73,7 @@ const ArticleDetail = ({
 
       {
         <div className={styles.articleDetails}>
-          <span className={styles.detail}>
+          <span className="secondaryFontColor">
             Skrevet av{' '}
             {authors?.map((e, i) => {
               return (
@@ -84,7 +84,7 @@ const ArticleDetail = ({
               );
             })}
           </span>
-          <span className={styles.detail}>
+          <span className="secondaryFontColor">
             {moment(article.createdAt).format('lll')}
           </span>
         </div>

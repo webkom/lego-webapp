@@ -108,7 +108,7 @@ const RestrictedMailEditor = ({
         label="Brukere"
         name="users"
         isMulti
-        placeholder="Brukere du ønsker å sende epost til"
+        placeholder="Brukere du ønsker å sende e-post til"
         filter={['users.user']}
         component={SelectInput.AutocompleteField}
       />
@@ -117,7 +117,7 @@ const RestrictedMailEditor = ({
         label="Grupper"
         name="groups"
         isMulti
-        placeholder="Grupper du ønsker å sende epost til"
+        placeholder="Grupper du ønsker å sende e-post til"
         filter={['users.abakusgroup']}
         component={SelectInput.AutocompleteField}
       />
@@ -126,7 +126,7 @@ const RestrictedMailEditor = ({
         label="Arrangementer"
         name="events"
         isMulti
-        placeholder="Arrangementer du ønsker å sende epost til"
+        placeholder="Arrangementer du ønsker å sende e-post til"
         filter={['events.event']}
         component={SelectInput.AutocompleteField}
       />
@@ -135,13 +135,13 @@ const RestrictedMailEditor = ({
         label="Møter"
         name="meetings"
         isMulti
-        placeholder="Møter du ønsker å sende epost til"
+        placeholder="Møter du ønsker å sende e-post til"
         filter={['meetings.meeting']}
         component={SelectInput.AutocompleteField}
       />
       <Field
         disabled={restrictedMailId}
-        label="Epost addresser"
+        label="E-post addresser"
         name="rawAddresses"
         placeholder="Enkelte e-poster du ønsker å sende til"
         component={SelectInput.Field}

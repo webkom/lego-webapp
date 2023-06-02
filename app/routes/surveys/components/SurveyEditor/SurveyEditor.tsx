@@ -338,7 +338,7 @@ const SurveyEditor = ({
       </TypedLegoForm>
 
       <i className={styles.mailInfo}>
-        Deltagerene på arrangementet vil få mail med link til
+        Deltagerene på arrangementet vil få e-post med link til
         spørreundersøkelsen når den aktiveres (
         <Time time={activeFrom} format="HH:mm DD. MMM" />
         ).

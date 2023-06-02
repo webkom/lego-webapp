@@ -85,7 +85,7 @@ const BrandPage = () => (
               href="https://github.com/abakus-ntnu/grafisk-profil/archive/master.zip"
               download="proposed_file_name"
             >
-              Last Ned
+              Last ned
             </a>
           </Button>
           <h2 className={styles.h2Padding}>Abakusfarger</h2>
@@ -106,7 +106,7 @@ const BrandPage = () => (
               href="https://github.com/abakus-ntnu/grafisk-profil/blob/master/maler/Abakus%20-%20Presentasjonsmal.pptx?raw=true"
               download="proposed_file_name"
             >
-              Last Ned
+              Last ned
             </a>
           </Button>
         </div>

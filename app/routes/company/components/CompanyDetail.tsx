@@ -135,7 +135,7 @@ const CompanyDetail = ({
               <JoblistingItem key={joblisting.id} joblisting={joblisting} />
             ))
           ) : (
-            <span className={styles.noEventsMessage}>
+            <span className="secondaryFontColor">
               Ingen tilgjengelige jobbannonser
             </span>
           )}

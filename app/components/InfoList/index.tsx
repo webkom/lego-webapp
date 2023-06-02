@@ -21,17 +21,7 @@ function InfoList({ items, className }: Props) {
       <tbody>
         {items.filter(Boolean).map(({ key, keyNode, value }) => (
           <tr key={key}>
-            <td>
-              {keyNode ?? (
-                <span
-                  style={{
-                    marginRight: 5,
-                  }}
-                >
-                  {key}
-                </span>
-              )}
-            </td>
+            <td>{keyNode ?? <span>{key}</span>}</td>
             <td>
               <strong>{value}</strong>
             </td>

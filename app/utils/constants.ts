@@ -24,7 +24,7 @@ export const ROLES = {
   webmaster: 'Webansvarlig',
   interest_group_admin: 'Interessegruppeansvarlig',
   alumni_admin: 'Alumniansvarlig',
-  retiree_email: 'Pang med epost',
+  retiree_email: 'Pang med e-post',
   company_admin: 'Bedriftsansvarlig',
   dugnad_admin: 'Dugnadsansvarlig',
   trip_admin: 'Turansvarlig',

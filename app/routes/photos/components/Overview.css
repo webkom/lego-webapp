@@ -99,5 +99,5 @@
 /* Required for migrating react-collapse v4 -> v5 */
 /* stylelint-disable-next-line selector-class-pattern */
 :global(.ReactCollapse--collapse) {
-  transition: height var(--linear-slow);
+  transition: height var(--easing-medium);
 }

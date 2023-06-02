@@ -3,7 +3,6 @@ import EventItem, { type EventStyle } from 'app/components/EventItem';
 import { Flex } from 'app/components/Layout';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import type { Event } from 'app/models';
-import styles from './EventListCompact.css';
 
 type Props = {
   events: Array<Event>;
@@ -33,9 +32,7 @@ const EventListCompact = ({
       ))}
     </Flex>
   ) : (
-    <EmptyState className={styles.noEventsMessage}>
-      {noEventsMessage}
-    </EmptyState>
+    <EmptyState className="secondaryFontColor">{noEventsMessage}</EmptyState>
   );
 };
 export default EventListCompact;

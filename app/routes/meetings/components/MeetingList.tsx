@@ -82,14 +82,7 @@ const MeetingListView = ({
       </div>
     ))}
     {!sections.length && (
-      <h2
-        style={{
-          textAlign: 'center',
-          marginBottom: 10,
-        }}
-      >
-        Ingen møter å vise
-      </h2>
+      <h3 className={styles.noDataMessage}>Ingen møter å vise</h3>
     )}
   </div>
 );
@@ -115,7 +108,7 @@ const MeetingList = ({
   return (
     <Content>
       <Helmet title="Dine møter" />
-      <NavigationTab title="Dine Møter">
+      <NavigationTab title="Dine møter">
         <NavigationLink to="/meetings/create/">Nytt møte</NavigationLink>
       </NavigationTab>
       {!meetingSections || loading ? (

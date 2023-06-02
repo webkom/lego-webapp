@@ -133,8 +133,8 @@ export default class EmailUsers extends Component<Props> {
             fornavn.etternavn@abakus.no. Adressen kan ikke endres senere, så vær
             sikker på at adressen som settes er riktig.
           </b>{' '}
-          Alle brukere med en aktivert adresse vil motta sin mail fra Abakus på
-          denne. Adressen kan deaktiveres når brukeren ikke lengre er aktiv i
+          Alle brukere med en aktivert adresse vil motta sin e-post fra Abakus
+          på denne. Adressen kan deaktiveres når brukeren ikke lengre er aktiv i
           Abakus, men adressen vil ikke bli tilgjengelig for andre brukere.
         </p>
         <Flex

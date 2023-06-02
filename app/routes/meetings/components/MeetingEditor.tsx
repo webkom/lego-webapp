@@ -310,7 +310,7 @@ const MeetingEditor = ({
                   Avbryt
                 </Button>
                 {spySubmittable((submittable) => (
-                  <Button success={isEditPage} disabled={!submittable} submit>
+                  <Button success disabled={!submittable} submit>
                     {isEditPage ? 'Lagre endringer' : 'Opprett møte'}
                   </Button>
                 ))}

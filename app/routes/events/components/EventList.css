@@ -12,7 +12,7 @@
 }
 
 .noEvents {
-  color: var(--color-gray-5);
+  color: var(--secondary-font-color);
   font-weight: 400;
   font-size: var(--font-size-lg);
 }

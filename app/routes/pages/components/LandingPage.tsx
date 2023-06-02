@@ -175,7 +175,7 @@ const LandingPage: PageRenderer = ({ loggedIn }) => {
               extraStyle={{ margin: 0 }}
             />
             <TextWithTitle
-              title="Webkom's besøksadresse"
+              title="Webkom sin besøksadresse"
               text={info.webkomOfficeAddress}
               extraStyle={{ margin: 0 }}
             />

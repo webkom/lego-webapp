@@ -48,7 +48,7 @@ const CommentForm = ({
   const className = inlineMode ? styles.inlineForm : styles.form;
 
   if (!loggedIn) {
-    return <div>Vennligst logg inn.</div>;
+    return <div>Vennligst logg inn for å kommentere.</div>;
   }
 
   return (

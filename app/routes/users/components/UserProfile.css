@@ -77,3 +77,8 @@
 .bottomMargin {
   margin-bottom: 30px;
 }
+
+.groupExplanation {
+  font-size: var(--font-size-sm);
+  color: var(--secondary-font-color);
+}

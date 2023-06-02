@@ -100,4 +100,8 @@ html[data-theme='dark'] .contentContainer {
       margin-left: 0.5rem;
     }
   }
+
+  .secondaryFontColor {
+    color: var(--secondary-font-color);
+  }
 }

@@ -83,9 +83,9 @@ describe('Polls', () => {
 
   it('can answer poll', () => {
     cy.visit('/polls/2');
-    cy.contains('Stemmer: 13');
+    cy.contains('13 stemmer');
     cy.contains('yo').click();
-    cy.contains('Stemmer: 14');
+    cy.contains('14 stemmer');
   });
 
   it('can edit poll and answer it on frontpage', () => {
@@ -120,9 +120,9 @@ describe('Polls', () => {
     cy.visit('/');
     cy.contains('Avstemning');
     cy.contains(poll_form.title);
-    cy.contains('Stemmer: 0');
+    cy.contains('0 stemmer');
     cy.contains(poll_form.choice_1).click();
-    cy.contains('Stemmer: 1');
+    cy.contains('1 stemme');
     cy.contains('a', poll_form.title).click();
     cy.url().should('include', '/polls');
   });

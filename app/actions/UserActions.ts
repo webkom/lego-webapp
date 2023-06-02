@@ -372,7 +372,7 @@ export function sendRegistrationEmail({
           captchaResponse,
         },
         meta: {
-          errorMessage: 'Sending av registrerings-epost feilet',
+          errorMessage: 'Sending av registrerings-e-post feilet',
         },
       })
     );

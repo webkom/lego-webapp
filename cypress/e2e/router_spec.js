@@ -130,7 +130,7 @@ describe('Navigate throughout app', () => {
         cy.contains('Møteinnkallinger').click();
       });
     cy.url().should('contain', '/meetings');
-    cy.contains('Dine Møter');
+    cy.contains('Dine møter');
     cy.contains('Hent gamle');
 
     // Go to create new
@@ -150,7 +150,7 @@ describe('Navigate throughout app', () => {
         cy.contains('Dine møter').click();
       });
     cy.url().should('contain', '/meetings');
-    cy.contains('Dine Møter');
+    cy.contains('Dine møter');
   });
 
   it('should be able to access the extended menu', () => {
@@ -209,7 +209,7 @@ describe('Navigate throughout app', () => {
 
     // Meetings
     openMenuAndSelect('Møter', '/meetings');
-    cy.contains('Dine Møter');
+    cy.contains('Dine møter');
 
     // About
     openMenuAndSelect('Om Abakus', '/pages/info-om-abakus');

@@ -119,7 +119,7 @@ const Attendees = ({
     moment().isBefore(event.unregistrationCloseTime) ||
     moment().isBefore(event.registrationCloseTime);
   const exportInfoMessage = `Informasjonen du eksporterer MÅ slettes når det ikke lenger er behov for den,
-                og skal kun distribueres gjennom mail. Dersom informasjonen skal deles med personer utenfor Abakus
+                og skal kun distribueres gjennom e-post. Dersom informasjonen skal deles med personer utenfor Abakus
                 må det spesifiseres for de påmeldte hvem informasjonen skal deles med.`;
 
   const createInfoCSV = async () => {
@@ -191,7 +191,7 @@ const Attendees = ({
           </div>
         </div>
         {registered.length === 0 ? (
-          <li>Ingen påmeldte</li>
+          <span className="secondaryFontColor">Ingen påmeldte</span>
         ) : (
           <RegisteredTable
             event={event}
@@ -213,7 +213,7 @@ const Attendees = ({
           Avmeldte:
         </strong>
         {unregistered.length === 0 ? (
-          <li>Ingen avmeldte</li>
+          <span className="secondaryFontColor">Ingen avmeldte</span>
         ) : (
           <UnregisteredTable
             unregistered={unregistered}

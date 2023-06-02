@@ -4,10 +4,6 @@
   margin-top: 8px;
 }
 
-.detail {
-  color: var(--secondary-font-color);
-}
-
 span.detail + span.detail {
   margin-left: 10px;
 }

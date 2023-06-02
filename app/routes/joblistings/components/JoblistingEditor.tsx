@@ -218,7 +218,7 @@ class JoblistingEditor extends Component<Props, State> {
           />
           <Field
             name="contactMail"
-            placeholder="E-mail"
+            placeholder="E-post"
             label="Søknadsmail eller kontaktmail"
             component={TextInput.Field}
           />

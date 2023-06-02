@@ -62,7 +62,7 @@ describe('Event registration & payment', () => {
       // Set event to priced
       cy.contains('Betalt arrangement').click();
       // You need to touch the field before the errors pop up
-      cy.contains('Pris medlem').should('be.visible').click();
+      cy.contains('Pris (medlem)').should('be.visible').click();
 
       // FIXME: You need to click outside the payment "sub-form" to show
       // field errors.
@@ -72,7 +72,7 @@ describe('Event registration & payment', () => {
 
       cy.contains('systemgebyr').should('exist').click();
 
-      cy.contains('Pris medlem').click();
+      cy.contains('Pris (medlem)').click();
       // TODO Make form clear if value is invalid (0 or non-numeneric)
       cy.focused().type('{moveToEnd}{backspace}200');
 

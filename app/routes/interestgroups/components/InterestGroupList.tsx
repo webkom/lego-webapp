@@ -43,7 +43,7 @@ const InterestGroupList = ({ actionGrant, interestGroups }: Props) => {
         ))}
         <h2> Ikke aktive interessegrupper </h2>
         <p>
-          Send gjerne mail til
+          Send gjerne e-post til
           <a href="mailTo:interessegrupper@abakus.no"> oss </a> hvis du ønsker å
           åpne en av disse igjen!
         </p>

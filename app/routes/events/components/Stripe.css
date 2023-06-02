@@ -1,11 +1,5 @@
 @import url('~app/styles/variables.css');
 
-.stripeLabel {
-  color: var(--color-gray-5);
-  font-weight: 300;
-  letter-spacing: 0.025em;
-}
-
 .stripeButton {
   width: 100%;
 }
@@ -13,16 +7,13 @@
 .elementsFieldset {
   margin: 1em 0;
   padding: 1em;
-  border: 1px solid #6772e585;
+  border: 1px solid var(--border-gray);
   border-radius: var(--border-radius-lg);
 }
 
 .elementsLedgend {
   text-align: center;
   padding: 0 1em;
-  color: #6b7c93;
-  font-weight: 300;
-  letter-spacing: 0.025em;
 }
 
 .formSeparator {
@@ -38,16 +29,14 @@
   padding: 10px 14px;
   font-size: var(--font-size-md);
   font-family: 'Source Code Pro', monospace;
-  box-shadow: var(--shadow-sm);
-  border: 0;
+  border: 1.5px solid var(--border-gray);
   outline: 0;
   border-radius: var(--border-radius-md);
-  background: white;
 }
 
 .error {
-  background: #c24538;
-  color: #fff;
+  background: var(--danger-color);
+  color: var(--color-absolute-white);
   padding: 5px 10px;
   margin-bottom: 1em;
   border-radius: var(--border-radius-sm);
@@ -55,7 +44,7 @@
 
 .success {
   background: var(--color-green-6);
-  color: #fff;
+  color: var(--color-absolute-white);
   text-align: center;
   padding: 5px 10px;
   margin-top: 3px;

@@ -68,8 +68,8 @@ const UserSettingsOAuth2Form = (props: Props) => {
 
         {!props.create && (
           <Field
-            placeholder="Client Secret"
-            label="Client Secret"
+            placeholder="Client secret"
+            label="Client secret"
             name="clientSecret"
             component={TextInput.Field}
             readOnly

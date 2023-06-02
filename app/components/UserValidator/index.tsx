@@ -133,7 +133,7 @@ const Validator = (props: Props) => {
         onClick={() => setShowScanner(true)}
       >
         <Icon className={styles.qrIcon} name="qr-code" size={18} />
-        Vis scanner
+        Åpne scanner
       </Button>
       <SearchPage<UserSearchResult>
         {...props}

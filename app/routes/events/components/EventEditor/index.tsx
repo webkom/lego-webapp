@@ -343,7 +343,7 @@ function EventEditor({
                   </div>
                 )}
                 <Field
-                  label="Pris medlem"
+                  label="Pris (medlem)"
                   name="priceMember"
                   type="number"
                   component={TextInput.Field}
@@ -469,7 +469,7 @@ function EventEditor({
             {['NORMAL', 'INFINITE'].includes(
               event.eventStatusType && event.eventStatusType.value
             ) && (
-              <Tooltip content="Navn, telefonnummer og epost kan deles med folk utenfor Abakus til smittesporing. Dersom informasjonen skal kunne deles med andre enn FHI og NTNU, må dette spesifiseres i beskrivelsen.">
+              <Tooltip content="Navn, telefonnummer og e-post kan deles med folk utenfor Abakus til smittesporing. Dersom informasjonen skal kunne deles med andre enn FHI og NTNU, må dette spesifiseres i beskrivelsen.">
                 <Field
                   label="Informasjon kan deles til smittesporing"
                   name="useContactTracing"

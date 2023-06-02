@@ -36,7 +36,7 @@ const UserResetPassword = ({
   };
   return (
     <Content>
-      <h1>Tilbakestill Passord</h1>
+      <h1>Tilbakestill passord</h1>
       {token ? (
         <Form
           onSubmit={handleSubmit((props) =>
@@ -59,7 +59,7 @@ const UserResetPassword = ({
           </Button>
         </Form>
       ) : (
-        <p>No token...</p>
+        <p>Ingen token ...</p>
       )}
     </Content>
   );

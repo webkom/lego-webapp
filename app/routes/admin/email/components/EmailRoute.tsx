@@ -13,7 +13,7 @@ const EmailPage = ({ children }: PropsWithChildren) => (
         Brukere
       </NavigationLink>
       <NavigationLink to="/admin/email/restricted">
-        Begrenset epost
+        Begrenset e-post
       </NavigationLink>
     </NavigationTab>
     {children}
