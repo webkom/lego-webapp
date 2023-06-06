@@ -184,7 +184,7 @@
     "react-refresh": "^0.14.0",
     "redux-mock-store": "^1.5.4",
     "style-loader": "^3.3.3",
-    "stylelint": "^15.6.3",
+    "stylelint": "^15.7.0",
     "stylelint-config-standard": "^33.0.0",
     "terser-webpack-plugin": "^5.3.9",
     "timekeeper": "^2.2.0",
