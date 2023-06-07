@@ -199,7 +199,7 @@
     "webpack-filter-warnings-plugin": "^1.2.1",
     "webpack-hot-middleware": "^2.25.3",
     "webpack-node-externals": "^3.0.0",
-    "webpack-stats-plugin": "^1.1.1"
+    "webpack-stats-plugin": "^1.1.3"
   },
   "stylelint": {
     "extends": "stylelint-config-standard",
