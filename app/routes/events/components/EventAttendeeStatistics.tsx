@@ -284,12 +284,12 @@ const Analytics = ({ eventId }: { eventId: ID }) => {
             <linearGradient id="colorView" x1="0" y1="0" x2="0" y2="1">
               <stop
                 offset="30%"
-                stopColor="var(--color-blue-5)"
+                stopColor="var(--color-blue-6)"
                 stopOpacity={0.4}
               />
               <stop
                 offset="75%"
-                stopColor="var(--color-blue-4)"
+                stopColor="var(--color-blue-5)"
                 stopOpacity={0.3}
               />
               <stop
@@ -325,7 +325,7 @@ const Analytics = ({ eventId }: { eventId: ID }) => {
             name="Besøkende"
             dataKey="visitors"
             type="monotone"
-            stroke="var(--color-blue-5)"
+            stroke="var(--color-blue-6)"
             strokeWidth={3}
             strokeOpacity={1}
             fill="url(#colorView)"
