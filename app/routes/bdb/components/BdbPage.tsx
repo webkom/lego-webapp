@@ -1,6 +1,7 @@
 import qs from 'qs';
 import { Component } from 'react';
 import { Helmet } from 'react-helmet-async';
+import Card from 'app/components/Card';
 import { Content } from 'app/components/Content';
 import TextInput from 'app/components/Form/TextInput';
 import LoadingIndicator from 'app/components/LoadingIndicator';
@@ -213,13 +214,10 @@ export default class BdbPage extends Component<Props, State> {
           filters={this.state.filters}
         />
 
-        <i
-          style={{
-            display: 'block',
-          }}
-        >
-          <b>Tips:</b> Du kan endre semestere ved å trykke på dem i listen!
-        </i>
+        <Card info>
+          <Card.Header>Tips</Card.Header>
+          Du kan endre semestere ved å trykke på dem i listen!
+        </Card>
 
         <CompanyList
           companies={filteredCompanies}

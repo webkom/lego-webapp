@@ -32,7 +32,7 @@ const CardContent = ({ children, danger, info }: CardContentProps) => {
   }
 
   return icon !== undefined ? (
-    <Flex gap={20}>
+    <Flex gap={20} className={styles.cardWithSeverity}>
       {icon}
       <Flex column>{children}</Flex>
     </Flex>

@@ -2,6 +2,7 @@ import { Helmet } from 'react-helmet-async';
 import { connect } from 'react-redux';
 import { reduxForm, Field, reset } from 'redux-form';
 import Button from 'app/components/Button';
+import Card from 'app/components/Card';
 import { ContentMain } from 'app/components/Content';
 import { Form, SelectInput, TextArea } from 'app/components/Form';
 import Flex from 'app/components/Layout/Flex';
@@ -99,7 +100,8 @@ let AnnouncementsCreate = ({
               filter={['users.abakusgroup']}
               component={SelectInput.AutocompleteField}
             />
-            <Flex>
+
+            <Flex wrap>
               <Button
                 onClick={handleSubmit((values) => onSubmit(values, false))}
                 disabled={disabledButton}
@@ -112,6 +114,11 @@ let AnnouncementsCreate = ({
               >
                 Opprett og send
               </Button>
+
+              <Card info>
+                Du kan velge å sende kunngjøringen med en gang, eller lagre den
+                og sende den senere fra listen nedenfor.
+              </Card>
             </Flex>
           </Form>
         </Flex>

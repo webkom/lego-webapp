@@ -2,6 +2,7 @@ import cx from 'classnames';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Button from 'app/components/Button';
+import Card from 'app/components/Card';
 import CommentView from 'app/components/Comments/CommentView';
 import { Content } from 'app/components/Content';
 import Icon from 'app/components/Icon';
@@ -415,7 +416,10 @@ export default class BdbDetail extends Component<Props, State> {
                 marginBottom: '10px',
               }}
             >
-              <p>Tips: Du kan endre semestere ved å trykke på dem i listen!</p>
+              <Card info>
+                <Card.Header>Tips</Card.Header>
+                Du kan endre semestere ved å trykke på dem i listen!
+              </Card>
               <table className={styles.detailTable}>
                 <thead>
                   <tr>

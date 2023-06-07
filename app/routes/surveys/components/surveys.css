@@ -303,11 +303,6 @@
   }
 }
 
-.mailInfo {
-  display: block;
-  margin-top: 10px;
-}
-
 .infoBubbles {
   display: flex;
   text-align: center;

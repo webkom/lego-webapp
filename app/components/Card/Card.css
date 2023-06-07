@@ -18,6 +18,7 @@
 }
 
 .danger {
+  margin: 20px 0;
   background-color: var(--color-red-1);
   border: 1.5px solid var(--danger-color);
   color: var(--danger-color);
@@ -47,6 +48,7 @@ html[data-theme='dark'] .danger a:hover {
 
 /* stylelint-disable no-descending-specificity */
 .info {
+  margin: 20px 0;
   background-color: var(--color-blue-1);
   border: 1.5px solid var(--color-blue-7);
   color: var(--color-blue-7);
