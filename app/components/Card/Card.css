@@ -19,7 +19,7 @@
 
 .danger {
   background-color: var(--color-red-1);
-  border: 3px solid var(--danger-color);
+  border: 1.5px solid var(--danger-color);
   color: var(--danger-color);
 }
 
@@ -43,6 +43,26 @@ html[data-theme='dark'] .danger {
 
 html[data-theme='dark'] .danger a:hover {
   color: var(--color-red-3);
+}
+
+/* stylelint-disable no-descending-specificity */
+.info {
+  background-color: var(--color-blue-1);
+  border: 1.5px solid var(--color-blue-7);
+  color: var(--color-blue-7);
+}
+
+.info a {
+  color: var(--color-blue-8);
+  text-decoration: underline;
+
+  &:hover {
+    color: var(--color-blue-7);
+  }
+}
+
+.infoIcon {
+  color: var(--color-blue-8);
 }
 
 .header {

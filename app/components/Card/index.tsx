@@ -13,6 +13,34 @@ const CardHeader = ({ children, className }: CardHeaderProps) => (
   <div className={cx(styles.header, className)}>{children}</div>
 );
 
+type CardContentProps = {
+  children: ReactNode;
+  danger?: boolean;
+  info?: boolean;
+};
+
+const CardContent = ({ children, danger, info }: CardContentProps) => {
+  let icon;
+  if (danger) {
+    icon = <Icon name="alert-circle-outline" className={styles.warningIcon} />;
+  }
+
+  if (info) {
+    icon = (
+      <Icon name="information-circle-outline" className={styles.infoIcon} />
+    );
+  }
+
+  return icon !== undefined ? (
+    <Flex gap={20}>
+      {icon}
+      <Flex column>{children}</Flex>
+    </Flex>
+  ) : (
+    <>{children}</>
+  );
+};
+
 type Props = {
   className?: string;
   tight?: boolean;
@@ -20,6 +48,7 @@ type Props = {
   hideOverflow?: boolean;
   isHoverable?: boolean;
   danger?: boolean;
+  info?: boolean;
 } & HTMLAttributes<HTMLDivElement>;
 
 function Card({
@@ -30,6 +59,7 @@ function Card({
   hideOverflow = false,
   isHoverable = false,
   danger = false,
+  info = false,
   ...htmlAttributes
 }: Props) {
   return (
@@ -40,21 +70,17 @@ function Card({
         tight && styles.tight,
         shadow && styles.shadow,
         isHoverable && styles.isHoverable,
-        danger && styles.danger
+        danger && styles.danger,
+        info && styles.info
       )}
       style={{
         overflow: hideOverflow ? 'hidden' : 'initial',
       }}
       {...htmlAttributes}
     >
-      {danger ? (
-        <Flex gap={20}>
-          {danger && <Icon name="warning" className={styles.warningIcon} />}
-          <Flex column>{children}</Flex>
-        </Flex>
-      ) : (
-        <>{children}</>
-      )}
+      <CardContent danger={danger} info={info}>
+        {children}
+      </CardContent>
     </div>
   );
 }
