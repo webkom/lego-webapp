@@ -264,7 +264,9 @@ class CompanyInterestList extends Component<Props, State> {
           ) : (
             <Tooltip
               style={
-                this.props.selectedSemesterOption.year && { display: 'none' }
+                this.props.selectedSemesterOption.year
+                  ? { display: 'none' }
+                  : undefined
               }
               content={'Vennligst velg semester'}
             >

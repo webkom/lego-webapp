@@ -56,7 +56,6 @@ const UploadStatusCard = ({
       )}
       {hasFailedUploads && (
         <Tooltip
-          list
           content={
             <Flex column>
               {uploadStatus.failedImages.map(

@@ -1,5 +1,5 @@
-import cx from 'classnames';
-import { useState, useRef, useEffect } from 'react';
+import { useEffect, useState, useRef } from 'react';
+import { usePopper } from 'react-popper';
 import styles from './Tooltip.css';
 import type { ReactNode, CSSProperties } from 'react';
 
@@ -9,93 +9,69 @@ type Props = {
   className?: string;
   onClick?: () => void;
   style?: CSSProperties;
-  list?: boolean;
-  renderDirection?: string;
-  pointerPosition?: string;
 };
 
-/**
- * A tooltip that appears when you hover over the component placed within.
- * The tooltip will by default be centered, however it supports a 'renderDirection'
- * prop that will make it render either to the left or the right from the postion of the pointer. The pointer
- * (the small arrow that points towards the component within the tooltip) will
- * also default to center, and it can be adjusted with the 'pointerPosition' prop.
- * Both props can be set as either 'left' or 'right'.
- */
-const Tooltip = ({
-  children,
-  content,
-  className,
-  list = false,
-  style,
-  onClick,
-  renderDirection,
-  pointerPosition,
-}: Props) => {
+const Tooltip = ({ children, content, className, style, onClick }: Props) => {
   const [hovered, setHovered] = useState(false);
-  const [childrenContainerWidth, setChildrenContainerWidth] = useState(0);
-  const tooltipRef = useRef<HTMLDivElement | null>(null);
+  const tooltipRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLDivElement>(null);
+  const arrowRef = useRef<HTMLDivElement>(null);
 
-  const measure = () => {
-    if (tooltipRef.current) {
-      setChildrenContainerWidth(tooltipRef.current.offsetWidth);
-    }
-  };
+  const {
+    styles: popperStyles,
+    attributes,
+    update,
+  } = usePopper(triggerRef.current, tooltipRef.current, {
+    placement: 'auto',
+    modifiers: [
+      {
+        name: 'arrow',
+        options: {
+          element: arrowRef.current,
+        },
+      },
+      {
+        name: 'offset',
+        options: {
+          offset: [0, 10],
+        },
+      },
+    ],
+  });
 
   useEffect(() => {
-    measure();
-  }, []);
-
-  let renderDirectionClass = styles.renderFromCenter;
-  let startPointChildren = 2;
-
-  if (!list) {
-    switch (renderDirection) {
-      case 'left':
-        renderDirectionClass = styles.renderDirectionLeft;
-        break;
-
-      case 'right':
-        renderDirectionClass = styles.renderDirectionRight;
-        break;
-
-      default:
-        break;
+    if (hovered && update !== null) {
+      update();
     }
-
-    switch (pointerPosition) {
-      case 'left':
-        startPointChildren = 9;
-        break;
-
-      case 'right':
-        startPointChildren = 10 / 9;
-        break;
-
-      default:
-        break;
-    }
-  }
+  }, [hovered, update]);
 
   const tooltipClass = hovered ? styles.baseTooltipHover : styles.tooltip;
-  const tooltip = list ? styles.listTooltip : styles.showTooltip;
+
   return (
-    <div className={className} onClick={onClick}>
+    <div
+      className={className}
+      style={style}
+      onClick={onClick}
+      ref={triggerRef}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      {children}
       <div
         ref={tooltipRef}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
+        style={popperStyles.popper}
+        {...attributes.popper}
+        className={tooltipClass}
       >
+        <div className={styles.content}>{content}</div>
         <div
-          className={cx(tooltipClass, tooltip, renderDirectionClass)}
+          ref={arrowRef}
           style={{
-            ...style,
-            marginLeft: childrenContainerWidth / startPointChildren - 5,
+            ...popperStyles.arrow,
           }}
-        >
-          {content}
-        </div>
-        {children}
+          {...attributes.arrow}
+          className={styles.arrow}
+        />
       </div>
     </div>
   );

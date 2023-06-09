@@ -45,12 +45,7 @@ const UserGrid = ({
 );
 
 const RegisteredUserCell = ({ user }: { user: User }) => (
-  <Tooltip
-    style={{
-      marginTop: '-7px',
-    }}
-    content={user.fullName}
-  >
+  <Tooltip content={user.fullName}>
     <Link to={`/users/${user.username}`}>
       <ProfilePicture
         alt={`${user.username}'s profile picture`}

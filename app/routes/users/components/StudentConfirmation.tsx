@@ -107,28 +107,11 @@ const StudentConfirmation = ({
           <RadioButtonGroup
             name="isTwoYears"
             label={
-              <Flex>
+              <Flex alignItems="center" gap={5}>
                 <div>Begynner du på 2-årig eller 5-årig master?</div>
-                <div
-                  style={{
-                    marginLeft: '5px',
-                  }}
-                >
-                  <Tooltip
-                    style={{
-                      marginLeft: '3px',
-                    }}
-                    content="Huk av 2-årig master her kun hvis du begynner på to-arig master studiet på din respektive linje. Dvs. du har en bachelor fra før av. Begynner du i første klasse og skal studere i 5 år, huk av 5-årig master."
-                  >
-                    <Icon
-                      name="information-circle-outline"
-                      size={20}
-                      style={{
-                        cursor: 'pointer',
-                      }}
-                    />
-                  </Tooltip>
-                </div>
+                <Tooltip content="Huk av 2-årig master her kun hvis du begynner på to-arig master studiet på din respektive linje. Dvs. du har en bachelor fra før av. Begynner du i første klasse og skal studere i 5 år, huk av 5-årig master.">
+                  <Icon name="information-circle-outline" size={20} />
+                </Tooltip>
               </Flex>
             }
           >

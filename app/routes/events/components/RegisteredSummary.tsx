@@ -52,7 +52,6 @@ const RegistrationList = ({
 }: RegistrationListProps) => (
   <Tooltip
     content={renderNameList(registrations)}
-    list
     className={styles.registrationList}
     onClick={onClick}
   >

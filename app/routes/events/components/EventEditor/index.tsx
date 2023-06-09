@@ -136,13 +136,7 @@ function EventEditor({
               <Flex alignItems="center" gap={6}>
                 <div>Erstatt cover-bildet med video fra YouTube</div>
                 <Tooltip content="Valgfritt felt. Videoen erstatter ikke coveret i listen over arrangementer.">
-                  <Icon
-                    name="information-circle-outline"
-                    size={20}
-                    style={{
-                      cursor: 'pointer',
-                    }}
-                  />
+                  <Icon name="information-circle-outline" size={20} />
                 </Tooltip>
               </Flex>
             }
@@ -564,9 +558,6 @@ function EventEditor({
         </ContentSection>
         {!isEditPage && (
           <Tooltip
-            style={{
-              marginLeft: '3px',
-            }}
             content={
               <>
                 Jeg er kjent med at jeg kun kan bruke rettighetene mine til å

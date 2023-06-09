@@ -67,14 +67,11 @@ const InterestedButton = ({ isInterested }: InterestedButtonProps) => {
       }}
     >
       <Tooltip
-        style={{
-          lineHeight: '1.3rem',
-        }}
         content={
           <span
             style={{
-              fontSize: '1rem',
-              fontWeight: '100',
+              fontSize: 'var(--font-size-md)',
+              fontWeight: '400',
               padding: '0',
             }}
           >
