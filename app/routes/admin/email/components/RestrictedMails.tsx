@@ -54,9 +54,9 @@ export default class RestrictedMails extends Component<Props> {
           definerte adresser. En begrenset e-post kan kun benyttes en gang, og
           må komme fra en forhåndsdefinert adresse. For ytterligere sikkerhet må
           en fil legges som vedlegg for verifisering av avsender. Denne filen
-          vil bli validert og fjernet før eposten sendes til mottakere.
+          vil bli validert og fjernet før e-posten sendes til mottakere.
           Begrenset e-post kan sendes med skult avsender, mottakere vil da ikke
-          kunne svare på eposten.
+          kunne svare på e-posten.
           <ul
             style={{
               listStyleType: 'circle',
@@ -70,7 +70,7 @@ export default class RestrictedMails extends Component<Props> {
               Mottaker settes til <b>restricted@abakus.no</b>
             </li>
             <li>Legg inn e-post token som vedlegg</li>
-            <li>Send eposten</li>
+            <li>Send e-posten</li>
           </ul>
         </p>
         <Flex

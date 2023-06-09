@@ -431,13 +431,14 @@ export default class BdbDetail extends Component<Props, State> {
               </table>
             </div>
           ) : (
-            <i
+            <span
+              className="secondaryFontColor"
               style={{
                 display: 'block',
               }}
             >
-              Ingen sememsterstatuser.
-            </i>
+              Ingen sememsterstatuser
+            </span>
           )}
           <div>
             <Link to={`/bdb/${company.id}/semesters/add`}>
@@ -448,7 +449,7 @@ export default class BdbDetail extends Component<Props, State> {
             <h3>Filer</h3>
             <ul>
               {!company.files || company.files.length === 0 ? (
-                <i>Ingen filer.</i>
+                <span className="secondaryFontColor">Ingen filer</span>
               ) : (
                 company.files.map((file) => (
                   <li key={file.id}>
@@ -460,7 +461,9 @@ export default class BdbDetail extends Component<Props, State> {
           </div>
           <div className={styles.adminNote}>
             <h3>Notat i listen</h3>
-            {company.adminComment || <i>Ingen notater</i>}
+            {company.adminComment || (
+              <span className="secondaryFontColor">Ingen notater</span>
+            )}
           </div>
           <h3>Bedriftens arrangementer</h3>
           {events.length > 0 ? (
@@ -499,7 +502,7 @@ export default class BdbDetail extends Component<Props, State> {
               )}
             </div>
           ) : (
-            <i>Ingen arrangementer.</i>
+            <span className="secondaryFontColor">Ingen arrangementer</span>
           )}
           <div
             style={{

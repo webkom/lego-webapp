@@ -114,7 +114,7 @@ describe('Navigate throughout app', () => {
         cy.contains('Verifiser studentstatus').click();
       });
     cy.url().should('contain', '/users/me/settings/student-confirmation');
-    cy.contains('NTNU Brukernavn');
+    cy.contains('NTNU-brukernavn');
   });
 
   it('should be able to navigate to users meetings', () => {

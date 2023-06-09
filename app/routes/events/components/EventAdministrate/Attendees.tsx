@@ -128,7 +128,7 @@ const Attendees = ({
       email: registration.user.email,
       phoneNumber: registration.user.phoneNumber,
     }));
-    const csvBeginning = 'navn,epost,landskode,telefonnummer\n';
+    const csvBeginning = 'navn,e-post,landskode,telefonnummer\n';
     const csvString = data.reduce(
       (prev, current) =>
         prev +

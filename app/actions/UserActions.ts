@@ -439,7 +439,7 @@ export function sendStudentConfirmationEmail(user: string): Thunk<void> {
     method: 'POST',
     body: user,
     meta: {
-      errorMessage: 'Sending av student bekreftelsesepost feilet',
+      errorMessage: 'Sending av student bekreftelsese-post feilet',
     },
   });
 }

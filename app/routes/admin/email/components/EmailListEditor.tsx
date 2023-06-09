@@ -25,7 +25,7 @@ const EmailListEditor = ({ submitting, handleSubmit, emailListId }: Props) => (
       required
       placeholder="Abakus"
       name="name"
-      label="Navnet på Epostliste"
+      label="Navnet på e-postliste"
       component={TextInput.Field}
     />
     <Field
@@ -82,7 +82,7 @@ const EmailListEditor = ({ submitting, handleSubmit, emailListId }: Props) => (
       />
     </Tooltip>
     <Button submit disabled={submitting}>
-      {emailListId ? 'Oppdater epostliste' : 'Lag epostliste'}
+      {emailListId ? 'Oppdater e-postliste' : 'Lag e-postliste'}
     </Button>
   </Form>
 );

@@ -508,11 +508,11 @@ const UserProfile = (props: Props) => {
                but only admins can show permissions for other users.*/}
           {emailListsMapping.length + emailListsOnUser.length > 0 && (
             <div>
-              <h3>Epostlister</h3>
+              <h3>E-postlister</h3>
               <Card className={styles.infoCard}>
                 {emailListsMapping.map(({ abakusGroup, emailLists }) => (
                   <div key={abakusGroup.id}>
-                    <h4>Epostlister fra gruppen {abakusGroup.name}</h4>
+                    <h4>E-postlister fra gruppen {abakusGroup.name}</h4>
                     <ul>
                       {emailLists.map((emailList) => (
                         <li key={emailList.id}>

@@ -37,7 +37,7 @@ export default class EmailUsers extends Component<Props> {
         ),
       },
       {
-        title: 'Internepost',
+        title: 'Intern e-post',
         dataIndex: 'internalEmail',
         search: true,
         inlineFiltering: false,
@@ -143,7 +143,7 @@ export default class EmailUsers extends Component<Props> {
             marginBottom: '10px',
           }}
         >
-          <h3>Aktive/Inaktive epostkontoer</h3>
+          <h3>Aktive/Inaktive e-postkontoer</h3>
           <Link to="/admin/email/users/new">
             <Button>Ny bruker</Button>
           </Link>
