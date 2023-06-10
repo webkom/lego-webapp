@@ -5,7 +5,7 @@ import netcompany from 'app/assets/netcompany_white.svg';
 import octocat from 'app/assets/octocat.png';
 import { Image } from 'app/components/Image';
 import utilityStyles from 'app/styles/utilities.css';
-import styles from './Footer.css';
+import styles from './Footer.module.css';
 
 type Props = {
   loggedIn: boolean;

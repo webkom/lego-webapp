@@ -6,7 +6,7 @@ import { Image } from 'app/components/Image';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import getParamsFromUrl from 'app/utils/getParamsFromUrl';
 import Flex from '../Layout/Flex';
-import styles from './Content.css';
+import styles from './Content.module.css';
 import type { ReactNode } from 'react';
 
 type Props = {

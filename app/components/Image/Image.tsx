@@ -1,7 +1,7 @@
 import cx from 'classnames';
 import { useEffect, useState } from 'react';
 import { useTheme } from 'app/utils/themeUtils';
-import styles from './Image.css';
+import styles from './Image.module.css';
 import type { ImgHTMLAttributes, StyleHTMLAttributes } from 'react';
 
 type Props = {

@@ -1,6 +1,6 @@
 import cx from 'classnames';
 import Icon from 'app/components/Icon';
-import styles from './InfoBubble.css';
+import styles from './InfoBubble.module.css';
 import type { ReactNode } from 'react';
 
 type Props = {

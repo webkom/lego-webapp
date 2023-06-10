@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import styles from './Carousel.css';
+import styles from './Carousel.module.css';
 import type { ReactNode } from 'react';
 
 type MenuItem = {

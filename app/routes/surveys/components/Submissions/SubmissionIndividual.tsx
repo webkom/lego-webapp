@@ -2,7 +2,7 @@ import cx from 'classnames';
 import type { SubmissionEntity } from 'app/reducers/surveySubmissions';
 import type { SurveyEntity } from 'app/reducers/surveys';
 import StaticSubmission from '../StaticSubmission';
-import styles from '../surveys.css';
+import styles from '../surveys.module.css';
 
 type Props = {
   submissions: Array<SubmissionEntity>;

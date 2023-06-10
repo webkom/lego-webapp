@@ -11,7 +11,7 @@ import type {
   EventRegistrationPresence,
   ID,
 } from 'app/models';
-import styles from './Administrate.css';
+import styles from './Administrate.module.css';
 
 type TooltipIconProps = {
   onClick?: (arg0: React.SyntheticEvent<any>) => unknown;

@@ -22,7 +22,7 @@ import type { Dateish } from 'app/models';
 import { useAppDispatch } from 'app/store/hooks';
 import type { ID } from 'app/store/models';
 import type { DetailedRegistration } from 'app/store/models/Registration';
-import styles from './EventAttendeeStatistics.css';
+import styles from './EventAttendeeStatistics.module.css';
 
 interface RegistrationDateDataPoint {
   name: string;

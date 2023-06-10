@@ -2,7 +2,7 @@ import { Component } from 'react';
 import parseDateValue from 'app/utils/parseDateValue';
 import { createField } from './Field';
 import TextInput from './TextInput';
-import styles from './TimePicker.css';
+import styles from './TimePicker.module.css';
 
 function TimePickerInput({ onNext, onPrev, ...props }: any) {
   return (

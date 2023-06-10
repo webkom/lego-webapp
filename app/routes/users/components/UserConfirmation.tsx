@@ -15,7 +15,7 @@ import { createAsyncValidator } from 'app/utils/asyncValidator';
 import { createValidator, required, sameAs } from 'app/utils/validation';
 import { validPassword } from '../utils';
 import PasswordField from './PasswordField';
-import styles from './UserConfirmation.css';
+import styles from './UserConfirmation.module.css';
 import type { RouteChildrenProps } from 'react-router';
 
 export type Props = {

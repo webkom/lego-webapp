@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import type { CompanySemesterContactedStatus } from 'app/models';
 import { indexToSemester } from '../utils';
 import SemesterStatus from './SemesterStatus';
-import styles from './bdb.css';
+import styles from './bdb.module.css';
 
 type Props = {
   company: Record<string, any>;

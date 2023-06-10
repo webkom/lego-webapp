@@ -2,7 +2,7 @@ import { Field } from 'react-final-form';
 import Button from 'app/components/Button';
 import { RadioButton, TextInput, CheckBox } from 'app/components/Form';
 import { QuestionTypes } from 'app/routes/surveys/utils';
-import styles from '../surveys.css';
+import styles from '../surveys.module.css';
 
 type Props = {
   questionType: string;

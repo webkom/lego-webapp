@@ -3,7 +3,7 @@ import Button from 'app/components/Button';
 import Icon from 'app/components/Icon';
 import Flex from 'app/components/Layout/Flex';
 import Modal from 'app/components/Modal';
-import styles from './ConfirmModal.css';
+import styles from './ConfirmModal.module.css';
 import type { ReactNode } from 'react';
 
 type ConfirmModalContentProps = {

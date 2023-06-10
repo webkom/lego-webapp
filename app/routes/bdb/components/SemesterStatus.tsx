@@ -7,7 +7,7 @@ import {
   getContactedStatuses,
 } from '../utils';
 import SemesterStatusContent from './SemesterStatusContent';
-import styles from './bdb.css';
+import styles from './bdb.module.css';
 
 type Props = {
   semesterStatus: BaseSemesterStatusEntity;

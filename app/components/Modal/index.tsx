@@ -1,7 +1,7 @@
 import cx from 'classnames';
 import { Modal as ReactModal } from 'react-overlays';
 import Icon from 'app/components/Icon';
-import styles from './Modal.css';
+import styles from './Modal.module.css';
 import type { ReactNode } from 'react';
 
 type Props = {

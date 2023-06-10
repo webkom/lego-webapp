@@ -2,7 +2,7 @@ import cx from 'classnames';
 import { useRef } from 'react';
 import { Overlay } from 'react-overlays';
 import Icon from 'app/components/Icon';
-import styles from './Dropdown.css';
+import styles from './Dropdown.module.css';
 import type { ReactNode, ReactPortal, HTMLAttributes } from 'react';
 
 type Props = {

@@ -10,7 +10,7 @@ import type CommentType from 'app/store/models/Comment';
 import type { CurrentUser } from 'app/store/models/User';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 import Button from '../Button';
-import styles from './Comment.css';
+import styles from './Comment.module.css';
 
 type Props = {
   comment: CommentType;

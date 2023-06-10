@@ -2,7 +2,7 @@ import cx from 'classnames';
 import { Link } from 'react-router-dom';
 import { Image } from 'app/components/Image';
 import type { User } from 'app/models';
-import styles from './GroupMember.css';
+import styles from './GroupMember.module.css';
 
 type Props = {
   user: User;

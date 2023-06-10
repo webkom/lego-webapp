@@ -6,7 +6,7 @@ import { Flex } from 'app/components/Layout';
 import Tag from 'app/components/Tags/Tag';
 import Time from 'app/components/Time';
 import type { ListJoblisting } from 'app/store/models/Joblisting';
-import styles from './JoblistingItem.css';
+import styles from './JoblistingItem.module.css';
 
 type JobListingItemProps = {
   joblisting: ListJoblisting;

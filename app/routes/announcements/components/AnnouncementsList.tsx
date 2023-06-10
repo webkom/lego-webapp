@@ -8,7 +8,7 @@ import type {
 } from 'app/store/models/Announcement';
 import AnnouncementItem from './AnnouncementItem';
 import AnnouncementsCreate from './AnnouncementsCreate';
-import styles from './AnnouncementsList.css';
+import styles from './AnnouncementsList.module.css';
 
 type Props = {
   announcements: Array<ListAnnouncement>;

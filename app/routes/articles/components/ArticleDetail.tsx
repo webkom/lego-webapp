@@ -17,7 +17,7 @@ import type Emoji from 'app/store/models/Emoji';
 import type { ReactionsGrouped } from 'app/store/models/Reaction';
 import type { CurrentUser, DetailedUser } from 'app/store/models/User';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
-import styles from './ArticleDetail.css';
+import styles from './ArticleDetail.module.css';
 
 type Props = {
   article: DetailedArticle | AdminDetailedArticle;

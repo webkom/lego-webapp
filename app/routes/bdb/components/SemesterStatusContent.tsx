@@ -11,7 +11,7 @@ import {
   statusStrings,
   selectColorCode,
 } from '../utils';
-import styles from './bdb.css';
+import styles from './bdb.module.css';
 
 type Props = {
   semesterStatus: Record<string, any>;

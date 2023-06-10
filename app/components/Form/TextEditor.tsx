@@ -1,6 +1,6 @@
 import cx from 'classnames';
 import { createField } from './Field';
-import styles from './TextEditor.css';
+import styles from './TextEditor.module.css';
 
 type Props = {
   className: string;

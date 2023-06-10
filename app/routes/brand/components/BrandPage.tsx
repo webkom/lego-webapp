@@ -5,7 +5,7 @@ import { Content } from 'app/components/Content';
 import { Image } from 'app/components/Image';
 import { Flex } from 'app/components/Layout';
 import NavigationTab from 'app/components/NavigationTab';
-import styles from './BrandPage.css';
+import styles from './BrandPage.module.css';
 
 const BrandPage = () => (
   <Content>

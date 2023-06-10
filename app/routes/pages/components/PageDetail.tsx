@@ -11,7 +11,7 @@ import LoadingIndicator from 'app/components/LoadingIndicator';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { readmeIfy } from 'app/components/ReadmeLogo';
 import type { PageEntity } from 'app/reducers/pages';
-import styles from './PageDetail.css';
+import styles from './PageDetail.module.css';
 import Sidebar from './Sidebar';
 import type { HierarchySectionEntity } from './PageHierarchy';
 import type { ComponentType } from 'react';

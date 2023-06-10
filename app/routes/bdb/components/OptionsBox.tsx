@@ -2,7 +2,7 @@ import { Component } from 'react';
 import { CheckBox, RadioButton, SelectInput } from 'app/components/Form';
 import Flex from 'app/components/Layout/Flex';
 import type { CompanyEntity } from 'app/reducers/companies';
-import styles from './OptionsBox.css';
+import styles from './OptionsBox.module.css';
 
 type Props = {
   companies: Array<CompanyEntity>;

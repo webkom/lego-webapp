@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { Flex } from 'app/components/Layout';
 import Tooltip from 'app/components/Tooltip';
 import type { EventRegistration } from 'app/models';
-import styles from './Registrations.css';
+import styles from './Registrations.module.css';
 
 type RegistrationProps = {
   registration: EventRegistration;

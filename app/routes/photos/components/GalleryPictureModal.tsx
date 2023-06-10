@@ -15,7 +15,7 @@ import type { ID } from 'app/models';
 import type { EntityID } from 'app/types';
 import { Keyboard } from 'app/utils/constants';
 import GalleryDetailsRow from './GalleryDetailsRow';
-import styles from './GalleryPictureModal.css';
+import styles from './GalleryPictureModal.module.css';
 import type { ReactNode } from 'react';
 
 type Props = {

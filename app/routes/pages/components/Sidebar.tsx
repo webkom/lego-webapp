@@ -2,7 +2,7 @@ import cx from 'classnames';
 import { Component } from 'react';
 import Icon from 'app/components/Icon';
 import PageHierarchy from './PageHierarchy';
-import styles from './Sidebar.css';
+import styles from './Sidebar.module.css';
 import type { HierarchySectionEntity } from './PageHierarchy';
 
 type State = {

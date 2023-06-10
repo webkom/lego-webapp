@@ -8,7 +8,7 @@ import Icon from 'app/components/Icon';
 import { Image } from 'app/components/Image';
 import { Flex } from 'app/components/Layout';
 import Modal from 'app/components/Modal';
-import styles from './UploadImage.css';
+import styles from './UploadImage.module.css';
 
 export interface DropFile extends File {
   preview?: string;

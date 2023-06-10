@@ -8,7 +8,7 @@ import type { CompanySemesterContactedStatus } from 'app/models';
 import type { CompanyEntity } from 'app/reducers/companies';
 import { indexToSemester } from '../utils';
 import CompanySingleRow from './CompanySingleRow';
-import styles from './bdb.css';
+import styles from './bdb.module.css';
 
 type Props = {
   companies: Array<CompanyEntity>;

@@ -2,7 +2,7 @@ import Button from 'app/components/Button';
 import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import { FormatTime } from 'app/components/Time';
 import type { Penalty } from 'app/models';
-import styles from './Penalties.css';
+import styles from './Penalties.module.css';
 import PenaltyForm from './PenaltyForm';
 
 type Props = {

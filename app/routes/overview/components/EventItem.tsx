@@ -5,7 +5,7 @@ import { Flex } from 'app/components/Layout';
 import type { Event } from 'app/models';
 import { colorForEvent } from 'app/routes/events/utils';
 import { eventStatus } from 'app/utils/eventStatus';
-import styles from './EventItem.css';
+import styles from './EventItem.module.css';
 
 type Props = {
   item: Event;

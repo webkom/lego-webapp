@@ -16,7 +16,7 @@ import CompactEvents from './CompactEvents';
 import EventItem from './EventItem';
 import LatestReadme from './LatestReadme';
 import NextEvent from './NextEvent';
-import styles from './Overview.css';
+import styles from './Overview.module.css';
 import Pinned from './Pinned';
 import { renderMeta } from './utils';
 // import Banner, { COLORS } from 'app/components/Banner';

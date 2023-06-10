@@ -1,4 +1,4 @@
-import styles from './Tag.css';
+import styles from './Tag.module.css';
 import type { ReactNode } from 'react';
 
 type Props = {

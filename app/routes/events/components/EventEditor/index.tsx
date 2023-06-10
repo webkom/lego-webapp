@@ -39,7 +39,7 @@ import {
   eventStatusTypes,
 } from '../../utils';
 import Admin from '../Admin';
-import styles from './EventEditor.css';
+import styles from './EventEditor.module.css';
 import renderPools, { validatePools } from './renderPools';
 
 import type { EditingEvent } from '../../utils';

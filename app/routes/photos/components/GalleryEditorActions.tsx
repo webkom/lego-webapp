@@ -3,7 +3,7 @@ import Sticky from 'react-stickynode';
 import Button from 'app/components/Button';
 import Card from 'app/components/Card';
 import { Flex } from 'app/components/Layout';
-import styles from './Overview.css';
+import styles from './Overview.module.css';
 
 type Props = {
   selectedCount: number;

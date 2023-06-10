@@ -1,6 +1,6 @@
 import cx from 'classnames';
 import { Flex } from 'app/components/Layout';
-import styles from './Icon.css';
+import styles from './Icon.module.css';
 import type { ComponentProps } from 'react';
 
 type Props = {

@@ -9,7 +9,7 @@ import Table from 'app/components/Table';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
 import config from 'app/config';
-import styles from './UserSettingsOAuth2.css';
+import styles from './UserSettingsOAuth2.module.css';
 
 type Props = {
   applications: Array<any>;

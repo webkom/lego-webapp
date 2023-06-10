@@ -1,5 +1,5 @@
 import { Children, cloneElement } from 'react';
-import styles from './RadioButtonGroup.css';
+import styles from './RadioButtonGroup.module.css';
 import type { ReactElement } from 'react';
 
 type Props = {

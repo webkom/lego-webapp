@@ -10,7 +10,7 @@ import Modal from 'app/components/Modal';
 import ProgressiveImage from 'app/components/ProgressiveImage';
 import Tooltip from 'app/components/Tooltip';
 import GalleryDetailsRow from './GalleryDetailsRow';
-import styles from './GalleryPictureModal.css';
+import styles from './GalleryPictureModal.module.css';
 
 type Props = {
   picture: Record<string, any>;

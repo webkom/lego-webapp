@@ -5,7 +5,7 @@ import Time from 'app/components/Time';
 import type { ActionGrant } from 'app/models';
 import type { ID } from 'app/store/models';
 import type { DetailedAnnouncement } from 'app/store/models/Announcement';
-import styles from './AnnouncementsList.css';
+import styles from './AnnouncementsList.module.css';
 
 type Props = {
   announcement: DetailedAnnouncement;

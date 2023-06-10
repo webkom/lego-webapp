@@ -1,6 +1,6 @@
 import EmptyState from 'app/components/EmptyState';
 import ErrorBoundary from 'app/components/ErrorBoundary';
-import styles from './Feed.css';
+import styles from './Feed.module.css';
 import Activity from './activity';
 import type { AggregatedActivity } from './types';
 import type { ReactNode } from 'react';

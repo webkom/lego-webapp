@@ -13,7 +13,7 @@ import type { ID } from 'app/store/models';
 import type { CurrentUser } from 'app/store/models/User';
 import { EDITOR_EMPTY } from 'app/utils/constants';
 import { createValidator, legoEditorRequired } from 'app/utils/validation';
-import styles from './CommentForm.css';
+import styles from './CommentForm.module.css';
 
 type Props = {
   contentTarget: string;

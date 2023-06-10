@@ -1,6 +1,6 @@
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import type { SurveyEntity } from 'app/reducers/surveys';
-import styles from '../surveys.css';
+import styles from '../surveys.module.css';
 import SurveyItem from './SurveyItem';
 
 type Props = {

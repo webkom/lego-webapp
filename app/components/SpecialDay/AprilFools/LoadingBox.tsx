@@ -2,7 +2,7 @@ import _ from 'lodash';
 import moment from 'moment-timezone';
 import { Component } from 'react';
 import walkingImage from 'app/assets/man_walking.gif';
-import styles from './LoadingBox.css';
+import styles from './LoadingBox.module.css';
 
 type Props = {
   onQueueDone: () => void;

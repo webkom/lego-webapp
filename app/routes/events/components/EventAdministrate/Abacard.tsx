@@ -2,7 +2,7 @@ import { get } from 'lodash';
 import Validator from 'app/components/UserValidator';
 import type { EventRegistration, Event } from 'app/models';
 import type { UserSearchResult } from 'app/reducers/search';
-import styles from './Abacard.css';
+import styles from './Abacard.module.css';
 import type { Location } from 'history';
 
 type Props = {

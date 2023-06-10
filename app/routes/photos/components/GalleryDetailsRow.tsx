@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Flex } from 'app/components/Layout';
 import Time from 'app/components/Time';
-import styles from './GalleryDetailsRow.css';
+import styles from './GalleryDetailsRow.module.css';
 
 type Props = {
   gallery: Record<string, any>;

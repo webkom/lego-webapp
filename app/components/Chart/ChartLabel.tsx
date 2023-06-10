@@ -1,7 +1,7 @@
 import type { DistributionDataPoint } from 'app/components/Chart/utils';
 import { CHART_COLORS } from 'app/components/Chart/utils';
 import { Flex } from 'app/components/Layout';
-import styles from './Chart.css';
+import styles from './Chart.module.css';
 
 const ChartLabel = ({
   distributionData,

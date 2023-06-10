@@ -1,6 +1,6 @@
 import cx from 'classnames';
 import { Flex } from 'app/components/Layout';
-import styles from './ContentSidebar.css';
+import styles from './ContentSidebar.module.css';
 import type { ReactNode } from 'react';
 
 type Props = {

@@ -25,7 +25,7 @@ import type {
 } from 'app/store/models/Joblisting';
 import { validYoutubeUrl } from 'app/utils/validation';
 import { places, jobTypes, yearValues } from '../constants';
-import styles from './JoblistingEditor.css';
+import styles from './JoblistingEditor.module.css';
 import type { FormProps } from 'redux-form';
 
 type SelectInputObject = {

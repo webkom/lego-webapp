@@ -32,7 +32,7 @@ import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 import { spySubmittable, spyValues } from 'app/utils/formSpyUtils';
 import { createValidator, required, isEmail } from 'app/utils/validation';
 import { interestText, semesterToText } from '../utils';
-import styles from './CompanyInterest.css';
+import styles from './CompanyInterest.module.css';
 import type { ReactNode } from 'react';
 
 export const EVENT_TYPES = {

@@ -15,7 +15,7 @@ import type { CurrentUser } from 'app/store/models/User';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 import { navigation } from '../utils';
 import QuoteList from './QuoteList';
-import styles from './Quotes.css';
+import styles from './Quotes.module.css';
 
 type Props = {
   query: {

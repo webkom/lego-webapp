@@ -1,6 +1,6 @@
 import Icon from 'app/components/Icon';
 import { lookupContext, contextRender } from '../context';
-import styles from '../context.css';
+import styles from '../context.module.css';
 import type { AggregatedActivity, TagInfo } from '../types';
 import type { Element } from 'react';
 

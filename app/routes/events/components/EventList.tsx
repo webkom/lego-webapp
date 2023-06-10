@@ -13,7 +13,7 @@ import LoadingIndicator from 'app/components/LoadingIndicator';
 import type { Event, ActionGrant, IcalToken } from 'app/models';
 import { EventTime } from 'app/models';
 import EventFooter from './EventFooter';
-import styles from './EventList.css';
+import styles from './EventList.module.css';
 import Toolbar from './Toolbar';
 
 type GroupedEvents = {

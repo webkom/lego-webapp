@@ -2,7 +2,7 @@ import cx from 'classnames';
 import { NavLink } from 'react-router-dom';
 import Icon from 'app/components/Icon';
 import NavigationLink from './NavigationLink';
-import styles from './NavigationTab.css';
+import styles from './NavigationTab.module.css';
 import type { ReactNode } from 'react';
 
 type Props = {

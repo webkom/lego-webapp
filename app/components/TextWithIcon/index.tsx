@@ -1,7 +1,7 @@
 import Icon from '../Icon';
 import { Flex } from '../Layout';
 import Tooltip from '../Tooltip';
-import styles from './TextWithIcon.css';
+import styles from './TextWithIcon.module.css';
 import type { ReactElement } from 'react';
 
 type Props = {

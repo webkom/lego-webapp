@@ -14,7 +14,7 @@ import {
   selectGalleryPictureById,
   initialUploadStatus,
 } from 'app/reducers/galleryPictures';
-import styles from './PhotoUploadStatus.css';
+import styles from './PhotoUploadStatus.module.css';
 
 type StateProps = {
   uploadStatus: UploadStatus;

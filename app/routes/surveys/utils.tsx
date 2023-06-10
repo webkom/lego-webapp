@@ -6,7 +6,7 @@ import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import config from 'app/config';
 import type { ActionGrant } from 'app/models';
 import type { ID } from 'app/store/models';
-import styles from './components/surveys.css';
+import styles from './components/surveys.module.css';
 import type { ReactNode } from 'react';
 
 const questionStrings = {

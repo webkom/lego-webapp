@@ -7,7 +7,7 @@ import { TextArea, RadioButton, CheckBox, legoForm } from 'app/components/Form';
 import type { SurveyEntity } from 'app/reducers/surveys';
 import type { UserEntity } from 'app/reducers/users';
 import { QuestionTypes } from '../../utils';
-import styles from '../surveys.css';
+import styles from '../surveys.module.css';
 
 type Props = {
   survey: SurveyEntity;

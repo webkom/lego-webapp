@@ -3,7 +3,7 @@ import { debounce } from 'lodash';
 import { useCallback } from 'react';
 import { applySelectedTheme, getTheme, useTheme } from 'app/utils/themeUtils';
 import Icon from '../Icon';
-import styles from './toggleTheme.css';
+import styles from './toggleTheme.module.css';
 import type { ReactNode } from 'react';
 
 const useIcon = () => (useTheme() === 'dark' ? 'sunny' : 'moon');

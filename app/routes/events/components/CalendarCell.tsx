@@ -9,7 +9,7 @@ import TextWithIcon from 'app/components/TextWithIcon';
 import { FromToTime } from 'app/components/Time';
 import type { Event } from 'app/models';
 import { colorForEvent, textColorForEvent } from '../utils';
-import styles from './Calendar.css';
+import styles from './Calendar.module.css';
 import type { Moment } from 'moment-timezone';
 
 const renderEvent = (event: Event) => {

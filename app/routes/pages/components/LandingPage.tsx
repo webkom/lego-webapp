@@ -8,7 +8,7 @@ import Icon from 'app/components/Icon';
 import { Image } from 'app/components/Image';
 import { Flex } from 'app/components/Layout';
 import type { PageRenderer } from 'app/routes/pages/components/PageDetail';
-import styles from './LandingPage.css';
+import styles from './LandingPage.module.css';
 import { DisplayVisionShort } from './subcomponents/DisplayVision';
 import EmailItem from './subcomponents/EmailItem';
 import Statistic from './subcomponents/Statistic';

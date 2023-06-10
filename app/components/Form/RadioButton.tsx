@@ -1,7 +1,7 @@
 import cx from 'classnames';
 import Flex from 'app/components/Layout/Flex';
 import { createField } from './Field';
-import styles from './RadioButton.css';
+import styles from './RadioButton.module.css';
 import type { FormProps } from './Field';
 import type { InputHTMLAttributes } from 'react';
 

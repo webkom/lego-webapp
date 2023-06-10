@@ -1,7 +1,7 @@
 import cx from 'classnames';
 import { Link } from 'react-router-dom';
 import Card from 'app/components/Card';
-import styles from './Banner.css';
+import styles from './Banner.module.css';
 import type { ReactNode } from 'react';
 import type { $Keys } from 'utility-types';
 

@@ -12,7 +12,7 @@ import { isCurrentUser as checkIfCurrentUser } from 'app/routes/users/utils';
 import type Membership from 'app/store/models/Membership';
 import type { CurrentUser } from 'app/store/models/User';
 import { ROLES, type RoleType } from 'app/utils/constants';
-import styles from './GroupMembersList.css';
+import styles from './GroupMembersList.module.css';
 
 type Props = {
   fetching: boolean;

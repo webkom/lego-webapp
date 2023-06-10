@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import Button from 'app/components/Button';
 import Icon from 'app/components/Icon';
-import styles from './RemovePicture.css';
+import styles from './RemovePicture.module.css';
 
 type Props = {
   removePicture: (arg0: string) => Promise<any>;

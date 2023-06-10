@@ -27,7 +27,7 @@ import type {
 } from 'app/store/models/Survey';
 import { spySubmittable } from 'app/utils/formSpyUtils';
 import { createValidator, required } from 'app/utils/validation';
-import styles from '../surveys.css';
+import styles from '../surveys.module.css';
 import Question from './Question';
 import type { Push } from 'connected-react-router';
 

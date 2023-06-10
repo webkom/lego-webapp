@@ -19,7 +19,7 @@ import TextWithIcon from 'app/components/TextWithIcon';
 import type { Event } from 'app/models';
 import type { DetailedCompany } from 'app/store/models/Company';
 import type { ListJoblisting } from 'app/store/models/Joblisting';
-import styles from './Company.css';
+import styles from './Company.module.css';
 
 type Props = {
   company: DetailedCompany;

@@ -3,7 +3,7 @@ import '@webkom/lego-editor/dist/style.css';
 import 'react-image-crop/dist/ReactCrop.css';
 import { type CSSProperties, useRef, useState } from 'react';
 import Icon from 'app/components/Icon';
-import styles from './CollapsibleDisplayContent.css';
+import styles from './CollapsibleDisplayContent.module.css';
 
 type Props = {
   content: string;

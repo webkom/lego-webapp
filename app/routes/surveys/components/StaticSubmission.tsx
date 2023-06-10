@@ -5,7 +5,7 @@ import type {
 } from 'app/reducers/surveySubmissions';
 import type { SurveyEntity, QuestionEntity } from 'app/reducers/surveys';
 import { QuestionTypes } from '../utils';
-import styles from './surveys.css';
+import styles from './surveys.module.css';
 
 type Props = {
   survey: SurveyEntity;

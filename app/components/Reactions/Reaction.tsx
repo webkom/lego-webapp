@@ -4,7 +4,7 @@ import Flex from 'app/components/Layout/Flex';
 import Tooltip from 'app/components/Tooltip';
 import type { ID } from 'app/store/models';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
-import styles from './Reaction.css';
+import styles from './Reaction.module.css';
 
 type Props = {
   className?: string;

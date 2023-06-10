@@ -1,6 +1,6 @@
 import cx from 'classnames';
 import { Component } from 'react';
-import styles from './LoadingIndicator.css';
+import styles from './LoadingIndicator.module.css';
 import type { ReactNode, CSSProperties } from 'react';
 
 export type Props = {

@@ -1,6 +1,6 @@
 import cx from 'classnames';
 import Icon from '../Icon';
-import styles from './EmptyState.css';
+import styles from './EmptyState.module.css';
 import type { ReactNode } from 'react';
 
 type Props = {

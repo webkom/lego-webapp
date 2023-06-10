@@ -9,7 +9,7 @@ import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import Paginator from 'app/components/Paginator';
 import type { ActionGrant } from 'app/models';
 import type { PollEntity } from 'app/reducers/polls';
-import styles from './PollsList.css';
+import styles from './PollsList.module.css';
 
 type Props = {
   polls: Array<PollEntity>;

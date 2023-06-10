@@ -1,6 +1,6 @@
 import cx from 'classnames';
 import Icon from 'app/components/Icon';
-import styles from './ReactionPickerCategory.css';
+import styles from './ReactionPickerCategory.module.css';
 
 type Props = {
   isActive: boolean;

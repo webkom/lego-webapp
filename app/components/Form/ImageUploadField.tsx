@@ -6,7 +6,7 @@ import type { UploadArgs } from 'app/actions/FileActions';
 import type { DropFile } from 'app/components/Upload/ImageUpload';
 import ImageUpload from 'app/components/Upload/ImageUpload';
 import { createField } from './Field';
-import styles from './ImageUploadField.css';
+import styles from './ImageUploadField.module.css';
 
 type Props = {
   className?: string;

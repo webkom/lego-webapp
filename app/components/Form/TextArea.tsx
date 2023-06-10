@@ -1,7 +1,7 @@
 import cx from 'classnames';
 import Textarea from 'react-textarea-autosize';
 import { createField } from './Field';
-import styles from './TextEditor.css';
+import styles from './TextEditor.module.css';
 import type { RefObject } from 'react';
 
 type Props = {

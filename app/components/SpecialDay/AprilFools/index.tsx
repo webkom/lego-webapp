@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import foolsImage from 'app/assets/aprilfools-image.png';
 import logoImage from 'app/assets/logo-dark.png';
 import { Image } from 'app/components/Image';
-import styles from './AprilFools.css';
+import styles from './AprilFools.module.css';
 import LoadingBox from './LoadingBox';
 import type { ReactNode } from 'react';
 

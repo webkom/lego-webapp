@@ -4,7 +4,7 @@ import FileUpload from 'app/components/Upload/FileUpload';
 import Icon from '../Icon';
 import { Flex } from '../Layout';
 import { createField } from './Field';
-import styles from './FileUploadField.css';
+import styles from './FileUploadField.module.css';
 import type { FieldProps } from 'redux-form';
 
 type Props = {

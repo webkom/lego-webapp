@@ -1,7 +1,7 @@
 import JoblistingItem from 'app/components/JoblistingItem';
 import { Flex } from 'app/components/Layout';
 import type { ListJoblisting } from 'app/store/models/Joblisting';
-import styles from './JoblistingList.css';
+import styles from './JoblistingList.module.css';
 
 type JobListingsListProps = {
   joblistings: ListJoblisting[];

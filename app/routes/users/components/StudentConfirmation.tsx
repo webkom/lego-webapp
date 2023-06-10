@@ -13,7 +13,7 @@ import { Container, Flex } from 'app/components/Layout';
 import Tooltip from 'app/components/Tooltip';
 import type { ReduxFormProps } from 'app/types';
 import { createValidator, required } from 'app/utils/validation';
-import styles from './UserConfirmation.css';
+import styles from './UserConfirmation.module.css';
 
 type Props = {
   studentConfirmed: boolean;

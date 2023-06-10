@@ -3,7 +3,7 @@ import { Image } from 'app/components/Image';
 import Time from 'app/components/Time';
 import type { SurveyEntity } from 'app/reducers/surveys';
 import { colorForEvent } from 'app/routes/events/utils';
-import styles from '../surveys.css';
+import styles from '../surveys.module.css';
 
 type Props = {
   survey: SurveyEntity;

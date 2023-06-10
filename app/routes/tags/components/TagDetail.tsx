@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import Card from 'app/components/Card';
 import { Content } from 'app/components/Content';
 import Flex from 'app/components/Layout/Flex';
-import styles from './TagDetail.css';
+import styles from './TagDetail.module.css';
 
 type Props = {
   tag: Record<string, any>;

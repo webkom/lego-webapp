@@ -5,7 +5,7 @@ import { activityRenderers } from 'app/components/Feed';
 import { toSpan } from 'app/components/Feed/context';
 import type { AggregatedActivity } from 'app/components/Feed/types';
 import Time from 'app/components/Time';
-import styles from './Feed.css';
+import styles from './Feed.module.css';
 
 type Props = {
   feedItems: Array<any>;

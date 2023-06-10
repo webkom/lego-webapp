@@ -7,7 +7,7 @@ import { CheckBox, RadioButton } from 'app/components/Form/';
 import type { JobType } from 'app/components/JoblistingItem/Items';
 import type { ActionGrant } from 'app/models';
 import { jobTypes } from '../constants';
-import styles from './JoblistingRightNav.css';
+import styles from './JoblistingRightNav.module.css';
 
 const updateFilters = (type, value, filters) => {
   const newFilter = {

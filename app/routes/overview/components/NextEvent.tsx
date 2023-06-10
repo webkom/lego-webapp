@@ -8,7 +8,7 @@ import Tooltip from 'app/components/Tooltip';
 import type { Event } from 'app/models';
 import { colorForEvent } from 'app/routes/events/utils';
 import truncateString from 'app/utils/truncateString';
-import styles from './NextEvent.css';
+import styles from './NextEvent.module.css';
 
 type Props = {
   event: Event;

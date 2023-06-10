@@ -17,7 +17,7 @@ import type {
 } from 'app/models';
 import type Comment from 'app/store/models/Comment';
 import type { CurrentUser } from 'app/store/models/User';
-import styles from './Abacard.css';
+import styles from './Abacard.module.css';
 import { RegisteredTable, UnregisteredTable } from './RegistrationTables';
 
 export type Props = {

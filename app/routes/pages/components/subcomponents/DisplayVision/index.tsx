@@ -1,6 +1,6 @@
 import DividerWithDots from 'app/components/DividerWithDots';
 import Vision from '../Vision';
-import styles from './DisplayVision.css';
+import styles from './DisplayVision.module.css';
 
 type VisionType = {
   title: string;

@@ -21,7 +21,7 @@ import {
 } from 'app/utils/validation';
 import ChangePassword from './ChangePassword';
 import UserImage from './UserImage';
-import styles from './UserSettings.css';
+import styles from './UserSettings.module.css';
 
 export type PasswordPayload = {
   newPassword: string;

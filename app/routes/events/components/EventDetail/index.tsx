@@ -43,11 +43,11 @@ import {
   registrationCloseTime,
 } from '../../utils';
 import Admin from '../Admin';
-import sharedStyles from '../Event.css';
+import sharedStyles from '../Event.module.css';
 import JoinEventForm from '../JoinEventForm';
 import RegisteredSummary from '../RegisteredSummary';
 import RegistrationMeta from '../RegistrationMeta';
-import styles from './EventDetail.css';
+import styles from './EventDetail.module.css';
 
 type InterestedButtonProps = {
   isInterested: boolean;

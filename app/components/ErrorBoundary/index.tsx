@@ -2,7 +2,7 @@ import * as Sentry from '@sentry/browser';
 import { Children, cloneElement, Component } from 'react';
 import awSnap from 'app/assets/sentry-aw-snap.svg';
 import { Image } from 'app/components/Image';
-import styles from './ErrorBoundary.css';
+import styles from './ErrorBoundary.module.css';
 import type { ReactNode, ReactElement } from 'react';
 
 type Props = {

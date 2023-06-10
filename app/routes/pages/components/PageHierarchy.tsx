@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import Icon from 'app/components/Icon';
 import { readmeIfy } from 'app/components/ReadmeLogo';
-import styles from './PageHierarchy.css';
+import styles from './PageHierarchy.module.css';
 import type { ReactNode } from 'react';
 
 export type HierarchyEntity = {

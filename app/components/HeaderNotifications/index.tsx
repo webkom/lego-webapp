@@ -7,7 +7,7 @@ import Dropdown from '../Dropdown';
 import { activityRenderers } from '../Feed';
 import { toSpan } from '../Feed/context';
 import Icon from '../Icon';
-import styles from './HeaderNotifications.css';
+import styles from './HeaderNotifications.module.css';
 
 type Props = {
   notificationsData: Record<string, any>;

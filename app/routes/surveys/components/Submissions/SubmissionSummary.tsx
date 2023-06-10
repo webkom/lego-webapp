@@ -1,7 +1,7 @@
 import Button from 'app/components/Button';
 import type { SubmissionEntity } from 'app/reducers/surveySubmissions';
 import type { SurveyEntity, QuestionEntity } from 'app/reducers/surveys';
-import styles from '../surveys.css';
+import styles from '../surveys.module.css';
 import Results from './Results';
 
 type Props = {

@@ -9,7 +9,7 @@ import type { RootState } from 'app/store/createRootReducer';
 import type { AppDispatch } from 'app/store/createStore';
 import { Keyboard } from 'app/utils/constants';
 import Icon from '../Icon';
-import styles from './Search.css';
+import styles from './Search.module.css';
 import SearchResults from './SearchResults';
 import { getAdminLinks, getRegularLinks } from './utils';
 

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { ProfilePicture } from 'app/components/Image';
 import Tooltip from 'app/components/Tooltip';
 import type { User } from 'app/models';
-import styles from './UserGrid.css';
+import styles from './UserGrid.module.css';
 
 const UserGrid = ({
   users,

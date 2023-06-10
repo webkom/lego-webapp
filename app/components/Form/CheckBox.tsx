@@ -1,6 +1,6 @@
 import cx from 'classnames';
 import { Flex } from '../Layout';
-import styles from './CheckBox.css';
+import styles from './CheckBox.module.css';
 import { createField } from './Field';
 import type { FormProps } from './Field';
 import type { InputHTMLAttributes } from 'react';

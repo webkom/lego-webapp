@@ -8,7 +8,7 @@ import Flex from 'app/components/Layout/Flex';
 import type { ActionGrant } from 'app/models';
 import { selectAutocomplete } from 'app/reducers/search';
 import type { DetailedAnnouncement } from 'app/store/models/Announcement';
-import styles from './AnnouncementsList.css';
+import styles from './AnnouncementsList.module.css';
 
 type Props = {
   createAnnouncement: (

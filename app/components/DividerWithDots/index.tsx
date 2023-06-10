@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import styles from './DividerWithDots.css';
+import styles from './DividerWithDots.module.css';
 
 type Props = {
   extraStyle?: Record<string, any>;

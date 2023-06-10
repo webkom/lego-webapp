@@ -9,7 +9,7 @@ import type { ID } from 'app/store/models';
 import type Emoji from 'app/store/models/Emoji';
 import type Quote from 'app/store/models/Quote';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
-import styles from './RandomQuote.css';
+import styles from './RandomQuote.module.css';
 
 type Props = {
   fetchRandomQuote: (seen: ID[]) => Promise<void>;

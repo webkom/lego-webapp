@@ -4,7 +4,7 @@ import LoadingIndicator from 'app/components/LoadingIndicator/';
 import type { ActionGrant } from 'app/models';
 import type { ListJoblisting } from 'app/store/models/Joblisting';
 import JoblistingsList from './JoblistingList';
-import styles from './JoblistingPage.css';
+import styles from './JoblistingPage.module.css';
 import JoblistingsRightNav from './JoblistingRightNav';
 
 type Props = {

@@ -1,7 +1,7 @@
 import cx from 'classnames';
 import Icon from 'app/components/Icon';
 import Flex from 'app/components/Layout/Flex';
-import styles from './Card.css';
+import styles from './Card.module.css';
 import type { HTMLAttributes, ReactNode } from 'react';
 
 type CardHeaderProps = {

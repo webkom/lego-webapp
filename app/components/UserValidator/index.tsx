@@ -9,7 +9,7 @@ import Modal from 'app/components/Modal';
 import SearchPage from 'app/components/Search/SearchPage';
 import type { User } from 'app/models';
 import type { UserSearchResult } from 'app/reducers/search';
-import styles from './Validator.css';
+import styles from './Validator.module.css';
 import type { ComponentProps } from 'react';
 import type { Required } from 'utility-types';
 

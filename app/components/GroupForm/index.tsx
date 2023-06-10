@@ -11,7 +11,7 @@ import {
 import Tooltip from 'app/components/Tooltip';
 import type { DetailedGroup } from 'app/store/models/Group';
 import { createValidator, required } from 'app/utils/validation';
-import styles from './index.css';
+import styles from './index.module.css';
 import type { FormProps } from 'redux-form';
 
 type OwnProps = {

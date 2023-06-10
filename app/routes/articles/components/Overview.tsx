@@ -10,7 +10,7 @@ import Tag from 'app/components/Tags/Tag';
 import Time from 'app/components/Time';
 import type { ActionGrant } from 'app/models';
 import type { ArticleWithAuthorDetails } from 'app/routes/articles/ArticleListRoute';
-import styles from './Overview.css';
+import styles from './Overview.module.css';
 
 const HEADLINE_EVENTS = 2;
 

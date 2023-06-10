@@ -9,7 +9,7 @@ import Icon from 'app/components/Icon';
 import { Flex } from 'app/components/Layout';
 import Tooltip from 'app/components/Tooltip';
 import type { PollEntity, OptionEntity } from 'app/reducers/polls';
-import styles from './Poll.css';
+import styles from './Poll.module.css';
 
 type Props = {
   poll: PollEntity;

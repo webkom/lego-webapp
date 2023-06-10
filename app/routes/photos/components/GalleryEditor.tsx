@@ -28,7 +28,7 @@ import type { ID } from 'app/models';
 import type { GalleryEntity } from 'app/reducers/galleries';
 import type { GalleryPictureEntity } from 'app/reducers/galleryPictures';
 import GalleryEditorActions from './GalleryEditorActions';
-import styles from './Overview.css';
+import styles from './Overview.module.css';
 
 type Props = {
   isNew: boolean;

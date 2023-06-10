@@ -5,7 +5,7 @@ import { Flex } from 'app/components/Layout';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
 import { colorForEvent } from 'app/routes/events/utils';
-import styles from './CompactEvents.css';
+import styles from './CompactEvents.module.css';
 
 type Props = {
   events: Array<Record<string, any>>;

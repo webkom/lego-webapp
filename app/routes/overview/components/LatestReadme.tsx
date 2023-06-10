@@ -7,7 +7,7 @@ import { Image } from 'app/components/Image';
 import { Flex } from 'app/components/Layout';
 import { readmeIfy } from 'app/components/ReadmeLogo';
 import type { Readme } from 'app/models';
-import styles from './LatestReadme.css';
+import styles from './LatestReadme.module.css';
 import type { CSSProperties } from 'react';
 
 type Props = {

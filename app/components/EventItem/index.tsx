@@ -9,7 +9,7 @@ import Tooltip from 'app/components/Tooltip';
 import type { Event } from 'app/models';
 import { colorForEvent } from 'app/routes/events/utils';
 import { eventAttendanceAbsolute } from 'app/utils/eventStatus';
-import styles from './styles.css';
+import styles from './styles.module.css';
 import type { ReactNode } from 'react';
 
 export type EventStyle = 'default' | 'extra-compact' | 'compact';

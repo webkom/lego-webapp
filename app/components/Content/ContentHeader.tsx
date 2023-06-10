@@ -1,7 +1,7 @@
 import cx from 'classnames';
 import type { Event } from 'app/models';
 import { eventTypeToString } from 'app/routes/events/utils';
-import styles from './ContentHeader.css';
+import styles from './ContentHeader.module.css';
 import type { HTMLAttributes, ReactNode } from 'react';
 
 type Props = {

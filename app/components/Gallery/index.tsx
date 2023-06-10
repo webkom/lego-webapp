@@ -2,7 +2,7 @@ import { chunk, get } from 'lodash';
 import { PureComponent } from 'react';
 import { Image } from 'app/components/Image';
 import Paginator from 'app/components/Paginator';
-import styles from './Gallery.css';
+import styles from './Gallery.module.css';
 import type { ReactNode } from 'react';
 
 export type Photo = Record<string, any>;

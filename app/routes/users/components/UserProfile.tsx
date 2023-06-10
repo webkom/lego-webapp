@@ -31,7 +31,7 @@ import { resolveGroupLink } from 'app/reducers/groups';
 import GroupChange from './GroupChange';
 import Penalties from './Penalties';
 import PhotoConsents from './PhotoConsents';
-import styles from './UserProfile.css';
+import styles from './UserProfile.module.css';
 
 const fieldTranslations = {
   username: 'Brukernavn',

@@ -19,7 +19,7 @@ import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import NavigationTab from 'app/components/NavigationTab';
 import ImageUpload from 'app/components/Upload/ImageUpload';
 import { categoryOptions } from 'app/routes/pages/PageDetailRoute';
-import styles from './PageEditor.css';
+import styles from './PageEditor.module.css';
 
 type Page = {
   title: string;

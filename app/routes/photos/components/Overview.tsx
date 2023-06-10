@@ -6,7 +6,7 @@ import EmptyState from 'app/components/EmptyState';
 import type { Photo } from 'app/components/Gallery';
 import Gallery from 'app/components/Gallery';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
-import styles from './Overview.css';
+import styles from './Overview.module.css';
 
 type Props = {
   fetching: boolean;

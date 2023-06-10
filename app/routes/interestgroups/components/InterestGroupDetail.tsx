@@ -15,7 +15,7 @@ import { Flex } from 'app/components/Layout';
 import NavigationTab from 'app/components/NavigationTab';
 import UserGrid from 'app/components/UserGrid';
 import type { Group, User, GroupMembership, ID } from 'app/models';
-import styles from './InterestGroup.css';
+import styles from './InterestGroup.module.css';
 import InterestGroupMemberList from './InterestGroupMemberList';
 
 type MembersProps = {

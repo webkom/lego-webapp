@@ -6,7 +6,7 @@ import type { SearchResult } from 'app/reducers/search';
 import { isUserResult } from 'app/reducers/search';
 import Icon from '../Icon';
 import { ProfilePicture } from '../Image';
-import styles from './Search.css';
+import styles from './Search.module.css';
 import type { NavigationLink } from './utils';
 
 type SearchResultItemProps = {

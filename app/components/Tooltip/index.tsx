@@ -1,6 +1,6 @@
 import cx from 'classnames';
 import { Component } from 'react';
-import styles from './Tooltip.css';
+import styles from './Tooltip.module.css';
 import type { ReactNode, CSSProperties } from 'react';
 
 type Props = {

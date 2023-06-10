@@ -8,7 +8,7 @@ import { isEvent } from 'app/reducers/frontpage';
 import { eventTypeToString } from 'app/routes/events/utils';
 import type { PublicArticle } from 'app/store/models/Article';
 import truncateString from 'app/utils/truncateString';
-import styles from './Overview.css';
+import styles from './Overview.module.css';
 
 export const renderMeta = (item: WithDocumentType<Event | PublicArticle>) => {
   const itemTime = isEvent(item) ? item.startTime : item.createdAt;

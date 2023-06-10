@@ -11,7 +11,7 @@ import type { ID } from 'app/store/models';
 import { DetailNavigation } from '../utils';
 import AdminSideBar from './AdminSideBar';
 import StaticSubmission from './StaticSubmission';
-import styles from './surveyDetail.css';
+import styles from './surveyDetail.module.css';
 import type { Push } from 'connected-react-router';
 
 type Props = {

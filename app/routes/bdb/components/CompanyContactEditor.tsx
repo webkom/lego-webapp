@@ -11,7 +11,7 @@ import type {
 } from 'app/reducers/companies';
 import { createValidator, required, isEmail } from 'app/utils/validation';
 import { DetailNavigation } from '../utils';
-import styles from './bdb.css';
+import styles from './bdb.module.css';
 
 type Props = {
   submitFunction: (

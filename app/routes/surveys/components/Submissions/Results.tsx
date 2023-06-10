@@ -13,7 +13,7 @@ import {
   QuestionTypeValue,
   QuestionTypeOption,
 } from '../../utils';
-import styles from '../surveys.css';
+import styles from '../surveys.module.css';
 
 type Props = {
   survey: SurveyEntity;

@@ -4,7 +4,7 @@ import { Content } from 'app/components/Content';
 import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import GroupDetailRoute from '../GroupDetailRoute';
-import styles from './GroupPage.css';
+import styles from './GroupPage.module.css';
 import GroupTree from './GroupTree';
 import type { Location } from 'history';
 

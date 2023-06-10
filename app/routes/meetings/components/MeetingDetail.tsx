@@ -31,7 +31,7 @@ import type { ReactionsGrouped } from 'app/store/models/Reaction';
 import type { CurrentUser, PublicUser } from 'app/store/models/User';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 import urlifyString from 'app/utils/urlifyString';
-import styles from './MeetingDetail.css';
+import styles from './MeetingDetail.module.css';
 
 type Props = {
   meeting: DetailedMeeting;

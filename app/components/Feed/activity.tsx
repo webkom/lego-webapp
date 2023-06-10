@@ -5,7 +5,7 @@ import Button from 'app/components/Button';
 import Card from 'app/components/Card';
 import { ProfilePicture } from 'app/components/Image';
 import Time from 'app/components/Time';
-import styles from './activity.css';
+import styles from './activity.module.css';
 import { lookupContext, toLink } from './context';
 import type { AggregatedActivity, Activity } from './types';
 import type { ReactNode } from 'react';

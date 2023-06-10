@@ -13,7 +13,7 @@ import Button from 'app/components/Button';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import config from 'app/config';
 import type { EventRegistrationPaymentStatus, User, Event } from 'app/models';
-import stripeStyles from './Stripe.css';
+import stripeStyles from './Stripe.module.css';
 
 type Props = {
   event: Event;

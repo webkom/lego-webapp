@@ -6,7 +6,7 @@ import type { SurveyEntity } from 'app/reducers/surveys';
 import type { ID } from 'app/store/models';
 import { DetailNavigation } from '../../utils';
 import AdminSideBar from '../AdminSideBar';
-import styles from '../surveys.css';
+import styles from '../surveys.module.css';
 import type { ReactNode } from 'react';
 
 type Props = {

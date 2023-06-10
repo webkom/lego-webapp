@@ -5,7 +5,7 @@ import { Content } from 'app/components/Content';
 import NavigationTab from 'app/components/NavigationTab';
 import type { ActionGrant, Group } from 'app/models';
 import InterestGroupComponent from './InterestGroup';
-import styles from './InterestGroup.css';
+import styles from './InterestGroup.module.css';
 
 export type Props = {
   actionGrant: ActionGrant;

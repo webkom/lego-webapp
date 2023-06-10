@@ -38,7 +38,7 @@ import { selectFeedActivitesByFeedId } from 'app/reducers/feeds';
 import type { CurrentUser } from 'app/store/models/User';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import HTTPError from '../errors/HTTPError';
-import styles from './AppRoute.css';
+import styles from './AppRoute.module.css';
 import type { ReactElement } from 'react';
 
 type Props = {

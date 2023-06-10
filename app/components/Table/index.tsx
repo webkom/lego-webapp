@@ -8,7 +8,7 @@ import { TextInput, CheckBox, RadioButton } from 'app/components/Form';
 import Icon from 'app/components/Icon';
 import Flex from 'app/components/Layout/Flex';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import styles from './Table.css';
+import styles from './Table.module.css';
 import type { ReactNode, ChangeEvent } from 'react';
 
 type sortProps = {

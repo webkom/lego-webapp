@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import styles from './context.css';
+import styles from './context.module.css';
 import type { AggregatedActivity, TagInfo } from './types';
 import type { ReactNode } from 'react';
 

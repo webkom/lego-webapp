@@ -1,5 +1,5 @@
 import Button from 'app/components/Button';
-import styles from './PageButtons.css';
+import styles from './PageButtons.module.css';
 
 type Props = {
   isEditing: boolean;

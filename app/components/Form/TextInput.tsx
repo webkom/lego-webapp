@@ -3,7 +3,7 @@ import { useRef } from 'react';
 import Icon from 'app/components/Icon';
 import Flex from 'app/components/Layout/Flex';
 import { createField } from './Field';
-import styles from './TextInput.css';
+import styles from './TextInput.module.css';
 import type { ReactNode, InputHTMLAttributes } from 'react';
 
 type Props = {

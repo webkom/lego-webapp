@@ -4,7 +4,7 @@ import { Image } from 'app/components/Image';
 import { Flex } from 'app/components/Layout';
 import type { Event } from 'app/models';
 import type { PublicArticle } from 'app/store/models/Article';
-import styles from './Pinned.css';
+import styles from './Pinned.module.css';
 import type { ReactElement } from 'react';
 
 type Props = {

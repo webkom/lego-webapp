@@ -5,7 +5,7 @@ import type { CurrentUser } from 'app/store/models/User';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 import type { Tree } from 'app/utils';
 import Comment from './Comment';
-import styles from './CommentTree.css';
+import styles from './CommentTree.module.css';
 
 type Props = {
   comments: Tree<CommentType>;

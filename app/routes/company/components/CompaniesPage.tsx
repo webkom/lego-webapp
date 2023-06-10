@@ -11,7 +11,7 @@ import { Flex } from 'app/components/Layout';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import type { ListCompany } from 'app/store/models/Company';
 import utilities from 'app/styles/utilities.css';
-import styles from './CompaniesPage.css';
+import styles from './CompaniesPage.module.css';
 
 const CompanyItem = ({ company }: { company: ListCompany }) => {
   return (

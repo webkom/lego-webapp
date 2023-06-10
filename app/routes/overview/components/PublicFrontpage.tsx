@@ -18,7 +18,7 @@ import { OverviewItem as Article } from 'app/routes/articles/components/Overview
 import LatestReadme from 'app/routes/overview/components/LatestReadme';
 import type { PublicEvent } from 'app/store/models/Event';
 import CompactEvents from './CompactEvents';
-import styles from './PublicFrontpage.css';
+import styles from './PublicFrontpage.module.css';
 // import Banner, { COLORS } from 'app/components/Banner';
 
 type Props = {

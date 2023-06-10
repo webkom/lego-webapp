@@ -6,7 +6,7 @@ import { Flex } from 'app/components/Layout';
 import type { SearchResult as SearchResultType } from 'app/reducers/search';
 import { isUserResult } from 'app/reducers/search';
 import truncateString from 'app/utils/truncateString';
-import styles from './SearchPageResults.css';
+import styles from './SearchPageResults.module.css';
 import type { KeyboardEventHandler } from 'react';
 
 type Props = {

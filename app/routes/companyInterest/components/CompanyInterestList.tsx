@@ -11,7 +11,7 @@ import type { CompanyInterestEntity } from 'app/reducers/companyInterest';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 import { ListNavigation } from 'app/routes/bdb/utils';
 import { getCsvUrl, semesterToText } from '../utils';
-import styles from './CompanyInterest.css';
+import styles from './CompanyInterest.module.css';
 import { EVENT_TYPE_OPTIONS } from './CompanyInterestPage';
 
 type SemesterOptionType = {

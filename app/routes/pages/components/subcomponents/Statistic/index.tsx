@@ -1,4 +1,4 @@
-import styles from './Statistic.css';
+import styles from './Statistic.module.css';
 
 type Props = {
   statistic: string;

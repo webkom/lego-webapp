@@ -8,7 +8,7 @@ import { ProfilePicture } from 'app/components/Image';
 import Flex from 'app/components/Layout/Flex';
 import type { ID } from 'app/store/models';
 import type { PublicUser } from 'app/store/models/User';
-import styles from './AttendanceModalContent.css';
+import styles from './AttendanceModalContent.module.css';
 
 export type Registration = {
   id: ID;

@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import styles from './NavigationLink.css';
+import styles from './NavigationLink.module.css';
 import type { ReactNode } from 'react';
 
 type Props = {

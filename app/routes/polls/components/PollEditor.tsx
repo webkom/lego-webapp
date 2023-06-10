@@ -19,7 +19,7 @@ import Tooltip from 'app/components/Tooltip';
 import type { ID } from 'app/models';
 import type { PollEntity } from 'app/reducers/polls';
 import { createValidator, required } from 'app/utils/validation';
-import styles from './PollEditor.css';
+import styles from './PollEditor.module.css';
 import type { ReactNode } from 'react';
 
 const keyCodes = {

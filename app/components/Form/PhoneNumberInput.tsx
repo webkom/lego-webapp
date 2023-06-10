@@ -1,6 +1,6 @@
 import PhoneInput from 'react-phone-number-input';
 import { createField } from './Field';
-import styles from './PhoneNumberInput.css';
+import styles from './PhoneNumberInput.module.css';
 import 'react-phone-number-input/style.css';
 
 const PhoneNumberInput = ({ ...props }: any) => {

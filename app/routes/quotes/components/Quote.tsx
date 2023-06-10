@@ -12,7 +12,7 @@ import type Emoji from 'app/store/models/Emoji';
 import type QuoteType from 'app/store/models/Quote';
 import type { CurrentUser } from 'app/store/models/User';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
-import styles from './Quotes.css';
+import styles from './Quotes.module.css';
 
 type Props = {
   quote: QuoteType;

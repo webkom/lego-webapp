@@ -8,7 +8,7 @@ import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import type { PhotoConsent } from 'app/models';
 import { PhotoConsentDomain } from 'app/models';
 import { getConsent, toReadableSemester } from 'app/routes/events/utils';
-import styles from './PhotoConsents.css';
+import styles from './PhotoConsents.module.css';
 
 const ConsentManager = ({
   consent,

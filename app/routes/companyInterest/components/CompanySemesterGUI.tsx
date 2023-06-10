@@ -13,7 +13,7 @@ import Flex from 'app/components/Layout/Flex';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 import { createValidator, required } from 'app/utils/validation';
 import { semesterToText, SemesterNavigation } from '../utils';
-import styles from './CompanyInterest.css';
+import styles from './CompanyInterest.module.css';
 import type { FormProps } from 'redux-form';
 
 type Props = {

@@ -24,7 +24,7 @@ import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import NavigationTab from 'app/components/NavigationTab';
 import { AttendanceStatus } from 'app/components/UserAttendance';
 import type { MeetingInvitationWithUser } from 'app/reducers/meetingInvitations';
-import styles from 'app/routes/meetings/components/MeetingEditor.css';
+import styles from 'app/routes/meetings/components/MeetingEditor.module.css';
 import type { ID } from 'app/store/models';
 import type { DetailedMeeting } from 'app/store/models/Meeting';
 import type { AutocompleteUser, CurrentUser } from 'app/store/models/User';

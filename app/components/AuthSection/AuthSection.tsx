@@ -5,7 +5,7 @@ import {
   LoginForm,
   RegisterForm,
 } from 'app/components/LoginForm';
-import styles from './AuthSection.css';
+import styles from './AuthSection.module.css';
 import type { ReactNode, MouseEvent } from 'react';
 
 enum AuthMode {

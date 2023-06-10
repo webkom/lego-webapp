@@ -10,7 +10,7 @@ import type { ContentTarget } from 'app/store/utils/contentTarget';
 import { spySubmittable, spyValues } from 'app/utils/formSpyUtils';
 import { createValidator, required } from 'app/utils/validation';
 import { navigation } from '../utils';
-import styles from './Quotes.css';
+import styles from './Quotes.module.css';
 
 type Props = {
   addQuotes: (quote: { text: string; source: string }) => Promise<void>;

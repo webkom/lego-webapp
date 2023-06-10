@@ -11,7 +11,7 @@ import type { MeetingSection } from 'app/reducers/meetings';
 import type { UserEntity } from 'app/reducers/users';
 import type { ListMeeting } from 'app/store/models/Meeting';
 import type { CurrentUser } from 'app/store/models/User';
-import styles from './MeetingList.css';
+import styles from './MeetingList.module.css';
 
 function MeetingListItem({
   meeting,
