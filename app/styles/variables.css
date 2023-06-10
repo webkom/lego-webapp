@@ -22,15 +22,6 @@
   --lego-header-height: 120px;
   --lego-main-nav-height: 50px;
 
-  --lego-chart-purple: #c73aea;
-  --lego-chart-yellow: #f4ee42;
-  --lego-chart-green: #98e442;
-  --lego-chart-pink: #ff87eb;
-  --lego-chart-blue: #145bd4;
-  --lego-chart-black: #000;
-  --lego-chart-salmon: #fa8072;
-  --lego-chart-navajo: #ffdead;
-
   --color-event-red: #b11c11;
   --color-event-black: #111;
 
@@ -95,7 +86,25 @@
   --color-red-8: #730202;
   --color-red-9: #400101;
 
-  --color-yellow: #fcd703;
+  --color-purple-1: #f4eaff;
+  --color-purple-2: #e8d4fe;
+  --color-purple-3: #dba7fd;
+  --color-purple-4: #cc79fc;
+  --color-purple-5: #b94cfb;
+  --color-purple-6: #a020fa;
+  --color-purple-7: #8120c9;
+  --color-purple-8: #62189b;
+  --color-purple-9: #440d66;
+
+  --color-yellow-1: #fffbe6;
+  --color-yellow-2: #fff9cc;
+  --color-yellow-3: #fff7b2;
+  --color-yellow-4: #fff595;
+  --color-yellow-5: #fff368;
+  --color-yellow-6: #ffea00;
+  --color-yellow-7: #b3a300;
+  --color-yellow-8: #807300;
+  --color-yellow-9: #403600;
 
   --color-red-hover-alpha: 5%;
 
@@ -135,15 +144,6 @@
   --secondary-font-color: #aaa;
 
   --lego-red-color: var(--color-red-7);
-
-  --lego-chart-purple: #c73aea;
-  --lego-chart-yellow: #f4ee42;
-  --lego-chart-green: #98e442;
-  --lego-chart-pink: #ff87eb;
-  --lego-chart-blue: #145bd4;
-  --lego-chart-black: #000;
-  --lego-chart-salmon: #fa8072;
-  --lego-chart-navajo: #ffdead;
 
   --color-event-black: #ddd;
   --color-white: #181818;
@@ -204,7 +204,25 @@
   --color-red-8: #e52d2e;
   --color-red-9: #e9494a;
 
-  --color-yellow: #fcd703;
+  --color-purple-1: #440d66;
+  --color-purple-2: #62189b;
+  --color-purple-3: #8120c9;
+  --color-purple-4: #a020fa;
+  --color-purple-5: #b94cfb;
+  --color-purple-6: #cc79fc;
+  --color-purple-7: #dba7fd;
+  --color-purple-8: #e8d4fe;
+  --color-purple-9: #f4eaff;
+
+  --color-yellow-1: #403600;
+  --color-yellow-2: #807300;
+  --color-yellow-3: #b3a300;
+  --color-yellow-4: #ffea00;
+  --color-yellow-5: #fff368;
+  --color-yellow-6: #fff595;
+  --color-yellow-7: #fff7b2;
+  --color-yellow-8: #fff9cc;
+  --color-yellow-9: #fffbe6;
 
   --color-red-hover-alpha: 10%;
 }

@@ -4,18 +4,15 @@ export interface DistributionDataPoint {
 }
 
 export const CHART_COLORS = [
-  'var(--lego-red-color)',
-  'var(--color-blue-4)',
-  'var(--color-orange-7)',
-  'var(--color-green-8)',
-  'var(--lego-chart-purple)',
-  'var(--lego-chart-yellow)',
-  '#ff87eb',
-  'var(--lego-chart-black)',
-  'var(--lego-chart-green)',
-  'var(--lego-chart-blue)',
-  'var(--lego-chart-salmon)',
-  'var(--lego-chart-navajo)',
+  'var(--color-blue-6)',
+  'var(--color-orange-6)',
+  'var(--color-green-7)',
+  'var(--color-red-4)',
+  'var(--color-purple-5)',
+  'var(--color-blue-5)',
+  'var(--color-orange-5)',
+  'var(--color-green-6)',
+  'var(--color-purple-7)',
 ];
 
 type GraphProps = {

@@ -6,11 +6,11 @@ export const passwordLabel = {
   4: 'Sterkt',
 };
 export const barColor = {
-  0: '#F25F5C',
-  1: '#F25F5C',
-  2: '#FFE066',
-  3: '#70C1B3',
-  4: '#006600',
+  0: 'var(--danger-color)',
+  1: 'var(--color-orange-6)',
+  2: 'var(--color-yellow-6)',
+  3: 'var(--color-green-6)',
+  4: 'var(--color-green-7)',
 };
 export const passwordFeedbackMessages = {
   'Add another word or two. Uncommon words are better.':
