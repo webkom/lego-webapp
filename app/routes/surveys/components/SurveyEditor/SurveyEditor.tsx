@@ -5,6 +5,7 @@ import { FieldArray } from 'react-final-form-arrays';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import Button from 'app/components/Button';
+import Card from 'app/components/Card';
 import { Content } from 'app/components/Content';
 import Dropdown from 'app/components/Dropdown';
 import { DatePicker, SelectInput, TextInput } from 'app/components/Form';
@@ -337,12 +338,15 @@ const SurveyEditor = ({
         )}
       </TypedLegoForm>
 
-      <i className={styles.mailInfo}>
-        Deltagerene på arrangementet vil få e-post med link til
-        spørreundersøkelsen når den aktiveres (
-        <Time time={activeFrom} format="HH:mm DD. MMM" />
-        ).
-      </i>
+      <Card info>
+        <span>
+          Deltagerene på arrangementet vil få e-post med link til
+          spørreundersøkelsen når den aktiveres (
+          <Time time={activeFrom} format="HH:mm DD. MMM" />
+          ). Legg merke til at kun deltagerene som har registrert oppmøte vil få
+          e-post.{' '}
+        </span>
+      </Card>
     </Content>
   );
 };

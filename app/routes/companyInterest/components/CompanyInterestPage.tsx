@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { SubmissionError } from 'redux-form';
 import english from 'app/assets/great_britain.svg';
 import norwegian from 'app/assets/norway.svg';
+import Card from 'app/components/Card';
 import { Content } from 'app/components/Content';
 import { FlexRow } from 'app/components/FlexBox';
 import {
@@ -646,17 +647,12 @@ const CompanyInterestPage = (props: Props) => {
                 </Link>
               )}
             </FlexRow>
-            <h5 className={styles.subHeading}>
-              <Flex alignItems="center" gap={5}>
-                <Icon name="warning" />
-                <span>
-                  {labels.subHeading[language]}
-                  <a href={'mailto:bedriftskontakt@abakus.no'}>
-                    bedriftskontakt@abakus.no
-                  </a>
-                </span>
-              </Flex>
-            </h5>
+            <Card info>
+              {labels.subHeading[language]}
+              <a href={'mailto:bedriftskontakt@abakus.no'}>
+                bedriftskontakt@abakus.no
+              </a>
+            </Card>
 
             <Field
               name="company"
