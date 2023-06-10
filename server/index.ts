@@ -30,7 +30,6 @@ const server = config.https
     )
   : http.createServer(app);
 
-let currentApp = app;
 const log = app.get('log');
 
 server.on('error', (err) => {
@@ -48,11 +47,3 @@ server.listen({ port: app.get('port'), host: app.get('host') }, () => {
     'app_started'
   );
 });
-
-if (module.hot) {
-  module.hot.accept('./server', () => {
-    server.removeListener('request', currentApp);
-    server.on('request', app);
-    currentApp = app;
-  });
-}
