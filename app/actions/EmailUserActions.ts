@@ -10,7 +10,7 @@ export function fetchEmailUser(userId: EntityID): Thunk<any> {
     endpoint: `/email-users/${userId}/`,
     schema: emailUserSchema,
     meta: {
-      errorMessage: 'Henting av epostliste feilet',
+      errorMessage: 'Henting av e-postliste feilet',
     },
     propagateError: true,
   });
@@ -23,7 +23,7 @@ export function createEmailUser(emailUser: EmailUserEntity): Thunk<any> {
     schema: emailUserSchema,
     body: emailUser,
     meta: {
-      errorMessage: 'Opprettelse av epostliste feilet',
+      errorMessage: 'Opprettelse av e-postliste feilet',
     },
   });
 }
@@ -35,7 +35,7 @@ export function editEmailUser(emailUser: EmailUserEntity): Thunk<any> {
     schema: emailUserSchema,
     body: emailUser,
     meta: {
-      errorMessage: 'Endring av epostliste feilet',
+      errorMessage: 'Endring av e-postliste feilet',
     },
   });
 }
@@ -57,7 +57,7 @@ export function fetch({
         },
         schema: [emailUserSchema],
         meta: {
-          errorMessage: 'Henting av epostlister feilet',
+          errorMessage: 'Henting av e-postlister feilet',
         },
         propagateError: true,
       })

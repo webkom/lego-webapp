@@ -51,7 +51,7 @@ const DisplayVision = ({ vision1, vision2, vision3, vision4 }: Props) => (
 );
 
 DisplayVision.defaultProps = {
-  title: 'Våre Verdier',
+  title: 'Våre verdier',
   vision1: {
     title: 'Bærekraftig',
     summary:
@@ -108,7 +108,7 @@ DisplayVision.defaultProps = {
 const DisplayVisionShort = ({ vision1, vision2, vision3, vision4 }: Props) => {
   return (
     <div>
-      <h2 className={styles.visionTitle}>Våre Verdier</h2>
+      <h2 className={styles.visionTitle}>Våre verdier</h2>
       <div className={styles.vision}>
         <div className={styles.sectionLeft}>
           <Vision title={vision1.title} summary={vision1.summary} left />

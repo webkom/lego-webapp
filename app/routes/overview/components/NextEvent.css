@@ -33,8 +33,7 @@
 .filler {
   justify-content: center;
   align-items: center;
-  font-style: italic;
-  color: var(--color-gray-8);
+  color: var(--secondary-font-color);
   margin-top: 20px;
 }
 

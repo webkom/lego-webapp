@@ -8,7 +8,7 @@ import type { AggregatedActivity } from '../types';
  * No extra information in the feed element
  */
 export function activityHeader() {
-  return <b>Begrenset e-post sent ut til alle mottakere</b>;
+  return <b>Begrenset e-post sendt ut til alle mottakere</b>;
 }
 export function activityContent() {
   return null;

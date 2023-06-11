@@ -181,7 +181,7 @@ const UserSettings = (props: Props) => {
             </RadioButtonGroup>
 
             {showAbakusMembership && (
-              <RadioButtonGroup name="isAbakusMember" label="Medlem i Abakus?">
+              <RadioButtonGroup name="isAbakusMember" label="Medlem av Abakus?">
                 <Field
                   name="isMemberYes"
                   label="Ja"

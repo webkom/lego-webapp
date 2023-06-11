@@ -29,7 +29,7 @@ const hiddenSenderLabel = (
       }}
     >
       - Dette gjør at adressen i feltet over ikke vises som opprinnelig avsender
-      nederst i eposten
+      nederst i e-posten
     </p>
   </div>
 );
@@ -85,7 +85,7 @@ const RestrictedMailEditor = ({
         required
         placeholder="abakus@abakus.no"
         name="fromAddress"
-        label="Eposten du ønsker å sende fra"
+        label="E-posten du ønsker å sende fra"
         component={TextInput.Field}
       />
       <Field
@@ -141,7 +141,7 @@ const RestrictedMailEditor = ({
       />
       <Field
         disabled={restrictedMailId}
-        label="E-post addresser"
+        label="E-postadresser"
         name="rawAddresses"
         placeholder="Enkelte e-poster du ønsker å sende til"
         component={SelectInput.Field}

@@ -51,7 +51,7 @@ const StudentConfirmation = ({
     return (
       <Container>
         <div className={styles.root}>
-          <h2>Sjekk eposten din!</h2>
+          <h2>Sjekk e-posten din!</h2>
         </div>
       </Container>
     );
@@ -80,13 +80,13 @@ const StudentConfirmation = ({
   return (
     <Container>
       <div>
-        <h2>Verifiser studentepost</h2>
+        <h2>Verifiser student-e-post</h2>
         <Form onSubmit={handleSubmit(handleSendConfirmation)}>
-          <Tooltip content="Brukernavnet du logger inn på NTNU med. Dette er delen som er foran @stud.ntnu.no. OBS: Ikke skriv inn hele eposten">
+          <Tooltip content="Brukernavnet du logger inn på NTNU med. Dette er delen som er foran @stud.ntnu.no. OBS: Ikke skriv inn hele e-posten">
             <Field
               name="studentUsername"
-              placeholder="NTNU Brukernavn"
-              label="NTNU Brukernavn"
+              placeholder="NTNU-brukernavn"
+              label="NTNU-brukernavn"
               component={TextInput.Field}
             />
           </Tooltip>
@@ -145,7 +145,7 @@ const StudentConfirmation = ({
               inputValue="false"
             />
           </RadioButtonGroup>
-          <RadioButtonGroup name="member" label="Vil du bli medlem i Abakus?">
+          <RadioButtonGroup name="member" label="Vil du bli medlem av Abakus?">
             <Flex>
               <div
                 style={{
@@ -171,9 +171,9 @@ const StudentConfirmation = ({
                     rel="noopener noreferrer"
                     target="_blank"
                   >
-                    medlemskapet.
+                    medlemskapet.{' '}
                   </a>
-                  Det koster ingenting å være medlem i Abakus.
+                  Det koster ingenting å være medlem av Abakus.
                 </p>
               </div>
             </Flex>
@@ -197,7 +197,7 @@ const StudentConfirmation = ({
             }}
             component={Captcha.Field}
           />
-          <Button submit disabled={disabledButton}>
+          <Button submit success disabled={disabledButton}>
             Verifiser
           </Button>
         </Form>

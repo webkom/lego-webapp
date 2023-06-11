@@ -88,7 +88,7 @@ class CompanyContactEditor extends Component<Props> {
 
             <Field
               placeholder="arne@bedrift.no"
-              label="E-mail"
+              label="E-post"
               autoFocus={autoFocus}
               name="mail"
               component={TextInput.Field}
