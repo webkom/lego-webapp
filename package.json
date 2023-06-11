@@ -85,6 +85,7 @@
     "react-notification": "^6.8.5",
     "react-overlays": "5.2.1",
     "react-phone-number-input": "^3.2.23",
+    "react-popper": "^2.3.0",
     "react-qr-reader": "^3.0.0-beta-1",
     "react-qrcode-logo": "^2.9.0",
     "react-redux": "^8.0.7",

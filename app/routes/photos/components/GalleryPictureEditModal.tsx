@@ -88,17 +88,8 @@ const GalleryPictureEditModal = ({
                     marginLeft: '5px',
                   }}
                 >
-                  <Tooltip
-                    content="Om bildet skal være synlig for brukere som ikke har tilgang til å redigere albumet."
-                    renderDirection="right"
-                  >
-                    <Icon
-                      name="information-circle-outline"
-                      size={20}
-                      style={{
-                        cursor: 'pointer',
-                      }}
-                    />
+                  <Tooltip content="Om bildet skal være synlig for brukere som ikke har tilgang til å redigere albumet.">
+                    <Icon name="information-circle-outline" size={20} />
                   </Tooltip>
                 </div>
               </Flex>

@@ -46,7 +46,7 @@ const UserSettingsOAuth2 = (props: Props) => {
         return (
           <Flex wrap gap={10}>
             {application.clientId}
-            <Tooltip content="Kopier client ID" renderDirection="right">
+            <Tooltip content="Kopier client ID">
               <Icon
                 name={copied ? 'copy' : 'copy-outline'}
                 size={20}
@@ -98,7 +98,7 @@ const UserSettingsOAuth2 = (props: Props) => {
           closeOnCancel
         >
           {({ openConfirmModal }) => (
-            <Tooltip content="Fjern" style={{ marginTop: '-7px' }}>
+            <Tooltip content="Fjern">
               <Flex justifyContent="center">
                 <Icon
                   onClick={openConfirmModal}

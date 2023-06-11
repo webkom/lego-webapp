@@ -9,6 +9,7 @@
   --lego-card-color: #fff;
 
   --lego-font-color: var(--color-gray-9);
+  --inverted-font-color: var(--color-gray-1);
   --secondary-font-color: #606060;
 
   --lego-red-color: var(--color-red-5);

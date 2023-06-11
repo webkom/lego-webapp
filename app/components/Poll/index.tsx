@@ -115,17 +115,11 @@ class Poll extends Component<Props, State> {
               <span className={styles.pollHeader}>{title}</span>
             </Flex>
           </Link>
-          <Tooltip content="Avstemningen er anonym." renderDirection="left">
-            <Flex>
-              <Icon
-                name="information-circle-outline"
-                size={20}
-                style={{
-                  cursor: 'pointer',
-                }}
-              />
-            </Flex>
-          </Tooltip>
+          <div>
+            <Tooltip content="Avstemningen er anonym.">
+              <Icon name="information-circle-outline" size={20} />
+            </Tooltip>
+          </div>
         </Flex>
         {details && (
           <div>

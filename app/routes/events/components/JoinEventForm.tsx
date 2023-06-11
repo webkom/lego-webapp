@@ -152,7 +152,6 @@ const RegistrationPending = ({
             på slack for eventuelle oppdateringer.
           </span>
         }
-        renderDirection="center"
       >
         <Icon name="information-circle-outline" size={20} />
       </Tooltip>

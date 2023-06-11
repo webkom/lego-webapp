@@ -88,19 +88,8 @@ const ArticleEditor = ({
                     marginLeft: '5px',
                   }}
                 >
-                  <Tooltip
-                    style={{
-                      marginLeft: '3px',
-                    }}
-                    content="Valgfritt felt. Videoen erstatter ikke coveret i listen over artikler."
-                  >
-                    <Icon
-                      name="information-circle-outline"
-                      size={20}
-                      style={{
-                        cursor: 'pointer',
-                      }}
-                    />
+                  <Tooltip content="Valgfritt felt. Videoen erstatter ikke coveret i listen over artikler.">
+                    <Icon name="information-circle-outline" size={20} />
                   </Tooltip>
                 </div>
               </Flex>

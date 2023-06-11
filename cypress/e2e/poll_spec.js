@@ -51,7 +51,7 @@ describe('Polls', () => {
 
     // Add new option and remove it
     cy.contains('button', 'Legg til alternativ').click();
-    cy.get(c('PollEditor__deleteOption')).last().click();
+    cy.get(c('deleteOption')).last().click();
     cy.get(c('Modal__content')).should('be.visible').contains('Ja').click();
 
     field('description').type(poll_form.description).blur();
@@ -94,13 +94,13 @@ describe('Polls', () => {
     field('title').clear().type(poll_form.title);
     field('pinned').check();
 
-    cy.get(c('PollEditor__deleteOption')).first().click();
+    cy.get(c('deleteOption')).first().click();
     cy.get(c('Modal__content')).should('be.visible').contains('Ja').click();
-    cy.get(c('PollEditor__deleteOption')).first().click();
+    cy.get(c('deleteOption')).first().click();
     cy.get(c('Modal__content')).should('be.visible').contains('Ja').click();
-    cy.get(c('PollEditor__deleteOption')).first().click();
+    cy.get(c('deleteOption')).first().click();
     cy.get(c('Modal__content')).should('be.visible').contains('Ja').click();
-    cy.get(c('PollEditor__deleteOption')).first().click();
+    cy.get(c('deleteOption')).first().click();
     cy.get(c('Modal__content')).should('be.visible').contains('Ja').click();
 
     cy.contains('button', 'Legg til alternativ').click();

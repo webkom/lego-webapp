@@ -129,7 +129,7 @@ export const Unregister = ({
           closeOnCancel
         >
           {({ openConfirmModal }) => (
-            <Tooltip content="Meld av bruker" style={{ marginTop: '-7px' }}>
+            <Tooltip content="Meld av bruker">
               <Icon
                 onClick={openConfirmModal}
                 name="person-remove-outline"

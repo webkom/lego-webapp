@@ -2,15 +2,8 @@
 
 .optionField {
   display: flex;
-}
-
-.deleteOption {
-  display: flex;
-  justify-content: center;
   align-items: center;
-  cursor: pointer;
-  width: 2rem;
-  padding-top: 5px;
+  gap: 15px;
 }
 
 .actionButtons {

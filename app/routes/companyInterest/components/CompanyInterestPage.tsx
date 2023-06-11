@@ -726,7 +726,6 @@ const CompanyInterestPage = (props: Props) => {
                     {labels.companyCourseThemes[language]}
                     <Tooltip
                       className={styles.tooltip}
-                      renderDirection="right"
                       content={
                         <span>
                           {language === 'norwegian'
