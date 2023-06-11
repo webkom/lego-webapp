@@ -11,6 +11,7 @@ import type { WithDocumentType } from 'app/reducers/frontpage';
 import { isArticle, isEvent } from 'app/reducers/frontpage';
 import type { PollEntity } from 'app/reducers/polls';
 import type { PublicArticle } from 'app/store/models/Article';
+import type { FrontpageEvent } from 'app/store/models/Event';
 import ArticleItem from './ArticleItem';
 import CompactEvents from './CompactEvents';
 import EventItem from './EventItem';
@@ -18,20 +19,16 @@ import LatestReadme from './LatestReadme';
 import NextEvent from './NextEvent';
 import styles from './Overview.css';
 import Pinned from './Pinned';
-import { renderMeta } from './utils';
+import { itemUrl, renderMeta } from './utils';
 // import Banner, { COLORS } from 'app/components/Banner';
 
 type Props = {
-  frontpage: WithDocumentType<PublicArticle | Event>[];
+  frontpage: WithDocumentType<PublicArticle | FrontpageEvent>[];
   fetchingFrontpage: boolean;
   readmes: Readme[];
   poll: PollEntity | null | undefined;
   votePoll: () => Promise<void>;
   loggedIn: boolean;
-};
-
-const itemUrl = (item: WithDocumentType<PublicArticle | Event>) => {
-  return `/${item.documentType === 'event' ? 'events' : 'articles'}/${item.id}`;
 };
 
 const Overview = (props: Props) => {
@@ -55,7 +52,9 @@ const Overview = (props: Props) => {
       events
         .filter(
           (item) =>
-            item.id !== pinned.id && moment(item.startTime).isAfter(moment())
+            item.id !== pinned.id &&
+            isEvent(item) &&
+            moment(item.startTime).isAfter(moment())
         )
         .slice(0, eventsToShow),
     [events, eventsToShow, pinned]
@@ -87,7 +86,6 @@ const Overview = (props: Props) => {
   const readMe = (
     <Flex className={styles.readMe}>
       <LatestReadme
-        imageClassName={styles.smallReadme}
         readmes={readmes}
         expandedInitially={frontpage.length === 0 && !fetchingFrontpage}
       />

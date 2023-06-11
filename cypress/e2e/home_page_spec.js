@@ -16,10 +16,9 @@ describe('The Home Page and Login', () => {
     cy.contains('h3', 'Arrangementer');
     cy.contains('li', 'Sikkerhet og Sårbarhet');
 
-    cy.contains('h2', 'Siste artikkel');
-    cy.contains('h2', 'Siste utgave av');
-    cy.contains('h2', 'Nyttige linker');
-    cy.contains('h2', 'Vår Facebook side');
+    cy.contains('h3', 'Festet oppslag');
+    cy.contains('span', 'readme');
+    cy.contains('h3', 'Nyttige lenker');
   });
 
   it('can log in from homepage', () => {

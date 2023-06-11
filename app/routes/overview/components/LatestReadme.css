@@ -11,8 +11,8 @@
 }
 
 .thumb {
-  height: 200px;
-  transition: transform var(--easing-medium);
+  width: 150px;
+  transition: transform var(--easing-fast);
   display: block;
   object-fit: contain;
 

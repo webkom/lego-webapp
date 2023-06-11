@@ -82,7 +82,10 @@
   align-items: center;
   flex-direction: row;
   height: var(--lego-header-height);
-  padding: 0 20px;
+
+  @media (--mobile-device) {
+    padding: 0 10px;
+  }
 }
 
 .logo {

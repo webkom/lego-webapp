@@ -2,26 +2,25 @@
 
 .container {
   display: grid;
-  grid-gap: 30px;
-  grid-template-columns: 1fr 1fr 1.3fr;
+  grid-gap: 40px;
+  grid-template-columns: 1fr 1fr 1fr;
   grid-auto-rows: auto;
   grid-template-areas: 'welcome welcome login' 'events events hsp' 'article article readme' 'links links links';
 
   @media (--mobile-device) {
-    grid-gap: 10px;
+    grid-gap: 20px;
     grid-template-columns: 1fr;
     grid-template-areas: 'welcome' 'login' 'events' 'hsp' 'article' 'readme' 'links';
   }
 }
 
-.rootCardStyle {
-  composes: withShadow from '~app/styles/utilities.css';
-  background: var(--lego-card-color);
-  padding: 30px;
+.login {
+  height: fit-content;
+}
 
-  @media (--mobile-device) {
-    padding: 15px;
-  }
+.welcome,
+.links {
+  padding: 0 10px 10px;
 }
 
 .hsp {
@@ -54,10 +53,4 @@
   margin: 0 auto;
   width: auto;
   height: 40%;
-}
-
-.latestReadme {
-  min-height: 410px;
-  max-width: 330px;
-  width: 100%;
 }

@@ -6,14 +6,16 @@ import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
 import { colorForEvent } from 'app/routes/events/utils';
 import styles from './CompactEvents.css';
+import type { CSSProperties } from 'react';
 
 type Props = {
   events: Array<Record<string, any>>;
-  frontpageHeading?: boolean;
+  style?: CSSProperties;
 };
+
 export default class CompactEvents extends Component<Props> {
   render() {
-    const { events, frontpageHeading } = this.props;
+    const { events, style } = this.props;
 
     const mapEvents = (eventTypes) => {
       return events
@@ -43,7 +45,7 @@ export default class CompactEvents extends Component<Props> {
                   style={{
                     transform: 'rotate(-20deg)',
                     marginRight: '4px',
-                    color: '#BE1600',
+                    color: 'var(--lego-red-color)',
                   }}
                 />
               </Tooltip>
@@ -76,9 +78,8 @@ export default class CompactEvents extends Component<Props> {
       return null;
     }
 
-    const headerStyle = frontpageHeading ? 'u-mb' : 'u-ui-heading';
     return (
-      <Flex column>
+      <Flex column style={style}>
         <Flex wrap className={styles.compactEvents}>
           <Flex column className={styles.compactLeft}>
             <Link
@@ -89,7 +90,7 @@ export default class CompactEvents extends Component<Props> {
                 },
               }}
             >
-              <h3 className={headerStyle}>Bedpres og kurs</h3>
+              <h3 className="u-ui-heading">Bedpres og kurs</h3>
             </Link>
             <ul className={styles.innerList}>{leftEvents}</ul>
           </Flex>
@@ -102,7 +103,7 @@ export default class CompactEvents extends Component<Props> {
                 },
               }}
             >
-              <h3 className={headerStyle}>Arrangementer</h3>
+              <h3 className="u-ui-heading">Arrangementer</h3>
             </Link>
             <ul className={styles.innerList}>{rightEvents}</ul>
           </Flex>

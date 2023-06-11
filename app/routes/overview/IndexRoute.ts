@@ -51,7 +51,7 @@ export default compose(
         props.loggedIn &&
           props.shouldFetchQuote &&
           dispatch(fetchRandomQuote()),
-        dispatch(fetchReadmes(props.loggedIn ? 4 : 1)),
+        dispatch(fetchReadmes(props.loggedIn ? 4 : 2)),
         dispatch(fetchData()),
       ]),
     (props) => [props.loggedIn, props.shouldFetchQuote]
