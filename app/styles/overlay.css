@@ -11,11 +11,6 @@
   @media (--small-viewport) {
     width: calc(100% - 10px);
   }
-
-  & h2 {
-    margin: 0;
-    font-size: var(--font-size-lg);
-  }
 }
 
 .arrow {

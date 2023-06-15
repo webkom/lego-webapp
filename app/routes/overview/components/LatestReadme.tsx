@@ -1,4 +1,3 @@
-import cx from 'classnames';
 import { useEffect, useState } from 'react';
 import { Collapse } from 'react-collapse';
 import Card from 'app/components/Card';
@@ -11,19 +10,17 @@ import styles from './LatestReadme.css';
 import type { CSSProperties } from 'react';
 
 type Props = {
-  expandedInitially: boolean;
+  expandedInitially?: boolean;
   collapsible?: boolean;
   readmes: Array<Readme>;
   style?: CSSProperties;
-  imageClassName?: string;
 };
 
 const LatestReadme = ({
   readmes,
-  expandedInitially,
+  expandedInitially = true,
   collapsible = true,
   style,
-  imageClassName,
 }: Props) => {
   const [expanded, setExpanded] = useState(expandedInitially);
 
@@ -52,15 +49,11 @@ const LatestReadme = ({
           wrap
           justifyContent="space-around"
           style={{
-            paddingTop: 20,
+            paddingTop: 15,
           }}
         >
           {readmes.slice(0, 4).map(({ image, pdf, title }) => (
-            <a
-              key={title}
-              href={pdf}
-              className={cx(styles.thumb, imageClassName)}
-            >
+            <a key={title} href={pdf} className={styles.thumb}>
               <Image src={image} alt={`Cover of ${title}`} />
             </a>
           ))}

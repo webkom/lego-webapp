@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import buddyWeekGraphic from 'app/assets/frontpage-graphic-buddyweek.png';
 import dataGraphic from 'app/assets/frontpage-graphic-data.png';
 import forCompaniesGraphic from 'app/assets/frontpage-graphic-for-companies.png';
@@ -14,8 +15,9 @@ import { readmeIfy } from 'app/components/ReadmeLogo';
 import type { Readme } from 'app/models';
 import type { WithDocumentType } from 'app/reducers/frontpage';
 import type { ArticleWithAuthorDetails } from 'app/routes/articles/ArticleListRoute';
-import { OverviewItem as Article } from 'app/routes/articles/components/Overview';
 import LatestReadme from 'app/routes/overview/components/LatestReadme';
+import Pinned from 'app/routes/overview/components/Pinned';
+import { itemUrl, renderMeta } from 'app/routes/overview/components/utils';
 import type { PublicEvent } from 'app/store/models/Event';
 import CompactEvents from './CompactEvents';
 import styles from './PublicFrontpage.css';
@@ -43,32 +45,38 @@ const isArticle = (
   item.documentType === 'article';
 
 const PublicFrontpage = ({ frontpage, readmes }: Props) => {
+  const pinned = frontpage[0];
+  const pinnedComponent = pinned && (
+    <Pinned
+      style={{ gridArea: 'article' }}
+      item={pinned}
+      url={itemUrl(pinned)}
+      meta={renderMeta(pinned)}
+    />
+  );
+
   return (
     <Container>
       {/* <Banner
-           header="Abakusrevyen har opptak!"
-           subHeader="Søk her"
-           link="https://opptak.abakus.no"
-           color={COLORS.red}
-          /> */}
+        header="Abakusrevyen har opptak!"
+        subHeader="Søk her"
+        link="https://opptak.abakus.no"
+        color={COLORS.red}
+      /> */}
       <Container className={styles.container}>
-        <Card style={{ gridArea: 'welcome' }}>
-          <Welcome />
-        </Card>
-        <Card style={{ gridArea: 'login' }}>
+        <Welcome />
+        <Card className={styles.login} style={{ gridArea: 'login' }}>
           <AuthSection />
         </Card>
-        <Card style={{ gridArea: 'events' }}>
-          <CompactEvents events={frontpage.filter(isEvent)} frontpageHeading />
-        </Card>
+        <CompactEvents
+          style={{ gridArea: 'events' }}
+          events={frontpage.filter(isEvent)}
+        />
         <Card style={{ gridArea: 'hsp' }}>
           <HspInfo />
         </Card>
-        <Card style={{ gridArea: 'article' }}>
-          <LatestArticle frontpage={frontpage} />
-        </Card>
+        {pinnedComponent}
         <LatestReadme
-          imageClassName={styles.latestReadme}
           readmes={readmes}
           expandedInitially
           collapsible={false}
@@ -81,8 +89,8 @@ const PublicFrontpage = ({ frontpage, readmes }: Props) => {
 };
 
 const Welcome = () => (
-  <>
-    <h2 className="u-mb">Velkommen til Abakus</h2>
+  <div className={styles.welcome} style={{ gridArea: 'welcome' }}>
+    <h1 className="u-mb">Velkommen til Abakus</h1>
     <p>
       Abakus er linjeforeningen for studentene ved <i>Datateknologi</i> og
       <i> Kommunikasjonsteknologi og digital sikkerhet</i> på NTNU, og drives av
@@ -93,7 +101,10 @@ const Welcome = () => (
       studiesituasjonen, arrangere kurs som utfyller fagtilbudet ved NTNU,
       fremme kontakten med næringslivet og bidra med sosiale aktiviteter.
     </p>
-  </>
+    <Link to="/pages/info-om-abakus">
+      <Button dark>Les mer om oss</Button>
+    </Link>
+  </div>
 );
 
 const HspInfo = () => (
@@ -112,18 +123,6 @@ const HspInfo = () => (
     innovasjon og samhold sterkt, og de er opptatt av å ta ansvar – både for
     egne leveranser, for kundene og for sine ansatte.
   </div>
-);
-
-const LatestArticle = ({ frontpage }: Pick<Props, 'frontpage'>) => (
-  <>
-    <h2 className="u-mb">Siste artikkel</h2>
-    {frontpage
-      .filter(isArticle)
-      .slice(0, 1)
-      .map((item) => (
-        <Article article={item} key={item.id} />
-      ))}
-  </>
 );
 
 const usefulLinksConf = [
@@ -175,8 +174,8 @@ const usefulLinksConf = [
 ];
 
 const UsefulLinks = () => (
-  <>
-    <h2 className="u-mb">Nyttige lenker</h2>
+  <div className={styles.links}>
+    <h3 className="u-ui-heading">Nyttige lenker</h3>
 
     <Flex wrap justifyContent="center" gap={40}>
       {usefulLinksConf.map((item) => (
@@ -201,7 +200,7 @@ const UsefulLinks = () => (
         </a>
       ))}
     </Flex>
-  </>
+  </div>
 );
 
 export default PublicFrontpage;

@@ -2,19 +2,20 @@ import { Link } from 'react-router-dom';
 import Card from 'app/components/Card';
 import { Image } from 'app/components/Image';
 import { Flex } from 'app/components/Layout';
-import type { Event } from 'app/models';
 import type { PublicArticle } from 'app/store/models/Article';
+import type { FrontpageEvent } from 'app/store/models/Event';
 import styles from './Pinned.css';
-import type { ReactElement } from 'react';
+import type { CSSProperties, ReactElement } from 'react';
 
 type Props = {
-  item: Event | PublicArticle;
+  item: FrontpageEvent | PublicArticle;
   url: string;
   meta: ReactElement<'span'> | null;
+  style?: CSSProperties;
 };
 
-const Pinned = ({ item, url, meta }: Props) => (
-  <Flex column className={styles.pinned}>
+const Pinned = ({ item, url, meta, style }: Props) => (
+  <Flex column style={style} className={styles.pinned}>
     <h3 className="u-ui-heading">Festet oppslag</h3>
     <Card hideOverflow className={styles.body}>
       <Link to={url} className={styles.innerLinks}>
