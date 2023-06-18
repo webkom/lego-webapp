@@ -7,6 +7,7 @@ import readmeGraphic from 'app/assets/frontpage-graphic-readme.png';
 import netcompany from 'app/assets/netcompany_dark.png';
 import netcompanyLight from 'app/assets/netcompany_white.svg';
 import AuthSection from 'app/components/AuthSection/AuthSection';
+import Banner from 'app/components/Banner';
 import Button from 'app/components/Button';
 import Card from 'app/components/Card';
 import { Image } from 'app/components/Image';
@@ -21,7 +22,6 @@ import { itemUrl, renderMeta } from 'app/routes/overview/components/utils';
 import type { PublicEvent } from 'app/store/models/Event';
 import CompactEvents from './CompactEvents';
 import styles from './PublicFrontpage.css';
-// import Banner, { COLORS } from 'app/components/Banner';
 
 type Props = {
   frontpage: (
@@ -57,12 +57,12 @@ const PublicFrontpage = ({ frontpage, readmes }: Props) => {
 
   return (
     <Container>
-      {/* <Banner
-        header="Abakusrevyen har opptak!"
-        subHeader="Søk her"
-        link="https://opptak.abakus.no"
-        color={COLORS.red}
-      /> */}
+      <Banner
+        header="Velkommen til fadderperioden 2023!"
+        subHeader="Trykk her for mer informasjon til nye studenter"
+        link="https://ny.abakus.no"
+        color="red"
+      />
       <Container className={styles.container}>
         <Welcome />
         <Card className={styles.login} style={{ gridArea: 'login' }}>
@@ -127,13 +127,13 @@ const HspInfo = () => (
 
 const usefulLinksConf = [
   {
-    title: 'Fadderperioden 2022',
+    title: 'Fadderperioden 2023',
     image: buddyWeekGraphic,
     description:
-      'Abakus arrangerer fadderperioden for alle nye studenter, og her finner du informasjon om fadderperioden 2022.',
+      'Abakus arrangerer fadderperioden for alle nye studenter, og her kan du lese mer om den og finne annen nyttig informasjon til studiestart.',
     buttonText: 'Les deg opp',
-    link: '/articles/414',
-    isInternalLink: true,
+    link: 'https://ny.abakus.no',
+    isInternalLink: false,
   },
   {
     title: 'Datateknologi',

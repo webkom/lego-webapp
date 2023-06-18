@@ -2,6 +2,7 @@ import moment from 'moment-timezone';
 import { useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
+import Banner from 'app/components/Banner';
 import Icon from 'app/components/Icon';
 import { Container, Flex } from 'app/components/Layout';
 import Poll from 'app/components/Poll';
@@ -20,7 +21,6 @@ import NextEvent from './NextEvent';
 import styles from './Overview.css';
 import Pinned from './Pinned';
 import { itemUrl, renderMeta } from './utils';
-// import Banner, { COLORS } from 'app/components/Banner';
 
 type Props = {
   frontpage: WithDocumentType<PublicArticle | FrontpageEvent>[];
@@ -95,12 +95,12 @@ const Overview = (props: Props) => {
   return (
     <Container>
       <Helmet title="Hjem" />
-      {/* <Banner
-         header="Abakusrevyen har opptak!"
-         subHeader="Søk her"
-         link="https://opptak.abakus.no"
-         color={COLORS.red}
-        /> */}
+      <Banner
+        header="Velkommen til fadderperioden 2023!"
+        subHeader="Trykk her for mer informasjon til nye studenter"
+        link="https://ny.abakus.no"
+        color="red"
+      />
       <Flex className={styles.desktopContainer}>
         <Flex column className={styles.leftColumn}>
           <CompactEvents events={events} />
