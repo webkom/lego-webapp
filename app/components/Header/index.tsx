@@ -33,6 +33,7 @@ type Props = {
   logout: () => void;
   notificationsData: NotificationData;
   fetchNotifications: () => void;
+  fetchingNotifications: boolean;
   notifications: AggregatedActivity[];
   markAllNotifications: () => Promise<void>;
   fetchNotificationData: () => Promise<void>;
@@ -198,6 +199,7 @@ const Header = ({ loggedIn, currentUser, loading, ...props }: Props) => {
               <NotificationsDropdown
                 notificationsData={props.notificationsData}
                 fetchNotifications={props.fetchNotifications}
+                fetchingNotifications={props.fetchingNotifications}
                 notifications={props.notifications}
                 markAllNotifications={props.markAllNotifications}
                 fetchNotificationData={props.fetchNotificationData}

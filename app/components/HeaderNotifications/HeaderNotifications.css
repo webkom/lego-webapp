@@ -1,7 +1,12 @@
 @import url('~app/styles/variables.css');
 
 .notifications {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 400px;
+  min-height: 200px;
+  transition: height 3s ease-in-out;
 
   @media (--small-viewport) {
     width: 100%;

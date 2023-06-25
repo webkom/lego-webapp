@@ -2,15 +2,16 @@ import cx from 'classnames';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import ErrorBoundary from 'app/components/ErrorBoundary';
+import { toSpan } from 'app/components/Feed/context';
 import type {
   AggregatedActivity,
   NotificationData,
 } from 'app/components/Feed/types';
+import Icon from 'app/components/Icon';
+import LoadingIndicator from 'app/components/LoadingIndicator';
 import Time from 'app/components/Time';
 import Dropdown from '../Dropdown';
 import { activityRenderers } from '../Feed';
-import { toSpan } from '../Feed/context';
-import Icon from '../Icon';
 import styles from './HeaderNotifications.css';
 
 const NotificationElement = ({ notification }) => {
@@ -44,33 +45,24 @@ const NotificationElement = ({ notification }) => {
   return null;
 };
 
-type Props = {
-  notificationsData: NotificationData;
-  fetchNotifications: () => void;
+type HeaderNotificationsContentProps = {
   notifications: AggregatedActivity[];
-  markAllNotifications: () => Promise<void>;
-  fetchNotificationData: () => Promise<void>;
+  fetchingNotifications: boolean;
 };
 
-const NotificationsDropdown = ({
-  notificationsData,
-  fetchNotifications,
+const HeaderNotificationsContent = ({
   notifications,
-  markAllNotifications,
-  fetchNotificationData,
-}: Props) => {
-  const [notificationsOpen, setNotificationsOpen] = useState(false);
+  fetchingNotifications,
+}: HeaderNotificationsContentProps) => {
+  if (fetchingNotifications && notifications.length === 0) {
+    return <LoadingIndicator loading />;
+  }
 
-  const fetch = () => {
-    fetchNotifications();
-    fetchNotificationData();
-  };
+  if (!fetchingNotifications && notifications.length === 0) {
+    return <span className="secondaryFontColor">Ingen varslinger å vise</span>;
+  }
 
-  useEffect(() => {
-    fetch();
-  }, []);
-
-  const renderNotifications = (notifications) => (
+  return (
     <Dropdown.List className={styles.maxHeight}>
       {notifications.map((notification) => (
         <Dropdown.ListItem key={notification.id}>
@@ -81,6 +73,31 @@ const NotificationsDropdown = ({
       ))}
     </Dropdown.List>
   );
+};
+
+type Props = {
+  notificationsData: NotificationData;
+  fetchNotifications: () => void;
+  fetchingNotifications: boolean;
+  notifications: AggregatedActivity[];
+  markAllNotifications: () => Promise<void>;
+  fetchNotificationData: () => Promise<void>;
+};
+
+const NotificationsDropdown = ({
+  notificationsData,
+  fetchNotifications,
+  fetchingNotifications,
+  notifications,
+  markAllNotifications,
+  fetchNotificationData,
+}: Props) => {
+  const [notificationsOpen, setNotificationsOpen] = useState(false);
+
+  useEffect(() => {
+    fetchNotifications();
+    fetchNotificationData();
+  }, [fetchNotificationData, fetchNotifications]);
 
   const { unreadCount } = notificationsData;
   return (
@@ -104,11 +121,10 @@ const NotificationsDropdown = ({
       }
       contentClassName={styles.notifications}
     >
-      {notifications.length ? (
-        renderNotifications(notifications)
-      ) : (
-        <h2 style={{ padding: '10px' }}>Ingen varslinger</h2>
-      )}
+      <HeaderNotificationsContent
+        notifications={notifications}
+        fetchingNotifications={fetchingNotifications}
+      />
     </Dropdown>
   );
 };
