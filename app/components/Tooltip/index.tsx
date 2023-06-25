@@ -22,8 +22,14 @@ const Tooltip = ({ children, content, className, style, onClick }: Props) => {
     attributes,
     update,
   } = usePopper(triggerRef.current, tooltipRef.current, {
-    placement: 'auto',
+    placement: 'top',
     modifiers: [
+      {
+        name: 'flip',
+        options: {
+          fallbackPlacements: ['bottom', 'left', 'right'],
+        },
+      },
       {
         name: 'arrow',
         options: {
