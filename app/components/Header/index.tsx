@@ -5,6 +5,10 @@ import { Link, NavLink, useHistory } from 'react-router-dom';
 import logoLightMode from 'app/assets/logo-dark.png';
 import logoDarkMode from 'app/assets/logo.png';
 import AuthSection from 'app/components/AuthSection/AuthSection';
+import type {
+  AggregatedActivity,
+  NotificationData,
+} from 'app/components/Feed/types';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import type { UserEntity } from 'app/reducers/users';
 import type { ID } from 'app/store/models';
@@ -27,9 +31,9 @@ type Props = {
   loggedIn: boolean;
   login: () => Promise<any>;
   logout: () => void;
-  notificationsData: Record<string, any>;
+  notificationsData: NotificationData;
   fetchNotifications: () => void;
-  notifications: Array<Record<string, any>>;
+  notifications: AggregatedActivity[];
   markAllNotifications: () => Promise<void>;
   fetchNotificationData: () => Promise<void>;
   upcomingMeeting: string;
