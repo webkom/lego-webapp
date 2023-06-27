@@ -1,12 +1,36 @@
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
 .backdrop {
   position: fixed;
-  background: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 80%);
+  background: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 10%);
+  backdrop-filter: blur(3px);
   inset: 0;
   z-index: 3;
+  animation: fade-in var(--easing-medium) forwards;
 }
 
 html[data-theme='dark'] .backdrop {
-  background: rgba(var(--rgb-max), var(--rgb-max), var(--rgb-max), 80%);
+  background: rgba(var(--rgb-max), var(--rgb-max), var(--rgb-max), 10%);
+}
+
+@keyframes pop-in {
+  from {
+    transform: translate(-50%, -50%) scale(0.9);
+    opacity: 0;
+  }
+
+  to {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
 }
 
 .content {
@@ -25,6 +49,7 @@ html[data-theme='dark'] .backdrop {
   z-index: 4;
   box-shadow: var(--shadow-sm);
   border-radius: var(--border-radius-lg);
+  animation: pop-in var(--easing-medium) forwards;
 
   @media (--tall-viewport) {
     max-height: calc(100vh - 300px);
@@ -42,8 +67,4 @@ html[data-theme='dark'] .backdrop {
   &:hover {
     color: var(--color-gray-5);
   }
-}
-
-.confirmContainer {
-  text-align: center;
 }

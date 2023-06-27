@@ -32,7 +32,7 @@ const Modal = ({
   backdropClassName,
 }: Props) => (
   <ReactModal
-    className={cx(styles.content, contentClassName)}
+    className={cx(styles.content, contentClassName, { [styles.show]: show })}
     show={show}
     backdrop={backdrop}
     onHide={onHide}
@@ -40,7 +40,9 @@ const Modal = ({
     renderBackdrop={(props) => (
       <div
         {...props}
-        className={backdropClassName || styles.backdrop}
+        className={cx(backdropClassName || styles.backdrop, {
+          [styles.show]: show,
+        })}
         onClick={closeOnBackdropClick ? props.onClick : undefined}
       />
     )}
