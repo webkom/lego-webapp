@@ -1,4 +1,5 @@
-import { Comment } from '../../actions/ActionTypes';
+import { Comment } from 'app/actions/ActionTypes';
+import type CommentType from 'app/store/models/Comment';
 import comments, { mutateComments } from '../comments';
 
 describe('reducers', () => {
@@ -7,8 +8,8 @@ describe('reducers', () => {
       const prevState = {
         actionGrant: [],
         pagination: {},
-        items: [91],
-        byId: {
+        ids: [91],
+        entities: {
           91: {
             id: 91,
             text: 'hello world',
@@ -17,8 +18,9 @@ describe('reducers', () => {
               username: 'webkom',
             },
             parent: null,
-          },
+          } as CommentType,
         },
+        fetching: false,
       };
       const action = {
         type: Comment.DELETE.SUCCESS,
@@ -26,8 +28,8 @@ describe('reducers', () => {
           id: 91,
         },
       };
-      expect(comments(prevState, action).byId[91].text).toBeNull();
-      expect(comments(prevState, action).byId[91].author).toBeNull();
+      expect(comments(prevState, action).entities[91]?.text).toBeNull();
+      expect(comments(prevState, action).entities[91]?.author).toBeNull();
     });
   });
 });

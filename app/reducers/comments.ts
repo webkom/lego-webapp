@@ -1,10 +1,12 @@
+import { createSlice } from '@reduxjs/toolkit';
 import { produce } from 'immer';
 import { Comment } from 'app/actions/ActionTypes';
 import type { ID } from 'app/models';
+import type { RootState } from 'app/store/createRootReducer';
 import type { Comment as CommentType } from 'app/store/models/Comment';
-import createEntityReducer, {
-  type EntityReducerState,
-} from 'app/utils/createEntityReducer';
+import { EntityType } from 'app/store/models/entities';
+import { type EntityReducerState } from 'app/utils/createEntityReducer';
+import createLegoAdapter from 'app/utils/createLegoAdapter';
 import getEntityType from 'app/utils/getEntityType';
 import type { AnyAction } from 'redux';
 
@@ -42,24 +44,26 @@ export function mutateComments<T, S = EntityReducerState<T>>(
   });
 }
 
-const mutate = produce(
-  (newState: EntityReducerState<CommentType>, action: AnyAction): void => {
-    switch (action.type) {
-      case Comment.DELETE.SUCCESS:
-        newState.byId[action.meta.id].text = null;
-        newState.byId[action.meta.id].author = null;
-        break;
+const legoAdapter = createLegoAdapter(EntityType.Comments);
 
-      default:
-        break;
-    }
-  }
-);
-
-export default createEntityReducer<CommentType>({
-  key: 'comments',
-  types: {
-    fetch: Comment.FETCH,
-  },
-  mutate,
+const commentSlice = createSlice({
+  name: EntityType.Comments,
+  initialState: legoAdapter.getInitialState(),
+  reducers: {},
+  extraReducers: legoAdapter.buildReducers({
+    fetchActions: [Comment.FETCH],
+    extraCases: (addCase) => {
+      addCase(Comment.DELETE.SUCCESS, (state, action: AnyAction) => {
+        const comment = state.entities[action.meta.id];
+        if (comment) {
+          comment.text = null;
+          comment.author = null;
+        }
+      });
+    },
+  }),
 });
+
+export default commentSlice.reducer;
+export const { selectEntities: selectCommentEntities } =
+  legoAdapter.getSelectors((state: RootState) => state.comments);

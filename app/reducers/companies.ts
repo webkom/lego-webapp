@@ -1,7 +1,7 @@
 import { produce } from 'immer';
 import { createSelector } from 'reselect';
 import type { CompanySemesterContactedStatus, Semester } from 'app/models';
-import { mutateComments } from 'app/reducers/comments';
+import { mutateComments, selectCommentEntities } from 'app/reducers/comments';
 import { selectJoblistings } from 'app/reducers/joblistings';
 import type { UserEntity } from 'app/reducers/users';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
@@ -230,9 +230,11 @@ export const selectCompanyContactById = createSelector(
 );
 export const selectCommentsForCompany = createSelector(
   selectCompanyById,
-  (state) => state.comments.byId,
-  (company, commentsById) => {
-    if (!company || !commentsById) return [];
-    return (company.comments || []).map((commentId) => commentsById[commentId]);
+  selectCommentEntities,
+  (company, commentEntities) => {
+    if (!company || !commentEntities) return [];
+    return (company.comments || []).map(
+      (commentId) => commentEntities[commentId]
+    );
   }
 );

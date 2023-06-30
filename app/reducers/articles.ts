@@ -1,6 +1,6 @@
 import { orderBy } from 'lodash';
 import { createSelector } from 'reselect';
-import { mutateComments } from 'app/reducers/comments';
+import { mutateComments, selectCommentEntities } from 'app/reducers/comments';
 import { mutateReactions } from 'app/reducers/reactions';
 import { selectUserById } from 'app/reducers/users';
 import { typeable } from 'app/reducers/utils';
@@ -78,9 +78,11 @@ export const selectArticleById = createSelector(
 );
 export const selectCommentsForArticle = createSelector(
   selectArticleById,
-  (state) => state.comments.byId,
-  (article, commentsById) => {
+  selectCommentEntities,
+  (article, commentEntities) => {
     if (!article) return [];
-    return (article.comments || []).map((commentId) => commentsById[commentId]);
+    return (article.comments || []).map(
+      (commentId) => commentEntities[commentId]
+    );
   }
 );
