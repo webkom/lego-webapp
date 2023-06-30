@@ -1,5 +1,6 @@
+import { createSlice } from '@reduxjs/toolkit';
 import { Meta } from '../actions/ActionTypes';
-import type { AnyAction, Reducer } from '@reduxjs/toolkit';
+import type { AnyAction } from '@reduxjs/toolkit';
 
 const initialState = {
   events: false,
@@ -22,17 +23,15 @@ const initialState = {
 
 export type Allowed = typeof initialState;
 
-const allowed: Reducer<typeof initialState> = (
-  state = initialState,
-  action: AnyAction
-) => {
-  switch (action.type) {
-    case Meta.FETCH.SUCCESS:
+const allowed = createSlice({
+  name: 'allowed',
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(Meta.FETCH.SUCCESS, (state, action: AnyAction) => {
       return action.payload.isAllowed;
+    });
+  },
+});
 
-    default:
-      return state;
-  }
-};
-
-export default allowed;
+export default allowed.reducer;
