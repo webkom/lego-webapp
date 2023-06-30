@@ -3,6 +3,8 @@ import { normalize } from 'normalizr';
 import { logout } from 'app/actions/UserActions';
 import { selectIsLoggedIn } from 'app/reducers/auth';
 import { selectPaginationNext } from 'app/reducers/selectors';
+import type { ID } from 'app/store/models';
+import type Entities from 'app/store/models/entities';
 import type { AsyncActionType, Thunk } from 'app/types';
 import createQueryString from 'app/utils/createQueryString';
 import type {
@@ -14,6 +16,14 @@ import fetchJSON from 'app/utils/fetchJSON';
 import { configWithSSR } from '../config';
 import { setStatusCode } from './RoutingActions';
 import type { Schema } from 'normalizr';
+
+export type ApiActionResultPayload = {
+  actionGrant: string[];
+  entities: Partial<Entities>;
+  result: ID[];
+  next: null; // TODO
+  previous: null; // TODO
+};
 
 function urlFor(resource: string) {
   if (resource.match(/^\/\//)) {
