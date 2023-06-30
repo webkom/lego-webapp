@@ -1,14 +1,16 @@
-import type { $Keys } from 'utility-types';
+import { EntityType } from 'app/store/models/entities';
 
 const entityTypeMappings = {
-  'events.event': 'events',
-  'articles.article': 'articles',
-  'quotes.quote': 'quotes',
-  'companies.company': 'companies',
-  'meetings.meeting': 'meetings',
-  'gallery.gallerypicture': 'galleryPictures',
+  'events.event': EntityType.Events,
+  'articles.article': EntityType.Articles,
+  'quotes.quote': EntityType.Quotes,
+  'companies.company': EntityType.Companies,
+  'meetings.meeting': EntityType.Meetings,
+  'gallery.gallerypicture': EntityType.GalleryPictures,
 };
-export type EntityServerName = $Keys<typeof entityTypeMappings>;
-export default function getEntityType(serverName: EntityServerName): string {
-  return entityTypeMappings[serverName] || serverName;
+export type EntityServerName = keyof typeof entityTypeMappings;
+export default function getEntityType(
+  serverName: EntityServerName
+): EntityType {
+  return entityTypeMappings[serverName];
 }

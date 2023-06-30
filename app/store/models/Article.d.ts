@@ -74,8 +74,11 @@ export type PublicArticle = Pick<
 > &
   AllowedPermissionsMixin;
 
-export type UnknownArticle =
+export type UnknownArticle = (
   | DetailedArticle
   | AdminDetailedArticle
-  | SearchArticle
-  | PublicArticle;
+  | PublicArticle
+) & {
+  comments?: ID[];
+  reactionsGrouped?: ReactionsGrouped[];
+};

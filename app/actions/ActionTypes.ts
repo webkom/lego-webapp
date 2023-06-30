@@ -177,7 +177,6 @@ export const Favorite = {
  *
  */
 export const Comment = {
-  FETCH: generateStatuses('Comment.FETCH') as AAT,
   ADD: generateStatuses('Comment.ADD') as AAT,
   DELETE: generateStatuses('Comment.DELETE') as AAT,
 };

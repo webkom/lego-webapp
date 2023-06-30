@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 import { Gallery, GalleryPicture } from 'app/actions/ActionTypes';
-import { mutateComments } from 'app/reducers/comments';
+import { mutateComments, selectCommentEntities } from 'app/reducers/comments';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import joinReducers from 'app/utils/joinReducers';
 import type { ID } from 'app/models';
@@ -135,9 +135,11 @@ export const selectGalleryPictureById = createSelector(
 );
 export const selectCommentsForGalleryPicture = createSelector(
   selectGalleryPictureById,
-  (state) => state.comments.byId,
-  (picture, commentsById) => {
+  selectCommentEntities,
+  (picture, commentEntities) => {
     if (!picture) return [];
-    return (picture.comments || []).map((commentId) => commentsById[commentId]);
+    return (picture.comments || []).map(
+      (commentId) => commentEntities[commentId]
+    );
   }
 );
