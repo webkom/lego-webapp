@@ -51,7 +51,6 @@ const commentSlice = createSlice({
   initialState: legoAdapter.getInitialState(),
   reducers: {},
   extraReducers: legoAdapter.buildReducers({
-    fetchActions: [Comment.FETCH],
     extraCases: (addCase) => {
       addCase(Comment.DELETE.SUCCESS, (state, action: AnyAction) => {
         const comment = state.entities[action.meta.id];
