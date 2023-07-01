@@ -1,6 +1,12 @@
+import { combineReducers, createSlice } from '@reduxjs/toolkit';
 import { Comment } from 'app/actions/ActionTypes';
+import type { DetailedArticle } from 'app/store/models/Article';
 import type CommentType from 'app/store/models/Comment';
-import comments, { mutateComments } from '../comments';
+import { EntityType } from 'app/store/models/entities';
+import type { ContentTarget } from 'app/store/utils/contentTarget';
+import createLegoAdapter from 'app/utils/createLegoAdapter';
+import comments, { addCommentCases, mutateComments } from '../comments';
+import type { EntityId } from '@reduxjs/toolkit';
 
 describe('reducers', () => {
   describe('comments', () => {
@@ -33,6 +39,7 @@ describe('reducers', () => {
     });
   });
 });
+
 describe('mutateComments', () => {
   const prevState = {
     actionGrant: [],
@@ -51,6 +58,7 @@ describe('mutateComments', () => {
       },
     },
   };
+  // TODO: These tests are completely wrong... Just look at a real COMMENT.ADD action, payload.result should be the list of IDs, and payload.entities contains the actual comment objects.
   const action = {
     type: Comment.ADD.SUCCESS,
     meta: {
@@ -103,5 +111,96 @@ describe('mutateComments', () => {
     const reducer = mutateComments('events');
     const newState = reducer(prevState, action);
     expect(newState).toEqual(prevState);
+  });
+});
+
+describe('addCommentCases', () => {
+  const articlesAdapter = createLegoAdapter(EntityType.Articles);
+  const initialArticlesState = {
+    ...articlesAdapter.getInitialState(),
+    ids: [2, 3],
+    entities: {
+      2: {
+        id: 2,
+        title: 'Article 1',
+        comments: [] as EntityId[],
+      } as DetailedArticle,
+      3: {
+        id: 3,
+        title: 'Article 2',
+        comments: [] as EntityId[],
+      } as DetailedArticle,
+    },
+  };
+  const articlesSlice = createSlice({
+    name: EntityType.Articles,
+    initialState: initialArticlesState,
+    reducers: {},
+    extraReducers: articlesAdapter.buildReducers({
+      extraCases: (addCase) => {
+        addCommentCases(EntityType.Articles, addCase);
+      },
+    }),
+  });
+  const eventsAdapter = createLegoAdapter(EntityType.Events);
+  const eventsSlice = createSlice({
+    name: EntityType.Events,
+    initialState: eventsAdapter.getInitialState(),
+    reducers: {},
+  });
+  const reducer = combineReducers({
+    events: eventsSlice.reducer,
+    articles: articlesSlice.reducer,
+  });
+
+  const action = (contentTarget: ContentTarget) => ({
+    type: Comment.ADD.SUCCESS,
+    meta: {
+      contentTarget,
+    },
+    payload: {
+      entities: {
+        comments: {
+          33: {
+            id: 33,
+            text: 'comment',
+            author: {
+              id: 1,
+              username: 'webkom',
+            },
+            parent: null,
+          },
+        },
+      },
+      result: 33,
+    },
+  });
+
+  it('should add comment ID to the correct entity', () => {
+    expect(reducer(undefined, action('articles.article-3'))).toEqual({
+      articles: {
+        ...articlesAdapter.getInitialState(),
+        ids: [2, 3],
+        entities: {
+          2: {
+            id: 2,
+            title: 'Article 1',
+            comments: [],
+          },
+          3: {
+            id: 3,
+            title: 'Article 2',
+            comments: [33],
+          },
+        },
+      },
+      events: eventsAdapter.getInitialState(),
+    });
+  });
+  it('should not add comment ID with different contentTarget', () => {
+    expect(reducer(undefined, action('events.event-3'))).toEqual({
+      articles: initialArticlesState,
+      events: eventsAdapter.getInitialState(),
+    });
   });
 });

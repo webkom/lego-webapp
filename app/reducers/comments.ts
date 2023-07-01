@@ -5,9 +5,13 @@ import type { ID } from 'app/models';
 import type { RootState } from 'app/store/createRootReducer';
 import type { Comment as CommentType } from 'app/store/models/Comment';
 import { EntityType } from 'app/store/models/entities';
+import { parseContentTarget } from 'app/store/utils/contentTarget';
 import { type EntityReducerState } from 'app/utils/createEntityReducer';
 import createLegoAdapter from 'app/utils/createLegoAdapter';
 import getEntityType from 'app/utils/getEntityType';
+import type { EntityId } from '@reduxjs/toolkit';
+import type { EntityState } from '@reduxjs/toolkit/src/entities/models';
+import type { ActionReducerMapBuilder } from '@reduxjs/toolkit/src/mapBuilders';
 import type { AnyAction } from 'redux';
 
 type WithComments<T> = T & { comments: CommentType[] };
@@ -43,6 +47,27 @@ export function mutateComments<T, S = EntityReducerState<T>>(
     }
   });
 }
+
+export const addCommentCases = (
+  forTargetType: EntityType,
+  addCase: ActionReducerMapBuilder<
+    EntityState<{ comments?: EntityId[] }>
+  >['addCase']
+) => {
+  addCase(Comment.ADD.SUCCESS, (state, action: AnyAction) => {
+    const { targetType, targetId } = parseContentTarget(
+      action.meta.contentTarget
+    );
+
+    if (targetType === forTargetType) {
+      const entity = state.entities[targetId];
+      if (entity) {
+        entity.comments ??= [];
+        entity.comments.push(action.payload.result);
+      }
+    }
+  });
+};
 
 const legoAdapter = createLegoAdapter(EntityType.Comments);
 
