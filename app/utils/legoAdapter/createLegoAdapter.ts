@@ -18,6 +18,7 @@ interface LegoEntityState<Entity> extends EntityState<Entity> {
 // Type of the generated adapter-object
 interface LegoAdapter<Entity> extends EntityAdapter<Entity> {
   getInitialState(): LegoEntityState<Entity>;
+  getInitialState<S extends object>(state: S): LegoEntityState<Entity> & S;
   buildReducers(options?: {
     extraCases?: (addCase: ReducerBuilder<Entity>['addCase']) => void;
     extraMatchers?: (addMatcher: ReducerBuilder<Entity>['addMatcher']) => void;
@@ -45,11 +46,12 @@ const createLegoAdapter = <
 
   return {
     ...entityAdapter,
-    getInitialState() {
+    getInitialState(extraState = {}) {
       return {
         ...entityAdapter.getInitialState(),
         actionGrant: [],
         fetching: false,
+        ...extraState,
       };
     },
     buildReducers({ extraCases, extraMatchers, defaultCaseReducer } = {}) {
