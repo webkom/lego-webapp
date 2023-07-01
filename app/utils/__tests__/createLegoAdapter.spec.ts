@@ -24,6 +24,17 @@ describe('createLegoAdapter', () => {
         fetching: false,
       });
     });
+    it('should allow additional initial state to be added', () => {
+      const adapter = createLegoAdapter(EntityType.Articles);
+
+      expect(adapter.getInitialState({ smashed: false })).toEqual({
+        actionGrant: [],
+        ids: [],
+        entities: {},
+        fetching: false,
+        smashed: false,
+      });
+    });
   });
 
   describe('buildReducers', () => {

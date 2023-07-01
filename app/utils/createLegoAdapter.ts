@@ -21,6 +21,7 @@ interface LegoEntityState<Entity> extends EntityState<Entity> {
 // Type of the generated adapter-object
 interface LegoAdapter<Entity> extends EntityAdapter<Entity> {
   getInitialState(): LegoEntityState<Entity>;
+  getInitialState<S extends object>(state: S): LegoEntityState<Entity> & S;
   buildReducers(options?: {
     extraCases?: (addCase: ReducerBuilder<Entity>['addCase']) => void;
     extraMatchers?: (addMatcher: ReducerBuilder<Entity>['addMatcher']) => void;
@@ -35,13 +36,12 @@ interface LegoAdapter<Entity> extends EntityAdapter<Entity> {
 type ReducerBuilder<Entity> = ActionReducerMapBuilder<
   NoInfer<LegoEntityState<Entity>>
 >;
-type AsyncActionType =
-  | LegacyAsyncActionType
-  | AsyncThunk<
-      ApiActionResultPayload,
-      unknown,
-      { state: RootState; dispatch: AppDispatch }
-    >;
+type AsyncActionType = LegacyAsyncActionType | ApiResultThunk;
+type ApiResultThunk = AsyncThunk<
+  ApiActionResultPayload,
+  unknown,
+  { state: RootState; dispatch: AppDispatch }
+>;
 
 type LegoAdapterOptions<T> = Parameters<typeof createEntityAdapter<T>>[0];
 
@@ -75,7 +75,7 @@ const createLegoAdapter = <
             fulfilled: asyncAction.SUCCESS,
             // This is an ugly typecast, and we have no guarantee of correctness here, but if the actions are created
             // correctly the inferred payload should be correct
-          } as unknown as AsyncThunk<ApiActionResultPayload, unknown, object>);
+          } as unknown as ApiResultThunk);
 
     builder.addCase(cases.pending, (state) => {
       state.fetching = true;
@@ -93,11 +93,12 @@ const createLegoAdapter = <
 
   return {
     ...entityAdapter,
-    getInitialState() {
+    getInitialState(extraState = {}) {
       return {
         ...entityAdapter.getInitialState(),
         actionGrant: [],
         fetching: false,
+        ...extraState,
       };
     },
     buildReducers({
