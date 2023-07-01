@@ -1,6 +1,6 @@
 import type { AsyncActionType } from 'app/types';
 
-const generateStatuses = (name: string): AsyncActionType => ({
+export const generateStatuses = (name: string): AsyncActionType => ({
   BEGIN: `${name}.BEGIN`,
   SUCCESS: `${name}.SUCCESS`,
   FAILURE: `${name}.FAILURE`,
