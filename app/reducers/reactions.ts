@@ -1,9 +1,13 @@
 import { Reaction } from 'app/actions/ActionTypes';
 import type { ID } from 'app/store/models';
 import type { ReactionsGrouped } from 'app/store/models/Reaction';
+import type { EntityType } from 'app/store/models/entities';
+import { parseContentTarget } from 'app/store/utils/contentTarget';
 import type { EntityReducerState } from 'app/utils/createEntityReducer';
 import getEntityType from 'app/utils/getEntityType';
 import type { AnyAction } from '@reduxjs/toolkit';
+import type { EntityState } from '@reduxjs/toolkit/src/entities/models';
+import type { ActionReducerMapBuilder } from '@reduxjs/toolkit/src/mapBuilders';
 
 type WithReactions<T> = T & { reactionsGrouped: ReactionsGrouped[] };
 
@@ -106,3 +110,76 @@ export function mutateReactions<T, S = EntityReducerState<T>>(
     }
   };
 }
+
+export const addReactionCases = (
+  forTargetType: EntityType,
+  addCase: ActionReducerMapBuilder<
+    EntityState<{ reactionsGrouped?: ReactionsGrouped[] }>
+  >['addCase']
+) => {
+  addCase(Reaction.ADD.SUCCESS, (state, action: AnyAction) => {
+    const { targetType, targetId } = parseContentTarget(
+      action.meta.contentTarget
+    );
+    if (targetType !== forTargetType) {
+      return;
+    }
+
+    const entity = state.entities[targetId];
+    if (!entity) {
+      return;
+    }
+
+    const reactionEmoji = action.meta.emoji;
+    const reactionId = action.payload.id;
+
+    entity.reactionsGrouped ??= [];
+
+    let found = false;
+    for (const reaction of entity.reactionsGrouped) {
+      if (reaction.emoji === reactionEmoji) {
+        found = true;
+        reaction.count++;
+        reaction.hasReacted = true;
+        reaction.reactionId = reactionId;
+      }
+    }
+
+    if (!found) {
+      const unicodeString = action.meta.unicodeString;
+
+      entity.reactionsGrouped.push({
+        emoji: reactionEmoji,
+        unicodeString,
+        count: 1,
+        hasReacted: true,
+        reactionId,
+      });
+    }
+  });
+  addCase(Reaction.DELETE.SUCCESS, (state, action: AnyAction) => {
+    const { targetType, targetId } = parseContentTarget(
+      action.meta.contentTarget
+    );
+    if (targetType !== forTargetType) {
+      return;
+    }
+
+    const entity = state.entities[targetId];
+    if (!entity) {
+      return;
+    }
+
+    entity.reactionsGrouped ??= [];
+    for (const reaction of entity.reactionsGrouped) {
+      if (reaction.reactionId === action.meta.id) {
+        reaction.count--;
+        reaction.hasReacted = false;
+        delete reaction.reactionId;
+      }
+    }
+    entity.reactionsGrouped = entity.reactionsGrouped.filter(
+      (reaction) => reaction.count !== 0
+    );
+  });
+};
