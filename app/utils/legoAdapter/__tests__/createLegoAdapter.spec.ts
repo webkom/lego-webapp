@@ -3,6 +3,14 @@ import { describe, it, expect } from 'vitest';
 import { generateStatuses } from 'app/actions/ActionTypes';
 import { EntityType } from 'app/store/models/entities';
 import createLegoAdapter from 'app/utils/legoAdapter/createLegoAdapter';
+import type { DetailedArticle } from 'app/store/models/Article';
+import type { AsyncApiActionSuccess } from 'app/utils/legoAdapter/asyncApiActions';
+
+const article = {
+  id: 42,
+  title: 'You will never believe what this reducer reduced!',
+  description: 'This is a LEGO+ article, please upgrade your subscription',
+} as DetailedArticle;
 
 describe('createLegoAdapter', () => {
   describe('getInitialState', () => {
@@ -35,12 +43,32 @@ describe('createLegoAdapter', () => {
       const FETCH = generateStatuses('FETCH');
       const actionBase = {
         meta: {
-          endpoint: '/something',
-          schemaKey: 'something',
+          paginationKey: 'test',
+          queryString: '',
+          cursor: '',
+          errorMessage: 'Henting av artikler feilet',
+          enableOptimistic: false,
+          endpoint: '/articles/',
+          schemaKey: EntityType.Articles,
         },
       };
       const fetchBegin = { ...actionBase, type: FETCH.BEGIN };
-      const fetchSuccess = { ...actionBase, type: FETCH.SUCCESS };
+      const fetchSuccess: AsyncApiActionSuccess = {
+        ...actionBase,
+        type: FETCH.SUCCESS,
+        payload: {
+          actionGrant: ['list', 'create'],
+          entities: {
+            [EntityType.Articles]: {
+              42: article,
+            },
+          },
+          result: [42],
+          next: 'url?cursor=c123',
+          previous: null,
+        },
+      };
+
       const fetchFailure = { ...actionBase, type: FETCH.FAILURE };
 
       const adapter = createLegoAdapter(EntityType.Articles);
@@ -69,6 +97,12 @@ describe('createLegoAdapter', () => {
           fetchFailure
         );
         expect(newState.fetching).toBeFalsy();
+      });
+
+      it('should add entities on FETCH.SUCCESS', () => {
+        const newState = reducer(initialState, fetchSuccess);
+        expect(newState.ids).toEqual([42]);
+        expect(newState.entities).toEqual({ 42: article });
       });
     });
 

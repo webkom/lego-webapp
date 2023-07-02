@@ -1,4 +1,5 @@
 import { createEntityAdapter } from '@reduxjs/toolkit';
+import buildEntitiesReducer from 'app/utils/legoAdapter/buildEntitiesReducer';
 import buildFetchingReducer from 'app/utils/legoAdapter/buildFetchingReducer';
 import type { EntityAdapter } from '@reduxjs/toolkit';
 import type { EntityState } from '@reduxjs/toolkit/src/entities/models';
@@ -6,8 +7,8 @@ import type { ActionReducerMapBuilder } from '@reduxjs/toolkit/src/mapBuilders';
 import type { NoInfer } from '@reduxjs/toolkit/src/tsHelpers';
 import type { ActionGrant } from 'app/models';
 import type { ID } from 'app/store/models';
-import type Entities from 'app/store/models/entities';
 import type { EntityType } from 'app/store/models/entities';
+import type Entities from 'app/store/models/entities';
 import type { AsyncActionType } from 'app/types';
 
 // The base redux-state of the entity-slice
@@ -65,6 +66,7 @@ const createLegoAdapter = <
         extraCases?.(builder.addCase);
 
         buildFetchingReducer(builder, fetchActions);
+        buildEntitiesReducer(builder, entityAdapter, entityType);
 
         extraMatchers?.(builder.addMatcher);
 
