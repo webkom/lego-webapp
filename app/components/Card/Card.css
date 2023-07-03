@@ -4,10 +4,6 @@
   border-radius: var(--border-radius-lg);
 }
 
-.tight {
-  padding: 0;
-}
-
 .shadow {
   box-shadow: var(--shadow-sm);
 }

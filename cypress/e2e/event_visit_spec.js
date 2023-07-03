@@ -63,16 +63,18 @@ describe('View event', () => {
     cy.contains('button', 'Kommenter').should('not.be.disabled').click();
 
     // We should see the comment and be able to delete it
-    cy.get(c('Comment__comment')).within(($c) => {
-      cy.contains('This event will be awesome');
-      cy.contains('button', 'Svar').should('exist').and('not.be.disabled');
-      cy.contains('button', 'Slett')
-        .should('exist')
-        .and('not.be.disabled')
-        .click();
-      cy.contains('Slettet');
-      cy.contains('button', 'svar').should('not.exist');
-    });
+    cy.get(c('Comment__comment'))
+      .last()
+      .within(() => {
+        cy.contains('This event will be awesome');
+        cy.contains('button', 'Svar').should('exist').and('not.be.disabled');
+        cy.get('ion-icon[name=trash]')
+          .should('exist')
+          .and('not.be.disabled')
+          .click();
+        cy.contains('Slettet');
+        cy.contains('button', 'svar').should('not.exist');
+      });
 
     // Nested comments should work as expected
     // TODO fix form clearing

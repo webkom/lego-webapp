@@ -46,10 +46,13 @@ const CommentView = (props: Props) => {
     <div style={style}>
       <Title displayTitle={displayTitle} />
       <Flex
+        gap="1rem"
         style={{
           flexDirection: newOnTop ? 'column-reverse' : 'column',
         }}
       >
+        {!formDisabled && <CommentForm {...commentFormProps} />}
+
         <LoadingIndicator loading={!comments}>
           {comments && (
             <CommentTree
@@ -61,12 +64,6 @@ const CommentView = (props: Props) => {
             />
           )}
         </LoadingIndicator>
-
-        {!formDisabled && (
-          <div>
-            <CommentForm {...commentFormProps} />
-          </div>
-        )}
       </Flex>
     </div>
   );

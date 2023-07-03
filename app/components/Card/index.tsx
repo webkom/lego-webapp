@@ -43,7 +43,6 @@ const CardContent = ({ children, danger, info }: CardContentProps) => {
 
 type Props = {
   className?: string;
-  tight?: boolean;
   shadow?: boolean;
   hideOverflow?: boolean;
   isHoverable?: boolean;
@@ -54,7 +53,6 @@ type Props = {
 function Card({
   children,
   className,
-  tight = false,
   shadow = true,
   hideOverflow = false,
   isHoverable = false,
@@ -67,7 +65,6 @@ function Card({
       className={cx(
         className,
         styles.card,
-        tight && styles.tight,
         shadow && styles.shadow,
         isHoverable && styles.isHoverable,
         danger && styles.danger,

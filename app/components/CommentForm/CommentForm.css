@@ -1,13 +1,4 @@
 .form {
-  background-color: var(--lego-card-color);
-  box-shadow: var(--shadow-sm);
-  border-radius: var(--border-radius-lg);
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 20px;
-  margin-bottom: 15px;
-
   :global {
     /* stylelint-disable-next-line selector-class-pattern */
     .md-RichEditor-editor:not(.md-RichEditor-readonly) {
@@ -26,50 +17,6 @@
   }
 }
 
-.inlineForm {
-  flex-direction: row;
-  display: flex;
-  margin-top: 20px;
-  width: 100%;
-}
-
-.activeForm {
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-.header {
-  flex-direction: row;
-  display: flex;
-  align-items: center;
-}
-
-.fields {
-  display: flex;
-  flex-direction: column;
+.field {
   flex: 1;
-  margin-left: 15px;
-}
-
-.author {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  margin-left: 25px;
-  font-weight: 500;
-  color: var(--lego-red-color);
-}
-
-.activeFields {
-  margin-top: 10px;
-  margin-left: 0;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  flex: 2;
-}
-
-.submit {
-  max-width: 150px;
-  margin-top: 30px;
 }
