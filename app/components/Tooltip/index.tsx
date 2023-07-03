@@ -8,10 +8,18 @@ type Props = {
   content: ReactNode;
   className?: string;
   onClick?: () => void;
+  placement?: 'top' | 'bottom' | 'left' | 'right';
   style?: CSSProperties;
 };
 
-const Tooltip = ({ children, content, className, style, onClick }: Props) => {
+const Tooltip = ({
+  children,
+  content,
+  className,
+  onClick,
+  placement,
+  style,
+}: Props) => {
   const [hovered, setHovered] = useState(false);
   const tooltipRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLDivElement>(null);
@@ -22,12 +30,12 @@ const Tooltip = ({ children, content, className, style, onClick }: Props) => {
     attributes,
     update,
   } = usePopper(triggerRef.current, tooltipRef.current, {
-    placement: 'top',
+    placement: placement || 'top',
     modifiers: [
       {
         name: 'flip',
         options: {
-          fallbackPlacements: ['bottom', 'left', 'right'],
+          fallbackPlacements: ['top', 'bottom', 'left', 'right'],
         },
       },
       {
