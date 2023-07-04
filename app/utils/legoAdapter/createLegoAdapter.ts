@@ -1,4 +1,5 @@
 import { createEntityAdapter } from '@reduxjs/toolkit';
+import buildActionGrantReducer from 'app/utils/legoAdapter/buildActionGrantReducer';
 import buildEntitiesReducer from 'app/utils/legoAdapter/buildEntitiesReducer';
 import buildFetchingReducer from 'app/utils/legoAdapter/buildFetchingReducer';
 import type { EntityAdapter } from '@reduxjs/toolkit';
@@ -67,6 +68,7 @@ const createLegoAdapter = <
 
         buildFetchingReducer(builder, fetchActions);
         buildEntitiesReducer(builder, entityAdapter, entityType);
+        buildActionGrantReducer(builder, entityType);
 
         extraMatchers?.(builder.addMatcher);
 

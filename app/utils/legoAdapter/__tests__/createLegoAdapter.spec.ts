@@ -104,6 +104,11 @@ describe('createLegoAdapter', () => {
         expect(newState.ids).toEqual([42]);
         expect(newState.entities).toEqual({ 42: article });
       });
+
+      it('should update actionGrant on FETCH.SUCCESS', () => {
+        const newState = reducer(initialState, fetchSuccess);
+        expect(newState.actionGrant).toEqual(['list', 'create']);
+      });
     });
 
     describe('extra reducers cases/matchers/default case', () => {
