@@ -1,6 +1,8 @@
 import { Field } from 'react-final-form';
 import Button from 'app/components/Button';
 import { RadioButton, TextInput, CheckBox } from 'app/components/Form';
+import Icon from 'app/components/Icon';
+import Flex from 'app/components/Layout/Flex';
 import { QuestionTypes } from 'app/routes/surveys/utils';
 import styles from '../surveys.css';
 
@@ -14,8 +16,8 @@ type Props = {
 
 const RemoveButton = ({ remove }: { remove?: () => void }) =>
   remove ? (
-    <Button flat onClick={remove} className={styles.removeOption}>
-      <span>x</span>
+    <Button flat onClick={remove}>
+      <Icon name="close" />
     </Button>
   ) : null;
 
@@ -29,7 +31,7 @@ const Option = (props: Props) => {
 
 const MultipleChoice = (props: Props) => {
   return (
-    <li>
+    <Flex alignItems="center" gap={5}>
       <RadioButton value={false} className={styles.option} />
       <Field
         onChange={props.onChange}
@@ -40,13 +42,13 @@ const MultipleChoice = (props: Props) => {
         fieldClassName={styles.optionField}
       />
       <RemoveButton remove={props.remove} />
-    </li>
+    </Flex>
   );
 };
 
 const Checkbox = (props: Props) => {
   return (
-    <li>
+    <Flex alignItems="center" gap={5}>
       <CheckBox defaultChecked={false} className={styles.option} />
       <Field
         onChange={props.onChange}
@@ -57,7 +59,7 @@ const Checkbox = (props: Props) => {
         fieldClassName={styles.optionField}
       />
       <RemoveButton remove={props.remove} />
-    </li>
+    </Flex>
   );
 };
 

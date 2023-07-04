@@ -92,7 +92,6 @@
 
 .reorderQuestion > div {
   padding: 6px;
-  margin-left: 6px;
   width: 100%;
 }
 
@@ -147,8 +146,6 @@
 
 .dropdownSelected {
   grid-area: 1/1/2/3;
-  margin-left: 2px;
-  margin-right: 2px;
   max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -210,29 +207,6 @@
   justify-content: flex-end;
 }
 
-.bottom div {
-  display: inline-block;
-}
-
-.required {
-  margin-right: 40px;
-}
-
-.required > div {
-  margin-left: 10px;
-  margin-bottom: -3px;
-}
-
-.deleteQuestion {
-  cursor: pointer;
-  color: var(--danger-color);
-  transition: color var(--easing-fast);
-
-  &:hover {
-    color: var(--color-red-7);
-  }
-}
-
 .staticSubmission > li {
   margin-top: 30px;
 }
@@ -290,17 +264,6 @@
 
 .summary > li {
   margin-bottom: 15px;
-}
-
-.removeOption {
-  color: var(--color-gray-4);
-  font-size: var(--font-size-lg);
-  margin-left: -5px;
-  transition: color var(--easing-fast);
-
-  &:hover {
-    color: var(--color-gray-5);
-  }
 }
 
 .infoBubbles {

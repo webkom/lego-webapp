@@ -14,18 +14,19 @@ const SurveyList = (props: Props) => {
     <SurveyItem key={survey.id} survey={survey} />
   ));
 
-  const contentToRender = () => {
-    if (surveys_to_render.length === 0) {
-      return fetching ? (
-        <LoadingIndicator loading />
-      ) : (
-        'Ingen spørreundersøkelser funnet.'
-      );
-    }
-    return surveys_to_render;
-  };
+  if (fetching && !surveys) {
+    return <LoadingIndicator loading />;
+  }
 
-  return <div className={styles.surveyList}>{contentToRender()}</div>;
+  if (surveys_to_render.length === 0) {
+    return (
+      <span className="secondaryFontColor">
+        Ingen spørreundersøkelser funnet
+      </span>
+    );
+  }
+
+  return <div className={styles.surveyList}>{surveys_to_render}</div>;
 };
 
 export default SurveyList;

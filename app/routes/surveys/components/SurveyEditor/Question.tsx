@@ -7,6 +7,7 @@ import {
   SelectInput,
 } from 'app/components/Form';
 import Icon from 'app/components/Icon';
+import Flex from 'app/components/Layout/Flex';
 import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import {
   mappings,
@@ -83,7 +84,7 @@ const Question = ({
       </div>
       <div className={styles.right}>
         <div className="top">
-          <div className={styles.questionType}>
+          <div>
             <Field
               name={`${question}.questionType`}
               placeholder="Velg type"
@@ -146,14 +147,13 @@ const Question = ({
         </div>
 
         <div className={styles.bottom}>
-          <div className={styles.required}>
-            <Field
-              name={`${question}.mandatory`}
-              label="Obligatorisk"
-              component={CheckBox.Field}
-              normalize={(v) => !!v}
-            />
-          </div>
+          <Field
+            name={`${question}.mandatory`}
+            label="Obligatorisk"
+            type="checkbox"
+            component={CheckBox.Field}
+            normalize={(v) => !!v}
+          />
 
           <ConfirmModal
             title="Slett spørsmål"
@@ -162,12 +162,7 @@ const Question = ({
             closeOnConfirm
           >
             {({ openConfirmModal }) => (
-              <Icon
-                onClick={openConfirmModal}
-                className={styles.deleteQuestion}
-                name="trash"
-                danger
-              />
+              <Icon onClick={openConfirmModal} name="trash" danger />
             )}
           </ConfirmModal>
         </div>
@@ -183,7 +178,7 @@ const renderOptions = ({
   fields: any;
   questionType: string;
 }): ReactNode => (
-  <ul className={styles.options}>
+  <Flex column gap="1rem" className={styles.options}>
     {fields.map((option, relativeIndex) => {
       const isLast = fields.length - 1 === relativeIndex;
 
@@ -209,7 +204,7 @@ const renderOptions = ({
         />
       );
     })}
-  </ul>
+  </Flex>
 );
 
 export default Question;
