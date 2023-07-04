@@ -48,8 +48,7 @@
     calc((var(--label-l) - 25) * 1%),
     var(--border-alpha)
   );
-  display: inline-block;
-  padding: 1px 7px;
+  padding: 2.5px 7px;
   border: 1px solid transparent;
   border-radius: var(--border-radius-lg);
   font-size: var(--font-size-xs);
