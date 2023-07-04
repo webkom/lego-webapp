@@ -74,7 +74,13 @@ const List = ({ children, className }: ListProps) => (
   <ul className={cx(className, styles.dropdownList)}>{children}</ul>
 );
 
-const ListItem = (props: HTMLAttributes<HTMLLIElement>) => <li {...props} />;
+type ListItemProps = {
+  danger?: boolean;
+} & HTMLAttributes<HTMLLIElement>;
+
+const ListItem = ({ danger, ...props }: ListItemProps) => (
+  <li className={cx(danger && styles.danger)} {...props} />
+);
 
 const Divider = () => <li className={styles.divider} />;
 

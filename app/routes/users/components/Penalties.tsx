@@ -48,7 +48,7 @@ function Penalties({
                     closeOnConfirm
                   >
                     {({ openConfirmModal }) => (
-                      <Button onClick={openConfirmModal} flat>
+                      <Button danger onClick={openConfirmModal}>
                         Slett prikk
                       </Button>
                     )}

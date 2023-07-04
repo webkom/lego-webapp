@@ -10,7 +10,6 @@ import type { UserEntity } from 'app/reducers/users';
 import type { ID } from 'app/store/models';
 import utilStyles from 'app/styles/utilities.css';
 import { applySelectedTheme, getOSTheme, getTheme } from 'app/utils/themeUtils';
-import Button from '../Button';
 import Dropdown from '../Dropdown';
 import NotificationsDropdown from '../HeaderNotifications';
 import Icon from '../Icon';
@@ -53,13 +52,7 @@ function AccountDropdownItems({
   return (
     <Dropdown.List>
       <Dropdown.ListItem>
-        <NavLink
-          to="/users/me"
-          onClick={onClose}
-          style={{
-            color: 'var(--lego-font-color)',
-          }}
-        >
+        <NavLink to="/users/me" onClick={onClose}>
           <strong>{username}</strong>
           <Icon name="person-circle-outline" size={24} />
         </NavLink>
@@ -91,9 +84,9 @@ function AccountDropdownItems({
       </Dropdown.ListItem>
 
       <Dropdown.Divider />
-      <Dropdown.ListItem>
-        <Button
-          flat
+
+      <Dropdown.ListItem danger>
+        <button
           onClick={() => {
             logout();
             onClose();
@@ -101,7 +94,7 @@ function AccountDropdownItems({
         >
           Logg ut
           <Icon name="log-out-outline" size={24} />
-        </Button>
+        </button>
       </Dropdown.ListItem>
     </Dropdown.List>
   );

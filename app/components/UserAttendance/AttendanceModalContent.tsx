@@ -37,8 +37,7 @@ type TabProps = {
 };
 
 const Tab = ({ name, index, activePoolIndex, togglePool }: TabProps) => (
-  <Button
-    flat
+  <button
     onClick={() => togglePool(index)}
     className={cx(
       styles.navButton,
@@ -46,7 +45,7 @@ const Tab = ({ name, index, activePoolIndex, togglePool }: TabProps) => (
     )}
   >
     {name}
-  </Button>
+  </button>
 );
 
 const generateAmendedPools = (pools: Pool[]) => {

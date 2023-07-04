@@ -46,13 +46,12 @@ export const TooltipIcon = ({
 }: TooltipIconProps) => {
   return (
     <Tooltip content={content}>
-      <Button
-        flat
+      <button
         className={cx(transparent && styles.transparent)}
         onClick={onClick}
       >
         <i className={iconClass} />
-      </Button>
+      </button>
     </Tooltip>
   );
 };

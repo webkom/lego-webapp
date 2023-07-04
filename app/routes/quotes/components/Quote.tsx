@@ -108,12 +108,7 @@ const Quote = ({
           <div className={styles.bottomRight}>
             <div className={styles.reactionCount}>
               <Button flat onClick={() => setShowReactions(!showReactions)}>
-                <i
-                  className="fa fa-reaction-o"
-                  style={{
-                    marginRight: '5px',
-                  }}
-                />
+                <i className="fa fa-reaction-o" />
               </Button>
             </div>
 
@@ -123,7 +118,6 @@ const Quote = ({
                   show={displayAdmin}
                   toggle={toggleDisplayAdmin}
                   closeOnContentClick
-                  contentClassName="adminDropdown2"
                   triggerComponent={
                     <Icon
                       name="chevron-down-circle-outline"
@@ -133,9 +127,7 @@ const Quote = ({
                 >
                   <Dropdown.List>
                     <Dropdown.ListItem>
-                      <Button
-                        flat
-                        className="approveQuote"
+                      <button
                         onClick={() =>
                           quote.approved
                             ? unapprove(quote.id)
@@ -143,13 +135,12 @@ const Quote = ({
                         }
                       >
                         {quote.approved ? 'Fjern godkjenning' : 'Godkjenn'}
-                      </Button>
+                      </button>
                     </Dropdown.ListItem>
-                    <Dropdown.Divider />
+
                     {!deleting ? (
                       <Dropdown.ListItem>
-                        <Button
-                          flat
+                        <button
                           onClick={(e) => {
                             if (e) {
                               e.preventDefault();
@@ -160,19 +151,13 @@ const Quote = ({
                           }}
                         >
                           Slett
-                        </Button>
+                        </button>
                       </Dropdown.ListItem>
                     ) : (
                       <Dropdown.ListItem>
-                        <Button
-                          flat
-                          onClick={() => deleteQuote(quote.id)}
-                          style={{
-                            fontWeight: 600,
-                          }}
-                        >
+                        <button onClick={() => deleteQuote(quote.id)}>
                           Er du sikker?
-                        </Button>
+                        </button>
                       </Dropdown.ListItem>
                     )}
                   </Dropdown.List>

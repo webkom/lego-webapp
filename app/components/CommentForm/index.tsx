@@ -109,6 +109,7 @@ const CommentForm = ({
 
               {isOpen && (
                 <Button
+                  flat
                   submit
                   disabled={pristine || submitting}
                   className={styles.submit}

@@ -77,6 +77,9 @@ button {
   border: 0;
   outline: none;
   cursor: pointer;
+  font-family: Inter, sans-serif;
+  font-size: var(--font-size-md);
+  color: var(--lego-font-color);
 
   &:disabled {
     cursor: initial;

@@ -105,6 +105,7 @@ class AdminSideBar extends Component<Props, State> {
                     })
                   }
                 >
+                  <Icon name="download-outline" size={19} />
                   Eksporter til CSV
                 </Button>
               )}
