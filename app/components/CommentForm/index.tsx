@@ -55,6 +55,7 @@ const CommentForm = ({
   return (
     <Card>
       <LegoFinalForm
+        validateOnSubmitOnly
         initialValues={{
           commentKey: Math.random(),
         }}
