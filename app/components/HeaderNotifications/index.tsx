@@ -1,31 +1,20 @@
 import cx from 'classnames';
-import { Component } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import ErrorBoundary from 'app/components/ErrorBoundary';
+import { toSpan } from 'app/components/Feed/context';
+import type {
+  AggregatedActivity,
+  NotificationData,
+} from 'app/components/Feed/types';
+import Icon from 'app/components/Icon';
+import LoadingIndicator from 'app/components/LoadingIndicator';
 import Time from 'app/components/Time';
 import Dropdown from '../Dropdown';
 import { activityRenderers } from '../Feed';
-import { toSpan } from '../Feed/context';
-import Icon from '../Icon';
 import styles from './HeaderNotifications.css';
 
-type Props = {
-  notificationsData: Record<string, any>;
-  fetchNotifications: () => void;
-  notifications: Array<Record<string, any>>;
-  markAllNotifications: () => Promise<void>;
-  fetchNotificationData: () => Promise<void>;
-};
-
-type State = {
-  notificationsOpen: boolean;
-};
-
-const NotificationElement = ({
-  notification,
-}: {
-  notification: Record<string, any>;
-}) => {
+const NotificationElement = ({ notification }) => {
   const renders = activityRenderers[notification.verb];
 
   if (renders) {
@@ -34,7 +23,7 @@ const NotificationElement = ({
         <div
           className={cx(
             styles.notification,
-            !notification.read ? styles.unRead : null
+            !notification.read && styles.unRead
           )}
         >
           <div className={styles.innerNotification}>
@@ -56,68 +45,88 @@ const NotificationElement = ({
   return null;
 };
 
-export default class NotificationsDropdown extends Component<Props, State> {
-  state = {
-    notificationsOpen: false,
-  };
-  fetch = () => {
-    this.props.fetchNotifications();
-    this.props.fetchNotificationData();
-  };
-  renderNotifications = (notifications: Array<Record<string, any>>) => {
-    return (
-      <Dropdown.List className={styles.maxHeight}>
-        {notifications.map((notification) => (
-          <Dropdown.ListItem key={notification.id}>
-            <ErrorBoundary hidden>
-              <NotificationElement notification={notification} />
-            </ErrorBoundary>
-          </Dropdown.ListItem>
-        ))}
-      </Dropdown.List>
-    );
-  };
+type HeaderNotificationsContentProps = {
+  notifications: AggregatedActivity[];
+  fetchingNotifications: boolean;
+};
 
-  render() {
-    const { notificationsData, fetchNotifications, notifications } = this.props;
-    const { unreadCount } = notificationsData;
-    return (
-      <Dropdown
-        show={this.state.notificationsOpen}
-        toggle={() =>
-          this.setState(
-            {
-              notificationsOpen: !this.state.notificationsOpen,
-            },
-            () =>
-              this.state.notificationsOpen
-                ? fetchNotifications()
-                : this.props.markAllNotifications()
-          )
-        }
-        closeOnContentClick
-        triggerComponent={
-          <Icon.Badge
-            name="notifications"
-            className={styles.notificationBell}
-            badgeCount={this.state.notificationsOpen ? 0 : unreadCount}
-          />
-        }
-        contentClassName={styles.notifications}
-      >
-        {/* TODO FIXME - do same as the menu element*/}
-        {notifications.length ? (
-          <>{this.renderNotifications(notifications)}</>
-        ) : (
-          <h2
-            style={{
-              padding: '10px',
-            }}
-          >
-            Ingen varslinger
-          </h2>
-        )}
-      </Dropdown>
-    );
+const HeaderNotificationsContent = ({
+  notifications,
+  fetchingNotifications,
+}: HeaderNotificationsContentProps) => {
+  if (fetchingNotifications && notifications.length === 0) {
+    return <LoadingIndicator loading />;
   }
-}
+
+  if (!fetchingNotifications && notifications.length === 0) {
+    return <span className="secondaryFontColor">Ingen varslinger å vise</span>;
+  }
+
+  return (
+    <Dropdown.List className={styles.maxHeight}>
+      {notifications.map((notification) => (
+        <Dropdown.ListItem key={notification.id}>
+          <ErrorBoundary hidden>
+            <NotificationElement notification={notification} />
+          </ErrorBoundary>
+        </Dropdown.ListItem>
+      ))}
+    </Dropdown.List>
+  );
+};
+
+type Props = {
+  notificationsData: NotificationData;
+  fetchNotifications: () => void;
+  fetchingNotifications: boolean;
+  notifications: AggregatedActivity[];
+  markAllNotifications: () => Promise<void>;
+  fetchNotificationData: () => Promise<void>;
+};
+
+const NotificationsDropdown = ({
+  notificationsData,
+  fetchNotifications,
+  fetchingNotifications,
+  notifications,
+  markAllNotifications,
+  fetchNotificationData,
+}: Props) => {
+  const [notificationsOpen, setNotificationsOpen] = useState(false);
+
+  useEffect(() => {
+    fetchNotifications();
+    fetchNotificationData();
+  }, [fetchNotificationData, fetchNotifications]);
+
+  const { unreadCount } = notificationsData;
+  return (
+    <Dropdown
+      show={notificationsOpen}
+      toggle={() => {
+        setNotificationsOpen(!notificationsOpen);
+        if (!notificationsOpen) {
+          fetchNotifications();
+        } else {
+          markAllNotifications();
+        }
+      }}
+      closeOnContentClick
+      triggerComponent={
+        <Icon.Badge
+          name="notifications"
+          className={styles.notificationBell}
+          badgeCount={notificationsOpen ? 0 : unreadCount}
+        />
+      }
+      contentClassName={styles.notifications}
+    >
+      <HeaderNotificationsContent
+        notifications={notifications}
+        fetchingNotifications={fetchingNotifications}
+      />
+    </Dropdown>
+  );
+};
+
+export default NotificationsDropdown;

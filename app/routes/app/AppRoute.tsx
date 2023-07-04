@@ -142,6 +142,7 @@ class App extends PureComponent<AppProps> {
             login={this.props.login}
             notificationsData={this.props.notificationsData}
             fetchNotifications={this.props.fetchNotificationFeed}
+            fetchingNotifications={this.props.fetchingNotifications}
             notifications={this.props.notifications}
             markAllNotifications={this.props.markAllNotifications}
             fetchNotificationData={this.props.fetchNotificationData}
@@ -183,6 +184,7 @@ const mapStateToProps = (state) => {
     notifications: selectFeedActivitesByFeedId(state, {
       feedId: 'notifications',
     }),
+    fetchingNotifications: state.feedActivities.fetching,
     statusCode: state.router.statusCode,
     upcomingMeeting: upcomingMeetings.length ? upcomingMeetings[0] : undefined,
     loading: state.frontpage.fetching,
