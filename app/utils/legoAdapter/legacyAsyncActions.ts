@@ -11,7 +11,7 @@ interface BaseMeta {
   errorMessage: string;
   enableOptimistic: boolean;
   endpoint: string;
-  schemaKey: string;
+  schemaKey: EntityType;
 }
 
 interface AsyncAction {
@@ -28,7 +28,7 @@ interface AsyncActionFailure extends AsyncAction {
   type: `${string}.FAILURE`;
 }
 
-interface AsyncActionSuccess extends AsyncAction {
+export interface AsyncActionSuccess extends AsyncAction {
   type: `${string}.SUCCESS`;
   payload: {
     actionGrant?: string[];
