@@ -1,22 +1,12 @@
-.form {
-  :global {
-    /* stylelint-disable-next-line selector-class-pattern */
-    .md-RichEditor-editor:not(.md-RichEditor-readonly) {
-      padding: 10px 0;
-      border: 0;
-
-      &:focus-within {
-        box-shadow: none;
-      }
-    }
-
-    /* stylelint-disable-next-line selector-class-pattern */
-    .md-RichEditor-editor .public-DraftEditor-content {
-      min-height: 0;
-    }
-  }
-}
-
 .field {
   flex: 1;
+}
+
+.field > div {
+  margin: 0;
+}
+
+.submittable {
+  opacity: 0;
+  transition: opacity var(--easing-medium);
 }

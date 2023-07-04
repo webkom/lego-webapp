@@ -93,7 +93,6 @@ const Comment = ({
         <CommentForm
           {...commentFormProps}
           submitText="Send svar"
-          inlineMode
           autoFocus
           parent={comment.id}
           placeholder={`Svar ${author.fullName} ...`}
