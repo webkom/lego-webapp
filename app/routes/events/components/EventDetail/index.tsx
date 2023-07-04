@@ -43,7 +43,6 @@ import {
   registrationCloseTime,
 } from '../../utils';
 import Admin from '../Admin';
-import sharedStyles from '../Event.css';
 import JoinEventForm from '../JoinEventForm';
 import RegisteredSummary from '../RegisteredSummary';
 import RegistrationMeta from '../RegistrationMeta';
@@ -577,6 +576,7 @@ export default class EventDetail extends Component<Props, State> {
             loggedIn={loggedIn}
             comments={comments}
             deleteComment={deleteComment}
+            contentAuthors={[event.createdBy.id]}
           />
         )}
       </Content>

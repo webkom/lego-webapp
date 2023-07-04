@@ -19,6 +19,7 @@ type Props = {
   deleteComment: (id: ID, contentTarget: ContentTarget) => Promise<void>;
   user: CurrentUser;
   contentTarget: ContentTarget;
+  contentAuthors?: ID[];
 };
 
 function CommentTree({
@@ -29,6 +30,7 @@ function CommentTree({
   deleteComment,
   user,
   contentTarget,
+  contentAuthors,
 }: Props) {
   const tree = comments.map((comment) => {
     const className = cx(
@@ -46,6 +48,7 @@ function CommentTree({
             deleteComment={deleteComment}
             user={user}
             contentTarget={contentTarget}
+            contentAuthors={contentAuthors}
           />
 
           <CommentTree
@@ -56,6 +59,7 @@ function CommentTree({
             deleteComment={deleteComment}
             user={user}
             contentTarget={contentTarget}
+            contentAuthors={contentAuthors}
           />
         </div>
       );
@@ -70,6 +74,7 @@ function CommentTree({
           deleteComment={deleteComment}
           user={user}
           contentTarget={contentTarget}
+          contentAuthors={contentAuthors}
         />
       </div>
     );

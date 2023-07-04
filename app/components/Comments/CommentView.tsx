@@ -19,6 +19,7 @@ type Props = {
   style?: CSSProperties;
   newOnTop?: boolean;
   deleteComment: (id: ID, contentTarget: ContentTarget) => Promise<void>;
+  contentAuthors?: ID[];
 };
 
 const Title = ({ displayTitle }: { displayTitle: boolean }) =>
@@ -35,6 +36,7 @@ const CommentView = (props: Props) => {
     displayTitle = true,
     newOnTop = false,
     deleteComment,
+    contentAuthors,
   } = props;
   const commentFormProps = {
     contentTarget,
@@ -61,6 +63,7 @@ const CommentView = (props: Props) => {
               deleteComment={deleteComment}
               user={user}
               contentTarget={contentTarget}
+              contentAuthors={contentAuthors}
             />
           )}
         </LoadingIndicator>

@@ -6,6 +6,7 @@ import DisplayContent from 'app/components/DisplayContent';
 import Icon from 'app/components/Icon';
 import { ProfilePicture } from 'app/components/Image';
 import { Flex } from 'app/components/Layout';
+import { Tag } from 'app/components/Tags';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
 import type { ID } from 'app/store/models';
@@ -24,6 +25,7 @@ type Props = {
   deleteComment: (id: ID, contentTarget: ContentTarget) => Promise<void>;
   user: CurrentUser;
   contentTarget: ContentTarget;
+  contentAuthors?: ID[];
 };
 
 const Comment = ({
@@ -32,6 +34,7 @@ const Comment = ({
   commentFormProps,
   deleteComment,
   user,
+  contentAuthors,
 }: Props) => {
   const [replyOpen, setReplyOpen] = useState(false);
   const { createdAt, text, author } = comment;
@@ -49,7 +52,18 @@ const Comment = ({
               />
 
               <Flex column className={styles.username}>
-                <Link to={`/users/${author.username}`}>{author.fullName}</Link>
+                <Flex alignItems="center" gap={10}>
+                  <Link to={`/users/${author.username}`}>
+                    {author.fullName}
+                  </Link>
+                  {contentAuthors?.includes(author.id) && (
+                    <Tag
+                      icon="shield-checkmark-outline"
+                      tag="Forfatter"
+                      color="blue"
+                    />
+                  )}
+                </Flex>
                 <Time className={styles.timestamp} time={createdAt} wordsAgo />
               </Flex>
             </Flex>
