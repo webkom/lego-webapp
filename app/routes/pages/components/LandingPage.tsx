@@ -78,7 +78,15 @@ const LandingPage: PageRenderer = ({ loggedIn }) => {
               på vårt <Link to="/contact">kontaktskjema</Link> eller på
               e-postene under! På kontaktskjemaet har du mulighet til å sende
               anonyme beskjeder, og du kan lett velge hvem som skal få mailen
-              din.
+              din. Abakus har også en{' '}
+              <a
+                href="https://avvik.abakus.no"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                varslingsportal
+              </a>{' '}
+              som kan brukes til anonym varsling.
             </div>
           )}
           <EmailItem
