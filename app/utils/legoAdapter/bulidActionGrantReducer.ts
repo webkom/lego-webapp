@@ -20,7 +20,7 @@ const buildActionGrantReducer = (
   builder.addMatcher(
     isAsyncActionSuccessWithSchemaKey(entityType),
     (state, action) => {
-      if (action.payload.actionGrant) {
+      if ('actionGrant' in action.payload && action.payload.actionGrant) {
         state.actionGrant = action.payload.actionGrant;
       }
     }

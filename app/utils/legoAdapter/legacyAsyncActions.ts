@@ -1,11 +1,10 @@
-// is often expanded with additional properties
 import type { ID } from 'app/store/models';
 import type Entities from 'app/store/models/entities';
 import type { EntityType } from 'app/store/models/entities';
 import type { AsyncActionType } from 'app/types';
 import type { AnyAction } from '@reduxjs/toolkit';
 
-interface BaseMeta {
+export interface BaseMeta {
   queryString: string;
   cursor: string;
   errorMessage: string;
@@ -14,34 +13,45 @@ interface BaseMeta {
   schemaKey: EntityType;
 }
 
-interface AsyncAction {
+interface AsyncAction<Meta extends BaseMeta = BaseMeta> {
   type: string;
-  meta: BaseMeta;
+  meta: Meta;
   payload: object | null;
 }
 
-interface AsyncActionBegin extends AsyncAction {
+interface AsyncActionBegin<Meta extends BaseMeta = BaseMeta>
+  extends AsyncAction<Meta> {
   type: `${string}.BEGIN`;
 }
 
-interface AsyncActionFailure extends AsyncAction {
+interface AsyncActionFailure<Meta extends BaseMeta = BaseMeta>
+  extends AsyncAction<Meta> {
   type: `${string}.FAILURE`;
 }
 
-export interface AsyncActionSuccess extends AsyncAction {
+interface EntitiesPayload {
+  actionGrant?: string[];
+  entities: Partial<Entities>;
+  result?: ID[];
+  next: unknown;
+  previous: unknown;
+}
+
+export interface AsyncActionSuccess<Meta extends BaseMeta = BaseMeta>
+  extends AsyncAction<Meta> {
   type: `${string}.SUCCESS`;
-  payload: {
-    actionGrant?: string[];
-    entities: Partial<Entities>;
-    result?: ID[];
-    next: unknown;
-    previous: unknown;
-  };
+  payload: EntitiesPayload | [];
+}
+
+export interface AsyncFetchActionSuccess<Meta extends BaseMeta = BaseMeta>
+  extends AsyncAction<Meta> {
+  type: `${string}.SUCCESS`;
+  payload: EntitiesPayload;
 }
 
 interface AsyncActionSuccessWithEntityType<T extends EntityType>
-  extends AsyncActionSuccess {
-  payload: AsyncActionSuccess['payload'] & {
+  extends AsyncFetchActionSuccess {
+  payload: AsyncFetchActionSuccess['payload'] & {
     entities: Pick<Entities, T>;
   };
 }
@@ -50,26 +60,28 @@ export const isAsyncActionBegin = (
   action: AnyAction
 ): action is AsyncActionBegin => action.type.endsWith('.BEGIN');
 isAsyncActionBegin.matching =
-  (actionTypes: AsyncActionType[]) =>
-  (action: AnyAction): action is AsyncActionBegin =>
+  <Meta extends BaseMeta = BaseMeta>(actionTypes: AsyncActionType[]) =>
+  (action: AnyAction): action is AsyncActionBegin<Meta> =>
     actionTypes.map((t) => t.BEGIN).includes(action.type);
 
 export const isAsyncActionFailure = (
   action: AnyAction
 ): action is AsyncActionFailure => action.type.endsWith('.FAILURE');
 isAsyncActionFailure.matching =
-  (actionTypes: AsyncActionType[]) =>
-  (action: AnyAction): action is AsyncActionFailure =>
+  <Meta extends BaseMeta = BaseMeta>(actionTypes: AsyncActionType[]) =>
+  (action: AnyAction): action is AsyncActionFailure<Meta> =>
     actionTypes.map((t) => t.FAILURE).includes(action.type);
 
 export const isAsyncActionSuccess = (
   action: AnyAction
 ): action is AsyncActionSuccess => action.type.endsWith('.SUCCESS');
 isAsyncActionSuccess.matching =
-  (actionTypes: AsyncActionType[]) =>
-  (action: AnyAction): action is AsyncActionSuccess =>
+  <Meta extends BaseMeta = BaseMeta>(actionTypes: AsyncActionType[]) =>
+  (action: AnyAction): action is AsyncActionSuccess<Meta> =>
     actionTypes.map((t) => t.SUCCESS).includes(action.type);
 isAsyncActionSuccess.containingEntity =
   <T extends EntityType>(entityType: T) =>
   (action: AnyAction): action is AsyncActionSuccessWithEntityType<T> =>
-    isAsyncActionSuccess(action) && entityType in action.payload.entities;
+    isAsyncActionSuccess(action) &&
+    'entities' in action.payload &&
+    entityType in action.payload.entities;
