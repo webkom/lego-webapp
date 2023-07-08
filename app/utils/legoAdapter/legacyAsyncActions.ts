@@ -13,6 +13,13 @@ export interface BaseMeta {
   schemaKey: EntityType;
 }
 
+export interface FetchMeta extends BaseMeta {
+  paginationKey?: string;
+  query?: {
+    [key: string]: string;
+  };
+}
+
 interface AsyncAction<Meta extends BaseMeta = BaseMeta> {
   type: string;
   meta: Meta;
@@ -29,25 +36,26 @@ interface AsyncActionFailure<Meta extends BaseMeta = BaseMeta>
   type: `${string}.FAILURE`;
 }
 
-interface EntitiesPayload {
+export interface FetchPayload {
   actionGrant?: string[];
   entities: Partial<Entities>;
   result?: ID[];
-  next: unknown;
-  previous: unknown;
+  next?: string;
+  previous?: string;
 }
 
-export interface AsyncActionSuccess<Meta extends BaseMeta = BaseMeta>
-  extends AsyncAction<Meta> {
+export interface AsyncActionSuccess<
+  Meta extends BaseMeta = BaseMeta,
+  Payload extends FetchPayload | [] = FetchPayload | []
+> extends AsyncAction<Meta> {
   type: `${string}.SUCCESS`;
-  payload: EntitiesPayload | [];
+  payload: Payload;
 }
 
-export interface AsyncFetchActionSuccess<Meta extends BaseMeta = BaseMeta>
-  extends AsyncAction<Meta> {
-  type: `${string}.SUCCESS`;
-  payload: EntitiesPayload;
-}
+export type AsyncFetchActionSuccess = AsyncActionSuccess<
+  FetchMeta,
+  FetchPayload
+>;
 
 interface AsyncActionSuccessWithEntityType<T extends EntityType>
   extends AsyncFetchActionSuccess {
@@ -76,8 +84,13 @@ export const isAsyncActionSuccess = (
   action: AnyAction
 ): action is AsyncActionSuccess => action.type.endsWith('.SUCCESS');
 isAsyncActionSuccess.matching =
-  <Meta extends BaseMeta = BaseMeta>(actionTypes: AsyncActionType[]) =>
-  (action: AnyAction): action is AsyncActionSuccess<Meta> =>
+  <
+    Meta extends BaseMeta = BaseMeta,
+    Payload extends FetchPayload | [] = FetchPayload | []
+  >(
+    actionTypes: AsyncActionType[]
+  ) =>
+  (action: AnyAction): action is AsyncActionSuccess<Meta, Payload> =>
     actionTypes.map((t) => t.SUCCESS).includes(action.type);
 isAsyncActionSuccess.containingEntity =
   <T extends EntityType>(entityType: T) =>

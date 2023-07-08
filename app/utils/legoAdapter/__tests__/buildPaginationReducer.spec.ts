@@ -1,0 +1,93 @@
+import { createReducer } from '@reduxjs/toolkit';
+import { generateStatuses } from 'app/actions/ActionTypes';
+import type { Pagination } from 'app/utils/legoAdapter/buildPaginationReducer';
+import buildPaginationReducer from 'app/utils/legoAdapter/buildPaginationReducer';
+
+describe('buildPaginationReducer', () => {
+  const FETCH = generateStatuses('FETCH');
+
+  const initialState = { pagination: {} };
+  const initialPaginationState: Pagination = {
+    query: {},
+    ids: [],
+    hasMore: false,
+    hasMoreBackwards: false,
+    next: undefined,
+    previous: undefined,
+  };
+  const stateWithInitialPagination = {
+    ...initialState,
+    pagination: {
+      '/fetch/': initialPaginationState,
+    },
+  };
+
+  const reducer = createReducer(initialState, (builder) => {
+    buildPaginationReducer(builder, [FETCH]);
+  });
+
+  const fetchSuccess = {
+    type: FETCH.SUCCESS,
+    meta: { paginationKey: '/fetch/', query: { title: 'ab' } },
+    payload: {
+      result: [1, 2, 3],
+      next: 'https://lego.abakus.no/fetch?cursor=abc123&title=ab',
+    },
+  };
+
+  it('should add initial pagination state on fetch begin', () => {
+    expect(
+      reducer(initialState, {
+        type: FETCH.BEGIN,
+        meta: { paginationKey: '/fetch/', query: {} },
+      })
+    ).toEqual(stateWithInitialPagination);
+    expect(
+      reducer(initialState, {
+        type: FETCH.BEGIN,
+        meta: { paginationKey: '/fetch/', query: { title: 'ab' } },
+      })
+    ).toEqual({
+      ...initialState,
+      pagination: {
+        '/fetch/': { ...initialPaginationState, query: { title: 'ab' } },
+      },
+    });
+  });
+  it('should update ids on fetch success', () => {
+    const newState = reducer(stateWithInitialPagination, fetchSuccess);
+    expect(newState.pagination['/fetch/'].ids).toEqual([1, 2, 3]);
+  });
+  it('should update state if "next" set in the fetch success action', () => {
+    const newState = reducer(stateWithInitialPagination, fetchSuccess);
+    expect(newState.pagination['/fetch/'].next).toEqual({
+      title: 'ab',
+      cursor: 'abc123',
+    });
+    expect(newState.pagination['/fetch/'].hasMore).toEqual(true);
+  });
+  it('should add "previous"-query if "previous" set in the fetch success action', () => {
+    const newState = reducer(stateWithInitialPagination, {
+      ...fetchSuccess,
+      payload: {
+        result: [1],
+        previous: 'http://lego.abakus.no/fetch?cursor=test&title=ab',
+      },
+    });
+    expect(newState.pagination['/fetch/'].previous).toEqual({
+      title: 'ab',
+      cursor: 'test',
+    });
+    expect(newState.pagination['/fetch/'].hasMoreBackwards).toEqual(true);
+  });
+  it('should keep initial state if no next or previous urls are provided', () => {
+    const newState = reducer(stateWithInitialPagination, {
+      type: FETCH.SUCCESS,
+      meta: { paginationKey: '/fetch/', query: { title: 'ab' } },
+      payload: {
+        result: [],
+      },
+    });
+    expect(newState).toEqual(stateWithInitialPagination);
+  });
+});
