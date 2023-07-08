@@ -12,8 +12,12 @@ describe('async action type guards', () => {
 
   describe('isAsyncActionSuccess', () => {
     it('should return true on SUCCESS actions', () => {
-      expect(isAsyncActionSuccess({ type: FETCH.SUCCESS })).toBe(true);
-      expect(isAsyncActionSuccess({ type: UPDATE.SUCCESS })).toBe(true);
+      expect(isAsyncActionSuccess({ type: FETCH.SUCCESS, meta: {} })).toBe(
+        true
+      );
+      expect(isAsyncActionSuccess({ type: UPDATE.SUCCESS, meta: {} })).toBe(
+        true
+      );
     });
     it('should return false on other actions', () => {
       expect(isAsyncActionSuccess({ type: FETCH.BEGIN })).toBe(false);
@@ -45,6 +49,7 @@ describe('async action type guards', () => {
         expect(
           isAsyncActionSuccess.containingEntity(EntityType.Articles)({
             type: FETCH.SUCCESS,
+            meta: {},
             payload: {
               entities: {
                 [EntityType.Articles]: {},
@@ -55,6 +60,7 @@ describe('async action type guards', () => {
         expect(
           isAsyncActionSuccess.containingEntity(EntityType.Events)({
             type: FETCH.SUCCESS,
+            meta: {},
             payload: {
               entities: {
                 [EntityType.Events]: {},

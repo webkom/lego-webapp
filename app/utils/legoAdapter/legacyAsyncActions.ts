@@ -82,7 +82,8 @@ isAsyncActionFailure.matching =
 
 export const isAsyncActionSuccess = (
   action: AnyAction
-): action is AsyncActionSuccess => action.type.endsWith('.SUCCESS');
+): action is AsyncActionSuccess =>
+  action.type.endsWith('.SUCCESS') && !!action.meta;
 isAsyncActionSuccess.matching =
   <
     Meta extends BaseMeta = BaseMeta,

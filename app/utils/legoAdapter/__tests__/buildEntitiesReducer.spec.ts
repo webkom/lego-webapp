@@ -15,6 +15,7 @@ describe('buildEntitiesReducer', () => {
     expect(
       reducer(initialState, {
         type: 'WHATEVER.FETCH.SUCCESS',
+        meta: {},
         payload: {
           entities: {
             [EntityType.Articles]: {
@@ -51,6 +52,7 @@ describe('buildEntitiesReducer', () => {
     expect(
       reducer(state, {
         type: 'WHATEVER.FETCH.SUCCESS',
+        meta: {},
         payload: {
           entities: {
             [EntityType.Articles]: {

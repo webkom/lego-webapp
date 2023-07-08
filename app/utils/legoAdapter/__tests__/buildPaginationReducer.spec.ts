@@ -6,7 +6,7 @@ import buildPaginationReducer from 'app/utils/legoAdapter/buildPaginationReducer
 describe('buildPaginationReducer', () => {
   const FETCH = generateStatuses('FETCH');
 
-  const initialState = { pagination: {} };
+  const initialState = { paginationNext: {} };
   const initialPaginationState: Pagination = {
     query: {},
     ids: [],
@@ -17,7 +17,7 @@ describe('buildPaginationReducer', () => {
   };
   const stateWithInitialPagination = {
     ...initialState,
-    pagination: {
+    paginationNext: {
       '/fetch/': initialPaginationState,
     },
   };
@@ -49,24 +49,24 @@ describe('buildPaginationReducer', () => {
       })
     ).toEqual({
       ...initialState,
-      pagination: {
+      paginationNext: {
         '/fetch/': { ...initialPaginationState, query: { title: 'ab' } },
       },
     });
   });
   it('should update ids on fetch success', () => {
     const newState = reducer(stateWithInitialPagination, fetchSuccess);
-    expect(newState.pagination['/fetch/'].ids).toEqual([1, 2, 3]);
+    expect(newState.paginationNext['/fetch/'].ids).toEqual([1, 2, 3]);
   });
   it('should update state if "next" set in the fetch success action', () => {
     const newState = reducer(stateWithInitialPagination, fetchSuccess);
-    expect(newState.pagination['/fetch/'].next).toEqual({
+    expect(newState.paginationNext['/fetch/'].next).toEqual({
       title: 'ab',
       cursor: 'abc123',
     });
-    expect(newState.pagination['/fetch/'].hasMore).toEqual(true);
+    expect(newState.paginationNext['/fetch/'].hasMore).toEqual(true);
   });
-  it('should add "previous"-query if "previous" set in the fetch success action', () => {
+  it('should update state if "previous" set in the fetch success action', () => {
     const newState = reducer(stateWithInitialPagination, {
       ...fetchSuccess,
       payload: {
@@ -74,11 +74,34 @@ describe('buildPaginationReducer', () => {
         previous: 'http://lego.abakus.no/fetch?cursor=test&title=ab',
       },
     });
-    expect(newState.pagination['/fetch/'].previous).toEqual({
+    expect(newState.paginationNext['/fetch/'].previous).toEqual({
       title: 'ab',
       cursor: 'test',
     });
-    expect(newState.pagination['/fetch/'].hasMoreBackwards).toEqual(true);
+    expect(newState.paginationNext['/fetch/'].hasMoreBackwards).toEqual(true);
+  });
+  it('should remove next/previous if a fetch success action does not have them', () => {
+    const newState = reducer(
+      {
+        ...stateWithInitialPagination,
+        paginationNext: {
+          '/fetch/': {
+            ...initialPaginationState,
+            next: {
+              cursor: 123,
+            },
+            previous: {
+              cursor: 321,
+            },
+          },
+        },
+      },
+      { ...fetchSuccess, payload: { result: [] } }
+    );
+    expect(newState.paginationNext['/fetch/'].next).toEqual(undefined);
+    expect(newState.paginationNext['/fetch/'].hasMore).toEqual(false);
+    expect(newState.paginationNext['/fetch/'].previous).toEqual(undefined);
+    expect(newState.paginationNext['/fetch/'].hasMoreBackwards).toEqual(false);
   });
   it('should keep initial state if no next or previous urls are provided', () => {
     const newState = reducer(stateWithInitialPagination, {

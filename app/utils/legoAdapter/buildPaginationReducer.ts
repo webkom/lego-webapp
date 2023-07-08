@@ -26,7 +26,7 @@ export type Pagination = {
 };
 
 type StateWithPagination = {
-  pagination: {
+  paginationNext: {
     [key: string]: Pagination;
   };
 };
@@ -45,26 +45,35 @@ const buildPaginationReducer = (
   builder.addMatcher(
     isAsyncActionBegin.matching<FetchMeta>(actionTypes),
     (state, action) => {
-      state.pagination[action.meta.paginationKey ?? ''] ??=
+      state.paginationNext[action.meta.paginationKey ?? ''] ??=
         createInitialPagination(action.meta.query ?? {});
     }
   );
   builder.addMatcher(
     isAsyncActionSuccess.matching<FetchMeta, FetchPayload>(actionTypes),
     (state, action) => {
-      state.pagination[action.meta.paginationKey ?? ''] ??=
+      state.paginationNext[action.meta.paginationKey ?? ''] ??=
         createInitialPagination(action.meta.query ?? {});
-      const pagination = state.pagination[action.meta.paginationKey ?? ''];
+      const paginationNext =
+        state.paginationNext[action.meta.paginationKey ?? ''];
 
-      pagination.ids = pagination.ids.concat(action.payload.result ?? []);
+      paginationNext.ids = [
+        ...new Set(paginationNext.ids.concat(action.payload.result ?? [])),
+      ];
 
       if (action.payload.next) {
-        pagination.hasMore = true;
-        pagination.next = parse(action.payload.next.split('?')[1]);
+        paginationNext.hasMore = true;
+        paginationNext.next = parse(action.payload.next.split('?')[1]);
+      } else {
+        paginationNext.hasMore = false;
+        paginationNext.next = undefined;
       }
       if (action.payload.previous) {
-        pagination.hasMoreBackwards = true;
-        pagination.previous = parse(action.payload.previous.split('?')[1]);
+        paginationNext.hasMoreBackwards = true;
+        paginationNext.previous = parse(action.payload.previous.split('?')[1]);
+      } else {
+        paginationNext.hasMoreBackwards = false;
+        paginationNext.previous = undefined;
       }
     }
   );
