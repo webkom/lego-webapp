@@ -8,7 +8,7 @@ import type { ContentTarget } from 'app/store/utils/contentTarget';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import joinReducers from 'app/utils/joinReducers';
 import { Company } from '../actions/ActionTypes';
-import { selectCompanySemesters } from './companySemesters';
+import { selectAllCompanySemesters } from './companySemesters';
 import { selectEvents } from './events';
 
 export type BaseSemesterStatusEntity = {
@@ -152,7 +152,7 @@ export const selectCompanies = createSelector(
   (state) => state,
   (companyIds, companiesById, usersById, state) => {
     if (companyIds.length === 0) return [];
-    const companySemesters = selectCompanySemesters(state);
+    const companySemesters = selectAllCompanySemesters(state);
     return companyIds
       .map((companyId) => {
         const company = companiesById[companyId];

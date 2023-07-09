@@ -2,20 +2,13 @@ import { addToast } from 'app/actions/ToastActions';
 import callAPI from 'app/actions/callAPI';
 import { companyInterestSchema } from 'app/reducers';
 import type { CompanyInterestEntity } from 'app/reducers/companyInterest';
+import type { RootState } from 'app/store/createRootReducer';
 import type { Thunk } from 'app/types';
 import { CompanyInterestForm } from './ActionTypes';
 
-export function fetchAll(): Thunk<any> {
-  return callAPI({
-    types: CompanyInterestForm.FETCH_ALL,
-    endpoint: '/company-interests/',
-    schema: [companyInterestSchema],
-    meta: {
-      errorMessage: 'Henting av bedriftsinteresser feilet',
-    },
-  });
-}
-export function fetchCompanyInterest(companyInterestId: number): Thunk<any> {
+export function fetchCompanyInterest(
+  companyInterestId: number
+): Thunk<Promise<unknown>> {
   return callAPI({
     types: CompanyInterestForm.FETCH,
     endpoint: `/company-interests/${companyInterestId}/`,
@@ -28,7 +21,7 @@ export function fetchCompanyInterest(companyInterestId: number): Thunk<any> {
 export function createCompanyInterest(
   data: CompanyInterestEntity,
   isEnglish: boolean
-): Thunk<any> {
+): Thunk<Promise<unknown>> {
   return (dispatch) => {
     return dispatch(
       callAPI({
@@ -76,7 +69,7 @@ export function deleteCompanyInterest(id: number): Thunk<any> {
 export function updateCompanyInterest(
   id: number,
   data: CompanyInterestEntity
-): Thunk<any> {
+): Thunk<Promise<unknown>> {
   return (dispatch) => {
     return dispatch(
       callAPI({
@@ -99,19 +92,21 @@ export function updateCompanyInterest(
   };
 }
 export function fetch({
-  next,
-  filters,
+  next = false,
+  query,
 }: {
   next?: boolean;
-  filters?: Record<string, string | number>;
-} = {}): Thunk<any> {
-  return (dispatch, getState) => {
-    const cursor = next ? getState().companyInterest.pagination.next : {};
+  query?: Record<string, string | number>;
+} = {}): Thunk<Promise<unknown>> {
+  return (dispatch, getState: () => RootState) => {
     return dispatch(
       callAPI({
         types: CompanyInterestForm.FETCH_ALL,
         endpoint: '/company-interests/',
-        query: { ...cursor, ...filters },
+        query,
+        pagination: {
+          fetchNext: next,
+        },
         schema: [companyInterestSchema],
         meta: {
           errorMessage: 'Henting av bedriftsinteresser feilet',

@@ -402,6 +402,7 @@ export function addSemester({
           semester,
           activeInterestForm: true,
         },
+        schema: [companySemesterSchema],
         meta: {
           errorMessage: 'Legge til semester feilet',
           successMessage: 'Semest lagt til!',

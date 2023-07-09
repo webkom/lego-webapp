@@ -5,15 +5,15 @@ import { reduxForm } from 'redux-form';
 import { uploadFile } from 'app/actions/FileActions';
 import { LoginPage } from 'app/components/LoginForm';
 import { selectCompanies } from 'app/reducers/companies';
-import { selectCompanySemesters } from 'app/reducers/companySemesters';
+import { selectAllCompanySemesters } from 'app/reducers/companySemesters';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import {
-  addSemesterStatus,
-  fetchSemesters,
   addSemester,
-  fetchAllAdmin,
+  addSemesterStatus,
   deleteCompany,
+  fetchAllAdmin,
+  fetchSemesters,
 } from '../../actions/CompanyActions';
 import AddSemester from './components/AddSemester';
 import { semesterCodeToName } from './utils';
@@ -58,7 +58,7 @@ const mapStateToProps = (state, props) => ({
     semester: 0,
     contactedStatus: 'not_contacted',
   },
-  companySemesters: selectCompanySemesters(state, props),
+  companySemesters: selectAllCompanySemesters(state, props),
   companies: selectCompanies(state, props),
 });
 

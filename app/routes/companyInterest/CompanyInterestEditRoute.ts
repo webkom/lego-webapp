@@ -8,15 +8,15 @@ import {
   updateCompanyInterest,
 } from 'app/actions/CompanyInterestActions';
 import { selectCompanyInterestById } from 'app/reducers/companyInterest';
-import { selectCompanySemesters } from 'app/reducers/companySemesters';
+import { selectAllCompanySemesters } from 'app/reducers/companySemesters';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import CompanyInterestPage, {
   COLLABORATION_TYPES,
   EVENT_TYPES,
   OTHER_TYPES,
-  TARGET_GRADE_TYPES,
   PARTICIPANT_RANGE_MAP,
   SURVEY_OFFER_TYPES,
+  TARGET_GRADE_TYPES,
 } from './components/CompanyInterestPage';
 import { sortSemesterChronologically } from './utils';
 
@@ -24,10 +24,8 @@ const valueSelector = formValueSelector('CompanyInterestForm');
 
 const mapStateToProps = (state, props) => {
   const { companyInterestId } = props.match.params;
-  const companyInterest = selectCompanyInterestById(state, {
-    companyInterestId,
-  });
-  const semesters = selectCompanySemesters(state);
+  const companyInterest = selectCompanyInterestById(state, companyInterestId);
+  const semesters = selectAllCompanySemesters(state);
   if (!companyInterest || !semesters)
     return {
       edit: true,

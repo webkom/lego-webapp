@@ -7,7 +7,7 @@ import {
 } from 'app/actions/CompanyActions';
 import { LoginPage } from 'app/components/LoginForm';
 import {
-  selectCompanySemesters,
+  selectAllCompanySemesters,
   selectCompanySemestersForInterestForm,
 } from 'app/reducers/companySemesters';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
@@ -15,7 +15,7 @@ import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import CompanySemesterGUI from './components/CompanySemesterGUI';
 
 const mapStateToProps = (state) => {
-  const semesters = selectCompanySemesters(state);
+  const semesters = selectAllCompanySemesters(state);
   const activeSemesters = selectCompanySemestersForInterestForm(state);
   return {
     initialValues: {

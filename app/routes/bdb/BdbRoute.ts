@@ -4,21 +4,21 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { LoginPage } from 'app/components/LoginForm';
 import { selectCompanies } from 'app/reducers/companies';
-import { selectCompanySemesters } from 'app/reducers/companySemesters';
+import { selectAllCompanySemesters } from 'app/reducers/companySemesters';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import {
-  fetchAllAdmin,
+  addSemester,
   addSemesterStatus,
   editSemesterStatus,
+  fetchAllAdmin,
   fetchSemesters,
-  addSemester,
 } from '../../actions/CompanyActions';
 import BdbPage from './components/BdbPage';
 
 const mapStateToProps = (state, props) => ({
   companies: selectCompanies(state, props),
-  companySemesters: selectCompanySemesters(state, props),
+  companySemesters: selectAllCompanySemesters(state, props),
   query: qs.parse(props.location.search, {
     ignoreQueryPrefix: true,
   }),

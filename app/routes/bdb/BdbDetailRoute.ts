@@ -1,30 +1,32 @@
 import { connect } from 'react-redux';
-import { compose, bindActionCreators } from 'redux';
+import { bindActionCreators, compose } from 'redux';
 import { deleteComment } from 'app/actions/CommentActions';
 import {
-  fetchAdmin,
-  deleteSemesterStatus,
-  deleteCompanyContact,
-  fetchSemesters,
-  editSemesterStatus,
-  fetchEventsForCompany,
-  editCompany,
   deleteCompany,
+  deleteCompanyContact,
+  deleteSemesterStatus,
+  editCompany,
+  editSemesterStatus,
+  fetchAdmin,
+  fetchEventsForCompany,
+  fetchSemesters,
 } from 'app/actions/CompanyActions';
 import { LoginPage } from 'app/components/LoginForm';
 import {
+  selectCommentsForCompany,
   selectCompanyById,
   selectEventsForCompany,
-  selectCommentsForCompany,
 } from 'app/reducers/companies';
-import { selectCompanySemesters } from 'app/reducers/companySemesters';
+import { selectAllCompanySemesters } from 'app/reducers/companySemesters';
 import { selectPagination } from 'app/reducers/selectors';
+import type { RootState } from 'app/store/createRootReducer';
 import createQueryString from 'app/utils/createQueryString';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import BdbDetail from './components/BdbDetail';
+import type { EntityId } from '@reduxjs/toolkit';
 
-const queryString = (companyId) =>
+const queryString = (companyId: EntityId) =>
   createQueryString({
     company: companyId,
     ordering: '-start_time',
@@ -48,7 +50,7 @@ const loadData = (
     ),
   ]);
 
-const mapStateToProps = (state, props) => {
+const mapStateToProps = (state: RootState, props) => {
   const companyId = Number(props.match.params.companyId);
   const company = selectCompanyById(state, {
     companyId,
@@ -59,7 +61,7 @@ const mapStateToProps = (state, props) => {
   const companyEvents = selectEventsForCompany(state, {
     companyId,
   });
-  const companySemesters = selectCompanySemesters(state, props);
+  const companySemesters = selectAllCompanySemesters(state);
   const fetching = state.companies.fetching;
   const showFetchMoreEvents = selectPagination('events', {
     queryString: queryString(companyId),

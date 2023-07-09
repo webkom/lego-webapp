@@ -1,4 +1,5 @@
 import { Button } from '@webkom/lego-bricks';
+import qs from 'qs';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Select from 'react-select';
@@ -15,6 +16,7 @@ import { ListNavigation } from 'app/routes/bdb/utils';
 import { getCsvUrl, semesterToText } from '../utils';
 import styles from './CompanyInterest.css';
 import { EVENT_TYPE_OPTIONS } from './CompanyInterestPage';
+import type { ParsedQs } from 'qs';
 
 type SemesterOptionType = {
   id: number;
@@ -40,6 +42,7 @@ type Props = {
   selectedEventOption: EventOptionType;
   router: any;
   authToken: string;
+  query: ParsedQs;
 };
 
 type State = {
@@ -55,20 +58,26 @@ class CompanyInterestList extends Component<Props, State> {
     const { id } = clickedOption;
     this.props
       .fetch({
-        filters: {
+        query: {
           semesters: id !== null ? id : null,
         },
       })
       .then(() => {
         this.props.replace(
-          `/companyInterest?semesters=${clickedOption.id}&event=${this.props.selectedEventOption.value}`
+          `/companyInterest?${qs.stringify({
+            ...this.props.query,
+            semesters: clickedOption.id,
+          })}`
         );
       });
   };
 
   handleEventChange = (clickedOption: EventOptionType): void => {
     this.props.replace(
-      `/companyInterest?semesters=${this.props.selectedSemesterOption.id}&event=${clickedOption.value}`
+      `/companyInterest?${qs.stringify({
+        ...this.props.query,
+        event: clickedOption.value,
+      })}`
     );
   };
 
@@ -261,7 +270,7 @@ class CompanyInterestList extends Component<Props, State> {
           onLoad={(filters, sort) => {
             this.props.fetch({
               next: true,
-              filters,
+              query: this.props.query,
             });
           }}
           onChange={(filters, sort) => {

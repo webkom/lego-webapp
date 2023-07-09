@@ -2,12 +2,12 @@ import qs from 'qs';
 import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import config from 'app/config';
-import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
+import type CompanySemester from 'app/store/models/CompanySemester';
 import type { ReactNode } from 'react';
 
 export const sortSemesterChronologically = (
-  a: CompanySemesterEntity,
-  b: CompanySemesterEntity
+  a: CompanySemester,
+  b: CompanySemester
 ) => {
   const semesterCodeToPriority = {
     spring: 0,

@@ -1,7 +1,9 @@
-import { produce } from 'immer';
+import { createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
 import { sortSemesterChronologically } from 'app/routes/companyInterest/utils';
-import createEntityReducer from 'app/utils/createEntityReducer';
+import type { RootState } from 'app/store/createRootReducer';
+import { EntityType } from 'app/store/models/entities';
+import createLegoAdapter from 'app/utils/legoAdapter/createLegoAdapter';
 import { Company } from '../actions/ActionTypes';
 
 export type CompanySemesterEntity = {
@@ -10,39 +12,24 @@ export type CompanySemesterEntity = {
   year: number | string;
   activeInterestForm?: boolean;
 };
-type State = any;
-export default createEntityReducer({
-  key: 'companySemesters',
-  types: {
-    fetch: Company.FETCH_SEMESTERS,
-  },
 
-  // TODO: I think this can be removed by using { types: mutate: Company.ADD_SEMESTER} above
-  mutate(state: State, action): State {
-    return produce(state, (newState: State): void => {
-      switch (action.type) {
-        case Company.ADD_SEMESTER.SUCCESS:
-          newState.byId[action.payload.id] = action.payload;
-          newState.items.push(action.payload.id);
-          break;
-
-        default:
-          break;
-      }
-    });
-  },
+const legoAdapter = createLegoAdapter(EntityType.CompanySemesters, {
+  fetchActions: [Company.FETCH_SEMESTERS],
 });
-export const selectCompanySemesters = createSelector(
-  (state) => state.companySemesters.items,
-  (state) => state.companySemesters.byId,
-  (semesterIds, semestersById) => {
-    return !semesterIds || !semestersById
-      ? []
-      : semesterIds.map((id) => semestersById[id]);
-  }
-);
+
+const companySemestersSlice = createSlice({
+  name: EntityType.CompanySemesters,
+  initialState: legoAdapter.getInitialState(),
+  reducers: {},
+  extraReducers: legoAdapter.buildReducers(),
+});
+
+export default companySemestersSlice.reducer;
+export const { selectAll: selectAllCompanySemesters } =
+  legoAdapter.getSelectors((state: RootState) => state.companySemesters);
+
 export const selectCompanySemestersForInterestForm = createSelector(
-  selectCompanySemesters,
+  selectAllCompanySemesters,
   (companySemesters) =>
     companySemesters
       .filter((semester) => semester.activeInterestForm)
