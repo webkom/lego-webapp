@@ -1,31 +1,31 @@
-import { produce } from 'immer';
+import { createSlice } from '@reduxjs/toolkit';
 import moment from 'moment-timezone';
-import { createSelector } from 'reselect';
-import createEntityReducer from 'app/utils/createEntityReducer';
+import type { RootState } from 'app/store/createRootReducer';
+import { EntityType } from 'app/store/models/entities';
+import createLegoAdapter from 'app/utils/legoAdapter/createLegoAdapter';
 import { Announcements } from '../actions/ActionTypes';
+import type { AnyAction } from '@reduxjs/toolkit';
 
-type State = any;
-export default createEntityReducer({
-  key: 'announcements',
-  types: {
-    fetch: Announcements.FETCH_ALL,
-    mutate: Announcements.CREATE,
-    delete: Announcements.DELETE,
-  },
-  mutate: produce((newState: State, action: any): void => {
-    switch (action.type) {
-      case Announcements.SEND.SUCCESS:
-        newState.byId[action.meta.announcementId].sent = moment();
-        break;
+const legoAdapter = createLegoAdapter(EntityType.Announcements, {
+  fetchActions: [Announcements.FETCH_ALL],
+  deleteActions: [Announcements.DELETE],
+});
 
-      default:
-        break;
-    }
+const announcementsSlice = createSlice({
+  name: EntityType.Announcements,
+  initialState: legoAdapter.getInitialState(),
+  reducers: {},
+  extraReducers: legoAdapter.buildReducers((builder) => {
+    builder.addCase(Announcements.SEND.SUCCESS, (state, action: AnyAction) => {
+      const announcement = state.entities[action.meta.announcementId];
+      if (announcement) {
+        announcement.sent = moment();
+      }
+    });
   }),
 });
-export const selectAnnouncements = createSelector(
-  (state) => state.announcements.byId,
-  (state) => state.announcements.items,
-  (announcementsById, announcementIds) =>
-    announcementIds.map((id) => announcementsById[id])
+
+export default announcementsSlice.reducer;
+export const { selectAll: selectAllAnnouncements } = legoAdapter.getSelectors(
+  (state: RootState) => state.announcements
 );
