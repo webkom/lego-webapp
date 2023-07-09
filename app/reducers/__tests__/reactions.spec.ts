@@ -246,6 +246,7 @@ describe('reducers', () => {
 
     const remove = (contentTarget: ContentTarget) => ({
       type: Reaction.DELETE.SUCCESS,
+      payload: [],
       meta: {
         contentTarget,
         id: 33,
