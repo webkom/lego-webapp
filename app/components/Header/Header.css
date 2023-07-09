@@ -169,10 +169,7 @@
   display: none;
 }
 
-html[data-theme='light'] .logoLightMode {
-  display: block;
-}
-
+html[data-theme='light'] .logoLightMode,
 html[data-theme='dark'] .logoDarkMode {
   display: block;
 }

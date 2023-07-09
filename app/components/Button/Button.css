@@ -1,47 +1,26 @@
 @import url('~app/styles/variables.css');
 
 :root {
-  --button-color: var(--color-white);
-  --button-box-shadow: var(--shadow-xs);
-  --button-background: var(--color-gray-1);
+  --button-color: var(--inverted-font-color);
   --button-background-hover: var(--color-gray-2);
-  --button-border: #8c8c8c77;
-  --button-border-hover: #b6b6b6aa;
 
   --button-dark-background: var(--color-red-6);
   --button-dark-background-hover: var(--color-red-7);
-  --button-dark-border: #bfccd633;
-  --button-dark-border-hover: #ced9e044;
   --button-dark-box-shadow-focus: #db373744;
-
-  --button-danger-color: var(--danger-color);
-  --button-danger-box-shadow-focus: #db373744;
 
   --button-success-background: var(--color-green-7);
   --button-success-background-hover: var(--color-green-8);
-  --button-success-border: #a7b6c233;
-  --button-success-border-hover: #bfccd644;
   --button-success-box-shadow-focus: #2c974b44;
 }
 
 [data-theme='dark'] {
-  --button-color: var(--color-black);
-  --button-box-shadow: 0 0 transparent, inset 0 0 transparent;
-  --button-background: var(--color-gray-2);
+  --button-color: var(--lego-font-color);
   --button-background-hover: var(--color-gray-3);
-  --button-border: #75757577;
-  --button-border-hover: #8c8c8caa;
 
-  --button-dark-border: #a7b6c233;
-  --button-dark-border-hover: #bfccd644;
   --button-dark-box-shadow-focus: #ff737344;
-
-  --button-danger-box-shadow-focus: #ff737344;
 
   --button-success-background: var(--color-green-4);
   --button-success-background-hover: var(--color-green-5);
-  --button-success-border: #bfccd633;
-  --button-success-border-hover: #ced9e044;
   --button-success-box-shadow-focus: #2da44e44;
 }
 
@@ -52,21 +31,20 @@
   box-sizing: border-box;
   height: 2.3em;
   width: fit-content;
-  padding: 5px 15px;
-  box-shadow: var(--button-box-shadow);
+  padding: 0 1rem;
+  font-family: Inter, sans-serif;
   font-weight: 600;
-  background-color: var(--button-background);
-  color: var(--color-gray-8);
+  background-color: var(--additive-background);
+  color: var(--lego-font-color);
   outline: none;
-  border-radius: var(--border-radius-md);
-  border: 1px solid var(--button-border);
+  border-radius: 2rem;
   transition: var(--easing-fast);
   /* stylelint-disable value-list-comma-newline-after */
   transition-property: transform, color, background-color, border-color,
     box-shadow, opacity;
 
   &:focus-visible {
-    box-shadow: 0 0 0 3px #9994;
+    box-shadow: 0 0 0 1.5px var(--color-black);
   }
 
   &:disabled {
@@ -94,7 +72,6 @@
 
   &:hover:not(:disabled) {
     background-color: var(--button-background-hover);
-    border-color: var(--button-border-hover);
   }
 }
 
@@ -105,7 +82,6 @@
 
 .dark {
   background-color: var(--button-dark-background);
-  border-color: var(--button-dark-border);
   color: var(--button-color);
   box-shadow: none;
 
@@ -119,34 +95,33 @@
 
   &:hover:not(:disabled) {
     background-color: var(--button-dark-background-hover);
-    border-color: var(--button-dark-border-hover);
   }
 }
 
 .danger {
   background: none;
-  box-shadow: none;
-  color: var(--button-danger-color);
+  border: 1.5px solid var(--border-gray);
+  color: var(--danger-color);
 
   &:focus-visible {
-    box-shadow: 0 0 0 3px var(--button-danger-box-shadow-focus);
+    box-shadow: none;
+    border-color: var(--danger-color);
   }
 
   &:disabled {
-    color: var(--button-danger-color);
+    color: var(--danger-color);
     background: none;
   }
 
   &:hover:not(:disabled) {
-    background-color: var(--button-danger-color);
-    border-color: var(--button-danger-color);
+    background-color: var(--danger-color);
+    border-color: var(--danger-color);
     color: var(--button-color);
   }
 }
 
 .success {
   background-color: var(--button-success-background);
-  border-color: var(--button-success-border);
   color: var(--button-color);
   box-shadow: none;
 
@@ -156,26 +131,21 @@
 
   &:hover:not(:disabled) {
     background-color: var(--button-success-background-hover);
-    border-color: var(--button-success-border-hover);
   }
 }
 
 .flat {
-  font-family: inherit;
-  font-size: inherit;
-  text-align: left;
-  color: var(--lego-link-color);
   background: none;
-  margin: 0;
-  padding: 0;
-  border: none;
-  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    background-color: var(--additive-background);
+  }
 }
 
 .ghost {
   background: none;
   box-shadow: none;
-  border: 1px solid var(--button-dark-background);
+  border: 1.5px solid var(--button-dark-background);
   color: var(--button-dark-background);
 
   &:focus-visible {
@@ -190,7 +160,7 @@
 }
 
 .small {
-  padding: 10px 15px;
+  padding: 0 0.6rem;
   font-size: var(--font-size-sm);
 }
 

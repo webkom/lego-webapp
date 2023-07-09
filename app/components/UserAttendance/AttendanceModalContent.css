@@ -77,7 +77,6 @@
 
 .navButton {
   height: 100%;
-  color: var(--lego-font-color);
   border-radius: inherit;
   text-align: center;
   padding: 5px 15px;

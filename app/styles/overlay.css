@@ -43,6 +43,10 @@
   overflow-y: auto;
 }
 
+.dropdownList > li > a {
+  color: var(--lego-font-color);
+}
+
 .dropdownList > li > a,
 .dropdownList > li > button {
   width: 100%;
@@ -51,7 +55,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 10px 15px;
-  transition: background var(--linear-fast);
+  transition: background var(--easing-fast);
 
   &:hover {
     background-color: var(--additive-background);

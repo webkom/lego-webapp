@@ -53,19 +53,16 @@ function Button({
 }: Props & ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
     <button
-      className={
-        flat
-          ? cx(styles.flat, className)
-          : cx(
-              styles.button,
-              styles[size],
-              dark && styles.dark,
-              danger && styles.danger,
-              success && styles.success,
-              ghost && styles.ghost,
-              className
-            )
-      }
+      className={cx(
+        styles.button,
+        styles[size],
+        dark && styles.dark,
+        danger && styles.danger,
+        success && styles.success,
+        flat && styles.flat,
+        ghost && styles.ghost,
+        className
+      )}
       type={submit ? 'submit' : 'button'}
       {...rest}
     >

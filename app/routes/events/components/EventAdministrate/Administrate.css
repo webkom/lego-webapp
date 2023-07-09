@@ -65,6 +65,10 @@
 .greenIcon {
   font-size: 1.4em;
   color: var(--color-green-6);
+
+  &:hover {
+    color: var(--color-green-7);
+  }
 }
 
 .orangePill {
@@ -75,6 +79,10 @@
 .questionIcon {
   font-size: 1.4em;
   color: var(--color-blue-6);
+
+  &:hover {
+    color: var(--color-blue-7);
+  }
 }
 
 .bluePill {
@@ -85,6 +93,10 @@
 .redIcon {
   font-size: 1.4em;
   color: var(--danger-color);
+
+  &:hover {
+    color: var(--color-red-7);
+  }
 }
 
 .consentIcon {

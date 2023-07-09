@@ -2,7 +2,6 @@ import throttle from 'lodash/throttle';
 import { Component, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useSwipeable, RIGHT, LEFT } from 'react-swipeable';
-import Button from 'app/components/Button';
 import CommentView from 'app/components/Comments/CommentView';
 import { Content } from 'app/components/Content';
 import Dropdown from 'app/components/Dropdown';
@@ -108,18 +107,10 @@ const RenderGalleryPicture = ({
   handleDelete: (arg0: number) => void;
   clickedDeletePicture: number;
 }) => (
-  <div>
-    <Button flat onClick={() => handleDelete(id)}>
-      <i
-        className="fa fa-minus-circle"
-        style={{
-          color: '#C24538',
-          padding: '15px',
-        }}
-      />
-      {clickedDeletePicture === id ? 'Er du sikker?' : 'Slett'}
-    </Button>
-  </div>
+  <button onClick={() => handleDelete(id)}>
+    {clickedDeletePicture === id ? 'Er du sikker?' : 'Slett'}
+    <Icon name="trash-outline" />
+  </button>
 );
 
 const Swipeable = (props: {
@@ -275,7 +266,7 @@ export default class GalleryPictureModal extends Component<Props, State> {
                       onClick={this.toggleDropdown}
                       className={styles.dropdownLink}
                     >
-                      <strong>Last ned</strong>
+                      Last ned
                       <Icon name="download-outline" size={24} />
                     </a>
                   </Dropdown.ListItem>
@@ -287,7 +278,7 @@ export default class GalleryPictureModal extends Component<Props, State> {
                           onClick={this.onUpdate}
                           className={styles.dropdownLink}
                         >
-                          <strong>Rediger</strong>
+                          Rediger
                           <Icon name="create-outline" size={24} />
                         </Link>
                       </Dropdown.ListItem>,
@@ -297,13 +288,14 @@ export default class GalleryPictureModal extends Component<Props, State> {
                           to="#"
                           className={styles.dropdownLink}
                         >
-                          <strong>Sett som album cover</strong>
+                          Sett som album cover
                           <Icon name="image-outline" size={24} />
                         </Link>
                       </Dropdown.ListItem>,
                       <Dropdown.Divider key="divider" />,
                       <Dropdown.ListItem
                         key="delete"
+                        danger
                         onClick={(e) => {
                           e.preventDefault();
                           e.stopPropagation();

@@ -1073,7 +1073,7 @@ const CompanyInterestPage = (props: Props) => {
             </div>
 
             {spySubmittable((submittable) => (
-              <Button success={props.edit} disabled={!submittable} submit>
+              <Button success disabled={!submittable} submit>
                 {props.edit
                   ? 'Oppdater bedriftsinteresse'
                   : labels.create[language]}
