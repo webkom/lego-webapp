@@ -7,8 +7,8 @@ import type { Comment as CommentType } from 'app/store/models/Comment';
 import { EntityType } from 'app/store/models/entities';
 import { parseContentTarget } from 'app/store/utils/contentTarget';
 import { type EntityReducerState } from 'app/utils/createEntityReducer';
-import createLegoAdapter from 'app/utils/createLegoAdapter';
 import getEntityType from 'app/utils/getEntityType';
+import createLegoAdapter from 'app/utils/legoAdapter/createLegoAdapter';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { EntityState } from '@reduxjs/toolkit/src/entities/models';
 import type { ActionReducerMapBuilder } from '@reduxjs/toolkit/src/mapBuilders';
@@ -75,16 +75,14 @@ const commentSlice = createSlice({
   name: EntityType.Comments,
   initialState: legoAdapter.getInitialState(),
   reducers: {},
-  extraReducers: legoAdapter.buildReducers({
-    extraCases: (addCase) => {
-      addCase(Comment.DELETE.SUCCESS, (state, action: AnyAction) => {
-        const comment = state.entities[action.meta.id];
-        if (comment) {
-          comment.text = null;
-          comment.author = null;
-        }
-      });
-    },
+  extraReducers: legoAdapter.buildReducers((builder) => {
+    builder.addCase(Comment.DELETE.SUCCESS, (state, action: AnyAction) => {
+      const comment = state.entities[action.meta.id];
+      if (comment) {
+        comment.text = null;
+        comment.author = null;
+      }
+    });
   }),
 });
 

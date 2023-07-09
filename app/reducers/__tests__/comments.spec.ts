@@ -4,7 +4,7 @@ import type { DetailedArticle } from 'app/store/models/Article';
 import type CommentType from 'app/store/models/Comment';
 import { EntityType } from 'app/store/models/entities';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
-import createLegoAdapter from 'app/utils/createLegoAdapter';
+import createLegoAdapter from 'app/utils/legoAdapter/createLegoAdapter';
 import comments, { addCommentCases, mutateComments } from '../comments';
 import type { EntityId } from '@reduxjs/toolkit';
 
@@ -136,10 +136,8 @@ describe('addCommentCases', () => {
     name: EntityType.Articles,
     initialState: initialArticlesState,
     reducers: {},
-    extraReducers: articlesAdapter.buildReducers({
-      extraCases: (addCase) => {
-        addCommentCases(EntityType.Articles, addCase);
-      },
+    extraReducers: articlesAdapter.buildReducers((builder) => {
+      addCommentCases(EntityType.Articles, builder.addCase);
     }),
   });
   const eventsAdapter = createLegoAdapter(EntityType.Events);

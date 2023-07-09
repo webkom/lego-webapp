@@ -10,6 +10,7 @@ import {
 } from 'app/reducers/articles';
 import { selectEmojis } from 'app/reducers/emojis';
 import { selectUserById } from 'app/reducers/users';
+import type { RootState } from 'app/store/createRootReducer';
 import type { PublicArticle } from 'app/store/models/Article';
 import type { PublicUser } from 'app/store/models/User';
 import helmet from 'app/utils/helmet';
@@ -22,19 +23,15 @@ type Params = {
   articleId: string;
 };
 
-const mapStateToProps = (state, props) => {
+const mapStateToProps = (state: RootState, props) => {
   const { articleId } = props.match.params;
-  const article = selectArticleById(state, {
-    articleId,
-  });
-  const comments = selectCommentsForArticle(state, {
-    articleId,
-  });
-  const authors = article.authors?.map((e) => {
-    return selectUserById(state, {
+  const article = selectArticleById(state, articleId);
+  const comments = selectCommentsForArticle(state, articleId);
+  const authors = article?.authors?.map((e) =>
+    selectUserById(state, {
       userId: e,
-    });
-  });
+    })
+  );
   const emojis = selectEmojis(state);
   return {
     fetching: state.articles.fetching,

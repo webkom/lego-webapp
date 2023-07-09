@@ -11,16 +11,18 @@ import { LoginPage } from 'app/components/LoginForm';
 import { selectArticleById } from 'app/reducers/articles';
 import { selectCurrentUser } from 'app/reducers/auth';
 import { selectUserById } from 'app/reducers/users';
+import type { RootState } from 'app/store/createRootReducer';
+import type { DetailedArticle } from 'app/store/models/Article';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import ArticleEditor from './components/ArticleEditor';
 
-const mapStateToProps = (state, props) => {
+const mapStateToProps = (state: RootState, props) => {
   const { articleId } = props.match.params;
-  const article = selectArticleById(state, {
-    articleId,
-  });
+  const article = selectArticleById(state, articleId) as
+    | DetailedArticle
+    | undefined;
 
   const currentUser = selectCurrentUser(state);
   const authors = article?.authors?.length
@@ -34,14 +36,14 @@ const mapStateToProps = (state, props) => {
     initialValues: {
       ...article,
       ...objectPermissionsToInitialValues({
-        canViewGroups: article.canViewGroups,
-        canEditGroups: article.canEditGroups,
-        canEditUsers: article.canEditUsers,
+        canViewGroups: article?.canViewGroups,
+        canEditGroups: article?.canEditGroups,
+        canEditUsers: article?.canEditUsers,
       }),
       authors: authors
         .filter(Boolean)
         .map((user) => ({ user, label: user.fullName, value: user.id })),
-      tags: (article.tags || []).map((tag) => ({
+      tags: (article?.tags || []).map((tag) => ({
         label: tag,
         value: tag,
       })),

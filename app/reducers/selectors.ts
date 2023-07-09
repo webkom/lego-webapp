@@ -45,6 +45,7 @@ export const selectPaginationNext =
         next: { ...query, cursor: '' },
         previous: false,
         items: [],
+        ids: [],
       },
       paginationKey,
     };

@@ -4,7 +4,7 @@ import type { DetailedArticle } from 'app/store/models/Article';
 import type { ReactionsGrouped } from 'app/store/models/Reaction';
 import { EntityType } from 'app/store/models/entities';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
-import createLegoAdapter from 'app/utils/createLegoAdapter';
+import createLegoAdapter from 'app/utils/legoAdapter/createLegoAdapter';
 import { addReactionCases, mutateReactions } from '../reactions';
 
 describe('reducers', () => {
@@ -222,10 +222,8 @@ describe('reducers', () => {
       name: EntityType.Articles,
       initialState: createInitialState(false, 1),
       reducers: {},
-      extraReducers: articlesAdapter.buildReducers({
-        extraCases: (addCase) => {
-          addReactionCases(EntityType.Articles, addCase);
-        },
+      extraReducers: articlesAdapter.buildReducers((builder) => {
+        addReactionCases(EntityType.Articles, builder.addCase);
       }),
     });
     const reducer = articlesSlice.reducer;
@@ -245,6 +243,7 @@ describe('reducers', () => {
 
     const remove = (contentTarget: ContentTarget) => ({
       type: Reaction.DELETE.SUCCESS,
+      payload: [],
       meta: {
         contentTarget,
         id: 33,
