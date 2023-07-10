@@ -61,10 +61,4 @@ html[data-theme='dark'] .backdrop {
   top: 1rem;
   right: 1rem;
   padding: 0;
-  color: var(--color-gray-6);
-  transition: color var(--easing-fast);
-
-  &:hover {
-    color: var(--color-gray-5);
-  }
 }

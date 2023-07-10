@@ -127,11 +127,13 @@ const Overview = (props: Props) => {
         <Articles articles={articlesShown} />
         <Events events={eventsShown} loggedIn={loggedIn} />
       </section>
+
       {frontpage.length > 8 && (
         <div className={styles.showMore}>
           <Icon
+            clickable
             onClick={showMore}
-            name="chevron-down-circle-outline"
+            name="chevron-down-outline"
             size={40}
           />
         </div>

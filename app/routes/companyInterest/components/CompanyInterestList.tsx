@@ -4,7 +4,9 @@ import Select from 'react-select';
 import Button from 'app/components/Button';
 import { Content } from 'app/components/Content';
 import { selectTheme, selectStyles } from 'app/components/Form/SelectInput';
+import Icon from 'app/components/Icon';
 import Flex from 'app/components/Layout/Flex';
+import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import Table from 'app/components/Table';
 import Tooltip from 'app/components/Tooltip';
 import type { CompanyInterestEntity } from 'app/reducers/companyInterest';
@@ -41,53 +43,14 @@ type Props = {
 };
 
 type State = {
-  clickedCompanyInterest: number;
   generatedCSV?: { url: string; filename: string };
 };
 
-const RenderCompanyActions = ({
-  id,
-  handleDelete,
-  clickedCompanyInterest,
-}: {
-  id: number;
-  handleDelete: (arg0: number) => void;
-  fetching: boolean;
-  clickedCompanyInterest: number;
-}) => (
-  <Button flat onClick={() => handleDelete(id)}>
-    <i
-      className="fa fa-minus-circle"
-      style={{
-        color: '#C24538',
-        marginRight: '5px',
-      }}
-    />
-    {clickedCompanyInterest === id ? 'Er du sikker?' : 'Slett'}
-  </Button>
-);
-
 class CompanyInterestList extends Component<Props, State> {
   state = {
-    clickedCompanyInterest: 0,
     generatedCSV: undefined,
   };
 
-  handleDelete = (clickedCompanyInterest: number) => {
-    if (this.state.clickedCompanyInterest === clickedCompanyInterest) {
-      this.props
-        .deleteCompanyInterest(this.state.clickedCompanyInterest)
-        .then(() => {
-          this.setState({
-            clickedCompanyInterest: 0,
-          });
-        });
-    } else {
-      this.setState({
-        clickedCompanyInterest,
-      });
-    }
-  };
   handleSemesterChange = (clickedOption: SemesterOptionType): void => {
     const { id } = clickedOption;
     this.props
@@ -102,6 +65,7 @@ class CompanyInterestList extends Component<Props, State> {
         );
       });
   };
+
   handleEventChange = (clickedOption: EventOptionType): void => {
     this.props.replace(
       `/companyInterest?semesters=${this.props.selectedSemesterOption.id}&event=${clickedOption.value}`
@@ -163,7 +127,7 @@ class CompanyInterestList extends Component<Props, State> {
         render: (contactPerson: string) => <span>{contactPerson}</span>,
       },
       {
-        title: 'Mail',
+        title: 'E-post',
         dataIndex: 'mail',
         render: (mail: string) => <span>{mail}</span>,
       },
@@ -171,12 +135,18 @@ class CompanyInterestList extends Component<Props, State> {
         title: '',
         dataIndex: 'id',
         render: (id) => (
-          <RenderCompanyActions
-            fetching={this.props.fetching}
-            handleDelete={this.handleDelete}
-            id={id}
-            clickedCompanyInterest={this.state.clickedCompanyInterest}
-          />
+          <Flex justifyContent="center">
+            <ConfirmModal
+              title="Bekreft fjerning av interesse"
+              message={'Er du sikker på at du vil fjerne?'}
+              closeOnConfirm
+              onConfirm={() => this.props.deleteCompanyInterest(id)}
+            >
+              {({ openConfirmModal }) => (
+                <Icon onClick={openConfirmModal} name="trash" danger />
+              )}
+            </ConfirmModal>
+          </Flex>
         ),
       },
     ];

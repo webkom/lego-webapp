@@ -49,7 +49,7 @@ const Modal = ({
   >
     <div>
       <button onClick={onHide} className={styles.closeButton}>
-        <Icon name="close" size={24} />
+        <Icon name="close" clickable size={24} />
       </button>
 
       {children}

@@ -58,7 +58,7 @@ const PollsList = ({
 
               <Flex wrap justifyContent="space-between">
                 <span>{`Antall stemmer: ${poll.totalVotes}`}</span>
-                <Flex alignItems="center" gap={2}>
+                <Flex alignItems="center" gap={5}>
                   {poll.hasAnswered ? (
                     <>
                       Svart

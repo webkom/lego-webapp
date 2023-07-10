@@ -28,6 +28,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 7px;
   box-sizing: border-box;
   height: 2.3em;
   width: fit-content;
@@ -59,11 +60,6 @@
 
   &:active:not(:disabled) {
     transform: translateY(1px);
-  }
-
-  > i,
-  > div > ion-icon {
-    margin-right: 7px;
   }
 
   > a {

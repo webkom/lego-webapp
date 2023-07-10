@@ -48,7 +48,6 @@
 .showMore {
   display: flex;
   justify-content: center;
-  cursor: pointer;
   margin-top: 20px;
 }
 

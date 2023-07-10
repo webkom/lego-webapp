@@ -1,10 +1,10 @@
 import cx from 'classnames';
 import { useRef, useEffect, useState } from 'react';
-import Button from 'app/components/Button';
+import { Link } from 'react-router-dom';
 import Card from 'app/components/Card';
+import Icon from 'app/components/Icon';
 import { Flex } from 'app/components/Layout';
 import LegoReactions from 'app/components/LegoReactions';
-import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import type { ID } from 'app/store/models';
 import type Emoji from 'app/store/models/Emoji';
 import type Quote from 'app/store/models/Quote';
@@ -67,15 +67,16 @@ const RandomQuote = ({
           <div className={styles.quoteSource}>- {currentQuote.source}</div>
         </Flex>
 
-        <Flex column justifyContent="space-between" className={styles.actions}>
-          <Button flat onClick={onClick} className={styles.fetchNew}>
-            <i
-              className={cx(['fa fa-refresh', animation && styles.rotateIcon])}
-            />
-          </Button>
-          <NavigationLink to="/quotes/add">
-            <i className="fa fa-plus" />
-          </NavigationLink>
+        <Flex column justifyContent="space-between" gap={5}>
+          <Icon
+            name="refresh"
+            clickable
+            onClick={onClick}
+            className={cx(animation && styles.rotateIcon)}
+          />
+          <Link to="/quotes/add">
+            <Icon name="add" clickable />
+          </Link>
         </Flex>
       </Flex>
 

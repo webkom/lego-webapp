@@ -12,33 +12,44 @@
   z-index: 1;
 }
 
-.danger {
-  color: var(--danger-color);
-  transition: color var(--easing-fast);
+.clickable {
+  width: fit-content;
+  height: fit-content;
+  padding: 0.375rem;
   cursor: pointer;
+  border-radius: 50%;
+  color: var(--lego-font-color);
+  transition: background-color var(--easing-fast);
 
   &:hover {
-    color: var(--color-red-7);
+    background-color: var(--additive-background);
+  }
+}
+
+.danger {
+  composes: clickable;
+  color: var(--danger-color);
+
+  &:hover {
+    background-color: var(--color-red-1);
   }
 }
 
 .success {
+  composes: clickable;
   color: var(--color-green-6);
-  transition: color var(--easing-fast);
-  cursor: pointer;
 
   &:hover {
-    color: var(--color-green-7);
+    background-color: var(--color-green-2);
   }
 }
 
 .edit {
+  composes: clickable;
   color: var(--color-orange-6);
-  transition: color var(--easing-fast);
-  cursor: pointer;
 
   &:hover {
-    color: var(--color-orange-7);
+    background-color: var(--color-orange-2);
   }
 }
 

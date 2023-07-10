@@ -1,3 +1,8 @@
 .copyIcon {
   cursor: pointer;
+  padding: 0;
+
+  &:hover {
+    background-color: transparent;
+  }
 }

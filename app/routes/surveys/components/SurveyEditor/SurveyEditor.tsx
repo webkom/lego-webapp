@@ -148,7 +148,7 @@ const renderQuestions = ({ fields }) => (
         fields.push(initialQuestion);
       }}
     >
-      <Icon name="add-circle" size={30} className={styles.addQuestion} />
+      <Icon name="add" clickable size={30} className={styles.addQuestion} />
     </Link>
   </>
 );

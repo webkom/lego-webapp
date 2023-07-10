@@ -131,7 +131,7 @@ class Search extends Component<Props, State> {
             className={styles.closeButton}
             onClick={onCloseSearch}
           >
-            <Icon name={searching ? 'refresh' : 'close'} size={30} />
+            <Icon name={searching ? 'refresh' : 'close'} clickable size={30} />
           </button>
         </div>
 

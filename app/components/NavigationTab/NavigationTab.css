@@ -47,16 +47,5 @@ span.backLabel {
 
 .details {
   margin-bottom: 15px;
-}
-
-h1.hasDetails {
-  padding-bottom: 0;
-}
-
-h1.hasBack {
-  padding-top: 0;
-}
-
-div.hasDetails {
-  margin-bottom: 0;
+  color: var(--secondary-font-color);
 }

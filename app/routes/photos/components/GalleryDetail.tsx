@@ -143,11 +143,7 @@ export default class GalleryDetail extends Component<Props, State> {
           details={
             <>
               <GalleryDetailsRow gallery={gallery} showDescription />
-              <div
-                style={{
-                  minHeight: '40px',
-                }}
-              >
+              <div>
                 {this.state.downloading ? (
                   <LoadingIndicator loading={true} small margin={0} />
                 ) : (
