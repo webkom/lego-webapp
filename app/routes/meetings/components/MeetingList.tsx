@@ -108,16 +108,25 @@ const MeetingList = ({
   return (
     <Content>
       <Helmet title="Dine møter" />
-      <NavigationTab title="Dine møter">
-        <NavigationLink to="/meetings/create/">Nytt møte</NavigationLink>
-      </NavigationTab>
+      <NavigationTab
+        title="Dine møter"
+        details={
+          <Link to="/meetings/create">
+            <Button>Nytt møte</Button>
+          </Link>
+        }
+      ></NavigationTab>
       {!meetingSections || loading ? (
         <LoadingIndicator loading />
       ) : (
         <MeetingListView currentUser={currentUser} sections={meetingSections} />
       )}
       {showFetchMore && <Button onClick={fetchMore}>Last flere</Button>}
-      {showFetchOlder && <Button onClick={fetchOlder}>Hent gamle</Button>}
+      {showFetchOlder && (
+        <Button flat onClick={fetchOlder}>
+          Hent gamle
+        </Button>
+      )}
     </Content>
   );
 };

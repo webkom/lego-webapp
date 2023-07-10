@@ -1,16 +1,20 @@
 .link {
   display: inline;
-  font-size: var(--font-size-lg);
-  margin-right: 15px;
-  border-bottom: 2px solid transparent;
-  transition-property: color, border-bottom;
+  width: max-content;
+  margin-right: 0.5rem;
+  padding: 0 0.5rem;
+  background-color: var(--additive-background);
+  border-radius: var(--border-radius-md);
+  color: var(--lego-font-color);
+  transition: var(--easing-fast);
+  transition-property: color, background-color;
 
   &:hover:not(.active) {
-    border-bottom: 2px solid var(--border-gray);
+    background-color: var(--color-gray-2);
   }
 
   &.active {
-    color: var(--lego-red-color-hover);
-    border-bottom: 2px solid var(--lego-red-color-hover);
+    background-color: var(--lego-font-color);
+    color: var(--inverted-font-color);
   }
 }

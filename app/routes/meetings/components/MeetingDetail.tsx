@@ -13,11 +13,13 @@ import {
   ContentMain,
 } from 'app/components/Content';
 import DisplayContent from 'app/components/DisplayContent';
+import Icon from 'app/components/Icon';
 import InfoList from 'app/components/InfoList';
+import Flex from 'app/components/Layout/Flex';
 import LegoReactions from 'app/components/LegoReactions';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { MazemapEmbed } from 'app/components/MazemapEmbed';
-import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
+import NavigationTab from 'app/components/NavigationTab';
 import Time, { FromToTime } from 'app/components/Time';
 import { AttendanceStatus } from 'app/components/UserAttendance';
 import AttendanceModal from 'app/components/UserAttendance/AttendanceModal';
@@ -180,13 +182,7 @@ const MeetingDetails = ({
           label: 'Dine møter',
           path: '/meetings',
         }}
-      >
-        {canEdit && (
-          <NavigationLink to={`/meetings/${meeting.id}/edit`}>
-            Rediger
-          </NavigationLink>
-        )}
-      </NavigationTab>
+      ></NavigationTab>
 
       <ContentSection>
         <ContentMain>
@@ -225,38 +221,47 @@ const MeetingDetails = ({
               {meeting.mazemapPoi && (
                 <MazemapEmbed mazemapPoi={meeting.mazemapPoi} />
               )}
-              <li>
-                <AnnouncementInLine meeting={meeting} />
-              </li>
-              <li>
-                {meeting.contentTarget && (
-                  <div className={styles.meetingReactions}>
-                    <LegoReactions
-                      emojis={emojis}
-                      fetchEmojis={fetchEmojis}
-                      fetchingEmojis={fetchingEmojis}
-                      addReaction={addReaction}
-                      deleteReaction={deleteReaction}
-                      parentEntity={meeting}
-                      loggedIn={loggedIn}
-                    />
-                  </div>
-                )}
-              </li>
             </ul>
+
+            <Flex column gap={7}>
+              <h3>Admin</h3>
+
+              <AnnouncementInLine meeting={meeting} />
+              {canEdit && (
+                <Link to={`/meetings/${meeting.id}/edit`}>
+                  <Button>
+                    <Icon name="create-outline" size={19} />
+                    Rediger
+                  </Button>
+                </Link>
+              )}
+            </Flex>
           </Card>
         </ContentSidebar>
       </ContentSection>
       <ContentSection>
         <ContentMain>
           {meeting.contentTarget && (
-            <CommentView
-              user={currentUser}
-              contentTarget={meeting.contentTarget}
-              loggedIn={loggedIn}
-              comments={comments}
-              deleteComment={deleteComment}
-            />
+            <>
+              <div className={styles.meetingReactions}>
+                <LegoReactions
+                  emojis={emojis}
+                  fetchEmojis={fetchEmojis}
+                  fetchingEmojis={fetchingEmojis}
+                  addReaction={addReaction}
+                  deleteReaction={deleteReaction}
+                  parentEntity={meeting}
+                  loggedIn={loggedIn}
+                />
+              </div>
+              <CommentView
+                user={currentUser}
+                contentTarget={meeting.contentTarget}
+                loggedIn={loggedIn}
+                comments={comments}
+                deleteComment={deleteComment}
+              />
+            </>
           )}
         </ContentMain>
       </ContentSection>
