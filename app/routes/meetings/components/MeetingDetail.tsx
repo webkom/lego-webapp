@@ -1,3 +1,4 @@
+import { isEmpty } from 'lodash';
 import moment from 'moment-timezone';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
@@ -64,8 +65,8 @@ type Props = {
 };
 
 const UserLink = ({ user }: { user: PublicUser }) =>
-  user ? (
-    <Link to={`/users/${user.username}`}> {user.fullName} </Link>
+  user && !isEmpty(user) ? (
+    <Link to={`/users/${user.username}`}>{user.fullName}</Link>
   ) : (
     <span> Ikke valgt </span>
   );
@@ -141,7 +142,7 @@ const MeetingDetails = ({
   const infoItems = [
     {
       key: 'Din status',
-      value: `${statusesText[statusMe]}`,
+      value: statusesText[statusMe] || 'Ukjent',
     },
     {
       key: 'Når',
