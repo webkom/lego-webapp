@@ -303,6 +303,7 @@ const MeetingEditor = ({
               <SubmissionError />
               <Flex wrap>
                 <Button
+                  flat
                   onClick={() =>
                     push(`/meetings/${isEditPage ? meeting.id : ''}`)
                   }
@@ -310,7 +311,7 @@ const MeetingEditor = ({
                   Avbryt
                 </Button>
                 {spySubmittable((submittable) => (
-                  <Button success disabled={!submittable} submit>
+                  <Button disabled={!submittable} submit>
                     {isEditPage ? 'Lagre endringer' : 'Opprett møte'}
                   </Button>
                 ))}

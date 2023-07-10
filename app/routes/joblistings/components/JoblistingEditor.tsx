@@ -261,7 +261,7 @@ class JoblistingEditor extends Component<Props, State> {
             >
               Avbryt
             </Button>
-            <Button success={!isNew} disabled={invalid || submitting} submit>
+            <Button disabled={invalid || submitting} submit>
               {isNew ? 'Opprett' : 'Lagre endringer'}
             </Button>
             {!isNew && (

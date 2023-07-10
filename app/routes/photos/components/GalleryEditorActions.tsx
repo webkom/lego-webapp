@@ -28,11 +28,15 @@ const GalleryEditorActions = ({
         <Flex alignItems="center" justifyContent="space-between">
           <div className={styles.selectedElements}>{selectedCount} valgt</div>
           <div>
+            <Button flat onClick={onDeselect}>
+              Avbryt
+            </Button>
             {selectedCount === 1 && (
               <Button onClick={onUpdateGalleryCover}>Sett album cover</Button>
             )}
             {newPicutureStatus !== -1 && (
               <Button
+                danger={newPicutureStatus === 0}
                 onClick={() => onTogglePicturesStatus(!!newPicutureStatus)}
               >
                 {newPicutureStatus === 0 && 'Skjul'}
@@ -42,7 +46,6 @@ const GalleryEditorActions = ({
             <Button danger onClick={onDeletePictures}>
               Slett {selectedCount > 1 ? 'valgte' : 'valgt'}
             </Button>
-            <Button onClick={onDeselect}>Avbryt</Button>
           </div>
         </Flex>
       </Card>

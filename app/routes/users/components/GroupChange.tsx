@@ -74,7 +74,7 @@ class GroupChange extends Component<Props, State> {
           instanceId="profile-group"
         />
         {this.state.selectedOption && (
-          <Button onClick={this.handleOnClick} success>
+          <Button secondary onClick={this.handleOnClick}>
             Lagre endring
           </Button>
         )}

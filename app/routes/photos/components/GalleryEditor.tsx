@@ -29,6 +29,7 @@ import type { GalleryEntity } from 'app/reducers/galleries';
 import type { GalleryPictureEntity } from 'app/reducers/galleryPictures';
 import GalleryEditorActions from './GalleryEditorActions';
 import styles from './Overview.css';
+import type { Push } from 'connected-react-router';
 
 type Props = {
   isNew: boolean;
@@ -36,7 +37,7 @@ type Props = {
   pictures: Array<GalleryPictureEntity>;
   submitFunction: (arg0: GalleryEntity) => Promise<any>;
   handleSubmit: (arg0: any) => void;
-  push: (arg0: string) => Promise<any>;
+  push: Push;
   submitting: boolean;
   fetch: (
     galleryId: number,
@@ -170,6 +171,7 @@ class GalleryEditor extends Component<Props, State> {
       handleSubmit,
       gallery,
       submitting,
+      push,
     } = this.props;
     const { selected } = this.state;
     return (
@@ -250,6 +252,12 @@ class GalleryEditor extends Component<Props, State> {
           />
 
           <Flex className={styles.buttonRow} justifyContent="flex-end">
+            <Button flat onClick={() => push(`/photos/${gallery.id}`)}>
+              Avbryt
+            </Button>
+            <Button disabled={submitting} submit>
+              {isNew ? 'Opprett' : 'Lagre'}
+            </Button>
             {!isNew && (
               <ConfirmModal
                 title="Slett album"
@@ -257,16 +265,13 @@ class GalleryEditor extends Component<Props, State> {
                 onConfirm={this.onDeleteGallery}
               >
                 {({ openConfirmModal }) => (
-                  <Button onClick={openConfirmModal} danger>
+                  <Button danger onClick={openConfirmModal}>
                     <Icon name="trash" size={19} />
                     Slett album
                   </Button>
                 )}
               </ConfirmModal>
             )}
-            <Button success={!isNew} disabled={submitting} type="submit">
-              {isNew ? 'Opprett' : 'Lagre'}
-            </Button>
           </Flex>
         </Form>
         <GalleryEditorActions

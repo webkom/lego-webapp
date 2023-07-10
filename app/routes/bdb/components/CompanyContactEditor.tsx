@@ -102,15 +102,7 @@ class CompanyContactEditor extends Component<Props> {
               component={TextInput.Field}
             />
 
-            <div className={styles.clear} />
-            <Button
-              disabled={submitting}
-              submit
-              style={{
-                marginBottom: '0!important',
-              }}
-              success
-            >
+            <Button disabled={submitting} submit>
               Lagre
             </Button>
           </form>

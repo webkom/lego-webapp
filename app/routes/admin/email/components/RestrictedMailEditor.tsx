@@ -2,6 +2,7 @@ import { reduxForm, Form, Field } from 'redux-form';
 import Button from 'app/components/Button';
 import { TextInput, SelectInput } from 'app/components/Form';
 import CheckBox from 'app/components/Form/CheckBox';
+import Icon from 'app/components/Icon';
 import config from 'app/config';
 import { isEmail, createValidator, required } from 'app/utils/validation';
 
@@ -163,7 +164,10 @@ const RestrictedMailEditor = ({
           href={`${config.serverUrl}/restricted-mail/${restrictedMailId}/token?auth=${restrictedMail.tokenQueryParam}`}
           download
         >
-          <Button>Last ned e-post token</Button>
+          <Button>
+            <Icon name="download-outline" size={19} />
+            Last ned e-post token
+          </Button>
         </a>
       )}
     </Form>

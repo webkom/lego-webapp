@@ -180,7 +180,7 @@ const StudentConfirmation = ({
             }}
             component={Captcha.Field}
           />
-          <Button submit success disabled={disabledButton}>
+          <Button submit disabled={disabledButton}>
             Verifiser
           </Button>
         </Form>

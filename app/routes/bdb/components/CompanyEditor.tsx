@@ -233,7 +233,7 @@ const CompanyEditor = ({
           </div>
 
           <div className={styles.clear} />
-          <Button disabled={submitting} submit success>
+          <Button disabled={submitting} submit>
             Lagre
           </Button>
         </form>

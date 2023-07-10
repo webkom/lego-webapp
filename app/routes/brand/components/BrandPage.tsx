@@ -2,6 +2,7 @@ import logosDonts from 'app/assets/logos-donts.png';
 import logosDos from 'app/assets/logos-dos.png';
 import Button from 'app/components/Button';
 import { Content } from 'app/components/Content';
+import Icon from 'app/components/Icon';
 import { Image } from 'app/components/Image';
 import { Flex } from 'app/components/Layout';
 import NavigationTab from 'app/components/NavigationTab';
@@ -80,14 +81,15 @@ const BrandPage = () => (
         </Flex>
         <div>
           <h2 className={styles.h2Padding}>Logoer i vektorformat</h2>
-          <Button>
-            <a
-              href="https://github.com/abakus-ntnu/grafisk-profil/archive/master.zip"
-              download="proposed_file_name"
-            >
+          <a
+            href="https://github.com/abakus-ntnu/grafisk-profil/archive/master.zip"
+            download="proposed_file_name"
+          >
+            <Button>
+              <Icon name="download-outline" size={19} />
               Last ned
-            </a>
-          </Button>
+            </Button>
+          </a>
           <h2 className={styles.h2Padding}>Abakusfarger</h2>
           <ul>
             <li>Hvit: CMYK(0,0,0,0)</li>
@@ -101,14 +103,15 @@ const BrandPage = () => (
           <p>
             Denne malen skal brukes for presentasjoner som holdes i Abakus-regi
           </p>
-          <Button>
-            <a
-              href="https://github.com/abakus-ntnu/grafisk-profil/blob/master/maler/Abakus%20-%20Presentasjonsmal.pptx?raw=true"
-              download="proposed_file_name"
-            >
+          <a
+            href="https://github.com/abakus-ntnu/grafisk-profil/blob/master/maler/Abakus%20-%20Presentasjonsmal.pptx?raw=true"
+            download="proposed_file_name"
+          >
+            <Button>
+              <Icon name="download-outline" size={19} />
               Last ned
-            </a>
-          </Button>
+            </Button>
+          </a>
         </div>
       </Flex>
     </section>

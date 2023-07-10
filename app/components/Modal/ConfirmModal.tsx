@@ -36,7 +36,7 @@ const ConfirmModalContent = ({
     </Flex>
     <span>{message}</span>
     <div>
-      <Button disabled={disabled} onClick={onCancel}>
+      <Button flat disabled={disabled} onClick={onCancel}>
         {cancelText}
       </Button>
       <Button danger={danger} disabled={disabled} onClick={onConfirm}>

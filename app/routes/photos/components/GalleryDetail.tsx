@@ -6,6 +6,7 @@ import Button from 'app/components/Button';
 import { Content } from 'app/components/Content';
 import EmptyState from 'app/components/EmptyState';
 import Gallery from 'app/components/Gallery';
+import Icon from 'app/components/Icon';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import ImageUpload from 'app/components/Upload/ImageUpload';
@@ -13,6 +14,7 @@ import type { DropFile } from 'app/components/Upload/ImageUpload';
 import type { ID, ActionGrant } from 'app/models';
 import type { GalleryPictureEntity } from 'app/reducers/galleryPictures';
 import GalleryDetailsRow from './GalleryDetailsRow';
+import type { Push } from 'connected-react-router';
 import type { Element } from 'react';
 
 type Props = {
@@ -30,7 +32,7 @@ type Props = {
     }
   ) => Promise<any>;
   clear: (galleryId: number) => Promise<any>;
-  push: (arg0: string) => Promise<any>;
+  push: Push;
   uploadAndCreateGalleryPicture: (
     arg0: ID,
     arg1: File | Array<DropFile>
@@ -151,7 +153,8 @@ export default class GalleryDetail extends Component<Props, State> {
                 {this.state.downloading ? (
                   <LoadingIndicator loading={true} small margin={0} />
                 ) : (
-                  <Button flat={true} onClick={this.downloadGallery}>
+                  <Button onClick={this.downloadGallery}>
+                    <Icon name="download-outline" size={19} />
                     Last ned album
                   </Button>
                 )}
