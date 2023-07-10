@@ -19,11 +19,11 @@ type Props = {
   /** is the button action pending? */
   pending?: boolean;
 
+  /** Secondary button styling */
+  secondary?: boolean;
+
   /** Dark background (red button)*/
   dark?: boolean;
-
-  /** Primary button styling */
-  primary?: boolean;
 
   /** Danger button styling */
   danger?: boolean;
@@ -44,6 +44,7 @@ function Button({
   size = 'normal',
   submit,
   pending = false,
+  secondary = false,
   dark = false,
   danger = false,
   success = false,
@@ -56,6 +57,7 @@ function Button({
       className={cx(
         styles.button,
         styles[size],
+        (submit || secondary) && styles.secondary,
         dark && styles.dark,
         danger && styles.danger,
         success && styles.success,
