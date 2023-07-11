@@ -14,15 +14,23 @@ const FancyNodesCanvas = ({ height = 160 }: Props) => {
   const theme = useTheme();
 
   useEffect(() => {
-    setWidth(global.innerWidth);
+    setWidth(window.innerWidth);
   }, []);
 
   useEffect(() => {
     const handleResize = debounce((e: UIEvent) => {
       setWidth((e.target as Window).innerWidth);
     }, 70);
-    global.addEventListener('resize', handleResize);
-    return () => global.removeEventListener('resize', handleResize);
+
+    if (typeof window !== 'undefined') {
+      window.addEventListener('resize', handleResize);
+    }
+
+    return () => {
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('resize', handleResize);
+      }
+    };
   }, [width]);
 
   useEffect(() => {
