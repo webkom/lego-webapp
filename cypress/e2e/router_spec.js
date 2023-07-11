@@ -6,12 +6,12 @@ describe('Navigate throughout app', () => {
     cy.cachedLogin();
   });
 
-  // Open the hambuermenu and select by name, then assert by path
+  // Open the hamburgermenu and select by name, then assert by path
   const openMenuAndSelect = (name, path) => {
     cy.get(c('buttonGroup')).within(() => {
       cy.get(c('searchIcon')).click();
     });
-    cy.get(c('Search__navigationFlex'))
+    cy.get(c('Search__quickLinks-'))
       .first()
       .within(() => {
         cy.contains(name).click();

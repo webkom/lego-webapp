@@ -21,6 +21,7 @@ type SearchResultBase = {
   link?: string;
   content?: string;
   icon?: string;
+  iconType?: 'icon' | 'image' | 'profilePic';
   date?: Dateish;
   profilePicture?: string;
 };
@@ -40,6 +41,9 @@ type SearchResultMapping<T, K = SearchResultBase> = {
 
 export const isUserResult = (value: SearchResult): value is UserSearchResult =>
   value.type === 'Bruker';
+
+export const isGroupResult = (value: SearchResult): boolean =>
+  value.type === 'komite' || value.type === 'interesse';
 
 interface SearchMapping {
   'users.user': SearchResultMapping<User, UserSearchResult>;
@@ -70,15 +74,18 @@ const searchMapping: SearchMapping = {
     label: (user) => `${user.fullName} (${user.username})`,
     title: 'fullName',
     type: 'Bruker',
+    iconType: 'profilePic',
     color: '#A1C34A',
     value: 'id',
     username: 'username',
     link: (user) => `/users/${user.username}`,
     id: 'id',
     profilePicture: 'profilePicture',
+    isAbakusMember: 'isAbakusMember',
   },
   'articles.article': {
     icon: 'book',
+    iconType: 'icon',
     label: 'title',
     title: 'title',
     type: 'Artikkel',
@@ -95,6 +102,7 @@ const searchMapping: SearchMapping = {
     type: 'Arrangement',
     date: 'startTime',
     icon: 'calendar',
+    iconType: 'icon',
     color: '#E8953A',
     picture: 'cover',
     path: '/events/',
@@ -102,7 +110,8 @@ const searchMapping: SearchMapping = {
     content: (item) => item['description'],
   },
   'flatpages.page': {
-    icon: 'paper-outline',
+    icon: 'information-circle',
+    iconType: 'icon',
     label: 'title',
     title: 'title',
     type: (page) =>
@@ -121,13 +130,15 @@ const searchMapping: SearchMapping = {
     title: 'title',
     type: 'Galleri',
     color: '#F8953A',
-    icon: 'photos',
+    icon: 'image',
+    iconType: 'icon',
     path: '/photos/',
     value: 'id',
     content: (item) => item['text'],
   },
   'companies.company': {
     icon: 'briefcase',
+    iconType: 'icon',
     label: 'name',
     title: 'name',
     type: 'Bedrift',
@@ -142,6 +153,7 @@ const searchMapping: SearchMapping = {
     type: 'Tag',
     path: '/tags/',
     icon: 'pricetags',
+    iconType: 'icon',
     value: 'tag',
     color: '#000000',
   },
@@ -153,7 +165,8 @@ const searchMapping: SearchMapping = {
     profilePicture: 'logo',
     id: 'id',
     type: 'type',
-    icon: (group) => (group.logo ? null : 'people'),
+    icon: (group) => group.logo ?? 'people-circle',
+    iconType: 'image',
     color: '#000000',
   },
   'meetings.meeting': {
@@ -162,7 +175,8 @@ const searchMapping: SearchMapping = {
     title: 'title',
     type: 'Møte',
     date: 'startTime',
-    icon: 'calendar',
+    icon: 'people',
+    iconType: 'icon',
     color: '#000000',
     path: '/meetings/',
     value: 'id',
