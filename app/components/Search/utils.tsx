@@ -50,7 +50,7 @@ const LINKS: Array<Link> = [
   },
   {
     key: 'galleries',
-    title: 'Bilder',
+    title: 'Album',
     url: '/photos',
   },
   {

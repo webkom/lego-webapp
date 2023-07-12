@@ -6,6 +6,7 @@ import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { Field, Fields } from 'redux-form';
 import Button from 'app/components/Button';
+import Card from 'app/components/Card';
 import { Content } from 'app/components/Content';
 import EmptyState from 'app/components/EmptyState';
 import {
@@ -234,7 +235,7 @@ class GalleryEditor extends Component<Props, State> {
             id="gallery-description"
           />
           <Field
-            label="Publiser metadata for deling på SoMe. Dette deler kun cover, tittel og beskrivelse."
+            label="Publiser metadata for deling på sosiale medier. Dette deler kun cover, tittel og beskrivelse."
             name="publicMetadata"
             component={CheckBox.Field}
             normalize={(v) => !!v}
@@ -279,9 +280,7 @@ class GalleryEditor extends Component<Props, State> {
         />
         <Flex>
           {isNew ? (
-            <EmptyState icon="photos-outline">
-              <h1>For å legge inn bilder må du først lage albumet!</h1>
-            </EmptyState>
+            <Card info>For å legge inn bilder må du først lage albumet!</Card>
           ) : (
             <GalleryComponent
               photos={pictures}

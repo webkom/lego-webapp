@@ -92,7 +92,7 @@
 
 .itemTitle {
   margin: 0;
-  height: 40px;
+  min-height: 40px;
   font-size: var(--font-size-lg);
   word-break: break-word;
   overflow: hidden;

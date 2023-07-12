@@ -192,8 +192,8 @@ describe('Navigate throughout app', () => {
     cy.contains('Bedrifter');
 
     // Gallery
-    openMenuAndSelect('Bilder', '/photos');
-    cy.contains('Albumer');
+    openMenuAndSelect('Album', '/photos');
+    cy.contains('Album');
 
     // Interestgroups
     openMenuAndSelect('Interessegrupper', '/interest-groups');

@@ -41,7 +41,7 @@ const InterestGroupList = ({ actionGrant, interestGroups }: Props) => {
         {activeGroups.map((g) => (
           <InterestGroupComponent group={g} key={g.id} active={true} />
         ))}
-        <h2> Ikke aktive interessegrupper </h2>
+        <h2>Ikke-aktive interessegrupper</h2>
         <p>
           Send gjerne e-post til
           <a href="mailTo:interessegrupper@abakus.no"> oss </a> hvis du ønsker å
