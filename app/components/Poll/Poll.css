@@ -35,7 +35,6 @@
   background-color: var(--lego-red-color);
   padding: 5px;
   border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;
-  font-style: italic;
   color: var(--color-absolute-white);
   height: 30px;
 }
@@ -60,8 +59,7 @@
   }
 }
 
-.pollHeader {
-  margin-bottom: 10px;
+.pollHeader a {
   font-weight: 500;
   color: var(--lego-font-color);
   line-height: 1.3;
@@ -70,7 +68,6 @@
 .voteButton {
   width: 100%;
   margin: 1px !important;
-  max-width: 400px;
 }
 
 .moreOptionsLink {
@@ -92,13 +89,14 @@
   justify-content: center;
   width: 100%;
   height: 100%;
+  cursor: pointer;
 }
 
 .blurOverlay {
   position: absolute;
   z-index: 2;
-  color: var(--color-black);
-  margin-top: 25px;
+  font-weight: 500;
+  color: var(--color-absolute-white);
 }
 
 .optionWrapper:hover .blurContainer {
@@ -108,31 +106,6 @@
 .optionWrapper:hover .blurEffect {
   filter: blur(3px);
   pointer-events: none;
-}
-
-.blurArrow {
-  margin-top: 40px;
-}
-
-.alignItems {
-  display: flex;
-  justify-content: center;
-}
-
-.answered {
-  margin: 15px 0;
-  text-align: center;
-  font-weight: bold;
-}
-
-.bottomInfo {
-  display: flex;
-  justify-content: space-between;
-}
-
-.resultsHidden {
-  font-style: italic;
-  color: var(--secondary-font-color);
 }
 
 .totalVotes {
