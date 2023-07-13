@@ -174,13 +174,13 @@ const loadData = async (props, dispatch) => {
   const { fetchItemActions } = getSection(props.match.params.section);
   const { pageSlug } = props.match.params;
 
-  // Only handle flatpages when user isn't authenticated
+  // Only handle flatpages and groups when user isn't authenticated
   if (!props.loggedIn) {
-    return Promise.all(
-      fetchItemActions
-        .map((action) => dispatch(action(pageSlug)))
-        .concat(dispatch(fetchAllPages()))
-    );
+    const actionsToDispatch = fetchItemActions
+      .filter((action) => !action.toString().includes('fetchAllMemberships'))
+      .map((action) => dispatch(action(pageSlug)));
+
+    return Promise.all([...actionsToDispatch, dispatch(fetchAllPages())]);
   }
 
   const itemActions = [];
