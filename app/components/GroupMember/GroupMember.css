@@ -18,7 +18,6 @@
   margin: 15px 10px;
   flex: 1;
   min-width: 120px;
-  font-style: italic;
   line-height: 20px;
   flex-grow: 0;
   max-width: 100px;
@@ -30,6 +29,7 @@
 
 .title {
   font-size: var(--font-size-xs);
+  color: var(--secondary-font-color);
   font-style: normal;
   margin: 5px -3px 0;
   display: flex;

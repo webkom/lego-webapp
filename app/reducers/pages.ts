@@ -1,7 +1,8 @@
 import { uniqBy, sortBy, groupBy } from 'lodash';
 import { createSelector } from 'reselect';
-import type { User } from 'app/models';
 import { selectMembershipsForGroup } from 'app/reducers/memberships';
+import type Membership from 'app/store/models/Membership';
+import type { RoleType } from 'app/utils/constants';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { Page } from '../actions/ActionTypes';
 import { selectGroupsWithType, selectGroup } from './groups';
@@ -17,7 +18,7 @@ export type PageEntity = {
   picturePlaceholder: string;
   logo?: string;
   logoPlaceholder?: string;
-  membershipsByRole: Record<string, { user: User }[]>;
+  membershipsByRole: Record<RoleType, Membership[]>;
   text?: string;
   name?: string;
 };
@@ -123,10 +124,6 @@ const separateRoles = [
   'retiree_email',
   'leader',
   'co-leader',
-  'social_admin',
-  'recruiting',
-  'treasurer',
-  'media_relations',
 ];
 // Map all the other roles as if they were regular members
 const defaultRole = 'member';

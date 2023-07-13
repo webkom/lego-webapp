@@ -1,31 +1,21 @@
 import cx from 'classnames';
 import { Link } from 'react-router-dom';
 import { Image } from 'app/components/Image';
-import type { User } from 'app/models';
+import type { PublicUser } from 'app/store/models/User';
+import { ROLES, type RoleType } from 'app/utils/constants';
 import styles from './GroupMember.css';
 
 type Props = {
-  user: User;
+  user: PublicUser;
+  role?: RoleType;
   leader?: boolean;
   co_leader?: boolean;
-  social_admin?: boolean;
-  recruiting?: boolean;
-  treasurer?: boolean;
-  pr_responsible?: boolean;
   groupName?: string;
 };
 
-const GroupMember = ({
-  user,
-  leader,
-  co_leader,
-  social_admin,
-  recruiting,
-  treasurer,
-  pr_responsible,
-  groupName,
-}: Props) => {
+const GroupMember = ({ user, role, leader, co_leader, groupName }: Props) => {
   const isReadme = groupName === 'readme';
+
   return (
     <Link to={`/users/${user.username}`}>
       <div
@@ -41,13 +31,14 @@ const GroupMember = ({
           placeholder={user.profilePicturePlaceholder}
         />
         {leader && (
-          <div className={styles.title}> {isReadme ? 'REDAKTØR' : 'LEDER'}</div>
+          <div className={styles.title}>
+            {isReadme ? 'Redaktør' : ROLES['leader']}
+          </div>
         )}
-        {co_leader && <div className={styles.title}>NESTLEDER</div>}
-        {social_admin && <div className={styles.title}>SOSIALANSVARLIG</div>}
-        {recruiting && <div className={styles.title}>OPPTAKSANSVARLIG</div>}
-        {treasurer && <div className={styles.title}>ØKONOMIANSVARLIG</div>}
-        {pr_responsible && <div className={styles.title}>PR-ANSVARLIG</div>}
+        {co_leader && <div className={styles.title}>{ROLES['co-leader']}</div>}
+        {role && role !== 'member' && (
+          <div className={styles.title}>{ROLES[role]}</div>
+        )}
         <div className={styles.name}>{user.fullName}</div>
       </div>
     </Link>
