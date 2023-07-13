@@ -100,6 +100,8 @@ describe('Editor', () => {
     field('description').type('blir fett').blur();
     selectField('eventType').click();
     cy.focused().type('sos{enter}', { force: true });
+    field('useMazemap').uncheck();
+    field('location').type('DT').blur();
     field('isClarified').check();
 
     // Create event

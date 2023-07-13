@@ -228,6 +228,41 @@ function EventEditor({
               fieldClassName={styles.metaField}
               className={styles.formField}
             />
+            <Field
+              label="Bruk MazeMap"
+              name="useMazemap"
+              component={CheckBox.Field}
+              fieldClassName={styles.metaField}
+              className={styles.formField}
+              normalize={(v) => !!v}
+            />
+            {!event.useMazemap ? (
+              <Field
+                label="Sted"
+                name="location"
+                placeholder="Den Gode Nabo, Downtown, ..."
+                component={TextInput.Field}
+                fieldClassName={styles.metaField}
+                className={styles.formField}
+                warn={isTBA}
+              />
+            ) : (
+              <Flex alignItems="flex-end">
+                <Field
+                  label="MazeMap-rom"
+                  name="mazemapPoi"
+                  component={SelectInput.MazemapAutocomplete}
+                  fieldClassName={styles.metaField}
+                  placeholder="R1, Abakus, Kjel4 ..."
+                />
+                {event.mazemapPoi?.value && (
+                  <MazemapLink
+                    mazemapPoi={event.mazemapPoi?.value}
+                    linkText="↗️"
+                  />
+                )}
+              </Flex>
+            )}
             <Tooltip content="Kun la medlemmer i bestemt gruppe se arrangementet">
               <Field
                 label="Kun for spesifikk gruppe"
@@ -256,48 +291,6 @@ function EventEditor({
               fieldClassName={styles.metaField}
               options={eventStatusTypes}
             />
-            {['NORMAL', 'OPEN', 'INFINITE'].includes(
-              event.eventStatusType && event.eventStatusType.value
-            ) && (
-              <Field
-                label="Bruk mazemap"
-                name="useMazemap"
-                component={CheckBox.Field}
-                fieldClassName={styles.metaField}
-                className={styles.formField}
-                normalize={(v) => !!v}
-              />
-            )}
-            {['NORMAL', 'OPEN', 'INFINITE'].includes(
-              event.eventStatusType && event.eventStatusType.value
-            ) &&
-              (!event.useMazemap ? (
-                <Field
-                  label="Sted"
-                  name="location"
-                  placeholder="Den gode nabo, R5, ..."
-                  component={TextInput.Field}
-                  fieldClassName={styles.metaField}
-                  className={styles.formField}
-                  warn={isTBA}
-                />
-              ) : (
-                <Flex alignItems="flex-end">
-                  <Field
-                    label="Mazemap-rom"
-                    name="mazemapPoi"
-                    component={SelectInput.MazemapAutocomplete}
-                    fieldClassName={styles.metaField}
-                    placeholder="R1, Abakus, Kjel4"
-                  />
-                  {event.mazemapPoi?.value && (
-                    <MazemapLink
-                      mazemapPoi={event.mazemapPoi?.value}
-                      linkText="↗️"
-                    />
-                  )}
-                </Flex>
-              ))}
             {['NORMAL', 'INFINITE'].includes(
               event.eventStatusType && event.eventStatusType.value
             ) && (
