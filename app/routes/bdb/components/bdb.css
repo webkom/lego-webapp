@@ -355,13 +355,6 @@ background-color. By making it this way I don't have to rewrite it 🤷 */
   text-align: right !important;
 }
 
-.detail {
-  display: flex;
-  width: 100%;
-  padding-bottom: 50px;
-  flex-direction: column;
-}
-
 .checkBox {
   display: block;
   margin: 10px 0;

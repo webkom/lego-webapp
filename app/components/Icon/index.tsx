@@ -9,6 +9,7 @@ type Props = {
   scaleOnHover?: boolean;
   className?: string;
   size?: number;
+  clickable?: boolean;
   danger?: boolean; // name: trash
   success?: boolean; // name: checkmark
   edit?: boolean; // name: pencil
@@ -29,6 +30,7 @@ const Icon = ({
   className,
   style = {},
   size = 24,
+  clickable = false,
   danger = false,
   success = false,
   edit = false,
@@ -39,6 +41,7 @@ const Icon = ({
     <Flex
       className={cx(
         className,
+        clickable && styles.clickable,
         danger && styles.danger,
         success && styles.success,
         edit && styles.edit,

@@ -19,15 +19,8 @@
   margin-top: 5px;
 }
 
-.actions {
-  margin: 5px 5px 5px 15px;
-}
-
-.fetchNew {
-  margin-bottom: 5px;
-}
-
 .rotateIcon {
   transform: rotate(360deg);
   transition: var(--easing-slow);
+  transform-origin: center center;
 }

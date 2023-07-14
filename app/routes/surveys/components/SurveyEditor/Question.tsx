@@ -146,7 +146,7 @@ const Question = ({
           </div>
         </div>
 
-        <div className={styles.bottom}>
+        <Flex alignItems="center" className={styles.bottom}>
           <Field
             name={`${question}.mandatory`}
             label="Obligatorisk"
@@ -165,7 +165,7 @@ const Question = ({
               <Icon onClick={openConfirmModal} name="trash" danger />
             )}
           </ConfirmModal>
-        </div>
+        </Flex>
       </div>
     </div>
   );

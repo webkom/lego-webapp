@@ -120,9 +120,7 @@
 }
 
 .addQuestion {
-  color: var(--lego-link-color);
   margin: 0 auto;
-  width: 25px;
   display: flex;
 }
 
@@ -203,8 +201,10 @@
 
 .bottom {
   margin-top: 20px;
-  display: flex;
-  justify-content: flex-end;
+
+  & > div {
+    margin: 0;
+  }
 }
 
 .staticSubmission > li {
