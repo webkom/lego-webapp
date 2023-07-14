@@ -22,9 +22,9 @@ export default class Overview extends Component<Props> {
       this.props;
     return (
       <Content>
-        <Helmet title="Albumer" />
+        <Helmet title="Album" />
         {actionGrant && actionGrant.includes('create') && (
-          <NavigationTab title="Albumer">
+          <NavigationTab title="Album">
             <NavigationLink to="/photos/new">Nytt album</NavigationLink>
           </NavigationTab>
         )}

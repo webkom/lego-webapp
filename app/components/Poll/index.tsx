@@ -108,166 +108,162 @@ class Poll extends Component<Props, State> {
     const showResults = !resultsHidden || allowedToViewHiddenResults;
     return (
       <Card>
-        <Flex justifyContent="space-between">
-          <Link to={`/polls/${id}`}>
-            <Flex gap={10}>
-              <Icon name="stats-chart" />
-              <span className={styles.pollHeader}>{title}</span>
-            </Flex>
-          </Link>
-          <div>
-            <Tooltip content="Avstemningen er anonym.">
+        <Flex column gap="1rem">
+          <Flex
+            alignItems="center"
+            justifyContent="space-between"
+            className={styles.pollHeader}
+          >
+            <Link to={`/polls/${id}`}>
+              <Flex alignItems="center" gap={10}>
+                <Icon name="stats-chart" size={20} />
+                <span className={styles.pollHeader}>{title}</span>
+              </Flex>
+            </Link>
+            <Tooltip content="Avstemningen er anonym">
               <Icon name="information-circle-outline" size={20} />
             </Tooltip>
-          </div>
-        </Flex>
-        {details && (
-          <div>
-            <Linkify
-              tagName="p"
-              options={{
-                rel: 'noopener noreferrer',
-                attributes: {
-                  target: '_blank',
-                },
-              }}
-            >
-              {description}
-            </Linkify>
-          </div>
-        )}
-        {hasAnswered && !showResults && (
-          <div className={styles.answered}>
-            Du har svart
-            <Icon
-              name="checkmark-circle-outline"
-              size={20}
-              style={{
-                marginLeft: '10px',
-                color: 'var(--color-green-6)',
-              }}
-            />
-          </div>
-        )}
-        {hasAnswered && showResults && (
-          <Flex column className={styles.optionWrapper}>
-            <table className={styles.pollTable}>
-              <tbody>
-                {optionsToShow.map(({ id, name, votes, ratio }) => {
-                  return (
-                    <tr key={id}>
-                      <td className={styles.textColumn}>{name}</td>
-                      <td className={styles.graphColumn}>
-                        {votes === 0 ? (
-                          <span className="secondaryFontColor">
-                            Ingen stemmer
-                          </span>
-                        ) : (
-                          <div className={styles.fullGraph}>
-                            <div
-                              style={{
-                                width: `${ratio}%`,
-                              }}
-                            >
-                              <div className={styles.pollGraph}>
-                                {ratio >= 18 && <span>{`${ratio}%`}</span>}
-                              </div>
-                            </div>
-                            {ratio < 18 && (
-                              <span
-                                style={{
-                                  padding: '5px',
-                                  marginLeft: '2px',
-                                }}
-                              >
-                                {`${ratio}%`}
-                              </span>
-                            )}
-                          </div>
-                        )}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-            {resultsHidden && (
-              <p
-                style={{
-                  fontStyle: 'italic',
-                  marginTop: 15,
+          </Flex>
+          {details && (
+            <div>
+              <Linkify
+                tagName="p"
+                options={{
+                  rel: 'noopener noreferrer',
+                  attributes: {
+                    target: '_blank',
+                  },
                 }}
               >
-                Resultatet er skjult for vanlige brukere.
-              </p>
-            )}
-          </Flex>
-        )}
-        {!hasAnswered && (
-          <Flex column className={styles.optionWrapper}>
-            {!expanded && (
-              <Flex
-                className={styles.blurContainer}
-                onClick={this.toggleTruncate}
-              >
-                <p className={styles.blurOverlay}>
-                  Klikk her for å se alle alternativene.
-                </p>
-                <Icon
-                  name={expanded ? 'chevron-up' : 'chevron-down'}
-                  size={60}
-                  className={cx(styles.blurOverlay, styles.blurArrow)}
-                />
-              </Flex>
-            )}
-            {options &&
-              optionsToShow.map((option) => (
-                <Flex
-                  className={cx(
-                    styles.alignItems,
-                    expanded ? '' : styles.blurEffect
-                  )}
-                  key={option.id}
+                {description}
+              </Linkify>
+            </div>
+          )}
+          {hasAnswered && !showResults && (
+            <Flex justifyContent="center" alignItems="center" gap={5}>
+              Du har svart
+              <Icon
+                name="checkmark-circle-outline"
+                size={20}
+                style={{
+                  color: 'var(--color-green-6)',
+                }}
+              />
+            </Flex>
+          )}
+          {hasAnswered && showResults && (
+            <Flex column className={styles.optionWrapper}>
+              <table className={styles.pollTable}>
+                <tbody>
+                  {optionsToShow.map(({ id, name, votes, ratio }) => {
+                    return (
+                      <tr key={id}>
+                        <td className={styles.textColumn}>{name}</td>
+                        <td className={styles.graphColumn}>
+                          {votes === 0 ? (
+                            <span className="secondaryFontColor">
+                              Ingen stemmer
+                            </span>
+                          ) : (
+                            <div className={styles.fullGraph}>
+                              <div
+                                style={{
+                                  width: `${ratio}%`,
+                                }}
+                              >
+                                <div className={styles.pollGraph}>
+                                  {ratio >= 18 && <span>{`${ratio}%`}</span>}
+                                </div>
+                              </div>
+                              {ratio < 18 && (
+                                <span
+                                  style={{
+                                    padding: '5px',
+                                    marginLeft: '2px',
+                                  }}
+                                >
+                                  {`${ratio}%`}
+                                </span>
+                              )}
+                            </div>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+              {resultsHidden && (
+                <p
+                  className="secondaryFontColor"
+                  style={{
+                    marginTop: 15,
+                  }}
                 >
-                  <Button
-                    dark
-                    onClick={() => handleVote(poll.id, option.id)}
-                    className={styles.voteButton}
-                  >
-                    {option.name}
-                  </Button>
-                </Flex>
-              ))}
-          </Flex>
-        )}
-        <div>
-          <div className={styles.moreOptionsLink}>
-            {truncateOptions &&
-              (!hasAnswered ||
-                !resultsHidden ||
-                allowedToViewHiddenResults) && (
-                <div className={styles.alignItems}>
-                  <Icon
-                    onClick={this.toggleTruncate}
-                    name={expanded ? 'chevron-up' : 'chevron-down'}
-                    size={20}
-                    className={styles.arrow}
-                  />
-                </div>
+                  Resultatet er skjult for vanlige brukere
+                </p>
               )}
-          </div>
-          <div className={styles.bottomInfo}>
-            <span>
-              <span className={styles.totalVotes}>{totalVotes}</span>{' '}
-              {totalVotes == 1 ? 'stemme' : 'stemmer'}
-            </span>
-            {hasAnswered && !showResults && (
-              <span className={styles.resultsHidden}>
-                Resultatet er skjult.
+            </Flex>
+          )}
+          {!hasAnswered && (
+            <Flex column className={styles.optionWrapper}>
+              {!expanded && (
+                <Flex
+                  alignItems="center"
+                  className={styles.blurContainer}
+                  onClick={this.toggleTruncate}
+                >
+                  <p className={styles.blurOverlay}>
+                    Klikk her for å se alle alternativene
+                  </p>
+                </Flex>
+              )}
+              {options &&
+                optionsToShow.map((option) => (
+                  <Flex
+                    justifyContent="space-between"
+                    style={{ flexGrow: '1' }}
+                    className={cx(expanded ? '' : styles.blurEffect)}
+                    key={option.id}
+                  >
+                    <Button
+                      dark
+                      onClick={() => handleVote(poll.id, option.id)}
+                      className={styles.voteButton}
+                    >
+                      {option.name}
+                    </Button>
+                  </Flex>
+                ))}
+            </Flex>
+          )}
+          <div>
+            <div className={styles.moreOptionsLink}>
+              {truncateOptions &&
+                (!hasAnswered ||
+                  !resultsHidden ||
+                  allowedToViewHiddenResults) && (
+                  <Flex alignItems="center" justifyContent="center">
+                    <Icon
+                      onClick={this.toggleTruncate}
+                      name={expanded ? 'chevron-up' : 'chevron-down'}
+                      size={20}
+                      className={styles.arrow}
+                    />
+                  </Flex>
+                )}
+            </div>
+            <Flex justifyContent="space-between">
+              <span>
+                <span className={styles.totalVotes}>{totalVotes}</span>{' '}
+                {totalVotes === 1 ? 'stemme' : 'stemmer'}
               </span>
-            )}
+              {hasAnswered && !showResults && (
+                <span className="secondaryFontColor">Resultatet er skjult</span>
+              )}
+            </Flex>
           </div>
-        </div>
+        </Flex>
       </Card>
     );
   }
