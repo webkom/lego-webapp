@@ -142,17 +142,6 @@
   transition: color var(--linear-medium);
   white-space: nowrap;
 
-  &::after {
-    content: '';
-    height: 10px;
-    width: 90%;
-    border-bottom: 2px solid var(--color-black);
-    position: absolute;
-    bottom: 4px;
-    transform: scaleX(0);
-    transition: all var(--easing-medium);
-  }
-
   &:hover,
   &.activeItem {
     color: var(--color-gray-7);
