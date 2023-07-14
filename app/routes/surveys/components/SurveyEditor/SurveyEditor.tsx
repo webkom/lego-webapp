@@ -321,12 +321,13 @@ const SurveyEditor = ({
 
             <Flex>
               {spySubmittable((submittable) => (
-                <Button success disabled={submitting || !submittable} submit>
+                <Button disabled={submitting || !submittable} submit>
                   {editing ? 'Lagre' : 'Opprett'}
                 </Button>
               ))}
 
               <Button
+                flat
                 onClick={() =>
                   push(editing ? `/surveys/${survey.id}` : '/surveys')
                 }

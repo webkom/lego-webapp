@@ -188,7 +188,6 @@ export default class AddSemester extends Component<Props, State> {
                 })
               }
               submit
-              success
             >
               Lagre
             </Button>

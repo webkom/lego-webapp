@@ -100,7 +100,7 @@ const SubmissionEditor = ({
           ))}
         </ul>
 
-        <Button success disabled={submitting} submit>
+        <Button disabled={submitting} submit>
           Send svar
         </Button>
       </form>

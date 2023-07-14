@@ -471,6 +471,7 @@ const JoinEventForm = (props: Props) => {
                   </Form>
 
                   <Flex
+                    alignItems="center"
                     style={{
                       margin: '20px 0',
                     }}

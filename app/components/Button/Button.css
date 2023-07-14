@@ -1,7 +1,9 @@
 @import url('~app/styles/variables.css');
 
 :root {
-  --button-color: var(--inverted-font-color);
+  --button-color: var(--lego-font-color);
+  --button-color-white: var(--inverted-font-color);
+  --button-background: var(--additive-background);
   --button-background-hover: var(--color-gray-2);
 
   --button-dark-background: var(--color-red-6);
@@ -15,6 +17,7 @@
 
 [data-theme='dark'] {
   --button-color: var(--lego-font-color);
+  --button-color-white: var(--lego-font-color);
   --button-background-hover: var(--color-gray-3);
 
   --button-dark-box-shadow-focus: #ff737344;
@@ -35,8 +38,8 @@
   padding: 0 1rem;
   font-family: Inter, sans-serif;
   font-weight: 600;
-  background-color: var(--additive-background);
-  color: var(--lego-font-color);
+  background-color: var(--button-background);
+  color: var(--button-color);
   outline: none;
   border-radius: 2rem;
   transition: var(--easing-fast);
@@ -71,6 +74,12 @@
   }
 }
 
+.secondary {
+  --button-color: var(--inverted-font-color);
+  --button-background: var(--lego-font-color);
+  --button-background-hover: var(--color-gray-8);
+}
+
 .loading {
   margin-left: 8px;
   color: var(--secondary-font-color);
@@ -78,7 +87,7 @@
 
 .dark {
   background-color: var(--button-dark-background);
-  color: var(--button-color);
+  color: var(--button-color-white);
   box-shadow: none;
 
   &.fa {
@@ -112,13 +121,13 @@
   &:hover:not(:disabled) {
     background-color: var(--danger-color);
     border-color: var(--danger-color);
-    color: var(--button-color);
+    color: var(--button-color-white);
   }
 }
 
 .success {
   background-color: var(--button-success-background);
-  color: var(--button-color);
+  color: var(--button-color-white);
   box-shadow: none;
 
   &:focus-visible {
@@ -132,6 +141,7 @@
 
 .flat {
   background: none;
+  --button-color: var(--lego-font-color);
 
   &:hover:not(:disabled) {
     background-color: var(--additive-background);
@@ -141,17 +151,16 @@
 .ghost {
   background: none;
   box-shadow: none;
-  border: 1.5px solid var(--button-dark-background);
-  color: var(--button-dark-background);
+  border: 1.5px solid var(--lego-font-color);
+  --button-color: var(--lego-font-color);
 
   &:focus-visible {
     box-shadow: 0 0 0 3px var(--button-dark-box-shadow-focus);
   }
 
   &:hover:not(:disabled) {
-    background-color: var(--button-dark-background);
-    border-color: var(--button-dark-background);
-    color: var(--button-color);
+    background-color: var(--lego-font-color);
+    --button-color: var(--inverted-font-color);
   }
 }
 

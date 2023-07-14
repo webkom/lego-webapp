@@ -123,8 +123,7 @@ const JoblistingsRightNav = (props: Props) => {
 
   return (
     <div className={styles.joblistingRightNav}>
-      <Button
-        flat
+      <button
         onClick={() => setDisplayOptions(!displayOptions)}
         className={styles.optionsTitle}
       >
@@ -137,7 +136,7 @@ const JoblistingsRightNav = (props: Props) => {
             )}
           />
         </h2>
-      </Button>
+      </button>
 
       <div
         className={styles.options}

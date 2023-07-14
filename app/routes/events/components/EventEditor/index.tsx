@@ -584,9 +584,11 @@ function EventEditor({
 
         <Flex wrap>
           {isEditPage && (
-            <Button onClick={() => push(`/events/${event.id}`)}>Avbryt</Button>
+            <Button flat onClick={() => push(`/events/${event.id}`)}>
+              Avbryt
+            </Button>
           )}
-          <Button success={isEditPage} disabled={pristine || submitting} submit>
+          <Button disabled={pristine || submitting} submit>
             {isEditPage ? 'Lagre endringer' : 'Opprett'}
           </Button>
         </Flex>

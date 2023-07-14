@@ -281,14 +281,16 @@ export default class ImageUpload extends Component<Props, State> {
               </Flex>
             )}
             <Flex wrap gap={35}>
+              <Button flat onClick={() => this.closeModal()}>
+                Avbryt
+              </Button>
               <Button
-                success
+                secondary
                 disabled={files.length === 0 && !preview}
                 onClick={this.onSubmit}
               >
                 Last opp
               </Button>
-              <Button onClick={() => this.closeModal()}>Avbryt</Button>
             </Flex>
           </Flex>
         </Modal>

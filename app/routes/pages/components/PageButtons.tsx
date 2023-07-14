@@ -9,11 +9,11 @@ type Props = {
 
 const PageButtons = ({ isEditing, toggleEditing, handleSave }: Props) => (
   <div>
-    <Button size="small" onClick={toggleEditing}>
+    <Button flat={isEditing} onClick={toggleEditing}>
       {isEditing ? 'Avbryt' : 'Rediger'}
     </Button>
     {isEditing && (
-      <Button size="small" onClick={handleSave} className={styles.last}>
+      <Button secondary onClick={handleSave} className={styles.last}>
         Lagre
       </Button>
     )}

@@ -1,5 +1,6 @@
 import cx from 'classnames';
 import { Link, NavLink } from 'react-router-dom';
+import Button from 'app/components/Button';
 import Time from 'app/components/Time';
 import type { ActionGrant } from 'app/models';
 import styles from './Toolbar.css';
@@ -31,7 +32,9 @@ const Toolbar = ({ actionGrant }: Props) => (
 
     <div className={styles.create}>
       {actionGrant?.includes('create') && (
-        <Link to="/events/create">Lag nytt</Link>
+        <Link to="/events/create">
+          <Button flat>Lag nytt</Button>
+        </Link>
       )}
     </div>
   </div>

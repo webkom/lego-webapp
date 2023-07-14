@@ -436,7 +436,7 @@ const UserProfile = (props: Props) => {
               {renderFields()}
               {showSettings ? (
                 <Link to={`/users/${user.username}/settings/profile`}>
-                  Innstillinger
+                  <Button>Innstillinger</Button>
                 </Link>
               ) : (
                 ''

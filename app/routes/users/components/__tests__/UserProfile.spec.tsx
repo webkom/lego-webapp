@@ -1,5 +1,6 @@
 import { shallow } from 'enzyme';
 import { Link } from 'react-router-dom';
+import Button from 'app/components/Button';
 import UserProfile from '../UserProfile';
 
 const user = {
@@ -17,7 +18,9 @@ describe('<UserProfile />', () => {
     const wrapper = shallow(<UserProfile user={user} showSettings />);
     expect(
       wrapper.containsMatchingElement(
-        <Link to="/users/webkom/settings/profile">Innstillinger</Link>
+        <Link to="/users/webkom/settings/profile">
+          <Button>Innstillinger</Button>
+        </Link>
       )
     ).toBe(true);
   });
@@ -25,7 +28,9 @@ describe('<UserProfile />', () => {
     const wrapper = shallow(<UserProfile user={user} showSettings={false} />);
     expect(
       wrapper.containsMatchingElement(
-        <Link to="/users/webkom/settings/profile">Innstillinger</Link>
+        <Link to="/users/webkom/settings/profile">
+          <Button>Innstillinger</Button>
+        </Link>
       )
     ).toBe(false);
   });

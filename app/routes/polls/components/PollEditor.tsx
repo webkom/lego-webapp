@@ -183,11 +183,7 @@ const EditPollForm = ({
               rerenderOnEveryChange={true}
             />
             <Flex className={styles.actionButtons}>
-              <Button
-                disabled={pristine || submitting}
-                success={editing}
-                submit
-              >
+              <Button disabled={pristine || submitting} submit>
                 {editing ? 'Lagre endringer' : 'Lag ny avstemning'}
               </Button>
               {editing && (

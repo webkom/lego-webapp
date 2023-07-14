@@ -163,12 +163,13 @@ const ArticleEditor = ({
           initialized={initialized}
         />
         <Flex wrap>
-          <Button onClick={() => push(`/articles/${isNew ? '' : articleId}`)}>
+          <Button
+            flat
+            onClick={() => push(`/articles/${isNew ? '' : articleId}`)}
+          >
             Avbryt
           </Button>
-          <Button submit success>
-            {!isNew ? 'Lagre endringer' : 'Opprett'}
-          </Button>
+          <Button submit>{!isNew ? 'Lagre endringer' : 'Opprett'}</Button>
           {!isNew && (
             <ConfirmModal
               title="Slett artikkelen"

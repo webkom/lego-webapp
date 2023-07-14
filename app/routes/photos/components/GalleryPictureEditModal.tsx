@@ -112,15 +112,14 @@ const GalleryPictureEditModal = ({
           />
           <Flex justifyContent="flex-end">
             <Button
+              flat
               onClick={() =>
                 push(`/photos/${gallery.id}/picture/${picture.id}`)
               }
             >
               Avbryt
             </Button>
-            <Button success type="submit">
-              Lagre
-            </Button>
+            <Button submit>Lagre</Button>
             <Button
               danger
               onClick={() =>
