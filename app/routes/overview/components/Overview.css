@@ -14,20 +14,17 @@
   padding: 28px 0 0;
 }
 
-.itemInfo {
-  color: var(--secondary-font-color);
+.dot {
+  margin: 0 6px;
 }
 
 .type {
-  margin-right: 4px;
+  margin-right: 6px;
 }
 
 .tagline {
-  display: inline-block;
-  white-space: nowrap;
-  transform: translateY(-7.5%);
-  vertical-align: middle;
-  overflow: hidden;
+  margin: 0;
+  display: inline-flex;
 }
 
 .otherItems {

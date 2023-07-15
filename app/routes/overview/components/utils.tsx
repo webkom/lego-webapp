@@ -1,4 +1,5 @@
 import moment from 'moment-timezone';
+import Flex from 'app/components/Layout/Flex';
 import Tags from 'app/components/Tags';
 import Tag from 'app/components/Tags/Tag';
 import Time from 'app/components/Time';
@@ -34,19 +35,24 @@ export const renderMeta = (
   }
 
   return (
-    <span className={styles.itemInfo}>
+    <Flex
+      wrap
+      alignItems="center"
+      justifyContent="center"
+      className="secondaryFontColor"
+    >
       <Time time={itemTime} format={format} />
+
       {isEvent(item) && item.location !== '-' && (
-        <span>
-          <span> • </span>
+        <>
+          <span className={styles.dot}> • </span>
           <span> {truncateString(item.location, 8)} </span>
-        </span>
+        </>
       )}
 
-      <span> • </span>
+      <span className={styles.dot}> • </span>
       <span className={styles.type}>
-        {' '}
-        {isEvent(item) ? eventTypeToString(item.eventType) : 'Artikkel'}{' '}
+        {isEvent(item) ? eventTypeToString(item.eventType) : 'Artikkel'}
       </span>
 
       {item.tags?.length > 0 && (
@@ -56,6 +62,6 @@ export const renderMeta = (
           ))}
         </Tags>
       )}
-    </span>
+    </Flex>
   );
 };
