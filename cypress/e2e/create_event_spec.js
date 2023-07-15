@@ -6,6 +6,7 @@ import {
   selectFieldDropdown,
   selectEditor,
   setDatePickerDate,
+  uploadHeader,
 } from '../support/utils.js';
 
 describe('Create event', () => {
@@ -13,22 +14,6 @@ describe('Create event', () => {
     cy.resetDb();
     cy.cachedLogin();
   });
-
-  const uploadHeader = () => {
-    // Upload file
-    cy.upload_file(
-      c('ImageUploadField__coverImage') +
-        ' ' +
-        c('UploadImage__placeholderTitle'),
-      'images/screenshot.png'
-    );
-    cy.get('.cropper-move').click();
-    cy.get(c('Modal__content'))
-      .contains('Last opp')
-      .should('not.be.disabled')
-      .click();
-    cy.wait(1000);
-  };
 
   it('should fill required fields before being allowed to submit', () => {
     cy.visit('/events/create');
@@ -158,17 +143,7 @@ describe('Create event', () => {
     cy.focused().type('EOF');
 
     // Fill rest of form
-    cy.upload_file(
-      c('ImageUploadField__coverImage') +
-        ' ' +
-        c('UploadImage__placeholderTitle'),
-      'images/screenshot.png'
-    );
-    cy.get('.cropper-move').click();
-    cy.get(c('Modal__content'))
-      .contains('Last opp')
-      .should('not.be.disabled')
-      .click();
+    uploadHeader();
     field('title').type('Pils på Webkomkontoret!').blur();
     field('description').type('blir fett').blur();
     field('useMazemap').uncheck();

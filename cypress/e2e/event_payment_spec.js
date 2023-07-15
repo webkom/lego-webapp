@@ -9,6 +9,7 @@ import {
   confirm3DSecure2Dialog,
   stripeError,
   clearCardDetails,
+  uploadHeader,
 } from '../support/utils.js';
 
 describe('Event registration & payment', () => {
@@ -21,21 +22,6 @@ describe('Event registration & payment', () => {
     Cypress.on('uncaught:exception', (err, runnable, promise) => {
       return false;
     });
-
-    const uploadHeader = () => {
-      // Upload file
-      cy.upload_file(
-        c('ImageUploadField__coverImage') +
-          ' ' +
-          c('UploadImage__placeholderTitle'),
-        'images/screenshot.png'
-      );
-      cy.get('.cropper-move').click();
-      cy.get(c('Modal__content'))
-        .contains('Last opp')
-        .should('not.be.disabled')
-        .click();
-    };
 
     it('Should be possible to create a priced event', () => {
       cy.visit('/events/create');

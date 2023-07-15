@@ -128,3 +128,25 @@ export const mockMazemapApi = () => {
     body: mockMazemapApiResponse,
   });
 };
+
+export const uploadHeader = () => {
+  // Intercept the upload request
+  cy.intercept('POST', '/api/v1/files/').as('fileUpload');
+
+  // Upload file
+  cy.upload_file(
+    c('ImageUploadField__coverImage') +
+      ' ' +
+      c('UploadImage__placeholderContainer') +
+      ' > span',
+    'images/screenshot.png'
+  );
+  cy.get('.cropper-move').click();
+  cy.get(c('Modal__content'))
+    .contains('Last opp')
+    .should('not.be.disabled')
+    .click();
+
+  // Wait for the upload request to finish and assert it was successful
+  cy.wait('@fileUpload').its('response.statusCode').should('eq', 201);
+};
