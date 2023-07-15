@@ -48,7 +48,7 @@
     box-shadow, opacity;
 
   &:focus-visible {
-    box-shadow: 0 0 0 1.5px var(--color-black);
+    box-shadow: 0 0 0 1.5px var(--lego-font-color);
   }
 
   &:disabled {

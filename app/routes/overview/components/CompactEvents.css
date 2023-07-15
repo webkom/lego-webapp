@@ -43,8 +43,3 @@
 .compactEvents a:hover {
   color: var(--lego-link-color);
 }
-
-.showMoreLink {
-  margin: 0 auto;
-  font-size: var(--font-size-md);
-}

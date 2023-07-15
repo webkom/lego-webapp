@@ -37,7 +37,7 @@ type Props = {
 };
 
 const renderOptions = ({ fields }: any): ReactNode => (
-  <div>
+  <>
     <ul className={styles.options}>
       {fields.map((option: string, i: number) => (
         <li className={styles.optionField} key={i}>
@@ -55,8 +55,8 @@ const renderOptions = ({ fields }: any): ReactNode => (
           />
           <ConfirmModal
             title="Slett valg"
-            message="Er du sikker på at du vil slette dette valget?"
-            onConfirm={async () => fields.remove(i)}
+            message="Er du sikker på at du vil fjerne dette valget?"
+            onConfirm={async () => await fields.remove(i)}
             closeOnConfirm
           >
             {({ openConfirmModal }) => (
@@ -73,7 +73,7 @@ const renderOptions = ({ fields }: any): ReactNode => (
       <Icon name="add" size={25} />
       Legg til alternativ
     </Button>
-  </div>
+  </>
 );
 
 const validate = createValidator({
@@ -180,8 +180,9 @@ const EditPollForm = ({
             <FieldArray
               name="options"
               component={renderOptions}
-              rerenderOnEveryChange={true}
+              rerenderOnEveryChange
             />
+
             <Flex className={styles.actionButtons}>
               <Button disabled={pristine || submitting} submit>
                 {editing ? 'Lagre endringer' : 'Lag ny avstemning'}

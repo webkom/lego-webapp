@@ -1,15 +1,16 @@
 import cx from 'classnames';
+import { Link } from 'react-router-dom';
 import { Flex } from 'app/components/Layout';
 import styles from './Icon.css';
-import type { ComponentProps } from 'react';
+import type { ComponentProps, MouseEventHandler } from 'react';
 
 type Props = {
-  /** Name of the icon can be found on the webpage*/
+  /** Name of the icon can be found on the webpage */
   name: string;
-  scaleOnHover?: boolean;
   className?: string;
   size?: number;
-  clickable?: boolean;
+  to?: string;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
   danger?: boolean; // name: trash
   success?: boolean; // name: checkmark
   edit?: boolean; // name: pencil
@@ -30,7 +31,8 @@ const Icon = ({
   className,
   style = {},
   size = 24,
-  clickable = false,
+  to,
+  onClick,
   danger = false,
   success = false,
   edit = false,
@@ -39,23 +41,42 @@ const Icon = ({
 }: Props) => {
   return (
     <Flex
-      className={cx(
-        className,
-        clickable && styles.clickable,
-        danger && styles.danger,
-        success && styles.success,
-        edit && styles.edit,
-        disabled && styles.disabled
-      )}
+      className={cx(className)}
       style={{
         fontSize: `${size.toString()}px`,
         ...style,
       }}
       {...props}
     >
-      {/* eslint-disable-next-line*/}
-      {/* @ts-ignore*/}
-      <ion-icon name={name}></ion-icon>
+      {to ? (
+        <Link to={to} className={styles.clickable}>
+          {/* eslint-disable-next-line*/}
+          {/* @ts-ignore*/}
+          <ion-icon name={name}></ion-icon>
+        </Link>
+      ) : onClick ? (
+        <button
+          type="button"
+          onClick={onClick}
+          className={cx(
+            styles.clickable,
+            danger && styles.danger,
+            success && styles.success,
+            edit && styles.edit,
+            disabled && styles.disabled
+          )}
+        >
+          {/* eslint-disable-next-line*/}
+          {/* @ts-ignore*/}
+          <ion-icon name={name}></ion-icon>
+        </button>
+      ) : (
+        <>
+          {/* eslint-disable-next-line*/}
+          {/* @ts-ignore*/}
+          <ion-icon name={name}></ion-icon>
+        </>
+      )}
     </Flex>
   );
 };

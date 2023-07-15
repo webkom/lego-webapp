@@ -47,13 +47,10 @@ const Modal = ({
       />
     )}
   >
-    <div>
-      <button onClick={onHide} className={styles.closeButton}>
-        <Icon name="close" clickable size={24} />
-      </button>
-
+    <>
+      <Icon name="close" onClick={onHide} className={styles.closeButton} />
       {children}
-    </div>
+    </>
   </ReactModal>
 );
 

@@ -51,5 +51,4 @@
   margin: 0;
   border-radius: 50%;
   background-color: var(--lego-card-color);
-  box-shadow: 0 0 5px var(--lego-card-color);
 }
