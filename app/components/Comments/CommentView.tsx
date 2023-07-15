@@ -19,6 +19,7 @@ type Props = {
   style?: CSSProperties;
   newOnTop?: boolean;
   deleteComment: (id: ID, contentTarget: ContentTarget) => Promise<void>;
+  contentAuthors?: ID[];
 };
 
 const Title = ({ displayTitle }: { displayTitle: boolean }) =>
@@ -35,6 +36,7 @@ const CommentView = (props: Props) => {
     displayTitle = true,
     newOnTop = false,
     deleteComment,
+    contentAuthors,
   } = props;
   const commentFormProps = {
     contentTarget,
@@ -46,10 +48,13 @@ const CommentView = (props: Props) => {
     <div style={style}>
       <Title displayTitle={displayTitle} />
       <Flex
+        gap="1rem"
         style={{
           flexDirection: newOnTop ? 'column-reverse' : 'column',
         }}
       >
+        {!formDisabled && <CommentForm {...commentFormProps} />}
+
         <LoadingIndicator loading={!comments}>
           {comments && (
             <CommentTree
@@ -58,15 +63,10 @@ const CommentView = (props: Props) => {
               deleteComment={deleteComment}
               user={user}
               contentTarget={contentTarget}
+              contentAuthors={contentAuthors}
             />
           )}
         </LoadingIndicator>
-
-        {!formDisabled && (
-          <div>
-            <CommentForm {...commentFormProps} />
-          </div>
-        )}
       </Flex>
     </div>
   );

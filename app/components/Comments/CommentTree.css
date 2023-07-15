@@ -1,5 +1,9 @@
 @import url('~app/styles/variables.css');
 
+.commentTree {
+  margin-bottom: 1rem;
+}
+
 .nested {
   margin-left: 50px;
 

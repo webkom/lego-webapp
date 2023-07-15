@@ -1,25 +1,7 @@
 @import url('~app/styles/variables.css');
 
-.container {
-  background-color: var(--lego-card-color);
-  box-shadow: var(--shadow-sm);
-  border-radius: var(--border-radius-lg);
-  margin-bottom: 15px;
-  padding: 25px;
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-
-  @media (--mobile-device) {
-    padding: 8px;
-  }
-}
-
 .comment {
-  display: flex;
-  align-items: flex-start;
-  flex-direction: column;
-  width: 100%;
+  padding: 1rem;
 
   :global {
     /* stylelint-disable-next-line selector-class-pattern */
@@ -29,67 +11,19 @@
   }
 }
 
-.profileImage {
-  margin-right: 45px;
-
-  @media (--mobile-device) {
-    margin-right: 5px;
-  }
-}
-
-.content {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-}
-
-.header {
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-  width: inherit;
-}
-
-.username {
-  align-items: center;
-
-  @media (--mobile-device) {
-    flex-direction: column;
-    padding-top: 16px;
-    margin-right: 10px;
-  }
-}
-
-.bullet {
-  color: var(--secondary-font-color);
-  padding: 0 8px;
-
-  @media (--mobile-device) {
-    display: none;
-  }
+.username a {
+  color: var(--lego-font-color);
+  font-weight: 500;
 }
 
 .timestamp {
+  font-size: var(--font-size-sm);
   color: var(--secondary-font-color);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-
-  @media (--mobile-device) {
-    padding: none;
-    font-size: var(--font-size-sm);
-  }
 }
 
 .text {
-  margin: 0;
-}
-
-.links {
-  flex-grow: 1;
-  justify-content: space-between;
-}
-
-.delete {
-  margin-left: 10px;
+  margin: 1rem 0;
 }

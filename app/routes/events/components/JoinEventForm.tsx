@@ -472,6 +472,7 @@ const JoinEventForm = (props: Props) => {
 
                   <Flex
                     alignItems="center"
+                    gap={10}
                     style={{
                       margin: '20px 0',
                     }}
@@ -493,8 +494,6 @@ const JoinEventForm = (props: Props) => {
                           feedbackName,
                           'feedback'
                         )}
-                        success
-                        className={styles.feedbackUpdateButton}
                         disabled={pristine}
                       >
                         Oppdater

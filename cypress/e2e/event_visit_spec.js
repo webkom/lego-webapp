@@ -51,49 +51,44 @@ describe('View event', () => {
   it('Should be possible to comment', () => {
     cy.visit('/events/20');
 
-    cy.contains('button', 'Kommenter').should('not.exist');
+    cy.contains('button', 'Kommenter').should('not.be.visible');
 
-    cy.wait(2000);
-    cy.get(c('CommentForm') + ' [data-slate-editor="true"]')
+    cy.get(c('CommentForm__field'))
+      .find('input')
       .last()
       .click()
-      .wait(100);
-    cy.contains('button', 'Kommenter').should('be.disabled');
-    cy.focused().click().type('This event will be awesome');
-    cy.contains('button', 'Kommenter').should('not.be.disabled').click();
+      .type('This event will be awesome');
+    cy.contains('button', 'Kommenter').should('be.visible').click();
 
     // We should see the comment and be able to delete it
-    cy.get(c('Comment__comment')).within(($c) => {
-      cy.contains('This event will be awesome');
-      cy.contains('button', 'Svar').should('exist').and('not.be.disabled');
-      cy.contains('button', 'Slett')
-        .should('exist')
-        .and('not.be.disabled')
-        .click();
-      cy.contains('Slettet');
-      cy.contains('button', 'svar').should('not.exist');
-    });
+    cy.get(c('Comment__comment'))
+      .last()
+      .within(() => {
+        cy.contains('This event will be awesome');
+        cy.contains('button', 'Svar').should('exist').and('not.be.disabled');
+        cy.get('ion-icon[name=trash]')
+          .should('exist')
+          .and('not.be.disabled')
+          .click();
+        cy.contains('Slettet');
+        cy.contains('button', 'svar').should('not.exist');
+      });
 
-    // Nested comments should work as expected
-    // TODO fix form clearing
-    cy.reload();
-    cy.wait(2000);
-    cy.get(c('CommentForm') + ' [data-slate-editor="true"]')
+    cy.get(c('CommentForm'))
+      .find('input')
       .last()
       .click()
-      .wait(100);
-    cy.contains('button', 'Kommenter').should('be.disabled');
-    cy.focused().click().type('This is the top comment');
-    cy.contains('button', 'Kommenter').should('not.be.disabled').click();
+      .type('This is the top comment');
+    cy.contains('button', 'Kommenter').should('be.visible').click();
 
     cy.get(c('Comment__comment')).last().contains('This is the top comment');
     cy.contains('button', 'Svar').click();
 
-    cy.get(c('CommentForm') + ' [data-slate-editor="true"]')
+    cy.get(c('CommentForm'))
+      .find('input')
       .should('have.lengthOf', 2)
-      .first()
-      .click()
-      .wait(100);
+      .last()
+      .click();
     cy.focused().type('This is a child comment');
     cy.contains('button', 'Send svar').click();
     cy.get(c('CommentTree__nested')).contains('This is a child comment');

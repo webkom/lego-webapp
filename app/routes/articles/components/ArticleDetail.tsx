@@ -116,6 +116,7 @@ const ArticleDetail = ({
           loggedIn={loggedIn}
           comments={comments}
           deleteComment={deleteComment}
+          contentAuthors={article.authors}
         />
       )}
     </Content>

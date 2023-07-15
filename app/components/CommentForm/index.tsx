@@ -3,15 +3,17 @@ import { useEffect, useState } from 'react';
 import { Field } from 'react-final-form';
 import { addComment } from 'app/actions/CommentActions';
 import Button from 'app/components/Button';
+import Card from 'app/components/Card';
 import DisplayContent from 'app/components/DisplayContent';
-import { EditorField } from 'app/components/Form';
+import { TextInput } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { ProfilePicture } from 'app/components/Image';
+import Flex from 'app/components/Layout/Flex';
 import { useAppDispatch } from 'app/store/hooks';
 import type { ID } from 'app/store/models';
 import type { CurrentUser } from 'app/store/models/User';
-import { EDITOR_EMPTY } from 'app/utils/constants';
+import { spySubmittable } from 'app/utils/formSpyUtils';
 import { createValidator, legoEditorRequired } from 'app/utils/validation';
 import styles from './CommentForm.css';
 
@@ -20,9 +22,9 @@ type Props = {
   user: CurrentUser;
   loggedIn: boolean;
   submitText?: string;
-  inlineMode?: boolean;
   autoFocus?: boolean;
   parent?: ID;
+  placeholder?: string;
 };
 
 const validate = createValidator({
@@ -34,9 +36,9 @@ const CommentForm = ({
   user,
   loggedIn,
   submitText = 'Kommenter',
-  inlineMode = false,
   autoFocus = false,
   parent,
+  placeholder = 'Skriv en kommentar ...',
 }: Props) => {
   const dispatch = useAppDispatch();
   // editor must be disabled while server-side rendering
@@ -45,84 +47,71 @@ const CommentForm = ({
     // Workaround to make sure we re-render editor in enabled state on client after ssr
     setEditorSsrDisabled(false);
   }, []);
-  const className = inlineMode ? styles.inlineForm : styles.form;
 
   if (!loggedIn) {
-    return <div>Vennligst logg inn for å kommentere.</div>;
+    return <div>Vennligst logg inn for å kommentere</div>;
   }
 
   return (
-    <LegoFinalForm
-      initialValues={{
-        text: EDITOR_EMPTY,
-        commentKey: Math.random(),
-      }}
-      validate={validate}
-      onSubmit={({ text }) => {
-        return dispatch(
-          addComment({
-            contentTarget,
-            text,
-            parent,
-          })
-        );
-      }}
-    >
-      {({
-        handleSubmit,
-        pristine,
-        submitting,
-        form,
-        // $FlowFixMe
-        values,
-      }) => {
-        const textValue = form.getFieldState('text')?.value;
-        const fieldActive = form.getFieldState('text')?.active;
-        const isOpen = fieldActive || (textValue && textValue !== EDITOR_EMPTY);
-        return (
-          <form
-            onSubmit={handleSubmit}
-            className={cx(className, isOpen && styles.activeForm)}
-          >
-            <div className={styles.header}>
-              <ProfilePicture size={40} user={user} />
+    <Card>
+      <LegoFinalForm
+        validateOnSubmitOnly
+        initialValues={{
+          commentKey: Math.random(),
+        }}
+        validate={validate}
+        onSubmit={({ text }) =>
+          dispatch(
+            addComment({
+              contentTarget,
+              text,
+              parent,
+            })
+          )
+        }
+      >
+        {({ handleSubmit, pristine, submitting, form, values }) => {
+          return (
+            <form onSubmit={handleSubmit}>
+              <Flex alignItems="center" gap="1rem">
+                <ProfilePicture size={40} user={user} />
 
-              {isOpen && <div className={styles.author}>{user.fullName}</div>}
-            </div>
-            <div className={cx(styles.fields, isOpen && styles.activeFields)}>
-              {editorSsrDisabled ? (
-                <DisplayContent
-                  id="comment-text"
-                  content=""
-                  placeholder="Skriv en kommentar"
-                />
-              ) : (
-                <Field
-                  key={values.commentKey}
-                  autoFocus={autoFocus}
-                  name="text"
-                  placeholder="Skriv en kommentar"
-                  component={EditorField.AutoInitialized}
-                  simple
-                />
-              )}
+                <div className={styles.field}>
+                  {editorSsrDisabled ? (
+                    <DisplayContent
+                      id="comment-text"
+                      content=""
+                      placeholder={placeholder}
+                    />
+                  ) : (
+                    <Field
+                      key={values.commentKey}
+                      autoFocus={autoFocus}
+                      name="text"
+                      placeholder={placeholder}
+                      component={TextInput.Field}
+                      removeBorder
+                      maxLength={140}
+                    />
+                  )}
+                </div>
 
-              {isOpen && (
-                <Button
-                  flat
-                  submit
-                  disabled={pristine || submitting}
-                  className={styles.submit}
-                >
-                  {submitText}
-                </Button>
-              )}
+                {spySubmittable((submittable) => (
+                  <Button
+                    type="submit"
+                    className={cx(!submittable && styles.submittable)}
+                  >
+                    {submitText}
+                  </Button>
+                ))}
+              </Flex>
+
               <SubmissionError />
-            </div>
-          </form>
-        );
-      }}
-    </LegoFinalForm>
+            </form>
+          );
+        }}
+      </LegoFinalForm>
+    </Card>
   );
 };
 

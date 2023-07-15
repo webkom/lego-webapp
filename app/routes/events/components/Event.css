@@ -14,11 +14,6 @@
   resize: vertical;
 }
 
-.feedbackUpdateButton {
-  margin-left: 10px;
-  height: 40px;
-}
-
 .registeredThumbnails {
   flex-wrap: wrap;
   max-height: 130px;
