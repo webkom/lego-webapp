@@ -1,8 +1,10 @@
 .link {
-  display: inline;
-  width: max-content;
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  height: 2em;
   margin-right: 0.5rem;
-  padding: 0 0.5rem;
+  padding: 0 0.75rem;
   background-color: var(--additive-background);
   border-radius: var(--border-radius-md);
   color: var(--lego-font-color);

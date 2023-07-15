@@ -169,6 +169,7 @@ export default class GalleryDetail extends Component<Props, State> {
             </div>
           )}
         </NavigationTab>
+
         <Gallery
           photos={pictures}
           hasMore={hasMore}
