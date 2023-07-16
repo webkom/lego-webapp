@@ -19,7 +19,7 @@
   margin-top: 5px;
 }
 
-.rotateIcon {
+.rotateIcon button {
   transform: rotate(360deg);
   transition: var(--easing-slow);
   transform-origin: center center;

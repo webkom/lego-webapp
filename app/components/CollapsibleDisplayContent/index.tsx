@@ -62,20 +62,14 @@ function CollapsibleDisplayContent({
         />
       </div>
       {useCollapse && (
-        <div
-          className={styles.showMore}
-          onClick={() => {
-            setIsOpened(!isOpened);
-          }}
-        >
+        <div className={styles.showMore}>
           <Icon
-            name={
-              isOpened
-                ? 'chevron-up-circle-outline'
-                : 'chevron-down-circle-outline'
-            }
+            onClick={() => {
+              setIsOpened(!isOpened);
+            }}
+            name={isOpened ? 'chevron-up' : 'chevron-down'}
             className={styles.showMoreIcon}
-            size={40}
+            size={30}
           />
         </div>
       )}

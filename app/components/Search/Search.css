@@ -52,13 +52,6 @@
   margin-left: 3px;
 }
 
-.closeButton {
-  width: 40px;
-  outline: none;
-  border: 0;
-  background: transparent;
-}
-
 .resultsContainer {
   background: rgba(var(--rgb-max), var(--rgb-max), var(--rgb-max), 80%);
   overflow-y: auto;

@@ -130,12 +130,7 @@ const Overview = (props: Props) => {
 
       {frontpage.length > 8 && (
         <div className={styles.showMore}>
-          <Icon
-            clickable
-            onClick={showMore}
-            name="chevron-down-outline"
-            size={40}
-          />
+          <Icon onClick={showMore} name="chevron-down-outline" size={30} />
         </div>
       )}
     </Container>

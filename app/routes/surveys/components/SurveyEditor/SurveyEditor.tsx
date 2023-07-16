@@ -141,15 +141,14 @@ const renderQuestions = ({ fields }) => (
       ))}
     </ul>
 
-    <Link
-      key="addNew"
-      to="#"
+    <Icon
+      name="add"
+      size={30}
       onClick={() => {
         fields.push(initialQuestion);
       }}
-    >
-      <Icon name="add" clickable size={30} className={styles.addQuestion} />
-    </Link>
+      className={styles.addQuestion}
+    />
   </>
 );
 
@@ -320,12 +319,6 @@ const SurveyEditor = ({
             />
 
             <Flex>
-              {spySubmittable((submittable) => (
-                <Button disabled={submitting || !submittable} submit>
-                  {editing ? 'Lagre' : 'Opprett'}
-                </Button>
-              ))}
-
               <Button
                 flat
                 onClick={() =>
@@ -334,6 +327,12 @@ const SurveyEditor = ({
               >
                 Avbryt
               </Button>
+
+              {spySubmittable((submittable) => (
+                <Button disabled={submitting || !submittable} submit>
+                  {editing ? 'Lagre' : 'Opprett'}
+                </Button>
+              ))}
             </Flex>
           </form>
         )}

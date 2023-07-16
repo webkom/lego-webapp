@@ -70,13 +70,10 @@ const RandomQuote = ({
         <Flex column justifyContent="space-between" gap={5}>
           <Icon
             name="refresh"
-            clickable
             onClick={onClick}
             className={cx(animation && styles.rotateIcon)}
           />
-          <Link to="/quotes/add">
-            <Icon name="add" clickable />
-          </Link>
+          <Icon to="/quotes/add" name="add" />
         </Flex>
       </Flex>
 

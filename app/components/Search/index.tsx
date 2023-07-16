@@ -126,13 +126,12 @@ class Search extends Component<Props, State> {
             />
           ))}
 
-          <button
-            type="button"
-            className={styles.closeButton}
+          <Icon
+            name={searching ? 'refresh' : 'close'}
             onClick={onCloseSearch}
-          >
-            <Icon name={searching ? 'refresh' : 'close'} clickable size={30} />
-          </button>
+            size={30}
+            data-testid="closeButton"
+          />
         </div>
 
         <SearchResults
