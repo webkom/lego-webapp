@@ -45,6 +45,7 @@ export const OverviewItem = ({
       ))}
 
       <Time time={article.createdAt} format="DD.MM.YYYY HH:mm" />
+
       <Tags className={styles.tagline}>
         {article.tags.map((tag) => (
           <Tag tag={tag} key={tag} />
