@@ -32,6 +32,10 @@
   height: inherit;
   width: inherit;
   position: absolute;
+  background: rgba(var(--rgb-max), var(--rgb-max), var(--rgb-max), 50%);
+  font-weight: 500;
+  padding: 10px 40px;
+  text-align: center;
 }
 
 .inModalUpload .placeholderContainer {
@@ -51,21 +55,11 @@
   border: 3px dashed var(--danger-color);
 }
 
-.placeholderTitle {
-  background: rgba(var(--rgb-max), var(--rgb-max), var(--rgb-max), 70%);
-  padding: 10px 40px;
-  text-align: center;
-}
-
-.inModalUpload .placeholderTitle {
-  background: none;
-}
-
 .image {
   width: 100%;
   height: inherit;
   object-fit: cover;
-  background: white;
+  background: var(--color-absolute-white);
   border-radius: inherit;
 }
 

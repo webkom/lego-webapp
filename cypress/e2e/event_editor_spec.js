@@ -1,4 +1,4 @@
-import { selectField, c, field } from '../support/utils.js';
+import { selectField, c, field, uploadHeader } from '../support/utils.js';
 
 const IS_MACOS = Cypress.platform.toLowerCase().search('darwin') !== -1;
 const ctrlKey = IS_MACOS ? '{cmd}' : '{ctrl}';
@@ -85,17 +85,7 @@ describe('Editor', () => {
     cy.focused().type('{enter}{enter}EOF{enter}');
 
     // Fill rest of form
-    cy.upload_file(
-      c('ImageUploadField__coverImage') +
-        ' ' +
-        c('UploadImage__placeholderTitle'),
-      'images/screenshot.png'
-    );
-    cy.get('.cropper-move').click();
-    cy.get(c('Modal__content'))
-      .contains('Last opp')
-      .should('not.be.disabled')
-      .click();
+    uploadHeader();
     field('title').type('Pils på Webkomkontoret!').blur();
     field('description').type('blir fett').blur();
     selectField('eventType').click();

@@ -71,18 +71,23 @@ const FilePreview = ({ file, onRemove }: FilePreviewProps) => {
 };
 
 const UploadArea = ({ multiple, onDrop, image, accept }: UploadAreaProps) => {
-  const word = multiple ? 'bilder' : 'bilde';
   const onDropCallback = useCallback(
     (files: Array<DropFile>) => {
       files[0] && !multiple ? onDrop(files.slice(-1)) : onDrop(files);
     },
     [multiple, onDrop]
   );
-  const { getRootProps, getInputProps, isFocused, isDragAccept, isDragReject } =
-    useDropzone({
-      onDrop: onDropCallback,
-      accept: accept,
-    });
+  const {
+    getRootProps,
+    getInputProps,
+    isDragActive,
+    isFocused,
+    isDragAccept,
+    isDragReject,
+  } = useDropzone({
+    onDrop: onDropCallback,
+    accept: accept,
+  });
 
   const style = useMemo(
     () =>
@@ -93,6 +98,9 @@ const UploadArea = ({ multiple, onDrop, image, accept }: UploadAreaProps) => {
       ),
     [isFocused, isDragAccept, isDragReject]
   );
+
+  const word = multiple ? 'bildene' : 'bildet';
+
   return (
     <div
       onClick={(e) => {
@@ -117,9 +125,15 @@ const UploadArea = ({ multiple, onDrop, image, accept }: UploadAreaProps) => {
             size={60}
             name={multiple ? 'images-outline' : 'image-outline'}
           />
-          <h4 className={styles.placeholderTitle}>
-            {`Dropp ${word} her eller trykk for å velge fra filsystem`}
-          </h4>
+          {isDragActive ? (
+            isDragAccept ? (
+              <span>Slipp {word} her ...</span>
+            ) : (
+              <span>Ugyldig filformat!</span>
+            )
+          ) : (
+            <span>Slipp {word} her eller trykk for å velge fra filsystem</span>
+          )}
         </Flex>
         {image && (
           <Image alt="presentation" className={styles.image} src={image} />
