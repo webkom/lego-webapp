@@ -36,7 +36,7 @@
     "@sentry/browser": "^7.58.1",
     "@sentry/integrations": "^7.52.1",
     "@sentry/node": "^7.53.1",
-    "@stripe/react-stripe-js": "^1.14.2",
+    "@stripe/react-stripe-js": "^2.1.1",
     "@stripe/stripe-js": "^1.46.0",
     "@webkom/lego-editor": "^2.2.0",
     "@webkom/react-meter-bar": "^2.0.0",
