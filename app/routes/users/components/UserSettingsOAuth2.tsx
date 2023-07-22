@@ -22,6 +22,23 @@ type Props = {
 
 const UserSettingsOAuth2 = (props: Props) => {
   const [copiedClientId, setCopiedClientId] = useState<string>('');
+  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
+
+  const handleCopyButtonClick = (clientId: string) => {
+    navigator.clipboard.writeText(clientId).then(() => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+
+      setCopiedClientId(clientId);
+
+      const newTimeoutId = setTimeout(() => {
+        setCopiedClientId('');
+      }, 2000);
+
+      setTimeoutId(newTimeoutId);
+    });
+  };
 
   const applicationColumns = [
     {
@@ -46,17 +63,13 @@ const UserSettingsOAuth2 = (props: Props) => {
         return (
           <Flex wrap gap={10}>
             {application.clientId}
-            <Tooltip content="Kopier client ID">
+            <Tooltip content={copied ? 'Kopiert!' : 'Kopier client ID'}>
               <Icon
                 name={copied ? 'copy' : 'copy-outline'}
                 size={20}
                 success={copied}
                 className={styles.copyIcon}
-                onClick={() => {
-                  navigator.clipboard.writeText(application.clientId);
-                  setCopiedClientId(application.clientId);
-                  setTimeout(() => setCopiedClientId(''), 2000);
-                }}
+                onClick={() => handleCopyButtonClick(application.clientId)}
               />
             </Tooltip>
           </Flex>
