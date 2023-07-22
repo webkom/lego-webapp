@@ -20,7 +20,7 @@ type Props = {
 };
 
 const Dropdown = ({
-  iconName = 'star',
+  iconName,
   toggle,
   closeOnContentClick = false,
   className,
@@ -35,12 +35,15 @@ const Dropdown = ({
   const triggerRef = useRef(null);
   return (
     <ComponentClass
-      onClick={show ? null : toggle} // avoid double toggle because of rootClose
+      onClick={show && !iconName ? undefined : toggle} // avoid double toggle because of rootClose
       ref={triggerRef}
       className={className}
       style={style}
     >
-      {triggerComponent || (iconName ? <Icon name={iconName} /> : null)}
+      {triggerComponent ||
+        (iconName ? (
+          <Icon name={iconName} onClick={show ? () => {} : toggle} />
+        ) : null)}
 
       <Overlay
         show={show}

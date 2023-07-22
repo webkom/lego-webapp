@@ -84,7 +84,7 @@ const Quote = ({
           className="fa fa-quote-right"
           style={{
             fontSize: '100px',
-            color: '#dbdbdb',
+            color: 'var(--additive-background)',
             marginRight: '30px',
             order: '0',
             height: '0',
@@ -106,24 +106,13 @@ const Quote = ({
           </div>
 
           <div className={styles.bottomRight}>
-            <div className={styles.reactionCount}>
-              <Button flat onClick={() => setShowReactions(!showReactions)}>
-                <i className="fa fa-reaction-o" />
-              </Button>
-            </div>
-
-            {actionGrant && actionGrant.includes('approve') && (
+            {actionGrant?.includes('approve') && (
               <div className={styles.quoteAdmin}>
                 <Dropdown
                   show={displayAdmin}
                   toggle={toggleDisplayAdmin}
                   closeOnContentClick
-                  triggerComponent={
-                    <Icon
-                      name="chevron-down-circle-outline"
-                      className={styles.dropdownIcon}
-                    />
-                  }
+                  iconName="options-outline"
                 >
                   <Dropdown.List>
                     <Dropdown.ListItem>
@@ -139,7 +128,7 @@ const Quote = ({
                     </Dropdown.ListItem>
 
                     {!deleting ? (
-                      <Dropdown.ListItem>
+                      <Dropdown.ListItem danger>
                         <button
                           onClick={(e) => {
                             if (e) {
