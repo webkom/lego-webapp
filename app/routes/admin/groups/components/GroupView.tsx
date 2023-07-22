@@ -21,15 +21,14 @@ type GroupProps = {
 
 const Group = (props: GroupProps) => {
   const { description } = props.group;
-  const descriptionText =
-    description && description.length ? `(${description})` : '';
   const { match, group } = props;
+
   return (
     <div>
       <Helmet title={props.group.name} />
       <header>
         <h2>{props.group.name}</h2>
-        <span>{descriptionText}</span>
+        <span>{description || ''}</span>
       </header>
       <Switch>
         <RouteWrapper

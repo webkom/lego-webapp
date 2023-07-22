@@ -11,9 +11,8 @@
 }
 
 .registrationDeadlineHours {
-  font-size: 100%;
-  margin: 0;
-  font-style: italic;
+  color: var(--secondary-font-color);
+  font-size: var(--font-size-sm);
 }
 
 .metaField {

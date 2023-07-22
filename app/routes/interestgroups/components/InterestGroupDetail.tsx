@@ -58,7 +58,11 @@ const ButtonRow = ({
     : () => joinGroup(group.id, currentUser);
   return (
     <Flex>
-      <Button onClick={onClick}>
+      <Button
+        success={membership === undefined}
+        danger={membership !== undefined}
+        onClick={onClick}
+      >
         {membership ? 'Forlat gruppen' : 'Bli med i gruppen'}
       </Button>
     </Flex>
@@ -122,7 +126,7 @@ function InterestGroupDetail(props: Props) {
       />
       <ContentSection>
         <ContentMain>
-          <p className={styles.description}>{group.description}</p>
+          <p>{group.description}</p>
           <DisplayContent content={group.text} />
           <ButtonRow {...props} />
         </ContentMain>

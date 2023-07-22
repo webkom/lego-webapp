@@ -434,7 +434,7 @@ function EventEditor({
                   className={styles.formField}
                 />
                 <p className={styles.registrationDeadlineHours}>
-                  Stenger:{' '}
+                  Stenger{' '}
                   <FormatTime time={moment(event.registrationDeadline)} />
                 </p>
               </Tooltip>
