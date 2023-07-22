@@ -4,12 +4,11 @@
   --button-background: var(--additive-background);
   --button-background-hover: var(--color-gray-2);
 
-  --button-dark-background: var(--color-red-6);
-  --button-dark-background-hover: var(--color-red-7);
   --button-dark-box-shadow-focus: #db373744;
 
   --button-success-background: var(--color-green-7);
   --button-success-background-hover: var(--color-green-8);
+  --button-success-background-active: var(--color-green-9);
   --button-success-box-shadow-focus: #2c974b44;
 }
 
@@ -22,6 +21,7 @@
 
   --button-success-background: var(--color-green-4);
   --button-success-background-hover: var(--color-green-5);
+  --button-success-background-active: var(--color-green-6);
   --button-success-box-shadow-focus: #2da44e44;
 }
 
@@ -59,10 +59,6 @@
     margin-left: 16px;
   }
 
-  &:active:not(:disabled) {
-    transform: translateY(1px);
-  }
-
   > a {
     color: var(--color-gray-8);
   }
@@ -70,21 +66,24 @@
   &:hover:not(:disabled) {
     background-color: var(--button-background-hover);
   }
+
+  &:active:not(:disabled) {
+    background-color: var(--color-gray-3);
+  }
 }
 
 .secondary {
   --button-color: var(--inverted-font-color);
   --button-background: var(--lego-font-color);
   --button-background-hover: var(--color-gray-8);
-}
 
-.loading {
-  margin-left: 8px;
-  color: var(--secondary-font-color);
+  &:active:not(:disabled) {
+    background-color: var(--color-gray-7);
+  }
 }
 
 .dark {
-  background-color: var(--button-dark-background);
+  background-color: var(--color-red-6);
   color: var(--button-color-white);
   box-shadow: none;
 
@@ -97,7 +96,11 @@
   }
 
   &:hover:not(:disabled) {
-    background-color: var(--button-dark-background-hover);
+    background-color: var(--color-red-7);
+  }
+
+  &:active:not(:disabled) {
+    background-color: var(--color-red-8);
   }
 }
 
@@ -121,6 +124,12 @@
     border-color: var(--danger-color);
     color: var(--button-color-white);
   }
+
+  &:active:not(:disabled) {
+    background-color: var(--color-red-7);
+    border-color: var(--color-red-7);
+    color: var(--button-color-white);
+  }
 }
 
 .success {
@@ -135,6 +144,10 @@
   &:hover:not(:disabled) {
     background-color: var(--button-success-background-hover);
   }
+
+  &:active:not(:disabled) {
+    background-color: var(--button-success-background-active);
+  }
 }
 
 .flat {
@@ -143,6 +156,10 @@
 
   &:hover:not(:disabled) {
     background-color: var(--additive-background);
+  }
+
+  &:active:not(:disabled) {
+    background-color: var(--color-gray-2);
   }
 }
 
@@ -159,6 +176,10 @@
   &:hover:not(:disabled) {
     background-color: var(--lego-font-color);
     --button-color: var(--inverted-font-color);
+  }
+
+  &:active:not(:disabled) {
+    background-color: var(--color-gray-8);
   }
 }
 
