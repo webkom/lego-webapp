@@ -1,5 +1,7 @@
+import { Link } from 'react-router-dom';
 import { Field } from 'redux-form';
 import Button from 'app/components/Button';
+import Card from 'app/components/Card';
 import {
   Form,
   TextInput,
@@ -60,20 +62,27 @@ const ContactForm = (props: Props) => {
         Hovedstyret, enten du har spørsmål, tilbakemeldinger, eller bare ønsker
         å dele informasjon med oss.
       </p>
-      <p>
-        For mer sensitive saker, eller hvis du ønsker å varsle anonymt med
-        mulighet for respons, burde du bruke vår{' '}
-        <a
-          href="https://avvik.abakus.no"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          tredjeparts varslingsportal
-        </a>
-        . Dette sikrer i større grad at du kan kommunisere din bekymring uten å
-        avsløre din identitet, samtidig som det gir oss mulighet til å håndtere
-        situasjonen på en effektiv måte.
-      </p>
+      <Card info>
+        <p>
+          Dersom du ønsker å varsle om kritikkverdige forhold, vennligst benytt
+          vår{' '}
+          <a
+            href="https://avvik.abakus.no"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            varslingsportal
+          </a>
+          . Da sikrer du at saken din blir behandlet best mulig, og du har
+          mulighet til å følge opp saken samtidig som du forblir anonym.
+          <br />
+          Les mer i våre{' '}
+          <Link to="/pages/organisasjon/117-abakus-etiske-retningslinjer">
+            Etiske retningslinjer
+          </Link>
+          .
+        </p>
+      </Card>
       <p>
         Sender du meldingen til en spesifikk komité er det kun lederen av
         komiteen som vil motta meldingen. Dersom du sender til Hovedstyret vil

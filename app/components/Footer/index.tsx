@@ -55,15 +55,13 @@ const Footer = ({ loggedIn }: Props) => (
           7491 Trondheim
         </p>
         {loggedIn && <Link to="/contact">Kontaktskjema</Link>}
-        {loggedIn && (
-          <a
-            href="https://avvik.abakus.no"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Anonym varslingsportal
-          </a>
-        )}
+        <a
+          href="https://avvik.abakus.no"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          Varslingsportal
+        </a>
         <a href="mailto:abakus@abakus.no">abakus@abakus.no</a>
         <div className={styles.socialMedia}>
           {loggedIn && (
