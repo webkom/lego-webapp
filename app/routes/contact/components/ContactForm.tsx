@@ -1,5 +1,7 @@
+import { Link } from 'react-router-dom';
 import { Field } from 'redux-form';
 import Button from 'app/components/Button';
+import Card from 'app/components/Card';
 import {
   Form,
   TextInput,
@@ -56,23 +58,39 @@ const ContactForm = (props: Props) => {
   return (
     <Form onSubmit={props.handleSubmit(submit)}>
       <p>
-        Dette skjemaet kan benyttes for å kontakte Abakus sine komiteer eller
-        Hovedstyret. Dersom du har opplevd avvik eller ubehagelige hendelser i
-        forbindelse med Abakus, ønsker vi gjerne at dette meldes fra om her.
-        Send oss gjerne også spørsmål, feedback eller ting du ønsker å fortelle
-        oss, for eksempel om du ønsker å avtale tid for innsyn i HSP-avtalen.
+        Dette skjemaet er et verktøy for å nå ut til Abakus sine komiteer eller
+        Hovedstyret, enten du har spørsmål, tilbakemeldinger, eller bare ønsker
+        å dele informasjon med oss.
       </p>
+      <Card info>
+        <p>
+          Dersom du ønsker å varsle om kritikkverdige forhold, vennligst benytt
+          vår{' '}
+          <a
+            href="https://avvik.abakus.no"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            varslingsportal
+          </a>
+          . Da sikrer du at saken din blir behandlet best mulig, og du har
+          mulighet til å følge opp saken samtidig som du forblir anonym.
+          <br />
+          Les mer i våre{' '}
+          <Link to="/pages/organisasjon/117-abakus-etiske-retningslinjer">
+            Etiske retningslinjer
+          </Link>
+          .
+        </p>
+      </Card>
       <p>
         Sender du meldingen til en spesifikk komité er det kun lederen av
-        komiteen som vil motta meldingen. Om du sender til Hovedstyret vil hele
-        styret motta meldingen.
+        komiteen som vil motta meldingen. Dersom du sender til Hovedstyret vil
+        hele styret motta meldingen. Både komitéledere og Hovedstyret som mottar
+        henvendelser har signert taushetserklæring, og de vil kontakte deg og
+        følge opp saken dersom det ønskes.
       </p>
-      <p>
-        Skjemaet kan både benyttes til å sende inn en anonym henvendelse, eller
-        en med avsender for videre oppfølging. Både komitéledere og Hovedstyret
-        som mottar henvendelser har signert taushetserklæring, og de vil
-        kontakte deg og følge opp saken dersom det ønskes.
-      </p>
+
       <Field
         placeholder="Velg mottaker"
         label="Mottaker"
@@ -98,10 +116,10 @@ const ContactForm = (props: Props) => {
       />
 
       <p>
-        Du kan velge å sende meldingen med anonym avsender. De som mottar
-        meldingen vil ikke få vite hvem som har opprettet meldingen. De vil da
-        heller ikke ha mulighet til å svare på meldingen. Ønsker om innsyn kan
-        ikke sendes inn anonymt.
+        Du har også mulighet til å sende meldingen anonymt. Ved anonym
+        innsendelse vil de som mottar meldingen ikke få vite hvem som har
+        opprettet den, men de vil da heller ikke ha mulighet til å svare. Av den
+        grunn kan ikke ønsker om innsyn sendes inn anonymt.
       </p>
 
       {!props.loggedIn && (

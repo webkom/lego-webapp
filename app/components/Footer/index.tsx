@@ -54,7 +54,14 @@ const Footer = ({ loggedIn }: Props) => (
           Sem Sælands vei 7-9 <br />
           7491 Trondheim
         </p>
-        {loggedIn && <Link to="/contact">Anonymt kontaktskjema</Link>}
+        {loggedIn && <Link to="/contact">Kontaktskjema</Link>}
+        <a
+          href="https://avvik.abakus.no"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          Varslingsportal
+        </a>
         <a href="mailto:abakus@abakus.no">abakus@abakus.no</a>
         <div className={styles.socialMedia}>
           {loggedIn && (
