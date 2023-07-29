@@ -9,3 +9,9 @@
   font-size: var(--font-size-sm);
   line-height: 1.4em;
 }
+
+.programmeList {
+  list-style: disc;
+  list-style-position: inside;
+  font-style: italic;
+}

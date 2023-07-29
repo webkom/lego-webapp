@@ -41,11 +41,11 @@ const UserSettingsIndex = (props: Props) => {
               Notifikasjoner
             </NavigationLink>
             <NavigationLink to={`${base}/oauth2`}>OAuth2</NavigationLink>
-            {!props.currentUser.isStudent && (
-              <NavigationLink to={`${base}/student-confirmation`}>
-                Verifiser studentstatus
-              </NavigationLink>
-            )}
+            <NavigationLink to={`${base}/student-confirmation`}>
+              {props.currentUser.isStudent
+                ? 'Studentstatus'
+                : 'Verifiser studentstatus'}
+            </NavigationLink>
           </div>
         )}
       </NavigationTab>

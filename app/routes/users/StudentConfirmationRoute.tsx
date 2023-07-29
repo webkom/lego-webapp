@@ -1,10 +1,12 @@
-import { push } from 'connected-react-router';
 import qs from 'qs';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import {
   sendStudentConfirmationEmail,
   confirmStudentUser,
+  startStudentAuth,
+  confirmStudentAuth,
+  updateUser,
 } from 'app/actions/UserActions';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import StudentConfirmation from './components/StudentConfirmation';
@@ -31,8 +33,10 @@ const mapStateToProps = (state, props) => {
 };
 
 const mapDispatchToProps = {
+  startStudentAuth,
+  confirmStudentAuth,
   sendStudentConfirmationEmail,
-  push,
+  updateUser,
 };
 export default compose(
   withPreparedDispatch('fetchStudentConfirmation', loadData),

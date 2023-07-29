@@ -443,6 +443,35 @@ export function sendStudentConfirmationEmail(user: string): Thunk<void> {
     },
   });
 }
+
+export function startStudentAuth(): Thunk<void> {
+  return callAPI({
+    types: User.SEND_STUDENT_CONFIRMATION_TOKEN,
+    endpoint: `/oidc/authorize/`,
+    method: 'GET',
+    meta: {
+      errorMessage: 'Studentstatus feilet',
+    },
+  });
+}
+
+export function confirmStudentAuth({
+  code,
+  state,
+}: {
+  code: string;
+  state: string;
+}): Thunk<void> {
+  return callAPI({
+    types: User.SEND_STUDENT_CONFIRMATION_TOKEN,
+    endpoint: `/oidc/validate/?code=${code}&state=${state}`,
+    method: 'GET',
+    meta: {
+      errorMessage: 'Validering av studentstatus feilet',
+    },
+  });
+}
+
 export function confirmStudentUser(token: string): Thunk<void> {
   return callAPI({
     types: User.CONFIRM_STUDENT_USER,
