@@ -257,10 +257,8 @@ export const User = {
     'User.VALIDATE_REGISTRATION_TOKEN'
   ) as AAT,
   CREATE_USER: generateStatuses('User.CREATE_USER') as AAT,
-  SEND_STUDENT_CONFIRMATION_TOKEN: generateStatuses(
-    'User.SEND_STUDENT_CONFIRMATION_TOKEN'
-  ) as AAT,
-  CONFIRM_STUDENT_USER: generateStatuses('User.CONFIRM_STUDENT_USER') as AAT,
+  INIT_STUDENT_AUTH: generateStatuses('User.INIT_STUDENT_AUTH') as AAT,
+  COMPLETE_STUDENT_AUTH: generateStatuses('User.COMPLETE_STUDENT_AUTH') as AAT,
   SEND_FORGOT_PASSWORD_REQUEST: generateStatuses(
     'User.SEND_FORGOT_PASSWORD_REQUEST'
   ) as AAT,

@@ -432,25 +432,14 @@ export function deleteUser(password: string): Thunk<Promise<void>> {
       })
     );
 }
-export function sendStudentConfirmationEmail(user: string): Thunk<void> {
-  return callAPI({
-    types: User.SEND_STUDENT_CONFIRMATION_TOKEN,
-    endpoint: `/users-student-confirmation-request/`,
-    method: 'POST',
-    body: user,
-    meta: {
-      errorMessage: 'Sending av student bekreftelsese-post feilet',
-    },
-  });
-}
 
 export function startStudentAuth(): Thunk<void> {
   return callAPI({
-    types: User.SEND_STUDENT_CONFIRMATION_TOKEN,
+    types: User.INIT_STUDENT_AUTH,
     endpoint: `/oidc/authorize/`,
     method: 'GET',
     meta: {
-      errorMessage: 'Studentstatus feilet',
+      errorMessage: 'Student verifisering feilet',
     },
   });
 }
@@ -463,7 +452,7 @@ export function confirmStudentAuth({
   state: string;
 }): Thunk<void> {
   return callAPI({
-    types: User.SEND_STUDENT_CONFIRMATION_TOKEN,
+    types: User.COMPLETE_STUDENT_AUTH,
     endpoint: `/oidc/validate/?code=${code}&state=${state}`,
     method: 'GET',
     meta: {
@@ -472,16 +461,6 @@ export function confirmStudentAuth({
   });
 }
 
-export function confirmStudentUser(token: string): Thunk<void> {
-  return callAPI({
-    types: User.CONFIRM_STUDENT_USER,
-    endpoint: `/users-student-confirmation-perform/?token=${token}`,
-    method: 'POST',
-    meta: {
-      errorMessage: 'Student bekreftelse feilet',
-    },
-  });
-}
 export function sendForgotPasswordEmail({
   email,
 }: {

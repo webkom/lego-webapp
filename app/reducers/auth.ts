@@ -60,12 +60,6 @@ export default function auth(
     case User.VALIDATE_REGISTRATION_TOKEN.SUCCESS:
       return { ...state, registrationToken: action.meta.token };
 
-    case User.CONFIRM_STUDENT_USER.FAILURE:
-      return { ...state, studentConfirmed: false };
-
-    case User.CONFIRM_STUDENT_USER.SUCCESS:
-      return { ...state, studentConfirmed: true };
-
     default:
       return state;
   }
