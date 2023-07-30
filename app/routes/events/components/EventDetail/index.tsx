@@ -26,22 +26,30 @@ import { AttendanceStatus } from 'app/components/UserAttendance';
 import AttendanceModal from 'app/components/UserAttendance/AttendanceModal';
 import UserGrid from 'app/components/UserGrid';
 import type {
-  EventPool,
   EventRegistration,
-  Event,
   ActionGrant,
   AddPenalty,
+  FollowerItem,
 } from 'app/models';
 import { resolveGroupLink } from 'app/reducers/groups';
-import type { ID } from 'app/store/models';
-import type Comment from 'app/store/models/Comment';
-import type { CurrentUser } from 'app/store/models/User';
 import {
   colorForEvent,
   penaltyHours,
   getEventSemesterFromStartTime,
   registrationCloseTime,
-} from '../../utils';
+} from 'app/routes/events/utils';
+import type { ID } from 'app/store/models';
+import type Comment from 'app/store/models/Comment';
+import type {
+  AuthUserDetailedEvent,
+  UserDetailedEvent,
+} from 'app/store/models/Event';
+import type { UnknownPool } from 'app/store/models/Pool';
+import type {
+  DetailedRegistration,
+  ReadRegistration,
+} from 'app/store/models/Registration';
+import type { CurrentUser } from 'app/store/models/User';
 import Admin from '../Admin';
 import JoinEventForm from '../JoinEventForm';
 import RegisteredSummary from '../RegisteredSummary';
@@ -86,19 +94,18 @@ const InterestedButton = ({ isInterested }: InterestedButtonProps) => {
 
 type Props = {
   eventId: ID;
-  event: Event;
+  event: AuthUserDetailedEvent | UserDetailedEvent;
   loggedIn: boolean;
   currentUser: CurrentUser;
   actionGrant: ActionGrant;
   comments: Array<Comment>;
   error?: Record<string, any>;
-  pools: Array<EventPool>;
-  registrations: Array<EventRegistration>;
-  currentRegistration: EventRegistration;
+  pools: UnknownPool[];
+  registrations?: ReadRegistration[];
+  currentRegistration?: DetailedRegistration;
   currentRegistrationIndex: number;
   pendingRegistration?: EventRegistration;
   hasSimpleWaitingList: boolean;
-  waitingRegistrations: Array<EventRegistration>;
   penalties: Array<AddPenalty>;
   register: (arg0: {
     eventId: ID;
@@ -106,8 +113,8 @@ type Props = {
     feedback: string;
     userId: ID;
   }) => Promise<any>;
-  follow: (userId: ID, eventId: ID) => Promise<any>;
-  unfollow: (followId: ID, eventId: ID) => Promise<any>;
+  follow: (userId: ID, eventId: ID) => Promise<FollowerItem>;
+  unfollow: (followId: ID, eventId: ID) => Promise<void>;
   unregister: (arg0: {
     eventId: ID;
     registrationId: ID;
@@ -119,8 +126,8 @@ type Props = {
     registrationId: ID,
     feedback: string
   ) => Promise<any>;
-  deleteEvent: (eventId: ID) => Promise<any>;
-  deleteComment: (id: ID, contentTarget: string) => Promise<any>;
+  deleteEvent: (eventId: ID) => Promise<void>;
+  deleteComment: (id: ID, contentTarget: string) => Promise<void>;
 };
 type State = {
   mapIsOpen: boolean;
@@ -495,8 +502,8 @@ export default class EventDetail extends Component<Props, State> {
                     funnet sted, og vil kun brukes til smittesporing.
                   </div>
                 )}
-                {event.unansweredSurveys &&
-                event.unansweredSurveys.length > 0 &&
+                {'unansweredSurveys' in event &&
+                event.unansweredSurveys?.length > 0 &&
                 !event.isAdmitted ? (
                   <Card danger>
                     <p>

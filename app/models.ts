@@ -1,6 +1,7 @@
 import type Comment from 'app/store/models/Comment';
 import type { ListCompany } from 'app/store/models/Company';
 import type { ReactionsGrouped } from 'app/store/models/Reaction';
+import type { PublicUser } from 'app/store/models/User';
 import type { RoleType } from 'app/utils/constants';
 import type { Moment } from 'moment';
 // TODO: Id handling could be opaque
@@ -152,7 +153,7 @@ type EventBase = {
   coverPlaceholder: string;
   description: string;
   createdAt: Dateish | null | undefined;
-  createdBy: User;
+  createdBy: User | null | undefined;
   text: string;
   feedbackDescription: string;
   feedbackRequired: boolean;
@@ -278,12 +279,9 @@ export type TransformEvent = EventBase & {
   useMazemap: boolean;
   hasFeedbackQuestion: boolean;
 };
-export type UserFollowing = {
-  id: ID;
-  follower: User;
-  target: ID;
-};
+
 export type Feed = Record<string, any>;
+
 export type FeedItem = Record<string, any>;
 
 export type Workplace = {
@@ -296,6 +294,7 @@ export type Joblisting = {
   toYear: number;
   workplaces: Array<Workplace>;
 };
+
 export type CompanySemesterContactedStatus =
   | 'company_presentation'
   | 'course'
@@ -332,9 +331,10 @@ export type AddPenalty = {
   weight: number;
   sourceEvent: ID;
 };
+
 export type FollowerItem = {
   id: ID;
-  follower: ID;
+  follower: PublicUser;
   target: ID;
 };
 

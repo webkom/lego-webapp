@@ -1,10 +1,10 @@
 import type { Dateish } from 'app/models';
-import type { PhotoConsent } from 'app/store/models/User';
+import type { PhotoConsent, PublicUser } from 'app/store/models/User';
 import type { ID } from 'app/store/models/index';
 
 interface Registration {
   id: ID;
-  user: ID;
+  user: PublicUser;
   createdBy: ID;
   updatedBy: ID;
   pool: ID;

@@ -1,8 +1,10 @@
 import type { Dateish } from 'app/models';
 import type { ID } from 'app/store/models';
+import type { ListCompany } from 'app/store/models/Company';
 import type ObjectPermissionsMixin from 'app/store/models/ObjectPermissionsMixin';
-import type User from 'app/store/models/User';
+import type { PublicUser } from 'app/store/models/User';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
+import type { PublicGroup } from './Group';
 
 export enum EventType {
   CompanyPresentation = 'company_presentation',
@@ -40,8 +42,8 @@ interface Event {
   unregistrationCloseTime?: Dateish;
   unregistrationDeadline?: Dateish;
   unregistrationDeadlineHours?: number;
-  company?: ID;
-  responsibleGroup?: ID;
+  company?: ListCompany;
+  responsibleGroup?: PublicGroup;
   activeCapacity?: number;
   feedbackDescription: string;
   feedbackRequired: boolean;
@@ -55,7 +57,7 @@ interface Event {
   tags: string[];
   isMerged: boolean;
   heedPenalties: boolean;
-  createdBy: User;
+  createdBy?: PublicUser;
   registrationCount: number;
   legacyRegistrationCount: number;
   survey?: ID;
@@ -74,7 +76,7 @@ interface Event {
   isAdmitted: boolean;
   following: false | ID;
   spotsLeft: number;
-  pendingRegistration: boolean;
+  pendingRegistration: ID;
   photoConsents: ID[];
 
   unansweredSurveys: ID[];
