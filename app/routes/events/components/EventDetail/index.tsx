@@ -576,7 +576,7 @@ export default class EventDetail extends Component<Props, State> {
             loggedIn={loggedIn}
             comments={comments}
             deleteComment={deleteComment}
-            contentAuthors={[event.createdBy.id]}
+            contentAuthors={event.createdBy?.id}
           />
         )}
       </Content>
