@@ -14,6 +14,31 @@ type Props = {
   isStudent: boolean;
 };
 
+const NotEligibleInfo = () => (
+  <div className={styles.notEligibleInfo}>
+    <p>
+      Dersom du mener dette er en feil, eller ønsker å søke om medlemskap kan du
+      enten:
+    </p>
+    <ol className={styles.infoList}>
+      <li>
+        Påse at du er har Datateknologi eller Kommunikasjonsteknologi og Digital
+        Sikkerhet som studie i StudentWeb og verifisere på nytt.
+      </li>
+      <li>
+        Sende en mail til <a href="mailto:webkom@abakus.no">webkom@abakus.no</a>{' '}
+        med dokumentasjon på at du går eller tar fag som tilhører et av studiene
+        over.
+      </li>
+      <li>
+        Sende en mail til <a href="mailto:abakus@abakus.no">abakus@abakus.no</a>{' '}
+        med søknad om hvorfor du ønsker å bli medlem av Abakus. (Det trenger
+        ikke være en stor søknad :))
+      </li>
+    </ol>
+  </div>
+);
+
 const StudentConfirmation = ({
   startStudentAuth,
   confirmStudentAuth,
@@ -63,58 +88,59 @@ const StudentConfirmation = ({
       <div>
         <h2>Verifiser studentstatus</h2>
 
-        {isStudent && (
-          <Card info>
-            <h4>Du er allerede verifisert som student</h4>
-            <p className={styles.infoText}>
-              Dersom du ønsker å endre trinn eller studie, vennligst send en
-              forespørsel til{' '}
-              <a href="mailto:webkom@abakus.no">webkom@abakus.no</a> med
-              dokumentasjon på ditt trinn og studie. Gyldig dokumentasjon kan
-              være:
-              <ul className={styles.programmeList}>
-                <li>
-                  Screenshot eller dokumentasjon fra studentWeb (at du tar fag
-                  tilhørende ditt ønsket trinn er nok)
-                </li>
-                <li>Dokumentasjon fra institutt/fakultet</li>
-              </ul>
-            </p>
-          </Card>
+        {isStudent == null && (
+          <p>
+            For å kunne bli medlem i Abakus og få mulighet til å delta på
+            arrangementer, få tilgang til bilder og interessegrupper og mer må
+            du verifisere at du går enten Kommunikasjonsteknologi & Digital
+            Sikkerhet eller Datateknologi. Ved å trykke på knappen under gir du
+            Abakus tilgang til dine studier og fag i StudentWeb gjennom FEIDE
+            slik at vi kan registrere deg som medlem.
+          </p>
         )}
 
+        {isStudent != null &&
+          (isStudent ? (
+            <Card info>
+              <h4>Du er verifisert som student</h4>
+              <p className={styles.infoText}>
+                Dersom du ønsker å endre trinn eller studie, vennligst send en
+                forespørsel til{' '}
+                <a href="mailto:webkom@abakus.no">webkom@abakus.no</a> med
+                dokumentasjon på ditt trinn og studie. Gyldig dokumentasjon kan
+                være:
+                <ul className={styles.programmeList}>
+                  <li>
+                    Screenshot eller dokumentasjon fra studentWeb (at du tar fag
+                    tilhørende ditt ønsket trinn er nok)
+                  </li>
+                  <li>Dokumentasjon fra institutt/fakultet</li>
+                </ul>
+              </p>
+            </Card>
+          ) : (
+            <Card danger>
+              <h4>
+                Informasjon vi har hentet om deg fra StudentWeb gir ikke
+                mulighet for automatisk medlemskap i Abakus
+              </h4>
+              <NotEligibleInfo />
+            </Card>
+          ))}
+
         {authRes && !isStudent && (
-          <Card
-            danger={authRes.status !== 'success'}
-            info={authRes.status === 'success'}
-          >
+          <Card danger={authRes.status !== 'success'}>
             {authRes.status === 'unauthorized' && (
               <>
                 <h4>
                   Ingen av dine nåværende studier tillater medlemskap i Abakus:
                 </h4>
-                <ul>
+                <ul className={styles.programmeList}>
                   {authRes.studyProgrammes.map((p) => (
                     <li key={p}>{p}</li>
                   ))}
                 </ul>
-                <p>
-                  Dersom du mener dette er en feil, eller ønsker å søke om
-                  medlemskap kan du enten:
-                </p>
-                <ol>
-                  <li>
-                    Sende en mail til{' '}
-                    <a href="mailto:webkom@abakus.no">webkom@abakus.no</a> med
-                    dokumentasjon på at du går studiet eller tar fag som
-                    tilsvarer studiet.
-                  </li>
-                  <li>
-                    Sende en mail til{' '}
-                    <a href="mailto:abakus@abakus.no">abakus@abakus.no</a> med
-                    søknad om hvorfor du ønsker å bli medlem av Abakus.
-                  </li>
-                </ol>
+                <NotEligibleInfo />
               </>
             )}
           </Card>
@@ -123,7 +149,7 @@ const StudentConfirmation = ({
         <Button success onClick={() => performStudentAuth()}>
           Verifiser med FEIDE
         </Button>
-        {isStudent && (
+        {isStudent != null && (
           <p className={styles.infoText}>
             Du har allerede verifisert din status. Dersom du har byttet studie
             og ønsker å bli medlem av Abakus, kan du verifisere deg på nytt og
@@ -132,8 +158,19 @@ const StudentConfirmation = ({
           </p>
         )}
 
-        <Modal show={showMemberModal} onHide={() => setShowMemberModal(false)}>
-          <Card info>Din studentstatus ble godkjent!</Card>
+        <Modal
+          show={showMemberModal}
+          contentClassName={styles.membershipModalContent}
+          onHide={() => setShowMemberModal(false)}
+        >
+          <Card info>
+            <Flex column>
+              <h4>Din studentstatus ble godkjent!</h4>
+              <p>
+                Du har blitt satt i gruppen: <b>{authRes?.grade}</b>
+              </p>
+            </Flex>
+          </Card>
           <h2>Vil du bli medlem av Abakus?</h2>
           <div>
             <p className={styles.infoText}>
@@ -165,7 +202,7 @@ const StudentConfirmation = ({
           </div>
 
           <Flex row>
-            <Button danger onClick={() => setAbakusMember(false)}>
+            <Button dark onClick={() => setAbakusMember(false)}>
               Jeg vil ikke bli medlem
             </Button>
             <Button success onClick={() => setAbakusMember(true)}>
