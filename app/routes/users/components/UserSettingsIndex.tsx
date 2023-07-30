@@ -27,9 +27,15 @@ const UserSettingsIndex = (props: Props) => {
   return (
     <Content>
       <Helmet title="Innstillinger" />
-      <NavigationTab title="Innstillinger">
+      <NavigationTab
+        title="Innstillinger"
+        back={{
+          label: 'Profil',
+          path: `/users/${props.match?.params.username}`,
+        }}
+      >
         {isCurrentUser && (
-          <>
+          <div data-test-id="navigation-tab">
             <NavigationLink to={`${base}/profile`}>Profil</NavigationLink>
             <NavigationLink to={`${base}/notifications`}>
               Notifikasjoner
@@ -40,7 +46,7 @@ const UserSettingsIndex = (props: Props) => {
                 Verifiser studentstatus
               </NavigationLink>
             )}
-          </>
+          </div>
         )}
       </NavigationTab>
       {props.children &&

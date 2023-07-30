@@ -9,6 +9,8 @@ export const c = (classname) => `[class*="${classname}"]`;
 // Find links by their path
 export const a = (path) => `a[href="${path}"]`;
 
+export const t = (testId) => `[data-test-id="${testId}"]`;
+
 export const field = (name) => cy.get(`[name="${name}"]`);
 
 // Used for react-select elements that cannot be found with the normal field method
