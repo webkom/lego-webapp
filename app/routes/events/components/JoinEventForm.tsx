@@ -470,13 +470,7 @@ const JoinEventForm = (props: Props) => {
                     )}
                   </Form>
 
-                  <Flex
-                    alignItems="center"
-                    gap={10}
-                    style={{
-                      margin: '20px 0',
-                    }}
-                  >
+                  <Flex alignItems="center" gap={10}>
                     <Field
                       id={feedbackName}
                       placeholder="Melding til arrangør"
@@ -500,6 +494,7 @@ const JoinEventForm = (props: Props) => {
                       </Button>
                     )}
                   </Flex>
+
                   {registration && showStripeDelayed && (
                     <PaymentForm
                       event={event}
