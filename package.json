@@ -125,7 +125,7 @@
     "@babel/preset-typescript": "^7.22.5",
     "@cfaester/enzyme-adapter-react-18": "^0.7.0",
     "@jest/globals": "^29.5.0",
-    "@loadable/babel-plugin": "^5.15.3",
+    "@loadable/babel-plugin": "^5.16.1",
     "@loadable/server": "^5.15.3",
     "@loadable/webpack-plugin": "^5.15.2",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.10",
