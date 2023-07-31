@@ -5,12 +5,17 @@ import Card from 'app/components/Card';
 import { Button } from 'app/components/Form';
 import { Container, Flex } from 'app/components/Layout';
 import Modal from 'app/components/Modal';
+import type { CurrentUser } from 'app/store/models/User';
 import styles from './UserConfirmation.css';
 
 type Props = {
-  studentConfirmed: boolean;
-  loggedIn: boolean;
-  submitSucceeded: () => void;
+  startStudentAuth: () => Promise<void>;
+  confirmStudentAuth: (options: {
+    code: string;
+    state: string;
+  }) => Promise<void>;
+  updateUser: () => Promise<void>;
+  currentUser: CurrentUser;
   isStudent: boolean;
 };
 
@@ -32,8 +37,8 @@ const NotEligibleInfo = () => (
       </li>
       <li>
         Sende en mail til <a href="mailto:abakus@abakus.no">abakus@abakus.no</a>{' '}
-        med søknad om hvorfor du ønsker å bli medlem av Abakus. (Det trenger
-        ikke være en stor søknad :))
+        med søknad om hvorfor du ønsker å bli medlem av Abakus. Det trenger ikke
+        være en stor søknad :)
       </li>
     </ol>
   </div>
@@ -70,8 +75,12 @@ const StudentConfirmation = ({
   useEffect(() => {
     const validateStudentAuth = async () => {
       if (code && state) {
-        const res = await confirmStudentAuth({ code, state });
-        setAuthRes(res.payload);
+        try {
+          const res = await confirmStudentAuth({ code, state });
+          setAuthRes(res.payload);
+        } catch (e) {
+          setAuthRes(e.payload.response.jsonData);
+        }
         history.replace({ search: '' });
       }
     };
@@ -85,132 +94,128 @@ const StudentConfirmation = ({
 
   return (
     <Container>
-      <div>
-        <h2>Verifiser studentstatus</h2>
+      <h2>Verifiser studentstatus</h2>
 
-        {isStudent == null && (
-          <p>
-            For å kunne bli medlem i Abakus og få mulighet til å delta på
-            arrangementer, få tilgang til bilder og interessegrupper og mer må
-            du verifisere at du går enten Kommunikasjonsteknologi & Digital
-            Sikkerhet eller Datateknologi. Ved å trykke på knappen under gir du
-            Abakus tilgang til dine studier og fag i StudentWeb gjennom FEIDE
-            slik at vi kan registrere deg som medlem.
-          </p>
-        )}
+      {isStudent === null && (
+        <p>
+          For å kunne bli medlem i Abakus og få mulighet til å delta på
+          arrangementer, få tilgang til bilder og interessegrupper og mer må du
+          verifisere at du går enten Kommunikasjonsteknologi & Digital Sikkerhet
+          eller Datateknologi. Ved å trykke på knappen under gir du Abakus
+          tilgang til dine studier og fag i StudentWeb gjennom FEIDE slik at vi
+          kan registrere deg som medlem.
+        </p>
+      )}
 
-        {isStudent != null &&
-          (isStudent ? (
-            <Card info>
-              <h4>Du er verifisert som student</h4>
-              <p className={styles.infoText}>
-                Dersom du ønsker å endre trinn eller studie, vennligst send en
-                forespørsel til{' '}
-                <a href="mailto:webkom@abakus.no">webkom@abakus.no</a> med
-                dokumentasjon på ditt trinn og studie. Gyldig dokumentasjon kan
-                være:
-                <ul className={styles.programmeList}>
-                  <li>
-                    Screenshot eller dokumentasjon fra studentWeb (at du tar fag
-                    tilhørende ditt ønsket trinn er nok)
-                  </li>
-                  <li>Dokumentasjon fra institutt/fakultet</li>
-                </ul>
-              </p>
-            </Card>
-          ) : (
-            <Card danger>
-              <h4>
-                Informasjon vi har hentet om deg fra StudentWeb gir ikke
-                mulighet for automatisk medlemskap i Abakus
-              </h4>
+      {isStudent !== null &&
+        (isStudent ? (
+          <Card severity="info">
+            <Card.Header>Du er verifisert som student</Card.Header>
+            <p className={styles.infoText}>
+              Dersom du ønsker å endre trinn eller studie, vennligst send en
+              forespørsel til{' '}
+              <a href="mailto:webkom@abakus.no">webkom@abakus.no</a> med
+              dokumentasjon på ditt trinn og studie. Gyldig dokumentasjon kan
+              være:
+              <ul className={styles.programmeList}>
+                <li>
+                  Screenshot eller dokumentasjon fra studentWeb (at du tar fag
+                  tilhørende ditt ønsket trinn er nok)
+                </li>
+                <li>Dokumentasjon fra institutt/fakultet</li>
+              </ul>
+            </p>
+          </Card>
+        ) : (
+          <Card severity="danger">
+            <Card.Header>
+              Informasjonen vi har hentet om deg fra StudentWeb gir ikke
+              mulighet for automatisk medlemskap i Abakus
+            </Card.Header>
+            <NotEligibleInfo />
+          </Card>
+        ))}
+
+      {authRes && authRes.status !== 'success' && (
+        <Card severity="danger">
+          {authRes.status === 'unauthorized' && (
+            <>
+              <Card.Header>
+                Ingen av dine nåværende studier tillater medlemskap i Abakus:
+              </Card.Header>
+              <ul className={styles.programmeList}>
+                {authRes.studyProgrammes.map((p) => (
+                  <li key={p}>{p}</li>
+                ))}
+              </ul>
               <NotEligibleInfo />
-            </Card>
-          ))}
+            </>
+          )}
+          {authRes.status === 'error' && (
+            <>
+              <Card.Header>
+                En feil oppsto under validering av din studentstatus:
+              </Card.Header>
+              <p>{authRes.detail}</p>
+            </>
+          )}
+        </Card>
+      )}
 
-        {authRes && !isStudent && (
-          <Card danger={authRes.status !== 'success'}>
-            {authRes.status === 'unauthorized' && (
-              <>
-                <h4>
-                  Ingen av dine nåværende studier tillater medlemskap i Abakus:
-                </h4>
-                <ul className={styles.programmeList}>
-                  {authRes.studyProgrammes.map((p) => (
-                    <li key={p}>{p}</li>
-                  ))}
-                </ul>
-                <NotEligibleInfo />
-              </>
-            )}
-          </Card>
-        )}
+      <Button success onClick={() => performStudentAuth()}>
+        Verifiser med FEIDE
+      </Button>
+      {isStudent !== null && (
+        <p className={styles.infoText}>
+          Du har allerede verifisert din status. Dersom du har byttet studie og
+          ønsker å bli medlem av Abakus, kan du verifisere deg på nytt og vi vil
+          oppdatere statusen din dersom du er registrert riktig på StudentWeb.
+        </p>
+      )}
 
-        <Button success onClick={() => performStudentAuth()}>
-          Verifiser med FEIDE
-        </Button>
-        {isStudent != null && (
-          <p className={styles.infoText}>
-            Du har allerede verifisert din status. Dersom du har byttet studie
-            og ønsker å bli medlem av Abakus, kan du verifisere deg på nytt og
-            vi vil oppdatere statusen din dersom du er registrert riktig på
-            StudentWeb.
+      <Modal
+        show={showMemberModal}
+        contentClassName={styles.membershipModalContent}
+        onHide={() => setShowMemberModal(false)}
+      >
+        <Card severity="success">
+          <Card.Header>Din studentstatus ble godkjent!</Card.Header>
+          <p>
+            Du har blitt satt i gruppen <b>{authRes?.grade}</b>
           </p>
-        )}
+        </Card>
+        <h2>Vil du bli medlem av Abakus?</h2>
+        <div>
+          <p className={styles.infoText}>
+            Alle som går Kommunikasjonsteknologi & Digital Sikkerhet eller
+            Datateknologi kan bli medlem av Abakus. Du må bli medlem for å kunne
+            delta på arrangementer, kurs og annet Abakus tilbyr. Vi anbefaler
+            alle nye studenter å melde seg inn. Du kan lese mer om{' '}
+            <Link to="/pages/info-om-abakus">Abakus</Link> og{' '}
+            <a
+              href="https://statutter.abakus.no#medlemskap"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              medlemskapet.{' '}
+            </a>
+            Det koster ingenting å være medlem av Abakus.
+          </p>
+          <p className={styles.infoText}>
+            Du kan alltids endre medlemskapet ditt på dine{' '}
+            <Link to="/users/me/settings/profile">innstillinger</Link>.
+          </p>
+        </div>
 
-        <Modal
-          show={showMemberModal}
-          contentClassName={styles.membershipModalContent}
-          onHide={() => setShowMemberModal(false)}
-        >
-          <Card info>
-            <Flex column>
-              <h4>Din studentstatus ble godkjent!</h4>
-              <p>
-                Du har blitt satt i gruppen: <b>{authRes?.grade}</b>
-              </p>
-            </Flex>
-          </Card>
-          <h2>Vil du bli medlem av Abakus?</h2>
-          <div>
-            <p className={styles.infoText}>
-              Alle som går Kommunikasjonsteknologi & Digital Sikkerhet eller
-              Datateknologi kan bli medlem av Abakus. Du må bli medlem for å
-              kunne delta på arrangementer, kurs og annet Abakus tilbyr. Vi
-              anbefaler alle nye studenter å melde seg inn. Du kan lese mer om{' '}
-              <a
-                href="https://abakus.no/pages/info-om-abakus"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                Abakus
-              </a>{' '}
-              og{' '}
-              <a
-                href="https://statutter.abakus.no#medlemskap"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                medlemskapet.{' '}
-              </a>
-              Det koster ingenting å være medlem av Abakus.
-            </p>
-            <p className={styles.infoText}>
-              Du kan alltids endre medlemskapet ditt på dine{' '}
-              <Link to="/users/me/settings/profile">innstillinger</Link>.
-            </p>
-          </div>
-
-          <Flex row>
-            <Button dark onClick={() => setAbakusMember(false)}>
-              Jeg vil ikke bli medlem
-            </Button>
-            <Button success onClick={() => setAbakusMember(true)}>
-              Jeg vil bli medlem
-            </Button>
-          </Flex>
-        </Modal>
-      </div>
+        <Flex>
+          <Button dark onClick={() => setAbakusMember(false)}>
+            Jeg vil ikke bli medlem
+          </Button>
+          <Button success onClick={() => setAbakusMember(true)}>
+            Jeg vil bli medlem
+          </Button>
+        </Flex>
+      </Modal>
     </Container>
   );
 };
