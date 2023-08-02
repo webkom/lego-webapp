@@ -1,3 +1,4 @@
+import { LoadingIndicator } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
@@ -13,7 +14,6 @@ import EventListCompact from 'app/components/EventListCompact';
 import Icon from 'app/components/Icon';
 import JoblistingItem from 'app/components/JoblistingItem';
 import { Flex } from 'app/components/Layout';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import NavigationTab from 'app/components/NavigationTab';
 import TextWithIcon from 'app/components/TextWithIcon';
 import type { Event } from 'app/models';

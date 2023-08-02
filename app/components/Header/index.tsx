@@ -1,3 +1,4 @@
+import { LoadingIndicator } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { useEffect, useState } from 'react';
 import { Modal } from 'react-overlays';
@@ -9,7 +10,6 @@ import type {
   AggregatedActivity,
   NotificationData,
 } from 'app/components/Feed/types';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import type { ID } from 'app/store/models';
 import type { CurrentUser } from 'app/store/models/User';
 import utilStyles from 'app/styles/utilities.css';

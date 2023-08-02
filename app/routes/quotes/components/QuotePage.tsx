@@ -1,3 +1,4 @@
+import { LoadingIndicator } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import qs from 'qs';
 import { useState, useEffect } from 'react';
@@ -6,7 +7,6 @@ import { useHistory } from 'react-router-dom';
 import Select from 'react-select';
 import Button from 'app/components/Button';
 import { selectTheme, selectStyles } from 'app/components/Form/SelectInput';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import type { ActionGrant } from 'app/models';
 import type { ID } from 'app/store/models';
 import type Emoji from 'app/store/models/Emoji';

@@ -1,8 +1,8 @@
 import cx from 'classnames';
-import styles from './LoadingIndicator.css';
+import styles from './LoadingIndicator.module.css';
 import type { ReactNode, CSSProperties } from 'react';
 
-export type Props = {
+export type LoadingIndicatorProps = {
   loading: boolean;
   small?: boolean;
   margin?: number | string;
@@ -11,14 +11,14 @@ export type Props = {
   className?: string;
 };
 
-const LoadingIndicator = ({
-  loading = false,
+export const LoadingIndicator = ({
+  loading,
   small,
   margin,
   loadingStyle,
   children,
   className,
-}: Props) => {
+}: LoadingIndicatorProps) => {
   const spinnerStyle = small ? styles.small : styles.spinner;
 
   if (loading) {
@@ -35,8 +35,6 @@ const LoadingIndicator = ({
 
   return children ? <div>{children}</div> : null;
 };
-
-export default LoadingIndicator;
 
 export const ProgressBar = () => {
   return <div className={styles.progressLine} />;

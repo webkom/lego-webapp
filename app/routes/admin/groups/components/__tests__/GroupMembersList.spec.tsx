@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-expressions */
+import { LoadingIndicator } from '@webkom/lego-bricks';
 import { shallow } from 'enzyme';
 import { omit } from 'lodash';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import { GroupMembers } from '../GroupMembers';
 import GroupMembersList from '../GroupMembersList';
 

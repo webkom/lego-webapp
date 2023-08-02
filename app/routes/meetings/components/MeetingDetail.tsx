@@ -1,3 +1,4 @@
+import { LoadingIndicator } from '@webkom/lego-bricks';
 import { isEmpty } from 'lodash';
 import moment from 'moment-timezone';
 import { Helmet } from 'react-helmet-async';
@@ -17,7 +18,6 @@ import Icon from 'app/components/Icon';
 import InfoList from 'app/components/InfoList';
 import Flex from 'app/components/Layout/Flex';
 import LegoReactions from 'app/components/LegoReactions';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import { MazemapEmbed } from 'app/components/MazemapEmbed';
 import NavigationTab from 'app/components/NavigationTab';
 import Time, { FromToTime } from 'app/components/Time';

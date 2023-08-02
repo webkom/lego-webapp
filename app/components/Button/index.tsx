@@ -1,5 +1,5 @@
+import { LoadingIndicator } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import LoadingIndicator from '../LoadingIndicator';
 import styles from './Button.css';
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
 

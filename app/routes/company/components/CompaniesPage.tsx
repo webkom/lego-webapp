@@ -1,3 +1,4 @@
+import { LoadingIndicator } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { useState, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
@@ -8,7 +9,6 @@ import Card from 'app/components/Card';
 import Icon from 'app/components/Icon';
 import { Image } from 'app/components/Image';
 import { Flex } from 'app/components/Layout';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import type { ListCompany } from 'app/store/models/Company';
 import utilities from 'app/styles/utilities.css';
 import styles from './CompaniesPage.css';

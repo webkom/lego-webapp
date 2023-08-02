@@ -1,3 +1,4 @@
+import { LoadingIndicator } from '@webkom/lego-bricks';
 import FileSaver from 'file-saver';
 import JsZip from 'jszip';
 import { Component, cloneElement } from 'react';
@@ -7,7 +8,6 @@ import { Content } from 'app/components/Content';
 import EmptyState from 'app/components/EmptyState';
 import Gallery from 'app/components/Gallery';
 import Icon from 'app/components/Icon';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import ImageUpload from 'app/components/Upload/ImageUpload';
 import type { DropFile } from 'app/components/Upload/ImageUpload';

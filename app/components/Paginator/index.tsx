@@ -1,6 +1,6 @@
+import { LoadingIndicator } from '@webkom/lego-bricks';
 import { Component } from 'react';
 import InfiniteScroll from 'react-infinite-scroller';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import type { ReactNode } from 'react';
 
 type Props = {

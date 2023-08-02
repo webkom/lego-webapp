@@ -1,3 +1,4 @@
+import { LoadingIndicator } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { debounce, isEmpty, get } from 'lodash';
 import { Component } from 'react';
@@ -7,7 +8,6 @@ import Dropdown from 'app/components/Dropdown';
 import { TextInput, CheckBox, RadioButton } from 'app/components/Form';
 import Icon from 'app/components/Icon';
 import Flex from 'app/components/Layout/Flex';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import styles from './Table.css';
 import type { ReactNode, ChangeEvent } from 'react';
 

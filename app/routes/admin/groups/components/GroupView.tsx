@@ -1,7 +1,7 @@
+import { LoadingIndicator } from '@webkom/lego-bricks';
 import { Component } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Route, Switch } from 'react-router-dom';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import RouteWrapper from 'app/components/RouteWrapper';
 import ConnectedGroupMembers from '../components/GroupMembers';
 import ConnectedGroupPermissions from '../components/GroupPermissions';

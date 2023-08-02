@@ -1,7 +1,7 @@
+import { LoadingIndicator } from '@webkom/lego-bricks';
 import { Component } from 'react';
 import Button from 'app/components/Button';
 import Icon from 'app/components/Icon';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import FileUpload from 'app/components/Upload/FileUpload';
 import type { CompanySemesterContactedStatus } from 'app/models';
@@ -67,7 +67,7 @@ export default class SemesterStatusDetail extends Component<Props, State> {
 
   render() {
     const { semesterStatus, editFunction } = this.props;
-    if (!semesterStatus) return <LoadingIndicator />;
+    if (!semesterStatus) return <LoadingIndicator loading />;
     const humanReadableSemester = this.semesterToHumanReadable();
     return (
       <tr key={semesterStatus.id}>

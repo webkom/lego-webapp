@@ -1,6 +1,6 @@
+import { LoadingIndicator } from '@webkom/lego-bricks';
 import { useHistory } from 'react-router-dom';
 import Button from 'app/components/Button';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import type { MeetingsTokenResponse } from 'app/reducers/meetingsToken';
 import type { ID } from 'app/store/models';
 import { MeetingInvitationStatus } from 'app/store/models/MeetingInvitation';
