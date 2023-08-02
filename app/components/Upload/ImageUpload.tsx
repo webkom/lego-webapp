@@ -245,7 +245,6 @@ export default class ImageUpload extends Component<Props, State> {
       'image/jpeg': ['*'],
       'image/png': ['*'],
       'image/gif': ['*'],
-      'image/webp': ['*'],
       'image/tif': ['*'],
       'image/bmp': ['*'],
       'image/avif': ['*'],
