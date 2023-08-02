@@ -555,12 +555,18 @@ function EventEditor({
               <>
                 Jeg er kjent med at jeg kun kan bruke rettighetene mine til å
                 opprette et Abakusarrangement som er i tråd med{' '}
-                <Link to="/pages/arrangementer/86-arrangementskalender">
+                <Link
+                  style={{ display: 'contents' }}
+                  to="/pages/arrangementer/86-arrangementskalender"
+                >
                   arrangementskalenderen
                 </Link>{' '}
                 og Abakus sine blesteregler, og at jeg må ta kontakt med{' '}
-                <a href="mailto:hs@abakus.no">hs@abakus.no</a> dersom jeg er
-                usikker eller ønsker å opprette et annet/eksternt arrangement.
+                <a style={{ display: 'contents' }} href="mailto:hs@abakus.no">
+                  hs@abakus.no
+                </a>{' '}
+                dersom jeg er usikker eller ønsker å opprette et annet/eksternt
+                arrangement.
               </>
             }
           >
