@@ -1,5 +1,4 @@
 import cx from 'classnames';
-import { Component } from 'react';
 import styles from './LoadingIndicator.css';
 import type { ReactNode, CSSProperties } from 'react';
 
@@ -11,29 +10,34 @@ export type Props = {
   children?: ReactNode;
   className?: string;
 };
-export default class LoadingIndicator extends Component<Props> {
-  static defaultProps = {
-    loading: false,
-  };
 
-  render() {
-    const spinnerStyle = this.props.small ? styles.small : styles.spinner;
+const LoadingIndicator = ({
+  loading = false,
+  small,
+  margin,
+  loadingStyle,
+  children,
+  className,
+}: Props) => {
+  const spinnerStyle = small ? styles.small : styles.spinner;
 
-    if (this.props.loading) {
-      return (
-        <div
-          className={cx(spinnerStyle, this.props.className)}
-          style={{ ...this.props.loadingStyle, margin: this.props.margin }}
-        >
-          <div className={styles.bounce1} />
-          <div className={styles.bounce2} />
-        </div>
-      );
-    }
-
-    return this.props.children ? <div>{this.props.children}</div> : null;
+  if (loading) {
+    return (
+      <div
+        className={cx(spinnerStyle, className)}
+        style={{ ...loadingStyle, margin: margin }}
+      >
+        <div className={styles.bounce1} />
+        <div className={styles.bounce2} />
+      </div>
+    );
   }
-}
+
+  return children ? <div>{children}</div> : null;
+};
+
+export default LoadingIndicator;
+
 export const ProgressBar = () => {
   return <div className={styles.progressLine} />;
 };
