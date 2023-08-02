@@ -23,5 +23,10 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: ['./vitest.setup.ts'],
   },
-  plugins: [react(), eslint()],
+  plugins: [
+    react(),
+    eslint({
+      exclude: [/virtual:/, /node_modules/],
+    }),
+  ],
 });
