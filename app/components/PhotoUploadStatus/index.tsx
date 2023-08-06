@@ -1,4 +1,3 @@
-import { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Gallery } from 'app/actions/ActionTypes';
 import Card from 'app/components/Card';
@@ -31,29 +30,37 @@ const UploadStatusCard = ({
   hideUploadStatus,
 }: Props) => {
   if (!uploadStatus.showStatus) return null;
+
   const uploadDone =
     uploadStatus.successCount + uploadStatus.failCount ===
     uploadStatus.imageCount;
   const hasFailedUploads = uploadStatus.failCount !== 0;
-  const word = uploadStatus.successCount === 1 ? 'bilde' : 'bilder';
+
   return (
-    <Card className={styles.photoUploadStatus}>
+    <Card
+      severity={!uploadDone ? 'info' : hasFailedUploads ? 'danger' : 'success'}
+      className={styles.photoUploadStatus}
+    >
       <Icon className={styles.close} onClick={hideUploadStatus} name="close" />
+
       {uploadDone ? (
-        <Fragment>
-          <h3 className={styles.successMessage}>
-            {uploadStatus.successCount} {word} ble lastet opp{' '}
-          </h3>
-        </Fragment>
+        <Card.Header className={styles.header}>
+          {uploadStatus.successCount > 1 ? uploadStatus.successCount : 'Ingen'}{' '}
+          {hasFailedUploads ? `av ${uploadStatus.imageCount}` : ''}{' '}
+          {uploadStatus.successCount === 1 ? 'bilde' : 'bilder'} ble lastet opp
+        </Card.Header>
       ) : (
-        <Fragment>
-          <h3>Laster opp bilder ...</h3>
+        <>
+          <Card.Header>
+            Laster opp {uploadStatus.imageCount > 1 ? 'bildene' : 'bildet'} ...
+          </Card.Header>
           <p>
             <b>Status</b>: {uploadStatus.successCount} av{' '}
             {uploadStatus.imageCount}
           </p>
-        </Fragment>
+        </>
       )}
+
       {hasFailedUploads && (
         <Tooltip
           content={
@@ -70,13 +77,13 @@ const UploadStatusCard = ({
             </Flex>
           }
         >
-          <b>Antall feil</b>: {uploadStatus.failCount}
+          {uploadStatus.failCount} feil
         </Tooltip>
       )}
 
       {lastImage && (
         <Image
-          alt="Last"
+          alt="Siste bilde"
           style={{
             width: 250,
             height: 100,

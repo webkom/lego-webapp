@@ -10,6 +10,7 @@ import {
 import { loadStripe } from '@stripe/stripe-js';
 import { Component, useState, useEffect, useCallback } from 'react';
 import Button from 'app/components/Button';
+import Card from 'app/components/Card';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import config from 'app/config';
 import type { EventRegistrationPaymentStatus, Event } from 'app/models';
@@ -348,13 +349,13 @@ class PaymentForm extends Component<FormProps, FormState> {
   render() {
     const { success, error, loading } = this.state;
     return success ? (
-      <div className={stripeStyles.success}>
+      <Card severity="success">
         {`Din betaling på ${
           this.props.event.price
             ? (this.props.event.price / 100).toFixed(2).replace('.', ',')
             : ''
         } kr ble godkjent.`}
-      </div>
+      </Card>
     ) : (
       <>
         {loading && <LoadingIndicator loading />}

@@ -115,7 +115,7 @@ let AnnouncementsCreate = ({
                 Opprett og send
               </Button>
 
-              <Card info>
+              <Card severity="info">
                 Du kan velge å sende kunngjøringen med en gang, eller lagre den
                 og sende den senere fra listen nedenfor.
               </Card>

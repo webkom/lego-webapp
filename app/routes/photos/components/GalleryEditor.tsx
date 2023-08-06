@@ -285,7 +285,9 @@ class GalleryEditor extends Component<Props, State> {
         />
         <Flex>
           {isNew ? (
-            <Card info>For å legge inn bilder må du først lage albumet!</Card>
+            <Card severity="info">
+              For å legge inn bilder må du først lage albumet!
+            </Card>
           ) : (
             <GalleryComponent
               photos={pictures}

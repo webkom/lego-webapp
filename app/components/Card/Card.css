@@ -4,6 +4,12 @@
   border-radius: var(--border-radius-lg);
 }
 
+.header {
+  font-weight: 600;
+  font-size: var(--font-size-lg);
+  line-height: 1.3;
+}
+
 .shadow {
   box-shadow: var(--shadow-sm);
 }
@@ -60,11 +66,25 @@ html[data-theme='dark'] .danger a:hover {
 }
 
 .infoIcon {
-  color: var(--color-blue-8);
+  color: var(--color-blue-7);
 }
 
-.header {
-  font-weight: 600;
-  font-size: var(--font-size-lg);
-  line-height: 1.3;
+.success {
+  margin: 20px 0;
+  background-color: var(--color-green-2);
+  border: 1.5px solid var(--color-green-7);
+  color: var(--color-green-7);
+}
+
+.success a {
+  color: var(--color-green-8);
+  text-decoration: underline;
+
+  &:hover {
+    color: var(--color-green-7);
+  }
+}
+
+.successIcon {
+  color: var(--color-green-7);
 }

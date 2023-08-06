@@ -4,6 +4,8 @@ import Flex from 'app/components/Layout/Flex';
 import styles from './Card.css';
 import type { HTMLAttributes, ReactNode } from 'react';
 
+type Severity = 'danger' | 'info' | 'success';
+
 type CardHeaderProps = {
   children: ReactNode;
   className?: string;
@@ -14,25 +16,33 @@ const CardHeader = ({ children, className }: CardHeaderProps) => (
 );
 
 type CardContentProps = {
+  severity?: Severity;
   children: ReactNode;
-  danger?: boolean;
-  info?: boolean;
 };
 
-const CardContent = ({ children, danger, info }: CardContentProps) => {
+const CardContent = ({ children, severity }: CardContentProps) => {
   let icon;
-  if (danger) {
-    icon = <Icon name="alert-circle-outline" className={styles.warningIcon} />;
-  }
 
-  if (info) {
-    icon = (
-      <Icon name="information-circle-outline" className={styles.infoIcon} />
-    );
+  switch (severity) {
+    case 'danger':
+      icon = (
+        <Icon name="alert-circle-outline" className={styles.warningIcon} />
+      );
+      break;
+    case 'info':
+      icon = (
+        <Icon name="information-circle-outline" className={styles.infoIcon} />
+      );
+      break;
+    case 'success':
+      icon = (
+        <Icon name="checkmark-circle-outline" className={styles.successIcon} />
+      );
+      break;
   }
 
   return icon !== undefined ? (
-    <Flex gap={20} className={styles.cardWithSeverity}>
+    <Flex gap={20}>
       {icon}
       <Flex column>{children}</Flex>
     </Flex>
@@ -46,8 +56,7 @@ type Props = {
   shadow?: boolean;
   hideOverflow?: boolean;
   isHoverable?: boolean;
-  danger?: boolean;
-  info?: boolean;
+  severity?: Severity;
 } & HTMLAttributes<HTMLDivElement>;
 
 function Card({
@@ -56,8 +65,7 @@ function Card({
   shadow = true,
   hideOverflow = false,
   isHoverable = false,
-  danger = false,
-  info = false,
+  severity,
   ...htmlAttributes
 }: Props) {
   return (
@@ -67,17 +75,14 @@ function Card({
         styles.card,
         shadow && styles.shadow,
         isHoverable && styles.isHoverable,
-        danger && styles.danger,
-        info && styles.info
+        severity && styles[severity]
       )}
       style={{
         overflow: hideOverflow ? 'hidden' : 'initial',
       }}
       {...htmlAttributes}
     >
-      <CardContent danger={danger} info={info}>
-        {children}
-      </CardContent>
+      <CardContent severity={severity}>{children}</CardContent>
     </div>
   );
 }

@@ -647,7 +647,7 @@ const CompanyInterestPage = (props: Props) => {
                 </Link>
               )}
             </FlexRow>
-            <Card info>
+            <Card severity="info">
               {labels.subHeading[language]}
               <a href={'mailto:bedriftskontakt@abakus.no'}>
                 bedriftskontakt@abakus.no
