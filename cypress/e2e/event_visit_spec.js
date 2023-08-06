@@ -52,12 +52,8 @@ describe('View event', () => {
     cy.visit('/events/20');
 
     cy.contains('button', 'Kommenter').should('not.be.visible');
-
-    cy.get(c('CommentForm__field'))
-      .find('input')
-      .last()
-      .click()
-      .type('This event will be awesome');
+    cy.get(c('CommentForm')).find('input').first().click();
+    cy.focused().type('This event will be awesome');
     cy.contains('button', 'Kommenter').should('be.visible').click();
 
     // We should see the comment and be able to delete it
@@ -70,15 +66,12 @@ describe('View event', () => {
           .should('exist')
           .and('not.be.disabled')
           .click();
-        cy.contains('Slettet');
+        cy.contains('Kommentar slettet');
         cy.contains('button', 'svar').should('not.exist');
       });
 
-    cy.get(c('CommentForm'))
-      .find('input')
-      .last()
-      .click()
-      .type('This is the top comment');
+    cy.get(c('CommentForm')).find('input').last().click();
+    cy.focused().type('This is the top comment');
     cy.contains('button', 'Kommenter').should('be.visible').click();
 
     cy.get(c('Comment__comment')).last().contains('This is the top comment');
