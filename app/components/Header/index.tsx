@@ -10,8 +10,8 @@ import type {
   NotificationData,
 } from 'app/components/Feed/types';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import type { UserEntity } from 'app/reducers/users';
 import type { ID } from 'app/store/models';
+import type { CurrentUser } from 'app/store/models/User';
 import utilStyles from 'app/styles/utilities.css';
 import { applySelectedTheme, getOSTheme, getTheme } from 'app/utils/themeUtils';
 import Dropdown from '../Dropdown';
@@ -26,7 +26,7 @@ import ToggleTheme from './ToggleTheme';
 type Props = {
   searchOpen: boolean;
   toggleSearch: () => any;
-  currentUser: UserEntity;
+  currentUser: CurrentUser;
   loggedIn: boolean;
   login: () => Promise<any>;
   logout: () => void;
@@ -210,7 +210,6 @@ const Header = ({ loggedIn, currentUser, loading, ...props }: Props) => {
                 triggerComponent={
                   <ProfilePicture
                     size={24}
-                    alt="user"
                     user={currentUser}
                     style={{
                       verticalAlign: 'middle',

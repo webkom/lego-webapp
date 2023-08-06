@@ -27,6 +27,7 @@ import type {
   UserMembership,
 } from 'app/models';
 import { resolveGroupLink } from 'app/reducers/groups';
+import type { CurrentUser } from 'app/store/models/User';
 //import Feed from 'app/components/Feed';
 import GroupChange from './GroupChange';
 import Penalties from './Penalties';
@@ -58,7 +59,7 @@ const fieldRenders = {
   internalEmailAddress: emailFieldRender,
 };
 type Props = {
-  user: User;
+  user: CurrentUser;
   showSettings: boolean;
   //feedItems: Array<any>,
   //feed: Object,
@@ -373,7 +374,8 @@ const UserProfile = (props: Props) => {
   const emailListsOnUser = abakusEmailLists.filter((emailList) =>
     emailList.users.includes(user.id)
   );
-  const hasFrame = FRAMEID.includes(user.id);
+  const hasFrame = FRAMEID.includes(user.id as number);
+
   return (
     <div className={styles.root}>
       <Helmet title={`${firstName} ${lastName}`} />
@@ -395,7 +397,7 @@ const UserProfile = (props: Props) => {
             {hasFrame && (
               <Image alt="Golden frame" className={styles.frame} src={frame} />
             )}
-            <ProfilePicture user={user} alt="Profile picture" size={150} />
+            <ProfilePicture user={user} size={150} />
           </Flex>
           {isCurrentUser && (
             <Button

@@ -8,6 +8,7 @@ import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import type { PhotoConsent } from 'app/models';
 import { PhotoConsentDomain } from 'app/models';
 import { getConsent, toReadableSemester } from 'app/routes/events/utils';
+import type { ID } from 'app/store/models';
 import styles from './PhotoConsents.css';
 
 const ConsentManager = ({
@@ -93,9 +94,9 @@ const PhotoConsents = ({
   updatePhotoConsent: (
     photoConsent: PhotoConsent,
     username: string,
-    userId: number
+    userId: ID
   ) => Promise<void>;
-  userId: number;
+  userId: ID;
   isCurrentUser: boolean;
 }) => {
   const semesterOptions = photoConsents

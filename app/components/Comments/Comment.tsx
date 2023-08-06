@@ -46,11 +46,7 @@ const Comment = ({
         {author && (
           <Flex alignItems="center" justifyContent="space-between">
             <Flex alignItems="center" gap="1rem">
-              <ProfilePicture
-                size={40}
-                user={author}
-                alt={`${author.username}'s profile picture`}
-              />
+              <ProfilePicture size={40} user={author} />
 
               <Flex column className={styles.username}>
                 <Flex alignItems="center" gap={10}>
@@ -87,7 +83,7 @@ const Comment = ({
         <DisplayContent
           id="comment-text"
           className={styles.text}
-          content={text ? text : '<p>Slettet</p>'}
+          content={text ? text : '<p>Kommentar slettet</p>'}
         />
 
         {author && (
