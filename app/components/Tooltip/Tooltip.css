@@ -13,6 +13,7 @@
   transition: var(--easing-medium);
   transition-property: opacity, visibility;
   position: absolute;
+  max-width: 300px;
   background: var(--tooltip-background);
   color: var(--inverted-font-color);
   border-radius: var(--border-radius-md);
@@ -28,7 +29,7 @@
 .content {
   display: flex;
   align-items: center;
-  padding: 4px 9px;
+  padding: 7px 11px;
   line-height: 1.3;
 }
 

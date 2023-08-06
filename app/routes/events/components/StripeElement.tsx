@@ -12,12 +12,13 @@ import { Component, useState, useEffect, useCallback } from 'react';
 import Button from 'app/components/Button';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import config from 'app/config';
-import type { EventRegistrationPaymentStatus, User, Event } from 'app/models';
+import type { EventRegistrationPaymentStatus, Event } from 'app/models';
+import type { CurrentUser } from 'app/store/models/User';
 import stripeStyles from './Stripe.css';
 
 type Props = {
   event: Event;
-  currentUser: User;
+  currentUser: CurrentUser;
   createPaymentIntent: () => Promise<any>;
   paymentStatus: EventRegistrationPaymentStatus;
   clientSecret?: string;

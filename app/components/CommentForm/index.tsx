@@ -1,10 +1,8 @@
 import cx from 'classnames';
-import { useEffect, useState } from 'react';
 import { Field } from 'react-final-form';
 import { addComment } from 'app/actions/CommentActions';
 import Button from 'app/components/Button';
 import Card from 'app/components/Card';
-import DisplayContent from 'app/components/DisplayContent';
 import { TextInput } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
@@ -41,12 +39,6 @@ const CommentForm = ({
   placeholder = 'Skriv en kommentar ...',
 }: Props) => {
   const dispatch = useAppDispatch();
-  // editor must be disabled while server-side rendering
-  const [editorSsrDisabled, setEditorSsrDisabled] = useState(true);
-  useEffect(() => {
-    // Workaround to make sure we re-render editor in enabled state on client after ssr
-    setEditorSsrDisabled(false);
-  }, []);
 
   if (!loggedIn) {
     return <div>Vennligst logg inn for å kommentere</div>;
@@ -77,23 +69,15 @@ const CommentForm = ({
                 <ProfilePicture size={40} user={user} />
 
                 <div className={styles.field}>
-                  {editorSsrDisabled ? (
-                    <DisplayContent
-                      id="comment-text"
-                      content=""
-                      placeholder={placeholder}
-                    />
-                  ) : (
-                    <Field
-                      key={values.commentKey}
-                      autoFocus={autoFocus}
-                      name="text"
-                      placeholder={placeholder}
-                      component={TextInput.Field}
-                      removeBorder
-                      maxLength={140}
-                    />
-                  )}
+                  <Field
+                    key={values.commentKey}
+                    autoFocus={autoFocus}
+                    name="text"
+                    placeholder={placeholder}
+                    component={TextInput.Field}
+                    removeBorder
+                    maxLength={140}
+                  />
                 </div>
 
                 {spySubmittable((submittable) => (

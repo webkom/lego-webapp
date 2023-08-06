@@ -1,28 +1,27 @@
-import type { User } from 'app/models';
+import type { UnknownUser } from 'app/store/models/User';
 import CircularPicture from './CircularPicture';
 import type { ComponentProps } from 'react';
 
-type Props = Omit<
-  {
-    user: Pick<
-      User,
-      'profilePicture' | 'username' | 'profilePicturePlaceholder'
-    >;
-    size: number;
-    className?: string;
-  } & ComponentProps<typeof CircularPicture>,
-  'placeholder' | 'src'
->;
+type Props = {
+  user: Pick<
+    UnknownUser,
+    'profilePicture' | 'username' | 'profilePicturePlaceholder'
+  >;
+  size: number;
+  className?: string;
+  alt?: string;
+} & Omit<ComponentProps<typeof CircularPicture>, 'src' | 'alt'>;
 
 const ProfilePicture = ({
   user,
   size = 100,
   className,
+  alt = `${user.username}'s profile picture`,
   style,
   ...props
 }: Props) => (
   <CircularPicture
-    alt={`${user.username}'s profile picture`}
+    alt={alt}
     src={user.profilePicture}
     placeholder={user.profilePicturePlaceholder}
     size={size}

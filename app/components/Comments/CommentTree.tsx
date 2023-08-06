@@ -1,6 +1,7 @@
 import cx from 'classnames';
 import type { ID } from 'app/store/models';
 import type CommentType from 'app/store/models/Comment';
+import type { ContentAuthors } from 'app/store/models/Comment';
 import type { CurrentUser } from 'app/store/models/User';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 import type { Tree } from 'app/utils';
@@ -19,7 +20,7 @@ type Props = {
   deleteComment: (id: ID, contentTarget: ContentTarget) => Promise<void>;
   user: CurrentUser;
   contentTarget: ContentTarget;
-  contentAuthors?: ID[];
+  contentAuthors?: ContentAuthors;
 };
 
 function CommentTree({

@@ -260,7 +260,7 @@ const MeetingDetails = ({
                 loggedIn={loggedIn}
                 comments={comments}
                 deleteComment={deleteComment}
-                contentAuthors={[meeting.createdBy]}
+                contentAuthors={meeting.createdBy}
               />
             </>
           )}

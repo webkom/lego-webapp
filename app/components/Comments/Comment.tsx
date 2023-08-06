@@ -11,6 +11,7 @@ import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
 import type { ID } from 'app/store/models';
 import type CommentType from 'app/store/models/Comment';
+import type { ContentAuthors } from 'app/store/models/Comment';
 import type { CurrentUser } from 'app/store/models/User';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 import styles from './Comment.css';
@@ -25,7 +26,7 @@ type Props = {
   deleteComment: (id: ID, contentTarget: ContentTarget) => Promise<void>;
   user: CurrentUser;
   contentTarget: ContentTarget;
-  contentAuthors?: ID[];
+  contentAuthors?: ContentAuthors;
 };
 
 const Comment = ({
@@ -45,18 +46,14 @@ const Comment = ({
         {author && (
           <Flex alignItems="center" justifyContent="space-between">
             <Flex alignItems="center" gap="1rem">
-              <ProfilePicture
-                size={40}
-                user={author}
-                alt={`${author.username}'s profile picture`}
-              />
+              <ProfilePicture size={40} user={author} />
 
               <Flex column className={styles.username}>
                 <Flex alignItems="center" gap={10}>
                   <Link to={`/users/${author.username}`}>
                     {author.fullName}
                   </Link>
-                  {contentAuthors?.includes(author.id) && (
+                  {[contentAuthors].flat().includes(author.id) && (
                     <Tag
                       icon="shield-checkmark-outline"
                       tag="Forfatter"
@@ -86,7 +83,7 @@ const Comment = ({
         <DisplayContent
           id="comment-text"
           className={styles.text}
-          content={text ? text : '<p>Slettet</p>'}
+          content={text ? text : '<p>Kommentar slettet</p>'}
         />
 
         {author && (

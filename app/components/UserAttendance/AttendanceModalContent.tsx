@@ -109,11 +109,7 @@ const AttendanceModalContent = ({
                   styles.opacity
               )}
             >
-              <ProfilePicture
-                size={30}
-                user={registration.user}
-                alt={`${registration.user.fullName}'s profile picture`}
-              />
+              <ProfilePicture size={30} user={registration.user} />
               <Link to={`/users/${registration.user.username}`}>
                 {registration.user.fullName}
               </Link>

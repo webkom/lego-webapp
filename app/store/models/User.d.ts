@@ -39,7 +39,6 @@ interface User {
   isAbakomMember: boolean;
   pastMemberships: PastMembership[];
   selectedTheme: string;
-
   permissionsPerGroup: {
     abakusGroup: Pick<Group, 'id' | 'name'>;
     permissions: string[];
@@ -49,8 +48,8 @@ interface User {
     }[];
   }[];
   photoConsents?: PhotoConsent[];
-
   memberships: Membership[];
+  githubUsername?: string;
 }
 
 export type CurrentUser = Pick<
@@ -82,6 +81,7 @@ export type CurrentUser = Pick<
   | 'selectedTheme'
   | 'permissionsPerGroup'
   | 'photoConsents'
+  | 'githubUsername'
 >;
 
 export type DetailedUser = Pick<
@@ -103,6 +103,7 @@ export type DetailedUser = Pick<
   | 'abakusGroups'
   | 'pastMemberships'
   | 'permissionsPerGroup'
+  | 'githubUsername'
 >;
 
 export type PublicUser = Pick<
@@ -116,6 +117,7 @@ export type PublicUser = Pick<
   | 'profilePicture'
   | 'profilePicturePlaceholder'
   | 'internalEmailAddress'
+  | 'githubUsername'
 >;
 
 export type PublicUserWithAbakusGroups = Pick<User, 'abakusGroups'> &

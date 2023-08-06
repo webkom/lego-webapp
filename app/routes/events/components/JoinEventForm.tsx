@@ -14,7 +14,6 @@ import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
 import type {
-  User,
   EventRegistration,
   EventRegistrationStatus,
   Penalty,
@@ -22,6 +21,7 @@ import type {
 } from 'app/models';
 import { selectPenaltyByUserId } from 'app/reducers/penalties';
 import { selectUserByUsername } from 'app/reducers/users';
+import type { CurrentUser } from 'app/store/models/User';
 import {
   paymentSuccess,
   paymentManual,
@@ -41,7 +41,7 @@ export type Props = {
   event: Event;
   registration: EventRegistration | null | undefined;
   pendingRegistration: EventRegistration | null | undefined;
-  currentUser: User;
+  currentUser: CurrentUser;
   onSubmit: (arg0: Record<string, any>) => void;
   createPaymentIntent: () => Promise<any>;
   handleSubmit: /*TODO: SubmitHandler<>*/ (arg0: any) => void;
@@ -168,7 +168,7 @@ const PaymentForm = ({
 }: {
   createPaymentIntent: () => Promise<void>;
   event: Event;
-  currentUser: User;
+  currentUser: CurrentUser;
   registration: EventRegistration;
 }) => (
   <div
@@ -391,7 +391,7 @@ const JoinEventForm = (props: Props) => {
             {!disabledForUser &&
               event.useConsent &&
               !hasRegisteredConsentForSemester && (
-                <Card>
+                <Card danger>
                   <Card.Header>NB!</Card.Header>
                   <p>
                     Du må ta stilling til bildesamtykke for semesteret{' '}
@@ -470,13 +470,7 @@ const JoinEventForm = (props: Props) => {
                     )}
                   </Form>
 
-                  <Flex
-                    alignItems="center"
-                    gap={10}
-                    style={{
-                      margin: '20px 0',
-                    }}
-                  >
+                  <Flex alignItems="center" gap={10}>
                     <Field
                       id={feedbackName}
                       placeholder="Melding til arrangør"
@@ -500,6 +494,7 @@ const JoinEventForm = (props: Props) => {
                       </Button>
                     )}
                   </Flex>
+
                   {registration && showStripeDelayed && (
                     <PaymentForm
                       event={event}

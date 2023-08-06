@@ -2,7 +2,7 @@ import cx from 'classnames';
 import { Link } from 'react-router-dom';
 import { ProfilePicture } from 'app/components/Image';
 import Tooltip from 'app/components/Tooltip';
-import type { User } from 'app/models';
+import type { PublicUser } from 'app/store/models/User';
 import styles from './UserGrid.css';
 
 const UserGrid = ({
@@ -12,7 +12,7 @@ const UserGrid = ({
   minRows = 0,
   padding = 3,
 }: {
-  users: User[];
+  users: PublicUser[];
 
   /* profile picture size */
   size?: number;
@@ -44,15 +44,10 @@ const UserGrid = ({
   </div>
 );
 
-const RegisteredUserCell = ({ user }: { user: User }) => (
+const RegisteredUserCell = ({ user }: { user: PublicUser }) => (
   <Tooltip content={user.fullName}>
     <Link to={`/users/${user.username}`}>
-      <ProfilePicture
-        alt={`${user.username}'s profile picture`}
-        size={56}
-        user={user}
-        className={styles.cell}
-      />
+      <ProfilePicture size={56} user={user} className={styles.cell} />
     </Link>
   </Tooltip>
 );

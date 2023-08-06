@@ -14,3 +14,5 @@ export interface Comment {
 }
 
 export default Comment;
+
+export type ContentAuthors = ID | ID[] | null | undefined;

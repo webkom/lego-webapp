@@ -24,20 +24,20 @@ const AttendanceElement = ({
 }: AttendanceElementProps) => {
   const totalCount = registrations ? registrations.length : registrationCount;
 
-  const Status = () => (
-    <strong>{`${totalCount}/${capacity ? capacity : '∞'}`}</strong>
-  );
-
   return (
     <Flex className={styles.poolBox}>
       <strong>{name}</strong>
-      {registrations ? (
-        <Button flat onClick={() => toggleModal(index)}>
-          <Status />
-        </Button>
-      ) : (
-        <Status />
-      )}
+      <Button
+        flat
+        disabled={!registrations}
+        onClick={() => {
+          if (registrations) {
+            toggleModal(index);
+          }
+        }}
+      >
+        {`${totalCount}/${capacity ? capacity : '∞'}`}
+      </Button>
     </Flex>
   );
 };
@@ -67,11 +67,9 @@ const AttendanceStatus = ({
       ))}
       {!!legacyRegistrationCount && (
         <div className={styles.poolBox}>
-          <Tooltip content="Disse brukerne har blitt slettet etter de deltok på arrangementet">
-            <strong>Anonyme</strong>
-            <strong>
-              <p>{`${legacyRegistrationCount}/∞`}</p>
-            </strong>
+          <strong>Anonyme</strong>
+          <Tooltip content="Disse brukerne har blitt slettet etter at de deltok på arrangementet">
+            <Button flat disabled>{`${legacyRegistrationCount}`}</Button>
           </Tooltip>
         </div>
       )}
