@@ -36,8 +36,8 @@
     "lint:js": "eslint 'src/**/*.{js,ts,tsx}'",
     "lint:prettier": "prettier '**/*.{ts,tsx,js,css,md,json}' --check",
     "prettier": "prettier '**/*.{ts,tsx,js,css,md,json}' --write",
-    "test": "vitest",
-    "test:run": "vitest run",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "types": "tsc"
   },
   "peerDependencies": {

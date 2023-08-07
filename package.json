@@ -11,7 +11,7 @@
     "ssr:staging": "API_URL=https://lego-staging.abakus.no/api/v1 BASE_URL=https://lego-staging.abakus.no WS_URL=wss://ws-staging.abakus.no CAPTCHA_KEY=1x00000000000000000000AA yarn ssr",
     "ssr": "echo \"Remember that SSR does not have hot reloading, build with \"yarn build\"\" && node ./dist/server.js",
     "build": "yarn build:packages && concurrently \"yarn run build:server\" \"yarn run build:client\"",
-    "build:packages": "yarn workspace @webkom/lego-bricks build",
+    "build:packages": "yarn workspaces run build",
     "build:all": "concurrently \"yarn build:server\" \"yarn build:client\" \"yarn build:dll\"",
     "build:client": "webpack --config config/webpack.client.js --mode=production",
     "build:server": "webpack --config config/webpack.server.js --mode=production",
@@ -20,12 +20,15 @@
     "test": "NODE_ENV=test jest",
     "test:coverage": "yarn run test -- --coverage",
     "test:watch": "yarn run test --watch",
+    "test:packages": "yarn workspaces run test",
     "lint": "yarn run lint:js && yarn run lint:css && yarn run lint:prettier",
     "lint:js": "eslint . --ignore-path .prettierignore --ignore-pattern packages --rule '@typescript-eslint/no-explicit-any: 0'",
     "lint:css": "stylelint './app/**/*.css'",
     "lint:prettier": "prettier '**/*.{ts,tsx,js,css,md,json}' --check",
+    "lint:packages": "yarn workspaces run lint",
     "prettier": "prettier '**/*.{ts,tsx,js,css,md,json}' --write",
-    "types": "tsc"
+    "types": "tsc",
+    "types:packages": "yarn workspaces run types"
   },
   "repository": {
     "type": "git",
