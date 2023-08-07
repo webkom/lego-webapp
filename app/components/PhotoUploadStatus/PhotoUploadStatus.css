@@ -13,6 +13,6 @@
   cursor: pointer;
 }
 
-.successMessage {
-  color: var(--color-green-6);
+.header {
+  width: 80%;
 }

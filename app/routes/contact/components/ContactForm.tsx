@@ -62,7 +62,7 @@ const ContactForm = (props: Props) => {
         Hovedstyret, enten du har spørsmål, tilbakemeldinger, eller bare ønsker
         å dele informasjon med oss.
       </p>
-      <Card info>
+      <Card severity="info">
         <p>
           Dersom du ønsker å varsle om kritikkverdige forhold, vennligst benytt
           vår{' '}

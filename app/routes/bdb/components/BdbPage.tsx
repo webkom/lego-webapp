@@ -214,7 +214,7 @@ export default class BdbPage extends Component<Props, State> {
           filters={this.state.filters}
         />
 
-        <Card info>
+        <Card severity="info">
           <Card.Header>Tips</Card.Header>
           Du kan endre semestere ved å trykke på dem i listen!
         </Card>

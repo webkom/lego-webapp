@@ -414,7 +414,7 @@ export default class BdbDetail extends Component<Props, State> {
               marginBottom: '10px',
             }}
           >
-            <Card info>
+            <Card severity="info">
               <Card.Header>Tips</Card.Header>
               Du kan endre semestere ved å trykke på dem i listen!
             </Card>

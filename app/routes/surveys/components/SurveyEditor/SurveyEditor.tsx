@@ -338,7 +338,7 @@ const SurveyEditor = ({
         )}
       </TypedLegoForm>
 
-      <Card info>
+      <Card severity="info">
         <span>
           Deltagerene på arrangementet vil få e-post med link til
           spørreundersøkelsen når den aktiveres (

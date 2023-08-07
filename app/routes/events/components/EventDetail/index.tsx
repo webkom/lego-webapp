@@ -505,7 +505,7 @@ export default class EventDetail extends Component<Props, State> {
                 {'unansweredSurveys' in event &&
                 event.unansweredSurveys?.length > 0 &&
                 !event.isAdmitted ? (
-                  <Card danger>
+                  <Card severity="danger">
                     <p>
                       Du kan ikke melde deg på dette arrangementet fordi du har
                       ubesvarte spørreundersøkelser. Gå til lenkene under for å

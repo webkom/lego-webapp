@@ -359,7 +359,7 @@ const JoinEventForm = (props: Props) => {
               <div>Du kan ikke melde deg på dette arrangementet.</div>
             )}
             {sumPenalties(penalties) > 0 && event.heedPenalties && (
-              <Card danger>
+              <Card severity="danger">
                 <Card.Header>NB!</Card.Header>
                 <p>
                   {sumPenalties(penalties) > 2
@@ -377,7 +377,7 @@ const JoinEventForm = (props: Props) => {
             {!disabledForUser &&
               event.useContactTracing &&
               !currentUser.phoneNumber && (
-                <Card danger>
+                <Card severity="danger">
                   <Card.Header>NB!</Card.Header>
                   <p>
                     Du må legge til telefonnummer for å melde deg på dette
