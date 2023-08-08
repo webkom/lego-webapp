@@ -1,7 +1,16 @@
 import cx from 'classnames';
-import LoadingIndicator from '../LoadingIndicator';
-import styles from './Button.css';
+import { LoadingIndicator } from '../LoadingIndicator';
+import styles from './Button.module.css';
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
+
+/**
+ * A basic Button component
+ *
+ * ### Example Usage
+ * ```js
+ * <Button size='large' submit>Save</Button>
+ * ```
+ */
 
 type Props = {
   /** content inside */
@@ -38,7 +47,7 @@ type Props = {
   ghost?: boolean;
 };
 
-function Button({
+export const Button = ({
   children,
   className,
   size = 'normal',
@@ -51,27 +60,23 @@ function Button({
   flat = false,
   ghost = false,
   ...rest
-}: Props & ButtonHTMLAttributes<HTMLButtonElement>) {
-  return (
-    <button
-      className={cx(
-        styles.button,
-        styles[size],
-        (submit || secondary) && styles.secondary,
-        dark && styles.dark,
-        danger && styles.danger,
-        success && styles.success,
-        flat && styles.flat,
-        ghost && styles.ghost,
-        className
-      )}
-      type={submit ? 'submit' : 'button'}
-      {...rest}
-    >
-      <LoadingIndicator small margin={0} loading={pending} />
-      {pending ? <span className={styles.loading}>Laster</span> : children}
-    </button>
-  );
-}
-
-export default Button;
+}: Props & ButtonHTMLAttributes<HTMLButtonElement>) => (
+  <button
+    className={cx(
+      styles.button,
+      styles[size],
+      (submit || secondary) && styles.secondary,
+      dark && styles.dark,
+      danger && styles.danger,
+      success && styles.success,
+      flat && styles.flat,
+      ghost && styles.ghost,
+      className
+    )}
+    type={submit ? 'submit' : 'button'}
+    {...rest}
+  >
+    <LoadingIndicator small margin={0} loading={pending} />
+    {pending ? <span className={styles.loading}>Laster</span> : children}
+  </button>
+);

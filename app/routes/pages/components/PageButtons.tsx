@@ -1,4 +1,4 @@
-import Button from 'app/components/Button';
+import { Button } from '@webkom/lego-bricks';
 import styles from './PageButtons.css';
 
 type Props = {

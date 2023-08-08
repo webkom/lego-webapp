@@ -1,3 +1,4 @@
+import { LoadingIndicator } from '@webkom/lego-bricks';
 import { push } from 'connected-react-router';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
@@ -8,7 +9,6 @@ import {
   clear,
   uploadAndCreateGalleryPicture,
 } from 'app/actions/GalleryPictureActions';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import { LoginPage } from 'app/components/LoginForm';
 import { selectGalleryById } from 'app/reducers/galleries';
 import { SelectGalleryPicturesByGalleryId } from 'app/reducers/galleryPictures';

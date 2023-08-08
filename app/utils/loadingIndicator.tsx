@@ -1,6 +1,6 @@
+import { LoadingIndicator } from '@webkom/lego-bricks';
 import { get } from 'lodash';
-import LoadingIndicator from 'app/components/LoadingIndicator';
-import type { Props } from 'app/components/LoadingIndicator';
+import type { LoadingIndicatorProps } from '@webkom/lego-bricks';
 import type { ComponentType } from 'react';
 /**
  * A higher order component that wraps the given component in
@@ -9,10 +9,10 @@ import type { ComponentType } from 'react';
 
 export default function loadingIndicator<WrappedProps>(
   loadingProps: Array<string>,
-  options?: Props
+  options?: LoadingIndicatorProps
 ) {
   return (Component: ComponentType<WrappedProps>) => {
-    const Composed = (props: Props & WrappedProps) => (
+    const Composed = (props: LoadingIndicatorProps & WrappedProps) => (
       <LoadingIndicator
         {...options}
         loading={

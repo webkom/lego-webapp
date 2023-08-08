@@ -1,6 +1,6 @@
+import { LoadingIndicator, Button } from '@webkom/lego-bricks';
 import { Helmet } from 'react-helmet-async';
 import { Form, Fields, Field } from 'redux-form';
-import Button from 'app/components/Button';
 import { Content } from 'app/components/Content';
 import {
   EditorField,
@@ -15,7 +15,6 @@ import {
 import { normalizeObjectPermissions } from 'app/components/Form/ObjectPermissions';
 import Icon from 'app/components/Icon';
 import Flex from 'app/components/Layout/Flex';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import NavigationTab from 'app/components/NavigationTab';
 import Tooltip from 'app/components/Tooltip';

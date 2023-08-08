@@ -1,3 +1,4 @@
+import { LoadingIndicator } from '@webkom/lego-bricks';
 import { push } from 'connected-react-router';
 import qs from 'qs';
 import { connect } from 'react-redux';
@@ -9,7 +10,6 @@ import {
   removeMember,
 } from 'app/actions/GroupActions';
 import type { AddMemberArgs } from 'app/actions/GroupActions';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import { selectCurrentUser } from 'app/reducers/auth';
 import { selectMembershipsForGroup } from 'app/reducers/memberships';
 import { selectPaginationNext } from 'app/reducers/selectors';

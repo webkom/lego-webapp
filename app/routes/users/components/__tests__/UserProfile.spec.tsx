@@ -1,6 +1,6 @@
+import { Button } from '@webkom/lego-bricks';
 import { shallow } from 'enzyme';
 import { Link } from 'react-router-dom';
-import Button from 'app/components/Button';
 import UserProfile from '../UserProfile';
 
 const user = {

@@ -8,10 +8,9 @@ import {
   CardNumberElement,
 } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
+import { LoadingIndicator, Button } from '@webkom/lego-bricks';
 import { Component, useState, useEffect, useCallback } from 'react';
-import Button from 'app/components/Button';
 import Card from 'app/components/Card';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import config from 'app/config';
 import type { EventRegistrationPaymentStatus, Event } from 'app/models';
 import type { CurrentUser } from 'app/store/models/User';

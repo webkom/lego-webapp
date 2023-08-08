@@ -1,10 +1,10 @@
+import { Button } from '@webkom/lego-bricks';
 import arrayMutators from 'final-form-arrays';
 import { useState } from 'react';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
-import Button from 'app/components/Button';
 import Card from 'app/components/Card';
 import { Content } from 'app/components/Content';
 import Dropdown from 'app/components/Dropdown';

@@ -1,4 +1,4 @@
-import LoadingIndicator from 'app/components/LoadingIndicator';
+import { LoadingIndicator } from '@webkom/lego-bricks';
 import type { SurveyEntity } from 'app/reducers/surveys';
 import styles from '../surveys.css';
 import SurveyItem from './SurveyItem';

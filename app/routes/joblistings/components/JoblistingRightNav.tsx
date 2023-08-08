@@ -1,8 +1,8 @@
+import { Button } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import qs from 'qs';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import Button from 'app/components/Button';
 import { CheckBox, RadioButton } from 'app/components/Form/';
 import type { JobType } from 'app/components/JoblistingItem/Items';
 import type { ActionGrant } from 'app/models';

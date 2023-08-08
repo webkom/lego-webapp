@@ -1,6 +1,6 @@
+import { LoadingIndicator } from '@webkom/lego-bricks';
 import { Helmet } from 'react-helmet-async';
 import { Flex } from 'app/components/Layout';
-import LoadingIndicator from 'app/components/LoadingIndicator/';
 import type { ActionGrant } from 'app/models';
 import type { ListJoblisting } from 'app/store/models/Joblisting';
 import JoblistingsList from './JoblistingList';

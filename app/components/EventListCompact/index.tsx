@@ -1,7 +1,7 @@
+import { LoadingIndicator } from '@webkom/lego-bricks';
 import EmptyState from 'app/components/EmptyState';
 import EventItem, { type EventStyle } from 'app/components/EventItem';
 import { Flex } from 'app/components/Layout';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import type { Event } from 'app/models';
 
 type Props = {
@@ -18,7 +18,7 @@ const EventListCompact = ({
   loading,
 }: Props) => {
   if (loading) {
-    return <LoadingIndicator margin="20px auto" loading />;
+    return <LoadingIndicator loading margin="20px auto" />;
   }
   return events && events.length ? (
     <Flex column wrap>

@@ -1,9 +1,9 @@
+import { Button } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { useEffect, useState, useCallback, useMemo, Component } from 'react';
 import { Cropper } from 'react-cropper';
 import { type Accept, useDropzone } from 'react-dropzone';
 import 'cropperjs/dist/cropper.css';
-import Button from 'app/components/Button';
 import Icon from 'app/components/Icon';
 import { Image } from 'app/components/Image';
 import { Flex } from 'app/components/Layout';

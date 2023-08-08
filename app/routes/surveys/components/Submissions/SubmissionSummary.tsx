@@ -1,4 +1,4 @@
-import Button from 'app/components/Button';
+import { Button } from '@webkom/lego-bricks';
 import type { SubmissionEntity } from 'app/reducers/surveySubmissions';
 import type { SurveyEntity, QuestionEntity } from 'app/reducers/surveys';
 import styles from '../surveys.css';

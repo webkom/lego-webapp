@@ -1,9 +1,9 @@
+import { Button } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import Linkify from 'linkify-react';
 import { sortBy } from 'lodash';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
-import Button from 'app/components/Button';
 import Card from 'app/components/Card';
 import Icon from 'app/components/Icon';
 import { Flex } from 'app/components/Layout';

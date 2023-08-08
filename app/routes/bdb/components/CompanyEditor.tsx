@@ -1,5 +1,5 @@
+import { LoadingIndicator, Button } from '@webkom/lego-bricks';
 import { Field } from 'redux-form';
-import Button from 'app/components/Button';
 import { Content } from 'app/components/Content';
 import {
   TextEditor,
@@ -11,7 +11,6 @@ import {
   legoForm,
 } from 'app/components/Form';
 import InfoBubble from 'app/components/InfoBubble';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import type {
   CompanyEntity,
   SubmitCompanyEntity,
@@ -44,7 +43,7 @@ const CompanyEditor = ({
   deleteCompany,
 }: Props) => {
   if (fetching) {
-    return <LoadingIndicator />;
+    return <LoadingIndicator loading />;
   }
 
   const nameField = (

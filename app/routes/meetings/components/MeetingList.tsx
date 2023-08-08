@@ -1,10 +1,9 @@
+import { LoadingIndicator, Button } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
-import Button from 'app/components/Button';
 import { Content } from 'app/components/Content';
-import LoadingIndicator from 'app/components/LoadingIndicator';
-import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
+import NavigationTab from 'app/components/NavigationTab';
 import Pill from 'app/components/Pill';
 import Time from 'app/components/Time';
 import type { MeetingSection } from 'app/reducers/meetings';

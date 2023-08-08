@@ -1,11 +1,10 @@
+import { LoadingIndicator, Button } from '@webkom/lego-bricks';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
-import Button from 'app/components/Button';
 import Card from 'app/components/Card';
 import { Content } from 'app/components/Content';
 import Icon from 'app/components/Icon';
 import { Flex } from 'app/components/Layout';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import NavigationTab from 'app/components/NavigationTab';
 import Paginator from 'app/components/Paginator';
 import type { ActionGrant } from 'app/models';

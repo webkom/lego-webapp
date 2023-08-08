@@ -1,8 +1,8 @@
+import { Button } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
 import { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import mazemapLogo from 'app/assets/mazemap.png';
-import Button from 'app/components/Button';
 import Card from 'app/components/Card';
 import CommentView from 'app/components/Comments/CommentView';
 import {

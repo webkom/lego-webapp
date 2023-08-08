@@ -1,7 +1,7 @@
+import { Button } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { Field } from 'react-final-form';
 import { addComment } from 'app/actions/CommentActions';
-import Button from 'app/components/Button';
 import Card from 'app/components/Card';
 import { TextInput } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';

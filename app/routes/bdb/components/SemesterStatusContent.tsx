@@ -1,6 +1,6 @@
+import { Button } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { Component } from 'react';
-import Button from 'app/components/Button';
 import Dropdown from 'app/components/Dropdown';
 import Icon from 'app/components/Icon';
 import { Flex } from 'app/components/Layout';

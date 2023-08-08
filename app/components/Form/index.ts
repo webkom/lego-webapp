@@ -3,7 +3,7 @@ export { default as TextArea } from './TextArea';
 export { default as TextEditor } from './TextEditor';
 export { default as EditorField } from './EditorField';
 export { default as DatePicker } from './DatePicker';
-export { default as Button } from 'app/components/Button';
+export { Button } from '@webkom/lego-bricks';
 export { default as Form } from './Form';
 export { default as TimePicker } from './TimePicker';
 export { default as RadioButton } from './RadioButton';

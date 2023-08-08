@@ -1,5 +1,5 @@
+import { Button } from '@webkom/lego-bricks';
 import { useState } from 'react';
-import Button from 'app/components/Button';
 import Icon from 'app/components/Icon';
 import Flex from 'app/components/Layout/Flex';
 import Modal from 'app/components/Modal';

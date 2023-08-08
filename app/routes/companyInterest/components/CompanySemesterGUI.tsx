@@ -1,5 +1,5 @@
+import { Button } from '@webkom/lego-bricks';
 import { reset, Field } from 'redux-form';
-import Button from 'app/components/Button';
 import { Content } from 'app/components/Content';
 import {
   Form,

@@ -1,7 +1,7 @@
+import { LoadingIndicator, Button } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
-import Button from 'app/components/Button';
 import Card from 'app/components/Card';
 import CommentView from 'app/components/Comments/CommentView';
 import { Content } from 'app/components/Content';
@@ -9,7 +9,6 @@ import Icon from 'app/components/Icon';
 import { Image } from 'app/components/Image';
 import InfoBubble from 'app/components/InfoBubble';
 import { Flex } from 'app/components/Layout';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';

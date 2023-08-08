@@ -1,10 +1,9 @@
+import { LoadingIndicator, Button } from '@webkom/lego-bricks';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form';
-import Button from 'app/components/Button';
 import { Content } from 'app/components/Content';
 import { TextInput } from 'app/components/Form';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import type {
   CompanyEntity,
   CompanyContactEntity,
@@ -53,7 +52,7 @@ class CompanyContactEditor extends Component<Props> {
     } = this.props;
 
     if (fetching) {
-      return <LoadingIndicator />;
+      return <LoadingIndicator loading />;
     }
 
     return (

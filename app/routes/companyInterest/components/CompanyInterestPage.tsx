@@ -1,3 +1,4 @@
+import { LoadingIndicator } from '@webkom/lego-bricks';
 import arrayMutators from 'final-form-arrays';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
@@ -22,7 +23,6 @@ import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import Icon from 'app/components/Icon';
 import { Image } from 'app/components/Image';
 import Flex from 'app/components/Layout/Flex';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import { readmeIfy } from 'app/components/ReadmeLogo';
 import Tooltip from 'app/components/Tooltip';
 import type {

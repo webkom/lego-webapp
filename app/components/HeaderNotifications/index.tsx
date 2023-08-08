@@ -1,3 +1,4 @@
+import { LoadingIndicator } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
@@ -8,7 +9,6 @@ import type {
   NotificationData,
 } from 'app/components/Feed/types';
 import Icon from 'app/components/Icon';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import Time from 'app/components/Time';
 import Dropdown from '../Dropdown';
 import { activityRenderers } from '../Feed';

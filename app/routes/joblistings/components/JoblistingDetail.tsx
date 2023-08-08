@@ -1,6 +1,6 @@
+import { LoadingIndicator, Button } from '@webkom/lego-bricks';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
-import Button from 'app/components/Button';
 import {
   Content,
   ContentSection,
@@ -13,7 +13,6 @@ import Icon from 'app/components/Icon';
 import InfoList from 'app/components/InfoList';
 import { jobType, Year, Workplaces } from 'app/components/JoblistingItem/Items';
 import Flex from 'app/components/Layout/Flex';
-import LoadingIndicator from 'app/components/LoadingIndicator/';
 import Time from 'app/components/Time';
 import type { ActionGrant } from 'app/models';
 import type { DetailedJoblisting } from 'app/store/models/Joblisting';

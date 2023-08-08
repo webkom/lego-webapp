@@ -1,3 +1,4 @@
+import { Button } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { without, find } from 'lodash';
 import moment from 'moment-timezone';
@@ -5,7 +6,6 @@ import { Component } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { Field, Fields } from 'redux-form';
-import Button from 'app/components/Button';
 import Card from 'app/components/Card';
 import { Content } from 'app/components/Content';
 import EmptyState from 'app/components/EmptyState';

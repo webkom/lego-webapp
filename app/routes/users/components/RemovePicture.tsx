@@ -1,5 +1,5 @@
+import { Button } from '@webkom/lego-bricks';
 import { Component } from 'react';
-import Button from 'app/components/Button';
 import Icon from 'app/components/Icon';
 import styles from './RemovePicture.css';
 

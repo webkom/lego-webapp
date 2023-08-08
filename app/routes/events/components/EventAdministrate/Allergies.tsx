@@ -1,7 +1,6 @@
+import { LoadingIndicator, Button } from '@webkom/lego-bricks';
 import { Link } from 'react-router-dom';
-import Button from 'app/components/Button';
 import { Flex } from 'app/components/Layout';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import Table from 'app/components/Table';
 import type {
   EventAdministrate,

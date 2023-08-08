@@ -1,6 +1,6 @@
+import { Button } from '@webkom/lego-bricks';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Button from 'app/components/Button';
 import CommentForm from 'app/components/CommentForm';
 import DisplayContent from 'app/components/DisplayContent';
 import Icon from 'app/components/Icon';

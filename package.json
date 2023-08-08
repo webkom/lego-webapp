@@ -10,7 +10,8 @@
     "start:staging": "API_URL=https://lego-staging.abakus.no/api/v1 BASE_URL=https://lego-staging.abakus.no WS_URL=wss://ws-staging.abakus.no CAPTCHA_KEY=1x00000000000000000000AA ENVIRONMENT=local_staging yarn start",
     "ssr:staging": "API_URL=https://lego-staging.abakus.no/api/v1 BASE_URL=https://lego-staging.abakus.no WS_URL=wss://ws-staging.abakus.no CAPTCHA_KEY=1x00000000000000000000AA yarn ssr",
     "ssr": "echo \"Remember that SSR does not have hot reloading, build with \"yarn build\"\" && node ./dist/server.js",
-    "build": "concurrently \"yarn run build:server\" \"yarn run build:client\"",
+    "build": "yarn build:packages && concurrently \"yarn run build:server\" \"yarn run build:client\"",
+    "build:packages": "yarn workspaces run build",
     "build:all": "concurrently \"yarn build:server\" \"yarn build:client\" \"yarn build:dll\"",
     "build:client": "webpack --config config/webpack.client.js --mode=production",
     "build:server": "webpack --config config/webpack.server.js --mode=production",
@@ -19,17 +20,24 @@
     "test": "NODE_ENV=test jest",
     "test:coverage": "yarn run test -- --coverage",
     "test:watch": "yarn run test --watch",
+    "test:packages": "yarn workspaces run test",
     "lint": "yarn run lint:js && yarn run lint:css && yarn run lint:prettier",
-    "lint:js": "eslint . --ignore-path .prettierignore --rule '@typescript-eslint/no-explicit-any: 0'",
+    "lint:js": "eslint . --ignore-path .prettierignore --ignore-pattern packages --rule '@typescript-eslint/no-explicit-any: 0'",
     "lint:css": "stylelint './app/**/*.css'",
     "lint:prettier": "prettier '**/*.{ts,tsx,js,css,md,json}' --check",
+    "lint:packages": "yarn workspaces run lint",
     "prettier": "prettier '**/*.{ts,tsx,js,css,md,json}' --write",
-    "types": "tsc"
+    "types": "tsc",
+    "types:packages": "yarn workspaces run types"
   },
   "repository": {
     "type": "git",
     "url": "github.com/webkom/lego-webapp"
   },
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "dependencies": {
     "@loadable/component": "^5.15.3",
     "@reduxjs/toolkit": "^1.9.5",
@@ -201,6 +209,9 @@
     "webpack-hot-middleware": "^2.25.3",
     "webpack-node-externals": "^3.0.0",
     "webpack-stats-plugin": "^1.1.3"
+  },
+  "resolutions": {
+    "@types/react": "^18.2.6"
   },
   "stylelint": {
     "extends": "stylelint-config-standard",

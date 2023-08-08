@@ -1,6 +1,6 @@
+import { Button } from '@webkom/lego-bricks';
 import { Link } from 'react-router-dom';
 import { Field } from 'redux-form';
-import Button from 'app/components/Button';
 import Card from 'app/components/Card';
 import {
   Form,

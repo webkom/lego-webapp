@@ -1,6 +1,6 @@
+import { Button } from '@webkom/lego-bricks';
 import { Field } from 'redux-form';
 import { waitinglistPoolId } from 'app/actions/EventActions';
-import Button from 'app/components/Button';
 import { legoForm, TextEditor, SelectInput } from 'app/components/Form';
 import { RenderErrorMessage } from 'app/components/Form/Field';
 import type { ID, EventPool, User } from 'app/models';

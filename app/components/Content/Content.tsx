@@ -1,9 +1,9 @@
+import { LoadingIndicator } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { isEmpty } from 'lodash';
 import { useState } from 'react';
 import Youtube from 'react-youtube';
 import { Image } from 'app/components/Image';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import getParamsFromUrl from 'app/utils/getParamsFromUrl';
 import Flex from '../Layout/Flex';
 import styles from './Content.css';
@@ -49,7 +49,7 @@ function Content({
         <div>
           <LoadingIndicator
             loading={isLoading}
-            className={isLoading && styles.hidden}
+            className={isLoading ? styles.hidden : undefined}
           />
           <Flex
             justifyContent="center"

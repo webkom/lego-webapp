@@ -1,5 +1,5 @@
+import { Button } from '@webkom/lego-bricks';
 import { Field } from 'redux-form';
-import Button from 'app/components/Button';
 import { TextInput, Form, legoForm } from 'app/components/Form';
 import type { UserEntity } from 'app/reducers/users';
 import { createAsyncValidator } from 'app/utils/asyncValidator';

@@ -1,0 +1,70 @@
+{
+  "name": "@webkom/lego-bricks",
+  "version": "1.0.1",
+  "description": "Component library for lego and other Abakus projects",
+  "author": "webkom",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "github.com/webkom/lego-webapp",
+    "directory": "packages/lego-bricks"
+  },
+  "type": "module",
+  "module": "dist/lego-bricks.js",
+  "main": "dist/lego-bricks.umd.cjs",
+  "style": "dist/style.css",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/lego-bricks.js",
+      "require": "./dist/lego-bricks.umd.cjs"
+    },
+    "./dist/style.css": {
+      "import": "./dist/style.css",
+      "require": "./dist/style.css"
+    }
+  },
+  "scripts": {
+    "storybook": "storybook dev -p 6006",
+    "build": "vite build && yarn build:types",
+    "build:types": "tsc -d --emitDeclarationOnly",
+    "build:storybook": "storybook build",
+    "lint": "yarn lint:js && yarn lint:prettier",
+    "lint:js": "eslint 'src/**/*.{js,ts,tsx}'",
+    "lint:prettier": "prettier '**/*.{ts,tsx,js,css,md,json}' --check",
+    "prettier": "prettier '**/*.{ts,tsx,js,css,md,json}' --write",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "types": "tsc"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@cfaester/enzyme-adapter-react-18": "^0.7.0",
+    "@storybook/addon-essentials": "^7.2.0",
+    "@storybook/addon-interactions": "^7.2.0",
+    "@storybook/addon-links": "^7.2.0",
+    "@storybook/addon-onboarding": "^1.0.8",
+    "@storybook/blocks": "^7.2.0",
+    "@storybook/react": "^7.2.0",
+    "@storybook/react-vite": "^7.2.0",
+    "@storybook/testing-library": "^0.2.0",
+    "@types/enzyme": "^3.10.13",
+    "@types/react": "^18.2.9",
+    "@types/react-dom": "^18.2.4",
+    "@vitejs/plugin-react": "^4.0.0",
+    "enzyme": "^3.9.0",
+    "eslint": "^8.42.0",
+    "eslint-plugin-storybook": "^0.6.13",
+    "storybook": "^7.2.0",
+    "typescript": "^5.1.3",
+    "vite": "^4.3.2",
+    "vite-plugin-eslint": "^1.8.1",
+    "vitest": "^0.30.1"
+  }
+}

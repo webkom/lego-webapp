@@ -1,8 +1,8 @@
+import { LoadingIndicator, Button } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
 import { Component } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Field, SubmissionError, change } from 'redux-form';
-import Button from 'app/components/Button';
 import { Content } from 'app/components/Content';
 import {
   TextInput,
@@ -14,7 +14,6 @@ import {
 } from 'app/components/Form';
 import Icon from 'app/components/Icon';
 import { Flex } from 'app/components/Layout';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import NavigationTab from 'app/components/NavigationTab';
 import { httpCheck } from 'app/routes/bdb/utils';

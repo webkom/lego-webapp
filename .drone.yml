@@ -154,6 +154,17 @@ steps:
       - apk --no-cache add curl
       - yarn --frozen-lockfile --cache-folder /tmp/cache
 
+  - name: build_packages
+    image: node:16-alpine
+    when:
+      event: [push]
+      branch:
+        exclude: [build]
+    depends_on:
+      - setup
+    commands:
+      - yarn build:packages
+
   - name: build_server
     image: node:16-alpine
     when:
@@ -162,6 +173,7 @@ steps:
         exclude: [build]
     depends_on:
       - setup
+      - build_packages
     commands:
       - yarn build:server
 
@@ -173,6 +185,7 @@ steps:
         exclude: [build]
     depends_on:
       - setup
+      - build_packages
     commands:
       - yarn build:client
 
@@ -186,6 +199,7 @@ steps:
       - setup
     commands:
       - yarn test
+      - yarn test:packages
 
   - name: lint
     image: node:16-alpine
@@ -197,6 +211,7 @@ steps:
       - setup
     commands:
       - yarn lint
+      - yarn lint:packages
 
   - name: typescript
     image: node:16-slim
@@ -209,6 +224,17 @@ steps:
     commands:
       - yarn types
     failure: ignore
+
+  - name: typescript_packages
+    image: node:16-slim
+    when:
+      event: [ push ]
+      branch:
+        exclude: [ build ]
+    depends_on:
+      - setup
+    commands:
+      - yarn types:packages
 
   - name: install_cypress
     image: node:16-alpine
@@ -335,6 +361,6 @@ image_pull_secrets:
 
 ---
 kind: signature
-hmac: 06c35cbf3b24429bab4079e5b5574ed3752fde1390d9dab94010a800b3909863
+hmac: fafa6e92da6f19c099b9448c269a1cf0aee67f2b99c5a475aa0dc82c0892aaa1
 
 ...

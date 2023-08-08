@@ -1,5 +1,5 @@
+import { Button } from '@webkom/lego-bricks';
 import { Link } from 'react-router-dom';
-import Button from 'app/components/Button';
 import Flex from 'app/components/Layout/Flex';
 import Time from 'app/components/Time';
 import type { ActionGrant } from 'app/models';
