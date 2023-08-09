@@ -51,6 +51,8 @@ ENV RELEASE ${RELEASE}
 
 COPY --from=builder /app/dist dist
 COPY --from=builder /app/dist-client dist-client
+COPY --from=builder /app/packages/lego-bricks/dist packages/lego-bricks/dist
+COPY --from=builder /app/packages/lego-bricks/package.json packages/lego-bricks/package.json
 COPY --from=builder /app/package.json .
 COPY --from=builder /app/node_modules node_modules
 
