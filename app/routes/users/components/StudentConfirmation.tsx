@@ -1,206 +1,223 @@
-import { Link } from 'react-router-dom';
-import { reduxForm, Field } from 'redux-form';
-import {
-  Form,
-  TextInput,
-  RadioButton,
-  RadioButtonGroup,
-  Button,
-  Captcha,
-} from 'app/components/Form';
-import Icon from 'app/components/Icon';
+import qs from 'qs';
+import { useEffect, useState } from 'react';
+import { Link, useLocation, useHistory } from 'react-router-dom';
+import Card from 'app/components/Card';
+import { Button } from 'app/components/Form';
 import { Container, Flex } from 'app/components/Layout';
-import Tooltip from 'app/components/Tooltip';
-import type { ReduxFormProps } from 'app/types';
-import { createValidator, required } from 'app/utils/validation';
+import Modal from 'app/components/Modal';
+import type { CurrentUser } from 'app/store/models/User';
 import styles from './UserConfirmation.css';
 
 type Props = {
-  studentConfirmed: boolean;
-  handleSubmit: (arg0: (...args: Array<any>) => any) => void;
-  sendStudentConfirmationEmail: (arg0: Record<string, any>) => void;
-  loggedIn: boolean;
-  submitSucceeded: () => void;
+  startStudentAuth: () => Promise<void>;
+  confirmStudentAuth: (options: {
+    code: string;
+    state: string;
+  }) => Promise<void>;
+  updateUser: () => Promise<void>;
+  currentUser: CurrentUser;
   isStudent: boolean;
-  push: (arg0: string) => void;
-} & ReduxFormProps;
+};
+
+const NotEligibleInfo = () => (
+  <div className={styles.notEligibleInfo}>
+    <p>
+      Dersom du mener dette er en feil, eller ønsker å søke om medlemskap kan du
+      enten:
+    </p>
+    <ol className={styles.infoList}>
+      <li>
+        Påse at du er har Datateknologi eller Kommunikasjonsteknologi og Digital
+        Sikkerhet som studie i StudentWeb og verifisere på nytt.
+      </li>
+      <li>
+        Sende en mail til <a href="mailto:webkom@abakus.no">webkom@abakus.no</a>{' '}
+        med dokumentasjon på at du går eller tar fag som tilhører et av studiene
+        over.
+      </li>
+      <li>
+        Sende en mail til <a href="mailto:abakus@abakus.no">abakus@abakus.no</a>{' '}
+        med søknad om hvorfor du ønsker å bli medlem av Abakus. Det trenger ikke
+        være en stor søknad :)
+      </li>
+    </ol>
+  </div>
+);
 
 const StudentConfirmation = ({
-  studentConfirmed,
-  handleSubmit,
-  sendStudentConfirmationEmail,
-  loggedIn,
-  submitSucceeded,
+  startStudentAuth,
+  confirmStudentAuth,
+  updateUser,
   isStudent,
-  invalid,
-  pristine,
-  submitting,
-  push,
+  currentUser,
 }: Props) => {
-  if (isStudent) {
-    return (
-      <Container>
-        <div className={styles.root}>
-          <h2>Du er allerede verifisert!</h2>
-        </div>
-      </Container>
-    );
-  }
+  const [authRes, setAuthRes] = useState();
+  const [showMemberModal, setShowMemberModal] = useState(false);
 
-  if (submitSucceeded) {
-    return (
-      <Container>
-        <div className={styles.root}>
-          <h2>Sjekk e-posten din!</h2>
-        </div>
-      </Container>
-    );
-  }
+  const { search } = useLocation();
+  const history = useHistory();
+  const { code, state } = qs.parse(search, { ignoreQueryPrefix: true });
 
-  if (studentConfirmed !== null) {
-    return (
-      <Container>
-        <div className={styles.root}>
-          <h2>{studentConfirmed ? 'Du er nå verifisert!' : 'Ugyldig token'}</h2>
-          <Link to="/">Gå tilbake til hovedsiden</Link>
-        </div>
-      </Container>
-    );
-  }
-
-  const handleSendConfirmation = (data) => {
-    const payload = {
-      ...data,
-      studentUsername: data.studentUsername.replace('@stud.ntnu.no', ''),
-    };
-    return sendStudentConfirmationEmail(payload);
+  const performStudentAuth = async () => {
+    const auth_res = await startStudentAuth();
+    const auth_uri = auth_res.payload.url;
+    window.location.href = auth_uri;
   };
 
-  const disabledButton = invalid || pristine || submitting;
+  const setAbakusMember = async (member: boolean) => {
+    await updateUser(
+      { ...currentUser, isAbakusMember: member },
+      { noRedirect: true }
+    );
+    setShowMemberModal(false);
+  };
+
+  useEffect(() => {
+    const validateStudentAuth = async () => {
+      if (code && state) {
+        try {
+          const res = await confirmStudentAuth({ code, state });
+          setAuthRes(res.payload);
+        } catch (e) {
+          setAuthRes(e.payload.response.jsonData);
+        }
+        history.replace({ search: '' });
+      }
+    };
+
+    validateStudentAuth();
+  }, [code, state, confirmStudentAuth, history]);
+
+  useEffect(() => {
+    authRes?.status === 'success' && setShowMemberModal(true);
+  }, [authRes]);
+
   return (
     <Container>
-      <div>
-        <h2>Verifiser student-e-post</h2>
-        <Form onSubmit={handleSubmit(handleSendConfirmation)}>
-          <Tooltip content="Brukernavnet du logger inn på NTNU med. Dette er delen som er foran @stud.ntnu.no. OBS: Ikke skriv inn hele e-posten">
-            <Field
-              name="studentUsername"
-              placeholder="NTNU-brukernavn"
-              label="NTNU-brukernavn"
-              component={TextInput.Field}
-            />
-          </Tooltip>
-          <RadioButtonGroup name="course" label="Hvilken linje tilhører du?">
-            <Field
-              name="studentCompScience"
-              label="Datateknologi"
-              component={RadioButton.Field}
-              inputValue="data"
-            />
-            <Field
-              name="studentCommunicationTechnology"
-              label="Kommunikasjonsteknologi"
-              component={RadioButton.Field}
-              inputValue="komtek"
-            />
-          </RadioButtonGroup>
-          <RadioButtonGroup
-            name="isTwoYears"
-            label={
-              <Flex alignItems="center" gap={5}>
-                <div>Begynner du på 2-årig eller 5-årig master?</div>
-                <Tooltip content="Huk av 2-årig master her kun hvis du begynner på to-arig master studiet på din respektive linje. Dvs. du har en bachelor fra før av. Begynner du i første klasse og skal studere i 5 år, huk av 5-årig master.">
-                  <Icon name="information-circle-outline" size={20} />
-                </Tooltip>
-              </Flex>
-            }
-          >
-            <Field
-              name="isTwoYearsYes"
-              label="2-årig master"
-              component={RadioButton.Field}
-              inputValue="true"
-            />
-            <Field
-              name="isTwoYearsNo"
-              label="5-årig master"
-              component={RadioButton.Field}
-              inputValue="false"
-            />
-          </RadioButtonGroup>
-          <RadioButtonGroup name="member" label="Vil du bli medlem av Abakus?">
-            <Flex>
-              <div
-                style={{
-                  marginLeft: '5px',
-                }}
-              >
-                <p className={styles.infoText}>
-                  Alle som går Kommunikasjonsteknologi & Digital Sikkerhet eller
-                  Datateknologi kan bli medlem av Abakus. Du må bli medlem for å
-                  kunne delta på arrangementer, kurs og annet Abakus tilbyr. Vi
-                  anbefaler alle nye studenter å melde seg inn. Du kan lese mer
-                  om{' '}
-                  <a
-                    href="https://abakus.no/pages/info-om-abakus"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    Abakus
-                  </a>{' '}
-                  og{' '}
-                  <a
-                    href="https://statutter.abakus.no#medlemskap"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    medlemskapet.{' '}
-                  </a>
-                  Det koster ingenting å være medlem av Abakus.
-                </p>
-              </div>
-            </Flex>
-            <Field
-              name="studentIsMemberYes"
-              label="Ja"
-              component={RadioButton.Field}
-              inputValue="true"
-            />
-            <Field
-              name="studentIsMemberNo"
-              label="Nei"
-              component={RadioButton.Field}
-              inputValue="false"
-            />
-          </RadioButtonGroup>
-          <Field
-            name="captchaResponse"
-            fieldStyle={{
-              width: 304,
-            }}
-            component={Captcha.Field}
-          />
-          <Button submit disabled={disabledButton}>
-            Verifiser
+      <h2>Verifiser studentstatus</h2>
+
+      {isStudent === null && (
+        <p>
+          For å kunne bli medlem i Abakus og få mulighet til å delta på
+          arrangementer, få tilgang til bilder og interessegrupper og mer må du
+          verifisere at du går enten Kommunikasjonsteknologi & Digital Sikkerhet
+          eller Datateknologi. Ved å trykke på knappen under gir du Abakus
+          tilgang til dine studier og fag i StudentWeb gjennom FEIDE slik at vi
+          kan registrere deg som medlem.
+        </p>
+      )}
+
+      {isStudent !== null &&
+        (isStudent ? (
+          <Card severity="info">
+            <Card.Header>Du er verifisert som student</Card.Header>
+            <p className={styles.infoText}>
+              Dersom du ønsker å endre trinn eller studie, vennligst send en
+              forespørsel til{' '}
+              <a href="mailto:webkom@abakus.no">webkom@abakus.no</a> med
+              dokumentasjon på ditt trinn og studie. Gyldig dokumentasjon kan
+              være:
+              <ul className={styles.programmeList}>
+                <li>
+                  Screenshot eller dokumentasjon fra studentWeb (at du tar fag
+                  tilhørende ditt ønsket trinn er nok)
+                </li>
+                <li>Dokumentasjon fra institutt/fakultet</li>
+              </ul>
+            </p>
+          </Card>
+        ) : (
+          <Card severity="danger">
+            <Card.Header>
+              Informasjonen vi har hentet om deg fra StudentWeb gir ikke
+              mulighet for automatisk medlemskap i Abakus
+            </Card.Header>
+            <NotEligibleInfo />
+          </Card>
+        ))}
+
+      {authRes && authRes.status !== 'success' && (
+        <Card severity="danger">
+          {authRes.status === 'unauthorized' && (
+            <>
+              <Card.Header>
+                Ingen av dine nåværende studier tillater medlemskap i Abakus:
+              </Card.Header>
+              <ul className={styles.programmeList}>
+                {authRes.studyProgrammes.map((p) => (
+                  <li key={p}>{p}</li>
+                ))}
+              </ul>
+              <NotEligibleInfo />
+            </>
+          )}
+          {authRes.status === 'error' && (
+            <>
+              <Card.Header>
+                En feil oppsto under validering av din studentstatus:
+              </Card.Header>
+              <p>{authRes.detail}</p>
+            </>
+          )}
+        </Card>
+      )}
+
+      <Button success onClick={() => performStudentAuth()}>
+        Verifiser med FEIDE
+      </Button>
+      {isStudent !== null && (
+        <p className={styles.infoText}>
+          Du har allerede verifisert din status. Dersom du har byttet studie og
+          ønsker å bli medlem av Abakus, kan du verifisere deg på nytt og vi vil
+          oppdatere statusen din dersom du er registrert riktig på StudentWeb.
+        </p>
+      )}
+
+      <Modal
+        show={showMemberModal}
+        contentClassName={styles.membershipModalContent}
+        onHide={() => setShowMemberModal(false)}
+      >
+        <Card severity="success">
+          <Card.Header>Din studentstatus ble godkjent!</Card.Header>
+          <p>
+            Du har blitt satt i gruppen <b>{authRes?.grade}</b>
+          </p>
+        </Card>
+        <h2>Vil du bli medlem av Abakus?</h2>
+        <div>
+          <p className={styles.infoText}>
+            Alle som går Kommunikasjonsteknologi & Digital Sikkerhet eller
+            Datateknologi kan bli medlem av Abakus. Du må bli medlem for å kunne
+            delta på arrangementer, kurs og annet Abakus tilbyr. Vi anbefaler
+            alle nye studenter å melde seg inn. Du kan lese mer om{' '}
+            <Link to="/pages/info-om-abakus">Abakus</Link> og{' '}
+            <a
+              href="https://statutter.abakus.no#medlemskap"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              medlemskapet.{' '}
+            </a>
+            Det koster ingenting å være medlem av Abakus.
+          </p>
+          <p className={styles.infoText}>
+            Du kan alltids endre medlemskapet ditt på dine{' '}
+            <Link to="/users/me/settings/profile">innstillinger</Link>.
+          </p>
+        </div>
+
+        <Flex>
+          <Button dark onClick={() => setAbakusMember(false)}>
+            Jeg vil ikke bli medlem
           </Button>
-        </Form>
-      </div>
+          <Button success onClick={() => setAbakusMember(true)}>
+            Jeg vil bli medlem
+          </Button>
+        </Flex>
+      </Modal>
     </Container>
   );
 };
 
-const validate = createValidator({
-  studentUsername: [required()],
-  course: [required()],
-  member: [required()],
-  isTwoYears: [required()],
-  captchaResponse: [required('Captcha er ikke validert')],
-});
-export default reduxForm({
-  form: 'ConfirmationForm',
-  initialValues: {
-    isTwoYears: 'false',
-    member: 'true',
-  },
-  validate,
-})(StudentConfirmation);
+export default StudentConfirmation;

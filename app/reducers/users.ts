@@ -55,11 +55,6 @@ export default createEntityReducer({
         break;
       }
 
-      case User.CONFIRM_STUDENT_USER.SUCCESS: {
-        newState.byId = mergeObjects(newState.byId, action.payload);
-        break;
-      }
-
       default:
         break;
     }

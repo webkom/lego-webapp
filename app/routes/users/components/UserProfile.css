@@ -82,3 +82,11 @@
   font-size: var(--font-size-sm);
   color: var(--secondary-font-color);
 }
+
+.settingsIcon {
+  transition: transform var(--easing-medium);
+
+  &:hover {
+    transform: rotate(90deg);
+  }
+}

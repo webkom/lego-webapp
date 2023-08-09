@@ -416,7 +416,15 @@ const UserProfile = (props: Props) => {
           )}
         </Flex>
         <Flex column className={styles.rightContent}>
-          <h2>{user.fullName}</h2>
+          <Flex justifyContent="space-between" alignItems="center">
+            <h2>{user.fullName}</h2>
+            <Icon
+              name="settings"
+              size={22}
+              className={styles.settingsIcon}
+              to={`/users/${user.username}/settings/profile`}
+            />
+          </Flex>
           <Flex wrap>
             {membershipsAsPills.map((membership) => (
               <GroupPill key={membership.id} group={membership.abakusGroup} />

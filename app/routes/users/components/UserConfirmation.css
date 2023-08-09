@@ -9,3 +9,27 @@
   font-size: var(--font-size-sm);
   line-height: 1.4em;
 }
+
+.programmeList {
+  list-style: disc;
+  list-style-position: inside;
+  font-style: italic;
+}
+
+.notEligibleInfo {
+  margin-top: 1em;
+}
+
+.infoList {
+  list-style-position: inside;
+  margin-left: 1em;
+}
+
+.membershipModalContent {
+  width: 600px;
+  max-width: 90%;
+
+  @media (--tall-viewport) {
+    max-height: calc(100vh - 300px);
+  }
+}
