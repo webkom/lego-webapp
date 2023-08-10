@@ -88,6 +88,7 @@ steps:
       SERVER_URL: 'http://api:8000'
       FRONTEND_URL: 'http://ssr:3000'
       CACHE_URL: 'rediscache://redis/0?client_class: django_redis.client.DefaultClient'
+      OAUTH_CACHE: 'redis://redis/9'
       EMAIL_URL: 'smtp://localhost'
       AWS_ACCESS_KEY_ID: 'lego-dev'
       AWS_SECRET_ACCESS_KEY: 'lego-dev'
@@ -361,6 +362,6 @@ image_pull_secrets:
 
 ---
 kind: signature
-hmac: fafa6e92da6f19c099b9448c269a1cf0aee67f2b99c5a475aa0dc82c0892aaa1
+hmac: 51b0a49b62c375f26f0ab24b0559fdf8f1747586051b25ffac639395f55b10d6
 
 ...
