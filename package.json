@@ -43,7 +43,7 @@
     "@reduxjs/toolkit": "^1.9.5",
     "@sentry/browser": "^7.58.1",
     "@sentry/integrations": "^7.63.0",
-    "@sentry/node": "^7.53.1",
+    "@sentry/node": "^7.63.0",
     "@stripe/react-stripe-js": "^1.14.2",
     "@stripe/stripe-js": "^1.46.0",
     "@webkom/lego-editor": "^2.2.0",
