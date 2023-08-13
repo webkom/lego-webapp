@@ -9,6 +9,7 @@ import { Image } from 'app/components/Image';
 import { Flex } from 'app/components/Layout';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { readmeIfy } from 'app/components/ReadmeLogo';
+import type { ActionGrant } from 'app/models';
 import type { PageEntity } from 'app/reducers/pages';
 import styles from './PageDetail.css';
 import Sidebar from './Sidebar';
@@ -24,14 +25,14 @@ export type PageInfo = {
 
   /* The page is complete, and can be rendered */
   isComplete: boolean;
-  actionGrant?: Array<string>;
+  actionGrant?: ActionGrant;
 };
 type Props = {
   selectedPage: any;
   currentUrl: string;
   selectedPageInfo: PageInfo;
   PageRenderer: PageRenderer;
-  pageHierarchy: Array<HierarchySectionEntity>;
+  pageHierarchy: HierarchySectionEntity[];
   loggedIn: boolean;
 };
 
@@ -116,6 +117,7 @@ class PageDetail extends Component<Props, State> {
 }
 
 export default PageDetail;
+
 export const MainPageRenderer = ({
   page,
   pageInfo,
@@ -148,11 +150,13 @@ export const MainPageRenderer = ({
     </article>
   );
 };
+
 export const FlatpageRenderer: PageRenderer = ({ page }) => (
   <article className={styles.detail}>
     <DisplayContent content={page.content} />
   </article>
 );
+
 export const GroupRenderer: PageRenderer = ({ page }) => {
   const { membershipsByRole, text, name } = page;
   const {
@@ -160,49 +164,45 @@ export const GroupRenderer: PageRenderer = ({ page }) => {
     'co-leader': co_leaders = [],
     member: members = [],
     active_retiree: activeRetirees = [],
-    social_admin: social_admins = [],
-    recruiting: recruiters = [],
-    treasurer: treasurers = [],
-    media_relations: pr_responsibles = [],
   } = membershipsByRole;
+
   return (
     <article className={styles.detail}>
       <DisplayContent content={text} />
 
-      <h3 className={styles.heading}>MEDLEMMER</h3>
-      <div className={styles.membersSection}>
-        <div className={styles.leaderBoard}>
-          {leaders.map(({ user }) => (
-            <GroupMember user={user} key={user.id} leader groupName={name} />
-          ))}
-          {co_leaders.map(({ user }) => (
-            <GroupMember user={user} key={user.id} co_leader />
-          ))}
-        </div>
+      {Object.values(membershipsByRole).some((array) => array.length > 0) && (
+        <>
+          <h3 className={styles.heading}>Medlemmer</h3>
 
-        <div className={styles.members}>
-          {social_admins.map(({ user }) => (
-            <GroupMember user={user} key={user.id} social_admin />
-          ))}
-          {recruiters.map(({ user }) => (
-            <GroupMember user={user} key={user.id} recruiting />
-          ))}
-          {treasurers.map(({ user }) => (
-            <GroupMember user={user} key={user.id} treasurer />
-          ))}
-          {pr_responsibles.map(({ user }) => (
-            <GroupMember user={user} key={user.id} pr_responsible />
-          ))}
-          {members.map(({ user }) => (
-            <GroupMember user={user} key={user.id} />
-          ))}
-        </div>
-        <div className={styles.members}>
-          {activeRetirees.map(({ user }) => (
-            <GroupMember user={user} key={user.id} />
-          ))}
-        </div>
-      </div>
+          <div className={styles.membersSection}>
+            <div className={styles.leaderBoard}>
+              {leaders.map(({ user }) => (
+                <GroupMember
+                  user={user}
+                  key={user.id}
+                  leader
+                  groupName={name}
+                />
+              ))}
+              {co_leaders.map(({ user }) => (
+                <GroupMember user={user} key={user.id} co_leader />
+              ))}
+            </div>
+
+            <div className={styles.members}>
+              {members.map(({ user, role }) => (
+                <GroupMember user={user} role={role} key={user.id} />
+              ))}
+            </div>
+
+            <div className={styles.members}>
+              {activeRetirees.map(({ user }) => (
+                <GroupMember user={user} key={user.id} />
+              ))}
+            </div>
+          </div>
+        </>
+      )}
     </article>
   );
 };
