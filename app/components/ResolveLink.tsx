@@ -5,7 +5,10 @@ type Props = {
   link: [string, ReactNode];
 };
 
-const ResolveLink = ({ link: [href, name], ...props }: Props) => {
+const ResolveLink = ({
+  link: [href, name],
+  ...props
+}: Props & React.AnchorHTMLAttributes<HTMLAnchorElement>) => {
   if (href.startsWith('https://') || href.startsWith('http://')) {
     return (
       <a {...props} href={href}>

@@ -1,13 +1,11 @@
 import cx from 'classnames';
 import { Link } from 'react-router-dom';
-import ResolveLink from 'app/components/ResolveLink';
 import Time from 'app/components/Time';
 import type { SearchResult } from 'app/reducers/search';
-import { isUserResult } from 'app/reducers/search';
 import Icon from '../Icon';
-import { ProfilePicture } from '../Image';
+import { Image, ProfilePicture } from '../Image';
+import Flex from '../Layout/Flex';
 import styles from './Search.css';
-import type { NavigationLink } from './utils';
 
 type SearchResultItemProps = {
   result: SearchResult;
@@ -16,130 +14,100 @@ type SearchResultItemProps = {
 };
 
 type SearchResultProps = {
-  query: string;
   searching: boolean;
   results: SearchResult[];
-  navigationLinks: NavigationLink[];
-  adminLinks: NavigationLink[];
   onCloseSearch: () => void;
   selectedIndex: number;
 };
 
-const SearchResultItem = ({
+const ResultIcon = ({ result }) => {
+  switch (result.iconType) {
+    case 'profilePic':
+      return (
+        <ProfilePicture
+          size={28}
+          user={result}
+          className={styles.searchResultItemIcon}
+        />
+      );
+    case 'image':
+      if (result.icon) {
+        return (
+          <Image
+            alt={`${result.title}'s logo`}
+            src={result.icon!}
+            style={{ width: '28px', display: 'block' }}
+            className={styles.searchResultItemIcon}
+          />
+        );
+      }
+    default:
+    case 'icon':
+      return (
+        <Icon
+          name={result.icon ?? 'help'}
+          size={28}
+          className={styles.searchResultItemIcon}
+        />
+      );
+  }
+};
+
+export const SearchResultItem = ({
   result,
   isSelected,
   onCloseSearch,
 }: SearchResultItemProps) => (
   <Link to={result.link} onClick={onCloseSearch}>
     <li className={cx(isSelected && styles.isSelected, styles.resultItem)}>
-      {isUserResult(result) && (
-        <ProfilePicture
-          size={28}
-          user={result}
-          style={{
-            margin: '0px 12px 0px 0px',
-          }}
-        />
-      )}
-      {!isUserResult(result) && result.icon && (
-        <Icon
-          name={result.icon}
-          size={28}
-          className={styles.searchResultItemIcon}
-        />
-      )}
-      <ul>
-        <li className={styles.resultTitle}>
-          <div className={styles.truncateTitle}>{result.title}</div>
-        </li>
-        <li className={styles.resultDetails}>
+      <ResultIcon result={result} />
+      <div className={styles.resultTitle}>
+        <p className={styles.truncateTitle}>{result.title}</p>
+        <Flex className={styles.resultDetail}>
           {result.type && (
-            <div className={styles.resultType}>{result.type} </div>
+            <span className={styles.resultType}>{result.type}</span>
           )}
-          {result.date && (
-            <Time
-              time={result.date}
-              wordsAgo
-              className={styles.resultDateMobile}
-            />
-          )}
-        </li>
-      </ul>
-      {result.date && (
-        <Time time={result.date} wordsAgo className={styles.resultDate} />
-      )}
+          {result.date && <Time time={result.date} wordsAgo />}
+        </Flex>
+      </div>
     </li>
   </Link>
 );
 
 const SearchResults = ({
-  query,
   results,
-  navigationLinks,
-  adminLinks,
   onCloseSearch,
   searching,
   selectedIndex,
-}: SearchResultProps) => (
-  <div className={styles.resultsContainer}>
-    <div>
-      <div className={styles.scrollAble}>
-        {query && (
-          <ul className={styles.results}>
-            {searching ? (
-              <p>
-                <i className="fa fa-spinner fa-spin" /> Søker ...
-              </p>
-            ) : (
-              <div>
-                {results.map((result, i) => (
-                  <SearchResultItem
-                    key={result.id}
-                    result={result}
-                    onCloseSearch={onCloseSearch}
-                    isSelected={i === selectedIndex - 1}
-                  />
-                ))}
-                {results.length === 0 ? (
-                  <li>Ingen treff, trykk enter for fullstendig søk</li>
-                ) : (
-                  <li>Trykk enter for fullstendig søk</li>
-                )}
-              </div>
-            )}
-          </ul>
-        )}
-        <div className={styles.quickLinks}>
-          <h2 className={styles.navigationHeader}>Sider</h2>
-          <ul className={styles.navigationFlex}>
-            {navigationLinks.map((link, i) => (
-              <li
-                className={styles.navigationLink}
-                key={`navigationLink-${i}`}
-                onClick={onCloseSearch}
-              >
-                <ResolveLink link={link} />
-              </li>
-            ))}
-          </ul>
-          {adminLinks.length > 0 && (
-            <h2 className={styles.navigationHeader}>Admin</h2>
-          )}
-          <ul className={styles.navigationFlex}>
-            {adminLinks.map((link, i) => (
-              <li
-                className={styles.navigationLink}
-                key={`adminLink-${i}`}
-                onClick={onCloseSearch}
-              >
-                <ResolveLink link={link} />
-              </li>
-            ))}
-          </ul>
-        </div>
+}: SearchResultProps) => {
+  if (searching) {
+    return (
+      <div className={styles.results}>
+        <p className={styles.searchingText}>
+          <i className="fa fa-spinner fa-spin" /> Søker ...
+        </p>
       </div>
+    );
+  }
+  return (
+    <div className={styles.results}>
+      <ul>
+        {results
+          .filter((r) => r.link)
+          .map((result, i) => (
+            <SearchResultItem
+              key={i}
+              result={result}
+              onCloseSearch={onCloseSearch}
+              isSelected={i === selectedIndex}
+            />
+          ))}
+      </ul>
+      <p className={styles.searchingText}>
+        {results.length === 0 && 'Ingen treff. '}Trykk enter for fullstendig søk
+      </p>
     </div>
-  </div>
-);
+  );
+};
 
 export default SearchResults;

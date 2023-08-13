@@ -1,5 +1,7 @@
 import ReadmeLogo from 'app/components/ReadmeLogo';
 import type { Allowed } from 'app/reducers/allowed';
+import TextWithIcon from '../TextWithIcon';
+import styles from './Search.css';
 import type { ReactNode } from 'react';
 
 type Link = {
@@ -8,6 +10,7 @@ type Link = {
   url: string;
   admin?: boolean;
   requireLogin?: boolean;
+  icon?: string;
 };
 
 const LINKS: Array<Link> = [
@@ -15,27 +18,32 @@ const LINKS: Array<Link> = [
     key: 'profile',
     requireLogin: true,
     title: 'Profil',
+    icon: 'person-circle-outline',
     url: '/users/me',
   },
   {
     key: 'contact',
     requireLogin: true,
     title: 'Kontakt Abakus',
+    icon: 'call-outline',
     url: '/contact',
   },
   {
     key: 'articles',
     title: 'Artikler',
+    icon: 'book-outline',
     url: '/articles',
   },
   {
     key: 'events',
     title: 'Arrangementer',
+    icon: 'calendar-outline',
     url: '/events',
   },
   {
     key: 'aboutUs',
     title: 'Om Abakus',
+    icon: 'information-circle-outline',
     url: '/pages/info-om-abakus',
   },
   {
@@ -46,71 +54,84 @@ const LINKS: Array<Link> = [
   {
     key: 'interest-groups',
     title: 'Interessegrupper',
+    icon: 'telescope-outline',
     url: '/interest-groups',
   },
   {
     key: 'galleries',
     title: 'Album',
+    icon: 'image-outline',
     url: '/photos',
   },
   {
     key: 'meetings',
     title: 'Møter',
+    icon: 'people-outline',
     url: '/meetings',
   },
   {
     key: 'quotes',
     title: 'Overhørt',
+    icon: 'chatbubble-ellipses-outline',
     url: '/quotes/',
   },
   {
     key: 'companies',
     title: 'Bedrifter',
+    icon: 'briefcase-outline',
     url: '/companies',
   },
   {
     key: 'jobListings',
     title: 'Jobbannonser',
+    icon: 'newspaper-outline',
     url: '/joblistings',
   },
   {
     key: 'tags',
     title: 'Tags',
+    icon: 'pricetags-outline',
     url: '/tags',
   },
   {
     key: 'polls',
     title: 'Avstemninger',
+    icon: 'stats-chart-outline',
     url: '/polls',
   },
   {
     admin: true,
     key: 'announcements',
     title: 'Kunngjøringer',
+    icon: 'megaphone-outline',
     url: '/announcements',
   },
   {
     admin: true,
     key: 'bdb',
     title: 'Bedriftsdatabase',
+    icon: 'file-tray-stacked-outline',
     url: '/bdb',
   },
   {
     admin: true,
     key: 'groups',
     title: 'Grupper',
+    icon: 'people-circle-outline',
     url: '/admin/groups',
   },
   {
     admin: true,
     key: 'email',
     title: 'E-post',
+    icon: 'mail-outline',
     url: '/admin/email',
   },
   {
     admin: true,
     key: 'surveys',
     title: 'Spørreundersøkelser',
+    icon: 'create-outline',
     url: '/surveys',
   },
 ];
@@ -149,7 +170,18 @@ function retrieveAllowed(links: Array<Link>, { allowed, loggedIn }: Options) {
       // Otherwise check if we're logged in if this requires login:
       return !requireLogin || loggedIn;
     })
-    .map(({ url, title }) => [url, title]) as NavigationLink[];
+    .map(({ url, title, icon }) => [
+      url,
+      icon ? (
+        <TextWithIcon
+          content={title}
+          iconName={icon}
+          className={styles.quickLinkContent}
+        />
+      ) : (
+        title
+      ),
+    ]) as NavigationLink[];
 }
 
 export type NavigationLink = [string, ReactNode]; // [url, label(as a react-node)]

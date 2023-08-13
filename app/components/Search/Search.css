@@ -1,9 +1,6 @@
 @import url('~app/styles/variables.css');
 
 .inputContainer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   height: 120px;
   border-bottom: 1px solid var(--border-gray);
   padding: 0 20px;
@@ -42,9 +39,6 @@
 
 .searchIcon {
   color: var(--color-gray-6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .searchResultItemIcon {
@@ -53,143 +47,108 @@
 }
 
 .resultsContainer {
-  background: rgba(var(--rgb-max), var(--rgb-max), var(--rgb-max), 80%);
-  overflow-y: auto;
-  height: 100%;
-  max-height: calc(100vh - 120px);
-  border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg);
-
-  @media (--small-viewport) {
-    flex-direction: column;
-  }
-}
-
-.scrollAble {
-  display: flex;
-
-  @media (--small-viewport) {
-    flex-direction: column;
-  }
-}
-
-.navigationHeader {
-  color: var(--lego-font-color);
-}
-
-.navigationFlex {
   display: flex;
   flex-wrap: wrap;
+  gap: 2rem;
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
+  padding: 2rem 2rem 4rem;
+  background-color: var(--lego-card-color);
+  border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg);
 }
 
-.navigationLink {
-  flex-basis: 33%;
-  min-width: 225px;
-  max-width: 100%;
+.sidePanel {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  flex-grow: 1;
+}
 
-  @media (--mobile-device) {
-    flex-basis: 50%;
-  }
-
-  @media (--small-viewport) {
-    flex: 1;
-  }
+.quickLinksHeader {
+  color: var(--lego-font-color);
+  padding-left: 15px;
 }
 
 .quickLinks {
-  flex: 1;
-  background-color: var(--lego-card-color);
-  color: var(--color-white);
-  padding: 2rem 2rem 3rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  list-style-type: none;
 }
 
-.quickLinks::after {
-  content: '';
-  display: block;
-  height: 2rem;
-  width: 100%;
+.quickLinkWrapper {
+  padding: 0;
 }
 
-.quickLinks li {
-  list-style: none;
-}
-
-.quickLinks a {
-  display: block;
+.quickLink {
   padding: 4px 15px;
+  box-sizing: border-box;
   font-size: var(--font-size-lg);
-  transition: background-color var(--linear-fast);
   border-radius: var(--border-radius-md);
+  transition: background-color var(--linear-fast);
 }
 
-.quickLinks a:hover {
+.quickLink:hover {
   background-color: var(--additive-background);
 }
 
+.quickLinkContent {
+  gap: 0.4rem;
+}
+
 .results {
-  flex: 2;
-  padding: 2rem;
-  background: var(--lego-color-gray-light);
-}
-
-html[data-theme='dark'] .results {
-  background: var(--lego-card-color);
-}
-
-.resultDate {
-  color: var(--lego-font-color);
-  margin-left: auto;
-  white-space: nowrap;
-  padding-left: 5px;
-
-  @media (--small-viewport) {
-    display: none;
-  }
-}
-
-.resultDateMobile {
-  display: none;
-  margin-left: auto;
-
-  @media (--small-viewport) {
-    display: block;
-  }
-}
-
-.resultDetails {
-  color: var(--lego-font-color);
-  font-size: var(--font-size-sm);
-  display: flex;
-  justify-content: space-between;
-  line-height: 15px;
+  flex: 1 1 66%;
+  min-width: 0;
 }
 
 .resultType {
+  display: block;
   text-transform: capitalize;
 }
 
 .resultItem {
-  border-bottom: 1px solid var(--border-gray);
-  padding: 0.5rem;
-  height: 64px;
   display: flex;
   align-items: center;
+  border-bottom: 1px solid var(--border-gray);
+  padding: 0.5rem;
+  height: 4rem;
 }
 
 .resultTitle {
-  display: table;
-  table-layout: fixed;
-  width: 100%;
-  line-height: 20px;
-  padding-top: 2px;
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  line-height: normal;
+  color: var(--lego-font-color);
+}
+
+.resultDetail {
+  color: var(--secondary-font-color);
+  font-size: var(--font-size-sm);
+  margin: 0;
+}
+
+.resultDetail > *:not(:last-child)::after {
+  content: '\22C5';
+  padding: 0 5px;
 }
 
 .truncateTitle {
-  display: table-cell;
+  display: block;
+  margin: 0;
+  overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  overflow: hidden;
 }
 
 .isSelected {
   font-weight: 600;
+}
+
+.searchingText,
+.quickLinksHeader {
+  margin: 0.5rem 0;
+}
+
+.searchingText {
+  text-align: center;
 }

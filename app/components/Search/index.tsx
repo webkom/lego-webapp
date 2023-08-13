@@ -1,6 +1,6 @@
 import { push } from 'connected-react-router';
 import { debounce } from 'lodash';
-import { Component } from 'react';
+import { useState } from 'react';
 import { connect } from 'react-redux';
 import { autocomplete } from 'app/actions/SearchActions';
 import type { Allowed } from 'app/reducers/allowed';
@@ -8,8 +8,9 @@ import { selectAutocompleteRedux } from 'app/reducers/search';
 import type { RootState } from 'app/store/createRootReducer';
 import type { AppDispatch } from 'app/store/createStore';
 import { Keyboard } from 'app/utils/constants';
-import Icon from '../Icon';
+import QuickLinks from './QuickLinks';
 import styles from './Search.css';
+import SearchBar from './SearchBar';
 import SearchResults from './SearchResults';
 import { getAdminLinks, getRegularLinks } from './utils';
 
@@ -27,126 +28,96 @@ type Props = StateProps &
   DispatchProps & {
     loggedIn: boolean;
     results: Array<any>;
-    onCloseSearch: () => any;
+    onCloseSearch: () => void;
     searching: boolean;
     username?: string;
     updateUserTheme: (username: string, theme: string) => Promise<any>;
   };
 
-type State = {
-  query: string;
-  selectedIndex: number;
-};
+const Search = (props: Props) => {
+  const [query, setQuery] = useState('');
+  const [selectedIndex, setSelectedIndex] = useState(-1);
 
-class Search extends Component<Props, State> {
-  state = {
-    query: '',
-    selectedIndex: 0,
-  };
-  handleKeyDown = (e) => {
+  const { allowed, loggedIn, results, onCloseSearch, searching } = props;
+
+  const handleKeyDown = (e) => {
     switch (e.which) {
       case Keyboard.UP:
         e.preventDefault();
-        this.setState({
-          selectedIndex: Math.max(0, this.state.selectedIndex - 1),
-        });
+        setSelectedIndex(Math.max(-1, selectedIndex - 1));
         break;
 
       case Keyboard.DOWN:
         e.preventDefault();
-        this.setState({
-          selectedIndex: Math.min(
-            this.props.results.length,
-            this.state.selectedIndex + 1
-          ),
-        });
+        setSelectedIndex(Math.min(props.results.length, selectedIndex + 1));
         break;
 
       case Keyboard.ENTER: {
         e.preventDefault();
-        const result = this.props.results[this.state.selectedIndex - 1];
+        const result = props.results[selectedIndex];
 
-        if (this.state.selectedIndex === 0 || !result) {
-          this.props.openSearchRoute(this.state.query);
+        if (selectedIndex === -1 || !result) {
+          props.openSearchRoute(query);
         } else {
-          this.props.push(result.link);
+          props.push(result.link);
         }
 
-        this.props.onCloseSearch();
+        props.onCloseSearch();
         break;
       }
-
-      default:
     }
   };
-  onQueryChanged = (query) => {
-    this.setState({
-      query,
-    });
-    this.props.onQueryChanged(query);
+
+  const onQueryChanged = (query) => {
+    setQuery(query);
+    props.onQueryChanged(query);
   };
 
-  render() {
-    const { allowed, loggedIn, results, onCloseSearch, searching } = this.props;
-    const { query, selectedIndex } = this.state;
-    const regularLinks = getRegularLinks({
-      allowed,
-      loggedIn,
-    });
-    const adminLinks = getAdminLinks({
-      allowed,
-      loggedIn,
-    });
-    const searchFields = [
-      {
-        style: styles.inputElementNormal,
-        autoFocus: true,
-      },
-      {
-        style: styles.inputElementMobile,
-        autoFocus: false,
-      },
-    ];
-    return (
-      <div onKeyDown={this.handleKeyDown} tabIndex={-1}>
-        <div className={styles.inputContainer}>
-          <div className={styles.searchIcon}>
-            <Icon name="search" size={30} />
-          </div>
-          {searchFields.map((k) => (
-            <input
-              key={`search-field-${k.autoFocus ? 'on' : 'off'}`}
-              className={k.style}
-              onChange={(e) => this.onQueryChanged(e.target.value)}
-              value={this.state.query}
-              type="search"
-              size={1}
-              placeholder="Hva leter du etter?"
-              ref={(input) => input && k.autoFocus && input.focus()}
-            />
-          ))}
+  const regularLinks = getRegularLinks({
+    allowed,
+    loggedIn,
+  });
 
-          <Icon
-            name={searching ? 'refresh' : 'close'}
-            onClick={onCloseSearch}
-            size={30}
-            data-testid="closeButton"
+  const adminLinks = getAdminLinks({
+    allowed,
+    loggedIn,
+  });
+
+  return (
+    <div tabIndex={-1}>
+      <SearchBar
+        query={query}
+        handleKeyDown={handleKeyDown}
+        onQueryChanged={onQueryChanged}
+        onCloseSearch={onCloseSearch}
+      />
+      <div className={styles.resultsContainer}>
+        {query.length > 0 && (
+          <SearchResults
+            results={results}
+            onCloseSearch={onCloseSearch}
+            searching={searching}
+            selectedIndex={selectedIndex}
           />
+        )}
+        <div className={styles.sidePanel}>
+          <QuickLinks
+            title="Sider"
+            links={regularLinks}
+            onCloseSearch={onCloseSearch}
+          />
+          {adminLinks.length > 0 && (
+            <QuickLinks
+              title="Admin"
+              links={adminLinks}
+              onCloseSearch={onCloseSearch}
+            />
+          )}
         </div>
-
-        <SearchResults
-          query={query}
-          searching={searching}
-          results={results.filter(({ link }) => link)}
-          navigationLinks={regularLinks}
-          adminLinks={adminLinks}
-          onCloseSearch={onCloseSearch}
-          selectedIndex={selectedIndex}
-        />
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 function mapStateToProps(state: RootState): StateProps {
   return {
