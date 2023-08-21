@@ -57,7 +57,9 @@ type CompleteStatus =
 const StripeElementStyle = {
   style: {
     base: {
-      color: '#0d0d0d',
+      color: window.matchMedia('prefers-color-scheme: dark')
+        ? '#f2f2f2'
+        : '#0d0d0d',
       letterSpacing: '0.025em',
       fontFamily: 'Source Code Pro, monospace',
       '::placeholder': {
