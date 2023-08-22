@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Field } from 'redux-form';
+import Card from 'app/components/Card';
 import {
   Form,
   TextInput,
@@ -50,10 +51,12 @@ const UserConfirmation = ({
               >
                 Er du student?
               </h3>
-              <p className={styles.infoText}>
-                For å kunne melde deg på arrangementer i Abakus må du verifisere
-                at du er student.
-              </p>
+              <Card severity="danger">
+                <span>
+                  For å kunne melde deg på arrangementer i Abakus må du
+                  verifisere at du er student.
+                </span>
+              </Card>
               <Flex>
                 <Link to="/users/me/settings/student-confirmation/">
                   <Button success>Verifiser studentstatus</Button>
@@ -66,7 +69,7 @@ const UserConfirmation = ({
                     marginTop: '1em',
                   }}
                 >
-                  Eller gå til hovedsiden
+                  <Button>Eller gå til hovedsiden</Button>
                 </Link>
               </Flex>
             </div>
