@@ -147,7 +147,7 @@ export function createField(Component: ComponentType<any>, options?: Options) {
         {...input}
         {...props}
         onChange={(value) => {
-          input.onChange(value);
+          input.onChange?.(value);
           onChange?.(value);
         }}
         className={cx(

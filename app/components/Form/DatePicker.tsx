@@ -14,6 +14,8 @@ import type { Moment } from 'moment';
 
 type Props = {
   onChange: (selectedDate: string) => void;
+  onBlur: (selectedDate?: string) => void;
+  onFocus: () => void;
   className?: string;
   value?: string;
   showTimePicker?: boolean;
@@ -23,6 +25,8 @@ type Props = {
 
 const DatePicker = ({
   onChange,
+  onFocus,
+  onBlur,
   className,
   value,
   showTimePicker = true,
@@ -36,19 +40,25 @@ const DatePicker = ({
   const onNext = () => setDate(date.clone().add(1, 'month'));
   const onPrev = () => setDate(date.clone().subtract(1, 'month'));
 
+  const togglePicker = (open = !pickerOpen) => {
+    setPickerOpen(open);
+    open ? onFocus() : onBlur(value);
+  };
+
   const changeDay = (day: Moment) => {
     const value = day
       .clone()
       .hour(parsedValue.hour())
       .minute(parsedValue.minute());
     onChange(value.toISOString());
+    onBlur(value.toISOString());
     setPickerOpen(false);
   };
 
   return (
     <Dropdown
       show={pickerOpen}
-      toggle={() => setPickerOpen(!pickerOpen)}
+      toggle={() => togglePicker()}
       triggerComponent={
         <TextInput
           className={cx(styles.inputField, className)}
