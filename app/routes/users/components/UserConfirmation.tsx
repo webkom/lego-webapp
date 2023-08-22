@@ -24,7 +24,7 @@ export type Props = {
   handleSubmit: (arg0: (...args: Array<any>) => any) => void;
   createUser: (token: string, data: Record<string, any>) => void;
   router: any;
-  submitSucceeded: () => void;
+  submitSucceeded: boolean;
 } & RouteChildrenProps<{ username: string }>;
 
 const UserConfirmation = ({
@@ -52,12 +52,11 @@ const UserConfirmation = ({
               </h3>
               <p className={styles.infoText}>
                 For å kunne melde deg på arrangementer i Abakus må du verifisere
-                at du er student. Om du ikke har fått student-e-post enda, kan
-                du alltids verifisere kontoen din senere.
+                at du er student.
               </p>
               <Flex>
                 <Link to="/users/me/settings/student-confirmation/">
-                  <Button>Verifiser student-e-post</Button>
+                  <Button success>Verifiser studentstatus</Button>
                 </Link>
               </Flex>
               <Flex>
@@ -153,9 +152,7 @@ const UserConfirmation = ({
             autocomplete="tel"
             component={PhoneNumberInput.Field}
           />
-          <Button submit dark>
-            Registrer bruker
-          </Button>
+          <Button submit>Registrer bruker</Button>
         </Form>
       </div>
     </Container>
