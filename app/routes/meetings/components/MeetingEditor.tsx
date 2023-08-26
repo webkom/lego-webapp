@@ -46,7 +46,8 @@ import type { DetailedMeeting } from 'app/store/models/Meeting';
 import type { AutocompleteUser, CurrentUser } from 'app/store/models/User';
 import type { History } from 'history';
 
-type Values = {
+export type MeetingFormValues = {
+  id?: ID;
   title?: string;
   report?: string;
   description?: string;
@@ -55,6 +56,7 @@ type Values = {
   useMazemap: boolean;
   mazemapPoi?: { value: number; label: string };
   location?: string;
+  reportAuthor?: { value: ID; label: string; id: ID };
   users?: AutocompleteUser[];
   groups?: AutocompleteGroup[];
 };
@@ -64,8 +66,10 @@ type Props = {
   meeting: DetailedMeeting;
   currentUser: CurrentUser;
   meetingInvitations: MeetingInvitationWithUser[];
-  initialValues: Values;
-  handleSubmitCallback: (data: Values) => Promise<{ payload: { result: ID } }>;
+  initialValues: MeetingFormValues;
+  handleSubmitCallback: (
+    data: MeetingFormValues
+  ) => Promise<{ payload: { result: ID } }>;
   push: History['push'];
   inviteUsersAndGroups: (args: {
     id: ID;
@@ -252,7 +256,7 @@ const MeetingEditor = ({
                 component={CheckBox.Field}
                 type="checkbox"
               />
-              {spyValues<Values>((values) => {
+              {spyValues<MeetingFormValues>((values) => {
                 return values?.useMazemap ? (
                   <Flex alignItems="center">
                     <Field
@@ -302,7 +306,7 @@ const MeetingEditor = ({
                 </div>
               </div>
 
-              {spyValues<Values>((values) => {
+              {spyValues<MeetingFormValues>((values) => {
                 const invitingUsers = values?.users ?? [];
                 const invitingGroups = values?.groups ?? [];
 

@@ -3,14 +3,18 @@ import { commentSchema } from 'app/reducers';
 import { Comment } from './ActionTypes';
 import type { ID } from 'app/store/models';
 import type CommentType from 'app/store/models/Comment';
-import type { Thunk } from 'app/types';
+import type { ContentTarget } from 'app/store/utils/contentTarget';
 
 export function addComment({
   text,
   contentTarget,
   parent,
-}: CommentType): Thunk<Promise<Record<string, any> | null | undefined>> {
-  return callAPI({
+}: {
+  text: string;
+  contentTarget: ContentTarget;
+  parent?: ID;
+}) {
+  return callAPI<CommentType>({
     types: Comment.ADD,
     endpoint: '/comments/',
     method: 'POST',
@@ -30,10 +34,8 @@ export function addComment({
     schema: commentSchema,
   });
 }
-export function deleteComment(
-  commentId: ID,
-  contentTarget: string
-): Thunk<any> {
+
+export function deleteComment(commentId: ID, contentTarget: ContentTarget) {
   return callAPI({
     types: Comment.DELETE,
     endpoint: `/comments/${commentId}/`,

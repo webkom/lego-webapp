@@ -11,9 +11,9 @@ import type { ActionGrant } from 'app/models';
 import type { AppDispatch } from 'app/store/createStore';
 import type {
   PromiseAction,
-  RejectedPromiseAction,
   ResolvedPromiseAction,
 } from 'app/store/middleware/promiseMiddleware';
+import type { ID } from 'app/store/models';
 import type { AsyncActionType, Thunk, NormalizedApiPayload } from 'app/types';
 import type {
   HttpRequestOptions,
@@ -71,17 +71,33 @@ type ApiResponse<T> = T extends Array<infer E>
   ? MultipleApiResponse<E>
   : SingleApiResponse<T>;
 
-type CallAPIOptions = {
+type CallAPIMeta<ExtraMeta = Record<string, never>> = ExtraMeta & {
+  queryString: string;
+  query?: Record<string, string | number | boolean>;
+  paginationKey?: string;
+  cursor: string;
+  optimisticId?: ID;
+  enableOptimistic: boolean;
+  endpoint: string;
+  body?: Record<string, unknown> | string;
+  schemaKey?: string;
+};
+type CallAPIOptionsMeta = {
+  errorMessage?: string;
+  successMessage?: string;
+};
+
+type CallAPIOptions<Meta extends CallAPIOptionsMeta> = {
   types: AsyncActionType;
   endpoint: string;
   method?: HttpMethod;
   headers?: Record<string, string>;
   schema?: Schema;
-  body?: Record<string, any> | string;
+  body?: Record<string, unknown> | string;
   query?: Record<string, string | number | boolean>;
   json?: boolean;
-  meta?: Record<string, unknown>;
-  files?: string[];
+  meta?: Meta;
+  files?: (string | File)[];
   force?: boolean;
   propagateError?: boolean;
   enableOptimistic?: boolean;
@@ -92,17 +108,24 @@ type CallAPIOptions = {
   };
 };
 
-export default function callAPI<T = void>(
-  props: Required<CallAPIOptions, 'schema'>
+export default function callAPI<
+  T = unknown,
+  Meta extends CallAPIOptionsMeta = Record<string, unknown>
+>(
+  props: Required<CallAPIOptions<Meta>, 'schema'>
 ): Thunk<
-  Promise<
-    RejectedPromiseAction | ResolvedPromiseAction<NormalizedApiPayload<T>>
-  >
+  Promise<ResolvedPromiseAction<NormalizedApiPayload<T>, CallAPIMeta<Meta>>>
 >;
-export default function callAPI<T = void>(
-  props: Omit<CallAPIOptions, 'schema'>
-): Thunk<Promise<RejectedPromiseAction | ResolvedPromiseAction<T>>>;
-export default function callAPI<T = void>({
+export default function callAPI<
+  T = unknown,
+  Meta extends CallAPIOptionsMeta = Record<string, unknown>
+>(
+  props: Omit<CallAPIOptions<Meta>, 'schema'>
+): Thunk<Promise<ResolvedPromiseAction<T, CallAPIMeta<Meta>>>>;
+export default function callAPI<
+  T = unknown,
+  Meta extends CallAPIOptionsMeta = Record<string, unknown>
+>({
   types,
   method = 'GET',
   headers = {},
@@ -111,17 +134,15 @@ export default function callAPI<T = void>({
   body,
   query,
   files,
-  meta,
+  meta = {} as Meta,
   schema,
   pagination,
   propagateError = false,
   enableOptimistic = false,
   requiresAuthentication = true,
   timeout,
-}: CallAPIOptions): Thunk<
-  Promise<
-    RejectedPromiseAction | ResolvedPromiseAction<T | NormalizedApiPayload<T>>
-  >
+}: CallAPIOptions<Meta>): Thunk<
+  Promise<ResolvedPromiseAction<T | NormalizedApiPayload<T>, CallAPIMeta<Meta>>>
 > {
   return async (dispatch: AppDispatch, getState) => {
     const requestOptions: HttpRequestOptions = {
@@ -151,7 +172,8 @@ export default function callAPI<T = void>({
       const jsonData = response.jsonData;
 
       if (!jsonData) {
-        return {};
+        // This should only happen when T is void
+        return {} as T;
       }
 
       const payload = 'results' in jsonData ? jsonData.results : jsonData;
@@ -190,7 +212,7 @@ export default function callAPI<T = void>({
     const qsWithoutPagination = query
       ? createQueryString(omit(query, 'cursor'))
       : '';
-    let schemaKey = null;
+    let schemaKey = undefined;
 
     if (schema) {
       if (isArray(schema)) {
@@ -230,7 +252,10 @@ export default function callAPI<T = void>({
       requestOptions
     );
 
-    const action: PromiseAction<T | NormalizedApiPayload<T>> = {
+    const action: PromiseAction<
+      T | NormalizedApiPayload<T>,
+      CallAPIMeta<Meta>
+    > = {
       types,
       payload: optimisticPayload,
       meta: {
@@ -239,7 +264,7 @@ export default function callAPI<T = void>({
         paginationKey:
           paginationForRequest && paginationForRequest.paginationKey,
         cursor,
-        ...(meta as Record<string, any>),
+        ...meta,
         optimisticId: optimisticPayload ? optimisticPayload.result : undefined,
         enableOptimistic,
         endpoint,

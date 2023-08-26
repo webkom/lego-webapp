@@ -43,10 +43,6 @@
   margin-top: 8px;
 }
 
-.sendButton {
-  height: 50px;
-}
-
 .wrapperSendButton {
   justify-content: space-around;
   align-items: center;

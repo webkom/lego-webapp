@@ -1,8 +1,11 @@
 import callAPI from 'app/actions/callAPI';
 import { Reaction } from './ActionTypes';
 import type { ID } from 'app/models';
+import type { AppDispatch } from 'app/store/createStore';
+import type { RejectedPromiseAction } from 'app/store/middleware/promiseMiddleware';
+import type { ReactionResponse } from 'app/store/models/Reaction';
 import type { CurrentUser } from 'app/store/models/User';
-import type { Thunk } from 'app/types';
+import type { HttpError } from 'app/utils/fetchJSON';
 
 export function addReaction({
   emoji,
@@ -14,10 +17,10 @@ export function addReaction({
   user?: CurrentUser;
   contentTarget: string;
   unicodeString: string;
-}): Thunk<void> {
-  return (dispatch) => {
+}) {
+  return (dispatch: AppDispatch) => {
     return dispatch(
-      callAPI({
+      callAPI<ReactionResponse>({
         types: Reaction.ADD,
         endpoint: '/reactions/',
         method: 'POST',
@@ -32,24 +35,21 @@ export function addReaction({
           unicodeString,
         },
       })
-    ).catch((action) => {
-      const status = action.payload.response.status;
-      let errorMessage = 'Reaksjon feilet';
+    ).catch(
+      (action: RejectedPromiseAction<HttpError, Record<string, unknown>>) => {
+        const status = action.payload.response?.status;
+        let errorMessage = 'Reaksjon feilet';
 
-      if (status === 409) {
-        errorMessage = 'Du har allerede reagert med denne emojien';
-      } else if (status === 413) {
-        errorMessage = 'Du har reagert for mange ganger';
+        if (status === 409) {
+          errorMessage = 'Du har allerede reagert med denne emojien';
+        } else if (status === 413) {
+          errorMessage = 'Du har reagert for mange ganger';
+        }
+
+        action.meta.errorMessage = errorMessage;
+        dispatch(action);
       }
-
-      dispatch({
-        type: Reaction.ADD.FAILURE,
-        error: true,
-        meta: {
-          errorMessage,
-        },
-      });
-    });
+    );
   };
 }
 export function deleteReaction({
@@ -58,8 +58,8 @@ export function deleteReaction({
 }: {
   reactionId: ID;
   contentTarget: string;
-}): Thunk<any> {
-  return callAPI({
+}) {
+  return callAPI<void>({
     types: Reaction.DELETE,
     endpoint: `/reactions/${reactionId}/`,
     method: 'DELETE',

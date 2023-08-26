@@ -97,17 +97,10 @@ const AnnouncementItem = ({
         actionGrant.includes('send') &&
         actionGrant.includes('delete') && (
           <Flex className={styles.wrapperSendButton}>
-            <Button
-              danger
-              className={styles.sendButton}
-              onClick={() => deleteAnnouncement(announcement.id)}
-            >
+            <Button danger onClick={() => deleteAnnouncement(announcement.id)}>
               Slett
             </Button>
-            <Button
-              className={styles.sendButton}
-              onClick={() => sendAnnouncement(announcement.id)}
-            >
+            <Button secondary onClick={() => sendAnnouncement(announcement.id)}>
               Send
             </Button>
           </Flex>
