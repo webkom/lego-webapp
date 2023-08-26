@@ -31,6 +31,10 @@
   &:focus-visible {
     background-color: var(--additive-background);
   }
+
+  &:active {
+    background-color: var(--color-gray-2);
+  }
 }
 
 .danger {
@@ -40,6 +44,10 @@
   &:hover,
   &:focus-visible {
     background-color: var(--color-red-1);
+  }
+
+  &:active {
+    background-color: var(--color-red-2);
   }
 }
 
@@ -51,6 +59,10 @@
   &:focus-visible {
     background-color: var(--color-green-2);
   }
+
+  &:active {
+    background-color: var(--color-green-3);
+  }
 }
 
 .edit {
@@ -60,6 +72,10 @@
   &:hover,
   &:focus-visible {
     background-color: var(--color-orange-2);
+  }
+
+  &:active {
+    background-color: var(--color-orange-3);
   }
 }
 

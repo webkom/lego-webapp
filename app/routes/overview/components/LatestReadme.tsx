@@ -1,3 +1,4 @@
+import cx from 'classnames';
 import { useEffect, useState } from 'react';
 import { Collapse } from 'react-collapse';
 import Card from 'app/components/Card';
@@ -31,15 +32,19 @@ const LatestReadme = ({
   return (
     <Card className={styles.latestReadme} style={style}>
       {collapsible ? (
-        <button
-          className={styles.heading}
+        <div
+          className={cx(styles.heading, styles.pointer)}
           onClick={() => setExpanded(!expanded)}
         >
           <Flex justifyContent="space-between" alignItems="center">
             {readmeIfy('readme')}
-            <Icon name={expanded ? 'close' : 'arrow-down'} />
+            <Icon
+              name="chevron-forward-outline"
+              onClick={() => setExpanded(!expanded)}
+              className={cx(styles.expand, expanded && styles.rotate)}
+            />
           </Flex>
-        </button>
+        </div>
       ) : (
         <div className={styles.heading}>{readmeIfy('readme')}</div>
       )}

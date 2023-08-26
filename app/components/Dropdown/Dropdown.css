@@ -12,7 +12,7 @@
 }
 
 .danger {
-  button {
+  & button {
     color: var(--danger-color);
   }
 
@@ -20,12 +20,12 @@
     transition: background var(--easing-fast);
     background-color: var(--danger-color);
 
-    button {
+    & button {
       color: var(--inverted-font-color);
-
-      html[data-theme='dark'] & {
-        color: var(--lego-font-color);
-      }
     }
   }
+}
+
+html[data-theme='dark'] .danger:hover button {
+  color: var(--lego-font-color);
 }

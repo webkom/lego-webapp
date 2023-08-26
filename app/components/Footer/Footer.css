@@ -18,6 +18,7 @@
   flex-direction: row;
   justify-content: space-between;
   padding: 0.9em;
+  margin-bottom: -1px; /* In case of glitchy render */
   background: url('app/assets/skyline.svg') bottom center no-repeat;
 
   @media (--small-viewport) {

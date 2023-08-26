@@ -147,26 +147,11 @@
   flex-direction: row;
 }
 
-.bottomRight div {
-  margin-left: 10px;
-}
-
 .quoteDate {
   color: var(--secondary-font-color);
   font-size: var(--font-size-sm);
   order: 1;
   margin-top: 3px;
-}
-
-.dropdownIcon {
-  color: var(--lego-link-color);
-  font-size: var(--font-size-lg);
-  margin: 0;
-  padding: 0;
-}
-
-.reactionCount {
-  order: 1;
 }
 
 .quoteAdmin {

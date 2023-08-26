@@ -77,6 +77,6 @@ export const Button = ({
     {...rest}
   >
     <LoadingIndicator small margin={0} loading={pending} />
-    {pending ? <span className={styles.loading}>Laster</span> : children}
+    {pending ? <span>Laster ...</span> : children}
   </button>
 );

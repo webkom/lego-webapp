@@ -7,7 +7,11 @@
 .heading {
   font-size: 27px;
   width: 100%;
-  color: var(--lego-font-color);
+  padding: 0;
+}
+
+.pointer {
+  cursor: pointer;
 }
 
 .thumb {
@@ -24,4 +28,12 @@
   &:hover {
     transform: scale(1.05);
   }
+}
+
+.expand {
+  transition: transform var(--easing-medium);
+}
+
+.rotate {
+  transform: rotate(90deg);
 }

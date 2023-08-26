@@ -19,7 +19,7 @@ type Props = {
 
 type State = {
   copied: boolean;
-  timeoutId: number | null;
+  timeoutId: NodeJS.Timeout | null;
   generatedCSV:
     | {
         url: string;

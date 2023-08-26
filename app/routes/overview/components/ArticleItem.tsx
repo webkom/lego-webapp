@@ -35,9 +35,9 @@ class ArticleItem extends Component<Props, any> {
               Publisert - {meta.props.children[0]}
             </span>
           </div>
-          <p className={styles.articleDescription}>
+          <span className={styles.articleDescription}>
             {truncateString(item.description, DESC_MAX_LENGTH)}
-          </p>
+          </span>
         </Link>
       </Card>
     );

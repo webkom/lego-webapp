@@ -248,7 +248,6 @@ class Poll extends Component<Props, State> {
                       onClick={this.toggleTruncate}
                       name={expanded ? 'chevron-up' : 'chevron-down'}
                       size={20}
-                      className={styles.arrow}
                     />
                   </Flex>
                 )}
