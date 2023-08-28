@@ -58,9 +58,9 @@ const PublicFrontpage = ({ frontpage, readmes }: Props) => {
   return (
     <Container>
       <Banner
-        header="Velkommen til fadderperioden 2023!"
-        subHeader="Trykk her for mer informasjon til nye studenter"
-        link="https://ny.abakus.no"
+        header="Abakus has opptak!"
+        subHeader="Søk her"
+        link="https://opptak.abakus.no"
         color="red"
       />
       <Container className={styles.container}>
