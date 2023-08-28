@@ -79,7 +79,7 @@
     "morgan": "^1.9.1",
     "normalizr": "^3.6.2",
     "path-browserify": "^1.0.1",
-    "postcss": "^8.4.24",
+    "postcss": "^8.4.28",
     "qs": "^6.11.2",
     "react": "^18.2.0",
     "react-collapse": "^5.1.1",
