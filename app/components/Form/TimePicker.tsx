@@ -1,129 +1,84 @@
-import { Component } from 'react';
+import { useMemo } from 'react';
+import Icon from 'app/components/Icon';
 import parseDateValue from 'app/utils/parseDateValue';
 import { createField } from './Field';
 import TextInput from './TextInput';
 import styles from './TimePicker.css';
+import type { ComponentProps, SyntheticEvent } from 'react';
 
-function TimePickerInput({ onNext, onPrev, ...props }: any) {
-  return (
-    <div className={styles.timePickerInput}>
-      <button type="button" onClick={onNext} className={styles.arrowIcon}>
-        <i className="fa fa-angle-up" />
-      </button>
-      <TextInput {...props} />
-      <button type="button" onClick={onPrev} className={styles.arrowIcon}>
-        <i className="fa fa-angle-down" />
-      </button>
-    </div>
-  );
-}
+type TimePickerInputProps = ComponentProps<typeof TextInput> & {
+  onNext: () => void;
+  onPrev: () => void;
+};
+
+const TimePickerInput = ({
+  onNext,
+  onPrev,
+  ...props
+}: TimePickerInputProps) => (
+  <div className={styles.timePickerInput}>
+    <button type="button" onClick={onNext} className={styles.arrowIcon}>
+      <Icon justifyContent="center" name="chevron-up-outline" />
+    </button>
+    <TextInput {...props} />
+    <button type="button" onClick={onPrev} className={styles.arrowIcon}>
+      <Icon justifyContent="center" name="chevron-down-outline" />
+    </button>
+  </div>
+);
 
 type Props = {
-  value: string;
-  onChange: (arg0: any) => void;
-};
-type State = {
-  value: moment$Moment;
-  fieldValue: {
-    hour: string;
-    minute: string;
-  };
+  value?: string;
+  onChange: (newValue: string) => void;
 };
 
-class TimePicker extends Component<Props, State> {
-  value = parseDateValue(this.props.value);
-  state = {
-    value: this.value,
-    fieldValue: {
-      hour: this.value.format('HH'),
-      minute: this.value.format('mm'),
-    },
+const max = {
+  hour: 23,
+  minute: 59,
+};
+
+const TimePicker = ({ value, onChange }: Props) => {
+  const parsedValue = useMemo(() => parseDateValue(value), [value]);
+
+  const addOne = (unit: 'hour' | 'minute') => {
+    const newValue = parsedValue.clone().add(1, unit);
+    onChange(newValue.toISOString());
   };
-  static defaultProps = {
-    value: '',
-    fieldValue: {
-      hour: '',
-      minutes: '',
-    },
+  const subtractOne = (unit: 'hour' | 'minute') => {
+    const newValue = parsedValue.clone().subtract(1, unit);
+    onChange(newValue.toISOString());
   };
-  static Field: any;
-  onNext = (unit: string) => () => {
-    this.setState((prevState) => {
-      const value = prevState.value.clone().add(1, unit);
-      return {
-        value,
-        fieldValue: {
-          hour: value.format('HH'),
-          minute: value.format('mm'),
-        },
-      };
-    }, this.commit);
-  };
-  onNextHour = this.onNext('hour');
-  onNextMinute = this.onNext('minute');
-  onPrev = (unit: string) => () => {
-    this.setState((prevState) => {
-      const value = prevState.value.clone().subtract(1, unit);
-      return {
-        value,
-        fieldValue: {
-          hour: value.format('HH'),
-          minute: value.format('mm'),
-        },
-      };
-    }, this.commit);
-  };
-  onPrevHour = this.onPrev('hour');
-  onPrevMinute = this.onPrev('minute');
-  onChange =
+
+  const handleChange =
     (unit: 'hour' | 'minute') =>
-    (e: React.SyntheticEvent<HTMLInputElement>) => {
-      const { value } = e.target;
-
-      if (
-        (unit === 'hour' && Number(value) < 24) ||
-        (unit === 'minute' && Number(value) < 60)
-      ) {
-        this.setState(
-          (prevState) => ({
-            value: this.state.value.clone().set(unit, Number(value)),
-            fieldValue: {
-              hour: unit === 'hour' ? value : prevState.fieldValue.hour,
-              minute: unit === 'minute' ? value : prevState.fieldValue.minute,
-            },
-          }),
-          this.commit
-        );
-      }
+    ({ currentTarget: { value } }: SyntheticEvent<HTMLInputElement>) => {
+      if (Number(value) > max[unit] || Number(value) < 0) return;
+      const newValue = parsedValue.clone().set(unit, Number(value));
+      onChange(newValue.toISOString());
     };
-  onChangeHour = this.onChange('hour');
-  onChangeMinute = this.onChange('minute');
-  commit = () => this.props.onChange(this.state.value);
 
-  render() {
-    return (
-      <div className={styles.timePicker}>
-        <TimePickerInput
-          onNext={this.onNextHour}
-          onPrev={this.onPrevHour}
-          value={this.state.fieldValue.hour}
-          maxLength={2}
-          onChange={this.onChangeHour}
-          tabIndex={1}
-        />
-        {':'}
-        <TimePickerInput
-          onNext={this.onNextMinute}
-          onPrev={this.onPrevMinute}
-          value={this.state.fieldValue.minute}
-          maxLength={2}
-          onChange={this.onChangeMinute}
-          tabIndex={2}
-        />
-      </div>
-    );
-  }
-}
+  return (
+    <div className={styles.timePicker}>
+      <TimePickerInput
+        onNext={() => addOne('hour')}
+        onPrev={() => subtractOne('hour')}
+        value={parsedValue.format('H')}
+        maxLength={3}
+        onChange={handleChange('hour')}
+        tabIndex={1}
+      />
+      {':'}
+      <TimePickerInput
+        onNext={() => addOne('minute')}
+        onPrev={() => subtractOne('minute')}
+        value={parsedValue.format('mm')}
+        maxLength={3}
+        onChange={handleChange('minute')}
+        tabIndex={2}
+      />
+    </div>
+  );
+};
 
 TimePicker.Field = createField(TimePicker);
 export default TimePicker;

@@ -6,7 +6,7 @@ import type { ValidationErrors } from 'final-form';
 
 type Validator<T = any, C = any> = (
   message?: string
-) => (value: T, context?: C) => Readonly<[boolean, string]>;
+) => (value: T, context?: C) => Readonly<[false, string] | [true, string?]>;
 
 export type ValidatorResult = ValidationErrors;
 

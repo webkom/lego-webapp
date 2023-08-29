@@ -184,28 +184,29 @@ const MeetingEditor = ({
                 component={TextArea.Field}
               />
               <div className={styles.sideBySideBoxes}>
-                <FormSpy
-                  subscription={{ values: true }}
-                  onChange={({ values }) => {
-                    const startTime = moment(values.startTime);
-                    const endTime = moment(values.endTime);
-                    if (endTime.isBefore(startTime)) {
-                      form.change(
-                        'endTime',
-                        startTime
-                          .clone()
-                          .add(1, 'hour')
-                          .add(45, 'minutes')
-                          .toISOString()
-                      );
-                    }
-                  }}
-                />
-                <Field
-                  name="startTime"
-                  label="Starttidspunkt"
-                  component={DatePicker.Field}
-                />
+                <FormSpy subscription={{ values: true }}>
+                  {({ values }) => (
+                    <Field
+                      name="startTime"
+                      label="Starttidspunkt"
+                      component={DatePicker.Field}
+                      onBlur={(value: string) => {
+                        const startTime = moment(value);
+                        const endTime = moment(values.endTime);
+                        if (endTime.isBefore(startTime)) {
+                          form.change(
+                            'endTime',
+                            startTime
+                              .clone()
+                              .add(2, 'hours')
+                              .set('minute', 0)
+                              .toISOString()
+                          );
+                        }
+                      }}
+                    />
+                  )}
+                </FormSpy>
                 <Field
                   name="endTime"
                   label="Sluttidspunkt"

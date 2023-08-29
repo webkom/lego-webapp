@@ -44,21 +44,16 @@ export const selectEditor = (name) =>
     ? cy.get(`[name="${name}"] div[data-slate-editor="true"]`).click().click()
     : cy.get('div[data-slate-editor="true"]').click().click();
 
+const selectDatePickerHours = () =>
+  cy.get(c('TimePicker__timePickerInput')).first().find('input');
+
+const selectDatePickerMinutes = () =>
+  cy.get(c('TimePicker__timePickerInput')).last().find('input');
+
 export const setDatePickerTime = (name, hours, minutes) => {
   field(name).click();
-  cy.get(c('TimePicker__timePickerInput'))
-    .first()
-    .find('input')
-    .click()
-    .clear()
-    .type(hours);
-
-  cy.get(c('TimePicker__timePickerInput'))
-    .last()
-    .find('input')
-    .click()
-    .clear()
-    .type(minutes);
+  selectDatePickerHours().click().clear().type(hours);
+  selectDatePickerMinutes().click().clear().type(minutes);
   field(name).click();
 };
 
