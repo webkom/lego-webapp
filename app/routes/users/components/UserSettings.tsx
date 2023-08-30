@@ -52,6 +52,7 @@ interface FormValues {
   selectedTheme: string;
   isAbakusMember: string;
   githubUsername: string;
+  linkedinId: string;
 }
 
 const validate = createValidator({
@@ -165,13 +166,13 @@ const UserSettings = (props: Props) => {
             />
 
             <Field
-              label="Github Brukernavn"
+              label="GitHub-brukernavn"
               name="githubUsername"
               component={TextInput.Field}
             />
 
             <Field
-              label="Linkedin Id"
+              label="Linkedin-ID"
               name="linkedinId"
               component={TextInput.Field}
             />

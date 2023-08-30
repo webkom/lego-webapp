@@ -39,11 +39,9 @@ interface User {
   isAbakomMember: boolean;
   pastMemberships: PastMembership[];
   selectedTheme: string;
-<<<<<<< HEAD
-=======
   githubUsername: string;
+  linkedinId: string;
 
->>>>>>> 466c449bc (Implement github usernames on profiles.)
   permissionsPerGroup: {
     abakusGroup: Pick<Group, 'id' | 'name'>;
     permissions: string[];
@@ -55,6 +53,7 @@ interface User {
   photoConsents?: PhotoConsent[];
   memberships: Membership[];
   githubUsername?: string;
+  linkedinId?: string;
 }
 
 export type CurrentUser = Pick<
@@ -87,10 +86,7 @@ export type CurrentUser = Pick<
   | 'permissionsPerGroup'
   | 'photoConsents'
   | 'githubUsername'
-<<<<<<< HEAD
-=======
   | 'linkedinId'
->>>>>>> 466c449bc (Implement github usernames on profiles.)
 >;
 
 export type DetailedUser = Pick<
