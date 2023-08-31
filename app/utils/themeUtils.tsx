@@ -24,7 +24,7 @@ export const ThemeContextListener = () => {
 
   useEffect(() => {
     const handleThemeChange = () => dispatch(setTheme(getTheme()));
-
+    handleThemeChange();
     window.addEventListener('themeChange', handleThemeChange);
     return () => window.removeEventListener('themeChange', handleThemeChange);
   }, [dispatch]);
