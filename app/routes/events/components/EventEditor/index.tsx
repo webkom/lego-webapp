@@ -55,6 +55,8 @@ import renderPools, { validatePools } from './renderPools';
 
 import type { EditingEvent } from '../../utils';
 import type { FormEventHandler } from 'react';
+import AttendanceModal from 'app/components/UserAttendance/AttendanceModal';
+import { Link } from 'react-router-dom';
 
 type Props = {
   eventId: number;
@@ -650,7 +652,6 @@ function EventEditor({
             )}
           </ContentSidebar>
         </ContentSection>
-<<<<<<< HEAD
         {!isEditPage && (
           <Tooltip
             content={
@@ -689,8 +690,6 @@ function EventEditor({
             />
           </Tooltip>
         )}
-=======
->>>>>>> 0c6657f07 (Implement Imagegallery for reusing cover photos)
 
         <Flex wrap>
           {isEditPage && (
