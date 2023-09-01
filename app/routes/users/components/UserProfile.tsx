@@ -38,6 +38,7 @@ const fieldTranslations = {
   username: 'Brukernavn',
   email: 'E-post',
   internalEmailAddress: 'Abakus e-post',
+  githubUsername: 'GitHub',
 };
 
 const defaultFieldRender = (field, value) => (
@@ -53,10 +54,20 @@ const emailFieldRender = (field, value) => (
   </span>
 );
 
+const githubFieldRender = (field: string, value: string) => (
+  <span>
+    <Flex alignItems="center">
+      <Icon name={'logo-github'} className={styles.githubIcon} />
+      <a href={`https://github.com/${value}`}> {value}</a>
+    </Flex>
+  </span>
+);
+
 const fieldRenders = {
   username: defaultFieldRender,
   email: emailFieldRender,
   internalEmailAddress: emailFieldRender,
+  githubUsername: githubFieldRender,
 };
 type Props = {
   user: CurrentUser;
@@ -192,9 +203,28 @@ const UserProfile = (props: Props) => {
         {fieldRenders[field](fieldTranslations[field], user[field])}
       </li>
     ));
-    return <ul>{tags}</ul>;
+    //Need to access both the linkedinId and the fullname here
+    return (
+      <ul>
+        {tags}
+        {props?.user.linkedinId && (
+          <li key="linkedinId">
+            <span>
+              <Flex alignItems="center">
+                <Icon name={'logo-linkedin'} className={styles.githubIcon} />
+                <a
+                  href={`https://www.linkedin.com/in/${props?.user.linkedinId}`}
+                >
+                  {' '}
+                  {props?.user.fullName}
+                </a>
+              </Flex>
+            </span>
+          </li>
+        )}
+      </ul>
+    );
   };
-
   const {
     user,
     isCurrentUser,

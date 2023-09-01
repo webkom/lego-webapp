@@ -90,3 +90,7 @@
     transform: rotate(90deg);
   }
 }
+
+.githubIcon {
+  margin-right: 0.5rem;
+}
