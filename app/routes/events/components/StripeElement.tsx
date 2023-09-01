@@ -71,8 +71,8 @@ function StripeElementStyle(fontColor) {
         color: '#c81917',
       },
     },
-  }
-};
+  };
+}
 
 const CardForm = (props: CardFormProps) => {
   const [paymentStarted, setPaymentStarted] = useState(false);
