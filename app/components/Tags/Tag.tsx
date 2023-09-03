@@ -20,7 +20,7 @@ export type TagColors = (typeof tagColors)[number];
 
 type Props = {
   tag: string;
-  icon: string;
+  icon?: string;
   color?: TagColors;
   link?: string;
   className?: string;
