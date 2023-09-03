@@ -14,6 +14,7 @@ import Card from 'app/components/Card';
 import config from 'app/config';
 import type { EventRegistrationPaymentStatus, Event } from 'app/models';
 import type { CurrentUser } from 'app/store/models/User';
+import { useTheme } from 'app/utils/themeUtils';
 import stripeStyles from './Stripe.css';
 
 type Props = {
@@ -54,21 +55,24 @@ type CompleteStatus =
   | 'invalid_payer_phone'
   | 'invalid_payer_email'
   | 'invalid_shipping_address';
-const StripeElementStyle = {
-  style: {
-    base: {
-      color: '#0d0d0d',
-      letterSpacing: '0.025em',
-      fontFamily: 'Source Code Pro, monospace',
-      '::placeholder': {
-        color: '#8c8c8c',
+
+function StripeElementStyle(fontColor) {
+  return {
+    style: {
+      base: {
+        color: fontColor,
+        letterSpacing: '0.025em',
+        fontFamily: 'Source Code Pro, monospace',
+        '::placeholder': {
+          color: '#8c8c8c',
+        },
+      },
+      invalid: {
+        color: '#c81917',
       },
     },
-    invalid: {
-      color: '#c81917',
-    },
-  },
-};
+  };
+}
 
 const CardForm = (props: CardFormProps) => {
   const [paymentStarted, setPaymentStarted] = useState(false);
@@ -82,6 +86,9 @@ const CardForm = (props: CardFormProps) => {
     setLoading,
     currentUser,
   } = props;
+
+  const theme = useTheme();
+  const fontColor = theme === 'dark' ? '#f2f2f2' : '#0d0d0d';
 
   const handleSubmit = (ev) => {
     ev.preventDefault();
@@ -137,21 +144,21 @@ const CardForm = (props: CardFormProps) => {
           Kortnummer
           <CardNumberElement
             className={stripeStyles.stripeElement}
-            options={StripeElementStyle}
+            options={StripeElementStyle(fontColor)}
           />
         </label>
         <label data-testid="expiry-input">
           Utløpsdato
           <CardExpiryElement
             className={stripeStyles.stripeElement}
-            options={StripeElementStyle}
+            options={StripeElementStyle(fontColor)}
           />
         </label>
         <label data-testid="cvc-input">
           CVC
           <CardCvcElement
             className={stripeStyles.stripeElement}
-            options={StripeElementStyle}
+            options={StripeElementStyle(fontColor)}
           />
         </label>
         <Button submit dark className={stripeStyles.stripeButton}>
