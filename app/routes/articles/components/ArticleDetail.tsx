@@ -8,6 +8,7 @@ import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import Tags from 'app/components/Tags';
 import Tag from 'app/components/Tags/Tag';
 import type { ID } from 'app/models';
+import sharedStyles from 'app/routes/articles/components/Overview.css';
 import type {
   AdminDetailedArticle,
   DetailedArticle,
@@ -78,8 +79,14 @@ const ArticleDetail = ({
             {authors?.map((e, i) => {
               return (
                 <span key={e.username}>
-                  <Link to={`/users/${e.username}`}> {e.fullName}</Link>
-                  {i === authors.length - 1 ? '' : ','}
+                  <Link
+                    to={`/users/${e.username}`}
+                    className={sharedStyles.overviewAuthor}
+                  >
+                    {' '}
+                    {e.fullName}
+                  </Link>
+                  {i === authors.length - 1 ? '' : ','}{' '}
                 </span>
               );
             })}
@@ -89,6 +96,7 @@ const ArticleDetail = ({
           </span>
         </div>
       }
+
       <DisplayContent content={article.content} />
 
       <Tags>
