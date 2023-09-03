@@ -1,4 +1,4 @@
-import { LoadingIndicator } from '@webkom/lego-bricks';
+import { Card, Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
 import arrayMutators from 'final-form-arrays';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
@@ -7,7 +7,6 @@ import { Link } from 'react-router-dom';
 import { SubmissionError } from 'redux-form';
 import english from 'app/assets/great_britain.svg';
 import norwegian from 'app/assets/norway.svg';
-import Card from 'app/components/Card';
 import { Content } from 'app/components/Content';
 import { FlexRow } from 'app/components/FlexBox';
 import {
@@ -20,9 +19,7 @@ import {
   RadioButtonGroup,
 } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
-import Icon from 'app/components/Icon';
 import { Image } from 'app/components/Image';
-import Flex from 'app/components/Layout/Flex';
 import { readmeIfy } from 'app/components/ReadmeLogo';
 import Tooltip from 'app/components/Tooltip';
 import type {

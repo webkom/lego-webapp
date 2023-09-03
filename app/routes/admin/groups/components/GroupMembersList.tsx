@@ -1,11 +1,9 @@
-import cx from 'classnames';
+import { Flex, Icon } from '@webkom/lego-bricks';
 import qs from 'qs';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Select from 'react-select';
 import type { AddMemberArgs } from 'app/actions/GroupActions';
-import Icon from 'app/components/Icon';
-import Flex from 'app/components/Layout/Flex';
 import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import Table from 'app/components/Table';
 import { isCurrentUser as checkIfCurrentUser } from 'app/routes/users/utils';

@@ -1,9 +1,6 @@
+import { Card, Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { useRef, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import Card from 'app/components/Card';
-import Icon from 'app/components/Icon';
-import { Flex } from 'app/components/Layout';
 import LegoReactions from 'app/components/LegoReactions';
 import type { ID } from 'app/store/models';
 import type Emoji from 'app/store/models/Emoji';

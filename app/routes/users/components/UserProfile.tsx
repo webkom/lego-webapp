@@ -1,4 +1,4 @@
-import { Button } from '@webkom/lego-bricks';
+import { Button, Card, Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { sumBy, sortBy, uniqBy, groupBy, orderBy } from 'lodash';
 import moment from 'moment-timezone';
@@ -7,11 +7,8 @@ import { Helmet } from 'react-helmet-async';
 import { QRCode } from 'react-qrcode-logo';
 import { Link } from 'react-router-dom';
 import frame from 'app/assets/frame.png';
-import Card from 'app/components/Card';
 import EventListCompact from 'app/components/EventListCompact';
-import Icon from 'app/components/Icon';
 import { ProfilePicture, CircularPicture, Image } from 'app/components/Image';
-import { Flex } from 'app/components/Layout';
 import Modal from 'app/components/Modal';
 import Pill from 'app/components/Pill';
 import Tooltip from 'app/components/Tooltip';

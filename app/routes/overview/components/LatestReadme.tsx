@@ -1,10 +1,8 @@
+import { Card, Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { useEffect, useState } from 'react';
 import { Collapse } from 'react-collapse';
-import Card from 'app/components/Card';
-import Icon from 'app/components/Icon';
 import { Image } from 'app/components/Image';
-import { Flex } from 'app/components/Layout';
 import { readmeIfy } from 'app/components/ReadmeLogo';
 import type { Readme } from 'app/models';
 import styles from './LatestReadme.css';

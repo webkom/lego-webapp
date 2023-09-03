@@ -1,5 +1,5 @@
+import { Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import Icon from 'app/components/Icon';
 import PageHierarchy from './PageHierarchy';
 import styles from './Sidebar.css';
 import type { HierarchySectionEntity } from './PageHierarchy';

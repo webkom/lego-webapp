@@ -1,7 +1,6 @@
-import { LoadingIndicator } from '@webkom/lego-bricks';
+import { Flex, LoadingIndicator } from '@webkom/lego-bricks';
 import EmptyState from 'app/components/EmptyState';
 import EventItem, { type EventStyle } from 'app/components/EventItem';
-import { Flex } from 'app/components/Layout';
 import type { Event } from 'app/models';
 
 type Props = {

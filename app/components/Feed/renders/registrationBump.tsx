@@ -1,4 +1,4 @@
-import Icon from 'app/components/Icon';
+import { Icon } from '@webkom/lego-bricks';
 import { lookupContext, contextRender } from '../context';
 import { formatHeader } from './utils';
 import type { AggregatedActivity, TagInfo } from '../types';

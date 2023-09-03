@@ -1,14 +1,18 @@
-import { LoadingIndicator, ProgressBar, Button } from '@webkom/lego-bricks';
+import {
+  Button,
+  Card,
+  Flex,
+  Icon,
+  LoadingIndicator,
+  ProgressBar,
+} from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
 import { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { compose } from 'redux';
 import { reduxForm, Field, SubmissionError } from 'redux-form';
-import Card from 'app/components/Card';
 import { Form, Captcha, TextInput } from 'app/components/Form';
-import Icon from 'app/components/Icon';
-import { Flex } from 'app/components/Layout';
 import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';

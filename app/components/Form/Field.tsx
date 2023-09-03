@@ -1,6 +1,5 @@
+import { Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import Icon from 'app/components/Icon';
-import { Flex } from 'app/components/Layout';
 import Tooltip from 'app/components/Tooltip';
 import styles from './Field.css';
 import type { ComponentType, CSSProperties, InputHTMLAttributes } from 'react';

@@ -1,5 +1,5 @@
+import { Flex } from '@webkom/lego-bricks';
 import { Content, ContentMain } from 'app/components/Content';
-import Flex from 'app/components/Layout/Flex';
 import type { ActionGrant } from 'app/models';
 import type { ID } from 'app/store/models';
 import type {

@@ -1,6 +1,5 @@
-import { Button } from '@webkom/lego-bricks';
+import { Button, Icon } from '@webkom/lego-bricks';
 import { Component } from 'react';
-import Icon from 'app/components/Icon';
 import styles from './RemovePicture.css';
 
 type Props = {

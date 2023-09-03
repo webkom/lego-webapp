@@ -1,6 +1,5 @@
-import { Button } from '@webkom/lego-bricks';
+import { Button, Icon } from '@webkom/lego-bricks';
 import { Link } from 'react-router-dom';
-import Icon from 'app/components/Icon';
 import { useAppSelector } from 'app/store/hooks';
 import type { UnknownEvent } from 'app/store/models/Event';
 import type { UnknownGroup } from 'app/store/models/Group';

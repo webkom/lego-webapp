@@ -1,5 +1,4 @@
-import { Button } from '@webkom/lego-bricks';
-import Flex from 'app/components/Layout/Flex';
+import { Button, Flex } from '@webkom/lego-bricks';
 import Tooltip from 'app/components/Tooltip';
 import type { AttendanceModalProps } from 'app/components/UserAttendance/AttendanceModal';
 import AttendanceModal from 'app/components/UserAttendance/AttendanceModal';

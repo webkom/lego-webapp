@@ -1,5 +1,5 @@
+import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { Flex } from 'app/components/Layout';
 import styles from './ContentSidebar.css';
 import type { ReactNode } from 'react';
 

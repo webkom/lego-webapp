@@ -1,6 +1,6 @@
+import { Icon } from '@webkom/lego-bricks';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
-import Icon from 'app/components/Icon';
 import type { ActionGrant, IcalToken } from 'app/models';
 import createMonthlyCalendar from 'app/utils/createMonthlyCalendar';
 import styles from './Calendar.css';

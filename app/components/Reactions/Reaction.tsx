@@ -1,6 +1,6 @@
+import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import Emoji from 'app/components/Emoji';
-import Flex from 'app/components/Layout/Flex';
 import Tooltip from 'app/components/Tooltip';
 import type { ID } from 'app/store/models';
 import type { ContentTarget } from 'app/store/utils/contentTarget';

@@ -1,5 +1,5 @@
+import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import Flex from 'app/components/Layout/Flex';
 import { createField } from './Field';
 import styles from './RadioButton.css';
 import type { FormProps } from './Field';

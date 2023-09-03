@@ -1,8 +1,7 @@
-import { LoadingIndicator, Button } from '@webkom/lego-bricks';
+import { Button, Flex, LoadingIndicator } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
 import { useState } from 'react';
 import { formatPhoneNumber, parsePhoneNumber } from 'react-phone-number-input';
-import { Flex } from 'app/components/Layout';
 import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import type {
   EventAdministrate,

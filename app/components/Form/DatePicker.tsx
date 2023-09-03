@@ -1,9 +1,8 @@
+import { Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import moment from 'moment-timezone';
 import { useState } from 'react';
 import Dropdown from 'app/components/Dropdown';
-import Icon from 'app/components/Icon';
-import Flex from 'app/components/Layout/Flex';
 import createMonthlyCalendar from 'app/utils/createMonthlyCalendar';
 import parseDateValue from 'app/utils/parseDateValue';
 import styles from './DatePicker.css';

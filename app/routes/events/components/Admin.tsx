@@ -1,10 +1,8 @@
-import { Button } from '@webkom/lego-bricks';
+import { Button, Flex, Icon } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
 import AnnouncementInLine from 'app/components/AnnouncementInLine';
-import Icon from 'app/components/Icon';
-import Flex from 'app/components/Layout/Flex';
 import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import type { ID, Event, ActionGrant } from 'app/models';
 

@@ -1,4 +1,4 @@
-import { Button } from '@webkom/lego-bricks';
+import { Button, Flex, Icon } from '@webkom/lego-bricks';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import AnnouncementInLine from 'app/components/AnnouncementInLine';
@@ -9,9 +9,7 @@ import {
   ContentSidebar,
 } from 'app/components/Content';
 import DisplayContent from 'app/components/DisplayContent';
-import Icon from 'app/components/Icon';
 import { Image } from 'app/components/Image';
-import { Flex } from 'app/components/Layout';
 import NavigationTab from 'app/components/NavigationTab';
 import UserGrid from 'app/components/UserGrid';
 import type { Group, User, GroupMembership, ID } from 'app/models';

@@ -1,11 +1,9 @@
-import { Button } from '@webkom/lego-bricks';
+import { Button, Flex, Icon } from '@webkom/lego-bricks';
 import { Link } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form';
 import { Content } from 'app/components/Content';
 import { Form, TextArea, SelectInput, CheckBox } from 'app/components/Form';
-import Icon from 'app/components/Icon';
 import { Image } from 'app/components/Image';
-import { Flex } from 'app/components/Layout';
 import Modal from 'app/components/Modal';
 import ProgressiveImage from 'app/components/ProgressiveImage';
 import Tooltip from 'app/components/Tooltip';

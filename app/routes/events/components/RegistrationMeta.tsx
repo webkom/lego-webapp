@@ -1,4 +1,4 @@
-import Flex from 'app/components/Layout/Flex';
+import { Flex } from '@webkom/lego-bricks';
 import type {
   EventRegistrationPresence,
   EventRegistrationPaymentStatus,

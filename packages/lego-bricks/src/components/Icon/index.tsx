@@ -1,7 +1,7 @@
 import cx from 'classnames';
 import { Link } from 'react-router-dom';
-import { Flex } from 'app/components/Layout';
-import styles from './Icon.css';
+import Flex from '../Layout/Flex';
+import styles from './Icon.module.css';
 import type { ComponentProps, MouseEventHandler } from 'react';
 
 type Props = {
@@ -26,7 +26,7 @@ type Props = {
  * https://ionic.io/ionicons
  *
  */
-const Icon = ({
+export const Icon = ({
   name = 'star',
   className,
   style = {},
@@ -104,5 +104,3 @@ Icon.Badge = function IconBadge({
     </div>
   );
 };
-
-export default Icon;

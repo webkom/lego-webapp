@@ -1,9 +1,8 @@
-import { Button } from '@webkom/lego-bricks';
+import { Button, Card, Flex, Icon } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
 import { Component, Fragment, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import mazemapLogo from 'app/assets/mazemap.png';
-import Card from 'app/components/Card';
 import CommentView from 'app/components/Comments/CommentView';
 import {
   Content,
@@ -13,10 +12,8 @@ import {
   ContentSidebar,
 } from 'app/components/Content';
 import DisplayContent from 'app/components/DisplayContent';
-import Icon from 'app/components/Icon';
 import { Image } from 'app/components/Image';
 import InfoList from 'app/components/InfoList';
-import { Flex } from 'app/components/Layout';
 import { MazemapEmbed } from 'app/components/MazemapEmbed';
 import Tag from 'app/components/Tags/Tag';
 import TextWithIcon from 'app/components/TextWithIcon';
