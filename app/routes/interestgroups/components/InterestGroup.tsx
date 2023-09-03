@@ -1,6 +1,6 @@
+import { Flex } from '@webkom/lego-bricks';
 import { Link } from 'react-router-dom';
 import { Image } from 'app/components/Image';
-import { Flex } from 'app/components/Layout';
 import type { Group } from 'app/models';
 import styles from './InterestGroup.css';
 // TODO: rather handle this in the backend

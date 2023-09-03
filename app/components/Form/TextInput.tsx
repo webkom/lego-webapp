@@ -1,7 +1,6 @@
+import { Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { useMemo, useRef } from 'react';
-import Icon from 'app/components/Icon';
-import Flex from 'app/components/Layout/Flex';
 import { createField } from './Field';
 import styles from './TextInput.css';
 import type { ReactNode, InputHTMLAttributes, RefObject } from 'react';

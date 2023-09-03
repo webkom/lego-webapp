@@ -1,5 +1,5 @@
+import { Flex } from '@webkom/lego-bricks';
 import { useState } from 'react';
-import { Flex } from 'app/components/Layout';
 import {
   ForgotPasswordForm,
   LoginForm,

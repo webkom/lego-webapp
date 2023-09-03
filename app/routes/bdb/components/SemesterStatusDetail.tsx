@@ -1,7 +1,5 @@
-import { LoadingIndicator } from '@webkom/lego-bricks';
+import { Icon, Flex, LoadingIndicator } from '@webkom/lego-bricks';
 import { Component } from 'react';
-import Icon from 'app/components/Icon';
-import { Flex } from 'app/components/Layout';
 import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import FileUpload from 'app/components/Upload/FileUpload';
 import type { CompanySemesterContactedStatus } from 'app/models';

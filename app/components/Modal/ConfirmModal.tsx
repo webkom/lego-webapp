@@ -1,7 +1,5 @@
-import { Button } from '@webkom/lego-bricks';
+import { Button, Flex, Icon } from '@webkom/lego-bricks';
 import { useState } from 'react';
-import Icon from 'app/components/Icon';
-import Flex from 'app/components/Layout/Flex';
 import Modal from 'app/components/Modal';
 import styles from './ConfirmModal.css';
 import type { ReactNode } from 'react';

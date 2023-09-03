@@ -1,7 +1,7 @@
 import cx from 'classnames';
-import Icon from 'app/components/Icon';
-import Flex from 'app/components/Layout/Flex';
-import styles from './Card.css';
+import { Icon } from '../Icon';
+import Flex from '../Layout/Flex';
+import styles from './Card.module.css';
 import type { HTMLAttributes, ReactNode } from 'react';
 
 type Severity = 'danger' | 'info' | 'success' | 'warning';
@@ -60,7 +60,7 @@ type Props = {
   severity?: Severity;
 } & HTMLAttributes<HTMLDivElement>;
 
-function Card({
+export const Card = ({
   children,
   className,
   shadow = true,
@@ -68,7 +68,7 @@ function Card({
   isHoverable = false,
   severity,
   ...htmlAttributes
-}: Props) {
+}: Props) => {
   return (
     <div
       className={cx(
@@ -86,8 +86,6 @@ function Card({
       <CardContent severity={severity}>{children}</CardContent>
     </div>
   );
-}
+};
 
 Card.Header = CardHeader;
-
-export default Card;

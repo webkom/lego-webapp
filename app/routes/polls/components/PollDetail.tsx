@@ -1,8 +1,7 @@
-import { Button } from '@webkom/lego-bricks';
+import { Button, Icon } from '@webkom/lego-bricks';
 import { Component } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Content } from 'app/components/Content';
-import Icon from 'app/components/Icon';
 import NavigationTab from 'app/components/NavigationTab';
 import Poll from 'app/components/Poll';
 import type { ActionGrant, ID } from 'app/models';

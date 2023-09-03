@@ -1,7 +1,6 @@
+import { Card, Flex } from '@webkom/lego-bricks';
 import { Link } from 'react-router-dom';
-import Card from 'app/components/Card';
 import { Image } from 'app/components/Image';
-import { Flex } from 'app/components/Layout';
 import type { PublicArticle } from 'app/store/models/Article';
 import type { FrontpageEvent } from 'app/store/models/Event';
 import styles from './Pinned.css';

@@ -1,7 +1,6 @@
+import { Flex, Icon } from '@webkom/lego-bricks';
 import { Link } from 'react-router-dom';
-import Icon from 'app/components/Icon';
 import { Image } from 'app/components/Image';
-import { Flex } from 'app/components/Layout';
 import Pill from 'app/components/Pill';
 import Tag from 'app/components/Tags/Tag';
 import Time from 'app/components/Time';

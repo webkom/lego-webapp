@@ -1,7 +1,5 @@
-import { LoadingIndicator } from '@webkom/lego-bricks';
+import { Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import Icon from 'app/components/Icon';
-import { Flex } from 'app/components/Layout';
 import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import Tooltip from 'app/components/Tooltip';
 import type {

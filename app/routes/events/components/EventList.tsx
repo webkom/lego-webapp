@@ -1,4 +1,4 @@
-import { LoadingIndicator, Button } from '@webkom/lego-bricks';
+import { Button, Icon, LoadingIndicator } from '@webkom/lego-bricks';
 import { isEmpty, orderBy } from 'lodash';
 import moment from 'moment-timezone';
 import { Component } from 'react';
@@ -8,7 +8,6 @@ import EmptyState from 'app/components/EmptyState';
 import EventItem from 'app/components/EventItem';
 import { CheckBox } from 'app/components/Form/';
 import { selectTheme, selectStyles } from 'app/components/Form/SelectInput';
-import Icon from 'app/components/Icon';
 import type { Event, ActionGrant, IcalToken } from 'app/models';
 import { EventTime } from 'app/models';
 import EventFooter from './EventFooter';

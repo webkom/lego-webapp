@@ -1,6 +1,6 @@
+import { Card, Container, Flex } from '@webkom/lego-bricks';
 import { Field } from 'react-final-form';
 import { Link } from 'react-router-dom';
-import Card from 'app/components/Card';
 import {
   TextInput,
   MultiSelectGroup,
@@ -9,7 +9,6 @@ import {
   PhoneNumberInput,
 } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
-import { Container, Flex } from 'app/components/Layout';
 import type { UserEntity } from 'app/reducers/users';
 import { spySubmittable } from 'app/utils/formSpyUtils';
 import { createValidator, required, sameAs } from 'app/utils/validation';

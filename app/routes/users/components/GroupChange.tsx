@@ -1,8 +1,7 @@
-import { Button } from '@webkom/lego-bricks';
+import { Button, Flex } from '@webkom/lego-bricks';
 import { Component } from 'react';
 import Select from 'react-select';
 import { selectTheme, selectStyles } from 'app/components/Form/SelectInput';
-import Flex from 'app/components/Layout/Flex';
 import type { Group, ID } from 'app/models';
 
 type Props = {

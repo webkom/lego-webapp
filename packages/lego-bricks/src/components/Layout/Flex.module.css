@@ -1,7 +1,5 @@
 /* stylelint-disable selector-class-pattern */
 
-@import url('~app/styles/variables.css');
-
 .flex {
   display: flex;
 }

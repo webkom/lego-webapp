@@ -1,5 +1,5 @@
+import { Icon } from '@webkom/lego-bricks';
 import DisplayContent from 'app/components/DisplayContent';
-import Icon from 'app/components/Icon';
 import { lookupContext, contextRender } from '../context';
 import { commentURL } from './comment';
 import { formatHeader } from './utils';

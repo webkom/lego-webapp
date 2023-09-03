@@ -1,5 +1,5 @@
+import { Icon } from '@webkom/lego-bricks';
 import { useMemo } from 'react';
-import Icon from 'app/components/Icon';
 import { Keyboard } from 'app/utils/constants';
 import parseDateValue from 'app/utils/parseDateValue';
 import { createField } from './Field';

@@ -1,5 +1,5 @@
+import { Icon } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
-import Icon from 'app/components/Icon';
 import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import config from 'app/config';

@@ -1,5 +1,5 @@
+import { Flex } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
-import Flex from 'app/components/Layout/Flex';
 import Tags from 'app/components/Tags';
 import Tag from 'app/components/Tags/Tag';
 import Time from 'app/components/Time';
