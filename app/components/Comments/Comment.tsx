@@ -1,11 +1,9 @@
-import { Button } from '@webkom/lego-bricks';
+import { Button, Flex, Icon } from '@webkom/lego-bricks';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import CommentForm from 'app/components/CommentForm';
 import DisplayContent from 'app/components/DisplayContent';
-import Icon from 'app/components/Icon';
 import { ProfilePicture } from 'app/components/Image';
-import { Flex } from 'app/components/Layout';
 import { Tag } from 'app/components/Tags';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';

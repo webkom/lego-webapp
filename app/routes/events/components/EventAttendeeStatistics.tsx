@@ -1,3 +1,4 @@
+import { Card, Flex } from '@webkom/lego-bricks';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import {
@@ -13,11 +14,9 @@ import {
   YAxis,
 } from 'recharts';
 import { fetchAnalytics } from 'app/actions/EventActions';
-import Card from 'app/components/Card';
 import ChartLabel from 'app/components/Chart/ChartLabel';
 import DistributionPieChart from 'app/components/Chart/PieChart';
 import type { DistributionDataPoint } from 'app/components/Chart/utils';
-import { Flex } from 'app/components/Layout';
 import type { Dateish } from 'app/models';
 import { useAppDispatch } from 'app/store/hooks';
 import type { ID } from 'app/store/models';

@@ -1,4 +1,4 @@
-import { LoadingIndicator } from '@webkom/lego-bricks';
+import { Icon, LoadingIndicator } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { useEffect, useState } from 'react';
 import { Modal } from 'react-overlays';
@@ -16,7 +16,6 @@ import utilStyles from 'app/styles/utilities.css';
 import { applySelectedTheme, getOSTheme, getTheme } from 'app/utils/themeUtils';
 import Dropdown from '../Dropdown';
 import NotificationsDropdown from '../HeaderNotifications';
-import Icon from '../Icon';
 import { ProfilePicture, Image } from '../Image';
 import Search from '../Search';
 import FancyNodesCanvas from './FancyNodesCanvas';

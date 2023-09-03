@@ -1,4 +1,4 @@
-import { Button } from '@webkom/lego-bricks';
+import { Button, Flex, Icon } from '@webkom/lego-bricks';
 import { reset, Field } from 'redux-form';
 import { Content } from 'app/components/Content';
 import {
@@ -8,8 +8,6 @@ import {
   RadioButtonGroup,
   legoForm,
 } from 'app/components/Form';
-import Icon from 'app/components/Icon';
-import Flex from 'app/components/Layout/Flex';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 import { createValidator, required } from 'app/utils/validation';
 import { semesterToText, SemesterNavigation } from '../utils';

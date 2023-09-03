@@ -1,12 +1,10 @@
-import { LoadingIndicator } from '@webkom/lego-bricks';
+import { Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
 import { Component } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Content } from 'app/components/Content';
 import DisplayContent from 'app/components/DisplayContent';
 import GroupMember from 'app/components/GroupMember';
-import Icon from 'app/components/Icon';
 import { Image } from 'app/components/Image';
-import { Flex } from 'app/components/Layout';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { readmeIfy } from 'app/components/ReadmeLogo';
 import type { ActionGrant } from 'app/models';

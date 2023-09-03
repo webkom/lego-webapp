@@ -1,7 +1,7 @@
+import { Card } from '@webkom/lego-bricks';
 import fuzzy from 'fuzzy';
 import { useMemo, useState, useCallback } from 'react';
 import emojiLoading from 'app/assets/emoji_loading.svg';
-import Card from 'app/components/Card';
 import { Image } from 'app/components/Image';
 import type { EmojiWithReactionData } from 'app/components/LegoReactions';
 import type { ID } from 'app/store/models';

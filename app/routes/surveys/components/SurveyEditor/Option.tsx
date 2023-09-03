@@ -1,8 +1,6 @@
-import { Button } from '@webkom/lego-bricks';
+import { Button, Flex, Icon } from '@webkom/lego-bricks';
 import { Field } from 'react-final-form';
 import { RadioButton, TextInput, CheckBox } from 'app/components/Form';
-import Icon from 'app/components/Icon';
-import Flex from 'app/components/Layout/Flex';
 import { QuestionTypes } from 'app/routes/surveys/utils';
 import styles from '../surveys.css';
 

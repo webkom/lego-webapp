@@ -1,8 +1,7 @@
-import { Button } from '@webkom/lego-bricks';
+import { Button, Flex } from '@webkom/lego-bricks';
 import qs from 'qs';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
-import Flex from 'app/components/Layout/Flex';
 import Table from 'app/components/Table';
 import Tag from 'app/components/Tags/Tag';
 import type { Group } from 'app/models';

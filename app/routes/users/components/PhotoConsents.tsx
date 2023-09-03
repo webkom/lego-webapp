@@ -1,9 +1,8 @@
-import { Button } from '@webkom/lego-bricks';
+import { Button, Flex } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
 import { useState } from 'react';
 import Select from 'react-select';
 import { selectStyles, selectTheme } from 'app/components/Form/SelectInput';
-import Flex from 'app/components/Layout/Flex';
 import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import type { PhotoConsent } from 'app/models';
 import { PhotoConsentDomain } from 'app/models';

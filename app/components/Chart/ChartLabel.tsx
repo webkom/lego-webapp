@@ -1,6 +1,6 @@
+import { Flex } from '@webkom/lego-bricks';
 import type { DistributionDataPoint } from 'app/components/Chart/utils';
 import { CHART_COLORS } from 'app/components/Chart/utils';
-import { Flex } from 'app/components/Layout';
 import styles from './Chart.css';
 
 const ChartLabel = ({

@@ -1,9 +1,7 @@
+import { Card, Flex, Icon } from '@webkom/lego-bricks';
 import { connect } from 'react-redux';
 import { Gallery } from 'app/actions/ActionTypes';
-import Card from 'app/components/Card';
-import Icon from 'app/components/Icon';
 import { Image } from 'app/components/Image';
-import Flex from 'app/components/Layout/Flex';
 import Tooltip from 'app/components/Tooltip';
 import type {
   UploadStatus,

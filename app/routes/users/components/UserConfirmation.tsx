@@ -1,6 +1,6 @@
+import { Card, Container, Flex } from '@webkom/lego-bricks';
 import { Link } from 'react-router-dom';
 import { Field } from 'redux-form';
-import Card from 'app/components/Card';
 import {
   Form,
   TextInput,
@@ -10,7 +10,6 @@ import {
   legoForm,
   PhoneNumberInput,
 } from 'app/components/Form';
-import { Container, Flex } from 'app/components/Layout';
 import type { UserEntity } from 'app/reducers/users';
 import { createAsyncValidator } from 'app/utils/asyncValidator';
 import { createValidator, required, sameAs } from 'app/utils/validation';

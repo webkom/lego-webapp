@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import styles from './Flex.css';
+import styles from './Flex.module.css';
 import type {
   ReactNodeArray,
   ReactNode,

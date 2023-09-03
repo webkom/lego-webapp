@@ -1,5 +1,4 @@
-import Icon from '../Icon';
-import { Flex } from '../Layout';
+import { Flex, Icon } from '@webkom/lego-bricks';
 import Tooltip from '../Tooltip';
 import styles from './TextWithIcon.css';
 import type { ReactElement, ReactNode } from 'react';
