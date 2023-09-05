@@ -96,7 +96,7 @@ const Overview = (props: Props) => {
     <Container>
       <Helmet title="Hjem" />
       <Banner
-        header="Abakus har opptak!"
+        header="Abakusrevyen har opptak!"
         subHeader="Søk her"
         link="https://opptak.abakus.no"
         color="red"

@@ -58,7 +58,7 @@ const PublicFrontpage = ({ frontpage, readmes }: Props) => {
   return (
     <Container>
       <Banner
-        header="Abakus har opptak!"
+        header="Abakusrevyen har opptak!"
         subHeader="Søk her"
         link="https://opptak.abakus.no"
         color="red"
