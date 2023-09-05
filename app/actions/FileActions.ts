@@ -1,8 +1,9 @@
 import slug from 'slugify';
 import { imageGallerySchema } from 'app/reducers';
 import type { Thunk } from 'app/types';
-import { File, File as FileType, ImageGallery } from './ActionTypes';
+import { File as FileType, ImageGallery } from './ActionTypes';
 import callAPI from './callAPI';
+import type { File } from './ActionTypes';
 
 const slugifyFilename: (filename: string) => string = (filename) => {
   // Slug options
@@ -100,19 +101,20 @@ export function fetchImageGallery({
 }
 
 export function setSaveForUse(
-  file: string,
+  key: string,
+  token: string,
   saveForUse: boolean
 ): Thunk<Promise<any>> {
   return (dispatch) =>
     dispatch(
       callAPI({
-        types: File.PATCH,
-        endpoint: `/files/${file.split(':')[0]}/imagegallery/`,
+        types: FileType.PATCH,
+        endpoint: `/files/${key}/imagegallery/`,
         method: 'PATCH',
-        body: { token: file.split(':')[1], save_for_use: saveForUse },
+        body: { token: token, save_for_use: saveForUse },
         meta: {
           errorMessage: 'Endring av hendelse feilet',
-          id: file.split(':')[0],
+          id: key,
         },
       })
     );

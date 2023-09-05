@@ -14,7 +14,7 @@ import {
   selectEventById,
   selectPoolsWithRegistrationsForEvent,
 } from 'app/reducers/events';
-import { selectImageGalleries } from 'app/reducers/imageGallery';
+import { selectImageGalleryEntries } from 'app/reducers/imageGallery';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import time from 'app/utils/time';
@@ -36,7 +36,7 @@ const mapStateToProps = (state, props) => {
   const poolsTemplate = selectPoolsWithRegistrationsForEvent(state, {
     eventId,
   });
-  const imageGallery = selectImageGalleries(state);
+  const imageGallery = selectImageGalleryEntries(state);
   const selectedValues = {
     event: {
       addFee: valueSelector(state, 'addFee'),

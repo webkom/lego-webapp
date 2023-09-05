@@ -40,7 +40,7 @@ export const articleSchema = new schema.Entity('articles', {
 });
 
 export const imageGallerySchema = new schema.Entity(
-  'imageGallery',
+  'imageGalleryEntries',
   {},
   {
     idAttribute: 'key',

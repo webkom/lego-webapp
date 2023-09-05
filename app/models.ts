@@ -149,7 +149,7 @@ export type Group = {
   contactEmail: string;
 };
 
-type Cover = {
+export type Cover = {
   url: string;
   fileKey: string;
 };
@@ -242,14 +242,14 @@ export type EventPool = EventPoolBase & {
   permissionGroups: Array<Record<string, any>>;
 };
 
-type imageGalleryEntry = {
+type ImageGalleryEntry = {
   key: string;
   cover: string;
   token: string;
   coverPlaceholder: string;
 };
 
-export type imageGallery = imageGalleryEntry[];
+export type ImageGallery = ImageGalleryEntry[];
 
 export type Event = EventBase & {
   actionGrant: ActionGrant;

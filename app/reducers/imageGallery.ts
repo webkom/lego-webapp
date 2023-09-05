@@ -4,7 +4,7 @@ import createEntityReducer, { fetching } from 'app/utils/createEntityReducer';
 import { ImageGallery, File } from '../actions/ActionTypes';
 
 export default createEntityReducer({
-  key: 'imageGallery',
+  key: 'imageGalleryEntries',
   types: {
     fetch: ImageGallery.FETCH_ALL,
   },
@@ -20,13 +20,10 @@ export default createEntityReducer({
     }
     return state;
   },
-  /*   schema: imageGallerySchema,
-  fetching: fetching(ImageGallery.FETCH_ALL),
- */
 });
-export const selectImageGalleries = createSelector(
-  (state) => state.imageGallery.byId,
-  (state) => state.imageGallery.items,
-  (imageGalleryById, imageGalleryIds) =>
-    imageGalleryIds.map((id) => imageGalleryById[id])
+export const selectImageGalleryEntries = createSelector(
+  (state) => state.imageGalleryEntries.byId,
+  (state) => state.imageGalleryEntries.items,
+  (imageGalleryEntriesById, imageGalleryEntriesIds) =>
+    imageGalleryEntriesIds.map((id) => imageGalleryEntriesById[id])
 );

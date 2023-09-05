@@ -61,7 +61,7 @@
 
 .subSection {
   margin-left: 10px;
-  border-left: 4px solid var(--danger-color);
+  border-left: 4px solid var(--lego-red-color);
   padding: 0 0 10px 10px;
 }
 
@@ -71,14 +71,14 @@
 
 .imageGalleryEntry {
   border-radius: var(--border-radius-md);
-}
 
-.imageGalleryEntry:hover {
-  opacity: 0.8;
-}
+  &:hover {
+    opacity: 0.8;
+  }
 
-.imageGalleryEntry:active {
-  opacity: 0.65;
+  &:active {
+    opacity: 0.65;
+  }
 }
 
 .imageGalleryContainer {
@@ -86,17 +86,16 @@
 }
 
 .closeButton {
-  color: var(--lego-red-color);
   position: relative;
   float: right;
-  right: -1.5em;
-  top: 0.7em;
-}
+  right: -1em;
+  top: 0.5em;
 
-.closeButton:hover {
-  opacity: 0.8;
-}
+  &:hover {
+    opacity: 0.8;
+  }
 
-.closeButton:active {
-  opacity: 0.65;
+  &:active {
+    opacity: 0.65;
+  }
 }

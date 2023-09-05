@@ -2,6 +2,7 @@ import { LoadingIndicator } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { Link } from 'react-router-dom';
 import { Field, FieldArray } from 'redux-form';
 import {
   Content,
@@ -26,21 +27,19 @@ import { Image } from 'app/components/Image';
 import { Flex } from 'app/components/Layout';
 import MazemapLink from 'app/components/MazemapEmbed/MazemapLink';
 import Modal from 'app/components/Modal';
-import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
+import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import NavigationTab from 'app/components/NavigationTab';
 import Tag from 'app/components/Tags/Tag';
 import { FormatTime } from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
-import {
-  AttendanceStatus,
-  ModalParentComponent,
-} from 'app/components/UserAttendance';
+import { AttendanceStatus } from 'app/components/UserAttendance';
+import AttendanceModal from 'app/components/UserAttendance/AttendanceModal';
 import type {
   ID,
   EventRegistration,
   EventPool,
   ActionGrant,
-  imageGallery,
+  ImageGallery,
 } from 'app/models';
 import { validYoutubeUrl } from 'app/utils/validation';
 import {
@@ -55,8 +54,6 @@ import renderPools, { validatePools } from './renderPools';
 
 import type { EditingEvent } from '../../utils';
 import type { FormEventHandler } from 'react';
-import AttendanceModal from 'app/components/UserAttendance/AttendanceModal';
-import { Link } from 'react-router-dom';
 
 type Props = {
   eventId: number;
@@ -77,9 +74,9 @@ type Props = {
   pristine: boolean;
   initialized: boolean;
   push: (arg0: string) => void;
-  imageGallery: imageGallery;
-  change: (arg0: string, arg1: any) => void;
-  setSaveForUse: (arg0: string, arg1: boolean) => Promise<any>;
+  imageGallery: ImageGallery;
+  change: (key: string, token: string) => void;
+  setSaveForUse: (key: string, token: string, value: boolean) => Promise<any>;
 };
 
 function EventEditor({
@@ -156,65 +153,61 @@ function EventEditor({
           contentClassName={styles.imageGallery}
         >
           <>
-            <Flex column>
-              <h1>Bildegalleri</h1>
-              <Flex wrap alignItems="center" justifyContent="space-around">
-                {imageGallery &&
-                  imageGallery.map((e) => {
-                    return (
-                      <div key={e.key} className={styles.imageGalleryContainer}>
-                        <ConfirmModalWithParent
-                          title="Fjern fra galleri"
-                          message="Er du sikker på at du vil fjerne bildet fra bildegalleriet? (Bildet blir ikke slettet!)"
-                          onConfirm={() =>
-                            setSaveForUse(`${e.key}:${e.token}`, false)
-                          }
-                          closeOnConfirm
-                        >
-                          <button className={styles.closeButton}>
-                            <Icon name="close-circle" size={24} />
-                          </button>
-                        </ConfirmModalWithParent>
-                        <Image
-                          src={e.cover}
-                          placeholder={e.coverPlaceholder}
-                          alt={`${e.cover} bilde`}
-                          onClick={() => {
-                            change('cover', `${e.key}:${e.token}`);
-                            setShowImageGallery(false);
-                            setUseImageGallery(true);
-                            setImageGalleryUrl(e.cover);
-                          }}
-                          className={styles.imageGalleryEntry}
+            <h1>Bildegalleri</h1>
+            <Flex wrap alignItems="center" justifyContent="space-around">
+              {imageGallery &&
+                imageGallery.map((e) => (
+                  <div key={e.key} className={styles.imageGalleryContainer}>
+                    <ConfirmModal
+                      title="Fjern fra galleri"
+                      message={`Er du sikker på at du vil fjerne bildet fra bildegalleriet? Bildet blir ikke slettet fra databasen.`}
+                      closeOnConfirm
+                      onConfirm={() => setSaveForUse(e.key, e.token, false)}
+                    >
+                      {({ openConfirmModal }) => (
+                        <Icon
+                          onClick={openConfirmModal}
+                          name="close-circle"
+                          className={styles.closeButton}
                         />
-                      </div>
-                    );
-                  })}
-                {imageGallery.length === 0 && (
-                  <h2>
-                    Det finnes ingen bilder i bildegalleriet. Hvorfor ikke laste
-                    opp ett?
-                  </h2>
-                )}
-              </Flex>
+                      )}
+                    </ConfirmModal>
+
+                    <Image
+                      src={e.cover}
+                      placeholder={e.coverPlaceholder}
+                      alt={`${e.cover} bilde`}
+                      onClick={() => {
+                        change('cover', `${e.key}:${e.token}`);
+                        setShowImageGallery(false);
+                        setUseImageGallery(true);
+                        setImageGalleryUrl(e.cover);
+                      }}
+                      className={styles.imageGalleryEntry}
+                    />
+                  </div>
+                ))}
+              {imageGallery.length === 0 && (
+                <h2>
+                  Det finnes ingen bilder i bildegalleriet. Hvorfor ikke laste
+                  opp et?
+                </h2>
+              )}
             </Flex>
           </>
         </Modal>
 
         <Flex wrap alignItems="center" justifyContent="space-between">
           <Flex alignItems="center" justifyContent="space-between">
-            <Button
-              className={styles.scannerButton}
-              onClick={() => setShowImageGallery(true)}
-            >
-              Velg bilde fra Bildegalleriet
+            <Button onClick={() => setShowImageGallery(true)}>
+              Velg bilde fra bildegalleriet
             </Button>
             <Tooltip content="Velg et bilde som er lastet opp og markert for bruk fra tidligere arrangementer.">
               <Icon
                 name="information-circle-outline"
                 size={20}
                 style={{
-                  cursor: 'pointer',
+                  cursor: 'help',
                   marginLeft: '0.5em',
                 }}
               />
@@ -723,15 +716,15 @@ const validate = (data) => {
   }
 
   if (!data.title) {
-    errors.title = 'Tittel er påkrevet';
+    errors.title = 'Tittel er påkrevd';
   }
 
   if (!data.description || data.description.trim() === '') {
-    errors.description = 'Kalenderbeskrivelse er påkrevet';
+    errors.description = 'Kalenderbeskrivelse er påkrevd';
   }
 
   if (!data.eventType) {
-    errors.eventType = 'Arrangementstype er påkrevet';
+    errors.eventType = 'Arrangementstype er påkrevd';
   }
 
   if (data.isPriced && data.priceMember > 10000) {
@@ -743,7 +736,7 @@ const validate = (data) => {
   }
 
   if (!data.location) {
-    errors.location = 'Lokasjon er påkrevet';
+    errors.location = 'Lokasjon er påkrevd';
   }
 
   if (data.useMazemap && !data.mazemapPoi) {
@@ -755,11 +748,15 @@ const validate = (data) => {
   }
 
   if (!data.id && !data.cover) {
-    errors.cover = 'Cover er påkrevet';
+    errors.cover = 'Cover er påkrevd';
   }
 
   if (!data.eventStatusType) {
     errors.eventStatusType = 'Påmeldingstype er påkrevd';
+  }
+
+  if (!data.isClarified) {
+    errors.isClarified = 'Arrangementet må være avklart';
   }
 
   if (data.pools) {
@@ -812,8 +809,10 @@ export default legoForm({
   validate,
   onSubmit: (values, dispatch, props: Props) => {
     props.handleSubmitCallback(values);
+    const key: string = values.cover.split(':')[0];
+    const token: string = values.cover.split(':')[1];
     if (values.saveToImageGallery) {
-      props.setSaveForUse(values.cover, true);
+      props.setSaveForUse(key, token, true);
     }
   },
 })(EventEditor);
