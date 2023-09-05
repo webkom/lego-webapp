@@ -58,20 +58,14 @@ export const Icon = ({
     >
       {to ? (
         <Link to={to} className={classNames}>
-          {/* eslint-disable-next-line*/}
-          {/* @ts-ignore*/}
           <ion-icon name={name}></ion-icon>
         </Link>
       ) : onClick ? (
         <button type="button" onClick={onClick} className={classNames}>
-          {/* eslint-disable-next-line*/}
-          {/* @ts-ignore*/}
           <ion-icon name={name}></ion-icon>
         </button>
       ) : (
         <>
-          {/* eslint-disable-next-line*/}
-          {/* @ts-ignore*/}
           <ion-icon name={name}></ion-icon>
         </>
       )}
