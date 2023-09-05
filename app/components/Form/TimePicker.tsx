@@ -1,10 +1,11 @@
 import { useMemo } from 'react';
 import Icon from 'app/components/Icon';
+import { Keyboard } from 'app/utils/constants';
 import parseDateValue from 'app/utils/parseDateValue';
 import { createField } from './Field';
 import TextInput from './TextInput';
 import styles from './TimePicker.css';
-import type { ComponentProps, SyntheticEvent } from 'react';
+import type { ComponentProps, KeyboardEvent, SyntheticEvent } from 'react';
 
 type TimePickerInputProps = ComponentProps<typeof TextInput> & {
   onNext: () => void;
@@ -15,17 +16,32 @@ const TimePickerInput = ({
   onNext,
   onPrev,
   ...props
-}: TimePickerInputProps) => (
-  <div className={styles.timePickerInput}>
-    <button type="button" onClick={onNext} className={styles.arrowIcon}>
-      <Icon justifyContent="center" name="chevron-up-outline" />
-    </button>
-    <TextInput {...props} />
-    <button type="button" onClick={onPrev} className={styles.arrowIcon}>
-      <Icon justifyContent="center" name="chevron-down-outline" />
-    </button>
-  </div>
-);
+}: TimePickerInputProps) => {
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    switch (e.which) {
+      case Keyboard.UP:
+        onNext();
+        break;
+      case Keyboard.DOWN:
+        onPrev();
+        break;
+      default:
+        break;
+    }
+  };
+
+  return (
+    <div className={styles.timePickerInput}>
+      <button type="button" onClick={onNext} className={styles.arrowUp}>
+        <Icon justifyContent="center" name="chevron-up-outline" />
+      </button>
+      <TextInput onKeyDown={handleKeyDown} centered {...props} />
+      <button type="button" onClick={onPrev} className={styles.arrowDown}>
+        <Icon justifyContent="center" name="chevron-down-outline" />
+      </button>
+    </div>
+  );
+};
 
 type Props = {
   value?: string;

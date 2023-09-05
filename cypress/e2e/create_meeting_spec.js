@@ -32,7 +32,8 @@ describe('Create meeting', () => {
     cy.contains('button', 'Opprett møte').should('be.disabled');
     // change the meeting time to enable submit button
     field('startTime').click();
-    cy.get(c('TimePicker__arrowIcon')).first().click();
+    cy.get(c('TimePicker__arrowUp')).first().click();
+    cy.contains('Nytt møte').click(); // Click on something to close the datepicker
 
     cy.contains('button', 'Opprett møte').should('not.be.disabled').click();
 

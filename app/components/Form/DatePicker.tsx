@@ -55,6 +55,8 @@ const DatePicker = ({
     setPickerOpen(false);
   };
 
+  const calendarDays = createMonthlyCalendar(date);
+
   return (
     <Dropdown
       show={pickerOpen}
@@ -76,32 +78,45 @@ const DatePicker = ({
           alignItems="center"
           className={styles.header}
         >
-          <button onClick={onPrev} className={styles.arrowIcon}>
-            <Icon name="arrow-back-outline" />
-          </button>
+          <Icon onClick={onPrev} name="arrow-back-outline" />
           <span>{date.format('MMMM YYYY')}</span>
-          <button onClick={onNext} className={styles.arrowIcon}>
-            <Icon name="arrow-forward-outline" />
-          </button>
+          <Icon onClick={onNext} name="arrow-forward-outline" />
         </Flex>
 
-        <div className={styles.calendar}>
-          {createMonthlyCalendar(date).map((dateProps, i) => (
-            <button
-              key={i}
-              className={cx(
-                styles.calendarItem,
-                dateProps.prevOrNextMonth && styles.prevOrNextMonth,
-                dateProps.day.isSame(parsedValue, 'day') && styles.selectedDate,
-                dateProps.day.isSame(moment(), 'day') && styles.today
-              )}
-              onClick={() => changeDay(dateProps.day)}
-              disabled={dateProps.prevOrNextMonth}
-            >
-              {dateProps.day.date()}
-            </button>
-          ))}
-        </div>
+        <table className={styles.calendar}>
+          <thead>
+            <tr>
+              {['Ma', 'Ti', 'On', 'To', 'Fr', 'Lø', 'Sø'].map((d, i) => (
+                <th key={i}>{d}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {Array.from(
+              { length: Math.ceil(calendarDays.length / 7) },
+              (_, i) => i
+            ).map((_, i) => (
+              <tr key={i}>
+                {calendarDays.slice(i * 7, i * 7 + 7).map((dateProps, j) => (
+                  <td key={j}>
+                    <button
+                      className={cx(
+                        styles.calendarItem,
+                        dateProps.prevOrNextMonth && styles.prevOrNextMonth,
+                        dateProps.day.isSame(parsedValue, 'day') &&
+                          styles.selectedDate,
+                        dateProps.day.isSame(moment(), 'day') && styles.today
+                      )}
+                      onClick={() => changeDay(dateProps.day)}
+                    >
+                      {dateProps.day.date()}
+                    </button>
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
 
         {showTimePicker && <TimePicker value={value} onChange={onChange} />}
       </div>

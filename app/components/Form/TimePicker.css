@@ -2,22 +2,24 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  gap: 0.4rem;
 }
 
 .timePickerInput {
   display: flex;
   flex-direction: column;
-  width: 50px;
-
-  > input {
-    text-align: center;
-  }
-
-  > button {
-    font-size: var(--font-size-lg);
-  }
+  width: 40px;
 }
 
-html[data-theme='dark'] .arrowIcon {
-  color: var(--color-black);
+.arrowUp,
+.arrowDown {
+  transition: transform var(--easing-medium);
+}
+
+.arrowUp:hover {
+  transform: translateY(-3px);
+}
+
+.arrowDown:hover {
+  transform: translateY(3px);
 }
