@@ -1,4 +1,5 @@
-import './Globals.d.ts';
+import './Global.d.ts';
+import './Modules.d.ts';
 import './global.css';
 
 export { Button } from './components/Button';
