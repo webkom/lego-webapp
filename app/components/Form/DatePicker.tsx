@@ -92,7 +92,8 @@ const DatePicker = ({
               className={cx(
                 styles.calendarItem,
                 dateProps.prevOrNextMonth && styles.prevOrNextMonth,
-                dateProps.day.isSame(parsedValue, 'day') && styles.selectedDate
+                dateProps.day.isSame(parsedValue, 'day') && styles.selectedDate,
+                dateProps.day.isSame(moment(), 'day') && styles.today
               )}
               onClick={() => changeDay(dateProps.day)}
               disabled={dateProps.prevOrNextMonth}

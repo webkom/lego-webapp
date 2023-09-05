@@ -44,7 +44,7 @@
     border-top: var(--calendar-border);
   }
 
-  &:hover {
+  &:hover:not(.prevOrNextMonth, .selectedDate) {
     background: var(--additive-background);
   }
 }
@@ -59,4 +59,9 @@
 
 .arrowIcon {
   color: var(--lego-font-color);
+}
+
+.today {
+  color: var(--lego-font-color);
+  background-color: var(--additive-background);
 }
