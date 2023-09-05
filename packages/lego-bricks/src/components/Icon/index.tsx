@@ -50,8 +50,6 @@ export const Icon = ({
     >
       {to ? (
         <Link to={to} className={styles.clickable}>
-          {/* eslint-disable-next-line*/}
-          {/* @ts-ignore*/}
           <ion-icon name={name}></ion-icon>
         </Link>
       ) : onClick ? (
@@ -66,14 +64,10 @@ export const Icon = ({
             disabled && styles.disabled
           )}
         >
-          {/* eslint-disable-next-line*/}
-          {/* @ts-ignore*/}
           <ion-icon name={name}></ion-icon>
         </button>
       ) : (
         <>
-          {/* eslint-disable-next-line*/}
-          {/* @ts-ignore*/}
           <ion-icon name={name}></ion-icon>
         </>
       )}
