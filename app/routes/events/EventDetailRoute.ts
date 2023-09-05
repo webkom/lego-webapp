@@ -42,12 +42,12 @@ const mapStateToProps = (state, props) => {
     ? selectEventById(state, { eventId: eventIdOrSlug })
     : selectEventBySlug(state, { eventSlug: eventIdOrSlug });
 
-  /*
-    * FIXME: This produces an insane amount of location change events for some reason
-  if (event?.slug && eventIdOrSlug !== event.slug) {
-    props.history.replace(`/events/${event.slug}`);
-  }
-  */
+  // TODO: Use a hook for this when EventDetail is converted, like in ArticleDetail
+  setTimeout(() => {
+    if (event?.slug && eventIdOrSlug !== event.slug) {
+      props.history.replace(`/events/${event.slug}`);
+    }
+  }, 0);
 
   const eventId = event.id;
 
@@ -82,7 +82,7 @@ const mapStateToProps = (state, props) => {
         : normalPools;
     return {
       actionGrant,
-      notLoading: !state.events.fetching,
+      notLoading: !!event,
       event,
       eventId,
       pools,
@@ -138,7 +138,7 @@ const mapStateToProps = (state, props) => {
   return {
     comments,
     actionGrant,
-    notLoading: !state.events.fetching,
+    notLoading: !!event,
     event,
     eventId,
     pools,

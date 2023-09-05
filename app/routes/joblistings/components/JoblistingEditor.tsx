@@ -130,7 +130,7 @@ class JoblistingEditor extends Component<Props, State> {
           back={{
             label: 'Tilbake',
             path: !isNew
-              ? `/joblistings/${this.props.joblisting.id}`
+              ? `/joblistings/${this.props.joblisting.slug}`
               : '/joblistings',
           }}
         />
@@ -256,7 +256,9 @@ class JoblistingEditor extends Component<Props, State> {
           />
           <Flex wrap>
             <Button
-              onClick={() => push(`/joblistings/${this.props.joblisting.id}`)}
+              onClick={() =>
+                push(`/joblistings/${isNew ? '' : this.props.joblisting.id}`)
+              }
             >
               Avbryt
             </Button>

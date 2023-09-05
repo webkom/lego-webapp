@@ -37,7 +37,7 @@ export default class CompactEvents extends Component<Props> {
             >
               <i className="fa fa-circle" />
             </span>
-            <Link to={`/events/${event.id}`}>{event.title}</Link>
+            <Link to={`/events/${event.slug}`}>{event.title}</Link>
             {event.pinned && (
               <Tooltip content="Dette arrangementet er festet til forsiden">
                 <i

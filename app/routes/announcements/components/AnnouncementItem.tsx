@@ -50,7 +50,7 @@ const AnnouncementItem = ({
               <Link
                 key={i}
                 className={styles.recipients}
-                to={`/events/${event.id}/`}
+                to={`/events/${event.slug}/`}
               >
                 {event.title}
               </Link>

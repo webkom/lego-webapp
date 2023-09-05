@@ -28,7 +28,7 @@ const jobListingRoute = ({
         />
         <Route
           exact
-          path={`${match.path}/:joblistingId`}
+          path={`${match.path}/:joblistingIdOrSlug`}
           component={JoblistingDetailedRoute}
         />
         <RouteWrapper

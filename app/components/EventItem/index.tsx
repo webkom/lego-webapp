@@ -122,7 +122,7 @@ const EventItem = ({
           className={styles.eventItem}
         >
           <div>
-            <Link to={`/events/${event.id}`}>
+            <Link to={`/events/${event.slug}`}>
               <h4 className={styles.eventItemTitle}>{event.title}</h4>
             </Link>
             <Time
@@ -149,7 +149,7 @@ const EventItem = ({
           className={styles.eventItemCompact}
         >
           <Flex width="100%">
-            <Link to={`/events/${event.id}`}>
+            <Link to={`/events/${event.slug}`}>
               <h3 className={styles.eventItemTitle}>{event.title}</h3>
             </Link>
           </Flex>
@@ -157,7 +157,7 @@ const EventItem = ({
             <Flex width="72%">
               <Flex className={styles.companyLogoCompact}>
                 {event.cover && (
-                  <Link to={`/events/${event.id}`}>
+                  <Link to={`/events/${event.slug}`}>
                     <Image
                       src={event.cover}
                       placeholder={event.coverPlaceholder}
@@ -195,7 +195,7 @@ const EventItem = ({
           className={styles.eventItem}
         >
           <div>
-            <Link to={`/events/${event.id}`}>
+            <Link to={`/events/${event.slug}`}>
               <h3 className={styles.eventItemTitle}>{event.title}</h3>
               {event.totalCapacity > 0 && <Attendance event={event} />}
             </Link>

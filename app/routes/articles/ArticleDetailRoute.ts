@@ -6,6 +6,7 @@ import { fetchEmojis } from 'app/actions/EmojiActions';
 import { addReaction, deleteReaction } from 'app/actions/ReactionActions';
 import {
   selectArticleById,
+  selectArticleBySlug,
   selectCommentsForArticle,
 } from 'app/reducers/articles';
 import { selectEmojis } from 'app/reducers/emojis';
@@ -23,10 +24,16 @@ type Params = {
 };
 
 const mapStateToProps = (state, props) => {
-  const { articleId } = props.match.params;
-  const article = selectArticleById(state, {
-    articleId,
-  });
+  const { articleIdOrSlug } = props.match.params;
+  const article = !isNaN(articleIdOrSlug)
+    ? selectArticleById(state, {
+        articleId: articleIdOrSlug,
+      })
+    : selectArticleBySlug(state, {
+        articleSlug: articleIdOrSlug,
+      });
+  const articleId = article && article.id;
+
   const comments = selectCommentsForArticle(state, {
     articleId,
   });
@@ -36,6 +43,7 @@ const mapStateToProps = (state, props) => {
     });
   });
   const emojis = selectEmojis(state);
+
   return {
     fetching: state.articles.fetching,
     fetchingEmojis: state.emojis.fetching,
@@ -59,10 +67,10 @@ export default compose(
     'fetchArticleDetail',
     (props: RouteChildrenProps<Params>, dispatch) =>
       Promise.all([
-        dispatch(fetchArticle(props.match.params.articleId)),
+        dispatch(fetchArticle(props.match.params.articleIdOrSlug)),
         dispatch(fetchEmojis()),
       ]),
-    (props) => [props.match.params.articleId]
+    (props) => [props.match.params.articleIdOrSlug]
   ),
   connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['article.content']),

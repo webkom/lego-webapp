@@ -1,5 +1,6 @@
 import moment from 'moment-timezone';
-import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import CommentView from 'app/components/Comments/CommentView';
 import { Content } from 'app/components/Content';
 import DisplayContent from 'app/components/DisplayContent';
@@ -54,6 +55,10 @@ const ArticleDetail = ({
   fetchEmojis,
   fetchingEmojis,
 }: Props) => {
+  const history = useHistory();
+  useEffect(() => {
+    history.replace(`/articles/${article.slug}`);
+  }, [article.slug, history]);
   return (
     <Content
       banner={article.cover}

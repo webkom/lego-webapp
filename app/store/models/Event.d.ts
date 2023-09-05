@@ -22,6 +22,7 @@ export enum EventType {
 interface Event {
   id: ID;
   title: string;
+  slug: string;
   description: string;
   cover: string;
   coverPlaceholder: string;
@@ -85,6 +86,7 @@ interface Event {
 export type PublicEvent = Pick<
   Event,
   | 'id'
+  | 'slug'
   | 'title'
   | 'description'
   | 'eventType'
@@ -98,6 +100,7 @@ export type ListEvent = Pick<
   Event,
   | 'id'
   | 'title'
+  | 'slug'
   | 'description'
   | 'cover'
   | 'coverPlaceholder'
@@ -121,6 +124,7 @@ export type DetailedEvent = Pick<
   Event,
   | 'id'
   | 'title'
+  | 'slug'
   | 'description'
   | 'cover'
   | 'coverPlaceholder'

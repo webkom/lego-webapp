@@ -1,6 +1,7 @@
 import { LoadingIndicator, Button } from '@webkom/lego-bricks';
+import { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import {
   Content,
   ContentSection,
@@ -28,6 +29,13 @@ const JoblistingDetail = ({
   actionGrant,
   fetching = false,
 }: Props) => {
+  const history = useHistory();
+  useEffect(() => {
+    joblisting &&
+      joblisting.slug &&
+      history.replace(`/joblistings/${joblisting.slug}`);
+  }, [joblisting?.slug, history]);
+
   if (fetching || !joblisting) {
     return <LoadingIndicator loading />;
   }

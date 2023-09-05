@@ -2,17 +2,25 @@ import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { fetchJoblisting } from 'app/actions/JoblistingActions';
-import { selectJoblistingById } from 'app/reducers/joblistings';
+import {
+  selectJoblistingById,
+  selectJoblistingBySlug,
+} from 'app/reducers/joblistings';
 import helmet from 'app/utils/helmet';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import JoblistingDetail from './components/JoblistingDetail';
 
 const mapStateToProps = (state, props) => {
-  const { joblistingId } = props.match.params;
-  const joblisting = selectJoblistingById(state, {
-    joblistingId,
-  });
+  const { joblistingIdOrSlug } = props.match.params;
+  const joblisting = !isNaN(joblistingIdOrSlug)
+    ? selectJoblistingById(state, {
+        joblistingId: joblistingIdOrSlug,
+      })
+    : selectJoblistingBySlug(state, {
+        joblistingSlug: joblistingIdOrSlug,
+      });
   const { fetching } = state.joblistings;
+  const joblistingId = joblisting && joblisting.id;
   const actionGrant = (joblisting && joblisting.actionGrant) || [];
   return {
     joblisting,
@@ -72,7 +80,7 @@ const mapDispatchToProps = {
 };
 export default compose(
   withPreparedDispatch('fetchJoblistingDetailed', (props, dispatch) =>
-    dispatch(fetchJoblisting(props.match.params.joblistingId))
+    dispatch(fetchJoblisting(props.match.params.joblistingIdOrSlug))
   ),
   connect(mapStateToProps, mapDispatchToProps),
   helmet(propertyGenerator)
