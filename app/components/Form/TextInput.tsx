@@ -16,6 +16,7 @@ type Props = {
   readOnly?: boolean;
   placeholder?: string;
   removeBorder?: boolean;
+  centered?: boolean;
 } & InputHTMLAttributes<HTMLInputElement>;
 
 const TextInput = ({
@@ -28,6 +29,7 @@ const TextInput = ({
   readOnly,
   placeholder,
   removeBorder = false,
+  centered = false,
   ...props
 }: Props) => {
   /* New ref is made because text inputs that are not Fields are not given a ref */
@@ -43,6 +45,7 @@ const TextInput = ({
         disabled && styles.disabled,
         !prefix && styles.spacing,
         removeBorder && styles.removeBorder,
+        centered && styles.centered,
         className
       )}
     >

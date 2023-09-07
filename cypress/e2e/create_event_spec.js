@@ -308,7 +308,6 @@ describe('Create event', () => {
     cy.focused().type('{enter}', { force: true });
 
     field('mergeTime').click();
-    cy.get(c('DatePicker__header')).find('button:last-child').click();
     cy.contains(c('DatePicker__calendarItem'), '15').click();
 
     // Check clarification
