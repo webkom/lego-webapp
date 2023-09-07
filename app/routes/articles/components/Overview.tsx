@@ -20,7 +20,7 @@ export const OverviewItem = ({
   article: ArticleWithAuthorDetails;
 }) => (
   <div className={styles.item}>
-    <Link to={`/articles/${article.id}`} className={styles.imageLink}>
+    <Link to={`/articles/${article.slug}`} className={styles.imageLink}>
       <Image
         src={article.cover}
         alt="Article cover"
@@ -28,7 +28,7 @@ export const OverviewItem = ({
       />
     </Link>
     <h2 className={styles.itemTitle}>
-      <Link to={`/articles/${article.id}`}>{article.title}</Link>
+      <Link to={`/articles/${article.slug}`}>{article.title}</Link>
     </h2>
 
     <span className={styles.itemInfo}>

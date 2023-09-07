@@ -14,7 +14,7 @@ import type { Moment } from 'moment-timezone';
 
 const renderEvent = (event: Event) => {
   const {
-    id,
+    slug,
     eventType,
     title,
     description,
@@ -32,7 +32,7 @@ const renderEvent = (event: Event) => {
   return (
     <Popover
       triggerComponent={
-        <Link to={`/events/${id}`}>
+        <Link to={`/events/${slug}`}>
           <div
             className={cx(
               styles.eventPill,

@@ -59,7 +59,7 @@ class EventItem extends Component<Props, State> {
           }}
           className={styles.eventItem}
         >
-          <Link to={`/events/${selected.id}`} className={styles.title}>
+          <Link to={`/events/${selected.slug}`} className={styles.title}>
             <h4>{truncateString(selected.title, 43)}</h4>
           </Link>
 
