@@ -17,6 +17,7 @@ import NavigationTab from 'app/components/NavigationTab';
 import ImageUpload from 'app/components/Upload/ImageUpload';
 import { categoryOptions } from 'app/routes/pages/PageDetailRoute';
 import styles from './PageEditor.css';
+import type { History } from 'history';
 
 type Page = {
   title: string;
@@ -35,7 +36,7 @@ export type Props = {
   updatePage: (arg0: string, arg1: Page) => Promise<any>;
   createPage: (arg0: Page) => Promise<any>;
   deletePage: (slug: string) => Promise<any>;
-  push: (arg0: string) => void;
+  push: History['push'];
   initialized: boolean;
 };
 type State = {

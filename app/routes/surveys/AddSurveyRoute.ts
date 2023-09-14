@@ -1,7 +1,7 @@
-import { push } from 'connected-react-router';
 import qs from 'qs';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { push } from 'redux-first-history';
 import { fetchEvent } from 'app/actions/EventActions';
 import { addSurvey, fetchTemplate } from 'app/actions/SurveyActions';
 import { LoginPage } from 'app/components/LoginForm';

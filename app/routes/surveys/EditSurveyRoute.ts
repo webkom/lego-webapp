@@ -1,8 +1,8 @@
-import { push } from 'connected-react-router';
 import moment from 'moment-timezone';
 import qs from 'qs';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { push } from 'redux-first-history';
 import {
   editSurvey,
   fetchSurvey,

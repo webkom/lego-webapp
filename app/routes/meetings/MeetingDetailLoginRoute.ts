@@ -1,6 +1,6 @@
-import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { push } from 'redux-first-history';
 import { fetchMeeting, setInvitationStatus } from 'app/actions/MeetingActions';
 import { LoginPage } from 'app/components/LoginForm';
 import {

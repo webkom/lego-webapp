@@ -11,6 +11,7 @@ import type Membership from 'app/store/models/Membership';
 import type { CurrentUser } from 'app/store/models/User';
 import { ROLES, type RoleType } from 'app/utils/constants';
 import styles from './GroupMembersList.css';
+import type { History } from 'history';
 
 type Props = {
   fetching: boolean;
@@ -33,7 +34,7 @@ type Props = {
     query: Record<string, any>;
     descendants: boolean;
   }) => Promise<any>;
-  push: (arg0: any) => void;
+  push: History['push'];
   pathname: string;
   search: string;
   query: Record<string, any>;

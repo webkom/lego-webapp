@@ -1,4 +1,4 @@
-import { push } from 'connected-react-router';
+import { push } from 'redux-first-history';
 import callAPI from 'app/actions/callAPI';
 import { groupSchema, membershipSchema } from 'app/reducers';
 import type MembershipType from 'app/store/models/Membership';

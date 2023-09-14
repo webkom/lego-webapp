@@ -1,8 +1,8 @@
-import { replace } from 'connected-react-router';
 import { debounce } from 'lodash';
 import qs from 'qs';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { replace } from 'redux-first-history';
 import { markUsernamePresent } from 'app/actions/EventActions';
 import { autocomplete } from 'app/actions/SearchActions';
 import { getRegistrationGroups } from 'app/reducers/events';

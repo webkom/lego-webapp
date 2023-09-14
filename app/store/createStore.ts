@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { routerMiddleware } from 'connected-react-router';
 import { createBrowserHistory, createMemoryHistory } from 'history';
+import { createReduxHistoryContext } from 'redux-first-history';
 import { addToast } from 'app/actions/ToastActions';
 import type { RootState } from 'app/store/createRootReducer';
 import createRootReducer from 'app/store/createRootReducer';
@@ -11,10 +11,6 @@ import createSentryMiddleware from 'app/store/middleware/sentryMiddleware';
 import type { GetCookie } from 'app/types';
 import type { History } from 'history';
 
-export const history: History = __CLIENT__
-  ? createBrowserHistory()
-  : createMemoryHistory();
-
 const createStore = (
   initialState: RootState | Record<string, never> = {},
   {
@@ -24,10 +20,15 @@ const createStore = (
     Sentry?: any;
     getCookie?: GetCookie;
   } = {}
-) => {
+): StoreWithHistory => {
+  const { createReduxHistory, routerMiddleware } = createReduxHistoryContext({
+    history: __CLIENT__ ? createBrowserHistory() : createMemoryHistory(),
+    reduxTravelling: __DEV__,
+  });
+
   const store = configureStore({
     preloadedState: initialState,
-    reducer: createRootReducer(history),
+    reducer: createRootReducer(),
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({
         thunk: {
@@ -42,7 +43,7 @@ const createStore = (
         .prepend(promiseMiddleware())
         .concat(
           [
-            routerMiddleware(history),
+            routerMiddleware,
             createMessageMiddleware(
               (message) =>
                 addToast({
@@ -58,18 +59,25 @@ const createStore = (
         ),
   });
 
+  const connectedHistory = createReduxHistory(store);
+
   if (module.hot) {
     module.hot.accept('app/store/createRootReducer', () => {
       const nextReducer = require('app/store/createRootReducer').default;
 
-      store.replaceReducer(nextReducer(history));
+      store.replaceReducer(nextReducer());
     });
   }
 
-  return store;
+  return { connectedHistory, store };
 };
 
 export default createStore;
 
-export type Store = ReturnType<typeof createStore>;
+export type Store = ReturnType<typeof configureStore>;
 export type AppDispatch = Store['dispatch'];
+
+export type StoreWithHistory = {
+  store: Store;
+  connectedHistory: History & { listenObject: boolean };
+};

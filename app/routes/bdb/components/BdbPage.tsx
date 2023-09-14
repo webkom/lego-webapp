@@ -14,7 +14,7 @@ import sortCompanies from '../SortCompanies';
 import { indexToSemester, ListNavigation } from '../utils';
 import CompanyList from './CompanyList';
 import OptionsBox from './OptionsBox';
-import type { Location } from 'history';
+import type { Location, History } from 'history';
 
 type Props = {
   companies: Array<CompanyEntity>;
@@ -30,7 +30,7 @@ type Props = {
   ) => Promise<any>;
   addSemester: (arg0: CompanySemesterEntity) => Promise<any>;
   companySemesters: Array<CompanySemesterEntity>;
-  push: (arg0: string) => void;
+  push: History['push'];
   location: Location;
 };
 type State = {

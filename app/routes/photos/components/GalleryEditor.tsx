@@ -27,7 +27,7 @@ import type { GalleryEntity } from 'app/reducers/galleries';
 import type { GalleryPictureEntity } from 'app/reducers/galleryPictures';
 import GalleryEditorActions from './GalleryEditorActions';
 import styles from './Overview.css';
-import type { Push } from 'connected-react-router';
+import type { History } from 'history';
 
 type Props = {
   isNew: boolean;
@@ -35,7 +35,7 @@ type Props = {
   pictures: Array<GalleryPictureEntity>;
   submitFunction: (arg0: GalleryEntity) => Promise<any>;
   handleSubmit: (arg0: any) => void;
-  push: Push;
+  push: History['push'];
   submitting: boolean;
   fetch: (
     galleryId: number,

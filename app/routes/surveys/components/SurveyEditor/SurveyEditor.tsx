@@ -27,14 +27,14 @@ import { spySubmittable } from 'app/utils/formSpyUtils';
 import { createValidator, required } from 'app/utils/validation';
 import styles from '../surveys.css';
 import Question from './Question';
-import type { Push } from 'connected-react-router';
+import type { History } from 'history';
 
 type Props = {
   survey: DetailedSurvey;
   autoFocus: Record<string, any>;
   surveyData: Array<Record<string, any>>;
   submitFunction: (surveyData: CreateSurvey) => Promise<void>;
-  push: Push;
+  push: History['push'];
   template?: DetailedSurvey;
   selectedTemplateType?: EventType;
   initialize: () => void;
@@ -44,7 +44,7 @@ type Props = {
 
 type TemplateTypeDropdownItemsProps = {
   survey?: DetailedSurvey;
-  push: Push;
+  push: History['push'];
 };
 
 function TemplateTypeDropdownItems({

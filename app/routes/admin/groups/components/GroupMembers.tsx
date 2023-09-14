@@ -1,8 +1,8 @@
 import { LoadingIndicator } from '@webkom/lego-bricks';
-import { push } from 'connected-react-router';
 import qs from 'qs';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { push } from 'redux-first-history';
 import {
   fetchMemberships,
   fetchMembershipsPagination,
@@ -18,6 +18,7 @@ import type { CurrentUser } from 'app/store/models/User';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import AddGroupMember from './AddGroupMember';
 import GroupMembersList from './GroupMembersList';
+import type { History } from 'history';
 
 type Props = {
   groupId: number;
@@ -40,7 +41,7 @@ type Props = {
   showDescendants: boolean;
   addMember: (arg0: AddMemberArgs) => Promise<any>;
   removeMember: (membership: Membership) => Promise<void>;
-  push: (arg0: any) => void;
+  push: History['push'];
   pathname: string;
   search: string;
   query: Record<string, any>;

@@ -1,7 +1,7 @@
-import { push } from 'connected-react-router';
 import qs from 'qs';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { push } from 'redux-first-history';
 import { fetch } from 'app/actions/EmailUserActions';
 import { fetchAllWithType } from 'app/actions/GroupActions';
 import { GroupType } from 'app/models';

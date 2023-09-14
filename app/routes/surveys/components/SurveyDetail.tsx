@@ -12,12 +12,12 @@ import { DetailNavigation } from '../utils';
 import AdminSideBar from './AdminSideBar';
 import StaticSubmission from './StaticSubmission';
 import styles from './surveyDetail.css';
-import type { Push } from 'connected-react-router';
+import type { History } from 'history';
 
 type Props = {
   survey: SurveyEntity;
   actionGrant: ActionGrant;
-  push: Push;
+  push: History['push'];
   shareSurvey: (surveyId: ID) => Promise<void>;
   hideSurvey: (surveyId: ID) => Promise<void>;
 };

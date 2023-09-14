@@ -35,7 +35,7 @@ import {
   required,
   timeIsAfter,
 } from 'app/utils/validation';
-import type { Push } from 'connected-react-router';
+import type { History } from 'history';
 
 type Values = {
   title?: string;
@@ -56,7 +56,7 @@ type Props = {
   meetingInvitations: MeetingInvitationWithUser[];
   initialValues: Values;
   handleSubmitCallback: (data: Values) => Promise<{ payload: { result: ID } }>;
-  push: Push;
+  push: History['push'];
   inviteUsersAndGroups: (args: {
     id: ID;
     users: [

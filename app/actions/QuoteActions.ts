@@ -1,4 +1,4 @@
-import { push } from 'connected-react-router';
+import { push } from 'redux-first-history';
 import { startSubmit, stopSubmit } from 'redux-form';
 import { addToast } from 'app/actions/ToastActions';
 import callAPI from 'app/actions/callAPI';

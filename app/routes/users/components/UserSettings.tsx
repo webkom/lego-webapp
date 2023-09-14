@@ -24,6 +24,7 @@ import {
 import ChangePassword from './ChangePassword';
 import UserImage from './UserImage';
 import styles from './UserSettings.css';
+import type { History } from 'history';
 
 export type PasswordPayload = {
   newPassword: string;
@@ -35,7 +36,7 @@ interface Props {
   updateUser: (arg0: Record<string, any>) => Promise<void>;
   deleteUser: (arg0: Record<string, any>) => Promise<void>;
   user: UserEntity;
-  push: (arg0: string) => void;
+  push: History['push'];
   updatePicture: (arg0: Record<string, any>) => void;
   removePicture: (arg0: string) => Promise<any>;
   initialValues: FormValues;

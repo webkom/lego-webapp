@@ -4,6 +4,7 @@ import { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Table from 'app/components/Table';
 import Tag from 'app/components/Tags/Tag';
+import type { History } from 'history';
 
 type Props = {
   fetching: boolean;
@@ -15,7 +16,7 @@ type Props = {
   }) => Promise<any>;
   query: Record<string, any>;
   filters: Record<string, any>;
-  push: (arg0: Record<string, any>) => void;
+  push: History['push'];
 };
 export default class EmailLists extends Component<Props> {
   render() {

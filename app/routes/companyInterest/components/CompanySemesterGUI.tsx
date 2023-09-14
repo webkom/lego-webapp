@@ -12,11 +12,12 @@ import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 import { createValidator, required } from 'app/utils/validation';
 import { semesterToText, SemesterNavigation } from '../utils';
 import styles from './CompanyInterest.css';
+import type { History } from 'history';
 import type { FormProps } from 'redux-form';
 
 type Props = {
   onSubmit: (arg0: CompanySemesterEntity) => Promise<any>;
-  push: (arg0: string) => void;
+  push: History['push'];
   events: Array<Record<string, any>>;
   semesters: Array<CompanySemesterEntity>;
   autoFocus: any;

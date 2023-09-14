@@ -1,7 +1,7 @@
-import { replace } from 'connected-react-router';
 import qs from 'qs';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { replace } from 'redux-first-history';
 import { fetchSemesters } from 'app/actions/CompanyActions';
 import {
   fetchAll,

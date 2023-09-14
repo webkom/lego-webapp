@@ -1,8 +1,8 @@
-import { push } from 'connected-react-router';
 import { debounce } from 'lodash';
 import qs from 'qs';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { push } from 'redux-first-history';
 import { search } from 'app/actions/SearchActions';
 import { Content } from 'app/components/Content';
 import SearchPage from 'app/components/Search/SearchPage';

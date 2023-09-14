@@ -31,6 +31,7 @@ import { spySubmittable, spyValues } from 'app/utils/formSpyUtils';
 import { createValidator, required, isEmail } from 'app/utils/validation';
 import { interestText, semesterToText } from '../utils';
 import styles from './CompanyInterest.css';
+import type { History } from 'history';
 import type { ReactNode } from 'react';
 
 export const EVENT_TYPES = {
@@ -420,7 +421,7 @@ type Props = {
     arg0: CompanyInterestFormEntity,
     arg1: boolean | null | undefined
   ) => Promise<any>;
-  push: (arg0: string) => void;
+  push: History['push'];
   events: Array<Record<string, any>>;
   companyCourseThemes: Array<Record<string, any>>;
   semesters: Array<CompanySemesterEntity>;

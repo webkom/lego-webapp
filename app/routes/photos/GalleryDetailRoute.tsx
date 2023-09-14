@@ -1,8 +1,8 @@
 import { LoadingIndicator } from '@webkom/lego-bricks';
-import { push } from 'connected-react-router';
 import { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { push } from 'redux-first-history';
 import { fetchGallery, fetchGalleryMetadata } from 'app/actions/GalleryActions';
 import {
   fetch,

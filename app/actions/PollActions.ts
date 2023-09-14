@@ -1,4 +1,4 @@
-import { push } from 'connected-react-router';
+import { push } from 'redux-first-history';
 import type { Tags } from 'app/models';
 import type { OptionEntity } from 'app/reducers/polls';
 import type { Thunk } from 'app/types';

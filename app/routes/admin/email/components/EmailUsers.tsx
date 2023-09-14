@@ -6,6 +6,7 @@ import Table from 'app/components/Table';
 import Tag from 'app/components/Tags/Tag';
 import type { Group } from 'app/models';
 import { GroupType } from 'app/models';
+import type { History } from 'history';
 
 type Props = {
   fetching: boolean;
@@ -17,7 +18,7 @@ type Props = {
   }) => Promise<any>;
   query: Record<string, any>;
   filters: Record<string, any>;
-  push: (arg0: Record<string, any>) => void;
+  push: History['push'];
   committees: Group[];
   grades: Group[];
 };

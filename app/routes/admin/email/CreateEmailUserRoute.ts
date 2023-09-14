@@ -1,6 +1,6 @@
-import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { push } from 'redux-first-history';
 import { createEmailUser } from 'app/actions/EmailUserActions';
 import EmailUserEditor from './components/EmailUserEditor';
 

@@ -20,6 +20,7 @@ import type { EditingEvent } from 'app/routes/events/utils';
 import type { DetailedArticle } from 'app/store/models/Article';
 import type { CurrentUser } from 'app/store/models/User';
 import { validYoutubeUrl } from 'app/utils/validation';
+import type { History } from 'history';
 
 export type Props = {
   article?: DetailedArticle;
@@ -29,7 +30,7 @@ export type Props = {
   handleSubmit: (arg0: Record<string, any>) => void;
   submitArticle: (arg0: Record<string, any>) => Promise<void>;
   deleteArticle: (arg0: number) => Promise<void>;
-  push: (arg0: string) => void;
+  push: History['push'];
   initialized: boolean;
 };
 
