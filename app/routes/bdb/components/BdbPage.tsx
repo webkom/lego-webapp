@@ -14,7 +14,7 @@ import type {
   BaseSemesterStatusEntity,
 } from 'app/reducers/companies';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
-import type { Location } from 'history';
+import type { Location, History } from 'history';
 
 type Props = {
   companies: Array<CompanyEntity>;
@@ -30,7 +30,7 @@ type Props = {
   ) => Promise<any>;
   addSemester: (arg0: CompanySemesterEntity) => Promise<any>;
   companySemesters: Array<CompanySemesterEntity>;
-  push: (arg0: string) => void;
+  push: History['push'];
   location: Location;
 };
 type State = {

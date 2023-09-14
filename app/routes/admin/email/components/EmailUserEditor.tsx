@@ -2,12 +2,13 @@ import { Button } from '@webkom/lego-bricks';
 import { reduxForm, Form, Field } from 'redux-form';
 import { TextInput, SelectInput, CheckBox } from 'app/components/Form';
 import { createValidator, required } from 'app/utils/validation';
+import type { History } from 'history';
 
 export type Props = {
   emailUserId?: number;
   submitting: boolean;
   handleSubmit: (arg0: (...args: Array<any>) => any) => void;
-  push: (arg0: string) => void;
+  push: History['push'];
   mutateFunction: (arg0: Record<string, any>) => Promise<any>;
   change: (arg0: string, arg1: Record<string, any>) => void;
 };

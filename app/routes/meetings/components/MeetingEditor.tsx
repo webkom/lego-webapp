@@ -40,7 +40,7 @@ import type { MeetingInvitationWithUser } from 'app/reducers/meetingInvitations'
 import type { ID } from 'app/store/models';
 import type { DetailedMeeting } from 'app/store/models/Meeting';
 import type { AutocompleteUser, CurrentUser } from 'app/store/models/User';
-import type { Push } from 'connected-react-router';
+import type { History } from 'history';
 
 type Values = {
   title?: string;
@@ -61,7 +61,7 @@ type Props = {
   meetingInvitations: MeetingInvitationWithUser[];
   initialValues: Values;
   handleSubmitCallback: (data: Values) => Promise<{ payload: { result: ID } }>;
-  push: Push;
+  push: History['push'];
   inviteUsersAndGroups: (args: {
     id: ID;
     users: [

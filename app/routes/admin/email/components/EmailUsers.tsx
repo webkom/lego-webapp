@@ -6,6 +6,7 @@ import { GroupType } from 'app/models';
 import { emailUsersDefaultQuery } from 'app/routes/admin/email/EmailUsersRoute';
 import useQuery from 'app/utils/useQuery';
 import type { Group } from 'app/models';
+import type { History } from 'history';
 
 type Props = {
   fetching: boolean;
@@ -16,7 +17,7 @@ type Props = {
     next?: boolean;
   }) => Promise<any>;
   query: Record<string, any>;
-  push: (arg0: Record<string, any>) => void;
+  push: History['push'];
   committees: Group[];
   grades: Group[];
 };

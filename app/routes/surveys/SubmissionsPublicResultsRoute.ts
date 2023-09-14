@@ -1,7 +1,7 @@
-import { push } from 'connected-react-router';
 import qs from 'qs';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { push } from 'redux-first-history';
 import { fetchWithToken } from 'app/actions/SurveyActions';
 import { selectSurveyById } from 'app/reducers/surveys';
 import loadingIndicator from 'app/utils/loadingIndicator';

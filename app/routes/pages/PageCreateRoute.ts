@@ -1,6 +1,6 @@
-import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { push } from 'redux-first-history';
 import { uploadFile } from 'app/actions/FileActions';
 import { createPage } from 'app/actions/PageActions';
 import { legoForm } from 'app/components/Form';

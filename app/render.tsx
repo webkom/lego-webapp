@@ -2,18 +2,15 @@ import { loadableReady } from '@loadable/component';
 import { createRoot, hydrateRoot } from 'react-dom/client';
 import routes from 'app/routes';
 import Root from './Root';
-import type { Store } from 'app/store/createStore';
+import type { StoreWithHistory } from 'app/store/createStore';
 
 const renderApp = ({
   store,
-  history,
+  connectedHistory,
   isSSR,
-}: {
-  store: Store;
-  history: any;
-  isSSR: boolean;
-}) => {
-  const rootElement: HTMLElement = document.getElementById('root');
+}: StoreWithHistory & { isSSR: boolean | undefined }) => {
+  const rootElement: HTMLElement = document.getElementById('root')!;
+
   loadableReady(() => {
     if (isSSR) {
       hydrateRoot(
@@ -21,7 +18,7 @@ const renderApp = ({
         <Root
           {...{
             store,
-            history,
+            connectedHistory,
             routes,
           }}
         />
@@ -31,7 +28,7 @@ const renderApp = ({
         <Root
           {...{
             store,
-            history,
+            connectedHistory,
             routes,
           }}
         />

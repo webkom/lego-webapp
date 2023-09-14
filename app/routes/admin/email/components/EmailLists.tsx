@@ -4,6 +4,7 @@ import Table from 'app/components/Table';
 import Tag from 'app/components/Tags/Tag';
 import { emailListsDefaultQuery } from 'app/routes/admin/email/EmailListsRoute';
 import useQuery from 'app/utils/useQuery';
+import type { History } from 'history';
 
 type Props = {
   fetching: boolean;
@@ -13,7 +14,7 @@ type Props = {
     query?: Record<string, any>;
     next?: boolean;
   }) => Promise<any>;
-  push: (arg0: Record<string, any>) => void;
+  push: History['push'];
 };
 const EmailLists = (props: Props) => {
   const { query, setQuery } = useQuery(emailListsDefaultQuery);

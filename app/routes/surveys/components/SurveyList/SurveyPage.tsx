@@ -4,11 +4,12 @@ import Paginator from 'app/components/Paginator';
 import { ListNavigation } from '../../utils';
 import SurveyList from './SurveyList';
 import type { SurveyEntity } from 'app/reducers/surveys';
+import type { History } from 'history';
 
 type Props = {
   surveys: Array<SurveyEntity>;
   fetching: boolean;
-  push: (arg0: string) => void;
+  push: History['push'];
   hasMore: boolean;
   fetchAll: (arg0: Record<string, any>) => Promise<any>;
 };

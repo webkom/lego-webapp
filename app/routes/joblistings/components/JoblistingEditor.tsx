@@ -28,6 +28,7 @@ import type {
   DetailedJoblisting,
   Workplace,
 } from 'app/store/models/Joblisting';
+import type { History } from 'history';
 import type { FormProps } from 'redux-form';
 
 type SelectInputObject = {
@@ -42,7 +43,7 @@ type Props = {
   deleteJoblisting: (arg0: ID) => Promise<any>;
   event: SelectInputObject;
   dispatch: (arg0: any) => void;
-  push: (arg0: string) => void;
+  push: History['push'];
   isNew: boolean;
   fetching: boolean;
   fetchCompanyContacts: (arg0: { companyId: ID }) => Promise<any>;

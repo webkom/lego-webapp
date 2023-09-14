@@ -1,6 +1,6 @@
-import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { push } from 'redux-first-history';
 import { fetch } from 'app/actions/TagActions';
 import { selectTagById } from 'app/reducers/tags';
 import loadingIndicator from 'app/utils/loadingIndicator';

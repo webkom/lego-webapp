@@ -6,6 +6,7 @@ import { createValidator, required, sameAs } from 'app/utils/validation';
 import { validPassword } from '../utils';
 import PasswordField from './PasswordField';
 import type { UserEntity } from 'app/reducers/users';
+import type { History } from 'history';
 
 type PasswordPayload = {
   newPassword: string;
@@ -13,7 +14,7 @@ type PasswordPayload = {
   retype_new_password: string;
 };
 type Props = {
-  push: (arg0: string) => void;
+  push: History['push'];
   changePassword: (arg0: PasswordPayload) => Promise<void>;
   user: UserEntity;
 };

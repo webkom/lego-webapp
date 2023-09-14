@@ -13,6 +13,7 @@ import GalleryDetailsRow from './GalleryDetailsRow';
 import styles from './GalleryPictureModal.css';
 import type { ID } from 'app/models';
 import type { EntityID } from 'app/types';
+import type { History } from 'history';
 import type { ReactNode } from 'react';
 
 type Props = {
@@ -21,7 +22,7 @@ type Props = {
   currentUser: Record<string, any>;
   loggedIn: boolean;
   gallery: Record<string, any>;
-  push: (arg0: string) => void;
+  push: History['push'];
   updateGalleryCover: (arg0: number, arg1: number) => Promise<any>;
   deletePicture: (arg0: number, arg1: number) => Promise<any>;
   comments: Array<Record<string, any>>;

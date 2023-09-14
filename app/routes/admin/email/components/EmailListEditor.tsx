@@ -9,12 +9,13 @@ import {
 } from 'app/components/Form';
 import { roleOptions } from 'app/utils/constants';
 import { createValidator, required, EMAIL_REGEX } from 'app/utils/validation';
+import type { History } from 'history';
 
 export type Props = {
   emailListId?: number;
   submitting: boolean;
   handleSubmit: (arg0: (...args: Array<any>) => any) => void;
-  push: (arg0: string) => void;
+  push: History['push'];
   mutateFunction: (arg0: Record<string, any>) => Promise<any>;
 };
 

@@ -1,4 +1,4 @@
-import { push } from 'connected-react-router';
+import { push } from 'redux-first-history';
 import callAPI from 'app/actions/callAPI';
 import { articleSchema } from 'app/reducers';
 import { Article } from './ActionTypes';

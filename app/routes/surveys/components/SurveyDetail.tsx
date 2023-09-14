@@ -12,12 +12,12 @@ import styles from './surveyDetail.css';
 import type { ActionGrant } from 'app/models';
 import type { SurveyEntity } from 'app/reducers/surveys';
 import type { ID } from 'app/store/models';
-import type { Push } from 'connected-react-router';
+import type { History } from 'history';
 
 type Props = {
   survey: SurveyEntity;
   actionGrant: ActionGrant;
-  push: Push;
+  push: History['push'];
   shareSurvey: (surveyId: ID) => Promise<void>;
   hideSurvey: (surveyId: ID) => Promise<void>;
 };

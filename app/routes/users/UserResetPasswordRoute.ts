@@ -1,6 +1,6 @@
-import { push } from 'connected-react-router';
 import qs from 'qs';
 import { connect } from 'react-redux';
+import { push } from 'redux-first-history';
 import { resetPassword } from 'app/actions/UserActions';
 import UserResetPasswordForm from './components/UserResetPassword';
 

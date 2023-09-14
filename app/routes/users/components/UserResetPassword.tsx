@@ -6,12 +6,12 @@ import { spySubmittable } from 'app/utils/formSpyUtils';
 import { createValidator, required, sameAs } from 'app/utils/validation';
 import { validPassword } from '../utils';
 import PasswordField from './PasswordField';
-import type { Action } from 'app/types';
+import type { History } from 'history';
 
 type Props = {
   token?: string;
   resetPassword: (arg0: { token: string; password: string }) => Promise<any>;
-  push: (location: string) => Action;
+  push: History['push'];
 };
 
 const UserResetPasswordForm = ({ token, resetPassword, push }: Props) => {

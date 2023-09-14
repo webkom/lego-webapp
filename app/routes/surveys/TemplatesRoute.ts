@@ -1,6 +1,6 @@
-import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { push } from 'redux-first-history';
 import { LoginPage } from 'app/components/LoginForm';
 import { selectSurveyTemplates } from 'app/reducers/surveys';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';

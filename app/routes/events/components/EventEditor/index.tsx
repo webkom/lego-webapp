@@ -45,7 +45,6 @@ import {
 import Admin from '../Admin';
 import styles from './EventEditor.css';
 import renderPools, { validatePools } from './renderPools';
-
 import type { EditingEvent } from '../../utils';
 import type {
   ID,
@@ -54,6 +53,7 @@ import type {
   ActionGrant,
   ImageGallery,
 } from 'app/models';
+import type { History } from 'history';
 import type { FormEventHandler } from 'react';
 
 type Props = {
@@ -72,7 +72,7 @@ type Props = {
   submitting: boolean;
   pristine: boolean;
   initialized: boolean;
-  push: (arg0: string) => void;
+  push: History['push'];
   imageGallery: ImageGallery;
   change: (key: string, token: string) => void;
   setSaveForUse: (key: string, token: string, value: boolean) => Promise<any>;

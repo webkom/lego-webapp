@@ -20,6 +20,8 @@ const initialState = {
   polls: false,
 };
 
+export type Allowed = typeof initialState;
+
 const allowed: Reducer<typeof initialState> = (
   state = initialState,
   action: AnyAction

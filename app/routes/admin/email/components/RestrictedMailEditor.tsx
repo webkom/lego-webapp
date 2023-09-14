@@ -4,13 +4,14 @@ import { TextInput, SelectInput } from 'app/components/Form';
 import CheckBox from 'app/components/Form/CheckBox';
 import config from 'app/config';
 import { isEmail, createValidator, required } from 'app/utils/validation';
+import type { History } from 'history';
 
 export type Props = {
   restrictedMailId?: number;
   restrictedMail: Record<string, any>;
   submitting: boolean;
   handleSubmit: (arg0: (...args: Array<any>) => any) => void;
-  push: (arg0: string) => void;
+  push: History['push'];
   mutateFunction: (arg0: Record<string, any>) => Promise<any>;
 };
 const hiddenSenderLabel = (
