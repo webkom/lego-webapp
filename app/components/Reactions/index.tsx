@@ -6,7 +6,6 @@ import ReactionPicker from './ReactionPicker';
 import AddReactionEmoji from './assets/AddReactionEmoji';
 import styles from './index.css';
 import type { EmojiWithReactionData } from 'app/components/LegoReactions';
-import type { ID } from 'app/models';
 import type { CurrentUser } from 'app/store/models/User';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 import type { ReactNode, SyntheticEvent } from 'react';
@@ -17,16 +16,6 @@ type Props = {
   className?: string;
   emojis: EmojiWithReactionData[];
   fetchingEmojis: boolean;
-  addReaction: (args: {
-    emoji: string;
-    user: CurrentUser;
-    contentTarget: ContentTarget;
-    unicodeString: string;
-  }) => Promise<void>;
-  deleteReaction: (args: {
-    reactionId: ID;
-    contentTarget: ContentTarget;
-  }) => Promise<void>;
   fetchEmojis: () => Promise<void>;
   contentTarget: ContentTarget;
   loggedIn: boolean;
@@ -41,8 +30,6 @@ const Reactions = ({
   className,
   emojis,
   fetchingEmojis,
-  addReaction,
-  deleteReaction,
   fetchEmojis,
   contentTarget,
   loggedIn,
@@ -50,7 +37,7 @@ const Reactions = ({
   const [reactionPickerOpen, setReactionPickerOpen] = useState(false);
   const [addEmojiHovered, setAddEmojiHovered] = useState(false);
   const [fetchedEmojis, setFetchedEmojis] = useState(false);
-  const nodeRef = useRef<HTMLDivElement>();
+  const nodeRef = useRef<HTMLDivElement>(null);
 
   const toggleReactionPicker = useCallback(
     (e: MouseEvent | SyntheticEvent) => {
@@ -117,8 +104,6 @@ const Reactions = ({
             emojis={emojis}
             user={user}
             isLoading={fetchingEmojis}
-            addReaction={addReaction}
-            deleteReaction={deleteReaction}
             contentTarget={contentTarget}
           />
         </div>

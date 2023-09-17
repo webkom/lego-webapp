@@ -6,19 +6,9 @@ import styles from './RandomQuote.css';
 import type { ID } from 'app/store/models';
 import type Emoji from 'app/store/models/Emoji';
 import type Quote from 'app/store/models/Quote';
-import type { ContentTarget } from 'app/store/utils/contentTarget';
 
 type Props = {
   fetchRandomQuote: (seen: ID[]) => Promise<void>;
-  addReaction: (args: {
-    emoji: string;
-    contentTarget: ContentTarget;
-    unicodeString: string;
-  }) => Promise<void>;
-  deleteReaction: (args: {
-    reactionId: ID;
-    contentTarget: ContentTarget;
-  }) => Promise<void>;
   fetchEmojis: () => Promise<void>;
   fetchingEmojis: boolean;
   emojis: Emoji[];
@@ -29,8 +19,6 @@ type Props = {
 
 const RandomQuote = ({
   fetchRandomQuote,
-  addReaction,
-  deleteReaction,
   emojis,
   fetchEmojis,
   fetchingEmojis,
@@ -80,8 +68,6 @@ const RandomQuote = ({
             emojis={emojis}
             fetchEmojis={fetchEmojis}
             fetchingEmojis={fetchingEmojis}
-            addReaction={addReaction}
-            deleteReaction={deleteReaction}
             parentEntity={currentQuote}
             loggedIn={loggedIn}
           />

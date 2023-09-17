@@ -4,8 +4,9 @@ import { addToast } from 'app/actions/ToastActions';
 import callAPI from 'app/actions/callAPI';
 import { quoteSchema } from 'app/reducers';
 import { Quote } from './ActionTypes';
-import type { ID } from 'app/models';
-import type { Thunk } from 'app/types';
+import type { AppDispatch } from 'app/store/createStore';
+import type { ID } from 'app/store/models';
+import type QuoteType from 'app/store/models/Quote';
 
 export function fetchAll({
   query,
@@ -13,8 +14,8 @@ export function fetchAll({
 }: {
   query?: Record<string, any>;
   next?: boolean;
-} = {}): Thunk<any> {
-  return callAPI({
+} = {}) {
+  return callAPI<QuoteType[]>({
     types: Quote.FETCH,
     endpoint: '/quotes/',
     schema: [quoteSchema],
@@ -28,8 +29,8 @@ export function fetchAll({
     propagateError: true,
   });
 }
-export function fetchQuote(quoteId: number): Thunk<any> {
-  return callAPI({
+export function fetchQuote(quoteId: ID) {
+  return callAPI<QuoteType>({
     types: Quote.FETCH,
     endpoint: `/quotes/${quoteId}/`,
     method: 'GET',
@@ -43,7 +44,7 @@ export function fetchQuote(quoteId: number): Thunk<any> {
 }
 export function fetchRandomQuote(seenQuotes: Array<ID> = []) {
   const queryString = `?seen=[${String(seenQuotes)}]`;
-  return callAPI({
+  return callAPI<QuoteType>({
     types: Quote.FETCH_RANDOM,
     endpoint: `/quotes/random/${queryString}`,
     method: 'GET',
@@ -54,7 +55,7 @@ export function fetchRandomQuote(seenQuotes: Array<ID> = []) {
     schema: quoteSchema,
   });
 }
-export function approve(quoteId: number): Thunk<any> {
+export function approve(quoteId: ID) {
   return callAPI({
     types: Quote.APPROVE,
     endpoint: `/quotes/${quoteId}/approve/`,
@@ -65,7 +66,7 @@ export function approve(quoteId: number): Thunk<any> {
     },
   });
 }
-export function unapprove(quoteId: number): Thunk<any> {
+export function unapprove(quoteId: ID) {
   return callAPI({
     types: Quote.UNAPPROVE,
     endpoint: `/quotes/${quoteId}/unapprove/`,
@@ -76,17 +77,11 @@ export function unapprove(quoteId: number): Thunk<any> {
     },
   });
 }
-export function addQuotes({
-  text,
-  source,
-}: {
-  text: string;
-  source: string;
-}): Thunk<any> {
-  return (dispatch) => {
+export function addQuotes({ text, source }: { text: string; source: string }) {
+  return (dispatch: AppDispatch) => {
     dispatch(startSubmit('addQuote'));
     return dispatch(
-      callAPI({
+      callAPI<QuoteType>({
         types: Quote.ADD,
         endpoint: '/quotes/',
         method: 'POST',
@@ -112,7 +107,7 @@ export function addQuotes({
     });
   };
 }
-export function deleteQuote(id: number): Thunk<any> {
+export function deleteQuote(id: number) {
   return callAPI({
     types: Quote.DELETE,
     endpoint: `/quotes/${id}/`,
