@@ -6,7 +6,6 @@ import ReactionPicker from './ReactionPicker';
 import AddReactionEmoji from './assets/AddReactionEmoji';
 import styles from './index.css';
 import type { EmojiWithReactionData } from 'app/components/LegoReactions';
-import type { ID } from 'app/models';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 import type { ReactNode, SyntheticEvent } from 'react';
 
@@ -15,15 +14,6 @@ type Props = {
   className?: string;
   emojis: EmojiWithReactionData[];
   fetchingEmojis: boolean;
-  addReaction: (args: {
-    emoji: string;
-    contentTarget: ContentTarget;
-    unicodeString: string;
-  }) => Promise<void>;
-  deleteReaction: (args: {
-    reactionId: ID;
-    contentTarget: ContentTarget;
-  }) => Promise<void>;
   fetchEmojis: () => Promise<void>;
   contentTarget: ContentTarget;
   loggedIn: boolean;
@@ -37,8 +27,6 @@ const Reactions = ({
   className,
   emojis,
   fetchingEmojis,
-  addReaction,
-  deleteReaction,
   fetchEmojis,
   contentTarget,
   loggedIn,
@@ -112,8 +100,6 @@ const Reactions = ({
           <ReactionPicker
             emojis={emojis}
             isLoading={fetchingEmojis}
-            addReaction={addReaction}
-            deleteReaction={deleteReaction}
             contentTarget={contentTarget}
           />
         </div>
