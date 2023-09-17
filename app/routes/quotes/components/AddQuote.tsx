@@ -1,23 +1,21 @@
 import moment from 'moment-timezone';
 import { Field } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
+import { addQuotes } from 'app/actions/QuoteActions';
 import { TextInput } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import { withSubmissionErrorFinalForm } from 'app/components/Form/utils';
+import { LoginPage } from 'app/components/LoginForm';
 import RandomQuote from 'app/components/RandomQuote/RandomQuote';
+import { selectIsLoggedIn } from 'app/reducers/auth';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { spyValues } from 'app/utils/formSpyUtils';
 import { createValidator, required } from 'app/utils/validation';
 import { navigation } from '../utils';
 import styles from './Quotes.css';
-import type { ActionGrant } from 'app/models';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
-
-type Props = {
-  addQuotes: (quote: { text: string; source: string }) => Promise<void>;
-  actionGrant: ActionGrant;
-};
 
 type FormValues = {
   text: string;
@@ -34,10 +32,13 @@ const validate = createValidator({
   source: [required()],
 });
 
-const AddQuote = ({ addQuotes, actionGrant }: Props) => {
-  const removeUnnecessaryDash = (source: string) => {
-    if (source === undefined) return undefined;
+const AddQuote = () => {
+  const loggedIn = useAppSelector(selectIsLoggedIn);
+  const dispatch = useAppDispatch();
 
+  const actionGrant = useAppSelector((state) => state.quotes.actionGrant);
+
+  const removeUnnecessaryDash = (source: string) => {
     const dashIndex = source.indexOf('-');
     if (source.slice(0, dashIndex).match(/^ *$/)) {
       source = source.slice(dashIndex + 1).trim();
@@ -47,10 +48,17 @@ const AddQuote = ({ addQuotes, actionGrant }: Props) => {
   };
 
   const onSubmit = (quote: { text: string; source: string }) =>
-    withSubmissionErrorFinalForm(addQuotes)({
+    withSubmissionErrorFinalForm(
+      dispatch,
+      addQuotes
+    )({
       text: quote.text,
       source: removeUnnecessaryDash(quote.source),
     });
+
+  if (!loggedIn) {
+    return <LoginPage />;
+  }
 
   return (
     <div className={styles.root}>
@@ -95,8 +103,6 @@ const AddQuote = ({ addQuotes, actionGrant }: Props) => {
               {spyValues<FormValues>((values) => (
                 <RandomQuote
                   fetchRandomQuote={() => Promise.resolve()}
-                  addReaction={() => Promise.resolve()}
-                  deleteReaction={() => Promise.resolve()}
                   fetchEmojis={() => Promise.resolve()}
                   fetchingEmojis={false}
                   emojis={[]}

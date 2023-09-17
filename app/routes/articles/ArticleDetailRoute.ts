@@ -3,7 +3,6 @@ import { compose } from 'redux';
 import { fetchArticle } from 'app/actions/ArticleActions';
 import { deleteComment } from 'app/actions/CommentActions';
 import { fetchEmojis } from 'app/actions/EmojiActions';
-import { addReaction, deleteReaction } from 'app/actions/ReactionActions';
 import {
   selectArticleById,
   selectArticleBySlug,
@@ -53,8 +52,6 @@ const mapDispatchToProps = {
   fetchArticle,
   fetchEmojis,
   deleteComment,
-  addReaction,
-  deleteReaction,
 };
 export default compose(
   withPreparedDispatch(
