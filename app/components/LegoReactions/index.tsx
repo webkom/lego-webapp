@@ -8,16 +8,6 @@ import type { ContentTarget } from 'app/store/utils/contentTarget';
 
 type Props = {
   user: CurrentUser;
-  addReaction: (args: {
-    emoji: string;
-    user: CurrentUser;
-    contentTarget: ContentTarget;
-    unicodeString: string;
-  }) => Promise<void>;
-  deleteReaction: (args: {
-    reactionId: ID;
-    contentTarget: ContentTarget;
-  }) => Promise<void>;
   fetchEmojis: () => Promise<void>;
   fetchingEmojis: boolean;
   emojis: Emoji[];
@@ -38,8 +28,6 @@ export type EmojiWithReactionData = Emoji & {
 const LegoReactions = (props: Props) => {
   const {
     user,
-    addReaction,
-    deleteReaction,
     emojis,
     fetchEmojis,
     fetchingEmojis,
@@ -82,8 +70,6 @@ const LegoReactions = (props: Props) => {
       user={user}
       fetchEmojis={fetchEmojis}
       fetchingEmojis={fetchingEmojis}
-      addReaction={addReaction}
-      deleteReaction={deleteReaction}
       contentTarget={parentEntity.contentTarget}
       loggedIn={loggedIn}
     >
@@ -99,8 +85,6 @@ const LegoReactions = (props: Props) => {
             user={user}
             hasReacted={reaction.hasReacted}
             canReact={loggedIn}
-            addReaction={addReaction}
-            deleteReaction={deleteReaction}
             contentTarget={parentEntity.contentTarget}
             showPeople={showPeople}
           />

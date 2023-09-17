@@ -1,4 +1,4 @@
-import type { ID } from 'app/store/models/index';
+import type { ID } from 'app/store/models';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 
 export default interface Reaction {

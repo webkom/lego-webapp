@@ -8,7 +8,6 @@ import ReactionPickerContent from './ReactionPickerContent';
 import ReactionPickerFooter from './ReactionPickerFooter';
 import ReactionPickerHeader from './ReactionPickerHeader';
 import type { EmojiWithReactionData } from 'app/components/LegoReactions';
-import type { ID } from 'app/store/models';
 import type { CurrentUser } from 'app/store/models/User';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 
@@ -16,16 +15,6 @@ type Props = {
   isLoading: boolean;
   user: CurrentUser;
   emojis: EmojiWithReactionData[];
-  addReaction: (args: {
-    emoji: string;
-    user: CurrentUser;
-    contentTarget: ContentTarget;
-    unicodeString: string;
-  }) => Promise<void>;
-  deleteReaction: (args: {
-    reactionId: ID;
-    contentTarget: ContentTarget;
-  }) => Promise<void>;
   contentTarget: ContentTarget;
 };
 
@@ -144,14 +133,7 @@ const searchEmojis = (
   return [...matchingEmojis, ...results.map((result) => result.original)];
 };
 
-const ReactionPicker = ({
-  isLoading,
-  user,
-  emojis,
-  addReaction,
-  deleteReaction,
-  contentTarget,
-}: Props) => {
+const ReactionPicker = ({ isLoading, user, emojis, contentTarget }: Props) => {
   const [activeCategory, setActiveCategory] = useState(null);
   const [searchString, setSearchString] = useState<string>(null);
   const categories = useMemo(() => {
@@ -215,8 +197,6 @@ const ReactionPicker = ({
           }
           user={user}
           searchResults={searchResults}
-          addReaction={addReaction}
-          deleteReaction={deleteReaction}
           contentTarget={contentTarget}
         />
       )}

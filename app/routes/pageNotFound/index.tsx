@@ -1,6 +1,6 @@
-import { Route } from 'react-router-dom';
+import { CompatRoute } from 'react-router-dom-v5-compat';
 import PageNotFoundRoute from './PageNotFoundRoute';
 
 export default function PathNotFound() {
-  return <Route path="" component={PageNotFoundRoute} />;
+  return <CompatRoute path="" component={PageNotFoundRoute} />;
 }

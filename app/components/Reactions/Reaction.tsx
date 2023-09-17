@@ -1,7 +1,9 @@
 import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
+import { addReaction, deleteReaction } from 'app/actions/ReactionActions';
 import Emoji from 'app/components/Emoji';
 import Tooltip from 'app/components/Tooltip';
+import { useAppDispatch } from 'app/store/hooks';
 import styles from './Reaction.css';
 import type { ID } from 'app/store/models';
 import type { CurrentUser } from 'app/store/models/User';
@@ -14,19 +16,9 @@ type Props = {
   count: number;
   users?: { fullName: string }[];
   unicodeString: string;
-  addReaction: (args: {
-    emoji: string;
-    user: CurrentUser;
-    contentTarget: ContentTarget;
-    unicodeString?: string;
-  }) => Promise<void>;
-  deleteReaction: (args: {
-    reactionId: ID;
-    contentTarget: ContentTarget;
-  }) => Promise<void>;
   hasReacted: boolean;
   canReact: boolean;
-  reactionId: ID;
+  reactionId?: ID;
   contentTarget: ContentTarget;
   showPeople?: boolean;
 };
@@ -40,14 +32,14 @@ const Reaction = ({
   count,
   users,
   unicodeString,
-  addReaction,
-  deleteReaction,
   hasReacted,
   canReact,
   reactionId,
   contentTarget,
   showPeople,
 }: Props) => {
+  const dispatch = useAppDispatch();
+
   const classes = [
     className ? className : styles.reaction,
     canReact && styles.clickable,
@@ -84,18 +76,21 @@ const Reaction = ({
             canReact
               ? () =>
                   hasReacted
-                    ? deleteReaction({
-                        reactionId,
-                        user: user,
-                        contentTarget: contentTarget,
-                      })
-                    : addReaction({
-                        emoji,
-                        user: user,
-                        contentTarget,
-                        unicodeString,
-                      })
-              : null
+                    ? dispatch(
+                        deleteReaction({
+                          reactionId,
+                          contentTarget: contentTarget,
+                        })
+                      )
+                    : dispatch(
+                        addReaction({
+                          emoji,
+                          user: user,
+                          contentTarget,
+                          unicodeString,
+                        })
+                      )
+              : undefined
           }
         >
           <div>
