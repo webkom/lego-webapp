@@ -1,88 +1,81 @@
-import { LoadingIndicator, Button } from '@webkom/lego-bricks';
+import { Button, LoadingIndicator } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import qs from 'qs';
 import { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom-v5-compat';
 import Select from 'react-select';
+import { fetchEmojis } from 'app/actions/EmojiActions';
+import { fetchAll, fetchQuote } from 'app/actions/QuoteActions';
 import { selectTheme, selectStyles } from 'app/components/Form/SelectInput';
-import type { ActionGrant } from 'app/models';
-import type { ID } from 'app/store/models';
-import type Emoji from 'app/store/models/Emoji';
-import type Quote from 'app/store/models/Quote';
-import type { CurrentUser } from 'app/store/models/User';
-import type { ContentTarget } from 'app/store/utils/contentTarget';
+import { LoginPage } from 'app/components/LoginForm';
+import { selectEmojis } from 'app/reducers/emojis';
+import { selectQuoteById, selectQuotes } from 'app/reducers/quotes';
+import { selectPaginationNext } from 'app/reducers/selectors';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { navigation } from '../utils';
 import QuoteList from './QuoteList';
 import styles from './Quotes.css';
 
-type Props = {
-  query: {
-    approved: string;
-    ordering: string;
-  };
-  quotes: Quote[];
-  actionGrant: ActionGrant;
-  approve: (id: ID) => Promise<void>;
-  unapprove: (id: ID) => Promise<void>;
-  deleteQuote: (id: ID) => Promise<void>;
-  fetchAll: (args: {
-    query: {
-      approved: string;
-      ordering: string;
-    };
-    next?: boolean;
-  }) => Promise<void>;
-  showFetchMore: boolean;
-  currentUser: CurrentUser;
-  loggedIn: boolean;
-  addReaction: (args: {
-    emoji: string;
-    contentTarget: ContentTarget;
-  }) => Promise<void>;
-  deleteReaction: (args: {
-    reactionId: ID;
-    contentTarget: ContentTarget;
-  }) => Promise<void>;
-  fetching: boolean;
-  fetchEmojis: () => Promise<void>;
-  fetchingEmojis: boolean;
-  emojis: Emoji[];
-};
+const qsParamsParser = (search) => ({
+  approved:
+    qs.parse(search, {
+      ignoreQueryPrefix: true,
+    }).approved || 'true',
+  ordering: qs.parse(search, {
+    ignoreQueryPrefix: true,
+  }).ordering,
+});
+
 type Option = {
   label: string;
   value: string;
 };
+
 const filterRegDateOptions: Array<Option> = [
   {
     label: 'nyeste',
     value: '',
   },
   {
-    label: 'flest emojis',
+    label: 'flest reaksjoner',
     value: '?ordering=-reaction_count',
   },
 ];
-export default function QuotePage({
-  query,
-  quotes,
-  approve,
-  unapprove,
-  actionGrant,
-  deleteQuote,
-  fetchAll,
-  showFetchMore,
-  currentUser,
-  loggedIn,
-  addReaction,
-  deleteReaction,
-  emojis,
-  fetching,
-  fetchEmojis,
-  fetchingEmojis,
-}: Props) {
-  let errorMessage = undefined;
 
+type Props = {
+  loggedIn: boolean;
+};
+
+const QuotePage = ({ loggedIn }: Props) => {
+  const dispatch = useAppDispatch();
+
+  const { quoteId } = useParams();
+
+  const location = useLocation();
+  const query = qsParamsParser(location.search);
+
+  const { pagination } = useAppSelector((state) =>
+    selectPaginationNext({
+      endpoint: `/quotes/`,
+      query: query,
+      entity: 'quotes',
+    })(state)
+  );
+  const showFetchMore = pagination.hasMore;
+
+  const quotes = useAppSelector((state) => {
+    if (quoteId) {
+      return [selectQuoteById(state, quoteId)];
+    }
+
+    return selectQuotes(state, { pagination });
+  });
+
+  const fetching = useAppSelector((state) => state.quotes.fetching);
+
+  let errorMessage = undefined;
   if (quotes.length === 0 && !fetching) {
     errorMessage =
       query.approved === 'false'
@@ -90,7 +83,25 @@ export default function QuotePage({
         : 'Fant ingen sitater. Hvis du har sendt inn et sitat venter det trolig på godkjenning.';
   }
 
+  const actionGrant = useAppSelector((state) => state.quotes.actionGrant);
+  const emojis = useAppSelector((state) => selectEmojis(state));
+  const fetchingEmojis = useAppSelector((state) => state.emojis.fetching);
+
+  useEffect(() => {
+    if (quoteId) {
+      dispatch(fetchQuote(quoteId));
+    } else {
+      dispatch(
+        fetchAll({
+          query: qsParamsParser(location.search),
+        })
+      );
+    }
+    dispatch(fetchEmojis());
+  }, [quoteId, location.search, dispatch]);
+
   const history = useHistory();
+
   const [ordering, setOrdering] = useState<Option>(
     query.ordering === '-reaction_count'
       ? filterRegDateOptions[1]
@@ -110,6 +121,10 @@ export default function QuotePage({
       search: searchString,
     });
   }, [history, ordering, query.approved]);
+
+  if (!loggedIn) {
+    return LoginPage;
+  }
 
   return (
     <div className={cx(styles.root, styles.quoteContainer)}>
@@ -131,28 +146,25 @@ export default function QuotePage({
 
       {errorMessage || (
         <QuoteList
-          approve={approve}
-          unapprove={unapprove}
-          deleteQuote={deleteQuote}
           actionGrant={actionGrant}
           quotes={quotes}
-          currentUser={currentUser}
           loggedIn={loggedIn}
-          addReaction={addReaction}
-          deleteReaction={deleteReaction}
           emojis={emojis}
           fetchEmojis={fetchEmojis}
           fetchingEmojis={fetchingEmojis}
         />
       )}
+
       {showFetchMore && (
         <LoadingIndicator loading={fetching}>
           <Button
             onClick={() =>
-              fetchAll({
-                query,
-                next: true,
-              })
+              dispatch(
+                fetchAll({
+                  query,
+                  next: true,
+                })
+              )
             }
           >
             Last inn flere
@@ -161,4 +173,6 @@ export default function QuotePage({
       )}
     </div>
   );
-}
+};
+
+export default QuotePage;

@@ -55,15 +55,7 @@ type Props = {
   comments: Comment[];
   deleteComment: (id: ID, contentTarget: ContentTarget) => Promise<void>;
   emojis: Emoji[];
-  addReaction: (args: {
-    emoji: string;
-    contentTarget: ContentTarget;
-  }) => Promise<void>;
   reactionsGrouped: ReactionsGrouped[];
-  deleteReaction: (args: {
-    reactionId: ID;
-    contentTarget: ContentTarget;
-  }) => Promise<void>;
   fetchEmojis: () => Promise<void>;
   fetchingEmojis: boolean;
 };
@@ -85,8 +77,6 @@ const MeetingDetails = ({
   currentUserInvitation,
   deleteComment,
   emojis,
-  addReaction,
-  deleteReaction,
   fetchEmojis,
   fetchingEmojis,
   setInvitationStatus,
@@ -250,8 +240,6 @@ const MeetingDetails = ({
                   emojis={emojis}
                   fetchEmojis={fetchEmojis}
                   fetchingEmojis={fetchingEmojis}
-                  addReaction={addReaction}
-                  deleteReaction={deleteReaction}
                   parentEntity={meeting}
                   loggedIn={loggedIn}
                 />

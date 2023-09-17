@@ -1,5 +1,6 @@
 import loadable from '@loadable/component';
 import { Route, Switch } from 'react-router-dom';
+import { CompatRoute } from 'react-router-dom-v5-compat';
 import RouteWrapper from 'app/components/RouteWrapper';
 import { UserContext } from 'app/routes/app/AppRoute';
 import { AppRoute } from './app';
@@ -68,7 +69,7 @@ const AppWrapper = (props) => (
           <Route path="/pages" component={Pages} />
           <Route path="/photos" component={Photos} />
           <Route path="/polls" component={Polls} />
-          <Route path="/quotes" component={Quotes} />
+          <CompatRoute path="/quotes" component={Quotes} />
           <Route path="/search" component={Search} />
           <Route path="/surveys" component={Surveys} />
           <Route path="/tags" component={Tags} />

@@ -1,6 +1,8 @@
 import { FORM_ERROR } from 'final-form';
 import { get } from 'lodash';
 import { SubmissionError } from 'redux-form';
+import type { AppDispatch } from 'app/store/createStore';
+import { Thunk } from 'app/types';
 
 /*
  * Simple utility that handles submission errors
@@ -69,8 +71,9 @@ export const withSubmissionError = <Args extends unknown[], Return>(
  * withSubmissionErrorFinalForm(onSubmit)
  */
 export const withSubmissionErrorFinalForm = <Args extends unknown[], Return>(
-  onSubmit: (...args: Args) => Promise<Return>
+  dispatch: AppDispatch,
+  onSubmit: (...args: Args) => Thunk<Promise<Return>>
 ) => {
   return (...args: Args) =>
-    onSubmit(...args).catch(handleSubmissionErrorFinalForm);
+    dispatch(onSubmit(...args)).catch(handleSubmissionErrorFinalForm);
 };

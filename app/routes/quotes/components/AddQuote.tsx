@@ -1,11 +1,13 @@
 import moment from 'moment-timezone';
 import { Field } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
+import { addQuotes } from 'app/actions/QuoteActions';
 import { Button, TextInput } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import { withSubmissionErrorFinalForm } from 'app/components/Form/utils';
+import { LoginPage } from 'app/components/LoginForm';
 import RandomQuote from 'app/components/RandomQuote/RandomQuote';
-import type { ActionGrant } from 'app/models';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 import { spySubmittable, spyValues } from 'app/utils/formSpyUtils';
 import { createValidator, required } from 'app/utils/validation';
@@ -13,8 +15,7 @@ import { navigation } from '../utils';
 import styles from './Quotes.css';
 
 type Props = {
-  addQuotes: (quote: { text: string; source: string }) => Promise<void>;
-  actionGrant: ActionGrant;
+  loggedIn: boolean;
 };
 
 type FormValues = {
@@ -32,7 +33,11 @@ const validate = createValidator({
   source: [required()],
 });
 
-const AddQuote = ({ addQuotes, actionGrant }: Props) => {
+const AddQuote = ({ loggedIn }: Props) => {
+  const dispatch = useAppDispatch();
+
+  const actionGrant = useAppSelector((state) => state.quotes.actionGrant);
+
   const removeUnnecessaryDash = (source: string) => {
     if (source === undefined) return undefined;
 
@@ -45,10 +50,17 @@ const AddQuote = ({ addQuotes, actionGrant }: Props) => {
   };
 
   const onSubmit = (quote: { text: string; source: string }) =>
-    withSubmissionErrorFinalForm(addQuotes)({
+    withSubmissionErrorFinalForm(
+      dispatch,
+      addQuotes
+    )({
       text: quote.text,
       source: removeUnnecessaryDash(quote.source),
     });
+
+  if (!loggedIn) {
+    return LoginPage;
+  }
 
   return (
     <div className={styles.root}>
@@ -96,8 +108,6 @@ const AddQuote = ({ addQuotes, actionGrant }: Props) => {
               {spyValues<FormValues>((values) => (
                 <RandomQuote
                   fetchRandomQuote={() => Promise.resolve()}
-                  addReaction={() => Promise.resolve()}
-                  deleteReaction={() => Promise.resolve()}
                   fetchEmojis={() => Promise.resolve()}
                   fetchingEmojis={false}
                   emojis={[]}
