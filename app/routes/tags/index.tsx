@@ -1,44 +1,26 @@
-import { Route, Switch } from 'react-router-dom';
-import RouteWrapper from 'app/components/RouteWrapper';
+import { useRouteMatch, Route, Switch } from 'react-router-dom';
+import { CompatRoute } from 'react-router-dom-v5-compat';
 import { UserContext } from 'app/routes/app/AppRoute';
 import PageNotFound from '../pageNotFound';
-import TagDetailRoute from './TagDetailRoute';
-import TagsListRoute from './TagsListRoute';
+import TagCloud from './components/TagCloud';
+import TagDetail from './components/TagDetail';
 
-const tagsRoute = ({
-  match,
-}: {
-  match: {
-    path: string;
-  };
-}) => (
-  <UserContext.Consumer>
-    {({ currentUser, loggedIn }) => (
-      <Switch>
-        <RouteWrapper
-          exact
-          path={`${match.path}`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={TagsListRoute}
-        />
-        <RouteWrapper
-          exact
-          path={`${match.path}/:tagId`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={TagDetailRoute}
-        />
-        <Route component={PageNotFound} />
-      </Switch>
-    )}
-  </UserContext.Consumer>
-);
+const TagsRoute = () => {
+  const { path } = useRouteMatch();
+
+  return (
+    <UserContext.Consumer>
+      {({ currentUser, loggedIn }) => (
+        <Switch>
+          <CompatRoute exact path={path} component={TagCloud} />
+          <CompatRoute exact path={`${path}/:tagId`} component={TagDetail} />
+          <Route component={PageNotFound} />
+        </Switch>
+      )}
+    </UserContext.Consumer>
+  );
+};
 
 export default function Tag() {
-  return <Route path="/tags" component={tagsRoute} />;
+  return <Route path="/tags" component={TagsRoute} />;
 }
