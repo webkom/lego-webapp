@@ -1,24 +1,23 @@
 import { Button, Flex } from '@webkom/lego-bricks';
 import { Link } from 'react-router-dom';
+import {
+  deleteAnnouncement,
+  sendAnnouncement,
+} from 'app/actions/AnnouncementsActions';
 import Time from 'app/components/Time';
 import type { ActionGrant } from 'app/models';
-import type { ID } from 'app/store/models';
+import { useAppDispatch } from 'app/store/hooks';
 import type { DetailedAnnouncement } from 'app/store/models/Announcement';
 import styles from './AnnouncementsList.css';
 
 type Props = {
   announcement: DetailedAnnouncement;
-  sendAnnouncement: (id: ID) => Promise<unknown>;
-  deleteAnnouncement: (id: ID) => Promise<unknown>;
   actionGrant: ActionGrant;
 };
 
-const AnnouncementItem = ({
-  announcement,
-  sendAnnouncement,
-  deleteAnnouncement,
-  actionGrant,
-}: Props) => {
+const AnnouncementItem = ({ announcement, actionGrant }: Props) => {
+  const dispatch = useAppDispatch();
+
   return (
     <Flex className={styles.item}>
       <Flex column>
@@ -99,15 +98,11 @@ const AnnouncementItem = ({
           <Flex className={styles.wrapperSendButton}>
             <Button
               danger
-              className={styles.sendButton}
-              onClick={() => deleteAnnouncement(announcement.id)}
+              onClick={() => dispatch(deleteAnnouncement(announcement.id))}
             >
               Slett
             </Button>
-            <Button
-              className={styles.sendButton}
-              onClick={() => sendAnnouncement(announcement.id)}
-            >
+            <Button onClick={() => dispatch(sendAnnouncement(announcement.id))}>
               Send
             </Button>
           </Flex>
