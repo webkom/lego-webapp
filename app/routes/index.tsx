@@ -55,7 +55,7 @@ const AppWrapper = (props) => (
             }}
             Component={Overview}
           />
-          <Route path="/announcements" component={Announcements} />
+          <CompatRoute path="/announcements" component={Announcements} />
           <Route path="/admin" component={Admin} />
           <Route path="/events" component={Events} />
           <Route path="/companies" component={Companies} />
