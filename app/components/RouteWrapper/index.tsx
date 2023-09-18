@@ -1,4 +1,4 @@
-import { Route } from 'react-router-dom';
+import { CompatRoute } from 'react-router-dom-v5-compat';
 import type { ComponentType } from 'react';
 import type { RouteComponentProps } from 'react-router-dom';
 
@@ -19,7 +19,7 @@ const RouteWrapper = <PassedProps, RouteProps extends RouteComponentProps>(
 ) => {
   const { passedProps, exact, path, Component, strict } = props;
   return (
-    <Route
+    <CompatRoute
       exact={exact}
       path={path}
       strict={strict}
