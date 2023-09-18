@@ -58,9 +58,9 @@ interface SearchMapping {
   'meetings.meeting': SearchResultMapping<Meeting>;
 }
 
-export interface RawSearchResult extends Record<string, string> {
+export type RawSearchResult = object & {
   contentType: string;
-}
+};
 
 const initialState = {
   results: [],

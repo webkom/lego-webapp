@@ -15,7 +15,7 @@ export default createEntityReducer({
   mutate: produce((newState: State, action: any): void => {
     switch (action.type) {
       case Announcements.SEND.SUCCESS:
-        newState.byId[action.meta.announcementId].sent = moment();
+        newState.byId[action.meta.announcementId].sent = moment().toISOString();
         break;
 
       default:
