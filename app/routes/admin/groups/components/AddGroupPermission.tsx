@@ -1,28 +1,14 @@
-import { Field } from 'redux-form';
-import { legoForm, Button, Form } from 'app/components/Form';
+import { Field } from 'react-final-form';
+import { editGroup } from 'app/actions/GroupActions';
+import { Button, Form, LegoFinalForm } from 'app/components/Form';
 import TextInput from 'app/components/Form/TextInput';
+import { useAppDispatch } from 'app/store/hooks';
+import type { DetailedGroup } from 'app/store/models/Group';
 import { createValidator, matchesRegex, required } from 'app/utils/validation';
-import type { FormProps } from 'redux-form';
 
-type Props = FormProps & {
-  group: Record<string, any>;
+type Props = {
+  group: DetailedGroup;
 };
-
-const AddGroupPermission = ({ submitting, handleSubmit }: Props) => (
-  <Form onSubmit={handleSubmit}>
-    <h3>Legg til ny rettighet</h3>
-    <Field
-      label="Rettighet"
-      name="permission"
-      placeholder="/sudo/admin/events/create/"
-      component={TextInput.Field}
-    />
-
-    <Button submit disabled={submitting}>
-      Legg til rettighet
-    </Button>
-  </Form>
-);
 
 const validate = createValidator({
   permission: [
@@ -33,10 +19,38 @@ const validate = createValidator({
     ),
   ],
 });
-export default legoForm({
-  form: 'add-permission',
-  onSubmit: ({ permission }, dispatch, { group, editGroup }) =>
-    editGroup({ ...group, permissions: group.permissions.concat(permission) }),
-  onSubmitSuccess: (result, dispatch, { reset }) => reset(),
-  validate,
-})(AddGroupPermission);
+
+const AddGroupPermission = ({ group }: Props) => {
+  const dispatch = useAppDispatch();
+
+  const handleSubmit = async (values, form) => {
+    const updatedGroup = {
+      ...group,
+      permissions: group.permissions.concat(values.permission),
+    };
+    await dispatch(editGroup(updatedGroup));
+    form.reset();
+  };
+
+  return (
+    <LegoFinalForm onSubmit={handleSubmit} validate={validate}>
+      {({ handleSubmit, submitting, pristine }) => (
+        <Form onSubmit={handleSubmit}>
+          <h3>Legg til ny rettighet</h3>
+          <Field
+            label="Rettighet"
+            name="permission"
+            placeholder="/sudo/admin/events/create/"
+            component={TextInput.Field}
+          />
+
+          <Button submit disabled={submitting || pristine}>
+            Legg til rettighet
+          </Button>
+        </Form>
+      )}
+    </LegoFinalForm>
+  );
+};
+
+export default AddGroupPermission;

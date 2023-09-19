@@ -3,23 +3,26 @@ import qs from 'qs';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Select from 'react-select';
-import type { AddMemberArgs } from 'app/actions/GroupActions';
+import { push } from 'redux-first-history';
+import {
+  fetchMembershipsPagination,
+  removeMember,
+  addMember,
+} from 'app/actions/GroupActions';
 import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import Table from 'app/components/Table';
+import { selectCurrentUser } from 'app/reducers/auth';
 import { isCurrentUser as checkIfCurrentUser } from 'app/routes/users/utils';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import type Membership from 'app/store/models/Membership';
-import type { CurrentUser } from 'app/store/models/User';
 import { ROLES, type RoleType } from 'app/utils/constants';
 import styles from './GroupMembersList.css';
-import type { History } from 'history';
 
 type Props = {
   fetching: boolean;
   hasMore: boolean;
   groupId: number;
   memberships: Membership[];
-  addMember: (arg0: AddMemberArgs) => Promise<any>;
-  removeMember: (membership: Membership) => Promise<void>;
   showDescendants: boolean;
   groupsById: Record<
     string,
@@ -28,39 +31,30 @@ type Props = {
       numberOfUsers?: number;
     }
   >;
-  fetch: (arg0: {
-    groupId: number;
-    next: boolean;
-    query: Record<string, any>;
-    descendants: boolean;
-  }) => Promise<any>;
-  push: History['push'];
   pathname: string;
   search: string;
   query: Record<string, any>;
   filters: Record<string, any>;
-  currentUser: CurrentUser;
 };
 
 const GroupMembersList = ({
   memberships,
   groupId,
-  addMember,
-  removeMember,
   showDescendants,
-  fetch,
   hasMore,
   fetching,
   groupsById,
-  push,
   pathname,
   search,
   query,
   filters,
-  currentUser,
 }: Props) => {
   // State for keeping track of which memberships are being edited
   const [membershipsInEditMode, setMembershipsInEditMode] = useState({});
+
+  const dispatch = useAppDispatch();
+
+  const currentUser = useAppSelector((state) => selectCurrentUser(state));
 
   const GroupMembersListColumns = (fullName, membership: Membership) => {
     const { user } = membership;
@@ -97,7 +91,8 @@ const GroupMembersList = ({
               ...prev,
               [id]: false,
             }));
-            await removeMember(membership).then(() =>
+            await dispatch(removeMember(membership));
+            await dispatch(
               addMember({
                 userId: membership.user.id,
                 groupId: membership.abakusGroup,
@@ -139,7 +134,7 @@ const GroupMembersList = ({
         <ConfirmModal
           title="Bekreft utmelding"
           message={`Er du sikker på at du vil melde ut "${user.fullName}" fra gruppen "${groupsById[abakusGroup].name}"?`}
-          onConfirm={() => removeMember(membership)}
+          onConfirm={() => dispatch(removeMember(membership))}
         >
           {({ openConfirmModal }) => (
             <Icon onClick={openConfirmModal} name="trash" size={20} danger />
@@ -189,27 +184,31 @@ const GroupMembersList = ({
     <>
       <Table
         onChange={(filters, sort) => {
-          push({
-            pathname,
-            search: qs.stringify({
-              filters: JSON.stringify(filters),
-              sort: JSON.stringify(sort),
-              ...(search.includes('descendants=true')
-                ? {
-                    descendants: true,
-                  }
-                : {}),
-            }),
-          });
+          dispatch(
+            push({
+              pathname,
+              search: qs.stringify({
+                filters: JSON.stringify(filters),
+                sort: JSON.stringify(sort),
+                ...(search.includes('descendants=true')
+                  ? {
+                      descendants: true,
+                    }
+                  : {}),
+              }),
+            })
+          );
         }}
         columns={columns}
         onLoad={() => {
-          fetch({
-            descendants: showDescendants,
-            groupId: groupId,
-            next: true,
-            query,
-          });
+          dispatch(
+            fetchMembershipsPagination({
+              descendants: showDescendants,
+              groupId: groupId,
+              next: true,
+              query,
+            })
+          );
         }}
         hasMore={hasMore}
         loading={fetching}
