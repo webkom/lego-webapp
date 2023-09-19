@@ -31,7 +31,7 @@ const InterestGroupEdit = () => {
     return <LoginPage />;
   }
 
-  if (!interestGroup) {
+  if (!interestGroup || !interestGroup.text) {
     return <LoadingIndicator loading />;
   }
 
