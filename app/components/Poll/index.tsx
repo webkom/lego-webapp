@@ -4,8 +4,10 @@ import Linkify from 'linkify-react';
 import { sortBy } from 'lodash';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { votePoll } from 'app/actions/PollActions';
 import Tooltip from 'app/components/Tooltip';
 import type { PollEntity, OptionEntity } from 'app/reducers/polls';
+import { useAppDispatch } from 'app/store/hooks';
 import styles from './Poll.css';
 
 // As described in: https://stackoverflow.com/questions/13483430/how-to-make-rounded-percentages-add-up-to-100
@@ -37,7 +39,6 @@ const optionsWithPerfectRatios = (options: Array<OptionEntity>) => {
 
 type Props = {
   poll: PollEntity;
-  handleVote: (pollId: number, optionId: number) => Promise<void>;
   allowedToViewHiddenResults?: boolean;
   truncate?: number;
   details?: boolean;
@@ -49,7 +50,6 @@ type OptionEntityRatio = OptionEntity & {
 
 const Poll = ({
   poll,
-  handleVote,
   allowedToViewHiddenResults,
   truncate,
   details,
@@ -72,6 +72,8 @@ const Poll = ({
   const toggleTruncate = () => {
     setExpanded(!expanded);
   };
+
+  const dispatch = useAppDispatch();
 
   const { id, title, description, hasAnswered, totalVotes, resultsHidden } =
     poll;
@@ -204,7 +206,7 @@ const Poll = ({
                 >
                   <Button
                     dark
-                    onClick={() => handleVote(poll.id, option.id)}
+                    onClick={() => dispatch(votePoll(poll.id, option.id))}
                     className={styles.voteButton}
                   >
                     {option.name}
