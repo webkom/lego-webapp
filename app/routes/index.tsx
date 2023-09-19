@@ -1,5 +1,6 @@
 import loadable from '@loadable/component';
 import { Route, Switch } from 'react-router-dom';
+import { CompatRoute } from 'react-router-dom-v5-compat';
 import RouteWrapper from 'app/components/RouteWrapper';
 import { UserContext } from 'app/routes/app/AppRoute';
 import { AppRoute } from './app';
@@ -54,8 +55,8 @@ const AppWrapper = () => (
             }}
             Component={Overview}
           />
-          <Route path="/announcements" component={Announcements} />
-          <Route path="/admin" component={Admin} />
+          <CompatRoute path="/announcements" component={Announcements} />
+          <CompatRoute path="/admin" component={Admin} />
           <Route path="/events" component={Events} />
           <Route path="/companies" component={Companies} />
           <Route path={['/contact', '/kontakt']} component={Contact} />
