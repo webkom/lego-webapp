@@ -1,8 +1,8 @@
 import { Component } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Content } from 'app/components/Content';
-import GroupForm from 'app/components/GroupForm';
 import NavigationTab from 'app/components/NavigationTab';
+import GroupForm from 'app/routes/admin/groups/components/GroupSettings';
 
 export default class InterestGroupEdit extends Component<{
   initialValues: Record<string, any>;
@@ -14,9 +14,9 @@ export default class InterestGroupEdit extends Component<{
     const { initialValues, uploadFile, handleSubmitCallback } = this.props;
     return (
       <Content>
-        <Helmet title="Opprett gruppe" />
+        <Helmet title="Opprett interessegruppe" />
         <NavigationTab
-          title="Opprett Gruppe"
+          title="Opprett interessegruppe"
           back={{
             label: 'Tilbake',
             path: '/interest-groups',

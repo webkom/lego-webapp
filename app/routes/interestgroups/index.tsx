@@ -37,7 +37,7 @@ const interestGroupRoute = ({
         />
         <RouteWrapper
           exact
-          path={`${match.path}/:interestGroupId`}
+          path={`${match.path}/:groupId`}
           passedProps={{
             currentUser,
             loggedIn,
@@ -45,7 +45,7 @@ const interestGroupRoute = ({
           Component={InterestGroupDetailRoute}
         />
         <RouteWrapper
-          path={`${match.path}/:interestGroupId/edit`}
+          path={`${match.path}/:groupId/edit`}
           passedProps={{
             currentUser,
             loggedIn,

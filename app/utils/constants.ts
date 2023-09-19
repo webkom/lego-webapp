@@ -34,15 +34,12 @@ export const ROLES = {
 
 export type RoleType = keyof typeof ROLES;
 
-export const roleOptions = Object.keys(ROLES)
+export const roleOptions = (Object.keys(ROLES) as RoleType[])
   .sort()
   .map((role) => ({
     value: role,
     label: ROLES[role],
-  })) as Array<{
-  value: RoleType;
-  label: (typeof ROLES)[RoleType];
-}>;
+  }));
 
 /*
  * Use the production group ID (11) if the ENVIRONMENT environment value is 'production' or 'staging'
