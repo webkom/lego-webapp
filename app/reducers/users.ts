@@ -66,6 +66,15 @@ export const selectUserById = createSelector(
   (usersById, userId) => usersById[userId] || {}
 );
 
+export const selectUsersByIds = createSelector(
+  (state) => state.users.byId,
+  (state, props) => props.userIds, // Note that this is now an array
+  (usersById, userIds) => {
+    if (!userIds) return [];
+    return userIds.map((userId) => usersById[userId] || {});
+  }
+);
+
 export const selectUserByUsername = createSelector(
   (state) => state.users.byId,
   (state, props) => props.username,
