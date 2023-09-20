@@ -1,23 +1,46 @@
 import { Button, Flex } from '@webkom/lego-bricks';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { fetch } from 'app/actions/EmailListActions';
 import Table from 'app/components/Table';
 import Tag from 'app/components/Tags/Tag';
-import { emailListsDefaultQuery } from 'app/routes/admin/email/EmailListsRoute';
+import { selectEmailLists } from 'app/reducers/emailLists';
+import { selectPaginationNext } from 'app/reducers/selectors';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import useQuery from 'app/utils/useQuery';
-import type { History } from 'history';
 
-type Props = {
-  fetching: boolean;
-  hasMore: boolean;
-  emailLists: Array<Record<string, any>>;
-  fetch: (arg0: {
-    query?: Record<string, any>;
-    next?: boolean;
-  }) => Promise<any>;
-  push: History['push'];
+const emailListsDefaultQuery = {
+  name: '',
+  email: '',
+  requireInternalAddress: undefined as undefined | 'true' | 'false',
 };
-const EmailLists = (props: Props) => {
+
+const EmailLists = () => {
   const { query, setQuery } = useQuery(emailListsDefaultQuery);
+
+  const { pagination } = useAppSelector((state) =>
+    selectPaginationNext({
+      endpoint: '/email-lists/',
+      entity: 'emailLists',
+      query,
+    })(state)
+  );
+
+  const emailLists = useAppSelector((state) =>
+    selectEmailLists(state, { pagination })
+  );
+  const fetching = useAppSelector((state) => state.emailLists.fetching);
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(
+      fetch({
+        query,
+      })
+    );
+  }, [dispatch, query]);
+
   const columns = [
     {
       title: 'Navn',
@@ -57,6 +80,7 @@ const EmailLists = (props: Props) => {
         ),
     },
   ];
+
   return (
     <div>
       <p>
@@ -79,19 +103,20 @@ const EmailLists = (props: Props) => {
         </Link>
       </Flex>
       <Table
-        infiniteScroll
         columns={columns}
         onLoad={() => {
-          props.fetch({
-            next: true,
-            query,
-          });
+          dispatch(
+            fetch({
+              next: true,
+              query: query,
+            })
+          );
         }}
         filters={query}
         onChange={setQuery}
-        hasMore={props.hasMore}
-        loading={props.fetching}
-        data={props.emailLists}
+        hasMore={pagination.hasMore}
+        loading={fetching}
+        data={emailLists}
       />
     </div>
   );
