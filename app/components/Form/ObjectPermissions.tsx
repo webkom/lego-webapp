@@ -3,7 +3,7 @@ import Tooltip from 'app/components/Tooltip';
 import type { PublicGroup } from 'app/store/models/Group';
 
 /*
- * Usage inside redux-form:
+ * Usage inside 'redux-form' or 'react-final-form':
  *
  *   <Fields
  *     component={ObjectPermissions}
@@ -18,6 +18,9 @@ import type { PublicGroup } from 'app/store/models/Group';
  * To omit some of the fields, just omit the name in the 'names' prop.
  *
  * You also have to run the values through the 'normalizeObjectPermissions' function below
+ *
+ * With 'react-final-form' you may import Fields from 'app/components/Form/Fields' and
+ * use it the same as you would by importing Fields from 'redux-form'
  *
  * */
 const ObjectPermissions = ({
@@ -103,9 +106,9 @@ export const objectPermissionsToInitialValues = ({
     ?.filter(Boolean)
     .map((user) => ({ ...user, label: user.fullName, value: user.id }));
   return {
-    canEditUsers: canEditUsers ?? {},
-    canEditGroups: canEditGroups ?? {},
-    canViewGroups: canViewGroups ?? {},
+    canEditUsers: canEditUsers ?? [],
+    canEditGroups: canEditGroups ?? [],
+    canViewGroups: canViewGroups ?? [],
   };
 };
 export const objectPermissionsInitialValues = {

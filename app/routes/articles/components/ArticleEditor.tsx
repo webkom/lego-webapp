@@ -1,16 +1,19 @@
 import { Button, Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
+import { Field } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
 import { Form, Fields, Field } from 'redux-form';
 import { Content } from 'app/components/Content';
 import {
   EditorField,
   TextInput,
+  Form,
   TextArea,
   SelectInput,
   CheckBox,
+  Fields,
   ObjectPermissions,
   ImageUploadField,
-  legoForm,
+  LegoFinalForm,
 } from 'app/components/Form';
 import { normalizeObjectPermissions } from 'app/components/Form/ObjectPermissions';
 import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
@@ -64,122 +67,134 @@ const ArticleEditor = ({
         }}
       />
 
-      <Form onSubmit={handleSubmit}>
-        <Field
-          name="cover"
-          component={ImageUploadField}
-          aspectRatio={20 / 6}
-          img={article && article.cover}
-        />
-        <Flex>
-          <Field
-            name="youtubeUrl"
-            label={
-              <Flex>
-                <div>Erstatt cover-bildet med video fra YouTube</div>
-                <div
-                  style={{
-                    marginLeft: '5px',
-                  }}
-                >
-                  <Tooltip content="Valgfritt felt. Videoen erstatter ikke coveret i listen over artikler.">
-                    <Icon name="information-circle-outline" size={20} />
-                  </Tooltip>
-                </div>
-              </Flex>
-            }
-            placeholder="https://www.youtube.com/watch?v=bLHL75H_VEM&t=5"
-            component={TextInput.Field}
-          />
-        </Flex>
-        <Field
-          label="Festet på forsiden"
-          name="pinned"
-          component={CheckBox.Field}
-          normalize={(v) => !!v}
-        />
-        <Field
-          placeholder="Title"
-          name="title"
-          label="Tittel"
-          component={TextInput.Field}
-          id="article-title"
-        />
+      <LegoFinalForm
+        onSubmit={onSubmit}
+        validate={validate}
+        initialValues={initialValues}
+      >
+        {({ handleSubmit, submitting, pristine }) => (
+          <Form onSubmit={handleSubmit}>
+            <Field
+              name="cover"
+              component={ImageUploadField}
+              aspectRatio={20 / 6}
+              img={article && article.cover}
+            />
+            <Flex>
+              <Field
+                name="youtubeUrl"
+                label={
+                  <Flex>
+                    <div>Erstatt cover-bildet med video fra YouTube</div>
+                    <div
+                      style={{
+                        marginLeft: '5px',
+                      }}
+                    >
+                      <Tooltip content="Valgfritt felt. Videoen erstatter ikke coveret i listen over artikler.">
+                        <Icon name="information-circle-outline" size={20} />
+                      </Tooltip>
+                    </div>
+                  </Flex>
+                }
+                placeholder="https://www.youtube.com/watch?v=bLHL75H_VEM&t=5"
+                component={TextInput.Field}
+              />
+            </Flex>
+            <Field
+              label="Festet på forsiden"
+              name="pinned"
+              component={CheckBox.Field}
+              normalize={(v) => !!v}
+            />
+            <Field
+              placeholder="Title"
+              name="title"
+              label="Tittel"
+              component={TextInput.Field}
+              id="article-title"
+            />
 
-        <Field
-          name="tags"
-          label="Tags"
-          filter={['tags.tag']}
-          placeholder="Skriv inn tags"
-          component={SelectInput.AutocompleteField}
-          isMulti
-          tags
-          shouldKeyDownEventCreateNewOption={({
-            keyCode,
-          }: {
-            keyCode: number;
-          }) => keyCode === 32 || keyCode === 13}
-        />
+            <Field
+              name="tags"
+              label="Tags"
+              filter={['tags.tag']}
+              placeholder="Skriv inn tags"
+              component={SelectInput.AutocompleteField}
+              isMulti
+              tags
+              shouldKeyDownEventCreateNewOption={({
+                keyCode,
+              }: {
+                keyCode: number;
+              }) => keyCode === 32 || keyCode === 13}
+            />
 
-        <Field
-          placeholder="Velg forfattere"
-          name="authors"
-          label="Forfattere"
-          component={SelectInput.AutocompleteField}
-          isMulti
-          filter={['users.user']}
-          id="article-title"
-          required
-        />
+            <Field
+              placeholder="Velg forfattere"
+              name="authors"
+              label="Forfattere"
+              component={SelectInput.AutocompleteField}
+              isMulti
+              filter={['users.user']}
+              id="article-title"
+              required
+            />
 
-        <Fields
-          names={[
-            'requireAuth',
-            'canViewGroups',
-            'canEditUsers',
-            'canEditGroups',
-          ]}
-          component={ObjectPermissions}
-        />
-
-        <Field
-          placeholder="En kort beskrivelse av artikkelen"
-          name="description"
-          label="Beskrivelse"
-          component={TextArea.Field}
-          id="article-title"
-        />
-        <Field
-          placeholder="Write your article here..."
-          name="content"
-          label="Content"
-          component={EditorField.Field}
-          initialized={initialized}
-        />
-        <Flex wrap>
-          <Button
-            flat
-            onClick={() => push(`/articles/${isNew ? '' : articleId}`)}
-          >
-            Avbryt
-          </Button>
-          <Button submit>{!isNew ? 'Lagre endringer' : 'Opprett'}</Button>
-          {!isNew && (
-            <ConfirmModal
-              title="Slett artikkelen"
-              message="Er du sikker på at du vil slette artikkelen?"
-              onConfirm={handleDeleteArticle}
+            <Fields
+              names={[
+                'requireAuth',
+                'canViewGroups',
+                'canEditUsers',
+                'canEditGroups',
+              ]}
             >
-              {({ openConfirmModal }) => (
-                <Button onClick={openConfirmModal} danger>
-                  <Icon name="trash" size={19} />
-                  Slett artikkel
-                </Button>
+              {(fieldsState) => <ObjectPermissions {...fieldsState} />}
+            </Fields>
+
+            <Field
+              placeholder="En kort beskrivelse av artikkelen"
+              name="description"
+              label="Beskrivelse"
+              component={TextArea.Field}
+              id="article-title"
+            />
+            <Field
+              placeholder="Write your article here..."
+              name="content"
+              label="Innhold"
+              component={EditorField.Field}
+            />
+            <Flex wrap>
+              <Button
+                flat
+                onClick={() =>
+                  dispatch(push(`/articles/${isNew ? '' : articleId}`))
+                }
+              >
+                Avbryt
+              </Button>
+              <Button submit disabled={submitting || pristine}>
+                {!isNew ? 'Lagre endringer' : 'Opprett'}
+              </Button>
+              {!isNew && (
+                <ConfirmModal
+                  title="Slett artikkelen"
+                  message="Er du sikker på at du vil slette artikkelen?"
+                  onConfirm={handleDeleteArticle}
+                >
+                  {({ openConfirmModal }) => (
+                    <Button onClick={openConfirmModal} danger>
+                      <Icon name="trash" size={19} />
+                      Slett artikkel
+                    </Button>
+                  )}
+                </ConfirmModal>
               )}
-            </ConfirmModal>
-          )}
-        </Flex>
-      </Form>
+            </Flex>
+          </Form>
+        )}
+      </LegoFinalForm>
     </Content>
   );
 };

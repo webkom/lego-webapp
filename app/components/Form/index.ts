@@ -19,3 +19,4 @@ export { withSubmissionError, handleSubmissionError } from './utils';
 export { default as legoForm } from './legoForm';
 export { default as LegoFinalForm } from './LegoFinalForm';
 export { default as ObjectPermissions } from './ObjectPermissions';
+export { default as Fields } from './Fields';
