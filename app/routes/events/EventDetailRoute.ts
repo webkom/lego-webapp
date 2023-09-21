@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { deleteComment } from 'app/actions/CommentActions';
 import {
   fetchEvent,
   deleteEvent,
@@ -161,7 +160,6 @@ const mapDispatchToProps = {
   follow,
   unfollow,
   isUserFollowing,
-  deleteComment,
 };
 
 const propertyGenerator = (props, config) => {

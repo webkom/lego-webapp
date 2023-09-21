@@ -35,6 +35,8 @@ const Quote = ({
   const [deleting, setDeleting] = useState(false);
   const dispatch = useAppDispatch();
 
+  const fetchingEmojis = useAppSelector((state) => state.emojis.fetching);
+
   let mappedEmojis: (Emoji & { hasReacted: boolean; reactionId: ID })[] = [];
 
   if (!fetchingEmojis) {
@@ -139,8 +141,6 @@ const Quote = ({
       <div className={styles.quoteReactions}>
         <Reactions
           emojis={mappedEmojis}
-          fetchEmojis={fetchEmojis}
-          fetchingEmojis={fetchingEmojis}
           contentTarget={quote.contentTarget}
           loggedIn={loggedIn}
         >

@@ -1,6 +1,8 @@
+import { LoadingIndicator } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
 import { useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useNavigate, useParams, Link } from 'react-router-dom-v5-compat';
+import { fetchArticle } from 'app/actions/ArticleActions';
 import CommentView from 'app/components/Comments/CommentView';
 import { Content } from 'app/components/Content';
 import DisplayContent from 'app/components/DisplayContent';
@@ -8,46 +10,123 @@ import LegoReactions from 'app/components/LegoReactions';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import Tags from 'app/components/Tags';
 import Tag from 'app/components/Tags/Tag';
+import {
+  selectArticleByIdOrSlug,
+  selectCommentsForArticle,
+} from 'app/reducers/articles';
+import { selectEmojis } from 'app/reducers/emojis';
+import { selectUsersByIds } from 'app/reducers/users';
 import sharedStyles from 'app/routes/articles/components/Overview.css';
+import { useHelmet, useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './ArticleDetail.css';
-import type { ID } from 'app/models';
-import type {
-  AdminDetailedArticle,
-  DetailedArticle,
-} from 'app/store/models/Article';
-import type Comment from 'app/store/models/Comment';
-import type Emoji from 'app/store/models/Emoji';
-import type { ReactionsGrouped } from 'app/store/models/Reaction';
-import type { CurrentUser, DetailedUser } from 'app/store/models/User';
+import type { DetailedArticle, PublicArticle } from 'app/store/models/Article';
+import type { CurrentUser, PublicUser } from 'app/store/models/User';
+import type Config from 'config/Config';
 
 type Props = {
-  article: DetailedArticle | AdminDetailedArticle;
-  comments: Comment[];
-  loggedIn: boolean;
-  authors: DetailedUser[];
   currentUser: CurrentUser;
-  deleteComment: (id: ID, contentTarget: string) => Promise<void>;
-  emojis: Emoji[];
-  reactionsGrouped: ReactionsGrouped[];
-  fetchEmojis: () => Promise<void>;
-  fetchingEmojis: boolean;
+  loggedIn: boolean;
 };
 
-const ArticleDetail = ({
-  article,
-  authors,
-  loggedIn,
-  currentUser,
-  comments,
-  deleteComment,
-  emojis,
-  fetchEmojis,
-  fetchingEmojis,
-}: Props) => {
-  const history = useHistory();
+const ArticleDetail = ({ currentUser, loggedIn }: Props) => {
+  const { articleIdOrSlug } = useParams();
+  const article = useAppSelector((state) =>
+    selectArticleByIdOrSlug(state, articleIdOrSlug)
+  ) as DetailedArticle | undefined;
+  const articleId = article?.id;
+
+  const comments = useAppSelector((state) =>
+    articleId ? selectCommentsForArticle(state, articleId) : []
+  );
+  const authors = useAppSelector((state) =>
+    selectUsersByIds(state, { userIds: article?.authors ?? [] })
+  );
+  const emojis = useAppSelector((state) => selectEmojis(state));
+
+  const navigate = useNavigate();
   useEffect(() => {
-    history.replace(`/articles/${article.slug}`);
-  }, [article.slug, history]);
+    if (article?.slug && article?.slug !== articleIdOrSlug) {
+      navigate(`/articles/${article.slug}`, { replace: true });
+    }
+  }, [article.slug, navigate, articleIdOrSlug]);
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (articleIdOrSlug) {
+      dispatch(fetchArticle(articleIdOrSlug));
+    }
+  }, [articleIdOrSlug, dispatch]);
+
+  const propertyGenerator = (
+    props: { article: PublicArticle; authors: PublicUser[] },
+    config?: Partial<Config>
+  ) => {
+    if (!props.article) return;
+
+    const tags = props.article.tags.map((content) => ({
+      content,
+      property: 'article:tag',
+    }));
+
+    const authors = props.authors.map((author) => ({
+      property: 'article:authors',
+      content: `${config?.webUrl}/users/${author.username}`,
+    }));
+
+    return [
+      {
+        property: 'og:title',
+        content: props.article.title,
+      },
+      {
+        element: 'title',
+        children: props.article.title,
+      },
+      {
+        element: 'link',
+        rel: 'canonical',
+        href: `${config?.webUrl}/articles/${props.article.id}`,
+      },
+      {
+        property: 'og:type',
+        content: 'article',
+      },
+      {
+        property: 'og:image:width',
+        content: '500',
+      },
+      {
+        property: 'og:image:height',
+        content: '500',
+      },
+      {
+        property: 'og:url',
+        content: `${config?.webUrl}/articles/${props.article.id}`,
+      },
+      {
+        property: 'og:image',
+        content: props.article.cover,
+      },
+      {
+        property: 'article:published_time',
+        content: props.article.createdAt.toString(),
+      },
+      {
+        property: 'og:description',
+        content: props.article.description,
+      },
+      ...authors,
+      ...tags,
+    ];
+  };
+
+  useHelmet(propertyGenerator, { articleIdOrSlug });
+
+  if (!article) {
+    return <LoadingIndicator loading />;
+  }
+
   return (
     <Content
       banner={article.cover}
@@ -94,7 +173,7 @@ const ArticleDetail = ({
       <DisplayContent content={article.content} />
 
       <Tags>
-        {article.tags.map((tag) => (
+        {article.tags?.map((tag) => (
           <Tag tag={tag} key={tag} link={'/articles/?tag=' + tag} />
         ))}
       </Tags>
@@ -102,8 +181,6 @@ const ArticleDetail = ({
       <div className={styles.articleReactions}>
         <LegoReactions
           emojis={emojis}
-          fetchEmojis={fetchEmojis}
-          fetchingEmojis={fetchingEmojis}
           parentEntity={article}
           loggedIn={loggedIn}
         />
@@ -115,7 +192,6 @@ const ArticleDetail = ({
           contentTarget={article.contentTarget}
           loggedIn={loggedIn}
           comments={comments}
-          deleteComment={deleteComment}
           contentAuthors={article.authors}
         />
       )}

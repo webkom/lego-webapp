@@ -4,7 +4,6 @@ import { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom-v5-compat';
 import Select from 'react-select';
-import { fetchEmojis } from 'app/actions/EmojiActions';
 import { fetchAll, fetchQuote } from 'app/actions/QuoteActions';
 import { selectTheme, selectStyles } from 'app/components/Form/SelectInput';
 import { LoginPage } from 'app/components/LoginForm';
@@ -76,6 +75,7 @@ const QuotePage = () => {
   );
 
   const actionGrant = useAppSelector((state) => state.quotes.actionGrant);
+  const emojis = useAppSelector((state) => selectEmojis(state));
 
   useEffect(() => {
     if (quoteId) {
@@ -121,7 +121,7 @@ const QuotePage = () => {
           actionGrant={actionGrant}
           quotes={quotes}
           loggedIn={loggedIn}
-          fetchEmojis={fetchEmojis}
+          emojis={emojis}
         />
       )}
 

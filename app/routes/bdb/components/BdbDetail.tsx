@@ -51,7 +51,6 @@ type Props = {
   fetching: boolean;
   editCompany: (arg0: Record<string, any>) => void;
   deleteCompany: (arg0: number) => Promise<any>;
-  deleteComment: (id: ID, contentTarget: string) => Promise<any>;
   showFetchMoreEvents: boolean;
   fetchMoreEvents: () => Promise<any>;
 };
@@ -156,7 +155,6 @@ export default class BdbDetail extends Component<Props, State> {
       companyEvents,
       fetching,
       deleteCompany,
-      deleteComment,
       showFetchMoreEvents,
       fetchMoreEvents,
     } = this.props;
@@ -508,7 +506,6 @@ export default class BdbDetail extends Component<Props, State> {
             loggedIn={loggedIn}
             comments={comments}
             newOnTop
-            deleteComment={deleteComment}
           />
         )}
       </Content>

@@ -89,6 +89,15 @@ export const selectArticleBySlug = createSelector(
     Object.values(articlesById).find((article) => article?.slug === articleSlug)
 );
 
+export const selectArticleByIdOrSlug = (
+  state: RootState,
+  articleIdOrSlug: string | number
+) => {
+  return isNaN(Number(articleIdOrSlug))
+    ? selectArticleBySlug(state, String(articleIdOrSlug))
+    : selectArticleById(state, articleIdOrSlug);
+};
+
 export const selectCommentsForArticle = createSelector(
   selectArticleById,
   selectCommentEntities,

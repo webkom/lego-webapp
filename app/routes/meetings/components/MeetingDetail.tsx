@@ -53,11 +53,8 @@ type Props = {
   currentUserInvitation: MeetingInvitationWithUser;
   loggedIn: boolean;
   comments: Comment[];
-  deleteComment: (id: ID, contentTarget: ContentTarget) => Promise<void>;
   emojis: Emoji[];
   reactionsGrouped: ReactionsGrouped[];
-  fetchEmojis: () => Promise<void>;
-  fetchingEmojis: boolean;
 };
 
 const UserLink = ({ user }: { user: PublicUser }) =>
@@ -75,10 +72,7 @@ const MeetingDetails = ({
   comments,
   loggedIn,
   currentUserInvitation,
-  deleteComment,
   emojis,
-  fetchEmojis,
-  fetchingEmojis,
   setInvitationStatus,
   meetingInvitations,
 }: Props) => {
@@ -238,8 +232,6 @@ const MeetingDetails = ({
               <div className={styles.meetingReactions}>
                 <LegoReactions
                   emojis={emojis}
-                  fetchEmojis={fetchEmojis}
-                  fetchingEmojis={fetchingEmojis}
                   parentEntity={meeting}
                   loggedIn={loggedIn}
                 />
@@ -249,7 +241,6 @@ const MeetingDetails = ({
                 contentTarget={meeting.contentTarget}
                 loggedIn={loggedIn}
                 comments={comments}
-                deleteComment={deleteComment}
                 contentAuthors={meeting.createdBy}
               />
             </>
