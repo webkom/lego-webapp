@@ -1,7 +1,7 @@
 import { Button, Card, Flex, Icon } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
-import { Component, Fragment, useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Component, Fragment } from 'react';
+import { Link } from 'react-router-dom';
 import mazemapLogo from 'app/assets/mazemap.png';
 import CommentView from 'app/components/Comments/CommentView';
 import {
@@ -124,7 +124,6 @@ type Props = {
     feedback: string
   ) => Promise<any>;
   deleteEvent: (eventId: ID) => Promise<void>;
-  deleteComment: (id: ID, contentTarget: string) => Promise<void>;
 };
 type State = {
   mapIsOpen: boolean;
@@ -197,7 +196,6 @@ export default class EventDetail extends Component<Props, State> {
       penalties,
       follow,
       unfollow,
-      deleteComment,
     } = this.props;
 
     if (!event.id) {
@@ -579,7 +577,6 @@ export default class EventDetail extends Component<Props, State> {
             contentTarget={event.contentTarget}
             loggedIn={loggedIn}
             comments={comments}
-            deleteComment={deleteComment}
             contentAuthors={event.createdBy?.id}
           />
         )}

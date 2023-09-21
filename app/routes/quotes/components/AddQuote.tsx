@@ -108,8 +108,6 @@ const AddQuote = ({ loggedIn }: Props) => {
               {spyValues<FormValues>((values) => (
                 <RandomQuote
                   fetchRandomQuote={() => Promise.resolve()}
-                  fetchEmojis={() => Promise.resolve()}
-                  fetchingEmojis={false}
                   emojis={[]}
                   currentQuote={{
                     id: 1,

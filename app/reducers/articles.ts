@@ -4,9 +4,12 @@ import { mutateComments } from 'app/reducers/comments';
 import { mutateReactions } from 'app/reducers/reactions';
 import { selectUserById } from 'app/reducers/users';
 import { typeable } from 'app/reducers/utils';
-import type { ArticleWithAuthorDetails } from 'app/routes/articles/ArticleListRoute';
 import type { RootState } from 'app/store/createRootReducer';
-import type { PublicArticle, UnknownArticle } from 'app/store/models/Article';
+import type {
+  ArticleWithAuthorDetails,
+  PublicArticle,
+  UnknownArticle,
+} from 'app/store/models/Article';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import joinReducers from 'app/utils/joinReducers';
 import { Article } from '../actions/ActionTypes';
@@ -71,11 +74,13 @@ export const selectArticlesByTag = createSelector(
       tag ? article.tags.indexOf(tag) !== -1 : true
     )
 );
+
 export const selectArticleById = createSelector(
   (state) => state.articles.byId,
   (state, props) => props.articleId,
   (articlesById, articleId) => transformArticle(articlesById[articleId])
 );
+
 export const selectArticleBySlug = createSelector(
   (state) => state.articles.byId,
   (state, props) => props.articleSlug,
@@ -85,6 +90,17 @@ export const selectArticleBySlug = createSelector(
         (article) => article.slug === articleSlug
       )
     )
+);
+
+export const selectArticleByIdOrSlug = createSelector(
+  (state, props) => {
+    const { articleIdOrSlug } = props;
+    if (!isNaN(Number(articleIdOrSlug))) {
+      return selectArticleById(state, { articleId: articleIdOrSlug });
+    }
+    return selectArticleBySlug(state, { articleSlug: articleIdOrSlug });
+  },
+  (article) => article
 );
 
 export const selectCommentsForArticle = createSelector(

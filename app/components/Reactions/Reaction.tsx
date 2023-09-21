@@ -1,5 +1,5 @@
-import cx from 'classnames';
 import { Flex } from '@webkom/lego-bricks';
+import cx from 'classnames';
 import { addReaction, deleteReaction } from 'app/actions/ReactionActions';
 import Emoji from 'app/components/Emoji';
 import Tooltip from 'app/components/Tooltip';

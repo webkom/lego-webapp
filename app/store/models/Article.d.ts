@@ -70,3 +70,7 @@ export type UnknownArticle =
   | AdminDetailedArticle
   | SearchArticle
   | PublicArticle;
+
+export type ArticleWithAuthorDetails = Omit<PublicArticle, 'authors'> & {
+  authors: Array<PublicUser>;
+};

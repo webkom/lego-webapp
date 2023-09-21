@@ -5,9 +5,11 @@ import Tag from 'app/components/Tags/Tag';
 import Time from 'app/components/Time';
 import type { WithDocumentType } from 'app/reducers/frontpage';
 import { isArticle, isEvent } from 'app/reducers/frontpage';
-import type { ArticleWithAuthorDetails } from 'app/routes/articles/ArticleListRoute';
 import { eventTypeToString } from 'app/routes/events/utils';
-import type { PublicArticle } from 'app/store/models/Article';
+import type {
+  ArticleWithAuthorDetails,
+  PublicArticle,
+} from 'app/store/models/Article';
 import type { PublicEvent } from 'app/store/models/Event';
 import truncateString from 'app/utils/truncateString';
 import styles from './Overview.css';

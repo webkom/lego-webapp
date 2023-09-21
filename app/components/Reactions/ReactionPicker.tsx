@@ -1,9 +1,10 @@
+import { Card } from '@webkom/lego-bricks';
 import fuzzy from 'fuzzy';
 import { useMemo, useState, useCallback } from 'react';
-import { Card } from '@webkom/lego-bricks';
 import emojiLoading from 'app/assets/emoji_loading.svg';
 import { Image } from 'app/components/Image';
 import type { EmojiWithReactionData } from 'app/components/LegoReactions';
+import { useAppSelector } from 'app/store/hooks';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 import styles from './ReactionPicker.css';
 import ReactionPickerContent from './ReactionPickerContent';
@@ -11,7 +12,6 @@ import ReactionPickerFooter from './ReactionPickerFooter';
 import ReactionPickerHeader from './ReactionPickerHeader';
 
 type Props = {
-  isLoading: boolean;
   emojis: EmojiWithReactionData[];
   contentTarget: ContentTarget;
 };
@@ -131,7 +131,7 @@ const searchEmojis = (
   return [...matchingEmojis, ...results.map((result) => result.original)];
 };
 
-const ReactionPicker = ({ isLoading, emojis, contentTarget }: Props) => {
+const ReactionPicker = ({ emojis, contentTarget }: Props) => {
   const [activeCategory, setActiveCategory] = useState(null);
   const [searchString, setSearchString] = useState<string>(null);
   const categories = useMemo(() => {
@@ -158,6 +158,7 @@ const ReactionPicker = ({ isLoading, emojis, contentTarget }: Props) => {
     });
     return mappedCategories;
   }, [emojis]);
+
   const searchResults = useMemo(() => {
     if (searchString === null || searchString === '') {
       return null;
@@ -173,6 +174,8 @@ const ReactionPicker = ({ isLoading, emojis, contentTarget }: Props) => {
     (searchString) => setSearchString(searchString.trim().toLowerCase()),
     []
   );
+
+  const isLoading = useAppSelector((state) => state.emojis.fetching);
 
   return (
     <Card className={styles.reactionPicker}>

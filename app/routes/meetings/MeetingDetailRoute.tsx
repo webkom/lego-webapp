@@ -1,8 +1,6 @@
 import qs from 'qs';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { deleteComment } from 'app/actions/CommentActions';
-import { fetchEmojis } from 'app/actions/EmojiActions';
 import {
   fetchMeeting,
   setInvitationStatus,
@@ -36,7 +34,7 @@ const loadMeeting = (
   dispatch
 ) =>
   loggedIn
-    ? Promise.all([dispatch(fetchMeeting(meetingId), dispatch(fetchEmojis()))])
+    ? Promise.all([dispatch(fetchMeeting(meetingId))])
     : Promise.resolve();
 
 const loadData = async (
@@ -88,7 +86,6 @@ const mapStateToProps = (state, props) => {
     meeting,
     currentUser,
     emojis,
-    fetchingEmojis: state.emojis.fetching,
   };
 };
 
@@ -122,8 +119,6 @@ const mapDispatchToProps = {
   fetchMeeting,
   setInvitationStatus,
   resetMeetingsToken,
-  deleteComment,
-  fetchEmojis,
 };
 export default compose(
   withPreparedDispatch('fetchMeetingDetail', loadData, (props) => [

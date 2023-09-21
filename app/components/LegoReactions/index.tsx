@@ -1,13 +1,12 @@
 import Reactions from 'app/components/Reactions';
 import Reaction from 'app/components/Reactions/Reaction';
+import { useAppSelector } from 'app/store/hooks';
 import type { ID } from 'app/store/models';
 import type Emoji from 'app/store/models/Emoji';
 import type { ReactionsGrouped } from 'app/store/models/Reaction';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 
 type Props = {
-  fetchEmojis: () => Promise<void>;
-  fetchingEmojis: boolean;
   emojis: Emoji[];
   parentEntity: {
     contentTarget: ContentTarget;
@@ -22,8 +21,10 @@ export type EmojiWithReactionData = Emoji & {
 };
 
 const LegoReactions = (props: Props) => {
-  const { emojis, fetchEmojis, fetchingEmojis, parentEntity, loggedIn } = props;
+  const { emojis, parentEntity, loggedIn } = props;
   let mappedEmojis: EmojiWithReactionData[] = [];
+
+  const fetchingEmojis = useAppSelector((state) => state.emojis.fetching);
 
   if (!fetchingEmojis) {
     mappedEmojis = emojis.map((emoji) => {
@@ -44,12 +45,10 @@ const LegoReactions = (props: Props) => {
   return (
     <Reactions
       emojis={mappedEmojis}
-      fetchEmojis={fetchEmojis}
-      fetchingEmojis={fetchingEmojis}
       contentTarget={parentEntity.contentTarget}
       loggedIn={loggedIn}
     >
-      {parentEntity.reactionsGrouped.map((reaction) => {
+      {parentEntity.reactionsGrouped?.map((reaction) => {
         return (
           <Reaction
             key={`reaction-${reaction.emoji}`}

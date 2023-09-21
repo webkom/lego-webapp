@@ -1,6 +1,5 @@
 import { Flex, LoadingIndicator } from '@webkom/lego-bricks';
 import CommentForm from 'app/components/CommentForm';
-import type { ID } from 'app/store/models';
 import type Comment from 'app/store/models/Comment';
 import type { ContentAuthors } from 'app/store/models/Comment';
 import type { CurrentUser } from 'app/store/models/User';
@@ -18,7 +17,6 @@ type Props = {
   displayTitle?: boolean;
   style?: CSSProperties;
   newOnTop?: boolean;
-  deleteComment: (id: ID, contentTarget: ContentTarget) => Promise<void>;
   contentAuthors?: ContentAuthors;
 };
 
@@ -35,7 +33,6 @@ const CommentView = (props: Props) => {
     style,
     displayTitle = true,
     newOnTop = false,
-    deleteComment,
     contentAuthors,
   } = props;
   const commentFormProps = {
@@ -60,7 +57,6 @@ const CommentView = (props: Props) => {
             <CommentTree
               comments={newOnTop ? tree.reverse() : tree}
               commentFormProps={commentFormProps}
-              deleteComment={deleteComment}
               user={user}
               contentTarget={contentTarget}
               contentAuthors={contentAuthors}

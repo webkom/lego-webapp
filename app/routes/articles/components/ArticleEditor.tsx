@@ -1,7 +1,15 @@
 import { Button, Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
+import { useEffect } from 'react';
 import { Field } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
-import { Form, Fields, Field } from 'redux-form';
+import { useParams } from 'react-router-dom-v5-compat';
+import { push } from 'redux-first-history';
+import {
+  createArticle,
+  deleteArticle,
+  editArticle,
+  fetchArticle,
+} from 'app/actions/ArticleActions';
 import { Content } from 'app/components/Content';
 import {
   EditorField,
@@ -15,44 +23,124 @@ import {
   ImageUploadField,
   LegoFinalForm,
 } from 'app/components/Form';
-import { normalizeObjectPermissions } from 'app/components/Form/ObjectPermissions';
+import {
+  normalizeObjectPermissions,
+  objectPermissionsToInitialValues,
+} from 'app/components/Form/ObjectPermissions';
+import { LoginPage } from 'app/components/LoginForm';
 import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import NavigationTab from 'app/components/NavigationTab';
 import Tooltip from 'app/components/Tooltip';
+import { selectArticleById } from 'app/reducers/articles';
+import { selectCurrentUser, selectIsLoggedIn } from 'app/reducers/auth';
+import { selectUsersByIds } from 'app/reducers/users';
 import type { EditingEvent } from 'app/routes/events/utils';
-import type { DetailedArticle } from 'app/store/models/Article';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import type { CurrentUser } from 'app/store/models/User';
 import { validYoutubeUrl } from 'app/utils/validation';
-import type { History } from 'history';
 
-export type Props = {
-  article?: DetailedArticle;
-  articleId: number;
+type ValidationError<T> = Partial<{
+  [key in keyof T]: string | Record<string, string>[];
+}>;
+
+type Props = {
   currentUser: CurrentUser;
-  isNew: boolean;
-  handleSubmit: (arg0: Record<string, any>) => void;
-  submitArticle: (arg0: Record<string, any>) => Promise<void>;
-  deleteArticle: (arg0: number) => Promise<void>;
-  push: History['push'];
-  initialized: boolean;
+  loggedIn: boolean;
 };
 
-const ArticleEditor = ({
-  isNew,
-  articleId,
-  handleSubmit,
-  deleteArticle,
-  push,
-  article,
-  initialized,
-}: Props) => {
+const validate = (data) => {
+  const errors: ValidationError<EditingEvent> = {};
+  const [isValidYoutubeUrl, errorMessage = ''] = validYoutubeUrl()(
+    data.youtubeUrl
+  );
+
+  if (!isValidYoutubeUrl) {
+    errors.youtubeUrl = errorMessage;
+  }
+
+  if (!data.authors || data.authors.length === 0) {
+    errors.authors = 'Forfatter er påkrevd';
+  }
+  return errors;
+};
+
+const ArticleEditor = ({ currentUser, loggedIn }: Props) => {
+  const { articleId } = useParams();
+  const isNew = articleId === undefined;
+  const article = useAppSelector((state) =>
+    selectArticleById(state, { articleId })
+  );
+  let authors = useAppSelector((state) =>
+    selectUsersByIds(state, { userIds: article?.authors })
+  );
+  if (authors.length === 0) {
+    authors = [currentUser];
+  }
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (articleId) {
+      dispatch(fetchArticle(articleId));
+    }
+  }, [articleId, dispatch]);
+
+  const initialValues = {
+    ...article,
+    ...objectPermissionsToInitialValues({
+      canViewGroups: article?.canViewGroups,
+      canEditGroups: article?.canEditGroups,
+      canEditUsers: article?.canEditUsers,
+    }),
+    content: article?.content || '',
+    authors: authors
+      .filter(Boolean)
+      .map((user) => ({ ...user, label: user.fullName, value: user.id })),
+    tags: (article?.tags || []).map((tag) => ({
+      label: tag,
+      value: tag,
+    })),
+  };
+
+  if (!loggedIn) {
+    return LoginPage;
+  }
+
   if (!isNew && (!article || !article.content)) {
     return <LoadingIndicator loading />;
   }
 
+  const onSubmit = (data) => {
+    const body = {
+      ...(isNew
+        ? {}
+        : {
+            id: articleId,
+          }),
+      ...(data.cover
+        ? {
+            cover: data.cover,
+          }
+        : {}),
+      ...normalizeObjectPermissions(data),
+      authors: data.authors.map((e) => e.value),
+      youtubeUrl: data.youtubeUrl,
+      title: data.title,
+      description: data.description,
+      content: data.content,
+      tags: (data.tags || []).map((tag) => tag.value.toLowerCase()),
+      pinned: data.pinned,
+    };
+
+    if (isNew) {
+      return dispatch(createArticle(body));
+    }
+    return dispatch(editArticle(body));
+  };
+
   const handleDeleteArticle = async () => {
-    await deleteArticle(articleId).then(() => {
-      push('/articles/');
+    await dispatch(deleteArticle(articleId)).then(() => {
+      dispatch(push('/articles/'));
     });
   };
 
@@ -164,6 +252,7 @@ const ArticleEditor = ({
               name="content"
               label="Innhold"
               component={EditorField.Field}
+              initialized={!!article}
             />
             <Flex wrap>
               <Button
@@ -199,59 +288,4 @@ const ArticleEditor = ({
   );
 };
 
-const onSubmit = (
-  data,
-  dispatch,
-  { currentUser, isNew, articleId, submitArticle }: Props
-) => {
-  const body = {
-    ...(isNew
-      ? {}
-      : {
-          id: articleId,
-        }),
-    ...(data.cover
-      ? {
-          cover: data.cover,
-        }
-      : {}),
-    ...normalizeObjectPermissions(data),
-    authors: data.authors.map((e) => e.value),
-    youtubeUrl: data.youtubeUrl,
-    title: data.title,
-    description: data.description,
-    content: data.content,
-    tags: (data.tags || []).map((tag) => tag.value.toLowerCase()),
-    pinned: data.pinned,
-  };
-
-  return submitArticle(body);
-};
-
-type ValidationError<T> = Partial<{
-  [key in keyof T]: string | Record<string, string>[];
-}>;
-
-const validate = (data) => {
-  const errors: ValidationError<EditingEvent> = {};
-  const [isValidYoutubeUrl, errorMessage = ''] = validYoutubeUrl()(
-    data.youtubeUrl
-  );
-
-  if (!isValidYoutubeUrl) {
-    errors.youtubeUrl = errorMessage;
-  }
-
-  if (!data.authors || data.authors.length === 0) {
-    errors.authors = 'Forfatter er påkrevd';
-  }
-  return errors;
-};
-
-export default legoForm({
-  destroyOnUnmount: false,
-  form: 'article',
-  validate,
-  enableReinitialize: true,
-  onSubmit,
-})(ArticleEditor);
+export default ArticleEditor;

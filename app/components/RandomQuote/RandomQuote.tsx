@@ -9,8 +9,6 @@ import styles from './RandomQuote.css';
 
 type Props = {
   fetchRandomQuote: (seen: ID[]) => Promise<void>;
-  fetchEmojis: () => Promise<void>;
-  fetchingEmojis: boolean;
   emojis: Emoji[];
   currentQuote: Quote;
   loggedIn: boolean;
@@ -20,8 +18,6 @@ type Props = {
 const RandomQuote = ({
   fetchRandomQuote,
   emojis,
-  fetchEmojis,
-  fetchingEmojis,
   currentQuote,
   loggedIn,
   useReactions = true,
@@ -66,8 +62,6 @@ const RandomQuote = ({
         <div className={styles.quoteReactions}>
           <LegoReactions
             emojis={emojis}
-            fetchEmojis={fetchEmojis}
-            fetchingEmojis={fetchingEmojis}
             parentEntity={currentQuote}
             loggedIn={loggedIn}
           />

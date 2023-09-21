@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { push } from 'redux-first-history';
-import { deleteComment } from 'app/actions/CommentActions';
 import { updateGalleryCover, fetchGallery } from 'app/actions/GalleryActions';
 import {
   fetchSiblingGallerPicture,
@@ -73,7 +72,6 @@ const mapDispatchToProps = {
   deletePicture,
   updateGalleryCover,
   fetchSiblingGallerPicture,
-  deleteComment,
 };
 
 const propertyGenerator = (props, config) => {

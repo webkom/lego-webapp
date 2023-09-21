@@ -11,6 +11,7 @@ import type { ID } from 'app/store/models';
 import type Emoji from 'app/store/models/Emoji';
 import type QuoteType from 'app/store/models/Quote';
 import styles from './Quotes.css';
+import { useAppSelector } from 'app/store/hooks';
 
 type Props = {
   quote: QuoteType;
@@ -18,8 +19,6 @@ type Props = {
   toggleDisplayAdmin: () => void;
   displayAdmin: boolean;
   loggedIn: boolean;
-  fetchEmojis: () => Promise<void>;
-  fetchingEmojis: boolean;
   emojis: Emoji[];
 };
 
@@ -29,13 +28,13 @@ const Quote = ({
   toggleDisplayAdmin,
   displayAdmin,
   emojis,
-  fetchEmojis,
-  fetchingEmojis,
   loggedIn,
 }: Props) => {
   const [deleting, setDeleting] = useState(false);
 
   const dispatch = useAppDispatch();
+
+  const fetchingEmojis = useAppSelector((state) => state.emojis.fetching);
 
   let mappedEmojis: (Emoji & { hasReacted: boolean; reactionId: ID })[] = [];
 
@@ -141,8 +140,6 @@ const Quote = ({
       <div className={styles.quoteReactions}>
         <Reactions
           emojis={mappedEmojis}
-          fetchEmojis={fetchEmojis}
-          fetchingEmojis={fetchingEmojis}
           contentTarget={quote.contentTarget}
           loggedIn={loggedIn}
         >

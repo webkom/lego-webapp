@@ -15,9 +15,6 @@ import { selectGroup } from 'app/reducers/groups';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { createValidator, required } from 'app/utils/validation';
 import styles from './index.css';
-import type { FormProps } from 'redux-form';
-
-type Props = FormProps;
 
 const validate = createValidator({
   name: [required()],
@@ -25,7 +22,7 @@ const validate = createValidator({
 });
 const logoValidator = (value) => (value ? undefined : 'Bilde er påkrevd');
 
-const GroupSettings = ({ submitting, invalid, initialized }: Props) => {
+const GroupSettings = () => {
   const { groupId } = useParams();
   const group = useAppSelector((state) => selectGroup(state, { groupId }));
 
@@ -43,7 +40,7 @@ const GroupSettings = ({ submitting, invalid, initialized }: Props) => {
       validate={validate}
       initialValues={group}
     >
-      {({ handleSubmit }) => (
+      {({ handleSubmit, submitting, pristine }) => (
         <Form onSubmit={handleSubmit}>
           <Field
             label="Gruppenavn"
@@ -86,7 +83,7 @@ const GroupSettings = ({ submitting, invalid, initialized }: Props) => {
             placeholder="Vil du strikke din egen lue? Eller har du allerede […]"
             name="text"
             component={EditorField.Field}
-            initialized={initialized}
+            initialized={!!group}
           />
           <Field
             name="logo"
@@ -98,7 +95,7 @@ const GroupSettings = ({ submitting, invalid, initialized }: Props) => {
             validate={(value) => isNew && logoValidator(value)}
             required
           />
-          <Button disabled={invalid || submitting} submit>
+          <Button disabled={submitting || pristine} submit>
             {isNew ? 'Opprett gruppe' : 'Lagre endringer'}
           </Button>
         </Form>
