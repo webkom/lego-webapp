@@ -8,11 +8,12 @@ import { selectUserById } from 'app/reducers/users';
 import { typeable } from 'app/reducers/utils';
 import { EntityType } from 'app/store/models/entities';
 import createLegoAdapter from 'app/utils/legoAdapter/createLegoAdapter';
-import type { ArticleWithAuthorDetails } from 'app/routes/articles/ArticleListRoute';
 import type { RootState } from 'app/store/createRootReducer';
 import type { PublicArticle, UnknownArticle } from 'app/store/models/Article';
+import type { PublicUser } from 'app/store/models/User';
 import type { Pagination } from 'app/utils/legoAdapter/buildPaginationReducer';
 import type { Selector } from 'reselect';
+import type { Overwrite } from 'utility-types';
 
 const legoAdapter = createLegoAdapter(EntityType.Articles, {
   sortComparer: (a, b) => moment(a.createdAt).diff(moment(b.createdAt)),
@@ -55,6 +56,10 @@ export const selectArticles = typeable(
   )
 );
 
+export type ArticleWithAuthorDetails = Overwrite<
+  PublicArticle,
+  { authors: PublicUser[] }
+>;
 export const selectArticlesWithAuthorDetails: Selector<
   RootState,
   ArticleWithAuthorDetails[],
@@ -88,6 +93,15 @@ export const selectArticleBySlug = createSelector(
   (articlesById, articleSlug) =>
     Object.values(articlesById).find((article) => article?.slug === articleSlug)
 );
+
+export const selectArticleByIdOrSlug = (
+  state: RootState,
+  articleIdOrSlug: string | number
+) => {
+  return isNaN(Number(articleIdOrSlug))
+    ? selectArticleBySlug(state, String(articleIdOrSlug))
+    : selectArticleById(state, articleIdOrSlug);
+};
 
 export const selectCommentsForArticle = createSelector(
   selectArticleById,

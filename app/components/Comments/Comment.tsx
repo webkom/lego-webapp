@@ -1,14 +1,15 @@
 import { Button, Flex, Icon } from '@webkom/lego-bricks';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { deleteComment } from 'app/actions/CommentActions';
 import CommentForm from 'app/components/CommentForm';
 import DisplayContent from 'app/components/DisplayContent';
 import { ProfilePicture } from 'app/components/Image';
 import { Tag } from 'app/components/Tags';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
+import { useAppDispatch } from 'app/store/hooks';
 import styles from './Comment.css';
-import type { ID } from 'app/store/models';
 import type CommentType from 'app/store/models/Comment';
 import type { ContentAuthors } from 'app/store/models/Comment';
 import type { CurrentUser } from 'app/store/models/User';
@@ -21,7 +22,6 @@ type Props = {
     user: CurrentUser;
     loggedIn: boolean;
   };
-  deleteComment: (id: ID, contentTarget: ContentTarget) => Promise<void>;
   user: CurrentUser;
   contentTarget: ContentTarget;
   contentAuthors?: ContentAuthors;
@@ -31,12 +31,13 @@ const Comment = ({
   comment,
   contentTarget,
   commentFormProps,
-  deleteComment,
   user,
   contentAuthors,
 }: Props) => {
   const [replyOpen, setReplyOpen] = useState(false);
   const { createdAt, text, author } = comment;
+
+  const dispatch = useAppDispatch();
 
   return (
     <>
@@ -72,7 +73,9 @@ const Comment = ({
                     danger
                     name="trash"
                     size={20}
-                    onClick={() => deleteComment(comment.id, contentTarget)}
+                    onClick={() =>
+                      dispatch(deleteComment(comment.id, contentTarget))
+                    }
                   />
                 </Tooltip>
               </Flex>

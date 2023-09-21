@@ -1,7 +1,6 @@
 import cx from 'classnames';
 import Comment from './Comment';
 import styles from './CommentTree.css';
-import type { ID } from 'app/store/models';
 import type CommentType from 'app/store/models/Comment';
 import type { ContentAuthors } from 'app/store/models/Comment';
 import type { CurrentUser } from 'app/store/models/User';
@@ -17,7 +16,6 @@ type Props = {
     loggedIn: boolean;
   };
   level?: number;
-  deleteComment: (id: ID, contentTarget: ContentTarget) => Promise<void>;
   user: CurrentUser;
   contentTarget: ContentTarget;
   contentAuthors?: ContentAuthors;
@@ -28,7 +26,6 @@ function CommentTree({
   isChild = false,
   commentFormProps,
   level = 0,
-  deleteComment,
   user,
   contentTarget,
   contentAuthors,
@@ -46,7 +43,6 @@ function CommentTree({
           <Comment
             comment={comment}
             commentFormProps={commentFormProps}
-            deleteComment={deleteComment}
             user={user}
             contentTarget={contentTarget}
             contentAuthors={contentAuthors}
@@ -57,7 +53,6 @@ function CommentTree({
             isChild
             level={level + 1}
             commentFormProps={commentFormProps}
-            deleteComment={deleteComment}
             user={user}
             contentTarget={contentTarget}
             contentAuthors={contentAuthors}
@@ -72,7 +67,6 @@ function CommentTree({
           key={comment.id}
           comment={comment}
           commentFormProps={commentFormProps}
-          deleteComment={deleteComment}
           user={user}
           contentTarget={contentTarget}
           contentAuthors={contentAuthors}

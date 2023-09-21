@@ -1,64 +1,53 @@
-import { Route, Switch } from 'react-router-dom';
+import { useRouteMatch, Route, Switch } from 'react-router-dom';
 import RouteWrapper from 'app/components/RouteWrapper';
 import { UserContext } from 'app/routes/app/AppRoute';
+import Overview from 'app/routes/articles/components/Overview';
 import PageNotFound from '../pageNotFound';
-import ArticleCreateRoute from './ArticleCreateRoute';
-import ArticleDetailRoute from './ArticleDetailRoute';
-import ArticleEditRoute from './ArticleEditRoute';
-import ArticleListRoute from './ArticleListRoute';
+import ArticleDetail from './components/ArticleDetail';
+import ArticleEditor from './components/ArticleEditor';
 
-const articleRoute = ({
-  match,
-}: {
-  match: {
-    path: string;
-  };
-}) => (
-  <UserContext.Consumer>
-    {({ currentUser, loggedIn }) => (
-      <Switch>
-        <RouteWrapper
-          exact
-          path={`${match.path}`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={ArticleListRoute}
-        />
-        <RouteWrapper
-          exact
-          path={`${match.path}/new`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={ArticleCreateRoute}
-        />
-        <RouteWrapper
-          exact
-          path={`${match.path}/:articleIdOrSlug`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={ArticleDetailRoute}
-        />
-        <RouteWrapper
-          exact
-          path={`${match.path}/:articleId/edit`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={ArticleEditRoute}
-        />
-        <Route component={PageNotFound} />
-      </Switch>
-    )}
-  </UserContext.Consumer>
-);
+const ArticleRoute = () => {
+  const { path } = useRouteMatch();
+
+  return (
+    <UserContext.Consumer>
+      {({ currentUser, loggedIn }) => (
+        <Switch>
+          <Route exact path={path} component={Overview} />
+          <RouteWrapper
+            exact
+            path={`${path}/new`}
+            passedProps={{
+              currentUser,
+              loggedIn,
+            }}
+            Component={ArticleEditor}
+          />
+          <RouteWrapper
+            exact
+            path={`${path}/:articleIdOrSlug`}
+            passedProps={{
+              currentUser,
+              loggedIn,
+            }}
+            Component={ArticleDetail}
+          />
+          <RouteWrapper
+            exact
+            path={`${path}/:articleId/edit`}
+            passedProps={{
+              currentUser,
+              loggedIn,
+            }}
+            Component={ArticleEditor}
+          />
+          <Route component={PageNotFound} />
+        </Switch>
+      )}
+    </UserContext.Consumer>
+  );
+};
 
 export default function Articles() {
-  return <Route path="/articles" component={articleRoute} />;
+  return <Route path="/articles" component={ArticleRoute} />;
 }
