@@ -1,6 +1,11 @@
-import { Button, Card } from '@webkom/lego-bricks';
+import { Button, Card, LoadingIndicator } from '@webkom/lego-bricks';
+import { isEmpty } from 'lodash';
+import { useEffect } from 'react';
 import { Field } from 'react-final-form';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom-v5-compat';
+import { sendContactMessage } from 'app/actions/ContactActions';
+import { fetchAllWithType, fetchGroup } from 'app/actions/GroupActions';
+import { addToast } from 'app/actions/ToastActions';
 import {
   Form,
   TextInput,
@@ -10,16 +15,12 @@ import {
   SelectInput,
   LegoFinalForm,
 } from 'app/components/Form';
+import { GroupType } from 'app/models';
+import { selectIsLoggedIn } from 'app/reducers/auth';
+import { selectGroup, selectGroupsWithType } from 'app/reducers/groups';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { isNotNullish } from 'app/utils';
 import { createValidator, maxLength, required } from 'app/utils/validation';
-import type { Group } from 'app/models';
-import type { ContactForm as ContactFormType } from 'app/reducers/contact';
-
-type Props = {
-  sendContactMessage: (message: ContactFormType) => Promise<any>;
-  addToast: (arg0: { message: string }) => void;
-  loggedIn: boolean;
-  groups: Array<Group>;
-};
 
 const validate = createValidator({
   recipient_group: [required()],
@@ -28,23 +29,57 @@ const validate = createValidator({
   captchaResponse: [required('Captcha er ikke validert')],
 });
 
-const ContactForm = ({ groups, ...props }: Props) => {
+const commiteeGroupType = GroupType.Committee;
+const revueBoardGroupId = 59;
+
+const ContactForm = () => {
+  const commitees = useAppSelector((state) =>
+    selectGroupsWithType(state, {
+      groupType: commiteeGroupType,
+    })
+  );
+  const revueBoard = useAppSelector((state) =>
+    selectGroup(state, {
+      groupId: revueBoardGroupId,
+    })
+  );
+  const groups = [...commitees, revueBoard].filter(isNotNullish);
+
+  const loggedIn = useAppSelector((state) => selectIsLoggedIn(state));
+  const fetching = useAppSelector((state) => state.groups.fetching);
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchAllWithType(commiteeGroupType));
+    dispatch(fetchGroup(revueBoardGroupId));
+  }, [dispatch]);
+
+  if (isEmpty(groups) || fetching) {
+    return <LoadingIndicator loading />;
+  }
+
   const onSubmit = (data, form) => {
-    return props
-      .sendContactMessage({
+    dispatch(
+      sendContactMessage({
         ...data,
         recipient_group: data.recipient_group.value,
       })
+    )
       .then(() => {
         form.reset();
-        return props.addToast({
-          message: 'Melding er sendt.',
-        });
+        dispatch(
+          addToast({
+            message: 'Melding er sendt.',
+          })
+        );
       })
       .catch(() =>
-        props.addToast({
-          message: 'Kunne ikke sende melding.',
-        })
+        dispatch(
+          addToast({
+            message: 'Kunne ikke sende melding.',
+          })
+        )
       );
   };
 
@@ -62,7 +97,7 @@ const ContactForm = ({ groups, ...props }: Props) => {
       onSubmit={onSubmit}
       validate={validate}
       initialValues={{
-        anonymous: !props.loggedIn,
+        anonymous: !loggedIn,
       }}
       validateOnSubmitOnly
     >
@@ -133,7 +168,7 @@ const ContactForm = ({ groups, ...props }: Props) => {
             den grunn kan ikke ønsker om innsyn sendes inn anonymt.
           </p>
 
-          {!props.loggedIn && (
+          {!loggedIn && (
             <b>Du er ikke logget inn, så din melding vil være anonym.</b>
           )}
 
@@ -142,8 +177,8 @@ const ContactForm = ({ groups, ...props }: Props) => {
             name="anonymous"
             component={CheckBox.Field}
             type="checkbox"
-            readOnly={!props.loggedIn}
-            disabled={!props.loggedIn}
+            readOnly={!loggedIn}
+            disabled={!loggedIn}
             parse={(v) => !!v}
           />
 
