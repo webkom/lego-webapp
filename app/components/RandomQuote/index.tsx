@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { fetchEmojis } from 'app/actions/EmojiActions';
 import { fetchRandomQuote } from 'app/actions/QuoteActions';
 import { selectEmojis } from 'app/reducers/emojis';
 import { selectRandomQuote } from 'app/reducers/quotes';
@@ -14,7 +13,6 @@ function mapStateToProps(state, props) {
   return {
     loggedIn: props.loggedIn,
     emojis,
-    fetchingEmojis: state.emojis.fetching,
     fetching: state.quotes.fetching,
     currentQuote,
   };
@@ -22,7 +20,6 @@ function mapStateToProps(state, props) {
 
 const mapDispatchToProps = {
   fetchRandomQuote,
-  fetchEmojis,
 };
 
 const LoginToSeeQuotes = () => <div>Logg inn for å se sitater.</div>;
