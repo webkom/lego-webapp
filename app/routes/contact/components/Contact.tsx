@@ -8,8 +8,6 @@ import type { FormProps } from 'redux-form';
 type Props = {
   sendContactMessage: (message: ContactFormType) => Promise<any>;
   addToast: (arg0: { message: string }) => void;
-  reset: (form?: string) => void;
-  change: (field: string, value: boolean) => void;
   loggedIn: boolean;
   groups: Array<Group>;
 } & FormProps;
