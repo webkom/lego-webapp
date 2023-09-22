@@ -23,13 +23,14 @@ const validate = createValidator({
 const AddGroupPermission = ({ group }: Props) => {
   const dispatch = useAppDispatch();
 
-  const handleSubmit = async (values, form) => {
+  const handleSubmit = (values, form) => {
     const updatedGroup = {
       ...group,
       permissions: group.permissions.concat(values.permission),
     };
-    await dispatch(editGroup(updatedGroup));
-    form.reset();
+    dispatch(editGroup(updatedGroup)).then(() => {
+      form.reset();
+    });
   };
 
   return (
