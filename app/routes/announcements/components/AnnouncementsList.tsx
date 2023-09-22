@@ -18,10 +18,6 @@ type Props = {
     announcement: DetailedAnnouncement & { send: boolean }
   ) => Promise<unknown>;
   deleteAnnouncement: (id: ID) => Promise<unknown>;
-  handleSubmit: (arg0: (...args: Array<any>) => any) => void;
-  invalid: string;
-  pristine: string;
-  submitting: string;
 };
 
 const AnnouncementsList = ({
@@ -30,10 +26,6 @@ const AnnouncementsList = ({
   deleteAnnouncement,
   announcements,
   actionGrant,
-  handleSubmit,
-  invalid,
-  pristine,
-  submitting,
 }: Props) => {
   return (
     <Content>

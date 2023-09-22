@@ -14,10 +14,6 @@ const questionStrings = {
   multiple: 'multiple_choice',
   text: 'text_field',
 };
-const displayTypeStrings = {
-  bar_chart: 'bar_chart',
-  pie_chart: 'pie_chart',
-};
 export const QuestionTypes = (choice: string) => {
   return questionStrings[choice] || questionStrings[0];
 };
@@ -29,22 +25,9 @@ export const PresentableQuestionType = (choice: string) => {
   };
   return questionTypeToString[choice] || questionTypeToString[0];
 };
-export const DisplayTypes = (choice: string) => {
-  return displayTypeStrings[choice] || displayTypeStrings[0];
-};
-export const PresentableDisplayTypes = (choice: string) => {
-  return displayTypeStrings[choice] || displayTypeStrings[0];
-};
 export const mappings = Object.keys(questionStrings).map((key) => ({
   value: questionStrings[key],
   label: PresentableQuestionType(questionStrings[key]),
-})) as Array<{
-  value: string;
-  label: string;
-}>;
-export const graphMappings = Object.keys(displayTypeStrings).map((key) => ({
-  value: displayTypeStrings[key],
-  label: PresentableDisplayTypes(displayTypeStrings[key]),
 })) as Array<{
   value: string;
   label: string;
@@ -132,7 +115,7 @@ export const QuestionTypeOption = ({ iconName, option, ...props }: any) => (
     </span>
   </div>
 );
-export const QuestionTypeValue = ({ iconName, option, ...props }: any) => (
+export const QuestionTypeValue = ({ iconName, ...props }) => (
   <div
     className={cx(styles.dropdownSelected, styles.dropdown)}
     onMouseDown={(event) => {

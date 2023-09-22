@@ -1,4 +1,3 @@
-import { Button } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { flatMap } from 'lodash';
 import { useState, useMemo } from 'react';

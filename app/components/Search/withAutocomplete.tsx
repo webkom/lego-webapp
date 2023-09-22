@@ -81,7 +81,7 @@ function withAutocomplete<Props>({
     };
 
     render() {
-      const { filter, autocomplete, ...restProps } = this.props;
+      const { filter, ...restProps } = this.props;
       return (
         <WrappedComponent
           {...(restProps as Props)}

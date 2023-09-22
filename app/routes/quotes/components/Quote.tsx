@@ -1,8 +1,6 @@
-import { Button } from '@webkom/lego-bricks';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Dropdown from 'app/components/Dropdown';
-import Icon from 'app/components/Icon';
 import Reactions from 'app/components/Reactions';
 import Reaction from 'app/components/Reactions/Reaction';
 import Time from 'app/components/Time';
@@ -53,7 +51,6 @@ const Quote = ({
   loggedIn,
 }: Props) => {
   const [deleting, setDeleting] = useState(false);
-  const [showReactions, setShowReactions] = useState(false);
 
   let mappedEmojis: (Emoji & { hasReacted: boolean; reactionId: ID })[] = [];
 

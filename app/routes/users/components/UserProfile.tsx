@@ -234,7 +234,6 @@ const UserProfile = (props: Props) => {
     loading,
     previousEvents,
     upcomingEvents,
-    addPenalty,
     deletePenalty,
     penalties,
     canDeletePenalties,

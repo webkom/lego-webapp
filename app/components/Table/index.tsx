@@ -171,7 +171,7 @@ export default class Table extends Component<Props, State> {
 
     const cellData = get(data, column.dataIndex);
     const {
-      render = (cellData, data) => cellData,
+      render = (cellData) => cellData,
       dataIndex,
       centered = true,
     } = column;

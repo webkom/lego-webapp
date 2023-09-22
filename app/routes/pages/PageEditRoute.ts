@@ -31,9 +31,7 @@ function mapStateToProps(state, props) {
     initialValues: {
       ...page,
       ...objectPermissionsToInitialValues(page),
-      category: categoryOptions.find(
-        ({ value, label }) => value === page.category
-      ),
+      category: categoryOptions.find(({ value }) => value === page.category),
     },
   };
 }

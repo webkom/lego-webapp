@@ -82,6 +82,8 @@ app.use((req, res) => {
   });
 });
 app.use(Sentry.Handlers.errorHandler());
+// Express uses number of args to determine if this is an error handler
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((err, req, res, next) => {
   log.error(err, 'internal_error');
   res.statusCode = 500;

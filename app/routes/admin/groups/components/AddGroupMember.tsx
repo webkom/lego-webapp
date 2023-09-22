@@ -8,17 +8,16 @@ import { createValidator, required } from 'app/utils/validation';
 import type { FormProps } from 'redux-form';
 
 type Props = FormProps & {
-  groupId: number;
   addMember: (arg0: AddMemberArgs) => Promise<any>;
 };
-const roles = Object.keys(ROLES)
+const roles = (Object.keys(ROLES) as (keyof typeof ROLES)[])
   .sort()
   .map((role: RoleType) => ({
     value: role,
     label: ROLES[role],
   }));
 
-const AddGroupMember = ({ submitting, groupId, handleSubmit }: Props) => {
+const AddGroupMember = ({ submitting, handleSubmit }: Props) => {
   return (
     <Form onSubmit={handleSubmit}>
       <h3>Legg til ny bruker</h3>

@@ -25,7 +25,6 @@ const ObjectPermissions = ({
   canEditGroups,
   canViewGroups,
   requireAuth,
-  ...props
 }: {
   canEditUsers?: PublicGroup[];
   canEditGroups?: PublicGroup[];
@@ -79,7 +78,6 @@ export const normalizeObjectPermissions = ({
   canViewGroups: initialCanViewGroups,
   canEditGroups: initialCanEditGroups,
   canEditUsers: initialCanEditUsers,
-  currentUser: currentUser,
 }: Record<string, any>) => {
   return {
     requireAuth: !!requireAuth,

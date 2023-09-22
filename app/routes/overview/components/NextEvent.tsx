@@ -21,7 +21,7 @@ class EventItem extends Component<Props, State> {
   state = {
     time: this.constructor.generateTime(this.props),
   };
-  interval: IntervalID;
+  interval?: ReturnType<typeof setInterval>;
 
   static generateTime(props: Props) {
     const now = moment();
@@ -32,7 +32,7 @@ class EventItem extends Component<Props, State> {
     return isTomorrow ? 'i morgen' : time;
   }
 
-  updateTime(props) {
+  updateTime() {
     this.setState({
       time: EventItem.generateTime(this.props),
     });

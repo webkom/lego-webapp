@@ -14,7 +14,7 @@ const mapDispatchToProps = {
   handleSubmitCallback: (group) => createGroup({ ...group, type: 'interesse' }),
 };
 
-const mapStateToProps = (state, props) => {
+const mapStateToProps = (state) => {
   const valueSelector = formValueSelector('interestGroupEditor');
   return {
     initialValues: {

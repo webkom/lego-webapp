@@ -18,7 +18,7 @@ const validate = createValidator({
 });
 const groupType = GroupType.Committee;
 
-const mapStateToProps = (state, props) => {
+const mapStateToProps = (state) => {
   const groups = selectGroupsWithType(state, {
     groupType,
   });

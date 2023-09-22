@@ -19,9 +19,7 @@ type Props = {
 } & FormProps;
 
 const AdminRegister = ({
-  eventId,
   handleSubmit,
-  adminRegister,
   pools,
   invalid,
   pristine,
@@ -113,7 +111,7 @@ const onSubmit = (
     feedback: string;
     adminRegistrationReason: string;
   },
-  dispatch,
+  _,
   { reset, eventId, adminRegister }: Props
 ) =>
   adminRegister(

@@ -21,7 +21,7 @@ import GalleryDetail from './components/GalleryDetail';
 const loadData = ({ match: { params } }, dispatch) =>
   Promise.all([
     dispatch(fetch(params.galleryId)).catch(),
-    dispatch(fetchGallery(params.galleryId)).catch((err) =>
+    dispatch(fetchGallery(params.galleryId)).catch(() =>
       dispatch(fetchGalleryMetadata(params.galleryId))
     ),
   ]);

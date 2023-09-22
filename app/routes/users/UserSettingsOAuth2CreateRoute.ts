@@ -12,7 +12,7 @@ const validate = createValidator({
   redirectUris: [required()],
 });
 
-const mapStateToProps = (state) => {
+const mapStateToProps = () => {
   return {
     create: true,
   };

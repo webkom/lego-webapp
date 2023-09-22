@@ -1,6 +1,5 @@
 import cx from 'classnames';
 import { useRef, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import Card from 'app/components/Card';
 import Icon from 'app/components/Icon';
 import { Flex } from 'app/components/Layout';

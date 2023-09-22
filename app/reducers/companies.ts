@@ -51,7 +51,6 @@ export type BaseCompanyEntity = {
   paymentMail?: string;
   active?: boolean;
   adminComment?: string;
-  companyType?: string;
   contentTarget: ContentTarget;
   comments: Array<{
     id: string;
@@ -190,8 +189,7 @@ const selectSemesterStatuses = (semesterStatuses, companySemesters) =>
 export const selectCompanyById = createSelector(
   selectCompanies,
   (state, props) => props.companyId,
-  (state, props) => state.users,
-  (companies, companyId, users) => {
+  (companies, companyId) => {
     const company = companies.find((company) => company.id === companyId);
     return company || {};
   }

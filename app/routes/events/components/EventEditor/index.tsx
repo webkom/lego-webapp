@@ -62,13 +62,11 @@ type Props = {
   error?: Record<string, any>;
   loading: boolean;
   pools: EventPool[];
-  registrations: EventRegistration[];
   waitingRegistrations: EventRegistration[];
   isUserInterested: boolean;
   handleSubmit: FormEventHandler;
   handleSubmitCallback: (arg0: any) => Promise<any>;
   uploadFile: () => Promise<any>;
-  setCoverPhoto: (arg0: number, arg1: string) => void;
   deleteEvent: (eventId: ID) => Promise<any>;
   submitting: boolean;
   pristine: boolean;
@@ -85,10 +83,8 @@ function EventEditor({
   actionGrant,
   error,
   pools,
-  registrations,
   handleSubmit,
   uploadFile,
-  setCoverPhoto,
   deleteEvent,
   submitting,
   pristine,
