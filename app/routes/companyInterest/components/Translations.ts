@@ -1,3 +1,5 @@
+import type { CompanyInterestCompanyType } from 'app/reducers/companyInterest';
+
 export const EVENTS = {
   company_presentation: {
     norwegian: 'Bedriftspresentasjon',
