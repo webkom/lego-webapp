@@ -1,10 +1,22 @@
 import { Card, Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
 import arrayMutators from 'final-form-arrays';
+import { useEffect, type ReactNode } from 'react';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom-v5-compat';
+import { push } from 'redux-first-history';
 import { SubmissionError } from 'redux-form';
+import {
+  fetchSemesters,
+  fetchSemestersForInterestform,
+} from 'app/actions/CompanyActions';
+import {
+  createCompanyInterest,
+  fetchCompanyInterest,
+  updateCompanyInterest,
+} from 'app/actions/CompanyInterestActions';
 import english from 'app/assets/great_britain.svg';
 import norwegian from 'app/assets/norway.svg';
 import { Content } from 'app/components/Content';
@@ -13,232 +25,45 @@ import {
   TextEditor,
   TextInput,
   Button,
+  LegoFinalForm,
   CheckBox,
   SelectInput,
   RadioButton,
   RadioButtonGroup,
 } from 'app/components/Form';
-import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import { Image } from 'app/components/Image';
 import { readmeIfy } from 'app/components/ReadmeLogo';
 import Tooltip from 'app/components/Tooltip';
-import type {
-  CompanyInterestEntity,
-  CompanyInterestCompanyType,
-} from 'app/reducers/companyInterest';
-import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
+import { selectCompanyInterestById } from 'app/reducers/companyInterest';
+import {
+  selectCompanySemesters,
+  type CompanySemesterEntity,
+  selectCompanySemestersForInterestForm,
+} from 'app/reducers/companySemesters';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { spySubmittable, spyValues } from 'app/utils/formSpyUtils';
 import { createValidator, required, isEmail } from 'app/utils/validation';
-import { interestText, semesterToText } from '../utils';
+import {
+  interestText,
+  semesterToText,
+  labels,
+  TARGET_GRADE_TYPES,
+  EVENT_TYPES,
+  targetGradeToString,
+  eventToString,
+  SURVEY_OFFER_TYPES,
+  surveyOffersToString,
+  OTHER_TYPES,
+  otherOffersToString,
+  COLLABORATION_TYPES,
+  collaborationToString,
+  PARTICIPANT_RANGE_MAP,
+  sortSemesterChronologically,
+  PARTICIPANT_RANGE_TYPES,
+  COMPANY_TYPES,
+  OFFICE_IN_TRONDHEIM,
+} from '../utils';
 import styles from './CompanyInterest.css';
-import type { History } from 'history';
-import type { ReactNode } from 'react';
-
-export const EVENT_TYPES = {
-  company_presentation: {
-    norwegian: 'Bedriftspresentasjon',
-    english: 'Company presentation',
-  },
-  lunch_presentation: {
-    norwegian: 'Lunsjpresentasjon',
-    english: 'Lunch presentation',
-  },
-  course: {
-    norwegian: 'Faglig arrangement',
-    english: 'Course or workshop',
-  },
-  breakfast_talk: {
-    norwegian: 'Frokostforedrag',
-    english: 'Breakfast talk',
-  },
-  // digital_presentation: {
-  //   norwegian: 'Digital presentasjon',
-  //   english: 'Digital presentation',
-  // },
-  bedex: {
-    norwegian: 'Bedriftsekskursjon (BedEx)',
-    english: 'Company excursion (BedEx)',
-  },
-  other: {
-    norwegian: 'Alternativt arrangement',
-    english: 'Other event',
-  },
-  start_up: {
-    norwegian: 'Start-up kveld',
-    english: 'Start-up night',
-  },
-  company_to_company: {
-    norwegian: 'Bedrift-til-bedrift',
-    english: 'Company-to-company',
-  },
-};
-export const SURVEY_OFFER_TYPES = {
-  company_survey_security: {
-    norwegian: 'Sikkerhet',
-    english: 'Security',
-  },
-  company_survey_ai: {
-    norwegian: 'Kunstig intelligens',
-    english: 'Artificial intelligence',
-  },
-  company_survey_big_data: {
-    norwegian: 'Big data',
-    english: 'Big data',
-  },
-  company_survey_front_back_end: {
-    norwegian: 'Front- og back-end',
-    english: 'Front- and back-end',
-  },
-  company_survey_iot: {
-    norwegian: 'Internet of Things',
-    english: 'Internet of Things',
-  },
-  company_survey_gamedev: {
-    norwegian: 'Spillutvikling',
-    english: 'Game development',
-  },
-  company_survey_softskills: {
-    norwegian: 'Softskills',
-    english: 'Soft skills',
-  },
-  company_survey_fintech: {
-    norwegian: 'Finansiell teknologi',
-    english: 'Financial technology',
-  },
-};
-export const OTHER_TYPES = {
-  readme: {
-    norwegian: 'Annonse i readme',
-    english: 'Advertisement in readme',
-  },
-  /*
-  collaboration: {
-    norwegian: 'Samarbeid med andre linjeforeninger',
-    english: 'Collaboration with other student organizations',
-  },
-  */
-};
-
-export const EVENT_TYPE_OPTIONS = [
-  { value: '', label: 'Vis alle arrangementstyper' },
-  { value: 'company_presentation', label: 'Bedriftspresentasjon' },
-  { value: 'course', label: 'Kurs' },
-  { value: 'breakfast_talk', label: 'Frokostforedrag' },
-  { value: 'lunch_presentation', label: 'Lunsjpresentasjon' },
-  { value: 'bedex', label: 'BedEx' },
-  { value: 'digital_presentation', label: 'Digital presentasjon' },
-  { value: 'other', label: 'Alternativt arrangement' },
-  { value: 'sponsor', label: 'Sponser' },
-  { value: 'start_up', label: 'Start-up kveld' },
-  { value: 'company_to_company', label: 'Bedrift-til-bedrift' },
-];
-
-export const OFFICE_IN_TRONDHEIM = {
-  yes: { norwegian: 'Ja', english: 'Yes' },
-  no: { norwegian: 'Nei', english: 'No' },
-};
-
-export const COLLABORATION_TYPES = {
-  collaboration_omega: {
-    norwegian: 'Samarbeid med Omega linjeforening',
-    english: 'Event in collaboration with Omega',
-  },
-  collaboration_online: {
-    norwegian: 'Samarbeid med Online linjeforening',
-    english: 'Event in collaboration with Online',
-  },
-  collaboration_tihlde: {
-    norwegian: 'Samarbeid med TIHLDE linjeforening',
-    english: 'Event in collaboration with TIHLDE',
-  },
-
-  /*
-  collaboration_anniversary: {
-    english: "Collaboration with Abakus' anniversary committee*",
-    norwegian: 'Samarbeid med Abakus sitt Jubileum*',
-  },
-  collaboration_revue_anniversary: {
-    english: "Collaboration with the revue's anniversary committee*",
-    norwegian: 'Samarbeid med Revyen sitt Jubileum*',
-  },
-  */
-  /*   collaboration_revue: {
-    norwegian: 'Samarbeid med Revyen**',
-    english: 'Collaboration with the revue**',
-  }, */
-};
-export const TARGET_GRADE_TYPES = {
-  '1': {
-    norwegian: '1. klasse',
-    english: '1st Years',
-  },
-  '2': {
-    norwegian: '2. klasse',
-    english: '2nd Years',
-  },
-  '3': {
-    norwegian: '3. klasse',
-    english: '3rd Years',
-  },
-  '4': {
-    norwegian: '4. klasse',
-    english: '4th Years',
-  },
-  '5': {
-    norwegian: '5. klasse',
-    english: '5th Years',
-  },
-};
-export const PARTICIPANT_RANGE_TYPES = {
-  first: '10-30',
-  second: '30-60',
-  third: '60-100',
-  fourth: '100+',
-};
-export const COMPANY_TYPES: Record<
-  CompanyInterestCompanyType,
-  { norwegian: string; english: string }
-> = {
-  company_types_small_consultant: {
-    norwegian: 'Liten konsulentbedrift ( < ~50)',
-    english: 'Small consultant company ( < ~50)',
-  },
-  company_types_medium_consultant: {
-    norwegian: 'Medium konsulentbedrift ( < 400)',
-    english: 'Medium consultant company ( < 400)',
-  },
-  company_types_large_consultant: {
-    norwegian: 'Stor konsulentbedrift ( > 400)',
-    english: 'Large consultant company ( > 400)',
-  },
-  company_types_inhouse: { norwegian: 'In-house', english: 'In-house' },
-  company_types_others: { norwegian: 'Annet', english: 'Other' },
-  company_types_start_up: { norwegian: 'Start-up', english: 'Start-up' },
-  company_types_governmental: { norwegian: 'Statlig', english: 'Governmental' },
-};
-export const PARTICIPANT_RANGE_MAP = {
-  first: [10, 40],
-  second: [30, 60],
-  third: [60, 100],
-  fourth: [100, null],
-};
-
-const eventToString = (event) =>
-  Object.keys(EVENT_TYPES)[Number(event.charAt(event.length - 2))];
-
-const surveyOffersToString = (offer) =>
-  Object.keys(SURVEY_OFFER_TYPES)[Number(offer.charAt(offer.length - 2))];
-
-const otherOffersToString = (offer) =>
-  Object.keys(OTHER_TYPES)[Number(offer.charAt(offer.length - 2))];
-
-const collaborationToString = (collab) =>
-  Object.keys(COLLABORATION_TYPES)[Number(collab.charAt(collab.length - 2))];
-
-const targetGradeToString = (targetGrade) =>
-  Object.keys(TARGET_GRADE_TYPES)[
-    Number(targetGrade.charAt(targetGrade.length - 2))
-  ];
 
 const SemesterBox = ({
   fields,
@@ -412,39 +237,7 @@ type CompanyInterestFormEntity = {
   companyToCompanyComment: string;
   companyPresentationComment: string;
   companyType: string;
-  officeInTrondheim: boolean;
-};
-
-type Props = {
-  allowedBdb: boolean;
-  onSubmit: (
-    arg0: CompanyInterestFormEntity,
-    arg1: boolean | null | undefined
-  ) => Promise<any>;
-  push: History['push'];
-  events: Array<Record<string, any>>;
-  companyCourseThemes: Array<Record<string, any>>;
-  semesters: Array<CompanySemesterEntity>;
-  otherOffers: Array<Record<string, any>>;
-  collaborations: Array<Record<string, any>>;
-  targetGrades: Array<Record<string, any>>;
-  participantRange: string;
-  edit: boolean;
-  interestForm: Record<string, any>;
-  companyInterest?: CompanyInterestEntity;
-  language: string;
-  comment: string;
-  courseComment: string;
-  breakfastTalkComment: string;
-  otherEventComment: string;
-  startupComment: string;
-  lunchPresentationComment: string;
-  bedexComment: string;
-  companyToCompanyComment: string;
-  companyPresentationComment: string;
-  companyType: string;
-  officeInTrondheim: boolean;
-  initialValues: any;
+  officeInTrondheim: 'yes' | 'no';
 };
 
 const validate = createValidator({
@@ -455,12 +248,99 @@ const validate = createValidator({
   comment: [required()],
 });
 
-const CompanyInterestPage = (props: Props) => {
-  if (props.edit && !props.companyInterest) {
+const CompanyInterestPage = () => {
+  const { companyInterestId } = useParams();
+  const edit = companyInterestId !== undefined;
+  const companyInterest = useAppSelector((state) =>
+    selectCompanyInterestById(state, { companyInterestId })
+  );
+  const semesters = useAppSelector((state) => {
+    if (edit) {
+      return selectCompanySemesters(state);
+    }
+    return selectCompanySemestersForInterestForm(state);
+  });
+
+  const allowedBdb = useAppSelector((state) => state.allowed.bdb);
+
+  const { pathname } = useLocation();
+  const language = pathname === '/register-interest' ? 'english' : 'norwegian';
+  const isEnglish = language === 'english';
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (edit) {
+      dispatch(fetchSemesters());
+      dispatch(fetchCompanyInterest(companyInterestId));
+    } else {
+      dispatch(fetchSemestersForInterestform());
+    }
+  }, [companyInterestId, dispatch, edit]);
+
+  const allEvents = Object.keys(EVENT_TYPES);
+  const allOtherOffers = Object.keys(OTHER_TYPES);
+  const allCollaborations = Object.keys(COLLABORATION_TYPES);
+  const allTargetGrades = Object.keys(TARGET_GRADE_TYPES);
+  const allParticipantRanges = Object.keys(PARTICIPANT_RANGE_MAP);
+  const allSurveyOffers = Object.keys(SURVEY_OFFER_TYPES);
+  const participantRange =
+    allParticipantRanges.filter(
+      (p) =>
+        PARTICIPANT_RANGE_MAP[p][0] === companyInterest?.participantRangeStart
+    ) || null;
+
+  const initialValues: CompanyInterestFormEntity = {
+    ...companyInterest,
+    company: companyInterest?.company
+      ? {
+          label: companyInterest.company.name,
+          title: companyInterest.company.name,
+          value: '' + companyInterest.company.id,
+        }
+      : {
+          label: companyInterest?.companyName,
+          title: companyInterest?.companyName,
+        },
+    events: allEvents.map((event) => ({
+      name: event,
+      checked: companyInterest?.events.includes(event) || false,
+    })),
+    companyCourseThemes: allSurveyOffers.map((offer) => ({
+      name: offer,
+      checked: companyInterest?.companyCourseThemes?.includes(offer) || false,
+    })),
+    otherOffers: allOtherOffers.map((offer) => ({
+      name: offer,
+      checked: companyInterest?.otherOffers?.includes(offer) || false,
+    })),
+    collaborations: allCollaborations.map((collab) => ({
+      name: collab,
+      checked: companyInterest?.collaborations?.includes(collab) || false,
+    })),
+    targetGrades: allTargetGrades.map((targetGrade) => ({
+      name: targetGrade,
+      checked:
+        companyInterest?.targetGrades?.includes(Number(targetGrade)) || false,
+    })),
+    participantRange: (participantRange && participantRange[0]) || null,
+    officeInTrondheim: companyInterest?.officeInTrondheim ? 'yes' : 'no',
+    semesters: edit
+      ? semesters
+          .map((semester) => ({
+            ...semester,
+            checked: companyInterest?.semesters?.includes(semester.id),
+          }))
+          .filter((semester) => semester.activeInterestForm || semester.checked)
+          .sort(sortSemesterChronologically)
+      : semesters.sort(sortSemesterChronologically),
+  };
+
+  if (edit && !companyInterest) {
     return <LoadingIndicator loading />;
   }
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data: CompanyInterestFormEntity) => {
     const { company } = data;
     const companyId = company['value'] ? Number(company['value']) : null;
     const companyName = companyId === null ? company['label'] : '';
@@ -505,122 +385,25 @@ const CompanyInterestPage = (props: Props) => {
       companyToCompanyComment: data.companyToCompanyComment,
       companyPresentationComment: data.companyPresentationComment,
     };
-    return props
-      .onSubmit(newData, isEnglish)
-      .then(() =>
-        props.push(
-          props.allowedBdb
-            ? '/companyInterest/'
-            : '/pages/bedrifter/for-bedrifter'
-        )
-      )
-      .catch((err) => {
-        if (err.payload && err.payload.response) {
-          throw new SubmissionError(err.payload.response.jsonData);
-        }
-      });
-  };
 
-  const labels = {
-    mainHeading: {
-      norwegian: 'Meld interesse',
-      english: 'Register interest',
-    },
-    subHeading: {
-      norwegian:
-        'Dette skjemaet skal ikke brukes for annonser. For slikt, send en e-post til ',
-      english:
-        'This form is not to be used for job listings. For such enquiries, send an e-mail to ',
-    },
-    company: {
-      header: {
-        norwegian: 'Navn på bedrift',
-        english: 'Name of company',
-      },
-      placeholder: {
-        norwegian: 'Bedriftsnavn',
-        english: 'Company name',
-      },
-    },
-    officeInTrondheim: {
-      norwegian: 'Har dere kontorer i Trondheim egnet for besøk?',
-      english: 'Do you have offices in Trondheim suited for visiting?',
-    },
-    contactPerson: {
-      header: {
-        norwegian: 'Kontaktperson',
-        english: 'Contact person',
-      },
-      placeholder: {
-        norwegian: 'Kari Nordmann',
-        english: 'Jon Smith',
-      },
-    },
-    mail: {
-      norwegian: 'E-post',
-      english: 'E-mail',
-    },
-    phone: {
-      norwegian: 'Telefonnummer',
-      english: 'Phone number',
-    },
-    semester: {
-      norwegian: 'Semester',
-      english: 'Semester',
-    },
-    events: {
-      norwegian: 'Arrangementer',
-      english: 'Events',
-    },
-    otherOffers: {
-      norwegian: 'Annet',
-      english: 'Other',
-    },
-    companyTypes: {
-      norwegian: 'Bedriftstype',
-      english: 'Company type',
-    },
-    collaborations: {
-      norwegian: 'Samarbeid',
-      english: 'Collaboration',
-    },
-    targetGrades: {
-      norwegian: 'Klassetrinn',
-      english: 'Target grades',
-    },
-    companyCourseThemes: {
-      norwegian: 'Temaer som er relevant for dere',
-      english: 'Topics that are relevant for you',
-    },
-    participantRange: {
-      norwegian: 'Antall deltagere',
-      english: 'Number of participants',
-    },
-    comment: {
-      norwegian: 'Om bedriften',
-      english: 'About the company',
-    },
-    secondComment: {
-      norwegian: 'Annen kommentar',
-      english: 'Other comment',
-    },
-    create: {
-      norwegian: 'Send bedriftsinteresse',
-      english: 'Submit interest',
-    },
-    eventDescriptionHeader: {
-      norwegian: 'Pitch/forklar dine ønsker for arrangementet',
-      english: 'Pitch/explain your wishes for the event',
-    },
-    eventDescriptionIntro: {
-      norwegian:
-        'Skriv gjerne litt om hvilke type arrangementer dere ønsker å arrangere. Vi prøver å planlegge med flere ulike typer arrangementer og bedrifter der vi prøver å lage et variert, spennende og nyskapende program. Våre bedriftskontakter har også muligheten til å hjelpe med å utvikle gode arrangementer.',
-      english:
-        'Please write a bit about what types of events you would like to arrange. We try to plan with several different types of events and companies, where we try to create a varied, exciting and innovative program. Our company contacts also have the opportunity to help develop good events.',
-    },
+    try {
+      if (edit) {
+        await dispatch(updateCompanyInterest(companyInterestId, newData));
+      } else {
+        await dispatch(createCompanyInterest(newData, isEnglish));
+      }
+
+      dispatch(
+        push(
+          allowedBdb ? '/companyInterest/' : '/pages/bedrifter/for-bedrifter'
+        )
+      );
+    } catch (err) {
+      if (err.payload && err.payload.response) {
+        throw new SubmissionError(err.payload.response.jsonData);
+      }
+    }
   };
-  const { language } = props;
-  const isEnglish = language === 'english';
 
   return (
     <Content>
@@ -629,7 +412,7 @@ const CompanyInterestPage = (props: Props) => {
       <LegoFinalForm
         onSubmit={onSubmit}
         validate={validate}
-        initialValues={props.initialValues}
+        initialValues={initialValues}
         subscription={{}}
         mutators={{
           ...arrayMutators,
@@ -639,7 +422,7 @@ const CompanyInterestPage = (props: Props) => {
           <form onSubmit={handleSubmit}>
             <FlexRow alignItems="center" justifyContent="space-between">
               <h1>{labels.mainHeading[language]}</h1>
-              {!props.edit && (
+              {!edit && (
                 <Link to={isEnglish ? '/interesse' : '/register-interest'}>
                   <LanguageFlag language={language} />
                 </Link>
@@ -1072,9 +855,7 @@ const CompanyInterestPage = (props: Props) => {
 
             {spySubmittable((submittable) => (
               <Button secondary disabled={!submittable} submit>
-                {props.edit
-                  ? 'Oppdater bedriftsinteresse'
-                  : labels.create[language]}
+                {edit ? 'Oppdater bedriftsinteresse' : labels.create[language]}
               </Button>
             ))}
           </form>

@@ -21,14 +21,15 @@ const validate = createValidator({
 const AddGroupMember = () => {
   const dispatch = useAppDispatch();
 
-  const handleSubmit = async (values, form) => {
-    await dispatch(
+  const handleSubmit = (values, form) => {
+    dispatch(
       addMember({
         user: values.user,
         role: values.role,
       })
-    );
-    form.reset();
+    ).then(() => {
+      form.reset();
+    });
   };
 
   return (

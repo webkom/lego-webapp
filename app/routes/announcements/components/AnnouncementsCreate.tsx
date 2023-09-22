@@ -65,8 +65,8 @@ const AnnouncementsCreate = ({ actionGrant }: Props) => {
 
   const dispatch = useAppDispatch();
 
-  const onSubmit = async (values, form) => {
-    await dispatch(
+  const onSubmit = (values, form) => {
+    dispatch(
       createAnnouncement({
         ...values,
         users: values.users.map((user) => user.value),
@@ -76,8 +76,9 @@ const AnnouncementsCreate = ({ actionGrant }: Props) => {
         fromGroup: values.fromGroup && values.fromGroup.value,
         send: shouldSend,
       })
-    );
-    form.reset();
+    ).then(() => {
+      form.reset();
+    });
   };
 
   return (
