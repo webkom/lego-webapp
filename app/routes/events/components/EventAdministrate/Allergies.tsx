@@ -148,7 +148,7 @@ const Allergies = ({
           </Flex>
         </>
       ) : (
-        <HTTPError statusCode={403} location={location} />
+        <HTTPError statusCode={403} />
       )}
     </>
   );
