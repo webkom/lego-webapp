@@ -2,7 +2,7 @@ import moment from 'moment-timezone';
 import { useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
-import Banner from 'app/components/Banner';
+// import Banner from 'app/components/Banner';
 import Icon from 'app/components/Icon';
 import { Container, Flex } from 'app/components/Layout';
 import Poll from 'app/components/Poll';
@@ -95,12 +95,12 @@ const Overview = (props: Props) => {
   return (
     <Container>
       <Helmet title="Hjem" />
-      <Banner
+      {/* <Banner
         header="Abakusrevyen har opptak!"
         subHeader="Søk her"
         link="https://opptak.abakus.no"
         color="red"
-      />
+      /> */}
       <Flex className={styles.desktopContainer}>
         <Flex column className={styles.leftColumn}>
           <CompactEvents events={events} />

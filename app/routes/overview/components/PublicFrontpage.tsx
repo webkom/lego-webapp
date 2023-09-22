@@ -8,7 +8,7 @@ import readmeGraphic from 'app/assets/frontpage-graphic-readme.png';
 import netcompany from 'app/assets/netcompany_dark.png';
 import netcompanyLight from 'app/assets/netcompany_white.svg';
 import AuthSection from 'app/components/AuthSection/AuthSection';
-import Banner from 'app/components/Banner';
+// import Banner from 'app/components/Banner';
 import Card from 'app/components/Card';
 import { Image } from 'app/components/Image';
 import { Container, Flex } from 'app/components/Layout';
@@ -57,12 +57,12 @@ const PublicFrontpage = ({ frontpage, readmes }: Props) => {
 
   return (
     <Container>
-      <Banner
+      {/* <Banner
         header="Abakusrevyen har opptak!"
         subHeader="Søk her"
         link="https://opptak.abakus.no"
         color="red"
-      />
+      /> */}
       <Container className={styles.container}>
         <Welcome />
         <Card className={styles.login} style={{ gridArea: 'login' }}>
