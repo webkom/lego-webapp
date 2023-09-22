@@ -99,8 +99,8 @@ const AnnouncementsCreate = ({ actionGrant }: Props) => {
     send: false,
   };
 
-  const onSubmit = async (values: FormValues, form: FormApi<FormValues>) => {
-    await dispatch(
+  const onSubmit = (values: FormValues, form: FormApi<FormValues>) => {
+    dispatch(
       createAnnouncement({
         message: values.message,
         users: values.users.map((user) => user.value),
@@ -110,8 +110,9 @@ const AnnouncementsCreate = ({ actionGrant }: Props) => {
         fromGroup: values.fromGroup && values.fromGroup.value,
         send: values.send,
       })
-    );
-    form.restart();
+    ).then(() => {
+      form.reset();
+    });
   };
 
   return (
