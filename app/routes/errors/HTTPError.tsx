@@ -1,6 +1,8 @@
 import { Container, Flex } from '@webkom/lego-bricks';
-import { Component } from 'react';
+import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { setStatusCode } from 'app/actions/RoutingActions';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import renderAbakus from './renderAbakus';
 
 const HTTPMapping = {
@@ -16,64 +18,56 @@ const getHTTPError = (statusCode) =>
   HTTPMapping[statusCode] || HTTPMapping[fallbackStatus];
 
 type Props = {
-  statusCode: number;
-  location: any;
-  setStatusCode?: (statusCode: number | null | undefined) => void;
+  statusCode?: number;
 };
-export default class HTTPError extends Component<Props> {
-  canvas: HTMLElement | null | undefined;
 
-  componentDidMount() {
-    const { statusCode = fallbackStatus } = this.props;
-    renderAbakus(statusCode.toString(), this.canvas);
-  }
+const HTTPError = ({ statusCode }: Props) => {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const storedStatusCode = useAppSelector((state) => state.router.statusCode);
 
-  // eslint-disable-next-line
-  componentWillReceiveProps(nextProps: Props) {
-    const { setStatusCode, location } = this.props;
-    const { location: nextLocation } = nextProps;
+  const effectiveStatusCode = statusCode || storedStatusCode || fallbackStatus;
 
-    if (setStatusCode && location !== nextLocation) {
-      setStatusCode(null);
+  useEffect(() => {
+    renderAbakus(effectiveStatusCode.toString(), canvasRef.current);
+  }, [effectiveStatusCode, statusCode, storedStatusCode]);
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (!statusCode && !storedStatusCode) {
+      dispatch(setStatusCode(null));
     }
-  }
+  }, [dispatch, statusCode, storedStatusCode]);
 
-  shouldComponentUpdate() {
-    return true;
-  }
-
-  render() {
-    const { statusCode = fallbackStatus } = this.props;
-    return (
-      <Container>
-        <Flex
-          column
-          alignItems="center"
-          justifyContent="center"
+  return (
+    <Container>
+      <Flex
+        column
+        alignItems="center"
+        justifyContent="center"
+        style={{
+          padding: '10px',
+        }}
+      >
+        <Link to="/">
+          <canvas
+            id="canvas"
+            ref={canvasRef}
+            style={{
+              width: '100%',
+            }}
+          />
+        </Link>
+        <h1
           style={{
-            padding: '10px',
+            textAlign: 'center',
           }}
         >
-          <Link to="/">
-            <canvas
-              id="canvas"
-              ref={(canvas) => {
-                this.canvas = canvas;
-              }}
-              style={{
-                width: '100%',
-              }}
-            />
-          </Link>
-          <h1
-            style={{
-              textAlign: 'center',
-            }}
-          >
-            {getHTTPError(statusCode)}
-          </h1>
-        </Flex>
-      </Container>
-    );
-  }
-}
+          {getHTTPError(statusCode)}
+        </h1>
+      </Flex>
+    </Container>
+  );
+};
+
+export default HTTPError;
