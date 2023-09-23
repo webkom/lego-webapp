@@ -1,68 +1,40 @@
-import { Route, Switch } from 'react-router-dom';
-import RouteWrapper from 'app/components/RouteWrapper';
-import { UserContext } from 'app/routes/app/AppRoute';
+import { useRouteMatch, Route, Switch } from 'react-router-dom';
+import { CompatRoute } from 'react-router-dom-v5-compat';
 import PageNotFound from '../pageNotFound';
-import InterestGroupCreateRoute from './InterestGroupCreateRoute';
-import InterestGroupDetailRoute from './InterestGroupDetailRoute';
-import InterestGroupEditRoute from './InterestGroupEditRoute';
-import InterestGroupListRoute from './InterestGroupListRoute';
+import InterestGroupDetail from './components/InterestGroupDetail';
+import InterestGroupEdit from './components/InterestGroupEdit';
+import InterestGroupList from './components/InterestGroupList';
 
-const interestGroupRoute = ({
-  match,
-}: {
-  match: {
-    path: string;
-  };
-}) => (
-  <UserContext.Consumer>
-    {({ currentUser, loggedIn }) => (
-      <Switch>
-        <RouteWrapper
-          exact
-          path={`${match.path}`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={InterestGroupListRoute}
-        />
-        <RouteWrapper
-          exact
-          path={`${match.path}/create`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={InterestGroupCreateRoute}
-        />
-        <RouteWrapper
-          exact
-          path={`${match.path}/:interestGroupId`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={InterestGroupDetailRoute}
-        />
-        <RouteWrapper
-          path={`${match.path}/:interestGroupId/edit`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={InterestGroupEditRoute}
-        />
-        <Route component={PageNotFound} />
-      </Switch>
-    )}
-  </UserContext.Consumer>
-);
+const InterestGroupRoute = () => {
+  const { path } = useRouteMatch();
+
+  return (
+    <Switch>
+      <CompatRoute exact path={path} component={InterestGroupList} />
+      <CompatRoute
+        exact
+        path={`${path}/create`}
+        component={InterestGroupEdit}
+      />
+      <CompatRoute
+        exact
+        path={`${path}/:groupId`}
+        component={InterestGroupDetail}
+      />
+      <CompatRoute
+        path={`${path}/:groupId/edit`}
+        component={InterestGroupEdit}
+      />
+      <Route component={PageNotFound} />
+    </Switch>
+  );
+};
 
 export default function InterestGroups() {
   return (
     <Route
       path={['/interest-groups', '/interestgroups']}
-      component={interestGroupRoute}
+      component={InterestGroupRoute}
     />
   );
 }

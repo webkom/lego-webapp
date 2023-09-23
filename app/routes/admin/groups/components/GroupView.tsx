@@ -4,7 +4,6 @@ import { Helmet } from 'react-helmet-async';
 import { useRouteMatch, Route, Switch } from 'react-router-dom';
 import { useParams, CompatRoute } from 'react-router-dom-v5-compat';
 import { fetchGroup } from 'app/actions/GroupActions';
-import RouteWrapper from 'app/components/RouteWrapper';
 import { selectGroup } from 'app/reducers/groups';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import ConnectedGroupMembers from '../components/GroupMembers';
@@ -32,7 +31,7 @@ const Group = ({ path, group }: GroupProps) => {
       </header>
 
       <Switch>
-        <Route path={`${path}/settings`} component={GroupSettings} />
+        <CompatRoute path={`${path}/settings`} component={GroupSettings} />
         <Route path={`${path}/members`} component={ConnectedGroupMembers} />
         <Route path={`${path}/permissions`} component={GroupPermissions} />
       </Switch>

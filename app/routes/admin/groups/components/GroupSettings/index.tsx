@@ -1,6 +1,6 @@
 import { Field } from 'react-final-form';
 import { useParams } from 'react-router-dom-v5-compat';
-import { editGroup } from 'app/actions/GroupActions';
+import { createGroup, editGroup } from 'app/actions/GroupActions';
 import {
   Form,
   TextInput,
@@ -25,14 +25,17 @@ const logoValidator = (value) => (value ? undefined : 'Bilde er påkrevd');
 const GroupSettings = () => {
   const { groupId } = useParams();
   const group = useAppSelector((state) => selectGroup(state, { groupId }));
+  const isNew = !group;
 
   const dispatch = useAppDispatch();
 
   const handleSubmit = (values) => {
-    dispatch(editGroup(values));
+    if (isNew) {
+      dispatch(createGroup(values));
+    } else {
+      dispatch(editGroup(values));
+    }
   };
-
-  const isNew = !group;
 
   return (
     <LegoFinalForm
@@ -67,7 +70,8 @@ const GroupSettings = () => {
               label="Vis badge på brukerprofiler"
               name="showBadge"
               component={CheckBox.Field}
-              normalize={(v) => !!v}
+              type="checkbox"
+              parse={(v) => !!v}
             />
           </Tooltip>
           <Tooltip content="Er dette en aktiv gruppe?">
@@ -75,7 +79,8 @@ const GroupSettings = () => {
               label="Aktiv gruppe"
               name="active"
               component={CheckBox.Field}
-              normalize={(v) => !!v}
+              type="checkbox"
+              parse={(v) => !!v}
             />
           </Tooltip>
           <Field
@@ -83,7 +88,7 @@ const GroupSettings = () => {
             placeholder="Vil du strikke din egen lue? Eller har du allerede […]"
             name="text"
             component={EditorField.Field}
-            initialized={!!group}
+            initialized
           />
           <Field
             name="logo"
