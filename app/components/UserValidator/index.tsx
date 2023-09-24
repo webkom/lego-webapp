@@ -1,14 +1,17 @@
 import { Button, Flex, Icon, Modal } from '@webkom/lego-bricks';
 import { get } from 'lodash';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useRef, useState, type ComponentProps } from 'react';
 import { QrReader } from 'react-qr-reader';
+import { addToast } from 'app/actions/ToastActions';
 import goodSound from 'app/assets/good-sound.mp3';
 import SearchPage from 'app/components/Search/SearchPage';
+import {
+  selectAutocompleteRedux,
+  type UserSearchResult,
+} from 'app/reducers/search';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './Validator.css';
-import type { addToast } from 'app/actions/ToastActions';
-import type { User } from 'app/models';
-import type { UserSearchResult } from 'app/reducers/search';
-import type { ComponentProps } from 'react';
+import type { SearchUser } from 'app/store/models/User';
 import type { Required } from 'utility-types';
 
 type UserWithUsername = Required<Partial<UserSearchResult>, 'username'>;
@@ -26,31 +29,36 @@ type Props = Omit<
   ComponentProps<typeof SearchPage<UserSearchResult>>,
   'handleSelect'
 > & {
-  addToast: typeof addToast;
   clearSearch: () => void;
-  handleSelect: (arg0: UserWithUsername) => Promise<User | Res>;
+  handleSelect: (arg0: UserWithUsername) => Promise<SearchUser | Res>;
   onQueryChanged: (arg0: string) => void;
-  results: Array<UserSearchResult>;
-  searching: boolean;
   validateAbakusGroup: boolean;
 };
 
-const isUser = (user: User | Res): user is User => {
+const isUser = (user: SearchUser | Res): user is SearchUser => {
   return 'username' in user;
 };
 
-const Validator = (props: Props) => {
-  const { addToast, clearSearch, handleSelect, validateAbakusGroup } = props;
+const Validator = ({
+  clearSearch,
+  handleSelect,
+  onQueryChanged,
+  validateAbakusGroup,
+}: Props) => {
   const input = useRef<HTMLInputElement | null | undefined>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [scanResults, setScanResults] = useState<ScanResult[]>([]);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [showScanner, setShowScanner] = useState(false);
 
+  const results = useAppSelector((state) => selectAutocompleteRedux(state));
+
   const showSuccessModal = (message: string) => {
     setSuccessMessage(message);
     setTimeout(() => setSuccessMessage(null), 2000);
   };
+
+  const dispatch = useAppDispatch();
 
   /**
    * Add new scan result to the start of the array if not duplicate of most recent result,
@@ -88,10 +96,10 @@ const Validator = (props: Props) => {
       if (success) {
         showSuccessModal(result);
       } else {
-        addToast({ message: result });
+        dispatch(addToast({ message: result }));
       }
     },
-    [addToast, showScanner]
+    [showScanner, dispatch]
   );
 
   /**
@@ -209,7 +217,8 @@ const Validator = (props: Props) => {
         Åpne scanner
       </Button>
       <SearchPage<UserSearchResult>
-        {...props}
+        onQueryChanged={onQueryChanged}
+        results={results}
         placeholder="Skriv inn brukernavn eller navn"
         handleSelect={onSelect}
         inputRef={input}
