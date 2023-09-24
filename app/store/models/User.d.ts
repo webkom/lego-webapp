@@ -40,9 +40,6 @@ interface User {
   isAbakomMember: boolean;
   pastMemberships: PastMembership[];
   selectedTheme: string;
-  githubUsername: string;
-  linkedinId: string;
-
   permissionsPerGroup: {
     abakusGroup: Pick<Group, 'id' | 'name'>;
     permissions: string[];
@@ -153,8 +150,27 @@ export type SearchUser = Pick<
   | 'lastName'
   | 'fullName'
   | 'gender'
+  | 'email'
+  | 'emailAddress'
+  | 'emailListsEnabled'
+  | 'internalEmailAddress'
+  | 'phoneNumber'
   | 'profilePicture'
   | 'profilePicturePlaceholder'
+  | 'isActive'
+  | 'isStudent'
+  | 'isAbakusMember'
+  | 'isAbakomMember'
+  | 'abakusEmailLists'
+  | 'penalties'
+  | 'icalToken'
+  | 'abakusGroups'
+  | 'pastMemberships'
+  | 'selectedTheme'
+  | 'permissionsPerGroup'
+  | 'photoConsents'
+  | 'memberships'
+  | 'githubUsername'
 >;
 
 export type AutocompleteUser = Pick<

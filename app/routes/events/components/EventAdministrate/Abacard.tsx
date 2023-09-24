@@ -1,21 +1,17 @@
 import { get } from 'lodash';
 import Validator from 'app/components/UserValidator';
 import styles from './Abacard.css';
-import type { addToast } from 'app/actions/ToastActions';
 import type { EventRegistration, Event } from 'app/models';
 import type { UserSearchResult } from 'app/reducers/search';
-import type { Location } from 'history';
 
 type Props = {
   registered: Array<EventRegistration>;
   event: Event;
   clearSearch: () => void;
   markUsernamePresent: (arg0: string, arg1: string) => Promise<any>;
-  location: Location;
   onQueryChanged: (arg0: string) => void;
   results: Array<UserSearchResult>;
   searching: boolean;
-  addToast: typeof addToast;
 };
 
 const Abacard = (props: Props) => {
