@@ -7,7 +7,6 @@ import { markUsernamePresent } from 'app/actions/EventActions';
 import { autocomplete } from 'app/actions/SearchActions';
 import { addToast } from 'app/actions/ToastActions';
 import { getRegistrationGroups } from 'app/reducers/events';
-import { selectAutocompleteRedux as selectAutocomplete } from 'app/reducers/search';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import Abacard from './components/EventAdministrate/Abacard';
 
@@ -24,16 +23,11 @@ const loadData = async (props, dispatch): Promise<void> => {
 };
 
 const mapStateToProps = (state, props) => {
-  const query = qs.parse(props.location.search, { ignoreQueryPrefix: true }).q;
-  const results = query ? selectAutocomplete(state) : [];
   const { eventId } = props;
   const { registered } = getRegistrationGroups(state, {
     eventId,
   });
   return {
-    location: props.location,
-    searching: state.search.searching,
-    results,
     registered,
   };
 };
