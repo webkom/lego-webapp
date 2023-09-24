@@ -1,3 +1,4 @@
+import { useAppSelector } from 'app/store/hooks';
 import styles from './SearchPageInput.css';
 import type { SyntheticEvent, KeyboardEvent } from 'react';
 
@@ -9,18 +10,18 @@ type Props = {
   onKeyDown: (arg0: KeyboardEvent) => void;
   placeholder?: string;
   value: string;
-  isSearching: boolean;
 };
 
 function SearchPageInput({
   inputRef,
-  isSearching,
   onKeyDown,
   onChange,
   placeholder = 'Hva leter du etter?',
   value,
 }: Props) {
+  const isSearching = useAppSelector((state) => state.search.searching);
   const icon = isSearching ? 'fa-circle-o-notch fa-spin' : 'fa-search';
+
   return (
     <div className={styles.container}>
       <div className={styles.searchIcon}>

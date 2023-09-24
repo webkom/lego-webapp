@@ -1,15 +1,18 @@
 import { Button, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { get } from 'lodash';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useRef, useState, type ComponentProps } from 'react';
 import { QrReader } from 'react-qr-reader';
 import goodSound from 'app/assets/good-sound.mp3';
 import Modal from 'app/components/Modal';
 import SearchPage from 'app/components/Search/SearchPage';
-import type { User } from 'app/models';
-import type { UserSearchResult } from 'app/reducers/search';
+import {
+  selectAutocompleteRedux,
+  type UserSearchResult,
+} from 'app/reducers/search';
+import { useAppSelector } from 'app/store/hooks';
+import type { SearchUser } from 'app/store/models/User';
 import styles from './Validator.css';
-import type { ComponentProps } from 'react';
 import type { Required } from 'utility-types';
 
 type UserWithUsername = Required<Partial<UserSearchResult>, 'username'>;
@@ -23,22 +26,26 @@ type Props = Omit<
   'handleSelect'
 > & {
   clearSearch: () => void;
-  handleSelect: (arg0: UserWithUsername) => Promise<User | Res>;
+  handleSelect: (arg0: UserWithUsername) => Promise<SearchUser | Res>;
   onQueryChanged: (arg0: string) => void;
-  results: Array<UserSearchResult>;
-  searching: boolean;
   validateAbakusGroup: boolean;
 };
 
-const isUser = (user: User | Res): user is User => {
+const isUser = (user: SearchUser | Res): user is SearchUser => {
   return 'username' in user;
 };
 
-const Validator = (props: Props) => {
-  const { clearSearch, handleSelect, validateAbakusGroup } = props;
+const Validator = ({
+  clearSearch,
+  handleSelect,
+  onQueryChanged,
+  validateAbakusGroup,
+}: Props) => {
   const input = useRef<HTMLInputElement | null | undefined>(null);
   const [completed, setCompleted] = useState(false);
   const [showScanner, setShowScanner] = useState(false);
+
+  const results = useAppSelector((state) => selectAutocompleteRedux(state));
 
   const showCompleted = () => {
     setCompleted(true);
@@ -135,7 +142,8 @@ const Validator = (props: Props) => {
         Åpne scanner
       </Button>
       <SearchPage<UserSearchResult>
-        {...props}
+        onQueryChanged={onQueryChanged}
+        results={results}
         placeholder="Skriv inn brukernavn eller navn"
         handleSelect={onSelect}
         inputRef={input}

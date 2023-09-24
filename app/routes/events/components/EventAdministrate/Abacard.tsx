@@ -3,17 +3,14 @@ import Validator from 'app/components/UserValidator';
 import type { EventRegistration, Event } from 'app/models';
 import type { UserSearchResult } from 'app/reducers/search';
 import styles from './Abacard.css';
-import type { Location } from 'history';
 
 type Props = {
   registered: Array<EventRegistration>;
   event: Event;
   clearSearch: () => void;
   markUsernamePresent: (arg0: string, arg1: string) => Promise<any>;
-  location: Location;
   onQueryChanged: (arg0: string) => void;
   results: Array<UserSearchResult>;
-  searching: boolean;
 };
 
 const Abacard = (props: Props) => {
