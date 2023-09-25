@@ -307,8 +307,7 @@ describe('Create event', () => {
       .and('contain', 'Abakus');
     cy.focused().type('{enter}', { force: true });
 
-    field('mergeTime').click();
-    cy.contains(c('DatePicker__calendarItem'), '15').click();
+    setDatePickerDate('mergeTime', tomorrowDay, tomorrowDay < todayDay);
 
     // Check clarification
     field('isClarified').check();
