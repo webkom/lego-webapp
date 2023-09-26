@@ -9,7 +9,6 @@ import {
   answerMeetingInvitation,
   resetMeetingsToken,
 } from 'app/actions/MeetingActions';
-import { addReaction, deleteReaction } from 'app/actions/ReactionActions';
 import { selectEmojis } from 'app/reducers/emojis';
 import { selectMeetingById } from 'app/reducers/meetings';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
@@ -125,8 +124,6 @@ const mapDispatchToProps = {
   resetMeetingsToken,
   deleteComment,
   fetchEmojis,
-  addReaction,
-  deleteReaction,
 };
 export default compose(
   withPreparedDispatch('fetchMeetingDetail', loadData, (props) => [

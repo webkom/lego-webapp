@@ -29,8 +29,9 @@ import { statusesText } from 'app/reducers/meetingInvitations';
 import { MeetingInvitationStatus } from 'app/store/models/MeetingInvitation';
 import urlifyString from 'app/utils/urlifyString';
 import styles from './MeetingDetail.css';
-import type { Dateish, ID } from 'app/models';
+import type { Dateish } from 'app/models';
 import type { MeetingInvitationWithUser } from 'app/reducers/meetingInvitations';
+import type { ID } from 'app/store/models';
 import type Comment from 'app/store/models/Comment';
 import type Emoji from 'app/store/models/Emoji';
 import type { DetailedMeeting } from 'app/store/models/Meeting';
@@ -55,16 +56,7 @@ type Props = {
   comments: Comment[];
   deleteComment: (id: ID, contentTarget: ContentTarget) => Promise<void>;
   emojis: Emoji[];
-  addReaction: (args: {
-    emoji: string;
-    user: CurrentUser;
-    contentTarget: ContentTarget;
-  }) => Promise<void>;
   reactionsGrouped: ReactionsGrouped[];
-  deleteReaction: (args: {
-    reactionId: ID;
-    contentTarget: ContentTarget;
-  }) => Promise<void>;
   fetchEmojis: () => Promise<void>;
   fetchingEmojis: boolean;
 };
@@ -86,8 +78,6 @@ const MeetingDetails = ({
   currentUserInvitation,
   deleteComment,
   emojis,
-  addReaction,
-  deleteReaction,
   fetchEmojis,
   fetchingEmojis,
   setInvitationStatus,
@@ -253,8 +243,6 @@ const MeetingDetails = ({
                   fetchEmojis={fetchEmojis}
                   fetchingEmojis={fetchingEmojis}
                   user={currentUser}
-                  addReaction={addReaction}
-                  deleteReaction={deleteReaction}
                   parentEntity={meeting}
                   loggedIn={loggedIn}
                 />
