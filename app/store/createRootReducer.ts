@@ -24,6 +24,7 @@ import frontpage from 'app/reducers/frontpage';
 import galleries from 'app/reducers/galleries';
 import galleryPictures from 'app/reducers/galleryPictures';
 import groups from 'app/reducers/groups';
+import imageGalleryEntries from 'app/reducers/imageGallery';
 import joblistings from 'app/reducers/joblistings';
 import meetingInvitations from 'app/reducers/meetingInvitations';
 import meetings from 'app/reducers/meetings';
@@ -74,6 +75,7 @@ const createRootReducer = (history: History) =>
     feeds,
     form,
     frontpage,
+    imageGalleryEntries,
     galleries,
     galleryPictures,
     groups,

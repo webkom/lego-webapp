@@ -1,5 +1,6 @@
 import { LoadingIndicator } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
+import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { Field, FieldArray } from 'redux-form';
@@ -22,15 +23,24 @@ import {
   legoForm,
 } from 'app/components/Form';
 import Icon from 'app/components/Icon';
+import { Image } from 'app/components/Image';
 import { Flex } from 'app/components/Layout';
 import MazemapLink from 'app/components/MazemapEmbed/MazemapLink';
+import Modal from 'app/components/Modal';
+import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import NavigationTab from 'app/components/NavigationTab';
 import Tag from 'app/components/Tags/Tag';
 import { FormatTime } from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
 import { AttendanceStatus } from 'app/components/UserAttendance';
 import AttendanceModal from 'app/components/UserAttendance/AttendanceModal';
-import type { ID, EventRegistration, EventPool, ActionGrant } from 'app/models';
+import type {
+  ID,
+  EventRegistration,
+  EventPool,
+  ActionGrant,
+  ImageGallery,
+} from 'app/models';
 import { validYoutubeUrl } from 'app/utils/validation';
 import {
   addStripeFee,
@@ -64,6 +74,9 @@ type Props = {
   pristine: boolean;
   initialized: boolean;
   push: (arg0: string) => void;
+  imageGallery: ImageGallery;
+  change: (key: string, token: string) => void;
+  setSaveForUse: (key: string, token: string, value: boolean) => Promise<any>;
 };
 
 function EventEditor({
@@ -81,8 +94,14 @@ function EventEditor({
   pristine,
   initialized,
   push,
+  imageGallery,
+  change,
+  setSaveForUse,
 }: Props) {
   const isEditPage = eventId !== undefined;
+  const [showImageGallery, setShowImageGallery] = useState(false);
+  const [useImageGallery, setUseImageGallery] = useState(false);
+  const [imageGalleryUrl, setImageGalleryUrl] = useState('');
 
   if (isEditPage && !actionGrant.includes('edit')) {
     return null;
@@ -125,10 +144,87 @@ function EventEditor({
           name="cover"
           component={ImageUploadField}
           uploadFile={uploadFile}
-          edit={isEditPage && ((token) => setCoverPhoto(eventId, token))}
           aspectRatio={20 / 6}
-          img={event.cover}
+          img={useImageGallery ? imageGalleryUrl : event.cover}
         />
+        <Modal
+          show={showImageGallery}
+          onHide={() => setShowImageGallery(false)}
+          contentClassName={styles.imageGallery}
+        >
+          <>
+            <h1>Bildegalleri</h1>
+            <Flex wrap alignItems="center" justifyContent="space-around">
+              {imageGallery &&
+                imageGallery.map((e) => (
+                  <div key={e.key} className={styles.imageGalleryContainer}>
+                    <ConfirmModal
+                      title="Fjern fra galleri"
+                      message={`Er du sikker på at du vil fjerne bildet fra bildegalleriet? Bildet blir ikke slettet fra databasen.`}
+                      closeOnConfirm
+                      onConfirm={() => setSaveForUse(e.key, e.token, false)}
+                    >
+                      {({ openConfirmModal }) => (
+                        <Icon
+                          onClick={openConfirmModal}
+                          name="close-circle"
+                          className={styles.closeButton}
+                        />
+                      )}
+                    </ConfirmModal>
+
+                    <Image
+                      src={e.cover}
+                      placeholder={e.coverPlaceholder}
+                      alt={`${e.cover} bilde`}
+                      onClick={() => {
+                        change('cover', `${e.key}:${e.token}`);
+                        setShowImageGallery(false);
+                        setUseImageGallery(true);
+                        setImageGalleryUrl(e.cover);
+                      }}
+                      className={styles.imageGalleryEntry}
+                    />
+                  </div>
+                ))}
+              {imageGallery.length === 0 && (
+                <h2>
+                  Det finnes ingen bilder i bildegalleriet. Hvorfor ikke laste
+                  opp et?
+                </h2>
+              )}
+            </Flex>
+          </>
+        </Modal>
+
+        <Flex wrap alignItems="center" justifyContent="space-between">
+          <Flex alignItems="center" justifyContent="space-between">
+            <Button onClick={() => setShowImageGallery(true)}>
+              Velg bilde fra bildegalleriet
+            </Button>
+            <Tooltip content="Velg et bilde som er lastet opp og markert for bruk fra tidligere arrangementer.">
+              <Icon
+                name="information-circle-outline"
+                size={20}
+                style={{
+                  cursor: 'help',
+                  marginLeft: '0.5em',
+                }}
+              />
+            </Tooltip>
+          </Flex>
+
+          <Tooltip content="Lagre bildet til bildegalleriet. Det kan da brukes i andre arrangementer.">
+            <Field
+              label="Lagre til bildegalleriet"
+              name="saveToImageGallery"
+              component={CheckBox.Field}
+              fieldClassName={styles.metaField}
+              className={styles.formField}
+              normalize={(v) => !!v}
+            />
+          </Tooltip>
+        </Flex>
         <Flex>
           <Field
             name="youtubeUrl"
@@ -659,16 +755,16 @@ const validate = (data) => {
     errors.eventStatusType = 'Påmeldingstype er påkrevd';
   }
 
+  if (!data.isClarified) {
+    errors.isClarified = 'Arrangementet må være avklart';
+  }
+
   if (data.pools) {
     errors.pools = validatePools(data.pools);
   }
 
   if (data.feedbackRequired && !data.feedbackDescription) {
     errors.feedbackDescription = 'Kan ikke være tomt';
-  }
-
-  if (!data.isClarified) {
-    errors.isClarified = 'Arrangementet må være avklart';
   }
 
   if (!isInteger(data.registrationDeadlineHours)) {
@@ -711,6 +807,12 @@ const validate = (data) => {
 export default legoForm({
   form: 'eventEditor',
   validate,
-  onSubmit: (values, dispatch, props: Props) =>
-    props.handleSubmitCallback(values),
+  onSubmit: (values, dispatch, props: Props) => {
+    props.handleSubmitCallback(values);
+    const key: string = values.cover.split(':')[0];
+    const token: string = values.cover.split(':')[1];
+    if (values.saveToImageGallery) {
+      props.setSaveForUse(key, token, true);
+    }
+  },
 })(EventEditor);

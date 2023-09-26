@@ -1,4 +1,4 @@
-import type { Dateish } from 'app/models';
+import type { Dateish, Cover } from 'app/models';
 import type { ID } from 'app/store/models';
 import type { ListCompany } from 'app/store/models/Company';
 import type ObjectPermissionsMixin from 'app/store/models/ObjectPermissionsMixin';
@@ -24,7 +24,7 @@ interface Event {
   title: string;
   slug: string;
   description: string;
-  cover: string;
+  cover: Cover;
   coverPlaceholder: string;
   text: string;
   eventType: EventType;

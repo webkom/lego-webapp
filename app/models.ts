@@ -148,11 +148,17 @@ export type Group = {
   active: boolean;
   contactEmail: string;
 };
+
+export type Cover = {
+  url: string;
+  fileKey: string;
+};
+
 type EventBase = {
   id: ID;
   title: string;
   slug: string;
-  cover: string;
+  cover: Cover;
   coverPlaceholder: string;
   description: string;
   createdAt: Dateish | null | undefined;
@@ -235,6 +241,15 @@ export type EventPool = EventPoolBase & {
   registrationCount: number;
   permissionGroups: Array<Record<string, any>>;
 };
+
+type ImageGalleryEntry = {
+  key: string;
+  cover: string;
+  token: string;
+  coverPlaceholder: string;
+};
+
+export type ImageGallery = ImageGalleryEntry[];
 
 export type Event = EventBase & {
   actionGrant: ActionGrant;
