@@ -1,5 +1,6 @@
 import { isEqual } from 'lodash';
 import qs from 'qs';
+import { useMemo } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import type { ParsedQs } from 'qs';
 
@@ -50,7 +51,10 @@ export const stringifyQuery = <Values extends ParsedQs>(
 const useQuery = <Values extends ParsedQs>(defaultValues: Values) => {
   const location = useLocation();
   const history = useHistory();
-  const query = parseQueryString(location.search, defaultValues);
+  const query = useMemo(
+    () => parseQueryString(location.search, defaultValues),
+    [location.search, defaultValues]
+  );
 
   const setQuery = (query: Partial<Values>) => {
     history.replace({

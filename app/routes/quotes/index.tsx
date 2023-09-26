@@ -1,54 +1,20 @@
-import { Route, Switch } from 'react-router-dom';
-import RouteWrapper from 'app/components/RouteWrapper';
-import { UserContext } from 'app/routes/app/AppRoute';
+import { Switch, useRouteMatch } from 'react-router-dom';
+import { CompatRoute } from 'react-router-dom-v5-compat';
 import PageNotFound from '../pageNotFound';
-import QuoteDetailRoute from './QuoteDetailRoute';
-import QuoteEditorRoute from './QuoteEditorRoute';
-import QuotesRoute from './QuotesRoute';
+import AddQuote from './components/AddQuote';
+import QuotePage from './components/QuotePage';
 
-const quotesRoute = ({
-  match,
-}: {
-  match: {
-    path: string;
-  };
-}) => (
-  <UserContext.Consumer>
-    {({ currentUser, loggedIn }) => (
-      <Switch>
-        <RouteWrapper
-          exact
-          path={`${match.path}`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={QuotesRoute}
-        />
-        <RouteWrapper
-          exact
-          path={`${match.path}/add`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={QuoteEditorRoute}
-        />
-        <RouteWrapper
-          exact
-          path={`${match.path}/:quoteId`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={QuoteDetailRoute}
-        />
-        <Route component={PageNotFound} />
-      </Switch>
-    )}
-  </UserContext.Consumer>
-);
+const QuotesRoute = () => {
+  const { path } = useRouteMatch();
 
-export default function Quotes() {
-  return <Route path="/quotes" component={quotesRoute} />;
-}
+  return (
+    <Switch>
+      <CompatRoute exact path={`/quotes`} component={QuotePage} />
+      <CompatRoute exact path={`${path}/add`} component={AddQuote} />
+      <CompatRoute exact path={`${path}/:quoteId`} component={QuotePage} />
+      <CompatRoute component={PageNotFound} />
+    </Switch>
+  );
+};
+
+export default QuotesRoute;
