@@ -2,7 +2,6 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { fetchEmojis } from 'app/actions/EmojiActions';
 import { fetchRandomQuote } from 'app/actions/QuoteActions';
-import { addReaction, deleteReaction } from 'app/actions/ReactionActions';
 import { selectEmojis } from 'app/reducers/emojis';
 import { selectRandomQuote } from 'app/reducers/quotes';
 import loadingIndicator from 'app/utils/loadingIndicator';
@@ -23,8 +22,6 @@ function mapStateToProps(state, props) {
 
 const mapDispatchToProps = {
   fetchRandomQuote,
-  addReaction,
-  deleteReaction,
   fetchEmojis,
 };
 
