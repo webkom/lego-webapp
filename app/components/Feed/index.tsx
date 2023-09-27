@@ -27,7 +27,7 @@ const Feed = ({ items }: Props): ReactNode => (
     }}
   >
     {items.length ? (
-      items.map((item, i) => {
+      items.map((item) => {
         const renders = activityRenderers[item.verb];
         return renders ? (
           <ErrorBoundary hidden key={item.id}>

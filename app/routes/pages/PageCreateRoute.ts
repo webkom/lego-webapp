@@ -6,7 +6,7 @@ import { createPage } from 'app/actions/PageActions';
 import { legoForm } from 'app/components/Form';
 import PageEditor from './components/PageEditor';
 
-function mapStateToProps(state, props) {
+function mapStateToProps() {
   return {
     isNew: true,
     page: {},

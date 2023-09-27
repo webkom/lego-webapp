@@ -4,6 +4,7 @@ import type { SurveyEntity } from 'app/reducers/surveys';
 import { TokenNavigation } from '../../utils';
 import styles from '../surveys.css';
 import Results from './Results';
+import type { EntityId } from '@reduxjs/toolkit';
 
 type Props = {
   survey: SurveyEntity;
@@ -11,14 +12,12 @@ type Props = {
   results: Record<string, any>;
   option: string;
   value: string;
-  editSurvey: (arg0: Record<string, any>) => Promise<any>;
 };
 
 const SubmissionPublicResultsPage = ({
   survey,
   actionGrant,
   option,
-  editSurvey,
   value,
 }: Props) => {
   const { results = {} } = survey;
@@ -35,8 +34,8 @@ const SubmissionPublicResultsPage = ({
     return texts.length === 0 ? <i>Ingen svar.</i> : texts;
   };
 
-  const generateQuestionData = (questionId) => {
-    const questionData = [];
+  const generateQuestionData = (questionId: EntityId) => {
+    const questionData: { option: string; selections: number }[] = [];
     const question =
       survey.questions.find((q) => q.id === Number(questionId)) || {};
     Object.keys(results[questionId]).forEach((optionId) => {

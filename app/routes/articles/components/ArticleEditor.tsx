@@ -21,11 +21,7 @@ import Tooltip from 'app/components/Tooltip';
 import type { EditingEvent } from 'app/routes/events/utils';
 import type { DetailedArticle } from 'app/store/models/Article';
 import type { CurrentUser } from 'app/store/models/User';
-import {
-  createValidator,
-  validYoutubeUrl,
-  required,
-} from 'app/utils/validation';
+import { validYoutubeUrl } from 'app/utils/validation';
 
 export type Props = {
   article?: DetailedArticle;
@@ -189,11 +185,7 @@ const ArticleEditor = ({
   );
 };
 
-const onSubmit = (
-  data,
-  dispatch,
-  { currentUser, isNew, articleId, submitArticle }: Props
-) => {
+const onSubmit = (data, _, { isNew, articleId, submitArticle }: Props) => {
   const body = {
     ...(isNew
       ? {}

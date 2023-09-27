@@ -90,7 +90,7 @@ describe('Profile settings', () => {
     // cy.url().should('include', '/users/me');
     cy.url().should('include', `/users/${initialUser.username}`);
 
-    cy.window().then((win) => {
+    cy.window().then(() => {
       // TODO: Should be scrolled to top
       // expect(win.scrollY).to.be.closeTo(0, 50);
     });
@@ -119,8 +119,6 @@ describe('Profile settings', () => {
 
   it('profile settings form should show proper errors', () => {
     cy.visit('/users/me/settings/profile');
-
-    const submitButton = () => cy.contains('Lagre');
 
     // firstName field validation
     field('firstName').clear().blur();

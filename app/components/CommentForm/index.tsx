@@ -62,7 +62,7 @@ const CommentForm = ({
           )
         }
       >
-        {({ handleSubmit, pristine, submitting, form, values }) => {
+        {({ handleSubmit, values }) => {
           return (
             <form onSubmit={handleSubmit}>
               <Flex alignItems="center" gap="1rem">

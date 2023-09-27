@@ -24,7 +24,6 @@ export type Props = {
   user: UserEntity;
   handleSubmit: (arg0: (...args: Array<any>) => any) => void;
   createUser: (token: string, data: Record<string, any>) => void;
-  router: any;
   submitSucceeded: boolean;
 } & RouteChildrenProps<{ username: string }>;
 
@@ -32,10 +31,7 @@ const UserConfirmation = ({
   token,
   user,
   handleSubmit,
-  createUser,
-  router,
   submitSucceeded,
-  ...props
 }: Props) => {
   if (submitSucceeded) {
     return (

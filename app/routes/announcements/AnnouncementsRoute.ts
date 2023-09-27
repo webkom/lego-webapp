@@ -8,11 +8,12 @@ import {
 } from 'app/actions/AnnouncementsActions';
 import { LoginPage } from 'app/components/LoginForm';
 import { selectAnnouncements } from 'app/reducers/announcements';
+import type { RootState } from 'app/store/createRootReducer';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import AnnouncementsList from './components/AnnouncementsList';
 
-const mapStateToProps = (state, props) => {
+const mapStateToProps = (state: RootState) => {
   const announcements = selectAnnouncements(state);
   const actionGrant = state.announcements.actionGrant;
   return {

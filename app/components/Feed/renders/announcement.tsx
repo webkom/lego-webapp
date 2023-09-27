@@ -2,14 +2,14 @@ import Icon from 'app/components/Icon';
 import { lookupContext, contextRender } from '../context';
 import styles from '../context.css';
 import type { AggregatedActivity, TagInfo } from '../types';
-import type { Element } from 'react';
+import type { ReactElement } from 'react';
 
 /**
  * Group by object
  */
 export function activityHeader(
   aggregatedActivity: AggregatedActivity,
-  htmlTag: (arg0: TagInfo) => Element<any>
+  htmlTag: (arg0: TagInfo) => ReactElement
 ) {
   const latestActivity = aggregatedActivity.lastActivity;
   const actor = lookupContext(aggregatedActivity, latestActivity.actor);
@@ -35,6 +35,6 @@ export function activityContent() {
 export function icon() {
   return <Icon name="chatbubbles" />;
 }
-export function getURL(aggregatedActivity: AggregatedActivity) {
+export function getURL() {
   return '/timeline';
 }

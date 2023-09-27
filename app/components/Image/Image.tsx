@@ -67,7 +67,7 @@ const ImageComponent = (props: Props) => {
     image.onerror = () => {
       setImageError(true);
     };
-  }, [isProgressive, themedSource]);
+  }, [darkModeSource, isProgressive, src, themedSource]);
 
   const defaultClass = cx(styles.image, className);
   // Skip the transition effect if the image loads very quick.

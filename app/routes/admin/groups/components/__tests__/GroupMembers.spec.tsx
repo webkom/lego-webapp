@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-expressions */
 import { shallow } from 'enzyme';
 import { Link } from 'react-router-dom';
 import GroupMembersList from '../GroupMembersList';
@@ -48,7 +47,7 @@ describe.skip('GroupMembersList', () => {
   it('should include links for all users in the list', () => {
     const wrapper = shallow(<GroupMembersList memberships={memberships} />);
     const children = wrapper.children();
-    memberships.forEach(({ user }, i) => {
+    memberships.forEach(({ user }) => {
       const expected = (
         <Link to={`/users/${user.username}`}>
           {user.fullName} ({user.username})

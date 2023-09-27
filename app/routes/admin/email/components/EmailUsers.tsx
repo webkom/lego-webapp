@@ -151,14 +151,14 @@ export default class EmailUsers extends Component<Props> {
         <Table
           infiniteScroll
           columns={columns}
-          onLoad={(filters, sort) => {
+          onLoad={() => {
             this.props.fetch({
               next: true,
               query: this.props.query,
             });
           }}
           filters={this.props.filters}
-          onChange={(filters, sort) => {
+          onChange={(filters) => {
             this.props.push({
               search: qs.stringify({
                 filters: JSON.stringify(filters),

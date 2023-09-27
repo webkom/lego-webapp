@@ -31,10 +31,8 @@ const JoblistingDetail = ({
 }: Props) => {
   const history = useHistory();
   useEffect(() => {
-    joblisting &&
-      joblisting.slug &&
-      history.replace(`/joblistings/${joblisting.slug}`);
-  }, [joblisting?.slug, history]);
+    joblisting?.slug && history.replace(`/joblistings/${joblisting.slug}`);
+  }, [history, joblisting?.slug]);
 
   if (fetching || !joblisting) {
     return <LoadingIndicator loading />;

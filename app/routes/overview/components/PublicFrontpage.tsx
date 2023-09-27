@@ -37,13 +37,6 @@ const isEvent = (
     | WithDocumentType<PublicEvent>
 ): item is WithDocumentType<PublicEvent> => item.documentType === 'event';
 
-const isArticle = (
-  item:
-    | WithDocumentType<ArticleWithAuthorDetails>
-    | WithDocumentType<PublicEvent>
-): item is WithDocumentType<ArticleWithAuthorDetails> =>
-  item.documentType === 'article';
-
 const PublicFrontpage = ({ frontpage, readmes }: Props) => {
   const pinned = frontpage[0];
   const pinnedComponent = pinned && (

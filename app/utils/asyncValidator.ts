@@ -4,7 +4,7 @@ type AsyncValidator<T = any, C = any> = (
   message?: string
 ) => (value: T, context?: C) => Promise<Readonly<[boolean, string] | [true]>>;
 
-type FieldValidators<S> = {
+type FieldValidators = {
   [field: string]: ReturnType<AsyncValidator>[];
 };
 

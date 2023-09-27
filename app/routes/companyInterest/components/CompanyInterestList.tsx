@@ -258,13 +258,13 @@ class CompanyInterestList extends Component<Props, State> {
 
         <Table
           columns={columns}
-          onLoad={(filters, sort) => {
+          onLoad={(filters) => {
             this.props.fetch({
               next: true,
               filters,
             });
           }}
-          onChange={(filters, sort) => {
+          onChange={(filters) => {
             this.props.fetch({
               filters,
             });

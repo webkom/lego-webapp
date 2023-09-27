@@ -35,7 +35,7 @@ const ResultIcon = ({ result }) => {
         return (
           <Image
             alt={`${result.title}'s logo`}
-            src={result.icon!}
+            src={result.icon}
             style={{ width: '28px', display: 'block' }}
             className={styles.searchResultItemIcon}
           />

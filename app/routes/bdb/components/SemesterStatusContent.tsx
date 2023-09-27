@@ -52,7 +52,7 @@ export default class SemesterStatusContent extends Component<Props, State> {
       <Dropdown.List>
         {statusCodes.map((statusString, j) => (
           <Dropdown.ListItem key={j} className={styles.dropDownItem}>
-            <Button flat onClick={(e) => editFunction(statusString)}>
+            <Button flat onClick={() => editFunction(statusString)}>
               <Flex>
                 {getStatusString(statusString)}
                 {semesterStatus.contactedStatus.indexOf(statusString) !==

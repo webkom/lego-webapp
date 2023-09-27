@@ -85,7 +85,7 @@ export default class Gallery extends PureComponent<Props, State> {
     const cols = containerWidth < 900 ? 2 : containerWidth < 550 ? 1 : 3;
     const photoNodes = chunk(photos, cols).map((column, columnIndex) => (
       <div key={columnIndex} className={styles.galleryRow}>
-        {column.map((photo, rowIndex) => {
+        {column.map((photo) => {
           let overlay;
           let top;
           let bottom;

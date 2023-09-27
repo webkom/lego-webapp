@@ -86,7 +86,7 @@ function mutateGalleryPicture(state: any, action: any) {
         // Not using Object.entries() since flow will complain...
         Object.keys(state.byId)
           .map((key) => [key, state.byId[key]])
-          .filter(([_, v]) => {
+          .filter(([, v]) => {
             return v.gallery !== action.meta.id;
           })
       );

@@ -95,7 +95,7 @@ class Poll extends Component<Props, State> {
   render() {
     const { poll, handleVote, details, truncate, allowedToViewHiddenResults } =
       this.props;
-    const { truncateOptions, expanded, shuffledOptions } = this.state;
+    const { truncateOptions, expanded } = this.state;
     const { id, title, description, hasAnswered, totalVotes, resultsHidden } =
       poll;
     const options = this.optionsWithPerfectRatios(this.props.poll.options);

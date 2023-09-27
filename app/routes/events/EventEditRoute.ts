@@ -3,12 +3,7 @@ import moment from 'moment-timezone';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { formValueSelector } from 'redux-form';
-import {
-  fetchEvent,
-  editEvent,
-  deleteEvent,
-  setCoverPhoto,
-} from 'app/actions/EventActions';
+import { fetchEvent, editEvent, deleteEvent } from 'app/actions/EventActions';
 import {
   fetchImageGallery,
   setSaveForUse,
@@ -154,7 +149,6 @@ const mapDispatchToProps = {
   deleteEvent,
   handleSubmitCallback: (event) => editEvent(transformEvent(event)),
   uploadFile,
-  setCoverPhoto,
   setSaveForUse,
   push,
 };

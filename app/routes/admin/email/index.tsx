@@ -1,5 +1,4 @@
 import { Route, Switch } from 'react-router-dom';
-import { UserContext } from 'app/routes/app/AppRoute';
 import PageNotFound from '../../pageNotFound';
 import CreateEmailListRoute from './CreateEmailListRoute';
 import CreateEmailUserRoute from './CreateEmailUserRoute';
@@ -19,61 +18,57 @@ const groupRoute = ({
     path: string;
   };
 }) => (
-  <UserContext.Consumer>
-    {({ currentUser, loggedIn }) => (
-      <Switch>
-        <Route path={`${match.path}`}>
-          <EmailRoute>
-            <Switch>
-              <Route exact path={`${match.path}`} component={EmailListsRoute} />
-              <Route
-                exact
-                path={`${match.path}/lists/new`}
-                component={CreateEmailListRoute}
-              />
-              <Route
-                exact
-                path={`${match.path}/lists/:emailListId`}
-                component={EmailListRoute}
-              />
-              <Route
-                exact
-                path={`${match.path}/users`}
-                component={EmailUsersRoute}
-              />
-              <Route
-                exact
-                path={`${match.path}/users/new`}
-                component={CreateEmailUserRoute}
-              />
-              <Route
-                exact
-                path={`${match.path}/users/:emailUserId`}
-                component={EmailUserRoute}
-              />
-              <Route
-                exact
-                path={`${match.path}/restricted`}
-                component={RestrictedMailsRoute}
-              />
-              <Route
-                exact
-                path={`${match.path}/restricted/new`}
-                component={CreateRestrictedMailRoute}
-              />
-              <Route
-                exact
-                path={`${match.path}/restricted/:restrictedMailId`}
-                component={RestrictedMailRoute}
-              />
-              <Route component={PageNotFound} />
-            </Switch>
-          </EmailRoute>
-        </Route>
-        <Route component={PageNotFound} />
-      </Switch>
-    )}
-  </UserContext.Consumer>
+  <Switch>
+    <Route path={`${match.path}`}>
+      <EmailRoute>
+        <Switch>
+          <Route exact path={`${match.path}`} component={EmailListsRoute} />
+          <Route
+            exact
+            path={`${match.path}/lists/new`}
+            component={CreateEmailListRoute}
+          />
+          <Route
+            exact
+            path={`${match.path}/lists/:emailListId`}
+            component={EmailListRoute}
+          />
+          <Route
+            exact
+            path={`${match.path}/users`}
+            component={EmailUsersRoute}
+          />
+          <Route
+            exact
+            path={`${match.path}/users/new`}
+            component={CreateEmailUserRoute}
+          />
+          <Route
+            exact
+            path={`${match.path}/users/:emailUserId`}
+            component={EmailUserRoute}
+          />
+          <Route
+            exact
+            path={`${match.path}/restricted`}
+            component={RestrictedMailsRoute}
+          />
+          <Route
+            exact
+            path={`${match.path}/restricted/new`}
+            component={CreateRestrictedMailRoute}
+          />
+          <Route
+            exact
+            path={`${match.path}/restricted/:restrictedMailId`}
+            component={RestrictedMailRoute}
+          />
+          <Route component={PageNotFound} />
+        </Switch>
+      </EmailRoute>
+    </Route>
+    <Route component={PageNotFound} />
+  </Switch>
 );
 
 export default function Email() {

@@ -192,20 +192,7 @@ export function deleteEvent(eventId: number): Thunk<Promise<any>> {
       dispatch(push('/events'));
     });
 }
-export function setCoverPhoto(id: number, token: string): Thunk<any> {
-  return callAPI({
-    types: Event.EDIT,
-    endpoint: `/events/${id}/`,
-    method: 'PATCH',
-    body: {
-      id,
-      cover: token,
-    },
-    meta: {
-      errorMessage: 'Endring av cover bilde feilet',
-    },
-  });
-}
+
 export function register({
   eventId,
   captchaResponse,

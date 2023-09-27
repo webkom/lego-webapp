@@ -188,13 +188,10 @@ export const selectNotFoundpageForPages = createSelector(
     selectedPage: {},
   })
 );
-export const selectInfoPageForPages = createSelector(
-  (state, props) => props.pageSlug,
-  (pageSlug) => ({
-    selectedPageInfo: {
-      title: 'Info om Abakus',
-      isComplete: true,
-    },
-    selectedPage: {},
-  })
-);
+export const selectInfoPageForPages = createSelector(() => ({
+  selectedPageInfo: {
+    title: 'Info om Abakus',
+    isComplete: true,
+  },
+  selectedPage: {},
+}));

@@ -289,7 +289,7 @@ export class RegisteredTable extends Component<Props> {
         title: 'Samtykke',
         dataIndex: 'photoConsents',
         visible: !!event.useConsent,
-        render: (feedback, registration) => {
+        render: (_, registration) => {
           const eventSemester = getEventSemesterFromStartTime(event.startTime);
           const photoConsents = registration.photoConsents;
           const LEGACY_photoConsent = registration.LEGACYPhotoConsent;
@@ -317,7 +317,7 @@ export class RegisteredTable extends Component<Props> {
               {
                 title: 'Pool',
                 dataIndex: 'pool',
-                render: (pool, registration) => {
+                render: (pool) => {
                   const poolName = getPoolName(pools, pool);
                   return <span>{poolName}</span>;
                 },
@@ -371,52 +371,6 @@ export class RegisteredTable extends Component<Props> {
     );
   }
 }
-type UnregisteredElementProps = {
-  registration: EventRegistration;
-};
-export const UnregisteredElement = ({
-  registration,
-}: UnregisteredElementProps) => {
-  return (
-    <li className={styles.unregisteredList}>
-      <div className={styles.col}>
-        <Tooltip content={registration.user.fullName}>
-          <Link to={`/users/${registration.user.username}`}>
-            {registration.user.username}
-          </Link>
-        </Tooltip>
-      </div>
-      <div className={styles.col}>Avmeldt</div>
-      <div className={styles.col}>
-        <Tooltip
-          content={
-            <Time
-              time={registration.registrationDate}
-              format="DD.MM.YYYY HH:mm"
-            />
-          }
-        >
-          <Time time={registration.registrationDate} format="DD.MM.YYYY" />
-        </Tooltip>
-      </div>
-      <div className={styles.col}>
-        <Tooltip
-          content={
-            <Time
-              time={registration.unregistrationDate}
-              format="DD.MM.YYYY HH:mm"
-            />
-          }
-        >
-          <Time time={registration.unregistrationDate} format="DD.MM.YYYY" />
-        </Tooltip>
-      </div>
-      <div className={styles.col}>
-        {registration.user.grade ? registration.user.grade.name : ''}
-      </div>
-    </li>
-  );
-};
 type UnregisteredTableProps = {
   loading: boolean;
   unregistered: Array<EventRegistration>;

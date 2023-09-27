@@ -2,15 +2,15 @@ import DisplayContent from 'app/components/DisplayContent';
 import Icon from 'app/components/Icon';
 import { lookupContext, contextRender } from '../context';
 import { formatHeader } from './utils';
-import type { AggregatedActivity, Activity, TagInfo } from '../types';
-import type { Element } from 'react';
+import type { AggregatedActivity, TagInfo } from '../types';
+import type { ReactElement } from 'react';
 
 /**
  * Grouped by target and date, standard...
  */
 export function activityHeader(
   aggregatedActivity: AggregatedActivity,
-  htmlTag: (arg0: TagInfo) => Element<any>
+  htmlTag: (arg0: TagInfo) => ReactElement
 ) {
   const latestActivity = aggregatedActivity.lastActivity;
   const actors = aggregatedActivity.actorIds.map((actorId) => {
@@ -32,7 +32,7 @@ export function activityHeader(
     </b>
   );
 }
-export function activityContent(activity: Activity) {
+export function activityContent() {
   return <DisplayContent content="" />;
 }
 export function icon() {

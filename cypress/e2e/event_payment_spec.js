@@ -1,5 +1,4 @@
 import {
-  c,
   field,
   fieldError,
   selectField,
@@ -19,7 +18,7 @@ describe('Event registration & payment', () => {
       cy.cachedLogin();
     });
 
-    Cypress.on('uncaught:exception', (err, runnable, promise) => {
+    Cypress.on('uncaught:exception', () => {
       return false;
     });
 

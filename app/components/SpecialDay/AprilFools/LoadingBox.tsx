@@ -19,7 +19,7 @@ type State = {
 };
 
 class LoadingBox extends Component<Props, State> {
-  interval: IntervalID;
+  interval?: ReturnType<typeof setInterval>;
 
   constructor(props: Props) {
     super(props);

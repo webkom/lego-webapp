@@ -22,7 +22,7 @@
     "test:watch": "yarn run test --watch",
     "test:packages": "yarn workspaces run test",
     "lint": "yarn run lint:js && yarn run lint:css && yarn run lint:prettier",
-    "lint:js": "eslint . --ignore-path .prettierignore --ignore-pattern packages --rule '@typescript-eslint/no-explicit-any: 0'",
+    "lint:js": "eslint . --ignore-path .prettierignore --ignore-pattern packages --rule '@typescript-eslint/no-explicit-any: 0' --max-warnings 0",
     "lint:css": "stylelint './app/**/*.css'",
     "lint:prettier": "prettier '**/*.{ts,tsx,js,css,md,json}' --check",
     "lint:packages": "yarn workspaces run lint",

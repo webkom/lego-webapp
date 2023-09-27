@@ -16,7 +16,7 @@ export function fetchArticle(articleId: ID): Thunk<Promise<void>> {
     propagateError: true,
   });
 }
-export function createArticle({ id, ...data }: ArticleEntity): Thunk<any> {
+export function createArticle({ ...data }: ArticleEntity): Thunk<any> {
   return (dispatch) =>
     dispatch(
       callAPI({
@@ -57,7 +57,7 @@ export function editArticle({ id, ...data }: ArticleEntity): Thunk<any> {
           errorMessage: 'Endring av artikkel feilet',
         },
       })
-    ).then((res) => dispatch(push(`/articles/${id}/`)));
+    ).then(() => dispatch(push(`/articles/${id}/`)));
 }
 export function fetchAll({
   query,

@@ -12,14 +12,7 @@ type Props = FormProps & {
   user: UserEntity;
 };
 
-const DeleteUser = ({
-  handleSubmit,
-  invalid,
-  pristine,
-  submitting,
-  user,
-  ...props
-}: Props) => {
+const DeleteUser = ({ handleSubmit, invalid, pristine, submitting }: Props) => {
   const disabledButton = invalid || pristine || submitting;
   const [show, setShow] = useState(false);
   return (

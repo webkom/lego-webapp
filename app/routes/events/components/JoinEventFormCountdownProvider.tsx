@@ -2,6 +2,7 @@ import moment from 'moment-timezone';
 import { Component } from 'react';
 import type { Dateish, Event, EventRegistration } from 'app/models';
 import { registrationIsClosed } from '../utils';
+import type { Duration } from 'moment-timezone';
 import type { ComponentType, ReactNode } from 'react';
 
 type Action =
@@ -96,8 +97,8 @@ function withCountdown(WrappedComponent: ComponentType<Props>) {
       buttonOpen: false,
       registrationOpensIn: null,
     };
-    countdownProbeTimer: IntervalID;
-    countdownTimer: IntervalID;
+    countdownProbeTimer?: ReturnType<typeof setInterval>;
+    countdownTimer?: ReturnType<typeof setInterval>;
 
     componentDidMount() {
       this.setupEventCountdown(this.props.event, this.props.registration);
@@ -181,9 +182,8 @@ function withCountdown(WrappedComponent: ComponentType<Props>) {
         }
 
         const [, action] =
-          TICK_ACTIONS.find(
-            ([time, action]) => timeUntilRegistrationOpens <= time
-          ) || [];
+          TICK_ACTIONS.find(([time]) => timeUntilRegistrationOpens <= time) ||
+          [];
         const registrationOpensIn = moment(
           timeUntilRegistrationOpens + 1000
         ).format('mm:ss');
@@ -215,7 +215,7 @@ function getTimeDifference(first: Dateish, second: Dateish): number {
 export function getTimeUntil(
   time: Dateish,
   currentTime: Dateish = moment()
-): moment$MomentDuration {
+): Duration {
   return moment.duration(getTimeDifference(time, currentTime), 'milliseconds');
 }
 export default withCountdown;

@@ -40,7 +40,6 @@ export function fetchAll({
   dateAfter,
   dateBefore,
   ordering,
-  refresh = false,
   loadNextPage,
 }: {
   dateAfter?: string;
@@ -121,8 +120,6 @@ export function createMeeting({
   description,
   endTime,
   reportAuthor,
-  users,
-  groups,
   mazemapPoi,
   useMazemap,
 }: Record<string, any>): Thunk<any> {
@@ -178,8 +175,7 @@ export function inviteUsersAndGroups({
 }
 export function answerMeetingInvitation(
   action: string,
-  token: string,
-  loggedIn: boolean
+  token: string
 ): Thunk<Promise<void>> {
   return (dispatch) => {
     dispatch(startSubmit('answerMeetingInvitation'));
@@ -210,8 +206,6 @@ export function editMeeting({
   endTime,
   reportAuthor,
   id,
-  users,
-  groups,
   mazemapPoi,
   useMazemap,
 }: Record<string, any>): Thunk<any> {

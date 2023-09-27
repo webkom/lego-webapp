@@ -1,6 +1,6 @@
 import { produce } from 'immer';
 import { createSelector } from 'reselect';
-import createEntityReducer, { fetching } from 'app/utils/createEntityReducer';
+import createEntityReducer from 'app/utils/createEntityReducer';
 import { ImageGallery, File } from '../actions/ActionTypes';
 
 export default createEntityReducer({
