@@ -130,14 +130,6 @@ const addRegistrationDateDataPoint = (
   }
 };
 
-const updateRegistrationStartDate = (eventStartTime: Dateish) => {
-  console.log(eventStartTime)
-}
-
-const updateRegistrationEndDate = (eventEndDate: Dateish) => {
-  console.log(eventEndDate)
-}
-
 const sortAttendeeStatistics = (attendeeStatistics: AttendeeStatistics) => {
   for (const attendeeStatisticsKey in attendeeStatistics) {
     if (attendeeStatisticsKey === 'registrationTimeDistribution') {
@@ -355,6 +347,15 @@ type Props = {
   eventStartTime: Dateish;
 };
 
+type StatisticsDistributions = {
+  genderDistribution: DistributionDataPoint[];
+  groupDistribution: DistributionDataPoint[];
+  registrationTimeDistribution: DistributionDataPoint[];
+  dataTekDistribution: DistributionDataPoint[];
+  komTekDistribution: DistributionDataPoint[];
+  totalDistribution: DistributionDataPoint[];
+}
+
 const EventAttendeeStatistics = ({
   eventId,
   registrations,
@@ -377,13 +378,24 @@ const EventAttendeeStatistics = ({
     revueGroupIDs
   );
 
+  const [registrationStartDate, setRegistrationStartDate] = useState<string>("");
+  const [registrationEndDate, setRegistrationEndDate] = useState<string>("");
+
+  const updateRegistrationStartDate = (date: string) => {
+    setRegistrationStartDate(date);
+  }
+
+  const updateRegistrationEndDate = (date: string) => {
+    setRegistrationEndDate(date);
+  }
+
   return (
     <>
       <div className={styles.filterContainer}>
         <label>Startdato for påmelding</label>
-        <DatePicker onChange={updateRegistrationStartDate} onBlur={() => {}} onFocus={() => {}}/>
+        <DatePicker value={registrationStartDate} onChange={updateRegistrationStartDate} onBlur={() => {}} onFocus={() => {}}/>
         <label>Sluttdato for påmelding</label>
-        <DatePicker onChange={updateRegistrationEndDate} onBlur={() => {}} onFocus={() => {}}/>
+        <DatePicker value={registrationEndDate} onChange={updateRegistrationEndDate} onBlur={() => {}} onFocus={() => {}}/>
       </div>
 
       {isEventFromPreviousSemester(eventStartTime) && (
