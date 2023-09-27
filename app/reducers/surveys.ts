@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 import type { EventType } from 'app/models';
 import type { RootState } from 'app/store/createRootReducer';
 import type { ID } from 'app/store/models';
-import type { UnknownSurvey } from 'app/store/models/Survey';
+import type { DetailedSurvey, UnknownSurvey } from 'app/store/models/Survey';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { Survey } from '../actions/ActionTypes';
 import { selectEvents } from './events';
@@ -70,17 +70,26 @@ export const selectSurveyTemplates = createSelector(
 );
 
 type SurveyTemplateProps = {
-  templateType: NonNullable<UnknownSurvey['templateType']>;
+  templateType: UnknownSurvey['templateType'];
+};
+
+export type SurveyTemplate = Omit<
+  DetailedSurvey,
+  'id' | 'event' | 'activeForm' | 'templateType'
+> & {
+  questions: (Omit<DetailedSurvey['questions'][number], 'id'> & {
+    options: Omit<DetailedSurvey['questions'][number]['options'], 'id'>;
+  })[];
 };
 
 export const selectSurveyTemplate = createSelector(
   (state: RootState) => selectSurveys(state),
-  (state, props: SurveyTemplateProps) => props.templateType,
+  (_: RootState, props: SurveyTemplateProps) => props.templateType,
   (surveys, templateType) => {
     const template = surveys.find(
       (survey) => survey.templateType === templateType
     );
-    if (!template) return false;
+    if (!template) return undefined;
     const questions = (template.questions || []).map((question) => ({
       ...omit(question, 'id'),
       options: question.options.map((option) => omit(option, 'id')),
@@ -88,6 +97,6 @@ export const selectSurveyTemplate = createSelector(
     return {
       ...omit(template, ['id', 'event', 'activeFrom', 'templateType']),
       questions,
-    };
+    } as SurveyTemplate;
   }
 );

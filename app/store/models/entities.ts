@@ -115,3 +115,7 @@ export default interface Entities {
 export interface NormalizedEntityPayload<EntityKeys extends keyof Entities> {
   entities: Pick<Entities, EntityKeys>;
 }
+
+export interface CallAPIResult<EntityKeys extends keyof Entities> {
+  payload: NormalizedEntityPayload<EntityKeys>;
+}

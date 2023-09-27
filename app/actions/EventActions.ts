@@ -8,12 +8,13 @@ import {
   followersEventSchema,
 } from 'app/reducers';
 import type { ID } from 'app/store/models';
+import type { DetailedEvent } from 'app/store/models/Event';
 import type { Thunk, Action } from 'app/types';
 import createQueryString from 'app/utils/createQueryString';
 import { Event } from './ActionTypes';
 
 export const waitinglistPoolId = -1;
-export function fetchEvent(eventId: string): Thunk<any> {
+export function fetchEvent(eventId: string): Thunk<Promise<DetailedEvent>> {
   return callAPI({
     types: Event.FETCH,
     endpoint: `/events/${eventId}/`,

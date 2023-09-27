@@ -39,12 +39,12 @@ export type CreateSurveyQuestion = Pick<
   | 'relativeIndex'
 > & { options: Pick<SurveyQuestionOption, 'optionText' | 'relativeIndex'>[] };
 
-export type FormSurveyQuestionOption = ValueLabel<
+export type FormSurveyQuestionOption = Overwrite<
   SurveyQuestionOption,
-  'relativeIndex'
+  { id?: ID }
 >;
 
 export type FormSurveyQuestion = Overwrite<
-  CreateSurveyQuestion,
+  ValueLabel<CreateSurveyQuestion, 'questionType'>,
   { options: FormSurveyQuestionOption[] }
 >;

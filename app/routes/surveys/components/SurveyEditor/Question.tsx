@@ -179,6 +179,7 @@ const renderOptions = ({
 }): ReactNode => (
   <Flex column gap="1rem" className={styles.options}>
     {fields.map((option, relativeIndex) => {
+      console.log(option, relativeIndex);
       const isLast = fields.length - 1 === relativeIndex;
 
       const removeFunction = () => fields.remove(relativeIndex);

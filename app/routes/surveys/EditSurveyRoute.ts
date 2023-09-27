@@ -16,22 +16,6 @@ import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import SurveyEditor from './components/SurveyEditor/SurveyEditor';
 import { mappings } from './utils';
 
-const loadData = (props, dispatch) => {
-  const { surveyId } = props.match.params;
-  const { templateType } = qs.parse(props.location.search, {
-    ignoreQueryPrefix: true,
-  });
-
-  if (templateType) {
-    return Promise.all([
-      dispatch(fetchTemplate(templateType)),
-      dispatch(fetchSurvey(surveyId)),
-    ]);
-  }
-
-  return dispatch(fetchSurvey(surveyId));
-};
-
 const mapStateToProps = (state, props) => {
   const notFetching = !state.surveys.fetching;
   const surveyId = Number(props.match.params.surveyId);
@@ -85,7 +69,6 @@ const mapStateToProps = (state, props) => {
     surveyId,
     fetching: state.surveys.fetching,
     template,
-    selectedTemplateType: templateType,
     initialValues,
     notFetching,
   };
@@ -97,10 +80,5 @@ const mapDispatchToProps = {
 };
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  withPreparedDispatch('fetchEditSurvey', loadData, (props) => [
-    props.match.params.surveyId,
-    props.location.search,
-  ]),
-  connect(mapStateToProps, mapDispatchToProps),
-  loadingIndicator(['notFetching'])
+  connect(mapStateToProps, mapDispatchToProps)
 )(SurveyEditor);
