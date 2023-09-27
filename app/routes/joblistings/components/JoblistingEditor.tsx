@@ -5,22 +5,27 @@ import {
   Icon,
   LoadingIndicator,
 } from '@webkom/lego-bricks';
-import moment from 'moment-timezone';
-import { Component } from 'react';
+import { useEffect, useState } from 'react';
+import { Field } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
-import { Field, SubmissionError, change } from 'redux-form';
 import { Content } from 'app/components/Content';
 import {
   TextInput,
   EditorField,
   Form,
   SelectInput,
+  LegoFinalForm,
   DatePicker,
-  legoForm,
 } from 'app/components/Form';
 import NavigationTab from 'app/components/NavigationTab';
 import { httpCheck } from 'app/routes/bdb/utils';
-import { validYoutubeUrl } from 'app/utils/validation';
+import {
+  createValidator,
+  legoEditorRequired,
+  required,
+  timeIsAfter,
+  validYoutubeUrl,
+} from 'app/utils/validation';
 import { places, jobTypes, yearValues } from '../constants';
 import styles from './JoblistingEditor.css';
 import type { ID } from 'app/store/models';
@@ -29,16 +34,15 @@ import type {
   Workplace,
 } from 'app/store/models/Joblisting';
 import type { History } from 'history';
-import type { FormProps } from 'redux-form';
 
 type SelectInputObject = {
   label: string;
   value: ID;
 };
+
 type Props = {
   joblistingId?: string;
   joblisting: DetailedJoblisting;
-  handleSubmit: any;
   submitJoblisting: (arg0: Workplace) => Promise<any>;
   deleteJoblisting: (arg0: ID) => Promise<any>;
   event: SelectInputObject;
@@ -48,25 +52,46 @@ type Props = {
   fetching: boolean;
   fetchCompanyContacts: (arg0: { companyId: ID }) => Promise<any>;
   company: SelectInputObject;
-} & FormProps;
-type State = {
-  responsibleOptions: Array<Record<string, any>>;
 };
 
-class JoblistingEditor extends Component<Props, State> {
-  state = {
-    responsibleOptions: [],
-  };
-  onSubmit = (newJoblisting) => {
+const validate = createValidator({
+  youtubeUrl: [validYoutubeUrl()],
+  title: [required('Du må gi jobbannonsen en tittel')],
+  description: [required('Du må skrive en søknadsintro')],
+  text: [legoEditorRequired('Du må skrive en søknadstekst')],
+  company: [required('Du må angi en bedrift for jobbannonsen')],
+  workplaces: [required('Arbeidssteder kan ikke være tom')],
+  toYear: [required('Du må velge sluttår')],
+  fromYear: [
+    required('Du må velge sluttår'),
+    timeIsAfter(
+      'toYear',
+      'Sluttidspunkt kan ikke være lavere enn starttidspunkt'
+    ),
+  ],
+  visibleTo: [
+    required('Du må velge dato for når jobbannonsen skal slutte å være synlig'),
+    timeIsAfter(
+      'visibleFrom',
+      'Sluttidspunkt kan ikke være lavere enn starttidspunkt'
+    ),
+  ],
+});
+
+const JoblistingEditor = (props: Props) => {
+  const [responsibleOptions, setResponsibleOptions] = useState([]);
+
+  const onSubmit = (newJoblisting) => {
     const workplaces = newJoblisting.workplaces
       ? newJoblisting.workplaces.map((obj) => ({
           town: obj.value,
         }))
       : null;
-    return this.props
+
+    return props
       .submitJoblisting({
         ...newJoblisting,
-        id: this.props.joblistingId,
+        id: props.joblistingId,
         fromYear: newJoblisting.fromYear?.value,
         toYear: newJoblisting.toYear?.value,
         jobType: newJoblisting.jobType?.value,
@@ -76,8 +101,8 @@ class JoblistingEditor extends Component<Props, State> {
         workplaces,
       })
       .then((result) => {
-        const id = this.props.joblistingId || result.payload.result;
-        this.props.push(`/joblistings/${id}/`);
+        const id = props.joblistingId || result.payload.result;
+        props.push(`/joblistings/${id}/`);
       })
       .catch((err) => {
         if (err.payload && err.payload.response) {
@@ -85,12 +110,14 @@ class JoblistingEditor extends Component<Props, State> {
         }
       });
   };
-  onDeleteJoblisting = () =>
-    this.props.deleteJoblisting(this.props.joblisting.id).then(() => {
-      this.props.push('/joblistings/');
+
+  const onDeleteJoblisting = () =>
+    props.deleteJoblisting(props.joblisting.id).then(() => {
+      props.push('/joblistings/');
     });
-  fetchContacts = (company: SelectInputObject) => {
-    return this.props
+
+  const fetchContacts = (company: SelectInputObject) => {
+    return props
       .fetchCompanyContacts({
         companyId: company.value,
       })
@@ -99,249 +126,194 @@ class JoblistingEditor extends Component<Props, State> {
           label: contact.name,
           value: contact.id,
         }));
-        this.setState({
-          responsibleOptions,
-        });
+        setResponsibleOptions(responsibleOptions);
       });
   };
 
-  componentDidMount() {
-    if (!this.props.isNew) {
-      this.fetchContacts(this.props.company);
+  useEffect(() => {
+    if (!props.isNew) {
+      fetchContacts(props.company);
     }
+  }, []);
+
+  const { isNew, fetching = false, push } = props;
+
+  if (!isNew && fetching) {
+    return <LoadingIndicator loading />;
   }
 
-  render() {
-    const {
-      handleSubmit,
-      isNew,
-      dispatch,
-      fetching = false,
-      submitting,
-      invalid,
-      push,
-    } = this.props;
+  return (
+    <Content>
+      <Helmet title={!isNew ? 'Rediger jobbannonse' : 'Ny jobbannonse'} />
+      <NavigationTab
+        title={!isNew ? 'Rediger jobbannonse' : 'Ny jobbannonse'}
+        back={{
+          label: 'Tilbake',
+          path: !isNew
+            ? `/joblistings/${props.joblisting.slug}`
+            : '/joblistings',
+        }}
+      />
 
-    if (!isNew && fetching) {
-      return <LoadingIndicator loading />;
-    }
-
-    return (
-      <Content>
-        <Helmet title={!isNew ? 'Rediger jobbannonse' : 'Ny jobbannonse'} />
-        <NavigationTab
-          title={!isNew ? 'Rediger jobbannonse' : 'Ny jobbannonse'}
-          back={{
-            label: 'Tilbake',
-            path: !isNew
-              ? `/joblistings/${this.props.joblisting.slug}`
-              : '/joblistings',
-          }}
-        />
-        <Form onSubmit={handleSubmit(this.onSubmit)}>
-          <Field
-            placeholder="Tittel"
-            label="Tittel"
-            name="title"
-            component={TextInput.Field}
-            required
-          />
-          <Field
-            placeholder="Bedrift"
-            label="Bedrift"
-            name="company"
-            component={SelectInput.AutocompleteField}
-            filter={['companies.company']}
-            onChange={(event) => {
-              this.fetchContacts(event).then(() => {
-                dispatch(
-                  change('joblistingEditor', 'responsible', {
+      <LegoFinalForm
+        onSubmit={onSubmit}
+        validate={validate}
+        initialValues={props.initialValues}
+      >
+        {({ handleSubmit, submitting, pristine, form }) => (
+          <Form onSubmit={handleSubmit}>
+            <Field
+              placeholder="Tittel"
+              label="Tittel"
+              name="title"
+              component={TextInput.Field}
+              required
+            />
+            <Field
+              placeholder="Bedrift"
+              label="Bedrift"
+              name="company"
+              component={SelectInput.AutocompleteField}
+              filter={['companies.company']}
+              onChange={(event) => {
+                fetchContacts(event).then(() => {
+                  form.change('joblistingEditor', {
                     label: 'Ingen',
                     value: null,
-                  })
-                );
-              });
-            }}
-            required
-          />
-          <Field
-            name="jobType"
-            label="Jobbtype"
-            component={SelectInput.Field}
-            placeholder="Jobbtype"
-            options={jobTypes}
-            required
-          />
-          <Field
-            placeholder="Søknadsfrist"
-            label="Søknadsfrist"
-            name="deadline"
-            component={DatePicker.Field}
-          />
-          <Field
-            name="visibleFrom"
-            label="Synlig fra dato"
-            component={DatePicker.Field}
-          />
-          <Field
-            name="visibleTo"
-            label="Synlig til dato"
-            component={DatePicker.Field}
-            required
-          />
-          <Field
-            placeholder="Arbeidssteder"
-            label="Arbeidssteder"
-            name="workplaces"
-            component={SelectInput.Field}
-            options={places}
-            tags
-          />
-          <Field
-            name="fromYear"
-            label="For klasse trinn fra"
-            placeholder="Jobbtype"
-            component={SelectInput.Field}
-            options={yearValues}
-            required
-          />
-          <Field
-            name="toYear"
-            label="Til klasse"
-            placeholder="Jobbtype"
-            component={SelectInput.Field}
-            options={yearValues}
-            required
-          />
-          <Field
-            placeholder="Søknadslenke"
-            label="Søknadslenke"
-            name="applicationUrl"
-            component={TextInput.Field}
-          />
-          <Field
-            name="contactMail"
-            placeholder="E-post"
-            label="Søknadsmail eller kontaktmail"
-            component={TextInput.Field}
-          />
-          <Field
-            name="responsible"
-            placeholder="Kontaktperson"
-            label="Kontaktperson"
-            options={this.state.responsibleOptions}
-            component={SelectInput.Field}
-          />
-          <Flex>
+                  });
+                  form.change('responsible', {
+                    label: 'Ingen',
+                    value: null,
+                  });
+                });
+              }}
+              required
+            />
             <Field
-              name="youtubeUrl"
-              label="YouTube-video som cover"
-              placeholder="https://www.youtube.com/watch?v=bLHL75H_VEM&t=5"
+              name="jobType"
+              label="Jobbtype"
+              component={SelectInput.Field}
+              placeholder="Jobbtype"
+              options={jobTypes}
+              required
+            />
+            <Field
+              placeholder="Søknadsfrist"
+              label="Søknadsfrist"
+              name="deadline"
+              component={DatePicker.Field}
+            />
+            <Field
+              name="visibleFrom"
+              label="Synlig fra dato"
+              component={DatePicker.Field}
+            />
+            <Field
+              name="visibleTo"
+              label="Synlig til dato"
+              component={DatePicker.Field}
+              required
+            />
+            <Field
+              placeholder="Arbeidssteder"
+              label="Arbeidssteder"
+              name="workplaces"
+              component={SelectInput.Field}
+              options={places}
+              tags
+            />
+            <Field
+              name="fromYear"
+              label="For klassetrinn fra"
+              placeholder="Jobbtype"
+              component={SelectInput.Field}
+              options={yearValues}
+              required
+            />
+            <Field
+              name="toYear"
+              label="Til klasse"
+              placeholder="Jobbtype"
+              component={SelectInput.Field}
+              options={yearValues}
+              required
+            />
+            <Field
+              placeholder="Søknadslenke"
+              label="Søknadslenke"
+              name="applicationUrl"
               component={TextInput.Field}
             />
-          </Flex>
-          <Field
-            name="description"
-            className={styles.descriptionField}
-            label="Søknadsintro"
-            placeholder="Søknadsintro"
-            component={EditorField.Field}
-            initialized={this.props.initialized}
-            required
-          />
-          <Field
-            name="text"
-            className={styles.textField}
-            placeholder="Søknadstekst"
-            label="Søknadstekst:"
-            component={EditorField.Field}
-            initialized={this.props.initialized}
-            required
-          />
-          <Flex wrap>
-            <Button
-              onClick={() =>
-                push(`/joblistings/${isNew ? '' : this.props.joblisting.id}`)
-              }
-            >
-              Avbryt
-            </Button>
-            <Button disabled={invalid || submitting} submit>
-              {isNew ? 'Opprett' : 'Lagre endringer'}
-            </Button>
-            {!isNew && (
-              <ConfirmModal
-                title="Slett jobbannonse"
-                message="Er du sikker på at du vil slette denne jobbannonsen?"
-                onConfirm={this.onDeleteJoblisting}
+            <Field
+              name="contactMail"
+              placeholder="E-post"
+              label="Søknadsmail eller kontaktmail"
+              component={TextInput.Field}
+            />
+            <Field
+              name="responsible"
+              placeholder="Kontaktperson"
+              label="Kontaktperson"
+              options={responsibleOptions}
+              component={SelectInput.Field}
+            />
+            <Flex>
+              <Field
+                name="youtubeUrl"
+                label="YouTube-video som cover"
+                placeholder="https://www.youtube.com/watch?v=bLHL75H_VEM&t=5"
+                component={TextInput.Field}
+              />
+            </Flex>
+            <Field
+              name="description"
+              className={styles.descriptionField}
+              label="Søknadsintro"
+              placeholder="Søknadsintro"
+              component={EditorField.Field}
+              initialized
+              required
+            />
+            <Field
+              name="text"
+              className={styles.textField}
+              placeholder="Søknadstekst"
+              label="Søknadstekst:"
+              component={EditorField.Field}
+              initialized
+              required
+            />
+            <Flex wrap>
+              <Button
+                onClick={() =>
+                  push(`/joblistings/${isNew ? '' : props.joblisting.id}`)
+                }
               >
-                {({ openConfirmModal }) => (
-                  <Button onClick={openConfirmModal} danger>
-                    <Icon name="trash" size={19} />
-                    Slett jobbannonse
-                  </Button>
-                )}
-              </ConfirmModal>
-            )}
-          </Flex>
-        </Form>
-      </Content>
-    );
-  }
-}
-
-const validate = ({
-  youtubeUrl,
-  title,
-  description,
-  event,
-  fromYear,
-  toYear,
-  workplaces,
-  visibleFrom,
-  visibleTo,
-  text,
-}) => {
-  const errors = {};
-  const [isValidYoutubeUrl, errorMessage = ''] = validYoutubeUrl()(youtubeUrl);
-
-  if (!isValidYoutubeUrl) {
-    errors.youtubeUrl = errorMessage;
-  }
-
-  if (!title) {
-    errors.title = 'Du må gi jobbannonsen en tittel';
-  }
-
-  if (!description || description === '<p></p>') {
-    errors.description = 'Du må skrive en søknadsintro';
-  }
-
-  if (!text || text === '<p></p>') {
-    errors.text = 'Du må skrive en søknadstekst';
-  }
-
-  if (!event || event.value == null) {
-    errors.event = 'Du må angi en bedrift for jobbannonsen';
-  }
-
-  if (parseInt(fromYear, 10) > parseInt(toYear, 10)) {
-    errors.toYear = "'Til år' kan ikke være lavere enn 'Fra år'";
-  }
-
-  if (!workplaces) {
-    errors.workplaces = 'Arbeidssteder kan ikke være tom';
-  }
-
-  if (moment(visibleFrom).isAfter(moment(visibleTo))) {
-    errors.visibleTo = 'Sluttidspunkt kan ikke være før starttidspunkt';
-  }
-
-  return errors;
+                Avbryt
+              </Button>
+              <Button disabled={submitting || pristine} submit>
+                {isNew ? 'Opprett' : 'Lagre endringer'}
+              </Button>
+              {!isNew && (
+                <ConfirmModal
+                  title="Slett jobbannonse"
+                  message="Er du sikker på at du vil slette denne jobbannonsen?"
+                  onConfirm={onDeleteJoblisting}
+                >
+                  {({ openConfirmModal }) => (
+                    <Button onClick={openConfirmModal} danger>
+                      <Icon name="trash" size={19} />
+                      Slett jobbannonse
+                    </Button>
+                  )}
+                </ConfirmModal>
+              )}
+            </Flex>
+          </Form>
+        )}
+      </LegoFinalForm>
+    </Content>
+  );
 };
 
-export default legoForm({
-  form: 'joblistingEditor',
-  enableReinitialize: true,
-  validate,
-})(JoblistingEditor);
+export default JoblistingEditor;
