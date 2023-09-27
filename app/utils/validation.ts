@@ -16,8 +16,21 @@ const YOUTUBE_URL_REGEX =
 
 export const required =
   (message = 'Feltet må fylles ut') =>
-  (value) =>
-    [!!value, message] as const;
+  (value) => {
+    if (Array.isArray(value)) {
+      const atLeastOneTrue = value.reduce((accumulator, currentValue) => {
+        return accumulator || currentValue.checked;
+      }, false);
+      return [!!atLeastOneTrue, message] as const;
+    }
+    return [!!value, message] as const;
+  };
+
+export const requiredIf =
+  (conditionalFn, message = `Feltet må fylles ut`) =>
+  (value, allValues) => {
+    return [conditionalFn(allValues) ? !!value : true, message] as const;
+  };
 
 export const legoEditorRequired =
   (message = 'Feltet må fylles ut') =>

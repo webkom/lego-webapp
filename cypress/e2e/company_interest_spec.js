@@ -22,8 +22,9 @@ const createCompanyInterest = () => {
   field('semesters[0].checked').check();
   field('events[0].checked').check();
   field('otherOffers[0].checked').check();
-
+  field('companyType').check();
   field('comment').type('random comment');
+  field('companyPresentationComment').type('some pitch for presentation');
 
   cy.contains('Send bedriftsinteresse').click();
 };

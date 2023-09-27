@@ -3,7 +3,7 @@ import { Field } from 'react-final-form';
 import {
   Form,
   TextInput,
-  RadioButtonGroup,
+  MultiSelectGroup,
   RadioButton,
   PhoneNumberInput,
 } from 'app/components/Form';
@@ -121,7 +121,7 @@ const UserSettings = (props: Props) => {
               component={TextInput.Field}
             />
 
-            <RadioButtonGroup label="Kjønn" name="gender">
+            <MultiSelectGroup label="Kjønn" name="gender">
               <Field
                 type="radio"
                 name="gender"
@@ -143,7 +143,7 @@ const UserSettings = (props: Props) => {
                 value="other"
                 component={RadioButton.Field}
               />
-            </RadioButtonGroup>
+            </MultiSelectGroup>
 
             <Field
               label="Matallergier/preferanser"
@@ -177,7 +177,7 @@ const UserSettings = (props: Props) => {
               component={TextInput.Field}
             />
 
-            <RadioButtonGroup label="Theme" name="selectedTheme">
+            <MultiSelectGroup label="Theme" name="selectedTheme">
               <Field
                 name="selectedTheme"
                 label="Auto"
@@ -196,10 +196,10 @@ const UserSettings = (props: Props) => {
                 inputValue="dark"
                 component={RadioButton.Field}
               />
-            </RadioButtonGroup>
+            </MultiSelectGroup>
 
             {showAbakusMembership && (
-              <RadioButtonGroup name="isAbakusMember" label="Medlem av Abakus?">
+              <MultiSelectGroup name="isAbakusMember" label="Medlem av Abakus?">
                 <Field
                   name="isMemberYes"
                   label="Ja"
@@ -212,7 +212,7 @@ const UserSettings = (props: Props) => {
                   component={RadioButton.Field}
                   inputValue="false"
                 />
-              </RadioButtonGroup>
+              </MultiSelectGroup>
             )}
             {spySubmittable((submittable) => (
               <Button success disabled={!submittable} submit>
