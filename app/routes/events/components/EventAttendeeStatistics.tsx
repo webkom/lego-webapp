@@ -23,6 +23,8 @@ import { useAppDispatch } from 'app/store/hooks';
 import type { ID } from 'app/store/models';
 import type { DetailedRegistration } from 'app/store/models/Registration';
 import styles from './EventAttendeeStatistics.css';
+import { DatePicker, Form } from 'app/components/Form';
+import { Field } from 'redux-form';
 
 interface RegistrationDateDataPoint {
   name: string;
@@ -127,6 +129,14 @@ const addRegistrationDateDataPoint = (
     });
   }
 };
+
+const updateRegistrationStartDate = (eventStartTime: Dateish) => {
+  console.log(eventStartTime)
+}
+
+const updateRegistrationEndDate = (eventEndDate: Dateish) => {
+  console.log(eventEndDate)
+}
 
 const sortAttendeeStatistics = (attendeeStatistics: AttendeeStatistics) => {
   for (const attendeeStatisticsKey in attendeeStatistics) {
@@ -369,6 +379,13 @@ const EventAttendeeStatistics = ({
 
   return (
     <>
+      <div className={styles.filterContainer}>
+        <label>Startdato for påmelding</label>
+        <DatePicker onChange={updateRegistrationStartDate} onBlur={() => {}} onFocus={() => {}}/>
+        <label>Sluttdato for påmelding</label>
+        <DatePicker onChange={updateRegistrationEndDate} onBlur={() => {}} onFocus={() => {}}/>
+      </div>
+
       {isEventFromPreviousSemester(eventStartTime) && (
         <Card severity="danger">
           <span>
