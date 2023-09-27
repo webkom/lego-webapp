@@ -1,7 +1,7 @@
 import type Comment from 'app/store/models/Comment';
 import type { ListCompany } from 'app/store/models/Company';
 import type { ReactionsGrouped } from 'app/store/models/Reaction';
-import type { PublicUser } from 'app/store/models/User';
+import type { DetailedUser, PublicUser } from 'app/store/models/User';
 import type { RoleType } from 'app/utils/constants';
 import type { Moment } from 'moment';
 // TODO: Id handling could be opaque
@@ -280,6 +280,7 @@ export type Event = EventBase & {
   photoConsents?: Array<PhotoConsent>;
   isUsersUpcoming?: boolean;
   documentType?: 'event';
+  responsibleUsers: Array<ID>;
 };
 
 type EventTransformPool = EventPoolBase & {
@@ -296,6 +297,7 @@ export type TransformEvent = EventBase & {
   mazemapPoi: Record<string, any>;
   useMazemap: boolean;
   hasFeedbackQuestion: boolean;
+  responsibleUsers: DetailedUser[];
 };
 
 export type Feed = Record<string, any>;

@@ -10,6 +10,7 @@ import {
   uploadFile,
 } from 'app/actions/FileActions';
 import { LoginPage } from 'app/components/LoginForm';
+import { selectCurrentUser } from 'app/reducers/auth';
 import {
   selectEventById,
   selectPoolsWithRegistrationsForEvent,
@@ -25,6 +26,8 @@ import {
   transformEventStatusType,
   EVENT_CONSTANTS,
 } from './utils';
+import { current } from 'immer';
+import { DetailedUser } from 'app/store/models/User';
 
 const mapStateToProps = (state, props) => {
   const actionGrant = state.events.actionGrant;
@@ -68,6 +71,8 @@ const mapStateToProps = (state, props) => {
     },
     pools: valueSelector(state, 'pools'),
   };
+  const currentUser: DetailedUser = selectCurrentUser(state);
+
   const initialCreateValues = {
     initialValues: {
       title: '',
@@ -114,6 +119,10 @@ const mapStateToProps = (state, props) => {
       }),
       registrationDeadlineHours: 2,
       unregistrationDeadlineHours: 2,
+      responsibleUsers: {
+        label: currentUser.fullName,
+        value: currentUser.id,
+      },
     },
     actionGrant,
     imageGallery: imageGallery.map((e) => {
@@ -173,6 +182,7 @@ const mapStateToProps = (state, props) => {
         label: eventTemplate.responsibleGroup.name,
         value: eventTemplate.responsibleGroup.id,
       },
+
       eventType: eventTemplate.eventType && {
         label: EVENT_CONSTANTS[eventTemplate.eventType],
         value: eventTemplate.eventType,

@@ -34,6 +34,8 @@ import type { CurrentUser, PublicUser } from 'app/store/models/User';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 import urlifyString from 'app/utils/urlifyString';
 import styles from './MeetingDetail.css';
+import Modal from 'app/components/Modal';
+import { useState } from 'react';
 
 type Props = {
   meeting: DetailedMeeting;
@@ -92,7 +94,6 @@ const MeetingDetails = ({
   const setMeetingInvitationStatus = (newStatus: MeetingInvitationStatus) => {
     setInvitationStatus(meeting.id, newStatus, currentUser);
   };
-
   const acceptInvitation = () =>
     setMeetingInvitationStatus(MeetingInvitationStatus.Attending);
 
@@ -162,6 +163,7 @@ const MeetingDetails = ({
       value: <UserLink user={reportAuthor} />,
     },
   ];
+
   return (
     <Content>
       <Helmet title={meeting.title} />

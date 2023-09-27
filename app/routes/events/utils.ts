@@ -11,7 +11,9 @@ import type {
   EventSemester,
   Dateish,
   EventStatusType,
+  ID,
 } from 'app/models';
+import { DetailedUser } from 'app/store/models/User';
 
 // Current eventTypes
 export const EVENT_CONSTANTS = {
@@ -85,6 +87,7 @@ export type EditingEvent = Event & {
   hasFeedbackQuestion: boolean;
   isClarified: boolean;
   authors: Option[];
+  responsibleUsers: Option[];
 };
 
 // Event fields that should be created or updated based on the API.
@@ -114,6 +117,7 @@ const eventCreateAndUpdateFields = [
   'useConsent',
   'useContactTracing',
   'separateDeadlines',
+  'responsibleUsers',
 ];
 // Pool fields that should be created or updated based on the API
 const poolCreateAndUpdateFields = [
@@ -230,6 +234,8 @@ export const transformEvent = (data: TransformEvent) => ({
   eventStatusType: data.eventStatusType && data.eventStatusType.value,
   eventType: data.eventType && data.eventType.value,
   responsibleGroup: data.responsibleGroup && data.responsibleGroup.value,
+  responsibleUsers:
+    data.responsibleUsers && data.responsibleUsers.map((user) => user.value),
   priceMember: calculatePrice(data),
   location: calculateLocation(data),
   paymentDueDate: calculatePaymentDueDate(data),

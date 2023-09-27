@@ -67,6 +67,7 @@ interface Event {
   useContactTracing: boolean;
   mazemapPoi?: number;
   pinned: boolean;
+  responsibleUsers: Array<ID>;
 
   // for survey
   attendedCount: number;
@@ -117,6 +118,7 @@ export type ListEvent = Pick<
   | 'activationTime'
   | 'isAdmitted'
   | 'survey'
+  | 'responsibleUsers'
 > &
   ObjectPermissionsMixin;
 
@@ -167,6 +169,7 @@ export type DetailedEvent = Pick<
   | 'useContactTracing'
   | 'mazemapPoi'
   | 'activationTime'
+  | 'responsibleUsers'
 > &
   ObjectPermissionsMixin;
 

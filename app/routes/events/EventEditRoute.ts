@@ -10,6 +10,7 @@ import {
   uploadFile,
 } from 'app/actions/FileActions';
 import { LoginPage } from 'app/components/LoginForm';
+import { selectCurrentUser } from 'app/reducers/auth';
 import {
   selectEventById,
   selectEventBySlug,
@@ -18,6 +19,8 @@ import {
   selectWaitingRegistrationsForEvent,
 } from 'app/reducers/events';
 import { selectImageGalleryEntries } from 'app/reducers/imageGallery';
+import { selectUserById } from 'app/reducers/users';
+import type { DetailedUser } from 'app/store/models/User';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import time from 'app/utils/time';
@@ -53,6 +56,7 @@ const mapStateToProps = (state, props) => {
   });
   const valueSelector = formValueSelector('eventEditor');
   const imageGallery = selectImageGalleryEntries(state);
+
   return {
     initialValues: {
       ...event,
@@ -83,6 +87,15 @@ const mapStateToProps = (state, props) => {
         label: event.responsibleGroup.name,
         value: event.responsibleGroup.id,
       },
+      responsibleUsers:
+        event.responsibleUsers &&
+        event.responsibleUsers.map((user: DetailedUser) => {
+          return {
+            label: user.fullName,
+            value: user.id,
+          };
+        }),
+
       eventType: event.eventType && {
         label: EVENT_CONSTANTS[event.eventType],
         value: event.eventType,
