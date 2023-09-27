@@ -10,17 +10,20 @@ export default createEntityReducer({
     delete: Joblistings.DELETE,
   },
 });
+
 export const selectJoblistings = createSelector(
   (state) => state.joblistings.byId,
   (state) => state.joblistings.items,
   (joblistingsById, joblistingIds) =>
     joblistingIds.map((id) => joblistingsById[id])
 );
+
 export const selectJoblistingById = createSelector(
   (state) => state.joblistings.byId,
   (state, props) => props.joblistingId,
   (joblistingsById, joblistingId) => joblistingsById[joblistingId]
 );
+
 export const selectJoblistingBySlug = createSelector(
   (state) => state.joblistings.byId,
   (state, props) => props.joblistingSlug,
@@ -30,4 +33,17 @@ export const selectJoblistingBySlug = createSelector(
     );
     return joblisting;
   }
+);
+
+export const selectJoblistingByIdOrSlug = createSelector(
+  (state, props) => {
+    const { joblistingIdOrSlug } = props;
+    if (!isNaN(Number(joblistingIdOrSlug))) {
+      return selectJoblistingById(state, { joblistingId: joblistingIdOrSlug });
+    }
+    return selectJoblistingBySlug(state, {
+      joblistingSlug: joblistingIdOrSlug,
+    });
+  },
+  (joblisting) => joblisting
 );
