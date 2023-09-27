@@ -10,6 +10,7 @@ import type {
   EventRegistration,
 } from 'app/models';
 import HTTPError from 'app/routes/errors/HTTPError';
+import type { ID } from 'app/store/models';
 import type Comment from 'app/store/models/Comment';
 import type { CurrentUser } from 'app/store/models/User';
 import { RegistrationPill, getRegistrationInfo } from './RegistrationTables';
@@ -29,6 +30,16 @@ export type Props = {
   actionGrant: ActionGrant;
   onQueryChanged: (value: string) => any;
   searching: boolean;
+};
+
+const canSeeAllAllergies = (
+  currentUser: CurrentUser,
+  event: EventAdministrate
+) => {
+  return (
+    currentUser.id === event.createdBy ||
+    currentUser.abakusGroups.includes(event.responsibleGroup?.id as ID)
+  );
 };
 
 const Allergies = ({
@@ -120,7 +131,7 @@ const Allergies = ({
   };
   return (
     <>
-      {currentUser.id === event.createdBy ? (
+      {canSeeAllAllergies(currentUser, event) ? (
         <>
           <Flex column>
             {numOfAllergies() === 0 ? (
@@ -143,7 +154,7 @@ const Allergies = ({
                   'allergier_' + event.title.replaceAll(' ', '_') + '.txt'
                 }
               >
-                Last ned påmeldte til tekst fil
+                Last ned påmeldte til tekstfil
               </a>
             </Button>
           </Flex>

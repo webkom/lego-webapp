@@ -1,21 +1,24 @@
 import { Content } from 'app/components/Content';
 import { LoginPage } from 'app/components/LoginForm';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
-import type { EventPool, EventAdministrate } from 'app/models';
+import type { ID } from 'app/store/models';
+import type { AdministrateEvent } from 'app/store/models/Event';
+
+import type { CurrentUser } from 'app/store/models/User';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import type { ReactNode } from 'react';
 
 type Props = {
   children: (props: Props) => ReactNode;
-  currentUser: Record<string, any>;
+  currentUser: CurrentUser;
   isMe: boolean;
-  event?: EventAdministrate;
+  event?: AdministrateEvent;
   match: {
     params: {
       eventId: string;
     };
   };
-  pools: Array<EventPool>;
+  pools: Array<ID>;
 };
 
 const EventAdministrateIndex = (props: Props) => {
@@ -23,6 +26,11 @@ const EventAdministrateIndex = (props: Props) => {
   // At the moment changing settings for other users only works
   // for the settings under `/profile` - so no point in showing
   // the other tabs.
+  const { currentUser, event } = props;
+
+  const canSeeAllergies =
+    currentUser?.id === event?.createdBy?.id ||
+    currentUser?.abakusGroups?.includes(event?.responsibleGroup?.id as ID);
 
   return (
     <Content>
@@ -34,7 +42,7 @@ const EventAdministrateIndex = (props: Props) => {
         }}
       >
         <NavigationLink to={`${base}/attendees`}>Påmeldinger</NavigationLink>
-        {props.currentUser.id === props.event.createdBy && (
+        {canSeeAllergies && (
           <NavigationLink to={`${base}/allergies`}>Allergier</NavigationLink>
         )}
         <NavigationLink to={`${base}/statistics`}>Statistikk</NavigationLink>

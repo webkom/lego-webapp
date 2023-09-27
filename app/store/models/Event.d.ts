@@ -203,6 +203,7 @@ export type AdministrateEvent = Pick<
   | 'useConsent'
   | 'useContactTracing'
   | 'createdBy'
+  | 'responsibleGroup'
 > &
   ListEvent;
 
