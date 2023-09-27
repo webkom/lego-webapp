@@ -1,34 +1,18 @@
-import { Route, Switch } from 'react-router-dom';
-import RouteWrapper from 'app/components/RouteWrapper';
-import { UserContext } from 'app/routes/app/AppRoute';
+import { Route, Switch, useRouteMatch } from 'react-router-dom';
+import TimelinePage from 'app/routes/timeline/components/TimelinePage';
 import PageNotFound from '../pageNotFound';
-import TimelineRoute from './TimelineRoute';
 
-const timelineRoute = ({
-  match,
-}: {
-  match: {
-    path: string;
-  };
-}) => (
-  <UserContext.Consumer>
-    {({ currentUser, loggedIn }) => (
-      <Switch>
-        <RouteWrapper
-          exact
-          path={`${match.path}`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={TimelineRoute}
-        />
-        <Route component={PageNotFound} />
-      </Switch>
-    )}
-  </UserContext.Consumer>
-);
+const TimelineRoute = () => {
+  const { path } = useRouteMatch();
+
+  return (
+    <Switch>
+      <Route exact path={path} component={TimelinePage} />
+      <Route component={PageNotFound} />
+    </Switch>
+  );
+};
 
 export default function Timeline() {
-  return <Route path="/timeline" component={timelineRoute} />;
+  return <Route path="/timeline" component={TimelineRoute} />;
 }
