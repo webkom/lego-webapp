@@ -150,7 +150,7 @@
     "@types/react-router-dom": "^5.3.3",
     "@types/react-select": "^5.0.1",
     "@types/redux-logger": "^3.0.9",
-    "@types/redux-sentry-middleware": "^0.2.2",
+    "@types/redux-sentry-middleware": "^0.2.4",
     "@types/webpack": "^5.28.1",
     "@types/webpack-env": "^1.18.1",
     "@typescript-eslint/eslint-plugin": "^5.59.9",
