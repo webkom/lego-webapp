@@ -14,7 +14,7 @@ export function fetchUserFeed(userId: string): Thunk<any> {
     },
   });
 }
-export function fetchPersonalFeed(): Thunk<any> {
+export function fetchPersonalFeed(): Thunk<Promise<void>> {
   return callAPI({
     types: Feed.FETCH,
     endpoint: '/feed-personal/',
