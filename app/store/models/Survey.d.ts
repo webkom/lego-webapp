@@ -1,13 +1,14 @@
-import type { Dateish } from 'app/models';
+import type { ActionGrant, Dateish } from 'app/models';
 import type { ID } from 'app/store/models';
 import type { EventType } from 'app/store/models/Event';
 import type {
   SurveyQuestion,
-  CreateSurveyQuestion,
   FormSurveyQuestion,
+  FormSubmitSurveyQuestion,
+  SurveyQuestionType,
 } from 'app/store/models/SurveyQuestion';
 import type { ValueLabel } from 'app/types';
-import type { Overwrite } from 'utility-types';
+import type { Optional, Overwrite } from 'utility-types';
 
 interface Survey {
   id: ID;
@@ -16,6 +17,8 @@ interface Survey {
   event: ID;
   templateType: EventType | null;
   questions: SurveyQuestion[];
+  actionGrant: ActionGrant;
+  token: string | null;
 }
 
 export type PublicSurvey = Pick<
@@ -25,17 +28,43 @@ export type PublicSurvey = Pick<
 
 export type DetailedSurvey = Pick<
   Survey,
-  'id' | 'title' | 'event' | 'templateType' | 'questions'
+  | 'id'
+  | 'title'
+  | 'activeFrom'
+  | 'event'
+  | 'templateType'
+  | 'questions'
+  | 'actionGrant'
+  | 'token'
 >;
+
+interface PublicChoiceQuestionResult {
+  questionType:
+    | SurveyQuestionType.MultipleChoice
+    | SurveyQuestionType.SingleChoice;
+  [key: number]: number;
+}
+interface PublicTextQuestionResult {
+  questionType: SurveyQuestionType.TextField;
+  answers: string[];
+}
+export type PublicResultsSurvey = Omit<
+  DetailedSurvey,
+  'actionGrant' | 'token'
+> & {
+  results: {
+    [key: ID]: PublicTextQuestionResult | PublicChoiceQuestionResult;
+  };
+  submissionCount: number;
+};
 
 export type UnknownSurvey = PublicSurvey | DetailedSurvey;
 
-export type CreateSurvey = Pick<
-  Survey,
-  'title' | 'activeFrom' | 'event' | 'templateType'
-> & { questions: CreateSurveyQuestion[] };
-
+export type FormSubmitSurvey = Overwrite<
+  Optional<Survey, 'id'>,
+  { questions: FormSubmitSurveyQuestion[] }
+>;
 export type FormSurvey = Overwrite<
-  ValueLabel<CreateSurvey, 'event'>,
+  ValueLabel<Optional<Survey, 'id'>, 'event'>,
   { questions: FormSurveyQuestion[] }
 >;

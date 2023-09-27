@@ -50,10 +50,7 @@ const PieChartWithLabel = ({
     <Card>
       <Card.Header>{label}</Card.Header>
       <Flex alignItems="center" wrap column>
-        <DistributionPieChart
-          dataKey="count"
-          distributionData={distributionData}
-        />
+        <DistributionPieChart distributionData={distributionData} />
         <ChartLabel distributionData={distributionData} />
       </Flex>
     </Card>
@@ -242,11 +239,11 @@ const calculateMetrics = (data) => {
   }, initialValue);
 };
 
-class AnalyticsProps {
+type AnalyticsProps = {
   eventId: ID;
   viewStartTime: Dateish;
   viewEndTime: Dateish;
-}
+};
 
 const Analytics = ({ eventId, viewStartTime, viewEndTime }: AnalyticsProps) => {
   const [metrics, setMetrics] = useState<{
@@ -369,6 +366,8 @@ type Props = {
   committeeGroupIDs: number[];
   revueGroupIDs: number[];
   eventStartTime: Dateish;
+  viewStartTime: Dateish;
+  viewEndTime: Dateish;
 };
 
 const EventAttendeeStatistics = ({
