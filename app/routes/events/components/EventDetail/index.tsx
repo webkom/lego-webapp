@@ -324,6 +324,37 @@ export default class EventDetail extends Component<Props, State> {
     const groupLink =
       event.responsibleGroup && resolveGroupLink(event.responsibleGroup);
 
+    const responsible = () => {
+      if (event?.responsibleUsers) {
+        return {
+          key: 'Forfatter',
+          value: (
+            <>
+              {event.responsibleUsers.map((e) => (
+                <Link to={`/users/${e.username}`} key={e.username}>
+                  {e.fullName}
+                </Link>
+              ))}
+            </>
+          ),
+        };
+      } else if (event?.createdBy) {
+        return {
+          key: 'Forfatter',
+          value: (
+            <Link to={`/users/${event.createdBy.username}`}>
+              {event.createdBy.fullName}
+            </Link>
+          ),
+        };
+      } else {
+        return {
+          key: 'Forfatter',
+          value: 'Anonym',
+        };
+      }
+    };
+
     const eventCreator = [
       event.responsibleGroup && {
         key: 'Arrangør',
@@ -342,19 +373,7 @@ export default class EventDetail extends Component<Props, State> {
           </span>
         ),
       },
-      event?.createdBy
-        ? event.createdBy && {
-            key: 'Forfatter',
-            value: (
-              <Link to={`/users/${event.createdBy.username}`}>
-                {event.createdBy.fullName}
-              </Link>
-            ),
-          }
-        : {
-            key: 'Forfatter',
-            value: 'Anonym',
-          },
+      responsible,
     ];
 
     return (
@@ -543,6 +562,7 @@ export default class EventDetail extends Component<Props, State> {
             )}
             <Line />
             <InfoList items={eventCreator} className={styles.infoList} />
+
             <Line />
             {loggedIn && (
               <TextWithIcon

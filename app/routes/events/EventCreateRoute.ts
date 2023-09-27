@@ -119,10 +119,12 @@ const mapStateToProps = (state, props) => {
       }),
       registrationDeadlineHours: 2,
       unregistrationDeadlineHours: 2,
-      responsibleUsers: {
-        label: currentUser.fullName,
-        value: currentUser.id,
-      },
+      responsibleUsers: [
+        {
+          label: currentUser.fullName,
+          value: currentUser.id,
+        },
+      ],
     },
     actionGrant,
     imageGallery: imageGallery.map((e) => {
