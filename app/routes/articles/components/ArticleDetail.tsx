@@ -49,7 +49,7 @@ const ArticleDetail = ({ currentUser, loggedIn }: Props) => {
     if (article?.slug && article?.slug !== articleIdOrSlug) {
       navigate(`/articles/${article.slug}`, { replace: true });
     }
-  }, [article.slug, navigate, articleIdOrSlug]);
+  }, [article?.slug, navigate, articleIdOrSlug]);
 
   const dispatch = useAppDispatch();
 

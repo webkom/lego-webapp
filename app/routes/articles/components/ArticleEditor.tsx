@@ -32,7 +32,6 @@ import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import NavigationTab from 'app/components/NavigationTab';
 import Tooltip from 'app/components/Tooltip';
 import { selectArticleById } from 'app/reducers/articles';
-import { selectCurrentUser, selectIsLoggedIn } from 'app/reducers/auth';
 import { selectUsersByIds } from 'app/reducers/users';
 import type { EditingEvent } from 'app/routes/events/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';

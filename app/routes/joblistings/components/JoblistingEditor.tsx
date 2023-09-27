@@ -1,7 +1,16 @@
-import { Button, Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
-import { useEffect, useState } from 'react';
+import { Button, Flex, Icon } from '@webkom/lego-bricks';
+import { useCallback, useEffect, useState } from 'react';
 import { Field } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
+import { useParams } from 'react-router-dom-v5-compat';
+import { push } from 'redux-first-history';
+import { fetchCompanyContacts } from 'app/actions/CompanyActions';
+import {
+  createJoblisting,
+  deleteJoblisting,
+  editJoblisting,
+  fetchJoblisting,
+} from 'app/actions/JoblistingActions';
 import { Content } from 'app/components/Content';
 import {
   TextInput,
@@ -13,12 +22,11 @@ import {
 } from 'app/components/Form';
 import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import NavigationTab from 'app/components/NavigationTab';
+import { selectJoblistingById } from 'app/reducers/joblistings';
 import { httpCheck } from 'app/routes/bdb/utils';
-import type { ID } from 'app/store/models';
-import type {
-  DetailedJoblisting,
-  Workplace,
-} from 'app/store/models/Joblisting';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import type { ListCompany } from 'app/store/models/Company';
+import time from 'app/utils/time';
 import {
   createValidator,
   legoEditorRequired,
@@ -28,26 +36,6 @@ import {
 } from 'app/utils/validation';
 import { places, jobTypes, yearValues } from '../constants';
 import styles from './JoblistingEditor.css';
-import type { History } from 'history';
-
-type SelectInputObject = {
-  label: string;
-  value: ID;
-};
-
-type Props = {
-  joblistingId?: string;
-  joblisting: DetailedJoblisting;
-  submitJoblisting: (arg0: Workplace) => Promise<any>;
-  deleteJoblisting: (arg0: ID) => Promise<any>;
-  event: SelectInputObject;
-  dispatch: (arg0: any) => void;
-  push: History['push'];
-  isNew: boolean;
-  fetching: boolean;
-  fetchCompanyContacts: (arg0: { companyId: ID }) => Promise<any>;
-  company: SelectInputObject;
-};
 
 const validate = createValidator({
   youtubeUrl: [validYoutubeUrl()],
@@ -73,69 +61,120 @@ const validate = createValidator({
   ],
 });
 
-const JoblistingEditor = (props: Props) => {
+const JoblistingEditor = () => {
   const [responsibleOptions, setResponsibleOptions] = useState([]);
 
-  const onSubmit = (newJoblisting) => {
+  const { joblistingId } = useParams();
+  const isNew = joblistingId === undefined;
+
+  const joblisting = useAppSelector((state) =>
+    selectJoblistingById(state, {
+      joblistingId,
+    })
+  );
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (!isNew) {
+      dispatch(fetchJoblisting(joblistingId));
+    }
+  }, [dispatch, isNew, joblistingId]);
+
+  const onSubmit = async (newJoblisting) => {
     const workplaces = newJoblisting.workplaces
       ? newJoblisting.workplaces.map((obj) => ({
           town: obj.value,
         }))
       : null;
 
-    return props
-      .submitJoblisting({
-        ...newJoblisting,
-        id: props.joblistingId,
-        fromYear: newJoblisting.fromYear?.value,
-        toYear: newJoblisting.toYear?.value,
-        jobType: newJoblisting.jobType?.value,
-        applicationUrl:
-          newJoblisting.applicationUrl &&
-          httpCheck(newJoblisting.applicationUrl),
-        workplaces,
-      })
-      .then((result) => {
-        const id = props.joblistingId || result.payload.result;
-        props.push(`/joblistings/${id}/`);
-      })
-      .catch((err) => {
-        if (err.payload && err.payload.response) {
-          throw new SubmissionError(err.payload.response.jsonData);
-        }
-      });
+    const payload = {
+      ...newJoblisting,
+      id: joblistingId,
+      fromYear: newJoblisting.fromYear?.value,
+      toYear: newJoblisting.toYear?.value,
+      jobType: newJoblisting.jobType?.value,
+      applicationUrl:
+        newJoblisting.applicationUrl && httpCheck(newJoblisting.applicationUrl),
+      workplaces,
+    };
+
+    if (isNew) {
+      await dispatch(createJoblisting(payload));
+    } else {
+      await dispatch(editJoblisting(payload));
+    }
+
+    const id = joblistingId || result.payload.result;
+    dispatch(push(`/joblistings/${id}/`));
   };
 
   const onDeleteJoblisting = () =>
-    props.deleteJoblisting(props.joblisting.id).then(() => {
-      props.push('/joblistings/');
+    dispatch(deleteJoblisting(joblistingId)).then(() => {
+      dispatch(push('/joblistings/'));
     });
 
-  const fetchContacts = (company: SelectInputObject) => {
-    return props
-      .fetchCompanyContacts({
-        companyId: company.value,
-      })
-      .then((action) => {
+  const fetchContacts = useCallback(
+    (company: ListCompany) => {
+      return dispatch(
+        fetchCompanyContacts({
+          companyId: company.id,
+        })
+      ).then((action) => {
         const responsibleOptions = action.payload.map((contact) => ({
           label: contact.name,
           value: contact.id,
         }));
         setResponsibleOptions(responsibleOptions);
       });
-  };
+    },
+    [dispatch]
+  );
 
   useEffect(() => {
-    if (!props.isNew) {
-      fetchContacts(props.company);
+    if (!isNew && joblisting?.company) {
+      fetchContacts(joblisting?.company);
     }
-  }, []);
+  }, [fetchContacts, isNew, joblisting]);
 
-  const { isNew, fetching = false, push } = props;
-
-  if (!isNew && fetching) {
-    return <LoadingIndicator loading />;
-  }
+  const initialValues = {
+    ...joblisting,
+    text: joblisting?.text || '<p></p>',
+    description: joblisting?.description || '',
+    company: joblisting?.company
+      ? {
+          label: joblisting.company.name,
+          value: joblisting.company.id,
+        }
+      : {},
+    visibleFrom: joblisting?.visibleFrom || time({ hours: 12 }),
+    visibleTo:
+      joblisting?.visibleTo || time({ days: 31, hours: 23, minutes: 59 }),
+    deadline:
+      joblisting?.deadline || time({ days: 30, hours: 23, minutes: 59 }),
+    fromYear: yearValues.find(
+      ({ value }) => value === joblisting?.fromYear || value === 1
+    ),
+    toYear: yearValues.find(
+      ({ value }) => value === joblisting?.toYear || value === 5
+    ),
+    jobType: jobTypes.find(
+      ({ value }) => value === joblisting?.jobType || value === 'summer_job'
+    ),
+    responsible: joblisting?.responsible
+      ? {
+          label: joblisting.responsible.name,
+          value: joblisting.responsible.id,
+        }
+      : {
+          label: 'Ingen',
+          value: null,
+        },
+    workplaces: (joblisting?.workplaces || []).map((workplace) => ({
+      label: workplace.town,
+      value: workplace.town,
+    })),
+  };
 
   return (
     <Content>
@@ -144,16 +183,14 @@ const JoblistingEditor = (props: Props) => {
         title={!isNew ? 'Rediger jobbannonse' : 'Ny jobbannonse'}
         back={{
           label: 'Tilbake',
-          path: !isNew
-            ? `/joblistings/${props.joblisting.slug}`
-            : '/joblistings',
+          path: !isNew ? `/joblistings/${joblisting?.slug}` : '/joblistings',
         }}
       />
 
       <LegoFinalForm
         onSubmit={onSubmit}
         validate={validate}
-        initialValues={props.initialValues}
+        initialValues={initialValues}
       >
         {({ handleSubmit, submitting, pristine, form }) => (
           <Form onSubmit={handleSubmit}>
@@ -281,7 +318,7 @@ const JoblistingEditor = (props: Props) => {
             <Flex wrap>
               <Button
                 onClick={() =>
-                  push(`/joblistings/${isNew ? '' : props.joblisting.id}`)
+                  dispatch(push(`/joblistings/${isNew ? '' : joblistingId}`))
                 }
               >
                 Avbryt

@@ -2,10 +2,10 @@ import { Button } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import qs from 'qs';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom-v5-compat';
 import { CheckBox, RadioButton } from 'app/components/Form/';
 import type { JobType } from 'app/components/JoblistingItem/Items';
-import type { ActionGrant } from 'app/models';
+import { useAppSelector } from 'app/store/hooks';
 import { jobTypes } from '../constants';
 import styles from './JoblistingRightNav.css';
 
@@ -35,19 +35,13 @@ const updateFilters = (type, value, filters) => {
   };
 };
 
-const FilterLink = ({
-  type,
-  label,
-  value,
-  filters,
-  history,
-}: Record<string, any>) => {
+const FilterLink = ({ type, label, value, filters }: Record<string, any>) => {
+  const navigate = useNavigate();
+
   const handleChange = () => {
-    const location = {
-      pathname: '/joblistings',
-      search: qs.stringify(updateFilters(type, value, filters)),
-    };
-    history.push(location);
+    navigate(
+      `/joblistings?${qs.stringify(updateFilters(type, value, filters))}`
+    );
   };
 
   return (
@@ -66,23 +60,23 @@ type Filter = {
   jobTypes: JobType[];
   workplaces: Array<string>;
 };
+
 type Order = {
   deadline: boolean;
   company: boolean;
   createdAt: boolean;
 };
+
 type Props = {
-  actionGrant: ActionGrant;
   query: {
     grades?: string;
     jobTypes?: string;
     workplaces?: string;
     order?: string;
   };
-  history: any;
 };
 
-const JoblistingsRightNav = (props: Props) => {
+const JoblistingsRightNav = ({ query }: Props) => {
   const [filters, setFilters] = useState<Filter>({
     grades: [],
     jobTypes: [],
@@ -94,8 +88,12 @@ const JoblistingsRightNav = (props: Props) => {
     createdAt: false,
   });
   const [displayOptions, setDisplayOptions] = useState<boolean>(true);
+
+  const navigate = useNavigate();
+
+  const actionGrant = useAppSelector((state) => state.joblistings.actionGrant);
+
   useEffect(() => {
-    const query = props.query;
     setFilters({
       grades: query.grades ? query.grades.split(',') : [],
       jobTypes: query.jobTypes ? (query.jobTypes.split(',') as JobType[]) : [],
@@ -107,18 +105,18 @@ const JoblistingsRightNav = (props: Props) => {
       company: query.order === 'company',
       createdAt: query.order === 'createdAt',
     });
-  }, [props.query]);
+  }, [query]);
 
   const handleQuery = (type: string, value: string, remove = false) => {
-    const query = { ...props.query };
+    const newQuery = { ...query };
 
     if (remove) {
-      delete query[type];
+      delete newQuery[type];
     } else {
-      query[type] = value;
+      newQuery[type] = value;
     }
 
-    return query;
+    return newQuery;
   };
 
   return (
@@ -144,7 +142,7 @@ const JoblistingsRightNav = (props: Props) => {
           display: displayOptions ? 'block' : 'none',
         }}
       >
-        {props.actionGrant.includes('create') && (
+        {actionGrant.includes('create') && (
           <Link to="/joblistings/create">
             <Button>Ny jobbannonse</Button>
           </Link>
@@ -157,10 +155,9 @@ const JoblistingsRightNav = (props: Props) => {
           label="Frist"
           checked={order.deadline}
           onChange={() => {
-            props.history.push({
-              pathname: '/joblistings',
-              search: qs.stringify(handleQuery('order', 'deadline')),
-            });
+            navigate(
+              `/joblistings?${qs.stringify(handleQuery('order', 'deadline'))}`
+            );
           }}
         />
         <RadioButton
@@ -169,10 +166,9 @@ const JoblistingsRightNav = (props: Props) => {
           label="Bedrift"
           checked={order.company}
           onChange={() => {
-            props.history.push({
-              pathname: '/joblistings',
-              search: qs.stringify(handleQuery('order', 'company')),
-            });
+            navigate(
+              `/joblistings?${qs.stringify(handleQuery('order', 'company'))}`
+            );
           }}
         />
         <RadioButton
@@ -181,10 +177,9 @@ const JoblistingsRightNav = (props: Props) => {
           label="Publisert"
           checked={order.createdAt}
           onChange={() => {
-            props.history.push({
-              pathname: '/joblistings',
-              search: qs.stringify(handleQuery('order', 'createdAt')),
-            });
+            navigate(
+              `/joblistings?${qs.stringify(handleQuery('order', 'createdAt'))}`
+            );
           }}
         />
 
@@ -196,7 +191,6 @@ const JoblistingsRightNav = (props: Props) => {
             label={`${element}. klasse`}
             value={element}
             filters={filters}
-            history={props.history}
           />
         ))}
         <h3 className={styles.rightHeader}>Jobbtype</h3>
@@ -208,7 +202,6 @@ const JoblistingsRightNav = (props: Props) => {
               value={el.value}
               label={el.label}
               filters={filters}
-              history={props.history}
             />
           );
         })}
@@ -220,7 +213,6 @@ const JoblistingsRightNav = (props: Props) => {
             value={element}
             label={element}
             filters={filters}
-            history={props.history}
           />
         ))}
       </div>

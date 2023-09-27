@@ -1,7 +1,8 @@
 import { Button, Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
 import { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Link, useHistory } from 'react-router-dom';
+import { useNavigate, useParams, Link } from 'react-router-dom-v5-compat';
+import { fetchJoblisting } from 'app/actions/JoblistingActions';
 import {
   Content,
   ContentSection,
@@ -13,48 +14,90 @@ import DisplayContent from 'app/components/DisplayContent';
 import InfoList from 'app/components/InfoList';
 import { jobType, Year, Workplaces } from 'app/components/JoblistingItem/Items';
 import Time from 'app/components/Time';
-import type { ActionGrant } from 'app/models';
+import { selectJoblistingByIdOrSlug } from 'app/reducers/joblistings';
+import { useAppDispatch, useAppSelector, useHelmet } from 'app/store/hooks';
 import type { DetailedJoblisting } from 'app/store/models/Joblisting';
+import type Config from 'config/Config';
 
-type Props = {
-  joblisting: DetailedJoblisting;
-  actionGrant: ActionGrant;
-  fetching: boolean;
-};
+const JoblistingDetail = () => {
+  const { joblistingIdOrSlug } = useParams();
+  const joblisting = useAppSelector((state) =>
+    selectJoblistingByIdOrSlug(state, { joblistingIdOrSlug })
+  );
+  const fetching = useAppSelector((state) => state.joblistings.fetching);
+  const actionGrant = joblisting?.actionGrant || [];
 
-const JoblistingDetail = ({
-  joblisting,
-  actionGrant,
-  fetching = false,
-}: Props) => {
-  const history = useHistory();
+  const dispatch = useAppDispatch();
+
   useEffect(() => {
-    joblisting &&
-      joblisting.slug &&
-      history.replace(`/joblistings/${joblisting.slug}`);
-  }, [joblisting?.slug, history]);
+    if (joblistingIdOrSlug) {
+      dispatch(fetchJoblisting(joblistingIdOrSlug));
+    }
+  }, [joblistingIdOrSlug, dispatch]);
 
-  if (fetching || !joblisting) {
-    return <LoadingIndicator loading />;
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (joblisting?.slug && joblisting?.slug !== joblistingIdOrSlug) {
+      navigate(`/joblistings/${joblisting.slug}`, { replace: true });
+    }
+  }, [joblisting?.slug, navigate, joblistingIdOrSlug]);
+
+  const propertyGenerator = (
+    { joblisting }: { joblisting: DetailedJoblisting },
+    config?: Partial<Config>
+  ) => {
+    if (!joblisting) return;
+
+    return [
+      {
+        property: 'og:title',
+        content: joblisting.title,
+      },
+      {
+        element: 'title',
+        children: joblisting.title,
+      },
+      {
+        element: 'link',
+        rel: 'canonical',
+        href: `${config?.webUrl}/joblistings/${joblisting.id}`,
+      },
+      {
+        property: 'og:description',
+        content: joblisting.description,
+      },
+      {
+        property: 'og:type',
+        content: 'website',
+      },
+      {
+        property: 'og:image:width',
+        content: '1667',
+      },
+      {
+        property: 'og:image:height',
+        content: '500',
+      },
+      {
+        property: 'og:url',
+        content: `${config?.webUrl}/joblistings/${joblisting.id}`,
+      },
+      {
+        property: 'og:image',
+        content: joblisting.company.logo,
+      },
+    ];
+  };
+
+  useHelmet(propertyGenerator, { joblistingIdOrSlug });
+
+  if (!joblisting) {
+    return <LoadingIndicator loading={fetching} />;
   }
 
-  const companyLink = (
-    <Link to={`/companies/${joblisting.company.id}`}>
-      {joblisting.company.name}
-    </Link>
-  );
-  const deadline = (
-    <strong>
-      <Time time={joblisting.deadline} format="ll HH:mm" />
-    </strong>
-  );
-  const createdAt = (
-    <strong>
-      <Time time={joblisting.createdAt} format="ll HH:mm" />
-    </strong>
-  );
   const canEdit = actionGrant.includes('edit');
   const canDelete = actionGrant.includes('delete');
+
   return (
     <Content
       banner={joblisting.company.logo}
@@ -77,7 +120,11 @@ const JoblistingDetail = ({
               },
               {
                 key: 'Bedrift',
-                value: companyLink,
+                value: (
+                  <Link to={`/companies/${joblisting.company.id}`}>
+                    {joblisting.company.name}
+                  </Link>
+                ),
               },
               {
                 key: 'Klassetrinn',
@@ -89,11 +136,19 @@ const JoblistingDetail = ({
               },
               {
                 key: 'Søknadsfrist',
-                value: deadline,
+                value: (
+                  <strong>
+                    <Time time={joblisting.deadline} format="ll HH:mm" />
+                  </strong>
+                ),
               },
               {
                 key: 'Publisert',
-                value: createdAt,
+                value: (
+                  <strong>
+                    <Time time={joblisting.createdAt} format="ll HH:mm" />
+                  </strong>
+                ),
               },
             ].filter(Boolean)}
           />
