@@ -7,7 +7,7 @@ import {
   RadioButton,
   SelectInput,
   ImageUploadField,
-  RadioButtonGroup,
+  MultiSelectGroup,
   legoForm,
 } from 'app/components/Form';
 import InfoBubble from 'app/components/InfoBubble';
@@ -204,7 +204,7 @@ const CompanyEditor = ({
                 order: 0,
               }}
             >
-              <RadioButtonGroup name="active" label="Aktiv bedrift?">
+              <MultiSelectGroup name="active" label="Aktiv bedrift?">
                 <Field
                   name="Yes"
                   label="Ja"
@@ -217,7 +217,7 @@ const CompanyEditor = ({
                   component={RadioButton.Field}
                   inputValue="false"
                 />
-              </RadioButtonGroup>
+              </MultiSelectGroup>
             </div>
           </div>
 

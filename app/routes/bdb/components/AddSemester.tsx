@@ -2,7 +2,7 @@ import { Button } from '@webkom/lego-bricks';
 import { Component } from 'react';
 import { Field } from 'redux-form';
 import { Content } from 'app/components/Content';
-import { TextInput, RadioButton, RadioButtonGroup } from 'app/components/Form';
+import { TextInput, RadioButton, MultiSelectGroup } from 'app/components/Form';
 import type { CompanySemesterContactedStatus } from 'app/models';
 import type { SemesterStatusEntity } from 'app/reducers/companies';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
@@ -133,7 +133,7 @@ export default class AddSemester extends Component<Props, State> {
             />
 
             <div className={styles.choices}>
-              <RadioButtonGroup name="semester" label="Semester">
+              <MultiSelectGroup name="semester" label="Semester">
                 <Field
                   name="Spring"
                   label="Vår"
@@ -146,7 +146,7 @@ export default class AddSemester extends Component<Props, State> {
                   component={RadioButton.Field}
                   inputValue="autumn"
                 />
-              </RadioButtonGroup>
+              </MultiSelectGroup>
             </div>
 
             <label>Status</label>

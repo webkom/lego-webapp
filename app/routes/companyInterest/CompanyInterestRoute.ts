@@ -6,13 +6,15 @@ import { fetchSemestersForInterestform } from 'app/actions/CompanyActions';
 import { createCompanyInterest } from 'app/actions/CompanyInterestActions';
 import { selectCompanySemestersForInterestForm } from 'app/reducers/companySemesters';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
-import CompanyInterestPage, {
-  EVENT_TYPES,
-  OTHER_TYPES,
+import CompanyInterestPage from './components/CompanyInterestPage';
+import {
   COLLABORATION_TYPES,
-  TARGET_GRADE_TYPES,
-  SURVEY_OFFER_TYPES,
-} from './components/CompanyInterestPage';
+  EVENTS,
+  README,
+  SURVEY_OFFERS,
+  TARGET_GRADES,
+} from './components/Translations';
+
 import { sortSemesterChronologically } from './utils';
 
 const valueSelector = formValueSelector('CompanyInterestForm');
@@ -27,11 +29,11 @@ const mapStateToProps = (state, props) => {
     };
   }
 
-  const allEvents = Object.keys(EVENT_TYPES);
-  const allOtherOffers = Object.keys(OTHER_TYPES);
+  const allEvents = Object.keys(EVENTS);
+  const allOtherOffers = Object.keys(README);
   const allCollaborations = Object.keys(COLLABORATION_TYPES);
-  const allTargetGrades = Object.keys(TARGET_GRADE_TYPES);
-  const allSurveyOffers = Object.keys(SURVEY_OFFER_TYPES);
+  const allTargetGrades = Object.keys(TARGET_GRADES);
+  const allSurveyOffers = Object.keys(SURVEY_OFFERS);
   const allowedBdb = state.allowed.bdb;
   const language = pathname === '/register-interest' ? 'english' : 'norwegian';
   return {

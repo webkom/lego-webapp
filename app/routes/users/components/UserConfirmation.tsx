@@ -4,7 +4,7 @@ import Card from 'app/components/Card';
 import {
   Form,
   TextInput,
-  RadioButtonGroup,
+  MultiSelectGroup,
   RadioButton,
   Button,
   legoForm,
@@ -118,7 +118,7 @@ const UserConfirmation = ({
             autocomplete="family-name"
             component={TextInput.Field}
           />
-          <RadioButtonGroup label="Kjønn" name="gender">
+          <MultiSelectGroup label="Kjønn" name="gender">
             <Field
               name="genderMan"
               label="Mann"
@@ -137,7 +137,7 @@ const UserConfirmation = ({
               component={RadioButton.Field}
               inputValue="other"
             />
-          </RadioButtonGroup>
+          </MultiSelectGroup>
           <Field
             name="allergies"
             placeholder="Allergier"

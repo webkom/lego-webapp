@@ -5,7 +5,7 @@ import {
   Form,
   TextInput,
   RadioButton,
-  RadioButtonGroup,
+  MultiSelectGroup,
   legoForm,
 } from 'app/components/Form';
 import Icon from 'app/components/Icon';
@@ -71,7 +71,7 @@ const CompanySemesterGUI = (props: Props) => {
               className={styles.yearForm}
               required
             />
-            <RadioButtonGroup name="semester" label="Semester">
+            <MultiSelectGroup name="semester" label="Semester">
               <Field
                 name="Spring"
                 label="Vår"
@@ -84,7 +84,7 @@ const CompanySemesterGUI = (props: Props) => {
                 component={RadioButton.Field}
                 inputValue="autumn"
               />
-            </RadioButtonGroup>
+            </MultiSelectGroup>
             <Button submit>Legg til semester</Button>
           </Flex>
           <Flex column>

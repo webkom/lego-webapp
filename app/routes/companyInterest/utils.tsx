@@ -101,20 +101,6 @@ export const interestText = {
     norwegian: 'Skriv litt om hva slags bedriftspresentasjon dere ønsker.',
     english: 'Write a litte about the company presentation event you wish for.',
   },
-
-  text: {
-    first: {
-      norwegian:
-        'Kan dere skrive litt om deres bedrift og hva dere jobber med?',
-      english: 'Can you write a little about your company and what you do?',
-    },
-    second: {
-      norwegian:
-        'Vi ønsker også at dere skriver litt om hva slags type arrangement dere ser for dere å holde. Ønsker dere å gjøre noe utenfor de vanlige rammene, eller helst en standard bedpres? Uansett vil vi gjerne vite det!',
-      english:
-        "We'd prefer that you also write a little bit about what kind of event you would like to have. Do you want something outside the given options, or is it a regular company presentation? Either way, we'd like to know!",
-    },
-  },
   bedex: {
     norwegian:
       '«Husk å ranger datoer og gruppestørrelse dersom du har huket av for BedEx»',
@@ -157,15 +143,15 @@ export const interestText = {
   },
   courseDescription: {
     norwegian:
-      'Vi ønsker gjerne at dere pitcher en ide til kurstema eller hva slags type kurs dere ønsker å arrangere. Har dere noe dere jobber mye med internt? Noe som passer ifht. de foreslåtte temaene eller noe dere tror er spennende?',
+      'På et faglig arrangement skal dere lære bort noe til studentene. Dette kan være gjennom foredrag, workshops eller lignende. Fortell hva dere kan holde kurs i, og pitch gjerne en fullstendig idé til gjennomføring av kurset. Er det noe dere kan lære bort som sammenfaller med temaene studentene har svart at de ønsker seg, eller driver dere med noe annet studentene vil være interesserte i?',
     english:
-      'We would like for you to pitch an idea for a course topic or the type of course you would like to arrange. Is there something you are working on a lot internally? Something that fits with the proposed topics or something you think is exciting?',
+      'At a course or workshop, you must teach something to the students. This can be through talks or interactive workshops. Tell us what you can hold a course about, and feel free to pitch a complete idea for carrying out the course. Is there something you can teach that coincides with the topics the students have answered that they want, or do you do something else the students will be interested in?',
   },
   breakfastTalkDescription: {
     norwegian:
-      'Tildeling av frokostforedrag skjer uavhengig av andre tildelelser, så dere kan få frokostforedrag i tillegg til et annet arrangement. Vi ønsker gjerne at dere foreslår temaer til frokostforedraget dere ønsker å holde. Det er åpent for alt. Tidligere temaer har vært softskills, spennende caser fra jobb, teknologiutvikling, motivasjonsforedrag eller bærekraft.',
+      'Frokostforedragene foregår fra klokken 8 til 10/11, og holdes vanligvis på campus. Tildeling av frokostforedrag skjer uavhengig av andre tildelinger, så dere kan få frokostforedrag i tillegg til et annet arrangement. Vi ønsker gjerne at dere foreslår temaer til frokostforedraget dere ønsker å holde. Det er åpent for alt. Tidligere temaer har blant annet vært softskills, spennende caser fra jobb, teknologiutvikling, motivasjonsforedrag eller bærekraft.',
     english:
-      'Allocation of the breakfast lecture is independent of other allocations, so you can have a breakfast talk in addition to another event. We would like for you to suggest topics for the breakfast lecture you want to hold. We are open for everything. Previous topics have been soft skills, exciting cases from work, technology development, motivational lectures, or sustainability.',
+      'The breakfast talks take place from 8 am to 10/11 am, and are usually held on campus. Allocation of breakfast talks takes place independently of other allocations, so you can receive breakfast lectures in addition to another event. We would like you to suggest topics for the breakfast talks you wish to give. We are open to everything. Previous topics have included soft skills, exciting cases from work, technology development, motivational talks or sustainability.',
   },
   bedexDescription: {
     norwegian:
@@ -187,8 +173,8 @@ export const interestText = {
   },
   companyToCompanyDescription: {
     norwegian:
-      'Et av våre mer spennende arrangementer er bedrift til bedrift. Her er det 3 grupper som rullerer på å besøke bedriften deres i ca. 40 minutter og ser hvordan dere har det før vi drar ut og har felles mingling. Her kan det presenteres caser fra deres bedrift, ha escape room konkurranser eller finne på noe annet gøy. Skriv gjerne om dere har noen gode ideer.',
+      'Bedrift-til-bedrift er et arrangement som arrangeres i samarbeid med to andre bedrifter. 3 grupper med studenter rullerer på å besøke bedriftene deres i ca. 40 minutter og ser hvordan dere har det i deres lokaler. Her kan dere presentere caser fra deres bedrift, ha escape room, konkurranser eller finne på noe annet gøy. Skriv gjerne om dere har noen gode ideer! Etter at alle gruppene har besøkt alle bedriftene, drar alle ut på felles mingling.',
     english:
-      'One of our more exciting events is the company-to-company event. Here, there are 3 groups that in turn visit your company for about 40 minutes and see how you are doing before we go out and have a common networking event. Cases from your company can be presented, escape room competitions can be held, or something else fun can be arranged. Please write about any good ideas you have.',
+      'Company-to-company is an event organized in collaboration with two other companies. 3 groups of students rotate to visit their companies for approximately 40 minutes and have a look around your workspace. Here you can present cases from your company, have escape rooms, competitions or come up with something else fun. Feel free to write if you have any good ideas! After all the groups have visited all the businesses, everyone goes out for joint mingling.',
   },
 };
