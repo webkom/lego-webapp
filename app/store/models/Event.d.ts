@@ -1,5 +1,5 @@
 import type { PublicGroup } from './Group';
-import type { Dateish, Cover } from 'app/models';
+import type { Dateish } from 'app/models';
 import type { ID } from 'app/store/models';
 import type { AutocompleteContentType } from 'app/store/models/Autocomplete';
 import type { ListCompany } from 'app/store/models/Company';
@@ -25,7 +25,7 @@ interface Event {
   title: string;
   slug: string;
   description: string;
-  cover: Cover;
+  cover: string;
   coverPlaceholder: string;
   text: string;
   eventType: EventType;
