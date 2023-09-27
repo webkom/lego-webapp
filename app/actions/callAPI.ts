@@ -110,7 +110,7 @@ type CallAPIOptions<Meta extends CallAPIOptionsMeta> = {
 
 export default function callAPI<
   T = unknown,
-  Meta extends CallAPIOptionsMeta = Record<string, unknown>
+  Meta extends CallAPIOptionsMeta = CallAPIOptionsMeta & Record<string, unknown>
 >(
   props: Required<CallAPIOptions<Meta>, 'schema'>
 ): Thunk<
@@ -118,13 +118,13 @@ export default function callAPI<
 >;
 export default function callAPI<
   T = unknown,
-  Meta extends CallAPIOptionsMeta = Record<string, unknown>
+  Meta extends CallAPIOptionsMeta = CallAPIOptionsMeta & Record<string, unknown>
 >(
   props: Omit<CallAPIOptions<Meta>, 'schema'>
 ): Thunk<Promise<ResolvedPromiseAction<T, CallAPIMeta<Meta>>>>;
 export default function callAPI<
   T = unknown,
-  Meta extends CallAPIOptionsMeta = Record<string, unknown>
+  Meta extends CallAPIOptionsMeta = CallAPIOptionsMeta & Record<string, unknown>
 >({
   types,
   method = 'GET',

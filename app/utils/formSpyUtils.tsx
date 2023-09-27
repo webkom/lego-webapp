@@ -25,13 +25,21 @@ export const spyFormError = (render: (error: any) => ReactNode) => (
   </FormSpy>
 );
 
-export const spySubmittable = (render: (submittable: boolean) => ReactNode) => (
+type SpySubmittableOptions = {
+  allowPristine?: boolean;
+};
+export const spySubmittable = (
+  render: (submittable: boolean) => ReactNode,
+  { allowPristine = false }: SpySubmittableOptions = {}
+) => (
   <FormSpy
     subscription={{
       pristine: true,
       submitting: true,
     }}
   >
-    {({ pristine, submitting }) => render(!pristine && !submitting)}
+    {({ pristine, submitting }) =>
+      render((!pristine || allowPristine) && !submitting)
+    }
   </FormSpy>
 );
