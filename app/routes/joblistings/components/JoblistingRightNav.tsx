@@ -1,24 +1,21 @@
 import { Button } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom-v5-compat';
 import { CheckBox, RadioButton } from 'app/components/Form/';
-import { defaultJoblistingsQuery } from 'app/routes/joblistings/JoblistingRoute';
+import { useAppSelector } from 'app/store/hooks';
 import useQuery from 'app/utils/useQuery';
 import { jobTypes as allJobTypes } from '../constants';
+import { defaultJoblistingsQuery } from './JoblistingPage';
 import styles from './JoblistingRightNav.css';
-import type { ActionGrant } from 'app/models';
 
-type Props = {
-  actionGrant: ActionGrant;
-};
-
-const JoblistingsRightNav = (props: Props) => {
+const JoblistingsRightNav = () => {
   const { query, setQueryValue } = useQuery(defaultJoblistingsQuery);
-
   const { order, grades, jobTypes, workplaces } = query;
 
   const [displayOptions, setDisplayOptions] = useState<boolean>(true);
+
+  const actionGrant = useAppSelector((state) => state.joblistings.actionGrant);
 
   return (
     <div className={styles.joblistingRightNav}>
@@ -43,7 +40,7 @@ const JoblistingsRightNav = (props: Props) => {
           display: displayOptions ? 'block' : 'none',
         }}
       >
-        {props.actionGrant.includes('create') && (
+        {actionGrant.includes('create') && (
           <Link to="/joblistings/create">
             <Button>Ny jobbannonse</Button>
           </Link>
@@ -55,8 +52,7 @@ const JoblistingsRightNav = (props: Props) => {
           id="deadline"
           label="Frist"
           checked={order === 'deadline'}
-          onChange={(value) => {
-            console.log(value);
+          onChange={() => {
             setQueryValue('order')('deadline');
           }}
         />
