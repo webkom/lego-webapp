@@ -3,10 +3,10 @@ import { Image } from 'app/components/Image';
 import Time from 'app/components/Time';
 import { colorForEvent } from 'app/routes/events/utils';
 import styles from '../surveys.css';
-import type { SurveyEntity } from 'app/reducers/surveys';
+import type { SelectedSurvey } from 'app/reducers/surveys';
 
 type Props = {
-  survey: SurveyEntity;
+  survey: SelectedSurvey;
 };
 
 const SurveyItem = (props: Props) => {
@@ -47,7 +47,10 @@ const SurveyItem = (props: Props) => {
 
       {!survey.templateType && (
         <div className={styles.companyLogo}>
-          <Image src={survey.event.cover} />
+          <Image
+            src={survey.event.cover}
+            alt={`Cover image for: ${survey.event.title}`}
+          />
         </div>
       )}
     </div>

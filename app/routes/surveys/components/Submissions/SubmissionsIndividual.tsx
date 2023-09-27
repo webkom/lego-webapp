@@ -1,18 +1,17 @@
 import cx from 'classnames';
 import StaticSubmission from '../StaticSubmission';
 import styles from '../surveys.css';
-import type { SubmissionEntity } from 'app/reducers/surveySubmissions';
-import type { SurveyEntity } from 'app/reducers/surveys';
+import type { SelectedSurvey } from 'app/reducers/surveys';
+import type { SurveySubmission } from 'app/store/models/SurveySubmission';
 
 type Props = {
-  submissions: Array<SubmissionEntity>;
-  addSubmission: (arg0: SubmissionEntity) => Promise<any>;
-  survey: SurveyEntity;
+  submissions: SurveySubmission[];
+  survey: SelectedSurvey;
 };
 
 const SubmissionPage = ({ submissions, survey }: Props) => {
   return (
-    <ul className={styles.submissions}>
+    <ul>
       {submissions.map((submission, i) => (
         <li key={submission.id}>
           <h3>Svar {i}</h3>

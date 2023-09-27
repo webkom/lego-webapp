@@ -1,130 +1,73 @@
-import { Route, Switch } from 'react-router-dom';
-import RouteWrapper from 'app/components/RouteWrapper';
-import { UserContext } from 'app/routes/app/AppRoute';
+import { Route, Switch, useRouteMatch } from 'react-router-dom';
+import AddSubmissionPage from 'app/routes/surveys/components/AddSubmission/AddSubmissionPage';
+import SubmissionPublicResultsPage from 'app/routes/surveys/components/Submissions/SubmissionPublicResultsPage';
+import SurveyDetailPage from 'app/routes/surveys/components/SurveyDetail';
+import AddSurveyPage from 'app/routes/surveys/components/SurveyEditor/AddSurveyPage';
+import EditSurveyPage from 'app/routes/surveys/components/SurveyEditor/EditSurveyPage';
 import PageNotFound from '../pageNotFound';
-import AddSubmissionRoute from './AddSubmissionRoute';
-import AddSurveyRoute from './AddSurveyRoute';
-import EditSurveyRoute from './EditSurveyRoute';
-import SubmissionsPublicResultsRoute from './SubmissionsPublicResultsRoute';
-import SubmissionsRoute from './SubmissionsRoute';
-import SurveyDetailRoute from './SurveyDetailRoute';
-import SurveyRoute from './SurveyRoute';
-import TemplatesRoute from './TemplatesRoute';
-import SubmissionIndividual from './components/Submissions/SubmissionIndividual';
-import SubmissionSummary from './components/Submissions/SubmissionSummary';
+import SubmissionsIndividual from './components/Submissions/SubmissionsIndividual';
+import SubmissionsPage from './components/Submissions/SubmissionsPage';
+import SubmissionsSummary from './components/Submissions/SubmissionsSummary';
+import SurveyListPage from './components/SurveyList/SurveyListPage';
 
-const surveysRoute = ({
-  match,
-}: {
-  match: {
-    path: string;
-  };
-}) => (
-  <UserContext.Consumer>
-    {({ currentUser, loggedIn }) => (
-      <Switch>
-        <RouteWrapper
-          exact
-          path={`${match.path}`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={SurveyRoute}
-        />
-        <RouteWrapper
-          exact
-          path={`${match.path}/add`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={AddSurveyRoute}
-        />
-        <RouteWrapper
-          exact
-          path={`${match.path}/templates`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={TemplatesRoute}
-        />
-        <RouteWrapper
-          exact
-          path={`${match.path}/:surveyId`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={SurveyDetailRoute}
-        />
-        <RouteWrapper
-          exact
-          path={`${match.path}/:surveyId/edit`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={EditSurveyRoute}
-        />
-        <RouteWrapper
-          exact
-          path={`${match.path}/:surveyId/answer`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={AddSubmissionRoute}
-        />
-        <Route path={`${match.path}/:surveyId/submissions`}>
-          {({ match, location }) => (
-            <SubmissionsRoute
-              {...{
-                match,
-                currentUser,
-                loggedIn,
-                location,
-              }}
-            >
-              {(props) => (
-                <>
-                  <RouteWrapper
-                    exact
-                    path={`${match.path}/summary`}
-                    passedProps={{
-                      currentUser,
-                      loggedIn,
-                      ...props,
-                    }}
-                    Component={SubmissionSummary}
-                  />
-                  <RouteWrapper
-                    exact
-                    path={`${match.path}/individual`}
-                    passedProps={{
-                      currentUser,
-                      loggedIn,
-                      ...props,
-                    }}
-                    Component={SubmissionIndividual}
-                  />
-                </>
-              )}
-            </SubmissionsRoute>
-          )}
-        </Route>
-        <Route
-          exact
-          path={`${match.path}/:surveyId/results`}
-          component={SubmissionsPublicResultsRoute}
-        />
-        <Route component={PageNotFound} />
-      </Switch>
-    )}
-  </UserContext.Consumer>
-);
+const SurveysRoute = () => {
+  const { path } = useRouteMatch();
+
+  return (
+    <Switch>
+      <Route exact path={path} render={() => <SurveyListPage />} />
+      <Route
+        exact
+        path={`${path}/templates`}
+        render={() => <SurveyListPage templates />}
+      />
+      <Route exact path={`${path}/add`} render={() => <AddSurveyPage />} />
+      <Route
+        exact
+        path={`${path}/:surveyId/edit`}
+        render={() => <EditSurveyPage />}
+      />
+      <Route
+        exact
+        path={`${path}/:surveyId`}
+        render={() => <SurveyDetailPage />}
+      />
+      <Route
+        exact
+        path={`${path}/:surveyId/answer`}
+        render={() => <AddSubmissionPage />}
+      />
+      <Route
+        path={`${path}/:surveyId/submissions`}
+        render={() => (
+          <SubmissionsPage>
+            {(props) => (
+              <Switch>
+                <Route
+                  exact
+                  path={`${path}/:surveyId/submissions/summary`}
+                  render={() => <SubmissionsSummary {...props} />}
+                />
+                <Route
+                  exact
+                  path={`${path}/:surveyId/submissions/individual`}
+                  render={() => <SubmissionsIndividual {...props} />}
+                />
+              </Switch>
+            )}
+          </SubmissionsPage>
+        )}
+      />
+      <Route
+        exact
+        path={`${path}/:surveyId/results`}
+        render={() => <SubmissionPublicResultsPage />}
+      />
+      <Route component={PageNotFound} />
+    </Switch>
+  );
+};
 
 export default function Surveys() {
-  return <Route path="/surveys" component={surveysRoute} />;
+  return <Route path="/surveys" component={SurveysRoute} />;
 }

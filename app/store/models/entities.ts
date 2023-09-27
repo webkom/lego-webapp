@@ -107,9 +107,9 @@ export default interface Entities {
   [EntityType.Surveys]: Record<ID, Survey>;
   [EntityType.Tags]: Record<ID, UnknownTag>;
   [EntityType.Users]: Record<ID, UnknownUser>;
-  // [EntityType.FollowersCompany]: Record<ID, unknown>; // AFAIK unused
-  // [EntityType.FollowersUser]: Record<ID, unknown>; // AFAIK unused
-  // [EntityType.FollowersEvent]: Record<ID, unknown>; // AFAIK unused
+  [EntityType.FollowersCompany]: Record<ID, unknown>; // AFAIK unused
+  [EntityType.FollowersUser]: Record<ID, unknown>; // AFAIK unused
+  [EntityType.FollowersEvent]: Record<ID, unknown>; // AFAIK unused
 }
 
 type InferEntityType<T> = {
@@ -120,3 +120,7 @@ export type NormalizedPayloadEntities<T> = Record<
   InferEntityType<T>,
   Record<ID, T | undefined>
 >;
+
+export interface NormalizedEntityPayload<EntityKeys extends keyof Entities> {
+  entities: Pick<Entities, EntityKeys>;
+}
