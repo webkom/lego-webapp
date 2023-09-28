@@ -37,7 +37,7 @@ const interestGroupRoute = ({
         />
         <RouteWrapper
           exact
-          path={`${match.path}/:interestGroupId`}
+          path={`${match.path}/:groupId`}
           passedProps={{
             currentUser,
             loggedIn,
