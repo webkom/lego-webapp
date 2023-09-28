@@ -6,11 +6,17 @@ import {
   LoadingIndicator,
 } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import InfiniteScroll from 'react-infinite-scroller';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom-v5-compat';
+import { fetchAll } from 'app/actions/CompanyActions';
 import { Image } from 'app/components/Image';
+import { LoginPage } from 'app/components/LoginForm';
+import { selectIsLoggedIn } from 'app/reducers/auth';
+import { selectActiveCompanies } from 'app/reducers/companies';
+import { selectPaginationNext } from 'app/reducers/selectors';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import type { ListCompany } from 'app/store/models/Company';
 import utilities from 'app/styles/utilities.css';
 import styles from './CompaniesPage.css';
@@ -22,13 +28,11 @@ const CompanyItem = ({ company }: { company: ListCompany }) => {
         <div className={styles.companyItemContent}>
           <div className={styles.companyLogoContainer}>
             <div className={styles.companyLogo}>
-              {
-                <Image
-                  src={company.logo}
-                  placeholder={company.logoPlaceholder}
-                  alt={`${company.name} logo`}
-                />
-              }
+              <Image
+                src={company.logo}
+                placeholder={company.logoPlaceholder}
+                alt={`${company.name} logo`}
+              />
             </div>
           </div>
           <Flex justifyContent="space-between" className={styles.companyInfo}>
@@ -67,17 +71,31 @@ const CompanyList = ({ companies = [] }: CompanyListProps) => (
   </div>
 );
 
-type Props = {
-  companies: ListCompany[];
-  fetchMore: () => void;
-  showFetchMore: () => void;
-  hasMore: boolean;
-  fetching: boolean;
-};
-
-const CompaniesPage = (props: Props) => {
+const CompaniesPage = () => {
   const [expanded, setExpanded] = useState(false);
   const top = useRef<HTMLHeadingElement>(null);
+
+  const companies = useAppSelector((state) => selectActiveCompanies(state));
+  const fetching = useAppSelector((state) => state.companies.fetching);
+  const { pagination } = useAppSelector((state) =>
+    selectPaginationNext({
+      query: {},
+      entity: 'companies',
+      endpoint: '/companies/',
+    })(state)
+  );
+  const hasMore = pagination.hasMore;
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchAll({ fetchMore: false }));
+  }, [dispatch]);
+
+  const loggedIn = useAppSelector((state) => selectIsLoggedIn(state));
+  if (!loggedIn) {
+    return LoginPage;
+  }
 
   return (
     <div className={styles.root}>
@@ -143,12 +161,14 @@ const CompaniesPage = (props: Props) => {
       </Flex>
       <InfiniteScroll
         element="div"
-        hasMore={props.hasMore}
-        loadMore={() => props.hasMore && !props.fetching && props.fetchMore()}
+        hasMore={hasMore}
+        loadMore={() =>
+          hasMore && !fetching && dispatch(fetchAll({ fetchMore: true }))
+        }
         initialLoad={false}
         loader={<LoadingIndicator loading />}
       >
-        <CompanyList companies={props.companies} />
+        <CompanyList companies={companies} />
       </InfiniteScroll>
     </div>
   );

@@ -1,7 +1,13 @@
 import { Button, Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { useParams } from 'react-router-dom-v5-compat';
+import {
+  fetch,
+  fetchEventsForCompany,
+  fetchJoblistingsForCompany,
+} from 'app/actions/CompanyActions';
 import CollapsibleDisplayContent from 'app/components/CollapsibleDisplayContent';
 import {
   Content,
@@ -11,35 +17,75 @@ import {
 } from 'app/components/Content';
 import EventListCompact from 'app/components/EventListCompact';
 import JoblistingItem from 'app/components/JoblistingItem';
+import { LoginPage } from 'app/components/LoginForm';
 import NavigationTab from 'app/components/NavigationTab';
 import TextWithIcon from 'app/components/TextWithIcon';
-import type { Event } from 'app/models';
-import type { DetailedCompany } from 'app/store/models/Company';
-import type { ListJoblisting } from 'app/store/models/Joblisting';
+import { selectIsLoggedIn } from 'app/reducers/auth';
+import {
+  selectCompanyById,
+  selectEventsForCompany,
+  selectJoblistingsForCompany,
+} from 'app/reducers/companies';
+import { selectPagination } from 'app/reducers/selectors';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import type { ID } from 'app/store/models';
+import createQueryString from 'app/utils/createQueryString';
 import styles from './Company.css';
 
-type Props = {
-  company: DetailedCompany;
-  companyEvents: Event[];
-  joblistings: ListJoblisting[];
-  showFetchMoreEvents: boolean;
-  fetchMoreEvents: () => Promise<any>;
-  loading: boolean;
-};
+const queryString = (companyId: ID) =>
+  createQueryString({
+    company: companyId,
+    ordering: '-start_time',
+  });
 
-const CompanyDetail = ({
-  company,
-  companyEvents,
-  joblistings,
-  fetchMoreEvents,
-  showFetchMoreEvents,
-  loading,
-}: Props) => {
+const CompanyDetail = () => {
   const [viewOldEvents, setViewOldEvents] = useState(false);
 
+  const { companyId, loading } = useParams();
+  const loggedIn = useAppSelector((state) => selectIsLoggedIn(state));
+  const showFetchMoreEvents = useAppSelector((state) =>
+    selectPagination('events', {
+      queryString: queryString(companyId),
+    })(state)
+  );
+  const company = useAppSelector((state) =>
+    selectCompanyById(state, { companyId })
+  );
+  const companyEvents = useAppSelector((state) =>
+    selectEventsForCompany(state, { companyId })
+  );
+  const joblistings = useAppSelector((state) =>
+    selectJoblistingsForCompany(state, { companyId })
+  );
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetch(companyId));
+    dispatch(
+      fetchEventsForCompany({
+        queryString: queryString(companyId),
+        loadNextPage: false,
+      })
+    );
+    dispatch(fetchJoblistingsForCompany(companyId));
+  }, [companyId, dispatch]);
+
   if (!company) {
-    return <LoadingIndicator loading={loading} />;
+    return <LoadingIndicator loading={Boolean(loading)} />;
   }
+
+  if (!loggedIn) {
+    return LoginPage;
+  }
+
+  const fetchMoreEvents = () =>
+    dispatch(
+      fetchEventsForCompany({
+        queryString: queryString(companyId),
+        loadNextPage: true,
+      })
+    );
 
   const sortedEvents = companyEvents.sort(
     (a, b) => moment(b.startTime).unix() - moment(a.startTime).unix()

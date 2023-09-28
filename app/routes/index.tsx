@@ -69,7 +69,7 @@ const AppWrapper = (props) => (
           <Route path="/pages" component={Pages} />
           <Route path="/photos" component={Photos} />
           <Route path="/polls" component={Polls} />
-          <Route path="/quotes" component={Quotes} />
+          <CompatRoute path="/quotes" component={Quotes} />
           <Route path="/search" component={Search} />
           <Route path="/surveys" component={Surveys} />
           <Route path="/tags" component={Tags} />

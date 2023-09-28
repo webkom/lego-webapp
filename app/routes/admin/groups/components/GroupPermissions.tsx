@@ -1,40 +1,30 @@
 import { Flex, Icon } from '@webkom/lego-bricks';
 import { sortBy } from 'lodash';
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { compose } from 'redux';
+import { useParams } from 'react-router-dom-v5-compat';
 import { editGroup } from 'app/actions/GroupActions';
 import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
-import type { ID } from 'app/models';
-import loadingIndicator from 'app/utils/loadingIndicator';
+import { selectGroup } from 'app/reducers/groups';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import type { DetailedGroup } from 'app/store/models/Group';
 import AddGroupPermission from './AddGroupPermission';
 
 type PermissionListProps = {
-  permissions: Array<string>;
-  parentPermissions: Array<{
-    abakusGroup: {
-      id: ID;
-      name: string;
-    };
-    permissions: Array<string>;
-  }>;
-  group: Record<string, any>;
-  editGroup: (arg0: any) => Promise<any>;
+  group: DetailedGroup;
 };
 
-const removePermission = (permission, group, editGroup) =>
-  editGroup({
-    ...group,
-    permissions: group.permissions.filter((perm) => perm !== permission),
-  });
+const removePermission = (permission, group, dispatch) =>
+  dispatch(
+    editGroup({
+      ...group,
+      permissions: group.permissions.filter((perm) => perm !== permission),
+    })
+  );
 
-const PermissionList = ({
-  permissions,
-  group,
-  parentPermissions,
-  editGroup,
-}: PermissionListProps) => {
-  const parentPermissionsList = parentPermissions
+const PermissionList = ({ group }: PermissionListProps) => {
+  const dispatch = useAppDispatch();
+
+  const parentPermissionsList = group.parentPermissions
     .map(
       ({ abakusGroup, permissions }) =>
         !!permissions.length && (
@@ -55,10 +45,10 @@ const PermissionList = ({
         )
     )
     .filter(Boolean);
+
   const allPermissionsList = sortBy(
-    permissions.concat(
-      // $FlowFixMe
-      parentPermissions.flatMap(({ permissions }) => permissions)
+    group.permissions.concat(
+      group.parentPermissions.flatMap(({ permissions }) => permissions)
     ),
     (permission: string) => permission.split('/').length
   )
@@ -82,20 +72,21 @@ const PermissionList = ({
       return [...acc, perm];
     }, [])
     .map((permission) => <li key={permission}>{permission}</li>);
+
   return (
     <div>
       <h3>Nåværende rettigheter</h3>
       <ul>
-        {permissions.length ? (
-          permissions.map((permission) => (
+        {group.permissions.length ? (
+          group.permissions.map((permission) => (
             <li key={permission}>
-              <Flex>
+              <Flex alignItems="center" gap={10}>
                 <ConfirmModal
                   title="Bekreft fjerning av rettighet"
                   message={`Er du sikker på at du vil fjerne tilgangen ${permission}?`}
                   closeOnConfirm={true}
                   onConfirm={() =>
-                    removePermission(permission, group, editGroup)
+                    removePermission(permission, group, dispatch)
                   }
                 >
                   {({ openConfirmModal }) => (
@@ -128,31 +119,16 @@ const PermissionList = ({
   );
 };
 
-type GroupPermissionsProps = {
-  group: Record<string, any>;
-  editGroup: (arg0: any) => Promise<any>;
-};
-export const GroupPermissions = ({
-  group,
-  editGroup,
-}: GroupPermissionsProps) => {
-  const { permissions, parentPermissions } = group;
+const GroupPermissions = () => {
+  const { groupId } = useParams();
+  const group = useAppSelector((state) => selectGroup(state, { groupId }));
+
   return (
     <div>
-      <PermissionList
-        group={group}
-        permissions={permissions}
-        parentPermissions={parentPermissions}
-        editGroup={editGroup}
-      />
-      <AddGroupPermission group={group} editGroup={editGroup} />
+      <PermissionList group={group} />
+      <AddGroupPermission group={group} />
     </div>
   );
 };
-const mapDispatchToProps = {
-  editGroup,
-};
-export default compose(
-  connect(() => ({}), mapDispatchToProps),
-  loadingIndicator(['group'])
-)(GroupPermissions);
+
+export default GroupPermissions;

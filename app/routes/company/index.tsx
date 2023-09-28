@@ -1,43 +1,24 @@
-import { Route, Switch } from 'react-router-dom';
-import RouteWrapper from 'app/components/RouteWrapper';
-import { UserContext } from 'app/routes/app/AppRoute';
+import { useRouteMatch, Route, Switch } from 'react-router-dom';
+import { CompatRoute } from 'react-router-dom-v5-compat';
 import PageNotFound from '../pageNotFound';
-import CompaniesRoute from './CompaniesRoute';
-import CompanyDetailRoute from './CompanyDetailRoute';
+import CompaniesPage from './components/CompaniesPage';
+import CompanyDetail from './components/CompanyDetail';
 
-const CompanyRoute = ({
-  match,
-}: {
-  match: {
-    path: string;
-  };
-}) => (
-  <UserContext.Consumer>
-    {({ currentUser, loggedIn }) => (
-      <Switch>
-        <RouteWrapper
-          exact
-          path={`${match.path}`}
-          Component={CompaniesRoute}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-        />
-        <RouteWrapper
-          exact
-          path={`${match.path}/:companyId`}
-          Component={CompanyDetailRoute}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-        />
-        <Route component={PageNotFound} />
-      </Switch>
-    )}
-  </UserContext.Consumer>
-);
+const CompanyRoute = () => {
+  const { path } = useRouteMatch();
+
+  return (
+    <Switch>
+      <CompatRoute exact path={path} component={CompaniesPage} />
+      <CompatRoute
+        exact
+        path={`${path}/:companyId`}
+        component={CompanyDetail}
+      />
+      <Route component={PageNotFound} />
+    </Switch>
+  );
+};
 
 export default function Companies() {
   return <Route path="/companies" component={CompanyRoute} />;
