@@ -15,25 +15,19 @@ const QuotesRoute = () => {
           <RouteWrapper
             exact
             path={path}
-            passedProps={{
-              loggedIn,
-            }}
+            passedProps={{ loggedIn }}
             Component={QuotePage}
           />
           <RouteWrapper
             exact
             path={`${path}/add`}
-            passedProps={{
-              loggedIn,
-            }}
+            passedProps={{ loggedIn }}
             Component={AddQuote}
           />
           <RouteWrapper
             exact
             path={`${path}/:quoteId`}
-            passedProps={{
-              loggedIn,
-            }}
+            passedProps={{ loggedIn }}
             Component={QuotePage}
           />
           <Route component={PageNotFound} />

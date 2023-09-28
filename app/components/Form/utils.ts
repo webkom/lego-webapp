@@ -2,7 +2,7 @@ import { FORM_ERROR } from 'final-form';
 import { get } from 'lodash';
 import { SubmissionError } from 'redux-form';
 import type { AppDispatch } from 'app/store/createStore';
-import { Thunk } from 'app/types';
+import type { Thunk } from 'app/types';
 
 /*
  * Simple utility that handles submission errors

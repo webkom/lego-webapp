@@ -12,9 +12,7 @@
 }
 
 .msgField {
-  border: 1px solid var(--border-gray);
-  width: 100%;
-  margin-bottom: 10px;
+  min-height: 70px;
 }
 
 .formHeaders {

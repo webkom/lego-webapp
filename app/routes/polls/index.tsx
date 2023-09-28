@@ -1,54 +1,33 @@
-import { Route, Switch } from 'react-router-dom';
+import { useRouteMatch, Route, Switch } from 'react-router-dom';
 import RouteWrapper from 'app/components/RouteWrapper';
 import { UserContext } from 'app/routes/app/AppRoute';
 import PageNotFound from '../pageNotFound';
-import PollsCreateRoute from './PollsCreateRoute';
-import PollsDetailRoute from './PollsDetailRoute';
-import PollsListRoute from './PollsListRoute';
+import PollDetail from './components/PollDetail';
+import PollEditor from './components/PollEditor';
+import PollsList from './components/PollsList';
 
-const pollsRoute = ({
-  match,
-}: {
-  match: {
-    path: string;
-  };
-}) => (
-  <UserContext.Consumer>
-    {({ currentUser, loggedIn }) => (
-      <Switch>
-        <RouteWrapper
-          exact
-          path={`${match.path}`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={PollsListRoute}
-        />
-        <RouteWrapper
-          exact
-          path={`${match.path}/new`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={PollsCreateRoute}
-        />
-        <RouteWrapper
-          exact
-          path={`${match.path}/:pollsId`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={PollsDetailRoute}
-        />
-        <Route component={PageNotFound} />
-      </Switch>
-    )}
-  </UserContext.Consumer>
-);
+const PollsRoute = () => {
+  const { path } = useRouteMatch();
+
+  return (
+    <UserContext.Consumer>
+      {({ loggedIn }) => (
+        <Switch>
+          <Route exact path={path} component={PollsList} />
+          <Route exact path={`${path}/new`} component={PollEditor} />
+          <RouteWrapper
+            exact
+            path={`${path}/:pollsId`}
+            passedProps={{ loggedIn }}
+            Component={PollDetail}
+          />
+          <Route component={PageNotFound} />
+        </Switch>
+      )}
+    </UserContext.Consumer>
+  );
+};
 
 export default function Polls() {
-  return <Route path="/polls" component={pollsRoute} />;
+  return <Route path="/polls" component={PollsRoute} />;
 }

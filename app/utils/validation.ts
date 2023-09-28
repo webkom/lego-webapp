@@ -19,6 +19,16 @@ export const required =
   (value) =>
     [!!value, message] as const;
 
+export const atLeastOneFieldRequired =
+  (fieldNames, message = 'Du må fylle ut minst ett felt') =>
+  (_, allValues) => {
+    const hasAtLeastOneValue = fieldNames.some((fieldName) => {
+      const value = allValues[fieldName];
+      return Boolean(value && (Array.isArray(value) ? value.length : true));
+    });
+    return [hasAtLeastOneValue, message] as const;
+  };
+
 export const legoEditorRequired =
   (message = 'Feltet må fylles ut') =>
   (value) =>

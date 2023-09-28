@@ -3,6 +3,7 @@ import arrayMutators from 'final-form-arrays';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { Helmet } from 'react-helmet-async';
+import { createPoll, deletePoll, editPoll } from 'app/actions/PollActions';
 import { Content } from 'app/components/Content';
 import {
   TextInput,
@@ -15,7 +16,8 @@ import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import NavigationTab from 'app/components/NavigationTab';
 import Tooltip from 'app/components/Tooltip';
 import type { ID } from 'app/models';
-import type { PollEntity } from 'app/reducers/polls';
+import { useAppDispatch } from 'app/store/hooks';
+import type Poll from 'app/store/models/Poll';
 import { createValidator, required } from 'app/utils/validation';
 import styles from './PollEditor.css';
 import type { ReactNode } from 'react';
@@ -24,13 +26,10 @@ const keyCodes = {
   enter: 13,
   space: 32,
 };
+
 type Props = {
-  editOrCreatePoll: (arg0: PollEntity) => Promise<any>;
-  //TODO add reduxForm typing
+  poll: Poll | undefined;
   editing: boolean;
-  initialValues: PollEntity;
-  pollId: ID;
-  deletePoll: () => Promise<any>;
   toggleEdit: () => void;
 };
 
@@ -78,14 +77,10 @@ const validate = createValidator({
   title: [required('Du må gi avstemningen en tittel')],
 });
 
-const EditPollForm = ({
-  deletePoll,
-  editOrCreatePoll,
-  editing,
-  initialValues,
-  toggleEdit,
-}: Props) => {
-  const onSubmit = ({
+const PollEditor = ({ poll, editing, toggleEdit }: Props) => {
+  const dispatch = useAppDispatch();
+
+  const onSubmit = async ({
     title,
     description,
     tags,
@@ -105,16 +100,39 @@ const EditPollForm = ({
     }>;
     resultsHidden: boolean;
     pinned: boolean;
-  }) =>
-    editOrCreatePoll({
+  }) => {
+    const payload = {
       title,
       description,
       resultsHidden,
       tags: tags ? tags.map((val) => val.value) : [],
       options,
-      pinned: pinned ? pinned : false,
+      pinned: pinned || false,
       ...(rest as Record<string, any>),
-    }).then(() => toggleEdit());
+    };
+
+    if (editing) {
+      await dispatch(editPoll(payload));
+    } else {
+      await dispatch(createPoll(payload));
+    }
+
+    toggleEdit();
+  };
+
+  const initialValues = {
+    pollId: poll?.id,
+    title: poll?.title,
+    description: poll?.description,
+    resultsHidden: poll?.resultsHidden,
+    pinned: poll?.pinned || false,
+    tags: poll?.tags.map((value) => ({
+      className: 'Select-create-option-placeholder',
+      label: value,
+      value: value,
+    })),
+    options: poll?.options || [{}, {}],
+  };
 
   return (
     <Content>
@@ -130,7 +148,7 @@ const EditPollForm = ({
       )}
       <LegoFinalForm
         onSubmit={onSubmit}
-        initialValues={initialValues ?? { options: [{}, {}], pinned: false }}
+        initialValues={initialValues}
         validate={validate}
         mutators={{
           ...arrayMutators,
@@ -189,7 +207,7 @@ const EditPollForm = ({
                 <ConfirmModal
                   title="Slett avstemning"
                   message="Er du sikker på at du vil slette avstemningen?"
-                  onConfirm={deletePoll}
+                  onConfirm={() => dispatch(deletePoll(poll?.id))}
                   closeOnConfirm
                 >
                   {({ openConfirmModal }) => (
@@ -208,4 +226,4 @@ const EditPollForm = ({
   );
 };
 
-export default EditPollForm;
+export default PollEditor;
