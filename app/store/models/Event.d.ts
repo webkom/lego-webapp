@@ -204,6 +204,7 @@ export type AdministrateEvent = Pick<
   | 'useContactTracing'
   | 'createdBy'
   | 'responsibleGroup'
+  | 'feedbackRequired'
 > &
   ListEvent;
 

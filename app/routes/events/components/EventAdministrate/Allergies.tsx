@@ -2,31 +2,27 @@ import { LoadingIndicator, Button } from '@webkom/lego-bricks';
 import { Link } from 'react-router-dom';
 import { Flex } from 'app/components/Layout';
 import Table from 'app/components/Table';
-import type {
-  EventAdministrate,
-  EventPool,
-  ActionGrant,
-  User,
-  EventRegistration,
-} from 'app/models';
+import type { ActionGrant } from 'app/models';
 import HTTPError from 'app/routes/errors/HTTPError';
 import type { ID } from 'app/store/models';
 import type Comment from 'app/store/models/Comment';
-import type { CurrentUser } from 'app/store/models/User';
+import type { AdministrateEvent } from 'app/store/models/Event';
+import type { DetailedRegistration } from 'app/store/models/Registration';
+import type { CurrentUser, DetailedUser } from 'app/store/models/User';
 import { RegistrationPill, getRegistrationInfo } from './RegistrationTables';
 
 export type Props = {
   eventId: number;
-  event: EventAdministrate;
+  event: AdministrateEvent;
   comments: Comment[];
-  pools: Array<EventPool>;
+  pools: Array<ID>;
   loggedIn: boolean;
   currentUser: CurrentUser;
   error: Record<string, any>;
   loading: boolean;
-  registered: Array<EventRegistration>;
-  unregistered: Array<EventRegistration>;
-  usersResult: Array<User>;
+  registered: Array<DetailedRegistration>;
+  unregistered: Array<DetailedRegistration>;
+  usersResult: Array<DetailedUser>;
   actionGrant: ActionGrant;
   onQueryChanged: (value: string) => any;
   searching: boolean;
@@ -34,10 +30,10 @@ export type Props = {
 
 const canSeeAllAllergies = (
   currentUser: CurrentUser,
-  event: EventAdministrate
+  event: AdministrateEvent
 ) => {
   return (
-    currentUser.id === event.createdBy ||
+    currentUser?.id === event.createdBy?.id ||
     currentUser.abakusGroups.includes(event.responsibleGroup?.id as ID)
   );
 };
@@ -58,7 +54,7 @@ const Allergies = ({
   }
 
   const registeredAllergies = registered.filter((registration) => {
-    return registration?.user.allergies;
+    return registration?.detailedUser.allergies;
   });
 
   const data = registeredAllergies
@@ -66,7 +62,7 @@ const Allergies = ({
       (registration) =>
         getRegistrationInfo(registration).status !== 'Venteliste'
     )
-    .map((registration) => registration.user.allergies)
+    .map((registration) => registration.detailedUser.allergies)
     .join('\n');
 
   const allergiesTXT = URL.createObjectURL(
@@ -126,7 +122,7 @@ const Allergies = ({
 
   const numOfAllergies = () => {
     return registered.filter(
-      (registration) => registration.user.allergies?.length !== 0
+      (registration) => registration.detailedUser.allergies?.length !== 0
     ).length;
   };
   return (
