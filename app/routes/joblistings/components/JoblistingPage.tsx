@@ -1,7 +1,7 @@
 import { Flex, LoadingIndicator } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
 import qs from 'qs';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useLocation } from 'react-router-dom-v5-compat';
 import { fetchAll } from 'app/actions/JoblistingActions';
@@ -11,29 +11,27 @@ import JoblistingsList from './JoblistingList';
 import styles from './JoblistingPage.css';
 import JoblistingsRightNav from './JoblistingRightNav';
 
+const MAJOR_CITIES = ['Oslo', 'Trondheim', 'Bergen', 'Tromsø'];
+
 function filterJoblistings(joblistings, grades, jobTypes, workplaces) {
   return joblistings.filter((joblisting) => {
     const gradeBoolean =
-      grades.length === 0 ||
-      grades.find(
+      !grades.length ||
+      grades.some(
         (grade) =>
           joblisting.fromYear <= Number(grade) &&
           joblisting.toYear >= Number(grade)
       );
     const jobTypesBoolean =
-      jobTypes.length === 0 ||
-      jobTypes.find((jobType) => jobType === joblisting.jobType);
+      !jobTypes.length || jobTypes.includes(joblisting.jobType);
     const workplacesBoolean =
-      workplaces.length === 0 ||
-      joblisting.workplaces.some((workplace) =>
-        workplaces.includes(workplace.town)
-      ) ||
-      (workplaces.includes('Annet') &&
-        joblisting.workplaces.some(
-          (workplace) =>
-            !['Oslo', 'Trondheim', 'Bergen', 'Tromsø'].includes(workplace.town)
-        )) ||
-      (workplaces.includes('Annet') && joblisting.workplaces.length === 0);
+      !workplaces.length ||
+      joblisting.workplaces.some(
+        (workplace) =>
+          workplaces.includes(workplace.town) ||
+          (workplaces.includes('Annet') &&
+            !MAJOR_CITIES.includes(workplace.town))
+      );
     return gradeBoolean && jobTypesBoolean && workplacesBoolean;
   });
 }
@@ -80,19 +78,28 @@ const JoblistingsPage = () => {
     ignoreQueryPrefix: true,
   });
 
-  const sortType = search.order;
-  const filterGrade = search.grades ? search.grades.split(',') : [];
-  const filterJobType = search.jobTypes ? search.jobTypes.split(',') : [];
-  const filterWorkplaces = search.workplaces
-    ? search.workplaces.split(',')
-    : [];
-  const filteredJoblistings = filterJoblistings(
-    unsortedJoblistings,
-    filterGrade,
-    filterJobType,
-    filterWorkplaces
+  const parsedQuery = useMemo(
+    () => ({
+      sortType: search.order,
+      filterGrade: search.grades ? search.grades.split(',') : [],
+      filterJobType: search.jobTypes ? search.jobTypes.split(',') : [],
+      filterWorkplaces: search.workplaces ? search.workplaces.split(',') : [],
+    }),
+    [search]
   );
-  const joblistings = sortJoblistings(filteredJoblistings, sortType);
+
+  const filteredJoblistings = useMemo(() => {
+    return filterJoblistings(
+      unsortedJoblistings,
+      parsedQuery.filterGrade,
+      parsedQuery.filterJobType,
+      parsedQuery.filterWorkplaces
+    );
+  }, [unsortedJoblistings, parsedQuery]);
+
+  const joblistings = useMemo(() => {
+    return sortJoblistings(filteredJoblistings, parsedQuery.sortType);
+  }, [filteredJoblistings, parsedQuery.sortType]);
 
   const dispatch = useAppDispatch();
 
