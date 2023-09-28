@@ -1,17 +1,16 @@
 import { Flex, LoadingIndicator } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
-import qs from 'qs';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useLocation } from 'react-router-dom-v5-compat';
 import { fetchAll } from 'app/actions/JoblistingActions';
 import { selectJoblistings } from 'app/reducers/joblistings';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { parseQueryString } from 'app/utils/useQuery';
 import JoblistingsList from './JoblistingList';
 import styles from './JoblistingPage.css';
 import JoblistingsRightNav from './JoblistingRightNav';
 import type { ListJoblisting } from 'app/store/models/Joblisting';
-import { parseQueryString } from 'app/utils/useQuery';
 
 export const defaultJoblistingsQuery = {
   order: 'deadline',
@@ -19,6 +18,8 @@ export const defaultJoblistingsQuery = {
   jobTypes: [] as string[],
   workplaces: [] as string[],
 };
+
+const MAJOR_CITIES = ['Oslo', 'Trondheim', 'Bergen', 'Tromsø'];
 
 function filterJoblistings(
   joblistings: ListJoblisting[],
@@ -28,26 +29,22 @@ function filterJoblistings(
 ) {
   return joblistings.filter((joblisting) => {
     const gradeBoolean =
-      grades.length === 0 ||
-      grades.find(
+      !grades.length ||
+      grades.some(
         (grade) =>
           joblisting.fromYear <= Number(grade) &&
           joblisting.toYear >= Number(grade)
       );
     const jobTypesBoolean =
-      jobTypes.length === 0 ||
-      jobTypes.find((jobType) => jobType === joblisting.jobType);
+      !jobTypes.length || jobTypes.includes(joblisting.jobType);
     const workplacesBoolean =
-      workplaces.length === 0 ||
-      joblisting.workplaces.some((workplace) =>
-        workplaces.includes(workplace.town)
-      ) ||
-      (workplaces.includes('Annet') &&
-        joblisting.workplaces.some(
-          (workplace) =>
-            !['Oslo', 'Trondheim', 'Bergen', 'Tromsø'].includes(workplace.town)
-        )) ||
-      (workplaces.includes('Annet') && joblisting.workplaces.length === 0);
+      !workplaces.length ||
+      joblisting.workplaces.some(
+        (workplace) =>
+          workplaces.includes(workplace.town) ||
+          (workplaces.includes('Annet') &&
+            !MAJOR_CITIES.includes(workplace.town))
+      );
     return gradeBoolean && jobTypesBoolean && workplacesBoolean;
   });
 }
@@ -101,7 +98,9 @@ const JoblistingsPage = () => {
     jobTypes,
     workplaces
   );
-  const joblistings = sortJoblistings(filteredJoblistings, order);
+  const joblistings = useMemo(() => {
+    return sortJoblistings(filteredJoblistings, order);
+  }, [filteredJoblistings, order]);
 
   const dispatch = useAppDispatch();
 
