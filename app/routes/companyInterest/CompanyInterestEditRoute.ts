@@ -11,13 +11,15 @@ import { selectCompanyInterestById } from 'app/reducers/companyInterest';
 import { selectCompanySemesters } from 'app/reducers/companySemesters';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import CompanyInterestPage, {
-  COLLABORATION_TYPES,
-  EVENT_TYPES,
-  OTHER_TYPES,
-  TARGET_GRADE_TYPES,
   PARTICIPANT_RANGE_MAP,
-  SURVEY_OFFER_TYPES,
 } from './components/CompanyInterestPage';
+import {
+  COLLABORATION_TYPES,
+  EVENTS,
+  README,
+  TARGET_GRADES,
+  SURVEY_OFFERS,
+} from './components/Translations';
 import { sortSemesterChronologically } from './utils';
 
 const valueSelector = formValueSelector('CompanyInterestForm');
@@ -33,12 +35,12 @@ const mapStateToProps = (state, props) => {
       edit: true,
       companyInterestId,
     };
-  const allEvents = Object.keys(EVENT_TYPES);
-  const allOtherOffers = Object.keys(OTHER_TYPES);
+  const allEvents = Object.keys(EVENTS);
+  const allOtherOffers = Object.keys(README);
   const allCollaborations = Object.keys(COLLABORATION_TYPES);
-  const allTargetGrades = Object.keys(TARGET_GRADE_TYPES);
+  const allTargetGrades = Object.keys(TARGET_GRADES);
   const allParticipantRanges = Object.keys(PARTICIPANT_RANGE_MAP);
-  const allSurveyOffers = Object.keys(SURVEY_OFFER_TYPES);
+  const allSurveyOffers = Object.keys(SURVEY_OFFERS);
   const allowedBdb = state.allowed.bdb;
   const participantRange =
     allParticipantRanges.filter(
