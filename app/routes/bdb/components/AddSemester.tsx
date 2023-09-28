@@ -1,6 +1,5 @@
 import { Button } from '@webkom/lego-bricks';
 import { Component } from 'react';
-import { Field } from 'redux-form';
 import { Content } from 'app/components/Content';
 import { TextInput, RadioButton, MultiSelectGroup } from 'app/components/Form';
 import type { CompanySemesterContactedStatus } from 'app/models';
@@ -14,6 +13,9 @@ import {
 } from '../utils';
 import SemesterStatusContent from './SemesterStatusContent';
 import styles from './bdb.css';
+import LegoFinalForm from 'app/components/Form/LegoFinalForm';
+import { createValidator, required } from 'app/utils/validation';
+import { Field, FormSpy } from 'react-final-form';
 
 type Props = {
   addSemesterStatus: (
@@ -30,20 +32,32 @@ type Props = {
   addSemester: (arg0: CompanySemesterEntity) => Promise<any>;
   deleteCompany: (arg0: number) => Promise<any>;
 };
+
 type State = {
   contactedStatus: Array</*TODO: ContactedStatus */ any>;
   submit: boolean;
 };
+
+const validate = createValidator({
+  year: [required()],
+  semester: [required()],
+});
+
 export default class AddSemester extends Component<Props, State> {
   state = {
-    contactedStatus: [],
     submit: false,
   };
-  onSubmit = ({ year, semester, contract }: SemesterStatusEntity) => {
+
+  onSubmit = ({
+    year,
+    semester,
+    contract,
+    semesterStatus,
+  }: SemesterStatusEntity) => {
+    const contactedStatus = semesterStatus.contactedStatus;
     if (!this.state.submit) return;
     const { companyId, addSemesterStatus, companySemesters, addSemester } =
       this.props;
-    const { contactedStatus } = this.state;
     const globalSemester = companySemesters.find((companySemester) => {
       return (
         companySemester.year === Number(year) &&
@@ -82,26 +96,16 @@ export default class AddSemester extends Component<Props, State> {
       });
     }
   };
+
   setContactedStatus = (event: Record<string, any>) => {
     this.setState({
       contactedStatus: event.target.value,
     });
   };
-  editFunction = (statusString: CompanySemesterContactedStatus) => {
-    this.setState({
-      contactedStatus: getContactedStatuses(
-        this.state.contactedStatus,
-        statusString
-      ),
-    });
-  };
 
   render() {
-    const { companyId, submitting, autoFocus, handleSubmit, deleteCompany } =
-      this.props;
-    const semesterStatus = {
-      contactedStatus: this.state.contactedStatus,
-    };
+    const { companyId, submitting, autoFocus, deleteCompany } = this.props;
+
     return (
       <Content>
         <DetailNavigation
@@ -121,77 +125,118 @@ export default class AddSemester extends Component<Props, State> {
             Bdb-forsiden!
           </i>
 
-          <form onSubmit={handleSubmit(this.onSubmit)}>
-            <Field
-              autoFocus={autoFocus}
-              placeholder="2020"
-              label="År"
-              name="year"
-              type="number"
-              component={TextInput.Field}
-              className={styles.yearForm}
-            />
-
-            <div className={styles.choices}>
-              <MultiSelectGroup name="semester" label="Semester">
+          <LegoFinalForm
+            onSubmit={this.onSubmit}
+            validate={validate}
+            initialValues={{
+              semesterStatus: {
+                contactedStatus: [],
+              },
+            }}
+            subscription={{}}
+          >
+            {({ handleSubmit }) => (
+              <form onSubmit={handleSubmit}>
                 <Field
-                  name="Spring"
-                  label="Vår"
-                  component={RadioButton.Field}
-                  inputValue="spring"
+                  autoFocus={autoFocus}
+                  placeholder="2020"
+                  label="År"
+                  name="year"
+                  type="number"
+                  component={TextInput.Field}
+                  className={styles.yearForm}
                 />
-                <Field
-                  name="Autumn"
-                  label="Høst"
-                  component={RadioButton.Field}
-                  inputValue="autumn"
-                />
-              </MultiSelectGroup>
-            </div>
 
-            <label>Status</label>
-            <div
-              style={{
-                width: '200px',
-                minHeight: '30px',
-                margin: '15px 0 25px',
-                borderRadius: '5px',
-                border: '1px solid var(--border-gray)',
-              }}
-              type="button"
-              className={
-                styles[
-                  selectColorCode(
-                    selectMostProminentStatus(semesterStatus.contactedStatus)
-                  )
-                ]
-              }
-            >
-              <SemesterStatusContent
-                semesterStatus={semesterStatus}
-                submit={false}
-                editFunction={(statusCode) => this.editFunction(statusCode)}
-                style={{
-                  minHeight: '30px',
-                  padding: '10px',
-                }}
-              />
-            </div>
+                <div className={styles.choices}>
+                  <MultiSelectGroup name="semester" label="Semester">
+                    <Field
+                      name="Spring"
+                      label="Vår"
+                      component={RadioButton.Field}
+                      inputValue="spring"
+                      showErrors={false}
+                    />
+                    <Field
+                      name="Autumn"
+                      label="Høst"
+                      component={RadioButton.Field}
+                      inputValue="autumn"
+                      showErrors={false}
+                    />
+                  </MultiSelectGroup>
+                </div>
 
-            <div className={styles.clear} />
+                <label>Status</label>
 
-            <Button
-              disabled={submitting}
-              onClick={() =>
-                this.setState({
-                  submit: true,
-                })
-              }
-              submit
-            >
-              Lagre
-            </Button>
-          </form>
+                <Field name="semesterStatus">
+                  {({ input }) => (
+                    <div
+                      style={{
+                        width: '200px',
+                        minHeight: '30px',
+                        margin: '15px 0 25px',
+                        borderRadius: '5px',
+                        border: '1px solid var(--border-gray)',
+                      }}
+                      className={
+                        styles[
+                          selectColorCode(
+                            selectMostProminentStatus(
+                              input.value.contactedStatus
+                            )
+                          )
+                        ]
+                      }
+                    >
+                      <SemesterStatusContent
+                        semesterStatus={input.value}
+                        submit={false}
+                        editFunction={(statusString) => {
+                          input.onChange({
+                            contactedStatus: getContactedStatuses(
+                              input.value.contactedStatus,
+                              statusString
+                            ),
+                          });
+                        }}
+                        style={{
+                          minHeight: '30px',
+                          padding: '10px',
+                        }}
+                      />
+                    </div>
+                  )}
+                </Field>
+
+                <div className={styles.clear} />
+
+                <Button
+                  disabled={submitting}
+                  onClick={() =>
+                    this.setState({
+                      submit: true,
+                    })
+                  }
+                  submit
+                >
+                  Lagre
+                </Button>
+
+                <FormSpy
+                  subscription={{
+                    values: true,
+                  }}
+                >
+                  {(props) => {
+                    console.log(props.values);
+                    return (
+                      <pre>{JSON.stringify(props.values, undefined, 2)}</pre>
+                    );
+                  }}
+                </FormSpy>
+              </form>
+            )}
+          </LegoFinalForm>
         </div>
       </Content>
     );
