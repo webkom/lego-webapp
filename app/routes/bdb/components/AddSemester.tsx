@@ -1,10 +1,12 @@
 import { Button } from '@webkom/lego-bricks';
 import { Component } from 'react';
+import { Field, FormSpy } from 'react-final-form';
 import { Content } from 'app/components/Content';
 import { TextInput, RadioButton, MultiSelectGroup } from 'app/components/Form';
-import type { CompanySemesterContactedStatus } from 'app/models';
+import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import type { SemesterStatusEntity } from 'app/reducers/companies';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
+import { createValidator, required } from 'app/utils/validation';
 import {
   getContactedStatuses,
   selectMostProminentStatus,
@@ -13,9 +15,6 @@ import {
 } from '../utils';
 import SemesterStatusContent from './SemesterStatusContent';
 import styles from './bdb.css';
-import LegoFinalForm from 'app/components/Form/LegoFinalForm';
-import { createValidator, required } from 'app/utils/validation';
-import { Field, FormSpy } from 'react-final-form';
 
 type Props = {
   addSemesterStatus: (

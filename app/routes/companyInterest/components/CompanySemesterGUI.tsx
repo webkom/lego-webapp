@@ -1,4 +1,5 @@
 import { Button } from '@webkom/lego-bricks';
+import { Field } from 'react-final-form';
 import { Content } from 'app/components/Content';
 import {
   Form,
@@ -6,6 +7,7 @@ import {
   RadioButton,
   MultiSelectGroup,
 } from 'app/components/Form';
+import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import Icon from 'app/components/Icon';
 import Flex from 'app/components/Layout/Flex';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
@@ -13,8 +15,6 @@ import { createValidator, required } from 'app/utils/validation';
 import { semesterToText, SemesterNavigation } from '../utils';
 import styles from './CompanyInterest.css';
 import type { FormProps } from 'redux-form';
-import LegoFinalForm from 'app/components/Form/LegoFinalForm';
-import { Field } from 'react-final-form';
 
 type Props = {
   onSubmit: (arg0: CompanySemesterEntity) => Promise<any>;
