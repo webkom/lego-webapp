@@ -6,6 +6,11 @@ interface Group {
   description: string;
   contactEmail: string;
   parent: number;
+  permissions: string[];
+  parentPermissions: {
+    abakusGroup: Pick<Group, 'id' | 'name'>;
+    permissions: string[];
+  }[];
   logo: string | null;
   logoPlaceholder: string | null;
   numberOfUsers: number;

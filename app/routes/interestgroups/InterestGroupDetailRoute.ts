@@ -13,16 +13,15 @@ import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import InterestGroupDetail from './components/InterestGroupDetail';
 
 const mapStateToProps = (state, props) => {
-  const { interestGroupId } = props.match.params;
+  const { groupId } = props.match.params;
   const group = selectGroup(state, {
-    groupId: interestGroupId,
+    groupId,
   });
   const memberships = selectMembershipsForGroup(state, {
-    groupId: interestGroupId,
+    groupId,
   });
   return {
     group: { ...group, memberships },
-    interestGroupId,
   };
 };
 
@@ -35,10 +34,10 @@ export default compose(
     'fetchInterestGroupDetail',
     (props, dispatch) =>
       Promise.all([
-        dispatch(fetchGroup(Number(props.match.params.interestGroupId))),
-        dispatch(fetchAllMemberships(props.match.params.interestGroupId)),
+        dispatch(fetchGroup(Number(props.match.params.groupId))),
+        dispatch(fetchAllMemberships(props.match.params.groupId)),
       ]),
-    (props) => [props.match.params.interestGroupId]
+    (props) => [props.match.params.groupId]
   ),
   connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['group'])
