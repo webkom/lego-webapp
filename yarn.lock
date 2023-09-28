@@ -4440,6 +4440,13 @@
   dependencies:
     react-select "*"
 
+"@types/react-tagcloud@^1.1.11":
+  version "1.1.11"
+  resolved "https://registry.yarnpkg.com/@types/react-tagcloud/-/react-tagcloud-1.1.11.tgz#8cd360042705777af7b238a7a60656598bb9b3a2"
+  integrity sha512-RGcXV9nV5NYGLBNP/tBt8W5MvcMwS1ewUuJzbhbrltpCz82NVuWhD1Su281pla79g1my5jHkiS8e/2m3OVEbAw==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-transition-group@^4.4.0":
   version "4.4.5"
   resolved "https://registry.yarnpkg.com/@types/react-transition-group/-/react-transition-group-4.4.5.tgz#aae20dcf773c5aa275d5b9f7cdbca638abc5e416"
