@@ -1,21 +1,24 @@
 import { Button, Icon } from '@webkom/lego-bricks';
 import { Link } from 'react-router-dom';
 import { useAppSelector } from 'app/store/hooks';
-import type { UnknownEvent } from 'app/store/models/Event';
-import type { UnknownGroup } from 'app/store/models/Group';
-import type { UnknownMeeting } from 'app/store/models/Meeting';
+import type { AnnouncementCreateLocationState } from 'app/routes/announcements/components/AnnouncementsCreate';
+import type { DetailedEvent } from 'app/store/models/Event';
+import type { DetailedGroup } from 'app/store/models/Group';
+import type { DetailedMeeting } from 'app/store/models/Meeting';
 
 type Props = {
-  event?: UnknownEvent;
-  meeting?: UnknownMeeting;
-  group?: UnknownGroup;
+  event?: DetailedEvent;
+  meeting?: DetailedMeeting;
+  group?: DetailedGroup;
 };
+
+const TypedLink = Link<AnnouncementCreateLocationState>;
 
 const AnnouncementInLine = ({ event, meeting, group }: Props) => {
   const actionGrant = useAppSelector((state) => state.allowed.announcements);
   return (
     actionGrant && (
-      <Link
+      <TypedLink
         to={{
           pathname: '/announcements',
           state: {
@@ -29,7 +32,7 @@ const AnnouncementInLine = ({ event, meeting, group }: Props) => {
           <Icon name="send-outline" size={18} />
           Send kunngjøring
         </Button>
-      </Link>
+      </TypedLink>
     )
   );
 };
