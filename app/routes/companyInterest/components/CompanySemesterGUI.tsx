@@ -17,7 +17,6 @@ import styles from './CompanyInterest.css';
 import type { FormProps } from 'redux-form';
 
 type Props = {
-  onSubmit: (arg0: CompanySemesterEntity) => Promise<any>;
   push: (arg0: string) => void;
   events: Array<Record<string, any>>;
   semesters: Array<CompanySemesterEntity>;

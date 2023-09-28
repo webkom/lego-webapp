@@ -23,7 +23,6 @@ type Props = {
   uploadFile: (arg0: Record<string, any>) => Promise<any>;
   company: CompanyEntity;
   submitting: boolean;
-  handleSubmit: (arg0: (arg0: CompanyEntity) => Promise<any>) => void;
   autoFocus: any;
   fetching: boolean;
   submitFunction: (arg0: SubmitCompanyEntity) => Promise<any>;

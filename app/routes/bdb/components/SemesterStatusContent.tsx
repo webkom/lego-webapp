@@ -19,8 +19,8 @@ type Props = {
     arg0: CompanySemesterContactedStatus
   ) => Promise<any> | null | undefined | void;
   style?: Record<string, any>;
-  submit: boolean;
 };
+
 type State = {
   displayDropdown: boolean;
 };
@@ -56,11 +56,7 @@ export default class SemesterStatusContent extends Component<Props, State> {
       <Dropdown.List>
         {statusCodes.map((statusString, j) => (
           <Dropdown.ListItem key={j} className={styles.dropDownItem}>
-            <Button
-              flat
-              onClick={() => editFunction(statusString)}
-              submit={this.props.submit}
-            >
+            <Button flat onClick={() => editFunction(statusString)}>
               <Flex>
                 {getStatusString(statusString)}
                 {semesterStatus.contactedStatus.indexOf(statusString) !==
