@@ -1,8 +1,8 @@
 import { Component } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Content } from 'app/components/Content';
-import GroupForm from 'app/components/GroupForm';
 import NavigationTab from 'app/components/NavigationTab';
+import GroupForm from 'app/routes/admin/groups/components/GroupSettings';
 
 export default class InterestGroupEdit extends Component<{
   interestGroup: Record<string, any>;

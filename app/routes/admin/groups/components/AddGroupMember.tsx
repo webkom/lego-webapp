@@ -1,87 +1,65 @@
-import { Field, SubmissionError } from 'redux-form';
-import { legoForm, Button, Form } from 'app/components/Form';
+import { Field } from 'react-final-form';
+import { addMember } from 'app/actions/GroupActions';
+import { Form, LegoFinalForm } from 'app/components/Form';
 import SelectInput from 'app/components/Form/SelectInput';
-import { ROLES, type RoleType } from 'app/utils/constants';
+import SubmissionError from 'app/components/Form/SubmissionError';
+import { SubmitButton } from 'app/components/Form/SubmitButton';
+import { useAppDispatch } from 'app/store/hooks';
+import { roleOptions } from 'app/utils/constants';
 import { createValidator, required } from 'app/utils/validation';
-import type { AddMemberArgs } from 'app/actions/GroupActions';
-import type { ID } from 'app/store/models';
-import type { FormProps } from 'redux-form';
-
-type Props = FormProps & {
-  addMember: (arg0: AddMemberArgs) => Promise<any>;
-};
-const roles = (Object.keys(ROLES) as (keyof typeof ROLES)[])
-  .sort()
-  .map((role: RoleType) => ({
-    value: role,
-    label: ROLES[role],
-  }));
-
-const AddGroupMember = ({ submitting, handleSubmit }: Props) => {
-  return (
-    <Form onSubmit={handleSubmit}>
-      <h3>Legg til ny bruker</h3>
-      <Field
-        label="Bruker"
-        name="user"
-        placeholder="Inviter en ny bruker"
-        filter={['users.user']}
-        component={SelectInput.AutocompleteField}
-      />
-
-      <Field
-        label="Rolle"
-        name="role"
-        options={roles}
-        component={SelectInput.Field}
-      />
-
-      <Button submit disabled={submitting}>
-        Legg til bruker
-      </Button>
-    </Form>
-  );
-};
 
 const validate = createValidator({
   user: [required()],
   role: [required()],
 });
-export default legoForm({
-  form: 'add-user',
-  validate,
-  initialValues: {
-    role: roles.find(({ value }) => value === 'member'),
-  },
-  onSubmitSuccess: (result, dispatch, { reset }: Props) => reset(),
-  onSubmit: (
-    {
-      user,
-      role,
-    }: {
-      user: {
-        id: ID;
-      };
-      role: {
-        value: RoleType;
-      };
-    },
-    dispatch,
-    props: Props
-  ) =>
-    props
-      .addMember({
-        role: role.value,
-        userId: user.id,
-        groupId: props.groupId,
-      })
-      .catch((err) => {
-        if (err.payload.response.status === 409) {
-          throw new SubmissionError({
-            user: 'Denne brukeren er allerede med i gruppen.',
-          });
-        }
 
-        throw err;
-      }),
-})(AddGroupMember);
+const AddGroupMember = () => {
+  const dispatch = useAppDispatch();
+
+  const handleSubmit = async (values, form) => {
+    await dispatch(
+      addMember({
+        user: values.user,
+        role: values.role,
+      })
+    );
+    form.reset();
+  };
+
+  return (
+    <LegoFinalForm
+      onSubmit={handleSubmit}
+      validate={validate}
+      initialValues={{
+        role: roleOptions.find(({ value }) => value === 'member'),
+      }}
+      subscription={{}}
+    >
+      {({ handleSubmit }) => (
+        <Form onSubmit={handleSubmit}>
+          <h3>Legg til ny bruker</h3>
+          <Field
+            label="Bruker"
+            name="user"
+            placeholder="Inviter en ny bruker"
+            filter={['users.user']}
+            component={SelectInput.AutocompleteField}
+          />
+
+          <Field
+            label="Rolle"
+            name="role"
+            placeholder="Velg rolle"
+            options={roleOptions}
+            component={SelectInput.Field}
+          />
+
+          <SubmissionError />
+          <SubmitButton>Legg til bruker</SubmitButton>
+        </Form>
+      )}
+    </LegoFinalForm>
+  );
+};
+
+export default AddGroupMember;

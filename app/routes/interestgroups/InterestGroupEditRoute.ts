@@ -17,10 +17,10 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state, props) => {
-  const { interestGroupId } = props.match.params;
+  const { groupId } = props.match.params;
   const valueSelector = formValueSelector('interestGroupEditor');
   const interestGroup = selectGroup(state, {
-    groupId: interestGroupId,
+    groupId,
   });
   return {
     interestGroup,
@@ -32,7 +32,7 @@ const mapStateToProps = (state, props) => {
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
   withPreparedDispatch('fetchInterestGroupEdit', (props, dispatch) =>
-    dispatch(fetchGroup(Number(props.match.params.interestGroupId)))
+    dispatch(fetchGroup(Number(props.match.params.groupId)))
   ),
   connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['interestGroup'])
