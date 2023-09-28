@@ -11,9 +11,7 @@ import type {
   EventSemester,
   Dateish,
   EventStatusType,
-  ID,
 } from 'app/models';
-import { DetailedUser } from 'app/store/models/User';
 
 // Current eventTypes
 export const EVENT_CONSTANTS = {
@@ -234,8 +232,9 @@ export const transformEvent = (data: TransformEvent) => ({
   eventStatusType: data.eventStatusType && data.eventStatusType.value,
   eventType: data.eventType && data.eventType.value,
   responsibleGroup: data.responsibleGroup && data.responsibleGroup.value,
-  responsibleUsers:
-    data.responsibleUsers && data.responsibleUsers.map((user) => user.value),
+  responsibleUsers: data.responsibleUsers
+    ? data.responsibleUsers.map((user) => user.value)
+    : [],
   priceMember: calculatePrice(data),
   location: calculateLocation(data),
   paymentDueDate: calculatePaymentDueDate(data),

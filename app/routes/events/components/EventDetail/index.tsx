@@ -324,38 +324,8 @@ export default class EventDetail extends Component<Props, State> {
     const groupLink =
       event.responsibleGroup && resolveGroupLink(event.responsibleGroup);
 
-    const responsible = () => {
-      if (event?.responsibleUsers) {
-        return {
-          key: 'Forfatter',
-          value: (
-            <>
-              {event.responsibleUsers.map((e) => (
-                <Link to={`/users/${e.username}`} key={e.username}>
-                  {e.fullName}
-                </Link>
-              ))}
-            </>
-          ),
-        };
-      } else if (event?.createdBy) {
-        return {
-          key: 'Forfatter',
-          value: (
-            <Link to={`/users/${event.createdBy.username}`}>
-              {event.createdBy.fullName}
-            </Link>
-          ),
-        };
-      } else {
-        return {
-          key: 'Forfatter',
-          value: 'Anonym',
-        };
-      }
-    };
-
     const eventCreator = [
+      // Responsible Group
       event.responsibleGroup && {
         key: 'Arrangør',
         value: (
@@ -364,7 +334,7 @@ export default class EventDetail extends Component<Props, State> {
               <Link to={groupLink}>{event.responsibleGroup.name}</Link>
             ) : (
               event.responsibleGroup.name
-            )}{' '}
+            )}
             {event.responsibleGroup.contactEmail && (
               <a href={`mailto:${event.responsibleGroup.contactEmail}`}>
                 {event.responsibleGroup.contactEmail}
@@ -373,8 +343,43 @@ export default class EventDetail extends Component<Props, State> {
           </span>
         ),
       },
-      responsible,
-    ];
+
+      // Responsible Users or Created By or Anonymous
+      ...(event.responsibleUsers && event.responsibleUsers.length > 0
+        ? [
+            {
+              key: 'Ansvarlige',
+              value: (
+                <ul>
+                  {event.responsibleUsers.map((e) => (
+                    <li key={e.id}>
+                      <Link to={`/users/${e.username}`} key={e.username}>
+                        {e.fullName}
+                      </Link>{' '}
+                    </li>
+                  ))}
+                </ul>
+              ),
+            },
+          ]
+        : event.createdBy
+        ? [
+            {
+              key: 'Forfatter',
+              value: (
+                <Link to={`/users/${event.createdBy.username}`}>
+                  {event.createdBy.fullName}
+                </Link>
+              ),
+            },
+          ]
+        : [
+            {
+              key: 'Forfatter',
+              value: 'Anonym',
+            },
+          ]),
+    ].filter(Boolean); // This will remove any undefined items from the array
 
     return (
       <Content

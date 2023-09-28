@@ -16,6 +16,7 @@ import {
   selectPoolsWithRegistrationsForEvent,
 } from 'app/reducers/events';
 import { selectImageGalleryEntries } from 'app/reducers/imageGallery';
+import type { DetailedUser } from 'app/store/models/User';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import time from 'app/utils/time';
@@ -26,8 +27,6 @@ import {
   transformEventStatusType,
   EVENT_CONSTANTS,
 } from './utils';
-import { current } from 'immer';
-import { DetailedUser } from 'app/store/models/User';
 
 const mapStateToProps = (state, props) => {
   const actionGrant = state.events.actionGrant;
