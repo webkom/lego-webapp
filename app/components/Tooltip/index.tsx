@@ -10,6 +10,7 @@ type Props = {
   onClick?: () => void;
   placement?: 'top' | 'bottom' | 'left' | 'right';
   style?: CSSProperties;
+  disabled?: boolean;
 };
 
 const Tooltip = ({
@@ -19,6 +20,7 @@ const Tooltip = ({
   onClick,
   placement,
   style,
+  disabled,
 }: Props) => {
   const [hovered, setHovered] = useState(false);
   const tooltipRef = useRef<HTMLDivElement>(null);
@@ -54,10 +56,10 @@ const Tooltip = ({
   });
 
   useEffect(() => {
-    if (hovered && update !== null) {
+    if (hovered && !disabled && update !== null) {
       update();
     }
-  }, [hovered, update]);
+  }, [hovered, disabled, update]);
 
   const tooltipClass = hovered ? styles.baseTooltipHover : styles.tooltip;
 
