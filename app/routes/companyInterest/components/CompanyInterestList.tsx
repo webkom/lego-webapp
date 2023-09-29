@@ -233,11 +233,7 @@ class CompanyInterestList extends Component<Props, State> {
             </a>
           ) : (
             <Tooltip
-              style={
-                this.props.selectedSemesterOption.year
-                  ? { display: 'none' }
-                  : undefined
-              }
+              disabled={!!this.props.selectedSemesterOption.id}
               content={'Vennligst velg semester'}
             >
               <Button
@@ -248,7 +244,7 @@ class CompanyInterestList extends Component<Props, State> {
                     ),
                   })
                 }
-                disabled={!this.props.selectedSemesterOption.year}
+                disabled={!this.props.selectedSemesterOption.id}
               >
                 Eksporter til CSV
               </Button>
