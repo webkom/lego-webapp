@@ -1,11 +1,12 @@
 import { Button } from '@webkom/lego-bricks';
-import { Component } from 'react';
-import { Field } from 'redux-form';
+import { useState } from 'react';
+import { Field } from 'react-final-form';
 import { Content } from 'app/components/Content';
 import { TextInput, RadioButton, MultiSelectGroup } from 'app/components/Form';
-import type { CompanySemesterContactedStatus } from 'app/models';
+import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import type { SemesterStatusEntity } from 'app/reducers/companies';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
+import { createValidator, required } from 'app/utils/validation';
 import {
   getContactedStatuses,
   selectMostProminentStatus,
@@ -20,9 +21,6 @@ type Props = {
     arg0: Record<string, any>,
     arg1: Record<string, any> | null | undefined
   ) => Promise<any>;
-  handleSubmit: (
-    arg0: (arg0: Record<string, any>) => Promise<any> | null | undefined
-  ) => void;
   companyId: number;
   submitting: boolean;
   autoFocus: any;
@@ -30,20 +28,25 @@ type Props = {
   addSemester: (arg0: CompanySemesterEntity) => Promise<any>;
   deleteCompany: (arg0: number) => Promise<any>;
 };
-type State = {
-  contactedStatus: Array</*TODO: ContactedStatus */ any>;
-  submit: boolean;
-};
-export default class AddSemester extends Component<Props, State> {
-  state = {
-    contactedStatus: [],
-    submit: false,
-  };
-  onSubmit = ({ year, semester, contract }: SemesterStatusEntity) => {
-    if (!this.state.submit) return;
+
+const validate = createValidator({
+  year: [required()],
+  semester: [required()],
+});
+
+const AddSemester = (props: Props) => {
+  const [submit, setSubmit] = useState(false);
+
+  const onSubmit = ({
+    year,
+    semester,
+    contract,
+    semesterStatus,
+  }: SemesterStatusEntity) => {
+    const contactedStatus = semesterStatus.contactedStatus;
+    if (!submit) return;
     const { companyId, addSemesterStatus, companySemesters, addSemester } =
-      this.props;
-    const { contactedStatus } = this.state;
+      props;
     const globalSemester = companySemesters.find((companySemester) => {
       return (
         companySemester.year === Number(year) &&
@@ -67,7 +70,7 @@ export default class AddSemester extends Component<Props, State> {
       return addSemester({
         year,
         semester,
-      } as Record<string, any>).then((response) => {
+      }).then((response) => {
         addSemesterStatus(
           {
             companyId,
@@ -82,118 +85,123 @@ export default class AddSemester extends Component<Props, State> {
       });
     }
   };
-  setContactedStatus = (event: Record<string, any>) => {
-    this.setState({
-      contactedStatus: event.target.value,
-    });
-  };
-  editFunction = (statusString: CompanySemesterContactedStatus) => {
-    this.setState({
-      contactedStatus: getContactedStatuses(
-        this.state.contactedStatus,
-        statusString
-      ),
-    });
-  };
 
-  render() {
-    const { companyId, submitting, autoFocus, handleSubmit, deleteCompany } =
-      this.props;
-    const semesterStatus = {
-      contactedStatus: this.state.contactedStatus,
-    };
-    return (
-      <Content>
-        <DetailNavigation
-          title="Legg til semester"
-          companyId={companyId}
-          deleteFunction={deleteCompany}
-        />
+  const { companyId, submitting, autoFocus, deleteCompany } = props;
 
-        <div className={styles.detail}>
-          <i
-            style={{
-              display: 'block',
-              marginBottom: '10px',
-            }}
-          >
-            <b>Hint:</b> du kan legge til status for flere semestere samtidig på
-            Bdb-forsiden!
-          </i>
+  return (
+    <Content>
+      <DetailNavigation
+        title="Legg til semester"
+        companyId={companyId}
+        deleteFunction={deleteCompany}
+      />
 
-          <form onSubmit={handleSubmit(this.onSubmit)}>
-            <Field
-              autoFocus={autoFocus}
-              placeholder="2020"
-              label="År"
-              name="year"
-              type="number"
-              component={TextInput.Field}
-              className={styles.yearForm}
-            />
+      <div className={styles.detail}>
+        <i
+          style={{
+            display: 'block',
+            marginBottom: '10px',
+          }}
+        >
+          <b>Hint:</b> du kan legge til status for flere semestere samtidig på
+          Bdb-forsiden!
+        </i>
 
-            <div className={styles.choices}>
-              <MultiSelectGroup name="semester" label="Semester">
-                <Field
-                  name="Spring"
-                  label="Vår"
-                  component={RadioButton.Field}
-                  inputValue="spring"
-                />
-                <Field
-                  name="Autumn"
-                  label="Høst"
-                  component={RadioButton.Field}
-                  inputValue="autumn"
-                />
-              </MultiSelectGroup>
-            </div>
-
-            <label>Status</label>
-            <div
-              style={{
-                width: '200px',
-                minHeight: '30px',
-                margin: '15px 0 25px',
-                borderRadius: '5px',
-                border: '1px solid var(--border-gray)',
-              }}
-              type="button"
-              className={
-                styles[
-                  selectColorCode(
-                    selectMostProminentStatus(semesterStatus.contactedStatus)
-                  )
-                ]
-              }
-            >
-              <SemesterStatusContent
-                semesterStatus={semesterStatus}
-                submit={false}
-                editFunction={(statusCode) => this.editFunction(statusCode)}
-                style={{
-                  minHeight: '30px',
-                  padding: '10px',
-                }}
+        <LegoFinalForm
+          onSubmit={onSubmit}
+          validate={validate}
+          initialValues={{
+            semesterStatus: {
+              contactedStatus: [],
+            },
+          }}
+          subscription={{}}
+        >
+          {({ handleSubmit }) => (
+            <form onSubmit={handleSubmit}>
+              <Field
+                autoFocus={autoFocus}
+                placeholder="2020"
+                label="År"
+                name="year"
+                type="number"
+                component={TextInput.Field}
+                className={styles.yearForm}
               />
-            </div>
 
-            <div className={styles.clear} />
+              <div className={styles.choices}>
+                <MultiSelectGroup name="semester" label="Semester">
+                  <Field
+                    name="Spring"
+                    label="Vår"
+                    component={RadioButton.Field}
+                    inputValue="spring"
+                    showErrors={false}
+                  />
+                  <Field
+                    name="Autumn"
+                    label="Høst"
+                    component={RadioButton.Field}
+                    inputValue="autumn"
+                    showErrors={false}
+                  />
+                </MultiSelectGroup>
+              </div>
 
-            <Button
-              disabled={submitting}
-              onClick={() =>
-                this.setState({
-                  submit: true,
-                })
-              }
-              submit
-            >
-              Lagre
-            </Button>
-          </form>
-        </div>
-      </Content>
-    );
-  }
-}
+              <label>Status</label>
+
+              <Field name="semesterStatus">
+                {({ input }) => (
+                  <div
+                    style={{
+                      width: '200px',
+                      minHeight: '30px',
+                      margin: '15px 0 25px',
+                      borderRadius: '5px',
+                      border: '1px solid var(--border-gray)',
+                    }}
+                    className={
+                      styles[
+                        selectColorCode(
+                          selectMostProminentStatus(input.value.contactedStatus)
+                        )
+                      ]
+                    }
+                  >
+                    <SemesterStatusContent
+                      semesterStatus={input.value}
+                      editFunction={(statusString) => {
+                        input.onChange({
+                          contactedStatus: getContactedStatuses(
+                            input.value.contactedStatus,
+                            statusString
+                          ),
+                        });
+                      }}
+                      style={{
+                        minHeight: '30px',
+                        padding: '10px',
+                      }}
+                    />
+                  </div>
+                )}
+              </Field>
+
+              <div className={styles.clear} />
+
+              <Button
+                disabled={submitting}
+                onClick={() => setSubmit(true)}
+                submit
+              >
+                Lagre
+              </Button>
+            </form>
+          )}
+        </LegoFinalForm>
+      </div>
+    </Content>
+  );
+};
+
+export default AddSemester;

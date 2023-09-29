@@ -17,9 +17,10 @@ type Props = {
   semesterStatus: Record<string, any>;
   editFunction: (
     arg0: CompanySemesterContactedStatus
-  ) => Promise<any> | null | undefined;
+  ) => Promise<any> | null | undefined | void;
   style?: Record<string, any>;
 };
+
 type State = {
   displayDropdown: boolean;
 };
@@ -30,6 +31,7 @@ export default class SemesterStatusContent extends Component<Props, State> {
 
   render() {
     const { semesterStatus, editFunction, style } = this.props;
+
     const statusesToRender = (
       <div
         style={{
@@ -45,9 +47,11 @@ export default class SemesterStatusContent extends Component<Props, State> {
           : getStatusString('not_contacted')}
       </div>
     );
+
     const statusCodes = sortStatusesByProminence(
       Object.keys(statusStrings)
     ).filter((code) => code !== 'not_contacted');
+
     const dropDownItems = (
       <Dropdown.List>
         {statusCodes.map((statusString, j) => (
@@ -70,6 +74,7 @@ export default class SemesterStatusContent extends Component<Props, State> {
         ))}
       </Dropdown.List>
     );
+
     return (
       <Dropdown
         show={this.state.displayDropdown}

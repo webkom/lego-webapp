@@ -21,7 +21,7 @@ steps:
         exclude: [build]
 
   - name: minio
-    image: minio/minio
+    image: minio/minio:RELEASE.2023-09-23T03-47-50Z
     detach: true
     environment:
       MINIO_ACCESS_KEY: lego-dev
@@ -362,6 +362,6 @@ image_pull_secrets:
 
 ---
 kind: signature
-hmac: 51b0a49b62c375f26f0ab24b0559fdf8f1747586051b25ffac639395f55b10d6
+hmac: 4c241249a689b9571f62e2b58eb7a868909024245ef074fe413fb275c1ed982f
 
 ...

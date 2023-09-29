@@ -19,10 +19,10 @@ export const EVENTS = {
   //   norwegian: 'Digital presentasjon',
   //   english: 'Digital presentation',
   // },
-  bedex: {
-    norwegian: 'Bedriftsekskursjon (BedEx)',
-    english: 'Company excursion (BedEx)',
-  },
+  // bedex: {
+  //   norwegian: 'Bedriftsekskursjon (BedEx)',
+  //   english: 'Company excursion (BedEx)',
+  // },
   other: {
     norwegian: 'Alternativt arrangement',
     english: 'Other event',
@@ -77,12 +77,6 @@ export const README = {
     norwegian: 'Annonse i readme',
     english: 'Advertisement in readme',
   },
-  /*
-    collaboration: {
-      norwegian: 'Samarbeid med andre linjeforeninger',
-      english: 'Collaboration with other student organizations',
-    },
-    */
 };
 
 export const COMPANY_TYPES: Record<
@@ -125,22 +119,20 @@ export const COLLABORATION_TYPES = {
     norwegian: 'Samarbeid med TIHLDE linjeforening',
     english: 'Event in collaboration with TIHLDE',
   },
-
-  /*
-      collaboration_anniversary: {
-        english: "Collaboration with Abakus' anniversary committee*",
-        norwegian: 'Samarbeid med Abakus sitt Jubileum*',
-      },
-      collaboration_revue_anniversary: {
-        english: "Collaboration with the revue's anniversary committee*",
-        norwegian: 'Samarbeid med Revyen sitt Jubileum*',
-      },
-      */
-  /*   collaboration_revue: {
-        norwegian: 'Samarbeid med Revyen**',
-        english: 'Collaboration with the revue**',
-      }, */
+  collaboration_revue: {
+    norwegian: 'Samarbeid med Revyen',
+    english: 'Collaboration with the revue',
+  },
+  // collaboration_anniversary: {
+  //   english: "Collaboration with Abakus' anniversary committee*",
+  //   norwegian: 'Samarbeid med Abakus sitt Jubileum*',
+  // },
+  // collaboration_revue_anniversary: {
+  //   english: "Collaboration with the revue's anniversary committee*",
+  //   norwegian: 'Samarbeid med Revyen sitt Jubileum*',
+  // },
 };
+
 export const TARGET_GRADES = {
   '1': {
     norwegian: '1. klasse',
