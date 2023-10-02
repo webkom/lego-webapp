@@ -11,13 +11,17 @@
 ## Quick access
 
 1. [Quick Start](#quick-start)
-2. [Development](#development)
-3. [Deployment (webkom/lego#deployment)](https://github.com/webkom/lego#deployment)
+2. [LEGO-BRICKS](#lego-bricks)
+3. [Development](#development)
+4. [Deployment (webkom/lego#deployment)](https://github.com/webkom/lego#deployment)
 
 ## Quick Start
 
+> For all the alternative ways to run the project, you will need to run `yarn build` to compile [lego-bricks](#lego-bricks) the first time you run the project. After this, it will build automatically when changed.
+
 ```bash
 $ yarn # Install dependencies
+$ yarn build # Compile LEGO-BRICKS - only required the first time you run the project
 $ yarn start:staging # Start webserver with development backend
 ```
 
@@ -43,6 +47,12 @@ $ yarn ssr # or yarn ssr:staging
 ### Environment Variables
 
 The `webserver` running the frontend can take many optional environment variables. Docs can be found at `config/environment.md`, and default can be found at `server/env.js` and `config/env.js`.
+
+## LEGO-BRICKS
+
+To facilitate using components from LEGO-WEBAPP in other projects, certain components have been split out to a separate package — LEGO-BRICKS. That package is stored within this repo, under `/packages/lego-bricks`.
+
+The current build structure requires that `lego-bricks` be compiled to run the project, which can be done either by running `yarn build` in the root directory, or by navigating to the package and running the same command there.
 
 ## Development
 
