@@ -4,6 +4,7 @@ import qs from 'qs';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { autocomplete } from 'app/actions/SearchActions';
+import { addToast } from 'app/actions/ToastActions';
 import { fetchUser } from 'app/actions/UserActions';
 import { Content } from 'app/components/Content';
 import Validator from 'app/components/UserValidator';
@@ -44,6 +45,7 @@ const mapDispatchToProps = (dispatch, { location }) => {
   });
 
   return {
+    addToast: (args: Parameters<typeof addToast>) => dispatch(addToast(args)),
     clearSearch: () =>
       dispatch(push(`/validator?${qs.stringify({ ...search, q: '' })}`)),
 

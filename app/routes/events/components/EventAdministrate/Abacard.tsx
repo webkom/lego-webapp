@@ -1,4 +1,5 @@
 import { get } from 'lodash';
+import type { addToast } from 'app/actions/ToastActions';
 import Validator from 'app/components/UserValidator';
 import type { EventRegistration, Event } from 'app/models';
 import type { UserSearchResult } from 'app/reducers/search';
@@ -14,6 +15,7 @@ type Props = {
   onQueryChanged: (arg0: string) => void;
   results: Array<UserSearchResult>;
   searching: boolean;
+  addToast: typeof addToast;
 };
 
 const Abacard = (props: Props) => {

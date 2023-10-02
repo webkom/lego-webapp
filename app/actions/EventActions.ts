@@ -308,9 +308,6 @@ export function markUsernamePresent(
     body: {
       username,
     },
-    meta: {
-      errorMessage: 'Oppdatering av tilstedeværelse feilet',
-    },
   });
 }
 export function updatePresence(
