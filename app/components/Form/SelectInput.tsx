@@ -32,6 +32,8 @@ type Props = {
   value: any;
   disabled?: boolean;
   options?: Record<string, any>[];
+  creatable?: boolean;
+  isMulti?: boolean;
 };
 
 export const selectStyles = {
@@ -100,9 +102,15 @@ function SelectInput({
   options = [],
   disabled = false,
   placeholder,
+  creatable,
   ...props
 }: Props) {
   if (props.tags) {
+    creatable = true;
+    props.isMulti = true;
+  }
+
+  if (creatable) {
     return (
       <div className={style.field}>
         <Creatable
@@ -110,7 +118,7 @@ function SelectInput({
           isDisabled={disabled}
           placeholder={!disabled && placeholder}
           instanceId={name}
-          isMulti
+          isMulti={props.isMulti}
           onBlur={() => onBlur(value)}
           value={value}
           isValidNewOption={isValidNewOption}

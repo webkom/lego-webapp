@@ -322,8 +322,18 @@ const requiredIfEventType = (eventType: string) =>
     return event && event.checked;
   });
 
+const validateCompany = (value) => {
+  if (!value) {
+    return [false, 'Du må velge en bedrift'] as const;
+  } else if (value['__isNew__'] || !value.value) {
+    return [!!value.label, 'Ny bedrift må ha et navn'] as const;
+  } else {
+    return [typeof value?.value !== 'number', 'Ugyldig bedrift'] as const;
+  }
+};
+
 const validate = createValidator({
-  company: [required()],
+  company: [validateCompany],
   contactPerson: [required()],
   mail: [required(), isEmail()],
   phone: [required()],
@@ -348,8 +358,10 @@ const CompanyInterestPage = (props: Props) => {
 
   const onSubmit = (data) => {
     const { company } = data;
-    const companyId = company['value'] ? Number(company['value']) : null;
-    const companyName = companyId === null ? company['label'] : '';
+    const nameOnly = company['__isNew__'] || !company.value;
+    const companyId = nameOnly ? null : company['value'];
+    const companyName = nameOnly ? company['label'] : '';
+
     const [range_start, range_end] = data.participantRange
       ? PARTICIPANT_RANGE_MAP[data.participantRange]
       : [null, null];
@@ -447,6 +459,7 @@ const CompanyInterestPage = (props: Props) => {
               filter={['companies.company']}
               fieldClassName={styles.metaField}
               component={SelectInput.AutocompleteField}
+              creatable
               required
             />
             <Field
