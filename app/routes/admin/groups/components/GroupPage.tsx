@@ -11,7 +11,7 @@ import type { Location } from 'history';
 const NavigationLinks = ({ groupId }: { groupId: string }) => {
   const baseUrl = `/admin/groups/${groupId}`;
   return (
-    <div>
+    <>
       <NavigationLink to={`${baseUrl}/settings`}>Rediger</NavigationLink>
       <NavigationLink to={`${baseUrl}/members?descendants=false`}>
         Medlemmer
@@ -20,7 +20,7 @@ const NavigationLinks = ({ groupId }: { groupId: string }) => {
         Implisitte medlemmer
       </NavigationLink>
       <NavigationLink to={`${baseUrl}/permissions`}>Rettigheter</NavigationLink>
-    </div>
+    </>
   );
 };
 
