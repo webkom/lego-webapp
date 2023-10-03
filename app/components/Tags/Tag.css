@@ -40,7 +40,7 @@
     min(calc((var(--perceived-lightness) - var(--border-threshold)) * 100), 1)
   );
 
-  display: flex;
+  display: inline-flex;
   color: hsl(0deg, 0%, calc(var(--lightness-switch) * 100%));
   background: rgb(var(--label-r), var(--label-g), var(--label-b));
   border-color: hsla(
