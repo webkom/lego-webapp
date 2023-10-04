@@ -363,6 +363,8 @@ const EventAttendeeStatistics = ({
   committeeGroupIDs,
   revueGroupIDs,
   eventStartTime,
+  registrationStartTime,
+  registrationEndTime,
 }: Props) => {
   const {
     genderDistribution,
@@ -378,25 +380,8 @@ const EventAttendeeStatistics = ({
     revueGroupIDs
   );
 
-  const [registrationStartDate, setRegistrationStartDate] = useState<string>("");
-  const [registrationEndDate, setRegistrationEndDate] = useState<string>("");
-
-  const updateRegistrationStartDate = (date: string) => {
-    setRegistrationStartDate(date);
-  }
-
-  const updateRegistrationEndDate = (date: string) => {
-    setRegistrationEndDate(date);
-  }
-
   return (
     <>
-      <div className={styles.filterContainer}>
-        <label>Startdato for påmelding</label>
-        <DatePicker value={registrationStartDate} onChange={updateRegistrationStartDate} onBlur={() => {}} onFocus={() => {}}/>
-        <label>Sluttdato for påmelding</label>
-        <DatePicker value={registrationEndDate} onChange={updateRegistrationEndDate} onBlur={() => {}} onFocus={() => {}}/>
-      </div>
 
       {isEventFromPreviousSemester(eventStartTime) && (
         <Card severity="danger">
