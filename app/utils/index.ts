@@ -6,6 +6,8 @@ type TreeNode<T> = T & {
 
 export type Tree<T> = Array<TreeNode<T>>;
 
+//
+
 /**
  * Generates a tree structure on the form of
  *
