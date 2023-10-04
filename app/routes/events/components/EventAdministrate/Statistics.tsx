@@ -4,6 +4,7 @@ import type { DetailedEvent } from 'app/store/models/Event';
 import styles from 'app/routes/events/components/EventAttendeeStatistics.css';
 import { DatePicker } from 'app/components/Form';
 import { useState } from 'react';
+import { DetailedRegistration } from 'app/store/models/Registration';
 
 interface Props {
   committees: Group[];
@@ -54,10 +55,11 @@ const Statistics = ({
 
       <EventAttendeeStatistics
         eventId={event.id}
-        registrations={registered}
-        unregistrations={unregistered}
+        registrations={registered as DetailedRegistration[]}
+        unregistrations={unregistered as DetailedRegistration[]}
         committeeGroupIDs={committees.map((group) => group.id)}
         revueGroupIDs={revueGroups.map((group) => group.id)}
+        eventStartTime={event.startTime}
         registrationStartTime={registrationStartTime}
         registrationEndTime={registrationEndTime}
       />
