@@ -363,15 +363,6 @@ type Props = {
   eventStartTime: Dateish;
 };
 
-type StatisticsDistributions = {
-  genderDistribution: DistributionDataPoint[];
-  groupDistribution: DistributionDataPoint[];
-  registrationTimeDistribution: DistributionDataPoint[];
-  dataTekDistribution: DistributionDataPoint[];
-  komTekDistribution: DistributionDataPoint[];
-  totalDistribution: DistributionDataPoint[];
-};
-
 const EventAttendeeStatistics = ({
   eventId,
   registrations,
