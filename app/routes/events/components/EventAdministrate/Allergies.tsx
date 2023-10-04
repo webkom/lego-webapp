@@ -28,7 +28,7 @@ export type Props = {
   searching: boolean;
 };
 
-const canSeeAllAllergies = (
+export const canSeeAllAllergies = (
   currentUser: CurrentUser,
   event: AdministrateEvent
 ) => {

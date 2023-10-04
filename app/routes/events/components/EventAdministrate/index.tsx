@@ -1,6 +1,7 @@
 import { Content } from 'app/components/Content';
 import { LoginPage } from 'app/components/LoginForm';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
+import { canSeeAllAllergies } from 'app/routes/events/components/EventAdministrate/Allergies';
 import type { ID } from 'app/store/models';
 import type { AdministrateEvent } from 'app/store/models/Event';
 
@@ -28,10 +29,6 @@ const EventAdministrateIndex = (props: Props) => {
   // the other tabs.
   const { currentUser, event } = props;
 
-  const canSeeAllergies =
-    currentUser?.id === event?.createdBy?.id ||
-    currentUser?.abakusGroups?.includes(event?.responsibleGroup?.id as ID);
-
   return (
     <Content>
       <NavigationTab
@@ -42,7 +39,7 @@ const EventAdministrateIndex = (props: Props) => {
         }}
       >
         <NavigationLink to={`${base}/attendees`}>Påmeldinger</NavigationLink>
-        {canSeeAllergies && (
+        {event && canSeeAllAllergies(currentUser, event) && (
           <NavigationLink to={`${base}/allergies`}>Allergier</NavigationLink>
         )}
         <NavigationLink to={`${base}/statistics`}>Statistikk</NavigationLink>

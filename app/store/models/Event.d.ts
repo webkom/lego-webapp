@@ -206,6 +206,7 @@ export type AdministrateEvent = Pick<
   | 'responsibleGroup'
   | 'feedbackRequired'
 > &
+  DetailedEvent &
   ListEvent;
 
 export type FrontpageEvent = Pick<
