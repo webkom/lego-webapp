@@ -12,13 +12,11 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
-import { Field } from 'redux-form';
 import { fetchAnalytics } from 'app/actions/EventActions';
 import Card from 'app/components/Card';
 import ChartLabel from 'app/components/Chart/ChartLabel';
 import DistributionPieChart from 'app/components/Chart/PieChart';
 import type { DistributionDataPoint } from 'app/components/Chart/utils';
-import { DatePicker, Form } from 'app/components/Form';
 import { Flex } from 'app/components/Layout';
 import type { Dateish } from 'app/models';
 import { useAppDispatch } from 'app/store/hooks';
