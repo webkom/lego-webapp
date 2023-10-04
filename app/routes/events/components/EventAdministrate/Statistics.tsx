@@ -1,4 +1,4 @@
-import type { EventRegistration, Group } from 'app/models';
+import type { Dateish, EventRegistration, Group } from 'app/models';
 import EventAttendeeStatistics from 'app/routes/events/components/EventAttendeeStatistics';
 import type { DetailedEvent } from 'app/store/models/Event';
 import styles from 'app/routes/events/components/EventAttendeeStatistics.css';
@@ -20,25 +20,36 @@ const Statistics = ({
   unregistered,
   event,
 }: Props) => {
-
-  const [registrationStartTime, setRegistrationStartTime] = useState<string>("");
-  const [registrationEndTime, setRegistrationEndTime] = useState<string>("");
+  const [registrationStartTime, setRegistrationStartTime] = useState<Dateish>(
+    '2021-01-01T00:00:00.000Z'
+  );
+  const [registrationEndTime, setRegistrationEndTime] = useState<Dateish>(null);
 
   const updateRegistrationStartDate = (date: string) => {
     setRegistrationStartTime(date);
-  }
+  };
 
   const updateRegistrationEndDate = (date: string) => {
     setRegistrationEndTime(date);
-  }
+  };
 
   return (
     <>
       <div className={styles.filterContainer}>
         <label>Startdato for påmelding</label>
-        <DatePicker value={registrationStartTime} onChange={updateRegistrationStartDate} onBlur={() => {}} onFocus={() => {}}/>
+        <DatePicker
+          value={registrationStartTime as string}
+          onChange={updateRegistrationStartDate}
+          onBlur={() => {}}
+          onFocus={() => {}}
+        />
         <label>Sluttdato for påmelding</label>
-        <DatePicker value={registrationEndTime} onChange={updateRegistrationEndDate} onBlur={() => {}} onFocus={() => {}}/>
+        <DatePicker
+          value={registrationEndTime as string}
+          onChange={updateRegistrationEndDate}
+          onBlur={() => {}}
+          onFocus={() => {}}
+        />
       </div>
 
       <EventAttendeeStatistics

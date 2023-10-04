@@ -148,7 +148,9 @@ const createAttendeeDataPoints = (
   registrations: DetailedRegistration[],
   unregistrations: DetailedRegistration[],
   committeeGroupIDs: number[],
-  revueGroupIDs: number[]
+  revueGroupIDs: number[],
+  registrationStartTime: Dateish,
+  registrationEndTime: Dateish
 ) => {
   const attendeeStatistics: AttendeeStatistics = {
     genderDistribution: [],
@@ -160,6 +162,22 @@ const createAttendeeDataPoints = (
   };
 
   for (const registration of registrations) {
+    if (
+      registrationStartTime &&
+      moment(registration.registrationDate).isBefore(
+        moment(registrationStartTime)
+      )
+    ) {
+      continue;
+    }
+
+    if (
+      registrationEndTime &&
+      moment(registration.registrationDate).isAfter(moment(registrationEndTime))
+    ) {
+      continue;
+    }
+
     addRegistrationDateDataPoint(
       attendeeStatistics.registrationTimeDistribution,
       registration.registrationDate,
@@ -354,7 +372,7 @@ type StatisticsDistributions = {
   dataTekDistribution: DistributionDataPoint[];
   komTekDistribution: DistributionDataPoint[];
   totalDistribution: DistributionDataPoint[];
-}
+};
 
 const EventAttendeeStatistics = ({
   eventId,
@@ -377,12 +395,13 @@ const EventAttendeeStatistics = ({
     registrations,
     unregistrations,
     committeeGroupIDs,
-    revueGroupIDs
+    revueGroupIDs,
+    registrationStartTime,
+    registrationEndTime
   );
 
   return (
     <>
-
       {isEventFromPreviousSemester(eventStartTime) && (
         <Card severity="danger">
           <span>
