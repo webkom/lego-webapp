@@ -39,6 +39,11 @@
     "packages/*"
   ],
   "dependencies": {
+    "@fullcalendar/core": "^6.1.9",
+    "@fullcalendar/daygrid": "^6.1.9",
+    "@fullcalendar/interaction": "^6.1.9",
+    "@fullcalendar/react": "^6.1.9",
+    "@fullcalendar/timegrid": "^6.1.9",
     "@loadable/component": "^5.15.3",
     "@reduxjs/toolkit": "^1.9.7",
     "@sentry/browser": "^7.80.0",

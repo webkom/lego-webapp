@@ -1,0 +1,43 @@
+@import url('~app/styles/variables.css');
+
+.searchBar {
+    margin-bottom: 2rem;
+}
+
+.lendableObjectsContainer {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 2rem;
+}
+
+.lendableObjectCard {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0;
+}
+
+.lendableObjectImage {
+    height: 15rem;
+    object-fit: cover;
+}
+
+.lendableObjectFooter {
+    display: flex;
+    justify-content: center;
+    color: var(--lego-font-color);
+    font-size: 1.1rem;
+    font-weight: bold;
+    background-color: var(--color-gray-1);
+}
+
+@media (--medium-viewport) {
+    .lendableObjectsContainer {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media (--small-viewport) {
+    .lendableObjectsContainer {
+        grid-template-columns: 1fr;
+    }
+}
