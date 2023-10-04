@@ -54,7 +54,7 @@ const Allergies = ({
   }
 
   const registeredAllergies = registered.filter((registration) => {
-    return registration?.detailedUser.allergies;
+    return registration?.user.allergies;
   });
 
   const data = registeredAllergies
@@ -62,7 +62,7 @@ const Allergies = ({
       (registration) =>
         getRegistrationInfo(registration).status !== 'Venteliste'
     )
-    .map((registration) => registration.detailedUser.allergies)
+    .map((registration) => registration.user.allergies)
     .join('\n');
 
   const allergiesTXT = URL.createObjectURL(
@@ -120,9 +120,11 @@ const Allergies = ({
       })
     : initialColumns;
 
+  console.log(event);
+
   const numOfAllergies = () => {
     return registered.filter(
-      (registration) => registration.detailedUser.allergies?.length !== 0
+      (registration) => registration.user.allergies?.length !== 0
     ).length;
   };
   return (

@@ -62,7 +62,6 @@ export type PaymentRegistration = Pick<Registration, 'paymentStatus'> &
 export type DetailedRegistration = Pick<
   Registration,
   | 'id'
-  | 'detailedUser'
   | 'createdBy'
   | 'updatedBy'
   | 'pool'
@@ -79,7 +78,9 @@ export type DetailedRegistration = Pick<
   | 'paymentAmountRefunded'
   | 'LEGACYPhotoConsent'
   | 'photoConsents'
->;
+> & {
+  user: DetailedUser;
+};
 
 export type UnknownRegistration =
   | AnonymizedRegistration
