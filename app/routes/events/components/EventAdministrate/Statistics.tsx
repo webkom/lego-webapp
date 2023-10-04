@@ -1,10 +1,10 @@
+import { useState } from 'react';
+import { DatePicker } from 'app/components/Form';
 import type { Dateish, EventRegistration, Group } from 'app/models';
 import EventAttendeeStatistics from 'app/routes/events/components/EventAttendeeStatistics';
-import type { DetailedEvent } from 'app/store/models/Event';
 import styles from 'app/routes/events/components/EventAttendeeStatistics.css';
-import { DatePicker } from 'app/components/Form';
-import { useState } from 'react';
-import { DetailedRegistration } from 'app/store/models/Registration';
+import type { DetailedEvent } from 'app/store/models/Event';
+import type { DetailedRegistration } from 'app/store/models/Registration';
 
 interface Props {
   committees: Group[];
