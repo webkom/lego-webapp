@@ -184,6 +184,7 @@ export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
           touchAction: 'pan-x pan-y',
         }}
         id="mazemap-embed"
+        className={styles.mazemapEmbed}
       >
         {(blockScrollZoom || blockTouchMovement) && (
           <span className={styles.blockingText}>

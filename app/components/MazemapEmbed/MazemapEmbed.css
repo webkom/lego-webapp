@@ -9,3 +9,7 @@
   width: 100%;
   transform: translate(-50%, -50%);
 }
+
+.mazemapEmbed {
+  --lego-font-color: var(--color-absolute-black);
+}

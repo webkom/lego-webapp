@@ -87,7 +87,7 @@ function mazemapAutocomplete<Props>({
                 ),
               });
             })
-            .catch((error) => {})
+            .catch(() => {})
             .finally(() =>
               this.setState({
                 searching: false,
