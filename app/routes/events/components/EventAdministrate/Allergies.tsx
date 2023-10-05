@@ -28,7 +28,7 @@ export type Props = {
   searching: boolean;
 };
 
-export const canSeeAllAllergies = (
+export const canSeeAllergies = (
   currentUser: CurrentUser,
   event: AdministrateEvent
 ) => {
@@ -120,8 +120,6 @@ const Allergies = ({
       })
     : initialColumns;
 
-  console.log(event);
-
   const numOfAllergies = () => {
     return registered.filter(
       (registration) => registration.user.allergies?.length !== 0
@@ -129,7 +127,7 @@ const Allergies = ({
   };
   return (
     <>
-      {canSeeAllAllergies(currentUser, event) ? (
+      {canSeeAllergies(currentUser, event) ? (
         <>
           <Flex column>
             {numOfAllergies() === 0 ? (

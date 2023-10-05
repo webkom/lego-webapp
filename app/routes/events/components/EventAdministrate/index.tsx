@@ -1,7 +1,7 @@
 import { Content } from 'app/components/Content';
 import { LoginPage } from 'app/components/LoginForm';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
-import { canSeeAllAllergies } from 'app/routes/events/components/EventAdministrate/Allergies';
+import { canSeeAllergies } from 'app/routes/events/components/EventAdministrate/Allergies';
 import type { ID } from 'app/store/models';
 import type { AdministrateEvent } from 'app/store/models/Event';
 
@@ -27,7 +27,6 @@ const EventAdministrateIndex = (props: Props) => {
   // At the moment changing settings for other users only works
   // for the settings under `/profile` - so no point in showing
   // the other tabs.
-  const { currentUser, event } = props;
 
   return (
     <Content>
@@ -39,7 +38,7 @@ const EventAdministrateIndex = (props: Props) => {
         }}
       >
         <NavigationLink to={`${base}/attendees`}>Påmeldinger</NavigationLink>
-        {event && canSeeAllAllergies(currentUser, event) && (
+        {props.event && canSeeAllergies(props.currentUser, props.event) && (
           <NavigationLink to={`${base}/allergies`}>Allergier</NavigationLink>
         )}
         <NavigationLink to={`${base}/statistics`}>Statistikk</NavigationLink>
