@@ -1,5 +1,7 @@
 # MazeMap JS API NPM Module
 
+Weee
+
 ### Install as npm/yarn module
 
 - Add these files under a folder, such as vendor/mazemap
