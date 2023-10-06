@@ -201,7 +201,7 @@ describe('Create meeting', () => {
     setDatePickerTime('startTime', '17', '15');
     setDatePickerTime('endTime', '20', '00');
     field('useMazemap').click();
-    selectFromSelectField('mazemapPoi', 'Abakus, Realfagbygget', 'a');
+    selectFromSelectField('mazemapPoi', 'Abakus, Realfagbygget', 'abakus');
     selectFromSelectField('users', 'bedkom bedkom (bedkom)', 'bedkom');
 
     selectEditor().type('{enter}{enter}Meeting report');
