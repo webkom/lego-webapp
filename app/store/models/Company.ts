@@ -1,3 +1,4 @@
+import type { AutocompleteContentType } from 'app/store/models/Autocomplete';
 import type { ID } from 'app/store/models/index';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 
@@ -63,11 +64,11 @@ interface Company {
   id: ID;
   name: string;
   active: boolean;
-  description: string;
-  website: string;
-  companyType: string;
-  logo: string;
-  logoPlaceholder: string;
+  description?: string;
+  website?: string;
+  companyType?: string;
+  logo?: string;
+  logoPlaceholder?: string;
   phone?: string;
   address?: string;
   eventCount?: number;
@@ -126,6 +127,14 @@ export type SearchCompany = Pick<
   Company,
   'id' | 'name' | 'description' | 'website' | 'companyType' | 'address'
 >;
+
+export type AutocompleteCompany = Pick<
+  Company,
+  'name' | 'description' | 'id'
+> & {
+  contentType: AutocompleteContentType.Company;
+  text: 'text';
+};
 
 export type AdminDetailCompany = Pick<
   Company,

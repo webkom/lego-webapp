@@ -1,3 +1,5 @@
+import type { AutocompleteContentType } from 'app/store/models/Autocomplete';
+
 interface Group {
   id: number;
   name: string;
@@ -48,6 +50,11 @@ export type PublicListGroup = Pick<Group, 'numberOfUsers'> & PublicGroup;
 export type PublicDetailedGroup = Pick<Group, 'text'> & PublicListGroup;
 
 export type SearchGroup = Pick<Group, 'id' | 'name' | 'type' | 'logo'>;
+
+export type AutocompleteGroup = Pick<Group, 'name' | 'type' | 'logo' | 'id'> & {
+  contentType: AutocompleteContentType.Group;
+  text: 'text';
+};
 
 export type UnknownGroup =
   | PublicGroup

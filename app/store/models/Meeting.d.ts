@@ -1,4 +1,5 @@
 import type { ActionGrant, Dateish } from 'app/models';
+import type { AutocompleteContentType } from 'app/store/models/Autocomplete';
 import type { ReactionsGrouped } from 'app/store/models/Reaction';
 import type { ID } from 'app/store/models/index';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
@@ -56,6 +57,14 @@ export type SearchMeeting = Pick<
   Meeting,
   'id' | 'title' | 'description' | 'report' | 'startTime'
 >;
+
+export type AutocompleteMeeting = Pick<
+  Meeting,
+  'title' | 'startTime' | 'id'
+> & {
+  contentType: AutocompleteContentType.Meeting;
+  text: 'text';
+};
 
 export type UnknownMeeting = DetailedMeeting | ListMeeting | SearchMeeting;
 

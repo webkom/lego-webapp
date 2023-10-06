@@ -13,27 +13,40 @@ import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import InfoBubble from 'app/components/InfoBubble';
+import { AutocompleteContentType } from 'app/store/models/Autocomplete';
 import { createValidator, required, isEmail } from 'app/utils/validation';
 import { httpCheck, DetailNavigation, ListNavigation } from '../utils';
 import styles from './bdb.css';
-import type {
-  CompanyEntity,
-  SubmitCompanyEntity,
-} from 'app/reducers/companies';
+import type { EntityId } from '@reduxjs/toolkit';
+import type { CompanyEntity } from 'app/reducers/companies';
+import type { AdminDetailCompany } from 'app/store/models/Company';
+import type { AutocompleteUser } from 'app/store/models/User';
 
 type Props = {
   uploadFile: (arg0: Record<string, any>) => Promise<any>;
   company: CompanyEntity;
   autoFocus: any;
   fetching: boolean;
-  submitFunction: (arg0: SubmitCompanyEntity) => Promise<any>;
-  deleteCompany: (arg0: number) => Promise<any>;
+  submitFunction: (company: AdminDetailCompany) => Promise<any>;
+  deleteCompany: (id: EntityId) => Promise<any>;
 };
 
 const validate = createValidator({
   name: [required()],
   paymentMail: [isEmail()],
 });
+
+type FormValues = {
+  logo?: string;
+  name?: string;
+  description?: string;
+  companyType?: string;
+  website?: string;
+  address?: string;
+  studentContact?: AutocompleteUser;
+};
+
+const TypedLegoForm = LegoFinalForm<FormValues>;
 
 const CompanyEditor = ({
   company,
@@ -58,20 +71,20 @@ const CompanyEditor = ({
     />
   );
 
-  const onSubmit = (formContent) =>
+  const onSubmit = (formContent: FormValues) =>
     submitFunction({
       ...formContent,
       logo: formContent.logo || undefined,
       studentContact:
         formContent.studentContact && Number(formContent.studentContact.id),
-      website: httpCheck(formContent.website),
+      website: formContent.website && httpCheck(formContent.website),
       companyId: company && company.id,
     });
 
   return (
     <Content>
       <div className={styles.detail}>
-        <LegoFinalForm
+        <TypedLegoForm
           onSubmit={onSubmit}
           validate={validate}
           subscription={{}}
@@ -207,7 +220,7 @@ const CompanyEditor = ({
                       name="studentContact"
                       component={SelectInput.AutocompleteField}
                       className={styles.editBubble}
-                      filter={['users.user']}
+                      filter={[AutocompleteContentType.User]}
                     />
                   }
                   meta="Studentkontakt"
@@ -254,7 +267,7 @@ const CompanyEditor = ({
               <SubmitButton>Lagre</SubmitButton>
             </form>
           )}
-        </LegoFinalForm>
+        </TypedLegoForm>
       </div>
     </Content>
   );

@@ -1,4 +1,5 @@
 import type { Dateish, PhotoConsentDomain, Semester } from 'app/models';
+import type { AutocompleteContentType } from 'app/store/models/Autocomplete';
 import type EmailList from 'app/store/models/EmailList';
 import type Group from 'app/store/models/Group';
 import type Membership from 'app/store/models/Membership';
@@ -160,7 +161,7 @@ export type AutocompleteUser = Pick<
   User,
   'username' | 'fullName' | 'profilePicture' | 'id'
 > & {
-  contentType: 'users.user';
+  contentType: AutocompleteContentType.User;
   text: 'text';
 };
 
