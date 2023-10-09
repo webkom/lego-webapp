@@ -51,6 +51,8 @@ describe('View event', () => {
   it('Should be possible to comment', () => {
     cy.visit('/events/20');
 
+    cy.wait(500);
+
     cy.contains('button', 'Kommenter').should('not.be.visible');
     cy.get(c('CommentForm')).find('input').first().click();
     cy.focused().type('This event will be awesome');
