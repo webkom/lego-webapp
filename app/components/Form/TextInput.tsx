@@ -1,17 +1,17 @@
 import cx from 'classnames';
-import { useRef } from 'react';
+import { useMemo, useRef } from 'react';
 import Icon from 'app/components/Icon';
 import Flex from 'app/components/Layout/Flex';
 import { createField } from './Field';
 import styles from './TextInput.css';
-import type { ReactNode, InputHTMLAttributes } from 'react';
+import type { ReactNode, InputHTMLAttributes, RefObject } from 'react';
 
 type Props = {
   type?: string;
   prefix?: ReactNode;
   suffix?: string;
   className?: string;
-  inputRef?: HTMLInputElement;
+  inputRef?: RefObject<HTMLInputElement>;
   disabled?: boolean;
   readOnly?: boolean;
   placeholder?: string;
@@ -32,8 +32,10 @@ const TextInput = ({
   centered = false,
   ...props
 }: Props) => {
-  /* New ref is made because text inputs that are not Fields are not given a ref */
-  const newInputRef = useRef<HTMLInputElement>(inputRef);
+  // New ref is made because text inputs that are not Fields are not given a ref
+  const newInputRef = useRef<HTMLInputElement>(null);
+  // Force use of inputRef from props if set, as newInputRef does not update the inputRef and parent components thus loose access
+  const ref = useMemo(() => inputRef ?? newInputRef, [inputRef, newInputRef]);
 
   return (
     <Flex
@@ -53,12 +55,12 @@ const TextInput = ({
         <Icon
           name={prefix}
           size={16}
-          onClick={() => newInputRef.current.focus()}
+          onClick={() => ref.current && ref.current.focus()}
           className={styles.prefix}
         />
       )}
       <input
-        ref={newInputRef}
+        ref={ref}
         type={type}
         placeholder={placeholder}
         disabled={disabled}
