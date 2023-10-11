@@ -3,6 +3,14 @@ import 'node_modules/mazemap/mazemap.min.css';
 import styles from './MazemapEmbed.css';
 import MazemapLink from './MazemapLink';
 
+type MazeMap = {
+  Map: any;
+  Data: any;
+  MazeMarker: any;
+  Util: any;
+  Highlighter: any;
+};
+
 type Props = {
   mazemapPoi: number;
   height?: number;
@@ -18,7 +26,7 @@ export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
   const [hasMounted, setHasMounted] = useState<boolean>(false);
   useEffect(() => setHasMounted(true), []);
   //import Mazemap dynamically to prevent ssr issues
-  const [Mazemap, setMazemap] = useState(null);
+  const [Mazemap, setMazemap] = useState<MazeMap>(null);
   const [blockScrollZoom, setBlockScrollZoom] = useState<boolean>(false);
   const [blockTouchMovement, setBlockTouchZoom] = useState<boolean>(false);
   //initialize map only once, mazemapPoi will probably not change
@@ -176,6 +184,7 @@ export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
           touchAction: 'pan-x pan-y',
         }}
         id="mazemap-embed"
+        className={styles.mazemapEmbed}
       >
         {(blockScrollZoom || blockTouchMovement) && (
           <span className={styles.blockingText}>
