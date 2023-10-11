@@ -31,6 +31,7 @@
   align-items: center;
   padding: 7px 11px;
   line-height: 1.3;
+  white-space: wrap;
 }
 
 .arrow {
