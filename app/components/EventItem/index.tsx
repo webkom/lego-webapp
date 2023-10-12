@@ -75,13 +75,13 @@ const TimeStamp = ({ event }: TimeStampProps) => {
   return (
     <div className={styles.eventTime}>
       <Flex alignItems="center" gap={10}>
-        <Tooltip content={"Arrangementsdato"}>
+        <Tooltip content={'Arrangementsdato'}>
           <Icon name="calendar-number-outline" size={20} />
         </Tooltip>
         <Time time={event.startTime} format="ll" />
       </Flex>
       <Flex alignItems="center" gap={10}>
-        <Tooltip content={"Starttidspunkt"}>
+        <Tooltip content={'Starttidspunkt'}>
           <Icon name="time-outline" size={20} />
         </Tooltip>
         <Time time={event.startTime} format="HH:mm" />
@@ -90,12 +90,11 @@ const TimeStamp = ({ event }: TimeStampProps) => {
   );
 };
 
-
 const TimeStartAndRegistration = ({ event }: TimeStampProps) => {
   return (
     <div className={styles.eventTime}>
       <Flex alignItems="center" gap={10}>
-        <Tooltip content={"Arrangementstart"}>
+        <Tooltip content={'Arrangementstart'}>
           <Icon name="calendar-number-outline" size={20} />
         </Tooltip>
         <Time time={event.startTime} format="ll" />
@@ -103,17 +102,14 @@ const TimeStartAndRegistration = ({ event }: TimeStampProps) => {
       </Flex>
 
       {!!event.activationTime && (
-
         <Flex alignItems="center" gap={10}>
-          <Tooltip content={"Påmelding åpner"}>
+          <Tooltip content={'Påmelding åpner'}>
             <Icon name="alarm-outline" size={20} />
           </Tooltip>
           <Time time={event.activationTime} format="ll" />
           <Time time={event.activationTime} format="HH:mm" />
         </Flex>
-      )
-
-      }
+      )}
     </div>
   );
 };
