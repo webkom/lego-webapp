@@ -7,7 +7,7 @@ import Card from 'app/components/Card';
 import { Content } from 'app/components/Content';
 import TextInput from 'app/components/Form/TextInput';
 import { Image } from 'app/components/Image';
-import NavigationTab from 'app/components/NavigationTab';
+import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import type { ListLendableObject } from 'app/store/models/LendableObject';
 import styles from './LendableObjectsList.css';
 
@@ -92,7 +92,7 @@ const LendableObjectsList = () => {
   return (
     <Content>
       <Helmet title="Utlån" />
-      <NavigationTab title="Utlån" />
+      <NavigationTab title="Utlån"></NavigationTab>
       <TextInput
         className={styles.searchBar}
         prefix="search"

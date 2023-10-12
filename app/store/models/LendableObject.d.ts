@@ -6,6 +6,7 @@ interface LendableObject {
   title: string;
   description: string;
   image: string;
+  lendingCommentPromt: string;
   hasContract: boolean;
   maxLendingPeriod: Duration | string;
 }

@@ -2,6 +2,7 @@ import { Route, Switch } from 'react-router-dom';
 import LendableObjectDetail from 'app/routes/lending/LendableObjectDetail';
 import LendableObjectsList from 'app/routes/lending/LendableObjectsList';
 import PageNotFound from 'app/routes/pageNotFound';
+import LendableObjectsAdmin from './LendableObjectsAdmin';
 
 const lendingRoute = ({
   match,
@@ -12,6 +13,11 @@ const lendingRoute = ({
 }) => (
   <Switch>
     <Route exact path={`${match.path}`} component={LendableObjectsList} />
+    <Route
+      exact
+      path={`${match.path}/approve`}
+      component={LendableObjectsAdmin}
+    />
     <Route
       exact
       path={`${match.path}/:lendableObjectId`}
