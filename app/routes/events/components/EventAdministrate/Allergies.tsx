@@ -38,22 +38,17 @@ export const canSeeAllergies = (
   );
 };
 
-const Allergies = ({
-  event,
-  error,
-  loading,
-  registered,
-  currentUser,
-}: Props) => {
-  if (loading) {
+const Allergies = (props: Props) => {
+  if (props.loading) {
     return <LoadingIndicator loading />;
   }
 
-  if (error) {
-    return <div>{error.message}</div>;
+  if (props.error) {
+    return <div>{props.error.message}</div>;
   }
 
-  const registeredAllergies = registered.filter((registration) => {
+  console.log(props);
+  const registeredAllergies = props.registered.filter((registration) => {
     return registration?.user.allergies;
   });
 
@@ -110,7 +105,7 @@ const Allergies = ({
     },
   ];
 
-  const columns = event.feedbackRequired
+  const columns = props.event.feedbackRequired
     ? initialColumns.concat({
         title: 'Tilbakemelding',
         dataIndex: 'feedback',
@@ -121,13 +116,13 @@ const Allergies = ({
     : initialColumns;
 
   const numOfAllergies = () => {
-    return registered.filter(
+    return props.registered.filter(
       (registration) => registration.user.allergies?.length !== 0
     ).length;
   };
   return (
     <>
-      {canSeeAllergies(currentUser, event) ? (
+      {canSeeAllergies(props.currentUser, props.event) ? (
         <>
           <Flex column>
             {numOfAllergies() === 0 ? (
@@ -136,7 +131,7 @@ const Allergies = ({
               <Table
                 hasMore={false}
                 columns={columns}
-                loading={loading}
+                loading={props.loading}
                 data={registeredAllergies}
               />
             )}
@@ -147,7 +142,7 @@ const Allergies = ({
               <a
                 href={allergiesTXT}
                 download={
-                  'allergier_' + event.title.replaceAll(' ', '_') + '.txt'
+                  'allergier_' + props.event.title.replaceAll(' ', '_') + '.txt'
                 }
               >
                 Last ned påmeldte til tekstfil
