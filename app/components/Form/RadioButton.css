@@ -16,8 +16,11 @@
 }
 
 .label {
-  cursor: pointer;
   user-select: none;
+
+  &:not:disabled {
+    cursor: pointer;
+  }
 }
 
 .radioButton input {
@@ -35,6 +38,7 @@
 
   &:disabled {
     background-color: var(--additive-background);
+    cursor: default;
   }
 }
 
