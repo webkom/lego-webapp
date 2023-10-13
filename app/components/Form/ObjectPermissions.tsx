@@ -1,5 +1,4 @@
 import { SelectInput, CheckBox } from 'app/components/Form';
-import Tooltip from 'app/components/Tooltip';
 import type { PublicGroup } from 'app/store/models/Group';
 
 /*
@@ -33,13 +32,12 @@ const ObjectPermissions = ({
 }) => {
   return [
     requireAuth && (
-      <Tooltip content="Gi alle brukere lesetilgang. Dette inkluderer også brukere som ikke har logget inn.">
-        <CheckBox.Field
-          inverted
-          {...requireAuth}
-          label="Åpen for alle - offentlig på nettet."
-        />
-      </Tooltip>
+      <CheckBox.Field
+        description="Gi alle brukere lesetilgang. Dette inkluderer også brukere som ikke har logget inn."
+        inverted
+        {...requireAuth}
+        label="Åpen for alle - offentlig på nettet"
+      />
     ),
     canEditGroups && (
       <SelectInput.AutocompleteField

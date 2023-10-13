@@ -17,7 +17,6 @@ import Icon from 'app/components/Icon';
 import Flex from 'app/components/Layout/Flex';
 import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import NavigationTab from 'app/components/NavigationTab';
-import Tooltip from 'app/components/Tooltip';
 import type { EditingEvent } from 'app/routes/events/utils';
 import type { DetailedArticle } from 'app/store/models/Article';
 import type { CurrentUser } from 'app/store/models/User';
@@ -75,20 +74,8 @@ const ArticleEditor = ({
         <Flex>
           <Field
             name="youtubeUrl"
-            label={
-              <Flex>
-                <div>Erstatt cover-bildet med video fra YouTube</div>
-                <div
-                  style={{
-                    marginLeft: '5px',
-                  }}
-                >
-                  <Tooltip content="Valgfritt felt. Videoen erstatter ikke coveret i listen over artikler.">
-                    <Icon name="information-circle-outline" size={20} />
-                  </Tooltip>
-                </div>
-              </Flex>
-            }
+            label="Erstatt cover-bildet med video fra YouTube"
+            description="Videoen erstatter ikke coveret i listen over artikler"
             placeholder="https://www.youtube.com/watch?v=bLHL75H_VEM&t=5"
             component={TextInput.Field}
           />

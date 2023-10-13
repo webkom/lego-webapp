@@ -3,12 +3,10 @@ import { Link } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form';
 import { Content } from 'app/components/Content';
 import { Form, TextArea, SelectInput, CheckBox } from 'app/components/Form';
-import Icon from 'app/components/Icon';
 import { Image } from 'app/components/Image';
 import { Flex } from 'app/components/Layout';
 import Modal from 'app/components/Modal';
 import ProgressiveImage from 'app/components/ProgressiveImage';
-import Tooltip from 'app/components/Tooltip';
 import GalleryDetailsRow from './GalleryDetailsRow';
 import styles from './GalleryPictureModal.css';
 
@@ -80,21 +78,7 @@ const GalleryPictureEditModal = ({
             id="gallery-picture-description"
           />
           <Field
-            label={
-              <Flex>
-                <div>Synlig for offenligheten</div>
-                <div
-                  style={{
-                    marginLeft: '5px',
-                  }}
-                >
-                  <Tooltip content="Om bildet skal være synlig for brukere som ikke har tilgang til å redigere albumet.">
-                    <Icon name="information-circle-outline" size={20} />
-                  </Tooltip>
-                </div>
-              </Flex>
-            }
-            placeholder="Synlig for alle brukere"
+            label="Synlig for alle brukere"
             name="active"
             component={CheckBox.Field}
             id="gallery-picture-active"
