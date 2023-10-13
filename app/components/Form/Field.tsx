@@ -110,7 +110,7 @@ export function createField(Component: ComponentType<any>, options?: Options) {
     const inlineLabel = options?.inlineLabel;
 
     const labelComponent = (
-      <Flex>
+      <Flex alignItems="center">
         {label && (
           <div
             style={{
@@ -123,20 +123,11 @@ export function createField(Component: ComponentType<any>, options?: Options) {
           </div>
         )}
         {description && (
-          <Tooltip
-            style={{
-              display: 'inline-block',
-            }}
-            content={description}
-          >
-            <div
-              style={{
-                marginLeft: '10px',
-              }}
-            >
-              <Icon size={32} name="help" />
-            </div>
-          </Tooltip>
+          <Flex className={styles.description}>
+            <Tooltip content={description}>
+              <Icon size={18} name="help-circle-outline" />
+            </Tooltip>
+          </Flex>
         )}
         {required && <span className={styles.required}>*</span>}
       </Flex>
