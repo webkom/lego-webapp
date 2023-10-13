@@ -56,7 +56,7 @@
     "@storybook/testing-library": "^0.2.0",
     "@types/enzyme": "^3.10.13",
     "@types/react": "^18.2.9",
-    "@types/react-dom": "^18.2.4",
+    "@types/react-dom": "^18.2.13",
     "@vitejs/plugin-react": "^4.0.0",
     "enzyme": "^3.9.0",
     "eslint": "^8.42.0",
