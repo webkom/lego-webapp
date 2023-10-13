@@ -15,9 +15,12 @@
   text-align: center;
 }
 
-.spacing:not(.centered) input,
 .prefix {
   color: var(--color-gray-5);
+}
+
+.prefix,
+.spacing:not(.centered) input {
   padding-left: 10px;
 }
 

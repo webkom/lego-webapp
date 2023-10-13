@@ -52,12 +52,12 @@ const TextInput = ({
       )}
     >
       {prefix && (
-        <Icon
-          name={prefix}
-          size={16}
+        <div
           onClick={() => ref.current && ref.current.focus()}
           className={styles.prefix}
-        />
+        >
+          <Icon name={prefix} size={16} />
+        </div>
       )}
       <input
         ref={ref}
