@@ -1,5 +1,5 @@
-import { ItemProps } from './Item';
 import ItemGrid from './ItemGrid';
+import type { ItemProps } from './Item';
 
 const AboutDropdown = () => {
   const items: ItemProps[] = [

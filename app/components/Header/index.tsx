@@ -21,8 +21,8 @@ import { ProfilePicture, Image } from '../Image';
 import Search from '../Search';
 import FancyNodesCanvas from './FancyNodesCanvas';
 import styles from './Header.css';
-import ToggleTheme from './ToggleTheme';
 import Navbar from './Navbar/Navbar';
+import ToggleTheme from './ToggleTheme';
 
 type Props = {
   searchOpen: boolean;

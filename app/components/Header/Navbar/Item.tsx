@@ -1,8 +1,8 @@
-import TextWithIcon from 'app/components/TextWithIcon';
 import { Link } from 'react-router-dom';
-import styles from './Item.css';
 import Icon from 'app/components/Icon';
 import Flex from 'app/components/Layout/Flex';
+import TextWithIcon from 'app/components/TextWithIcon';
+import styles from './Item.css';
 
 export type ItemProps = {
   title: string;

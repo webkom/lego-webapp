@@ -1,5 +1,5 @@
-import { ItemProps } from './Item';
 import ItemList from './ItemList';
+import type { ItemProps } from './Item';
 
 const EventsDropdown = () => {
   const items: ItemProps[] = [

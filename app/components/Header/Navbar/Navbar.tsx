@@ -1,10 +1,11 @@
-import Dropdown from 'app/components/Dropdown';
+import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import styles from './Navbar.css';
-import { ReactElement, useState } from 'react';
-import EventsDropdown from './EventsDropwdown';
-import CareerDropdown from './CareerDropdown';
+import Dropdown from 'app/components/Dropdown';
 import AboutDropdown from './AboutDropdown';
+import CareerDropdown from './CareerDropdown';
+import EventsDropdown from './EventsDropwdown';
+import styles from './Navbar.css';
+import type { ReactElement } from 'react';
 
 type Props = {
   loggedIn: boolean;
@@ -62,6 +63,7 @@ const Navbar = ({ loggedIn }: Props) => {
 
         const navLinkItem = (
           <NavLink
+            key={link.to}
             to={link.to}
             activeClassName={styles.activeItem}
             onMouseEnter={() => setHoverIndex(i)}
@@ -74,6 +76,7 @@ const Navbar = ({ loggedIn }: Props) => {
 
         return (
           <Dropdown
+            key={link.to}
             show={visibleDropdown && hoverIndex == i}
             toggle={() => setVisibleDropdown(false)}
             triggerComponent={navLinkItem}
