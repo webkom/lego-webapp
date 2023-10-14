@@ -146,9 +146,7 @@ const createAttendeeDataPoints = (
   registrations: DetailedRegistration[],
   unregistrations: DetailedRegistration[],
   committeeGroupIDs: number[],
-  revueGroupIDs: number[],
-  registrationStartTime: Dateish,
-  registrationEndTime: Dateish
+  revueGroupIDs: number[]
 ) => {
   const attendeeStatistics: AttendeeStatistics = {
     genderDistribution: [],
@@ -160,22 +158,6 @@ const createAttendeeDataPoints = (
   };
 
   for (const registration of registrations) {
-    if (
-      registrationStartTime &&
-      moment(registration.registrationDate).isBefore(
-        moment(registrationStartTime)
-      )
-    ) {
-      continue;
-    }
-
-    if (
-      registrationEndTime &&
-      moment(registration.registrationDate).isAfter(moment(registrationEndTime))
-    ) {
-      continue;
-    }
-
     addRegistrationDateDataPoint(
       attendeeStatistics.registrationTimeDistribution,
       registration.registrationDate,
@@ -261,7 +243,13 @@ const calculateMetrics = (data) => {
   }, initialValue);
 };
 
-const Analytics = ({ eventId }: { eventId: ID }) => {
+class AnalyticsProps {
+  eventId: ID;
+  viewStartTime: Dateish;
+  viewEndTime: Dateish;
+}
+
+const Analytics = ({ eventId, viewStartTime, viewEndTime }: AnalyticsProps) => {
   const [metrics, setMetrics] = useState<{
     visitors: { title: string; value: number };
     pageviews: { title: string; value: number };
@@ -274,10 +262,22 @@ const Analytics = ({ eventId }: { eventId: ID }) => {
   useEffect(() => {
     eventId &&
       dispatch(fetchAnalytics(eventId)).then((res) => {
+        if (viewStartTime) {
+          res.payload = res.payload.filter(
+            (item) => new Date(item.date) >= new Date(viewStartTime as string)
+          );
+        }
+
+        if (viewEndTime) {
+          res.payload = res.payload.filter(
+            (item) => new Date(item.date) <= new Date(viewEndTime as string)
+          );
+        }
+
         setData(res.payload);
         setMetrics(calculateMetrics(res.payload));
       });
-  }, [eventId, dispatch]);
+  }, [eventId, dispatch, viewStartTime, viewEndTime]);
 
   return (
     <>
@@ -370,8 +370,8 @@ const EventAttendeeStatistics = ({
   committeeGroupIDs,
   revueGroupIDs,
   eventStartTime,
-  registrationStartTime,
-  registrationEndTime,
+  viewStartTime,
+  viewEndTime,
 }: Props) => {
   const {
     genderDistribution,
@@ -384,9 +384,7 @@ const EventAttendeeStatistics = ({
     registrations,
     unregistrations,
     committeeGroupIDs,
-    revueGroupIDs,
-    registrationStartTime,
-    registrationEndTime
+    revueGroupIDs
   );
 
   return (
@@ -402,7 +400,11 @@ const EventAttendeeStatistics = ({
         </Card>
       )}
 
-      <Analytics eventId={eventId} />
+      <Analytics
+        eventId={eventId}
+        viewStartTime={viewStartTime}
+        viewEndTime={viewEndTime}
+      />
 
       {registrations.length === 0 ? (
         <p className={styles.noRegistrationsText}>Ingen er påmeldt enda.</p>

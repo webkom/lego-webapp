@@ -21,33 +21,33 @@ const Statistics = ({
   unregistered,
   event,
 }: Props) => {
-  const [registrationStartTime, setRegistrationStartTime] = useState<Dateish>(
+  const [viewStartTime, setViewStartTime] = useState<Dateish>(
     '2021-01-01T00:00:00.000Z'
   );
-  const [registrationEndTime, setRegistrationEndTime] = useState<Dateish>(null);
+  const [viewEndTime, setViewEndTime] = useState<Dateish>(null);
 
-  const updateRegistrationStartDate = (date: string) => {
-    setRegistrationStartTime(date);
+  const updateViewStartDate = (date: string) => {
+    setViewStartTime(date);
   };
 
-  const updateRegistrationEndDate = (date: string) => {
-    setRegistrationEndTime(date);
+  const updateViewEndDate = (date: string) => {
+    setViewEndTime(date);
   };
 
   return (
     <>
       <div className={styles.filterContainer}>
-        <label>Startdato for påmelding</label>
+        <label>Startdato for sidevisning</label>
         <DatePicker
-          value={registrationStartTime as string}
-          onChange={updateRegistrationStartDate}
+          value={viewStartTime as string}
+          onChange={updateViewStartDate}
           onBlur={() => {}}
           onFocus={() => {}}
         />
-        <label>Sluttdato for påmelding</label>
+        <label>Sluttdato for sidevisning</label>
         <DatePicker
-          value={registrationEndTime as string}
-          onChange={updateRegistrationEndDate}
+          value={viewEndTime as string}
+          onChange={updateViewEndDate}
           onBlur={() => {}}
           onFocus={() => {}}
         />
@@ -60,8 +60,8 @@ const Statistics = ({
         committeeGroupIDs={committees.map((group) => group.id)}
         revueGroupIDs={revueGroups.map((group) => group.id)}
         eventStartTime={event.startTime}
-        registrationStartTime={registrationStartTime}
-        registrationEndTime={registrationEndTime}
+        viewStartTime={viewStartTime}
+        viewEndTime={viewEndTime}
       />
     </>
   );
