@@ -82,7 +82,6 @@ html[data-theme='dark'] .bottomContent a {
   height: auto;
   margin-left: 1px;
   transition: transform var(--easing-slow);
-  transform-style: preserve-3d;
 }
 
 .gitHubLink:hover .octocat {

@@ -1,16 +1,19 @@
 import moment from 'moment-timezone';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
+import Card from 'app/components/Card';
 // import Banner from 'app/components/Banner';
 import Icon from 'app/components/Icon';
 import { Container, Flex } from 'app/components/Layout';
 import Poll from 'app/components/Poll';
 import RandomQuote from 'app/components/RandomQuote';
 import type { Event, Readme } from 'app/models';
+import { selectCurrentUser } from 'app/reducers/auth';
 import type { WithDocumentType } from 'app/reducers/frontpage';
 import { isArticle, isEvent } from 'app/reducers/frontpage';
 import type { PollEntity } from 'app/reducers/polls';
+import { useAppSelector } from 'app/store/hooks';
 import type { PublicArticle } from 'app/store/models/Article';
 import type { FrontpageEvent } from 'app/store/models/Event';
 import ArticleItem from './ArticleItem';
@@ -34,6 +37,14 @@ type Props = {
 const Overview = (props: Props) => {
   const [eventsToShow, setEventsToShow] = useState(9);
   const [articlesToShow, setArticlesToShow] = useState(2);
+
+  const [showVerificationWarning, setShowVerificationWarning] = useState(false);
+  const currentUser = useAppSelector(selectCurrentUser);
+  useEffect(() => {
+    if (currentUser.isStudent) {
+      setShowVerificationWarning(!currentUser.isStudent);
+    }
+  }, [currentUser.isStudent]);
 
   const showMore = () => {
     setEventsToShow(eventsToShow + 6);
@@ -93,47 +104,70 @@ const Overview = (props: Props) => {
   );
 
   return (
-    <Container>
-      <Helmet title="Hjem" />
-      {/* <Banner
+    <>
+      <Container>
+        <Helmet title="Hjem" />
+        {/* <Banner
         header="Abakusrevyen har opptak!"
         subHeader="Søk her"
         link="https://opptak.abakus.no"
         color="red"
       /> */}
-      <Flex className={styles.desktopContainer}>
-        <Flex column className={styles.leftColumn}>
-          <CompactEvents events={events} />
-          {pinnedComponent}
-          <Events events={eventsShown} loggedIn={loggedIn} />
+        <Flex className={styles.desktopContainer}>
+          <Flex column className={styles.leftColumn}>
+            <CompactEvents events={events} />
+            {pinnedComponent}
+            <Events events={eventsShown} loggedIn={loggedIn} />
+          </Flex>
+          <Flex column className={styles.rightColumn}>
+            <NextEventSection events={events} />
+            <PollItem poll={poll} votePoll={votePoll} />
+            <QuoteItem loggedIn={loggedIn} />
+            {readMe}
+            <Weekly weeklyArticle={weeklyArticle} />
+            <Articles articles={articlesShown} />
+          </Flex>
         </Flex>
-        <Flex column className={styles.rightColumn}>
-          <NextEventSection events={events} />
+        <section className={styles.mobileContainer}>
+          <CompactEvents events={events} />
+          <NextEvent events={events} />
           <PollItem poll={poll} votePoll={votePoll} />
           <QuoteItem loggedIn={loggedIn} />
+          {pinnedComponent}
           {readMe}
           <Weekly weeklyArticle={weeklyArticle} />
           <Articles articles={articlesShown} />
-        </Flex>
-      </Flex>
-      <section className={styles.mobileContainer}>
-        <CompactEvents events={events} />
-        <NextEvent events={events} />
-        <PollItem poll={poll} votePoll={votePoll} />
-        <QuoteItem loggedIn={loggedIn} />
-        {pinnedComponent}
-        {readMe}
-        <Weekly weeklyArticle={weeklyArticle} />
-        <Articles articles={articlesShown} />
-        <Events events={eventsShown} loggedIn={loggedIn} />
-      </section>
+          <Events events={eventsShown} loggedIn={loggedIn} />
+        </section>
 
-      {frontpage.length > 8 && (
-        <div className={styles.showMore}>
-          <Icon onClick={showMore} name="chevron-down-outline" size={30} />
-        </div>
+        {frontpage.length > 8 && (
+          <div className={styles.showMore}>
+            <Icon onClick={showMore} name="chevron-down-outline" size={30} />
+          </div>
+        )}
+      </Container>
+
+      {showVerificationWarning && (
+        <Card severity="warning" className={styles.verificationWarning}>
+          <Icon
+            name="close"
+            className={styles.close}
+            onClick={() => setShowVerificationWarning(false)}
+          />
+
+          <Card.Header className={styles.header}>Er du student?</Card.Header>
+          <span>
+            Du har enda ikke verifisert studentstatusen din. For å kunne bli
+            medlem i Abakus og få mulighet til å delta på arrangementer, få
+            tilgang til bilder, interessegrupper og mer må du{' '}
+            <Link to="/users/me/settings/student-confirmation">
+              verifisere deg
+            </Link>
+            .
+          </span>
+        </Card>
       )}
-    </Container>
+    </>
   );
 };
 
