@@ -92,7 +92,6 @@ const ContactForm = (props: Props) => {
       </p>
 
       <Field
-        placeholder="Velg mottaker"
         label="Mottaker"
         name="recipient_group"
         value={hsRecipient}

@@ -61,7 +61,6 @@ const EmailUserEditor = ({
         name="user"
         required
         disabled={emailUserId}
-        placeholder="Velg bruker"
         filter={['users.user']}
         component={SelectInput.AutocompleteField}
         onChange={(data) => onUserChange(data as any as AutocompleteUserValue)}
