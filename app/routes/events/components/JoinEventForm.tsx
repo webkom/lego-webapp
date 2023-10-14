@@ -358,7 +358,7 @@ const JoinEventForm = (props: Props) => {
               <div>Du kan ikke melde deg på dette arrangementet.</div>
             )}
             {sumPenalties(penalties) > 0 && event.heedPenalties && (
-              <Card severity="danger">
+              <Card severity="warning">
                 <Card.Header>NB!</Card.Header>
                 <p>
                   {sumPenalties(penalties) > 2

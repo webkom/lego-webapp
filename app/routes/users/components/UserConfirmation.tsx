@@ -47,7 +47,7 @@ const UserConfirmation = ({
               >
                 Er du student?
               </h3>
-              <Card severity="danger">
+              <Card severity="warning">
                 <span>
                   For å kunne melde deg på arrangementer i Abakus må du
                   verifisere at du er student.

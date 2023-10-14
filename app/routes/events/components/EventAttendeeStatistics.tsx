@@ -370,7 +370,7 @@ const EventAttendeeStatistics = ({
   return (
     <>
       {isEventFromPreviousSemester(eventStartTime) && (
-        <Card severity="danger">
+        <Card severity="warning">
           <span>
             Dette arrangementet er fra et tidligere semester, og kan derfor ha
             feil fordeling av klassetrinn og gruppetilhørighet. Dette er fordi
