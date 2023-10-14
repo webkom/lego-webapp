@@ -7,7 +7,6 @@ import {
   handleSubmissionError,
   legoForm,
 } from 'app/components/Form';
-import Tooltip from 'app/components/Tooltip';
 import { roleOptions } from 'app/utils/constants';
 import { createValidator, required, EMAIL_REGEX } from 'app/utils/validation';
 
@@ -62,25 +61,23 @@ const EmailListEditor = ({ submitting, handleSubmit, emailListId }: Props) => (
       component={SelectInput.Field}
     />
 
-    <Tooltip content="Når denne er aktivert vil kun brukere med aktiv @abakus.no-adresse få e-post fra denne listen">
-      <Field
-        label="Kun for for brukere med internmail (@abakus.no)"
-        name="requireInternalAddress"
-        component={CheckBox.Field}
-        normalize={(v) => !!v}
-      />
-    </Tooltip>
+    <Field
+      label="Kun for for brukere med internmail (@abakus.no)"
+      description="Når denne er aktivert vil kun brukere med aktiv @abakus.no-adresse få e-post fra denne listen"
+      name="requireInternalAddress"
+      component={CheckBox.Field}
+      normalize={(v) => !!v}
+    />
 
-    <Tooltip content="Her kan du legge til e-postene til de som skal ha mailer fra gruppemailen, men ikke er medlem av abakus">
-      <Field
-        label="E-poster for medlemmer utenfor abakus"
-        name="additionalEmails"
-        placeholder="Skriv inn e-post her"
-        component={SelectInput.Field}
-        isMulti
-        tags
-      />
-    </Tooltip>
+    <Field
+      label="E-poster for medlemmer utenfor abakus"
+      description="Her kan du legge til e-postene til de som skal ha mailer fra gruppemailen, men ikke er medlem av abakus"
+      name="additionalEmails"
+      placeholder="Skriv inn e-post her"
+      component={SelectInput.Field}
+      isMulti
+      tags
+    />
     <Button submit disabled={submitting}>
       {emailListId ? 'Oppdater e-postliste' : 'Lag e-postliste'}
     </Button>

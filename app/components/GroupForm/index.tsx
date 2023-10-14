@@ -8,7 +8,6 @@ import {
   CheckBox,
   legoForm,
 } from 'app/components/Form';
-import Tooltip from 'app/components/Tooltip';
 import type { DetailedGroup } from 'app/store/models/Group';
 import { createValidator, required } from 'app/utils/validation';
 import styles from './index.css';
@@ -53,22 +52,20 @@ function GroupForm({
         name="contactEmail"
         component={TextInput.Field}
       />
-      <Tooltip content="Skal gruppen vises på brukerprofilen til folk?">
-        <Field
-          label="Vis badge på brukerprofiler"
-          name="showBadge"
-          component={CheckBox.Field}
-          normalize={(v) => !!v}
-        />
-      </Tooltip>
-      <Tooltip content="Er dette en aktiv gruppe?">
-        <Field
-          label="Aktiv gruppe"
-          name="active"
-          component={CheckBox.Field}
-          normalize={(v) => !!v}
-        />
-      </Tooltip>
+      <Field
+        label="Vis badge på brukerprofiler"
+        description="Skal gruppen vises på brukerprofilen til folk?"
+        name="showBadge"
+        component={CheckBox.Field}
+        normalize={(v) => !!v}
+      />
+      <Field
+        label="Aktiv gruppe"
+        description="Er dette en aktiv gruppe?"
+        name="active"
+        component={CheckBox.Field}
+        normalize={(v) => !!v}
+      />
       <Field
         label="Beskrivelse"
         placeholder="Vil du strikke din egen lue? Eller har du allerede […]"
