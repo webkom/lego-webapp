@@ -1,5 +1,4 @@
 import { LoadingIndicator, Button } from '@webkom/lego-bricks';
-import cx from 'classnames';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Card from 'app/components/Card';
@@ -164,7 +163,7 @@ export default class BdbDetail extends Component<Props, State> {
     }
 
     const semesters = company.semesterStatuses
-      .slice() // $FlowFixMe
+      .slice()
       .sort(sortByYearThenSemester)
       .map((semesterStatus) => (
         <SemesterStatusDetail
@@ -186,44 +185,33 @@ export default class BdbDetail extends Component<Props, State> {
             <td>{contact.name || '-'}</td>
             <td>{contact.role || '-'}</td>
             <td>{contact.mail || '-'}</td>
+            <td>{contact.phone || '-'}</td>
             <td>
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                }}
-              >
-                {contact.phone || '-'}
-                <span
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                  }}
+              <Flex>
+                <Icon
+                  to={`/bdb/${String(company.id)}/company-contacts/${String(
+                    contact.id
+                  )}`}
+                  name="pencil"
+                  edit
+                  size={20}
+                />
+                <ConfirmModal
+                  title="Slett bedriftskontakt"
+                  message="Er du sikker på at du vil slette denne bedriftskontakten?"
+                  onConfirm={() => this.deleteCompanyContact(contact.id)}
+                  closeOnConfirm
                 >
-                  <Link
-                    to={`/bdb/${String(company.id)}/company-contacts/${String(
-                      contact.id
-                    )}`}
-                  >
-                    <Icon name="pencil" edit size={20} />
-                  </Link>
-                  <ConfirmModal
-                    title="Slett bedriftskontakt"
-                    message="Er du sikker på at du vil slette denne bedriftskontakten?"
-                    onConfirm={() => this.deleteCompanyContact(contact.id)}
-                    closeOnConfirm
-                  >
-                    {({ openConfirmModal }) => (
-                      <Icon
-                        onClick={openConfirmModal}
-                        name="trash"
-                        danger
-                        size={20}
-                      />
-                    )}
-                  </ConfirmModal>
-                </span>
-              </div>
+                  {({ openConfirmModal }) => (
+                    <Icon
+                      onClick={openConfirmModal}
+                      name="trash"
+                      danger
+                      size={20}
+                    />
+                  )}
+                </ConfirmModal>
+              </Flex>
             </td>
           </tr>
         ))
@@ -246,16 +234,15 @@ export default class BdbDetail extends Component<Props, State> {
             <td>{truncateString(event.description, 70)}</td>
             <td>
               {event.survey && (
-                <Tooltip content="Spørreundersøkelse">
-                  <Link to={`/surveys/${event.survey}`}>
-                    <i
-                      className={cx(
-                        'fa fa-bar-chart',
-                        styles.surveyIcon,
-                        styles.surveyContainer
-                      )}
-                    />
-                  </Link>
+                <Tooltip
+                  content="Spørreundersøkelse"
+                  className={styles.surveyContainer}
+                >
+                  <Icon
+                    to={`/surveys/${event.survey}`}
+                    name="bar-chart-outline"
+                    size={20}
+                  />
                 </Tooltip>
               )}
             </td>
@@ -274,9 +261,7 @@ export default class BdbDetail extends Component<Props, State> {
             (Inaktiv)
           </span>
         )}
-        <Link to={`/bdb/${company.id}/edit`}>
-          <Icon name="pencil" edit size={20} />
-        </Link>
+        <Icon to={`/bdb/${company.id}/edit`} name="pencil" edit size={20} />
       </Flex>
     );
     return (
@@ -376,7 +361,8 @@ export default class BdbDetail extends Component<Props, State> {
                   <th>Navn</th>
                   <th>Rolle</th>
                   <th>E-post</th>
-                  <th>Tlf</th>
+                  <th>Telefonnummer</th>
+                  <th />
                 </tr>
               </thead>
               <tbody>{companyContacts}</tbody>
