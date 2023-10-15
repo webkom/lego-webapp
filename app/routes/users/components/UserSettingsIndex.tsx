@@ -35,7 +35,7 @@ const UserSettingsIndex = (props: Props) => {
         }}
       >
         {isCurrentUser && (
-          <div data-test-id="navigation-tab">
+          <>
             <NavigationLink to={`${base}/profile`}>Profil</NavigationLink>
             <NavigationLink to={`${base}/notifications`}>
               Notifikasjoner
@@ -46,7 +46,7 @@ const UserSettingsIndex = (props: Props) => {
                 ? 'Studentstatus'
                 : 'Verifiser studentstatus'}
             </NavigationLink>
-          </div>
+          </>
         )}
       </NavigationTab>
       {props.children &&

@@ -1,4 +1,4 @@
-import { c, a, t } from '../support/utils.js';
+import { c, a } from '../support/utils.js';
 
 describe('Navigate throughout app', () => {
   beforeEach(() => {
@@ -90,7 +90,7 @@ describe('Navigate throughout app', () => {
     cy.contains('Brukernavn');
 
     // Go to notifications
-    cy.get(t('navigation-tab'))
+    cy.get(c('NavigationTab__container'))
       .first()
       .within(() => {
         cy.contains('Notifikasjoner').click();
@@ -99,7 +99,7 @@ describe('Navigate throughout app', () => {
     cy.contains('E-poster som sendes direkte til deg');
 
     // Go to OAuth2
-    cy.get(t('navigation-tab'))
+    cy.get(c('NavigationTab__container'))
       .first()
       .within(() => {
         cy.contains('OAuth2').click();
@@ -108,7 +108,7 @@ describe('Navigate throughout app', () => {
     cy.contains('Denne nettsiden benytter seg av et API');
 
     // Go to student confirmation
-    cy.get(t('navigation-tab'))
+    cy.get(c('NavigationTab__container'))
       .first()
       .within(() => {
         cy.contains('Verifiser studentstatus').click();
