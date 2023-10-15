@@ -328,7 +328,7 @@ const validateCompany = (value) => {
   } else if (value['__isNew__'] || !value.value) {
     return [!!value.label, 'Ny bedrift må ha et navn'] as const;
   } else {
-    return [typeof value?.value !== 'number', 'Ugyldig bedrift'] as const;
+    return [!isNaN(Number(value?.value)), 'Ugyldig bedrift'] as const;
   }
 };
 
@@ -359,7 +359,7 @@ const CompanyInterestPage = (props: Props) => {
   const onSubmit = (data) => {
     const { company } = data;
     const nameOnly = company['__isNew__'] || !company.value;
-    const companyId = nameOnly ? null : company['value'];
+    const companyId = nameOnly ? null : Number(company['value']);
     const companyName = nameOnly ? company['label'] : '';
 
     const [range_start, range_end] = data.participantRange

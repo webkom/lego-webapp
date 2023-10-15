@@ -32,7 +32,6 @@ const AddGroupMember = ({ submitting, handleSubmit }: Props) => {
       <Field
         label="Rolle"
         name="role"
-        placeholder="Velg rolle"
         options={roles}
         component={SelectInput.Field}
       />

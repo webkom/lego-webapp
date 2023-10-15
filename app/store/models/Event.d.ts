@@ -203,7 +203,10 @@ export type AdministrateEvent = Pick<
   | 'useConsent'
   | 'useContactTracing'
   | 'createdBy'
+  | 'responsibleGroup'
+  | 'feedbackRequired'
 > &
+  DetailedEvent &
   ListEvent;
 
 export type FrontpageEvent = Pick<

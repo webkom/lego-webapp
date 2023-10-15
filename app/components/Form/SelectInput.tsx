@@ -9,6 +9,7 @@ import type { GroupBase, StylesConfig, ThemeConfig } from 'react-select';
 
 type Props = {
   name: string;
+  label: string;
   placeholder?: string;
   multiple?: boolean;
   tags?: boolean;
@@ -93,6 +94,7 @@ export const selectTheme = (
 
 function SelectInput({
   name,
+  label,
   fetching,
   selectStyle,
   onBlur,
@@ -110,13 +112,15 @@ function SelectInput({
     props.isMulti = true;
   }
 
+  const defaultPlaceholder = label ? `Velg ${label.toLowerCase()}` : 'Velg ...';
+
   if (creatable) {
     return (
       <div className={style.field}>
         <Creatable
           {...props}
           isDisabled={disabled}
-          placeholder={!disabled && placeholder}
+          placeholder={!disabled && (placeholder || defaultPlaceholder)}
           instanceId={name}
           isMulti={props.isMulti}
           onBlur={() => onBlur(value)}
@@ -144,7 +148,7 @@ function SelectInput({
       <Select
         {...props}
         isDisabled={disabled}
-        placeholder={disabled ? 'Tomt' : placeholder}
+        placeholder={disabled ? 'Tomt' : placeholder || defaultPlaceholder}
         instanceId={name}
         shouldKeyDownEventCreateNewOption={shouldKeyDownEventCreateNewOption}
         onBlur={() => onBlur(value)}

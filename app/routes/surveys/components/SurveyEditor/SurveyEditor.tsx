@@ -296,7 +296,6 @@ const SurveyEditor = ({
                 }}
               >
                 <Field
-                  placeholder="Velg arrangement"
                   label="Arrangement"
                   autoFocus={autoFocus}
                   name="event"

@@ -1,12 +1,12 @@
 {
   "name": "mazemap",
-  "version": "2.0.63",
+  "version": "2.0.96",
   "main": "mazemap.min.js",
   "license": "",
   "author": "Dag Jomar Mersland <dagjomar@mazemap.com>",
   "dependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "install": "sh install.sh 2.0.63"
+    "install": "sh install.sh 2.0.96"
   }
 }

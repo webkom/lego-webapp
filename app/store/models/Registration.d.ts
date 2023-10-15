@@ -1,10 +1,15 @@
 import type { Dateish } from 'app/models';
-import type { PhotoConsent, PublicUser } from 'app/store/models/User';
+import type {
+  DetailedUser,
+  PhotoConsent,
+  PublicUser,
+} from 'app/store/models/User';
 import type { ID } from 'app/store/models/index';
 
 interface Registration {
   id: ID;
   user: PublicUser;
+  detailedUser: DetailedUser;
   createdBy: ID;
   updatedBy: ID;
   pool: ID;
@@ -57,7 +62,6 @@ export type PaymentRegistration = Pick<Registration, 'paymentStatus'> &
 export type DetailedRegistration = Pick<
   Registration,
   | 'id'
-  | 'user'
   | 'createdBy'
   | 'updatedBy'
   | 'pool'
@@ -74,7 +78,9 @@ export type DetailedRegistration = Pick<
   | 'paymentAmountRefunded'
   | 'LEGACYPhotoConsent'
   | 'photoConsents'
->;
+> & {
+  user: DetailedUser;
+};
 
 export type UnknownRegistration =
   | AnonymizedRegistration

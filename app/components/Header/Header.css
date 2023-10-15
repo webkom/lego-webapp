@@ -42,6 +42,11 @@
   width: 160px;
 }
 
+.buttonGroup button {
+  flex-shrink: 0;
+  padding: 0 7px;
+}
+
 .buttonGroup button,
 .buttonGroup img {
   border: 0;

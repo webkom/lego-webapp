@@ -48,7 +48,7 @@
   background-color: var(--lego-font-color);
 }
 
-.today {
+.today:not(.selectedDate) {
   color: var(--lego-font-color);
   background-color: var(--additive-background);
 }

@@ -48,21 +48,21 @@ const CommentForm = ({
     <Card>
       <LegoFinalForm
         validateOnSubmitOnly
-        initialValues={{
-          commentKey: Math.random(),
-        }}
         validate={validate}
-        onSubmit={({ text }) =>
+        onSubmit={({ text }, form) => {
+          // Clear the form value
+          form.change('text', undefined);
+
           dispatch(
             addComment({
               contentTarget,
               text,
               parent,
             })
-          )
-        }
+          );
+        }}
       >
-        {({ handleSubmit, values }) => {
+        {({ handleSubmit }) => {
           return (
             <form onSubmit={handleSubmit}>
               <Flex alignItems="center" gap="1rem">
@@ -70,7 +70,6 @@ const CommentForm = ({
 
                 <div className={styles.field}>
                   <Field
-                    key={values.commentKey}
                     autoFocus={autoFocus}
                     name="text"
                     placeholder={placeholder}

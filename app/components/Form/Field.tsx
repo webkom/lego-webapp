@@ -107,10 +107,10 @@ export function createField(Component: ComponentType<any>, options?: Options) {
     const hasError = showErrors && touched && anyError?.length > 0;
     const hasWarning = showErrors && touched && warning?.length > 0;
     const fieldName = input?.name;
-    const inlineLabel = options?.inlineLabel;
+    const { noLabel, inlineLabel } = options || {};
 
     const labelComponent = (
-      <Flex>
+      <Flex alignItems="center">
         {label && (
           <div
             style={{
@@ -123,20 +123,11 @@ export function createField(Component: ComponentType<any>, options?: Options) {
           </div>
         )}
         {description && (
-          <Tooltip
-            style={{
-              display: 'inline-block',
-            }}
-            content={description}
-          >
-            <div
-              style={{
-                marginLeft: '10px',
-              }}
-            >
-              <Icon size={32} name="help" />
-            </div>
-          </Tooltip>
+          <Flex className={styles.description}>
+            <Tooltip content={description}>
+              <Icon size={18} name="help-circle-outline" />
+            </Tooltip>
+          </Flex>
         )}
         {required && <span className={styles.required}>*</span>}
       </Flex>
@@ -146,6 +137,7 @@ export function createField(Component: ComponentType<any>, options?: Options) {
       <Component
         {...input}
         {...props}
+        label={!noLabel && !inlineLabel && label}
         onChange={(value) => {
           input.onChange?.(value);
           onChange?.(value);
@@ -172,7 +164,7 @@ export function createField(Component: ComponentType<any>, options?: Options) {
 
     return (
       <div className={cx(styles.field, fieldClassName)} style={fieldStyle}>
-        {options?.noLabel ? content : <label>{content}</label>}
+        {noLabel ? content : <label>{content}</label>}
         {hasError && (
           <RenderErrorMessage error={anyError} fieldName={fieldName} />
         )}

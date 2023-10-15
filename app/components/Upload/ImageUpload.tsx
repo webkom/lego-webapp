@@ -280,6 +280,7 @@ export default class ImageUpload extends Component<Props, State> {
                 className={styles.cropper}
                 aspectRatio={aspectRatio}
                 guides={false}
+                autoCropArea={1}
               />
             )}
             {multiple && !crop && (

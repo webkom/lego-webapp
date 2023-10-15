@@ -17,12 +17,19 @@ type Props = {
   children?: ReactNode;
 };
 
-const NavigationTab = (props: Props) => (
+const NavigationTab = ({
+  title,
+  back,
+  details,
+  headerClassName,
+  className,
+  children,
+}: Props) => (
   <>
-    {props.back && (
+    {back && (
       <NavLink
-        to={props.back.path}
-        onClick={(e: Event) => {
+        to={back.path}
+        onClick={(e) => {
           // TODO fix this hack when react-router is done
           if (!window.location.hash) return;
           window.history.back();
@@ -31,16 +38,14 @@ const NavigationTab = (props: Props) => (
         className={styles.back}
       >
         <Icon name="arrow-back" size={19} className={styles.backIcon} />
-        <span className={styles.backLabel}>{props.back.label}</span>
+        <span className={styles.backLabel}>{back.label}</span>
       </NavLink>
     )}
-    <div className={cx(styles.container, props.className)}>
-      <h1 className={cx(styles.header, props.headerClassName)}>
-        {props.title}
-      </h1>
-      <div className={styles.navigator}>{props.children}</div>
+    <div className={cx(styles.container, className)}>
+      <h1 className={cx(styles.header, headerClassName)}>{title}</h1>
+      <div className={styles.navigator}>{children}</div>
     </div>
-    <div className={styles.details}>{props.details}</div>
+    <div className={styles.details}>{details}</div>
   </>
 );
 

@@ -41,6 +41,10 @@
   font-size: var(--font-size-lg);
 }
 
+.description {
+  margin-left: 7px;
+}
+
 .required {
   color: var(--danger-color);
   font-weight: 600;

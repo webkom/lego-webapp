@@ -28,6 +28,7 @@
 
   --color-absolute-white: #fff; /* White on dark mode as well */
   --color-white: var(--color-absolute-white);
+  --color-absolute-black: #000; /* Black on dark mode as well */
   --color-black: #000;
 
   --border-gray: var(--color-gray-2);
