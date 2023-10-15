@@ -84,7 +84,7 @@ const mapStateToProps = (state, props) => {
       eventType: '',
       eventStatusType: {
         value: 'TBA',
-        label: 'Ikke bestemt(TBA)',
+        label: 'Ikke bestemt (TBA)',
       },
       company: null,
       responsibleGroup: null,

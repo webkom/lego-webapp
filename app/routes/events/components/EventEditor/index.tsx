@@ -347,6 +347,7 @@ function EventEditor({
               <div className={styles.subSection}>
                 <Field
                   name="canViewGroups"
+                  placeholder="Velg grupper"
                   filter={['users.abakusgroup']}
                   fieldClassName={styles.metaField}
                   component={SelectInput.AutocompleteField}
