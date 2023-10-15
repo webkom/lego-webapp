@@ -1,5 +1,6 @@
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
+import Card from 'app/components/Card';
 import {
   TextInput,
   TextArea,
@@ -54,7 +55,7 @@ const Question = ({
   const indexOptions = questionIndexMappings(numberOfQuestions);
 
   return (
-    <div className={styles.question}>
+    <Card className={styles.question}>
       <div className={styles.left}>
         <div className={styles.questionTop}>
           <Field
@@ -167,7 +168,7 @@ const Question = ({
           </ConfirmModal>
         </Flex>
       </div>
-    </div>
+    </Card>
   );
 };
 

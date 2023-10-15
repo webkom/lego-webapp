@@ -1,4 +1,3 @@
-import cx from 'classnames';
 import moment from 'moment-timezone';
 import Icon from 'app/components/Icon';
 import NavigationTab from 'app/components/NavigationTab';
@@ -85,14 +84,13 @@ export const getCsvUrl = (surveyId: ID) =>
 export const QuestionTypeOption = ({ iconName, option, ...props }: any) => (
   <div
     style={{
-      cursor: 'pointer',
       backgroundColor: props.isSelected
         ? 'var(--color-gray-2)'
         : props.isFocused
         ? 'var(--additive-background)'
         : 'var(--lego-card-color)',
     }}
-    className={cx(styles.dropdownOption, styles.dropdown)}
+    className={styles.dropdownOption}
     onMouseDown={(event) => {
       props.onSelect && props.onSelect(option, event);
     }}
@@ -104,20 +102,15 @@ export const QuestionTypeOption = ({ iconName, option, ...props }: any) => (
     ref={props.innerRef}
     {...props.innerProps}
   >
-    <span className={styles.dropdownColor}>
-      <Icon
-        name={iconName}
-        style={{
-          marginRight: '15px',
-        }}
-      />
+    <span>
+      <Icon name={iconName} />
       {props.children}
     </span>
   </div>
 );
 export const QuestionTypeValue = ({ iconName, ...props }) => (
   <div
-    className={cx(styles.dropdownSelected, styles.dropdown)}
+    className={styles.dropdownSelected}
     onMouseDown={(event) => {
       props.onSelect && props.onSelect(props.option, event);
     }}
@@ -131,14 +124,7 @@ export const QuestionTypeValue = ({ iconName, ...props }) => (
     ref={props.innerRef}
     {...props.innerProps}
   >
-    <span className={styles.dropdownColor}>
-      <Icon
-        name={iconName}
-        style={{
-          marginRight: '15px',
-        }}
-      />
-      {props.children}
-    </span>
+    <Icon name={iconName} />
+    {props.children}
   </div>
 );
