@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { markUsernamePresent } from 'app/actions/EventActions';
 import { autocomplete } from 'app/actions/SearchActions';
+import { addToast } from 'app/actions/ToastActions';
 import { getRegistrationGroups } from 'app/reducers/events';
 import { selectAutocompleteRedux as selectAutocomplete } from 'app/reducers/search';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
@@ -40,6 +41,7 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = (dispatch, { eventId }) => {
   const url = `/events/${eventId}/administrate/abacard?q=`;
   return {
+    addToast: (args: Parameters<typeof addToast>) => dispatch(addToast(args)),
     clearSearch: () => dispatch(replace(url)),
     markUsernamePresent: (eventId: number, username: string) =>
       dispatch(markUsernamePresent(eventId, username)),

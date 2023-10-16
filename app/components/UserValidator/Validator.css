@@ -1,28 +1,5 @@
 @import url('~app/styles/variables.css');
 
-.overlay {
-  z-index: 100;
-  position: absolute;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  padding: 45px;
-  background: var(--color-white);
-  margin: 0 35%;
-  border: 10px solid #fbfbfb;
-  border-radius: var(--border-radius-lg);
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity var(--linear-slow), visibility var(--linear-slow);
-
-  @media (--mobile-device) {
-    margin: 0 5%;
-  }
-}
-
 .scannerModal {
   text-align: center;
 }
@@ -35,9 +12,4 @@
   display: flex;
   align-items: center;
   margin-right: 0.2rem;
-}
-
-.shown {
-  visibility: visible;
-  opacity: 1;
 }
