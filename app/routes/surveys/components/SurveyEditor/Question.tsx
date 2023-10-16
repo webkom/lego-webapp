@@ -1,5 +1,6 @@
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
+import Card from 'app/components/Card';
 import {
   TextInput,
   TextArea,
@@ -54,7 +55,7 @@ const Question = ({
   const indexOptions = questionIndexMappings(numberOfQuestions);
 
   return (
-    <div className={styles.question}>
+    <Card className={styles.question}>
       <div className={styles.left}>
         <div className={styles.questionTop}>
           <Field
@@ -67,7 +68,7 @@ const Question = ({
             }}
           />
         </div>
-        {questionData.questionType.value === QuestionTypes('text') ? (
+        {questionData.questionType?.value === QuestionTypes('text') ? (
           <TextArea
             className={styles.freeText}
             placeholder="Fritekst - sånn her vil den se ut :smile:"
@@ -77,7 +78,7 @@ const Question = ({
         ) : (
           <FieldArray
             name={`${question}.options`}
-            questionType={questionData.questionType.value}
+            questionType={questionData.questionType?.value}
             component={renderOptions}
           />
         )}
@@ -167,7 +168,7 @@ const Question = ({
           </ConfirmModal>
         </Flex>
       </div>
-    </div>
+    </Card>
   );
 };
 
