@@ -45,7 +45,7 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@cfaester/enzyme-adapter-react-18": "^0.7.0",
+    "@cfaester/enzyme-adapter-react-18": "^0.7.1",
     "@storybook/addon-essentials": "^7.2.0",
     "@storybook/addon-interactions": "^7.2.0",
     "@storybook/addon-links": "^7.2.0",
