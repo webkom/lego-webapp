@@ -4,7 +4,7 @@ import Flex from 'app/components/Layout/Flex';
 import styles from './Card.css';
 import type { HTMLAttributes, ReactNode } from 'react';
 
-type Severity = 'danger' | 'info' | 'success';
+type Severity = 'danger' | 'info' | 'success' | 'warning';
 
 type CardHeaderProps = {
   children: ReactNode;
@@ -25,9 +25,7 @@ const CardContent = ({ children, severity }: CardContentProps) => {
 
   switch (severity) {
     case 'danger':
-      icon = (
-        <Icon name="alert-circle-outline" className={styles.warningIcon} />
-      );
+      icon = <Icon name="alert-circle-outline" className={styles.dangerIcon} />;
       break;
     case 'info':
       icon = (
@@ -38,6 +36,9 @@ const CardContent = ({ children, severity }: CardContentProps) => {
       icon = (
         <Icon name="checkmark-circle-outline" className={styles.successIcon} />
       );
+      break;
+    case 'warning':
+      icon = <Icon name="warning-outline" className={styles.warningIcon} />;
       break;
   }
 
