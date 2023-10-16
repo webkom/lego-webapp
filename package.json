@@ -149,7 +149,7 @@
     "@types/react-router": "^5.1.20",
     "@types/react-router-dom": "^5.3.3",
     "@types/react-select": "^5.0.1",
-    "@types/redux-logger": "^3.0.9",
+    "@types/redux-logger": "^3.0.10",
     "@types/redux-sentry-middleware": "^0.2.5",
     "@types/webpack": "^5.28.1",
     "@types/webpack-env": "^1.18.1",
