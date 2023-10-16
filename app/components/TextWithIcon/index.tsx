@@ -15,13 +15,14 @@ type Props = {
 
 const TextWithIcon = ({
   iconName,
+  className,
   content,
   tooltipContentIcon,
   iconRight = false,
   size,
 }: Props) => {
   return (
-    <Flex alignItems="center" gap={5}>
+    <Flex alignItems="center" gap={5} className={className}>
       <div className={styles.textContainer}>
         {iconRight ? <span>{content}</span> : <></>}
       </div>
