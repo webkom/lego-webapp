@@ -132,7 +132,7 @@ export const Unregister = ({
                 onClick={openConfirmModal}
                 name="person-remove-outline"
                 size={18}
-                className={styles.unregisterIcon}
+                danger
               />
             </Tooltip>
           )}
