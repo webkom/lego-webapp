@@ -1,5 +1,8 @@
 .infoIcon {
-  min-width: 26px;
   justify-content: center;
   padding-right: 0.2em;
+}
+
+.textContainer {
+  width: max-content;
 }
