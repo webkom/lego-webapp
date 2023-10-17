@@ -131,14 +131,3 @@ a.transparent:hover {
   display: flex;
   justify-content: center;
 }
-
-.unregisterIcon {
-  justify-content: center;
-  cursor: pointer;
-  color: var(--danger-color);
-  transition: color var(--easing-fast);
-
-  &:hover {
-    color: var(--color-red-7);
-  }
-}

@@ -702,7 +702,7 @@ const UserProfile = (props: Props) => {
                     <b>E-post:</b> {user.emailAddress}
                   </li>
                   <li>
-                    <b>Passord:</b> <i>Ditt abakus passord</i>
+                    <b>Passord:</b> <i>Samme som på abakus.no</i>
                   </li>
                 </ul>
               </Card>

@@ -390,7 +390,7 @@ const JoinEventForm = (props: Props) => {
             {!disabledForUser &&
               event.useConsent &&
               !hasRegisteredConsentForSemester && (
-                <Card danger>
+                <Card severity="danger">
                   <Card.Header>NB!</Card.Header>
                   <p>
                     Du må ta stilling til bildesamtykke for semesteret{' '}

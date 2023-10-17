@@ -57,7 +57,7 @@ export default class SemesterStatusContent extends Component<Props, State> {
         {statusCodes.map((statusString, j) => (
           <Dropdown.ListItem key={j} className={styles.dropDownItem}>
             <Button flat onClick={() => editFunction(statusString)}>
-              <Flex>
+              <Flex alignItems="center">
                 {getStatusString(statusString)}
                 {semesterStatus.contactedStatus.indexOf(statusString) !==
                   -1 && <Icon name="checkmark" success size={25} />}

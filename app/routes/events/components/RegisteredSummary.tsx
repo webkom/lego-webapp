@@ -119,7 +119,7 @@ const RegisteredSentence = ({
 const RegisteredSummary = (props: RegisteredSummaryProps) => {
   return (
     <Flex className={styles.summary}>
-      <RegisteredSentence {...props} /> er påmeldt.
+      <RegisteredSentence {...props} /> er påmeldt
     </Flex>
   );
 };

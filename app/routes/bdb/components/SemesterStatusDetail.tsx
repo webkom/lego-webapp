@@ -1,6 +1,7 @@
-import { LoadingIndicator, Button } from '@webkom/lego-bricks';
+import { LoadingIndicator } from '@webkom/lego-bricks';
 import { Component } from 'react';
 import Icon from 'app/components/Icon';
+import { Flex } from 'app/components/Layout';
 import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import FileUpload from 'app/components/Upload/FileUpload';
 import type { CompanySemesterContactedStatus } from 'app/models';
@@ -104,22 +105,17 @@ export default class SemesterStatusDetail extends Component<Props, State> {
           </td>
         ))}
         <td>
-          <span
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-            }}
-          >
-            <Button
-              flat
+          <Flex>
+            <Icon
               onClick={() =>
                 this.setState((state) => ({
                   editing: !state.editing,
                 }))
               }
-            >
-              <Icon name="pencil" edit size={20} />
-            </Button>
+              name="pencil"
+              edit
+              size={20}
+            />
             <ConfirmModal
               title="Slett semesterstatus"
               message={`Er du sikker på at du vil slette semesterstatusen for ${humanReadableSemester}? Alle filer for dette semesteret vil bli slettet.`}
@@ -135,7 +131,7 @@ export default class SemesterStatusDetail extends Component<Props, State> {
                 />
               )}
             </ConfirmModal>
-          </span>
+          </Flex>
         </td>
       </tr>
     );
