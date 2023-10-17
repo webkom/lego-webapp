@@ -380,7 +380,17 @@ const EventAttendeeStatistics = ({
         </Card>
       )}
 
+      <h2 className={styles.sectionDividerTitle}>Statistikk</h2>
+      <p className={styles.sectionDividerDescription}>
+        Statistikk av besøkende på arrangementssiden.
+      </p>
+
       <Analytics eventId={eventId} />
+
+      <h2 className={styles.sectionDividerTitle}>Analyse</h2>
+      <p className={styles.sectionDividerDescription}>
+        Analyse av brukerne som er påmeldt arrangementet.
+      </p>
 
       {registrations.length === 0 ? (
         <p className={styles.noRegistrationsText}>Ingen er påmeldt enda.</p>
