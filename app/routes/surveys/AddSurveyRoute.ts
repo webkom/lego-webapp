@@ -14,7 +14,7 @@ import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import SurveyEditor, {
   initialQuestion,
 } from './components/SurveyEditor/SurveyEditor';
-import { defaultActiveFrom } from './utils';
+import { getActiveFrom } from './utils';
 import type { DeepPartial } from 'utility-types';
 
 const loadData = (props, dispatch) => {
@@ -54,7 +54,7 @@ const mapStateToProps = (state, props) => {
         label: fullEvent.title,
       }
     : undefined;
-  const activeFrom = fullEvent ? fullEvent.endTime : defaultActiveFrom(12, 0);
+  const activeFrom = getActiveFrom(fullEvent?.endTime, 14, 30);
   const title = fullEvent ? `Spørreundersøkelse for ${fullEvent.title}` : '';
   let initialValues: DeepPartial<FormSurvey> | null = null;
 
