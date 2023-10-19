@@ -292,7 +292,7 @@ function EventEditor({
             />
             <Field
               name="responsibleUsers"
-              label="Ansvarlige Brukere"
+              label="Ansvarlige brukere"
               filter={['users.user']}
               fieldClassName={styles.metaField}
               component={SelectInput.AutocompleteField}

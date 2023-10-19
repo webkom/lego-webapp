@@ -24,7 +24,7 @@ const mapStateToProps = (state, props) => {
   });
 
   const currentUser = selectCurrentUser(state);
-  const authors: Array<DetailedUser> = article?.authors?.length
+  const authors: DetailedUser[] = article?.authors?.length
     ? article.authors.map((e) => selectUserById(state, { userId: e }))
     : [currentUser];
 

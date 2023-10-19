@@ -16,7 +16,6 @@ import {
   selectPoolsWithRegistrationsForEvent,
 } from 'app/reducers/events';
 import { selectImageGalleryEntries } from 'app/reducers/imageGallery';
-import type { DetailedUser } from 'app/store/models/User';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import time from 'app/utils/time';
@@ -70,7 +69,6 @@ const mapStateToProps = (state, props) => {
     },
     pools: valueSelector(state, 'pools'),
   };
-  const currentUser: DetailedUser = selectCurrentUser(state);
 
   const initialCreateValues = {
     initialValues: {
@@ -118,12 +116,7 @@ const mapStateToProps = (state, props) => {
       }),
       registrationDeadlineHours: 2,
       unregistrationDeadlineHours: 2,
-      responsibleUsers: [
-        {
-          label: currentUser.fullName,
-          value: currentUser.id,
-        },
-      ],
+      responsibleUsers: [],
     },
     actionGrant,
     imageGallery: imageGallery.map((e) => {

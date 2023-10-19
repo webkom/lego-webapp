@@ -280,7 +280,7 @@ export type Event = EventBase & {
   photoConsents?: Array<PhotoConsent>;
   isUsersUpcoming?: boolean;
   documentType?: 'event';
-  responsibleUsers: Array<ID>;
+  responsibleUsers: ID[];
 };
 
 type EventTransformPool = EventPoolBase & {

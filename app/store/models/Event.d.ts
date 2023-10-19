@@ -67,7 +67,7 @@ interface Event {
   useContactTracing: boolean;
   mazemapPoi?: number;
   pinned: boolean;
-  responsibleUsers: Array<DetailedUser>;
+  responsibleUsers: DetailedUser[];
 
   // for survey
   attendedCount: number;

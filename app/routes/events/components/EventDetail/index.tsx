@@ -351,11 +351,11 @@ export default class EventDetail extends Component<Props, State> {
               key: 'Ansvarlige',
               value: (
                 <ul>
-                  {event.responsibleUsers.map((e) => (
-                    <li key={e.id}>
-                      <Link to={`/users/${e.username}`} key={e.username}>
-                        {e.fullName}
-                      </Link>{' '}
+                  {event.responsibleUsers.map((user) => (
+                    <li key={user.id}>
+                      <Link to={`/users/${user.username}`} key={user.username}>
+                        {user.fullName}
+                      </Link>
                     </li>
                   ))}
                 </ul>

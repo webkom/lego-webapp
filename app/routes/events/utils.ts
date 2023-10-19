@@ -12,6 +12,7 @@ import type {
   Dateish,
   EventStatusType,
 } from 'app/models';
+import { DetailedUser } from 'app/store/models/User';
 
 // Current eventTypes
 export const EVENT_CONSTANTS = {
@@ -85,7 +86,7 @@ export type EditingEvent = Event & {
   hasFeedbackQuestion: boolean;
   isClarified: boolean;
   authors: Option[];
-  responsibleUsers: Option[];
+  responsibleUsers: DetailedUser[];
 };
 
 // Event fields that should be created or updated based on the API.

@@ -13,5 +13,4 @@ export interface ReactionsGrouped {
   count: number;
   hasReacted: boolean;
   reactionId?: ID;
-  user?: string;
 }
