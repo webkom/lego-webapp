@@ -3,7 +3,7 @@ import Icon from 'app/components/Icon';
 import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import config from 'app/config';
-import type { ActionGrant } from 'app/models';
+import type { ActionGrant, Dateish } from 'app/models';
 import type { ID } from 'app/store/models';
 import styles from './components/surveys.css';
 import type { ReactNode } from 'react';
@@ -76,8 +76,15 @@ export const TokenNavigation = ({
     )}
   </NavigationTab>
 );
-export const defaultActiveFrom = (hours: number, minutes: number) =>
-  moment().startOf('day').add({ day: 1, hours, minutes }).toISOString();
+export const getActiveFrom = (
+  eventEndTime: Dateish,
+  hours: number,
+  minutes: number
+) =>
+  moment(eventEndTime)
+    .startOf('day')
+    .add({ days: 1, hours, minutes })
+    .toISOString();
 
 export const getCsvUrl = (surveyId: ID) =>
   `${config.serverUrl}/surveys/${surveyId}/csv/`;
