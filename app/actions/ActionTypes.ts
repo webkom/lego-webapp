@@ -408,3 +408,13 @@ export const Reaction = {
   ADD: generateStatuses('Reaction.ADD') as AAT,
   DELETE: generateStatuses('Reaction.DELETE') as AAT,
 };
+
+/**
+ *
+ */
+export const LendableObject = {
+  FETCH: generateStatuses('LendableObject.FETCH') as AAT,
+  CREATE: generateStatuses('LendableObject.CREATE') as AAT,
+  EDIT: generateStatuses('LendableObject.EDIT') as AAT,
+  DELETE: generateStatuses('LendableObject.DELETE') as AAT,
+};

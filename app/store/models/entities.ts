@@ -15,6 +15,7 @@ import type { UnknownGallery } from 'app/store/models/Gallery';
 import type { UnknownGalleryPicture } from 'app/store/models/GalleryPicture';
 import type { UnknownGroup } from 'app/store/models/Group';
 import type { UnknownJoblisting } from 'app/store/models/Joblisting';
+import type { UnknownLendableObject } from 'app/store/models/LendableObject';
 import type { UnknownMeeting } from 'app/store/models/Meeting';
 import type { MeetingInvitation } from 'app/store/models/MeetingInvitation';
 import type Membership from 'app/store/models/Membership';
@@ -50,6 +51,7 @@ export enum EntityType {
   GalleryPictures = 'galleryPictures',
   Groups = 'groups',
   Joblistings = 'joblistings',
+  LendableObjects = 'lendableObjects',
   MeetingInvitations = 'meetingInvitations',
   Meetings = 'meetings',
   Memberships = 'memberships',
@@ -90,6 +92,7 @@ export default interface Entities {
   [EntityType.GalleryPictures]: Record<ID, UnknownGalleryPicture>;
   [EntityType.Groups]: Record<ID, UnknownGroup>;
   [EntityType.Joblistings]: Record<ID, UnknownJoblisting>;
+  [EntityType.LendableObjects]: Record<ID, UnknownLendableObject>;
   [EntityType.MeetingInvitations]: Record<ID, MeetingInvitation>;
   [EntityType.Meetings]: Record<ID, UnknownMeeting>;
   [EntityType.Memberships]: Record<ID, Membership>;

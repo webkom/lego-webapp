@@ -2,18 +2,18 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
+import moment from 'moment-timezone';
+import { useState } from 'react';
+import { Field } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
 import { Content } from 'app/components/Content';
+import { Button, TextArea, TextInput } from 'app/components/Form';
+import LegoFinalForm from 'app/components/Form/LegoFinalForm';
+import Modal from 'app/components/Modal';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import type { DetailedLendableObject } from 'app/store/models/LendableObject';
-import { useState } from 'react';
-import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import { createValidator, required } from 'app/utils/validation';
-import { Field } from 'react-final-form';
-import { Button, DatePicker, TextArea, TextInput } from 'app/components/Form';
-import Modal from 'app/components/Modal';
-import moment from 'moment-timezone';
 
 type Params = {
   lendableObjectId: string;
@@ -91,9 +91,7 @@ const LendableObjectDetail = () => {
                 <Field
                   label="Slutt for utlån"
                   name="endTime"
-                  defaultValue={moment(startString).format(
-                    'DD-MM-YYYY hh:mm:ss'
-                  )}
+                  defaultValue={moment(endString).format('DD-MM-YYYY hh:mm:ss')}
                   component={TextInput.Field}
                   disabled
                 />
