@@ -1,4 +1,5 @@
-import { NotificationSettings } from '../../actions/ActionTypes';
+import { describe, it, expect } from 'vitest';
+import { NotificationSettings } from 'app/actions/ActionTypes';
 import notificationSettings from '../notificationSettings';
 
 describe('reducers', () => {

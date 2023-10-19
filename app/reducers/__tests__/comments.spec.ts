@@ -1,4 +1,5 @@
-import { Comment } from '../../actions/ActionTypes';
+import { describe, it, expect } from 'vitest';
+import { Comment } from 'app/actions/ActionTypes';
 import comments, { mutateComments } from '../comments';
 
 describe('reducers', () => {

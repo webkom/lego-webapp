@@ -1,10 +1,11 @@
 import 'isomorphic-fetch';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import fetchJSON from '../fetchJSON';
 
 describe('fetchJSON', () => {
   describe('successful response', () => {
     beforeEach(() => {
-      global.fetch = jest.fn().mockImplementation(() => {
+      global.fetch = vi.fn().mockImplementation(() => {
         const res = new Response('{"hello":"world"}', {
           status: 200,
           headers: {
@@ -23,7 +24,7 @@ describe('fetchJSON', () => {
   });
   describe('response with error', () => {
     beforeEach(() => {
-      global.fetch = jest.fn().mockImplementation(() => {
+      global.fetch = vi.fn().mockImplementation(() => {
         const response = new Response('{}', {
           status: 401,
           statusText: 'Unauthorized',

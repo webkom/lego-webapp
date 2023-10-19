@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { Event } from '../../actions/ActionTypes';
 import users from '../users';
 

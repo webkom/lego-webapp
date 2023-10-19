@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { Company } from '../../actions/ActionTypes';
 import companySemesters from '../companySemesters';
 

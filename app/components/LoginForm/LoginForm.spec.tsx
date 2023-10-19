@@ -2,6 +2,7 @@ import { mount } from 'enzyme';
 import { Field } from 'react-final-form';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
+import { describe, it, expect } from 'vitest';
 import LoginForm from './LoginForm';
 
 describe('components', () => {
