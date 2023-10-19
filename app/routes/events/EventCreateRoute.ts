@@ -10,7 +10,6 @@ import {
   uploadFile,
 } from 'app/actions/FileActions';
 import { LoginPage } from 'app/components/LoginForm';
-import { selectCurrentUser } from 'app/reducers/auth';
 import {
   selectEventById,
   selectPoolsWithRegistrationsForEvent,

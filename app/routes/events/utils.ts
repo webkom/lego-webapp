@@ -12,7 +12,7 @@ import type {
   Dateish,
   EventStatusType,
 } from 'app/models';
-import { DetailedUser } from 'app/store/models/User';
+import type { DetailedUser } from 'app/store/models/User';
 
 // Current eventTypes
 export const EVENT_CONSTANTS = {
