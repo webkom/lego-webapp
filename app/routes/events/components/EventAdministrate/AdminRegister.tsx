@@ -13,7 +13,7 @@ import { createValidator, required } from 'app/utils/validation';
 import type { FormApi } from 'final-form';
 
 type FormValues = {
-  user: AutocompleteUser;
+  users: AutocompleteUser[];
   pool: {
     value: number;
     label: string;
@@ -37,13 +37,17 @@ const AdminRegister = (props: Props) => {
 
   const dispatch = useAppDispatch();
   const onSubmit = async (values: FormValues, form: FormApi<FormValues>) => {
-    await dispatch(
-      adminRegister(
-        event.id,
-        values.user.id,
-        values.pool?.value,
-        values.feedback,
-        values.adminRegistrationReason
+    await Promise.all(
+      values.users.map((user) =>
+        dispatch(
+          adminRegister(
+            event.id,
+            user.id,
+            values.pool?.value,
+            values.feedback,
+            values.adminRegistrationReason
+          )
+        )
       )
     );
     form.restart();
@@ -56,11 +60,12 @@ const AdminRegister = (props: Props) => {
           <form onSubmit={handleSubmit}>
             <Field
               required
-              name="user"
+              name="users"
               component={SelectInput.AutocompleteField}
               filter={['users.user']}
-              placeholder="Bruker"
-              label="Bruker"
+              placeholder="Brukere"
+              label="Brukere"
+              isMulti={true}
             />
             <Field
               required
@@ -105,7 +110,12 @@ const AdminRegister = (props: Props) => {
 const validate = createValidator({
   adminRegistrationReason: [required()],
   pool: [required()],
-  user: [required()],
+  users: [
+    (value: FormValues['users']) => [
+      value && value.length > 0,
+      'Må velge brukere',
+    ],
+  ],
 });
 
 export default AdminRegister;
