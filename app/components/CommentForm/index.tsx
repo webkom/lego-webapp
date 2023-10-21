@@ -76,7 +76,9 @@ const CommentForm = ({
                   />
                 </div>
 
-                <SubmitButton>{submitText}</SubmitButton>
+                <SubmitButton className={styles.submitButton}>
+                  {submitText}
+                </SubmitButton>
               </Flex>
 
               <SubmissionError />

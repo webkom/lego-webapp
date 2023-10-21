@@ -404,7 +404,7 @@ export function addSemester({
         },
         meta: {
           errorMessage: 'Legge til semester feilet',
-          successMessage: 'Semest lagt til!',
+          successMessage: 'Semester lagt til!',
         },
       })
     );

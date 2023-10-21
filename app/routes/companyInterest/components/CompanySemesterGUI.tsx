@@ -11,6 +11,7 @@ import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import Icon from 'app/components/Icon';
 import Flex from 'app/components/Layout/Flex';
+import { Semester } from 'app/store/models';
 import type CompanySemester from 'app/store/models/CompanySemester';
 import { createValidator, required } from 'app/utils/validation';
 import { semesterToText, SemesterNavigation } from '../utils';
@@ -22,8 +23,15 @@ type Props = {
   editSemester: (semester: CompanySemester) => Promise<void>;
   addSemester: (semester: Omit<CompanySemester, 'id'>) => Promise<void>;
   activeSemesters: Array<CompanySemester>;
-  initialValues: Record<string, any>;
+  initialValues: Partial<FormValues>;
 };
+
+type FormValues = {
+  year: string;
+  semester: Semester;
+};
+
+const TypedLegoForm = LegoFinalForm<FormValues>;
 
 const validate = createValidator({
   year: [required()],
@@ -68,7 +76,10 @@ const AddSemesterForm = ({
   editSemester,
   initialValues,
 }: AddSemesterProps) => {
-  const onSubmit = async ({ year, semester }, form: FormApi) => {
+  const onSubmit = async (
+    { year, semester }: FormValues,
+    form: FormApi<FormValues>
+  ) => {
     const existingCompanySemester = semesters.find((companySemester) => {
       return (
         Number(companySemester.year) === Number(year) &&
@@ -82,7 +93,7 @@ const AddSemesterForm = ({
       });
     else
       await addSemester({
-        year,
+        year: Number(year),
         semester,
       }); // Default is activeInterestForm: true
 
@@ -90,7 +101,7 @@ const AddSemesterForm = ({
   };
 
   return (
-    <LegoFinalForm
+    <TypedLegoForm
       onSubmit={onSubmit}
       validate={validate}
       initialValues={initialValues}
@@ -113,13 +124,13 @@ const AddSemesterForm = ({
               name="Spring"
               label="Vår"
               component={RadioButton.Field}
-              inputValue="spring"
+              inputValue={Semester.Spring}
             />
             <Field
               name="Autumn"
               label="Høst"
               component={RadioButton.Field}
-              inputValue="autumn"
+              inputValue={Semester.Autumn}
             />
           </MultiSelectGroup>
 
@@ -127,7 +138,7 @@ const AddSemesterForm = ({
           <SubmitButton>Legg til semester</SubmitButton>
         </Form>
       )}
-    </LegoFinalForm>
+    </TypedLegoForm>
   );
 };
 
