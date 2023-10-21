@@ -1,4 +1,5 @@
 import { createEntityAdapter } from '@reduxjs/toolkit';
+import buildFetchingReducer from 'app/utils/legoAdapter/buildFetchingReducer';
 import type { EntityAdapter } from '@reduxjs/toolkit';
 import type { EntityState } from '@reduxjs/toolkit/src/entities/models';
 import type { ActionReducerMapBuilder } from '@reduxjs/toolkit/src/mapBuilders';
@@ -54,9 +55,16 @@ const createLegoAdapter = <
         ...extraState,
       };
     },
-    buildReducers({ extraCases, extraMatchers, defaultCaseReducer } = {}) {
+    buildReducers({
+      extraCases,
+      extraMatchers,
+      defaultCaseReducer,
+      fetchActions = [],
+    } = {}) {
       return (builder) => {
         extraCases?.(builder.addCase);
+
+        buildFetchingReducer(builder, fetchActions);
 
         extraMatchers?.(builder.addMatcher);
 

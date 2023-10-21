@@ -31,6 +31,47 @@ describe('createLegoAdapter', () => {
   });
 
   describe('buildReducers', () => {
+    describe('default reducer functionality', () => {
+      const FETCH = generateStatuses('FETCH');
+      const actionBase = {
+        meta: {
+          endpoint: '/something',
+          schemaKey: 'something',
+        },
+      };
+      const fetchBegin = { ...actionBase, type: FETCH.BEGIN };
+      const fetchSuccess = { ...actionBase, type: FETCH.SUCCESS };
+      const fetchFailure = { ...actionBase, type: FETCH.FAILURE };
+
+      const adapter = createLegoAdapter(EntityType.Articles);
+      const initialState = adapter.getInitialState();
+      const reducer = createReducer(
+        initialState,
+        adapter.buildReducers({
+          fetchActions: [FETCH],
+        })
+      );
+
+      it('should set fetching=true on FETCH.BEGIN', () => {
+        const newState = reducer(initialState, fetchBegin);
+        expect(newState.fetching).toEqual(true);
+      });
+      it('should set fetching=false on FETCH.SUCCESS', () => {
+        const newState = reducer(
+          { ...initialState, fetching: true },
+          fetchSuccess
+        );
+        expect(newState.fetching).toBeFalsy();
+      });
+      it('should set fetching=false on FETCH.FAILURE', () => {
+        const newState = reducer(
+          { ...initialState, fetching: true },
+          fetchFailure
+        );
+        expect(newState.fetching).toBeFalsy();
+      });
+    });
+
     describe('extra reducers cases/matchers/default case', () => {
       const FETCH = generateStatuses('FETCH');
 
