@@ -1,4 +1,3 @@
-import { Button } from '@webkom/lego-bricks';
 import { Field } from 'react-final-form';
 import {
   Form,
@@ -8,11 +7,12 @@ import {
   PhoneNumberInput,
 } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
+import SubmissionError from 'app/components/Form/SubmissionError';
+import { SubmitButton } from 'app/components/Form/SubmitButton';
 import type { UserEntity } from 'app/reducers/users';
 import DeleteUser from 'app/routes/users/components/DeleteUser';
 import RemovePicture from 'app/routes/users/components/RemovePicture';
 import { useIsCurrentUser } from 'app/routes/users/utils';
-import { spySubmittable } from 'app/utils/formSpyUtils';
 import {
   createValidator,
   required,
@@ -214,11 +214,9 @@ const UserSettings = (props: Props) => {
                 />
               </MultiSelectGroup>
             )}
-            {spySubmittable((submittable) => (
-              <Button success disabled={!submittable} submit>
-                Lagre
-              </Button>
-            ))}
+
+            <SubmissionError />
+            <SubmitButton>Lagre</SubmitButton>
           </Form>
         )}
       </LegoFinalForm>

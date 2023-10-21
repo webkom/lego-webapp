@@ -1,30 +1,14 @@
-import { Button } from '@webkom/lego-bricks';
 import { FORM_ERROR } from 'final-form';
 import { Field } from 'react-final-form';
 import { login } from 'app/actions/UserActions';
 import { Form } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
+import SubmissionError from 'app/components/Form/SubmissionError';
+import { SubmitButton } from 'app/components/Form/SubmitButton';
 import TextInput from 'app/components/Form/TextInput';
 import { useAppDispatch } from 'app/store/hooks';
 import type { Action } from 'app/types';
-import { spyFormError, spySubmittable } from 'app/utils/formSpyUtils';
 import { createValidator, required } from 'app/utils/validation';
-
-type ErrorProps = {
-  error: string;
-};
-
-const Error = ({ error }: ErrorProps) => {
-  return (
-    <p
-      style={{
-        color: 'var(--danger-color)',
-      }}
-    >
-      {error}
-    </p>
-  );
-};
 
 type FormValues = {
   username: string;
@@ -84,15 +68,8 @@ const LoginForm = (props: Props) => {
               component={TextInput.Field}
             />
 
-            {spyFormError((error) => (
-              <>{error && <Error error={error} />}</>
-            ))}
-
-            {spySubmittable((submittable) => (
-              <Button dark submit disabled={!submittable}>
-                Logg inn
-              </Button>
-            ))}
+            <SubmissionError />
+            <SubmitButton>Logg inn</SubmitButton>
           </Form>
         )}
       </LegoFinalForm>

@@ -1,17 +1,15 @@
-import { Button } from '@webkom/lego-bricks';
-import cx from 'classnames';
 import { Field } from 'react-final-form';
 import { addComment } from 'app/actions/CommentActions';
 import Card from 'app/components/Card';
 import { TextInput } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
+import { SubmitButton } from 'app/components/Form/SubmitButton';
 import { ProfilePicture } from 'app/components/Image';
 import Flex from 'app/components/Layout/Flex';
 import { useAppDispatch } from 'app/store/hooks';
 import type { ID } from 'app/store/models';
 import type { CurrentUser } from 'app/store/models/User';
-import { spySubmittable } from 'app/utils/formSpyUtils';
 import { createValidator, legoEditorRequired } from 'app/utils/validation';
 import styles from './CommentForm.css';
 
@@ -49,17 +47,16 @@ const CommentForm = ({
       <LegoFinalForm
         validateOnSubmitOnly
         validate={validate}
-        onSubmit={({ text }, form) => {
-          // Clear the form value
-          form.change('text', undefined);
-
-          dispatch(
+        onSubmit={async ({ text }, form) => {
+          await dispatch(
             addComment({
               contentTarget,
               text,
               parent,
             })
           );
+
+          form.restart();
         }}
       >
         {({ handleSubmit }) => {
@@ -79,14 +76,7 @@ const CommentForm = ({
                   />
                 </div>
 
-                {spySubmittable((submittable) => (
-                  <Button
-                    type="submit"
-                    className={cx(!submittable && styles.submittable)}
-                  >
-                    {submitText}
-                  </Button>
-                ))}
+                <SubmitButton>{submitText}</SubmitButton>
               </Flex>
 
               <SubmissionError />
