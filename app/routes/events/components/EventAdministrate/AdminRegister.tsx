@@ -1,131 +1,121 @@
-import { Button } from '@webkom/lego-bricks';
-import { Field } from 'redux-form';
-import { waitinglistPoolId } from 'app/actions/EventActions';
-import { legoForm, TextEditor, SelectInput } from 'app/components/Form';
-import { RenderErrorMessage } from 'app/components/Form/Field';
-import type { ID, EventPool, User } from 'app/models';
-import type { FormProps } from 'react-redux';
+import { LoadingIndicator } from '@webkom/lego-bricks';
+import { Field } from 'react-final-form';
+import { adminRegister, waitinglistPoolId } from 'app/actions/EventActions';
+import { TextEditor, SelectInput } from 'app/components/Form';
+import LegoFinalForm from 'app/components/Form/LegoFinalForm';
+import SubmissionError from 'app/components/Form/SubmissionError';
+import { SubmitButton } from 'app/components/Form/SubmitButton';
+import { selectPoolsForEvent } from 'app/reducers/events';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import type { DetailedEvent } from 'app/store/models/Event';
+import type { AutocompleteUser } from 'app/store/models/User';
+import { createValidator, required } from 'app/utils/validation';
+import type { FormApi } from 'final-form';
+
+type FormValues = {
+  users: AutocompleteUser[];
+  pool: {
+    value: number;
+    label: string;
+  };
+  feedback: string;
+  adminRegistrationReason: string;
+};
 
 type Props = {
-  eventId: ID;
-  adminRegister: (
-    arg0: ID,
-    arg1: ID,
-    arg2: ID,
-    arg3: string,
-    arg4: string
-  ) => Promise<any>;
-  pools: Array<EventPool>;
-} & FormProps;
+  event: DetailedEvent;
+};
 
-const AdminRegister = ({
-  handleSubmit,
-  pools,
-  invalid,
-  pristine,
-  submitting,
-  error,
-}: Props) => {
+const AdminRegister = (props: Props) => {
+  const { event } = props;
+  const fetching = useAppSelector((state) => state.events.fetching);
+  const pools = useAppSelector((state) =>
+    selectPoolsForEvent(state, {
+      eventId: event.id,
+    })
+  );
+
+  const dispatch = useAppDispatch();
+  const onSubmit = async (values: FormValues, form: FormApi<FormValues>) => {
+    await Promise.all(
+      values.users.map((user) =>
+        dispatch(
+          adminRegister(
+            event.id,
+            user.id,
+            values.pool?.value,
+            values.feedback,
+            values.adminRegistrationReason
+          )
+        )
+      )
+    );
+    form.restart();
+  };
+
   return (
-    <div
-      style={{
-        width: '400px',
-      }}
-    >
-      <form onSubmit={handleSubmit}>
-        <Field
-          placeholder="Begrunnelse"
-          label="Begrunnelse"
-          name="adminRegistrationReason"
-          component={TextEditor.Field}
-        />
-        <Field
-          placeholder="Tilbakemelding"
-          label="Tilbakemelding"
-          name="feedback"
-          component={TextEditor.Field}
-        />
-        <Field
-          name="pool"
-          component={SelectInput.Field}
-          placeholder="Pool"
-          label="Pool"
-          options={pools
-            .map((pool) => ({
-              value: pool.id,
-              label: pool.name,
-            }))
-            .concat([
-              {
-                value: waitinglistPoolId,
-                label: 'Venteliste',
-              },
-            ])}
-        />
-        <Field
-          name="user"
-          component={SelectInput.AutocompleteField}
-          filter={['users.user']}
-          placeholder="Bruker"
-          label="Bruker"
-        />
-        <RenderErrorMessage error={error} />
-        <Button type="submit" disabled={invalid || pristine || submitting}>
-          Registrer
-        </Button>
-      </form>
-    </div>
+    <LoadingIndicator loading={fetching}>
+      <LegoFinalForm onSubmit={onSubmit} validate={validate} subscription={{}}>
+        {({ handleSubmit }) => (
+          <form onSubmit={handleSubmit}>
+            <Field
+              required
+              name="users"
+              component={SelectInput.AutocompleteField}
+              filter={['users.user']}
+              placeholder="Brukere"
+              label="Brukere"
+              isMulti={true}
+            />
+            <Field
+              required
+              name="pool"
+              component={SelectInput.Field}
+              placeholder="Pool"
+              label="Pool"
+              options={pools
+                .map((pool) => ({
+                  value: pool.id,
+                  label: pool.name,
+                }))
+                .concat([
+                  {
+                    value: waitinglistPoolId,
+                    label: 'Venteliste',
+                  },
+                ])}
+            />
+            <Field
+              required
+              placeholder="Begrunnelse"
+              label="Begrunnelse"
+              name="adminRegistrationReason"
+              component={TextEditor.Field}
+            />
+            <Field
+              placeholder="Tilbakemelding"
+              label="Melding til arrangør"
+              name="feedback"
+              component={TextEditor.Field}
+            />
+            <SubmissionError />
+            <SubmitButton>Adminregistrer</SubmitButton>
+          </form>
+        )}
+      </LegoFinalForm>
+    </LoadingIndicator>
   );
 };
 
-function validateForm(data) {
-  const errors = {};
+const validate = createValidator({
+  adminRegistrationReason: [required()],
+  pool: [required()],
+  users: [
+    (value: FormValues['users']) => [
+      value && value.length > 0,
+      'Må velge brukere',
+    ],
+  ],
+});
 
-  if (!data.reason) {
-    errors.reason = 'Forklaring er påkrevet';
-  }
-
-  if (!data.pool) {
-    errors.pool = 'Pool er påkrevet';
-  }
-
-  if (!data.user) {
-    errors.user = 'Bruker er påkrevet';
-  }
-
-  return errors;
-}
-
-const onSubmit = (
-  {
-    user,
-    pool,
-    feedback,
-    adminRegistrationReason,
-  }: {
-    user: User;
-    pool: {
-      value: number;
-      label: string;
-    };
-    feedback: string;
-    adminRegistrationReason: string;
-  },
-  _,
-  { reset, eventId, adminRegister }: Props
-) =>
-  adminRegister(
-    eventId,
-    user.id,
-    pool?.value,
-    feedback,
-    adminRegistrationReason
-  ).then(() => {
-    reset();
-  });
-
-export default legoForm({
-  form: 'adminRegister',
-  validate: validateForm,
-  onSubmit,
-})(AdminRegister);
+export default AdminRegister;
