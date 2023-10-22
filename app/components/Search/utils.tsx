@@ -136,6 +136,37 @@ const LINKS: Array<Link> = [
   },
 ];
 
+const EXTERNAL_LINKS: Link[] = [
+  {
+    key: 'warning-portal',
+    requireLogin: true,
+    title: 'Varslingsportal',
+    icon: 'warning-outline',
+    url: 'https://portal.mittvarsel.no/skjema/abakus/t3fMsqnZcCaeFX2u.9824?lang=no',
+  },
+  {
+    key: 'bill',
+    requireLogin: true,
+    title: 'Kvitteringsskildring',
+    icon: 'receipt-outline',
+    url: 'https://kvittering.abakus.no',
+  },
+  {
+    key: 'wiki',
+    requireLogin: true,
+    title: 'Wiki',
+    icon: 'document-text-outline',
+    url: 'https://wiki.abakus.no',
+  },
+  {
+    key: 'ababart',
+    requireLogin: true,
+    title: 'Se flere',
+    icon: 'link-outline',
+    url: 'https://aba.wtf',
+  },
+];
+
 const sortFn = (a, b) => {
   // Sort non-strings last:
   if (typeof a.title !== 'string') {
@@ -188,6 +219,9 @@ export type NavigationLink = [string, ReactNode]; // [url, label(as a react-node
 
 export function getRegularLinks(options: Options): Array<NavigationLink> {
   return retrieveAllowed(SORTED_REGULAR, options);
+}
+export function getExternalLinks(options: Options): Array<NavigationLink> {
+  return retrieveAllowed(EXTERNAL_LINKS, options);
 }
 export function getAdminLinks(options: Options): Array<NavigationLink> {
   return retrieveAllowed(SORTED_ADMIN, options);
