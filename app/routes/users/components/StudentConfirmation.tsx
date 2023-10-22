@@ -99,7 +99,7 @@ const StudentConfirmation = ({
       {isStudent === null && (
         <p>
           For å kunne bli medlem i Abakus og få mulighet til å delta på
-          arrangementer, få tilgang til bilder og interessegrupper og mer må du
+          arrangementer, få tilgang til bilder, interessegrupper og mer må du
           verifisere at du går enten Kommunikasjonsteknologi & Digital Sikkerhet
           eller Datateknologi. Ved å trykke på knappen under gir du Abakus
           tilgang til dine studier og fag i StudentWeb gjennom FEIDE slik at vi

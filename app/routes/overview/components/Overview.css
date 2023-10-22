@@ -63,3 +63,27 @@
     display: grid;
   }
 }
+
+.verificationWarning {
+  position: fixed;
+  width: 400px;
+  margin: 40px;
+  bottom: 0;
+  left: 0;
+
+  @media (--small-viewport) {
+    width: 100%;
+    margin: 10px 0;
+  }
+}
+
+.verificationWarning .close {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  cursor: pointer;
+}
+
+.verificationWarning .header {
+  width: 80%;
+}
