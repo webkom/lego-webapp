@@ -1,9 +1,10 @@
-import { Button } from '@webkom/lego-bricks';
 import { useState } from 'react';
 import { Field } from 'react-final-form';
 import { Content } from 'app/components/Content';
 import { TextInput, RadioButton, MultiSelectGroup } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
+import SubmissionError from 'app/components/Form/SubmissionError';
+import { SubmitButton } from 'app/components/Form/SubmitButton';
 import type { SemesterStatusEntity } from 'app/reducers/companies';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 import { createValidator, required } from 'app/utils/validation';
@@ -22,7 +23,6 @@ type Props = {
     arg1: Record<string, any> | null | undefined
   ) => Promise<any>;
   companyId: number;
-  submitting: boolean;
   autoFocus: any;
   companySemesters: Array<Record<string, any>>;
   addSemester: (arg0: CompanySemesterEntity) => Promise<any>;
@@ -86,7 +86,7 @@ const AddSemester = (props: Props) => {
     }
   };
 
-  const { companyId, submitting, autoFocus, deleteCompany } = props;
+  const { companyId, autoFocus, deleteCompany } = props;
 
   return (
     <Content>
@@ -189,13 +189,8 @@ const AddSemester = (props: Props) => {
 
               <div className={styles.clear} />
 
-              <Button
-                disabled={submitting}
-                onClick={() => setSubmit(true)}
-                submit
-              >
-                Lagre
-              </Button>
+              <SubmissionError />
+              <SubmitButton onClick={() => setSubmit(true)}>Lagre</SubmitButton>
             </form>
           )}
         </LegoFinalForm>

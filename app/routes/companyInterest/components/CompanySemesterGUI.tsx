@@ -1,4 +1,3 @@
-import { Button } from '@webkom/lego-bricks';
 import { Field } from 'react-final-form';
 import { Content } from 'app/components/Content';
 import {
@@ -8,52 +7,79 @@ import {
   MultiSelectGroup,
 } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
+import SubmissionError from 'app/components/Form/SubmissionError';
+import { SubmitButton } from 'app/components/Form/SubmitButton';
 import Icon from 'app/components/Icon';
 import Flex from 'app/components/Layout/Flex';
-import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
+import { Semester } from 'app/store/models';
+import type CompanySemester from 'app/store/models/CompanySemester';
 import { createValidator, required } from 'app/utils/validation';
 import { semesterToText, SemesterNavigation } from '../utils';
 import styles from './CompanyInterest.css';
-import type { FormProps } from 'redux-form';
+import type { FormApi } from 'final-form';
 
 type Props = {
-  push: (arg0: string) => void;
-  events: Array<Record<string, any>>;
-  semesters: Array<CompanySemesterEntity>;
-  autoFocus: any;
-  edit: boolean;
-  editSemester: (arg0: CompanySemesterEntity) => void;
-  addSemester: (arg0: CompanySemesterEntity) => void;
-  activeSemesters: Array<CompanySemesterEntity>;
-} & FormProps;
+  semesters: Array<CompanySemester>;
+  editSemester: (semester: CompanySemester) => Promise<void>;
+  addSemester: (semester: Omit<CompanySemester, 'id'>) => Promise<void>;
+  activeSemesters: Array<CompanySemester>;
+  initialValues: Partial<FormValues>;
+};
+
+type FormValues = {
+  year: string;
+  semester: Semester;
+};
+
+const TypedLegoForm = LegoFinalForm<FormValues>;
 
 const validate = createValidator({
   year: [required()],
   semester: [required()],
 });
 
-const CompanySemesterGUI = (props: Props) => {
-  const activeSemesters = (semesters) => (
-    <Flex column>
-      {semesters.map((semester, index) => (
-        <Flex key={index} className={styles.guiBoxes}>
-          <div className={styles.checkboxSpan}>
-            {semesterToText({ ...semester, language: 'norwegian' })}
-          </div>
-          <Icon
-            name="close-circle"
-            onClick={() =>
-              props.editSemester({ ...semester, activeInterestForm: false })
-            }
-            className={styles.remove}
-          />
-        </Flex>
-      ))}
+const CompanySemesterGUI = (props: Props) => (
+  <Content>
+    <SemesterNavigation title="Endre aktive semestre" />
+    <Flex className={styles.guiWrapper}>
+      <Flex
+        column
+        style={{
+          marginRight: '50px',
+        }}
+      >
+        <AddSemesterForm
+          semesters={props.semesters}
+          addSemester={props.addSemester}
+          editSemester={props.editSemester}
+          initialValues={props.initialValues}
+        />
+      </Flex>
+      <Flex column>
+        <label className={styles.heading}>Deaktiver semestre</label>
+        <ActiveSemesters
+          semesters={props.activeSemesters}
+          editSemester={props.editSemester}
+        />
+      </Flex>
     </Flex>
-  );
+  </Content>
+);
 
-  const onSubmit = ({ year, semester }) => {
-    const { semesters, addSemester, editSemester } = props;
+type AddSemesterProps = Pick<
+  Props,
+  'semesters' | 'addSemester' | 'editSemester' | 'initialValues'
+>;
+const AddSemesterForm = ({
+  semesters,
+  addSemester,
+  editSemester,
+  initialValues,
+}: AddSemesterProps) => {
+  const onSubmit = async (
+    { year, semester }: FormValues,
+    form: FormApi<FormValues>
+  ) => {
     const existingCompanySemester = semesters.find((companySemester) => {
       return (
         Number(companySemester.year) === Number(year) &&
@@ -61,75 +87,80 @@ const CompanySemesterGUI = (props: Props) => {
       );
     });
     if (existingCompanySemester)
-      return editSemester({
+      await editSemester({
         ...existingCompanySemester,
         activeInterestForm: true,
       });
     else
-      return addSemester({
-        year,
+      await addSemester({
+        year: Number(year),
         semester,
       }); // Default is activeInterestForm: true
+
+    form.restart();
   };
 
-  const { autoFocus, initialValues } = props;
   return (
-    <Content>
-      <SemesterNavigation title="Endre aktive semestre" />
-      <LegoFinalForm
-        onSubmit={onSubmit}
-        validate={validate}
-        initialValues={initialValues}
-        subscription={{}}
-      >
-        {({ handleSubmit }) => (
-          <Form onSubmit={handleSubmit}>
-            <Flex className={styles.guiWrapper}>
-              <Flex
-                column
-                style={{
-                  marginRight: '50px',
-                }}
-              >
-                <label className={styles.heading}>
-                  Legg til aktivt semester
-                </label>
-                <Field
-                  autoFocus={autoFocus}
-                  placeholder="2020"
-                  label="År"
-                  name="year"
-                  type="number"
-                  component={TextInput.Field}
-                  className={styles.yearForm}
-                  required
-                />
-                <MultiSelectGroup name="semester" label="Semester">
-                  <Field
-                    name="Spring"
-                    label="Vår"
-                    component={RadioButton.Field}
-                    inputValue="spring"
-                  />
-                  <Field
-                    name="Autumn"
-                    label="Høst"
-                    component={RadioButton.Field}
-                    inputValue="autumn"
-                  />
-                </MultiSelectGroup>
-                <Button submit>Legg til semester</Button>
-              </Flex>
-              <Flex column>
-                <label className={styles.heading}>Deaktiver semestre</label>
-                {activeSemesters(props.activeSemesters)}
-              </Flex>
-            </Flex>
-          </Form>
-        )}
-      </LegoFinalForm>
-    </Content>
+    <TypedLegoForm
+      onSubmit={onSubmit}
+      validate={validate}
+      initialValues={initialValues}
+      subscription={{}}
+    >
+      {({ handleSubmit }) => (
+        <Form onSubmit={handleSubmit}>
+          <label className={styles.heading}>Legg til aktivt semester</label>
+          <Field
+            placeholder="2020"
+            label="År"
+            name="year"
+            type="number"
+            component={TextInput.Field}
+            className={styles.yearForm}
+            required
+          />
+          <MultiSelectGroup name="semester" label="Semester">
+            <Field
+              name="Spring"
+              label="Vår"
+              component={RadioButton.Field}
+              inputValue={Semester.Spring}
+            />
+            <Field
+              name="Autumn"
+              label="Høst"
+              component={RadioButton.Field}
+              inputValue={Semester.Autumn}
+            />
+          </MultiSelectGroup>
+
+          <SubmissionError />
+          <SubmitButton>Legg til semester</SubmitButton>
+        </Form>
+      )}
+    </TypedLegoForm>
   );
 };
+
+type ActiveSemestersProps = {
+  semesters: Array<CompanySemester>;
+  editSemester: (semester: CompanySemester) => void;
+};
+const ActiveSemesters = ({ semesters, editSemester }: ActiveSemestersProps) => (
+  <Flex column>
+    {semesters.map((semester, index) => (
+      <Flex key={index} className={styles.guiBoxes}>
+        <div>{semesterToText({ ...semester, language: 'norwegian' })}</div>
+        <Icon
+          name="close-circle"
+          onClick={() =>
+            editSemester({ ...semester, activeInterestForm: false })
+          }
+          className={styles.remove}
+        />
+      </Flex>
+    ))}
+  </Flex>
+);
 
 export default CompanySemesterGUI;

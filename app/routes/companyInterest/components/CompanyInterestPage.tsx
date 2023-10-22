@@ -5,7 +5,6 @@ import { Field, FormSpy } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
-import { SubmissionError } from 'redux-form';
 import english from 'app/assets/great_britain.svg';
 import norwegian from 'app/assets/norway.svg';
 import Card from 'app/components/Card';
@@ -14,13 +13,14 @@ import { FlexRow } from 'app/components/FlexBox';
 import {
   TextEditor,
   TextInput,
-  Button,
   CheckBox,
   SelectInput,
   RadioButton,
   MultiSelectGroup,
 } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
+import SubmissionError from 'app/components/Form/SubmissionError';
+import { SubmitButton } from 'app/components/Form/SubmitButton';
 import Icon from 'app/components/Icon';
 import { Image } from 'app/components/Image';
 import Flex from 'app/components/Layout/Flex';
@@ -28,7 +28,7 @@ import { readmeIfy } from 'app/components/ReadmeLogo';
 import Tooltip from 'app/components/Tooltip';
 import type { CompanyInterestEntity } from 'app/reducers/companyInterest';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
-import { spySubmittable, spyValues } from 'app/utils/formSpyUtils';
+import { spyValues } from 'app/utils/formSpyUtils';
 import {
   createValidator,
   required,
@@ -411,12 +411,7 @@ const CompanyInterestPage = (props: Props) => {
             ? '/companyInterest/'
             : '/pages/bedrifter/for-bedrifter'
         )
-      )
-      .catch((err) => {
-        if (err.payload && err.payload.response) {
-          throw new SubmissionError(err.payload.response.jsonData);
-        }
-      });
+      );
   };
 
   const { language } = props;
@@ -855,13 +850,12 @@ const CompanyInterestPage = (props: Props) => {
               {interestText.priorityReasoning[language]}
             </div>
 
-            {spySubmittable((submittable) => (
-              <Button secondary disabled={!submittable} submit>
-                {props.edit
-                  ? 'Oppdater bedriftsinteresse'
-                  : FORM_LABELS.create[language]}
-              </Button>
-            ))}
+            <SubmissionError />
+            <SubmitButton>
+              {props.edit
+                ? 'Oppdater bedriftsinteresse'
+                : FORM_LABELS.create[language]}
+            </SubmitButton>
           </form>
         )}
       </LegoFinalForm>

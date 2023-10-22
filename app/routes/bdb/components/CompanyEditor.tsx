@@ -1,4 +1,4 @@
-import { LoadingIndicator, Button } from '@webkom/lego-bricks';
+import { LoadingIndicator } from '@webkom/lego-bricks';
 import { Field } from 'react-final-form';
 import { Content } from 'app/components/Content';
 import {
@@ -10,6 +10,8 @@ import {
   MultiSelectGroup,
 } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
+import SubmissionError from 'app/components/Form/SubmissionError';
+import { SubmitButton } from 'app/components/Form/SubmitButton';
 import InfoBubble from 'app/components/InfoBubble';
 import type {
   CompanyEntity,
@@ -22,7 +24,6 @@ import styles from './bdb.css';
 type Props = {
   uploadFile: (arg0: Record<string, any>) => Promise<any>;
   company: CompanyEntity;
-  submitting: boolean;
   autoFocus: any;
   fetching: boolean;
   submitFunction: (arg0: SubmitCompanyEntity) => Promise<any>;
@@ -36,7 +37,6 @@ const validate = createValidator({
 
 const CompanyEditor = ({
   company,
-  submitting,
   autoFocus,
   uploadFile,
   fetching,
@@ -250,10 +250,8 @@ const CompanyEditor = ({
                 />
               </div>
 
-              <div className={styles.clear} />
-              <Button disabled={submitting} submit>
-                Lagre
-              </Button>
+              <SubmissionError />
+              <SubmitButton>Lagre</SubmitButton>
             </form>
           )}
         </LegoFinalForm>
