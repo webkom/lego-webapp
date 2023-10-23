@@ -38,4 +38,12 @@
 
 .chartContainer {
   overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1em;
+  padding: 6px;
+}
+
+.graphCard {
+  margin-top: 1em;
 }

@@ -48,16 +48,16 @@ const PieChartWithLabel = ({
   distributionData: DistributionDataPoint[];
 }) => {
   return (
-    <>
-      <h4>{label}</h4>
-      <Flex alignItems="center" style={{ marginBottom: '3rem' }} wrap={true}>
+    <Card>
+      <Card.Header>{label}</Card.Header>
+      <Flex alignItems="center" wrap column>
         <DistributionPieChart
           dataKey="count"
           distributionData={distributionData}
         />
         <ChartLabel distributionData={distributionData} />
       </Flex>
-    </>
+    </Card>
   );
 };
 
@@ -416,11 +416,12 @@ const EventAttendeeStatistics = ({
             label={'Gruppetilhørighet'}
             distributionData={groupDistribution}
           />
-
-          <h4>Påmeldinger og avmeldinger per dag</h4>
+        </div>
+      )}
+      <Card className={styles.graphCard}>
+        <Card.Header>Påmeldinger og avmeldinger per dag</Card.Header>
+        <ResponsiveContainer width="100%" height={300}>
           <LineChart
-            width={375}
-            height={300}
             data={registrationTimeDistribution}
             margin={{
               top: 10,
@@ -448,8 +449,8 @@ const EventAttendeeStatistics = ({
               activeDot={{ r: 8 }}
             />
           </LineChart>
-        </div>
-      )}
+        </ResponsiveContainer>
+      </Card>
     </>
   );
 };
