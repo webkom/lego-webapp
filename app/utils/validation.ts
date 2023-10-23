@@ -8,6 +8,10 @@ type Validator<T = any, C = any> = (
   message?: string
 ) => (value: T, context?: C) => Readonly<[false, string] | [true, string?]>;
 
+type AsyncValidator<T = any, C = any> = (
+  message?: string
+) => (value: T, context?: C) => Promise<Readonly<[boolean, string] | [true]>>;
+
 export type ValidatorResult = ValidationErrors;
 
 export const EMAIL_REGEX = /.+@.+\..+/;
@@ -109,18 +113,56 @@ export const ifNotField =
     context[field] ? ([true] as const) : validator(value, context);
 
 export function createValidator(
-  fieldValidators: { [field: string]: ReturnType<Validator>[] },
-  rawValidator?: (input) => ValidatorResult
+  fieldValidators: {
+    [field: string]: (ReturnType<Validator> | ReturnType<AsyncValidator>)[];
+  },
+  rawValidator?: (input) => ValidatorResult,
+  async = false
 ) {
+  if (async) {
+    return async function validate(input) {
+      const rawValidatorErrors: ValidatorResult = rawValidator?.(input) || {};
+
+      // Run validators on each field
+      const fieldValidationResults = {};
+      for (const field of Object.keys(fieldValidators)) {
+        const validationResult = await Promise.all(
+          fieldValidators[field].map(async (validator) => {
+            let result = validator(input[field], input);
+            if (result instanceof Promise) {
+              result = await result;
+            }
+            return result;
+          })
+        );
+
+        fieldValidationResults[field] = validationResult;
+      }
+
+      // Extract errors from each validation
+      const fieldValidationErrors = {};
+      for (const field of Object.keys(fieldValidators)) {
+        const validationErrors =
+          fieldValidationResults[field]
+            ?.filter(([isValid]) => !isValid)
+            .map(([, message]) => message || 'not valid') ?? [];
+
+        if (validationErrors.length)
+          fieldValidationErrors[field] = validationErrors;
+      }
+
+      return merge(fieldValidationErrors, rawValidatorErrors);
+    };
+  }
   return function validate(input) {
     const rawValidatorErrors: ValidatorResult = rawValidator?.(input) || {};
     const fieldValidatorErrors = Object.keys(fieldValidators).reduce(
       (errors: ValidatorResult, field) => {
         const fieldErrors =
           fieldValidators[field]
-            .map((validator) => validator(input[field], input))
+            ?.map((validator) => validator(input[field], input))
             .filter(([isValid]) => !isValid)
-            .map(([, message]) => message || 'not valid') || 0;
+            .map(([, message]) => message || 'not valid') ?? [];
         if (fieldErrors.length) errors[field] = fieldErrors;
         return errors;
       },
