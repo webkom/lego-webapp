@@ -524,6 +524,7 @@ function EventEditor({
                 normalize={(v) => !!v}
               />
             )}
+            {/* TODO: enable this if the world encounters a new pandemic
             {['NORMAL', 'INFINITE'].includes(
               event.eventStatusType && event.eventStatusType.value
             ) && (
@@ -538,6 +539,7 @@ function EventEditor({
                 disabled={moment().isAfter(event.activationTime)}
               />
             )}
+*/}
             {['NORMAL', 'INFINITE'].includes(
               event.eventStatusType && event.eventStatusType.value
             ) && (
