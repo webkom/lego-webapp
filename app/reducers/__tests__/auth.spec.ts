@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { User } from '../../actions/ActionTypes';
 import auth from '../auth';
 

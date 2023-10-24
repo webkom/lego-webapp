@@ -1,10 +1,9 @@
-import cx from 'classnames';
 import moment from 'moment-timezone';
 import Icon from 'app/components/Icon';
 import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import config from 'app/config';
-import type { ActionGrant } from 'app/models';
+import type { ActionGrant, Dateish } from 'app/models';
 import type { ID } from 'app/store/models';
 import styles from './components/surveys.css';
 import type { ReactNode } from 'react';
@@ -77,22 +76,28 @@ export const TokenNavigation = ({
     )}
   </NavigationTab>
 );
-export const defaultActiveFrom = (hours: number, minutes: number) =>
-  moment().startOf('day').add({ day: 1, hours, minutes }).toISOString();
+export const getActiveFrom = (
+  eventEndTime: Dateish,
+  hours: number,
+  minutes: number
+) =>
+  moment(eventEndTime)
+    .startOf('day')
+    .add({ days: 1, hours, minutes })
+    .toISOString();
 
 export const getCsvUrl = (surveyId: ID) =>
   `${config.serverUrl}/surveys/${surveyId}/csv/`;
 export const QuestionTypeOption = ({ iconName, option, ...props }: any) => (
   <div
     style={{
-      cursor: 'pointer',
       backgroundColor: props.isSelected
         ? 'var(--color-gray-2)'
         : props.isFocused
         ? 'var(--additive-background)'
         : 'var(--lego-card-color)',
     }}
-    className={cx(styles.dropdownOption, styles.dropdown)}
+    className={styles.dropdownOption}
     onMouseDown={(event) => {
       props.onSelect && props.onSelect(option, event);
     }}
@@ -104,20 +109,15 @@ export const QuestionTypeOption = ({ iconName, option, ...props }: any) => (
     ref={props.innerRef}
     {...props.innerProps}
   >
-    <span className={styles.dropdownColor}>
-      <Icon
-        name={iconName}
-        style={{
-          marginRight: '15px',
-        }}
-      />
+    <span>
+      <Icon name={iconName} />
       {props.children}
     </span>
   </div>
 );
 export const QuestionTypeValue = ({ iconName, ...props }) => (
   <div
-    className={cx(styles.dropdownSelected, styles.dropdown)}
+    className={styles.dropdownSelected}
     onMouseDown={(event) => {
       props.onSelect && props.onSelect(props.option, event);
     }}
@@ -131,14 +131,7 @@ export const QuestionTypeValue = ({ iconName, ...props }) => (
     ref={props.innerRef}
     {...props.innerProps}
   >
-    <span className={styles.dropdownColor}>
-      <Icon
-        name={iconName}
-        style={{
-          marginRight: '15px',
-        }}
-      />
-      {props.children}
-    </span>
+    <Icon name={iconName} />
+    {props.children}
   </div>
 );

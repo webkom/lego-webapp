@@ -31,7 +31,7 @@ html[data-theme='dark'] .danger {
   border-color: var(--color-red-8);
 }
 
-.warningIcon {
+.dangerIcon {
   color: var(--danger-color);
 }
 
@@ -87,4 +87,24 @@ html[data-theme='dark'] .danger a:hover {
 
 .successIcon {
   color: var(--color-green-7);
+}
+
+.warning {
+  margin: 20px 0;
+  background-color: var(--color-orange-1);
+  border: 1.5px solid var(--color-orange-7);
+  color: var(--color-orange-7);
+}
+
+.warning a {
+  color: var(--color-orange-8);
+  text-decoration: underline;
+
+  &:hover {
+    color: var(--color-orange-7);
+  }
+}
+
+.warningIcon {
+  color: var(--color-orange-7);
 }

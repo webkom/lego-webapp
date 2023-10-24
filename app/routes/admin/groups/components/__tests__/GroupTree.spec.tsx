@@ -1,6 +1,7 @@
 import { shallow } from 'enzyme';
 import { Link } from 'react-router-dom';
 import TreeView from 'react-treeview';
+import { describe, it, expect } from 'vitest';
 import GroupTree from '../GroupTree';
 
 const groups = [

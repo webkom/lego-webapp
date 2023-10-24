@@ -1,4 +1,5 @@
 import { normalize } from 'normalizr';
+import { describe, it, expect } from 'vitest';
 import { eventSchema } from 'app/reducers';
 import createEntityReducer, {
   fetching,

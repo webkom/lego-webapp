@@ -12,7 +12,7 @@ import QuickLinks from './QuickLinks';
 import styles from './Search.css';
 import SearchBar from './SearchBar';
 import SearchResults from './SearchResults';
-import { getAdminLinks, getRegularLinks } from './utils';
+import { getAdminLinks, getExternalLinks, getRegularLinks } from './utils';
 
 type StateProps = {
   allowed: Allowed;
@@ -78,6 +78,11 @@ const Search = (props: Props) => {
     loggedIn,
   });
 
+  const externalLinks = getExternalLinks({
+    allowed,
+    loggedIn,
+  });
+
   const adminLinks = getAdminLinks({
     allowed,
     loggedIn,
@@ -106,6 +111,13 @@ const Search = (props: Props) => {
             links={regularLinks}
             onCloseSearch={onCloseSearch}
           />
+          {externalLinks.length > 0 && (
+            <QuickLinks
+              title="Andre tjenester"
+              links={externalLinks}
+              onCloseSearch={onCloseSearch}
+            />
+          )}
           {adminLinks.length > 0 && (
             <QuickLinks
               title="Admin"

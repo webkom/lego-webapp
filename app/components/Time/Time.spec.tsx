@@ -1,10 +1,13 @@
 import { shallow } from 'enzyme';
 import moment from 'moment-timezone';
+import { describe, it, expect, vi } from 'vitest';
 import Time, { FromToTime, FormatTime } from '../Time';
 
-jest.mock('app/config', () => {
+vi.mock('app/config', async () => {
   return {
-    timezone: 'GMT',
+    default: {
+      timezone: 'GMT',
+    },
   };
 });
 describe('<Time />', () => {
@@ -75,7 +78,7 @@ describe('<FromToTime />', () => {
     const output = 'We 18. Jan, 20:00 - Th 19. Jan, 22:00';
     const _now = Date.now;
     const mockDate = +moment(from);
-    Date.now = jest.fn(() => mockDate);
+    Date.now = vi.fn(() => mockDate);
 
     try {
       const wrapper = shallow(<FromToTime from={from} to={to} />);
@@ -90,7 +93,7 @@ describe('<FromToTime />', () => {
     const output = 'Wednesday 18. Jan, 20:00 - 21:00';
     const _now = Date.now;
     const mockDate = +moment(from);
-    Date.now = jest.fn(() => mockDate);
+    Date.now = vi.fn(() => mockDate);
 
     try {
       const wrapper = shallow(<FromToTime from={from} to={to} />);

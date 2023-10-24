@@ -149,44 +149,49 @@ function EventEditor({
         >
           <>
             <h1>Bildegalleri</h1>
-            <Flex wrap alignItems="center" justifyContent="space-around">
-              {imageGallery &&
-                imageGallery.map((e) => (
-                  <div key={e.key} className={styles.imageGalleryContainer}>
-                    <ConfirmModal
-                      title="Fjern fra galleri"
-                      message={`Er du sikker på at du vil fjerne bildet fra bildegalleriet? Bildet blir ikke slettet fra databasen.`}
-                      closeOnConfirm
-                      onConfirm={() => setSaveForUse(e.key, e.token, false)}
-                    >
-                      {({ openConfirmModal }) => (
-                        <Icon
-                          onClick={openConfirmModal}
-                          name="close-circle"
-                          className={styles.closeButton}
-                        />
-                      )}
-                    </ConfirmModal>
-
-                    <Image
-                      src={e.cover}
-                      placeholder={e.coverPlaceholder}
-                      alt={`${e.cover} bilde`}
-                      onClick={() => {
-                        change('cover', `${e.key}:${e.token}`);
-                        setShowImageGallery(false);
-                        setUseImageGallery(true);
-                        setImageGalleryUrl(e.cover);
-                      }}
-                      className={styles.imageGalleryEntry}
-                    />
-                  </div>
-                ))}
+            <Flex
+              wrap
+              alignItems="center"
+              justifyContent="space-around"
+              gap="1rem"
+            >
+              {imageGallery?.map((e) => (
+                <Flex key={e.key} alignItems="center" gap="1rem">
+                  <Image
+                    src={e.cover}
+                    placeholder={e.coverPlaceholder}
+                    alt={`${e.cover} bilde`}
+                    onClick={() => {
+                      change('cover', `${e.key}:${e.token}`);
+                      setShowImageGallery(false);
+                      setUseImageGallery(true);
+                      setImageGalleryUrl(e.cover);
+                    }}
+                    className={styles.imageGalleryEntry}
+                  />
+                  <ConfirmModal
+                    title="Fjern fra galleri"
+                    message={`Er du sikker på at du vil fjerne bildet fra bildegalleriet? Bildet blir ikke slettet fra databasen.`}
+                    closeOnConfirm
+                    onConfirm={() => setSaveForUse(e.key, e.token, false)}
+                  >
+                    {({ openConfirmModal }) => (
+                      <Icon onClick={openConfirmModal} name="trash" danger />
+                    )}
+                  </ConfirmModal>
+                </Flex>
+              ))}
               {imageGallery.length === 0 && (
-                <h2>
-                  Det finnes ingen bilder i bildegalleriet. Hvorfor ikke laste
-                  opp et?
-                </h2>
+                <Flex
+                  column
+                  alignItems="center"
+                  gap={5}
+                  className={styles.emptyGallery}
+                >
+                  <Icon name="folder-open-outline" size={50} />
+                  <b>Bildegalleriet er tomt ...</b>
+                  <span>Hvorfor ikke laste opp et bilde?</span>
+                </Flex>
               )}
             </Flex>
           </>

@@ -27,8 +27,8 @@ const NotEligibleInfo = () => (
     </p>
     <ol className={styles.infoList}>
       <li>
-        Påse at du er har Datateknologi eller Kommunikasjonsteknologi og Digital
-        Sikkerhet som studie i StudentWeb og verifisere på nytt.
+        Påse at du er har Datateknologi eller Cybersikkerhet og
+        datakommunikasjon som studie i StudentWeb og verifisere på nytt.
       </li>
       <li>
         Sende en mail til <a href="mailto:webkom@abakus.no">webkom@abakus.no</a>{' '}
@@ -100,10 +100,10 @@ const StudentConfirmation = ({
         <p>
           For å kunne bli medlem i Abakus og få mulighet til å delta på
           arrangementer, få tilgang til bilder og interessegrupper og mer må du
-          verifisere at du går enten Kommunikasjonsteknologi & Digital Sikkerhet
-          eller Datateknologi. Ved å trykke på knappen under gir du Abakus
-          tilgang til dine studier og fag i StudentWeb gjennom FEIDE slik at vi
-          kan registrere deg som medlem.
+          verifisere at du går enten Cybersikkerhet og datakommunikasjon eller
+          Datateknologi. Ved å trykke på knappen under gir du Abakus tilgang til
+          dine studier og fag i StudentWeb gjennom FEIDE slik at vi kan
+          registrere deg som medlem.
         </p>
       )}
 
@@ -187,10 +187,10 @@ const StudentConfirmation = ({
         <h2>Vil du bli medlem av Abakus?</h2>
         <div>
           <p className={styles.infoText}>
-            Alle som går Kommunikasjonsteknologi & Digital Sikkerhet eller
-            Datateknologi kan bli medlem av Abakus. Du må bli medlem for å kunne
-            delta på arrangementer, kurs og annet Abakus tilbyr. Vi anbefaler
-            alle nye studenter å melde seg inn. Du kan lese mer om{' '}
+            Alle som går Cybersikkerhet og datakommunikasjon eller Datateknologi
+            kan bli medlem av Abakus. Du må bli medlem for å kunne delta på
+            arrangementer, kurs og annet Abakus tilbyr. Vi anbefaler alle nye
+            studenter å melde seg inn. Du kan lese mer om{' '}
             <Link to="/pages/info-om-abakus">Abakus</Link> og{' '}
             <a
               href="https://statutter.abakus.no#medlemskap"

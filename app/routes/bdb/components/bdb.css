@@ -41,11 +41,6 @@
   display: block;
 }
 
-.companyList table a {
-  display: block;
-  color: var(--lego-font-color);
-}
-
 .companyList th {
   padding: 5px 0;
   border-top: 1px solid var(--border-gray);
@@ -447,10 +442,6 @@ option {
 
 .contactedStatusForm {
   width: 240px;
-}
-
-.surveyIcon {
-  color: var(--lego-link-color);
 }
 
 .surveyContainer {

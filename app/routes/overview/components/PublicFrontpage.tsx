@@ -85,8 +85,8 @@ const Welcome = () => (
   <div className={styles.welcome} style={{ gridArea: 'welcome' }}>
     <h1 className="u-mb">Velkommen til Abakus</h1>
     <p>
-      Abakus er linjeforeningen for studentene ved <i>Datateknologi</i> og
-      <i> Kommunikasjonsteknologi og digital sikkerhet</i> på NTNU, og drives av
+      Abakus er linjeforeningen for studentene ved <i>Datateknologi</i> &
+      <i> Cybersikkerhet og datakommunikasjon</i> på NTNU, og drives av
       studenter ved disse studiene.
     </p>
     <p>
@@ -138,10 +138,10 @@ const usefulLinksConf = [
     isInternalLink: false,
   },
   {
-    title: 'Kommunikasjonsteknologi og digital sikkerhet',
+    title: 'Cybersikkerhet og datakommunikasjon',
     image: komtekGraphic,
     description:
-      'Vi bruker stadig mer av livene våre på nett, på jobb som i fritid. Kommunikasjonsteknologi og digital sikkerhet blir stadig viktigere i en digital verden.',
+      'Vi bruker stadig mer av livene våre på nett, på jobb som i fritid. Cybersikkerhet og datakommunikasjon blir stadig viktigere i en digital verden.',
     buttonText: 'Sjekk ut studiet',
     link: 'https://www.ntnu.no/studier/mtkom',
     isInternalLink: false,

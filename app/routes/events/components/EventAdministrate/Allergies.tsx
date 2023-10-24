@@ -47,7 +47,6 @@ const Allergies = (props: Props) => {
     return <div>{props.error.message}</div>;
   }
 
-  console.log(props);
   const registeredAllergies = props.registered.filter((registration) => {
     return registration?.user.allergies;
   });

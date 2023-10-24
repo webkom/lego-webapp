@@ -39,6 +39,14 @@ const Icon = ({
   disabled = false,
   ...props
 }: Props) => {
+  const classNames = cx(
+    styles.clickable,
+    danger && styles.danger,
+    success && styles.success,
+    edit && styles.edit,
+    disabled && styles.disabled
+  );
+
   return (
     <Flex
       className={cx(className)}
@@ -49,23 +57,13 @@ const Icon = ({
       {...props}
     >
       {to ? (
-        <Link to={to} className={styles.clickable}>
+        <Link to={to} className={classNames}>
           {/* eslint-disable-next-line*/}
           {/* @ts-ignore*/}
           <ion-icon name={name}></ion-icon>
         </Link>
       ) : onClick ? (
-        <button
-          type="button"
-          onClick={onClick}
-          className={cx(
-            styles.clickable,
-            danger && styles.danger,
-            success && styles.success,
-            edit && styles.edit,
-            disabled && styles.disabled
-          )}
-        >
+        <button type="button" onClick={onClick} className={classNames}>
           {/* eslint-disable-next-line*/}
           {/* @ts-ignore*/}
           <ion-icon name={name}></ion-icon>

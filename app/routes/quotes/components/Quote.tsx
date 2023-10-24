@@ -109,7 +109,7 @@ const Quote = ({
                   show={displayAdmin}
                   toggle={toggleDisplayAdmin}
                   closeOnContentClick
-                  iconName="options-outline"
+                  iconName="ellipsis-horizontal"
                 >
                   <Dropdown.List>
                     <Dropdown.ListItem>

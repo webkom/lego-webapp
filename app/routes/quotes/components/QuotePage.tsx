@@ -59,7 +59,7 @@ const filterRegDateOptions: Array<Option> = [
     value: '',
   },
   {
-    label: 'flest emojis',
+    label: 'flest reaksjoner',
     value: '?ordering=-reaction_count',
   },
 ];

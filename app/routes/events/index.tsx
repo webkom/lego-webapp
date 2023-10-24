@@ -10,7 +10,7 @@ const EventAdministrateRoute = loadable(
 const EventAttendeeRoute = loadable(() => import('./EventAttendeeRoute'));
 const EventAllergiesRoute = loadable(() => import('./EventAllergiesRoute'));
 const EventAdminRegisterRoute = loadable(
-  () => import('./EventAdminRegisterRoute')
+  () => import('./components/EventAdministrate/AdminRegister')
 );
 const EventAbacardRoute = loadable(() => import('./EventAbacardRoute'));
 const PageNotFound = loadable(() => import('../pageNotFound'));
@@ -118,9 +118,7 @@ const eventRoute = ({
                     path={`${match.path}/admin-register`}
                     Component={EventAdminRegisterRoute}
                     passedProps={{
-                      currentUser,
-                      loggedIn,
-                      ...props,
+                      event: props.event,
                     }}
                   />
                   <RouteWrapper

@@ -17,6 +17,7 @@ import {
 } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
+import { SubmitButton } from 'app/components/Form/SubmitButton';
 import Icon from 'app/components/Icon';
 import { Flex } from 'app/components/Layout';
 import MazemapLink from 'app/components/MazemapEmbed/MazemapLink';
@@ -28,7 +29,7 @@ import styles from 'app/routes/meetings/components/MeetingEditor.css';
 import type { ID } from 'app/store/models';
 import type { DetailedMeeting } from 'app/store/models/Meeting';
 import type { AutocompleteUser, CurrentUser } from 'app/store/models/User';
-import { spySubmittable, spyValues } from 'app/utils/formSpyUtils';
+import { spyValues } from 'app/utils/formSpyUtils';
 import {
   createValidator,
   ifField,
@@ -311,11 +312,9 @@ const MeetingEditor = ({
                 >
                   Avbryt
                 </Button>
-                {spySubmittable((submittable) => (
-                  <Button disabled={!submittable} submit>
-                    {isEditPage ? 'Lagre endringer' : 'Opprett møte'}
-                  </Button>
-                ))}
+                <SubmitButton>
+                  {isEditPage ? 'Lagre endringer' : 'Opprett møte'}
+                </SubmitButton>
                 {isEditPage && canDelete && (
                   <ConfirmModal
                     title="Slett møtet"

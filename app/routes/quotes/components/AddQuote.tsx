@@ -1,13 +1,15 @@
 import moment from 'moment-timezone';
 import { Field } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
-import { Button, TextInput } from 'app/components/Form';
+import { TextInput } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
+import SubmissionError from 'app/components/Form/SubmissionError';
+import { SubmitButton } from 'app/components/Form/SubmitButton';
 import { withSubmissionErrorFinalForm } from 'app/components/Form/utils';
 import RandomQuote from 'app/components/RandomQuote/RandomQuote';
 import type { ActionGrant } from 'app/models';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
-import { spySubmittable, spyValues } from 'app/utils/formSpyUtils';
+import { spyValues } from 'app/utils/formSpyUtils';
 import { createValidator, required } from 'app/utils/validation';
 import { navigation } from '../utils';
 import styles from './Quotes.css';
@@ -82,11 +84,8 @@ const AddQuote = ({ addQuotes, actionGrant }: Props) => {
 
                 <div className={styles.clear} />
 
-                {spySubmittable((submittable) => (
-                  <Button type="submit" disabled={!submittable}>
-                    Send inn sitat
-                  </Button>
-                ))}
+                <SubmissionError />
+                <SubmitButton>Send inn sitat</SubmitButton>
               </form>
             </div>
 

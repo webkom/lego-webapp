@@ -11,6 +11,8 @@ import {
   CheckBox,
 } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
+import SubmissionError from 'app/components/Form/SubmissionError';
+import { SubmitButton } from 'app/components/Form/SubmitButton';
 import Icon from 'app/components/Icon';
 import Flex from 'app/components/Layout/Flex';
 import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
@@ -137,8 +139,9 @@ const EditPollForm = ({
         mutators={{
           ...arrayMutators,
         }}
+        subscription={{}}
       >
-        {({ handleSubmit, pristine, submitting }) => (
+        {({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>
             <Field
               name="title"
@@ -183,10 +186,11 @@ const EditPollForm = ({
               rerenderOnEveryChange
             />
 
+            <SubmissionError />
             <Flex className={styles.actionButtons}>
-              <Button disabled={pristine || submitting} submit>
+              <SubmitButton>
                 {editing ? 'Lagre endringer' : 'Lag ny avstemning'}
-              </Button>
+              </SubmitButton>
               {editing && (
                 <ConfirmModal
                   title="Slett avstemning"

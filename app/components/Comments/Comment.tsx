@@ -43,10 +43,12 @@ const Comment = ({
   return (
     <>
       <div className={styles.comment}>
-        {author && (
+        {author ? (
           <Flex alignItems="center" justifyContent="space-between">
             <Flex alignItems="center" gap="1rem">
-              <ProfilePicture size={40} user={author} />
+              <Link to={`/users/${author.username}`}>
+                <ProfilePicture size={40} user={author} />
+              </Link>
 
               <Flex column className={styles.username}>
                 <Flex alignItems="center" gap={10}>
@@ -65,8 +67,8 @@ const Comment = ({
               </Flex>
             </Flex>
 
-            <Flex justifyContent="flex-end">
-              {user?.id === author.id && (
+            {user?.id === author.id && (
+              <Flex justifyContent="flex-end">
                 <Tooltip content="Slett kommentar">
                   <Icon
                     danger
@@ -75,7 +77,18 @@ const Comment = ({
                     onClick={() => deleteComment(comment.id, contentTarget)}
                   />
                 </Tooltip>
-              )}
+              </Flex>
+            )}
+          </Flex>
+        ) : (
+          <Flex justifyContent="space-between">
+            <Flex alignItems="center" gap="1rem">
+              <div className={styles.anonymousProfilePicture} />
+
+              <Flex column className={styles.username}>
+                <span>Ukjent bruker</span>
+                <Time className={styles.timestamp} time={createdAt} wordsAgo />
+              </Flex>
             </Flex>
           </Flex>
         )}

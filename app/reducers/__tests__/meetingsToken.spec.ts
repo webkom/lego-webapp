@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { Meeting } from '../../actions/ActionTypes';
 import meetingsToken from '../meetingsToken';
 

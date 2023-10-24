@@ -3,9 +3,10 @@ import lolex from 'lolex';
 import moment from 'moment-timezone';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
+import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
 import JoinEventForm from '../JoinEventForm';
 
-jest.useFakeTimers();
+vi.useFakeTimers();
 const EVENT = {
   id: 1,
   title: 'Big Test Event',

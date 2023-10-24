@@ -1,5 +1,6 @@
 import { shallow } from 'enzyme';
 import { Link } from 'react-router-dom';
+import { describe, it, expect } from 'vitest';
 import GroupMembersList from '../GroupMembersList';
 
 const memberships = [

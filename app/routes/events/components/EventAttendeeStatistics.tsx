@@ -48,16 +48,16 @@ const PieChartWithLabel = ({
   distributionData: DistributionDataPoint[];
 }) => {
   return (
-    <>
-      <h4>{label}</h4>
-      <Flex alignItems="center" style={{ marginBottom: '3rem' }} wrap={true}>
+    <Card>
+      <Card.Header>{label}</Card.Header>
+      <Flex alignItems="center" wrap column>
         <DistributionPieChart
           dataKey="count"
           distributionData={distributionData}
         />
         <ChartLabel distributionData={distributionData} />
       </Flex>
-    </>
+    </Card>
   );
 };
 
@@ -180,7 +180,7 @@ const createAttendeeDataPoints = (
       addGenericDataPoint(attendeeStatistics.komTekDistribution, grade);
       addGenericDataPoint(
         attendeeStatistics.totalDistribution,
-        'Kommunikasjonsteknologi og digital sikkerhet'
+        'Cybersikkerhet og datakommunikasjon'
       );
     } else {
       addGenericDataPoint(attendeeStatistics.totalDistribution, grade);
@@ -401,7 +401,7 @@ const EventAttendeeStatistics = ({
   return (
     <>
       {isEventFromPreviousSemester(eventStartTime) && (
-        <Card severity="danger">
+        <Card severity="warning">
           <span>
             Dette arrangementet er fra et tidligere semester, og kan derfor ha
             feil fordeling av klassetrinn og gruppetilhørighet. Dette er fordi
@@ -411,11 +411,21 @@ const EventAttendeeStatistics = ({
         </Card>
       )}
 
+      <h2 className={styles.sectionDividerTitle}>Statistikk</h2>
+      <p className={styles.sectionDividerDescription}>
+        Statistikk av besøkende på arrangementssiden.
+      </p>
+
       <Analytics
         eventId={eventId}
         viewStartTime={viewStartTime}
         viewEndTime={viewEndTime}
       />
+
+      <h2 className={styles.sectionDividerTitle}>Analyse</h2>
+      <p className={styles.sectionDividerDescription}>
+        Analyse av brukerne som er påmeldt arrangementet.
+      </p>
 
       {registrations.length === 0 ? (
         <p className={styles.noRegistrationsText}>Ingen er påmeldt enda.</p>
@@ -430,7 +440,7 @@ const EventAttendeeStatistics = ({
             distributionData={dataTekDistribution}
           />
           <PieChartWithLabel
-            label={'Kommunikasjonsteknologi'}
+            label={'Cybersikkerhet og datakommunikasjon'}
             distributionData={komTekDistribution}
           />
           <PieChartWithLabel
@@ -441,11 +451,12 @@ const EventAttendeeStatistics = ({
             label={'Gruppetilhørighet'}
             distributionData={groupDistribution}
           />
-
-          <h4>Påmeldinger og avmeldinger per dag</h4>
+        </div>
+      )}
+      <Card className={styles.graphCard}>
+        <Card.Header>Påmeldinger og avmeldinger per dag</Card.Header>
+        <ResponsiveContainer width="100%" height={300}>
           <LineChart
-            width={375}
-            height={300}
             data={registrationTimeDistribution}
             margin={{
               top: 10,
@@ -473,8 +484,8 @@ const EventAttendeeStatistics = ({
               activeDot={{ r: 8 }}
             />
           </LineChart>
-        </div>
-      )}
+        </ResponsiveContainer>
+      </Card>
     </>
   );
 };

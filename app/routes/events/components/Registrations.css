@@ -3,6 +3,7 @@
 .summary {
   flex-wrap: wrap;
   white-space: pre;
+  color: var(--secondary-font-color);
 }
 
 .registrationList {

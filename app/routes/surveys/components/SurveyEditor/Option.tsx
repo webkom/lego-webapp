@@ -1,4 +1,3 @@
-import { Button } from '@webkom/lego-bricks';
 import { Field } from 'react-final-form';
 import { RadioButton, TextInput, CheckBox } from 'app/components/Form';
 import Icon from 'app/components/Icon';
@@ -15,11 +14,7 @@ type Props = {
 };
 
 const RemoveButton = ({ remove }: { remove?: () => void }) =>
-  remove ? (
-    <Button flat onClick={remove}>
-      <Icon name="close" />
-    </Button>
-  ) : null;
+  remove ? <Icon name="close" onClick={remove} /> : null;
 
 const Option = (props: Props) => {
   return props.questionType === QuestionTypes('single') ? (
@@ -31,7 +26,7 @@ const Option = (props: Props) => {
 
 const MultipleChoice = (props: Props) => {
   return (
-    <Flex alignItems="center" gap={5}>
+    <Flex alignItems="center">
       <RadioButton value={false} className={styles.option} />
       <Field
         onChange={props.onChange}
@@ -48,7 +43,7 @@ const MultipleChoice = (props: Props) => {
 
 const Checkbox = (props: Props) => {
   return (
-    <Flex alignItems="center" gap={5}>
+    <Flex alignItems="center">
       <CheckBox defaultChecked={false} className={styles.option} />
       <Field
         onChange={props.onChange}

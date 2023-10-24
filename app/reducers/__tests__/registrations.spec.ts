@@ -1,5 +1,6 @@
 import moment from 'moment';
-import { Event } from '../../actions/ActionTypes';
+import { describe, it, expect } from 'vitest';
+import { Event } from 'app/actions/ActionTypes';
 import registrations from '../registrations';
 
 describe('reducers', () => {

@@ -25,14 +25,14 @@ const LandingPage: PageRenderer = ({ loggedIn }) => {
       <Image
         className={cx(styles.banner, styles.bannerLightMode)}
         src={bannerLightMode}
-        alt="Abakus - Linjeforeningen for Datateknologi og Kommunikasjonsteknologi og digital sikkerhet ved NTNU"
+        alt="Abakus - Linjeforeningen for Datateknologi & Cybersikkerhet og datakommunikasjon ved NTNU"
         height="265"
       />
 
       <Image
         className={cx(styles.banner, styles.bannerDarkMode)}
         src={bannerDarkMode}
-        alt="Abakus - Linjeforeningen for Datateknologi og Kommunikasjonsteknologi og digital sikkerhet ved NTNU"
+        alt="Abakus - Linjeforeningen for Datateknologi & Cybersikkerhet og datakommunikasjon ved NTNU"
         height="265"
       />
 
@@ -215,9 +215,9 @@ const LandingPage: PageRenderer = ({ loggedIn }) => {
 const info = {
   whoWeAre: (
     <span>
-      Abakus er linjeforeningen for studentene ved Datateknologi og{' '}
-      <i>Kommunikasjonsteknologi og digital sikkerhet</i> på NTNU, og drives av
-      studenter ved disse studiene.
+      Abakus er linjeforeningen for studentene ved Datateknologi &{' '}
+      <i>Cybersikkerhet og datakommunikasjon</i> på NTNU, og drives av studenter
+      ved disse studiene.
     </span>
   ),
   whatWeDo:

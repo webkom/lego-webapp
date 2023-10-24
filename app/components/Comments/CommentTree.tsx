@@ -42,7 +42,7 @@ function CommentTree({
 
     if (comment.children.length) {
       return (
-        <div key={comment.id} className={className}>
+        <div key={comment.id} data-ischild={isChild} className={className}>
           <Comment
             comment={comment}
             commentFormProps={commentFormProps}
@@ -67,7 +67,7 @@ function CommentTree({
     }
 
     return (
-      <div key={comment.id} className={className}>
+      <div key={comment.id} data-ischild={isChild} className={className}>
         <Comment
           key={comment.id}
           comment={comment}

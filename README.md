@@ -46,7 +46,7 @@ $ yarn ssr # or yarn ssr:staging
 
 ### Environment Variables
 
-The `webserver` running the frontend can take many optional environment variables. Docs can be found at `config/environment.md`, and default can be found at `server/env.js` and `config/env.js`.
+The `webserver` running the frontend can take many optional environment variables. Docs can be found at `config/environment.md`, and default can be found at `server/env.ts` and `config/env.ts`.
 
 ## LEGO-BRICKS
 

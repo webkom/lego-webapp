@@ -140,7 +140,7 @@ const ArticleEditor = ({
         <Field
           placeholder="Write your article here..."
           name="content"
-          label="Content"
+          label="Innhold"
           component={EditorField.Field}
           initialized={initialized}
         />

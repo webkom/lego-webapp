@@ -22,8 +22,10 @@ const TextWithIcon = ({
   size,
 }: Props) => {
   return (
-    <Flex alignItems="center" className={className}>
-      {iconRight ? <>{content}</> : <></>}
+    <Flex alignItems="center" gap={5} className={className}>
+      <div className={styles.textContainer}>
+        {iconRight ? <span>{content}</span> : <></>}
+      </div>
       {tooltipContentIcon ? (
         <Tooltip content={tooltipContentIcon}>
           <Icon
@@ -39,8 +41,7 @@ const TextWithIcon = ({
           size={size ? size : undefined}
         />
       )}
-
-      {iconRight ? <></> : <>{content}</>}
+      <div>{iconRight ? <></> : <>{content}</>}</div>
     </Flex>
   );
 };

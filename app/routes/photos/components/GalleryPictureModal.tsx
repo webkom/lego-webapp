@@ -256,7 +256,7 @@ export default class GalleryPictureModal extends Component<Props, State> {
                 closeOnContentClick
                 className={styles.dropdown}
                 contentClassName={styles.dropdownContent}
-                iconName="options-outline"
+                iconName="ellipsis-horizontal"
               >
                 <Dropdown.List>
                   <Dropdown.ListItem>
