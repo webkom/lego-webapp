@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   AreaChart,
   Area,
@@ -259,25 +259,36 @@ const Analytics = ({ eventId, viewStartTime, viewEndTime }: AnalyticsProps) => {
 
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    eventId &&
-      dispatch(fetchAnalytics(eventId)).then((res) => {
+  const memoizedData = useMemo(() => {
+    return async () => {
+      if (eventId) {
+        const response = await dispatch(fetchAnalytics(eventId));
+        let data = response.payload;
+
         if (viewStartTime) {
-          res.payload = res.payload.filter(
+          data = data.filter(
             (item) => new Date(item.date) >= new Date(viewStartTime as string)
           );
         }
 
         if (viewEndTime) {
-          res.payload = res.payload.filter(
+          data = data.filter(
             (item) => new Date(item.date) <= new Date(viewEndTime as string)
           );
         }
+        return data;
+      }
+    };
+  }, [eventId, viewStartTime, viewEndTime, dispatch]);
 
-        setData(res.payload);
-        setMetrics(calculateMetrics(res.payload));
+  useEffect(() => {
+    if (eventId) {
+      memoizedData().then((data) => {
+        setData(data);
+        setMetrics(calculateMetrics(data));
       });
-  }, [eventId, dispatch, viewStartTime, viewEndTime]);
+    }
+  }, [eventId, memoizedData]);
 
   return (
     <>
