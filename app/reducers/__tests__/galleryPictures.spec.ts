@@ -1,4 +1,5 @@
-import { GalleryPicture, Gallery } from '../../actions/ActionTypes';
+import { describe, it, expect } from 'vitest';
+import { GalleryPicture, Gallery } from 'app/actions/ActionTypes';
 import galleryPictures from '../galleryPictures';
 
 describe('reducers', () => {

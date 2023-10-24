@@ -1,4 +1,5 @@
 import { shallow } from 'enzyme';
+import { describe, it, expect } from 'vitest';
 import CommentTree from '../CommentTree';
 import CommentView from '../CommentView';
 import comments from './fixtures/comments';

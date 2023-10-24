@@ -2,7 +2,8 @@
 // (companies -> events -> index -> frontpage -> events)
 // This import resolves dependencies properly..
 import 'app/reducers';
-import { Event } from '../../actions/ActionTypes';
+import { describe, it, expect } from 'vitest';
+import { Event } from 'app/actions/ActionTypes';
 import events from '../events';
 
 describe('reducers', () => {

@@ -1,4 +1,5 @@
-import { Search } from '../../actions/ActionTypes';
+import { describe, it, expect } from 'vitest';
+import { Search } from 'app/actions/ActionTypes';
 import search from '../search';
 
 describe('reducers', () => {

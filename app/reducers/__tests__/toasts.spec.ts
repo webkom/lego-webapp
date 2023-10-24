@@ -1,4 +1,5 @@
-import { Toasts } from '../../actions/ActionTypes';
+import { describe, it, expect } from 'vitest';
+import { Toasts } from 'app/actions/ActionTypes';
 import toasts from '../toasts';
 
 describe('reducers', () => {

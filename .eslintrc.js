@@ -5,7 +5,6 @@ module.exports = {
   env: {
     browser: true,
     es2022: true,
-    jest: true,
   },
   extends: [
     'plugin:@typescript-eslint/recommended',
@@ -16,13 +15,11 @@ module.exports = {
     'plugin:react/recommended',
     'plugin:react-hooks/recommended',
     //'plugin:react-redux/recommended',
-    'react-app/jest',
     'prettier',
   ],
   globals: {
     log: true,
     expect: true,
-    jest: true,
     __DEV__: true,
     __CLIENT__: true,
     cypress: true,
@@ -53,8 +50,6 @@ module.exports = {
     'react/react-in-jsx-scope': 'off',
     'react-app/react/react-in-jsx-scope': 'off',
     'react/prop-types': 'off',
-    'jest/valid-describe': 'off', // valid-describe was replaced by valid-describe-callback, but still needs its rule ...
-    'jest/valid-describe-callback': 'error',
     '@typescript-eslint/no-var-requires': 'off',
     '@typescript-eslint/no-empty-function': 'off',
     '@typescript-eslint/consistent-type-imports': 'error',
@@ -98,9 +93,6 @@ module.exports = {
     },
     react: {
       version: 'detect',
-    },
-    jest: {
-      version: require('jest/package.json').version,
     },
   },
 };

@@ -2,6 +2,7 @@
 import { LoadingIndicator } from '@webkom/lego-bricks';
 import { shallow } from 'enzyme';
 import { omit } from 'lodash';
+import { describe, it, expect } from 'vitest';
 import { GroupMembers } from '../GroupMembers';
 import GroupMembersList from '../GroupMembersList';
 
