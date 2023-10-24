@@ -114,7 +114,7 @@
 }
 
 .interested {
-  background-color: #f5f5d5;
+  background-color: var(--color-yellow-3);
 }
 
 .notInterested {
