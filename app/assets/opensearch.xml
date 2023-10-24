@@ -1,6 +1,6 @@
 <OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/" xmlns:moz="http://www.mozilla.org/2006/browser/search/">
   <ShortName>Abakus</ShortName>
-  <Description>Linjeforening for datateknikk og kommunikasjonsteknologi på NTNU</Description>
+  <Description>Linjeforening for datateknologi og Cybersikkerhet og datakommunikasjon på NTNU</Description>
   <InputEncoding>UTF-8</InputEncoding>
   <Image width="16" height="16" type="image/x-icon">/favicon.png</Image>
   <Url type="text/html" method="get" template="https://abakus.no/search/?q={searchTerms}"/>

@@ -107,7 +107,7 @@ const App = (props: AppProps) => (
       <meta property="og:image" content={coverPhoto} />
       <meta
         property="og:description"
-        content="Abakus er linjeforeningen for studentene ved Datateknologi og Kommunikasjonsteknologi på NTNU, og drives av studenter ved disse studiene."
+        content="Abakus er linjeforeningen for studentene ved Datateknologi & Cybersikkerhet og datakommunikasjon på NTNU, og drives av studenter ved disse studiene."
       />
     </Helmet>
 

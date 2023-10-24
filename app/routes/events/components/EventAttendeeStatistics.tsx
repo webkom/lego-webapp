@@ -180,7 +180,7 @@ const createAttendeeDataPoints = (
       addGenericDataPoint(attendeeStatistics.komTekDistribution, grade);
       addGenericDataPoint(
         attendeeStatistics.totalDistribution,
-        'Kommunikasjonsteknologi og digital sikkerhet'
+        'Cybersikkerhet og datakommunikasjon'
       );
     } else {
       addGenericDataPoint(attendeeStatistics.totalDistribution, grade);
@@ -405,7 +405,7 @@ const EventAttendeeStatistics = ({
             distributionData={dataTekDistribution}
           />
           <PieChartWithLabel
-            label={'Kommunikasjonsteknologi'}
+            label={'Cybersikkerhet og datakommunikasjon'}
             distributionData={komTekDistribution}
           />
           <PieChartWithLabel
