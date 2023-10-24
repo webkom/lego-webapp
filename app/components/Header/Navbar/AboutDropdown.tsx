@@ -20,7 +20,7 @@ const AboutDropdown = () => {
     },
     {
       title: 'Revyen',
-      description: 'Kontakt eller les om revyen til Abakus',
+      description: 'Les om revyen og revygruppene i Abakus',
       to: '/pages/grupper/104-revyen',
     },
     {
@@ -30,7 +30,7 @@ const AboutDropdown = () => {
     },
     {
       title: 'Kontakt Abakus',
-      description: 'Nå ut til Hovedstyret eller komiteene',
+      description: 'Nå ut til Hovedstyret, revyen eller komiteene',
       to: '/contact',
     },
   ];
