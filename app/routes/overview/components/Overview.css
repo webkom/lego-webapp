@@ -25,6 +25,7 @@
 .tagline {
   margin: 0;
   display: inline-flex;
+  gap: 7px;
 }
 
 .otherItems {
