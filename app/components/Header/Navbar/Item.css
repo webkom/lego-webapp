@@ -1,0 +1,28 @@
+.item {
+  color: var(--lego-font-color);
+  cursor: pointer;
+  padding: 0.4rem;
+  width: 250px;
+  border-radius: var(--border-radius-md);
+
+  &:hover {
+    background-color: var(--additive-background);
+  }
+}
+
+.description {
+  color: var(--secondary-font-color);
+  font-size: var(--font-size-sm);
+  line-height: 1.2rem;
+}
+
+.item .titleIcon {
+  opacity: 0;
+  transition: var(--easing-medium);
+  font-size: var(--font-size-sm);
+}
+
+.item:hover .titleIcon {
+  opacity: 1;
+  translate: 0.3rem;
+}

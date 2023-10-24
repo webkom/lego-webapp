@@ -21,6 +21,7 @@ import { ProfilePicture, Image } from '../Image';
 import Search from '../Search';
 import FancyNodesCanvas from './FancyNodesCanvas';
 import styles from './Header.css';
+import Navbar from './Navbar/Navbar';
 import ToggleTheme from './ToggleTheme';
 
 type Props = {
@@ -156,30 +157,7 @@ const Header = ({ loggedIn, currentUser, loading, ...props }: Props) => {
         </Link>
 
         <div className={styles.menu}>
-          <div className={styles.navigation}>
-            <NavLink to="/events" activeClassName={styles.activeItem}>
-              Arrangementer
-            </NavLink>
-            {!loggedIn ? (
-              <NavLink
-                to="/pages/bedrifter/for-bedrifter"
-                activeClassName={styles.activeItem}
-              >
-                For bedrifter
-              </NavLink>
-            ) : (
-              <NavLink to="/joblistings" activeClassName={styles.activeItem}>
-                Karriere
-              </NavLink>
-            )}
-            <NavLink
-              to="/pages/info-om-abakus"
-              activeClassName={styles.activeItem}
-            >
-              Om Abakus
-            </NavLink>
-          </div>
-
+          <Navbar loggedIn={loggedIn} />
           <div className={styles.buttonGroup}>
             <ToggleTheme
               loggedIn={loggedIn}
