@@ -235,62 +235,52 @@ const committeeEmails = [
   {
     recipient: 'Arrkom',
     email: 'arrkom@abakus.no',
-    logo:
-      'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_arrkom.png',
+    logo: 'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_arrkom.png',
   },
   {
     recipient: 'Bankkom',
     email: 'bankkom@abakus.no',
-    logo:
-      'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_bankkom.png',
+    logo: 'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_bankkom.png',
   },
   {
     recipient: 'Bedkom',
     email: 'bedkom@abakus.no',
-    logo:
-      'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_bedkom.png',
+    logo: 'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_bedkom.png',
   },
   {
     recipient: 'Fagkom',
     email: 'fagkom@abakus.no',
-    logo:
-      'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_fagkom.png',
+    logo: 'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_fagkom.png',
   },
   {
     recipient: 'Koskom',
     email: 'koskom@abakus.no',
-    logo:
-      'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_koskom.png',
+    logo: 'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_koskom.png',
   },
   {
     recipient: 'LaBamba',
     email: 'labamba@abakus.no',
-    logo:
-      'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_labamba.png',
+    logo: 'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_labamba.png',
   },
   {
     recipient: 'PR',
     email: 'pr@abakus.no',
-    logo:
-      'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_pr.png',
+    logo: 'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_pr.png',
   },
   {
     recipient: 'Webkom',
     email: 'webkom@abakus.no',
-    logo:
-      'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_webkom.png',
+    logo: 'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_webkom.png',
   },
   {
     recipient: 'readme',
     email: 'readme@abakus.no',
-    logo:
-      'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_readme.png',
+    logo: 'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_readme.png',
   },
   {
     recipient: 'backup',
     email: 'backup@abakus.no',
-    logo:
-      'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_backup.png',
+    logo: 'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_backup.png',
   },
 ];
 const socialMedia = {
@@ -300,8 +290,7 @@ const socialMedia = {
       textInfo: 'Hovedside for Abakus',
     },
     {
-      link:
-        'https://www.facebook.com/Abakus-Bedriftsarrangementer-245005099523282/',
+      link: 'https://www.facebook.com/Abakus-Bedriftsarrangementer-245005099523282/',
       textInfo: 'Bedriftsarrangementer',
     },
   ],
