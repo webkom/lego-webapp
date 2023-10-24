@@ -291,6 +291,15 @@ function EventEditor({
               placeholder="Ansvar for arrangement"
             />
             <Field
+              name="responsibleUsers"
+              label="Ansvarlige brukere"
+              filter={['users.user']}
+              fieldClassName={styles.metaField}
+              component={SelectInput.AutocompleteField}
+              isMulti
+              placeholder="Velg ansvarlige brukere"
+            />
+            <Field
               label="Starter"
               name="startTime"
               component={DatePicker.Field}

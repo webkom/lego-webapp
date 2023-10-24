@@ -11,6 +11,7 @@ import { LoginPage } from 'app/components/LoginForm';
 import { selectArticleById } from 'app/reducers/articles';
 import { selectCurrentUser } from 'app/reducers/auth';
 import { selectUserById } from 'app/reducers/users';
+import type { DetailedUser } from 'app/store/models/User';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
@@ -23,7 +24,7 @@ const mapStateToProps = (state, props) => {
   });
 
   const currentUser = selectCurrentUser(state);
-  const authors = article?.authors?.length
+  const authors: DetailedUser[] = article?.authors?.length
     ? article.authors.map((e) => selectUserById(state, { userId: e }))
     : [currentUser];
 

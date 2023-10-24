@@ -68,6 +68,7 @@ const mapStateToProps = (state, props) => {
     },
     pools: valueSelector(state, 'pools'),
   };
+
   const initialCreateValues = {
     initialValues: {
       title: '',
@@ -114,6 +115,7 @@ const mapStateToProps = (state, props) => {
       }),
       registrationDeadlineHours: 2,
       unregistrationDeadlineHours: 2,
+      responsibleUsers: [],
     },
     actionGrant,
     imageGallery: imageGallery.map((e) => {
@@ -173,6 +175,7 @@ const mapStateToProps = (state, props) => {
         label: eventTemplate.responsibleGroup.name,
         value: eventTemplate.responsibleGroup.id,
       },
+
       eventType: eventTemplate.eventType && {
         label: EVENT_CONSTANTS[eventTemplate.eventType],
         value: eventTemplate.eventType,
