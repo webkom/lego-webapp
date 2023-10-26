@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import Icon from 'app/components/Icon';
 import { readmeIfy } from 'app/components/ReadmeLogo';
 import styles from './PageHierarchy.css';
@@ -58,8 +58,8 @@ const HierarchySection = ({
     <nav className={styles.pageList}>
       {items.length > 0 && (
         <AccordionContainer title={title} currentCategory={currentCategory}>
-          {items.map((item, key) => (
-            <Link to={item.url} key={key}>
+          {items.map((item) => (
+            <Link to={item.url} key={item.url + item.title}>
               <div className={styles.links} onClick={handleCloseSidebar}>
                 <div
                   className={
@@ -85,15 +85,22 @@ type AccordionProps = {
   currentCategory: string;
 };
 
-const AccordionContainer = ({ title, children }: AccordionProps) => {
-  const location = useLocation();
-  const currentCategory = location.pathname.split('/')[2];
+const AccordionContainer = ({
+  title,
+  children,
+  currentCategory,
+}: AccordionProps) => {
+  const [isOpen, setIsOpen] = useState(false);
 
-  const [isOpen, setIsOpen] = useState(
-    currentCategory === title.toLowerCase() ||
+  useEffect(() => {
+    if (
+      currentCategory === title.toLowerCase() ||
       (currentCategory === 'info-om-abakus' &&
         title.toLowerCase() === 'generelt')
-  );
+    ) {
+      setIsOpen(true);
+    }
+  }, [currentCategory, title]);
 
   return (
     <div>
