@@ -12,6 +12,12 @@
   padding-right: 20px;
 }
 
+@media (--mobile-device) {
+  .compactLeft h3 {
+    margin-top: 0;
+  }
+}
+
 .compactLeft,
 .compactRight {
   flex: 1;

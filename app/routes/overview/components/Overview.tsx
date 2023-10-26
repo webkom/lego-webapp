@@ -119,9 +119,9 @@ const Overview = (props: Props) => {
       <section className={styles.mobileContainer}>
         <CompactEvents events={events} />
         <NextEvent events={events} />
+        {pinnedComponent}
         <PollItem poll={poll} votePoll={votePoll} />
         <QuoteItem loggedIn={loggedIn} />
-        {pinnedComponent}
         {readMe}
         <Weekly weeklyArticle={weeklyArticle} />
         <Articles articles={articlesShown} />
