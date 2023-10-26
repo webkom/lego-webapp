@@ -216,8 +216,8 @@ const info = {
   whoWeAre: (
     <span>
       Abakus er linjeforeningen for studentene ved Datateknologi &{' '}
-      <i>Cybersikkerhet og datakommunikasjon</i> på NTNU, og drives av studenter
-      ved disse studiene.
+      Cybersikkerhet og datakommunikasjon på NTNU, og drives av studenter ved
+      disse studiene.
     </span>
   ),
   whatWeDo:
