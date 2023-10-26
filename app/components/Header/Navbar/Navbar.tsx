@@ -72,12 +72,12 @@ const Navbar = ({ loggedIn }: Props) => {
           </NavLink>
         );
 
-        if (link.dropdown == null) return navLinkItem;
+        if (link.dropdown === null) return navLinkItem;
 
         return (
           <Dropdown
             key={link.to}
-            show={visibleDropdown && hoverIndex == i}
+            show={visibleDropdown && hoverIndex === i}
             toggle={() => setVisibleDropdown(false)}
             triggerComponent={navLinkItem}
             contentClassName={styles.navbarDropdown}
