@@ -334,7 +334,7 @@ export default class EventDetail extends Component<Props, State> {
               <Link to={groupLink}>{event.responsibleGroup.name}</Link>
             ) : (
               event.responsibleGroup.name
-            )}
+            )}{' '}
             {event.responsibleGroup.contactEmail && (
               <a href={`mailto:${event.responsibleGroup.contactEmail}`}>
                 {event.responsibleGroup.contactEmail}
