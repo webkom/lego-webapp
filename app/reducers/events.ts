@@ -16,6 +16,14 @@ import type { DetailedEvent } from 'app/store/models/Event';
 type State = any;
 const mutateEvent = produce((newState: State, action: any): void => {
   switch (action.type) {
+    case Event.FETCH_PREVIOUS.BEGIN:
+      newState.fetchingPrevious = true;
+      break;
+
+    case Event.FETCH_PREVIOUS.FAILURE:
+      newState.fetchingPrevious = false;
+      break;
+
     case Event.FETCH_PREVIOUS.SUCCESS:
       for (const eventId in action.payload.entities.events) {
         const event = action.payload.entities.events[eventId];
@@ -23,7 +31,16 @@ const mutateEvent = produce((newState: State, action: any): void => {
           e.isUsersUpcoming = false;
         });
       }
+      newState.fetchingPrevious = false;
 
+      break;
+
+    case Event.FETCH_UPCOMING.BEGIN:
+      newState.fetchingUpcoming = true;
+      break;
+
+    case Event.FETCH_UPCOMING.FAILURE:
+      newState.fetchingUpcoming = false;
       break;
 
     case Event.FETCH_UPCOMING.SUCCESS:
@@ -33,6 +50,7 @@ const mutateEvent = produce((newState: State, action: any): void => {
           e.isUsersUpcoming = true;
         });
       }
+      newState.fetchingUpcoming = false;
 
       break;
 
@@ -167,6 +185,10 @@ export default createEntityReducer<'events'>({
     delete: Event.DELETE,
   },
   mutate,
+  initialState: {
+    fetchingPrevious: false,
+    fetchingUpcoming: false,
+  },
 });
 
 function transformEvent(event: DetailedEvent) {
