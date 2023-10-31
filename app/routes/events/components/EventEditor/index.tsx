@@ -357,6 +357,15 @@ function EventEditor({
               className={styles.formField}
               normalize={(v) => !!v}
             />
+            <Field
+              label="Fremmedspråklig"
+              description="Arrangementet er på et annet språk enn norsk (engelsk)."
+              name="isForeignLanguage"
+              component={CheckBox.Field}
+              fieldClassName={styles.metaField}
+              className={styles.formField}
+              normalize={(v) => !!v}
+            />
             {event.isGroupOnly && (
               <div className={styles.subSection}>
                 <Field

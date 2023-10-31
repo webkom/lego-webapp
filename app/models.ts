@@ -281,6 +281,7 @@ export type Event = EventBase & {
   isUsersUpcoming?: boolean;
   documentType?: 'event';
   responsibleUsers: ID[];
+  isForeignLanguage: boolean;
 };
 
 type EventTransformPool = EventPoolBase & {
@@ -298,6 +299,7 @@ export type TransformEvent = EventBase & {
   useMazemap: boolean;
   hasFeedbackQuestion: boolean;
   responsibleUsers: DetailedUser[];
+  isForeignLanguage: boolean;
 };
 
 export type Feed = Record<string, any>;

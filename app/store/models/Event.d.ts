@@ -68,6 +68,7 @@ interface Event {
   mazemapPoi?: number;
   pinned: boolean;
   responsibleUsers: DetailedUser[];
+  isForeignLanguage: boolean;
 
   // for survey
   attendedCount: number;
@@ -170,6 +171,7 @@ export type DetailedEvent = Pick<
   | 'mazemapPoi'
   | 'activationTime'
   | 'responsibleUsers'
+  | 'isForeignLanguage'
 > &
   ObjectPermissionsMixin;
 

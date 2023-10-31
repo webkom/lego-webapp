@@ -426,11 +426,16 @@ export default class EventDetail extends Component<Props, State> {
               iconName="time-outline"
               content={<FromToTime from={event.startTime} to={event.endTime} />}
             />
+            {event.isForeignLanguage !== null && event.isForeignLanguage && (
+              <TextWithIcon iconName="language-outline" content={'English'} />
+            )}
+
             <div className={styles.infoIconLocation}>
               <TextWithIcon
                 iconName="location-outline"
                 content={event.location}
               />
+
               {event.mazemapPoi && (
                 <Button
                   className={styles.mapButton}
