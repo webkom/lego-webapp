@@ -59,7 +59,6 @@ const mapStateToProps = (
     meetingId,
   });
 
-  console.log(meeting)
   return {
     meeting,
     meetingId,

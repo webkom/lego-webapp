@@ -10,7 +10,7 @@ import {
   ResponsiveContainer,
   Tooltip,
   XAxis,
-  YAxis
+  YAxis,
 } from 'recharts';
 import { fetchAnalytics } from 'app/actions/EventActions';
 import Card from 'app/components/Card';
