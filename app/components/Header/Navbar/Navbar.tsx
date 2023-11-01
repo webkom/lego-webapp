@@ -48,6 +48,11 @@ const Navbar = ({ loggedIn }: Props) => {
     },
   ];
 
+  const focusLinkAtIndex = (index: number) => {
+    setHoverIndex(index);
+    setVisibleDropdown(true);
+  };
+
   return (
     <div
       className={styles.navigation}
@@ -66,13 +71,13 @@ const Navbar = ({ loggedIn }: Props) => {
             key={link.to}
             to={link.to}
             activeClassName={styles.activeItem}
-            onMouseEnter={() => setHoverIndex(i)}
+            onMouseEnter={() => focusLinkAtIndex(i)}
           >
             {link.title}
           </NavLink>
         );
 
-        if (link.dropdown === null) return navLinkItem;
+        if (link.dropdown === undefined) return navLinkItem;
 
         return (
           <Dropdown
