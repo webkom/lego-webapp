@@ -1,8 +1,8 @@
 import moment from 'moment';
 import { useEffect, useMemo, useState } from 'react';
 import {
-  AreaChart,
   Area,
+  AreaChart,
   CartesianGrid,
   Legend,
   Line,
@@ -10,7 +10,7 @@ import {
   ResponsiveContainer,
   Tooltip,
   XAxis,
-  YAxis,
+  YAxis
 } from 'recharts';
 import { fetchAnalytics } from 'app/actions/EventActions';
 import Card from 'app/components/Card';
@@ -263,8 +263,14 @@ const Analytics = ({ eventId, viewStartTime, viewEndTime }: AnalyticsProps) => {
     return async () => {
       if (eventId) {
         const response = await dispatch(fetchAnalytics(eventId));
-        let data = response.payload;
+        return response.payload;
+      }
+    };
+  }, [eventId, dispatch]);
 
+  useEffect(() => {
+    if (eventId) {
+      memoizedData().then((data) => {
         if (viewStartTime) {
           data = data.filter(
             (item) => new Date(item.date) >= new Date(viewStartTime as string)
@@ -276,19 +282,11 @@ const Analytics = ({ eventId, viewStartTime, viewEndTime }: AnalyticsProps) => {
             (item) => new Date(item.date) <= new Date(viewEndTime as string)
           );
         }
-        return data;
-      }
-    };
-  }, [eventId, viewStartTime, viewEndTime, dispatch]);
-
-  useEffect(() => {
-    if (eventId) {
-      memoizedData().then((data) => {
         setData(data);
         setMetrics(calculateMetrics(data));
       });
     }
-  }, [eventId, memoizedData]);
+  }, [memoizedData, viewStartTime, viewEndTime]);
 
   return (
     <>
