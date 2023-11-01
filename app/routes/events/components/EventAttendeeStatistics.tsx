@@ -286,7 +286,7 @@ const Analytics = ({ eventId, viewStartTime, viewEndTime }: AnalyticsProps) => {
         setMetrics(calculateMetrics(data));
       });
     }
-  }, [memoizedData, viewStartTime, viewEndTime]);
+  }, [memoizedData, eventId, viewStartTime, viewEndTime]);
 
   return (
     <>
