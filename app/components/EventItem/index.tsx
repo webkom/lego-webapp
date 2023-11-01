@@ -4,7 +4,6 @@ import { Image } from 'app/components/Image';
 import { Flex } from 'app/components/Layout';
 import Pill from 'app/components/Pill';
 import Tag from 'app/components/Tags/Tag';
-import TextWithIcon from 'app/components/TextWithIcon';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
 import type { Event } from 'app/models';
@@ -96,23 +95,17 @@ const TimeStartAndRegistration = ({ event }: TimeStampProps) => {
     <div className={styles.eventTime}>
       <Flex alignItems="center" gap={10}>
         <Tooltip content={'Arrangementstart'}>
-          <TextWithIcon
-            iconName="calendar-number-outline"
-            content={<Time time={event.startTime} format="ll HH:mm" />}
-            className={styles.textWithIcon}
-          />
+          <Icon name="calendar-number-outline" size={20} />
         </Tooltip>
+        <Time time={event.startTime} format="ll HH:mm" />
       </Flex>
 
       {!!event.activationTime && (
         <Flex alignItems="center" gap={10}>
           <Tooltip content={'Påmelding åpner'}>
-            <TextWithIcon
-              iconName="alarm-outline"
-              content={<Time time={event.activationTime} format="ll HH:mm" />}
-              className={styles.textWithIcon}
-            />
+            <Icon name="alarm-outline" size={20} />
           </Tooltip>
+          <Time time={event.activationTime} format="ll HH:mm" />
         </Flex>
       )}
     </div>

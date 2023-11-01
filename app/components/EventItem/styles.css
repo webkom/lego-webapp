@@ -59,7 +59,3 @@
   object-fit: contain;
   background: white;
 }
-
-.textWithIcon {
-  font-size: var(--font-size-sm);
-}
