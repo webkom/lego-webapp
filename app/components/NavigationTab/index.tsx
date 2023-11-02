@@ -1,6 +1,6 @@
+import { Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { NavLink } from 'react-router-dom';
-import Icon from 'app/components/Icon';
 import NavigationLink from './NavigationLink';
 import styles from './NavigationTab.css';
 import type { ReactNode } from 'react';

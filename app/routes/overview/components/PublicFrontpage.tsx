@@ -1,4 +1,4 @@
-import { Button } from '@webkom/lego-bricks';
+import { Button, Card, Container, Flex } from '@webkom/lego-bricks';
 import { Link } from 'react-router-dom';
 import buddyWeekGraphic from 'app/assets/frontpage-graphic-buddyweek.png';
 import dataGraphic from 'app/assets/frontpage-graphic-data.png';
@@ -9,9 +9,7 @@ import netcompany from 'app/assets/netcompany_dark.png';
 import netcompanyLight from 'app/assets/netcompany_white.svg';
 import AuthSection from 'app/components/AuthSection/AuthSection';
 // import Banner from 'app/components/Banner';
-import Card from 'app/components/Card';
 import { Image } from 'app/components/Image';
-import { Container, Flex } from 'app/components/Layout';
 import { readmeIfy } from 'app/components/ReadmeLogo';
 import type { Readme } from 'app/models';
 import type { WithDocumentType } from 'app/reducers/frontpage';

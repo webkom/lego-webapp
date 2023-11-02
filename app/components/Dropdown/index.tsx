@@ -1,7 +1,7 @@
+import { Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { useRef } from 'react';
 import { Overlay } from 'react-overlays';
-import Icon from 'app/components/Icon';
 import styles from './Dropdown.css';
 import type { ReactNode, ReactPortal, HTMLAttributes } from 'react';
 

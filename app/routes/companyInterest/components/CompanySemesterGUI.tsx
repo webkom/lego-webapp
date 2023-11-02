@@ -1,3 +1,4 @@
+import { Flex, Icon } from '@webkom/lego-bricks';
 import { Field } from 'react-final-form';
 import { Content } from 'app/components/Content';
 import {
@@ -9,8 +10,6 @@ import {
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
-import Icon from 'app/components/Icon';
-import Flex from 'app/components/Layout/Flex';
 import { Semester } from 'app/store/models';
 import type CompanySemester from 'app/store/models/CompanySemester';
 import { createValidator, required } from 'app/utils/validation';

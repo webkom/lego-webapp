@@ -1,8 +1,7 @@
-import { LoadingIndicator, Button } from '@webkom/lego-bricks';
+import { Button, Icon, LoadingIndicator } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
-import Icon from 'app/components/Icon';
 import type { CompanySemesterContactedStatus } from 'app/models';
 import type { CompanyEntity } from 'app/reducers/companies';
 import { indexToSemester } from '../utils';

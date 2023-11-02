@@ -1,6 +1,6 @@
+import { Icon } from '@webkom/lego-bricks';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import Icon from 'app/components/Icon';
 import { readmeIfy } from 'app/components/ReadmeLogo';
 import styles from './PageHierarchy.css';
 import type { ReactNode } from 'react';

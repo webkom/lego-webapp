@@ -1,10 +1,9 @@
+import { Flex, Icon } from '@webkom/lego-bricks';
 import { sortBy } from 'lodash';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { compose } from 'redux';
 import { editGroup } from 'app/actions/GroupActions';
-import Icon from 'app/components/Icon';
-import { Flex } from 'app/components/Layout';
 import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import type { ID } from 'app/models';
 import loadingIndicator from 'app/utils/loadingIndicator';

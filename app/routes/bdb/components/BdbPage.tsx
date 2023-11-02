@@ -1,8 +1,7 @@
-import { LoadingIndicator } from '@webkom/lego-bricks';
+import { Card, LoadingIndicator } from '@webkom/lego-bricks';
 import qs from 'qs';
 import { Component } from 'react';
 import { Helmet } from 'react-helmet-async';
-import Card from 'app/components/Card';
 import { Content } from 'app/components/Content';
 import TextInput from 'app/components/Form/TextInput';
 import type { CompanySemesterContactedStatus } from 'app/models';

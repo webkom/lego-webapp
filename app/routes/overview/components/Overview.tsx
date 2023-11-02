@@ -1,10 +1,9 @@
+import { Container, Flex, Icon } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
 import { useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 // import Banner from 'app/components/Banner';
-import Icon from 'app/components/Icon';
-import { Container, Flex } from 'app/components/Layout';
 import Poll from 'app/components/Poll';
 import RandomQuote from 'app/components/RandomQuote';
 import type { Event, Readme } from 'app/models';

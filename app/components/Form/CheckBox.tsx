@@ -1,5 +1,5 @@
+import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { Flex } from '../Layout';
 import styles from './CheckBox.css';
 import { createField } from './Field';
 import type { FormProps } from './Field';

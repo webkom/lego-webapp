@@ -1,6 +1,5 @@
-import { LoadingIndicator, Button } from '@webkom/lego-bricks';
+import { Button, Flex, LoadingIndicator } from '@webkom/lego-bricks';
 import { Link } from 'react-router-dom';
-import { Flex } from 'app/components/Layout';
 import Table from 'app/components/Table';
 import type { ActionGrant } from 'app/models';
 import HTTPError from 'app/routes/errors/HTTPError';

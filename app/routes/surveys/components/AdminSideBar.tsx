@@ -1,9 +1,8 @@
-import { Button } from '@webkom/lego-bricks';
+import { Button, Icon } from '@webkom/lego-bricks';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { ContentSidebar } from 'app/components/Content';
 import { CheckBox } from 'app/components/Form';
-import Icon from 'app/components/Icon';
 import config from 'app/config';
 import type { ActionGrant } from 'app/models';
 import type { ID } from 'app/store/models';

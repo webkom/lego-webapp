@@ -1,6 +1,6 @@
+import { Card } from '@webkom/lego-bricks';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
-import Card from 'app/components/Card';
 import { Image } from 'app/components/Image';
 import type { PublicArticle } from 'app/store/models/Article';
 import truncateString from 'app/utils/truncateString';

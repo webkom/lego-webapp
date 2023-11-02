@@ -1,6 +1,5 @@
-import { LoadingIndicator } from '@webkom/lego-bricks';
+import { Flex, LoadingIndicator } from '@webkom/lego-bricks';
 import CommentForm from 'app/components/CommentForm';
-import { Flex } from 'app/components/Layout';
 import type { ID } from 'app/store/models';
 import type Comment from 'app/store/models/Comment';
 import type { ContentAuthors } from 'app/store/models/Comment';
