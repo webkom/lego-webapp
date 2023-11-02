@@ -2,7 +2,7 @@ import cx from 'classnames';
 import { Modal as ReactModal } from 'react-overlays';
 import { Icon } from '../Icon';
 import styles from './Modal.module.css';
-import type { ReactNode } from 'react';
+import type { KeyboardEvent, ReactNode } from 'react';
 
 type Props = {
   show: boolean;
@@ -30,29 +30,51 @@ const Modal = ({
   keyboard = true,
   contentClassName,
   backdropClassName,
-}: Props) => (
-  <ReactModal
-    className={cx(styles.content, contentClassName, { [styles.show]: show })}
-    show={show}
-    backdrop={backdrop}
-    onHide={onHide}
-    keyboard={keyboard}
-    renderBackdrop={(props) => (
-      <div
-        {...props}
-        className={cx(backdropClassName || styles.backdrop, {
-          [styles.show]: show,
-        })}
-        onClick={closeOnBackdropClick ? props.onClick : undefined}
-        role="presentation"
-      />
-    )}
-  >
-    <>
-      <Icon name="close" onClick={onHide} className={styles.closeButton} />
-      {children}
-    </>
-  </ReactModal>
-);
+}: Props) => {
+  const handleBackdropClick = () => {
+    if (closeOnBackdropClick) {
+      onHide();
+    }
+  };
+
+  const handleBackdropKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (
+      closeOnBackdropClick &&
+      (event.key === 'Enter' || event.key === 'Escape' || event.key === ' ')
+    ) {
+      event.preventDefault();
+      onHide();
+    }
+  };
+
+  return (
+    <ReactModal
+      className={cx(styles.content, contentClassName, {
+        [styles.show]: show,
+      })}
+      show={show}
+      backdrop={backdrop}
+      onHide={onHide}
+      keyboard={keyboard}
+      renderBackdrop={(props) => (
+        <div
+          {...props}
+          className={cx(backdropClassName || styles.backdrop, {
+            [styles.show]: show,
+          })}
+          onClick={handleBackdropClick}
+          onKeyDown={handleBackdropKeyDown}
+          tabIndex={closeOnBackdropClick ? 0 : undefined} // Make it focusable if clickable
+          role={closeOnBackdropClick ? 'button' : undefined}
+        />
+      )}
+    >
+      <>
+        <Icon name="close" onClick={onHide} className={styles.closeButton} />
+        {children}
+      </>
+    </ReactModal>
+  );
+};
 
 export default Modal;
