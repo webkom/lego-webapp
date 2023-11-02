@@ -1,7 +1,7 @@
-import { Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { Modal as ReactModal } from 'react-overlays';
-import styles from './Modal.css';
+import { Icon } from '../Icon';
+import styles from './Modal.module.css';
 import type { ReactNode } from 'react';
 
 type Props = {
@@ -44,6 +44,7 @@ const Modal = ({
           [styles.show]: show,
         })}
         onClick={closeOnBackdropClick ? props.onClick : undefined}
+        role="presentation"
       />
     )}
   >

@@ -1,4 +1,9 @@
-import { Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
+import {
+  ConfirmModal,
+  Flex,
+  Icon,
+  LoadingIndicator,
+} from '@webkom/lego-bricks';
 import { unionBy } from 'lodash';
 import moment from 'moment-timezone';
 import { Field, FormSpy } from 'react-final-form';
@@ -19,7 +24,6 @@ import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import MazemapLink from 'app/components/MazemapEmbed/MazemapLink';
-import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import NavigationTab from 'app/components/NavigationTab';
 import { AttendanceStatus } from 'app/components/UserAttendance';
 import type { MeetingInvitationWithUser } from 'app/reducers/meetingInvitations';

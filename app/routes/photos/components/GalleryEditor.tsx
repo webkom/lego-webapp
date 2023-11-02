@@ -1,4 +1,4 @@
-import { Button, Card, Flex, Icon } from '@webkom/lego-bricks';
+import { Button, Card, ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { without, find } from 'lodash';
 import moment from 'moment-timezone';
@@ -20,7 +20,6 @@ import {
 } from 'app/components/Form';
 import { normalizeObjectPermissions } from 'app/components/Form/ObjectPermissions';
 import GalleryComponent from 'app/components/Gallery';
-import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import NavigationTab from 'app/components/NavigationTab';
 import type { ID } from 'app/models';
 import type { GalleryEntity } from 'app/reducers/galleries';

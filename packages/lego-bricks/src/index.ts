@@ -11,3 +11,4 @@ export {
   type LoadingIndicatorProps,
   ProgressBar,
 } from './components/LoadingIndicator';
+export { Modal, ConfirmModal } from './components/Modal';

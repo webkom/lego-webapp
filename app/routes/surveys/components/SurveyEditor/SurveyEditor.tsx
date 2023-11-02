@@ -1,4 +1,4 @@
-import { Button, Card, Flex, Icon } from '@webkom/lego-bricks';
+import { Button, Card, ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
 import arrayMutators from 'final-form-arrays';
 import { useState } from 'react';
 import { Field } from 'react-final-form';
@@ -9,7 +9,6 @@ import { Content } from 'app/components/Content';
 import Dropdown from 'app/components/Dropdown';
 import { DatePicker, SelectInput, TextInput } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
-import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import Time from 'app/components/Time';
 import type { EventType } from 'app/models';
 import { EVENT_CONSTANTS, eventTypeToString } from 'app/routes/events/utils';

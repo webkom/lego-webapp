@@ -1,4 +1,4 @@
-import { Card, Flex, Icon } from '@webkom/lego-bricks';
+import { Card, ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import {
@@ -7,7 +7,6 @@ import {
   CheckBox,
   SelectInput,
 } from 'app/components/Form';
-import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import {
   mappings,
   QuestionTypes,

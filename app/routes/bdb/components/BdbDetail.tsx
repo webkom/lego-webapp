@@ -1,6 +1,7 @@
 import {
   Button,
   Card,
+  ConfirmModal,
   Flex,
   Icon,
   LoadingIndicator,
@@ -11,7 +12,6 @@ import CommentView from 'app/components/Comments/CommentView';
 import { Content } from 'app/components/Content';
 import { Image } from 'app/components/Image';
 import InfoBubble from 'app/components/InfoBubble';
-import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
 import type { CompanySemesterContactedStatus } from 'app/models';

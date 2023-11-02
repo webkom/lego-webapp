@@ -1,6 +1,7 @@
 import {
   Button,
   Card,
+  ConfirmModal,
   Flex,
   Icon,
   LoadingIndicator,
@@ -13,7 +14,6 @@ import { Link } from 'react-router-dom';
 import { compose } from 'redux';
 import { reduxForm, Field, SubmissionError } from 'redux-form';
 import { Form, Captcha, TextInput } from 'app/components/Form';
-import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
 import type {
