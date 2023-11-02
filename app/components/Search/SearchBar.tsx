@@ -53,7 +53,7 @@ const SearchBar = ({
         onClick={onCloseSearch}
         name={'close'}
         size={30}
-        data-testid="closeButton"
+        data-test-id="closeButton"
       />
     </Flex>
   );

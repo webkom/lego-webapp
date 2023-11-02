@@ -68,9 +68,15 @@ const Modal = ({
           role={closeOnBackdropClick ? 'button' : undefined}
         />
       )}
+      data-test-id="Modal__content"
     >
       <>
-        <Icon name="close" onClick={onHide} className={styles.closeButton} />
+        <Icon
+          name="close"
+          onClick={onHide}
+          className={styles.closeButton}
+          data-test-id="Modal__closeButton"
+        />
         {children}
       </>
     </ReactModal>
