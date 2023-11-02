@@ -1,4 +1,3 @@
-import qs from 'qs';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { fetchEmojis } from 'app/actions/EmojiActions';
@@ -17,15 +16,11 @@ import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import QuotePage from './components/QuotePage';
 
 const mapStateToProps = (state, props) => {
-  const query = qs.parse(props.location.search, {
-    ignoreQueryPrefix: true,
-  });
   const quoteId = props.match.params.quoteId;
   const quotes = [selectQuoteById(state, quoteId)];
   const emojis = selectEmojis(state);
   const actionGrant = state.quotes.actionGrant;
   return {
-    query,
     quotes,
     quoteId,
     emojis,

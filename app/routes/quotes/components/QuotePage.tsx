@@ -1,26 +1,22 @@
 import { LoadingIndicator, Button } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import qs from 'qs';
-import { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useHistory } from 'react-router-dom';
 import Select from 'react-select';
 import { selectTheme, selectStyles } from 'app/components/Form/SelectInput';
 import type { ActionGrant } from 'app/models';
+import { defaultQuotesQuery } from 'app/routes/quotes/QuotesRoute';
 import type { ID } from 'app/store/models';
 import type Emoji from 'app/store/models/Emoji';
 import type Quote from 'app/store/models/Quote';
 import type { CurrentUser } from 'app/store/models/User';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
+import useQuery from 'app/utils/useQuery';
 import { navigation } from '../utils';
 import QuoteList from './QuoteList';
 import styles from './Quotes.css';
 
 type Props = {
-  query: {
-    approved: string;
-    ordering: string;
-  };
+  quoteId?: ID;
   quotes: Quote[];
   actionGrant: ActionGrant;
   approve: (id: ID) => Promise<void>;
@@ -53,18 +49,18 @@ type Option = {
   label: string;
   value: string;
 };
-const filterRegDateOptions: Array<Option> = [
+const orderingOptions: Array<Option> = [
   {
     label: 'nyeste',
-    value: '',
+    value: '-created_at',
   },
   {
     label: 'flest reaksjoner',
-    value: '?ordering=-reaction_count',
+    value: '-reaction_count',
   },
 ];
 export default function QuotePage({
-  query,
+  quoteId,
   quotes,
   approve,
   unapprove,
@@ -81,53 +77,43 @@ export default function QuotePage({
   fetchEmojis,
   fetchingEmojis,
 }: Props) {
-  let errorMessage = undefined;
+  const isSingle = !!quoteId;
+
+  let errorMessage: string | undefined = undefined;
+
+  const { query, setQueryValue } = useQuery(defaultQuotesQuery);
 
   if (quotes.length === 0 && !fetching) {
-    errorMessage =
-      query.approved === 'false'
-        ? 'Ingen sitater venter på godkjenning.'
-        : 'Fant ingen sitater. Hvis du har sendt inn et sitat venter det trolig på godkjenning.';
+    errorMessage = query.approved
+      ? 'Fant ingen sitater. Hvis du har sendt inn et sitat venter det trolig på godkjenning.'
+      : 'Ingen sitater venter på godkjenning.';
   }
 
-  const history = useHistory();
-  const [ordering, setOrdering] = useState<Option>(
-    query.ordering === '-reaction_count'
-      ? filterRegDateOptions[1]
-      : filterRegDateOptions[0]
+  const ordering = orderingOptions.find(
+    (option) => option.value === query.ordering
   );
-
-  const handleChange = (event) => {
-    setOrdering(event);
-  };
-
-  useEffect(() => {
-    // Update url with the new filtering/ordering params while ignoring the default values
-    const searchObject = qs.parse(ordering.value, { ignoreQueryPrefix: true });
-    if (query.approved === 'false') searchObject['approved'] = query.approved;
-    const searchString = qs.stringify(searchObject, { addQueryPrefix: true });
-    history.replace({
-      search: searchString,
-    });
-  }, [history, ordering, query.approved]);
 
   return (
     <div className={cx(styles.root, styles.quoteContainer)}>
       <Helmet title="Overhørt" />
       {navigation('Overhørt', actionGrant)}
 
-      <div className={styles.select}>
-        <div>Sorter etter:</div>
-        <Select
-          name="sorting_selector"
-          value={ordering}
-          onChange={handleChange}
-          isClearable={false}
-          theme={selectTheme}
-          styles={selectStyles}
-          options={filterRegDateOptions}
-        />
-      </div>
+      {!isSingle && (
+        <div className={styles.select}>
+          <div>Sorter etter:</div>
+          <Select
+            name="sorting_selector"
+            value={ordering}
+            onChange={(option) =>
+              option && setQueryValue('ordering')(option.value)
+            }
+            isClearable={false}
+            theme={selectTheme}
+            styles={selectStyles}
+            options={orderingOptions}
+          />
+        </div>
+      )}
 
       {errorMessage || (
         <QuoteList

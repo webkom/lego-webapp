@@ -1,4 +1,3 @@
-import qs from 'qs';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { fetchEmojis } from 'app/actions/EmojiActions';
@@ -14,23 +13,19 @@ import { selectEmojis } from 'app/reducers/emojis';
 import { selectQuotes } from 'app/reducers/quotes';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import { parseQueryString } from 'app/utils/useQuery';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import QuotePage from './components/QuotePage';
 
-const qsParamsParser = (search) => ({
-  approved:
-    qs.parse(search, {
-      ignoreQueryPrefix: true,
-    }).approved || 'true',
-  ordering: qs.parse(search, {
-    ignoreQueryPrefix: true,
-  }).ordering,
-});
+export const defaultQuotesQuery = {
+  approved: 'true',
+  ordering: '-created_at',
+};
 
 const mapStateToProps = (state, props) => {
   const { pagination } = selectPaginationNext({
     endpoint: `/quotes/`,
-    query: qsParamsParser(props.location.search),
+    query: parseQueryString(props.location.search, defaultQuotesQuery),
     entity: 'quotes',
   })(state);
   const emojis = selectEmojis(state);
@@ -38,7 +33,6 @@ const mapStateToProps = (state, props) => {
     quotes: selectQuotes(state, {
       pagination,
     }),
-    query: pagination.query,
     actionGrant: state.quotes.actionGrant,
     showFetchMore: pagination.hasMore,
     emojis,
@@ -63,7 +57,7 @@ export default compose(
     (props, dispatch) =>
       dispatch(
         fetchAll({
-          query: qsParamsParser(props.location.search),
+          query: parseQueryString(props.location.search, defaultQuotesQuery),
         })
       ),
     (props) => [props.location]
