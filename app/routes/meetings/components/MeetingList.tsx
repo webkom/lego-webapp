@@ -19,7 +19,8 @@ function MeetingListItem({
   meeting: ListMeeting;
   username: string;
 }) {
-  const isDone = moment(meeting.startTime) < moment();
+  const isDone = moment(meeting.endTime) < moment();
+
   return (
     <div
       style={{
