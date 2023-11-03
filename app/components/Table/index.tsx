@@ -8,22 +8,22 @@ import { TextInput, CheckBox, RadioButton } from 'app/components/Form';
 import styles from './Table.css';
 import type { ReactNode, ChangeEvent } from 'react';
 
-type sortProps = {
+type SortProps = {
   direction?: 'asc' | 'desc';
   dataIndex?: string;
   sorter?: boolean | ((arg0: any, arg1: any) => number);
 };
 
-type checkFilter = {
+type CheckFilter = {
   label: string;
   value: any;
 };
 
-type columnProps = {
+type ColumnProps = {
   dataIndex: string;
   title?: string;
   sorter?: boolean | ((arg0: any, arg1: any) => number);
-  filter?: Array<checkFilter>;
+  filter?: Array<CheckFilter>;
 
   /*
    * Map the value to to "another" value to use
@@ -40,17 +40,17 @@ type columnProps = {
   centered?: boolean;
   inlineFiltering?: boolean;
   filterMessage?: string;
-  columnChoices?: Array<columnProps>;
+  columnChoices?: Array<ColumnProps>;
 };
 
 type Props = {
   rowKey?: string;
-  columns: Array<columnProps>;
+  columns: Array<ColumnProps>;
   data: Array<Record<string, any>>;
   hasMore: boolean;
   loading: boolean;
-  onChange?: (filters: Record<string, any>, sort: sortProps) => void;
-  onLoad?: (filters: Record<string, any>, sort: sortProps) => void;
+  onChange?: (filters: Record<string, any>, sort: SortProps) => void;
+  onLoad?: (filters: Record<string, any>, sort: SortProps) => void;
   filters?: Record<string, any>;
   className?: string;
 };
@@ -58,11 +58,14 @@ type Props = {
 type State = {
   filters: Record<string, any>;
   isShown: Record<string, any>;
-  sort: sortProps;
+  sort: SortProps;
   showColumn: Record<string, any>;
 };
 
-const isVisible = ({ visible = true }: columnProps) => visible;
+const isVisible = ({ visible = true }: ColumnProps) => visible;
+
+const addOrRemove = <T,>(arr: T[], item: T): T[] =>
+  arr.includes(item) ? arr.filter((i) => i !== item) : [...arr, item];
 
 export default class Table extends Component<Props, State> {
   constructor(props: Props) {
@@ -81,9 +84,6 @@ export default class Table extends Component<Props, State> {
     };
   }
 
-  static defaultProps = {
-    rowKey: 'id',
-  };
   toggleSearch = (dataIndex: string) => {
     this.setState({
       isShown: {
@@ -91,7 +91,7 @@ export default class Table extends Component<Props, State> {
       },
     });
   };
-  toggleFilter = (dataIndex: string) => {
+  toggleIsShown = (dataIndex: string) => {
     this.setState({
       isShown: {
         [dataIndex]: !this.state.isShown[dataIndex],
@@ -116,10 +116,13 @@ export default class Table extends Component<Props, State> {
       () => this.onChange()
     );
   };
-  onFilterInput = (value: any, dataIndex: string) => {
+  onFilterInput = (value: string, dataIndex: string) => {
     this.setState(
       {
-        filters: { ...this.state.filters, [dataIndex]: value },
+        filters: {
+          ...this.state.filters,
+          [dataIndex]: addOrRemove(this.state.filters[dataIndex] ?? [], value),
+        },
       },
       () => this.onChange()
     );
@@ -158,7 +161,7 @@ export default class Table extends Component<Props, State> {
     );
   };
   renderCell = (
-    column: columnProps,
+    column: ColumnProps,
     data: Record<string, any>,
     index: number
   ) => {
@@ -188,7 +191,7 @@ export default class Table extends Component<Props, State> {
       </td>
     );
   };
-  renderHeadCell = (props: columnProps, index: number) => {
+  renderHeadCell = (props: ColumnProps, index: number) => {
     let chosenProps = props;
     const columnChoices = props.columnChoices;
     const dataIndexColumnChoices = props.dataIndex;
@@ -254,13 +257,16 @@ export default class Table extends Component<Props, State> {
           {filter && (
             <Dropdown
               show={isShown[dataIndex]}
-              toggle={() => this.toggleFilter(dataIndex)}
+              toggle={() => this.toggleIsShown(dataIndex)}
               triggerComponent={
                 <Icon
                   name="funnel"
                   size={16}
                   className={cx(
-                    filters[dataIndex] !== undefined || isShown[dataIndex]
+                    (filters[dataIndex] !== undefined &&
+                      Array.isArray(filters[dataIndex]) &&
+                      filters[dataIndex].length !== 0) ||
+                      isShown[dataIndex]
                       ? styles.iconActive
                       : styles.icon
                   )}
@@ -283,7 +289,11 @@ export default class Table extends Component<Props, State> {
                 >
                   <CheckBox
                     label={label}
-                    value={value === this.state.filters[dataIndex]}
+                    checked={
+                      Array.isArray(this.state.filters[dataIndex])
+                        ? this.state.filters[dataIndex].includes(value)
+                        : value === this.state.filters[dataIndex]
+                    }
                   />
                 </div>
               ))}
@@ -295,7 +305,7 @@ export default class Table extends Component<Props, State> {
                       filters: { ...state.filters, [dataIndex]: undefined },
                     }),
                     () => {
-                      this.toggleFilter(dataIndex);
+                      this.toggleIsShown(dataIndex);
                       this.onChange();
                     }
                   )
@@ -385,10 +395,17 @@ export default class Table extends Component<Props, State> {
   }, 170);
 
   render() {
-    const { columns, data, rowKey, hasMore, loading, className } = this.props;
+    const {
+      columns,
+      data,
+      rowKey = 'id',
+      hasMore,
+      loading,
+      className,
+    } = this.props;
     let sorter = this.state.sort.sorter;
     const { direction, dataIndex } = this.state.sort;
-    if (typeof sorter == 'boolean')
+    if (typeof sorter == 'boolean' && dataIndex)
       sorter = (a, b) => {
         if (a[dataIndex] > b[dataIndex]) return 1;
         return -1;
