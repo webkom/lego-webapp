@@ -69,7 +69,6 @@ class PageDetail extends Component<Props, State> {
     }
 
     const { editUrl, actionGrant = [], isComplete } = selectedPageInfo;
-    const { category } = selectedPage;
     return (
       <Content className={styles.cont}>
         <Helmet title={selectedPageInfo.title} />
@@ -79,7 +78,6 @@ class PageDetail extends Component<Props, State> {
           </button>
           <Flex className={styles.page}>
             <Sidebar
-              categorySelected={category}
               currentUrl={currentUrl}
               pageHierarchy={pageHierarchy}
               isOpen={this.state.isOpen}
