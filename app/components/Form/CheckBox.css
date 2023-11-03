@@ -44,7 +44,8 @@
   }
 }
 
-.checkbox input:hover:not(:disabled) {
+.checkbox input:hover:not(:disabled),
+.checkbox input:focus:not(:disabled) {
   --s: 2px;
   --b: var(--border-hover);
 }
