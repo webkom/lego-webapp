@@ -1,6 +1,6 @@
 import { Icon } from '@webkom/lego-bricks';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { readmeIfy } from 'app/components/ReadmeLogo';
 import styles from './PageHierarchy.css';
 import type { ReactNode } from 'react';
@@ -16,14 +16,12 @@ export type HierarchySectionEntity = {
 type Props = {
   pageHierarchy: Array<HierarchySectionEntity>;
   currentUrl: string;
-  currentCategory: string;
   handleCloseSidebar: () => void;
 };
 
 const PageHierarchy = ({
   pageHierarchy,
   currentUrl,
-  currentCategory,
   handleCloseSidebar,
 }: Props) => {
   return (
@@ -33,7 +31,6 @@ const PageHierarchy = ({
           hierarchySection={section}
           key={key}
           currentUrl={currentUrl}
-          currentCategory={currentCategory}
           handleCloseSidebar={handleCloseSidebar}
         />
       ))}
@@ -46,18 +43,16 @@ export default PageHierarchy;
 const HierarchySection = ({
   hierarchySection: { title, items },
   currentUrl,
-  currentCategory,
   handleCloseSidebar,
 }: {
   hierarchySection: HierarchySectionEntity;
   currentUrl: string;
-  currentCategory: string;
   handleCloseSidebar: () => void;
 }) => {
   return (
     <nav className={styles.pageList}>
       {items.length > 0 && (
-        <AccordionContainer title={title} currentCategory={currentCategory}>
+        <AccordionContainer title={title}>
           {items.map((item) => (
             <Link to={item.url} key={item.url + item.title}>
               <div className={styles.links} onClick={handleCloseSidebar}>
@@ -82,25 +77,25 @@ const HierarchySection = ({
 type AccordionProps = {
   title: string;
   children: ReactNode;
-  currentCategory: string;
 };
 
-const AccordionContainer = ({
-  title,
-  children,
-  currentCategory,
-}: AccordionProps) => {
+type PageParams = {
+  section: string;
+};
+
+const AccordionContainer = ({ title, children }: AccordionProps) => {
+  const { section } = useParams<PageParams>();
+
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     if (
-      currentCategory === title.toLowerCase() ||
-      (currentCategory === 'info-om-abakus' &&
-        title.toLowerCase() === 'generelt')
+      section === title.toLowerCase() ||
+      (section === 'info-om-abakus' && title.toLowerCase() === 'generelt')
     ) {
       setIsOpen(true);
     }
-  }, [currentCategory, title]);
+  }, [section, title]);
 
   return (
     <div>
