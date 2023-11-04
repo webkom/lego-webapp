@@ -1,4 +1,10 @@
-import { Button, Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
+import {
+  Button,
+  ConfirmModal,
+  Flex,
+  Icon,
+  LoadingIndicator,
+} from '@webkom/lego-bricks';
 import { get } from 'lodash';
 import { Component } from 'react';
 import { Field, Fields } from 'redux-form';
@@ -12,7 +18,6 @@ import {
   ObjectPermissions,
 } from 'app/components/Form';
 import { normalizeObjectPermissions } from 'app/components/Form/ObjectPermissions';
-import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import NavigationTab from 'app/components/NavigationTab';
 import ImageUpload from 'app/components/Upload/ImageUpload';
 import { categoryOptions } from 'app/routes/pages/PageDetailRoute';

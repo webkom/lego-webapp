@@ -142,7 +142,7 @@ export const uploadHeader = () => {
     'images/screenshot.png'
   );
   cy.get('.cropper-move').click();
-  cy.get(c('Modal__content'))
+  cy.get(t('Modal__content'))
     .contains('Last opp')
     .should('not.be.disabled')
     .click();

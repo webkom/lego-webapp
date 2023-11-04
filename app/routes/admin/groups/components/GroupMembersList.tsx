@@ -1,10 +1,9 @@
-import { Flex, Icon } from '@webkom/lego-bricks';
+import { ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
 import qs from 'qs';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Select from 'react-select';
 import type { AddMemberArgs } from 'app/actions/GroupActions';
-import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import Table from 'app/components/Table';
 import { isCurrentUser as checkIfCurrentUser } from 'app/routes/users/utils';
 import type Membership from 'app/store/models/Membership';

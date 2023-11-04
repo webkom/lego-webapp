@@ -1,8 +1,7 @@
-import { Button, Flex, Icon } from '@webkom/lego-bricks';
+import { Button, ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
 import keys from 'lodash/keys';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import Table from 'app/components/Table';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';

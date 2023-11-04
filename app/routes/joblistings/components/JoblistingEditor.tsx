@@ -1,4 +1,10 @@
-import { Button, Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
+import {
+  Button,
+  ConfirmModal,
+  Flex,
+  Icon,
+  LoadingIndicator,
+} from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
 import { Component } from 'react';
 import { Helmet } from 'react-helmet-async';
@@ -12,7 +18,6 @@ import {
   DatePicker,
   legoForm,
 } from 'app/components/Form';
-import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import NavigationTab from 'app/components/NavigationTab';
 import { httpCheck } from 'app/routes/bdb/utils';
 import type { ID } from 'app/store/models';

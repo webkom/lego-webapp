@@ -1,11 +1,10 @@
-import { Button, Flex, Icon } from '@webkom/lego-bricks';
+import { Button, Flex, Icon, Modal } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { useEffect, useState, useCallback, useMemo, Component } from 'react';
 import { Cropper } from 'react-cropper';
 import { type Accept, useDropzone } from 'react-dropzone';
 import 'cropperjs/dist/cropper.css';
 import { Image } from 'app/components/Image';
-import Modal from 'app/components/Modal';
 import styles from './UploadImage.css';
 
 export interface DropFile extends File {

@@ -1,4 +1,10 @@
-import { Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
+import {
+  ConfirmModal,
+  Flex,
+  Icon,
+  LoadingIndicator,
+  Modal,
+} from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
@@ -24,8 +30,6 @@ import {
 } from 'app/components/Form';
 import { Image } from 'app/components/Image';
 import MazemapLink from 'app/components/MazemapEmbed/MazemapLink';
-import Modal from 'app/components/Modal';
-import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import NavigationTab from 'app/components/NavigationTab';
 import Tag from 'app/components/Tags/Tag';
 import { FormatTime } from 'app/components/Time';

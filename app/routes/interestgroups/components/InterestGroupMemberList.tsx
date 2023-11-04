@@ -1,10 +1,9 @@
-import { Flex, Icon } from '@webkom/lego-bricks';
+import { Flex, Icon, Modal } from '@webkom/lego-bricks';
 import sortBy from 'lodash/sortBy';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
 import TextInput from 'app/components/Form/TextInput';
 import { ProfilePicture } from 'app/components/Image';
-import Modal from 'app/components/Modal';
 import Tooltip from 'app/components/Tooltip';
 import shared from 'app/components/UserAttendance/AttendanceModalContent.css';
 import type { User, GroupMembership } from 'app/models';

@@ -1,9 +1,8 @@
-import { Card, Container, Flex } from '@webkom/lego-bricks';
+import { Card, Container, Flex, Modal } from '@webkom/lego-bricks';
 import qs from 'qs';
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useHistory } from 'react-router-dom';
 import { Button } from 'app/components/Form';
-import Modal from 'app/components/Modal';
 import type { CurrentUser } from 'app/store/models/User';
 import styles from './UserConfirmation.css';
 

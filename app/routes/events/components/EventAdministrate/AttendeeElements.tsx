@@ -1,6 +1,10 @@
-import { Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
+import {
+  ConfirmModal,
+  Flex,
+  Icon,
+  LoadingIndicator,
+} from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import Tooltip from 'app/components/Tooltip';
 import type {
   EventRegistration,

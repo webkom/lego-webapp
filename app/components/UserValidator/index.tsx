@@ -1,10 +1,9 @@
-import { Button, Flex, Icon } from '@webkom/lego-bricks';
+import { Button, Flex, Icon, Modal } from '@webkom/lego-bricks';
 import { get } from 'lodash';
 import { useCallback, useRef, useState } from 'react';
 import { QrReader } from 'react-qr-reader';
 import type { addToast } from 'app/actions/ToastActions';
 import goodSound from 'app/assets/good-sound.mp3';
-import Modal from 'app/components/Modal';
 import SearchPage from 'app/components/Search/SearchPage';
 import type { User } from 'app/models';
 import type { UserSearchResult } from 'app/reducers/search';

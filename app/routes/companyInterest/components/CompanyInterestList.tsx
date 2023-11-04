@@ -1,10 +1,9 @@
-import { Button, Flex, Icon } from '@webkom/lego-bricks';
+import { Button, ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Select from 'react-select';
 import { Content } from 'app/components/Content';
 import { selectTheme, selectStyles } from 'app/components/Form/SelectInput';
-import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import Table from 'app/components/Table';
 import Tooltip from 'app/components/Tooltip';
 import type { CompanyInterestEntity } from 'app/reducers/companyInterest';

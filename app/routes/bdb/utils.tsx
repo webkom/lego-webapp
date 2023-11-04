@@ -1,6 +1,5 @@
-import { Button, Icon } from '@webkom/lego-bricks';
+import { Button, ConfirmModal, Icon } from '@webkom/lego-bricks';
 import { sortBy } from 'lodash';
-import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import type { Semester, CompanySemesterContactedStatus } from 'app/models';
