@@ -21,6 +21,7 @@ type checkFilter = {
 
 type columnProps = {
   dataIndex: string;
+  filterIndex?: string;
   title?: string;
   sorter?: boolean | ((arg0: any, arg1: any) => number);
   filter?: Array<checkFilter>;
@@ -84,42 +85,42 @@ export default class Table extends Component<Props, State> {
   static defaultProps = {
     rowKey: 'id',
   };
-  toggleSearch = (dataIndex: string) => {
+  toggleSearch = (filterIndex: string) => {
     this.setState({
       isShown: {
-        [dataIndex]: !this.state.isShown[dataIndex],
+        [filterIndex]: !this.state.isShown[filterIndex],
       },
     });
   };
-  toggleFilter = (dataIndex: string) => {
+  toggleFilter = (filterIndex: string) => {
     this.setState({
       isShown: {
-        [dataIndex]: !this.state.isShown[dataIndex],
+        [filterIndex]: !this.state.isShown[filterIndex],
       },
     });
   };
-  toggleChooseColumn = (dataIndex: string) => {
+  toggleChooseColumn = (filterIndex: string) => {
     this.setState({
       isShown: {
-        [dataIndex]: !this.state.isShown[dataIndex],
+        [filterIndex]: !this.state.isShown[filterIndex],
       },
     });
   };
   onSearchInput = (
     { target }: ChangeEvent<HTMLInputElement>,
-    dataIndex: string
+    filterIndex: string
   ) => {
     this.setState(
       {
-        filters: { ...this.state.filters, [dataIndex]: target.value },
+        filters: { ...this.state.filters, [filterIndex]: target.value },
       },
       () => this.onChange()
     );
   };
-  onFilterInput = (value: any, dataIndex: string) => {
+  onFilterInput = (value: any, filterIndex: string) => {
     this.setState(
       {
-        filters: { ...this.state.filters, [dataIndex]: value },
+        filters: { ...this.state.filters, [filterIndex]: value },
       },
       () => this.onChange()
     );
@@ -149,12 +150,6 @@ export default class Table extends Component<Props, State> {
         },
       },
       () => this.onChange()
-    );
-  };
-  checkifActive = (dataIndex: string) => {
-    return (
-      this.state.filters[dataIndex].length &&
-      typeof this.state.filters[dataIndex].find((e) => e.value) !== 'undefined'
     );
   };
   renderCell = (
@@ -198,8 +193,15 @@ export default class Table extends Component<Props, State> {
       chosenProps = { ...props, ...props.columnChoices[columnIndex] };
     }
 
-    const { dataIndex, title, sorter, filter, search, filterMessage } =
-      chosenProps;
+    const {
+      dataIndex,
+      filterIndex = dataIndex,
+      title,
+      sorter,
+      filter,
+      search,
+      filterMessage,
+    } = chosenProps;
     const sortIconName =
       this.state.sort.dataIndex === dataIndex
         ? this.state.sort.direction === 'asc'
@@ -220,15 +222,15 @@ export default class Table extends Component<Props, State> {
           {title}
           {search && (
             <Dropdown
-              show={isShown[dataIndex]}
-              toggle={() => this.toggleSearch(dataIndex)}
+              show={isShown[filterIndex]}
+              toggle={() => this.toggleSearch(filterIndex)}
               triggerComponent={
                 <Icon
                   name="search"
                   size={16}
                   className={cx(
-                    (filters[dataIndex] && filters[dataIndex].length) ||
-                      isShown[dataIndex]
+                    (filters[filterIndex] && filters[filterIndex].length) ||
+                      isShown[filterIndex]
                       ? styles.iconActive
                       : styles.icon
                   )}
@@ -241,11 +243,11 @@ export default class Table extends Component<Props, State> {
                 autoFocus
                 removeBorder
                 placeholder={filterMessage}
-                value={filters[dataIndex]}
-                onChange={(e) => this.onSearchInput(e, dataIndex)}
+                value={filters[filterIndex]}
+                onChange={(e) => this.onSearchInput(e, filterIndex)}
                 onKeyDown={({ keyCode }) => {
                   if (keyCode === 13) {
-                    this.toggleSearch(dataIndex);
+                    this.toggleSearch(filterIndex);
                   }
                 }}
               />
@@ -253,14 +255,14 @@ export default class Table extends Component<Props, State> {
           )}
           {filter && (
             <Dropdown
-              show={isShown[dataIndex]}
-              toggle={() => this.toggleFilter(dataIndex)}
+              show={isShown[filterIndex]}
+              toggle={() => this.toggleFilter(filterIndex)}
               triggerComponent={
                 <Icon
                   name="funnel"
                   size={16}
                   className={cx(
-                    filters[dataIndex] !== undefined || isShown[dataIndex]
+                    filters[filterIndex] !== undefined || isShown[filterIndex]
                       ? styles.iconActive
                       : styles.icon
                   )}
@@ -274,16 +276,16 @@ export default class Table extends Component<Props, State> {
                   key={label}
                   onClick={() =>
                     this.onFilterInput(
-                      this.state.filters[dataIndex] === value
+                      this.state.filters[filterIndex] === value
                         ? undefined
                         : value,
-                      dataIndex
+                      filterIndex
                     )
                   }
                 >
                   <CheckBox
                     label={label}
-                    value={value === this.state.filters[dataIndex]}
+                    value={value === this.state.filters[filterIndex]}
                   />
                 </div>
               ))}
@@ -292,10 +294,10 @@ export default class Table extends Component<Props, State> {
                 onClick={() =>
                   this.setState(
                     (state) => ({
-                      filters: { ...state.filters, [dataIndex]: undefined },
+                      filters: { ...state.filters, [filterIndex]: undefined },
                     }),
                     () => {
-                      this.toggleFilter(dataIndex);
+                      this.toggleFilter(filterIndex);
                       this.onChange();
                     }
                   )
@@ -307,14 +309,14 @@ export default class Table extends Component<Props, State> {
           )}
           {columnChoices && (
             <Dropdown
-              show={isShown[dataIndex]}
-              toggle={() => this.toggleChooseColumn(dataIndex)}
+              show={isShown[filterIndex]}
+              toggle={() => this.toggleChooseColumn(filterIndex)}
               triggerComponent={
                 <Icon
                   name="options"
                   size={16}
                   className={cx(
-                    filters[dataIndex] !== undefined || isShown[dataIndex]
+                    filters[filterIndex] !== undefined || isShown[filterIndex]
                       ? styles.iconActive
                       : styles.icon
                   )}
@@ -351,8 +353,13 @@ export default class Table extends Component<Props, State> {
     }
 
     const match = Object.keys(this.state.filters).filter((key) => {
-      const { inlineFiltering = true, filterMapping = (val) => val } =
-        this.props.columns.find((col) => col.dataIndex === key) || {};
+      const {
+        inlineFiltering = true,
+        filterMapping = (val) => val,
+        dataIndex = key,
+      } = this.props.columns.find(
+        (col) => col.filterIndex ?? col.dataIndex === key
+      ) || {};
       if (!inlineFiltering) return true;
 
       if (this.state.filters[key] === undefined) {
@@ -369,7 +376,7 @@ export default class Table extends Component<Props, State> {
         return true;
       }
 
-      return filterMapping(get(item, key)).toLowerCase().includes(filter);
+      return filterMapping(get(item, dataIndex)).toLowerCase().includes(filter);
     }).length;
     return match > 0;
   };

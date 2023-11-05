@@ -27,6 +27,7 @@ const EmailUsers = (props: Props) => {
     {
       title: 'Navn',
       dataIndex: 'user.fullName',
+      filterIndex: 'userFullname',
       search: true,
       inlineFiltering: false,
       render: (_, emailUser) => (
@@ -38,6 +39,7 @@ const EmailUsers = (props: Props) => {
     {
       title: 'Intern e-post',
       dataIndex: 'internalEmail',
+      filterIndex: 'email',
       search: true,
       inlineFiltering: false,
       render: (internalEmail: string, emailUser) => (
@@ -104,6 +106,7 @@ const EmailUsers = (props: Props) => {
     {
       title: 'Status',
       dataIndex: 'internalEmailEnabled',
+      filterIndex: 'enabled',
       inlineFiltering: false,
       filter: [
         {
@@ -156,22 +159,8 @@ const EmailUsers = (props: Props) => {
             query,
           });
         }}
-        filters={{
-          internalEmailEnabled: query.enabled,
-          userGrade: query.userGrade,
-          userCommittee: query.userCommittee,
-          internalEmail: query.email,
-          ['user.fullName']: query.userFullname,
-        }}
-        onChange={(filters) =>
-          setQuery({
-            enabled: filters.internalEmailEnabled,
-            userGrade: filters.userGrade,
-            userCommittee: filters.userCommittee,
-            email: filters.internalEmail,
-            userFullname: filters['user.fullName'],
-          })
-        }
+        filters={query}
+        onChange={setQuery}
         hasMore={props.hasMore}
         loading={props.fetching}
         data={props.emailUsers}
