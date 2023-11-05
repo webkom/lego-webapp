@@ -1,5 +1,6 @@
 import {
   c,
+  t,
   field,
   fieldError,
   selectField,
@@ -106,14 +107,11 @@ describe('Create event', () => {
     cy.get('._legoEditor_root img').should('not.exist');
 
     // Open file upload modal
-    cy.get('.ReactModal__Overlay').should('not.exist');
     cy.get(c('_legoEditor_imageUploader')).should('not.exist');
 
     cy.get('._legoEditor_root button .fa-image').click();
-    cy.get('.ReactModal__Overlay').should('be.visible');
 
-    // TODO: Upload button should be disabled when no image is uploaded
-    // cy.get(c('Modal__content')).contains('Last opp').should('be.disabled');
+    cy.get(c('_legoEditor_imageUploader')).should('be.visible');
 
     // Upload file
     cy.upload_file(
@@ -124,8 +122,8 @@ describe('Create event', () => {
     // This is needed so that the crop module is activated because of how we mock upload files in these tests
     cy.get('.ReactCrop__drag-handle.ord-n').click({ force: true });
 
-    cy.get('._legoEditor_modal_applyButton')
-      .contains('Apply')
+    cy.get(t('Modal__content'))
+      .contains('Last opp')
       .should('not.be.disabled')
       .click();
 
