@@ -1,7 +1,6 @@
 import { Button, Card, Flex } from '@webkom/lego-bricks';
-import { Collapse } from 'react-collapse';
-import Sticky from 'react-stickynode';
-import styles from './Overview.css';
+import cx from 'classnames';
+import styles from './GalleryEditorActions.css';
 
 type Props = {
   selectedCount: number;
@@ -19,36 +18,36 @@ const GalleryEditorActions = ({
   onTogglePicturesStatus,
   onDeletePictures,
   newPicutureStatus,
-}: Props) => (
-  <Collapse isOpened={selectedCount > 0}>
-    <Sticky enabled={selectedCount > 0} innerZ={10} top={0}>
-      <Card className={styles.actionContainer}>
-        <Flex alignItems="center" justifyContent="space-between">
-          <div className={styles.selectedElements}>{selectedCount} valgt</div>
-          <div>
-            <Button flat onClick={onDeselect}>
-              Avbryt
+}: Props) => {
+  return (
+    <Flex justifyContent="center">
+      <Card className={cx(styles.fixed, selectedCount > 0 && styles.visible)}>
+        <span>
+          <b>{selectedCount}</b> valgt
+        </span>
+        <Flex justifyContent="flex-end" wrap>
+          <Button flat onClick={onDeselect}>
+            Avbryt
+          </Button>
+          {selectedCount <= 1 && (
+            <Button onClick={onUpdateGalleryCover}>Sett album cover</Button>
+          )}
+          {newPicutureStatus !== -1 && (
+            <Button
+              danger={newPicutureStatus === 0}
+              onClick={() => onTogglePicturesStatus(!!newPicutureStatus)}
+            >
+              {newPicutureStatus === 0 && 'Skjul'}
+              {newPicutureStatus === 1 && 'Synligjør'}
             </Button>
-            {selectedCount === 1 && (
-              <Button onClick={onUpdateGalleryCover}>Sett album cover</Button>
-            )}
-            {newPicutureStatus !== -1 && (
-              <Button
-                danger={newPicutureStatus === 0}
-                onClick={() => onTogglePicturesStatus(!!newPicutureStatus)}
-              >
-                {newPicutureStatus === 0 && 'Skjul'}
-                {newPicutureStatus === 1 && 'Synligjør'}
-              </Button>
-            )}
-            <Button danger onClick={onDeletePictures}>
-              Slett {selectedCount > 1 ? 'valgte' : 'valgt'}
-            </Button>
-          </div>
+          )}
+          <Button danger onClick={onDeletePictures}>
+            Slett {selectedCount > 1 ? 'valgte' : 'valgt'}
+          </Button>
         </Flex>
       </Card>
-    </Sticky>
-  </Collapse>
-);
+    </Flex>
+  );
+};
 
 export default GalleryEditorActions;

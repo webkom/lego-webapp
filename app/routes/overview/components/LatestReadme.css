@@ -2,6 +2,9 @@
 
 .latestReadme {
   flex: 1;
+  position: relative;
+  overflow: hidden;
+  transition: height var(--easing-medium);
 }
 
 .heading {
