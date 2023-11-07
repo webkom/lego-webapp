@@ -8,22 +8,10 @@ import JoblistingsRightNav from './JoblistingRightNav';
 
 type Props = {
   joblistings: ListJoblisting[];
-  search: {
-    grades?: string;
-    jobTypes?: string;
-    workplaces?: string;
-    order?: string;
-  };
   actionGrant: ActionGrant;
-  history: Record<string, any>;
 };
 
-const JoblistingsPage = ({
-  joblistings,
-  search,
-  actionGrant,
-  history,
-}: Props) => {
+const JoblistingsPage = ({ joblistings, actionGrant }: Props) => {
   if (!joblistings) {
     return <LoadingIndicator loading />;
   }
@@ -33,11 +21,7 @@ const JoblistingsPage = ({
       <Helmet title="Karriere" />
       <Flex className={styles.page}>
         <JoblistingsList joblistings={joblistings} />
-        <JoblistingsRightNav
-          query={search}
-          actionGrant={actionGrant}
-          history={history}
-        />
+        <JoblistingsRightNav actionGrant={actionGrant} />
       </Flex>
     </div>
   );

@@ -1,4 +1,3 @@
-import qs from 'qs';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { fetchAll } from 'app/actions/ArticleActions';
@@ -8,19 +7,23 @@ import { selectPaginationNext } from 'app/reducers/selectors';
 import { selectPopularTags } from 'app/reducers/tags';
 import type { PublicArticle } from 'app/store/models/Article';
 import type { PublicUser } from 'app/store/models/User';
+import { parseQueryString } from 'app/utils/useQuery';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import Overview from './components/Overview';
+
+export const articlesListDefaultQuery = {
+  tag: '',
+};
 
 export type ArticleWithAuthorDetails = Omit<PublicArticle, 'authors'> & {
   authors: Array<PublicUser>;
 };
 
 const mapStateToProps = (state, props) => {
-  const query = {
-    tag: qs.parse(props.location.search, {
-      ignoreQueryPrefix: true,
-    }).tag,
-  };
+  const query = parseQueryString(
+    props.location.search,
+    articlesListDefaultQuery
+  );
   const { pagination } = selectPaginationNext({
     endpoint: `/articles/`,
     query,
@@ -52,8 +55,10 @@ export default compose(
         fetchAll({
           next: false,
           query: {
-            tag: qs.parse(props.location.search, { ignoreQueryPrefix: true })
-              .tag,
+            tag: parseQueryString(
+              props.location.search,
+              articlesListDefaultQuery
+            ),
           },
         })
       ),

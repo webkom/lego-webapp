@@ -4,7 +4,9 @@ import { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
+import { eventListDefaultQuery } from 'app/routes/events/components/EventList';
 import { colorForEvent } from 'app/routes/events/utils';
+import { stringifyQuery } from 'app/utils/useQuery';
 import styles from './CompactEvents.css';
 import type { CSSProperties } from 'react';
 
@@ -85,9 +87,12 @@ export default class CompactEvents extends Component<Props> {
             <Link
               to={{
                 pathname: '/events',
-                state: {
-                  filterEventType: ['showCompanyPresentation', 'showCourse'],
-                },
+                search: stringifyQuery(
+                  {
+                    eventTypes: ['company_presentation', 'course'],
+                  },
+                  eventListDefaultQuery
+                ),
               }}
             >
               <h3 className="u-ui-heading">Bedpres og kurs</h3>
@@ -98,9 +103,12 @@ export default class CompactEvents extends Component<Props> {
             <Link
               to={{
                 pathname: '/events',
-                state: {
-                  filterEventType: ['showSocial', 'showOther'],
-                },
+                search: stringifyQuery(
+                  {
+                    eventTypes: ['social', 'other'],
+                  },
+                  eventListDefaultQuery
+                ),
               }}
             >
               <h3 className="u-ui-heading">Arrangementer</h3>
