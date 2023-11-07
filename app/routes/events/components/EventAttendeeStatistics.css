@@ -1,3 +1,5 @@
+@import url('~app/styles/variables.css');
+
 .sectionDividerTitle {
   margin-top: 1em;
   margin-bottom: 0;
@@ -42,14 +44,12 @@
   grid-template-columns: 1fr 1fr;
   gap: 1em;
   padding: 6px;
+
+  @media (--mobile-device) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .graphCard {
   margin-top: 1em;
-}
-
-@media (max-width: 1000px) {
-  .chartContainer {
-    grid-template-columns: 1fr;
-  }
 }
