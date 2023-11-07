@@ -93,6 +93,7 @@ const mapStateToProps = (state, props) => {
             value: user.id,
           };
         }),
+      isForeignLanguage: event.isForeignLanguage,
 
       eventType: event.eventType && {
         label: EVENT_CONSTANTS[event.eventType],

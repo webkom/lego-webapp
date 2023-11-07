@@ -252,6 +252,7 @@ export const transformEvent = (data: TransformEvent) => ({
   feedbackDescription:
     (data.hasFeedbackQuestion && data.feedbackDescription) || '',
   feedbackRequired: data.hasFeedbackQuestion && data.feedbackRequired,
+  isForeignLanguage: data.isForeignLanguage,
 });
 export const paymentPending = 'pending';
 export const paymentSuccess = 'succeeded';
