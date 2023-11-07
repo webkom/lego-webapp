@@ -1,9 +1,9 @@
 import { Helmet } from 'react-helmet-async';
 import { Content } from 'app/components/Content';
 import Paginator from 'app/components/Paginator';
-import type { SurveyEntity } from 'app/reducers/surveys';
 import { ListNavigation } from '../../utils';
 import SurveyList from './SurveyList';
+import type { SurveyEntity } from 'app/reducers/surveys';
 
 type Props = {
   surveys: Array<SurveyEntity>;

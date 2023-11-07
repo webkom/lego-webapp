@@ -2,9 +2,9 @@ import { Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { Link } from 'react-router-dom';
 import Time from 'app/components/Time';
-import type { SearchResult } from 'app/reducers/search';
 import { Image, ProfilePicture } from '../Image';
 import styles from './Search.css';
+import type { SearchResult } from 'app/reducers/search';
 
 type SearchResultItemProps = {
   result: SearchResult;

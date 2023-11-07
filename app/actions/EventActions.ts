@@ -1,16 +1,16 @@
 import { push } from 'connected-react-router';
 import { addToast } from 'app/actions/ToastActions';
 import callAPI from 'app/actions/callAPI';
-import type { EventRegistrationPresence } from 'app/models';
 import {
   eventSchema,
   eventAdministrateSchema,
   followersEventSchema,
 } from 'app/reducers';
-import type { ID } from 'app/store/models';
-import type { Thunk, Action } from 'app/types';
 import createQueryString from 'app/utils/createQueryString';
 import { Event } from './ActionTypes';
+import type { EventRegistrationPresence } from 'app/models';
+import type { ID } from 'app/store/models';
+import type { Thunk, Action } from 'app/types';
 
 export const waitinglistPoolId = -1;
 export function fetchEvent(eventId: string): Thunk<any> {

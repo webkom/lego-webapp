@@ -3,8 +3,8 @@ import { useState } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { autocomplete } from 'app/actions/SearchActions';
-import type { SearchResult } from 'app/reducers/search';
 import { useAppDispatch } from 'app/store/hooks';
+import type { SearchResult } from 'app/reducers/search';
 import type { ComponentType } from 'react';
 
 type InjectedProps = {

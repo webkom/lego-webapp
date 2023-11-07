@@ -10,9 +10,9 @@ import { Link } from 'react-router-dom';
 import { Content } from 'app/components/Content';
 import NavigationTab from 'app/components/NavigationTab';
 import Paginator from 'app/components/Paginator';
+import styles from './PollsList.css';
 import type { ActionGrant } from 'app/models';
 import type { PollEntity } from 'app/reducers/polls';
-import styles from './PollsList.css';
 
 type Props = {
   polls: Array<PollEntity>;

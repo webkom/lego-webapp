@@ -1,7 +1,7 @@
 import callAPI from 'app/actions/callAPI';
 import { surveySubmissionSchema } from 'app/reducers';
-import type { Thunk } from 'app/types';
 import { SurveySubmission } from './ActionTypes';
+import type { Thunk } from 'app/types';
 
 export function fetchSubmissions(surveyId: number): Thunk<any> {
   return callAPI({

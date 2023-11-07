@@ -2,10 +2,10 @@ import { Button, Flex } from '@webkom/lego-bricks';
 import { Link } from 'react-router-dom';
 import Table from 'app/components/Table';
 import Tag from 'app/components/Tags/Tag';
-import type { Group } from 'app/models';
 import { GroupType } from 'app/models';
 import { emailUsersDefaultQuery } from 'app/routes/admin/email/EmailUsersRoute';
 import useQuery from 'app/utils/useQuery';
+import type { Group } from 'app/models';
 
 type Props = {
   fetching: boolean;

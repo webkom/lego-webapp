@@ -2,10 +2,10 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { fetchAll } from 'app/actions/PollActions';
 import { selectPolls } from 'app/reducers/polls';
-import type { RootState } from 'app/store/createRootReducer';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import PollsList from './components/PollsList';
+import type { RootState } from 'app/store/createRootReducer';
 
 const mapStateToProps = (state: RootState) => {
   return {

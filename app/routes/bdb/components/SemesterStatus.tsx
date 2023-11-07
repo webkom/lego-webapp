@@ -1,6 +1,4 @@
 import { Component } from 'react';
-import type { CompanySemesterContactedStatus } from 'app/models';
-import type { BaseSemesterStatusEntity } from 'app/reducers/companies';
 import {
   selectColorCode,
   selectMostProminentStatus,
@@ -8,6 +6,8 @@ import {
 } from '../utils';
 import SemesterStatusContent from './SemesterStatusContent';
 import styles from './bdb.css';
+import type { CompanySemesterContactedStatus } from 'app/models';
+import type { BaseSemesterStatusEntity } from 'app/reducers/companies';
 
 type Props = {
   semesterStatus: BaseSemesterStatusEntity;

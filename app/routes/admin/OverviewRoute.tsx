@@ -1,10 +1,10 @@
 import { Switch } from 'react-router-dom';
 import { LoginPage } from 'app/components/LoginForm';
 import RouteWrapper from 'app/components/RouteWrapper';
-import type { User } from 'app/models';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import email from './email';
 import groups from './groups';
+import type { User } from 'app/models';
 
 type Props = {
   currentUser: User;

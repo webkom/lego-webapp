@@ -1,10 +1,10 @@
 import moment from 'moment-timezone';
 import callAPI from 'app/actions/callAPI';
 import { surveySchema } from 'app/reducers';
+import { Survey } from './ActionTypes';
 import type { ID } from 'app/store/models';
 import type { CreateSurvey } from 'app/store/models/Survey';
 import type { Thunk } from 'app/types';
-import { Survey } from './ActionTypes';
 
 export function fetchSurvey(surveyId: number): Thunk<any> {
   return (dispatch) =>

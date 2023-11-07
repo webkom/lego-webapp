@@ -1,7 +1,7 @@
 import { shallow } from 'enzyme';
 import { describe, it, expect } from 'vitest';
-import type CommentType from 'app/store/models/Comment';
 import Comment from '../Comment';
+import type CommentType from 'app/store/models/Comment';
 
 const comment: CommentType = {
   id: 1,

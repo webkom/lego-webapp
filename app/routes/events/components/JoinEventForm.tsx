@@ -16,15 +16,8 @@ import { reduxForm, Field, SubmissionError } from 'redux-form';
 import { Form, Captcha, TextInput } from 'app/components/Form';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
-import type {
-  EventRegistration,
-  EventRegistrationStatus,
-  Penalty,
-  Event,
-} from 'app/models';
 import { selectPenaltyByUserId } from 'app/reducers/penalties';
 import { selectUserByUsername } from 'app/reducers/users';
-import type { CurrentUser } from 'app/store/models/User';
 import {
   paymentSuccess,
   paymentManual,
@@ -38,6 +31,13 @@ import {
 import styles from './Event.css';
 import withCountdown from './JoinEventFormCountdownProvider';
 import PaymentRequestForm from './StripeElement';
+import type {
+  EventRegistration,
+  EventRegistrationStatus,
+  Penalty,
+  Event,
+} from 'app/models';
+import type { CurrentUser } from 'app/store/models/User';
 
 export type Props = {
   title?: string;

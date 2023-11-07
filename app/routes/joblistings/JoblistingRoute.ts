@@ -2,10 +2,10 @@ import moment from 'moment-timezone';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { fetchAll } from 'app/actions/JoblistingActions';
-import type { ListJoblisting } from 'app/store/models/Joblisting';
 import { parseQueryString } from 'app/utils/useQuery';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import JoblistingPage from './components/JoblistingPage';
+import type { ListJoblisting } from 'app/store/models/Joblisting';
 
 export const defaultJoblistingsQuery = {
   order: 'deadline',

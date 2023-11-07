@@ -7,12 +7,12 @@ import { ProfilePicture } from 'app/components/Image';
 import { Tag } from 'app/components/Tags';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
+import styles from './Comment.css';
 import type { ID } from 'app/store/models';
 import type CommentType from 'app/store/models/Comment';
 import type { ContentAuthors } from 'app/store/models/Comment';
 import type { CurrentUser } from 'app/store/models/User';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
-import styles from './Comment.css';
 
 type Props = {
   comment: CommentType;

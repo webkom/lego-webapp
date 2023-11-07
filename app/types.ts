@@ -1,6 +1,6 @@
-import type { RootState } from 'app/store/createRootReducer';
 import type { ID } from './models';
 import type { ThunkAction } from '@reduxjs/toolkit';
+import type { RootState } from 'app/store/createRootReducer';
 import type { JwtPayload } from 'jwt-decode';
 import type { Overwrite } from 'utility-types';
 

@@ -5,10 +5,10 @@ import Pill from 'app/components/Pill';
 import Tag from 'app/components/Tags/Tag';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
-import type { Event } from 'app/models';
 import { colorForEvent } from 'app/routes/events/utils';
 import { eventAttendanceAbsolute } from 'app/utils/eventStatus';
 import styles from './styles.css';
+import type { Event } from 'app/models';
 import type { ReactNode } from 'react';
 
 export type EventStyle = 'default' | 'extra-compact' | 'compact';

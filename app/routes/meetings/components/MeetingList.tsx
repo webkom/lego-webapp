@@ -7,10 +7,10 @@ import { Content } from 'app/components/Content';
 import NavigationTab from 'app/components/NavigationTab';
 import Pill from 'app/components/Pill';
 import Time from 'app/components/Time';
+import styles from './MeetingList.css';
 import type { MeetingSection } from 'app/reducers/meetings';
 import type { ListMeeting } from 'app/store/models/Meeting';
 import type { CurrentUser } from 'app/store/models/User';
-import styles from './MeetingList.css';
 
 function MeetingListItem({
   meeting,

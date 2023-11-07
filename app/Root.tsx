@@ -2,9 +2,9 @@ import { ConnectedRouter } from 'connected-react-router';
 import { HelmetProvider } from 'react-helmet-async';
 import { Provider } from 'react-redux';
 import ErrorBoundary from 'app/components/ErrorBoundary';
-import type { Store } from 'app/store/createStore';
 import { ThemeContextListener } from 'app/utils/themeUtils';
 import RouteConfig from './routes';
+import type { Store } from 'app/store/createStore';
 
 type Props = {
   store: Store;

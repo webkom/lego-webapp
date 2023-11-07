@@ -8,10 +8,10 @@ import { addToast } from 'app/actions/ToastActions';
 import { fetchUser } from 'app/actions/UserActions';
 import { Content } from 'app/components/Content';
 import Validator from 'app/components/UserValidator';
-import type { User } from 'app/models';
 import { selectAutocompleteRedux as selectAutocomplete } from 'app/reducers/search';
-import type { UserSearchResult } from 'app/reducers/search';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
+import type { User } from 'app/models';
+import type { UserSearchResult } from 'app/reducers/search';
 import type { ComponentProps } from 'react';
 
 const searchTypes = ['users.user'];

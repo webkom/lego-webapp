@@ -8,8 +8,9 @@ import LegoReactions from 'app/components/LegoReactions';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import Tags from 'app/components/Tags';
 import Tag from 'app/components/Tags/Tag';
-import type { ID } from 'app/models';
 import sharedStyles from 'app/routes/articles/components/Overview.css';
+import styles from './ArticleDetail.css';
+import type { ID } from 'app/models';
 import type {
   AdminDetailedArticle,
   DetailedArticle,
@@ -19,7 +20,6 @@ import type Emoji from 'app/store/models/Emoji';
 import type { ReactionsGrouped } from 'app/store/models/Reaction';
 import type { CurrentUser, DetailedUser } from 'app/store/models/User';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
-import styles from './ArticleDetail.css';
 
 type Props = {
   article: DetailedArticle | AdminDetailedArticle;

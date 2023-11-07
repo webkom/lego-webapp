@@ -1,11 +1,11 @@
 import { push } from 'connected-react-router';
 import callAPI from 'app/actions/callAPI';
 import { groupSchema, membershipSchema } from 'app/reducers';
+import { Group, Membership } from './ActionTypes';
 import type { ID } from 'app/store/models';
 import type MembershipType from 'app/store/models/Membership';
 import type { Thunk } from 'app/types';
 import type { RoleType } from 'app/utils/constants';
-import { Group, Membership } from './ActionTypes';
 
 export type AddMemberArgs = {
   groupId: ID;

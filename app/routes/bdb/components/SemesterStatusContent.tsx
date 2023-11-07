@@ -2,7 +2,6 @@ import { Button, Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { Component } from 'react';
 import Dropdown from 'app/components/Dropdown';
-import type { CompanySemesterContactedStatus } from 'app/models';
 import {
   sortStatusesByProminence,
   getStatusString,
@@ -10,6 +9,7 @@ import {
   selectColorCode,
 } from '../utils';
 import styles from './bdb.css';
+import type { CompanySemesterContactedStatus } from 'app/models';
 
 type Props = {
   semesterStatus: Record<string, any>;

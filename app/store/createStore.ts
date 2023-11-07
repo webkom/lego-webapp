@@ -2,12 +2,12 @@ import { configureStore } from '@reduxjs/toolkit';
 import { routerMiddleware } from 'connected-react-router';
 import { createBrowserHistory, createMemoryHistory } from 'history';
 import { addToast } from 'app/actions/ToastActions';
-import type { RootState } from 'app/store/createRootReducer';
 import createRootReducer from 'app/store/createRootReducer';
 import loggerMiddleware from 'app/store/middleware/loggerMiddleware';
 import createMessageMiddleware from 'app/store/middleware/messageMiddleware';
 import promiseMiddleware from 'app/store/middleware/promiseMiddleware';
 import createSentryMiddleware from 'app/store/middleware/sentryMiddleware';
+import type { RootState } from 'app/store/createRootReducer';
 import type { GetCookie } from 'app/types';
 import type { History } from 'history';
 

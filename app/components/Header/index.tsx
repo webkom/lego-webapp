@@ -6,12 +6,6 @@ import { Link, NavLink, useHistory } from 'react-router-dom';
 import logoLightMode from 'app/assets/logo-dark.png';
 import logoDarkMode from 'app/assets/logo.png';
 import AuthSection from 'app/components/AuthSection/AuthSection';
-import type {
-  AggregatedActivity,
-  NotificationData,
-} from 'app/components/Feed/types';
-import type { ID } from 'app/store/models';
-import type { CurrentUser } from 'app/store/models/User';
 import utilStyles from 'app/styles/utilities.css';
 import { applySelectedTheme, getOSTheme, getTheme } from 'app/utils/themeUtils';
 import Dropdown from '../Dropdown';
@@ -22,6 +16,12 @@ import FancyNodesCanvas from './FancyNodesCanvas';
 import styles from './Header.css';
 import Navbar from './Navbar/Navbar';
 import ToggleTheme from './ToggleTheme';
+import type {
+  AggregatedActivity,
+  NotificationData,
+} from 'app/components/Feed/types';
+import type { ID } from 'app/store/models';
+import type { CurrentUser } from 'app/store/models/User';
 
 type Props = {
   searchOpen: boolean;

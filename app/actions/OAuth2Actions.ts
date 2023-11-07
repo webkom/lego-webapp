@@ -1,7 +1,7 @@
 import { oauth2ApplicationSchema, oauth2GrantSchema } from 'app/reducers';
-import type { Thunk } from 'app/types';
 import { OAuth2 } from './ActionTypes';
 import callAPI from './callAPI';
+import type { Thunk } from 'app/types';
 
 export function fetchOAuth2Applications(): Thunk<any> {
   return callAPI({

@@ -1,8 +1,8 @@
 import { Component, Fragment } from 'react';
 import { Field } from 'react-final-form';
 import { TextInput } from 'app/components/Form';
-import type { UserEntity } from 'app/reducers/users';
 import PasswordStrengthMeter from './PasswordStrengthMeter';
+import type { UserEntity } from 'app/reducers/users';
 
 type Props = {
   user: UserEntity;

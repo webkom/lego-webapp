@@ -3,16 +3,16 @@ import { normalize } from 'normalizr';
 import { logout } from 'app/actions/UserActions';
 import { selectIsLoggedIn } from 'app/reducers/auth';
 import { selectPaginationNext } from 'app/reducers/selectors';
-import type { AsyncActionType, Thunk } from 'app/types';
 import createQueryString from 'app/utils/createQueryString';
+import fetchJSON from 'app/utils/fetchJSON';
+import { configWithSSR } from '../config';
+import { setStatusCode } from './RoutingActions';
+import type { AsyncActionType, Thunk } from 'app/types';
 import type {
   HttpRequestOptions,
   HttpMethod,
   HttpResponse,
 } from 'app/utils/fetchJSON';
-import fetchJSON from 'app/utils/fetchJSON';
-import { configWithSSR } from '../config';
-import { setStatusCode } from './RoutingActions';
 import type { Schema } from 'normalizr';
 
 function urlFor(resource: string) {

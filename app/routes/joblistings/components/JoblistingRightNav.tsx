@@ -3,11 +3,11 @@ import cx from 'classnames';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CheckBox, RadioButton } from 'app/components/Form/';
-import type { ActionGrant } from 'app/models';
 import { defaultJoblistingsQuery } from 'app/routes/joblistings/JoblistingRoute';
 import useQuery from 'app/utils/useQuery';
 import { jobTypes as allJobTypes } from '../constants';
 import styles from './JoblistingRightNav.css';
+import type { ActionGrant } from 'app/models';
 
 type Props = {
   actionGrant: ActionGrant;

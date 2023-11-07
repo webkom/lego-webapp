@@ -11,11 +11,11 @@ import { LoginPage } from 'app/components/LoginForm';
 import { selectArticleById } from 'app/reducers/articles';
 import { selectCurrentUser } from 'app/reducers/auth';
 import { selectUserById } from 'app/reducers/users';
-import type { DetailedUser } from 'app/store/models/User';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import ArticleEditor from './components/ArticleEditor';
+import type { DetailedUser } from 'app/store/models/User';
 
 const mapStateToProps = (state, props) => {
   const { articleId } = props.match.params;

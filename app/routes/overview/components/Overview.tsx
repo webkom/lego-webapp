@@ -6,12 +6,7 @@ import { Link } from 'react-router-dom';
 // import Banner from 'app/components/Banner';
 import Poll from 'app/components/Poll';
 import RandomQuote from 'app/components/RandomQuote';
-import type { Event, Readme } from 'app/models';
-import type { WithDocumentType } from 'app/reducers/frontpage';
 import { isArticle, isEvent } from 'app/reducers/frontpage';
-import type { PollEntity } from 'app/reducers/polls';
-import type { PublicArticle } from 'app/store/models/Article';
-import type { FrontpageEvent } from 'app/store/models/Event';
 import ArticleItem from './ArticleItem';
 import CompactEvents from './CompactEvents';
 import EventItem from './EventItem';
@@ -20,6 +15,11 @@ import NextEvent from './NextEvent';
 import styles from './Overview.css';
 import Pinned from './Pinned';
 import { itemUrl, renderMeta } from './utils';
+import type { Event, Readme } from 'app/models';
+import type { WithDocumentType } from 'app/reducers/frontpage';
+import type { PollEntity } from 'app/reducers/polls';
+import type { PublicArticle } from 'app/store/models/Article';
+import type { FrontpageEvent } from 'app/store/models/Event';
 
 type Props = {
   frontpage: WithDocumentType<PublicArticle | FrontpageEvent>[];

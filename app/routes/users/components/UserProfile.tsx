@@ -11,6 +11,12 @@ import EventListCompact from 'app/components/EventListCompact';
 import { ProfilePicture, CircularPicture, Image } from 'app/components/Image';
 import Pill from 'app/components/Pill';
 import Tooltip from 'app/components/Tooltip';
+import { resolveGroupLink } from 'app/reducers/groups';
+//import Feed from 'app/components/Feed';
+import GroupChange from './GroupChange';
+import Penalties from './Penalties';
+import PhotoConsents from './PhotoConsents';
+import styles from './UserProfile.css';
 import type {
   User,
   Group,
@@ -22,13 +28,7 @@ import type {
   Penalty,
   UserMembership,
 } from 'app/models';
-import { resolveGroupLink } from 'app/reducers/groups';
 import type { CurrentUser } from 'app/store/models/User';
-//import Feed from 'app/components/Feed';
-import GroupChange from './GroupChange';
-import Penalties from './Penalties';
-import PhotoConsents from './PhotoConsents';
-import styles from './UserProfile.css';
 
 const fieldTranslations = {
   username: 'Brukernavn',

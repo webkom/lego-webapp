@@ -13,10 +13,10 @@ import EventListCompact from 'app/components/EventListCompact';
 import JoblistingItem from 'app/components/JoblistingItem';
 import NavigationTab from 'app/components/NavigationTab';
 import TextWithIcon from 'app/components/TextWithIcon';
+import styles from './Company.css';
 import type { Event } from 'app/models';
 import type { DetailedCompany } from 'app/store/models/Company';
 import type { ListJoblisting } from 'app/store/models/Joblisting';
-import styles from './Company.css';
 
 type Props = {
   company: DetailedCompany;

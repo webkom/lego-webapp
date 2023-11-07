@@ -3,9 +3,9 @@ import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { Content } from 'app/components/Content';
 import NavigationTab from 'app/components/NavigationTab';
-import type { ActionGrant, Group } from 'app/models';
 import InterestGroupComponent from './InterestGroup';
 import styles from './InterestGroup.css';
+import type { ActionGrant, Group } from 'app/models';
 
 export type Props = {
   actionGrant: ActionGrant;

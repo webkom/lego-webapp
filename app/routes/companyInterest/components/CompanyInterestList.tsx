@@ -6,12 +6,12 @@ import { Content } from 'app/components/Content';
 import { selectTheme, selectStyles } from 'app/components/Form/SelectInput';
 import Table from 'app/components/Table';
 import Tooltip from 'app/components/Tooltip';
-import type { CompanyInterestEntity } from 'app/reducers/companyInterest';
-import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 import { ListNavigation } from 'app/routes/bdb/utils';
 import { getCsvUrl, semesterToText } from '../utils';
 import styles from './CompanyInterest.css';
 import { EVENT_TYPE_OPTIONS } from './CompanyInterestPage';
+import type { CompanyInterestEntity } from 'app/reducers/companyInterest';
+import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 
 type SemesterOptionType = {
   id: number;

@@ -1,5 +1,5 @@
-import type { EventRegistration, Group } from 'app/models';
 import EventAttendeeStatistics from 'app/routes/events/components/EventAttendeeStatistics';
+import type { EventRegistration, Group } from 'app/models';
 import type { DetailedEvent } from 'app/store/models/Event';
 
 interface Props {

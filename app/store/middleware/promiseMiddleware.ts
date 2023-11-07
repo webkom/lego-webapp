@@ -1,6 +1,6 @@
+import type { Middleware } from '@reduxjs/toolkit';
 import type { RootState } from 'app/store/createRootReducer';
 import type { AsyncActionType, AsyncActionTypeArray } from 'app/types';
-import type { Middleware } from '@reduxjs/toolkit';
 
 function extractTypes(
   types: AsyncActionType | AsyncActionTypeArray

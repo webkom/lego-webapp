@@ -1,9 +1,9 @@
 import { addToast } from 'app/actions/ToastActions';
 import callAPI from 'app/actions/callAPI';
 import { companyInterestSchema } from 'app/reducers';
+import { CompanyInterestForm } from './ActionTypes';
 import type { CompanyInterestEntity } from 'app/reducers/companyInterest';
 import type { Thunk } from 'app/types';
-import { CompanyInterestForm } from './ActionTypes';
 
 export function fetchAll(): Thunk<any> {
   return callAPI({

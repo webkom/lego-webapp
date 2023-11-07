@@ -1,8 +1,8 @@
 import callAPI from 'app/actions/callAPI';
 import { restrictedMailSchema } from 'app/reducers';
+import { RestrictedMail } from './ActionTypes';
 import type { RestrictedMailEntity } from 'app/reducers/restrictedMails';
 import type { EntityID, Thunk } from 'app/types';
-import { RestrictedMail } from './ActionTypes';
 
 export function fetchRestrictedMail(restrictedMailId: EntityID): Thunk<any> {
   return callAPI({

@@ -1,5 +1,5 @@
-import type { ListJoblisting, Workplace } from 'app/store/models/Joblisting';
 import joinValues from 'app/utils/joinValues';
+import type { ListJoblisting, Workplace } from 'app/store/models/Joblisting';
 
 export const Year = ({ joblisting }: { joblisting: ListJoblisting }) => (
   <span>

@@ -1,5 +1,8 @@
 import { produce } from 'immer';
 import { createSelector } from 'reselect';
+import createEntityReducer from 'app/utils/createEntityReducer';
+import { Meeting } from '../actions/ActionTypes';
+import { selectMeetingById } from './meetings';
 import type { User } from 'app/models';
 import type { RootState } from 'app/store/createRootReducer';
 import type { ID } from 'app/store/models';
@@ -8,9 +11,6 @@ import type {
   MeetingInvitationStatus,
 } from 'app/store/models/MeetingInvitation';
 import type { PublicUser } from 'app/store/models/User';
-import createEntityReducer from 'app/utils/createEntityReducer';
-import { Meeting } from '../actions/ActionTypes';
-import { selectMeetingById } from './meetings';
 import type { Selector } from 'reselect';
 
 export const statusesText: {

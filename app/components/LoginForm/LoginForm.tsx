@@ -7,8 +7,8 @@ import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import TextInput from 'app/components/Form/TextInput';
 import { useAppDispatch } from 'app/store/hooks';
-import type { Action } from 'app/types';
 import { createValidator, required } from 'app/utils/validation';
+import type { Action } from 'app/types';
 
 type FormValues = {
   username: string;
