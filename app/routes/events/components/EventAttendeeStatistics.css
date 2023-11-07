@@ -47,3 +47,9 @@
 .graphCard {
   margin-top: 1em;
 }
+
+@media (max-width: 1000px) {
+  .chartContainer {
+    grid-template-columns: 1fr;
+  }
+}
