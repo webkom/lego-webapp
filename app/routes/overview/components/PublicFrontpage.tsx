@@ -11,15 +11,15 @@ import AuthSection from 'app/components/AuthSection/AuthSection';
 // import Banner from 'app/components/Banner';
 import { Image } from 'app/components/Image';
 import { readmeIfy } from 'app/components/ReadmeLogo';
-import type { Readme } from 'app/models';
-import type { WithDocumentType } from 'app/reducers/frontpage';
-import type { ArticleWithAuthorDetails } from 'app/routes/articles/ArticleListRoute';
 import LatestReadme from 'app/routes/overview/components/LatestReadme';
 import Pinned from 'app/routes/overview/components/Pinned';
 import { itemUrl, renderMeta } from 'app/routes/overview/components/utils';
-import type { PublicEvent } from 'app/store/models/Event';
 import CompactEvents from './CompactEvents';
 import styles from './PublicFrontpage.css';
+import type { Readme } from 'app/models';
+import type { WithDocumentType } from 'app/reducers/frontpage';
+import type { ArticleWithAuthorDetails } from 'app/routes/articles/ArticleListRoute';
+import type { PublicEvent } from 'app/store/models/Event';
 
 type Props = {
   frontpage: (

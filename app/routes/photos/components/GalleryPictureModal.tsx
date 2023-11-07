@@ -8,11 +8,11 @@ import { Content } from 'app/components/Content';
 import Dropdown from 'app/components/Dropdown';
 import { Image } from 'app/components/Image';
 import ProgressiveImage from 'app/components/ProgressiveImage';
-import type { ID } from 'app/models';
-import type { EntityID } from 'app/types';
 import { Keyboard } from 'app/utils/constants';
 import GalleryDetailsRow from './GalleryDetailsRow';
 import styles from './GalleryPictureModal.css';
+import type { ID } from 'app/models';
+import type { EntityID } from 'app/types';
 import type { ReactNode } from 'react';
 
 type Props = {

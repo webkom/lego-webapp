@@ -2,11 +2,11 @@ import { Field } from 'react-final-form';
 import { Content } from 'app/components/Content';
 import { Button, TextInput } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
-import type { Action } from 'app/types';
 import { spySubmittable } from 'app/utils/formSpyUtils';
 import { createValidator, required, sameAs } from 'app/utils/validation';
 import { validPassword } from '../utils';
 import PasswordField from './PasswordField';
+import type { Action } from 'app/types';
 
 type Props = {
   token?: string;

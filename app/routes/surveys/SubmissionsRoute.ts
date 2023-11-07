@@ -18,13 +18,13 @@ import {
 import { LoginPage } from 'app/components/LoginForm';
 import { selectSurveySubmissions } from 'app/reducers/surveySubmissions';
 import { selectSurveyById } from 'app/reducers/surveys';
-import type { RootState } from 'app/store/createRootReducer';
-import type { ID } from 'app/store/models';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import SubmissionPage from './components/Submissions/SubmissionPage';
 import { getCsvUrl } from './utils';
+import type { RootState } from 'app/store/createRootReducer';
+import type { ID } from 'app/store/models';
 import type { RouteChildrenProps } from 'react-router';
 
 const loadData = (props, dispatch) => {

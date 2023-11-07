@@ -20,10 +20,10 @@ import {
 } from 'app/components/Form';
 import { normalizeObjectPermissions } from 'app/components/Form/ObjectPermissions';
 import NavigationTab from 'app/components/NavigationTab';
+import { validYoutubeUrl } from 'app/utils/validation';
 import type { EditingEvent } from 'app/routes/events/utils';
 import type { DetailedArticle } from 'app/store/models/Article';
 import type { CurrentUser } from 'app/store/models/User';
-import { validYoutubeUrl } from 'app/utils/validation';
 
 export type Props = {
   article?: DetailedArticle;

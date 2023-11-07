@@ -7,12 +7,12 @@ import Paginator from 'app/components/Paginator';
 import Tags from 'app/components/Tags';
 import Tag from 'app/components/Tags/Tag';
 import Time from 'app/components/Time';
+import styles from './Overview.css';
 import type { ActionGrant } from 'app/models';
 import type {
   ArticleWithAuthorDetails,
   articlesListDefaultQuery,
 } from 'app/routes/articles/ArticleListRoute';
-import styles from './Overview.css';
 
 const HEADLINE_EVENTS = 2;
 

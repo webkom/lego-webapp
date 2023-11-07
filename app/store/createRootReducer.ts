@@ -41,7 +41,6 @@ import quotes from 'app/reducers/quotes';
 import readme from 'app/reducers/readme';
 import registrations from 'app/reducers/registrations';
 import restrictedMails from 'app/reducers/restrictedMails';
-import type { RoutingState } from 'app/reducers/routing';
 import routing from 'app/reducers/routing';
 import search from 'app/reducers/search';
 import surveySubmissions from 'app/reducers/surveySubmissions';
@@ -50,8 +49,9 @@ import tags from 'app/reducers/tags';
 import theme from 'app/reducers/theme';
 import toasts from 'app/reducers/toasts';
 import users from 'app/reducers/users';
-import type { StrictReducer } from 'app/utils/joinReducers';
 import joinReducers from 'app/utils/joinReducers';
+import type { RoutingState } from 'app/reducers/routing';
+import type { StrictReducer } from 'app/utils/joinReducers';
 import type { History } from 'history';
 
 const createRootReducer = (history: History) =>

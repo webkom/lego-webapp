@@ -13,13 +13,13 @@ import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import InfoBubble from 'app/components/InfoBubble';
+import { createValidator, required, isEmail } from 'app/utils/validation';
+import { httpCheck, DetailNavigation, ListNavigation } from '../utils';
+import styles from './bdb.css';
 import type {
   CompanyEntity,
   SubmitCompanyEntity,
 } from 'app/reducers/companies';
-import { createValidator, required, isEmail } from 'app/utils/validation';
-import { httpCheck, DetailNavigation, ListNavigation } from '../utils';
-import styles from './bdb.css';
 
 type Props = {
   uploadFile: (arg0: Record<string, any>) => Promise<any>;

@@ -1,10 +1,10 @@
 import { Flex, LoadingIndicator } from '@webkom/lego-bricks';
 import { Helmet } from 'react-helmet-async';
-import type { ActionGrant } from 'app/models';
-import type { ListJoblisting } from 'app/store/models/Joblisting';
 import JoblistingsList from './JoblistingList';
 import styles from './JoblistingPage.css';
 import JoblistingsRightNav from './JoblistingRightNav';
+import type { ActionGrant } from 'app/models';
+import type { ListJoblisting } from 'app/store/models/Joblisting';
 
 type Props = {
   joblistings: ListJoblisting[];

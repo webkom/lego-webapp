@@ -3,11 +3,11 @@ import moment from 'moment-timezone';
 import { useState } from 'react';
 import Select from 'react-select';
 import { selectStyles, selectTheme } from 'app/components/Form/SelectInput';
-import type { PhotoConsent } from 'app/models';
 import { PhotoConsentDomain } from 'app/models';
 import { getConsent, toReadableSemester } from 'app/routes/events/utils';
-import type { ID } from 'app/store/models';
 import styles from './PhotoConsents.css';
+import type { PhotoConsent } from 'app/models';
+import type { ID } from 'app/store/models';
 
 const ConsentManager = ({
   consent,

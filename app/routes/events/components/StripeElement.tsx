@@ -11,10 +11,10 @@ import { loadStripe } from '@stripe/stripe-js';
 import { Button, Card, LoadingIndicator } from '@webkom/lego-bricks';
 import { Component, useState, useEffect, useCallback } from 'react';
 import config from 'app/config';
-import type { EventRegistrationPaymentStatus, Event } from 'app/models';
-import type { CurrentUser } from 'app/store/models/User';
 import { useTheme } from 'app/utils/themeUtils';
 import stripeStyles from './Stripe.css';
+import type { EventRegistrationPaymentStatus, Event } from 'app/models';
+import type { CurrentUser } from 'app/store/models/User';
 
 type Props = {
   event: Event;

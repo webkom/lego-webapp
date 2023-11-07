@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom';
 import { Field, SubmissionError } from 'redux-form';
 import { Content, ContentHeader } from 'app/components/Content';
 import { TextArea, RadioButton, CheckBox, legoForm } from 'app/components/Form';
-import type { SurveyEntity } from 'app/reducers/surveys';
-import type { UserEntity } from 'app/reducers/users';
 import { QuestionTypes } from '../../utils';
 import styles from '../surveys.css';
+import type { SurveyEntity } from 'app/reducers/surveys';
+import type { UserEntity } from 'app/reducers/users';
 
 type Props = {
   survey: SurveyEntity;

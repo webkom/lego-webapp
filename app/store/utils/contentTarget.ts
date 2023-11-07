@@ -1,5 +1,5 @@
-import type { ID } from 'app/store/models';
 import getEntityType from 'app/utils/getEntityType';
+import type { ID } from 'app/store/models';
 import type { EntityServerName } from 'app/utils/getEntityType';
 
 export type ContentTarget = `${EntityServerName}-${ID}`;

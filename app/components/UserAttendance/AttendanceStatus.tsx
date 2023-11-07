@@ -1,9 +1,9 @@
 import { Button, Flex } from '@webkom/lego-bricks';
 import Tooltip from 'app/components/Tooltip';
-import type { AttendanceModalProps } from 'app/components/UserAttendance/AttendanceModal';
 import AttendanceModal from 'app/components/UserAttendance/AttendanceModal';
 import styles from './AttendanceStatus.css';
 import type { Pool } from './AttendanceModalContent';
+import type { AttendanceModalProps } from 'app/components/UserAttendance/AttendanceModal';
 
 type AttendancePool = Pool & {
   capacity?: number;

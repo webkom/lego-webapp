@@ -1,9 +1,9 @@
 import { get } from 'lodash';
-import type { addToast } from 'app/actions/ToastActions';
 import Validator from 'app/components/UserValidator';
+import styles from './Abacard.css';
+import type { addToast } from 'app/actions/ToastActions';
 import type { EventRegistration, Event } from 'app/models';
 import type { UserSearchResult } from 'app/reducers/search';
-import styles from './Abacard.css';
 import type { Location } from 'history';
 
 type Props = {

@@ -7,13 +7,13 @@ import EmptyState from 'app/components/EmptyState';
 import EventItem from 'app/components/EventItem';
 import { CheckBox } from 'app/components/Form/';
 import { selectTheme, selectStyles } from 'app/components/Form/SelectInput';
-import type { Event, ActionGrant, IcalToken } from 'app/models';
 import { EventTime } from 'app/models';
-import type { ListEvent } from 'app/store/models/Event';
 import useQuery from 'app/utils/useQuery';
 import EventFooter from './EventFooter';
 import styles from './EventList.css';
 import Toolbar from './Toolbar';
+import type { Event, ActionGrant, IcalToken } from 'app/models';
+import type { ListEvent } from 'app/store/models/Event';
 
 type FilterEventType = 'company_presentation' | 'course' | 'social' | 'other';
 type FilterRegistrationsType = 'all' | 'open' | 'future';

@@ -7,12 +7,12 @@ import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import { withSubmissionErrorFinalForm } from 'app/components/Form/utils';
 import RandomQuote from 'app/components/RandomQuote/RandomQuote';
-import type { ActionGrant } from 'app/models';
-import type { ContentTarget } from 'app/store/utils/contentTarget';
 import { spyValues } from 'app/utils/formSpyUtils';
 import { createValidator, required } from 'app/utils/validation';
 import { navigation } from '../utils';
 import styles from './Quotes.css';
+import type { ActionGrant } from 'app/models';
+import type { ContentTarget } from 'app/store/utils/contentTarget';
 
 type Props = {
   addQuotes: (quote: { text: string; source: string }) => Promise<void>;

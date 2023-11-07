@@ -6,13 +6,13 @@ import {
 } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import Tooltip from 'app/components/Tooltip';
+import styles from './Administrate.css';
 import type {
   EventRegistration,
   EventRegistrationPaymentStatus,
   EventRegistrationPresence,
   ID,
 } from 'app/models';
-import styles from './Administrate.css';
 
 type TooltipIconProps = {
   onClick?: (arg0: React.SyntheticEvent<any>) => unknown;

@@ -1,6 +1,6 @@
-import type { Thunk } from 'app/types';
 import { NotificationSettings } from './ActionTypes';
 import callAPI from './callAPI';
+import type { Thunk } from 'app/types';
 
 export function fetchNotificationAlternatives(): Thunk<any> {
   return callAPI({

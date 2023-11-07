@@ -4,10 +4,10 @@ import moment from 'moment-timezone';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Tooltip from 'app/components/Tooltip';
-import type { Event } from 'app/models';
 import { colorForEvent } from 'app/routes/events/utils';
 import truncateString from 'app/utils/truncateString';
 import styles from './NextEvent.css';
+import type { Event } from 'app/models';
 
 type Props = {
   event: Event;

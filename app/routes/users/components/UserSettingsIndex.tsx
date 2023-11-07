@@ -6,8 +6,8 @@ import { Content } from 'app/components/Content';
 import { LoginPage } from 'app/components/LoginForm';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { useIsCurrentUser } from 'app/routes/users/utils';
-import type { CurrentUser } from 'app/store/models/User';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import type { CurrentUser } from 'app/store/models/User';
 import type { ReactElement } from 'react';
 import type { RouteChildrenProps } from 'react-router';
 

@@ -2,8 +2,8 @@ import { Button } from '@webkom/lego-bricks';
 import { useState } from 'react';
 import { Field } from 'redux-form';
 import { TextInput, Form, legoForm } from 'app/components/Form';
-import type { UserEntity } from 'app/reducers/users';
 import { createValidator, required } from 'app/utils/validation';
+import type { UserEntity } from 'app/reducers/users';
 import type { FormProps } from 'redux-form';
 
 type Props = FormProps & {

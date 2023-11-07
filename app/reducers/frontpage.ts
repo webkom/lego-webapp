@@ -2,11 +2,11 @@ import { sortBy } from 'lodash';
 import moment from 'moment-timezone';
 import { createSelector } from 'reselect';
 import { Frontpage } from 'app/actions/ActionTypes';
-import type { Event } from 'app/models';
-import type { UnknownArticle } from 'app/store/models/Article';
 import { fetching } from 'app/utils/createEntityReducer';
 import { selectArticlesWithAuthorDetails } from './articles';
 import { selectEvents } from './events';
+import type { Event } from 'app/models';
+import type { UnknownArticle } from 'app/store/models/Article';
 
 export type WithDocumentType<T> = T & {
   documentType: 'event' | 'article';

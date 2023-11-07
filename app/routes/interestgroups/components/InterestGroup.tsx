@@ -1,8 +1,8 @@
 import { Flex } from '@webkom/lego-bricks';
 import { Link } from 'react-router-dom';
 import { Image } from 'app/components/Image';
-import type { Group } from 'app/models';
 import styles from './InterestGroup.css';
+import type { Group } from 'app/models';
 // TODO: rather handle this in the backend
 const SAMPLE_LOGO = 'https://i.imgur.com/Is9VKjb.jpg';
 type Props = {

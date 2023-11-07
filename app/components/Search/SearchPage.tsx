@@ -2,8 +2,8 @@ import qs from 'qs';
 import { useEffect, useState } from 'react';
 import SearchPageInput from 'app/components/Search/SearchPageInput';
 import SearchPageResults from 'app/components/Search/SearchPageResults';
-import type { SearchResult } from 'app/reducers/search';
 import { Keyboard } from 'app/utils/constants';
+import type { SearchResult } from 'app/reducers/search';
 import type { Location } from 'history';
 import type { ChangeEventHandler, KeyboardEvent } from 'react';
 

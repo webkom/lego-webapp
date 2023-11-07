@@ -3,13 +3,13 @@ import qs from 'qs';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Select from 'react-select';
-import type { AddMemberArgs } from 'app/actions/GroupActions';
 import Table from 'app/components/Table';
 import { isCurrentUser as checkIfCurrentUser } from 'app/routes/users/utils';
-import type Membership from 'app/store/models/Membership';
-import type { CurrentUser } from 'app/store/models/User';
 import { ROLES, type RoleType } from 'app/utils/constants';
 import styles from './GroupMembersList.css';
+import type { AddMemberArgs } from 'app/actions/GroupActions';
+import type Membership from 'app/store/models/Membership';
+import type { CurrentUser } from 'app/store/models/User';
 
 type Props = {
   fetching: boolean;

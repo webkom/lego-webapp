@@ -4,13 +4,13 @@ import { Link } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form';
 import { Content } from 'app/components/Content';
 import { TextInput } from 'app/components/Form';
+import { createValidator, required, isEmail } from 'app/utils/validation';
+import { DetailNavigation } from '../utils';
+import styles from './bdb.css';
 import type {
   CompanyEntity,
   CompanyContactEntity,
 } from 'app/reducers/companies';
-import { createValidator, required, isEmail } from 'app/utils/validation';
-import { DetailNavigation } from '../utils';
-import styles from './bdb.css';
 
 type Props = {
   submitFunction: (

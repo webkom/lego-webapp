@@ -2,10 +2,10 @@ import { Flex, Icon } from '@webkom/lego-bricks';
 import { Link } from 'react-router-dom';
 import EmptyState from 'app/components/EmptyState';
 import { ProfilePicture, Image } from 'app/components/Image';
-import type { SearchResult as SearchResultType } from 'app/reducers/search';
 import { isUserResult } from 'app/reducers/search';
 import truncateString from 'app/utils/truncateString';
 import styles from './SearchPageResults.css';
+import type { SearchResult as SearchResultType } from 'app/reducers/search';
 import type { KeyboardEventHandler } from 'react';
 
 type Props = {

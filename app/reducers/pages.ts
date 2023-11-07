@@ -1,12 +1,12 @@
 import { uniqBy, sortBy, groupBy } from 'lodash';
 import { createSelector } from 'reselect';
 import { selectMembershipsForGroup } from 'app/reducers/memberships';
-import type Membership from 'app/store/models/Membership';
-import type { RoleType } from 'app/utils/constants';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { Page } from '../actions/ActionTypes';
 import { selectGroupsWithType, selectGroup } from './groups';
 import { selectPaginationNext } from './selectors';
+import type Membership from 'app/store/models/Membership';
+import type { RoleType } from 'app/utils/constants';
 
 export type PageEntity = {
   id: number;

@@ -23,7 +23,6 @@ import {
   selectInfoPageForPages,
 } from 'app/reducers/pages';
 import HTTPError from 'app/routes/errors/HTTPError';
-import type { Thunk } from 'app/types';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import LandingPage from './components/LandingPage';
 import PageDetail, {
@@ -31,6 +30,7 @@ import PageDetail, {
   GroupRenderer,
 } from './components/PageDetail';
 import type { PageRenderer } from './components/PageDetail';
+import type { Thunk } from 'app/types';
 
 type Entry = {
   title: string;

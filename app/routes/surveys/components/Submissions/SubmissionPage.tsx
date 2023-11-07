@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
 import { Content, ContentSection, ContentMain } from 'app/components/Content';
+import { DetailNavigation } from '../../utils';
+import AdminSideBar from '../AdminSideBar';
+import styles from '../surveys.css';
 import type { ActionGrant } from 'app/models';
 import type { SubmissionEntity } from 'app/reducers/surveySubmissions';
 import type { SurveyEntity } from 'app/reducers/surveys';
 import type { ID } from 'app/store/models';
-import { DetailNavigation } from '../../utils';
-import AdminSideBar from '../AdminSideBar';
-import styles from '../surveys.css';
 import type { ReactNode } from 'react';
 
 type Props = {

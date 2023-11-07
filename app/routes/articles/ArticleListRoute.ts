@@ -5,11 +5,11 @@ import { fetchPopular } from 'app/actions/TagActions';
 import { selectArticlesWithAuthorDetails } from 'app/reducers/articles';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { selectPopularTags } from 'app/reducers/tags';
-import type { PublicArticle } from 'app/store/models/Article';
-import type { PublicUser } from 'app/store/models/User';
 import { parseQueryString } from 'app/utils/useQuery';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import Overview from './components/Overview';
+import type { PublicArticle } from 'app/store/models/Article';
+import type { PublicUser } from 'app/store/models/User';
 
 export const articlesListDefaultQuery = {
   tag: '',

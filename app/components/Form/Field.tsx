@@ -1,8 +1,8 @@
 import { Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import Tooltip from 'app/components/Tooltip';
-import type { AppDispatch } from 'app/store/createStore';
 import styles from './Field.css';
+import type { AppDispatch } from 'app/store/createStore';
 import type {
   ChangeEvent,
   ComponentType,

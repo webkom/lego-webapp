@@ -3,8 +3,8 @@ import cx from 'classnames';
 import { useEffect, useRef, useState } from 'react';
 import { Image } from 'app/components/Image';
 import { readmeIfy } from 'app/components/ReadmeLogo';
-import type { Readme } from 'app/models';
 import styles from './LatestReadme.css';
+import type { Readme } from 'app/models';
 import type { CSSProperties } from 'react';
 
 type Props = {

@@ -1,13 +1,13 @@
 import { produce } from 'immer';
 import { createSelector } from 'reselect';
-import type { ID } from 'app/models';
 import { mutateReactions } from 'app/reducers/reactions';
-import type QuoteType from 'app/store/models/Quote';
-import type { ReactionsGrouped } from 'app/store/models/Reaction';
-import type { EntityReducerState } from 'app/utils/createEntityReducer';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import joinReducers from 'app/utils/joinReducers';
 import { Quote } from '../actions/ActionTypes';
+import type { ID } from 'app/models';
+import type QuoteType from 'app/store/models/Quote';
+import type { ReactionsGrouped } from 'app/store/models/Reaction';
+import type { EntityReducerState } from 'app/utils/createEntityReducer';
 import type { AnyAction } from 'redux';
 
 /**

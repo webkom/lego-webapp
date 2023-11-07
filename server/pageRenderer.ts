@@ -5,11 +5,11 @@ import { isEmpty } from 'lodash';
 import { renderToString } from 'react-dom/server';
 import serialize from 'serialize-javascript';
 import { selectCurrentUser } from 'app/reducers/auth';
-import type { RootState } from 'app/store/createRootReducer';
 import manifest from '../app/assets/manifest.json';
 import config from '../config/env';
 import webpackClient from '../config/webpack.client';
 import { helmetContext } from './ssr';
+import type { RootState } from 'app/store/createRootReducer';
 import type { FilledContext } from 'react-helmet-async';
 
 const dllPlugin = __DEV__ ? '<script src="/vendors.dll.js"></script>' : '';

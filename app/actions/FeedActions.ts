@@ -1,8 +1,8 @@
 import { feedActivitySchema } from 'app/reducers';
 import { feedIdByUserId } from 'app/reducers/feeds';
-import type { Thunk } from 'app/types';
 import { Feed } from './ActionTypes';
 import callAPI from './callAPI';
+import type { Thunk } from 'app/types';
 
 export function fetchUserFeed(userId: string): Thunk<any> {
   return callAPI({

@@ -1,12 +1,12 @@
 import { omit } from 'lodash';
 import { createSelector } from 'reselect';
+import createEntityReducer from 'app/utils/createEntityReducer';
+import { Survey } from '../actions/ActionTypes';
+import { selectEvents } from './events';
 import type { EventType } from 'app/models';
 import type { RootState } from 'app/store/createRootReducer';
 import type { ID } from 'app/store/models';
 import type { UnknownSurvey } from 'app/store/models/Survey';
-import createEntityReducer from 'app/utils/createEntityReducer';
-import { Survey } from '../actions/ActionTypes';
-import { selectEvents } from './events';
 
 export type OptionEntity = {
   id: number;

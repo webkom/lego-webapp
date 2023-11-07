@@ -7,7 +7,6 @@ import { addSurvey, fetchTemplate } from 'app/actions/SurveyActions';
 import { LoginPage } from 'app/components/LoginForm';
 import { selectEventById } from 'app/reducers/events';
 import { selectSurveyTemplate } from 'app/reducers/surveys';
-import type { FormSurvey } from 'app/store/models/Survey';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
@@ -15,6 +14,7 @@ import SurveyEditor, {
   initialQuestion,
 } from './components/SurveyEditor/SurveyEditor';
 import { getActiveFrom } from './utils';
+import type { FormSurvey } from 'app/store/models/Survey';
 import type { DeepPartial } from 'utility-types';
 
 const loadData = (props, dispatch) => {

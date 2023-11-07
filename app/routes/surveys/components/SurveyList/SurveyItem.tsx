@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
 import { Image } from 'app/components/Image';
 import Time from 'app/components/Time';
-import type { SurveyEntity } from 'app/reducers/surveys';
 import { colorForEvent } from 'app/routes/events/utils';
 import styles from '../surveys.css';
+import type { SurveyEntity } from 'app/reducers/surveys';
 
 type Props = {
   survey: SurveyEntity;

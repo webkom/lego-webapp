@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
-import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { CompanyInterestForm } from '../actions/ActionTypes';
+import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 
 export enum CompanyInterestCompanyType {
   SmallConsultant = 'company_types_small_consultant',

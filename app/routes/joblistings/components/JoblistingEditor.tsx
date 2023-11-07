@@ -20,14 +20,14 @@ import {
 } from 'app/components/Form';
 import NavigationTab from 'app/components/NavigationTab';
 import { httpCheck } from 'app/routes/bdb/utils';
+import { validYoutubeUrl } from 'app/utils/validation';
+import { places, jobTypes, yearValues } from '../constants';
+import styles from './JoblistingEditor.css';
 import type { ID } from 'app/store/models';
 import type {
   DetailedJoblisting,
   Workplace,
 } from 'app/store/models/Joblisting';
-import { validYoutubeUrl } from 'app/utils/validation';
-import { places, jobTypes, yearValues } from '../constants';
-import styles from './JoblistingEditor.css';
 import type { FormProps } from 'redux-form';
 
 type SelectInputObject = {

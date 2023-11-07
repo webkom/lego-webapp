@@ -1,9 +1,9 @@
 import { produce } from 'immer';
 import { createSelector } from 'reselect';
-import type { UserEntity } from 'app/reducers/users';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { SurveySubmission } from '../actions/ActionTypes';
 import type { OptionEntity, SurveyEntity, QuestionEntity } from './surveys';
+import type { UserEntity } from 'app/reducers/users';
 
 export type SubmissionEntity = {
   id: number;

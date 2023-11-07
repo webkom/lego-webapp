@@ -1,8 +1,8 @@
 import { Button } from '@webkom/lego-bricks';
-import type { SubmissionEntity } from 'app/reducers/surveySubmissions';
-import type { SurveyEntity, QuestionEntity } from 'app/reducers/surveys';
 import styles from '../surveys.css';
 import Results from './Results';
+import type { SubmissionEntity } from 'app/reducers/surveySubmissions';
+import type { SurveyEntity, QuestionEntity } from 'app/reducers/surveys';
 
 type Props = {
   submissions: Array<SubmissionEntity>;

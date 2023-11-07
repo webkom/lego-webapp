@@ -7,11 +7,11 @@ import GroupMember from 'app/components/GroupMember';
 import { Image } from 'app/components/Image';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { readmeIfy } from 'app/components/ReadmeLogo';
-import type { ActionGrant } from 'app/models';
-import type { PageEntity } from 'app/reducers/pages';
 import styles from './PageDetail.css';
 import Sidebar from './Sidebar';
 import type { HierarchySectionEntity } from './PageHierarchy';
+import type { ActionGrant } from 'app/models';
+import type { PageEntity } from 'app/reducers/pages';
 import type { ComponentType } from 'react';
 
 type State = {
