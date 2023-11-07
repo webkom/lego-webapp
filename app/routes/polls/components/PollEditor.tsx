@@ -21,10 +21,6 @@ import { createValidator, required } from 'app/utils/validation';
 import styles from './PollEditor.css';
 import type { ReactNode } from 'react';
 
-const keyCodes = {
-  enter: 13,
-  space: 32,
-};
 type Props = {
   editOrCreatePoll: (arg0: PollEntity) => Promise<any>;
   //TODO add reduxForm typing
@@ -171,11 +167,6 @@ const EditPollForm = ({
               component={SelectInput.AutocompleteField}
               isMulti
               tags
-              shouldKeyDownEventCreateNewOption={({
-                keyCode,
-              }: {
-                keyCode: number;
-              }) => keyCode === keyCodes.enter || keyCode === keyCodes.space}
             />
             <FieldArray
               name="options"

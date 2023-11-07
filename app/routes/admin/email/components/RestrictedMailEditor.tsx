@@ -148,9 +148,6 @@ const RestrictedMailEditor = ({
         tags
         isMulti
         isValidNewOption={({ label }: { label: string }) => isEmail()(label)[0]}
-        shouldKeyDownEventCreateNewOption={({ keyCode }: { keyCode: number }) =>
-          keyCode === 32 || keyCode === 13
-        }
       />
 
       {!restrictedMailId && (
