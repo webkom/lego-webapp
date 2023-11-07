@@ -74,7 +74,7 @@ const LendableObjectEdit = () => {
             />
             <Field
               name="location"
-              label="Posisjon"
+              label="Lokasjon"
               placeholder="Hvor befinner objektet seg?"
               component={TextInput.Field}
             />

@@ -22,8 +22,8 @@ type Params = {
 const LendableObjectDetail = () => {
   const { lendableObjectId } = useParams<Params>();
   const [showLendingForm, setShowLendingForm] = useState(false);
-  const [startString, setStartString] = useState('');
-  const [endString, setEndString] = useState('');
+  const [start, setstart] = useState('');
+  const [end, setend] = useState('');
 
   const onSubmit = () => {};
 
@@ -39,12 +39,15 @@ const LendableObjectDetail = () => {
   return (
     <Content banner={lendableObject.image}>
       <Helmet title={`Utlån av ${lendableObject.title}`} />
+
       <NavigationTab title={`Utlån av ${lendableObject.title}`}>
         <NavigationLink to="/lending/approve">
           Godkjenn utlånsforespørsler
         </NavigationLink>
       </NavigationTab>
-      <p>{lendableObject.description}</p>
+
+      <p className="secondaryFontColor">{lendableObject.description}</p>
+
       <FullCalendar
         plugins={[interactionPlugin, timeGridPlugin, dayGridPlugin]}
         initialView="timeGridWeek"
@@ -65,11 +68,12 @@ const LendableObjectDetail = () => {
           right: 'timeGridWeek,dayGridMonth',
         }}
         select={(info) => {
-          setStartString(info.startStr);
-          setEndString(info.endStr);
+          setstart(info.startStr);
+          setend(info.endStr);
           setShowLendingForm(true);
         }}
       />
+
       <Modal show={showLendingForm} onHide={() => setShowLendingForm(false)}>
         <LegoFinalForm
           onSubmit={onSubmit}
@@ -82,16 +86,14 @@ const LendableObjectDetail = () => {
                 <Field
                   label="Start for utlån"
                   name="startTime"
-                  defaultValue={moment(startString).format(
-                    'DD-MM-YYYY hh:mm:ss'
-                  )}
+                  defaultValue={moment(start).format('DD-MM-YYYY hh:mm:ss')}
                   component={TextInput.Field}
                   disabled
                 />
                 <Field
                   label="Slutt for utlån"
                   name="endTime"
-                  defaultValue={moment(endString).format('DD-MM-YYYY hh:mm:ss')}
+                  defaultValue={moment(end).format('DD-MM-YYYY hh:mm:ss')}
                   component={TextInput.Field}
                   disabled
                 />

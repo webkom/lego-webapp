@@ -89,15 +89,15 @@ const LendableObjectAdminDetail = () => {
   return (
     <Content banner={lendableObject.image}>
       <Helmet title={`Godkjenn utlån av ${lendableObject.title}`} />
-      <NavigationTab
-        title={`Godkjenn utlån av ${lendableObject.title}`}
-      ></NavigationTab>
+      <NavigationTab title={`Godkjenn utlån av ${lendableObject.title}`} />
+
       <p>
         {lendingRequest.message} -{' '}
         <Link to={`/users/${lendingRequest.user.username}`}>
           {lendingRequest.user.fullName}
         </Link>{' '}
       </p>
+
       <FullCalendar
         plugins={[interactionPlugin, timeGridPlugin, dayGridPlugin]}
         initialView="timeGridWeek"
