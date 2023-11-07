@@ -1,8 +1,8 @@
+import { Card } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import qs from 'qs';
 import { Helmet } from 'react-helmet-async';
 import { Link, useHistory, useLocation } from 'react-router-dom';
-import Card from 'app/components/Card';
 import { Content } from 'app/components/Content';
 import TextInput from 'app/components/Form/TextInput';
 import { Image } from 'app/components/Image';

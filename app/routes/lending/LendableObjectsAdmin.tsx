@@ -1,6 +1,6 @@
+import { Card } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
 import { Helmet } from 'react-helmet-async';
-import Card from 'app/components/Card';
 import { Content } from 'app/components/Content';
 import NavigationTab from 'app/components/NavigationTab';
 import styles from './LendableObjectsAdmin.css';
