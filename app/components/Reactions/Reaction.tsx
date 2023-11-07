@@ -32,6 +32,7 @@ const Reaction = ({
   className,
   emoji,
   count,
+  users,
   unicodeString,
   addReaction,
   deleteReaction,
@@ -53,9 +54,15 @@ const Reaction = ({
     return <></>;
   }
 
+  let tooltipContent = emoji;
+  if (users) {
+    tooltipContent = users.map((user) => user.fullName).join(', ');
+  }
+  tooltipContent = tooltipContent || 'Ingen har reagert enda';
+
   return (
     <>
-      <Tooltip content={emoji}>
+      <Tooltip content={tooltipContent}>
         <Flex
           gap={4}
           justifyContent="center"

@@ -58,6 +58,20 @@ const LegoReactions = (props: Props) => {
     });
   }
 
+  let usersByReaction = {};
+  for (let groupedReaction of parentEntity.reactionsGrouped) {
+    for (let reaction of parentEntity.reactions) {
+      if (reaction.emoji === groupedReaction.emoji) {
+        if (!usersByReaction[reaction.emoji]) {
+          usersByReaction[reaction.emoji] = [];
+        }
+        usersByReaction[reaction.emoji].push(reaction.author);
+      }
+    }
+  }
+
+  console.log('usersByReaction', usersByReaction)
+
   return (
     <Reactions
       emojis={mappedEmojis}
@@ -74,6 +88,7 @@ const LegoReactions = (props: Props) => {
             key={`reaction-${reaction.emoji}`}
             emoji={reaction.emoji}
             count={reaction.count}
+            users={usersByReaction[reaction.emoji]}
             unicodeString={reaction.unicodeString}
             reactionId={reaction.reactionId}
             hasReacted={reaction.hasReacted}
