@@ -1,4 +1,5 @@
 import type { Dateish } from 'app/models';
+import type { AutocompleteContentType } from 'app/store/models/Autocomplete';
 import type { GalleryCoverPicture } from 'app/store/models/GalleryPicture';
 import type ObjectPermissionsMixin from 'app/store/models/ObjectPermissionsMixin';
 import type { ID } from 'app/store/models/index';
@@ -50,6 +51,11 @@ export type SearchGallery = Pick<
   Gallery,
   'id' | 'title' | 'location' | 'description'
 >;
+
+export type AutocompleteGallery = Pick<Gallery, 'title' | 'id'> & {
+  contentType: AutocompleteContentType.Gallery;
+  text: 'text';
+};
 
 export type GalleryMetadata = Pick<
   Gallery,

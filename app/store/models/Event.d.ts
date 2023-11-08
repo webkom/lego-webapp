@@ -1,6 +1,7 @@
 import type { PublicGroup } from './Group';
 import type { Dateish, Cover } from 'app/models';
 import type { ID } from 'app/store/models';
+import type { AutocompleteContentType } from 'app/store/models/Autocomplete';
 import type { ListCompany } from 'app/store/models/Company';
 import type ObjectPermissionsMixin from 'app/store/models/ObjectPermissionsMixin';
 import type { DetailedUser, PublicUser } from 'app/store/models/User';
@@ -248,6 +249,11 @@ export type SearchEvent = Pick<
   | 'startTime'
   | 'endTime'
 >;
+
+export type AutocompleteEvent = Pick<Event, 'title' | 'startTime' | 'id'> & {
+  contentType: AutocompleteContentType.Event;
+  text: 'text';
+};
 
 export type UnknownEvent =
   | PublicEvent

@@ -1,3 +1,4 @@
+import type { AutocompleteContentType } from 'app/store/models/Autocomplete';
 import type ObjectPermissionsMixin from 'app/store/models/ObjectPermissionsMixin';
 import type { ID } from 'app/store/models/index';
 
@@ -33,4 +34,12 @@ export type SearchPage = Pick<
   'title' | 'slug' | 'content' | 'picture' | 'category'
 > & {
   id: ID;
+};
+
+export type AutocompletePage = Pick<
+  Page,
+  'title' | 'slug' | 'picture' | 'category' | 'id'
+> & {
+  contentType: AutocompleteContentType.Page;
+  text: 'text';
 };

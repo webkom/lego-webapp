@@ -1,3 +1,4 @@
+import type { AutocompleteContentType } from 'app/store/models/Autocomplete';
 import type { ID } from 'app/store/models/index';
 
 enum TaggedType {
@@ -23,3 +24,9 @@ export type DetailedTag = Pick<Tag, 'tag' | 'usages' | 'relatedCounts'>;
 export type UnknownTag = ListTag | DetailedTag;
 
 export type SearchTag = Pick<Tag, 'tag'> & { id: ID };
+
+export type AutocompleteTag = Pick<Tag, 'tag'> & {
+  id: ID;
+  contentType: AutocompleteContentType.Tag;
+  text: 'text';
+};

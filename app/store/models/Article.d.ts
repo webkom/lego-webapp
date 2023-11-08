@@ -1,5 +1,6 @@
 import type { Dateish } from 'app/models';
 import type AllowedPermissionsMixin from 'app/store/models/AllowedPermissionsMixin';
+import type { AutocompleteContentType } from 'app/store/models/Autocomplete';
 import type ObjectPermissionsMixin from 'app/store/models/ObjectPermissionsMixin';
 import type { ReactionsGrouped } from 'app/store/models/Reaction';
 import type { ID } from 'app/store/models/index';
@@ -49,6 +50,14 @@ export type SearchArticle = Pick<
   CompleteArticle,
   'id' | 'title' | 'cover' | 'description' | 'content' | 'pinned' | 'createdAt'
 >;
+
+export type AutocompleteArticle = Pick<
+  CompleteArticle,
+  'title' | 'cover' | 'description' | 'id'
+> & {
+  contentType: AutocompleteContentType.Article;
+  text: 'text';
+};
 
 export type PublicArticle = Pick<
   CompleteArticle,
