@@ -47,8 +47,6 @@ const LegoReactions = (props: Props) => {
   } = props;
   let mappedEmojis: EmojiWithReactionData[] = [];
 
-  console.log(parentEntity)
-
   if (!fetchingEmojis) {
     mappedEmojis = emojis.map((emoji) => {
       const foundReaction =
