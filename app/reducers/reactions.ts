@@ -82,6 +82,9 @@ export function mutateReactions<T, S = EntityReducerState<T>>(
           return state;
         }
 
+        console.log('deleting', reactionId);
+        console.log(state.byId[targetId].reactions);
+
         return {
           ...state,
           byId: {
@@ -104,7 +107,7 @@ export function mutateReactions<T, S = EntityReducerState<T>>(
                 .filter((reaction) => reaction.count !== 0),
               reactions: (state.byId[targetId].reactions || []).filter(
                 (reaction) => {
-                  return reaction.reactionId !== reactionId;
+                  return reaction.id !== reactionId;
                 }
               ),
             },
