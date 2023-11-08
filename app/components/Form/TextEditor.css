@@ -1,5 +1,17 @@
 .input {
   composes: input from './TextInput.css';
   width: 100%;
-  padding: 5px;
+  max-width: 100%;
+  min-height: 70px;
+  padding: 5px 10px;
+  outline: none;
+
+  &::placeholder {
+    color: var(--color-gray-5);
+  }
+
+  &:focus::placeholder {
+    transition: opacity var(--easing-medium);
+    opacity: 0;
+  }
 }

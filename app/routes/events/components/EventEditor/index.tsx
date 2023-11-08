@@ -244,7 +244,7 @@ function EventEditor({
         <Field
           name="description"
           label="Kalenderbeskrivelse"
-          placeholder="Kom på fest den..."
+          placeholder="Kom på fest den ..."
           component={TextEditor.Field}
         />
         <ContentSection>
