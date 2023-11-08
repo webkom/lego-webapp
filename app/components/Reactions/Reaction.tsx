@@ -60,7 +60,8 @@ const Reaction = ({
   }
 
   let tooltipContent = emoji + '\n';
-  if (users) {
+  if (users && users.length > 0) {
+    console.log(users);
     tooltipContent += users.map((user) => user.fullName).join(', ');
   }
 

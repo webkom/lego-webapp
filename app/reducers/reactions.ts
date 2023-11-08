@@ -61,7 +61,7 @@ export function mutateReactions<T, S = EntityReducerState<T>>(
                     }
                     : []
                 ),
-              reactions: state.byId[targetId].reactions
+              reactions: state.byId[targetId].reactions ? state.byId[targetId].reactions
                 .concat(
                   {
                     author: user,
@@ -69,7 +69,7 @@ export function mutateReactions<T, S = EntityReducerState<T>>(
                     reactionId: reactionId,
                     unicodeString
                   }
-                )
+                ) : undefined
             },
           },
         };
@@ -105,10 +105,10 @@ export function mutateReactions<T, S = EntityReducerState<T>>(
                   };
                 })
                 .filter((reaction) => reaction.count !== 0),
-              reactions: state.byId[targetId].reactions
+              reactions: state.byId[targetId].reactions ? state.byId[targetId].reactions
                 .filter((reaction) => {
                   return reaction.reactionId !== reactionId
-                })
+                }) : undefined
             },
           },
         };
