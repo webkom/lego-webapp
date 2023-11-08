@@ -22,12 +22,6 @@ import Tooltip from 'app/components/Tooltip';
 import { AttendanceStatus } from 'app/components/UserAttendance';
 import AttendanceModal from 'app/components/UserAttendance/AttendanceModal';
 import UserGrid from 'app/components/UserGrid';
-import type {
-  EventRegistration,
-  ActionGrant,
-  AddPenalty,
-  FollowerItem,
-} from 'app/models';
 import { resolveGroupLink } from 'app/reducers/groups';
 import {
   colorForEvent,
@@ -35,6 +29,17 @@ import {
   getEventSemesterFromStartTime,
   registrationCloseTime,
 } from 'app/routes/events/utils';
+import Admin from '../Admin';
+import JoinEventForm from '../JoinEventForm';
+import RegisteredSummary from '../RegisteredSummary';
+import RegistrationMeta from '../RegistrationMeta';
+import styles from './EventDetail.css';
+import type {
+  EventRegistration,
+  ActionGrant,
+  AddPenalty,
+  FollowerItem,
+} from 'app/models';
 import type { ID } from 'app/store/models';
 import type Comment from 'app/store/models/Comment';
 import type {
@@ -47,11 +52,6 @@ import type {
   ReadRegistration,
 } from 'app/store/models/Registration';
 import type { CurrentUser } from 'app/store/models/User';
-import Admin from '../Admin';
-import JoinEventForm from '../JoinEventForm';
-import RegisteredSummary from '../RegisteredSummary';
-import RegistrationMeta from '../RegistrationMeta';
-import styles from './EventDetail.css';
 
 type InterestedButtonProps = {
   isInterested: boolean;
@@ -423,11 +423,16 @@ export default class EventDetail extends Component<Props, State> {
               iconName="time-outline"
               content={<FromToTime from={event.startTime} to={event.endTime} />}
             />
+            {event.isForeignLanguage !== null && event.isForeignLanguage && (
+              <TextWithIcon iconName="language-outline" content={'English'} />
+            )}
+
             <div className={styles.infoIconLocation}>
               <TextWithIcon
                 iconName="location-outline"
                 content={event.location}
               />
+
               {event.mazemapPoi && (
                 <Button
                   className={styles.mapButton}

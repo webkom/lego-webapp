@@ -4,14 +4,14 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import ErrorBoundary from 'app/components/ErrorBoundary';
 import { toSpan } from 'app/components/Feed/context';
-import type {
-  AggregatedActivity,
-  NotificationData,
-} from 'app/components/Feed/types';
 import Time from 'app/components/Time';
 import Dropdown from '../Dropdown';
 import { activityRenderers } from '../Feed';
 import styles from './HeaderNotifications.css';
+import type {
+  AggregatedActivity,
+  NotificationData,
+} from 'app/components/Feed/types';
 
 const NotificationElement = ({ notification }) => {
   const renders = activityRenderers[notification.verb];

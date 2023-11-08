@@ -1,9 +1,9 @@
 import { produce } from 'immer';
+import { Meeting } from '../actions/ActionTypes';
+import type { Reducer } from '@reduxjs/toolkit';
 import type { ID } from 'app/store/models';
 import type { MeetingInvitationStatus } from 'app/store/models/MeetingInvitation';
 import type { PublicUser } from 'app/store/models/User';
-import { Meeting } from '../actions/ActionTypes';
-import type { Reducer } from '@reduxjs/toolkit';
 
 export type MeetingsTokenResponse = 'SUCCESS' | 'FAILURE';
 

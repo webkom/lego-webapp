@@ -1,8 +1,8 @@
 import { Flex } from '@webkom/lego-bricks';
 import { Component } from 'react';
 import { CheckBox, RadioButton, SelectInput } from 'app/components/Form';
-import type { CompanyEntity } from 'app/reducers/companies';
 import styles from './OptionsBox.css';
+import type { CompanyEntity } from 'app/reducers/companies';
 
 type Props = {
   companies: Array<CompanyEntity>;

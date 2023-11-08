@@ -3,9 +3,9 @@ import moment from 'moment-timezone';
 import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import config from 'app/config';
+import styles from './components/surveys.css';
 import type { ActionGrant, Dateish } from 'app/models';
 import type { ID } from 'app/store/models';
-import styles from './components/surveys.css';
 import type { ReactNode } from 'react';
 
 const questionStrings = {

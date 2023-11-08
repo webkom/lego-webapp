@@ -11,12 +11,12 @@ import {
 import { LoginPage } from 'app/components/LoginForm';
 import { selectCompanyInterestList } from 'app/reducers/companyInterest';
 import { selectCompanySemestersForInterestForm } from 'app/reducers/companySemesters';
-import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import CompanyInterestList from './components/CompanyInterestList';
 import { EVENT_TYPE_OPTIONS } from './components/CompanyInterestPage';
 import { semesterToText } from './utils';
+import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 
 const mapStateToProps = (state, props) => {
   const semesterId = Number(

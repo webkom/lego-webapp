@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { compose } from 'redux';
 import { editGroup } from 'app/actions/GroupActions';
-import type { ID } from 'app/models';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import AddGroupPermission from './AddGroupPermission';
+import type { ID } from 'app/models';
 
 type PermissionListProps = {
   permissions: Array<string>;

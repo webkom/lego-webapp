@@ -4,12 +4,12 @@ import { mutateComments } from 'app/reducers/comments';
 import { mutateReactions } from 'app/reducers/reactions';
 import { selectUserById } from 'app/reducers/users';
 import { typeable } from 'app/reducers/utils';
-import type { ArticleWithAuthorDetails } from 'app/routes/articles/ArticleListRoute';
-import type { RootState } from 'app/store/createRootReducer';
-import type { PublicArticle, UnknownArticle } from 'app/store/models/Article';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import joinReducers from 'app/utils/joinReducers';
 import { Article } from '../actions/ActionTypes';
+import type { ArticleWithAuthorDetails } from 'app/routes/articles/ArticleListRoute';
+import type { RootState } from 'app/store/createRootReducer';
+import type { PublicArticle, UnknownArticle } from 'app/store/models/Article';
 import type { Selector } from 'reselect';
 
 export default createEntityReducer<UnknownArticle>({

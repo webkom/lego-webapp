@@ -4,9 +4,9 @@ import { Helmet } from 'react-helmet-async';
 import { Content } from 'app/components/Content';
 import NavigationTab from 'app/components/NavigationTab';
 import Poll from 'app/components/Poll';
+import PollEditor from './PollEditor';
 import type { ActionGrant, ID } from 'app/models';
 import type { PollEntity } from 'app/reducers/polls';
-import PollEditor from './PollEditor';
 
 type Props = {
   poll: PollEntity;

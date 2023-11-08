@@ -3,8 +3,8 @@ import qs from 'qs';
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useHistory } from 'react-router-dom';
 import { Button } from 'app/components/Form';
-import type { CurrentUser } from 'app/store/models/User';
 import styles from './UserConfirmation.css';
+import type { CurrentUser } from 'app/store/models/User';
 
 type Props = {
   startStudentAuth: () => Promise<void>;

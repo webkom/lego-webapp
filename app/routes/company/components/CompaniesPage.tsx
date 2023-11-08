@@ -11,9 +11,9 @@ import { Helmet } from 'react-helmet-async';
 import InfiniteScroll from 'react-infinite-scroller';
 import { Link } from 'react-router-dom';
 import { Image } from 'app/components/Image';
-import type { ListCompany } from 'app/store/models/Company';
 import utilities from 'app/styles/utilities.css';
 import styles from './CompaniesPage.css';
+import type { ListCompany } from 'app/store/models/Company';
 
 const CompanyItem = ({ company }: { company: ListCompany }) => {
   return (

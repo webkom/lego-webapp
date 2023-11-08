@@ -1,14 +1,14 @@
 import { Button, Flex, LoadingIndicator } from '@webkom/lego-bricks';
 import { Link } from 'react-router-dom';
 import Table from 'app/components/Table';
-import type { ActionGrant } from 'app/models';
 import HTTPError from 'app/routes/errors/HTTPError';
+import { RegistrationPill, getRegistrationInfo } from './RegistrationTables';
+import type { ActionGrant } from 'app/models';
 import type { ID } from 'app/store/models';
 import type Comment from 'app/store/models/Comment';
 import type { AdministrateEvent } from 'app/store/models/Event';
 import type { DetailedRegistration } from 'app/store/models/Registration';
 import type { CurrentUser, DetailedUser } from 'app/store/models/User';
-import { RegistrationPill, getRegistrationInfo } from './RegistrationTables';
 
 export type Props = {
   eventId: number;

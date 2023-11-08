@@ -1,3 +1,4 @@
+import type OAuth2Grant from './OAuth2Grant';
 import type { UnknownAnnouncement } from 'app/store/models/Announcement';
 import type { UnknownArticle } from 'app/store/models/Article';
 import type Comment from 'app/store/models/Comment';
@@ -31,7 +32,6 @@ import type { SurveySubmission } from 'app/store/models/SurveySubmission';
 import type { UnknownTag } from 'app/store/models/Tag';
 import type { UnknownUser } from 'app/store/models/User';
 import type { ID } from 'app/store/models/index';
-import type OAuth2Grant from './OAuth2Grant';
 
 export enum EntityType {
   Announcements = 'announcements',

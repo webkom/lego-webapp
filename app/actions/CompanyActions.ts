@@ -8,11 +8,11 @@ import {
   eventSchema,
   joblistingsSchema,
 } from 'app/reducers';
-import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
-import type { Thunk } from 'app/types';
 import createQueryString from 'app/utils/createQueryString';
 import { semesterToText } from '../routes/companyInterest/utils';
 import { Company, Event, Joblistings } from './ActionTypes';
+import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
+import type { Thunk } from 'app/types';
 
 export const fetchAll = ({ fetchMore }: { fetchMore: boolean }): Thunk<any> => {
   return callAPI({

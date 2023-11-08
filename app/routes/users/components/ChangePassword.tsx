@@ -2,10 +2,10 @@ import { Button } from '@webkom/lego-bricks';
 import { Field, FormSpy } from 'react-final-form';
 import { TextInput } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
-import type { UserEntity } from 'app/reducers/users';
 import { createValidator, required, sameAs } from 'app/utils/validation';
 import { validPassword } from '../utils';
 import PasswordField from './PasswordField';
+import type { UserEntity } from 'app/reducers/users';
 
 type PasswordPayload = {
   newPassword: string;

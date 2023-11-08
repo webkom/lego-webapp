@@ -2,11 +2,11 @@ import moment from 'moment-timezone';
 import { Link } from 'react-router-dom';
 import { Content } from 'app/components/Content';
 import Time from 'app/components/Time';
-import type { SubmissionEntity } from 'app/reducers/surveySubmissions';
-import type { SurveyEntity } from 'app/reducers/surveys';
 import styles from '../surveys.css';
 import AlreadyAnswered from './AlreadyAnswered';
 import SubmissionEditor from './SubmissionEditor';
+import type { SubmissionEntity } from 'app/reducers/surveySubmissions';
+import type { SurveyEntity } from 'app/reducers/surveys';
 
 type Props = {
   survey: SurveyEntity;

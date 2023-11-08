@@ -7,13 +7,13 @@ import { CHART_COLORS } from 'app/components/Chart/utils';
 import { selectTheme, selectStyles } from 'app/components/Form/SelectInput';
 import InfoBubble from 'app/components/InfoBubble';
 import Tag, { type TagColors } from 'app/components/Tags/Tag';
-import type { SurveyEntity, QuestionEntity } from 'app/reducers/surveys';
 import {
   QuestionTypes,
   QuestionTypeValue,
   QuestionTypeOption,
 } from '../../utils';
 import styles from '../surveys.css';
+import type { SurveyEntity, QuestionEntity } from 'app/reducers/surveys';
 
 type Props = {
   survey: SurveyEntity;

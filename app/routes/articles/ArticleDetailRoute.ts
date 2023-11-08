@@ -11,12 +11,12 @@ import {
 } from 'app/reducers/articles';
 import { selectEmojis } from 'app/reducers/emojis';
 import { selectUserById } from 'app/reducers/users';
-import type { PublicArticle } from 'app/store/models/Article';
-import type { PublicUser } from 'app/store/models/User';
 import helmet from 'app/utils/helmet';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import ArticleDetail from './components/ArticleDetail';
+import type { PublicArticle } from 'app/store/models/Article';
+import type { PublicUser } from 'app/store/models/User';
 import type { RouteChildrenProps } from 'react-router';
 
 type Params = {

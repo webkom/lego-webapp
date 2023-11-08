@@ -10,22 +10,22 @@ import Dropdown from 'app/components/Dropdown';
 import { DatePicker, SelectInput, TextInput } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import Time from 'app/components/Time';
-import type { EventType } from 'app/models';
 import { EVENT_CONSTANTS, eventTypeToString } from 'app/routes/events/utils';
 import {
   DetailNavigation,
   ListNavigation,
   QuestionTypes,
 } from 'app/routes/surveys/utils';
+import { spySubmittable } from 'app/utils/formSpyUtils';
+import { createValidator, required } from 'app/utils/validation';
+import styles from '../surveys.css';
+import Question from './Question';
+import type { EventType } from 'app/models';
 import type {
   CreateSurvey,
   DetailedSurvey,
   FormSurvey,
 } from 'app/store/models/Survey';
-import { spySubmittable } from 'app/utils/formSpyUtils';
-import { createValidator, required } from 'app/utils/validation';
-import styles from '../surveys.css';
-import Question from './Question';
 import type { Push } from 'connected-react-router';
 
 type Props = {

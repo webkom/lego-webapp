@@ -11,10 +11,10 @@ import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import { Semester } from 'app/store/models';
-import type CompanySemester from 'app/store/models/CompanySemester';
 import { createValidator, required } from 'app/utils/validation';
 import { semesterToText, SemesterNavigation } from '../utils';
 import styles from './CompanyInterest.css';
+import type CompanySemester from 'app/store/models/CompanySemester';
 import type { FormApi } from 'final-form';
 
 type Props = {

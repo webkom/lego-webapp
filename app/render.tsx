@@ -1,8 +1,8 @@
 import { loadableReady } from '@loadable/component';
 import { createRoot, hydrateRoot } from 'react-dom/client';
 import routes from 'app/routes';
-import type { Store } from 'app/store/createStore';
 import Root from './Root';
+import type { Store } from 'app/store/createStore';
 
 const renderApp = ({
   store,

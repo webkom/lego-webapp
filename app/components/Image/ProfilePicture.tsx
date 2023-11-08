@@ -1,5 +1,5 @@
-import type { UnknownUser } from 'app/store/models/User';
 import CircularPicture from './CircularPicture';
+import type { UnknownUser } from 'app/store/models/User';
 import type { ComponentProps } from 'react';
 
 type Props = {

@@ -3,15 +3,15 @@ import { connect } from 'react-redux';
 import { Gallery } from 'app/actions/ActionTypes';
 import { Image } from 'app/components/Image';
 import Tooltip from 'app/components/Tooltip';
-import type {
-  UploadStatus,
-  GalleryPictureEntity,
-} from 'app/reducers/galleryPictures';
 import {
   selectGalleryPictureById,
   initialUploadStatus,
 } from 'app/reducers/galleryPictures';
 import styles from './PhotoUploadStatus.css';
+import type {
+  UploadStatus,
+  GalleryPictureEntity,
+} from 'app/reducers/galleryPictures';
 
 type StateProps = {
   uploadStatus: UploadStatus;

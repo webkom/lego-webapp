@@ -1,10 +1,10 @@
 import { Card, Flex } from '@webkom/lego-bricks';
 import { Link } from 'react-router-dom';
 import { Image } from 'app/components/Image';
-import type { Event } from 'app/models';
 import { colorForEvent } from 'app/routes/events/utils';
 import { eventStatus } from 'app/utils/eventStatus';
 import styles from './EventItem.css';
+import type { Event } from 'app/models';
 
 type Props = {
   item: Event;

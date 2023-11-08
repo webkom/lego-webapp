@@ -2,11 +2,11 @@ import { produce } from 'immer';
 import { omit, without, isArray, get, union, isEmpty } from 'lodash';
 import { parse } from 'qs';
 import { configWithSSR } from 'app/config';
+import joinReducers from 'app/utils/joinReducers';
+import mergeObjects from 'app/utils/mergeObjects';
 import type { ID } from 'app/store/models';
 import type { Reducer, AsyncActionType } from 'app/types';
 import type { StrictReducer } from 'app/utils/joinReducers';
-import joinReducers from 'app/utils/joinReducers';
-import mergeObjects from 'app/utils/mergeObjects';
 import type { AnyAction } from 'redux';
 
 export type EntityReducerTypes = AsyncActionType | Array<AsyncActionType>;

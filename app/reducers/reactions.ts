@@ -1,9 +1,9 @@
 import type { ID } from 'app/store/models';
+import { Reaction } from 'app/actions/ActionTypes';
+import type { AnyAction } from '@reduxjs/toolkit';
 import type { ReactionsGrouped } from 'app/store/models/Reaction';
 import type { EntityReducerState } from 'app/utils/createEntityReducer';
 import getEntityType from 'app/utils/getEntityType';
-import type { AnyAction } from '@reduxjs/toolkit';
-import { Reaction } from 'app/actions/ActionTypes';
 
 type WithReactions<T> = T & { reactionsGrouped: ReactionsGrouped[] };
 

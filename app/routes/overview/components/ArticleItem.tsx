@@ -2,9 +2,9 @@ import { Card } from '@webkom/lego-bricks';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Image } from 'app/components/Image';
-import type { PublicArticle } from 'app/store/models/Article';
 import truncateString from 'app/utils/truncateString';
 import styles from './ArticleItem.css';
+import type { PublicArticle } from 'app/store/models/Article';
 
 type Props = {
   item: PublicArticle;

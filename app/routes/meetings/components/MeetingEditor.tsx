@@ -26,11 +26,7 @@ import { SubmitButton } from 'app/components/Form/SubmitButton';
 import MazemapLink from 'app/components/MazemapEmbed/MazemapLink';
 import NavigationTab from 'app/components/NavigationTab';
 import { AttendanceStatus } from 'app/components/UserAttendance';
-import type { MeetingInvitationWithUser } from 'app/reducers/meetingInvitations';
 import styles from 'app/routes/meetings/components/MeetingEditor.css';
-import type { ID } from 'app/store/models';
-import type { DetailedMeeting } from 'app/store/models/Meeting';
-import type { AutocompleteUser, CurrentUser } from 'app/store/models/User';
 import { spyValues } from 'app/utils/formSpyUtils';
 import {
   createValidator,
@@ -40,6 +36,10 @@ import {
   required,
   timeIsAfter,
 } from 'app/utils/validation';
+import type { MeetingInvitationWithUser } from 'app/reducers/meetingInvitations';
+import type { ID } from 'app/store/models';
+import type { DetailedMeeting } from 'app/store/models/Meeting';
+import type { AutocompleteUser, CurrentUser } from 'app/store/models/User';
 import type { Push } from 'connected-react-router';
 
 type Values = {

@@ -11,10 +11,10 @@ import {
 } from 'app/actions/UserActions';
 import { selectUserByUsername } from 'app/reducers/users';
 import { isCurrentUser } from 'app/routes/users/utils';
-import type { RootState } from 'app/store/createRootReducer';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import UserSettings from './components/UserSettings';
+import type { RootState } from 'app/store/createRootReducer';
 import type { RouteChildrenProps } from 'react-router';
 
 type Params = { username: string };

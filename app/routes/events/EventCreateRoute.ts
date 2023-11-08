@@ -116,6 +116,7 @@ const mapStateToProps = (state, props) => {
       registrationDeadlineHours: 2,
       unregistrationDeadlineHours: 2,
       responsibleUsers: [],
+      isForeignLanguage: false,
     },
     actionGrant,
     imageGallery: imageGallery.map((e) => {

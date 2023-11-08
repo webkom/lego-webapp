@@ -9,7 +9,7 @@ const EmailPage = ({ children }: PropsWithChildren) => (
     <Helmet title="E-post" />
     <NavigationTab title="E-post">
       <NavigationLink to="/admin/email">Lister</NavigationLink>
-      <NavigationLink to='/admin/email/users?filters={"internalEmailEnabled"%3A"true"}'>
+      <NavigationLink to="/admin/email/users?enabled=true">
         Brukere
       </NavigationLink>
       <NavigationLink to="/admin/email/restricted">

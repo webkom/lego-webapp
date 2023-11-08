@@ -1,125 +1,24 @@
 import { Button } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import qs from 'qs';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CheckBox, RadioButton } from 'app/components/Form/';
-import type { JobType } from 'app/components/JoblistingItem/Items';
-import type { ActionGrant } from 'app/models';
-import { jobTypes } from '../constants';
+import { defaultJoblistingsQuery } from 'app/routes/joblistings/JoblistingRoute';
+import useQuery from 'app/utils/useQuery';
+import { jobTypes as allJobTypes } from '../constants';
 import styles from './JoblistingRightNav.css';
+import type { ActionGrant } from 'app/models';
 
-const updateFilters = (type, value, filters) => {
-  const newFilter = {
-    ...filters,
-    [type]: filters[type].includes(value)
-      ? filters[type].filter((x) => x !== value)
-      : filters[type].concat(value),
-  };
-  return {
-    ...(newFilter.grades.length > 0
-      ? {
-          grades: newFilter.grades.toString(),
-        }
-      : {}),
-    ...(newFilter.jobTypes.length > 0
-      ? {
-          jobTypes: newFilter.jobTypes.toString(),
-        }
-      : {}),
-    ...(newFilter.workplaces.length > 0
-      ? {
-          workplaces: newFilter.workplaces.toString(),
-        }
-      : {}),
-  };
-};
-
-const FilterLink = ({
-  type,
-  label,
-  value,
-  filters,
-  history,
-}: Record<string, any>) => {
-  const handleChange = () => {
-    const location = {
-      pathname: '/joblistings',
-      search: qs.stringify(updateFilters(type, value, filters)),
-    };
-    history.push(location);
-  };
-
-  return (
-    <CheckBox
-      id={label}
-      label={label}
-      value={filters[type].includes(value)}
-      onChange={handleChange}
-      readOnly
-    />
-  );
-};
-
-type Filter = {
-  grades: Array<string>;
-  jobTypes: JobType[];
-  workplaces: Array<string>;
-};
-type Order = {
-  deadline: boolean;
-  company: boolean;
-  createdAt: boolean;
-};
 type Props = {
   actionGrant: ActionGrant;
-  query: {
-    grades?: string;
-    jobTypes?: string;
-    workplaces?: string;
-    order?: string;
-  };
-  history: any;
 };
 
 const JoblistingsRightNav = (props: Props) => {
-  const [filters, setFilters] = useState<Filter>({
-    grades: [],
-    jobTypes: [],
-    workplaces: [],
-  });
-  const [order, setOrder] = useState<Order>({
-    deadline: true,
-    company: false,
-    createdAt: false,
-  });
+  const { query, setQueryValue } = useQuery(defaultJoblistingsQuery);
+
+  const { order, grades, jobTypes, workplaces } = query;
+
   const [displayOptions, setDisplayOptions] = useState<boolean>(true);
-  useEffect(() => {
-    const query = props.query;
-    setFilters({
-      grades: query.grades ? query.grades.split(',') : [],
-      jobTypes: query.jobTypes ? (query.jobTypes.split(',') as JobType[]) : [],
-      workplaces: query.workplaces ? query.workplaces.split(',') : [],
-    });
-    setOrder({
-      deadline:
-        query.order === 'deadline' || !Object.keys(query).includes('order'),
-      company: query.order === 'company',
-      createdAt: query.order === 'createdAt',
-    });
-  }, [props.query]);
-
-  const handleQuery = (type: string, value: string, remove = false) => {
-    const query = { ...props.query };
-
-    if (remove) {
-      delete query[type];
-    } else {
-      query[type] = value;
-    }
-
-    return query;
-  };
 
   return (
     <div className={styles.joblistingRightNav}>
@@ -155,77 +54,93 @@ const JoblistingsRightNav = (props: Props) => {
           name="sort"
           id="deadline"
           label="Frist"
-          checked={order.deadline}
-          onChange={() => {
-            props.history.push({
-              pathname: '/joblistings',
-              search: qs.stringify(handleQuery('order', 'deadline')),
-            });
+          checked={order === 'deadline'}
+          onChange={(value) => {
+            console.log(value);
+            setQueryValue('order')('deadline');
           }}
         />
         <RadioButton
           name="sort"
           id="company"
           label="Bedrift"
-          checked={order.company}
+          checked={order === 'company'}
           onChange={() => {
-            props.history.push({
-              pathname: '/joblistings',
-              search: qs.stringify(handleQuery('order', 'company')),
-            });
+            setQueryValue('order')('company');
           }}
         />
         <RadioButton
           name="sort"
           id="createdAt"
           label="Publisert"
-          checked={order.createdAt}
+          checked={order === 'createdAt'}
           onChange={() => {
-            props.history.push({
-              pathname: '/joblistings',
-              search: qs.stringify(handleQuery('order', 'createdAt')),
-            });
+            setQueryValue('order')('createdAt');
           }}
         />
 
         <h3 className={styles.rightHeader}>Klassetrinn</h3>
         {['1', '2', '3', '4', '5'].map((element) => (
-          <FilterLink
+          <FilterCheckbox
             key={element}
-            type="grades"
-            label={`${element}. klasse`}
             value={element}
-            filters={filters}
-            history={props.history}
+            label={element}
+            activeFilters={grades}
+            onChange={setQueryValue('grades')}
           />
         ))}
         <h3 className={styles.rightHeader}>Jobbtype</h3>
-        {jobTypes.map((el) => {
+        {allJobTypes.map((element) => {
           return (
-            <FilterLink
-              key={el.value}
-              type="jobTypes"
-              value={el.value}
-              label={el.label}
-              filters={filters}
-              history={props.history}
+            <FilterCheckbox
+              key={element.value}
+              value={element.value}
+              label={element.label}
+              activeFilters={jobTypes}
+              onChange={setQueryValue('jobTypes')}
             />
           );
         })}
         <h3 className={styles.rightHeader}>Sted</h3>
         {['Oslo', 'Trondheim', 'Bergen', 'Tromsø', 'Annet'].map((element) => (
-          <FilterLink
+          <FilterCheckbox
             key={element}
-            type="workplaces"
             value={element}
             label={element}
-            filters={filters}
-            history={props.history}
+            activeFilters={workplaces}
+            onChange={setQueryValue('workplaces')}
           />
         ))}
       </div>
     </div>
   );
 };
+
+type FilterCheckboxProps = {
+  value: string;
+  label: string;
+  activeFilters: string[];
+  onChange: (activeFilters: string[]) => void;
+};
+const FilterCheckbox = ({
+  value,
+  label,
+  activeFilters,
+  onChange,
+}: FilterCheckboxProps) => (
+  <CheckBox
+    id={value}
+    label={label}
+    checked={activeFilters.includes(value)}
+    onChange={() =>
+      onChange(
+        activeFilters.includes(value)
+          ? activeFilters.filter((e) => e !== value)
+          : [...activeFilters, value].sort()
+      )
+    }
+    readOnly
+  />
+);
 
 export default JoblistingsRightNav;

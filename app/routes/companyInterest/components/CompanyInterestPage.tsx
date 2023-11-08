@@ -23,8 +23,6 @@ import { SubmitButton } from 'app/components/Form/SubmitButton';
 import { Image } from 'app/components/Image';
 import { readmeIfy } from 'app/components/ReadmeLogo';
 import Tooltip from 'app/components/Tooltip';
-import type { CompanyInterestEntity } from 'app/reducers/companyInterest';
-import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 import { spyValues } from 'app/utils/formSpyUtils';
 import {
   createValidator,
@@ -44,6 +42,8 @@ import {
   COMPANY_TYPES,
   OFFICE_IN_TRONDHEIM,
 } from './Translations';
+import type { CompanyInterestEntity } from 'app/reducers/companyInterest';
+import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 
 export const PARTICIPANT_RANGE_TYPES = {
   first: '10-30',

@@ -1,11 +1,11 @@
 import { produce } from 'immer';
 import { Comment } from 'app/actions/ActionTypes';
-import type { ID } from 'app/models';
-import type { Comment as CommentType } from 'app/store/models/Comment';
 import createEntityReducer, {
   type EntityReducerState,
 } from 'app/utils/createEntityReducer';
 import getEntityType from 'app/utils/getEntityType';
+import type { ID } from 'app/models';
+import type { Comment as CommentType } from 'app/store/models/Comment';
 import type { AnyAction } from 'redux';
 
 type WithComments<T> = T & { comments: CommentType[] };

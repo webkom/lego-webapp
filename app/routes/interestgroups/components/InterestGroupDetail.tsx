@@ -12,9 +12,9 @@ import DisplayContent from 'app/components/DisplayContent';
 import { Image } from 'app/components/Image';
 import NavigationTab from 'app/components/NavigationTab';
 import UserGrid from 'app/components/UserGrid';
-import type { Group, User, GroupMembership, ID } from 'app/models';
 import styles from './InterestGroup.css';
 import InterestGroupMemberList from './InterestGroupMemberList';
+import type { Group, User, GroupMembership, ID } from 'app/models';
 
 type MembersProps = {
   members: Array<GroupMembership>;

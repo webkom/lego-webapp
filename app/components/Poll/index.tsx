@@ -5,8 +5,8 @@ import { sortBy } from 'lodash';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Tooltip from 'app/components/Tooltip';
-import type { PollEntity, OptionEntity } from 'app/reducers/polls';
 import styles from './Poll.css';
+import type { PollEntity, OptionEntity } from 'app/reducers/polls';
 
 type Props = {
   poll: PollEntity;

@@ -1,10 +1,10 @@
+import type { PublicGroup } from './Group';
 import type { Dateish, Cover } from 'app/models';
 import type { ID } from 'app/store/models';
 import type { ListCompany } from 'app/store/models/Company';
 import type ObjectPermissionsMixin from 'app/store/models/ObjectPermissionsMixin';
 import type { DetailedUser, PublicUser } from 'app/store/models/User';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
-import type { PublicGroup } from './Group';
 
 export enum EventType {
   CompanyPresentation = 'company_presentation',
@@ -68,6 +68,7 @@ interface Event {
   mazemapPoi?: number;
   pinned: boolean;
   responsibleUsers: DetailedUser[];
+  isForeignLanguage: boolean;
 
   // for survey
   attendedCount: number;
@@ -170,6 +171,7 @@ export type DetailedEvent = Pick<
   | 'mazemapPoi'
   | 'activationTime'
   | 'responsibleUsers'
+  | 'isForeignLanguage'
 > &
   ObjectPermissionsMixin;
 

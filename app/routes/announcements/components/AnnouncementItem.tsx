@@ -1,10 +1,10 @@
 import { Button, Flex } from '@webkom/lego-bricks';
 import { Link } from 'react-router-dom';
 import Time from 'app/components/Time';
+import styles from './AnnouncementsList.css';
 import type { ActionGrant } from 'app/models';
 import type { ID } from 'app/store/models';
 import type { DetailedAnnouncement } from 'app/store/models/Announcement';
-import styles from './AnnouncementsList.css';
 
 type Props = {
   announcement: DetailedAnnouncement;

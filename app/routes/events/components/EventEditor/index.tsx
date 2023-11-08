@@ -35,13 +35,6 @@ import Tag from 'app/components/Tags/Tag';
 import { FormatTime } from 'app/components/Time';
 import { AttendanceStatus } from 'app/components/UserAttendance';
 import AttendanceModal from 'app/components/UserAttendance/AttendanceModal';
-import type {
-  ID,
-  EventRegistration,
-  EventPool,
-  ActionGrant,
-  ImageGallery,
-} from 'app/models';
 import { validYoutubeUrl } from 'app/utils/validation';
 import {
   addStripeFee,
@@ -54,6 +47,13 @@ import styles from './EventEditor.css';
 import renderPools, { validatePools } from './renderPools';
 
 import type { EditingEvent } from '../../utils';
+import type {
+  ID,
+  EventRegistration,
+  EventPool,
+  ActionGrant,
+  ImageGallery,
+} from 'app/models';
 import type { FormEventHandler } from 'react';
 
 type Props = {
@@ -354,6 +354,15 @@ function EventEditor({
               label="Kun for spesifikk gruppe"
               description="Gjør arrangementet synlig for kun medlemmer i spesifikke grupper"
               name="isGroupOnly"
+              component={CheckBox.Field}
+              fieldClassName={styles.metaField}
+              className={styles.formField}
+              normalize={(v) => !!v}
+            />
+            <Field
+              label="Fremmedspråklig"
+              description="Arrangementet er på et annet språk enn norsk (engelsk)."
+              name="isForeignLanguage"
               component={CheckBox.Field}
               fieldClassName={styles.metaField}
               className={styles.formField}

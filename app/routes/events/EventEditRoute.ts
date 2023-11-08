@@ -18,7 +18,6 @@ import {
   selectWaitingRegistrationsForEvent,
 } from 'app/reducers/events';
 import { selectImageGalleryEntries } from 'app/reducers/imageGallery';
-import type { DetailedUser } from 'app/store/models/User';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import time from 'app/utils/time';
@@ -29,6 +28,7 @@ import {
   transformEventStatusType,
   EVENT_CONSTANTS,
 } from './utils';
+import type { DetailedUser } from 'app/store/models/User';
 
 const mapStateToProps = (state, props) => {
   const eventIdOrSlug = props.match.params.eventIdOrSlug;
@@ -93,6 +93,7 @@ const mapStateToProps = (state, props) => {
             value: user.id,
           };
         }),
+      isForeignLanguage: event.isForeignLanguage,
 
       eventType: event.eventType && {
         label: EVENT_CONSTANTS[event.eventType],

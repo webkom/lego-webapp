@@ -9,12 +9,12 @@ import {
   PhoneNumberInput,
 } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
-import type { UserEntity } from 'app/reducers/users';
 import { spySubmittable } from 'app/utils/formSpyUtils';
 import { createValidator, required, sameAs } from 'app/utils/validation';
 import { validPassword } from '../utils';
 import PasswordField from './PasswordField';
 import styles from './UserConfirmation.css';
+import type { UserEntity } from 'app/reducers/users';
 import type { RouteChildrenProps } from 'react-router';
 
 export type Props = {

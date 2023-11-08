@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import { reduxForm, Field, reset } from 'redux-form';
 import { ContentMain } from 'app/components/Content';
 import { Form, SelectInput, TextArea } from 'app/components/Form';
-import type { ActionGrant } from 'app/models';
 import { selectAutocomplete } from 'app/reducers/search';
-import type { DetailedAnnouncement } from 'app/store/models/Announcement';
 import styles from './AnnouncementsList.css';
+import type { ActionGrant } from 'app/models';
+import type { DetailedAnnouncement } from 'app/store/models/Announcement';
 
 type Props = {
   createAnnouncement: (

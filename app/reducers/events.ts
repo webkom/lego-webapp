@@ -7,11 +7,11 @@ import config from 'app/config';
 import { eventSchema } from 'app/reducers';
 import { mutateComments } from 'app/reducers/comments';
 import { isCurrentUser as checkIfCurrentUser } from 'app/routes/users/utils';
-import type { DetailedEvent } from 'app/store/models/Event';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import joinReducers from 'app/utils/joinReducers';
 import mergeObjects from 'app/utils/mergeObjects';
 import { Event } from '../actions/ActionTypes';
+import type { DetailedEvent } from 'app/store/models/Event';
 
 type State = any;
 const mutateEvent = produce((newState: State, action: any): void => {

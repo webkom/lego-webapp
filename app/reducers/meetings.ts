@@ -1,11 +1,11 @@
 import moment from 'moment-timezone';
 import { createSelector } from 'reselect';
 import { mutateComments } from 'app/reducers/comments';
-import type { ListMeeting } from 'app/store/models/Meeting';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import joinReducers from 'app/utils/joinReducers';
 import { Meeting } from '../actions/ActionTypes';
 import { mutateReactions } from './reactions';
+import type { ListMeeting } from 'app/store/models/Meeting';
 import type { Moment } from 'moment-timezone';
 
 export type MeetingSection = {

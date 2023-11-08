@@ -8,10 +8,10 @@ import EmptyState from 'app/components/EmptyState';
 import Gallery from 'app/components/Gallery';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import ImageUpload from 'app/components/Upload/ImageUpload';
+import GalleryDetailsRow from './GalleryDetailsRow';
 import type { DropFile } from 'app/components/Upload/ImageUpload';
 import type { ID, ActionGrant } from 'app/models';
 import type { GalleryPictureEntity } from 'app/reducers/galleryPictures';
-import GalleryDetailsRow from './GalleryDetailsRow';
 import type { Push } from 'connected-react-router';
 import type { Element } from 'react';
 

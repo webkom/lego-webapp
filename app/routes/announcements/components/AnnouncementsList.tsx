@@ -1,14 +1,14 @@
 import { Flex } from '@webkom/lego-bricks';
 import { Content, ContentMain } from 'app/components/Content';
+import AnnouncementItem from './AnnouncementItem';
+import AnnouncementsCreate from './AnnouncementsCreate';
+import styles from './AnnouncementsList.css';
 import type { ActionGrant } from 'app/models';
 import type { ID } from 'app/store/models';
 import type {
   DetailedAnnouncement,
   ListAnnouncement,
 } from 'app/store/models/Announcement';
-import AnnouncementItem from './AnnouncementItem';
-import AnnouncementsCreate from './AnnouncementsCreate';
-import styles from './AnnouncementsList.css';
 
 type Props = {
   announcements: Array<ListAnnouncement>;

@@ -21,11 +21,11 @@ import {
 import { normalizeObjectPermissions } from 'app/components/Form/ObjectPermissions';
 import GalleryComponent from 'app/components/Gallery';
 import NavigationTab from 'app/components/NavigationTab';
+import GalleryEditorActions from './GalleryEditorActions';
+import styles from './Overview.css';
 import type { ID } from 'app/models';
 import type { GalleryEntity } from 'app/reducers/galleries';
 import type { GalleryPictureEntity } from 'app/reducers/galleryPictures';
-import GalleryEditorActions from './GalleryEditorActions';
-import styles from './Overview.css';
 import type { Push } from 'connected-react-router';
 
 type Props = {
