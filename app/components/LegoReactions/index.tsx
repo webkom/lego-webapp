@@ -6,13 +6,16 @@ import type { ReactionsGrouped } from 'app/store/models/Reaction';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 
 type Props = {
+  userId: ID;
   addReaction: (args: {
     emoji: string;
+    userId: ID;
     contentTarget: ContentTarget;
     unicodeString: string;
   }) => Promise<void>;
   deleteReaction: (args: {
     reactionId: ID;
+    userId: ID;
     contentTarget: ContentTarget;
   }) => Promise<void>;
   fetchEmojis: () => Promise<void>;
@@ -33,6 +36,7 @@ export type EmojiWithReactionData = Emoji & {
 
 const LegoReactions = (props: Props) => {
   const {
+    userId,
     addReaction,
     deleteReaction,
     emojis,
@@ -42,6 +46,8 @@ const LegoReactions = (props: Props) => {
     loggedIn,
   } = props;
   let mappedEmojis: EmojiWithReactionData[] = [];
+
+  console.log(parentEntity)
 
   if (!fetchingEmojis) {
     mappedEmojis = emojis.map((emoji) => {
@@ -93,6 +99,7 @@ const LegoReactions = (props: Props) => {
             users={usersByReaction[reaction.emoji]}
             unicodeString={reaction.unicodeString}
             reactionId={reaction.reactionId}
+            userId={userId}
             hasReacted={reaction.hasReacted}
             canReact={loggedIn}
             addReaction={addReaction}

@@ -5,10 +5,12 @@ import { Reaction } from './ActionTypes';
 
 export function addReaction({
   emoji,
+  userId,
   contentTarget,
   unicodeString,
 }: {
   emoji: string;
+  userId?: ID;
   contentTarget: string;
   unicodeString: string;
 }): Thunk<void> {
@@ -24,6 +26,7 @@ export function addReaction({
         },
         meta: {
           emoji,
+          userId: userId,
           contentTarget,
           unicodeString,
         },
@@ -50,9 +53,11 @@ export function addReaction({
 }
 export function deleteReaction({
   reactionId,
+  userId,
   contentTarget,
 }: {
   reactionId: ID;
+  userId: ID;
   contentTarget: string;
 }): Thunk<any> {
   return callAPI({
@@ -61,6 +66,7 @@ export function deleteReaction({
     method: 'DELETE',
     meta: {
       id: reactionId,
+      userId: userId,
       contentTarget,
       errorMessage: 'Sletting av reaksjon feilet',
     },

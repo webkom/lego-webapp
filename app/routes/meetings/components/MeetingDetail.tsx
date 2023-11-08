@@ -165,6 +165,8 @@ const MeetingDetails = ({
       value: <UserLink user={reportAuthor} />,
     },
   ];
+
+  console.log("UserID", currentUser.id)
   return (
     <Content>
       <Helmet title={meeting.title} />
@@ -250,6 +252,7 @@ const MeetingDetails = ({
                   emojis={emojis}
                   fetchEmojis={fetchEmojis}
                   fetchingEmojis={fetchingEmojis}
+                  userId={currentUser.id}
                   addReaction={addReaction}
                   deleteReaction={deleteReaction}
                   parentEntity={meeting}

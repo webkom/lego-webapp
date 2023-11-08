@@ -1,9 +1,9 @@
-import { Reaction } from 'app/actions/ActionTypes';
 import type { ID } from 'app/store/models';
 import type { ReactionsGrouped } from 'app/store/models/Reaction';
 import type { EntityReducerState } from 'app/utils/createEntityReducer';
 import getEntityType from 'app/utils/getEntityType';
 import type { AnyAction } from '@reduxjs/toolkit';
+import { Reaction } from 'app/actions/ActionTypes';
 
 type WithReactions<T> = T & { reactionsGrouped: ReactionsGrouped[] };
 
@@ -23,6 +23,8 @@ export function mutateReactions<T, S = EntityReducerState<T>>(
         const unicodeString = action.meta.unicodeString;
         const reactionId = action.payload.id;
         const targetType = getEntityType(serverTargetType);
+
+        console.log('Add', action)
 
         if (targetType !== forTargetType) {
           return state;
@@ -74,6 +76,8 @@ export function mutateReactions<T, S = EntityReducerState<T>>(
         if (targetType !== forTargetType) {
           return state;
         }
+
+        console.log('Delete', action)
 
         return {
           ...state,

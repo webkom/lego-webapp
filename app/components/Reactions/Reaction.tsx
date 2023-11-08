@@ -8,17 +8,20 @@ import styles from './Reaction.css';
 
 type Props = {
   className?: string;
+  userId: ID;
   emoji: string;
   count: number;
   users: { fullName: string }[] | null;
   unicodeString: string;
   addReaction: (args: {
     emoji: string;
+    userId: ID;
     contentTarget: ContentTarget;
     unicodeString?: string;
   }) => Promise<void>;
   deleteReaction: (args: {
     reactionId: ID;
+    userId: ID;
     contentTarget: ContentTarget;
   }) => Promise<void>;
   hasReacted: boolean;
@@ -31,6 +34,7 @@ type Props = {
 
 const Reaction = ({
   className,
+  userId,
   emoji,
   count,
   users,
@@ -60,6 +64,8 @@ const Reaction = ({
     tooltipContent += users.map((user) => user.fullName).join(', ');
   }
 
+  console.log("User id in reaction", userId)
+
   return (
     <>
       <Tooltip content={tooltipContent}>
@@ -74,10 +80,12 @@ const Reaction = ({
                   hasReacted
                     ? deleteReaction({
                         reactionId,
+                        userId: userId,
                         contentTarget: contentTarget,
                       })
                     : addReaction({
                         emoji,
+                        userId: userId,
                         contentTarget,
                         unicodeString,
                       })
