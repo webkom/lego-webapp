@@ -10,12 +10,15 @@ import styles from './ReactionPicker.css';
 import ReactionPickerContent from './ReactionPickerContent';
 import ReactionPickerFooter from './ReactionPickerFooter';
 import ReactionPickerHeader from './ReactionPickerHeader';
+import { CurrentUser } from 'app/store/models/User';
 
 type Props = {
   isLoading: boolean;
+  user: CurrentUser;
   emojis: EmojiWithReactionData[];
   addReaction: (args: {
     emoji: string;
+    user: CurrentUser;
     contentTarget: ContentTarget;
     unicodeString: string;
   }) => Promise<void>;
@@ -143,6 +146,7 @@ const searchEmojis = (
 
 const ReactionPicker = ({
   isLoading,
+  user,
   emojis,
   addReaction,
   deleteReaction,
@@ -209,6 +213,7 @@ const ReactionPicker = ({
               ? categories[activeCategory].emojis
               : []
           }
+          user={user}
           searchResults={searchResults}
           addReaction={addReaction}
           deleteReaction={deleteReaction}

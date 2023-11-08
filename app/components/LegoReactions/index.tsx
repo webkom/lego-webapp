@@ -81,6 +81,7 @@ const LegoReactions = (props: Props) => {
   return (
     <Reactions
       emojis={mappedEmojis}
+      user={user}
       fetchEmojis={fetchEmojis}
       fetchingEmojis={fetchingEmojis}
       addReaction={addReaction}

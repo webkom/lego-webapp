@@ -61,14 +61,12 @@ export function mutateReactions<T, S = EntityReducerState<T>>(
                       }
                     : []
                 ),
-              reactions: state.byId[targetId].reactions
-                ? state.byId[targetId].reactions.concat({
-                    author: user,
-                    emoji: reactionEmoji,
-                    reactionId: reactionId,
-                    unicodeString,
-                  })
-                : undefined,
+              reactions: (state.byId[targetId].reactions || []).concat({
+                author: user,
+                emoji: reactionEmoji,
+                reactionId: reactionId,
+                unicodeString,
+              }),
             },
           },
         };
@@ -104,11 +102,11 @@ export function mutateReactions<T, S = EntityReducerState<T>>(
                   };
                 })
                 .filter((reaction) => reaction.count !== 0),
-              reactions: state.byId[targetId].reactions
-                ? state.byId[targetId].reactions.filter((reaction) => {
-                    return reaction.reactionId !== reactionId;
-                  })
-                : undefined,
+              reactions: (state.byId[targetId].reactions || []).filter(
+                (reaction) => {
+                  return reaction.reactionId !== reactionId;
+                }
+              ),
             },
           },
         };
