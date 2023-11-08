@@ -5,23 +5,23 @@ import Tooltip from 'app/components/Tooltip';
 import type { ID } from 'app/store/models';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 import styles from './Reaction.css';
+import { CurrentUser } from 'app/store/models/User';
 
 type Props = {
   className?: string;
-  userId: ID;
+  user: CurrentUser;
   emoji: string;
   count: number;
   users: { fullName: string }[] | null;
   unicodeString: string;
   addReaction: (args: {
     emoji: string;
-    userId: ID;
+    user: CurrentUser;
     contentTarget: ContentTarget;
     unicodeString?: string;
   }) => Promise<void>;
   deleteReaction: (args: {
     reactionId: ID;
-    userId: ID;
     contentTarget: ContentTarget;
   }) => Promise<void>;
   hasReacted: boolean;
@@ -34,7 +34,7 @@ type Props = {
 
 const Reaction = ({
   className,
-  userId,
+  user,
   emoji,
   count,
   users,
@@ -64,8 +64,6 @@ const Reaction = ({
     tooltipContent += users.map((user) => user.fullName).join(', ');
   }
 
-  console.log("User id in reaction", userId)
-
   return (
     <>
       <Tooltip content={tooltipContent}>
@@ -80,12 +78,12 @@ const Reaction = ({
                   hasReacted
                     ? deleteReaction({
                         reactionId,
-                        userId: userId,
+                        user: user,
                         contentTarget: contentTarget,
                       })
                     : addReaction({
                         emoji,
-                        userId: userId,
+                        user: user,
                         contentTarget,
                         unicodeString,
                       })

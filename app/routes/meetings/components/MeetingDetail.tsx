@@ -57,6 +57,7 @@ type Props = {
   emojis: Emoji[];
   addReaction: (args: {
     emoji: string;
+    user: CurrentUser;
     contentTarget: ContentTarget;
   }) => Promise<void>;
   reactionsGrouped: ReactionsGrouped[];
@@ -166,7 +167,6 @@ const MeetingDetails = ({
     },
   ];
 
-  console.log("UserID", currentUser.id)
   return (
     <Content>
       <Helmet title={meeting.title} />
@@ -252,7 +252,7 @@ const MeetingDetails = ({
                   emojis={emojis}
                   fetchEmojis={fetchEmojis}
                   fetchingEmojis={fetchingEmojis}
-                  userId={currentUser.id}
+                  user={currentUser}
                   addReaction={addReaction}
                   deleteReaction={deleteReaction}
                   parentEntity={meeting}

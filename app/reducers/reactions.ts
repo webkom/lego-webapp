@@ -77,8 +77,6 @@ export function mutateReactions<T, S = EntityReducerState<T>>(
           return state;
         }
 
-        console.log('Delete', action)
-
         return {
           ...state,
           byId: {
