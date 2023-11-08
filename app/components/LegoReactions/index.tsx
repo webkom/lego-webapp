@@ -21,6 +21,7 @@ type Props = {
   parentEntity: {
     contentTarget: ContentTarget;
     reactionsGrouped?: ReactionsGrouped[];
+    reactions?: { author: { fullName: string }; emoji: string }[];
   };
   loggedIn: boolean;
 };
@@ -59,18 +60,19 @@ const LegoReactions = (props: Props) => {
   }
 
   let usersByReaction = {};
-  for (let groupedReaction of parentEntity.reactionsGrouped) {
-    for (let reaction of parentEntity.reactions) {
-      if (reaction.emoji === groupedReaction.emoji) {
-        if (!usersByReaction[reaction.emoji]) {
-          usersByReaction[reaction.emoji] = [];
+
+  if (parentEntity.reactionsGrouped && parentEntity.reactions) {
+    for (let groupedReaction of parentEntity.reactionsGrouped) {
+      for (let reaction of parentEntity.reactions) {
+        if (reaction.emoji === groupedReaction.emoji) {
+          if (!usersByReaction[reaction.emoji]) {
+            usersByReaction[reaction.emoji] = [];
+          }
+          usersByReaction[reaction.emoji].push(reaction.author);
         }
-        usersByReaction[reaction.emoji].push(reaction.author);
       }
     }
   }
-
-  console.log('usersByReaction', usersByReaction)
 
   return (
     <Reactions
@@ -82,7 +84,7 @@ const LegoReactions = (props: Props) => {
       contentTarget={parentEntity.contentTarget}
       loggedIn={loggedIn}
     >
-      {parentEntity.reactionsGrouped.map((reaction) => {
+      {parentEntity.reactionsGrouped && parentEntity.reactionsGrouped.map((reaction) => {
         return (
           <Reaction
             key={`reaction-${reaction.emoji}`}

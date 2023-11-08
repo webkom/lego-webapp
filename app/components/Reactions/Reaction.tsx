@@ -10,6 +10,7 @@ type Props = {
   className?: string;
   emoji: string;
   count: number;
+  users: { fullName: string }[] | null;
   unicodeString: string;
   addReaction: (args: {
     emoji: string;
@@ -54,11 +55,10 @@ const Reaction = ({
     return <></>;
   }
 
-  let tooltipContent = emoji;
+  let tooltipContent = emoji + '\n';
   if (users) {
-    tooltipContent = users.map((user) => user.fullName).join(', ');
+    tooltipContent += users.map((user) => user.fullName).join(', ');
   }
-  tooltipContent = tooltipContent || 'Ingen har reagert enda';
 
   return (
     <>
