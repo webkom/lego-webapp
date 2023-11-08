@@ -53,23 +53,22 @@ export function mutateReactions<T, S = EntityReducerState<T>>(
                 .concat(
                   !found
                     ? {
-                      count: 1,
-                      emoji: reactionEmoji,
-                      hasReacted: true,
-                      reactionId: reactionId,
-                      unicodeString,
-                    }
+                        count: 1,
+                        emoji: reactionEmoji,
+                        hasReacted: true,
+                        reactionId: reactionId,
+                        unicodeString,
+                      }
                     : []
                 ),
-              reactions: state.byId[targetId].reactions ? state.byId[targetId].reactions
-                .concat(
-                  {
+              reactions: state.byId[targetId].reactions
+                ? state.byId[targetId].reactions.concat({
                     author: user,
                     emoji: reactionEmoji,
                     reactionId: reactionId,
-                    unicodeString
-                  }
-                ) : undefined
+                    unicodeString,
+                  })
+                : undefined,
             },
           },
         };
@@ -105,10 +104,11 @@ export function mutateReactions<T, S = EntityReducerState<T>>(
                   };
                 })
                 .filter((reaction) => reaction.count !== 0),
-              reactions: state.byId[targetId].reactions ? state.byId[targetId].reactions
-                .filter((reaction) => {
-                  return reaction.reactionId !== reactionId
-                }) : undefined
+              reactions: state.byId[targetId].reactions
+                ? state.byId[targetId].reactions.filter((reaction) => {
+                    return reaction.reactionId !== reactionId;
+                  })
+                : undefined,
             },
           },
         };

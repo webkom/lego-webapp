@@ -88,24 +88,25 @@ const LegoReactions = (props: Props) => {
       contentTarget={parentEntity.contentTarget}
       loggedIn={loggedIn}
     >
-      {parentEntity.reactionsGrouped && parentEntity.reactionsGrouped.map((reaction) => {
-        return (
-          <Reaction
-            key={`reaction-${reaction.emoji}`}
-            emoji={reaction.emoji}
-            count={reaction.count}
-            users={usersByReaction[reaction.emoji]}
-            unicodeString={reaction.unicodeString}
-            reactionId={reaction.reactionId}
-            user={user}
-            hasReacted={reaction.hasReacted}
-            canReact={loggedIn}
-            addReaction={addReaction}
-            deleteReaction={deleteReaction}
-            contentTarget={parentEntity.contentTarget}
-          />
-        );
-      })}
+      {parentEntity.reactionsGrouped &&
+        parentEntity.reactionsGrouped.map((reaction) => {
+          return (
+            <Reaction
+              key={`reaction-${reaction.emoji}`}
+              emoji={reaction.emoji}
+              count={reaction.count}
+              users={usersByReaction[reaction.emoji]}
+              unicodeString={reaction.unicodeString}
+              reactionId={reaction.reactionId}
+              user={user}
+              hasReacted={reaction.hasReacted}
+              canReact={loggedIn}
+              addReaction={addReaction}
+              deleteReaction={deleteReaction}
+              contentTarget={parentEntity.contentTarget}
+            />
+          );
+        })}
     </Reactions>
   );
 };
