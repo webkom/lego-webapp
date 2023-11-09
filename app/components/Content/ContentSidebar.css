@@ -2,13 +2,12 @@
 
 .sidebar {
   flex: 1;
-  padding: 20px;
-  padding-top: 0;
+  padding: 0 0 0 2em;
   border-left: 1px solid var(--border-gray);
-  margin-left: 3em;
+  margin-left: 2em;
   line-height: 1.3;
 
-  @media (--small-viewport) {
+  @media (--medium-viewport) {
     border-left: none;
     margin-left: 0;
     padding: 0;
