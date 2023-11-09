@@ -106,12 +106,12 @@
 
 .infoText {
   display: flex;
-  font-size: var(--font-size);
+  font-size: var(--font-size-md);
 }
 
 .readMore {
   display: none;
-  font-size: var(--font-size);
+  font-size: var(--font-size-md);
   color: var(--lego-red-color);
   margin-top: 17px;
 }
