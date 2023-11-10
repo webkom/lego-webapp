@@ -12165,10 +12165,10 @@ react-swipeable@7.0.1:
   resolved "https://registry.yarnpkg.com/react-swipeable/-/react-swipeable-7.0.1.tgz#cd299f5986c5e4a7ee979839658c228f660e1e0c"
   integrity sha512-RKB17JdQzvECfnVj9yDZsiYn3vH0eyva/ZbrCZXZR0qp66PBRhtg4F9yJcJTWYT5Adadi+x4NoG53BxKHwIYLQ==
 
-react-tagcloud@^2.3.1:
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/react-tagcloud/-/react-tagcloud-2.3.1.tgz#4e03aa862bca17983b8e9e3690e3ef4a6e00bbaf"
-  integrity sha512-vWnPzx1bmR2ya7WEeqCbZGO8q/x0agOjxnXQGD9jg5OAyLqaKWAfArKypaoUVXYDyjABcZg5BDu8qLC9JRGDbg==
+react-tagcloud@^2.3.3:
+  version "2.3.3"
+  resolved "https://registry.yarnpkg.com/react-tagcloud/-/react-tagcloud-2.3.3.tgz#ebaf4a99a7445a37210570ab096fbb938916fadb"
+  integrity sha512-4E2lTU7wYU0bisi2x3xInueufHzYFkSuqoKsY0Ky8U4Ki60StVX0MicYtsiScvY2QcFbSULWt6evbEwYVKXl4g==
   dependencies:
     prop-types "^15.6.2"
     randomcolor "^0.6.2"
