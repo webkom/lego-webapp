@@ -52,7 +52,7 @@ export default compose(
   withPreparedDispatch(
     'fetchEditCompany',
     (props, dispatch) => dispatch(fetchAdmin(props.match.params.companyId)),
-    (props) => [props.match.params.companyId]
+    (props) => [props.match.params.companyId],
   ),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
 )(CompanyEditor);

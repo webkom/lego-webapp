@@ -24,17 +24,17 @@ type Props = {
   deleteSemesterStatus: (arg0: number) => Promise<any>;
   editFunction: (
     semesterStatus: SemesterStatusEntity,
-    statusString: CompanySemesterContactedStatus
+    statusString: CompanySemesterContactedStatus,
   ) => Promise<any>;
   addFileToSemester: (
     arg0: string,
     arg1: string,
     arg2: string,
-    arg3: Record<string, any>
+    arg3: Record<string, any>,
   ) => Promise<any>;
   removeFileFromSemester: (
     arg0: SemesterStatusEntity,
-    arg1: string
+    arg1: string,
   ) => Promise<any>;
 };
 type State = {
@@ -61,7 +61,7 @@ export default class SemesterStatusDetail extends Component<Props, State> {
       fileName,
       fileToken,
       type,
-      this.props.semesterStatus
+      this.props.semesterStatus,
     );
   };
   removeFile = (type: string) =>
@@ -78,7 +78,7 @@ export default class SemesterStatusDetail extends Component<Props, State> {
           className={
             styles[
               selectColorCode(
-                selectMostProminentStatus(semesterStatus.contactedStatus)
+                selectMostProminentStatus(semesterStatus.contactedStatus),
               )
             ]
           }
@@ -162,7 +162,7 @@ const RenderFile = (props: RenderFileProps) => {
 
   const fileName = fileNameToShow(
     semesterStatus[type + 'Name'],
-    semesterStatus[type]
+    semesterStatus[type],
   );
   const displayDeleteButton = editing && semesterStatus[type];
   const displayUploadButton = editing && !semesterStatus[type];

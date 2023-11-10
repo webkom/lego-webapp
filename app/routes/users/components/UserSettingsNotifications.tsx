@@ -8,7 +8,7 @@ type Props = {
     arg0: Record<string, any>,
     arg1: {
       noRedirect: boolean;
-    }
+    },
   ) => Promise<void>;
   alternatives: {
     channels: Array<string>;
@@ -17,7 +17,7 @@ type Props = {
   settings: Record<string, any>;
   updateNotificationSetting: (
     notificationType: string,
-    channels: Array<any>
+    channels: Array<any>,
   ) => void;
 };
 const notificationTypeTraslations = {
@@ -89,7 +89,7 @@ const UserSettingsNotifications = (props: Props) => {
                     { ...props.currentUser, emailListsEnabled: value },
                     {
                       noRedirect: true,
-                    }
+                    },
                   );
                 }}
               />
@@ -107,8 +107,8 @@ const UserSettingsNotifications = (props: Props) => {
               props.updateNotificationSetting(
                 notificationType,
                 props.alternatives.channels.filter((channel) =>
-                  changeChannel === channel ? value : channnelSetting(channel)
-                )
+                  changeChannel === channel ? value : channnelSetting(channel),
+                ),
               );
             };
 

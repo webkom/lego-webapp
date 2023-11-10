@@ -70,8 +70,8 @@ const mapDispatchToProps = {
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
   withPreparedDispatch('fetchJoblistingEdit', (props, dispatch) =>
-    dispatch(fetchJoblisting(props.match.params.joblistingId))
+    dispatch(fetchJoblisting(props.match.params.joblistingId)),
   ),
   connect(mapStateToProps, mapDispatchToProps),
-  loadingIndicator(['company.value'])
+  loadingIndicator(['company.value']),
 )(JoblistingEditor);

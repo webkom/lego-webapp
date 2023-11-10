@@ -22,11 +22,11 @@ type Props = {
   fetching: boolean;
   editSemesterStatus: (
     arg0: BaseSemesterStatusEntity,
-    arg1: Record<string, any> | null | undefined
+    arg1: Record<string, any> | null | undefined,
   ) => Promise<any>;
   addSemesterStatus: (
     arg0: BaseSemesterStatusEntity,
-    arg1: Record<string, any> | null | undefined
+    arg1: Record<string, any> | null | undefined,
   ) => Promise<any>;
   addSemester: (arg0: CompanySemesterEntity) => Promise<any>;
   companySemesters: Array<CompanySemesterEntity>;
@@ -76,7 +76,7 @@ export default class BdbPage extends Component<Props, State> {
     companyId: number,
     tableIndex: number,
     semesterStatusId: number | null | undefined,
-    contactedStatus: Array<CompanySemesterContactedStatus>
+    contactedStatus: Array<CompanySemesterContactedStatus>,
   ) => {
     // Update state whenever a semesterStatus is graphically changed by the user
     const {
@@ -90,7 +90,7 @@ export default class BdbPage extends Component<Props, State> {
       tableIndex,
       startYear,
       startSem,
-      companySemesters
+      companySemesters,
     );
     const newStatus = {
       companyId,
@@ -131,7 +131,7 @@ export default class BdbPage extends Component<Props, State> {
   };
   companySearch = (companies: CompanyEntity[]): CompanyEntity[] =>
     companies.filter((company: CompanyEntity) =>
-      company.name.toLowerCase().includes(this.state.searchQuery.toLowerCase())
+      company.name.toLowerCase().includes(this.state.searchQuery.toLowerCase()),
     );
   filterCompanies = (companies: Array<CompanyEntity>): CompanyEntity[] => {
     if (this.state.searchQuery !== '') {
@@ -184,7 +184,7 @@ export default class BdbPage extends Component<Props, State> {
       companies,
       query,
       this.state.startYear,
-      this.state.startSem
+      this.state.startSem,
     );
     const filteredCompanies = this.filterCompanies(sortedCompanies);
 

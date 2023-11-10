@@ -24,12 +24,12 @@ export default createEntityReducer({
 export const selectTags = createSelector(
   (state) => state.tags.byId,
   (state) => state.tags.items,
-  (tagsById, tagsId) => tagsId.map((tag) => tagsById[tag])
+  (tagsById, tagsId) => tagsId.map((tag) => tagsById[tag]),
 );
 export const selectTagById = createSelector(
   (state) => state.tags.byId,
   (state, props) => props.tagId,
-  (tagsById, tagId) => tagsById[tagId] || {}
+  (tagsById, tagId) => tagsById[tagId] || {},
 );
 export const selectPopularTags = (state: Record<string, any>) =>
   state.tags.popular || [];

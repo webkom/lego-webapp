@@ -11,12 +11,12 @@ type Props = {
   hideAnswer: (
     surveyId: number,
     submissionId: number,
-    answerId: number
+    answerId: number,
   ) => Promise<void>;
   showAnswer: (
     surveyId: number,
     submissionId: number,
-    answerId: number
+    answerId: number,
   ) => Promise<void>;
   editSurvey: (arg0: Record<string, any>) => Promise<any>;
   value: string;
@@ -36,7 +36,7 @@ const SubmissionSummary = ({
     const texts = submissions
       .map((submission) => {
         const answer = submission.answers.find(
-          (answer) => answer.question.id === question.id
+          (answer) => answer.question.id === question.id,
         );
         return (
           answer && (
@@ -84,11 +84,11 @@ const SubmissionSummary = ({
         .map(
           (submission) =>
             submission.answers.find(
-              (answer) => answer.question.id === question.id
-            ) || {}
+              (answer) => answer.question.id === question.id,
+            ) || {},
         )
         .filter((answer) =>
-          (answer.selectedOptions || []).find((o) => o === option.id)
+          (answer.selectedOptions || []).find((o) => o === option.id),
         ).length;
       questionData.push({
         option: option.optionText,

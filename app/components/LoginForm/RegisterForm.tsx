@@ -92,5 +92,5 @@ export default compose(
   reduxForm({
     form: 'RegisterForm',
     validate,
-  })
+  }),
 )(RegisterForm);

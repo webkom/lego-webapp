@@ -31,7 +31,7 @@ export function fetchEmojis({
           errorMessage: 'Henting av emojis feilet',
         },
         propagateError: true,
-      })
+      }),
     );
   };
 }

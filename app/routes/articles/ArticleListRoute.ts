@@ -22,7 +22,7 @@ export type ArticleWithAuthorDetails = Omit<PublicArticle, 'authors'> & {
 const mapStateToProps = (state, props) => {
   const query = parseQueryString(
     props.location.search,
-    articlesListDefaultQuery
+    articlesListDefaultQuery,
   );
   const { pagination } = selectPaginationNext({
     endpoint: `/articles/`,
@@ -57,12 +57,12 @@ export default compose(
           query: {
             tag: parseQueryString(
               props.location.search,
-              articlesListDefaultQuery
+              articlesListDefaultQuery,
             ),
           },
-        })
+        }),
       ),
-    ])
+    ]),
   ),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
 )(Overview);

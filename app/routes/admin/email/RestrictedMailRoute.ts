@@ -46,8 +46,8 @@ export default compose(
     'fetchRestrictedMail',
     (props, dispatch) =>
       dispatch(fetchRestrictedMail(props.match.params.restrictedMailId)),
-    (props) => [props.match.params.restrictedMailId]
+    (props) => [props.match.params.restrictedMailId],
   ),
   connect(mapStateToProps, {}),
-  loadingIndicator(['restrictedMail.id'])
+  loadingIndicator(['restrictedMail.id']),
 )(RestrictedMailEditor);

@@ -63,7 +63,7 @@ export default compose(
     Promise.all([
       dispatch(fetch(params.galleryId)),
       dispatch(fetchGallery(params.galleryId)),
-    ])
+    ]),
   ),
-  loadingIndicator(['gallery.title'])
+  loadingIndicator(['gallery.title']),
 )(GalleryEditor);

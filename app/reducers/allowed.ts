@@ -22,7 +22,7 @@ const initialState = {
 
 const allowed: Reducer<typeof initialState> = (
   state = initialState,
-  action: AnyAction
+  action: AnyAction,
 ) => {
   switch (action.type) {
     case Meta.FETCH.SUCCESS:

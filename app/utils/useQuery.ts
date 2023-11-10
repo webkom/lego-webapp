@@ -8,7 +8,7 @@ import type { ParsedQs } from 'qs';
  */
 export const parseQueryString = <Values extends ParsedQs>(
   queryString: string,
-  defaultValues: Values
+  defaultValues: Values,
 ): Values => {
   const parsedQs = qs.parse(queryString, { ignoreQueryPrefix: true });
   return { ...defaultValues, ...parsedQs };
@@ -19,7 +19,7 @@ export const parseQueryString = <Values extends ParsedQs>(
  */
 export const stringifyQuery = <Values extends ParsedQs>(
   query: Partial<Values>,
-  defaultValues: Values
+  defaultValues: Values,
 ): string => {
   const filteredQuery: ParsedQs = {};
   for (const key in query) {

@@ -5,11 +5,11 @@ import { EDITOR_EMPTY } from 'app/utils/constants';
 import type { ValidationErrors } from 'final-form';
 
 type Validator<T = any, C = any> = (
-  message?: string
+  message?: string,
 ) => (value: T, context?: C) => Readonly<[false, string] | [true, string?]>;
 
 type AsyncValidator<T = any, C = any> = (
-  message?: string
+  message?: string,
 ) => (value: T, context?: C) => Promise<Readonly<[boolean, string] | [true]>>;
 
 export type ValidatorResult = ValidationErrors;
@@ -80,7 +80,7 @@ export const timeIsAfter = (otherField, message) => (value, context) => {
 
 export const isValidAllergy =
   (
-    message = 'La feltet stå tomt hvis du ikke har noen allergier/preferanser'
+    message = 'La feltet stå tomt hvis du ikke har noen allergier/preferanser',
   ) =>
   (value: string) => {
     const notValidAnswers = ['ingen', 'ingenting', 'nei', 'nope', 'nada'];
@@ -117,7 +117,7 @@ export function createValidator(
     [field: string]: (ReturnType<Validator> | ReturnType<AsyncValidator>)[];
   },
   rawValidator?: (input) => ValidatorResult,
-  async = false
+  async = false,
 ) {
   if (async) {
     return async function validate(input) {
@@ -133,7 +133,7 @@ export function createValidator(
               result = await result;
             }
             return result;
-          })
+          }),
         );
 
         fieldValidationResults[field] = validationResult;
@@ -166,7 +166,7 @@ export function createValidator(
         if (fieldErrors.length) errors[field] = fieldErrors;
         return errors;
       },
-      {}
+      {},
     );
     return merge(fieldValidatorErrors, rawValidatorErrors);
   };

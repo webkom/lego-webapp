@@ -22,7 +22,7 @@ class SpecialDay extends Component<Props> {
 
     if (config.environment === 'ci' || specialDay === null) {
       return Children.map(filteredChildren, (child) =>
-        cloneElement(child, { ...rest })
+        cloneElement(child, { ...rest }),
       );
     }
 

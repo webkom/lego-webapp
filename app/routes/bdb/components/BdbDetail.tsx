@@ -46,7 +46,7 @@ type Props = {
   companySemesters: Array<CompanySemesterEntity>;
   editSemesterStatus: (
     arg0: BaseSemesterStatusEntity,
-    arg1: Record<string, any> | null | undefined
+    arg1: Record<string, any> | null | undefined,
   ) => Promise<any>;
   fetching: boolean;
   editCompany: (arg0: Record<string, any>) => void;
@@ -71,20 +71,20 @@ export default class BdbDetail extends Component<Props, State> {
 
   semesterStatusOnChange = (
     semesterStatus: SemesterStatusEntity,
-    statusString: CompanySemesterContactedStatus
+    statusString: CompanySemesterContactedStatus,
   ) => {
     const { companySemesters, editSemesterStatus, company } = this.props;
     const newStatus = {
       ...semesterStatus,
       contactedStatus: getContactedStatuses(
         semesterStatus.contactedStatus,
-        statusString
+        statusString,
       ),
     };
     const companySemester = companySemesters.find(
       (companySemester) =>
         companySemester.year === newStatus.year &&
-        companySemester.semester === newStatus.semester
+        companySemester.semester === newStatus.semester,
     );
 
     if (!companySemester) {
@@ -113,7 +113,7 @@ export default class BdbDetail extends Component<Props, State> {
     fileName: string,
     fileToken: string,
     type: string,
-    semesterStatus: Record<string, any>
+    semesterStatus: Record<string, any>,
   ) => {
     const { editSemesterStatus, company } = this.props;
     const sendableSemester = {
@@ -128,7 +128,7 @@ export default class BdbDetail extends Component<Props, State> {
   };
   removeFileFromSemester = (
     semesterStatus: SemesterStatusEntity,
-    type: string
+    type: string,
   ) => {
     const { editSemesterStatus, company } = this.props;
     const sendableSemester = {
@@ -193,7 +193,7 @@ export default class BdbDetail extends Component<Props, State> {
               <Flex>
                 <Icon
                   to={`/bdb/${String(company.id)}/company-contacts/${String(
-                    contact.id
+                    contact.id,
                   )}`}
                   name="pencil"
                   edit

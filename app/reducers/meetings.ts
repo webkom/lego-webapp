@@ -15,7 +15,7 @@ export type MeetingSection = {
 
 const mutate = joinReducers(
   mutateComments('meetings'),
-  mutateReactions('meetings')
+  mutateReactions('meetings'),
 );
 
 export default createEntityReducer({
@@ -30,12 +30,12 @@ export default createEntityReducer({
 export const selectMeetings = createSelector(
   (state) => state.meetings.byId,
   (state) => state.meetings.items,
-  (meetingsById, meetingIds) => meetingIds.map((id) => meetingsById[id])
+  (meetingsById, meetingIds) => meetingIds.map((id) => meetingsById[id]),
 );
 export const selectMeetingById = createSelector(
   (state) => state.meetings.byId,
   (state, props) => props.meetingId,
-  (meetingsById, meetingId) => meetingsById[meetingId]
+  (meetingsById, meetingId) => meetingsById[meetingId],
 );
 export const selectCommentsForMeeting = createSelector(
   selectMeetingById,
@@ -43,7 +43,7 @@ export const selectCommentsForMeeting = createSelector(
   (meeting, commentsById) => {
     if (!meeting || !meeting.comments) return [];
     return meeting.comments.map((commentId) => commentsById[commentId]);
-  }
+  },
 );
 
 export const selectGroupedMeetings = createSelector(
@@ -101,7 +101,7 @@ export const selectGroupedMeetings = createSelector(
     // Sorted descendingly to generate semesters in the correct order
     const sortedMeetings: ListMeeting[] = (meetings as ListMeeting[]).sort(
       (meeting1, meeting2) =>
-        Number(moment(meeting2.endTime)) - Number(moment(meeting1.endTime))
+        Number(moment(meeting2.endTime)) - Number(moment(meeting1.endTime)),
     );
 
     const olderMeetingGroupObj: {
@@ -136,11 +136,11 @@ export const selectGroupedMeetings = createSelector(
     // Reverse all the meeting groups that are in the future
     customMeetingGroups.forEach(
       (customMeetingGroup) =>
-        !customMeetingGroup.past && customMeetingGroup.meetings.reverse()
+        !customMeetingGroup.past && customMeetingGroup.meetings.reverse(),
     );
 
     const semesterMeetingGroups: MeetingSection[] = Object.entries(
-      olderMeetingGroupObj
+      olderMeetingGroupObj,
     ).map(([title, { meetings }]) => ({ title, meetings }));
 
     // Merge the custom meeting groups with the semester groups
@@ -148,5 +148,5 @@ export const selectGroupedMeetings = createSelector(
       .map<MeetingSection>(({ title, meetings }) => ({ title, meetings }))
       .concat(semesterMeetingGroups)
       .filter((meetingGroup) => meetingGroup.meetings.length !== 0);
-  }
+  },
 );

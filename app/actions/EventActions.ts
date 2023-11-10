@@ -35,7 +35,7 @@ export function fetchPrevious(): Thunk<any> {
           errorMessage: 'Henting av hendelser feilet',
         },
         propagateError: true,
-      })
+      }),
     );
 }
 export function fetchUpcoming(): Thunk<any> {
@@ -49,7 +49,7 @@ export function fetchUpcoming(): Thunk<any> {
           errorMessage: 'Henting av hendelser feilet',
         },
         propagateError: true,
-      })
+      }),
     );
 }
 
@@ -110,7 +110,7 @@ export const fetchList =
           endpoint,
         },
         propagateError: true,
-      })
+      }),
     );
   };
 export function fetchAdministrate(eventId: number): Thunk<any> {
@@ -136,7 +136,7 @@ export function fetchAllergies(eventId: number): Thunk<any> {
 }
 
 export function createEvent(
-  event: Record<string, any>
+  event: Record<string, any>,
 ): Thunk<Promise<Action | null | undefined>> {
   return (dispatch) =>
     dispatch(
@@ -149,12 +149,12 @@ export function createEvent(
         meta: {
           errorMessage: 'Opprettelse av hendelse feilet',
         },
-      })
+      }),
     ).then(
       (action) =>
         action &&
         action.payload &&
-        dispatch(push(`/events/${action.payload.result}/`))
+        dispatch(push(`/events/${action.payload.result}/`)),
     );
 }
 export function editEvent(event: Record<string, any>): Thunk<Promise<any>> {
@@ -168,7 +168,7 @@ export function editEvent(event: Record<string, any>): Thunk<Promise<any>> {
         meta: {
           errorMessage: 'Endring av hendelse feilet',
         },
-      })
+      }),
     ).then(() => dispatch(push(`/events/${event.id}`)));
 }
 export function deleteEvent(eventId: number): Thunk<Promise<any>> {
@@ -182,12 +182,12 @@ export function deleteEvent(eventId: number): Thunk<Promise<any>> {
           id: eventId,
           errorMessage: 'Sletting av hendelse feilet',
         },
-      })
+      }),
     ).then(() => {
       dispatch(
         addToast({
           message: 'Deleted',
-        })
+        }),
       );
       dispatch(push('/events'));
     });
@@ -248,7 +248,7 @@ export function adminRegister(
   userId: number,
   poolId: number | undefined,
   feedback: string,
-  adminRegistrationReason: string
+  adminRegistrationReason: string,
 ): Thunk<any> {
   return callAPI({
     types: Event.ADMIN_REGISTER,
@@ -279,7 +279,7 @@ export function payment(eventId: number): Thunk<any> {
 export function updateFeedback(
   eventId: number,
   registrationId: number,
-  feedback: string
+  feedback: string,
 ): Thunk<Promise<any>> {
   return (dispatch) =>
     dispatch(
@@ -294,12 +294,12 @@ export function updateFeedback(
           successMessage: 'Tilbakemelding oppdatert',
           errorMessage: 'Tilbakemelding oppdatering feilet',
         },
-      })
+      }),
     );
 }
 export function markUsernamePresent(
   eventId: number,
-  username: string
+  username: string,
 ): Thunk<Promise<any>> {
   return callAPI({
     types: Event.UPDATE_REGISTRATION,
@@ -313,7 +313,7 @@ export function markUsernamePresent(
 export function updatePresence(
   eventId: number,
   registrationId: number,
-  presence: EventRegistrationPresence
+  presence: EventRegistrationPresence,
 ): Thunk<Promise<any>> {
   return callAPI({
     types: Event.UPDATE_REGISTRATION,
@@ -331,7 +331,7 @@ export function updatePresence(
 export function updatePayment(
   eventId: number,
   registrationId: number,
-  paymentStatus: string
+  paymentStatus: string,
 ): Thunk<Promise<Action | null | undefined>> {
   return (dispatch) =>
     dispatch(
@@ -345,13 +345,13 @@ export function updatePayment(
         meta: {
           errorMessage: 'Oppdatering av betaling feilet',
         },
-      })
+      }),
     ).then(() =>
       dispatch(
         addToast({
           message: 'Payment updated',
-        })
-      )
+        }),
+      ),
     );
 }
 export function follow(userId: number, eventId: number): Thunk<any> {
@@ -370,12 +370,12 @@ export function follow(userId: number, eventId: number): Thunk<any> {
         meta: {
           errorMessage: 'Registrering av interesse feilet',
         },
-      })
+      }),
     );
 }
 export function unfollow(
   followId: number,
-  eventId: number
+  eventId: number,
 ): Thunk<Promise<any>> {
   return (dispatch) =>
     dispatch(
@@ -389,7 +389,7 @@ export function unfollow(
           eventId,
           errorMessage: 'Avregistering fra interesse feilet',
         },
-      })
+      }),
     );
 }
 export function isUserFollowing(eventId: number): Thunk<any> {

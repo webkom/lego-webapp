@@ -25,7 +25,7 @@ export function generateTreeStructure<
   T extends {
     id: ID;
     parent?: ID;
-  }
+  },
 >(nodes: Array<T>): Tree<T> {
   // Create a map of id -> node for retrievals later:
   const tree: { [id: ID]: TreeNode<T> } = nodes.reduce(
@@ -33,7 +33,7 @@ export function generateTreeStructure<
       ...acc,
       [node.id]: { ...node, children: [] },
     }),
-    {}
+    {},
   );
 
   return nodes.reduce((roots: Tree<T>, { id }) => {

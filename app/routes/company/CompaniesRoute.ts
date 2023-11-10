@@ -35,7 +35,7 @@ const mapDispatchToProps = {
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
   withPreparedDispatch('fetchCompanies', (props, dispatch) =>
-    dispatch(fetchAll({ fetchMore: false }))
+    dispatch(fetchAll({ fetchMore: false })),
   ),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
 )(CompaniesPage);

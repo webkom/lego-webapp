@@ -64,7 +64,7 @@ const AppChildren = (props: Props) => {
         currentUser: props.currentUser,
         loggedIn: props.loggedIn,
       },
-    })
+    }),
   );
   const userValue = {
     currentUser: props.currentUser,
@@ -163,7 +163,7 @@ const mapStateToProps = (state) => {
   const upcomingMeetings = Object.values(state.meetings.byId)
     .filter((meeting: any) => moment(meeting.endTime).isAfter(moment()))
     .sort((meetingA: any, meetingB: any) =>
-      moment(meetingA.startTime).isAfter(moment(meetingB.startTime)) ? 1 : -1
+      moment(meetingA.startTime).isAfter(moment(meetingB.startTime)) ? 1 : -1,
     )
     .map((meeting: any) => meeting.id);
   return {
@@ -198,7 +198,7 @@ const mapDispatchToProps = {
       },
       {
         noRedirect: true,
-      }
+      },
     ),
 };
 export default compose(
@@ -206,13 +206,13 @@ export default compose(
     'login',
     (_, dispatch) => dispatch(loginAutomaticallyIfPossible()),
     () => [],
-    { runSync: true, serverOnly: true }
+    { runSync: true, serverOnly: true },
   ),
   withPreparedDispatch(
     'fetchMeta',
     (_, dispatch) => dispatch(fetchMeta()),
     () => [],
-    { serverOnly: true }
+    { serverOnly: true },
   ),
   withPreparedDispatch('fetchDivData', (props, dispatch) =>
     Promise.all([
@@ -224,10 +224,10 @@ export default compose(
         return dispatch(
           fetchMeetings({
             dateAfter: moment().format('YYYY-MM-DD'),
-          })
+          }),
         );
       }),
-    ])
+    ]),
   ),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
 )(App);

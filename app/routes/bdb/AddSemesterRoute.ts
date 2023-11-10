@@ -43,7 +43,7 @@ const validateSemesterStatus = (data, props) => {
   if (foundSemesterStatus) {
     const semesterFoundError = `Denne bedriften har allerede en registrert semester status for
       ${semesterCodeToName(
-        semester
+        semester,
       )} ${year}. Du kan endre den på bedriftens side.`;
     errors.year = semesterFoundError;
   }
@@ -74,12 +74,12 @@ export default compose(
     'fetchAddSemester',
     (props, dispatch) =>
       Promise.all([dispatch(fetchSemesters()), dispatch(fetchAllAdmin())]),
-    (props) => [props.match.params.companyId]
+    (props) => [props.match.params.companyId],
   ),
   connect(mapStateToProps, mapDispatchToProps),
   reduxForm({
     form: 'addSemester',
     validate: validateSemesterStatus,
     enableReinitialize: true,
-  })
+  }),
 )(AddSemester);

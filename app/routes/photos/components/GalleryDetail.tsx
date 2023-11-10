@@ -27,13 +27,13 @@ type Props = {
     galleryId: number,
     args: {
       next: boolean;
-    }
+    },
   ) => Promise<any>;
   clear: (galleryId: number) => Promise<any>;
   push: Push;
   uploadAndCreateGalleryPicture: (
     arg0: ID,
-    arg1: File | Array<DropFile>
+    arg1: File | Array<DropFile>,
   ) => Promise<any>;
   actionGrant: ActionGrant;
 };
@@ -73,10 +73,10 @@ export default class GalleryDetail extends Component<Props, State> {
     this.downloadNext(0, [])
       .then((blobs) => {
         const names = this.props.pictures.map((picture) =>
-          picture.file.split('/').pop()
+          picture.file.split('/').pop(),
         );
         this.zipFiles(this.props.gallery.title, names, blobs).finally(
-          finishDownload
+          finishDownload,
         );
       })
       .catch(finishDownload);
@@ -104,7 +104,7 @@ export default class GalleryDetail extends Component<Props, State> {
   };
   downloadFiles = (urls: string[]) =>
     Promise.all(
-      urls.map(async (url) => await fetch(url).then((res) => res.blob()))
+      urls.map(async (url) => await fetch(url).then((res) => res.blob())),
     );
   zipFiles = (zipTitle: string, fileNames: string[], blobs: Blob[]) => {
     const zip = JsZip();

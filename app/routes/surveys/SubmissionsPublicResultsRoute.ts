@@ -42,5 +42,5 @@ export default compose(
     'survey.event',
     'survey.questions',
     'survey.results',
-  ])
+  ]),
 )(SubmissionPublicResults);

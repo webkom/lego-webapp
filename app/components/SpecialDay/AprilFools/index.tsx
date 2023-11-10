@@ -50,7 +50,7 @@ class AprilFools extends Component<Props, State> {
 
     if (hasClosed) {
       return Children.map(children, (child) =>
-        cloneElement(child, { ...rest })
+        cloneElement(child, { ...rest }),
       );
     }
 

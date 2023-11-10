@@ -10,7 +10,7 @@ export function toggleSearch(): Action {
 }
 export function autocomplete(
   query: string,
-  filter?: Array<string>
+  filter?: Array<string>,
 ): Thunk<Promise<Array<any>>> {
   return (dispatch) => {
     if (!query) {
@@ -30,9 +30,9 @@ export function autocomplete(
           query,
           errorMessage: 'Autofyll feilet',
         },
-      })
+      }),
     ).then((action) =>
-      selectAutocomplete(action ? (action as any).payload : [])
+      selectAutocomplete(action ? (action as any).payload : []),
     );
   };
 }
@@ -55,7 +55,7 @@ export function search(query: string, types?: Array<string>): Thunk<any> {
           query,
           errorMessage: 'Søk feilet',
         },
-      })
+      }),
     );
   };
 }
@@ -78,7 +78,7 @@ export function mention(query: string): Thunk<any> {
           query,
           errorMessage: 'Omtale feilet',
         },
-      })
+      }),
     );
   };
 }

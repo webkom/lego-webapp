@@ -90,7 +90,7 @@ export default function QuotePage({
   }
 
   const ordering = orderingOptions.find(
-    (option) => option.value === query.ordering
+    (option) => option.value === query.ordering,
   );
 
   return (

@@ -71,7 +71,7 @@ function TemplateTypeDropdownItems({
               {eventTypeToString(eventType)}
             </Link>
           </Dropdown.ListItem>
-        )
+        ),
       )}
     </Dropdown.List>
   );
@@ -99,7 +99,7 @@ type QuestionsValidationErrors = {
 };
 
 export const hasOptions = (
-  data: Record<string, any>
+  data: Record<string, any>,
 ): QuestionsValidationErrors => {
   const message: QuestionsValidationErrors = {
     questions: [],
@@ -153,7 +153,7 @@ const validate = createValidator(
     title: [required()],
     event: [required()],
   },
-  hasOptions
+  hasOptions,
 );
 
 const TypedLegoForm = LegoFinalForm<FormSurvey>;
@@ -184,7 +184,7 @@ const SurveyEditor = ({
         question.options = [];
       } else {
         question.options = question.options.filter(
-          (option) => option.optionText !== ''
+          (option) => option.optionText !== '',
         );
       }
 

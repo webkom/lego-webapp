@@ -202,7 +202,7 @@ type ValidationError<T> = Partial<{
 const validate = (data) => {
   const errors: ValidationError<EditingEvent> = {};
   const [isValidYoutubeUrl, errorMessage = ''] = validYoutubeUrl()(
-    data.youtubeUrl
+    data.youtubeUrl,
   );
 
   if (!isValidYoutubeUrl) {

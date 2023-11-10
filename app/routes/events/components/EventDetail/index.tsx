@@ -121,7 +121,7 @@ type Props = {
   updateFeedback: (
     eventId: ID,
     registrationId: ID,
-    feedback: string
+    feedback: string,
   ) => Promise<any>;
   deleteEvent: (eventId: ID) => Promise<void>;
   deleteComment: (id: ID, contentTarget: string) => Promise<void>;
@@ -229,7 +229,7 @@ export default class EventDetail extends Component<Props, State> {
 
     // The UserGrid is expanded when there's less than 5 minutes till activation
     const minUserGridRows = currentMoment.isAfter(
-      moment(activationTimeMoment).subtract(5, 'minutes')
+      moment(activationTimeMoment).subtract(5, 'minutes'),
     )
       ? MIN_USER_GRID_ROWS
       : 0;
@@ -506,11 +506,11 @@ export default class EventDetail extends Component<Props, State> {
                   <RegistrationMeta
                     useConsent={event.useConsent}
                     hasOpened={moment(event.activationTime).isBefore(
-                      currentMoment
+                      currentMoment,
                     )}
                     photoConsents={event.photoConsents}
                     eventSemester={getEventSemesterFromStartTime(
-                      event.startTime
+                      event.startTime,
                     )}
                     hasEnded={moment(event.endTime).isBefore(currentMoment)}
                     registration={currentRegistration}

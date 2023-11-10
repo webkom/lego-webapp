@@ -108,13 +108,13 @@ export default class Table extends Component<Props, State> {
   };
   onSearchInput = (
     { target }: ChangeEvent<HTMLInputElement>,
-    filterIndex: string
+    filterIndex: string,
   ) => {
     this.setState(
       {
         filters: { ...this.state.filters, [filterIndex]: target.value },
       },
-      () => this.onChange()
+      () => this.onChange(),
     );
   };
   onFilterInput = (value: any, filterIndex: string) => {
@@ -122,7 +122,7 @@ export default class Table extends Component<Props, State> {
       {
         filters: { ...this.state.filters, [filterIndex]: value },
       },
-      () => this.onChange()
+      () => this.onChange(),
     );
   };
   onChooseColumnInput = (columnIndex: any, dataIndex: any) => {
@@ -132,7 +132,7 @@ export default class Table extends Component<Props, State> {
           [dataIndex]: columnIndex,
         },
       },
-      () => this.onChange()
+      () => this.onChange(),
     );
   };
   onSortInput = (dataIndex: any, sorter: any) => {
@@ -149,13 +149,13 @@ export default class Table extends Component<Props, State> {
           sorter,
         },
       },
-      () => this.onChange()
+      () => this.onChange(),
     );
   };
   renderCell = (
     column: columnProps,
     data: Record<string, any>,
-    index: number
+    index: number,
   ) => {
     if (column.columnChoices) {
       const columnIndex: number = this.state.showColumn[column.dataIndex];
@@ -232,7 +232,7 @@ export default class Table extends Component<Props, State> {
                     (filters[filterIndex] && filters[filterIndex].length) ||
                       isShown[filterIndex]
                       ? styles.iconActive
-                      : styles.icon
+                      : styles.icon,
                   )}
                 />
               }
@@ -264,7 +264,7 @@ export default class Table extends Component<Props, State> {
                   className={cx(
                     filters[filterIndex] !== undefined || isShown[filterIndex]
                       ? styles.iconActive
-                      : styles.icon
+                      : styles.icon,
                   )}
                 />
               }
@@ -279,7 +279,7 @@ export default class Table extends Component<Props, State> {
                       this.state.filters[filterIndex] === value
                         ? undefined
                         : value,
-                      filterIndex
+                      filterIndex,
                     )
                   }
                 >
@@ -299,7 +299,7 @@ export default class Table extends Component<Props, State> {
                     () => {
                       this.toggleFilter(filterIndex);
                       this.onChange();
-                    }
+                    },
                   )
                 }
               >
@@ -318,7 +318,7 @@ export default class Table extends Component<Props, State> {
                   className={cx(
                     filters[filterIndex] !== undefined || isShown[filterIndex]
                       ? styles.iconActive
-                      : styles.icon
+                      : styles.icon,
                   )}
                 />
               }
@@ -358,7 +358,7 @@ export default class Table extends Component<Props, State> {
         filterMapping = (val) => val,
         dataIndex = key,
       } = this.props.columns.find(
-        (col) => col.filterIndex ?? col.dataIndex === key
+        (col) => col.filterIndex ?? col.dataIndex === key,
       ) || {};
       if (!inlineFiltering) return true;
 
@@ -401,7 +401,7 @@ export default class Table extends Component<Props, State> {
         return -1;
       };
     const sortedData = [...data].sort((a, b) =>
-      sorter !== undefined && typeof sorter !== 'boolean' ? sorter(a, b) : 0
+      sorter !== undefined && typeof sorter !== 'boolean' ? sorter(a, b) : 0,
     );
     if (direction === 'desc') sortedData.reverse();
 

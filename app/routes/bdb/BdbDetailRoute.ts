@@ -36,7 +36,7 @@ const loadData = (
       params: { companyId },
     },
   },
-  dispatch
+  dispatch,
 ) =>
   Promise.all([
     dispatch(fetchSemesters()).then(() => dispatch(fetchAdmin(companyId))),
@@ -44,7 +44,7 @@ const loadData = (
       fetchEventsForCompany({
         queryString: queryString(companyId),
         loadNextPage: false,
-      })
+      }),
     ),
   ]);
 
@@ -83,7 +83,7 @@ const mapDispatchToProps = (dispatch, props) => {
       fetchEventsForCompany({
         queryString: queryString(companyId),
         loadNextPage: true,
-      })
+      }),
     );
 
   return {
@@ -96,7 +96,7 @@ const mapDispatchToProps = (dispatch, props) => {
         deleteCompany,
         deleteComment,
       },
-      dispatch
+      dispatch,
     ),
     fetchMoreEvents,
   };
@@ -107,5 +107,5 @@ export default compose(
   withPreparedDispatch('withBdbDetail', loadData, (props) => [
     props.match.params.companyId,
   ]),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
 )(BdbDetail);

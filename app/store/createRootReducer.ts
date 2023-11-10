@@ -58,7 +58,7 @@ const createRootReducer = (history: History) =>
   combineReducers({
     router: joinReducers(
       connectRouter(history) as StrictReducer<RoutingState>,
-      routing
+      routing,
     ),
     allowed,
     announcements,

@@ -78,7 +78,7 @@ const mapDispatchToProps = {
 };
 export default compose(
   withPreparedDispatch('fetchCompanyInterest', (props, dispatch) =>
-    dispatch(fetchSemestersForInterestform())
+    dispatch(fetchSemestersForInterestform()),
   ),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
 )(CompanyInterestPage);

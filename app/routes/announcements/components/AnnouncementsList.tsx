@@ -15,7 +15,7 @@ type Props = {
   actionGrant: ActionGrant;
   sendAnnouncement: (id: ID) => Promise<unknown>;
   createAnnouncement: (
-    announcement: DetailedAnnouncement & { send: boolean }
+    announcement: DetailedAnnouncement & { send: boolean },
   ) => Promise<unknown>;
   deleteAnnouncement: (id: ID) => Promise<unknown>;
 };

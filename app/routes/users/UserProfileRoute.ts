@@ -31,7 +31,7 @@ const loadData = (
     },
     isCurrentUser,
   },
-  dispatch
+  dispatch,
 ) =>
   Promise.all([
     dispatch(fetchAllWithType(GroupType.Grade)),
@@ -119,5 +119,5 @@ export default compose(
     props.match.params.username,
     props.isCurrentUser,
   ]),
-  loadingIndicator(['user'])
+  loadingIndicator(['user']),
 )(UserProfile);

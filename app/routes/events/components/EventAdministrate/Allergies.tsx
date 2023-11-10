@@ -29,7 +29,7 @@ export type Props = {
 
 export const canSeeAllergies = (
   currentUser: CurrentUser,
-  event: AdministrateEvent
+  event: AdministrateEvent,
 ) => {
   return (
     currentUser?.id === event.createdBy?.id ||
@@ -53,7 +53,7 @@ const Allergies = (props: Props) => {
   const data = registeredAllergies
     .filter(
       (registration) =>
-        getRegistrationInfo(registration).status !== 'Venteliste'
+        getRegistrationInfo(registration).status !== 'Venteliste',
     )
     .map((registration) => registration.user.allergies)
     .join('\n');
@@ -61,7 +61,7 @@ const Allergies = (props: Props) => {
   const allergiesTXT = URL.createObjectURL(
     new Blob([data], {
       type: 'text/plain',
-    })
+    }),
   );
 
   const initialColumns = [
@@ -115,7 +115,7 @@ const Allergies = (props: Props) => {
 
   const numOfAllergies = () => {
     return props.registered.filter(
-      (registration) => registration.user.allergies?.length !== 0
+      (registration) => registration.user.allergies?.length !== 0,
     ).length;
   };
   return (

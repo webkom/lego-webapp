@@ -5,12 +5,12 @@ import EventStatistics from 'app/routes/events/EventStatisticsRoute';
 
 const EventEditRoute = loadable(() => import('./EventEditRoute'));
 const EventAdministrateRoute = loadable(
-  () => import('./EventAdministrateRoute')
+  () => import('./EventAdministrateRoute'),
 );
 const EventAttendeeRoute = loadable(() => import('./EventAttendeeRoute'));
 const EventAllergiesRoute = loadable(() => import('./EventAllergiesRoute'));
 const EventAdminRegisterRoute = loadable(
-  () => import('./components/EventAdministrate/AdminRegister')
+  () => import('./components/EventAdministrate/AdminRegister'),
 );
 const EventAbacardRoute = loadable(() => import('./EventAbacardRoute'));
 const PageNotFound = loadable(() => import('../pageNotFound'));

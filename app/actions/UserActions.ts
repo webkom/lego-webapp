@@ -48,7 +48,7 @@ function getToken(getCookie: GetCookie): Token | null | undefined {
 
 export function login(
   username: string,
-  password: string
+  password: string,
 ): Thunk<Promise<Action | null | undefined>> {
   return (dispatch) =>
     dispatch(
@@ -63,7 +63,7 @@ export function login(
         meta: {
           errorMessage: 'Kunne ikke logge inn',
         },
-      })
+      }),
     ).then((action) => {
       if (!action || !action.payload) return;
       const { user, token } = action.payload;
@@ -102,7 +102,7 @@ export function updateUser(
   } = {
     noRedirect: false,
     updateProfilePicture: false,
-  }
+  },
 ): Thunk<Promise<void | Action | null | undefined>> {
   const {
     username,
@@ -149,7 +149,7 @@ export function updateUser(
           successMessage: 'Oppdatering av bruker fullført',
           errorMessage: 'Oppdatering av bruker feilet',
         },
-      })
+      }),
     ).then((action) => {
       if (!action || !action.payload) return;
 
@@ -215,13 +215,13 @@ export function removePicture(username: string): Thunk<void> {
           successMessage: 'Fjerning av profilbilde fullført',
           errorMessage: 'Fjerning av profilbilde feilet',
         },
-      })
+      }),
     );
 }
 export function updatePhotoConsent(
   photoConsent: PhotoConsent,
   username: string,
-  userId: number
+  userId: number,
 ): Thunk<void> {
   const { year, semester, domain, isConsenting } = photoConsent;
   return callAPI({
@@ -253,7 +253,7 @@ export function updatePicture({
     return dispatch(
       uploadFile({
         file: picture,
-      })
+      }),
     ).then((action) =>
       dispatch(
         updateUser(
@@ -265,9 +265,9 @@ export function updatePicture({
           {
             noRedirect: true,
             updateProfilePicture: true,
-          }
-        )
-      )
+          },
+        ),
+      ),
     );
   };
 }
@@ -278,7 +278,7 @@ const defaultOptions = {
 
 export function fetchUser(
   username = 'me',
-  { propagateError } = defaultOptions
+  { propagateError } = defaultOptions,
 ): Thunk<void> {
   return callAPI({
     types: User.FETCH,
@@ -378,7 +378,7 @@ export function sendRegistrationEmail({
         meta: {
           errorMessage: 'Sending av registrerings-e-post feilet',
         },
-      })
+      }),
     );
 }
 export function validateRegistrationToken(token: string): Thunk<void> {
@@ -391,7 +391,7 @@ export function validateRegistrationToken(token: string): Thunk<void> {
           errorMessage: 'Validering av registrerings-token feilet',
           token,
         },
-      })
+      }),
     );
 }
 export function createUser(token: string, user: string): Thunk<void> {
@@ -405,7 +405,7 @@ export function createUser(token: string, user: string): Thunk<void> {
         meta: {
           errorMessage: 'Opprettelse av bruker feilet',
         },
-      })
+      }),
     ).then((action) => {
       if (!action || !action.payload) return;
       const { user, token } = action.payload;
@@ -433,7 +433,7 @@ export function deleteUser(password: string): Thunk<Promise<void>> {
           errorMessage: 'Sletting av bruker feilet',
           successMessage: 'Bruker har blitt slettet',
         },
-      })
+      }),
     );
 }
 
@@ -482,7 +482,7 @@ export function sendForgotPasswordEmail({
         meta: {
           errorMessage: 'Sending av tilbakestill passord e-post feilet',
         },
-      })
+      }),
     );
 }
 export function addPenalty({
@@ -540,6 +540,6 @@ export function resetPassword({
         meta: {
           errorMessage: 'Tilbakestilling av passord feilet',
         },
-      })
+      }),
     );
 }

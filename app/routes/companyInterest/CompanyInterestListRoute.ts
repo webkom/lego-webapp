@@ -22,11 +22,11 @@ const mapStateToProps = (state, props) => {
   const semesterId = Number(
     qs.parse(props.location.search, {
       ignoreQueryPrefix: true,
-    }).semesters
+    }).semesters,
   );
   const semesters = selectCompanySemestersForInterestForm(state);
   const semesterObj: CompanySemesterEntity | null | undefined = semesters.find(
-    (semester) => semester.id === semesterId
+    (semester) => semester.id === semesterId,
   );
   const eventValue = qs.parse(props.location.search, {
     ignoreQueryPrefix: true,
@@ -54,7 +54,7 @@ const mapStateToProps = (state, props) => {
   const companyInterestList = selectCompanyInterestList(
     state,
     selectedSemesterOption.id,
-    selectedEventOption.value
+    selectedEventOption.value,
   );
   const hasMore = state.companyInterest.hasMore;
   const fetching = state.companyInterest.fetching;
@@ -79,7 +79,7 @@ const mapDispatchToProps = {
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
   withPreparedDispatch('fetchCompanyInterestList', (_, dispatch) =>
-    Promise.all([dispatch(fetchAll()), dispatch(fetchSemesters())])
+    Promise.all([dispatch(fetchAll()), dispatch(fetchSemesters())]),
   ),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
 )(CompanyInterestList);

@@ -80,8 +80,8 @@ const mapDispatchToProps = {
 };
 export default compose(
   withPreparedDispatch('fetchJoblistingDetailed', (props, dispatch) =>
-    dispatch(fetchJoblisting(props.match.params.joblistingIdOrSlug))
+    dispatch(fetchJoblisting(props.match.params.joblistingIdOrSlug)),
   ),
   connect(mapStateToProps, mapDispatchToProps),
-  helmet(propertyGenerator)
+  helmet(propertyGenerator),
 )(JoblistingDetail);

@@ -16,7 +16,7 @@ const StaticSubmission = ({ survey, submission }: Props) => {
   const textAnswer = (
     answer: AnswerEntity | null | undefined,
     submission: SubmissionEntity | null | undefined,
-    question: QuestionEntity
+    question: QuestionEntity,
   ) => {
     if (answer) {
       return (
@@ -47,7 +47,7 @@ const StaticSubmission = ({ survey, submission }: Props) => {
         const answer =
           submission &&
           submission.answers.find(
-            (answer) => answer.question.id === question.id
+            (answer) => answer.question.id === question.id,
           );
         return (
           <li key={question.id}>
@@ -66,7 +66,7 @@ const StaticSubmission = ({ survey, submission }: Props) => {
                   const selected =
                     answer &&
                     typeof (answer.selectedOptions || []).find(
-                      (o) => o === option.id
+                      (o) => o === option.id,
                     ) !== 'undefined';
                   return (
                     <li key={option.id}>

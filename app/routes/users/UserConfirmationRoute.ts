@@ -35,5 +35,5 @@ const mapDispatchToProps = {
 };
 export default compose(
   withPreparedDispatch('fetchUserConfirmation', loadData),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
 )(UserConfirmation);

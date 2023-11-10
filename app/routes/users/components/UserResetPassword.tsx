@@ -72,7 +72,7 @@ const validate = createValidator(
     ],
   },
   undefined,
-  true
+  true,
 );
 
 export default UserResetPasswordForm;

@@ -32,7 +32,7 @@ module.exports = (env, argv) => {
 
   if (!isProduction && !fs.existsSync(manifestPath)) {
     console.error(
-      'The DLL manifest is missing. Please run `yarn run build:dll`'
+      'The DLL manifest is missing. Please run `yarn run build:dll`',
     );
     process.exit(1);
   }

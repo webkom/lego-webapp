@@ -15,7 +15,7 @@ type Props = {
     arg0: number,
     arg1: number,
     arg2: number | null | undefined,
-    arg3: Array<CompanySemesterContactedStatus>
+    arg3: Array<CompanySemesterContactedStatus>,
   ) => any;
   companyId: number;
   semIndex: number;
@@ -35,7 +35,7 @@ export default class SemesterStatus extends Component<Props, State> {
         className={
           styles[
             selectColorCode(
-              selectMostProminentStatus(semesterStatus.contactedStatus)
+              selectMostProminentStatus(semesterStatus.contactedStatus),
             )
           ]
         }
@@ -50,7 +50,10 @@ export default class SemesterStatus extends Component<Props, State> {
               companyId,
               semIndex,
               semesterStatus.id,
-              getContactedStatuses(semesterStatus.contactedStatus, statusString)
+              getContactedStatuses(
+                semesterStatus.contactedStatus,
+                statusString,
+              ),
             )
           }
         />

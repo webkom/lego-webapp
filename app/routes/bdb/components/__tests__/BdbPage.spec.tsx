@@ -20,7 +20,7 @@ describe('components', () => {
           editSemesterStatus={() => null}
           addSemesterStatus={() => null}
           companySemesters={companySemesters}
-        />
+        />,
       );
       const searchField = wrapper.find(TextInput);
       expect(searchField).toHaveLength(1);

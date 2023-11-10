@@ -22,7 +22,7 @@ const NotificationElement = ({ notification }) => {
         <div
           className={cx(
             styles.notification,
-            !notification.read && styles.unRead
+            !notification.read && styles.unRead,
           )}
         >
           <div className={styles.innerNotification}>

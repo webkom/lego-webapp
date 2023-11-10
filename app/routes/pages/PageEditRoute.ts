@@ -48,10 +48,10 @@ export default compose(
   withPreparedDispatch(
     'fetchPageEdit',
     (props, dispatch) => dispatch(fetchPage(props.match.params.pageSlug)),
-    (props) => [props.match.params.pageSlug]
+    (props) => [props.match.params.pageSlug],
   ),
   connect(mapStateToProps, mapDispatchToProps),
   legoForm({
     form: 'page-edit',
-  })
+  }),
 )(PageEditor);

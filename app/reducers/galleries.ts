@@ -59,12 +59,12 @@ export const selectGalleries = createSelector(
   (state) => state.galleries.byId,
   (state) => state.galleries.items,
   (galleriesById, galleryIds) =>
-    galleryIds.map((id) => transformGallery(galleriesById[id]))
+    galleryIds.map((id) => transformGallery(galleriesById[id])),
 );
 export const selectGalleryById = createSelector(
   (state) => state.galleries.byId,
   (state, props) => props.galleryId,
-  (galleriesById, galleryId) => transformGallery(galleriesById[galleryId])
+  (galleriesById, galleryId) => transformGallery(galleriesById[galleryId]),
 );
 export const selectPicturesForGallery = createSelector(
   selectGalleryById,
@@ -73,5 +73,5 @@ export const selectPicturesForGallery = createSelector(
     if (!gallery) return [];
     // $FlowFixMe
     return (gallery.pictures || []).map((pictureId) => picturesById[pictureId]);
-  }
+  },
 );

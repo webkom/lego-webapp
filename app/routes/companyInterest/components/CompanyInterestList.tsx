@@ -58,14 +58,14 @@ class CompanyInterestList extends Component<Props, State> {
       })
       .then(() => {
         this.props.replace(
-          `/companyInterest?semesters=${clickedOption.id}&event=${this.props.selectedEventOption.value}`
+          `/companyInterest?semesters=${clickedOption.id}&event=${this.props.selectedEventOption.value}`,
         );
       });
   };
 
   handleEventChange = (clickedOption: EventOptionType): void => {
     this.props.replace(
-      `/companyInterest?semesters=${this.props.selectedSemesterOption.id}&event=${clickedOption.value}`
+      `/companyInterest?semesters=${this.props.selectedSemesterOption.id}&event=${clickedOption.value}`,
     );
   };
 
@@ -84,13 +84,13 @@ class CompanyInterestList extends Component<Props, State> {
       getCsvUrl(
         this.props.selectedSemesterOption.year,
         this.props.selectedSemesterOption.semester,
-        event
+        event,
       ),
       {
         headers: {
           Authorization: `Bearer ${this.props.authToken}`,
         },
-      }
+      },
     ).then((response) => response.blob());
     return {
       url: URL.createObjectURL(blob),
@@ -237,7 +237,7 @@ class CompanyInterestList extends Component<Props, State> {
                 onClick={async () =>
                   this.setState({
                     generatedCSV: await this.exportInterestList(
-                      this.props.selectedEventOption.value
+                      this.props.selectedEventOption.value,
                     ),
                   })
                 }

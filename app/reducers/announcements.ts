@@ -27,5 +27,5 @@ export const selectAnnouncements = createSelector(
   (state) => state.announcements.byId,
   (state) => state.announcements.items,
   (announcementsById, announcementIds) =>
-    announcementIds.map((id) => announcementsById[id])
+    announcementIds.map((id) => announcementsById[id]),
 );

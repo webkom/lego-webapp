@@ -50,5 +50,5 @@ export default compose(
   withPreparedDispatch('fetchSearch', loadData, (props) => [
     props.location.search,
   ]),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
 )(SearchPageWrapper);

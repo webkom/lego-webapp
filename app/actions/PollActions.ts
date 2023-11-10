@@ -22,7 +22,7 @@ export function fetchAll({
         meta: {
           errorMessage: 'Henting av avstemninger feilet',
         },
-      })
+      }),
     );
   };
 }
@@ -57,7 +57,7 @@ export function createPoll(data: {
           errorMessage: 'Legg til avstemning feilet',
           successMessage: 'Avstemning lagt til!',
         },
-      })
+      }),
     ).then(() => dispatch(push(`/polls/`)));
 }
 export function editPoll(data: {
@@ -95,7 +95,7 @@ export function deletePoll(id: number): Thunk<any> {
           id,
           errorMessage: 'Fjerning av avstemning feilet!',
         },
-      })
+      }),
     ).then(() => dispatch(push(`/polls/`)));
 }
 export function votePoll(pollId: number, optionId: number): Thunk<any> {

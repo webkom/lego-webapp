@@ -35,11 +35,11 @@ type Props = {
   loading: boolean;
   handlePresence: (
     registrationId: ID,
-    presence: EventRegistrationPresence
+    presence: EventRegistrationPresence,
   ) => Promise<any>;
   handlePayment: (
     registrationId: ID,
-    paymentStatus: EventRegistrationPaymentStatus
+    paymentStatus: EventRegistrationPaymentStatus,
   ) => Promise<any>;
   handleUnregister: (registrationId: ID) => Promise<void>;
   showPresence: boolean;
@@ -141,7 +141,7 @@ const iconClass = (photoConsent) =>
     photoConsent?.isConsenting ? styles.greenIcon : styles.redIcon,
     photoConsent?.domain === PhotoConsentDomain.WEBSITE
       ? 'fa fa-desktop'
-      : 'fa fa-share-square'
+      : 'fa fa-share-square',
   );
 
 const ConsentIcons = ({
@@ -159,13 +159,13 @@ const ConsentIcons = ({
       WEBSITE,
       eventSemester.year,
       eventSemester.semester,
-      photoConsents
+      photoConsents,
     );
     const soMeConsent = getConsent(
       SOCIAL_MEDIA,
       eventSemester.year,
       eventSemester.semester,
-      photoConsents
+      photoConsents,
     );
     return (
       <Flex justifyContent="center" gap={5}>
@@ -376,7 +376,7 @@ type UnregisteredTableProps = {
   unregistered: Array<EventRegistration>;
   handlePayment: (
     registrationId: ID,
-    paymentStatus: EventRegistrationPaymentStatus
+    paymentStatus: EventRegistrationPaymentStatus,
   ) => Promise<any>;
   event: EventAdministrate;
 };

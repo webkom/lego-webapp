@@ -35,12 +35,12 @@ const mapDispatchToProps = {
 };
 export default compose(
   withPreparedDispatch('fetchUserSettingsOAuth2Edit', (props, dispatch) =>
-    dispatch(fetchOAuth2Application(props.match.params.applicationId))
+    dispatch(fetchOAuth2Application(props.match.params.applicationId)),
   ),
   connect(mapStateToProps, mapDispatchToProps),
   reduxForm({
     form: 'oauth2',
     validate,
     enableReinitialize: true,
-  })
+  }),
 )(UserSettingsOAuth2Form);

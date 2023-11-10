@@ -41,7 +41,7 @@ const ContactForm = (props: Props) => {
       .catch(() =>
         props.addToast({
           message: 'Kunne ikke sende melding.',
-        })
+        }),
       );
   };
 
@@ -55,7 +55,7 @@ const ContactForm = (props: Props) => {
       g && {
         value: g.id,
         label: g.name,
-      }
+      },
   );
   return (
     <Form onSubmit={props.handleSubmit(submit)}>

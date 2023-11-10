@@ -21,8 +21,8 @@ describe('<UserProfile />', () => {
       wrapper.containsMatchingElement(
         <Link to="/users/webkom/settings/profile">
           <Button>Innstillinger</Button>
-        </Link>
-      )
+        </Link>,
+      ),
     ).toBe(true);
   });
   it('should not show a settings link for other users', () => {
@@ -31,14 +31,14 @@ describe('<UserProfile />', () => {
       wrapper.containsMatchingElement(
         <Link to="/users/webkom/settings/profile">
           <Button>Innstillinger</Button>
-        </Link>
-      )
+        </Link>,
+      ),
     ).toBe(false);
   });
   it('should render user info', () => {
     const wrapper = shallow(<UserProfile user={user} showSettings={false} />);
     expect(wrapper.containsMatchingElement(<h2>{user.fullName}</h2>)).toBe(
-      true
+      true,
     );
   });
 });

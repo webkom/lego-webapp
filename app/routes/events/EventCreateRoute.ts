@@ -54,13 +54,13 @@ const mapStateToProps = (state, props) => {
         valueSelector(state, 'startTime') &&
         moment(valueSelector(state, 'startTime')).subtract(
           valueSelector(state, 'registrationDeadlineHours'),
-          'hours'
+          'hours',
         ),
       unregistrationDeadline:
         valueSelector(state, 'startTime') &&
         moment(valueSelector(state, 'startTime')).subtract(
           valueSelector(state, 'unregistrationDeadlineHours'),
-          'hours'
+          'hours',
         ),
       useMazemap: valueSelector(state, 'useMazemap'),
       mazemapPoi: valueSelector(state, 'mazemapPoi'),
@@ -202,8 +202,8 @@ const mapDispatchToProps = {
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
   withPreparedDispatch('fetchEventCreate', (props, dispatch) =>
-    Promise.all([dispatch(fetchImageGallery())])
+    Promise.all([dispatch(fetchImageGallery())]),
   ),
   connect(mapStateToProps, mapDispatchToProps),
-  loadingIndicator(['initialValues'])
+  loadingIndicator(['initialValues']),
 )(EventEditor);

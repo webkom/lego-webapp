@@ -31,7 +31,7 @@ const JoblistingsRightNav = (props: Props) => {
           <i
             className={cx(
               'fa fa-caret-down',
-              !displayOptions && styles.rotateCaret
+              !displayOptions && styles.rotateCaret,
             )}
           />
         </h2>
@@ -136,7 +136,7 @@ const FilterCheckbox = ({
       onChange(
         activeFilters.includes(value)
           ? activeFilters.filter((e) => e !== value)
-          : [...activeFilters, value].sort()
+          : [...activeFilters, value].sort(),
       )
     }
     readOnly

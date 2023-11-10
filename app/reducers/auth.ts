@@ -24,7 +24,7 @@ const initialState: State = {
 };
 export default function auth(
   state: State = initialState,
-  action: AnyAction
+  action: AnyAction,
 ): State {
   switch (action.type) {
     case User.LOGIN.BEGIN:
@@ -70,5 +70,5 @@ export function selectIsLoggedIn(state: RootState) {
 export const selectCurrentUser = createSelector(
   (state) => state.users.byId,
   (state) => state.auth.id,
-  (usersById, userId) => usersById[userId] || {}
+  (usersById, userId) => usersById[userId] || {},
 );

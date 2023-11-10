@@ -67,12 +67,12 @@ type Props = {
     users: [
       {
         id: ID;
-      }
+      },
     ];
     groups: [
       {
         value: ID;
-      }
+      },
     ];
   }) => Promise<void>;
   deleteMeeting: (args: ID) => Promise<void>;
@@ -203,7 +203,7 @@ const MeetingEditor = ({
                               .clone()
                               .add(2, 'hours')
                               .set('minute', 0)
-                              .toISOString()
+                              .toISOString(),
                           );
                         }
                       }}
@@ -254,7 +254,7 @@ const MeetingEditor = ({
                   [currentUserSearchable],
                   invitedUsersSearchable,
                   invitingUsers,
-                  'value'
+                  'value',
                 );
                 return (
                   <Field

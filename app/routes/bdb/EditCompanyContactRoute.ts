@@ -53,12 +53,12 @@ export default compose(
           params: { companyId },
         },
       },
-      dispatch
+      dispatch,
     ) => dispatch(fetchAdmin(companyId)),
     (props) => [
       props.match.params.companyId,
       props.match.params.companyContactId,
-    ]
+    ],
   ),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
 )(CompanyContactEditor);

@@ -31,7 +31,7 @@ export default compose(
     Promise.all([
       dispatch(fetchAllWithType(GroupType.Committee)),
       dispatch(fetchAllWithType(GroupType.Revue)),
-    ])
+    ]),
   ),
-  connect(mapStateToProps, {})
+  connect(mapStateToProps, {}),
 )(Statistics);

@@ -32,7 +32,7 @@ export function addComment({
 }
 export function deleteComment(
   commentId: ID,
-  contentTarget: string
+  contentTarget: string,
 ): Thunk<any> {
   return callAPI({
     types: Comment.DELETE,

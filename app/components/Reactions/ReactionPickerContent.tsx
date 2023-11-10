@@ -56,7 +56,7 @@ const ReactionPickerContent = ({
             >
               <Emoji size="22px" unicodeString={emoji.unicodeString} />
             </div>
-          )
+          ),
         )}
       </div>
     )}

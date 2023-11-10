@@ -100,10 +100,10 @@ export default class InterestGroupMemberList extends Component<Props, State> {
     const memberships = this.props.memberships.filter((membership) =>
       membership.user.fullName
         .toLowerCase()
-        .includes(this.state.filter.toLowerCase())
+        .includes(this.state.filter.toLowerCase()),
     );
     const sorted = sortBy(memberships, ({ role }) =>
-      SORT_ORDER.indexOf(role)
+      SORT_ORDER.indexOf(role),
     ).reverse();
 
     return (

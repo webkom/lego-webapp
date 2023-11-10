@@ -22,7 +22,7 @@ export const emailUsersDefaultQuery = {
 const mapStateToProps = (state) => {
   const query = parseQueryString(
     state.router.location.search,
-    emailUsersDefaultQuery
+    emailUsersDefaultQuery,
   );
   const { pagination } = selectPaginationNext({
     endpoint: '/email-users/',
@@ -55,10 +55,10 @@ export default compose(
     Promise.all([
       dispatch(fetchAllWithType(GroupType.Committee)),
       dispatch(fetchAllWithType(GroupType.Grade)),
-    ])
+    ]),
   ),
   connect(mapStateToProps, mapDispatchToProps),
   withPreparedDispatch('fetchEmailUsers', ({ query }, dispatch) =>
-    dispatch(fetch({ query }))
-  )
+    dispatch(fetch({ query })),
+  ),
 )(EmailUsers);

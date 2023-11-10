@@ -79,7 +79,7 @@ export const TokenNavigation = ({
 export const getActiveFrom = (
   eventEndTime: Dateish,
   hours: number,
-  minutes: number
+  minutes: number,
 ) =>
   moment(eventEndTime)
     .startOf('day')

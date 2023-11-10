@@ -283,7 +283,7 @@ type Props = {
   allowedBdb: boolean;
   onSubmit: (
     arg0: CompanyInterestFormEntity,
-    arg1: boolean | null | undefined
+    arg1: boolean | null | undefined,
   ) => Promise<any>;
   push: (arg0: string) => void;
   events: Array<Record<string, any>>;
@@ -314,7 +314,7 @@ type Props = {
 const requiredIfEventType = (eventType: string) =>
   requiredIf((allValues) => {
     const event = allValues.events.filter(
-      (event) => event.name === eventType
+      (event) => event.name === eventType,
     )[0];
     return event && event.checked;
   });
@@ -406,8 +406,8 @@ const CompanyInterestPage = (props: Props) => {
         props.push(
           props.allowedBdb
             ? '/companyInterest/'
-            : '/pages/bedrifter/for-bedrifter'
-        )
+            : '/pages/bedrifter/for-bedrifter',
+        ),
       );
   };
 
@@ -632,7 +632,7 @@ const CompanyInterestPage = (props: Props) => {
 
             {spyValues((values: CompanyInterestFormEntity) => {
               const showCompanyPresentation = values.events?.some(
-                (e) => e.name === 'company_presentation' && e.checked === true
+                (e) => e.name === 'company_presentation' && e.checked === true,
               );
 
               return (
@@ -661,7 +661,7 @@ const CompanyInterestPage = (props: Props) => {
 
             {spyValues((values: CompanyInterestFormEntity) => {
               const showLunchPresentationComment = values.events?.some(
-                (e) => e.name === 'lunch_presentation' && e.checked === true
+                (e) => e.name === 'lunch_presentation' && e.checked === true,
               );
 
               return (
@@ -690,7 +690,7 @@ const CompanyInterestPage = (props: Props) => {
 
             {spyValues((values: CompanyInterestFormEntity) => {
               const showCourseComment = values.events?.some(
-                (e) => e.name === 'course' && e.checked === true
+                (e) => e.name === 'course' && e.checked === true,
               );
 
               return (
@@ -715,7 +715,7 @@ const CompanyInterestPage = (props: Props) => {
 
             {spyValues((values: CompanyInterestFormEntity) => {
               const showBreakfastTalkComment = values.events?.some(
-                (e) => e.name === 'breakfast_talk' && e.checked === true
+                (e) => e.name === 'breakfast_talk' && e.checked === true,
               );
 
               return (
@@ -740,7 +740,7 @@ const CompanyInterestPage = (props: Props) => {
 
             {spyValues((values: CompanyInterestFormEntity) => {
               const showBedexComment = values.events?.some(
-                (e) => e.name === 'bedex' && e.checked === true
+                (e) => e.name === 'bedex' && e.checked === true,
               );
 
               return (
@@ -765,7 +765,7 @@ const CompanyInterestPage = (props: Props) => {
 
             {spyValues((values: CompanyInterestFormEntity) => {
               const showOtherEventComment = values.events?.some(
-                (e) => e.name === 'other' && e.checked === true
+                (e) => e.name === 'other' && e.checked === true,
               );
 
               return (
@@ -790,7 +790,7 @@ const CompanyInterestPage = (props: Props) => {
 
             {spyValues((values: CompanyInterestFormEntity) => {
               const showStartupComment = values.events?.some(
-                (e) => e.name === 'start_up' && e.checked === true
+                (e) => e.name === 'start_up' && e.checked === true,
               );
 
               return (
@@ -815,7 +815,7 @@ const CompanyInterestPage = (props: Props) => {
 
             {spyValues((values: CompanyInterestFormEntity) => {
               const showCompanyToCompanyComment = values.events?.some(
-                (e) => e.name === 'company_to_company' && e.checked === true
+                (e) => e.name === 'company_to_company' && e.checked === true,
               );
 
               return (

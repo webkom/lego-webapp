@@ -52,7 +52,7 @@ const CommentForm = ({
               contentTarget,
               text,
               parent,
-            })
+            }),
           );
 
           form.restart();

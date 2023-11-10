@@ -173,7 +173,7 @@ const validate = createValidator(
     gender: [required()],
   },
   undefined,
-  true
+  true,
 );
 
 export default UserConfirmationForm;

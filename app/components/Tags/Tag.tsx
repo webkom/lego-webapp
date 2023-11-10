@@ -38,7 +38,7 @@ const Tag = ({ tag, icon, color = 'red', link, className, active }: Props) => (
           styles.tag,
           styles[color],
           className,
-          active && styles.active
+          active && styles.active,
         )}
         to={link}
       >

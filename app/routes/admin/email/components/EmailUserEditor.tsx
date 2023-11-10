@@ -35,7 +35,7 @@ const EmailUserEditor = ({
     };
     Object.keys(illegalChars).forEach(
       (char) =>
-        (email = email.replace(new RegExp(char, 'g'), illegalChars[char]))
+        (email = email.replace(new RegExp(char, 'g'), illegalChars[char])),
     );
     // Remove any other non-a-z characters
     email = email.replace(/[^a-z0-9.-]/gi, '');

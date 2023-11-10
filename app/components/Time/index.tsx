@@ -32,7 +32,7 @@ function Time({
 }: Props & TimeHTMLAttributes<HTMLTimeElement>) {
   const formatted = getFormattedDateTime(
     moment.tz(time || moment(), config.timezone),
-    wordsAgo ? 'timeAgoInWords' : format
+    wordsAgo ? 'timeAgoInWords' : format,
   );
 
   return (

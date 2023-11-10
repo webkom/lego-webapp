@@ -13,7 +13,7 @@ type Props = {
     arg0: number,
     arg1: number,
     arg2: number | null | undefined,
-    arg3: Array<CompanySemesterContactedStatus>
+    arg3: Array<CompanySemesterContactedStatus>,
   ) => Promise<any> | null | undefined;
 };
 export default class CompanySingleRow extends Component<Props> {
@@ -23,7 +23,7 @@ export default class CompanySingleRow extends Component<Props> {
     return (
       (company.semesterStatuses || []).find(
         (status) =>
-          status.year === result.year && status.semester === result.semester
+          status.year === result.year && status.semester === result.semester,
       ) || {
         contactedStatus: ['not_contacted'],
       }

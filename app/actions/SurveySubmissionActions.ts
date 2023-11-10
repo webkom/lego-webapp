@@ -16,7 +16,7 @@ export function fetchSubmissions(surveyId: number): Thunk<any> {
 }
 export function fetchUserSubmission(
   surveyId: number,
-  user: number
+  user: number,
 ): Thunk<any> {
   return callAPI({
     types: SurveySubmission.FETCH,
@@ -50,7 +50,7 @@ export function addSubmission({
 }
 export function deleteSubmission(
   surveyId: number,
-  submissionId: number
+  submissionId: number,
 ): Thunk<any> {
   return callAPI({
     types: SurveySubmission.DELETE,
@@ -67,7 +67,7 @@ export function deleteSubmission(
 export function hideAnswer(
   surveyId: number,
   submissionId: number,
-  answerId: number
+  answerId: number,
 ): Thunk<any> {
   return callAPI({
     types: SurveySubmission.HIDE_ANSWER,
@@ -86,7 +86,7 @@ export function hideAnswer(
 export function showAnswer(
   surveyId: number,
   submissionId: number,
-  answerId: number
+  answerId: number,
 ): Thunk<any> {
   return callAPI({
     types: SurveySubmission.SHOW_ANSWER,

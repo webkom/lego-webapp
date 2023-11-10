@@ -42,13 +42,13 @@ const CompanyDetail = ({
   }
 
   const sortedEvents = companyEvents.sort(
-    (a, b) => moment(b.startTime).unix() - moment(a.startTime).unix()
+    (a, b) => moment(b.startTime).unix() - moment(a.startTime).unix(),
   );
   const upcomingEvents = sortedEvents.filter((event) =>
-    moment().isBefore(moment(event.startTime))
+    moment().isBefore(moment(event.startTime)),
   );
   const oldEvents = sortedEvents.filter((event) =>
-    moment().isAfter(moment(event.startTime))
+    moment().isAfter(moment(event.startTime)),
   );
 
   const companyInfo = [
@@ -153,7 +153,7 @@ const CompanyDetail = ({
                       )
                     }
                   />
-                )
+                ),
             )}
           </ContentSidebar>
         )}

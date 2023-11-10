@@ -74,9 +74,9 @@ export function uploadFile({
               fileToken: action.payload.file_token,
               errorMessage: 'Filopplasting feilet',
             },
-          })
+          }),
         );
-      }
+      },
     );
 }
 export function fetchImageGallery({
@@ -100,7 +100,7 @@ export function fetchImageGallery({
 export function setSaveForUse(
   key: string,
   token: string,
-  saveForUse: boolean
+  saveForUse: boolean,
 ): Thunk<Promise<any>> {
   return (dispatch) =>
     dispatch(
@@ -113,6 +113,6 @@ export function setSaveForUse(
           errorMessage: 'Endring av hendelse feilet',
           id: key,
         },
-      })
+      }),
     );
 }

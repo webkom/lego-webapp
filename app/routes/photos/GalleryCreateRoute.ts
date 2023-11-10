@@ -15,5 +15,5 @@ const mapDispatchToProps = {
   push,
 };
 export default compose(connect(mapStateToProps, mapDispatchToProps))(
-  GalleryEditor
+  GalleryEditor,
 );

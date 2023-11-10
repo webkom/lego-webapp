@@ -38,8 +38,8 @@ export default compose(
         dispatch(fetchGroup(Number(props.match.params.interestGroupId))),
         dispatch(fetchAllMemberships(props.match.params.interestGroupId)),
       ]),
-    (props) => [props.match.params.interestGroupId]
+    (props) => [props.match.params.interestGroupId],
   ),
   connect(mapStateToProps, mapDispatchToProps),
-  loadingIndicator(['group'])
+  loadingIndicator(['group']),
 )(InterestGroupDetail);

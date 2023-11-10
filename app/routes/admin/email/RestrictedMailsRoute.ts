@@ -16,7 +16,7 @@ const mapDispatchToProps = {
 };
 export default compose(
   withPreparedDispatch('fetchRestrictedMails', (props, dispatch) =>
-    dispatch(fetch())
+    dispatch(fetch()),
   ),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
 )(RestrictedMails);

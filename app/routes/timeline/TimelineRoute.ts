@@ -23,7 +23,7 @@ const mapStateToProps = (state: Record<string, any>) => ({
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
   withPreparedDispatch('fetchTimeline', (_, dispatch) =>
-    dispatch(fetchPersonalFeed())
+    dispatch(fetchPersonalFeed()),
   ),
-  connect(mapStateToProps)
+  connect(mapStateToProps),
 )(TimelinePage);

@@ -13,7 +13,7 @@ export type Props = {
     },
     arg1: {
       noRedirect: boolean;
-    }
+    },
   ) => Promise<any>;
   invalid: boolean;
   pristine: boolean;
@@ -37,8 +37,8 @@ const UpdateAllergies = ({
         },
         {
           noRedirect: true,
-        }
-      )
+        },
+      ),
     )}
     style={{
       marginBottom: '20px',

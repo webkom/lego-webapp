@@ -56,7 +56,7 @@ const QuoteList = ({
           key={quote.id}
           toggleDisplayAdmin={() =>
             setDisplayAdminId(
-              quote.id === displayAdminId ? undefined : quote.id
+              quote.id === displayAdminId ? undefined : quote.id,
             )
           }
           displayAdmin={quote.id === displayAdminId}

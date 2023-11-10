@@ -43,7 +43,7 @@ export default compose(
     'fetchQuoteDetail',
     (props, dispatch) =>
       dispatch(fetchQuote(props.match.params.quoteId), fetchEmojis()),
-    (props) => [props.match.params.quoteId]
+    (props) => [props.match.params.quoteId],
   ),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
 )(QuotePage);

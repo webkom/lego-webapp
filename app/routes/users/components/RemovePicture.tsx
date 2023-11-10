@@ -22,7 +22,7 @@ export default class RemovePicture extends Component<Props, State> {
       this.props.removePicture(this.props.username).then(() =>
         this.setState({
           selected: false,
-        })
+        }),
       );
   };
   toggleSelected = () =>

@@ -57,5 +57,5 @@ const mapDispatchToProps = (dispatch, { eventId }) => {
 
 export default compose(
   withPreparedDispatch('fetchEventAbacard', loadData),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
 )(Abacard);

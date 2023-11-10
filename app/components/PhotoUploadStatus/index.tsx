@@ -66,11 +66,11 @@ const UploadStatusCard = ({
               {uploadStatus.failedImages.map(
                 (
                   name,
-                  index // Since we never remove elements from the list, we can use
+                  index, // Since we never remove elements from the list, we can use
                 ) => (
                   // the index as the key,
                   <Flex key={index}>{name}</Flex>
-                )
+                ),
               )}
             </Flex>
           }
@@ -119,6 +119,6 @@ const mapDispatchToProps = (dispatch) => ({
 
 const ConnectedUploadStatusCard = connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(UploadStatusCard);
 export default ConnectedUploadStatusCard;

@@ -38,7 +38,7 @@ export function fetchAll(): Thunk<any> {
 }
 export function updatePage(
   slug: string,
-  body: Record<string, any>
+  body: Record<string, any>,
 ): Thunk<any> {
   return callAPI({
     types: Page.UPDATE,

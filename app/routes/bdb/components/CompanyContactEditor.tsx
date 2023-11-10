@@ -15,7 +15,7 @@ import type {
 type Props = {
   submitFunction: (
     arg0: CompanyContactEntity,
-    arg1: Record<string, any> | null | undefined
+    arg1: Record<string, any> | null | undefined,
   ) => Promise<any>;
   handleSubmit: (arg0: (arg0: CompanyContactEntity) => Promise<any>) => void;
   company: CompanyEntity;
@@ -37,7 +37,7 @@ class CompanyContactEditor extends Component<Props> {
       },
       {
         detail: true,
-      }
+      },
     );
   };
 

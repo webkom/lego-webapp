@@ -22,5 +22,5 @@ export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   legoForm({
     form: 'page-create',
-  })
+  }),
 )(PageEditor);

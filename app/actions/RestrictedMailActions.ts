@@ -16,7 +16,7 @@ export function fetchRestrictedMail(restrictedMailId: EntityID): Thunk<any> {
   });
 }
 export function createRestrictedMail(
-  restrictedMail: RestrictedMailEntity
+  restrictedMail: RestrictedMailEntity,
 ): Thunk<any> {
   return callAPI({
     types: RestrictedMail.CREATE,
@@ -46,7 +46,7 @@ export function fetch({
           errorMessage: 'Henting av begrensete e-poster feilet',
         },
         propagateError: true,
-      })
+      }),
     );
   };
 }

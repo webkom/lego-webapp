@@ -46,7 +46,7 @@ const mutateQuote = produce(
             paginationEntry.query.approved === 'true'
           ) {
             paginationEntry.items = paginationEntry.items.filter(
-              (item) => item !== action.meta.quoteId
+              (item) => item !== action.meta.quoteId,
             );
           }
         });
@@ -65,7 +65,7 @@ const mutateQuote = produce(
             paginationEntry.query.approved === 'false'
           ) {
             paginationEntry.items = paginationEntry.items.filter(
-              (item) => item !== action.meta.quoteId
+              (item) => item !== action.meta.quoteId,
             );
           }
         });
@@ -78,11 +78,11 @@ const mutateQuote = produce(
       default:
         break;
     }
-  }
+  },
 );
 const mutate = joinReducers(
   mutateReactions<QuoteType, QuoteEntityReducerState>('quotes'),
-  mutateQuote
+  mutateQuote,
 );
 
 export default createEntityReducer<QuoteEntityReducerState>({
@@ -100,8 +100,8 @@ export const selectQuotes = createSelector(
   (_, props) => props?.pagination,
   (quotesById, items, pagination) =>
     (pagination ? pagination.items : items).map(
-      (quoteId) => quotesById[quoteId]
-    )
+      (quoteId) => quotesById[quoteId],
+    ),
 );
 export const selectQuoteById = createSelector(
   selectQuotes,
@@ -109,7 +109,7 @@ export const selectQuoteById = createSelector(
   (quotes, quoteId) => {
     if (!quotes || !quoteId) return {};
     return quotes.find((quote) => Number(quote.id) === Number(quoteId));
-  }
+  },
 );
 export const selectRandomQuote = createSelector(
   (state) => state.quotes.byId,
@@ -117,5 +117,5 @@ export const selectRandomQuote = createSelector(
   (quotes, randomQuoteId) => {
     if (!quotes || !randomQuoteId) return {};
     return quotes[randomQuoteId];
-  }
+  },
 );

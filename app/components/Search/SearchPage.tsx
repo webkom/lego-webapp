@@ -20,19 +20,19 @@ type Props<T> = {
 };
 
 const SearchPage = <SearchType extends SearchResult>(
-  props: Props<SearchType>
+  props: Props<SearchType>,
 ) => {
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
   const [query, setQuery] = useState<unknown>(
     qs.parse(props.location.search, {
       ignoreQueryPrefix: true,
-    }).q || ''
+    }).q || '',
   );
   useEffect(() => {
     // Make sure the selectedIndex is within 0 <= index < results.length:
     const adjustedSelectedIndex = Math.min(
       selectedIndex,
-      Math.max(props.results.length - 1, 0)
+      Math.max(props.results.length - 1, 0),
     );
     setSelectedIndex(adjustedSelectedIndex);
   }, [props.results, selectedIndex, setSelectedIndex]);

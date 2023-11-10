@@ -20,7 +20,7 @@ const mapStateToProps = (state) => ({
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
   withPreparedDispatch('fetchInterestGroupList', (props, dispatch) =>
-    dispatch(fetchAllWithType(groupType))
+    dispatch(fetchAllWithType(groupType)),
   ),
-  connect(mapStateToProps, {})
+  connect(mapStateToProps, {}),
 )(InterestGroupList);

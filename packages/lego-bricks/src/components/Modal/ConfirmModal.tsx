@@ -100,7 +100,7 @@ const ConfirmModal = ({
         setWorking(false);
         setErrorMessage(
           (error as { meta?: { errorMessage: string } })?.meta?.errorMessage ||
-            'Det skjedde en feil...'
+            'Det skjedde en feil...',
         );
         throw error;
       }

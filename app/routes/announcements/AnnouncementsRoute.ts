@@ -30,7 +30,7 @@ const mapDispatchToProps = {
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
   withPreparedDispatch('fetchAnnouncements', (props, dispatch) =>
-    dispatch(fetchAll())
+    dispatch(fetchAll()),
   ),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
 )(AnnouncementsList);

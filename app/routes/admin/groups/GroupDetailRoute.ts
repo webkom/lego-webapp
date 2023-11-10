@@ -21,7 +21,7 @@ export default compose(
   withPreparedDispatch(
     'fetchGroupDetail',
     (props, dispatch) => dispatch(fetchGroup(props.match.params.groupId)),
-    (props) => [props.match.params.groupId]
+    (props) => [props.match.params.groupId],
   ),
-  connect(mapStateToProps, {})
+  connect(mapStateToProps, {}),
 )(GroupView);

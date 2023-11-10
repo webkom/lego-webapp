@@ -18,10 +18,10 @@ export const statusStrings = {
   not_contacted: 'Ikke kontaktet',
 };
 export const getStatusString = (
-  status: CompanySemesterContactedStatus = 'not_contacted'
+  status: CompanySemesterContactedStatus = 'not_contacted',
 ) => statusStrings[status];
 export const selectColorCode = (
-  status: CompanySemesterContactedStatus = 'not_contacted'
+  status: CompanySemesterContactedStatus = 'not_contacted',
 ) => {
   const statusToClass = {
     bedex: 'bedex',
@@ -48,11 +48,11 @@ const priority = {
   not_contacted: 8,
 };
 export const sortStatusesByProminence = (
-  statuses: Array<CompanySemesterContactedStatus>
+  statuses: Array<CompanySemesterContactedStatus>,
 ): CompanySemesterContactedStatus[] =>
   sortBy(statuses, (status) => priority[status]);
 export const selectMostProminentStatus = (
-  statuses: Array<CompanySemesterContactedStatus> = []
+  statuses: Array<CompanySemesterContactedStatus> = [],
 ) => {
   return sortStatusesByProminence(statuses)[0];
 };
@@ -72,7 +72,7 @@ export const semesterCodeToName = (code: Semester) => {
 };
 export const sortByYearThenSemester = (
   a: CompanySemesterEntity,
-  b: CompanySemesterEntity
+  b: CompanySemesterEntity,
 ): number => {
   const semesterCodeToPriority = {
     spring: 0,
@@ -86,7 +86,7 @@ export const indexToSemester = (
   index: number,
   startYear: number,
   startSem: number,
-  companySemesters?: Array<CompanySemesterEntity>
+  companySemesters?: Array<CompanySemesterEntity>,
 ) => {
   const semester = semesterNameOf(((index % 2) + startSem) % 2);
   let year = 0;
@@ -105,7 +105,8 @@ export const indexToSemester = (
     (companySemesters &&
       companySemesters.find(
         (companySemester) =>
-          companySemester.year === year && companySemester.semester === semester
+          companySemester.year === year &&
+          companySemester.semester === semester,
       )) || {
       year,
       semester,
@@ -121,7 +122,7 @@ export const httpCheck = (link: string) => {
 };
 export const getContactedStatuses = (
   contactedStatuses: Array<CompanySemesterContactedStatus>,
-  statusString: CompanySemesterContactedStatus
+  statusString: CompanySemesterContactedStatus,
 ) => {
   const contacted: Array<CompanySemesterContactedStatus> =
     contactedStatuses.slice();

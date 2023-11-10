@@ -70,7 +70,7 @@ const mapStateToProps = (state, props) => {
                 optionText: '',
               }),
             questionType: mappings.find(
-              ({ value }) => value === question.questionType
+              ({ value }) => value === question.questionType,
             ),
           })),
       };
@@ -102,5 +102,5 @@ export default compose(
     props.location.search,
   ]),
   connect(mapStateToProps, mapDispatchToProps),
-  loadingIndicator(['notFetching'])
+  loadingIndicator(['notFetching']),
 )(SurveyEditor);

@@ -37,7 +37,7 @@ export default createEntityReducer({
         newState.byId = mergeObjects(newState.byId, users);
         newState.items = union(
           newState.items,
-          (Object.values(users) as any).map((u) => u.id)
+          (Object.values(users) as any).map((u) => u.id),
         );
         break;
       }
@@ -50,7 +50,7 @@ export default createEntityReducer({
         newState.byId = mergeObjects(newState.byId, users);
         newState.items = union(
           newState.items,
-          (Object.values(users) as any).map((u) => u.id)
+          (Object.values(users) as any).map((u) => u.id),
         );
         break;
       }
@@ -63,13 +63,13 @@ export default createEntityReducer({
 export const selectUserById = createSelector(
   (state) => state.users.byId,
   (state, props) => props.userId,
-  (usersById, userId) => usersById[userId] || {}
+  (usersById, userId) => usersById[userId] || {},
 );
 
 export const selectUserByUsername = createSelector(
   (state) => state.users.byId,
   (state, props) => props.username,
-  (usersById, username) => find(usersById, ['username', username])
+  (usersById, username) => find(usersById, ['username', username]),
 );
 export const selectUserWithGroups = createSelector(
   (
@@ -80,7 +80,7 @@ export const selectUserWithGroups = createSelector(
     }: {
       username?: string;
       userId?: string;
-    }
+    },
   ) =>
     username
       ? selectUserByUsername(state, {
@@ -98,5 +98,5 @@ export const selectUserWithGroups = createSelector(
         ? user.abakusGroups.map((groupId) => groupsById[groupId])
         : [],
     };
-  }
+  },
 );

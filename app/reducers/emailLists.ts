@@ -34,7 +34,7 @@ export const selectEmailLists = createSelector(
   (emailListsById, emailListIds, pagination) =>
     (pagination ? pagination.items : emailListIds)
       .map((id) => emailListsById[id])
-      .filter(Boolean)
+      .filter(Boolean),
 );
 export const selectEmailListById = createSelector(
   (state) => state.emailLists.byId,
@@ -53,5 +53,5 @@ export const selectEmailListById = createSelector(
       groups: emailList.groups.map((groupId) => groupsById[groupId]),
       users: emailList.users.map((userId) => usersById[userId]),
     };
-  }
+  },
 );

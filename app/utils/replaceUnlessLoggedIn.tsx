@@ -5,7 +5,7 @@ type LoginProps = {
 };
 
 export default function replaceUnlessLoggedIn<Props extends LoginProps>(
-  ReplacementComponent: ComponentType<Props>
+  ReplacementComponent: ComponentType<Props>,
 ): (ActualComponent: ComponentType<Props>) => ComponentType<Props> {
   return (ActualComponent) => {
     const ReplaceUnlessLoggedIn = (props: Props) => {

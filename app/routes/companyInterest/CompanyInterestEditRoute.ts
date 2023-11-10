@@ -45,7 +45,7 @@ const mapStateToProps = (state, props) => {
   const participantRange =
     allParticipantRanges.filter(
       (p) =>
-        PARTICIPANT_RANGE_MAP[p][0] === companyInterest.participantRangeStart
+        PARTICIPANT_RANGE_MAP[p][0] === companyInterest.participantRangeStart,
     ) || null;
 
   return {
@@ -126,7 +126,7 @@ export default compose(
     Promise.all([
       dispatch(fetchSemesters()),
       dispatch(fetchCompanyInterest(props.match.params.companyInterestId)),
-    ])
+    ]),
   ),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
 )(CompanyInterestPage);

@@ -45,8 +45,8 @@ const mapDispatchToProps = {
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
   withPreparedDispatch('fetchPollsDetail', (props, dispatch) =>
-    dispatch(fetchPoll(props.match.params.pollsId))
+    dispatch(fetchPoll(props.match.params.pollsId)),
   ),
   connect(mapStateToProps, mapDispatchToProps),
-  loadingIndicator(['poll.id'])
+  loadingIndicator(['poll.id']),
 )(PollDetail);

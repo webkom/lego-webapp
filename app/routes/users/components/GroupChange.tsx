@@ -37,7 +37,7 @@ class GroupChange extends Component<Props, State> {
       .then(() =>
         this.setState({
           selectedOption: null,
-        })
+        }),
       );
   handleChange = (selectedOption: Option): void => {
     this.setState({

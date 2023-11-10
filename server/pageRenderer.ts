@@ -49,9 +49,9 @@ const readyHtml = (app) => {
     } = JSON.parse(
       fs
         .readFileSync(
-          path.join(webpackClient.outputPath, 'webpack-assets.json')
+          path.join(webpackClient.outputPath, 'webpack-assets.json'),
         )
-        .toString()
+        .toString(),
     );
     const styles = [appStyles && appStyles.css]
       .filter(Boolean)
@@ -77,7 +77,7 @@ const analytics = __DEV__
   ? '' // The .replace() removes the protocol (https://) part of the url, leaving just the domain
   : `<script defer data-domain=${config.webUrl.replace(
       /(^\w+:|^)\/\//,
-      ''
+      '',
     )} src="https://ls.webkom.dev/js/script.js"></script>`;
 
 export default function pageRenderer({
@@ -93,7 +93,7 @@ export default function pageRenderer({
   return `
     <!DOCTYPE html>
     <html data-theme=${serialize(
-      selectedTheme === 'auto' ? 'light' : selectedTheme
+      selectedTheme === 'auto' ? 'light' : selectedTheme,
     )}>
       <head>
         <meta charset="utf-8">

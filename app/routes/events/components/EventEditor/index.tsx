@@ -388,7 +388,7 @@ function EventEditor({
               options={eventStatusTypes}
             />
             {['NORMAL', 'INFINITE'].includes(
-              event.eventStatusType && event.eventStatusType.value
+              event.eventStatusType && event.eventStatusType.value,
             ) && (
               <Field
                 label="Betalt arrangement"
@@ -454,7 +454,7 @@ function EventEditor({
               </div>
             )}
             {['NORMAL', 'INFINITE'].includes(
-              event.eventStatusType && event.eventStatusType.value
+              event.eventStatusType && event.eventStatusType.value,
             ) && (
               <Field
                 label="Bruk prikker"
@@ -466,7 +466,7 @@ function EventEditor({
               />
             )}
             {['NORMAL', 'INFINITE'].includes(
-              event.eventStatusType && event.eventStatusType.value
+              event.eventStatusType && event.eventStatusType.value,
             ) &&
               event.heedPenalties && (
                 <div className={styles.subSection}>
@@ -482,7 +482,7 @@ function EventEditor({
                 </div>
               )}
             {['NORMAL', 'INFINITE'].includes(
-              event.eventStatusType && event.eventStatusType.value
+              event.eventStatusType && event.eventStatusType.value,
             ) && (
               <Field
                 label="Separat avregistregistreringsfrist"
@@ -495,7 +495,7 @@ function EventEditor({
               />
             )}
             {['NORMAL', 'INFINITE'].includes(
-              event.eventStatusType && event.eventStatusType.value
+              event.eventStatusType && event.eventStatusType.value,
             ) &&
               event.separateDeadlines && (
                 <div className={styles.subSection}>
@@ -512,7 +512,7 @@ function EventEditor({
                 </div>
               )}
             {['NORMAL', 'INFINITE'].includes(
-              event.eventStatusType && event.eventStatusType.value
+              event.eventStatusType && event.eventStatusType.value,
             ) && (
               <>
                 <Field
@@ -532,7 +532,7 @@ function EventEditor({
               </>
             )}
             {['NORMAL', 'INFINITE'].includes(
-              event.eventStatusType && event.eventStatusType.value
+              event.eventStatusType && event.eventStatusType.value,
             ) && (
               <Field
                 label="Samtykke til bilder"
@@ -545,7 +545,7 @@ function EventEditor({
               />
             )}
             {['NORMAL', 'INFINITE'].includes(
-              event.eventStatusType && event.eventStatusType.value
+              event.eventStatusType && event.eventStatusType.value,
             ) && (
               <Field
                 label="Informasjon kan deles til smittesporing"
@@ -559,7 +559,7 @@ function EventEditor({
               />
             )}
             {['NORMAL', 'INFINITE'].includes(
-              event.eventStatusType && event.eventStatusType.value
+              event.eventStatusType && event.eventStatusType.value,
             ) && (
               <Field
                 label="Påmeldingsspørsmål"
@@ -572,7 +572,7 @@ function EventEditor({
               />
             )}
             {['NORMAL', 'INFINITE'].includes(
-              event.eventStatusType && event.eventStatusType.value
+              event.eventStatusType && event.eventStatusType.value,
             ) &&
               event.hasFeedbackQuestion && (
                 <div className={styles.subSection}>
@@ -595,7 +595,7 @@ function EventEditor({
                 </div>
               )}
             {['NORMAL', 'INFINITE'].includes(
-              event.eventStatusType && event.eventStatusType.value
+              event.eventStatusType && event.eventStatusType.value,
             ) && (
               <Flex column>
                 <h3>Pools</h3>
@@ -697,7 +697,7 @@ type ValidationError<T> = Partial<{
 const validate = (data) => {
   const errors: ValidationError<EditingEvent> = {};
   const [isValidYoutubeUrl, errorMessage = ''] = validYoutubeUrl()(
-    data.youtubeUrl
+    data.youtubeUrl,
   );
 
   if (!isValidYoutubeUrl) {
@@ -783,7 +783,7 @@ const validate = (data) => {
       .map((pool) => pool.activationDate)
       .some(
         (activation) =>
-          data.mergeTime && moment(activation).isAfter(data.mergeTime)
+          data.mergeTime && moment(activation).isAfter(data.mergeTime),
       );
 
   if (mergeTimeError) {

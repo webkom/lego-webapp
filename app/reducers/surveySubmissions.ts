@@ -37,7 +37,7 @@ const mutateSurveySubmissions = produce(
       default:
         break;
     }
-  }
+  },
 );
 export default createEntityReducer({
   key: 'surveySubmissions',
@@ -58,13 +58,13 @@ export const selectSurveySubmissions = createSelector(
         const submission = surveySubmissionsById[surveySubmissionId];
         return { ...submission, user: usersById[submission.user] };
       })
-      .filter((surveySubmission) => surveySubmission.survey === surveyId)
+      .filter((surveySubmission) => surveySubmission.survey === surveyId),
 );
 export const selectSurveySubmissionForUser = createSelector(
   (state, props) => selectSurveySubmissions(state, props),
   (state, props) => props.currentUser,
   (submissionsById, user) =>
     submissionsById.find(
-      (surveySubmission) => surveySubmission.user.id === user.id
-    )
+      (surveySubmission) => surveySubmission.user.id === user.id,
+    ),
 );

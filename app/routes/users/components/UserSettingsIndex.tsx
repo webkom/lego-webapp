@@ -51,7 +51,7 @@ const UserSettingsIndex = (props: Props) => {
       </NavigationTab>
       {props.children &&
         props.children.map((child) =>
-          cloneElement(child, { ...omit(props, 'match'), children: undefined })
+          cloneElement(child, { ...omit(props, 'match'), children: undefined }),
         )}
     </Content>
   );

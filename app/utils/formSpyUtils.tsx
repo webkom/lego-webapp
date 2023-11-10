@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 import type { FormSpyRenderProps } from 'react-final-form';
 
 export const spyValues = <FormValues,>(
-  render: (values: FormValues) => ReactNode
+  render: (values: FormValues) => ReactNode,
 ) => (
   <FormSpy
     subscription={{

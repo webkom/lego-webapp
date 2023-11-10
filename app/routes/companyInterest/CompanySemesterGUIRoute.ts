@@ -33,7 +33,7 @@ const mapDispatchToProps = {
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
   withPreparedDispatch('fetchCompanySemesterGUI', (props, dispatch) =>
-    dispatch(fetchSemesters())
+    dispatch(fetchSemesters()),
   ),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
 )(CompanySemesterGUI);

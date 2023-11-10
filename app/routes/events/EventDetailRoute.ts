@@ -117,15 +117,15 @@ const mapStateToProps = (state, props) => {
       : poolsWithRegistrations;
   const currentPool = pools.find((pool) =>
     pool.registrations.some(
-      (registration) => registration.user.id === currentUser.id
-    )
+      (registration) => registration.user.id === currentUser.id,
+    ),
   );
   let currentRegistration;
   let currentRegistrationIndex;
 
   if (currentPool) {
     currentRegistrationIndex = currentPool.registrations.findIndex(
-      (registration) => registration.user.id === currentUser.id
+      (registration) => registration.user.id === currentUser.id,
     );
     currentRegistration = currentPool.registrations[currentRegistrationIndex];
   }
@@ -216,9 +216,9 @@ export default compose(
   withPreparedDispatch(
     'fetchEventDetail',
     (props, dispatch) => dispatch(fetchEvent(props.match.params.eventIdOrSlug)),
-    (props) => [props.match.params.eventIdOrSlug]
+    (props) => [props.match.params.eventIdOrSlug],
   ),
   connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['notLoading', 'event.text']),
-  helmet(propertyGenerator)
+  helmet(propertyGenerator),
 )(EventDetail);

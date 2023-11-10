@@ -21,7 +21,7 @@ type Params = { username: string };
 
 const mapStateToProps = (
   state: RootState,
-  props: RouteChildrenProps<Params>
+  props: RouteChildrenProps<Params>,
 ) => {
   const {
     match: { params },
@@ -52,8 +52,8 @@ const mapDispatchToProps = {
 };
 export default compose(
   withPreparedDispatch('fetchUserSettings', (props, dispatch) =>
-    dispatch(fetchUser(props.match.params.username))
+    dispatch(fetchUser(props.match.params.username)),
   ),
   connect(mapStateToProps, mapDispatchToProps),
-  loadingIndicator(['user'])
+  loadingIndicator(['user']),
 )(UserSettings);

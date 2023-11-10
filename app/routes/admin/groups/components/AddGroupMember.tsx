@@ -67,7 +67,7 @@ export default legoForm({
       };
     },
     dispatch,
-    props: Props
+    props: Props,
   ) =>
     props
       .addMember({

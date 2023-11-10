@@ -27,7 +27,7 @@ export function fetchCompanyInterest(companyInterestId: number): Thunk<any> {
 }
 export function createCompanyInterest(
   data: CompanyInterestEntity,
-  isEnglish: boolean
+  isEnglish: boolean,
 ): Thunk<any> {
   return (dispatch) => {
     return dispatch(
@@ -40,15 +40,15 @@ export function createCompanyInterest(
         meta: {
           errorMessage: 'Opprette bedriftsinteresse feilet',
         },
-      })
+      }),
     ).then(() =>
       dispatch(
         addToast({
           message: isEnglish
             ? 'Submission successful!'
             : 'Bedriftsinteresse opprettet!',
-        })
-      )
+        }),
+      ),
     );
   };
 }
@@ -63,19 +63,19 @@ export function deleteCompanyInterest(id: number): Thunk<any> {
           id,
           errorMessage: 'Fjerning av bedriftsinteresse feilet!',
         },
-      })
+      }),
     ).then(() =>
       dispatch(
         addToast({
           message: 'Bedriftsinteresse fjernet!',
-        })
-      )
+        }),
+      ),
     );
   };
 }
 export function updateCompanyInterest(
   id: number,
-  data: CompanyInterestEntity
+  data: CompanyInterestEntity,
 ): Thunk<any> {
   return (dispatch) => {
     return dispatch(
@@ -88,13 +88,13 @@ export function updateCompanyInterest(
           companyInterestId: id,
           errorMessage: 'Endring av bedriftsinteresse feilet!',
         },
-      })
+      }),
     ).then(() =>
       dispatch(
         addToast({
           message: 'Bedriftsinteresse endret!',
-        })
-      )
+        }),
+      ),
     );
   };
 }
@@ -117,7 +117,7 @@ export function fetch({
           errorMessage: 'Henting av bedriftsinteresser feilet',
         },
         propagateError: true,
-      })
+      }),
     );
   };
 }

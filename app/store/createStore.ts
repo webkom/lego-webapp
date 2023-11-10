@@ -23,7 +23,7 @@ const createStore = (
   }: {
     Sentry?: any;
     getCookie?: GetCookie;
-  } = {}
+  } = {},
 ) => {
   const store = configureStore({
     preloadedState: initialState,
@@ -48,13 +48,13 @@ const createStore = (
                 addToast({
                   message,
                 }),
-              Sentry
+              Sentry,
             ),
             Sentry && createSentryMiddleware(Sentry),
             __CLIENT__ &&
               require('app/store/middleware/websocketMiddleware').default(),
             __CLIENT__ && __DEV__ && loggerMiddleware,
-          ].filter(Boolean)
+          ].filter(Boolean),
         ),
   });
 

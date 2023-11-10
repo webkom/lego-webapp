@@ -66,9 +66,9 @@ export default compose(
           params: { articleId },
         },
       },
-      dispatch
-    ) => dispatch(fetchArticle(articleId))
+      dispatch,
+    ) => dispatch(fetchArticle(articleId)),
   ),
   connect(mapStateToProps, mapDispatchToProps),
-  loadingIndicator(['article.content'])
+  loadingIndicator(['article.content']),
 )(ArticleEditor);

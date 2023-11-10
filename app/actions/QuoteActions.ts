@@ -98,7 +98,7 @@ export function addQuotes({
         meta: {
           errorMessage: 'Legg til quote feilet',
         },
-      })
+      }),
     ).then(() => {
       dispatch(stopSubmit('addQuote'));
       dispatch(push('/quotes'));
@@ -107,7 +107,7 @@ export function addQuotes({
           message:
             'Sitat sendt inn. Hvis det blir godkjent vil det dukke opp her!',
           dismissAfter: 10000,
-        })
+        }),
       );
     });
   };

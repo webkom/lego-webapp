@@ -18,7 +18,7 @@ function filterJoblistings(
   joblistings: ListJoblisting[],
   grades: string[],
   jobTypes: string[],
-  workplaces: string[]
+  workplaces: string[],
 ) {
   return joblistings.filter((joblisting) => {
     const gradeBoolean =
@@ -26,7 +26,7 @@ function filterJoblistings(
       grades.find(
         (grade) =>
           joblisting.fromYear <= Number(grade) &&
-          joblisting.toYear >= Number(grade)
+          joblisting.toYear >= Number(grade),
       );
     const jobTypesBoolean =
       jobTypes.length === 0 ||
@@ -34,12 +34,12 @@ function filterJoblistings(
     const workplacesBoolean =
       workplaces.length === 0 ||
       joblisting.workplaces.some((workplace) =>
-        workplaces.includes(workplace.town)
+        workplaces.includes(workplace.town),
       ) ||
       (workplaces.includes('Annet') &&
         joblisting.workplaces.some(
           (workplace) =>
-            !['Oslo', 'Trondheim', 'Bergen', 'Tromsø'].includes(workplace.town)
+            !['Oslo', 'Trondheim', 'Bergen', 'Tromsø'].includes(workplace.town),
         )) ||
       (workplaces.includes('Annet') && joblisting.workplaces.length === 0);
     return gradeBoolean && jobTypesBoolean && workplacesBoolean;
@@ -81,16 +81,16 @@ const sortJoblistings = (joblistings, sortType) => {
 const mapStateToProps = (state, props) => {
   const { order, grades, jobTypes, workplaces } = parseQueryString(
     props.location.search,
-    defaultJoblistingsQuery
+    defaultJoblistingsQuery,
   );
   const joblistings = state.joblistings.items.map(
-    (id) => state.joblistings.byId[id]
+    (id) => state.joblistings.byId[id],
   );
   const filteredJoblistings = filterJoblistings(
     joblistings,
     grades,
     jobTypes,
-    workplaces
+    workplaces,
   );
   const sortedJoblistings = sortJoblistings(filteredJoblistings, order);
   const actionGrant = state.joblistings.actionGrant || [];
@@ -105,7 +105,7 @@ const mapDispatchToProps = {
 };
 export default compose(
   withPreparedDispatch('fetchJoblisting', (props, dispatch) =>
-    dispatch(fetchAll())
+    dispatch(fetchAll()),
   ),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
 )(JoblistingPage);

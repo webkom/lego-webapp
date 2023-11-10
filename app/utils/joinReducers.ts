@@ -3,7 +3,7 @@ import type { AnyAction } from '@reduxjs/toolkit';
 // Don't allow passing in undefined state
 export type StrictReducer<State, Action = AnyAction> = (
   state: State,
-  action: Action
+  action: Action,
 ) => State;
 
 /**

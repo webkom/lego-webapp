@@ -51,16 +51,16 @@ export default compose(
           dispatch(
             fetchUserSubmission(
               props.match.params.surveyId,
-              props.currentUser.id
-            )
+              props.currentUser.id,
+            ),
           ),
       ]),
     (props) => [
       props.match.params.surveyId,
       props.currentUser.id,
       props.notFetching,
-    ]
+    ],
   ),
   connect(mapStateToProps, mapDispatchToProps),
-  loadingIndicator(['survey.questions', 'survey.event'])
+  loadingIndicator(['survey.questions', 'survey.event']),
 )(SubmissionContainer);

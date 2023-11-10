@@ -70,7 +70,7 @@ export default compose(
         dispatch(fetchArticle(props.match.params.articleIdOrSlug)),
         dispatch(fetchEmojis()),
       ]),
-    (props) => [props.match.params.articleIdOrSlug]
+    (props) => [props.match.params.articleIdOrSlug],
   ),
   connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['article.content']),
@@ -130,5 +130,5 @@ export default compose(
       ...authors,
       ...tags,
     ];
-  })
+  }),
 )(ArticleDetail);

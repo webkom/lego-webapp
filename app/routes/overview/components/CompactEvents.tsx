@@ -24,7 +24,7 @@ export default class CompactEvents extends Component<Props> {
         .filter(
           (event) =>
             moment(event.endTime).isAfter() &&
-            eventTypes.includes(event.eventType)
+            eventTypes.includes(event.eventType),
         )
         .slice(0, 5)
         .map((event, key) => (
@@ -91,7 +91,7 @@ export default class CompactEvents extends Component<Props> {
                   {
                     eventTypes: ['company_presentation', 'course'],
                   },
-                  eventListDefaultQuery
+                  eventListDefaultQuery,
                 ),
               }}
             >
@@ -107,7 +107,7 @@ export default class CompactEvents extends Component<Props> {
                   {
                     eventTypes: ['social', 'other'],
                   },
-                  eventListDefaultQuery
+                  eventListDefaultQuery,
                 ),
               }}
             >

@@ -33,7 +33,7 @@ const mapStateToProps = (state, props) => {
 
 export default compose(
   withPreparedDispatch('fetchAdministrate', ({ match }, dispatch) =>
-    dispatch(fetchAdministrate(Number(match.params.eventId)))
+    dispatch(fetchAdministrate(Number(match.params.eventId))),
   ),
-  connect(mapStateToProps)
+  connect(mapStateToProps),
 )(EventAdministrateIndex);

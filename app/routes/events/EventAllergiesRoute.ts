@@ -23,7 +23,7 @@ const mapStateToProps = (state, props) => {
 
 export default compose(
   withPreparedDispatch('fetchAllergies', ({ match }, dispatch) =>
-    dispatch(fetchAllergies(Number(match.params.eventId)))
+    dispatch(fetchAllergies(Number(match.params.eventId))),
   ),
-  connect(mapStateToProps)
+  connect(mapStateToProps),
 )(Allergies);

@@ -21,7 +21,7 @@ const loadData = (props, dispatch) => {
       fetchList({
         dateAfter: dateAfter.format('YYYY-MM-DD'),
         dateBefore: dateBefore.format('YYYY-MM-DD'),
-      })
+      }),
     );
   }
 };
@@ -45,5 +45,5 @@ export default compose(
     props.match.params.year,
     props.match.params.month,
   ]),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
 )(Calendar);

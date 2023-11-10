@@ -23,5 +23,5 @@ const mapDispatchToProps = {
 };
 export default compose(
   connect(() => ({}), mapDispatchToProps),
-  loadingIndicator(['group'])
+  loadingIndicator(['group']),
 )(GroupSettings);

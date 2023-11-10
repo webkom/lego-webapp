@@ -53,20 +53,20 @@ const Overview = (props: Props) => {
           (item) =>
             item.id !== pinned.id &&
             isEvent(item) &&
-            moment(item.startTime).isAfter(moment())
+            moment(item.startTime).isAfter(moment()),
         )
         .slice(0, eventsToShow),
-    [events, eventsToShow, pinned]
+    [events, eventsToShow, pinned],
   );
 
   const articles = useMemo(
     () => frontpage.filter(isArticle) as WithDocumentType<PublicArticle>[],
-    [frontpage]
+    [frontpage],
   );
 
   const weeklyArticle = useMemo(
     () => articles.filter((article) => article.tags.includes('weekly'))[0],
-    [articles]
+    [articles],
   );
 
   const articlesShown = useMemo(
@@ -75,7 +75,7 @@ const Overview = (props: Props) => {
         .filter((article) => !article.tags.includes('weekly'))
         .filter((article) => article.id !== pinned.id)
         .slice(0, articlesToShow),
-    [articles, articlesToShow, pinned]
+    [articles, articlesToShow, pinned],
   );
 
   const pinnedComponent = pinned && (

@@ -37,7 +37,7 @@ function CommentTree({
     const className = cx(
       styles.commentTree,
       isChild && level < 3 && styles.nested,
-      isChild ? styles.child : styles.root
+      isChild ? styles.child : styles.root,
     );
 
     if (comment.children.length) {

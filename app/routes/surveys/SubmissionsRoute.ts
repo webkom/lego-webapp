@@ -37,7 +37,7 @@ const loadData = (props, dispatch) => {
 
 const mapStateToProps = (
   state: RootState,
-  props: RouteChildrenProps<{ surveyId: string }>
+  props: RouteChildrenProps<{ surveyId: string }>,
 ) => {
   const surveyId = Number(props.match.params.surveyId);
   const locationStrings = props.location.pathname.split('/');
@@ -82,5 +82,5 @@ export default compose(
   replaceUnlessLoggedIn(LoginPage),
   withPreparedDispatch('fetchSubmissions', loadData),
   connect(mapStateToProps, mapDispatchToProps),
-  loadingIndicator(['notFetching', 'survey.event', 'survey.questions'])
+  loadingIndicator(['notFetching', 'survey.event', 'survey.questions']),
 )(SubmissionPage);

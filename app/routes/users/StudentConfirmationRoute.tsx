@@ -23,5 +23,5 @@ const mapDispatchToProps = {
   updateUser,
 };
 export default compose(connect(mapStateToProps, mapDispatchToProps))(
-  StudentConfirmationRoute
+  StudentConfirmationRoute,
 );

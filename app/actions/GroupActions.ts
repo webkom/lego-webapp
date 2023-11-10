@@ -99,17 +99,17 @@ export function editGroup(group: Record<string, any>): Thunk<any> {
               ? 'Endring av interessegruppe fullført'
               : 'Oppdatering av gruppe fullført',
         },
-      })
+      }),
     ).then(() =>
       group.type === 'interesse'
         ? dispatch(push(`/interest-groups/${group.id}`))
-        : null
+        : null,
     );
 }
 export function joinGroup(
   groupId: number,
   user: Record<string, any>,
-  role = 'member'
+  role = 'member',
 ): Thunk<any> {
   return (dispatch) =>
     dispatch(
@@ -129,14 +129,14 @@ export function joinGroup(
           groupId: groupId,
           username: user.username,
         },
-      })
+      }),
     ).then(() => {
       return dispatch(fetchMemberships(groupId));
     });
 }
 export function leaveGroup(
   membership: Record<string, any>,
-  groupId: number
+  groupId: number,
 ): Thunk<any> {
   return (dispatch) => {
     return dispatch(
@@ -151,7 +151,7 @@ export function leaveGroup(
           errorMessage: 'Utmelding fra gruppe feilet',
           successMessage: 'Utmelding fra gruppe fullført',
         },
-      })
+      }),
     ).then(() => {
       return dispatch(fetchMemberships(groupId));
     });
@@ -159,7 +159,7 @@ export function leaveGroup(
 }
 export function fetchAllMemberships(
   groupId: number,
-  descendants = false
+  descendants = false,
 ): Thunk<any> {
   return (dispatch) => {
     return dispatch(
@@ -167,17 +167,17 @@ export function fetchAllMemberships(
         descendants,
         groupId,
         next: true,
-      })
+      }),
     ).then(
       (res) =>
-        res.payload.next && dispatch(fetchAllMemberships(groupId, descendants))
+        res.payload.next && dispatch(fetchAllMemberships(groupId, descendants)),
     );
   };
 }
 export function fetchMemberships(
   groupId: number,
   descendants = false,
-  query: Record<string, any> = {}
+  query: Record<string, any> = {},
 ): Thunk<any> {
   return fetchMembershipsPagination({
     groupId,
@@ -212,7 +212,7 @@ export function fetchMembershipsPagination({
           errorMessage: 'Henting av medlemmene for gruppen feilet',
         },
         propagateError: true,
-      })
+      }),
     );
   };
 }
@@ -245,7 +245,7 @@ export function createGroup(group: Record<string, any>): Thunk<any> {
               ? 'Opprettelse av interessegruppe fullført'
               : 'Opprettelse av gruppe fullført',
         },
-      })
+      }),
     ).then((action) => {
       if (!action || !action.payload) {
         return;
@@ -258,7 +258,7 @@ export function createGroup(group: Record<string, any>): Thunk<any> {
 }
 export function removeGroup(
   id: string,
-  group: Record<string, any>
+  group: Record<string, any>,
 ): Thunk<any> {
   return (dispatch) =>
     dispatch(
@@ -277,6 +277,6 @@ export function removeGroup(
               ? 'Sletting av interessegruppe fullført'
               : 'Sletting av gruppe fullført',
         },
-      })
+      }),
     ).then(() => dispatch(push('/interest-groups/')));
 }

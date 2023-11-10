@@ -181,7 +181,7 @@ const calculatePools = (data) => {
           ...pick(data.pools[0], poolCreateAndUpdateFields),
           activationDate: moment(data.pools[0].activationDate).toISOString(),
           permissionGroups: data.pools[0].permissionGroups.map(
-            (group) => group.value
+            (group) => group.value,
           ),
         },
       ];
@@ -333,7 +333,7 @@ export const transformEventStatusType = (eventStatusType: string) => {
 };
 
 export const getEventSemesterFromStartTime = (
-  startTime: Dateish
+  startTime: Dateish,
 ): EventSemester => {
   return {
     year: moment(startTime).year(),
@@ -345,22 +345,23 @@ export const getConsent = (
   domain: PhotoConsentDomain,
   year: number,
   semester: string,
-  photoConsents: Array<PhotoConsent>
+  photoConsents: Array<PhotoConsent>,
 ): PhotoConsent | null | undefined =>
   photoConsents.find(
-    (pc) => pc.domain === domain && pc.year === year && pc.semester === semester
+    (pc) =>
+      pc.domain === domain && pc.year === year && pc.semester === semester,
   );
 
 export const allConsentsAnswered = (
-  photoConsents: Array<PhotoConsent>
+  photoConsents: Array<PhotoConsent>,
 ): boolean =>
   photoConsents?.reduce(
     (all_bool, pc) => all_bool && typeof pc.isConsenting === 'boolean',
-    photoConsents.length > 0
+    photoConsents.length > 0,
   );
 
 export const toReadableSemester = (
-  semesterObj: EventSemester | PhotoConsent
+  semesterObj: EventSemester | PhotoConsent,
 ): string => {
   const semester = semesterObj.semester === 'spring' ? 'våren' : 'høsten';
   return `${semester} ${semesterObj.year}`;

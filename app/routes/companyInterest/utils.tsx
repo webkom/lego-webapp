@@ -7,7 +7,7 @@ import type { ReactNode } from 'react';
 
 export const sortSemesterChronologically = (
   a: CompanySemesterEntity,
-  b: CompanySemesterEntity
+  b: CompanySemesterEntity,
 ) => {
   const semesterCodeToPriority = {
     spring: 0,
@@ -42,7 +42,7 @@ export const SEMESTER_TRANSLATION = {
 export const getCsvUrl = (
   year: number | string,
   semester: string,
-  event?: string
+  event?: string,
 ) =>
   `${config.serverUrl}/company-interests/csv/?${qs.stringify({
     year,

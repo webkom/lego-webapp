@@ -30,7 +30,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = (
   state: RootState,
-  props: RouteChildrenProps<Params> & UserContextType
+  props: RouteChildrenProps<Params> & UserContextType,
 ) => {
   const { meetingId } = props.match.params;
   const { currentUser } = props;
@@ -72,5 +72,5 @@ const mapStateToProps = (
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
 )(MeetingDetail);

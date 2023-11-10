@@ -82,5 +82,5 @@ export default compose(
   reduxForm({
     form: 'ForgotPasswordForm',
     validate,
-  })
+  }),
 )(ForgotPasswordForm);

@@ -14,7 +14,7 @@ import type { CompanySemesterContactedStatus } from 'app/models';
 type Props = {
   semesterStatus: Record<string, any>;
   editFunction: (
-    arg0: CompanySemesterContactedStatus
+    arg0: CompanySemesterContactedStatus,
   ) => Promise<any> | null | undefined | void;
   style?: Record<string, any>;
 };
@@ -47,7 +47,7 @@ export default class SemesterStatusContent extends Component<Props, State> {
     );
 
     const statusCodes = sortStatusesByProminence(
-      Object.keys(statusStrings)
+      Object.keys(statusStrings),
     ).filter((code) => code !== 'not_contacted');
 
     const dropDownItems = (
@@ -63,7 +63,7 @@ export default class SemesterStatusContent extends Component<Props, State> {
               <div
                 className={cx(
                   styles[selectColorCode(statusString)],
-                  styles.lazyCircle
+                  styles.lazyCircle,
                 )}
               />
             </Button>

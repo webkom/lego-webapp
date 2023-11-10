@@ -27,7 +27,7 @@ export function addReaction({
           contentTarget,
           unicodeString,
         },
-      })
+      }),
     ).catch((action) => {
       const status = action.payload.response.status;
       let errorMessage = 'Reaksjon feilet';

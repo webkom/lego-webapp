@@ -138,13 +138,13 @@ const mapStateToProps = (state, props) => {
         valueSelector(state, 'startTime') &&
         moment(valueSelector(state, 'startTime')).subtract(
           valueSelector(state, 'registrationDeadlineHours'),
-          'hours'
+          'hours',
         ),
       unregistrationDeadline:
         valueSelector(state, 'startTime') &&
         moment(valueSelector(state, 'startTime')).subtract(
           valueSelector(state, 'unregistrationDeadlineHours'),
-          'hours'
+          'hours',
         ),
       useMazemap: valueSelector(state, 'useMazemap'),
       hasFeedbackQuestion: valueSelector(state, 'hasFeedbackQuestion'),
@@ -170,8 +170,8 @@ export default compose(
     Promise.all([
       dispatch(fetchEvent(props.match.params.eventIdOrSlug)),
       dispatch(fetchImageGallery()),
-    ])
+    ]),
   ),
   connect(mapStateToProps, mapDispatchToProps),
-  loadingIndicator(['event.title'])
+  loadingIndicator(['event.title']),
 )(EventEditor);

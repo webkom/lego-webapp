@@ -21,7 +21,7 @@ const mapDispatchToProps = {
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
   withPreparedDispatch('fetchSurvey', (props, dispatch) =>
-    dispatch(fetchAll())
+    dispatch(fetchAll()),
   ),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
 )(SurveyPage);

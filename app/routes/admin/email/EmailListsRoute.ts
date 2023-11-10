@@ -17,7 +17,7 @@ export const emailListsDefaultQuery = {
 const mapStateToProps = (state) => {
   const query = parseQueryString(
     state.router.location.search,
-    emailListsDefaultQuery
+    emailListsDefaultQuery,
   );
   const { pagination } = selectPaginationNext({
     endpoint: '/email-lists/',
@@ -42,6 +42,6 @@ const mapDispatchToProps = {
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   withPreparedDispatch('fetchEmailLists', ({ query }, dispatch) =>
-    dispatch(fetch({ query }))
-  )
+    dispatch(fetch({ query })),
+  ),
 )(EmailLists);

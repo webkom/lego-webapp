@@ -21,8 +21,8 @@ const mapDispatchToProps = {
 };
 export default compose(
   withPreparedDispatch('fetchPollsList', (props, dispatch) =>
-    dispatch(fetchAll())
+    dispatch(fetchAll()),
   ),
   connect(mapStateToProps, mapDispatchToProps),
-  loadingIndicator(['polls'])
+  loadingIndicator(['polls']),
 )(PollsList);

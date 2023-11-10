@@ -31,7 +31,7 @@ type Props = {
   fetchSiblingGallerPicture: (
     arg0: EntityID,
     arg1: EntityID,
-    arg2: boolean
+    arg2: boolean,
   ) => Promise<any>;
   isFirstImage: boolean;
   isLastImage: boolean;
@@ -136,7 +136,7 @@ export default class GalleryPictureModal extends Component<Props, State> {
   };
   onUpdate = () => {
     this.props.push(
-      `/photos/${this.props.gallery.id}/picture/${this.props.picture.id}/edit`
+      `/photos/${this.props.gallery.id}/picture/${this.props.picture.id}/edit`,
     );
   };
   onUpdateGalleryCover = () => {
@@ -174,7 +174,7 @@ export default class GalleryPictureModal extends Component<Props, State> {
     500,
     {
       trailing: false,
-    }
+    },
   );
   nextGalleryPicture = throttle(() => this.siblingGalleryPicture(true), 500, {
     trailing: false,

@@ -16,7 +16,7 @@ const mapStateToProps = (state, props) => {
 
 export default compose(
   withPreparedDispatch('fetchGroups', (props, dispatch) =>
-    dispatch(fetchAll())
+    dispatch(fetchAll()),
   ),
-  connect(mapStateToProps, {})
+  connect(mapStateToProps, {}),
 )(GroupPage);

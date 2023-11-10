@@ -28,9 +28,9 @@ export function createArticle({ ...data }: ArticleEntity): Thunk<any> {
         meta: {
           errorMessage: 'Opprettelse av artikkel feilet',
         },
-      })
+      }),
     ).then((res) =>
-      dispatch(push(`/articles/${(res as any).payload.result}/`))
+      dispatch(push(`/articles/${(res as any).payload.result}/`)),
     );
 }
 export function deleteArticle(id: number): Thunk<any> {
@@ -56,7 +56,7 @@ export function editArticle({ id, ...data }: ArticleEntity): Thunk<any> {
         meta: {
           errorMessage: 'Endring av artikkel feilet',
         },
-      })
+      }),
     ).then(() => dispatch(push(`/articles/${id}/`)));
 }
 export function fetchAll({

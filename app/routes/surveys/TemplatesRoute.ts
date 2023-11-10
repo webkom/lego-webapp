@@ -20,7 +20,7 @@ const mapDispatchToProps = {
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
   withPreparedDispatch('fetchTemplates', (props, dispatch) =>
-    dispatch(fetchTemplates())
+    dispatch(fetchTemplates()),
   ),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
 )(SurveyPage);

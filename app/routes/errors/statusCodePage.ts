@@ -6,8 +6,8 @@ import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 const statusCodePage = (statusCode: number) =>
   compose(
     withPreparedDispatch('setStatusCode', (props, dispatch) =>
-      dispatch(setStatusCode(statusCode))
-    )
+      dispatch(setStatusCode(statusCode)),
+    ),
   )(HTTPError);
 
 export default statusCodePage;

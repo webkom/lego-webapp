@@ -12,7 +12,7 @@ type StateWithReactions<T, S> = S & {
 };
 
 export function mutateReactions<T, S = EntityReducerState<T>>(
-  forTargetType: string
+  forTargetType: string,
 ) {
   return (state: StateWithReactions<T, S>, action: AnyAction) => {
     switch (action.type) {
@@ -58,7 +58,7 @@ export function mutateReactions<T, S = EntityReducerState<T>>(
                         reactionId: reactionId,
                         unicodeString,
                       }
-                    : []
+                    : [],
                 ),
             },
           },

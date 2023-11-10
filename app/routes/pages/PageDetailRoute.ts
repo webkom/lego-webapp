@@ -194,11 +194,11 @@ const loadData = async (props, dispatch) => {
     ...new Set(
       Object.keys(sections)
         .map((key) => sections[key].fetchAll)
-        .filter(Boolean)
+        .filter(Boolean),
     ),
   ];
   return Promise.all(
-    uniqueFetches.map((fetch) => dispatch(fetch())).concat(itemActions)
+    uniqueFetches.map((fetch) => dispatch(fetch())).concat(itemActions),
   );
 };
 
@@ -228,5 +228,5 @@ export default compose(
   withPreparedDispatch('fetchPageDetail', loadData, (props) => [
     props.match.params.pageSlug,
   ]),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
 )(PageDetail);

@@ -46,7 +46,7 @@ type Props = {
   setInvitationStatus: (
     meetingId: number,
     status: MeetingInvitationStatus,
-    user: CurrentUser
+    user: CurrentUser,
   ) => Promise<void>;
   reportAuthor: PublicUser;
   createdBy: PublicUser;
@@ -107,14 +107,14 @@ const MeetingDetails = ({
       name: statusesText[invitationStatus],
       capacity: meetingInvitations.length,
       registrations: meetingInvitations.filter(
-        (invite) => invite.status === invitationStatus
+        (invite) => invite.status === invitationStatus,
       ),
     }));
   };
 
   const attendanceButtons = (
     statusMe: string | null | undefined,
-    startTime: Dateish
+    startTime: Dateish,
   ) =>
     statusMe &&
     moment(startTime) > moment() && (

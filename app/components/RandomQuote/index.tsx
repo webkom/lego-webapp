@@ -33,5 +33,5 @@ const LoginToSeeQuotes = () => <div>Logg inn for å se sitater.</div>;
 export default compose(
   replaceUnlessLoggedIn(LoginToSeeQuotes),
   connect(mapStateToProps, mapDispatchToProps),
-  loadingIndicator(['currentQuote.id'])
+  loadingIndicator(['currentQuote.id']),
 )(RandomQuote);

@@ -36,8 +36,8 @@ export default compose(
     'fetchEmailUser',
     (props, dispatch) =>
       dispatch(fetchEmailUser(props.match.params.emailUserId)),
-    (props) => [props.match.params.emailUserId]
+    (props) => [props.match.params.emailUserId],
   ),
   connect(mapStateToProps, mapDispatchToProps),
-  loadingIndicator(['emailUser.user.id'])
+  loadingIndicator(['emailUser.user.id']),
 )(EmailUserEditor);

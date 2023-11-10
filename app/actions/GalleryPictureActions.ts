@@ -14,7 +14,7 @@ export function fetch(
   }: {
     next?: boolean;
     filters?: Record<string, string | number>;
-  } = {}
+  } = {},
 ): Thunk<any> {
   return (dispatch, getState) => {
     const cursor = next ? getState().galleryPictures.pagination.next : {};
@@ -28,14 +28,14 @@ export function fetch(
           errorMessage: 'Henting av bilder feilet',
         },
         propagateError: true,
-      })
+      }),
     );
   };
 }
 export function fetchSiblingGallerPicture(
   galleryId: EntityID,
   currentPictureId: EntityID,
-  next: boolean
+  next: boolean,
 ) {
   const rawCursor = `p=${currentPictureId}&r=${next ? 0 : 1}`;
   const cursor = Buffer.from(rawCursor).toString('base64');
@@ -55,7 +55,7 @@ export function fetchSiblingGallerPicture(
 }
 export function fetchGalleryPicture(
   galleryId: EntityID,
-  pictureId: EntityID
+  pictureId: EntityID,
 ): Thunk<any> {
   return callAPI({
     types: GalleryPicture.FETCH,
@@ -68,7 +68,7 @@ export function fetchGalleryPicture(
   });
 }
 export function updatePicture(
-  galleryPicture: GalleryPictureEntity
+  galleryPicture: GalleryPictureEntity,
 ): Thunk<any> {
   return callAPI({
     types: GalleryPicture.EDIT,
@@ -85,7 +85,7 @@ export function updatePicture(
 }
 export function deletePicture(
   galleryId: EntityID,
-  pictureId: EntityID
+  pictureId: EntityID,
 ): Thunk<any> {
   return callAPI({
     types: GalleryPicture.DELETE,
@@ -125,7 +125,7 @@ function uploadGalleryPicturesInTurn(files, galleryId, dispatch) {
       uploadFile({
         file,
         timeout: 3 * 60 * 1000,
-      })
+      }),
     );
     if (!action || !action.meta) return;
     return dispatch(
@@ -133,7 +133,7 @@ function uploadGalleryPicturesInTurn(files, galleryId, dispatch) {
         galleryId,
         file: action.meta.fileToken,
         active: true,
-      })
+      }),
     );
   };
 
@@ -162,7 +162,7 @@ function uploadGalleryPicturesInTurn(files, galleryId, dispatch) {
 
 export function uploadAndCreateGalleryPicture(
   galleryId: number,
-  files: Array<Record<string, any>>
+  files: Array<Record<string, any>>,
 ): Thunk<any> {
   return (dispatch) => {
     dispatch({

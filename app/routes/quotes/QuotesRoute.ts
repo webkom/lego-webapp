@@ -58,9 +58,9 @@ export default compose(
       dispatch(
         fetchAll({
           query: parseQueryString(props.location.search, defaultQuotesQuery),
-        })
+        }),
       ),
-    (props) => [props.location]
+    (props) => [props.location],
   ),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
 )(QuotePage);

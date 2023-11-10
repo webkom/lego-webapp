@@ -221,7 +221,7 @@ const JoinEventForm = (props: Props) => {
       return handleSubmit(() =>
         props.onSubmit({
           type,
-        })
+        }),
       );
     }
 
@@ -274,7 +274,7 @@ const JoinEventForm = (props: Props) => {
     event.heedPenalties &&
       moment().isAfter(event.unregistrationDeadline) &&
       registration &&
-      registration.pool
+      registration.pool,
   );
   const registrationPending =
     pendingRegistration?.status === 'PENDING_REGISTER' ||
@@ -296,7 +296,7 @@ const JoinEventForm = (props: Props) => {
     useState(false);
   const eventSemester = getEventSemesterFromStartTime(event.startTime);
   const hasRegisteredConsentForSemester = allConsentsAnswered(
-    event.photoConsents
+    event.photoConsents,
   );
   const hasRegisteredConsentIfRequired = event.useConsent
     ? hasRegisteredConsentForSemester
@@ -304,7 +304,7 @@ const JoinEventForm = (props: Props) => {
   useEffect(() => {
     const timer = setTimeout(
       () => setRegistrationPendingDelayed(registrationPending),
-      registrationPendingDelayed && !registrationPending ? 0 : 1000
+      registrationPendingDelayed && !registrationPending ? 0 : 1000,
     );
     return () => clearTimeout(timer);
   }, [registrationPending, registrationPendingDelayed]);
@@ -412,7 +412,7 @@ const JoinEventForm = (props: Props) => {
                     onSubmit={submitWithType(
                       handleSubmit,
                       feedbackName,
-                      registrationType
+                      registrationType,
                     )}
                   >
                     {showCaptcha && (
@@ -442,7 +442,7 @@ const JoinEventForm = (props: Props) => {
                             onSubmit={submitWithType(
                               handleSubmit,
                               feedbackName,
-                              registrationType
+                              registrationType,
                             )}
                             type={registrationType}
                             title={title || joinTitle}
@@ -489,7 +489,7 @@ const JoinEventForm = (props: Props) => {
                         onClick={submitWithType(
                           handleSubmit,
                           feedbackName,
-                          'feedback'
+                          'feedback',
                         )}
                         disabled={pristine}
                       >
@@ -574,5 +574,5 @@ export default compose(
       }
     },
     validate: validateEventForm,
-  })
+  }),
 )(JoinEventForm);

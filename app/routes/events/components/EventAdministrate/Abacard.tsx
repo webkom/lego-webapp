@@ -26,7 +26,7 @@ const Abacard = (props: Props) => {
     ...validatorProps
   } = props;
   const registerCount = registered.filter(
-    (reg) => reg.presence === 'PRESENT' && reg.pool
+    (reg) => reg.presence === 'PRESENT' && reg.pool,
   ).length;
 
   const handleSelect = ({ username }: { username: string }) =>

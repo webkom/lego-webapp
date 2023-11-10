@@ -7,7 +7,7 @@ export const selectEmojis = createSelector(
   (state) => state.emojis.items,
   (emojisById, emojiIds) => {
     return emojiIds.map((id) => emojisById[id]);
-  }
+  },
 );
 export const selectEmojisById = createSelector(
   selectEmojis,
@@ -15,7 +15,7 @@ export const selectEmojisById = createSelector(
   (emojis, emojisId) => {
     if (!emojis || !emojisId) return {};
     return emojis.find((emojis) => emojis.shortCode === emojisId);
-  }
+  },
 );
 export default createEntityReducer({
   key: 'emojis',

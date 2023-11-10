@@ -20,7 +20,7 @@ const withPreparedDispatch = <P>(
   key: string,
   prepareDispatchFn: (props: P, dispatch: AppDispatch) => Promise<unknown>,
   depsFn?: (props: P) => DependencyList,
-  options?: PreparedEffectOptions
+  options?: PreparedEffectOptions,
 ) =>
   compose(
     connect(undefined, mapDispatch),
@@ -28,8 +28,8 @@ const withPreparedDispatch = <P>(
       key,
       (props) => prepareDispatchFn(props, props.dispatch),
       depsFn,
-      options
-    )
+      options,
+    ),
   );
 
 export default withPreparedDispatch;

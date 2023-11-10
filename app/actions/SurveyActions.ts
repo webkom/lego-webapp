@@ -17,7 +17,7 @@ export function fetchSurvey(surveyId: number): Thunk<any> {
           errorMessage: 'Henting av spørreundersøkelse feilet',
         },
         propagateError: true,
-      })
+      }),
     );
 }
 export function fetchWithToken(surveyId: number, token: string): Thunk<any> {
@@ -35,7 +35,7 @@ export function fetchWithToken(surveyId: number, token: string): Thunk<any> {
           errorMessage: 'Henting av spørreundersøkelse feilet',
         },
         propagateError: true,
-      })
+      }),
     );
 }
 export function fetchAll({
@@ -55,7 +55,7 @@ export function fetchAll({
           errorMessage: 'Henting av spørreundersøkelser feilet',
         },
         propagateError: true,
-      })
+      }),
     );
   };
 }

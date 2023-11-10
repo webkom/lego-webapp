@@ -16,7 +16,7 @@ const SurveyItem = (props: Props) => {
       className={styles.surveyItem}
       style={{
         borderColor: colorForEvent(
-          survey.templateType || survey.event.eventType
+          survey.templateType || survey.event.eventType,
         ),
       }}
     >

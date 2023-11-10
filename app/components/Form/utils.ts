@@ -57,7 +57,7 @@ export const handleSubmissionErrorFinalForm = (error: any) => {
  * withSubmissionError(onSubmit)
  */
 export const withSubmissionError = <Args extends unknown[], Return>(
-  onSubmit: (...args: Args) => Promise<Return>
+  onSubmit: (...args: Args) => Promise<Return>,
 ) => {
   return (...data: Args) => onSubmit(...data).catch(handleSubmissionError);
 };
@@ -69,7 +69,7 @@ export const withSubmissionError = <Args extends unknown[], Return>(
  * withSubmissionErrorFinalForm(onSubmit)
  */
 export const withSubmissionErrorFinalForm = <Args extends unknown[], Return>(
-  onSubmit: (...args: Args) => Promise<Return>
+  onSubmit: (...args: Args) => Promise<Return>,
 ) => {
   return (...args: Args) =>
     onSubmit(...args).catch(handleSubmissionErrorFinalForm);

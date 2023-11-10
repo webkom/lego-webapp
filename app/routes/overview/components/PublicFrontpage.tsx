@@ -32,7 +32,7 @@ type Props = {
 const isEvent = (
   item:
     | WithDocumentType<ArticleWithAuthorDetails>
-    | WithDocumentType<PublicEvent>
+    | WithDocumentType<PublicEvent>,
 ): item is WithDocumentType<PublicEvent> => item.documentType === 'event';
 
 const PublicFrontpage = ({ frontpage, readmes }: Props) => {

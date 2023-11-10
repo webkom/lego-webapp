@@ -88,7 +88,7 @@ const legoForm = ({
             values,
             Object.keys(props.registeredFields)
               .concat('id')
-              .concat(pickAdditionalValues)
+              .concat(pickAdditionalValues),
           )
         : values;
       return onSubmit(pickedValues, dispatch, props).catch((error) => {

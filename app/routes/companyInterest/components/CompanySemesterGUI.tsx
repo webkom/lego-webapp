@@ -77,7 +77,7 @@ const AddSemesterForm = ({
 }: AddSemesterProps) => {
   const onSubmit = async (
     { year, semester }: FormValues,
-    form: FormApi<FormValues>
+    form: FormApi<FormValues>,
   ) => {
     const existingCompanySemester = semesters.find((companySemester) => {
       return (

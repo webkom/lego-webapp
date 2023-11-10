@@ -3,7 +3,7 @@ import type { RootState } from 'app/store/createRootReducer';
 import type { AsyncActionType, AsyncActionTypeArray } from 'app/types';
 
 function extractTypes(
-  types: AsyncActionType | AsyncActionTypeArray
+  types: AsyncActionType | AsyncActionTypeArray,
 ): AsyncActionTypeArray {
   if (Array.isArray(types)) {
     return types;
@@ -44,7 +44,7 @@ export default function promiseMiddleware(): Middleware<
               payload,
               success: true,
               meta,
-            })
+            }),
           ),
         (error: boolean) =>
           reject(
@@ -53,8 +53,8 @@ export default function promiseMiddleware(): Middleware<
               payload: error,
               error: true,
               meta,
-            })
-          )
+            }),
+          ),
       );
     });
   };

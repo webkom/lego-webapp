@@ -91,7 +91,7 @@ const Validator = (props: Props) => {
         addToast({ message: result });
       }
     },
-    [addToast, showScanner]
+    [addToast, showScanner],
   );
 
   /**
@@ -128,10 +128,10 @@ const Validator = (props: Props) => {
               displayResult(`Brukeren finnes ikke!\nBrukernavn: ${username}`);
             } else {
               displayResult(
-                `Det oppsto en uventet feil: ${JSON.stringify(payload || err)}`
+                `Det oppsto en uventet feil: ${JSON.stringify(payload || err)}`,
               );
             }
-          }
+          },
         )
         .then(() => {
           if (input?.current) {
@@ -139,7 +139,7 @@ const Validator = (props: Props) => {
           }
         });
     },
-    [clearSearch, displayResult, handleSelect, validateAbakusGroup]
+    [clearSearch, displayResult, handleSelect, validateAbakusGroup],
   );
 
   const handleScannerResult = (scannerResult: string) => {

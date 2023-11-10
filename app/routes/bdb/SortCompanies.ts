@@ -38,7 +38,7 @@ const sortByContactStatus =
     const semesterA = a.semesterStatuses.find(
       (obj) =>
         obj.year === companySemester.year &&
-        obj.semester === companySemester.semester
+        obj.semester === companySemester.semester,
     );
     const statusA = semesterA
       ? selectMostProminentStatus(semesterA.contactedStatus)
@@ -46,7 +46,7 @@ const sortByContactStatus =
     const semesterB = b.semesterStatuses.find(
       (obj) =>
         obj.year === companySemester.year &&
-        obj.semester === companySemester.semester
+        obj.semester === companySemester.semester,
     );
     const statusB = semesterB
       ? selectMostProminentStatus(semesterB.contactedStatus)
@@ -72,7 +72,7 @@ const sortCompanies = (companies, query, startYear, startSem) => {
     comment: sortByAttribute('adminComment'),
   };
   const sortTypeName = Object.keys(sortTypeToFunction).find(
-    (sortTypeName) => sortTypeName === sortType
+    (sortTypeName) => sortTypeName === sortType,
   );
   const sortFunction = sortTypeName
     ? sortTypeToFunction[sortTypeName](ascending)

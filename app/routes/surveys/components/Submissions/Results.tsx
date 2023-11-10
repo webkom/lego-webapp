@@ -89,7 +89,7 @@ const Results = ({
 
   const switchGraph = (id, index, selectedType) => {
     const questionToUpdate = survey.questions.find(
-      (question) => question.id === id
+      (question) => question.id === id,
     );
 
     if (
@@ -120,7 +120,7 @@ const Results = ({
           accumulator[1] + optionData.selections,
         ];
       },
-      [0, 0]
+      [0, 0],
     );
     return Number((sum / numberOfAnswers).toFixed(2));
   };
@@ -135,7 +135,7 @@ const Results = ({
           Math.max(result[1], optionNumber),
         ];
       },
-      [Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY]
+      [Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY],
     );
   };
 
@@ -154,7 +154,7 @@ const Results = ({
       optionMin,
       optionMax,
       0,
-      averageTagColors.length - 1
+      averageTagColors.length - 1,
     );
 
     return (
@@ -190,14 +190,14 @@ const Results = ({
             return true;
           });
           const chartColors = CHART_COLORS.filter(
-            (_, i) => !colorsToRemove.includes(i)
+            (_, i) => !colorsToRemove.includes(i),
           );
           const graphType = graphOptions.find(
-            (a) => a.value === question.displayType
+            (a) => a.value === question.displayType,
           );
           const questionIsNumeric = question.options.reduce(
             (result, option) => result && /^\d+/.test(option.optionText),
-            true
+            true,
           );
           return (
             <li key={question.id}>
@@ -236,7 +236,7 @@ const Results = ({
                           Gjennomsnittet er{' '}
                           {averagePill(
                             question.options,
-                            graphData[question.id]
+                            graphData[question.id],
                           )}
                         </span>
                       )}

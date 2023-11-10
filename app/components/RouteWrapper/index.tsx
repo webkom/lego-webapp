@@ -15,7 +15,7 @@ type Props<PassedProps, RouteProps extends RouteComponentProps> = {
 };
 
 const RouteWrapper = <PassedProps, RouteProps extends RouteComponentProps>(
-  props: Props<PassedProps, RouteProps>
+  props: Props<PassedProps, RouteProps>,
 ) => {
   const { passedProps, exact, path, Component, strict } = props;
   return (

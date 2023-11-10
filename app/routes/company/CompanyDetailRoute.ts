@@ -30,7 +30,7 @@ const fetchData = (props, dispatch) => {
       fetchEventsForCompany({
         queryString: queryString(companyId),
         loadNextPage: false,
-      })
+      }),
     ),
     dispatch(fetchJoblistingsForCompany(companyId)),
   ]);
@@ -68,7 +68,7 @@ const mapDispatchToProps = (dispatch, props) => {
       fetchEventsForCompany({
         queryString: queryString(companyId),
         loadNextPage: true,
-      })
+      }),
     );
 
   return {
@@ -80,5 +80,5 @@ const mapDispatchToProps = (dispatch, props) => {
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
   withPreparedDispatch('fetchCompanyDetail', fetchData),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
 )(CompanyDetail);

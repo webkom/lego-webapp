@@ -157,7 +157,7 @@ class JoblistingEditor extends Component<Props, State> {
                   change('joblistingEditor', 'responsible', {
                     label: 'Ingen',
                     value: null,
-                  })
+                  }),
                 );
               });
             }}

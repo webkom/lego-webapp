@@ -36,7 +36,7 @@ const mapStateToProps = (state, { match: { params } }) => {
         (additionalEmail) => ({
           label: additionalEmail,
           value: additionalEmail,
-        })
+        }),
       ),
     },
   };
@@ -52,8 +52,8 @@ export default compose(
     'fetchEmailList',
     (props, dispatch) =>
       dispatch(fetchEmailList(props.match.params.emailListId)),
-    (props) => [props.match.params.emailListId]
+    (props) => [props.match.params.emailListId],
   ),
   connect(mapStateToProps, mapDispatchToProps),
-  loadingIndicator(['emailList.name'])
+  loadingIndicator(['emailList.name']),
 )(EmailListEditor);

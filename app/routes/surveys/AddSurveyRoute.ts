@@ -24,7 +24,7 @@ const loadData = (props, dispatch) => {
 
   if (event && typeof event === 'string') {
     return dispatch(fetchEvent(event)).then((result) =>
-      dispatch(fetchTemplate(result.payload.entities.events[event].eventType))
+      dispatch(fetchTemplate(result.payload.entities.events[event].eventType)),
     );
   }
 
@@ -93,5 +93,5 @@ export default compose(
     props.location.search,
   ]),
   connect(mapStateToProps, mapDispatchToProps),
-  loadingIndicator(['notFetching'])
+  loadingIndicator(['notFetching']),
 )(SurveyEditor);

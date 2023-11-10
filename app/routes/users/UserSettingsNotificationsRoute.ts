@@ -31,7 +31,7 @@ export default compose(
     Promise.all([
       dispatch(fetchNotificationAlternatives()),
       dispatch(fetchNotificationSettings()),
-    ])
+    ]),
   ),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
 )(UserSettingsNotifications);

@@ -34,7 +34,7 @@ const loadMeeting = (
       params: { meetingId },
     },
   },
-  dispatch
+  dispatch,
 ) =>
   loggedIn
     ? Promise.all([dispatch(fetchMeeting(meetingId), dispatch(fetchEmojis()))])
@@ -42,7 +42,7 @@ const loadMeeting = (
 
 const loadData = async (
   props: RouteChildrenProps<Params> & UserContextType,
-  dispatch: AppDispatch
+  dispatch: AppDispatch,
 ) => {
   const search = qs.parse(props.location.search, {
     ignoreQueryPrefix: true,
@@ -79,7 +79,7 @@ const mapStateToProps = (state, props) => {
     meetingId,
   });
   const showAnswer = Boolean(
-    meetingsToken.response === 'SUCCESS' && action && token
+    meetingsToken.response === 'SUCCESS' && action && token,
   );
   const emojis = selectEmojis(state);
   return {
@@ -133,5 +133,5 @@ export default compose(
     props.match.params.meetingId,
     props.loggedIn,
   ]),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
 )(MeetingComponent);

@@ -113,7 +113,7 @@ type Options = {
  */
 export function createField<
   P extends InputHTMLAttributes<HTMLInputElement>,
-  ExtraProps extends object
+  ExtraProps extends object,
 >(Component: ComponentType<P & ExtraProps>, options?: Options) {
   const Field = (field: FormProps & ExtraProps) => {
     const {
@@ -173,7 +173,7 @@ export function createField<
         className={cx(
           className,
           hasWarning && styles.inputWithWarning,
-          hasError && styles.inputWithError
+          hasError && styles.inputWithError,
         )}
       />
     );

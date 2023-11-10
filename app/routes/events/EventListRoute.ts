@@ -60,7 +60,7 @@ const mapDispatchToProps = {
 };
 export default compose(
   withPreparedDispatch('fetchEventList', (props, dispatch) =>
-    dispatch(fetchData())
+    dispatch(fetchData()),
   ),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
 )(EventList);

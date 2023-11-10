@@ -23,6 +23,6 @@ const mapDispatchToProps = {
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   withPreparedDispatch('fetchGalleryList', (props, dispatch) =>
-    dispatch(fetch())
-  )
+    dispatch(fetch()),
+  ),
 )(Overview);

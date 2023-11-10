@@ -17,7 +17,7 @@ type Props = {
   fetching: boolean;
   submitFunction: (
     arg0: Record<string, any>,
-    arg1: number | null | undefined
+    arg1: number | null | undefined,
   ) => Promise<any>;
   error: Record<string, any>;
   currentUser: UserEntity;
@@ -132,7 +132,7 @@ const formatAnswers = (answers, survey) => {
       question.questionType === QuestionTypes('single')
         ? selected.map(Number)
         : selected.map(
-            (optionSelected, j) => optionSelected && question.options[j].id
+            (optionSelected, j) => optionSelected && question.options[j].id,
           )
     ).filter(Boolean);
     return {
@@ -153,7 +153,7 @@ const validateMandatory = (inputAnswers: Array<Record<string, any>>, props) => {
     ? answers
         .filter(
           (answer) =>
-            answer.selectedOptions.length > 0 || answer.answerText !== ''
+            answer.selectedOptions.length > 0 || answer.answerText !== '',
         )
         .map((answer) => answer.question)
     : [];

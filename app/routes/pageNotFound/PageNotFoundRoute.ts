@@ -5,6 +5,6 @@ import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 
 export default compose(
   withPreparedDispatch('setNotFoundStatusCode', (props, dispatch) =>
-    dispatch(setStatusCode(404))
-  )
+    dispatch(setStatusCode(404)),
+  ),
 )(HTTPError);

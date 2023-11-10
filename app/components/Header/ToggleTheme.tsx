@@ -35,11 +35,11 @@ const ToggleTheme = ({
       applySelectedTheme(newTheme);
       loggedIn && username && updateUserTheme(username, newTheme);
     },
-    [loggedIn, username, updateUserTheme]
+    [loggedIn, username, updateUserTheme],
   );
   const className = cx(
     styles.toggleIcon,
-    icon === 'moon' ? styles.moon : styles.sun
+    icon === 'moon' ? styles.moon : styles.sun,
   );
   const props = {
     name: 'Endre tema',

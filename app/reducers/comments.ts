@@ -18,7 +18,7 @@ type StateWithComments<T, S> = S & {
  * Used by the individual entity reducers
  */
 export function mutateComments<T, S = EntityReducerState<T>>(
-  forTargetType: string
+  forTargetType: string,
 ) {
   return produce((newState: StateWithComments<T, S>, action: AnyAction) => {
     switch (action.type) {
@@ -53,7 +53,7 @@ const mutate = produce(
       default:
         break;
     }
-  }
+  },
 );
 
 export default createEntityReducer<CommentType>({

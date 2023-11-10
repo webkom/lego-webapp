@@ -41,7 +41,7 @@ type Props = {
     args: {
       next?: boolean;
       filters?: Record<string, any>;
-    }
+    },
   ) => Promise<any>;
   hasMore: boolean;
   fetching: boolean;
@@ -108,7 +108,7 @@ class GalleryEditor extends Component<Props, State> {
   onUpdateGalleryCover = () => {
     this.props.updateGalleryCover(
       this.props.gallery.id,
-      this.state.selected[0]
+      this.state.selected[0],
     );
     this.setState({
       selected: [],

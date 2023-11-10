@@ -11,7 +11,7 @@ import type { DetailedAnnouncement } from 'app/store/models/Announcement';
 
 type Props = {
   createAnnouncement: (
-    announcement: DetailedAnnouncement & { send: boolean }
+    announcement: DetailedAnnouncement & { send: boolean },
   ) => Promise<unknown>;
   actionGrant: ActionGrant;
   handleSubmit: (arg0: (...args: Array<any>) => any) => any;

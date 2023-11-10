@@ -66,7 +66,7 @@ const mapDispatchToProps = {
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
   withPreparedDispatch('fetchMeetingList', (props, dispatch) =>
-    dispatch(fetchData())
+    dispatch(fetchData()),
   ),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
 )(MeetingList);

@@ -24,7 +24,7 @@ type Params = {
 
 const mapStateToProps = (
   state: RootState,
-  props: RouteChildrenProps<Params> & UserContextType
+  props: RouteChildrenProps<Params> & UserContextType,
 ) => {
   const { meetingId } = props.match.params;
   const meeting = selectMeetingById(state, {
@@ -74,7 +74,7 @@ export default compose(
   withPreparedDispatch(
     'fetchMeetingEdit',
     (props: RouteChildrenProps<Params>, dispatch) =>
-      dispatch(fetchMeeting(props.match.params.meetingId))
+      dispatch(fetchMeeting(props.match.params.meetingId)),
   ),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
 )(MeetingEditor);

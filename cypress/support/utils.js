@@ -139,7 +139,7 @@ export const uploadHeader = () => {
       ' ' +
       c('UploadImage__placeholderContainer') +
       ' > span',
-    'images/screenshot.png'
+    'images/screenshot.png',
   );
   cy.get('.cropper-move').click();
   cy.get(t('Modal__content'))

@@ -155,5 +155,5 @@ export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   withPreparedDispatch('fetchGroupMemberships', loadData, (props) => [
     props.match.params.groupId,
-  ])
+  ]),
 )(GroupMembers);

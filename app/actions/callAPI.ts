@@ -109,7 +109,7 @@ export default function callAPI({
         | HttpResponse<any>
         | {
             jsonData: Record<string, any>;
-          }
+          },
     ): any {
       const jsonData = response.jsonData;
 
@@ -178,7 +178,7 @@ export default function callAPI({
         : '';
     const promise: Promise<HttpResponse<any>> = fetchJSON(
       urlFor(`${endpoint}${qs}`),
-      requestOptions
+      requestOptions,
     );
     return dispatch({
       types,
@@ -199,7 +199,7 @@ export default function callAPI({
       promise: promise
         .then((response) => normalizeJsonResponse(response))
         .catch((error) =>
-          dispatch(handleError(error, propagateError, endpoint, loggedIn))
+          dispatch(handleError(error, propagateError, endpoint, loggedIn)),
         ),
     });
   };

@@ -34,7 +34,7 @@ type StripeStatusProps = {
   id: ID;
   handlePayment: (
     registrationId: ID,
-    paymentStatus: EventRegistrationPaymentStatus
+    paymentStatus: EventRegistrationPaymentStatus,
   ) => Promise<any>;
   paymentStatus: EventRegistrationPaymentStatus;
 };

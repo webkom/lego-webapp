@@ -32,7 +32,7 @@ export default compose(
     Promise.all([
       dispatch(fetchOAuth2Applications()),
       dispatch(fetchOAuth2Grants()),
-    ])
+    ]),
   ),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
 )(UserSettingsOAuth2);

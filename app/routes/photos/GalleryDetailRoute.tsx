@@ -22,7 +22,7 @@ const loadData = ({ match: { params } }, dispatch) =>
   Promise.all([
     dispatch(fetch(params.galleryId)).catch(),
     dispatch(fetchGallery(params.galleryId)).catch(() =>
-      dispatch(fetchGalleryMetadata(params.galleryId))
+      dispatch(fetchGalleryMetadata(params.galleryId)),
     ),
   ]);
 
@@ -130,5 +130,5 @@ export default compose(
   withPreparedDispatch('fetchGalleryDetail', loadData),
   loadingIndicator(['gallery.title']),
   helmet(propertyGenerator),
-  metadataHelper()
+  metadataHelper(),
 )(GalleryDetail);

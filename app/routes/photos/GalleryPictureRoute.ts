@@ -107,8 +107,8 @@ export default compose(
       Promise.all([
         dispatch(fetchGalleryPicture(params.galleryId, params.pictureId)),
         dispatch(fetchGallery(params.galleryId)),
-      ])
+      ]),
   ),
   helmet(propertyGenerator),
-  loadingIndicator(['picture.id', 'gallery.id'])
+  loadingIndicator(['picture.id', 'gallery.id']),
 )(GalleryPictureModal);

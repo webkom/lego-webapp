@@ -21,7 +21,7 @@ export default createEntityReducer<UnknownArticle>({
   },
   mutate: joinReducers(
     mutateReactions<UnknownArticle>('articles'),
-    mutateComments<UnknownArticle>('articles')
+    mutateComments<UnknownArticle>('articles'),
   ),
 });
 
@@ -37,12 +37,12 @@ export const selectArticles = typeable(
     (articlesById, articleIds, pagination) =>
       orderBy<UnknownArticle>(
         (pagination ? pagination.items : articleIds).map((id) =>
-          transformArticle(articlesById[id])
+          transformArticle(articlesById[id]),
         ) as ReadonlyArray<UnknownArticle>,
         ['createdAt', 'id'],
-        ['desc', 'desc']
-      )
-  )
+        ['desc', 'desc'],
+      ),
+  ),
 );
 
 export const selectArticlesWithAuthorDetails: Selector<
@@ -51,7 +51,7 @@ export const selectArticlesWithAuthorDetails: Selector<
   [
     {
       pagination: any;
-    }
+    },
   ]
 > = (state, props) =>
   selectArticles<PublicArticle[]>(state, props).map((article) => ({
@@ -68,13 +68,13 @@ export const selectArticlesByTag = createSelector(
   (state, props) => props.tag,
   (articles, tag) =>
     articles.filter((article) =>
-      tag ? article.tags.indexOf(tag) !== -1 : true
-    )
+      tag ? article.tags.indexOf(tag) !== -1 : true,
+    ),
 );
 export const selectArticleById = createSelector(
   (state) => state.articles.byId,
   (state, props) => props.articleId,
-  (articlesById, articleId) => transformArticle(articlesById[articleId])
+  (articlesById, articleId) => transformArticle(articlesById[articleId]),
 );
 export const selectArticleBySlug = createSelector(
   (state) => state.articles.byId,
@@ -82,9 +82,9 @@ export const selectArticleBySlug = createSelector(
   (articlesById, articleSlug) =>
     transformArticle(
       Object.values(articlesById).find(
-        (article) => article.slug === articleSlug
-      )
-    )
+        (article) => article.slug === articleSlug,
+      ),
+    ),
 );
 
 export const selectCommentsForArticle = createSelector(
@@ -93,5 +93,5 @@ export const selectCommentsForArticle = createSelector(
   (article, commentsById) => {
     if (!article) return [];
     return (article.comments || []).map((commentId) => commentsById[commentId]);
-  }
+  },
 );

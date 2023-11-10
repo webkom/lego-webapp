@@ -121,7 +121,7 @@ const mutateEvent = produce((newState: State, action: any): void => {
       if (stateEvent.waitingRegistrations) {
         stateEvent.waitingRegistrations =
           stateEvent.waitingRegistrations.filter(
-            (id) => id !== action.payload.id
+            (id) => id !== action.payload.id,
           );
       }
 
@@ -195,18 +195,18 @@ export const selectEvents = createSelector(
   (eventsById, eventIds) =>
     eventIds.map((id) => transformEvent(eventsById[id])) as ReadonlyArray<
       ReturnType<typeof transformEvent>
-    >
+    >,
 );
 export const selectPreviousEvents = createSelector(selectEvents, (events) =>
-  events.filter((event) => event.isUsersUpcoming === false)
+  events.filter((event) => event.isUsersUpcoming === false),
 );
 export const selectUpcomingEvents = createSelector(selectEvents, (events) =>
-  events.filter((event) => event.isUsersUpcoming)
+  events.filter((event) => event.isUsersUpcoming),
 );
 export const selectSortedEvents = createSelector(selectEvents, (events) =>
   [...events].sort(
-    (a, b) => moment(a.startTime).unix() - moment(b.startTime).unix()
-  )
+    (a, b) => moment(a.startTime).unix() - moment(b.startTime).unix(),
+  ),
 );
 export const selectEventById = createSelector(
   (state) => state.events.byId,
@@ -219,14 +219,14 @@ export const selectEventById = createSelector(
     }
 
     return {};
-  }
+  },
 );
 export const selectEventBySlug = createSelector(
   (state) => state.events.byId,
   (state, props) => props.eventSlug,
   (eventsById, eventSlug) => {
     const event = Object.values(eventsById).find(
-      (event) => event.slug === eventSlug
+      (event) => event.slug === eventSlug,
     );
 
     if (event) {
@@ -234,7 +234,7 @@ export const selectEventBySlug = createSelector(
     }
 
     return {};
-  }
+  },
 );
 
 export const selectPoolsForEvent = createSelector(
@@ -243,7 +243,7 @@ export const selectPoolsForEvent = createSelector(
   (event, poolsById) => {
     if (!event) return [];
     return (event.pools || []).map((poolId) => poolsById[poolId]);
-  }
+  },
 );
 export const selectPoolsWithRegistrationsForEvent = createSelector(
   selectPoolsForEvent,
@@ -258,9 +258,9 @@ export const selectPoolsWithRegistrationsForEvent = createSelector(
           return { ...registration, user: usersById[registration.user] };
         }),
         'sharedMemberships',
-        'desc'
+        'desc',
       ),
-    }))
+    })),
 );
 export const selectMergedPool = createSelector(selectPoolsForEvent, (pools) => {
   if (pools.length === 0) return [];
@@ -271,7 +271,7 @@ export const selectMergedPool = createSelector(selectPoolsForEvent, (pools) => {
         (total, pool) => {
           const capacity = total.capacity + pool.capacity;
           const permissionGroups = total.permissionGroups.concat(
-            pool.permissionGroups
+            pool.permissionGroups,
           );
           const registrationCount =
             total.registrationCount + pool.registrationCount;
@@ -285,7 +285,7 @@ export const selectMergedPool = createSelector(selectPoolsForEvent, (pools) => {
           capacity: 0,
           permissionGroups: [],
           registrationCount: 0,
-        }
+        },
       ),
     },
   ];
@@ -303,13 +303,13 @@ export const selectMergedPoolWithRegistrations = createSelector(
           (total, pool) => {
             const capacity = total.capacity + pool.capacity;
             const permissionGroups = total.permissionGroups.concat(
-              pool.permissionGroups
+              pool.permissionGroups,
             );
             const registrations = total.registrations.concat(
               pool.registrations.map((regId) => {
                 const registration = registrationsById[regId];
                 return { ...registration, user: usersById[registration.user] };
-              })
+              }),
             );
             return {
               capacity,
@@ -317,7 +317,7 @@ export const selectMergedPoolWithRegistrations = createSelector(
               registrations: orderBy(
                 registrations,
                 'sharedMemberships',
-                'desc'
+                'desc',
               ),
               registrationCount: registrations.length,
             };
@@ -327,11 +327,11 @@ export const selectMergedPoolWithRegistrations = createSelector(
             permissionGroups: [],
             registrations: [],
             registrationCount: 0,
-          }
+          },
         ),
       },
     ];
-  }
+  },
 );
 export const selectAllRegistrationsForEvent = createSelector(
   (state) => state.registrations.byId,
@@ -362,7 +362,7 @@ export const selectAllRegistrationsForEvent = createSelector(
           createdBy,
           updatedBy,
         });
-      })
+      }),
 );
 export const selectWaitingRegistrationsForEvent = createSelector(
   selectEventById,
@@ -374,7 +374,7 @@ export const selectWaitingRegistrationsForEvent = createSelector(
       const registration = registrationsById[regId];
       return { ...registration, user: usersById[registration.user] };
     });
-  }
+  },
 );
 export const selectRegistrationForEventByUserId = createSelector(
   selectAllRegistrationsForEvent,
@@ -382,7 +382,7 @@ export const selectRegistrationForEventByUserId = createSelector(
   (registrations, userId) => {
     const userReg = registrations.filter((reg) => reg.user.id === userId);
     return userReg.length > 0 ? userReg[0] : null;
-  }
+  },
 );
 export const selectCommentsForEvent = createSelector(
   selectEventById,
@@ -390,7 +390,7 @@ export const selectCommentsForEvent = createSelector(
   (event, commentsById) => {
     if (!event) return [];
     return (event.comments || []).map((commentId) => commentsById[commentId]);
-  }
+  },
 );
 export const selectRegistrationsFromPools = createSelector(
   selectPoolsWithRegistrationsForEvent,
@@ -399,24 +399,24 @@ export const selectRegistrationsFromPools = createSelector(
       // $FlowFixMe
       pools.flatMap((pool) => pool.registrations || []),
       'sharedMemberships',
-      'desc'
-    )
+      'desc',
+    ),
 );
 export const getRegistrationGroups = createSelector(
   selectAllRegistrationsForEvent,
   (registrations) => {
     const grouped = groupBy(registrations, (obj) =>
-      obj.unregistrationDate.isValid() ? 'unregistered' : 'registered'
+      obj.unregistrationDate.isValid() ? 'unregistered' : 'registered',
     );
     const registered = (grouped['registered'] || []).sort((a, b) =>
-      a.registrationDate.diff(b.registrationDate)
+      a.registrationDate.diff(b.registrationDate),
     );
     const unregistered = (grouped['unregistered'] || []).sort((a, b) =>
-      a.unregistrationDate.diff(b.unregistrationDate)
+      a.unregistrationDate.diff(b.unregistrationDate),
     );
     return {
       registered,
       unregistered,
     };
-  }
+  },
 );

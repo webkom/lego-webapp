@@ -16,5 +16,5 @@ const mapStateToProps = () => ({
 });
 
 export default compose(connect(mapStateToProps, mapDispatchToProps))(
-  EmailUserEditor
+  EmailUserEditor,
 );

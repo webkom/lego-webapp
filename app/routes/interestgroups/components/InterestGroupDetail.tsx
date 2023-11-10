@@ -49,7 +49,7 @@ const ButtonRow = ({
   leaveGroup,
 }: ButtonRowProps) => {
   const [membership] = group.memberships.filter(
-    (m) => m.user.id === currentUser.id
+    (m) => m.user.id === currentUser.id,
   );
   const onClick = membership
     ? () => leaveGroup(membership, group.id)

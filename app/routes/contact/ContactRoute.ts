@@ -45,7 +45,7 @@ export default compose(
     Promise.all([
       dispatch(fetchAllWithType(commiteeGroupType)),
       dispatch(fetchGroup(revueBoardGroupId)),
-    ])
+    ]),
   ),
   connect(mapStateToProps, mapDispatchToProps),
   reduxForm({
@@ -55,5 +55,5 @@ export default compose(
     initialValues: {
       anonymous: false,
     },
-  })
+  }),
 )(Contact);

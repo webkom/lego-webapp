@@ -28,5 +28,5 @@ const mapStateToProps = (state) => {
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
 )(InterestGroupCreate);

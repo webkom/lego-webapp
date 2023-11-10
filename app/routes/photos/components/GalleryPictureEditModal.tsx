@@ -35,7 +35,7 @@ const GalleryPictureEditModal = ({
       taggees: data.taggees && data.taggees.map((taggee) => taggee.value),
     };
     updatePicture(body).then(() =>
-      push(`/photos/${gallery.id}/picture/${picture.id}`)
+      push(`/photos/${gallery.id}/picture/${picture.id}`),
     );
   };
 
@@ -106,7 +106,7 @@ const GalleryPictureEditModal = ({
               danger
               onClick={() =>
                 deletePicture(gallery.id, picture.id).then(() =>
-                  push(`/photos/${gallery.id}`)
+                  push(`/photos/${gallery.id}`),
                 )
               }
             >

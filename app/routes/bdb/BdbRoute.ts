@@ -34,7 +34,7 @@ const mapDispatchToProps = {
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
   withPreparedDispatch('fetchBdb', (props, dispatch) =>
-    dispatch(fetchSemesters()).then(() => dispatch(fetchAllAdmin()))
+    dispatch(fetchSemesters()).then(() => dispatch(fetchAllAdmin())),
   ),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
 )(BdbPage);

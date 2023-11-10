@@ -65,7 +65,7 @@ const RestrictedMailEditor = ({
     mutateFunction({
       ...data,
       rawAddresses: (data.rawAddresses || []).map(
-        (rawAddresses) => rawAddresses.value
+        (rawAddresses) => rawAddresses.value,
       ),
       groups: (data.groups || []).map((group) => group.id),
       events: (data.events || []).map((event) => event.value),

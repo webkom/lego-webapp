@@ -32,7 +32,7 @@ const AdminRegister = (props: Props) => {
   const pools = useAppSelector((state) =>
     selectPoolsForEvent(state, {
       eventId: event.id,
-    })
+    }),
   );
 
   const dispatch = useAppDispatch();
@@ -45,10 +45,10 @@ const AdminRegister = (props: Props) => {
             user.id,
             values.pool?.value,
             values.feedback,
-            values.adminRegistrationReason
-          )
-        )
-      )
+            values.adminRegistrationReason,
+          ),
+        ),
+      ),
     );
     form.restart();
   };

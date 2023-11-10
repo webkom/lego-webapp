@@ -10,7 +10,7 @@ export const selectFollowersCurrentUser = createSelector(
       ...props,
       follower: selectCurrentUser(state) && selectCurrentUser(state).id,
     }),
-  (follow) => follow
+  (follow) => follow,
 );
 export const selectFollowers = createSelector(
   (state, { type }) => state[followersKeyGen(type)],
@@ -21,9 +21,9 @@ export const selectFollowers = createSelector(
       followers.items.find(
         (item) =>
           followers.byId[item].follower.toString() === follower?.toString() &&
-          followers.byId[item].target.toString() === target.toString()
+          followers.byId[item].target.toString() === target.toString(),
       )
-    ]
+    ],
 );
 export const followersKeyGen = (key: string) =>
   'followers' + key.charAt(0).toUpperCase() + key.substr(1).toLowerCase();
@@ -34,7 +34,7 @@ const followersSchemaGenerator = (
     fetch?: EntityReducerTypes;
     mutate?: EntityReducerTypes;
     delete?: EntityReducerTypes;
-  } = {}
+  } = {},
 ) =>
   createEntityReducer({
     key: followersKeyGen(title),

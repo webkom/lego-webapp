@@ -76,14 +76,14 @@ export function fetchAll({
           errorMessage: 'Henting av møter feilet',
         },
         propagateError: true,
-      })
+      }),
     );
   };
 }
 export function setInvitationStatus(
   meetingId: number,
   status: string,
-  user: UserEntity
+  user: UserEntity,
 ): Thunk<any> {
   return callAPI({
     types: Meeting.SET_INVITATION_STATUS,
@@ -152,12 +152,12 @@ export function inviteUsersAndGroups({
   users: [
     {
       id: ID;
-    }
+    },
   ];
   groups: [
     {
       value: ID;
-    }
+    },
   ];
 }): Thunk<Promise<void>> {
   return callAPI({
@@ -175,7 +175,7 @@ export function inviteUsersAndGroups({
 }
 export function answerMeetingInvitation(
   action: string,
-  token: string
+  token: string,
 ): Thunk<Promise<void>> {
   return (dispatch) => {
     dispatch(startSubmit('answerMeetingInvitation'));
@@ -187,7 +187,7 @@ export function answerMeetingInvitation(
         meta: {
           errorMessage: 'Svar på invitasjon feilet',
         },
-      })
+      }),
     )
       .then(() => {
         dispatch(stopSubmit('answerMeetingInvitation'));

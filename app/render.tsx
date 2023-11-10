@@ -24,7 +24,7 @@ const renderApp = ({
             history,
             routes,
           }}
-        />
+        />,
       );
     } else {
       createRoot(rootElement).render(
@@ -34,7 +34,7 @@ const renderApp = ({
             history,
             routes,
           }}
-        />
+        />,
       );
     }
   });

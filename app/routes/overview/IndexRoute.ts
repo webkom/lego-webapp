@@ -54,7 +54,7 @@ export default compose(
         dispatch(fetchReadmes(props.loggedIn ? 4 : 2)),
         dispatch(fetchData()),
       ]),
-    (props) => [props.loggedIn, props.shouldFetchQuote]
+    (props) => [props.loggedIn, props.shouldFetchQuote],
   ),
-  replaceUnlessLoggedIn(PublicFrontpage)
+  replaceUnlessLoggedIn(PublicFrontpage),
 )(Overview);

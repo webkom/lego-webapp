@@ -41,12 +41,12 @@ export type Props = {
   updatePresence: (
     eventId: number,
     registrationId: number,
-    presence: string
+    presence: string,
   ) => Promise<any>;
   updatePayment: (
     arg0: ID,
     arg1: ID,
-    arg2: EventRegistrationPaymentStatus
+    arg2: EventRegistrationPaymentStatus,
   ) => Promise<any>;
   usersResult: Array<User>;
   actionGrant: ActionGrant;
@@ -78,27 +78,27 @@ const Attendees = ({
   };
   const handlePresence = (
     registrationId: ID,
-    presence: EventRegistrationPresence
+    presence: EventRegistrationPresence,
   ) => updatePresence(eventId, registrationId, presence);
   const handlePayment = (
     registrationId: number,
-    paymentStatus: EventRegistrationPaymentStatus
+    paymentStatus: EventRegistrationPaymentStatus,
   ) => updatePayment(eventId, registrationId, paymentStatus);
 
   const registerCount = registered.filter(
-    (reg) => reg.presence === 'PRESENT' && reg.pool
+    (reg) => reg.presence === 'PRESENT' && reg.pool,
   ).length;
   const adminRegisterCount = registered.filter(
-    (reg) => reg.adminRegistrationReason !== '' && reg.pool
+    (reg) => reg.adminRegistrationReason !== '' && reg.pool,
   ).length;
   const registeredPaidCount = registered.filter(
     (reg) =>
       (reg.paymentStatus === 'succeeded' || reg.paymentStatus === 'manual') &&
-      reg.pool
+      reg.pool,
   ).length;
   const unRegisteredPaidCount = unregistered.filter(
     (unreg) =>
-      unreg.paymentStatus === 'succeeded' || unreg.paymentStatus === 'manual'
+      unreg.paymentStatus === 'succeeded' || unreg.paymentStatus === 'manual',
   ).length;
 
   if (loading) {
@@ -137,12 +137,12 @@ const Attendees = ({
         `${current.name},${current.email || ''},${
           parsePhoneNumber(current.phoneNumber).countryCallingCode || ''
         },${formatPhoneNumber(current.phoneNumber) || ''}\n`,
-      csvBeginning
+      csvBeginning,
     );
     const blobUrl = URL.createObjectURL(
       new Blob([csvString], {
         type: 'text/csv',
-      })
+      }),
     );
     setGeneratedCsvUrl(blobUrl);
   };

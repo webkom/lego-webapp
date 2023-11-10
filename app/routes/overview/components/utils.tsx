@@ -13,7 +13,9 @@ import type { PublicArticle } from 'app/store/models/Article';
 import type { PublicEvent } from 'app/store/models/Event';
 
 export const itemUrl = (
-  item: WithDocumentType<ArticleWithAuthorDetails | PublicArticle | PublicEvent>
+  item: WithDocumentType<
+    ArticleWithAuthorDetails | PublicArticle | PublicEvent
+  >,
 ) => {
   return `/${item.documentType === 'event' ? 'events' : 'articles'}/${
     item.slug
@@ -21,7 +23,9 @@ export const itemUrl = (
 };
 
 export const renderMeta = (
-  item: WithDocumentType<ArticleWithAuthorDetails | PublicArticle | PublicEvent>
+  item: WithDocumentType<
+    ArticleWithAuthorDetails | PublicArticle | PublicEvent
+  >,
 ) => {
   let itemTime;
   if (isEvent(item)) {

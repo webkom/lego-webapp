@@ -20,7 +20,7 @@ import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 type Props = {
   addSemesterStatus: (
     arg0: Record<string, any>,
-    arg1: Record<string, any> | null | undefined
+    arg1: Record<string, any> | null | undefined,
   ) => Promise<any>;
   companyId: number;
   autoFocus: any;
@@ -64,7 +64,7 @@ const AddSemester = (props: Props) => {
         },
         {
           detail: true,
-        }
+        },
       );
     } else {
       return addSemester({
@@ -80,7 +80,7 @@ const AddSemester = (props: Props) => {
           },
           {
             detail: true,
-          }
+          },
         );
       });
     }
@@ -163,7 +163,9 @@ const AddSemester = (props: Props) => {
                     className={
                       styles[
                         selectColorCode(
-                          selectMostProminentStatus(input.value.contactedStatus)
+                          selectMostProminentStatus(
+                            input.value.contactedStatus,
+                          ),
                         )
                       ]
                     }
@@ -174,7 +176,7 @@ const AddSemester = (props: Props) => {
                         input.onChange({
                           contactedStatus: getContactedStatuses(
                             input.value.contactedStatus,
-                            statusString
+                            statusString,
                           ),
                         });
                       }}

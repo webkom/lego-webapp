@@ -27,5 +27,5 @@ export default compose(
   reduxForm({
     form: 'oauth2',
     validate,
-  })
+  }),
 )(UserSettingsOAuth2Form);

@@ -51,7 +51,7 @@ const mapDispatchToProps = (dispatch, { location }) => {
 
     handleSelect: async (result: UserSearchResult): Promise<User> => {
       const fetchRes = await dispatch(
-        fetchUser(result.username, { propagateError: false })
+        fetchUser(result.username, { propagateError: false }),
       );
 
       return Object.values(fetchRes.payload?.entities?.users)[0] as User;
@@ -74,5 +74,5 @@ const WrappedValidator = (props: ComponentProps<typeof Validator>) => (
 
 export default compose(
   withPreparedDispatch('fetchValidator', loadData),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
 )(WrappedValidator);

@@ -47,5 +47,5 @@ const mapDispatchToProps = {
 };
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  loadingIndicator(['picture.id'])
+  loadingIndicator(['picture.id']),
 )(GalleryPictureEditModal);

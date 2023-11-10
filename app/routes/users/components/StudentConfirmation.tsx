@@ -65,7 +65,7 @@ const StudentConfirmation = ({
   const setAbakusMember = async (member: boolean) => {
     await updateUser(
       { ...currentUser, isAbakusMember: member },
-      { noRedirect: true }
+      { noRedirect: true },
     );
     setShowMemberModal(false);
   };

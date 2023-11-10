@@ -51,15 +51,15 @@ const PermissionList = ({
               ))}
             </ul>
           </>
-        )
+        ),
     )
     .filter(Boolean);
   const allPermissionsList = sortBy(
     permissions.concat(
       // $FlowFixMe
-      parentPermissions.flatMap(({ permissions }) => permissions)
+      parentPermissions.flatMap(({ permissions }) => permissions),
     ),
-    (permission: string) => permission.split('/').length
+    (permission: string) => permission.split('/').length,
   )
     .reduce((acc: Array<string>, perm: string) => {
       // Reduce perms to only show broadest set of permissions
@@ -75,7 +75,7 @@ const PermissionList = ({
             concatedString,
           ];
         },
-        [false, '/']
+        [false, '/'],
       );
       if (broaderPermFound) return acc;
       return [...acc, perm];
@@ -153,5 +153,5 @@ const mapDispatchToProps = {
 };
 export default compose(
   connect(() => ({}), mapDispatchToProps),
-  loadingIndicator(['group'])
+  loadingIndicator(['group']),
 )(GroupPermissions);

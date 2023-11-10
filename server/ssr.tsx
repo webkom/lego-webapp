@@ -32,7 +32,7 @@ const prepareWithTimeout = (app): Promise<string> =>
       setTimeout(resolve, serverSideTimeoutInMs);
     }).then(() => {
       throw new TimeoutError(
-        'React prepare timeout when server side rendering.'
+        'React prepare timeout when server side rendering.',
       );
     }),
   ]);
@@ -41,14 +41,14 @@ const createServerSideRenderer = (req: Request, res: Response) => {
   const render = (
     app?: ReactElement,
     state: RootState | Record<string, never> = Object.freeze({}),
-    preparedStateCode?: string
+    preparedStateCode?: string,
   ) => {
     return res.send(
       pageRenderer({
         app,
         state,
         preparedStateCode,
-      })
+      }),
     );
   };
 
@@ -72,7 +72,7 @@ const createServerSideRenderer = (req: Request, res: Response) => {
     {
       Sentry,
       getCookie: (key) => req.cookies[key],
-    }
+    },
   );
 
   const providerData = {
@@ -134,7 +134,7 @@ const createServerSideRenderer = (req: Request, res: Response) => {
         }
 
         respond();
-      }
+      },
     )
     .catch((error) => {
       reportError(error);

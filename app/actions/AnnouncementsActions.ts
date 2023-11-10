@@ -43,7 +43,7 @@ Thunk<any> {
         meta: {
           errorMessage: 'Opprettelse av kunngjøringer feilet',
         },
-      })
+      }),
     )
       .then((action) => {
         if (send && action && action.payload) {

@@ -54,7 +54,7 @@ describe('<GroupMembers />', () => {
         }}
         groupId={group.id}
         memberships={memberships}
-      />
+      />,
     );
     const membersList = wrapper.find(GroupMembersList);
     expect(membersList.prop('memberships')).toEqual(memberships);
@@ -67,7 +67,7 @@ describe('<GroupMembers />', () => {
         }}
         groupId={group.id}
         memberships={undefined}
-      />
+      />,
     );
     const loadingIndicator = wrapper.find(LoadingIndicator);
     const { loading } = loadingIndicator.props();

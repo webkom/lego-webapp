@@ -84,7 +84,7 @@ class PenaltyInLine extends Component<Props, State> {
             {showForm && (
               <Form
                 onSubmit={handleSubmit(
-                  withSubmissionError((values) => this.onSubmit(values, user))
+                  withSubmissionError((values) => this.onSubmit(values, user)),
                 )}
               >
                 <Field
@@ -134,5 +134,5 @@ export default compose(
 
       return errors;
     },
-  })
+  }),
 )(PenaltyInLine);

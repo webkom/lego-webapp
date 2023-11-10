@@ -100,7 +100,7 @@ const GroupMembersList = ({
                 userId: membership.user.id,
                 groupId: membership.abakusGroup,
                 role: value.value,
-              })
+              }),
             );
           }}
         />
@@ -114,7 +114,7 @@ const GroupMembersList = ({
     const { id, user, abakusGroup } = membership;
     const isCurrentUser = checkIfCurrentUser(
       user.username,
-      currentUser.username
+      currentUser.username,
     );
 
     return (

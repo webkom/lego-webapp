@@ -35,8 +35,8 @@ export default compose(
   withPreparedDispatch(
     'fetchSurveyDetail',
     (props, dispatch) => dispatch(fetchSurvey(props.match.params.surveyId)),
-    (props) => [props.match.params.surveyId]
+    (props) => [props.match.params.surveyId],
   ),
   connect(mapStateToProps, mapDispatchToProps),
-  loadingIndicator(['survey.questions', 'survey.event'])
+  loadingIndicator(['survey.questions', 'survey.event']),
 )(SurveyDetail);

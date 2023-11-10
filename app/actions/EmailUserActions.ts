@@ -60,7 +60,7 @@ export function fetch({
           errorMessage: 'Henting av e-postlister feilet',
         },
         propagateError: true,
-      })
+      }),
     );
   };
 }

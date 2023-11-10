@@ -49,7 +49,7 @@ export const selectSurveys = createSelector(
       ...surveysById[surveyId],
       event: events.find((event) => event.id === surveysById[surveyId].event),
     }));
-  }
+  },
 );
 
 type SurveyByIdProps = {
@@ -62,11 +62,11 @@ export const selectSurveyById = createSelector(
   (surveys, surveyId) => {
     const survey = surveys.find((survey) => survey.id === surveyId);
     return survey || {};
-  }
+  },
 );
 export const selectSurveyTemplates = createSelector(
   (state: RootState) => selectSurveys(state),
-  (surveys) => surveys.filter((survey) => survey.templateType)
+  (surveys) => surveys.filter((survey) => survey.templateType),
 );
 
 type SurveyTemplateProps = {
@@ -78,7 +78,7 @@ export const selectSurveyTemplate = createSelector(
   (state, props: SurveyTemplateProps) => props.templateType,
   (surveys, templateType) => {
     const template = surveys.find(
-      (survey) => survey.templateType === templateType
+      (survey) => survey.templateType === templateType,
     );
     if (!template) return false;
     const questions = (template.questions || []).map((question) => ({
@@ -89,5 +89,5 @@ export const selectSurveyTemplate = createSelector(
       ...omit(template, ['id', 'event', 'activeFrom', 'templateType']),
       questions,
     };
-  }
+  },
 );

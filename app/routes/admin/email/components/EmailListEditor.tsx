@@ -97,7 +97,7 @@ export default legoForm({
       groups: (data.groups || []).map((group) => group.value),
       users: (data.users || []).map((user) => user.value),
       additionalEmails: (data.additionalEmails || []).map(
-        (email) => email.value
+        (email) => email.value,
       ),
     }).then(({ payload }) => {
       if (!emailListId) {
