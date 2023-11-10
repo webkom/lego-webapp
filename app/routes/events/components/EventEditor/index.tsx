@@ -351,18 +351,18 @@ function EventEditor({
               </Flex>
             )}
             <Field
-              label="Kun for spesifikk gruppe"
-              description="Gjør arrangementet synlig for kun medlemmer i spesifikke grupper"
-              name="isGroupOnly"
+              label="Fremmedspråklig"
+              description="Arrangementet er på et annet språk enn norsk (engelsk)."
+              name="isForeignLanguage"
               component={CheckBox.Field}
               fieldClassName={styles.metaField}
               className={styles.formField}
               normalize={(v) => !!v}
             />
             <Field
-              label="Fremmedspråklig"
-              description="Arrangementet er på et annet språk enn norsk (engelsk)."
-              name="isForeignLanguage"
+              label="Kun for spesifikk gruppe"
+              description="Gjør arrangementet synlig for kun medlemmer i spesifikke grupper"
+              name="isGroupOnly"
               component={CheckBox.Field}
               fieldClassName={styles.metaField}
               className={styles.formField}
@@ -485,7 +485,7 @@ function EventEditor({
               event.eventStatusType && event.eventStatusType.value
             ) && (
               <Field
-                label="Separat avregistregistreringsfrist"
+                label="Separat avregistreringsfrist"
                 description="Separate frister for påmelding og avmelding - antall timer før arrangementet. Det vil ikke være mulig å melde seg av eller på etter de satte fristene (negativ verdi betyr antall timer etter starten på arrangementet)"
                 name="separateDeadlines"
                 component={CheckBox.Field}
