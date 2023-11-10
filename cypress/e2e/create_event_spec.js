@@ -35,7 +35,6 @@ describe('Create event', () => {
     fieldError('cover').should('be.visible');
     fieldError('title').should('be.visible');
     fieldError('description').should('be.visible');
-    fieldError('mazemapPoi').should('be.visible');
     fieldError('eventType').should('be.visible');
     fieldError('isClarified').should('be.visible');
 
@@ -49,10 +48,10 @@ describe('Create event', () => {
     field('description').type('blir fett').blur();
     fieldError('description').should('not.exist');
 
-    field('useMazemap').uncheck();
     cy.contains('Sted').click();
     cy.focused().type('R4');
     fieldError('mazemapPoi').should('not.exist');
+    fieldError('location').should('not.exist');
 
     field('isClarified').check();
     fieldError('isClarified').should('not.exist');
@@ -144,7 +143,6 @@ describe('Create event', () => {
     uploadHeader();
     field('title').type('Pils på Webkomkontoret!').blur();
     field('description').type('blir fett').blur();
-    field('useMazemap').uncheck();
     field('location').type('DT').blur();
     field('isClarified').check();
     selectField('eventType').click();
@@ -177,7 +175,6 @@ describe('Create event', () => {
     selectField('eventType').click();
     cy.focused().type('be{enter}', { force: true });
 
-    field('useMazemap').uncheck();
     field('location').type('DT').blur();
 
     // Select company
@@ -220,7 +217,6 @@ describe('Create event', () => {
     field('title').type('Ubestemt event').blur();
     field('description').type('mer info kommer').blur();
     selectEditor().type('mer info kommer');
-    field('useMazemap').uncheck();
     field('location').type('DT').blur();
 
     // Select type
@@ -271,7 +267,6 @@ describe('Create event', () => {
     cy.focused().type('Vanlig{enter}', { force: true });
 
     // Set location
-    field('useMazemap').uncheck();
     cy.contains('Sted').click();
     cy.focused().type('R4');
 
@@ -343,7 +338,6 @@ describe('Create event', () => {
     cy.focused().type('Uten{enter}', { force: true });
 
     // Set location
-    field('useMazemap').uncheck();
     cy.contains('Sted').click();
     cy.focused().type('Kjellern');
 
@@ -379,7 +373,6 @@ describe('Create event', () => {
     cy.focused().type('Med på{enter}', { force: true });
 
     // Set location
-    field('useMazemap').uncheck();
     cy.contains('Sted').click();
     cy.focused().type('EL6');
 

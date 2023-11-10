@@ -147,18 +147,12 @@ const calculatePrice = (data) => {
  * @param eventStatusType: what kind of registrationmode this event has
  */
 const calculateLocation = (data) => {
-  if (data.eventStatusType && data.eventStatusType.value === 'TBA')
-    return 'TBA';
   if (data.useMazemap) return data.mazemapPoi.label;
   return data.location;
 };
 
 const calculateMazemapPoi = (data) => {
-  if (
-    data.eventStatusType?.value === 'TBA' ||
-    !data.useMazemap ||
-    data.mazemapPoi.value === ''
-  ) {
+  if (!data.useMazemap || data.mazemapPoi.value === '') {
     return null;
   }
 

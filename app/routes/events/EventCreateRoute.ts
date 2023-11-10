@@ -89,7 +89,7 @@ const mapStateToProps = (state, props) => {
       },
       company: null,
       responsibleGroup: null,
-      location: '',
+      location: 'TBA',
       isPriced: false,
       useStripe: true,
       priceMember: 0,
@@ -108,7 +108,7 @@ const mapStateToProps = (state, props) => {
       useConsent: false,
       feedbackDescription: '',
       pools: [],
-      useMazemap: true,
+      useMazemap: false,
       separateDeadlines: false,
       unregistrationDeadline: time({
         hours: 12,
