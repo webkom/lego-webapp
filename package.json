@@ -172,7 +172,7 @@
     "eslint-plugin-react": "^7.33.1",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-redux": "^4.0.0",
-    "eslint-plugin-testing-library": "^5.11.0",
+    "eslint-plugin-testing-library": "^6.1.2",
     "express": "^4.18.2",
     "express-static-gzip": "^2.1.7",
     "identity-obj-proxy": "3.0.0",
