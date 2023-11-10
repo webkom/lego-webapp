@@ -387,7 +387,7 @@ export function unfollow(
         meta: {
           id: followId,
           eventId,
-          errorMessage: 'Avregistering fra interesse feilet',
+          errorMessage: 'Avregistrering fra interesse feilet',
         },
       })
     );
