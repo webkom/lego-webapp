@@ -23,7 +23,7 @@ describe('parseQueryString', () => {
     const initialValues = {
       foo: ['fizz'],
     };
-    const queryString = '?foo[]=bar&foo[]=baz';
+    const queryString = '?foo=bar&foo=baz';
     const query = parseQueryString(queryString, initialValues);
     expect(query.foo).toEqual(['bar', 'baz']);
   });
@@ -63,7 +63,7 @@ describe('stringifyQuery', () => {
     };
 
     const queryString = stringifyQuery(query, initialValues);
-    expect(queryString).toBe('?foo=baz&obj[fizz]=bizz&arr[]=fizz&arr[]=bizz');
+    expect(queryString).toBe('?foo=baz&obj[fizz]=bizz&arr=fizz&arr=bizz');
   });
 
   it('should remove default values', () => {

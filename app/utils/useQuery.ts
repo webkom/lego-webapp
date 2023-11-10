@@ -11,6 +11,16 @@ export const parseQueryString = <Values extends ParsedQs>(
   defaultValues: Values
 ): Values => {
   const parsedQs = qs.parse(queryString, { ignoreQueryPrefix: true });
+
+  // ensure that all array values are arrays
+  for (const key in parsedQs) {
+    const defaultValue = defaultValues[key];
+    const parsedValue = parsedQs[key];
+    if (Array.isArray(defaultValue) && typeof parsedValue === 'string') {
+      parsedQs[key] = [parsedValue];
+    }
+  }
+
   return { ...defaultValues, ...parsedQs };
 };
 
@@ -30,7 +40,7 @@ export const stringifyQuery = <Values extends ParsedQs>(
   return qs.stringify(filteredQuery, {
     addQueryPrefix: true,
     encodeValuesOnly: true,
-    arrayFormat: 'brackets',
+    arrayFormat: 'repeat',
   });
 };
 
