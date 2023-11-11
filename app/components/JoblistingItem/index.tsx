@@ -27,11 +27,16 @@ const JoblistingItem = ({ joblisting }: JobListingItemProps) => (
     )}
     <div className={styles.listItem}>
       <div>
-        <Flex wrap gap={4}>
+        <Flex
+          wrap
+          alignItems="center"
+          gap={6}
+          className={styles.joblistingItemTitle}
+        >
           {moment(joblisting.createdAt).isAfter(
             moment().subtract(3, 'days')
           ) && <Tag tag="Ny" color="green" />}
-          <span className={styles.joblistingItemTitle}>{joblisting.title}</span>
+          <span>{joblisting.title}</span>
         </Flex>
         <div>
           {joblisting.company.name}
