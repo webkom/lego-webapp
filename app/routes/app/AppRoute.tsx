@@ -214,20 +214,19 @@ export default compose(
     () => [],
     { serverOnly: true }
   ),
-  withPreparedDispatch('fetchDivData', (props, dispatch) =>
-    Promise.all([
-      dispatch(fetchNotificationData()),
-      dispatch((dispatch, getState) => {
-        if (!selectIsLoggedIn(getState())) {
-          return Promise.resolve();
-        }
-        return dispatch(
-          fetchMeetings({
-            dateAfter: moment().format('YYYY-MM-DD'),
-          })
-        );
-      }),
-    ])
-  ),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
+  withPreparedDispatch(
+    'fetchDivData',
+    (props, dispatch) =>
+      Promise.all([
+        dispatch(fetchNotificationData()),
+        props.loggedIn &&
+          dispatch(
+            fetchMeetings({
+              dateAfter: moment().format('YYYY-MM-DD'),
+            })
+          ),
+      ]),
+    (props) => [props.loggedIn]
+  )
 )(App);
