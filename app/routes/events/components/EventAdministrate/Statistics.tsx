@@ -1,9 +1,9 @@
+import { useState } from 'react';
 import EventAttendeeStatistics from 'app/routes/events/components/EventAttendeeStatistics';
 import styles from 'app/routes/events/components/EventAttendeeStatistics.css';
 import type { Dateish, EventRegistration, Group } from 'app/models';
 import type { DetailedEvent } from 'app/store/models/Event';
 import type { DetailedRegistration } from 'app/store/models/Registration';
-import { useState } from 'react';
 
 interface Props {
   committees: Group[];
