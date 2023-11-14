@@ -15,7 +15,9 @@ describe('reducers', () => {
           name: 'welcome',
           reactions: [
             {
-              author: undefined,
+              author: {
+                fullName: 'test',
+              },
               emoji: ':joy:',
               reactionId: 33,
               unicodeString: '123',
@@ -62,6 +64,16 @@ describe('reducers', () => {
             id: 3,
             text: 'hello world',
             name: 'welcome',
+            reactions: [
+              {
+                author: {
+                  fullName: 'test',
+                },
+                emoji: ':joy:',
+                reactionId: 33,
+                unicodeString: '123',
+              },
+            ],
             reactionsGrouped: [
               {
                 emoji: ':joy:',
@@ -75,6 +87,16 @@ describe('reducers', () => {
             id: 4,
             text: 'test',
             name: 'test',
+            reactions: [
+              {
+                author: {
+                  fullName: 'test',
+                },
+                emoji: ':joy:',
+                reactionId: 33,
+                unicodeString: '123',
+              },
+            ],
             reactionsGrouped: [
               {
                 emoji: ':joy:',
@@ -111,6 +133,16 @@ describe('reducers', () => {
             id: 3,
             text: 'hello world',
             name: 'welcome',
+            reactions: [
+              {
+                author: {
+                  fullName: 'test',
+                },
+                emoji: ':joy:',
+                reactionId: 33,
+                unicodeString: '123',
+              },
+            ],
             reactionsGrouped: [
               {
                 emoji: ':joy:',
@@ -125,6 +157,7 @@ describe('reducers', () => {
             id: 4,
             text: 'test',
             name: 'test',
+            reactions: [],
             reactionsGrouped: [],
           },
         },
@@ -141,6 +174,16 @@ describe('reducers', () => {
             id: 3,
             text: 'hello world',
             name: 'welcome',
+            reactions: [
+              {
+                author: {
+                  fullName: 'test',
+                },
+                emoji: ':joy:',
+                reactionId: 33,
+                unicodeString: '123',
+              },
+            ],
             reactionsGrouped: [
               {
                 emoji: ':joy:',
@@ -169,6 +212,7 @@ describe('reducers', () => {
             id: 3,
             text: 'hello world',
             name: 'welcome',
+            reactions: [],
             reactionsGrouped: [],
           },
         },
