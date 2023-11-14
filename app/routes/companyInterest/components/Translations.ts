@@ -8,7 +8,7 @@ export const EVENTS = {
     english: 'Lunch presentation',
   },
   course: {
-    norwegian: 'Faglig arrangement',
+    norwegian: 'Bedriftskurs',
     english: 'Course or workshop',
   },
   breakfast_talk: {
@@ -19,10 +19,10 @@ export const EVENTS = {
   //   norwegian: 'Digital presentasjon',
   //   english: 'Digital presentation',
   // },
-  // bedex: {
-  //   norwegian: 'Bedriftsekskursjon (BedEx)',
-  //   english: 'Company excursion (BedEx)',
-  // },
+  bedex: {
+    norwegian: 'Bedriftsekskursjon (BedEx)',
+    english: 'Company excursion (BedEx)',
+  },
   other: {
     norwegian: 'Alternativt arrangement',
     english: 'Other event',
@@ -119,10 +119,10 @@ export const COLLABORATION_TYPES = {
     norwegian: 'Samarbeid med TIHLDE linjeforening',
     english: 'Event in collaboration with TIHLDE',
   },
-  collaboration_revue: {
-    norwegian: 'Samarbeid med Revyen',
-    english: 'Collaboration with the revue',
-  },
+  // collaboration_revue: {
+  //   norwegian: 'Samarbeid med Revyen',
+  //   english: 'Collaboration with the revue',
+  // },
   // collaboration_anniversary: {
   //   english: "Collaboration with Abakus' anniversary committee*",
   //   norwegian: 'Samarbeid med Abakus sitt Jubileum*',
