@@ -4,8 +4,8 @@ import Emoji from 'app/components/Emoji';
 import Tooltip from 'app/components/Tooltip';
 import styles from './Reaction.css';
 import type { ID } from 'app/store/models';
+import type { CurrentUser } from 'app/store/models/User';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
-import { CurrentUser } from 'app/store/models/User';
 
 type Props = {
   className?: string;

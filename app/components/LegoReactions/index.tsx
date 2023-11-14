@@ -3,8 +3,8 @@ import Reaction from 'app/components/Reactions/Reaction';
 import type { ID } from 'app/store/models';
 import type Emoji from 'app/store/models/Emoji';
 import type { ReactionsGrouped } from 'app/store/models/Reaction';
-import type { ContentTarget } from 'app/store/utils/contentTarget';
 import type { CurrentUser } from 'app/store/models/User';
+import type { ContentTarget } from 'app/store/utils/contentTarget';
 
 type Props = {
   user: CurrentUser;
@@ -63,10 +63,10 @@ const LegoReactions = (props: Props) => {
     });
   }
 
-  let usersByReaction = {};
+  const usersByReaction = {};
 
   if (parentEntity.reactions) {
-    for (let reaction of parentEntity.reactions) {
+    for (const reaction of parentEntity.reactions) {
       if (!usersByReaction[reaction.emoji]) {
         usersByReaction[reaction.emoji] = [];
       }

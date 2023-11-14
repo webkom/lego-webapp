@@ -7,9 +7,9 @@ import AddReactionEmoji from './assets/AddReactionEmoji';
 import styles from './index.css';
 import type { EmojiWithReactionData } from 'app/components/LegoReactions';
 import type { ID } from 'app/models';
+import type { CurrentUser } from 'app/store/models/User';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 import type { ReactNode, SyntheticEvent } from 'react';
-import { CurrentUser } from 'app/store/models/User';
 
 type Props = {
   user: CurrentUser;
