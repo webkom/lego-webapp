@@ -65,16 +65,12 @@ const LegoReactions = (props: Props) => {
 
   let usersByReaction = {};
 
-  if (parentEntity.reactionsGrouped && parentEntity.reactions) {
-    for (let groupedReaction of parentEntity.reactionsGrouped) {
-      for (let reaction of parentEntity.reactions) {
-        if (reaction.emoji === groupedReaction.emoji) {
-          if (!usersByReaction[reaction.emoji]) {
-            usersByReaction[reaction.emoji] = [];
-          }
-          usersByReaction[reaction.emoji].push(reaction.author);
-        }
+  if (parentEntity.reactions) {
+    for (let reaction of parentEntity.reactions) {
+      if (!usersByReaction[reaction.emoji]) {
+        usersByReaction[reaction.emoji] = [];
       }
+      usersByReaction[reaction.emoji].push(reaction.author);
     }
   }
 
