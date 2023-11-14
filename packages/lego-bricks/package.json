@@ -65,7 +65,7 @@
     "@vitejs/plugin-react": "^4.1.0",
     "enzyme": "^3.9.0",
     "eslint": "^8.42.0",
-    "eslint-plugin-storybook": "^0.6.13",
+    "eslint-plugin-storybook": "^0.6.15",
     "storybook": "^7.4.6",
     "typescript": "^5.2.2",
     "vite": "^4.3.2",
