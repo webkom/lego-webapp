@@ -1,24 +1,17 @@
+import { Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import Icon from 'app/components/Icon';
 import PageHierarchy from './PageHierarchy';
 import styles from './Sidebar.css';
 import type { HierarchySectionEntity } from './PageHierarchy';
 
 type Props = {
-  categorySelected: string;
   currentUrl: string;
   pageHierarchy: Array<HierarchySectionEntity>;
   isOpen: boolean;
   handleClose: () => void;
 };
 
-const Sidebar = ({
-  categorySelected,
-  currentUrl,
-  pageHierarchy,
-  isOpen,
-  handleClose,
-}: Props) => {
+const Sidebar = ({ currentUrl, pageHierarchy, isOpen, handleClose }: Props) => {
   return (
     <div className={cx(styles.sidebar, isOpen || styles.sidebarClosed)}>
       <button className={styles.sidebarCloseButton} onClick={handleClose}>
@@ -28,7 +21,6 @@ const Sidebar = ({
       <PageHierarchy
         pageHierarchy={pageHierarchy}
         currentUrl={currentUrl}
-        currentCategory={categorySelected}
         handleCloseSidebar={handleClose}
       />
     </div>

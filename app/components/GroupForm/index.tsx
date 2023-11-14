@@ -8,9 +8,9 @@ import {
   CheckBox,
   legoForm,
 } from 'app/components/Form';
-import type { DetailedGroup } from 'app/store/models/Group';
 import { createValidator, required } from 'app/utils/validation';
 import styles from './index.css';
+import type { DetailedGroup } from 'app/store/models/Group';
 import type { FormProps } from 'redux-form';
 
 type OwnProps = {

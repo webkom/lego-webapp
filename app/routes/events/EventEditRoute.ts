@@ -28,6 +28,7 @@ import {
   transformEventStatusType,
   EVENT_CONSTANTS,
 } from './utils';
+import type { DetailedUser } from 'app/store/models/User';
 
 const mapStateToProps = (state, props) => {
   const eventIdOrSlug = props.match.params.eventIdOrSlug;
@@ -53,6 +54,7 @@ const mapStateToProps = (state, props) => {
   });
   const valueSelector = formValueSelector('eventEditor');
   const imageGallery = selectImageGalleryEntries(state);
+
   return {
     initialValues: {
       ...event,
@@ -83,6 +85,16 @@ const mapStateToProps = (state, props) => {
         label: event.responsibleGroup.name,
         value: event.responsibleGroup.id,
       },
+      responsibleUsers:
+        event.responsibleUsers &&
+        event.responsibleUsers.map((user: DetailedUser) => {
+          return {
+            label: user.fullName,
+            value: user.id,
+          };
+        }),
+      isForeignLanguage: event.isForeignLanguage,
+
       eventType: event.eventType && {
         label: EVENT_CONSTANTS[event.eventType],
         value: event.eventType,

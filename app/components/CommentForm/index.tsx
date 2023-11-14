@@ -1,17 +1,16 @@
+import { Card, Flex } from '@webkom/lego-bricks';
 import { Field } from 'react-final-form';
 import { addComment } from 'app/actions/CommentActions';
-import Card from 'app/components/Card';
 import { TextInput } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import { ProfilePicture } from 'app/components/Image';
-import Flex from 'app/components/Layout/Flex';
 import { useAppDispatch } from 'app/store/hooks';
-import type { ID } from 'app/store/models';
-import type { CurrentUser } from 'app/store/models/User';
 import { createValidator, legoEditorRequired } from 'app/utils/validation';
 import styles from './CommentForm.css';
+import type { ID } from 'app/store/models';
+import type { CurrentUser } from 'app/store/models/User';
 
 type Props = {
   contentTarget: string;

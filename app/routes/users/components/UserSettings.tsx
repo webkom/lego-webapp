@@ -9,7 +9,6 @@ import {
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
-import type { UserEntity } from 'app/reducers/users';
 import DeleteUser from 'app/routes/users/components/DeleteUser';
 import RemovePicture from 'app/routes/users/components/RemovePicture';
 import { useIsCurrentUser } from 'app/routes/users/utils';
@@ -24,6 +23,7 @@ import {
 import ChangePassword from './ChangePassword';
 import UserImage from './UserImage';
 import styles from './UserSettings.css';
+import type { UserEntity } from 'app/reducers/users';
 
 export type PasswordPayload = {
   newPassword: string;

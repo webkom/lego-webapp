@@ -15,6 +15,7 @@ import loadingIndicator from 'app/utils/loadingIndicator';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import ArticleEditor from './components/ArticleEditor';
+import type { DetailedUser } from 'app/store/models/User';
 
 const mapStateToProps = (state, props) => {
   const { articleId } = props.match.params;
@@ -23,7 +24,7 @@ const mapStateToProps = (state, props) => {
   });
 
   const currentUser = selectCurrentUser(state);
-  const authors = article?.authors?.length
+  const authors: DetailedUser[] = article?.authors?.length
     ? article.authors.map((e) => selectUserById(state, { userId: e }))
     : [currentUser];
 

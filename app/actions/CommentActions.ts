@@ -1,9 +1,9 @@
 import callAPI from 'app/actions/callAPI';
 import { commentSchema } from 'app/reducers';
+import { Comment } from './ActionTypes';
 import type { ID } from 'app/store/models';
 import type CommentType from 'app/store/models/Comment';
 import type { Thunk } from 'app/types';
-import { Comment } from './ActionTypes';
 
 export function addComment({
   text,

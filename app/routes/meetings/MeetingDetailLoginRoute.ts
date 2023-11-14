@@ -12,10 +12,10 @@ import {
   selectCommentsForMeeting,
 } from 'app/reducers/meetings';
 import { selectUserById } from 'app/reducers/users';
-import type { UserContextType } from 'app/routes/app/AppRoute';
-import type { RootState } from 'app/store/createRootReducer';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import MeetingDetail from './components/MeetingDetail';
+import type { UserContextType } from 'app/routes/app/AppRoute';
+import type { RootState } from 'app/store/createRootReducer';
 import type { RouteChildrenProps } from 'react-router';
 
 type Params = {

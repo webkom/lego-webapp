@@ -1,4 +1,10 @@
-import { LoadingIndicator, Button } from '@webkom/lego-bricks';
+import {
+  Button,
+  ConfirmModal,
+  Flex,
+  Icon,
+  LoadingIndicator,
+} from '@webkom/lego-bricks';
 import { Helmet } from 'react-helmet-async';
 import { Form, Fields, Field } from 'redux-form';
 import { Content } from 'app/components/Content';
@@ -13,14 +19,11 @@ import {
   legoForm,
 } from 'app/components/Form';
 import { normalizeObjectPermissions } from 'app/components/Form/ObjectPermissions';
-import Icon from 'app/components/Icon';
-import Flex from 'app/components/Layout/Flex';
-import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import NavigationTab from 'app/components/NavigationTab';
+import { validYoutubeUrl } from 'app/utils/validation';
 import type { EditingEvent } from 'app/routes/events/utils';
 import type { DetailedArticle } from 'app/store/models/Article';
 import type { CurrentUser } from 'app/store/models/User';
-import { validYoutubeUrl } from 'app/utils/validation';
 
 export type Props = {
   article?: DetailedArticle;
@@ -102,11 +105,6 @@ const ArticleEditor = ({
           component={SelectInput.AutocompleteField}
           isMulti
           tags
-          shouldKeyDownEventCreateNewOption={({
-            keyCode,
-          }: {
-            keyCode: number;
-          }) => keyCode === 32 || keyCode === 13}
         />
 
         <Field

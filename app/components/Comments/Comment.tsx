@@ -1,20 +1,18 @@
-import { Button } from '@webkom/lego-bricks';
+import { Button, Flex, Icon } from '@webkom/lego-bricks';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import CommentForm from 'app/components/CommentForm';
 import DisplayContent from 'app/components/DisplayContent';
-import Icon from 'app/components/Icon';
 import { ProfilePicture } from 'app/components/Image';
-import { Flex } from 'app/components/Layout';
 import { Tag } from 'app/components/Tags';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
+import styles from './Comment.css';
 import type { ID } from 'app/store/models';
 import type CommentType from 'app/store/models/Comment';
 import type { ContentAuthors } from 'app/store/models/Comment';
 import type { CurrentUser } from 'app/store/models/User';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
-import styles from './Comment.css';
 
 type Props = {
   comment: CommentType;

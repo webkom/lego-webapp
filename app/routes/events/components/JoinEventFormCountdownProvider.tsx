@@ -1,7 +1,7 @@
 import moment from 'moment-timezone';
 import { Component } from 'react';
-import type { Dateish, Event, EventRegistration } from 'app/models';
 import { registrationIsClosed } from '../utils';
+import type { Dateish, Event, EventRegistration } from 'app/models';
 import type { Duration } from 'moment-timezone';
 import type { ComponentType, ReactNode } from 'react';
 

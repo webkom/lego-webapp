@@ -1,16 +1,13 @@
-import { Button } from '@webkom/lego-bricks';
+import { Button, Flex, Icon, Modal } from '@webkom/lego-bricks';
 import { get } from 'lodash';
 import { useCallback, useRef, useState } from 'react';
 import { QrReader } from 'react-qr-reader';
-import type { addToast } from 'app/actions/ToastActions';
 import goodSound from 'app/assets/good-sound.mp3';
-import Icon from 'app/components/Icon';
-import Modal from 'app/components/Modal';
 import SearchPage from 'app/components/Search/SearchPage';
+import styles from './Validator.css';
+import type { addToast } from 'app/actions/ToastActions';
 import type { User } from 'app/models';
 import type { UserSearchResult } from 'app/reducers/search';
-import { Flex } from '../Layout';
-import styles from './Validator.css';
 import type { ComponentProps } from 'react';
 import type { Required } from 'utility-types';
 

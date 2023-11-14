@@ -2,6 +2,7 @@ import moment from 'moment-timezone';
 import config from '../support/config';
 import {
   c,
+  t,
   field,
   fieldError,
   fieldErrors,
@@ -135,7 +136,7 @@ describe('Create meeting', () => {
       .should('contain', 'bedkom bedkom')
       .should('contain', 'webkom webkom');
 
-    cy.get(c('Modal__closeButton')).click();
+    cy.get(t('Modal__closeButton')).click();
   });
 
   it('should edit meeting', () => {
@@ -196,7 +197,7 @@ describe('Create meeting', () => {
     cy.contains(c('AttendanceModalContent__row'), 'webkom webkom').should(
       'be.visible'
     );
-    cy.get(c('Modal__closeButton')).click();
+    cy.get(t('Modal__closeButton')).click();
 
     setDatePickerTime('startTime', '17', '15');
     setDatePickerTime('endTime', '20', '00');
@@ -252,7 +253,7 @@ describe('Create meeting', () => {
       .should('contain', 'bedkom bedkom')
       .should('contain', 'webkom webkom');
 
-    cy.get(c('Modal__closeButton')).click();
+    cy.get(t('Modal__closeButton')).click();
   });
 
   it('should show correct options for referent', () => {

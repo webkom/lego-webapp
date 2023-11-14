@@ -2,10 +2,10 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { reduxForm, reset, change } from 'redux-form';
 import { sendContactMessage } from 'app/actions/ContactActions';
-import { fetchAllWithType } from 'app/actions/GroupActions';
+import { fetchAllWithType, fetchGroup } from 'app/actions/GroupActions';
 import { addToast } from 'app/actions/ToastActions';
 import { GroupType } from 'app/models';
-import { selectGroupsWithType } from 'app/reducers/groups';
+import { selectGroup, selectGroupsWithType } from 'app/reducers/groups';
 import { createValidator, required, maxLength } from 'app/utils/validation';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import Contact from './components/Contact';
@@ -16,14 +16,21 @@ const validate = createValidator({
   message: [required()],
   captchaResponse: [required('Captcha er ikke validert')],
 });
-const groupType = GroupType.Committee;
+
+const commiteeGroupType = GroupType.Committee;
+const revueBoardGroupId = 59;
 
 const mapStateToProps = (state) => {
-  const groups = selectGroupsWithType(state, {
-    groupType,
+  const commitees = selectGroupsWithType(state, {
+    groupType: commiteeGroupType,
   });
+
+  const revueBoard = selectGroup(state, {
+    groupId: revueBoardGroupId,
+  });
+
   return {
-    groups,
+    groups: [...commitees, revueBoard],
   };
 };
 
@@ -35,7 +42,10 @@ const mapDispatchToProps = {
 };
 export default compose(
   withPreparedDispatch('fetchContact', (_, dispatch) =>
-    dispatch(fetchAllWithType(groupType))
+    Promise.all([
+      dispatch(fetchAllWithType(commiteeGroupType)),
+      dispatch(fetchGroup(revueBoardGroupId)),
+    ])
   ),
   connect(mapStateToProps, mapDispatchToProps),
   reduxForm({

@@ -2,11 +2,11 @@ import moment from 'moment-timezone';
 import { startSubmit, stopSubmit } from 'redux-form';
 import callAPI from 'app/actions/callAPI';
 import { meetingSchema } from 'app/reducers';
+import createQueryString from 'app/utils/createQueryString';
+import { Meeting } from './ActionTypes';
 import type { UserEntity } from 'app/reducers/users';
 import type { ID } from 'app/store/models';
 import type { Thunk, Action } from 'app/types';
-import createQueryString from 'app/utils/createQueryString';
-import { Meeting } from './ActionTypes';
 
 export function fetchMeeting(meetingId: string): Thunk<any> {
   return callAPI({

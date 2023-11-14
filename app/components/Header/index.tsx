@@ -1,4 +1,4 @@
-import { LoadingIndicator } from '@webkom/lego-bricks';
+import { Icon, LoadingIndicator } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { useEffect, useState } from 'react';
 import { Modal } from 'react-overlays';
@@ -6,22 +6,22 @@ import { Link, NavLink, useHistory } from 'react-router-dom';
 import logoLightMode from 'app/assets/logo-dark.png';
 import logoDarkMode from 'app/assets/logo.png';
 import AuthSection from 'app/components/AuthSection/AuthSection';
+import utilStyles from 'app/styles/utilities.css';
+import { applySelectedTheme, getOSTheme, getTheme } from 'app/utils/themeUtils';
+import Dropdown from '../Dropdown';
+import NotificationsDropdown from '../HeaderNotifications';
+import { ProfilePicture, Image } from '../Image';
+import Search from '../Search';
+import FancyNodesCanvas from './FancyNodesCanvas';
+import styles from './Header.css';
+import Navbar from './Navbar/Navbar';
+import ToggleTheme from './ToggleTheme';
 import type {
   AggregatedActivity,
   NotificationData,
 } from 'app/components/Feed/types';
 import type { ID } from 'app/store/models';
 import type { CurrentUser } from 'app/store/models/User';
-import utilStyles from 'app/styles/utilities.css';
-import { applySelectedTheme, getOSTheme, getTheme } from 'app/utils/themeUtils';
-import Dropdown from '../Dropdown';
-import NotificationsDropdown from '../HeaderNotifications';
-import Icon from '../Icon';
-import { ProfilePicture, Image } from '../Image';
-import Search from '../Search';
-import FancyNodesCanvas from './FancyNodesCanvas';
-import styles from './Header.css';
-import ToggleTheme from './ToggleTheme';
 
 type Props = {
   searchOpen: boolean;
@@ -156,30 +156,7 @@ const Header = ({ loggedIn, currentUser, loading, ...props }: Props) => {
         </Link>
 
         <div className={styles.menu}>
-          <div className={styles.navigation}>
-            <NavLink to="/events" activeClassName={styles.activeItem}>
-              Arrangementer
-            </NavLink>
-            {!loggedIn ? (
-              <NavLink
-                to="/pages/bedrifter/for-bedrifter"
-                activeClassName={styles.activeItem}
-              >
-                For bedrifter
-              </NavLink>
-            ) : (
-              <NavLink to="/joblistings" activeClassName={styles.activeItem}>
-                Karriere
-              </NavLink>
-            )}
-            <NavLink
-              to="/pages/info-om-abakus"
-              activeClassName={styles.activeItem}
-            >
-              Om Abakus
-            </NavLink>
-          </div>
-
+          <Navbar loggedIn={loggedIn} />
           <div className={styles.buttonGroup}>
             <ToggleTheme
               loggedIn={loggedIn}

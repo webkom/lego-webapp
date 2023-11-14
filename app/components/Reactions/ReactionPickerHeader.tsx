@@ -1,4 +1,4 @@
-import Flex from 'app/components/Layout/Flex';
+import { Flex } from '@webkom/lego-bricks';
 import ReactionPickerCategory from './ReactionPickerCategory';
 import styles from './ReactionPickerHeader.css';
 

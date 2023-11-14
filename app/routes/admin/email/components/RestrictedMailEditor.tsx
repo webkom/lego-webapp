@@ -1,8 +1,7 @@
-import { Button } from '@webkom/lego-bricks';
+import { Button, Icon } from '@webkom/lego-bricks';
 import { reduxForm, Form, Field } from 'redux-form';
 import { TextInput, SelectInput } from 'app/components/Form';
 import CheckBox from 'app/components/Form/CheckBox';
-import Icon from 'app/components/Icon';
 import config from 'app/config';
 import { isEmail, createValidator, required } from 'app/utils/validation';
 
@@ -149,9 +148,6 @@ const RestrictedMailEditor = ({
         tags
         isMulti
         isValidNewOption={({ label }: { label: string }) => isEmail()(label)[0]}
-        shouldKeyDownEventCreateNewOption={({ keyCode }: { keyCode: number }) =>
-          keyCode === 32 || keyCode === 13
-        }
       />
 
       {!restrictedMailId && (

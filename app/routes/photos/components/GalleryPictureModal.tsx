@@ -1,3 +1,4 @@
+import { Flex, Icon, Modal } from '@webkom/lego-bricks';
 import throttle from 'lodash/throttle';
 import { Component, useEffect } from 'react';
 import { Link } from 'react-router-dom';
@@ -5,16 +6,13 @@ import { useSwipeable, RIGHT, LEFT } from 'react-swipeable';
 import CommentView from 'app/components/Comments/CommentView';
 import { Content } from 'app/components/Content';
 import Dropdown from 'app/components/Dropdown';
-import Icon from 'app/components/Icon';
 import { Image } from 'app/components/Image';
-import { Flex } from 'app/components/Layout';
-import Modal from 'app/components/Modal';
 import ProgressiveImage from 'app/components/ProgressiveImage';
-import type { ID } from 'app/models';
-import type { EntityID } from 'app/types';
 import { Keyboard } from 'app/utils/constants';
 import GalleryDetailsRow from './GalleryDetailsRow';
 import styles from './GalleryPictureModal.css';
+import type { ID } from 'app/models';
+import type { EntityID } from 'app/types';
 import type { ReactNode } from 'react';
 
 type Props = {

@@ -1,4 +1,10 @@
-import { LoadingIndicator, Button } from '@webkom/lego-bricks';
+import {
+  Button,
+  ConfirmModal,
+  Flex,
+  Icon,
+  LoadingIndicator,
+} from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
 import { Component } from 'react';
 import { Helmet } from 'react-helmet-async';
@@ -12,19 +18,16 @@ import {
   DatePicker,
   legoForm,
 } from 'app/components/Form';
-import Icon from 'app/components/Icon';
-import { Flex } from 'app/components/Layout';
-import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import NavigationTab from 'app/components/NavigationTab';
 import { httpCheck } from 'app/routes/bdb/utils';
+import { validYoutubeUrl } from 'app/utils/validation';
+import { places, jobTypes, yearValues } from '../constants';
+import styles from './JoblistingEditor.css';
 import type { ID } from 'app/store/models';
 import type {
   DetailedJoblisting,
   Workplace,
 } from 'app/store/models/Joblisting';
-import { validYoutubeUrl } from 'app/utils/validation';
-import { places, jobTypes, yearValues } from '../constants';
-import styles from './JoblistingEditor.css';
 import type { FormProps } from 'redux-form';
 
 type SelectInputObject = {

@@ -1,5 +1,5 @@
+import { Modal } from '@webkom/lego-bricks';
 import { useState } from 'react';
-import Modal from 'app/components/Modal';
 import AttendanceModalContent from './AttendanceModalContent';
 import type { Pool } from './AttendanceModalContent';
 import type { ReactNode } from 'react';

@@ -1,11 +1,12 @@
 import moment from 'moment-timezone';
 import { createSelector } from 'reselect';
 import { mutateComments } from 'app/reducers/comments';
-import type { ListMeeting } from 'app/store/models/Meeting';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import joinReducers from 'app/utils/joinReducers';
 import { Meeting } from '../actions/ActionTypes';
 import { mutateReactions } from './reactions';
+import type { ListMeeting } from 'app/store/models/Meeting';
+import type { Moment } from 'moment-timezone';
 
 export type MeetingSection = {
   title: string;
@@ -48,76 +49,104 @@ export const selectCommentsForMeeting = createSelector(
 export const selectGroupedMeetings = createSelector(
   selectMeetings,
   (meetings) => {
-    const currentYear = moment().year();
-    const currentWeek = moment().week();
-    const pools: Array<MeetingSection> = [
+    const currentTime = moment();
+    const currentYear = currentTime.year();
+    const currentWeek = currentTime.week();
+
+    const customMeetingGroups: Array<
+      MeetingSection & {
+        belongsInGroup: (endTime: Moment) => boolean;
+        past?: boolean;
+      }
+    > = [
       {
         title: 'Denne uken',
         meetings: [],
+        belongsInGroup: (endTime) =>
+          endTime.year() === currentYear &&
+          endTime.week() === currentWeek &&
+          currentTime < endTime,
       },
       {
         title: 'Neste uke',
         meetings: [],
+        belongsInGroup: (endTime) =>
+          endTime.year() === currentYear && endTime.week() === currentWeek + 1,
       },
       {
         title: 'Senere dette semesteret',
         meetings: [],
+        belongsInGroup: (endTime) =>
+          endTime.year() === currentYear && endTime.week() > currentWeek + 1,
+      },
+      {
+        title: 'Tidligere denne uken',
+        meetings: [],
+        past: true,
+        belongsInGroup: (endTime) =>
+          endTime.year() === currentYear &&
+          endTime.week() === currentWeek &&
+          currentTime > endTime,
+      },
+      {
+        title: 'Forrige uke',
+        meetings: [],
+        past: true,
+        belongsInGroup: (endTime) =>
+          endTime.year() === currentYear && endTime.week() === currentWeek - 1,
       },
     ];
-    const fields = {};
-    meetings.forEach((meeting) => {
-      const startTime = moment(meeting.startTime);
-      const year = startTime.year();
-      const week = startTime.week();
-      const quarter = startTime.quarter();
 
-      if (
-        year === currentYear &&
-        week === currentWeek &&
-        moment() < startTime
-      ) {
-        pools[0].meetings.push(meeting);
-      } else if (year === currentYear && week === currentWeek + 1) {
-        pools[1].meetings.push(meeting);
-      } else if (year === currentYear && week > currentWeek) {
-        pools[2].meetings.push(meeting);
-      } else {
-        // Sort other meetings with their semester-code. eg V2017
-        const title =
-          (Math.ceil(quarter / 2) - 1 ? 'H' : 'V') + year.toString();
-        fields[title] = fields[title] || {
-          title,
+    // Account for the possibility of items being loaded before others - messing up the sorting
+    // Sorted descendingly to generate semesters in the correct order
+    const sortedMeetings: ListMeeting[] = (meetings as ListMeeting[]).sort(
+      (meeting1, meeting2) =>
+        Number(moment(meeting2.endTime)) - Number(moment(meeting1.endTime))
+    );
+
+    const olderMeetingGroupObj: {
+      [title: string]: { title: string; meetings: ListMeeting[] };
+    } = {};
+
+    // Map meetings to groups
+    sortedMeetings.forEach((meeting) => {
+      const meetingEndTime = moment(meeting.endTime);
+
+      // Group meetings in custom groups
+      for (let i = 0; i < customMeetingGroups.length; i++) {
+        if (customMeetingGroups[i].belongsInGroup(meetingEndTime)) {
+          customMeetingGroups[i].meetings.push(meeting);
+          return;
+        }
+      }
+
+      // Group remaining meetings based on their semester
+      const groupTitle =
+        (meetingEndTime.quarter() >= 3 ? 'Høsten' : 'Våren') +
+        (' ' + meetingEndTime.year());
+      if (!(groupTitle in olderMeetingGroupObj)) {
+        olderMeetingGroupObj[groupTitle] = {
+          title: groupTitle,
           meetings: [],
         };
-        fields[title].meetings.push(meeting);
       }
+      olderMeetingGroupObj[groupTitle].meetings.push(meeting);
     });
-    const oldMeetings = Object.keys(fields)
-      .map((key) => ({
-        title: key,
-        meetings: fields[key].meetings.sort(
-          (elem1, elem2) => moment(elem2.startTime) - moment(elem1.startTime)
-        ),
-      }))
-      .sort((elem1, elem2) => {
-        const year1 = elem1.title.substring(1, 5);
-        const year2 = elem2.title.substring(1, 5);
 
-        if (year1 === year2) {
-          return elem1.title > elem2.title ? 1 : -1;
-        }
+    // Reverse all the meeting groups that are in the future
+    customMeetingGroups.forEach(
+      (customMeetingGroup) =>
+        !customMeetingGroup.past && customMeetingGroup.meetings.reverse()
+    );
 
-        return Number(year2) - Number(year1);
-      });
-    return pools
-      .map((pool) => ({
-        title: pool.title,
-        meetings: pool.meetings.sort(
-          (elem1, elem2) =>
-            Number(moment(elem1.startTime)) - Number(moment(elem2.startTime))
-        ),
-      }))
-      .concat(oldMeetings)
-      .filter((elem) => elem.meetings.length);
+    const semesterMeetingGroups: MeetingSection[] = Object.entries(
+      olderMeetingGroupObj
+    ).map(([title, { meetings }]) => ({ title, meetings }));
+
+    // Merge the custom meeting groups with the semester groups
+    return customMeetingGroups
+      .map<MeetingSection>(({ title, meetings }) => ({ title, meetings }))
+      .concat(semesterMeetingGroups)
+      .filter((meetingGroup) => meetingGroup.meetings.length !== 0);
   }
 );

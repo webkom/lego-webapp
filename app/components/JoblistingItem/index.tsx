@@ -1,12 +1,12 @@
+import { Flex } from '@webkom/lego-bricks';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { Image } from 'app/components/Image';
 import { jobType, Year, Workplaces } from 'app/components/JoblistingItem/Items';
-import { Flex } from 'app/components/Layout';
 import Tag from 'app/components/Tags/Tag';
 import Time from 'app/components/Time';
-import type { ListJoblisting } from 'app/store/models/Joblisting';
 import styles from './JoblistingItem.css';
+import type { ListJoblisting } from 'app/store/models/Joblisting';
 
 type JobListingItemProps = {
   joblisting: ListJoblisting;

@@ -1,11 +1,4 @@
-import Flex from 'app/components/Layout/Flex';
-import type {
-  EventRegistrationPresence,
-  EventRegistrationPaymentStatus,
-  LEGACY_EventRegistrationPhotoConsent,
-  PhotoConsent,
-  EventSemester,
-} from 'app/models';
+import { Flex } from '@webkom/lego-bricks';
 import { PhotoConsentDomain } from 'app/models';
 import {
   paymentPending,
@@ -17,6 +10,13 @@ import {
   allConsentsAnswered,
   toReadableSemester,
 } from '../utils';
+import type {
+  EventRegistrationPresence,
+  EventRegistrationPaymentStatus,
+  LEGACY_EventRegistrationPhotoConsent,
+  PhotoConsent,
+  EventSemester,
+} from 'app/models';
 
 type Props = {
   registration: Record<string, any>;

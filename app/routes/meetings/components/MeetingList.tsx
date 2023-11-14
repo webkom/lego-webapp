@@ -1,16 +1,16 @@
 import { LoadingIndicator, Button } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
+import { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { Content } from 'app/components/Content';
 import NavigationTab from 'app/components/NavigationTab';
 import Pill from 'app/components/Pill';
 import Time from 'app/components/Time';
+import styles from './MeetingList.css';
 import type { MeetingSection } from 'app/reducers/meetings';
-import type { UserEntity } from 'app/reducers/users';
 import type { ListMeeting } from 'app/store/models/Meeting';
 import type { CurrentUser } from 'app/store/models/User';
-import styles from './MeetingList.css';
 
 function MeetingListItem({
   meeting,
@@ -19,7 +19,8 @@ function MeetingListItem({
   meeting: ListMeeting;
   username: string;
 }) {
-  const isDone = moment(meeting.startTime) < moment();
+  const isDone = moment(meeting.endTime) < moment();
+
   return (
     <div
       style={{
@@ -65,7 +66,7 @@ const MeetingListView = ({
   currentUser,
 }: {
   sections: Array<MeetingSection>;
-  currentUser: UserEntity;
+  currentUser: CurrentUser;
 }) => (
   <div>
     {sections.map((item, key) => (
@@ -104,6 +105,12 @@ const MeetingList = ({
   showFetchMore,
   showFetchOlder,
 }: Props) => {
+  useEffect(() => {
+    if (showFetchOlder && meetingSections.length === 0 && !loading) {
+      fetchOlder();
+    }
+  }, [showFetchOlder, meetingSections, loading, fetchOlder]);
+
   return (
     <Content>
       <Helmet title="Dine møter" />

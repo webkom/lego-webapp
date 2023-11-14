@@ -1,16 +1,18 @@
-import { LoadingIndicator } from '@webkom/lego-bricks';
+import {
+  ConfirmModal,
+  Flex,
+  Icon,
+  LoadingIndicator,
+} from '@webkom/lego-bricks';
 import cx from 'classnames';
-import Icon from 'app/components/Icon';
-import { Flex } from 'app/components/Layout';
-import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import Tooltip from 'app/components/Tooltip';
+import styles from './Administrate.css';
 import type {
   EventRegistration,
   EventRegistrationPaymentStatus,
   EventRegistrationPresence,
   ID,
 } from 'app/models';
-import styles from './Administrate.css';
 
 type TooltipIconProps = {
   onClick?: (arg0: React.SyntheticEvent<any>) => unknown;

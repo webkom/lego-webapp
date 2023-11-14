@@ -1,10 +1,10 @@
 import { push } from 'connected-react-router';
-import type { Tags } from 'app/models';
-import type { OptionEntity } from 'app/reducers/polls';
-import type { Thunk } from 'app/types';
 import { pollSchema } from '../reducers';
 import { Poll } from './ActionTypes';
 import callAPI from './callAPI';
+import type { Tags } from 'app/models';
+import type { OptionEntity } from 'app/reducers/polls';
+import type { Thunk } from 'app/types';
 
 export function fetchAll({
   next = false,

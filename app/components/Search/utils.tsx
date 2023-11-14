@@ -1,7 +1,7 @@
 import ReadmeLogo from 'app/components/ReadmeLogo';
-import type { Allowed } from 'app/reducers/allowed';
 import TextWithIcon from '../TextWithIcon';
 import styles from './Search.css';
+import type { Allowed } from 'app/reducers/allowed';
 import type { ReactNode } from 'react';
 
 type Link = {

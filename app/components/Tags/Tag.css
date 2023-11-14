@@ -4,11 +4,11 @@
   margin: 20px 0;
   display: flex;
   flex-wrap: wrap;
+  gap: 7px;
 }
 
 .linkSpacing {
-  margin-right: 7px;
-  display: inline;
+  display: inline-flex;
 }
 
 .tag {

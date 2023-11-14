@@ -1,15 +1,12 @@
-import { Button } from '@webkom/lego-bricks';
+import { Button, Card, Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import Linkify from 'linkify-react';
 import { sortBy } from 'lodash';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
-import Card from 'app/components/Card';
-import Icon from 'app/components/Icon';
-import { Flex } from 'app/components/Layout';
 import Tooltip from 'app/components/Tooltip';
-import type { PollEntity, OptionEntity } from 'app/reducers/polls';
 import styles from './Poll.css';
+import type { PollEntity, OptionEntity } from 'app/reducers/polls';
 
 type Props = {
   poll: PollEntity;

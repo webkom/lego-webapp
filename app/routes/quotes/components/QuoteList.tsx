@@ -1,11 +1,11 @@
 import { useState } from 'react';
+import Quote from './Quote';
 import type { ActionGrant } from 'app/models';
 import type { ID } from 'app/store/models';
 import type Emoji from 'app/store/models/Emoji';
 import type QuoteType from 'app/store/models/Quote';
 import type { CurrentUser } from 'app/store/models/User';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
-import Quote from './Quote';
 
 type Props = {
   quotes: QuoteType[];

@@ -1,15 +1,18 @@
-import { LoadingIndicator, Button } from '@webkom/lego-bricks';
+import {
+  Button,
+  Card,
+  Flex,
+  Icon,
+  LoadingIndicator,
+} from '@webkom/lego-bricks';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
-import Card from 'app/components/Card';
 import { Content } from 'app/components/Content';
-import Icon from 'app/components/Icon';
-import { Flex } from 'app/components/Layout';
 import NavigationTab from 'app/components/NavigationTab';
 import Paginator from 'app/components/Paginator';
+import styles from './PollsList.css';
 import type { ActionGrant } from 'app/models';
 import type { PollEntity } from 'app/reducers/polls';
-import styles from './PollsList.css';
 
 type Props = {
   polls: Array<PollEntity>;

@@ -1,7 +1,7 @@
+import { Flex } from '@webkom/lego-bricks';
 import JoblistingItem from 'app/components/JoblistingItem';
-import { Flex } from 'app/components/Layout';
-import type { ListJoblisting } from 'app/store/models/Joblisting';
 import styles from './JoblistingList.css';
+import type { ListJoblisting } from 'app/store/models/Joblisting';
 
 type JobListingsListProps = {
   joblistings: ListJoblisting[];

@@ -1,14 +1,12 @@
+import { Card, Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { useRef, useEffect, useState } from 'react';
-import Card from 'app/components/Card';
-import Icon from 'app/components/Icon';
-import { Flex } from 'app/components/Layout';
 import LegoReactions from 'app/components/LegoReactions';
+import styles from './RandomQuote.css';
 import type { ID } from 'app/store/models';
 import type Emoji from 'app/store/models/Emoji';
 import type Quote from 'app/store/models/Quote';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
-import styles from './RandomQuote.css';
 
 type Props = {
   fetchRandomQuote: (seen: ID[]) => Promise<void>;

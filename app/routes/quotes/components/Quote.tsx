@@ -4,13 +4,13 @@ import Dropdown from 'app/components/Dropdown';
 import Reactions from 'app/components/Reactions';
 import Reaction from 'app/components/Reactions/Reaction';
 import Time from 'app/components/Time';
+import styles from './Quotes.css';
 import type { ActionGrant } from 'app/models';
 import type { ID } from 'app/store/models';
 import type Emoji from 'app/store/models/Emoji';
 import type QuoteType from 'app/store/models/Quote';
 import type { CurrentUser } from 'app/store/models/User';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
-import styles from './Quotes.css';
 
 type Props = {
   quote: QuoteType;

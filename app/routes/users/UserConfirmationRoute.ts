@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { formValueSelector } from 'redux-form';
 import { createUser, validateRegistrationToken } from 'app/actions/UserActions';
-import type { RootState } from 'app/store/createRootReducer';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import UserConfirmation from './components/UserConfirmation';
+import type { RootState } from 'app/store/createRootReducer';
 
 const loadData = ({ location: { search } }, dispatch) => {
   const { token } = qs.parse(search, {

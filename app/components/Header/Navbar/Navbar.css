@@ -1,0 +1,45 @@
+@import url('~app/styles/variables.css');
+
+.navigation {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  flex: 2;
+  white-space: nowrap;
+  margin-right: 5px;
+
+  @media (--mobile-device) {
+    display: none;
+  }
+}
+
+.navigation a {
+  font-size: var(--font-size-lg);
+  padding: 10px 1rem;
+  height: 100%;
+  color: var(--lego-font-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: color var(--linear-medium);
+  white-space: nowrap;
+
+  &:hover,
+  &.activeItem {
+    color: var(--color-gray-7);
+  }
+
+  &:hover::after,
+  &.activeItem::after {
+    transform: scaleX(1);
+  }
+}
+
+.navbarDropdown {
+  width: auto;
+  padding: 15px;
+  margin: 0;
+  padding-top: 10px;
+}

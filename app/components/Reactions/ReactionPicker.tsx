@@ -1,15 +1,15 @@
+import { Card } from '@webkom/lego-bricks';
 import fuzzy from 'fuzzy';
 import { useMemo, useState, useCallback } from 'react';
 import emojiLoading from 'app/assets/emoji_loading.svg';
-import Card from 'app/components/Card';
 import { Image } from 'app/components/Image';
-import type { EmojiWithReactionData } from 'app/components/LegoReactions';
-import type { ID } from 'app/store/models';
-import type { ContentTarget } from 'app/store/utils/contentTarget';
 import styles from './ReactionPicker.css';
 import ReactionPickerContent from './ReactionPickerContent';
 import ReactionPickerFooter from './ReactionPickerFooter';
 import ReactionPickerHeader from './ReactionPickerHeader';
+import type { EmojiWithReactionData } from 'app/components/LegoReactions';
+import type { ID } from 'app/store/models';
+import type { ContentTarget } from 'app/store/utils/contentTarget';
 
 type Props = {
   isLoading: boolean;

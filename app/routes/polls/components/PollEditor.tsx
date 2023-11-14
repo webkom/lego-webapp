@@ -1,4 +1,4 @@
-import { Button } from '@webkom/lego-bricks';
+import { Button, ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
 import arrayMutators from 'final-form-arrays';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
@@ -13,21 +13,14 @@ import {
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
-import Icon from 'app/components/Icon';
-import Flex from 'app/components/Layout/Flex';
-import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import NavigationTab from 'app/components/NavigationTab';
 import Tooltip from 'app/components/Tooltip';
-import type { ID } from 'app/models';
-import type { PollEntity } from 'app/reducers/polls';
 import { createValidator, required } from 'app/utils/validation';
 import styles from './PollEditor.css';
+import type { ID } from 'app/models';
+import type { PollEntity } from 'app/reducers/polls';
 import type { ReactNode } from 'react';
 
-const keyCodes = {
-  enter: 13,
-  space: 32,
-};
 type Props = {
   editOrCreatePoll: (arg0: PollEntity) => Promise<any>;
   //TODO add reduxForm typing
@@ -174,11 +167,6 @@ const EditPollForm = ({
               component={SelectInput.AutocompleteField}
               isMulti
               tags
-              shouldKeyDownEventCreateNewOption={({
-                keyCode,
-              }: {
-                keyCode: number;
-              }) => keyCode === keyCodes.enter || keyCode === keyCodes.space}
             />
             <FieldArray
               name="options"

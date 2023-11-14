@@ -5,8 +5,6 @@ import { TextInput, RadioButton, MultiSelectGroup } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
-import type { SemesterStatusEntity } from 'app/reducers/companies';
-import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 import { createValidator, required } from 'app/utils/validation';
 import {
   getContactedStatuses,
@@ -16,6 +14,8 @@ import {
 } from '../utils';
 import SemesterStatusContent from './SemesterStatusContent';
 import styles from './bdb.css';
+import type { SemesterStatusEntity } from 'app/reducers/companies';
+import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 
 type Props = {
   addSemesterStatus: (

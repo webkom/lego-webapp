@@ -1,19 +1,17 @@
-import { LoadingIndicator } from '@webkom/lego-bricks';
+import { Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
 import { Component } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Content } from 'app/components/Content';
 import DisplayContent from 'app/components/DisplayContent';
 import GroupMember from 'app/components/GroupMember';
-import Icon from 'app/components/Icon';
 import { Image } from 'app/components/Image';
-import { Flex } from 'app/components/Layout';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { readmeIfy } from 'app/components/ReadmeLogo';
-import type { ActionGrant } from 'app/models';
-import type { PageEntity } from 'app/reducers/pages';
 import styles from './PageDetail.css';
 import Sidebar from './Sidebar';
 import type { HierarchySectionEntity } from './PageHierarchy';
+import type { ActionGrant } from 'app/models';
+import type { PageEntity } from 'app/reducers/pages';
 import type { ComponentType } from 'react';
 
 type State = {
@@ -71,7 +69,6 @@ class PageDetail extends Component<Props, State> {
     }
 
     const { editUrl, actionGrant = [], isComplete } = selectedPageInfo;
-    const { category } = selectedPage;
     return (
       <Content className={styles.cont}>
         <Helmet title={selectedPageInfo.title} />
@@ -81,7 +78,6 @@ class PageDetail extends Component<Props, State> {
           </button>
           <Flex className={styles.page}>
             <Sidebar
-              categorySelected={category}
               currentUrl={currentUrl}
               pageHierarchy={pageHierarchy}
               isOpen={this.state.isOpen}

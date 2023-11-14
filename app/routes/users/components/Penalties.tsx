@@ -1,9 +1,8 @@
-import { Button } from '@webkom/lego-bricks';
-import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
+import { Button, ConfirmModal } from '@webkom/lego-bricks';
 import { FormatTime } from 'app/components/Time';
-import type { Penalty } from 'app/models';
 import styles from './Penalties.css';
 import PenaltyForm from './PenaltyForm';
+import type { Penalty } from 'app/models';
 
 type Props = {
   penalties: Array<Penalty>;

@@ -6,10 +6,10 @@ import { createSelector } from 'reselect';
 import Pill from 'app/components/Pill';
 import Popover from 'app/components/Popover';
 import TextWithIcon from 'app/components/TextWithIcon';
-import { FromToTime } from 'app/components/Time';
-import type { Event } from 'app/models';
+import Time, { FromToTime } from 'app/components/Time';
 import { colorForEvent, textColorForEvent } from '../utils';
 import styles from './Calendar.css';
+import type { Event } from 'app/models';
 import type { Moment } from 'moment-timezone';
 
 const renderEvent = (event: Event) => {
@@ -78,6 +78,17 @@ const renderEvent = (event: Event) => {
         content={<strong>{event.location}</strong>}
         className={styles.textWithIcon}
       />
+      {event.activationTime && (
+        <TextWithIcon
+          iconName="alarm-outline"
+          content={
+            <strong>
+              Påmelding <Time time={event.activationTime} format="ll HH:mm" />
+            </strong>
+          }
+          className={styles.textWithIcon}
+        />
+      )}
     </Popover>
   );
 };

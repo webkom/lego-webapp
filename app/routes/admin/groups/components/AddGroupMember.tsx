@@ -1,10 +1,10 @@
 import { Field, SubmissionError } from 'redux-form';
-import type { AddMemberArgs } from 'app/actions/GroupActions';
 import { legoForm, Button, Form } from 'app/components/Form';
 import SelectInput from 'app/components/Form/SelectInput';
-import type { ID } from 'app/store/models';
 import { ROLES, type RoleType } from 'app/utils/constants';
 import { createValidator, required } from 'app/utils/validation';
+import type { AddMemberArgs } from 'app/actions/GroupActions';
+import type { ID } from 'app/store/models';
 import type { FormProps } from 'redux-form';
 
 type Props = FormProps & {

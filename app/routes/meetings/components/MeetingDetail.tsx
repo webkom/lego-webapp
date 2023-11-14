@@ -1,10 +1,15 @@
-import { LoadingIndicator, Button } from '@webkom/lego-bricks';
+import {
+  Button,
+  Card,
+  Flex,
+  Icon,
+  LoadingIndicator,
+} from '@webkom/lego-bricks';
 import { isEmpty } from 'lodash';
 import moment from 'moment-timezone';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import AnnouncementInLine from 'app/components/AnnouncementInLine';
-import Card from 'app/components/Card';
 import CommentView from 'app/components/Comments/CommentView';
 import {
   Content,
@@ -13,27 +18,25 @@ import {
   ContentMain,
 } from 'app/components/Content';
 import DisplayContent from 'app/components/DisplayContent';
-import Icon from 'app/components/Icon';
 import InfoList from 'app/components/InfoList';
-import Flex from 'app/components/Layout/Flex';
 import LegoReactions from 'app/components/LegoReactions';
 import { MazemapEmbed } from 'app/components/MazemapEmbed';
 import NavigationTab from 'app/components/NavigationTab';
 import Time, { FromToTime } from 'app/components/Time';
 import { AttendanceStatus } from 'app/components/UserAttendance';
 import AttendanceModal from 'app/components/UserAttendance/AttendanceModal';
+import { statusesText } from 'app/reducers/meetingInvitations';
+import { MeetingInvitationStatus } from 'app/store/models/MeetingInvitation';
+import urlifyString from 'app/utils/urlifyString';
+import styles from './MeetingDetail.css';
 import type { Dateish, ID } from 'app/models';
 import type { MeetingInvitationWithUser } from 'app/reducers/meetingInvitations';
-import { statusesText } from 'app/reducers/meetingInvitations';
 import type Comment from 'app/store/models/Comment';
 import type Emoji from 'app/store/models/Emoji';
 import type { DetailedMeeting } from 'app/store/models/Meeting';
-import { MeetingInvitationStatus } from 'app/store/models/MeetingInvitation';
 import type { ReactionsGrouped } from 'app/store/models/Reaction';
 import type { CurrentUser, PublicUser } from 'app/store/models/User';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
-import urlifyString from 'app/utils/urlifyString';
-import styles from './MeetingDetail.css';
 
 type Props = {
   meeting: DetailedMeeting;

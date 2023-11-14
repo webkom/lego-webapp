@@ -1,7 +1,7 @@
 import callAPI from 'app/actions/callAPI';
 import { pageSchema } from 'app/reducers';
-import type { Thunk } from 'app/types';
 import { Page } from './ActionTypes';
+import type { Thunk } from 'app/types';
 
 export function fetchPage(pageSlug: string): Thunk<any> {
   return callAPI({

@@ -29,10 +29,10 @@ import ToastContainer from 'app/components/Toast/ToastContainer';
 import config from 'app/config';
 import { selectIsLoggedIn, selectCurrentUser } from 'app/reducers/auth';
 import { selectFeedActivitesByFeedId } from 'app/reducers/feeds';
-import type { CurrentUser } from 'app/store/models/User';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import HTTPError from '../errors/HTTPError';
 import styles from './AppRoute.css';
+import type { CurrentUser } from 'app/store/models/User';
 import type { Location } from 'history';
 import type { ReactElement } from 'react';
 

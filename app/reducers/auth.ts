@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
-import type { RootState } from 'app/store/createRootReducer';
 import { User } from '../actions/ActionTypes';
 import type { AnyAction } from '@reduxjs/toolkit';
+import type { RootState } from 'app/store/createRootReducer';
 
 type State = {
   id: number | null;

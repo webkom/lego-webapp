@@ -1,9 +1,14 @@
+import { Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import Icon from 'app/components/Icon';
-import { Flex } from 'app/components/Layout';
 import Tooltip from 'app/components/Tooltip';
 import styles from './Field.css';
-import type { ComponentType, CSSProperties, InputHTMLAttributes } from 'react';
+import type { AppDispatch } from 'app/store/createStore';
+import type {
+  ChangeEvent,
+  ComponentType,
+  CSSProperties,
+  InputHTMLAttributes,
+} from 'react';
 
 const FieldError = ({
   error,
@@ -61,10 +66,30 @@ export const RenderWarningMessage = ({
 
   return <FieldWarning warning={warning} key={warning} />;
 };
+
+// TODO: replace with imported FieldRenderProps once we have migrated to react-final-form
 export type FormProps = {
   className?: string;
   input: InputHTMLAttributes<HTMLInputElement>;
-  meta: Record<string, any>;
+  meta: {
+    active: boolean;
+    autofilled: boolean;
+    asyncValidating: boolean;
+    dirty: boolean;
+    dispatch: AppDispatch;
+    error?: string;
+    submitError?: string; // Only in react-final-form
+    form: string;
+    initial: unknown; // Field value type
+    invalid: boolean;
+    pristine: boolean;
+    submitting: boolean;
+    submitFailed: boolean;
+    touched: boolean;
+    valid: boolean;
+    visited: boolean;
+    warning?: string;
+  };
   required?: boolean;
   label?: string;
   description?: string;
@@ -72,7 +97,7 @@ export type FormProps = {
   fieldClassName?: string;
   labelClassName?: string;
   showErrors?: boolean;
-  onChange?: (value: string) => void;
+  onChange?: (value: string | ChangeEvent) => void;
 };
 type Options = {
   // Removes the html <label> around the component
@@ -86,8 +111,11 @@ type Options = {
  * http://redux-form.com/6.0.5/docs/api/Field.md/
  * https://final-form.org/docs/react-final-form/api/Field
  */
-export function createField(Component: ComponentType<any>, options?: Options) {
-  const Field = (field: FormProps) => {
+export function createField<
+  P extends InputHTMLAttributes<HTMLInputElement>,
+  ExtraProps extends object
+>(Component: ComponentType<P & ExtraProps>, options?: Options) {
+  const Field = (field: FormProps & ExtraProps) => {
     const {
       input,
       meta,
@@ -104,8 +132,8 @@ export function createField(Component: ComponentType<any>, options?: Options) {
     } = field;
     const { error, submitError, warning, touched } = meta;
     const anyError = error || submitError;
-    const hasError = showErrors && touched && anyError?.length > 0;
-    const hasWarning = showErrors && touched && warning?.length > 0;
+    const hasError = showErrors && touched && anyError && anyError.length > 0;
+    const hasWarning = showErrors && touched && warning && warning.length > 0;
     const fieldName = input?.name;
     const { noLabel, inlineLabel } = options || {};
 
@@ -135,8 +163,8 @@ export function createField(Component: ComponentType<any>, options?: Options) {
 
     const component = (
       <Component
-        {...input}
-        {...props}
+        {...(input as P)}
+        {...(props as ExtraProps)}
         label={!noLabel && !inlineLabel && label}
         onChange={(value) => {
           input.onChange?.(value);

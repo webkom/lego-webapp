@@ -1,9 +1,8 @@
-import { Button } from '@webkom/lego-bricks';
+import { Button, Card, Flex, Icon } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
 import { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import mazemapLogo from 'app/assets/mazemap.png';
-import Card from 'app/components/Card';
 import CommentView from 'app/components/Comments/CommentView';
 import {
   Content,
@@ -13,10 +12,8 @@ import {
   ContentSidebar,
 } from 'app/components/Content';
 import DisplayContent from 'app/components/DisplayContent';
-import Icon from 'app/components/Icon';
 import { Image } from 'app/components/Image';
 import InfoList from 'app/components/InfoList';
-import { Flex } from 'app/components/Layout';
 import { MazemapEmbed } from 'app/components/MazemapEmbed';
 import Tag from 'app/components/Tags/Tag';
 import TextWithIcon from 'app/components/TextWithIcon';
@@ -25,12 +22,6 @@ import Tooltip from 'app/components/Tooltip';
 import { AttendanceStatus } from 'app/components/UserAttendance';
 import AttendanceModal from 'app/components/UserAttendance/AttendanceModal';
 import UserGrid from 'app/components/UserGrid';
-import type {
-  EventRegistration,
-  ActionGrant,
-  AddPenalty,
-  FollowerItem,
-} from 'app/models';
 import { resolveGroupLink } from 'app/reducers/groups';
 import {
   colorForEvent,
@@ -38,6 +29,17 @@ import {
   getEventSemesterFromStartTime,
   registrationCloseTime,
 } from 'app/routes/events/utils';
+import Admin from '../Admin';
+import JoinEventForm from '../JoinEventForm';
+import RegisteredSummary from '../RegisteredSummary';
+import RegistrationMeta from '../RegistrationMeta';
+import styles from './EventDetail.css';
+import type {
+  EventRegistration,
+  ActionGrant,
+  AddPenalty,
+  FollowerItem,
+} from 'app/models';
 import type { ID } from 'app/store/models';
 import type Comment from 'app/store/models/Comment';
 import type {
@@ -50,11 +52,6 @@ import type {
   ReadRegistration,
 } from 'app/store/models/Registration';
 import type { CurrentUser } from 'app/store/models/User';
-import Admin from '../Admin';
-import JoinEventForm from '../JoinEventForm';
-import RegisteredSummary from '../RegisteredSummary';
-import RegistrationMeta from '../RegistrationMeta';
-import styles from './EventDetail.css';
 
 type InterestedButtonProps = {
   isInterested: boolean;
@@ -325,6 +322,7 @@ export default class EventDetail extends Component<Props, State> {
       event.responsibleGroup && resolveGroupLink(event.responsibleGroup);
 
     const eventCreator = [
+      // Responsible Group
       event.responsibleGroup && {
         key: 'Arrangør',
         value: (
@@ -342,20 +340,46 @@ export default class EventDetail extends Component<Props, State> {
           </span>
         ),
       },
-      event?.createdBy
-        ? event.createdBy && {
-            key: 'Forfatter',
-            value: (
-              <Link to={`/users/${event.createdBy.username}`}>
-                {event.createdBy.fullName}
-              </Link>
-            ),
-          }
-        : {
-            key: 'Forfatter',
-            value: 'Anonym',
-          },
-    ];
+
+      // Responsible Users or Created By or Anonymous
+      ...(event.responsibleUsers && event.responsibleUsers.length > 0
+        ? [
+            {
+              key:
+                event.responsibleUsers.length > 1
+                  ? 'Kontaktpersoner'
+                  : 'Kontaktperson',
+              value: (
+                <ul>
+                  {event.responsibleUsers.map((user) => (
+                    <li key={user.id}>
+                      <Link to={`/users/${user.username}`} key={user.username}>
+                        {user.fullName}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              ),
+            },
+          ]
+        : event.createdBy
+        ? [
+            {
+              key: 'Forfatter',
+              value: (
+                <Link to={`/users/${event.createdBy.username}`}>
+                  {event.createdBy.fullName}
+                </Link>
+              ),
+            },
+          ]
+        : [
+            {
+              key: 'Forfatter',
+              value: 'Anonym',
+            },
+          ]),
+    ].filter(Boolean); // This will remove any undefined items from the array
 
     return (
       <Content
@@ -399,11 +423,16 @@ export default class EventDetail extends Component<Props, State> {
               iconName="time-outline"
               content={<FromToTime from={event.startTime} to={event.endTime} />}
             />
+            {event.isForeignLanguage !== null && event.isForeignLanguage && (
+              <TextWithIcon iconName="language-outline" content={'English'} />
+            )}
+
             <div className={styles.infoIconLocation}>
               <TextWithIcon
                 iconName="location-outline"
                 content={event.location}
               />
+
               {event.mazemapPoi && (
                 <Button
                   className={styles.mapButton}
@@ -543,6 +572,7 @@ export default class EventDetail extends Component<Props, State> {
             )}
             <Line />
             <InfoList items={eventCreator} className={styles.infoList} />
+
             <Line />
             {loggedIn && (
               <TextWithIcon

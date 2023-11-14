@@ -1,7 +1,6 @@
-import { Button } from '@webkom/lego-bricks';
+import { Button, Card } from '@webkom/lego-bricks';
 import { Link } from 'react-router-dom';
 import { Field } from 'redux-form';
-import Card from 'app/components/Card';
 import {
   Form,
   TextInput,
@@ -51,16 +50,19 @@ const ContactForm = (props: Props) => {
     value: null,
     label: 'Hovedstyret',
   };
-  const recipientOptions = groups.map((g) => ({
-    value: g.id,
-    label: g.name,
-  }));
+  const recipientOptions = groups.map(
+    (g) =>
+      g && {
+        value: g.id,
+        label: g.name,
+      }
+  );
   return (
     <Form onSubmit={props.handleSubmit(submit)}>
       <p>
-        Dette skjemaet er et verktøy for å nå ut til Abakus sine komiteer eller
-        Hovedstyret, enten du har spørsmål, tilbakemeldinger, eller bare ønsker
-        å dele informasjon med oss.
+        Dette skjemaet er et verktøy for å nå ut til Abakus sine komiteer,
+        revyen eller Hovedstyret, enten du har spørsmål, tilbakemeldinger, eller
+        bare ønsker å dele informasjon med oss.
       </p>
       <Card severity="info">
         <p>
@@ -84,11 +86,11 @@ const ContactForm = (props: Props) => {
         </p>
       </Card>
       <p>
-        Sender du meldingen til en spesifikk komité er det kun lederen av
-        komiteen som vil motta meldingen. Dersom du sender til Hovedstyret vil
-        hele styret motta meldingen. Både komitéledere og Hovedstyret som mottar
-        henvendelser har signert taushetserklæring, og de vil kontakte deg og
-        følge opp saken dersom det ønskes.
+        Sender du meldingen til revyen eller en spesifikk komité er det kun
+        lederen av gruppa som vil motta meldingen. Dersom du sender til
+        Hovedstyret vil hele styret motta meldingen. Hovedstyret, revyleder og
+        komitéledere som mottar henvendelser har signert taushetserklæring, og
+        de vil kontakte deg og følge opp saken dersom det ønskes.
       </p>
 
       <Field

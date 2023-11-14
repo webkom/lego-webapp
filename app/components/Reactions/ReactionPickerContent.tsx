@@ -1,8 +1,8 @@
 import Emoji from 'app/components/Emoji';
+import styles from './ReactionPickerContent.css';
 import type { EmojiWithReactionData } from 'app/components/LegoReactions';
 import type { ID } from 'app/store/models';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
-import styles from './ReactionPickerContent.css';
 
 type Props = {
   emojis: EmojiWithReactionData[];

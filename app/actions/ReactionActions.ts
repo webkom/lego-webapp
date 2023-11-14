@@ -1,7 +1,7 @@
 import callAPI from 'app/actions/callAPI';
+import { Reaction } from './ActionTypes';
 import type { ID } from 'app/models';
 import type { Thunk } from 'app/types';
-import { Reaction } from './ActionTypes';
 
 export function addReaction({
   emoji,

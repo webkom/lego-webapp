@@ -1,28 +1,20 @@
-import { LoadingIndicator, Button } from '@webkom/lego-bricks';
+import {
+  Button,
+  Card,
+  ConfirmModal,
+  Flex,
+  Icon,
+  LoadingIndicator,
+} from '@webkom/lego-bricks';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
-import Card from 'app/components/Card';
 import CommentView from 'app/components/Comments/CommentView';
 import { Content } from 'app/components/Content';
-import Icon from 'app/components/Icon';
 import { Image } from 'app/components/Image';
 import InfoBubble from 'app/components/InfoBubble';
-import { Flex } from 'app/components/Layout';
-import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
-import type { CompanySemesterContactedStatus } from 'app/models';
-import type {
-  CompanyEntity,
-  BaseSemesterStatusEntity,
-  SemesterStatusEntity,
-} from 'app/reducers/companies';
-import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
-import type { UserEntity } from 'app/reducers/users';
 import { EVENT_CONSTANTS } from 'app/routes/events/utils';
-import type { ID } from 'app/store/models';
-import type Comment from 'app/store/models/Comment';
-import type { CurrentUser } from 'app/store/models/User';
 import truncateString from 'app/utils/truncateString';
 import {
   sortByYearThenSemester,
@@ -31,6 +23,17 @@ import {
 } from '../utils';
 import SemesterStatusDetail from './SemesterStatusDetail';
 import styles from './bdb.css';
+import type { CompanySemesterContactedStatus } from 'app/models';
+import type {
+  CompanyEntity,
+  BaseSemesterStatusEntity,
+  SemesterStatusEntity,
+} from 'app/reducers/companies';
+import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
+import type { UserEntity } from 'app/reducers/users';
+import type { ID } from 'app/store/models';
+import type Comment from 'app/store/models/Comment';
+import type { CurrentUser } from 'app/store/models/User';
 
 type Props = {
   company: CompanyEntity;

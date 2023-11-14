@@ -2,8 +2,8 @@ import { Button } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { Link, NavLink } from 'react-router-dom';
 import Time from 'app/components/Time';
-import type { ActionGrant } from 'app/models';
 import styles from './Toolbar.css';
+import type { ActionGrant } from 'app/models';
 
 type Props = {
   actionGrant: ActionGrant;

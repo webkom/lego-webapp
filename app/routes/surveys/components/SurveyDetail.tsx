@@ -4,14 +4,14 @@ import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { Content, ContentSection, ContentMain } from 'app/components/Content';
 import Time from 'app/components/Time';
-import type { ActionGrant } from 'app/models';
-import type { SurveyEntity } from 'app/reducers/surveys';
 import { eventTypeToString } from 'app/routes/events/utils';
-import type { ID } from 'app/store/models';
 import { DetailNavigation } from '../utils';
 import AdminSideBar from './AdminSideBar';
 import StaticSubmission from './StaticSubmission';
 import styles from './surveyDetail.css';
+import type { ActionGrant } from 'app/models';
+import type { SurveyEntity } from 'app/reducers/surveys';
+import type { ID } from 'app/store/models';
 import type { Push } from 'connected-react-router';
 
 type Props = {

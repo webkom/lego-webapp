@@ -1,4 +1,4 @@
-import { LoadingIndicator, Button } from '@webkom/lego-bricks';
+import { Button, Icon, LoadingIndicator } from '@webkom/lego-bricks';
 import FileSaver from 'file-saver';
 import JsZip from 'jszip';
 import { Component, cloneElement } from 'react';
@@ -6,13 +6,12 @@ import { Helmet } from 'react-helmet-async';
 import { Content } from 'app/components/Content';
 import EmptyState from 'app/components/EmptyState';
 import Gallery from 'app/components/Gallery';
-import Icon from 'app/components/Icon';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import ImageUpload from 'app/components/Upload/ImageUpload';
+import GalleryDetailsRow from './GalleryDetailsRow';
 import type { DropFile } from 'app/components/Upload/ImageUpload';
 import type { ID, ActionGrant } from 'app/models';
 import type { GalleryPictureEntity } from 'app/reducers/galleryPictures';
-import GalleryDetailsRow from './GalleryDetailsRow';
 import type { Push } from 'connected-react-router';
 import type { Element } from 'react';
 

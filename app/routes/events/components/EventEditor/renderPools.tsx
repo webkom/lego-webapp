@@ -6,8 +6,8 @@ import {
   SelectInput,
   Button,
 } from 'app/components/Form';
-import type { Dateish, EventStatusType } from 'app/models';
 import styles from './EventEditor.css';
+import type { Dateish, EventStatusType } from 'app/models';
 
 type poolProps = {
   fields: Record<string, any>;

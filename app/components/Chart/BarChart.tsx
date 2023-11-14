@@ -1,6 +1,6 @@
 import { BarChart, Bar, CartesianGrid, Cell, XAxis, YAxis } from 'recharts';
-import type { DistributionDataPoint } from 'app/components/Chart/utils';
 import { CHART_COLORS } from 'app/components/Chart/utils';
+import type { DistributionDataPoint } from 'app/components/Chart/utils';
 
 const DistributionBarChart = ({
   dataKey,

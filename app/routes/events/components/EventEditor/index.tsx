@@ -1,4 +1,10 @@
-import { LoadingIndicator } from '@webkom/lego-bricks';
+import {
+  ConfirmModal,
+  Flex,
+  Icon,
+  LoadingIndicator,
+  Modal,
+} from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
@@ -22,24 +28,13 @@ import {
   ImageUploadField,
   legoForm,
 } from 'app/components/Form';
-import Icon from 'app/components/Icon';
 import { Image } from 'app/components/Image';
-import { Flex } from 'app/components/Layout';
 import MazemapLink from 'app/components/MazemapEmbed/MazemapLink';
-import Modal from 'app/components/Modal';
-import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import NavigationTab from 'app/components/NavigationTab';
 import Tag from 'app/components/Tags/Tag';
 import { FormatTime } from 'app/components/Time';
 import { AttendanceStatus } from 'app/components/UserAttendance';
 import AttendanceModal from 'app/components/UserAttendance/AttendanceModal';
-import type {
-  ID,
-  EventRegistration,
-  EventPool,
-  ActionGrant,
-  ImageGallery,
-} from 'app/models';
 import { validYoutubeUrl } from 'app/utils/validation';
 import {
   addStripeFee,
@@ -52,6 +47,13 @@ import styles from './EventEditor.css';
 import renderPools, { validatePools } from './renderPools';
 
 import type { EditingEvent } from '../../utils';
+import type {
+  ID,
+  EventRegistration,
+  EventPool,
+  ActionGrant,
+  ImageGallery,
+} from 'app/models';
 import type { FormEventHandler } from 'react';
 
 type Props = {
@@ -291,6 +293,15 @@ function EventEditor({
               placeholder="Ansvar for arrangement"
             />
             <Field
+              name="responsibleUsers"
+              label="Ansvarlige brukere"
+              filter={['users.user']}
+              fieldClassName={styles.metaField}
+              component={SelectInput.AutocompleteField}
+              isMulti
+              placeholder="Velg ansvarlige brukere"
+            />
+            <Field
               label="Starter"
               name="startTime"
               component={DatePicker.Field}
@@ -343,6 +354,15 @@ function EventEditor({
               label="Kun for spesifikk gruppe"
               description="Gjør arrangementet synlig for kun medlemmer i spesifikke grupper"
               name="isGroupOnly"
+              component={CheckBox.Field}
+              fieldClassName={styles.metaField}
+              className={styles.formField}
+              normalize={(v) => !!v}
+            />
+            <Field
+              label="Fremmedspråklig"
+              description="Arrangementet er på et annet språk enn norsk (engelsk)."
+              name="isForeignLanguage"
               component={CheckBox.Field}
               fieldClassName={styles.metaField}
               className={styles.formField}

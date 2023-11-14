@@ -1,8 +1,8 @@
 import { createSelector } from 'reselect';
-import type { UserEntity } from 'app/reducers/users';
 import { selectUserWithGroups } from 'app/reducers/users';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { EmailUser } from '../actions/ActionTypes';
+import type { UserEntity } from 'app/reducers/users';
 
 export type EmailUserEntity = {
   id: number;

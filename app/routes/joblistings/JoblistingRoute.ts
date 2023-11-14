@@ -1,12 +1,25 @@
 import moment from 'moment-timezone';
-import qs from 'qs';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { fetchAll } from 'app/actions/JoblistingActions';
+import { parseQueryString } from 'app/utils/useQuery';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import JoblistingPage from './components/JoblistingPage';
+import type { ListJoblisting } from 'app/store/models/Joblisting';
 
-function filterJoblistings(joblistings, grades, jobTypes, workplaces) {
+export const defaultJoblistingsQuery = {
+  order: 'deadline',
+  grades: [] as string[],
+  jobTypes: [] as string[],
+  workplaces: [] as string[],
+};
+
+function filterJoblistings(
+  joblistings: ListJoblisting[],
+  grades: string[],
+  jobTypes: string[],
+  workplaces: string[]
+) {
   return joblistings.filter((joblisting) => {
     const gradeBoolean =
       grades.length === 0 ||
@@ -34,12 +47,12 @@ function filterJoblistings(joblistings, grades, jobTypes, workplaces) {
 }
 
 const dateSort =
-  (field, reverse = false) =>
+  (field: string, reverse = false) =>
   (a, b) => {
     if (a[field] === b[field]) return (reverse ? -1 : 1) * (a.id - b.id);
     const date1 = moment(a[field]);
     const date2 = moment(b[field]);
-    return (reverse ? -1 : 1) * (date1 - date2);
+    return (reverse ? -1 : 1) * (date1.unix() - date2.unix());
   };
 
 const companySort = (a, b) => {
@@ -54,7 +67,7 @@ const sortJoblistings = (joblistings, sortType) => {
         return companySort;
 
       case 'createdAt':
-        return dateSort('createdAt', -1);
+        return dateSort('createdAt', true);
 
       case 'deadline':
       default:
@@ -66,33 +79,24 @@ const sortJoblistings = (joblistings, sortType) => {
 };
 
 const mapStateToProps = (state, props) => {
-  let { search } = props.location;
-  search = qs.parse(search, {
-    ignoreQueryPrefix: true,
-  });
-  const { history } = props;
+  const { order, grades, jobTypes, workplaces } = parseQueryString(
+    props.location.search,
+    defaultJoblistingsQuery
+  );
   const joblistings = state.joblistings.items.map(
     (id) => state.joblistings.byId[id]
   );
-  const sortType = search.order;
-  const filterGrade = search.grades ? search.grades.split(',') : [];
-  const filterJobType = search.jobTypes ? search.jobTypes.split(',') : [];
-  const filterWorkplaces = search.workplaces
-    ? search.workplaces.split(',')
-    : [];
   const filteredJoblistings = filterJoblistings(
     joblistings,
-    filterGrade,
-    filterJobType,
-    filterWorkplaces
+    grades,
+    jobTypes,
+    workplaces
   );
-  const sortedJoblistings = sortJoblistings(filteredJoblistings, sortType);
+  const sortedJoblistings = sortJoblistings(filteredJoblistings, order);
   const actionGrant = state.joblistings.actionGrant || [];
   return {
     joblistings: sortedJoblistings,
-    search,
     actionGrant,
-    history,
   };
 };
 

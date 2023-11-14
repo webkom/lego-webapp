@@ -1,11 +1,11 @@
-import { LoadingIndicator } from '@webkom/lego-bricks';
+import {
+  ConfirmModal,
+  Icon,
+  Flex,
+  LoadingIndicator,
+} from '@webkom/lego-bricks';
 import { Component } from 'react';
-import Icon from 'app/components/Icon';
-import { Flex } from 'app/components/Layout';
-import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import FileUpload from 'app/components/Upload/FileUpload';
-import type { CompanySemesterContactedStatus } from 'app/models';
-import type { SemesterStatusEntity } from 'app/reducers/companies';
 import truncateString from 'app/utils/truncateString';
 import {
   selectColorCode,
@@ -14,6 +14,8 @@ import {
 } from '../utils';
 import SemesterStatusContent from './SemesterStatusContent';
 import styles from './bdb.css';
+import type { CompanySemesterContactedStatus } from 'app/models';
+import type { SemesterStatusEntity } from 'app/reducers/companies';
 
 const FILE_NAME_LENGTH = 30;
 type Props = {

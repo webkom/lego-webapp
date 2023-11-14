@@ -1,9 +1,14 @@
-import { LoadingIndicator, Button } from '@webkom/lego-bricks';
+import {
+  Button,
+  ConfirmModal,
+  Flex,
+  LoadingIndicator,
+} from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
 import { useState } from 'react';
 import { formatPhoneNumber, parsePhoneNumber } from 'react-phone-number-input';
-import { Flex } from 'app/components/Layout';
-import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
+import styles from './Abacard.css';
+import { RegisteredTable, UnregisteredTable } from './RegistrationTables';
 import type {
   EventAdministrate,
   EventPool,
@@ -16,8 +21,6 @@ import type {
 } from 'app/models';
 import type Comment from 'app/store/models/Comment';
 import type { CurrentUser } from 'app/store/models/User';
-import styles from './Abacard.css';
-import { RegisteredTable, UnregisteredTable } from './RegistrationTables';
 
 export type Props = {
   eventId: number;

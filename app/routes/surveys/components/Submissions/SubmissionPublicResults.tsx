@@ -1,10 +1,10 @@
 import { Content, ContentSection, ContentMain } from 'app/components/Content';
-import type { ActionGrant } from 'app/models';
-import type { SurveyEntity } from 'app/reducers/surveys';
 import { TokenNavigation } from '../../utils';
 import styles from '../surveys.css';
 import Results from './Results';
 import type { EntityId } from '@reduxjs/toolkit';
+import type { ActionGrant } from 'app/models';
+import type { SurveyEntity } from 'app/reducers/surveys';
 
 type Props = {
   survey: SurveyEntity;

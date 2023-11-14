@@ -1,8 +1,8 @@
 import slug from 'slugify';
 import { imageGallerySchema } from 'app/reducers';
-import type { Thunk } from 'app/types';
 import { File as FileType, ImageGallery } from './ActionTypes';
 import callAPI from './callAPI';
+import type { Thunk } from 'app/types';
 
 const slugifyFilename: (filename: string) => string = (filename) => {
   // Slug options

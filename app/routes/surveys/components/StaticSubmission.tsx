@@ -1,11 +1,11 @@
 import { RadioButton, CheckBox, TextArea } from 'app/components/Form';
+import { QuestionTypes } from '../utils';
+import styles from './surveys.css';
 import type {
   SubmissionEntity,
   AnswerEntity,
 } from 'app/reducers/surveySubmissions';
 import type { SurveyEntity, QuestionEntity } from 'app/reducers/surveys';
-import { QuestionTypes } from '../utils';
-import styles from './surveys.css';
 
 type Props = {
   survey: SurveyEntity;

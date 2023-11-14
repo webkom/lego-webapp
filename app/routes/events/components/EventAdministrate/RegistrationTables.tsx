@@ -1,20 +1,10 @@
+import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
-import Flex from 'app/components/Layout/Flex';
 import Table from 'app/components/Table';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
-import type {
-  EventRegistration,
-  EventRegistrationPresence,
-  EventRegistrationPaymentStatus,
-  ID,
-  EventAdministrate,
-  EventPool,
-  PhotoConsent,
-  EventSemester,
-} from 'app/models';
 import { PhotoConsentDomain } from 'app/models';
 import {
   getEventSemesterFromStartTime,
@@ -29,6 +19,16 @@ import {
   PresenceIcons,
   Unregister,
 } from './AttendeeElements';
+import type {
+  EventRegistration,
+  EventRegistrationPresence,
+  EventRegistrationPaymentStatus,
+  ID,
+  EventAdministrate,
+  EventPool,
+  PhotoConsent,
+  EventSemester,
+} from 'app/models';
 
 type Props = {
   registered: Array<EventRegistration>;

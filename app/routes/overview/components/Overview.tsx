@@ -1,18 +1,12 @@
+import { Container, Flex, Icon } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
 import { useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 // import Banner from 'app/components/Banner';
-import Icon from 'app/components/Icon';
-import { Container, Flex } from 'app/components/Layout';
 import Poll from 'app/components/Poll';
 import RandomQuote from 'app/components/RandomQuote';
-import type { Event, Readme } from 'app/models';
-import type { WithDocumentType } from 'app/reducers/frontpage';
 import { isArticle, isEvent } from 'app/reducers/frontpage';
-import type { PollEntity } from 'app/reducers/polls';
-import type { PublicArticle } from 'app/store/models/Article';
-import type { FrontpageEvent } from 'app/store/models/Event';
 import ArticleItem from './ArticleItem';
 import CompactEvents from './CompactEvents';
 import EventItem from './EventItem';
@@ -21,6 +15,11 @@ import NextEvent from './NextEvent';
 import styles from './Overview.css';
 import Pinned from './Pinned';
 import { itemUrl, renderMeta } from './utils';
+import type { Event, Readme } from 'app/models';
+import type { WithDocumentType } from 'app/reducers/frontpage';
+import type { PollEntity } from 'app/reducers/polls';
+import type { PublicArticle } from 'app/store/models/Article';
+import type { FrontpageEvent } from 'app/store/models/Event';
 
 type Props = {
   frontpage: WithDocumentType<PublicArticle | FrontpageEvent>[];
@@ -119,9 +118,9 @@ const Overview = (props: Props) => {
       <section className={styles.mobileContainer}>
         <CompactEvents events={events} />
         <NextEvent events={events} />
+        {pinnedComponent}
         <PollItem poll={poll} votePoll={votePoll} />
         <QuoteItem loggedIn={loggedIn} />
-        {pinnedComponent}
         {readMe}
         <Weekly weeklyArticle={weeklyArticle} />
         <Articles articles={articlesShown} />

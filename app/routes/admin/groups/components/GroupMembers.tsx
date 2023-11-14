@@ -9,15 +9,15 @@ import {
   addMember,
   removeMember,
 } from 'app/actions/GroupActions';
-import type { AddMemberArgs } from 'app/actions/GroupActions';
 import { selectCurrentUser } from 'app/reducers/auth';
 import { selectMembershipsForGroup } from 'app/reducers/memberships';
 import { selectPaginationNext } from 'app/reducers/selectors';
-import type Membership from 'app/store/models/Membership';
-import type { CurrentUser } from 'app/store/models/User';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import AddGroupMember from './AddGroupMember';
 import GroupMembersList from './GroupMembersList';
+import type { AddMemberArgs } from 'app/actions/GroupActions';
+import type Membership from 'app/store/models/Membership';
+import type { CurrentUser } from 'app/store/models/User';
 
 type Props = {
   groupId: number;

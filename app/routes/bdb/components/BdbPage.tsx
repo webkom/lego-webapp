@@ -1,20 +1,19 @@
-import { LoadingIndicator } from '@webkom/lego-bricks';
+import { Card, LoadingIndicator } from '@webkom/lego-bricks';
 import qs from 'qs';
 import { Component } from 'react';
 import { Helmet } from 'react-helmet-async';
-import Card from 'app/components/Card';
 import { Content } from 'app/components/Content';
 import TextInput from 'app/components/Form/TextInput';
+import sortCompanies from '../SortCompanies';
+import { indexToSemester, ListNavigation } from '../utils';
+import CompanyList from './CompanyList';
+import OptionsBox from './OptionsBox';
 import type { CompanySemesterContactedStatus } from 'app/models';
 import type {
   CompanyEntity,
   BaseSemesterStatusEntity,
 } from 'app/reducers/companies';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
-import sortCompanies from '../SortCompanies';
-import { indexToSemester, ListNavigation } from '../utils';
-import CompanyList from './CompanyList';
-import OptionsBox from './OptionsBox';
 import type { Location } from 'history';
 
 type Props = {

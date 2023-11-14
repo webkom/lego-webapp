@@ -1,13 +1,13 @@
+import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import Flex from 'app/components/Layout/Flex';
-import type { EmojiWithReactionData } from 'app/components/LegoReactions';
-import type { ID } from 'app/models';
-import type { ContentTarget } from 'app/store/utils/contentTarget';
 import reactionStyles from './Reaction.css';
 import ReactionPicker from './ReactionPicker';
 import AddReactionEmoji from './assets/AddReactionEmoji';
 import styles from './index.css';
+import type { EmojiWithReactionData } from 'app/components/LegoReactions';
+import type { ID } from 'app/models';
+import type { ContentTarget } from 'app/store/utils/contentTarget';
 import type { ReactNode, SyntheticEvent } from 'react';
 
 type Props = {

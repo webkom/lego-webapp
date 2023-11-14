@@ -1,7 +1,7 @@
 import callAPI from 'app/actions/callAPI';
 import { frontpageSchema } from 'app/reducers';
-import type { Thunk } from 'app/types';
 import { Frontpage, Readme } from './ActionTypes';
+import type { Thunk } from 'app/types';
 
 const gql = String.raw;
 export function fetchData(): Thunk<any> {

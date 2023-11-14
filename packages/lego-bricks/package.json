@@ -1,6 +1,6 @@
 {
   "name": "@webkom/lego-bricks",
-  "version": "1.0.1",
+  "version": "1.2.1",
   "description": "Component library for lego and other Abakus projects",
   "author": "webkom",
   "license": "MIT",
@@ -40,6 +40,11 @@
     "test:watch": "vitest",
     "types": "tsc"
   },
+  "dependencies": {
+    "classnames": "^2.3.2",
+    "react-overlays": "5.2.1",
+    "react-router-dom": "^5.3.4"
+  },
   "peerDependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
@@ -50,7 +55,7 @@
     "@storybook/addon-interactions": "^7.2.0",
     "@storybook/addon-links": "^7.5.0",
     "@storybook/addon-onboarding": "^1.0.8",
-    "@storybook/blocks": "^7.2.0",
+    "@storybook/blocks": "^7.5.2",
     "@storybook/react": "^7.2.0",
     "@storybook/react-vite": "^7.3.2",
     "@storybook/testing-library": "^0.2.0",

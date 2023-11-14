@@ -1,9 +1,9 @@
-import { Button } from '@webkom/lego-bricks';
 import { useState } from 'react';
-import Icon from 'app/components/Icon';
-import Flex from 'app/components/Layout/Flex';
-import Modal from 'app/components/Modal';
-import styles from './ConfirmModal.css';
+import { Button } from '../Button';
+import { Icon } from '../Icon';
+import { Flex } from '../Layout';
+import styles from './ConfirmModal.module.css';
+import { Modal } from './index';
 import type { ReactNode } from 'react';
 
 type ConfirmModalContentProps = {
@@ -71,7 +71,7 @@ type ConfirmModalProps = {
   danger?: boolean;
 };
 
-export const ConfirmModal = ({
+const ConfirmModal = ({
   onConfirm = async () => {},
   onCancel = async () => {},
   closeOnCancel = true,
@@ -99,7 +99,8 @@ export const ConfirmModal = ({
       } catch (error) {
         setWorking(false);
         setErrorMessage(
-          (error as any)?.meta?.errorMessage || 'Det skjedde en feil...'
+          (error as { meta?: { errorMessage: string } })?.meta?.errorMessage ||
+            'Det skjedde en feil...'
         );
         throw error;
       }
@@ -128,3 +129,5 @@ export const ConfirmModal = ({
     </>
   );
 };
+
+export default ConfirmModal;

@@ -1,26 +1,23 @@
-import { LoadingIndicator, ProgressBar, Button } from '@webkom/lego-bricks';
+import {
+  Button,
+  Card,
+  ConfirmModal,
+  Flex,
+  Icon,
+  LoadingIndicator,
+  ProgressBar,
+} from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
 import { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { compose } from 'redux';
 import { reduxForm, Field, SubmissionError } from 'redux-form';
-import Card from 'app/components/Card';
 import { Form, Captcha, TextInput } from 'app/components/Form';
-import Icon from 'app/components/Icon';
-import { Flex } from 'app/components/Layout';
-import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
-import type {
-  EventRegistration,
-  EventRegistrationStatus,
-  Penalty,
-  Event,
-} from 'app/models';
 import { selectPenaltyByUserId } from 'app/reducers/penalties';
 import { selectUserByUsername } from 'app/reducers/users';
-import type { CurrentUser } from 'app/store/models/User';
 import {
   paymentSuccess,
   paymentManual,
@@ -34,6 +31,13 @@ import {
 import styles from './Event.css';
 import withCountdown from './JoinEventFormCountdownProvider';
 import PaymentRequestForm from './StripeElement';
+import type {
+  EventRegistration,
+  EventRegistrationStatus,
+  Penalty,
+  Event,
+} from 'app/models';
+import type { CurrentUser } from 'app/store/models/User';
 
 export type Props = {
   title?: string;

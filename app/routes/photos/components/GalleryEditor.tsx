@@ -1,4 +1,4 @@
-import { Button } from '@webkom/lego-bricks';
+import { Button, Card, ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { without, find } from 'lodash';
 import moment from 'moment-timezone';
@@ -6,7 +6,6 @@ import { Component } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { Field, Fields } from 'redux-form';
-import Card from 'app/components/Card';
 import { Content } from 'app/components/Content';
 import EmptyState from 'app/components/EmptyState';
 import {
@@ -21,15 +20,12 @@ import {
 } from 'app/components/Form';
 import { normalizeObjectPermissions } from 'app/components/Form/ObjectPermissions';
 import GalleryComponent from 'app/components/Gallery';
-import Icon from 'app/components/Icon';
-import { Flex } from 'app/components/Layout';
-import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import NavigationTab from 'app/components/NavigationTab';
+import GalleryEditorActions from './GalleryEditorActions';
+import styles from './Overview.css';
 import type { ID } from 'app/models';
 import type { GalleryEntity } from 'app/reducers/galleries';
 import type { GalleryPictureEntity } from 'app/reducers/galleryPictures';
-import GalleryEditorActions from './GalleryEditorActions';
-import styles from './Overview.css';
 import type { Push } from 'connected-react-router';
 
 type Props = {
