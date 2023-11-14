@@ -12,7 +12,7 @@ type Props = {
   user: CurrentUser;
   emoji: string;
   count: number;
-  users: { fullName: string }[] | null;
+  users?: { fullName: string }[];
   unicodeString: string;
   addReaction: (args: {
     emoji: string;
@@ -59,13 +59,13 @@ const Reaction = ({
     return <></>;
   }
 
-  let tooltipContent = emoji + '\n';
+  let tooltipContent = '';
   if (users && users.length > 0) {
-    tooltipContent += users
-      .filter((user) => user)
-      .map((user) => user.fullName)
-      .join(', ');
+    tooltipContent += users.map((user) => user.fullName).join(', ');
+    tooltipContent += ' reagerte med ';
   }
+
+  tooltipContent += emoji;
 
   return (
     <>

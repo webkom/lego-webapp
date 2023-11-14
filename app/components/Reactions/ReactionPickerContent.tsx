@@ -3,7 +3,7 @@ import type { EmojiWithReactionData } from 'app/components/LegoReactions';
 import type { ID } from 'app/store/models';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 import styles from './ReactionPickerContent.css';
-import { CurrentUser } from 'app/store/models/User';
+import type { CurrentUser } from 'app/store/models/User';
 
 type Props = {
   emojis: EmojiWithReactionData[];

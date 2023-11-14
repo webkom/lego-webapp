@@ -10,7 +10,7 @@ import ReactionPickerHeader from './ReactionPickerHeader';
 import type { EmojiWithReactionData } from 'app/components/LegoReactions';
 import type { ID } from 'app/store/models';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
-import { CurrentUser } from 'app/store/models/User';
+import type { CurrentUser } from 'app/store/models/User';
 
 type Props = {
   isLoading: boolean;

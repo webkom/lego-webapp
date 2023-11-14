@@ -4,7 +4,7 @@ import type { ID } from 'app/store/models';
 import type Emoji from 'app/store/models/Emoji';
 import type { ReactionsGrouped } from 'app/store/models/Reaction';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
-import { CurrentUser } from 'app/store/models/User';
+import type { CurrentUser } from 'app/store/models/User';
 
 type Props = {
   user: CurrentUser;
@@ -89,25 +89,24 @@ const LegoReactions = (props: Props) => {
       contentTarget={parentEntity.contentTarget}
       loggedIn={loggedIn}
     >
-      {parentEntity.reactionsGrouped &&
-        parentEntity.reactionsGrouped.map((reaction) => {
-          return (
-            <Reaction
-              key={`reaction-${reaction.emoji}`}
-              emoji={reaction.emoji}
-              count={reaction.count}
-              users={usersByReaction[reaction.emoji]}
-              unicodeString={reaction.unicodeString}
-              reactionId={reaction.reactionId}
-              user={user}
-              hasReacted={reaction.hasReacted}
-              canReact={loggedIn}
-              addReaction={addReaction}
-              deleteReaction={deleteReaction}
-              contentTarget={parentEntity.contentTarget}
-            />
-          );
-        })}
+      {parentEntity.reactionsGrouped?.map((reaction) => {
+        return (
+          <Reaction
+            key={`reaction-${reaction.emoji}`}
+            emoji={reaction.emoji}
+            count={reaction.count}
+            users={usersByReaction[reaction.emoji]}
+            unicodeString={reaction.unicodeString}
+            reactionId={reaction.reactionId}
+            user={user}
+            hasReacted={reaction.hasReacted}
+            canReact={loggedIn}
+            addReaction={addReaction}
+            deleteReaction={deleteReaction}
+            contentTarget={parentEntity.contentTarget}
+          />
+        );
+      })}
     </Reactions>
   );
 };
