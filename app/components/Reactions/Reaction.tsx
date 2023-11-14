@@ -61,7 +61,10 @@ const Reaction = ({
 
   let tooltipContent = '';
   if (users && users.length > 0) {
-    tooltipContent += users.map((user) => user.fullName).join(', ');
+    tooltipContent += users
+      .filter((user) => user)
+      .map((user) => user.fullName)
+      .join(', ');
     tooltipContent += ' reagerte med ';
   }
 
