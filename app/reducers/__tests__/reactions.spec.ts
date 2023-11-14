@@ -89,9 +89,7 @@ describe('reducers', () => {
             name: 'test',
             reactions: [
               {
-                author: {
-                  fullName: 'test',
-                },
+                author: undefined,
                 emoji: ':joy:',
                 reactionId: 33,
                 unicodeString: '123',
@@ -138,6 +136,12 @@ describe('reducers', () => {
                 author: {
                   fullName: 'test',
                 },
+                emoji: ':joy:',
+                reactionId: 33,
+                unicodeString: '123',
+              },
+              {
+                author: undefined,
                 emoji: ':joy:',
                 reactionId: 33,
                 unicodeString: '123',
