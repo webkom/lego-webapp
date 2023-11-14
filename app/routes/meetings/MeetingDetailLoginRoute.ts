@@ -58,6 +58,7 @@ const mapStateToProps = (
     userId: currentUser.username,
     meetingId,
   });
+
   return {
     meeting,
     meetingId,

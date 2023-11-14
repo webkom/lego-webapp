@@ -1,9 +1,9 @@
 import { Card, Flex } from '@webkom/lego-bricks';
 import moment from 'moment';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
-  AreaChart,
   Area,
+  AreaChart,
   CartesianGrid,
   Legend,
   Line,
@@ -242,7 +242,13 @@ const calculateMetrics = (data) => {
   }, initialValue);
 };
 
-const Analytics = ({ eventId }: { eventId: ID }) => {
+class AnalyticsProps {
+  eventId: ID;
+  viewStartTime: Dateish;
+  viewEndTime: Dateish;
+}
+
+const Analytics = ({ eventId, viewStartTime, viewEndTime }: AnalyticsProps) => {
   const [metrics, setMetrics] = useState<{
     visitors: { title: string; value: number };
     pageviews: { title: string; value: number };
@@ -252,13 +258,34 @@ const Analytics = ({ eventId }: { eventId: ID }) => {
 
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    eventId &&
-      dispatch(fetchAnalytics(eventId)).then((res) => {
-        setData(res.payload);
-        setMetrics(calculateMetrics(res.payload));
-      });
+  const memoizedData = useMemo(() => {
+    return async () => {
+      if (eventId) {
+        const response = await dispatch(fetchAnalytics(eventId));
+        return response.payload;
+      }
+    };
   }, [eventId, dispatch]);
+
+  useEffect(() => {
+    if (eventId) {
+      memoizedData().then((data) => {
+        if (viewStartTime) {
+          data = data.filter(
+            (item) => new Date(item.date) >= new Date(viewStartTime as string)
+          );
+        }
+
+        if (viewEndTime) {
+          data = data.filter(
+            (item) => new Date(item.date) <= new Date(viewEndTime as string)
+          );
+        }
+        setData(data);
+        setMetrics(calculateMetrics(data));
+      });
+    }
+  }, [memoizedData, eventId, viewStartTime, viewEndTime]);
 
   return (
     <>
@@ -351,6 +378,8 @@ const EventAttendeeStatistics = ({
   committeeGroupIDs,
   revueGroupIDs,
   eventStartTime,
+  viewStartTime,
+  viewEndTime,
 }: Props) => {
   const {
     genderDistribution,
@@ -384,7 +413,11 @@ const EventAttendeeStatistics = ({
         Statistikk av besøkende på arrangementssiden.
       </p>
 
-      <Analytics eventId={eventId} />
+      <Analytics
+        eventId={eventId}
+        viewStartTime={viewStartTime}
+        viewEndTime={viewEndTime}
+      />
 
       <h2 className={styles.sectionDividerTitle}>Analyse</h2>
       <p className={styles.sectionDividerDescription}>

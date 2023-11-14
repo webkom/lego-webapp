@@ -53,3 +53,11 @@
 .graphCard {
   margin-top: 1em;
 }
+
+.filterContainer {
+  margin: 1em 0;
+}
+
+.filterContainer > label {
+  margin-top: 1em;
+}
