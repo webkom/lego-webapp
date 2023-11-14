@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import DatePicker from 'app/components/Form/DatePicker';
 import EventAttendeeStatistics from 'app/routes/events/components/EventAttendeeStatistics';
 import styles from 'app/routes/events/components/EventAttendeeStatistics.css';
 import type { Dateish, EventRegistration, Group } from 'app/models';
