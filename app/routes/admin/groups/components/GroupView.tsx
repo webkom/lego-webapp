@@ -5,7 +5,7 @@ import { Route, Switch } from 'react-router-dom';
 import RouteWrapper from 'app/components/RouteWrapper';
 import ConnectedGroupMembers from '../components/GroupMembers';
 import ConnectedGroupPermissions from '../components/GroupPermissions';
-import GroupSettings from '../components/GroupSettings';
+import GroupForm from './GroupForm';
 
 type GroupModel = {
   name: string;
@@ -33,7 +33,7 @@ const Group = (props: GroupProps) => {
       <Switch>
         <RouteWrapper
           path={`${match.path}/settings`}
-          Component={GroupSettings}
+          Component={GroupForm}
           passedProps={{
             group,
           }}

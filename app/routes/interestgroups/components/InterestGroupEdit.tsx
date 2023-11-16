@@ -1,35 +1,53 @@
-import { Component } from 'react';
+import { LoadingIndicator } from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
+import { useParams } from 'react-router-dom';
+import { fetchGroup } from 'app/actions/GroupActions';
 import { Content } from 'app/components/Content';
-import GroupForm from 'app/components/GroupForm';
+import { LoginPage } from 'app/components/LoginForm';
 import NavigationTab from 'app/components/NavigationTab';
+import { selectIsLoggedIn } from 'app/reducers/auth';
+import { selectGroup } from 'app/reducers/groups';
+import GroupForm from 'app/routes/admin/groups/components/GroupForm';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 
-export default class InterestGroupEdit extends Component<{
-  interestGroup: Record<string, any>;
-  initialValues: Record<string, any>;
-  uploadFile: (arg0: string) => Promise<any>;
-  handleSubmitCallback: (arg0: Record<string, any>) => Promise<any>;
-}> {
-  render() {
-    const { interestGroup, initialValues, uploadFile, handleSubmitCallback } =
-      this.props;
-    return (
-      <Content>
-        <Helmet title={`Redigerer: ${interestGroup.name}`} />
-        <NavigationTab
-          title={`Redigerer: ${interestGroup.name}`}
-          back={{
-            label: 'Tilbake',
-            path: `/interest-groups/${interestGroup.id}`,
-          }}
-        />
-        <GroupForm
-          handleSubmitCallback={handleSubmitCallback}
-          group={interestGroup}
-          uploadFile={uploadFile}
-          initialValues={initialValues}
-        />
-      </Content>
-    );
+const InterestGroupEdit = () => {
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
+  const { groupId } = useParams<{ groupId: string }>();
+  const interestGroup = useAppSelector((state) =>
+    selectGroup(state, { groupId })
+  );
+
+  const dispatch = useAppDispatch();
+  usePreparedEffect(
+    'fetchInterestGroupEdit',
+    () => {
+      dispatch(fetchGroup(groupId));
+    },
+    [groupId]
+  );
+
+  if (!isLoggedIn) {
+    return <LoginPage />;
   }
-}
+
+  if (!interestGroup) {
+    return <LoadingIndicator loading />;
+  }
+
+  return (
+    <Content>
+      <Helmet title={`Redigerer: ${interestGroup.name}`} />
+      <NavigationTab
+        title={`Redigerer: ${interestGroup.name}`}
+        back={{
+          label: 'Tilbake',
+          path: `/interest-groups/${interestGroup.id}`,
+        }}
+      />
+      <GroupForm isInterestGroup />
+    </Content>
+  );
+};
+
+export default InterestGroupEdit;
