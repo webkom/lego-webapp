@@ -29,6 +29,7 @@ type Props<Option, IsMulti extends boolean = false> = {
   options?: Option[];
   creatable?: boolean;
   isMulti?: boolean;
+  isClearable?: boolean;
 };
 
 export const selectStyles: StylesConfig = {

@@ -1,4 +1,3 @@
-import { stopSubmit } from 'redux-form';
 import callAPI from 'app/actions/callAPI';
 import { announcementsSchema } from 'app/reducers';
 import { Announcements } from './ActionTypes';
@@ -42,18 +41,14 @@ Thunk<any> {
         schema: announcementsSchema,
         meta: {
           errorMessage: 'Opprettelse av kunngjøringer feilet',
+          successMessage: 'Kunngjøring opprettet',
         },
       })
-    )
-      .then((action) => {
-        if (send && action && action.payload) {
-          dispatch(sendAnnouncement(action.payload.result));
-        }
-      })
-      .catch((action) => {
-        const errors = { ...action.error.response.jsonData };
-        dispatch(stopSubmit('AnnouncementsCreate', errors));
-      });
+    ).then((action) => {
+      if (send && action && action.payload) {
+        dispatch(sendAnnouncement(action.payload.result));
+      }
+    });
 }
 export function sendAnnouncement(announcementId: number): Thunk<any> {
   return callAPI({
@@ -62,6 +57,7 @@ export function sendAnnouncement(announcementId: number): Thunk<any> {
     method: 'POST',
     meta: {
       errorMessage: 'Sending av kunngjøringer feilet',
+      successMessage: 'Kunngjøring sendt',
       announcementId,
     },
   });

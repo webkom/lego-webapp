@@ -1,6 +1,5 @@
 import { Card, Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
 import arrayMutators from 'final-form-arrays';
-import { type ReactNode } from 'react';
 import { Field, FormSpy } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { Helmet } from 'react-helmet-async';
@@ -44,6 +43,8 @@ import {
 } from './Translations';
 import type { CompanyInterestEntity } from 'app/reducers/companyInterest';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
+import type { History } from 'history';
+import type { ReactNode } from 'react';
 
 export const PARTICIPANT_RANGE_TYPES = {
   first: '10-30',
@@ -285,7 +286,7 @@ type Props = {
     arg0: CompanyInterestFormEntity,
     arg1: boolean | null | undefined
   ) => Promise<any>;
-  push: (arg0: string) => void;
+  push: History['push'];
   events: Array<Record<string, any>>;
   companyCourseThemes: Array<Record<string, any>>;
   semesters: Array<CompanySemesterEntity>;

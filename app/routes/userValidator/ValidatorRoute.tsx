@@ -1,8 +1,8 @@
-import { push } from 'connected-react-router';
 import { debounce } from 'lodash';
 import qs from 'qs';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { push } from 'redux-first-history';
 import { autocomplete } from 'app/actions/SearchActions';
 import { addToast } from 'app/actions/ToastActions';
 import { fetchUser } from 'app/actions/UserActions';

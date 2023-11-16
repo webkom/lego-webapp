@@ -1,15 +1,12 @@
 import { produce } from 'immer';
 import { Routing } from 'app/actions/ActionTypes';
 import type { StrictReducer } from 'app/utils/joinReducers';
-import type { RouterState } from 'connected-react-router';
 
-export interface RoutingState extends RouterState {
+export interface RoutingState {
   statusCode?: number | null;
 }
 
 const initialState: RoutingState = {
-  action: undefined,
-  location: undefined,
   statusCode: null,
 };
 
@@ -23,4 +20,5 @@ const routing: StrictReducer<RoutingState> = produce((newState, action) => {
       break;
   }
 }, initialState);
+
 export default routing;

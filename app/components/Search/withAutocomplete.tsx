@@ -1,7 +1,5 @@
 import { debounce } from 'lodash';
 import { useState } from 'react';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
 import { autocomplete } from 'app/actions/SearchActions';
 import { useAppDispatch } from 'app/store/hooks';
 import type { SearchResult } from 'app/reducers/search';
@@ -33,14 +31,12 @@ const useAutocomplete = ({
     setFetching(true);
 
     try {
-      const result = await dispatch(autocomplete(query, filter));
-
       // Set the result to the response result
-      let finalResult: SearchResult[] = result;
+      let result: SearchResult[] = await dispatch(autocomplete(query, filter));
 
       // Retain a query with no match
       if (retainFailedQuery && result.length === 0) {
-        finalResult = [
+        result = [
           {
             title: query,
             label: query,
@@ -48,7 +44,7 @@ const useAutocomplete = ({
         ];
       }
 
-      setOptions(finalResult);
+      setOptions(result);
       setFetching(false);
     } catch (e) {
       setFetching(false);
@@ -89,8 +85,4 @@ function withAutocomplete<P extends InjectedProps & Props>({
   return Component;
 }
 
-const mapDispatchToProps = {
-  autocomplete,
-};
-
-export default compose(connect(null, mapDispatchToProps), withAutocomplete);
+export default withAutocomplete;

@@ -1,6 +1,6 @@
-import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { push } from 'redux-first-history';
 import { reduxForm } from 'redux-form';
 import { createOAuth2Application } from 'app/actions/OAuth2Actions';
 import { createValidator, required } from 'app/utils/validation';

@@ -1,4 +1,4 @@
-import { push } from 'connected-react-router';
+import { push } from 'redux-first-history';
 import { pollSchema } from '../reducers';
 import { Poll } from './ActionTypes';
 import callAPI from './callAPI';

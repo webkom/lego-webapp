@@ -1,8 +1,8 @@
-import { push } from 'connected-react-router';
 import cookie from 'js-cookie';
 import jwtDecode from 'jwt-decode';
 import moment from 'moment-timezone';
 import { normalize } from 'normalizr';
+import { push } from 'redux-first-history';
 import callAPI from 'app/actions/callAPI';
 import config from 'app/config';
 import { userSchema, penaltySchema } from 'app/reducers';

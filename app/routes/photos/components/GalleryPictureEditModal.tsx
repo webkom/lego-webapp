@@ -7,11 +7,12 @@ import { Image } from 'app/components/Image';
 import ProgressiveImage from 'app/components/ProgressiveImage';
 import GalleryDetailsRow from './GalleryDetailsRow';
 import styles from './GalleryPictureModal.css';
+import type { History } from 'history';
 
 type Props = {
   picture: Record<string, any>;
   gallery: Record<string, any>;
-  push: (arg0: string) => void;
+  push: History['push'];
   handleSubmit: (arg0: (arg0: Record<string, any>) => void) => void;
   updatePicture: (arg0: Record<string, any>) => Promise<any>;
   deletePicture: (galleryId: number, pictureId: number) => Promise<any>;

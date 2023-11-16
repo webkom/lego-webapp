@@ -1,5 +1,6 @@
 import { combineReducers } from '@reduxjs/toolkit';
-import { connectRouter } from 'connected-react-router';
+import { createBrowserHistory, createMemoryHistory } from 'history';
+import { createReduxHistoryContext } from 'redux-first-history';
 import allowed from 'app/reducers/allowed';
 import announcements from 'app/reducers/announcements';
 import articles from 'app/reducers/articles';
@@ -52,14 +53,14 @@ import users from 'app/reducers/users';
 import joinReducers from 'app/utils/joinReducers';
 import type { RoutingState } from 'app/reducers/routing';
 import type { StrictReducer } from 'app/utils/joinReducers';
-import type { History } from 'history';
 
-const createRootReducer = (history: History) =>
-  combineReducers({
-    router: joinReducers(
-      connectRouter(history) as StrictReducer<RoutingState>,
-      routing
-    ),
+const createRootReducer = () => {
+  const { routerReducer } = createReduxHistoryContext({
+    history: __CLIENT__ ? createBrowserHistory() : createMemoryHistory(),
+  });
+
+  return combineReducers({
+    router: joinReducers(routerReducer as StrictReducer<RoutingState>, routing),
     allowed,
     announcements,
     articles,
@@ -108,6 +109,7 @@ const createRootReducer = (history: History) =>
     followersUser,
     followersEvent,
   });
+};
 
 export type RootState = ReturnType<ReturnType<typeof createRootReducer>>;
 export default createRootReducer;

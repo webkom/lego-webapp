@@ -1,7 +1,6 @@
 import * as Sentry from '@sentry/browser';
 import createFocusOnErrorDecorator from 'final-form-focus';
-import { isEqual } from 'lodash';
-import { useState } from 'react';
+import { isEmpty, isEqual } from 'lodash';
 import { Form } from 'react-final-form';
 import { handleSubmissionErrorFinalForm } from 'app/components/Form/utils';
 import type { FormProps } from 'react-final-form';
@@ -29,44 +28,38 @@ const LegoFinalForm = <FormValues,>({
   enableFocusOnError = true,
   decorators = [],
   validateOnSubmitOnly = false,
+  validate,
   ...rest
 }: Props<FormValues>) => {
   if (enableFocusOnError) {
     decorators = [focusOnError, ...decorators];
   }
 
-  const [submitting, setSubmitting] = useState(false);
-
-  const validate = (values) => {
-    if (validateOnSubmitOnly && !submitting) {
-      return {};
-    } else {
-      return rest.validate ? rest.validate(values) : {};
-    }
-  };
-
   return (
     <Form
       {...rest}
-      validate={validate}
+      validate={!validateOnSubmitOnly ? validate : undefined}
       initialValuesEqual={isEqual}
       decorators={decorators}
       onSubmit={(values, form) => {
-        setSubmitting(true);
+        if (validateOnSubmitOnly) {
+          const errors = validate ? validate(values) : {};
+          if (!isEmpty(errors)) {
+            return errors;
+          }
+        }
+
         const res = onSubmit(values, form);
 
         if (!res || !('then' in res)) {
-          setSubmitting(false);
           return res;
         }
 
         return res
           .then((result) => {
-            setSubmitting(false);
             return result;
           })
           .catch((error) => {
-            setSubmitting(false);
             Sentry.captureException(error);
             if (__DEV__) console.error(error);
 

@@ -1,7 +1,7 @@
-import { push } from 'connected-react-router';
 import { debounce } from 'lodash';
 import { useState } from 'react';
 import { connect } from 'react-redux';
+import { push } from 'redux-first-history';
 import { autocomplete } from 'app/actions/SearchActions';
 import { selectAutocompleteRedux } from 'app/reducers/search';
 import { Keyboard } from 'app/utils/constants';
@@ -9,10 +9,11 @@ import QuickLinks from './QuickLinks';
 import styles from './Search.css';
 import SearchBar from './SearchBar';
 import SearchResults from './SearchResults';
-import { getAdminLinks, getExternalLinks, getRegularLinks } from './utils';
+import { getExternalLinks, getAdminLinks, getRegularLinks } from './utils';
 import type { Allowed } from 'app/reducers/allowed';
 import type { RootState } from 'app/store/createRootReducer';
 import type { AppDispatch } from 'app/store/createStore';
+import type { History } from 'history';
 
 type StateProps = {
   allowed: Allowed;
@@ -21,7 +22,7 @@ type StateProps = {
 type DispatchProps = {
   onQueryChanged: (value: string) => any;
   openSearchRoute: (query: string) => any;
-  push: (arg0: string) => void;
+  push: History['push'];
 };
 
 type Props = StateProps &

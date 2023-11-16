@@ -12,8 +12,8 @@ import GalleryDetailsRow from './GalleryDetailsRow';
 import type { DropFile } from 'app/components/Upload/ImageUpload';
 import type { ID, ActionGrant } from 'app/models';
 import type { GalleryPictureEntity } from 'app/reducers/galleryPictures';
-import type { Push } from 'connected-react-router';
-import type { Element } from 'react';
+import type { History } from 'history';
+import type { ReactNode } from 'react';
 
 type Props = {
   gallery: Record<string, any>;
@@ -22,7 +22,7 @@ type Props = {
   pictures: Array<GalleryPictureEntity>;
   hasMore: boolean;
   fetching: boolean;
-  children: Element<any>;
+  children: ReactNode;
   fetch: (
     galleryId: number,
     args: {
@@ -30,7 +30,7 @@ type Props = {
     }
   ) => Promise<any>;
   clear: (galleryId: number) => Promise<any>;
-  push: Push;
+  push: History['push'];
   uploadAndCreateGalleryPicture: (
     arg0: ID,
     arg1: File | Array<DropFile>

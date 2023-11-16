@@ -7,13 +7,14 @@ import Gallery from 'app/components/Gallery';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import styles from './Overview.css';
 import type { Photo } from 'app/components/Gallery';
+import type { History } from 'history';
 
 type Props = {
   fetching: boolean;
   hasMore: boolean;
   galleries: Array<Photo>;
   fetch: (arg0: { next?: boolean }) => Promise<any>;
-  push: (arg0: string) => Promise<any>;
+  push: History['push'];
   actionGrant: Array<string>;
 };
 export default class Overview extends Component<Props> {

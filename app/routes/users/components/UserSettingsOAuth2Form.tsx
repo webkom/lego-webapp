@@ -1,6 +1,7 @@
 import { Button } from '@webkom/lego-bricks';
 import { Field } from 'redux-form';
 import { Form, TextInput } from 'app/components/Form';
+import type { History } from 'history';
 
 type Props = {
   create: boolean;
@@ -11,7 +12,7 @@ type Props = {
   handleSubmit: (arg0: any) => void;
   updateOAuth2Application: (application: Record<string, any>) => any;
   createOAuth2Application: (application: Record<string, any>) => any;
-  push: (location: string) => void;
+  push: History['push'];
 };
 
 const UserSettingsOAuth2Form = (props: Props) => {

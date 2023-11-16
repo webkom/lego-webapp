@@ -1,7 +1,7 @@
-import { push } from 'connected-react-router';
 import moment from 'moment-timezone';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { push } from 'redux-first-history';
 import { formValueSelector } from 'redux-form';
 import { fetchEvent, editEvent, deleteEvent } from 'app/actions/EventActions';
 import {

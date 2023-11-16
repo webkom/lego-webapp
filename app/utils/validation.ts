@@ -36,6 +36,16 @@ export const requiredIf =
     return [conditionalFn(allValues) ? !!value : true, message] as const;
   };
 
+export const atLeastOneFieldRequired =
+  (fieldNames: string[], message = 'Du må fylle ut minst ett felt') =>
+  (_, allValues) => {
+    const hasAtLeastOneValue = fieldNames.some((fieldName) => {
+      const value = allValues[fieldName];
+      return Boolean(value && (Array.isArray(value) ? value.length : true));
+    });
+    return [hasAtLeastOneValue, message] as const;
+  };
+
 export const legoEditorRequired =
   (message = 'Feltet må fylles ut') =>
   (value) =>
