@@ -7,6 +7,7 @@ import {
 } from 'app/actions/CompanyActions';
 import { LoginPage } from 'app/components/LoginForm';
 import {
+  selectCompanyById,
   selectEventsForCompany,
   selectJoblistingsForCompany,
 } from 'app/reducers/companies';
@@ -15,6 +16,7 @@ import createQueryString from 'app/utils/createQueryString';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import CompanyDetail from './components/CompanyDetail';
+import type { RootState } from 'app/store/createRootReducer';
 
 const queryString = (companyId) =>
   createQueryString({
@@ -36,13 +38,16 @@ const fetchData = (props, dispatch) => {
   ]);
 };
 
-const mapStateToProps = (state, props) => {
+const mapStateToProps = (state: RootState, props) => {
   const { companyId } = props.match.params;
   const { query } = props.location;
   const showFetchMoreEvents = selectPagination('events', {
     queryString: queryString(companyId),
   })(state);
-  const company = state.companies.byId[companyId];
+  const company = selectCompanyById(state, {
+    companyId,
+  });
+  const fetching = state.companies.fetching;
   const companyEvents = selectEventsForCompany(state, {
     companyId,
   });
@@ -57,11 +62,12 @@ const mapStateToProps = (state, props) => {
     companyId,
     loggedIn: props.currentUser,
     showFetchMoreEvents,
+    fetching,
   };
 };
 
 const mapDispatchToProps = (dispatch, props) => {
-  const { companyId, loading } = props.match.params;
+  const { companyId } = props.match.params;
 
   const fetchMoreEvents = () =>
     dispatch(
@@ -73,7 +79,6 @@ const mapDispatchToProps = (dispatch, props) => {
 
   return {
     fetchMoreEvents,
-    loading,
   };
 };
 

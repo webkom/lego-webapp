@@ -1,22 +1,20 @@
-// Hack because we have circular dependencies
-// (companies -> events -> index -> frontpage -> events)
-// This import resolves dependencies properly..
-import 'app/reducers';
 import { describe, it, expect } from 'vitest';
 import { Company } from 'app/actions/ActionTypes';
 import companies from '../companies';
+import type { UnknownCompany } from 'app/store/models/Company';
 
 describe('reducers', () => {
   describe('companies semester status', () => {
     it('Company.ADD_SEMESTER_STATUS.SUCCESS', () => {
       const prevState = {
         actionGrant: [],
-        pagination: {},
-        items: [2, 3],
-        byId: {
+        paginationNext: {},
+        fetching: false,
+        ids: [2, 3],
+        entities: {
           2: {
             id: 2,
-          },
+          } as UnknownCompany,
           3: {
             id: 3,
             semesterStatuses: [
@@ -26,7 +24,7 @@ describe('reducers', () => {
                 contactedStatus: ['not_interested'],
               },
             ],
-          },
+          } as UnknownCompany,
         },
       };
       const actions = [
@@ -57,9 +55,10 @@ describe('reducers', () => {
       newState = companies(newState, actions[1]);
       expect(newState).toEqual({
         actionGrant: [],
-        pagination: {},
-        items: [2, 3],
-        byId: {
+        paginationNext: {},
+        fetching: false,
+        ids: [2, 3],
+        entities: {
           2: {
             id: 2,
             semesterStatuses: [
@@ -91,9 +90,10 @@ describe('reducers', () => {
     it('Company.EDIT_SEMESTER_STATUS.SUCCESS', () => {
       const prevState = {
         actionGrant: [],
-        pagination: {},
-        items: [3],
-        byId: {
+        paginationNext: {},
+        fetching: false,
+        ids: [3],
+        entities: {
           3: {
             id: 3,
             semesterStatuses: [
@@ -108,7 +108,7 @@ describe('reducers', () => {
                 contactedStatus: ['not_interested'],
               },
             ],
-          },
+          } as UnknownCompany,
         },
       };
       const action = {
@@ -123,35 +123,30 @@ describe('reducers', () => {
           contactedStatus: ['course'],
         },
       };
-      expect(companies(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
-        items: [3],
-        byId: {
-          3: {
-            id: 3,
-            semesterStatuses: [
-              {
-                id: 1,
-                semester: 1,
-                contactedStatus: ['course'],
-              },
-              {
-                id: 2,
-                semester: 2,
-                contactedStatus: ['not_interested'],
-              },
-            ],
+      const newState = companies(prevState, action);
+      expect(newState.entities[3]).toEqual({
+        id: 3,
+        semesterStatuses: [
+          {
+            id: 1,
+            semester: 1,
+            contactedStatus: ['course'],
           },
-        },
+          {
+            id: 2,
+            semester: 2,
+            contactedStatus: ['not_interested'],
+          },
+        ],
       });
     });
     it('Company.DELETE_SEMESTER_STATUS.SUCCESS', () => {
       const prevState = {
         actionGrant: [],
-        pagination: {},
-        items: [3],
-        byId: {
+        paginationNext: {},
+        fetching: false,
+        ids: [3],
+        entities: {
           3: {
             id: 3,
             semesterStatuses: [
@@ -166,7 +161,7 @@ describe('reducers', () => {
                 contactedStatus: ['not_interested'],
               },
             ],
-          },
+          } as UnknownCompany,
         },
       };
       const action = {
@@ -176,22 +171,16 @@ describe('reducers', () => {
           semesterStatusId: 1,
         },
       };
-      expect(companies(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
-        items: [3],
-        byId: {
-          3: {
-            id: 3,
-            semesterStatuses: [
-              {
-                id: 2,
-                semester: 1,
-                contactedStatus: ['not_interested'],
-              },
-            ],
+      const newState = companies(prevState, action);
+      expect(newState.entities[3]).toEqual({
+        id: 3,
+        semesterStatuses: [
+          {
+            id: 2,
+            semester: 1,
+            contactedStatus: ['not_interested'],
           },
-        },
+        ],
       });
     });
   });
@@ -199,12 +188,13 @@ describe('reducers', () => {
     it('Company.ADD_COMPANY_CONTACT.SUCCESS', () => {
       const prevState = {
         actionGrant: [],
-        pagination: {},
-        items: [2, 3],
-        byId: {
+        paginationNext: {},
+        fetching: false,
+        ids: [2, 3],
+        entities: {
           2: {
             id: 2,
-          },
+          } as UnknownCompany,
           3: {
             id: 3,
             companyContacts: [
@@ -213,7 +203,7 @@ describe('reducers', () => {
                 name: 'John',
               },
             ],
-          },
+          } as UnknownCompany,
         },
       };
       const actions = [
@@ -240,42 +230,36 @@ describe('reducers', () => {
       ];
       let newState = companies(prevState, actions[0]);
       newState = companies(newState, actions[1]);
-      expect(newState).toEqual({
-        actionGrant: [],
-        pagination: {},
-        items: [2, 3],
-        byId: {
-          2: {
-            id: 2,
-            companyContacts: [
-              {
-                id: 3,
-                name: 'Jake',
-              },
-            ],
-          },
-          3: {
+      expect(newState.entities[2]).toEqual({
+        id: 2,
+        companyContacts: [
+          {
             id: 3,
-            companyContacts: [
-              {
-                id: 1,
-                name: 'John',
-              },
-              {
-                id: 2,
-                name: 'Jane',
-              },
-            ],
+            name: 'Jake',
           },
-        },
+        ],
+      });
+      expect(newState.entities[3]).toEqual({
+        id: 3,
+        companyContacts: [
+          {
+            id: 1,
+            name: 'John',
+          },
+          {
+            id: 2,
+            name: 'Jane',
+          },
+        ],
       });
     });
     it('Company.EDIT_COMPANY_CONTACT.SUCCESS', () => {
       const prevState = {
         actionGrant: [],
-        pagination: {},
-        items: [3],
-        byId: {
+        paginationNext: {},
+        fetching: false,
+        ids: [3],
+        entities: {
           3: {
             id: 3,
             companyContacts: [
@@ -289,7 +273,7 @@ describe('reducers', () => {
                 name: 'Test',
               },
             ],
-          },
+          } as UnknownCompany,
         },
       };
       const action = {
@@ -302,33 +286,26 @@ describe('reducers', () => {
           name: 'Johnny',
         },
       };
-      expect(companies(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
-        items: [3],
-        byId: {
-          3: {
-            id: 3,
-            companyContacts: [
-              {
-                id: 1,
-                name: 'Johnny',
-              },
-              {
-                id: 2,
-                name: 'Test',
-              },
-            ],
+      expect(companies(prevState, action).entities[3]).toEqual({
+        id: 3,
+        companyContacts: [
+          {
+            id: 1,
+            name: 'Johnny',
           },
-        },
+          {
+            id: 2,
+            name: 'Test',
+          },
+        ],
       });
     });
     it('Company.DELETE_COMPANY_CONTACT.SUCCESS', () => {
       const prevState = {
         actionGrant: [],
         pagination: {},
-        items: [3],
-        byId: {
+        ids: [3],
+        entities: {
           3: {
             id: 3,
             companyContacts: [
@@ -354,8 +331,8 @@ describe('reducers', () => {
       expect(companies(prevState, action)).toEqual({
         actionGrant: [],
         pagination: {},
-        items: [3],
-        byId: {
+        ids: [3],
+        entities: {
           3: {
             id: 3,
             companyContacts: [

@@ -157,9 +157,16 @@ export type AdminDetailCompany = Pick<
   | 'companyContacts'
 >;
 
-export type UnknownCompany =
+export type UnknownCompany = (
   | ListCompany
   | AdminListCompany
   | DetailedCompany
   | SearchCompany
-  | AdminDetailCompany;
+  | AdminDetailCompany
+) &
+  Partial<
+    Pick<
+      Company,
+      'semesterStatuses' | 'companyContacts' | 'comments' | 'studentContact'
+    >
+  >;

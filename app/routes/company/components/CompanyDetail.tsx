@@ -24,7 +24,7 @@ type Props = {
   joblistings: ListJoblisting[];
   showFetchMoreEvents: boolean;
   fetchMoreEvents: () => Promise<any>;
-  loading: boolean;
+  fetching: boolean;
 };
 
 const CompanyDetail = ({
@@ -33,12 +33,12 @@ const CompanyDetail = ({
   joblistings,
   fetchMoreEvents,
   showFetchMoreEvents,
-  loading,
+  fetching,
 }: Props) => {
   const [viewOldEvents, setViewOldEvents] = useState(false);
 
-  if (!company) {
-    return <LoadingIndicator loading={loading} />;
+  if (fetching) {
+    return <LoadingIndicator loading />;
   }
 
   const sortedEvents = companyEvents.sort(
