@@ -136,7 +136,7 @@
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.11",
     "@types/classnames": "^2.3.1",
     "@types/enzyme": "^3.10.14",
-    "@types/express": "^4.17.17",
+    "@types/express": "^4.17.21",
     "@types/lodash": "^4.14.201",
     "@types/moment-timezone": "^0.5.30",
     "@types/node": "^20.2.5",
