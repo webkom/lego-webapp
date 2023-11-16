@@ -397,6 +397,7 @@ export function addSemester({
         types: Company.ADD_SEMESTER,
         endpoint: `/company-semesters/`,
         method: 'POST',
+        schema: companySemesterSchema,
         body: {
           year,
           semester,

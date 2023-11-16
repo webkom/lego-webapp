@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { Company } from '../../actions/ActionTypes';
+import { Company } from 'app/actions/ActionTypes';
 import companySemesters from '../companySemesters';
 
 describe('reducers', () => {
@@ -8,8 +8,8 @@ describe('reducers', () => {
       const prevState = {
         actionGrant: [],
         pagination: {},
-        items: [1],
-        byId: {
+        ids: [1],
+        entities: {
           1: {
             id: 1,
             year: 2001,
@@ -20,18 +20,27 @@ describe('reducers', () => {
       };
       const action = {
         type: Company.ADD_SEMESTER.SUCCESS,
+        meta: {
+          endpoint: '/companies/1/semesters/',
+        },
         payload: {
-          id: 2,
-          year: 2001,
-          semester: 'autumn',
-          activeInterestForm: false,
+          entities: {
+            companySemesters: {
+              2: {
+                id: 2,
+                year: 2001,
+                semester: 'autumn',
+                activeInterestForm: false,
+              },
+            },
+          },
         },
       };
       expect(companySemesters(prevState, action)).toEqual({
         actionGrant: [],
         pagination: {},
-        items: [1, 2],
-        byId: {
+        ids: [1, 2],
+        entities: {
           1: {
             id: 1,
             year: 2001,
