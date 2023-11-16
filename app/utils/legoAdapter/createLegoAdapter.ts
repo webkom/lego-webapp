@@ -1,7 +1,9 @@
 import { createEntityAdapter } from '@reduxjs/toolkit';
 import buildActionGrantReducer from 'app/utils/legoAdapter/buildActionGrantReducer';
+import buildDeleteEntityReducer from 'app/utils/legoAdapter/buildDeleteEntityReducer';
 import buildEntitiesReducer from 'app/utils/legoAdapter/buildEntitiesReducer';
 import buildFetchingReducer from 'app/utils/legoAdapter/buildFetchingReducer';
+import buildPaginationReducer from 'app/utils/legoAdapter/buildPaginationReducer';
 import type { EntityAdapter } from '@reduxjs/toolkit';
 import type { EntityState } from '@reduxjs/toolkit/src/entities/models';
 import type { ActionReducerMapBuilder } from '@reduxjs/toolkit/src/mapBuilders';
@@ -11,11 +13,13 @@ import type { ID } from 'app/store/models';
 import type { EntityType } from 'app/store/models/entities';
 import type Entities from 'app/store/models/entities';
 import type { AsyncActionType } from 'app/types';
+import type { Pagination } from 'app/utils/legoAdapter/buildPaginationReducer';
 
 // The base redux-state of the entity-slice
 interface LegoEntityState<Entity> extends EntityState<Entity> {
   actionGrant: ActionGrant;
   fetching: boolean;
+  paginationNext: { [key: string]: Pagination };
 }
 
 // Type of the generated adapter-object
@@ -29,6 +33,7 @@ interface LegoAdapter<Entity> extends EntityAdapter<Entity> {
       ReducerBuilder<Entity>['addDefaultCase']
     >[0];
     fetchActions?: AsyncActionType[];
+    deleteActions?: AsyncActionType[];
   }): (builder: ReducerBuilder<Entity>) => void;
 }
 
@@ -54,6 +59,7 @@ const createLegoAdapter = <
         ...entityAdapter.getInitialState(),
         actionGrant: [],
         fetching: false,
+        paginationNext: {},
         ...extraState,
       };
     },
@@ -62,6 +68,7 @@ const createLegoAdapter = <
       extraMatchers,
       defaultCaseReducer,
       fetchActions = [],
+      deleteActions = [],
     } = {}) {
       return (builder) => {
         extraCases?.(builder.addCase);
@@ -69,6 +76,8 @@ const createLegoAdapter = <
         buildFetchingReducer(builder, fetchActions);
         buildEntitiesReducer(builder, entityAdapter, entityType);
         buildActionGrantReducer(builder, entityType);
+        buildDeleteEntityReducer(builder, deleteActions);
+        buildPaginationReducer(builder, fetchActions);
 
         extraMatchers?.(builder.addMatcher);
 

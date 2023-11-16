@@ -26,6 +26,7 @@ export interface DeleteMeta extends BaseMeta {
   id: ID;
 }
 
+type AnyPayload = FetchPayload | [] | null;
 export interface FetchPayload {
   actionGrant?: string[];
   entities: Partial<Entities>;
@@ -52,7 +53,7 @@ export interface AsyncApiActionFailure<Meta extends BaseMeta = BaseMeta>
 
 export interface AsyncApiActionSuccess<
   Meta extends BaseMeta = BaseMeta,
-  Payload extends FetchPayload | [] | null = FetchPayload | [] | null
+  Payload extends AnyPayload = AnyPayload
 > extends AsyncApiAction<Meta, Payload> {
   type: `${string}.SUCCESS`;
 }
@@ -90,8 +91,10 @@ export const isAsyncApiActionSuccess = (
 ): action is AsyncApiActionSuccess =>
   isAsyncApiAction(action) && action.type.endsWith('.SUCCESS');
 isAsyncApiActionSuccess.matching =
-  <Meta extends BaseMeta = BaseMeta>(actionTypes: AsyncActionType[]) =>
-  (action: AnyAction): action is AsyncApiActionSuccess<Meta> =>
+  <Meta extends BaseMeta = BaseMeta, Payload extends AnyPayload = null>(
+    actionTypes: AsyncActionType[]
+  ) =>
+  (action: AnyAction): action is AsyncApiActionSuccess<Meta, Payload> =>
     isAsyncApiActionSuccess(action) &&
     actionTypes.map((t) => t.SUCCESS).includes(action.type);
 isAsyncApiActionSuccess.withSchemaKey =

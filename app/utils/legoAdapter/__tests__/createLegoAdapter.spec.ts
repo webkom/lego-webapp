@@ -22,6 +22,7 @@ describe('createLegoAdapter', () => {
         ids: [],
         entities: {},
         fetching: false,
+        paginationNext: {},
       });
     });
 
@@ -33,6 +34,7 @@ describe('createLegoAdapter', () => {
         ids: [],
         entities: {},
         fetching: false,
+        paginationNext: {},
         smashed: false,
       });
     });
@@ -41,6 +43,8 @@ describe('createLegoAdapter', () => {
   describe('buildReducers', () => {
     describe('default reducer functionality', () => {
       const FETCH = generateStatuses('FETCH');
+      const DELETE = generateStatuses('DELETE');
+
       const actionBase = {
         meta: {
           paginationKey: 'test',
@@ -65,11 +69,34 @@ describe('createLegoAdapter', () => {
           },
           result: [42],
           next: 'url?cursor=c123',
-          previous: null,
         },
       };
-
       const fetchFailure = { ...actionBase, type: FETCH.FAILURE };
+
+      const deleteBegin = {
+        ...actionBase,
+        type: DELETE.BEGIN,
+        meta: {
+          ...actionBase.meta,
+          id: 42,
+        },
+      };
+      const deleteSuccess = {
+        ...actionBase,
+        type: DELETE.SUCCESS,
+        meta: {
+          ...actionBase.meta,
+          id: 42,
+        },
+      };
+      const deleteFailure = {
+        ...actionBase,
+        type: DELETE.FAILURE,
+        meta: {
+          ...actionBase.meta,
+          id: 42,
+        },
+      };
 
       const adapter = createLegoAdapter(EntityType.Articles);
       const initialState = adapter.getInitialState();
@@ -77,8 +104,17 @@ describe('createLegoAdapter', () => {
         initialState,
         adapter.buildReducers({
           fetchActions: [FETCH],
+          deleteActions: [DELETE],
         })
       );
+
+      const stateWithArticle = {
+        ...adapter.getInitialState(),
+        ids: [42],
+        entities: {
+          42: article,
+        },
+      };
 
       it('should set fetching=true on FETCH.BEGIN', () => {
         const newState = reducer(initialState, fetchBegin);
@@ -108,6 +144,40 @@ describe('createLegoAdapter', () => {
       it('should update actionGrant on FETCH.SUCCESS', () => {
         const newState = reducer(initialState, fetchSuccess);
         expect(newState.actionGrant).toEqual(['list', 'create']);
+      });
+
+      it('should delete on DELETE.SUCCESS', () => {
+        const newState = reducer(
+          reducer(stateWithArticle, deleteBegin),
+          deleteSuccess
+        );
+        expect(newState).toEqual({
+          ...stateWithArticle,
+          ids: [],
+          entities: {},
+        });
+      });
+      it('should not delete on DELETE.FAILURE', () => {
+        const newState = reducer(
+          reducer(stateWithArticle, deleteBegin),
+          deleteFailure
+        );
+        expect(newState).toEqual(stateWithArticle);
+      });
+
+      it('should update pagination on FETCH.SUCCESS', () => {
+        const newState = reducer(initialState, fetchSuccess);
+        expect(newState.paginationNext).toEqual({
+          test: {
+            query: {},
+            ids: [42],
+            hasMore: true,
+            hasMoreBackwards: false,
+            next: {
+              cursor: 'c123',
+            },
+          },
+        });
       });
     });
 
