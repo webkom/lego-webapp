@@ -1,34 +1,32 @@
-import { Component } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Content } from 'app/components/Content';
-import GroupForm from 'app/components/GroupForm';
+import { LoginPage } from 'app/components/LoginForm';
 import NavigationTab from 'app/components/NavigationTab';
+import { selectIsLoggedIn } from 'app/reducers/auth';
+import GroupForm from 'app/routes/admin/groups/components/GroupForm';
+import { useAppSelector } from 'app/store/hooks';
 
-export default class InterestGroupEdit extends Component<{
-  initialValues: Record<string, any>;
-  removeGroup: (arg0: number) => Promise<any>;
-  uploadFile: (arg0: string) => Promise<any>;
-  handleSubmitCallback: (arg0: Record<string, any>) => Promise<any>;
-}> {
-  render() {
-    const { initialValues, uploadFile, handleSubmitCallback } = this.props;
-    return (
-      <Content>
-        <Helmet title="Opprett gruppe" />
-        <NavigationTab
-          title="Opprett Gruppe"
-          back={{
-            label: 'Tilbake',
-            path: '/interest-groups',
-          }}
-        />
+const InterestGroupCreate = () => {
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
 
-        <GroupForm
-          handleSubmitCallback={handleSubmitCallback}
-          uploadFile={uploadFile}
-          initialValues={initialValues}
-        />
-      </Content>
-    );
+  if (!isLoggedIn) {
+    return <LoginPage />;
   }
-}
+
+  return (
+    <Content>
+      <Helmet title="Opprett interessegruppe" />
+      <NavigationTab
+        title="Opprett interessegruppe"
+        back={{
+          label: 'Tilbake',
+          path: '/interest-groups',
+        }}
+      />
+
+      <GroupForm isInterestGroup />
+    </Content>
+  );
+};
+
+export default InterestGroupCreate;

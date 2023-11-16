@@ -1,10 +1,10 @@
 import { Route, Switch } from 'react-router-dom';
 import RouteWrapper from 'app/components/RouteWrapper';
 import { UserContext } from 'app/routes/app/AppRoute';
+import InterestGroupCreate from 'app/routes/interestgroups/components/InterestGroupCreate';
+import InterestGroupEdit from 'app/routes/interestgroups/components/InterestGroupEdit';
 import PageNotFound from '../pageNotFound';
-import InterestGroupCreateRoute from './InterestGroupCreateRoute';
 import InterestGroupDetailRoute from './InterestGroupDetailRoute';
-import InterestGroupEditRoute from './InterestGroupEditRoute';
 import InterestGroupListRoute from './InterestGroupListRoute';
 
 const interestGroupRoute = ({
@@ -33,7 +33,7 @@ const interestGroupRoute = ({
             currentUser,
             loggedIn,
           }}
-          Component={InterestGroupCreateRoute}
+          Component={InterestGroupCreate}
         />
         <RouteWrapper
           exact
@@ -45,12 +45,12 @@ const interestGroupRoute = ({
           Component={InterestGroupDetailRoute}
         />
         <RouteWrapper
-          path={`${match.path}/:interestGroupId/edit`}
+          path={`${match.path}/:groupId/edit`}
           passedProps={{
             currentUser,
             loggedIn,
           }}
-          Component={InterestGroupEditRoute}
+          Component={InterestGroupEdit}
         />
         <Route component={PageNotFound} />
       </Switch>

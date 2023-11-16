@@ -46,7 +46,7 @@ export function removeMember(membership: MembershipType): Thunk<any> {
     },
   });
 }
-export function fetchGroup(groupId: number): Thunk<any> {
+export function fetchGroup(groupId: ID): Thunk<any> {
   return callAPI({
     types: Group.FETCH,
     endpoint: `/groups/${groupId}/`,
@@ -176,25 +176,21 @@ export function fetchAllMemberships(
 }
 export function fetchMemberships(
   groupId: number,
-  descendants = false,
   query: Record<string, any> = {}
 ): Thunk<any> {
   return fetchMembershipsPagination({
     groupId,
     next: true,
-    descendants,
     query,
   });
 }
 export function fetchMembershipsPagination({
   groupId,
   next,
-  descendants = false,
   query = {},
 }: {
   groupId: number;
   next: boolean;
-  descendants?: boolean;
   query?: Record<string, string | number | boolean>;
 }): Thunk<any> {
   return (dispatch) => {
@@ -206,7 +202,7 @@ export function fetchMembershipsPagination({
         pagination: {
           fetchNext: next,
         },
-        query: { ...query, descendants },
+        query,
         meta: {
           groupId: groupId,
           errorMessage: 'Henting av medlemmene for gruppen feilet',
