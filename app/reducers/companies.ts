@@ -1,6 +1,6 @@
 import { produce } from 'immer';
 import { createSelector } from 'reselect';
-import { mutateComments } from 'app/reducers/comments';
+import { mutateComments, selectCommentEntities } from 'app/reducers/comments';
 import { selectJoblistings } from 'app/reducers/joblistings';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import joinReducers from 'app/utils/joinReducers';
@@ -228,9 +228,11 @@ export const selectCompanyContactById = createSelector(
 );
 export const selectCommentsForCompany = createSelector(
   selectCompanyById,
-  (state) => state.comments.byId,
-  (company, commentsById) => {
-    if (!company || !commentsById) return [];
-    return (company.comments || []).map((commentId) => commentsById[commentId]);
+  selectCommentEntities,
+  (company, commentEntities) => {
+    if (!company || !commentEntities) return [];
+    return (company.comments || []).map(
+      (commentId) => commentEntities[commentId]
+    );
   }
 );

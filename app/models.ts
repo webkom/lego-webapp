@@ -7,7 +7,14 @@ import type { Moment } from 'moment';
 // TODO: Id handling could be opaque
 export type ID = number;
 export type Dateish = Moment | Date | string;
-export type ActionGrant = Array<string>;
+export type ActionGrant = (
+  | 'create'
+  | 'edit'
+  | 'delete'
+  | 'list'
+  | 'view'
+  | string
+)[];
 export type IcalToken = string;
 export enum EventTime {
   activate = 'activationTime',

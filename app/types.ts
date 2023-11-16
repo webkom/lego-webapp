@@ -18,9 +18,9 @@ export type ValueLabel<T extends object, K extends keyof T> = Overwrite<
 >;
 
 export type AsyncActionType = {
-  BEGIN: string;
-  SUCCESS: string;
-  FAILURE: string;
+  BEGIN: `${string}.BEGIN`;
+  SUCCESS: `${string}.SUCCESS`;
+  FAILURE: `${string}.FAILURE`;
 };
 export type AsyncActionTypeArray = [string, string, string];
 export type EntityID = number;

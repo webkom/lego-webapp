@@ -1,6 +1,6 @@
 import moment from 'moment-timezone';
 import { createSelector } from 'reselect';
-import { mutateComments } from 'app/reducers/comments';
+import { mutateComments, selectCommentEntities } from 'app/reducers/comments';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import joinReducers from 'app/utils/joinReducers';
 import { Meeting } from '../actions/ActionTypes';
@@ -39,10 +39,10 @@ export const selectMeetingById = createSelector(
 );
 export const selectCommentsForMeeting = createSelector(
   selectMeetingById,
-  (state) => state.comments.byId,
-  (meeting, commentsById) => {
+  selectCommentEntities,
+  (meeting, commentEntities) => {
     if (!meeting || !meeting.comments) return [];
-    return meeting.comments.map((commentId) => commentsById[commentId]);
+    return meeting.comments.map((commentId) => commentEntities[commentId]);
   }
 );
 

@@ -26,22 +26,16 @@ type Params = {
 const mapStateToProps = (state, props) => {
   const { articleIdOrSlug } = props.match.params;
   const article = !isNaN(articleIdOrSlug)
-    ? selectArticleById(state, {
-        articleId: articleIdOrSlug,
-      })
-    : selectArticleBySlug(state, {
-        articleSlug: articleIdOrSlug,
-      });
+    ? selectArticleById(state, articleIdOrSlug)
+    : selectArticleBySlug(state, articleIdOrSlug);
   const articleId = article && article.id;
 
-  const comments = selectCommentsForArticle(state, {
-    articleId,
-  });
-  const authors = article.authors?.map((e) => {
-    return selectUserById(state, {
+  const comments = articleId && selectCommentsForArticle(state, articleId);
+  const authors = article?.authors?.map((e) =>
+    selectUserById(state, {
       userId: e,
-    });
-  });
+    })
+  );
   const emojis = selectEmojis(state);
 
   return {

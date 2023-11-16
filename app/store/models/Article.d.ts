@@ -1,8 +1,10 @@
 import type { Dateish } from 'app/models';
 import type AllowedPermissionsMixin from 'app/store/models/AllowedPermissionsMixin';
 import type { AutocompleteContentType } from 'app/store/models/Autocomplete';
+import type { PublicGroup } from 'app/store/models/Group';
 import type ObjectPermissionsMixin from 'app/store/models/ObjectPermissionsMixin';
 import type { ReactionsGrouped } from 'app/store/models/Reaction';
+import type { PublicUser } from 'app/store/models/User';
 import type { ID } from 'app/store/models/index';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 
@@ -22,6 +24,9 @@ interface CompleteArticle {
   pinned: boolean;
   reactionsGrouped?: ReactionsGrouped[];
   youtubeUrl: string;
+  canEditUsers: PublicUser[];
+  canViewGroups: PublicGroup[];
+  canEditGroups: PublicGroup[];
 }
 
 export type DetailedArticle = Pick<
@@ -41,15 +46,13 @@ export type DetailedArticle = Pick<
   | 'pinned'
   | 'reactionsGrouped'
   | 'youtubeUrl'
+  | 'canEditUsers'
+  | 'canViewGroups'
+  | 'canEditGroups'
 > &
   AllowedPermissionsMixin;
 
 export type AdminDetailedArticle = DetailedArticle & ObjectPermissionsMixin;
-
-export type SearchArticle = Pick<
-  CompleteArticle,
-  'id' | 'title' | 'cover' | 'description' | 'content' | 'pinned' | 'createdAt'
->;
 
 export type AutocompleteArticle = Pick<
   CompleteArticle,
@@ -74,8 +77,16 @@ export type PublicArticle = Pick<
 > &
   AllowedPermissionsMixin;
 
-export type UnknownArticle =
+export type UnknownArticle = (
   | DetailedArticle
   | AdminDetailedArticle
-  | SearchArticle
-  | PublicArticle;
+  | PublicArticle
+) & {
+  comments?: ID[];
+  reactionsGrouped?: ReactionsGrouped[];
+};
+
+export type SearchArticle = Pick<
+  CompleteArticle,
+  'id' | 'title' | 'cover' | 'description' | 'content' | 'pinned' | 'createdAt'
+>;

@@ -5,7 +5,7 @@ import { normalize } from 'normalizr';
 import { createSelector } from 'reselect';
 import config from 'app/config';
 import { eventSchema } from 'app/reducers';
-import { mutateComments } from 'app/reducers/comments';
+import { mutateComments, selectCommentEntities } from 'app/reducers/comments';
 import { isCurrentUser as checkIfCurrentUser } from 'app/routes/users/utils';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import joinReducers from 'app/utils/joinReducers';
@@ -386,10 +386,12 @@ export const selectRegistrationForEventByUserId = createSelector(
 );
 export const selectCommentsForEvent = createSelector(
   selectEventById,
-  (state) => state.comments.byId,
-  (event, commentsById) => {
+  selectCommentEntities,
+  (event, commentEntities) => {
     if (!event) return [];
-    return (event.comments || []).map((commentId) => commentsById[commentId]);
+    return (event.comments || []).map(
+      (commentId) => commentEntities[commentId]
+    );
   }
 );
 export const selectRegistrationsFromPools = createSelector(

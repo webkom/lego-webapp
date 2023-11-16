@@ -1,6 +1,6 @@
 import type { AsyncActionType } from 'app/types';
 
-const generateStatuses = (name: string): AsyncActionType => ({
+export const generateStatuses = (name: string): AsyncActionType => ({
   BEGIN: `${name}.BEGIN`,
   SUCCESS: `${name}.SUCCESS`,
   FAILURE: `${name}.FAILURE`,
@@ -177,7 +177,6 @@ export const Favorite = {
  *
  */
 export const Comment = {
-  FETCH: generateStatuses('Comment.FETCH') as AAT,
   ADD: generateStatuses('Comment.ADD') as AAT,
   DELETE: generateStatuses('Comment.DELETE') as AAT,
 };
