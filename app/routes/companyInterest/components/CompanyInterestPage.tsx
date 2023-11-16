@@ -9,12 +9,12 @@ import norwegian from 'app/assets/norway.svg';
 import { Content } from 'app/components/Content';
 import { FlexRow } from 'app/components/FlexBox';
 import {
+  CheckBox,
+  MultiSelectGroup,
+  RadioButton,
+  SelectInput,
   TextEditor,
   TextInput,
-  CheckBox,
-  SelectInput,
-  RadioButton,
-  MultiSelectGroup,
 } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
@@ -22,24 +22,25 @@ import { SubmitButton } from 'app/components/Form/SubmitButton';
 import { Image } from 'app/components/Image';
 import { readmeIfy } from 'app/components/ReadmeLogo';
 import Tooltip from 'app/components/Tooltip';
+import { CompanyInterestEventType as EventType } from 'app/store/models/CompanyInterest';
 import { spyValues } from 'app/utils/formSpyUtils';
 import {
   createValidator,
-  required,
   isEmail,
+  required,
   requiredIf,
 } from 'app/utils/validation';
 import { interestText, semesterToText } from '../utils';
 import styles from './CompanyInterest.css';
 import {
   COLLABORATION_TYPES,
+  COMPANY_TYPES,
   EVENTS,
+  FORM_LABELS,
+  OFFICE_IN_TRONDHEIM,
   README,
   SURVEY_OFFERS,
   TARGET_GRADES,
-  FORM_LABELS,
-  COMPANY_TYPES,
-  OFFICE_IN_TRONDHEIM,
 } from './Translations';
 import type { CompanyInterestEntity } from 'app/reducers/companyInterest';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
@@ -60,18 +61,22 @@ export const PARTICIPANT_RANGE_MAP = {
   fourth: [100, null],
 };
 
-export const EVENT_TYPE_OPTIONS = [
+type EventTypeOption = {
+  value: EventType | '';
+  label: string;
+};
+export const EVENT_TYPE_OPTIONS: EventTypeOption[] = [
   { value: '', label: 'Vis alle arrangementstyper' },
-  { value: 'company_presentation', label: 'Bedriftspresentasjon' },
-  { value: 'course', label: 'Kurs' },
-  { value: 'breakfast_talk', label: 'Frokostforedrag' },
-  { value: 'lunch_presentation', label: 'Lunsjpresentasjon' },
-  { value: 'bedex', label: 'BedEx' },
-  { value: 'digital_presentation', label: 'Digital presentasjon' },
-  { value: 'other', label: 'Alternativt arrangement' },
-  { value: 'sponsor', label: 'Sponser' },
-  { value: 'start_up', label: 'Start-up kveld' },
-  { value: 'company_to_company', label: 'Bedrift-til-bedrift' },
+  { value: EventType.CompanyPresentation, label: 'Bedriftspresentasjon' },
+  { value: EventType.Course, label: 'Kurs' },
+  { value: EventType.BreakfastTalk, label: 'Frokostforedrag' },
+  { value: EventType.LunchPresentation, label: 'Lunsjpresentasjon' },
+  { value: EventType.Bedex, label: 'BedEx' },
+  { value: EventType.DigitalPresentation, label: 'Digital presentasjon' },
+  { value: EventType.Other, label: 'Alternativt arrangement' },
+  { value: EventType.Sponsor, label: 'Sponser' },
+  { value: EventType.StartUp, label: 'Start-up kveld' },
+  { value: EventType.CompanyToCompany, label: 'Bedrift-til-bedrift' },
 ];
 
 const eventToString = (event) =>
@@ -258,10 +263,10 @@ type CompanyInterestFormEntity = {
   mail: string;
   phone: string;
   semesters: Array<CompanySemesterEntity>;
-  events: Array<{
-    name: string;
+  events: {
+    name: EventType;
     checked: boolean;
-  }>;
+  }[];
   companyCourseThemes: Array<{ name: string; checked: boolean }>;
   otherOffers: Array<{
     name: string;
@@ -295,7 +300,6 @@ type Props = {
   targetGrades: Array<Record<string, any>>;
   participantRange: string;
   edit: boolean;
-  interestForm: Record<string, any>;
   companyInterest?: CompanyInterestEntity;
   language: string;
   comment: string;
@@ -417,56 +421,56 @@ const CompanyInterestPage = (props: Props) => {
 
   const eventTypeEntities = [
     {
-      name: 'company_presentation',
+      name: EventType.CompanyPresentation,
       translated: EVENTS.company_presentation[language],
       description: interestText.companyPresentationDescription[language],
       commentName: 'companyPresentationComment',
       commentPlaceholder: interestText.companyPresentationComment[language],
     },
     {
-      name: 'lunch_presentation',
+      name: EventType.LunchPresentation,
       translated: EVENTS.lunch_presentation[language],
       description: interestText.lunchPresentationDescriptiont[language],
       commentName: 'lunchPresentationComment',
       commentPlaceholder: interestText.lunchPresentationComment[language],
     },
     {
-      name: 'course',
+      name: EventType.Course,
       translated: EVENTS.course[language],
       description: interestText.courseDescription[language],
       commentName: 'courseComment',
       commentPlaceholder: interestText.courseComment[language],
     },
     {
-      name: 'breakfast_talk',
+      name: EventType.BreakfastTalk,
       translated: EVENTS.breakfast_talk[language],
       description: interestText.breakfastTalkDescription[language],
       commentName: 'breakfastTalkComment',
       commentPlaceholder: interestText.breakfastTalkComment[language],
     },
     {
-      name: 'bedex',
+      name: EventType.Bedex,
       translated: EVENTS.bedex[language],
       description: interestText.bedexDescription[language],
       commentName: 'bedexComment',
       commentPlaceholder: interestText.bedexComment[language],
     },
     {
-      name: 'other',
+      name: EventType.Other,
       translated: EVENTS.other[language],
       description: interestText.otherEventDescription[language],
       commentName: 'otherEventComment',
       commentPlaceholder: interestText.otherEventComment[language],
     },
     {
-      name: 'start_up',
+      name: EventType.StartUp,
       translated: EVENTS.start_up[language],
       description: interestText.startUpDescription[language],
       commentName: 'startupComment',
       commentPlaceholder: interestText.startUpComment[language],
     },
     {
-      name: 'company_to_company',
+      name: EventType.CompanyToCompany,
       translated: EVENTS.company_to_company[language],
       description: interestText.companyToCompanyDescription[language],
       commentName: 'companyToCompanyComment',

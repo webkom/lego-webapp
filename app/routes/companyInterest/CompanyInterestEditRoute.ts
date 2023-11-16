@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { push } from 'redux-first-history';
-import { formValueSelector } from 'redux-form';
 import { fetchSemesters } from 'app/actions/CompanyActions';
 import {
   fetchCompanyInterest,
@@ -22,13 +21,9 @@ import {
 } from './components/Translations';
 import { sortSemesterChronologically } from './utils';
 
-const valueSelector = formValueSelector('CompanyInterestForm');
-
 const mapStateToProps = (state, props) => {
   const { companyInterestId } = props.match.params;
-  const companyInterest = selectCompanyInterestById(state, {
-    companyInterestId,
-  });
+  const companyInterest = selectCompanyInterestById(state, companyInterestId);
   const semesters = selectCompanySemesters(state);
   if (!companyInterest || !semesters)
     return {
@@ -105,9 +100,6 @@ const mapStateToProps = (state, props) => {
     },
     companyInterestId,
     companyInterest,
-    interestForm: {
-      events: valueSelector(state, 'events'),
-    },
     edit: true,
     language: 'norwegian',
   };
