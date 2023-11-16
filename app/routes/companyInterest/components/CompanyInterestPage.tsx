@@ -61,7 +61,7 @@ export const PARTICIPANT_RANGE_MAP = {
   fourth: [100, null],
 };
 
-type EventTypeOption = {
+export type EventTypeOption = {
   value: EventType | '';
   label: string;
 };

@@ -1,4 +1,3 @@
-import qs from 'qs';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { replace } from 'redux-first-history';
@@ -12,25 +11,31 @@ import { LoginPage } from 'app/components/LoginForm';
 import { selectCompanyInterestList } from 'app/reducers/companyInterest';
 import { selectCompanySemestersForInterestForm } from 'app/reducers/companySemesters';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import { parseQueryString } from 'app/utils/useQuery';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import CompanyInterestList from './components/CompanyInterestList';
 import { EVENT_TYPE_OPTIONS } from './components/CompanyInterestPage';
 import { semesterToText } from './utils';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
+import type { CompanyInterestEventType } from 'app/store/models/CompanyInterest';
+
+export const defaultCompanyInterestListQuery = {
+  semester: '',
+  event: '' as CompanyInterestEventType | '',
+};
 
 const mapStateToProps = (state, props) => {
-  const semesterId = Number(
-    qs.parse(props.location.search, {
-      ignoreQueryPrefix: true,
-    }).semesters
+  const query = parseQueryString(
+    props.location.search,
+    defaultCompanyInterestListQuery
   );
+  const semesterId = query.semester ? Number(query.semester) : undefined;
+  const eventValue = query.event;
+
   const semesters = selectCompanySemestersForInterestForm(state);
-  const semesterObj: CompanySemesterEntity | null | undefined = semesters.find(
+  const semesterObj: CompanySemesterEntity | undefined = semesters.find(
     (semester) => semester.id === semesterId
   );
-  const eventValue = qs.parse(props.location.search, {
-    ignoreQueryPrefix: true,
-  }).event;
   const selectedSemesterOption = {
     id: semesterId ? semesterId : 0,
     semester: semesterObj != null ? semesterObj.semester : '',
@@ -45,9 +50,9 @@ const mapStateToProps = (state, props) => {
         : 'Vis alle semestre',
   };
   const selectedEventOption = {
-    value: eventValue ? eventValue : '',
+    value: eventValue,
     label: eventValue
-      ? EVENT_TYPE_OPTIONS.find((eventType) => eventType.value === eventValue)
+      ? EVENT_TYPE_OPTIONS.find((eventType) => eventType.value === eventValue)!
           .label
       : 'Vis alle arrangementstyper',
   };
