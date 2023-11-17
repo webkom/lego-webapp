@@ -40,7 +40,7 @@ const EmailListEditor = () => {
   const { emailListId } = useParams<{ emailListId: string }>();
   const isNew = emailListId === 'new';
   const emailList = useAppSelector((state) =>
-    selectEmailListById(state, { emailListId })
+    selectEmailListById(state, emailListId!)
   );
 
   const dispatch = useAppDispatch();
