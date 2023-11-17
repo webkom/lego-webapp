@@ -8,9 +8,7 @@ import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import EmailListEditor from './components/EmailListEditor';
 
 const mapStateToProps = (state, { match: { params } }) => {
-  const emailList = selectEmailListById(state, {
-    emailListId: params.emailListId,
-  });
+  const emailList = selectEmailListById(state, params.emailListId);
   return {
     emailList,
     emailListId: params.emailListId,
