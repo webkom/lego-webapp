@@ -7,6 +7,7 @@ import createEntityReducer from 'app/utils/createEntityReducer';
 import mergeObjects from 'app/utils/mergeObjects';
 import { User, Event } from '../actions/ActionTypes';
 import type { PhotoConsent } from '../models';
+import type { ID } from 'app/store/models';
 
 export type UserEntity = {
   id: number;
@@ -79,7 +80,7 @@ export const selectUserWithGroups = createSelector(
       userId,
     }: {
       username?: string;
-      userId?: string;
+      userId?: ID;
     }
   ) =>
     username

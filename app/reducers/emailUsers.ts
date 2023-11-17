@@ -1,8 +1,12 @@
+import { createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
 import { selectUserWithGroups } from 'app/reducers/users';
-import createEntityReducer from 'app/utils/createEntityReducer';
-import { EmailUser } from '../actions/ActionTypes';
+import { EntityType } from 'app/store/models/entities';
+import createLegoAdapter from 'app/utils/legoAdapter/createLegoAdapter';
+import { EmailUser as EmailUserActions } from '../actions/ActionTypes';
 import type { UserEntity } from 'app/reducers/users';
+import type { RootState } from 'app/store/createRootReducer';
+import type EmailUser from 'app/store/models/EmailUser';
 
 export type EmailUserEntity = {
   id: number;
@@ -10,50 +14,37 @@ export type EmailUserEntity = {
   internalEmailEnabled: boolean;
   internalEmail: string;
 };
-export default createEntityReducer({
-  key: 'emailUsers',
-  types: {
-    fetch: EmailUser.FETCH,
-    mutate: EmailUser.CREATE,
-  },
+
+const legoAdapter = createLegoAdapter(EntityType.EmailUsers);
+
+const emailUserSlice = createSlice({
+  name: 'emailUsers',
+  initialState: legoAdapter.getInitialState(),
+  reducers: {},
+  extraReducers: legoAdapter.buildReducers({
+    fetchActions: [EmailUserActions.FETCH],
+  }),
 });
-export const selectEmailUsers = createSelector(
-  (state) => state.emailUsers.byId,
-  (state) => state.users.byId,
-  (state) => state.emailUsers.items,
-  (_, { pagination }) => pagination,
-  (state) => state,
-  (
-    emailUsersById,
-    usersById,
-    emailUserIds,
-    pagination,
-    state //$FlowFixMe
-  ) =>
-    (pagination ? pagination.items || [] : emailUserIds)
-      .map((id) => emailUsersById[id])
-      .filter(Boolean)
-      .map((emailUser) => ({
-        ...emailUser,
-        //$FlowFixMe
-        user: selectUserWithGroups(state, {
-          userId: emailUser.id,
-        }),
-      }))
+
+export default emailUserSlice.reducer;
+const { selectAllPaginated, selectById } = legoAdapter.getSelectors<RootState>(
+  (state) => state.emailUsers
 );
+
+const transformEmailUser = (emailUser: EmailUser, state: RootState) => ({
+  ...emailUser,
+  user: selectUserWithGroups(state, { userId: emailUser.id }),
+});
+
+export const selectEmailUsers = createSelector(
+  selectAllPaginated,
+  (state: RootState) => state,
+  (emailUsers, state) =>
+    emailUsers.map((emailUser) => transformEmailUser(emailUser, state))
+);
+
 export const selectEmailUserById = createSelector(
-  (state) => state.emailUsers.byId,
-  (state) => state.users.byId,
-  (state, props) => props.emailUserId,
-  (emailUsersById, usersById, emailUserId) => {
-    const emailUser = emailUsersById[emailUserId];
-
-    if (!emailUser) {
-      return {
-        user: {},
-      };
-    }
-
-    return { ...emailUser, user: usersById[emailUser.user] };
-  }
+  selectById,
+  (state: RootState) => state,
+  (emailUser, state) => emailUser && transformEmailUser(emailUser, state)
 );

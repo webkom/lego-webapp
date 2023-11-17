@@ -9,9 +9,7 @@ import EmailUserEditor from './components/EmailUserEditor';
 
 const mapStateToProps = (state, { match: { params } }) => {
   const { emailUserId } = params;
-  const emailUser = selectEmailUserById(state, {
-    emailUserId,
-  });
+  const emailUser = selectEmailUserById(state, emailUserId);
   return {
     emailUser,
     emailUserId,
