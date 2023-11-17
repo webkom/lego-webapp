@@ -68,7 +68,7 @@ function createLegoAdapter<
   Entity extends Entities[Type][Id] = Entities[Type][Id]
 >(
   entityType: Type,
-  options: WithRequiredProp<LegoAdapterOptions<Type, Id>, 'selectId'>
+  options: WithRequiredProp<LegoAdapterOptions<Entity, Id>, 'selectId'>
 ): LegoAdapter<Entity, Id>;
 
 function createLegoAdapter<
@@ -78,7 +78,7 @@ function createLegoAdapter<
   } = Entities[Type][EntityId]
 >(
   entityType: Type,
-  options?: Omit<EntityAdapterOptions<Entity, Entity['id']>, 'selectId'>
+  options?: Omit<LegoAdapterOptions<Entity, Entity['id']>, 'selectId'>
 ): LegoAdapter<Entity, Entity['id']>;
 
 function createLegoAdapter<
