@@ -33,7 +33,7 @@ const EmailUserEditor = () => {
   const { emailUserId } = useParams<{ emailUserId: string }>();
   const isNew = emailUserId === undefined;
   const emailUser = useAppSelector((state) =>
-    selectEmailUserById(state, { emailUserId })
+    selectEmailUserById(state, emailUserId!)
   );
 
   const dispatch = useAppDispatch();
