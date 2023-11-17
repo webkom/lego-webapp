@@ -6,9 +6,11 @@ import {
 } from '@webkom/lego-bricks';
 import { unionBy } from 'lodash';
 import moment from 'moment-timezone';
+import { useState } from 'react';
 import { Field, FormSpy } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
 import { useHistory } from 'react-router-dom';
+import { fetchMemberships } from 'app/actions/GroupActions';
 import { Content } from 'app/components/Content';
 import {
   Button,
@@ -27,6 +29,7 @@ import MazemapLink from 'app/components/MazemapEmbed/MazemapLink';
 import NavigationTab from 'app/components/NavigationTab';
 import { AttendanceStatus } from 'app/components/UserAttendance';
 import styles from 'app/routes/meetings/components/MeetingEditor.css';
+import { useAppDispatch } from 'app/store/hooks';
 import { spyValues } from 'app/utils/formSpyUtils';
 import {
   createValidator,
@@ -38,6 +41,7 @@ import {
 } from 'app/utils/validation';
 import type { MeetingInvitationWithUser } from 'app/reducers/meetingInvitations';
 import type { ID } from 'app/store/models';
+import type { AutocompleteGroup } from 'app/store/models/Group';
 import type { DetailedMeeting } from 'app/store/models/Meeting';
 import type { AutocompleteUser, CurrentUser } from 'app/store/models/User';
 import type { Push } from 'connected-react-router';
@@ -52,6 +56,7 @@ type Values = {
   mazemapPoi?: { value: number; label: string };
   location?: string;
   users?: AutocompleteUser[];
+  groups?: AutocompleteGroup[];
 };
 
 type Props = {
@@ -108,6 +113,30 @@ const MeetingEditor = ({
   const history = useHistory();
   const isEditPage = meetingId !== undefined;
 
+  const [fetchedGroupIds, setFetchedGroupIds] = useState<ID[]>([]);
+  const [invitedGroupMembers, setInvitedGroupMembers] = useState<
+    { value: string; label: string; id: ID; groupId: ID }[]
+  >([]);
+
+  const dispatch = useAppDispatch();
+
+  const fetchAndSetGroupMembers = async (groupId: number) => {
+    setFetchedGroupIds((prevIds) => [...prevIds, groupId]);
+
+    const response = await dispatch(fetchMemberships(groupId));
+
+    const members = Object.values(response.payload.entities.users || {}).map(
+      (member) => ({
+        value: member.username,
+        label: member.fullName,
+        id: member.id,
+        groupId: groupId,
+      })
+    );
+
+    setInvitedGroupMembers((prevMembers) => [...prevMembers, ...members]);
+  };
+
   if (isEditPage && !meeting) {
     return <LoadingIndicator loading />;
   }
@@ -147,6 +176,7 @@ const MeetingEditor = ({
 
   const actionGrant = meeting?.actionGrant;
   const canDelete = actionGrant?.includes('delete');
+
   return (
     <Content>
       <Helmet
@@ -248,30 +278,13 @@ const MeetingEditor = ({
                   />
                 );
               })}
-              {spyValues<Values>((values) => {
-                const invitingUsers = values?.users ?? [];
-                const possibleReportAuthors = unionBy(
-                  [currentUserSearchable],
-                  invitedUsersSearchable,
-                  invitingUsers,
-                  'value'
-                );
-                return (
-                  <Field
-                    name="reportAuthor"
-                    label="Referent"
-                    placeholder="La denne stå åpen for å velge deg selv"
-                    options={possibleReportAuthors}
-                    component={SelectInput.Field}
-                  />
-                );
-              })}
+
               <div className={styles.sideBySideBoxes}>
                 <div>
                   <Field
                     name="users"
                     filter={['users.user']}
-                    label="Invitere brukere"
+                    label="Inviter brukere"
                     placeholder="Skriv inn brukernavn på de du vil invitere"
                     component={SelectInput.AutocompleteField}
                     isMulti
@@ -281,16 +294,60 @@ const MeetingEditor = ({
                   <Field
                     name="groups"
                     filter={['users.abakusgroup']}
-                    label="Invitere grupper"
+                    label="Inviter grupper"
                     placeholder="Skriv inn gruppene du vil invitere"
                     component={SelectInput.AutocompleteField}
                     isMulti
                   />
                 </div>
               </div>
+
+              {spyValues<Values>((values) => {
+                const invitingUsers = values?.users ?? [];
+                const invitingGroups = values?.groups ?? [];
+
+                const newGroupIds = invitingGroups
+                  .filter((group) => !fetchedGroupIds.includes(group.id))
+                  .map((group) => group.id);
+                newGroupIds.forEach(fetchAndSetGroupMembers);
+
+                const removedGroupIds = fetchedGroupIds.filter(
+                  (fetchedGroupId) =>
+                    !invitingGroups.some((group) => group.id === fetchedGroupId)
+                );
+                if (removedGroupIds.length > 0) {
+                  setInvitedGroupMembers((prevMembers) =>
+                    prevMembers.filter(
+                      (member) => !removedGroupIds.includes(member.groupId)
+                    )
+                  );
+
+                  setFetchedGroupIds((prevIds) =>
+                    prevIds.filter((id) => !removedGroupIds.includes(id))
+                  );
+                }
+
+                const possibleReportAuthors = unionBy(
+                  [currentUserSearchable],
+                  invitedUsersSearchable,
+                  invitedGroupMembers,
+                  invitingUsers,
+                  'value'
+                );
+
+                return (
+                  <Field
+                    name="reportAuthor"
+                    label="Referent"
+                    options={possibleReportAuthors}
+                    component={SelectInput.Field}
+                  />
+                );
+              })}
+
               {isEditPage && (
                 <>
-                  <h3> Allerede inviterte </h3>
+                  <h3>Allerede inviterte</h3>
                   <div>
                     <AttendanceStatus.Modal
                       pools={[
@@ -304,6 +361,7 @@ const MeetingEditor = ({
                   </div>
                 </>
               )}
+
               <SubmissionError />
               <Flex wrap>
                 <Button
