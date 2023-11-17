@@ -1,10 +1,12 @@
 import { createEntityAdapter } from '@reduxjs/toolkit';
+import { createSelector } from 'reselect';
+import { isNotNullish } from 'app/utils';
 import buildActionGrantReducer from 'app/utils/legoAdapter/buildActionGrantReducer';
 import buildDeleteEntityReducer from 'app/utils/legoAdapter/buildDeleteEntityReducer';
 import buildEntitiesReducer from 'app/utils/legoAdapter/buildEntitiesReducer';
 import buildFetchingReducer from 'app/utils/legoAdapter/buildFetchingReducer';
 import buildPaginationReducer from 'app/utils/legoAdapter/buildPaginationReducer';
-import type { EntityAdapter } from '@reduxjs/toolkit';
+import type { EntityAdapter, EntitySelectors } from '@reduxjs/toolkit';
 import type {
   EntityAdapterOptions,
   EntityId,
@@ -26,6 +28,11 @@ interface LegoEntityState<Entity, Id extends EntityId>
   paginationNext: { [key: string]: Pagination };
 }
 
+interface LegoEntitySelectors<T, V, Id extends EntityId>
+  extends EntitySelectors<T, V, Id> {
+  selectAllPaginated: (state: V, options?: { pagination?: Pagination }) => T[];
+}
+
 // Type of the generated adapter-object
 interface LegoAdapter<Entity, Id extends EntityId>
   extends EntityAdapter<Entity, Id> {
@@ -42,6 +49,10 @@ interface LegoAdapter<Entity, Id extends EntityId>
     fetchActions?: AsyncActionType[];
     deleteActions?: AsyncActionType[];
   }): (builder: ReducerBuilder<Entity, Id>) => void;
+  getSelectors(): LegoEntitySelectors<Entity, EntityState<Entity, Id>, Id>;
+  getSelectors<V>(
+    selectState: (state: V) => EntityState<Entity, Id>
+  ): LegoEntitySelectors<Entity, V, Id>;
 }
 
 // Helpers
@@ -112,6 +123,24 @@ function createLegoAdapter<
         if (defaultCaseReducer) {
           builder.addDefaultCase(defaultCaseReducer);
         }
+      };
+    },
+    getSelectors<V>(selectState?: (state: V) => EntityState<Entity, Id>) {
+      const selectors = selectState
+        ? entityAdapter.getSelectors<V>(selectState)
+        : entityAdapter.getSelectors();
+      return {
+        ...selectors,
+        selectAllPaginated: createSelector(
+          selectors.selectEntities,
+          selectors.selectIds,
+          (_: V, { pagination }: { pagination?: Pagination } = {}) =>
+            pagination,
+          (entities, allIds, pagination) => {
+            const ids = pagination ? pagination.ids || [] : allIds;
+            return ids.map((id) => entities[id]).filter(isNotNullish);
+          }
+        ),
       };
     },
   };
