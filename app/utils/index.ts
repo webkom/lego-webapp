@@ -52,3 +52,7 @@ export function generateTreeStructure<
     return roots;
   }, []);
 }
+
+export const isDefined = <T>(v: T | null | undefined): v is T => {
+  return v !== null && v !== undefined;
+};

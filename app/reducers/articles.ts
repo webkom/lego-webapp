@@ -5,12 +5,10 @@ import { Article } from 'app/actions/ActionTypes';
 import { addCommentCases, selectCommentEntities } from 'app/reducers/comments';
 import { addReactionCases } from 'app/reducers/reactions';
 import { selectUserById } from 'app/reducers/users';
-import { typeable } from 'app/reducers/utils';
 import { EntityType } from 'app/store/models/entities';
 import createLegoAdapter from 'app/utils/legoAdapter/createLegoAdapter';
 import type { ArticleWithAuthorDetails } from 'app/routes/articles/ArticleListRoute';
 import type { RootState } from 'app/store/createRootReducer';
-import type { PublicArticle, UnknownArticle } from 'app/store/models/Article';
 import type { Pagination } from 'app/utils/legoAdapter/buildPaginationReducer';
 import type { Selector } from 'reselect';
 
@@ -34,37 +32,20 @@ const articlesSlice = createSlice({
 
 export default articlesSlice.reducer;
 export const {
-  selectAll: selectAllArticles,
-  selectIds: selectArticleIds,
-  selectEntities: selectArticleEntities,
+  selectAllPaginated: selectArticles,
   selectById: selectArticleById,
 } = legoAdapter.getSelectors((state: RootState) => state.articles);
-
-type SelectArticlesOpts = {
-  pagination?: Pagination;
-};
-export const selectArticles = typeable(
-  createSelector(
-    selectArticleEntities,
-    selectArticleIds,
-    (_: RootState, props: SelectArticlesOpts) => props && props.pagination,
-    (articlesById, articleIds, pagination) =>
-      (pagination ? pagination.ids : articleIds).map(
-        (id) => articlesById[id]
-      ) as ReadonlyArray<UnknownArticle>
-  )
-);
 
 export const selectArticlesWithAuthorDetails: Selector<
   RootState,
   ArticleWithAuthorDetails[],
   [
     {
-      pagination: any;
+      pagination?: Pagination;
     }
   ]
 > = (state, props) =>
-  selectArticles<PublicArticle[]>(state, props).map((article) => ({
+  selectArticles(state, props).map((article) => ({
     ...article,
     authors: article.authors.map((e) => {
       return selectUserById(state, {
