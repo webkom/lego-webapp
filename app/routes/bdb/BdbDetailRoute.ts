@@ -18,17 +18,18 @@ import {
   selectCommentsForCompany,
 } from 'app/reducers/companies';
 import { selectCompanySemesters } from 'app/reducers/companySemesters';
-import { selectPagination } from 'app/reducers/selectors';
+import { selectPagination, selectPaginationNext } from 'app/reducers/selectors';
+import { EntityType } from 'app/store/models/entities';
 import createQueryString from 'app/utils/createQueryString';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import BdbDetail from './components/BdbDetail';
+import type { ID } from 'app/store/models';
 
-const queryString = (companyId) =>
-  createQueryString({
-    company: companyId,
-    ordering: '-start_time',
-  });
+const getQuery = (companyId: ID) => ({
+  company: String(companyId),
+  ordering: '-start_time',
+});
 
 const loadData = (
   {
@@ -42,8 +43,8 @@ const loadData = (
     dispatch(fetchSemesters()).then(() => dispatch(fetchAdmin(companyId))),
     dispatch(
       fetchEventsForCompany({
-        queryString: queryString(companyId),
-        loadNextPage: false,
+        query: getQuery(companyId),
+        next: false,
       })
     ),
   ]);
@@ -61,8 +62,10 @@ const mapStateToProps = (state, props) => {
   });
   const companySemesters = selectCompanySemesters(state, props);
   const fetching = state.companies.fetching;
-  const showFetchMoreEvents = selectPagination('events', {
-    queryString: queryString(companyId),
+  const showFetchMoreEvents = selectPaginationNext({
+    entity: EntityType.Events,
+    endpoint: '/events/',
+    query: getQuery(companyId),
   })(state);
   return {
     company,
@@ -81,8 +84,8 @@ const mapDispatchToProps = (dispatch, props) => {
   const fetchMoreEvents = () =>
     dispatch(
       fetchEventsForCompany({
-        queryString: queryString(companyId),
-        loadNextPage: true,
+        query: getQuery(companyId),
+        next: true,
       })
     );
 

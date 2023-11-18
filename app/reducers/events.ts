@@ -1,182 +1,197 @@
-import { produce } from 'immer';
-import { groupBy, orderBy, without } from 'lodash';
+import { createSlice } from '@reduxjs/toolkit';
+import { groupBy, orderBy } from 'lodash';
 import moment from 'moment-timezone';
 import { normalize } from 'normalizr';
 import { createSelector } from 'reselect';
 import config from 'app/config';
 import { eventSchema } from 'app/reducers';
-import { mutateComments, selectCommentEntities } from 'app/reducers/comments';
+import { addCommentCases, selectCommentEntities } from 'app/reducers/comments';
 import { isCurrentUser as checkIfCurrentUser } from 'app/routes/users/utils';
-import createEntityReducer from 'app/utils/createEntityReducer';
-import joinReducers from 'app/utils/joinReducers';
+import { EntityType } from 'app/store/models/entities';
+import createLegoAdapter from 'app/utils/legoAdapter/createLegoAdapter';
 import mergeObjects from 'app/utils/mergeObjects';
 import { Event } from '../actions/ActionTypes';
-import type { DetailedEvent } from 'app/store/models/Event';
+import type { AnyAction } from '@reduxjs/toolkit';
+import type { FollowerItem, Dateish } from 'app/models';
+import type { RootState } from 'app/store/createRootReducer';
+import type { ID } from 'app/store/models';
+import type {
+  AuthUserDetailedEvent,
+  UnknownEvent,
+} from 'app/store/models/Event';
+import type { AsyncApiActionSuccessWithEntityType } from 'app/utils/legoAdapter/asyncApiActions';
 
-type State = any;
-const mutateEvent = produce((newState: State, action: any): void => {
-  switch (action.type) {
-    case Event.FETCH_PREVIOUS.SUCCESS:
-      for (const eventId in action.payload.entities.events) {
-        const event = action.payload.entities.events[eventId];
-        newState.byId[eventId] = produce(event, (e): void => {
-          e.isUsersUpcoming = false;
-        });
-      }
+type RegistrationEvent = AuthUserDetailedEvent & {
+  loading?: boolean;
+};
 
-      break;
+const legoAdapter = createLegoAdapter(EntityType.Events);
 
-    case Event.FETCH_UPCOMING.SUCCESS:
-      for (const eventId in action.payload.entities.events) {
-        const event = action.payload.entities.events[eventId];
-        newState.byId[eventId] = produce(event, (e): void => {
-          e.isUsersUpcoming = true;
-        });
-      }
+const eventsSlice = createSlice({
+  name: 'events',
+  initialState: legoAdapter.getInitialState(),
+  reducers: {},
+  extraReducers: legoAdapter.buildReducers({
+    fetchActions: [Event.FETCH, Event.FETCH_PREVIOUS, Event.FETCH_UPCOMING],
+    deleteActions: [Event.DELETE],
+    extraCases: (addCase) => {
+      addCommentCases(EntityType.Events, addCase);
+      addCase(
+        Event.FETCH_PREVIOUS.SUCCESS,
+        (
+          state,
+          action: AsyncApiActionSuccessWithEntityType<EntityType.Events>
+        ) => {
+          if (!action.payload.entities.events) return;
+          legoAdapter.upsertMany(
+            state,
+            Object.values(action.payload.entities.events).map((event) => ({
+              ...event,
+              isUsersUpcoming: false,
+            }))
+          );
+        }
+      );
+      addCase(
+        Event.FETCH_UPCOMING.SUCCESS,
+        (
+          state,
+          action: AsyncApiActionSuccessWithEntityType<EntityType.Events>
+        ) => {
+          if (!action.payload.entities.events) return;
+          legoAdapter.upsertMany(
+            state,
+            Object.values(action.payload.entities.events).map((event) => ({
+              ...event,
+              isUsersUpcoming: true,
+            }))
+          );
+        }
+      );
+      addCase(Event.SOCKET_EVENT_UPDATED, (state, action: AnyAction) => {
+        const events = normalize(action.payload, eventSchema).entities
+          .events as UnknownEvent[];
+        state.entities = mergeObjects(state.entities, events);
+      });
+      addCase(Event.REQUEST_REGISTER.BEGIN, (state, action: AnyAction) => {
+        const event = state.entities[action.meta.id];
+        if (event) event.loading = true;
+      });
+      addCase(Event.SOCKET_REGISTRATION.SUCCESS, (state, action: AnyAction) => {
+        const eventId = action.meta.eventId;
+        const registration = action.payload;
+        const stateEvent = state.entities[eventId] as RegistrationEvent;
 
-      break;
+        if (!stateEvent) {
+          return;
+        }
 
-    case Event.DELETE.SUCCESS:
-      newState.items = without(newState.items, action.meta.id);
-      break;
+        let registrationCount = stateEvent.registrationCount;
+        let waitingRegistrations = stateEvent.waitingRegistrations;
+        let waitingRegistrationCount = stateEvent.waitingRegistrationCount ?? 0;
 
-    case Event.SOCKET_EVENT_UPDATED: {
-      const events = normalize(action.payload, eventSchema).entities.events;
-      newState.byId = mergeObjects(newState.byId, events);
-      break;
-    }
+        if (!registration.pool) {
+          waitingRegistrationCount = waitingRegistrationCount + 1;
 
-    case Event.CLEAR:
-      newState.items = [];
-      newState.pagination = {};
-      break;
+          if (waitingRegistrations) {
+            waitingRegistrations = [...waitingRegistrations, registration.id];
+          }
+        } else {
+          registrationCount++;
+        }
 
-    case Event.REQUEST_REGISTER.BEGIN:
-      newState.byId[action.meta.id].loading = true;
-      break;
-
-    case Event.SOCKET_REGISTRATION.SUCCESS: {
-      const eventId = action.meta.eventId;
-      const registration = action.payload;
-      const stateEvent = newState.byId[eventId];
-
-      if (!stateEvent) {
-        return;
-      }
-
-      let registrationCount = stateEvent.registrationCount;
-      let waitingRegistrations = stateEvent.waitingRegistrations;
-      let waitingRegistrationCount = stateEvent.waitingRegistrationCount;
-
-      if (!registration.pool) {
-        waitingRegistrationCount = waitingRegistrationCount + 1;
+        stateEvent.loading = false;
+        stateEvent.registrationCount = registrationCount;
+        stateEvent.waitingRegistrationCount = waitingRegistrationCount;
 
         if (waitingRegistrations) {
-          waitingRegistrations = [...waitingRegistrations, registration.id];
+          stateEvent.waitingRegistrations = waitingRegistrations;
         }
-      } else {
-        registrationCount++;
-      }
+      });
+      addCase(
+        Event.SOCKET_UNREGISTRATION.SUCCESS,
+        (state, action: AnyAction) => {
+          const {
+            eventId,
+            activationTime: activationTimeFromMeta,
+            fromPool,
+            currentUser,
+          } = action.meta;
+          const stateEvent = state.entities[eventId] as RegistrationEvent;
+          const registration = action.payload;
 
-      stateEvent.loading = false;
-      stateEvent.registrationCount = registrationCount;
-      stateEvent.waitingRegistrationCount = waitingRegistrationCount;
+          if (!stateEvent) {
+            return;
+          }
 
-      if (waitingRegistrations) {
-        stateEvent.waitingRegistrations = waitingRegistrations;
-      }
+          const isCurrentUser =
+            registration.user &&
+            checkIfCurrentUser(registration.user.id, currentUser.id);
+          stateEvent.loading = false;
 
-      break;
-    }
+          if (isCurrentUser) {
+            stateEvent.activationTime = activationTimeFromMeta;
+          }
 
-    case Event.SOCKET_UNREGISTRATION.SUCCESS: {
-      const {
-        eventId,
-        activationTime: activationTimeFromMeta,
-        fromPool,
-        currentUser,
-      } = action.meta;
-      const stateEvent = newState.byId[eventId];
-      const registration = action.payload;
+          if (fromPool) {
+            stateEvent.registrationCount--;
+          } else {
+            stateEvent.waitingRegistrationCount!--;
+          }
 
-      if (!stateEvent) {
-        return;
-      }
-
-      const isCurrentUser =
-        registration.user &&
-        checkIfCurrentUser(registration.user.id, currentUser.id);
-      stateEvent.loading = false;
-
-      if (isCurrentUser) {
-        stateEvent.activationTime = activationTimeFromMeta;
-      }
-
-      if (fromPool) {
-        stateEvent.registrationCount--;
-      } else {
-        stateEvent.waitingRegistrationCount--;
-      }
-
-      if (stateEvent.waitingRegistrations) {
-        stateEvent.waitingRegistrations =
-          stateEvent.waitingRegistrations.filter(
-            (id) => id !== action.payload.id
-          );
-      }
-
-      break;
-    }
-
-    case Event.SOCKET_REGISTRATION.FAILURE:
-      if (newState.byId[action.meta.eventId]) {
-        newState.byId[action.meta.eventId].loading = false;
-      }
-
-      break;
-
-    case Event.REQUEST_REGISTER.FAILURE:
-      if (newState.byId[action.meta.id]) {
-        newState.byId[action.meta.id].loading = false;
-      }
-
-      break;
-
-    case Event.FOLLOW.SUCCESS:
-      if (newState.byId[action.meta.body.target]) {
-        newState.byId[action.meta.body.target].following =
-          action.payload.result;
-      }
-      break;
-
-    case Event.UNFOLLOW.SUCCESS:
-      if (newState.byId[action.meta.eventId]) {
-        newState.byId[action.meta.eventId].following = false;
-      }
-      break;
-
-    default:
-      break;
-  }
-});
-const mutate = joinReducers(mutateComments('events'), mutateEvent);
-export default createEntityReducer<'events'>({
-  key: 'events',
-  types: {
-    fetch: [Event.FETCH, Event.FETCH_PREVIOUS, Event.FETCH_UPCOMING],
-    delete: Event.DELETE,
-  },
-  mutate,
+          if (stateEvent.waitingRegistrations) {
+            stateEvent.waitingRegistrations =
+              stateEvent.waitingRegistrations.filter(
+                (id) => id !== action.payload.id
+              );
+          }
+        }
+      );
+      addCase(Event.REQUEST_REGISTER.FAILURE, (state, action: AnyAction) => {
+        const event = state.entities[action.meta.id];
+        if (event) event.loading = false;
+      });
+      addCase(Event.SOCKET_REGISTRATION.FAILURE, (state, action: AnyAction) => {
+        const event = state.entities[action.meta.eventId];
+        if (event) event.loading = false;
+      });
+      addCase(Event.FOLLOW.SUCCESS, (state, action: AnyAction) => {
+        const event = state.entities[
+          action.meta.body.target
+        ] as AuthUserDetailedEvent;
+        if (event) event.following = action.payload.result;
+      });
+      addCase(Event.UNFOLLOW.SUCCESS, (state, action: AnyAction) => {
+        const event = state.entities[
+          action.meta.eventId
+        ] as AuthUserDetailedEvent;
+        if (event) event.following = false;
+      });
+      addCase(Event.IS_USER_FOLLOWING.SUCCESS, (state, action: AnyAction) => {
+        const isFollowing =
+          Object.values(
+            action.payload.entities.followersEvent as FollowerItem[]
+          ).find(
+            (fe) =>
+              fe.follower === action.meta.currentUserId &&
+              fe.target === action.meta.eventId
+          )?.id ?? false;
+        const event = state.entities[
+          action.meta.eventId
+        ] as AuthUserDetailedEvent;
+        if (event) event.following = isFollowing;
+      });
+    },
+  }),
 });
 
-function transformEvent(event: DetailedEvent) {
+export default eventsSlice.reducer;
+const { selectAll, selectById, selectEntities } =
+  legoAdapter.getSelectors<RootState>((state) => state.events);
+
+function transformEvent(event: UnknownEvent) {
   return {
     ...event,
-    startTime: event.startTime && moment(event.startTime).toISOString(),
-    endTime: event.endTime && moment(event.endTime).toISOString(),
-    activationTime:
-      event.activationTime && moment(event.activationTime).toISOString(),
-    mergeTime: event.mergeTime && moment(event.mergeTime).toISOString(),
     useCaptcha: config.environment === 'ci' ? false : event.useCaptcha,
   };
 }
@@ -189,13 +204,8 @@ function transformRegistration(registration) {
   };
 }
 
-export const selectEvents = createSelector(
-  (state) => state.events.byId,
-  (state) => state.events.items,
-  (eventsById, eventIds) =>
-    eventIds.map((id) => transformEvent(eventsById[id])) as ReadonlyArray<
-      ReturnType<typeof transformEvent>
-    >
+export const selectEvents = createSelector(selectAll, (events) =>
+  events.map(transformEvent)
 );
 export const selectPreviousEvents = createSelector(selectEvents, (events) =>
   events.filter((event) => event.isUsersUpcoming === false)
@@ -208,38 +218,24 @@ export const selectSortedEvents = createSelector(selectEvents, (events) =>
     (a, b) => moment(a.startTime).unix() - moment(b.startTime).unix()
   )
 );
-export const selectEventById = createSelector(
-  (state) => state.events.byId,
-  (state, props) => props.eventId,
-  (eventsById, eventId) => {
-    const event = eventsById[eventId];
-
-    if (event) {
-      return transformEvent(event);
-    }
-
-    return {};
-  }
+export const selectEventById = createSelector(selectById, (event) =>
+  event ? transformEvent(event) : {}
 );
 export const selectEventBySlug = createSelector(
-  (state) => state.events.byId,
-  (state, props) => props.eventSlug,
+  selectEntities,
+  (_: RootState, props: { eventSlug: string }) => props.eventSlug,
   (eventsById, eventSlug) => {
     const event = Object.values(eventsById).find(
-      (event) => event.slug === eventSlug
+      (event) => event?.slug === eventSlug
     );
 
-    if (event) {
-      return transformEvent(event);
-    }
-
-    return {};
+    return event ? transformEvent(event) : {};
   }
 );
 
 export const selectPoolsForEvent = createSelector(
   selectEventById,
-  (state) => state.pools.byId,
+  (state: RootState) => state.pools.byId,
   (event, poolsById) => {
     if (!event) return [];
     return (event.pools || []).map((poolId) => poolsById[poolId]);
@@ -247,8 +243,8 @@ export const selectPoolsForEvent = createSelector(
 );
 export const selectPoolsWithRegistrationsForEvent = createSelector(
   selectPoolsForEvent,
-  (state) => state.registrations.byId,
-  (state) => state.users.byId,
+  (state: RootState) => state.registrations.byId,
+  (state: RootState) => state.users.byId,
   (pools, registrationsById, usersById) =>
     pools.map((pool) => ({
       ...pool,
@@ -292,8 +288,8 @@ export const selectMergedPool = createSelector(selectPoolsForEvent, (pools) => {
 });
 export const selectMergedPoolWithRegistrations = createSelector(
   selectPoolsForEvent,
-  (state) => state.registrations.byId,
-  (state) => state.users.byId,
+  (state: RootState) => state.registrations.byId,
+  (state: RootState) => state.users.byId,
   (pools, registrationsById, usersById) => {
     if (pools.length === 0) return [];
     return [
@@ -334,10 +330,10 @@ export const selectMergedPoolWithRegistrations = createSelector(
   }
 );
 export const selectAllRegistrationsForEvent = createSelector(
-  (state) => state.registrations.byId,
-  (state) => state.registrations.items,
-  (state) => state.users.byId,
-  (state, props) => props.eventId,
+  (state: RootState) => state.registrations.byId,
+  (state: RootState) => state.registrations.items,
+  (state: RootState) => state.users.byId,
+  (_: RootState, props: { eventId: ID }) => props.eventId,
   (registrationsById, registrationItems, usersById, eventId) =>
     registrationItems
       .map((regId) => registrationsById[regId])
@@ -366,8 +362,8 @@ export const selectAllRegistrationsForEvent = createSelector(
 );
 export const selectWaitingRegistrationsForEvent = createSelector(
   selectEventById,
-  (state) => state.registrations.byId,
-  (state) => state.users.byId,
+  (state: RootState) => state.registrations.byId,
+  (state: RootState) => state.users.byId,
   (event, registrationsById, usersById) => {
     if (!event) return [];
     return (event.waitingRegistrations || []).map((regId) => {
@@ -378,7 +374,7 @@ export const selectWaitingRegistrationsForEvent = createSelector(
 );
 export const selectRegistrationForEventByUserId = createSelector(
   selectAllRegistrationsForEvent,
-  (state, props) => props.userId,
+  (_: RootState, props: { userId: ID }) => props.userId,
   (registrations, userId) => {
     const userReg = registrations.filter((reg) => reg.user.id === userId);
     return userReg.length > 0 ? userReg[0] : null;
@@ -421,4 +417,19 @@ export const getRegistrationGroups = createSelector(
       unregistered,
     };
   }
+);
+
+// Select events that occur on a specific day. Events that last over multiple days will be selected for every day it takes place. However, some events, like parties, might last over midnight, and it looks kind of weird for that event to be selected for two different days. Therefore, we add the criteria that an event has to last for more 24 hours in order for it to get selected for multiple days.
+export const selectEventsByDay = createSelector(
+  selectAll,
+  (_: RootState, props: { day: Dateish }) => props.day,
+  (events, day) =>
+    events.filter(
+      (event) =>
+        moment(event.startTime).isSame(day, 'day') ||
+        (moment(event.startTime).isSameOrBefore(day, 'day') &&
+          moment(event.endTime).isSameOrAfter(day, 'day') &&
+          moment.duration(moment(event.endTime).diff(moment(event.startTime))) >
+            moment.duration(1, 'days'))
+    )
 );

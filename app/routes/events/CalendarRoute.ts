@@ -19,8 +19,8 @@ const loadData = (props, dispatch) => {
     const dateBefore = date.clone().endOf('month').endOf('week');
     return dispatch(
       fetchList({
-        dateAfter: dateAfter.format('YYYY-MM-DD'),
-        dateBefore: dateBefore.format('YYYY-MM-DD'),
+        dateAfter: dateAfter,
+        dateBefore: dateBefore,
       })
     );
   }

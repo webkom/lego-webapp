@@ -66,12 +66,8 @@ const mapStateToProps = (state, props) => {
 
   if (!hasFullAccess) {
     const normalPools = event.isMerged
-      ? selectMergedPool(state, {
-          eventId,
-        })
-      : selectPoolsForEvent(state, {
-          eventId,
-        });
+      ? selectMergedPool(state, eventId)
+      : selectPoolsForEvent(state, eventId);
     const pools =
       event.waitingRegistrationCount > 0
         ? normalPools.concat({
@@ -90,22 +86,15 @@ const mapStateToProps = (state, props) => {
     };
   }
 
-  const comments = selectCommentsForEvent(state, {
-    eventId,
-  });
+  const comments = selectCommentsForEvent(state, eventId);
   const poolsWithRegistrations = event.isMerged
-    ? selectMergedPoolWithRegistrations(state, {
-        eventId,
-      })
-    : selectPoolsWithRegistrationsForEvent(state, {
-        eventId,
-      });
-  const registrations = selectRegistrationsFromPools(state, {
-    eventId,
-  });
-  const waitingRegistrations = selectWaitingRegistrationsForEvent(state, {
-    eventId,
-  });
+    ? selectMergedPoolWithRegistrations(state, eventId)
+    : selectPoolsWithRegistrationsForEvent(state, eventId);
+  const registrations = selectRegistrationsFromPools(state, eventId);
+  const waitingRegistrations = selectWaitingRegistrationsForEvent(
+    state,
+    eventId
+  );
   const pools =
     waitingRegistrations.length > 0
       ? poolsWithRegistrations.concat({

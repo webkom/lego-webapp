@@ -2,17 +2,18 @@ import cx from 'classnames';
 import moment from 'moment-timezone';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { createSelector } from 'reselect';
 import Pill from 'app/components/Pill';
 import Popover from 'app/components/Popover';
 import TextWithIcon from 'app/components/TextWithIcon';
 import Time, { FromToTime } from 'app/components/Time';
+import { selectEventsByDay } from 'app/reducers/events';
 import { colorForEvent, textColorForEvent } from '../utils';
 import styles from './Calendar.css';
-import type { Event } from 'app/models';
+import type { RootState } from 'app/store/createRootReducer';
+import type { ListEvent } from 'app/store/models/Event';
 import type { Moment } from 'moment-timezone';
 
-const renderEvent = (event: Event) => {
+const renderEvent = (event: ListEvent) => {
   const {
     slug,
     eventType,
@@ -96,7 +97,7 @@ const renderEvent = (event: Event) => {
 type Props = {
   day: Moment;
   prevOrNextMonth: boolean;
-  events: Array<Event>;
+  events: Array<ListEvent>;
 };
 
 const CalendarCell = (props: Props) => {
@@ -118,28 +119,9 @@ const CalendarCell = (props: Props) => {
   );
 };
 
-// Select events that occur on the a specific day. Events that last over multiple days will be selected for every day it takes place. However, some events, like parties, might last over midnight, and it looks kind of weird for that event to be selected for two different days. Therefore, we add the criteria that an event has to last for more 24 hours in order for it to get selected for multiple days.
-const selectEvents = createSelector(
-  (state) => state.events.items,
-  (state) => state.events.byId,
-  (state, props) => props.day,
-  (eventIds, eventsById, day) =>
-    eventIds
-      .map((id) => eventsById[id])
-      .filter(
-        (event) =>
-          moment(event.startTime).isSame(day, 'day') ||
-          (moment(event.startTime).isSameOrBefore(day, 'day') &&
-            moment(event.endTime).isSameOrAfter(day, 'day') &&
-            moment.duration(
-              moment(event.endTime).diff(moment(event.startTime))
-            ) > moment.duration(1, 'days'))
-      )
-);
-
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state: RootState, ownProps: Props) => {
   return {
-    events: selectEvents(state, ownProps),
+    events: selectEventsByDay(state, ownProps) as ListEvent[],
   };
 };
 

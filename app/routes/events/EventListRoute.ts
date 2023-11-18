@@ -1,61 +1,48 @@
 import moment from 'moment-timezone';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { createStructuredSelector } from 'reselect';
 import { fetchList } from 'app/actions/EventActions';
 import { selectSortedEvents } from 'app/reducers/events';
-import createQueryString from 'app/utils/createQueryString';
+import { selectPaginationNext } from 'app/reducers/selectors';
+import { EntityType } from 'app/store/models/entities';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
-import { selectPagination } from '../../reducers/selectors';
 import EventList from './components/EventList';
 
 const mapStateToProps = (state, ownProps) => {
-  const dateAfter = moment().format('YYYY-MM-DD');
   const query = {
-    date_after: dateAfter,
+    date_after: moment().format('YYYY-MM-DD'),
   };
-  const queryString = createQueryString(query);
-  const showFetchMore = selectPagination('events', {
-    queryString,
-  });
+  const { pagination } = selectPaginationNext({
+    endpoint: '/events/',
+    entity: EntityType.Events,
+    query,
+  })(state);
   const user = ownProps.currentUser;
   const icalToken = user ? user.icalToken : null;
 
-  const actionGrant = (state) => state.events.actionGrant;
-
   return {
-    ...createStructuredSelector({
-      showFetchMore,
-      events: selectSortedEvents,
-      actionGrant,
-    })(state, ownProps),
+    events: selectSortedEvents(state),
+    showFetchMore: pagination?.hasMore,
+    actionGrant: state.events.actionGrant,
     icalToken,
     fetching: state.events.fetching,
   };
 };
 
 const fetchData = ({
-  refresh,
-  loadNextPage,
+  next,
 }: {
-  refresh?: boolean;
-  loadNextPage?: boolean;
+  next?: boolean;
 } = {}) =>
   fetchList({
-    refresh,
-    loadNextPage,
-    dateAfter: moment().format('YYYY-MM-DD'),
+    next,
+    dateAfter: moment(),
   });
 
 const mapDispatchToProps = {
   fetchMore: () =>
     fetchData({
-      refresh: false,
-      loadNextPage: true,
-    }),
-  reload: () =>
-    fetchData({
-      refresh: true,
+      next: true,
     }),
 };
 export default compose(

@@ -11,18 +11,18 @@ import {
   selectEventsForCompany,
   selectJoblistingsForCompany,
 } from 'app/reducers/companies';
-import { selectPagination } from 'app/reducers/selectors';
-import createQueryString from 'app/utils/createQueryString';
+import { selectPaginationNext } from 'app/reducers/selectors';
+import { EntityType } from 'app/store/models/entities';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import CompanyDetail from './components/CompanyDetail';
 import type { RootState } from 'app/store/createRootReducer';
+import type { ID } from 'app/store/models';
 
-const queryString = (companyId) =>
-  createQueryString({
-    company: companyId,
-    ordering: '-start_time',
-  });
+const getQuery = (companyId: ID) => ({
+  company: String(companyId),
+  ordering: '-start_time',
+});
 
 const fetchData = (props, dispatch) => {
   const { companyId } = props.match.params;
@@ -30,8 +30,8 @@ const fetchData = (props, dispatch) => {
     dispatch(fetchCompany(companyId)),
     dispatch(
       fetchEventsForCompany({
-        queryString: queryString(companyId),
-        loadNextPage: false,
+        query: getQuery(companyId),
+        next: false,
       })
     ),
     dispatch(fetchJoblistingsForCompany(companyId)),
@@ -41,8 +41,10 @@ const fetchData = (props, dispatch) => {
 const mapStateToProps = (state: RootState, props) => {
   const { companyId } = props.match.params;
   const { query } = props.location;
-  const showFetchMoreEvents = selectPagination('events', {
-    queryString: queryString(companyId),
+  const { pagination } = selectPaginationNext({
+    entity: EntityType.Events,
+    endpoint: `/events/`,
+    query: getQuery(companyId),
   })(state);
   const company = selectCompanyById(state, {
     companyId,
@@ -61,7 +63,7 @@ const mapStateToProps = (state: RootState, props) => {
     query,
     companyId,
     loggedIn: props.currentUser,
-    showFetchMoreEvents,
+    showFetchMoreEvents: pagination?.hasMore,
     fetching,
   };
 };
@@ -72,8 +74,8 @@ const mapDispatchToProps = (dispatch, props) => {
   const fetchMoreEvents = () =>
     dispatch(
       fetchEventsForCompany({
-        queryString: queryString(companyId),
-        loadNextPage: true,
+        query: getQuery(companyId),
+        next: true,
       })
     );
 

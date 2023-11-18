@@ -1,3 +1,4 @@
+import qs from 'qs';
 import { push } from 'redux-first-history';
 import { startSubmit, stopSubmit } from 'redux-form';
 import { addToast } from 'app/actions/ToastActions';
@@ -70,23 +71,23 @@ export function fetchAdmin(companyId: number): Thunk<any> {
 }
 export const fetchEventsForCompany =
   ({
-    queryString,
-    loadNextPage = false,
+    query,
+    next = false,
   }: {
-    queryString: string;
-    loadNextPage: boolean;
+    query: Record<string, string>;
+    next: boolean;
   }): Thunk<any> =>
-  (dispatch, getState) => {
-    const endpoint = loadNextPage
-      ? getState().events.pagination[queryString].nextPage
-      : `/events/${queryString}`;
+  (dispatch) => {
     return dispatch(
       callAPI({
         types: Event.FETCH,
-        endpoint,
+        endpoint: '/events/',
+        query,
+        pagination: {
+          fetchNext: next,
+        },
         schema: [eventSchema],
         meta: {
-          queryString,
           errorMessage: 'Henting av tilknyttede arrangementer feilet',
         },
       })

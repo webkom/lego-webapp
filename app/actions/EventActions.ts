@@ -1,3 +1,4 @@
+import moment from 'moment-timezone';
 import { push } from 'redux-first-history';
 import { addToast } from 'app/actions/ToastActions';
 import callAPI from 'app/actions/callAPI';
@@ -8,7 +9,7 @@ import {
 } from 'app/reducers';
 import createQueryString from 'app/utils/createQueryString';
 import { Event } from './ActionTypes';
-import type { EventRegistrationPresence } from 'app/models';
+import type { Dateish, EventRegistrationPresence } from 'app/models';
 import type { ID } from 'app/store/models';
 import type { Thunk, Action } from 'app/types';
 
@@ -69,45 +70,34 @@ const getEndpoint = (state, loadNextPage, queryString) => {
   return endpoint;
 };
 
+type FetchListParams = {
+  dateAfter?: Dateish;
+  dateBefore?: Dateish;
+  next?: boolean;
+};
 export const fetchList =
-  ({
-    dateAfter,
-    dateBefore,
-    refresh = false,
-    loadNextPage = false,
-  }: Record<string, any> = {}): Thunk<any> =>
-  (dispatch, getState) => {
-    const query: Record<string, any> = {
-      date_after: dateAfter,
-      date_before: dateBefore,
+  ({ dateAfter, dateBefore, next = false }: FetchListParams = {}): Thunk<any> =>
+  (dispatch) => {
+    const query: Record<string, string | undefined> = {
+      date_after: dateAfter && moment(dateAfter).format('YYYY-MM-DD'),
+      date_before: dateBefore && moment(dateBefore).format('YYYY-MM-DD'),
     };
 
     if (dateBefore && dateAfter) {
-      query.page_size = 60;
-    }
-
-    const queryString = createQueryString(query);
-    const endpoint = getEndpoint(getState(), loadNextPage, queryString);
-
-    if (!endpoint) {
-      return Promise.resolve(null);
-    }
-
-    if (refresh && !loadNextPage) {
-      dispatch({
-        type: Event.CLEAR,
-      });
+      query.page_size = '60';
     }
 
     return dispatch(
       callAPI({
         types: Event.FETCH,
-        endpoint: endpoint,
+        endpoint: '/events/',
         schema: [eventSchema],
+        query,
+        pagination: {
+          fetchNext: next,
+        },
         meta: {
           errorMessage: 'Fetching events failed',
-          queryString,
-          endpoint,
         },
         propagateError: true,
       })
@@ -392,16 +382,21 @@ export function unfollow(
       })
     );
 }
-export function isUserFollowing(eventId: number): Thunk<any> {
-  return callAPI({
-    types: Event.IS_USER_FOLLOWING,
-    endpoint: `/followers-event/?target=${eventId}`,
-    schema: [followersEventSchema],
-    method: 'GET',
-    meta: {
-      errorMessage: 'Henting av interesse feilet',
-    },
-  });
+export function isUserFollowing(eventId: ID): Thunk<any> {
+  return (dispatch, getState) =>
+    dispatch(
+      callAPI({
+        types: Event.IS_USER_FOLLOWING,
+        endpoint: `/followers-event/?target=${eventId}`,
+        schema: [followersEventSchema],
+        method: 'GET',
+        meta: {
+          errorMessage: 'Henting av følger-status feilet',
+          currentUserId: getState().auth.id,
+          eventId,
+        },
+      })
+    );
 }
 export function fetchAnalytics(eventId: ID): Thunk<Promise<Action>> {
   return callAPI({

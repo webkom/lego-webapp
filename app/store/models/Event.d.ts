@@ -70,6 +70,7 @@ interface Event {
   pinned: boolean;
   responsibleUsers: DetailedUser[];
   isForeignLanguage: boolean;
+  waitingRegistrations: ID[];
 
   // for survey
   attendedCount: number;
@@ -255,7 +256,7 @@ export type AutocompleteEvent = Pick<Event, 'title' | 'startTime' | 'id'> & {
   text: 'text';
 };
 
-export type UnknownEvent =
+export type UnknownEvent = (
   | PublicEvent
   | ListEvent
   | DetailedEvent
@@ -264,4 +265,9 @@ export type UnknownEvent =
   | AuthUserDetailedEvent
   | AdministrateEvent
   | FrontpageEvent
-  | SearchEvent;
+) & {
+  isUsersUpcoming?: boolean; // is it in upcoming events list on user profile
+  loading?: boolean; // registering/unregistering
+  useCaptcha?: boolean;
+  comments?: ID[];
+};

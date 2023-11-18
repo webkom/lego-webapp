@@ -1,4 +1,5 @@
 import type OAuth2Grant from './OAuth2Grant';
+import type { FollowerItem } from 'app/models';
 import type { UnknownAnnouncement } from 'app/store/models/Announcement';
 import type { UnknownArticle } from 'app/store/models/Article';
 import type Comment from 'app/store/models/Comment';
@@ -107,9 +108,9 @@ export default interface Entities {
   [EntityType.Surveys]: Record<ID, Survey>;
   [EntityType.Tags]: Record<ID, UnknownTag>;
   [EntityType.Users]: Record<ID, UnknownUser>;
-  [EntityType.FollowersCompany]: Record<ID, unknown>; // AFAIK unused
-  [EntityType.FollowersUser]: Record<ID, unknown>; // AFAIK unused
-  [EntityType.FollowersEvent]: Record<ID, unknown>; // AFAIK unused
+  [EntityType.FollowersCompany]: Record<ID, FollowerItem>; // AFAIK unused
+  [EntityType.FollowersUser]: Record<ID, FollowerItem>; // AFAIK unused
+  [EntityType.FollowersEvent]: Record<ID, FollowerItem>; // AFAIK unused
 }
 
 export interface NormalizedEntityPayload<EntityKeys extends keyof Entities> {

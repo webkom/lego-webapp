@@ -1,7 +1,7 @@
 import type Comment from 'app/store/models/Comment';
 import type { ListCompany } from 'app/store/models/Company';
 import type { ReactionsGrouped } from 'app/store/models/Reaction';
-import type { DetailedUser, PublicUser } from 'app/store/models/User';
+import type { DetailedUser } from 'app/store/models/User';
 import type { RoleType } from 'app/utils/constants';
 import type { Moment } from 'moment';
 // TODO: Id handling could be opaque
@@ -363,7 +363,7 @@ export type AddPenalty = {
 
 export type FollowerItem = {
   id: ID;
-  follower: PublicUser;
+  follower: ID;
   target: ID;
 };
 
