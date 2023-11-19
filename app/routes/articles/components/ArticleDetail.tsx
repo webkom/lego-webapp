@@ -17,7 +17,8 @@ import {
 import { selectEmojis } from 'app/reducers/emojis';
 import { selectUsersByIds } from 'app/reducers/users';
 import sharedStyles from 'app/routes/articles/components/Overview.css';
-import { useHelmet, useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import useHelmet from 'app/utils/useHelmet';
 import styles from './ArticleDetail.css';
 import type { DetailedArticle, PublicArticle } from 'app/store/models/Article';
 import type { CurrentUser, PublicUser } from 'app/store/models/User';
@@ -121,7 +122,7 @@ const ArticleDetail = ({ currentUser, loggedIn }: Props) => {
     ];
   };
 
-  useHelmet(propertyGenerator, { articleIdOrSlug });
+  const helmet = useHelmet(propertyGenerator, { articleIdOrSlug });
 
   if (!article) {
     return <LoadingIndicator loading />;
@@ -133,6 +134,8 @@ const ArticleDetail = ({ currentUser, loggedIn }: Props) => {
       bannerPlaceholder={article.coverPlaceholder}
       youtubeUrl={article.youtubeUrl}
     >
+      {helmet}
+
       <NavigationTab
         headerClassName={styles.headerClassName}
         className={styles.articleHeader}

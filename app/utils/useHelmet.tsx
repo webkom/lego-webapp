@@ -40,12 +40,13 @@ type PropertyGenerator<T> = (
  * };
  * 
  * const YourComponent = ({ item }) => {
- *   useHelmet(propertyGenerator, { item });
+ *   const helmet = useHelmet(propertyGenerator, { item });
  * 
  *   return (
- *     <div>
+ *     <>
+ *       {helmet}
  *       ...
- *     </div>
+ *     </>
  *   );
  * };
  *

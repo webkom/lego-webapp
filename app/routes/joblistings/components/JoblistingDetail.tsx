@@ -16,6 +16,7 @@ import { jobType, Year, Workplaces } from 'app/components/JoblistingItem/Items';
 import Time from 'app/components/Time';
 import { selectJoblistingByIdOrSlug } from 'app/reducers/joblistings';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import useHelmet from 'app/utils/useHelmet';
 import type { DetailedJoblisting } from 'app/store/models/Joblisting';
 import type Config from 'config/Config';
 
@@ -89,7 +90,7 @@ const JoblistingDetail = () => {
     ];
   };
 
-  useHelmet(propertyGenerator, { joblistingIdOrSlug });
+  const helmet = useHelmet(propertyGenerator, { joblistingIdOrSlug });
 
   if (!joblisting) {
     return <LoadingIndicator loading={fetching} />;
@@ -103,6 +104,7 @@ const JoblistingDetail = () => {
       banner={joblisting.company.logo}
       youtubeUrl={joblisting.youtubeUrl}
     >
+      {helmet}
       <Helmet title={joblisting.title} />
       <ContentHeader>{joblisting.title}</ContentHeader>
       <ContentSection>
