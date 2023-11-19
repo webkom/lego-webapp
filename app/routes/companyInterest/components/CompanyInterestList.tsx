@@ -21,7 +21,6 @@ import { ListNavigation } from 'app/routes/bdb/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { getCsvUrl, semesterToText, EVENT_TYPE_OPTIONS } from '../utils';
 import styles from './CompanyInterest.css';
-import type { CompanyInterestEntity } from 'app/reducers/companyInterest';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 
 type SemesterOptionType = {
@@ -127,7 +126,7 @@ const CompanyInterestList = () => {
 
   const loggedIn = useAppSelector((state) => selectIsLoggedIn(state));
   if (!loggedIn) {
-    return LoginPage;
+    return <LoginPage />;
   }
 
   const exportInterestList = async (event?: string) => {
