@@ -43,7 +43,11 @@ const UploadStatusCard = ({
 
       {uploadDone ? (
         <Card.Header className={styles.header}>
-          {uploadStatus.successCount > 1 ? uploadStatus.successCount : 'Ingen'}{' '}
+          {uploadStatus.successCount > 1
+            ? uploadStatus.successCount
+            : hasFailedUploads
+            ? 'Ingen'
+            : 'Ett'}{' '}
           {hasFailedUploads ? `av ${uploadStatus.imageCount}` : ''}{' '}
           {uploadStatus.successCount === 1 ? 'bilde' : 'bilder'} ble lastet opp
         </Card.Header>
