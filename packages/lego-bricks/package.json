@@ -58,7 +58,7 @@
     "@storybook/blocks": "^7.5.2",
     "@storybook/react": "^7.2.0",
     "@storybook/react-vite": "^7.3.2",
-    "@storybook/testing-library": "^0.2.0",
+    "@storybook/testing-library": "^0.2.2",
     "@types/enzyme": "^3.10.14",
     "@types/react": "^18.2.37",
     "@types/react-dom": "^18.2.15",
