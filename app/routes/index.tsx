@@ -78,7 +78,7 @@ const AppWrapper = () => (
           <Route path="/validator" component={UserValidator} />
           <Route path="/brand" component={Brand} />
           <Route
-            path="/(register-interest|interesse)"
+            path={['/register-interest', '/interesse']}
             component={CompanyInterestInfoRoute}
           />
           <Route path="/companyInterest" component={CompanyInterest} />
