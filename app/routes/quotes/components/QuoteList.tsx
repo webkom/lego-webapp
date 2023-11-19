@@ -8,10 +8,9 @@ type Props = {
   quotes: QuoteType[];
   actionGrant: ActionGrant;
   loggedIn: boolean;
-  fetchEmojis: () => Promise<void>;
 };
 
-const QuoteList = ({ quotes, actionGrant, loggedIn, fetchEmojis }: Props) => {
+const QuoteList = ({ quotes, actionGrant, loggedIn }: Props) => {
   const [displayAdminId, setDisplayAdminId] = useState<ID>();
 
   return (
@@ -28,7 +27,6 @@ const QuoteList = ({ quotes, actionGrant, loggedIn, fetchEmojis }: Props) => {
           }
           displayAdmin={quote.id === displayAdminId}
           loggedIn={loggedIn}
-          fetchEmojis={fetchEmojis}
         />
       ))}
     </ul>
