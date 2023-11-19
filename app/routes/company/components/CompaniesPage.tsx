@@ -94,7 +94,7 @@ const CompaniesPage = () => {
 
   const loggedIn = useAppSelector((state) => selectIsLoggedIn(state));
   if (!loggedIn) {
-    return LoginPage;
+    return <LoginPage />;
   }
 
   return (

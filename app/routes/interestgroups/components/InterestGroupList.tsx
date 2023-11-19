@@ -10,7 +10,7 @@ import { selectGroupsWithType } from 'app/reducers/groups';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import InterestGroupComponent from './InterestGroup';
 import styles from './InterestGroup.css';
-import type { ActionGrant, Group } from 'app/models';
+import type { Group } from 'app/models';
 
 export type Props = {
   interestGroups: Array<Group>;

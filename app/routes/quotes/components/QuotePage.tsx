@@ -119,7 +119,6 @@ const QuotePage = () => {
           actionGrant={actionGrant}
           quotes={quotes}
           loggedIn={loggedIn}
-          fetchEmojis={() => dispatch(fetchEmojis())}
         />
       )}
 

@@ -11,7 +11,6 @@ import ProgressiveImage from 'app/components/ProgressiveImage';
 import { Keyboard } from 'app/utils/constants';
 import GalleryDetailsRow from './GalleryDetailsRow';
 import styles from './GalleryPictureModal.css';
-import type { ID } from 'app/models';
 import type { EntityID } from 'app/types';
 import type { History } from 'history';
 import type { ReactNode } from 'react';
