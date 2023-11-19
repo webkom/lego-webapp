@@ -16,12 +16,12 @@ import {
 } from 'app/components/Form';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
-import { Semester } from 'app/store/models';
 import {
   selectCompanySemesters,
   selectCompanySemestersForInterestForm,
 } from 'app/reducers/companySemesters';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { Semester } from 'app/store/models';
 import { createValidator, required } from 'app/utils/validation';
 import { semesterToText, SemesterNavigation } from '../utils';
 import styles from './CompanyInterest.css';
@@ -81,22 +81,13 @@ const AddSemesterForm = () => {
       );
     });
 
-    if (existingCompanySemester)
-      dispatch(
-        editSemester({
-          ...existingCompanySemester,
-          activeInterestForm: true,
-        })
-      );
-    else
-      dispatch(
-        addSemester({
-          year: Number(year),
-          semester,
-        })
-      ); // Default is activeInterestForm: true
-
-    form.restart();
+    dispatch(
+      existingCompanySemester
+        ? editSemester({ ...existingCompanySemester, activeInterestForm: true })
+        : addSemester({ year: Number(year), semester }) // Default is activeInterestForm: true
+    ).then(() => {
+      form.restart();
+    });
   };
 
   const initialValues: Partial<FormValues> = {

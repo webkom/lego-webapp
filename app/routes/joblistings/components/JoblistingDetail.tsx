@@ -15,7 +15,7 @@ import InfoList from 'app/components/InfoList';
 import { jobType, Year, Workplaces } from 'app/components/JoblistingItem/Items';
 import Time from 'app/components/Time';
 import { selectJoblistingByIdOrSlug } from 'app/reducers/joblistings';
-import { useAppDispatch, useAppSelector, useHelmet } from 'app/store/hooks';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import type { DetailedJoblisting } from 'app/store/models/Joblisting';
 import type Config from 'config/Config';
 

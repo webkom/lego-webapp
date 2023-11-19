@@ -31,7 +31,6 @@ import type {
 } from 'app/reducers/companies';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 import type { UserEntity } from 'app/reducers/users';
-import type { ID } from 'app/store/models';
 import type Comment from 'app/store/models/Comment';
 import type { CurrentUser } from 'app/store/models/User';
 

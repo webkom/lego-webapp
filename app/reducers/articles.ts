@@ -8,9 +8,12 @@ import { selectUserById } from 'app/reducers/users';
 import { typeable } from 'app/reducers/utils';
 import { EntityType } from 'app/store/models/entities';
 import createLegoAdapter from 'app/utils/legoAdapter/createLegoAdapter';
-import type { ArticleWithAuthorDetails } from 'app/routes/articles/ArticleListRoute';
 import type { RootState } from 'app/store/createRootReducer';
-import type { PublicArticle, UnknownArticle } from 'app/store/models/Article';
+import type {
+  ArticleWithAuthorDetails,
+  PublicArticle,
+  UnknownArticle,
+} from 'app/store/models/Article';
 import type { Pagination } from 'app/utils/legoAdapter/buildPaginationReducer';
 import type { Selector } from 'reselect';
 

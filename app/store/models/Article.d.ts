@@ -90,3 +90,7 @@ export type SearchArticle = Pick<
   CompleteArticle,
   'id' | 'title' | 'cover' | 'description' | 'content' | 'pinned' | 'createdAt'
 >;
+
+export type ArticleWithAuthorDetails = Omit<PublicArticle, 'authors'> & {
+  authors: PublicUser[];
+};

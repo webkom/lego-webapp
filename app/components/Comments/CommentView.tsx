@@ -2,7 +2,6 @@ import { Flex, LoadingIndicator } from '@webkom/lego-bricks';
 import CommentForm from 'app/components/CommentForm';
 import { generateTreeStructure } from 'app/utils';
 import CommentTree from './CommentTree';
-import type { ID } from 'app/store/models';
 import type Comment from 'app/store/models/Comment';
 import type { ContentAuthors } from 'app/store/models/Comment';
 import type { CurrentUser } from 'app/store/models/User';

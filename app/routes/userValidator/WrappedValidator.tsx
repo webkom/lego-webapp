@@ -5,8 +5,8 @@ import { autocomplete } from 'app/actions/SearchActions';
 import { fetchUser } from 'app/actions/UserActions';
 import { Content } from 'app/components/Content';
 import Validator from 'app/components/UserValidator';
-import type { UserSearchResult } from 'app/reducers/search';
 import { useAppDispatch } from 'app/store/hooks';
+import type { UserSearchResult } from 'app/reducers/search';
 import type { SearchUser } from 'app/store/models/User';
 
 const searchTypes = ['users.user'];

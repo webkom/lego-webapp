@@ -18,7 +18,7 @@ import CompactEvents from './CompactEvents';
 import styles from './PublicFrontpage.css';
 import type { Readme } from 'app/models';
 import type { WithDocumentType } from 'app/reducers/frontpage';
-import type { ArticleWithAuthorDetails } from 'app/routes/articles/ArticleListRoute';
+import type { ArticleWithAuthorDetails } from 'app/store/models/Article';
 import type { PublicEvent } from 'app/store/models/Event';
 
 type Props = {

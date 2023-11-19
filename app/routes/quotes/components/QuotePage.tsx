@@ -75,7 +75,6 @@ const QuotePage = () => {
   );
 
   const actionGrant = useAppSelector((state) => state.quotes.actionGrant);
-  const emojis = useAppSelector((state) => selectEmojis(state));
 
   useEffect(() => {
     if (quoteId) {
@@ -121,7 +120,6 @@ const QuotePage = () => {
           actionGrant={actionGrant}
           quotes={quotes}
           loggedIn={loggedIn}
-          emojis={emojis}
         />
       )}
 

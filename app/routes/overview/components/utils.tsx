@@ -8,8 +8,10 @@ import { eventTypeToString } from 'app/routes/events/utils';
 import truncateString from 'app/utils/truncateString';
 import styles from './Overview.css';
 import type { WithDocumentType } from 'app/reducers/frontpage';
-import type { ArticleWithAuthorDetails } from 'app/routes/articles/ArticleListRoute';
-import type { PublicArticle } from 'app/store/models/Article';
+import type {
+  ArticleWithAuthorDetails,
+  PublicArticle,
+} from 'app/store/models/Article';
 import type { PublicEvent } from 'app/store/models/Event';
 
 export const itemUrl = (

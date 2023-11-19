@@ -40,9 +40,6 @@ import { selectArticleById } from 'app/reducers/articles';
 import { selectUsersByIds } from 'app/reducers/users';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { validYoutubeUrl } from 'app/utils/validation';
-import Tooltip from 'app/components/Tooltip';
-import { selectArticleById } from 'app/reducers/articles';
-import { selectUsersByIds } from 'app/reducers/users';
 import type { EditingEvent } from 'app/routes/events/utils';
 import type { CurrentUser } from 'app/store/models/User';
 

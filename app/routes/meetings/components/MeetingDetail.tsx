@@ -29,14 +29,13 @@ import { statusesText } from 'app/reducers/meetingInvitations';
 import { MeetingInvitationStatus } from 'app/store/models/MeetingInvitation';
 import urlifyString from 'app/utils/urlifyString';
 import styles from './MeetingDetail.css';
-import type { Dateish, ID } from 'app/models';
+import type { Dateish } from 'app/models';
 import type { MeetingInvitationWithUser } from 'app/reducers/meetingInvitations';
 import type Comment from 'app/store/models/Comment';
 import type Emoji from 'app/store/models/Emoji';
 import type { DetailedMeeting } from 'app/store/models/Meeting';
 import type { ReactionsGrouped } from 'app/store/models/Reaction';
 import type { CurrentUser, PublicUser } from 'app/store/models/User';
-import type { ContentTarget } from 'app/store/utils/contentTarget';
 
 type Props = {
   meeting: DetailedMeeting;

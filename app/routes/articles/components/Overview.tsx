@@ -16,11 +16,7 @@ import { selectPaginationNext } from 'app/reducers/selectors';
 import { selectPopularTags } from 'app/reducers/tags';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './Overview.css';
-import type { ActionGrant } from 'app/models';
-import type {
-  ArticleWithAuthorDetails,
-  articlesListDefaultQuery,
-} from 'app/routes/articles/ArticleListRoute';
+import type { ArticleWithAuthorDetails } from 'app/store/models/Article';
 
 const HEADLINE_EVENTS = 2;
 

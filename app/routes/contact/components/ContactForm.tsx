@@ -31,12 +31,16 @@ const commiteeGroupType = GroupType.Committee;
 const revueBoardGroupId = 59;
 
 const ContactForm = () => {
-  const commitees = useAppSelector((state) => selectGroupsWithType(state, {
-    groupType: commiteeGroupType,
-  }));
-  const revueBoard = useAppSelector((state) => selectGroup(state, {
-    groupId: revueBoardGroupId,
-  }));
+  const commitees = useAppSelector((state) =>
+    selectGroupsWithType(state, {
+      groupType: commiteeGroupType,
+    })
+  );
+  const revueBoard = useAppSelector((state) =>
+    selectGroup(state, {
+      groupId: revueBoardGroupId,
+    })
+  );
   const groups = [...commitees, revueBoard];
 
   const loggedIn = useAppSelector((state) => selectIsLoggedIn(state));
@@ -44,8 +48,8 @@ const ContactForm = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchAllWithType(commiteeGroupType)),
-    dispatch(fetchGroup(revueBoardGroupId)),
+    dispatch(fetchAllWithType(commiteeGroupType));
+    dispatch(fetchGroup(revueBoardGroupId));
   }, [dispatch]);
 
   const onSubmit = (data, form) => {

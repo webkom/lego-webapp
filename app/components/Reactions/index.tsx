@@ -1,6 +1,8 @@
 import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { fetchEmojis } from 'app/actions/EmojiActions';
+import { useAppDispatch } from 'app/store/hooks';
 import reactionStyles from './Reaction.css';
 import ReactionPicker from './ReactionPicker';
 import AddReactionEmoji from './assets/AddReactionEmoji';

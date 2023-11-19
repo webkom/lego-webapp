@@ -33,7 +33,7 @@ const PollDetail = () => {
   const actionGrant = useAppSelector((state) => state.polls.actionGrant);
 
   if (!loggedIn) {
-    return LoginPage;
+    return <LoginPage />;
   }
 
   if (!poll) {
