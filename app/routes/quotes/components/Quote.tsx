@@ -28,8 +28,9 @@ const Quote = ({
   displayAdmin,
   loggedIn,
 }: Props) => {
-  const emojis = useAppSelector((state) => selectEmojis(state));
+  const emojis = useAppSelector(selectEmojis);
   const fetchingEmojis = useAppSelector((state) => state.emojis.fetching);
+
   const [deleting, setDeleting] = useState(false);
   const dispatch = useAppDispatch();
 

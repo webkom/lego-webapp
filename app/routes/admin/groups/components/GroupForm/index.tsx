@@ -44,6 +44,7 @@ type Props = {
 
 const GroupForm = ({ isInterestGroup }: Props) => {
   const { groupId } = useParams<{ groupId: string }>();
+  console.log('groupId', groupId);
   const group = useAppSelector((state) => selectGroup(state, { groupId }));
   const isNew = !group;
 
