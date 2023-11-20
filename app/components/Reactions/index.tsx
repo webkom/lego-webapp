@@ -1,6 +1,8 @@
 import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { fetchEmojis } from 'app/actions/EmojiActions';
+import { useAppDispatch } from 'app/store/hooks';
 import reactionStyles from './Reaction.css';
 import ReactionPicker from './ReactionPicker';
 import AddReactionEmoji from './assets/AddReactionEmoji';
@@ -15,8 +17,6 @@ type Props = {
   children: ReactNode;
   className?: string;
   emojis: EmojiWithReactionData[];
-  fetchingEmojis: boolean;
-  fetchEmojis: () => Promise<void>;
   contentTarget: ContentTarget;
   loggedIn: boolean;
 };
@@ -29,8 +29,6 @@ const Reactions = ({
   children,
   className,
   emojis,
-  fetchingEmojis,
-  fetchEmojis,
   contentTarget,
   loggedIn,
 }: Props) => {
@@ -39,17 +37,19 @@ const Reactions = ({
   const [fetchedEmojis, setFetchedEmojis] = useState(false);
   const nodeRef = useRef<HTMLDivElement>(null);
 
+  const dispatch = useAppDispatch();
+
   const toggleReactionPicker = useCallback(
     (e: MouseEvent | SyntheticEvent) => {
       if (!reactionPickerOpen && !fetchedEmojis) {
-        fetchEmojis();
+        dispatch(fetchEmojis());
       }
 
       setReactionPickerOpen(!reactionPickerOpen);
       setFetchedEmojis(true);
       e.stopPropagation();
     },
-    [fetchEmojis, fetchedEmojis, reactionPickerOpen]
+    [dispatch, fetchedEmojis, reactionPickerOpen]
   );
 
   useEffect(() => {
@@ -103,7 +103,6 @@ const Reactions = ({
           <ReactionPicker
             emojis={emojis}
             user={user}
-            isLoading={fetchingEmojis}
             contentTarget={contentTarget}
           />
         </div>

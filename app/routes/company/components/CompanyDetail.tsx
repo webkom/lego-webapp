@@ -76,7 +76,7 @@ const CompanyDetail = () => {
   }
 
   if (!loggedIn) {
-    return LoginPage;
+    return <LoginPage />;
   }
 
   const fetchMoreEvents = () =>

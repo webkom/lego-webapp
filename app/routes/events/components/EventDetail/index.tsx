@@ -124,7 +124,6 @@ type Props = {
     feedback: string
   ) => Promise<any>;
   deleteEvent: (eventId: ID) => Promise<void>;
-  deleteComment: (id: ID, contentTarget: string) => Promise<void>;
 };
 type State = {
   mapIsOpen: boolean;
@@ -197,7 +196,6 @@ export default class EventDetail extends Component<Props, State> {
       penalties,
       follow,
       unfollow,
-      deleteComment,
     } = this.props;
 
     if (!event.id) {
@@ -612,7 +610,6 @@ export default class EventDetail extends Component<Props, State> {
             contentTarget={event.contentTarget}
             loggedIn={loggedIn}
             comments={comments}
-            deleteComment={deleteComment}
             contentAuthors={event.createdBy?.id}
           />
         )}

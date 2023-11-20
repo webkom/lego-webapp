@@ -1,50 +1,31 @@
-import { Route, Switch } from 'react-router-dom';
-import RouteWrapper from 'app/components/RouteWrapper';
-import { UserContext } from 'app/routes/app/AppRoute';
+import { useRouteMatch, Route, Switch } from 'react-router-dom';
+import { CompatRoute } from 'react-router-dom-v5-compat';
 import PageNotFound from '../pageNotFound';
-import JoblistingCreateRoute from './JoblistingCreateRoute';
-import JoblistingDetailedRoute from './JoblistingDetailedRoute';
-import JoblistingEditRoute from './JoblistingEditRoute';
-import JoblistingRoute from './JoblistingRoute';
+import JoblistingDetail from './components/JoblistingDetail';
+import JoblistingEditor from './components/JoblistingEditor';
+import JoblistingsPage from './components/JoblistingPage';
 
-const jobListingRoute = ({
-  match,
-}: {
-  match: {
-    path: string;
-  };
-}) => (
-  <UserContext.Consumer>
-    {({ currentUser, loggedIn }) => (
-      <Switch>
-        <Route exact path={`${match.path}`} component={JoblistingRoute} />
-        <RouteWrapper
-          path={`${match.path}/create`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={JoblistingCreateRoute}
-        />
-        <Route
-          exact
-          path={`${match.path}/:joblistingIdOrSlug`}
-          component={JoblistingDetailedRoute}
-        />
-        <RouteWrapper
-          path={`${match.path}/:joblistingId/edit`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={JoblistingEditRoute}
-        />
-        <Route component={PageNotFound} />
-      </Switch>
-    )}
-  </UserContext.Consumer>
-);
+const JobListingRoute = () => {
+  const { path } = useRouteMatch();
+
+  return (
+    <Switch>
+      <CompatRoute exact path={path} component={JoblistingsPage} />
+      <CompatRoute path={`${path}/create`} component={JoblistingEditor} />
+      <CompatRoute
+        exact
+        path={`${path}/:joblistingIdOrSlug`}
+        component={JoblistingDetail}
+      />
+      <CompatRoute
+        path={`${path}/:joblistingId/edit`}
+        component={JoblistingEditor}
+      />
+      <Route component={PageNotFound} />
+    </Switch>
+  );
+};
 
 export default function Joblistings() {
-  return <Route path="/joblistings" component={jobListingRoute} />;
+  return <Route path="/joblistings" component={JobListingRoute} />;
 }

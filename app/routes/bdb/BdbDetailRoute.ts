@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
 import { compose, bindActionCreators } from 'redux';
-import { deleteComment } from 'app/actions/CommentActions';
 import {
   fetchAdmin,
   deleteSemesterStatus,
@@ -94,7 +93,6 @@ const mapDispatchToProps = (dispatch, props) => {
         editSemesterStatus,
         editCompany,
         deleteCompany,
-        deleteComment,
       },
       dispatch
     ),
