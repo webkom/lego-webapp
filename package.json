@@ -151,7 +151,7 @@
     "@types/redux-sentry-middleware": "^0.2.5",
     "@types/webpack": "^5.28.5",
     "@types/webpack-env": "^1.18.3",
-    "@typescript-eslint/eslint-plugin": "^6.10.0",
+    "@typescript-eslint/eslint-plugin": "^6.11.0",
     "@typescript-eslint/parser": "^6.10.0",
     "@vitejs/plugin-react": "^4.1.0",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.8.0",
