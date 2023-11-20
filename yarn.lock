@@ -3872,10 +3872,10 @@
     "@types/express" "^4.7.0"
     file-system-cache "2.3.0"
 
-"@stripe/react-stripe-js@^1.14.2":
-  version "1.14.2"
-  resolved "https://registry.yarnpkg.com/@stripe/react-stripe-js/-/react-stripe-js-1.14.2.tgz#4030f1723b4c58003bfbe38189129955f6fff764"
-  integrity sha512-8dGBdSFldq6dyiYgv3r4tOwS5PGAO/446hodegSKlmWg7NkAl0McopszXJd11A9otGi47v5OzCsljyfHJgnLhw==
+"@stripe/react-stripe-js@^2.3.2":
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/@stripe/react-stripe-js/-/react-stripe-js-2.3.2.tgz#75111cf929fdc27f59947726c282f8a8a14d6f16"
+  integrity sha512-3sKdD4w6X/Hs1wbFNU9lc9uJP86YrNLNcfJpZpiD1lWAg46ROfi9EkT1HiEmWWPYEjjXereJ4C2Eg90uYMq1uQ==
   dependencies:
     prop-types "^15.7.2"
 
