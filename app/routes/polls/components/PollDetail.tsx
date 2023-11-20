@@ -33,7 +33,7 @@ const PollDetail = () => {
   const actionGrant = poll?.actionGrant ?? [];
 
   if (!loggedIn) {
-    return LoginPage;
+    return <LoginPage />;
   }
 
   if (!poll) {

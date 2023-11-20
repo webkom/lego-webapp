@@ -29,6 +29,11 @@ describe('Create joblisting', () => {
       .and('contain', 'BEKK');
     cy.focused().type('{enter}', { force: true });
 
+    selectField('workplaces').click();
+    cy.focused().type('Oslo', { force: true });
+    selectFieldDropdown('workplaces').and('contain', 'Oslo');
+    cy.focused().type('{enter}', { force: true });
+
     // TODO sometimes there is an issue in the joblisting editor where you have to click
     // the top editor twice. Not a breaking bug.
     selectEditor('description').type('A joblisting description');
@@ -41,6 +46,8 @@ describe('Create joblisting', () => {
     //.first()
     //.clear();
     //cy.contains('button', 'Lagre endringer').should('be.disabled');
+
+    cy.wait(100); // wait for editor debounce
 
     cy.contains('button', 'Opprett').should('not.be.disabled').click();
     //TODO: check new url

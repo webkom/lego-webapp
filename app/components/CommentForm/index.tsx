@@ -47,16 +47,16 @@ const CommentForm = ({
       <LegoFinalForm
         validateOnSubmitOnly
         validate={validate}
-        onSubmit={async ({ text }, form) => {
-          await dispatch(
+        onSubmit={({ text }, form) => {
+          dispatch(
             addComment({
               contentTarget,
               text,
               parent,
             })
-          );
-
-          form.restart();
+          ).then(() => {
+            form.restart();
+          });
         }}
       >
         {({ handleSubmit }) => {

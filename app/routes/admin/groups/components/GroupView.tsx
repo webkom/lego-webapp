@@ -1,7 +1,7 @@
 import { LoadingIndicator } from '@webkom/lego-bricks';
 import { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useRouteMatch, Switch, useParams, Route } from 'react-router-dom';
+import { useRouteMatch, useParams, Switch, Route } from 'react-router-dom';
 import { fetchGroup } from 'app/actions/GroupActions';
 import { selectGroup } from 'app/reducers/groups';
 import GroupForm from 'app/routes/admin/groups/components/GroupForm';

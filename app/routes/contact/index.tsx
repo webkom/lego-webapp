@@ -1,32 +1,17 @@
-import { Route, Switch } from 'react-router-dom';
-import RouteWrapper from 'app/components/RouteWrapper';
-import { UserContext } from 'app/routes/app/AppRoute';
-import PageNotFoundRoute from '../pageNotFound/PageNotFoundRoute';
-import ContactRoute from './ContactRoute';
+import { useRouteMatch, Route, Switch } from 'react-router-dom';
+import { CompatRoute } from 'react-router-dom-v5-compat';
+import PageNotFound from 'app/routes/pageNotFound';
+import Contact from './components/Contact';
 
-const Contact = ({
-  match,
-}: {
-  match: {
-    path: string | string[];
-  };
-}) => (
-  <UserContext.Consumer>
-    {({ currentUser, loggedIn }) => (
-      <Switch>
-        <RouteWrapper
-          exact
-          path={match.path}
-          Component={ContactRoute}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-        />
-        <Route component={PageNotFoundRoute} />
-      </Switch>
-    )}
-  </UserContext.Consumer>
-);
+const ContactRoute = () => {
+  const { path } = useRouteMatch();
 
-export default Contact;
+  return (
+    <Switch>
+      <CompatRoute exact path={path} component={Contact} />
+      <Route component={PageNotFound} />
+    </Switch>
+  );
+};
+
+export default ContactRoute;

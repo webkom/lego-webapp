@@ -11,7 +11,6 @@ import ProgressiveImage from 'app/components/ProgressiveImage';
 import { Keyboard } from 'app/utils/constants';
 import GalleryDetailsRow from './GalleryDetailsRow';
 import styles from './GalleryPictureModal.css';
-import type { ID } from 'app/models';
 import type { EntityID } from 'app/types';
 import type { History } from 'history';
 import type { ReactNode } from 'react';
@@ -36,7 +35,6 @@ type Props = {
   ) => Promise<any>;
   isFirstImage: boolean;
   isLastImage: boolean;
-  deleteComment: (id: ID, contentTarget: string) => Promise<any>;
 };
 type State = {
   showMore: boolean;
@@ -218,7 +216,6 @@ export default class GalleryPictureModal extends Component<Props, State> {
       push,
       gallery,
       actionGrant,
-      deleteComment,
     } = this.props;
     const { showMore } = this.state;
 
@@ -358,7 +355,6 @@ export default class GalleryPictureModal extends Component<Props, State> {
                   contentTarget={picture.contentTarget}
                   loggedIn={loggedIn}
                   comments={comments}
-                  deleteComment={deleteComment}
                 />
               </Flex>
             )}

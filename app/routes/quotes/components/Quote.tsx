@@ -19,7 +19,6 @@ type Props = {
   toggleDisplayAdmin: () => void;
   displayAdmin: boolean;
   loggedIn: boolean;
-  fetchEmojis: () => Promise<void>;
 };
 
 const Quote = ({
@@ -27,11 +26,11 @@ const Quote = ({
   actionGrant,
   toggleDisplayAdmin,
   displayAdmin,
-  fetchEmojis,
   loggedIn,
 }: Props) => {
-  const emojis = useAppSelector((state) => selectEmojis(state));
+  const emojis = useAppSelector(selectEmojis);
   const fetchingEmojis = useAppSelector((state) => state.emojis.fetching);
+
   const [deleting, setDeleting] = useState(false);
   const dispatch = useAppDispatch();
 
@@ -139,8 +138,6 @@ const Quote = ({
       <div className={styles.quoteReactions}>
         <Reactions
           emojis={mappedEmojis}
-          fetchEmojis={fetchEmojis}
-          fetchingEmojis={fetchingEmojis}
           contentTarget={quote.contentTarget}
           loggedIn={loggedIn}
         >

@@ -2,6 +2,13 @@ import qs from 'qs';
 import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import config from 'app/config';
+import {
+  COLLABORATION_TYPES,
+  EVENTS,
+  README,
+  SURVEY_OFFERS,
+  TARGET_GRADES,
+} from './components/Translations';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 import type { ReactNode } from 'react';
 
@@ -17,6 +24,7 @@ export const sortSemesterChronologically = (
     ? Number(a.year) - Number(b.year)
     : semesterCodeToPriority[a.semester] - semesterCodeToPriority[b.semester];
 };
+
 export const SemesterNavigation = ({ title }: { title: ReactNode }) => (
   <NavigationTab
     title={title}
@@ -29,16 +37,52 @@ export const SemesterNavigation = ({ title }: { title: ReactNode }) => (
     <NavigationLink to="/bdb/add">Ny bedrift</NavigationLink>
   </NavigationTab>
 );
-export const SEMESTER_TRANSLATION = {
-  spring: {
-    norwegian: 'Vår',
-    english: 'Spring',
-  },
-  autumn: {
-    norwegian: 'Høst',
-    english: 'Autumn',
-  },
+
+export const PARTICIPANT_RANGE_TYPES = {
+  first: '10-30',
+  second: '30-60',
+  third: '60-100',
+  fourth: '100+',
 };
+
+export const PARTICIPANT_RANGE_MAP = {
+  first: [10, 40],
+  second: [30, 60],
+  third: [60, 100],
+  fourth: [100, null],
+};
+
+export const EVENT_TYPE_OPTIONS = [
+  { value: '', label: 'Vis alle arrangementstyper' },
+  { value: 'company_presentation', label: 'Bedriftspresentasjon' },
+  { value: 'course', label: 'Kurs' },
+  { value: 'breakfast_talk', label: 'Frokostforedrag' },
+  { value: 'lunch_presentation', label: 'Lunsjpresentasjon' },
+  { value: 'bedex', label: 'BedEx' },
+  { value: 'digital_presentation', label: 'Digital presentasjon' },
+  { value: 'other', label: 'Alternativt arrangement' },
+  { value: 'sponsor', label: 'Sponser' },
+  { value: 'start_up', label: 'Start-up kveld' },
+  { value: 'company_to_company', label: 'Bedrift-til-bedrift' },
+];
+
+export const eventToString = (event) =>
+  Object.keys(EVENTS)[Number(event.charAt(event.length - 2))];
+
+export const surveyOffersToString = (offer) =>
+  Object.keys(SURVEY_OFFERS)[Number(offer.charAt(offer.length - 2))];
+
+export const otherOffersToString = (offer) =>
+  Object.keys(README)[Number(offer.charAt(offer.length - 2))];
+
+export const collaborationToString = (collab) =>
+  Object.keys(COLLABORATION_TYPES)[Number(collab.charAt(collab.length - 2))];
+
+export const targetGradeToString = (targetGrade) =>
+  Object.keys(TARGET_GRADES)[
+    Number(targetGrade.charAt(targetGrade.length - 2))
+  ];
+
 export const getCsvUrl = (
   year: number | string,
   semester: string,
@@ -49,6 +93,17 @@ export const getCsvUrl = (
     semester,
     event,
   })}`;
+
+export const SEMESTER_TRANSLATION = {
+  spring: {
+    norwegian: 'Vår',
+    english: 'Spring',
+  },
+  autumn: {
+    norwegian: 'Høst',
+    english: 'Autumn',
+  },
+};
 
 export const semesterToText = ({
   semester,

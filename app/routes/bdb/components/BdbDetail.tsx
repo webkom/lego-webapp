@@ -31,7 +31,6 @@ import type {
 } from 'app/reducers/companies';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 import type { UserEntity } from 'app/reducers/users';
-import type { ID } from 'app/store/models';
 import type Comment from 'app/store/models/Comment';
 import type { CurrentUser } from 'app/store/models/User';
 
@@ -51,7 +50,6 @@ type Props = {
   fetching: boolean;
   editCompany: (arg0: Record<string, any>) => void;
   deleteCompany: (arg0: number) => Promise<any>;
-  deleteComment: (id: ID, contentTarget: string) => Promise<any>;
   showFetchMoreEvents: boolean;
   fetchMoreEvents: () => Promise<any>;
 };
@@ -156,7 +154,6 @@ export default class BdbDetail extends Component<Props, State> {
       companyEvents,
       fetching,
       deleteCompany,
-      deleteComment,
       showFetchMoreEvents,
       fetchMoreEvents,
     } = this.props;
@@ -508,7 +505,6 @@ export default class BdbDetail extends Component<Props, State> {
             loggedIn={loggedIn}
             comments={comments}
             newOnTop
-            deleteComment={deleteComment}
           />
         )}
       </Content>
