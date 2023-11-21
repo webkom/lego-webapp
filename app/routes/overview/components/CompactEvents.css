@@ -6,6 +6,10 @@
   white-space: nowrap;
   width: 100%;
   text-align: left;
+
+  @media (--small-viewport) {
+    flex-direction: column;
+  }
 }
 
 .compactLeft {
@@ -14,10 +18,6 @@
 
 @media (--mobile-device) {
   .compactLeft h3 {
-    margin-top: 0;
-  }
-
-  .compactRight h3 {
     margin-top: 0;
   }
 }
