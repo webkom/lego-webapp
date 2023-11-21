@@ -16,6 +16,10 @@
   .compactLeft h3 {
     margin-top: 0;
   }
+
+  .compactRight h3 {
+    margin-top: 0;
+  }
 }
 
 .compactLeft,
