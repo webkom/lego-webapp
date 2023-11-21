@@ -81,7 +81,6 @@ export type EditingEvent = Event & {
   mazemapPoi: Option<string, number>;
   useMazemap: boolean;
   eventStatusType: Option<string, EventStatusType>;
-  addFee: boolean;
   registrationDeadline: Dateish;
   hasFeedbackQuestion: boolean;
   isClarified: boolean;
@@ -129,27 +128,14 @@ const poolCreateAndUpdateFields = [
 
 /* Calculate the event price
  * @param isPriced: If the event is priced
- * @param addFee: If the event uses Stipe and needs a fee
  */
-const calculatePrice = (data) => {
-  if (data.isPriced) {
-    if (data.addFee) {
-      return addStripeFee(data.priceMember) * 100;
-    }
-
-    return data.priceMember * 100;
-  }
-
-  return 0;
-};
+const calculatePrice = (data) => (data.isPriced ? data.priceMember * 100 : 0);
 
 /* Calculate the event location
  * @param eventStatusType: what kind of registrationmode this event has
  */
-const calculateLocation = (data) => {
-  if (data.useMazemap) return data.mazemapPoi.label;
-  return data.location;
-};
+const calculateLocation = (data) =>
+  data.useMazemap ? data.mazemapPoi.label : data.location;
 
 const calculateMazemapPoi = (data) => {
   if (!data.useMazemap || data.mazemapPoi.value === '') {
@@ -262,8 +248,6 @@ const paymentSuccessMappings = {
 };
 export const hasPaid = (paymentStatus: string) =>
   paymentSuccessMappings[paymentStatus];
-
-export const addStripeFee = (price: number) => Math.ceil(price * 1.012 + 1.8);
 
 export const registrationCloseTime = (event: Event) =>
   moment(event.startTime).subtract(event.registrationDeadlineHours, 'hours');
