@@ -123,7 +123,6 @@ const mapStateToProps = (state, props) => {
     actionGrant,
     event: {
       ...event,
-      addFee: valueSelector(state, 'addFee'),
       mazemapPoi: valueSelector(state, 'mazemapPoi'),
       isPriced: valueSelector(state, 'isPriced'),
       eventType: valueSelector(state, 'eventType'),

@@ -36,12 +36,7 @@ import { FormatTime } from 'app/components/Time';
 import { AttendanceStatus } from 'app/components/UserAttendance';
 import AttendanceModal from 'app/components/UserAttendance/AttendanceModal';
 import { validYoutubeUrl } from 'app/utils/validation';
-import {
-  addStripeFee,
-  EVENT_CONSTANTS,
-  colorForEvent,
-  eventStatusTypes,
-} from '../../utils';
+import { EVENT_CONSTANTS, colorForEvent, eventStatusTypes } from '../../utils';
 import Admin from '../Admin';
 import styles from './EventEditor.css';
 import renderPools, { validatePools } from './renderPools';
@@ -410,19 +405,6 @@ function EventEditor({
                   className={styles.formField}
                   normalize={(v) => !!v}
                 />
-                {event.useStripe && (
-                  <div className={styles.subSection}>
-                    <Field
-                      label="Legg til systemgebyr"
-                      description="Legger automatisk transaksjonskostnaden til prisen"
-                      name="addFee"
-                      component={CheckBox.Field}
-                      fieldClassName={styles.metaField}
-                      className={styles.formField}
-                      normalize={(v) => !!v}
-                    />
-                  </div>
-                )}
                 <Field
                   label="Pris (medlem)"
                   name="priceMember"
@@ -437,9 +419,7 @@ function EventEditor({
                   <i>
                     Totalt:{' '}
                     <strong>
-                      {event.addFee
-                        ? addStripeFee(Number(event.priceMember))
-                        : event.priceMember}
+                      {event.priceMember}
                       ,-
                     </strong>
                   </i>

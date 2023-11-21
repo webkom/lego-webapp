@@ -39,7 +39,6 @@ const mapStateToProps = (state, props) => {
   const imageGallery = selectImageGalleryEntries(state);
   const selectedValues = {
     event: {
-      addFee: valueSelector(state, 'addFee'),
       isPriced: valueSelector(state, 'isPriced'),
       feedbackRequired: valueSelector(state, 'feedbackRequired'),
       heedPenalties: valueSelector(state, 'heedPenalties'),
