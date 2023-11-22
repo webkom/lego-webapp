@@ -42,7 +42,6 @@ const PollsList = () => {
         }
       />
       <Paginator
-        infiniteScroll={true}
         hasMore={hasMore}
         fetching={fetching}
         fetchNext={() => {
