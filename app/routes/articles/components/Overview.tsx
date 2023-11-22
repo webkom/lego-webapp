@@ -134,7 +134,6 @@ const Overview = () => {
       </Tags>
       <section className={styles.frontpage}>
         <Paginator
-          infiniteScroll={true}
           hasMore={hasMore}
           fetching={fetching}
           fetchNext={() => {
