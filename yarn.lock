@@ -7214,10 +7214,10 @@ eslint-plugin-react-hooks@^4.6.0:
   resolved "https://registry.yarnpkg.com/eslint-plugin-react-hooks/-/eslint-plugin-react-hooks-4.6.0.tgz#4c3e697ad95b77e93f8646aaa1630c1ba607edd3"
   integrity sha512-oFc7Itz9Qxh2x4gNHStv3BqJq54ExXmfC+a1NjAta66IAN87Wu0R/QArgIS9qKzX3dXKPI9H5crl9QchNMY9+g==
 
-eslint-plugin-react-redux@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-react-redux/-/eslint-plugin-react-redux-4.0.0.tgz#f4b4a89c34d4f1d14000d27c1246639b4e88e644"
-  integrity sha512-oT43AoOgqsXjYKm7JiQCD1Mxp2tjO/ywv/WJn0cVNVirpd91xfvxWnYU93tqKSZwdryxdZ/S+ea2iIYeRdeaZg==
+eslint-plugin-react-redux@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-react-redux/-/eslint-plugin-react-redux-4.1.0.tgz#a4be1a0c6d596c12a9dae3feb50f45aa873456c9"
+  integrity sha512-DBhCj87sdUnlIfjw3HhDzj5nmyuuBIiiokJ1Ybl/gZ3tStAz/uy/ckK7p4rEgXvDGb7R0fupDGa8gSGAYXRrOw==
   dependencies:
     eslint-plugin-react "^7.28.0"
     eslint-rule-composer "^0.3.0"
