@@ -4,15 +4,19 @@ import Emoji from 'app/components/Emoji';
 import Tooltip from 'app/components/Tooltip';
 import styles from './Reaction.css';
 import type { ID } from 'app/store/models';
+import type { CurrentUser } from 'app/store/models/User';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 
 type Props = {
   className?: string;
+  user: CurrentUser;
   emoji: string;
   count: number;
+  users?: { fullName: string }[];
   unicodeString: string;
   addReaction: (args: {
     emoji: string;
+    user: CurrentUser;
     contentTarget: ContentTarget;
     unicodeString?: string;
   }) => Promise<void>;
@@ -30,8 +34,10 @@ type Props = {
 
 const Reaction = ({
   className,
+  user,
   emoji,
   count,
+  users,
   unicodeString,
   addReaction,
   deleteReaction,
@@ -53,9 +59,20 @@ const Reaction = ({
     return <></>;
   }
 
+  let tooltipContent = '';
+  if (users && users.length > 0) {
+    tooltipContent += users
+      .filter((user) => user)
+      .map((user) => user.fullName)
+      .join(', ');
+    tooltipContent += ' reagerte med ';
+  }
+
+  tooltipContent += emoji;
+
   return (
     <>
-      <Tooltip content={emoji}>
+      <Tooltip content={tooltipContent}>
         <Flex
           gap={4}
           justifyContent="center"
@@ -67,10 +84,12 @@ const Reaction = ({
                   hasReacted
                     ? deleteReaction({
                         reactionId,
+                        user: user,
                         contentTarget: contentTarget,
                       })
                     : addReaction({
                         emoji,
+                        user: user,
                         contentTarget,
                         unicodeString,
                       })

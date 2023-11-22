@@ -1,14 +1,17 @@
 import callAPI from 'app/actions/callAPI';
 import { Reaction } from './ActionTypes';
 import type { ID } from 'app/models';
+import type { CurrentUser } from 'app/store/models/User';
 import type { Thunk } from 'app/types';
 
 export function addReaction({
   emoji,
+  user,
   contentTarget,
   unicodeString,
 }: {
   emoji: string;
+  user?: CurrentUser;
   contentTarget: string;
   unicodeString: string;
 }): Thunk<void> {
@@ -24,6 +27,7 @@ export function addReaction({
         },
         meta: {
           emoji,
+          user: user,
           contentTarget,
           unicodeString,
         },
