@@ -11,9 +11,10 @@ import { createValidator, legoEditorRequired } from 'app/utils/validation';
 import styles from './CommentForm.css';
 import type { ID } from 'app/store/models';
 import type { CurrentUser } from 'app/store/models/User';
+import type { ContentTarget } from 'app/store/utils/contentTarget';
 
 type Props = {
-  contentTarget: string;
+  contentTarget: ContentTarget;
   user: CurrentUser;
   loggedIn: boolean;
   submitText?: string;

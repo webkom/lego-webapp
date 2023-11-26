@@ -7,6 +7,8 @@ export default interface Reaction {
   contentTarget: ContentTarget;
 }
 
+export type ReactionResponse = Omit<Reaction, 'contentTarget'>;
+
 export interface ReactionsGrouped {
   emoji: string;
   unicodeString: string;

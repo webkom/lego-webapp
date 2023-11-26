@@ -1,12 +1,15 @@
+import { omit } from 'lodash';
 import { push } from 'redux-first-history';
 import callAPI from 'app/actions/callAPI';
 import { articleSchema } from 'app/reducers';
 import { Article } from './ActionTypes';
+import type { AppDispatch } from 'app/store/createStore';
 import type { ID } from 'app/store/models';
-import type { ArticleEntity, Thunk } from 'app/types';
+import type { DetailedArticle } from 'app/store/models/Article';
+import type { ArticleEntity } from 'app/types';
 
-export function fetchArticle(articleId: ID): Thunk<Promise<void>> {
-  return callAPI({
+export function fetchArticle(articleId: ID) {
+  return callAPI<DetailedArticle>({
     types: Article.FETCH,
     endpoint: `/articles/${articleId}/`,
     schema: articleSchema,
@@ -16,24 +19,28 @@ export function fetchArticle(articleId: ID): Thunk<Promise<void>> {
     propagateError: true,
   });
 }
-export function createArticle({ ...data }: ArticleEntity): Thunk<any> {
-  return (dispatch) =>
+
+export function createArticle(data: ArticleEntity) {
+  return (dispatch: AppDispatch) =>
     dispatch(
-      callAPI({
+      callAPI<DetailedArticle>({
         types: Article.CREATE,
         endpoint: '/articles/',
         method: 'POST',
         schema: articleSchema,
-        body: data,
+        body: omit(data, ['id']),
         meta: {
           errorMessage: 'Opprettelse av artikkel feilet',
         },
       })
-    ).then((res) =>
-      dispatch(push(`/articles/${(res as any).payload.result}/`))
+    ).then(
+      (action) =>
+        'success' in action &&
+        dispatch(push(`/articles/${action.payload.result}/`))
     );
 }
-export function deleteArticle(id: number): Thunk<any> {
+
+export function deleteArticle(id: ID) {
   return callAPI({
     types: Article.DELETE,
     endpoint: `/articles/${id}/`,
@@ -44,8 +51,9 @@ export function deleteArticle(id: number): Thunk<any> {
     },
   });
 }
-export function editArticle({ id, ...data }: ArticleEntity): Thunk<any> {
-  return (dispatch) =>
+
+export function editArticle({ id, ...data }: ArticleEntity) {
+  return (dispatch: AppDispatch) =>
     dispatch(
       callAPI({
         types: Article.EDIT,
@@ -59,14 +67,15 @@ export function editArticle({ id, ...data }: ArticleEntity): Thunk<any> {
       })
     ).then(() => dispatch(push(`/articles/${id}/`)));
 }
+
 export function fetchAll({
   query,
   next = false,
 }: {
-  query?: Record<string, any>;
+  query?: Record<string, string>;
   next?: boolean;
-} = {}): Thunk<any> {
-  return callAPI({
+} = {}) {
+  return callAPI<DetailedArticle[]>({
     types: Article.FETCH,
     endpoint: '/articles/',
     schema: [articleSchema],

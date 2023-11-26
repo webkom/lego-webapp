@@ -10,8 +10,8 @@ import { Content } from 'app/components/Content';
 import Validator from 'app/components/UserValidator';
 import { selectAutocompleteRedux as selectAutocomplete } from 'app/reducers/search';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
-import type { User } from 'app/models';
 import type { UserSearchResult } from 'app/reducers/search';
+import type { AppDispatch } from 'app/store/createStore';
 import type { ComponentProps } from 'react';
 
 const searchTypes = ['users.user'];
@@ -39,7 +39,7 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-const mapDispatchToProps = (dispatch, { location }) => {
+const mapDispatchToProps = (dispatch: AppDispatch, { location }) => {
   const search = qs.parse(location.search, {
     ignoreQueryPrefix: true,
   });
@@ -49,13 +49,10 @@ const mapDispatchToProps = (dispatch, { location }) => {
     clearSearch: () =>
       dispatch(push(`/validator?${qs.stringify({ ...search, q: '' })}`)),
 
-    handleSelect: async (result: UserSearchResult): Promise<User> => {
-      const fetchRes = await dispatch(
-        fetchUser(result.username, { propagateError: false })
-      );
-
-      return Object.values(fetchRes.payload?.entities?.users)[0] as User;
+    handleSelect: async (result: UserSearchResult) => {
+      return dispatch(fetchUser(result.username, { propagateError: false }));
     },
+
     onQueryChanged: debounce((query) => {
       dispatch(push(`/validator?${qs.stringify({ ...search, q: query })}`));
 

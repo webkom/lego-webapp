@@ -9,12 +9,14 @@ import {
 import createQueryString from 'app/utils/createQueryString';
 import { Event } from './ActionTypes';
 import type { EventRegistrationPresence } from 'app/models';
+import type { AppDispatch } from 'app/store/createStore';
 import type { ID } from 'app/store/models';
+import type { DetailedEvent, UnknownEvent } from 'app/store/models/Event';
 import type { Thunk, Action } from 'app/types';
 
 export const waitinglistPoolId = -1;
-export function fetchEvent(eventId: string): Thunk<any> {
-  return callAPI({
+export function fetchEvent(eventId: string) {
+  return callAPI<DetailedEvent>({
     types: Event.FETCH,
     endpoint: `/events/${eventId}/`,
     schema: eventSchema,
@@ -135,12 +137,10 @@ export function fetchAllergies(eventId: number): Thunk<any> {
   });
 }
 
-export function createEvent(
-  event: Record<string, any>
-): Thunk<Promise<Action | null | undefined>> {
-  return (dispatch) =>
+export function createEvent(event: Record<string, any>) {
+  return (dispatch: AppDispatch) =>
     dispatch(
-      callAPI({
+      callAPI<UnknownEvent>({
         types: Event.CREATE,
         endpoint: '/events/',
         method: 'POST',
@@ -152,8 +152,7 @@ export function createEvent(
       })
     ).then(
       (action) =>
-        action &&
-        action.payload &&
+        'success' in action &&
         dispatch(push(`/events/${action.payload.result}/`))
     );
 }
