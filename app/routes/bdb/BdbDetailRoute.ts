@@ -10,7 +10,6 @@ import {
   editCompany,
   deleteCompany,
 } from 'app/actions/CompanyActions';
-import { LoginPage } from 'app/components/LoginForm';
 import {
   selectCompanyById,
   selectEventsForCompany,
@@ -19,7 +18,7 @@ import {
 import { selectCompanySemesters } from 'app/reducers/companySemesters';
 import { selectPagination } from 'app/reducers/selectors';
 import createQueryString from 'app/utils/createQueryString';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import BdbDetail from './components/BdbDetail';
 
@@ -101,7 +100,7 @@ const mapDispatchToProps = (dispatch, props) => {
 };
 
 export default compose(
-  replaceUnlessLoggedIn(LoginPage),
+  guardLogin,
   withPreparedDispatch('withBdbDetail', loadData, (props) => [
     props.match.params.companyId,
   ]),

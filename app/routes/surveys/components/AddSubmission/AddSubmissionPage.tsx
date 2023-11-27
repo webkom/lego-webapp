@@ -8,7 +8,6 @@ import {
   fetchUserSubmission,
 } from 'app/actions/SurveySubmissionActions';
 import { Content, ContentHeader } from 'app/components/Content';
-import { LoginPage } from 'app/components/LoginForm';
 import Time from 'app/components/Time';
 import { selectSurveySubmissionForUser } from 'app/reducers/surveySubmissions';
 import { useFetchedSurvey } from 'app/reducers/surveys';
@@ -17,12 +16,13 @@ import AlreadyAnswered from 'app/routes/surveys/components/AddSubmission/Already
 import SurveySubmissionForm from 'app/routes/surveys/components/AddSubmission/SurveySubmissionForm';
 import styles from 'app/routes/surveys/components/surveys.css';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import type { FormSurveySubmission } from 'app/store/models/SurveySubmission';
 
 const AddSubmissionPage = () => {
   const dispatch = useAppDispatch();
   const { surveyId } = useParams<{ surveyId: string }>();
-  const { currentUser, loggedIn } = useUserContext();
+  const { currentUser } = useUserContext();
   const survey = useFetchedSurvey('addSubmission', surveyId);
   const submission = useAppSelector((state) =>
     selectSurveySubmissionForUser(state, {
@@ -42,10 +42,6 @@ const AddSubmissionPage = () => {
       dispatch(fetchUserSubmission(Number(surveyId), Number(currentUser.id))),
     [surveyId, currentUser.id]
   );
-
-  if (!loggedIn) {
-    return <LoginPage />;
-  }
 
   if (!survey || !currentUser.id || fetchingSubmission) {
     return <LoadingIndicator loading />;
@@ -110,4 +106,4 @@ const AddSubmissionPage = () => {
   );
 };
 
-export default AddSubmissionPage;
+export default guardLogin(AddSubmissionPage);

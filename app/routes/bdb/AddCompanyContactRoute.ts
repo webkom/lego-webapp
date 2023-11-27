@@ -1,10 +1,9 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { LoginPage } from 'app/components/LoginForm';
+import { fetchAdmin, addCompanyContact } from 'app/actions/CompanyActions';
 import { selectCompanyById } from 'app/reducers/companies';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
-import { fetchAdmin, addCompanyContact } from '../../actions/CompanyActions';
 import CompanyContactEditor from './components/CompanyContactEditor';
 
 const mapStateToProps = (state, props) => {
@@ -22,7 +21,7 @@ const mapDispatchToProps = {
   submitFunction: addCompanyContact,
 };
 export default compose(
-  replaceUnlessLoggedIn(LoginPage),
+  guardLogin,
   withPreparedDispatch(
     'fetchAddCompanyContact',
     (

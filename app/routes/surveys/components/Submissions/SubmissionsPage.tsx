@@ -1,11 +1,10 @@
 import { LoadingIndicator } from '@webkom/lego-bricks';
 import { Link, useParams } from 'react-router-dom';
 import { Content, ContentSection, ContentMain } from 'app/components/Content';
-import { LoginPage } from 'app/components/LoginForm';
-import { selectIsLoggedIn } from 'app/reducers/auth';
 import { useFetchedSurveySubmissions } from 'app/reducers/surveySubmissions';
 import { useFetchedSurvey } from 'app/reducers/surveys';
 import { useAppSelector } from 'app/store/hooks';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import { DetailNavigation, getCsvUrl } from '../../utils';
 import AdminSideBar from '../AdminSideBar';
 import styles from '../surveys.css';
@@ -32,11 +31,6 @@ const SubmissionsPage = ({ children: Children }: Props) => {
     (state) => state.surveys.fetching || state.surveySubmissions.fetching
   );
   const authToken = useAppSelector((state) => state.auth.token);
-  const isLoggedIn = useAppSelector(selectIsLoggedIn);
-
-  if (!isLoggedIn) {
-    return <LoginPage />;
-  }
 
   if (fetching || !survey) {
     return <LoadingIndicator loading />;
@@ -88,4 +82,4 @@ const SubmissionsPage = ({ children: Children }: Props) => {
   );
 };
 
-export default SubmissionsPage;
+export default guardLogin(SubmissionsPage);

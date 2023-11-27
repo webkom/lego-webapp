@@ -2,10 +2,9 @@ import qs from 'qs';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { push } from 'redux-first-history';
-import { LoginPage } from 'app/components/LoginForm';
 import { selectCompanies } from 'app/reducers/companies';
 import { selectCompanySemesters } from 'app/reducers/companySemesters';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import {
   fetchAllAdmin,
@@ -32,7 +31,7 @@ const mapDispatchToProps = {
   push,
 };
 export default compose(
-  replaceUnlessLoggedIn(LoginPage),
+  guardLogin,
   withPreparedDispatch('fetchBdb', (props, dispatch) =>
     dispatch(fetchSemesters()).then(() => dispatch(fetchAllAdmin()))
   ),

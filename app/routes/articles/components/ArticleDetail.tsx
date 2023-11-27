@@ -19,12 +19,13 @@ import {
 } from 'app/reducers/articles';
 import { selectEmojis } from 'app/reducers/emojis';
 import { selectUsersByIds } from 'app/reducers/users';
+import { useUserContext } from 'app/routes/app/AppRoute';
 import sharedStyles from 'app/routes/articles/components/Overview.css';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './ArticleDetail.css';
 import type { PropertyGenerator } from 'app/components/PropertyHelmet';
 import type { DetailedArticle, PublicArticle } from 'app/store/models/Article';
-import type { CurrentUser, PublicUser } from 'app/store/models/User';
+import type { PublicUser } from 'app/store/models/User';
 
 const propertyGenerator: PropertyGenerator<{
   article: PublicArticle;
@@ -80,12 +81,8 @@ const propertyGenerator: PropertyGenerator<{
   ];
 };
 
-type Props = {
-  currentUser: CurrentUser;
-  loggedIn: boolean;
-};
-
-const ArticleDetail = ({ currentUser, loggedIn }: Props) => {
+const ArticleDetail = () => {
+  const { currentUser, loggedIn } = useUserContext();
   const { articleIdOrSlug } = useParams<{ articleIdOrSlug: string }>();
   const article = useAppSelector((state) =>
     selectArticleByIdOrSlug(state, articleIdOrSlug)
@@ -113,7 +110,7 @@ const ArticleDetail = ({ currentUser, loggedIn }: Props) => {
     if (articleIdOrSlug) {
       dispatch(fetchArticle(articleIdOrSlug));
     }
-  }, [articleIdOrSlug, dispatch]);
+  }, [loggedIn, articleIdOrSlug, dispatch]);
 
   if (!article) {
     return <LoadingIndicator loading />;
