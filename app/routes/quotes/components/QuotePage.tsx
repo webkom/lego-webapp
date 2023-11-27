@@ -7,11 +7,11 @@ import { defaultQuotesQuery } from 'app/routes/quotes/QuotesRoute';
 import { useParams } from 'react-router-dom-v5-compat';
 import { fetchEmojis } from 'app/actions/EmojiActions';
 import { fetchAll, fetchQuote } from 'app/actions/QuoteActions';
-import { LoginPage } from 'app/components/LoginForm';
 import { selectIsLoggedIn } from 'app/reducers/auth';
 import { selectQuoteById, selectQuotes } from 'app/reducers/quotes';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import useQuery from 'app/utils/useQuery';
 import { navigation } from '../utils';
 import QuoteList from './QuoteList';
@@ -90,10 +90,6 @@ const QuotePage = () => {
     dispatch(fetchEmojis());
   }, [quoteId, query, dispatch]);
 
-  if (!loggedIn) {
-    return <LoginPage />;
-  }
-
   return (
     <div className={cx(styles.root, styles.quoteContainer)}>
       <Helmet title="Overhørt" />
@@ -142,4 +138,4 @@ const QuotePage = () => {
   );
 };
 
-export default QuotePage;
+export default guardLogin(QuotePage);

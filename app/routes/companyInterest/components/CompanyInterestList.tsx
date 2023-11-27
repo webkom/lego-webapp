@@ -10,14 +10,13 @@ import {
 } from 'app/actions/CompanyInterestActions';
 import { Content } from 'app/components/Content';
 import SelectInput from 'app/components/Form/SelectInput';
-import { LoginPage } from 'app/components/LoginForm';
 import Table from 'app/components/Table';
 import Tooltip from 'app/components/Tooltip';
-import { selectIsLoggedIn } from 'app/reducers/auth';
 import { selectCompanyInterestList } from 'app/reducers/companyInterest';
 import { selectCompanySemestersForInterestForm } from 'app/reducers/companySemesters';
 import { ListNavigation } from 'app/routes/bdb/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import { getCsvUrl, semesterToText, EVENT_TYPE_OPTIONS } from '../utils';
 import styles from './CompanyInterest.css';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
@@ -122,11 +121,6 @@ const CompanyInterestList = () => {
     dispatch(fetchAll());
     dispatch(fetchSemesters());
   }, [dispatch]);
-
-  const loggedIn = useAppSelector((state) => selectIsLoggedIn(state));
-  if (!loggedIn) {
-    return <LoginPage />;
-  }
 
   const exportInterestList = async (event?: string) => {
     const blob = await dispatch(
@@ -310,4 +304,4 @@ const CompanyInterestList = () => {
   );
 };
 
-export default CompanyInterestList;
+export default guardLogin(CompanyInterestList);

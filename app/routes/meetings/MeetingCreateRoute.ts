@@ -6,10 +6,9 @@ import {
   createMeeting,
   inviteUsersAndGroups,
 } from 'app/actions/MeetingActions';
-import { LoginPage } from 'app/components/LoginForm';
 import config from 'app/config';
 import { EDITOR_EMPTY } from 'app/utils/constants';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import MeetingEditor from './components/MeetingEditor';
 
 const time = (hours: number, minutes?: number) =>
@@ -40,6 +39,6 @@ const mapDispatchToProps = {
   push,
 };
 export default compose(
-  replaceUnlessLoggedIn(LoginPage),
+  guardLogin,
   connect(mapStateToProps, mapDispatchToProps)
 )(MeetingEditor);

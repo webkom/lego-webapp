@@ -1,8 +1,7 @@
 import { Content } from 'app/components/Content';
-import { LoginPage } from 'app/components/LoginForm';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { canSeeAllergies } from 'app/routes/events/components/EventAdministrate/Allergies';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import type { ID } from 'app/store/models';
 import type { AdministrateEvent } from 'app/store/models/Event';
 
@@ -52,4 +51,4 @@ const EventAdministrateIndex = (props: Props) => {
   );
 };
 
-export default replaceUnlessLoggedIn(LoginPage)(EventAdministrateIndex);
+export default guardLogin(EventAdministrateIndex);

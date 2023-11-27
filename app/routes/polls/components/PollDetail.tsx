@@ -4,16 +4,14 @@ import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom-v5-compat';
 import { fetchPoll } from 'app/actions/PollActions';
 import { Content } from 'app/components/Content';
-import { LoginPage } from 'app/components/LoginForm';
 import NavigationTab from 'app/components/NavigationTab';
 import Poll from 'app/components/Poll';
-import { selectIsLoggedIn } from 'app/reducers/auth';
 import { selectPollById } from 'app/reducers/polls';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import PollEditor from './PollEditor';
 
 const PollDetail = () => {
-  const loggedIn = useAppSelector(selectIsLoggedIn);
   const [editing, setEditing] = useState(false);
 
   const toggleEdit = () => {
@@ -31,10 +29,6 @@ const PollDetail = () => {
   const poll = useAppSelector((state) => selectPollById(state, pollsId));
   const fetching = useAppSelector((state) => state.polls.fetching);
   const actionGrant = poll?.actionGrant ?? [];
-
-  if (!loggedIn) {
-    return <LoginPage />;
-  }
 
   if (!poll) {
     return (
@@ -79,4 +73,4 @@ const PollDetail = () => {
   );
 };
 
-export default PollDetail;
+export default guardLogin(PollDetail);

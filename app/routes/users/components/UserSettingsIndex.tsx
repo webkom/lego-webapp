@@ -1,12 +1,10 @@
 import { omit } from 'lodash';
 import { cloneElement } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { compose } from 'redux';
 import { Content } from 'app/components/Content';
-import { LoginPage } from 'app/components/LoginForm';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { useIsCurrentUser } from 'app/routes/users/utils';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import type { CurrentUser } from 'app/store/models/User';
 import type { ReactElement } from 'react';
 import type { RouteChildrenProps } from 'react-router';
@@ -57,4 +55,4 @@ const UserSettingsIndex = (props: Props) => {
   );
 };
 
-export default compose(replaceUnlessLoggedIn(LoginPage))(UserSettingsIndex);
+export default guardLogin(UserSettingsIndex);
