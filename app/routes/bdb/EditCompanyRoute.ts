@@ -6,9 +6,8 @@ import {
   deleteCompany,
 } from 'app/actions/CompanyActions';
 import { uploadFile } from 'app/actions/FileActions';
-import { LoginPage } from 'app/components/LoginForm';
 import { selectCompanyById } from 'app/reducers/companies';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import CompanyEditor from './components/CompanyEditor';
 
@@ -48,7 +47,7 @@ const mapDispatchToProps = {
   deleteCompany,
 };
 export default compose(
-  replaceUnlessLoggedIn(LoginPage),
+  guardLogin,
   withPreparedDispatch(
     'fetchEditCompany',
     (props, dispatch) => dispatch(fetchAdmin(props.match.params.companyId)),

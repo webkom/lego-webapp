@@ -4,24 +4,22 @@ import { Helmet } from 'react-helmet-async';
 import { fetchPersonalFeed } from 'app/actions/FeedActions';
 import { Content } from 'app/components/Content';
 import Feed from 'app/components/Feed';
-import { LoginPage } from 'app/components/LoginForm';
 import {
   selectFeedActivitesByFeedId,
   selectFeedById,
 } from 'app/reducers/feeds';
-import { useUserContext } from 'app/routes/app/AppRoute';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 
 const TimelinePage = () => {
-  const { loggedIn } = useUserContext();
   const dispatch = useAppDispatch();
 
   usePreparedEffect(
     'fetchTimeline',
     () => {
-      loggedIn && dispatch(fetchPersonalFeed());
+      dispatch(fetchPersonalFeed());
     },
-    [loggedIn]
+    []
   );
 
   const feed = useAppSelector((state) =>
@@ -36,10 +34,6 @@ const TimelinePage = () => {
     })
   );
 
-  if (!loggedIn) {
-    return <LoginPage />;
-  }
-
   return (
     <Content>
       <Helmet title="Tidslinje" />
@@ -50,4 +44,4 @@ const TimelinePage = () => {
   );
 };
 
-export default TimelinePage;
+export default guardLogin(TimelinePage);

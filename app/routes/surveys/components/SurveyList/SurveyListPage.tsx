@@ -5,13 +5,12 @@ import {
   fetchTemplates,
 } from 'app/actions/SurveyActions';
 import { Content } from 'app/components/Content';
-import { LoginPage } from 'app/components/LoginForm';
 import Paginator from 'app/components/Paginator';
-import { selectIsLoggedIn } from 'app/reducers/auth';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { selectSurveys, selectSurveyTemplates } from 'app/reducers/surveys';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EntityType } from 'app/store/models/entities';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import { ListNavigation } from '../../utils';
 import SurveyList from './SurveyList';
 
@@ -19,16 +18,15 @@ type Props = {
   templates?: boolean;
 };
 const SurveyListPage = ({ templates }: Props) => {
-  const loggedIn = useAppSelector(selectIsLoggedIn);
   const dispatch = useAppDispatch();
   const fetchAll = templates ? fetchTemplates : fetchSurveys;
 
   usePreparedEffect(
     'fetchSurveys',
     () => {
-      loggedIn && dispatch(fetchAll());
+      dispatch(fetchAll());
     },
-    [loggedIn, templates]
+    [templates]
   );
 
   const surveys = useAppSelector((state) =>
@@ -45,10 +43,6 @@ const SurveyListPage = ({ templates }: Props) => {
       query: {},
     })
   );
-
-  if (!loggedIn) {
-    return <LoginPage />;
-  }
 
   return (
     <Content>
@@ -72,4 +66,4 @@ const SurveyListPage = ({ templates }: Props) => {
   );
 };
 
-export default SurveyListPage;
+export default guardLogin(SurveyListPage);
