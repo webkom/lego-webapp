@@ -2,8 +2,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { addCompany } from 'app/actions/CompanyActions';
 import { uploadFile } from 'app/actions/FileActions';
-import { LoginPage } from 'app/components/LoginForm';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import CompanyEditor from './components/CompanyEditor';
 
 const mapStateToProps = () => {
@@ -28,6 +27,6 @@ const mapDispatchToProps = {
   uploadFile,
 };
 export default compose(
-  replaceUnlessLoggedIn(LoginPage),
+  guardLogin,
   connect(mapStateToProps, mapDispatchToProps)
 )(CompanyEditor);

@@ -7,11 +7,10 @@ import {
   inviteUsersAndGroups,
   deleteMeeting,
 } from 'app/actions/MeetingActions';
-import { LoginPage } from 'app/components/LoginForm';
 import { selectMeetingInvitationsForMeeting } from 'app/reducers/meetingInvitations';
 import { selectMeetingById } from 'app/reducers/meetings';
 import { selectUserById } from 'app/reducers/users';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import MeetingEditor from './components/MeetingEditor';
 import type { UserContextType } from 'app/routes/app/AppRoute';
@@ -70,7 +69,7 @@ const mapDispatchToProps = {
   push,
 };
 export default compose(
-  replaceUnlessLoggedIn(LoginPage),
+  guardLogin,
   withPreparedDispatch(
     'fetchMeetingEdit',
     (props: RouteChildrenProps<Params>, dispatch) =>

@@ -34,23 +34,18 @@ import {
   objectPermissionsToInitialValues,
 } from 'app/components/Form/ObjectPermissions';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
-import { LoginPage } from 'app/components/LoginForm';
 import NavigationTab from 'app/components/NavigationTab';
 import { selectArticleById } from 'app/reducers/articles';
 import { selectUsersByIds } from 'app/reducers/users';
+import { useUserContext } from 'app/routes/app/AppRoute';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import { validYoutubeUrl } from 'app/utils/validation';
 import type { EditingEvent } from 'app/routes/events/utils';
-import type { CurrentUser } from 'app/store/models/User';
 
 type ValidationError<T> = Partial<{
   [key in keyof T]: string | Record<string, string>[];
 }>;
-
-type Props = {
-  currentUser: CurrentUser;
-  loggedIn: boolean;
-};
 
 const validate = (data) => {
   const errors: ValidationError<EditingEvent> = {};
@@ -68,7 +63,8 @@ const validate = (data) => {
   return errors;
 };
 
-const ArticleEditor = ({ currentUser, loggedIn }: Props) => {
+const ArticleEditor = () => {
+  const { currentUser } = useUserContext();
   const { articleId } = useParams<{ articleId: string }>();
   const isNew = articleId === undefined;
   const article = useAppSelector((state) =>
@@ -105,10 +101,6 @@ const ArticleEditor = ({ currentUser, loggedIn }: Props) => {
       value: tag,
     })),
   };
-
-  if (!loggedIn) {
-    return <LoginPage />;
-  }
 
   if (!isNew && (!article || !article.content)) {
     return <LoadingIndicator loading />;
@@ -273,4 +265,4 @@ const ArticleEditor = ({ currentUser, loggedIn }: Props) => {
   );
 };
 
-export default ArticleEditor;
+export default guardLogin(ArticleEditor);

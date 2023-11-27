@@ -4,12 +4,11 @@ import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom-v5-compat';
 import { fetchGroup } from 'app/actions/GroupActions';
 import { Content } from 'app/components/Content';
-import { LoginPage } from 'app/components/LoginForm';
 import NavigationTab from 'app/components/NavigationTab';
-import { selectIsLoggedIn } from 'app/reducers/auth';
 import { selectGroup } from 'app/reducers/groups';
 import GroupForm from 'app/routes/admin/groups/components/GroupForm';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 
 const InterestGroupEdit = () => {
   const { groupId } = useParams<{ groupId: string }>();
@@ -17,7 +16,6 @@ const InterestGroupEdit = () => {
     selectGroup(state, { groupId })
   );
   const editing = groupId !== undefined;
-  const isLoggedIn = useAppSelector(selectIsLoggedIn);
 
   const dispatch = useAppDispatch();
 
@@ -28,10 +26,6 @@ const InterestGroupEdit = () => {
     },
     [groupId]
   );
-
-  if (!isLoggedIn) {
-    return <LoginPage />;
-  }
 
   if (!interestGroup || !interestGroup.text) {
     return <LoadingIndicator loading />;
@@ -56,4 +50,4 @@ const InterestGroupEdit = () => {
   );
 };
 
-export default InterestGroupEdit;
+export default guardLogin(InterestGroupEdit);

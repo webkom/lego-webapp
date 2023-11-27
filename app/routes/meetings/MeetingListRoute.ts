@@ -2,11 +2,10 @@ import moment from 'moment-timezone';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { fetchAll } from 'app/actions/MeetingActions';
-import { LoginPage } from 'app/components/LoginForm';
 import { selectGroupedMeetings } from 'app/reducers/meetings';
 import { selectPagination } from 'app/reducers/selectors';
 import createQueryString from 'app/utils/createQueryString';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import MeetingList from './components/MeetingList';
 
@@ -64,7 +63,7 @@ const mapDispatchToProps = {
     }),
 };
 export default compose(
-  replaceUnlessLoggedIn(LoginPage),
+  guardLogin,
   withPreparedDispatch('fetchMeetingList', (props, dispatch) =>
     dispatch(fetchData())
   ),

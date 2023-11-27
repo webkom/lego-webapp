@@ -1,20 +1,22 @@
+import { LoginRequiredPage } from 'app/components/LoginForm';
+import { useUserContext } from 'app/routes/app/AppRoute';
 import type { ComponentType } from 'react';
 
-type LoginProps = {
-  loggedIn: boolean;
-};
-
-export default function replaceUnlessLoggedIn<Props extends LoginProps>(
-  ReplacementComponent: ComponentType<Props>
-): (ActualComponent: ComponentType<Props>) => ComponentType<Props> {
-  return (ActualComponent) => {
-    const ReplaceUnlessLoggedIn = (props: Props) => {
-      if (props.loggedIn) {
-        return <ActualComponent {...props} />;
+const replaceUnlessLoggedIn =
+  <RP extends object>(
+    ReplacementComponent: ComponentType<RP> = LoginRequiredPage
+  ) =>
+  <P extends object>(Component: ComponentType<P>) => {
+    const LoginGuard = (props: P & RP) => {
+      const { loggedIn } = useUserContext();
+      if (loggedIn) {
+        return <Component {...props} />;
       }
       return <ReplacementComponent {...props} />;
     };
 
-    return ReplaceUnlessLoggedIn;
+    return LoginGuard;
   };
-}
+
+export default replaceUnlessLoggedIn;
+export const guardLogin = replaceUnlessLoggedIn(LoginRequiredPage);

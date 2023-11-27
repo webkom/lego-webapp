@@ -9,7 +9,6 @@ import {
   setSaveForUse,
   uploadFile,
 } from 'app/actions/FileActions';
-import { LoginPage } from 'app/components/LoginForm';
 import {
   selectEventById,
   selectEventBySlug,
@@ -19,7 +18,7 @@ import {
 } from 'app/reducers/events';
 import { selectImageGalleryEntries } from 'app/reducers/imageGallery';
 import loadingIndicator from 'app/utils/loadingIndicator';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import time from 'app/utils/time';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import EventEditor from './components/EventEditor';
@@ -164,7 +163,7 @@ const mapDispatchToProps = {
   push,
 };
 export default compose(
-  replaceUnlessLoggedIn(LoginPage),
+  guardLogin,
   withPreparedDispatch('fetchEventEdit', (props, dispatch) =>
     Promise.all([
       dispatch(fetchEvent(props.match.params.eventIdOrSlug)),

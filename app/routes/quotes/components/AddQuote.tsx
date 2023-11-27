@@ -7,11 +7,10 @@ import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import { withSubmissionErrorFinalForm } from 'app/components/Form/utils';
-import { LoginPage } from 'app/components/LoginForm';
 import RandomQuote from 'app/components/RandomQuote/RandomQuote';
-import { selectIsLoggedIn } from 'app/reducers/auth';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { spyValues } from 'app/utils/formSpyUtils';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import { createValidator, required } from 'app/utils/validation';
 import { navigation } from '../utils';
 import styles from './Quotes.css';
@@ -33,7 +32,6 @@ const validate = createValidator({
 });
 
 const AddQuote = () => {
-  const loggedIn = useAppSelector(selectIsLoggedIn);
   const dispatch = useAppDispatch();
 
   const actionGrant = useAppSelector((state) => state.quotes.actionGrant);
@@ -55,10 +53,6 @@ const AddQuote = () => {
       text: quote.text,
       source: removeUnnecessaryDash(quote.source),
     });
-
-  if (!loggedIn) {
-    return <LoginPage />;
-  }
 
   return (
     <div className={styles.root}>
@@ -126,4 +120,4 @@ const AddQuote = () => {
   );
 };
 
-export default AddQuote;
+export default guardLogin(AddQuote);

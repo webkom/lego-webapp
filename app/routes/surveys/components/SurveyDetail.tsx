@@ -2,12 +2,11 @@ import { Button, LoadingIndicator } from '@webkom/lego-bricks';
 import { Helmet } from 'react-helmet-async';
 import { Link, Redirect, useParams } from 'react-router-dom';
 import { Content, ContentSection, ContentMain } from 'app/components/Content';
-import { LoginPage } from 'app/components/LoginForm';
 import Time from 'app/components/Time';
-import { selectIsLoggedIn } from 'app/reducers/auth';
 import { useFetchedSurvey } from 'app/reducers/surveys';
 import { eventTypeToString } from 'app/routes/events/utils';
 import { useAppSelector } from 'app/store/hooks';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import { DetailNavigation } from '../utils';
 import AdminSideBar from './AdminSideBar';
 import StaticSubmission from './StaticSubmission';
@@ -18,11 +17,6 @@ const SurveyDetailPage = () => {
   const survey = useFetchedSurvey('surveyDetail', surveyId);
   const fetching = useAppSelector((state) => state.surveys.fetching);
   const actionGrant = survey?.actionGrant;
-  const isLoggedIn = useAppSelector(selectIsLoggedIn);
-
-  if (!isLoggedIn) {
-    return <LoginPage />;
-  }
 
   if (fetching || !actionGrant) {
     return <LoadingIndicator loading />;
@@ -85,4 +79,4 @@ const SurveyDetailPage = () => {
   );
 };
 
-export default SurveyDetailPage;
+export default guardLogin(SurveyDetailPage);

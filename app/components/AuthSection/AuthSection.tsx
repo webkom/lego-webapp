@@ -6,7 +6,7 @@ import {
   RegisterForm,
 } from 'app/components/LoginForm';
 import styles from './AuthSection.css';
-import type { ReactNode, MouseEvent } from 'react';
+import type { MouseEvent, ComponentType } from 'react';
 
 enum AuthMode {
   LOGIN,
@@ -20,17 +20,17 @@ const titles: { [M in AuthMode]: string } = {
   [AuthMode.FORGOT_PASSWORD]: 'Glemt passord',
 };
 
-const forms: { [M in AuthMode]: ReactNode } = {
-  [AuthMode.LOGIN]: <LoginForm />,
-  [AuthMode.REGISTER]: <RegisterForm />,
-  [AuthMode.FORGOT_PASSWORD]: <ForgotPasswordForm />,
+const forms: { [M in AuthMode]: ComponentType } = {
+  [AuthMode.LOGIN]: LoginForm,
+  [AuthMode.REGISTER]: RegisterForm,
+  [AuthMode.FORGOT_PASSWORD]: ForgotPasswordForm,
 };
 
 const AuthSection = () => {
   const [authMode, setAuthMode] = useState<AuthMode>(AuthMode.LOGIN);
 
   const title = titles[authMode];
-  const form = forms[authMode];
+  const Form = forms[authMode];
 
   const createModeSelector = (mode: AuthMode) => (e: MouseEvent) => {
     setAuthMode(mode);
@@ -74,7 +74,7 @@ const AuthSection = () => {
           </button>
         )}
       </Flex>
-      {form}
+      <Form />
     </>
   );
 };

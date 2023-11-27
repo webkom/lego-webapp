@@ -2,7 +2,6 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { push } from 'redux-first-history';
 import { fetchMeeting, setInvitationStatus } from 'app/actions/MeetingActions';
-import { LoginPage } from 'app/components/LoginForm';
 import {
   selectMeetingInvitationsForMeeting,
   selectMeetingInvitation,
@@ -12,7 +11,7 @@ import {
   selectCommentsForMeeting,
 } from 'app/reducers/meetings';
 import { selectUserById } from 'app/reducers/users';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import MeetingDetail from './components/MeetingDetail';
 import type { UserContextType } from 'app/routes/app/AppRoute';
 import type { RootState } from 'app/store/createRootReducer';
@@ -72,6 +71,6 @@ const mapStateToProps = (
 };
 
 export default compose(
-  replaceUnlessLoggedIn(LoginPage),
+  guardLogin,
   connect(mapStateToProps, mapDispatchToProps)
 )(MeetingDetail);
