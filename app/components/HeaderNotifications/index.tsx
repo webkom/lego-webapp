@@ -1,19 +1,28 @@
 import { Icon, LoadingIndicator } from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { fetchNotificationFeed } from 'app/actions/FeedActions';
+import {
+  fetchNotificationData,
+  markAllNotifications,
+} from 'app/actions/NotificationsFeedActions';
 import ErrorBoundary from 'app/components/ErrorBoundary';
 import { toSpan } from 'app/components/Feed/context';
 import Time from 'app/components/Time';
+import { selectFeedActivitesByFeedId } from 'app/reducers/feeds';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import Dropdown from '../Dropdown';
 import { activityRenderers } from '../Feed';
 import styles from './HeaderNotifications.css';
-import type {
-  AggregatedActivity,
-  NotificationData,
-} from 'app/components/Feed/types';
+import type FeedActivity from 'app/store/models/FeedActivity';
 
-const NotificationElement = ({ notification }) => {
+const NotificationElement = ({
+  notification,
+}: {
+  notification: FeedActivity;
+}) => {
   const renders = activityRenderers[notification.verb];
 
   if (renders) {
@@ -44,15 +53,16 @@ const NotificationElement = ({ notification }) => {
   return null;
 };
 
-type HeaderNotificationsContentProps = {
-  notifications: AggregatedActivity[];
-  fetchingNotifications: boolean;
-};
+const HeaderNotificationsContent = () => {
+  const notifications = useAppSelector((state) =>
+    selectFeedActivitesByFeedId(state, {
+      feedId: 'notifications',
+    })
+  );
+  const fetchingNotifications = useAppSelector(
+    (state) => state.feedActivities.fetching
+  );
 
-const HeaderNotificationsContent = ({
-  notifications,
-  fetchingNotifications,
-}: HeaderNotificationsContentProps) => {
   if (fetchingNotifications && notifications.length === 0) {
     return <LoadingIndicator loading />;
   }
@@ -74,29 +84,20 @@ const HeaderNotificationsContent = ({
   );
 };
 
-type Props = {
-  notificationsData: NotificationData;
-  fetchNotifications: () => void;
-  fetchingNotifications: boolean;
-  notifications: AggregatedActivity[];
-  markAllNotifications: () => Promise<void>;
-  fetchNotificationData: () => Promise<void>;
-};
-
-const NotificationsDropdown = ({
-  notificationsData,
-  fetchNotifications,
-  fetchingNotifications,
-  notifications,
-  markAllNotifications,
-  fetchNotificationData,
-}: Props) => {
+const NotificationsDropdown = () => {
+  const dispatch = useAppDispatch();
+  const notificationsData = useAppSelector((state) => state.notificationsFeed);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
 
-  useEffect(() => {
-    fetchNotifications();
-    fetchNotificationData();
-  }, [fetchNotificationData, fetchNotifications]);
+  usePreparedEffect(
+    'fetchNotificationDropdownData',
+    () =>
+      Promise.all([
+        dispatch(fetchNotificationFeed()),
+        dispatch(fetchNotificationData()),
+      ]),
+    []
+  );
 
   const { unreadCount } = notificationsData;
   return (
@@ -105,25 +106,21 @@ const NotificationsDropdown = ({
       toggle={() => {
         setNotificationsOpen(!notificationsOpen);
         if (!notificationsOpen) {
-          fetchNotifications();
+          dispatch(fetchNotificationFeed());
         } else {
-          markAllNotifications();
+          dispatch(markAllNotifications());
         }
       }}
       closeOnContentClick
       triggerComponent={
         <Icon.Badge
           name="notifications"
-          className={styles.notificationBell}
           badgeCount={notificationsOpen ? 0 : unreadCount}
         />
       }
       contentClassName={styles.notifications}
     >
-      <HeaderNotificationsContent
-        notifications={notifications}
-        fetchingNotifications={fetchingNotifications}
-      />
+      <HeaderNotificationsContent />
     </Dropdown>
   );
 };

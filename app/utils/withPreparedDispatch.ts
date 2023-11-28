@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import type { PreparedEffectOptions } from '@webkom/react-prepare';
 import type { AppDispatch } from 'app/store/createStore';
-import type { DependencyList } from 'react';
+import type { ComponentType, DependencyList } from 'react';
 
 const mapDispatch = (dispatch: AppDispatch) => ({ dispatch });
 /**
@@ -21,9 +21,11 @@ const withPreparedDispatch = <P>(
   prepareDispatchFn: (props: P, dispatch: AppDispatch) => Promise<unknown>,
   depsFn?: (props: P) => DependencyList,
   options?: PreparedEffectOptions
-) =>
+): (<CP extends P>(
+  Component: ComponentType<CP & { dispatch: AppDispatch }>
+) => ComponentType<CP>) =>
   compose(
-    connect(undefined, mapDispatch),
+    connect<P>(undefined, mapDispatch),
     withPreparedEffect<P & { dispatch: AppDispatch }>(
       key,
       (props) => prepareDispatchFn(props, props.dispatch),

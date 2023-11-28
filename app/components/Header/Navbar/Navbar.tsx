@@ -1,15 +1,13 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import Dropdown from 'app/components/Dropdown';
+import { selectIsLoggedIn } from 'app/reducers/auth';
+import { useAppSelector } from 'app/store/hooks';
 import AboutDropdown from './AboutDropdown';
 import CareerDropdown from './CareerDropdown';
 import EventsDropdown from './EventsDropwdown';
 import styles from './Navbar.css';
 import type { ReactElement } from 'react';
-
-type Props = {
-  loggedIn: boolean;
-};
 
 type NavbarLink = {
   title: string;
@@ -18,7 +16,8 @@ type NavbarLink = {
   dropdown?: ReactElement;
 };
 
-const Navbar = ({ loggedIn }: Props) => {
+const Navbar = () => {
+  const loggedIn = useAppSelector(selectIsLoggedIn);
   const [visibleDropdown, setVisibleDropdown] = useState(false);
   const [hoverIndex, setHoverIndex] = useState(0);
 

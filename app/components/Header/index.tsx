@@ -1,11 +1,19 @@
 import { Icon, LoadingIndicator } from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
+import moment from 'moment-timezone';
 import { useEffect, useState } from 'react';
 import { Modal } from 'react-overlays';
 import { Link, NavLink, useHistory } from 'react-router-dom';
+import { fetchAll as fetchMeetings } from 'app/actions/MeetingActions';
+import { toggleSearch } from 'app/actions/SearchActions';
+import { logoutWithRedirect } from 'app/actions/UserActions';
 import logoLightMode from 'app/assets/logo-dark.png';
 import logoDarkMode from 'app/assets/logo.png';
 import AuthSection from 'app/components/AuthSection/AuthSection';
+import { selectCurrentUser, selectIsLoggedIn } from 'app/reducers/auth';
+import { selectUpcomingMeetingId } from 'app/reducers/meetings';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import utilStyles from 'app/styles/utilities.css';
 import { applySelectedTheme, getOSTheme, getTheme } from 'app/utils/themeUtils';
 import Dropdown from '../Dropdown';
@@ -16,44 +24,14 @@ import FancyNodesCanvas from './FancyNodesCanvas';
 import styles from './Header.css';
 import Navbar from './Navbar/Navbar';
 import ToggleTheme from './ToggleTheme';
-import type {
-  AggregatedActivity,
-  NotificationData,
-} from 'app/components/Feed/types';
-import type { ID } from 'app/store/models';
-import type { CurrentUser } from 'app/store/models/User';
-
-type Props = {
-  searchOpen: boolean;
-  toggleSearch: () => any;
-  currentUser: CurrentUser;
-  loggedIn: boolean;
-  login: () => Promise<any>;
-  logout: () => void;
-  notificationsData: NotificationData;
-  fetchNotifications: () => void;
-  fetchingNotifications: boolean;
-  notifications: AggregatedActivity[];
-  markAllNotifications: () => Promise<void>;
-  fetchNotificationData: () => Promise<void>;
-  upcomingMeeting: string;
-  loading: boolean;
-  updateUserTheme: (username: string, theme: string) => Promise<void>;
-};
 
 type AccountDropdownItemsProps = {
-  logout: () => void;
   onClose: () => void;
-  username: string;
-  updateUserTheme: (username: string, theme: string) => Promise<void>;
 };
+const AccountDropdownItems = ({ onClose }: AccountDropdownItemsProps) => {
+  const dispatch = useAppDispatch();
+  const username = useAppSelector(selectCurrentUser)?.username;
 
-function AccountDropdownItems({
-  logout,
-  onClose,
-  username,
-  updateUserTheme,
-}: AccountDropdownItemsProps) {
   return (
     <Dropdown.List>
       <Dropdown.ListItem>
@@ -77,13 +55,7 @@ function AccountDropdownItems({
       </Dropdown.ListItem>
       <Dropdown.Divider />
       <Dropdown.ListItem>
-        <ToggleTheme
-          loggedIn={true}
-          updateUserTheme={updateUserTheme}
-          username={username}
-          className={styles.themeChange}
-          isButton={false}
-        >
+        <ToggleTheme className={styles.themeChange} isButton={false}>
           Endre tema
         </ToggleTheme>
       </Dropdown.ListItem>
@@ -93,7 +65,7 @@ function AccountDropdownItems({
       <Dropdown.ListItem danger>
         <button
           onClick={() => {
-            logout();
+            dispatch(logoutWithRedirect());
             onClose();
           }}
         >
@@ -103,15 +75,31 @@ function AccountDropdownItems({
       </Dropdown.ListItem>
     </Dropdown.List>
   );
-}
+};
 
-const MeetingButton = ({ upcomingMeeting }: { upcomingMeeting: ID }) => {
+const UpcomingMeetingButton = () => {
+  const dispatch = useAppDispatch();
+  const upcomingMeetingId = useAppSelector(selectUpcomingMeetingId);
   const history = useHistory();
+
+  usePreparedEffect(
+    'fetchUpcomingMeeting',
+    () =>
+      dispatch(
+        fetchMeetings({
+          dateAfter: moment().format('YYYY-MM-DD'),
+        })
+      ),
+    []
+  );
+
+  if (!upcomingMeetingId) return;
+
   return (
     <button
       type="button"
       onClick={() => {
-        history.push(`/meetings/${upcomingMeeting}`);
+        history.push(`/meetings/${upcomingMeetingId}`);
       }}
     >
       <Icon name="people" />
@@ -119,8 +107,72 @@ const MeetingButton = ({ upcomingMeeting }: { upcomingMeeting: ID }) => {
   );
 };
 
-const Header = ({ loggedIn, currentUser, loading, ...props }: Props) => {
+const HeaderLogo = () => {
+  const loading = useAppSelector((state) => state.frontpage.fetching);
+  return (
+    <Link to="/">
+      <LoadingIndicator loading={loading}>
+        <div className={styles.logo}>
+          <Image src={logoLightMode} className={styles.logoLightMode} alt="" />
+          <Image src={logoDarkMode} className={styles.logoDarkMode} alt="" />
+        </div>
+      </LoadingIndicator>
+    </Link>
+  );
+};
+
+const AccountDropdown = () => {
+  const loggedIn = useAppSelector(selectIsLoggedIn);
+  const currentUser = useAppSelector(selectCurrentUser);
   const [accountOpen, setAccountOpen] = useState(false);
+
+  return loggedIn ? (
+    <Dropdown
+      show={accountOpen}
+      toggle={() => setAccountOpen(!accountOpen)}
+      triggerComponent={
+        <ProfilePicture
+          size={24}
+          user={currentUser}
+          style={{
+            verticalAlign: 'middle',
+          }}
+        />
+      }
+    >
+      <AccountDropdownItems onClose={() => setAccountOpen(false)} />
+    </Dropdown>
+  ) : (
+    <Dropdown
+      show={accountOpen}
+      toggle={() => setAccountOpen(!accountOpen)}
+      contentClassName={styles.dropdown}
+      triggerComponent={<Icon name="person-circle-outline" />}
+    >
+      <AuthSection />
+    </Dropdown>
+  );
+};
+
+const SearchModal = () => {
+  const dispatch = useAppDispatch();
+  const searchOpen = useAppSelector((state) => state.search.open);
+  return (
+    <Modal
+      show={searchOpen}
+      onHide={() => dispatch(toggleSearch())}
+      renderBackdrop={(props) => <div {...props} className={styles.backdrop} />}
+      className={styles.modal}
+    >
+      <Search />
+    </Modal>
+  );
+};
+
+const Header = () => {
+  const dispatch = useAppDispatch();
+  const loggedIn = useAppSelector(selectIsLoggedIn);
+  const currentUser = useAppSelector(selectCurrentUser);
 
   useEffect(() => {
     if (
@@ -138,104 +190,27 @@ const Header = ({ loggedIn, currentUser, loading, ...props }: Props) => {
     <header>
       <FancyNodesCanvas height={300} />
       <div className={styles.content}>
-        <Link to="/">
-          <LoadingIndicator loading={loading}>
-            <div className={styles.logo}>
-              <Image
-                src={logoLightMode}
-                className={styles.logoLightMode}
-                alt=""
-              />
-              <Image
-                src={logoDarkMode}
-                className={styles.logoDarkMode}
-                alt=""
-              />
-            </div>
-          </LoadingIndicator>
-        </Link>
+        <HeaderLogo />
 
         <div className={styles.menu}>
-          <Navbar loggedIn={loggedIn} />
+          <Navbar />
           <div className={styles.buttonGroup}>
             <ToggleTheme
-              loggedIn={loggedIn}
-              updateUserTheme={props.updateUserTheme}
-              username={currentUser?.username}
               className={cx(loggedIn && utilStyles.hiddenOnMobile)}
             />
 
-            {loggedIn && (
-              <NotificationsDropdown
-                notificationsData={props.notificationsData}
-                fetchNotifications={props.fetchNotifications}
-                fetchingNotifications={props.fetchingNotifications}
-                notifications={props.notifications}
-                markAllNotifications={props.markAllNotifications}
-                fetchNotificationData={props.fetchNotificationData}
-              />
-            )}
+            {loggedIn && <NotificationsDropdown />}
+            {loggedIn && <UpcomingMeetingButton />}
 
-            {loggedIn && props.upcomingMeeting && (
-              <MeetingButton upcomingMeeting={props.upcomingMeeting} />
-            )}
+            <AccountDropdown />
 
-            {loggedIn && (
-              <Dropdown
-                show={accountOpen}
-                toggle={() => setAccountOpen(!accountOpen)}
-                triggerComponent={
-                  <ProfilePicture
-                    size={24}
-                    user={currentUser}
-                    style={{
-                      verticalAlign: 'middle',
-                    }}
-                  />
-                }
-              >
-                <AccountDropdownItems
-                  onClose={() => setAccountOpen(false)}
-                  username={currentUser.username}
-                  logout={props.logout}
-                  updateUserTheme={props.updateUserTheme}
-                />
-              </Dropdown>
-            )}
-
-            {!loggedIn && (
-              <Dropdown
-                show={accountOpen}
-                toggle={() => setAccountOpen(!accountOpen)}
-                closeOnContentClick
-                contentClassName={styles.dropdown}
-                triggerComponent={<Icon name="person-circle-outline" />}
-              >
-                <AuthSection />
-              </Dropdown>
-            )}
-
-            <button onClick={props.toggleSearch}>
+            <button onClick={() => dispatch(toggleSearch())}>
               <Icon name="menu" className={styles.searchIcon} />
             </button>
           </div>
         </div>
 
-        <Modal
-          show={props.searchOpen}
-          onHide={props.toggleSearch}
-          renderBackdrop={(props) => (
-            <div {...props} className={styles.backdrop} />
-          )}
-          className={styles.modal}
-        >
-          <Search
-            loggedIn={loggedIn}
-            onCloseSearch={props.toggleSearch}
-            updateUserTheme={props.updateUserTheme}
-            username={currentUser?.username}
-          />
-        </Modal>
+        <SearchModal />
       </div>
     </header>
   );

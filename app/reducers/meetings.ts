@@ -5,6 +5,8 @@ import createEntityReducer from 'app/utils/createEntityReducer';
 import joinReducers from 'app/utils/joinReducers';
 import { Meeting } from '../actions/ActionTypes';
 import { mutateReactions } from './reactions';
+import type { RootState } from 'app/store/createRootReducer';
+import type { ID } from 'app/store/models';
 import type { ListMeeting } from 'app/store/models/Meeting';
 import type { Moment } from 'moment-timezone';
 
@@ -149,4 +151,21 @@ export const selectGroupedMeetings = createSelector(
       .concat(semesterMeetingGroups)
       .filter((meetingGroup) => meetingGroup.meetings.length !== 0);
   }
+);
+
+export const selectUpcomingMeetings = createSelector(
+  (state: RootState) => state.meetings.byId,
+  (state: RootState) => state.meetings.items,
+  (meetingsById, meetingIds) =>
+    meetingIds
+      .map((id) => meetingsById[id])
+      .filter((meeting: any) => moment(meeting.endTime).isAfter(moment()))
+      .sort((meetingA: any, meetingB: any) =>
+        moment(meetingA.startTime).isAfter(moment(meetingB.startTime)) ? 1 : -1
+      ) as unknown as ListMeeting[]
+);
+
+export const selectUpcomingMeetingId = createSelector(
+  selectUpcomingMeetings,
+  (upcomingMeetings) => upcomingMeetings[0]?.id as ID | undefined
 );

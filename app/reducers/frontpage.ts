@@ -1,8 +1,9 @@
+import { createSlice } from '@reduxjs/toolkit';
 import { sortBy } from 'lodash';
 import moment from 'moment-timezone';
 import { createSelector } from 'reselect';
 import { Frontpage } from 'app/actions/ActionTypes';
-import { fetching } from 'app/utils/createEntityReducer';
+import buildFetchingReducer from 'app/utils/legoAdapter/buildFetchingReducer';
 import { selectArticlesWithAuthorDetails } from './articles';
 import { selectEvents } from './events';
 import type { Event } from 'app/models';
@@ -20,7 +21,18 @@ export const isArticle = <T extends UnknownArticle>(
   item: WithDocumentType<T | unknown>
 ): item is WithDocumentType<T> => item.documentType === 'article';
 
-export default fetching(Frontpage.FETCH);
+const frontpageSlice = createSlice({
+  name: 'frontpage',
+  initialState: {
+    fetching: false,
+  },
+  reducers: {},
+  extraReducers: (builder) => {
+    buildFetchingReducer(builder, [Frontpage.FETCH]);
+  },
+});
+export default frontpageSlice.reducer;
+
 export const selectFrontpage = createSelector(
   selectArticlesWithAuthorDetails,
   selectEvents,

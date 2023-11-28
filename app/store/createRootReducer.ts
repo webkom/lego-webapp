@@ -52,7 +52,7 @@ import toasts from 'app/reducers/toasts';
 import users from 'app/reducers/users';
 import joinReducers from 'app/utils/joinReducers';
 import type { RoutingState } from 'app/reducers/routing';
-import type { StrictReducer } from 'app/utils/joinReducers';
+import type { RouterState } from 'redux-first-history';
 
 const createRootReducer = () => {
   const { routerReducer } = createReduxHistoryContext({
@@ -60,7 +60,7 @@ const createRootReducer = () => {
   });
 
   return combineReducers({
-    router: joinReducers(routerReducer as StrictReducer<RoutingState>, routing),
+    router: joinReducers<RouterState & RoutingState>(routerReducer, routing),
     allowed,
     announcements,
     articles,

@@ -521,3 +521,15 @@ export function resetPassword({
     },
   });
 }
+
+export function updateUserTheme(username: string, theme: 'light' | 'dark') {
+  return updateUser(
+    {
+      username,
+      selectedTheme: theme,
+    },
+    {
+      noRedirect: true,
+    }
+  );
+}

@@ -12,20 +12,17 @@ type Props = {
   connectedHistory: History & { listenObject: boolean };
 };
 
-const Root = (props: Props) => {
-  const { store, connectedHistory, ...restProps } = props;
-  return (
-    <HelmetProvider>
-      <Provider store={store}>
-        <ThemeContextListener />
-        <ErrorBoundary openReportDialog>
-          <Router history={connectedHistory}>
-            <RouteConfig {...restProps} />
-          </Router>
-        </ErrorBoundary>
-      </Provider>
-    </HelmetProvider>
-  );
-};
+const Root = ({ store, connectedHistory }: Props) => (
+  <HelmetProvider>
+    <Provider store={store}>
+      <ThemeContextListener />
+      <ErrorBoundary openReportDialog>
+        <Router history={connectedHistory}>
+          <RouteConfig />
+        </Router>
+      </ErrorBoundary>
+    </Provider>
+  </HelmetProvider>
+);
 
 export default Root;
