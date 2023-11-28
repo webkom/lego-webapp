@@ -176,10 +176,12 @@ export function fetchAllMemberships(
 }
 export function fetchMemberships(
   groupId: number,
+  descendants = false,
   query: Record<string, any> = {}
 ): Thunk<any> {
   return fetchMembershipsPagination({
     groupId,
+    descendants,
     next: true,
     query,
   });
@@ -187,10 +189,12 @@ export function fetchMemberships(
 export function fetchMembershipsPagination({
   groupId,
   next,
+  descendants = false,
   query = {},
 }: {
   groupId: number;
   next: boolean;
+  descendants: boolean;
   query?: Record<string, string | number | boolean>;
 }): Thunk<any> {
   return (dispatch) => {
@@ -202,7 +206,7 @@ export function fetchMembershipsPagination({
         pagination: {
           fetchNext: next,
         },
-        query,
+        query: { ...query, descendants },
         meta: {
           groupId: groupId,
           errorMessage: 'Henting av medlemmene for gruppen feilet',
