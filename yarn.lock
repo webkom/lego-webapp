@@ -4627,10 +4627,10 @@
   resolved "https://registry.yarnpkg.com/@webkom/react-meter-bar/-/react-meter-bar-2.0.0.tgz#edfde3fbb2d93ded384bcd81acb56473a1994ea8"
   integrity sha512-eWyr1qcKIwmsMwm4oaUez7qUpEQl9u2r94k3myZS31eeSyJ0nxa+bDhc8lKFXXXzR6BWq+q9tDktvQAjJtggZQ==
 
-"@webkom/react-prepare@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@webkom/react-prepare/-/react-prepare-1.0.0.tgz#c5512b084012157e3506b677352d7622fa1e1381"
-  integrity sha512-s05Aks3g7ZSZlPt/k53SSrrcwOJXSXnDRzaJ7hxLSBLk9O+uHFusmY8BA3rQ8MQk/R/4wqhaYBZNUBjrzeCM9w==
+"@webkom/react-prepare@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@webkom/react-prepare/-/react-prepare-1.0.1.tgz#88bd1c4a0ea74e240e5eea4e59b34b565efe0d6f"
+  integrity sha512-bGszhBYYL5asNEtPBMm9Tbq0A/oDHv/QPA+6TvqPjJtrxvVJOP5qfJQcko24e0NVceGiITxWUcCuC3M/gyn8Pg==
 
 "@webpack-cli/configtest@^2.1.1":
   version "2.1.1"
