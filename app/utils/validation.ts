@@ -20,12 +20,16 @@ const YOUTUBE_URL_REGEX =
 
 export const required =
   (message = 'Feltet må fylles ut') =>
-  (value) => {
+  (value: unknown) => {
     if (Array.isArray(value)) {
-      const atLeastOneTrue = value.reduce((accumulator, currentValue) => {
-        return accumulator || currentValue.checked;
-      }, false);
-      return [!!atLeastOneTrue, message] as const;
+      if (value.length === 0) {
+        // List of values must have at least one value
+        return [false, message] as const;
+      } else if (value.some((v) => 'checked' in v)) {
+        // Checkbox array must have at least one checked
+        const atLeastOneTrue = value.some((v) => v.checked);
+        return [atLeastOneTrue, message] as const;
+      }
     }
     return [!!value, message] as const;
   };
