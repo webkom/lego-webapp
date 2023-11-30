@@ -61,7 +61,7 @@ export const setDatePickerDate = (name, date, isNextMonth = false) => {
   field(name).click();
 
   if (isNextMonth) {
-    cy.get('ion-icon[arrow-forward-outline]')
+    cy.get('ion-icon[name="arrow-forward-outline"]')
       .first()
       .should('not.be.disabled')
       .click();
