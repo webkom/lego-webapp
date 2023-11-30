@@ -4146,10 +4146,10 @@
   dependencies:
     redux "^4.0.0"
 
-"@types/redux-sentry-middleware@^0.2.5":
-  version "0.2.5"
-  resolved "https://registry.yarnpkg.com/@types/redux-sentry-middleware/-/redux-sentry-middleware-0.2.5.tgz#4606dc0aa824faef5c3fd7b2b95fb1519441e185"
-  integrity sha512-vOSwzfWbXfCXTuhcmGRa2bud32cPwSbEFb0+abycYC8si10i673urpFZwQmb/lhAUiKNPUIVwcVH5EKQZupN5w==
+"@types/redux-sentry-middleware@^0.2.8":
+  version "0.2.8"
+  resolved "https://registry.yarnpkg.com/@types/redux-sentry-middleware/-/redux-sentry-middleware-0.2.8.tgz#5b74ad00d1f778bfaf17a98283f183796e38ea1c"
+  integrity sha512-SAvwB+AdbfjbEXpOibXpIUNsF/YPRtL5QPoNjWCeqz570n5hOQkl3q99Dqc6Mj0+xyAqOQpxr4HK2Bu4/4wfnA==
   dependencies:
     "@sentry/browser" "^5.0.0 || ^6.0.0"
     redux "^4.0.0"
