@@ -2,9 +2,9 @@ import { push } from 'redux-first-history';
 import callAPI from 'app/actions/callAPI';
 import { groupSchema, membershipSchema } from 'app/reducers';
 import { Group, Membership } from './ActionTypes';
+import type { AppDispatch } from 'app/store/createStore';
 import type { ID } from 'app/store/models';
 import type MembershipType from 'app/store/models/Membership';
-import type { Thunk } from 'app/types';
 import type { RoleType } from 'app/utils/constants';
 
 export type AddMemberArgs = {
@@ -12,11 +12,7 @@ export type AddMemberArgs = {
   userId: ID;
   role: RoleType;
 };
-export function addMember({
-  groupId,
-  userId,
-  role,
-}: AddMemberArgs): Thunk<any> {
+export function addMember({ groupId, userId, role }: AddMemberArgs) {
   return callAPI({
     types: Membership.CREATE,
     endpoint: `/groups/${groupId}/memberships/`,
@@ -33,7 +29,7 @@ export function addMember({
     },
   });
 }
-export function removeMember(membership: MembershipType): Thunk<any> {
+export function removeMember(membership: MembershipType) {
   return callAPI({
     types: Membership.REMOVE,
     endpoint: `/groups/${membership.abakusGroup}/memberships/${membership.id}/`,
@@ -46,7 +42,7 @@ export function removeMember(membership: MembershipType): Thunk<any> {
     },
   });
 }
-export function fetchGroup(groupId: ID): Thunk<any> {
+export function fetchGroup(groupId: ID, { propagateError = true } = {}) {
   return callAPI({
     types: Group.FETCH,
     endpoint: `/groups/${groupId}/`,
@@ -54,10 +50,10 @@ export function fetchGroup(groupId: ID): Thunk<any> {
     meta: {
       errorMessage: 'Henting av gruppe feilet',
     },
-    propagateError: true,
+    propagateError,
   });
 }
-export function fetchAll(): Thunk<any> {
+export function fetchAll() {
   return callAPI({
     types: Group.FETCH,
     endpoint: '/groups/',
@@ -68,7 +64,7 @@ export function fetchAll(): Thunk<any> {
     propagateError: true,
   });
 }
-export function fetchAllWithType(type: string): Thunk<any> {
+export function fetchAllWithType(type: string) {
   return callAPI({
     types: Group.FETCH,
     endpoint: `/groups/?type=${type}`,
@@ -79,8 +75,8 @@ export function fetchAllWithType(type: string): Thunk<any> {
     propagateError: true,
   });
 }
-export function editGroup(group: Record<string, any>): Thunk<any> {
-  return (dispatch) =>
+export function editGroup(group: Record<string, any>) {
+  return (dispatch: AppDispatch) =>
     dispatch(
       callAPI({
         types: Group.UPDATE,
@@ -110,8 +106,8 @@ export function joinGroup(
   groupId: number,
   user: Record<string, any>,
   role = 'member'
-): Thunk<any> {
-  return (dispatch) =>
+) {
+  return (dispatch: AppDispatch) =>
     dispatch(
       callAPI({
         types: Membership.JOIN_GROUP,
@@ -134,11 +130,8 @@ export function joinGroup(
       return dispatch(fetchMemberships(groupId));
     });
 }
-export function leaveGroup(
-  membership: Record<string, any>,
-  groupId: number
-): Thunk<any> {
-  return (dispatch) => {
+export function leaveGroup(membership: Record<string, any>, groupId: number) {
+  return (dispatch: AppDispatch) => {
     return dispatch(
       callAPI({
         types: Membership.LEAVE_GROUP,
@@ -157,11 +150,8 @@ export function leaveGroup(
     });
   };
 }
-export function fetchAllMemberships(
-  groupId: number,
-  descendants = false
-): Thunk<any> {
-  return (dispatch) => {
+export function fetchAllMemberships(groupId: number, descendants = false) {
+  return (dispatch: AppDispatch) => {
     return dispatch(
       fetchMembershipsPagination({
         descendants,
@@ -178,7 +168,7 @@ export function fetchMemberships(
   groupId: number,
   descendants = false,
   query: Record<string, any> = {}
-): Thunk<any> {
+) {
   return fetchMembershipsPagination({
     groupId,
     descendants,
@@ -196,28 +186,24 @@ export function fetchMembershipsPagination({
   next: boolean;
   descendants: boolean;
   query?: Record<string, string | number | boolean>;
-}): Thunk<any> {
-  return (dispatch) => {
-    return dispatch(
-      callAPI({
-        types: Group.MEMBERSHIP_FETCH,
-        endpoint: `/groups/${groupId}/memberships/`,
-        schema: [membershipSchema],
-        pagination: {
-          fetchNext: next,
-        },
-        query: { ...query, descendants },
-        meta: {
-          groupId: groupId,
-          errorMessage: 'Henting av medlemmene for gruppen feilet',
-        },
-        propagateError: true,
-      })
-    );
-  };
+}) {
+  return callAPI({
+    types: Group.MEMBERSHIP_FETCH,
+    endpoint: `/groups/${groupId}/memberships/`,
+    schema: [membershipSchema],
+    pagination: {
+      fetchNext: next,
+    },
+    query: { ...query, descendants },
+    meta: {
+      groupId: groupId,
+      errorMessage: 'Henting av medlemmene for gruppen feilet',
+    },
+    propagateError: true,
+  });
 }
-export function createGroup(group: Record<string, any>): Thunk<any> {
-  return (dispatch) => {
+export function createGroup(group: Record<string, any>) {
+  return (dispatch: AppDispatch) => {
     const { name, description, text, logo, type, showBadge, active } = group;
     return dispatch(
       callAPI({
@@ -256,11 +242,8 @@ export function createGroup(group: Record<string, any>): Thunk<any> {
     });
   };
 }
-export function removeGroup(
-  id: string,
-  group: Record<string, any>
-): Thunk<any> {
-  return (dispatch) =>
+export function removeGroup(id: string, group: Record<string, any>) {
+  return (dispatch: AppDispatch) =>
     dispatch(
       callAPI({
         types: Group.REMOVE,

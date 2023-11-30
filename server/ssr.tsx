@@ -1,14 +1,14 @@
 import * as Sentry from '@sentry/node';
 import { prepare } from '@webkom/react-prepare';
 import { HelmetProvider } from 'react-helmet-async';
-import { ReactReduxContext } from 'react-redux';
+import { Provider } from 'react-redux';
 import { StaticRouter } from 'react-router';
 import createStore from 'app/store/createStore';
 import RouteConfig from '../app/routes';
 import pageRenderer from './pageRenderer';
 import type { RootState } from 'app/store/createRootReducer';
 import type { Request, Response } from 'express';
-import type { ReactElement } from 'react';
+import type { ReactElement, ReactNode } from 'react';
 import type { StaticRouterContext } from 'react-router';
 
 const serverSideTimeoutInMs = 4000;
@@ -25,7 +25,7 @@ class TimeoutError extends Error {
 const isTimeoutError = (error: unknown): error is TimeoutError =>
   error instanceof TimeoutError;
 
-const prepareWithTimeout = (app): Promise<string> =>
+const prepareWithTimeout = (app: ReactNode): Promise<string> =>
   Promise.race([
     prepare(app),
     new Promise((resolve) => {
@@ -93,9 +93,9 @@ const createServerSideRenderer = (req: Request, res: Response) => {
 
   const app = (
     <HelmetProvider context={helmetContext}>
-      <ReactReduxContext.Provider value={providerData}>
+      <Provider store={store}>
         <ServerConfig req={req} context={context} />
-      </ReactReduxContext.Provider>
+      </Provider>
     </HelmetProvider>
   );
 

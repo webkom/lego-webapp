@@ -1,13 +1,11 @@
+import { createAction } from '@reduxjs/toolkit';
 import callAPI from 'app/actions/callAPI';
 import { selectAutocomplete } from 'app/reducers/search';
 import { Search } from './ActionTypes';
-import type { Action, Thunk } from 'app/types';
+import type { Thunk } from 'app/types';
 
-export function toggleSearch(): Action {
-  return {
-    type: Search.TOGGLE_OPEN,
-  };
-}
+export const toggleSearch = createAction(Search.TOGGLE_OPEN);
+
 export function autocomplete(
   query: string,
   filter?: Array<string>

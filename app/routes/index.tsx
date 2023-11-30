@@ -40,8 +40,8 @@ const RouterConfig = () => (
   </>
 );
 
-const AppWrapper = (props) => (
-  <AppRoute {...props}>
+const AppWrapper = () => (
+  <AppRoute>
     <UserContext.Consumer>
       {({ currentUser, loggedIn }) => (
         <Switch>
@@ -84,9 +84,9 @@ const AppWrapper = (props) => (
           <Route path="/bdb" component={Bdb} />
           <Route path="/articles" component={Articles} />
           {/* 
-        This will eat all routes that are written after this 
-        So one cant put any routes after pageNotFound
-        */}
+          This will eat all routes that are written after this
+          So one cant put any routes after pageNotFound
+          */}
           <Route component={PageNotFound} />
         </Switch>
       )}

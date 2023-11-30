@@ -44,7 +44,7 @@ export default compose(
   withPreparedDispatch('fetchContact', (_, dispatch) =>
     Promise.all([
       dispatch(fetchAllWithType(commiteeGroupType)),
-      dispatch(fetchGroup(revueBoardGroupId)),
+      dispatch(fetchGroup(revueBoardGroupId, { propagateError: false })),
     ])
   ),
   connect(mapStateToProps, mapDispatchToProps),
