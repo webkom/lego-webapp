@@ -1,11 +1,10 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { LoginPage } from 'app/components/LoginForm';
 import {
   selectCompanyById,
   selectCompanyContactById,
 } from 'app/reducers/companies';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import {
   fetchAdmin,
@@ -44,7 +43,7 @@ const mapDispatchToProps = {
   deleteCompany,
 };
 export default compose(
-  replaceUnlessLoggedIn(LoginPage),
+  guardLogin,
   withPreparedDispatch(
     'fetchEditCompanyContact',
     (

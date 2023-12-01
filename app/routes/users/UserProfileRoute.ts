@@ -9,7 +9,6 @@ import {
   changeGrade,
   updatePhotoConsent,
 } from 'app/actions/UserActions';
-import { LoginPage } from 'app/components/LoginForm';
 import { GroupType } from 'app/models';
 import {
   selectPreviousEvents,
@@ -19,7 +18,7 @@ import { selectGroupsWithType } from 'app/reducers/groups';
 import { selectPenaltyByUserId } from 'app/reducers/penalties';
 import { selectUserWithGroups } from 'app/reducers/users';
 import loadingIndicator from 'app/utils/loadingIndicator';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 //import { fetchUserFeed } from 'app/actions/FeedActions';
 import UserProfile from './components/UserProfile';
@@ -113,7 +112,7 @@ const mapDispatchToProps = {
   updatePhotoConsent,
 };
 export default compose(
-  replaceUnlessLoggedIn(LoginPage),
+  guardLogin,
   connect(mapStateToProps, mapDispatchToProps),
   withPreparedDispatch('fetchUserProfile', loadData, (props) => [
     props.match.params.username,

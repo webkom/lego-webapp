@@ -9,7 +9,7 @@ import {
   clear,
   uploadAndCreateGalleryPicture,
 } from 'app/actions/GalleryPictureActions';
-import { LoginPage } from 'app/components/LoginForm';
+import { LoginRequiredPage } from 'app/components/LoginForm';
 import { selectGalleryById } from 'app/reducers/galleries';
 import { SelectGalleryPicturesByGalleryId } from 'app/reducers/galleryPictures';
 import helmet from 'app/utils/helmet';
@@ -107,14 +107,7 @@ function metadataHelper<Props>() {
 
         if (!loggedIn) {
           // If metadata exists, show a login page
-          return (
-            <LoginPage
-              gallery={gallery}
-              loggedIn={loggedIn}
-              fetching={fetching}
-              {...props}
-            />
-          );
+          return <LoginRequiredPage />;
         }
 
         return <HTTPError />;

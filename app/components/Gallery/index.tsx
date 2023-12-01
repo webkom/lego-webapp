@@ -153,7 +153,6 @@ export default class Gallery extends PureComponent<Props, State> {
         >
           {fetchNext && (
             <Paginator
-              infiniteScroll
               hasMore={hasMore}
               fetching={fetching}
               fetchNext={fetchNext}

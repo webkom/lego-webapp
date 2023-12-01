@@ -12,12 +12,11 @@ import InfiniteScroll from 'react-infinite-scroller';
 import { Link } from 'react-router-dom-v5-compat';
 import { fetchAll } from 'app/actions/CompanyActions';
 import { Image } from 'app/components/Image';
-import { LoginPage } from 'app/components/LoginForm';
-import { selectIsLoggedIn } from 'app/reducers/auth';
 import { selectActiveCompanies } from 'app/reducers/companies';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import utilities from 'app/styles/utilities.css';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import styles from './CompaniesPage.css';
 import type { ListCompany } from 'app/store/models/Company';
 
@@ -91,11 +90,6 @@ const CompaniesPage = () => {
   useEffect(() => {
     dispatch(fetchAll({ fetchMore: false }));
   }, [dispatch]);
-
-  const loggedIn = useAppSelector((state) => selectIsLoggedIn(state));
-  if (!loggedIn) {
-    return <LoginPage />;
-  }
 
   return (
     <div className={styles.root}>
@@ -174,4 +168,4 @@ const CompaniesPage = () => {
   );
 };
 
-export default CompaniesPage;
+export default guardLogin(CompaniesPage);

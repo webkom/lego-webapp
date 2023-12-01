@@ -1,30 +1,19 @@
+import { usePreparedEffect } from '@webkom/react-prepare';
 import { produce } from 'immer';
 import { createSelector } from 'reselect';
+import { fetchSubmissions } from 'app/actions/SurveySubmissionActions';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { SurveySubmission } from '../actions/ActionTypes';
-import type { OptionEntity, SurveyEntity, QuestionEntity } from './surveys';
-import type { UserEntity } from 'app/reducers/users';
+import type { AnyAction } from '@reduxjs/toolkit';
+import type { RootState } from 'app/store/createRootReducer';
+import type { ID } from 'app/store/models';
+import type { SurveySubmission as SurveySubmissionType } from 'app/store/models/SurveySubmission';
+import type { EntityReducerState } from 'app/utils/createEntityReducer';
 
-export type SubmissionEntity = {
-  id: number;
-  user: UserEntity;
-  survey: SurveyEntity;
-  submitted: boolean;
-  submittedTime?: string;
-  // eslint-disable-next-line no-use-before-define
-  answers: Array<AnswerEntity>;
-};
-export type AnswerEntity = {
-  id: number;
-  submission: SubmissionEntity;
-  question: QuestionEntity;
-  answerText: string;
-  selectedOptions: Array<OptionEntity>;
-  hideFromPublic: boolean;
-};
-type State = any;
+type State = EntityReducerState<SurveySubmissionType>;
 const mutateSurveySubmissions = produce(
-  (newState: State, action: any): void => {
+  (newState: State, action: AnyAction): void => {
     switch (action.type) {
       case SurveySubmission.ADD.SUCCESS: {
         const { surveyId } = action.meta;
@@ -42,29 +31,40 @@ const mutateSurveySubmissions = produce(
 export default createEntityReducer({
   key: 'surveySubmissions',
   types: {
-    fetch: SurveySubmission.FETCH,
+    fetch: [SurveySubmission.FETCH, SurveySubmission.FETCH_ALL],
     mutate: SurveySubmission.ADD,
   },
   mutate: mutateSurveySubmissions,
 });
+
 export const selectSurveySubmissions = createSelector(
-  (state, props) => props.surveyId,
-  (state) => state.surveySubmissions.items,
-  (state) => state.surveySubmissions.byId,
-  (state) => state.users.byId,
-  (surveyId, surveySubmissionIds, surveySubmissionsById, usersById) =>
+  (_: RootState, props: { surveyId: ID }) => props.surveyId,
+  (state: RootState) => state.surveySubmissions.items,
+  (state: RootState) => state.surveySubmissions.byId,
+  (surveyId, surveySubmissionIds, surveySubmissionsById) =>
     surveySubmissionIds
-      .map((surveySubmissionId) => {
-        const submission = surveySubmissionsById[surveySubmissionId];
-        return { ...submission, user: usersById[submission.user] };
-      })
+      .map((surveySubmissionId) => surveySubmissionsById[surveySubmissionId])
       .filter((surveySubmission) => surveySubmission.survey === surveyId)
 );
 export const selectSurveySubmissionForUser = createSelector(
-  (state, props) => selectSurveySubmissions(state, props),
-  (state, props) => props.currentUser,
-  (submissionsById, user) =>
-    submissionsById.find(
-      (surveySubmission) => surveySubmission.user.id === user.id
-    )
+  (state: RootState, props: { surveyId: ID }) =>
+    selectSurveySubmissions(state, props),
+  (_: RootState, props: { currentUserId: ID }) => props.currentUserId,
+  (submissions, userId) =>
+    submissions.find((surveySubmission) => surveySubmission.user === userId)
 );
+
+export const useFetchedSurveySubmissions = (
+  prepareId: string,
+  surveyId: ID
+): SurveySubmissionType[] => {
+  const dispatch = useAppDispatch();
+  usePreparedEffect(
+    `useFetchedSurveySubmissions-${prepareId}`,
+    () => dispatch(fetchSubmissions(surveyId)),
+    [surveyId]
+  );
+  return useAppSelector((state: RootState) =>
+    selectSurveySubmissions(state, { surveyId: Number(surveyId) })
+  );
+};

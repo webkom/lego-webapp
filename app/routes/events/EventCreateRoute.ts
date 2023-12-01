@@ -9,14 +9,13 @@ import {
   setSaveForUse,
   uploadFile,
 } from 'app/actions/FileActions';
-import { LoginPage } from 'app/components/LoginForm';
 import {
   selectEventById,
   selectPoolsWithRegistrationsForEvent,
 } from 'app/reducers/events';
 import { selectImageGalleryEntries } from 'app/reducers/imageGallery';
 import loadingIndicator from 'app/utils/loadingIndicator';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import time from 'app/utils/time';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import EventEditor from './components/EventEditor';
@@ -199,7 +198,7 @@ const mapDispatchToProps = {
   setSaveForUse,
 };
 export default compose(
-  replaceUnlessLoggedIn(LoginPage),
+  guardLogin,
   withPreparedDispatch('fetchEventCreate', (props, dispatch) =>
     Promise.all([dispatch(fetchImageGallery())])
   ),

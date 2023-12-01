@@ -17,10 +17,8 @@ import {
 } from 'app/components/Content';
 import EventListCompact from 'app/components/EventListCompact';
 import JoblistingItem from 'app/components/JoblistingItem';
-import { LoginPage } from 'app/components/LoginForm';
 import NavigationTab from 'app/components/NavigationTab';
 import TextWithIcon from 'app/components/TextWithIcon';
-import { selectIsLoggedIn } from 'app/reducers/auth';
 import {
   selectCompanyById,
   selectEventsForCompany,
@@ -29,6 +27,7 @@ import {
 import { selectPagination } from 'app/reducers/selectors';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import createQueryString from 'app/utils/createQueryString';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import styles from './Company.css';
 import type { ID } from 'app/store/models';
 
@@ -42,7 +41,6 @@ const CompanyDetail = () => {
   const [viewOldEvents, setViewOldEvents] = useState(false);
 
   const { companyId, loading } = useParams();
-  const loggedIn = useAppSelector((state) => selectIsLoggedIn(state));
   const showFetchMoreEvents = useAppSelector((state) =>
     selectPagination('events', {
       queryString: queryString(companyId),
@@ -73,10 +71,6 @@ const CompanyDetail = () => {
 
   if (!company) {
     return <LoadingIndicator loading={Boolean(loading)} />;
-  }
-
-  if (!loggedIn) {
-    return <LoginPage />;
   }
 
   const fetchMoreEvents = () =>
@@ -208,4 +202,4 @@ const CompanyDetail = () => {
   );
 };
 
-export default CompanyDetail;
+export default guardLogin(CompanyDetail);
