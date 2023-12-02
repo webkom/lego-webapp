@@ -5,9 +5,18 @@ import {
   Icon,
   LoadingIndicator,
 } from '@webkom/lego-bricks';
-import { get } from 'lodash';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import { useState } from 'react';
 import { Field } from 'react-final-form';
+import { useParams } from 'react-router-dom';
+import { push } from 'redux-first-history';
+import { uploadFile } from 'app/actions/FileActions';
+import {
+  createPage,
+  deletePage,
+  fetchPage,
+  updatePage,
+} from 'app/actions/PageActions';
 import { Content } from 'app/components/Content';
 import {
   EditorField,
@@ -18,75 +27,88 @@ import {
   SelectInput,
   ObjectPermissions,
 } from 'app/components/Form';
-import { normalizeObjectPermissions } from 'app/components/Form/ObjectPermissions';
+import {
+  normalizeObjectPermissions,
+  objectPermissionsToInitialValues,
+} from 'app/components/Form/ObjectPermissions';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import NavigationTab from 'app/components/NavigationTab';
 import ImageUpload from 'app/components/Upload/ImageUpload';
+import { selectPageBySlug } from 'app/reducers/pages';
 import { categoryOptions } from 'app/routes/pages/PageDetailRoute';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './PageEditor.css';
 import type ObjectPermissionsMixin from 'app/store/models/ObjectPermissionsMixin';
-import type { Page } from 'app/store/models/Page';
-import type { History } from 'history';
 
-type FormValues = {
+export type ApiRequestBody = {
   title: string;
-  content: string;
   picture?: string;
+  content: string;
   category: string;
+};
+
+type FormValues = Omit<ApiRequestBody, 'category'> & {
+  category: { label: string; value: string };
 } & ObjectPermissionsMixin;
 
 const TypedLegoForm = LegoFinalForm<FormValues>;
 
-export type Props = {
-  page: Page;
-  pageSlug: string;
-  isNew: boolean;
-  loggedIn: boolean;
-  currentUser: any;
-  uploadFile: (arg0: { file: string; isPublic: boolean }) => Promise<any>;
-  handleSubmit: (arg0: (...args: Array<any>) => any) => Promise<any>;
-  updatePage: (arg0: string, arg1: Page) => Promise<any>;
-  createPage: (arg0: Page) => Promise<any>;
-  deletePage: (slug: string) => Promise<any>;
-  push: History['push'];
-  initialized: boolean;
-};
+const PageEditor = () => {
+  const { pageSlug } = useParams<{ pageSlug: string }>();
+  const page = useAppSelector((state) =>
+    selectPageBySlug(state, {
+      pageSlug,
+    })
+  );
 
-const PageEditor = (props: Props) => {
-  const [form, setForm] = useState<Partial<FormValues>>({
-    picture: get(props, ['page', 'picture']),
-    content: get(props, ['page', 'content']),
-    category: get(props, ['page', 'category']),
+  const isNew = page === undefined;
+
+  const [form, setForm] = useState<{
+    picture: string;
+    content: string;
+    category: string;
+  }>({
+    picture: page?.picture,
+    content: page?.content,
+    category: page?.category,
   });
   const [images, setImages] = useState<Record<string, string>>({});
 
+  const dispatch = useAppDispatch();
+
+  usePreparedEffect(
+    'fetchPageEdit',
+    () => !isNew && dispatch(fetchPage(pageSlug)),
+    [isNew, pageSlug]
+  );
+
   const setPicture = (image) => {
-    props
-      .uploadFile({
+    dispatch(
+      uploadFile({
         file: image,
         isPublic: true,
       })
-      .then((action) => {
-        const file = action.meta.fileToken;
-        setImages({ ...images, [file]: window.URL.createObjectURL(image) });
-        setForm({ ...form, picture: file });
-      });
+    ).then((action) => {
+      const file = action.meta.fileToken;
+      setImages({ ...images, [file]: window.URL.createObjectURL(image) });
+      setForm({ ...form, picture: file });
+    });
   };
 
   const onDelete = () => {
-    const { push, pageSlug, deletePage } = props;
-    return deletePage(pageSlug).then(() => push('/pages/info/om-oss'));
+    dispatch(deletePage(pageSlug)).then(() =>
+      dispatch(push('/pages/info/om-oss'))
+    );
   };
 
   const onSubmit = (data: FormValues) => {
-    const body = {
+    const body: ApiRequestBody = {
       ...normalizeObjectPermissions(data),
       title: data.title,
       content: data.content,
       picture: undefined,
       category: data.category?.value,
     };
-    const { push, pageSlug } = props;
 
     if (images[form.picture]) {
       body.picture = form.picture;
@@ -94,22 +116,14 @@ const PageEditor = (props: Props) => {
       delete body.picture;
     }
 
-    if (props.isNew) {
-      return props.createPage(body).then((result) => {
+    dispatch(isNew ? createPage(body) : updatePage(pageSlug, body)).then(
+      (result) => {
         const slug = result.payload.result;
         const pageCategory = result.payload.entities.pages[slug].category;
-        push(`/pages/${pageCategory}/${slug}`);
-      });
-    }
-
-    return props.updatePage(pageSlug, body).then((result) => {
-      const slug = result.payload.result;
-      const pageCategory = result.payload.entities.pages[slug].category;
-      push(`/pages/${pageCategory}/${slug}`);
-    });
+        dispatch(push(`/pages/${pageCategory}/${slug}`));
+      }
+    );
   };
-
-  const { isNew, uploadFile, page, pageSlug } = props;
 
   if (!isNew && !page) {
     return <LoadingIndicator loading />;
@@ -119,24 +133,34 @@ const PageEditor = (props: Props) => {
     ? '/pages/info-om-abakus'
     : `/pages/${page.category}/${pageSlug}`;
 
+  const initialValues = !isNew
+    ? {
+        ...page,
+        ...objectPermissionsToInitialValues(page),
+        category: categoryOptions.find(({ value }) => value === page.category),
+      }
+    : {};
+
   return (
     <Content>
       <NavigationTab
-        title={page.title}
+        title={page?.title || 'Ny side'}
         back={{
           label: 'Tilbake',
           path: backUrl,
         }}
       />
 
-      <TypedLegoForm onSubmit={onSubmit} initialValues={props.initialValues}>
+      <TypedLegoForm onSubmit={onSubmit} initialValues={initialValues}>
         {({ handleSubmit }) => (
           <Form onSubmit={handleSubmit}>
             <div className={styles.coverImage}>
               <ImageUpload
                 aspectRatio={20 / 6}
                 onSubmit={setPicture}
-                img={images[form.picture] ? images[form.picture] : page.picture}
+                img={
+                  images[form.picture] ? images[form.picture] : page?.picture
+                }
               />
             </div>
 
@@ -145,7 +169,6 @@ const PageEditor = (props: Props) => {
                 placeholder="Title"
                 name="title"
                 component={TextInput.Field}
-                id="page-title"
               />
               <Field
                 name="category"
@@ -189,7 +212,6 @@ const PageEditor = (props: Props) => {
               name="content"
               component={EditorField.Field}
               uploadFile={uploadFile}
-              initialized={props.initialized || isNew}
             />
           </Form>
         )}

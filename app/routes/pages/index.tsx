@@ -1,63 +1,30 @@
-import { Route, Switch } from 'react-router-dom';
-import RouteWrapper from 'app/components/RouteWrapper';
-import { UserContext } from 'app/routes/app/AppRoute';
+import { useRouteMatch, Route, Switch } from 'react-router-dom';
 import PageNotFound from '../pageNotFound';
-import PageCreateRoute from './PageCreateRoute';
 import PageDetailRoute from './PageDetailRoute';
-import PageEditRoute from './PageEditRoute';
+import PageEditor from './components/PageEditor';
 
-const pagesRoute = ({
-  match,
-}: {
-  match: {
-    path: string;
-  };
-}) => (
-  <UserContext.Consumer>
-    {({ currentUser, loggedIn }) => (
-      <Switch>
-        <RouteWrapper
-          exact
-          path={`${match.path}/new`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={PageCreateRoute}
-        />
-        <RouteWrapper
-          exact
-          path={`${match.path}/:section`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={PageDetailRoute}
-        />
-        <RouteWrapper
-          exact
-          path={`${match.path}/:section/:pageSlug`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={PageDetailRoute}
-        />
-        <RouteWrapper
-          exact
-          path={`${match.path}/:section/:pageSlug/edit`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={PageEditRoute}
-        />
-        <Route component={PageNotFound} />
-      </Switch>
-    )}
-  </UserContext.Consumer>
-);
+const PagesRoute = ({}) => {
+  const { path } = useRouteMatch();
+
+  return (
+    <Switch>
+      <Route exact path={`${path}/new`} component={PageEditor} />
+      <Route exact path={`${path}/:section`} component={PageDetailRoute} />
+      <Route
+        exact
+        path={`${path}/:section/:pageSlug`}
+        component={PageDetailRoute}
+      />
+      <Route
+        exact
+        path={`${path}/:section/:pageSlug/edit`}
+        component={PageEditor}
+      />
+      <Route component={PageNotFound} />
+    </Switch>
+  );
+};
 
 export default function Pages() {
-  return <Route path="/pages" component={pagesRoute} />;
+  return <Route path="/pages" component={PagesRoute} />;
 }
