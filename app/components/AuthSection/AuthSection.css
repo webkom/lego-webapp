@@ -1,4 +1,13 @@
+.dot,
+.toggleButton {
+  font-size: var(--font-size-sm);
+}
+
 .toggleButton {
   color: var(--lego-link-color);
-  font-size: var(--font-size-sm);
+  padding: 0;
+
+  &:hover {
+    color: var(--lego-red-color-hover);
+  }
 }

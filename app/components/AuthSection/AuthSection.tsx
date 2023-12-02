@@ -40,6 +40,8 @@ const AuthSection = () => {
   return (
     <>
       <Flex
+        wrap
+        gap="0.5rem"
         component="h2"
         justifyContent="space-between"
         alignItems="center"
@@ -50,21 +52,21 @@ const AuthSection = () => {
       >
         {title}
         {authMode === AuthMode.LOGIN ? (
-          <div>
+          <Flex gap="0.5rem">
             <button
               onClick={createModeSelector(AuthMode.FORGOT_PASSWORD)}
               className={styles.toggleButton}
             >
               Glemt passord
             </button>
-            <span className={styles.toggleButton}>&bull;</span>
+            <span className={styles.dot}>&bull;</span>
             <button
               onClick={createModeSelector(AuthMode.REGISTER)}
               className={styles.toggleButton}
             >
               Jeg er ny
             </button>
-          </div>
+          </Flex>
         ) : (
           <button
             onClick={createModeSelector(AuthMode.LOGIN)}
