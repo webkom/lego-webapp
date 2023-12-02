@@ -6,30 +6,37 @@ import {
   LoadingIndicator,
 } from '@webkom/lego-bricks';
 import { get } from 'lodash';
-import { Component } from 'react';
-import { Field, Fields } from 'redux-form';
+import { useState } from 'react';
+import { Field } from 'react-final-form';
 import { Content } from 'app/components/Content';
 import {
   EditorField,
   TextInput,
+  LegoFinalForm,
   Form,
-  withSubmissionError,
+  Fields,
   SelectInput,
   ObjectPermissions,
 } from 'app/components/Form';
 import { normalizeObjectPermissions } from 'app/components/Form/ObjectPermissions';
+import { SubmitButton } from 'app/components/Form/SubmitButton';
 import NavigationTab from 'app/components/NavigationTab';
 import ImageUpload from 'app/components/Upload/ImageUpload';
 import { categoryOptions } from 'app/routes/pages/PageDetailRoute';
 import styles from './PageEditor.css';
+import type ObjectPermissionsMixin from 'app/store/models/ObjectPermissionsMixin';
+import type { Page } from 'app/store/models/Page';
 import type { History } from 'history';
 
-type Page = {
+type FormValues = {
   title: string;
   content: string;
   picture?: string;
   category: string;
-};
+} & ObjectPermissionsMixin;
+
+const TypedLegoForm = LegoFinalForm<FormValues>;
+
 export type Props = {
   page: Page;
   pageSlug: string;
@@ -44,53 +51,34 @@ export type Props = {
   push: History['push'];
   initialized: boolean;
 };
-type State = {
-  page: {
-    picture: string;
-    content: string;
-    category: string;
-  };
-  images: Record<string, string>;
-};
-export default class PageEditor extends Component<Props, State> {
-  state = {
-    page: {
-      picture: get(this.props, ['page', 'picture']),
-      content: get(this.props, ['page', 'content']),
-      category: get(this.props, ['page', 'category']),
-    },
-    images: {},
-  };
-  setPicture = (image: any) => {
-    this.props
+
+const PageEditor = (props: Props) => {
+  const [form, setForm] = useState<Partial<FormValues>>({
+    picture: get(props, ['page', 'picture']),
+    content: get(props, ['page', 'content']),
+    category: get(props, ['page', 'category']),
+  });
+  const [images, setImages] = useState<Record<string, string>>({});
+
+  const setPicture = (image) => {
+    props
       .uploadFile({
         file: image,
         isPublic: true,
       })
       .then((action) => {
         const file = action.meta.fileToken;
-        this.setState({
-          images: {
-            ...this.state.images,
-            [file]: window.URL.createObjectURL(image),
-          },
-          page: { ...this.state.page, picture: file },
-        });
+        setImages({ ...images, [file]: window.URL.createObjectURL(image) });
+        setForm({ ...form, picture: file });
       });
   };
-  onDelete = () => {
-    const { push, pageSlug, deletePage } = this.props;
+
+  const onDelete = () => {
+    const { push, pageSlug, deletePage } = props;
     return deletePage(pageSlug).then(() => push('/pages/info/om-oss'));
   };
-  onSubmit = (data: {
-    title: string;
-    content: string;
-    picture?: string;
-    category: {
-      label: string;
-      value: string;
-    };
-  }) => {
+
+  const onSubmit = (data: FormValues) => {
     const body = {
       ...normalizeObjectPermissions(data),
       title: data.title,
@@ -98,115 +86,116 @@ export default class PageEditor extends Component<Props, State> {
       picture: undefined,
       category: data.category?.value,
     };
-    const { push, pageSlug } = this.props;
+    const { push, pageSlug } = props;
 
-    if (this.state.images[this.state.page.picture]) {
-      body.picture = this.state.page.picture;
+    if (images[form.picture]) {
+      body.picture = form.picture;
     } else {
       delete body.picture;
     }
 
-    if (this.props.isNew) {
-      return this.props.createPage(body).then((result) => {
+    if (props.isNew) {
+      return props.createPage(body).then((result) => {
         const slug = result.payload.result;
         const pageCategory = result.payload.entities.pages[slug].category;
         push(`/pages/${pageCategory}/${slug}`);
       });
     }
 
-    return this.props.updatePage(pageSlug, body).then((result) => {
+    return props.updatePage(pageSlug, body).then((result) => {
       const slug = result.payload.result;
       const pageCategory = result.payload.entities.pages[slug].category;
       push(`/pages/${pageCategory}/${slug}`);
     });
   };
 
-  render() {
-    const { isNew, uploadFile, handleSubmit, page, pageSlug } = this.props;
-    const { images } = this.state;
+  const { isNew, uploadFile, page, pageSlug } = props;
 
-    if (!isNew && !page) {
-      return <LoadingIndicator loading />;
-    }
-
-    const backUrl = isNew
-      ? '/pages/info-om-abakus'
-      : `/pages/${page.category}/${pageSlug}`;
-    return (
-      <Content>
-        <NavigationTab
-          title={page.title}
-          back={{
-            label: 'Tilbake',
-            path: backUrl,
-          }}
-        />
-        <Form onSubmit={handleSubmit(withSubmissionError(this.onSubmit))}>
-          <div className={styles.coverImage}>
-            <ImageUpload
-              aspectRatio={20 / 6}
-              onSubmit={this.setPicture}
-              img={
-                images[this.state.page.picture]
-                  ? images[this.state.page.picture]
-                  : page.picture
-              }
-            />
-          </div>
-
-          <Flex justifyContent="space-between">
-            <Field
-              placeholder="Title"
-              name="title"
-              component={TextInput.Field}
-              id="page-title"
-            />
-            <Field
-              name="category"
-              component={SelectInput.Field}
-              placeholder="Velg kategori"
-              options={categoryOptions}
-            />
-
-            <Flex margin="0 0 0 10px">
-              {!isNew && (
-                <ConfirmModal
-                  title="Slett side"
-                  message="Er du sikker på at du vil slette denne infosiden?"
-                  onConfirm={this.onDelete}
-                >
-                  {({ openConfirmModal }) => (
-                    <Button onClick={openConfirmModal} danger>
-                      <Icon name="trash" size={19} />
-                      Slett
-                    </Button>
-                  )}
-                </ConfirmModal>
-              )}
-              <Button success={!isNew} type="submit">
-                {isNew ? 'Opprett' : 'Lagre'}
-              </Button>
-            </Flex>
-          </Flex>
-          <Fields
-            names={[
-              'requireAuth',
-              'canViewGroups',
-              'canEditUsers',
-              'canEditGroups',
-            ]}
-            component={ObjectPermissions}
-          />
-
-          <Field
-            placeholder="Write page content here..."
-            name="content"
-            component={EditorField.Field}
-            uploadFile={uploadFile}
-            initialized={this.props.initialized || isNew}
-          />
-        </Form>
-      </Content>
-    );
+  if (!isNew && !page) {
+    return <LoadingIndicator loading />;
   }
-}
+
+  const backUrl = isNew
+    ? '/pages/info-om-abakus'
+    : `/pages/${page.category}/${pageSlug}`;
+
+  return (
+    <Content>
+      <NavigationTab
+        title={page.title}
+        back={{
+          label: 'Tilbake',
+          path: backUrl,
+        }}
+      />
+
+      <TypedLegoForm onSubmit={onSubmit} initialValues={props.initialValues}>
+        {({ handleSubmit }) => (
+          <Form onSubmit={handleSubmit}>
+            <div className={styles.coverImage}>
+              <ImageUpload
+                aspectRatio={20 / 6}
+                onSubmit={setPicture}
+                img={images[form.picture] ? images[form.picture] : page.picture}
+              />
+            </div>
+
+            <Flex justifyContent="space-between">
+              <Field
+                placeholder="Title"
+                name="title"
+                component={TextInput.Field}
+                id="page-title"
+              />
+              <Field
+                name="category"
+                component={SelectInput.Field}
+                placeholder="Velg kategori"
+                options={categoryOptions}
+              />
+
+              <Flex margin="0 0 0 10px">
+                {!isNew && (
+                  <ConfirmModal
+                    title="Slett side"
+                    message="Er du sikker på at du vil slette denne infosiden?"
+                    onConfirm={onDelete}
+                  >
+                    {({ openConfirmModal }) => (
+                      <Button onClick={openConfirmModal} danger>
+                        <Icon name="trash" size={19} />
+                        Slett
+                      </Button>
+                    )}
+                  </ConfirmModal>
+                )}
+
+                <SubmitButton>{isNew ? 'Opprett' : 'Lagre'}</SubmitButton>
+              </Flex>
+            </Flex>
+
+            <Fields
+              names={[
+                'requireAuth',
+                'canViewGroups',
+                'canEditUsers',
+                'canEditGroups',
+              ]}
+              component={ObjectPermissions}
+            />
+
+            <Field
+              placeholder="Skriv sideinnhold her ..."
+              name="content"
+              component={EditorField.Field}
+              uploadFile={uploadFile}
+              initialized={props.initialized || isNew}
+            />
+          </Form>
+        )}
+      </TypedLegoForm>
+    </Content>
+  );
+};
+
+export default PageEditor;
