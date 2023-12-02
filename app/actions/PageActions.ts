@@ -1,10 +1,11 @@
 import callAPI from 'app/actions/callAPI';
 import { pageSchema } from 'app/reducers';
 import { Page } from './ActionTypes';
-import type { Thunk } from 'app/types';
+import type { ApiRequestBody } from 'app/routes/pages/components/PageEditor';
+import type { AuthDetailedPage } from 'app/store/models/Page';
 
-export function fetchPage(pageSlug: string): Thunk<any> {
-  return callAPI({
+export function fetchPage(pageSlug: string) {
+  return callAPI<AuthDetailedPage>({
     types: Page.FETCH,
     endpoint: `/pages/${pageSlug}/`,
     schema: pageSchema,
@@ -14,7 +15,8 @@ export function fetchPage(pageSlug: string): Thunk<any> {
     propagateError: true,
   });
 }
-export function deletePage(pageSlug: string): Thunk<any> {
+
+export function deletePage(pageSlug: string) {
   return callAPI({
     types: Page.DELETE,
     endpoint: `/pages/${pageSlug}/`,
@@ -25,8 +27,9 @@ export function deletePage(pageSlug: string): Thunk<any> {
     },
   });
 }
-export function fetchAll(): Thunk<any> {
-  return callAPI({
+
+export function fetchAll() {
+  return callAPI<AuthDetailedPage>({
     types: Page.FETCH,
     endpoint: '/pages/',
     schema: [pageSchema],
@@ -36,30 +39,29 @@ export function fetchAll(): Thunk<any> {
     propagateError: true,
   });
 }
-export function updatePage(
-  slug: string,
-  body: Record<string, any>
-): Thunk<any> {
-  return callAPI({
+
+export function updatePage(slug: string, body: ApiRequestBody) {
+  return callAPI<AuthDetailedPage>({
     types: Page.UPDATE,
     endpoint: `/pages/${slug}/`,
     method: 'PATCH',
     body,
     schema: pageSchema,
     meta: {
-      errorMessage: 'Oppdatering av sider feilet',
+      errorMessage: 'Oppdatering av side feilet',
     },
   });
 }
-export function createPage(body: Record<string, any>): Thunk<any> {
-  return callAPI({
+
+export function createPage(body: ApiRequestBody) {
+  return callAPI<AuthDetailedPage>({
     types: Page.CREATE,
     endpoint: `/pages/`,
     method: 'POST',
     body,
     schema: pageSchema,
     meta: {
-      errorMessage: 'Creating page failed',
+      errorMessage: 'Opprettelse av side feilet',
     },
   });
 }
