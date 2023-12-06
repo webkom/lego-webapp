@@ -35,7 +35,7 @@ import { SubmitButton } from 'app/components/Form/SubmitButton';
 import NavigationTab from 'app/components/NavigationTab';
 import ImageUpload from 'app/components/Upload/ImageUpload';
 import { selectPageBySlug } from 'app/reducers/pages';
-import { categoryOptions } from 'app/routes/pages/PageDetailRoute';
+import { categoryOptions } from 'app/routes/pages/components/PageDetail';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './PageEditor.css';
 import type ObjectPermissionsMixin from 'app/store/models/ObjectPermissionsMixin';

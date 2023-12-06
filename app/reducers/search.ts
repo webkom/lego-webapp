@@ -3,7 +3,7 @@ import { get } from 'lodash';
 import moment from 'moment-timezone';
 import { createSelector } from 'reselect';
 import { resolveGroupLink } from 'app/reducers/groups';
-import { categoryOptions } from 'app/routes/pages/PageDetailRoute';
+import { categoryOptions } from 'app/routes/pages/components/PageDetail';
 import { Search } from '../actions/ActionTypes';
 import type { User, Event, Group, Meeting, Dateish } from 'app/models';
 import type { RootState } from 'app/store/createRootReducer';
