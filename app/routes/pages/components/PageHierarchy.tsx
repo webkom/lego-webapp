@@ -1,6 +1,6 @@
 import { Icon } from '@webkom/lego-bricks';
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import { readmeIfy } from 'app/components/ReadmeLogo';
 import styles from './PageHierarchy.css';
 import type { ReactNode } from 'react';
@@ -15,22 +15,16 @@ export type HierarchySectionEntity = {
 };
 type Props = {
   pageHierarchy: Array<HierarchySectionEntity>;
-  currentUrl: string;
   handleCloseSidebar: () => void;
 };
 
-const PageHierarchy = ({
-  pageHierarchy,
-  currentUrl,
-  handleCloseSidebar,
-}: Props) => {
+const PageHierarchy = ({ pageHierarchy, handleCloseSidebar }: Props) => {
   return (
     <div className={styles.sidebar}>
       {pageHierarchy.map((section, key) => (
         <HierarchySection
           hierarchySection={section}
           key={key}
-          currentUrl={currentUrl}
           handleCloseSidebar={handleCloseSidebar}
         />
       ))}
@@ -42,13 +36,13 @@ export default PageHierarchy;
 
 const HierarchySection = ({
   hierarchySection: { title, items },
-  currentUrl,
   handleCloseSidebar,
 }: {
   hierarchySection: HierarchySectionEntity;
-  currentUrl: string;
   handleCloseSidebar: () => void;
 }) => {
+  const { pathname } = useLocation();
+
   return (
     <nav className={styles.pageList}>
       {items.length > 0 && (
@@ -58,9 +52,7 @@ const HierarchySection = ({
               <div className={styles.links} onClick={handleCloseSidebar}>
                 <div
                   className={
-                    item.url === currentUrl
-                      ? styles.selected
-                      : styles.nonSelected
+                    item.url === pathname ? styles.selected : styles.nonSelected
                   }
                 >
                   {readmeIfy(item.title)}
