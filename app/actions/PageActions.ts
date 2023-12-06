@@ -29,7 +29,7 @@ export function deletePage(pageSlug: string) {
 }
 
 export function fetchAll() {
-  return callAPI<AuthDetailedPage>({
+  return callAPI<AuthDetailedPage[]>({
     types: Page.FETCH,
     endpoint: '/pages/',
     schema: [pageSchema],

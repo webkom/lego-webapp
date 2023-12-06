@@ -1,6 +1,6 @@
 import { useRouteMatch, Route, Switch } from 'react-router-dom';
 import PageNotFound from '../pageNotFound';
-import PageDetailRoute from './PageDetailRoute';
+import PageDetail from './components/PageDetail';
 import PageEditor from './components/PageEditor';
 
 const PagesRoute = ({}) => {
@@ -9,12 +9,8 @@ const PagesRoute = ({}) => {
   return (
     <Switch>
       <Route exact path={`${path}/new`} component={PageEditor} />
-      <Route exact path={`${path}/:section`} component={PageDetailRoute} />
-      <Route
-        exact
-        path={`${path}/:section/:pageSlug`}
-        component={PageDetailRoute}
-      />
+      <Route exact path={`${path}/:section`} component={PageDetail} />
+      <Route exact path={`${path}/:section/:pageSlug`} component={PageDetail} />
       <Route
         exact
         path={`${path}/:section/:pageSlug/edit`}
