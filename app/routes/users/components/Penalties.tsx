@@ -1,22 +1,20 @@
 import { Button, ConfirmModal } from '@webkom/lego-bricks';
+import { deletePenalty } from 'app/actions/UserActions';
 import { FormatTime } from 'app/components/Time';
+import { useAppDispatch } from 'app/store/hooks';
 import styles from './Penalties.css';
 import PenaltyForm from './PenaltyForm';
 import type { Penalty } from 'app/models';
 
 type Props = {
   penalties: Array<Penalty>;
-  deletePenalty: (arg0: number) => Promise<void>;
   userId: number;
   canDeletePenalties: boolean;
 };
 
-function Penalties({
-  penalties,
-  deletePenalty,
-  userId,
-  canDeletePenalties,
-}: Props) {
+function Penalties({ penalties, userId, canDeletePenalties }: Props) {
+  const dispatch = useAppDispatch();
+
   return (
     <div>
       {penalties.length ? (
@@ -43,7 +41,7 @@ function Penalties({
                   <ConfirmModal
                     title="Slett prikk"
                     message="Er du sikker på at du vil slette denne prikken?"
-                    onConfirm={() => deletePenalty(penalty.id)}
+                    onConfirm={() => dispatch(deletePenalty(penalty.id))}
                     closeOnConfirm
                   >
                     {({ openConfirmModal }) => (

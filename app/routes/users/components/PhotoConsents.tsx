@@ -1,9 +1,11 @@
 import { Button, ConfirmModal, Flex } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
 import { useState } from 'react';
+import { updatePhotoConsent } from 'app/actions/UserActions';
 import SelectInput from 'app/components/Form/SelectInput';
 import { PhotoConsentDomain } from 'app/models';
 import { getConsent, toReadableSemester } from 'app/routes/events/utils';
+import { useAppDispatch } from 'app/store/hooks';
 import styles from './PhotoConsents.css';
 import type { PhotoConsent } from 'app/models';
 import type { ID } from 'app/store/models';
@@ -82,17 +84,11 @@ const ConsentManager = ({
 const PhotoConsents = ({
   photoConsents,
   username,
-  updatePhotoConsent,
   userId,
   isCurrentUser,
 }: {
   photoConsents: Array<PhotoConsent>;
   username: string;
-  updatePhotoConsent: (
-    photoConsent: PhotoConsent,
-    username: string,
-    userId: ID
-  ) => Promise<void>;
   userId: ID;
   isCurrentUser: boolean;
 }) => {
@@ -119,8 +115,10 @@ const PhotoConsents = ({
     semesterOptions[0]
   );
 
+  const dispatch = useAppDispatch();
+
   const updateConsent = (consent: PhotoConsent) =>
-    updatePhotoConsent(consent, username, userId);
+    dispatch(updatePhotoConsent(consent, username, userId));
 
   return (
     <Flex column={true}>
