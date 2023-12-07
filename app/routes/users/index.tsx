@@ -3,13 +3,13 @@ import RouteWrapper from 'app/components/RouteWrapper';
 import { UserContext } from 'app/routes/app/AppRoute';
 import PageNotFound from '../pageNotFound';
 import StudentConfirmationRoute from './StudentConfirmationRoute';
-import UserConfirmationRoute from './UserConfirmationRoute';
 import UserResetPasswordRoute from './UserResetPasswordRoute';
 import UserSettingsNotificationsRoute from './UserSettingsNotificationsRoute';
 import UserSettingsOAuth2CreateRoute from './UserSettingsOAuth2CreateRoute';
 import UserSettingsOAuth2EditRoute from './UserSettingsOAuth2EditRoute';
 import UserSettingsOAuth2Route from './UserSettingsOAuth2Route';
 import UserSettingsRoute from './UserSettingsRoute';
+import UserConfirmationForm from './components/UserConfirmation';
 import UserProfile from './components/UserProfile';
 import UserSettingsIndex from './components/UserSettingsIndex';
 
@@ -20,14 +20,10 @@ const UsersRoute = () => {
     <UserContext.Consumer>
       {({ currentUser, loggedIn }) => (
         <Switch>
-          <RouteWrapper
+          <Route
             exact
             path={`${path}/registration`}
-            passedProps={{
-              currentUser,
-              loggedIn,
-            }}
-            Component={UserConfirmationRoute}
+            component={UserConfirmationForm}
           />
           <RouteWrapper
             exact
