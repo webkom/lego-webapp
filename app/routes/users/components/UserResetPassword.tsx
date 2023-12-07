@@ -2,6 +2,7 @@ import { Field } from 'react-final-form';
 import { Content } from 'app/components/Content';
 import { Button, TextInput } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
+import { useUserContext } from 'app/routes/app/AppRoute';
 import { spySubmittable } from 'app/utils/formSpyUtils';
 import { createValidator, required, sameAs } from 'app/utils/validation';
 import { validPassword } from '../utils';
@@ -15,15 +16,11 @@ type Props = {
 };
 
 const UserResetPasswordForm = ({ token, resetPassword, push }: Props) => {
-  const dummyUser = {
-    id: 0,
-    username: '',
-    fullName: '',
-    firstName: '',
-    lastName: '',
-    gender: '',
-    profilePicture: '',
-    selectedTheme: '',
+  const { currentUser } = useUserContext();
+  const user = {
+    username: currentUser.username,
+    firstName: currentUser.firstName,
+    lastName: currentUser.lastName,
   };
 
   const onSubmit = (props) =>
@@ -39,7 +36,7 @@ const UserResetPasswordForm = ({ token, resetPassword, push }: Props) => {
         <LegoFinalForm onSubmit={onSubmit} validate={validate}>
           {({ handleSubmit }) => (
             <form onSubmit={handleSubmit}>
-              <PasswordField label="Nytt passord" user={dummyUser} />
+              <PasswordField label="Nytt passord" user={user} />
               <Field
                 label="Nytt passord (gjenta)"
                 autocomplete="new-password"
