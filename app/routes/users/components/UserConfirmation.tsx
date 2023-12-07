@@ -1,6 +1,16 @@
 import { Card, Flex } from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
+import { normalize } from 'normalizr';
+import qs from 'qs';
+import { useState } from 'react';
 import { Field } from 'react-final-form';
 import { Link } from 'react-router-dom';
+import { User } from 'app/actions/ActionTypes';
+import {
+  createUser,
+  saveToken,
+  validateRegistrationToken,
+} from 'app/actions/UserActions';
 import { Content } from 'app/components/Content';
 import {
   TextInput,
@@ -10,28 +20,59 @@ import {
   PhoneNumberInput,
 } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
-import { spySubmittable } from 'app/utils/formSpyUtils';
+import { SubmitButton } from 'app/components/Form/SubmitButton';
+import { userSchema } from 'app/reducers';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { spyValues } from 'app/utils/formSpyUtils';
 import { createValidator, required, sameAs } from 'app/utils/validation';
 import { validPassword } from '../utils';
 import PasswordField from './PasswordField';
-import styles from './UserConfirmation.css';
-import type { UserEntity } from 'app/reducers/users';
-import type { RouteChildrenProps } from 'react-router';
 
-type Props = {
-  token: EncodedToken;
-  user: UserEntity;
-  createUser: (token: string, data: Record<string, any>) => void;
-  submitSucceeded: boolean;
-} & RouteChildrenProps<{ username: string }>;
+const loadData = ({ location: { search } }, dispatch) => {
+  const { token } = qs.parse(search, {
+    ignoreQueryPrefix: true,
+  });
 
-const UserConfirmationForm = ({
-  token,
-  user,
-  createUser,
-  submitSucceeded,
-}: Props) => {
-  const onSubmit = (data) => createUser(token, data);
+  if (token && typeof token === 'string') {
+    return dispatch(validateRegistrationToken(token));
+  }
+};
+
+export type FormValues = {
+  username?: string;
+  firstName?: string;
+  lastName?: string;
+  gender?: string;
+  allergies?: string;
+  phoneNumber?: string;
+};
+
+const TypedLegoForm = LegoFinalForm<FormValues>;
+
+const UserConfirmationForm = () => {
+  const [submitSucceeded, setSubmitSucceeded] = useState(false);
+
+  const token = useAppSelector((state) => state.auth.token);
+
+  usePreparedEffect('fetchUserConfirmation', () => loadData, []);
+
+  const dispatch = useAppDispatch();
+
+  const onSubmit = (data) =>
+    token &&
+    dispatch(createUser(token, data)).then((action) => {
+      if (!action || !action.payload) return;
+      const { user, token } = action.payload;
+      setSubmitSucceeded(true);
+      saveToken(token);
+      return dispatch({
+        type: User.FETCH.SUCCESS,
+        payload: normalize(user, userSchema),
+        meta: {
+          isCurrentUser: true,
+        },
+      });
+    });
 
   if (submitSucceeded) {
     return (
@@ -69,7 +110,7 @@ const UserConfirmationForm = ({
   return (
     <Content>
       <h1>Registrer bruker</h1>
-      <LegoFinalForm onSubmit={onSubmit} validate={validate}>
+      <TypedLegoForm onSubmit={onSubmit} validate={validate}>
         {({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>
             <Field
@@ -78,7 +119,17 @@ const UserConfirmationForm = ({
               label="Brukernavn"
               component={TextInput.Field}
             />
-            <PasswordField user={user} />
+
+            {spyValues((values: FormValues) => {
+              const user = {
+                username: values.username,
+                firstName: values.firstName,
+                lastName: values.lastName,
+              };
+
+              return <PasswordField user={user} />;
+            })}
+
             <Field
               label="Gjenta passord"
               name="retypePassword"
@@ -86,6 +137,7 @@ const UserConfirmationForm = ({
               autocomplete="new-password"
               component={TextInput.Field}
             />
+
             <Field
               name="firstName"
               placeholder="Fornavn"
@@ -93,6 +145,7 @@ const UserConfirmationForm = ({
               autocomplete="given-name additional-name"
               component={TextInput.Field}
             />
+
             <Field
               name="lastName"
               label="Etternavn"
@@ -100,6 +153,7 @@ const UserConfirmationForm = ({
               autocomplete="family-name"
               component={TextInput.Field}
             />
+
             <MultiSelectGroup label="Kjønn" name="gender">
               <Field
                 name="genderMan"
@@ -120,6 +174,7 @@ const UserConfirmationForm = ({
                 inputValue="other"
               />
             </MultiSelectGroup>
+
             <Field
               name="allergies"
               placeholder="Allergier"
@@ -137,7 +192,7 @@ const UserConfirmationForm = ({
             <SubmitButton>Registrer bruker</SubmitButton>
           </form>
         )}
-      </LegoFinalForm>
+      </TypedLegoForm>
     </Content>
   );
 };

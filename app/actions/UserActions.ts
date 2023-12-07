@@ -11,6 +11,7 @@ import { uploadFile } from './FileActions';
 import { fetchMeta } from './MetaActions';
 import { setStatusCode } from './RoutingActions';
 import type { AddPenalty, ID, PhotoConsent } from 'app/models';
+import type { FormValues as UserConfirmationFormValues } from 'app/routes/users/components/UserConfirmation';
 import type { AppDispatch } from 'app/store/createStore';
 import type { RejectedPromiseAction } from 'app/store/middleware/promiseMiddleware';
 import type { CurrentUser, UpdateUser } from 'app/store/models/User';
@@ -18,7 +19,7 @@ import type { Thunk, Token, EncodedToken, GetCookie } from 'app/types';
 
 const USER_STORAGE_KEY = 'lego.auth';
 
-function saveToken(token: EncodedToken) {
+export function saveToken(token: EncodedToken) {
   const decoded = jwtDecode<Token>(token);
   const expires = moment.unix(decoded.exp);
   return cookie.set(USER_STORAGE_KEY, token, {
@@ -389,34 +390,21 @@ export function validateRegistrationToken(token: string) {
       })
     );
 }
-export function createUser(token: string, user: string) {
-  return (dispatch: AppDispatch) =>
-    dispatch(
-      callAPI<{ user: CurrentUser; token: EncodedToken }>({
-        types: User.CREATE_USER,
-        endpoint: `/users/?token=${token}`,
-        method: 'POST',
-        body: user,
-        meta: {
-          errorMessage: 'Opprettelse av bruker feilet',
-        },
-      })
-    ).then((action) => {
-      if (!action || !action.payload) return;
-      const { user, token } = action.payload;
-      saveToken(token);
-      return dispatch({
-        type: User.FETCH.SUCCESS,
-        payload: normalize(user, userSchema),
-        meta: {
-          isCurrentUser: true,
-        },
-      });
-    });
+
+export function createUser(token: string, data: UserConfirmationFormValues) {
+  return callAPI<{ user: CurrentUser; token: EncodedToken }>({
+    types: User.CREATE_USER,
+    endpoint: `/users/?token=${token}`,
+    method: 'POST',
+    body: data,
+    meta: {
+      errorMessage: 'Opprettelse av bruker feilet',
+    },
+  });
 }
 
 export function deleteUser(password: string) {
-  return callAPI<void>({
+  return callAPI({
     types: User.DELETE,
     endpoint: '/user-delete/',
     method: 'POST',
@@ -467,10 +455,11 @@ export function sendForgotPasswordEmail({ email }: { email: string }) {
       email,
     },
     meta: {
-      errorMessage: 'Sending av tilbakestill passord e-post feilet',
+      errorMessage: 'Sending av tilbakestill-passord-e-post feilet',
     },
   });
 }
+
 export function addPenalty({ user, reason, weight, sourceEvent }: AddPenalty) {
   return callAPI({
     types: Penalty.CREATE,
@@ -488,7 +477,8 @@ export function addPenalty({ user, reason, weight, sourceEvent }: AddPenalty) {
     },
   });
 }
-export function deletePenalty(id: number) {
+
+export function deletePenalty(id: ID) {
   return callAPI({
     types: Penalty.DELETE,
     endpoint: `/penalties/${id}/`,
@@ -501,6 +491,7 @@ export function deletePenalty(id: number) {
     body: {},
   });
 }
+
 export function resetPassword({
   token,
   password,
