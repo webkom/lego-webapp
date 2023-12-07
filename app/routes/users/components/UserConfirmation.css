@@ -1,10 +1,5 @@
 @import url('~app/styles/variables.css');
 
-.root {
-  composes: contentContainer from '~app/styles/utilities.css';
-  max-width: 500px;
-}
-
 .programmeList {
   list-style: disc;
   list-style-position: inside;
