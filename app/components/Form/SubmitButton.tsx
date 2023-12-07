@@ -7,6 +7,7 @@ type Props = {
   onClick?: MouseEventHandler<HTMLButtonElement>;
   className?: string;
   allowPristine?: boolean;
+  danger?: boolean;
 };
 
 export const SubmitButton = ({
@@ -14,6 +15,7 @@ export const SubmitButton = ({
   onClick,
   className,
   allowPristine,
+  danger = false,
 }: Props) =>
   spySubmittable(
     (submittable) => (
@@ -22,6 +24,7 @@ export const SubmitButton = ({
         disabled={!submittable}
         onClick={onClick}
         className={className}
+        danger={danger}
       >
         {children}
       </Button>

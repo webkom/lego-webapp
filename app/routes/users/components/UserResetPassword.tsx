@@ -1,9 +1,9 @@
 import { Field } from 'react-final-form';
 import { Content } from 'app/components/Content';
-import { Button, TextInput } from 'app/components/Form';
+import { TextInput } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
+import { SubmitButton } from 'app/components/Form/SubmitButton';
 import { useUserContext } from 'app/routes/app/AppRoute';
-import { spySubmittable } from 'app/utils/formSpyUtils';
 import { createValidator, required, sameAs } from 'app/utils/validation';
 import { validPassword } from '../utils';
 import PasswordField from './PasswordField';
@@ -45,11 +45,7 @@ const UserResetPasswordForm = ({ token, resetPassword, push }: Props) => {
                 component={TextInput.Field}
               />
 
-              {spySubmittable((submittable) => (
-                <Button danger submit disabled={!submittable}>
-                  Tilbakestill passord
-                </Button>
-              ))}
+              <SubmitButton danger>Tilbakestill passord</SubmitButton>
             </form>
           )}
         </LegoFinalForm>
