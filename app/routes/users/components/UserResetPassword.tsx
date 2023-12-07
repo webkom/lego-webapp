@@ -1,33 +1,42 @@
+import { Card } from '@webkom/lego-bricks';
+import qs from 'qs';
 import { Field } from 'react-final-form';
+import { useLocation, useNavigate } from 'react-router-dom-v5-compat';
+import { resetPassword } from 'app/actions/UserActions';
 import { Content } from 'app/components/Content';
 import { TextInput } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import { useUserContext } from 'app/routes/app/AppRoute';
+import { useAppDispatch } from 'app/store/hooks';
 import { createValidator, required, sameAs } from 'app/utils/validation';
 import { validPassword } from '../utils';
 import PasswordField from './PasswordField';
-import type { History } from 'history';
 
-type Props = {
-  token?: string;
-  resetPassword: (arg0: { token: string; password: string }) => Promise<any>;
-  push: History['push'];
-};
+const UserResetPasswordForm = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const { search } = useLocation();
+  const { token } = qs.parse(search, {
+    ignoreQueryPrefix: true,
+  });
 
-const UserResetPasswordForm = ({ token, resetPassword, push }: Props) => {
+  const onSubmit = (props) =>
+    dispatch(
+      resetPassword({
+        token,
+        ...props,
+      })
+    ).then(() => {
+      navigate('/');
+    });
+
   const { currentUser } = useUserContext();
   const user = {
     username: currentUser.username,
     firstName: currentUser.firstName,
     lastName: currentUser.lastName,
   };
-
-  const onSubmit = (props) =>
-    resetPassword({
-      token,
-      ...props,
-    }).then(() => push('/'));
 
   return (
     <Content>
@@ -38,7 +47,7 @@ const UserResetPasswordForm = ({ token, resetPassword, push }: Props) => {
             <form onSubmit={handleSubmit}>
               <PasswordField label="Nytt passord" user={user} />
               <Field
-                label="Nytt passord (gjenta)"
+                label="Gjenta nytt passord"
                 autocomplete="new-password"
                 name="retypeNewPassword"
                 type="password"
@@ -50,7 +59,9 @@ const UserResetPasswordForm = ({ token, resetPassword, push }: Props) => {
           )}
         </LegoFinalForm>
       ) : (
-        <p>Ingen token ...</p>
+        <Card severity="danger">
+          <Card.Header>Ingen token ...</Card.Header>
+        </Card>
       )}
     </Content>
   );
