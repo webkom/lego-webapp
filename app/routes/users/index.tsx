@@ -1,9 +1,9 @@
 import { useRouteMatch, Route, Switch } from 'react-router-dom';
+import { CompatRoute } from 'react-router-dom-v5-compat';
 import RouteWrapper from 'app/components/RouteWrapper';
 import { UserContext } from 'app/routes/app/AppRoute';
 import PageNotFound from '../pageNotFound';
 import StudentConfirmationRoute from './StudentConfirmationRoute';
-import UserResetPasswordRoute from './UserResetPasswordRoute';
 import UserSettingsNotificationsRoute from './UserSettingsNotificationsRoute';
 import UserSettingsOAuth2CreateRoute from './UserSettingsOAuth2CreateRoute';
 import UserSettingsOAuth2EditRoute from './UserSettingsOAuth2EditRoute';
@@ -11,6 +11,7 @@ import UserSettingsOAuth2Route from './UserSettingsOAuth2Route';
 import UserSettingsRoute from './UserSettingsRoute';
 import UserConfirmationForm from './components/UserConfirmation';
 import UserProfile from './components/UserProfile';
+import UserResetPasswordForm from './components/UserResetPassword';
 import UserSettingsIndex from './components/UserSettingsIndex';
 
 const UsersRoute = () => {
@@ -25,14 +26,10 @@ const UsersRoute = () => {
             path={`${path}/registration`}
             component={UserConfirmationForm}
           />
-          <RouteWrapper
+          <CompatRoute
             exact
             path={`${path}/reset-password`}
-            passedProps={{
-              currentUser,
-              loggedIn,
-            }}
-            Component={UserResetPasswordRoute}
+            component={UserResetPasswordForm}
           />
           <Route exact path={`${path}/:username`} component={UserProfile} />
           <Route path={`${path}/:username/settings`}>
