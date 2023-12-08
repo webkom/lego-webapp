@@ -4,8 +4,6 @@ import RouteWrapper from 'app/components/RouteWrapper';
 import { UserContext } from 'app/routes/app/AppRoute';
 import PageNotFound from '../pageNotFound';
 import StudentConfirmationRoute from './StudentConfirmationRoute';
-import UserSettingsOAuth2CreateRoute from './UserSettingsOAuth2CreateRoute';
-import UserSettingsOAuth2EditRoute from './UserSettingsOAuth2EditRoute';
 import UserSettingsRoute from './UserSettingsRoute';
 import UserConfirmationForm from './components/UserConfirmation';
 import UserProfile from './components/UserProfile';
@@ -13,6 +11,7 @@ import UserResetPasswordForm from './components/UserResetPassword';
 import UserSettingsIndex from './components/UserSettingsIndex';
 import UserSettingsNotifications from './components/UserSettingsNotifications';
 import UserSettingsOAuth2 from './components/UserSettingsOAuth2';
+import UserSettingsOAuth2Form from './components/UserSettingsOAuth2Form';
 
 const UsersRoute = () => {
   const { path } = useRouteMatch();
@@ -53,23 +52,15 @@ const UsersRoute = () => {
                 path={`${path}/oauth2`}
                 component={UserSettingsOAuth2}
               />
-              <RouteWrapper
+              <CompatRoute
                 exact
                 path={`${path}/oauth2/new`}
-                passedProps={{
-                  currentUser,
-                  loggedIn,
-                }}
-                Component={UserSettingsOAuth2CreateRoute}
+                component={UserSettingsOAuth2Form}
               />
-              <RouteWrapper
+              <CompatRoute
                 exact
                 path={`${path}/oauth2/:applicationId(\\d+)`}
-                passedProps={{
-                  currentUser,
-                  loggedIn,
-                }}
-                Component={UserSettingsOAuth2EditRoute}
+                component={UserSettingsOAuth2Form}
               />
               <RouteWrapper
                 exact
