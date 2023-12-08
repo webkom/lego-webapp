@@ -1,23 +1,47 @@
 import { Button, ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import keys from 'lodash/keys';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import {
+  deleteOAuth2Grant,
+  fetchOAuth2Applications,
+  fetchOAuth2Grants,
+} from 'app/actions/OAuth2Actions';
 import Table from 'app/components/Table';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
 import config from 'app/config';
+import {
+  selectOAuth2Applications,
+  selectOAuth2Grants,
+} from 'app/reducers/oauth2';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './UserSettingsOAuth2.css';
 
-type Props = {
-  applications: Array<any>;
-  grants: Array<any>;
-  deleteOAuth2Grant: (grantId: number) => Promise<void>;
-  actionGrant: Array<string>;
-  fetchingApplications: boolean;
-  fetchingGrants: boolean;
-};
+const UserSettingsOAuth2 = () => {
+  const dispatch = useAppDispatch();
 
-const UserSettingsOAuth2 = (props: Props) => {
+  usePreparedEffect(
+    'fetchUserSettingsOAuth2',
+    () =>
+      Promise.all([
+        dispatch(fetchOAuth2Applications()),
+        dispatch(fetchOAuth2Grants()),
+      ]),
+    []
+  );
+
+  const applications = useAppSelector(selectOAuth2Applications);
+  const grants = useAppSelector(selectOAuth2Grants);
+  const actionGrant = useAppSelector(
+    (state) => state.oauth2Applications.actionGrant
+  );
+  const fetchingApplications = useAppSelector(
+    (state) => state.oauth2Applications.fetching
+  );
+  const fetchingGrants = useAppSelector((state) => state.oauth2Grants.fetching);
+
   const [copiedClientId, setCopiedClientId] = useState<string>('');
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
 
@@ -104,7 +128,7 @@ const UserSettingsOAuth2 = (props: Props) => {
         <ConfirmModal
           title="Bekreft handling"
           message={`Er du sikker på at du vil fjerne token?`}
-          onConfirm={() => props.deleteOAuth2Grant(grant.id)}
+          onConfirm={() => dispatch(deleteOAuth2Grant(grant.id))}
           closeOnCancel
         >
           {({ openConfirmModal }) => (
@@ -165,30 +189,30 @@ const UserSettingsOAuth2 = (props: Props) => {
       </ul>
 
       <h3>Applikasjoner</h3>
-      {props.actionGrant.includes('create') && (
+      {actionGrant.includes('create') && (
         <Button>
           <Link to="/users/me/settings/oauth2/new">Ny applikasjon</Link>
         </Button>
       )}
-      {props.applications.length === 0 ? (
+      {applications.length === 0 ? (
         <span>Du har ingen applikasjoner</span>
       ) : (
         <Table
           columns={applicationColumns}
-          data={props.applications}
-          loading={props.fetchingApplications}
+          data={applications}
+          loading={fetchingApplications}
           hasMore={false}
         />
       )}
 
       <h3>Aksepterte applikasjoner</h3>
-      {props.grants.length === 0 ? (
+      {grants.length === 0 ? (
         <span>Du har ikke logget på en app enda.</span>
       ) : (
         <Table
           columns={acceptedApplicationcolumns}
-          data={props.grants}
-          loading={props.fetchingGrants}
+          data={grants}
+          loading={fetchingGrants}
           hasMore={false}
         />
       )}
