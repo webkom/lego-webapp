@@ -3,8 +3,8 @@ import { CompatRoute } from 'react-router-dom-v5-compat';
 import RouteWrapper from 'app/components/RouteWrapper';
 import { UserContext } from 'app/routes/app/AppRoute';
 import PageNotFound from '../pageNotFound';
-import StudentConfirmationRoute from './StudentConfirmationRoute';
 import UserSettingsRoute from './UserSettingsRoute';
+import StudentConfirmation from './components/StudentConfirmation';
 import UserConfirmationForm from './components/UserConfirmation';
 import UserProfile from './components/UserProfile';
 import UserResetPasswordForm from './components/UserResetPassword';
@@ -29,6 +29,11 @@ const UsersRoute = () => {
             exact
             path={`${path}/reset-password`}
             component={UserResetPasswordForm}
+          />
+          <Route
+            exact
+            path={`${path}/student-confirmation`}
+            component={StudentConfirmation}
           />
           <Route exact path={`${path}/:username`} component={UserProfile} />
           <Route path={`${path}/:username/settings`}>
@@ -61,15 +66,6 @@ const UsersRoute = () => {
                 exact
                 path={`${path}/oauth2/:applicationId(\\d+)`}
                 component={UserSettingsOAuth2Form}
-              />
-              <RouteWrapper
-                exact
-                path={`${path}/student-confirmation`}
-                passedProps={{
-                  currentUser,
-                  loggedIn,
-                }}
-                Component={StudentConfirmationRoute}
               />
             </UserSettingsIndex>
           </Route>

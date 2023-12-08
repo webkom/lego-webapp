@@ -418,8 +418,12 @@ export function deleteUser(password: string) {
   });
 }
 
+type StartStudentAuthResponse = {
+  url: string;
+  status: string;
+};
 export function startStudentAuth() {
-  return callAPI({
+  return callAPI<StartStudentAuthResponse>({
     types: User.INIT_STUDENT_AUTH,
     endpoint: `/oidc/authorize/`,
     method: 'GET',
@@ -429,14 +433,26 @@ export function startStudentAuth() {
   });
 }
 
-export function confirmStudentAuth({
-  code,
-  state,
-}: {
-  code: string;
-  state: string;
-}) {
-  return callAPI({
+type ConfirmStudentAuthResponseCommonFields = {
+  studyProgrammes: string[];
+  grade: string;
+};
+type ConfirmStudentAuthBaseResponse = ConfirmStudentAuthResponseCommonFields & {
+  status: 'unauthorized' | 'success';
+};
+type ConfirmStudentAuthErrorResponse =
+  ConfirmStudentAuthResponseCommonFields & {
+    status: 'error';
+    detail: string;
+  };
+export type ConfirmStudentAuthResponse =
+  | ConfirmStudentAuthBaseResponse
+  | ConfirmStudentAuthErrorResponse;
+export function confirmStudentAuth(
+  code: string | qs.ParsedQs | string[] | qs.ParsedQs[],
+  state: string | qs.ParsedQs | string[] | qs.ParsedQs[]
+) {
+  return callAPI<ConfirmStudentAuthResponse>({
     types: User.COMPLETE_STUDENT_AUTH,
     endpoint: `/oidc/validate/?code=${code}&state=${state}`,
     method: 'GET',
