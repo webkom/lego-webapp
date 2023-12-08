@@ -11,6 +11,7 @@ import { uploadFile } from './FileActions';
 import { fetchMeta } from './MetaActions';
 import { setStatusCode } from './RoutingActions';
 import type { AddPenalty, ID, PhotoConsent } from 'app/models';
+import type { FormValues as ChangePasswordFormValues } from 'app/routes/users/components/ChangePassword';
 import type { FormValues as UserConfirmationFormValues } from 'app/routes/users/components/UserConfirmation';
 import type { AppDispatch } from 'app/store/createStore';
 import type { RejectedPromiseAction } from 'app/store/middleware/promiseMiddleware';
@@ -162,16 +163,11 @@ export function updateUser(
     });
 }
 
-type PasswordPayload = {
-  password: string;
-  newPassword: string;
-  retypeNewPassword: string;
-};
 export function changePassword({
   password,
   newPassword,
   retypeNewPassword,
-}: PasswordPayload) {
+}: ChangePasswordFormValues) {
   return callAPI({
     types: User.PASSWORD_CHANGE,
     endpoint: '/password-change/',

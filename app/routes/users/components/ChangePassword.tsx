@@ -1,29 +1,36 @@
-import { Button } from '@webkom/lego-bricks';
-import { Field, FormSpy } from 'react-final-form';
+import { Field } from 'react-final-form';
+import { useNavigate } from 'react-router-dom-v5-compat';
+import { changePassword } from 'app/actions/UserActions';
 import { TextInput } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
+import { SubmitButton } from 'app/components/Form/SubmitButton';
+import { useUserContext } from 'app/routes/app/AppRoute';
+import { useAppDispatch } from 'app/store/hooks';
 import { createValidator, required, sameAs } from 'app/utils/validation';
 import { validPassword } from '../utils';
 import PasswordField from './PasswordField';
-import type { UserEntity } from 'app/reducers/users';
-import type { History } from 'history';
 
-type PasswordPayload = {
-  newPassword: string;
+export type FormValues = {
   password: string;
-  retype_new_password: string;
-};
-type Props = {
-  push: History['push'];
-  changePassword: (arg0: PasswordPayload) => Promise<void>;
-  user: UserEntity;
+  newPassword: string;
+  retypeNewPassword: string;
 };
 
-const ChangePasswordForm = ({ user, changePassword, push }: Props) => {
-  const onSubmit = (data: PasswordPayload) =>
-    changePassword(data).then(() => push('/users/me'));
+const TypedLegoForm = LegoFinalForm<FormValues>;
+
+const ChangePasswordForm = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const onSubmit = (data: FormValues) =>
+    dispatch(changePassword(data)).then(() => {
+      navigate('/users/me');
+    });
+
+  const { currentUser } = useUserContext();
+
   return (
-    <LegoFinalForm onSubmit={onSubmit} validate={validate}>
+    <TypedLegoForm onSubmit={onSubmit} validate={validate}>
       {({ handleSubmit }) => (
         <form onSubmit={handleSubmit}>
           <Field
@@ -33,34 +40,22 @@ const ChangePasswordForm = ({ user, changePassword, push }: Props) => {
             autocomplete="current-password"
             component={TextInput.Field}
           />
-          <PasswordField user={user} label="Nytt passord" name="newPassword" />
+          <PasswordField
+            user={currentUser}
+            label="Nytt passord"
+            name="newPassword"
+          />
           <Field
-            label="Nytt passord (gjenta)"
+            label="Gjenta nytt passord"
             name="retypeNewPassword"
             autocomplete="new-password"
             type="password"
             component={TextInput.Field}
           />
-          <FormSpy
-            subscription={{
-              pristine: true,
-              submitting: true,
-              invalid: true,
-            }}
-          >
-            {({ pristine, submitting, invalid }) => (
-              <Button
-                submit
-                danger
-                disabled={pristine || submitting || invalid}
-              >
-                Endre passord
-              </Button>
-            )}
-          </FormSpy>
+          <SubmitButton danger>Endre passord</SubmitButton>
         </form>
       )}
-    </LegoFinalForm>
+    </TypedLegoForm>
   );
 };
 
