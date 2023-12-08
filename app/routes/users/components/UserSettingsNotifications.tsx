@@ -81,12 +81,10 @@ const UserSettingsNotifications = (props: Props) => {
             <td>E-poster som sendes direkte til deg</td>
             <td>
               <CheckBox
-                value={props.currentUser.emailListsEnabled}
+                checked={props.currentUser.emailListsEnabled}
                 onChange={(event) => {
-                  const target = event.target;
-                  const value = target.checked;
                   props.updateUser(
-                    { ...props.currentUser, emailListsEnabled: value },
+                    { ...props.currentUser, emailListsEnabled: event },
                     {
                       noRedirect: true,
                     }
@@ -121,11 +119,9 @@ const UserSettingsNotifications = (props: Props) => {
                 {props.alternatives.channels.map((channel, key) => (
                   <td key={key}>
                     <CheckBox
-                      value={channnelSetting(channel)}
+                      checked={channnelSetting(channel)}
                       onChange={(event) => {
-                        const target = event.target;
-                        const value = target.checked;
-                        changeSetting(channel, value);
+                        changeSetting(channel, event);
                       }}
                     />
                   </td>
