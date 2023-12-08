@@ -6,13 +6,13 @@ import PageNotFound from '../pageNotFound';
 import StudentConfirmationRoute from './StudentConfirmationRoute';
 import UserSettingsOAuth2CreateRoute from './UserSettingsOAuth2CreateRoute';
 import UserSettingsOAuth2EditRoute from './UserSettingsOAuth2EditRoute';
-import UserSettingsOAuth2Route from './UserSettingsOAuth2Route';
 import UserSettingsRoute from './UserSettingsRoute';
 import UserConfirmationForm from './components/UserConfirmation';
 import UserProfile from './components/UserProfile';
 import UserResetPasswordForm from './components/UserResetPassword';
 import UserSettingsIndex from './components/UserSettingsIndex';
 import UserSettingsNotifications from './components/UserSettingsNotifications';
+import UserSettingsOAuth2 from './components/UserSettingsOAuth2';
 
 const UsersRoute = () => {
   const { path } = useRouteMatch();
@@ -48,14 +48,10 @@ const UsersRoute = () => {
                 path={`${path}/notifications`}
                 component={UserSettingsNotifications}
               />
-              <RouteWrapper
+              <Route
                 exact
                 path={`${path}/oauth2`}
-                passedProps={{
-                  currentUser,
-                  loggedIn,
-                }}
-                Component={UserSettingsOAuth2Route}
+                component={UserSettingsOAuth2}
               />
               <RouteWrapper
                 exact
