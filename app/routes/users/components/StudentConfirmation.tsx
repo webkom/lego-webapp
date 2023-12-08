@@ -1,9 +1,9 @@
-import { Card, Container, Flex, Modal } from '@webkom/lego-bricks';
+import { Card, Flex, Modal } from '@webkom/lego-bricks';
 import qs from 'qs';
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useHistory } from 'react-router-dom';
 import {
-  ConfirmStudentAuthResponse,
+  type ConfirmStudentAuthResponse,
   confirmStudentAuth,
   startStudentAuth,
   updateUser,
@@ -12,7 +12,7 @@ import { Button } from 'app/components/Form';
 import { useUserContext } from 'app/routes/app/AppRoute';
 import { useAppDispatch } from 'app/store/hooks';
 import styles from './UserConfirmation.css';
-import { RejectedPromiseAction } from 'app/store/middleware/promiseMiddleware';
+import type { RejectedPromiseAction } from 'app/store/middleware/promiseMiddleware';
 
 const NotEligibleInfo = () => (
   <div className={styles.notEligibleInfo}>
@@ -92,7 +92,7 @@ const StudentConfirmation = () => {
   }, [authRes]);
 
   return (
-    <Container>
+    <>
       <h2>Verifiser studentstatus</h2>
 
       {currentUser.isStudent === null && (
@@ -215,7 +215,7 @@ const StudentConfirmation = () => {
           </Button>
         </Flex>
       </Modal>
-    </Container>
+    </>
   );
 };
 

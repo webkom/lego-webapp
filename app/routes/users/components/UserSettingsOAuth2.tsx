@@ -1,4 +1,4 @@
-import { Button, ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
+import { Button, Card, ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import keys from 'lodash/keys';
 import { useState } from 'react';
@@ -149,7 +149,7 @@ const UserSettingsOAuth2 = () => {
   ];
 
   return (
-    <Flex column gap={15}>
+    <>
       <h2>OAuth2</h2>
       <p>
         Denne nettsiden benytter seg av et API som også er tiljengelig for andre
@@ -163,13 +163,14 @@ const UserSettingsOAuth2 = () => {
         slette en applikasjon du har opprettet.
       </p>
 
-      <p>
-        <b>
-          Client ID og Client secret ansees som hemmelig og må ikke inkluderes i
-          kode som gjøres tiljengelig for sluttbrukere, typisk en webapp eller
-          en mobilapplikasjon.
-        </b>
-      </p>
+      <Card severity="warning">
+        <Card.Header>Obs!</Card.Header>
+        <span>
+          <i>Client ID</i> og <i>Client secret</i> ansees som hemmelig og må
+          ikke inkluderes i kode som gjøres tiljengelig for sluttbrukere, typisk
+          en webapp eller en mobilapplikasjon.
+        </span>
+      </Card>
 
       <ul>
         <li>
@@ -189,21 +190,23 @@ const UserSettingsOAuth2 = () => {
       </ul>
 
       <h3>Applikasjoner</h3>
-      {actionGrant.includes('create') && (
-        <Button>
-          <Link to="/users/me/settings/oauth2/new">Ny applikasjon</Link>
-        </Button>
-      )}
-      {applications.length === 0 ? (
-        <span>Du har ingen applikasjoner</span>
-      ) : (
-        <Table
-          columns={applicationColumns}
-          data={applications}
-          loading={fetchingApplications}
-          hasMore={false}
-        />
-      )}
+      <Flex column gap="1rem">
+        {actionGrant.includes('create') && (
+          <Button>
+            <Link to="/users/me/settings/oauth2/new">Ny applikasjon</Link>
+          </Button>
+        )}
+        {applications.length === 0 ? (
+          <span>Du har ingen applikasjoner</span>
+        ) : (
+          <Table
+            columns={applicationColumns}
+            data={applications}
+            loading={fetchingApplications}
+            hasMore={false}
+          />
+        )}
+      </Flex>
 
       <h3>Aksepterte applikasjoner</h3>
       {grants.length === 0 ? (
@@ -216,7 +219,7 @@ const UserSettingsOAuth2 = () => {
           hasMore={false}
         />
       )}
-    </Flex>
+    </>
   );
 };
 

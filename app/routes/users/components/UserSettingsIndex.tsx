@@ -1,24 +1,25 @@
-import { omit } from 'lodash';
-import { cloneElement } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { Route, Switch, useParams, useRouteMatch } from 'react-router-dom';
+import { CompatRoute } from 'react-router-dom-v5-compat';
 import { Content } from 'app/components/Content';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
+import { useUserContext } from 'app/routes/app/AppRoute';
 import { useIsCurrentUser } from 'app/routes/users/utils';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
-import type { CurrentUser } from 'app/store/models/User';
-import type { ReactElement } from 'react';
-import type { RouteChildrenProps } from 'react-router';
+import StudentConfirmation from './StudentConfirmation';
+import UserSettings from './UserSettings';
+import UserSettingsNotifications from './UserSettingsNotifications';
+import UserSettingsOAuth2 from './UserSettingsOAuth2';
+import UserSettingsOAuth2Form from './UserSettingsOAuth2Form';
 
-type Props = {
-  children: ReactElement[];
-  currentUser: CurrentUser;
-  loggedIn: boolean;
-} & RouteChildrenProps<{ username: string }>;
+const UserSettingsIndex = () => {
+  const { path } = useRouteMatch();
 
-const UserSettingsIndex = (props: Props) => {
-  const isCurrentUser = useIsCurrentUser(props.match.params.username);
+  const { username } = useParams<{ username: string }>();
+  const isCurrentUser = useIsCurrentUser(username);
+  const { currentUser } = useUserContext();
+  const base = `/users/${username}/settings`;
 
-  const base = `/users/${props.match.params.username}/settings`;
   // At the moment changing settings for other users only works
   // for the settings under `/profile` - so no point in showing
   // the other tabs.
@@ -29,7 +30,7 @@ const UserSettingsIndex = (props: Props) => {
         title="Innstillinger"
         back={{
           label: 'Profil',
-          path: `/users/${props.match?.params.username}`,
+          path: `/users/${username}`,
         }}
       >
         {isCurrentUser && (
@@ -40,17 +41,38 @@ const UserSettingsIndex = (props: Props) => {
             </NavigationLink>
             <NavigationLink to={`${base}/oauth2`}>OAuth2</NavigationLink>
             <NavigationLink to={`${base}/student-confirmation`}>
-              {props.currentUser.isStudent
+              {currentUser.isStudent
                 ? 'Studentstatus'
                 : 'Verifiser studentstatus'}
             </NavigationLink>
           </>
         )}
       </NavigationTab>
-      {props.children &&
-        props.children.map((child) =>
-          cloneElement(child, { ...omit(props, 'match'), children: undefined })
-        )}
+
+      <Switch>
+        <Route exact path={`${path}/profile`} component={UserSettings} />
+        <Route
+          exact
+          path={`${path}/notifications`}
+          component={UserSettingsNotifications}
+        />
+        <Route exact path={`${path}/oauth2`} component={UserSettingsOAuth2} />
+        <CompatRoute
+          exact
+          path={`${path}/oauth2/new`}
+          component={UserSettingsOAuth2Form}
+        />
+        <CompatRoute
+          exact
+          path={`${path}/oauth2/:applicationId(\\d+)`}
+          component={UserSettingsOAuth2Form}
+        />
+        <Route
+          exact
+          path={`${path}/student-confirmation`}
+          component={StudentConfirmation}
+        />
+      </Switch>
     </Content>
   );
 };
