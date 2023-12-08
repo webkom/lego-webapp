@@ -52,7 +52,7 @@ const TypedLegoForm = LegoFinalForm<FormValues>;
 const UserConfirmationForm = () => {
   const [submitSucceeded, setSubmitSucceeded] = useState(false);
 
-  const token = useAppSelector((state) => state.auth.token);
+  const token = useAppSelector((state) => state.auth.registrationToken);
 
   usePreparedEffect('fetchUserConfirmation', () => loadData, []);
 

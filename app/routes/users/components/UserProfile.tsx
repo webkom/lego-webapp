@@ -1,4 +1,11 @@
-import { Button, Card, Flex, Icon, Modal } from '@webkom/lego-bricks';
+import {
+  Button,
+  Card,
+  Flex,
+  Icon,
+  LoadingIndicator,
+  Modal,
+} from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
 import { sumBy, sortBy, uniqBy, groupBy, orderBy } from 'lodash';
@@ -11,6 +18,7 @@ import { fetchPrevious, fetchUpcoming } from 'app/actions/EventActions';
 import { fetchAllWithType } from 'app/actions/GroupActions';
 import { fetchUser } from 'app/actions/UserActions';
 import frame from 'app/assets/frame.png';
+import { Content } from 'app/components/Content';
 import EventListCompact from 'app/components/EventListCompact';
 import { ProfilePicture, CircularPicture, Image } from 'app/components/Image';
 import Pill from 'app/components/Pill';
@@ -24,6 +32,7 @@ import { resolveGroupLink, selectGroupsWithType } from 'app/reducers/groups';
 import { selectPenaltyByUserId } from 'app/reducers/penalties';
 import { selectUserWithGroups } from 'app/reducers/users';
 import { useUserContext } from 'app/routes/app/AppRoute';
+import { useIsCurrentUser } from 'app/routes/users/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import GroupChange from './GroupChange';
@@ -104,7 +113,6 @@ const GroupBadge = ({
   );
   const abakusGroup = memberships[0].abakusGroup;
   if (!abakusGroup.showBadge) return null;
-  // $FlowFixMe
   const sortedMemberships = orderBy(memberships, (membership) =>
     moment(membership.startDate || membership.createdAt)
   );
@@ -164,16 +172,16 @@ const UserProfile = () => {
 
   const params = useParams<{ username: string }>();
   const { currentUser } = useUserContext();
+  const isCurrentUser =
+    useIsCurrentUser(params.username) || params.username === 'me';
   const username =
-    params.username === 'me' ? currentUser.username : params.username;
+    isCurrentUser && currentUser ? currentUser?.username : params.username;
   const user = useAppSelector((state) =>
     selectUserWithGroups(state, {
       username,
     })
   );
 
-  const isCurrentUser =
-    params.username === 'me' || params.username === currentUser.username;
   const actionGrant = user?.actionGrant || [];
   const showSettings =
     (isCurrentUser || actionGrant.includes('edit')) && user?.username;
@@ -214,6 +222,14 @@ const UserProfile = () => {
     [params.username, isCurrentUser]
   );
 
+  if (!user) {
+    return (
+      <Content>
+        <LoadingIndicator loading />;
+      </Content>
+    );
+  }
+
   const sumPenalties = () => {
     return sumBy(penalties, 'weight');
   };
@@ -231,14 +247,14 @@ const UserProfile = () => {
     return (
       <ul>
         {tags}
-        {user?.linkedinId && (
+        {user.linkedinId && (
           <li key="linkedinId">
             <span>
               <Flex alignItems="center">
                 <Icon name={'logo-linkedin'} className={styles.githubIcon} />
                 <a href={`https://www.linkedin.com/in/${user.linkedinId}`}>
                   {' '}
-                  {user?.fullName}
+                  {user.fullName}
                 </a>
               </Flex>
             </span>
@@ -407,9 +423,9 @@ const UserProfile = () => {
     .filter(({ emailLists }) => emailLists.length);
 
   const emailListsOnUser = abakusEmailLists.filter((emailList) =>
-    emailList.users.includes(user?.id)
+    emailList.users.includes(user.id)
   );
-  const hasFrame = FRAMEID.includes(user?.id as number);
+  const hasFrame = FRAMEID.includes(user.id as number);
 
   return (
     <div className={styles.root}>
@@ -422,8 +438,8 @@ const UserProfile = () => {
           setShowAbaId(false);
         }}
       >
-        <QRCode value={user?.username ?? ''} />
-        <h2>{user?.username}</h2>
+        <QRCode value={user.username ?? ''} />
+        <h2>{user.username}</h2>
       </Modal>
 
       <Flex wrap className={styles.header}>
@@ -452,12 +468,12 @@ const UserProfile = () => {
         </Flex>
         <Flex column className={styles.rightContent}>
           <Flex justifyContent="space-between" alignItems="center">
-            <h2>{user?.fullName}</h2>
+            <h2>{user.fullName}</h2>
             <Icon
               name="settings"
               size={22}
               className={styles.settingsIcon}
-              to={`/users/${user?.username}/settings/profile`}
+              to={`/users/${user.username}/settings/profile`}
             />
           </Flex>
           <Flex wrap>
@@ -480,7 +496,7 @@ const UserProfile = () => {
             <Card className={styles.infoCard}>
               {renderFields()}
               {showSettings ? (
-                <Link to={`/users/${user?.username}/settings/profile`}>
+                <Link to={`/users/${user.username}/settings/profile`}>
                   <Button>Innstillinger</Button>
                 </Link>
               ) : (
@@ -507,7 +523,7 @@ const UserProfile = () => {
               <Card>
                 <PhotoConsents
                   photoConsents={photoConsents}
-                  username={user?.username}
+                  username={user.username}
                   userId={user.id}
                   isCurrentUser={isCurrentUser}
                 />
@@ -522,7 +538,7 @@ const UserProfile = () => {
                 <GroupChange
                   grades={groups}
                   abakusGroups={abakusGroups}
-                  username={user?.username}
+                  username={user.username}
                 />
               </Card>
             </div>
@@ -688,7 +704,7 @@ const UserProfile = () => {
 
           {isCurrentUser && user.email !== user.emailAddress && (
             <div>
-              <h3>Google GSuite</h3>
+              <h3>Google G Suite</h3>
               <Card className={styles.infoCard}>
                 <p>
                   Din konto er linket opp mot Abakus sitt domene i Google

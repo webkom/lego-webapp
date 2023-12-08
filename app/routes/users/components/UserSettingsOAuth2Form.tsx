@@ -60,8 +60,8 @@ const UserSettingsOAuth2Form = () => {
   const initialValues = isNew ? {} : application;
 
   return (
-    <div>
-      <h1>{isNew ? 'Opprett' : 'Endre'} applikasjon</h1>
+    <>
+      <h2>{isNew ? 'Opprett' : 'Endre'} applikasjon</h2>
 
       <TypedLegoForm
         onSubmit={onSubmit}
@@ -121,7 +121,7 @@ const UserSettingsOAuth2Form = () => {
           </Form>
         )}
       </TypedLegoForm>
-    </div>
+    </>
   );
 };
 

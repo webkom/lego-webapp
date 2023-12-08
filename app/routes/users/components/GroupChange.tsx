@@ -20,9 +20,7 @@ const noLongerStudent = {
 };
 
 const GroupChange = (props: Props) => {
-  const [selectedOption, setSelectedOption] = useState<
-    Option | null | undefined
-  >(null);
+  const [selectedOption, setSelectedOption] = useState<Option | null>(null);
 
   const dispatch = useAppDispatch();
 
