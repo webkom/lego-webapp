@@ -5,7 +5,7 @@ import dataGraphic from 'app/assets/frontpage-graphic-data.png';
 import forCompaniesGraphic from 'app/assets/frontpage-graphic-for-companies.png';
 import komtekGraphic from 'app/assets/frontpage-graphic-komtek.png';
 import readmeGraphic from 'app/assets/frontpage-graphic-readme.png';
-import netcompany from 'app/assets/netcompany_dark.png';
+import netcompany from 'app/assets/netcompany_dark.svg';
 import netcompanyLight from 'app/assets/netcompany_white.svg';
 import AuthSection from 'app/components/AuthSection/AuthSection';
 // import Banner from 'app/components/Banner';
