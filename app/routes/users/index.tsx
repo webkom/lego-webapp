@@ -4,7 +4,6 @@ import RouteWrapper from 'app/components/RouteWrapper';
 import { UserContext } from 'app/routes/app/AppRoute';
 import PageNotFound from '../pageNotFound';
 import StudentConfirmationRoute from './StudentConfirmationRoute';
-import UserSettingsNotificationsRoute from './UserSettingsNotificationsRoute';
 import UserSettingsOAuth2CreateRoute from './UserSettingsOAuth2CreateRoute';
 import UserSettingsOAuth2EditRoute from './UserSettingsOAuth2EditRoute';
 import UserSettingsOAuth2Route from './UserSettingsOAuth2Route';
@@ -13,6 +12,7 @@ import UserConfirmationForm from './components/UserConfirmation';
 import UserProfile from './components/UserProfile';
 import UserResetPasswordForm from './components/UserResetPassword';
 import UserSettingsIndex from './components/UserSettingsIndex';
+import UserSettingsNotifications from './components/UserSettingsNotifications';
 
 const UsersRoute = () => {
   const { path } = useRouteMatch();
@@ -33,71 +33,58 @@ const UsersRoute = () => {
           />
           <Route exact path={`${path}/:username`} component={UserProfile} />
           <Route path={`${path}/:username/settings`}>
-            {({ match, location }) => (
-              <UserSettingsIndex
-                {...{
-                  match,
+            <UserSettingsIndex>
+              <RouteWrapper
+                exact
+                path={`${path}/profile`}
+                passedProps={{
                   currentUser,
                   loggedIn,
-                  location,
                 }}
-              >
-                <RouteWrapper
-                  exact
-                  path={`${path}/profile`}
-                  passedProps={{
-                    currentUser,
-                    loggedIn,
-                  }}
-                  Component={UserSettingsRoute}
-                />
-                <RouteWrapper
-                  exact
-                  path={`${path}/notifications`}
-                  passedProps={{
-                    currentUser,
-                    loggedIn,
-                  }}
-                  Component={UserSettingsNotificationsRoute}
-                />
-                <RouteWrapper
-                  exact
-                  path={`${path}/oauth2`}
-                  passedProps={{
-                    currentUser,
-                    loggedIn,
-                  }}
-                  Component={UserSettingsOAuth2Route}
-                />
-                <RouteWrapper
-                  exact
-                  path={`${path}/oauth2/new`}
-                  passedProps={{
-                    currentUser,
-                    loggedIn,
-                  }}
-                  Component={UserSettingsOAuth2CreateRoute}
-                />
-                <RouteWrapper
-                  exact
-                  path={`${path}/oauth2/:applicationId(\\d+)`}
-                  passedProps={{
-                    currentUser,
-                    loggedIn,
-                  }}
-                  Component={UserSettingsOAuth2EditRoute}
-                />
-                <RouteWrapper
-                  exact
-                  path={`${path}/student-confirmation`}
-                  passedProps={{
-                    currentUser,
-                    loggedIn,
-                  }}
-                  Component={StudentConfirmationRoute}
-                />
-              </UserSettingsIndex>
-            )}
+                Component={UserSettingsRoute}
+              />
+              <Route
+                exact
+                path={`${path}/notifications`}
+                component={UserSettingsNotifications}
+              />
+              <RouteWrapper
+                exact
+                path={`${path}/oauth2`}
+                passedProps={{
+                  currentUser,
+                  loggedIn,
+                }}
+                Component={UserSettingsOAuth2Route}
+              />
+              <RouteWrapper
+                exact
+                path={`${path}/oauth2/new`}
+                passedProps={{
+                  currentUser,
+                  loggedIn,
+                }}
+                Component={UserSettingsOAuth2CreateRoute}
+              />
+              <RouteWrapper
+                exact
+                path={`${path}/oauth2/:applicationId(\\d+)`}
+                passedProps={{
+                  currentUser,
+                  loggedIn,
+                }}
+                Component={UserSettingsOAuth2EditRoute}
+              />
+              <RouteWrapper
+                exact
+                path={`${path}/student-confirmation`}
+                passedProps={{
+                  currentUser,
+                  loggedIn,
+                }}
+                Component={StudentConfirmationRoute}
+              />
+            </UserSettingsIndex>
           </Route>
           <Route component={PageNotFound} />
         </Switch>
