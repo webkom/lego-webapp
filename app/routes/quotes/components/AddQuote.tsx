@@ -96,19 +96,18 @@ const AddQuote = () => {
             <div className={styles.innerPreview}>
               {spyValues<FormValues>((values) => (
                 <RandomQuote
-                  fetchRandomQuote={() => Promise.resolve()}
-                  emojis={[]}
-                  currentQuote={{
+                  dummyQuote={{
                     id: 1,
                     text: values.text || 'Det er bare å gjøre det',
-                    source: removeUnnecessaryDash(values.source) || 'Esso',
+                    source:
+                      (values.source && removeUnnecessaryDash(values.source)) ||
+                      'Esso',
                     approved: true,
                     contentTarget: '' as ContentTarget,
                     reactionsGrouped: [],
                     createdAt: moment(),
                     tags: [],
                   }}
-                  loggedIn={true}
                   useReactions={false}
                 />
               ))}

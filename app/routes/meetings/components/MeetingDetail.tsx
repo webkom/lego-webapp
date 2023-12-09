@@ -32,7 +32,6 @@ import styles from './MeetingDetail.css';
 import type { Dateish } from 'app/models';
 import type { MeetingInvitationWithUser } from 'app/reducers/meetingInvitations';
 import type Comment from 'app/store/models/Comment';
-import type Emoji from 'app/store/models/Emoji';
 import type { DetailedMeeting } from 'app/store/models/Meeting';
 import type { ReactionsGrouped } from 'app/store/models/Reaction';
 import type { CurrentUser, PublicUser } from 'app/store/models/User';
@@ -52,7 +51,6 @@ type Props = {
   currentUserInvitation: MeetingInvitationWithUser;
   loggedIn: boolean;
   comments: Comment[];
-  emojis: Emoji[];
   reactionsGrouped: ReactionsGrouped[];
 };
 
@@ -71,7 +69,6 @@ const MeetingDetails = ({
   comments,
   loggedIn,
   currentUserInvitation,
-  emojis,
   setInvitationStatus,
   meetingInvitations,
 }: Props) => {
@@ -230,13 +227,7 @@ const MeetingDetails = ({
           {meeting.contentTarget && (
             <>
               <div className={styles.meetingReactions}>
-                <LegoReactions
-                  emojis={emojis}
-                  user={currentUser}
-                  parentEntity={meeting}
-                  loggedIn={loggedIn}
-                  showPeople
-                />
+                <LegoReactions parentEntity={meeting} showPeople />
               </div>
               <CommentView
                 user={currentUser}

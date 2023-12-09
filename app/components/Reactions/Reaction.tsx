@@ -3,15 +3,14 @@ import cx from 'classnames';
 import { addReaction, deleteReaction } from 'app/actions/ReactionActions';
 import Emoji from 'app/components/Emoji';
 import Tooltip from 'app/components/Tooltip';
+import { useUserContext } from 'app/routes/app/AppRoute';
 import { useAppDispatch } from 'app/store/hooks';
 import styles from './Reaction.css';
 import type { ID } from 'app/store/models';
-import type { CurrentUser } from 'app/store/models/User';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 
 type Props = {
   className?: string;
-  user: CurrentUser;
   emoji: string;
   count: number;
   users?: { fullName: string }[];
@@ -27,7 +26,6 @@ type Props = {
 
 const Reaction = ({
   className,
-  user,
   emoji,
   count,
   users,
@@ -39,6 +37,8 @@ const Reaction = ({
   showPeople,
 }: Props) => {
   const dispatch = useAppDispatch();
+
+  const { currentUser } = useUserContext();
 
   const classes = [
     className ? className : styles.reaction,
@@ -85,7 +85,7 @@ const Reaction = ({
                     : dispatch(
                         addReaction({
                           emoji,
-                          user: user,
+                          user: currentUser,
                           contentTarget,
                           unicodeString,
                         })

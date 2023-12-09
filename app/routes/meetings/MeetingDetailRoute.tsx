@@ -7,7 +7,6 @@ import {
   answerMeetingInvitation,
   resetMeetingsToken,
 } from 'app/actions/MeetingActions';
-import { selectEmojis } from 'app/reducers/emojis';
 import { selectMeetingById } from 'app/reducers/meetings';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import MeetingDetailLoginRoute from './MeetingDetailLoginRoute';
@@ -78,14 +77,12 @@ const mapStateToProps = (state, props) => {
   const showAnswer = Boolean(
     meetingsToken.response === 'SUCCESS' && action && token
   );
-  const emojis = selectEmojis(state);
   return {
     meetingsToken,
     user: props.currentUser,
     showAnswer,
     meeting,
     currentUser,
-    emojis,
   };
 };
 
