@@ -1,3 +1,3 @@
-import Overview from './IndexRoute';
+import Overview from './components/Overview';
 
 export default Overview;

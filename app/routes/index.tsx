@@ -1,8 +1,6 @@
 import loadable from '@loadable/component';
 import { Route, Switch } from 'react-router-dom';
 import { CompatRoute } from 'react-router-dom-v5-compat';
-import RouteWrapper from 'app/components/RouteWrapper';
-import { UserContext } from 'app/routes/app/AppRoute';
 import { AppRoute } from './app';
 
 const CompanyInterestInfoRoute = loadable(() => import('./companyInterest'), {
@@ -35,63 +33,47 @@ const Polls = loadable(() => import('./polls'));
 const Events = loadable(() => import('./events'));
 const Overview = loadable(() => import('./overview'));
 
-const RouterConfig = () => (
-  <>
-    <Route path="/" component={AppWrapper} />
-  </>
-);
+const RouterConfig = () => <Route path="/" component={AppWrapper} />;
 
 const AppWrapper = () => (
   <AppRoute>
-    <UserContext.Consumer>
-      {({ currentUser, loggedIn }) => (
-        <Switch>
-          <RouteWrapper
-            exact
-            path="/"
-            passedProps={{
-              currentUser,
-              loggedIn,
-            }}
-            Component={Overview}
-          />
-          <CompatRoute path="/announcements" component={Announcements} />
-          <CompatRoute path="/admin" component={Admin} />
-          <Route path="/events" component={Events} />
-          <Route path="/companies" component={Companies} />
-          <Route path={['/contact', '/kontakt']} component={Contact} />
-          <Route
-            path={['/interest-groups', '/interestgroups']}
-            component={InterestGroups}
-          />
-          <Route path="/joblistings" component={Joblistings} />
-          <Route path="/meetings" component={Meetings} />
-          <Route path="/pages" component={Pages} />
-          <Route path="/photos" component={Photos} />
-          <Route path="/polls" component={Polls} />
-          <Route path="/quotes" component={Quotes} />
-          <Route path="/search" component={Search} />
-          <Route path="/surveys" component={Surveys} />
-          <Route path="/tags" component={Tags} />
-          <Route path="/timeline" component={Timeline} />
-          <Route path="/users" component={Users} />
-          <Route path="/validator" component={UserValidator} />
-          <Route path="/brand" component={Brand} />
-          <Route
-            path={['/register-interest', '/interesse']}
-            component={CompanyInterestInfoRoute}
-          />
-          <Route path="/companyInterest" component={CompanyInterest} />
-          <Route path="/bdb" component={Bdb} />
-          <Route path="/articles" component={Articles} />
-          {/* 
+    <Switch>
+      <Route exact path="/" component={Overview} />
+      <CompatRoute path="/announcements" component={Announcements} />
+      <CompatRoute path="/admin" component={Admin} />
+      <Route path="/events" component={Events} />
+      <Route path="/companies" component={Companies} />
+      <Route path={['/contact', '/kontakt']} component={Contact} />
+      <Route
+        path={['/interest-groups', '/interestgroups']}
+        component={InterestGroups}
+      />
+      <Route path="/joblistings" component={Joblistings} />
+      <Route path="/meetings" component={Meetings} />
+      <Route path="/pages" component={Pages} />
+      <Route path="/photos" component={Photos} />
+      <Route path="/polls" component={Polls} />
+      <Route path="/quotes" component={Quotes} />
+      <Route path="/search" component={Search} />
+      <Route path="/surveys" component={Surveys} />
+      <Route path="/tags" component={Tags} />
+      <Route path="/timeline" component={Timeline} />
+      <Route path="/users" component={Users} />
+      <Route path="/validator" component={UserValidator} />
+      <Route path="/brand" component={Brand} />
+      <Route
+        path={['/register-interest', '/interesse']}
+        component={CompanyInterestInfoRoute}
+      />
+      <Route path="/companyInterest" component={CompanyInterest} />
+      <Route path="/bdb" component={Bdb} />
+      <Route path="/articles" component={Articles} />
+      {/* 
           This will eat all routes that are written after this
           So one cant put any routes after pageNotFound
           */}
-          <Route component={PageNotFound} />
-        </Switch>
-      )}
-    </UserContext.Consumer>
+      <Route component={PageNotFound} />
+    </Switch>
   </AppRoute>
 );
 
