@@ -1,5 +1,5 @@
 import { SelectInput, CheckBox } from 'app/components/Form';
-import type { PublicGroup } from 'app/store/models/Group';
+import type ObjectPermissionsMixin from 'app/store/models/ObjectPermissionsMixin';
 
 /*
  * Usage inside 'redux-form' or 'react-final-form':
@@ -27,12 +27,7 @@ const ObjectPermissions = ({
   canEditGroups,
   canViewGroups,
   requireAuth,
-}: {
-  canEditUsers?: PublicGroup[];
-  canEditGroups?: PublicGroup[];
-  canViewGroups?: PublicGroup[];
-  requireAuth?: boolean;
-}) => {
+}: ObjectPermissionsMixin) => {
   return [
     requireAuth && (
       <CheckBox.Field
