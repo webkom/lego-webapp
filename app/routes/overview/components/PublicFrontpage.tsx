@@ -1,5 +1,7 @@
 import { Button, Card, Container, Flex } from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import { Link } from 'react-router-dom';
+import { fetchData } from 'app/actions/FrontpageActions';
 import buddyWeekGraphic from 'app/assets/frontpage-graphic-buddyweek.png';
 import dataGraphic from 'app/assets/frontpage-graphic-data.png';
 import forCompaniesGraphic from 'app/assets/frontpage-graphic-for-companies.png';
@@ -11,23 +13,15 @@ import AuthSection from 'app/components/AuthSection/AuthSection';
 // import Banner from 'app/components/Banner';
 import { Image } from 'app/components/Image';
 import { readmeIfy } from 'app/components/ReadmeLogo';
+import { selectFrontpage, type WithDocumentType } from 'app/reducers/frontpage';
 import LatestReadme from 'app/routes/overview/components/LatestReadme';
 import Pinned from 'app/routes/overview/components/Pinned';
 import { itemUrl, renderMeta } from 'app/routes/overview/components/utils';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import CompactEvents from './CompactEvents';
 import styles from './PublicFrontpage.css';
-import type { Readme } from 'app/models';
 import type { ArticleWithAuthorDetails } from 'app/reducers/articles';
-import type { WithDocumentType } from 'app/reducers/frontpage';
 import type { PublicEvent } from 'app/store/models/Event';
-
-type Props = {
-  frontpage: (
-    | WithDocumentType<ArticleWithAuthorDetails>
-    | WithDocumentType<PublicEvent>
-  )[];
-  readmes: Array<Readme>;
-};
 
 const isEvent = (
   item:
@@ -35,7 +29,18 @@ const isEvent = (
     | WithDocumentType<PublicEvent>
 ): item is WithDocumentType<PublicEvent> => item.documentType === 'event';
 
-const PublicFrontpage = ({ frontpage, readmes }: Props) => {
+const PublicFrontpage = () => {
+  const frontpage = useAppSelector(selectFrontpage);
+  const readmes = useAppSelector((state) => state.readme);
+
+  const dispatch = useAppDispatch();
+
+  usePreparedEffect(
+    'fetchIndex',
+    () => Promise.all([dispatch(fetchData())]),
+    []
+  );
+
   const pinned = frontpage[0];
   const pinnedComponent = pinned && (
     <Pinned
