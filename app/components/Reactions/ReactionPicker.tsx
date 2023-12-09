@@ -9,11 +9,9 @@ import ReactionPickerContent from './ReactionPickerContent';
 import ReactionPickerFooter from './ReactionPickerFooter';
 import ReactionPickerHeader from './ReactionPickerHeader';
 import type { EmojiWithReactionData } from 'app/components/LegoReactions';
-import type { CurrentUser } from 'app/store/models/User';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 
 type Props = {
-  user: CurrentUser;
   emojis: EmojiWithReactionData[];
   contentTarget: ContentTarget;
 };
@@ -133,7 +131,7 @@ const searchEmojis = (
   return [...matchingEmojis, ...results.map((result) => result.original)];
 };
 
-const ReactionPicker = ({ user, emojis, contentTarget }: Props) => {
+const ReactionPicker = ({ emojis, contentTarget }: Props) => {
   const [activeCategory, setActiveCategory] = useState<string>();
   const [searchString, setSearchString] = useState<string>();
   const categories = useMemo(() => {
@@ -198,7 +196,6 @@ const ReactionPicker = ({ user, emojis, contentTarget }: Props) => {
               ? categories[activeCategory].emojis
               : []
           }
-          user={user}
           searchResults={searchResults}
           contentTarget={contentTarget}
         />

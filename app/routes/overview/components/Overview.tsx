@@ -124,7 +124,7 @@ const Overview = () => {
         <Flex column className={styles.rightColumn}>
           <NextEventSection events={events} />
           <PollItem />
-          <QuoteItem loggedIn={loggedIn} />
+          <QuoteItem />
           {readMe}
           <Weekly weeklyArticle={weeklyArticle} />
           <Articles articles={articlesShown} />
@@ -135,7 +135,7 @@ const Overview = () => {
         <NextEvent events={events} />
         {pinnedComponent}
         <PollItem />
-        <QuoteItem loggedIn={loggedIn} />
+        <QuoteItem />
         {readMe}
         <Weekly weeklyArticle={weeklyArticle} />
         <Articles articles={articlesShown} />
@@ -251,13 +251,13 @@ const PollItem = () => {
   );
 };
 
-const QuoteItem = ({ loggedIn }: { loggedIn: boolean }) => (
+const QuoteItem = () => (
   <Flex column>
     <Link to="/quotes">
       <h3 className="u-ui-heading">Overhørt</h3>
     </Link>
 
-    <RandomQuote loggedIn={loggedIn} />
+    <RandomQuote />
   </Flex>
 );
 
