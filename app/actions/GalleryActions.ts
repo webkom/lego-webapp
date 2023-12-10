@@ -1,7 +1,10 @@
 import callAPI from 'app/actions/callAPI';
 import { gallerySchema } from 'app/reducers';
 import { Gallery } from './ActionTypes';
-import type { EntityID, GalleryEntity, Thunk } from 'app/types';
+import { FormValues as GalleryEditorFormValues } from 'app/routes/photos/components/GalleryEditor';
+import type { Thunk } from 'app/types';
+import type { ID } from 'app/store/models';
+import type { DetailedGallery } from 'app/store/models/Gallery';
 
 export function fetch({
   next,
@@ -26,8 +29,9 @@ export function fetch({
     );
   };
 }
-export function fetchGallery(galleryId: EntityID): Thunk<any> {
-  return callAPI({
+
+export function fetchGallery(galleryId: ID) {
+  return callAPI<DetailedGallery>({
     types: Gallery.FETCH,
     endpoint: `/galleries/${galleryId}/`,
     schema: gallerySchema,
@@ -37,7 +41,8 @@ export function fetchGallery(galleryId: EntityID): Thunk<any> {
     propagateError: false,
   });
 }
-export function fetchGalleryMetadata(galleryId: EntityID): Thunk<any> {
+
+export function fetchGalleryMetadata(galleryId: ID) {
   return callAPI({
     types: Gallery.FETCH,
     endpoint: `/galleries/${galleryId}/metadata/`,
@@ -46,8 +51,9 @@ export function fetchGalleryMetadata(galleryId: EntityID): Thunk<any> {
     propagateError: true,
   });
 }
-export function createGallery(gallery: GalleryEntity): Thunk<any> {
-  return callAPI({
+
+export function createGallery(gallery: GalleryEditorFormValues) {
+  return callAPI<DetailedGallery>({
     types: Gallery.CREATE,
     endpoint: '/galleries/',
     method: 'POST',
@@ -58,10 +64,11 @@ export function createGallery(gallery: GalleryEntity): Thunk<any> {
     },
   });
 }
-export function updateGallery(gallery: GalleryEntity): Thunk<any> {
-  return callAPI({
+
+export function updateGallery(galleryId: ID, gallery: GalleryEditorFormValues) {
+  return callAPI<DetailedGallery>({
     types: Gallery.EDIT,
-    endpoint: `/galleries/${gallery.id}/`,
+    endpoint: `/galleries/${galleryId}/`,
     method: 'PUT',
     schema: gallerySchema,
     body: gallery,
@@ -70,7 +77,8 @@ export function updateGallery(gallery: GalleryEntity): Thunk<any> {
     },
   });
 }
-export function updateGalleryCover(id: EntityID, cover: EntityID): Thunk<any> {
+
+export function updateGalleryCover(id: ID, cover: ID) {
   return callAPI({
     types: Gallery.EDIT,
     endpoint: `/galleries/${id}/`,
@@ -84,7 +92,8 @@ export function updateGalleryCover(id: EntityID, cover: EntityID): Thunk<any> {
     },
   });
 }
-export function deleteGallery(id: EntityID): Thunk<any> {
+
+export function deleteGallery(id: ID) {
   return callAPI({
     types: Gallery.DELETE,
     endpoint: `/galleries/${id}/`,
