@@ -1,11 +1,25 @@
 import { Button, Card, ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
 import { without, find } from 'lodash';
 import moment from 'moment-timezone';
 import { useState } from 'react';
 import { Field } from 'react-final-form';
+import { useNavigate } from 'react-router-dom-v5-compat';
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import {
+  createGallery,
+  deleteGallery,
+  fetchGallery,
+  updateGallery,
+  updateGalleryCover,
+} from 'app/actions/GalleryActions';
+import {
+  fetch,
+  deletePicture,
+  updatePicture,
+} from 'app/actions/GalleryPictureActions';
 import { Content } from 'app/components/Content';
 import EmptyState from 'app/components/EmptyState';
 import {
@@ -19,54 +33,24 @@ import {
   Fields,
   LegoFinalForm,
 } from 'app/components/Form';
+import {
+  objectPermissionsInitialValues,
+  objectPermissionsToInitialValues,
+} from 'app/components/Form/ObjectPermissions';
+import { selectGalleryById, type GalleryEntity } from 'app/reducers/galleries';
+import { SelectGalleryPicturesByGalleryId } from 'app/reducers/galleryPictures';
 import { normalizeObjectPermissions } from 'app/components/Form/ObjectPermissions';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import GalleryComponent from 'app/components/Gallery';
 import { createValidator, required } from 'app/utils/validation';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import NavigationTab from 'app/components/NavigationTab';
 import GalleryEditorActions from './GalleryEditorActions';
 import { searchMapping } from 'app/reducers/search';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './Overview.css';
-import type { Dateish, ID } from 'app/models';
-import type { GalleryEntity } from 'app/reducers/galleries';
-import type { GalleryPictureEntity } from 'app/reducers/galleryPictures';
+import type { Dateish } from 'app/models';
 import type ObjectPermissionsMixin from 'app/store/models/ObjectPermissionsMixin';
-import type { History } from 'history';
-
-type FormValues = {
-  title: string;
-  takenAt: Dateish;
-  location: string;
-  photographers: (typeof searchMapping)['users.user'];
-  event: (typeof searchMapping)['events.event'];
-  description: string;
-  publicMetadata: boolean;
-} & ObjectPermissionsMixin;
-
-const TypedLegoForm = LegoFinalForm<FormValues>;
-
-type Props = {
-  isNew: boolean;
-  gallery: GalleryEntity;
-  pictures: Array<GalleryPictureEntity>;
-  submitFunction: (arg0: GalleryEntity) => Promise<any>;
-  handleSubmit: (arg0: any) => void;
-  push: History['push'];
-  submitting: boolean;
-  fetch: (
-    galleryId: number,
-    args: {
-      next?: boolean;
-      filters?: Record<string, any>;
-    }
-  ) => Promise<any>;
-  hasMore: boolean;
-  fetching: boolean;
-  deleteGallery: (arg0: ID) => Promise<any>;
-  updateGalleryCover: (arg0: number, arg1: number) => Promise<any>;
-  updatePicture: (arg0: Record<string, any>) => Promise<any>;
-  deletePicture: (galleryId: ID, photoId: ID) => Promise<any>;
-};
 
 const photoOverlay = (photo: Record<string, any>, selected: Array<number>) => {
   const isSelected = selected.includes(photo.id);
@@ -100,18 +84,76 @@ const renderEmpty = (gallery: GalleryEntity) => (
   </EmptyState>
 );
 
+export type FormValues = {
+  title: string;
+  takenAt: Dateish;
+  location: string;
+  photographers: (typeof searchMapping)['users.user'];
+  event: (typeof searchMapping)['events.event'];
+  description: string;
+  publicMetadata: boolean;
+} & ObjectPermissionsMixin;
+
+const TypedLegoForm = LegoFinalForm<FormValues>;
+
 const validate = createValidator({
   title: [required('Du må gi albumet en tittel')],
   location: [required('Du må velge en lokasjon for albumet')],
 });
 
-const GalleryEditor = (props: Props) => {
+const GalleryEditor = () => {
   const [selected, setSelected] = useState<number[]>([]);
+
+  const { galleryId } = useParams<{ galleryId: string }>();
+  const isNew = galleryId === undefined;
+  const gallery = useAppSelector((state) =>
+    selectGalleryById(state, {
+      galleryId,
+    })
+  );
+  const pictures = useAppSelector((state) =>
+    SelectGalleryPicturesByGalleryId(state, {
+      galleryId,
+    })
+  );
+  const fetching = useAppSelector(
+    (state) => state.galleries.fetching || state.galleryPictures.fetching
+  );
+  const hasMore = useAppSelector((state) => state.galleryPictures.hasMore);
+
+  const initialValues = isNew
+    ? { ...objectPermissionsInitialValues }
+    : {
+        ...gallery,
+        ...objectPermissionsToInitialValues(gallery),
+        photographers: gallery.photographers.map((photographer) => ({
+          label: photographer.fullName,
+          value: photographer.id,
+        })),
+        event: gallery.event && {
+          label: gallery.event.title,
+          value: gallery.event.id,
+        },
+      };
+
+  const dispatch = useAppDispatch();
+
+  usePreparedEffect(
+    'fetchGalleryEdit',
+    () =>
+      Promise.all([
+        dispatch(fetch(Number(galleryId))),
+        dispatch(fetchGallery(galleryId)),
+      ]),
+    []
+  );
+
+  const navigate = useNavigate();
 
   const onSubmit = (data: FormValues) => {
     const body = {
       ...normalizeObjectPermissions(data),
-      id: data.id,
+      // id: data.id,
       publicMetadata: !!data.publicMetadata,
       title: data.title,
       description: data.description,
@@ -121,8 +163,11 @@ const GalleryEditor = (props: Props) => {
       photographers:
         data.photographers && data.photographers.map((p) => p.value),
     };
-    return props.submitFunction(body).then(({ payload }) => {
-      push(`/photos/${payload.result}`);
+
+    dispatch(
+      isNew ? createGallery(body) : updateGallery(gallery.id, body)
+    ).then(({ payload }) => {
+      navigate(`/photos/${payload.result}`);
     });
   };
 
@@ -134,40 +179,43 @@ const GalleryEditor = (props: Props) => {
     }
   };
 
-  const onDeleteGallery = () =>
-    props.deleteGallery(props.gallery.id).then(() => {
-      props.push('/photos');
+  const onDeleteGallery = () => {
+    dispatch(deleteGallery(gallery.id)).then(() => {
+      navigate('/photos');
     });
+  };
 
   const onUpdateGalleryCover = () => {
-    props.updateGalleryCover(props.gallery.id, selected[0]);
+    dispatch(updateGalleryCover(gallery.id, selected[0]));
     setSelected([]);
   };
 
   const onDeletePictures = () => {
     selected.forEach((photo) => {
-      props.deletePicture(props.gallery.id, photo);
+      dispatch(deletePicture(gallery.id, photo));
     });
     setSelected([]);
   };
 
   const onTogglePicturesStatus = (active) => {
     selected.forEach((photo) => {
-      props.updatePicture({
-        id: photo,
-        gallery: props.gallery.id,
-        active,
-      });
+      dispatch(
+        updatePicture({
+          id: photo,
+          gallery: gallery.id,
+          active,
+        })
+      );
     });
     setSelected([]);
   };
 
   const pictureStatus = () => {
     const activePictures = selected
-      .map((id) => find(props.pictures, ['id', id]) || {})
+      .map((id) => find(pictures, ['id', id]) || {})
       .filter((picture) => picture.active);
     const inactivePictures = selected
-      .map((id) => find(props.pictures, ['id', id]) || {})
+      .map((id) => find(pictures, ['id', id]) || {})
       .filter((picture) => !picture.active);
 
     if (activePictures.length === selected.length) {
@@ -185,8 +233,6 @@ const GalleryEditor = (props: Props) => {
     setSelected([]);
   };
 
-  const { pictures, isNew, fetch, hasMore, fetching, gallery, push } = props;
-
   const title = gallery ? `Redigerer: ${gallery.title}` : 'Nytt album';
 
   return (
@@ -203,7 +249,7 @@ const GalleryEditor = (props: Props) => {
       <TypedLegoForm
         onSubmit={onSubmit}
         validate={validate}
-        initialValues={props.initialValues}
+        initialValues={initialValues}
       >
         {({ handleSubmit }) => (
           <Form onSubmit={handleSubmit}>
@@ -330,4 +376,4 @@ const GalleryEditor = (props: Props) => {
   );
 };
 
-export default GalleryEditor;
+export default guardLogin(GalleryEditor);
