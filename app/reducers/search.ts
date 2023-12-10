@@ -70,7 +70,7 @@ const initialState = {
   open: false,
 };
 
-const searchMapping: SearchMapping = {
+export const searchMapping: SearchMapping = {
   'users.user': {
     label: (user) => `${user.fullName} (${user.username})`,
     title: 'fullName',
