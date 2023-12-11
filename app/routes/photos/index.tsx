@@ -4,9 +4,9 @@ import RouteWrapper from 'app/components/RouteWrapper';
 import { UserContext } from 'app/routes/app/AppRoute';
 import PageNotFound from '../pageNotFound';
 import GalleryDetailRoute from './GalleryDetailRoute';
-import GalleryPictureEditRoute from './GalleryPictureEditRoute';
 import GalleryPictureRoute from './GalleryPictureRoute';
 import GalleryEditor from './components/GalleryEditor';
+import GalleryPictureEditModal from './components/GalleryPictureEditModal';
 import Overview from './components/Overview';
 
 const PhotosRoute = () => {
@@ -41,14 +41,10 @@ const PhotosRoute = () => {
             }}
             Component={GalleryPictureRoute}
           />
-          <RouteWrapper
+          <CompatRoute
             exact
             path={`${path}/:galleryId/picture/:pictureId/edit`}
-            passedProps={{
-              currentUser,
-              loggedIn,
-            }}
-            Component={GalleryPictureEditRoute}
+            component={GalleryPictureEditModal}
           />
           <Route component={PageNotFound} />
         </Switch>
