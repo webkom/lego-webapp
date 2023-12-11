@@ -57,7 +57,7 @@ export function fetchSiblingGallerPicture(
   });
 }
 
-export function fetchGalleryPicture(galleryId: ID, pictureId: ID): Thunk<any> {
+export function fetchGalleryPicture(galleryId: ID, pictureId: ID) {
   return callAPI({
     types: GalleryPicture.FETCH,
     endpoint: `/galleries/${galleryId}/pictures/${pictureId}/`,
