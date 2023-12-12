@@ -1,40 +1,58 @@
-import { Flex, Icon, Modal } from '@webkom/lego-bricks';
+import { Flex, Icon, LoadingIndicator, Modal } from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import throttle from 'lodash/throttle';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom-v5-compat';
 import { useSwipeable, RIGHT, LEFT } from 'react-swipeable';
+import { fetchGallery, updateGalleryCover } from 'app/actions/GalleryActions';
+import {
+  deletePicture,
+  fetchGalleryPicture,
+  fetchSiblingGallerPicture,
+} from 'app/actions/GalleryPictureActions';
 import CommentView from 'app/components/Comments/CommentView';
 import { Content } from 'app/components/Content';
 import Dropdown from 'app/components/Dropdown';
 import { Image } from 'app/components/Image';
 import ProgressiveImage from 'app/components/ProgressiveImage';
+import PropertyHelmet, {
+  type PropertyGenerator,
+} from 'app/components/PropertyHelmet';
+import config from 'app/config';
+import { selectGalleryById } from 'app/reducers/galleries';
+import {
+  SelectGalleryPicturesByGalleryId,
+  selectCommentsForGalleryPicture,
+  selectGalleryPictureById,
+} from 'app/reducers/galleryPictures';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { Keyboard } from 'app/utils/constants';
 import GalleryDetailsRow from './GalleryDetailsRow';
 import styles from './GalleryPictureModal.css';
-import type { EntityID } from 'app/types';
-import type { History } from 'history';
+import type { DetailedGallery } from 'app/store/models/Gallery';
+import type { GalleryListPicture } from 'app/store/models/GalleryPicture';
 import type { ReactNode } from 'react';
 
-type Props = {
-  picture: Record<string, any>;
-  pictureId: number;
-  currentUser: Record<string, any>;
-  loggedIn: boolean;
-  gallery: Record<string, any>;
-  push: History['push'];
-  updateGalleryCover: (arg0: number, arg1: number) => Promise<any>;
-  deletePicture: (arg0: number, arg1: number) => Promise<any>;
-  comments: Array<Record<string, any>>;
-  actionGrant: Array<string>;
-  pictures: Array<Record<string, any>>;
-  hasMore: boolean;
-  fetchSiblingGallerPicture: (
-    arg0: EntityID,
-    arg1: EntityID,
-    arg2: boolean
-  ) => Promise<any>;
-  isFirstImage: boolean;
-  isLastImage: boolean;
+const propertyGenerator: PropertyGenerator<{
+  gallery: DetailedGallery;
+  picture: GalleryListPicture;
+}> = (props, config) => {
+  if (!props.picture) return;
+  const url = `${config?.webUrl}/photos/${props.gallery.id}/picture/${props.picture.id}/`;
+  // Becuase the parent route sets the title and description
+  // based on the metadata of the gallery, we don't have to do it
+  // explicitly here.
+  return [
+    {
+      property: 'og:url',
+      content: url,
+    },
+    {
+      property: 'og:image',
+      content: props.picture.file,
+    },
+  ];
 };
 
 const OnKeyDownHandler = ({
@@ -114,11 +132,70 @@ const Swipeable = (props: {
   return <div {...handlers}>{props.children}</div>;
 };
 
-const GalleryPictureModal = (props: Props) => {
+const GalleryPictureModal = () => {
+  const { galleryId, pictureId } = useParams<{
+    galleryId: string;
+    pictureId: string;
+  }>();
+  const pictures = useAppSelector((state) =>
+    SelectGalleryPicturesByGalleryId(state, {
+      galleryId,
+    })
+  );
+  const picture = useAppSelector((state) =>
+    selectGalleryPictureById(state, {
+      pictureId,
+    })
+  );
+  const comments = useAppSelector((state) =>
+    selectCommentsForGalleryPicture(state, {
+      pictureId,
+    })
+  );
+  const fetching = useAppSelector(
+    (state) => state.galleries.fetching || state.galleryPictures.fetching
+  );
+  const hasMore = useAppSelector((state) => state.galleryPictures.hasMore);
+  const gallery = useAppSelector((state) =>
+    selectGalleryById(state, {
+      galleryId,
+    })
+  );
+  const actionGrant = gallery?.actionGrant || [];
+
+  let isFirstImage = false;
+  let isLastImage = false;
+  if (pictures.length > 0 && pictureId) {
+    if (Number(pictures[0].id) === Number(pictureId)) {
+      isFirstImage = true;
+    }
+
+    if (
+      Number(pictures[pictures.length - 1].id) === Number(pictureId) &&
+      !hasMore
+    ) {
+      isLastImage = true;
+    }
+  }
+
   const [showMore, setShowMore] = useState(false);
   const [clickedDeletePicture, setClickedDeletePicture] = useState(0);
-  const [hasNext, setHasNext] = useState(!props.isLastImage);
-  const [hasPrevious, setHasPrevious] = useState(!props.isFirstImage);
+  const [hasNext, setHasNext] = useState(!isLastImage);
+  const [hasPrevious, setHasPrevious] = useState(!isFirstImage);
+
+  const dispatch = useAppDispatch();
+
+  usePreparedEffect(
+    'fetchGalleryPicture',
+    () =>
+      Promise.all([
+        dispatch(fetchGalleryPicture(galleryId, pictureId)),
+        dispatch(fetchGallery(galleryId)),
+      ]),
+    []
+  );
+
+  const navigate = useNavigate();
 
   const toggleDropdown = () => {
     setShowMore(!showMore);
@@ -126,36 +203,35 @@ const GalleryPictureModal = (props: Props) => {
   };
 
   const onUpdate = () => {
-    props.push(`/photos/${props.gallery.id}/picture/${props.picture.id}/edit`);
+    navigate(`/photos/${gallery.id}/picture/${picture.id}/edit`);
   };
 
   const onUpdateGalleryCover = () => {
-    props.updateGalleryCover(props.gallery.id, props.picture.id);
+    dispatch(updateGalleryCover(gallery.id, picture.id));
     toggleDropdown();
   };
 
   const handleDelete = (currentClickedDeletePicture: number) => {
     if (clickedDeletePicture === currentClickedDeletePicture) {
-      props
-        .deletePicture(props.gallery.id, props.picture.id)
-        .then(() => props.push(`/photos/${props.gallery.id}`));
+      dispatch(deletePicture(gallery.id, picture.id)).then(() => {
+        navigate(`/photos/${gallery.id}`);
+      });
     } else {
       setClickedDeletePicture(currentClickedDeletePicture);
     }
   };
 
   const siblingGalleryPicture = (next: boolean) => {
-    const { pictureId, gallery, push } = props;
-    return props
-      .fetchSiblingGallerPicture(gallery.id, pictureId, next)
-      .then((result) => {
-        setHasNext(!!result.payload.next);
-        setHasPrevious(!!result.payload.previous);
-        return (
-          result.payload.result.length > 0 &&
-          push(`/photos/${gallery.id}/picture/${result.payload.result[0]}`)
-        );
-      });
+    return dispatch(
+      fetchSiblingGallerPicture(gallery.id, pictureId, next)
+    ).then((result) => {
+      setHasNext(!!result.payload.next);
+      setHasPrevious(!!result.payload.previous);
+      return (
+        result.payload.result.length > 0 &&
+        navigate(`/photos/${gallery.id}/picture/${result.payload.result[0]}`)
+      );
+    });
   };
 
   const previousGalleryPicture = throttle(
@@ -199,23 +275,30 @@ const GalleryPictureModal = (props: Props) => {
     dir === LEFT && nextGalleryPicture();
   };
 
-  const {
-    picture,
-    pictureId,
-    comments,
-    currentUser,
-    loggedIn,
-    push,
-    gallery,
-    actionGrant,
-  } = props;
+  if (!gallery || !picture) {
+    return (
+      <Content>
+        <LoadingIndicator loading={fetching} />
+      </Content>
+    );
+  }
 
   return (
     <Modal
-      onHide={() => push(`/photos/${gallery.id}`)}
+      onHide={() => navigate(`/photos/${gallery.id}`)}
       show
       contentClassName={styles.content}
     >
+      <PropertyHelmet
+        propertyGenerator={propertyGenerator}
+        options={{ gallery, picture }}
+      >
+        <link
+          rel="canonical"
+          href={`${config?.webUrl}/photos/${gallery.id}/picture/${picture.id}`}
+        />
+      </PropertyHelmet>
+
       <Swipeable onSwiping={handleSwipe}>
         <OnKeyDownHandler handler={handleKeyDown} />
         <Content>
