@@ -238,9 +238,7 @@ const MeetingDetails = ({
                 />
               </div>
               <CommentView
-                user={currentUser}
                 contentTarget={meeting.contentTarget}
-                loggedIn={loggedIn}
                 comments={comments}
                 contentAuthors={meeting.createdBy}
               />

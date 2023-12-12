@@ -82,7 +82,7 @@ const propertyGenerator: PropertyGenerator<{
 };
 
 const ArticleDetail = () => {
-  const { currentUser, loggedIn } = useUserContext();
+  const { loggedIn } = useUserContext();
   const { articleIdOrSlug } = useParams<{ articleIdOrSlug: string }>();
   const article = useAppSelector((state) =>
     selectArticleByIdOrSlug(state, articleIdOrSlug)
@@ -187,9 +187,7 @@ const ArticleDetail = () => {
 
       {article.contentTarget && (
         <CommentView
-          user={currentUser}
           contentTarget={article.contentTarget}
-          loggedIn={loggedIn}
           comments={comments}
           contentAuthors={article.authors}
         />

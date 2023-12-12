@@ -38,10 +38,8 @@ type Props = {
   company: CompanyEntity;
   comments: Comment[];
   companyEvents: Array<Record<string, any>>;
-  currentUser: CurrentUser;
   deleteSemesterStatus: (arg0: number, arg1: number) => Promise<any>;
   deleteCompanyContact: (arg0: number, arg1: number) => Promise<any>;
-  loggedIn: boolean;
   companySemesters: Array<CompanySemesterEntity>;
   editSemesterStatus: (
     arg0: BaseSemesterStatusEntity,
@@ -149,8 +147,6 @@ export default class BdbDetail extends Component<Props, State> {
     const {
       company,
       comments,
-      currentUser,
-      loggedIn,
       companyEvents,
       fetching,
       deleteCompany,
@@ -500,9 +496,7 @@ export default class BdbDetail extends Component<Props, State> {
 
         {company.contentTarget && (
           <CommentView
-            user={currentUser}
             contentTarget={company.contentTarget}
-            loggedIn={loggedIn}
             comments={comments}
             newOnTop
           />
