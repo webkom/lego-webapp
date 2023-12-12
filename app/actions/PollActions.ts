@@ -1,9 +1,10 @@
-import { push } from 'redux-first-history';
 import { pollSchema } from '../reducers';
 import { Poll } from './ActionTypes';
 import callAPI from './callAPI';
 import type { Tags } from 'app/models';
 import type { OptionEntity } from 'app/reducers/polls';
+import type { ID } from 'app/store/models';
+import type { Poll as PollType } from 'app/store/models/Poll';
 import type { Thunk } from 'app/types';
 
 export function fetchAll({
@@ -26,8 +27,9 @@ export function fetchAll({
     );
   };
 }
-export function fetchPoll(pollId: number): Thunk<any> {
-  return callAPI({
+
+export function fetchPoll(pollId: ID) {
+  return callAPI<PollType>({
     types: Poll.FETCH,
     endpoint: `/polls/${pollId}/`,
     schema: pollSchema,
@@ -37,6 +39,7 @@ export function fetchPoll(pollId: number): Thunk<any> {
     propagateError: true,
   });
 }
+
 export function createPoll(data: {
   description: string;
   pinned: boolean;
@@ -44,24 +47,22 @@ export function createPoll(data: {
   options: Array<{
     name: string;
   }>;
-}): Thunk<any> {
-  return (dispatch) =>
-    dispatch(
-      callAPI({
-        types: Poll.CREATE,
-        endpoint: '/polls/',
-        method: 'POST',
-        body: data,
-        schema: pollSchema,
-        meta: {
-          errorMessage: 'Legg til avstemning feilet',
-          successMessage: 'Avstemning lagt til!',
-        },
-      })
-    ).then(() => dispatch(push(`/polls/`)));
+}) {
+  return callAPI<PollType>({
+    types: Poll.CREATE,
+    endpoint: '/polls/',
+    method: 'POST',
+    body: data,
+    schema: pollSchema,
+    meta: {
+      errorMessage: 'Legg til avstemning feilet',
+      successMessage: 'Avstemning lagt til!',
+    },
+  });
 }
+
 export function editPoll(data: {
-  pollId: number;
+  pollId: ID;
   description: string;
   pinned: boolean;
   tags: Tags;
@@ -71,8 +72,8 @@ export function editPoll(data: {
         name: string;
       }
   >;
-}): Thunk<any> {
-  return callAPI({
+}) {
+  return callAPI<PollType>({
     types: Poll.UPDATE,
     endpoint: `/polls/${data.pollId}/`,
     method: 'PATCH',
@@ -84,21 +85,20 @@ export function editPoll(data: {
     },
   });
 }
-export function deletePoll(id: number): Thunk<any> {
-  return (dispatch) =>
-    dispatch(
-      callAPI({
-        types: Poll.DELETE,
-        endpoint: `/polls/${id}/`,
-        method: 'DELETE',
-        meta: {
-          id,
-          errorMessage: 'Fjerning av avstemning feilet!',
-        },
-      })
-    ).then(() => dispatch(push(`/polls/`)));
+
+export function deletePoll(id: ID) {
+  return callAPI({
+    types: Poll.DELETE,
+    endpoint: `/polls/${id}/`,
+    method: 'DELETE',
+    meta: {
+      id,
+      errorMessage: 'Fjerning av avstemning feilet!',
+    },
+  });
 }
-export function votePoll(pollId: number, optionId: number): Thunk<any> {
+
+export function votePoll(pollId: ID, optionId: ID) {
   return callAPI({
     types: Poll.UPDATE,
     endpoint: `/polls/${pollId}/vote/`,
