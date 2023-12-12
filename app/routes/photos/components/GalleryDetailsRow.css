@@ -8,5 +8,6 @@ span.detail + span.detail::before {
 }
 
 .smallDetails {
+  color: var(--secondary-font-color);
   font-size: var(--font-size-sm);
 }
