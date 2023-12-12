@@ -1,6 +1,5 @@
 import { useRouteMatch, Route, Switch } from 'react-router-dom';
-import RouteWrapper from 'app/components/RouteWrapper';
-import { UserContext } from 'app/routes/app/AppRoute';
+import { CompatRoute } from 'react-router-dom-v5-compat';
 import PageNotFound from '../pageNotFound';
 import PollDetail from './components/PollDetail';
 import PollEditor from './components/PollEditor';
@@ -10,21 +9,12 @@ const PollsRoute = () => {
   const { path } = useRouteMatch();
 
   return (
-    <UserContext.Consumer>
-      {({ loggedIn }) => (
-        <Switch>
-          <Route exact path={path} component={PollsList} />
-          <Route exact path={`${path}/new`} component={PollEditor} />
-          <RouteWrapper
-            exact
-            path={`${path}/:pollsId`}
-            passedProps={{ loggedIn }}
-            Component={PollDetail}
-          />
-          <Route component={PageNotFound} />
-        </Switch>
-      )}
-    </UserContext.Consumer>
+    <Switch>
+      <Route exact path={path} component={PollsList} />
+      <CompatRoute exact path={`${path}/new`} component={PollEditor} />
+      <Route exact path={`${path}/:pollsId`} component={PollDetail} />
+      <Route component={PageNotFound} />
+    </Switch>
   );
 };
 

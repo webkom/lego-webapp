@@ -8,7 +8,7 @@ interface PollOption {
   votes: number;
 }
 
-export default interface Poll {
+export interface Poll {
   id: ID;
   createdAt: Dateish;
   validUntil: Dateish;
@@ -23,3 +23,5 @@ export default interface Poll {
   hasAnswered: boolean;
   pinned: boolean;
 }
+
+export default Poll;
