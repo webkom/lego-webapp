@@ -606,9 +606,7 @@ export default class EventDetail extends Component<Props, State> {
             style={{
               marginTop: 20,
             }}
-            user={currentUser}
             contentTarget={event.contentTarget}
-            loggedIn={loggedIn}
             comments={comments}
             contentAuthors={event.createdBy?.id}
           />

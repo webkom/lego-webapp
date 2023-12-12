@@ -4,7 +4,6 @@ import { generateTreeStructure } from 'app/utils';
 import CommentTree from './CommentTree';
 import type Comment from 'app/store/models/Comment';
 import type { ContentAuthors } from 'app/store/models/Comment';
-import type { CurrentUser } from 'app/store/models/User';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 import type { CSSProperties } from 'react';
 
@@ -12,8 +11,6 @@ type Props = {
   comments: Array<Comment>;
   formDisabled?: boolean;
   contentTarget: ContentTarget;
-  user: CurrentUser;
-  loggedIn: boolean;
   displayTitle?: boolean;
   style?: CSSProperties;
   newOnTop?: boolean;
@@ -28,8 +25,6 @@ const CommentView = (props: Props) => {
     comments,
     formDisabled = false,
     contentTarget,
-    user,
-    loggedIn,
     style,
     displayTitle = true,
     newOnTop = false,
@@ -37,8 +32,6 @@ const CommentView = (props: Props) => {
   } = props;
   const commentFormProps = {
     contentTarget,
-    user,
-    loggedIn,
   };
   const tree = generateTreeStructure(comments);
   return (
@@ -57,7 +50,6 @@ const CommentView = (props: Props) => {
             <CommentTree
               comments={newOnTop ? tree.reverse() : tree}
               commentFormProps={commentFormProps}
-              user={user}
               contentTarget={contentTarget}
               contentAuthors={contentAuthors}
             />

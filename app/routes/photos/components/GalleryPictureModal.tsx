@@ -334,9 +334,7 @@ const GalleryPictureModal = (props: Props) => {
           {picture.contentTarget && (
             <CommentView
               formEnabled
-              user={currentUser}
               contentTarget={picture.contentTarget}
-              loggedIn={loggedIn}
               comments={comments}
             />
           )}

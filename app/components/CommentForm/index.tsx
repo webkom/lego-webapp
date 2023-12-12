@@ -6,17 +6,15 @@ import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import { ProfilePicture } from 'app/components/Image';
+import { useUserContext } from 'app/routes/app/AppRoute';
 import { useAppDispatch } from 'app/store/hooks';
 import { createValidator, legoEditorRequired } from 'app/utils/validation';
 import styles from './CommentForm.css';
 import type { ID } from 'app/store/models';
-import type { CurrentUser } from 'app/store/models/User';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 
 type Props = {
   contentTarget: ContentTarget;
-  user: CurrentUser;
-  loggedIn: boolean;
   submitText?: string;
   autoFocus?: boolean;
   parent?: ID;
@@ -29,14 +27,14 @@ const validate = createValidator({
 
 const CommentForm = ({
   contentTarget,
-  user,
-  loggedIn,
   submitText = 'Kommenter',
   autoFocus = false,
   parent,
   placeholder = 'Skriv en kommentar ...',
 }: Props) => {
   const dispatch = useAppDispatch();
+
+  const { currentUser, loggedIn } = useUserContext();
 
   if (!loggedIn) {
     return <div>Vennligst logg inn for å kommentere</div>;
@@ -63,7 +61,7 @@ const CommentForm = ({
           return (
             <form onSubmit={handleSubmit}>
               <Flex alignItems="center" gap="1rem">
-                <ProfilePicture size={40} user={user} />
+                <ProfilePicture size={40} user={currentUser} />
 
                 <div className={styles.field}>
                   <Field
