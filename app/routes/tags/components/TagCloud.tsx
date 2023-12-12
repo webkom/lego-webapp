@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { TagCloud as Cloud } from 'react-tagcloud';
@@ -35,15 +35,18 @@ const TagCloud = () => {
 
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(fetchAll());
-  }, [dispatch]);
+  usePreparedEffect('fetchAllTags', () => dispatch(fetchAll()), []);
 
-  useEffect(() => {
-    if (hasMore && !fetching) {
-      dispatch(fetchAll({ next: true }));
-    }
-  }, [dispatch, hasMore, fetching]);
+  usePreparedEffect(
+    'fetchMoreTags',
+    () => {
+      if (hasMore && !fetching) {
+        dispatch(fetchAll({ next: true }));
+      }
+    },
+
+    [hasMore, fetching]
+  );
 
   const data: CloudTag[] = tags.map((tag: Tag) => {
     return {

@@ -1,6 +1,6 @@
 import { Button, LoadingIndicator } from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
-import { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom-v5-compat';
 import Select from 'react-select';
@@ -63,6 +63,7 @@ const QuotePage = () => {
     return selectQuotes(state, { pagination });
   });
   const fetching = useAppSelector((state) => state.quotes.fetching);
+  const actionGrant = useAppSelector((state) => state.quotes.actionGrant);
 
   let errorMessage: string | undefined = undefined;
   if (quotes.length === 0 && !fetching) {
@@ -75,20 +76,22 @@ const QuotePage = () => {
     (option) => option.value === query.ordering
   );
 
-  const actionGrant = useAppSelector((state) => state.quotes.actionGrant);
-
-  useEffect(() => {
-    if (quoteId) {
-      dispatch(fetchQuote(quoteId));
-    } else {
-      dispatch(
-        fetchAll({
-          query,
-        })
-      );
-    }
-    dispatch(fetchEmojis());
-  }, [quoteId, query, dispatch]);
+  usePreparedEffect(
+    'fetchQuotePage',
+    () => {
+      if (quoteId) {
+        dispatch(fetchQuote(quoteId));
+      } else {
+        dispatch(
+          fetchAll({
+            query,
+          })
+        );
+      }
+      dispatch(fetchEmojis());
+    },
+    []
+  );
 
   return (
     <div className={cx(styles.root, styles.quoteContainer)}>

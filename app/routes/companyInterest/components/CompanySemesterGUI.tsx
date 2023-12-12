@@ -1,5 +1,5 @@
 import { Flex, Icon } from '@webkom/lego-bricks';
-import { useEffect } from 'react';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import { Field } from 'react-final-form';
 import {
   addSemester,
@@ -66,11 +66,9 @@ const AddSemesterForm = () => {
 
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(fetchSemesters());
-  }, [dispatch]);
+  usePreparedEffect('fetchSemesters', () => dispatch(fetchSemesters()), []);
 
-  const onSubmit = async (
+  const onSubmit = (
     { year, semester }: FormValues,
     form: FormApi<FormValues>
   ) => {
