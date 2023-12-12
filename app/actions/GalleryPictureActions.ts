@@ -6,10 +6,11 @@ import { uploadFile } from './FileActions';
 import type { GalleryPictureEntity } from 'app/reducers/galleryPictures';
 import type { AppDispatch } from 'app/store/createStore';
 import type { ID } from 'app/store/models';
+import type { GalleryListPicture } from 'app/store/models/GalleryPicture';
 import type { Thunk } from 'app/types';
 
 export function fetch(
-  galleryId: number,
+  galleryId: ID,
   {
     next,
     filters,
@@ -105,8 +106,8 @@ export function CreateGalleryPicture(galleryPicture: {
   galleryId: ID;
   file: string;
   active: boolean;
-}): Thunk<any> {
-  return callAPI({
+}) {
+  return callAPI<GalleryListPicture>({
     types: GalleryPicture.CREATE,
     endpoint: `/galleries/${galleryPicture.galleryId}/pictures/`,
     method: 'POST',
@@ -165,8 +166,8 @@ function uploadGalleryPicturesInTurn(files, galleryId, dispatch) {
 export function uploadAndCreateGalleryPicture(
   galleryId: ID,
   files: Array<Record<string, any>>
-): Thunk<any> {
-  return (dispatch) => {
+) {
+  return (dispatch: AppDispatch) => {
     dispatch({
       type: Gallery.UPLOAD.BEGIN,
       meta: {
