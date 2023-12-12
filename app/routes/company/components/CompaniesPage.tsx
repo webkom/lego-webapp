@@ -5,8 +5,9 @@ import {
   Icon,
   LoadingIndicator,
 } from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import InfiniteScroll from 'react-infinite-scroller';
 import { Link } from 'react-router-dom-v5-compat';
@@ -87,9 +88,11 @@ const CompaniesPage = () => {
 
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(fetchAll({ fetchMore: false }));
-  }, [dispatch]);
+  usePreparedEffect(
+    'fetchAllCompanies',
+    () => dispatch(fetchAll({ fetchMore: false })),
+    []
+  );
 
   return (
     <div className={styles.root}>

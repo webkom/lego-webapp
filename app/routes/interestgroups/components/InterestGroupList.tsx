@@ -1,5 +1,5 @@
 import { Button } from '@webkom/lego-bricks';
-import { useEffect } from 'react';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom-v5-compat';
 import { fetchAllWithType } from 'app/actions/GroupActions';
@@ -10,11 +10,6 @@ import { selectGroupsWithType } from 'app/reducers/groups';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import InterestGroupComponent from './InterestGroup';
 import styles from './InterestGroup.css';
-import type { Group } from 'app/models';
-
-export type Props = {
-  interestGroups: Array<Group>;
-};
 
 const InterestGroupList = () => {
   const actionGrant = useAppSelector((state) => state.groups.actionGrant);
@@ -24,9 +19,11 @@ const InterestGroupList = () => {
 
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(fetchAllWithType(GroupType.Interest));
-  }, [dispatch]);
+  usePreparedEffect(
+    'fetchAllInterestGroups',
+    () => dispatch(fetchAllWithType(GroupType.Interest)),
+    []
+  );
 
   const canCreate = actionGrant.includes('create');
   // Sorts interest groups in alphabetical order. Sorting using localeCompare will fail to sort ÆØÅ correctly.

@@ -1,6 +1,7 @@
 import { Button, Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment-timezone';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom-v5-compat';
 import {
@@ -40,7 +41,10 @@ const queryString = (companyId: ID) =>
 const CompanyDetail = () => {
   const [viewOldEvents, setViewOldEvents] = useState(false);
 
-  const { companyId, loading } = useParams();
+  const { companyId, loading } = useParams<{
+    companyId: string;
+    loading: string;
+  }>();
   const showFetchMoreEvents = useAppSelector((state) =>
     selectPagination('events', {
       queryString: queryString(companyId),
@@ -58,16 +62,22 @@ const CompanyDetail = () => {
 
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(fetch(companyId));
-    dispatch(
-      fetchEventsForCompany({
-        queryString: queryString(companyId),
-        loadNextPage: false,
-      })
-    );
-    dispatch(fetchJoblistingsForCompany(companyId));
-  }, [companyId, dispatch]);
+  usePreparedEffect(
+    'fetchDetailedCompany',
+    () =>
+      companyId &&
+      Promise.all([
+        dispatch(fetch(companyId)),
+        dispatch(
+          fetchEventsForCompany({
+            queryString: queryString(companyId),
+            loadNextPage: false,
+          })
+        ),
+        dispatch(fetchJoblistingsForCompany(companyId)),
+      ]),
+    [companyId]
+  );
 
   if (!company) {
     return <LoadingIndicator loading={Boolean(loading)} />;

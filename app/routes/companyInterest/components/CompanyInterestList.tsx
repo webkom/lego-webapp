@@ -1,11 +1,12 @@
 import { Button, ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import qs from 'qs';
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, Link, useNavigate } from 'react-router-dom-v5-compat';
 import { fetchSemesters } from 'app/actions/CompanyActions';
 import {
   deleteCompanyInterest,
-  fetch,
+  fetch as fetchCompanyInterests,
   fetchAll,
 } from 'app/actions/CompanyInterestActions';
 import { Content } from 'app/components/Content';
@@ -93,7 +94,7 @@ const CompanyInterestList = () => {
   const handleSemesterChange = (clickedOption: SemesterOptionType): void => {
     const { id } = clickedOption;
     dispatch(
-      fetch({
+      fetchCompanyInterests({
         filters: {
           semesters: id !== null ? id : null,
         },
@@ -117,25 +118,24 @@ const CompanyInterestList = () => {
     setGeneratedCSV(undefined);
   }, [selectedSemesterOption]);
 
-  useEffect(() => {
-    dispatch(fetchAll());
-    dispatch(fetchSemesters());
-  }, [dispatch]);
+  usePreparedEffect(
+    'fetchCompanyInterestList',
+    () => Promise.all([dispatch(fetchAll()), dispatch(fetchSemesters())]),
+    []
+  );
 
   const exportInterestList = async (event?: string) => {
-    const blob = await dispatch(
-      fetch(
-        getCsvUrl(
-          selectedSemesterOption.year,
-          selectedSemesterOption.semester,
-          event
-        ),
-        {
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-          },
-        }
-      )
+    const blob = await fetch(
+      getCsvUrl(
+        selectedSemesterOption.year,
+        selectedSemesterOption.semester,
+        event
+      ),
+      {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      }
     ).then((response) => response.blob());
     return {
       url: URL.createObjectURL(blob),
@@ -283,7 +283,7 @@ const CompanyInterestList = () => {
         columns={columns}
         onLoad={(filters) => {
           dispatch(
-            fetch({
+            fetchCompanyInterests({
               next: true,
               filters,
             })
@@ -291,7 +291,7 @@ const CompanyInterestList = () => {
         }}
         onChange={(filters) => {
           dispatch(
-            fetch({
+            fetchCompanyInterests({
               filters,
             })
           );

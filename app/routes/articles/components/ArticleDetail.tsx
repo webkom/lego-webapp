@@ -1,4 +1,5 @@
 import { LoadingIndicator } from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment-timezone';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
@@ -104,11 +105,11 @@ const ArticleDetail = () => {
 
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    if (articleIdOrSlug) {
-      dispatch(fetchArticle(articleIdOrSlug));
-    }
-  }, [loggedIn, articleIdOrSlug, dispatch]);
+  usePreparedEffect(
+    'fetchDetailedArticle',
+    () => articleIdOrSlug && dispatch(fetchArticle(articleIdOrSlug)),
+    [loggedIn, articleIdOrSlug]
+  );
 
   if (!article) {
     return <LoadingIndicator loading />;
