@@ -8,21 +8,18 @@ import { ProfilePicture } from 'app/components/Image';
 import { Tag } from 'app/components/Tags';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
+import { useUserContext } from 'app/routes/app/AppRoute';
 import { useAppDispatch } from 'app/store/hooks';
 import styles from './Comment.css';
 import type CommentType from 'app/store/models/Comment';
 import type { ContentAuthors } from 'app/store/models/Comment';
-import type { CurrentUser } from 'app/store/models/User';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 
 type Props = {
   comment: CommentType;
   commentFormProps: {
-    contentTarget: string;
-    user: CurrentUser;
-    loggedIn: boolean;
+    contentTarget: ContentTarget;
   };
-  user: CurrentUser;
   contentTarget: ContentTarget;
   contentAuthors?: ContentAuthors;
 };
@@ -31,13 +28,14 @@ const Comment = ({
   comment,
   contentTarget,
   commentFormProps,
-  user,
   contentAuthors,
 }: Props) => {
   const [replyOpen, setReplyOpen] = useState(false);
   const { createdAt, text, author } = comment;
 
   const dispatch = useAppDispatch();
+
+  const { currentUser } = useUserContext();
 
   return (
     <>
@@ -66,7 +64,7 @@ const Comment = ({
               </Flex>
             </Flex>
 
-            {user?.id === author.id && (
+            {currentUser?.id === author.id && (
               <Flex justifyContent="flex-end">
                 <Tooltip content="Slett kommentar">
                   <Icon
@@ -120,7 +118,7 @@ const Comment = ({
           submitText="Send svar"
           autoFocus
           parent={comment.id}
-          placeholder={`Svar ${author.fullName} ...`}
+          placeholder={`Svar ${author?.fullName} ...`}
         />
       )}
     </>
