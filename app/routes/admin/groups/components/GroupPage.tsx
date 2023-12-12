@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
 import { Switch, useRouteMatch, useParams, Route } from 'react-router-dom';
 import { useLocation } from 'react-router-dom-v5-compat';
@@ -59,9 +59,8 @@ const GroupPage = () => {
   const { path } = useRouteMatch();
 
   const dispatch = useAppDispatch();
-  useEffect(() => {
-    dispatch(fetchAll());
-  }, [dispatch]);
+
+  usePreparedEffect('fetchAllGroups', () => dispatch(fetchAll()), []);
 
   return (
     <Content>

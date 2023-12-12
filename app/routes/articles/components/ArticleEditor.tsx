@@ -5,7 +5,7 @@ import {
   Icon,
   LoadingIndicator,
 } from '@webkom/lego-bricks';
-import { useEffect } from 'react';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import { Field } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
@@ -79,11 +79,11 @@ const ArticleEditor = () => {
 
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    if (articleId) {
-      dispatch(fetchArticle(articleId));
-    }
-  }, [articleId, dispatch]);
+  usePreparedEffect(
+    'fetchArticleForEditor',
+    () => articleId && dispatch(fetchArticle(articleId)),
+    [articleId]
+  );
 
   const initialValues = {
     ...article,
