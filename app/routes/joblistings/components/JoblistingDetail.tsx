@@ -1,7 +1,6 @@
 import { Button, Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
 import { useNavigate, useParams, Link } from 'react-router-dom-v5-compat';
 import { fetchJoblisting } from 'app/actions/JoblistingActions';
 import {

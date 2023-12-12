@@ -1,96 +1,142 @@
-import { Button, Icon } from '@webkom/lego-bricks';
+import { Button, Icon, LoadingIndicator } from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import FileSaver from 'file-saver';
 import JsZip from 'jszip';
-import { cloneElement, useState } from 'react';
-import { Helmet } from 'react-helmet-async';
+import { useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom-v5-compat';
+import { fetchGallery, fetchGalleryMetadata } from 'app/actions/GalleryActions';
+import {
+  fetch,
+  clear,
+  uploadAndCreateGalleryPicture,
+} from 'app/actions/GalleryPictureActions';
 import { Content } from 'app/components/Content';
 import EmptyState from 'app/components/EmptyState';
 import Gallery from 'app/components/Gallery';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
+import PropertyHelmet, {
+  type PropertyGenerator,
+} from 'app/components/PropertyHelmet';
 import ImageUpload from 'app/components/Upload/ImageUpload';
+import config from 'app/config';
+import { selectGalleryById } from 'app/reducers/galleries';
+import { SelectGalleryPicturesByGalleryId } from 'app/reducers/galleryPictures';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import GalleryDetailsRow from './GalleryDetailsRow';
 import type { DropFile } from 'app/components/Upload/ImageUpload';
-import type { ID, ActionGrant } from 'app/models';
-import type { GalleryPictureEntity } from 'app/reducers/galleryPictures';
-import type { History } from 'history';
-import type { ReactNode } from 'react';
+import type { DetailedGallery } from 'app/store/models/Gallery';
 
-type Props = {
-  gallery: Record<string, any>;
-  loggedIn: boolean;
-  currentUser: boolean;
-  pictures: Array<GalleryPictureEntity>;
-  hasMore: boolean;
-  fetching: boolean;
-  children: ReactNode;
-  fetch: (
-    galleryId: number,
-    args: {
-      next: boolean;
-    }
-  ) => Promise<any>;
-  clear: (galleryId: number) => Promise<any>;
-  push: History['push'];
-  uploadAndCreateGalleryPicture: (
-    arg0: ID,
-    arg1: File | Array<DropFile>
-  ) => Promise<any>;
-  actionGrant: ActionGrant;
+const propertyGenerator: PropertyGenerator<{
+  gallery: DetailedGallery;
+}> = ({ gallery }, config) => {
+  if (!gallery) return;
+  return [
+    {
+      property: 'og:title',
+      content: gallery.title,
+    },
+    {
+      property: 'og:description',
+      content: gallery.description,
+    },
+    {
+      property: 'og:url',
+      content: `${config?.webUrl}/gallery/${gallery.id}`,
+    },
+    {
+      property: 'og:image',
+      content: gallery.cover.file,
+    },
+  ];
 };
 
-const GalleryDetail = (props: Props) => {
+const GalleryDetail = () => {
   const [upload, setUpload] = useState(false);
   const [downloading, setDownloading] = useState(false);
 
+  const { galleryId } = useParams<{ galleryId: string }>();
+  const gallery = useAppSelector((state) =>
+    selectGalleryById(state, { galleryId })
+  );
+  const pictures = useAppSelector((state) =>
+    SelectGalleryPicturesByGalleryId(state, { galleryId })
+  );
+  const fetching = useAppSelector(
+    (state) => state.galleries.fetching || state.galleryPictures.fetching
+  );
+  const hasMore = useAppSelector((state) => state.galleryPictures.hasMore);
+
+  const dispatch = useAppDispatch();
+
+  usePreparedEffect(
+    'fetchGalleryDetail',
+    () =>
+      Promise.all([
+        dispatch(fetch(galleryId)).catch(),
+        dispatch(fetchGallery(galleryId)).catch(() =>
+          dispatch(fetchGalleryMetadata(galleryId))
+        ),
+      ]),
+    []
+  );
+
   const toggleUpload = (response?: File | DropFile[]) => {
     if (response) {
-      props.uploadAndCreateGalleryPicture(props.gallery.id, response);
+      uploadAndCreateGalleryPicture(gallery.id, response);
     }
 
     setUpload(!upload);
   };
 
+  const navigate = useNavigate();
+
   const handleClick = (picture) => {
-    props.push(`/photos/${props.gallery.id}/picture/${picture.id}`);
+    navigate(`/photos/${gallery.id}/picture/${picture.id}`);
   };
+
+  if (!gallery?.title) {
+    return (
+      <Content>
+        <LoadingIndicator loading={fetching} />
+      </Content>
+    );
+  }
 
   const downloadGallery = () => {
     setDownloading(true);
     // Force re-fetch to avoid expired image urls
-    props.clear(props.gallery.id);
+    clear(gallery.id);
 
     const finishDownload = () => setDownloading(false);
 
     downloadNext(0, [])
       .then((blobs) => {
-        const names = props.pictures.map((picture) =>
-          picture.file.split('/').pop()
-        );
-        zipFiles(props.gallery.title, names, blobs).finally(finishDownload);
+        const names = pictures.map((picture) => picture.file.split('/').pop());
+        zipFiles(gallery.title, names, blobs).finally(finishDownload);
       })
       .catch(finishDownload);
   };
 
   const downloadNext = (index: number, blobsAccum: Blob[]) => {
-    return props
-      .fetch(props.gallery.id, {
+    return dispatch(
+      fetch(gallery.id, {
         next: true,
         filters: {},
       })
-      .then(() => {
-        const urls = props.pictures
-          .slice(index)
-          .map((picture) => picture.rawFile);
-        return downloadFiles(urls).then((blobs) => {
-          blobsAccum.push(...blobs);
+    ).then(() => {
+      const urls = pictures.slice(index).map((picture) => picture.rawFile);
+      return downloadFiles(urls).then((blobs) => {
+        blobsAccum.push(...blobs);
 
-          if (props.hasMore) {
-            return downloadNext(props.pictures.length, blobsAccum);
-          }
+        if (hasMore) {
+          return downloadNext(pictures.length, blobsAccum);
+        }
 
-          return blobsAccum;
-        });
+        return blobsAccum;
       });
+    });
   };
 
   const downloadFiles = (urls: string[]) =>
@@ -110,23 +156,18 @@ const GalleryDetail = (props: Props) => {
       .then((zipFile) => FileSaver.saveAs(zipFile, `${zipTitle}.zip`));
   };
 
-  const {
-    gallery,
-    pictures,
-    children,
-    push,
-    loggedIn,
-    currentUser,
-    hasMore,
-    fetch,
-    fetching,
-  } = props;
-
   const actionGrant = gallery && gallery.actionGrant;
 
   return (
     <Content>
-      <Helmet title={gallery.title} />
+      <PropertyHelmet
+        propertyGenerator={propertyGenerator}
+        options={{ gallery }}
+      >
+        <title>{gallery.title}</title>
+        <link rel="canonical" href={`${config?.webUrl}/photos/${gallery.id}`} />
+      </PropertyHelmet>
+
       <NavigationTab
         title={gallery.title}
         back={{
@@ -191,16 +232,8 @@ const GalleryDetail = (props: Props) => {
           onSubmit={toggleUpload}
         />
       )}
-
-      {children &&
-        cloneElement(children, {
-          gallery,
-          push,
-          loggedIn,
-          currentUser,
-        })}
     </Content>
   );
 };
 
-export default GalleryDetail;
+export default guardLogin(GalleryDetail);

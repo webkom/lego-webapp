@@ -3,8 +3,8 @@ import { CompatRoute } from 'react-router-dom-v5-compat';
 import RouteWrapper from 'app/components/RouteWrapper';
 import { UserContext } from 'app/routes/app/AppRoute';
 import PageNotFound from '../pageNotFound';
-import GalleryDetailRoute from './GalleryDetailRoute';
 import GalleryPictureRoute from './GalleryPictureRoute';
+import GalleryDetail from './components/GalleryDetail';
 import GalleryEditor from './components/GalleryEditor';
 import GalleryPictureEditModal from './components/GalleryPictureEditModal';
 import Overview from './components/Overview';
@@ -18,14 +18,10 @@ const PhotosRoute = () => {
         <Switch>
           <CompatRoute exact path={`${path}`} component={Overview} />
           <CompatRoute exact path={`${path}/new`} component={GalleryEditor} />
-          <RouteWrapper
+          <CompatRoute
             exact
             path={`${path}/:galleryId`}
-            passedProps={{
-              currentUser,
-              loggedIn,
-            }}
-            Component={GalleryDetailRoute}
+            component={GalleryDetail}
           />
           <CompatRoute
             exact
