@@ -1,4 +1,4 @@
-import { LoadingIndicator, Button } from '@webkom/lego-bricks';
+import { LoadingIndicator, Button, Flex } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment-timezone';
 import { useCallback, useEffect } from 'react';
@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import { fetchAll, getEndpoint } from 'app/actions/MeetingActions';
 import { Content } from 'app/components/Content';
 import NavigationTab from 'app/components/NavigationTab';
-import Pill from 'app/components/Pill';
+import { Tag } from 'app/components/Tags';
 import Time from 'app/components/Time';
 import {
   selectGroupedMeetings,
@@ -19,15 +19,16 @@ import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import createQueryString from 'app/utils/createQueryString';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import styles from './MeetingList.css';
+import type { ID } from 'app/store/models';
 import type { ListMeeting } from 'app/store/models/Meeting';
 import type { CurrentUser } from 'app/store/models/User';
 
 function MeetingListItem({
   meeting,
-  username,
+  userId,
 }: {
   meeting: ListMeeting;
-  username: string;
+  userId: ID;
 }) {
   const isDone = moment(meeting.endTime) < moment();
 
@@ -40,27 +41,24 @@ function MeetingListItem({
     >
       <div>
         <Link to={`/meetings/${meeting.id}`}>
-          <h3 className={styles.meetingItemTitle}>
-            {meeting.title}
-            {username === meeting.createdBy && (
-              <Pill
-                style={{
-                  marginLeft: 10,
-                }}
-              >
-                Eier
-              </Pill>
+          <Flex alignItems="center" gap="1rem">
+            <h3 className={styles.meetingItemTitle}>{meeting.title}</h3>
+            {userId === meeting.createdBy && (
+              <Tag
+                tag="Forfatter"
+                color="blue"
+                icon="shield-checkmark-outline"
+              />
             )}
-            {username === meeting.reportAuthor && (
-              <Pill
-                style={{
-                  marginLeft: 10,
-                }}
-              >
-                Referent
-              </Pill>
+            {userId === meeting.reportAuthor && (
+              <Tag
+                tag="Referent"
+                color="purple"
+                icon="pencil-outline"
+                iconSize={13}
+              />
             )}
-          </h3>
+          </Flex>
         </Link>
         <div className={styles.meetingTime}>
           <Time time={meeting.startTime} format="ll - HH:mm" />
@@ -83,11 +81,7 @@ const MeetingListView = ({
       <div key={key}>
         <h3 className={styles.heading}>{item.title}</h3>
         {item.meetings.map((item, key) => (
-          <MeetingListItem
-            key={key}
-            username={currentUser.username}
-            meeting={item}
-          />
+          <MeetingListItem key={key} userId={currentUser.id} meeting={item} />
         ))}
       </div>
     ))}
