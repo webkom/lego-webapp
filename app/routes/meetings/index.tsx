@@ -3,7 +3,7 @@ import RouteWrapper from 'app/components/RouteWrapper';
 import { UserContext } from 'app/routes/app/AppRoute';
 import PageNotFound from '../pageNotFound';
 import MeetingCreateRoute from './MeetingCreateRoute';
-import MeetingDetailRoute from './MeetingDetailRoute';
+import MeetingDetailWrapper from './MeetingDetailWrapper';
 import MeetingEditRoute from './MeetingEditRoute';
 import MeetingList from './components/MeetingList';
 
@@ -23,14 +23,10 @@ const MeetingRoute = () => {
             }}
             Component={MeetingCreateRoute}
           />
-          <RouteWrapper
+          <Route
             exact
             path={`${path}/:meetingId`}
-            passedProps={{
-              currentUser,
-              loggedIn,
-            }}
-            Component={MeetingDetailRoute}
+            component={MeetingDetailWrapper}
           />
           <RouteWrapper
             path={`${path}/:meetingId/edit`}

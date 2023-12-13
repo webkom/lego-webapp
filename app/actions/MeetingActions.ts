@@ -9,6 +9,7 @@ import type { AppDispatch } from 'app/store/createStore';
 import type { ID } from 'app/store/models';
 import type { DetailedMeeting, ListMeeting } from 'app/store/models/Meeting';
 import type { MeetingInvitationStatus } from 'app/store/models/MeetingInvitation';
+import { CurrentUser } from 'app/store/models/User';
 
 export function fetchMeeting(meetingId: string) {
   return callAPI<DetailedMeeting>({
@@ -62,9 +63,9 @@ export function fetchAll({
 }
 
 export function setInvitationStatus(
-  meetingId: number,
-  status: string,
-  user: UserEntity
+  meetingId: ID,
+  status: MeetingInvitationStatus,
+  user: CurrentUser
 ) {
   return callAPI<{ status: MeetingInvitationStatus }>({
     types: Meeting.SET_INVITATION_STATUS,
