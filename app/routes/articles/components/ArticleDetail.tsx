@@ -17,7 +17,6 @@ import {
   selectArticleByIdOrSlug,
   selectCommentsForArticle,
 } from 'app/reducers/articles';
-import { selectEmojis } from 'app/reducers/emojis';
 import { selectUsersByIds } from 'app/reducers/users';
 import { useUserContext } from 'app/routes/app/AppRoute';
 import sharedStyles from 'app/routes/articles/components/Overview.css';
@@ -95,7 +94,6 @@ const ArticleDetail = () => {
   const authors = useAppSelector((state) =>
     selectUsersByIds(state, { userIds: article?.authors ?? [] })
   );
-  const emojis = useAppSelector((state) => selectEmojis(state));
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -178,11 +176,7 @@ const ArticleDetail = () => {
       </Tags>
 
       <div className={styles.articleReactions}>
-        <LegoReactions
-          emojis={emojis}
-          parentEntity={article}
-          loggedIn={loggedIn}
-        />
+        <LegoReactions parentEntity={article} />
       </div>
 
       {article.contentTarget && (
