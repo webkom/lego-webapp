@@ -2,16 +2,13 @@ import moment from 'moment-timezone';
 import { startSubmit, stopSubmit } from 'redux-form';
 import callAPI from 'app/actions/callAPI';
 import { meetingSchema } from 'app/reducers';
-import createQueryString from 'app/utils/createQueryString';
 import { Meeting } from './ActionTypes';
 import type { UserEntity } from 'app/reducers/users';
 import type { MeetingFormValues } from 'app/routes/meetings/components/MeetingEditor';
-import type { RootState } from 'app/store/createRootReducer';
 import type { AppDispatch } from 'app/store/createStore';
 import type { ID } from 'app/store/models';
 import type { DetailedMeeting, ListMeeting } from 'app/store/models/Meeting';
 import type { MeetingInvitationStatus } from 'app/store/models/MeetingInvitation';
-import type { GetState } from 'app/types';
 
 export function fetchMeeting(meetingId: string) {
   return callAPI<DetailedMeeting>({
@@ -25,70 +22,45 @@ export function fetchMeeting(meetingId: string) {
   });
 }
 
-const getEndpoint = (
-  state: RootState,
-  loadNextPage: boolean | undefined,
-  queryString: string
-) => {
-  const pagination = state.meetings.pagination;
+export const getEndpoint = (
+  pagination: any,
+  queryString: string,
+  loadNextPage?: boolean
+): string => {
   let endpoint = `/meetings/${queryString}`;
   const paginationObject = pagination[queryString];
 
   if (
     loadNextPage &&
     paginationObject &&
-    paginationObject.queryString === queryString
+    paginationObject.queryString === queryString &&
+    paginationObject.nextPage
   ) {
-    endpoint = pagination[queryString].nextPage;
+    endpoint = paginationObject.nextPage;
   }
 
   return endpoint;
 };
 
 export function fetchAll({
-  dateAfter,
-  dateBefore,
-  ordering,
-  loadNextPage,
+  endpoint,
+  queryString,
 }: {
-  dateAfter?: string;
-  dateBefore?: string;
-  ordering?: string;
-  refresh?: boolean;
-  loadNextPage?: boolean;
-} = {}) {
-  return (dispatch: AppDispatch, getState: GetState) => {
-    const query: Record<string, string | undefined> = {
-      date_after: dateAfter,
-      date_before: dateBefore,
-      ordering,
-    };
-
-    if (dateBefore && dateAfter) {
-      query.page_size = '60';
-    }
-
-    const queryString = createQueryString(query);
-    const endpoint = getEndpoint(getState(), loadNextPage, queryString);
-
-    if (!endpoint) {
-      return Promise.resolve();
-    }
-
-    return dispatch(
-      callAPI<ListMeeting>({
-        types: Meeting.FETCH,
-        endpoint,
-        schema: [meetingSchema],
-        meta: {
-          queryString,
-          errorMessage: 'Henting av møter feilet',
-        },
-        propagateError: true,
-      })
-    );
-  };
+  endpoint: string;
+  queryString?: string;
+}) {
+  return callAPI<ListMeeting[]>({
+    types: Meeting.FETCH,
+    endpoint,
+    schema: [meetingSchema],
+    meta: {
+      queryString,
+      errorMessage: 'Henting av møter feilet',
+    },
+    propagateError: true,
+  });
 }
+
 export function setInvitationStatus(
   meetingId: number,
   status: string,
@@ -110,7 +82,8 @@ export function setInvitationStatus(
     },
   });
 }
-export function deleteMeeting(id: number) {
+
+export function deleteMeeting(id: ID) {
   return callAPI<void>({
     types: Meeting.DELETE,
     endpoint: `/meetings/${id}/`,
@@ -121,6 +94,7 @@ export function deleteMeeting(id: number) {
     },
   });
 }
+
 export function createMeeting({
   title,
   report,
@@ -182,6 +156,7 @@ export function inviteUsersAndGroups({
     },
   });
 }
+
 export function answerMeetingInvitation(action: string, token: string) {
   return (dispatch: AppDispatch) => {
     dispatch(startSubmit('answerMeetingInvitation'));
@@ -203,6 +178,7 @@ export function answerMeetingInvitation(action: string, token: string) {
       });
   };
 }
+
 export function editMeeting({
   title,
   report,
@@ -236,6 +212,7 @@ export function editMeeting({
     },
   });
 }
+
 export function resetMeetingsToken() {
   return {
     type: Meeting.RESET_MEETINGS_TOKEN,
