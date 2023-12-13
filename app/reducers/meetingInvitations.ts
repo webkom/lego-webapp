@@ -69,7 +69,7 @@ export const selectMeetingInvitationsForMeeting: Selector<
   (state) => state.meetingInvitations.byId,
   (state) => state.users.byId,
   (meeting, meetingInvitationsById, users) => {
-    const meetingInvitations = meeting.invitations;
+    const meetingInvitations = meeting?.invitations;
     if (!meetingInvitations) return [];
     return meetingInvitations
       .map((invitation) => ({

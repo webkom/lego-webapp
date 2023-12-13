@@ -1,14 +1,9 @@
-import {
-  Button,
-  Card,
-  Flex,
-  Icon,
-  LoadingIndicator,
-} from '@webkom/lego-bricks';
+import { Button, Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
 import { isEmpty } from 'lodash';
 import moment from 'moment-timezone';
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import { setInvitationStatus } from 'app/actions/MeetingActions';
 import AnnouncementInLine from 'app/components/AnnouncementInLine';
 import CommentView from 'app/components/Comments/CommentView';
 import {
@@ -25,55 +20,71 @@ import NavigationTab from 'app/components/NavigationTab';
 import Time, { FromToTime } from 'app/components/Time';
 import { AttendanceStatus } from 'app/components/UserAttendance';
 import AttendanceModal from 'app/components/UserAttendance/AttendanceModal';
-import { statusesText } from 'app/reducers/meetingInvitations';
+import {
+  selectMeetingInvitation,
+  selectMeetingInvitationsForMeeting,
+  statusesText,
+} from 'app/reducers/meetingInvitations';
+import {
+  selectCommentsForMeeting,
+  selectMeetingById,
+} from 'app/reducers/meetings';
+import { selectUserById } from 'app/reducers/users';
+import { useUserContext } from 'app/routes/app/AppRoute';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { MeetingInvitationStatus } from 'app/store/models/MeetingInvitation';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import urlifyString from 'app/utils/urlifyString';
 import styles from './MeetingDetail.css';
 import type { Dateish } from 'app/models';
-import type { MeetingInvitationWithUser } from 'app/reducers/meetingInvitations';
-import type Comment from 'app/store/models/Comment';
-import type { DetailedMeeting } from 'app/store/models/Meeting';
-import type { ReactionsGrouped } from 'app/store/models/Reaction';
-import type { CurrentUser, PublicUser } from 'app/store/models/User';
-
-type Props = {
-  meeting: DetailedMeeting;
-  currentUser: CurrentUser;
-  showAnswer: boolean;
-  meetingInvitations: MeetingInvitationWithUser[];
-  setInvitationStatus: (
-    meetingId: number,
-    status: MeetingInvitationStatus,
-    user: CurrentUser
-  ) => Promise<void>;
-  reportAuthor: PublicUser;
-  createdBy: PublicUser;
-  currentUserInvitation: MeetingInvitationWithUser;
-  loggedIn: boolean;
-  comments: Comment[];
-  reactionsGrouped: ReactionsGrouped[];
-};
+import type { PublicUser } from 'app/store/models/User';
 
 const UserLink = ({ user }: { user: PublicUser }) =>
   user && !isEmpty(user) ? (
     <Link to={`/users/${user.username}`}>{user.fullName}</Link>
   ) : (
-    <span> Ikke valgt </span>
+    <span>Ikke valgt</span>
   );
 
-const MeetingDetails = ({
-  meeting,
-  currentUser,
-  reportAuthor,
-  createdBy,
-  comments,
-  loggedIn,
-  currentUserInvitation,
-  setInvitationStatus,
-  meetingInvitations,
-}: Props) => {
+const MeetingDetails = () => {
+  const { meetingId } = useParams<{ meetingId: string }>();
+  const { currentUser, loggedIn } = useUserContext();
+  const meeting = useAppSelector((state) =>
+    selectMeetingById(state, {
+      meetingId,
+    })
+  );
+  const comments = useAppSelector((state) =>
+    selectCommentsForMeeting(state, {
+      meetingId,
+    })
+  );
+  const reportAuthor = useAppSelector((state) =>
+    selectUserById(state, {
+      userId: meeting?.reportAuthor,
+    })
+  );
+  const createdBy = useAppSelector((state) =>
+    selectUserById(state, {
+      userId: meeting?.createdBy,
+    })
+  );
+  const meetingInvitations = useAppSelector((state) =>
+    selectMeetingInvitationsForMeeting(state, {
+      meetingId,
+    })
+  );
+  const currentUserInvitation = useAppSelector((state) =>
+    selectMeetingInvitation(state, {
+      userId: currentUser.username,
+      meetingId,
+    })
+  );
+
+  const dispatch = useAppDispatch();
+
   const setMeetingInvitationStatus = (newStatus: MeetingInvitationStatus) => {
-    setInvitationStatus(meeting.id, newStatus, currentUser);
+    dispatch(setInvitationStatus(meeting.id, newStatus, currentUser));
   };
 
   const acceptInvitation = () =>
@@ -176,50 +187,42 @@ const MeetingDetails = ({
           <DisplayContent content={meeting.report} />
         </ContentMain>
         <ContentSidebar>
-          <Card
-            style={{
-              border: 'none',
-              padding: 0,
-            }}
-            shadow={false}
-          >
-            <ul>
-              {attendanceButtons(statusMe, meeting.startTime)}
-              <InfoList items={infoItems} />
-              <li>
-                <AttendanceModal
-                  isMeeting
-                  key="modal"
-                  pools={sortInvitations()}
-                  title="Påmeldte"
-                >
-                  {({ toggleModal }) => (
-                    <AttendanceStatus
-                      toggleModal={toggleModal}
-                      pools={sortInvitations()}
-                    />
-                  )}
-                </AttendanceModal>
-              </li>
-              {meeting.mazemapPoi && (
-                <MazemapEmbed mazemapPoi={meeting.mazemapPoi} />
-              )}
-            </ul>
+          <ul>
+            {attendanceButtons(statusMe, meeting.startTime)}
+            <InfoList items={infoItems} />
+            <li>
+              <AttendanceModal
+                isMeeting
+                key="modal"
+                pools={sortInvitations()}
+                title="Påmeldte"
+              >
+                {({ toggleModal }) => (
+                  <AttendanceStatus
+                    toggleModal={toggleModal}
+                    pools={sortInvitations()}
+                  />
+                )}
+              </AttendanceModal>
+            </li>
+            {meeting.mazemapPoi && (
+              <MazemapEmbed mazemapPoi={meeting.mazemapPoi} />
+            )}
+          </ul>
 
-            <Flex column gap={7}>
-              <h3>Admin</h3>
+          <Flex column gap={7}>
+            <h3>Admin</h3>
 
-              <AnnouncementInLine meeting={meeting} />
-              {canEdit && (
-                <Link to={`/meetings/${meeting.id}/edit`}>
-                  <Button>
-                    <Icon name="create-outline" size={19} />
-                    Rediger
-                  </Button>
-                </Link>
-              )}
-            </Flex>
-          </Card>
+            <AnnouncementInLine meeting={meeting} />
+            {canEdit && (
+              <Link to={`/meetings/${meeting.id}/edit`}>
+                <Button>
+                  <Icon name="create-outline" size={19} />
+                  Rediger
+                </Button>
+              </Link>
+            )}
+          </Flex>
         </ContentSidebar>
       </ContentSection>
       <ContentSection>
@@ -244,4 +247,4 @@ const MeetingDetails = ({
   );
 };
 
-export default MeetingDetails;
+export default guardLogin(MeetingDetails);
