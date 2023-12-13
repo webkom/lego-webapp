@@ -1,14 +1,24 @@
 import { LoadingIndicator, Button } from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment-timezone';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
+import { fetchAll, getEndpoint } from 'app/actions/MeetingActions';
 import { Content } from 'app/components/Content';
 import NavigationTab from 'app/components/NavigationTab';
 import Pill from 'app/components/Pill';
 import Time from 'app/components/Time';
+import {
+  selectGroupedMeetings,
+  type MeetingSection,
+} from 'app/reducers/meetings';
+import { selectPagination } from 'app/reducers/selectors';
+import { useUserContext } from 'app/routes/app/AppRoute';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import createQueryString from 'app/utils/createQueryString';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import styles from './MeetingList.css';
-import type { MeetingSection } from 'app/reducers/meetings';
 import type { ListMeeting } from 'app/store/models/Meeting';
 import type { CurrentUser } from 'app/store/models/User';
 
@@ -65,7 +75,7 @@ const MeetingListView = ({
   sections,
   currentUser,
 }: {
-  sections: Array<MeetingSection>;
+  sections: MeetingSection[];
   currentUser: CurrentUser;
 }) => (
   <div>
@@ -87,29 +97,103 @@ const MeetingListView = ({
   </div>
 );
 
-type Props = {
-  meetingSections: MeetingSection[];
-  currentUser: CurrentUser;
-  loading: boolean;
-  fetchMore: () => Promise<void>;
-  fetchOlder: () => Promise<void>;
-  showFetchMore: boolean;
-  showFetchOlder: boolean;
-};
-const MeetingList = ({
-  meetingSections,
-  currentUser,
-  loading,
-  fetchMore,
-  fetchOlder,
-  showFetchMore,
-  showFetchOlder,
-}: Props) => {
+const MeetingList = () => {
+  const dateAfter = moment().format('YYYY-MM-DD');
+  const dateBefore = moment().format('YYYY-MM-DD');
+  const fetchMoreString = createQueryString({
+    date_after: dateAfter,
+  });
+  const fetchOlderString = createQueryString({
+    date_before: dateBefore,
+    ordering: '-start_time',
+  });
+  const showFetchMore = useAppSelector((state) =>
+    selectPagination('meetings', {
+      queryString: fetchMoreString,
+    })(state)
+  );
+  const showFetchOlder = useAppSelector((state) =>
+    selectPagination('meetings', {
+      queryString: fetchOlderString,
+    })(state)
+  );
+  const meetingSections = useAppSelector(selectGroupedMeetings);
+  const loading = useAppSelector((state) => state.meetings.fetching);
+  const pagination = useAppSelector((state) => state.meetings.pagination);
+
+  const { currentUser } = useUserContext();
+
+  const dispatch = useAppDispatch();
+
+  const fetchData = useCallback(
+    ({
+      dateAfter,
+      dateBefore,
+      ordering,
+      loadNextPage,
+    }: {
+      dateAfter?: string;
+      dateBefore?: string;
+      ordering?: string;
+      loadNextPage?: boolean;
+    } = {}) => {
+      const query = {
+        date_after: dateAfter,
+        date_before: dateBefore,
+        ordering,
+      };
+
+      if (dateBefore && dateAfter) {
+        query.page_size = '60';
+      }
+
+      const queryString = createQueryString(query);
+      const endpoint = getEndpoint(pagination, queryString, loadNextPage);
+
+      if (!endpoint) {
+        return Promise.resolve();
+      }
+
+      return dispatch(
+        fetchAll({
+          endpoint,
+          queryString,
+        })
+      );
+    },
+    [pagination, dispatch]
+  );
+
+  const fetchMore = () =>
+    fetchData({
+      dateAfter: moment().subtract(0, 'weeks').format('YYYY-MM-DD'),
+      loadNextPage: true,
+    });
+
+  const fetchOlder = useCallback(
+    () =>
+      fetchData({
+        dateBefore: moment().subtract(0, 'weeks').format('YYYY-MM-DD'),
+        ordering: '-start_time',
+        loadNextPage: true,
+      }),
+    [fetchData]
+  );
+
+  usePreparedEffect(
+    'fetchMeetingList',
+    () =>
+      fetchData({
+        dateAfter: moment().subtract(0, 'weeks').format('YYYY-MM-DD'),
+      }),
+    []
+  );
+
   useEffect(() => {
     if (showFetchOlder && meetingSections.length === 0 && !loading) {
       fetchOlder();
     }
-  }, [showFetchOlder, meetingSections, loading, fetchOlder]);
+  }, [showFetchOlder, meetingSections.length, loading, fetchOlder]);
 
   return (
     <Content>
@@ -121,13 +205,13 @@ const MeetingList = ({
             <Button>Nytt møte</Button>
           </Link>
         }
-      ></NavigationTab>
+      />
       {!meetingSections || loading ? (
-        <LoadingIndicator loading />
+        <LoadingIndicator loading={loading} />
       ) : (
         <MeetingListView currentUser={currentUser} sections={meetingSections} />
       )}
-      {showFetchMore && <Button onClick={fetchMore}>Last flere</Button>}
+      {showFetchMore && <Button onClick={fetchMore}>Last inn flere</Button>}
       {showFetchOlder && (
         <Button flat onClick={fetchOlder}>
           Hent gamle
@@ -137,4 +221,4 @@ const MeetingList = ({
   );
 };
 
-export default MeetingList;
+export default guardLogin(MeetingList);
