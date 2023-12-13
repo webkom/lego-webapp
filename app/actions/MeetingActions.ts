@@ -3,13 +3,12 @@ import { startSubmit, stopSubmit } from 'redux-form';
 import callAPI from 'app/actions/callAPI';
 import { meetingSchema } from 'app/reducers';
 import { Meeting } from './ActionTypes';
-import type { UserEntity } from 'app/reducers/users';
 import type { MeetingFormValues } from 'app/routes/meetings/components/MeetingEditor';
 import type { AppDispatch } from 'app/store/createStore';
 import type { ID } from 'app/store/models';
 import type { DetailedMeeting, ListMeeting } from 'app/store/models/Meeting';
 import type { MeetingInvitationStatus } from 'app/store/models/MeetingInvitation';
-import { CurrentUser } from 'app/store/models/User';
+import type { CurrentUser } from 'app/store/models/User';
 
 export function fetchMeeting(meetingId: string) {
   return callAPI<DetailedMeeting>({
@@ -85,7 +84,7 @@ export function setInvitationStatus(
 }
 
 export function deleteMeeting(id: ID) {
-  return callAPI<void>({
+  return callAPI({
     types: Meeting.DELETE,
     endpoint: `/meetings/${id}/`,
     method: 'DELETE',
@@ -127,6 +126,7 @@ export function createMeeting({
     },
   });
 }
+
 export function inviteUsersAndGroups({
   id,
   users,
