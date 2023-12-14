@@ -448,3 +448,8 @@ option {
   display: flex;
   justify-content: center;
 }
+
+.newestFirst {
+  color: var(--secondary-font-color);
+  font-size: var(--font-size-sm);
+}
