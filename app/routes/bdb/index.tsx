@@ -4,8 +4,8 @@ import RouteWrapper from 'app/components/RouteWrapper';
 import { UserContext } from 'app/routes/app/AppRoute';
 import PageNotFound from '../pageNotFound';
 import AddCompanyContactRoute from './AddCompanyContactRoute';
-import AddSemesterRoute from './AddSemesterRoute';
 import EditCompanyContactRoute from './EditCompanyContactRoute';
+import AddSemester from './components/AddSemester';
 import BdbDetail from './components/BdbDetail';
 import BdbPage from './components/BdbPage';
 import CompanyEditor from './components/CompanyEditor';
@@ -29,13 +29,10 @@ const BdbRoute = () => {
             path={`${path}/:companyId/edit`}
             component={CompanyEditor}
           />
-          <RouteWrapper
+          <CompatRoute
             exact
             path={`${path}/:companyId/semesters/add`}
-            passedProps={{
-              loggedIn,
-            }}
-            Component={AddSemesterRoute}
+            component={AddSemester}
           />
           <RouteWrapper
             exact

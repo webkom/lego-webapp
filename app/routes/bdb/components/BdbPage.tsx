@@ -75,7 +75,7 @@ const BdbPage = () => {
     companyId: ID,
     tableIndex: number,
     semesterStatusId: number | null | undefined,
-    contactedStatus: Array<CompanySemesterContactedStatus>
+    contactedStatus: CompanySemesterContactedStatus[]
   ) => {
     // Update state whenever a semesterStatus is graphically changed by the user
     const companySemester = indexToSemester(
@@ -95,14 +95,18 @@ const BdbPage = () => {
       return dispatch(addSemester(companySemester)).then((response) => {
         const updatedStatus = { ...newStatus, semester: response.payload.id };
         return typeof updatedStatus.semesterStatusId === 'undefined'
-          ? dispatch(addSemesterStatus(updatedStatus))
+          ? dispatch(addSemesterStatus(updatedStatus)).then(() => {
+              navigate('/bdb');
+            })
           : dispatch(editSemesterStatus(updatedStatus));
       });
     }
 
     return typeof newStatus.semesterStatusId === 'undefined'
-      ? addSemesterStatus(newStatus)
-      : editSemesterStatus(newStatus);
+      ? dispatch(addSemesterStatus(newStatus)).then(() => {
+          navigate('/bdb');
+        })
+      : dispatch(editSemesterStatus(newStatus));
   };
 
   const updateFilters = (name: string, value: unknown) => {
