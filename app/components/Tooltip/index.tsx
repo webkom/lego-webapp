@@ -69,7 +69,7 @@ const Tooltip = ({
       style={style}
       onClick={onClick}
       ref={triggerRef}
-      onMouseEnter={() => setHovered(true)}
+      onMouseEnter={() => setHovered(!disabled && true)}
       onMouseLeave={() => setHovered(false)}
     >
       {children}
