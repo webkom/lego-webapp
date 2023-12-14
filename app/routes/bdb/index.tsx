@@ -5,8 +5,8 @@ import { UserContext } from 'app/routes/app/AppRoute';
 import PageNotFound from '../pageNotFound';
 import AddCompanyContactRoute from './AddCompanyContactRoute';
 import AddSemesterRoute from './AddSemesterRoute';
-import BdbDetailRoute from './BdbDetailRoute';
 import EditCompanyContactRoute from './EditCompanyContactRoute';
+import BdbDetail from './components/BdbDetail';
 import BdbPage from './components/BdbPage';
 import CompanyEditor from './components/CompanyEditor';
 
@@ -19,14 +19,10 @@ const BdbRoute = () => {
         <Switch>
           <CompatRoute exact path={`${path}`} component={BdbPage} />
           <CompatRoute exact path={`${path}/add`} component={CompanyEditor} />
-          <RouteWrapper
+          <CompatRoute
             exact
             path={`${path}/:companyId`}
-            passedProps={{
-              currentUser,
-              loggedIn,
-            }}
-            Component={BdbDetailRoute}
+            component={BdbDetail}
           />
           <CompatRoute
             exact

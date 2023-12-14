@@ -78,31 +78,23 @@ export function fetchAdmin(companyId: ID) {
   });
 }
 
-export const fetchEventsForCompany =
-  ({
-    queryString,
-    loadNextPage = false,
-  }: {
-    queryString: string;
-    loadNextPage: boolean;
-  }) =>
-  (dispatch: AppDispatch, getState: GetState) => {
-    const endpoint = loadNextPage
-      ? getState().events.pagination[queryString].nextPage
-      : `/events/${queryString}`;
-
-    return dispatch(
-      callAPI({
-        types: Event.FETCH,
-        endpoint,
-        schema: [eventSchema],
-        meta: {
-          queryString,
-          errorMessage: 'Henting av tilknyttede arrangementer feilet',
-        },
-      })
-    );
-  };
+export const fetchEventsForCompany = ({
+  endpoint,
+  queryString,
+}: {
+  endpoint: string;
+  queryString: string;
+}) => {
+  return callAPI({
+    types: Event.FETCH,
+    endpoint,
+    schema: [eventSchema],
+    meta: {
+      queryString,
+      errorMessage: 'Henting av tilknyttede arrangementer feilet',
+    },
+  });
+};
 
 export function fetchJoblistingsForCompany(companyId: ID) {
   return callAPI<ListJoblisting[]>({
@@ -198,39 +190,26 @@ export function addSemesterStatus(
   };
 }
 
-export function editSemesterStatus(
-  { companyId, semesterStatusId, ...data }: Record<string, any>,
-  options: { detail: boolean } = {
-    detail: false,
-  }
-) {
-  return (dispatch: AppDispatch) => {
-    return dispatch(
-      callAPI<DetailedSemesterStatus>({
-        types: Company.EDIT_SEMESTER_STATUS,
-        endpoint: `/companies/${companyId}/semester-statuses/${semesterStatusId}/`,
-        method: 'PATCH',
-        body: data,
-        meta: {
-          errorMessage: 'Endring av semester status feilet',
-          companyId,
-          semesterStatusId,
-        },
-      })
-    ).then(() => {
-      dispatch(
-        addToast({
-          message: 'Semesterstatus endret.',
-        })
-      );
-
-      if (options.detail) {
-        dispatch(push(`/bdb/${companyId}/`));
-      } else {
-        dispatch(push('/bdb/'));
-      }
-    });
-  };
+export function editSemesterStatus({
+  companyId,
+  semesterStatusId,
+  ...data
+}: {
+  companyId: ID;
+  semesterStatusId: ID;
+  data: Record<string, any>;
+}) {
+  return callAPI<DetailedSemesterStatus>({
+    types: Company.EDIT_SEMESTER_STATUS,
+    endpoint: `/companies/${companyId}/semester-statuses/${semesterStatusId}/`,
+    method: 'PATCH',
+    body: data,
+    meta: {
+      errorMessage: 'Endring av semester status feilet',
+      companyId,
+      semesterStatusId,
+    },
+  });
 }
 
 export function deleteSemesterStatus(companyId: ID, semesterStatusId: ID) {

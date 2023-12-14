@@ -190,7 +190,9 @@ export const selectCompanyById = createSelector(
   selectCompanies,
   (state, props) => props.companyId,
   (companies, companyId) => {
-    const company = companies.find((company) => company.id === companyId);
+    const company = companies.find(
+      (company) => company.id === Number(companyId)
+    );
     return company || {};
   }
 );
