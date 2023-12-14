@@ -6,6 +6,7 @@ import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import { useAppDispatch } from 'app/store/hooks';
 import type { Semester, CompanySemesterContactedStatus } from 'app/models';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
+import type { ID } from 'app/store/models';
 import type { ReactNode } from 'react';
 
 export const statusStrings = {
@@ -167,7 +168,7 @@ export const DetailNavigation = ({
   companyId,
 }: {
   title: ReactNode;
-  companyId: number;
+  companyId: ID;
 }) => {
   const dispatch = useAppDispatch();
 

@@ -57,11 +57,7 @@ class CompanyContactEditor extends Component<Props> {
 
     return (
       <Content>
-        <DetailNavigation
-          title="Bedriftskontakt"
-          companyId={company.id}
-          deleteFunction={deleteCompany}
-        />
+        <DetailNavigation title="Bedriftskontakt" companyId={company.id} />
         <h3>
           <Link to={`/bdb/${company.id}`}>{company.name}</Link> sin
           bedriftskontakt.
