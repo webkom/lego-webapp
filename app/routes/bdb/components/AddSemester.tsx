@@ -1,20 +1,29 @@
+import { Card } from '@webkom/lego-bricks';
+import { isEmpty } from 'lodash';
 import { useState } from 'react';
 import { Field } from 'react-final-form';
+import { useParams } from 'react-router';
 import { Content } from 'app/components/Content';
 import { TextInput, RadioButton, MultiSelectGroup } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
-import { createValidator, required } from 'app/utils/validation';
 import {
+  selectCompanyById,
+  type SemesterStatusEntity,
+} from 'app/reducers/companies';
+import {
+  semesterCodeToName,
   getContactedStatuses,
   selectMostProminentStatus,
   selectColorCode,
   DetailNavigation,
-} from '../utils';
+} from 'app/routes/bdb/utils';
+import { useAppSelector } from 'app/store/hooks';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
+import { createValidator, required } from 'app/utils/validation';
 import SemesterStatusContent from './SemesterStatusContent';
 import styles from './bdb.css';
-import type { SemesterStatusEntity } from 'app/reducers/companies';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 
 type Props = {
@@ -22,7 +31,6 @@ type Props = {
     arg0: Record<string, any>,
     arg1: Record<string, any> | null | undefined
   ) => Promise<any>;
-  companyId: number;
   autoFocus: any;
   companySemesters: Array<Record<string, any>>;
   addSemester: (arg0: CompanySemesterEntity) => Promise<any>;
@@ -35,7 +43,16 @@ const validate = createValidator({
 });
 
 const AddSemester = (props: Props) => {
+  const { companyId } = useParams<{ companyId: string }>();
+  const company = useAppSelector((state) =>
+    selectCompanyById(state, { companyId })
+  );
+
   const [submit, setSubmit] = useState(false);
+  const [foundSemesterStatus, setFoundSemesterStatus] = useState<{
+    semester: string;
+    year: number;
+  } | null>(null);
 
   const onSubmit = ({
     year,
@@ -44,9 +61,26 @@ const AddSemester = (props: Props) => {
     semesterStatus,
   }: SemesterStatusEntity) => {
     const contactedStatus = semesterStatus.contactedStatus;
+
     if (!submit) return;
-    const { companyId, addSemesterStatus, companySemesters, addSemester } =
-      props;
+
+    const { addSemesterStatus, companySemesters, addSemester } = props;
+
+    const foundSemesterStatus =
+      company &&
+      company.semesterStatuses.find((semesterStatus) => {
+        return (
+          semesterStatus.year === year && semesterStatus.semester === semester
+        );
+      });
+
+    if (foundSemesterStatus) {
+      setFoundSemesterStatus({ semester, year });
+      return;
+    } else {
+      setFoundSemesterStatus(null);
+    }
+
     const globalSemester = companySemesters.find((companySemester) => {
       return (
         companySemester.year === Number(year) &&
@@ -66,27 +100,27 @@ const AddSemester = (props: Props) => {
           detail: true,
         }
       );
-    } else {
-      return addSemester({
-        year,
-        semester,
-      }).then((response) => {
-        addSemesterStatus(
-          {
-            companyId,
-            semester: response.payload.id,
-            contactedStatus,
-            contract,
-          },
-          {
-            detail: true,
-          }
-        );
-      });
     }
+
+    return addSemester({
+      year,
+      semester,
+    }).then((response) => {
+      addSemesterStatus(
+        {
+          companyId,
+          semester: response.payload.id,
+          contactedStatus,
+          contract,
+        },
+        {
+          detail: true,
+        }
+      );
+    });
   };
 
-  const { companyId, autoFocus, deleteCompany } = props;
+  const { autoFocus } = props;
 
   return (
     <Content>
@@ -97,15 +131,24 @@ const AddSemester = (props: Props) => {
       />
 
       <div className={styles.detail}>
-        <i
-          style={{
-            display: 'block',
-            marginBottom: '10px',
-          }}
-        >
-          <b>Hint:</b> du kan legge til status for flere semestere samtidig på
-          Bdb-forsiden!
-        </i>
+        <Card severity="info">
+          <Card.Header>Hint</Card.Header>
+          <span>
+            Du kan legge til status for flere semestere samtidig på
+            Bdb-forsiden!
+          </span>
+        </Card>
+
+        {!isEmpty(foundSemesterStatus) && (
+          <Card severity="danger">
+            <Card.Header>Feil</Card.Header>
+            <span>
+              Denne bedriften har allerede en registrert semester status for
+              {semesterCodeToName(foundSemesterStatus.semester)}{' '}
+              {foundSemesterStatus.year}. Du kan endre den på bedriftens side.
+            </span>
+          </Card>
+        )}
 
         <LegoFinalForm
           onSubmit={onSubmit}
