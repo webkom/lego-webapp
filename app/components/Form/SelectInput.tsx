@@ -78,7 +78,7 @@ const SelectInput = <Option, IsMulti extends boolean = false>({
   label,
   fetching,
   selectStyle,
-  onBlur,
+  onBlur = () => {},
   isValidNewOption,
   value,
   options = [],

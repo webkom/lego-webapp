@@ -2,11 +2,9 @@ import { Button, Icon, LoadingIndicator } from '@webkom/lego-bricks';
 import { isEmpty, orderBy } from 'lodash';
 import moment from 'moment-timezone';
 import { Helmet } from 'react-helmet-async';
-import Select from 'react-select';
 import EmptyState from 'app/components/EmptyState';
 import EventItem from 'app/components/EventItem';
-import { CheckBox } from 'app/components/Form/';
-import { selectTheme, selectStyles } from 'app/components/Form/SelectInput';
+import { CheckBox, SelectInput } from 'app/components/Form/';
 import { EventTime } from 'app/models';
 import useQuery from 'app/utils/useQuery';
 import EventFooter from './EventFooter';
@@ -229,7 +227,7 @@ const EventList = ({
             marginLeft: '10px',
           }}
         />
-        <Select
+        <SelectInput
           name="form-field-name"
           value={regDateFilter}
           onChange={(selectedOption) =>
@@ -239,8 +237,6 @@ const EventList = ({
           className={styles.select}
           options={filterRegDateOptions}
           isClearable={false}
-          theme={selectTheme}
-          styles={selectStyles}
         />
       </div>
       <EventListGroup

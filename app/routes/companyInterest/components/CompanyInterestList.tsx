@@ -1,9 +1,8 @@
 import { Button, ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
-import Select from 'react-select';
 import { Content } from 'app/components/Content';
-import { selectTheme, selectStyles } from 'app/components/Form/SelectInput';
+import SelectInput from 'app/components/Form/SelectInput';
 import Table from 'app/components/Table';
 import Tooltip from 'app/components/Tooltip';
 import { ListNavigation } from 'app/routes/bdb/utils';
@@ -186,16 +185,14 @@ class CompanyInterestList extends Component<Props, State> {
           <Flex column>
             <p>
               Her finner du all praktisk informasjon knyttet til
-              <strong> bedriftsinteresser</strong>.
+              bedriftsinteresser
             </p>
-            <Select
+            <SelectInput
               name="form-semester-selector"
               value={this.props.selectedSemesterOption}
               onChange={this.handleSemesterChange}
               options={semesterOptions}
               isClearable={false}
-              theme={selectTheme}
-              styles={selectStyles}
             />
           </Flex>
           <Link to="/companyInterest/semesters">
@@ -213,14 +210,12 @@ class CompanyInterestList extends Component<Props, State> {
           className={styles.section}
         >
           <Flex column>
-            <Select
+            <SelectInput
               name="form-event-selector"
               value={this.props.selectedEventOption}
               onChange={this.handleEventChange}
               options={EVENT_TYPE_OPTIONS}
               isClearable={false}
-              theme={selectTheme}
-              styles={selectStyles}
             />
           </Flex>
 

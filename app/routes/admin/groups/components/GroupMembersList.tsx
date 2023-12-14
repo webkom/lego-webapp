@@ -2,7 +2,7 @@ import { ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
 import qs from 'qs';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Select from 'react-select';
+import { SelectInput } from 'app/components/Form';
 import Table from 'app/components/Table';
 import { isCurrentUser as checkIfCurrentUser } from 'app/routes/users/utils';
 import { ROLES, type RoleType } from 'app/utils/constants';
@@ -81,12 +81,11 @@ const GroupMembersList = ({
 
     if (membershipsInEditMode[id]) {
       return (
-        <Select
+        <SelectInput
           value={{
             value: role,
             label: ROLES[role],
           }}
-          placeholder="tre"
           options={Object.keys(ROLES).map((key: RoleType) => ({
             value: key,
             label: ROLES[key],

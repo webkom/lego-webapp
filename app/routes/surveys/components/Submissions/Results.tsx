@@ -1,10 +1,9 @@
 import { produce } from 'immer';
-import Select from 'react-select';
 import DistributionBarChart from 'app/components/Chart/BarChart';
 import ChartLabel from 'app/components/Chart/ChartLabel';
 import DistributionPieChart from 'app/components/Chart/PieChart';
 import { CHART_COLORS } from 'app/components/Chart/utils';
-import { selectTheme, selectStyles } from 'app/components/Form/SelectInput';
+import SelectInput from 'app/components/Form/SelectInput';
 import InfoBubble from 'app/components/InfoBubble';
 import Tag, { type TagColors } from 'app/components/Tags/Tag';
 import {
@@ -250,7 +249,7 @@ const Results = ({
                   </div>
                   {editSurvey && (
                     <div className={styles.selectGraphContainer}>
-                      <Select
+                      <SelectInput
                         className={styles.selectGraph}
                         value={{
                           value: question.displayType,
@@ -285,12 +284,6 @@ const Results = ({
                         isClearable={false}
                         backspaceRemoves={false}
                         isSearchable={false}
-                        onBlur={() => null}
-                        style={{
-                          paddingTop: '7px',
-                        }}
-                        theme={selectTheme}
-                        styles={selectStyles}
                       />
                     </div>
                   )}

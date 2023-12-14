@@ -1,7 +1,6 @@
 import { Button, Flex } from '@webkom/lego-bricks';
 import { Component } from 'react';
-import Select from 'react-select';
-import { selectTheme, selectStyles } from 'app/components/Form/SelectInput';
+import SelectInput from 'app/components/Form/SelectInput';
 import type { Group, ID } from 'app/models';
 
 type Props = {
@@ -62,15 +61,12 @@ class GroupChange extends Component<Props, State> {
     }));
     return (
       <Flex column gap={10}>
-        <Select
+        <SelectInput
           name="form-field-name"
           value={this.state.selectedOption || initalOption}
           onChange={this.handleChange}
           options={[noLongerStudent, ...options]}
           isClearable={false}
-          theme={selectTheme}
-          styles={selectStyles}
-          instanceId="profile-group"
         />
         {this.state.selectedOption && (
           <Button secondary onClick={this.handleOnClick}>
