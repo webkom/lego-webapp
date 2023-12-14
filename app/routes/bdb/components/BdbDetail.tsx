@@ -7,6 +7,7 @@ import {
   LoadingIndicator,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
+import cx from 'classnames';
 import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom-v5-compat';
@@ -54,8 +55,6 @@ const queryString = (companyId) =>
   });
 
 const BdbDetail = () => {
-  const { currentUser, loggedIn } = useUserContext();
-
   const { companyId } = useParams<{ companyId: string }>();
   const company = useAppSelector((state) =>
     selectCompanyById(state, { companyId })
@@ -178,15 +177,6 @@ const BdbDetail = () => {
       : '';
   };
 
-    const {
-      company,
-      comments,
-      companyEvents,
-      fetching,
-      showFetchMoreEvents,
-      fetchMoreEvents,
-    } = props;
-
   if (fetching || !company.semesterStatuses) {
     return <LoadingIndicator loading={fetching} />;
   }
@@ -308,8 +298,13 @@ const BdbDetail = () => {
         />
       )}
       <DetailNavigation title={title} companyId={company.id} />
-      <div className={styles.description}>
-        {company.description || 'Ingen beskrivelse tilgjengelig.'}
+      <div
+        className={cx(
+          styles.description,
+          !company.description && 'secondaryFontColor'
+        )}
+      >
+        {company.description || 'Ingen beskrivelse tilgjengelig'}
       </div>
       <div className={styles.infoBubbles}>
         <InfoBubble
@@ -516,14 +511,15 @@ const BdbDetail = () => {
         <span className="secondaryFontColor">Ingen arrangementer</span>
       )}
 
-        {company.contentTarget && (
-          <CommentView
-            contentTarget={company.contentTarget}
-            comments={comments}
-            newOnTop
-          />
-        )}
-      </Content>
-    );
-  }
-}
+      {company.contentTarget && (
+        <CommentView
+          contentTarget={company.contentTarget}
+          comments={comments}
+          newOnTop
+        />
+      )}
+    </Content>
+  );
+};
+
+export default BdbDetail;

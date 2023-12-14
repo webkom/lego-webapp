@@ -11,6 +11,7 @@ import createQueryString from 'app/utils/createQueryString';
 import { semesterToText } from '../routes/companyInterest/utils';
 import { Company, Event, Joblistings } from './ActionTypes';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
+import type { FormValues as CompanyContactEditorFormValues } from 'app/routes/bdb/components/CompanyContactEditor';
 import type { AppDispatch } from 'app/store/createStore';
 import type { ID } from 'app/store/models';
 import type {
@@ -212,39 +213,33 @@ export function fetchCompanyContacts({ companyId }: { companyId: ID }) {
   });
 }
 
+type CompanyContactEditorSubmitBody = {
+  companyId: ID;
+  companyContactId: ID;
+} & CompanyContactEditorFormValues;
+
 export function addCompanyContact({
   companyId,
   name,
   role,
   mail,
   phone,
-}: Record<string, any>) {
-  return (dispatch: AppDispatch) => {
-    return dispatch(
-      callAPI<CompanyContact>({
-        types: Company.ADD_COMPANY_CONTACT,
-        endpoint: `/companies/${companyId}/company-contacts/`,
-        method: 'POST',
-        body: {
-          name,
-          role,
-          mail,
-          phone,
-        },
-        meta: {
-          errorMessage: 'Legg til bedriftskontakt feilet',
-          companyId,
-        },
-      })
-    ).then(() => {
-      dispatch(
-        addToast({
-          message: 'Bedriftskontakt lagt til.',
-        })
-      );
-      dispatch(push(`/bdb/${companyId}/`));
-    });
-  };
+}: CompanyContactEditorSubmitBody) {
+  return callAPI<CompanyContact>({
+    types: Company.ADD_COMPANY_CONTACT,
+    endpoint: `/companies/${companyId}/company-contacts/`,
+    method: 'POST',
+    body: {
+      name,
+      role,
+      mail,
+      phone,
+    },
+    meta: {
+      errorMessage: 'Legg til bedriftskontakt feilet',
+      companyId,
+    },
+  });
 }
 
 export function editCompanyContact({
@@ -254,33 +249,22 @@ export function editCompanyContact({
   role,
   mail,
   phone,
-}: Record<string, any>) {
-  return (dispatch: AppDispatch) => {
-    return dispatch(
-      callAPI<CompanyContact>({
-        types: Company.EDIT_COMPANY_CONTACT,
-        endpoint: `/companies/${companyId}/company-contacts/${companyContactId}/`,
-        method: 'PATCH',
-        body: {
-          name,
-          role,
-          mail,
-          phone,
-        },
-        meta: {
-          errorMessage: 'Endring av bedriftskontakt feilet',
-          companyId,
-        },
-      })
-    ).then(() => {
-      dispatch(
-        addToast({
-          message: 'Bedriftskontakt endret.',
-        })
-      );
-      dispatch(push(`/bdb/${companyId}`));
-    });
-  };
+}: CompanyContactEditorSubmitBody) {
+  return callAPI<CompanyContact>({
+    types: Company.EDIT_COMPANY_CONTACT,
+    endpoint: `/companies/${companyId}/company-contacts/${companyContactId}/`,
+    method: 'PATCH',
+    body: {
+      name,
+      role,
+      mail,
+      phone,
+    },
+    meta: {
+      errorMessage: 'Endring av bedriftskontakt feilet',
+      companyId,
+    },
+  });
 }
 
 export function deleteCompanyContact(companyId: ID, companyContactId: ID) {
