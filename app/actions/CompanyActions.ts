@@ -21,7 +21,6 @@ import type {
   ListCompany,
 } from 'app/store/models/Company';
 import type { ListJoblisting } from 'app/store/models/Joblisting';
-import type { GetState } from 'app/types';
 
 export const fetchAll = ({ fetchMore }: { fetchMore: boolean }) => {
   return callAPI<ListCompany[]>({
@@ -52,18 +51,15 @@ export function fetchAllAdmin() {
 }
 
 export function fetch(companyId: ID) {
-  return (dispatch: AppDispatch) =>
-    dispatch(
-      callAPI<DetailedCompany>({
-        types: Company.FETCH,
-        endpoint: `/companies/${companyId}/`,
-        schema: companySchema,
-        meta: {
-          errorMessage: 'Henting av en bedrift feilet',
-        },
-        propagateError: true,
-      })
-    );
+  return callAPI<DetailedCompany>({
+    types: Company.FETCH,
+    endpoint: `/companies/${companyId}/`,
+    schema: companySchema,
+    meta: {
+      errorMessage: 'Henting av en bedrift feilet',
+    },
+    propagateError: true,
+  });
 }
 
 export function fetchAdmin(companyId: ID) {
@@ -156,38 +152,17 @@ export function deleteCompany(companyId: ID) {
   };
 }
 
-export function addSemesterStatus(
-  { companyId, ...data }: Record<string, any>,
-  options: { detail: boolean } = {
-    detail: false,
-  }
-) {
-  return (dispatch: AppDispatch) => {
-    return dispatch(
-      callAPI<DetailedSemesterStatus>({
-        types: Company.ADD_SEMESTER_STATUS,
-        endpoint: `/companies/${companyId}/semester-statuses/`,
-        method: 'POST',
-        body: data,
-        meta: {
-          errorMessage: 'Legg til semesterstatus feilet',
-          companyId,
-        },
-      })
-    ).then(() => {
-      dispatch(
-        addToast({
-          message: 'Semester status lagt til.',
-        })
-      );
-
-      if (options.detail) {
-        dispatch(push(`/bdb/${companyId}/`));
-      } else {
-        dispatch(push('/bdb/'));
-      }
-    });
-  };
+export function addSemesterStatus({ companyId, ...data }: Record<string, any>) {
+  return callAPI<DetailedSemesterStatus>({
+    types: Company.ADD_SEMESTER_STATUS,
+    endpoint: `/companies/${companyId}/semester-statuses/`,
+    method: 'POST',
+    body: data,
+    meta: {
+      errorMessage: 'Legg til semesterstatus feilet',
+      companyId,
+    },
+  });
 }
 
 export function editSemesterStatus({

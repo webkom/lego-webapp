@@ -59,6 +59,9 @@ const CompanyDetail = () => {
   const joblistings = useAppSelector((state) =>
     selectJoblistingsForCompany(state, { companyId })
   );
+  const endpoint = useAppSelector(
+    (state) => state.events.pagination[queryString(companyId)]?.nextPage
+  );
 
   const dispatch = useAppDispatch();
 
@@ -70,8 +73,8 @@ const CompanyDetail = () => {
         dispatch(fetch(companyId)),
         dispatch(
           fetchEventsForCompany({
+            endpoint: `/events/${queryString(companyId)}`,
             queryString: queryString(companyId),
-            loadNextPage: false,
           })
         ),
         dispatch(fetchJoblistingsForCompany(companyId)),
@@ -86,8 +89,8 @@ const CompanyDetail = () => {
   const fetchMoreEvents = () =>
     dispatch(
       fetchEventsForCompany({
+        endpoint,
         queryString: queryString(companyId),
-        loadNextPage: true,
       })
     );
 
