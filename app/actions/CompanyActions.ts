@@ -354,6 +354,7 @@ export function editCompanyContact({
     });
   };
 }
+
 export function deleteCompanyContact(companyId: ID, companyContactId: ID) {
   return callAPI({
     types: Company.DELETE_COMPANY_CONTACT,
