@@ -1,9 +1,9 @@
-import { LoadingIndicator, Button } from '@webkom/lego-bricks';
-import { Component } from 'react';
+import { LoadingIndicator } from '@webkom/lego-bricks';
+import { Field } from 'react-final-form';
 import { Link } from 'react-router-dom';
-import { Field, reduxForm } from 'redux-form';
 import { Content } from 'app/components/Content';
-import { TextInput } from 'app/components/Form';
+import { LegoFinalForm, TextInput } from 'app/components/Form';
+import { SubmitButton } from 'app/components/Form/SubmitButton';
 import { createValidator, required, isEmail } from 'app/utils/validation';
 import { DetailNavigation } from '../utils';
 import styles from './bdb.css';
@@ -11,6 +11,15 @@ import type {
   CompanyEntity,
   CompanyContactEntity,
 } from 'app/reducers/companies';
+
+type FormValues = {
+  name: string;
+  role: string;
+  mail: string;
+  phone: string;
+};
+
+const TypedLegoForm = LegoFinalForm<FormValues>;
 
 type Props = {
   submitFunction: (
@@ -26,9 +35,14 @@ type Props = {
   deleteCompany: (arg0: number) => Promise<any>;
 };
 
-class CompanyContactEditor extends Component<Props> {
-  onSubmit = (formContent) => {
-    const { company, companyContact, submitFunction } = this.props;
+const validate = createValidator({
+  name: [required()],
+  mail: [isEmail()],
+});
+
+const CompanyContactEditor = (props: Props) => {
+  const onSubmit = (formContent) => {
+    const { company, companyContact, submitFunction } = props;
     return submitFunction(
       {
         ...formContent,
@@ -41,78 +55,63 @@ class CompanyContactEditor extends Component<Props> {
     );
   };
 
-  render() {
-    const {
-      company,
-      fetching,
-      submitting,
-      autoFocus,
-      handleSubmit,
-      deleteCompany,
-    } = this.props;
+  const { company, fetching } = props;
 
-    if (fetching) {
-      return <LoadingIndicator loading />;
-    }
-
-    return (
-      <Content>
-        <DetailNavigation title="Bedriftskontakt" companyId={company.id} />
-        <h3>
-          <Link to={`/bdb/${company.id}`}>{company.name}</Link> sin
-          bedriftskontakt.
-        </h3>
-
-        <div className={styles.detail}>
-          <form onSubmit={handleSubmit(this.onSubmit)}>
-            <Field
-              placeholder="Arne Arnsten"
-              label="Navn"
-              autoFocus={autoFocus}
-              name="name"
-              component={TextInput.Field}
-            />
-
-            <Field
-              placeholder="Konsulent"
-              label="Rolle"
-              autoFocus={autoFocus}
-              name="role"
-              component={TextInput.Field}
-            />
-
-            <Field
-              placeholder="arne@bedrift.no"
-              label="E-post"
-              autoFocus={autoFocus}
-              name="mail"
-              component={TextInput.Field}
-            />
-
-            <Field
-              label="Telefonnummer"
-              placeholder="12312312"
-              autoFocus={autoFocus}
-              name="phone"
-              component={TextInput.Field}
-            />
-
-            <Button disabled={submitting} submit>
-              Lagre
-            </Button>
-          </form>
-        </div>
-      </Content>
-    );
+  if (fetching) {
+    return <LoadingIndicator loading />;
   }
-}
 
-const validate = createValidator({
-  name: [required()],
-  mail: [isEmail()],
-});
-export default reduxForm({
-  form: 'companyContactEditor',
-  validate,
-  enableReinitialize: true,
-})(CompanyContactEditor);
+  return (
+    <Content>
+      <DetailNavigation title="Bedriftskontakt" companyId={company.id} />
+      <h3>
+        <Link to={`/bdb/${company.id}`}>{company.name}</Link> sin
+        bedriftskontakt.
+      </h3>
+
+      <div className={styles.detail}>
+        <TypedLegoForm
+          onSubmit={onSubmit}
+          initialValues={props.initialValues}
+          validate={validate}
+        >
+          {({ handleSubmit }) => (
+            <form onSubmit={handleSubmit}>
+              <Field
+                placeholder="Arne Arnsten"
+                label="Navn"
+                name="name"
+                component={TextInput.Field}
+              />
+
+              <Field
+                placeholder="Konsulent"
+                label="Rolle"
+                name="role"
+                component={TextInput.Field}
+              />
+
+              <Field
+                placeholder="arne@bedrift.no"
+                label="E-post"
+                name="mail"
+                component={TextInput.Field}
+              />
+
+              <Field
+                label="Telefonnummer"
+                placeholder="12312312"
+                name="phone"
+                component={TextInput.Field}
+              />
+
+              <SubmitButton>Lagre</SubmitButton>
+            </form>
+          )}
+        </TypedLegoForm>
+      </div>
+    </Content>
+  );
+};
+
+export default CompanyContactEditor;
