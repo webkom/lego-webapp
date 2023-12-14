@@ -1,52 +1,60 @@
 import { Card, LoadingIndicator } from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import qs from 'qs';
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom-v5-compat';
+import {
+  fetchAllAdmin,
+  addSemesterStatus,
+  editSemesterStatus,
+  fetchSemesters,
+  addSemester,
+} from 'app/actions/CompanyActions';
 import { Content } from 'app/components/Content';
 import TextInput from 'app/components/Form/TextInput';
+import { selectCompanies, type CompanyEntity } from 'app/reducers/companies';
+import { selectCompanySemesters } from 'app/reducers/companySemesters';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import sortCompanies from '../SortCompanies';
 import { indexToSemester, ListNavigation } from '../utils';
 import CompanyList from './CompanyList';
 import OptionsBox from './OptionsBox';
 import type { CompanySemesterContactedStatus } from 'app/models';
-import type {
-  CompanyEntity,
-  BaseSemesterStatusEntity,
-} from 'app/reducers/companies';
-import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 import type { ID } from 'app/store/models';
-import type { Location, History } from 'history';
-import type { KeyboardEvent } from 'react';
+import type { ChangeEvent, KeyboardEvent } from 'react';
 
-type Props = {
-  companies: Array<CompanyEntity>;
-  query: Record<string, any>;
-  fetching: boolean;
-  editSemesterStatus: (
-    arg0: BaseSemesterStatusEntity,
-    arg1: Record<string, any> | null | undefined
-  ) => Promise<any>;
-  addSemesterStatus: (
-    arg0: BaseSemesterStatusEntity,
-    arg1: Record<string, any> | null | undefined
-  ) => Promise<any>;
-  addSemester: (arg0: CompanySemesterEntity) => Promise<any>;
-  companySemesters: Array<CompanySemesterEntity>;
-  push: History['push'];
-  location: Location;
-};
-
-const BdbPage = (props: Props) => {
+const BdbPage = () => {
   const [startYear, setStartYear] = useState(2016);
   const [startSem, setStartSem] = useState(0);
   const [filters, setFilters] = useState({});
   const [searchQuery, setSearchQuery] = useState('');
+
+  const companies = useAppSelector(selectCompanies);
+  const companySemesters = useAppSelector(selectCompanySemesters);
+  const fetching = useAppSelector((state) => state.companies.fetching);
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const query = qs.parse(location.search, {
+    ignoreQueryPrefix: true,
+  });
 
   useEffect(() => {
     const date = new Date();
     setStartYear(date.getFullYear());
     setStartSem(date.getMonth() > 6 ? 1 : 0);
   }, []);
+
+  const dispatch = useAppDispatch();
+
+  usePreparedEffect(
+    'fetchBdb',
+    () => dispatch(fetchSemesters()).then(() => dispatch(fetchAllAdmin())),
+    []
+  );
 
   const navigateThroughTime = (options: Record<string, any>) => {
     // Change which three semesters are displayed (move ahead or back in time)
@@ -70,12 +78,6 @@ const BdbPage = (props: Props) => {
     contactedStatus: Array<CompanySemesterContactedStatus>
   ) => {
     // Update state whenever a semesterStatus is graphically changed by the user
-    const {
-      companySemesters,
-      addSemester,
-      addSemesterStatus,
-      editSemesterStatus,
-    } = props;
     const companySemester = indexToSemester(
       tableIndex,
       startYear,
@@ -90,11 +92,11 @@ const BdbPage = (props: Props) => {
     };
 
     if (typeof companySemester.id === 'undefined') {
-      return addSemester(companySemester).then((response) => {
+      return dispatch(addSemester(companySemester)).then((response) => {
         const updatedStatus = { ...newStatus, semester: response.payload.id };
         return typeof updatedStatus.semesterStatusId === 'undefined'
-          ? addSemesterStatus(updatedStatus)
-          : editSemesterStatus(updatedStatus);
+          ? dispatch(addSemesterStatus(updatedStatus))
+          : dispatch(editSemesterStatus(updatedStatus));
       });
     }
 
@@ -148,17 +150,12 @@ const BdbPage = (props: Props) => {
     });
   };
 
-  const updateSearchQuery = (event: Record<string, any>) => {
+  const updateSearchQuery = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
   };
 
-  const { location, companies, fetching, push } = props;
-  const query = qs.parse(location.search, {
-    ignoreQueryPrefix: true,
-  });
-
   if (!companies) {
-    return <LoadingIndicator loading />;
+    return <LoadingIndicator loading={fetching} />;
   }
 
   const sortedCompanies = sortCompanies(companies, query, startYear, startSem);
@@ -166,7 +163,7 @@ const BdbPage = (props: Props) => {
 
   const searchKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter' && filteredCompanies.length === 1) {
-      push(`/bdb/${filteredCompanies[0].id}`);
+      navigate(`/bdb/${filteredCompanies[0].id}`);
     }
   };
 
@@ -207,4 +204,4 @@ const BdbPage = (props: Props) => {
   );
 };
 
-export default BdbPage;
+export default guardLogin(BdbPage);
