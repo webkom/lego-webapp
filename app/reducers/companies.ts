@@ -224,7 +224,7 @@ export const selectCompanyContactById = createSelector(
   (company, companyContactId) => {
     if (!company || !company.companyContacts) return {};
     return company.companyContacts.find(
-      (contact) => contact.id === companyContactId
+      (contact) => contact.id === Number(companyContactId)
     );
   }
 );

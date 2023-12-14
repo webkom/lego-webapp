@@ -52,7 +52,6 @@ const SemesterStatusDetail = (props: Props) => {
 
   const addFile = (fileName: string, fileToken: string, type: string) => {
     setEditing(false);
-    j;
     return props.addFileToSemester(
       fileName,
       fileToken,
