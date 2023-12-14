@@ -53,7 +53,6 @@ const CompanyEditor = () => {
   const company = useAppSelector((state) =>
     selectCompanyById(state, { companyId })
   );
-  console.log('company', company);
   const fetching = useAppSelector((state) => state.companies.fetching);
 
   const dispatch = useAppDispatch();
@@ -102,6 +101,18 @@ const CompanyEditor = () => {
 
   const initialValues = isNew
     ? {
+        name: '',
+        description: '',
+        adminComment: '',
+        website: '',
+        studentContact: '',
+        active: 'true',
+        phone: '',
+        companyType: '',
+        paymentMail: '',
+        address: '',
+      }
+    : {
         name: company.name,
         description: company.description,
         adminComment: company.adminComment,
@@ -115,18 +126,6 @@ const CompanyEditor = () => {
         companyType: company.companyType,
         paymentMail: company.paymentMail,
         address: company.address,
-      }
-    : {
-        name: '',
-        description: '',
-        adminComment: '',
-        website: '',
-        studentContact: '',
-        active: 'true',
-        phone: '',
-        companyType: '',
-        paymentMail: '',
-        address: '',
       };
 
   return (
