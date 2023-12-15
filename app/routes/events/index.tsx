@@ -1,8 +1,10 @@
 import loadable from '@loadable/component';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
+import { CompatRoute } from 'react-router-dom-v5-compat';
 import RouteWrapper from 'app/components/RouteWrapper';
 import { UserContext } from 'app/routes/app/AppRoute';
 
+const EventDetail = loadable(() => import('./components/EventDetail'));
 const EventEditRoute = loadable(() => import('./EventEditRoute'));
 const EventAdministrateRoute = loadable(
   () => import('./EventAdministrateRoute')
@@ -10,7 +12,6 @@ const EventAdministrateRoute = loadable(
 const PageNotFound = loadable(() => import('../pageNotFound'));
 const Calendar = loadable(() => import('./components/Calendar'));
 const CreateRoute = loadable(() => import('./EventCreateRoute'));
-const DetailRoute = loadable(() => import('./EventDetailRoute'));
 const EventList = loadable(() => import('./components/EventList'));
 
 const EventRoute = () => {
@@ -33,14 +34,10 @@ const EventRoute = () => {
               loggedIn,
             }}
           />
-          <RouteWrapper
+          <CompatRoute
             exact
             path={`${path}/:eventIdOrSlug`}
-            passedProps={{
-              currentUser,
-              loggedIn,
-            }}
-            Component={DetailRoute}
+            component={EventDetail}
           />
           <RouteWrapper
             path={`${path}/:eventIdOrSlug/edit`}
