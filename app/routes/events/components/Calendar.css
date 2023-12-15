@@ -15,6 +15,10 @@
   margin: 0 0 1rem;
 }
 
+.headerDate {
+  text-transform: capitalize;
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(7, calc(100% / 7));

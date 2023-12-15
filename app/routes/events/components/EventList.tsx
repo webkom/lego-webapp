@@ -5,7 +5,7 @@ import moment from 'moment-timezone';
 import { Helmet } from 'react-helmet-async';
 import Select from 'react-select';
 import { Event as EventActionType } from 'app/actions/ActionTypes';
-import { fetchList, getEndpoint } from 'app/actions/EventActions';
+import { fetchData, fetchList, getEndpoint } from 'app/actions/EventActions';
 import EmptyState from 'app/components/EmptyState';
 import EventItem from 'app/components/EventItem';
 import { CheckBox } from 'app/components/Form/';
@@ -14,6 +14,7 @@ import { EventTime } from 'app/models';
 import { selectSortedEvents } from 'app/reducers/events';
 import { selectPagination } from 'app/reducers/selectors';
 import { useUserContext } from 'app/routes/app/AppRoute';
+import { AppDispatch } from 'app/store/createStore';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import createQueryString from 'app/utils/createQueryString';
 import useQuery from 'app/utils/useQuery';
@@ -26,9 +27,6 @@ type FilterEventType = 'company_presentation' | 'course' | 'social' | 'other';
 type FilterRegistrationsType = 'all' | 'open' | 'future';
 
 export const eventListDefaultQuery = {
-  dateAfter: moment().format('YYYY-MM-DD') as string | undefined,
-  dateBefore: undefined as string | undefined,
-  pageSize: undefined as string | undefined,
   eventTypes: [] as FilterEventType[],
   registrations: 'all' as FilterRegistrationsType,
 };
@@ -156,53 +154,19 @@ const EventList = () => {
     () =>
       fetchData({
         dateAfter: moment().format('YYYY-MM-DD'),
+        pagination,
+        dispatch,
       }),
-    []
+    [pagination]
   );
-
-  const fetchData = ({
-    dateAfter,
-    dateBefore,
-    refresh,
-    loadNextPage,
-  }: {
-    dateAfter?: string;
-    dateBefore?: string;
-    refresh?: boolean;
-    loadNextPage?: boolean;
-  }) => {
-    dateAfter && setQueryValue('dateAfter')(dateAfter);
-    dateBefore && setQueryValue('dateBefore')(dateBefore);
-
-    if (dateBefore && dateAfter) {
-      setQueryValue('pageSize')('60');
-    }
-
-    const queryString = createQueryString({
-      date_after: query.dateAfter,
-      date_before: query.dateBefore,
-      page_size: query.pageSize,
-    });
-    const endpoint = getEndpoint(pagination, queryString, loadNextPage);
-
-    if (!endpoint) {
-      return Promise.resolve(null);
-    }
-
-    if (refresh && !loadNextPage) {
-      dispatch({
-        type: EventActionType.CLEAR,
-      });
-    }
-
-    dispatch(fetchList({ endpoint, queryString }));
-  };
 
   const fetchMore = () =>
     fetchData({
       dateAfter: moment().format('YYYY-MM-DD'),
       refresh: false,
       loadNextPage: true,
+      pagination,
+      dispatch,
     });
 
   const filterEventTypesFunc = (event: ListEvent) => {

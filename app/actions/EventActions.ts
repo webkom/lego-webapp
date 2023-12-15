@@ -6,6 +6,7 @@ import {
   eventAdministrateSchema,
   followersEventSchema,
 } from 'app/reducers';
+import createQueryString from 'app/utils/createQueryString';
 import { Event } from './ActionTypes';
 import type { EventRegistrationPresence } from 'app/models';
 import type { AppDispatch } from 'app/store/createStore';
@@ -58,7 +59,47 @@ export function fetchUpcoming(): Thunk<any> {
     );
 }
 
-export const getEndpoint = (
+export const fetchData = ({
+  dateAfter,
+  dateBefore,
+  refresh,
+  loadNextPage,
+  pagination,
+  dispatch,
+}: {
+  dateAfter?: string;
+  dateBefore?: string;
+  refresh?: boolean;
+  loadNextPage?: boolean;
+  pagination: any;
+  dispatch: AppDispatch;
+}) => {
+  const query = {
+    date_after: dateAfter,
+    date_before: dateBefore,
+  };
+
+  if (dateBefore && dateAfter) {
+    query.page_size = 60;
+  }
+
+  const queryString = createQueryString(query);
+  const endpoint = getEndpoint(pagination, queryString, loadNextPage);
+
+  if (!endpoint) {
+    return Promise.resolve(null);
+  }
+
+  if (refresh && !loadNextPage) {
+    dispatch({
+      type: Event.CLEAR,
+    });
+  }
+
+  dispatch(fetchList({ endpoint, queryString }));
+};
+
+const getEndpoint = (
   pagination: any,
   queryString: string,
   loadNextPage?: boolean
