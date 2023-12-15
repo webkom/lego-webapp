@@ -1,7 +1,23 @@
-import { Button, Card, Flex, Icon } from '@webkom/lego-bricks';
+import {
+  Button,
+  Card,
+  Flex,
+  Icon,
+  LoadingIndicator,
+} from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment-timezone';
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom-v5-compat';
+import {
+  fetchEvent,
+  follow,
+  register,
+  unfollow,
+  unregister,
+  updateFeedback,
+} from 'app/actions/EventActions';
 import mazemapLogo from 'app/assets/mazemap.png';
 import CommentView from 'app/components/Comments/CommentView';
 import {
@@ -15,6 +31,7 @@ import DisplayContent from 'app/components/DisplayContent';
 import { Image } from 'app/components/Image';
 import InfoList from 'app/components/InfoList';
 import { MazemapEmbed } from 'app/components/MazemapEmbed';
+import PropertyHelmet from 'app/components/PropertyHelmet';
 import Tag from 'app/components/Tags/Tag';
 import TextWithIcon from 'app/components/TextWithIcon';
 import { FormatTime, FromToTime } from 'app/components/Time';
@@ -22,36 +39,39 @@ import Tooltip from 'app/components/Tooltip';
 import { AttendanceStatus } from 'app/components/UserAttendance';
 import AttendanceModal from 'app/components/UserAttendance/AttendanceModal';
 import UserGrid from 'app/components/UserGrid';
+import config from 'app/config';
+import {
+  selectCommentsForEvent,
+  selectEventByIdOrSlug,
+  selectMergedPool,
+  selectMergedPoolWithRegistrations,
+  selectPoolsForEvent,
+  selectPoolsWithRegistrationsForEvent,
+  selectRegistrationForEventByUserId,
+  selectRegistrationsFromPools,
+  selectWaitingRegistrationsForEvent,
+} from 'app/reducers/events';
 import { resolveGroupLink } from 'app/reducers/groups';
+import { selectPenaltyByUserId } from 'app/reducers/penalties';
+import { selectUserWithGroups } from 'app/reducers/users';
+import { useUserContext } from 'app/routes/app/AppRoute';
 import {
   colorForEvent,
   penaltyHours,
   getEventSemesterFromStartTime,
   registrationCloseTime,
 } from 'app/routes/events/utils';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import Admin from '../Admin';
 import JoinEventForm from '../JoinEventForm';
 import RegisteredSummary from '../RegisteredSummary';
 import RegistrationMeta from '../RegistrationMeta';
 import styles from './EventDetail.css';
-import type {
-  EventRegistration,
-  ActionGrant,
-  AddPenalty,
-  FollowerItem,
-} from 'app/models';
-import type { ID } from 'app/store/models';
-import type Comment from 'app/store/models/Comment';
+import type { PropertyGenerator } from 'app/components/PropertyHelmet';
 import type {
   AuthUserDetailedEvent,
   UserDetailedEvent,
 } from 'app/store/models/Event';
-import type { UnknownPool } from 'app/store/models/Pool';
-import type {
-  DetailedRegistration,
-  ReadRegistration,
-} from 'app/store/models/Registration';
-import type { CurrentUser } from 'app/store/models/User';
 
 type InterestedButtonProps = {
   isInterested: boolean;
@@ -89,79 +109,178 @@ const InterestedButton = ({ isInterested }: InterestedButtonProps) => {
   );
 };
 
-type Props = {
-  eventId: ID;
+const propertyGenerator: PropertyGenerator<{
   event: AuthUserDetailedEvent | UserDetailedEvent;
-  loggedIn: boolean;
-  currentUser: CurrentUser;
-  actionGrant: ActionGrant;
-  comments: Array<Comment>;
-  pools: UnknownPool[];
-  registrations?: ReadRegistration[];
-  currentRegistration?: DetailedRegistration;
-  currentRegistrationIndex: number;
-  pendingRegistration?: EventRegistration;
-  hasSimpleWaitingList: boolean;
-  penalties: Array<AddPenalty>;
-  register: (arg0: {
-    eventId: ID;
-    captchaResponse: string;
-    feedback: string;
-    userId: ID;
-  }) => Promise<any>;
-  follow: (userId: ID, eventId: ID) => Promise<FollowerItem>;
-  unfollow: (followId: ID, eventId: ID) => Promise<void>;
-  unregister: (arg0: {
-    eventId: ID;
-    registrationId: ID;
-    userId: ID;
-  }) => Promise<any>;
-  payment: (eventId: ID) => Promise<any>;
-  updateFeedback: (
-    eventId: ID,
-    registrationId: ID,
-    feedback: string
-  ) => Promise<any>;
-  deleteEvent: (eventId: ID) => Promise<void>;
+}> = (props, config) => {
+  if (!props.event) return;
+
+  const tags = (props.event.tags || []).map((content) => ({
+    content,
+    property: 'article:tag',
+  }));
+
+  return [
+    {
+      property: 'og:title',
+      content: props.event.title,
+    },
+    {
+      property: 'og:description',
+      content: props.event.description,
+    },
+    {
+      property: 'og:type',
+      content: 'website',
+    },
+    {
+      property: 'og:image:width',
+      content: '1667',
+    },
+    {
+      property: 'og:image:height',
+      content: '500',
+    },
+    {
+      property: 'og:url',
+      content: `${config?.webUrl}/events/${props.event.id}`,
+    },
+    {
+      property: 'og:image',
+      content: props.event.cover,
+    },
+    ...tags,
+  ];
 };
 
-const EventDetail = (props: Props) => {
+const EventDetail = () => {
   const [mapIsOpen, setMapIsOpen] = useState(false);
 
-  const handleRegistration = ({
-    captchaResponse,
-    feedback,
-    type,
-  }: Record<string, any>) => {
-    const {
-      eventId,
-      currentRegistration,
-      register,
-      unregister,
-      updateFeedback,
-      currentUser: { id: userId },
-    } = props;
+  const { eventIdOrSlug } = useParams<{ eventIdOrSlug: string }>();
+  const event = useAppSelector((state) =>
+    selectEventByIdOrSlug(state, { eventIdOrSlug })
+  ) as AuthUserDetailedEvent | UserDetailedEvent | undefined;
+  const eventId = event?.id;
+  const actionGrant = event?.actionGrant || [];
+  const hasFullAccess = Boolean(event?.waitingRegistrationCount);
 
+  const { currentUser, loggedIn } = useUserContext();
+  const user = useAppSelector((state) =>
+    selectUserWithGroups(state, { username: currentUser.username })
+  );
+  const penalties = useAppSelector((state) =>
+    selectPenaltyByUserId(state, { userId: user?.id })
+  );
+
+  const comments = useAppSelector((state) =>
+    selectCommentsForEvent(state, { eventId })
+  );
+  const poolsWithRegistrations = useAppSelector((state) =>
+    event?.isMerged
+      ? selectMergedPoolWithRegistrations(state, { eventId })
+      : selectPoolsWithRegistrationsForEvent(state, { eventId })
+  );
+  const registrations = useAppSelector((state) =>
+    selectRegistrationsFromPools(state, { eventId })
+  );
+  const waitingRegistrations = useAppSelector((state) =>
+    selectWaitingRegistrationsForEvent(state, { eventId })
+  );
+  const normalPools = useAppSelector((state) =>
+    event?.isMerged
+      ? selectMergedPool(state, { eventId })
+      : selectPoolsForEvent(state, { eventId })
+  );
+
+  let pools =
+    event?.waitingRegistrationCount && event.waitingRegistrationCount > 0
+      ? normalPools.concat({
+          name: 'Venteliste',
+          registrationCount: event.waitingRegistrationCount,
+          permissionGroups: [],
+        })
+      : normalPools;
+
+  if (hasFullAccess) {
+    pools =
+      waitingRegistrations && waitingRegistrations.length > 0
+        ? poolsWithRegistrations.concat({
+            name: 'Venteliste',
+            registrations: waitingRegistrations,
+            registrationCount: waitingRegistrations.length,
+            permissionGroups: [],
+          })
+        : poolsWithRegistrations;
+  }
+
+  const currentPool = pools.find((pool) =>
+    pool.registrations.some(
+      (registration) => registration.user.id === currentUser.id
+    )
+  );
+
+  let currentRegistration;
+  let currentRegistrationIndex;
+
+  if (currentPool) {
+    currentRegistrationIndex = currentPool.registrations.findIndex(
+      (registration) => registration.user.id === currentUser.id
+    );
+    currentRegistration = currentPool.registrations[currentRegistrationIndex];
+  }
+
+  const hasSimpleWaitingList = poolsWithRegistrations.length <= 1;
+  const pendingRegistration = useAppSelector((state) =>
+    selectRegistrationForEventByUserId(state, {
+      eventId,
+      userId: currentUser.id,
+    })
+  );
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (event?.slug && event?.slug !== eventIdOrSlug) {
+      navigate(`/events/${event.slug}`, { replace: true });
+    }
+  }, [event?.slug, navigate, eventIdOrSlug]);
+
+  const dispatch = useAppDispatch();
+
+  usePreparedEffect(
+    'fetchEventDetail',
+    () => eventIdOrSlug && dispatch(fetchEvent(eventIdOrSlug)),
+    [eventIdOrSlug, loggedIn]
+  );
+
+  const handleRegistration = ({ captchaResponse, feedback, type }) => {
     switch (type) {
       case 'feedback':
-        return updateFeedback(eventId, currentRegistration.id, feedback);
+        return (
+          eventId &&
+          dispatch(updateFeedback(eventId, currentRegistration.id, feedback))
+        );
 
       case 'register':
         // Note that we do not return this promise due to custom submitting handling
-        register({
-          eventId,
-          captchaResponse,
-          feedback,
-          userId,
-        });
+        eventId &&
+          dispatch(
+            register({
+              eventId,
+              captchaResponse,
+              feedback,
+              userId: currentUser.id,
+            })
+          );
         return;
 
       case 'unregister':
-        unregister({
-          eventId,
-          registrationId: currentRegistration.id,
-          userId,
-        });
+        eventId &&
+          dispatch(
+            unregister({
+              eventId,
+              registrationId: currentRegistration.id,
+              userId: currentUser.id,
+            })
+          );
         return;
 
       default:
@@ -169,35 +288,19 @@ const EventDetail = (props: Props) => {
     }
   };
 
-  const handlePaymentMethod = () => props.payment(props.event.id);
-
-  const {
-    event,
-    loggedIn,
-    currentUser,
-    actionGrant,
-    comments,
-    pools,
-    registrations,
-    currentRegistration,
-    currentRegistrationIndex,
-    pendingRegistration,
-    hasSimpleWaitingList,
-    deleteEvent,
-    penalties,
-    follow,
-    unfollow,
-  } = props;
-
-  if (!event.id) {
-    return null;
+  if (!eventId || !event.text) {
+    return (
+      <Content>
+        <LoadingIndicator loading />
+      </Content>
+    );
   }
 
   const color = colorForEvent(event.eventType);
 
   const onRegisterClick = event.following
-    ? () => unfollow(event.following as number, event.id)
-    : () => follow(currentUser.id, event.id);
+    ? () => dispatch(unfollow(event.following as number, event.id))
+    : () => dispatch(follow(currentUser.id, event.id));
 
   const currentMoment = moment();
 
@@ -275,7 +378,7 @@ const EventDetail = (props: Props) => {
               tooltipContentIcon={
                 <>
                   Etter påmeldingen stenger er det hverken mulig å melde seg på
-                  eller av arrangementet.
+                  eller av arrangementet
                 </>
               }
               iconRight={true}
@@ -371,6 +474,11 @@ const EventDetail = (props: Props) => {
       }
       youtubeUrl={event.youtubeUrl}
     >
+      <PropertyHelmet propertyGenerator={propertyGenerator} options={{ event }}>
+        <title>{event.title}</title>
+        <link rel="canonical" href={`${config?.webUrl}/events/${event.id}`} />
+      </PropertyHelmet>
+
       <ContentHeader
         borderColor={color}
         onClick={loggedIn ? onRegisterClick : undefined}
@@ -529,7 +637,6 @@ const EventDetail = (props: Props) => {
                     registration={currentRegistration}
                     currentUser={currentUser}
                     pendingRegistration={pendingRegistration}
-                    createPaymentIntent={handlePaymentMethod}
                     onSubmit={handleRegistration}
                   />
                 </div>
@@ -568,11 +675,7 @@ const EventDetail = (props: Props) => {
             <Line />
           )}
           <Flex column>
-            <Admin
-              actionGrant={actionGrant}
-              event={event}
-              deleteEvent={deleteEvent}
-            />
+            <Admin actionGrant={actionGrant} event={event} />
           </Flex>
         </ContentSidebar>
       </ContentSection>
