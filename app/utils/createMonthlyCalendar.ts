@@ -8,16 +8,13 @@ import type { Moment } from 'moment-timezone';
  */
 
 type CalendarDay = {
-  day: moment.Moment;
+  day: Moment;
   prevOrNextMonth: boolean;
 };
 
-const createMonthlyCalendar = (
-  date: moment.Moment,
-  weekOffset = 0
-): CalendarDay[] => {
+const createMonthlyCalendar = (date: Moment): CalendarDay[] => {
   const startOfMonth = date.startOf('month');
-  let diff = startOfMonth.weekday() - weekOffset;
+  let diff = startOfMonth.weekday();
   if (diff < 0) diff += 7;
 
   const prevMonthDays = range(0, diff).map((n) => ({
