@@ -68,10 +68,7 @@ const StudentConfirmation = () => {
   };
 
   useEffect(() => {
-    console.log(code, state);
-
     const validateStudentAuth = () => {
-      console.log(code, state);
       if (code && state) {
         dispatch(confirmStudentAuth(code, state))
           .then((res) => {

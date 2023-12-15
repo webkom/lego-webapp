@@ -37,6 +37,7 @@ import type {
   Penalty,
   Event,
 } from 'app/models';
+import type { AuthUserDetailedEvent } from 'app/store/models/Event';
 import type { CurrentUser } from 'app/store/models/User';
 
 export type Props = {
@@ -46,7 +47,6 @@ export type Props = {
   pendingRegistration: EventRegistration | null | undefined;
   currentUser: CurrentUser;
   onSubmit: (arg0: Record<string, any>) => void;
-  createPaymentIntent: () => Promise<any>;
   handleSubmit: /*TODO: SubmitHandler<>*/ (arg0: any) => void;
 
   /*TODO: & ReduxFormProps */
@@ -97,6 +97,7 @@ const SubmitButton = ({
       {showPenaltyNotice && <b>NB: Avregistrering medfører én prikk</b>}
     </Flex>
   );
+
   return (
     <ConfirmModal
       title="Avregistrer"
@@ -164,13 +165,11 @@ const RegistrationPending = ({
 );
 
 const PaymentForm = ({
-  createPaymentIntent,
   event,
   currentUser,
   registration,
 }: {
-  createPaymentIntent: () => Promise<void>;
-  event: Event;
+  event: AuthUserDetailedEvent;
   currentUser: CurrentUser;
   registration: EventRegistration;
 }) => (
@@ -186,7 +185,6 @@ const PaymentForm = ({
     </div>
     <PaymentRequestForm
       paymentError={registration.paymentError}
-      createPaymentIntent={createPaymentIntent}
       event={event}
       currentUser={currentUser}
       paymentStatus={registration.paymentStatus}
@@ -250,7 +248,6 @@ const JoinEventForm = (props: Props) => {
     pendingRegistration,
     currentUser,
     handleSubmit,
-    createPaymentIntent,
     invalid,
     pristine,
     submitting,
@@ -319,7 +316,6 @@ const JoinEventForm = (props: Props) => {
       <>
         {!formOpen && registration && showStripe && (
           <PaymentForm
-            createPaymentIntent={createPaymentIntent}
             event={event}
             currentUser={currentUser}
             registration={registration}
@@ -501,7 +497,6 @@ const JoinEventForm = (props: Props) => {
                   {registration && showStripeDelayed && (
                     <PaymentForm
                       event={event}
-                      createPaymentIntent={createPaymentIntent}
                       currentUser={currentUser}
                       registration={registration}
                     />

@@ -208,6 +208,7 @@ export const selectSortedEvents = createSelector(selectEvents, (events) =>
     (a, b) => moment(a.startTime).unix() - moment(b.startTime).unix()
   )
 );
+
 export const selectEventById = createSelector(
   (state) => state.events.byId,
   (state, props) => props.eventId,
@@ -221,6 +222,7 @@ export const selectEventById = createSelector(
     return {};
   }
 );
+
 export const selectEventBySlug = createSelector(
   (state) => state.events.byId,
   (state, props) => props.eventSlug,
@@ -235,6 +237,19 @@ export const selectEventBySlug = createSelector(
 
     return {};
   }
+);
+
+export const selectEventByIdOrSlug = createSelector(
+  (state, props) => {
+    const { eventIdOrSlug } = props;
+    if (!isNaN(Number(eventIdOrSlug))) {
+      return selectEventById(state, { eventId: eventIdOrSlug });
+    }
+    return selectEventBySlug(state, {
+      eventSlug: eventIdOrSlug,
+    });
+  },
+  (event) => event
 );
 
 export const selectPoolsForEvent = createSelector(

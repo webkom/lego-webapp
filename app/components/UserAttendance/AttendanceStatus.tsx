@@ -1,6 +1,7 @@
 import { Button, Flex } from '@webkom/lego-bricks';
 import Tooltip from 'app/components/Tooltip';
 import AttendanceModal from 'app/components/UserAttendance/AttendanceModal';
+import { useUserContext } from 'app/routes/app/AppRoute';
 import styles from './AttendanceStatus.css';
 import type { Pool } from './AttendanceModalContent';
 import type { AttendanceModalProps } from 'app/components/UserAttendance/AttendanceModal';
@@ -21,14 +22,16 @@ const AttendanceElement = ({
   index,
   toggleModal,
 }: AttendanceElementProps) => {
-  const totalCount = registrations ? registrations.length : registrationCount;
+  const { loggedIn } = useUserContext();
+
+  const totalCount = loggedIn ? registrations.length : registrationCount;
 
   return (
     <Flex className={styles.poolBox}>
       <strong>{name}</strong>
       <Button
         flat
-        disabled={!registrations}
+        disabled={!loggedIn}
         onClick={() => {
           if (registrations) {
             toggleModal(index);
