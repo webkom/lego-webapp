@@ -1,36 +1,43 @@
+import { Card } from '@webkom/lego-bricks';
+import qs from 'qs';
 import { Field } from 'react-final-form';
+import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom-v5-compat';
+import { resetPassword } from 'app/actions/UserActions';
 import { Content } from 'app/components/Content';
-import { Button, TextInput } from 'app/components/Form';
+import { TextInput } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
-import { spySubmittable } from 'app/utils/formSpyUtils';
+import { SubmitButton } from 'app/components/Form/SubmitButton';
+import { useUserContext } from 'app/routes/app/AppRoute';
+import { useAppDispatch } from 'app/store/hooks';
 import { createValidator, required, sameAs } from 'app/utils/validation';
 import { validPassword } from '../utils';
 import PasswordField from './PasswordField';
-import type { History } from 'history';
 
-type Props = {
-  token?: string;
-  resetPassword: (arg0: { token: string; password: string }) => Promise<any>;
-  push: History['push'];
-};
-
-const UserResetPasswordForm = ({ token, resetPassword, push }: Props) => {
-  const dummyUser = {
-    id: 0,
-    username: '',
-    fullName: '',
-    firstName: '',
-    lastName: '',
-    gender: '',
-    profilePicture: '',
-    selectedTheme: '',
-  };
+const UserResetPasswordForm = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const { search } = useLocation();
+  const { token } = qs.parse(search, {
+    ignoreQueryPrefix: true,
+  });
 
   const onSubmit = (props) =>
-    resetPassword({
-      token,
-      ...props,
-    }).then(() => push('/'));
+    dispatch(
+      resetPassword({
+        token,
+        ...props,
+      })
+    ).then(() => {
+      navigate('/');
+    });
+
+  const { currentUser } = useUserContext();
+  const user = {
+    username: currentUser.username,
+    firstName: currentUser.firstName,
+    lastName: currentUser.lastName,
+  };
 
   return (
     <Content>
@@ -39,25 +46,23 @@ const UserResetPasswordForm = ({ token, resetPassword, push }: Props) => {
         <LegoFinalForm onSubmit={onSubmit} validate={validate}>
           {({ handleSubmit }) => (
             <form onSubmit={handleSubmit}>
-              <PasswordField label="Nytt passord" user={dummyUser} />
+              <PasswordField label="Nytt passord" user={user} />
               <Field
-                label="Nytt passord (gjenta)"
+                label="Gjenta nytt passord"
                 autocomplete="new-password"
                 name="retypeNewPassword"
                 type="password"
                 component={TextInput.Field}
               />
 
-              {spySubmittable((submittable) => (
-                <Button danger submit disabled={!submittable}>
-                  Tilbakestill passord
-                </Button>
-              ))}
+              <SubmitButton danger>Tilbakestill passord</SubmitButton>
             </form>
           )}
         </LegoFinalForm>
       ) : (
-        <p>Ingen token ...</p>
+        <Card severity="danger">
+          <Card.Header>Ingen token ...</Card.Header>
+        </Card>
       )}
     </Content>
   );

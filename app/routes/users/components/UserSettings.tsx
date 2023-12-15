@@ -1,4 +1,9 @@
+import { LoadingIndicator } from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import { Field } from 'react-final-form';
+import { useParams } from 'react-router-dom';
+import { fetchUser, updateUser } from 'app/actions/UserActions';
+import { Content } from 'app/components/Content';
 import {
   Form,
   TextInput,
@@ -9,9 +14,12 @@ import {
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
+import { selectUserByUsername } from 'app/reducers/users';
+import { useUserContext } from 'app/routes/app/AppRoute';
 import DeleteUser from 'app/routes/users/components/DeleteUser';
 import RemovePicture from 'app/routes/users/components/RemovePicture';
 import { useIsCurrentUser } from 'app/routes/users/utils';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import {
   createValidator,
   required,
@@ -23,26 +31,14 @@ import {
 import ChangePassword from './ChangePassword';
 import UserImage from './UserImage';
 import styles from './UserSettings.css';
-import type { UserEntity } from 'app/reducers/users';
-import type { History } from 'history';
 
 export type PasswordPayload = {
   newPassword: string;
   password: string;
   retype_new_password: string;
 };
-interface Props {
-  changePassword: (arg0: PasswordPayload) => Promise<void>;
-  updateUser: (arg0: Record<string, any>) => Promise<void>;
-  deleteUser: (arg0: Record<string, any>) => Promise<void>;
-  user: UserEntity;
-  push: History['push'];
-  updatePicture: (arg0: Record<string, any>) => void;
-  removePicture: (arg0: string) => Promise<any>;
-  initialValues: FormValues;
-}
 
-interface FormValues {
+type FormValues = {
   username: string;
   firstName: string;
   lastName: string;
@@ -54,7 +50,9 @@ interface FormValues {
   isAbakusMember: string;
   githubUsername: string;
   linkedinId: string;
-}
+};
+
+const TypedLegoForm = LegoFinalForm<FormValues>;
 
 const validate = createValidator({
   username: [required()],
@@ -67,31 +65,51 @@ const validate = createValidator({
   linkedinId: [isValidLinkedinId()],
 });
 
-const UserSettings = (props: Props) => {
-  const {
-    changePassword,
-    updatePicture,
-    removePicture,
-    push,
-    user,
-    deleteUser,
-    initialValues,
-    updateUser,
-  } = props;
-  const isCurrentUser = useIsCurrentUser(user.username);
+const UserSettings = () => {
+  const params = useParams<{ username: string }>();
+  const { currentUser } = useUserContext();
+  const isCurrentUser = useIsCurrentUser(params.username);
+  const username = isCurrentUser ? currentUser.username : params.username;
+  const user = useAppSelector((state) =>
+    selectUserByUsername(state, {
+      username,
+    })
+  );
+
+  const dispatch = useAppDispatch();
+
+  usePreparedEffect(
+    'fetchUserSettings',
+    () => dispatch(fetchUser(username)),
+    []
+  );
+
+  if (!user) {
+    return (
+      <Content>
+        <LoadingIndicator loading />
+      </Content>
+    );
+  }
+
   const showAbakusMembership = user.isStudent;
 
-  const onSubmit = (values: FormValues) => updateUser(values);
+  const onSubmit = (values: FormValues) => dispatch(updateUser(values));
+
+  const initialValues = {
+    ...user,
+    isAbakusMember: user?.isAbakusMember.toString(),
+  };
 
   return (
-    <div>
+    <>
       <div className={styles.pictureSection}>
-        <UserImage user={user} updatePicture={updatePicture} />
+        <UserImage user={user} />
       </div>
 
-      <RemovePicture username={user.username} removePicture={removePicture} />
+      <RemovePicture username={user.username} />
 
-      <LegoFinalForm
+      <TypedLegoForm
         onSubmit={onSubmit}
         initialValues={initialValues}
         validate={validate}
@@ -220,23 +238,19 @@ const UserSettings = (props: Props) => {
             <SubmitButton>Lagre</SubmitButton>
           </Form>
         )}
-      </LegoFinalForm>
+      </TypedLegoForm>
 
       {isCurrentUser && (
         <>
           <div className={styles.changePassword}>
             <h2>Endre passord</h2>
-            <ChangePassword
-              push={push}
-              changePassword={changePassword}
-              user={user}
-            />
+            <ChangePassword />
           </div>
           <h2 className={styles.deleteUser}>Slett bruker</h2>
-          <DeleteUser push={push} user={user} deleteUser={deleteUser} />
+          <DeleteUser />
         </>
       )}
-    </div>
+    </>
   );
 };
 

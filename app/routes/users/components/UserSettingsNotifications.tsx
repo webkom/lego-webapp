@@ -1,25 +1,20 @@
+import { Card } from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
+import {
+  fetchNotificationAlternatives,
+  fetchNotificationSettings,
+  updateNotificationSetting,
+} from 'app/actions/NotificationSettingsActions';
+import { updateUser } from 'app/actions/UserActions';
 import { CheckBox } from 'app/components/Form';
+import {
+  selectNotificationSettings,
+  selectNotificationSettingsAlternatives,
+} from 'app/reducers/notificationSettings';
+import { useUserContext } from 'app/routes/app/AppRoute';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './UserSettingsNotifications.css';
-import type { UserEntity } from 'app/reducers/users';
 
-type Props = {
-  currentUser: UserEntity;
-  updateUser: (
-    arg0: Record<string, any>,
-    arg1: {
-      noRedirect: boolean;
-    }
-  ) => Promise<void>;
-  alternatives: {
-    channels: Array<string>;
-    notificationTypes: Array<string>;
-  };
-  settings: Record<string, any>;
-  updateNotificationSetting: (
-    notificationType: string,
-    channels: Array<any>
-  ) => void;
-};
 const notificationTypeTraslations = {
   weekly_mail: 'Ukesmail',
   event_bump: 'Rykker opp fra venteliste på arrangement',
@@ -44,12 +39,29 @@ const notificationTypeTraslations = {
     'Varsel om at kontoen din har blitt slettet grunnet inaktivitet',
 };
 
-const UserSettingsNotifications = (props: Props) => {
+const UserSettingsNotifications = () => {
+  const dispatch = useAppDispatch();
+
+  usePreparedEffect(
+    'fetchUserSettingsNotifications',
+    () =>
+      Promise.all([
+        dispatch(fetchNotificationAlternatives()),
+        dispatch(fetchNotificationSettings()),
+      ]),
+    []
+  );
+
+  const alternatives = useAppSelector(selectNotificationSettingsAlternatives);
+  const settings = useAppSelector(selectNotificationSettings);
+
   const defaultNotificationSetting = (notificationType) => ({
     notificationType,
     enabled: true,
-    channels: props.alternatives.channels,
+    channels: alternatives.channels,
   });
+
+  const { currentUser } = useUserContext();
 
   return (
     <div>
@@ -59,19 +71,23 @@ const UserSettingsNotifications = (props: Props) => {
         Abakus sender ut notifikasjoner for forskjellige hendleser som skjer.
         Her kan du selv velge hva du vil motta og på hvilken kanal.
       </p>
-      <p>
-        <b>Viktig: </b> Hvis du deaktiverer {"'"}
-        <i>E-poster som sendes direkte til deg</i>
-        {"'"} kan du gå glipp av viktig informasjon! Du vil ikke motta noen
-        e-poster som sendes til deg som bruker, eller de mailinglistene du er en
-        del av.
-      </p>
+
+      <Card severity="warning">
+        <Card.Header>Pass på!</Card.Header>
+        <span>
+          Hvis du deaktiverer {"'"}
+          <i>E-poster som sendes direkte til deg</i>
+          {"'"} kan du gå glipp av viktig informasjon! Du vil ikke motta noen
+          e-poster som sendes til deg som bruker, eller de mailinglistene du er
+          en del av.
+        </span>
+      </Card>
 
       <table className={styles.table}>
         <thead>
           <tr>
             <th>Type</th>
-            {props.alternatives.channels.map((channel, key) => (
+            {alternatives.channels.map((channel, key) => (
               <th key={key}>{channel}</th>
             ))}
           </tr>
@@ -81,33 +97,35 @@ const UserSettingsNotifications = (props: Props) => {
             <td>E-poster som sendes direkte til deg</td>
             <td>
               <CheckBox
-                value={props.currentUser.emailListsEnabled}
+                checked={currentUser.emailListsEnabled}
                 onChange={(event) => {
-                  const target = event.target;
-                  const value = target.checked;
-                  props.updateUser(
-                    { ...props.currentUser, emailListsEnabled: value },
-                    {
-                      noRedirect: true,
-                    }
+                  dispatch(
+                    updateUser(
+                      { ...currentUser, emailListsEnabled: event },
+                      {
+                        noRedirect: true,
+                      }
+                    )
                   );
                 }}
               />
             </td>
           </tr>
-          {props.alternatives.notificationTypes.map((notificationType, key) => {
+          {alternatives.notificationTypes.map((notificationType, key) => {
             const setting =
-              props.settings[notificationType] ||
+              settings[notificationType] ||
               defaultNotificationSetting(notificationType);
 
             const channnelSetting = (channel) =>
               setting.channels.includes(channel) && setting.enabled;
 
             const changeSetting = (changeChannel, value) => {
-              props.updateNotificationSetting(
-                notificationType,
-                props.alternatives.channels.filter((channel) =>
-                  changeChannel === channel ? value : channnelSetting(channel)
+              dispatch(
+                updateNotificationSetting(
+                  notificationType,
+                  alternatives.channels.filter((channel) =>
+                    changeChannel === channel ? value : channnelSetting(channel)
+                  )
                 )
               );
             };
@@ -118,14 +136,12 @@ const UserSettingsNotifications = (props: Props) => {
                   {notificationTypeTraslations[notificationType] ||
                     notificationType.replace(/_/g, ' ')}
                 </td>
-                {props.alternatives.channels.map((channel, key) => (
+                {alternatives.channels.map((channel, key) => (
                   <td key={key}>
                     <CheckBox
-                      value={channnelSetting(channel)}
+                      checked={channnelSetting(channel)}
                       onChange={(event) => {
-                        const target = event.target;
-                        const value = target.checked;
-                        changeSetting(channel, value);
+                        changeSetting(channel, event);
                       }}
                     />
                   </td>

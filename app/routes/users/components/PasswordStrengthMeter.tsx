@@ -8,11 +8,11 @@ import {
   barColor,
   passwordFeedbackMessages,
 } from './passwordStrengthVariables';
-import type { UserEntity } from 'app/reducers/users';
+import type { PasswordFieldUser } from './PasswordField';
 
 type Props = {
   password: string;
-  user: UserEntity;
+  user: PasswordFieldUser;
 };
 const Zxcvbn = loadable.lib(() => import('zxcvbn'), {
   ssr: false,
