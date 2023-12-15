@@ -1,12 +1,31 @@
+import loadable from '@loadable/component';
+import { Switch, useRouteMatch } from 'react-router-dom';
 import { Content } from 'app/components/Content';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
+import RouteWrapper from 'app/components/RouteWrapper';
+import { useUserContext } from 'app/routes/app/AppRoute';
 import { canSeeAllergies } from 'app/routes/events/components/EventAdministrate/Allergies';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import type { ID } from 'app/store/models';
 import type { AdministrateEvent } from 'app/store/models/Event';
-
 import type { CurrentUser } from 'app/store/models/User';
 import type { ReactNode } from 'react';
+
+const EventStatistics = loadable(
+  () => import('app/routes/events/EventStatisticsRoute')
+);
+const EventAttendeeRoute = loadable(
+  () => import('app/routes/events/EventAttendeeRoute')
+);
+const EventAllergiesRoute = loadable(
+  () => import('app/routes/events/EventAllergiesRoute')
+);
+const EventAdminRegisterRoute = loadable(
+  () => import('app/routes/events/components/EventAdministrate/AdminRegister')
+);
+const EventAbacardRoute = loadable(
+  () => import('app/routes/events/EventAbacardRoute')
+);
 
 type Props = {
   children: (props: Props) => ReactNode;
@@ -22,6 +41,8 @@ type Props = {
 };
 
 const EventAdministrateIndex = (props: Props) => {
+  const { path } = useRouteMatch();
+  const { currentUser, loggedIn } = useUserContext();
   const base = `/events/${props.match.params.eventId}/administrate`;
   // At the moment changing settings for other users only works
   // for the settings under `/profile` - so no point in showing
@@ -37,7 +58,7 @@ const EventAdministrateIndex = (props: Props) => {
         }}
       >
         <NavigationLink to={`${base}/attendees`}>Påmeldinger</NavigationLink>
-        {props.event && canSeeAllergies(props.currentUser, props.event) && (
+        {props.event && canSeeAllergies(currentUser, props.event) && (
           <NavigationLink to={`${base}/allergies`}>Allergier</NavigationLink>
         )}
         <NavigationLink to={`${base}/statistics`}>Statistikk</NavigationLink>
@@ -46,7 +67,57 @@ const EventAdministrateIndex = (props: Props) => {
         </NavigationLink>
         <NavigationLink to={`${base}/abacard`}>Abacard</NavigationLink>
       </NavigationTab>
-      {props.children(props)}
+
+      <Switch>
+        <RouteWrapper
+          exact
+          path={`${path}/attendees`}
+          Component={EventAttendeeRoute}
+          passedProps={{
+            currentUser,
+            loggedIn,
+            ...props,
+          }}
+        />
+        <RouteWrapper
+          exact
+          path={`${path}/allergies`}
+          Component={EventAllergiesRoute}
+          passedProps={{
+            currentUser,
+            loggedIn,
+            ...props,
+          }}
+        />
+        <RouteWrapper
+          exact
+          path={`${path}/statistics`}
+          Component={EventStatistics}
+          passedProps={{
+            currentUser,
+            loggedIn,
+            ...props,
+          }}
+        />
+        <RouteWrapper
+          exact
+          path={`${path}/admin-register`}
+          Component={EventAdminRegisterRoute}
+          passedProps={{
+            event: props.event,
+          }}
+        />
+        <RouteWrapper
+          exact
+          path={`${path}/abacard`}
+          Component={EventAbacardRoute}
+          passedProps={{
+            currentUser,
+            loggedIn,
+            ...props,
+          }}
+        />
+      </Switch>
     </Content>
   );
 };
