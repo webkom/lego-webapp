@@ -6,12 +6,15 @@ import {
   eventAdministrateSchema,
   followersEventSchema,
 } from 'app/reducers';
-import createQueryString from 'app/utils/createQueryString';
 import { Event } from './ActionTypes';
 import type { EventRegistrationPresence } from 'app/models';
 import type { AppDispatch } from 'app/store/createStore';
 import type { ID } from 'app/store/models';
-import type { DetailedEvent, UnknownEvent } from 'app/store/models/Event';
+import type {
+  DetailedEvent,
+  ListEvent,
+  UnknownEvent,
+} from 'app/store/models/Event';
 import type { Thunk, Action } from 'app/types';
 
 export const waitinglistPoolId = -1;
@@ -55,66 +58,46 @@ export function fetchUpcoming(): Thunk<any> {
     );
 }
 
-const getEndpoint = (state, loadNextPage, queryString) => {
-  const pagination = state.events.pagination;
+export const getEndpoint = (
+  pagination: any,
+  queryString: string,
+  loadNextPage?: boolean
+) => {
   let endpoint = `/events/${queryString}`;
   const paginationObject = pagination[queryString];
 
   if (
     loadNextPage &&
     paginationObject &&
-    paginationObject.queryString === queryString
+    paginationObject.queryString === queryString &&
+    paginationObject.nextPage
   ) {
-    endpoint = pagination[queryString].nextPage;
+    endpoint = paginationObject.nextPage;
   }
 
   return endpoint;
 };
 
-export const fetchList =
-  ({
-    dateAfter,
-    dateBefore,
-    refresh = false,
-    loadNextPage = false,
-  }: Record<string, any> = {}): Thunk<any> =>
-  (dispatch, getState) => {
-    const query: Record<string, any> = {
-      date_after: dateAfter,
-      date_before: dateBefore,
-    };
+export const fetchList = ({
+  endpoint,
+  queryString,
+}: {
+  endpoint: string;
+  queryString: string;
+}) => {
+  return callAPI<ListEvent[]>({
+    types: Event.FETCH,
+    endpoint: endpoint,
+    schema: [eventSchema],
+    meta: {
+      errorMessage: 'Fetching events failed',
+      queryString,
+      endpoint,
+    },
+    propagateError: true,
+  });
+};
 
-    if (dateBefore && dateAfter) {
-      query.page_size = 60;
-    }
-
-    const queryString = createQueryString(query);
-    const endpoint = getEndpoint(getState(), loadNextPage, queryString);
-
-    if (!endpoint) {
-      return Promise.resolve(null);
-    }
-
-    if (refresh && !loadNextPage) {
-      dispatch({
-        type: Event.CLEAR,
-      });
-    }
-
-    return dispatch(
-      callAPI({
-        types: Event.FETCH,
-        endpoint: endpoint,
-        schema: [eventSchema],
-        meta: {
-          errorMessage: 'Fetching events failed',
-          queryString,
-          endpoint,
-        },
-        propagateError: true,
-      })
-    );
-  };
 export function fetchAdministrate(eventId: number): Thunk<any> {
   return callAPI({
     types: Event.FETCH,

@@ -11,7 +11,7 @@ const RouteWrapper = loadable(() => import('app/components/RouteWrapper'));
 const CalendarRoute = loadable(() => import('./CalendarRoute'));
 const CreateRoute = loadable(() => import('./EventCreateRoute'));
 const DetailRoute = loadable(() => import('./EventDetailRoute'));
-const EventListRoute = loadable(() => import('./EventListRoute'));
+const EventList = loadable(() => import('./components/EventList'));
 
 const EventRoute = () => {
   const { path } = useRouteMatch();
@@ -20,15 +20,7 @@ const EventRoute = () => {
     <UserContext.Consumer>
       {({ currentUser, loggedIn }) => (
         <Switch>
-          <RouteWrapper
-            exact
-            path={path}
-            Component={EventListRoute}
-            passedProps={{
-              currentUser,
-              loggedIn,
-            }}
-          />
+          <Route exact path={path} component={EventList} />
           <RouteWrapper
             path={`${path}/calendar/:year?/:month?`}
             Component={CalendarRoute}

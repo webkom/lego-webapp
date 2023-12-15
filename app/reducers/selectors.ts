@@ -12,7 +12,7 @@ export const selectPagination =
       queryString: string;
     }
   ) =>
-  (state: any) =>
+  (state: RootState) =>
     get(state, [entityName, 'pagination', queryString, 'nextPage']) !== null;
 export const selectPaginationNext =
   ({
