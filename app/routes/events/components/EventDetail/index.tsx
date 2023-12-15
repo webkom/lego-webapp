@@ -1,6 +1,6 @@
 import { Button, Card, Flex, Icon } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
-import { Component, Fragment } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import mazemapLogo from 'app/assets/mazemap.png';
 import CommentView from 'app/components/Comments/CommentView';
@@ -96,7 +96,6 @@ type Props = {
   currentUser: CurrentUser;
   actionGrant: ActionGrant;
   comments: Array<Comment>;
-  error?: Record<string, any>;
   pools: UnknownPool[];
   registrations?: ReadRegistration[];
   currentRegistration?: DetailedRegistration;
@@ -125,18 +124,11 @@ type Props = {
   ) => Promise<any>;
   deleteEvent: (eventId: ID) => Promise<void>;
 };
-type State = {
-  mapIsOpen: boolean;
-};
-export default class EventDetail extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      mapIsOpen: false,
-    };
-  }
 
-  handleRegistration = ({
+const EventDetail = (props: Props) => {
+  const [mapIsOpen, setMapIsOpen] = useState(false);
+
+  const handleRegistration = ({
     captchaResponse,
     feedback,
     type,
@@ -148,7 +140,7 @@ export default class EventDetail extends Component<Props, State> {
       unregister,
       updateFeedback,
       currentUser: { id: userId },
-    } = this.props;
+    } = props;
 
     switch (type) {
       case 'feedback':
@@ -176,444 +168,428 @@ export default class EventDetail extends Component<Props, State> {
         return undefined;
     }
   };
-  handlePaymentMethod = () => this.props.payment(this.props.event.id);
 
-  render() {
-    const {
-      event,
-      loggedIn,
-      currentUser,
-      actionGrant,
-      comments,
-      error,
-      pools,
-      registrations,
-      currentRegistration,
-      currentRegistrationIndex,
-      pendingRegistration,
-      hasSimpleWaitingList,
-      deleteEvent,
-      penalties,
-      follow,
-      unfollow,
-    } = this.props;
+  const handlePaymentMethod = () => props.payment(props.event.id);
 
-    if (!event.id) {
-      return null;
-    }
+  const {
+    event,
+    loggedIn,
+    currentUser,
+    actionGrant,
+    comments,
+    pools,
+    registrations,
+    currentRegistration,
+    currentRegistrationIndex,
+    pendingRegistration,
+    hasSimpleWaitingList,
+    deleteEvent,
+    penalties,
+    follow,
+    unfollow,
+  } = props;
 
-    if (error) {
-      return <div>{error.message}</div>;
-    }
+  if (!event.id) {
+    return null;
+  }
 
-    const color = colorForEvent(event.eventType);
+  const color = colorForEvent(event.eventType);
 
-    const onRegisterClick = event.following
-      ? () => unfollow(event.following as number, event.id)
-      : () => follow(currentUser.id, event.id);
+  const onRegisterClick = event.following
+    ? () => unfollow(event.following as number, event.id)
+    : () => follow(currentUser.id, event.id);
 
-    const currentMoment = moment();
+  const currentMoment = moment();
 
-    const activationTimeMoment = moment(event.activationTime);
+  const activationTimeMoment = moment(event.activationTime);
 
-    // Get the actual activation time.
-    // The time from LEGO is with penalties applied.
-    // This "unapplies" the penalties again
-    const eventRegistrationTime = event.heedPenalties
-      ? activationTimeMoment.subtract(penaltyHours(penalties), 'hours')
-      : activationTimeMoment;
+  // Get the actual activation time.
+  // The time from LEGO is with penalties applied.
+  // This "unapplies" the penalties again
+  const eventRegistrationTime = event.heedPenalties
+    ? activationTimeMoment.subtract(penaltyHours(penalties), 'hours')
+    : activationTimeMoment;
 
-    const registrationCloseTimeMoment = registrationCloseTime(event);
+  const registrationCloseTimeMoment = registrationCloseTime(event);
 
-    // The UserGrid is expanded when there's less than 5 minutes till activation
-    const minUserGridRows = currentMoment.isAfter(
-      moment(activationTimeMoment).subtract(5, 'minutes')
-    )
-      ? MIN_USER_GRID_ROWS
-      : 0;
+  // The UserGrid is expanded when there's less than 5 minutes till activation
+  const minUserGridRows = currentMoment.isAfter(
+    moment(activationTimeMoment).subtract(5, 'minutes')
+  )
+    ? MIN_USER_GRID_ROWS
+    : 0;
 
-    const deadlines = [
-      event.activationTime && currentMoment.isBefore(activationTimeMoment)
-        ? {
-            key: 'Påmelding åpner',
-            value: (
-              <FormatTime
-                format="dd DD. MMM HH:mm"
-                time={eventRegistrationTime}
-              />
-            ),
-          }
-        : null,
-      event.heedPenalties &&
-      event.unregistrationDeadline &&
-      !['OPEN', 'TBA'].includes(event.eventStatusType)
-        ? {
-            key: 'Frist for prikk',
-            keyNode: (
-              <TextWithIcon
-                iconName="help-circle-outline"
-                content="Frist for prikk"
-                tooltipContentIcon={
-                  <>
-                    Lurer du på hvordan prikksystemet fungerer? Sjekk ut{' '}
-                    <Link to="/pages/arrangementer/26-arrangementsregler">
-                      arrangementsreglene
-                    </Link>
-                    .
-                  </>
-                }
-                iconRight={true}
-                size={16}
-              />
-            ),
-            value: (
-              <FormatTime
-                format="dd DD. MMM HH:mm"
-                time={event.unregistrationDeadline}
-              />
-            ),
-          }
-        : null,
-      activationTimeMoment.isBefore(currentMoment)
-        ? {
-            key: 'Frist for av/påmelding',
-            keyNode: (
-              <TextWithIcon
-                iconName="help-circle-outline"
-                content={
-                  currentMoment.isBefore(registrationCloseTimeMoment)
-                    ? 'Påmelding stenger'
-                    : 'Påmelding stengte'
-                }
-                tooltipContentIcon={
-                  <>
-                    Etter påmeldingen stenger er det hverken mulig å melde seg
-                    på eller av arrangementet.
-                  </>
-                }
-                iconRight={true}
-                size={16}
-              />
-            ),
-            value: (
-              <FormatTime
-                format="dd DD. MMM HH:mm"
-                time={registrationCloseTimeMoment}
-              />
-            ),
-          }
-        : null,
-      event.paymentDueDate
-        ? {
-            key: 'Betalingsfrist',
-            value: (
-              <FormatTime
-                format="dd DD. MMM HH:mm"
-                time={event.paymentDueDate}
-              />
-            ),
-          }
-        : null,
-    ];
-
-    const groupLink =
-      event.responsibleGroup && resolveGroupLink(event.responsibleGroup);
-
-    const eventCreator = [
-      // Responsible Group
-      event.responsibleGroup && {
-        key: 'Arrangør',
-        value: (
-          <span>
-            {groupLink ? (
-              <Link to={groupLink}>{event.responsibleGroup.name}</Link>
-            ) : (
-              event.responsibleGroup.name
-            )}{' '}
-            {event.responsibleGroup.contactEmail && (
-              <a href={`mailto:${event.responsibleGroup.contactEmail}`}>
-                {event.responsibleGroup.contactEmail}
-              </a>
-            )}
-          </span>
-        ),
-      },
-
-      // Responsible Users or Created By or Anonymous
-      ...(event.responsibleUsers && event.responsibleUsers.length > 0
-        ? [
-            {
-              key:
-                event.responsibleUsers.length > 1
-                  ? 'Kontaktpersoner'
-                  : 'Kontaktperson',
-              value: (
-                <ul>
-                  {event.responsibleUsers.map((user) => (
-                    <li key={user.id}>
-                      <Link to={`/users/${user.username}`} key={user.username}>
-                        {user.fullName}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              ),
-            },
-          ]
-        : event.createdBy
-        ? [
-            {
-              key: 'Forfatter',
-              value: (
-                <Link to={`/users/${event.createdBy.username}`}>
-                  {event.createdBy.fullName}
-                </Link>
-              ),
-            },
-          ]
-        : [
-            {
-              key: 'Forfatter',
-              value: 'Anonym',
-            },
-          ]),
-    ].filter(Boolean); // This will remove any undefined items from the array
-
-    return (
-      <Content
-        banner={event.cover || event.company?.logo}
-        bannerPlaceholder={
-          event.coverPlaceholder || event.company?.logoPlaceholder
-        }
-        youtubeUrl={event.youtubeUrl}
-      >
-        <ContentHeader
-          borderColor={color}
-          onClick={loggedIn ? onRegisterClick : undefined}
-          className={styles.title}
-          event={event}
-        >
-          {loggedIn && <InterestedButton isInterested={!!event.following} />}
-          {event.title}
-        </ContentHeader>
-
-        <ContentSection>
-          <ContentMain>
-            <DisplayContent content={event.text} />
-            <Flex className={styles.tagRow}>
-              {event.tags.map((tag, i) => (
-                <Tag key={i} tag={tag} />
-              ))}
-            </Flex>
-          </ContentMain>
-          <ContentSidebar>
-            {event.company && (
-              <TextWithIcon
-                iconName="briefcase-outline"
-                content={
-                  <Link to={`/companies/${event.company.id}`}>
-                    {event.company.name}
-                  </Link>
-                }
-              />
-            )}
-            <TextWithIcon
-              iconName="time-outline"
-              content={<FromToTime from={event.startTime} to={event.endTime} />}
+  const deadlines = [
+    event.activationTime && currentMoment.isBefore(activationTimeMoment)
+      ? {
+          key: 'Påmelding åpner',
+          value: (
+            <FormatTime
+              format="dd DD. MMM HH:mm"
+              time={eventRegistrationTime}
             />
-            {event.isForeignLanguage !== null && event.isForeignLanguage && (
-              <TextWithIcon iconName="language-outline" content={'English'} />
-            )}
-
-            <div className={styles.infoIconLocation}>
-              <TextWithIcon
-                iconName="location-outline"
-                content={event.location}
-              />
-
-              {event.mazemapPoi && (
-                <Button
-                  className={styles.mapButton}
-                  onClick={() =>
-                    this.setState({
-                      mapIsOpen: !this.state.mapIsOpen,
-                    })
-                  }
-                >
-                  <Image
-                    className={styles.mazemapImg}
-                    alt="mazemapLogo"
-                    src={mazemapLogo}
-                  />
-                  {this.state.mapIsOpen ? 'Skjul kart' : 'Vis kart'}
-                </Button>
-              )}
-            </div>
-
-            {event.isPriced && (
-              <TextWithIcon
-                iconName="cash-outline"
-                content={event.priceMember / 100 + ',-'}
-              />
-            )}
-            {event.mazemapPoi && (
-              <>
-                {this.state.mapIsOpen && (
-                  <MazemapEmbed mazemapPoi={event.mazemapPoi} />
-                )}
-              </>
-            )}
-            {['OPEN', 'TBA'].includes(event.eventStatusType) ? (
-              <JoinEventForm event={event} />
-            ) : (
-              <Flex column>
-                <h3>Påmeldte</h3>
-                {registrations ? (
-                  <Fragment>
-                    <UserGrid
-                      minRows={minUserGridRows}
-                      maxRows={MAX_USER_GRID_ROWS}
-                      users={registrations.slice(0, 14).map((reg) => reg.user)}
-                    />
-                    <AttendanceModal key="modal" pools={pools} title="Påmeldte">
-                      {({ toggleModal }) => (
-                        <>
-                          <RegisteredSummary
-                            toggleModal={toggleModal}
-                            registrations={registrations}
-                            currentRegistration={currentRegistration}
-                          />
-                          <AttendanceStatus
-                            toggleModal={toggleModal}
-                            pools={pools}
-                            legacyRegistrationCount={
-                              event.legacyRegistrationCount
-                            }
-                          />
-                        </>
-                      )}
-                    </AttendanceModal>
-                  </Fragment>
-                ) : (
-                  <AttendanceStatus
-                    pools={pools}
-                    legacyRegistrationCount={event.legacyRegistrationCount}
-                  />
-                )}
-                {loggedIn && (
-                  <RegistrationMeta
-                    useConsent={event.useConsent}
-                    hasOpened={moment(event.activationTime).isBefore(
-                      currentMoment
-                    )}
-                    photoConsents={event.photoConsents}
-                    eventSemester={getEventSemesterFromStartTime(
-                      event.startTime
-                    )}
-                    hasEnded={moment(event.endTime).isBefore(currentMoment)}
-                    registration={currentRegistration}
-                    isPriced={event.isPriced}
-                    registrationIndex={currentRegistrationIndex}
-                    hasSimpleWaitingList={hasSimpleWaitingList}
-                  />
-                )}
-                {event.useContactTracing && !currentRegistration && (
-                  <div>
-                    <i className="fa fa-exclamation-circle" /> Ved å melde deg
-                    på dette arrangementet samtykker du til at
-                    kontaktinformasjonen din (navn, telefonnummer og e-post) kan
-                    deles med FHI og NTNU (og eventuelt andre aktører nevnt i
-                    beskrivelsen av arrangementet) for smittesporing.
-                    Kontaktinformasjonen vil være tilgjengelig for brukeren som
-                    laget arrangementet i 14 dager etter at arrangementet har
-                    funnet sted, og vil kun brukes til smittesporing.
-                  </div>
-                )}
-                {'unansweredSurveys' in event &&
-                event.unansweredSurveys?.length > 0 &&
-                !event.isAdmitted ? (
-                  <Card severity="danger">
-                    <p>
-                      Du kan ikke melde deg på dette arrangementet fordi du har
-                      ubesvarte spørreundersøkelser. Gå til lenkene under for å
-                      svare:
-                    </p>
-                    <ul>
-                      {event.unansweredSurveys.map((surveyId, i) => (
-                        <li key={surveyId}>
-                          <Link to={`/surveys/${surveyId}`}>
-                            Undersøkelse {i + 1}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </Card>
-                ) : (
-                  <div>
-                    <JoinEventForm
-                      event={event}
-                      registration={currentRegistration}
-                      currentUser={currentUser}
-                      pendingRegistration={pendingRegistration}
-                      createPaymentIntent={this.handlePaymentMethod}
-                      onSubmit={this.handleRegistration}
-                    />
-                  </div>
-                )}
-              </Flex>
-            )}
-            {deadlines.some((d) => d !== null) && (
-              <>
-                <Line />
-                <InfoList className={styles.infoList} items={deadlines} />
-              </>
-            )}
-            <Line />
-            <InfoList items={eventCreator} className={styles.infoList} />
-
-            <Line />
-            {loggedIn && (
-              <TextWithIcon
-                iconName="create-outline"
-                content={
-                  <Link to={`/users/${currentUser.username}/settings/profile`}>
-                    Oppdater matallergier/preferanser
-                  </Link>
-                }
-              />
-            )}
+          ),
+        }
+      : null,
+    event.heedPenalties &&
+    event.unregistrationDeadline &&
+    !['OPEN', 'TBA'].includes(event.eventStatusType)
+      ? {
+          key: 'Frist for prikk',
+          keyNode: (
             <TextWithIcon
-              iconName="document-outline"
+              iconName="help-circle-outline"
+              content="Frist for prikk"
+              tooltipContentIcon={
+                <>
+                  Lurer du på hvordan prikksystemet fungerer? Sjekk ut{' '}
+                  <Link to="/pages/arrangementer/26-arrangementsregler">
+                    arrangementsreglene
+                  </Link>
+                  .
+                </>
+              }
+              iconRight={true}
+              size={16}
+            />
+          ),
+          value: (
+            <FormatTime
+              format="dd DD. MMM HH:mm"
+              time={event.unregistrationDeadline}
+            />
+          ),
+        }
+      : null,
+    activationTimeMoment.isBefore(currentMoment)
+      ? {
+          key: 'Frist for av/påmelding',
+          keyNode: (
+            <TextWithIcon
+              iconName="help-circle-outline"
               content={
-                <Link to="/pages/arrangementer/26-arrangementsregler">
-                  Arrangementsregler
+                currentMoment.isBefore(registrationCloseTimeMoment)
+                  ? 'Påmelding stenger'
+                  : 'Påmelding stengte'
+              }
+              tooltipContentIcon={
+                <>
+                  Etter påmeldingen stenger er det hverken mulig å melde seg på
+                  eller av arrangementet.
+                </>
+              }
+              iconRight={true}
+              size={16}
+            />
+          ),
+          value: (
+            <FormatTime
+              format="dd DD. MMM HH:mm"
+              time={registrationCloseTimeMoment}
+            />
+          ),
+        }
+      : null,
+    event.paymentDueDate
+      ? {
+          key: 'Betalingsfrist',
+          value: (
+            <FormatTime format="dd DD. MMM HH:mm" time={event.paymentDueDate} />
+          ),
+        }
+      : null,
+  ];
+
+  const groupLink =
+    event.responsibleGroup && resolveGroupLink(event.responsibleGroup);
+
+  const eventCreator = [
+    // Responsible Group
+    event.responsibleGroup && {
+      key: 'Arrangør',
+      value: (
+        <span>
+          {groupLink ? (
+            <Link to={groupLink}>{event.responsibleGroup.name}</Link>
+          ) : (
+            event.responsibleGroup.name
+          )}{' '}
+          {event.responsibleGroup.contactEmail && (
+            <a href={`mailto:${event.responsibleGroup.contactEmail}`}>
+              {event.responsibleGroup.contactEmail}
+            </a>
+          )}
+        </span>
+      ),
+    },
+
+    // Responsible Users or Created By or Anonymous
+    ...(event.responsibleUsers && event.responsibleUsers.length > 0
+      ? [
+          {
+            key:
+              event.responsibleUsers.length > 1
+                ? 'Kontaktpersoner'
+                : 'Kontaktperson',
+            value: (
+              <ul>
+                {event.responsibleUsers.map((user) => (
+                  <li key={user.id}>
+                    <Link to={`/users/${user.username}`} key={user.username}>
+                      {user.fullName}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            ),
+          },
+        ]
+      : event.createdBy
+      ? [
+          {
+            key: 'Forfatter',
+            value: (
+              <Link to={`/users/${event.createdBy.username}`}>
+                {event.createdBy.fullName}
+              </Link>
+            ),
+          },
+        ]
+      : [
+          {
+            key: 'Forfatter',
+            value: 'Anonym',
+          },
+        ]),
+  ].filter(Boolean); // This will remove any undefined items from the array
+
+  return (
+    <Content
+      banner={event.cover || event.company?.logo}
+      bannerPlaceholder={
+        event.coverPlaceholder || event.company?.logoPlaceholder
+      }
+      youtubeUrl={event.youtubeUrl}
+    >
+      <ContentHeader
+        borderColor={color}
+        onClick={loggedIn ? onRegisterClick : undefined}
+        className={styles.title}
+        event={event}
+      >
+        {loggedIn && <InterestedButton isInterested={!!event.following} />}
+        {event.title}
+      </ContentHeader>
+
+      <ContentSection>
+        <ContentMain>
+          <DisplayContent content={event.text} />
+          <Flex className={styles.tagRow}>
+            {event.tags.map((tag, i) => (
+              <Tag key={i} tag={tag} />
+            ))}
+          </Flex>
+        </ContentMain>
+        <ContentSidebar>
+          {event.company && (
+            <TextWithIcon
+              iconName="briefcase-outline"
+              content={
+                <Link to={`/companies/${event.company.id}`}>
+                  {event.company.name}
                 </Link>
               }
             />
-            {(actionGrant.includes('edit') ||
-              actionGrant.includes('delete')) && <Line />}
-            <Flex column>
-              <Admin
-                actionGrant={actionGrant}
-                event={event}
-                deleteEvent={deleteEvent}
-              />
-            </Flex>
-          </ContentSidebar>
-        </ContentSection>
-        {event.contentTarget && (
-          <CommentView
-            style={{
-              marginTop: 20,
-            }}
-            user={currentUser}
-            contentTarget={event.contentTarget}
-            loggedIn={loggedIn}
-            comments={comments}
-            contentAuthors={event.createdBy?.id}
+          )}
+          <TextWithIcon
+            iconName="time-outline"
+            content={<FromToTime from={event.startTime} to={event.endTime} />}
           />
-        )}
-      </Content>
-    );
-  }
-}
+          {event.isForeignLanguage !== null && event.isForeignLanguage && (
+            <TextWithIcon iconName="language-outline" content={'English'} />
+          )}
+
+          <div className={styles.infoIconLocation}>
+            <TextWithIcon
+              iconName="location-outline"
+              content={event.location}
+            />
+
+            {event.mazemapPoi && (
+              <Button
+                className={styles.mapButton}
+                onClick={() => setMapIsOpen(!mapIsOpen)}
+              >
+                <Image
+                  className={styles.mazemapImg}
+                  alt="mazemapLogo"
+                  src={mazemapLogo}
+                />
+                {mapIsOpen ? 'Skjul kart' : 'Vis kart'}
+              </Button>
+            )}
+          </div>
+
+          {event.isPriced && (
+            <TextWithIcon
+              iconName="cash-outline"
+              content={event.priceMember / 100 + ',-'}
+            />
+          )}
+          {event.mazemapPoi && (
+            <>{mapIsOpen && <MazemapEmbed mazemapPoi={event.mazemapPoi} />}</>
+          )}
+          {['OPEN', 'TBA'].includes(event.eventStatusType) ? (
+            <JoinEventForm event={event} />
+          ) : (
+            <Flex column>
+              <h3>Påmeldte</h3>
+              {registrations ? (
+                <>
+                  <UserGrid
+                    minRows={minUserGridRows}
+                    maxRows={MAX_USER_GRID_ROWS}
+                    users={registrations.slice(0, 14).map((reg) => reg.user)}
+                  />
+                  <AttendanceModal key="modal" pools={pools} title="Påmeldte">
+                    {({ toggleModal }) => (
+                      <>
+                        <RegisteredSummary
+                          toggleModal={toggleModal}
+                          registrations={registrations}
+                          currentRegistration={currentRegistration}
+                        />
+                        <AttendanceStatus
+                          toggleModal={toggleModal}
+                          pools={pools}
+                          legacyRegistrationCount={
+                            event.legacyRegistrationCount
+                          }
+                        />
+                      </>
+                    )}
+                  </AttendanceModal>
+                </>
+              ) : (
+                <AttendanceStatus
+                  pools={pools}
+                  legacyRegistrationCount={event.legacyRegistrationCount}
+                />
+              )}
+              {loggedIn && (
+                <RegistrationMeta
+                  useConsent={event.useConsent}
+                  hasOpened={moment(event.activationTime).isBefore(
+                    currentMoment
+                  )}
+                  photoConsents={event.photoConsents}
+                  eventSemester={getEventSemesterFromStartTime(event.startTime)}
+                  hasEnded={moment(event.endTime).isBefore(currentMoment)}
+                  registration={currentRegistration}
+                  isPriced={event.isPriced}
+                  registrationIndex={currentRegistrationIndex}
+                  hasSimpleWaitingList={hasSimpleWaitingList}
+                />
+              )}
+              {event.useContactTracing && !currentRegistration && (
+                <div>
+                  <i className="fa fa-exclamation-circle" /> Ved å melde deg på
+                  dette arrangementet samtykker du til at kontaktinformasjonen
+                  din (navn, telefonnummer og e-post) kan deles med FHI og NTNU
+                  (og eventuelt andre aktører nevnt i beskrivelsen av
+                  arrangementet) for smittesporing. Kontaktinformasjonen vil
+                  være tilgjengelig for brukeren som laget arrangementet i 14
+                  dager etter at arrangementet har funnet sted, og vil kun
+                  brukes til smittesporing.
+                </div>
+              )}
+              {'unansweredSurveys' in event &&
+              event.unansweredSurveys?.length > 0 &&
+              !event.isAdmitted ? (
+                <Card severity="danger">
+                  <p>
+                    Du kan ikke melde deg på dette arrangementet fordi du har
+                    ubesvarte spørreundersøkelser. Gå til lenkene under for å
+                    svare:
+                  </p>
+                  <ul>
+                    {event.unansweredSurveys.map((surveyId, i) => (
+                      <li key={surveyId}>
+                        <Link to={`/surveys/${surveyId}`}>
+                          Undersøkelse {i + 1}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </Card>
+              ) : (
+                <div>
+                  <JoinEventForm
+                    event={event}
+                    registration={currentRegistration}
+                    currentUser={currentUser}
+                    pendingRegistration={pendingRegistration}
+                    createPaymentIntent={handlePaymentMethod}
+                    onSubmit={handleRegistration}
+                  />
+                </div>
+              )}
+            </Flex>
+          )}
+          {deadlines.some((d) => d !== null) && (
+            <>
+              <Line />
+              <InfoList className={styles.infoList} items={deadlines} />
+            </>
+          )}
+          <Line />
+          <InfoList items={eventCreator} className={styles.infoList} />
+
+          <Line />
+          {loggedIn && (
+            <TextWithIcon
+              iconName="create-outline"
+              content={
+                <Link to={`/users/${currentUser.username}/settings/profile`}>
+                  Oppdater matallergier/preferanser
+                </Link>
+              }
+            />
+          )}
+          <TextWithIcon
+            iconName="document-outline"
+            content={
+              <Link to="/pages/arrangementer/26-arrangementsregler">
+                Arrangementsregler
+              </Link>
+            }
+          />
+          {(actionGrant.includes('edit') || actionGrant.includes('delete')) && (
+            <Line />
+          )}
+          <Flex column>
+            <Admin
+              actionGrant={actionGrant}
+              event={event}
+              deleteEvent={deleteEvent}
+            />
+          </Flex>
+        </ContentSidebar>
+      </ContentSection>
+      {event.contentTarget && (
+        <CommentView
+          style={{
+            marginTop: 20,
+          }}
+          user={currentUser}
+          contentTarget={event.contentTarget}
+          loggedIn={loggedIn}
+          comments={comments}
+          contentAuthors={event.createdBy?.id}
+        />
+      )}
+    </Content>
+  );
+};
+
+export default EventDetail;
