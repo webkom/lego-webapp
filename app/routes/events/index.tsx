@@ -1,5 +1,6 @@
 import loadable from '@loadable/component';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
+import RouteWrapper from 'app/components/RouteWrapper';
 import { UserContext } from 'app/routes/app/AppRoute';
 
 const EventEditRoute = loadable(() => import('./EventEditRoute'));
@@ -7,8 +8,7 @@ const EventAdministrateRoute = loadable(
   () => import('./EventAdministrateRoute')
 );
 const PageNotFound = loadable(() => import('../pageNotFound'));
-const RouteWrapper = loadable(() => import('app/components/RouteWrapper'));
-const CalendarRoute = loadable(() => import('./CalendarRoute'));
+const Calendar = loadable(() => import('./components/Calendar'));
 const CreateRoute = loadable(() => import('./EventCreateRoute'));
 const DetailRoute = loadable(() => import('./EventDetailRoute'));
 const EventList = loadable(() => import('./components/EventList'));
@@ -21,13 +21,9 @@ const EventRoute = () => {
       {({ currentUser, loggedIn }) => (
         <Switch>
           <Route exact path={path} component={EventList} />
-          <RouteWrapper
+          <Route
             path={`${path}/calendar/:year?/:month?`}
-            Component={CalendarRoute}
-            passedProps={{
-              currentUser,
-              loggedIn,
-            }}
+            component={Calendar}
           />
           <RouteWrapper
             path={`${path}/create`}
