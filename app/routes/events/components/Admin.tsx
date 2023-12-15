@@ -1,96 +1,88 @@
 import { Button, ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
-import { Component } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom-v5-compat';
+import { deleteEvent } from 'app/actions/EventActions';
 import AnnouncementInLine from 'app/components/AnnouncementInLine';
-import type { ID, Event, ActionGrant } from 'app/models';
+import { useAppDispatch } from 'app/store/hooks';
+import type { ActionGrant } from 'app/models';
+import type { ID } from 'app/store/models';
+import type { AuthUserDetailedEvent } from 'app/store/models/Event';
 
-type Props = {
-  deleteEvent: (eventId: ID) => Promise<any>;
-  event: Event;
-  actionGrant: ActionGrant;
-};
 type ButtonProps = {
-  deleteEvent: (eventId: ID) => Promise<any>;
-  eventId: number;
+  eventId: ID;
   title: string;
 };
-type State = {
-  arrName: string;
-  show: boolean;
-};
 
-class DeleteButton extends Component<ButtonProps, State> {
-  state = {
-    arrName: '',
-    show: false,
-  };
+const DeleteButton = ({ eventId, title }: ButtonProps) => {
+  const [eventName, setEventName] = useState('');
+  const [show, setShow] = useState(false);
 
-  render() {
-    const { deleteEvent, eventId, title } = this.props;
-    let deleteEventButton;
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
-    if (this.state.arrName === title) {
-      deleteEventButton = (
-        <ConfirmModal
-          title="Slett arrangement"
-          message="Er du sikker på at du vil slette dette arrangementet?"
-          onConfirm={() => deleteEvent(eventId)}
-        >
-          {({ openConfirmModal }) => (
-            <Button onClick={openConfirmModal} danger>
-              <Icon name="trash" size={19} />
-              Slett
-            </Button>
-          )}
-        </ConfirmModal>
-      );
-    }
+  let deleteEventButton;
 
-    return (
-      <div>
-        {this.state.show === false && (
-          <Button
-            danger
-            onClick={() =>
-              this.setState({
-                show: true,
-              })
-            }
-          >
+  if (eventName === title) {
+    deleteEventButton = (
+      <ConfirmModal
+        title="Slett arrangement"
+        message="Er du sikker på at du vil slette dette arrangementet?"
+        onConfirm={() =>
+          dispatch(deleteEvent(eventId)).then(() => {
+            navigate('/events');
+          })
+        }
+      >
+        {({ openConfirmModal }) => (
+          <Button onClick={openConfirmModal} danger>
             <Icon name="trash" size={19} />
-            Slett arrangement
+            Slett
           </Button>
         )}
-        {this.state.show && (
-          <>
-            <span> Skriv inn navnet på arrangementet du vil slette: </span>
-            <input
-              type="text"
-              id="slettArrangement"
-              placeholder="Arrangementnavn"
-              onChange={(e) =>
-                this.setState({
-                  arrName: e.target.value,
-                })
-              }
-            />{' '}
-            <br />
-            {deleteEventButton}
-          </>
-        )}
-      </div>
+      </ConfirmModal>
     );
   }
-}
 
-const Admin = ({ actionGrant, event, deleteEvent }: Props) => {
+  return (
+    <div>
+      {show === false && (
+        <Button danger onClick={() => setShow(true)}>
+          <Icon name="trash" size={19} />
+          Slett arrangement
+        </Button>
+      )}
+      {show && (
+        <>
+          <span>Skriv inn navnet på arrangementet du vil slette:</span>
+          <input
+            type="text"
+            id="slettArrangement"
+            placeholder="Arrangementnavn"
+            onChange={(e) => setEventName(e.target.value)}
+          />{' '}
+          <br />
+          {deleteEventButton}
+        </>
+      )}
+    </div>
+  );
+};
+
+type Props = {
+  event: AuthUserDetailedEvent;
+  actionGrant: ActionGrant;
+};
+
+const Admin = ({ actionGrant, event }: Props) => {
   const canEdit = actionGrant.includes('edit');
   const canDelete = actionGrant.includes('delete');
   const showRegisterButton =
     Math.abs(
       moment.duration(moment(event.startTime).diff(moment.now())).get('days')
     ) < 1;
+
   return (
     <Flex column gap={7}>
       {(canEdit || canDelete) && (
@@ -156,13 +148,7 @@ const Admin = ({ actionGrant, event, deleteEvent }: Props) => {
             </Button>
           </Link>
 
-          {canDelete && (
-            <DeleteButton
-              eventId={event.id}
-              title={event.title}
-              deleteEvent={deleteEvent}
-            />
-          )}
+          {canDelete && <DeleteButton eventId={event.id} title={event.title} />}
         </>
       )}
     </Flex>
