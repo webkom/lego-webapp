@@ -214,7 +214,7 @@ const EventDetail = () => {
 
   const currentPool = pools.find((pool) =>
     pool.registrations.some(
-      (registration) => registration.user.id === currentUser.id
+      (registration) => registration.user?.id === currentUser.id
     )
   );
 
@@ -223,7 +223,7 @@ const EventDetail = () => {
 
   if (currentPool) {
     currentRegistrationIndex = currentPool.registrations.findIndex(
-      (registration) => registration.user.id === currentUser.id
+      (registration) => registration.user?.id === currentUser.id
     );
     currentRegistration = currentPool.registrations[currentRegistrationIndex];
   }
