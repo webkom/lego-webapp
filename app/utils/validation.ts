@@ -40,6 +40,21 @@ export const requiredIf =
     return [conditionalFn(allValues) ? !!value : true, message] as const;
   };
 
+export const conditionalValidation = (conditionalFn, validationFnGenerator) => {
+  return (value, allValues) => {
+    if (conditionalFn(allValues)) {
+      const validators = validationFnGenerator();
+      for (const validator of validators) {
+        const [isValid, message] = validator(value);
+        if (!isValid) {
+          return [false, message] as const;
+        }
+      }
+    }
+    return [true] as const;
+  };
+};
+
 export const atLeastOneFieldRequired =
   (fieldNames: string[], message = 'Du må fylle ut minst ett felt') =>
   (_, allValues) => {
@@ -60,6 +75,21 @@ export const maxLength =
   (value) =>
     [!value || value.length < length, message] as const;
 
+export const maxSize =
+  (size, message = `Må være mindre enn ${size}`) =>
+  (value) =>
+    [!value || value < size, message] as const;
+
+export const minSize =
+  (size, message = `Må være mer enn ${size}`) =>
+  (value) =>
+    [!value || value > size, message] as const;
+
+export const isInteger =
+  (message = 'Verdi må være heltall') =>
+  (value) =>
+    [!value || /^-?\d+$/.test(value), message] as const;
+
 export const matchesRegex = (regex, message) => (value) =>
   [
     // Ignore empty values here, since we want to validate
@@ -71,7 +101,7 @@ export const matchesRegex = (regex, message) => (value) =>
 export const isEmail = (message = 'Ugyldig e-post') =>
   matchesRegex(EMAIL_REGEX, message);
 
-export const validYoutubeUrl = (message = 'Ikke gyldig YouTube URL.') =>
+export const validYoutubeUrl = (message = 'Ugyldig YouTube-URL') =>
   matchesRegex(YOUTUBE_URL_REGEX, message);
 
 export const whenPresent =
@@ -92,6 +122,39 @@ export const timeIsAfter = (otherField, message) => (value, context) => {
   return [true] as const;
 };
 
+export const timeIsAtLeastDurationAfter =
+  (otherField, duration, message) => (value, allValues) => {
+    const firstTime = moment(allValues[otherField]);
+    const secondTime = moment(value);
+
+    if (!firstTime.isValid() || !secondTime.isValid()) {
+      return [true] as const;
+    }
+
+    const minimumSecondTime = firstTime.clone().add(duration);
+    if (secondTime.isAfter(minimumSecondTime)) {
+      return [true] as const;
+    }
+
+    return [false, message] as const;
+  };
+
+export const mergeTimeAfterAllPoolsActivation =
+  (message) => (mergeTime, allValues) => {
+    if (!mergeTime || !allValues.pools || allValues.pools.length === 0) {
+      return [true] as const; // No validation if mergeTime or pools are not set
+    }
+
+    const isAfterAll = allValues.pools.every((pool) => {
+      const activationTime = moment(pool.activationDate);
+      return (
+        !activationTime.isValid() || moment(mergeTime).isAfter(activationTime)
+      );
+    });
+
+    return [isAfterAll, message] as const;
+  };
+
 export const isValidAllergy =
   (
     message = 'La feltet stå tomt hvis du ikke har noen allergier/preferanser'
@@ -111,7 +174,7 @@ export const isValidGithubUsername =
   };
 
 export const isValidLinkedinId =
-  (message = 'Ikke en gyldig Linkedin ID') =>
+  (message = 'Ikke en gyldig LinkedIn-ID') =>
   (value: string) => {
     const validRegex = /^[a-zA-Z0-9-]{0,70}$/i;
 
@@ -168,6 +231,7 @@ export function createValidator(
       return merge(fieldValidationErrors, rawValidatorErrors);
     };
   }
+
   return function validate(input) {
     const rawValidatorErrors: ValidatorResult = rawValidator?.(input) || {};
     const fieldValidatorErrors = Object.keys(fieldValidators).reduce(
