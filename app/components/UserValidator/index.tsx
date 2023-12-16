@@ -1,7 +1,11 @@
 import { Button, Flex, Icon, Modal } from '@webkom/lego-bricks';
-import { get } from 'lodash';
+import { get, debounce } from 'lodash';
 import { useCallback, useRef, useState, type ComponentProps } from 'react';
 import { QrReader } from 'react-qr-reader';
+import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom-v5-compat';
+import { replace } from 'redux-first-history';
+import { autocomplete } from 'app/actions/SearchActions';
 import { addToast } from 'app/actions/ToastActions';
 import goodSound from 'app/assets/good-sound.mp3';
 import SearchPage from 'app/components/Search/SearchPage';
@@ -29,9 +33,7 @@ type Props = Omit<
   ComponentProps<typeof SearchPage<UserSearchResult>>,
   'handleSelect'
 > & {
-  clearSearch: () => void;
   handleSelect: (arg0: UserWithUsername) => Promise<SearchUser | Res>;
-  onQueryChanged: (arg0: string) => void;
   validateAbakusGroup: boolean;
 };
 
@@ -39,18 +41,14 @@ const isUser = (user: SearchUser | Res): user is SearchUser => {
   return 'username' in user;
 };
 
-const Validator = ({
-  clearSearch,
-  handleSelect,
-  onQueryChanged,
-  validateAbakusGroup,
-}: Props) => {
+const Validator = ({ handleSelect, validateAbakusGroup }: Props) => {
   const input = useRef<HTMLInputElement | null | undefined>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [scanResults, setScanResults] = useState<ScanResult[]>([]);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [showScanner, setShowScanner] = useState(false);
 
+  const { eventId } = useParams<{ eventId: string }>();
   const results = useAppSelector((state) => selectAutocompleteRedux(state));
 
   const showSuccessModal = (message: string) => {
@@ -59,6 +57,21 @@ const Validator = ({
   };
 
   const dispatch = useAppDispatch();
+
+  const navigate = useNavigate();
+  const url = `/events/${eventId}/administrate/abacard?q=`;
+
+  const clearSearch = useCallback(() => {
+    navigate(url);
+  }, [navigate, url]);
+
+  const onQueryChanged = debounce((query) => {
+    navigate(url + query);
+
+    if (query) {
+      dispatch(autocomplete(query, ['users.user']));
+    }
+  }, 300);
 
   /**
    * Add new scan result to the start of the array if not duplicate of most recent result,
@@ -213,7 +226,7 @@ const Validator = ({
         className={styles.scannerButton}
         onClick={() => setShowScanner(true)}
       >
-        <Icon className={styles.qrIcon} name="qr-code" size={18} />
+        <Icon className={styles.qrIcon} name="scan-outline" size={18} />
         Åpne scanner
       </Button>
       <SearchPage<UserSearchResult>
