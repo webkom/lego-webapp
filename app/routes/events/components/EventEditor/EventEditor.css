@@ -47,7 +47,7 @@
 }
 
 .poolBox {
-  background-color: var(--additive-background);
+  border: 1.5px solid var(--border-gray);
   border-radius: var(--border-radius-lg);
   padding: 10px;
   margin-top: 10px;
