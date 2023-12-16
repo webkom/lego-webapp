@@ -86,6 +86,7 @@ export type EditingEvent = Event & {
   isClarified: boolean;
   authors: Option[];
   responsibleUsers: DetailedUser[];
+  saveToImageGallery: boolean;
 };
 
 // Event fields that should be created or updated based on the API.
