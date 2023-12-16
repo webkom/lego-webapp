@@ -19,15 +19,11 @@ import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 const EventStatistics = loadable(
   () => import('app/routes/events/EventStatisticsRoute')
 );
-const Attendees = loadable(
-  () => import('app/routes/events/components/EventAdministrate/Attendees')
-);
+const Attendees = loadable(() => import('./Attendees'));
 const EventAllergiesRoute = loadable(
   () => import('app/routes/events/EventAllergiesRoute')
 );
-const EventAdminRegisterRoute = loadable(
-  () => import('app/routes/events/components/EventAdministrate/AdminRegister')
-);
+const AdminRegister = loadable(() => import('./AdminRegister'));
 const EventAbacardRoute = loadable(
   () => import('app/routes/events/EventAbacardRoute')
 );
@@ -113,13 +109,10 @@ const EventAdministrateIndex = () => {
             ...props,
           }}
         />
-        <RouteWrapper
+        <Route
           exact
           path={`${path}/admin-register`}
-          Component={EventAdminRegisterRoute}
-          passedProps={{
-            event: props.event,
-          }}
+          component={AdminRegister}
         />
         <RouteWrapper
           exact
