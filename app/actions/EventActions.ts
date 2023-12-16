@@ -255,12 +255,12 @@ export function unregister({
 }
 
 export function adminRegister(
-  eventId: number,
-  userId: number,
-  poolId: number | undefined,
+  eventId: ID,
+  userId: ID,
+  poolId: ID | undefined,
   feedback: string,
   adminRegistrationReason: string
-): Thunk<any> {
+) {
   return callAPI({
     types: Event.ADMIN_REGISTER,
     endpoint: `/events/${eventId}/registrations/admin_register/`,
