@@ -28,12 +28,15 @@ export type Props = {
 };
 
 export const canSeeAllergies = (
-  currentUser: CurrentUser,
-  event: AdministrateEvent
+  currentUser?: CurrentUser,
+  event?: AdministrateEvent
 ) => {
+  if (!currentUser || !event) {
+    return false;
+  }
   return (
-    currentUser?.id === event.createdBy?.id ||
-    currentUser.abakusGroups.includes(event.responsibleGroup?.id as ID)
+    currentUser.id === event.createdBy?.id ||
+    currentUser.abakusGroups?.includes(event.responsibleGroup?.id as ID)
   );
 };
 

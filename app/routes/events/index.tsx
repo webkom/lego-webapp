@@ -5,7 +5,7 @@ import { CompatRoute } from 'react-router-dom-v5-compat';
 const EventDetail = loadable(() => import('./components/EventDetail'));
 const EventEditor = loadable(() => import('./components/EventEditor'));
 const EventAdministrateRoute = loadable(
-  () => import('./EventAdministrateRoute')
+  () => import('./components/EventAdministrate')
 );
 const PageNotFound = loadable(() => import('../pageNotFound'));
 const Calendar = loadable(() => import('./components/Calendar'));

@@ -5,7 +5,14 @@ import {
   LoadingIndicator,
 } from '@webkom/lego-bricks';
 import cx from 'classnames';
+import { useParams } from 'react-router-dom';
+import {
+  unregister,
+  updatePayment,
+  updatePresence,
+} from 'app/actions/EventActions';
 import Tooltip from 'app/components/Tooltip';
+import { useAppDispatch } from 'app/store/hooks';
 import styles from './Administrate.css';
 import type {
   EventRegistration,
@@ -19,23 +26,18 @@ type TooltipIconProps = {
   content: string;
   transparent?: boolean;
   iconClass: string;
+  disabled?: boolean;
 };
 type PresenceProps = {
-  handlePresence: (arg0: ID, arg1: EventRegistrationPresence) => Promise<any>;
   presence: EventRegistrationPresence;
-  id: ID;
+  registrationId: ID;
 };
 type UnregisterProps = {
   fetching: boolean;
-  handleUnregister: (arg0: ID) => Promise<void>;
   registration: EventRegistration;
 };
 type StripeStatusProps = {
-  id: ID;
-  handlePayment: (
-    registrationId: ID,
-    paymentStatus: EventRegistrationPaymentStatus
-  ) => Promise<any>;
+  registrationId: ID;
   paymentStatus: EventRegistrationPaymentStatus;
 };
 
@@ -44,12 +46,14 @@ export const TooltipIcon = ({
   content,
   transparent,
   iconClass,
+  disabled = false,
 }: TooltipIconProps) => {
   return (
     <Tooltip content={content}>
       <button
         className={cx(transparent && styles.transparent)}
         onClick={onClick}
+        disabled={disabled}
       >
         <i className={iconClass} />
       </button>
@@ -57,76 +61,97 @@ export const TooltipIcon = ({
   );
 };
 
-export const PresenceIcons = ({
-  handlePresence,
-  presence,
-  id,
-}: PresenceProps) => {
+export const PresenceIcons = ({ presence, registrationId }: PresenceProps) => {
+  const { eventId } = useParams<{ eventId: string }>();
+  const dispatch = useAppDispatch();
+
   return (
     <Flex justifyContent="center" gap={5}>
       <TooltipIcon
         content="Til stede"
         iconClass={cx('fa fa-check', styles.greenIcon)}
         transparent={presence !== 'PRESENT'}
-        onClick={() => handlePresence(id, 'PRESENT')}
+        onClick={() =>
+          dispatch(updatePresence(eventId, registrationId, 'PRESENT'))
+        }
       />
       <TooltipIcon
         content="Ukjent"
         iconClass={cx('fa fa-question-circle', styles.questionIcon)}
         transparent={presence !== 'UNKNOWN'}
-        onClick={() => handlePresence(id, 'UNKNOWN')}
+        onClick={() =>
+          dispatch(updatePresence(eventId, registrationId, 'UNKNOWN'))
+        }
       />
       <TooltipIcon
         content="Ikke til stede"
         iconClass={cx('fa fa-times', styles.redIcon)}
         transparent={presence !== 'NOT_PRESENT'}
-        onClick={() => handlePresence(id, 'NOT_PRESENT')}
+        onClick={() =>
+          dispatch(updatePresence(eventId, registrationId, 'NOT_PRESENT'))
+        }
       />
     </Flex>
   );
 };
 
 export const StripeStatus = ({
-  id,
-  handlePayment,
+  registrationId,
   paymentStatus,
-}: StripeStatusProps) => (
-  <Flex justifyContent="center" gap={5}>
-    <TooltipIcon
-      content="Betalt stripe"
-      iconClass={cx('fa fa-cc-stripe', styles.greenIcon)}
-      transparent={paymentStatus !== 'succeeded'}
-    />
-    <TooltipIcon
-      content="Betalt manuelt"
-      transparent={paymentStatus !== 'manual'}
-      iconClass={cx('fa fa-money', styles.greenIcon)}
-      onClick={() => handlePayment(id, 'manual')}
-    />
-    <TooltipIcon
-      content="Ikke betalt"
-      transparent={['manual', 'succeeded'].includes(paymentStatus)}
-      iconClass={cx('fa fa-times', styles.redIcon)}
-      onClick={() => handlePayment(id, 'failed')}
-    />
-  </Flex>
-);
+}: StripeStatusProps) => {
+  const { eventId } = useParams<{ eventId: string }>();
+  const dispatch = useAppDispatch();
 
-export const Unregister = ({
-  fetching,
-  handleUnregister,
-  registration,
-}: UnregisterProps) => {
+  return (
+    <Flex justifyContent="center" gap={5}>
+      <TooltipIcon
+        content="Betalt via Stripe"
+        iconClass={cx('fa fa-cc-stripe', styles.greenIcon)}
+        transparent={paymentStatus !== 'succeeded'}
+        disabled
+      />
+      <TooltipIcon
+        content="Betalt manuelt"
+        transparent={paymentStatus !== 'manual'}
+        iconClass={cx('fa fa-money', styles.greenIcon)}
+        onClick={() =>
+          dispatch(updatePayment(eventId, registrationId, 'manual'))
+        }
+      />
+      <TooltipIcon
+        content="Ikke betalt"
+        transparent={['manual', 'succeeded'].includes(paymentStatus)}
+        iconClass={cx('fa fa-times', styles.redIcon)}
+        onClick={() =>
+          dispatch(updatePayment(eventId, registrationId, 'failed'))
+        }
+      />
+    </Flex>
+  );
+};
+
+export const Unregister = ({ fetching, registration }: UnregisterProps) => {
+  const { eventId } = useParams<{ eventId: string }>();
+  const dispatch = useAppDispatch();
+
   return (
     <>
       {fetching ? (
         <LoadingIndicator loading small />
       ) : (
         <ConfirmModal
-          title="Bekreft utmelding"
+          title="Bekreft avregistrering"
           message={`Er du sikker på at du vil melde av "${registration.user.fullName}"?`}
-          onConfirm={() => handleUnregister(registration.id)}
-          closeOnCancel
+          onConfirm={() => {
+            dispatch(
+              unregister({
+                eventId,
+                registrationId: registration.id,
+                admin: true,
+              })
+            );
+          }}
+          closeOnConfirm
         >
           {({ openConfirmModal }) => (
             <Tooltip content="Meld av bruker">
