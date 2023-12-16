@@ -344,3 +344,14 @@ export const toReadableSemester = (
   const semester = semesterObj.semester === 'spring' ? 'våren' : 'høsten';
   return `${semester} ${semesterObj.year}`;
 };
+
+export const isTBA = (value) =>
+  value && value === 'TBA' ? `Velg påmeldingstype TBA` : undefined;
+
+export const containsAllergier = (value) =>
+  value && value.toLowerCase().indexOf('allergi') !== -1
+    ? `Matallergier/preferanser kan hentes fra adminsidene til arrangementet`
+    : undefined;
+
+export const tooLow = (value) =>
+  value && value <= 3 ? `Summen må være større enn 3 kr` : undefined;

@@ -5,13 +5,21 @@ import {
   LoadingIndicator,
   Modal,
 } from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import arrayMutators from 'final-form-arrays';
 import moment from 'moment-timezone';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom-v5-compat';
+import { createEvent, editEvent, fetchEvent } from 'app/actions/EventActions';
+import {
+  uploadFile as _uploadFile,
+  fetchImageGallery,
+  setSaveForUse,
+} from 'app/actions/FileActions';
 import {
   Content,
   ContentSection,
@@ -39,10 +47,25 @@ import { FormatTime } from 'app/components/Time';
 import { AttendanceStatus } from 'app/components/UserAttendance';
 import AttendanceModal from 'app/components/UserAttendance/AttendanceModal';
 import {
+  selectEventByIdOrSlug,
+  selectPoolsWithRegistrationsForEvent,
+  selectRegistrationsFromPools,
+  selectWaitingRegistrationsForEvent,
+} from 'app/reducers/events';
+import { selectImageGalleryEntries } from 'app/reducers/imageGallery';
+import {
   EVENT_CONSTANTS,
   colorForEvent,
+  containsAllergier,
   eventStatusTypes,
+  isTBA,
+  tooLow,
+  transformEvent,
+  transformEventStatusType,
 } from 'app/routes/events/utils';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
+import time from 'app/utils/time';
 import {
   atLeastOneFieldRequired,
   conditionalValidation,
@@ -60,33 +83,9 @@ import {
 import Admin from '../Admin';
 import styles from './EventEditor.css';
 import renderPools from './renderPools';
-import type {
-  ID,
-  EventRegistration,
-  ActionGrant,
-  ImageGallery,
-} from 'app/models';
+import type { UploadArgs } from 'app/actions/FileActions';
 import type { EditingEvent } from 'app/routes/events/utils';
-import type { History } from 'history';
-import type { FormEventHandler } from 'react';
-
-type Props = {
-  eventId: number;
-  event: EditingEvent;
-  actionGrant: ActionGrant;
-  loading: boolean;
-  waitingRegistrations: EventRegistration[];
-  isUserInterested: boolean;
-  handleSubmit: FormEventHandler;
-  handleSubmitCallback: (arg0: any) => Promise<any>;
-  uploadFile: () => Promise<any>;
-  deleteEvent: (eventId: ID) => Promise<any>;
-  push: History['push'];
-  imageGallery: ImageGallery;
-  change: (key: string, token: string) => void;
-  setSaveForUse: (key: string, token: string, value: boolean) => Promise<any>;
-  initialValues: EditingEvent;
-};
+import type { DetailedUser } from 'app/store/models/User';
 
 const TypedLegoForm = LegoFinalForm<EditingEvent>;
 
@@ -146,51 +145,185 @@ const validate = createValidator({
   ],
 });
 
-function EventEditor({
-  event,
-  eventId,
-  actionGrant,
-  uploadFile,
-  push,
-  imageGallery,
-  change,
-  setSaveForUse,
-  initialValues,
-  ...props
-}: Props) {
-  const isEditPage = eventId !== undefined;
+function EventEditor() {
+  const { eventIdOrSlug } = useParams<{ eventIdOrSlug: string }>();
+  const isEditPage = eventIdOrSlug !== undefined;
+  const event = useAppSelector((state) =>
+    selectEventByIdOrSlug(state, { eventIdOrSlug })
+  );
+  const eventId = event?.id;
+  const actionGrant = event?.actionGrant || [];
+  const pools = useAppSelector((state) =>
+    selectPoolsWithRegistrationsForEvent(state, { eventId })
+  );
+  const imageGalleryEntries = useAppSelector(selectImageGalleryEntries);
+  const imageGallery = imageGalleryEntries?.map((image) => ({
+    key: image.key,
+    cover: image.cover,
+    token: image.token,
+    coverPlaceholder: image.coverPlaceholder,
+  }));
+
+  const dispatch = useAppDispatch();
+
+  usePreparedEffect(
+    'fetchEventEdit',
+    () =>
+      Promise.all([
+        eventIdOrSlug && dispatch(fetchEvent(eventIdOrSlug)),
+        dispatch(fetchImageGallery()),
+      ]),
+    [eventIdOrSlug]
+  );
+
+  const uploadFile = ({
+    file,
+    fileName,
+    isPublic = false,
+    timeout,
+  }: UploadArgs) => {
+    dispatch(_uploadFile({ file, fileName, isPublic, timeout }));
+  };
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (event?.slug && event?.slug !== eventIdOrSlug) {
+      navigate(`/events/${event.slug}/edit`, { replace: true });
+    }
+  }, [event?.slug, navigate, eventIdOrSlug]);
+
   const [showImageGallery, setShowImageGallery] = useState(false);
   const [useImageGallery, setUseImageGallery] = useState(false);
   const [imageGalleryUrl, setImageGalleryUrl] = useState('');
+
+  if (isEditPage && (!event || !event.title)) {
+    return (
+      <Content>
+        <LoadingIndicator loading />
+      </Content>
+    );
+  }
 
   if (isEditPage && !actionGrant.includes('edit')) {
     return null;
   }
 
-  if (isEditPage && Object.keys(event).length === 0) {
-    return <LoadingIndicator loading />;
-  }
-
   const onSubmit = (values: EditingEvent) => {
-    props.handleSubmit(values);
-
-    const key: string = values.cover.split(':')[0];
-    const token: string = values.cover.split(':')[1];
-    if (values.saveToImageGallery) {
-      setSaveForUse(key, token, true);
-    }
+    dispatch(
+      isEditPage
+        ? editEvent(transformEvent(values))
+        : createEvent(transformEvent(values))
+    ).then(() => {
+      const key: string = values.cover.split(':')[0];
+      const token: string = values.cover.split(':')[1];
+      if (values.saveToImageGallery) {
+        dispatch(setSaveForUse(key, token, true));
+      }
+    });
   };
 
-  const isTBA = (value) =>
-    value && value === 'TBA' ? `Velg påmeldingstype TBA` : undefined;
-
-  const containsAllergier = (value) =>
-    value && value.toLowerCase().indexOf('allergi') !== -1
-      ? `Matallergier/preferanser kan hentes fra adminsidene til arrangementet`
-      : undefined;
-
-  const tooLow = (value) =>
-    value && value <= 3 ? `Summen må være større enn 3 kr` : undefined;
+  const initialValues = isEditPage
+    ? {
+        ...event,
+        mergeTime: event.mergeTime
+          ? event.mergeTime
+          : time({
+              hours: 12,
+            }),
+        priceMember: event.priceMember / 100,
+        pools: pools.map((pool) => ({
+          ...pool,
+          permissionGroups: (pool.permissionGroups || []).map((group) => ({
+            label: group.name,
+            value: group.id,
+          })),
+        })),
+        canViewGroups: (event.canViewGroups || []).map((group) => ({
+          label: group.name,
+          value: group.id,
+          id: group.id,
+        })),
+        isGroupOnly: event.canViewGroups?.length > 0,
+        company: event.company && {
+          label: event.company.name,
+          value: event.company.id,
+        },
+        responsibleGroup: event.responsibleGroup && {
+          label: event.responsibleGroup.name,
+          value: event.responsibleGroup.id,
+        },
+        responsibleUsers:
+          event.responsibleUsers &&
+          event.responsibleUsers.map((user: DetailedUser) => ({
+            label: user.fullName,
+            value: user.id,
+          })),
+        isForeignLanguage: event.isForeignLanguage,
+        eventType: event.eventType && {
+          label: EVENT_CONSTANTS[event.eventType],
+          value: event.eventType,
+        },
+        eventStatusType:
+          event.eventStatusType &&
+          transformEventStatusType(event.eventStatusType),
+        mazemapPoi: event.mazemapPoi && {
+          label: event.location,
+          //if mazemapPoi has a value, location will be its displayname
+          value: event.mazemapPoi,
+        },
+        separateDeadlines:
+          event.registrationDeadlineHours !== event.unregistrationDeadlineHours,
+        useMazemap: event.eventStatusType === 'TBA' || event.mazemapPoi > 0,
+        hasFeedbackQuestion: !!event.feedbackDescription,
+      }
+    : {
+        title: '',
+        startTime: time({
+          hours: 17,
+          minutes: 15,
+        }),
+        endTime: time({
+          hours: 20,
+          minutes: 15,
+        }),
+        description: '',
+        text: '',
+        eventType: '',
+        eventStatusType: {
+          value: 'TBA',
+          label: 'Ikke bestemt (TBA)',
+        },
+        company: null,
+        responsibleGroup: null,
+        location: 'TBA',
+        isPriced: false,
+        useStripe: true,
+        priceMember: 0,
+        paymentDueDate: time({
+          days: 7,
+          hours: 17,
+          minutes: 15,
+        }),
+        mergeTime: time({
+          hours: 12,
+        }),
+        useCaptcha: true,
+        heedPenalties: true,
+        isGroupOnly: false,
+        canViewGroups: [],
+        useConsent: false,
+        feedbackDescription: '',
+        pools: [],
+        useMazemap: false,
+        separateDeadlines: false,
+        unregistrationDeadline: time({
+          hours: 12,
+        }),
+        registrationDeadlineHours: 2,
+        unregistrationDeadlineHours: 2,
+        responsibleUsers: [],
+        isForeignLanguage: false,
+      };
 
   const title = isEditPage ? `Redigerer: ${event.title}` : 'Nytt arrangement';
 
@@ -738,7 +871,7 @@ function EventEditor({
 
             <Flex wrap>
               {isEditPage && (
-                <Button flat onClick={() => push(`/events/${event.slug}`)}>
+                <Button flat onClick={() => navigate(`/events/${event.slug}`)}>
                   Avbryt
                 </Button>
               )}
@@ -753,4 +886,4 @@ function EventEditor({
   );
 }
 
-export default EventEditor;
+export default guardLogin(EventEditor);
