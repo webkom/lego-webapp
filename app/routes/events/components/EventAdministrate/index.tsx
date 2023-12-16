@@ -1,21 +1,26 @@
 import loadable from '@loadable/component';
-import { Switch, useRouteMatch } from 'react-router-dom';
+import { LoadingIndicator } from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
+import { Switch, Route, useParams, useRouteMatch } from 'react-router-dom';
+import { fetchAdministrate } from 'app/actions/EventActions';
 import { Content } from 'app/components/Content';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import RouteWrapper from 'app/components/RouteWrapper';
+import {
+  selectEventById,
+  selectMergedPoolWithRegistrations,
+  selectPoolsWithRegistrationsForEvent,
+} from 'app/reducers/events';
 import { useUserContext } from 'app/routes/app/AppRoute';
 import { canSeeAllergies } from 'app/routes/events/components/EventAdministrate/Allergies';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
-import type { ID } from 'app/store/models';
-import type { AdministrateEvent } from 'app/store/models/Event';
-import type { CurrentUser } from 'app/store/models/User';
-import type { ReactNode } from 'react';
 
 const EventStatistics = loadable(
   () => import('app/routes/events/EventStatisticsRoute')
 );
-const EventAttendeeRoute = loadable(
-  () => import('app/routes/events/EventAttendeeRoute')
+const Attendees = loadable(
+  () => import('app/routes/events/components/EventAdministrate/Attendees')
 );
 const EventAllergiesRoute = loadable(
   () => import('app/routes/events/EventAllergiesRoute')
@@ -27,38 +32,56 @@ const EventAbacardRoute = loadable(
   () => import('app/routes/events/EventAbacardRoute')
 );
 
-type Props = {
-  children: (props: Props) => ReactNode;
-  currentUser: CurrentUser;
-  isMe: boolean;
-  event?: AdministrateEvent;
-  match: {
-    params: {
-      eventId: string;
-    };
-  };
-  pools: Array<ID>;
-};
-
-const EventAdministrateIndex = (props: Props) => {
-  const { path } = useRouteMatch();
+const EventAdministrateIndex = () => {
+  const { eventId } = useParams<{ eventId: string }>();
+  const event = useAppSelector((state) => selectEventById(state, { eventId }));
+  const pools = useAppSelector((state) =>
+    event?.isMerged
+      ? selectMergedPoolWithRegistrations(state, { eventId })
+      : selectPoolsWithRegistrationsForEvent(state, { eventId })
+  );
+  const actionGrant = useAppSelector((state) => state.events.actionGrant);
+  const loading = useAppSelector((state) => state.events.fetching);
   const { currentUser, loggedIn } = useUserContext();
-  const base = `/events/${props.match.params.eventId}/administrate`;
-  // At the moment changing settings for other users only works
-  // for the settings under `/profile` - so no point in showing
-  // the other tabs.
+
+  const dispatch = useAppDispatch();
+
+  usePreparedEffect(
+    'fetchAdministrate',
+    () => eventId && dispatch(fetchAdministrate(eventId)),
+    [eventId]
+  );
+
+  const { path } = useRouteMatch();
+  const base = `/events/${eventId}/administrate`;
+
+  if (!event || loading) {
+    return (
+      <Content>
+        <LoadingIndicator loading={loading} />
+      </Content>
+    );
+  }
+
+  const props = {
+    event,
+    pools,
+    actionGrant,
+    currentUser,
+    loggedIn,
+  };
 
   return (
     <Content>
       <NavigationTab
-        title={props.event ? props.event.title : ''}
+        title={event ? event.title : ''}
         back={{
           label: 'Tilbake',
-          path: '/events/' + props.event?.slug,
+          path: '/events/' + event.slug,
         }}
       >
         <NavigationLink to={`${base}/attendees`}>Påmeldinger</NavigationLink>
-        {props.event && canSeeAllergies(currentUser, props.event) && (
+        {event && canSeeAllergies(currentUser, event) && (
           <NavigationLink to={`${base}/allergies`}>Allergier</NavigationLink>
         )}
         <NavigationLink to={`${base}/statistics`}>Statistikk</NavigationLink>
@@ -69,16 +92,7 @@ const EventAdministrateIndex = (props: Props) => {
       </NavigationTab>
 
       <Switch>
-        <RouteWrapper
-          exact
-          path={`${path}/attendees`}
-          Component={EventAttendeeRoute}
-          passedProps={{
-            currentUser,
-            loggedIn,
-            ...props,
-          }}
-        />
+        <Route exact path={`${path}/attendees`} component={Attendees} />
         <RouteWrapper
           exact
           path={`${path}/allergies`}

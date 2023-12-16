@@ -278,7 +278,6 @@ const EventDetail = () => {
             unregister({
               eventId,
               registrationId: currentRegistration.id,
-              userId: currentUser.id,
             })
           );
         return;
