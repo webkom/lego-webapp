@@ -2,6 +2,7 @@ import loadable from '@loadable/component';
 import { LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Switch, Route, useParams, useRouteMatch } from 'react-router-dom';
+import { CompatRoute } from 'react-router-dom-v5-compat';
 import { fetchAdministrate } from 'app/actions/EventActions';
 import { Content } from 'app/components/Content';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
@@ -24,9 +25,7 @@ const EventAllergiesRoute = loadable(
   () => import('app/routes/events/EventAllergiesRoute')
 );
 const AdminRegister = loadable(() => import('./AdminRegister'));
-const EventAbacardRoute = loadable(
-  () => import('app/routes/events/EventAbacardRoute')
-);
+const Abacard = loadable(() => import('./Abacard'));
 
 const EventAdministrateIndex = () => {
   const { eventId } = useParams<{ eventId: string }>();
@@ -114,16 +113,7 @@ const EventAdministrateIndex = () => {
           path={`${path}/admin-register`}
           component={AdminRegister}
         />
-        <RouteWrapper
-          exact
-          path={`${path}/abacard`}
-          Component={EventAbacardRoute}
-          passedProps={{
-            currentUser,
-            loggedIn,
-            ...props,
-          }}
-        />
+        <CompatRoute exact path={`${path}/abacard`} component={Abacard} />
       </Switch>
     </Content>
   );
