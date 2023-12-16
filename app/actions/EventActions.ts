@@ -26,7 +26,7 @@ export function fetchEvent(eventId: ID) {
     endpoint: `/events/${eventId}/`,
     schema: eventSchema,
     meta: {
-      errorMessage: 'Henting av hendelse feilet',
+      errorMessage: 'Henting av arrangement feilet',
     },
     propagateError: true,
   });
@@ -38,7 +38,7 @@ export function fetchPrevious() {
     endpoint: '/events/previous/',
     schema: [eventSchema],
     meta: {
-      errorMessage: 'Henting av hendelser feilet',
+      errorMessage: 'Henting av tidligere arrangementer feilet',
     },
     propagateError: true,
   });
@@ -50,7 +50,7 @@ export function fetchUpcoming() {
     endpoint: '/events/upcoming/',
     schema: [eventSchema],
     meta: {
-      errorMessage: 'Henting av hendelser feilet',
+      errorMessage: 'Henting av kommende arrangementer feilet',
     },
     propagateError: true,
   });
@@ -147,7 +147,7 @@ export function fetchAdministrate(eventId: ID) {
   });
 }
 
-export function fetchAllergies(eventId: number) {
+export function fetchAllergies(eventId: ID) {
   return callAPI({
     types: Event.FETCH,
     endpoint: `/events/${eventId}/allergies/`,
@@ -168,7 +168,7 @@ export function createEvent(event: Record<string, any>) {
         body: event,
         schema: eventSchema,
         meta: {
-          errorMessage: 'Opprettelse av hendelse feilet',
+          errorMessage: 'Opprettelse av arrangement feilet',
         },
       })
     ).then(
@@ -177,7 +177,8 @@ export function createEvent(event: Record<string, any>) {
         dispatch(push(`/events/${action.payload.result}/`))
     );
 }
-export function editEvent(event: Record<string, any>): Thunk<Promise<any>> {
+
+export function editEvent(event: Record<string, any>) {
   return (dispatch) =>
     dispatch(
       callAPI({
@@ -186,7 +187,7 @@ export function editEvent(event: Record<string, any>): Thunk<Promise<any>> {
         method: 'PUT',
         body: { ...event, cover: event.cover || undefined },
         meta: {
-          errorMessage: 'Endring av hendelse feilet',
+          errorMessage: 'Endring av arrangement feilet',
         },
       })
     ).then(() => dispatch(push(`/events/${event.id}`)));
@@ -199,7 +200,7 @@ export function deleteEvent(eventId: ID) {
     method: 'DELETE',
     meta: {
       id: eventId,
-      errorMessage: 'Sletting av hendelse feilet',
+      errorMessage: 'Sletting av arrangement feilet',
     },
   });
 }
@@ -226,7 +227,7 @@ export function register({
     meta: {
       id: eventId,
       userId,
-      errorMessage: 'Registering til hendelse feilet',
+      errorMessage: 'Registering til arrangement feilet',
     },
   });
 }
@@ -234,13 +235,11 @@ export function register({
 export function unregister({
   eventId,
   registrationId,
-  userId,
   admin = false,
 }: {
   eventId: ID;
   registrationId: ID;
-  userId: ID;
-  admin: boolean;
+  admin?: boolean;
 }) {
   return callAPI({
     types: Event.REQUEST_UNREGISTER,
@@ -248,9 +247,8 @@ export function unregister({
     method: 'DELETE',
     body: {},
     meta: {
-      errorMessage: 'Avregistrering fra hendelse feilet',
+      errorMessage: 'Avregistrering fra arrangement feilet',
       admin,
-      userId,
       id: Number(registrationId),
     },
   });
