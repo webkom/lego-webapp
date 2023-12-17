@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom-v5-compat';
 import Dropdown from 'app/components/Dropdown';
 import { selectIsLoggedIn } from 'app/reducers/auth';
 import { useAppSelector } from 'app/store/hooks';
@@ -69,7 +69,7 @@ const Navbar = () => {
           <NavLink
             key={link.to}
             to={link.to}
-            activeClassName={styles.activeItem}
+            className={({ isActive }) => (isActive ? styles.activeItem : '')}
             onMouseEnter={() => focusLinkAtIndex(i)}
           >
             {link.title}

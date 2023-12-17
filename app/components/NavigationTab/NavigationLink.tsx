@@ -1,4 +1,5 @@
-import { NavLink } from 'react-router-dom';
+import cx from 'classnames';
+import { NavLink } from 'react-router-dom-v5-compat';
 import styles from './NavigationLink.css';
 import type { ReactNode } from 'react';
 
@@ -19,12 +20,13 @@ const NavigationLink = (props: Props) => {
 
   return (
     <NavLink
-      exact
+      end
       isActive={isActive}
       to={props.to}
       onClick={props.onClick}
-      className={styles.link}
-      activeClassName={styles.active}
+      className={({ isActive }) =>
+        cx(isActive ? styles.active : '', styles.link)
+      }
     >
       {props.children}
     </NavLink>
