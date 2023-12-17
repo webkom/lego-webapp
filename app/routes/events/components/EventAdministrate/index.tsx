@@ -6,12 +6,7 @@ import { CompatRoute } from 'react-router-dom-v5-compat';
 import { fetchAdministrate } from 'app/actions/EventActions';
 import { Content } from 'app/components/Content';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
-import RouteWrapper from 'app/components/RouteWrapper';
-import {
-  selectEventById,
-  selectMergedPoolWithRegistrations,
-  selectPoolsWithRegistrationsForEvent,
-} from 'app/reducers/events';
+import { selectEventById } from 'app/reducers/events';
 import { useUserContext } from 'app/routes/app/AppRoute';
 import { canSeeAllergies } from 'app/routes/events/components/EventAdministrate/Allergies';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
@@ -19,23 +14,15 @@ import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 
 const Statistics = loadable(() => import('./Statistics'));
 const Attendees = loadable(() => import('./Attendees'));
-const EventAllergiesRoute = loadable(
-  () => import('app/routes/events/EventAllergiesRoute')
-);
+const Allergies = loadable(() => import('./Allergies'));
 const AdminRegister = loadable(() => import('./AdminRegister'));
 const Abacard = loadable(() => import('./Abacard'));
 
 const EventAdministrateIndex = () => {
   const { eventId } = useParams<{ eventId: string }>();
   const event = useAppSelector((state) => selectEventById(state, { eventId }));
-  const pools = useAppSelector((state) =>
-    event?.isMerged
-      ? selectMergedPoolWithRegistrations(state, { eventId })
-      : selectPoolsWithRegistrationsForEvent(state, { eventId })
-  );
-  const actionGrant = useAppSelector((state) => state.events.actionGrant);
-  const loading = useAppSelector((state) => state.events.fetching);
-  const { currentUser, loggedIn } = useUserContext();
+  const fetching = useAppSelector((state) => state.events.fetching);
+  const { currentUser } = useUserContext();
 
   const dispatch = useAppDispatch();
 
@@ -48,21 +35,13 @@ const EventAdministrateIndex = () => {
   const { path } = useRouteMatch();
   const base = `/events/${eventId}/administrate`;
 
-  if (!event || loading) {
+  if (!event) {
     return (
       <Content>
-        <LoadingIndicator loading={loading} />
+        <LoadingIndicator loading={fetching} />
       </Content>
     );
   }
-
-  const props = {
-    event,
-    pools,
-    actionGrant,
-    currentUser,
-    loggedIn,
-  };
 
   return (
     <Content>
@@ -86,16 +65,7 @@ const EventAdministrateIndex = () => {
 
       <Switch>
         <Route exact path={`${path}/attendees`} component={Attendees} />
-        <RouteWrapper
-          exact
-          path={`${path}/allergies`}
-          Component={EventAllergiesRoute}
-          passedProps={{
-            currentUser,
-            loggedIn,
-            ...props,
-          }}
-        />
+        <Route exact path={`${path}/allergies`} component={Allergies} />
         <Route exact path={`${path}/statistics`} component={Statistics} />
         <Route
           exact
