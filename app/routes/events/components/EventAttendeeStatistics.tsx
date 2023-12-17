@@ -272,16 +272,18 @@ const EventAttendeeStatistics = ({ viewStartTime, viewEndTime }: Props) => {
         </Card>
       )}
 
-      <h2 className={styles.sectionDividerTitle}>Statistikk</h2>
+      <h2 className={styles.sectionDividerTitle}>Analyse</h2>
       <p className={styles.sectionDividerDescription}>
-        Statistikk av besøkende på arrangementssiden
+        Analyse av besøkende på arrangementssiden
       </p>
 
       <Analytics viewStartTime={viewStartTime} viewEndTime={viewEndTime} />
 
-      <h2 className={styles.sectionDividerTitle}>Analyse</h2>
+      <h2 className={styles.sectionDividerTitle}>Statistikk</h2>
       <p className={styles.sectionDividerDescription}>
-        Analyse av brukerne som er påmeldt arrangementet
+        Statistikk av brukerne som{' '}
+        {moment().isAfter(moment(event.endTime)) ? 'var' : 'er'} påmeldt
+        arrangementet
       </p>
 
       {registered.length === 0 ? (
