@@ -1,91 +1,45 @@
-import { Route, Switch } from 'react-router-dom';
-import RouteWrapper from 'app/components/RouteWrapper';
-import { UserContext } from 'app/routes/app/AppRoute';
+import { useRouteMatch, Route, Switch } from 'react-router-dom';
+import { CompatRoute } from 'react-router-dom-v5-compat';
 import PageNotFound from '../pageNotFound';
-import AddCompanyContactRoute from './AddCompanyContactRoute';
-import AddCompanyRoute from './AddCompanyRoute';
-import AddSemesterRoute from './AddSemesterRoute';
-import BdbDetailRoute from './BdbDetailRoute';
-import BdbRoute from './BdbRoute';
-import EditCompanyContactRoute from './EditCompanyContactRoute';
-import EditCompanyRoute from './EditCompanyRoute';
+import AddSemester from './components/AddSemester';
+import BdbDetail from './components/BdbDetail';
+import BdbPage from './components/BdbPage';
+import CompanyContactEditor from './components/CompanyContactEditor';
+import CompanyEditor from './components/CompanyEditor';
 
-const bdbRoute = ({
-  match,
-}: {
-  match: {
-    path: string;
-  };
-}) => (
-  <UserContext.Consumer>
-    {({ currentUser, loggedIn }) => (
-      <Switch>
-        <RouteWrapper
-          exact
-          path={`${match.path}`}
-          passedProps={{
-            loggedIn,
-          }}
-          Component={BdbRoute}
-        />
-        <RouteWrapper
-          exact
-          path={`${match.path}/add`}
-          passedProps={{
-            loggedIn,
-          }}
-          Component={AddCompanyRoute}
-        />
-        <RouteWrapper
-          exact
-          path={`${match.path}/:companyId`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={BdbDetailRoute}
-        />
-        <RouteWrapper
-          exact
-          path={`${match.path}/:companyId/edit`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={EditCompanyRoute}
-        />
-        <RouteWrapper
-          exact
-          path={`${match.path}/:companyId/semesters/add`}
-          passedProps={{
-            loggedIn,
-          }}
-          Component={AddSemesterRoute}
-        />
-        <RouteWrapper
-          exact
-          path={`${match.path}/:companyId/company-contacts/add`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={AddCompanyContactRoute}
-        />
-        <RouteWrapper
-          exact
-          path={`${match.path}/:companyId/company-contacts/:companyContactId`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={EditCompanyContactRoute}
-        />
-        <Route component={PageNotFound} />
-      </Switch>
-    )}
-  </UserContext.Consumer>
-);
+const BdbRoute = () => {
+  const { path } = useRouteMatch();
+
+  return (
+    <Switch>
+      <CompatRoute exact path={`${path}`} component={BdbPage} />
+      <CompatRoute exact path={`${path}/add`} component={CompanyEditor} />
+      <CompatRoute exact path={`${path}/:companyId`} component={BdbDetail} />
+      <CompatRoute
+        exact
+        path={`${path}/:companyId/edit`}
+        component={CompanyEditor}
+      />
+      <CompatRoute
+        exact
+        path={`${path}/:companyId/semesters/add`}
+        component={AddSemester}
+      />
+      <CompatRoute
+        exact
+        path={`${path}/:companyId/company-contacts/add`}
+        component={CompanyContactEditor}
+      />
+      <CompatRoute
+        exact
+        path={`${path}/:companyId/company-contacts/:companyContactId`}
+        component={CompanyContactEditor}
+      />
+      <Route component={PageNotFound} />
+    </Switch>
+  );
+};
 
 export default function Quotes() {
-  return <Route path="/bdb" component={bdbRoute} />;
+  return <Route path="/bdb" component={BdbRoute} />;
 }

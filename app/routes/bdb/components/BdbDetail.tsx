@@ -6,15 +6,37 @@ import {
   Icon,
   LoadingIndicator,
 } from '@webkom/lego-bricks';
-import { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { usePreparedEffect } from '@webkom/react-prepare';
+import cx from 'classnames';
+import { useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom-v5-compat';
+import {
+  deleteCompanyContact,
+  editSemesterStatus,
+  fetchAdmin,
+  fetchEventsForCompany,
+  fetchSemesters,
+} from 'app/actions/CompanyActions';
 import CommentView from 'app/components/Comments/CommentView';
 import { Content } from 'app/components/Content';
 import { Image } from 'app/components/Image';
 import InfoBubble from 'app/components/InfoBubble';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
+import {
+  type SemesterStatusEntity,
+  selectCompanyById,
+  selectCommentsForCompany,
+  selectEventsForCompany,
+} from 'app/reducers/companies';
+import { selectCompanySemesters } from 'app/reducers/companySemesters';
+import { selectPagination } from 'app/reducers/selectors';
+import { useUserContext } from 'app/routes/app/AppRoute';
 import { EVENT_CONSTANTS } from 'app/routes/events/utils';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import createQueryString from 'app/utils/createQueryString';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import truncateString from 'app/utils/truncateString';
 import {
   sortByYearThenSemester,
@@ -24,52 +46,71 @@ import {
 import SemesterStatusDetail from './SemesterStatusDetail';
 import styles from './bdb.css';
 import type { CompanySemesterContactedStatus } from 'app/models';
-import type {
-  CompanyEntity,
-  BaseSemesterStatusEntity,
-  SemesterStatusEntity,
-} from 'app/reducers/companies';
-import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
-import type { UserEntity } from 'app/reducers/users';
-import type Comment from 'app/store/models/Comment';
-import type { CurrentUser } from 'app/store/models/User';
+import type { PublicUser } from 'app/store/models/User';
 
-type Props = {
-  company: CompanyEntity;
-  comments: Comment[];
-  companyEvents: Array<Record<string, any>>;
-  deleteSemesterStatus: (arg0: number, arg1: number) => Promise<any>;
-  deleteCompanyContact: (arg0: number, arg1: number) => Promise<any>;
-  companySemesters: Array<CompanySemesterEntity>;
-  editSemesterStatus: (
-    arg0: BaseSemesterStatusEntity,
-    arg1: Record<string, any> | null | undefined
-  ) => Promise<any>;
-  fetching: boolean;
-  editCompany: (arg0: Record<string, any>) => void;
-  deleteCompany: (arg0: number) => Promise<any>;
-  showFetchMoreEvents: boolean;
-  fetchMoreEvents: () => Promise<any>;
-};
-type State = {
-  addingFiles: boolean;
-  eventsToDisplay: number;
-};
-export default class BdbDetail extends Component<Props, State> {
-  state = {
-    addingFiles: false,
-    eventsToDisplay: 3,
+const queryString = (companyId) =>
+  createQueryString({
+    company: companyId,
+    ordering: '-start_time',
+  });
+
+const BdbDetail = () => {
+  const { companyId } = useParams<{ companyId: string }>();
+  const company = useAppSelector((state) =>
+    selectCompanyById(state, { companyId })
+  );
+  const comments = useAppSelector((state) =>
+    selectCommentsForCompany(state, { companyId })
+  );
+  const companyEvents = useAppSelector((state) =>
+    selectEventsForCompany(state, { companyId })
+  );
+  const companySemesters = useAppSelector(selectCompanySemesters);
+  const fetching = useAppSelector((state) => state.companies.fetching);
+  const showFetchMoreEvents = useAppSelector((state) =>
+    selectPagination('events', {
+      queryString: queryString(companyId),
+    })(state)
+  );
+  const endpoint = useAppSelector(
+    (state) => state.events.pagination[queryString(companyId)]?.nextPage
+  );
+
+  const dispatch = useAppDispatch();
+
+  usePreparedEffect(
+    'fetchBdbDetail',
+    () =>
+      Promise.all([
+        dispatch(fetchSemesters()).then(() => dispatch(fetchAdmin(companyId))),
+        companyId &&
+          dispatch(
+            fetchEventsForCompany({
+              endpoint: `/events/${queryString(companyId)}`,
+              queryString: queryString(companyId),
+            })
+          ),
+      ]),
+    [endpoint, companyId]
+  );
+
+  const navigate = useNavigate();
+
+  const [eventsToDisplay, setEventsToDisplay] = useState(3);
+
+  const fetchMoreEvents = () => {
+    dispatch(
+      fetchEventsForCompany({
+        endpoint,
+        queryString: queryString(companyId),
+      })
+    );
   };
 
-  componentDidMount() {
-    window.scrollTo(0, 0);
-  }
-
-  semesterStatusOnChange = (
+  const semesterStatusOnChange = (
     semesterStatus: SemesterStatusEntity,
     statusString: CompanySemesterContactedStatus
   ) => {
-    const { companySemesters, editSemesterStatus, company } = this.props;
     const newStatus = {
       ...semesterStatus,
       contactedStatus: getContactedStatuses(
@@ -93,415 +134,392 @@ export default class BdbDetail extends Component<Props, State> {
       semester: companySemester.id,
       companyId: company.id,
     };
-    return editSemesterStatus(sendableSemester, {
-      detail: true,
+    return dispatch(editSemesterStatus(sendableSemester)).then(() => {
+      navigate(`/bdb/${companyId}/`);
     });
   };
-  deleteSemesterStatus = (semesterStatusId: number) => {
-    const { deleteSemesterStatus, company } = this.props;
-    return deleteSemesterStatus(company.id, semesterStatusId);
-  };
-  deleteCompanyContact = (companyContactId: number) => {
-    const { deleteCompanyContact, company } = this.props;
-    return deleteCompanyContact(company.id, companyContactId);
-  };
-  addFileToSemester = (
+
+  const addFileToSemester = (
     fileName: string,
     fileToken: string,
     type: string,
     semesterStatus: Record<string, any>
   ) => {
-    const { editSemesterStatus, company } = this.props;
     const sendableSemester = {
       semesterStatusId: semesterStatus.id,
       companyId: company.id,
       contactedStatus: semesterStatus.contactedStatus,
       [type]: fileToken,
     };
-    return editSemesterStatus(sendableSemester, {
-      detail: true,
+    return dispatch(editSemesterStatus(sendableSemester)).then(() => {
+      navigate(`/bdb/${companyId}/`);
     });
   };
-  removeFileFromSemester = (
+
+  const removeFileFromSemester = (
     semesterStatus: SemesterStatusEntity,
     type: string
   ) => {
-    const { editSemesterStatus, company } = this.props;
     const sendableSemester = {
       semesterStatusId: semesterStatus.id,
       contactedStatus: semesterStatus.contactedStatus,
       companyId: company.id,
       [type]: null,
     };
-    return editSemesterStatus(sendableSemester, {
-      detail: true,
+    return dispatch(editSemesterStatus(sendableSemester)).then(() => {
+      navigate(`/bdb/${companyId}/`);
     });
   };
-  studentContactLink = (studentContact?: UserEntity): string => {
+
+  const studentContactLink = (studentContact?: PublicUser): string => {
     return studentContact
       ? 'abakus.no/users/' + String(studentContact.username)
       : '';
   };
 
-  render() {
-    const {
-      company,
-      comments,
-      companyEvents,
-      fetching,
-      deleteCompany,
-      showFetchMoreEvents,
-      fetchMoreEvents,
-    } = this.props;
+  if (fetching || !company.semesterStatuses) {
+    return <LoadingIndicator loading={fetching} />;
+  }
 
-    if (fetching || !company.semesterStatuses) {
-      return <LoadingIndicator loading />;
-    }
-
-    const semesters = company.semesterStatuses
-      .slice()
-      .sort(sortByYearThenSemester)
-      .map((semesterStatus) => (
-        <SemesterStatusDetail
-          semesterStatus={semesterStatus}
-          key={semesterStatus.id}
-          companyId={company.id}
-          deleteSemesterStatus={this.deleteSemesterStatus}
-          editFunction={this.semesterStatusOnChange}
-          addFileToSemester={this.addFileToSemester}
-          removeFileFromSemester={this.removeFileFromSemester}
-        />
-      ));
-    // CompanyContact in reverse order, latest comes first
-    const companyContacts =
-      company.companyContacts &&
-      company.companyContacts
-        .map((contact) => (
-          <tr key={contact.id}>
-            <td>{contact.name || '-'}</td>
-            <td>{contact.role || '-'}</td>
-            <td>{contact.mail || '-'}</td>
-            <td>{contact.phone || '-'}</td>
-            <td>
-              <Flex>
-                <Icon
-                  to={`/bdb/${String(company.id)}/company-contacts/${String(
-                    contact.id
-                  )}`}
-                  name="pencil"
-                  edit
-                  size={20}
-                />
-                <ConfirmModal
-                  title="Slett bedriftskontakt"
-                  message="Er du sikker på at du vil slette denne bedriftskontakten?"
-                  onConfirm={() => this.deleteCompanyContact(contact.id)}
-                  closeOnConfirm
-                >
-                  {({ openConfirmModal }) => (
-                    <Icon
-                      onClick={openConfirmModal}
-                      name="trash"
-                      danger
-                      size={20}
-                    />
-                  )}
-                </ConfirmModal>
-              </Flex>
-            </td>
-          </tr>
-        ))
-        .reverse();
-    const events =
-      companyEvents &&
-      companyEvents
-        .sort((a, b) => Date.parse(b.startTime) - Date.parse(a.startTime))
-        .slice(0, this.state.eventsToDisplay)
-        .map((event) => (
-          <tr key={event.id}>
-            <td>
-              <Link to={`events/${event.id}`}>{event.title}</Link>
-            </td>
-            <td>{EVENT_CONSTANTS[event.eventType]}</td>
-            <td>
-              <Time time={event.startTime} format="DD.MM.YYYY" />
-            </td>
-            <td>{truncateString(event.location, 50)}</td>
-            <td>{truncateString(event.description, 70)}</td>
-            <td>
-              {event.survey && (
-                <Tooltip
-                  content="Spørreundersøkelse"
-                  className={styles.surveyContainer}
-                >
+  const semesters = company.semesterStatuses
+    .slice()
+    .sort(sortByYearThenSemester)
+    .map((semesterStatus) => (
+      <SemesterStatusDetail
+        semesterStatus={semesterStatus}
+        key={semesterStatus.id}
+        companyId={company.id}
+        editFunction={semesterStatusOnChange}
+        addFileToSemester={addFileToSemester}
+        removeFileFromSemester={removeFileFromSemester}
+      />
+    ));
+  // CompanyContact in reverse order, latest comes first
+  const companyContacts =
+    company.companyContacts &&
+    company.companyContacts
+      .map((contact) => (
+        <tr key={contact.id}>
+          <td>{contact.name || '-'}</td>
+          <td>{contact.role || '-'}</td>
+          <td>{contact.mail || '-'}</td>
+          <td>{contact.phone || '-'}</td>
+          <td>
+            <Flex>
+              <Icon
+                to={`/bdb/${String(company.id)}/company-contacts/${String(
+                  contact.id
+                )}`}
+                name="pencil"
+                edit
+                size={20}
+              />
+              <ConfirmModal
+                title="Slett bedriftskontakt"
+                message="Er du sikker på at du vil slette denne bedriftskontakten?"
+                onConfirm={() =>
+                  dispatch(deleteCompanyContact(company.id, contact.id))
+                }
+                closeOnConfirm
+              >
+                {({ openConfirmModal }) => (
                   <Icon
-                    to={`/surveys/${event.survey}`}
-                    name="bar-chart-outline"
+                    onClick={openConfirmModal}
+                    name="trash"
+                    danger
                     size={20}
                   />
-                </Tooltip>
-              )}
-            </td>
-          </tr>
-        ));
-    const title = (
-      <Flex alignItems="center" gap={5}>
-        {company.name}
-        {!company.active && (
-          <span
-            style={{
-              color: 'var(--danger-color)',
-            }}
-          >
-            {' '}
-            (Inaktiv)
-          </span>
-        )}
-        <Icon to={`/bdb/${company.id}/edit`} name="pencil" edit size={20} />
-      </Flex>
-    );
-    return (
-      <Content>
-        {company.logo && (
-          <Image
-            src={company.logo}
-            style={{
-              height: 'inherit',
-              border: '1px solid var(--border-gray)',
-              marginBottom: '15px',
-            }}
-          />
-        )}
-        <DetailNavigation
-          title={title}
-          companyId={company.id}
-          deleteFunction={deleteCompany}
-        />
-        <div className={styles.description}>
-          {company.description || 'Ingen beskrivelse tilgjengelig.'}
-        </div>
-        <div className={styles.infoBubbles}>
-          <InfoBubble
-            icon="briefcase"
-            data={company.companyType}
-            meta="Type bedrift"
-            style={{
-              order: 0,
-            }}
-          />
-          <InfoBubble
-            icon="mail"
-            data={company.paymentMail}
-            meta="Fakturamail"
-            style={{
-              order: 1,
-            }}
-          />
-          <InfoBubble
-            icon="call"
-            data={company.phone}
-            meta="Telefon"
-            style={{
-              order: 2,
-            }}
-          />
-          <InfoBubble
-            icon="at"
-            data={company.website}
-            meta="Nettside"
-            style={{
-              order: 3,
-            }}
-            link={company.website}
-          />
-          <InfoBubble
-            icon="home"
-            data={company.address}
-            meta="Adresse"
-            style={{
-              order: 4,
-            }}
-          />
-          <InfoBubble
-            icon="person"
-            data={`${
-              (company.studentContact && company.studentContact.fullName) || '-'
-            }`}
-            meta="Studentkontakt"
-            link={this.studentContactLink(company.studentContact)}
-            style={{
-              order: 5,
-            }}
-          />
-        </div>
-        <h3>
-          Bedriftskontakter{' '}
-          <span
-            style={{
-              fontSize: '15px',
-            }}
-          >
-            (Nyest øverst)
-          </span>
-        </h3>
-        {companyContacts && companyContacts.length > 0 ? (
-          <div
-            className={styles.companyList}
-            style={{
-              marginBottom: '10px',
-            }}
-          >
-            <table className={styles.contactTable}>
-              <thead>
-                <tr>
-                  <th>Navn</th>
-                  <th>Rolle</th>
-                  <th>E-post</th>
-                  <th>Telefonnummer</th>
-                  <th />
-                </tr>
-              </thead>
-              <tbody>{companyContacts}</tbody>
-            </table>
-          </div>
-        ) : (
-          <i
-            style={{
-              display: 'block',
-            }}
-          >
-            Ingen bedriftskontakter registrert.
-          </i>
-        )}
-        <Link
-          to={`/bdb/${company.id}/company-contacts/add`}
+                )}
+              </ConfirmModal>
+            </Flex>
+          </td>
+        </tr>
+      ))
+      .reverse();
+
+  const events =
+    companyEvents &&
+    companyEvents
+      .sort((a, b) => Date.parse(b.startTime) - Date.parse(a.startTime))
+      .slice(0, eventsToDisplay)
+      .map((event) => (
+        <tr key={event.id}>
+          <td>
+            <Link to={`events/${event.id}`}>{event.title}</Link>
+          </td>
+          <td>{EVENT_CONSTANTS[event.eventType]}</td>
+          <td>
+            <Time time={event.startTime} format="DD.MM.YYYY" />
+          </td>
+          <td>{truncateString(event.location, 50)}</td>
+          <td>{truncateString(event.description, 70)}</td>
+          <td>
+            {event.survey && (
+              <Tooltip
+                content="Spørreundersøkelse"
+                className={styles.surveyContainer}
+              >
+                <Icon
+                  to={`/surveys/${event.survey}`}
+                  name="bar-chart-outline"
+                  size={20}
+                />
+              </Tooltip>
+            )}
+          </td>
+        </tr>
+      ));
+  const title = (
+    <Flex alignItems="center" gap={5}>
+      {company.name}
+      {!company.active && (
+        <span
           style={{
-            marginTop: '10px',
+            color: 'var(--danger-color)',
           }}
         >
-          <i className="fa fa-plus-circle" /> Legg til bedriftskontakt
-        </Link>
-        <div
+          {' '}
+          (Inaktiv)
+        </span>
+      )}
+      <Icon to={`/bdb/${company.id}/edit`} name="pencil" edit size={20} />
+    </Flex>
+  );
+  return (
+    <Content>
+      {company.logo && (
+        <Image
+          src={company.logo}
           style={{
-            clear: 'both',
-            marginBottom: '30px',
+            height: 'inherit',
+            border: '1px solid var(--border-gray)',
+            marginBottom: '15px',
           }}
         />
-        <h3>Semesterstatuser</h3>
-        {semesters.length > 0 ? (
-          <div
-            className={styles.companyList}
-            style={{
-              marginBottom: '10px',
-            }}
-          >
-            <Card severity="info">
-              <Card.Header>Tips</Card.Header>
-              Du kan endre semestere ved å trykke på dem i listen!
-            </Card>
-            <table className={styles.detailTable}>
-              <thead>
-                <tr>
-                  <th>Semester</th>
-                  <th>Status</th>
-                  <th>Kontrakt</th>
-                  <th>Statistikk</th>
-                  <th>Evaluering</th>
-                  <th />
-                </tr>
-              </thead>
-              <tbody>{semesters}</tbody>
-            </table>
-          </div>
-        ) : (
-          <span
-            className="secondaryFontColor"
-            style={{
-              display: 'block',
-            }}
-          >
-            Ingen sememsterstatuser
-          </span>
+      )}
+      <DetailNavigation title={title} companyId={company.id} />
+      <div
+        className={cx(
+          styles.description,
+          !company.description && 'secondaryFontColor'
         )}
-        <div>
-          <Link to={`/bdb/${company.id}/semesters/add`}>
-            <i className="fa fa-plus-circle" /> Legg til nytt semester
-          </Link>
+      >
+        {company.description || 'Ingen beskrivelse tilgjengelig'}
+      </div>
+      <div className={styles.infoBubbles}>
+        <InfoBubble
+          icon="briefcase"
+          data={company.companyType}
+          meta="Type bedrift"
+          style={{
+            order: 0,
+          }}
+        />
+        <InfoBubble
+          icon="mail"
+          data={company.paymentMail}
+          meta="Fakturamail"
+          style={{
+            order: 1,
+          }}
+        />
+        <InfoBubble
+          icon="call"
+          data={company.phone}
+          meta="Telefon"
+          style={{
+            order: 2,
+          }}
+        />
+        <InfoBubble
+          icon="at"
+          data={company.website}
+          meta="Nettside"
+          style={{
+            order: 3,
+          }}
+          link={company.website}
+        />
+        <InfoBubble
+          icon="home"
+          data={company.address}
+          meta="Adresse"
+          style={{
+            order: 4,
+          }}
+        />
+        <InfoBubble
+          icon="person"
+          data={`${
+            (company.studentContact && company.studentContact.fullName) || '-'
+          }`}
+          meta="Studentkontakt"
+          link={studentContactLink(company.studentContact)}
+          style={{
+            order: 5,
+          }}
+        />
+      </div>
+
+      <h3>
+        Bedriftskontakter{' '}
+        <span className={styles.newestFirst}>(Nyest øverst)</span>
+      </h3>
+      {companyContacts && companyContacts.length > 0 ? (
+        <div
+          className={styles.companyList}
+          style={{
+            marginBottom: '10px',
+          }}
+        >
+          <table className={styles.contactTable}>
+            <thead>
+              <tr>
+                <th>Navn</th>
+                <th>Rolle</th>
+                <th>E-post</th>
+                <th>Telefonnummer</th>
+                <th />
+              </tr>
+            </thead>
+            <tbody>{companyContacts}</tbody>
+          </table>
         </div>
-        <div className={styles.files}>
-          <h3>Filer</h3>
-          <ul>
-            {!company.files || company.files.length === 0 ? (
-              <span className="secondaryFontColor">Ingen filer</span>
-            ) : (
-              company.files.map((file) => (
-                <li key={file.id}>
-                  <a href={file.file}>{truncateString(file.file, 100)}</a>
-                </li>
-              ))
-            )}
-          </ul>
+      ) : (
+        <span
+          className="secondaryFontColor"
+          style={{
+            display: 'block',
+          }}
+        >
+          Ingen bedriftskontakter registrert
+        </span>
+      )}
+      <Link
+        to={`/bdb/${company.id}/company-contacts/add`}
+        style={{
+          marginTop: '10px',
+        }}
+      >
+        <i className="fa fa-plus-circle" /> Legg til bedriftskontakt
+      </Link>
+
+      <div
+        style={{
+          clear: 'both',
+          marginBottom: '30px',
+        }}
+      />
+
+      <h3>Semesterstatuser</h3>
+      {semesters.length > 0 ? (
+        <div
+          className={styles.companyList}
+          style={{
+            marginBottom: '10px',
+          }}
+        >
+          <Card severity="info">
+            <Card.Header>Tips</Card.Header>
+            Du kan endre semestere ved å trykke på dem i listen!
+          </Card>
+          <table className={styles.detailTable}>
+            <thead>
+              <tr>
+                <th>Semester</th>
+                <th>Status</th>
+                <th>Kontrakt</th>
+                <th>Statistikk</th>
+                <th>Evaluering</th>
+                <th />
+              </tr>
+            </thead>
+            <tbody>{semesters}</tbody>
+          </table>
         </div>
-        <div className={styles.adminNote}>
-          <h3>Notat i listen</h3>
-          {company.adminComment || (
-            <span className="secondaryFontColor">Ingen notater</span>
+      ) : (
+        <span
+          className="secondaryFontColor"
+          style={{
+            display: 'block',
+          }}
+        >
+          Ingen sememsterstatuser
+        </span>
+      )}
+      <div>
+        <Link to={`/bdb/${company.id}/semesters/add`}>
+          <i className="fa fa-plus-circle" /> Legg til nytt semester
+        </Link>
+      </div>
+
+      <div className={styles.files}>
+        <h3>Filer</h3>
+        <ul>
+          {!company.files || company.files.length === 0 ? (
+            <span className="secondaryFontColor">Ingen filer</span>
+          ) : (
+            company.files.map((file) => (
+              <li key={file.id}>
+                <a href={file.file}>{truncateString(file.file, 100)}</a>
+              </li>
+            ))
+          )}
+        </ul>
+      </div>
+
+      <div className={styles.adminNote}>
+        <h3>Notat i listen</h3>
+        {company.adminComment || (
+          <span className="secondaryFontColor">Ingen notater</span>
+        )}
+      </div>
+
+      <h3>Bedriftens arrangementer</h3>
+      {events.length > 0 ? (
+        <div className={styles.companyList}>
+          <table className={styles.eventsTable}>
+            <thead>
+              <tr>
+                <th>Tittel</th>
+                <th>Arrangementstype</th>
+                <th>Når</th>
+                <th>Hvor</th>
+                <th>Hva</th>
+                <th />
+              </tr>
+            </thead>
+            <tbody>{events}</tbody>
+          </table>
+          {eventsToDisplay === 3 ? (
+            <Button
+              style={{
+                width: '100%',
+                marginTop: '20px',
+              }}
+              onClick={() => setEventsToDisplay(100)}
+            >
+              Vis alle arrangementer
+            </Button>
+          ) : (
+            showFetchMoreEvents && (
+              <Button onClick={fetchMoreEvents}>Hent flere</Button>
+            )
           )}
         </div>
-        <h3>Bedriftens arrangementer</h3>
-        {events.length > 0 ? (
-          <div className={styles.companyList}>
-            <table className={styles.eventsTable}>
-              <thead>
-                <tr>
-                  <th>Tittel</th>
-                  <th>Arrangementstype</th>
-                  <th>Når</th>
-                  <th>Hvor</th>
-                  <th>Hva</th>
-                  <th />
-                </tr>
-              </thead>
-              <tbody>{events}</tbody>
-            </table>
-            {this.state.eventsToDisplay === 3 ? (
-              <Button
-                style={{
-                  width: '100%',
-                  marginTop: '20px',
-                }}
-                onClick={() =>
-                  this.setState({
-                    eventsToDisplay: 100,
-                  })
-                }
-              >
-                Vis alle arrangementer
-              </Button>
-            ) : (
-              showFetchMoreEvents && (
-                <Button onClick={fetchMoreEvents}>Hent flere</Button>
-              )
-            )}
-          </div>
-        ) : (
-          <span className="secondaryFontColor">Ingen arrangementer</span>
-        )}
-        <div
-          style={{
-            clear: 'both',
-            marginBottom: '30px',
-          }}
-        />
+      ) : (
+        <span className="secondaryFontColor">Ingen arrangementer</span>
+      )}
 
-        {company.contentTarget && (
-          <CommentView
-            contentTarget={company.contentTarget}
-            comments={comments}
-            newOnTop
-          />
-        )}
-      </Content>
-    );
-  }
-}
+      {company.contentTarget && (
+        <CommentView
+          contentTarget={company.contentTarget}
+          comments={comments}
+          newOnTop
+        />
+      )}
+    </Content>
+  );
+};
+
+export default BdbDetail;
