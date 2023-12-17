@@ -1,6 +1,5 @@
 import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Table from 'app/components/Table';
 import Time from 'app/components/Time';
