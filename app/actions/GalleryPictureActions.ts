@@ -4,10 +4,13 @@ import { galleryPictureSchema } from 'app/reducers';
 import { GalleryPicture, Gallery } from './ActionTypes';
 import { uploadFile } from './FileActions';
 import type { GalleryPictureEntity } from 'app/reducers/galleryPictures';
-import type { EntityID, Thunk } from 'app/types';
+import type { AppDispatch } from 'app/store/createStore';
+import type { ID } from 'app/store/models';
+import type { GalleryListPicture } from 'app/store/models/GalleryPicture';
+import type { Thunk } from 'app/types';
 
 export function fetch(
-  galleryId: number,
+  galleryId: ID,
   {
     next,
     filters,
@@ -32,9 +35,10 @@ export function fetch(
     );
   };
 }
+
 export function fetchSiblingGallerPicture(
-  galleryId: EntityID,
-  currentPictureId: EntityID,
+  galleryId: ID,
+  currentPictureId: ID,
   next: boolean
 ) {
   const rawCursor = `p=${currentPictureId}&r=${next ? 0 : 1}`;
@@ -53,10 +57,8 @@ export function fetchSiblingGallerPicture(
     propagateError: true,
   });
 }
-export function fetchGalleryPicture(
-  galleryId: EntityID,
-  pictureId: EntityID
-): Thunk<any> {
+
+export function fetchGalleryPicture(galleryId: ID, pictureId: ID) {
   return callAPI({
     types: GalleryPicture.FETCH,
     endpoint: `/galleries/${galleryId}/pictures/${pictureId}/`,
@@ -67,6 +69,7 @@ export function fetchGalleryPicture(
     propagateError: true,
   });
 }
+
 export function updatePicture(
   galleryPicture: GalleryPictureEntity
 ): Thunk<any> {
@@ -83,10 +86,8 @@ export function updatePicture(
     },
   });
 }
-export function deletePicture(
-  galleryId: EntityID,
-  pictureId: EntityID
-): Thunk<any> {
+
+export function deletePicture(galleryId: ID, pictureId: ID) {
   return callAPI({
     types: GalleryPicture.DELETE,
     endpoint: `/galleries/${galleryId}/pictures/${pictureId}/`,
@@ -100,12 +101,13 @@ export function deletePicture(
     },
   });
 }
+
 export function CreateGalleryPicture(galleryPicture: {
-  galleryId: number;
+  galleryId: ID;
   file: string;
   active: boolean;
-}): Thunk<any> {
-  return callAPI({
+}) {
+  return callAPI<GalleryListPicture>({
     types: GalleryPicture.CREATE,
     endpoint: `/galleries/${galleryPicture.galleryId}/pictures/`,
     method: 'POST',
@@ -113,10 +115,11 @@ export function CreateGalleryPicture(galleryPicture: {
     body: galleryPicture,
     meta: {
       galleryId: galleryPicture.galleryId,
-      errorMessage: 'Legg til bilde i galleriet feilet',
+      errorMessage: 'Opplasting av bilde i galleriet feilet',
     },
   });
 }
+
 const MAX_UPLOADS = 3;
 
 function uploadGalleryPicturesInTurn(files, galleryId, dispatch) {
@@ -144,7 +147,7 @@ function uploadGalleryPicturesInTurn(files, galleryId, dispatch) {
         error: true,
         meta: {
           fileName: file.name,
-          errorMessage: 'Opplasting av bilde feilet.',
+          errorMessage: 'Opplasting av bilde feilet',
         },
       });
     });
@@ -161,10 +164,10 @@ function uploadGalleryPicturesInTurn(files, galleryId, dispatch) {
 }
 
 export function uploadAndCreateGalleryPicture(
-  galleryId: number,
+  galleryId: ID,
   files: Array<Record<string, any>>
-): Thunk<any> {
-  return (dispatch) => {
+) {
+  return (dispatch: AppDispatch) => {
     dispatch({
       type: Gallery.UPLOAD.BEGIN,
       meta: {
@@ -174,8 +177,9 @@ export function uploadAndCreateGalleryPicture(
     return uploadGalleryPicturesInTurn(files, galleryId, dispatch);
   };
 }
-export function clear(galleryId: number): Thunk<any> {
-  return (dispatch) =>
+
+export function clear(galleryId: ID) {
+  return (dispatch: AppDispatch) =>
     dispatch({
       type: GalleryPicture.CLEAR,
       meta: {

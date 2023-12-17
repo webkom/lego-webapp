@@ -1,5 +1,5 @@
 import { chunk, get } from 'lodash';
-import { PureComponent } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Image } from 'app/components/Image';
 import Paginator from 'app/components/Paginator';
 import styles from './Gallery.css';
@@ -13,157 +13,106 @@ type Props = {
   renderBottom?: (arg0: Photo) => ReactNode;
   renderEmpty?: () => ReactNode;
   margin?: number;
-  loading?: boolean;
   srcKey: string;
   photos: Array<Photo>;
   hasMore: boolean;
   fetchNext: () => any;
   fetching: boolean;
 };
-type State = {
-  containerWidth: number;
-};
-export default class Gallery extends PureComponent<Props, State> {
-  gallery: HTMLDivElement | null | undefined;
-  static defaultProps = {
-    margin: 3,
-  };
-  state = {
-    containerWidth: 0,
-  };
 
-  componentDidMount() {
-    this.gallery &&
-      this.setState({
-        containerWidth: Math.floor(this.gallery.clientWidth),
-      });
-    window.addEventListener('resize', this.handleResize);
-  }
+const Gallery = ({
+  onClick = () => {},
+  renderOverlay,
+  renderTop,
+  renderBottom,
+  renderEmpty,
+  margin = 3,
+  srcKey,
+  photos,
+  hasMore,
+  fetchNext,
+  fetching,
+}: Props) => {
+  const [containerWidth, setContainerWidth] = useState(0);
+  const galleryRef = useRef<HTMLDivElement | null>(null);
 
-  componentDidUpdate() {
+  useEffect(() => {
+    const handleResize = () => {
+      if (galleryRef.current) {
+        setContainerWidth(Math.floor(galleryRef.current.clientWidth));
+      }
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
     if (
-      this.gallery &&
-      this.gallery.clientWidth &&
-      this.gallery.clientWidth !== this.state.containerWidth
+      galleryRef.current &&
+      galleryRef.current.clientWidth !== containerWidth
     ) {
-      this.setState({
-        containerWidth: Math.floor(this.gallery.clientWidth),
-      });
+      setContainerWidth(Math.floor(galleryRef.current.clientWidth));
     }
-  }
+  }, [galleryRef.current?.clientWidth, containerWidth]);
 
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.handleResize, false);
-  }
-
-  handleResize = () => {
-    this.gallery &&
-      this.setState({
-        containerWidth: Math.floor(this.gallery.clientWidth),
-      });
-  };
-  onClick = (photo: File) => {
-    if (this.props.onClick) {
-      this.props.onClick(photo);
-    }
+  const handleClick = (photo: Photo) => {
+    onClick(photo);
   };
 
-  render() {
-    const {
-      margin,
-      photos,
-      hasMore,
-      fetchNext,
-      fetching,
-      srcKey,
-      renderOverlay,
-      renderTop,
-      renderEmpty,
-      renderBottom,
-    } = this.props;
-    const { containerWidth } = this.state;
-    const cols = containerWidth < 900 ? 2 : containerWidth < 550 ? 1 : 3;
-    const photoNodes = chunk(photos, cols).map((column, columnIndex) => (
-      <div key={columnIndex} className={styles.galleryRow}>
-        {column.map((photo) => {
-          let overlay;
-          let top;
-          let bottom;
-          let src;
-
-          if (srcKey) {
-            src = get(photo, srcKey, 'src');
-          }
-
-          if (renderOverlay) {
-            overlay = renderOverlay(photo);
-          }
-
-          if (renderTop) {
-            top = renderTop(photo);
-          }
-
-          if (renderBottom) {
-            bottom = renderBottom(photo);
-          }
-
-          return (
-            <div
-              key={photo.id}
-              style={{
-                margin,
-              }}
-              onClick={() => this.onClick(photo)}
-              className={styles.galleryPhoto}
-            >
-              <Image
-                className={styles.image}
-                src={src}
-                beforeLoadstyle={{
-                  height: '250px',
-                  width: '350px',
-                }}
-                onLoadStyle={{
-                  height: 'auto',
-                  width: '100%',
-                }}
-                alt={photo.alt}
-              />
-              <div className={styles.top}>{top}</div>
-              <div className={styles.overlay}>{overlay}</div>
-              <div className={styles.bottom}>{bottom}</div>
-            </div>
-          );
-        })}
-      </div>
-    ));
-    return (
-      <div
-        className={styles.galleryContainer}
-        style={{
-          margin: `-${String(margin)}px`,
-          width: `calc(100% + ${6 * 2}px)`,
-        }}
-      >
+  const cols = containerWidth < 900 ? 2 : containerWidth < 550 ? 1 : 3;
+  const photoNodes = chunk(photos, cols).map((column, columnIndex) => (
+    <div key={columnIndex} className={styles.galleryRow}>
+      {column.map((photo) => (
         <div
-          className={styles.gallery}
-          ref={(c) => {
-            this.gallery = c;
-          }}
+          key={photo.id}
+          onClick={() => handleClick(photo)}
+          className={styles.galleryPhoto}
         >
-          {fetchNext && (
-            <Paginator
-              hasMore={hasMore}
-              fetching={fetching}
-              fetchNext={fetchNext}
-            >
-              {photoNodes}
-            </Paginator>
-          )}
-          {!fetchNext && photoNodes}
-          {!photos.length && !fetching && renderEmpty && renderEmpty()}
+          <Image
+            className={styles.image}
+            src={get(photo, srcKey, 'src')}
+            alt={photo.alt}
+          />
+          <div className={styles.top}>{renderTop && renderTop(photo)}</div>
+          <div className={styles.overlay}>
+            {renderOverlay && renderOverlay(photo)}
+          </div>
+          <div className={styles.bottom}>
+            {renderBottom && renderBottom(photo)}
+          </div>
         </div>
+      ))}
+    </div>
+  ));
+
+  return (
+    <div
+      className={styles.galleryContainer}
+      style={{
+        margin: `-${String(margin)}px`,
+        width: `calc(100% + ${6 * 2}px)`,
+      }}
+    >
+      <div className={styles.gallery} ref={galleryRef}>
+        {fetchNext && (
+          <Paginator
+            hasMore={hasMore}
+            fetching={fetching}
+            fetchNext={fetchNext}
+          >
+            {photoNodes}
+          </Paginator>
+        )}
+        {!fetchNext && photoNodes}
+        {!photos.length && !fetching && renderEmpty && renderEmpty()}
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
+
+export default Gallery;
