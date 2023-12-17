@@ -28,7 +28,8 @@ import config from 'app/config';
 import createStore from 'app/store/createStore';
 import renderApp from './render';
 
-console.error(`
+!__DEV__ &&
+  console.error(`
                      \`smMMms\`
                      NMMMMMMN
             \`.\`      NMMMMMMN      \`.\`
