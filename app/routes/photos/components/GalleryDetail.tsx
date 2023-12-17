@@ -14,6 +14,7 @@ import {
 import { Content } from 'app/components/Content';
 import EmptyState from 'app/components/EmptyState';
 import Gallery from 'app/components/Gallery';
+import { LoginRequiredPage } from 'app/components/LoginForm';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import PropertyHelmet, {
   type PropertyGenerator,
@@ -22,8 +23,9 @@ import ImageUpload from 'app/components/Upload/ImageUpload';
 import config from 'app/config';
 import { selectGalleryById } from 'app/reducers/galleries';
 import { SelectGalleryPicturesByGalleryId } from 'app/reducers/galleryPictures';
+import { useUserContext } from 'app/routes/app/AppRoute';
+import HTTPError from 'app/routes/errors/HTTPError';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import GalleryDetailsRow from './GalleryDetailsRow';
 import type { DropFile } from 'app/components/Upload/ImageUpload';
 import type { DetailedGallery } from 'app/store/models/Gallery';
@@ -67,6 +69,7 @@ const GalleryDetail = () => {
     (state) => state.galleries.fetching || state.galleryPictures.fetching
   );
   const hasMore = useAppSelector((state) => state.galleryPictures.hasMore);
+  const { loggedIn } = useUserContext();
 
   const dispatch = useAppDispatch();
 
@@ -95,14 +98,6 @@ const GalleryDetail = () => {
   const handleClick = (picture) => {
     navigate(`/photos/${gallery.id}/picture/${picture.id}`);
   };
-
-  if (!gallery?.title) {
-    return (
-      <Content>
-        <LoadingIndicator loading={fetching} />
-      </Content>
-    );
-  }
 
   const downloadGallery = () => {
     setDownloading(true);
@@ -158,82 +153,102 @@ const GalleryDetail = () => {
 
   const actionGrant = gallery && gallery.actionGrant;
 
-  return (
-    <Content>
-      <PropertyHelmet
-        propertyGenerator={propertyGenerator}
-        options={{ gallery }}
-      >
-        <title>{gallery.title}</title>
-        <link rel="canonical" href={`${config?.webUrl}/photos/${gallery.id}`} />
-      </PropertyHelmet>
+  // Some galleries are open to the public
+  if (gallery && gallery.createdAt) {
+    return (
+      <Content>
+        <PropertyHelmet
+          propertyGenerator={propertyGenerator}
+          options={{ gallery }}
+        >
+          <title>{gallery.title}</title>
+          <link
+            rel="canonical"
+            href={`${config?.webUrl}/photos/${gallery.id}`}
+          />
+        </PropertyHelmet>
 
-      <NavigationTab
-        title={gallery.title}
-        back={{
-          label: 'Tilbake',
-          path: '/photos',
-        }}
-        details={
-          <>
-            <GalleryDetailsRow gallery={gallery} showDescription />
-            <div>
-              <Button onClick={downloadGallery} pending={downloading}>
-                <Icon name="download-outline" size={19} />
-                Last ned album
-              </Button>
-            </div>
-          </>
-        }
-      >
-        {actionGrant?.includes('edit') && (
-          <>
-            <NavigationLink to="#" onClick={() => toggleUpload()}>
-              Last opp bilder
-            </NavigationLink>
-            <NavigationLink to={`/photos/${gallery.id}/edit`}>
-              Rediger
-            </NavigationLink>
-          </>
-        )}
-      </NavigationTab>
+        <NavigationTab
+          title={gallery.title}
+          back={{
+            label: 'Tilbake',
+            path: '/photos',
+          }}
+          details={
+            <>
+              <GalleryDetailsRow gallery={gallery} showDescription />
+              <div>
+                <Button onClick={downloadGallery} pending={downloading}>
+                  <Icon name="download-outline" size={19} />
+                  Last ned album
+                </Button>
+              </div>
+            </>
+          }
+        >
+          {actionGrant?.includes('edit') && (
+            <>
+              <NavigationLink to="#" onClick={() => toggleUpload()}>
+                Last opp bilder
+              </NavigationLink>
+              <NavigationLink to={`/photos/${gallery.id}/edit`}>
+                Rediger
+              </NavigationLink>
+            </>
+          )}
+        </NavigationTab>
 
-      <Gallery
-        photos={pictures}
-        hasMore={hasMore}
-        fetching={fetching}
-        fetchNext={() =>
-          fetch(gallery.id, {
-            next: true,
-          })
-        }
-        onClick={handleClick}
-        srcKey="file"
-        renderEmpty={() => (
-          <EmptyState icon="photos-outline">
-            <h1>Ingen bilder</h1>
-            <h4>
-              Trykk{' '}
-              <Button flat onClick={() => toggleUpload()}>
-                <b>her</b>
-              </Button>{' '}
-              for å legge inn bilder
-            </h4>
-          </EmptyState>
-        )}
-      />
-
-      {upload && (
-        <ImageUpload
-          inModal
-          multiple
-          crop={false}
-          onClose={toggleUpload}
-          onSubmit={toggleUpload}
+        <Gallery
+          photos={pictures}
+          hasMore={hasMore}
+          fetching={fetching}
+          fetchNext={() =>
+            fetch(gallery.id, {
+              next: true,
+            })
+          }
+          onClick={handleClick}
+          srcKey="file"
+          renderEmpty={() => (
+            <EmptyState icon="photos-outline">
+              <h1>Ingen bilder</h1>
+              <h4>
+                Trykk{' '}
+                <Button flat onClick={() => toggleUpload()}>
+                  <b>her</b>
+                </Button>{' '}
+                for å legge inn bilder
+              </h4>
+            </EmptyState>
+          )}
         />
-      )}
-    </Content>
-  );
+
+        {upload && (
+          <ImageUpload
+            inModal
+            multiple
+            crop={false}
+            onClose={toggleUpload}
+            onSubmit={toggleUpload}
+          />
+        )}
+      </Content>
+    );
+  }
+
+  if (fetching) {
+    return (
+      <Content>
+        <LoadingIndicator loading />;
+      </Content>
+    );
+  }
+
+  if (!loggedIn) {
+    return <LoginRequiredPage />;
+  }
+
+  return <HTTPError />;
 };
 
-export default guardLogin(GalleryDetail);
+export default GalleryDetail;
