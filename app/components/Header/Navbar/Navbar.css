@@ -30,11 +30,6 @@
   &.activeItem {
     color: var(--color-gray-7);
   }
-
-  &:hover::after,
-  &.activeItem::after {
-    transform: scaleX(1);
-  }
 }
 
 .navbarDropdown {
