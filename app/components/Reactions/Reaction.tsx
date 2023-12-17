@@ -28,6 +28,7 @@ type Props = {
   canReact: boolean;
   reactionId: ID;
   contentTarget: ContentTarget;
+  showPeople?: boolean;
 };
 // Note: Most use cases won't want to use this class directly. Instead, use
 // app/components/LegoReactions.
@@ -45,6 +46,7 @@ const Reaction = ({
   canReact,
   reactionId,
   contentTarget,
+  showPeople,
 }: Props) => {
   const classes = [
     className ? className : styles.reaction,
@@ -60,7 +62,7 @@ const Reaction = ({
   }
 
   let tooltipContent = '';
-  if (users && users.length > 0) {
+  if (showPeople && users && users.length > 0) {
     tooltipContent += users
       .filter((user) => user)
       .map((user) => user.fullName)

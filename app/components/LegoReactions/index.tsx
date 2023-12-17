@@ -27,6 +27,7 @@ type Props = {
     reactions?: { author: { fullName: string }; emoji: string }[];
   };
   loggedIn: boolean;
+  showPeople?: boolean;
 };
 
 export type EmojiWithReactionData = Emoji & {
@@ -44,6 +45,7 @@ const LegoReactions = (props: Props) => {
     fetchingEmojis,
     parentEntity,
     loggedIn,
+    showPeople,
   } = props;
   let mappedEmojis: EmojiWithReactionData[] = [];
 
@@ -100,6 +102,7 @@ const LegoReactions = (props: Props) => {
             addReaction={addReaction}
             deleteReaction={deleteReaction}
             contentTarget={parentEntity.contentTarget}
+            showPeople={showPeople}
           />
         );
       })}
