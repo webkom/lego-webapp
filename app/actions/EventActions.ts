@@ -400,8 +400,16 @@ export function isUserFollowing(eventId: ID) {
 }
 
 export function fetchAnalytics(eventId: ID) {
-  return callAPI({
-    types: Event.FETCH,
+  return callAPI<
+    {
+      bounceRate: number | null;
+      date: string;
+      pageviews: number | null;
+      visitDuration: number | null;
+      visitors: number | null;
+    }[]
+  >({
+    types: Event.FETCH_ANALYTICS,
     endpoint: `/events/${String(eventId)}/statistics/`,
     method: 'GET',
     meta: {

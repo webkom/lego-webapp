@@ -1,30 +1,30 @@
+import { usePreparedEffect } from '@webkom/react-prepare';
+import moment from 'moment-timezone';
 import { useState } from 'react';
+import { fetchAllWithType } from 'app/actions/GroupActions';
 import DatePicker from 'app/components/Form/DatePicker';
+import { GroupType, type Dateish } from 'app/models';
 import EventAttendeeStatistics from 'app/routes/events/components/EventAttendeeStatistics';
 import styles from 'app/routes/events/components/EventAttendeeStatistics.css';
-import type { Dateish, EventRegistration, Group } from 'app/models';
-import type { DetailedEvent } from 'app/store/models/Event';
-import type { DetailedRegistration } from 'app/store/models/Registration';
+import { useAppDispatch } from 'app/store/hooks';
 
-interface Props {
-  committees: Group[];
-  revueGroups: Group[];
-  registered: EventRegistration[];
-  unregistered: EventRegistration[];
-  event: DetailedEvent;
-}
+const Statistics = () => {
+  const dispatch = useAppDispatch();
 
-const Statistics = ({
-  committees,
-  revueGroups,
-  registered,
-  unregistered,
-  event,
-}: Props) => {
+  usePreparedEffect(
+    'fetchStatisticsGroups',
+    () =>
+      Promise.all([
+        dispatch(fetchAllWithType(GroupType.Committee)),
+        dispatch(fetchAllWithType(GroupType.Revue)),
+      ]),
+    []
+  );
+
   const [viewStartTime, setViewStartTime] = useState<Dateish>(
     '2021-01-01T00:00:00.000Z'
   );
-  const [viewEndTime, setViewEndTime] = useState<Dateish>(null);
+  const [viewEndTime, setViewEndTime] = useState<Dateish>(moment());
 
   const updateViewStartDate = (date: string) => {
     setViewStartTime(date);
@@ -54,12 +54,6 @@ const Statistics = ({
       </div>
 
       <EventAttendeeStatistics
-        eventId={event.id}
-        registrations={registered as DetailedRegistration[]}
-        unregistrations={unregistered as DetailedRegistration[]}
-        committeeGroupIDs={committees.map((group) => group.id)}
-        revueGroupIDs={revueGroups.map((group) => group.id)}
-        eventStartTime={event.startTime}
         viewStartTime={viewStartTime}
         viewEndTime={viewEndTime}
       />
