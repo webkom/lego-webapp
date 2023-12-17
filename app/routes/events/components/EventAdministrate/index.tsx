@@ -17,9 +17,7 @@ import { canSeeAllergies } from 'app/routes/events/components/EventAdministrate/
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 
-const EventStatistics = loadable(
-  () => import('app/routes/events/EventStatisticsRoute')
-);
+const Statistics = loadable(() => import('./Statistics'));
 const Attendees = loadable(() => import('./Attendees'));
 const EventAllergiesRoute = loadable(
   () => import('app/routes/events/EventAllergiesRoute')
@@ -98,16 +96,7 @@ const EventAdministrateIndex = () => {
             ...props,
           }}
         />
-        <RouteWrapper
-          exact
-          path={`${path}/statistics`}
-          Component={EventStatistics}
-          passedProps={{
-            currentUser,
-            loggedIn,
-            ...props,
-          }}
-        />
+        <Route exact path={`${path}/statistics`} component={Statistics} />
         <Route
           exact
           path={`${path}/admin-register`}
