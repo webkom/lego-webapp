@@ -1,6 +1,6 @@
 import { Button, Flex } from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment';
-import { useEffect } from 'react';
 import { Link } from 'react-router-dom-v5-compat';
 import { fetch } from 'app/actions/RestrictedMailActions';
 import Table from 'app/components/Table';
@@ -17,9 +17,7 @@ const RestrictedMails = () => {
 
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(fetch());
-  }, [dispatch]);
+  usePreparedEffect('fetchRestrictedMails', () => dispatch(fetch()), []);
 
   const columns = [
     {

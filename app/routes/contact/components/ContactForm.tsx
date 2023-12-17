@@ -1,6 +1,6 @@
 import { Button, Card, LoadingIndicator } from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty } from 'lodash';
-import { useEffect } from 'react';
 import { Field } from 'react-final-form';
 import { Link } from 'react-router-dom-v5-compat';
 import { sendContactMessage } from 'app/actions/ContactActions';
@@ -29,34 +29,38 @@ const validate = createValidator({
   captchaResponse: [required('Captcha er ikke validert')],
 });
 
-const commiteeGroupType = GroupType.Committee;
-const revueBoardGroupId = 59;
+const REVUE_BOARD_GROUP_ID = 59;
 
 const ContactForm = () => {
-  const commitees = useAppSelector((state) =>
+  const committees = useAppSelector((state) =>
     selectGroupsWithType(state, {
-      groupType: commiteeGroupType,
+      groupType: GroupType.Committee,
     })
   );
   const revueBoard = useAppSelector((state) =>
     selectGroup(state, {
-      groupId: revueBoardGroupId,
+      groupId: REVUE_BOARD_GROUP_ID,
     })
   );
-  const groups = [...commitees, revueBoard].filter(isNotNullish);
+  const groups = [...committees, revueBoard].filter(isNotNullish);
 
   const loggedIn = useAppSelector((state) => selectIsLoggedIn(state));
   const fetching = useAppSelector((state) => state.groups.fetching);
 
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(fetchAllWithType(commiteeGroupType));
-    dispatch(fetchGroup(revueBoardGroupId));
-  }, [dispatch]);
+  usePreparedEffect(
+    'fetchGroups',
+    () =>
+      Promise.all([
+        dispatch(fetchAllWithType(GroupType.Committee)),
+        dispatch(fetchGroup(REVUE_BOARD_GROUP_ID)),
+      ]),
+    []
+  );
 
   if (isEmpty(groups) || fetching) {
-    return <LoadingIndicator loading />;
+    return <LoadingIndicator loading={fetching} />;
   }
 
   const onSubmit = (data, form) => {

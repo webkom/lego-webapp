@@ -5,7 +5,7 @@ import {
   Icon,
   LoadingIndicator,
 } from '@webkom/lego-bricks';
-import { useEffect } from 'react';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { fetchAll } from 'app/actions/PollActions';
@@ -24,9 +24,7 @@ const PollsList = () => {
 
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(fetchAll());
-  }, [dispatch]);
+  usePreparedEffect('fetchPolls', () => dispatch(fetchAll()), []);
 
   return (
     <Content>

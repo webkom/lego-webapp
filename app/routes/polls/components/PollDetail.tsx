@@ -1,5 +1,6 @@
 import { Button, Icon, LoadingIndicator } from '@webkom/lego-bricks';
-import { useEffect, useState } from 'react';
+import { usePreparedEffect } from '@webkom/react-prepare';
+import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom-v5-compat';
 import { fetchPoll } from 'app/actions/PollActions';
@@ -18,13 +19,11 @@ const PollDetail = () => {
     setEditing(!editing);
   };
 
-  const { pollsId } = useParams();
+  const { pollsId } = useParams<{ pollsId: string }>();
 
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(fetchPoll(pollsId));
-  }, [dispatch, pollsId]);
+  usePreparedEffect('fetchPoll', () => dispatch(fetchPoll(pollsId)), []);
 
   const poll = useAppSelector((state) => selectPollById(state, pollsId));
   const fetching = useAppSelector((state) => state.polls.fetching);

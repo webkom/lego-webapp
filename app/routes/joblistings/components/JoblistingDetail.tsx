@@ -1,4 +1,5 @@
 import { Button, Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate, useParams, Link } from 'react-router-dom-v5-compat';
@@ -66,11 +67,11 @@ const JoblistingDetail = () => {
 
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    if (joblistingIdOrSlug) {
-      dispatch(fetchJoblisting(joblistingIdOrSlug));
-    }
-  }, [joblistingIdOrSlug, dispatch]);
+  usePreparedEffect(
+    'fetchJoblisting',
+    () => joblistingIdOrSlug && dispatch(fetchJoblisting(joblistingIdOrSlug)),
+    [joblistingIdOrSlug]
+  );
 
   const navigate = useNavigate();
   useEffect(() => {

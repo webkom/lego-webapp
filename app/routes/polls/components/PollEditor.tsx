@@ -3,6 +3,7 @@ import arrayMutators from 'final-form-arrays';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { Helmet } from 'react-helmet-async';
+import { useNavigate } from 'react-router-dom-v5-compat';
 import { createPoll, deletePoll, editPoll } from 'app/actions/PollActions';
 import { Content } from 'app/components/Content';
 import {
@@ -24,9 +25,9 @@ import type Poll from 'app/store/models/Poll';
 import type { ReactNode } from 'react';
 
 type Props = {
-  poll: Poll | undefined;
-  editing: boolean | undefined;
-  toggleEdit: () => void | undefined;
+  poll?: Poll;
+  editing?: boolean;
+  toggleEdit?: () => void;
 };
 
 const renderOptions = ({ fields }): ReactNode => (
@@ -73,10 +74,12 @@ const validate = createValidator({
   title: [required('Du må gi avstemningen en tittel')],
 });
 
-const PollEditor = ({ poll, editing, toggleEdit }: Props) => {
+const PollEditor = ({ poll, editing, toggleEdit = () => {} }: Props) => {
   const dispatch = useAppDispatch();
 
-  const onSubmit = async ({
+  const navigate = useNavigate();
+
+  const onSubmit = ({
     title,
     description,
     tags,
@@ -107,13 +110,10 @@ const PollEditor = ({ poll, editing, toggleEdit }: Props) => {
       ...(rest as Record<string, any>),
     };
 
-    if (editing) {
-      await dispatch(editPoll(payload));
-    } else {
-      await dispatch(createPoll(payload));
-    }
-
-    toggleEdit();
+    dispatch(editing ? editPoll(payload) : createPoll(payload)).then(() => {
+      navigate('/polls');
+      toggleEdit();
+    });
   };
 
   const initialValues = {
@@ -163,7 +163,7 @@ const PollEditor = ({ poll, editing, toggleEdit }: Props) => {
             <Field
               name="description"
               label="Beskrivelse"
-              placeholder="Mer info..."
+              placeholder="Mer info ..."
               component={TextArea.Field}
             />
             <Field
@@ -200,7 +200,11 @@ const PollEditor = ({ poll, editing, toggleEdit }: Props) => {
                 <ConfirmModal
                   title="Slett avstemning"
                   message="Er du sikker på at du vil slette avstemningen?"
-                  onConfirm={() => dispatch(deletePoll(poll?.id))}
+                  onConfirm={() =>
+                    dispatch(deletePoll(poll?.id)).then(() => {
+                      navigate('/polls');
+                    })
+                  }
                   closeOnConfirm
                 >
                   {({ openConfirmModal }) => (

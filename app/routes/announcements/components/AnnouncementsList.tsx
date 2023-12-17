@@ -1,5 +1,5 @@
 import { Flex, LoadingIndicator } from '@webkom/lego-bricks';
-import { useEffect } from 'react';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import { fetchAll } from 'app/actions/AnnouncementsActions';
 import { Content, ContentMain } from 'app/components/Content';
 import { selectAnnouncements } from 'app/reducers/announcements';
@@ -11,9 +11,7 @@ import styles from './AnnouncementsList.css';
 const AnnouncementsList = () => {
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(fetchAll());
-  }, [dispatch]);
+  usePreparedEffect('fetchAllAnnouncements', () => dispatch(fetchAll()), []);
 
   const announcements = useAppSelector((state) => selectAnnouncements(state));
   const fetching = useAppSelector((state) => state.announcements.fetching);
