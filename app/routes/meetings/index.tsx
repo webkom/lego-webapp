@@ -1,62 +1,28 @@
-import { Route, Switch } from 'react-router-dom';
-import RouteWrapper from 'app/components/RouteWrapper';
-import { UserContext } from 'app/routes/app/AppRoute';
+import { useRouteMatch, Route, Switch } from 'react-router-dom';
+import { CompatRoute } from 'react-router-dom-v5-compat';
 import PageNotFound from '../pageNotFound';
-import MeetingCreateRoute from './MeetingCreateRoute';
-import MeetingDetailRoute from './MeetingDetailRoute';
-import MeetingEditRoute from './MeetingEditRoute';
-import MeetingListRoute from './MeetingListRoute';
+import MeetingDetailWrapper from './MeetingDetailWrapper';
+import MeetingEditor from './components/MeetingEditor';
+import MeetingList from './components/MeetingList';
 
-const meetingRoute = ({
-  match,
-}: {
-  match: {
-    path: string;
-  };
-}) => (
-  <UserContext.Consumer>
-    {({ currentUser, loggedIn }) => (
-      <Switch>
-        <RouteWrapper
-          exact
-          path={`${match.path}`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={MeetingListRoute}
-        />
-        <RouteWrapper
-          path={`${match.path}/create`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={MeetingCreateRoute}
-        />
-        <RouteWrapper
-          exact
-          path={`${match.path}/:meetingId`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={MeetingDetailRoute}
-        />
-        <RouteWrapper
-          path={`${match.path}/:meetingId/edit`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={MeetingEditRoute}
-        />
-        <Route component={PageNotFound} />
-      </Switch>
-    )}
-  </UserContext.Consumer>
-);
+const MeetingRoute = () => {
+  const { path } = useRouteMatch();
+
+  return (
+    <Switch>
+      <Route exact path={`${path}`} component={MeetingList} />
+      <CompatRoute path={`${path}/create`} component={MeetingEditor} />
+      <Route
+        exact
+        path={`${path}/:meetingId`}
+        component={MeetingDetailWrapper}
+      />
+      <CompatRoute path={`${path}/:meetingId/edit`} component={MeetingEditor} />
+      <Route component={PageNotFound} />
+    </Switch>
+  );
+};
 
 export default function Meetings() {
-  return <Route path="/meetings" component={meetingRoute} />;
+  return <Route path="/meetings" component={MeetingRoute} />;
 }
