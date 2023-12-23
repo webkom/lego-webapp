@@ -22,9 +22,7 @@ import type { ReactNode } from 'react';
 type Props = {
   fetching: boolean;
   hasMore: boolean;
-  groupId: ID;
   memberships: Membership[];
-  showDescendants: boolean;
   groupsById: Record<
     string,
     {
@@ -36,7 +34,6 @@ type Props = {
 
 const GroupMembersList = ({
   memberships,
-  groupId,
   hasMore,
   fetching,
   groupsById,
@@ -178,22 +175,12 @@ const GroupMembersList = ({
       <Table
         onChange={setQuery}
         columns={columns}
-        onLoad={() => {
-          dispatch(
-            fetchMembershipsPagination({
-              groupId: groupId,
-              next: true,
-              query,
-            })
-          );
-        }}
         hasMore={hasMore}
         loading={fetching}
         data={memberships}
         filters={query}
         className={styles.list}
       />
-      {!memberships.length && !fetching && <div>Ingen brukere</div>}
     </>
   );
 };

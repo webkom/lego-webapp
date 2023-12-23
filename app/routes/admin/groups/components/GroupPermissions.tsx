@@ -1,6 +1,6 @@
 import { ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
 import { sortBy } from 'lodash';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom-v5-compat';
 import { editGroup } from 'app/actions/GroupActions';
 import { selectGroup } from 'app/reducers/groups';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
@@ -123,8 +123,12 @@ const GroupPermissions = () => {
 
   return (
     <div>
-      <PermissionList group={group} />
-      <AddGroupPermission group={group} />
+      {group && (
+        <>
+          <PermissionList group={group} />
+          <AddGroupPermission group={group} />
+        </>
+      )}
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import { LoadingIndicator } from '@webkom/lego-bricks';
-import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { fetchMemberships } from 'app/actions/GroupActions';
+import { usePreparedEffect } from '@webkom/react-prepare';
+import { useParams } from 'react-router-dom-v5-compat';
+import { fetchMembershipsPagination } from 'app/actions/GroupActions';
 import { selectMembershipsForGroup } from 'app/reducers/memberships';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
@@ -18,7 +18,6 @@ export const defaultGroupMembersQuery = {
 
 const GroupMembers = () => {
   const { groupId } = useParams<{ groupId: string }>();
-  const dispatch = useAppDispatch();
   const { query } = useQuery(defaultGroupMembersQuery);
   const showDescendants = query.descendants === 'true';
 
@@ -40,17 +39,23 @@ const GroupMembers = () => {
 
   const groupsById = useAppSelector((state) => state.groups.byId);
   const fetching = useAppSelector((state) => state.memberships.fetching);
-  const hasMore = !pagination || pagination.hasMore;
+  const hasMore = pagination.hasMore;
 
-  useEffect(() => {
-    dispatch(fetchMemberships(groupId, query));
-  }, [dispatch, groupId, query, showDescendants]);
+  const dispatch = useAppDispatch();
+
+  usePreparedEffect(
+    'fetchMemberships',
+    () =>
+      groupId &&
+      dispatch(fetchMembershipsPagination({ groupId, next: true, query })),
+    [groupId]
+  );
 
   return (
     <>
       <>
         Antall medlemmer (inkl. undergrupper):{' '}
-        {groupsById[groupId.toString()]?.numberOfUsers}
+        {groupsById[groupId?.toString()]?.numberOfUsers}
       </>
 
       {showDescendants || <AddGroupMember groupId={groupId} />}
@@ -59,11 +64,9 @@ const GroupMembers = () => {
         <h3>Brukere</h3>
         <GroupMembersList
           key={Number(groupId) + Number(showDescendants)}
-          groupId={groupId}
           hasMore={hasMore}
           groupsById={groupsById}
           fetching={fetching}
-          showDescendants={showDescendants}
           memberships={memberships}
         />
       </LoadingIndicator>
