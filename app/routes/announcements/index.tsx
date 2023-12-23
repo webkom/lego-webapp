@@ -1,16 +1,12 @@
-import { useRouteMatch, Route, Switch } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom-v5-compat';
 import PageNotFound from '../pageNotFound';
 import AnnouncementsList from './components/AnnouncementsList';
 
-const AnnouncementsRoute = () => {
-  const { path } = useRouteMatch();
-
-  return (
-    <Switch>
-      <Route exact path={path} component={AnnouncementsList} />
-      <Route component={PageNotFound} />
-    </Switch>
-  );
-};
+const AnnouncementsRoute = () => (
+  <Routes>
+    <Route index element={<AnnouncementsList />} />
+    <Route path="*" element={<PageNotFound />} />
+  </Routes>
+);
 
 export default AnnouncementsRoute;
