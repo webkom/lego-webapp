@@ -8,8 +8,7 @@ import {
 import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment-timezone';
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom-v5-compat';
+import { useNavigate, useParams, Link } from 'react-router-dom-v5-compat';
 import {
   fetchEvent,
   follow,

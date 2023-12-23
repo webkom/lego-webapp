@@ -1,6 +1,6 @@
 import { LoadingIndicator } from '@webkom/lego-bricks';
 import { Field } from 'react-final-form';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom-v5-compat';
 import { adminRegister, waitinglistPoolId } from 'app/actions/EventActions';
 import { TextEditor, SelectInput } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';

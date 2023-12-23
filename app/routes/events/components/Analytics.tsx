@@ -1,7 +1,7 @@
 import { Flex } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom-v5-compat';
 import {
   Area,
   AreaChart,
