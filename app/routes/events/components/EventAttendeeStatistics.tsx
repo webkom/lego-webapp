@@ -1,6 +1,6 @@
 import { Card, Flex } from '@webkom/lego-bricks';
 import moment from 'moment';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom-v5-compat';
 import {
   CartesianGrid,
   Legend,

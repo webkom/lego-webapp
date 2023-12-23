@@ -1,8 +1,7 @@
 import loadable from '@loadable/component';
 import { LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { Switch, Route, useParams, useRouteMatch } from 'react-router-dom';
-import { CompatRoute } from 'react-router-dom-v5-compat';
+import { Route, Routes, useParams } from 'react-router-dom-v5-compat';
 import { fetchAdministrate } from 'app/actions/EventActions';
 import { Content } from 'app/components/Content';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
@@ -32,7 +31,6 @@ const EventAdministrateIndex = () => {
     [eventId]
   );
 
-  const { path } = useRouteMatch();
   const base = `/events/${eventId}/administrate`;
 
   if (!event) {
@@ -63,17 +61,13 @@ const EventAdministrateIndex = () => {
         <NavigationLink to={`${base}/abacard`}>Abacard</NavigationLink>
       </NavigationTab>
 
-      <Switch>
-        <Route exact path={`${path}/attendees`} component={Attendees} />
-        <Route exact path={`${path}/allergies`} component={Allergies} />
-        <Route exact path={`${path}/statistics`} component={Statistics} />
-        <Route
-          exact
-          path={`${path}/admin-register`}
-          component={AdminRegister}
-        />
-        <CompatRoute exact path={`${path}/abacard`} component={Abacard} />
-      </Switch>
+      <Routes>
+        <Route path="attendees" element={<Attendees />} />
+        <Route path="allergies" element={<Allergies />} />
+        <Route path="statistics" element={<Statistics />} />
+        <Route path="admin-register" element={<AdminRegister />} />
+        <Route path="abacard" element={<Abacard />} />
+      </Routes>
     </Content>
   );
 };

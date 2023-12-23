@@ -1,6 +1,6 @@
 import { Button, Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom-v5-compat';
 import { fetchAllergies } from 'app/actions/EventActions';
 import Table from 'app/components/Table';
 import { getRegistrationGroups, selectEventById } from 'app/reducers/events';

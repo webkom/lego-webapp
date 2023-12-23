@@ -12,7 +12,6 @@ import { EventTime } from 'app/models';
 import { selectSortedEvents } from 'app/reducers/events';
 import { selectPagination } from 'app/reducers/selectors';
 import { useUserContext } from 'app/routes/app/AppRoute';
-import { AppDispatch } from 'app/store/createStore';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import createQueryString from 'app/utils/createQueryString';
 import useQuery from 'app/utils/useQuery';

@@ -7,7 +7,7 @@ import {
 import moment from 'moment-timezone';
 import { useState } from 'react';
 import { formatPhoneNumber, parsePhoneNumber } from 'react-phone-number-input';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom-v5-compat';
 import {
   getRegistrationGroups,
   selectEventById,

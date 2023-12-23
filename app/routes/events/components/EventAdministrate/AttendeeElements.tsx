@@ -5,7 +5,7 @@ import {
   LoadingIndicator,
 } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom-v5-compat';
 import {
   unregister,
   updatePayment,

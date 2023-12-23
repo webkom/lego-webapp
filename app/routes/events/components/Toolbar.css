@@ -9,7 +9,7 @@
   @media (--mobile-device) {
     grid-template:
       'time create'
-      'list calender';
+      'list calendar';
   }
 }
 

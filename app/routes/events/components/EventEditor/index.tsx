@@ -12,8 +12,7 @@ import { useEffect, useState } from 'react';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { Helmet } from 'react-helmet-async';
-import { Link, useParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom-v5-compat';
+import { useNavigate, useParams, Link } from 'react-router-dom-v5-compat';
 import { createEvent, editEvent, fetchEvent } from 'app/actions/EventActions';
 import {
   uploadFile as _uploadFile,
@@ -49,8 +48,6 @@ import AttendanceModal from 'app/components/UserAttendance/AttendanceModal';
 import {
   selectEventByIdOrSlug,
   selectPoolsWithRegistrationsForEvent,
-  selectRegistrationsFromPools,
-  selectWaitingRegistrationsForEvent,
 } from 'app/reducers/events';
 import { selectImageGalleryEntries } from 'app/reducers/imageGallery';
 import {
@@ -145,7 +142,7 @@ const validate = createValidator({
   ],
 });
 
-function EventEditor() {
+const EventEditor = () => {
   const { eventIdOrSlug } = useParams<{ eventIdOrSlug: string }>();
   const isEditPage = eventIdOrSlug !== undefined;
   const event = useAppSelector((state) =>
@@ -884,6 +881,6 @@ function EventEditor() {
       </TypedLegoForm>
     </Content>
   );
-}
+};
 
 export default guardLogin(EventEditor);
