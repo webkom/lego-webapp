@@ -1,4 +1,5 @@
 import { Button, ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import { useCallback, useEffect, useState } from 'react';
 import { Field } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
@@ -72,7 +73,7 @@ const JoblistingEditor = () => {
     SelectInputObject[]
   >([]);
 
-  const { joblistingId } = useParams();
+  const { joblistingId } = useParams<{ joblistingId: string }>();
   const isNew = joblistingId === undefined;
 
   const joblisting = useAppSelector((state) =>
@@ -83,11 +84,11 @@ const JoblistingEditor = () => {
 
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    if (!isNew) {
-      dispatch(fetchJoblisting(joblistingId));
-    }
-  }, [dispatch, isNew, joblistingId]);
+  usePreparedEffect(
+    'fetchJoblisting',
+    () => joblistingId && dispatch(fetchJoblisting(joblistingId)),
+    [joblistingId]
+  );
 
   const onSubmit = async (newJoblisting) => {
     const workplaces = newJoblisting.workplaces
@@ -126,7 +127,7 @@ const JoblistingEditor = () => {
     (company: SelectInputObject) => {
       return dispatch(
         fetchCompanyContacts({
-          companyId: company.value,
+          companyId: company.id,
         })
       ).then((action) => {
         const responsibleOptions = action.payload.map((contact) => ({
@@ -139,11 +140,15 @@ const JoblistingEditor = () => {
     [dispatch]
   );
 
-  useEffect(() => {
-    if (!isNew && joblisting?.company) {
-      fetchContacts(joblisting?.company);
-    }
-  }, [fetchContacts, isNew, joblisting]);
+  usePreparedEffect(
+    'fetchContacts',
+    () => {
+      if (!isNew && joblisting?.company) {
+        fetchContacts(joblisting?.company);
+      }
+    },
+    [isNew, joblisting?.company]
+  );
 
   const initialValues = {
     ...joblisting,
