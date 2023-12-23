@@ -1,8 +1,7 @@
 import { LoadingIndicator, Button } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { Helmet } from 'react-helmet-async';
-import Select from 'react-select';
-import { selectTheme, selectStyles } from 'app/components/Form/SelectInput';
+import { SelectInput } from 'app/components/Form';
 import { defaultQuotesQuery } from 'app/routes/quotes/QuotesRoute';
 import useQuery from 'app/utils/useQuery';
 import { navigation } from '../utils';
@@ -101,15 +100,13 @@ export default function QuotePage({
       {!isSingle && (
         <div className={styles.select}>
           <div>Sorter etter:</div>
-          <Select
+          <SelectInput
             name="sorting_selector"
             value={ordering}
             onChange={(option) =>
               option && setQueryValue('ordering')(option.value)
             }
             isClearable={false}
-            theme={selectTheme}
-            styles={selectStyles}
             options={orderingOptions}
           />
         </div>

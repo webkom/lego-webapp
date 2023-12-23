@@ -1,8 +1,7 @@
 import { Button, ConfirmModal, Flex } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
 import { useState } from 'react';
-import Select from 'react-select';
-import { selectStyles, selectTheme } from 'app/components/Form/SelectInput';
+import SelectInput from 'app/components/Form/SelectInput';
 import { PhotoConsentDomain } from 'app/models';
 import { getConsent, toReadableSemester } from 'app/routes/events/utils';
 import styles from './PhotoConsents.css';
@@ -128,9 +127,9 @@ const PhotoConsents = ({
       <label htmlFor="select-semester">
         <h3>Semester</h3>
       </label>
-      <Select
+      <SelectInput
         name="select-semester"
-        clearable={false}
+        isClearable={false}
         options={semesterOptions}
         value={selectedSemesterOption}
         onChange={({ value }) =>
@@ -139,9 +138,6 @@ const PhotoConsents = ({
             value,
           })
         }
-        theme={selectTheme}
-        styles={selectStyles}
-        instanceId="profile-consent-semester"
       />
       <ConsentManager
         consent={getConsent(
