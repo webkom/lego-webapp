@@ -1,19 +1,15 @@
-import { useRouteMatch, Switch, Route } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom-v5-compat';
 import PageNotFound from '../pageNotFound';
-import Email from './email';
+import EmailRoute from './email';
 import GroupPage from './groups/components/GroupPage';
 
-const AdminRoute = () => {
-  const { path } = useRouteMatch();
-
-  return (
-    <Switch>
-      <Route path={`${path}/groups/:groupId`} component={GroupPage} />
-      <Route path={`${path}/groups`} component={GroupPage} />
-      <Route path={`${path}/email`} component={Email} />
-      <Route component={PageNotFound} />
-    </Switch>
-  );
-};
+const AdminRoute = () => (
+  <Routes>
+    <Route path="groups/:groupId/*" element={<GroupPage />} />
+    <Route path="groups" element={<GroupPage />} />
+    <Route path="email/*" element={<EmailRoute />} />
+    <Route path="*" element={<PageNotFound />} />
+  </Routes>
+);
 
 export default AdminRoute;

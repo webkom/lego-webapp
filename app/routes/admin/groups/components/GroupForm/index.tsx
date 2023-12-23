@@ -1,5 +1,5 @@
 import { Field } from 'react-final-form';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom-v5-compat';
 import { createGroup, editGroup } from 'app/actions/GroupActions';
 import {
   Form,

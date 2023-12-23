@@ -1,8 +1,7 @@
 import { Button, Icon } from '@webkom/lego-bricks';
-import { useEffect } from 'react';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import { Field } from 'react-final-form';
-import { useParams } from 'react-router-dom-v5-compat';
-import { push } from 'redux-first-history';
+import { useNavigate, useParams } from 'react-router-dom-v5-compat';
 import {
   createRestrictedMail,
   fetchRestrictedMail,
@@ -66,45 +65,55 @@ const validate = createValidator({
 });
 
 const RestrictedMailEditor = () => {
-  const { restrictedMailId } = useParams();
+  const { restrictedMailId } = useParams<{ restrictedMailId: string }>();
+  const isNew = restrictedMailId === 'new';
   const restrictedMail = useAppSelector((state) =>
     selectRestrictedMailById(state, { restrictedMailId })
   );
 
-  const initialValues = {
-    ...restrictedMail,
-    groups: (restrictedMail?.groups || []).map((groups) => ({
-      label: groups.name,
-      value: groups.id,
-    })),
-    meetings: (restrictedMail?.meetings || []).map((meeting) => ({
-      label: meeting.name,
-      value: meeting.id,
-    })),
-    events: (restrictedMail?.events || []).map((event) => ({
-      label: event.title,
-      value: event.id,
-    })),
-    // Raw Sauce
-    rawAddresses: (restrictedMail?.rawAddresses || []).map((rawAddresses) => ({
-      label: rawAddresses,
-      value: rawAddresses,
-    })),
-    users: (restrictedMail?.users || []).map((user) => ({
-      label: user.fullName,
-      value: user.id,
-    })),
-  };
+  const initialValues = isNew
+    ? {}
+    : {
+        ...restrictedMail,
+        groups: (restrictedMail?.groups || []).map((groups) => ({
+          label: groups.name,
+          value: groups.id,
+        })),
+        meetings: (restrictedMail?.meetings || []).map((meeting) => ({
+          label: meeting.name,
+          value: meeting.id,
+        })),
+        events: (restrictedMail?.events || []).map((event) => ({
+          label: event.title,
+          value: event.id,
+        })),
+        // Raw Sauce
+        rawAddresses: (restrictedMail?.rawAddresses || []).map(
+          (rawAddresses) => ({
+            label: rawAddresses,
+            value: rawAddresses,
+          })
+        ),
+        users: (restrictedMail?.users || []).map((user) => ({
+          label: user.fullName,
+          value: user.id,
+        })),
+      };
 
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    if (restrictedMailId) {
-      dispatch(fetchRestrictedMail(restrictedMailId));
-    }
-  }, [dispatch, restrictedMailId]);
+  usePreparedEffect(
+    'fetchRestrictedMail',
+    () =>
+      !isNew &&
+      restrictedMailId &&
+      dispatch(fetchRestrictedMail(restrictedMailId)),
+    [restrictedMailId]
+  );
 
-  const onSubmit = async (data) => {
+  const navigate = useNavigate();
+
+  const onSubmit = (data) => {
     const payload = {
       ...data,
       rawAddresses: (data.rawAddresses || []).map(
@@ -116,9 +125,10 @@ const RestrictedMailEditor = () => {
       users: (data.users || []).map((user) => user.id),
     };
 
-    if (!restrictedMailId) {
-      const response = await dispatch(createRestrictedMail(payload));
-      dispatch(push(`/admin/email/restricted/${response.payload.result}`));
+    if (isNew) {
+      dispatch(createRestrictedMail(payload)).then((res) => {
+        navigate(`/admin/email/restricted/${res.payload.result}`);
+      });
     }
   };
 
@@ -131,7 +141,7 @@ const RestrictedMailEditor = () => {
       {({ handleSubmit }) => (
         <Form onSubmit={handleSubmit}>
           <Field
-            disabled={restrictedMailId}
+            disabled={!isNew}
             required
             placeholder="abakus@abakus.no"
             name="fromAddress"
@@ -139,14 +149,14 @@ const RestrictedMailEditor = () => {
             component={TextInput.Field}
           />
           <Field
-            disabled={restrictedMailId}
+            disabled={!isNew}
             name="hideSender"
             label={hiddenSenderLabel}
             component={CheckBox.Field}
             parse={(v) => !!v}
           />
           <Field
-            disabled={restrictedMailId}
+            disabled={!isNew}
             name="weekly"
             label={restrictedMailLabel}
             component={CheckBox.Field}
@@ -154,7 +164,7 @@ const RestrictedMailEditor = () => {
           />
 
           <Field
-            disabled={restrictedMailId}
+            disabled={!isNew}
             label="Brukere"
             name="users"
             isMulti
@@ -163,7 +173,7 @@ const RestrictedMailEditor = () => {
             component={SelectInput.AutocompleteField}
           />
           <Field
-            disabled={restrictedMailId}
+            disabled={!isNew}
             label="Grupper"
             name="groups"
             isMulti
@@ -172,7 +182,7 @@ const RestrictedMailEditor = () => {
             component={SelectInput.AutocompleteField}
           />
           <Field
-            disabled={restrictedMailId}
+            disabled={!isNew}
             label="Arrangementer"
             name="events"
             isMulti
@@ -181,7 +191,7 @@ const RestrictedMailEditor = () => {
             component={SelectInput.AutocompleteField}
           />
           <Field
-            disabled={restrictedMailId}
+            disabled={!isNew}
             label="Møter"
             name="meetings"
             isMulti
@@ -190,7 +200,7 @@ const RestrictedMailEditor = () => {
             component={SelectInput.AutocompleteField}
           />
           <Field
-            disabled={restrictedMailId}
+            disabled={!isNew}
             label="E-postadresser"
             name="rawAddresses"
             placeholder="Enkelte e-poster du ønsker å sende til"
@@ -208,8 +218,8 @@ const RestrictedMailEditor = () => {
           />
 
           <SubmissionError />
-          {!restrictedMailId && <SubmitButton>Lag flaskepost</SubmitButton>}
-          {restrictedMailId && restrictedMail && (
+          {isNew && <SubmitButton>Lag flaskepost</SubmitButton>}
+          {!isNew && restrictedMailId && restrictedMail && (
             <a
               href={`${config.serverUrl}/restricted-mail/${restrictedMailId}/token?auth=${restrictedMail.tokenQueryParam}`}
               download

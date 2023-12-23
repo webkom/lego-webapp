@@ -1,8 +1,7 @@
+import { usePreparedEffect } from '@webkom/react-prepare';
 import { get } from 'lodash';
-import { useEffect } from 'react';
 import { Field } from 'react-final-form';
-import { useParams } from 'react-router-dom-v5-compat';
-import { push } from 'redux-first-history';
+import { useNavigate, useParams } from 'react-router-dom-v5-compat';
 import {
   createEmailUser,
   editEmailUser,
@@ -31,27 +30,30 @@ const validate = createValidator({
 });
 
 const EmailUserEditor = () => {
-  const { emailUserId } = useParams();
+  const { emailUserId } = useParams<{ emailUserId: string }>();
+  const isNew = emailUserId === 'new';
   const emailUser = useAppSelector((state) =>
     selectEmailUserById(state, { emailUserId })
   );
 
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    if (emailUserId) {
-      dispatch(fetchEmailUser(emailUserId));
-    }
-  }, [dispatch, emailUserId]);
+  usePreparedEffect(
+    'fetchEmailUser',
+    () => !isNew && emailUserId && dispatch(fetchEmailUser(emailUserId)),
+    [emailUserId]
+  );
 
-  const initialValues = {
-    ...emailUser,
-    user: {
-      label: get(emailUser, 'user.fullName', ''),
-      value: get(emailUser, 'user.id', ''),
-    },
-    internalEmailEnable: get(emailUser, 'internalEmailEnabled', false),
-  };
+  const initialValues = isNew
+    ? {}
+    : {
+        ...emailUser,
+        user: {
+          label: get(emailUser, 'user.fullName', ''),
+          value: get(emailUser, 'user.id', ''),
+        },
+        internalEmailEnable: get(emailUser, 'internalEmailEnabled', false),
+      };
 
   const onUserChange = (data: AutocompleteUserValue, form) => {
     const nameSplit = data.title.toLowerCase().split(' ');
@@ -72,23 +74,25 @@ const EmailUserEditor = () => {
     form.change('internalEmail', email);
   };
 
-  const handleSubmitX = async (values) => {
+  const navigate = useNavigate();
+
+  const handleSubmit = (values) => {
     const payload = {
       ...values,
       user: values.user.value,
       internalEmailEnabled: !!values.internalEmailEnabled,
     };
-    if (emailUserId) {
-      dispatch(editEmailUser(payload));
-    } else {
-      const response = await dispatch(createEmailUser(payload));
-      dispatch(push(`/admin/email/users/${response.payload.result}`));
-    }
+
+    dispatch(isNew ? createEmailUser(payload) : editEmailUser(payload)).then(
+      (res) => {
+        navigate(`/admin/email/users/${res.payload.result}`);
+      }
+    );
   };
 
   return (
     <LegoFinalForm
-      onSubmit={handleSubmitX}
+      onSubmit={handleSubmit}
       validate={validate}
       initialValues={initialValues}
     >
@@ -99,7 +103,6 @@ const EmailUserEditor = () => {
             name="user"
             required
             disabled={emailUserId}
-            placeholder="Velg bruker"
             filter={['users.user']}
             component={SelectInput.AutocompleteField}
             onChange={(data: AutocompleteUserValue) => onUserChange(data, form)}

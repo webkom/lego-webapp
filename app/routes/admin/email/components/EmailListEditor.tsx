@@ -1,7 +1,6 @@
-import { useEffect } from 'react';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import { Field } from 'react-final-form';
-import { useParams } from 'react-router-dom-v5-compat';
-import { push } from 'redux-first-history';
+import { useNavigate, useParams } from 'react-router-dom-v5-compat';
 import {
   createEmailList,
   editEmailList,
@@ -38,20 +37,23 @@ const validate = createValidator({
 });
 
 const EmailListEditor = () => {
-  const { emailListId } = useParams();
+  const { emailListId } = useParams<{ emailListId: string }>();
+  const isNew = emailListId === 'new';
   const emailList = useAppSelector((state) =>
     selectEmailListById(state, { emailListId })
   );
 
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    if (emailListId) {
-      dispatch(fetchEmailList(emailListId));
-    }
-  }, [dispatch, emailListId]);
+  usePreparedEffect(
+    'fetchEmailList',
+    () => !isNew && emailListId && dispatch(fetchEmailList(emailListId)),
+    [emailListId]
+  );
 
-  const handleSubmit = async (values) => {
+  const navigate = useNavigate();
+
+  const handleSubmit = (values) => {
     const payload = {
       id: values.id,
       email: values.email,
@@ -65,36 +67,39 @@ const EmailListEditor = () => {
       ),
     };
 
-    if (emailListId) {
-      dispatch(editEmailList(payload));
-    } else {
-      const response = await dispatch(createEmailList(payload));
-      dispatch(push(`/admin/email/lists/${response.payload.result}`));
-    }
+    dispatch(isNew ? createEmailList(payload) : editEmailList(payload)).then(
+      (res) => {
+        navigate(`/admin/email/lists/${res.payload.result}`);
+      }
+    );
   };
 
-  const initialValues = {
-    ...emailList,
-    groups: (emailList?.groups || []).filter(Boolean).map((groups) => ({
-      label: groups.name,
-      value: groups.id,
-    })),
-    groupRoles: (emailList?.groupRoles || []).map((groupRoles: RoleType) => ({
-      label: ROLES[groupRoles],
-      value: groupRoles,
-    })),
-    users: (emailList?.users || []).filter(Boolean).map((user) => ({
-      label: user.fullName,
-      value: user.id,
-    })),
-    additionalEmails: (emailList?.additionalEmails || []).map(
-      (additionalEmail) => ({
-        label: additionalEmail,
-        value: additionalEmail,
-      })
-    ),
-    requireInternalAddress: emailList?.requireInternalAddress || false,
-  };
+  const initialValues = isNew
+    ? {}
+    : {
+        ...emailList,
+        groups: (emailList?.groups || []).filter(Boolean).map((groups) => ({
+          label: groups.name,
+          value: groups.id,
+        })),
+        groupRoles: (emailList?.groupRoles || []).map(
+          (groupRoles: RoleType) => ({
+            label: ROLES[groupRoles],
+            value: groupRoles,
+          })
+        ),
+        users: (emailList?.users || []).filter(Boolean).map((user) => ({
+          label: user.fullName,
+          value: user.id,
+        })),
+        additionalEmails: (emailList?.additionalEmails || []).map(
+          (additionalEmail) => ({
+            label: additionalEmail,
+            value: additionalEmail,
+          })
+        ),
+        requireInternalAddress: emailList?.requireInternalAddress || false,
+      };
 
   return (
     <LegoFinalForm
@@ -165,7 +170,7 @@ const EmailListEditor = () => {
 
           <SubmissionError />
           <SubmitButton>
-            {emailListId ? 'Oppdater e-postliste' : 'Lag e-postliste'}
+            {isNew ? 'Opprett e-postliste' : 'Oppdater e-postliste'}
           </SubmitButton>
         </Form>
       )}
