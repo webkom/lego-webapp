@@ -257,7 +257,7 @@ const MeetingDetails = ({
                   deleteReaction={deleteReaction}
                   parentEntity={meeting}
                   loggedIn={loggedIn}
-                  showPeople={true}
+                  showPeople
                 />
               </div>
               <CommentView
