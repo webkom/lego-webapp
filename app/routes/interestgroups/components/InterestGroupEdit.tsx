@@ -22,13 +22,17 @@ const InterestGroupEdit = () => {
   usePreparedEffect(
     'fetchInterestGroupEdit',
     () => {
-      dispatch(fetchGroup(groupId));
+      groupId && dispatch(fetchGroup(groupId));
     },
     [groupId]
   );
 
-  if (!interestGroup || !interestGroup.text) {
-    return <LoadingIndicator loading />;
+  if (editing && (!interestGroup || !interestGroup.text)) {
+    return (
+      <Content>
+        <LoadingIndicator loading />
+      </Content>
+    );
   }
 
   const title = editing
