@@ -3,8 +3,7 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import FileSaver from 'file-saver';
 import JsZip from 'jszip';
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom-v5-compat';
+import { useParams, useNavigate } from 'react-router-dom-v5-compat';
 import { fetchGallery, fetchGalleryMetadata } from 'app/actions/GalleryActions';
 import {
   fetch,

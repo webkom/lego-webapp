@@ -5,9 +5,8 @@ import { without, find } from 'lodash';
 import moment from 'moment-timezone';
 import { useState } from 'react';
 import { Field } from 'react-final-form';
-import { useNavigate } from 'react-router-dom-v5-compat';
 import { Helmet } from 'react-helmet-async';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom-v5-compat';
 import {
   createGallery,
   deleteGallery,
@@ -141,6 +140,8 @@ const GalleryEditor = () => {
   usePreparedEffect(
     'fetchGalleryEdit',
     () =>
+      !isNew &&
+      galleryId &&
       Promise.all([
         dispatch(fetch(Number(galleryId))),
         dispatch(fetchGallery(galleryId)),
@@ -233,7 +234,7 @@ const GalleryEditor = () => {
     setSelected([]);
   };
 
-  const title = gallery ? `Redigerer: ${gallery.title}` : 'Nytt album';
+  const title = !isNew ? `Redigerer: ${gallery.title}` : 'Nytt album';
 
   return (
     <Content>
@@ -318,7 +319,7 @@ const GalleryEditor = () => {
             />
 
             <Flex className={styles.buttonRow} justifyContent="flex-end">
-              <Button flat onClick={() => push(`/photos/${gallery.id}`)}>
+              <Button flat onClick={() => navigate(`/photos/${gallery.id}`)}>
                 Avbryt
               </Button>
               <SubmitButton>{isNew ? 'Opprett' : 'Lagre'}</SubmitButton>
