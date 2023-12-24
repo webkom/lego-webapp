@@ -1,19 +1,12 @@
-import { useRouteMatch, Route, Switch } from 'react-router-dom';
-import { CompatRoute } from 'react-router-dom-v5-compat';
+import { Route, Routes } from 'react-router-dom-v5-compat';
 import PageNotFound from '../pageNotFound';
 import WrappedValidator from './WrappedValidator';
 
-const ValidatorRoute = () => {
-  const { path } = useRouteMatch();
+const ValidatorRoute = () => (
+  <Routes>
+    <Route index element={<WrappedValidator />} />
+    <Route path="*" element={<PageNotFound />} />
+  </Routes>
+);
 
-  return (
-    <Switch>
-      <CompatRoute exact path={path} component={WrappedValidator} />
-      <Route component={PageNotFound} />
-    </Switch>
-  );
-};
-
-export default function Validator() {
-  return <Route path="/validator" component={ValidatorRoute} />;
-}
+export default ValidatorRoute;

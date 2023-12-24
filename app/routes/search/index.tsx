@@ -1,18 +1,12 @@
-import { useRouteMatch, Route, Switch } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom-v5-compat';
 import PageNotFound from '../pageNotFound';
 import SearchPageWrapper from './SearchPageWrapper';
 
-const SearchRoute = () => {
-  const { path } = useRouteMatch();
+const SearchRoute = () => (
+  <Routes>
+    <Route index element={<SearchPageWrapper />} />
+    <Route path="*" element={<PageNotFound />} />
+  </Routes>
+);
 
-  return (
-    <Switch>
-      <Route exact path={path} component={SearchPageWrapper} />
-      <Route component={PageNotFound} />
-    </Switch>
-  );
-};
-
-export default function Quotes() {
-  return <Route path="/search" component={SearchRoute} />;
-}
+export default SearchRoute;
