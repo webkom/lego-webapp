@@ -470,7 +470,7 @@ const EventEditor = () => {
                   placeholder="Dette blir tidenes fest ..."
                   className={styles.descriptionEditor}
                   uploadFile={uploadFile}
-                  initialized={!!event}
+                  initialized={isEditPage || !!event}
                 />
                 <Flex className={styles.tagRow}>
                   {(values.tags || []).map((tag, i) => (

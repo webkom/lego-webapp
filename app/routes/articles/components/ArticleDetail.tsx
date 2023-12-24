@@ -2,8 +2,7 @@ import { LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment-timezone';
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { useNavigate, Link } from 'react-router-dom-v5-compat';
+import { useNavigate, useParams, Link } from 'react-router-dom-v5-compat';
 import { fetchArticle } from 'app/actions/ArticleActions';
 import CommentView from 'app/components/Comments/CommentView';
 import { Content } from 'app/components/Content';
@@ -112,7 +111,11 @@ const ArticleDetail = () => {
   );
 
   if (!article) {
-    return <LoadingIndicator loading />;
+    return (
+      <Content>
+        <LoadingIndicator loading />
+      </Content>
+    );
   }
 
   return (
