@@ -1,4 +1,3 @@
-import { push } from 'redux-first-history';
 import callAPI from 'app/actions/callAPI';
 import { groupSchema, membershipSchema } from 'app/reducers';
 import { Group, Membership } from './ActionTypes';
@@ -83,31 +82,24 @@ export function fetchAllWithType(type: GroupType) {
 }
 
 export function editGroup(group: Record<string, any>) {
-  return (dispatch: AppDispatch) =>
-    dispatch(
-      callAPI({
-        types: Group.UPDATE,
-        endpoint: `/groups/${group.id}/`,
-        schema: groupSchema,
-        method: 'PATCH',
-        body: group,
-        meta: {
-          group,
-          errorMessage:
-            group.type === 'interesse'
-              ? 'Endring av interessegruppe feilet'
-              : 'Oppdatering av gruppe feilet',
-          successMessage:
-            group.type === 'interesse'
-              ? 'Endring av interessegruppe fullført'
-              : 'Oppdatering av gruppe fullført',
-        },
-      })
-    ).then(() =>
-      group.type === 'interesse'
-        ? dispatch(push(`/interest-groups/${group.id}`))
-        : null
-    );
+  return callAPI({
+    types: Group.UPDATE,
+    endpoint: `/groups/${group.id}/`,
+    schema: groupSchema,
+    method: 'PATCH',
+    body: group,
+    meta: {
+      group,
+      errorMessage:
+        group.type === 'interesse'
+          ? 'Endring av interessegruppe feilet'
+          : 'Oppdatering av gruppe feilet',
+      successMessage:
+        group.type === 'interesse'
+          ? 'Endring av interessegruppe fullført'
+          : 'Oppdatering av gruppe fullført',
+    },
+  });
 }
 
 export function joinGroup(groupId: ID, user: CurrentUser, role = 'member') {

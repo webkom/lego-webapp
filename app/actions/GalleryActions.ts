@@ -1,10 +1,10 @@
 import callAPI from 'app/actions/callAPI';
 import { gallerySchema } from 'app/reducers';
 import { Gallery } from './ActionTypes';
-import { FormValues as GalleryEditorFormValues } from 'app/routes/photos/components/GalleryEditor';
-import type { Thunk } from 'app/types';
+import type { FormValues as GalleryEditorFormValues } from 'app/routes/photos/components/GalleryEditor';
 import type { ID } from 'app/store/models';
 import type { DetailedGallery } from 'app/store/models/Gallery';
+import type { Thunk } from 'app/types';
 
 export function fetch({
   next,

@@ -1,6 +1,6 @@
 import { ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
 import { sortBy } from 'lodash';
-import { Link, useParams } from 'react-router-dom-v5-compat';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { editGroup } from 'app/actions/GroupActions';
 import { selectGroup } from 'app/reducers/groups';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
@@ -11,16 +11,9 @@ type PermissionListProps = {
   group: DetailedGroup;
 };
 
-const removePermission = (permission, group, dispatch) =>
-  dispatch(
-    editGroup({
-      ...group,
-      permissions: group.permissions.filter((perm) => perm !== permission),
-    })
-  );
-
 const PermissionList = ({ group }: PermissionListProps) => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const parentPermissionsList = group.parentPermissions
     .map(
@@ -84,7 +77,18 @@ const PermissionList = ({ group }: PermissionListProps) => {
                   message={`Er du sikker på at du vil fjerne tilgangen ${permission}?`}
                   closeOnConfirm={true}
                   onConfirm={() =>
-                    removePermission(permission, group, dispatch)
+                    dispatch(
+                      editGroup({
+                        ...group,
+                        permissions: group.permissions.filter(
+                          (perm) => perm !== permission
+                        ),
+                      })
+                    ).then(() => {
+                      if (group.type === 'interesse') {
+                        navigate(`/interest-groups/${group.id}`);
+                      }
+                    })
                   }
                 >
                   {({ openConfirmModal }) => (

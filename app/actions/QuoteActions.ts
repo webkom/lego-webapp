@@ -1,10 +1,6 @@
-import { push } from 'redux-first-history';
-import { startSubmit, stopSubmit } from 'redux-form';
-import { addToast } from 'app/actions/ToastActions';
 import callAPI from 'app/actions/callAPI';
 import { quoteSchema } from 'app/reducers';
 import { Quote } from './ActionTypes';
-import type { AppDispatch } from 'app/store/createStore';
 import type { ID } from 'app/store/models';
 import type QuoteType from 'app/store/models/Quote';
 
@@ -29,6 +25,7 @@ export function fetchAll({
     propagateError: true,
   });
 }
+
 export function fetchQuote(quoteId: ID) {
   return callAPI<QuoteType>({
     types: Quote.FETCH,
@@ -42,7 +39,8 @@ export function fetchQuote(quoteId: ID) {
     propagateError: true,
   });
 }
-export function fetchRandomQuote(seenQuotes: Array<ID> = []) {
+
+export function fetchRandomQuote(seenQuotes: ID[] = []) {
   const queryString = `?seen=[${String(seenQuotes)}]`;
   return callAPI<QuoteType>({
     types: Quote.FETCH_RANDOM,
@@ -55,6 +53,7 @@ export function fetchRandomQuote(seenQuotes: Array<ID> = []) {
     schema: quoteSchema,
   });
 }
+
 export function approve(quoteId: ID) {
   return callAPI({
     types: Quote.APPROVE,
@@ -66,6 +65,7 @@ export function approve(quoteId: ID) {
     },
   });
 }
+
 export function unapprove(quoteId: ID) {
   return callAPI({
     types: Quote.UNAPPROVE,
@@ -77,37 +77,24 @@ export function unapprove(quoteId: ID) {
     },
   });
 }
+
 export function addQuotes({ text, source }: { text: string; source: string }) {
-  return (dispatch: AppDispatch) => {
-    dispatch(startSubmit('addQuote'));
-    return dispatch(
-      callAPI<QuoteType>({
-        types: Quote.ADD,
-        endpoint: '/quotes/',
-        method: 'POST',
-        body: {
-          text,
-          source,
-        },
-        schema: quoteSchema,
-        meta: {
-          errorMessage: 'Legg til quote feilet',
-        },
-      })
-    ).then(() => {
-      dispatch(stopSubmit('addQuote'));
-      dispatch(push('/quotes'));
-      dispatch(
-        addToast({
-          message:
-            'Sitat sendt inn. Hvis det blir godkjent vil det dukke opp her!',
-          dismissAfter: 10000,
-        })
-      );
-    });
-  };
+  return callAPI<QuoteType>({
+    types: Quote.ADD,
+    endpoint: '/quotes/',
+    method: 'POST',
+    body: {
+      text,
+      source,
+    },
+    schema: quoteSchema,
+    meta: {
+      errorMessage: 'Legg til quote feilet',
+    },
+  });
 }
-export function deleteQuote(id: number) {
+
+export function deleteQuote(id: ID) {
   return callAPI({
     types: Quote.DELETE,
     endpoint: `/quotes/${id}/`,

@@ -1,5 +1,6 @@
 import { Button, ConfirmModal, Icon } from '@webkom/lego-bricks';
 import { sortBy } from 'lodash';
+import { useNavigate } from 'react-router-dom';
 import { deleteCompany } from 'app/actions/CompanyActions';
 import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
@@ -171,6 +172,7 @@ export const DetailNavigation = ({
   companyId: ID;
 }) => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   return (
     <NavigationTab
@@ -186,7 +188,11 @@ export const DetailNavigation = ({
       <ConfirmModal
         title="Slett bedrift"
         message="Er du sikker på at du vil slette denne bedriften?"
-        onConfirm={() => dispatch(deleteCompany(companyId))}
+        onConfirm={() =>
+          dispatch(deleteCompany(companyId)).then(() => {
+            navigate('/bdb');
+          })
+        }
       >
         {({ openConfirmModal }) => (
           <Button onClick={openConfirmModal} danger>

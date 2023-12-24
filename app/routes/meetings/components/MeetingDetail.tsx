@@ -48,7 +48,7 @@ const UserLink = ({ user }: { user: PublicUser }) =>
 
 const MeetingDetails = () => {
   const { meetingId } = useParams<{ meetingId: string }>();
-  const { currentUser, loggedIn } = useUserContext();
+  const { currentUser } = useUserContext();
   const meeting = useAppSelector((state) =>
     selectMeetingById(state, {
       meetingId,

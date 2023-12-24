@@ -48,12 +48,17 @@ const GroupForm = ({ isInterestGroup }: Props) => {
   const isNew = !group;
 
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const handleSubmit = (values: FormValues) => {
     if (isInterestGroup) {
       values.type = GroupType.Interest;
     }
-    dispatch(isNew ? createGroup(values) : editGroup(values));
+    dispatch(isNew ? createGroup(values) : editGroup(values)).then(() => {
+      if (group.type === 'interesse') {
+        navigate(`/interest-groups/${group.id}`);
+      }
+    });
   };
 
   // isNew also implies it is an interest group

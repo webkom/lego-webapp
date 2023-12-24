@@ -10,7 +10,7 @@ import {
   getEndpoint,
 } from 'app/actions/MeetingActions';
 import { toggleSearch } from 'app/actions/SearchActions';
-import { logoutWithRedirect } from 'app/actions/UserActions';
+import { logout } from 'app/actions/UserActions';
 import logoLightMode from 'app/assets/logo-dark.png';
 import logoDarkMode from 'app/assets/logo.png';
 import AuthSection from 'app/components/AuthSection/AuthSection';
@@ -34,6 +34,7 @@ type AccountDropdownItemsProps = {
 };
 const AccountDropdownItems = ({ onClose }: AccountDropdownItemsProps) => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const username = useAppSelector(selectCurrentUser)?.username;
 
   return (
@@ -69,7 +70,8 @@ const AccountDropdownItems = ({ onClose }: AccountDropdownItemsProps) => {
       <Dropdown.ListItem danger>
         <button
           onClick={() => {
-            dispatch(logoutWithRedirect());
+            dispatch(logout());
+            navigate('/');
             onClose();
           }}
         >

@@ -100,12 +100,7 @@ const UserSettingsNotifications = () => {
                 checked={currentUser.emailListsEnabled}
                 onChange={(event) => {
                   dispatch(
-                    updateUser(
-                      { ...currentUser, emailListsEnabled: event },
-                      {
-                        noRedirect: true,
-                      }
-                    )
+                    updateUser({ ...currentUser, emailListsEnabled: event })
                   );
                 }}
               />

@@ -1,12 +1,13 @@
 import moment from 'moment-timezone';
 import { Field } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
+import { useNavigate } from 'react-router-dom';
 import { addQuotes } from 'app/actions/QuoteActions';
+import { addToast } from 'app/actions/ToastActions';
 import { TextInput } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
-import { withSubmissionErrorFinalForm } from 'app/components/Form/utils';
 import RandomQuote from 'app/components/RandomQuote/RandomQuote';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { spyValues } from 'app/utils/formSpyUtils';
@@ -33,6 +34,7 @@ const validate = createValidator({
 
 const AddQuote = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const actionGrant = useAppSelector((state) => state.quotes.actionGrant);
 
@@ -46,12 +48,20 @@ const AddQuote = () => {
   };
 
   const onSubmit = (quote: { text: string; source: string }) =>
-    withSubmissionErrorFinalForm(
-      dispatch,
-      addQuotes
-    )({
-      text: quote.text,
-      source: removeUnnecessaryDash(quote.source),
+    dispatch(
+      addQuotes({
+        text: quote.text,
+        source: removeUnnecessaryDash(quote.source),
+      })
+    ).then(() => {
+      navigate('/quotes');
+      dispatch(
+        addToast({
+          message:
+            'Sitat sendt inn. Hvis det blir godkjent vil det dukke opp her!',
+          dismissAfter: 10000,
+        })
+      );
     });
 
   return (

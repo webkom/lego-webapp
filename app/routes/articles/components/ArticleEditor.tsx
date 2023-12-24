@@ -129,10 +129,11 @@ const ArticleEditor = () => {
       pinned: data.pinned,
     };
 
-    if (isNew) {
-      return dispatch(createArticle(body));
-    }
-    return dispatch(editArticle(body));
+    dispatch(isNew ? createArticle(body) : editArticle(body)).then((res) => {
+      navigate(
+        isNew ? `/articles/${res.payload.result}/` : `/articles/${articleId}`
+      );
+    });
   };
 
   const handleDeleteArticle = async () => {

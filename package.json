@@ -108,7 +108,6 @@
     "react-youtube": "^10.1.0",
     "recharts": "^2.9.3",
     "redux": "^4.2.1",
-    "redux-first-history": "^5.1.1",
     "redux-form": "8.3.10",
     "redux-logger": "^3.0.1",
     "redux-sentry-middleware": "^0.2.2",

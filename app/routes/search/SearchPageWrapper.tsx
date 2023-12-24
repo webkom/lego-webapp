@@ -1,7 +1,7 @@
 import { debounce } from 'lodash';
 import qs from 'qs';
 import { useEffect } from 'react';
-import { push } from 'redux-first-history';
+import { useNavigate } from 'react-router-dom';
 import { search } from 'app/actions/SearchActions';
 import { Content } from 'app/components/Content';
 import SearchPage from 'app/components/Search/SearchPage';
@@ -23,12 +23,14 @@ const SearchPageWrapper = () => {
     }
   }, [dispatch]);
 
+  const navigate = useNavigate();
+
   const handleSelect = (result) => {
-    dispatch(push(result.link));
+    navigate(result.link);
   };
 
   const onQueryChanged = debounce((query) => {
-    dispatch(push(`/search?q=${query}`));
+    navigate(`/search?q=${query}`);
   }, 300);
 
   return (

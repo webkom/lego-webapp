@@ -4,7 +4,6 @@ import { useCallback, useRef, useState, type ComponentProps } from 'react';
 import { QrReader } from 'react-qr-reader';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom-v5-compat';
-import { replace } from 'redux-first-history';
 import { autocomplete } from 'app/actions/SearchActions';
 import { addToast } from 'app/actions/ToastActions';
 import goodSound from 'app/assets/good-sound.mp3';

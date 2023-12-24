@@ -1,4 +1,5 @@
 import { Field } from 'react-final-form';
+import { useNavigate } from 'react-router-dom';
 import { editGroup } from 'app/actions/GroupActions';
 import { Button, Form, LegoFinalForm } from 'app/components/Form';
 import TextInput from 'app/components/Form/TextInput';
@@ -22,6 +23,7 @@ const validate = createValidator({
 
 const AddGroupPermission = ({ group }: Props) => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const handleSubmit = (values, form) => {
     const updatedGroup = {
@@ -30,6 +32,9 @@ const AddGroupPermission = ({ group }: Props) => {
     };
     dispatch(editGroup(updatedGroup)).then(() => {
       form.reset();
+      if (group.type === 'interesse') {
+        navigate(`/interest-groups/${group.id}`);
+      }
     });
   };
 
