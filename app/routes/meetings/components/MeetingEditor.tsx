@@ -4,13 +4,21 @@ import {
   Icon,
   LoadingIndicator,
 } from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import { unionBy } from 'lodash';
 import moment from 'moment-timezone';
 import { useState } from 'react';
 import { Field, FormSpy } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom-v5-compat';
 import { fetchMemberships } from 'app/actions/GroupActions';
+import {
+  createMeeting,
+  deleteMeeting,
+  editMeeting,
+  fetchMeeting,
+  inviteUsersAndGroups,
+} from 'app/actions/MeetingActions';
 import { Content } from 'app/components/Content';
 import {
   Button,
@@ -29,12 +37,18 @@ import MazemapLink from 'app/components/MazemapEmbed/MazemapLink';
 import NavigationTab from 'app/components/NavigationTab';
 import { AttendanceStatus } from 'app/components/UserAttendance';
 import config from 'app/config';
+import {
+  selectMeetingInvitationsForMeeting,
+  type MeetingInvitationWithUser,
+} from 'app/reducers/meetingInvitations';
 import { selectMeetingById } from 'app/reducers/meetings';
+import { selectUserById } from 'app/reducers/users';
 import { useUserContext } from 'app/routes/app/AppRoute';
 import styles from 'app/routes/meetings/components/MeetingEditor.css';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EDITOR_EMPTY } from 'app/utils/constants';
 import { spyValues } from 'app/utils/formSpyUtils';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import {
   createValidator,
   ifField,
@@ -43,26 +57,11 @@ import {
   required,
   timeIsAfter,
 } from 'app/utils/validation';
-import {
-  selectMeetingInvitationsForMeeting,
-  type MeetingInvitationWithUser,
-} from 'app/reducers/meetingInvitations';
 import type { ID } from 'app/store/models';
 import type { AutocompleteGroup } from 'app/store/models/Group';
 import type { DetailedMeeting } from 'app/store/models/Meeting';
 import type { AutocompleteUser, CurrentUser } from 'app/store/models/User';
 import type { History } from 'history';
-import { selectUserById } from 'app/reducers/users';
-import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
-import { usePreparedEffect } from '@webkom/react-prepare';
-import {
-  createMeeting,
-  deleteMeeting,
-  editMeeting,
-  fetchMeeting,
-  inviteUsersAndGroups,
-} from 'app/actions/MeetingActions';
-import { useNavigate } from 'react-router-dom-v5-compat';
 
 const time = (hours: number, minutes?: number) =>
   moment()
@@ -87,32 +86,6 @@ export type MeetingFormValues = {
   reportAuthor?: { value: ID; label: string; id: ID };
   users?: AutocompleteUser[];
   groups?: AutocompleteGroup[];
-};
-
-type Props = {
-  meetingId?: string;
-  meeting: DetailedMeeting;
-  currentUser: CurrentUser;
-  meetingInvitations: MeetingInvitationWithUser[];
-  initialValues: MeetingFormValues;
-  handleSubmitCallback: (
-    data: MeetingFormValues
-  ) => Promise<{ payload: { result: ID } }>;
-  push: History['push'];
-  inviteUsersAndGroups: (args: {
-    id: ID;
-    users: [
-      {
-        id: ID;
-      }
-    ];
-    groups: [
-      {
-        value: ID;
-      }
-    ];
-  }) => Promise<void>;
-  deleteMeeting: (args: ID) => Promise<void>;
 };
 
 const validate = createValidator({
@@ -182,7 +155,11 @@ const MeetingEditor = () => {
   const navigate = useNavigate();
 
   if (isEditPage && !meeting) {
-    return <LoadingIndicator loading />;
+    return (
+      <Content>
+        <LoadingIndicator loading />;
+      </Content>
+    );
   }
 
   const currentUserSearchable = {
@@ -438,7 +415,7 @@ const MeetingEditor = () => {
                 <Button
                   flat
                   onClick={() =>
-                    push(`/meetings/${isEditPage ? meeting.id : ''}`)
+                    navigate(`/meetings/${isEditPage ? meeting.id : ''}`)
                   }
                 >
                   Avbryt

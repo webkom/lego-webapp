@@ -1,5 +1,5 @@
 import { LoadingIndicator, Button } from '@webkom/lego-bricks';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom-v5-compat';
 import { resetMeetingsToken } from 'app/actions/MeetingActions';
 import { useAppDispatch } from 'app/store/hooks';
 import { MeetingInvitationStatus } from 'app/store/models/MeetingInvitation';
@@ -21,7 +21,7 @@ const statusTexts: { [value in MeetingInvitationStatus]: string } = {
 };
 
 const MeetingAnswer = ({ response, user, meeting, status }: Props) => {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
 
@@ -30,7 +30,7 @@ const MeetingAnswer = ({ response, user, meeting, status }: Props) => {
   }
 
   const handleLink = () => {
-    history.push(`/meetings/${meeting}`);
+    navigate(`/meetings/${meeting}`);
     dispatch(resetMeetingsToken());
   };
 
