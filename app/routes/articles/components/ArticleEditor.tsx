@@ -8,8 +8,7 @@ import {
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Field } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
-import { useParams } from 'react-router-dom';
-import { push } from 'redux-first-history';
+import { useNavigate, useParams } from 'react-router-dom-v5-compat';
 import {
   createArticle,
   deleteArticle,
@@ -85,6 +84,8 @@ const ArticleEditor = () => {
     [articleId]
   );
 
+  const navigate = useNavigate();
+
   const initialValues = {
     ...article,
     ...objectPermissionsToInitialValues({
@@ -136,7 +137,7 @@ const ArticleEditor = () => {
 
   const handleDeleteArticle = async () => {
     await dispatch(deleteArticle(articleId)).then(() => {
-      dispatch(push('/articles/'));
+      navigate('/articles/');
     });
   };
 
@@ -230,13 +231,13 @@ const ArticleEditor = () => {
               name="content"
               label="Innhold"
               component={EditorField.Field}
-              initialized={!!article}
+              initialized={isNew || !!article}
             />
 
             <Flex wrap>
               <Button
                 flat
-                onClick={() => push(`/articles/${isNew ? '' : articleId}`)}
+                onClick={() => navigate(`/articles/${isNew ? '' : articleId}`)}
               >
                 Avbryt
               </Button>
