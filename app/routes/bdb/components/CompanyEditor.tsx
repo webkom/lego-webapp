@@ -1,8 +1,7 @@
 import { LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Field } from 'react-final-form';
-import { useParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom-v5-compat';
+import { useNavigate, useParams } from 'react-router-dom-v5-compat';
 import {
   addCompany,
   editCompany,
@@ -65,8 +64,12 @@ const CompanyEditor = () => {
 
   const navigate = useNavigate();
 
-  if (fetching) {
-    return <LoadingIndicator loading />;
+  if (!isNew && fetching) {
+    return (
+      <Content>
+        <LoadingIndicator loading />;
+      </Content>
+    );
   }
 
   const nameField = (

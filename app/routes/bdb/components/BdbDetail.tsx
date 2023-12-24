@@ -9,8 +9,7 @@ import {
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
 import { useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom-v5-compat';
+import { Link, useNavigate, useParams } from 'react-router-dom-v5-compat';
 import {
   deleteCompanyContact,
   editSemesterStatus,
