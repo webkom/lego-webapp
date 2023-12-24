@@ -1,5 +1,5 @@
 import { LoadingIndicator } from '@webkom/lego-bricks';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom-v5-compat';
 import { Content, ContentSection, ContentMain } from 'app/components/Content';
 import { useFetchedSurveySubmissions } from 'app/reducers/surveySubmissions';
 import { useFetchedSurvey } from 'app/reducers/surveys';
@@ -32,8 +32,8 @@ const SubmissionsPage = ({ children: Children }: Props) => {
   );
   const authToken = useAppSelector((state) => state.auth.token);
 
-  if (fetching || !survey) {
-    return <LoadingIndicator loading />;
+  if (!survey) {
+    return <LoadingIndicator loading={fetching} />;
   }
 
   return (

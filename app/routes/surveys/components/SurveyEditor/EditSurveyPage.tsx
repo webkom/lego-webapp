@@ -1,6 +1,5 @@
 import { LoadingIndicator } from '@webkom/lego-bricks';
-import { useParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom-v5-compat';
+import { useParams, useNavigate } from 'react-router-dom-v5-compat';
 import { editSurvey } from 'app/actions/SurveyActions';
 import { Content } from 'app/components/Content';
 import { useFetchedSurvey, useFetchedTemplate } from 'app/reducers/surveys';

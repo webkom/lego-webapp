@@ -1,6 +1,6 @@
 import { Button, LoadingIndicator } from '@webkom/lego-bricks';
 import { Helmet } from 'react-helmet-async';
-import { Link, Redirect, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom-v5-compat';
 import { Content, ContentSection, ContentMain } from 'app/components/Content';
 import Time from 'app/components/Time';
 import { useFetchedSurvey } from 'app/reducers/surveys';
@@ -18,12 +18,14 @@ const SurveyDetailPage = () => {
   const fetching = useAppSelector((state) => state.surveys.fetching);
   const actionGrant = survey?.actionGrant;
 
+  const navigate = useNavigate();
+
   if (fetching || !actionGrant) {
     return <LoadingIndicator loading />;
   }
 
   if (!actionGrant?.includes('edit')) {
-    return <Redirect to={`/surveys/${surveyId}/answer`} />;
+    navigate(`/surveys/${surveyId}/answer`);
   }
 
   return (
