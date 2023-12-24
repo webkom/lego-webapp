@@ -1,7 +1,7 @@
 import { LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Field } from 'react-final-form';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom-v5-compat';
 import { fetchUser, updateUser } from 'app/actions/UserActions';
 import { Content } from 'app/components/Content';
 import {
@@ -85,11 +85,7 @@ const UserSettings = () => {
   );
 
   if (!user) {
-    return (
-      <Content>
-        <LoadingIndicator loading />
-      </Content>
-    );
+    return <LoadingIndicator loading />;
   }
 
   const showAbakusMembership = user.isStudent;
