@@ -5,7 +5,6 @@ import { FieldArray } from 'react-final-form-arrays';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom-v5-compat';
 import { createPoll, deletePoll, editPoll } from 'app/actions/PollActions';
-import { Content } from 'app/components/Content';
 import {
   TextInput,
   SelectInput,
@@ -131,7 +130,7 @@ const PollEditor = ({ poll, editing, toggleEdit = () => {} }: Props) => {
   };
 
   return (
-    <Content>
+    <>
       <Helmet title={editing ? `Redigerer avstemning` : 'Ny avstemning'} />
       {!editing && (
         <NavigationTab
@@ -219,7 +218,7 @@ const PollEditor = ({ poll, editing, toggleEdit = () => {} }: Props) => {
           </form>
         )}
       </LegoFinalForm>
-    </Content>
+    </>
   );
 };
 
