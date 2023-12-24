@@ -60,14 +60,15 @@ const PollDetail = () => {
           </Button>
         )}
       </NavigationTab>
-      {!editing && (
+      {!editing ? (
         <Poll
           poll={poll}
           allowedToViewHiddenResults={actionGrant.includes('edit')}
           details
         />
+      ) : (
+        <PollEditor poll={poll} editing toggleEdit={toggleEdit} />
       )}
-      {editing && <PollEditor poll={poll} editing toggleEdit={toggleEdit} />}
     </Content>
   );
 };
