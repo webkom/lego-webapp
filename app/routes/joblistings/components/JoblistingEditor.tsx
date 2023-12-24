@@ -1,10 +1,9 @@
 import { Button, ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Field } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
-import { useParams } from 'react-router-dom-v5-compat';
-import { push } from 'redux-first-history';
+import { useNavigate, useParams } from 'react-router-dom-v5-compat';
 import { fetchCompanyContacts } from 'app/actions/CompanyActions';
 import {
   createJoblisting,
@@ -82,6 +81,7 @@ const JoblistingEditor = () => {
     })
   );
 
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   usePreparedEffect(
@@ -113,14 +113,14 @@ const JoblistingEditor = () => {
       : dispatch(editJoblisting(payload)));
 
     const id = joblistingId || result.payload.result;
-    dispatch(push(`/joblistings/${id}/`));
+    navigate(`/joblistings/${id}/`);
   };
 
   const onDeleteJoblisting = isNew
     ? undefined
     : () =>
         dispatch(deleteJoblisting(joblistingId)).then(() => {
-          dispatch(push('/joblistings/'));
+          navigate('/joblistings/');
         });
 
   const fetchContacts = useCallback(
@@ -189,11 +189,13 @@ const JoblistingEditor = () => {
     })),
   };
 
+  const title = isNew ? 'Ny jobbannonse' : joblisting?.title;
+
   return (
     <Content>
-      <Helmet title={!isNew ? 'Rediger jobbannonse' : 'Ny jobbannonse'} />
+      <Helmet title={title} />
       <NavigationTab
-        title={!isNew ? 'Rediger jobbannonse' : 'Ny jobbannonse'}
+        title={title}
         back={{
           label: 'Tilbake',
           path: !isNew ? `/joblistings/${joblisting?.slug}` : '/joblistings',
@@ -332,7 +334,7 @@ const JoblistingEditor = () => {
             <Flex wrap>
               <Button
                 onClick={() =>
-                  dispatch(push(`/joblistings/${isNew ? '' : joblistingId}`))
+                  navigate(`/joblistings/${isNew ? '' : joblistingId}`)
                 }
               >
                 Avbryt

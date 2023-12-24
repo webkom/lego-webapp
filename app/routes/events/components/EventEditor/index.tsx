@@ -210,12 +210,15 @@ const EventEditor = () => {
       isEditPage
         ? editEvent(transformEvent(values))
         : createEvent(transformEvent(values))
-    ).then(() => {
+    ).then((res) => {
       const key: string = values.cover.split(':')[0];
       const token: string = values.cover.split(':')[1];
       if (values.saveToImageGallery) {
         dispatch(setSaveForUse(key, token, true));
       }
+      navigate(
+        isEditPage ? `/events/${event?.slug}` : `/events/${res.payload.result}`
+      );
     });
   };
 

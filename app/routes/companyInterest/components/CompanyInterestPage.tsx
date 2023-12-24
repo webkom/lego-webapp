@@ -1,12 +1,10 @@
 import { Card, Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import arrayMutators from 'final-form-arrays';
-import { useEffect } from 'react';
 import { Field, FormSpy } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
-import { useLocation, useParams } from 'react-router-dom-v5-compat';
-import { push } from 'redux-first-history';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom-v5-compat';
 import {
   fetchSemesters,
   fetchSemestersForInterestform,
@@ -318,16 +316,18 @@ const CompanyInterestPage = () => {
   const language = pathname === '/register-interest' ? 'english' : 'norwegian';
   const isEnglish = language === 'english';
 
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    if (edit) {
-      dispatch(fetchSemesters());
-      dispatch(fetchCompanyInterest(companyInterestId));
-    } else {
-      dispatch(fetchSemestersForInterestform());
-    }
-  }, [companyInterestId, dispatch, edit]);
+  usePreparedEffect('fetchCompanyInterestPage', () => {
+    Promise.all([
+      edit && dispatch(fetchSemesters()),
+      edit &&
+        companyInterestId &&
+        dispatch(fetchCompanyInterest(companyInterestId)),
+      !edit && dispatch(fetchSemestersForInterestform()),
+    ]);
+  });
 
   const allEvents = Object.keys(EVENTS);
   const allOtherOffers = Object.keys(README);
@@ -446,7 +446,9 @@ const CompanyInterestPage = () => {
     }
 
     dispatch(
-      push(allowedBdb ? '/companyInterest/' : '/pages/bedrifter/for-bedrifter')
+      navigate(
+        allowedBdb ? '/companyInterest/' : '/pages/bedrifter/for-bedrifter'
+      )
     );
   };
 

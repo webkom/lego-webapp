@@ -1,6 +1,4 @@
 import { combineReducers } from '@reduxjs/toolkit';
-import { createBrowserHistory, createMemoryHistory } from 'history';
-import { createReduxHistoryContext } from 'redux-first-history';
 import allowed from 'app/reducers/allowed';
 import announcements from 'app/reducers/announcements';
 import articles from 'app/reducers/articles';
@@ -50,17 +48,10 @@ import tags from 'app/reducers/tags';
 import theme from 'app/reducers/theme';
 import toasts from 'app/reducers/toasts';
 import users from 'app/reducers/users';
-import joinReducers from 'app/utils/joinReducers';
-import type { RoutingState } from 'app/reducers/routing';
-import type { RouterState } from 'redux-first-history';
 
 const createRootReducer = () => {
-  const { routerReducer } = createReduxHistoryContext({
-    history: __CLIENT__ ? createBrowserHistory() : createMemoryHistory(),
-  });
-
   return combineReducers({
-    router: joinReducers<RouterState & RoutingState>(routerReducer, routing),
+    router: routing,
     allowed,
     announcements,
     articles,

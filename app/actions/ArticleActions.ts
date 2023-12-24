@@ -1,9 +1,7 @@
 import { omit } from 'lodash';
-import { push } from 'redux-first-history';
 import callAPI from 'app/actions/callAPI';
 import { articleSchema } from 'app/reducers';
 import { Article } from './ActionTypes';
-import type { AppDispatch } from 'app/store/createStore';
 import type { ID } from 'app/store/models';
 import type { DetailedArticle } from 'app/store/models/Article';
 import type { ArticleEntity } from 'app/types';
@@ -21,23 +19,16 @@ export function fetchArticle(articleId: ID) {
 }
 
 export function createArticle(data: ArticleEntity) {
-  return (dispatch: AppDispatch) =>
-    dispatch(
-      callAPI<DetailedArticle>({
-        types: Article.CREATE,
-        endpoint: '/articles/',
-        method: 'POST',
-        schema: articleSchema,
-        body: omit(data, ['id']),
-        meta: {
-          errorMessage: 'Opprettelse av artikkel feilet',
-        },
-      })
-    ).then(
-      (action) =>
-        'success' in action &&
-        dispatch(push(`/articles/${action.payload.result}/`))
-    );
+  return callAPI<DetailedArticle>({
+    types: Article.CREATE,
+    endpoint: '/articles/',
+    method: 'POST',
+    schema: articleSchema,
+    body: omit(data, ['id']),
+    meta: {
+      errorMessage: 'Opprettelse av artikkel feilet',
+    },
+  });
 }
 
 export function deleteArticle(id: ID) {
@@ -53,19 +44,16 @@ export function deleteArticle(id: ID) {
 }
 
 export function editArticle({ id, ...data }: ArticleEntity) {
-  return (dispatch: AppDispatch) =>
-    dispatch(
-      callAPI({
-        types: Article.EDIT,
-        endpoint: `/articles/${id}/`,
-        method: 'PUT',
-        schema: articleSchema,
-        body: data,
-        meta: {
-          errorMessage: 'Endring av artikkel feilet',
-        },
-      })
-    ).then(() => dispatch(push(`/articles/${id}/`)));
+  return callAPI<DetailedArticle>({
+    types: Article.EDIT,
+    endpoint: `/articles/${id}/`,
+    method: 'PUT',
+    schema: articleSchema,
+    body: data,
+    meta: {
+      errorMessage: 'Endring av artikkel feilet',
+    },
+  });
 }
 
 export function fetchAll({

@@ -4,6 +4,7 @@ import { companyInterestSchema } from 'app/reducers';
 import { CompanyInterestForm } from './ActionTypes';
 import type { CompanyInterestEntity } from 'app/reducers/companyInterest';
 import type { AppDispatch } from 'app/store/createStore';
+import type { ID } from 'app/store/models';
 import type {
   DetailedCompanyInterest,
   ListCompanyInterest,
@@ -20,7 +21,8 @@ export function fetchAll() {
     },
   });
 }
-export function fetchCompanyInterest(companyInterestId: number) {
+
+export function fetchCompanyInterest(companyInterestId: ID) {
   return callAPI<DetailedCompanyInterest>({
     types: CompanyInterestForm.FETCH,
     endpoint: `/company-interests/${companyInterestId}/`,
@@ -30,6 +32,7 @@ export function fetchCompanyInterest(companyInterestId: number) {
     },
   });
 }
+
 export function createCompanyInterest(
   data: CompanyInterestEntity,
   isEnglish: boolean
@@ -57,7 +60,8 @@ export function createCompanyInterest(
     );
   };
 }
-export function deleteCompanyInterest(id: number) {
+
+export function deleteCompanyInterest(id: ID) {
   return (dispatch: AppDispatch) => {
     return dispatch(
       callAPI({
@@ -78,7 +82,8 @@ export function deleteCompanyInterest(id: number) {
     );
   };
 }
-export function updateCompanyInterest(id: number, data: CompanyInterestEntity) {
+
+export function updateCompanyInterest(id: ID, data: CompanyInterestEntity) {
   return (dispatch: AppDispatch) => {
     return dispatch(
       callAPI({
@@ -95,6 +100,7 @@ export function updateCompanyInterest(id: number, data: CompanyInterestEntity) {
     );
   };
 }
+
 export function fetch({
   next,
   filters,

@@ -1,5 +1,3 @@
-import { push } from 'redux-first-history';
-import { addToast } from 'app/actions/ToastActions';
 import callAPI from 'app/actions/callAPI';
 import {
   eventSchema,
@@ -159,38 +157,28 @@ export function fetchAllergies(eventId: ID) {
 }
 
 export function createEvent(event: Record<string, any>) {
-  return (dispatch: AppDispatch) =>
-    dispatch(
-      callAPI<UnknownEvent>({
-        types: Event.CREATE,
-        endpoint: '/events/',
-        method: 'POST',
-        body: event,
-        schema: eventSchema,
-        meta: {
-          errorMessage: 'Opprettelse av arrangement feilet',
-        },
-      })
-    ).then(
-      (action) =>
-        'success' in action &&
-        dispatch(push(`/events/${action.payload.result}/`))
-    );
+  return callAPI<UnknownEvent>({
+    types: Event.CREATE,
+    endpoint: '/events/',
+    method: 'POST',
+    body: event,
+    schema: eventSchema,
+    meta: {
+      errorMessage: 'Opprettelse av arrangement feilet',
+    },
+  });
 }
 
 export function editEvent(event: Record<string, any>) {
-  return (dispatch) =>
-    dispatch(
-      callAPI({
-        types: Event.EDIT,
-        endpoint: `/events/${event.id}/`,
-        method: 'PUT',
-        body: { ...event, cover: event.cover || undefined },
-        meta: {
-          errorMessage: 'Endring av arrangement feilet',
-        },
-      })
-    ).then(() => dispatch(push(`/events/${event.id}`)));
+  return callAPI({
+    types: Event.EDIT,
+    endpoint: `/events/${event.id}/`,
+    method: 'PUT',
+    body: { ...event, cover: event.cover || undefined },
+    meta: {
+      errorMessage: 'Endring av arrangement feilet',
+    },
+  });
 }
 
 export function deleteEvent(eventId: ID) {

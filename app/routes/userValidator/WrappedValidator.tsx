@@ -1,6 +1,6 @@
 import { debounce } from 'lodash';
 import qs from 'qs';
-import { push } from 'redux-first-history';
+import { useNavigate } from 'react-router-dom';
 import { autocomplete } from 'app/actions/SearchActions';
 import { fetchUser } from 'app/actions/UserActions';
 import { Content } from 'app/components/Content';
@@ -12,10 +12,11 @@ import type { SearchUser } from 'app/store/models/User';
 const searchTypes = ['users.user'];
 
 const WrappedValidator = () => {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   const clearSearch = () =>
-    dispatch(push(`/validator?${qs.stringify({ ...search, q: '' })}`));
+    navigate(`/validator?${qs.stringify({ ...search, q: '' })}`);
 
   const handleSelect = async (
     result: UserSearchResult
@@ -32,7 +33,7 @@ const WrappedValidator = () => {
   });
 
   const onQueryChanged = debounce((query) => {
-    dispatch(push(`/validator?${qs.stringify({ ...search, q: query })}`));
+    navigate(`/validator?${qs.stringify({ ...search, q: query })}`);
 
     if (query) {
       dispatch(autocomplete(query, searchTypes));

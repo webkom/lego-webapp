@@ -1,5 +1,3 @@
-import { push } from 'redux-first-history';
-import { addToast } from 'app/actions/ToastActions';
 import callAPI from 'app/actions/callAPI';
 import {
   companySchema,
@@ -12,7 +10,6 @@ import { semesterToText } from '../routes/companyInterest/utils';
 import { Company, Event, Joblistings } from './ActionTypes';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 import type { FormValues as CompanyContactEditorFormValues } from 'app/routes/bdb/components/CompanyContactEditor';
-import type { AppDispatch } from 'app/store/createStore';
 import type { ID } from 'app/store/models';
 import type {
   AdminListCompany,
@@ -131,26 +128,15 @@ export function editCompany({ companyId, ...data }: Record<string, any>) {
 }
 
 export function deleteCompany(companyId: ID) {
-  return (dispatch: AppDispatch) => {
-    return dispatch(
-      callAPI({
-        types: Company.DELETE,
-        endpoint: `/bdb/${companyId}/`,
-        method: 'DELETE',
-        meta: {
-          id: Number(companyId),
-          errorMessage: 'Sletting av bedrift feilet',
-        },
-      })
-    ).then(() => {
-      dispatch(
-        addToast({
-          message: 'Bedrift slettet.',
-        })
-      );
-      dispatch(push('/bdb/'));
-    });
-  };
+  return callAPI({
+    types: Company.DELETE,
+    endpoint: `/bdb/${companyId}/`,
+    method: 'DELETE',
+    meta: {
+      id: Number(companyId),
+      errorMessage: 'Sletting av bedrift feilet',
+    },
+  });
 }
 
 export function addSemesterStatus({ companyId, ...data }: Record<string, any>) {

@@ -67,7 +67,7 @@ const createServerSideRenderer = (req: Request, res: Response) => {
     </StaticRouter>
   );
 
-  const { store } = createStore(
+  const store = createStore(
     {},
     {
       Sentry,

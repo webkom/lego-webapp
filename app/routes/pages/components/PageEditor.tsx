@@ -8,8 +8,7 @@ import {
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { useState } from 'react';
 import { Field } from 'react-final-form';
-import { useParams } from 'react-router-dom-v5-compat';
-import { push } from 'redux-first-history';
+import { useNavigate, useParams } from 'react-router-dom-v5-compat';
 import { uploadFile } from 'app/actions/FileActions';
 import {
   createPage,
@@ -74,6 +73,7 @@ const PageEditor = () => {
   });
   const [images, setImages] = useState<Record<string, string>>({});
 
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   usePreparedEffect(
@@ -96,9 +96,7 @@ const PageEditor = () => {
   };
 
   const onDelete = () => {
-    dispatch(deletePage(pageSlug)).then(() =>
-      dispatch(push('/pages/info/om-oss'))
-    );
+    dispatch(deletePage(pageSlug)).then(() => navigate('/pages/info/om-oss'));
   };
 
   const onSubmit = (data: FormValues) => {
@@ -120,7 +118,7 @@ const PageEditor = () => {
       (result) => {
         const slug = result.payload.result;
         const pageCategory = result.payload.entities.pages[slug].category;
-        dispatch(push(`/pages/${pageCategory}/${slug}`));
+        navigate(`/pages/${pageCategory}/${slug}`);
       }
     );
   };

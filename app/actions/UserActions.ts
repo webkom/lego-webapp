@@ -2,7 +2,6 @@ import cookie from 'js-cookie';
 import jwtDecode from 'jwt-decode';
 import moment from 'moment-timezone';
 import { normalize } from 'normalizr';
-import { push } from 'redux-first-history';
 import callAPI from 'app/actions/callAPI';
 import config from 'app/config';
 import { userSchema, penaltySchema } from 'app/reducers';
@@ -81,13 +80,6 @@ export function login(username: string, password: string) {
     });
 }
 
-export function logoutWithRedirect() {
-  return (dispatch: AppDispatch) => {
-    dispatch(logout());
-    dispatch(push('/'));
-  };
-}
-
 export function logout() {
   return (dispatch: AppDispatch) => {
     removeToken();
@@ -101,10 +93,8 @@ export function logout() {
 export function updateUser(
   user: UpdateUser,
   options: {
-    noRedirect: boolean;
     updateProfilePicture?: boolean;
   } = {
-    noRedirect: false,
     updateProfilePicture: false,
   }
 ) {
@@ -123,44 +113,35 @@ export function updateUser(
     githubUsername,
     linkedinId,
   } = user;
-  return (dispatch: AppDispatch) =>
-    dispatch(
-      callAPI({
-        types: User.UPDATE,
-        endpoint: `/users/${username}/`,
-        method: 'PATCH',
-        body: {
-          username,
-          firstName,
-          lastName,
-          email,
-          phoneNumber,
-          gender,
-          allergies,
-          selectedTheme,
-          isAbakusMember,
-          emailListsEnabled,
-          githubUsername,
-          linkedinId,
-          ...(options.updateProfilePicture
-            ? {
-                profilePicture,
-              }
-            : null),
-        },
-        schema: userSchema,
-        meta: {
-          successMessage: 'Oppdatering av bruker fullført',
-          errorMessage: 'Oppdatering av bruker feilet',
-        },
-      })
-    ).then((action) => {
-      if (!action || !action.payload) return;
-
-      if (!options.noRedirect) {
-        dispatch(push(`/users/${username}`));
-      }
-    });
+  return callAPI({
+    types: User.UPDATE,
+    endpoint: `/users/${username}/`,
+    method: 'PATCH',
+    body: {
+      username,
+      firstName,
+      lastName,
+      email,
+      phoneNumber,
+      gender,
+      allergies,
+      selectedTheme,
+      isAbakusMember,
+      emailListsEnabled,
+      githubUsername,
+      linkedinId,
+      ...(options.updateProfilePicture
+        ? {
+            profilePicture,
+          }
+        : null),
+    },
+    schema: userSchema,
+    meta: {
+      successMessage: 'Oppdatering av bruker fullført',
+      errorMessage: 'Oppdatering av bruker feilet',
+    },
+  });
 }
 
 export function changePassword({

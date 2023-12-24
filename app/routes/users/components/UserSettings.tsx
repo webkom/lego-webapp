@@ -84,13 +84,18 @@ const UserSettings = () => {
     []
   );
 
+  const navigate = useNavigate();
+
   if (!user) {
     return <LoadingIndicator loading />;
   }
 
   const showAbakusMembership = user.isStudent;
 
-  const onSubmit = (values: FormValues) => dispatch(updateUser(values));
+  const onSubmit = (values: FormValues) =>
+    dispatch(updateUser(values)).then(() => {
+      navigate('/users/me');
+    });
 
   const initialValues = {
     ...user,
