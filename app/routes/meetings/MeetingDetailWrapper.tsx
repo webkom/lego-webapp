@@ -1,6 +1,6 @@
 import { usePreparedEffect } from '@webkom/react-prepare';
 import qs from 'qs';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom-v5-compat';
 import {
   fetchMeeting,
   answerMeetingInvitation,
