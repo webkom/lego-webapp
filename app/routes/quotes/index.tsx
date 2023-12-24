@@ -1,20 +1,15 @@
-import { Switch, useRouteMatch } from 'react-router-dom';
-import { CompatRoute } from 'react-router-dom-v5-compat';
+import { Route, Routes } from 'react-router-dom-v5-compat';
 import PageNotFound from '../pageNotFound';
 import AddQuote from './components/AddQuote';
 import QuotePage from './components/QuotePage';
 
-const QuotesRoute = () => {
-  const { path } = useRouteMatch();
-
-  return (
-    <Switch>
-      <CompatRoute exact path={`/quotes`} component={QuotePage} />
-      <CompatRoute exact path={`${path}/add`} component={AddQuote} />
-      <CompatRoute exact path={`${path}/:quoteId`} component={QuotePage} />
-      <CompatRoute component={PageNotFound} />
-    </Switch>
-  );
-};
+const QuotesRoute = () => (
+  <Routes>
+    <Route index element={<QuotePage />} />
+    <Route path="add" element={<AddQuote />} />
+    <Route path=":quoteId" element={<QuotePage />} />
+    <Route path="*" element={<PageNotFound />} />
+  </Routes>
+);
 
 export default QuotesRoute;
