@@ -1,7 +1,7 @@
 import { Card, Flex, Modal } from '@webkom/lego-bricks';
 import qs from 'qs';
 import { useEffect, useState } from 'react';
-import { Link, useLocation, useHistory } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom-v5-compat';
 import {
   type ConfirmStudentAuthResponse,
   confirmStudentAuth,
@@ -44,7 +44,7 @@ const StudentConfirmation = () => {
   const [showMemberModal, setShowMemberModal] = useState(false);
 
   const { search } = useLocation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { code, state } = qs.parse(search, { ignoreQueryPrefix: true });
 
   const { currentUser } = useUserContext();
@@ -77,12 +77,12 @@ const StudentConfirmation = () => {
           .catch((err: RejectedPromiseAction) => {
             setAuthRes(err.payload.response.jsonData);
           });
-        history.replace({ search: '' });
+        navigate({ search: '' }, { replace: true });
       }
     };
 
     validateStudentAuth();
-  }, [code, state, history, dispatch]);
+  }, [code, state, navigate, dispatch]);
 
   useEffect(() => {
     authRes?.status === 'success' && setShowMemberModal(true);

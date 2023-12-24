@@ -1,6 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import { Route, Switch, useParams, useRouteMatch } from 'react-router-dom';
-import { CompatRoute } from 'react-router-dom-v5-compat';
+import { Route, Routes, useParams } from 'react-router-dom-v5-compat';
 import { Content } from 'app/components/Content';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { useUserContext } from 'app/routes/app/AppRoute';
@@ -13,8 +12,6 @@ import UserSettingsOAuth2 from './UserSettingsOAuth2';
 import UserSettingsOAuth2Form from './UserSettingsOAuth2Form';
 
 const UserSettingsIndex = () => {
-  const { path } = useRouteMatch();
-
   const { username } = useParams<{ username: string }>();
   const isCurrentUser = useIsCurrentUser(username);
   const { currentUser } = useUserContext();
@@ -49,30 +46,24 @@ const UserSettingsIndex = () => {
         )}
       </NavigationTab>
 
-      <Switch>
-        <Route exact path={`${path}/profile`} component={UserSettings} />
+      <Routes>
+        <Route path="profile" element={<UserSettings />} />
+        <Route path="notifications" element={<UserSettingsNotifications />} />
         <Route
-          exact
-          path={`${path}/notifications`}
-          component={UserSettingsNotifications}
+          path="oauth2/*"
+          element={
+            <Routes>
+              <Route index element={<UserSettingsOAuth2 />} />
+              <Route path="new" element={<UserSettingsOAuth2Form />} />
+              <Route
+                path=":applicationId"
+                element={<UserSettingsOAuth2Form />}
+              />
+            </Routes>
+          }
         />
-        <Route exact path={`${path}/oauth2`} component={UserSettingsOAuth2} />
-        <CompatRoute
-          exact
-          path={`${path}/oauth2/new`}
-          component={UserSettingsOAuth2Form}
-        />
-        <CompatRoute
-          exact
-          path={`${path}/oauth2/:applicationId(\\d+)`}
-          component={UserSettingsOAuth2Form}
-        />
-        <Route
-          exact
-          path={`${path}/student-confirmation`}
-          component={StudentConfirmation}
-        />
-      </Switch>
+        <Route path="student-confirmation" element={<StudentConfirmation />} />
+      </Routes>
     </Content>
   );
 };

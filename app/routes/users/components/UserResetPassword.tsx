@@ -1,8 +1,7 @@
 import { Card } from '@webkom/lego-bricks';
 import qs from 'qs';
 import { Field } from 'react-final-form';
-import { useLocation } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom-v5-compat';
+import { useLocation, useNavigate } from 'react-router-dom-v5-compat';
 import { resetPassword } from 'app/actions/UserActions';
 import { Content } from 'app/components/Content';
 import { TextInput } from 'app/components/Form';
