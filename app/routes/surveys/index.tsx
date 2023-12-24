@@ -1,4 +1,4 @@
-import { Route, Switch, useRouteMatch } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom-v5-compat';
 import AddSubmissionPage from 'app/routes/surveys/components/AddSubmission/AddSubmissionPage';
 import SubmissionPublicResultsPage from 'app/routes/surveys/components/Submissions/SubmissionPublicResultsPage';
 import SurveyDetailPage from 'app/routes/surveys/components/SurveyDetail';
@@ -10,64 +10,36 @@ import SubmissionsPage from './components/Submissions/SubmissionsPage';
 import SubmissionsSummary from './components/Submissions/SubmissionsSummary';
 import SurveyListPage from './components/SurveyList/SurveyListPage';
 
-const SurveysRoute = () => {
-  const { path } = useRouteMatch();
+const SurveysRoute = () => (
+  <Routes>
+    <Route index element={<SurveyListPage />} />
+    <Route path="templates" element={<SurveyListPage templates />} />
+    <Route path="add" element={<AddSurveyPage />} />
+    <Route path=":surveyId/edit" element={<EditSurveyPage />} />
+    <Route path=":surveyId" element={<SurveyDetailPage />} />
+    <Route path=":surveyId/answer" element={<AddSubmissionPage />} />
+    <Route
+      path=":surveyId/submissions/*"
+      element={
+        <SubmissionsPage>
+          {(props) => (
+            <Routes>
+              <Route
+                path="summary"
+                element={<SubmissionsSummary {...props} />}
+              />
+              <Route
+                path="individual"
+                element={<SubmissionsIndividual {...props} />}
+              />
+            </Routes>
+          )}
+        </SubmissionsPage>
+      }
+    />
+    <Route path=":surveyId/results" element={<SubmissionPublicResultsPage />} />
+    <Route path="*" element={<PageNotFound />} />
+  </Routes>
+);
 
-  return (
-    <Switch>
-      <Route exact path={path} render={() => <SurveyListPage />} />
-      <Route
-        exact
-        path={`${path}/templates`}
-        render={() => <SurveyListPage templates />}
-      />
-      <Route exact path={`${path}/add`} render={() => <AddSurveyPage />} />
-      <Route
-        exact
-        path={`${path}/:surveyId/edit`}
-        render={() => <EditSurveyPage />}
-      />
-      <Route
-        exact
-        path={`${path}/:surveyId`}
-        render={() => <SurveyDetailPage />}
-      />
-      <Route
-        exact
-        path={`${path}/:surveyId/answer`}
-        render={() => <AddSubmissionPage />}
-      />
-      <Route
-        path={`${path}/:surveyId/submissions`}
-        render={() => (
-          <SubmissionsPage>
-            {(props) => (
-              <Switch>
-                <Route
-                  exact
-                  path={`${path}/:surveyId/submissions/summary`}
-                  render={() => <SubmissionsSummary {...props} />}
-                />
-                <Route
-                  exact
-                  path={`${path}/:surveyId/submissions/individual`}
-                  render={() => <SubmissionsIndividual {...props} />}
-                />
-              </Switch>
-            )}
-          </SubmissionsPage>
-        )}
-      />
-      <Route
-        exact
-        path={`${path}/:surveyId/results`}
-        render={() => <SubmissionPublicResultsPage />}
-      />
-      <Route component={PageNotFound} />
-    </Switch>
-  );
-};
-
-export default function Surveys() {
-  return <Route path="/surveys" component={SurveysRoute} />;
-}
+export default SurveysRoute;
