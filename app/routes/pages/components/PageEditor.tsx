@@ -8,7 +8,7 @@ import {
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { useState } from 'react';
 import { Field } from 'react-final-form';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom-v5-compat';
 import { push } from 'redux-first-history';
 import { uploadFile } from 'app/actions/FileActions';
 import {
