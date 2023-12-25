@@ -2,7 +2,7 @@ import { Icon } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import moment, { type Moment } from 'moment-timezone';
 import { Helmet } from 'react-helmet-async';
-import { useParams } from 'react-router-dom-v5-compat';
+import { useParams } from 'react-router-dom';
 import { fetchData } from 'app/actions/EventActions';
 import { useUserContext } from 'app/routes/app/AppRoute';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';

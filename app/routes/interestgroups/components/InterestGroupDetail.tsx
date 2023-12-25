@@ -1,7 +1,7 @@
 import { Button, Flex, Icon } from '@webkom/lego-bricks';
 import { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useParams, Link } from 'react-router-dom-v5-compat';
+import { useParams, Link } from 'react-router-dom';
 import {
   fetchAllMemberships,
   fetchGroup,

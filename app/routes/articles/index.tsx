@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom-v5-compat';
+import { Route, Routes } from 'react-router-dom';
 import Overview from 'app/routes/articles/components/Overview';
 import PageNotFound from '../pageNotFound';
 import ArticleDetail from './components/ArticleDetail';

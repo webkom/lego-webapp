@@ -4,7 +4,7 @@ import { isEmpty } from 'lodash';
 import moment from 'moment-timezone';
 import { useState } from 'react';
 import { Field } from 'react-final-form';
-import { useNavigate, useParams } from 'react-router-dom-v5-compat';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
   addSemester,
   addSemesterStatus,

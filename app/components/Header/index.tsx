@@ -4,7 +4,7 @@ import cx from 'classnames';
 import moment from 'moment-timezone';
 import { useEffect, useState } from 'react';
 import { Modal } from 'react-overlays';
-import { Link, NavLink, useHistory } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import {
   fetchAll as fetchMeetings,
   getEndpoint,
@@ -85,7 +85,7 @@ const AccountDropdownItems = ({ onClose }: AccountDropdownItemsProps) => {
 
 const UpcomingMeetingButton = () => {
   const upcomingMeetingId = useAppSelector(selectUpcomingMeetingId);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const pagination = useAppSelector((state) => state.meetings.pagination);
   const queryString = createQueryString({
@@ -112,7 +112,7 @@ const UpcomingMeetingButton = () => {
     <button
       type="button"
       onClick={() => {
-        history.push(`/meetings/${upcomingMeetingId}`);
+        navigate(`/meetings/${upcomingMeetingId}`);
       }}
     >
       <Icon name="people" />

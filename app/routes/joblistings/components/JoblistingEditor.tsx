@@ -3,7 +3,7 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import { useCallback, useState } from 'react';
 import { Field } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
-import { useNavigate, useParams } from 'react-router-dom-v5-compat';
+import { useNavigate, useParams } from 'react-router-dom';
 import { fetchCompanyContacts } from 'app/actions/CompanyActions';
 import {
   createJoblisting,

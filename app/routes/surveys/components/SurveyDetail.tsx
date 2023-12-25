@@ -1,6 +1,6 @@
 import { Button, LoadingIndicator } from '@webkom/lego-bricks';
 import { Helmet } from 'react-helmet-async';
-import { Link, useNavigate, useParams } from 'react-router-dom-v5-compat';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Content, ContentSection, ContentMain } from 'app/components/Content';
 import Time from 'app/components/Time';
 import { useFetchedSurvey } from 'app/reducers/surveys';

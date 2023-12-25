@@ -1,7 +1,7 @@
 import { Button } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
-import { useNavigate } from 'react-router-dom-v5-compat';
+import { useNavigate } from 'react-router-dom';
 import { fetch } from 'app/actions/GalleryActions';
 import { Content } from 'app/components/Content';
 import EmptyState from 'app/components/EmptyState';

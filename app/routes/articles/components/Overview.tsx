@@ -1,7 +1,7 @@
 import qs from 'qs';
 import { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useLocation, Link } from 'react-router-dom-v5-compat';
+import { useLocation, Link } from 'react-router-dom';
 import { fetchAll } from 'app/actions/ArticleActions';
 import { fetchPopular } from 'app/actions/TagActions';
 import { Content } from 'app/components/Content';

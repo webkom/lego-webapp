@@ -1,7 +1,6 @@
 import { HelmetProvider } from 'react-helmet-async';
 import { Provider } from 'react-redux';
-import { Router } from 'react-router-dom';
-import { CompatRouter } from 'react-router-dom-v5-compat';
+import { BrowserRouter } from 'react-router-dom';
 import ErrorBoundary from 'app/components/ErrorBoundary';
 import { ThemeContextListener } from 'app/utils/themeUtils';
 import RouteConfig from './routes';
@@ -16,11 +15,9 @@ const Root = ({ store }: Props) => (
     <Provider store={store}>
       <ThemeContextListener />
       <ErrorBoundary openReportDialog>
-        <Router>
-          <CompatRouter>
-            <RouteConfig />
-          </CompatRouter>
-        </Router>
+        <BrowserRouter>
+          <RouteConfig />
+        </BrowserRouter>
       </ErrorBoundary>
     </Provider>
   </HelmetProvider>

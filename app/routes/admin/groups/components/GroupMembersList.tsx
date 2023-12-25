@@ -1,12 +1,8 @@
 import { ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { removeMember, addMember } from 'app/actions/GroupActions';
 import { SelectInput } from 'app/components/Form';
-import {
-  fetchMembershipsPagination,
-  removeMember,
-  addMember,
-} from 'app/actions/GroupActions';
 import Table from 'app/components/Table';
 import { selectCurrentUser } from 'app/reducers/auth';
 import { defaultGroupMembersQuery } from 'app/routes/admin/groups/components/GroupMembers';

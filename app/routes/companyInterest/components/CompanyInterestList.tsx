@@ -2,7 +2,7 @@ import { Button, ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import qs from 'qs';
 import { useEffect, useMemo, useState } from 'react';
-import { useLocation, Link, useNavigate } from 'react-router-dom-v5-compat';
+import { useLocation, Link, useNavigate } from 'react-router-dom';
 import { fetchSemesters } from 'app/actions/CompanyActions';
 import {
   deleteCompanyInterest,

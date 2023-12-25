@@ -12,7 +12,7 @@ import { useEffect, useState } from 'react';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { Helmet } from 'react-helmet-async';
-import { useNavigate, useParams, Link } from 'react-router-dom-v5-compat';
+import { useNavigate, useParams, Link } from 'react-router-dom';
 import { createEvent, editEvent, fetchEvent } from 'app/actions/EventActions';
 import {
   uploadFile as _uploadFile,

@@ -1,7 +1,6 @@
 import { Button } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { Link } from 'react-router-dom';
-import { NavLink } from 'react-router-dom-v5-compat';
+import { Link, NavLink } from 'react-router-dom';
 import Time from 'app/components/Time';
 import styles from './Toolbar.css';
 import type { ActionGrant } from 'app/models';

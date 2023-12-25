@@ -1,7 +1,7 @@
 import { Button, Flex, LoadingIndicator, Modal } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Field } from 'react-final-form';
-import { Link, useNavigate, useParams } from 'react-router-dom-v5-compat';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { fetchGallery } from 'app/actions/GalleryActions';
 import {
   deletePicture,
