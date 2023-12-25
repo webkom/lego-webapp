@@ -1,15 +1,14 @@
 import * as Sentry from '@sentry/node';
 import { prepare } from '@webkom/react-prepare';
+import { createContext, type ReactElement, type ReactNode } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
 import { Provider } from 'react-redux';
-import { StaticRouter } from 'react-router';
+import { StaticRouter } from 'react-router-dom/server';
 import createStore from 'app/store/createStore';
 import RouteConfig from '../app/routes';
 import pageRenderer from './pageRenderer';
 import type { RootState } from 'app/store/createRootReducer';
 import type { Request, Response } from 'express';
-import type { ReactElement, ReactNode } from 'react';
-import type { StaticRouterContext } from 'react-router';
 
 const serverSideTimeoutInMs = 4000;
 export const helmetContext = {}; // AntiPattern because of babel
@@ -52,20 +51,9 @@ const createServerSideRenderer = (req: Request, res: Response) => {
     );
   };
 
-  const context: StaticRouterContext = {};
+  const StaticContext = createContext({});
+  const context = {};
   const log = req.app.get('log');
-
-  const ServerConfig = ({
-    req,
-    context,
-  }: {
-    req: Request;
-    context: StaticRouterContext;
-  }) => (
-    <StaticRouter location={req.url} context={context}>
-      <RouteConfig />
-    </StaticRouter>
-  );
 
   const store = createStore(
     {},
@@ -94,7 +82,11 @@ const createServerSideRenderer = (req: Request, res: Response) => {
   const app = (
     <HelmetProvider context={helmetContext}>
       <Provider store={store}>
-        <ServerConfig req={req} context={context} />
+        <StaticRouter location={req.url}>
+          <StaticContext.Provider value={context}>
+            <RouteConfig />
+          </StaticContext.Provider>
+        </StaticRouter>
       </Provider>
     </HelmetProvider>
   );
