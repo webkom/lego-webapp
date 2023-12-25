@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import { Route, Routes, useParams } from 'react-router-dom-v5-compat';
+import { Route, Routes, useParams } from 'react-router-dom';
 import { Content } from 'app/components/Content';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { useUserContext } from 'app/routes/app/AppRoute';

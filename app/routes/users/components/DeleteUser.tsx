@@ -1,7 +1,7 @@
 import { Button } from '@webkom/lego-bricks';
 import { useState } from 'react';
 import { Field } from 'react-final-form';
-import { useNavigate } from 'react-router-dom-v5-compat';
+import { useNavigate } from 'react-router-dom';
 import { deleteUser } from 'app/actions/UserActions';
 import { TextInput, Form, LegoFinalForm } from 'app/components/Form';
 import { SubmitButton } from 'app/components/Form/SubmitButton';

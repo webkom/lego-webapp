@@ -6,7 +6,7 @@ import moment from 'moment-timezone';
 import { useState } from 'react';
 import { Field } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
-import { Link, useNavigate, useParams } from 'react-router-dom-v5-compat';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import {
   createGallery,
   deleteGallery,
@@ -35,20 +35,20 @@ import {
 import {
   objectPermissionsInitialValues,
   objectPermissionsToInitialValues,
+  normalizeObjectPermissions,
 } from 'app/components/Form/ObjectPermissions';
-import { selectGalleryById, type GalleryEntity } from 'app/reducers/galleries';
-import { SelectGalleryPicturesByGalleryId } from 'app/reducers/galleryPictures';
-import { normalizeObjectPermissions } from 'app/components/Form/ObjectPermissions';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import GalleryComponent from 'app/components/Gallery';
-import { createValidator, required } from 'app/utils/validation';
-import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import NavigationTab from 'app/components/NavigationTab';
-import GalleryEditorActions from './GalleryEditorActions';
-import { searchMapping } from 'app/reducers/search';
+import { selectGalleryById, type GalleryEntity } from 'app/reducers/galleries';
+import { SelectGalleryPicturesByGalleryId } from 'app/reducers/galleryPictures';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
+import { createValidator, required } from 'app/utils/validation';
+import GalleryEditorActions from './GalleryEditorActions';
 import styles from './Overview.css';
 import type { Dateish } from 'app/models';
+import type { searchMapping } from 'app/reducers/search';
 import type ObjectPermissionsMixin from 'app/store/models/ObjectPermissionsMixin';
 
 const photoOverlay = (photo: Record<string, any>, selected: Array<number>) => {

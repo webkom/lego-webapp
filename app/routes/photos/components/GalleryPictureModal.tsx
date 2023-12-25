@@ -2,7 +2,7 @@ import { Flex, Icon, LoadingIndicator, Modal } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import throttle from 'lodash/throttle';
 import { useEffect, useState } from 'react';
-import { Link, useParams, useNavigate } from 'react-router-dom-v5-compat';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useSwipeable, RIGHT, LEFT } from 'react-swipeable';
 import { fetchGallery, updateGalleryCover } from 'app/actions/GalleryActions';
 import {

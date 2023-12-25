@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom-v5-compat';
+import { Route, Routes } from 'react-router-dom';
 import AddSubmissionPage from 'app/routes/surveys/components/AddSubmission/AddSubmissionPage';
 import SubmissionPublicResultsPage from 'app/routes/surveys/components/Submissions/SubmissionPublicResultsPage';
 import SurveyDetailPage from 'app/routes/surveys/components/SurveyDetail';

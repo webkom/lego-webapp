@@ -1,6 +1,6 @@
 import qs from 'qs';
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom-v5-compat';
+import { useLocation } from 'react-router-dom';
 import SearchPageInput from 'app/components/Search/SearchPageInput';
 import SearchPageResults from 'app/components/Search/SearchPageResults';
 import { Keyboard } from 'app/utils/constants';

@@ -1,8 +1,7 @@
 import { Button, ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom-v5-compat';
+import { Link, useNavigate } from 'react-router-dom';
 import { deleteEvent } from 'app/actions/EventActions';
 import AnnouncementInLine from 'app/components/AnnouncementInLine';
 import { useAppDispatch } from 'app/store/hooks';

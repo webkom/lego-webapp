@@ -13,7 +13,7 @@ import moment from 'moment-timezone';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { QRCode } from 'react-qrcode-logo';
-import { Link, useParams } from 'react-router-dom-v5-compat';
+import { Link, useParams } from 'react-router-dom';
 import { fetchPrevious, fetchUpcoming } from 'app/actions/EventActions';
 import { fetchAllWithType } from 'app/actions/GroupActions';
 import { fetchUser } from 'app/actions/UserActions';
@@ -495,12 +495,10 @@ const UserProfile = () => {
             <h3>Brukerinfo</h3>
             <Card className={styles.infoCard}>
               {renderFields()}
-              {showSettings ? (
+              {showSettings && (
                 <Link to={`/users/${user.username}/settings/profile`}>
                   <Button>Innstillinger</Button>
                 </Link>
-              ) : (
-                ''
               )}
             </Card>
           </div>

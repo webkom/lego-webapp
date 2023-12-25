@@ -2,7 +2,7 @@ import { LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment-timezone';
 import { Helmet } from 'react-helmet-async';
-import { Link, useParams } from 'react-router-dom-v5-compat';
+import { Link, useParams } from 'react-router-dom';
 import {
   addSubmission,
   fetchUserSubmission,

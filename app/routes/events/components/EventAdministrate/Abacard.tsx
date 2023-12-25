@@ -1,7 +1,7 @@
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { get } from 'lodash';
 import qs from 'qs';
-import { useLocation, useParams } from 'react-router-dom-v5-compat';
+import { useLocation, useParams } from 'react-router-dom';
 import { markUsernamePresent } from 'app/actions/EventActions';
 import { autocomplete } from 'app/actions/SearchActions';
 import Validator from 'app/components/UserValidator';

@@ -10,7 +10,7 @@ import cx from 'classnames';
 import { useState, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import InfiniteScroll from 'react-infinite-scroller';
-import { Link } from 'react-router-dom-v5-compat';
+import { Link } from 'react-router-dom';
 import { fetchAll } from 'app/actions/CompanyActions';
 import { Image } from 'app/components/Image';
 import { selectActiveCompanies } from 'app/reducers/companies';

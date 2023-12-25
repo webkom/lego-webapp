@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { NavLink } from 'react-router-dom-v5-compat';
+import { NavLink } from 'react-router-dom';
 import Dropdown from 'app/components/Dropdown';
 import { selectIsLoggedIn } from 'app/reducers/auth';
 import { useAppSelector } from 'app/store/hooks';

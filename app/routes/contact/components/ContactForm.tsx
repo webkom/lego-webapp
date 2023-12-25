@@ -2,7 +2,7 @@ import { Button, Card, LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty } from 'lodash';
 import { Field } from 'react-final-form';
-import { Link } from 'react-router-dom-v5-compat';
+import { Link } from 'react-router-dom';
 import { sendContactMessage } from 'app/actions/ContactActions';
 import { fetchAllWithType, fetchGroup } from 'app/actions/GroupActions';
 import { addToast } from 'app/actions/ToastActions';

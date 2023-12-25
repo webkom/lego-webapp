@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom-v5-compat';
+import { Route, Routes } from 'react-router-dom';
 import PageNotFound from 'app/routes/pageNotFound';
 import CompanyInterestList from './components/CompanyInterestList';
 import CompanyInterestPage from './components/CompanyInterestPage';

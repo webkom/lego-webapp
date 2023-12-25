@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import { NavLink } from 'react-router-dom-v5-compat';
+import { NavLink } from 'react-router-dom';
 import styles from './NavigationLink.css';
 import type { ReactNode } from 'react';
 

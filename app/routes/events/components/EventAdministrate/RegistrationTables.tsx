@@ -20,7 +20,6 @@ import {
 } from './AttendeeElements';
 import type {
   EventRegistration,
-  ID,
   EventAdministrate,
   EventPool,
   PhotoConsent,

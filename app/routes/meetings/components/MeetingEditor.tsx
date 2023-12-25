@@ -10,7 +10,7 @@ import moment from 'moment-timezone';
 import { useState } from 'react';
 import { Field, FormSpy } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
-import { useParams, useNavigate } from 'react-router-dom-v5-compat';
+import { useParams, useNavigate } from 'react-router-dom';
 import { fetchMemberships } from 'app/actions/GroupActions';
 import {
   createMeeting,
@@ -37,10 +37,7 @@ import MazemapLink from 'app/components/MazemapEmbed/MazemapLink';
 import NavigationTab from 'app/components/NavigationTab';
 import { AttendanceStatus } from 'app/components/UserAttendance';
 import config from 'app/config';
-import {
-  selectMeetingInvitationsForMeeting,
-  type MeetingInvitationWithUser,
-} from 'app/reducers/meetingInvitations';
+import { selectMeetingInvitationsForMeeting } from 'app/reducers/meetingInvitations';
 import { selectMeetingById } from 'app/reducers/meetings';
 import { selectUserById } from 'app/reducers/users';
 import { useUserContext } from 'app/routes/app/AppRoute';
@@ -59,9 +56,7 @@ import {
 } from 'app/utils/validation';
 import type { ID } from 'app/store/models';
 import type { AutocompleteGroup } from 'app/store/models/Group';
-import type { DetailedMeeting } from 'app/store/models/Meeting';
-import type { AutocompleteUser, CurrentUser } from 'app/store/models/User';
-import type { History } from 'history';
+import type { AutocompleteUser } from 'app/store/models/User';
 
 const time = (hours: number, minutes?: number) =>
   moment()

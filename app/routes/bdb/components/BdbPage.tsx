@@ -3,7 +3,7 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import qs from 'qs';
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useLocation, useNavigate } from 'react-router-dom-v5-compat';
+import { useLocation, useNavigate } from 'react-router-dom';
 import {
   fetchAllAdmin,
   addSemesterStatus,

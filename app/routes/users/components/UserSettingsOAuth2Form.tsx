@@ -1,6 +1,6 @@
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Field } from 'react-final-form';
-import { useParams, useNavigate } from 'react-router-dom-v5-compat';
+import { useParams, useNavigate } from 'react-router-dom';
 import {
   createOAuth2Application,
   fetchOAuth2Application,

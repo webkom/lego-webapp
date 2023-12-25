@@ -9,7 +9,7 @@ import {
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
 import { useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom-v5-compat';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import {
   deleteCompanyContact,
   editSemesterStatus,
@@ -31,11 +31,9 @@ import {
 } from 'app/reducers/companies';
 import { selectCompanySemesters } from 'app/reducers/companySemesters';
 import { selectPagination } from 'app/reducers/selectors';
-import { useUserContext } from 'app/routes/app/AppRoute';
 import { EVENT_CONSTANTS } from 'app/routes/events/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import createQueryString from 'app/utils/createQueryString';
-import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import truncateString from 'app/utils/truncateString';
 import {
   sortByYearThenSemester,

@@ -3,7 +3,7 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment-timezone';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useParams } from 'react-router-dom-v5-compat';
+import { useParams } from 'react-router-dom';
 import {
   fetch,
   fetchEventsForCompany,

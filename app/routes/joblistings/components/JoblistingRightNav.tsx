@@ -1,7 +1,7 @@
 import { Button } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { useState } from 'react';
-import { Link } from 'react-router-dom-v5-compat';
+import { Link } from 'react-router-dom';
 import { CheckBox, RadioButton } from 'app/components/Form/';
 import { useAppSelector } from 'app/store/hooks';
 import useQuery from 'app/utils/useQuery';
