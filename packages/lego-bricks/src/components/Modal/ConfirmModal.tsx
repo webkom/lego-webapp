@@ -83,7 +83,10 @@ const ConfirmModal = ({
   const [working, setWorking] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string>();
 
-  const wrapAction = <T,>(action: () => Promise<T>, closeWhenDone: boolean) => {
+  const wrapAction = <T,>(
+    action: () => T | Promise<T>,
+    closeWhenDone: boolean
+  ) => {
     return async () => {
       setErrorMessage(undefined);
       setWorking(true);
