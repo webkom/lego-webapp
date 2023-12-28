@@ -177,12 +177,9 @@ export default function callAPI<
       }
 
       const payload = 'results' in jsonData ? jsonData.results : jsonData;
-      const next =
-        'next' in jsonData && jsonData.next ? jsonData.next : undefined;
+      const next = 'next' in jsonData && jsonData.next ? jsonData.next : null;
       const previous =
-        'previous' in jsonData && jsonData.previous
-          ? jsonData.previous
-          : undefined;
+        'previous' in jsonData && jsonData.previous ? jsonData.previous : null;
       const actionGrant = jsonData.actionGrant;
 
       if (schema) {
