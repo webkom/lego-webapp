@@ -1,5 +1,5 @@
 import { debounce } from 'lodash';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { push } from 'redux-first-history';
 import { autocomplete, toggleSearch } from 'app/actions/SearchActions';
 import { selectIsLoggedIn } from 'app/reducers/auth';
@@ -20,6 +20,11 @@ const Search = () => {
   const allowed = useAppSelector((state) => state.allowed);
   const [query, setQuery] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(-1);
+
+  const debouncedAutoComplete = useMemo(
+    () => debounce((query) => dispatch(autocomplete(query)), 300),
+    [dispatch]
+  );
 
   const onCloseSearch = () => dispatch(toggleSearch());
 
@@ -51,10 +56,10 @@ const Search = () => {
     }
   };
 
-  const onQueryChanged = debounce((query) => {
+  const onQueryChanged = (query) => {
     setQuery(query);
-    dispatch(autocomplete(query));
-  }, 300);
+    debouncedAutoComplete(query);
+  };
 
   const regularLinks = getRegularLinks({
     allowed,
