@@ -1,4 +1,4 @@
-import { Button, Icon, LoadingIndicator } from '@webkom/lego-bricks';
+import { Button, Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
 import { isEmpty, orderBy } from 'lodash';
 import moment from 'moment-timezone';
 import { Helmet } from 'react-helmet-async';
@@ -219,25 +219,27 @@ const EventList = ({
             onChange={toggleEventType('other')}
           />
         </div>
-        <Icon
-          name="funnel-outline"
-          size={25}
-          style={{
-            marginRight: '5px',
-            marginLeft: '10px',
-          }}
-        />
-        <SelectInput
-          name="form-field-name"
-          value={regDateFilter}
-          onChange={(selectedOption) =>
-            selectedOption &&
-            setQueryValue('registrations')(selectedOption.value)
-          }
-          className={styles.select}
-          options={filterRegDateOptions}
-          isClearable={false}
-        />
+        <Flex alignItems="center">
+          <Icon
+            name="funnel-outline"
+            size={25}
+            style={{
+              marginRight: '5px',
+              marginLeft: '10px',
+            }}
+          />
+          <SelectInput
+            name="form-field-name"
+            value={regDateFilter}
+            onChange={(selectedOption) =>
+              selectedOption &&
+              setQueryValue('registrations')(selectedOption.value)
+            }
+            className={styles.select}
+            options={filterRegDateOptions}
+            isClearable={false}
+          />
+        </Flex>
       </div>
       <EventListGroup
         name="Denne uken"
