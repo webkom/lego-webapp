@@ -7,15 +7,16 @@ import joinReducers from 'app/utils/joinReducers';
 import { Company } from '../actions/ActionTypes';
 import { selectCompanySemesters } from './companySemesters';
 import { selectEvents } from './events';
-import type { CompanySemesterContactedStatus, Semester } from 'app/models';
+import type { Semester } from 'app/models';
 import type { UserEntity } from 'app/reducers/users';
+import type { CompanySemesterContactStatus } from 'app/store/models/Company';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 
 export type BaseSemesterStatusEntity = {
   id?: number;
   companyId?: number;
   semester?: number;
-  contactedStatus: Array<CompanySemesterContactedStatus>;
+  contactedStatus: CompanySemesterContactStatus[];
   contract?: string;
   contractName?: string;
   statistics?: string;

@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import Circle from 'app/components/Circle';
 import config from 'app/config';
-import { eventTypeToString, colorForEvent, EVENT_CONSTANTS } from '../utils';
+import { EventTypeConfig } from '../utils';
 import styles from './EventFooter.css';
 
 const icalTypes = [
@@ -70,10 +70,10 @@ const EventFooter = ({ icalToken }: Props) => (
       <div className={styles.section}>
         <h3>Fargekoder</h3>
         <ul>
-          {Object.keys(EVENT_CONSTANTS).map((e, i) => (
-            <li key={i}>
-              <Circle color={colorForEvent(e)} />
-              <span className={styles.eventType}>{eventTypeToString(e)}</span>
+          {Object.entries(EventTypeConfig).map(([key, config]) => (
+            <li key={key}>
+              <Circle color={config.color} />
+              <span className={styles.eventType}>{config.displayName}</span>
             </li>
           ))}
         </ul>

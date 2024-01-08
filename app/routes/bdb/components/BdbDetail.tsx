@@ -32,18 +32,18 @@ import {
 } from 'app/reducers/companies';
 import { selectCompanySemesters } from 'app/reducers/companySemesters';
 import { selectPagination } from 'app/reducers/selectors';
-import { EVENT_CONSTANTS } from 'app/routes/events/utils';
+import { displayNameForEventType } from 'app/routes/events/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import createQueryString from 'app/utils/createQueryString';
 import truncateString from 'app/utils/truncateString';
 import {
   sortByYearThenSemester,
-  getContactedStatuses,
+  getContactStatuses,
   DetailNavigation,
 } from '../utils';
 import SemesterStatusDetail from './SemesterStatusDetail';
 import styles from './bdb.css';
-import type { CompanySemesterContactedStatus } from 'app/models';
+import type { CompanySemesterContactStatus } from 'app/store/models/Company';
 import type { PublicUser } from 'app/store/models/User';
 
 const queryString = (companyId) =>
@@ -106,13 +106,13 @@ const BdbDetail = () => {
 
   const semesterStatusOnChange = (
     semesterStatus: SemesterStatusEntity,
-    statusString: CompanySemesterContactedStatus
+    status: CompanySemesterContactStatus
   ) => {
     const newStatus = {
       ...semesterStatus,
-      contactedStatus: getContactedStatuses(
+      contactedStatus: getContactStatuses(
         semesterStatus.contactedStatus,
-        statusString
+        status
       ),
     };
     const companySemester = companySemesters.find(
@@ -244,7 +244,7 @@ const BdbDetail = () => {
           <td>
             <Link to={`events/${event.id}`}>{event.title}</Link>
           </td>
-          <td>{EVENT_CONSTANTS[event.eventType]}</td>
+          <td>{displayNameForEventType(event.eventType)}</td>
           <td>
             <Time time={event.startTime} format="DD.MM.YYYY" />
           </td>

@@ -13,7 +13,10 @@ import {
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import Time from 'app/components/Time';
-import { EVENT_CONSTANTS, eventTypeToString } from 'app/routes/events/utils';
+import {
+  EventTypeConfig,
+  displayNameForEventType,
+} from 'app/routes/events/utils';
 import Question from 'app/routes/surveys/components/SurveyEditor/Question';
 import {
   hasOptions,
@@ -88,7 +91,7 @@ const SurveyForm = ({
           {templateType && (
             <div className={styles.templateType}>
               <span>
-                Bruker mal: <i>{EVENT_CONSTANTS[templateType]}</i>
+                Bruker mal: <i>{displayNameForEventType(templateType)}</i>
               </span>
             </div>
           )}
@@ -127,7 +130,7 @@ const SurveyForm = ({
                 }}
               >
                 Dette er malen for arrangementer av type:{' '}
-                {eventTypeToString(values.templateType)}
+                {displayNameForEventType(values.templateType)}
               </h2>
             ) : (
               <Flex>
@@ -179,15 +182,16 @@ const TemplateTypeDropdownItems = ({
 }: TemplateTypeDropdownItemsProps) => {
   return (
     <Dropdown.List>
-      {(Object.keys(EVENT_CONSTANTS) as (keyof typeof EVENT_CONSTANTS)[]).map(
-        (eventType) => (
+      {Object.entries(EventTypeConfig).map(([key, config]) => {
+        const eventType = key as EventType;
+        return (
           <Dropdown.ListItem key={eventType}>
             <Button flat onClick={() => setTemplateType(eventType)}>
-              {eventTypeToString(eventType)}
+              {config.displayName}
             </Button>
           </Dropdown.ListItem>
-        )
-      )}
+        );
+      })}
     </Dropdown.List>
   );
 };

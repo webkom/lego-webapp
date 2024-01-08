@@ -8,16 +8,16 @@ import type { DetailedUser, PublicUser } from 'app/store/models/User';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 
 export enum EventType {
-  CompanyPresentation = 'company_presentation',
-  LunchPresentation = 'lunch_presentation',
-  AlternativePresentation = 'alternative_presentation',
-  Course = 'course',
-  BreakfastTalk = 'breakfast_talk',
-  KidEvent = 'kid_event',
-  Party = 'party',
-  Social = 'social',
-  Other = 'other',
-  Event = 'event',
+  ALTERNATIVE_PRESENTATION = 'alternative_presentation',
+  BREAKFAST_TALK = 'breakfast_talk',
+  COMPANY_PRESENTATION = 'company_presentation',
+  COURSE = 'course',
+  EVENT = 'event',
+  KiD_EVENT = 'kid_event',
+  LUNCH_PRESENTATION = 'lunch_presentation',
+  OTHER = 'other',
+  PARTY = 'party',
+  SOCIAL = 'social',
 }
 
 interface Event {

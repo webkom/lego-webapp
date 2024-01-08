@@ -51,14 +51,15 @@ import {
 } from 'app/reducers/events';
 import { selectImageGalleryEntries } from 'app/reducers/imageGallery';
 import {
-  EVENT_CONSTANTS,
-  colorForEvent,
+  colorForEventType,
   containsAllergier,
   eventStatusTypes,
   isTBA,
   tooLow,
   transformEvent,
   transformEventStatusType,
+  EventTypeConfig,
+  displayNameForEventType,
 } from 'app/routes/events/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { spyValues } from 'app/utils/formSpyUtils';
@@ -268,7 +269,7 @@ const EventEditor = () => {
           })),
         isForeignLanguage: event.isForeignLanguage,
         eventType: event.eventType && {
-          label: EVENT_CONSTANTS[event.eventType],
+          label: displayNameForEventType[event.eventType],
           value: event.eventType,
         },
         eventStatusType:
@@ -460,7 +461,7 @@ const EventEditor = () => {
               name="title"
               placeholder="Tittel"
               style={{
-                borderBottom: `3px solid ${colorForEvent(
+                borderBottom: `3px solid ${colorForEventType(
                   values.eventType?.value
                 )}`,
               }}
@@ -496,10 +497,12 @@ const EventEditor = () => {
                   label="Type arrangement"
                   fieldClassName={styles.metaField}
                   component={SelectInput.Field}
-                  options={Object.keys(EVENT_CONSTANTS).map((type) => ({
-                    label: EVENT_CONSTANTS[type],
-                    value: type,
-                  }))}
+                  options={Object.entries(EventTypeConfig).map(
+                    ([key, config]) => ({
+                      label: config.displayName,
+                      value: key,
+                    })
+                  )}
                   placeholder="Arrangementstype"
                 />
                 <Field

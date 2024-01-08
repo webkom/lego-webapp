@@ -1,0 +1,16 @@
+.yearForm {
+  width: 100px;
+  display: block;
+}
+
+.choices {
+  margin: 15px 0;
+}
+
+.semesterStatus {
+  width: 200px;
+  min-height: 30px;
+  margin: 5px 0 25px;
+  border-radius: var(--border-radius-md);
+  border: 1.5px solid var(--border-gray);
+}

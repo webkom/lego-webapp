@@ -1,7 +1,7 @@
 import {
   selectMostProminentStatus,
-  sortStatusesByProminence,
   indexToSemester,
+  contactStatuses,
 } from './utils';
 
 const sortByAttribute = (attribute) => (ascending) => (a, b) => {
@@ -40,24 +40,22 @@ const sortByContactStatus =
         obj.year === companySemester.year &&
         obj.semester === companySemester.semester
     );
-    const statusA = semesterA
-      ? selectMostProminentStatus(semesterA.contactedStatus)
-      : 'not_contacted';
+    const statusA = selectMostProminentStatus(semesterA?.contactedStatus);
     const semesterB = b.semesterStatuses.find(
       (obj) =>
         obj.year === companySemester.year &&
         obj.semester === companySemester.semester
     );
-    const statusB = semesterB
-      ? selectMostProminentStatus(semesterB.contactedStatus)
-      : 'not_contacted';
+    const statusB = selectMostProminentStatus(semesterB?.contactedStatus);
 
     if (statusA === statusB) {
       return a.name.localeCompare(b.name);
     }
 
-    const prominentSort = sortStatusesByProminence(statusA, statusB);
-    return ascending ? prominentSort : prominentSort * -1;
+    return (
+      (ascending ? 1 : -1) *
+      (contactStatuses.indexOf(statusA) - contactStatuses.indexOf(statusB))
+    );
   };
 
 const sortCompanies = (companies, query, startYear, startSem) => {

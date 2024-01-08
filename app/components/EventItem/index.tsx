@@ -5,7 +5,7 @@ import Pill from 'app/components/Pill';
 import Tag from 'app/components/Tags/Tag';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
-import { colorForEvent } from 'app/routes/events/utils';
+import { colorForEventType } from 'app/routes/events/utils';
 import { eventAttendanceAbsolute } from 'app/utils/eventStatus';
 import styles from './styles.css';
 import type { ListEvent } from 'app/store/models/Event';
@@ -142,7 +142,7 @@ const EventItem = ({
       return (
         <div
           style={{
-            borderColor: colorForEvent(event.eventType),
+            borderColor: colorForEventType(event.eventType),
           }}
           className={styles.eventItem}
         >
@@ -170,7 +170,7 @@ const EventItem = ({
     case 'compact':
       return (
         <div
-          style={{ borderColor: colorForEvent(event.eventType) }}
+          style={{ borderColor: colorForEventType(event.eventType) }}
           className={styles.eventItemCompact}
         >
           <Flex width="100%">
@@ -215,7 +215,7 @@ const EventItem = ({
       return (
         <div
           style={{
-            borderColor: colorForEvent(event.eventType),
+            borderColor: colorForEventType(event.eventType),
           }}
           className={styles.eventItem}
         >

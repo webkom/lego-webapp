@@ -1,3 +1,4 @@
+import type { EventType } from './store/models/Event';
 import type Comment from 'app/store/models/Comment';
 import type { ListCompany } from 'app/store/models/Company';
 import type { ReactionsGrouped } from 'app/store/models/Reaction';
@@ -20,17 +21,6 @@ export enum EventTime {
   activate = 'activationTime',
   start = 'startTime',
 }
-export type EventType =
-  | 'company_presentation'
-  | 'alternative_presentation'
-  | 'lunch_presentation'
-  | 'course'
-  | 'breakfast_talk'
-  | 'kid_event'
-  | 'party'
-  | 'social'
-  | 'other'
-  | 'event';
 type SelectInput = {
   label: string;
   value: string;
@@ -308,10 +298,6 @@ export type TransformEvent = EventBase & {
   isForeignLanguage: boolean;
 };
 
-export type Feed = Record<string, any>;
-
-export type FeedItem = Record<string, any>;
-
 export type Workplace = {
   town: string;
 };
@@ -322,17 +308,6 @@ export type Joblisting = {
   toYear: number;
   workplaces: Array<Workplace>;
 };
-
-export type CompanySemesterContactedStatus =
-  | 'company_presentation'
-  | 'course'
-  | 'breakfast_talk'
-  | 'lunch_presentation'
-  | 'interested'
-  | 'bedex'
-  | 'not_interested'
-  | 'contacted'
-  | 'not_contacted';
 
 export type Meeting = {
   id: ID;

@@ -4,7 +4,7 @@ import Tags from 'app/components/Tags';
 import Tag from 'app/components/Tags/Tag';
 import Time from 'app/components/Time';
 import { isArticle, isEvent } from 'app/reducers/frontpage';
-import { eventTypeToString } from 'app/routes/events/utils';
+import { displayNameForEventType } from 'app/routes/events/utils';
 import truncateString from 'app/utils/truncateString';
 import styles from './Overview.css';
 import type { ArticleWithAuthorDetails } from 'app/reducers/articles';
@@ -54,7 +54,7 @@ export const renderMeta = (
 
       <span className={styles.dot}> • </span>
       <span className={styles.type}>
-        {isEvent(item) ? eventTypeToString(item.eventType) : 'Artikkel'}
+        {isEvent(item) ? displayNameForEventType(item.eventType) : 'Artikkel'}
       </span>
 
       {item.tags?.length > 0 && (

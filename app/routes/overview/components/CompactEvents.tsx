@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
 import { eventListDefaultQuery } from 'app/routes/events/components/EventList';
-import { colorForEvent } from 'app/routes/events/utils';
+import { colorForEventType } from 'app/routes/events/utils';
 import { stringifyQuery } from 'app/utils/useQuery';
 import styles from './CompactEvents.css';
 import type { CSSProperties } from 'react';
@@ -31,7 +31,7 @@ export default class CompactEvents extends Component<Props> {
           <li key={key}>
             <span
               style={{
-                color: colorForEvent(event.eventType),
+                color: colorForEventType(event.eventType),
                 fontSize: '15px',
                 lineHeight: '0',
                 marginRight: '10px',
