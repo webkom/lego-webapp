@@ -12,8 +12,7 @@
   display: grid;
   width: 80vw;
   grid-auto-flow: column;
-  align-items: center;
-  justify-items: center;
+  place-items: center center;
 }
 
 .leftContainer {
