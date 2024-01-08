@@ -59,8 +59,7 @@
 
 span.suffix {
   display: flex;
-  justify-content: center;
-  align-content: center;
+  place-content: center center;
   flex-direction: column;
   width: fit-content;
   height: inherit;

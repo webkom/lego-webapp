@@ -135,7 +135,7 @@ steps:
       - echo "server stopped"
 
   - name: setup
-    image: node:16-alpine
+    image: node:18-alpine
     when:
       event: [push]
       branch:
@@ -156,7 +156,7 @@ steps:
       - yarn --frozen-lockfile --cache-folder /tmp/cache
 
   - name: build_packages
-    image: node:16-alpine
+    image: node:18-alpine
     when:
       event: [push]
       branch:
@@ -167,7 +167,7 @@ steps:
       - yarn build:packages
 
   - name: build_server
-    image: node:16-alpine
+    image: node:18-alpine
     when:
       event: [push]
       branch:
@@ -179,7 +179,7 @@ steps:
       - yarn build:server
 
   - name: build_client
-    image: node:16-alpine
+    image: node:18-alpine
     when:
       event: [push]
       branch:
@@ -191,7 +191,7 @@ steps:
       - yarn build:client
 
   - name: test
-    image: node:16-alpine
+    image: node:18-alpine
     when:
       event: [push]
       branch:
@@ -203,7 +203,7 @@ steps:
       - yarn test:packages
 
   - name: lint
-    image: node:16-alpine
+    image: node:18-alpine
     when:
       event: [push]
       branch:
@@ -215,7 +215,7 @@ steps:
       - yarn lint:packages
 
   - name: typescript
-    image: node:16-slim
+    image: node:18-slim
     when:
       event: [push]
       branch:
@@ -227,18 +227,18 @@ steps:
     failure: ignore
 
   - name: typescript_packages
-    image: node:16-slim
+    image: node:18-slim
     when:
-      event: [ push ]
+      event: [push]
       branch:
-        exclude: [ build ]
+        exclude: [build]
     depends_on:
       - setup
     commands:
       - yarn types:packages
 
   - name: install_cypress
-    image: node:16-alpine
+    image: node:18-alpine
     when:
       event: [push]
       branch:
@@ -251,7 +251,7 @@ steps:
       - yarn cypress install
 
   - name: ssr
-    image: node:16-alpine
+    image: node:18-alpine
     detach: true
     when:
       event: [push]
@@ -269,7 +269,7 @@ steps:
       - yarn ssr
 
   - name: cypress
-    image: cypress/browsers:node16.18.0-chrome107-ff106-edge
+    image: cypress/browsers:node-18.15.0-chrome-106.0.5249.61-1-ff-99.0.1-edge-114.0.1823.51-1
     shm_size: 512m
     ipc: host
     when:
@@ -362,6 +362,4 @@ image_pull_secrets:
 
 ---
 kind: signature
-hmac: 4c241249a689b9571f62e2b58eb7a868909024245ef074fe413fb275c1ed982f
-
-...
+hmac: 4edd037ec61390966e80949fd80f036651109310c03b4a9e3ea2708bb68b3549

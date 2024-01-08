@@ -11,8 +11,7 @@
   grid-template-columns: repeat(auto-fill, 40px);
   gap: 2.5px;
   padding: 5px;
-  align-content: start;
-  justify-content: space-around;
+  place-content: start space-around;
 }
 
 .emoji {
