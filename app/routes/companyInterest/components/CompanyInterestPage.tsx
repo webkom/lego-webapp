@@ -658,18 +658,18 @@ const CompanyInterestPage = () => {
                   component={SemesterBox}
                 />
               </Flex>
-              <MultiSelectGroup name="events">
-                <Flex column className={styles.interestBox}>
-                  <label htmlFor="events" className={styles.heading}>
-                    {FORM_LABELS.events[language]}
-                  </label>
+              <Flex column className={styles.interestBox}>
+                <label htmlFor="events" className={styles.heading}>
+                  {FORM_LABELS.events[language]}
+                </label>
+                <MultiSelectGroup name="events">
                   <FieldArray
                     name="events"
                     language={language}
                     component={EventBox}
                   />
-                </Flex>
-              </MultiSelectGroup>
+                </MultiSelectGroup>
+              </Flex>
               <Flex column className={styles.interestBox}>
                 <label htmlFor="collaborations" className={styles.heading}>
                   {FORM_LABELS.collaborations[language]}
