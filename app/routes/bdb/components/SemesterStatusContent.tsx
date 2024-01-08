@@ -1,5 +1,6 @@
-import { Button, Flex, Icon } from '@webkom/lego-bricks';
+import { Icon } from '@webkom/lego-bricks';
 import { Component } from 'react';
+import Circle from 'app/components/Circle';
 import Dropdown from 'app/components/Dropdown';
 import {
   NonEventContactStatus,
@@ -11,14 +12,14 @@ import {
   getStatusDisplayName,
   contactStatuses,
 } from '../utils';
-import styles from './bdb.css';
+import type { CSSProperties } from 'react';
 
 type Props = {
-  semesterStatus: Record<string, any>;
+  semesterStatus: { contactedStatus: CompanySemesterContactStatus[] };
   editFunction: (
     arg0: CompanySemesterContactStatus
   ) => Promise<any> | null | undefined | void;
-  style?: Record<string, any>;
+  style?: CSSProperties;
 };
 
 type State = {
@@ -66,25 +67,29 @@ export default class SemesterStatusContent extends Component<Props, State> {
         <Dropdown.List>
           {contactStatuses
             .filter((status) => status !== NonEventContactStatus.NOT_CONTACTED)
-            .map((status, index) => (
-              <Dropdown.ListItem key={status} className={styles.dropDownItem}>
-                <Button flat onClick={() => editFunction(status)}>
-                  <Flex alignItems="center">
-                    {getStatusDisplayName(status)}
-                    {semesterStatus.contactedStatus.indexOf(status) !== -1 && (
-                      <Icon name="checkmark" success size={25} />
-                    )}
-                  </Flex>
-                  <div
-                    className={styles.lazyCircle}
+            .map((status, index) => {
+              const active =
+                semesterStatus.contactedStatus.indexOf(status) !== -1;
+
+              return (
+                <Dropdown.ListItem key={status}>
+                  <button
+                    onClick={() => editFunction(status)}
                     style={{
-                      backgroundColor: getStatusColor(status),
+                      backgroundColor: active ? getStatusColor(status) : '',
                     }}
-                  />
-                </Button>
-                {index !== contactStatuses.length - 2 && <Dropdown.Divider />}
-              </Dropdown.ListItem>
-            ))}
+                  >
+                    {getStatusDisplayName(status)}
+                    {active ? (
+                      <Icon name="checkmark" />
+                    ) : (
+                      <Circle color={getStatusColor(status)} size={20} />
+                    )}
+                  </button>
+                  {index !== contactStatuses.length - 2 && <Dropdown.Divider />}
+                </Dropdown.ListItem>
+              );
+            })}
         </Dropdown.List>
       </Dropdown>
     );

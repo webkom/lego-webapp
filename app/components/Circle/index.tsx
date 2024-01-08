@@ -1,17 +1,13 @@
+import type { CSSProperties } from 'react';
+
 type Props = {
-  /** Radius of circle in px */
   size?: number;
-
-  /** Circle color */
   color?: string;
-
-  /** Extra css */
-  style?: any;
+  style?: CSSProperties;
 };
 
 /**
  * A basic Cirlce component
- *
  */
 function Circle({ size = 10, color = 'var(--color-gray-4)', style }: Props) {
   return (

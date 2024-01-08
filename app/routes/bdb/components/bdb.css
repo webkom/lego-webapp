@@ -147,21 +147,6 @@
   display: none !important;
 }
 
-.dropDownItem {
-  font-size: var(--font-size-sm);
-  justify-content: space-between;
-  width: 100%;
-}
-
-/* We have a seperate component for circles, but it takes a color code while
-the function from utils I use to choose color just adds a class with
-background-color. By making it this way I don't have to rewrite it 🤷 */
-.lazyCircle {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-}
-
 /* Semesters in detailroute */
 
 .detailTable thead th:nth-child(1),

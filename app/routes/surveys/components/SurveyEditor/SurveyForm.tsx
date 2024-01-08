@@ -3,6 +3,7 @@ import arrayMutators from 'final-form-arrays';
 import { useState } from 'react';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
+import { Link } from 'react-router-dom';
 import Dropdown from 'app/components/Dropdown';
 import {
   DatePicker,
@@ -186,9 +187,16 @@ const TemplateTypeDropdownItems = ({
         const eventType = key as EventType;
         return (
           <Dropdown.ListItem key={eventType}>
-            <Button flat onClick={() => setTemplateType(eventType)}>
+            <Link
+              to="#"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setTemplateType(eventType);
+              }}
+            >
               {config.displayName}
-            </Button>
+            </Link>
           </Dropdown.ListItem>
         );
       })}
