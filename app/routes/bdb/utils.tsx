@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { deleteCompany } from 'app/actions/CompanyActions';
 import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
-import { EventTypeConfig } from 'app/routes/events/utils';
+import { EventTypeConfig, colorForEventType } from 'app/routes/events/utils';
 import { useAppDispatch } from 'app/store/hooks';
 import { NonEventContactStatus } from 'app/store/models/Company';
 import { EventType } from 'app/store/models/Event';
@@ -20,22 +20,22 @@ export const NonEventContactStatusConfig: Record<
 > = {
   [NonEventContactStatus.BEDEX]: {
     displayName: 'Bedex',
-    color: '#00fff6',
+    color: colorForEventType(EventType.ALTERNATIVE_PRESENTATION),
     textColor: '#000',
   },
   [NonEventContactStatus.INTERESTED]: {
     displayName: 'Interessert',
-    color: 'var(--color-yellow-3)',
+    color: 'var(--color-green-6)',
     textColor: '#000',
   },
   [NonEventContactStatus.NOT_INTERESTED]: {
     displayName: 'Ikke interessert',
-    color: '#f00',
-    textColor: '#fff',
+    color: 'var(--danger-color)',
+    textColor: '#ff0000',
   },
   [NonEventContactStatus.CONTACTED]: {
     displayName: 'Kontaktet',
-    color: '#ffff7f',
+    color: 'var(--color-yellow-5)',
     textColor: '#000',
   },
   [NonEventContactStatus.NOT_CONTACTED]: {
