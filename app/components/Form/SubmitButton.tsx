@@ -8,6 +8,7 @@ type Props = {
   className?: string;
   allowPristine?: boolean;
   danger?: boolean;
+  disabled?: boolean;
 };
 
 export const SubmitButton = ({
@@ -16,12 +17,13 @@ export const SubmitButton = ({
   className,
   allowPristine,
   danger = false,
+  disabled = false,
 }: Props) =>
   spySubmittable(
     (submittable) => (
       <Button
         submit
-        disabled={!submittable}
+        disabled={!submittable || disabled}
         onClick={onClick}
         className={className}
         danger={danger}
