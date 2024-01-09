@@ -45,7 +45,7 @@ export const conditionalValidation = (conditionalFn, validationFnGenerator) => {
     if (conditionalFn(allValues)) {
       const validators = validationFnGenerator();
       for (const validator of validators) {
-        const [isValid, message] = validator(value);
+        const [isValid, message] = validator(value, allValues);
         if (!isValid) {
           return [false, message] as const;
         }

@@ -160,7 +160,7 @@ const EventDetail = () => {
   ) as AuthUserDetailedEvent | UserDetailedEvent | undefined;
   const eventId = event?.id;
   const actionGrant = event?.actionGrant || [];
-  const hasFullAccess = Boolean(event?.waitingRegistrationCount);
+  const hasFullAccess = Boolean(event?.waitingRegistrations);
 
   const { currentUser, loggedIn } = useUserContext();
   const user = useAppSelector((state) =>

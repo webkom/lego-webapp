@@ -61,10 +61,10 @@ import {
   transformEventStatusType,
 } from 'app/routes/events/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { spyValues } from 'app/utils/formSpyUtils';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import time from 'app/utils/time';
 import {
-  atLeastOneFieldRequired,
   conditionalValidation,
   createValidator,
   isInteger,
@@ -92,8 +92,11 @@ const validate = createValidator({
   description: [required('Kalenderbeskrivelse er påkrevd')],
   eventType: [required('Arrangementstype er påkrevd')],
   location: [
-    atLeastOneFieldRequired(
-      ['location', 'mazemapPoi'],
+    requiredIf((allValues) => !allValues.useMazemap, 'Sted er påkrevd'),
+  ],
+  mazemapPoi: [
+    requiredIf(
+      (allValues) => allValues.useMazemap,
       'Sted eller MazeMap-rom er påkrevd'
     ),
   ],
@@ -136,8 +139,13 @@ const validate = createValidator({
     timeIsAfter('startTime', 'Sluttidspunkt kan ikke være før starttidspunkt'),
   ],
   mergeTime: [
-    mergeTimeAfterAllPoolsActivation(
-      'Sammenslåingstidspunkt satt før aktiveringspunkt i en av poolene'
+    conditionalValidation(
+      (allValues) => allValues.pools.length > 1,
+      () => [
+        mergeTimeAfterAllPoolsActivation(
+          'Sammenslåingstidspunkt satt før aktiveringspunkt i en av poolene'
+        ),
+      ]
     ),
   ],
 });
@@ -266,6 +274,8 @@ const EventEditor = () => {
         eventStatusType:
           event.eventStatusType &&
           transformEventStatusType(event.eventStatusType),
+        location: event.location,
+        useMazemap: event.mazemapPoi > 0 || !event.location,
         mazemapPoi: event.mazemapPoi && {
           label: event.location,
           //if mazemapPoi has a value, location will be its displayname
@@ -273,7 +283,6 @@ const EventEditor = () => {
         },
         separateDeadlines:
           event.registrationDeadlineHours !== event.unregistrationDeadlineHours,
-        useMazemap: event.eventStatusType === 'TBA' || event.mazemapPoi > 0,
         hasFeedbackQuestion: !!event.feedbackDescription,
       }
     : {
@@ -597,13 +606,45 @@ const EventEditor = () => {
                     />
                   </div>
                 )}
-                <Field
-                  label="Påmeldingstype"
-                  name="eventStatusType"
-                  component={SelectInput.Field}
-                  fieldClassName={styles.metaField}
-                  options={eventStatusTypes}
-                />
+                {spyValues((values: EditingEvent) => {
+                  // Adding an initial pool if the event status type allows for it and there are no current pools
+                  if (
+                    ['NORMAL', 'INFINITE'].includes(
+                      values.eventStatusType?.value
+                    )
+                  ) {
+                    if (values.pools.length === 0) {
+                      values.pools = [
+                        {
+                          name: 'Pool #1',
+                          registrations: [],
+                          activationDate: moment(values.startTime)
+                            .subtract(7, 'd')
+                            .hour(12)
+                            .minute(0)
+                            .toISOString(),
+                          permissionGroups: [],
+                        },
+                      ];
+                    }
+                  } else {
+                    // Removing all pools so that they are not validated on submit
+                    if (values.pools.length > 0) {
+                      values.pools = [];
+                    }
+                  }
+
+                  return (
+                    <Field
+                      label="Påmeldingstype"
+                      name="eventStatusType"
+                      component={SelectInput.Field}
+                      fieldClassName={styles.metaField}
+                      options={eventStatusTypes}
+                    />
+                  );
+                })}
+
                 {['NORMAL', 'INFINITE'].includes(
                   values.eventStatusType?.value
                 ) && (
@@ -724,7 +765,7 @@ const EventEditor = () => {
                   </>
                 )}
                 {['NORMAL', 'INFINITE'].includes(
-                  values.eventStatusType && values.eventStatusType.value
+                  values.eventStatusType?.value
                 ) && (
                   <Field
                     label="Samtykke til bilder"
@@ -737,7 +778,7 @@ const EventEditor = () => {
                   />
                 )}
                 {['NORMAL', 'INFINITE'].includes(
-                  values.eventStatusType && values.eventStatusType.value
+                  values.eventStatusType?.value
                 ) && (
                   <Field
                     label="Informasjon kan deles til smittesporing"
@@ -751,7 +792,7 @@ const EventEditor = () => {
                   />
                 )}
                 {['NORMAL', 'INFINITE'].includes(
-                  values.eventStatusType && values.eventStatusType.value
+                  values.eventStatusType?.value
                 ) && (
                   <Field
                     label="Påmeldingsspørsmål"
@@ -764,7 +805,7 @@ const EventEditor = () => {
                   />
                 )}
                 {['NORMAL', 'INFINITE'].includes(
-                  values.eventStatusType && values.eventStatusType.value
+                  values.eventStatusType?.value
                 ) &&
                   values.hasFeedbackQuestion && (
                     <div className={styles.subSection}>
@@ -787,7 +828,7 @@ const EventEditor = () => {
                     </div>
                   )}
                 {['NORMAL', 'INFINITE'].includes(
-                  values.eventStatusType && values.eventStatusType.value
+                  values.eventStatusType?.value
                 ) && (
                   <Flex column>
                     <h3>Pools</h3>
@@ -806,7 +847,6 @@ const EventEditor = () => {
                     <div className={styles.metaList}>
                       <FieldArray
                         name="pools"
-                        // validate={validatePools}
                         component={renderPools}
                         startTime={values.startTime}
                         eventStatusType={values.eventStatusType?.value}
