@@ -184,6 +184,7 @@ const MeetingList = () => {
   );
 
   useEffect(() => {
+    // TODO: This causes an endless amount of requests if the user has no older meetings
     if (showFetchOlder && meetingSections.length === 0 && !loading) {
       fetchOlder();
     }

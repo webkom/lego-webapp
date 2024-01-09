@@ -31,7 +31,7 @@ const ChangePasswordForm = () => {
 
   return (
     <TypedLegoForm onSubmit={onSubmit} validate={validate}>
-      {({ handleSubmit }) => (
+      {({ handleSubmit, valid }) => (
         <form onSubmit={handleSubmit}>
           <Field
             label="Gammelt passord"
@@ -52,7 +52,9 @@ const ChangePasswordForm = () => {
             type="password"
             component={TextInput.Field}
           />
-          <SubmitButton danger>Endre passord</SubmitButton>
+          <SubmitButton disabled={!valid} danger>
+            Endre passord
+          </SubmitButton>
         </form>
       )}
     </TypedLegoForm>

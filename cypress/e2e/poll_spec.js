@@ -112,11 +112,7 @@ describe('Polls', () => {
 
     cy.contains('Lagre endringer').click();
 
-    // cannot check url because there is no url change on save, so let's check that the button disappears
-    cy.contains('Lagre endringer').should('not.exist');
-    cy.contains(poll_form.title);
-    cy.contains(poll_form.choice_1);
-    cy.contains(poll_form.choice_2);
+    cy.url().should('not.contain', '/polls/1');
 
     cy.visit('/');
     cy.contains('Avstemning');

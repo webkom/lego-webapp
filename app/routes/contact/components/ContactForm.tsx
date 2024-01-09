@@ -16,8 +16,8 @@ import {
   LegoFinalForm,
 } from 'app/components/Form';
 import { GroupType } from 'app/models';
-import { selectIsLoggedIn } from 'app/reducers/auth';
 import { selectGroup, selectGroupsWithType } from 'app/reducers/groups';
+import { useUserContext } from 'app/routes/app/AppRoute';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { isNotNullish } from 'app/utils';
 import { createValidator, maxLength, required } from 'app/utils/validation';
@@ -32,6 +32,8 @@ const validate = createValidator({
 const REVUE_BOARD_GROUP_ID = 59;
 
 const ContactForm = () => {
+  const { loggedIn } = useUserContext();
+
   const committees = useAppSelector((state) =>
     selectGroupsWithType(state, {
       groupType: GroupType.Committee,
@@ -43,8 +45,6 @@ const ContactForm = () => {
     })
   );
   const groups = [...committees, revueBoard].filter(isNotNullish);
-
-  const loggedIn = useAppSelector((state) => selectIsLoggedIn(state));
   const fetching = useAppSelector((state) => state.groups.fetching);
 
   const dispatch = useAppDispatch();
@@ -54,7 +54,9 @@ const ContactForm = () => {
     () =>
       Promise.all([
         dispatch(fetchAllWithType(GroupType.Committee)),
-        dispatch(fetchGroup(REVUE_BOARD_GROUP_ID)),
+        // The revue board group does not exist in the local dev environment.
+        // It should be added to the fixtures, so that the propagateError flag can be removed.
+        dispatch(fetchGroup(REVUE_BOARD_GROUP_ID, { propagateError: false })),
       ]),
     []
   );
@@ -74,14 +76,14 @@ const ContactForm = () => {
         form.reset();
         dispatch(
           addToast({
-            message: 'Melding er sendt.',
+            message: 'Melding er sendt',
           })
         );
       })
       .catch(() =>
         dispatch(
           addToast({
-            message: 'Kunne ikke sende melding.',
+            message: 'Kunne ikke sende melding',
           })
         )
       );
