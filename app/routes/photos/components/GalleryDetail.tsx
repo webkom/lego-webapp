@@ -187,7 +187,10 @@ const GalleryDetail = () => {
         >
           {actionGrant?.includes('edit') && (
             <>
-              <NavigationLink to="#" onClick={() => toggleUpload()}>
+              <NavigationLink
+                to={`/photos/${gallery.id}?upload`}
+                onClick={() => toggleUpload()}
+              >
                 Last opp bilder
               </NavigationLink>
               <NavigationLink to={`/photos/${gallery.id}/edit`}>

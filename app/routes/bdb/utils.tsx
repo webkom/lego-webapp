@@ -158,7 +158,7 @@ export const getContactedStatuses = (
 
 export const ListNavigation = ({ title }: { title: ReactNode }) => (
   <NavigationTab title={title}>
-    <NavigationLink to="/companyInterest/">Interesseskjema</NavigationLink>
+    <NavigationLink to="/companyInterest">Interesseskjema</NavigationLink>
     <NavigationLink to="/bdb">BDB</NavigationLink>
     <NavigationLink to="/bdb/add">Ny bedrift</NavigationLink>
   </NavigationTab>

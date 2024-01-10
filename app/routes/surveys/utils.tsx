@@ -45,7 +45,12 @@ export const DetailNavigation = ({
         <NavigationLink to={`/surveys/${surveyId}`}>
           Undersøkelsen
         </NavigationLink>
-        <NavigationLink to={`/surveys/${surveyId}/submissions/summary`}>
+        <NavigationLink
+          to={`/surveys/${surveyId}/submissions/summary`}
+          additionalActivePaths={[
+            `/surveys/${surveyId}/submissions/individual`,
+          ]}
+        >
           Resultater
         </NavigationLink>
       </>
