@@ -225,7 +225,7 @@ const UserProfile = () => {
   if (!user) {
     return (
       <Content>
-        <LoadingIndicator loading />;
+        <LoadingIndicator loading />
       </Content>
     );
   }
