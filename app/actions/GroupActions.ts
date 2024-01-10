@@ -194,7 +194,7 @@ export function fetchMembershipsPagination({
     pagination: {
       fetchNext: next,
     },
-    query: { ...query, descendants },
+    query: descendants ? { ...query, descendants } : query,
     meta: {
       groupId: groupId,
       errorMessage: 'Henting av medlemmene for gruppen feilet',
@@ -204,42 +204,31 @@ export function fetchMembershipsPagination({
 }
 
 export function createGroup(group: Record<string, any>) {
-  return (dispatch: AppDispatch) => {
-    const { name, description, text, logo, type, showBadge, active } = group;
-    return dispatch(
-      callAPI({
-        types: Group.CREATE,
-        endpoint: '/groups/',
-        schema: groupSchema,
-        method: 'POST',
-        body: {
-          name,
-          description,
-          text,
-          logo,
-          type,
-          showBadge,
-          active,
-        },
-        meta: {
-          group,
-          errorMessage:
-            group.type === 'interesse'
-              ? 'Opprettelse av interessegruppe feilet'
-              : 'Opprettelse av gruppe feilet',
-          successMessage:
-            group.type === 'interesse'
-              ? 'Opprettelse av interessegruppe fullført'
-              : 'Opprettelse av gruppe fullført',
-        },
-      })
-    ).then((action) => {
-      if (!action || !action.payload) {
-        return;
-      }
-
-      const groupId = action.payload.result;
-      dispatch(push(`/interest-groups/${groupId}`));
-    });
-  };
+  const { name, description, text, logo, type, showBadge, active } = group;
+  return callAPI({
+    types: Group.CREATE,
+    endpoint: '/groups/',
+    schema: groupSchema,
+    method: 'POST',
+    body: {
+      name,
+      description,
+      text,
+      logo,
+      type,
+      showBadge,
+      active,
+    },
+    meta: {
+      group,
+      errorMessage:
+        group.type === 'interesse'
+          ? 'Opprettelse av interessegruppe feilet'
+          : 'Opprettelse av gruppe feilet',
+      successMessage:
+        group.type === 'interesse'
+          ? 'Opprettelse av interessegruppe fullført'
+          : 'Opprettelse av gruppe fullført',
+    },
+  });
 }
