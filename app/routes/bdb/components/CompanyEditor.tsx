@@ -67,7 +67,7 @@ const CompanyEditor = () => {
   if (!isNew && fetching) {
     return (
       <Content>
-        <LoadingIndicator loading />;
+        <LoadingIndicator loading />
       </Content>
     );
   }

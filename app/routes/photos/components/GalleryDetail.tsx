@@ -238,7 +238,7 @@ const GalleryDetail = () => {
   if (fetching) {
     return (
       <Content>
-        <LoadingIndicator loading />;
+        <LoadingIndicator loading />
       </Content>
     );
   }

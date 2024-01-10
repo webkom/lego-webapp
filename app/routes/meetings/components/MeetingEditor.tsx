@@ -152,7 +152,7 @@ const MeetingEditor = () => {
   if (isEditPage && !meeting) {
     return (
       <Content>
-        <LoadingIndicator loading />;
+        <LoadingIndicator loading />
       </Content>
     );
   }
