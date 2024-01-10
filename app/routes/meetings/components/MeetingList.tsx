@@ -1,7 +1,7 @@
 import { LoadingIndicator, Button, Flex } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment-timezone';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { fetchAll, getEndpoint } from 'app/actions/MeetingActions';
@@ -92,6 +92,8 @@ const MeetingListView = ({
 );
 
 const MeetingList = () => {
+  const [initialFetchAttempted, setInitialFetchAttempted] = useState(false);
+
   const dateAfter = moment().format('YYYY-MM-DD');
   const dateBefore = moment().format('YYYY-MM-DD');
   const fetchMoreString = createQueryString({
@@ -184,11 +186,22 @@ const MeetingList = () => {
   );
 
   useEffect(() => {
-    // TODO: This causes an endless amount of requests if the user has no older meetings
-    if (showFetchOlder && meetingSections.length === 0 && !loading) {
+    if (
+      !initialFetchAttempted &&
+      showFetchOlder &&
+      meetingSections.length === 0 &&
+      !loading
+    ) {
       fetchOlder();
+      setInitialFetchAttempted(true);
     }
-  }, [showFetchOlder, meetingSections.length, loading, fetchOlder]);
+  }, [
+    initialFetchAttempted,
+    showFetchOlder,
+    meetingSections.length,
+    loading,
+    fetchOlder,
+  ]);
 
   return (
     <Content>
