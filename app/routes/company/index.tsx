@@ -5,7 +5,7 @@ import CompanyDetail from './components/CompanyDetail';
 
 const CompanyRoute = () => (
   <Routes>
-    <Route path="" element={<CompaniesPage />} />
+    <Route index element={<CompaniesPage />} />
     <Route path=":companyId" element={<CompanyDetail />} />
     <Route path="*" element={<PageNotFound />} />
   </Routes>

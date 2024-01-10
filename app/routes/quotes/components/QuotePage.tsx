@@ -89,7 +89,7 @@ const QuotePage = () => {
       }
       dispatch(fetchEmojis());
     },
-    []
+    [query]
   );
 
   return (
