@@ -153,7 +153,7 @@ const EventList = () => {
         pagination,
         dispatch,
       }),
-    [pagination]
+    []
   );
 
   const fetchMore = () =>
@@ -290,7 +290,9 @@ const EventList = () => {
         </EmptyState>
       )}
       {showFetchMore && field === 'startTime' && (
-        <Button onClick={fetchMore}>Last inn mer</Button>
+        <Button onClick={fetchMore} pending={!isEmpty(events) && fetching}>
+          Last inn mer
+        </Button>
       )}
       <div className={styles.bottomBorder} />
       <EventFooter icalToken={icalToken} />
