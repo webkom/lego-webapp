@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom';
 import { removeMember, addMember } from 'app/actions/GroupActions';
 import { SelectInput } from 'app/components/Form';
 import Table from 'app/components/Table';
-import { selectCurrentUser } from 'app/reducers/auth';
 import { defaultGroupMembersQuery } from 'app/routes/admin/groups/components/GroupMembers';
+import { useUserContext } from 'app/routes/app/AppRoute';
 import { isCurrentUser as checkIfCurrentUser } from 'app/routes/users/utils';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { useAppDispatch } from 'app/store/hooks';
 import { roleOptions, ROLES, type RoleType } from 'app/utils/constants';
 import useQuery from 'app/utils/useQuery';
 import styles from './GroupMembersList.css';
@@ -42,7 +42,7 @@ const GroupMembersList = ({
   const { query, setQuery } = useQuery(defaultGroupMembersQuery);
   const showDescendants = query.descendants === 'true';
 
-  const currentUser = useAppSelector((state) => selectCurrentUser(state));
+  const { currentUser } = useUserContext();
 
   const GroupMembersListColumns = (
     _: unknown,
@@ -73,19 +73,20 @@ const GroupMembersList = ({
             label: ROLES[role],
           }}
           options={roleOptions}
-          onChange={async (value: { label: string; value: RoleType }) => {
+          onChange={(value: { label: string; value: RoleType }) => {
             setMembershipsInEditMode((prev) => ({
               ...prev,
               [id]: false,
             }));
-            await dispatch(removeMember(membership));
-            await dispatch(
-              addMember({
-                userId: membership.user.id,
-                groupId: membership.abakusGroup,
-                role: value.value,
-              })
-            );
+            dispatch(removeMember(membership)).then(() => {
+              dispatch(
+                addMember({
+                  userId: membership.user.id,
+                  groupId: membership.abakusGroup,
+                  role: value.value,
+                })
+              );
+            });
           }}
         />
       );

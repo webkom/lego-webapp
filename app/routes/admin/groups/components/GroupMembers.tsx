@@ -47,8 +47,14 @@ const GroupMembers = () => {
     'fetchMemberships',
     () =>
       groupId &&
-      dispatch(fetchMembershipsPagination({ groupId, next: true, query })),
-    [groupId]
+      dispatch(
+        fetchMembershipsPagination({
+          groupId,
+          next: true,
+          query,
+        })
+      ),
+    [groupId, query]
   );
 
   return (
