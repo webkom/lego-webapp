@@ -9,6 +9,7 @@ import {
   fetchEventsForCompany,
   fetchJoblistingsForCompany,
 } from 'app/actions/CompanyActions';
+import { getEndpoint } from 'app/actions/EventActions';
 import CollapsibleDisplayContent from 'app/components/CollapsibleDisplayContent';
 import {
   Content,
@@ -59,9 +60,8 @@ const CompanyDetail = () => {
   const joblistings = useAppSelector((state) =>
     selectJoblistingsForCompany(state, { companyId })
   );
-  const endpoint = useAppSelector(
-    (state) => state.events.pagination[queryString(companyId)]?.nextPage
-  );
+  const pagination = useAppSelector((state) => state.events.pagination);
+  const endpoint = getEndpoint(pagination, queryString(companyId));
 
   const dispatch = useAppDispatch();
 
