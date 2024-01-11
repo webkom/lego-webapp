@@ -58,7 +58,7 @@ const RestrictedMails = () => {
         en forhåndsdefinert adresse. For ytterligere sikkerhet må en fil legges
         som vedlegg for verifisering av avsender. Denne filen vil bli validert
         og fjernet før e-posten sendes til mottakere. Begrenset e-post kan
-        sendes med skult avsender, mottakere vil da ikke kunne svare på
+        sendes med skult avsender, og mottakere vil da ikke kunne svare på
         e-posten.
         <ul
           style={{
