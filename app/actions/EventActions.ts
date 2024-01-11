@@ -94,7 +94,7 @@ export const fetchData = ({
   dispatch(fetchList({ endpoint, queryString }));
 };
 
-const getEndpoint = (
+export const getEndpoint = (
   pagination: any,
   queryString: string,
   loadNextPage?: boolean

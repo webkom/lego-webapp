@@ -17,6 +17,7 @@ import {
   fetchEventsForCompany,
   fetchSemesters,
 } from 'app/actions/CompanyActions';
+import { getEndpoint } from 'app/actions/EventActions';
 import CommentView from 'app/components/Comments/CommentView';
 import { Content } from 'app/components/Content';
 import { Image } from 'app/components/Image';
@@ -69,9 +70,8 @@ const BdbDetail = () => {
       queryString: queryString(companyId),
     })(state)
   );
-  const endpoint = useAppSelector(
-    (state) => state.events.pagination[queryString(companyId)]?.nextPage
-  );
+  const pagination = useAppSelector((state) => state.events.pagination);
+  const endpoint = getEndpoint(pagination, queryString(companyId));
 
   const dispatch = useAppDispatch();
 
@@ -88,7 +88,7 @@ const BdbDetail = () => {
             })
           ),
       ]),
-    [endpoint, companyId]
+    [companyId]
   );
 
   const navigate = useNavigate();
