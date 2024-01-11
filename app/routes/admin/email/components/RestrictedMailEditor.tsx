@@ -66,7 +66,7 @@ const validate = createValidator({
 
 const RestrictedMailEditor = () => {
   const { restrictedMailId } = useParams<{ restrictedMailId: string }>();
-  const isNew = restrictedMailId === 'new';
+  const isNew = restrictedMailId === undefined;
   const restrictedMail = useAppSelector((state) =>
     selectRestrictedMailById(state, { restrictedMailId })
   );
