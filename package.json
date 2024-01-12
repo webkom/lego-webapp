@@ -86,7 +86,7 @@
     "react-dropzone": "^14.2.2",
     "react-final-form": "^6.5.9",
     "react-final-form-arrays": "^3.1.4",
-    "react-helmet-async": "^1.3.0",
+    "react-helmet-async": "^2.0.4",
     "react-infinite-scroller": "^1.2.6",
     "react-notification": "^6.8.5",
     "react-overlays": "5.2.1",
