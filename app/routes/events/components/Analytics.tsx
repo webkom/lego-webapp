@@ -1,6 +1,7 @@
 import { Flex } from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment-timezone';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import {
   Area,
@@ -52,28 +53,32 @@ const Analytics = ({ viewStartTime, viewEndTime }: Props) => {
 
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    if (eventId) {
-      dispatch(fetchAnalytics(eventId)).then((response) => {
-        let filteredData = response.payload;
+  usePreparedEffect(
+    'fetchAnalytics',
+    () => {
+      if (eventId) {
+        return dispatch(fetchAnalytics(eventId)).then((response) => {
+          let filteredData = response.payload;
 
-        if (viewStartTime) {
-          filteredData = filteredData.filter((item) =>
-            moment(item.date).isSameOrAfter(moment(viewStartTime))
-          );
-        }
+          if (viewStartTime) {
+            filteredData = filteredData.filter((item) =>
+              moment(item.date).isSameOrAfter(moment(viewStartTime))
+            );
+          }
 
-        if (viewEndTime) {
-          filteredData = filteredData.filter((item) =>
-            moment(item.date).isSameOrBefore(moment(viewEndTime))
-          );
-        }
+          if (viewEndTime) {
+            filteredData = filteredData.filter((item) =>
+              moment(item.date).isSameOrBefore(moment(viewEndTime))
+            );
+          }
 
-        setData(filteredData);
-        setMetrics(calculateMetrics(filteredData));
-      });
-    }
-  }, [dispatch, eventId, viewEndTime, viewStartTime]);
+          setData(filteredData);
+          setMetrics(calculateMetrics(filteredData));
+        });
+      }
+    },
+    [eventId]
+  );
 
   return (
     <>

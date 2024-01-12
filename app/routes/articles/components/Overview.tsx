@@ -1,5 +1,5 @@
+import { usePreparedEffect } from '@webkom/react-prepare';
 import qs from 'qs';
-import { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useLocation, Link } from 'react-router-dom';
 import { fetchAll } from 'app/actions/ArticleActions';
@@ -89,17 +89,15 @@ const Overview = () => {
 
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(fetchPopular());
-    dispatch(
-      fetchAll({
-        next: false,
-        query: {
-          tag: qs.parse(location.search, { ignoreQueryPrefix: true }).tag,
-        },
-      })
-    );
-  }, [dispatch, location.search]);
+  usePreparedEffect(
+    'fetchArticlesOverview',
+    () =>
+      Promise.resolve([
+        dispatch(fetchPopular()),
+        dispatch(fetchAll({ next: false, query })),
+      ]),
+    []
+  );
 
   const headlineEvents = articles.slice(0, HEADLINE_EVENTS);
   const normalEvents = articles.slice(HEADLINE_EVENTS);

@@ -1,5 +1,5 @@
 import { Button, Flex } from '@webkom/lego-bricks';
-import { useEffect } from 'react';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import { Link } from 'react-router-dom';
 import { fetch } from 'app/actions/EmailListActions';
 import Table from 'app/components/Table';
@@ -33,13 +33,16 @@ const EmailLists = () => {
 
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(
-      fetch({
-        query,
-      })
-    );
-  }, [dispatch, query]);
+  usePreparedEffect(
+    'fetchEmailLists',
+    () =>
+      dispatch(
+        fetch({
+          query,
+        })
+      ),
+    [query]
+  );
 
   const columns = [
     {

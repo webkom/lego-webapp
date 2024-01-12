@@ -1,6 +1,6 @@
 import { Card, Flex } from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import { map, toPairs } from 'lodash';
-import { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link, useParams } from 'react-router-dom';
 import { fetch } from 'app/actions/TagActions';
@@ -37,9 +37,9 @@ const TagDetail = () => {
 
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(fetch(tagId));
-  }, [dispatch, tagId]);
+  usePreparedEffect('fetchTagDetail', () => tagId && dispatch(fetch(tagId)), [
+    tagId,
+  ]);
 
   return (
     <Content>

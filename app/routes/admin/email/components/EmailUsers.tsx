@@ -1,5 +1,5 @@
 import { Button, Flex } from '@webkom/lego-bricks';
-import { useEffect } from 'react';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import { Link } from 'react-router-dom';
 import { fetch } from 'app/actions/EmailUserActions';
 import { fetchAllWithType } from 'app/actions/GroupActions';
@@ -47,11 +47,16 @@ const EmailUsers = () => {
 
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(fetchAllWithType(GroupType.Committee));
-    dispatch(fetchAllWithType(GroupType.Grade));
-    dispatch(fetch({ query }));
-  }, [dispatch, query]);
+  usePreparedEffect(
+    'fetchEmailUsers',
+    () =>
+      Promise.resolve([
+        dispatch(fetchAllWithType(GroupType.Committee)),
+        dispatch(fetchAllWithType(GroupType.Grade)),
+        dispatch(fetch({ query })),
+      ]),
+    []
+  );
 
   const columns = [
     {

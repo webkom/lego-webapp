@@ -1,5 +1,5 @@
 import { Button, Flex, Icon } from '@webkom/lego-bricks';
-import { useEffect } from 'react';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
 import { useParams, Link } from 'react-router-dom';
 import {
@@ -126,10 +126,16 @@ const InterestGroupDetail = () => {
 
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(fetchGroup(groupId));
-    dispatch(fetchAllMemberships(groupId));
-  }, [dispatch, groupId]);
+  usePreparedEffect(
+    'fetchInterestGroupDetail',
+    () =>
+      groupId &&
+      Promise.resolve([
+        dispatch(fetchGroup(groupId)),
+        dispatch(fetchAllMemberships(groupId)),
+      ]),
+    []
+  );
 
   return (
     <Content>
